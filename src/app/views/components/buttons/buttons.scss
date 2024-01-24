@@ -1,0 +1,46 @@
+button.btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	outline: none;
+	cursor: pointer;
+
+	padding-inline: 23px;
+
+	color: #fff !important;
+	font-size: 13px;
+	font-family: 'Roboto';
+	font-weight: 800;
+	text-decoration: none;
+
+	height: 45px;
+	border-radius: 4px;
+	background-color: var(--btn-color-main);
+	border: none;
+	transition: all 0.3s;
+	position: relative;
+
+	&:focus {
+		outline: none;
+	}
+
+	&.no-border-height {
+		height: auto;
+		border-radius: 0px;
+	}
+
+	@media only screen and (max-width: 768px) {
+		& {
+			font-size: 15px;
+			height: 35px;
+			padding-block: 0;
+			padding-inline: 13px;
+			box-shadow: 0 0 8px rgba(0, 0, 0, 0.2666666667);
+		}
+	}
+}
+
+.signin-btn {
+	display: flex;
+	column-gap: 0.5rem;
+}

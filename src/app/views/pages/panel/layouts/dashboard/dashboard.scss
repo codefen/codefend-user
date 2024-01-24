@@ -1,0 +1,10 @@
+main.dashboard {
+	overflow: hidden;
+
+	.colaborators {
+		> .colaborators-container {
+			max-height: 100dvh;
+			overflow: hidden;
+		}
+	}
+}

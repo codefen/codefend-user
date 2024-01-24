@@ -1,0 +1,42 @@
+import React, { useCallback, useEffect } from 'react';
+import './modal.scss';
+
+interface ModalWrapper {
+	children: JSX.Element;
+	isErrorBox?: boolean;
+	action?: () => void;
+}
+
+const ModalWrapper: React.FC<ModalWrapper> = ({
+	isErrorBox = false,
+	children,
+	action,
+}) => {
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key.toLowerCase() === 'escape') {
+				e.preventDefault();
+				e.stopPropagation();
+				action && action();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, []);
+	return (
+		<div
+			onDoubleClick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				action && action();
+			}}
+			className="modal-wrapper">
+			<div className={`wrapper-content ${!isErrorBox ? 'max-w' : ''}`}>
+				<div>{children}</div>
+			</div>
+		</div>
+	);
+};
+
+export default ModalWrapper;

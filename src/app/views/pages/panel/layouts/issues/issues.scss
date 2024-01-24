@@ -1,0 +1,123 @@
+main.issue-detail {
+}
+
+section.issue {
+	width: 100%;
+	max-width: 1000px;
+	background-color: #ffffff;
+	border: 1px solid var(--color-border);
+
+	.header {
+		display: flex;
+		align-items: stretch;
+		border-bottom: 1px solid var(--color-border);
+		background-color: #ffffff;
+		font-family: Roboto;
+		color: var(--font-color);
+		height: 50px;
+		padding: 0px;
+
+		> div {
+			border-right: 1px solid var(--color-border);
+			display: flex;
+			align-items: center;
+			padding: 0 13px;
+		}
+		.back {
+			transition: all 0.2s;
+
+			&:hover {
+				background-color: #f3f3f3;
+			}
+		}
+		.name {
+			text-transform: uppercase;
+			font-weight: 700;
+			font-size: 14px;
+			border-right: none;
+		}
+		.edit {
+			margin-left: auto;
+			border-left: 1px solid var(--color-border);
+			transition: all 0.2s;
+			color: var(--text-color-alt2);
+
+			&_btn {
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex: 1 1;
+				height: 100%;
+				width: 45px;
+				padding: 0;
+			}
+
+			&.on {
+				color: #ffffff;
+				background-color: #000000;
+
+				&:hover {
+					background-color: #333333;
+				}
+			}
+
+			&:hover {
+				background-color: #f3f3f3;
+			}
+		}
+
+		.save {
+			cursor: pointer;
+			border-right: none;
+			transition: all 0.2s;
+			color: var(--text-color-alt2);
+
+			&.on {
+				color: #ffffff;
+				background-color: var(--bkg-codefend);
+
+				&:hover {
+					background-color: #cb2222;
+				}
+			}
+
+			&:hover {
+				background-color: #f3f3f3;
+			}
+		}
+	}
+
+	.info {
+		display: flex;
+		align-items: stretch;
+		column-gap: 20px;
+		font-family: Roboto;
+		text-transform: uppercase;
+		font-size: 12px;
+		height: 40px;
+		border-bottom: 1px solid var(--color-border);
+		padding: 0 32px;
+		select {
+			color: var(--color-gray);
+		}
+		div {
+			display: flex;
+			align-items: center;
+			font-weight: bolder;
+			color: var(--text-color-alt2);
+			border-right: 1px solid var(--color-border);
+			padding-right: 20px;
+			span {
+				color: var(--font-color);
+				margin-left: 5px;
+			}
+		}
+	}
+}
+
+.icon-container {
+	width: 100%;
+	background-color: #fff;
+	color: #fff;
+}

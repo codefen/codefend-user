@@ -1,0 +1,76 @@
+.CompanyIndexView {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	margin-top: 1.5rem;
+	width: 100%;
+	overflow: hidden;
+
+	.company-search {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		margin: 0 auto;
+	}
+
+	.companies {
+		// flex-grow: 1;
+		display: flex;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		margin-top: 1.5rem;
+		overflow: auto;
+		// padding:1rem;
+		gap: 1rem;
+		padding-bottom: 10rem;
+
+		.company {
+			width: 32%;
+			max-width: 32%;
+			cursor: pointer;
+			border: 1px solid var(--color-main);
+			flex-grow: 1;
+			border-radius: 4px;
+
+			&.selected {
+				border-color: var(--color-active-border);
+			}
+
+			.company-card {
+				width: 100%;
+				max-width: 100%;
+				height: 12rem;
+				border-radius: 4px;
+				display: flex;
+				align-items: center;
+				color: var(--color-main);
+				padding: 0.5rem;
+				column-gap: 2rem;
+
+				.img-wrapper {
+					width: 6.5rem;
+					aspect-ratio: 1;
+					border-radius: 100%;
+					background-color: rgba(128, 128, 128, 0.1);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					img {
+						width: 100%;
+						object-fit: cover;
+					}
+				}
+
+				.company-detail {
+					flex-grow: 1;
+					width: 100%;
+
+					.link {
+						color: var(--color-active-border);
+					}
+				}
+			}
+		}
+	}
+}

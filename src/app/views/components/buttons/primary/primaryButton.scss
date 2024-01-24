@@ -1,0 +1,24 @@
+.btn {
+	&.btn-primary {
+		background-color: var(--btn-color-main);
+
+		&:hover {
+			background-color: #cb2222;
+		}
+	}
+
+	&.btn-add {
+		width: 50%;
+
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		column-gap: 0.5rem;
+
+		padding-inline: 1.75rem;
+
+		&:hover {
+			scale: 1.05;
+		}
+	}
+}
