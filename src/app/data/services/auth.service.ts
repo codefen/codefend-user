@@ -29,7 +29,6 @@ const registerFinish = async (registerParams: any): Promise<any> => {
 };
 
 const login = async (loginParams: LoginParams): Promise<LoginResponse> => {
-	console.log('Entre al service');
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'users/access',

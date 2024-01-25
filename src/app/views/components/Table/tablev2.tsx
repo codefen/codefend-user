@@ -18,6 +18,7 @@ interface TableProps {
 	isSmall?: boolean;
 	selectItem?: (item: any) => void;
 	sort?: Sort;
+	initialSelect?: boolean;
 }
 
 export interface ColumnTable {
@@ -47,11 +48,10 @@ export const TableV2: React.FC<TableProps> = ({
 	isSmall = false,
 	selectItem,
 	sort = Sort.desc,
+	initialSelect = false,
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
-	const [selectedField, setSelectedField] = useState<string>('');
-
 	const rows = useMemo(() => {
 		return [...rowsData].sort((a: any, b: any) => {
 			const aValue = a[dataSort].value;
@@ -64,9 +64,12 @@ export const TableV2: React.FC<TableProps> = ({
 			}
 		});
 	}, [rowsData, dataSort, sortDirection]);
+	const rowsID = useMemo(() => generateIDArray(rows.length), [rows.length]);
+	const [selectedField, setSelectedField] = useState<string>(
+		initialSelect ? rowsID[0] : '',
+	);
 
 	const columnsID = useMemo(() => generateIDArray(columns.length), [columns]);
-	const rowsID = useMemo(() => generateIDArray(rows.length), [rows.length]);
 
 	const handleSort = (columnName: string) => {
 		if (columnName === dataSort) {

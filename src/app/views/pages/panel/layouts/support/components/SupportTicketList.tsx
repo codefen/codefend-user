@@ -120,6 +120,7 @@ export const SupportTicketList: React.FC<SupportTicketListProps> = (props) => {
 					}}
 					selectItem={(id: String) => props.setSelectedTicket(id)}
 					sort={Sort.asc}
+					initialSelect
 				/>
 			</div>
 		</>
