@@ -212,7 +212,7 @@ export const AcessPointModal: React.FC<{
 					<div className="form-buttons">
 						<SecondaryButton
 							text={'Cancel'}
-							click={(e: React.FormEvent) => props.close()}
+							click={() => props.close()}
 							isDisabled={isAddingInternalNetwork}
 							className="btn-cancel codefend_secondary_ac"
 						/>

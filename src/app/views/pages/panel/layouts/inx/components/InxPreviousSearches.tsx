@@ -69,7 +69,7 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = (
 				</div>
 				<PrimaryButton
 					text="REQUEST PROFESSIONAL ASSISTANCE"
-					click={(e) => {
+					click={() => {
 						alert('Processing your order');
 					}}
 					className="w-full mt-4"

@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthServices } from '../../services/auth.service';
 import {
 	LoginParams,
 	LoginResponse,
 	RegFinishResponse,
 	RegResponse,
 	RegisterParams,
+	AuthServices,
 } from '../..';
 
 export const loginThunk = createAsyncThunk<
@@ -14,6 +14,7 @@ export const loginThunk = createAsyncThunk<
 	{ rejectValue: string }
 >('auth/login', async (loginParams: LoginParams, { rejectWithValue }) => {
 	try {
+		console.log('Entre al thunk');
 		const { user, token, response, message } =
 			await AuthServices.login(loginParams);
 
@@ -21,6 +22,7 @@ export const loginThunk = createAsyncThunk<
 
 		return { user, token, response };
 	} catch (error: any) {
+		console.log({ error });
 		return rejectWithValue(error.message);
 	}
 });

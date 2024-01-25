@@ -1,12 +1,6 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import React from 'react';
 
-import {
-	PageLoader,
-	PeopleGroup,
-	Show,
-	SimpleSection,
-	Table,
-} from '../../../../../components';
+import { PeopleGroup, SimpleSection } from '../../../../../components';
 import { CompanyMember, collaboratorsColumns } from '../../../../../../data';
 import { TableItem, TableV2 } from '../../../../../components/Table/tablev2';
 

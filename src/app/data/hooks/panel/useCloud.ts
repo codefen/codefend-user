@@ -1,11 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import {
-	CloudApp,
-	FetchPattern,
-	MobileProps,
-	mapCloudApp,
-	useAuthState,
-} from '../..';
+import { useCallback, useState } from 'react';
+import { CloudApp, FetchPattern, mapCloudApp, useAuthState } from '../..';
 import { CloudService } from '../../services/panel/cloud.service';
 import { toast } from 'react-toastify';
 
@@ -36,9 +30,7 @@ export const useSelectedCloud = () => {
 };
 export const useCloud = () => {
 	const { getUserdata } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<CloudApp[]>
-	>({
+	const [{ data, isLoading }, dispatch] = useState<FetchPattern<CloudApp[]>>({
 		data: null,
 		error: null,
 		isLoading: false,

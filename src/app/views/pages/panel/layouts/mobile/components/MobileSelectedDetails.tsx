@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
 	AppCardInfo,
 	ProvidedTestingCredentials,
@@ -17,19 +17,14 @@ import {
 } from '../../../../../../data';
 import SelectedMobile from '../selectedContext';
 
-export const MobileSelectedDetails = () => {
+export const MobileSelectedDetails: React.FC = () => {
 	const selectedMobileApp = useContext(SelectedMobile);
 	const getSelected = selectedMobileApp
 		? selectedMobileApp
 		: ({} as MobileApp);
 
-	const getSelectedMobileAppId = useCallback(
-		() => (selectedMobileApp ? selectedMobileApp.id : ''),
-		[],
-	);
-	const { isLoding, getMobile, refetch } = useMobileOne(
-		getSelectedMobileAppId(),
-	);
+	const getSelectedMobileAppId = selectedMobileApp ? selectedMobileApp.id : '';
+	const { isLoding, getMobile } = useMobileOne(getSelectedMobileAppId);
 
 	return (
 		<Show when={!isLoding} fallback={<PageLoader />}>

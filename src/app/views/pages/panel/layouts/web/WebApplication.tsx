@@ -8,7 +8,7 @@ import '../../../../styles/flag.scss';
 import '../../../../components/Table/table.scss';
 import './webapplication.scss';
 
-const WebApplicationView = () => {
+const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
 	const { webResources, isLoading, refetch } = useWebapplication();
 	const [showScreen, setShowScreen] = useState(false);

@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
 	Issues,
 	generateIDArray,
@@ -9,11 +9,8 @@ import {
 import {
 	BugIcon,
 	ConfirmModal,
-	EmptyCard,
 	ModalTitleWrapper,
-	PageLoader,
 	RiskScore,
-	Show,
 	TableV2,
 	TrashIcon,
 } from '../../../../../components';
@@ -31,11 +28,6 @@ export const IssueResources: React.FC<Props> = (props) => {
 	const { showModal, setShowModal } = useModal();
 	const { handleDelete } = useDeleteIssue();
 	const navigate = useNavigate();
-
-	const issuesKeys = useMemo(
-		() => (props.issues ? generateIDArray(props.issues.length) : []),
-		[props.issues],
-	);
 
 	const dataTable = props.issues.map((issue: Issues) => ({
 		ID: { value: issue.id, style: '' },

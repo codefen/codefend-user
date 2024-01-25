@@ -1,6 +1,10 @@
 import { ApiHandlers } from '../../../../../../../data';
-import { PrimaryButton, SecondaryButton, Show } from '../../../../../../../views/components';
-import React, { useEffect, useState } from 'react';
+import {
+	PrimaryButton,
+	SecondaryButton,
+	Show,
+} from '../../../../../../../views/components';
+import React, { useState } from 'react';
 import { useCompanyContext } from '../CompanyContext';
 
 interface CompanyData {
@@ -42,9 +46,9 @@ const AdminCompanyDetails: React.FC = () => {
 	const [companyUsers, setCompanyUsers] = useState<any[]>([]);
 	const [selectedUser, setSelectedUser] =
 		useState<UserData>(createEmptyUser());
-	const {state} = useCompanyContext()
-	const {companyStore} = state
-	 /* useEffect(() => {
+	const { state } = useCompanyContext();
+	const { companyStore } = state;
+	/* useEffect(() => {
 		if (companyStore!.id) {
 			ApiHandlers.getPanelUsers().then((res: any) => {
 				const usersMapped = res.data.map((user: any) => ({
@@ -221,23 +225,26 @@ const AdminCompanyDetails: React.FC = () => {
 												add
 											</button> */}
 											<div
-											style={{ display: 'flex', paddingTop: '10px' }}
-											className="form-buttons">
-											<SecondaryButton
-												text={'cancel'}
-												click={() => {
-													setShowModal(!showModal);
+												style={{
+													display: 'flex',
+													paddingTop: '10px',
 												}}
-												className="btn-cancel codefend_secondary_ac"
-											/>
-											<PrimaryButton
-												text={'create'}
-												click={(e) => {
-													handleAddUser(e);
-												}}
-												className="btn-add codefend_main_ac"
-											/>
-										</div>
+												className="form-buttons">
+												<SecondaryButton
+													text={'cancel'}
+													click={() => {
+														setShowModal(!showModal);
+													}}
+													className="btn-cancel codefend_secondary_ac"
+												/>
+												<PrimaryButton
+													text={'create'}
+													click={(e) => {
+														handleAddUser(e);
+													}}
+													className="btn-add codefend_main_ac"
+												/>
+											</div>
 										</div>
 									</form>
 								</div>

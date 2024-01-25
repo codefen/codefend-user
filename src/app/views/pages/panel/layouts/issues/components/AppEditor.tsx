@@ -1,9 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import addTinyMce, {
-	getTinyEditorContent,
-	setMode,
-} from '../../../../../../../editor-lib/';
-import { CompleteIssue, Issues } from '../../../../../../data';
+import addTinyMce, { setMode } from '../../../../../../../editor-lib/';
 
 interface AppEditorProps {
 	onUpdateIssue?: any;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { GlobeWebIcon, ModalButtons } from '../';
 import { toast } from 'react-toastify';
-import { generateID, useAuthState, WebApplicationService } from '../../../data';
+import { useAuthState, WebApplicationService } from '../../../data';
 
 interface AddDomainProps {
 	onDone: () => void;

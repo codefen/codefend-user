@@ -1,7 +1,6 @@
-import React, { Fragment, useCallback, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
 	SourceCode,
-	generateIDArray,
 	sourceCodeColumns,
 	useModal,
 } from '../../../../../../data';
@@ -11,7 +10,6 @@ import {
 	SourceCodeIcon,
 	TrashIcon,
 	TableV2,
-	ActionSection,
 	TableItem,
 } from '../../../../../components';
 import { AddRepositoryModal } from '../../../../../components/modals/AddRepositoryModal';
@@ -28,16 +26,6 @@ export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
 		useModal();
 	const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] =
 		useState<string>('');
-	const [isDeletingSourceCode, setIsDeletingSourceCode] = useState(false);
-
-	const handleDelete = useCallback(() => {
-		setIsDeletingSourceCode(true);
-		props.onDelete(selectedSourceCodeIdToDelete);
-	}, []);
-
-	const sourceKeys = useMemo(() => {
-		return props.isLoading ? [] : generateIDArray(props.sourceCode.length);
-	}, [props.sourceCode]);
 
 	const dataTable = props.sourceCode.map(
 		(repository) =>

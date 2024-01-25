@@ -1,5 +1,4 @@
 import React, { Fragment, useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
 import {
 	AddDomainModal,
 	AddSubDomainModal,
@@ -29,8 +28,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 	const [selectedId, setSelectedId] = useState<string>('0');
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
 		useModal();
-	const navigate = useNavigate();
-	const { handleDelete, isDeletingResource } = useDeleteWebResource();
+	const { handleDelete } = useDeleteWebResource();
 
 	const getResources = () => {
 		const resources = props.isLoading ? [] : props.webResources;
@@ -53,7 +51,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 				isActive={showModal && showModalStr === 'add_domain'}
 				close={close}
 				headerTitle="Add web resource">
-				<AddDomainModal 
+				<AddDomainModal
 					onDone={() => {
 						setShowModal(!showModal);
 						props.refresh();

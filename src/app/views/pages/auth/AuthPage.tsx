@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
-import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
+import { Outlet, useLocation, Navigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import './auth.scss';
 import { AuthServices } from '../../../data/services';
@@ -29,7 +30,8 @@ const AuthPage: React.FC = () => {
 							</span>
 							<span
 								className={
-									location.pathname.startsWith('/auth/signup') || location.pathname === "/auth/confirmation"
+									location.pathname.startsWith('/auth/signup') ||
+									location.pathname === '/auth/confirmation'
 										? 'active'
 										: ''
 								}>

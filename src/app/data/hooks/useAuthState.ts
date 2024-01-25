@@ -27,9 +27,7 @@ export const useUserAdmin = () => {
 };
 
 export const useAuthState = () => {
-	const authState = useAppSelector(
-		(state: any) => state.authState as AuthState,
-	);
+	const authState = useAppSelector((state: any) => state.authState);
 	const navigate = useNavigate();
 	const getUserdata = () => authState.userData;
 	const dispatch = useAppDispatch();
@@ -42,8 +40,9 @@ export const useAuthState = () => {
 	const signInUser = async (params: LoginParams): Promise<boolean> => {
 		return dispatch(loginThunk(params))
 			.then((response: any) => {
-				const { meta } = response;
-				if (meta.rejectedWithValue) throw Error(response.payload);
+				console.log({ response });
+				const { meta, payload } = response;
+				if (meta.rejectedWithValue) throw Error(payload);
 				toast.success(`Login successful`);
 				return true;
 			})
@@ -80,10 +79,9 @@ export const useAuthState = () => {
 		return dispatch(registerFinishThunk(params))
 			.then((response: any) => {
 				const { meta, payload } = response;
-				console.log(response);
-				if (payload.response === 'success') {
-					navigate('/auth/signin');
-				}
+				if (meta.rejectedWithValue) throw Error(payload);
+
+				navigate('/auth/signin');
 				return true;
 			})
 			.catch((error: Error) => {

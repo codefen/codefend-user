@@ -9,12 +9,7 @@ import {
 } from '../../../../../components';
 import { useNavigate } from 'react-router';
 import { AppEditor } from './AppEditor';
-import {
-	CompleteIssue,
-	OneIssue,
-	UpdateIssue,
-	useUpdateIssue,
-} from '../../../../../../data';
+import { OneIssue, UpdateIssue, useUpdateIssue } from '../../../../../../data';
 
 interface IssueUpdatePanelProps {
 	completeIssue: OneIssue;
@@ -35,7 +30,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 
 	const navigate = useNavigate();
 	const { updatedIssue, dispatch, update } = useUpdateIssue();
-	const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
+	//const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
 	const [isEditable, setEditable] = useState(false);
 
 	const handleIssueUpdate = useCallback(() => {

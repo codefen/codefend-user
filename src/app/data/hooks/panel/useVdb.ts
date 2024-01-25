@@ -13,9 +13,7 @@ export const useInitialVdb = () => {
 	const { getUserdata } = useAuthState();
 	const { search } = useParams();
 	const [searchData, setSearchData] = useState('');
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<VdbProps>
-	>({
+	const [{ data, isLoading }, dispatch] = useState<FetchPattern<VdbProps>>({
 		data: null,
 		error: null,
 		isLoading: false,

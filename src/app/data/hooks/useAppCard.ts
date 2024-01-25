@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { CloudService, MobileService, useAuthState, useModal } from '..';
 import { toast } from 'react-toastify';
 
@@ -12,11 +12,6 @@ interface HookProps {
 
 export const useAppCard = (props: HookProps) => {
 	const { getUserdata } = useAuthState();
-
-	const isMainGoogleNetwork = useMemo(
-		() => Boolean(props.isMainNetwork),
-		[props.isMainNetwork],
-	);
 
 	const isDetails = useMemo(
 		() => Boolean(props.showDetails),

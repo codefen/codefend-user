@@ -1,22 +1,9 @@
-import {
-	useModal,
-	useSourceCode,
-	useEnp,
-	useAuthState,
-	useScanLocal,
-} from '../../../../../data';
-import {
-	EmptyScreenView,
-	PageLoaderWhite,
-	PrimaryButton,
-	Show,
-} from '../../../../components';
+import { useEnp, useAuthState, useScanLocal } from '../../../../../data';
+import { PrimaryButton } from '../../../../components';
 import React, { useEffect, useState } from 'react';
 import { Endpoints } from './components/Endpoints';
 
-interface Props {}
-
-export const EnpPanel: React.FC<Props> = (props) => {
+export const EnpPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const { getAccessToken } = useAuthState();
 	const { getEndpoints, refetch, isLoading, handleDelete } = useEnp();

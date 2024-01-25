@@ -5,7 +5,7 @@ interface EmptyCardProps {
 	info?: string;
 }
 
-const EmptyCard = ({ title, info }: EmptyCardProps) => {
+const EmptyCard: React.FC<EmptyCardProps> = ({ title, info }) => {
 	title = title ?? "There's no data to display here.";
 	info =
 		info ??

@@ -6,7 +6,7 @@ import {
 } from '../../../../../../views/components';
 import { ApiHandlers, User, useAuthState } from '../../../../../../data';
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { useLocation, useParams } from 'react-router';
+import { useLocation } from 'react-router';
 
 interface PersonInfo {
 	name: string;

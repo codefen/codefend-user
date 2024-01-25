@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { PanelPage } from './views/pages/panel/PanelPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import FinishSignUpLayout from './views/pages/auth/layouts/FinishsignUp';
 import { Loader } from './views/components';
 
 const AuthPage = lazy(() => import('./views/pages/auth/AuthPage'));
@@ -12,7 +11,9 @@ const SignUpLayout = lazy(() => import('./views/pages/auth/layouts/Signup'));
 const ConfirmationSignUp = lazy(
 	() => import('./views/pages/auth/layouts/ConfirmationSignUp'),
 );
-
+const FinishSignUpLayout = lazy(
+	() => import('./views/pages/auth/layouts/FinishsignUp'),
+);
 const Dashboard = lazy(
 	() => import('./views/pages/panel/layouts/dashboard/Dashboard'),
 );

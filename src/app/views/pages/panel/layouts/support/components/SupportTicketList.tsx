@@ -1,7 +1,6 @@
-import React, { Fragment, useContext, useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
 	SupportProps,
-	generateIDArray,
 	supportTicket,
 	useModal,
 	useTicketDelete,

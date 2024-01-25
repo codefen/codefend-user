@@ -21,6 +21,8 @@ const getOne = async (cloudID: string, companyID: string) => {
 			company_id: companyID,
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
+
+	return data;
 };
 
 const add = async (params: any, companyID: string) => {
@@ -42,8 +44,11 @@ const modify = async (params: any, companyID: string) => {
 			model: 'resource/cloud',
 			ac: 'mod',
 			company_id: companyID,
+			...params,
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
+
+	return data;
 };
 
 const deleteApp = async (cloudId: string, companyID: string) => {

@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from 'react';
+import React from 'react';
 import { ModalWrapper, Show, StatIcon } from '..';
 
 interface ModalTitleWrapperProps {
@@ -8,13 +8,12 @@ interface ModalTitleWrapperProps {
 	close: () => void;
 }
 
-// million-ignore
-const ModalTitleWrapper = ({
+const ModalTitleWrapper: React.FC<ModalTitleWrapperProps> = ({
 	children,
 	headerTitle,
 	isActive,
 	close,
-}: ModalTitleWrapperProps) => {
+}) => {
 	return (
 		<>
 			<Show when={isActive}>

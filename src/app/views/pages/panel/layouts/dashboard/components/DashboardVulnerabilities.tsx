@@ -1,26 +1,12 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React from 'react';
 import {
 	BugIcon,
-	EmptyCard,
-	PageLoader,
 	RiskScore,
-	Show,
 	SimpleSection,
 	Sort,
-	Table,
 } from '../../../../../components';
 import { Issues, topVulnerabilitiesColumn } from '../../../../../../data';
 import { TableItem, TableV2 } from '../../../../../components/Table/tablev2';
-
-interface TopVulnerability {
-	published: string;
-	author: string;
-	type: string;
-	risk: string;
-	score: string;
-	issueTitle: string;
-	status: string;
-}
 
 const DashboardVulnerabilities: React.FC<{
 	topVulnerabilities: Issues[];

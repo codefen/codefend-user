@@ -57,13 +57,13 @@ export const useAllTicket = () => {
 
 export const useOneTicket = () => {
 	const { getUserdata } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<TicketUnique>
-	>({
-		data: null,
-		error: null,
-		isLoading: true,
-	});
+	const [{ data, isLoading }, dispatch] = useState<FetchPattern<TicketUnique>>(
+		{
+			data: null,
+			error: null,
+			isLoading: true,
+		},
+	);
 
 	const fetchOne = async (companyID: string, ticketID: string) => {
 		dispatch((state) => ({ ...state, isLoading: true }));

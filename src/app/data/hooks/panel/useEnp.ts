@@ -4,7 +4,7 @@ import { invoke } from '@tauri-apps/api';
 import { toast } from 'react-toastify';
 
 const useFetchEndpoints = (companyID: string) => {
-	const [{ data, error, isLoading }, dispatch] = useState<FetchPattern<any>>({
+	const [{ data, isLoading }, dispatch] = useState<FetchPattern<any>>({
 		data: null,
 		error: null,
 		isLoading: true,

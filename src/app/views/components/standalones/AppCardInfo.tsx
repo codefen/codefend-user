@@ -47,7 +47,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 			</div>
 			<PrimaryButton
 				text={buttonText}
-				click={(e) => {
+				click={() => {
 					alert('Procesing your order');
 				}}
 			/>

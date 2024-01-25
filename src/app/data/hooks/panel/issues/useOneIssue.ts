@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 export const useOneIssue = () => {
 	const { getUserdata } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState<
+	const [{ data, isLoading }, dispatch] = useState<
 		FetchPattern<OneIssue>
 	>({
 		data: null,

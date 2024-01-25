@@ -15,10 +15,6 @@ export const CloudSelectedDetails = () => {
 	const selectedCloudApp = useContext(SelectedCloud);
 	const getSelected = selectedCloudApp ? selectedCloudApp : ({} as CloudApp);
 
-	const getSelectedMobileAppId = useCallback(
-		() => (selectedCloudApp ? selectedCloudApp.id : ''),
-		[],
-	);
 	const { getIssues, isLoading, refetchAll } = useIssues();
 	useEffect(() => refetchAll(), []);
 	return (

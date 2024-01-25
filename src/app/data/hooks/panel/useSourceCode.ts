@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { SourceCode, mapSourceCode, useAuthState } from '../..';
+import { mapSourceCode, useAuthState } from '../..';
 import { SourceCodeService } from '../../services/panel/sourcecode.service';
 import { toast } from 'react-toastify';
 

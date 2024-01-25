@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useModal, useSourceCode } from '../../../../../data';
+import { useSourceCode } from '../../../../../data';
 import { SourceCodeResources } from './components/SourceCodeResources';
 import { SourceCodeChart } from './components/SourceCodeChart';
 import { SourceCodeCollab } from './components/SourceCodeCollab';
@@ -9,8 +9,7 @@ import './sourcecode.scss';
 const SourceCodePanel: React.FC = () => {
 	const { getSource, isLoading, addSourceCode, deletedResource } =
 		useSourceCode();
-	const { showModal, showModalStr, setShowModal, setShowModalStr } =
-		useModal();
+
 	const [showScreen, setShowScreen] = useState(false);
 
 	useEffect(() => {

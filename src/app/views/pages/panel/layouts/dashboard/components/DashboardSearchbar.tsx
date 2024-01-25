@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { SearchBar, SearchIcon } from '../../../../../components';
 import { toast } from 'react-toastify';
 
-const DashboardSearchbar = () => {
+const DashboardSearchbar: React.FC = () => {
 	const navigate = useNavigate();
 	const [searchValue, setSearchValue] = useState('');
 	const [searchClass, setSearchClass] = useState('');
