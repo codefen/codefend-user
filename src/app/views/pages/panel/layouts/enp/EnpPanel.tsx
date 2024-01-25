@@ -30,6 +30,10 @@ import './endpoints.scss';
 
 interface Props {}
 
+interface IOSIconProps {
+    osName: string;
+}
+
 interface Endpoint {
 	id: string;
 }
@@ -63,6 +67,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
 			return acc;
 		}, {});
 
+<<<<<<< HEAD
 		return Object.keys(groupedScans).map((mac) => {
 			const scans = groupedScans[mac];
 			const firstScan = scans[0];
@@ -81,6 +86,18 @@ export const EnpPanel: React.FC<Props> = (props) => {
 			return <FaLinux className="w-8 h-8 text-gray-600" />;
 		}
 	};
+=======
+    const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
+        const lowerCaseOSName = osName.toLowerCase();
+        if (lowerCaseOSName.includes('windows')) {
+            return <FaWindows className="w-8 h-8 text-gray-600"/>;
+        } else if (lowerCaseOSName.includes('mac')) {
+            return <FaApple className="w-8 h-8 text-gray-600"/>;
+        } else {
+            return <FaLinux className="w-8 h-8 text-gray-600"/>;
+        }
+    };
+>>>>>>> ba05be8925dcdf82cf9eff3616289b4aa2cfee4a
 
 	return (
 		<EndpointAppProvider>

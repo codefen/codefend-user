@@ -10,6 +10,10 @@ interface Props {
 	isLoading: Boolean;
 }
 
+interface IOSIconProps {
+    osName: string;
+}
+
 export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
     const [endpointApps, setEndpointApps] = useState<any[]>([]);
     const [selectedEndpoint, setSelectedEndpoint] = useState<any>(null);
@@ -109,14 +113,14 @@ export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
         setEndpointApps(filteredApps);
     };
 
-	const OSIcon = ({ osName }) => {
+	const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
 		const lowerCaseOSName = osName.toLowerCase();
 		if (lowerCaseOSName.includes('windows')) {
-			return <FaWindows className="w-8 h-8"/>;
+			return <FaWindows className="w-8 h-8 text-gray-600"/>;
 		} else if (lowerCaseOSName.includes('mac')) {
-			return <FaApple className="w-8 h-8"/>;
+			return <FaApple className="w-8 h-8 text-gray-600"/>;
 		} else {
-			return <FaLinux className="w-8 h-8"/>;
+			return <FaLinux className="w-8 h-8 text-gray-600"/>;
 		}
 	};
 

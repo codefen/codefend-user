@@ -36,6 +36,7 @@ export const ScanButton: React.FC<Props> = ({ scanLoading, scanLocal, onClick })
 	
 			return () => clearInterval(interval);
 		}
+		return;
 	}, [scanLoading]);
 
     return (
