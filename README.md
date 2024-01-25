@@ -1,4 +1,4 @@
-# Codefend panel - frontend
+# Codefend user - frontend
 
 ### *Instalation:*
 
