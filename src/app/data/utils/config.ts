@@ -1,1 +1,1 @@
-export const baseUrl = import.meta.env.VITE_PHP_SERVER_HOST;
+export const baseUrl = import.meta.env.API_URI;
