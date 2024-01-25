@@ -36,8 +36,10 @@ const checkTauriUpdates = async () => {
 	}
 };
 
-await checkTauriUpdates();
-
+(async () => {
+	await checkTauriUpdates();
+  })();
+  
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<App />
