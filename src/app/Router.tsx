@@ -6,13 +6,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import FinishSignUpLayout from './views/pages/auth/layouts/FinishsignUp';
 import { Loader } from './views/components';
 
-const AuthPage = lazy(() => import('./views/pages/auth/AuthPage'));
-const SignInLayout = lazy(() => import('./views/pages/auth/layouts/Signin'));
-const SignUpLayout = lazy(() => import('./views/pages/auth/layouts/Signup'));
+const AuthPage = lazy(
+	() => import('./views/pages/auth/AuthPage')
+);
+const SignInLayout = lazy(
+	() => import('./views/pages/auth/layouts/Signin')
+);
+const SignUpLayout = lazy(
+	() => import('./views/pages/auth/layouts/Signup')
+);
 const ConfirmationSignUp = lazy(
 	() => import('./views/pages/auth/layouts/ConfirmationSignUp'),
 );
-
 const Dashboard = lazy(
 	() => import('./views/pages/panel/layouts/dashboard/Dashboard'),
 );
@@ -28,41 +33,42 @@ const CloudApplicationPanel = lazy(
 const LanApplicationPanel = lazy(
 	() => import('./views/pages/panel/layouts/lan/Lan'),
 );
-
-const EnpPanel = lazy(() => import('./views/pages/panel/layouts/enp/EnpPanel'));
-
+const EnpPanel = lazy(
+	() => import('./views/pages/panel/layouts/enp/EnpPanel')
+);
+const EnpSingle = lazy(
+	() => import('./views/pages/panel/layouts/enp/EnpSingle')
+);
 const SourceCodePanel = lazy(
 	() => import('./views/pages/panel/layouts/sourcecode/SourceCodePanel'),
 );
-
 const SocialEngineeringPanel = lazy(
 	() => import('./views/pages/panel/layouts/social/SocialEngineeringPanel'),
 );
-
 const SupportPanel = lazy(
 	() => import('./views/pages/panel/layouts/support/SupportPanel'),
 );
-
 const PreferencePanel = lazy(
 	() => import('./views/pages/panel/layouts/preferences/PreferencePanel'),
 );
-
-const InxPanel = lazy(() => import('./views/pages/panel/layouts/inx/InxPanel'));
-
-const SnsPanel = lazy(() => import('./views/pages/panel/layouts/sns/SnsPanel'));
-
-const VdbPanel = lazy(() => import('./views/pages/panel/layouts/vdb/VdbPanel'));
+const InxPanel = lazy(
+	() => import('./views/pages/panel/layouts/inx/InxPanel')
+);
+const SnsPanel = lazy(
+	() => import('./views/pages/panel/layouts/sns/SnsPanel')
+);
+const VdbPanel = lazy(
+	() => import('./views/pages/panel/layouts/vdb/VdbPanel')
+);
 const AdminUser = lazy(
 	() => import('./views/pages/panel/layouts/admin/layouts/AdminUser'),
 );
 const AdminPage = lazy(
 	() => import('./views/pages/panel/layouts/admin/AdminPage'),
 );
-
 const AdminCompany = lazy(
 	() => import('./views/pages/panel/layouts/admin/layouts/AdminCompany'),
 );
-
 const IssuePage = lazy(
 	() => import('./views/pages/panel/layouts/issues/IssuePage'),
 );
@@ -106,6 +112,7 @@ export const AppRouter: React.FC = () => {
 
 						<Route path="social" element={<SocialEngineeringPanel />} />
 						<Route path="enp" element={<EnpPanel />} />
+						<Route path="enp/:id" element={<EnpSingle />} />
 						<Route path="support" element={<SupportPanel />} />
 						<Route path="preferences" element={<PreferencePanel />} />
 						<Route path="inx" element={<InxPanel />} />

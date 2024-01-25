@@ -1,0 +1,29 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+main.dashboard {
+	overflow: hidden;
+
+	.colaborators {
+		> .colaborators-container {
+			max-height: 100dvh;
+			overflow: hidden;
+		}
+	}
+}
+
+.btn, button {
+	font-size: 13px;
+	font-weight: 800;
+	height: 45px;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0px 23px;
+	outline:none;
+	transition: all 0.3s;
+	font-family: roboto;
+  }
