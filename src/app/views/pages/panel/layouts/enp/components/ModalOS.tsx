@@ -10,6 +10,13 @@ import {
 
 interface Props {}
 
+type OsOptions = {
+	[key: string]: string;
+	windows: string;
+	mac: string;
+	linux: string;
+};
+
 export const ModalOS: React.FC<Props> = () => {
     const { getAccessToken } = useAuthState();
 	const { closeModal, isModalOpen } = useEndpointAppStore();
@@ -17,7 +24,7 @@ export const ModalOS: React.FC<Props> = () => {
     const [selectedOS, setSelectedOS] = useState<string>('windows');
     const [showModal, setShowModal] = useState(false);
 
-    const osOptions = {
+	const osOptions: OsOptions = {
         windows: 'Invoke-WebRequest -Uri "https://web.codefend.com/releases/codefend-windows.exe" -OutFile "$env:TEMP\codefend-windows.exe"; Start-Process -FilePath "cmd.exe" -ArgumentList "/c $env:TEMP\codefend-windows.exe scan_local ' + getAccessToken() + ' & pause" -NoNewWindow; Remove-Item "$env:TEMP\codefend-windows.exe"',
         mac: 'Mac Command',
         linux: 'wget https://web.codefend.com/releases/codefend-linux -O /tmp/codefend-linux && chmod +x /tmp/codefend-linux && /tmp/codefend-linux scan_local ' + getAccessToken() + '; rm /tmp/codefend-linux'

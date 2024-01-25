@@ -22,7 +22,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
     const [showScreen, setShowScreen] = useState<boolean>(false);
     const { getAccessToken } = useAuthState();
     const { id: scanID } = useParams();
-    const { getEndpoints, refetch, isLoading } = useEnp(scanID);
+    const { getEndpoints, refetch, isLoading } = useEnp(Number(scanID));
     const [refresh, setRefresh] = useState<boolean>(false);
 
     useEffect(() => {
