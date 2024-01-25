@@ -1,31 +1,48 @@
 import { fetchPOST, handleFetchError } from '.';
 
-const getEndpoints = async (macAddress: string, companyID: string) => {
+const getEndpoints = async (scan_id: number, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'resources/devices',
-			ac: 'view_one',
-			mac_address: macAddress,
+			ac: 'get',
+			scan_id: scan_id,
 			company_id: companyID,
 		},
-	}).catch((error: any) => handleFetchError(error))) as any;
+	})
+		.catch((error: any) => handleFetchError(error))) as any;
 
 	return data;
 };
 
-const deleteEndpoint = async (enpId: string, companyID: string) => {
+const getScans = async (companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'resources/devices',
-			ac: 'del',
-			id: enpId,
+			ac: 'get_scans',
 			company_id: companyID,
 		},
-	}).catch((error: any) => handleFetchError(error))) as any;
+	})
+		.catch((error: any) => handleFetchError(error))) as any;
 	return data;
 };
+
+const getVulns = async (code_name: string, companyID: string) => {
+	const { data } = (await fetchPOST({
+		params: {
+			model: 'resources/devices',
+			ac: 'get_vuln',
+			code_name: code_name,
+			company_id: companyID,
+		},
+	})
+		.catch((error: any) => handleFetchError(error))) as any;
+
+	return data;
+};
+
 
 export const EnpService = {
 	getEndpoints,
-	delete: deleteEndpoint,
+	getScans,
+	getVulns
 };

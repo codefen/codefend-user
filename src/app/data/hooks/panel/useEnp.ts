@@ -1,33 +1,28 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { EnpService, FetchPattern, useAuthState } from '../../';
 import { invoke } from '@tauri-apps/api';
 import { toast } from 'react-toastify';
 
-const useFetchEndpoints = (companyID: string) => {
-	const [{ data, isLoading }, dispatch] = useState<FetchPattern<any>>({
+const useFetchEndpoints = (companyID: string, scanID: number) => {
+	const [{ data, error, isLoading }, dispatch] = useState<FetchPattern<any>>({
 		data: null,
 		error: null,
 		isLoading: true,
 	});
 
-	const fetchEnd = async (companyID: string, macAddress: string) => {
+	const fetchEnd = async (companyID: string) => {
 		dispatch((state) => ({ ...state, isLoading: true }));
-		return EnpService.getEndpoints(macAddress, companyID)
-			.then((data) =>
-				dispatch({ data: data, error: null, isLoading: false }),
-			)
+		return EnpService.getEndpoints(scanID, companyID)
+			.then((res) => {
+				dispatch({ data: res, error: null, isLoading: false });
+			})
 			.catch((error) => dispatch({ data: null, error, isLoading: false }));
 	};
 
 	const refetch = async () => {
-		const response = await invoke('get_mac_addr');
-		const macAddress = JSON.parse(response as any);
-		if (!companyID && !macAddress) {
-			toast.error('User information was not found');
-			return;
-		}
-		fetchEnd(companyID, macAddress);
+		fetchEnd(companyID);
 	};
+
 	const getEndpoints = () => {
 		const endData = isLoading ? ({} as any) : data;
 		return endData ?? {};
@@ -56,9 +51,9 @@ export const useScanLocal = (token: string) => {
 				await invoke('scan_local', { sessionId: token }),
 			);
 			return handleScanResult(resParsed);
-		} catch (error) {
+		} catch (error: any) {
 			console.error({ error });
-			toast.error('An error occurred during scanning.');
+			toast.error(JSON.parse(error).error);
 		} finally {
 			setScanLoading(false);
 		}
@@ -68,32 +63,19 @@ export const useScanLocal = (token: string) => {
 	return { scanLoading, scanLocal };
 };
 
-// Hook para manejar la eliminación de un endpoint
-const useDeleteEndpoint = (companyID: string) => {
-	const handleDelete = useCallback(
-		async (id: string) => {
-			return EnpService.delete(id, companyID).then(() => {
-				toast.success('Successfully Deleted Web Resource...');
-			});
-		},
-		[companyID],
-	);
-
-	return { handleDelete };
-};
-
 // Hook principal que utiliza los hooks anteriores
-export const useEnp = () => {
+export const useEnp = (scanID: number) => {
 	const { getUserdata } = useAuthState();
 	const companyID = getUserdata()?.companyID as string;
 
-	const { getEndpoints, isLoading, refetch } = useFetchEndpoints(companyID);
-	const { handleDelete } = useDeleteEndpoint(companyID);
+	const { getEndpoints, isLoading, refetch } = useFetchEndpoints(
+		companyID,
+		scanID,
+	);
 
 	return {
 		getEndpoints,
 		isLoading,
-		handleDelete,
 		refetch,
 	};
 };
