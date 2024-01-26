@@ -57,6 +57,9 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 						props.refresh();
 					}}
 					close={() => setShowModal(false)}
+					webResources={getResources().map(
+						(resource: Webresources) => resource.resourceDomain,
+					)}
 				/>
 			</ModalTitleWrapper>
 
