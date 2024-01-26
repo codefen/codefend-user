@@ -27,7 +27,7 @@ export const AddCloudModal: React.FC<Props> = (props) => {
 			return;
 		}
 
-		if (!appName.trim() || appName.length == 0 || appName.length > 150) {
+		if (!appName.trim() || appName.length > 150) {
 			toast.error('Invalid app name');
 			setAddingCloud(false);
 			return;
@@ -44,10 +44,15 @@ export const AddCloudModal: React.FC<Props> = (props) => {
 		const company = getUserdata()?.companyID as string;
 
 		CloudService.add(requestParams, company)
-			.then(() => {
+			.then((response: any) => {
+				if (!response || response.isAnError || response.error != 0) {
+					throw new Error('An error has occurred on the server');
+				}
+
 				props.onDone();
 				toast.success('Successfully Added Cloud...');
 			})
+			.catch(() => {})
 			.finally(() => {
 				setAddingCloud(false);
 			});
@@ -72,7 +77,7 @@ export const AddCloudModal: React.FC<Props> = (props) => {
 							value={provider}
 							id="select-provider-cloud"
 							required>
-							<option value="" disabled selected>
+							<option value="" disabled>
 								Provider
 							</option>
 							<option value="azure">Azure</option>

@@ -55,8 +55,13 @@ export const useDeleteWebResource = () => {
 		}
 		return WebApplicationService.deleteResource(id, companyID)
 			.then(({ response }) => {
-				if (response !== 'success')
+				if (
+					response !== 'success' ||
+					response.isAnError ||
+					Number(response.error) > 0
+				) {
 					throw new Error('An error has occurred on the server');
+				}
 
 				toast.success('Successfully Deleted Web Resource...');
 				if (onDone && onDone !== undefined) onDone();

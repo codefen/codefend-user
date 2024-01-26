@@ -88,7 +88,7 @@ const FinishSignUpLayout = () => {
 							</span>
 						</div>
 						<form onSubmit={handleSubmit}>
-							<div style={{width:'30%'}} className="input-group">
+							<div style={{ maxWidth: '30%' }} className="input-group">
 								<input
 									type="email"
 									name="email"
@@ -99,7 +99,7 @@ const FinishSignUpLayout = () => {
 								/>
 							</div>
 
-							<div style={{width:'30%'}} className="input-group">
+							<div style={{ maxWidth: '30%' }} className="input-group">
 								<input
 									type="password"
 									name="password"
@@ -110,7 +110,7 @@ const FinishSignUpLayout = () => {
 								/>
 							</div>
 
-							<div style={{width:'30%'}} className="input-group">
+							<div style={{ maxWidth: '30%' }} className="input-group">
 								<input
 									type="password"
 									name="confirmPassword"

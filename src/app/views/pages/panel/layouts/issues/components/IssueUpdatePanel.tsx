@@ -30,7 +30,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 
 	const navigate = useNavigate();
 	const { updatedIssue, dispatch, update } = useUpdateIssue();
-	//const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
+	const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
 	const [isEditable, setEditable] = useState(false);
 
 	const handleIssueUpdate = useCallback(() => {
@@ -71,7 +71,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 				issueName: safelyIssue().name,
 				score: safelyIssue().riskScore,
 			})),
-		[safelyIssue()],
+		[completeIssue],
 	);
 
 	return (

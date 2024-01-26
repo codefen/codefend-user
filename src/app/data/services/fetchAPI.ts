@@ -107,14 +107,18 @@ export const fetchDELETE: ({}: FetchWhitoutMethods) => Promise<
 	});
 
 export const handleFetchError = (error: any) => {
-	if (error.name === 'AxiosError' && error.message === 'Network Error') {
+	if (
+		error.name === 'AxiosError' &&
+		(error.message === 'Network Error' ||
+			error.message === 'Request failed with status code 500')
+	) {
 		localStorage.setItem('error', JSON.stringify(true));
 		window.dispatchEvent(new Event('errorState'));
 		return {
 			data: { error: error ?? {}, isAnError: true, isNetworkError: true },
 		};
 	}
-
+	console.log({ error });
 	if (error.response?.data) {
 		const message = error.response.data.message;
 		console.log(error.response.data);
