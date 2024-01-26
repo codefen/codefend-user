@@ -28,6 +28,7 @@ export const IssuesPanelMobileAndCloud: React.FC<Props> = (props) => {
 	}, [props.issues]);
 
 	const dataTable = formatIssues.map((issue) => ({
+		ID: { value: '', style: '' },
 		published: { value: issue.createdAt, style: 'date' },
 		author: { value: issue.researcherUsername, style: 'username' },
 		type: { value: issue.resourceClass, style: 'vul-class' },

@@ -463,19 +463,19 @@ export const supportTicket: ColumnTable[] = [
 		style: 'username',
 	},
 	{
-		name: 'title',
-		value: 'title',
-		style: 'vul-title',
-	},
-	{
 		name: 'published',
 		value: 'published',
 		style: 'date',
 	},
 	{
+		name: 'title',
+		value: 'title',
+		style: 'vul-title',
+	},
+	{
 		name: 'status',
 		value: 'status',
-		style: 'vul-condition',
+		style: 'status',
 	},
 	{
 		name: 'action',
@@ -486,31 +486,45 @@ export const supportTicket: ColumnTable[] = [
 
 export const defaultCompanyCardData = [
 	{
-			name: 'Zamplify',
-			id: "1",
-			website: "order.zamlify.com",
-			size: '50-99',
-			country: 'Tokyo',
-			city: "Yakuzi"
+		name: 'Zamplify',
+		id: '1',
+		website: 'order.zamlify.com',
+		size: '50-99',
+		country: 'Tokyo',
+		city: 'Yakuzi',
 	},
 	{
-			name: 'Kodak',
-			id: "2",
-			website: "kodak.tech",
-			size: '10-19',
-			country: 'Amsterdam',
-			city: "NY"
-
-
-
+		name: 'Kodak',
+		id: '2',
+		website: 'kodak.tech',
+		size: '10-19',
+		country: 'Amsterdam',
+		city: 'NY',
 	},
 	{
-			name: 'flash codefend',
-			id: "3",
-			website: "flash.codefend.com",
-			size: '20-49',
-			country: 'Argentina',
-			city: "Bueno Aires"
-
+		name: 'flash codefend',
+		id: '3',
+		website: 'flash.codefend.com',
+		size: '20-49',
+		country: 'Argentina',
+		city: 'Bueno Aires',
 	},
-]
+];
+
+export const webLocationColumn: ColumnTable[] = [
+	{
+		name: 'location',
+		value: 'location',
+		style: 'location',
+	},
+	{
+		name: 'count',
+		value: 'count',
+		style: 'count',
+	},
+	{
+		name: 'percent',
+		value: 'percent',
+		style: 'percent',
+	},
+];

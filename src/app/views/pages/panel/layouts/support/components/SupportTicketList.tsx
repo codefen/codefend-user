@@ -51,9 +51,7 @@ export const SupportTicketList: React.FC<SupportTicketListProps> = (props) => {
 		title: { value: ticket.csHeader, style: 'vul-title' },
 		status: {
 			value: ticket.condition,
-			style: `vul-condition ${
-				ticket.condition === 'open' && 'codefend-text-red'
-			}`,
+			style: `status ${ticket.condition === 'open' && 'codefend-text-red'}`,
 		},
 		action: { value: 'actions', style: 'id' },
 	}));

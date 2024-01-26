@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { generateIDArray } from '../../../data';
 import { EmptyCard, PageLoader, Show } from '..';
 import './table.scss';
@@ -65,10 +65,7 @@ export const TableV2: React.FC<TableProps> = ({
 		});
 	}, [rowsData, dataSort, sortDirection]);
 	const rowsID = useMemo(() => generateIDArray(rows.length), [rows.length]);
-	const [selectedField, setSelectedField] = useState<string>(
-		initialSelect ? rowsID[0] : '',
-	);
-
+	const [selectedField, setSelectedField] = useState('');
 	const columnsID = useMemo(() => generateIDArray(columns.length), [columns]);
 
 	const handleSort = (columnName: string) => {
@@ -81,6 +78,11 @@ export const TableV2: React.FC<TableProps> = ({
 			setSortDirection(Sort.asc);
 		}
 	};
+	useEffect(() => {
+		if (Boolean(initialSelect)) {
+			setSelectedField(rowsID[0]);
+		}
+	}, [rowsID]);
 
 	const columnForRows = useMemo(() => {
 		let result =
@@ -96,8 +98,11 @@ export const TableV2: React.FC<TableProps> = ({
 			selectItem(ID);
 		}
 
-		if (key === selectedField) setSelectedField('');
-		else setSelectedField(key);
+		if (key === selectedField) {
+			setSelectedField('');
+		} else {
+			setSelectedField(key);
+		}
 	};
 
 	return (

@@ -15,6 +15,7 @@ const DashboardVulnerabilities: React.FC<{
 	const dataTable = topVulnerabilities.map(
 		(issue: Issues) =>
 			({
+				ID: { value: '', style: '' },
 				published: { value: issue.createdAt, style: 'date' },
 				author: {
 					value: '@' + issue.researcherUsername,

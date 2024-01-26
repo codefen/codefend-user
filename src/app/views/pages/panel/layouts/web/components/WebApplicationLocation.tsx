@@ -1,9 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { CircleIcon, SimpleSection } from '../../../../../components';
+import {
+	CircleIcon,
+	SimpleSection,
+	Sort,
+	TableV2,
+} from '../../../../../components';
 import {
 	MetricsService,
 	Webresources,
 	generateIDArray,
+	webLocationColumn,
 } from '../../../../../../data';
 
 export const WebApplicationLocation: React.FC<{
@@ -31,29 +37,40 @@ export const WebApplicationLocation: React.FC<{
 		[resources],
 	);
 
+	const dataTable = useMemo(
+		() =>
+			resources.map((resource: any) => ({
+				ID: { value: '', style: '' },
+				location: {
+					value: (
+						<>
+							<span
+								className={`flag flag-${resource.countryCode.toLowerCase()}`}></span>{' '}
+							{resource.country}
+						</>
+					),
+					style: 'location',
+				},
+				count: { value: resource.count, style: 'count' },
+				percent: {
+					value: `${resource.percentage}%`,
+					style: 'percent',
+				},
+			})),
+		[resources],
+	);
+
 	return (
 		<div className="card table">
 			<SimpleSection header="Supervised assets" icon={<CircleIcon />}>
-				<>
-					<div className="columns-name">
-						<div className="location">location</div>
-						<div className="count">count</div>
-						<div className="percent">percent</div>
-					</div>
-					<div className="rows">
-						{resources.map((resource: any, index: number) => (
-							<section key={resourcesKey[index]} className="item">
-								<div className="location">
-									<span
-										className={`flag flag-${resource.countryCode.toLowerCase()}`}></span>
-									{resource.country}
-								</div>
-								<div className="count">{resource.count}</div>
-								<div className="percent">{resource.percentage}%</div>
-							</section>
-						))}
-					</div>
-				</>
+				<TableV2
+					columns={webLocationColumn}
+					rowsData={dataTable}
+					showEmpty={false}
+					showRows={dataTable.length !== 0}
+					sizeY={20}
+					sort={Sort.asc}
+				/>
 			</SimpleSection>
 		</div>
 	);

@@ -40,8 +40,8 @@ export const IssueResources: React.FC<Props> = (props) => {
 			style: 'vul-score',
 		},
 		issueTitle: { value: issue.name, style: 'vul-title' },
-		status: { value: issue.condition, style: 'vul-title' },
-		action: { value: 'actions', style: 'date' },
+		status: { value: issue.condition, style: 'vul-condition' },
+		action: { value: 'actions', style: 'id' },
 	}));
 	const actionTable = {
 		icon: <TrashIcon />,
