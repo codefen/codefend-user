@@ -6,6 +6,7 @@ use std::io;
 use tauri::Builder;
 use std::fs::{self};
 use mac_address::get_mac_address;
+use serde_json::{json, Value};
 
 // GLOBAL VARIABLES
 const DEV_MODE: bool = true;
@@ -15,7 +16,7 @@ const PROD_URL: &str = "https://api.codefend.com/kundalini/";
 fn main() {
     Builder::default()
     .invoke_handler(
-        tauri::generate_handler![scan_local, get_mac_addr],
+        tauri::generate_handler![scan_local],
     )
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -103,18 +104,6 @@ async fn scan_local(session_id: String) -> Result<String, String> {
     Ok(r#"{"success": "Scan completed successfully"}"#.to_string())
 }
 
-#[tauri::command]
-async fn get_mac_addr() -> Result<String, String> {
-    let mac_address_result = get_mac_address();
-    let mac_address = match mac_address_result {
-        Ok(Some(mac)) => mac.to_string(),
-        Ok(None) => return Err("No MAC address found".to_string()),
-        Err(e) => return Err(e.to_string()),
-    };
-
-    let json_response = json!({ "mac_address": mac_address }).to_string();
-    Ok(json_response)
-}
 
 // Check admin privileges
 fn admin_privileges() -> bool {
