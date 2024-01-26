@@ -57,7 +57,6 @@ export const usePreferences = () => {
 
 		PreferenceServices.getAll(companyID)
 			.then((response: any) => {
-				console.log(response);
 				setCompany(response.company);
 				setMembers(response.company_members);
 				serOrders(response.company_orders);

@@ -78,6 +78,7 @@ const Navbar: React.FC = () => {
 					<div
 						title="Network Setting"
 						onClick={() => {
+							clearAuth();
 							setShowModal(!showModal);
 							setShowModalStr('network_setting');
 						}}>

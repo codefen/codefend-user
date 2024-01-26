@@ -254,7 +254,7 @@ const AdminCompanyDetails: React.FC = () => {
 				</div>
 			</Show>
 			<Show
-				when={Boolean(companyStore)}
+				when={Boolean(companyStore.name)}
 				fallback={
 					<div className="w-full internal-tables mt-4">
 						<div className="p-3 pl-8 internal-tables-active">

@@ -4,8 +4,13 @@ import { useCompany } from '../../../../../../data/hooks/useCompany';
 import {  Show } from '../../../../../../views/components';
 import React, { useState } from 'react';
 
+interface DetailProps {
+	title: string;
+	value: string
+}
+
 const SettingPersonalDetails: React.FC = (props) => {
-	const [personalDetails, setPersonalDetails] = useState(
+	const [personalDetails, setPersonalDetails] = useState<DetailProps[]>(
     defaultPersonalDetails
   );
 
@@ -65,15 +70,15 @@ const SettingPersonalDetails: React.FC = (props) => {
 						</Show>
 					</section>
 					<div className="w-full mb-20">
-						{personalDetails.map((detail: any) => (
+						{personalDetails.map((detail: DetailProps) => (
 							<div
 								key={detail.title}
-								className="flex px-3 py-1 text-format">
+								className="flex px-2 py-1 text-format">
 								<section className="flex w-full items-center">
-									<p className="w-1/2">{detail.title}</p>
-								{/* 	<p className="text-base w-1/2">
-										{userInfo[detail.title]}
-									</p> */}
+									<p className="w-[40%]">{detail.title}</p>
+								 	<p className="text-base w-1/2">
+										{detail.value}
+									</p> 
 								</section>
 							</div>
 						))}
