@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { MessageIcon, PrimaryButton, SendIcon } from '..';
+import { MessageIcon, SendButton, SendIcon } from '..';
 import { useChatbox, ChatBoxType } from '../../../data';
 import { toast } from 'react-toastify';
 
@@ -59,12 +59,12 @@ export const ChatBox: React.FC<Props> = (props) => {
 					</div>
 					<span>Add new entry</span>
 				</div>
-				<PrimaryButton
+				<SendButton
 					text={<SendIcon isButton />}
-					isDisabled={isAdding || !message.trim()}
+					isDisabled={!message.trim() || isAdding}
+					viewLoader={isAdding}
 					click={handleSubmit}
-					disabledLoader
-					className="no-border-height w-14 h-full items-center justify-center"
+					className="w-14 h-full relative"
 				/>
 			</div>
 

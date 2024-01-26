@@ -7,7 +7,7 @@
 	border-radius: 50% !important;
 	animation: spin-rotation 1s linear infinite;
 	position: absolute;
-	left: 7%;
+	left: var(--pos-left);
 	cursor: pointer;
 }
 

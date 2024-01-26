@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/loaders.scss';
+import './loaders.scss';
 
 /**
  * Spinner for loaders made only with CSS
@@ -9,8 +9,20 @@ const Spinner: React.FC<{ icon: string }> = ({ icon }) => (
 	<aside className={`spinner ${icon}`}></aside>
 );
 
-export const ButtonLoader = () => {
-	return <div className="button-loader"></div>;
+export const ButtonLoader: React.FC<{ left?: any; right?: any }> = ({
+	left = '7%',
+	right = 'inherit',
+}) => {
+	return (
+		<div
+			className="button-loader"
+			style={
+				{
+					'--pos-left': left!,
+					'--pos-right': right!,
+				} as any
+			}></div>
+	);
 };
 
 export const Loader = () => {
