@@ -9,6 +9,7 @@ import { EndpointInfo } from './components/EndpointInfo';
 import { EndpointAppProvider, useEndpointAppStore } from './EndpointContext';
 import { FaWindows, FaLinux, FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router';
+import moment from 'moment';
 
 import {
     useModal,
@@ -52,9 +53,8 @@ export const EnpPanel: React.FC<Props> = (props) => {
 		const companyID = getUserdata()?.companyID as string;
 		EnpService.getScans(companyID)
 		  .then((scans) => {
-            console.log(scans)
             let scandata = processScans(scans.data)
-			setScans(scandata);
+			setScans(scans.data);
 		  });
         setShowScreen(false);
         const timeoutId = setTimeout(() => setShowScreen(true), 50);
@@ -62,19 +62,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
     }, [refresh]);
 
     function processScans(scans: any) {
-        const groupedScans = scans.reduce((acc: any, scan: any) => {
-            const macAddress = scan.F0_2F_74_34_78_32;
-            acc[macAddress] = acc[macAddress] || [];
-            acc[macAddress].push(scan);
-            return acc;
-        }, {});
-    
-        return Object.keys(groupedScans).map(mac => {
-            const scans = groupedScans[mac];
-            const firstScan = scans[0];
-            firstScan.additionalScans = scans.length - 1;
-            return firstScan;
-        });
+
     }
 
     const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
@@ -91,47 +79,57 @@ export const EnpPanel: React.FC<Props> = (props) => {
     return (
     <EndpointAppProvider>
         <main className={`${showScreen ? 'actived' : ''} flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10 ml-16 mt-4`}>
-            <header className="flex items-center justify-between">
+            <ModalOS/>
+            <header>
                 <h1 className="text-xl font-bold text-gray-800">Scan your device</h1>
+                <p className="mt-0 text-gray-400">Perform a scan of the applications installed in your machine.</p>
             </header>
             <ScanButton
                 onClick={() => scanLocal()}
                 scanLoading={scanLoading} scanLocal={scanLocal} 
             />
-            <ModalOS/>
+            <hr className="border-gray-300"></hr>
             <div>
-                <header className="flex items-center justify-between">
-                    <h1 className="text-xl font-bold text-gray-800 mb-4">Scanned devices</h1>
+                <header>
+                    <h1 className="text-xl font-bold text-gray-800">Scanned devices</h1>
+                    {scans.length > 0 && (
+                        <p className="mt-0 mb-6 text-gray-400">Check the scanned devices within your company.</p>
+                    )}
+                    {scans.length == 0 && (
+                        <p className="mt-0 mb-6 text-gray-400">Your company currently has no scans, try performing your first one.</p>
+                    )}
                 </header>
+
                 <Show when={scans.length > 0}>
                     <section className="grid gap-16 md:grid-cols-3 lg:grid-cols-4">
                         {scans.map((scan) => (
-                            <div key={scan.id} className="rounded border bg-card text-card-foreground h-full cursor-default">
+                            <div key={scan.id} className="rounded border bg-gradient-to-r from-white to-slate-50 text-card-foreground h-full cursor-default">
                                 <div className="flex items-center mr-auto p-4">
                                     <div className="inline-flex w-18 h-18">
-                                        <span className="w-16 h-16 inline-flex rounded-md border-solid border border-stone-200 items-center justify-center">
+                                        <span className="w-16 h-16 bg-white inline-flex rounded-md border-solid border border-stone-300 items-center justify-center">
                                             <OSIcon osName={scan.device_os_release} />
                                         </span>
                                     </div>
                     
                                     <div className="flex flex-col ml-3 min-w-0">
-                                        <div className="text-xl font-black leading-none text-gray-700">{scan.device_os_name}</div>
+                                        <div className="text-xl font-black leading-none text-gray-600">{scan.device_os_name}</div>
                                         <p className="text-base text-gray-500 leading-none mt-1 truncate text-red-400">{scan.device_os_release}</p>
+                                        <p className="text-sm text-gray-400 leading-none mt-1 truncate text-red-400">{moment(scan.creacion).fromNow()}</p>
                                     </div>
                                 </div>
-                                <div className="p-2 pl-4 text-sm text-gray-800">
+                                <div className="p-2 pl-4 text-sm text-gray-600">
                                     {
-                                        scan.scanned === 1 ?
+                                        Number(scan.scanned) == 1 ?
                                             <p className="cursor-default font-bold">Finished</p>
                                         :
                                         <div className="w-full h-full flex items-center justify-left bg-transparent">
-                                            <ImSpinner8 className="animate-spin h-3 w-3 text-gray-700 ml-1 mr-2" />
+                                            <ImSpinner8 className="animate-spin h-3 w-3 text-gray-600 ml-1 mr-2" />
                                             <p>In progress</p>
                                         </div>
                                     }
                                     
                                 </div>
-                                <div className="p-2 pl-4 flex text-sm text-gray-600 font-bold border-y">
+                                <div className="p-2 pl-4 flex text-sm text-gray-600 font-bold border-y bg-white">
                                     <p className="cursor-default font-bold">Applications found: </p>
                                     <p className="cursor-default text-red-400 font-bold ml-1">{scan.apps_found}</p>
                                 </div>

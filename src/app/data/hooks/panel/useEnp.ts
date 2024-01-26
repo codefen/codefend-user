@@ -2,6 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { EnpService, FetchPattern, useAuthState } from '../../';
 import { invoke } from '@tauri-apps/api';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 const useFetchEndpoints = (companyID: string, scanID: number) => {
 	const [{ data, error, isLoading }, dispatch] = useState<FetchPattern<any>>({
@@ -36,11 +37,10 @@ const useFetchEndpoints = (companyID: string, scanID: number) => {
 // Hook para manejar el escaneo local
 export const useScanLocal = (token: string) => {
 	const [scanLoading, setScanLoading] = useState(false);
+	const navigate = useNavigate();
 
 	const handleScanResult = useCallback((result: any) => {
-		console.log({ result });
 		if (result.success) {
-			toast.success(result.success);
 			return true;
 		}
 		return false;
@@ -52,12 +52,13 @@ export const useScanLocal = (token: string) => {
 			const resParsed = JSON.parse(
 				await invoke('scan_local', { sessionId: token }),
 			);
-			return handleScanResult(resParsed);
+			return handleScanResult(resParsed)
 		} catch (error: any) {
 			console.error({ error });
 			toast.error(JSON.parse(error).error);
 		} finally {
 			setScanLoading(false);
+			navigate(0);
 		}
 		return false;
 	}, [token, handleScanResult]);

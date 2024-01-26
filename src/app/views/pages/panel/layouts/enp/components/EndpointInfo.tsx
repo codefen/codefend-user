@@ -202,14 +202,18 @@ export const EndpointInfo: React.FC<Props> = () => {
 		<div className="table flex-grow">
 			<div className="flex flex-col p-4">
 			  <div className="flex items-center justify-between border-solid border border-stone-200">
-				<div className="flex p-2 items-start w-1/3 border-solid border-r border-stone-200 pb-8 hover:bg-slate-50 duration-300 ease-in-out">
+				<div className="flex p-2 items-start w-1/3 border-solid border-r border-stone-200 pb-8 hover:bg-stone-50 duration-300 ease-in-out">
 				  <div className="inline-flex h-[6.5rem]">
-					<span className="m-4 w-20 h-20 inline-flex rounded-md border-solid border border-stone-200 opacity-75">
-					  <Show when={selectedEndpoint?.icon_url}>
-						<img src={selectedEndpoint?.icon_url} alt="" className="relative w-20 h-20 object-cover rounded-md">
-						</img>
-					  </Show>
-					</span>
+					{selectedEndpoint?.icon_url ? (
+						<img src={selectedEndpoint.icon_url} alt="" className="m-4 w-20 h-20 inline-flex rounded-md border border-stone-200 opacity-75 object-cover" />
+					) : selectedEndpoint?.application_name ? (
+						<span className="m-4 w-20 h-20 inline-flex rounded-md border-2 bg-white border-stone-400 text-xl border-dotted opacity-75 items-center justify-center text-center font-semibold">
+							{selectedEndpoint?.application_name ? selectedEndpoint?.application_name.charAt(0).toUpperCase() : ''}
+						</span>
+					) : (
+						<span className="m-4 w-20 h-20 inline-flex rounded-md border-solid border border-stone-200 opacity-75">
+						</span>
+					)}
 				  </div>
 	
 				  <div className="flex flex-col ml-1">
@@ -222,7 +226,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 				{selectedEndpoint?.application_name ?
 				  <div className="flex flex-col items-center w-2/3 h-36 border-solid border-stone-200 hover:cursor-default">
 					<div className="flex flex-grow w-full h-4 border-b">
-					  <div className="flex items-center w-1/3 border-solid border-r border-stone-200 hover:bg-slate-50 duration-300 ease-in-out">
+					  <div className="flex items-center w-1/3 border-solid border-r border-stone-200 hover:bg-stone-50 duration-300 ease-in-out">
 						<div className="flex ml-4">
 						  <p className="text-sm text-gray-600 leading-none mt-1 truncate">Reported vulnerabilities:</p>
 						  	{
@@ -248,7 +252,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 							}
 						</div> 
 					  </div>
-					  <div className="flex items-center w-1/3 border-solid border-r border-stone-200 hover:bg-slate-50 duration-300 ease-in-out">
+					  <div className="flex items-center w-1/3 border-solid border-r border-stone-200 hover:bg-stone-50 duration-300 ease-in-out">
 						<div className="flex ml-4">
 						  <p className="text-sm text-gray-600 leading-none mt-1 truncate">Latest version:</p>
 						  <p className="text-sm text-gray-400 leading-none mt-1 ml-1 truncate">{compareVersions(selectedEndpoint?.latest_version, selectedEndpoint?.current_version) !== -1 ? selectedEndpoint?.latest_version : "?"}</p>
@@ -256,21 +260,21 @@ export const EndpointInfo: React.FC<Props> = () => {
 					  </div>
 					  {
 						compareVersions(selectedEndpoint?.latest_version, selectedEndpoint?.current_version) === 0 ? (
-						<div className="bg-green-50 flex items-center w-1/3 border-solid border-stone-200 hover:bg-slate-50 duration-300 ease-in-out">
+						<div className="bg-green-50 flex items-center w-1/3 border-solid border-stone-200 hover:bg-stone-50 duration-300 ease-in-out">
 							<div className="flex ml-4">
 							<p className="text-green-500 text-sm leading-none mt-1 truncate">Installed:</p>
 							<p className="text-green-500 text-sm leading-none mt-1 ml-1 truncate">{selectedEndpoint?.current_version}</p>
 							</div>
 						</div>
 						) : compareVersions(selectedEndpoint?.latest_version, selectedEndpoint?.current_version) === 1 ? (
-						<div className="bg-red-50 flex items-center w-1/3 border-solid border-stone-200 hover:bg-slate-50 duration-300 ease-in-out">
+						<div className="bg-red-50 flex items-center w-1/3 border-solid border-stone-200 hover:bg-stone-50 duration-300 ease-in-out">
 							<div className="flex ml-4">
 							<p className="text-red-600 text-sm leading-none mt-1 truncate">Installed:</p>
 							<p className="text-red-600 text-sm leading-none mt-1 ml-1 truncate">{selectedEndpoint?.current_version}</p>
 							</div>
 						</div>
 						) : (
-						<div className="flex items-center w-1/3 border-solid border-stone-200 hover:bg-slate-50 duration-300 ease-in-out">
+						<div className="flex items-center w-1/3 border-solid border-stone-200 hover:bg-stone-50 duration-300 ease-in-out">
 							<div className="flex ml-4">
 							<p className="text-gray-600 text-sm leading-none mt-1 truncate">Installed: {selectedEndpoint?.current_version}</p>
 							</div>
@@ -279,7 +283,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 					}
 					</div>
 	
-					<div className="flex flex-wrap flex-grow w-full hover:bg-slate-50 duration-300 ease-in-out">
+					<div className="flex flex-wrap flex-grow w-full hover:bg-stone-50 duration-300 ease-in-out">
 					  <div className="flex p-4 items-start border-solid border-stone-200 w-full">
 						<p className="text-sm text-gray-600 leading-none mt-1 whitespace-pre-wrap">Information: {selectedEndpoint?.summary}</p>
 					  </div>
@@ -307,7 +311,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 				<div className="max-h-[65vh] overflow-y-auto overflow-x-hidden">
 					{
 						(vuln.length > 0 && vuln[0].title !== "none") ? vuln.map((vulnerability: any) => (
-							<div key={vulnerability.id} className="flex items-center h-10 p-4 py-6 border-b border-gray-200 text-sm font-questrial hover:bg-slate-50 duration-300 ease-in-out">
+							<div key={vulnerability.id} className="flex items-center h-10 p-4 py-6 border-b border-gray-200 text-sm font-questrial hover:bg-stone-50 duration-300 ease-in-out">
 								<div className="w-1/12 text-gray-400">{parseDate(vulnerability.date)}</div>
 								<div className="w-1/12 text-gray-400">{vulnerability.vdb_id}</div>
 								<div className="w-2/12 text-gray-400">{vulnerability.cve}</div>
@@ -337,7 +341,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 						)) : ''
 					}
 				  <Show when={vuln.length > 0 && vuln[0].title == "none"}>
-					<div className="flex items-center h-10 p-4 py-6 border-b border-gray-200 text-normal font-questrial hover:bg-slate-50 duration-300 ease-in-out">
+					<div className="flex items-center h-10 p-4 py-6 border-b border-gray-200 text-normal font-questrial hover:bg-stone-50 duration-300 ease-in-out">
 					  <div className="w-12/12 text-gray-400">There are currently no indexed vulnerabilities for this application.</div>
 					</div>
 				  </Show>
