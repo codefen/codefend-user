@@ -65,7 +65,6 @@ export const authSlice = createSlice({
 			state.loading = false;
 			state.success = true;
 			state.isAuth = false;
-			state.userData = action.payload.user as unknown as User;
 		});
 		/* state =  with errors*/
 		builder.addCase(registerFinishThunk.rejected, (state, action) => {
