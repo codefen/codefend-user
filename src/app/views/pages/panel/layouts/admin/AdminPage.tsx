@@ -18,8 +18,6 @@ const AdminPage: React.FC = () => {
 			{userHaveAccess ? (
 				<CompanyContextProvider>
 					<Suspense fallback={<Loader />}>
-						<Navbar />
-						<Sidebar />
 						<Outlet />
 					</Suspense>
 				</CompanyContextProvider>
