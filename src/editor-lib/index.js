@@ -1,6 +1,12 @@
 export const setTinyEditorContent = (id, value) => {
 	console.log({ value });
-	if (!(id && value)) return;
+	if (
+		(id == null || id == undefined) &&
+		(value === null || value == undefined)
+	) {
+		return;
+	}
+
 	tinyMCE.get(id).setContent(value);
 };
 
@@ -43,10 +49,9 @@ const addTinyMce = (initialValue) => {
 
 	tinyMCE.init(options);
 
-	let timeId = setTimeout(() => {
+	setTimeout(() => {
 		setTinyEditorContent('issue', initialValue);
-	}, 325);
-	return timeId;
+	}, 455);
 };
 
 export const getTinyEditorContent = (id) => {

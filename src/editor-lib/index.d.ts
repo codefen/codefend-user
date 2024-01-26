@@ -45,7 +45,7 @@ declare const tinyMCE: {
 
 export const setTinyEditorContent: (id: string, value: string) => void;
 
-export const addTinyMce: (initialValue: string) => number;
+export const addTinyMce: (initialValue: string) => void;
 
 export const getTinyEditorContent: (id: string) => string;
 
