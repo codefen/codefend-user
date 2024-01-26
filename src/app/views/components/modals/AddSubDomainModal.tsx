@@ -82,11 +82,13 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 						<option value="" disabled>
 							main resource
 						</option>
-						{props.webResources.map((resource: Webresources) => (
-							<option key={resource.id} value={resource.id}>
-								{resource.resourceDomain}
-							</option>
-						))}
+						{props.webResources
+							.reverse()
+							.map((resource: Webresources) => (
+								<option key={resource.id} value={resource.id}>
+									{resource.resourceDomain}
+								</option>
+							))}
 					</select>
 				</div>
 

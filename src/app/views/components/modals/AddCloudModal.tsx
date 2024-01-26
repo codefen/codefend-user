@@ -45,14 +45,14 @@ export const AddCloudModal: React.FC<Props> = (props) => {
 
 		CloudService.add(requestParams, company)
 			.then((response: any) => {
-				if (!response || response.isAnError || response.error != 0) {
+				if (response?.isAnError || Number(response.error) > 0) {
 					throw new Error('An error has occurred on the server');
 				}
 
 				props.onDone();
+				props.close();
 				toast.success('Successfully Added Cloud...');
 			})
-			.catch(() => {})
 			.finally(() => {
 				setAddingCloud(false);
 			});

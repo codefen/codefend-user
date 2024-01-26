@@ -44,12 +44,8 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 		const companyID = getUserdata()?.companyID as string;
 
 		WebApplicationService.addResource(domainName, companyID)
-			.then(({ response }) => {
-				if (
-					response !== 'success' ||
-					response.isAnError ||
-					Number(response.error) > 0
-				) {
+			.then((response: any) => {
+				if (response.isAnError || Number(response.error) > 0) {
 					throw new Error('An error has occurred on the server');
 				}
 

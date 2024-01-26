@@ -13,7 +13,6 @@ const CloudApplicationPanel: React.FC = () => {
 	useEffect(() => {
 		setShowScreen(false);
 		refetch();
-		setShowModal(false);
 		const timeoutId = setTimeout(() => setShowScreen(true), 50);
 		return () => clearTimeout(timeoutId);
 	}, [control]);
