@@ -13,11 +13,9 @@ interface TableProps {
 	columns: string[];
 }
 
-// million-ignore
 export const Table: React.FC<TableProps> = ({ data, columns }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(Sort.asc);
 	const [dataSort, setDataSort] = useState<string>(columns[0]);
-	const [selectedField, setSelectedField] = useState<string>(columns[0]);
 
 	const rows = useMemo(() => {
 		return [...data].sort((a: any, b: any) => {

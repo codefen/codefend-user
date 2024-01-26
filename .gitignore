@@ -35,5 +35,4 @@ dist-ssr
 *.sw?
 
 # Ex
-.env
 

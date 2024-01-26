@@ -15,14 +15,12 @@ const useFetchEndpoints = (companyID: string, scanID: number) => {
 		dispatch((state) => ({ ...state, isLoading: true }));
 		return EnpService.getEndpoints(scanID, companyID)
 			.then((res) => {
-				dispatch({ data: res, error: null, isLoading: false })
-			}
-			)
+				dispatch({ data: res, error: null, isLoading: false });
+			})
 			.catch((error) => dispatch({ data: null, error, isLoading: false }));
 	};
 
 	const refetch = async () => {
-
 		fetchEnd(companyID);
 	};
 
@@ -71,7 +69,10 @@ export const useEnp = (scanID: number) => {
 	const { getUserdata } = useAuthState();
 	const companyID = getUserdata()?.companyID as string;
 
-	const { getEndpoints, isLoading, refetch } = useFetchEndpoints(companyID, scanID);
+	const { getEndpoints, isLoading, refetch } = useFetchEndpoints(
+		companyID,
+		scanID,
+	);
 
 	return {
 		getEndpoints,

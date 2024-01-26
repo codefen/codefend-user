@@ -1,11 +1,9 @@
-import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
-import { ModalTitleWrapper, PageLoader, Show } from '../../../../components';
+import React, { useEffect, useState } from 'react';
+import { ModalTitleWrapper, Show } from '../../../../components';
 import { useMobile, useModal } from '../../../../../data';
 
 import './mobileApplicationPanel.scss';
-import { useNavigate } from 'react-router';
 import { MobileApplication } from './components/MobileApplication';
-import { useUpdateEffect } from 'usehooks-ts';
 import AddMobileModal from '../../../../components/modals/AddMobileModal';
 
 const MobileApplicationPanel: React.FC = () => {

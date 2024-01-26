@@ -16,10 +16,7 @@ export const AppEditor: React.FC<AppEditorProps> = ({
 	onUpdateIssue,
 	isEditable,
 }) => {
-	const emptyUpdateIssueText = useMemo(
-		() => '<p>Please add issues here...</p>',
-		[],
-	);
+	const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
 
 	const setEditorMode = () => {
 		if (isEditable) {
@@ -30,16 +27,11 @@ export const AppEditor: React.FC<AppEditorProps> = ({
 	};
 
 	useEffect(() => {
-		const checkTinyMCE = () => {
-			const defaultValue = !initialValue.trim()
-				? emptyUpdateIssueText
-				: initialValue;
+		const defaultValue = !Boolean(initialValue.trim().length)
+			? emptyUpdateIssueText()
+			: initialValue;
 
-			const timeoutid = addTinyMce(defaultValue);
-			clearTimeout(timeoutid);
-		};
-
-		checkTinyMCE();
+		addTinyMce(defaultValue);
 	}, []);
 
 	useEffect(() => {

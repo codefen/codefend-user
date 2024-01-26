@@ -1,4 +1,4 @@
-import { EnpService, generateIDArray, useModal } from '../../../../../../data';
+import { generateIDArray, useModal } from '../../../../../../data';
 import {
 	ConfirmModal,
 	EnpIcon,

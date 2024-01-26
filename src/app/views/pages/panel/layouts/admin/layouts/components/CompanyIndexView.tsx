@@ -1,4 +1,3 @@
-import { defaultCompanyCardData } from '../../../../../../../data';
 import React, { useEffect } from 'react';
 import CompanyCard from './CompanyCard';
 import './CompanyIndexView.scss';
@@ -32,7 +31,7 @@ const CompanyIndexView: React.FC = () => {
 					<div className="company-search relative">
 						<input
 							type="text"
-							name='searchQuery'
+							name="searchQuery"
 							value={searchQuery}
 							onChange={(e) => handleChange(e)}
 							placeholder="Search Company"

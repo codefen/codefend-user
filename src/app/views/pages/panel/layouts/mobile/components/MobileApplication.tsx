@@ -1,10 +1,4 @@
-import React, {
-	createContext,
-	useContext,
-	useEffect,
-	useMemo,
-	useState,
-} from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { MobileSelectedDetails } from '../..';
 import {
 	AppCard,
@@ -40,7 +34,6 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 		isNotNull,
 	} = useSelectedMobile();
 
-	const [update, dispath] = useState(false);
 	const mobileKeys = useMemo(() => {
 		return mobileInfo ? generateIDArray(mobileInfo.length) : [];
 	}, [mobileInfo]);

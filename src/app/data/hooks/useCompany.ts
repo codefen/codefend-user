@@ -4,7 +4,6 @@ import { CompanyInfo, User, companyServices, useAuthState } from '..';
 export const useCompany = () => {
 	const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
 	const { getUserdata } = useAuthState();
 
 	const fetchCompanyInfo = useCallback(() => {
@@ -21,5 +20,5 @@ export const useCompany = () => {
 		fetchCompanyInfo();
 	}, [fetchCompanyInfo]);
 
-	return { companyInfo, loading, error };
+	return { companyInfo, loading };
 };

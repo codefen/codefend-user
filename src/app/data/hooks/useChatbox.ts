@@ -23,7 +23,7 @@ export const useChatbox = () => {
 		};
 		const companyID = getUserdata()?.companyID as string;
 		IssueService.addCSMessage(requestParams, companyID)
-			.then((response: any) => {
+			.then(() => {
 				setMessage('');
 				onDone();
 			})
@@ -43,7 +43,7 @@ export const useChatbox = () => {
 		};
 
 		CustomerSupportService.add(params, userID, companyID)
-			.then((response: any) => {
+			.then(() => {
 				setMessage('');
 				onDone();
 			})

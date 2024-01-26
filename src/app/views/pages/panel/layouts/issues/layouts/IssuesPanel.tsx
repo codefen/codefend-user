@@ -76,7 +76,7 @@ const IssuesPanel: React.FC = () => {
 					/>
 					<PrimaryButton
 						text="GENERATE REPORT"
-						click={(e) => alert('Generating report')}
+						click={() => alert('Generating report')}
 						className="w-full mt-4 mb-4"
 					/>
 					<IssueReport

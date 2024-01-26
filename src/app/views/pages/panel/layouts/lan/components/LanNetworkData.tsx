@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import {
-	useAppSelector,
 	useModal,
 	LanApplicationService,
 	Device,
@@ -185,7 +184,8 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 											}}>
 											<div
 												className="id cursor-pointer p-3 flex"
-												onClick={() => {
+												onClick={(e:any) => {
+													e.preventDefault()
 													setSelectedLanIdToDelete(
 														String(network?.id),
 													);

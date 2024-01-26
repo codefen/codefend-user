@@ -5,9 +5,7 @@ import { toast } from 'react-toastify';
 
 export const useIssues = () => {
 	const { getUserdata } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<AllIssues>
-	>({
+	const [{ data, isLoading }, dispatch] = useState<FetchPattern<AllIssues>>({
 		data: null,
 		error: null,
 		isLoading: false,

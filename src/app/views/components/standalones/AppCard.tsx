@@ -30,7 +30,6 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 	showDetails,
 	cloudProvider,
 	isMainGoogleNetwork,
-	isMobile,
 
 	id,
 	appMedia,

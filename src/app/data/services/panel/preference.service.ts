@@ -1,4 +1,4 @@
-import { fetchPOST, handleFetchError } from '../';
+import { fetchPOST } from '../';
 
 const getAll = async (companyID: string) => {
 	try {

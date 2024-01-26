@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router';
 import { Loader, Show } from '../../components';
 import { AuthServices } from '../../../data';
 
@@ -38,10 +38,9 @@ export const PanelPage: React.FC = () => {
 						}}
 					/>
 				</Show>
-
+				<Navbar />
+				<Sidebar />
 				<Suspense fallback={<Loader />}>
-					<Navbar />
-					<Sidebar />
 					<Outlet />
 				</Suspense>
 			</>

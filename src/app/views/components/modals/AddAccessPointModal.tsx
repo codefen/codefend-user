@@ -99,9 +99,13 @@ export const AcessPointModal: React.FC<{
 		};
 
 		LanApplicationService.add(requestParams, companyID)
-			.then(() => {
+			.then((res: any) => {
+				console.log(res)
 				props.onDone();
 				setShowModal(!showModal);
+				if(res.error === 1) {
+					toast.error('Error', res.error)
+				}
 				toast.success('successfully added Access Point...');
 			})
 			.finally(() => {
@@ -147,6 +151,8 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
+							name='domainName'
+							value={networkData.domainName}
 							onChange={handleChange}
 							placeholder="hostname"
 							required
@@ -161,6 +167,8 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
+							name='internalAddress'
+							value={networkData.internalAddress}
 							onChange={handleChange}
 							placeholder="Internal IP Address"
 							required
@@ -175,6 +183,8 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
+							name='externalAddress'
+							value={networkData.externalAddress}
 							onChange={handleChange}
 							placeholder="External IP Address"
 							required
@@ -190,6 +200,8 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
+							name='username'
+							value={networkData.username}
 							onChange={handleChange}
 							placeholder="username"
 							required
@@ -204,6 +216,8 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="password"
+							name='password'
+							value={networkData.password}
 							onChange={handleChange}
 							placeholder="password"
 							required
@@ -212,7 +226,7 @@ export const AcessPointModal: React.FC<{
 					<div className="form-buttons">
 						<SecondaryButton
 							text={'Cancel'}
-							click={(e: React.FormEvent) => props.close()}
+							click={() => props.close()}
 							isDisabled={isAddingInternalNetwork}
 							className="btn-cancel codefend_secondary_ac"
 						/>

@@ -1,17 +1,17 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../../../../data/redux/slices/auth.slice';
-import { User, clearAuth, useAuthState, useModal } from '../../../../data';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import { clearAuth, useModal, logout } from '../../../../data';
 import {
 	ConfirmModal,
 	LogoutIcon,
 	ModalWrapper,
 	NetworkIcon,
 	Show,
+	NetworkSetingModal,
 } from '../..';
 import './navbar.scss';
-import { NetworkSetingModal } from '../../modals/NetworkSetingModal';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
@@ -78,6 +78,7 @@ const Navbar: React.FC = () => {
 					<div
 						title="Network Setting"
 						onClick={() => {
+							clearAuth();
 							setShowModal(!showModal);
 							setShowModalStr('network_setting');
 						}}>

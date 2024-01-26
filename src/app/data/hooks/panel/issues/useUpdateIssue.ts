@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { IssueService, useAuthState } from '../../../';
 import { toast } from 'react-toastify';
 import { getTinyEditorContent } from '../../../../../editor-lib';

@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
 	ResultsVdbSearch,
-	VdbProps,
 	generateIDArray,
 	useInitialVdb,
 	vdbColumns,
@@ -12,7 +11,6 @@ import {
 	PageLoader,
 	SearchBar,
 	Show,
-	Table,
 	TableV2,
 } from '../../../../../components';
 

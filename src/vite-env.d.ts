@@ -2,11 +2,10 @@
 
 //Añadir variables del .env
 interface ImportMetaEnv {
-  readonly VITE_INTEL_HOST: string;
-  readonly VITE_PHP_SERVER_HOST: string;
-  readonly VITE_SERVER_HOST: string
+	readonly INTEL_HOST: string;
+	readonly VITE_API_URI: string;
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv;
+	readonly env: ImportMetaEnv;
 }

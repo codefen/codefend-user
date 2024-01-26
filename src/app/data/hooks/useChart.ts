@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import {
 	Chart as ChartJS,
@@ -10,7 +10,7 @@ import {
 	ChartOptions,
 	ArcElement,
 } from 'chart.js/auto';
-import { MetricsService, ChartValueType, isEmptyData } from '..';
+import { MetricsService, ChartValueType } from '..';
 
 interface DoughnutCharProps {
 	data: any;

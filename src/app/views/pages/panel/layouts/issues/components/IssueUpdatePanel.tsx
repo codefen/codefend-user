@@ -9,12 +9,7 @@ import {
 } from '../../../../../components';
 import { useNavigate } from 'react-router';
 import { AppEditor } from './AppEditor';
-import {
-	CompleteIssue,
-	OneIssue,
-	UpdateIssue,
-	useUpdateIssue,
-} from '../../../../../../data';
+import { OneIssue, UpdateIssue, useUpdateIssue } from '../../../../../../data';
 
 interface IssueUpdatePanelProps {
 	completeIssue: OneIssue;
@@ -76,7 +71,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 				issueName: safelyIssue().name,
 				score: safelyIssue().riskScore,
 			})),
-		[safelyIssue()],
+		[completeIssue],
 	);
 
 	return (
@@ -84,7 +79,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 			<>
 				<div className="header">
 					<div className="back" onClick={() => navigate('/issues')}>
-						<LeftArrow />
+						<LeftArrow isButton />
 					</div>
 					<Show
 						when={isEditable}

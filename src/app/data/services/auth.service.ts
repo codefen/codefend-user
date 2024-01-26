@@ -21,7 +21,7 @@ const registerFinish = async (registerParams: any): Promise<any> => {
 		params: {
 			model: 'users/new',
 			phase: 2,
-			...registerParams
+			...registerParams,
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
 
@@ -36,6 +36,7 @@ const login = async (loginParams: LoginParams): Promise<LoginResponse> => {
 			provided_password: loginParams.password,
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
+
 	const response = data.response as string;
 	if (response === 'success') {
 		const token = data.session as string;

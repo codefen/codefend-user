@@ -1,5 +1,11 @@
 main.webapp {
-	.card.table {
+	.table {
+		.domain-name {
+			width: 205px;
+		}
+		.location {
+			width: 160px;
+		}
 		.item {
 			.location {
 				.flag {

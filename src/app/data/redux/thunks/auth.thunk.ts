@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthServices } from '../../services/auth.service';
 import {
 	LoginParams,
 	LoginResponse,
 	RegFinishResponse,
 	RegResponse,
 	RegisterParams,
+	AuthServices,
 } from '../..';
 
 export const loginThunk = createAsyncThunk<

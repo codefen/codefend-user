@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
 	MobileApp,
 	MobileProps,
@@ -42,9 +42,7 @@ export const useSelectedMobile = () => {
 export const useMobile = () => {
 	const { getUserdata } = useAuthState();
 
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<MobileProps>
-	>({
+	const [{ data, isLoading }, dispatch] = useState<FetchPattern<MobileProps>>({
 		data: null,
 		error: null,
 		isLoading: false,

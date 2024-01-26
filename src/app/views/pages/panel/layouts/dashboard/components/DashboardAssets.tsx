@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { CircleIcon, SimpleSection } from '../../../../../components';
 import { CompanyResource, generateIDArray } from '../../../../../../data';
 
-const DashboardAssets = ({ resources }: { resources: CompanyResource }) => {
+const DashboardAssets: React.FC<{ resources: CompanyResource }> = ({
+	resources,
+}) => {
 	const resourceKeys = useMemo(
 		() => generateIDArray(Object.keys(resources).length),
 		[Object.keys(resources).length],

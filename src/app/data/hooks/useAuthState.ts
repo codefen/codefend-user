@@ -43,7 +43,8 @@ export const useAuthState = () => {
 		return dispatch(loginThunk(params))
 			.then((response: any) => {
 				const { meta } = response;
-				if (meta.rejectedWithValue) throw Error(response.payload);
+				if (meta.rejectedWithValue || meta.requestStatus === 'rejected')
+					throw Error(response.payload);
 				toast.success(`Login successful`);
 				return true;
 			})
@@ -80,10 +81,9 @@ export const useAuthState = () => {
 		return dispatch(registerFinishThunk(params))
 			.then((response: any) => {
 				const { meta, payload } = response;
-				console.log(response);
-				if (payload.response === 'success') {
-					navigate('/auth/signin');
-				}
+				if (meta.rejectedWithValue) throw Error(payload);
+
+				navigate('/auth/signin');
 				return true;
 			})
 			.catch((error: Error) => {

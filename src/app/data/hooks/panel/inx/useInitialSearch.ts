@@ -46,7 +46,7 @@ export const useInitialSearch = () => {
 				}));
 				return res.response.id;
 			})
-			.catch((error) =>
+			.catch(() =>
 				setSearchData((state: SearchResult) => ({
 					...state,
 					isLoading: false,

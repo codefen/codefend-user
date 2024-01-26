@@ -2,21 +2,27 @@ import React, { useState } from 'react';
 
 import { GlobeWebIcon, ModalButtons } from '../';
 import { toast } from 'react-toastify';
-import { generateID, useAuthState, WebApplicationService } from '../../../data';
+import {
+	useAuthState,
+	WebApplicationService,
+	Webresources,
+} from '../../../data';
 
 interface AddDomainProps {
 	onDone: () => void;
 	close?: () => void;
+	webResources: string[];
 }
 
 const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 	const [domainName, setDomainName] = useState('');
-	const [subdomainDetection, setSubdomainDetection] = useState<boolean>(false);
+	const [subdomainDetection, setSubdomainDetection] = useState<boolean>(true);
 	const [isAddingDomain, setIsAddingDomain] = useState<boolean>(false);
 
 	const { getUserdata } = useAuthState();
 
 	const handleSubmit = (e: React.FormEvent) => {
+		if (!domainName) return;
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -30,10 +36,23 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 			setIsAddingDomain(false);
 			return;
 		}
+		if (props.webResources.includes(domainName)) {
+			toast.error('This domain is already registered');
+			setIsAddingDomain(false);
+			return;
+		}
 		const companyID = getUserdata()?.companyID as string;
 
 		WebApplicationService.addResource(domainName, companyID)
 			.then(({ response }) => {
+				if (
+					response !== 'success' ||
+					response.isAnError ||
+					Number(response.error) > 0
+				) {
+					throw new Error('An error has occurred on the server');
+				}
+
 				setDomainName('');
 				props.onDone();
 				toast.success('Successfully Added Domain..');
@@ -72,7 +91,6 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 						onChange={(e) => setSubdomainDetection(!subdomainDetection)}
 						defaultChecked={subdomainDetection}
 						className="codefend-checkbox"
-						required
 					/>
 					<label
 						className="modal_info"

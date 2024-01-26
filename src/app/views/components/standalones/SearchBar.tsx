@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Fragment, useCallback, useMemo } from 'react';
+import React, { ChangeEvent, Fragment, useCallback } from 'react';
 import { PrimaryButton, Show } from '..';
 import { generateIDArray } from '../../../data';
 

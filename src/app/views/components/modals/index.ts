@@ -7,3 +7,4 @@ export { default as ConfirmModal } from './ConfirmModal';
 export { default as ModalTitleWrapper } from './ModalTitleWrapper';
 export { default as ModalWrapper } from './modalwrapper/ModalWrapper';
 export * from './AddTicketModal';
+export * from './NetworkSetingModal';

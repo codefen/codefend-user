@@ -58,8 +58,8 @@ export const CloudApplication = ({
 				fallback={
 					<EmptyScreenView
 						buttonText="Add Cloud"
-						title={"There's no data to display here"}
-						info={'Start by clicking on the button below'}
+						title="There's no data to display here"
+						info="Start by clicking on the button below"
 						event={() => openModal()}
 					/>
 				}>

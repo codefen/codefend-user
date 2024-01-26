@@ -19,31 +19,46 @@ const AddMobileModal: React.FC<Props> = (props) => {
 			e.preventDefault();
 			e.stopPropagation();
 			setIsAddingMobile(true);
-			if (!androidAddress.trim() || androidAddress.length > 165) {
+			if (androidAddress.length > 165) {
 				toast.error('Invalid android address');
 				setIsAddingMobile(false);
 				return;
 			}
 
-			if (!iosAddress.trim() || iosAddress.length > 165) {
+			if (iosAddress.length > 165) {
 				toast.error('Invalid ios address');
 				setIsAddingMobile(false);
 				return;
 			}
+
+			if (!iosAddress.trim() && !androidAddress.trim()) {
+				toast.error('Kindly fill in field(s)');
+				setIsAddingMobile(false);
+				return;
+			}
+
 			MobileService.add(
-				androidAddress,
-				iosAddress,
+				androidAddress.trim(),
+				iosAddress.trim(),
 				getUserdata()?.companyID as string,
 			)
-				.then((response) => {
-					if (!response)
-						throw new Error('An error has occurred on the server');
+				.then((response: any) => {
+					if (
+						response.android_error ||
+						response.apple_error ||
+						response.isAnError
+					) {
+						throw new Error(
+							response.android_info ??
+								'An error has occurred on the server',
+						);
+					}
 
 					props.onDone();
 					props.close();
 					toast.success('Successfully Added Mobile App...');
 				})
-				.catch((error: any) => {
+				.catch((error: Error) => {
 					toast.error(error.message);
 					props.close();
 				})

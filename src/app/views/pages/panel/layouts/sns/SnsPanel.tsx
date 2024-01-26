@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import SnPreviousSearches from './components/SnPreviousSearches';
 import SnsSearchAndData from './components/SnsSearchAndData';
-import './Sns.scss'
+import './Sns.scss';
 
-interface Props {}
-
-const SnsPanel: React.FC<Props> = (props: any) => {
+const SnsPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 
 	useEffect(() => {
@@ -23,8 +21,7 @@ const SnsPanel: React.FC<Props> = (props: any) => {
 					<Masonry
 						breakpointCols={3}
 						className="my-masonry-grid"
-						columnClassName="my-masonry-grid_column">
-					</Masonry>
+						columnClassName="my-masonry-grid_column"></Masonry>
 				</section>
 
 				<section className="right">

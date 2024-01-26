@@ -1,7 +1,6 @@
-import React, { Fragment, useContext, useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
 	SupportProps,
-	generateIDArray,
 	supportTicket,
 	useModal,
 	useTicketDelete,
@@ -121,6 +120,7 @@ export const SupportTicketList: React.FC<SupportTicketListProps> = (props) => {
 					}}
 					selectItem={(id: String) => props.setSelectedTicket(id)}
 					sort={Sort.asc}
+					initialSelect
 				/>
 			</div>
 		</>

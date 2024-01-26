@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { companySizesList, countries } from '../../../../data/mocks';
-import { ButtonLoader, PrimaryButton } from '../../../components';
-import { useAuthState } from '../../../../data/hooks/useAuthState';
-import { RegisterParams } from '../../../../data';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import { PrimaryButton } from '../../../components';
+import {
+	RegisterParams,
+	useAuthState,
+	companySizesList,
+	countries,
+} from '../../../../data';
 
 interface SignupForm {
 	name: string;
@@ -39,7 +43,7 @@ const SignUpLayout: React.FC = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setLoading(true);
-    console.log(isLoading)
+		console.log(isLoading);
 		const requestParams: RegisterParams = {
 			lead_fname: signupForm.name,
 			lead_lname: signupForm.surname,
@@ -58,9 +62,7 @@ const SignUpLayout: React.FC = () => {
 					navigate('/auth/confirmation');
 				}
 			})
-			.finally(() =>
-				setLoading(false)
-			);
+			.finally(() => setLoading(false));
 	};
 
 	return (

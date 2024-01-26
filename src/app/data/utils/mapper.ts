@@ -19,7 +19,6 @@ import {
 	UserAPI,
 	VdbProps,
 	VdbRequestSearch,
-	VdbResponseSearch,
 	WebapplicationProps,
 	Webresources,
 	cleanReview,

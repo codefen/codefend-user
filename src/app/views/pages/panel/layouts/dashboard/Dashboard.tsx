@@ -13,7 +13,7 @@ import {
 import '../../../../styles/flag.scss';
 import './dashboard.scss';
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
 	const { isLoading, companyData, refetch } = useDashboard();
 	const [showScreen, setShowScreen] = useState(false);
 
