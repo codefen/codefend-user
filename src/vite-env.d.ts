@@ -2,10 +2,10 @@
 
 //Añadir variables del .env
 interface ImportMetaEnv {
-  readonly INTEL_HOST: string;
-  readonly API_URI: string
+	readonly INTEL_HOST: string;
+	readonly VITE_API_URI: string;
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv;
+	readonly env: ImportMetaEnv;
 }
