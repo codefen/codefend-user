@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { fetchGET, fetchPOST } from '.';
-import { baseUrl } from '../utils/config';
-var host = baseUrl;
+var host = import.meta.env.API_URI;
 
 export const ApiHandlers = {
 	getPanelCompanies: async () => {

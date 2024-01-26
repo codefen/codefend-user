@@ -1,32 +1,15 @@
 import React, { useEffect, useState } from 'react';
-
-import { Endpoints } from './components/Endpoints';
-import { ScanButton } from './components/ScanButton';
-import { ModalOS } from './components/ModalOS';
-import { ImSpinner8 } from 'react-icons/im';
-import { EndpointsSidebar } from './components/EndpointsSidebar';
-import { EndpointAppProvider, useEndpointAppStore } from './EndpointContext';
 import { FaWindows, FaLinux, FaApple } from 'react-icons/fa';
-import { useNavigate } from 'react-router';
+import { ImSpinner8 } from 'react-icons/im';
+import { useNavigate } from 'react-router-dom';
+import { useScanLocal, EnpService, useAuthState } from '../../../../../data'; 
 
-import {
-	useModal,
-	useSourceCode,
-	useEnp,
-	useAuthState,
-	useScanLocal,
-	EnpService,
-} from '../../../../../data';
-
-import {
-	EmptyScreenView,
-	PageLoaderWhite,
-	PrimaryButton,
-	PageLoader,
-	Show,
-} from '../../../../components';
+import { EndpointAppProvider } from './EndpointContext';
 
 import './endpoints.scss';
+import { ScanButton } from './components/ScanButton';
+import { Show } from '../../../../../views/components';
+import { ModalOS } from './components/ModalOS';
 
 interface Props {}
 
@@ -34,70 +17,47 @@ interface IOSIconProps {
     osName: string;
 }
 
-interface Endpoint {
-	id: string;
-}
+const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
+    const lowerCaseOSName = osName.toLowerCase();
+    if (lowerCaseOSName.includes('windows')) {
+        return <FaWindows className="w-8 h-8 text-gray-600"/>;
+    } else if (lowerCaseOSName.includes('mac')) {
+        return <FaApple className="w-8 h-8 text-gray-600"/>;
+    } else {
+        return <FaLinux className="w-8 h-8 text-gray-600"/>;
+    }
+};
 
-export const EnpPanel: React.FC<Props> = (props) => {
-	const { getAccessToken } = useAuthState();
-	const { getUserdata } = useAuthState();
-	const [showScreen, setShowScreen] = useState<boolean>(false);
-	const [scans, setScans] = useState<any[]>([]);
-	const { scanLoading, scanLocal } = useScanLocal(getAccessToken());
-	const [refresh, setRefresh] = useState<boolean>(false);
-	const navigate = useNavigate();
+const EnpPanel: React.FC<Props> = () => {
+    const { getAccessToken, getUserdata } = useAuthState();
+    const [showScreen, setShowScreen] = useState<boolean>(false);
+    const [scans, setScans] = useState<any[]>([]);
+    const { scanLoading, scanLocal } = useScanLocal(getAccessToken());
+    const [refresh, setRefresh] = useState<boolean>(false);
+    const navigate = useNavigate();
 
-	useEffect(() => {
-		const companyID = getUserdata()?.companyID as string;
-		EnpService.getScans(companyID).then((scans) => {
-			console.log(scans);
-			let scandata = processScans(scans.data);
-			setScans(scandata);
-		});
-		setShowScreen(false);
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [refresh]);
+    useEffect(() => {
+        const companyID = getUserdata()?.companyID as string;
+        EnpService.getScans(companyID).then((scans) => {
+            console.log(scans);
+            let scandata = processScans(scans.data);
+            setScans(scandata);
+        });
+        setShowScreen(false);
+        const timeoutId = setTimeout(() => setShowScreen(true), 50);
+        return () => clearTimeout(timeoutId);
+    }, [refresh]);
 
-	function processScans(scans: any) {
-		const groupedScans = scans.reduce((acc: any, scan: any) => {
-			const macAddress = scan.F0_2F_74_34_78_32;
-			acc[macAddress] = acc[macAddress] || [];
-			acc[macAddress].push(scan);
-			return acc;
-		}, {});
+    function processScans(scans: any) {
+        const groupedScans = scans.reduce((acc: any, scan: any) => {
+            const macAddress = scan.F0_2F_74_34_78_32;
+            acc[macAddress] = acc[macAddress] || [];
+            acc[macAddress].push(scan);
+            return acc;
+        }, {});
 
-<<<<<<< HEAD
-		return Object.keys(groupedScans).map((mac) => {
-			const scans = groupedScans[mac];
-			const firstScan = scans[0];
-			firstScan.additionalScans = scans.length - 1;
-			return firstScan;
-		});
-	}
-
-	const OSIcon = ({ osName }: { osName: any }): any => {
-		const lowerCaseOSName = osName.toLowerCase();
-		if (lowerCaseOSName.includes('windows')) {
-			return <FaWindows className="w-8 h-8 text-gray-600" />;
-		} else if (lowerCaseOSName.includes('mac')) {
-			return <FaApple className="w-8 h-8 text-gray-600" />;
-		} else {
-			return <FaLinux className="w-8 h-8 text-gray-600" />;
-		}
-	};
-=======
-    const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
-        const lowerCaseOSName = osName.toLowerCase();
-        if (lowerCaseOSName.includes('windows')) {
-            return <FaWindows className="w-8 h-8 text-gray-600"/>;
-        } else if (lowerCaseOSName.includes('mac')) {
-            return <FaApple className="w-8 h-8 text-gray-600"/>;
-        } else {
-            return <FaLinux className="w-8 h-8 text-gray-600"/>;
-        }
-    };
->>>>>>> ba05be8925dcdf82cf9eff3616289b4aa2cfee4a
+        return Object.values(groupedScans).flat();
+    }
 
 	return (
 		<EndpointAppProvider>
@@ -124,7 +84,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
 					</header>
 					<Show when={scans.length > 0}>
 						<section className="grid gap-16 md:grid-cols-3 lg:grid-cols-4">
-							{scans.map((scan) => (
+							{scans.map((scan: any) => (
 								<div
 									key={scan.id}
 									className="rounded border bg-card text-card-foreground h-full cursor-default">

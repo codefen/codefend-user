@@ -88,37 +88,34 @@ const FinishSignUpLayout = () => {
 							</span>
 						</div>
 						<form onSubmit={handleSubmit}>
-							<div className="mt-2">
+							<div style={{ maxWidth: '30%' }} className="input-group">
 								<input
 									type="email"
 									name="email"
 									value={userState.email}
 									onChange={handleChange}
-									className="w-full"
 									placeholder="Select Username"
 									required
 								/>
 							</div>
 
-							<div className="mt-2">
+							<div style={{ maxWidth: '30%' }} className="input-group">
 								<input
 									type="password"
 									name="password"
 									value={userState.password}
 									onChange={handleChange}
-									className="w-full"
 									placeholder="Select Password"
 									required
 								/>
 							</div>
 
-							<div className="mt-2">
+							<div style={{ maxWidth: '30%' }} className="input-group">
 								<input
 									type="password"
 									name="confirmPassword"
 									value={userState.confirmPassword}
 									onChange={handleChange}
-									className="w-full"
 									placeholder="Select Confirm Password"
 									required
 								/>

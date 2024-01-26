@@ -1,4 +1,4 @@
-import { fetchPOST } from './';
+import { fetchPOST	 } from './';
 
 const getAll = async (companyID: string) => {
 	const { data } = await fetchPOST({
