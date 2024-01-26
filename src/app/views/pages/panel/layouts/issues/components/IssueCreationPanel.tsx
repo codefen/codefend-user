@@ -62,7 +62,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 		<>
 			<div className="header">
 				<div className="back" onClick={() => navigate('/issues')}>
-					<LeftArrow />
+					<LeftArrow isButton />
 				</div>
 				<input
 					className="w-[90%] h-full flex-1"

@@ -312,7 +312,7 @@ export const CloseIcon: React.FC = ({
 	</svg>
 );
 
-export const LeftArrow: React.FC = ({ isButton }: { isButton?: boolean }) => (
+export const LeftArrow: React.FC<{ isButton?: boolean }> = ({ isButton }) => (
 	<svg
 		strokeWidth={0}
 		height="1em"

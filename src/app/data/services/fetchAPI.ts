@@ -40,7 +40,6 @@ const fetchFromAPI = async ({
 	params,
 	headers,
 }: FetchParams): Promise<any> => {
-	console.log({ baseUrl });
 	let token = getToken();
 	const url = path ? `${baseUrl}${path}` : baseUrl;
 	/**

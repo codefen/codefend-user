@@ -238,6 +238,7 @@ section {
 			.chart {
 				flex-grow: 0.3;
 				max-width: 30%;
+				min-width: 75px;
 
 				canvas {
 					width: 100% !important;

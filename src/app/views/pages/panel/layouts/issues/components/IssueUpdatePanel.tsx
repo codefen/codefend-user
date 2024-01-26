@@ -79,7 +79,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 			<>
 				<div className="header">
 					<div className="back" onClick={() => navigate('/issues')}>
-						<LeftArrow />
+						<LeftArrow isButton />
 					</div>
 					<Show
 						when={isEditable}
