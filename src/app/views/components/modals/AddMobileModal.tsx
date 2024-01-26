@@ -48,7 +48,6 @@ const AddMobileModal: React.FC<Props> = (props) => {
 						response.apple_error ||
 						response.isAnError
 					) {
-						toast.error(response.android_info);
 						throw new Error(
 							response.android_info ??
 								'An error has occurred on the server',
