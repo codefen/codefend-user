@@ -8,6 +8,8 @@ import {
 	useAuthState
 } from '../../../../../../data';
 
+import { baseUrl } from '../../../../../../data/utils/config';
+
 interface Props {}
 
 type OsOptions = {
@@ -24,10 +26,13 @@ export const ModalOS: React.FC<Props> = () => {
     const [selectedOS, setSelectedOS] = useState<string>('windows');
     const [showModal, setShowModal] = useState(false);
 
+    let parsedUrl = new URL(baseUrl);
+    let reducedUrl = `${parsedUrl.host}${parsedUrl.pathname}`.replace(/\/[^\/]*$/, '');
+
 	const osOptions: OsOptions = {
-        windows: 'Invoke-WebRequest -Uri "https://web.codefend.com/releases/codefend-windows.exe" -OutFile "$env:TEMP\codefend-windows.exe"; Start-Process -FilePath "cmd.exe" -ArgumentList "/c $env:TEMP\codefend-windows.exe scan_local ' + getAccessToken() + ' & pause" -NoNewWindow; Remove-Item "$env:TEMP\codefend-windows.exe"',
+        windows: `Invoke-WebRequest -Uri "https://web.codefend.com/releases/codefend-windows.exe" -OutFile "$env:TEMP\codefend-windows.exe"; & "$env:TEMP\codefend-windows.exe" '${getAccessToken()}' '${reducedUrl}'; Pause; Remove-Item "$env:TEMP\codefend-windows.exe"`,
         mac: 'Mac Command',
-        linux: 'wget https://web.codefend.com/releases/codefend-linux -O /tmp/codefend-linux && chmod +x /tmp/codefend-linux && /tmp/codefend-linux scan_local ' + getAccessToken() + '; rm /tmp/codefend-linux'
+        linux: `wget https://web.codefend.com/releases/codefend-linux -O /tmp/codefend-linux && chmod +x /tmp/codefend-linux && /tmp/codefend-linux ${getAccessToken()} ${reducedUrl}; rm /tmp/codefend-linux`
     };
 
 	const copyToClipboard = async (text: string) => {

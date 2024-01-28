@@ -1,30 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import { Endpoints } from './components/Endpoints';
 import { ScanButton } from './components/ScanButton';
 import { ModalOS } from './components/ModalOS';
 import { ImSpinner8 } from "react-icons/im";
-import { EndpointsSidebar } from './components/EndpointsSidebar';
-import { EndpointInfo } from './components/EndpointInfo';
-import { EndpointAppProvider, useEndpointAppStore } from './EndpointContext';
+import { EndpointAppProvider } from './EndpointContext';
 import { FaWindows, FaLinux, FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router';
 import moment from 'moment';
 
 import {
-    useModal,
-    useSourceCode,
-    useEnp,
     useAuthState,
     useScanLocal,
 	EnpService
 } from '../../../../../data';
 
 import {
-    EmptyScreenView,
-    PageLoaderWhite,
-    PrimaryButton,
-	PageLoader,
     Show,
 } from '../../../../components';
 
@@ -36,15 +26,12 @@ interface IOSIconProps {
     osName: string;
 }
 
-interface Endpoint {
-    id: string;
-}
-
 export const EnpPanel: React.FC<Props> = (props) => {
     const { getAccessToken } = useAuthState();
 	const { getUserdata } = useAuthState();
     const [showScreen, setShowScreen] = useState<boolean>(false);
 	const [scans, setScans] = useState<any[]>([]);
+	const [scansFiltered, setScansFilteres] = useState<any[]>([]);
     const { scanLoading, scanLocal } = useScanLocal(getAccessToken());
     const [refresh, setRefresh] = useState<boolean>(false);
 	const navigate = useNavigate();
@@ -53,8 +40,8 @@ export const EnpPanel: React.FC<Props> = (props) => {
 		const companyID = getUserdata()?.companyID as string;
 		EnpService.getScans(companyID)
 		  .then((scans) => {
-            let scandata = processScans(scans.data)
 			setScans(scans.data);
+			setScansFilteres(processScans(scans.data));
 		  });
         setShowScreen(false);
         const timeoutId = setTimeout(() => setShowScreen(true), 50);
@@ -62,7 +49,23 @@ export const EnpPanel: React.FC<Props> = (props) => {
     }, [refresh]);
 
     function processScans(scans: any) {
-
+        const groupedScans = scans.reduce((acc: any, scan: any) => {
+            const macAddress = scan.device_mac_address;
+            if (!acc[macAddress]) {
+                acc[macAddress] = [];
+            }
+            acc[macAddress].push(scan);
+            return acc;
+        }, {});
+    
+        return Object.values(groupedScans).map((scans: any) => {
+            const latestScan = scans.sort((a: any, b: any) => {
+                return new Date(b.creacion).getTime() - new Date(a.creacion).getTime();
+            })[0];
+    
+            latestScan.additionalScans = scans.length - 1;
+            return latestScan;
+        });
     }
 
     const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
@@ -92,17 +95,17 @@ export const EnpPanel: React.FC<Props> = (props) => {
             <div>
                 <header>
                     <h1 className="text-xl font-bold text-gray-800">Scanned devices</h1>
-                    {scans.length > 0 && (
+                    {scansFiltered.length > 0 && (
                         <p className="mt-0 mb-6 text-gray-400">Check the scanned devices within your company.</p>
                     )}
-                    {scans.length == 0 && (
+                    {scansFiltered.length == 0 && (
                         <p className="mt-0 mb-6 text-gray-400">Your company currently has no scans, try performing your first one.</p>
                     )}
                 </header>
 
-                <Show when={scans.length > 0}>
-                    <section className="grid gap-16 md:grid-cols-3 lg:grid-cols-4">
-                        {scans.map((scan) => (
+                <Show when={scansFiltered.length > 0}>
+                    <section className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+                        {scansFiltered.map((scan) => (
                             <div key={scan.id} className="rounded border bg-gradient-to-r from-white to-slate-50 text-card-foreground h-full cursor-default">
                                 <div className="flex items-center mr-auto p-4">
                                     <div className="inline-flex w-18 h-18">
