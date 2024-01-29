@@ -127,10 +127,10 @@ const AdminCompanyDetails: React.FC = () => {
 								<div className="container flex items-center justify-center  mx-auto p-3 text-format">
 									<form className="p-6">
 										<div className="relative flex items-center">
-											<span className="absolute"></span>
+											
 
 											<Show
-												when={!selectedUser}
+												when={Boolean(selectedUser)}
 												fallback={
 													<span
 														onClick={() => {
@@ -209,21 +209,7 @@ const AdminCompanyDetails: React.FC = () => {
 												</div>
 											</div>
 										</Show>
-										<div className="mt-6 internal-tables flex">
-											{/* <button
-												onClick={() => {
-													setShowModal(!showModal);
-												}}
-												className="log-inputs w-2/6 px-4 mr-2 py-3 text-sm tracking-wide text-white transition-colors duration-300">
-												cancel
-											</button>
-											<button
-												onClick={(e) => {
-													handleAddUser(e);
-												}}
-												className="log-inputs bg-codefend px-6 w-4/6 py-3 text-sm tracking-wide text-white transition-colors duration-300">
-												add
-											</button> */}
+										<div className="mt-6 internal-tables flex">	
 											<div
 												style={{
 													display: 'flex',
