@@ -8,6 +8,8 @@ export const InxPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);
 	const { previousSearches, isLoading, refetch } = useInxPreviousSearch();
+	
+
 	useEffect(() => {
 		refetch();
 		setShowScreen(false);

@@ -20,6 +20,9 @@ const AuthPage: React.FC = () => {
 			<section className="access flex">
 				<div className="container">
 					<div className="brand"></div>
+					<div className="xcodefend-img-bg">
+						<Logo theme={'dark'} />
+					</div>
 					<div className="forms">
 						<div className="nav">
 							<span

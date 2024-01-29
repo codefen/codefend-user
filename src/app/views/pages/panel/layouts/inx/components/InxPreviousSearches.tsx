@@ -13,13 +13,12 @@ interface InxPreviousSearchesProps {
 	previousSearches: PreviousSearch[];
 }
 
-export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = (
-	props,
-) => {
+export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
+	isLoading,
+	previousSearches,
+}) => {
 	const safelyPreviousSearches = () =>
-		Array.isArray(props.previousSearches)
-			? props.previousSearches.reverse()
-			: [];
+		Array.isArray(previousSearches) ? previousSearches.reverse() : [];
 
 	const previusKeys = useMemo(
 		() =>
@@ -43,7 +42,7 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = (
 							</div>
 
 							<div className="rows internal-tables ">
-								<Show when={!props.isLoading} fallback={<PageLoader />}>
+								<Show when={!isLoading} fallback={<PageLoader />}>
 									<>
 										{safelyPreviousSearches().map(
 											(searchData: PreviousSearch, i: number) => (
@@ -55,7 +54,7 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = (
 															{searchData.username}
 														</p>
 														<p className="text-base w-2/4">
-															{searchData.informacion}
+															{searchData.info.split("queries:")[1] ?? "--"}
 														</p>
 													</section>
 												</div>

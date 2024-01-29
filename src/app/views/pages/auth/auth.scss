@@ -1,3 +1,23 @@
+@mixin respond($breakpoint) {
+	@if($breakpoint ==medium) {
+		@media (max-width: 900px) {
+			@content
+		}
+	}
+
+	@if($breakpoint ==small) {
+		@media (max-width: 600px) {
+			@content
+		}
+	}
+
+	@if($breakpoint ==xsmall) {
+		@media (max-width: 400px) {
+			@content
+		}
+	}
+}
+
 .codefend-img-bg {
 	position: fixed;
 	top: 0;
@@ -11,10 +31,24 @@
 	background-repeat: no-repeat;
 	background-image: url('/codefend/access-bkg.webp');
 
+
+	@include respond(small){
+		display: none;
+	}
+
 	.brand-img {
 		top: 40%;
 		position: absolute;
 		left: 10%;
+	}
+}
+
+.xcodefend-img-bg{
+	display: none;
+	@include respond(small) {
+		display: flex;
+		justify-content: center;
+
 	}
 }
 
@@ -31,14 +65,26 @@ section.access {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+
+		@include respond(small){
+			display: block;
+		}
 	}
+
 	.nav {
 		display: flex;
 		margin-block-end: 25px;
-		column-gap: 1.25rem /* 20px */;
+		column-gap: 1.25rem
+			/* 20px */
+		;
+
 		span {
-			font-size: 1.125rem /* 18px */;
-			line-height: 1.75rem /* 28px */;
+			font-size: 1.125rem
+				/* 18px */
+			;
+			line-height: 1.75rem
+				/* 28px */
+			;
 
 			padding-block: 3px;
 			padding-inline: 0;
@@ -50,6 +96,7 @@ section.access {
 			}
 		}
 	}
+
 	.brand {
 		padding-block: 30px;
 		padding-inline: 140px;
@@ -60,6 +107,7 @@ section.access {
 		user-select: none;
 		min-width: 54%;
 	}
+
 	.forms {
 		min-width: 40%;
 		min-height: 100dvh;
@@ -75,8 +123,12 @@ section.access {
 		background-color: #fff;
 
 		.link {
-			font-size: 0.875rem /* 14px */;
-			line-height: 1.25rem /* 20px */;
+			font-size: 0.875rem
+				/* 14px */
+			;
+			line-height: 1.25rem
+				/* 20px */
+			;
 			cursor: pointer;
 
 			&.link-color {
@@ -148,8 +200,12 @@ form.signup-confirm {
 
 			span {
 				font-weight: 700;
-				font-size: 1.125rem /* 18px */;
-				line-height: 1.75rem /* 28px */;
+				font-size: 1.125rem
+					/* 18px */
+				;
+				line-height: 1.75rem
+					/* 28px */
+				;
 			}
 
 			p {
