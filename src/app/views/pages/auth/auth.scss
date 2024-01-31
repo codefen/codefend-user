@@ -1,4 +1,4 @@
-@import '../../styles/mixin';
+@use '../../styles/settings/mixin' as mixin;
 
 .codefend-img-bg {
 	position: fixed;
@@ -13,8 +13,7 @@
 	background-repeat: no-repeat;
 	background-image: url('/codefend/access-bkg.webp');
 
-
-	@include respond(small){
+	@include mixin.respond(small) {
 		display: none;
 	}
 
@@ -22,12 +21,34 @@
 		top: 40%;
 		position: absolute;
 		left: 10%;
+
+		img {
+			min-width: 0;
+			object-fit: cover;
+			object-position: center;
+			overflow: hidden;
+		}
+
+		@include mixin.respond(lmedium) {
+			& {
+				left: 5%;
+
+				img {
+					width: 83%;
+				}
+			}
+		}
+		@include mixin.respond(xmedium) {
+			img {
+				width: 68%;
+			}
+		}
 	}
 }
 
-.xcodefend-img-bg{
+.xcodefend-img-bg {
 	display: none;
-	@include respond(small) {
+	@include mixin.respond(small) {
 		display: flex;
 		justify-content: center;
 	}
@@ -47,7 +68,7 @@ section.access {
 		justify-content: flex-end;
 		align-items: center;
 
-		@include respond(small){
+		@include mixin.respond(small) {
 			display: block;
 		}
 	}
@@ -55,17 +76,11 @@ section.access {
 	.nav {
 		display: flex;
 		margin-block-end: 25px;
-		column-gap: 1.25rem
-			/* 20px */
-		;
+		column-gap: 1.25rem /* 20px */;
 
 		span {
-			font-size: 1.125rem
-				/* 18px */
-			;
-			line-height: 1.75rem
-				/* 28px */
-			;
+			font-size: 1.125rem /* 18px */;
+			line-height: 1.75rem /* 28px */;
 
 			padding-block: 3px;
 			padding-inline: 0;
@@ -103,13 +118,13 @@ section.access {
 
 		background-color: #fff;
 
+		@include mixin.respond(lmedium) {
+			padding-inline: 35px;
+		}
+
 		.link {
-			font-size: 0.875rem
-				/* 14px */
-			;
-			line-height: 1.25rem
-				/* 20px */
-			;
+			font-size: 0.875rem /* 14px */;
+			line-height: 1.25rem /* 20px */;
 			cursor: pointer;
 
 			&.link-color {
@@ -181,12 +196,8 @@ form.signup-confirm {
 
 			span {
 				font-weight: 700;
-				font-size: 1.125rem
-					/* 18px */
-				;
-				line-height: 1.75rem
-					/* 28px */
-				;
+				font-size: 1.125rem /* 18px */;
+				line-height: 1.75rem /* 28px */;
 			}
 
 			p {

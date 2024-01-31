@@ -23,6 +23,16 @@
 		padding: 0 20px;
 		border-bottom: 1px solid var(--color-border);
 
+		.column {
+			color: inherit;
+			transition-property: color;
+			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+			transition-duration: 300ms;
+
+			&:hover {
+				color: rgba(239, 68, 68, 1);
+			}
+		}
 		div {
 			flex: 1;
 			cursor: pointer;

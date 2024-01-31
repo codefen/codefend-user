@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
 	LeftArrow,
 	PageLoaderOverlay,
@@ -7,7 +7,7 @@ import {
 	Show,
 } from '../../../../../components';
 import { useNavigate } from 'react-router';
-import { AppEditor } from './AppEditor';
+import AppEditor from './AppEditor';
 import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
 
 interface IssueCreationPanelProps {
@@ -29,26 +29,6 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 		});
 	};
 
-	/*const handleKeyDown = useCallback(
-		(event: any) => {
-			if (event.ctrlKey && (event.key === 's' || event.keyCode === 83)) {
-				event.preventDefault();
-				handleIssueUpdate();
-			}
-		},
-		[handleIssueUpdate],
-	);
-	useEffect(() => {
-		const iframe = document.getElementById('issue_ifr') as HTMLIFrameElement;
-		if (!iframe) return;
-		const contentWindow = iframe.contentWindow;
-		contentWindow!.addEventListener('keydown', handleKeyDown);
-
-		return () => {
-			contentWindow!.removeEventListener('keydown', handleKeyDown);
-		};
-	}, []);*/
-
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 	) => {
@@ -58,6 +38,41 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			[name]: value,
 		}));
 	};
+
+	const handleKeyDown = (event: any) => {
+		if (event.ctrlKey && (event.key === 's' || event.keyCode === 83)) {
+			event.preventDefault();
+			handleIssueUpdate();
+		}
+	};
+
+	useEffect(() => {
+		let contentWindow: Window | null;
+		let timeID;
+
+		const loadIframe = () => {
+			const iframe = document.getElementById(
+				'issue_ifr',
+			) as HTMLIFrameElement | null;
+			if (!iframe) {
+				timeID = setTimeout(() => loadIframe(), 30);
+			} else {
+				contentWindow = iframe.contentWindow!;
+				contentWindow.addEventListener('keydown', handleKeyDown);
+				timeID = setTimeout(() => setEditable((prev: boolean) => true), 30);
+			}
+		};
+
+		loadIframe();
+
+		return () => {
+			if (contentWindow) {
+				contentWindow.removeEventListener('keydown', handleKeyDown);
+			}
+			clearTimeout(timeID!);
+		};
+	}, [props.isLoading, handleKeyDown]);
+
 	return (
 		<>
 			<div className="header">
@@ -73,11 +88,6 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 				/>
 
 				<div className="flex !p-0">
-					<div
-						className={`edit edit_btn  ${isEditable ? 'on' : 'off'}`}
-						onClick={() => setEditable(!isEditable)}>
-						<PencilIcon isButton />
-					</div>
 					<div
 						className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
 						onClick={() => handleIssueUpdate()}>
@@ -128,7 +138,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 				</div>
 			</div>
 
-			<div className="">
+			<div>
 				<AppEditor
 					initialValue={''}
 					isEditable={isEditable}

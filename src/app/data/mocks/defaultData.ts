@@ -422,6 +422,23 @@ export const sourceCodeChartColumns = [
 		style: 'percent',
 	},
 ];
+export const osPercentCountColumns = [
+	{
+		name: 'os',
+		value: 'os',
+		style: 'os',
+	},
+	{
+		name: 'count',
+		value: 'count',
+		style: 'count',
+	},
+	{
+		name: 'percent',
+		value: 'percent',
+		style: 'percent',
+	},
+];
 
 export const vdbColumns = [
 	{

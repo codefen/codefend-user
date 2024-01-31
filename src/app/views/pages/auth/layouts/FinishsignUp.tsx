@@ -63,9 +63,7 @@ const FinishSignUpLayout = () => {
 
 		signUpFinish(requestParams)
 			.then(() => {
-				toast.success('Successfully Added User...');
-
-				return navigate('/dashboard');
+				return navigate('/auth/signin');
 			})
 			.finally(() => {
 				setUserState((prevState) => ({

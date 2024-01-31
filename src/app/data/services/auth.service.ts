@@ -28,7 +28,7 @@ const registerFinish = async (registerParams: any): Promise<any> => {
 	return { data, status };
 };
 
-const login = async (loginParams: LoginParams): Promise<LoginResponse> => {
+const login = async (loginParams: LoginParams): Promise<any> => {
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'users/access',
@@ -38,6 +38,7 @@ const login = async (loginParams: LoginParams): Promise<LoginResponse> => {
 	}).catch((error: any) => handleFetchError(error))) as any;
 
 	const response = data.response as string;
+	console.log(response)
 	if (response === 'success') {
 		const token = data.session as string;
 		let user = {} as User;
@@ -47,6 +48,7 @@ const login = async (loginParams: LoginParams): Promise<LoginResponse> => {
 				...mapLoginResponseToUser(data.user),
 				exp: decodedToken.exp ?? 0,
 			};
+			
 		}
 		return { user, token, response };
 	}

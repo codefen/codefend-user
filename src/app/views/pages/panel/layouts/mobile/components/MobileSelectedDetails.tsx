@@ -32,14 +32,14 @@ export const MobileSelectedDetails: React.FC = () => {
 				<div>
 					<AppCardInfo type="mobile" selectedApp={getSelected} />
 				</div>
-				<div className="provided-testing-container">
-					<div className="wrapper">
+				<div className="selected-content">
+					<div className="selected-content-credentials">
 						<ProvidedTestingCredentials
 							credentials={getMobile().creds ?? []}
 							isLoading={isLoding}
 						/>
 					</div>
-					<div className="dashboard-charts">
+					<div className="selected-content-tables">
 						<VulnerabilityRisk
 							isLoading={isLoding}
 							vulnerabilityByRisk={

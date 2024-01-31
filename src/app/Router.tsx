@@ -112,14 +112,13 @@ export const AppRouter: React.FC = () => {
 							<Route path="create" element={<IssuesCreation />} />
 							<Route path="update/:id" element={<IssuesUpdate />} />
 						</Route>
-						
-					<Route path="admin/*" element={<AdminPage />}>
-						<Route index element={<Navigate to="user" replace />} />
-						<Route path="user" element={<AdminUser />} />
-						<Route path="company" element={<AdminCompany />} />
+						{/* Private Routes + only admin access */}
+						<Route path="admin/*" element={<AdminPage />}>
+							<Route index element={<Navigate to="user" replace />} />
+							<Route path="user" element={<AdminUser />} />
+							<Route path="company" element={<AdminCompany />} />
+						</Route>
 					</Route>
-					</Route>
-					{/* Private Routes + only admin access */}
 					{/* Public Routes */}
 					<Route path="/auth/*" element={<AuthPage />}>
 						<Route index element={<Navigate to="signin" replace />} />

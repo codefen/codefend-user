@@ -23,14 +23,14 @@ export const CloudSelectedDetails = () => {
 				<div>
 					<AppCardInfo selectedApp={getSelected} />
 				</div>
-				<div className="flex items-center my-4 gap-x-4">
+				<div className="selected-content">
 					<div className=" ">
 						<VulnerabilityRisk
 							isLoading={isLoading}
 							vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
 						/>
 					</div>
-					<div className="flex flex-col flex-grow">
+					<div className="selected-content-tables">
 						<ProvidedTestingCredentials
 							isLoading={isLoading}
 							credentials={[]}
@@ -41,7 +41,7 @@ export const CloudSelectedDetails = () => {
 					</div>
 				</div>
 
-				<section className="card table flex-grow ">
+				<section className="card table">
 					<IssuesPanelMobileAndCloud
 						isLoading={isLoading}
 						issues={getIssues()?.issues ?? {}}

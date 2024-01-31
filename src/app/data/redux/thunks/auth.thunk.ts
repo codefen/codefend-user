@@ -16,9 +16,7 @@ export const loginThunk = createAsyncThunk<
 	try {
 		const { user, token, response, message } =
 			await AuthServices.login(loginParams);
-
 		if (response !== 'success') throw new Error(message);
-
 		return { user, token, response };
 	} catch (error: any) {
 		return rejectWithValue(error.message);
@@ -35,6 +33,8 @@ export const registerThunk = createAsyncThunk<
 		try {
 			const response = await AuthServices.register(registroParams);
 			const registerResponse: RegResponse = response.data;
+			if (registerResponse.response !== 'success') throw new Error(registerResponse.error);
+			console.log(registerResponse)
 			return registerResponse;
 		} catch (error) {
 			return rejectWithValue(error as string);
@@ -49,7 +49,8 @@ export const registerFinishThunk = createAsyncThunk<
 >('auth/finish', async (finishParams: RegisterParams, { rejectWithValue }) => {
 	try {
 		const response = await AuthServices.registerFinish(finishParams);
-		const finishResponse: RegFinishResponse = response.data;
+		const finishResponse: RegFinishResponse = response;
+		if (finishResponse.response !== 'success') throw new Error(finishResponse.message);
 		return finishResponse;
 	} catch (error) {
 		return rejectWithValue(error as string);

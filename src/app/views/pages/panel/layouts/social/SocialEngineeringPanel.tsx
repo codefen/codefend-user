@@ -3,6 +3,7 @@ import { useSocial } from '../../../../../data';
 import SocialAttackVectors from './components/SocialAttackVectors';
 import SocialEngineering from './components/SocialEngineering';
 import SocialEngineeringMembers from './components/SocialEngineeringMembers';
+import './socialEngineering.scss';
 
 const SocialEngineeringView = () => {
 	const { members, refetch, loading } = useSocial();

@@ -3,6 +3,7 @@ import { ModalTitleWrapper, Show } from '../../../../components';
 import { useCloud, useModal } from '../../../../../data';
 import { AddCloudModal } from '../../../../components/modals/AddCloudModal';
 import { CloudApplication } from './components/CloudApplication';
+import './cloud.scss';
 
 const CloudApplicationPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState<boolean>(false);

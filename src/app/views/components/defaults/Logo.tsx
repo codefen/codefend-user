@@ -17,7 +17,7 @@ const Logo = ({ theme }: LogoProps) => {
 		},
 		dark: {
 			path: '/codefend/logo-dark.svg',
-			styles: { width: '120px', height: '30px' },
+			styles: { width: '200px', height: '30px' },
 		},
 		shadow: { path: '/codefend/logo-shadow.png', styles: {} },
 		aim: { path: '/codefend/aim-light.svg', styles: { height: '30px' } },

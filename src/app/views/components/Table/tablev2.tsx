@@ -52,10 +52,15 @@ export const TableV2: React.FC<TableProps> = ({
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
+
 	const rows = useMemo(() => {
-		return [...rowsData].sort((a: any, b: any) => {
-			const aValue = a[dataSort].value;
-			const bValue = b[dataSort].value;
+		const rows =
+			rowsData == undefined
+				? []
+				: [...rowsData].flatMap((data: any) => data);
+		return rows.sort((a: any, b: any) => {
+			const aValue = a[dataSort]?.value;
+			const bValue = b[dataSort]?.value;
 
 			if (sortDirection === Sort.asc) {
 				return aValue > bValue ? 1 : -1;
@@ -111,7 +116,7 @@ export const TableV2: React.FC<TableProps> = ({
 				<div className="columns-name">
 					{columns.map((column: ColumnTable, i: number) => (
 						<div
-							className={column.style}
+							className={`column ${column?.style}`}
 							key={columnsID[i]}
 							onClick={() => handleSort(column.name)}>
 							{column.value}
@@ -161,13 +166,13 @@ export const TableV2: React.FC<TableProps> = ({
 													key={i}
 													className={
 														row[column.name as keyof typeof row]
-															.style
+															?.style
 													}>
 													<div>
 														{
 															row[
 																column.name as keyof typeof row
-															].value
+															]?.value
 														}
 													</div>
 												</div>

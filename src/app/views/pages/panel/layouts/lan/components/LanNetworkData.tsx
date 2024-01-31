@@ -38,13 +38,12 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 	>(null);
 
 	const [isDeletingLan, setIsDeletingLan] = useState<boolean>(false);
-	const navigate = useNavigate();
 
 	const handleDelete = () => {
 		setIsDeletingLan(true);
 		LanApplicationService.delete(selectedLanIdToDelete!, companyID!)
 			.then(() => {
-				navigate(0);
+				props.refetchInternalNetwork();
 				setShowModal(!showModal);
 				toast.success('Successfully Deleted lan...');
 			})
@@ -82,6 +81,7 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 				isActive={showModal && showModalStr === 'add_access_point'}>
 				<AddAccessPointModal
 					onDone={() => {
+						setShowModal(false);
 						props.refetchInternalNetwork();
 					}}
 					close={() => setShowModal(false)}
@@ -184,8 +184,8 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 											}}>
 											<div
 												className="id cursor-pointer p-3 flex"
-												onClick={(e:any) => {
-													e.preventDefault()
+												onClick={(e: any) => {
+													e.preventDefault();
 													setSelectedLanIdToDelete(
 														String(network?.id),
 													);

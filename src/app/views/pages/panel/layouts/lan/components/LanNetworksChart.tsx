@@ -7,8 +7,16 @@ import {
 	isEmptyData,
 	osTypes,
 	useDoughnutChart,
+	osPercentCountColumns,
 } from '../../../../../../data';
-import { ChartIcon, EmptyCard, PageLoader } from '../../../../../components';
+import {
+	ChartIcon,
+	EmptyCard,
+	PageLoader,
+	Show,
+	SimpleSection,
+	TableV2,
+} from '../../../../../components';
 import { Doughnut } from 'react-chartjs-2';
 
 interface LanNetworksChartProps {
@@ -22,75 +30,51 @@ export const LanNetworksChart: React.FC<LanNetworksChartProps> = (props) => {
 		type: ChartValueType.NETWORK_OS,
 	});
 
-	const dataEmptyState = useMemo(() => {
-		return isEmptyData(otherMetrics);
-	}, [otherMetrics]);
-
 	const { renderPercentage } = MetricsService;
 
-	const lanKeys = useMemo(() => {
-		return props.isLoading
-			? []
-			: generateIDArray(Object.keys(otherMetrics).length);
-	}, [Object.keys(otherMetrics)]);
-
+	const dataTable = Object.keys(otherMetrics).map((network: any) => ({
+		ID: { value: '', style: '' },
+		os: {
+			value: osTypes.includes(network.toLowerCase()) ? network : 'Unknown',
+			style: 'os',
+		},
+		count: { value: otherMetrics[network], style: 'count' },
+		percent: {
+			value: renderPercentage(otherMetrics[network], total),
+			style: 'percent',
+		},
+	}));
 	return (
 		<>
 			<div className="card risk-chart">
-				{!props.isLoading ? (
-					<div className="header">
-						<div className="title">
-							<div className="icon">
-								<ChartIcon />
-							</div>
-							<span>Network devices by technology</span>
+				<Show when={!props.isLoading} fallback={<PageLoader />}>
+					<SimpleSection
+						header="Network devices by technology"
+						icon={<ChartIcon />}>
+						<div className="content">
+							<Show
+								when={!isEmptyData(otherMetrics)}
+								fallback={<EmptyCard />}>
+								<>
+									<div className="chart">
+										<Doughnut
+											data={chartData}
+											options={chartOptions}
+										/>
+									</div>
+									<TableV2
+										columns={osPercentCountColumns}
+										rowsData={dataTable}
+										showEmpty={false}
+										showRows={true}
+										sizeY={30}
+										isSmall
+									/>
+								</>
+							</Show>
 						</div>
-					</div>
-				) : (
-					<PageLoader />
-				)}
-
-				{dataEmptyState ? (
-					<div className="content">
-						<EmptyCard />
-					</div>
-				) : (
-					<div className="content">
-						<div className="chart">
-							<Doughnut data={chartData} options={chartOptions} />
-						</div>
-						<div className="table small">
-							<div className="columns-name">
-								<div className="os">os</div>
-								<div className="count">count</div>
-								<div className="percent">percent</div>
-							</div>
-
-							<div className="row">
-								{Object.keys(otherMetrics).map(
-									(network: any, i: number) => (
-										<div className="item" key={lanKeys[i]}>
-											<div className="os">
-												{osTypes.includes(network.toLowerCase())
-													? network
-													: 'Unknown'}
-											</div>
-											<div className="count">
-												{otherMetrics[network]}
-											</div>
-											<div className="percent">
-												{renderPercentage(
-													otherMetrics[network],
-													total,
-												)}
-											</div>
-										</div>
-									),
-								)}
-							</div>
-						</div>
-					</div>
-				)}
+					</SimpleSection>
+				</Show>
 			</div>
 		</>
 	);
