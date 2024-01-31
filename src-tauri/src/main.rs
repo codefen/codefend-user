@@ -1,7 +1,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 // IMPORTS
+use std::process::Command;
+use std::io;
 use tauri::Builder;
+use std::fs::{self};
+use mac_address::get_mac_address;
+use serde_json::{json, Value};
 
 
 // GLOBAL VARIABLES
@@ -59,9 +64,6 @@ async fn scan_local(session_id: String) -> Result<String, String> {
     use std::process::Command;
 
     // Check for admin privileges
-    if !admin_privileges() {
-        return Err(r#"{"error": "Admin privileges required"}"#.to_string());
-    }
 
     // Linux command
     let linux_command = format!(
@@ -98,8 +100,8 @@ async fn scan_local(session_id: String) -> Result<String, String> {
     Ok(r#"{"success": "Scan completed successfully"}"#.to_string())
 }
 
-
 // Check admin privileges
+#[cfg(target_os = "windows")]
 fn admin_privileges() -> bool {
     is_elevated::is_elevated()
 }

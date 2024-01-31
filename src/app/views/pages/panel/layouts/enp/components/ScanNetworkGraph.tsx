@@ -6,39 +6,43 @@ import * as d3 from 'd3';
 
 const RADIUS = 10;
 
+interface Link {
+    source: string;
+    target: string;
+}
 
 const processData = (data: any) => {
-  const nodes = [];
-  const links = [];
+    const nodes: any[] = [];
+    const links: any[] = [];
 
-  if (data.lenth === 0) {
+    if (data.lenth === 0) {
+        return { nodes, links };
+    }
+
+    data.forEach((item: any) => {
+        let osType = 'Other';
+        if (item.device_os_release.includes('Windows')) {
+            osType = 'Windows';
+        } else if (item.device_os_release.includes('Linux') || item.device_os_release.includes('Fedora')) {
+            osType = 'Linux';
+        }
+
+        const mainNode = {
+            id: item.id,
+            osType: osType,
+            label: item.device_os_name,
+            apps: item.apps_found,
+        };
+        nodes.push(mainNode);
+
+        for (let i = 0; i < 100; i++) {
+            const childNode = { id: `${item.id}-app-${i}`, label: `${item.id}-app-${i}`, parent: item.id };
+            nodes.push(childNode);
+            links.push({ source: item.id, target: childNode.id });
+        }
+    });
+
     return { nodes, links };
-  }
-
-  data.forEach((item) => {
-      let osType = 'Other';
-      if (item.device_os_release.includes('Windows')) {
-          osType = 'Windows';
-      } else if (item.device_os_release.includes('Linux') || item.device_os_release.includes('Fedora')) {
-          osType = 'Linux';
-      }
-
-      const mainNode = {
-          id: item.id,
-          osType: osType,
-          label: item.device_os_name,
-          apps: item.apps_found,
-      };
-      nodes.push(mainNode);
-
-      for (let i = 0; i < 100; i++) {
-        const childNode = { id: `${item.id}-app-${i}`, label: `${item.id}-app-${i}`, parent: item.id };
-        nodes.push(childNode);
-        links.push({ source: item.id, target: childNode.id });
-      }
-  });
-
-  return { nodes, links };
 };
 
 const drawNetwork = (context: any, width: any, height: any, nodes: any, links: any) => {
@@ -79,10 +83,10 @@ const drawNetwork = (context: any, width: any, height: any, nodes: any, links: a
     });
 };
 
-export const ScanNetworkGraph = ({ data, filteredData }) => {
+export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredData: any }) => {
     const [endpoints, setEndpoints] = useState<any>({nodes: [], links: []});
-    const [chartData, setChartData] = useState(null);
-    const [lineChartData, setLineChartData] = useState(null);
+    const [chartData, setChartData] = useState<any>(null);;
+    const [lineChartData, setLineChartData] = useState<any>(null);
 
     const chartOptions = {
         responsive: true,
@@ -152,16 +156,6 @@ export const ScanNetworkGraph = ({ data, filteredData }) => {
                     display: true
                 }
             }
-        },
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                enabled: true,
-                intersect: false,
-                mode: 'index'
-            }
         }
     };
 
@@ -184,7 +178,7 @@ export const ScanNetworkGraph = ({ data, filteredData }) => {
         });
 
         const processData = () => {
-            const scanCounts = {};
+            const scanCounts: { [key: string]: number } = {};
 
             const startDate = moment().subtract(7, 'days');
 
@@ -193,7 +187,7 @@ export const ScanNetworkGraph = ({ data, filteredData }) => {
                 scanCounts[date] = 0;
             }
 
-            data.forEach((item) => {
+            data.forEach((item: any) => {
                 const date = moment(item.creacion).format('YYYY-MM-DD');
                 if (scanCounts.hasOwnProperty(date)) {
                     scanCounts[date]++;
@@ -235,71 +229,79 @@ export const ScanNetworkGraph = ({ data, filteredData }) => {
       }
     }, [data, filteredData]);
 
-    const canvasRef = useRef(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const transformRef = useRef(d3.zoomIdentity);
-    const simulationRef = useRef(null);
+    const simulationRef = useRef<any>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
-        const width = canvas.width;
-        const height = canvas.height;
+        if (canvas) {
+            const context = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
 
-        simulationRef.current = d3.forceSimulation(endpoints.nodes)
-          .force('link', d3.forceLink(endpoints.links).id(d => d.id).distance(100))
-          .force('collide', d3.forceCollide().radius(() => RADIUS + 2))
-          .force('charge', d3.forceManyBody().strength(-10))
-          .force('center', d3.forceCenter(width / 2, height / 2));
+            if (context) {
+                simulationRef.current = d3.forceSimulation(endpoints.nodes)
+                    .force('link', d3.forceLink(endpoints.links).id((d: any) => d.id).distance(100))
+                    .force('collide', d3.forceCollide().radius(() => RADIUS + 2))
+                    .force('charge', d3.forceManyBody().strength(-10))
+                    .force('center', d3.forceCenter(width / 2, height / 2));
 
-        const zoom = d3.zoom()
-            .scaleExtent([0.1, 10])
-            .on('zoom', (event) => {
-                transformRef.current = event.transform;
-                draw();
-            });
+                    const zoom = d3.zoom()
+                    .scaleExtent([0.1, 10])
+                    .on('zoom', (event) => {
+                        transformRef.current = event.transform;
+                        draw();
+                    });
+        
+                d3.select(canvas).call(zoom as unknown as (selection: d3.Selection<HTMLCanvasElement, unknown, null, undefined>) => void);
+                        const draw = () => {
+                    context.save();
+                    context.clearRect(0, 0, width, height);
+                    context.translate(transformRef.current.x, transformRef.current.y);
+                    context.scale(transformRef.current.k, transformRef.current.k);
+        
+                    drawNetwork(context, width, height, endpoints.nodes, endpoints.links);
+        
+                    context.restore();
+                };
 
-        d3.select(canvas).call(zoom);
+                simulationRef.current.on('tick', draw);
 
-        const draw = () => {
-            context.save();
-            context.clearRect(0, 0, width, height);
-            context.translate(transformRef.current.x, transformRef.current.y);
-            context.scale(transformRef.current.k, transformRef.current.k);
-  
-            drawNetwork(context, width, height, endpoints.nodes, endpoints.links);
-  
-            context.restore();
-        };
-
-        simulationRef.current.on('tick', draw);
-
-        return () => {
-            if (simulationRef.current) {
-                simulationRef.current.stop();
+                return () => {
+                    if (simulationRef.current) {
+                        simulationRef.current.stop();
+                    }
+                };
             }
-        };
+        }
+        return;
     }, [data]);
 
     return (
       <>
       <section className="w-1/6">
           <Show when={chartData}>
+            <>
               <div className="border-t border-x rounded-t h-[300px]">
                   <Doughnut data={chartData} options={chartOptions} />
               </div>
               <div className="flex items-center h-6 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
                   devices os
               </div>
+            </>
           </Show>
       </section>
         <section className="w-3/6">
             <Show when={lineChartData}>
-                <div className="border-t border-x rounded-t ml-4 h-[300px]">
-                    <Line data={lineChartData} options={lineChartOptions} />
-                </div>
-                <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
-                    scans made last week
-                </div>
+                <>
+                    <div className="border-t border-x rounded-t ml-4 h-[300px]">
+                        <Line data={lineChartData} options={lineChartOptions} />
+                    </div>
+                    <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
+                        scans made last week
+                    </div>
+                </>
             </Show>
         </section>
 
