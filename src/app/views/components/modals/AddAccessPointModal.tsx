@@ -1,7 +1,7 @@
 import { useAuthState, useModal, LanApplicationService } from '../../../data';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { GlobeWebIcon, PrimaryButton, SecondaryButton } from '..';
+import { GlobeWebIcon, ModalButtons, PrimaryButton, SecondaryButton } from '..';
 
 interface NetworkData {
 	domainName: string;
@@ -100,11 +100,11 @@ export const AcessPointModal: React.FC<{
 
 		LanApplicationService.add(requestParams, companyID)
 			.then((res: any) => {
-				console.log(res)
+				console.log(res);
 				props.onDone();
 				setShowModal(!showModal);
-				if(res.error === 1) {
-					toast.error('Error', res.error)
+				if (res.error === 1) {
+					toast.error('Error', res.error);
 				}
 				toast.success('successfully added Access Point...');
 			})
@@ -119,7 +119,7 @@ export const AcessPointModal: React.FC<{
 	return (
 		<>
 			<div className="modal text-format">
-				<form className="flex flex-col gap-y-3">
+				<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
 					<div className="form-input">
 						<span className="form-icon">
 							<div className="codefend-text-red">
@@ -151,7 +151,7 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
-							name='domainName'
+							name="domainName"
 							value={networkData.domainName}
 							onChange={handleChange}
 							placeholder="hostname"
@@ -167,7 +167,7 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
-							name='internalAddress'
+							name="internalAddress"
 							value={networkData.internalAddress}
 							onChange={handleChange}
 							placeholder="Internal IP Address"
@@ -183,7 +183,7 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
-							name='externalAddress'
+							name="externalAddress"
 							value={networkData.externalAddress}
 							onChange={handleChange}
 							placeholder="External IP Address"
@@ -200,14 +200,19 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="text"
-							name='username'
+							name="username"
 							value={networkData.username}
 							onChange={handleChange}
 							placeholder="username"
 							required
 						/>
 					</div>
-					<div className="form-input">
+					<div
+						className="form-input"
+						onClick={(e: any) => {
+							e.preventDefault();
+							e.stopPropagation();
+						}}>
 						<span className="form-icon">
 							<div className="codefend-text-red">
 								<GlobeWebIcon />
@@ -216,27 +221,17 @@ export const AcessPointModal: React.FC<{
 
 						<input
 							type="password"
-							name='password'
-							value={networkData.password}
+							name="password"
 							onChange={handleChange}
-							placeholder="password"
+							placeholder="Password"
 							required
 						/>
 					</div>
-					<div className="form-buttons">
-						<SecondaryButton
-							text={'Cancel'}
-							click={() => props.close()}
-							isDisabled={isAddingInternalNetwork}
-							className="btn-cancel codefend_secondary_ac"
-						/>
-						<PrimaryButton
-							text="Add access point"
-							click={handleSubmit}
-							isDisabled={isAddingInternalNetwork}
-							className="btn-add codefend_main_ac"
-						/>
-					</div>
+					<ModalButtons
+						confirmText="Add access point"
+						isDisabled={isAddingInternalNetwork}
+						close={() => props.close()}
+					/>
 				</form>
 			</div>
 		</>

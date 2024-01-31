@@ -32,7 +32,12 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 				action && action();
 			}}
 			className="modal-wrapper">
-			<div className={`wrapper-content ${!isErrorBox ? 'max-w' : ''}`}>
+			<div
+				className={`wrapper-content ${!isErrorBox ? 'max-w' : ''}`}
+				onDoubleClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+				}}>
 				<div>{children}</div>
 			</div>
 		</div>

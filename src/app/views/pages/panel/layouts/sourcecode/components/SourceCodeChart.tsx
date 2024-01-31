@@ -7,7 +7,7 @@ import {
 	isEmptyData,
 	languageTypes,
 	useDoughnutChart,
-	sourceCodeChartColumns,
+	osPercentCountColumns,
 } from '../../../../../../data';
 import {
 	ChartIcon,
@@ -76,7 +76,7 @@ export const SourceCodeChart: React.FC<Props> = (props) => {
 								<Doughnut data={chartData} options={chartOptions} />
 							</div>
 							<TableV2
-								columns={sourceCodeChartColumns}
+								columns={osPercentCountColumns}
 								rowsData={dataTable}
 								showRows={dataTable.length !== 0}
 								showEmpty={dataTable.length === 0}

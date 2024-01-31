@@ -33,8 +33,9 @@ export const useDoughnutChart = (value: DoughnutCharProps) => {
 	}, []);
 
 	const chartData = useMemo(() => {
+		const labels = Object.keys(otherMetrics).map((key: any)=> !key ? "Unknown" : key);
 		return {
-			labels: Object.keys(otherMetrics),
+			labels,
 			datasets: [
 				{
 					data: Object.values(otherMetrics),
