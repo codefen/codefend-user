@@ -111,7 +111,7 @@ export const TableV2: React.FC<TableProps> = ({
 				<div className="columns-name">
 					{columns.map((column: ColumnTable, i: number) => (
 						<div
-							className={column.style}
+							className={`column ${column.style}`}
 							key={columnsID[i]}
 							onClick={() => handleSort(column.name)}>
 							{column.value}
