@@ -7,7 +7,7 @@ import {
 	isEmptyData,
 	languageTypes,
 	useDoughnutChart,
-	osPercentCountColumns,
+	sourceCodeChartColumns,
 } from '../../../../../../data';
 import {
 	ChartIcon,
@@ -15,6 +15,7 @@ import {
 	PageLoader,
 	Show,
 	SimpleSection,
+	TableItem,
 	TableV2,
 } from '../../../../../components';
 import { Doughnut } from 'react-chartjs-2';
@@ -40,23 +41,29 @@ export const SourceCodeChart: React.FC<Props> = (props) => {
 
 	const { renderPercentage } = MetricsService;
 
-	const dataTable = Object.keys(otherMetrics).map((network: any) => ({
-		code: {
-			value: languageTypes.has(network.toLowerCase()) ? network : 'Unknown',
-			style: 'os',
-		},
-		count: {
-			value: otherMetrics[network as keyof typeof otherMetrics],
-			style: 'count',
-		},
-		percent: {
-			value: renderPercentage(
-				String(otherMetrics[network as keyof typeof otherMetrics]),
-				String(total),
-			),
-			style: 'percent',
-		},
-	}));
+	const dataTable = Object.keys(otherMetrics).map(
+		(network: any) =>
+			({
+				ID: { value: '', style: '' },
+				code: {
+					value: languageTypes.has(network.toLowerCase())
+						? network
+						: 'Unknown',
+					style: 'os',
+				},
+				count: {
+					value: otherMetrics[network as keyof typeof otherMetrics],
+					style: 'count',
+				},
+				percent: {
+					value: renderPercentage(
+						String(otherMetrics[network as keyof typeof otherMetrics]),
+						String(total),
+					),
+					style: 'percent',
+				},
+			}) as Record<string, TableItem>,
+	);
 
 	return (
 		<div className="card risk-chart">
@@ -76,7 +83,7 @@ export const SourceCodeChart: React.FC<Props> = (props) => {
 								<Doughnut data={chartData} options={chartOptions} />
 							</div>
 							<TableV2
-								columns={osPercentCountColumns}
+								columns={sourceCodeChartColumns}
 								rowsData={dataTable}
 								showRows={dataTable.length !== 0}
 								showEmpty={dataTable.length === 0}

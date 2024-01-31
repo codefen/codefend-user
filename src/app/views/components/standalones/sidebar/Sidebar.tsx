@@ -32,7 +32,6 @@ const isActivePath = (verifyPath: string) => {
 
 const Sidebar: React.FC = () => {
 	const { isAuth, isAdmin, getAccessToken } = useUserAdmin();
-	console.log({ isEnpActive: isActivePath('/enp') ? 'active' : '' });
 	return (
 		<aside className="sidebar">
 			<Link
