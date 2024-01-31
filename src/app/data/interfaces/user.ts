@@ -33,9 +33,9 @@ export interface UserRegResponse {
 
 export interface RegResponse {
 	error: string;
-	info: string;
-	leads: UserRegResponse;
 	response: string;
+	leads: UserRegResponse;
+	info: string;
 }
 
 export interface UserFinishResponse {
