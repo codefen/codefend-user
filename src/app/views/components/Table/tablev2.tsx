@@ -53,7 +53,6 @@ export const TableV2: React.FC<TableProps> = ({
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
 
-	console.log({ rowsData });
 	const rows = useMemo(() => {
 		const rows =
 			rowsData == undefined

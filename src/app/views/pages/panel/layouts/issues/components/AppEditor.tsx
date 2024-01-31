@@ -11,20 +11,12 @@ interface AppEditorProps {
 	isEditable: boolean;
 	isIssueCreation?: any;
 }
-export const AppEditor: React.FC<AppEditorProps> = ({
+const AppEditor: React.FC<AppEditorProps> = ({
 	initialValue,
 	onUpdateIssue,
 	isEditable,
 }) => {
 	const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
-
-	const setEditorMode = () => {
-		if (isEditable) {
-			setMode('issue', 'design');
-		} else {
-			setMode('issue', 'readonly');
-		}
-	};
 
 	useEffect(() => {
 		const defaultValue = !Boolean(initialValue.trim().length)
@@ -32,10 +24,17 @@ export const AppEditor: React.FC<AppEditorProps> = ({
 			: initialValue;
 
 		addTinyMce(defaultValue);
-	}, []);
+	}, [initialValue]);
 
 	useEffect(() => {
-		setEditorMode();
+		const timeID = setTimeout(() => {
+			if (isEditable) {
+				setMode('issue', 'design');
+			} else {
+				setMode('issue', 'readonly');
+			}
+		}, 35);
+		return () => clearTimeout(timeID);
 	}, [isEditable]);
 
 	return (
@@ -44,3 +43,5 @@ export const AppEditor: React.FC<AppEditorProps> = ({
 		</>
 	);
 };
+
+export default AppEditor;

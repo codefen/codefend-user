@@ -1,5 +1,4 @@
 export const setTinyEditorContent = (id, value) => {
-	console.log({ value });
 	if (
 		(id == null || id == undefined) &&
 		(value === null || value == undefined)
@@ -7,11 +6,11 @@ export const setTinyEditorContent = (id, value) => {
 		return;
 	}
 
-	tinyMCE.get(id).setContent(value);
+	tinyMCE.get(id)?.setContent(value);
 };
 
 const addTinyMce = (initialValue) => {
-	if (tinyMCE.EditorManager.activeEditor) {
+	if (tinyMCE.EditorManager.activeEditor !== null) {
 		tinyMCE.remove();
 	}
 
@@ -51,7 +50,7 @@ const addTinyMce = (initialValue) => {
 
 	setTimeout(() => {
 		setTinyEditorContent('issue', initialValue);
-	}, 455);
+	}, 500);
 };
 
 export const getTinyEditorContent = (id) => {
@@ -62,7 +61,7 @@ export const getTinyEditorContent = (id) => {
 export const setMode = (id, mode) => {
 	const editorHeader = document.querySelector('.tox-editor-header');
 	if (editorHeader != null) {
-		mode == 'design'
+		mode === 'design'
 			? editorHeader.classList.add('editable')
 			: editorHeader.classList.remove('editable');
 	}

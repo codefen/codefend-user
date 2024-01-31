@@ -8,7 +8,7 @@ import {
 	Show,
 } from '../../../../../components';
 import { useNavigate } from 'react-router';
-import { AppEditor } from './AppEditor';
+import AppEditor from './AppEditor';
 import { OneIssue, UpdateIssue, useUpdateIssue } from '../../../../../../data';
 
 interface IssueUpdatePanelProps {
