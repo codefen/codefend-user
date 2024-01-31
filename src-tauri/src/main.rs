@@ -1,16 +1,10 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 // IMPORTS
-use std::process::Command;
-use std::io;
 use tauri::Builder;
-use std::fs::{self};
-use mac_address::get_mac_address;
-use serde_json::{json, Value};
+
 
 // GLOBAL VARIABLES
-const DEV_MODE: bool = true;
-const PROD_URL: &str = "https://api.codefend.com/kundalini/";
 
 #[tauri::command]
 fn main() {

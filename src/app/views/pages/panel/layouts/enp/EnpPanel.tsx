@@ -33,7 +33,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
 	const { getUserdata } = useAuthState();
     const [showScreen, setShowScreen] = useState<boolean>(false);
 	const [scans, setScans] = useState<any[]>([]);
-	const [scansFiltered, setScansFilteres] = useState<any[]>([]);
+	const [scansFiltered, setScansFiltered] = useState<any[]>([]);
     const { scanLoading, scanLocal } = useScanLocal(getAccessToken());
     const [refresh, setRefresh] = useState<boolean>(false);
 	const navigate = useNavigate();
@@ -43,7 +43,10 @@ export const EnpPanel: React.FC<Props> = (props) => {
 		EnpService.getScans(companyID)
 		  .then((scans) => {
 			setScans(scans.data);
-			setScansFilteres(processScans(scans.data));
+
+            if(scans?.data?.length) {
+			    setScansFiltered(processScans(scans.data));
+            }
 		  });
         setShowScreen(false);
         const timeoutId = setTimeout(() => setShowScreen(true), 50);
@@ -116,25 +119,25 @@ export const EnpPanel: React.FC<Props> = (props) => {
             </div>
             
             <div>
-                <Show when={scansFiltered.length > 0}>
-                    <div className="rounded-t border-x border-t border-slate-200 flex-grow hover:cursor-default">
-                        <div className="flex p-4">
-                            <p className="text-sm font-bold text-gray-700 leading-none mt-1 ml-2 truncate uppercase">Scanned devices</p>
-                        </div>
-            
-                        <div className="flex p-4 pt-0 ml-2 text-slate-400 text-sm">
-                            <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">device name</div>
-                            <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">operating system</div>
-                            <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">creation date</div>
-                            <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">apps found</div>
-                            <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">compliance ready</div>
-                            <div className="w-1/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">status</div>
-                            <div className="w-1/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">scans</div>
-                        </div>
+                <div className="rounded-t border-x border-t border-slate-200 flex-grow hover:cursor-default">
+                    <div className="flex p-4">
+                        <p className="text-sm font-bold text-gray-700 leading-none mt-1 ml-2 truncate uppercase">Scanned devices</p>
                     </div>
+        
+                    <div className="flex p-4 pt-0 ml-2 text-slate-400 text-sm">
+                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">device name</div>
+                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">operating system</div>
+                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">creation date</div>
+                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">apps found</div>
+                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">compliance ready</div>
+                        <div className="w-1/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">status</div>
+                        <div className="w-1/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">scans</div>
+                    </div>
+                </div>
+                <Show when={scansFiltered.length > 0}>
                     <div className="rounded-b mb-5 border-b border-slate-200 flex-grow hover:cursor-default">
                         {scansFiltered.map((scan) => (
-                            <div className="flex items-center p-4 pl-6  border-x border-t text-slate-400 text-sm hover:cursor-pointer hover:bg-slate-50 duration-300 ease-in-out" onClick={() => {
+                            <div className="flex items-center p-4 pl-6 border-x border-t text-slate-400 text-sm hover:cursor-pointer hover:bg-slate-50 duration-300 ease-in-out" onClick={() => {
                                 navigate('/enp/' + scan.id)
                             }}>
                                 <div className="w-2/12">{scan.device_os_name}</div>
@@ -160,6 +163,13 @@ export const EnpPanel: React.FC<Props> = (props) => {
                                 <div className="w-1/12">{scan.additionalScans + 1}</div>
                             </div>
                         ))}
+                    </div>
+                </Show>
+                <Show when={scansFiltered.length === 0}>
+                    <div className="rounded-b mb-5 border-b border-slate-200 flex-grow hover:cursor-default">
+                        <div className="flex items-center p-4 pl-6 border-x border-t text-slate-400 text-sm hover:cursor-default hover:bg-slate-50 duration-300 ease-in-out">
+                            No scans found yet, you can perform your first one by clicking on request scan.
+                        </div>
                     </div>
                 </Show>
 
