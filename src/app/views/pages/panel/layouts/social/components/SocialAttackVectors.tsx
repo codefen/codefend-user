@@ -30,17 +30,19 @@ const SocialAttackVectors: React.FC<SocialAttackVectorsProps> = (props) => {
 						{Object.keys(attackVectorState).map((attack: string) => (
 							<div className="filter" key={attack}>
 								<div className="check">
-									<input
-										type="checkbox"
-										checked={
-											attackVectorState[
-												attack as keyof typeof attackVectorState
-											] === 'enabled'
-										}
-										className="checkbox-color"
-										onChange={() => handleCheckboxChange(attack)}
-									/>
-									<span>{attack}</span>
+									<label className="label">
+										<input
+											type="checkbox"
+											checked={
+												attackVectorState[
+													attack as keyof typeof attackVectorState
+												] === 'enabled'
+											}
+											className="codefend-checkbox"
+											onChange={() => handleCheckboxChange(attack)}
+										/>
+										{attack}
+									</label>
 								</div>
 								<span>
 									{

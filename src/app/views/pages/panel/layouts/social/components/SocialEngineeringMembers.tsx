@@ -27,12 +27,12 @@ const SocialEngineeringMembers: React.FC<SocialEngineeringMembersProps> = ({
 						{Object.keys(computedRoles).map((role) => (
 							<div className="filter" key={role}>
 								<div className="check">
-									<input
-										type="checkbox"
-										onChange={(e) => handleDepartmentFilter(role)}
-										className=""
-									/>
-									<label>
+									<label className="label">
+										<input
+											type="checkbox"
+											onChange={(e) => handleDepartmentFilter(role)}
+											className="codefend-checkbox"
+										/>
 										{roleMap[role as keyof typeof roleMap] ??
 											'Unknown role'}
 									</label>
