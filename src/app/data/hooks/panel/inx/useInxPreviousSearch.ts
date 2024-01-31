@@ -14,7 +14,7 @@ export interface PreviousSearch {
 	user_id: string;
 	username: string;
 	model: string;
-	informacion: string;
+	info: string;
 	address_ra: string;
 	address_hci: string;
 	address_hxff: string;

@@ -56,9 +56,8 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 			getData().offSet,
 			companyID,
 		).then((res: any) => {
-			console.log({ resInIntelSearch: res });
 			props.refetch();
-			setSearchData((state) => ({ ...state, offSet: getData().offSet }));
+			setSearchData((state: any) => ({ ...state, offSet: getData().offSet }));
 			//processAllIntelData(intelResult);
 		});
 	};

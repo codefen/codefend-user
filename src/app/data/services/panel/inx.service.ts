@@ -34,7 +34,6 @@ const search = async (params: any, companyID: string) => {
 				...params,
 			},
 	})
-			console.log({ InxPreviousSearches: data })
 			return data
 	} catch (error) {
 		 handleFetchError(error) as any;
