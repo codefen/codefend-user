@@ -106,7 +106,7 @@ export const SupportTicketList: React.FC<SupportTicketListProps> = (props) => {
 					rowsData={dataTable}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
-					sizeY={75}
+					sizeY={79}
 					tableAction={{
 						icon: <TrashIcon />,
 						style: 'id',
