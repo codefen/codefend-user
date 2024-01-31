@@ -40,9 +40,9 @@ export const ScanButton: React.FC<Props> = ({ scanLoading, scanLocal, onClick })
 	}, [scanLoading]);
 
     return (
-		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+		<div className="ml-2 flex">
 			<button
-				className="cursor-pointer border h-16 bg-white text-red-400 rounded hover:bg-red-100 border-red-400 w-full"
+				className="cursor-pointer bg-white text-slate-300 border-slate-200 hover:bg-red-50 hover:text-red-300 hover:border-red-300 border h-8 text-xs rounded mr-2"
 				onClick={onClick}
 			>
 				<Show when={scanLoading} fallback={<p className="cursor-pointer">REQUEST SCAN</p>}>
@@ -52,12 +52,13 @@ export const ScanButton: React.FC<Props> = ({ scanLoading, scanLocal, onClick })
 					</div>
 				</Show>
 			</button>
+
 			<button
-                className={(scanLoading ? `bg-gray-200 cursor-default text-gray-300 border-gray-300 ` : `cursor-pointer bg-white text-red-400 border-red-400 hover:bg-red-100 `) + ` border h-16 rounded w-full`}
+                className={(scanLoading ? `bg-gray-200 cursor-default text-gray-300 border-gray-300 ` : `cursor-pointer bg-white text-slate-300 border-slate-200 hover:bg-red-50 hover:text-red-300 hover:border-red-300 `) + ` border h-8 text-xs rounded w-auto`}
                 onClick={openModal}
                 disabled={scanLoading}
             >
-                <Show when={scanLoading} fallback={<p className="cursor-pointer">REQUEST EXTERNAL SCAN</p>}>
+                <Show when={scanLoading} fallback={<p className="cursor-pointer">EXTERNAL SCAN</p>}>
                     <p className="cursor-default">REQUEST EXTERNAL SCAN</p>
                 </Show>
             </button>
