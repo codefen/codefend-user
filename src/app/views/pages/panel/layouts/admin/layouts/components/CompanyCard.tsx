@@ -1,4 +1,4 @@
-import { CompanyIcon } from '../../../../../../components';
+import { CompanyIcon, Show } from '../../../../../../components';
 import React from 'react';
 import { useNavigate } from 'react-router';
 interface Company {
@@ -19,11 +19,11 @@ const CompanyCard: React.FC<Company> = (props) => {
 			<div className="pointer-events-none company-card">
 				<div>
 					<div className="img-wrapper codefend-text-red">
-						{props.image ? (
-							<img src="" alt="company-icon" />
-						) : (
-							<CompanyIcon width={3} height={3} />
-						)}
+						<Show
+							when={!props.image}
+							fallback={<img src="" alt="company-icon" />}>
+							<CompanyIcon width={2.838} height={2.838} />
+						</Show>
 					</div>
 				</div>
 				<div className="company-detail">
@@ -33,7 +33,9 @@ const CompanyCard: React.FC<Company> = (props) => {
 
 					<div className="mt-2 flex flex-col">
 						<span>ID: {props.id ?? 'Company ID'}</span>
-						<span>{props.website ?? 'Company Website'}</span>
+						<span className="company-web">
+							{props.website ?? 'Company Website'}
+						</span>
 					</div>
 					<a
 						href="/dashboard"

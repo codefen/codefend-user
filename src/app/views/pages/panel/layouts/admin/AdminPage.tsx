@@ -3,6 +3,7 @@ import { AuthServices, useUserAdmin } from '../../../../../data';
 import { Loader, Navbar, Sidebar } from '../../../../components';
 import { Navigate, Outlet } from 'react-router';
 import { CompanyContextProvider } from './layouts/CompanyContext';
+import './admin.scss';
 
 const AdminPage: React.FC = () => {
 	const { isAdmin, getAccessToken } = useUserAdmin();

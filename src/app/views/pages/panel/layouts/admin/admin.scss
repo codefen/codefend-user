@@ -1,0 +1,52 @@
+main.company {
+	.left {
+		flex: 1 1 68%;
+		padding-inline-end: 0.5rem;
+
+		.company-header {
+			padding-bottom: 20px;
+			height: 4rem;
+		}
+
+		.company-header-bar {
+			width: 100%;
+
+			&.internal-tables {
+				div:last-child {
+					border-bottom: 1px solid var(--color-border);
+				}
+			}
+
+			.header-bar-options {
+				display: flex;
+				padding: 0.75rem;
+				padding-left: 2rem;
+				p {
+					text-align: left;
+					font-weight: bold;
+					border-right-width: 1px;
+
+					&.current-company {
+						padding-inline-end: 0.5rem;
+					}
+					&.company-btn {
+						cursor: pointer;
+						padding-inline: 0.5rem;
+						text-decoration-line: underline;
+					}
+				}
+			}
+		}
+	}
+
+	.right {
+		flex: 1 1 34%;
+		padding-inline-start: 0.5rem;
+
+		.company-details-container {
+			margin-block-start: 4rem;
+			padding-block-end: 2.25rem;
+			height: 4rem;
+		}
+	}
+}

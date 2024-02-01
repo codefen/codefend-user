@@ -32,6 +32,7 @@ const isActivePath = (verifyPath: string) => {
 
 const Sidebar: React.FC = () => {
 	const { isAuth, isAdmin, getAccessToken } = useUserAdmin();
+	const showAdmin = isAuth() && isAdmin() && getAccessToken() !== null;
 	return (
 		<aside className="sidebar">
 			<Link
@@ -40,8 +41,7 @@ const Sidebar: React.FC = () => {
 				className={isActivePath('/dashboard') ? 'active' : ''}>
 				<ChartIcon />
 			</Link>
-
-			<Show when={isAuth() && isAdmin() && getAccessToken() !== null}>
+			{showAdmin && (
 				<>
 					<Link
 						to="/admin/company"
@@ -55,7 +55,7 @@ const Sidebar: React.FC = () => {
 						<AdminUser />
 					</Link>
 				</>
-			</Show>
+			)}
 
 			<Link
 				title="Web"

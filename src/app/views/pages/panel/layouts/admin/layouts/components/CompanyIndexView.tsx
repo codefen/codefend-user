@@ -48,15 +48,6 @@ const CompanyIndexView: React.FC = () => {
 				<div className="companies">
 					{companiesToRender().map((company: any) => (
 						<div
-							/* onClick={() => {
-								setCompanyState((prevState) => {
-									if (isSelectedCompany(company)) {
-										return { ...prevState, companyStore: null };
-									} else {
-										return { ...prevState, companyStore: company };
-									}
-								});
-							}} */
 							onClick={() => handleClick(company)}
 							key={company.id}
 							className={`company ${

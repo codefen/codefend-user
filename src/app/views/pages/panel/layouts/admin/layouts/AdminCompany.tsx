@@ -13,15 +13,15 @@ const AdminCompanyLayout: React.FC = () => {
 
 	return (
 		<>
-			<main className={`webapp ${showScreen ? 'actived' : ''}`}>
-				<section className="w-8/12 pr-2">
-					<div className="pb-[20px] title title-format h-16">
+			<main className={`company ${showScreen ? 'actived' : ''}`}>
+				<section className="left">
+					<div className="company-header title title-format">
 						Admin Company Panel
 					</div>
 					<AdminCompanyPanel />
 				</section>
-				<section className="w-4/12 pl-2">
-					<div className="mt-16 pb-9 title title-format h-16">
+				<section className="right">
+					<div className="company-details-container title title-format">
 						<AdminCompanyDetails />
 					</div>
 				</section>
