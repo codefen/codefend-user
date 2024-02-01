@@ -1,2 +1,11 @@
 main.lan {
+	.left {
+		flex: 1 1 68%;
+		width: 68%;
+	}
+
+	.right {
+		flex: 1 1 33%;
+		width: 33%;
+	}
 }

@@ -1,11 +1,23 @@
 main.source-code {
-	.table {
-		.source-code {
-			justify-content: center;
+	.left {
+		flex: 1 1 68%;
+		width: 68%;
+		.table {
+			.source-code {
+				justify-content: center;
+			}
+			.id {
+				display: flex;
+			}
 		}
-		.id {
-			display: flex;
-			justify-content: center;
+	}
+
+	.right {
+		flex: 1 1 33%;
+		width: 33%;
+
+		.card.risk-chart .content .chart {
+			min-width: 60px;
 		}
 	}
 }

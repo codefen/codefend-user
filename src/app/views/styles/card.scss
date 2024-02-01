@@ -134,6 +134,7 @@ section {
 					font-size: 14px;
 					line-height: 1.25rem;
 					margin: 0;
+					text-wrap: pretty;
 
 					&.isMobile {
 						display: -webkit-box;
@@ -208,7 +209,7 @@ section {
 
 .card.user-list {
 	min-width: 415px;
-	min-height: 40px;
+	min-height: 42px;
 }
 
 .card {
@@ -240,7 +241,7 @@ section {
 			.chart {
 				flex-grow: 0.3;
 				max-width: 15%;
-				min-width: 75px;
+				min-width: 60px;
 
 				canvas {
 					width: 100% !important;
@@ -379,7 +380,6 @@ section {
 
 .empty-card {
 	display: flex;
-	height: 100%;
 	width: 100%;
 	align-items: center;
 	justify-content: center;
@@ -390,7 +390,7 @@ section {
 		align-items: center;
 		width: 35.25rem;
 		height: 6.56rem;
-		margin: 1.8rem 0 1.8rem 0;
+		margin-block: 1.8rem;
 	}
 	.empty-wrapper {
 		display: flex;

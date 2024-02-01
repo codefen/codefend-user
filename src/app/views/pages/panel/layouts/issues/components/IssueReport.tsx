@@ -30,17 +30,19 @@ export const IssueReport: React.FC<Props> = (props) => {
 							<Fragment key={filterKeys[i]}>
 								<div className="filter">
 									<div className="check">
-										<input
-											type="checkbox"
-											id={'a' + filterKeys[i]}
-											disabled={
-												props.issuesClasses[
-													issueClass as keyof typeof props.issuesClasses
-												] == '0'
-											}
-											onChange={() => props.handleFilter(issueClass)}
-										/>
-										<label htmlFor={'a' + filterKeys[i]}>
+										<label className="label">
+											<input
+												type="checkbox"
+												disabled={
+													props.issuesClasses[
+														issueClass as keyof typeof props.issuesClasses
+													] == '0'
+												}
+												onChange={() =>
+													props.handleFilter(issueClass)
+												}
+												className="codefend-checkbox"
+											/>
 											{issueClass}
 										</label>
 									</div>

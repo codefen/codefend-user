@@ -1,8 +1,24 @@
-.issues-list {
+main.issues-list {
 	.left {
 		.table {
 			.vul-title {
 				max-width: 380px;
+			}
+			.vul-condition {
+				display: flex;
+				justify-content: center;
+			}
+			.id {
+				display: flex;
+				justify-content: flex-end;
+			}
+		}
+	}
+	.right {
+		.card.risk-chart .content {
+			padding-block: 1px;
+			.chart {
+				min-width: 75px;
 			}
 		}
 	}
