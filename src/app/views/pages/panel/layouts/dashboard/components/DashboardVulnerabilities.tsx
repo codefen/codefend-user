@@ -34,7 +34,7 @@ const DashboardVulnerabilities: React.FC<{
 
 	return (
 		<div className="card">
-			<div>
+			<div className='over'>
 				<SimpleSection
 					header="Top priority vulnerabilities"
 					icon={<BugIcon />}>
