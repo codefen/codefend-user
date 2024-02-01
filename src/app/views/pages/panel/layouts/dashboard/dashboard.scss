@@ -9,14 +9,6 @@ main.dashboard {
 		overflow: auto;
 	}
 
-	.left1,
-	.right1 {
-		width: 70%;
-
-		@include respond(small) {
-			width: 100%;
-		}
-	}
 
 
 	.colaborators {
