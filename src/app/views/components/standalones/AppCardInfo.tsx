@@ -12,7 +12,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 	type,
 	selectedApp,
 }) => {
-	const isMobileType = useMemo(() => type === 'mobile', [type]);
+	const isMobileType = type === 'mobile';
 	const buttonText = useMemo(
 		() => (isMobileType ? ' Request pentest' : ' Request automated scan'),
 		[isMobileType],
@@ -25,7 +25,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 			}`}>
 			<div className={`${isMobileType ? 'app-card-isMobile' : ''}`}>
 				<AppCard
-					showDetails={true}
+					showDetails
 					isMobile={isMobileType}
 					id={selectedApp.id}
 					appMedia={selectedApp.appMedia}

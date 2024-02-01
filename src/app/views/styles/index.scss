@@ -116,8 +116,8 @@ main.mobile,
 main.cloud {
 	flex: 1 1;
 	.left {
-		flex: 1 1 30%;
-		width: 100%;
+		flex: 1 1 31%;
+		width: 31%;
 		margin-block: -0.625rem;
 
 		padding-block-start: 0.625rem;
@@ -137,7 +137,6 @@ main.cloud {
 			width: 100%;
 			overflow-y: auto;
 			overflow-x: hidden;
-			padding-inline-end: 0.625rem;
 
 			.app-info {
 				cursor: pointer;
@@ -155,9 +154,16 @@ main.cloud {
 		}
 	}
 	.right {
-		flex: 1 1 70%;
-		width: 100%;
-		padding-inline-end: 1rem;
+		flex: 1 1 69%;
+		width: 69%;
+
+		.card.risk-chart .content {
+			padding-inline-end: 10px;
+
+			.chart {
+				min-width: 60px;
+			}
+		}
 	}
 }
 

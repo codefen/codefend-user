@@ -58,7 +58,7 @@ section {
 	line-height: 1rem /* 16px */;
 
 	&-border {
-		border: 1px solid var(--color-border2);
+		border: 1px solid oklch(0.82 0 0);
 
 		&.active {
 			border: 1px solid var(--color-active-border);
@@ -79,8 +79,8 @@ section {
 		column-gap: 1.25rem;
 
 		&-img {
-			width: 6.5rem;
-			min-width: 6.5rem;
+			width: 6.149rem;
+			min-width: 6.149rem;
 			height: 100%;
 			min-height: 100%;
 
@@ -95,7 +95,7 @@ section {
 		&-body {
 			display: flex;
 			flex-direction: column;
-			flex-grow: 1;
+			flex: 1 1;
 
 			text-overflow: ellipsis;
 			overflow: hidden;
@@ -136,18 +136,22 @@ section {
 					margin: 0;
 
 					&.isMobile {
-						max-height: 3.5rem;
-						overflow: hidden;
-						display: -webkit-box;
-						-webkit-box-orient: vertical;
-						-webkit-line-clamp: 3;
-					}
-
-					&.notMobile {
-						overflow: hidden;
 						display: -webkit-box;
 						-webkit-box-orient: vertical;
 						-webkit-line-clamp: 2;
+						max-width: 250px;
+					}
+
+					&.notMobile {
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
+					}
+
+					&.isDetail {
+						max-height: 3.5rem;
+						-webkit-line-clamp: 3;
+						max-width: none;
 					}
 				}
 
@@ -204,9 +208,7 @@ section {
 
 .card.user-list {
 	min-width: 415px;
-
-	.list {
-	}
+	min-height: 40px;
 }
 
 .card {
@@ -410,8 +412,8 @@ section {
 
 			.second-text {
 				color: #7e7e7e;
-				margin: 0;
-				line-height: 1.485rem;
+				display: inline-block;
+				font-size: 0.91rem;
 			}
 		}
 
@@ -473,7 +475,7 @@ section {
 
 .app-card-wrapper {
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	padding-inline-end: 1.25rem;
 
 	&.notMobile {
