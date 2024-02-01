@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AdminCompanyPanel } from './components/InternalNetworks';
 import AdminCompanyDetails from './components/AdminCompanyDetails';
+import './admin.scss'
 
 const AdminCompanyLayout: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
@@ -14,13 +15,13 @@ const AdminCompanyLayout: React.FC = () => {
 	return (
 		<>
 			<main className={`webapp ${showScreen ? 'actived' : ''}`}>
-				<section className="w-8/12 pr-2">
+				<section className="left2">
 					<div className="pb-[20px] title title-format h-16">
 						Admin Company Panel
 					</div>
 					<AdminCompanyPanel />
 				</section>
-				<section className="w-4/12 pl-2">
+				<section className="right2">
 					<div className="mt-16 pb-9 title title-format h-16">
 						<AdminCompanyDetails />
 					</div>

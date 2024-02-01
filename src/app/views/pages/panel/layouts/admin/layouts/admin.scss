@@ -1,0 +1,24 @@
+@import '../../../../../styles/settings/mixin';
+
+main.webapp {
+
+	.left2 {
+		width: 70%;
+
+    @include respond(small) {
+      width: 100%;
+    }
+	}
+	.right2 {
+		width: 30%;
+
+    @include respond(small) {
+      width: 100%;
+    }
+	}
+
+  @include respond(small) {
+    display: block;
+    overflow: auto;
+  }
+}
