@@ -10,6 +10,7 @@ import {
 import '../../../../styles/flag.scss';
 import { LanNetworkData } from './components/LanNetworkData';
 import { LanNetworksChart } from './components/LanNetworksChart';
+import './Lan.scss'
 
 const LanPage: React.FC = () => {
 	const { networks, loading, refetch } = useLan();
