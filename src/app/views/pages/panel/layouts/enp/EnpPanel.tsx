@@ -145,9 +145,16 @@ export const EnpPanel: React.FC<Props> = (props) => {
                                 <div className="w-2/12">{moment(scan.creacion).fromNow()}</div>
                                 <div className="w-2/12">{scan.apps_found}</div>
                                 <div className="w-2/12">
-                                    <button className="cursor-pointer bg-red-50 text-red-300 border-red-300 border h-8 text-xs rounded w-auto">
-                                        <p className="cursor-default">non compliant</p>
-                                    </button>
+                                    <Show when={scan.report_data}>
+                                        <button className="cursor-pointer bg-emerald-50 text-emerald-300 border-emerald-300 border h-8 text-xs rounded w-auto">
+                                            <p className="cursor-default">compliant</p>
+                                        </button>
+                                    </Show>
+                                    <Show when={!scan.report_data}>
+                                        <button className="cursor-pointer bg-red-50 text-red-300 border-red-300 border h-8 text-xs rounded w-auto">
+                                            <p className="cursor-default">non compliant</p>
+                                        </button>
+                                    </Show>
                                 </div>
                                 <div className="w-1/12">
                                     {
