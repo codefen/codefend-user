@@ -1,6 +1,17 @@
 main.support {
 	.left {
 		width: 65%;
+		.table {
+			.id {
+				display: flex;
+				justify-content: center;
+			}
+			.item {
+				.id {
+					padding-inline-start: 1.25rem;
+				}
+			}
+		}
 	}
 	.right {
 		width: 35%;

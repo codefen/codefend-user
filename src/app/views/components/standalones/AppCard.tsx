@@ -40,7 +40,6 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 }) => {
 	const {
 		showModal,
-		showModalStr,
 		viewModal,
 		isMobileType,
 		isImage,
@@ -147,7 +146,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 									<p
 										className={`app-details-description ${
 											isMobileType ? 'isMobile' : 'notMobile'
-										}`}>
+										} ${isDetails && 'isDetail'}`}>
 										{appDesc ?? ''}
 									</p>
 									{isMobileType && (

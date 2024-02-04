@@ -115,7 +115,7 @@ const SnsSearchAndData: React.FC = () => {
 			</div>
 
 			<Show when={!loading} fallback={<PageLoader />}>
-				<div>
+				<div className='content'>
 					{intelData.map((intel, index) => (
 						<div key={index} className="search-result">
 							<div className="header">

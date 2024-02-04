@@ -85,13 +85,15 @@ h6,
 .text-format p {
 	font-family: Questrial;
 }
+html {
+	font-size: 0.925rem;
+}
 
-html,
 input,
 .modal_info,
 .text-format p,
 .title-format {
-	font-size: 0.925rem;
+	font-size: 0.942rem;
 }
 
 h2 {
@@ -163,7 +165,7 @@ main {
 	color: inherit !important;
 	padding: 0;
 	--primary-hover-color: hsl(0, 71%, 46%);
-	--checkbox-diameter: 20px;
+	--checkbox-diameter: 17.5px;
 	--checkbox-border-radius: 5px;
 	--checkbox-border-color: #d9d9d9;
 	--checkbox-border-width: 1px;

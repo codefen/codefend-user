@@ -159,44 +159,19 @@ export const AdminCompanyPanel: React.FC<any> = () => {
 				</div>
 			</Show>
 
-			<div className="w-full internal-tables">
-				<div className="p-3 pl-8 internal-tables-active flex">
-					<p className="text-small text-left font-bold title-format border-r pr-2">
+			<div className="company-header-bar internal-tables">
+				<div className="header-bar-options internal-tables-active">
+					<p className="text-small title-format current-company">
 						Current companies
 					</p>
 					<p
-						onClick={() => {
-							setShowModal(!showModal);
-						}}
-						className="text-small text-left font-bold title-format border-r px-2 underline cursor-pointer codefend-text-red">
+						onClick={() => setShowModal(!showModal)}
+						className="company-btn text-small title-format codefend-text-red">
 						Create new company
 					</p>
 				</div>
-
-				{/* <div className="flex p-3 pl-8 text-format">
-          <p className="text-base w-1/12">id</p>
-          <p className="text-base w-4/12">company name</p>
-          <p className="text-base w-3/12">country</p>
-          <p className="text-base w-4/12">web</p>
-        </div> */}
 			</div>
-			{/* <div className="w-full internal-tables internal-tables-scroll">
-        <For each={companies()}>
-          {(company) => (
-            <div
-              onClick={() => {
-                setCompanyStore(company);
-              }}
-              className="flex pl-8 text-format cursor-pointer"
-            >
-              <p className="text-base w-1/12 pt-3 pb-3">{company.id}</p>
-              <p className="w-4/12 text-base pt-3 pb-3">{company.name}</p>
-              <p className="text-base w-3/12 pt-3 pb-3">{company.country}</p>
-              <p className="text-base w-4/12 pt-3 pb-3">{company.web}</p>
-            </div>
-          )}
-        </For>
-      </div> */}
+
 			<CompanyIndexView />
 		</>
 	);

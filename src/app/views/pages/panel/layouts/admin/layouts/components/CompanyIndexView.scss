@@ -54,8 +54,8 @@
 				column-gap: 2rem;
 
 				.img-wrapper {
-					width: 6.5rem;
-					aspect-ratio: 1;
+					width: 6.149rem;
+					aspect-ratio: 1/1;
 					border-radius: 100%;
 					background-color: rgba(128, 128, 128, 0.1);
 					display: flex;
@@ -69,8 +69,12 @@
 				}
 
 				.company-detail {
-					flex-grow: 1;
+					flex: 1 1;
 					width: 100%;
+
+					.company-web {
+						font-size: 0.97rem;
+					}
 
 					.link {
 						color: var(--color-active-border);

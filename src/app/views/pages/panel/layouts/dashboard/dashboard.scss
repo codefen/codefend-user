@@ -21,4 +21,14 @@ main.dashboard {
 	.over {
 		overflow-x: auto;
 	}
+
+	.right {
+		.card.risk-chart .content {
+			padding-block: 1.8rem;
+
+			.chart {
+				min-width: 70px;
+			}
+		}
+	}
 }

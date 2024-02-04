@@ -24,14 +24,6 @@ const IssuesPanel: React.FC = () => {
 		return () => clearTimeout(timeoutId);
 	}, [control]);
 
-	/* 	
-	//Run the effect to refresh when changing the route 
-	// (It would be used to navigate VulnerabilityStatus)
-	const location = useLocation();
-	useUpdateEffect(() => {
-		refresh(!control);
-	}, [location]);
-	*/
 	const handleIssuesFilter = useMemo(() => {
 		const isFiltered = filters.size !== 0;
 		if (!isFiltered) return { isFiltered };
