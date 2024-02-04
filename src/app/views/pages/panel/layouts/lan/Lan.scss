@@ -1,28 +1,28 @@
-@import '../../../../styles/settings/mixin';
+@use '../../../../styles/settings/mixin' as mixin;
 
-.lan{
-
-  .left {
+.lan {
+	.left {
 		width: 70%;
 	}
 	.right {
 		width: 30%;
 	}
-	@include respond(small) {
+	@include mixin.respond(small) {
 		.left {
 			width: 100%;
-      padding-bottom: 10px;
-      overflow: auto;
+			padding-bottom: 10px;
+			overflow: auto;
 		}
 		.right {
 			width: 100%;
 		}
 	}
 
-  @include respond(small) {
-    display: block;
-  }
-}main.lan {
+	@include mixin.respond(small) {
+		display: block;
+	}
+}
+main.lan {
 	.left {
 		flex: 1 1 68%;
 		width: 68%;

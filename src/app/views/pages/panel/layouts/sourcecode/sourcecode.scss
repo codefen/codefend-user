@@ -3,6 +3,9 @@ main.source-code {
 		flex: 1 1 68%;
 		width: 68%;
 		.table {
+			.item {
+				height: 42px;
+			}
 			.source-code {
 				justify-content: center;
 			}

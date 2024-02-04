@@ -78,17 +78,14 @@ const Sidebar: React.FC = () => {
 				className={isActivePath('/lan') ? 'active' : ''}>
 				<LanIcon />
 			</Link>
+
 			<Link
-				title="Lan"
-				to="/lan"
-				className={isActivePath('/lan') ? 'active' : ''}>
+				title="Enp"
+				to="/enp"
+				className={isActivePath('/enp') ? 'active' : ''}>
 				<EnpIcon />
 			</Link>
-
-				<Link title="Enp" to="/enp" className={isActivePath('/enp') ? 'active' : ''}>
-					<EnpIcon />
-				</Link>
-{/* 
+			{/* 
 			<Show when={RUNNING_DESKTOP()}>
 				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
 					<EnpIcon />

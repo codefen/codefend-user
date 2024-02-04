@@ -1,5 +1,5 @@
 @forward 'settings/settings.scss';
-@import '../styles/settings/mixin';
+@use 'settings/mixin' as mixin;
 
 ///////////////////////////////////////////////////////////////////
 // UTIL
@@ -101,7 +101,7 @@ main.sb {
 	.right {
 		width: 30%;
 	}
-	@include respond(small) {
+	@include mixin.respond(small) {
 		.left {
 			width: 100%;
 		}

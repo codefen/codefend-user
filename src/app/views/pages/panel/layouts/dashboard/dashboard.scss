@@ -1,18 +1,16 @@
-@import '../../../../styles/settings/mixin';
+@use '../../../../styles/settings/mixin' as mixin;
 
 main.dashboard {
 	overflow: hidden;
 
-	@include respond(small) {
+	@include mixin.respond(small) {
 		display: block;
 		width: 100%;
 		overflow: auto;
 	}
 
-
-
 	.colaborators {
-		>.colaborators-container {
+		> .colaborators-container {
 			max-height: 100dvh;
 			overflow: hidden;
 		}
