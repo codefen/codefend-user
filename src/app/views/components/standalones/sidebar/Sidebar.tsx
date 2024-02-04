@@ -74,11 +74,15 @@ const Sidebar: React.FC = () => {
 				<LanIcon />
 			</Link>
 
+				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
+					<EnpIcon />
+				</Link>
+{/* 
 			<Show when={RUNNING_DESKTOP()}>
 				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
 					<EnpIcon />
 				</Link>
-			</Show>
+			</Show> */}
 
 			<Link
 				title="Source Code"
