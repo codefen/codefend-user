@@ -127,8 +127,6 @@ const AdminCompanyDetails: React.FC = () => {
 								<div className="container flex items-center justify-center  mx-auto p-3 text-format">
 									<form className="p-6">
 										<div className="relative flex items-center">
-											
-
 											<Show
 												when={Boolean(selectedUser)}
 												fallback={
@@ -209,7 +207,7 @@ const AdminCompanyDetails: React.FC = () => {
 												</div>
 											</div>
 										</Show>
-										<div className="mt-6 internal-tables flex">	
+										<div className="mt-6 internal-tables flex">
 											<div
 												style={{
 													display: 'flex',
@@ -242,7 +240,7 @@ const AdminCompanyDetails: React.FC = () => {
 			<Show
 				when={Boolean(companyStore.name)}
 				fallback={
-					<div className="w-full internal-tables mt-4">
+					<div className="encabezado internal-tables">
 						<div className="p-3 pl-8 internal-tables-active">
 							<p className="text-small text-left font-bold title-format">
 								Company details
@@ -254,7 +252,7 @@ const AdminCompanyDetails: React.FC = () => {
 					</div>
 				}>
 				<div>
-					<div className="w-full internal-tables mt-4">
+					<div className="encabezado internal-tables">
 						<div className="p-3 pl-8 internal-tables-active">
 							<p className="text-small text-left font-bold title-format">
 								Company details
@@ -291,7 +289,7 @@ const AdminCompanyDetails: React.FC = () => {
 							}`}</p>
 						</div>
 					</div>
-					<div className="w-full internal-tables mt-4 max-h-80 overflow-y-scroll">
+					<div className="encabezado internal-tables max-h-80 overflow-y-scroll">
 						<div className="p-3 pl-8 internal-tables-active flex">
 							<p className="text-small text-left font-bold title-format border-r pr-2">
 								Company members
