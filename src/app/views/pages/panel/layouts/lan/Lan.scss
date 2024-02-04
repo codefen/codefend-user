@@ -1,4 +1,28 @@
-main.lan {
+@import '../../../../styles/settings/mixin';
+
+.lan{
+
+  .left {
+		width: 70%;
+	}
+	.right {
+		width: 30%;
+	}
+	@include respond(small) {
+		.left {
+			width: 100%;
+      padding-bottom: 10px;
+      overflow: auto;
+		}
+		.right {
+			width: 100%;
+		}
+	}
+
+  @include respond(small) {
+    display: block;
+  }
+}main.lan {
 	.left {
 		flex: 1 1 68%;
 		width: 68%;

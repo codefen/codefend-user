@@ -95,7 +95,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 			</ModalTitleWrapper>
 
 			<div className="card">
-				<div>
+				<div className='over'>
 					<div className="header">
 						<div className="title">
 							<div className="icon">

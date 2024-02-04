@@ -1,4 +1,5 @@
 @forward 'settings/settings.scss';
+@import '../styles/settings/mixin';
 
 ///////////////////////////////////////////////////////////////////
 // UTIL
@@ -99,6 +100,14 @@ main.sb {
 	}
 	.right {
 		width: 30%;
+	}
+	@include respond(small) {
+		.left {
+			width: 100%;
+		}
+		.right {
+			width: 100%;
+		}
 	}
 }
 
