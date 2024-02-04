@@ -48,12 +48,6 @@ const Sidebar: React.FC = () => {
 						className={isActivePath('/admin/company') ? 'active' : ''}>
 						<AdminCompany />
 					</Link>
-					<Link
-						title="Admin Panel"
-						to="/admin/panel"
-						className={isActivePath('/admin/panel') ? 'active' : ''}>
-						<AdminUser />
-					</Link>
 				</>
 			)}
 
