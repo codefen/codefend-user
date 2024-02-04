@@ -86,7 +86,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 							e.stopPropagation();
 							viewModal(true);
 						}}>
-						<CloseIcon />
+						<CloseIcon isButton />
 					</button>
 				</Show>
 
