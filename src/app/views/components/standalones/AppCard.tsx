@@ -116,7 +116,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 														}`
 											}`
 								}
-								alt="mobile-image"
+								alt="app-card-image"
 							/>
 						</Show>
 					</div>
