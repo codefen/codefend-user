@@ -83,9 +83,9 @@ export const CloudApplication = ({
 										id={app.id}
 										type="cloud"
 										name={app.appName}
-										appMedia={app.appMedia}
+										appMedia={''}
 										appDesc={app.appDesc}
-										cloudProvider={app.cloudProvider}
+										cloudProvider={app.cloudProvider.toLowerCase()}
 									/>
 								</div>
 							))}

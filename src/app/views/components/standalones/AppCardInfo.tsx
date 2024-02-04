@@ -18,6 +18,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 		[isMobileType],
 	);
 
+	console.log({ type: isMobileType });
 	return (
 		<div
 			className={`app-card-wrapper app-card-border ${
@@ -26,7 +27,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 			<div className={`${isMobileType ? 'app-card-isMobile' : ''}`}>
 				<AppCard
 					showDetails
-					isMobile={isMobileType}
+					type={type}
 					id={selectedApp.id}
 					appMedia={selectedApp.appMedia}
 					appDesc={selectedApp.appDesc}
@@ -40,7 +41,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 					}
 					cloudProvider={
 						'cloudProvider' in selectedApp
-							? selectedApp.cloudProvider
+							? selectedApp.cloudProvider.toLowerCase()
 							: ''
 					}
 				/>

@@ -1,3 +1,5 @@
+@import '../../../../../../styles/settings/mixin';
+
 .CompanyIndexView {
 	height: 100%;
 	display: flex;
@@ -23,6 +25,10 @@
 		// padding:1rem;
 		gap: 1rem;
 		padding-bottom: 10rem;
+
+		@include respond(small) {
+			display: grid;
+		}
 
 		.company {
 			width: 32%;
