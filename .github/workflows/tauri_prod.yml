@@ -2,7 +2,7 @@ name: Upload tauri to bucket
 on:
   push:
     branches:
-      - build
+      - prod
 
 jobs:
   publish-tauri:
