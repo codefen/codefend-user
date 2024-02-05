@@ -42,15 +42,11 @@ export const useAuthState = () => {
 	const signInUser = async (params: LoginParams): Promise<boolean> => {
 		return dispatch(loginThunk(params))
 			.then((response: any) => {
-				const { meta, payload } = response;
-				console.log(meta);
+				const { meta } = response;
+				console.log(meta)
 				if (meta.rejectedWithValue || meta.requestStatus === 'rejected')
 					throw Error(response.payload);
-				if (payload.user && payload.user.accessRole === 'admin') {
-					navigate('/admin/company');
-				}
 				toast.success(`Login successful`);
-
 				return true;
 			})
 			.catch((error: any) => {
@@ -67,7 +63,6 @@ export const useAuthState = () => {
 		return dispatch(registerThunk(params))
 			.then((response: any) => {
 				const { meta } = response;
-				console.log(meta);
 				if (meta.rejectedWithValue) throw Error(response.payload);
 				toast.success(`Signup phase one successful`);
 				return true;
