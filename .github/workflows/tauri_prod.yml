@@ -1,4 +1,5 @@
 name: Upload tauri to bucket
+
 on:
   push:
     branches:
