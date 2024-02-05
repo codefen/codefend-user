@@ -19,7 +19,7 @@ export interface AuthState {
     login: (loginParams: any) => Promise<void>;
     logout: ()=> void;
 }
-
+/*
 const authMiddleware: StateMiddleware = (f, bar) => (set: any, get: any, _store: any)=> {
 
     type T = ReturnType<typeof f>;
@@ -33,7 +33,7 @@ const authMiddleware: StateMiddleware = (f, bar) => (set: any, get: any, _store:
     return f(set, get, store);
 };
 
-export const stateInit = authMiddleware as unknown as StateImpl
+export const stateInit = authMiddleware as unknown as StateImpl*/
 
 const stateInitV2 = (store: any, name:string)=> devtools(persist(store, {name})) as StateCreator<AuthState, [], [["zustand/persist", string]]>;
 
@@ -48,7 +48,7 @@ const useAuthStore = create<AuthState>()(
                     if (!user) throw new Error("An unexpected error has ocurred");
                     set((prev: AuthState)=>({...prev, user, accessToken: token, isAuth: true}));
                     return true;
-                 }).catch(()=> false);
+                 }).catch((error: Error)=> ({error: true, message: error.message, type: error.name}));
         },
         logout: ()=>{},
     }), "authState"),
