@@ -9,7 +9,6 @@ interface MobileAppCardProps {
 	showDetails?: boolean;
 	cloudProvider?: any;
 	isMainGoogleNetwork?: string | boolean;
-	isMobile?: string | boolean;
 	appReviews?: string;
 	appRank?: string;
 	appDeveloper?: string;
@@ -47,6 +46,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 		handleDelete,
 	} = useAppCard({ type, name, isMainNetwork, showDetails, appMedia });
 
+	console.log({ type: isMobileType });
 	return (
 		<>
 			<Show when={showModal}>
@@ -86,14 +86,14 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 							e.stopPropagation();
 							viewModal(true);
 						}}>
-						<CloseIcon />
+						<CloseIcon isButton />
 					</button>
 				</Show>
 
 				<div className="app-card-content">
 					<div className="app-card-content-img">
 						<Show
-							when={!isImage}
+							when={!isImage || !isMobileType}
 							fallback={
 								<img
 									src={`data:image/png;base64,${appMedia}`}
@@ -107,16 +107,16 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 									)
 										? `/codefend/${name}.jpg`
 										: `/clouds/${
-												isMobileType
-													? 'android-ios.jpeg'
-													: `${
-															cloudProvider
-																? `${cloudProvider}.png`
-																: 'aws.png'
-														}`
+												cloudProvider
+													? `${
+															cloudProvider === 'gcp'
+																? 'google'
+																: cloudProvider
+														}.png`
+													: 'aws.png'
 											}`
 								}
-								alt="mobile-image"
+								alt="app-image"
 							/>
 						</Show>
 					</div>

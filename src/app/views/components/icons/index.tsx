@@ -286,11 +286,9 @@ export const StatIcon = () => (
 	</svg>
 );
 
-export const CloseIcon: React.FC = ({
-	isButton,
-}: {
+export const CloseIcon: React.FC<{
 	isButton?: boolean;
-}): any => (
+}> = ({ isButton }): any => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		fill="none"

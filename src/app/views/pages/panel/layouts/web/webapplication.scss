@@ -1,15 +1,27 @@
 main.webapp {
-	.table {
-		.domain-name {
-			width: 205px;
-		}
-		.location {
-			width: 160px;
-		}
-		.item {
+	.left {
+		width: 70%;
+
+		.table {
+			width: 70%;
+			flex: 1 1 70%;
+			.columns-name {
+				width: 97.7%;
+			}
+			.rows {
+				width: 97.7%;
+			}
+			.domain-name {
+				width: 205px;
+			}
 			.location {
-				.flag {
-					margin-inline-end: 0.75rem;
+				width: 160px;
+			}
+			.item {
+				.location {
+					.flag {
+						margin-inline-end: 0.75rem;
+					}
 				}
 			}
 		}

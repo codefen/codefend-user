@@ -1,7 +1,7 @@
-@import '../../../../styles/settings/mixin';
+@use '../../../../styles/settings/mixin' as mixin;
 
 main.social {
-	@include respond(small) {
+	@include mixin.respond(small) {
 		display: block;
 	}
 	.right {
@@ -15,8 +15,8 @@ main.social {
 			}
 		}
 	}
-	.left{
-		@include respond(small) {
+	.left {
+		@include mixin.respond(small) {
 			padding-bottom: 10px;
 		}
 	}
