@@ -3,6 +3,7 @@ import { MobileSelectedDetails } from '../..';
 import {
 	AppCard,
 	EmptyScreenView,
+	PageLoader,
 	PrimaryButton,
 	Show,
 } from '../../../../../components';
@@ -83,7 +84,7 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 												refresh();
 												setSelectedMobileApp(null);
 											}}
-											type={'mobile'}
+											type="mobile"
 											id={mobile.id}
 											appMedia={mobile.appMedia}
 											appDesc={mobile.appDesc}

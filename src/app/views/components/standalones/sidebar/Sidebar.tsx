@@ -35,21 +35,22 @@ const Sidebar: React.FC = () => {
 	const showAdmin = isAuth() && isAdmin() && getAccessToken() !== null;
 	return (
 		<aside className="sidebar">
-			<Link
-				title="Dashboard"
-				to="/dashboard"
-				className={isActivePath('/dashboard') ? 'active' : ''}>
-				<ChartIcon />
-			</Link>
 			{showAdmin && (
 				<>
 					<Link
+						title="Admin Panel"
 						to="/admin/company"
 						className={isActivePath('/admin/company') ? 'active' : ''}>
 						<AdminCompany />
 					</Link>
 				</>
 			)}
+			<Link
+				title="Dashboard"
+				to="/dashboard"
+				className={isActivePath('/dashboard') ? 'active' : ''}>
+				<ChartIcon />
+			</Link>
 
 			<Link
 				title="Web"
@@ -83,7 +84,7 @@ const Sidebar: React.FC = () => {
 				<Link title="Enp" to="/enp" className={isActivePath('/enp') ? 'active' : ''}>
 					<EnpIcon />
 				</Link>
-{/* 
+{/*
 			<Show when={RUNNING_DESKTOP()}>
 				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
 					<EnpIcon />

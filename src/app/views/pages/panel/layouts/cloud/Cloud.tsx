@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ModalTitleWrapper, Show } from '../../../../components';
+import { ModalTitleWrapper, PageLoader, Show } from '../../../../components';
 import { useCloud, useModal } from '../../../../../data';
 import { AddCloudModal } from '../../../../components/modals/AddCloudModal';
 import { CloudApplication } from './components/CloudApplication';
@@ -33,7 +33,7 @@ const CloudApplicationPanel: React.FC = () => {
 				/>
 			</ModalTitleWrapper>
 			<main className={`mobile cloud ${showScreen ? 'actived' : ''}`}>
-				<Show when={!isLoading}>
+				<Show when={!isLoading} fallback={<PageLoader />}>
 					<CloudApplication
 						openModal={() => setShowModal(!showModal)}
 						refresh={() => refresh(!control)}
