@@ -67,7 +67,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
           tagName: app-v__VERSION__
           releaseName: 'App v__VERSION__'
@@ -80,19 +79,30 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload MAC file to S3
         if: matrix.platform == 'macos-latest'
         run: |
           mv /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP.app.tar.gz /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz
           aws s3 cp /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/mac/CDF_WEBAPPmac.AppImage.tar.gz
-
+          
+      - name: List output directory (Windows)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          Get-ChildItem "D:\a\_temp\_github_home\src-tauri\target\release\bundle\nsis\" -Recurse
+          
       - name: Upload WINDOWS file to S3
         if: matrix.platform == 'windows-latest'
         run: |
-          Move-Item "D:\a\_temp\_github_home\src-tauri\target\release\bundle\nsis\CDF_WEBAPP_x64-setup.nsis.zip" "CDF_WEBAPP-windows.nsis.zip"
-          aws s3 cp CDF_WEBAPP-windows.nsis.zip s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/windows/CDF_WEBAPPwindows.nsis.zip
+          $sourcePath = "D:\a\{repo-name}\{repo-name}\src-tauri\target\release\bundle\nsis\CDF_WEBAPP_x64-setup.nsis.zip"
+          $destinationPath = "CDF_WEBAPP-windows.nsis.zip"
+          if (Test-Path $sourcePath) {
+              Move-Item $sourcePath $destinationPath
+              aws s3 cp $destinationPath s3://your-bucket-name/windows/$destinationPath
+          } else {
+              Write-Error "The file $sourcePath does not exist."
+          }
 
       - name: Upload LINUX file to S3
         if: matrix.platform == 'ubuntu-latest'
