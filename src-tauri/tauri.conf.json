@@ -21,9 +21,9 @@
 		"bundle": {
 			"active": true,
 			"targets": "all",
-			"identifier": "App.Name",
-			"publisher": "Unknown Publisher",
-			"copyright": "Copyright Notice",
+			"identifier": "Codefend.Webapp",
+			"publisher": "Codefend",
+			"copyright": "codefend",
 			"icon": [
 				"icons/32x32.png",
 				"icons/128x128.png",
@@ -56,7 +56,7 @@
 			"active": true,
 			"endpoints": ["https://web.codefend.com/releases"],
 			"dialog": true,
-			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQxRjUyOTM4QzkzMzgzN0YKUldSL2d6UEpPQ24xMGJkVGw4TnprTTY0SWtPR3pvM0QzK2VRQ2lySEJ3c2sxVTlETFB3YmhXRHkK"
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdFOEQwOEMwRTYwODEwODkKUldTSkVBam13QWlOZnFvd0xKL2toNTNSWWdnL2x4V05mbjBsVmRUeDFQb0wxTmp2SlVybytaRVYK"
 		},
 		"security": {
 			"csp": null
