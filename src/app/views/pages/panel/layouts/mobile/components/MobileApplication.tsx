@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import { MobileSelectedDetails } from '../..';
 import {
 	AppCard,
 	EmptyScreenView,
@@ -13,6 +12,7 @@ import {
 	useSelectedMobile,
 } from '../../../../../../data';
 import SelectedMobile from '../selectedContext';
+import { MobileSelectedDetails } from './MobileSelectedDetails';
 
 interface MobileApplicationProps {
 	openModal: () => void;
