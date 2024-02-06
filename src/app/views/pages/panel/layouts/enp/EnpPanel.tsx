@@ -127,7 +127,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
                     <div className="flex p-4 pt-0 ml-2 text-slate-400 text-sm">
                         <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">device name</div>
                         <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">operating system</div>
-                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">creation date</div>
+                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">latest scan</div>
                         <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">apps found</div>
                         <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">compliance ready</div>
                         <div className="w-1/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">status</div>

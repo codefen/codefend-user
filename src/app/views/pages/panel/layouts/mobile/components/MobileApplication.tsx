@@ -3,6 +3,7 @@ import { MobileSelectedDetails } from '../..';
 import {
 	AppCard,
 	EmptyScreenView,
+	PageLoader,
 	PrimaryButton,
 	Show,
 } from '../../../../../components';
