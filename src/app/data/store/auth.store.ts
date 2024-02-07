@@ -16,7 +16,7 @@ export interface AuthState {
 	logout: () => void;
 	clearErrors: () => void;
 }
-
+/*
 const authMiddleware: StateMiddleware =
 	(f, bar) => (set: any, get: any, _store: any) => {
 		type T = ReturnType<typeof f>;
@@ -31,7 +31,7 @@ const authMiddleware: StateMiddleware =
 	};
 
 export const stateInit = authMiddleware as unknown as StateImpl;
-
+*/
 const stateInitV2 = (store: any, name: string) =>
 	devtools(persist(store, { name })) as StateCreator<
 		AuthState,
