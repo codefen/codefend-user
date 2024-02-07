@@ -1,7 +1,11 @@
 import { User } from '..';
 
 /** Gets token in localStorage */
-export const getToken = () => localStorage.getItem('token') ?? '';
+export const getToken = () => {
+	const storeJson = localStorage.getItem('authStore') ?? '';
+	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+	return store ? store.state.accessToken  : "";
+};
 
 /** Set token in localStorage */
 export const setToken = (token: string) =>

@@ -3,16 +3,15 @@ import { Outlet, useLocation, Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import './auth.scss';
-import { AuthServices } from '../../../data/services';
+import { AuthServices, useAuthStore } from '../../../data';
 
 const Logo = lazy(() => import('../../components/defaults/Logo'));
 
 const AuthPage: React.FC = () => {
 	const location = useLocation();
-	const isNotAuthenticated = AuthServices.verifyAuth();
-	if (isNotAuthenticated) AuthServices.logout2();
+	const { isAuth } = useAuthStore((state) => state);
 
-	return isNotAuthenticated ? (
+	return !isAuth ? (
 		<>
 			<div className="codefend-img-bg">
 				<Logo theme={'shadow'} />

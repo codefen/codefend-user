@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { baseUrl } from '../utils/config';
 import { getToken } from '../utils/helper';
 import { toast } from 'react-toastify';
+import useAuthStore from '../store/auth.store';
 
 enum HTTP_METHODS {
 	POST = 'post',

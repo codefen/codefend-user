@@ -1,51 +1,37 @@
 import { toast } from 'react-toastify';
 import {
-	useAppSelector,
-	useAppDispatch,
 	LoginParams,
 	RegisterParams,
-	AuthState,
 } from '..';
-import {
-	loginThunk,
-	registerThunk,
-	registerFinishThunk,
-} from '../redux/thunks/auth.thunk';
+
 import { useNavigate } from 'react-router';
+import useAuthStore from '../store/auth.store';
+import type {AuthState} from '../store/auth.store';
 
 export const useUserAdmin = () => {
-	const authState = useAppSelector(
-		(state: any) => state.authState as AuthState,
-	);
+	const {userData: {accessRole}, accessToken, isAuth } = useAuthStore((state:AuthState) => state);
 
-	const getRole = () => authState.userData?.accessRole ?? '';
-	const isAuth = () => authState.isAuth;
-	const getAccessToken = () => authState.accessToken;
+	const getRole = () => accessRole ?? '';
+	const isCurrentAuthValid = () => isAuth;
+	const getAccessToken = () => accessToken;
 	const isAdmin = () => getRole() === 'admin';
 
-	return { isAuth, isAdmin, getAccessToken };
+	return { isCurrentAuthValid, isAdmin, getAccessToken };
 };
 
 export const useAuthState = () => {
-	const authState = useAppSelector(
-		(state: any) => state.authState as AuthState,
-	);
+	const authStore = useAuthStore((state: AuthState) => state);
 	const navigate = useNavigate();
-	const getUserdata = () => authState.userData;
-	const dispatch = useAppDispatch();
+	const getUserdata = () => authStore.userData;
 
 	const getAccessToken = () =>
-		authState.accessToken ? authState.accessToken : '';
+		authStore.accessToken ? authStore.accessToken : '';
 
-	const isAuth = () => authState.isAuth;
-
+	const isAuth = () => authStore.isAuth;
+	
 	const signInUser = async (params: LoginParams): Promise<boolean> => {
-		return dispatch(loginThunk(params))
+		return authStore.login(params)
 			.then((response: any) => {
-				const { meta } = response;
-				console.log(meta)
-				if (meta.rejectedWithValue || meta.requestStatus === 'rejected')
-					throw Error(response.payload);
 				toast.success(`Login successful`);
 				return true;
 			})
@@ -58,17 +44,14 @@ export const useAuthState = () => {
 				return false;
 			});
 	};
-
+	
 	const signUpUser = async (params: RegisterParams): Promise<boolean> => {
-		return dispatch(registerThunk(params))
+		return authStore.register(params)
 			.then((response: any) => {
-				const { meta } = response;
-				if (meta.rejectedWithValue) throw Error(response.payload);
 				toast.success(`Signup phase one successful`);
 				return true;
 			})
 			.catch((error: Error) => {
-				console.error('Error during registration:', error);
 				toast.error(
 					error.message && error.message !== undefined
 						? error.message
@@ -77,18 +60,15 @@ export const useAuthState = () => {
 				return false;
 			});
 	};
-
+	
 	const signUpFinish = async (params: any): Promise<boolean> => {
-		return dispatch(registerFinishThunk(params))
+		return authStore.registerFinish(params)
 			.then((response: any) => {
-				const { meta, payload } = response;
-				if (meta.rejectedWithValue) throw Error(payload);
-
+				if(response.error) throw new Error(response.message);
 				navigate('/auth/signin');
 				return true;
 			})
 			.catch((error: Error) => {
-				console.error('Error during registration:', error);
 				toast.error(
 					error.message && error.message !== undefined
 						? error.message

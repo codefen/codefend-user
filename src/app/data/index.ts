@@ -8,3 +8,4 @@ export * from './services';
 export * from './utils/config';
 export * from './utils/helper';
 export * from './utils/mapper';
+export * from "./store";

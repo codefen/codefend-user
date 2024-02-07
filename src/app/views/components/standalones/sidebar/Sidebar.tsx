@@ -31,8 +31,8 @@ const isActivePath = (verifyPath: string) => {
 };
 
 const Sidebar: React.FC = () => {
-	const { isAuth, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin = isAuth() && isAdmin() && getAccessToken() !== null;
+	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
+	const showAdmin = isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	return (
 		<aside className="sidebar">
 			{showAdmin && (

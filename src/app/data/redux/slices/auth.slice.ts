@@ -4,9 +4,9 @@ import {
 	registerThunk,
 	registerFinishThunk,
 } from '../thunks/auth.thunk';
-import { AuthState, User, getToken, getUser } from '../..';
+import { User, getToken, getUser } from '../..';
 
-const initialState: AuthState = (() => {
+const initialState: any = (() => {
 	const user = getUser();
 	const token = getToken();
 	let currentTimestamp = Math.floor(Date.now() / 1000);
@@ -20,7 +20,7 @@ const initialState: AuthState = (() => {
 		loading: false,
 		userData: user,
 		accessToken: token,
-	} as AuthState;
+	};
 })();
 
 export const authSlice = createSlice({
