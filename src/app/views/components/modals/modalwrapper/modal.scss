@@ -290,7 +290,7 @@
 	display: flex;
 	display: flex;
 	flex-direction: column;
-	padding-inline: 2.75rem;
+
 	padding-block: 1.25rem;
 	font-family: roboto;
 
@@ -307,13 +307,57 @@
 
 		h2 {
 			font-weight: 700;
+			color: #000;
 		}
 	}
 
+	.error-content {
+		width: 100%;
+		padding-inline: 2.75rem;
+	}
 	.error-buttons {
 		display: flex;
 		justify-content: space-evenly;
 		flex: 1;
 		margin-block-start: 2rem;
+		padding-inline: 2.75rem;
+	}
+	.light-p {
+		color: oklch(0.42 0 0 / 0.7);
+		strong {
+			color: #000;
+		}
+	}
+
+	p,
+	li {
+		line-height: 1.5rem /* 24px */;
+		font-size: 14px;
+		color: rgb(55 54 54);
+	}
+
+	.action-list {
+		margin-block: 1.5rem;
+		list-style-type: none;
+		counter-reset: my-counter;
+		display: flex;
+		flex-direction: column;
+		row-gap: 5px;
+
+		li::before {
+			content: counter(my-counter) ')';
+			counter-increment: my-counter;
+			margin-right: 5px;
+		}
+	}
+	a {
+		outline: none;
+	}
+	.apologies-p {
+		margin-block: 1.5rem;
+		border-block: 1px solid #b0b0b096;
+		padding-block: 0.75rem;
+		padding-inline: 2.75rem;
+		font-family: 'Questrial';
 	}
 }

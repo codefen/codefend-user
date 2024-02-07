@@ -61,11 +61,14 @@ export const CLoudIcon = () => (
 	</svg>
 );
 
-export const LanIcon = () => (
+export const LanIcon: React.FC<{ width?: string; height?: string }> = ({
+	width = '1em',
+	height = '1em',
+}) => (
 	<svg
 		strokeWidth={0}
-		height="1em"
-		width="1em"
+		height={height}
+		width={width}
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 512 512"
 		color="currentColor"
