@@ -4,10 +4,10 @@
 			display: flex;
 			align-items: center;
 			height: 40px;
-			border-bottom: 1px solid var(--primary-color-400);
+			border-bottom: 1px solid var(--primary-color-300);
 			padding: 0 20px;
-			background-color: var(--primary-color-300);
-			border-bottom: 1px solid var(--primary-color-400);
+			background-color: var(--primary-color-200);
+			border-bottom: 1px solid var(--primary-color-300);
 			color: var(--tertiary-color-200);
 			font-family: Roboto;
 			font-size: 13px;
@@ -34,11 +34,11 @@
 			.actions {
 				display: flex;
 				align-items: center;
-				border-left: 1px solid var(--header-lines-color);
+				border-left: 1px solid var(--tertiary-color-700);
 				color: var(--btn-color-main);
 
 				> div {
-					border-right: 1px solid var(--header-lines-color);
+					border-right: 1px solid var(--tertiary-color-700);
 					padding: 0 13px;
 				}
 			}
@@ -67,12 +67,12 @@ table {
 	}
 
 	th {
-		// border-bottom: 1px solid var(--primary-color-400);
+		// border-bottom: 1px solid var(--primary-color-300);
 		padding: 10px 20px;
 		text-align: left;
 	}
 	td {
-		border-top: 1px solid var(--primary-color-400);
+		border-top: 1px solid var(--primary-color-300);
 		padding: 6px 20px;
 	}
 }

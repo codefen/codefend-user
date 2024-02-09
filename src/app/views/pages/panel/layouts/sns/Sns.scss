@@ -1,7 +1,7 @@
 main.sb {
 	.left {
-		border: 1px solid var(--primary-color-400);
-		// border-right: 1px solid var(--primary-color-400);
+		border: 1px solid var(--primary-color-300);
+		// border-right: 1px solid var(--primary-color-300);
 		margin-bottom: -10px;
 
 		.content {
@@ -16,11 +16,11 @@ main.sb {
 
 		.search-result {
 			flex: 1 1 230px;
-			border: 1px solid var(--primary-color-400);
+			border: 1px solid var(--primary-color-300);
 
 			.header {
 				padding: 10px 20px;
-				background-color: var(--primary-color-300);
+				background-color: var(--primary-color-200);
 				.title {
 					color: var(--btn-color-main);
 				}

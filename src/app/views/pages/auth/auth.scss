@@ -116,7 +116,7 @@ section.access {
 		padding-block: 27px;
 		padding-inline: 75px;
 
-		background-color: #fff;
+		background-color: var(--primary-color);
 
 		@include mixin.respond(lmedium) {
 			padding-inline: 35px;

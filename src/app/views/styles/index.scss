@@ -13,9 +13,9 @@
 	font-family: Roboto, sans-serif;
 	text-transform: uppercase;
 	font-weight: bold;
-	color: var(--primary-color-100);
-	color: var(--tertiary-color-200);
-	color: #000;
+	//color: var(--primary-color-100);
+	//color: var(--tertiary-color-200);
+	color: var(--tertiary-color-700);
 }
 
 .red-border {
@@ -23,7 +23,7 @@
 }
 
 .border-bottom {
-	border-bottom: 1px solid var(--primary-color-400) !important;
+	border-bottom: 1px solid var(--primary-color-300) !important;
 }
 
 .sub-domain-icon-v {
@@ -47,7 +47,7 @@
 }
 
 .text-white {
-	color: var(--primary-color-300) !important;
+	color: var(--primary-color-200) !important;
 }
 
 .text-gray {
@@ -55,7 +55,7 @@
 }
 
 .disable-border div {
-	border-bottom: 0px solid var(--primary-color-400);
+	border-bottom: 0px solid var(--primary-color-300);
 }
 .codefend-border-red {
 	border: 1px solid var(--bkg-codefend);
@@ -73,7 +73,7 @@
 }
 
 .text-fend-red {
-	color: var(--tertiary-color-400-fend-red) !important;
+	color: var(--text-color-fend-red) !important;
 }
 
 .tox-textarea {
@@ -208,17 +208,18 @@ main.cloud {
 				padding-inline: 1.5rem;
 				width: 100%;
 				height: 100%;
-				background-color: var(--input-background);
+				background-color: var(--primary-color);
 				color: var(--tertiary-color-500) !important;
-				border: 1px solid var(--primary-color-400);
+				border: 1px solid var(--primary-color-300);
 				font-size: 0.95rem;
 				letter-spacing: 0.2px;
 				cursor: text;
+				color: var(--tertiary-color-300);
 			}
 
 			.search-select {
 				flex: 1 1 15%;
-				border: 1px solid var(--primary-color-400);
+				border: 1px solid var(--primary-color-300);
 				height: 100%;
 
 				display: flex;

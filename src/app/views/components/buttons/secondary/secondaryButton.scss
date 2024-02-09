@@ -3,12 +3,12 @@
 		background-color: var(--tertiary-color-400);
 
 		&:hover {
-			background-color: #1a1a1a;
+			background-color: var(--tertiary-color-600);
 		}
 	}
 
 	&.btn-cancel {
-		border: 1px solid var(--primary-color-400);
+		border: 1px solid var(--primary-color-300);
 		padding-inline: 1rem;
 		margin-inline-end: 0.5rem;
 

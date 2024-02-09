@@ -1,10 +1,12 @@
 /* Color Scheme Light */
 :root {
+	--primary-color: #fff;
 	--primary-color-50: #fdfdfd;
 	--primary-color-100: #fafafa;
-	--primary-color-200: #f8f8f8;
-	--primary-color-300: #f7f7f7;
-	--primary-color-400: #e5e5e5;
+	--primary-color-200: #f7f7f7;
+	--primary-color-300: #e5e5e5;
+	--primary-color-400: #f3f3f3;
+	--primary-color-500: #efefef;
 
 	--tertiary-color-50: #cfcfcf;
 	--tertiary-color-100: #afafaf;
@@ -12,39 +14,29 @@
 	--tertiary-color-300: #666;
 	--tertiary-color-400: #333333;
 	--tertiary-color-500: #222222;
+	--tertiary-color-600: #1a1a1a;
+	--tertiary-color-700: #000;
 
 	--color-active-border: #ff3939;
 
-	--input-background: #ffffff;
-
 	--text-color-fend-red: #e84f4f;
 
-	--bkg-main: #ffffff;
 	--bkg-codefend: #fe4e4e;
 
-	--sidebar-width: 64px;
-
-	--text-large: 18px;
-	--text-small: 12px;
 	--text-color-alt2: #fe4e4e;
-
 	--btn-color-main: #fe4e4e;
-
-	--nav-height: 50px;
-
-	--header-lines-color: #000000;
 
 	--input-outline-color: #fe4e4e;
 
 	--higlights-color-line: #6f2121;
 	--highlights-color-bkg: #4c0b0b;
 
+	--sidebar-width: 64px;
+	--text-large: 18px;
+	--text-small: 12px;
+	--nav-height: 50px;
 	--padding-general: 0 3dvw;
 	--padding-top-sections-c: 50px;
-
-	--section-alt-bkg: #f2f2f2;
-
-	--mobile-breakpoint: 768px;
 }
 
 .dark:root {
@@ -52,12 +44,12 @@
 	--primary-color-200: oklch(29.72% 0 0);
 	--text-color: oklch(73.16% 0 0);
 
-	--primary-color-300: oklch(29.72% 0 0);
-	--primary-color-400: oklch(32.5% 0 0);
+	--primary-color-200: oklch(29.72% 0 0);
+	--primary-color-300: oklch(32.5% 0 0);
 
 	--tertiary-color-300: oklch(100% 0 0);
 
-	--header-lines-color: oklch(100% 0 0);
+	--tertiary-color-700: oklch(100% 0 0);
 	--primary-color-100: oklch(29.72% 0 0);
 	--tertiary-color-100: oklch(51.73% 0 0);
 }

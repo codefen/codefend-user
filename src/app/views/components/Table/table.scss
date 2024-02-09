@@ -21,7 +21,7 @@
 		font-size: 14px;
 		color: var(--tertiary-color-200);
 		padding: 0 20px;
-		border-bottom: 1px solid var(--primary-color-400);
+		border-bottom: 1px solid var(--primary-color-300);
 
 		.column {
 			color: inherit;
@@ -60,7 +60,7 @@
 		align-items: center;
 		height: 40px;
 		padding: 0 20px;
-		border-bottom: 1px solid var(--primary-color-400);
+		border-bottom: 1px solid var(--primary-color-300);
 		color: var(--tertiary-color-200);
 		font-family: Questrial;
 		font-size: 14px;
@@ -255,15 +255,15 @@
 }
 
 .internal-tables {
-	border-top: 1px solid var(--primary-color-400);
-	border-right: 1px solid var(--primary-color-400);
-	border-left: 1px solid var(--primary-color-400);
-	background-color: var(--bkg-main);
+	border-top: 1px solid var(--primary-color-300);
+	border-right: 1px solid var(--primary-color-300);
+	border-left: 1px solid var(--primary-color-300);
+	background-color: var(--primary-color-50);
 }
 
 .internal-tables-scroll {
 	max-height: 75%;
-	border-bottom: 1px solid var(--primary-color-400);
+	border-bottom: 1px solid var(--primary-color-300);
 	overflow-y: scroll;
 
 	&.full-height {
@@ -274,8 +274,8 @@
 .internal-tables div {
 	font-family: Roboto;
 	font-size: 12px;
-	background-color: var(--bkg-main);
-	border-bottom: 1px solid var(--primary-color-400);
+	background-color: var(--primary-color-50);
+	border-bottom: 1px solid var(--primary-color-300);
 	color: var(--tertiary-color-200);
 
 	&:last-child {
@@ -284,7 +284,7 @@
 }
 
 .disable-border div {
-	border-bottom: 0px solid var(--primary-color-400);
+	border-bottom: 0px solid var(--primary-color-300);
 }
 
 .modal-header {
@@ -292,8 +292,8 @@
 	align-items: center;
 	height: 40px;
 	padding: 0 20px;
-	background-color: var(--primary-color-300) !important;
-	border-bottom: 1px solid var(--primary-color-400) !important;
+	background-color: var(--primary-color-200) !important;
+	border-bottom: 1px solid var(--primary-color-300) !important;
 	color: var(--tertiary-color-200) !important;
 	font-family: Roboto;
 	font-size: 13px;
@@ -304,7 +304,7 @@
 
 .internal-tables-active {
 	&:hover {
-		background-color: var(--bkg-main);
+		background-color: var(--primary-color-50);
 	}
 	.select {
 		font-size: 0.875rem /* 14px */;
