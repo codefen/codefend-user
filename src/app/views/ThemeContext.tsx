@@ -2,7 +2,7 @@ import { PropsWithChildren, createContext, useContext, useState } from 'react';
 import { TiFlowChildren } from 'react-icons/ti';
 
 export type Theme = {
-	theme: string;
+	theme: 'dark' | 'light';
 	changeTheme: () => void;
 };
 
@@ -14,13 +14,13 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-	const preferedStorageTheme = localStorage.getItem('theme');
-	const preferedOsTheme = window.matchMedia('(prefers-color-scheme: dark)')
-		.matches
-		? 'dark'
-		: 'light';
-	const [theme, setTheme] = useState<string>(
-		!preferedStorageTheme ? preferedOsTheme : preferedStorageTheme,
+	const preferedUserTheme =
+		localStorage.getItem('theme') ||
+		window.matchMedia('(prefers-color-scheme: dark)').matches
+			? 'dark'
+			: 'light';
+	const [theme, setTheme] = useState<'dark' | 'light'>(
+		preferedUserTheme ?? 'light',
 	);
 
 	const changeTheme = () => {

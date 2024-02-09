@@ -73,7 +73,7 @@
 		}
 
 		&.left-marked {
-			border-left: 6px solid var(--bkg-codefend);
+			border-left: 6px solid var(--secondary-color-50);
 			padding-left: 14px;
 			background-color: var(--primary-color-200);
 		}
@@ -88,7 +88,7 @@
 
 			.sub-domain-icon-v {
 				width: 2px;
-				background-color: var(--bkg-codefend);
+				background-color: var(--secondary-color-50);
 				position: absolute;
 				left: 0px;
 				height: calc(100% + 2px);
@@ -98,7 +98,7 @@
 			.sub-domain-icon-h {
 				width: 20px;
 				height: 2px;
-				background-color: var(--bkg-codefend);
+				background-color: var(--secondary-color-50);
 				position: absolute;
 				top: 49%;
 				left: 0px;

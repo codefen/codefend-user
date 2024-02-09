@@ -10,8 +10,8 @@ input {
 
 	&:focus {
 		outline: 0px solid;
-		border: 1px solid var(--input-outline-color) !important;
-		caret-color: var(--input-outline-color) !important;
+		border: 1px solid var(--secondary-color-50) !important;
+		caret-color: var(--secondary-color-50) !important;
 		color: var(--tertiary-color-700) !important;
 	}
 }
@@ -27,7 +27,7 @@ input[type='email'] {
 	border: 1px solid var(--primary-color-300);
 
 	&.text-area:focus {
-		border-color: var(--input-outline-color);
+		border-color: var(--secondary-color-50);
 	}
 
 	&.log-text {
@@ -131,11 +131,11 @@ select {
 	}
 
 	&:hover {
-		border-color: var(--btn-color-main);
+		border-color: var(--secondary-color-50);
 	}
 
 	&:checked {
-		background: var(--btn-color-main);
+		background: var(--secondary-color-50);
 		border-color: transparent;
 	}
 

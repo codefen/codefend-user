@@ -38,7 +38,7 @@
 			}
 
 			&.selected {
-				border-color: var(--color-active-border);
+				border-color: var(--secondary-color-100);
 			}
 
 			.company-card {
@@ -76,7 +76,7 @@
 					}
 
 					.link {
-						color: var(--color-active-border);
+						color: var(--secondary-color-100);
 					}
 				}
 			}

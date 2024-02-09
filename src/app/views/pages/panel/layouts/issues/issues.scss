@@ -63,7 +63,7 @@ section.issue {
 			margin-left: auto;
 			border-left: 1px solid var(--primary-color-300);
 			transition: all 0.2s;
-			color: var(--btn-color-main);
+			color: var(--secondary-color-50);
 
 			&_btn {
 				cursor: pointer;
@@ -94,14 +94,14 @@ section.issue {
 			cursor: pointer;
 			border-right: none;
 			transition: all 0.2s;
-			color: var(--btn-color-main);
+			color: var(--secondary-color-50);
 
 			&.on {
 				color: var(--primary-color);
-				background-color: var(--bkg-codefend);
+				background-color: var(--secondary-color-50);
 
 				&:hover {
-					background-color: #cb2222;
+					background-color: var(--secondary-color-300);
 				}
 			}
 
@@ -128,7 +128,7 @@ section.issue {
 			display: flex;
 			align-items: center;
 			font-weight: bolder;
-			color: var(--btn-color-main);
+			color: var(--secondary-color-50);
 			border-right: 1px solid var(--primary-color-300);
 			padding-right: 20px;
 			span {

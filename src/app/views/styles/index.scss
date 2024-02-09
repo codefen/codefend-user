@@ -5,7 +5,7 @@
 // UTIL
 //////////////////////////////////////////////////////////////////
 .bg-codefend {
-	background-color: var(--bkg-codefend);
+	background-color: var(--secondary-color-50);
 	color: var(--primary-color-100);
 }
 
@@ -19,7 +19,7 @@
 }
 
 .red-border {
-	border-left: 6px solid var(--bkg-codefend) !important;
+	border-left: 6px solid var(--secondary-color-50) !important;
 }
 
 .border-bottom {
@@ -30,7 +30,7 @@
 	display: inline-block;
 	width: 0.125rem /* 2px */;
 	height: 100%;
-	background-color: var(--bkg-codefend);
+	background-color: var(--secondary-color-50);
 }
 .sub-domain-icon-h {
 	display: inline-block;
@@ -39,11 +39,11 @@
 	align-self: center;
 	margin-inline-end: 0;
 
-	background-color: var(--bkg-codefend);
+	background-color: var(--secondary-color-50);
 }
 
 .codefend-text-red {
-	color: var(--bkg-codefend) !important;
+	color: var(--secondary-color-50) !important;
 }
 
 .text-white {
@@ -58,7 +58,7 @@
 	border-bottom: 0px solid var(--primary-color-300);
 }
 .codefend-border-red {
-	border: 1px solid var(--bkg-codefend);
+	border: 1px solid var(--secondary-color-50);
 }
 .sr-only {
 	position: absolute;
@@ -73,7 +73,7 @@
 }
 
 .text-fend-red {
-	color: var(--text-color-fend-red) !important;
+	color: var(--secondary-color-200) !important;
 }
 
 .tox-textarea {
