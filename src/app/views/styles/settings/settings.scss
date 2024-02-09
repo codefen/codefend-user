@@ -64,7 +64,7 @@ body {
 	min-width: 100dvw;
 	touch-action: manipulation;
 	background-color: var(--bkg-main);
-	color: var(--color-main);
+	color: var(--tertiary-color);
 }
 
 #root {
@@ -124,11 +124,11 @@ a {
 	&.disabled {
 		cursor: not-allowed !important;
 		color: var(--text-color-alt3) !important;
-		background-color: var(--sidebar-bkg) !important;
+		background-color: var(--primary-color-100) !important;
 		&:hover {
 			cursor: not-allowed !important;
 			color: var(--text-color-alt3) !important;
-			background-color: var(--sidebar-bkg) !important;
+			background-color: var(--primary-color-100) !important;
 		}
 	}
 }
@@ -137,7 +137,7 @@ main {
 	opacity: 0;
 	display: flex;
 	column-gap: 0.625rem;
-	color: var(--color-codefend);
+	color: var(--primary-color-100);
 
 	margin-block-start: var(--navbar-height);
 	margin-inline: auto;

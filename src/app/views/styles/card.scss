@@ -11,8 +11,8 @@ section {
 		line-height: 13px;
 		text-transform: uppercase;
 
-		border-bottom: 1px solid var(--color-border);
-		background-color: var(--header-title-bkg);
+		border-bottom: 1px solid var(--primary-color-400);
+		background-color: var(--primary-color-300);
 		color: var(--font-color);
 
 		padding: 0 20px;
@@ -216,7 +216,7 @@ section {
 	overflow-x: hidden;
 	border-width: 1px;
 	border-style: solid;
-	border-color: var(--color-border);
+	border-color: var(--primary-color-400);
 
 	&.only-info {
 		.content {
@@ -278,7 +278,7 @@ section {
 				color: var(--text-color-alt3);
 				border-right-width: 1px;
 				border-right-style: solid;
-				border-right-color: var(--color-border);
+				border-right-color: var(--primary-color-400);
 				.value {
 					font-weight: 700;
 					font-size: 32px;
@@ -316,7 +316,7 @@ section {
 				justify-content: space-between;
 				border-bottom-width: 1px;
 				border-bottom-style: solid;
-				border-bottom-color: var(--color-border);
+				border-bottom-color: var(--primary-color-400);
 
 				.value {
 					display: flex;
@@ -355,7 +355,7 @@ section {
 					color: var(--text-color-alt3);
 				}
 				.tt {
-					border-bottom: 1px solid var(--color-border);
+					border-bottom: 1px solid var(--primary-color-400);
 				}
 			}
 		}
@@ -498,7 +498,7 @@ section {
 }
 
 .testing-cred {
-	border-bottom: 1px solid var(--color-border2);
+	border-bottom: 1px solid var(--primary-color-4002);
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;

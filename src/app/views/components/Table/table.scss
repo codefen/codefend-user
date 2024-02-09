@@ -21,7 +21,7 @@
 		font-size: 14px;
 		color: var(--font-color);
 		padding: 0 20px;
-		border-bottom: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--primary-color-400);
 
 		.column {
 			color: inherit;
@@ -60,7 +60,7 @@
 		align-items: center;
 		height: 40px;
 		padding: 0 20px;
-		border-bottom: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--primary-color-400);
 		color: var(--font-color);
 		font-family: Questrial;
 		font-size: 14px;
@@ -75,7 +75,7 @@
 		&.left-marked {
 			border-left: 6px solid var(--bkg-codefend);
 			padding-left: 14px;
-			background-color: var(--bkg-alt);
+			background-color: var(--primary-color-200);
 		}
 
 		&:last-child {
@@ -116,7 +116,7 @@
 		}
 
 		&:hover {
-			background-color: var(--bkg-alt);
+			background-color: var(--primary-color-200);
 		}
 	}
 
@@ -255,15 +255,15 @@
 }
 
 .internal-tables {
-	border-top: 1px solid var(--color-border);
-	border-right: 1px solid var(--color-border);
-	border-left: 1px solid var(--color-border);
+	border-top: 1px solid var(--primary-color-400);
+	border-right: 1px solid var(--primary-color-400);
+	border-left: 1px solid var(--primary-color-400);
 	background-color: var(--bkg-main);
 }
 
 .internal-tables-scroll {
 	max-height: 75%;
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--primary-color-400);
 	overflow-y: scroll;
 
 	&.full-height {
@@ -275,7 +275,7 @@
 	font-family: Roboto;
 	font-size: 12px;
 	background-color: var(--bkg-main);
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--primary-color-400);
 	color: var(--font-color);
 
 	&:last-child {
@@ -284,7 +284,7 @@
 }
 
 .disable-border div {
-	border-bottom: 0px solid var(--color-border);
+	border-bottom: 0px solid var(--primary-color-400);
 }
 
 .modal-header {
@@ -292,8 +292,8 @@
 	align-items: center;
 	height: 40px;
 	padding: 0 20px;
-	background-color: var(--header-title-bkg) !important;
-	border-bottom: 1px solid var(--color-border) !important;
+	background-color: var(--primary-color-300) !important;
+	border-bottom: 1px solid var(--primary-color-400) !important;
 	color: var(--font-color) !important;
 	font-family: Roboto;
 	font-size: 13px;

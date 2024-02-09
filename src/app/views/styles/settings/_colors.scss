@@ -1,63 +1,61 @@
 /* Color Scheme Light */
 :root {
-	--color-main: oklch(25.2% 0 0);
-	--bg-black: oklch(23.93% 0 0);
-	--color-black: oklch(99.4% 0 0);
-	--sidebar-bkg: oklch(98.51% 0 0);
+	--primary-color-50: #fdfdfd;
+	--primary-color-100: #fafafa;
+	--primary-color-200: #f8f8f8;
+	--primary-color-300: #f7f7f7;
+	--primary-color-400: #e5e5e5;
 
-	--color-gray: oklch(51.03% 0 0);
-	--color-codefend: oklch(99.11% 0 0);
-	--color-icon: oklch(75.4% 0 0);
-	--color-border: oklch(92.19% 0 0);
-	--color-border2: oklch(92.19% 0 0);
-	--color-active-border: oklch(65.36% 0.232 26.55);
-	--focus-icon: oklch(33.94% 0.04 7.29);
-	--color-panel: oklch(76.68% 0 0);
-	--font-color: oklch(68.3% 0 0);
-	--font-alternative: oklch(68.3% 0 0);
+	--tertiary-color: #222222;
 
-	--main-black: oklch(97.61% 0 0);
-	--input-background: oklch(100% 0 0);
-	--input-font-color: oklch(25.2% 0 0);
-	--text-color-main: oklch(25.2% 0 0);
+	--color-gray: #666;
+	--color-icon: #afafaf;
+	--color-border2: #d0c5c5;
+	--color-active-border: #ff3939;
+	--focus-icon: #4a2f34;
+	--color-panel: #b3b3b3;
+	--font-color: #999999;
+	--font-alternative: #999999;
 
-	--text-color-fend-red: oklch(63.82% 0.189 24.23);
+	--input-background: #ffffff;
+	--input-font-color: #222222;
+	--text-color-main: #222222;
 
-	--toolbar-text-color: oklch(100% 0 0);
-	--toolbar-bg-color: oklch(25.62% 0 0);
+	--text-color-fend-red: #e84f4f;
+
+	--toolbar-text-color: #ffffff;
+	--toolbar-bg-color: #232323;
 
 	color-scheme: light;
 
-	--bkg-main: oklch(100% 0 0);
-	--bkg-alt: oklch(97.91% 0 0);
-	--bkg-codefend: oklch(67.25% 0.213 24.94);
+	--bkg-main: #ffffff;
+	--bkg-codefend: #fe4e4e;
 
-	--sidebar-width: 4rem;
+	--sidebar-width: 64px;
 
-	--text-large: 1.125rem;
-	--text-small: 0.75rem;
-	--text-color: oklch(32.11% 0 0);
-	--text-color-alt: oklch(51.03% 0 0);
-	--text-color-alt2: oklch(67.25% 0.213 24.94);
-	--text-color-alt3: oklch(68.3% 0 0);
+	--text-large: 18px;
+	--text-small: 12px;
+	--text-color: #333333;
+	--text-color-alt: #666666;
+	--text-color-alt2: #fe4e4e;
+	--text-color-alt3: #999999;
 
-	--btn-color-main: oklch(67.25% 0.213 24.94);
-	--btn-color-alt: oklch(32.11% 0 0);
+	--btn-color-main: #fe4e4e;
+	--btn-color-alt: #333333;
 
-	--nav-height: 3.125rem;
+	--nav-height: 50px;
 
-	--header-lines-color: oklch(0% 0 0);
-	--header-title-bkg: oklch(97.61% 0 0);
+	--header-lines-color: #000000;
 
-	--input-outline-color: oklch(67.25% 0.213 24.94);
+	--input-outline-color: #fe4e4e;
 
-	--stats-value-color: oklch(85.45% 0 0);
+	--stats-value-color: #cfcfcf;
 
-	--higlights-color-line: oklch(37.1% 0.111 24.27);
-	--highlights-color-bkg: oklch(27.36% 0.096 26.27);
+	--higlights-color-line: #6f2121;
+	--highlights-color-bkg: #4c0b0b;
 
 	--padding-general: 0 3dvw;
-	--padding-top-sections-c: 3.125rem;
+	--padding-top-sections-c: 50px;
 
 	--section-alt-bkg: #f2f2f2;
 
@@ -66,15 +64,15 @@
 
 .dark:root {
 	--bkg-main: oklch(26.86% 0 0);
-	--bkg-alt: oklch(29.72% 0 0);
+	--primary-color-200: oklch(29.72% 0 0);
 	--text-color: oklch(73.16% 0 0);
 
-	--header-title-bkg: oklch(29.72% 0 0);
-	--color-border: oklch(32.5% 0 0);
+	--primary-color-300: oklch(29.72% 0 0);
+	--primary-color-400: oklch(32.5% 0 0);
 
 	--text-color-alt: oklch(100% 0 0);
 
 	--header-lines-color: oklch(100% 0 0);
-	--sidebar-bkg: oklch(29.72% 0 0);
+	--primary-color-100: oklch(29.72% 0 0);
 	--color-icon: oklch(51.73% 0 0);
 }

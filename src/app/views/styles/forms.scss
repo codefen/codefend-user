@@ -6,7 +6,7 @@ input {
 	color: var(--input-font-color);
 	border-width: 1px;
 	border-style: solid;
-	border-color: var(--color-border);
+	border-color: var(--primary-color-400);
 
 	&:focus {
 		outline: 0px solid;
@@ -24,7 +24,7 @@ input[type='email'] {
 .log-inputs {
 	background-color: var(--input-background);
 	color: var(--input-font-color) !important;
-	border: 1px solid var(--color-border);
+	border: 1px solid var(--primary-color-400);
 
 	&.text-area:focus {
 		border-color: var(--input-outline-color);
@@ -94,9 +94,9 @@ select {
 		right: 0;
 		bottom: 0;
 		-webkit-box-shadow: 0 0 0 calc(var(--checkbox-diameter) / 2.5)
-			var(--primary-color);
+			var(--tertiary-color);
 		box-shadow: 0 0 0 calc(var(--checkbox-diameter) / 2.5)
-			var(--primary-color);
+			var(--tertiary-color);
 		border-radius: inherit;
 		opacity: 0;
 		-webkit-transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);

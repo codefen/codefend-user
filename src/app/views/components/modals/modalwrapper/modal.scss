@@ -46,7 +46,7 @@
 			}
 
 			&.btn-cancel {
-				border: 1px solid var(--color-border);
+				border: 1px solid var(--primary-color-400);
 				padding-inline: 1rem;
 				margin-inline-end: 0.5rem;
 
@@ -103,8 +103,8 @@
 			justify-content: flex-start;
 			height: 2.5rem;
 			padding: 0 1.25rem;
-			background-color: var(--header-title-bkg) !important;
-			border-bottom: 1px solid var(--color-border) !important;
+			background-color: var(--primary-color-300) !important;
+			border-bottom: 1px solid var(--primary-color-400) !important;
 			color: var(--font-color) !important;
 			font-family: 'Roboto';
 			font-size: 0.75rem;
@@ -220,7 +220,7 @@
 				width: 100%;
 
 				background-color: #fff;
-				border: 1px solid var(--color-border);
+				border: 1px solid var(--primary-color-400);
 				padding-block: 0.75rem;
 				padding-inline: 2.75rem;
 

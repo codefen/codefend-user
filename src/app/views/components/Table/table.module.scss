@@ -4,10 +4,10 @@
 			display: flex;
 			align-items: center;
 			height: 40px;
-			border-bottom: 1px solid var(--color-border);
+			border-bottom: 1px solid var(--primary-color-400);
 			padding: 0 20px;
-			background-color: var(--header-title-bkg);
-			border-bottom: 1px solid var(--color-border);
+			background-color: var(--primary-color-300);
+			border-bottom: 1px solid var(--primary-color-400);
 			color: var(--font-color);
 			font-family: Roboto;
 			font-size: 13px;
@@ -67,12 +67,12 @@ table {
 	}
 
 	th {
-		// border-bottom: 1px solid var(--color-border);
+		// border-bottom: 1px solid var(--primary-color-400);
 		padding: 10px 20px;
 		text-align: left;
 	}
 	td {
-		border-top: 1px solid var(--color-border);
+		border-top: 1px solid var(--primary-color-400);
 		padding: 6px 20px;
 	}
 }

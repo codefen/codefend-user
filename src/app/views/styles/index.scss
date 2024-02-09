@@ -6,14 +6,14 @@
 //////////////////////////////////////////////////////////////////
 .bg-codefend {
 	background-color: var(--bkg-codefend);
-	color: var(--color-codefend);
+	color: var(--primary-color-100);
 }
 
 .title-format {
 	font-family: Roboto, sans-serif;
 	text-transform: uppercase;
 	font-weight: bold;
-	color: var(--color-codefend);
+	color: var(--primary-color-100);
 	color: var(--font-color);
 	color: #000;
 }
@@ -23,7 +23,7 @@
 }
 
 .border-bottom {
-	border-bottom: 1px solid var(--color-border) !important;
+	border-bottom: 1px solid var(--primary-color-400) !important;
 }
 
 .sub-domain-icon-v {
@@ -47,7 +47,7 @@
 }
 
 .text-white {
-	color: var(--main-black) !important;
+	color: var(--primary-color-300) !important;
 }
 
 .text-gray {
@@ -55,7 +55,7 @@
 }
 
 .disable-border div {
-	border-bottom: 0px solid var(--color-border);
+	border-bottom: 0px solid var(--primary-color-400);
 }
 .codefend-border-red {
 	border: 1px solid var(--bkg-codefend);
@@ -210,7 +210,7 @@ main.cloud {
 				height: 100%;
 				background-color: var(--input-background);
 				color: var(--input-font-color) !important;
-				border: 1px solid var(--color-border);
+				border: 1px solid var(--primary-color-400);
 				font-size: 0.95rem;
 				letter-spacing: 0.2px;
 				cursor: text;
@@ -218,7 +218,7 @@ main.cloud {
 
 			.search-select {
 				flex: 1 1 15%;
-				border: 1px solid var(--color-border);
+				border: 1px solid var(--primary-color-400);
 				height: 100%;
 
 				display: flex;
