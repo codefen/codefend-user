@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
 import { AuthServices, useAuthStore, useUserAdmin } from '../../../../../data';
-import { Loader, Navbar, Sidebar } from '../../../../components';
+import { Loader } from '../../../../components';
 import { Navigate, Outlet } from 'react-router';
-import { CompanyContextProvider } from './layouts/CompanyContext';
 import './admin.scss';
 
 const AdminPage: React.FC = () => {
@@ -18,11 +17,9 @@ const AdminPage: React.FC = () => {
 	return (
 		<>
 			{userHaveAccess ? (
-				<CompanyContextProvider>
 					<Suspense fallback={<Loader />}>
 						<Outlet />
 					</Suspense>
-				</CompanyContextProvider>
 			) : (
 				<>
 					<Navigate to={'/'} />

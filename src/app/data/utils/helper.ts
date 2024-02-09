@@ -93,3 +93,30 @@ export const cleanReview = (source: string) => {
 	update = update.replace(/&Acirc;/g, '');
 	return update.trim();
 };
+
+
+export const equalsObj = (first: any, second: any): boolean =>{
+	if(!first || !second){
+		return false;
+	}
+	if (typeof first !== 'object' || typeof second !== 'object') {
+		return false;
+	}
+	const firstKeys = Object.keys(first);
+  	const secondKeys = Object.keys(second);
+
+	  console.log("tienen keys");
+	if(firstKeys.length !== secondKeys.length) return false;
+
+	for (const key of firstKeys) {
+		if (!equalsValues(first[key], second[key])) {
+		  return false;
+		}
+	}
+
+	return true;
+};
+
+export const equalsValues = (first: any, second: any)=>{
+	return first === second;
+};

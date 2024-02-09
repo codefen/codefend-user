@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { AdminCompanyPanel } from './components/InternalNetworks';
+import { AdminCompanyPanel } from './components/AdminCompanyPanel';
 import AdminCompanyDetails from './components/AdminCompanyDetails';
-import './admin.scss'
+import './admin.scss';
 
 const AdminCompanyLayout: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);

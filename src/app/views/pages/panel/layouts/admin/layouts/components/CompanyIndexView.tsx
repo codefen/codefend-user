@@ -1,28 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 import CompanyCard from './CompanyCard';
-import './CompanyIndexView.scss';
 import { RigthArrowIcon } from '../../../../../../components';
-import { useCompanyContext } from '../CompanyContext';
+import { AdminCompany, useAdminCompanyStore } from '../../../../../../../data';
+import './CompanyIndexView.scss';
 
 const CompanyIndexView: React.FC = () => {
-	const { actions, state } = useCompanyContext();
-	const { searchQuery, companies } = state;
-	const { handleChange, handleClick, isSelectedCompany } = actions;
+	const { searchQuery, companies, isSelectedCompany } = useAdminCompanyStore(
+		(state) => state,
+	);
+	const { selectCompany, updateSearch } = useAdminCompanyStore(
+		(state) => state,
+	);
 
-	const companiesToRender = () => {
+	const companiesToRender = useMemo(() => {
 		if (searchQuery.trim() === '' || searchQuery.trim().length < 2)
 			return companies;
+
 		const _companies = companies;
 		const query = searchQuery;
-		console.log('hereeeee');
-		return _companies.filter((company: any) =>
+
+		return _companies.filter((company: AdminCompany) =>
 			company.name.toLowerCase().includes(query.toLowerCase()),
 		);
-	};
-
-	useEffect(() => {
-		companiesToRender();
-	});
+	}, [searchQuery, companies]);
 
 	return (
 		<>
@@ -33,7 +33,7 @@ const CompanyIndexView: React.FC = () => {
 							type="text"
 							name="searchQuery"
 							value={searchQuery}
-							onChange={(e) => handleChange(e)}
+							onChange={(e) => updateSearch(e.target.value)}
 							placeholder="Search Company"
 							className="text w-full"
 							required
@@ -46,15 +46,15 @@ const CompanyIndexView: React.FC = () => {
 					</div>
 				)}
 				<div className="companies">
-					{companiesToRender().map((company: any) => (
+					{companiesToRender.map((company: AdminCompany) => (
 						<div
-							onClick={() => handleClick(company)}
+							onClick={() => selectCompany(company)}
 							key={company.id}
 							className={`company ${
 								isSelectedCompany(company) ? 'selected' : ''
 							}`}>
 							<CompanyCard
-								{...company}
+								company={company}
 								isSelected={isSelectedCompany(company)}
 							/>
 						</div>
