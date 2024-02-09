@@ -2,7 +2,7 @@
 	width: 100%;
 	display: table;
 	flex: 1 1;
-	color: var(--font-color);
+	color: var(--tertiary-color-200);
 	border-collapse: collapse;
 
 	&.small {
@@ -19,7 +19,7 @@
 		align-items: center;
 		font-family: Questrial;
 		font-size: 14px;
-		color: var(--font-color);
+		color: var(--tertiary-color-200);
 		padding: 0 20px;
 		border-bottom: 1px solid var(--primary-color-400);
 
@@ -61,7 +61,7 @@
 		height: 40px;
 		padding: 0 20px;
 		border-bottom: 1px solid var(--primary-color-400);
-		color: var(--font-color);
+		color: var(--tertiary-color-200);
 		font-family: Questrial;
 		font-size: 14px;
 
@@ -276,7 +276,7 @@
 	font-size: 12px;
 	background-color: var(--bkg-main);
 	border-bottom: 1px solid var(--primary-color-400);
-	color: var(--font-color);
+	color: var(--tertiary-color-200);
 
 	&:last-child {
 		border-bottom: none;
@@ -294,7 +294,7 @@
 	padding: 0 20px;
 	background-color: var(--primary-color-300) !important;
 	border-bottom: 1px solid var(--primary-color-400) !important;
-	color: var(--font-color) !important;
+	color: var(--tertiary-color-200) !important;
 	font-family: Roboto;
 	font-size: 13px;
 	line-height: 13px;

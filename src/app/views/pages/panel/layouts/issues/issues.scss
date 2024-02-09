@@ -36,7 +36,7 @@ section.issue {
 		border-bottom: 1px solid var(--primary-color-400);
 		background-color: #ffffff;
 		font-family: Roboto;
-		color: var(--font-color);
+		color: var(--tertiary-color-200);
 		height: 50px;
 		padding: 0px;
 
@@ -63,7 +63,7 @@ section.issue {
 			margin-left: auto;
 			border-left: 1px solid var(--primary-color-400);
 			transition: all 0.2s;
-			color: var(--text-color-alt2);
+			color: var(--btn-color-main);
 
 			&_btn {
 				cursor: pointer;
@@ -94,7 +94,7 @@ section.issue {
 			cursor: pointer;
 			border-right: none;
 			transition: all 0.2s;
-			color: var(--text-color-alt2);
+			color: var(--btn-color-main);
 
 			&.on {
 				color: #ffffff;
@@ -122,17 +122,17 @@ section.issue {
 		border-bottom: 1px solid var(--primary-color-400);
 		padding: 0 32px;
 		select {
-			color: var(--color-gray);
+			color: var(--tertiary-color-300);
 		}
 		div {
 			display: flex;
 			align-items: center;
 			font-weight: bolder;
-			color: var(--text-color-alt2);
+			color: var(--btn-color-main);
 			border-right: 1px solid var(--primary-color-400);
 			padding-right: 20px;
 			span {
-				color: var(--font-color);
+				color: var(--tertiary-color-200);
 				margin-left: 5px;
 			}
 		}

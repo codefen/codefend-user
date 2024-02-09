@@ -14,7 +14,7 @@
 	text-transform: uppercase;
 	font-weight: bold;
 	color: var(--primary-color-100);
-	color: var(--font-color);
+	color: var(--tertiary-color-200);
 	color: #000;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .text-gray {
-	color: var(--color-icon) !important;
+	color: var(--tertiary-color-100) !important;
 }
 
 .disable-border div {
@@ -73,7 +73,7 @@
 }
 
 .text-fend-red {
-	color: var(--text-color-fend-red) !important;
+	color: var(--tertiary-color-400-fend-red) !important;
 }
 
 .tox-textarea {
@@ -209,7 +209,7 @@ main.cloud {
 				width: 100%;
 				height: 100%;
 				background-color: var(--input-background);
-				color: var(--input-font-color) !important;
+				color: var(--tertiary-color-500) !important;
 				border: 1px solid var(--primary-color-400);
 				font-size: 0.95rem;
 				letter-spacing: 0.2px;

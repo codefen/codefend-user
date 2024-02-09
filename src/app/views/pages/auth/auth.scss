@@ -87,8 +87,8 @@ section.access {
 			border-bottom: 3px solid #6f6f6f;
 
 			&.active {
-				color: var(--text-color-alt2);
-				border-bottom: 3px solid var(--text-color-alt2);
+				color: var(--btn-color-main);
+				border-bottom: 3px solid var(--btn-color-main);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ section.access {
 			cursor: pointer;
 
 			&.link-color {
-				color: var(--text-color-alt3);
+				color: var(--tertiary-color-200);
 			}
 		}
 
@@ -201,7 +201,7 @@ form.signup-confirm {
 			}
 
 			p {
-				color: var(--font-color);
+				color: var(--tertiary-color-200);
 			}
 		}
 	}

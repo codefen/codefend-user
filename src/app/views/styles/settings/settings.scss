@@ -64,7 +64,7 @@ body {
 	min-width: 100dvw;
 	touch-action: manipulation;
 	background-color: var(--bkg-main);
-	color: var(--tertiary-color);
+	color: var(--tertiary-color-500);
 }
 
 #root {
@@ -100,7 +100,7 @@ h2 {
 	color: oklch(46.04% 0 0);
 }
 h3 {
-	color: var(--text-color-alt);
+	color: var(--tertiary-color-300);
 }
 
 a,
@@ -109,7 +109,7 @@ select {
 }
 
 select {
-	color: var(--text-color);
+	color: var(--tertiary-color-400);
 }
 
 a {
@@ -123,11 +123,11 @@ a {
 
 	&.disabled {
 		cursor: not-allowed !important;
-		color: var(--text-color-alt3) !important;
+		color: var(--tertiary-color-200) !important;
 		background-color: var(--primary-color-100) !important;
 		&:hover {
 			cursor: not-allowed !important;
-			color: var(--text-color-alt3) !important;
+			color: var(--tertiary-color-200) !important;
 			background-color: var(--primary-color-100) !important;
 		}
 	}

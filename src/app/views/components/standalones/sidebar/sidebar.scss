@@ -26,7 +26,7 @@
 		padding-inline: 24px;
 		padding-block: 1.75dvh;
 
-		color: var(--color-icon);
+		color: var(--tertiary-color-100);
 
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
@@ -39,11 +39,11 @@
 
 		&.disabled {
 			cursor: not-allowed;
-			color: var(--text-color-alt3);
+			color: var(--tertiary-color-200);
 			background-color: var(--primary-color-100);
 			&:hover {
 				cursor: not-allowed;
-				color: var(--text-color-alt3);
+				color: var(--tertiary-color-200);
 				background-color: var(--primary-color-100);
 			}
 		}
@@ -63,6 +63,6 @@
 	}
 
 	a:hover {
-		color: var(--text-color-alt2);
+		color: var(--btn-color-main);
 	}
 }

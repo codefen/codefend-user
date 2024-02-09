@@ -8,7 +8,7 @@
 			padding: 0 20px;
 			background-color: var(--primary-color-300);
 			border-bottom: 1px solid var(--primary-color-400);
-			color: var(--font-color);
+			color: var(--tertiary-color-200);
 			font-family: Roboto;
 			font-size: 13px;
 			line-height: 13px;
@@ -21,13 +21,13 @@
 				padding-right: 13px;
 
 				.icon {
-					color: var(--text-color-alt2);
+					color: var(--btn-color-main);
 					margin-right: 13px;
 					font-size: 13px;
 				}
 
 				span {
-					color: var(--text-color-alt);
+					color: var(--tertiary-color-300);
 				}
 			}
 
@@ -35,7 +35,7 @@
 				display: flex;
 				align-items: center;
 				border-left: 1px solid var(--header-lines-color);
-				color: var(--text-color-alt2);
+				color: var(--btn-color-main);
 
 				> div {
 					border-right: 1px solid var(--header-lines-color);
@@ -48,7 +48,7 @@
 
 table {
 	width: 100%;
-	color: var(--font-color);
+	color: var(--tertiary-color-200);
 	font-family: Questrial;
 	font-size: 14px;
 	text-indent: 0;

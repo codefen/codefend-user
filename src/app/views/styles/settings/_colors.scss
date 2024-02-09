@@ -6,27 +6,18 @@
 	--primary-color-300: #f7f7f7;
 	--primary-color-400: #e5e5e5;
 
-	--tertiary-color: #222222;
+	--tertiary-color-50: #cfcfcf;
+	--tertiary-color-100: #afafaf;
+	--tertiary-color-200: #999999;
+	--tertiary-color-300: #666;
+	--tertiary-color-400: #333333;
+	--tertiary-color-500: #222222;
 
-	--color-gray: #666;
-	--color-icon: #afafaf;
-	--color-border2: #d0c5c5;
 	--color-active-border: #ff3939;
-	--focus-icon: #4a2f34;
-	--color-panel: #b3b3b3;
-	--font-color: #999999;
-	--font-alternative: #999999;
 
 	--input-background: #ffffff;
-	--input-font-color: #222222;
-	--text-color-main: #222222;
 
 	--text-color-fend-red: #e84f4f;
-
-	--toolbar-text-color: #ffffff;
-	--toolbar-bg-color: #232323;
-
-	color-scheme: light;
 
 	--bkg-main: #ffffff;
 	--bkg-codefend: #fe4e4e;
@@ -35,21 +26,15 @@
 
 	--text-large: 18px;
 	--text-small: 12px;
-	--text-color: #333333;
-	--text-color-alt: #666666;
 	--text-color-alt2: #fe4e4e;
-	--text-color-alt3: #999999;
 
 	--btn-color-main: #fe4e4e;
-	--btn-color-alt: #333333;
 
 	--nav-height: 50px;
 
 	--header-lines-color: #000000;
 
 	--input-outline-color: #fe4e4e;
-
-	--stats-value-color: #cfcfcf;
 
 	--higlights-color-line: #6f2121;
 	--highlights-color-bkg: #4c0b0b;
@@ -70,9 +55,9 @@
 	--primary-color-300: oklch(29.72% 0 0);
 	--primary-color-400: oklch(32.5% 0 0);
 
-	--text-color-alt: oklch(100% 0 0);
+	--tertiary-color-300: oklch(100% 0 0);
 
 	--header-lines-color: oklch(100% 0 0);
 	--primary-color-100: oklch(29.72% 0 0);
-	--color-icon: oklch(51.73% 0 0);
+	--tertiary-color-100: oklch(51.73% 0 0);
 }
