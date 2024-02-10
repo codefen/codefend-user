@@ -1,2 +1,2 @@
-export * from "./defaultData";
-export * from "./countries";
+export * from './defaultData';
+export * from './countries';

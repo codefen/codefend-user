@@ -545,3 +545,24 @@ export const webLocationColumn: ColumnTable[] = [
 		style: 'percent',
 	},
 ];
+
+export const orderTab =
+	'scope,frequency,team size,order review,payment method'.split(',');
+
+export const defaultCrypto = [
+	{
+		name: 'btc',
+	},
+	{
+		name: 'eth',
+	},
+	{
+		name: 'lite',
+	},
+	{
+		name: 'xmr',
+	},
+	{
+		name: 'solana',
+	},
+];

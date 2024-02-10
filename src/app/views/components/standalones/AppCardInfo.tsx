@@ -1,18 +1,21 @@
 import React, { useMemo } from 'react';
 import { AppCard } from './AppCard';
-import { CloudApp, MobileApp } from '../../../data';
+import { CloudApp, MobileApp, useModal } from '../../../data';
 import { PrimaryButton } from '..';
 
 interface AppCardInfoProps {
 	type?: string;
 	selectedApp: MobileApp | CloudApp;
+	openOrder?: Function;
 }
 
 export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 	type,
 	selectedApp,
+	openOrder,
 }) => {
 	const isMobileType = type === 'mobile';
+	// const { setShowModal, setShowModalStr } = useModal();
 	const buttonText = useMemo(
 		() => (isMobileType ? ' Request pentest' : ' Request automated scan'),
 		[isMobileType],
@@ -49,7 +52,11 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 			<PrimaryButton
 				text={buttonText}
 				click={() => {
-					alert('Procesing your order');
+					console.log('called and clicked');
+					openOrder?.();
+					// alert('Procesing your order');
+					// setShowModal(true);
+					// setShowModalStr('order');
 				}}
 			/>
 		</div>
