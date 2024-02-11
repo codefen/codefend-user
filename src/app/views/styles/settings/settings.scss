@@ -94,24 +94,9 @@ body[data-theme='dark'] {
 	transition-timing-function: linear;
 
 	background: rgb(29, 39, 50);
-	background: -moz-linear-gradient(
-		145deg,
-		rgba(29, 39, 50, 1) 11%,
-		rgba(25, 34, 44, 1) 42%,
-		rgba(29, 39, 50, 1) 66%
-	);
-	background: -webkit-linear-gradient(
-		145deg,
-		rgba(29, 39, 50, 1) 11%,
-		rgba(25, 34, 44, 1) 42%,
-		rgba(29, 39, 50, 1) 66%
-	);
-	background: linear-gradient(
-		145deg,
-		rgba(29, 39, 50, 1) 11%,
-		rgba(25, 34, 44, 1) 42%,
-		rgba(29, 39, 50, 1) 66%
-	);
+	background: -moz-linear-gradient(158deg, #19222c 45%, #161e28 60%);
+	background: -webkit-linear-gradient(158deg, #19222c 45%, #161e28 60%);
+	background: linear-gradient(158deg, #19222c 45%, #161e28 60%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1d2732",endColorstr="#1d2732",GradientType=1);
 
 	color: var(--tertiary-color-200);
