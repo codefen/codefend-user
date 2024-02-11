@@ -1,8 +1,7 @@
 import React, { lazy } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { clearAuth, useModal, logout } from '../../../../data';
+import { useModal } from '../../../../data';
 import {
 	ConfirmModal,
 	LogoutIcon,
@@ -12,6 +11,7 @@ import {
 	NetworkSetingModal,
 } from '../..';
 import './navbar.scss';
+import useAuthStore from '../../../../data/store/auth.store';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
@@ -19,12 +19,11 @@ const Navbar: React.FC = () => {
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const logout = useAuthStore((state) => state.logout);
 
 	const handleLogout = () => {
-		dispatch(logout());
+		logout();
 		navigate('/auth/signin');
-		clearAuth();
 	};
 
 	return (

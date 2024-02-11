@@ -4,11 +4,9 @@ import { useParams, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 import { PrimaryButton } from '../../../components';
-import { useAppSelector } from '../../../../data/redux/';
 import { useAuthState, RegisterFinishParams } from '../../../../data';
 
 const FinishSignUpLayout = () => {
-	const loading = useAppSelector((state: any) => state.authState.loading);
 	const { signUpFinish } = useAuthState();
 
 	const [userState, setUserState] = useState({
@@ -129,7 +127,7 @@ const FinishSignUpLayout = () => {
 								<PrimaryButton
 									text="Proceed"
 									type="submit"
-									isDisabled={loading}
+									isDisabled={userState.isLoading}
 									click={handleSubmit}
 									className="flex items-center gap-x-2"
 								/>

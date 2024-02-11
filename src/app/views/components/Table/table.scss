@@ -2,7 +2,7 @@
 	width: 100%;
 	display: table;
 	flex: 1 1;
-	color: var(--font-color);
+	color: var(--tertiary-color-200);
 	border-collapse: collapse;
 
 	&.small {
@@ -19,9 +19,9 @@
 		align-items: center;
 		font-family: Questrial;
 		font-size: 14px;
-		color: var(--font-color);
+		color: var(--tertiary-color-200);
 		padding: 0 20px;
-		border-bottom: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--primary-color-300);
 
 		.column {
 			color: inherit;
@@ -60,8 +60,8 @@
 		align-items: center;
 		height: 40px;
 		padding: 0 20px;
-		border-bottom: 1px solid var(--color-border);
-		color: var(--font-color);
+		border-bottom: 1px solid var(--primary-color-300);
+		color: var(--tertiary-color-200);
 		font-family: Questrial;
 		font-size: 14px;
 
@@ -73,9 +73,9 @@
 		}
 
 		&.left-marked {
-			border-left: 6px solid var(--bkg-codefend);
+			border-left: 6px solid var(--secondary-color-50);
 			padding-left: 14px;
-			background-color: var(--bkg-alt);
+			background-color: var(--primary-color-200);
 		}
 
 		&:last-child {
@@ -88,7 +88,7 @@
 
 			.sub-domain-icon-v {
 				width: 2px;
-				background-color: var(--bkg-codefend);
+				background-color: var(--secondary-color-50);
 				position: absolute;
 				left: 0px;
 				height: calc(100% + 2px);
@@ -98,7 +98,7 @@
 			.sub-domain-icon-h {
 				width: 20px;
 				height: 2px;
-				background-color: var(--bkg-codefend);
+				background-color: var(--secondary-color-50);
 				position: absolute;
 				top: 49%;
 				left: 0px;
@@ -116,7 +116,7 @@
 		}
 
 		&:hover {
-			background-color: var(--bkg-alt);
+			background-color: var(--primary-color-200);
 		}
 	}
 
@@ -255,15 +255,15 @@
 }
 
 .internal-tables {
-	border-top: 1px solid var(--color-border);
-	border-right: 1px solid var(--color-border);
-	border-left: 1px solid var(--color-border);
-	background-color: var(--bkg-main);
+	border-top: 1px solid var(--primary-color-300);
+	border-right: 1px solid var(--primary-color-300);
+	border-left: 1px solid var(--primary-color-300);
+	background-color: var(--primary-color-50);
 }
 
 .internal-tables-scroll {
 	max-height: 75%;
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--primary-color-300);
 	overflow-y: scroll;
 
 	&.full-height {
@@ -274,9 +274,9 @@
 .internal-tables div {
 	font-family: Roboto;
 	font-size: 12px;
-	background-color: var(--bkg-main);
-	border-bottom: 1px solid var(--color-border);
-	color: var(--font-color);
+	background-color: var(--primary-color-50);
+	border-bottom: 1px solid var(--primary-color-300);
+	color: var(--tertiary-color-200);
 
 	&:last-child {
 		border-bottom: none;
@@ -284,7 +284,7 @@
 }
 
 .disable-border div {
-	border-bottom: 0px solid var(--color-border);
+	border-bottom: 0px solid var(--primary-color-300);
 }
 
 .modal-header {
@@ -292,9 +292,9 @@
 	align-items: center;
 	height: 40px;
 	padding: 0 20px;
-	background-color: var(--header-title-bkg) !important;
-	border-bottom: 1px solid var(--color-border) !important;
-	color: var(--font-color) !important;
+	background-color: var(--primary-color-200) !important;
+	border-bottom: 1px solid var(--primary-color-300) !important;
+	color: var(--tertiary-color-200) !important;
 	font-family: Roboto;
 	font-size: 13px;
 	line-height: 13px;
@@ -304,7 +304,7 @@
 
 .internal-tables-active {
 	&:hover {
-		background-color: var(--bkg-main);
+		background-color: var(--primary-color-50);
 	}
 	.select {
 		font-size: 0.875rem /* 14px */;

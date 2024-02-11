@@ -9,7 +9,7 @@
 	z-index: 0;
 	background-position: center;
 	background-size: cover;
-	background-color: #942222;
+	background-color: var(--secondary-color-400);
 	background-repeat: no-repeat;
 	background-image: url('/codefend/access-bkg.webp');
 
@@ -87,8 +87,8 @@ section.access {
 			border-bottom: 3px solid #6f6f6f;
 
 			&.active {
-				color: var(--text-color-alt2);
-				border-bottom: 3px solid var(--text-color-alt2);
+				color: var(--secondary-color-50);
+				border-bottom: 3px solid var(--secondary-color-50);
 			}
 		}
 	}
@@ -116,7 +116,7 @@ section.access {
 		padding-block: 27px;
 		padding-inline: 75px;
 
-		background-color: #fff;
+		background-color: var(--primary-color);
 
 		@include mixin.respond(lmedium) {
 			padding-inline: 35px;
@@ -128,7 +128,7 @@ section.access {
 			cursor: pointer;
 
 			&.link-color {
-				color: var(--text-color-alt3);
+				color: var(--tertiary-color-200);
 			}
 		}
 
@@ -201,7 +201,7 @@ form.signup-confirm {
 			}
 
 			p {
-				color: var(--font-color);
+				color: var(--tertiary-color-200);
 			}
 		}
 	}
@@ -212,7 +212,7 @@ form.signup-confirm {
 		flex-direction: column;
 
 		label {
-			color: var(--color-active-border);
+			color: var(--secondary-color-100);
 			font-weight: 700;
 			margin-bottom: 0.5rem;
 			font-size: 1.1rem;

@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-	useAuthState,
-	useUserAdmin,
-} from '../../../../data/hooks/useAuthState';
-import { ButtonLoader, PrimaryButton } from '../../../components';
+import { useAuthState } from '../../../../data';
+import { PrimaryButton } from '../../../components';
 
 const SignInLayout: React.FC = () => {
 	const { signInUser } = useAuthState();
 	const navigate = useNavigate();
-	const { isAuth, isAdmin, getAccessToken } = useUserAdmin();
 
 	const [signinForm, setSigninForm] = useState({
 		email: '',

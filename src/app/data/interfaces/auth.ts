@@ -64,16 +64,6 @@ export interface UserAPI {
 	exp?: number;
 }
 
-export interface AuthState {
-	isAuth: boolean;
-	success: boolean;
-	error: string | null | undefined;
-	loading: boolean;
-	isExpired: null;
-	userData: User | null;
-	accessToken: string | null;
-}
-
 export interface RegisterFinishParams {
 	username: string;
 	password: string;

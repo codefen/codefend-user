@@ -3,14 +3,6 @@ main.webapp {
 		width: 70%;
 
 		.table {
-			width: 70%;
-			flex: 1 1 70%;
-			.columns-name {
-				width: 97.7%;
-			}
-			.rows {
-				width: 97.7%;
-			}
 			.domain-name {
 				width: 205px;
 			}
@@ -27,6 +19,7 @@ main.webapp {
 		}
 	}
 	.over {
-		overflow: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
 	}
 }

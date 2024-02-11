@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PrimaryButton, SecondaryButton } from '../..';
 
 type TeamSizeProps = {
 	setActiveTab: Function;
@@ -7,7 +8,9 @@ type TeamSizeProps = {
 type OptionType = 'small' | 'medium' | 'full';
 
 const TeamSize = (props: TeamSizeProps) => {
-	const [selectedOption, setSelectedOption] = useState<any>(null);
+	const [selectedOption, setSelectedOption] = useState<OptionType | null>(
+		'small',
+	);
 
 	const handleSelectedOption = (option: OptionType) => {
 		if (option === selectedOption) return;
@@ -102,26 +105,26 @@ const TeamSize = (props: TeamSizeProps) => {
         <span className="codefend-color">I confirm I have authorization</span>
         <span className="text-black">and I’ve read and accept the disclaimer.</span>
       </div> */}
-			<div className="button-wrapper mt-20 flex justify-end">
-				<button
-					// type="button"
-					// disabled={isDeletingResource()}
-					onClick={() => {
-						props.setActiveTab('frequency');
-					}}
-					className="log-inputs text-gray focus:outline-none w-2/6 px-4 mr-2 py-3 text-sm tracking-wide text-white transition-colors duration-300">
-					back
-				</button>
-				<button
-					onClick={() => {
-						props.setActiveTab('order review');
-					}}
-					// type="submit"
-					// disabled={isDeletingResource()}
-					className="log-inputs flex items-center gap-x-2 text-white focus:outline-none bg-codefend px-6 w-2.5/6 py-3 text-sm transition-colors tracking-wide duration-300 font-400 text-">
-					{/* {(props.isDeleting || isDeletingResource()) && <ButtonLoader />} */}
-					Continue to the next step
-				</button>
+
+			<div className="button-wrapper mt-6 flex justify-end gap-x-4">
+				<div className="bg-blue-600 w-[25%]">
+					<SecondaryButton
+						text="back"
+						click={(e: any) => {
+							props.setActiveTab('frequency');
+						}}
+						className=" codefend_secondary_ac w-full"
+					/>
+				</div>
+				<div className="bg-yellow-500 w-2/6">
+					<PrimaryButton
+						text="Continue to the next step"
+						click={() => {
+							props.setActiveTab('order review');
+						}}
+						className=" codefend_main_ac w-full"
+					/>
+				</div>
 			</div>
 		</div>
 	);

@@ -36,7 +36,7 @@
 }
 
 ::-webkit-scrollbar-track {
-	background: #e5e5e5;
+	background: var(--primary-color-500);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -53,7 +53,7 @@
 	box-sizing: border-box;
 	/* FireFox Support */
 	scrollbar-width: thin;
-	scrollbar-color: #ff6c6c #e5e5e5;
+	scrollbar-color: #ff6c6c var(--primary-color-500);
 }
 
 body {
@@ -63,8 +63,8 @@ body {
 	min-height: 100dvh;
 	min-width: 100dvw;
 	touch-action: manipulation;
-	background-color: var(--bkg-main);
-	color: var(--color-main);
+	background-color: var(--primary-color-50);
+	color: var(--tertiary-color-500);
 }
 
 #root {
@@ -100,7 +100,7 @@ h2 {
 	color: oklch(46.04% 0 0);
 }
 h3 {
-	color: var(--text-color-alt);
+	color: var(--tertiary-color-300);
 }
 
 a,
@@ -109,7 +109,7 @@ select {
 }
 
 select {
-	color: var(--text-color);
+	color: var(--tertiary-color-400);
 }
 
 a {
@@ -123,12 +123,12 @@ a {
 
 	&.disabled {
 		cursor: not-allowed !important;
-		color: var(--text-color-alt3) !important;
-		background-color: var(--sidebar-bkg) !important;
+		color: var(--tertiary-color-200) !important;
+		background-color: var(--primary-color-100) !important;
 		&:hover {
 			cursor: not-allowed !important;
-			color: var(--text-color-alt3) !important;
-			background-color: var(--sidebar-bkg) !important;
+			color: var(--tertiary-color-200) !important;
+			background-color: var(--primary-color-100) !important;
 		}
 	}
 }
@@ -137,7 +137,7 @@ main {
 	opacity: 0;
 	display: flex;
 	column-gap: 0.625rem;
-	color: var(--color-codefend);
+	color: var(--primary-color-100);
 
 	margin-block-start: var(--navbar-height);
 	margin-inline: auto;
@@ -167,7 +167,7 @@ main {
 	--primary-hover-color: hsl(0, 71%, 46%);
 	--checkbox-diameter: 17.5px;
 	--checkbox-border-radius: 5px;
-	--checkbox-border-color: #d9d9d9;
+	--checkbox-border-color: var(--tertiary-color-50);
 	--checkbox-border-width: 1px;
 	--checkbox-border-style: solid;
 	--checkmark-size: 1.2;

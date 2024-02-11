@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CryptoPayment from './CryptoPayment';
+import { PrimaryButton, SecondaryButton } from '../..';
 
 type PaymentMethodProps = {
 	setActiveTab: Function;
@@ -9,7 +10,8 @@ type PaymentMethodProps = {
 type PaymentMethodOption = 'crypto' | 'card' | 'bank transfer';
 
 const PaymentMethod = (props: PaymentMethodProps) => {
-	const [selectedOption, setSelectedOption] = useState<any>(null);
+	const [selectedOption, setSelectedOption] =
+		useState<PaymentMethodOption | null>('crypto');
 	const [showTransactionView, setShowTransactionView] = useState(false);
 
 	const handleSelectedOption = (option: PaymentMethodOption) => {
@@ -107,26 +109,25 @@ const PaymentMethod = (props: PaymentMethodProps) => {
 						</div>
 					</div>
 
-					<div className="button-wrapper mt-14 flex justify-end">
-						<button
-							// type="button"
-							// disabled={isDeletingResource()}
-							onClick={() => {
-								props.setActiveTab('order review');
-							}}
-							className="log-inputs text-gray focus:outline-none w-2/6 px-4 mr-2 py-3 text-sm tracking-wide text-white transition-colors duration-300">
-							back
-						</button>
-						<button
-							onClick={() => {
-								setShowTransactionView(true);
-							}}
-							// type="submit"
-							// disabled={isDeletingResource()}
-							className="log-inputs flex items-center gap-x-2 text-white focus:outline-none bg-codefend px-6 w-2.5/6 py-3 text-sm transition-colors tracking-wide duration-300 font-400 text-">
-							{/* {(props.isDeleting || isDeletingResource()) && <ButtonLoader />} */}
-							Proceed to payment
-						</button>
+					<div className="button-wrapper mt-6 flex justify-end gap-x-4">
+						<div className="bg-blue-600 w-[25%]">
+							<SecondaryButton
+								text="back"
+								click={(e: any) => {
+									props.setActiveTab('order review');
+								}}
+								className=" codefend_secondary_ac w-full"
+							/>
+						</div>
+						<div className="bg-yellow-500 w-2/6">
+							<PrimaryButton
+								text="Proceed to payment"
+								click={() => {
+									setShowTransactionView(true);
+								}}
+								className=" codefend_main_ac w-full"
+							/>
+						</div>
 					</div>
 				</>
 			) : (

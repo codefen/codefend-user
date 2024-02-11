@@ -7,7 +7,7 @@ button.btn {
 
 	padding-inline: 23px;
 
-	color: #fff !important;
+	color: var(--primary-color) !important;
 	font-size: 13px;
 	font-family: 'Roboto';
 	font-weight: 800;
@@ -15,7 +15,7 @@ button.btn {
 
 	height: 45px;
 	border-radius: 4px;
-	background-color: var(--btn-color-main);
+	background-color: var(--secondary-color-50);
 	border: none;
 	transition: all 0.3s;
 	position: relative;

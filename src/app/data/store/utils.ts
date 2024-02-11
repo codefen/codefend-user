@@ -3,6 +3,7 @@ import {
     StateCreator,
     StoreMutatorIdentifier,
   } from 'zustand'
+import { devtools, persist } from 'zustand/middleware'
 
 export type Write<T extends object, U extends object> = Omit<T, keyof U> & U
 export type Cast<T, U> = T extends U ? T : U
@@ -28,3 +29,11 @@ export type StateMiddleware = <T extends State, A>(
     f: StateCreator<T, [], []>,
     bar: A,
   ) => StateCreator<T, [], []>
+
+
+  export const persistMiddleware = <T>(store: any, persistence: any) =>
+	devtools(persist(store, persistence)) as StateCreator<
+		T,
+		[],
+		[['zustand/persist', string]]
+	>;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PrimaryButton, SecondaryButton } from '../..';
 
 type ScopeViewProps = {
 	setActiveTab: Function;
@@ -8,7 +9,9 @@ type ScopeViewProps = {
 type ScopeViewOption = 'team resources' | 'mobile resources';
 
 const ScopeView = (props: ScopeViewProps) => {
-	const [selectedOption, setSelectedOption] = useState<any>(null);
+	const [selectedOption, setSelectedOption] = useState<ScopeViewOption | null>(
+		'mobile resources',
+	);
 
 	const handleSelectedOption = (option: ScopeViewOption) => {
 		if (option === selectedOption) return;
@@ -59,7 +62,7 @@ const ScopeView = (props: ScopeViewProps) => {
 					<input
 						id="team-resources"
 						type="radio"
-						className=""
+						className="log-inputs"
 						checked={isOptionChecked('team resources')}
 						onChange={(value) => {
 							handleSelectedOption('team resources');
@@ -85,7 +88,7 @@ const ScopeView = (props: ScopeViewProps) => {
 					id="confirmation"
 					type="checkbox"
 					alt="checkbox"
-					className=""
+					className="log-inputs"
 				/>
 				<label htmlFor="confirmation" className="flex items-center gap-x-1">
 					<span className="codefend-color">
@@ -97,7 +100,7 @@ const ScopeView = (props: ScopeViewProps) => {
 				</label>
 			</div>
 
-			<div className="button-wrapper mt-6 flex justify-end">
+			{/* <div className="button-wrapper mt-6 flex justify-end">
 				<button
 					// type="button"
 					// disabled={isDeletingResource()}
@@ -114,9 +117,29 @@ const ScopeView = (props: ScopeViewProps) => {
 					// type="submit"
 					// disabled={isDeletingResource()}
 					className="log-inputs flex items-center gap-x-2 text-white focus:outline-none bg-codefend px-6 w-2.5/6 py-3 text-sm transition-colors tracking-wide duration-300 font-400 text-">
-					{/* {(props.isDeleting || isDeletingResource()) && <ButtonLoader />} */}
+					{(props.isDeleting || isDeletingResource()) && <ButtonLoader />}
 					Continue to the next step
 				</button>
+			</div> */}
+			<div className="button-wrapper mt-6 flex justify-end gap-x-4">
+				<div className="bg-blue-600 w-[25%]">
+					<SecondaryButton
+						text="cancel"
+						click={(e: any) => {
+							props.closeModal();
+						}}
+						className=" codefend_secondary_ac w-full"
+					/>
+				</div>
+				<div className="bg-yellow-500 w-2/6">
+					<PrimaryButton
+						text="Continue to the next step"
+						click={() => {
+							props.setActiveTab('frequency');
+						}}
+						className=" codefend_main_ac w-full"
+					/>
+				</div>
 			</div>
 		</div>
 	);

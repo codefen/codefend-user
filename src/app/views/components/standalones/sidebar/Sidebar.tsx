@@ -31,8 +31,8 @@ const isActivePath = (verifyPath: string) => {
 };
 
 const Sidebar: React.FC = () => {
-	const { isAuth, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin = isAuth() && isAdmin() && getAccessToken() !== null;
+	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
+	const showAdmin = isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	return (
 		<aside className="sidebar">
 			{showAdmin && (
@@ -80,13 +80,11 @@ const Sidebar: React.FC = () => {
 				<LanIcon />
 			</Link>
 
-			<Link
-				title="Enp"
-				to="/enp"
-				className={isActivePath('/enp') ? 'active' : ''}>
-				<EnpIcon />
-			</Link>
-			{/* 
+
+				<Link title="Enp" to="/enp" className={isActivePath('/enp') ? 'active' : ''}>
+					<EnpIcon />
+				</Link>
+{/*
 			<Show when={RUNNING_DESKTOP()}>
 				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
 					<EnpIcon />

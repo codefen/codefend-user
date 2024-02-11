@@ -1,5 +1,6 @@
 import React from 'react';
 import { defaultCrypto } from '../../../../data/mocks';
+import { PrimaryButton, SecondaryButton } from '../..';
 
 type CryptoPaymentProps = {
 	goBack?: Function;
@@ -28,7 +29,7 @@ const CryptoPayment = (props: CryptoPaymentProps) => {
 					<div className="qrcode bg-white p-2 shadow-md">
 						<img src="/codefend/QR.svg" alt="qrcode-icon" />
 					</div>
-					<div className="details gap-y-1">
+					<div className="details gap-y-1 text-black">
 						<h2 className="font-700 text-[16px] text-black">Bitcoin</h2>
 						<span>Price in USD: $1,500</span>
 						<span>Price in BTC: 0.03863912</span>
@@ -45,26 +46,25 @@ const CryptoPayment = (props: CryptoPaymentProps) => {
 				</div>
 			</div>
 
-			<div className="button-wrapper mt-14 flex justify-end">
-				<button
-					// type="button"
-					// disabled={isDeletingResource()}
-					onClick={() => {
-						props.goBack?.();
-					}}
-					className="log-inputs text-gray focus:outline-none w-2/6 px-4 mr-2 py-3 text-sm tracking-wide text-white transition-colors duration-300">
-					back
-				</button>
-				<button
-					onClick={() => {
-						props.closeModal();
-					}}
-					// type="submit"
-					// disabled={isDeletingResource()}
-					className="log-inputs flex items-center gap-x-2 text-white focus:outline-none bg-codefend px-6 w-2.5/6 py-3 text-sm transition-colors tracking-wide duration-300 font-400 text-">
-					{/* {(props.isDeleting || isDeletingResource()) && <ButtonLoader />} */}
-					transaction done, finish
-				</button>
+			<div className="button-wrapper mt-6 flex justify-end gap-x-4">
+				<div className="bg-blue-600 w-[25%]">
+					<SecondaryButton
+						text="back"
+						click={(e: any) => {
+							props.goBack?.();
+						}}
+						className=" codefend_secondary_ac w-full"
+					/>
+				</div>
+				<div className="bg-yellow-500 w-2/6">
+					<PrimaryButton
+						text="transaction done, finish"
+						click={() => {
+							props.closeModal();
+						}}
+						className=" codefend_main_ac w-full"
+					/>
+				</div>
 			</div>
 		</>
 	);

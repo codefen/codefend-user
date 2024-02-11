@@ -503,12 +503,27 @@ export const supportTicket: ColumnTable[] = [
 
 export const defaultCompanyCardData = [
 	{
-		name: 'Zamplify',
 		id: '1',
+		name: 'Zamplify',
 		website: 'order.zamlify.com',
 		size: '50-99',
 		country: 'Tokyo',
 		city: 'Yakuzi',
+
+		market: "",
+		countryCode: "",
+		province: "",
+		address: "",
+	
+		ownerName: "",
+		ownerLastname:"",
+		ownerRole: "",
+		ownerEmail: "",
+		ownerPhone: "",
+		orderSize: "",
+		profileMedia: "",
+		isDisabled: false,
+		createdAt: ""
 	},
 	{
 		name: 'Kodak',
@@ -517,6 +532,21 @@ export const defaultCompanyCardData = [
 		size: '10-19',
 		country: 'Amsterdam',
 		city: 'NY',
+
+		market: "",
+		countryCode: "",
+		province: "",
+		address: "",
+	
+		ownerName: "",
+		ownerLastname:"",
+		ownerRole: "",
+		ownerEmail: "",
+		ownerPhone: "",
+		orderSize: "",
+		profileMedia: "",
+		isDisabled: false,
+		createdAt: ""
 	},
 	{
 		name: 'flash codefend',
@@ -525,6 +555,21 @@ export const defaultCompanyCardData = [
 		size: '20-49',
 		country: 'Argentina',
 		city: 'Bueno Aires',
+
+		market: "",
+		countryCode: "",
+		province: "",
+		address: "",
+	
+		ownerName: "",
+		ownerLastname:"",
+		ownerRole: "",
+		ownerEmail: "",
+		ownerPhone: "",
+		orderSize: "",
+		profileMedia: "",
+		isDisabled: false,
+		createdAt: ""
 	},
 ];
 
