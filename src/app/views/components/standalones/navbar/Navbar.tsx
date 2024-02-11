@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
 					</ModalWrapper>
 				</Show>
 				<Show when={isOpen}>
-					<ModalWrapper action={() => setShowModal(!showModal)}>
+					<ModalWrapper action={() => setNetworkSettingState(!isOpen)}>
 						<div
 							className="modal-wrapper-title internal-tables disable-border"
 							onClick={(e) => {
@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
 							<div className="w-full mt-4">
 								<div className="w-full px-8 disable-border">
 									<NetworkSetingModal
-										close={() => setShowModal(!showModal)}
+										close={() => setNetworkSettingState(!isOpen)}
 									/>
 								</div>
 							</div>
@@ -84,8 +84,6 @@ const Navbar: React.FC = () => {
 					<div
 						title="Network Setting"
 						onClick={() => {
-							// setShowModal(!showModal);
-							// setShowModalStr('network_setting');
 							setNetworkSettingState(true);
 						}}>
 						<NetworkIcon width={1.35} height={1.35} />
