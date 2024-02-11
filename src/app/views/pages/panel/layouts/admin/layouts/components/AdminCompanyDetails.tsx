@@ -219,7 +219,7 @@ const AdminCompanyDetails: React.FC = () => {
 				<div>
 					<div className="encabezado internal-tables">
 						<div className="p-3 pl-8 internal-tables-active">
-							<p className="text-small text-left font-bold title-format">
+							<p className="title text-small title-format">
 								Company details
 							</p>
 						</div>

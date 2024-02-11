@@ -58,3 +58,31 @@ main.company {
 		border: 1px solid var(--primary-color-300);
 	}
 }
+
+[data-theme='dark'] {
+	main.company {
+		.left {
+			.company-header {
+				color: var(--tertiary-color-50);
+			}
+			.header-bar-options {
+				padding-left: 2rem;
+				p {
+					color: var(--tertiary-color-100);
+				}
+			}
+		}
+		.right {
+			.company-details-container {
+				.title {
+					font-weight: 700;
+					text-align: left;
+					color: var(--tertiary-color-100);
+				}
+				.internal-tables div {
+					color: var(--tertiary-color-400);
+				}
+			}
+		}
+	}
+}
