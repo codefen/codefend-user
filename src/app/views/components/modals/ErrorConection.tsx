@@ -1,8 +1,12 @@
 import React from 'react';
 import { ModalWrapper } from '.';
 import { ErrorIcon, LanIcon, PrimaryButton, SecondaryButton } from '..';
+import { NetworkSettingState, useNetworkSettingState } from '../../../data';
 
 const ErrorConection: React.FC<{ closeModal: () => void }> = (props) => {
+	const { setNetworkSettingState } = useNetworkSettingState(
+		(state: NetworkSettingState) => state,
+	);
 	return (
 		<>
 			<ModalWrapper isErrorBox={true} action={props.closeModal}>
@@ -52,10 +56,11 @@ const ErrorConection: React.FC<{ closeModal: () => void }> = (props) => {
 					</p>
 					<div className="error-buttons ">
 						<SecondaryButton
-							text="Try again"
+							text="Go to Network Settings"
 							click={(e: any) => {
 								props.closeModal();
-								window.location.reload();
+								setNetworkSettingState(true);
+								// window.location.reload();
 							}}
 							className="btn-cancel codefend_secondary_ac"
 						/>

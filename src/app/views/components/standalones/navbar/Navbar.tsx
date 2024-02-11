@@ -1,7 +1,11 @@
 import React, { lazy } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useModal } from '../../../../data';
+import {
+	NetworkSettingState,
+	useModal,
+	useNetworkSettingState,
+} from '../../../../data';
 import {
 	ConfirmModal,
 	LogoutIcon,
@@ -18,6 +22,9 @@ const Logo = lazy(() => import('../../defaults/Logo'));
 const Navbar: React.FC = () => {
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
+	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
+		(state: NetworkSettingState) => state,
+	);
 	const navigate = useNavigate();
 	const logout = useAuthStore((state) => state.logout);
 
@@ -47,7 +54,7 @@ const Navbar: React.FC = () => {
 						</div>
 					</ModalWrapper>
 				</Show>
-				<Show when={showModal && showModalStr === 'network_setting'}>
+				<Show when={isOpen}>
 					<ModalWrapper action={() => setShowModal(!showModal)}>
 						<div
 							className="modal-wrapper-title internal-tables disable-border"
@@ -77,8 +84,9 @@ const Navbar: React.FC = () => {
 					<div
 						title="Network Setting"
 						onClick={() => {
-							setShowModal(!showModal);
-							setShowModalStr('network_setting');
+							// setShowModal(!showModal);
+							// setShowModalStr('network_setting');
+							setNetworkSettingState(true);
 						}}>
 						<NetworkIcon width={1.35} height={1.35} />
 					</div>

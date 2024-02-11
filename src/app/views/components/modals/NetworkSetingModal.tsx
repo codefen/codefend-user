@@ -1,10 +1,13 @@
 import { toast } from 'react-toastify';
-import { EditIcon, PrimaryButton, SecondaryButton } from '..';
+import { CopyIcon, EditIcon, PrimaryButton, SecondaryButton } from '..';
 import {
+	NetworkSettingState,
+	apiLinks,
 	baseUrl,
 	deleteCustomBaseAPi,
 	getCustomBaseAPi,
 	setCustomBaseAPi,
+	useNetworkSettingState,
 } from '../../../data';
 import React, { useState } from 'react';
 
@@ -17,83 +20,81 @@ export const NetworkSetingModal: React.FC<Props> = ({ close }) => {
 	const baseUrlToDisplay = baseUrl.slice(0, 9) + ''.padEnd(8, 'X');
 	const defaultApiUrl = customApi ? customApi : baseUrlToDisplay;
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
+	const { setNetworkSettingState } = useNetworkSettingState(
+		(state: NetworkSettingState) => state,
+	);
+	const [isCopied, setIsCopied] = useState({ state: false, url: '' });
 
-	const [canEdit, setCanEdit] = useState(false);
+	const isEnabled = (url: string) => {
+		if (!url) return false;
+		return apiUrl === url;
+	};
+
 	return (
 		<>
-			<div className="p-3 flex">
+			<div className="p-2 flex items-center justify-between">
 				<p className="text-left text-base title-format">Network Setting</p>
-			</div>
-			<form
-				onSubmit={(e: React.FormEvent) => {
-					e.preventDefault();
-					setCanEdit(false);
-					if (apiUrl.length < 10) {
-						toast.error('invalid API URL, too short');
-						return;
-					}
 
-					setCustomBaseAPi(apiUrl);
-				}}>
-				<div className="flex flex-col">
-					<div className=" flex items-center w-[32rem] gap-x-2">
-						<input
-							value={apiUrl}
-							disabled={!canEdit}
-							type="url"
-							onChange={(e) => {
-								setApiUrl(e.target.value);
-							}}
-							className={`block w-full py-3 bg-white border px-2 log-inputs focus:outline-none dark:text-gray-300 ${
-								!canEdit && 'opacity-45'
-							}`}
-							placeholder="Enter API URI"
-							pattern="https://.*"
-							required
-						/>
-						<div
-							onClick={() => {
-								setCanEdit((currentValue) => !currentValue);
-							}}
-							className="cursor-pointer">
+				<span
+					onClick={() => {
+						setNetworkSettingState(false);
+					}}
+					className="p-2 font-700 text-xl text-black cursor-pointer">
+					X
+				</span>
+			</div>
+
+			<div className="flex flex-col gap-y-5">
+				{apiLinks.map((api, apiIndex) => (
+					<div
+						key={`api_link${apiIndex}`}
+						className="flex items-center gap-x-2 font-bold text-[15px]">
+						<span className="font-bold text-[14px] text-black">
+							{apiIndex + 1}.
+						</span>
+						<span className="font-bold text-[14px] text-black">
+							{api.name}
+						</span>
+						<div className="flex items-center bg-orange-500 w-[60%]">
 							<span
-								className={`${
-									!canEdit ? 'text-[#afafaf]' : 'text-[#ff3939]'
-								} w-8 h-8 cursor-pointer`}>
-								<EditIcon width={2} height={2} />
+								className={`  truncate ${
+									isEnabled(api.url) ? `codefend-text-red ` : ''
+								}`}>
+								{api.url}
+							</span>
+							<span
+								onClick={() => {
+									navigator.clipboard.writeText(api.url);
+									setIsCopied({ state: true, url: api.url });
+									setTimeout(() => {
+										setIsCopied({ state: false, url: '' });
+									}, 800);
+								}}
+								className={` ml-[0.2rem] cursor-pointer ${
+									isCopied.state && isCopied.url === api.url
+										? 'text-green-500'
+										: ''
+								}`}>
+								<CopyIcon />
 							</span>
 						</div>
-					</div>
+						<span
+							onClick={() => {
+								if (isEnabled(api.url)) return;
 
-					<span
-						onClick={() => {
-							deleteCustomBaseAPi();
-							setApiUrl(baseUrlToDisplay);
-						}}
-						className="underline text-right mr-10 mt-4 cursor-pointer codefend-text-red">
-						click here to set back to default
-					</span>
-				</div>
-				<div
-					className="mt-10 flex justify-center"
-					onClick={(e: React.FormEvent) => {
-						e.preventDefault();
-						e.stopPropagation();
-					}}>
-					<SecondaryButton
-						click={(e: any) => close()}
-						text="Cancel"
-						className="mr-2"
-					/>
-					<PrimaryButton
-						type="submit"
-						text="Save changes"
-						click={() => {}}
-						isDisabled={!canEdit}
-						disabledLoader
-					/>
-				</div>
-			</form>
+								setCustomBaseAPi(api.url);
+								setApiUrl(api.url);
+							}}
+							className={`underline ml-4  ${
+								isEnabled(api.url)
+									? `text-green-500`
+									: 'text-black cursor-pointer'
+							}`}>
+							{isEnabled(api.url) ? 'Active' : 'Click to Enable'}
+						</span>
+					</div>
+				))}
+			</div>
 			<div className="container flex items-center justify-center  mx-auto p-3 text-format"></div>
 		</>
 	);
