@@ -1,7 +1,5 @@
-import { StateCreator, create } from "zustand";
+import { create } from "zustand";
 import { ID, Monitoring, defaultCompanyCardData, equalsObj } from "..";
-import { devtools, persist } from "zustand/middleware";
-
 
 export interface AdminCompany extends ID, Monitoring {
     id: string;
@@ -35,13 +33,6 @@ export interface AdminCompanyState {
     selectCompany: (company: AdminCompany)=>void;
     updateSearch: (updated: string)=>void;
 }
-
-const stateInitV2 = (store: any, persistence: any) =>
-	devtools(persist(store, persistence)) as StateCreator<
-    AdminCompanyState,
-		[],
-		[['zustand/persist', string]]
-	>;
 
 const equals = (first:any,second:any)=>equalsObj(first, second);
 

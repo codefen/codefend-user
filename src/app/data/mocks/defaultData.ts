@@ -243,11 +243,7 @@ export const topVulnerabilitiesColumn: ColumnTable[] = [
 		value: 'issue title',
 		style: 'vul-title',
 	},
-	{
-		name: 'status',
-		value: 'status',
-		style: 'vul-condition flex',
-	},
+
 ];
 
 export const collaboratorsColumns: ColumnTable[] = [

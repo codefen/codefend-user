@@ -24,33 +24,25 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 			className={`app-card-wrapper app-card-border ${
 				!isMobileType ? 'notMobile' : ''
 			}`}>
-			<div className={`${isMobileType ? 'app-card-isMobile' : ''}`}>
-				<AppCard
-					showDetails
-					type={type}
-					id={selectedApp.id}
-					appMedia={selectedApp.appMedia}
-					appDesc={selectedApp.appDesc}
-					name={selectedApp.appName}
-					appReviews={
-						'appReviews' in selectedApp ? selectedApp.appReviews : ''
-					}
-					appRank={'appRank' in selectedApp ? selectedApp.appRank : ''}
-					appDeveloper={
-						'appDeveloper' in selectedApp ? selectedApp.appDeveloper : ''
-					}
-					cloudProvider={
-						'cloudProvider' in selectedApp
-							? selectedApp.cloudProvider.toLowerCase()
-							: ''
-					}
-				/>
-			</div>
-			<PrimaryButton
-				text={buttonText}
-				click={() => {
-					alert('Procesing your order');
-				}}
+			<AppCard
+				showDetails
+				type={type}
+				id={selectedApp.id}
+				appMedia={selectedApp.appMedia}
+				appDesc={selectedApp.appDesc}
+				name={selectedApp.appName}
+				appReviews={
+					'appReviews' in selectedApp ? selectedApp.appReviews : ''
+				}
+				appRank={'appRank' in selectedApp ? selectedApp.appRank : ''}
+				appDeveloper={
+					'appDeveloper' in selectedApp ? selectedApp.appDeveloper : ''
+				}
+				cloudProvider={
+					'cloudProvider' in selectedApp
+						? selectedApp.cloudProvider.toLowerCase()
+						: ''
+				}
 			/>
 		</div>
 	);

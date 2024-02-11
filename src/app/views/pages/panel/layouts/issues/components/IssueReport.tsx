@@ -10,9 +10,13 @@ interface Props {
 
 export const IssueReport: React.FC<Props> = (props) => {
 	const filterIssues = useMemo(() => {
-		return Object.keys(props.issuesClasses).filter(
-			(item) => item !== 'total',
-		);
+		return Object.keys(props.issuesClasses)
+			.filter((item) => item !== 'total')
+			.filter(
+				(item: any, index: number) =>
+					props.issuesClasses[item as keyof typeof props.issuesClasses] !=
+					'0',
+			);
 	}, [props.issuesClasses]);
 
 	const filterKeys = useMemo(() => {

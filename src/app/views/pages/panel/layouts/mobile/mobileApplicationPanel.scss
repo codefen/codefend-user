@@ -24,12 +24,23 @@ main.mobile {
 			.selected-content-credentials {
 				height: 100%;
 				align-self: stretch;
+				flex: 0.5 0.5 50%;
+				width: 50%;
 			}
 			.selected-content-tables {
 				display: flex;
-				flex-grow: 1;
 				flex-direction: column;
 				align-self: stretch;
+				flex: 0.5 0.5 49%;
+				width: 49%;
+				padding-inline-end: 10px;
+				.card.stats {
+					.content {
+						.stat {
+							background: transparent;
+						}
+					}
+				}
 			}
 		}
 

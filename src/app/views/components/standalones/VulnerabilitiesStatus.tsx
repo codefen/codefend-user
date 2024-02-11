@@ -18,12 +18,8 @@ export const VulnerabilitiesStatus: React.FC<{
 
 	return (
 		<div className="card stats">
-			<SimpleSection header="Vulnerabilities by status" icon={<ChartIcon />}>
-				<div
-					onClick={() => {
-						navigate('/issues');
-					}}
-					className="content">
+			<SimpleSection header="Issue by status" icon={<ChartIcon />}>
+				<div onClick={() => navigate('/issues')} className="content">
 					<div className="stat">
 						<div className="value">
 							<span className="text-fend-red">

@@ -95,13 +95,13 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 			</ModalTitleWrapper>
 
 			<div className="card">
-				<div className='over'>
+				<div className="over">
 					<div className="header">
 						<div className="title">
 							<div className="icon">
 								<GlobeWebIcon />
 							</div>
-							<span>Detected domains and subdomains</span>
+							<span>Domains and subdomains</span>
 						</div>
 
 						<div className="actions">
@@ -123,6 +123,13 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 								}}>
 								Add subdomain
 							</div>
+							<div
+								onClick={() => {
+									if (props.isLoading) return;
+									alert('adding credentials');
+								}}>
+								Add Credentials
+							</div>
 						</div>
 					</div>
 
@@ -132,8 +139,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 							<div className="domain-name">domain</div>
 							<div className="server-ip">main server</div>
 							<div className="location">location</div>
-							<div className="province">province, city</div>
-							<div className="id">actions</div>
+							<div className="id action">actions</div>
 						</div>
 						<Show when={!props.isLoading} fallback={<PageLoader />}>
 							<div
@@ -157,13 +163,9 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 														{mainNetwork.serverCountry}
 													</p>
 												</div>
-												<div className="province">
-													{mainNetwork.serverCountryProvince},{' '}
-													{mainNetwork.serverCountryCity}
-												</div>
 
 												<div
-													className="cursor-pointer p-3 ps-5 flex"
+													className="id action"
 													onClick={() => {
 														setSelectedId(mainNetwork.id);
 														setShowModal(!showModal);
@@ -200,15 +202,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 															</p>
 														</div>
 
-														<div className="province">
-															<span className="province-container">
-																{
-																	subNetwork.serverCountryProvince
-																}
-																, {subNetwork.serverCountryCity}
-															</span>
-														</div>
-														<div className="cursor-pointer p-3 ps-5 flex">
+														<div className="id action">
 															<TrashIcon
 																action={() => {
 																	setSelectedId(subNetwork.id);

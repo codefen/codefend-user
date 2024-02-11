@@ -15,11 +15,15 @@
 
 	background-color: var(--primary-color-100) !important;
 	color: var(--primary-color-100);
+	transition: background, color, border;
+	transition-duration: 500ms;
+	transition-timing-function: linear;
 
 	a {
 		display: flex;
 		align-items: center;
 		height: 45px;
+		outline: none;
 
 		margin-block-start: 0;
 
@@ -66,5 +70,23 @@
 
 	a:hover {
 		color: var(--secondary-color-50);
+	}
+}
+
+[data-theme='dark'] {
+	.sidebar {
+		border: 1px solid transparent;
+		background: var(--primary-color-500) !important;
+		transition: background, color, border;
+		transition-duration: 500ms;
+		transition-timing-function: linear;
+
+		a.active {
+			background-color: var(--primary-color-mask);
+			color: var(--secondary-color-100);
+		}
+		a {
+			border: none;
+		}
 	}
 }

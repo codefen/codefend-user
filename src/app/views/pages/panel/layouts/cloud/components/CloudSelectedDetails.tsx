@@ -8,6 +8,7 @@ import {
 	VulnerabilitiesStatus,
 	VulnerabilityRisk,
 	Show,
+	PrimaryButton,
 } from '../../../../../components';
 import SelectedCloud from '../cloudProvider';
 

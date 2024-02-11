@@ -12,7 +12,14 @@ input {
 		outline: 0px solid;
 		border: 1px solid var(--secondary-color-50) !important;
 		caret-color: var(--secondary-color-50) !important;
-		color: var(--tertiary-color-700) !important;
+		color: var(--tertiary-color-700);
+	}
+}
+[data-theme='dark'] {
+	input {
+		&:focus {
+			color: var(--tertiary-color-200);
+		}
 	}
 }
 input[type='text'],
@@ -23,7 +30,7 @@ input[type='email'] {
 
 .log-inputs {
 	background-color: var(--primary-color);
-	color: var(--tertiary-color-500) !important;
+	color: var(--tertiary-color-500);
 	border: 1px solid var(--primary-color-300);
 
 	&.text-area:focus {
@@ -57,6 +64,8 @@ select {
 		align-items: center;
 		column-gap: 0.75rem;
 		padding-block: 0.75rem;
+		cursor: pointer;
+		user-select: none;
 	}
 }
 
@@ -162,6 +171,14 @@ select {
 	}
 }
 
+[data-theme='dark'] {
+	.codefend-checkbox {
+		&::before {
+			border-color: var(--primary-color-500);
+		}
+	}
+}
+
 .cloud-quick-actions {
 	width: 100%;
 	display: flex;
@@ -255,4 +272,11 @@ select {
 			}
 		}
 	}
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	-webkit-box-shadow: 0 0 0px 1000px #fff inset;
+	-webkit-text-fill-color: inherit;
 }

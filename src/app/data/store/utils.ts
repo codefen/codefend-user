@@ -29,11 +29,3 @@ export type StateMiddleware = <T extends State, A>(
     f: StateCreator<T, [], []>,
     bar: A,
   ) => StateCreator<T, [], []>
-
-
-  export const persistMiddleware = <T>(store: any, persistence: any) =>
-	devtools(persist(store, persistence)) as StateCreator<
-		T,
-		[],
-		[['zustand/persist', string]]
-	>;

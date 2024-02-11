@@ -14,15 +14,17 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-	const preferedUserTheme =
-		localStorage.getItem('theme') ||
-		window.matchMedia('(prefers-color-scheme: dark)').matches
+	const preferedUserTheme = localStorage.getItem('theme')
+		? (localStorage.getItem('theme') as 'dark' | 'light')
+		: window.matchMedia('(prefers-color-scheme: dark)').matches
 			? 'dark'
 			: 'light';
-	const [theme, setTheme] = useState<'dark' | 'light'>(
-		preferedUserTheme ?? 'light',
-	);
 
+	const [theme, setTheme] = useState<'dark' | 'light'>(
+		preferedUserTheme ? preferedUserTheme : 'light',
+	);
+	localStorage.setItem('theme', theme);
+	document.body.setAttribute('data-theme', theme);
 	const changeTheme = () => {
 		localStorage.setItem('theme', theme === 'dark' ? 'light' : 'dark');
 		setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -30,11 +32,7 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
 
 	return (
 		<ThemeContext.Provider value={{ theme, changeTheme }}>
-			<div
-				style={{ width: '100%', height: '100%', position: 'relative' }}
-				data-theme={theme}>
-				{children}
-			</div>
+			{children}
 		</ThemeContext.Provider>
 	);
 };

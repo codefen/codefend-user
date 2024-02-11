@@ -1,9 +1,9 @@
 .btn {
 	&.btn-primary {
-		background-color: var(--secondary-color-50);
+		background-size: var(--secondary-color-50);
 
 		&:hover {
-			background-color: var(--secondary-color-300);
+			background: var(--secondary-color-300) !important;
 		}
 	}
 
@@ -19,6 +19,14 @@
 
 		&:hover {
 			scale: 1.05;
+		}
+	}
+}
+
+[data-theme='dark'] {
+	.btn {
+		.btn-primary {
+			background: var(--secondary-color-100);
 		}
 	}
 }

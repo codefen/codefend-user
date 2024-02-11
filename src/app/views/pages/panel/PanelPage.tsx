@@ -12,9 +12,9 @@ const ErrorConection = lazy(
 );
 
 export const PanelPage: React.FC = () => {
+	const [showModal, setShowModal] = useState(false);
 	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
 	if (!isAuth) logout();
-	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
 		updateAuth();
@@ -26,6 +26,7 @@ export const PanelPage: React.FC = () => {
 			localStorage.removeItem('error');
 		};
 	}, []);
+
 	return (
 		<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
 			<>

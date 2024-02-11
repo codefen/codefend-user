@@ -7,6 +7,7 @@ import {
 	IssuesPanelMobileAndCloud,
 	PageLoader,
 	Show,
+	PrimaryButton,
 } from '../../../../../components';
 import {
 	Issues,
@@ -40,6 +41,11 @@ export const MobileSelectedDetails: React.FC = () => {
 						/>
 					</div>
 					<div className="selected-content-tables">
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							click={() => alert('proccess your order')}
+							className="w-full mb-4"
+						/>
 						<VulnerabilityRisk
 							isLoading={isLoding}
 							vulnerabilityByRisk={

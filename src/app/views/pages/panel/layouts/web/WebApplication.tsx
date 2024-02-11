@@ -7,6 +7,8 @@ import { useWebapplication } from '../../../../../data';
 import '../../../../styles/flag.scss';
 import '../../../../components/Table/table.scss';
 import './webapplication.scss';
+import { PrimaryButton } from '../../../../components';
+import { useTheme } from '../../../../ThemeContext';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -19,6 +21,8 @@ const WebApplicationView: React.FC = () => {
 		const timeoutId = setTimeout(() => setShowScreen(true), 50);
 		return () => clearTimeout(timeoutId);
 	}, [refresh]);
+
+	const { changeTheme } = useTheme();
 
 	return (
 		<main className={`webapp ${showScreen ? 'actived' : ''}`}>
@@ -41,6 +45,11 @@ const WebApplicationView: React.FC = () => {
 				/>
 
 				<WebApplicationCredentials />
+				<PrimaryButton
+					text="START A PENTEST ON DEMAND"
+					click={() => changeTheme()}
+					className="w-full max-w-[96%] mt-4"
+				/>
 			</section>
 		</main>
 	);

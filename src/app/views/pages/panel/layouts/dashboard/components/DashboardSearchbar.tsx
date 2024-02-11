@@ -28,7 +28,7 @@ const DashboardSearchbar: React.FC = () => {
 
 	return (
 		<SearchBar
-			placeHolder="Sns"
+			placeHolder="search data leak"
 			isActiveSelect
 			selectOptions={selectBarOptions}
 			handleSubmit={handleSubmit}

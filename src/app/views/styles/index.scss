@@ -96,9 +96,13 @@ main.source-code,
 main.preferences,
 main.sb {
 	.left {
+		flex-grow: 0.7;
+		flex-shrink: 0.7;
 		width: 70%;
 	}
 	.right {
+		flex-grow: 0.3;
+		flex-shrink: 0.3;
 		width: 30%;
 	}
 	@include mixin.respond(small) {
@@ -129,8 +133,7 @@ main.cloud {
 		width: 31%;
 		margin-block: -0.625rem;
 
-		padding-block-start: 0.625rem;
-		padding-block-end: 4rem;
+		//padding-block-end: 4rem;
 		padding-inline-end: 0.813rem;
 
 		display: flex;
@@ -146,6 +149,7 @@ main.cloud {
 			width: 100%;
 			overflow-y: auto;
 			overflow-x: hidden;
+			padding-inline-end: 10px;
 
 			.app-info {
 				cursor: pointer;
@@ -168,6 +172,40 @@ main.cloud {
 
 		.card.risk-chart .content {
 			padding-inline-end: 10px;
+		}
+	}
+}
+
+[data-theme='dark'] {
+	main.mobile,
+	main.cloud {
+		.left {
+			.list {
+				.app-info {
+					border-radius: 10px;
+					background: var(--primary-color-250);
+					&:nth-child(1),
+					&:nth-child(2),
+					&:nth-child(3) {
+						background: var(--primary-color-500);
+						background: -moz-linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+						background: -webkit-linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+						background: linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+					}
+				}
+			}
 		}
 	}
 }

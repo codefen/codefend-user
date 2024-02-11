@@ -46,7 +46,6 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 		handleDelete,
 	} = useAppCard({ type, name, isMainNetwork, showDetails, appMedia });
 
-	console.log({ type: isMobileType });
 	return (
 		<>
 			<Show when={showModal}>
@@ -122,7 +121,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 					</div>
 					<div className="app-card-content-body">
 						<div className="app-card-title">
-							<h3 className={`${isDetails ? 'red' : 'black'}`}>
+							<h3 className={`${isDetails ? 'detail' : 'card'}`}>
 								{isMainGoogleNetwork ? 'main google network' : name}
 							</h3>
 							<Show when={isDetails && !isMobileType}>

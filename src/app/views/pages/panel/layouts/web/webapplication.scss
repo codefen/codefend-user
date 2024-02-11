@@ -16,10 +16,68 @@ main.webapp {
 					}
 				}
 			}
+			.action {
+				justify-content: center;
+				max-width: none;
+				width: 100%;
+			}
+		}
+	}
+	.right {
+		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+		padding-inline: 10px;
+		.card {
+			border: none;
+			.header {
+				max-width: 96%;
+				border-bottom: 1px solid var(--primary-color-300);
+			}
+			&.stats {
+				.content {
+					max-width: 96%;
+					column-gap: 0px;
+
+					.stat {
+						border: 1.2px solid var(--primary-color-200);
+						border-top: 0px;
+						border-radius: 0px;
+					}
+				}
+			}
 		}
 	}
 	.over {
 		overflow-y: auto;
 		overflow-x: hidden;
+	}
+}
+
+[data-theme='dark'] {
+	main.webapp {
+		.right {
+			padding-inline: 10px;
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+
+			.card {
+				.header {
+					background-color: var(--primary-color-500);
+					max-width: 96%;
+				}
+				&.stats {
+					.content {
+						max-width: 96%;
+						column-gap: 0px;
+						padding-inline: 0px;
+
+						.stat {
+							background-color: transparent;
+							border: 1.2px solid var(--primary-color-200);
+							border-top: 0px;
+							border-radius: 0px;
+						}
+					}
+				}
+			}
+		}
 	}
 }

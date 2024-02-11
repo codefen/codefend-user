@@ -46,11 +46,11 @@ export const useDoughnutChart = (value: DoughnutCharProps) => {
 				{
 					data: Object.values(otherMetrics),
 					backgroundColor: [
-						theme === "light" ? '#e85050' : '#e85050', //critical
-						theme === "light" ? '#e25365' : '#e25365', //elevated
-						theme === "light" ? '#e97e8b' : '#e97e8b', //medium
-						theme === "light" ? '#f1a7b1' : '#f1a7b1', //low
-						theme === "light" ? '#f8d7db' : '#f8d7db', //intel
+						theme === "light" ? '#e85050' : '#491C21', //critical
+						theme === "light" ? '#e25365' : '#671830', //elevated
+						theme === "light" ? '#e97e8b' : '#961933', //medium
+						theme === "light" ? '#f1a7b1' : '#C9183B', //low
+						theme === "light" ? '#f8d7db' : '#CF1118', //intel
 					],
 					borderWidth: 0,
 				},

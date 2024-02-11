@@ -19,3 +19,11 @@
 		}
 	}
 }
+
+[data-theme] {
+	button.btn {
+		&.btn-secondary {
+			color: var(--primary-color-100);
+		}
+	}
+}

@@ -59,22 +59,23 @@ const IssuesPanel: React.FC = () => {
 					/>
 				</section>
 				<section className="right">
-					<VulnerabilityRisk
+					<IssueReport
+						handleFilter={handleFilters}
 						isLoading={isLoading}
-						vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
-					/>
-					<VulnerabilitiesStatus
-						vulnerabilityByShare={getIssues()?.issueCondition ?? {}}
+						issuesClasses={getIssues()?.issueClass ?? {}}
 					/>
 					<PrimaryButton
 						text="GENERATE REPORT"
 						click={() => alert('Generating report')}
 						className="w-full mt-4 mb-4"
 					/>
-					<IssueReport
-						handleFilter={handleFilters}
+
+					<VulnerabilityRisk
 						isLoading={isLoading}
-						issuesClasses={getIssues()?.issueClass ?? {}}
+						vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
+					/>
+					<VulnerabilitiesStatus
+						vulnerabilityByShare={getIssues()?.issueCondition ?? {}}
 					/>
 				</section>
 			</main>
