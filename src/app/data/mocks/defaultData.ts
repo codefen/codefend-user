@@ -506,20 +506,20 @@ export const defaultCompanyCardData = [
 		country: 'Tokyo',
 		city: 'Yakuzi',
 
-		market: "",
-		countryCode: "",
-		province: "",
-		address: "",
-	
-		ownerName: "",
-		ownerLastname:"",
-		ownerRole: "",
-		ownerEmail: "",
-		ownerPhone: "",
-		orderSize: "",
-		profileMedia: "",
+		market: '',
+		countryCode: '',
+		province: '',
+		address: '',
+
+		ownerName: '',
+		ownerLastname: '',
+		ownerRole: '',
+		ownerEmail: '',
+		ownerPhone: '',
+		orderSize: '',
+		profileMedia: '',
 		isDisabled: false,
-		createdAt: ""
+		createdAt: '',
 	},
 	{
 		name: 'Kodak',
@@ -529,20 +529,20 @@ export const defaultCompanyCardData = [
 		country: 'Amsterdam',
 		city: 'NY',
 
-		market: "",
-		countryCode: "",
-		province: "",
-		address: "",
-	
-		ownerName: "",
-		ownerLastname:"",
-		ownerRole: "",
-		ownerEmail: "",
-		ownerPhone: "",
-		orderSize: "",
-		profileMedia: "",
+		market: '',
+		countryCode: '',
+		province: '',
+		address: '',
+
+		ownerName: '',
+		ownerLastname: '',
+		ownerRole: '',
+		ownerEmail: '',
+		ownerPhone: '',
+		orderSize: '',
+		profileMedia: '',
 		isDisabled: false,
-		createdAt: ""
+		createdAt: '',
 	},
 	{
 		name: 'flash codefend',
@@ -552,20 +552,20 @@ export const defaultCompanyCardData = [
 		country: 'Argentina',
 		city: 'Bueno Aires',
 
-		market: "",
-		countryCode: "",
-		province: "",
-		address: "",
-	
-		ownerName: "",
-		ownerLastname:"",
-		ownerRole: "",
-		ownerEmail: "",
-		ownerPhone: "",
-		orderSize: "",
-		profileMedia: "",
+		market: '',
+		countryCode: '',
+		province: '',
+		address: '',
+
+		ownerName: '',
+		ownerLastname: '',
+		ownerRole: '',
+		ownerEmail: '',
+		ownerPhone: '',
+		orderSize: '',
+		profileMedia: '',
 		isDisabled: false,
-		createdAt: ""
+		createdAt: '',
 	},
 ];
 
@@ -584,5 +584,41 @@ export const webLocationColumn: ColumnTable[] = [
 		name: 'percent',
 		value: 'percent',
 		style: 'percent',
+	},
+];
+
+export const orderTab =
+	'scope,frequency,team size,order review,payment method'.split(',');
+
+export const defaultCrypto = [
+	{
+		name: 'btc',
+	},
+	{
+		name: 'eth',
+	},
+	{
+		name: 'lite',
+	},
+	{
+		name: 'xmr',
+	},
+	{
+		name: 'solana',
+	},
+];
+
+export const apiLinks = [
+	{
+		name: 'Kundalini',
+		url: 'https://kundalini.codefend.com/kundalini/index.php',
+	},
+	{
+		name: 'Bahrain',
+		url: 'https://api.codefend.com/kundalini/index.php',
+	},
+	{
+		name: 'Mena',
+		url: 'https://api-mena.codefend.com/kundalini/index.php',
 	},
 ];

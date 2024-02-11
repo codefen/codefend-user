@@ -3,7 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { PanelPage } from './views/pages/panel/PanelPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Loader } from './views/components';
+import { AddDomainModal, Loader, ModalTitleWrapper } from './views/components';
+import { useModal } from './data';
 import {
 	AuthPage,
 	SignInLayout,
@@ -30,11 +31,12 @@ import {
 	IssuesUpdate,
 	AdminPage,
 	AdminUser,
-	AdminCompany
+	AdminCompany,
 } from '../app/views/pages';
 
-
 export const AppRouter: React.FC = () => {
+	const { showModal, setShowModal, showModalStr, setShowModalStr } =
+		useModal();
 	return (
 		<>
 			<ToastContainer

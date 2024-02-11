@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { baseUrl } from '../utils/config';
-import { getToken } from '../utils/helper';
+import { getCustomBaseAPi, getToken } from '../utils/helper';
 import { toast } from 'react-toastify';
 import useAuthStore from '../store/auth.store';
 
@@ -42,7 +42,9 @@ const fetchFromAPI = async ({
 	headers,
 }: FetchParams): Promise<any> => {
 	let token = getToken();
-	const url = path ? `${baseUrl}${path}` : baseUrl;
+	const customAPi = getCustomBaseAPi();
+	const _baseUrl = customAPi ? customAPi : baseUrl;
+	const url = path ? `${_baseUrl}${path}` : _baseUrl;
 	/**
 	 * @type {AxiosRequestConfig} - Axios request configuration.
 	 */
