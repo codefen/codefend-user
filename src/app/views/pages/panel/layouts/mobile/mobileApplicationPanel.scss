@@ -76,16 +76,6 @@ main.mobile {
 }
 
 [data-theme='dark'] {
-	main {
-		position: relative;
-		z-index: 5;
-		.left {
-			z-index: 10;
-		}
-		.right {
-			z-index: 10;
-		}
-	}
 	.variant-1 {
 		width: 17rem;
 		top: 36dvh;

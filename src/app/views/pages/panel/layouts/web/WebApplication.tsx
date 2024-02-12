@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { WebApplicationResources } from './components/WebApplicationResources';
 import { WebApplicationLocation } from './components/WebApplicationLocation';
 import { WebApplicationStatics } from './components/WebApplicationStatics';
@@ -52,7 +52,7 @@ const WebApplicationView: React.FC = () => {
 				<PrimaryButton
 					text="START A PENTEST ON DEMAND"
 					click={() => changeTheme()}
-					className="w-full max-w-[96%] mt-4"
+					className="w-full mt-4"
 				/>
 			</section>
 		</main>
