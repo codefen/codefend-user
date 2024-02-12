@@ -1,4 +1,4 @@
-name: 'publish'
+name: 'Instalable to Prod'
 on:
   push:
     branches:
