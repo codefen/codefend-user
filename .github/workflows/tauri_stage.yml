@@ -1,8 +1,8 @@
-name: 'publish'
+name: 'Instalable to Stage'
 on:
   push:
     branches:
-      - build
+      - build-stage
 
 jobs:
   publish-tauri:
