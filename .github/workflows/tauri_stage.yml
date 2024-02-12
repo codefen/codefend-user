@@ -2,7 +2,7 @@ name: 'Instalable to Stage'
 on:
   push:
     branches:
-      - build-stage
+      - build
 
 jobs:
   publish-tauri:
