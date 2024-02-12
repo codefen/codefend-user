@@ -1,5 +1,29 @@
 main.mobile {
 	.left {
+		.card {
+			overflow: hidden;
+			width: 100%;
+			margin-block-start: 0.5rem;
+			margin-block-end: 1rem;
+			flex: 1 1 5%;
+			border: 0px;
+			.header {
+				font-size: 15px;
+				padding-inline-start: 0px;
+			}
+		}
+		.search-app {
+			width: 100%;
+			margin-block-end: 0.75rem;
+			margin-block-start: 0.5rem;
+			border-radius: 3px;
+			padding-inline-start: 1rem;
+			padding-inline-end: 1.35rem;
+			padding-block: 1.25rem;
+			font-size: 14px;
+			flex: 1 1 5%;
+		}
+
 		.mobile-card-delete {
 			position: fixed;
 			left: 0;
@@ -10,9 +34,19 @@ main.mobile {
 			width: 100%;
 			height: 100%;
 		}
+		.list {
+			flex: 1 1 90%;
+			.app-info {
+				height: fit-content;
+				.modal-wrapper {
+					background-color: rgba(0, 0, 0, 0.45);
+				}
+			}
+		}
 	}
 
 	.right {
+		
 		.selected-content {
 			display: flex;
 			align-items: center;

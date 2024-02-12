@@ -87,6 +87,7 @@
 	.brightness {
 		opacity: 0;
 		visibility: hidden;
+		display: none;
 	}
 }
 
@@ -199,6 +200,24 @@ main.cloud {
 	.right {
 		flex: 1 1 69%;
 		width: 69%;
+
+		.actions {
+			display: flex;
+			align-items: center;
+			border-left: 1px solid var(--tertiary-color-700);
+			color: var(--secondary-color-50);
+			margin-inline-start: 10px;
+
+			div {
+				border-right: 1px solid var(--tertiary-color-700);
+				padding: 0 13px;
+				letter-spacing: 1px;
+				font-size: 14px;
+				cursor: pointer !important;
+				user-select: none;
+				pointer-events: auto;
+			}
+		}
 
 		.card.risk-chart .content {
 			padding-inline-end: 10px;

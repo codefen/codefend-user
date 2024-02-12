@@ -145,7 +145,7 @@
 		h4 {
 			text-align: left;
 			font-weight: bold;
-			color: var(--tertiary-color-50);
+			color: var(--tertiary-color-400);
 			-webkit-line-clamp: 2;
 			-webkit-line-clamp: 2;
 			white-space: pre-line;
@@ -374,6 +374,13 @@
 }
 
 [data-theme='dark'] {
+	.modal {
+		.header {
+			h4 {
+				color: var(--tertiary-color-50);
+			}
+		}
+	}
 	.error-wrapper {
 		h2 {
 			color: var(--tertiary-color-50);
