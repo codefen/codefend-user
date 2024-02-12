@@ -17,6 +17,14 @@ main.cloud {
 				font-size: 15px;
 				padding-inline-start: 0px;
 			}
+			.actions {
+				div {
+					transition: color 150ms ease;
+					&:hover {
+						color: var(--secondary-color-300);
+					}
+				}
+			}
 		}
 
 		.search-app {

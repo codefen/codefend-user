@@ -216,9 +216,10 @@ main.cloud {
 				cursor: pointer !important;
 				user-select: none;
 				pointer-events: auto;
+				transition: color 150ms ease;
 
 				&:hover {
-					color: var(--secondary-color-200);
+					color: var(--secondary-color-300);
 				}
 			}
 		}
