@@ -24,8 +24,16 @@ interface WebResourcesProps {
 	isLoading: boolean;
 }
 
+interface SelectedResource {
+	id: string;
+	domain: string;
+	serverIp: string;
+}
+
 export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
-	const [selectedId, setSelectedId] = useState<string>('0');
+	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
+		{} as any,
+	);
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
 		useModal();
 	const { handleDelete } = useDeleteWebResource();
@@ -59,7 +67,11 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 						<div
 							className="id action"
 							onClick={() => {
-								setSelectedId(mainNetwork.id);
+								setSelectedResource({
+									id: mainNetwork.id,
+									domain: mainNetwork.resourceDomain,
+									serverIp: mainNetwork.mainServer,
+								});
 								setShowModal(true);
 								setShowModalStr('delete_resource');
 							}}>
@@ -88,7 +100,11 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 							<div className="id action">
 								<TrashIcon
 									action={() => {
-										setSelectedId(subNetwork.id);
+										setSelectedResource({
+											id: subNetwork.id,
+											domain: subNetwork.resourceDomain,
+											serverIp: mainNetwork.mainServer,
+										});
 										setShowModal(true);
 										setShowModalStr('delete_resource');
 									}}
@@ -124,12 +140,12 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 				close={() => setShowModal(false)}
 				headerTitle="Delete web resource">
 				<ConfirmModal
-					header=""
+					header={`Are you sure to remove\n ${selectedResource.domain} - ${selectedResource.serverIp}`}
 					cancelText="Cancel"
 					confirmText="Delete"
 					close={() => setShowModal(false)}
 					action={() =>
-						handleDelete(props.refresh, selectedId).then(() =>
+						handleDelete(props.refresh, selectedResource.id).then(() =>
 							setShowModal(false),
 						)
 					}
