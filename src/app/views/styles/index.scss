@@ -83,6 +83,36 @@
 .flex {
 	display: flex;
 }
+[data-theme='light'] {
+	.brightness {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+[data-theme='dark'] {
+	.brightness {
+		width: auto;
+		aspect-ratio: 1/1;
+		position: absolute;
+		border-radius: 100%;
+		pointer-events: none;
+		user-select: none;
+		z-index: 0;
+
+		background: radial-gradient(
+			circle,
+			rgb(255 255 255 / 43%) 7%,
+			rgb(255 255 255 / 58%) 100%
+		);
+		opacity: 1;
+		visibility: visible;
+
+		transition-property: opacity, visible;
+		transition-duration: 400ms;
+		transition-timing-function: linear;
+	}
+}
 
 ///////////////////////////////////////////////////////////////////
 // DEFAULT SIZE PANEL

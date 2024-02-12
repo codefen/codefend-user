@@ -61,41 +61,56 @@ main.dashboard {
 	}
 }
 
-[data-theme='dark'] main.dashboard {
-	.right {
-		box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
-		.card.risk-chart {
-			.content {
-				flex-direction: column;
-				row-gap: 2rem;
+[data-theme='dark'] {
+	.variant-1 {
+		width: 16rem;
+		top: 4dvh;
+		right: 31dvw;
+		filter: blur(100px) brightness(0.5) opacity(0.45);
+	}
+	.variant-2 {
+		width: 16rem;
+		top: 20dvh;
+		right: 2dvw;
+		filter: blur(115px) brightness(0.5);
+	}
 
-				.chart {
-					flex: 1 1 100%;
-					min-width: 105px;
-					max-width: 0%;
-				}
-				.table {
-					flex: 1 1 100%;
-					max-width: 100%;
-					.columns-name {
-						align-items: center;
-						column-gap: 15px;
-						.risk {
-							margin-inline-end: 40px;
-						}
+	main.dashboard {
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+			.card.risk-chart {
+				.content {
+					flex-direction: column;
+					row-gap: 2rem;
+
+					.chart {
+						flex: 1 1 100%;
+						min-width: 105px;
+						max-width: 0%;
 					}
-
-					.rows {
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						.item {
+					.table {
+						flex: 1 1 100%;
+						max-width: 100%;
+						.columns-name {
+							align-items: center;
 							column-gap: 15px;
 							.risk {
 								margin-inline-end: 40px;
-								justify-self: flex-start;
-								align-self: flex-start;
-								justify-content: flex-start;
+							}
+						}
+
+						.rows {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							.item {
+								column-gap: 15px;
+								.risk {
+									margin-inline-end: 40px;
+									justify-self: flex-start;
+									align-self: flex-start;
+									justify-content: flex-start;
+								}
 							}
 						}
 					}

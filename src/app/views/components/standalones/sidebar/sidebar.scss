@@ -19,6 +19,8 @@
 	transition-duration: 500ms;
 	transition-timing-function: linear;
 
+	z-index: 45;
+
 	a {
 		display: flex;
 		align-items: center;
@@ -83,7 +85,7 @@
 
 		a.active {
 			background-color: var(--primary-color-mask);
-			color: var(--secondary-color-100);
+			color: var(--secondary-color-50);
 		}
 		a {
 			border: none;

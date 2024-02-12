@@ -92,6 +92,7 @@ section {
 			min-height: 100%;
 
 			background-color: rgba(128, 128, 128, 0.05);
+			transition: all 600ms linear;
 
 			img {
 				object-fit: cover;
@@ -100,6 +101,7 @@ section {
 				height: 100%;
 				border-radius: 5px;
 				user-select: none;
+				transition: all 600ms linear;
 			}
 		}
 

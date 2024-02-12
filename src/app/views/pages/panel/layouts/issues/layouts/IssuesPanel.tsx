@@ -47,6 +47,7 @@ const IssuesPanel: React.FC = () => {
 	return (
 		<>
 			<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+				<div className="brightness variant-1"></div>
 				<section className="left">
 					<IssueResources
 						isLoading={isLoading}

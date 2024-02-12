@@ -174,7 +174,22 @@ main.issue-detail {
 }
 
 [data-theme='dark'] {
+	.variant-1 {
+		width: 32rem;
+		top: -22dvh;
+		right: 17dvw;
+		filter: blur(130px) brightness(0.45) opacity(0.4);
+		background: rgba(255, 255, 255, 0.7607843137);
+		z-index: 5;
+	}
+	.variant-2 {
+		width: 23rem;
+		bottom: 30dvh;
+		left: 5dvw;
+		filter: blur(120px) brightness(0.5) opacity(0.4);
+	}
 	main.issues-list {
+		z-index: 5;
 		.left {
 			.header {
 				.save {
@@ -183,6 +198,7 @@ main.issue-detail {
 					}
 				}
 			}
+			z-index: 10;
 		}
 		.right {
 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
@@ -193,6 +209,7 @@ main.issue-detail {
 					}
 				}
 			}
+			z-index: 10;
 		}
 	}
 }

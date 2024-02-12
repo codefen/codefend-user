@@ -60,6 +60,9 @@ export const CloudApplication = ({
 					/>
 				}>
 				<>
+					<div className="brightness variant-1"></div>
+					<div className="brightness variant-2"></div>
+					<div className="brightness variant-3"></div>
 					<section className="left">
 						<div className="add-button">
 							<PrimaryButton

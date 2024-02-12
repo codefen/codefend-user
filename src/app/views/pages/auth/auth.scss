@@ -9,7 +9,26 @@
 	z-index: 0;
 	background-position: center;
 	background-size: cover;
-	background-color: var(--secondary-color-400);
+	background: rgb(253, 253, 253);
+	background: -moz-linear-gradient(
+		150deg,
+		rgba(253, 253, 253, 1) 11%,
+		rgba(255, 255, 255, 1) 48%,
+		rgba(250, 250, 250, 1) 89%
+	);
+	background: -webkit-linear-gradient(
+		150deg,
+		rgba(253, 253, 253, 1) 11%,
+		rgba(255, 255, 255, 1) 48%,
+		rgba(250, 250, 250, 1) 89%
+	);
+	background: linear-gradient(
+		150deg,
+		rgba(253, 253, 253, 1) 11%,
+		rgba(255, 255, 255, 1) 48%,
+		rgba(250, 250, 250, 1) 89%
+	);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fdfdfd",endColorstr="#fafafa",GradientType=1);
 	background-repeat: no-repeat;
 	background-image: url('/codefend/access-bkg.webp');
 
@@ -59,6 +78,7 @@ section.access {
 	min-height: 100dvh;
 	position: relative;
 	z-index: 1;
+	color: #222222;
 
 	.container {
 		min-height: 100dvh;
@@ -87,8 +107,8 @@ section.access {
 			border-bottom: 3px solid #6f6f6f;
 
 			&.active {
-				color: var(--secondary-color-50);
-				border-bottom: 3px solid var(--secondary-color-50);
+				color: #fe4e4e;
+				border-bottom: 3px solid #fe4e4e;
 			}
 		}
 	}
@@ -116,7 +136,7 @@ section.access {
 		padding-block: 27px;
 		padding-inline: 75px;
 
-		background-color: var(--primary-color);
+		background-color: #fff;
 
 		@include mixin.respond(lmedium) {
 			padding-inline: 35px;
@@ -128,7 +148,7 @@ section.access {
 			cursor: pointer;
 
 			&.link-color {
-				color: var(--tertiary-color-200);
+				color: #afafaf;
 			}
 		}
 
@@ -201,7 +221,7 @@ form.signup-confirm {
 			}
 
 			p {
-				color: var(--tertiary-color-200);
+				color: #afafaf;
 			}
 		}
 	}
@@ -212,7 +232,7 @@ form.signup-confirm {
 		flex-direction: column;
 
 		label {
-			color: var(--secondary-color-100);
+			color: #ff3939;
 			font-weight: 700;
 			margin-bottom: 0.5rem;
 			font-size: 1.1rem;
@@ -234,6 +254,46 @@ form.signup-confirm {
 			display: flex;
 			align-items: center;
 			column-gap: 0.5rem;
+		}
+	}
+}
+
+section.access {
+	input {
+		background-color: #fff;
+		border-color: #e5e5e5;
+		color: #222222;
+
+		&:focus {
+			border-color: #fe4e4e;
+			caret-color: #fe4e4e;
+			color: #000;
+		}
+	}
+
+	.log-inputs {
+		background-color: #fff;
+		color: #222222;
+		border-color: #e5e5e5;
+		&.text-area:focus {
+			border-color: #fe4e4e;
+		}
+	}
+	button.btn {
+		&.btn-primary {
+			background-color: #fe4e4e !important;
+			color: #fff;
+
+			&:hover {
+				background: #cb2222 !important;
+			}
+		}
+	}
+
+	select {
+		color: #3d3d3d;
+		&:focus {
+			outline: 0px solid;
 		}
 	}
 }

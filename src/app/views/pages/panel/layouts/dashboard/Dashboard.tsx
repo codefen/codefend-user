@@ -26,6 +26,8 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
+			<div className="brightness variant-1"></div>
+			<div className="brightness variant-2"></div>
 			<section className="left">
 				<DashboardSearchbar />
 				<DashboardVulnerabilities

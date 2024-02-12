@@ -1,6 +1,4 @@
 main.mobile {
-	column-gap: 0.5rem;
-
 	.left {
 		.mobile-card-delete {
 			position: fixed;
@@ -74,5 +72,42 @@ main.mobile {
 				}
 			}
 		}
+	}
+}
+
+[data-theme='dark'] {
+	main {
+		position: relative;
+		z-index: 5;
+		.left {
+			z-index: 10;
+		}
+		.right {
+			z-index: 10;
+		}
+	}
+	.variant-1 {
+		width: 17rem;
+		top: 36dvh;
+		left: 9dvw;
+		filter: blur(150px) brightness(0.4);
+		z-index: 5;
+	}
+	.variant-2 {
+		width: 20rem;
+		top: 18dvh;
+		left: 7dvw;
+		filter: blur(130px) brightness(0.35) opacity(0.65);
+		z-index: 15;
+		background: hsla(0, 0%, 100%, 0.56);
+		height: 19rem;
+	}
+
+	.variant-3 {
+		width: 19rem;
+		top: 20dvh;
+		right: 26dvw;
+		filter: blur(140px) brightness(0.3);
+		z-index: 20;
 	}
 }

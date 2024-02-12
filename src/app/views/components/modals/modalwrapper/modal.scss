@@ -9,7 +9,7 @@
 	align-items: center;
 	justify-content: center;
 	background-color: rgba(0, 0, 0, 0.2);
-	z-index: 20;
+	z-index: 100;
 	padding-block: 2.5rem;
 
 	.wrapper-content {
@@ -135,6 +135,8 @@
 
 	margin-inline: auto;
 	padding: 0.75rem;
+	position: relative;
+	z-index: 50;
 	form {
 		padding-block-start: 0.5rem;
 		padding-block-end: 1.5rem;

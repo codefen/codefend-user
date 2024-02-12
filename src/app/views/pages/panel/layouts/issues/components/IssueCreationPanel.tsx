@@ -103,7 +103,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<p className="pr-2">Class:</p>
 					<select
 						onChange={handleChange}
-						className="  py-3 bg-white focus:outline-none log-inputs"
+						className="  py-3  focus:outline-none log-inputs"
 						value={newIssue.issueClass}
 						name="issueClass"
 						required>
@@ -124,7 +124,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<p className="pr-2">Risk score:</p>
 					<select
 						onChange={handleChange}
-						className=" py-3 bg-whitefocus:outline-none log-inputs"
+						className=" py-3 focus:outline-none log-inputs"
 						value={newIssue.score}
 						name="score"
 						required>

@@ -125,7 +125,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 								{isMainGoogleNetwork ? 'main google network' : name}
 							</h3>
 							<Show when={isDetails && !isMobileType}>
-								<span className="second-text black">
+								<span className="second-text detail">
 									resource id: {id}
 								</span>
 							</Show>

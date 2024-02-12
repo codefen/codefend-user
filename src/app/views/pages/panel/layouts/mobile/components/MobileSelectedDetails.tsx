@@ -43,14 +43,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 					/>
 				</Show>
 				<div>
-					<AppCardInfo
-						type="mobile"
-						selectedApp={getSelected}
-						openOrder={() => {
-							setShowModalStr('order');
-							setShowModal(true);
-						}}
-					/>
+					<AppCardInfo type="mobile" selectedApp={getSelected} />
 				</div>
 				<div className="selected-content">
 					<div className="selected-content-credentials">
@@ -62,7 +55,10 @@ export const MobileSelectedDetails: React.FC = (props) => {
 					<div className="selected-content-tables">
 						<PrimaryButton
 							text="START A PENTEST ON DEMAND"
-							click={() => alert('proccess your order')}
+							click={() => {
+								setShowModalStr('order');
+								setShowModal(true);
+							}}
 							className="w-full mb-4"
 						/>
 						<VulnerabilityRisk
