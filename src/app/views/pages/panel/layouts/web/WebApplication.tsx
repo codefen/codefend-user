@@ -7,6 +7,8 @@ import { useWebapplication } from '../../../../../data';
 import '../../../../styles/flag.scss';
 import '../../../../components/Table/table.scss';
 import './webapplication.scss';
+import { DarkButton, PrimaryButton } from '../../../../components';
+import { useTheme } from '../../../../ThemeContext';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -20,8 +22,11 @@ const WebApplicationView: React.FC = () => {
 		return () => clearTimeout(timeoutId);
 	}, [refresh]);
 
+	const { changeTheme } = useTheme();
+
 	return (
 		<main className={`webapp ${showScreen ? 'actived' : ''}`}>
+			<div className="brightness variant-1"></div>
 			<section className="left">
 				<WebApplicationResources
 					isLoading={isLoading}
@@ -30,6 +35,9 @@ const WebApplicationView: React.FC = () => {
 				/>
 			</section>
 			<section className="right">
+				{/* I don't understand if it's in the design
+				 <DarkButton text="MANAGE ACCESS CREDENTIALS" /> 
+				 */}
 				<WebApplicationLocation
 					isLoading={isLoading}
 					webResources={webResources.resources}
@@ -41,6 +49,11 @@ const WebApplicationView: React.FC = () => {
 				/>
 
 				<WebApplicationCredentials />
+				<PrimaryButton
+					text="START A PENTEST ON DEMAND"
+					click={() => changeTheme()}
+					className="w-full max-w-[96%] mt-4"
+				/>
 			</section>
 		</main>
 	);

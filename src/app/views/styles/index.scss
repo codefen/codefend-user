@@ -1,36 +1,36 @@
 @forward 'settings/settings.scss';
-@import '../styles/settings/mixin';
+@use 'settings/mixin' as mixin;
 
 ///////////////////////////////////////////////////////////////////
 // UTIL
 //////////////////////////////////////////////////////////////////
 .bg-codefend {
-	background-color: var(--bkg-codefend);
-	color: var(--color-codefend);
+	background-color: var(--secondary-color-50);
+	color: var(--primary-color-100);
 }
 
 .title-format {
 	font-family: Roboto, sans-serif;
 	text-transform: uppercase;
 	font-weight: bold;
-	color: var(--color-codefend);
-	color: var(--font-color);
-	color: #000;
+	//color: var(--primary-color-100);
+	//color: var(--tertiary-color-200);
+	color: var(--tertiary-color-700);
 }
 
 .red-border {
-	border-left: 6px solid var(--bkg-codefend) !important;
+	border-left: 6px solid var(--secondary-color-50) !important;
 }
 
 .border-bottom {
-	border-bottom: 1px solid var(--color-border) !important;
+	border-bottom: 1px solid var(--primary-color-300) !important;
 }
 
 .sub-domain-icon-v {
 	display: inline-block;
 	width: 0.125rem /* 2px */;
 	height: 100%;
-	background-color: var(--bkg-codefend);
+	background-color: var(--secondary-color-50);
 }
 .sub-domain-icon-h {
 	display: inline-block;
@@ -39,26 +39,26 @@
 	align-self: center;
 	margin-inline-end: 0;
 
-	background-color: var(--bkg-codefend);
+	background-color: var(--secondary-color-50);
 }
 
 .codefend-text-red {
-	color: var(--bkg-codefend) !important;
+	color: var(--secondary-color-50) !important;
 }
 
 .text-white {
-	color: var(--main-black) !important;
+	color: var(--primary-color-200) !important;
 }
 
 .text-gray {
-	color: var(--color-icon) !important;
+	color: var(--tertiary-color-100) !important;
 }
 
 .disable-border div {
-	border-bottom: 0px solid var(--color-border);
+	border-bottom: 0px solid var(--primary-color-300);
 }
 .codefend-border-red {
-	border: 1px solid var(--bkg-codefend);
+	border: 1px solid var(--secondary-color-50);
 }
 .sr-only {
 	position: absolute;
@@ -73,7 +73,7 @@
 }
 
 .text-fend-red {
-	color: var(--text-color-fend-red) !important;
+	color: var(--secondary-color-200) !important;
 }
 
 .tox-textarea {
@@ -83,24 +83,59 @@
 .flex {
 	display: flex;
 }
+[data-theme='light'] {
+	.brightness {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+[data-theme='dark'] {
+	.brightness {
+		width: auto;
+		aspect-ratio: 1/1;
+		position: absolute;
+		border-radius: 100%;
+		pointer-events: none;
+		user-select: none;
+		z-index: 0;
+
+		background: radial-gradient(
+			circle,
+			rgb(255 255 255 / 43%) 7%,
+			rgb(255 255 255 / 58%) 100%
+		);
+		opacity: 1;
+		visibility: visible;
+
+		transition-property: opacity, visible;
+		transition-duration: 400ms;
+		transition-timing-function: linear;
+	}
+}
 
 ///////////////////////////////////////////////////////////////////
 // DEFAULT SIZE PANEL
 //////////////////////////////////////////////////////////////////
 main.dashboard,
 main.company,
+main.lan,
 main.social,
 main.issues-list,
 main.source-code,
 main.preferences,
 main.sb {
 	.left {
+		flex-grow: 0.7;
+		flex-shrink: 0.7;
 		width: 70%;
 	}
 	.right {
+		flex-grow: 0.3;
+		flex-shrink: 0.3;
 		width: 30%;
 	}
-	@include respond(small) {
+	@include mixin.respond(small) {
 		.left {
 			width: 100%;
 		}
@@ -128,8 +163,7 @@ main.cloud {
 		width: 31%;
 		margin-block: -0.625rem;
 
-		padding-block-start: 0.625rem;
-		padding-block-end: 4rem;
+		//padding-block-end: 4rem;
 		padding-inline-end: 0.813rem;
 
 		display: flex;
@@ -145,6 +179,7 @@ main.cloud {
 			width: 100%;
 			overflow-y: auto;
 			overflow-x: hidden;
+			padding-inline-end: 10px;
 
 			.app-info {
 				cursor: pointer;
@@ -167,6 +202,40 @@ main.cloud {
 
 		.card.risk-chart .content {
 			padding-inline-end: 10px;
+		}
+	}
+}
+
+[data-theme='dark'] {
+	main.mobile,
+	main.cloud {
+		.left {
+			.list {
+				.app-info {
+					border-radius: 10px;
+					background: var(--primary-color-250);
+					&:nth-child(1),
+					&:nth-child(2),
+					&:nth-child(3) {
+						background: var(--primary-color-500);
+						background: -moz-linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+						background: -webkit-linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+						background: linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+					}
+				}
+			}
 		}
 	}
 }
@@ -207,17 +276,18 @@ main.cloud {
 				padding-inline: 1.5rem;
 				width: 100%;
 				height: 100%;
-				background-color: var(--input-background);
-				color: var(--input-font-color) !important;
-				border: 1px solid var(--color-border);
+				background-color: var(--primary-color);
+				color: var(--tertiary-color-500) !important;
+				border: 1px solid var(--primary-color-300);
 				font-size: 0.95rem;
 				letter-spacing: 0.2px;
 				cursor: text;
+				color: var(--tertiary-color-300);
 			}
 
 			.search-select {
 				flex: 1 1 15%;
-				border: 1px solid var(--color-border);
+				border: 1px solid var(--primary-color-300);
 				height: 100%;
 
 				display: flex;

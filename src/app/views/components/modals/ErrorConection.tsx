@@ -1,8 +1,12 @@
 import React from 'react';
 import { ModalWrapper } from '.';
-import { ErrorIcon, PrimaryButton, SecondaryButton } from '..';
+import { ErrorIcon, LanIcon, PrimaryButton, SecondaryButton } from '..';
+import { NetworkSettingState, useNetworkSettingState } from '../../../data';
 
 const ErrorConection: React.FC<{ closeModal: () => void }> = (props) => {
+	const { setNetworkSettingState } = useNetworkSettingState(
+		(state: NetworkSettingState) => state,
+	);
 	return (
 		<>
 			<ModalWrapper isErrorBox={true} action={props.closeModal}>
@@ -12,39 +16,62 @@ const ErrorConection: React.FC<{ closeModal: () => void }> = (props) => {
 						e.preventDefault();
 						e.stopPropagation();
 					}}>
-					<div className="header-wrapper">
-						<ErrorIcon />
-						<h2>Connection error.</h2>
+					<div className="error-content">
+						<div className="header-wrapper">
+							<span className="codefend-text-red">
+								<LanIcon width="2.5rem" height="2.5rem" />
+							</span>
+							<h2>Connection error.</h2>
+						</div>
+						<p className="light-p">
+							<strong>
+								This application is unable to establish a connection
+								with the specified backend server.
+							</strong>
+							This may be due to scheduled technical maintenance or an
+							issue with your connection. Please consider the following
+							steps:
+						</p>
+						<ol className="action-list">
+							<li>
+								Ensure that your internet connection is functional.
+							</li>
+							<li>Review the API connection variables.</li>
+						</ol>
+						<p>
+							Should the issue persist and you require assistance, please
+							contact{' '}
+							<a
+								className="codefend-text-red"
+								href="mailto:offline@codefend.com"
+								target="_blank">
+								<strong>offline@codefend.com.</strong>
+							</a>
+						</p>
 					</div>
-					<p className="leading-6">
-						This application is unable to establish a connection with the
-						specified backend server. This may be due to scheduled
-						technical maintenance or an issue with your connection. Please
-						consider the following steps:
-					</p>
-					<ol className="my-6 list-decimal ml-4">
-						<li>Ensure that your internet connection is functional.</li>
-						<li>Review the API connection variables.</li>
-					</ol>
-					<p className="leading-6">
-						Should the issue persist and you require assistance, please
-						contact offline@codefend.com.
-					</p>
-					<p className="mt-6">
-						We apologize for any inconvenience this may have caused.
+					<p className="apologies-p">
+						<strong>
+							We apologize for any inconvenience this may have caused.
+						</strong>
 					</p>
 					<div className="error-buttons ">
 						<SecondaryButton
-							text="Try again"
+							text="Go to Network Settings"
 							click={(e: any) => {
 								props.closeModal();
-								window.location.reload();
+								setNetworkSettingState(true);
+								// window.location.reload();
 							}}
 							className="btn-cancel codefend_secondary_ac"
 						/>
 						<PrimaryButton
 							text="email offline@codefend.com"
-							click={() => {}}
+							click={() =>
+								window.open(
+									'mailto:' +
+										encodeURIComponent('offline@codefend.com'),
+								)
+							}
 							className="btn-add codefend_main_ac"
 						/>
 					</div>

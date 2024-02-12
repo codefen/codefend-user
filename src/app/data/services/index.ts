@@ -15,9 +15,7 @@ export * from './panel/social.service';
 
 export * from './panel/mobile.service';
 export * from './panel/preference.service';
-export * from './panel/social.service';
 export * from './panel/sourcecode.service';
-export * from './panel/support.service';
 export * from './panel/webapplication.service';
 export * from './panel/inx.service';
 export * from './panel/vdb.service';

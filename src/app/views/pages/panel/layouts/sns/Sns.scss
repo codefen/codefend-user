@@ -1,7 +1,7 @@
 main.sb {
 	.left {
-		border: 1px solid var(--color-border);
-		// border-right: 1px solid var(--color-border);
+		border: 1px solid var(--primary-color-300);
+		// border-right: 1px solid var(--primary-color-300);
 		margin-bottom: -10px;
 
 		.content {
@@ -16,18 +16,18 @@ main.sb {
 
 		.search-result {
 			flex: 1 1 230px;
-			border: 1px solid var(--color-border);
+			border: 1px solid var(--primary-color-300);
 
 			.header {
 				padding: 10px 20px;
-				background-color: var(--header-title-bkg);
+				background-color: var(--primary-color-200);
 				.title {
-					color: var(--text-color-alt2);
+					color: var(--secondary-color-50);
 				}
 			}
 
 			.info {
-				color: var(--text-color);
+				color: var(--tertiary-color-400);
 				padding: 20px;
 				overflow-wrap: anywhere;
 

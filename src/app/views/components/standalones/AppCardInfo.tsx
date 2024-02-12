@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { AppCard } from './AppCard';
 import { CloudApp, MobileApp } from '../../../data';
-import { PrimaryButton } from '..';
 
 interface AppCardInfoProps {
 	type?: string;
@@ -13,10 +12,6 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 	selectedApp,
 }) => {
 	const isMobileType = type === 'mobile';
-	const buttonText = useMemo(
-		() => (isMobileType ? ' Request pentest' : ' Request automated scan'),
-		[isMobileType],
-	);
 
 	return (
 		<div
@@ -26,7 +21,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 			<div className={`${isMobileType ? 'app-card-isMobile' : ''}`}>
 				<AppCard
 					showDetails
-					isMobile={isMobileType}
+					type={type}
 					id={selectedApp.id}
 					appMedia={selectedApp.appMedia}
 					appDesc={selectedApp.appDesc}
@@ -40,17 +35,11 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 					}
 					cloudProvider={
 						'cloudProvider' in selectedApp
-							? selectedApp.cloudProvider
+							? selectedApp.cloudProvider.toLowerCase()
 							: ''
 					}
 				/>
 			</div>
-			<PrimaryButton
-				text={buttonText}
-				click={() => {
-					alert('Procesing your order');
-				}}
-			/>
 		</div>
 	);
 };

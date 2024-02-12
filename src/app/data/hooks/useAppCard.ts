@@ -7,7 +7,7 @@ interface HookProps {
 	name: string;
 	isMainNetwork?: string | boolean;
 	showDetails?: boolean;
-	appMedia?: string;
+	appMedia: string;
 }
 
 export const useAppCard = (props: HookProps) => {
@@ -19,7 +19,7 @@ export const useAppCard = (props: HookProps) => {
 	);
 	const isMobileType = useMemo(() => props.type === 'mobile', [props.type]);
 	const isImage = useMemo(
-		() => props.appMedia && props.appMedia !== undefined,
+		() => props.appMedia.trim() && props.appMedia !== undefined,
 		[props.appMedia],
 	);
 

@@ -1,0 +1,109 @@
+name: 'Instalable to Prod'
+on:
+  push:
+    branches:
+      - build-prod
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set app version
+        id: set-version
+        run: |
+          if [ "${{ matrix.platform }}" = "windows-latest" ]; then
+            $version = (Get-Content releases.json | ConvertFrom-Json).version
+            echo "APP_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          else
+            echo "APP_VERSION=$(jq -r '.version' releases.json)" >> $GITHUB_ENV
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache
+            ~/.local/share
+            ./target 
+          key: ${{ runner.os }}-node-rust-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Rust dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target
+          key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install Rust stable
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Install dependencies (Ubuntu only)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Install pnpm
+        run: |
+          npm install -g pnpm
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      - name: Build and publish with Tauri
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          tagName: app-v__VERSION__
+          releaseName: 'App v__VERSION__'
+          releaseBody: 'See the assets to download this version and install.'
+          releaseDraft: true
+          prerelease: false
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload MAC file to S3
+        if: matrix.platform == 'macos-latest'
+        run: |
+          mv /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP.app.tar.gz /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz
+          aws s3 cp /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/mac/CDF_WEBAPP-${{ env.APP_VERSION }}-mac.AppImage.tar.gz
+
+      - name: Upload WINDOWS file to S3
+        if: matrix.platform == 'windows-latest'
+        run: |
+          Move-Item "D:\a\_temp\_github_home\src-tauri\target\release\bundle\nsis\CDF_WEBAPP_${{ env.APP_VERSION }}_x64-setup.nsis.zip" "CDF_WEBAPP-windows.nsis.zip"
+          aws s3 cp CDF_WEBAPP-windows.nsis.zip s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/windows/CDF_WEBAPP-${{ env.APP_VERSION }}-windows.nsis.zip
+
+      - name: Upload LINUX file to S3
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          mv /home/runner/work/_temp/_github_home/src-tauri/target/release/bundle/appimage/CDF_WEBAPP_${{ env.APP_VERSION }}_amd64.AppImage.tar.gz /home/runner/work/_temp/_github_home/src-tauri/target/release/bundle/appimage/CDF_WEBAPP-linux.AppImage.tar.gz
+          aws s3 cp /home/runner/work/_temp/_github_home/src-tauri/target/release/bundle/appimage/CDF_WEBAPP-linux.AppImage.tar.gz s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/linux/CDF_WEBAPP-${{ env.APP_VERSION }}-linux.AppImage.tar.gz

@@ -8,13 +8,15 @@
 	padding-inline: 20px;
 	z-index: 2;
 	top: 0;
-	color: var(--color-black);
+	color: var(--primary-color-50);
 	height: var(--nav-height);
 	background: linear-gradient(
 		90deg,
 		rgba(254, 57, 57, 1) 0%,
 		rgba(148, 8, 8, 1) 100%
 	);
+
+	z-index: 46;
 
 	&-logo {
 		display: flex;
@@ -79,7 +81,7 @@
 			max-height: 100%;
 			max-width: 36rem;
 			overflow-y: auto;
-			background-color: #fff;
+			background-color: var(--primary-color);
 		}
 
 		.logout-modal {
@@ -119,4 +121,7 @@
 			}
 		}
 	}
+}
+[data-theme='dark'] .navbar {
+	color: var(--tertiary-color-50);
 }

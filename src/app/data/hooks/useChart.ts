@@ -11,6 +11,7 @@ import {
 	ArcElement,
 } from 'chart.js/auto';
 import { MetricsService, ChartValueType } from '..';
+import { useTheme } from '../../views/ThemeContext';
 
 interface DoughnutCharProps {
 	data: any;
@@ -18,15 +19,20 @@ interface DoughnutCharProps {
 }
 
 export const useDoughnutChart = (value: DoughnutCharProps) => {
-	let metrics = null;
-	if (value.type === ChartValueType.SOURCE_CODE) {
-		metrics = MetricsService.computeSourceCodeMetrics(value.data);
-	} else if (value.type === ChartValueType.NETWORK_OS) {
-		metrics = MetricsService.computeInternalNetworkOSAndCount(value.data);
+	let metrics: any = null;
+	const metricsFunctions: { [key: string]: Function } = {
+		[ChartValueType.SOURCE_CODE]: MetricsService.computeSourceCodeMetrics,
+		[ChartValueType.NETWORK_OS]: MetricsService.computeInternalNetworkOSAndCount
+	};
+
+	const selectedMetricsFunction = metricsFunctions[value.type];
+	if (selectedMetricsFunction) {
+		metrics = selectedMetricsFunction(value.data);
 	} else {
 		metrics = value.data;
 	}
 	const { total, ...otherMetrics } = metrics;
+	const { theme } = useTheme();
 
 	useEffect(() => {
 		ChartJS.register(Title, Tooltip, Legend, Colors, ArcElement);
@@ -40,11 +46,11 @@ export const useDoughnutChart = (value: DoughnutCharProps) => {
 				{
 					data: Object.values(otherMetrics),
 					backgroundColor: [
-						'#e85050', //critical
-						'#e25365', //elevated
-						'#e97e8b', //medium
-						'#f1a7b1', //low
-						'#f8d7db', //intel
+						theme === "light" ? '#e85050' : '#491C21', //critical
+						theme === "light" ? '#e25365' : '#671830', //elevated
+						theme === "light" ? '#e97e8b' : '#961933', //medium
+						theme === "light" ? '#f1a7b1' : '#C9183B', //low
+						theme === "light" ? '#f8d7db' : '#CF1118', //intel
 					],
 					borderWidth: 0,
 				},

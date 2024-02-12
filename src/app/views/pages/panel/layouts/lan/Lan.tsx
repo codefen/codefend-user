@@ -10,7 +10,7 @@ import {
 import '../../../../styles/flag.scss';
 import { LanNetworkData } from './components/LanNetworkData';
 import { LanNetworksChart } from './components/LanNetworksChart';
-import './Lan.scss'
+import './Lan.scss';
 
 const LanPage: React.FC = () => {
 	const { networks, loading, refetch } = useLan();
@@ -59,6 +59,8 @@ const LanPage: React.FC = () => {
 	return (
 		<>
 			<main className={`lan ${showScreen ? 'actived' : ''}`}>
+				<div className="brightness variant-1"></div>
+				<div className="brightness variant-2"></div>
 				<section className="left">
 					<LanNetworkData
 						isLoading={loading}
@@ -72,6 +74,7 @@ const LanPage: React.FC = () => {
 						isLoading={loading}
 						internalNetwork={internalNetworkDataInfo()}
 					/>
+
 					<PrimaryButton
 						text={scanLoading ? <PageLoaderWhite /> : 'REQUEST SCAN'}
 						click={(e: any) => scanLocal()}

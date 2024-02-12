@@ -8,6 +8,7 @@ import {
 	VulnerabilitiesStatus,
 	VulnerabilityRisk,
 	Show,
+	PrimaryButton,
 } from '../../../../../components';
 import SelectedCloud from '../cloudProvider';
 
@@ -21,7 +22,7 @@ export const CloudSelectedDetails = () => {
 		<Show when={!isLoading} fallback={<PageLoader />}>
 			<>
 				<div>
-					<AppCardInfo selectedApp={getSelected} />
+					<AppCardInfo selectedApp={getSelected} type="cloud" />
 				</div>
 				<div className="selected-content">
 					<div className=" ">

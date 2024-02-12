@@ -9,7 +9,6 @@ interface MobileAppCardProps {
 	showDetails?: boolean;
 	cloudProvider?: any;
 	isMainGoogleNetwork?: string | boolean;
-	isMobile?: string | boolean;
 	appReviews?: string;
 	appRank?: string;
 	appDeveloper?: string;
@@ -86,14 +85,14 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 							e.stopPropagation();
 							viewModal(true);
 						}}>
-						<CloseIcon />
+						<CloseIcon isButton />
 					</button>
 				</Show>
 
 				<div className="app-card-content">
 					<div className="app-card-content-img">
 						<Show
-							when={!isImage}
+							when={!isImage || !isMobileType}
 							fallback={
 								<img
 									src={`data:image/png;base64,${appMedia}`}
@@ -107,26 +106,26 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 									)
 										? `/codefend/${name}.jpg`
 										: `/clouds/${
-												isMobileType
-													? 'android-ios.jpeg'
-													: `${
-															cloudProvider
-																? `${cloudProvider}.png`
-																: 'aws.png'
-														}`
+												cloudProvider
+													? `${
+															cloudProvider === 'gcp'
+																? 'google'
+																: cloudProvider
+														}.png`
+													: 'aws.png'
 											}`
 								}
-								alt="mobile-image"
+								alt="app-image"
 							/>
 						</Show>
 					</div>
 					<div className="app-card-content-body">
 						<div className="app-card-title">
-							<h3 className={`${isDetails ? 'red' : 'black'}`}>
+							<h3 className={`${isDetails ? 'detail' : 'card'}`}>
 								{isMainGoogleNetwork ? 'main google network' : name}
 							</h3>
 							<Show when={isDetails && !isMobileType}>
-								<span className="second-text black">
+								<span className="second-text detail">
 									resource id: {id}
 								</span>
 							</Show>

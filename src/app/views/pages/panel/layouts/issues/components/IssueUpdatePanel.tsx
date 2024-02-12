@@ -10,6 +10,8 @@ import {
 import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
 import { OneIssue, UpdateIssue, useUpdateIssue } from '../../../../../../data';
+import { useTheme } from '../../../../../ThemeContext';
+import { FaBedPulse } from 'react-icons/fa6';
 
 interface IssueUpdatePanelProps {
 	completeIssue: OneIssue;
@@ -32,11 +34,11 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 	const { updatedIssue, dispatch, update } = useUpdateIssue();
 	const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
 	const [isEditable, setEditable] = useState(false);
+	const { theme } = useTheme();
 
 	const handleIssueUpdate = useCallback(() => {
 		update()
 			.then((response: any) => {
-				console.log({ v2: response });
 				setEditable(false);
 			})
 			.finally(() => {
@@ -51,15 +53,37 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 		}
 	};
 	useEffect(() => {
-		const iframe = document.getElementById('issue_ifr') as HTMLIFrameElement;
-		if (!iframe) return;
+		let contentWindow: Window | null;
+		let timeID, themeTiny;
 
-		const contentWindow = iframe.contentWindow;
-		contentWindow!.addEventListener('keydown', handleKeyDown);
-		setEditable(!isEditable);
+		const loadIframe = () => {
+			const iframe = document.getElementById(
+				'issue_ifr',
+			) as HTMLIFrameElement | null;
+
+			if (!iframe) {
+				timeID = setTimeout(() => loadIframe(), 30);
+			} else {
+				contentWindow = iframe.contentWindow! as WindowProxy;
+				const body = contentWindow.document;
+
+				contentWindow.addEventListener('keydown', handleKeyDown);
+				timeID = setTimeout(() => setEditable((prev: boolean) => true), 20);
+				themeTiny = setTimeout(
+					() => body.documentElement.setAttribute('data-theme', theme),
+					25,
+				);
+			}
+		};
+
+		loadIframe();
 
 		return () => {
-			contentWindow!.removeEventListener('keydown', handleKeyDown);
+			if (contentWindow) {
+				contentWindow.removeEventListener('keydown', handleKeyDown);
+			}
+			clearTimeout(timeID!);
+			clearTimeout(themeTiny!);
 		};
 	}, []);
 
@@ -113,25 +137,19 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 				</div>
 				<div className="info">
 					<div>
-						Id: <span>{safelyIssue().id}</span>
-					</div>
-					<div>
-						Class: <span>{safelyIssue().resourceClass}</span>
-					</div>
-					<div>
-						Resource id: <span>{safelyIssue().researcherID}</span>
-					</div>
-					<div>
 						Published: <span>{safelyIssue().createdAt}</span>
 					</div>
 					<div>
-						Author: <span>{safelyIssue().researcherUsername}</span>
+						Author: <span>@{safelyIssue().researcherUsername}</span>
 					</div>
 					<div>
-						Risk score: <span>{safelyIssue().riskScore}</span>
+						Risk score: <span>{safelyIssue().riskLevel}</span>
 					</div>
 					<div>
-						status: <span>{safelyIssue().condition}</span>
+						Resource: <span>{safelyIssue().name}</span>
+					</div>
+					<div>
+						Status: <span>{safelyIssue().condition}</span>
 					</div>
 				</div>
 				<div className="">

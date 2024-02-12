@@ -67,7 +67,7 @@ export const SearchBar: React.FC<SearchBarProps> = (props) => {
 							props.selectOptions !== undefined
 						}>
 						<select
-							className="search-select"
+							className="search-select log-inputs"
 							onChange={props?.selectOptions?.change}
 							defaultValue={props?.selectOptions?.value}>
 							<option value="" disabled>

@@ -1,20 +1,93 @@
 main.webapp {
-	.table {
-		.domain-name {
-			width: 205px;
-		}
-		.location {
-			width: 160px;
-		}
-		.item {
+	.left {
+		width: 70%;
+
+		.table {
+			.domain-name {
+				width: 205px;
+			}
 			.location {
-				.flag {
-					margin-inline-end: 0.75rem;
+				width: 160px;
+			}
+			.item {
+				.location {
+					.flag {
+						margin-inline-end: 0.75rem;
+					}
+				}
+			}
+			.action {
+				justify-content: center;
+				max-width: none;
+				width: 100%;
+			}
+		}
+	}
+	.right {
+		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+		padding-inline: 10px;
+		.card {
+			border: none;
+			.header {
+				max-width: 96%;
+				border-bottom: 1px solid var(--primary-color-300);
+			}
+			&.stats {
+				.content {
+					max-width: 96%;
+					column-gap: 0px;
+
+					.stat {
+						border: 1.2px solid var(--primary-color-200);
+						border-top: 0px;
+						border-radius: 0px;
+					}
 				}
 			}
 		}
 	}
 	.over {
-		overflow: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+}
+
+[data-theme='dark'] {
+	.variant-1 {
+		width: 21rem;
+		top: 4dvh;
+		right: 22dvw;
+		filter: blur(125px) brightness(0.34) opacity(0.65);
+	}
+	main.webapp {
+		.header {
+			background: var(--primary-color-600);
+		}
+
+		.right {
+			padding-inline: 10px;
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+
+			.card {
+				.header {
+					background-color: var(--primary-color-500);
+					max-width: 96%;
+				}
+				&.stats {
+					.content {
+						max-width: 96%;
+						column-gap: 0px;
+						padding-inline: 0px;
+
+						.stat {
+							background-color: transparent;
+							border: 1.2px solid var(--primary-color-200);
+							border-top: 0px;
+							border-radius: 0px;
+						}
+					}
+				}
+			}
+		}
 	}
 }

@@ -3,6 +3,9 @@ main.source-code {
 		flex: 1 1 68%;
 		width: 68%;
 		.table {
+			.item {
+				height: 42px;
+			}
 			.source-code {
 				justify-content: center;
 			}
@@ -15,9 +18,36 @@ main.source-code {
 	.right {
 		flex: 1 1 33%;
 		width: 33%;
+		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+		padding-inline: 10px;
 
-		.card.risk-chart .content .chart {
-			min-width: 60px;
+		.card {
+			&.risk-chart {
+				border: 0px;
+				.content {
+					flex-direction: column;
+					row-gap: 1.75rem;
+					.chart {
+						min-width: 120px;
+						max-width: 0%;
+					}
+				}
+			}
+		}
+	}
+}
+
+[data-theme='dark'] {
+	.variant-1 {
+		width: 23rem;
+		top: -10dvh;
+		right: 22dvw;
+		filter: blur(120px) brightness(0.5) opacity(0.4);
+	}
+
+	main.source-code {
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
 		}
 	}
 }

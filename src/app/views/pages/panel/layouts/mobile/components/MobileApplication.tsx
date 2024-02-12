@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
-import { MobileSelectedDetails } from '../..';
 import {
 	AppCard,
 	EmptyScreenView,
+	PageLoader,
 	PrimaryButton,
 	Show,
 } from '../../../../../components';
@@ -12,6 +12,7 @@ import {
 	useSelectedMobile,
 } from '../../../../../../data';
 import SelectedMobile from '../selectedContext';
+import { MobileSelectedDetails } from './MobileSelectedDetails';
 
 interface MobileApplicationProps {
 	openModal: () => void;
@@ -62,6 +63,10 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 					/>
 				}>
 				<>
+					<div className="brightness variant-1"></div>
+					<div className="brightness variant-2"></div>
+					<div className="brightness variant-3"></div>
+
 					<section className="left">
 						<div className="add-button">
 							<PrimaryButton text="ADD MOBILE APP" click={openModal} />
@@ -83,7 +88,7 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 												refresh();
 												setSelectedMobileApp(null);
 											}}
-											type={'mobile'}
+											type="mobile"
 											id={mobile.id}
 											appMedia={mobile.appMedia}
 											appDesc={mobile.appDesc}

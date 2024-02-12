@@ -1,7 +1,5 @@
-import { LoginParams, LoginResponse, User, mapLoginResponseToUser } from '..';
+import { LoginParams, User, mapLoginResponseToUser } from '..';
 import { useAuthState } from '../hooks/useAuthState';
-import { logout } from '../redux/slices/auth.slice';
-import { clearAuth } from '../utils/helper';
 import { decodePayload } from './decodedToken';
 import { fetchPOST, handleFetchError } from './fetchAPI';
 
@@ -38,7 +36,6 @@ const login = async (loginParams: LoginParams): Promise<any> => {
 	}).catch((error: any) => handleFetchError(error))) as any;
 
 	const response = data.response as string;
-	console.log(response)
 	if (response === 'success') {
 		const token = data.session as string;
 		let user = {} as User;
@@ -56,11 +53,6 @@ const login = async (loginParams: LoginParams): Promise<any> => {
 	return { response, message: data.message as string };
 };
 
-const logout2 = async () => {
-	clearAuth();
-	logout();
-};
-
 const verifyAuth: () => boolean = () => {
 	const { getUserdata, isAuth } = useAuthState();
 
@@ -71,6 +63,5 @@ export const AuthServices = {
 	register,
 	registerFinish,
 	login,
-	logout2,
 	verifyAuth,
 };

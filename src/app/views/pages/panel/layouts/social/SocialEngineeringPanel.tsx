@@ -52,6 +52,8 @@ const SocialEngineeringView = () => {
 	return (
 		<>
 			<main className={`social ${showScreen ? 'actived' : ''}`}>
+				<div className="brightness variant-1"></div>
+				<div className="brightness variant-2"></div>
 				<section className="left">
 					<SocialEngineering
 						refetch={refetch}

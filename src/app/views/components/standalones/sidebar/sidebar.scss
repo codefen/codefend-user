@@ -11,27 +11,35 @@
 
 	border-right-width: 1px;
 	border-right-style: solid;
-	border-right-color: var(--color-border);
+	border-right-color: var(--primary-color-300);
 
-	background-color: var(--sidebar-bkg) !important;
-	color: var(--color-codefend);
+	background-color: var(--primary-color-100) !important;
+	color: var(--primary-color-100);
+	transition: background, color, border;
+	transition-duration: 500ms;
+	transition-timing-function: linear;
+
+	z-index: 45;
 
 	a {
 		display: flex;
 		align-items: center;
 		height: 45px;
+		outline: none;
 
 		margin-block-start: 0;
 
 		padding-inline: 24px;
 		padding-block: 1.75dvh;
 
-		color: var(--color-icon);
+		color: var(--tertiary-color-100);
 
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
-		border-bottom-color: var(--color-border);
-		transition: all 0.2s linear;
+		border-bottom-color: var(--primary-color-300);
+		transition-property: color, background-color;
+		transition-duration: 175ms;
+		transition-timing-function: ease-out;
 
 		svg {
 			pointer-events: none !important;
@@ -39,30 +47,48 @@
 
 		&.disabled {
 			cursor: not-allowed;
-			color: var(--text-color-alt3);
-			background-color: var(--sidebar-bkg);
+			color: var(--tertiary-color-200);
+			background-color: var(--primary-color-100);
 			&:hover {
 				cursor: not-allowed;
-				color: var(--text-color-alt3);
-				background-color: var(--sidebar-bkg);
+				color: var(--tertiary-color-200);
+				background-color: var(--primary-color-100);
 			}
 		}
 
 		&.active {
-			background-color: var(--bkg-codefend);
-			color: #ffffff;
+			background-color: var(--secondary-color-50);
+			color: var(--primary-color);
 
 			&:hover {
-				color: #ffffff;
+				color: var(--primary-color);
 			}
 		}
 	}
 
 	a:first-child {
-		border-top: 1px solid var(--color-border);
+		border-top: 1px solid var(--primary-color-300);
 	}
 
 	a:hover {
-		color: var(--text-color-alt2);
+		color: var(--secondary-color-50);
+	}
+}
+
+[data-theme='dark'] {
+	.sidebar {
+		border: 1px solid transparent;
+		background: var(--primary-color-500) !important;
+		transition: background, color, border;
+		transition-duration: 500ms;
+		transition-timing-function: linear;
+
+		a.active {
+			background-color: var(--primary-color-mask);
+			color: var(--secondary-color-50);
+		}
+		a {
+			border: none;
+		}
 	}
 }

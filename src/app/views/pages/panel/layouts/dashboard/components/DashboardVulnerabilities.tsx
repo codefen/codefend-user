@@ -28,16 +28,13 @@ const DashboardVulnerabilities: React.FC<{
 					value: <RiskScore riskScore={issue.riskScore} />,
 					style: 'vul-score flex no-border-bottom',
 				},
-				status: { value: issue.condition, style: 'vul-condition' },
 			}) as Record<string, TableItem>,
 	);
 
 	return (
 		<div className="card">
-			<div className='over'>
-				<SimpleSection
-					header="Top priority vulnerabilities"
-					icon={<BugIcon />}>
+			<div className="over">
+				<SimpleSection header="Most relevant issues" icon={<BugIcon />}>
 					<TableV2
 						rowsData={dataTable.reverse()}
 						columns={topVulnerabilitiesColumn}

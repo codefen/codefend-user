@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ModalTitleWrapper, Show } from '../../../../components';
+import { ModalTitleWrapper, PageLoader, Show } from '../../../../components';
 import { useMobile, useModal } from '../../../../../data';
 
 import './mobileApplicationPanel.scss';
@@ -32,7 +32,7 @@ const MobileApplicationPanel: React.FC = () => {
 			</ModalTitleWrapper>
 
 			<main className={`mobile ${showScreen ? 'actived' : ''}`}>
-				<Show when={!isLoading}>
+				<Show when={!isLoading} fallback={<PageLoader />}>
 					<MobileApplication
 						openModal={() => setShowModal(true)}
 						refresh={() => refresh(!control)}

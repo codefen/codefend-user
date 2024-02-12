@@ -15,132 +15,207 @@ main.issues-list {
 		}
 	}
 	.right {
-		.card.risk-chart .content {
-			padding-block: 1px;
-			.chart {
-				min-width: 75px;
+		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+		padding-inline: 10px;
+		.card {
+			border: 0px solid transparent;
+			.risk-chart .content {
+				padding-block: 1px;
+				.chart {
+					min-width: 75px;
+				}
 			}
 		}
 	}
 }
-
-section.issue {
+main.issue-detail {
 	width: 100%;
-	max-width: 1000px;
-	background-color: #ffffff;
-	border: 1px solid var(--color-border);
+	padding-inline-end: 0px;
+	.left {
+		width: 70%;
+		max-width: 1000px;
+		background-color: var(--primary-color);
+		border: 1px solid var(--primary-color-300);
 
-	.header {
-		display: flex;
-		align-items: stretch;
-		border-bottom: 1px solid var(--color-border);
-		background-color: #ffffff;
-		font-family: Roboto;
-		color: var(--font-color);
-		height: 50px;
-		padding: 0px;
-
-		> div {
-			border-right: 1px solid var(--color-border);
+		.header {
 			display: flex;
-			align-items: center;
-			padding: 0 13px;
-		}
-		.back {
-			transition: all 0.2s;
+			align-items: stretch;
+			border-bottom: 1px solid var(--primary-color-300);
+			background-color: var(--primary-color);
+			font-family: Roboto;
+			color: var(--tertiary-color-200);
+			height: 50px;
+			padding: 0px;
 
-			&:hover {
-				background-color: #f3f3f3;
-			}
-		}
-		.name {
-			text-transform: uppercase;
-			font-weight: 700;
-			font-size: 14px;
-			border-right: none;
-		}
-		.edit {
-			margin-left: auto;
-			border-left: 1px solid var(--color-border);
-			transition: all 0.2s;
-			color: var(--text-color-alt2);
-
-			&_btn {
-				cursor: pointer;
+			> div {
+				border-right: 1px solid var(--primary-color-300);
 				display: flex;
 				align-items: center;
-				justify-content: center;
-				flex: 1 1;
-				height: 100%;
-				width: 45px;
-				padding: 0;
+				padding: 0 13px;
 			}
-
-			&.on {
-				color: #ffffff;
-				background-color: #000000;
+			.back {
+				transition: all 0.2s;
+				border-top: 1px solid var(--primary-color-300);
 
 				&:hover {
-					background-color: #333333;
+					background-color: var(--primary-color-400);
+				}
+			}
+			input {
+				height: 100%;
+			}
+			.name {
+				text-transform: uppercase;
+				font-weight: 700;
+				font-size: 14px;
+				border-right: none;
+				border-top: 1px solid var(--primary-color-300);
+			}
+			.edit {
+				margin-left: auto;
+				border-left: 1px solid var(--primary-color-300);
+				transition: all 0.2s;
+				color: var(--secondary-color-50);
+				border-top: 1px solid var(--primary-color-300);
+
+				&_btn {
+					cursor: pointer;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex: 1 1;
+					height: 100%;
+					width: 45px;
+					padding: 0;
+				}
+
+				&.on {
+					color: var(--primary-color);
+					background-color: var(--tertiary-color-700);
+					border-color: var(--tertiary-color-700);
+
+					&:hover {
+						background-color: var(--tertiary-color-400);
+						border-color: var(--tertiary-color-400);
+					}
+				}
+
+				&:hover {
+					background-color: var(--primary-color-400);
+					border-color: var(--primary-color-400);
 				}
 			}
 
-			&:hover {
-				background-color: #f3f3f3;
+			.save {
+				cursor: pointer;
+				border-right: 0px;
+				transition: all 0.2s;
+				color: var(--secondary-color-50);
+				border-top: 1px solid var(--primary-color-300);
+
+				&.on {
+					color: var(--primary-color);
+					background-color: var(--secondary-color-50);
+					border-color: var(--secondary-color-50);
+
+					&:hover {
+						background-color: var(--secondary-color-300);
+						border-color: var(--secondary-color-300);
+					}
+				}
+
+				&:hover {
+					background-color: var(--primary-color-400);
+					border-color: var(--primary-color-400);
+				}
 			}
 		}
 
-		.save {
-			cursor: pointer;
-			border-right: none;
-			transition: all 0.2s;
-			color: var(--text-color-alt2);
-
-			&.on {
-				color: #ffffff;
-				background-color: var(--bkg-codefend);
-
-				&:hover {
-					background-color: #cb2222;
-				}
+		.info {
+			display: flex;
+			align-items: stretch;
+			column-gap: 12px;
+			font-family: Roboto;
+			text-transform: uppercase;
+			font-size: 12px;
+			height: 40px;
+			border-bottom: 1px solid var(--primary-color-300);
+			padding: 0 32px;
+			select {
+				color: var(--tertiary-color-300);
+			}
+			.issue-detail-select {
+				display: flex;
+				align-items: center;
+			}
+			.issue-detail-select:first-child {
+				border-right: 1px solid var(--primary-color-300);
 			}
 
-			&:hover {
-				background-color: #f3f3f3;
+			div {
+				display: flex;
+				align-items: center;
+				font-weight: bolder;
+				color: var(--secondary-color-50);
+				padding-right: 20px;
+				span {
+					color: var(--tertiary-color-200);
+					margin-left: 5px;
+				}
 			}
 		}
 	}
+	.right {
+		flex: 1 1;
+		height: 100%;
+		padding-inline: 0px;
+		width: 30%;
+	}
+}
 
-	.info {
-		display: flex;
-		align-items: stretch;
-		column-gap: 20px;
-		font-family: Roboto;
-		text-transform: uppercase;
-		font-size: 12px;
-		height: 40px;
-		border-bottom: 1px solid var(--color-border);
-		padding: 0 32px;
-		select {
-			color: var(--color-gray);
-		}
-		div {
-			display: flex;
-			align-items: center;
-			font-weight: bolder;
-			color: var(--text-color-alt2);
-			border-right: 1px solid var(--color-border);
-			padding-right: 20px;
-			span {
-				color: var(--font-color);
-				margin-left: 5px;
+[data-theme='dark'] {
+	.variant-1 {
+		width: 32rem;
+		top: -22dvh;
+		right: 17dvw;
+		filter: blur(130px) brightness(0.45) opacity(0.4);
+		background: rgba(255, 255, 255, 0.7607843137);
+		z-index: 5;
+	}
+	.variant-2 {
+		width: 23rem;
+		bottom: 30dvh;
+		left: 5dvw;
+		filter: blur(120px) brightness(0.5) opacity(0.4);
+	}
+	main.issues-list {
+		z-index: 5;
+		.left {
+			.header {
+				.save {
+					&.on {
+						color: var(--tertiary-color-50);
+					}
+				}
 			}
+			z-index: 10;
+		}
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+			.card.stats {
+				.content {
+					.stat {
+						background-color: transparent;
+					}
+				}
+			}
+			z-index: 10;
 		}
 	}
 }
 
 .icon-container {
 	width: 100%;
-	background-color: #fff;
-	color: #fff;
+	background-color: var(--primary-color);
+	color: var(--primary-color);
 }

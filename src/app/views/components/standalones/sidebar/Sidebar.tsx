@@ -2,158 +2,220 @@ import React from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import {
-	ChartIcon,
-	GlobeWebIcon,
-	MobileIcon,
-	CLoudIcon,
-	LanIcon,
-	EnpIcon,
-	SourceCodeIcon,
-	PeopleGroup,
 	BugIcon,
-	MessageIcon,
-	PreferenceIcon,
-	InxIcon,
+	CLoudIcon,
+	ChartIcon,
 	DataIcon,
-	AdminUser,
-	AdminCompany,
-	Show,
+	EnpIcon,
+	GlobeWebIcon,
+	InxIcon,
+	LanIcon,
+	MessageIcon,
+	MobileIcon,
+	PeopleGroup,
+	PreferenceIcon,
+	SourceCodeIcon,
 } from '../../';
 
-import { RUNNING_DESKTOP, useUserAdmin } from '../../../../data';
+import { useUserAdmin } from '../../../../data';
 import './sidebar.scss';
+import { usePanelStore } from '../../../../data/store/panel.store';
 
-const isActivePath = (verifyPath: string) => {
-	const location = useLocation();
-	const currentPath = location.pathname;
-	if (currentPath === '/' && verifyPath === '/dashboard') return 'active';
-	return currentPath.startsWith(verifyPath);
-};
+
 
 const Sidebar: React.FC = () => {
-	const { isAuth, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin = isAuth() && isAdmin() && getAccessToken() !== null;
+	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
+	const showAdmin =
+		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
+	const { open, isActivePath } = usePanelStore();
+
 	return (
-		<aside className="sidebar">
+		<aside
+			className={
+				`relative duration-300
+				${ isActivePath('/') ? 'text-gray-50' : ''}
+					${!open ? 'w-16' : 'w-60'} 
+					flex justify-between h-[100vh] bg-[#121a23] text-gray-400 flex-col
+			`}>
 			<Link
 				title="Dashboard"
 				to="/dashboard"
-				className={isActivePath('/dashboard') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border ">
 				<ChartIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Dashboard
+				</span>
 			</Link>
-			{showAdmin && (
-				<>
-					<Link
-						to="/admin/company"
-						className={isActivePath('/admin/company') ? 'active' : ''}>
-						<AdminCompany />
-					</Link>
-					<Link
-						title="Admin Panel"
-						to="/admin/panel"
-						className={isActivePath('/admin/panel') ? 'active' : ''}>
-						<AdminUser />
-					</Link>
-				</>
-			)}
 
 			<Link
 				title="Web"
 				to="/web"
-				className={isActivePath('/web') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200">
 				<GlobeWebIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Web
+				</span>
 			</Link>
 
 			<Link
 				title="Mobile"
 				to="/mobile"
-				className={isActivePath('/mobile') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<MobileIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Mobile
+				</span>
 			</Link>
 
 			<Link
 				title="Cloud"
 				to="/cloud"
-				className={isActivePath('/cloud') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<CLoudIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Cloud
+				</span>
 			</Link>
 
 			<Link
 				title="Lan"
 				to="/lan"
-				className={isActivePath('/lan') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200">
 				<LanIcon />
-			</Link>
-			<Link
-				title="Lan"
-				to="/lan"
-				className={isActivePath('/lan') ? 'active' : ''}>
-				<EnpIcon />
+				<span
+					className={`${
+						!open && 'hidden'
+					}  p-[10px] origin-left duration-700`}>
+					Lan
+				</span>
 			</Link>
 
-				<Link title="Enp" to="/enp" className={isActivePath('/enp') ? 'active' : ''}>
-					<EnpIcon />
-				</Link>
-{/* 
-			<Show when={RUNNING_DESKTOP()}>
-				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
-					<EnpIcon />
-				</Link>
-			</Show> */}
+			<Link
+				title="Enp"
+				to="/enp"
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				<EnpIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Enp
+				</span>
+			</Link>
 
 			<Link
 				title="Source Code"
 				to="/source"
-				className={isActivePath('/source') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<SourceCodeIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Source Code
+				</span>
 			</Link>
 
 			<Link
 				title="Social Engineering"
 				to="/social"
-				className={isActivePath('/social') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border-gray-200 ">
 				<PeopleGroup />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Social Engineering
+				</span>
 			</Link>
 
 			<Link
 				title="Issues"
 				to="/issues"
-				className={isActivePath('/issues') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<BugIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Issues
+				</span>
 			</Link>
 
 			<Link
 				title="Customer Support"
 				to="/support"
-				className={isActivePath('/support') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<MessageIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Customer Support
+				</span>
 			</Link>
 
 			<Link
 				to="/preferences"
-				className={isActivePath('/preferences') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<PreferenceIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Preferences
+				</span>
 			</Link>
 
 			<Link
 				title="Inx"
 				to="/inx"
-				className={isActivePath('/inx') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border-gray-200 ">
 				<InxIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Inx
+				</span>
 			</Link>
 
 			<Link
 				title="Sns"
 				to="/sns"
-				className={isActivePath('/sns') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<DataIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Sns
+				</span>
 			</Link>
 
 			<Link
 				title="Vdb"
 				to="/vdb"
-				className={isActivePath('/vdb') ? 'active' : ''}>
+				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
 				<DataIcon />
+				<span
+					className={`
+					duration-600
+					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+					Vdb
+				</span>
 			</Link>
 		</aside>
 	);

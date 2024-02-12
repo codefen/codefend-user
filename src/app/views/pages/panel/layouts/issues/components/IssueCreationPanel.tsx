@@ -9,6 +9,7 @@ import {
 import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
 import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
+import { useTheme } from '../../../../../ThemeContext';
 
 interface IssueCreationPanelProps {
 	issues: Issues[];
@@ -45,7 +46,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			handleIssueUpdate();
 		}
 	};
-
+	const { theme } = useTheme();
 	useEffect(() => {
 		let contentWindow: Window | null;
 		let timeID;
@@ -58,6 +59,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 				timeID = setTimeout(() => loadIframe(), 30);
 			} else {
 				contentWindow = iframe.contentWindow!;
+				contentWindow.document.body.setAttribute('data-theme', theme);
 				contentWindow.addEventListener('keydown', handleKeyDown);
 				timeID = setTimeout(() => setEditable((prev: boolean) => true), 30);
 			}
@@ -97,11 +99,11 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			</div>
 
 			<div className="info">
-				<div className="flex items-center">
-					<p>Class:</p>
+				<div className="issue-detail-select">
+					<p className="pr-2">Class:</p>
 					<select
 						onChange={handleChange}
-						className="  py-3 bg-white focus:outline-none"
+						className="  py-3  focus:outline-none log-inputs"
 						value={newIssue.issueClass}
 						name="issueClass"
 						required>
@@ -118,11 +120,11 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					</select>
 				</div>
 
-				<div className="flex items-center">
-					<p>Risk score:</p>
+				<div className="issue-detail-select">
+					<p className="pr-2">Risk score:</p>
 					<select
 						onChange={handleChange}
-						className=" py-3 bg-whitefocus:outline-none "
+						className=" py-3 focus:outline-none log-inputs"
 						value={newIssue.score}
 						name="score"
 						required>

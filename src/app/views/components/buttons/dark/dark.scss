@@ -1,0 +1,10 @@
+.btn {
+	&.btn-dark {
+		background-size: var(--primary-color-500);
+		color: var(--secondary-color-400);
+
+		&:hover {
+			background: var(--primary-color-600) !important;
+		}
+	}
+}

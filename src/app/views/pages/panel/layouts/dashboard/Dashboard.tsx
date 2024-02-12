@@ -26,6 +26,8 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
+			<div className="brightness variant-1"></div>
+			<div className="brightness variant-2"></div>
 			<section className="left">
 				<DashboardSearchbar />
 				<DashboardVulnerabilities
@@ -40,14 +42,15 @@ const Dashboard: React.FC = () => {
 			</section>
 
 			<section className="right">
+				<VulnerabilitiesStatus
+					vulnerabilityByShare={companyData.issuesCondition ?? {}}
+				/>
+
 				<VulnerabilityRisk
 					vulnerabilityByRisk={
 						companyData.issuesShare ?? ({} as IssuesShare)
 					}
 					isLoading={isLoading}
-				/>
-				<VulnerabilitiesStatus
-					vulnerabilityByShare={companyData.issuesCondition ?? {}}
 				/>
 			</section>
 		</main>

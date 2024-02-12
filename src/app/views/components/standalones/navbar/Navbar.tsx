@@ -1,8 +1,10 @@
 import React, { lazy } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
-import { clearAuth, useModal, logout } from '../../../../data';
+import {
+	NetworkSettingState,
+	useModal,
+	useNetworkSettingState,
+} from '../../../../data';
 import {
 	ConfirmModal,
 	LogoutIcon,
@@ -12,19 +14,24 @@ import {
 	NetworkSetingModal,
 } from '../..';
 import './navbar.scss';
+import useAuthStore from '../../../../data/store/auth.store';
+import { usePanelStore } from '../../../../data/store/panel.store';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
 const Navbar: React.FC = () => {
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
+	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
+		(state: NetworkSettingState) => state,
+	);
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const logout = useAuthStore((state) => state.logout);
+	const { open, handleChange } = usePanelStore();
 
 	const handleLogout = () => {
-		dispatch(logout());
+		logout();
 		navigate('/auth/signin');
-		clearAuth();
 	};
 
 	return (
@@ -48,8 +55,8 @@ const Navbar: React.FC = () => {
 						</div>
 					</ModalWrapper>
 				</Show>
-				<Show when={showModal && showModalStr === 'network_setting'}>
-					<ModalWrapper action={() => setShowModal(!showModal)}>
+				<Show when={isOpen}>
+					<ModalWrapper action={() => setNetworkSettingState(!isOpen)}>
 						<div
 							className="modal-wrapper-title internal-tables disable-border"
 							onClick={(e) => {
@@ -59,7 +66,7 @@ const Navbar: React.FC = () => {
 							<div className="w-full mt-4">
 								<div className="w-full px-8 disable-border">
 									<NetworkSetingModal
-										close={() => setShowModal(!showModal)}
+										close={() => setNetworkSettingState(!isOpen)}
 									/>
 								</div>
 							</div>
@@ -67,19 +74,22 @@ const Navbar: React.FC = () => {
 					</ModalWrapper>
 				</Show>
 				<div className="navbar-logo">
-					<Link to="/">
-						<span className="navbar-logo-container">
-							<Logo theme="aim" />
-						</span>
-					</Link>
+					<span
+						className={`cursor-pointer duration-500 ${
+							open && 'rotate-[360deg]'
+						}`}>
+						<Logo 
+							theme="aim" 
+							onClick={() => handleChange()} 
+						/>
+					</span>
 				</div>
 
-				<div title="Logout" className="gap-x-6 flex items-center">
+				<div title="Logout" className="flex items-center gap-x-6">
 					<div
 						title="Network Setting"
 						onClick={() => {
-							setShowModal(!showModal);
-							setShowModalStr('network_setting');
+							setNetworkSettingState(true);
 						}}>
 						<NetworkIcon width={1.35} height={1.35} />
 					</div>

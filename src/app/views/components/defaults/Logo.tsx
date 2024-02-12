@@ -7,9 +7,10 @@ interface Logo {
 
 interface LogoProps {
 	theme: string;
+	onClick: () => void
 }
 
-const Logo = ({ theme }: LogoProps) => {
+const Logo = ({ theme, onClick }: LogoProps) => {
 	const themeToImage: Record<string, Logo> = {
 		light: {
 			path: '/codefend/logo-light.svg',
@@ -27,7 +28,7 @@ const Logo = ({ theme }: LogoProps) => {
 
 	return (
 		<>
-			<div id="brand" className="brand-img">
+			<div id="brand" className="brand-img" onClick={onClick}>
 				<img
 					src={selectedLogo.path}
 					style={selectedLogo.styles}

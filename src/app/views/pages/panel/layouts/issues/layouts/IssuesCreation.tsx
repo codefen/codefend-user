@@ -17,11 +17,11 @@ const IssuesCreation: React.FC<{}> = () => {
 
 	return (
 		<>
-			<main className={`issue-detail w-full ${showScreen ? 'actived' : ''}`}>
-				<section className="issue">
+			<main className={`issue-detail ${showScreen ? 'actived' : ''}`}>
+				<section className="left">
 					<IssueCreationPanel isLoading={showScreen} issues={[]} />
 				</section>
-				<section className="h-full flex-grow">
+				<section className="right">
 					<IssueChatDisplay
 						isLoading={false}
 						selectedIssue={null}

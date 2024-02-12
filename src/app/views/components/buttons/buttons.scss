@@ -7,7 +7,7 @@ button.btn {
 
 	padding-inline: 23px;
 
-	color: #fff !important;
+	color: var(--primary-color);
 	font-size: 13px;
 	font-family: 'Roboto';
 	font-weight: 800;
@@ -15,10 +15,13 @@ button.btn {
 
 	height: 45px;
 	border-radius: 4px;
-	background-color: var(--btn-color-main);
+	background-color: var(--secondary-color-50);
 	border: none;
-	transition: all 0.3s;
 	position: relative;
+
+	transition-property: background, color;
+	transition-duration: 200ms;
+	transition-timing-function: cubic-bezier(0.15, -0.31, 0.73, 0.96);
 
 	&:focus {
 		outline: none;
@@ -42,4 +45,10 @@ button.btn {
 .signin-btn {
 	display: flex;
 	column-gap: 0.5rem;
+}
+
+[data-theme='dark'] {
+	button.btn {
+		color: var(--tertiary-color-50);
+	}
 }
