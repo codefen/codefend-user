@@ -93,8 +93,8 @@ jobs:
       - name: Upload MAC file to S3
         if: matrix.platform == 'macos-latest'
         run: |
-          mv /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP.app.tar.gz /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz
-          aws s3 cp /Users/runner/work/_temp/_github_home/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/mac/CDF_WEBAPP-${{ env.APP_VERSION }}-mac.AppImage.tar.gz
+          mv /Users/runner/work/src-tauri/target/release/bundle/macos/CDF_WEBAPP.app.tar.gz /Users/runner/work/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz
+          aws s3 cp /Users/runner/work/src-tauri/target/release/bundle/macos/CDF_WEBAPP-mac.AppImage.tar.gz s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/mac/CDF_WEBAPP-${{ env.APP_VERSION }}-mac.AppImage.tar.gz
 
       - name: Upload WINDOWS file to S3
         if: matrix.platform == 'windows-latest'
@@ -105,5 +105,5 @@ jobs:
       - name: Upload LINUX file to S3
         if: matrix.platform == 'ubuntu-latest'
         run: |
-          mv /home/runner/work/_temp/_github_home/src-tauri/target/release/bundle/appimage/CDF_WEBAPP_${{ env.APP_VERSION }}_amd64.AppImage.tar.gz /home/runner/work/_temp/_github_home/src-tauri/target/release/bundle/appimage/CDF_WEBAPP-linux.AppImage.tar.gz
-          aws s3 cp /home/runner/work/_temp/_github_home/src-tauri/target/release/bundle/appimage/CDF_WEBAPP-linux.AppImage.tar.gz s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/linux/CDF_WEBAPP-${{ env.APP_VERSION }}-linux.AppImage.tar.gz
+          mv /home/runner/work/src-tauri/target/release/bundle/appimage/CDF_WEBAPP_${{ env.APP_VERSION }}_amd64.AppImage.tar.gz /home/runner/work/src-tauri/target/release/bundle/appimage/CDF_WEBAPP-linux.AppImage.tar.gz
+          aws s3 cp /home/runner/work/src-tauri/target/release/bundle/appimage/CDF_WEBAPP-linux.AppImage.tar.gz s3://${{ secrets.AWS_WEBAPP_SECRET_ACCESS_KEY }}/linux/CDF_WEBAPP-${{ env.APP_VERSION }}-linux.AppImage.tar.gz
