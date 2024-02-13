@@ -1,15 +1,14 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { Loader, Show } from '../../components';
+import {
+	ErrorConection,
+	Loader,
+	Navbar,
+	Show,
+	Sidebar,
+	SidebarResponsive,
+} from '../../components';
 import { useAuthStore } from '../../../data';
-
-const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar'));
-const Sidebar = lazy(
-	() => import('../../components/standalones/sidebar/Sidebar'),
-);
-const ErrorConection = lazy(
-	() => import('../../components/modals/ErrorConection'),
-);
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -38,15 +37,23 @@ export const PanelPage: React.FC = () => {
 						}}
 					/>
 				</Show>
-				<Navbar />
-				<div className="flex ">
-						<div className="relative h-screen pt-6 mt-10 ">
-							<Sidebar />
-						</div>
-						<Suspense fallback={<Loader />}>
-							<Outlet />
-						</Suspense>
-					</div>	
+				<div className=" xs:hidden sm:block">
+					<Navbar />
+				</div>
+				<div>
+					<SidebarResponsive />
+				</div>
+				<div className="flex">
+
+					<div className="relative h-screen pt-6 mt-10 xs:hidden sm:block">
+						<Sidebar />
+					</div>
+
+					<Suspense fallback={<Loader />}>
+						<Outlet />
+					</Suspense>
+				</div>
+				
 			</>
 		</Show>
 	);

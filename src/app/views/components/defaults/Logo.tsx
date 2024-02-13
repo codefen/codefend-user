@@ -7,7 +7,7 @@ interface Logo {
 
 interface LogoProps {
 	theme: string;
-	onClick: () => void
+	onClick?: () => void
 }
 
 const Logo = ({ theme, onClick }: LogoProps) => {

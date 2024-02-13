@@ -1,6 +1,9 @@
 @forward 'colors';
 @forward 'normalize.scss';
 
+@forward '../settings/mixin';
+@use '../settings/mixin' as mixin;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -206,12 +209,21 @@ main {
 	overflow-y: auto;
 	overflow-x: hidden;
 
+	@include mixin.respond(small) {
+		padding-inline-start: 0;
+		max-height: 800px;
+		overflow: auto;
+	}	
+
 	&.actived {
 		opacity: 1;
 		padding-block-start: 0px;
 
 		.left {
 			padding-block-start: 65px;
+			@include mixin.respond(small) {
+				padding-block-start: 15px;
+			}	
 		}
 
 		.right {

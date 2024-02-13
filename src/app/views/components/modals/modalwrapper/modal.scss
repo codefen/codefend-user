@@ -1,3 +1,5 @@
+@use '../../../styles/settings/mixin' as mixin;
+
 .modal-wrapper {
 	position: fixed;
 	left: 0;
@@ -286,6 +288,10 @@
 
 	padding-block: 1.25rem;
 	font-family: roboto;
+
+	@include mixin.respond(small) {
+		width: 100%;
+	}
 
 	.header-wrapper {
 		display: flex;
