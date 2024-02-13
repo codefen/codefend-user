@@ -1,101 +1,103 @@
 import { toast } from 'react-toastify';
-import { CopyIcon, EditIcon, PrimaryButton, SecondaryButton } from '..';
+import { EditIcon, ModalButtons, PrimaryButton, SecondaryButton } from '..';
 import {
-	NetworkSettingState,
-	apiLinks,
-	baseUrl,
 	deleteCustomBaseAPi,
 	getCustomBaseAPi,
 	setCustomBaseAPi,
-	useNetworkSettingState,
 } from '../../../data';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { baseUrl } from '../../../data/utils/config';
 
 interface Props {
 	close: () => void;
 }
 
 export const NetworkSetingModal: React.FC<Props> = ({ close }) => {
-	const customApi = getCustomBaseAPi();
-	const baseUrlToDisplay = baseUrl.slice(0, 9) + ''.padEnd(8, 'X');
-	const defaultApiUrl = customApi ? customApi : baseUrlToDisplay;
+	const customAPi = getCustomBaseAPi();
+	const defaultApiUrl = customAPi ? customAPi : baseUrl;
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
-	const { setNetworkSettingState } = useNetworkSettingState(
-		(state: NetworkSettingState) => state,
-	);
-	const [isCopied, setIsCopied] = useState({ state: false, url: '' });
+	const [canEdit, setCanEdit] = useState(false);
+	const [isLoading, setLoading] = useState(false);
+	const handleSubmit = useCallback(
+		(e: React.FormEvent) => {
+			e.preventDefault();
+			setCanEdit(false);
+			setLoading(true);
+			console.log('Execute');
+			if (apiUrl.length < 10) {
+				toast.error('invalid API URL, too short');
+				setLoading(false);
+				return;
+			}
+			if (apiUrl === defaultApiUrl) {
+				toast.error('This API is currently active');
+				setLoading(false);
+				return;
+			}
 
-	const isEnabled = (url: string) => {
-		if (!url) return false;
-		return apiUrl === url;
-	};
+			setCustomBaseAPi(apiUrl);
+			toast.success('Server has been changed successfully');
+			close();
+			setLoading(false);
+			window.location.reload();
+		},
+		[apiUrl],
+	);
 
 	return (
 		<>
-			<div className="p-2 flex items-center justify-between">
+			<div className="p-3 flex">
 				<p className="text-left text-base title-format">Network Setting</p>
-
-				<span
-					onClick={() => {
-						setNetworkSettingState(false);
-					}}
-					className="p-2 font-700 text-xl text-black cursor-pointer">
-					X
-				</span>
 			</div>
-
-			<div className="flex flex-col gap-y-5">
-				{apiLinks.map((api, apiIndex) => (
-					<div
-						key={`api_link${apiIndex}`}
-						className="flex items-center gap-x-2 font-bold text-[15px]">
-						<span className="font-bold text-[14px] text-black">
-							{apiIndex + 1}.
-						</span>
-						<span className="font-bold text-[14px] text-black">
-							{api.name}
-						</span>
-						<div className="flex items-center bg-orange-500 w-[60%]">
+			<form onSubmit={handleSubmit} className="p-4">
+				<div className="flex flex-col">
+					<div className=" flex items-center w-[32rem] gap-x-2">
+						<input
+							value={apiUrl}
+							disabled={!canEdit}
+							type="url"
+							onChange={(e) => setApiUrl(e.target.value)}
+							className={`block w-full py-3 bg-white border px-2 log-inputs focus:outline-none dark:text-gray-300 ${
+								!canEdit && 'opacity-45'
+							}`}
+							placeholder="Enter API URI"
+							list="api-urls"
+							required
+						/>
+						<datalist id="api-urls">
+							<option value="https://kundalini.codefend.com/kundalini/index.php"></option>
+							<option value="https://api.codefend.com/kundalini/index.php"></option>
+							<option value="https://api-mena.codefend.com/kundalini/index.php"></option>
+						</datalist>
+						<div
+							onClick={() => setCanEdit((currentValue) => !currentValue)}
+							className="cursor-pointer">
 							<span
-								className={`  truncate ${
-									isEnabled(api.url) ? `codefend-text-red ` : ''
-								}`}>
-								{api.url}
-							</span>
-							<span
-								onClick={() => {
-									navigator.clipboard.writeText(api.url);
-									setIsCopied({ state: true, url: api.url });
-									setTimeout(() => {
-										setIsCopied({ state: false, url: '' });
-									}, 800);
-								}}
-								className={` ml-[0.2rem] cursor-pointer ${
-									isCopied.state && isCopied.url === api.url
-										? 'text-green-500'
-										: ''
-								}`}>
-								<CopyIcon />
+								className={`${
+									!canEdit ? 'text-[#afafaf]' : 'text-[#ff3939]'
+								} w-8 h-8 cursor-pointer`}>
+								<EditIcon width={2} height={2} />
 							</span>
 						</div>
-						<span
-							onClick={() => {
-								if (isEnabled(api.url)) return;
-
-								setCustomBaseAPi(api.url);
-								setApiUrl(api.url);
-							}}
-							className={`underline ml-4  ${
-								isEnabled(api.url)
-									? `text-green-500`
-									: 'text-black cursor-pointer'
-							}`}>
-							{isEnabled(api.url) ? 'Active' : 'Click to Enable'}
-						</span>
 					</div>
-				))}
-			</div>
-			<div className="container flex items-center justify-center  mx-auto p-3 text-format"></div>
+
+					<span
+						onClick={() => {
+							deleteCustomBaseAPi();
+							setApiUrl('');
+							setCanEdit(false);
+						}}
+						className="underline text-right mr-10 mt-4 cursor-pointer codefend-text-red">
+						click here to set back to default
+					</span>
+				</div>
+
+				<ModalButtons
+					close={() => close()}
+					isDisabled={isLoading}
+					confirmText="Save changes"
+				/>
+			</form>
 		</>
 	);
 };
