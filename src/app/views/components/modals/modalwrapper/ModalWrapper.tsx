@@ -38,7 +38,7 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 					e.preventDefault();
 					e.stopPropagation();
 				}}>
-				<div>{children}</div>
+				<article>{children}</article>
 			</div>
 		</div>
 	);

@@ -1,18 +1,21 @@
 import { toast } from 'react-toastify';
-import { EditIcon, ModalButtons, PrimaryButton, SecondaryButton } from '..';
+import { EditIcon, ModalButtons } from '../..';
 import {
 	deleteCustomBaseAPi,
 	getCustomBaseAPi,
 	setCustomBaseAPi,
-} from '../../../data';
+} from '../../../../data';
 import React, { useCallback, useState } from 'react';
-import { baseUrl } from '../../../data/utils/config';
+import { baseUrl } from '../../../../data/utils/config';
+import './networkSetting.scss';
 
-interface Props {
+interface NetworkSetingModalProps {
 	close: () => void;
 }
 
-export const NetworkSetingModal: React.FC<Props> = ({ close }) => {
+export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
+	close,
+}) => {
 	const customAPi = getCustomBaseAPi();
 	const defaultApiUrl = customAPi ? customAPi : baseUrl;
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
@@ -46,20 +49,20 @@ export const NetworkSetingModal: React.FC<Props> = ({ close }) => {
 
 	return (
 		<>
-			<div className="p-3 flex">
-				<p className="text-left text-base title-format">Network Setting</p>
-			</div>
-			<form onSubmit={handleSubmit} className="p-4">
-				<div className="flex flex-col">
-					<div className=" flex items-center w-[32rem] gap-x-2">
+			<header className="network-header">
+				<h4 className="network-header_title title-format">
+					Network Setting
+				</h4>
+			</header>
+			<form onSubmit={handleSubmit} className="network-form">
+				<div className="network-form_inputs">
+					<div className="network-form_inputs_edit">
 						<input
 							value={apiUrl}
 							disabled={!canEdit}
 							type="url"
 							onChange={(e) => setApiUrl(e.target.value)}
-							className={`block w-full py-3 bg-white border px-2 log-inputs focus:outline-none dark:text-gray-300 ${
-								!canEdit && 'opacity-45'
-							}`}
+							className={` log-inputs ${!canEdit && 'opacity'}`}
 							placeholder="Enter API URI"
 							list="api-urls"
 							required
@@ -69,16 +72,15 @@ export const NetworkSetingModal: React.FC<Props> = ({ close }) => {
 							<option value="https://api.codefend.com/kundalini/index.php"></option>
 							<option value="https://api-mena.codefend.com/kundalini/index.php"></option>
 						</datalist>
-						<div
+						<button
 							onClick={() => setCanEdit((currentValue) => !currentValue)}
-							className="cursor-pointer">
+							type="button"
+							className="edit-btn">
 							<span
-								className={`${
-									!canEdit ? 'text-[#afafaf]' : 'text-[#ff3939]'
-								} w-8 h-8 cursor-pointer`}>
+								className={`edit-btn_icon ${!canEdit ? 'off' : 'on'}`}>
 								<EditIcon width={2} height={2} />
 							</span>
-						</div>
+						</button>
 					</div>
 
 					<span
@@ -87,7 +89,7 @@ export const NetworkSetingModal: React.FC<Props> = ({ close }) => {
 							setApiUrl('');
 							setCanEdit(false);
 						}}
-						className="underline text-right mr-10 mt-4 cursor-pointer codefend-text-red">
+						className="network-form_inputs_edit_reset codefend-text-red">
 						click here to set back to default
 					</span>
 				</div>
