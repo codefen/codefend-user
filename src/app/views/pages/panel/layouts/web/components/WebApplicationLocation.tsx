@@ -45,8 +45,8 @@ export const WebApplicationLocation: React.FC<{
 					value: (
 						<>
 							<span
-								className={`flag flag-${resource.countryCode.toLowerCase()}`}></span>{' '}
-							{resource.country}
+								className={`flag flag-${resource.countryCode.toLowerCase()}`}></span>
+							<pre>{' ' + resource.country}</pre>
 						</>
 					),
 					style: 'location',
@@ -62,7 +62,7 @@ export const WebApplicationLocation: React.FC<{
 
 	return (
 		<div className="card table">
-			<SimpleSection header="Supervised assets" icon={<CircleIcon />}>
+			<SimpleSection header="Web servers by location" icon={<CircleIcon />}>
 				<TableV2
 					columns={webLocationColumn}
 					rowsData={dataTable}

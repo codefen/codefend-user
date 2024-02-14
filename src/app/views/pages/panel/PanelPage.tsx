@@ -1,7 +1,8 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
 import { Loader, Show } from '../../components';
-import { AuthServices } from '../../../data';
+import { useAuthStore } from '../../../data';
+import { FlashLightProvider } from './FlashLightContext';
 
 const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar'));
 const Sidebar = lazy(
@@ -12,11 +13,12 @@ const ErrorConection = lazy(
 );
 
 export const PanelPage: React.FC = () => {
-	const isNotAuthenticated = AuthServices.verifyAuth();
-	if (isNotAuthenticated) AuthServices.logout2();
 	const [showModal, setShowModal] = useState(false);
+	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
+	if (!isAuth) logout();
 
 	useEffect(() => {
+		updateAuth();
 		const handleChange = () => setShowModal(true);
 		window.addEventListener('errorState', handleChange);
 
@@ -25,24 +27,27 @@ export const PanelPage: React.FC = () => {
 			localStorage.removeItem('error');
 		};
 	}, []);
+
 	return (
-		<Show
-			when={!isNotAuthenticated}
-			fallback={<Navigate to="/auth/signin" />}>
+		<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
 			<>
-				<Show when={showModal}>
-					<ErrorConection
-						closeModal={() => {
-							setShowModal(false);
-							localStorage.removeItem('error');
-						}}
-					/>
-				</Show>
-				<Navbar />
-				<Sidebar />
-				<Suspense fallback={<Loader />}>
-					<Outlet />
-				</Suspense>
+				<FlashLightProvider>
+					<>
+						<Show when={showModal}>
+							<ErrorConection
+								closeModal={() => {
+									setShowModal(false);
+									localStorage.removeItem('error');
+								}}
+							/>
+						</Show>
+						<Navbar />
+						<Sidebar />
+						<Suspense fallback={<Loader />}>
+							<Outlet />
+						</Suspense>
+					</>
+				</FlashLightProvider>
 			</>
 		</Show>
 	);

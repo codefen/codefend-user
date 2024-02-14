@@ -36,11 +36,7 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 			setIsAddingDomain(false);
 			return;
 		}
-		if (props.webResources.includes(domainName)) {
-			toast.error('This domain is already registered');
-			setIsAddingDomain(false);
-			return;
-		}
+	
 		const companyID = getUserdata()?.companyID as string;
 
 		WebApplicationService.addResource(domainName, companyID)

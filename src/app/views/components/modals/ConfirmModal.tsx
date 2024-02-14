@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '..';
 
-
 interface ConfirmModalProps {
 	close: () => void;
-	action: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void 
+	action: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	header: string;
 	confirmText: string;
 	cancelText: string;
@@ -31,11 +30,9 @@ const ConfirmModal = (props: ConfirmModalProps) => {
 
 	return (
 		<div className="modal flex flex-col">
-			<div className="pt-3 px-3 flex">
-				<h4 className="text-small text-left font-bold title-format">
-					{props.header}
-				</h4>
-			</div>
+			<header>
+				<h4 className="text-small title-format">{props.header}</h4>
+			</header>
 			<form>
 				<div className="form-buttons">
 					<SecondaryButton

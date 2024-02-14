@@ -5,13 +5,14 @@ import { SourceCodeChart } from './components/SourceCodeChart';
 import { SourceCodeCollab } from './components/SourceCodeCollab';
 import { PrimaryButton } from '../../../../components';
 import './sourcecode.scss';
+import { useFlashlight } from '../../FlashLightContext';
 
 const SourceCodePanel: React.FC = () => {
 	const { getSource, isLoading, addSourceCode, deletedResource } =
 		useSourceCode();
 
 	const [showScreen, setShowScreen] = useState(false);
-
+	const flashlight = useFlashlight();
 	useEffect(() => {
 		const timeoutId = setTimeout(() => setShowScreen(true), 50);
 		return () => clearTimeout(timeoutId);
@@ -35,7 +36,7 @@ const SourceCodePanel: React.FC = () => {
 						onDelete={deletedResource}
 					/>
 				</section>
-				<section className="right">
+				<section className="right" ref={flashlight.rightPaneRef}>
 					<SourceCodeChart
 						isLoading={isLoading}
 						sourceCode={getSource() ?? []}

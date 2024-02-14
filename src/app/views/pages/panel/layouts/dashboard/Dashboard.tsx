@@ -12,10 +12,12 @@ import {
 } from '../../../../components';
 import '../../../../styles/flag.scss';
 import './dashboard.scss';
+import { useFlashlight } from '../../FlashLightContext';
 
 const Dashboard: React.FC = () => {
 	const { isLoading, companyData, refetch } = useDashboard();
 	const [showScreen, setShowScreen] = useState(false);
+	const flashlight = useFlashlight();
 
 	useEffect(() => {
 		refetch();
@@ -26,6 +28,8 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
+			<div className="brightness variant-1"></div>
+			<div className="brightness variant-2"></div>
 			<section className="left">
 				<DashboardSearchbar />
 				<DashboardVulnerabilities
@@ -39,15 +43,16 @@ const Dashboard: React.FC = () => {
 				/>
 			</section>
 
-			<section className="right">
+			<section className="right" ref={flashlight.rightPaneRef}>
+				<VulnerabilitiesStatus
+					vulnerabilityByShare={companyData.issuesCondition ?? {}}
+				/>
+
 				<VulnerabilityRisk
 					vulnerabilityByRisk={
 						companyData.issuesShare ?? ({} as IssuesShare)
 					}
 					isLoading={isLoading}
-				/>
-				<VulnerabilitiesStatus
-					vulnerabilityByShare={companyData.issuesCondition ?? {}}
 				/>
 			</section>
 		</main>

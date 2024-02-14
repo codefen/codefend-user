@@ -1,12 +1,31 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
-.lan {
+main.lan {
 	.left {
-		width: 70%;
+		flex: 1 1 68%;
+		width: 68%;
 	}
+
 	.right {
-		width: 30%;
+		flex: 1 1 33%;
+		width: 33%;
+		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+		padding-inline: 10px;
+
+		.card {
+			&.risk-chart {
+				.content {
+					flex-direction: column;
+					row-gap: 2.5rem;
+					.chart {
+						min-width: 150px;
+						max-width: 0%;
+					}
+				}
+			}
+		}
 	}
+
 	@include mixin.respond(small) {
 		.left {
 			width: 100%;
@@ -22,14 +41,23 @@
 		display: block;
 	}
 }
-main.lan {
-	.left {
-		flex: 1 1 68%;
-		width: 68%;
-	}
 
-	.right {
-		flex: 1 1 33%;
-		width: 33%;
+[data-theme='dark'] {
+	.variant-1 {
+		width: 23rem;
+		top: -10dvh;
+		right: 22dvw;
+		filter: blur(120px) brightness(0.5) opacity(0.4);
+	}
+	.variant-2 {
+		width: 15rem;
+		bottom: 0dvh;
+		right: 4dvw;
+		filter: blur(150px) brightness(0.45) opacity(0.55);
+	}
+	main.lan {
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+		}
 	}
 }

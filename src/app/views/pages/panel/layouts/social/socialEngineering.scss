@@ -4,7 +4,28 @@ main.social {
 	@include mixin.respond(small) {
 		display: block;
 	}
+	.left {
+		.table {
+			.item {
+				height: 42px;
+			}
+			.role {
+				justify-content: center;
+				display: flex;
+				text-align: center;
+				div {
+					justify-content: center;
+				}
+			}
+		}
+		@include mixin.respond(small) {
+			padding-bottom: 10px;
+		}
+	}
+
 	.right {
+		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+		padding-inline: 10px;
 		.filter {
 			.label {
 				display: flex;
@@ -15,9 +36,33 @@ main.social {
 			}
 		}
 	}
-	.left {
-		@include mixin.respond(small) {
-			padding-bottom: 10px;
+}
+
+[data-theme='dark'] {
+	.variant-1 {
+		width: 23rem;
+		bottom: 30dvh;
+		left: 5dvw;
+		filter: blur(120px) brightness(0.5) opacity(0.4);
+	}
+	.variant-2 {
+		width: 23rem;
+		top: -10dvh;
+		right: 4dvw;
+		filter: blur(120px) brightness(0.5) opacity(0.38);
+	}
+
+	main.social {
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+			display: flex;
+			flex-direction: column;
+			row-gap: 2rem;
+			.card {
+				.header {
+					background-color: var(--primary-color-600);
+				}
+			}
 		}
 	}
 }

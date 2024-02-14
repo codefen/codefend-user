@@ -1,25 +1,14 @@
-import { ApiHandlers } from '../../../../../../../data';
+import {
+	ApiHandlers,
+	useAdminCompanyStore,
+	useModal,
+} from '../../../../../../../data';
 import {
 	PrimaryButton,
 	SecondaryButton,
 	Show,
 } from '../../../../../../../views/components';
 import React, { useState } from 'react';
-import { useCompanyContext } from '../CompanyContext';
-
-interface CompanyData {
-	id: string;
-	name: string;
-	web?: string;
-	country?: string;
-	city?: string;
-	size?: string;
-	address?: string;
-	canRead: boolean;
-	canWrite: boolean;
-	write_array: string[];
-	read_array: string[];
-}
 
 interface UserData {
 	id: string;
@@ -40,31 +29,14 @@ const createEmptyUser = (): UserData => ({
 });
 
 const AdminCompanyDetails: React.FC = () => {
-	const [showModal, setShowModal] = useState<boolean>(false);
+	const { showModal, setShowModal } = useModal();
 	const [usersToShow, setUsersToShow] = useState<UserData[]>([]);
 	const [filterUsers, setFilterUsers] = useState<UserData[]>([]);
-	const [companyUsers, setCompanyUsers] = useState<any[]>([]);
+
 	const [selectedUser, setSelectedUser] =
 		useState<UserData>(createEmptyUser());
-	const { state } = useCompanyContext();
-	const { companyStore } = state;
-	/* useEffect(() => {
-		if (companyStore!.id) {
-			ApiHandlers.getPanelUsers().then((res: any) => {
-				const usersMapped = res.data.map((user: any) => ({
-					id: user.id,
-					name: user.name + ' ' + user.surname,
-					canRead: user.read_array.includes(companyStore!.id),
-					canWrite: user.write_array.includes(companyStore!.id),
-					write_array: user.write_array,
-					read_array: user.read_array,
-				}));
-				console.log(usersMapped)
-				setUsersToShow(usersMapped);
-			});
-		}
-		console.log(companyStore)
-	}, [companyStore]);  */
+
+	const { companySelected } = useAdminCompanyStore((state) => state);
 
 	const handleInputChange = (value: any) => {
 		const maxResults = 3;
@@ -76,8 +48,8 @@ const AdminCompanyDetails: React.FC = () => {
 			}
 			if (
 				item.name.includes(value) &&
-				!item.read_array.includes(companyStore!.id) &&
-				!item.write_array.includes(companyStore!.id)
+				!item.read_array.includes(companySelected!.id) &&
+				!item.write_array.includes(companySelected!.id)
 			) {
 				count++;
 				return true;
@@ -91,10 +63,10 @@ const AdminCompanyDetails: React.FC = () => {
 	const handleAddUser = (e: any) => {
 		e.preventDefault();
 
-		if (selectedUser.id && companyStore!.id) {
+		if (selectedUser.id && companySelected!.id) {
 			const requestBody = {
 				userId: selectedUser.id,
-				companyId: companyStore!.id,
+				companyId: companySelected!.id,
 				canWrite: selectedUser.canWrite,
 				canRead: selectedUser.canRead,
 			};
@@ -107,9 +79,7 @@ const AdminCompanyDetails: React.FC = () => {
 		<>
 			<Show when={showModal}>
 				<div
-					onClick={() => {
-						setShowModal(!showModal);
-					}}
+					onClick={() => setShowModal(!showModal)}
 					className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-20 py-10">
 					<div
 						onClick={(e) => {
@@ -140,14 +110,9 @@ const AdminCompanyDetails: React.FC = () => {
 												}>
 												<input
 													type="text"
-													onKeyUp={(e) => {
-														if (
-															e.target instanceof
-															HTMLInputElement
-														) {
-															handleInputChange(e.target.value);
-														}
-													}}
+													onChange={(e) =>
+														handleInputChange(e.target.value)
+													}
 													className="block w-full py-3 bg-white px-11 log-inputs dark:text-gray-300"
 													placeholder="User name"></input>
 											</Show>
@@ -238,7 +203,7 @@ const AdminCompanyDetails: React.FC = () => {
 				</div>
 			</Show>
 			<Show
-				when={Boolean(companyStore.name)}
+				when={Boolean(companySelected)}
 				fallback={
 					<div className="encabezado internal-tables">
 						<div className="p-3 pl-8 internal-tables-active">
@@ -254,39 +219,27 @@ const AdminCompanyDetails: React.FC = () => {
 				<div>
 					<div className="encabezado internal-tables">
 						<div className="p-3 pl-8 internal-tables-active">
-							<p className="text-small text-left font-bold title-format">
+							<p className="title text-small title-format">
 								Company details
 							</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`name: ${
-								companyStore!.name
-							}`}</p>
+							<p className="text-base pt-3 pb-3">{`name: ${companySelected?.name}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`website: ${
-								companyStore!.web
-							}`}</p>
+							<p className="text-base pt-3 pb-3">{`website: ${companySelected?.website}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`country: ${
-								companyStore!.country
-							}`}</p>
+							<p className="text-base pt-3 pb-3">{`country: ${companySelected?.country}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`city: ${
-								companyStore!.city
-							}`}</p>
+							<p className="text-base pt-3 pb-3">{`city: ${companySelected?.city}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`address: ${
-								companyStore!.address
-							}`}</p>
+							<p className="text-base pt-3 pb-3">{`address: ${companySelected?.address}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`size: ${
-								companyStore!.size
-							}`}</p>
+							<p className="text-base pt-3 pb-3">{`size: ${companySelected?.size}`}</p>
 						</div>
 					</div>
 					<div className="encabezado internal-tables max-h-80 overflow-y-scroll">
@@ -295,9 +248,7 @@ const AdminCompanyDetails: React.FC = () => {
 								Company members
 							</p>
 							<p
-								onClick={() => {
-									setShowModal(!showModal);
-								}}
+								onClick={() => setShowModal(!showModal)}
 								className="text-small text-left font-bold title-format border-r px-2 underline cursor-pointer codefend-text-red">
 								Add member
 							</p>
@@ -313,7 +264,7 @@ const AdminCompanyDetails: React.FC = () => {
 						<>
 							{usersToShow
 								.filter((user: any) =>
-									user.read_array.includes(companyStore!.id),
+									user.read_array.includes(companySelected!.id),
 								)
 								.map((user: any) => (
 									<div
@@ -332,7 +283,7 @@ const AdminCompanyDetails: React.FC = () => {
 										</p>
 										<p className="text-base w-2/12 pt-3 pb-3"> - </p>
 										<p className="text-base w-2/12 pt-3 pb-3">{`Can write: ${user.write_array.includes(
-											companyStore!.id,
+											companySelected!.id,
 										)}`}</p>
 									</div>
 								))}

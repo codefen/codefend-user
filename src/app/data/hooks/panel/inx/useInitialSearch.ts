@@ -40,8 +40,8 @@ export const useInitialSearch = () => {
 					throw new Error('An unexpected error has occurred');
 				setSearchData((state: SearchResult) => ({
 					...state,
-					intelID: res.response.id ?? '',
-					count: res.response.count ?? 0,
+					intelID: res.response?.id ?? '',
+					count: res.response?.count ?? 0,
 					isLoading: false,
 				}));
 				return res.response.id;

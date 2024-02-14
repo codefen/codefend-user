@@ -7,12 +7,14 @@ import {
 } from '../../../../../components';
 import { IssueReport } from '../components/IssueReport';
 import { IssueResources } from '../components/IssueResources';
+import { useFlashlight } from '../../../FlashLightContext';
 
 const IssuesPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);
 	const [filters, setFilters] = useState<Set<string>>(new Set([]));
 	const { getIssues, isLoading, refetchAll } = useIssues();
+	const flashlight = useFlashlight();
 
 	useEffect(() => {
 		refetchAll();
@@ -47,6 +49,7 @@ const IssuesPanel: React.FC = () => {
 	return (
 		<>
 			<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+				<div className="brightness variant-1"></div>
 				<section className="left">
 					<IssueResources
 						isLoading={isLoading}
@@ -58,23 +61,24 @@ const IssuesPanel: React.FC = () => {
 						refresh={() => refresh(!control)}
 					/>
 				</section>
-				<section className="right">
-					<VulnerabilityRisk
+				<section className="right" ref={flashlight.rightPaneRef}>
+					<IssueReport
+						handleFilter={handleFilters}
 						isLoading={isLoading}
-						vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
-					/>
-					<VulnerabilitiesStatus
-						vulnerabilityByShare={getIssues()?.issueCondition ?? {}}
+						issuesClasses={getIssues()?.issueClass ?? {}}
 					/>
 					<PrimaryButton
 						text="GENERATE REPORT"
 						click={() => alert('Generating report')}
 						className="w-full mt-4 mb-4"
 					/>
-					<IssueReport
-						handleFilter={handleFilters}
+
+					<VulnerabilityRisk
 						isLoading={isLoading}
-						issuesClasses={getIssues()?.issueClass ?? {}}
+						vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
+					/>
+					<VulnerabilitiesStatus
+						vulnerabilityByShare={getIssues()?.issueCondition ?? {}}
 					/>
 				</section>
 			</main>

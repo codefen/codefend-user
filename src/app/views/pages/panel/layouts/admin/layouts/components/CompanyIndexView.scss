@@ -26,7 +26,7 @@
 		.company {
 			width: 100%;
 			cursor: pointer;
-			border: 1px solid var(--color-main);
+			border: 1px solid var(--tertiary-color-500);
 			flex-grow: 1;
 			border-radius: 4px;
 
@@ -38,7 +38,7 @@
 			}
 
 			&.selected {
-				border-color: var(--color-active-border);
+				border-color: var(--secondary-color-100);
 			}
 
 			.company-card {
@@ -48,9 +48,9 @@
 				border-radius: 4px;
 				display: flex;
 				align-items: center;
-				color: var(--color-main);
+				color: var(--tertiary-color-500);
 				padding: 0.5rem;
-				column-gap: 2rem;
+				column-gap: 1.5rem;
 
 				.img-wrapper {
 					width: 6.149rem;
@@ -76,7 +76,7 @@
 					}
 
 					.link {
-						color: var(--color-active-border);
+						color: var(--secondary-color-100);
 					}
 				}
 			}

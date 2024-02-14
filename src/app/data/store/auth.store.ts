@@ -1,39 +1,30 @@
-import { Mutate, StateCreator, StoreApi, create } from 'zustand';
-
+import { StateCreator, create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { AuthServices, User } from '..';
-import { StateImpl, StateMiddleware } from './utils';
 
 export interface AuthState {
-	user: User;
+	userData: User;
 	isAuth: boolean;
 	accessToken: string;
-	errors: any;
 
-	login: (loginParams: any) => Promise<void>;
-	register: (registerParams: any) => Promise<void>;
-	registerFinish: (finishParams: any) => Promise<void>;
+	login: (loginParams: any) => Promise<any>;
+	register: (registerParams: any) => Promise<any>;
+	registerFinish: (finishParams: any) => Promise<any>;
 	logout: () => void;
-	clearErrors: () => void;
+	updateAuth:()=>void;
+	updateToken:(updatedToken: string)=>void;
 }
 
-const authMiddleware: StateMiddleware =
-	(f, bar) => (set: any, get: any, _store: any) => {
-		type T = ReturnType<typeof f>;
-		type A = typeof bar;
-
-		const store = _store as Mutate<StoreApi<T>, [['state', A]]>;
-		store.state = bar;
-		console.log({ store });
-		console.log({ bar });
-
-		return f(set, get, store);
-	};
-
-export const stateInit = authMiddleware as unknown as StateImpl;
-
-const stateInitV2 = (store: any, name: string) =>
-	devtools(persist(store, { name })) as StateCreator<
+/**
+ * These are two middleware that wrap the store.
+ * - devtools allows using react devtools with zustand
+ * - persist, adds data persistence/cache using local storage (Can be configured to use another system)
+ * 
+ * @param store        Store that will be wrapped
+ * @param persistence  Name / Identifier of the store in persistence
+ */
+const stateInitV2 = (store: any, persistence: any) =>
+	devtools(persist(store, persistence)) as StateCreator<
 		AuthState,
 		[],
 		[['zustand/persist', string]]
@@ -42,61 +33,50 @@ const stateInitV2 = (store: any, name: string) =>
 const useAuthStore = create<AuthState>()(
 	stateInitV2(
 		(set: any, _get: any) => ({
-			user: {} as User,
-			isAuth: false,
-			accessToken: '',
-			errors: null,
-			login: async (loginParams: any) => {
-				try {
-					const { user, token, response, message } = await AuthServices.login(loginParams);
-					if (response !== 'success') throw new Error(message);
-					if (!user) throw new Error('An unexpected error has ocurred');
-					set((prev: AuthState) => ({
-						...prev,
-						user,
-						accessToken: token,
-						isAuth: true,
-					}));
-					return true;
-				} catch {
-					return false;
-				}
-			},
-			register: async (registroParams: any) => {
-				try {
-					const response = await AuthServices.register(registroParams);
-					const registerResponse = response.data;
-
-					if (registerResponse.response !== 'success') {
-						throw new Error(registerResponse.error);
-					}
-
-					console.log(registerResponse);
-
-					return registerResponse;
-				} catch (error: any) {
-					set(() => ({ errors: error.response.data }));
-				}
-			},
-			registerFinish: async (finishParams: any) => {
-				try {
-					const response = await AuthServices.registerFinish(finishParams);
-					const finishResponse = response;
-
-					if (finishResponse.response !== 'success') {
-						throw new Error(finishResponse.message);
-					}
-
-					return finishResponse;
-				} catch (error: any) {
-					set(() => ({ errors: error.response.data }));
-				}
+				userData: {} as User,
+				isAuth: false,
+				accessToken: '',
+			login: (loginParams: any) => {
+					return AuthServices.login(loginParams).then(({ user, token, response, message })=>{
+						if (response !== 'success') throw new Error(message);
+						if (!user) throw new Error("An unexpected error has ocurred");
+						set((prev: AuthState)=>({...prev, userData: user, accessToken: token, isAuth: true}));
+						return ({error:false});
+					 }).catch((error: Error)=> ({error: true, message: error.message, type: error.name}));
 			},
 			logout: () => set({ user: null, isAuth: false, accessToken: '' }),
-			clearErrors: () => set({errors: null})
-		}),
-		'authState',
-	),
-);
+			register: (registroParams: any) => {
+				return AuthServices.register(registroParams).then(({data})=>{
+					if (data.response !== 'success') {
+						throw new Error(data.error);
+					}
+					return ({error: false, ...data});
+				}).catch((error:Error)=>({error: true, message: error.message}));
+			},
+			registerFinish: (finishParams: any) => {
+				 return AuthServices.register(finishParams).then((data:any)=>{
+					if (data.response !== 'success') {
+						throw new Error(data.error);
+					}
+					return ({error: false, ...data});
+				}).catch((error:Error)=>({error: true, message: error.message}));
+			},
+			updateAuth:()=> {
+				const state = _get() as AuthState;
+				const currentTimestamp = Math.floor(Date.now() / 1000);
+					const updatedAuth: boolean =
+					(Object.keys(state.userData).length > 0) && 
+					((state.accessToken?.trim() ?? "") !== "") && 
+					!(currentTimestamp >= state.userData.exp!);
 
-export default useAuthStore
+				set((current: AuthState)=>({...current, isAuth: updatedAuth}));
+			},
+			updateToken:(updatedToken: string)=> set((prev: AuthState)=>({...prev,  accessToken: updatedToken}))
+		}),
+		{
+		
+			name: 'authStore'
+		},
+	));
+
+export default useAuthStore;

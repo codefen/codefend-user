@@ -2,8 +2,11 @@
 	width: 100%;
 	display: table;
 	flex: 1 1;
-	color: var(--font-color);
+	color: var(--tertiary-color-200);
 	border-collapse: collapse;
+	transition-property: border-image, border;
+	transition-duration: 325ms;
+	transition-timing-function: linear;
 
 	&.small {
 		.columns-name {
@@ -13,15 +16,41 @@
 			height: 30px;
 		}
 	}
+
 	.columns-name {
 		display: flex;
 		height: 40px;
 		align-items: center;
 		font-family: Questrial;
 		font-size: 14px;
-		color: var(--font-color);
+		color: var(--tertiary-color-200);
 		padding: 0 20px;
-		border-bottom: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--primary-color-300);
+		transition-property: border-image, border;
+		transition-duration: 325ms;
+		transition-timing-function: linear;
+
+		border-image: -moz-linear-gradient(
+			90deg,
+			rgba(255, 255, 255, 0.3) 15%,
+			var(--primary-color-300) 36%,
+			var(--primary-color-400) 46%,
+			var(--primary-color-400) 54%,
+			var(--primary-color-300) 64%,
+			rgba(255, 255, 255, 0.3) 85%
+		);
+		border-image: linear-gradient(
+			90deg,
+			rgba(255, 255, 255, 0.3) 15%,
+			var(--primary-color-300) 36%,
+			var(--primary-color-400) 46%,
+			var(--primary-color-400) 54%,
+			var(--primary-color-300) 64%,
+			rgba(255, 255, 255, 0.3) 85%
+		);
+		border-image-slice: 1;
+		border-block: 1px solid;
+		user-select: none;
 
 		.column {
 			color: inherit;
@@ -60,8 +89,9 @@
 		align-items: center;
 		height: 40px;
 		padding: 0 20px;
-		border-bottom: 1px solid var(--color-border);
-		color: var(--font-color);
+		border-bottom: 1px solid var(--primary-color-300);
+		color: var(--tertiary-color-200);
+
 		font-family: Questrial;
 		font-size: 14px;
 
@@ -73,9 +103,9 @@
 		}
 
 		&.left-marked {
-			border-left: 6px solid var(--bkg-codefend);
+			border-left: 6px solid var(--secondary-color-50);
 			padding-left: 14px;
-			background-color: var(--bkg-alt);
+			background-color: var(--primary-color-200);
 		}
 
 		&:last-child {
@@ -88,7 +118,7 @@
 
 			.sub-domain-icon-v {
 				width: 2px;
-				background-color: var(--bkg-codefend);
+				background-color: var(--secondary-color-50);
 				position: absolute;
 				left: 0px;
 				height: calc(100% + 2px);
@@ -98,7 +128,7 @@
 			.sub-domain-icon-h {
 				width: 20px;
 				height: 2px;
-				background-color: var(--bkg-codefend);
+				background-color: var(--secondary-color-50);
 				position: absolute;
 				top: 49%;
 				left: 0px;
@@ -116,7 +146,7 @@
 		}
 
 		&:hover {
-			background-color: var(--bkg-alt);
+			background-color: var(--primary-color-100);
 		}
 	}
 
@@ -254,16 +284,93 @@
 	}
 }
 
+[data-theme='dark'] {
+	.table {
+		.columns-name {
+			transition-property: color, border-image, border;
+			transition-duration: 325ms;
+			transition-timing-function: linear;
+			color: var(--secondary-color);
+
+			border-image: -moz-linear-gradient(
+				90deg,
+				rgba(255, 255, 255, 0) 15%,
+				rgba(118, 54, 66, 1) 36%,
+				rgba(192, 69, 82, 1) 46%,
+				rgba(176, 66, 79, 1) 54%,
+				rgba(118, 54, 66, 1) 64%,
+				rgba(255, 255, 255, 0) 85%
+			);
+
+			border-image: -webkit-linear-gradient(
+				90deg,
+				rgba(255, 255, 255, 0) 15%,
+				rgba(118, 54, 66, 1) 36%,
+				rgba(192, 69, 82, 1) 46%,
+				rgba(176, 66, 79, 1) 54%,
+				rgba(118, 54, 66, 1) 64%,
+				rgba(255, 255, 255, 0) 85%
+			);
+			border-image: linear-gradient(
+				90deg,
+				rgba(255, 255, 255, 0) 15%,
+				rgba(118, 54, 66, 1) 36%,
+				rgba(192, 69, 82, 1) 46%,
+				rgba(176, 66, 79, 1) 54%,
+				rgba(118, 54, 66, 1) 64%,
+				rgba(255, 255, 255, 0) 85%
+			);
+			border-image-slice: 1;
+			border-block: 1px solid;
+			border-radius: 20px;
+
+			.column {
+				&:hover {
+					color: var(--secondary-color-300);
+				}
+			}
+		}
+
+		.item {
+			border: none;
+
+			&.left-marked {
+				border-left: 6px solid var(--secondary-color-50);
+				background: rgb(24, 33, 43);
+				background: -moz-linear-gradient(
+					90deg,
+					rgba(24, 33, 43, 1) 18%,
+					rgba(22, 30, 40, 1) 42%,
+					rgba(19, 27, 36, 1) 67%
+				);
+				background: -webkit-linear-gradient(
+					90deg,
+					rgba(24, 33, 43, 1) 18%,
+					rgba(22, 30, 40, 1) 42%,
+					rgba(19, 27, 36, 1) 67%
+				);
+				background: linear-gradient(
+					90deg,
+					rgba(24, 33, 43, 1) 18%,
+					rgba(22, 30, 40, 1) 42%,
+					rgba(19, 27, 36, 1) 67%
+				);
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#18212b",endColorstr="#131b24",GradientType=1);
+			}
+		}
+	}
+}
+
 .internal-tables {
-	border-top: 1px solid var(--color-border);
-	border-right: 1px solid var(--color-border);
-	border-left: 1px solid var(--color-border);
-	background-color: var(--bkg-main);
+	border-top: 1px solid var(--primary-color-300);
+	border-right: 1px solid var(--primary-color-300);
+	border-left: 1px solid var(--primary-color-300);
+	background-color: var(--primary-color-50);
 }
 
 .internal-tables-scroll {
 	max-height: 75%;
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--primary-color-300);
 	overflow-y: scroll;
 
 	&.full-height {
@@ -274,9 +381,9 @@
 .internal-tables div {
 	font-family: Roboto;
 	font-size: 12px;
-	background-color: var(--bkg-main);
-	border-bottom: 1px solid var(--color-border);
-	color: var(--font-color);
+	background-color: var(--primary-color-50);
+	border-bottom: 1px solid var(--primary-color-300);
+	color: var(--tertiary-color-200);
 
 	&:last-child {
 		border-bottom: none;
@@ -284,7 +391,7 @@
 }
 
 .disable-border div {
-	border-bottom: 0px solid var(--color-border);
+	border-bottom: 0px solid var(--primary-color-300);
 }
 
 .modal-header {
@@ -292,9 +399,9 @@
 	align-items: center;
 	height: 40px;
 	padding: 0 20px;
-	background-color: var(--header-title-bkg) !important;
-	border-bottom: 1px solid var(--color-border) !important;
-	color: var(--font-color) !important;
+	background-color: var(--primary-color-200) !important;
+	border-bottom: 1px solid var(--primary-color-300) !important;
+	color: var(--tertiary-color-200) !important;
 	font-family: Roboto;
 	font-size: 13px;
 	line-height: 13px;
@@ -304,7 +411,7 @@
 
 .internal-tables-active {
 	&:hover {
-		background-color: var(--bkg-main);
+		background-color: var(--primary-color-50);
 	}
 	.select {
 		font-size: 0.875rem /* 14px */;

@@ -39,6 +39,7 @@ html {
 	font-family: sans-serif; /* 1 */
 	-ms-text-size-adjust: 100%; /* 2 */
 	-webkit-text-size-adjust: 100%; /* 2 */
+	font-size: 0.925rem;
 }
 
 body {
@@ -210,4 +211,16 @@ textarea {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+p {
+	text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-wrap: balance;
 }

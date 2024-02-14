@@ -1,5 +1,4 @@
 main.cloud {
-	column-gap: 0.938rem;
 	.left {
 		flex: 1 1 29%;
 		width: 29%;
@@ -7,7 +6,41 @@ main.cloud {
 		overflow-x: hidden;
 		align-items: flex-end;
 
+		.card {
+			overflow: hidden;
+			width: 100%;
+			margin-block-start: 0.5rem;
+			margin-block-end: 1rem;
+			flex: 1 1 5%;
+			border: 0px;
+			.header {
+				font-size: 14px;
+				padding-inline-start: 0px;
+			}
+			.actions {
+				div {
+					transition: color 150ms ease;
+					&:hover {
+						color: var(--secondary-color-300);
+					}
+				}
+			}
+		}
+
+		.search-app {
+			width: 100%;
+			margin-block-end: 0.75rem;
+			margin-block-start: 0.5rem;
+			border-radius: 3px;
+			padding-inline-start: 1rem;
+			padding-inline-end: 1.35rem;
+			padding-block: 1.25rem;
+			font-size: 14px;
+			flex: 1 1 5%;
+		}
+
 		.list {
+			flex: 1 1 90%;
 			display: flex;
 			flex-direction: column;
 			row-gap: 0.938rem;
@@ -36,5 +69,32 @@ main.cloud {
 		section.card.table {
 			flex: 1 1;
 		}
+	}
+}
+
+[data-theme='dark'] {
+	.variant-1 {
+		width: 17rem;
+		top: 36dvh;
+		left: 9dvw;
+		filter: blur(150px) brightness(0.4) opacity(0.65);
+		z-index: 5;
+	}
+	.variant-2 {
+		width: 20rem;
+		top: 18dvh;
+		left: 7dvw;
+		filter: blur(130px) brightness(0.35);
+		z-index: 15;
+		background: hsla(0, 0%, 100%, 0.56);
+		height: 19rem;
+	}
+
+	.variant-3 {
+		width: 19rem;
+		top: 20dvh;
+		right: 26dvw;
+		filter: blur(140px) brightness(0.3);
+		z-index: 20;
 	}
 }

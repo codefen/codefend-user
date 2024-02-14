@@ -7,7 +7,7 @@ button.btn {
 
 	padding-inline: 23px;
 
-	color: #fff !important;
+	color: var(--primary-color);
 	font-size: 13px;
 	font-family: 'Roboto';
 	font-weight: 800;
@@ -15,10 +15,13 @@ button.btn {
 
 	height: 45px;
 	border-radius: 4px;
-	background-color: var(--btn-color-main);
+	background-color: var(--secondary-color-50);
 	border: none;
-	transition: all 0.3s;
 	position: relative;
+
+	transition-property: background, color;
+	transition-duration: 200ms;
+	transition-timing-function: cubic-bezier(0.15, -0.31, 0.73, 0.96);
 
 	&:focus {
 		outline: none;
@@ -42,4 +45,57 @@ button.btn {
 .signin-btn {
 	display: flex;
 	column-gap: 0.5rem;
+}
+
+button.btn {
+	&.scan-btn {
+		cursor: pointer;
+		background-color: #efefef;
+		border: 1px solid var(--primary-color-400);
+		color: var(--tertiary-color-100);
+		height: 2rem;
+		border-radius: 0.25rem;
+		margin-inline-end: 0.5rem;
+		font-size: 0.75rem;
+		line-height: 1rem;
+
+		&:hover {
+			background-color: #fdbdbd;
+			color: var(--secondary-color-200);
+			border: 1px solid var(--secondary-color-200);
+			font-weight: 700;
+		}
+
+		.message {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			background: transparent;
+		}
+	}
+
+	&.external-loading {
+		background-color: var(--primary-color-100);
+		cursor: default;
+		color: var(--tertiary-color-100);
+		border: 1px solid var(--secondary-color-400);
+	}
+}
+
+[data-theme='dark'] {
+	button.btn {
+		color: var(--tertiary-color-50);
+
+		&.scan-btn {
+			background-color: var(--primary-color-100);
+			&:hover {
+				background-color: #ffaaaa;
+				color: var(--secondary-color-200);
+				border: 1px solid var(--secondary-color-300);
+				font-weight: 700;
+			}
+		}
+	}
 }

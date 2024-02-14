@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { AppCard } from './AppCard';
 import { CloudApp, MobileApp } from '../../../data';
-import { PrimaryButton } from '..';
 
 interface AppCardInfoProps {
 	type?: string;
@@ -13,12 +12,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 	selectedApp,
 }) => {
 	const isMobileType = type === 'mobile';
-	const buttonText = useMemo(
-		() => (isMobileType ? ' Request pentest' : ' Request automated scan'),
-		[isMobileType],
-	);
 
-	console.log({ type: isMobileType });
 	return (
 		<div
 			className={`app-card-wrapper app-card-border ${
@@ -46,12 +40,6 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 					}
 				/>
 			</div>
-			<PrimaryButton
-				text={buttonText}
-				click={() => {
-					alert('Procesing your order');
-				}}
-			/>
 		</div>
 	);
 };

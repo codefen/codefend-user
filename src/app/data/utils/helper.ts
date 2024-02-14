@@ -1,7 +1,11 @@
 import { User } from '..';
 
 /** Gets token in localStorage */
-export const getToken = () => localStorage.getItem('token') ?? '';
+export const getToken = () => {
+	const storeJson = localStorage.getItem('authStore') ?? '';
+	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+	return store ? store.state.accessToken  : "";
+};
 
 /** Set token in localStorage */
 export const setToken = (token: string) =>
@@ -87,5 +91,36 @@ export const cleanReview = (source: string) => {
 	let update = source.replace(/\bopiniones\b/gi, '');
 	update = update.replace(/&nbsp;/g, '');
 	update = update.replace(/&Acirc;/g, '');
+	update = update.replace(/&plusmn;/g, '');
+	update = update.replace(/&Atilde;/g, '');
+	update = update.replace("reseas", '');
+
 	return update.trim();
+};
+
+
+export const equalsObj = (first: any, second: any): boolean =>{
+	if(!first || !second){
+		return false;
+	}
+	if (typeof first !== 'object' || typeof second !== 'object') {
+		return false;
+	}
+	const firstKeys = Object.keys(first);
+  	const secondKeys = Object.keys(second);
+
+	  console.log("tienen keys");
+	if(firstKeys.length !== secondKeys.length) return false;
+
+	for (const key of firstKeys) {
+		if (!equalsValues(first[key], second[key])) {
+		  return false;
+		}
+	}
+
+	return true;
+};
+
+export const equalsValues = (first: any, second: any)=>{
+	return first === second;
 };

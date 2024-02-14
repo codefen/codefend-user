@@ -1,20 +1,50 @@
+main.enp {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	flex: 1 1;
+	gap: 0.5rem;
+	padding-block-start: 5%;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+	.enp-header {
+		cursor: default;
+		display: flex;
 
-main.dashboard {
-	overflow: hidden;
-
-	.colaborators {
-		> .colaborators-container {
-			max-height: 100dvh;
-			overflow: hidden;
+		h2 {
+			font-weight: 700;
+			color: var(--tertiary-color-500);
+			font-size: 1.25rem;
+			line-height: 1.75rem;
 		}
+
+		h3 {
+			margin-inline-start: 2rem;
+			padding-block-start: 0.25rem;
+			cursor: pointer;
+			text-decoration-line: underline;
+			text-underline-offset: 2px;
+			text-decoration-thickness: 2px;
+			font-size: 0.875rem;
+			line-height: 1.25rem;
+			color: var(--secondary-color-100);
+			font-weight: 700;
+		}
+	}
+	.buttons-bar {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		cursor: default;
+		border: 1px solid var(--primary-color-500);
+		background-color: var(--primary-color-200);
+		border-radius: 0.25rem;
+		height: 3rem;
+		width: 100%;
 	}
 }
 
-.btn, button {
+.btn,
+button {
 	font-size: 13px;
 	font-weight: 800;
 	height: 45px;
@@ -23,7 +53,7 @@ main.dashboard {
 	justify-content: center;
 	align-items: center;
 	padding: 0px 23px;
-	outline:none;
+	outline: none;
 	transition: all 0.3s;
 	font-family: roboto;
-  }
+}

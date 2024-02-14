@@ -9,7 +9,7 @@ const EmptyCard: React.FC<EmptyCardProps> = ({ title, info }) => {
 	title = title ?? "There's no data to display here.";
 	info =
 		info ??
-		'If you just placed an order please allow our team to work for a few hours before getting the first results.';
+		'If you just placed an order please allow our team to work for a few hours before getting the first results. ';
 
 	return (
 		<div className="empty-card">

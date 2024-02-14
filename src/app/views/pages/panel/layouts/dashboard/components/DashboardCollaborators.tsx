@@ -25,7 +25,7 @@ const DashboardCollaborators: React.FC<{
 	return (
 		<div className="card colaborators flex-grow">
 			<SimpleSection
-				header="Collaborators and team members"
+				header="Team members"
 				icon={<PeopleGroup />}>
 				<TableV2
 					rowsData={dataTable}

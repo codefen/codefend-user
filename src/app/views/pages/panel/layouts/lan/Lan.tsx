@@ -11,12 +11,14 @@ import '../../../../styles/flag.scss';
 import { LanNetworkData } from './components/LanNetworkData';
 import { LanNetworksChart } from './components/LanNetworksChart';
 import './Lan.scss';
-import './Lan.scss'
+import { useFlashlight } from '../../FlashLightContext';
 
 const LanPage: React.FC = () => {
 	const { networks, loading, refetch } = useLan();
 
 	const [scanLoading, setScanLoading] = useState(false);
+
+	const flashlight = useFlashlight();
 
 	const scanLocal = async () => {
 		setScanLoading(true);
@@ -60,6 +62,8 @@ const LanPage: React.FC = () => {
 	return (
 		<>
 			<main className={`lan ${showScreen ? 'actived' : ''}`}>
+				<div className="brightness variant-1"></div>
+				<div className="brightness variant-2"></div>
 				<section className="left">
 					<LanNetworkData
 						isLoading={loading}
@@ -68,11 +72,12 @@ const LanPage: React.FC = () => {
 					/>
 				</section>
 
-				<section className="right">
+				<section className="right" ref={flashlight.rightPaneRef}>
 					<LanNetworksChart
 						isLoading={loading}
 						internalNetwork={internalNetworkDataInfo()}
 					/>
+
 					<PrimaryButton
 						text={scanLoading ? <PageLoaderWhite /> : 'REQUEST SCAN'}
 						click={(e: any) => scanLocal()}

@@ -15,3 +15,5 @@ export * from './VulnerabilityRisk';
 export * from './SearchBar';
 export * from './RiskScore';
 export * from './ModalButtons';
+export * from './StarRating';
+export * from "./Breadcrumb";

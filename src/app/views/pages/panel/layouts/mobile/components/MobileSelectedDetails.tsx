@@ -7,6 +7,7 @@ import {
 	IssuesPanelMobileAndCloud,
 	PageLoader,
 	Show,
+	PrimaryButton,
 } from '../../../../../components';
 import {
 	Issues,
@@ -14,11 +15,15 @@ import {
 	IssuesShare,
 	MobileApp,
 	useMobileOne,
+	useModal,
 } from '../../../../../../data';
 import SelectedMobile from '../selectedContext';
+import Order from '../../../../../components/modals/order';
 
-export const MobileSelectedDetails: React.FC = () => {
+export const MobileSelectedDetails: React.FC = (props) => {
 	const selectedMobileApp = useContext(SelectedMobile);
+	const { showModal, showModalStr, setShowModal, setShowModalStr } =
+		useModal();
 	const getSelected = selectedMobileApp
 		? selectedMobileApp
 		: ({} as MobileApp);
@@ -29,6 +34,14 @@ export const MobileSelectedDetails: React.FC = () => {
 	return (
 		<Show when={!isLoding} fallback={<PageLoader />}>
 			<>
+				<Show when={showModal && showModalStr === 'order'}>
+					<Order
+						closeModal={() => {
+							setShowModalStr('');
+							setShowModal(false);
+						}}
+					/>
+				</Show>
 				<div>
 					<AppCardInfo type="mobile" selectedApp={getSelected} />
 				</div>
@@ -40,6 +53,14 @@ export const MobileSelectedDetails: React.FC = () => {
 						/>
 					</div>
 					<div className="selected-content-tables">
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							click={() => {
+								setShowModalStr('order');
+								setShowModal(true);
+							}}
+							className="w-full mb-4"
+						/>
 						<VulnerabilityRisk
 							isLoading={isLoding}
 							vulnerabilityByRisk={
