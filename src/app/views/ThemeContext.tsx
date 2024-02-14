@@ -14,20 +14,20 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-	const preferedUserTheme = localStorage.getItem('theme')
-		? (localStorage.getItem('theme') as 'dark' | 'light')
-		: window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
+	let preferedUserTheme: 'dark' | 'light' = 'light';
+	if (localStorage.getItem('theme') !== null) {
+		preferedUserTheme = localStorage.getItem('theme') as 'dark' | 'light';
+	} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		preferedUserTheme = 'dark'; //If the browser prefers dark mode, apply it
+	}
 
-	const [theme, setTheme] = useState<'dark' | 'light'>(
-		preferedUserTheme ? preferedUserTheme : 'light',
-	);
+	const [theme, setTheme] = useState<'dark' | 'light'>(preferedUserTheme);
 	localStorage.setItem('theme', theme);
 	document.body.setAttribute('data-theme', theme);
 	const changeTheme = () => {
-		localStorage.setItem('theme', theme === 'dark' ? 'light' : 'dark');
-		setTheme(theme === 'dark' ? 'light' : 'dark');
+		const newTheme = theme === 'dark' ? 'light' : 'dark';
+		localStorage.setItem('theme', newTheme);
+		setTheme(newTheme);
 	};
 
 	return (

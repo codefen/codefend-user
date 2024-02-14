@@ -7,7 +7,7 @@ import { useWebapplication } from '../../../../../data';
 import '../../../../styles/flag.scss';
 import '../../../../components/Table/table.scss';
 import './webapplication.scss';
-import { DarkButton, PrimaryButton } from '../../../../components';
+import { PrimaryButton } from '../../../../components';
 import { useTheme } from '../../../../ThemeContext';
 
 const WebApplicationView: React.FC = () => {
@@ -35,9 +35,6 @@ const WebApplicationView: React.FC = () => {
 				/>
 			</section>
 			<section className="right">
-				{/* I don't understand if it's in the design
-				 <DarkButton text="MANAGE ACCESS CREDENTIALS" /> 
-				 */}
 				<WebApplicationLocation
 					isLoading={isLoading}
 					webResources={webResources.resources}
