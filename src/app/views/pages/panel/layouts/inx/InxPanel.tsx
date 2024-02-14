@@ -3,12 +3,13 @@ import { InxSearchAndData } from './components/InxSearchAndData';
 import { InxPreviousSearches } from './components/InxPreviousSearches';
 import { useInxPreviousSearch } from '../../../../../data';
 import './inx.scss';
+import { useFlashlight } from '../../FlashLightContext';
 
 export const InxPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);
 	const { previousSearches, isLoading, refetch } = useInxPreviousSearch();
-	
+	const flashlight = useFlashlight();
 
 	useEffect(() => {
 		refetch();
@@ -23,7 +24,7 @@ export const InxPanel: React.FC = () => {
 				<section className="left">
 					<InxSearchAndData refetch={() => refresh(!control)} />
 				</section>
-				<section className="right">
+				<section className="right" ref={flashlight.rightPaneRef}>
 					<InxPreviousSearches
 						isLoading={isLoading}
 						previousSearches={previousSearches ?? []}

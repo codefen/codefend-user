@@ -9,6 +9,7 @@ import '../../../../components/Table/table.scss';
 import './webapplication.scss';
 import { PrimaryButton } from '../../../../components';
 import { useTheme } from '../../../../ThemeContext';
+import { useFlashlight } from '../../FlashLightContext';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -23,6 +24,7 @@ const WebApplicationView: React.FC = () => {
 	}, [refresh]);
 
 	const { changeTheme } = useTheme();
+	const flashlight = useFlashlight();
 
 	return (
 		<main className={`webapp ${showScreen ? 'actived' : ''}`}>
@@ -34,7 +36,7 @@ const WebApplicationView: React.FC = () => {
 					webResources={webResources.resources}
 				/>
 			</section>
-			<section className="right">
+			<section className="right" ref={flashlight.rightPaneRef}>
 				<WebApplicationLocation
 					isLoading={isLoading}
 					webResources={webResources.resources}

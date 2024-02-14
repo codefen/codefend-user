@@ -1,5 +1,4 @@
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
-import { TiFlowChildren } from 'react-icons/ti';
 
 export type Theme = {
 	theme: 'dark' | 'light';
