@@ -32,7 +32,8 @@ const isActivePath = (verifyPath: string) => {
 
 const Sidebar: React.FC = () => {
 	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin = isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
+	const showAdmin =
+		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	return (
 		<aside className="sidebar">
 			{showAdmin && (
@@ -80,11 +81,13 @@ const Sidebar: React.FC = () => {
 				<LanIcon />
 			</Link>
 
-
-				<Link title="Enp" to="/enp" className={isActivePath('/enp') ? 'active' : ''}>
-					<EnpIcon />
-				</Link>
-{/*
+			<Link
+				title="Enp"
+				to="/enp"
+				className={isActivePath('/enp') ? 'active' : ''}>
+				<EnpIcon />
+			</Link>
+			{/*
 			<Show when={RUNNING_DESKTOP()}>
 				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
 					<EnpIcon />
@@ -110,19 +113,6 @@ const Sidebar: React.FC = () => {
 				to="/issues"
 				className={isActivePath('/issues') ? 'active' : ''}>
 				<BugIcon />
-			</Link>
-
-			<Link
-				title="Customer Support"
-				to="/support"
-				className={isActivePath('/support') ? 'active' : ''}>
-				<MessageIcon />
-			</Link>
-
-			<Link
-				to="/preferences"
-				className={isActivePath('/preferences') ? 'active' : ''}>
-				<PreferenceIcon />
 			</Link>
 
 			<Link
