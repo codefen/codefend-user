@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
 import {
 	ErrorConection,
@@ -6,7 +6,7 @@ import {
 	Navbar,
 	Show,
 	Sidebar,
-	SidebarResponsive,
+	Header
 } from '../../components';
 import { useAuthStore } from '../../../data';
 
@@ -40,11 +40,10 @@ export const PanelPage: React.FC = () => {
 				<div className=" xs:hidden sm:block">
 					<Navbar />
 				</div>
-				<div>
-					<SidebarResponsive />
+				<div className='relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden'>
+					<Header />
 				</div>
 				<div className="flex">
-
 					<div className="relative h-screen pt-6 mt-10 xs:hidden sm:block">
 						<Sidebar />
 					</div>

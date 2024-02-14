@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import {
 	BugIcon,
@@ -15,25 +14,18 @@ import {
 	PeopleGroup,
 	PreferenceIcon,
 	SourceCodeIcon,
-} from '../../';
+} from '../../..';
+import { usePanelStore } from '../../../../../data/store/';
 
-import { usePanelStore, useUserAdmin } from '../../../../data';
-import './sidebar.scss';
-
-
-
-const Sidebar: React.FC = () => {
-	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin =
-		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
+const SidebarResponsive: React.FC = () => {
 	const { open, isActivePath } = usePanelStore();
-
+	
 	return (
 		<aside
 			className={
 				`relative duration-300
-					${!open ? 'w-16' : 'w-60'}
-					flex  justify-between h-[100vh] bg-[#121a23] text-gray-400 flex-col
+					${!open ? 'w-16' : 'w-full'}
+					flex justify-between h-[100vh] bg-[#121a23] text-gray-400 flex-col
 			`}>
 			<Link
 				title="Dashboard"
@@ -42,7 +34,7 @@ const Sidebar: React.FC = () => {
 				<ChartIcon />
 				<span
 					className={`
-					duration-600
+					duration-400
 					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
 					Dashboard
 				</span>
@@ -219,4 +211,4 @@ const Sidebar: React.FC = () => {
 	);
 };
 
-export default Sidebar;
+export default SidebarResponsive;

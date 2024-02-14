@@ -7,7 +7,7 @@ interface IState {
 	isActivePath: (verifyPath: string) => 'active' | boolean;
 }
 
-export const usePanelStore = create<IState>((set) => ({
+const usePanelStore = create<IState>((set) => ({
 	open: false, 
 	handleChange: () => set((state) => ({ open: !state.open })),
 	isActivePath: (verifyPath: string) => {
@@ -17,3 +17,5 @@ export const usePanelStore = create<IState>((set) => ({
 		return currentPath.startsWith(verifyPath);
 	},
 }));
+
+export default usePanelStore

@@ -4,6 +4,7 @@ import {
 	NetworkSettingState,
 	useModal,
 	useNetworkSettingState,
+	usePanelStore,
 } from '../../../../data';
 import {
 	ConfirmModal,
@@ -15,7 +16,6 @@ import {
 } from '../..';
 import './navbar.scss';
 import useAuthStore from '../../../../data/store/auth.store';
-import { usePanelStore } from '../../../../data/store/panel.store';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 

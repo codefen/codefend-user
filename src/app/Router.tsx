@@ -1,38 +1,38 @@
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { PanelPage } from './views/pages/panel/PanelPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AddDomainModal, Loader, ModalTitleWrapper } from './views/components';
 import { useModal } from './data';
+import { Loader } from './views/components';
 import {
-	AuthPage,
-	SignInLayout,
-	SignUpLayout,
-	ConfirmationSignUp,
-	FinishSignUpLayout,
-	Dashboard,
-	WebApplication,
-	MobileApplication,
-	CloudApplicationPanel,
-	LanApplicationPanel,
-	SourceCodePanel,
-	SocialEngineeringPanel,
-	EnpPanel,
-	EnpSingle,
-	SupportPanel,
-	PreferencePanel,
-	InxPanel,
-	SnsPanel,
-	VdbPanel,
-	IssuePage,
-	IssuesPanel,
-	IssuesCreation,
-	IssuesUpdate,
+	AdminCompany,
 	AdminPage,
 	AdminUser,
-	AdminCompany,
-} from '../app/views/pages';
+	AuthPage,
+	CloudApplicationPanel,
+	ConfirmationSignUp,
+	Dashboard,
+	EnpPanel,
+	EnpSingle,
+	FinishSignUpLayout,
+	InxPanel,
+	IssuePage,
+	IssuesCreation,
+	IssuesPanel,
+	IssuesUpdate,
+	LanApplicationPanel,
+	MobileApplication,
+	PreferencePanel,
+	SignInLayout,
+	SignUpLayout,
+	SnsPanel,
+	SocialEngineeringPanel,
+	SourceCodePanel,
+	SupportPanel,
+	VdbPanel,
+	WebApplication,
+} from './views/pages';
+import { PanelPage } from './views/pages/panel/PanelPage';
 
 export const AppRouter: React.FC = () => {
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
