@@ -6,4 +6,4 @@ export * from './useAuthState';
 export * from './useChart';
 export * from './useChatbox';
 export * from './useCompany';
-export {default as useModal} from './useModal';
+export { default as useModal } from './useModal';

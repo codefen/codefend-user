@@ -6,13 +6,16 @@ import {
 	Navbar,
 	Show,
 	Sidebar,
-	Header
+	Header,
+	SidebarResponsive
 } from '../../components';
-import { useAuthStore } from '../../../data';
+import { useAuthStore, usePanelStore } from '../../../data';
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
 	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
+	const { open } = usePanelStore();
+	
 	if (!isAuth) logout();
 
 	useEffect(() => {
@@ -37,12 +40,21 @@ export const PanelPage: React.FC = () => {
 						}}
 					/>
 				</Show>
-				<div className=" xs:hidden sm:block">
+				<div className="xs:hidden sm:block">
 					<Navbar />
 				</div>
 				<div className='relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden'>
 					<Header />
 				</div>
+
+				<div
+					className={`relative duration-300 md:hidden lg:hidden xl:hidden 2xl:hidden
+					${!open ? 'w-16' : 'w-full'}`}>
+					<Show when={open}>
+						<SidebarResponsive />
+					</Show>
+				</div>
+
 				<div className="flex">
 					<div className="relative h-screen pt-6 mt-10 xs:hidden sm:block">
 						<Sidebar />

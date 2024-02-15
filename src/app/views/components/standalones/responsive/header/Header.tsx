@@ -1,6 +1,6 @@
 import React from 'react';
-import { Logo, SidebarResponsive } from '../..';
-import { LogoutIcon, NetworkIcon, Show } from '../../../';
+import { Logo } from '../..';
+import { LogoutIcon, NetworkIcon } from '../../../';
 import {
 	useNetworkSettingState,
 	usePanelStore,
@@ -48,13 +48,13 @@ const Header: React.FC = () => {
 						</span>
 					</div>
 				</div>
-				<div
+				{/* <div
 					className={`relative duration-300
 					${!open ? 'w-16' : 'w-full'}`}>
 					<Show when={open}>
 						<SidebarResponsive />
 					</Show>
-				</div>
+				</div> */}
 			</div>
 		</nav>
 	);
