@@ -16,197 +16,169 @@ import {
 	SourceCodeIcon,
 } from '../../..';
 import { usePanelStore } from '../../../../../data/store/';
+import './sidebarResponsive.scss';
 
 const SidebarResponsive: React.FC = () => {
 	const { open, isActivePath } = usePanelStore();
-	
+
 	return (
-		<aside
-			className={
-				`relative duration-300
-					${!open ? 'w-16' : 'w-full'}
-					flex justify-between h-[100vh] bg-[#121a23] text-gray-400 flex-col
-			`}>
-			<Link
-				title="Dashboard"
-				to="/dashboard"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border ">
-				<ChartIcon />
-				<span
-					className={`
-					duration-400
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Dashboard
-				</span>
-			</Link>
+		<aside className={`sidenav ${open ? 'sidenav-collapsed' : ''}`}>
+			<ul className={`sidenav-nav ${!open ? 'hidden' : ''}`}>
+				<li className="sidenav-nav-item">
+					<Link
+						title="Dashboard"
+						to="/dashboard"
+						className="sidenav-link-link ">
+						<ChartIcon />
+						<span
+							className="sidenav-link-text">
+							Dashboard
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Web"
-				to="/web"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200">
-				<GlobeWebIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Web
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Web" to="/web" className="sidenav-link-link">
+						<GlobeWebIcon />
+						<span
+							className="sidenav-link-text">
+							Web
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Mobile"
-				to="/mobile"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<MobileIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Mobile
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Mobile" to="/mobile" className="sidenav-link-link ">
+						<MobileIcon />
+						<span
+							className="sidenav-link-text">
+							Mobile
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Cloud"
-				to="/cloud"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<CLoudIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Cloud
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Cloud" to="/cloud" className="sidenav-link-link ">
+						<CLoudIcon />
+						<span
+							className="sidenav-link-text">
+							Cloud
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Lan"
-				to="/lan"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200">
-				<LanIcon />
-				<span
-					className={`${
-						!open && 'hidden'
-					}  p-[10px] origin-left duration-700`}>
-					Lan
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Lan" to="/lan" className="sidenav-link-link">
+						<LanIcon />
+						<span
+							className="sidenav-link-text">
+							Lan
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Enp"
-				to="/enp"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<EnpIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Enp
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Enp" to="/enp" className="sidenav-link-link ">
+						<EnpIcon />
+						<span
+							className="sidenav-link-text">
+							Enp
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Source Code"
-				to="/source"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<SourceCodeIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Source Code
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link
+						title="Source Code"
+						to="/source"
+						className="sidenav-link-link ">
+						<SourceCodeIcon />
+						<span
+							className="sidenav-link-text">
+							Source Code
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Social Engineering"
-				to="/social"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border-gray-200 ">
-				<PeopleGroup />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Social Engineering
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link
+						title="Social Engineering"
+						to="/social"
+						className="sidenav-link-link">
+						<PeopleGroup />
+						<span
+							className="sidenav-link-text">
+							Social Engineering
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Issues"
-				to="/issues"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<BugIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Issues
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Issues" to="/issues" className="sidenav-link-link ">
+						<BugIcon />
+						<span
+							className="sidenav-link-text">
+							Issues
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Customer Support"
-				to="/support"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<MessageIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Customer Support
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link
+						title="Customer Support"
+						to="/support"
+						className="sidenav-link-link ">
+						<MessageIcon />
+						<span
+							className="sidenav-link-text">
+							Customer Support
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				to="/preferences"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<PreferenceIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Preferences
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link to="/preferences" className="sidenav-link-link ">
+						<PreferenceIcon />
+						<span
+							className="sidenav-link-text">
+							Preferences
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Inx"
-				to="/inx"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border-gray-200 ">
-				<InxIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Inx
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link
+						title="Inx"
+						to="/inx"
+						className="sidenav-link-link">
+						<InxIcon />
+						<span
+							className="sidenav-link-text">
+							Inx
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Sns"
-				to="/sns"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<DataIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Sns
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Sns" to="/sns" className="sidenav-link-link ">
+						<DataIcon />
+						<span
+							className="sidenav-link-text">
+							Sns
+						</span>
+					</Link>
+				</li>
 
-			<Link
-				title="Vdb"
-				to="/vdb"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
-				<DataIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Vdb
-				</span>
-			</Link>
+				<li className="sidenav-nav-item">
+					<Link title="Vdb" to="/vdb" className="sidenav-link-link ">
+						<DataIcon />
+						<span
+							className="sidenav-link-text">
+							Vdb
+						</span>
+					</Link>
+				</li>
+			</ul>
 		</aside>
 	);
 };
