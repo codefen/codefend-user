@@ -11,64 +11,64 @@ import PaymentMethod from './PaymentMethod';
 
 // style
 import './order.scss';
+import { ModalWrapper } from '..';
 
 const Order = ({ closeModal }: { closeModal: Function }) => {
 	const [activeTab, setActiveTab] = useState<any>(orderTab[0]);
 
 	return (
-		<div
-			onClick={(e) => {
-				if (e.currentTarget === e.target) {
-					closeModal();
-				}
-			}}
-			className="absolute flex items-center justify-center w-full h-full bg-black/10 left-0">
-			<div className="bg-white order">
-				<div className="order-header">
-					<img
-						src="/codefend/pentest-header-vector.svg"
-						alt="header-icon"
-					/>
-					<span>Execute a new pentest</span>
-				</div>
-				<div className="tabs">
-					{orderTab.map((tab, orderIndex) => (
-						<span
-							onClick={() => {
-								if (tab === activeTab) return;
-								setActiveTab(tab);
-							}}
-							key={orderIndex}
-							className={`tab ${activeTab === tab && 'selected'}`}>
-							{tab}
-						</span>
-					))}
-				</div>
-				<div className="content">
-					{activeTab === 'scope' && (
-						<ScopeView
-							setActiveTab={setActiveTab}
-							closeModal={closeModal}
+		<>
+			<ModalWrapper action={() => closeModal()}>
+				<div
+					className={`order ${
+						activeTab === 'payment method' && 'no-max-h'
+					}`}>
+					<header className="order-header">
+						<img
+							src="/codefend/pentest-header-vector.svg"
+							alt="header-icon"
 						/>
-					)}
-					{activeTab === 'frequency' && (
-						<FrequencyView setActiveTab={setActiveTab} />
-					)}
-					{activeTab === 'team size' && (
-						<TeamSize setActiveTab={setActiveTab} />
-					)}
-					{activeTab === 'order review' && (
-						<OrderReview setActiveTab={setActiveTab} />
-					)}
-					{activeTab === 'payment method' && (
-						<PaymentMethod
-							setActiveTab={setActiveTab}
-							closeModal={closeModal}
-						/>
-					)}
+						<h2>Execute a new pentest</h2>
+					</header>
+					<div className="tabs">
+						{orderTab.map((tab, orderIndex) => (
+							<span
+								onClick={() => {
+									if (tab === activeTab) return;
+									setActiveTab(tab);
+								}}
+								key={orderIndex}
+								className={`tab ${activeTab === tab && 'selected'}`}>
+								{tab}
+							</span>
+						))}
+					</div>
+					<div className="content">
+						{activeTab === 'scope' && (
+							<ScopeView
+								setActiveTab={setActiveTab}
+								closeModal={closeModal}
+							/>
+						)}
+						{activeTab === 'frequency' && (
+							<FrequencyView setActiveTab={setActiveTab} />
+						)}
+						{activeTab === 'team size' && (
+							<TeamSize setActiveTab={setActiveTab} />
+						)}
+						{activeTab === 'order review' && (
+							<OrderReview setActiveTab={setActiveTab} />
+						)}
+						{activeTab === 'payment method' && (
+							<PaymentMethod
+								setActiveTab={setActiveTab}
+								closeModal={closeModal}
+							/>
+						)}
+					</div>
 				</div>
-			</div>
-		</div>
+			</ModalWrapper>
+		</>
 	);
 };
 
