@@ -71,6 +71,7 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 							<option value="https://kundalini.codefend.com/kundalini/index.php"></option>
 							<option value="https://api.codefend.com/kundalini/index.php"></option>
 							<option value="https://api-mena.codefend.com/kundalini/index.php"></option>
+							<option value="https://kundalini-usa.codefend.com/kundalini/"></option>
 						</datalist>
 						<button
 							onClick={() => setCanEdit((currentValue) => !currentValue)}
@@ -86,8 +87,10 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 					<span
 						onClick={() => {
 							deleteCustomBaseAPi();
-							setApiUrl('');
+							setApiUrl(baseUrl);
 							setCanEdit(false);
+							close();
+							toast.success('Server has been changed successfully');
 						}}
 						className="network-form_inputs_edit_reset codefend-text-red">
 						click here to set back to default
