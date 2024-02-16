@@ -1,7 +1,6 @@
 import { lazy } from 'react';
 
-export * from './auth'
-
+export * from './auth';
 
 export const Dashboard = lazy(() => import('./panel/layouts/dashboard/Dashboard'))
 export const WebApplication = lazy(() => import('./panel/layouts/web/WebApplication'))
