@@ -107,8 +107,8 @@ section.access {
 			border-bottom: 3px solid #6f6f6f;
 
 			&.active {
-				color: var(--secondary-color);
-				border-bottom: 3px solid var(--secondary-color);
+				color: var(--secondary-color-50);
+				border-bottom: 3px solid var(--secondary-color-50);
 			}
 		}
 	}
@@ -254,26 +254,6 @@ form.signup-confirm {
 			display: flex;
 			align-items: center;
 			column-gap: 0.5rem;
-		}
-	}
-}
-
-section.access {
-	button.btn {
-		&.btn-primary {
-			background-color: #fe4e4e !important;
-			color: #fff;
-
-			&:hover {
-				background: #cb2222 !important;
-			}
-		}
-	}
-
-	select {
-		color: #3d3d3d;
-		&:focus {
-			outline: 0px solid;
 		}
 	}
 }
