@@ -3,16 +3,42 @@ import { Outlet, useLocation, Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import './auth.scss';
-import { AuthServices, useAuthStore } from '../../../data';
+import {
+	NetworkSettingState,
+	useAuthStore,
+	useNetworkSettingState,
+} from '../../../data';
+import { ModalWrapper, NetworkSetingModal, Show } from '../../components';
 
 const Logo = lazy(() => import('../../components/defaults/Logo'));
 
 const AuthPage: React.FC = () => {
 	const location = useLocation();
 	const { isAuth } = useAuthStore((state) => state);
+	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
+		(state: NetworkSettingState) => state,
+	);
 
 	return !isAuth ? (
 		<>
+			<Show when={isOpen}>
+				<ModalWrapper action={() => setNetworkSettingState(!isOpen)}>
+					<div
+						className="modal-wrapper-title internal-tables disable-border"
+						onClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+						}}>
+						<div className="w-full mt-4">
+							<div className="w-full px-8 disable-border">
+								<NetworkSetingModal
+									close={() => setNetworkSettingState(!isOpen)}
+								/>
+							</div>
+						</div>
+					</div>
+				</ModalWrapper>
+			</Show>
 			<div className="codefend-img-bg">
 				<Logo theme={'shadow'} />
 			</div>

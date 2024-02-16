@@ -14,7 +14,7 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 }) => {
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key.toLowerCase() === 'escape') {
+			if (e.key === 'Escape') {
 				e.preventDefault();
 				e.stopPropagation();
 				action && action();
@@ -38,7 +38,7 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 					e.preventDefault();
 					e.stopPropagation();
 				}}>
-				<div>{children}</div>
+				<article>{children}</article>
 			</div>
 		</div>
 	);

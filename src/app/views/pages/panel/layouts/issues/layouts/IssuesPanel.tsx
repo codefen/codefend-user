@@ -7,12 +7,14 @@ import {
 } from '../../../../../components';
 import { IssueReport } from '../components/IssueReport';
 import { IssueResources } from '../components/IssueResources';
+import { useFlashlight } from '../../../FlashLightContext';
 
 const IssuesPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);
 	const [filters, setFilters] = useState<Set<string>>(new Set([]));
 	const { getIssues, isLoading, refetchAll } = useIssues();
+	const flashlight = useFlashlight();
 
 	useEffect(() => {
 		refetchAll();
@@ -59,7 +61,7 @@ const IssuesPanel: React.FC = () => {
 						refresh={() => refresh(!control)}
 					/>
 				</section>
-				<section className="right">
+				<section className="right" ref={flashlight.rightPaneRef}>
 					<IssueReport
 						handleFilter={handleFilters}
 						isLoading={isLoading}

@@ -1,4 +1,5 @@
 main.webapp {
+	padding-inline-end: 0px;
 	width: 100%;
 	.left {
 		width: 70%;
@@ -26,16 +27,17 @@ main.webapp {
 	}
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		padding-inline: 10px;
+		padding-inline: auto;
+		width: 30%;
+		margin-inline-start: 10px;
+
 		.card {
 			border: none;
 			.header {
-				max-width: 96%;
 				border-bottom: 1px solid var(--primary-color-300);
 			}
 			&.stats {
 				.content {
-					max-width: 96%;
 					column-gap: 0px;
 
 					.stat {
@@ -72,11 +74,9 @@ main.webapp {
 			.card {
 				.header {
 					background-color: var(--primary-color-500);
-					max-width: 96%;
 				}
 				&.stats {
 					.content {
-						max-width: 96%;
 						column-gap: 0px;
 						padding-inline: 0px;
 

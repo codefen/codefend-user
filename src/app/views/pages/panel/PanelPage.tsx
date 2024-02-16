@@ -10,6 +10,7 @@ import {
 	Sidebar,
 	SidebarResponsive,
 } from '../../components';
+import { FlashLightProvider } from './FlashLightContext';
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -29,37 +30,42 @@ export const PanelPage: React.FC = () => {
 	}, []);
 
 	return (
-		<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
-			<>
-				<Show when={showModal}>
-					<ErrorConection
-						closeModal={() => {
-							setShowModal(false);
-							localStorage.removeItem('error');
-						}}
-					/>
-				</Show>
-				<div className="xs:hidden sm:block">
-					<Navbar />
-				</div>
-				<div className="relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">
-					<Header />
-				</div>
+		<>
+			<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
+				<FlashLightProvider>
+					<>
+						<Show when={showModal}>
+							<ErrorConection
+								closeModal={() => {
+									setShowModal(false);
+									localStorage.removeItem('error');
+								}}
+							/>
+						</Show>
 
-				<div className="relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">
-					<SidebarResponsive />
-				</div>
+						<div className="xs:hidden sm:block">
+							<Navbar />
+						</div>
+						<div className="relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">
+							<Header />
+						</div>
+						<div className="relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">
+							<SidebarResponsive />
+						</div>
 
-				<div className="flex">
-					<div className="relative h-screen pt-6 mt-10 xs:hidden sm:block">
-						<Sidebar />
-					</div>
+						<Navbar />
+						<div className="flex">
+							<div className="relative h-screen pt-6 mt-10 xs:hidden sm:block">
+								<Sidebar />
+							</div>
 
-					<Suspense fallback={<Loader />}>
-						<Outlet />
-					</Suspense>
-				</div>
-			</>
-		</Show>
+							<Suspense fallback={<Loader />}>
+								<Outlet />
+							</Suspense>
+						</div>
+					</>
+				</FlashLightProvider>
+			</Show>
+		</>
 	);
 };

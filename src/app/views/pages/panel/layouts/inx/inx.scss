@@ -4,3 +4,13 @@ main.issues-list {
 		width: 35%;
 	}
 }
+
+[data-theme='dark'] {
+	main.issues-list {
+		.left {
+			> div {
+				border: 1px solid var(--primary-color-400);
+			}
+		}
+	}
+}

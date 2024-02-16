@@ -91,6 +91,10 @@ export const cleanReview = (source: string) => {
 	let update = source.replace(/\bopiniones\b/gi, '');
 	update = update.replace(/&nbsp;/g, '');
 	update = update.replace(/&Acirc;/g, '');
+	update = update.replace(/&plusmn;/g, '');
+	update = update.replace(/&Atilde;/g, '');
+	update = update.replace("reseas", '');
+
 	return update.trim();
 };
 

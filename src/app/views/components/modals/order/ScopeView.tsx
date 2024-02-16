@@ -83,44 +83,20 @@ const ScopeView = (props: ScopeViewProps) => {
 					</label>
 				</div>
 			</div>
-			<div className="mt-20 flex items-center gap-x-2 show-border  px-10">
+			<div className="scope-confirm show-border">
 				<input
 					id="confirmation"
 					type="checkbox"
 					alt="checkbox"
 					className="log-inputs"
 				/>
-				<label htmlFor="confirmation" className="flex items-center gap-x-1">
+				<label htmlFor="confirmation" className=" confirm-label ">
 					<span className="codefend-color">
 						I confirm I have authorization
 					</span>
-					<span className="text-black">
-						and I’ve read and accept the disclaimer.
-					</span>
+					<span>and I’ve read and accept the disclaimer.</span>
 				</label>
 			</div>
-
-			{/* <div className="button-wrapper mt-6 flex justify-end">
-				<button
-					// type="button"
-					// disabled={isDeletingResource()}
-					onClick={() => {
-						props.closeModal();
-					}}
-					className="log-inputs text-gray focus:outline-none w-2/6 px-4 mr-2 py-3 text-sm tracking-wide text-white transition-colors duration-300">
-					cancel
-				</button>
-				<button
-					onClick={() => {
-						props.setActiveTab('frequency');
-					}}
-					// type="submit"
-					// disabled={isDeletingResource()}
-					className="log-inputs flex items-center gap-x-2 text-white focus:outline-none bg-codefend px-6 w-2.5/6 py-3 text-sm transition-colors tracking-wide duration-300 font-400 text-">
-					{(props.isDeleting || isDeletingResource()) && <ButtonLoader />}
-					Continue to the next step
-				</button>
-			</div> */}
 			<div className="button-wrapper mt-6 flex justify-end gap-x-4">
 				<div className="bg-blue-600 w-[25%]">
 					<SecondaryButton

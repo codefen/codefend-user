@@ -21,6 +21,7 @@
 
 		&.max-w {
 			max-width: 36rem;
+			min-width: 25rem;
 		}
 		> div {
 			width: 100%;
@@ -139,10 +140,27 @@
 	padding: 0.75rem;
 	position: relative;
 	z-index: 50;
+	header {
+		padding-block-start: 0.75rem;
+		padding-inline: 0.75rem;
+		display: flex;
+		h4 {
+			text-align: left;
+			font-weight: bold;
+			color: var(--tertiary-color-400);
+			-webkit-line-clamp: 2;
+			-webkit-line-clamp: 2;
+			white-space: pre-line;
+			line-height: 25px;
+			padding-inline: 15px;
+		}
+	}
+
 	form {
-		padding-block-start: 0.5rem;
+		padding-block-start: 0rem;
 		padding-block-end: 1.5rem;
 		padding-inline: 1.5rem;
+		width: 100%;
 
 		.form-input {
 			position: relative;
@@ -362,6 +380,13 @@
 }
 
 [data-theme='dark'] {
+	.modal {
+		.header {
+			h4 {
+				color: var(--tertiary-color-50);
+			}
+		}
+	}
 	.error-wrapper {
 		h2 {
 			color: var(--tertiary-color-50);

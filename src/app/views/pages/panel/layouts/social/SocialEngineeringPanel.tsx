@@ -4,11 +4,12 @@ import SocialAttackVectors from './components/SocialAttackVectors';
 import SocialEngineering from './components/SocialEngineering';
 import SocialEngineeringMembers from './components/SocialEngineeringMembers';
 import './socialEngineering.scss';
+import { useFlashlight } from '../../FlashLightContext';
 
 const SocialEngineeringView = () => {
 	const { members, refetch, loading } = useSocial();
 	const [showScreen, setShowScreen] = useState(false);
-
+	const flashlight = useFlashlight();
 	const [socialFilters, setSocialFilters] = useState({
 		department: new Set<string>(),
 		attackVectors: new Set<string>(),
@@ -65,7 +66,7 @@ const SocialEngineeringView = () => {
 						}
 					/>
 				</section>
-				<section className="right">
+				<section className="right" ref={flashlight.rightPaneRef}>
 					<SocialEngineeringMembers
 						isLoading={loading}
 						members={members ?? []}

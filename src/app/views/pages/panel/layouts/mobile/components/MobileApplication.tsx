@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
 	AppCard,
 	EmptyScreenView,
@@ -34,6 +34,7 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 		changeMobile,
 		isNotNull,
 	} = useSelectedMobile();
+	const [term, setTerm] = useState('');
 
 	const mobileKeys = useMemo(() => {
 		return mobileInfo ? generateIDArray(mobileInfo.length) : [];
@@ -68,38 +69,60 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 					<div className="brightness variant-3"></div>
 
 					<section className="left">
-						<div className="add-button">
-							<PrimaryButton text="ADD MOBILE APP" click={openModal} />
+						<div className="card flex-grow">
+							<div className="header">
+								<div className="title">
+									<div className="icon"></div>
+									<span>Mobile Applications</span>
+								</div>
+								<div className="actions">
+									<div onClick={openModal}>Add mobile app</div>
+								</div>
+							</div>
 						</div>
+						<input
+							type="text"
+							className="log-inputs search-app"
+							placeholder="search"
+							onChange={(e: any) => setTerm(e.target.value)}
+						/>
 
 						<div className="list">
-							{mobileInfo?.map((mobile: MobileApp, i: number) => (
-								<div
-									key={mobileKeys[i]}
-									className="app-info"
-									onClick={(e: React.FormEvent) => {
-										e.preventDefault();
-										selectMobile(mobile);
-									}}>
-									<>
-										<AppCard
-											isActive={isCurrentMobileSelected(mobile.id)}
-											onDone={(id: string) => {
-												refresh();
-												setSelectedMobileApp(null);
-											}}
-											type="mobile"
-											id={mobile.id}
-											appMedia={mobile.appMedia}
-											appDesc={mobile.appDesc}
-											appReviews={mobile.appReviews}
-											appRank={mobile.appRank}
-											appDeveloper={mobile.appDeveloper}
-											name={mobile.appName}
-										/>
-									</>
-								</div>
-							))}
+							{mobileInfo
+								?.filter((app: MobileApp) =>
+									app.appName
+										.toLowerCase()
+										.includes(term.toLowerCase()),
+								)
+								.map((mobile: MobileApp, i: number) => (
+									<div
+										key={mobileKeys[i]}
+										className="app-info"
+										onClick={(e: React.FormEvent) => {
+											e.preventDefault();
+											selectMobile(mobile);
+										}}>
+										<>
+											<AppCard
+												isActive={isCurrentMobileSelected(
+													mobile.id,
+												)}
+												onDone={(id: string) => {
+													refresh();
+													setSelectedMobileApp(null);
+												}}
+												type="mobile"
+												id={mobile.id}
+												appMedia={mobile.appMedia}
+												appDesc={mobile.appDesc}
+												appReviews={mobile.appReviews}
+												appRank={mobile.appRank}
+												appDeveloper={mobile.appDeveloper}
+												name={mobile.appName}
+											/>
+										</>
+									</div>
+								))}
 						</div>
 					</section>
 

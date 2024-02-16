@@ -1,6 +1,13 @@
 import React from 'react';
 import { defaultMobileCloudResourceAsset, useAppCard } from '../../../data';
-import { CloseIcon, ConfirmModal, ModalWrapper, Show } from '..';
+import {
+	CloseIcon,
+	ConfirmModal,
+	ModalTitleWrapper,
+	ModalWrapper,
+	Show,
+	StarRating,
+} from '..';
 
 interface MobileAppCardProps {
 	isActive?: boolean;
@@ -48,27 +55,27 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 
 	return (
 		<>
-			<Show when={showModal}>
-				<ModalWrapper
-					action={() => {
-						viewModal(false);
+			<ModalTitleWrapper
+				isActive={showModal}
+				close={() => viewModal(false)}
+				headerTitle="Delete mobile app">
+				<div
+					className="web-modal-wrapper internal-tables disable-border"
+					onClick={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
 					}}>
-					<div
-						className="web-modal-wrapper internal-tables disable-border"
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}>
-						<ConfirmModal
-							header={`Are you sure you want to delete "${name}" ?`}
-							cancelText="Cancel"
-							confirmText="Delete"
-							close={() => viewModal(false)}
-							action={() => handleDelete(id).finally(() => onDone?.(id))}
-						/>
-					</div>
-				</ModalWrapper>
-			</Show>
+					<ConfirmModal
+						header={`Are you sure to remove ${
+							isMobileType ? 'mobile app' : 'cloud app'
+						} \n  ${name}, ID ${id}`}
+						cancelText="Cancel"
+						confirmText="Delete"
+						close={() => viewModal(false)}
+						action={() => handleDelete(id).finally(() => onDone?.(id))}
+					/>
+				</div>
+			</ModalTitleWrapper>
 
 			<div
 				className={`app-card ${!isDetails ? 'app-card-border' : 'pt-5'} ${
@@ -129,6 +136,21 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 									resource id: {id}
 								</span>
 							</Show>
+							<Show when={isDetails}>
+								<>
+									<div className="actions">
+										<div onClick={() => alert('Add issue')}>
+											Add issue
+										</div>
+										<div onClick={() => alert('Add credential')}>
+											Add credential
+										</div>
+										<div onClick={() => viewModal(true)}>
+											Delete resource
+										</div>
+									</div>
+								</>
+							</Show>
 						</div>
 						<div className="app-details text-gray">
 							<Show
@@ -161,12 +183,11 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 														: ''}
 												</span>
 												{isMobileType && (
-													<div>
-														<img
-															src="/codefend/rank.svg"
-															alt="star-icon"
-														/>
-													</div>
+													<StarRating
+														rating={Number(
+															appRank?.replace(',', '.'),
+														)}
+													/>
 												)}
 											</div>
 										</>

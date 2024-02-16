@@ -189,7 +189,7 @@ main.issue-detail {
 		filter: blur(120px) brightness(0.5) opacity(0.4);
 	}
 	main.issues-list {
-		z-index: 5;
+	
 		.left {
 			.header {
 				.save {
@@ -198,7 +198,7 @@ main.issue-detail {
 					}
 				}
 			}
-			z-index: 10;
+			
 		}
 		.right {
 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
@@ -209,7 +209,7 @@ main.issue-detail {
 					}
 				}
 			}
-			z-index: 10;
+			
 		}
 	}
 }
