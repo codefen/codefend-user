@@ -55,7 +55,7 @@ export const PanelPage: React.FC = () => {
 
 						<Navbar />
 						<div className="flex">
-							<div className="relative h-screen pt-6 mt-10 xs:hidden sm:block">
+							<div className="relative h-screen pt-6 mt-[2rem] xs:hidden sm:block">
 								<Sidebar />
 							</div>
 

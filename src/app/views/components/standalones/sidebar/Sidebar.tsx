@@ -32,13 +32,13 @@ const Sidebar: React.FC = () => {
 		<aside
 			className={
 				`relative duration-300
-					${!open ? 'w-16' : 'w-60'}
+					${!open ? 'w-[4.08rem]' : 'w-60'}
 					flex  justify-between h-[100vh] bg-[#121a23] text-gray-400 flex-col
 			`}>
 			<Link
 				title="Dashboard"
 				to="/dashboard"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75 ">
 				<ChartIcon />
 				<span
 					className={`
@@ -51,7 +51,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Web"
 				to="/web"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200">
 				<GlobeWebIcon />
 				<span
 					className={`
@@ -64,7 +64,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Mobile"
 				to="/mobile"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<MobileIcon />
 				<span
 					className={`
@@ -77,7 +77,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Cloud"
 				to="/cloud"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<CLoudIcon />
 				<span
 					className={`
@@ -90,7 +90,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Lan"
 				to="/lan"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200">
 				<LanIcon />
 				<span
 					className={`${
@@ -103,7 +103,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Enp"
 				to="/enp"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<EnpIcon />
 				<span
 					className={`
@@ -116,7 +116,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Source Code"
 				to="/source"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<SourceCodeIcon />
 				<span
 					className={`
@@ -129,7 +129,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Social Engineering"
 				to="/social"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75 b border-gray-200 ">
 				<PeopleGroup />
 				<span
 					className={`
@@ -142,7 +142,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Issues"
 				to="/issues"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<BugIcon />
 				<span
 					className={`
@@ -155,7 +155,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Customer Support"
 				to="/support"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<MessageIcon />
 				<span
 					className={`
@@ -167,7 +167,7 @@ const Sidebar: React.FC = () => {
 
 			<Link
 				to="/preferences"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<PreferenceIcon />
 				<span
 					className={`
@@ -180,7 +180,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Inx"
 				to="/inx"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 border-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75 b border-gray-200 ">
 				<InxIcon />
 				<span
 					className={`
@@ -193,7 +193,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Sns"
 				to="/sns"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<DataIcon />
 				<span
 					className={`
@@ -206,7 +206,7 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Vdb"
 				to="/vdb"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 order-solid border-gray-200 ">
+				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
 				<DataIcon />
 				<span
 					className={`

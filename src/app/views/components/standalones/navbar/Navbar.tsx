@@ -1,32 +1,18 @@
 import React, { lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import {
-	NetworkSettingState,
-	useModal,
-	useNetworkSettingState,
-	usePanelStore,
-} from '../../../../data';
-import {
-	ConfirmModal,
-	LogoutIcon,
-	ModalWrapper,
-	NetworkIcon,
-	Show,
-	NetworkSetingModal,
-	Breadcrumb,
-	ThemeChangerButton,
-} from '../..';
-import './navbar.scss';
-import useAuthStore from '../../../../data/store/auth.store';
-import './navbar.scss';
-import { NavbarSubMenu } from './NavbarSubMenu';
 import { Link } from 'react-router-dom';
+import { Breadcrumb, ThemeChangerButton } from '../..';
+import { usePanelStore } from '../../../../data';
+import useAuthStore from '../../../../data/store/auth.store';
+import { NavbarSubMenu } from './NavbarSubMenu';
+import './navbar.scss';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
 	const { userData } = useAuthStore((state) => state);
+	const { open, handleChange } = usePanelStore();
 	const [isMenuOpen, setMenuOpen] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const userRef = useRef<HTMLDivElement>(null);
@@ -55,11 +41,12 @@ const Navbar: React.FC = () => {
 			<nav className="navbar">
 				<div className="left">
 					<div className="navbar-logo">
-						<Link to="/">
-							<span className="navbar-logo-container">
-								<Logo theme="aim" />
-							</span>
-						</Link>
+						<span
+							className={`cursor-pointer duration-500 ${
+								open && 'rotate-[360deg]'
+							}`}>
+							<Logo theme="aim" onClick={() => handleChange()} />
+						</span>
 					</div>
 					<Breadcrumb
 						root="Codefend"
