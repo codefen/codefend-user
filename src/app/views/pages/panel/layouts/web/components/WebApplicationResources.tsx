@@ -1,15 +1,4 @@
-import React, { Fragment, useCallback, useMemo, useState } from 'react';
-import {
-	AddDomainModal,
-	AddSubDomainModal,
-	GlobeWebIcon,
-	EmptyCard,
-	PageLoader,
-	TrashIcon,
-	ModalTitleWrapper,
-	ConfirmModal,
-	Show,
-} from '../../../../../components';
+import React, { Fragment, useMemo, useState } from 'react';
 import {
 	Resouce,
 	Webresources,
@@ -17,6 +6,17 @@ import {
 	useDeleteWebResource,
 	useModal,
 } from '../../../../../../data';
+import {
+	AddDomainModal,
+	AddSubDomainModal,
+	ConfirmModal,
+	EmptyCard,
+	GlobeWebIcon,
+	ModalTitleWrapper,
+	PageLoader,
+	Show,
+	TrashIcon,
+} from '../../../../../components';
 
 interface WebResourcesProps {
 	refresh: () => void;

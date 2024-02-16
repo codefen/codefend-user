@@ -1,16 +1,37 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.webapp {
+	@include mixin.respond(small) {
+		display: block;
+	}
+
 	padding-inline-end: 0px;
 	width: 100%;
+
 	.left {
 		width: 70%;
+
+		@include mixin.respond(small) {
+			width: 100%;
+
+			.header {
+				display: contents;
+			}
+
+			.title {
+				margin-bottom: 15px;
+			}
+		}
 
 		.table {
 			.domain-name {
 				width: 205px;
 			}
+
 			.location {
 				width: 160px;
 			}
+
 			.item {
 				.location {
 					.flag {
@@ -18,6 +39,7 @@ main.webapp {
 					}
 				}
 			}
+
 			.action {
 				justify-content: center;
 				max-width: none;
@@ -25,17 +47,28 @@ main.webapp {
 			}
 		}
 	}
+
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: auto;
 		width: 30%;
 		margin-inline-start: 10px;
 
+		@include mixin.respond(small) {
+			width: 95%;
+
+			.header {
+				max-width: 340px;
+			}
+		}
+
 		.card {
 			border: none;
+
 			.header {
-				border-bottom: 1px solid var(--primary-color-300);
+				border-bottom: 1px solid var(--primary-color-300)
 			}
+
 			&.stats {
 				.content {
 					column-gap: 0px;
@@ -49,6 +82,7 @@ main.webapp {
 			}
 		}
 	}
+
 	.over {
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -62,6 +96,7 @@ main.webapp {
 		right: 22dvw;
 		filter: blur(125px) brightness(0.34) opacity(0.65);
 	}
+
 	main.webapp {
 		.header {
 			background: var(--primary-color-600);
@@ -75,6 +110,7 @@ main.webapp {
 				.header {
 					background-color: var(--primary-color-500);
 				}
+
 				&.stats {
 					.content {
 						column-gap: 0px;

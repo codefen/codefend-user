@@ -52,13 +52,10 @@ export const PanelPage: React.FC = () => {
 						<div className="relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">
 							<SidebarResponsive />
 						</div>
-
-						<Navbar />
 						<div className="flex">
 							<div className="relative h-screen pt-6 mt-[2rem] xs:hidden sm:block">
 								<Sidebar />
 							</div>
-
 							<Suspense fallback={<Loader />}>
 								<Outlet />
 							</Suspense>
