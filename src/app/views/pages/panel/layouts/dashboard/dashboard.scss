@@ -1,7 +1,7 @@
-@import '../../../../styles/settings/mixin';
+@use '../../../../styles/settings/mixin' as mixin;
 
 main.dashboard {
-	@include respond(small){
+	@include mixin.respond(small){
 		display: block;
 	}
 	.right {

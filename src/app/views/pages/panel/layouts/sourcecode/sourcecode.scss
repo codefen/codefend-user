@@ -1,17 +1,31 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.source-code {
+
+	@include mixin.respond(small) {
+		display: block;
+	}
+
 	.left {
 		flex: 1 1 68%;
 		width: 68%;
+
 		.table {
 			.item {
 				height: 42px;
 			}
+
 			.source-code {
 				justify-content: center;
 			}
+
 			.id {
 				display: flex;
 			}
+		}
+
+		@include mixin.respond(small) {
+			width: 100%;
 		}
 	}
 
@@ -24,9 +38,11 @@ main.source-code {
 		.card {
 			&.risk-chart {
 				border: 0px;
+
 				.content {
 					flex-direction: column;
 					row-gap: 1.75rem;
+
 					.chart {
 						min-width: 120px;
 						max-width: 0%;
@@ -34,7 +50,12 @@ main.source-code {
 				}
 			}
 		}
+
+		@include mixin.respond(small) {
+			width: 100%;
+		}
 	}
+
 }
 
 [data-theme='dark'] {
