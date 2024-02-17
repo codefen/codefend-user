@@ -58,7 +58,7 @@ const Header: React.FC = () => {
 							e.stopPropagation();
 						}}>
 						<div className="w-full mt-4">
-							<div className="w-full px-8 disable-border">
+							<div className="w-full px-8 disable-border xs:px-[1px] sm:px-[1px]">
 								<NetworkSetingModal
 									close={() => setNetworkSettingState(!isOpen)}
 								/>

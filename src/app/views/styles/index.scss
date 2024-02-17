@@ -151,6 +151,11 @@ main.sb {
 }
 
 main.preferences {
+
+	@include mixin.respond(small) {
+		display: block;
+		min-height: auto;
+	}
 	.left {
 		.table {
 			.rows {
