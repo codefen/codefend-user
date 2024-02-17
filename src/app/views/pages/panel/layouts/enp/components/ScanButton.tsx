@@ -46,7 +46,7 @@ export const ScanButton: React.FC<Props> = ({
 	}, [scanLoading]);
 
 	return (
-		<div className="ml-2 flex">
+		<div className="scan-btn-container">
 			<RequestScanButton
 				scanLoading={scanLoading}
 				message={message}

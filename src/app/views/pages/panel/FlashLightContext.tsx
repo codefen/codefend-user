@@ -34,9 +34,14 @@ export const FlashLightProvider = ({ children }: PropsWithChildren) => {
 		const rightPaneRect = rightPaneRef.current!.getBoundingClientRect();
 
 		if (isMouseNearRightPane(x, rightPaneRect, proximityThreshold)) {
-			const offsetX = calculateOffsetX(x, rightPaneRect, proximityThreshold);
+			const offsetX = calculateOffsetX(
+				x,
+				rightPaneRect.left,
+				proximityThreshold,
+			);
 			let proximityRatio = (rightPaneRect.left - x) / proximityThreshold;
 
+			//Apply flashlight effect based on mouse position
 			if (x < rightPaneRect.left) {
 				rightPaneRef.current!.style.background = `radial-gradient(circle at ${offsetX}px ${y}px, rgba(60, 80, 100, ${
 					0.25 * (1 - proximityRatio)
@@ -71,32 +76,26 @@ export const FlashLightProvider = ({ children }: PropsWithChildren) => {
 
 	const calculateOffsetX = (
 		x: number,
-		rightPaneRect: DOMRect,
+		rightPaneRectLeft: number,
 		proximityThreshold: number,
 	) => {
-		let offsetX = x - rightPaneRect.left + proximityThreshold; // Adjust offsetX to include proximity area
+		// Adjust offsetX to include proximity area
+		let offsetX = x - rightPaneRectLeft + proximityThreshold;
 		return offsetX < 0 ? 0 : offsetX;
 	};
-	useEffect(() => {
-		if (theme !== 'dark') {
-			flashlightRef.current!.style.background = 'transparent';
-			if (rightPaneRef.current) {
-				rightPaneRef.current!.style.background = 'transparent';
-			}
-		}
-	}, [theme]);
 
 	const handleFlashLight = (e: any) => {
 		if (theme === 'dark') {
 			const { x, y } = getMouseCoordinates(e);
-			const glowRadius = 350;
+			const glowRadius = 350; //Radio del brillo.
 			const rightPaneGlowRadius = 400;
-			const proximityThreshold = 100; // Tolerance in pixels
+			const proximityThreshold = 100; // Tolerance in pixels - Umbral de proximidad.
 
 			if (flashlightRef.current) {
 				applyFlashlightEffect(x, y, glowRadius);
 
 				if (rightPaneRef.current) {
+					//It runs only if I save a reference to a right panel
 					handleFlashlightInRightPane(
 						x,
 						y,
@@ -107,6 +106,16 @@ export const FlashLightProvider = ({ children }: PropsWithChildren) => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (theme !== 'dark') {
+			//Remove background flash in light mode
+			flashlightRef.current!.style.background = 'transparent';
+			if (rightPaneRef.current) {
+				rightPaneRef.current!.style.background = 'transparent';
+			}
+		}
+	}, [theme]);
 
 	return (
 		<FlashLightContext.Provider
