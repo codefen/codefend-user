@@ -53,7 +53,7 @@ export const PanelPage: React.FC = () => {
 							<SidebarResponsive />
 						</div>
 						<div className="flex">
-							<div className="relative h-screen pt-6 mt-[2rem] xs:hidden sm:block">
+							<div className="relative h-screen pt-[20px] mt-[2rem] xs:hidden sm:block">
 								<Sidebar />
 							</div>
 							<Suspense fallback={<Loader />}>
