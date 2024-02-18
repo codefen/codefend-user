@@ -18,6 +18,8 @@ import {
 	AdminUser,
 	AdminCompany,
 	Show,
+	SnbIcon,
+	VdbIcon
 } from '../../';
 
 import { RUNNING_DESKTOP, useUserAdmin } from '../../../../data';
@@ -126,14 +128,14 @@ const Sidebar: React.FC = () => {
 				title="Sns"
 				to="/sns"
 				className={isActivePath('/sns') ? 'active' : ''}>
-				<DataIcon />
+				<SnbIcon />
 			</Link>
 
 			<Link
 				title="Vdb"
 				to="/vdb"
 				className={isActivePath('/vdb') ? 'active' : ''}>
-				<DataIcon />
+				<VdbIcon />
 			</Link>
 		</aside>
 	);
