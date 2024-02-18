@@ -4,6 +4,11 @@ main.dashboard {
 	@include mixin.respond(small){
 		display: block;
 		min-height: auto;
+		padding-inline-start: 1px;
+
+		.left {
+			padding-block-start: 10px;
+		}
 	}
 
 	.right {

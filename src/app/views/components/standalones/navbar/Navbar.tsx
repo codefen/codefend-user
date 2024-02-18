@@ -1,6 +1,5 @@
 import React, { lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import { Breadcrumb, ThemeChangerButton } from '../..';
 import { usePanelStore } from '../../../../data';
 import useAuthStore from '../../../../data/store/auth.store';

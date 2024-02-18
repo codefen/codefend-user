@@ -14,76 +14,68 @@ import {
 	PeopleGroup,
 	PreferenceIcon,
 	SourceCodeIcon,
+	ThemeChangerButton,
 } from '../../..';
-import { usePanelStore } from '../../../../../data/store/';
+import { useAuthStore, usePanelStore } from '../../../../../data/store/';
 import './sidebarResponsive.scss';
 
 const SidebarResponsive: React.FC = () => {
-	const { open, isActivePath } = usePanelStore();
+	const { open } = usePanelStore();
+	const { userData } = useAuthStore();
 
 	return (
 		<aside className={`sidenav ${open ? 'sidenav-collapsed' : ''}`}>
 			<ul className={`sidenav-nav ${!open ? 'hidden' : ''}`}>
+				<section className='flex justify-between'>
+					<h1 className='pt-3'>{userData.email}</h1>
+					<div className="change-theme">
+						<ThemeChangerButton />
+					</div>
+				</section>
+				<br />
+				<hr />
 				<li className="sidenav-nav-item">
 					<Link
 						title="Dashboard"
 						to="/dashboard"
 						className="sidenav-link-link ">
 						<ChartIcon />
-						<span
-							className="sidenav-link-text">
-							Dashboard
-						</span>
+						<span className="sidenav-link-text">Dashboard</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Web" to="/web" className="sidenav-link-link">
 						<GlobeWebIcon />
-						<span
-							className="sidenav-link-text">
-							Web
-						</span>
+						<span className="sidenav-link-text">Web</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Mobile" to="/mobile" className="sidenav-link-link ">
 						<MobileIcon />
-						<span
-							className="sidenav-link-text">
-							Mobile
-						</span>
+						<span className="sidenav-link-text">Mobile</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Cloud" to="/cloud" className="sidenav-link-link ">
 						<CLoudIcon />
-						<span
-							className="sidenav-link-text">
-							Cloud
-						</span>
+						<span className="sidenav-link-text">Cloud</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Lan" to="/lan" className="sidenav-link-link">
 						<LanIcon />
-						<span
-							className="sidenav-link-text">
-							Lan
-						</span>
+						<span className="sidenav-link-text">Lan</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Enp" to="/enp" className="sidenav-link-link ">
 						<EnpIcon />
-						<span
-							className="sidenav-link-text">
-							Enp
-						</span>
+						<span className="sidenav-link-text">Enp</span>
 					</Link>
 				</li>
 
@@ -93,10 +85,7 @@ const SidebarResponsive: React.FC = () => {
 						to="/source"
 						className="sidenav-link-link ">
 						<SourceCodeIcon />
-						<span
-							className="sidenav-link-text">
-							Source Code
-						</span>
+						<span className="sidenav-link-text">Source Code</span>
 					</Link>
 				</li>
 
@@ -106,20 +95,14 @@ const SidebarResponsive: React.FC = () => {
 						to="/social"
 						className="sidenav-link-link">
 						<PeopleGroup />
-						<span
-							className="sidenav-link-text">
-							Social Engineering
-						</span>
+						<span className="sidenav-link-text">Social Engineering</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Issues" to="/issues" className="sidenav-link-link ">
 						<BugIcon />
-						<span
-							className="sidenav-link-text">
-							Issues
-						</span>
+						<span className="sidenav-link-text">Issues</span>
 					</Link>
 				</li>
 
@@ -129,53 +112,35 @@ const SidebarResponsive: React.FC = () => {
 						to="/support"
 						className="sidenav-link-link ">
 						<MessageIcon />
-						<span
-							className="sidenav-link-text">
-							Customer Support
-						</span>
+						<span className="sidenav-link-text">Customer Support</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link to="/preferences" className="sidenav-link-link ">
 						<PreferenceIcon />
-						<span
-							className="sidenav-link-text">
-							Preferences
-						</span>
+						<span className="sidenav-link-text">Preferences</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
-					<Link
-						title="Inx"
-						to="/inx"
-						className="sidenav-link-link">
+					<Link title="Inx" to="/inx" className="sidenav-link-link">
 						<InxIcon />
-						<span
-							className="sidenav-link-text">
-							Inx
-						</span>
+						<span className="sidenav-link-text">Inx</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Sns" to="/sns" className="sidenav-link-link ">
 						<DataIcon />
-						<span
-							className="sidenav-link-text">
-							Sns
-						</span>
+						<span className="sidenav-link-text">Sns</span>
 					</Link>
 				</li>
 
 				<li className="sidenav-nav-item">
 					<Link title="Vdb" to="/vdb" className="sidenav-link-link ">
 						<DataIcon />
-						<span
-							className="sidenav-link-text">
-							Vdb
-						</span>
+						<span className="sidenav-link-text">Vdb</span>
 					</Link>
 				</li>
 			</ul>
