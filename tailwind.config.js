@@ -11,7 +11,12 @@ module.exports = {
       'xl': '1280px',
       '2xl': '1536px',
 		},
-		extend: {},
+		extend: {
+			colors: {
+				'primary-color-mask': '#ff0000',
+        'secondary-color-50': '#fe4e4e',
+			}
+		},
 	},
 	plugins: [],
 };

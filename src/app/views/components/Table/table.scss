@@ -160,7 +160,10 @@
 		flex: inherit !important;
 	}
 	.url {
-		min-width: 220px;
+		min-width: 240px;
+		width: 240px;
+		flex: 1 1 !important;
+		margin-inline-end: 14px;
 	}
 
 	.ip,
@@ -251,8 +254,14 @@
 		flex: inherit !important;
 	}
 	.full-name {
-		min-width: 12.5rem;
-		flex: inherit !important;
+		min-width: 13.5rem;
+		flex: 1 1 !important;
+		-webkit-line-clamp: 2;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: pre-wrap;
+		text-wrap: pretty;
+		max-width: 13.5rem;
 	}
 	.email {
 		min-width: 280px;

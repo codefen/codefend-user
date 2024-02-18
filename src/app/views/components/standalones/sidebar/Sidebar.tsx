@@ -2,7 +2,6 @@ import React from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import {
-	BugIcon,
 	CLoudIcon,
 	ChartIcon,
 	DataIcon,
@@ -13,8 +12,12 @@ import {
 	MessageIcon,
 	MobileIcon,
 	PeopleGroup,
-	PreferenceIcon,
+	BugIcon,
+	AdminCompany,
+	SnbIcon,
+	VdbIcon,
 	SourceCodeIcon,
+	PreferenceIcon,
 } from '../../';
 
 import { usePanelStore, useUserAdmin } from '../../../../data';
@@ -35,7 +38,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Dashboard"
 				to="/dashboard"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/dashboard')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<ChartIcon />
 				<span
 					className={`
@@ -48,7 +55,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Web"
 				to="/web"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/web')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<GlobeWebIcon />
 				<span
 					className={`
@@ -61,7 +72,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Mobile"
 				to="/mobile"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/mobile')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<MobileIcon />
 				<span
 					className={`
@@ -74,7 +89,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Cloud"
 				to="/cloud"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/cloud')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<CLoudIcon />
 				<span
 					className={`
@@ -87,7 +106,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Lan"
 				to="/lan"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/lan')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<LanIcon />
 				<span
 					className={`${
@@ -100,7 +123,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Enp"
 				to="/enp"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/enp')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<EnpIcon />
 				<span
 					className={`
@@ -113,7 +140,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Source Code"
 				to="/source"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/source')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<SourceCodeIcon />
 				<span
 					className={`
@@ -126,7 +157,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Social Engineering"
 				to="/social"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 b border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/social')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<PeopleGroup />
 				<span
 					className={`
@@ -139,7 +174,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Issues"
 				to="/issues"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/issues')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<BugIcon />
 				<span
 					className={`
@@ -152,7 +191,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Customer Support"
 				to="/support"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/support')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<MessageIcon />
 				<span
 					className={`
@@ -164,7 +207,11 @@ const Sidebar: React.FC = () => {
 
 			<Link
 				to="/preferences"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/preferences')
+						? ' text-secondary-color-50'
+						: ''
+				}`}>
 				<PreferenceIcon />
 				<span
 					className={`
@@ -177,7 +224,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Inx"
 				to="/inx"
-				className="flex items-center h-12 mb-0 px-6 py-1.75 b border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/inx')
+						? 'text-secondary-color-50'
+						: ''
+				}`}>
 				<InxIcon />
 				<span
 					className={`
@@ -190,8 +241,12 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Sns"
 				to="/sns"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
-				<DataIcon />
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/sns')
+						? 'text-secondary-color-50'
+						: ''
+				}`}>
+				<SnbIcon />
 				<span
 					className={`
 					duration-600
@@ -203,7 +258,11 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Vdb"
 				to="/vdb"
-				className="flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ">
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+					isActivePath('/vdb')
+						? 'text-secondary-color-50'
+						: ''
+				}`}>
 				<DataIcon />
 				<span
 					className={`

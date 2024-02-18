@@ -1,9 +1,4 @@
-import {
-	EmptyScreenView,
-	AppCard,
-	Show,
-	PrimaryButton,
-} from '../../../../../components';
+import { EmptyScreenView, AppCard, Show } from '../../../../../components';
 import {
 	CloudApp,
 	generateIDArray,
@@ -72,7 +67,7 @@ export const CloudApplication = ({
 									<span>Cloud Applications</span>
 								</div>
 								<div className="actions">
-									<div onClick={openModal}>Add mobile app</div>
+									<div onClick={openModal}>Add cloud</div>
 								</div>
 							</div>
 						</div>

@@ -1,11 +1,13 @@
-import { PageLoader, Show } from '../../../../components';
 import React, { Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router';
+import { useScript } from 'usehooks-ts';
+import { PageLoader, Show } from '../../../../components';
 import './issues.scss';
-import {  useIssueContext } from './IssuesContext';
 
 const IssuePage: React.FC<{}> = () => {
-	const { status } = useIssueContext();
+	const status = useScript('/src/editor-lib/visual/mce/tinymce.min.js', {
+		removeOnUnmount: true,
+	});
 	const path = useLocation().pathname;
 	const isNeedWaitScript =
 		path.startsWith('/issues/create') || path.startsWith('/issues/update');
@@ -13,10 +15,9 @@ const IssuePage: React.FC<{}> = () => {
 	return (
 		<>
 			<Suspense fallback={<PageLoader />}>
-				
-					<Show when={isNeedWaitScript ? status === 'ready' : true}>
-						<Outlet />
-					</Show>
+				<Show when={isNeedWaitScript ? status === 'ready' : true}>
+					<Outlet />
+				</Show>
 			</Suspense>
 		</>
 	);
