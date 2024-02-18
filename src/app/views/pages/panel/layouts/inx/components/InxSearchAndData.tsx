@@ -61,18 +61,19 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 				...state,
 				offSet: getData().offSet,
 			}));
-			//processAllIntelData(intelResult);
+			processAllIntelData(res.intelResult);
 		});
 	};
 
 	const processAllIntelData = async (inputData: any) => {
-		for (const intel of inputData) {
+		const data = inputData !== undefined ? inputData : [];
+		for (const intel of data) {
 			const params = {
 				sid: intel.storage_id,
 				bid: intel.bucket_id,
 				mid: intel.media_id,
 			};
-			processPreview(intel);
+			processPreview(params);
 		}
 		await delay(4000);
 	};
@@ -166,7 +167,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 			</div>
 
 			<Show when={!getData().isLoading} fallback={<PageLoader />}>
-				<div className="flex internal-tables flex-col overflow-auto max-h-full overflow-x-hidden border-r-0 max-w-[80dvh]">
+				<div className="flex internal-tables flex-col overflow-auto overflow-x-hidden border-r-0 max-h-[80dvh]">
 					{intelData.map((intel: any, i: number) => (
 						<Fragment key={intelKeys()[i]}>
 							<InxPreviewIntelData
