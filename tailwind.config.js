@@ -15,6 +15,10 @@ module.exports = {
 			colors: {
 				'primary-color-mask': '#ff0000',
         'secondary-color-50': '#fe4e4e',
+				'primary-color-50': '#fdfdfd',
+				'primary-color-100': '#fafafa',
+				'tertiary-color-100': '#afafaf',
+				'tertiary-color-300': '#666'
 			}
 		},
 	},

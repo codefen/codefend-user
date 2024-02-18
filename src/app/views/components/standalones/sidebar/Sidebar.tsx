@@ -21,7 +21,6 @@ import {
 } from '../../';
 
 import { usePanelStore, useUserAdmin } from '../../../../data';
-import './sidebar.scss';
 
 const Sidebar: React.FC = () => {
 	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
@@ -31,27 +30,37 @@ const Sidebar: React.FC = () => {
 
 	return (
 		<aside
-			className={`relative duration-300 bg-slate-300  dark:bg-[#121a23]
+			className={`relative duration-300 bg-primary-color-100 dark:bg-[#121a23]
 					${!open ? 'w-[4.08rem]' : 'w-60'}
-					flex  justify-between h-[100vh]  text-gray-400 flex-col
+					flex  justify-between h-[100vh]  text-primary-color-50 flex-col
 			`}>
 			{showAdmin && (
 				<>
 					<Link
 						title="Admin Panel"
 						to="/admin/company"
-						className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-							isActivePath('/dashboard') ? 'text-secondary-color-50' : ''
+						className={`flex items-center text-tertiary-color-300 h-12 mb-0 px-6 py-1.75 border-gray-200 ${
+							isActivePath('/admin/company')
+								? 'text-secondary-color-50'
+								: 'text-tertiary-color-300'
 						}`}>
 						<AdminCompany />
+						<span
+							className={`
+								duration-600
+								${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+								Admin Panel
+						</span>
 					</Link>
 				</>
 			)}
 			<Link
 				title="Dashboard"
 				to="/dashboard"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/dashboard') ? 'text-secondary-color-50' : ''
+				className={`flex items-center h-12 mb-0 px-6 py-1.75  border-gray-200 ${
+					isActivePath('/dashboard')
+						? 'text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<ChartIcon />
 				<span
@@ -66,7 +75,9 @@ const Sidebar: React.FC = () => {
 				title="Web"
 				to="/web"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/web') ? ' text-secondary-color-50' : ''
+					isActivePath('/web')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<GlobeWebIcon />
 				<span
@@ -81,7 +92,9 @@ const Sidebar: React.FC = () => {
 				title="Mobile"
 				to="/mobile"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/mobile') ? ' text-secondary-color-50' : ''
+					isActivePath('/mobile')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<MobileIcon />
 				<span
@@ -96,7 +109,9 @@ const Sidebar: React.FC = () => {
 				title="Cloud"
 				to="/cloud"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/cloud') ? ' text-secondary-color-50' : ''
+					isActivePath('/cloud')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<CLoudIcon />
 				<span
@@ -111,7 +126,9 @@ const Sidebar: React.FC = () => {
 				title="Lan"
 				to="/lan"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/lan') ? ' text-secondary-color-50' : ''
+					isActivePath('/lan')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<LanIcon />
 				<span
@@ -126,7 +143,9 @@ const Sidebar: React.FC = () => {
 				title="Enp"
 				to="/enp"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/enp') ? ' text-secondary-color-50' : ''
+					isActivePath('/enp')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<EnpIcon />
 				<span
@@ -141,7 +160,9 @@ const Sidebar: React.FC = () => {
 				title="Source Code"
 				to="/source"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/source') ? ' text-secondary-color-50' : ''
+					isActivePath('/source')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<SourceCodeIcon />
 				<span
@@ -156,7 +177,9 @@ const Sidebar: React.FC = () => {
 				title="Social Engineering"
 				to="/social"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/social') ? ' text-secondary-color-50' : ''
+					isActivePath('/social')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<PeopleGroup />
 				<span
@@ -171,7 +194,9 @@ const Sidebar: React.FC = () => {
 				title="Issues"
 				to="/issues"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/issues') ? ' text-secondary-color-50' : ''
+					isActivePath('/issues')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<BugIcon />
 				<span
@@ -186,7 +211,9 @@ const Sidebar: React.FC = () => {
 				title="Customer Support"
 				to="/support"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/support') ? ' text-secondary-color-50' : ''
+					isActivePath('/support')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<MessageIcon />
 				<span
@@ -200,7 +227,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				to="/preferences"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/preferences') ? ' text-secondary-color-50' : ''
+					isActivePath('/preferences')
+						? ' text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<PreferenceIcon />
 				<span
@@ -215,7 +244,9 @@ const Sidebar: React.FC = () => {
 				title="Inx"
 				to="/inx"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/inx') ? 'text-secondary-color-50' : ''
+					isActivePath('/inx')
+						? 'text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<InxIcon />
 				<span
@@ -230,7 +261,9 @@ const Sidebar: React.FC = () => {
 				title="Sns"
 				to="/sns"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/sns') ? 'text-secondary-color-50' : ''
+					isActivePath('/sns')
+						? 'text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<SnbIcon />
 				<span
@@ -245,7 +278,9 @@ const Sidebar: React.FC = () => {
 				title="Vdb"
 				to="/vdb"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 border-gray-200 ${
-					isActivePath('/vdb') ? 'text-secondary-color-50' : ''
+					isActivePath('/vdb')
+						? 'text-secondary-color-50'
+						: 'text-tertiary-color-300'
 				}`}>
 				<DataIcon />
 				<span
