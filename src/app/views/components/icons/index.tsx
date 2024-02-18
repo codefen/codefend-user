@@ -779,7 +779,7 @@ export const LinuxIcon: React.FC<{ styles?: any }> = ({ styles }) => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
-		stroke-width="0"
+		strokeWidth={0}
 		viewBox="0 0 448 512"
 		className={styles ? `${styles}` : ``}
 		height="1em"
@@ -792,7 +792,7 @@ export const AppleIcon: React.FC<{ styles?: any }> = ({ styles }) => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
-		stroke-width="0"
+		strokeWidth={0}
 		viewBox="0 0 384 512"
 		className={styles ? `${styles}` : ``}
 		height="1em"
@@ -805,7 +805,7 @@ export const WarningIcon = () => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
-		stroke-width="0"
+		strokeWidth={0}
 		viewBox="0 0 576 512"
 		height="1em"
 		width="1em">
