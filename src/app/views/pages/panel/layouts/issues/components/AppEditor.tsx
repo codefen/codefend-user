@@ -16,7 +16,7 @@ const AppEditor: React.FC<AppEditorProps> = ({
 	onUpdateIssue,
 	isEditable,
 }) => {
-	const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
+	/* const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
 
 	useEffect(() => {
 		const defaultValue = !Boolean(initialValue.trim().length)
@@ -24,7 +24,7 @@ const AppEditor: React.FC<AppEditorProps> = ({
 			: initialValue;
 
 		addTinyMce(defaultValue);
-	}, [initialValue]);
+	}, [initialValue]); */
 
 	useEffect(() => {
 		const timeID = setTimeout(() => {

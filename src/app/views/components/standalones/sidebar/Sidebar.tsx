@@ -20,8 +20,6 @@ import {
 import { usePanelStore, useUserAdmin } from '../../../../data';
 import './sidebar.scss';
 
-
-
 const Sidebar: React.FC = () => {
 	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
 	const showAdmin =
@@ -30,10 +28,9 @@ const Sidebar: React.FC = () => {
 
 	return (
 		<aside
-			className={
-				`relative duration-300
+			className={`relative duration-300 bg-slate-300  dark:bg-[#121a23]
 					${!open ? 'w-[4.08rem]' : 'w-60'}
-					flex  justify-between h-[100vh] bg-[#121a23] text-gray-400 flex-col
+					flex  justify-between h-[100vh]  text-gray-400 flex-col
 			`}>
 			<Link
 				title="Dashboard"

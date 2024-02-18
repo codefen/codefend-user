@@ -11,6 +11,7 @@ import {
 	SidebarResponsive,
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
+import { IssueProvider } from './layouts/issues/IssuesContext';
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -57,7 +58,9 @@ export const PanelPage: React.FC = () => {
 								<Sidebar />
 							</div>
 							<Suspense fallback={<Loader />}>
-								<Outlet />
+								<IssueProvider>
+									<Outlet />
+								</IssueProvider>
 							</Suspense>
 						</div>
 					</>

@@ -1,15 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
+import { useTheme } from '../../../../../ThemeContext';
 import {
 	LeftArrow,
 	PageLoaderOverlay,
-	PencilIcon,
 	SaveIcon,
-	Show,
+	Show
 } from '../../../../../components';
-import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
-import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
-import { useTheme } from '../../../../../ThemeContext';
 
 interface IssueCreationPanelProps {
 	issues: Issues[];
@@ -103,7 +102,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<p className="pr-2">Class:</p>
 					<select
 						onChange={handleChange}
-						className="  py-3  focus:outline-none log-inputs"
+						className="py-3  focus:outline-none log-inputs"
 						value={newIssue.issueClass}
 						name="issueClass"
 						required>
@@ -124,7 +123,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<p className="pr-2">Risk score:</p>
 					<select
 						onChange={handleChange}
-						className=" py-3 focus:outline-none log-inputs"
+						className="py-3  focus:outline-none log-inputs"
 						value={newIssue.score}
 						name="score"
 						required>
