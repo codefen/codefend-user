@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import {
 	generateIDArray,
 	useAuthState,
@@ -45,19 +45,22 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 
 	const procSearch = (e?: React.FormEvent) => {
 		if (e) e.preventDefault();
-		refetchInitial(companyID)?.then(() => {
-			return procIntelSearch();
+		refetchInitial(companyID)?.then((res: any) => {
+			return procIntelSearch(res);
 		});
 	};
 
-	const procIntelSearch = () => {
+	const procIntelSearch = (res?: string) => {
 		return refetchIntelData(
-			getData().intelID,
+			res ? res : getData().intelID,
 			getData().offSet,
 			companyID,
 		).then((res: any) => {
 			props.refetch();
-			setSearchData((state: any) => ({ ...state, offSet: getData().offSet }));
+			setSearchData((state: any) => ({
+				...state,
+				offSet: getData().offSet,
+			}));
 			//processAllIntelData(intelResult);
 		});
 	};
@@ -163,14 +166,16 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 			</div>
 
 			<Show when={!getData().isLoading} fallback={<PageLoader />}>
-				<div className="flex internal-tables flex-col overflow-auto max-h-full overflow-x-hidden">
+				<div className="flex internal-tables flex-col overflow-auto max-h-full overflow-x-hidden border-r-0 max-w-[80dvh]">
 					{intelData.map((intel: any, i: number) => (
-						<InxPreviewIntelData
-							intelKey={intelKeys()[i]}
-							intel={intel}
-							readFile={procReadFile}
-							intelPreview={intelPreview}
-						/>
+						<Fragment key={intelKeys()[i]}>
+							<InxPreviewIntelData
+								intelKey={intelKeys()[i]}
+								intel={intel}
+								readFile={procReadFile}
+								intelPreview={intelPreview}
+							/>
+						</Fragment>
 					))}
 				</div>
 			</Show>
