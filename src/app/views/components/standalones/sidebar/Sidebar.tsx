@@ -11,18 +11,13 @@ import {
 	SourceCodeIcon,
 	PeopleGroup,
 	BugIcon,
-	MessageIcon,
-	PreferenceIcon,
 	InxIcon,
-	DataIcon,
-	AdminUser,
 	AdminCompany,
-	Show,
 	SnbIcon,
-	VdbIcon
+	VdbIcon,
 } from '../../';
 
-import { RUNNING_DESKTOP, useUserAdmin } from '../../../../data';
+import { useUserAdmin } from '../../../../data';
 import './sidebar.scss';
 
 const isActivePath = (verifyPath: string) => {
