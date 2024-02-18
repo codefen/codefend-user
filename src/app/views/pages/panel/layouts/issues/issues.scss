@@ -1,4 +1,11 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.issues-list {
+	@include mixin.respond(small){
+		display: flex;
+		flex-direction: column;
+		padding-inline-start: 1px;
+	}
 	.left {
 		.table {
 			.vul-title {
@@ -12,6 +19,9 @@ main.issues-list {
 				display: flex;
 				justify-content: flex-end;
 			}
+		}
+		@include mixin.respond(small) {
+			padding-block-start: 10px;
 		}
 	}
 	.right {
@@ -30,8 +40,17 @@ main.issues-list {
 }
 main.issue-detail {
 	width: 100%;
-	padding-inline-end: 0px;
+	padding-inline-end: 10px;
+	padding-inline-start: 1px;
+	@include mixin.respond(small){
+		display: flex;
+		flex-direction: column;
+	}
 	.left {
+		@include mixin.respond(small){
+			width: 100%;
+			padding-block-start: 10px;
+		}
 		width: 70%;
 		max-width: 1000px;
 		background-color: var(--primary-color);
@@ -166,6 +185,9 @@ main.issue-detail {
 		}
 	}
 	.right {
+		@include mixin.respond(small){
+			width: 100%;
+		}
 		flex: 1 1;
 		height: 100%;
 		padding-inline: 0px;

@@ -2,6 +2,9 @@
 
 main.social {
 	padding-inline-start: 20px;
+	height: 90dvh;
+	min-height: auto;
+	max-height: none;
 	@include mixin.respond(small) {
 		display: block;
 		overflow: auto;
@@ -22,6 +25,7 @@ main.social {
 		}
 		@include mixin.respond(small) {
 			padding-bottom: 10px;
+			padding-block-start: 1px;
 		}
 	}
 

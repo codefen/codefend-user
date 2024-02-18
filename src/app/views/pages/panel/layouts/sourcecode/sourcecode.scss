@@ -1,9 +1,9 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.source-code {
-
 	@include mixin.respond(small) {
 		display: block;
+		padding-inline-start: 1px;
 	}
 
 	.left {
@@ -34,6 +34,7 @@ main.source-code {
 		width: 33%;
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
+		padding-inline-end: 20px;
 
 		.card {
 			&.risk-chart {

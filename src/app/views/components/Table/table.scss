@@ -220,6 +220,10 @@
 	}
 	.vul-title {
 		min-width: 100px;
+		overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
 	}
 	.vul-condition {
 		max-width: 100px;
