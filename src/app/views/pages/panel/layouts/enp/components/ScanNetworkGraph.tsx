@@ -280,18 +280,18 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
 
     return (
       <>
-      <section className="w-1/6">
-          <Show when={chartData}>
-            <>
-              <div className="border-t border-x rounded-t h-[300px]">
-                  <Doughnut data={chartData} options={chartOptions} />
-              </div>
-              <div className="flex items-center h-6 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
-                  devices os
-              </div>
-            </>
-          </Show>
-      </section>
+        <section className="w-1/6">
+            <Show when={chartData}>
+                <>
+                <div className="border-t border-x rounded-t h-[300px]">
+                    <Doughnut data={chartData} options={chartOptions} />
+                </div>
+                <div className="flex items-center h-6 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
+                    devices os
+                </div>
+                </>
+            </Show>
+        </section>
         <section className="w-3/6">
             <Show when={lineChartData}>
                 <>
@@ -306,17 +306,20 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
         </section>
 
         <section className="w-1/3">
-            
-            <div className="border-t border-x rounded-t ml-4">
-                <canvas
-                    ref={canvasRef}
-                    width={600}
-                    height={300}
-                />
-            </div>
-            <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
-                network graph
-            </div>
+            <Show when={(canvasRef !== null)}>
+                <>
+                    <div className="border-t border-x rounded-t ml-4">
+                        <canvas
+                            ref={canvasRef}
+                            width={600}
+                            height={300}
+                        />
+                    </div>
+                    <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
+                        network graph
+                    </div>
+                </>
+            </Show>
         </section>
       </>
     );

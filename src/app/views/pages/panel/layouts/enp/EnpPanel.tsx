@@ -112,10 +112,12 @@ export const EnpPanel: React.FC<Props> = (props) => {
 
             <ModalOS/>
             <div className='flex flex-row'>
-                <ScanNetworkGraph
-                    data={scans}
-                    filteredData={scansFiltered}
-                />
+                <Show when={scansFiltered.length > 0}>
+                    <ScanNetworkGraph
+                        data={scans}
+                        filteredData={scansFiltered}
+                    />
+                </Show>
             </div>
             
             <div>
