@@ -21,7 +21,7 @@ const Logo = ({ theme, onClick }: LogoProps) => {
 			styles: { width: '200px', height: '30px' },
 		},
 		shadow: { path: '/codefend/logo-shadow.png', styles: {} },
-		aim: { path: '/codefend/aim-light.svg', styles: { height: '30px' } },
+		aim: { path: '/codefend/aim-light.svg', styles: { height: '30px'} },
 	};
 
 	const selectedLogo = themeToImage[theme] as Logo;

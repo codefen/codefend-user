@@ -20,12 +20,12 @@ import { useAuthStore, usePanelStore } from '../../../../../data/store/';
 import './sidebarResponsive.scss';
 
 const SidebarResponsive: React.FC = () => {
-	const { open } = usePanelStore();
+	const { open, handleChange } = usePanelStore();
 	const { userData } = useAuthStore();
 
 	return (
-		<aside className={`sidenav ${open ? 'sidenav-collapsed' : ''}`}>
-			<ul className={`sidenav-nav ${!open ? 'hidden' : ''}`}>
+		<aside className={`sidenav ${open ? 'sidenav-collapsed' : ''} bg-[#222222]`}>
+			<ul className={`sidenav-nav ${!open ? 'hidden' : ''} bg-[#222222]`}>
 				<section className='flex justify-between'>
 					<h1 className='pt-3'>{userData.email}</h1>
 					<div className="change-theme">
@@ -38,7 +38,9 @@ const SidebarResponsive: React.FC = () => {
 					<Link
 						title="Dashboard"
 						to="/dashboard"
-						className="sidenav-link-link ">
+						className="sidenav-link-link "
+						onClick={handleChange}
+						>
 						<ChartIcon />
 						<span className="sidenav-link-text">Dashboard</span>
 					</Link>

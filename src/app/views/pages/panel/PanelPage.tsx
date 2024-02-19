@@ -11,10 +11,12 @@ import {
 	SidebarResponsive,
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
+import { useMediaQuery } from 'usehooks-ts';
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
 	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
+	const isSmallScreen = useMediaQuery('(max-width: 640px)'); // Establece tu propio tamaño de pantalla máximo
 
 	if (!isAuth) logout();
 
@@ -43,21 +45,22 @@ export const PanelPage: React.FC = () => {
 							/>
 						</Show>
 
-						<div className="xs:hidden sm:block">
+						<div className={isSmallScreen ? 'hidden' : 'block'}>
 							<Navbar />
 						</div>
-						<div className="relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">
+						<div className={isSmallScreen ? 'block' : 'hidden'}>
 							<Header />
 						</div>
-						<div className="relative sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">
+						<div className={isSmallScreen ? 'block' : 'hidden'}>
 							<SidebarResponsive />
 						</div>
+
 						<div className="flex">
 							<div className="relative h-screen pt-[20px] mt-[2rem] xs:hidden sm:block">
 								<Sidebar />
 							</div>
 							<Suspense fallback={<Loader />}>
-									<Outlet />
+								<Outlet />
 							</Suspense>
 						</div>
 					</>
@@ -66,3 +69,5 @@ export const PanelPage: React.FC = () => {
 		</>
 	);
 };
+
+export default PanelPage;

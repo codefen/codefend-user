@@ -19,7 +19,9 @@ import {
 const Header: React.FC = () => {
 	const { logout } = useAuthStore((state) => state);
 	const { open, handleChange } = usePanelStore();
-	const { setNetworkSettingState, isOpen } = useNetworkSettingState((state) => state);
+	const { setNetworkSettingState, isOpen } = useNetworkSettingState(
+		(state) => state,
+	);
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
 	const navigate = useNavigate();
@@ -30,7 +32,7 @@ const Header: React.FC = () => {
 	};
 
 	return (
-		<nav className="flex flex-col">
+		<nav className="flex flex-col bg-[#1a1a1a]">
 			<Show when={showModal && showModalStr === 'logout'}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<div
@@ -68,9 +70,9 @@ const Header: React.FC = () => {
 				</ModalWrapper>
 			</Show>
 			<div>
-				<div className="flex items-center justify-around border-b cursor-pointer min-h-20 ">
+				<div className="flex items-center justify-around cursor-pointer min-h-20 ">
 					<div>
-						<div className="navbar-logo">
+						<div className="flex">
 							<span
 								className={`cursor-pointer duration-500 ${
 									open && 'rotate-[360deg]'
@@ -82,6 +84,7 @@ const Header: React.FC = () => {
 
 					<div title="Logout" className="flex items-center gap-x-6">
 						<div
+							className='text-cyan-50'
 							title="Network Setting"
 							onClick={() => {
 								setNetworkSettingState(true);
@@ -89,7 +92,7 @@ const Header: React.FC = () => {
 							<NetworkIcon width={1.35} height={1.35} />
 						</div>
 					</div>
-					<div>
+					<div className='text-cyan-50'>
 						<span
 							className="navbar-logout-icon"
 							onClick={(e: React.FormEvent) => {
