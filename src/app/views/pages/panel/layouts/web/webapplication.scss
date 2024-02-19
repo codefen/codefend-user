@@ -3,6 +3,7 @@
 main.webapp {
 	@include mixin.respond(small) {
 		display: block;
+		padding-inline-start: 1px;
 	}
 
 	padding-inline-end: 0px;
@@ -13,7 +14,7 @@ main.webapp {
 
 		@include mixin.respond(small) {
 			width: 100%;
-
+			padding-block-start: 10px;
 			.header {
 				display: contents;
 			}

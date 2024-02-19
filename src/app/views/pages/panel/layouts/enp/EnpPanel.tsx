@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+	import React, { useEffect, useState } from 'react';
 
-import { ScanButton } from './components/ScanButton';
-import { ReportButton } from './components/ReportButton';
-import { ScanNetworkGraph } from './components/ScanNetworkGraph';
-import { ModalOS } from './components/ModalOS';
-import { ImSpinner8 } from 'react-icons/im';
-import { EndpointAppProvider } from './EndpointContext';
-import { FaWindows, FaLinux, FaApple } from 'react-icons/fa';
-import { useNavigate } from 'react-router';
 import moment from 'moment';
+import { FaApple, FaLinux, FaWindows } from 'react-icons/fa';
+import { ImSpinner8 } from 'react-icons/im';
+import { useNavigate } from 'react-router';
+import { EndpointAppProvider } from './EndpointContext';
+import { ModalOS } from './components/ModalOS';
+import { ReportButton } from './components/ReportButton';
+import { ScanButton } from './components/ScanButton';
+import { ScanNetworkGraph } from './components/ScanNetworkGraph';
 
-import { useAuthState, useScanLocal, EnpService } from '../../../../../data';
+import { EnpService, useAuthState, useScanLocal } from '../../../../../data';
 
 import { Show } from '../../../../components';
 
@@ -167,7 +167,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
 											<p className="p-default">Finished</p>
 										) : (
 											<div className="enp-table-progres">
-												<ImSpinner8 className="animate-spin h-3 w-3 text-gray-600 ml-1 mr-2" />
+												<ImSpinner8 className="w-3 h-3 ml-1 mr-2 text-gray-600 animate-spin" />
 												<p>In progress</p>
 											</div>
 										)}

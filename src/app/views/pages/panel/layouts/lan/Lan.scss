@@ -1,9 +1,17 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.lan {
+	@include mixin.respond(small) {
+		padding-inline-start: 1px;
+		overflow: auto	;
+	}
 	.left {
 		flex: 1 1 68%;
 		width: 68%;
+
+		@include mixin.respond(small) {
+			padding-block-start: 10px;
+		}
 	}
 
 	.right {

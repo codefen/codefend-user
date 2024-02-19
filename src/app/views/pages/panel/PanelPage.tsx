@@ -16,7 +16,7 @@ import { useMediaQuery } from 'usehooks-ts';
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
 	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
-	const isSmallScreen = useMediaQuery('(max-width: 640px)'); // Establece tu propio tamaño de pantalla máximo
+	const isSmallScreen = useMediaQuery('(max-width: 640px)');
 
 	if (!isAuth) logout();
 

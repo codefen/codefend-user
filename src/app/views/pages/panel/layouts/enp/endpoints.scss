@@ -1,4 +1,13 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.enp {
+	@include mixin.respond(small) {
+		padding-inline-start: 1px;
+		display: flex;
+		flex-direction: column;
+		margin: 10px;
+	}
+
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -30,6 +39,7 @@ main.enp {
 			font-weight: 700;
 		}
 	}
+
 	.buttons-bar {
 		display: flex;
 		flex-direction: row;
@@ -40,6 +50,7 @@ main.enp {
 		border-radius: 0.25rem;
 		height: 3rem;
 		width: 100%;
+
 		.buttons-bar-wrapper {
 			display: flex;
 			align-items: center;
@@ -49,6 +60,7 @@ main.enp {
 			display: flex;
 			margin-inline-start: 0.5rem;
 		}
+
 		.report-btn-container {
 			display: flex;
 			margin-inline-start: 1rem;
@@ -69,6 +81,7 @@ main.enp {
 		border-color: var(--primary-color-300);
 
 		flex: 1 1;
+
 		&:hover {
 			cursor: default;
 		}
@@ -78,7 +91,9 @@ main.enp {
 			padding: 1rem;
 
 			h3 {
-				font-size: 0.875rem /* 14px */;
+				font-size: 0.875rem
+					/* 14px */
+				;
 				line-height: 1;
 				font-weight: 700;
 				color: var(--tertiary-color-400);
@@ -97,8 +112,12 @@ main.enp {
 			padding: 1rem;
 			padding-block-start: 0;
 			margin-inline-start: 0.5rem;
-			font-size: 0.875rem /* 14px */;
-			line-height: 1.25rem /* 20px */;
+			font-size: 0.875rem
+				/* 14px */
+			;
+			line-height: 1.25rem
+				/* 20px */
+			;
 			color: var(--tertiary-color-500);
 
 			.enp-table-column {
@@ -114,9 +133,14 @@ main.enp {
 			}
 		}
 	}
+
 	.enp-table-content {
-		border-bottom-right-radius: 0.25rem /* 4px */;
-		border-bottom-left-radius: 0.25rem /* 4px */;
+		border-bottom-right-radius: 0.25rem
+			/* 4px */
+		;
+		border-bottom-left-radius: 0.25rem
+			/* 4px */
+		;
 		border-bottom-width: 1px;
 		border-color: var(--primary-color-300);
 		margin-block-end: 1.25rem;
@@ -138,8 +162,12 @@ main.enp {
 			border-top-width: 1px;
 			border-color: var(--primary-color-300);
 
-			font-size: 0.875rem /* 14px */;
-			line-height: 1.25rem /* 20px */;
+			font-size: 0.875rem
+				/* 14px */
+			;
+			line-height: 1.25rem
+				/* 20px */
+			;
 			color: var(--tertiary-color-300);
 
 			transition-property: background-color;
@@ -163,8 +191,12 @@ main.enp {
 					width: auto;
 					border-radius: 0.25rem;
 
-					font-size: 0.75rem /* 12px */;
-					line-height: 1rem /* 16px */;
+					font-size: 0.75rem
+						/* 12px */
+					;
+					line-height: 1rem
+						/* 16px */
+					;
 
 					height: 2rem;
 
@@ -215,8 +247,12 @@ main.enp {
 
 		.enp-empty-table {
 			flex: 1 1;
-			border-bottom-right-radius: 0.25rem /* 4px */;
-			border-bottom-left-radius: 0.25rem /* 4px */;
+			border-bottom-right-radius: 0.25rem
+				/* 4px */
+			;
+			border-bottom-left-radius: 0.25rem
+				/* 4px */
+			;
 			border-bottom-width: 1px;
 
 			margin-block-end: 1.25rem;
@@ -236,8 +272,12 @@ main.enp {
 				border-right-width: 1px;
 				border-top-width: 1px;
 
-				font-size: 0.875rem /* 14px */;
-				line-height: 1.25rem /* 20px */;
+				font-size: 0.875rem
+					/* 14px */
+				;
+				line-height: 1.25rem
+					/* 20px */
+				;
 
 				transition-property: background-color;
 				transition-duration: 300ms;
@@ -291,6 +331,7 @@ main.enp {
 			border-color: var(--primary-color-600);
 		}
 	}
+
 	.enp-graph-doughnut {
 		width: 16.666667%;
 	}
@@ -301,6 +342,7 @@ main.enp {
 
 	.enp-graph-points-line {
 		width: 33.333333%;
+
 		.graph-container {
 			margin-left: 1rem;
 		}
@@ -322,8 +364,12 @@ main.enp {
 		}
 
 		.enp-table-content {
-			border-bottom-right-radius: 0.25rem /* 4px */;
-			border-bottom-left-radius: 0.25rem /* 4px */;
+			border-bottom-right-radius: 0.25rem
+				/* 4px */
+			;
+			border-bottom-left-radius: 0.25rem
+				/* 4px */
+			;
 			border-bottom-width: 1px;
 			border-color: var(--primary-color-300);
 			margin-block-end: 1.25rem;
