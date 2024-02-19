@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
-import { generateIDArray } from '../../../data';
+import { formatDate, generateIDArray } from '../../../data';
 import { EmptyCard, PageLoader, Show } from '..';
 import './table.scss';
 
@@ -38,6 +38,65 @@ export interface TableAction {
 	action: (id: string) => void;
 }
 
+/* 
+
+
+[
+	{
+		NAME: el pepe pepotelast,
+		EMAIL: emeilpepe@pepe.com,
+		PHONE: 22344134,
+		ROLE: marketing,
+		ID: 2,
+	},
+
+	{
+		NAME: Nacho Gomez,
+		EMAIL: nacho@codefend.com,
+		PHONE: 5491160177952,
+		ROLE: information tech,
+		ID: 5,
+	},
+	{
+		NAME: Gonzalo Martinez,
+		EMAIL: gonza@codefend.com,
+		PHONE: 817084334121,
+		ROLE: information tech,
+		ID: 7,
+	},
+	{
+		NAME: Gaspar de Luca,
+		EMAIL: deluca@codefend.com,
+		PHONE: 5491168844750,
+		ROLE: production & ops,
+		ID: 3,
+	},
+	{
+		NAME: Federico Mazza,
+		EMAIL: federicomazza@codefend.com,
+		PHONE: 5491124052310,
+		ROLE: information tech,
+		ID: 6,
+	}
+]
+
+Edd Krause
+edkrause@codefend.com
+5491164750409
+production & ops
+1
+Chris Russo
+chrisrusso@codefend.com
+5491139393710
+information tech
+4
+Asiyanbi "Hemsleek" Mubashir
+hemsleek@codefend.com
+2348108170354
+information tech
+
+*/
+
 export const TableV2: React.FC<TableProps> = ({
 	rowsData,
 	columns,
@@ -52,6 +111,7 @@ export const TableV2: React.FC<TableProps> = ({
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
+	const [selectedField, setSelectedField] = useState('');
 
 	const rows = useMemo(() => {
 		const rows =
@@ -59,22 +119,26 @@ export const TableV2: React.FC<TableProps> = ({
 				? []
 				: [...rowsData].flatMap((data: any) => data);
 		return rows.sort((a: any, b: any) => {
+			//Search for the value of the object by which you want to sort
 			const aValue = a[dataSort]?.value;
 			const bValue = b[dataSort]?.value;
 
+			const isNumber = typeof aValue === 'number';
+
 			if (sortDirection === Sort.asc) {
-				return aValue > bValue ? 1 : -1;
+				//Change the sorting based on the data type of the value
+				return isNumber ? bValue - aValue : bValue.localeCompare(aValue);
 			} else {
-				return aValue < bValue ? 1 : -1;
+				return isNumber ? aValue - bValue : aValue.localeCompare(bValue);
 			}
 		});
 	}, [rowsData, dataSort, sortDirection]);
 	const rowsID = useMemo(() => generateIDArray(rows.length), [rows.length]);
-	const [selectedField, setSelectedField] = useState('');
 	const columnsID = useMemo(() => generateIDArray(columns.length), [columns]);
 
 	const handleSort = (columnName: string) => {
 		if (columnName === dataSort) {
+			//Change the column sort direction
 			setSortDirection((prevDirection) =>
 				prevDirection === Sort.asc ? Sort.desc : Sort.asc,
 			);
@@ -83,13 +147,9 @@ export const TableV2: React.FC<TableProps> = ({
 			setSortDirection(Sort.asc);
 		}
 	};
-	useEffect(() => {
-		if (Boolean(initialSelect)) {
-			setSelectedField(rowsID[0]);
-		}
-	}, [rowsID]);
 
 	const columnForRows = useMemo(() => {
+		//If the table action is present, it is removed from "columns" so that it does not appear
 		let result =
 			tableAction !== undefined
 				? columns.filter((column) => column.name !== 'action')
@@ -109,6 +169,12 @@ export const TableV2: React.FC<TableProps> = ({
 			setSelectedField(key);
 		}
 	};
+
+	useEffect(() => {
+		if (Boolean(initialSelect)) {
+			setSelectedField(rowsID[0]);
+		}
+	}, [rowsID]);
 
 	return (
 		<>
@@ -169,11 +235,17 @@ export const TableV2: React.FC<TableProps> = ({
 															?.style
 													}>
 													<div>
-														{
-															row[
-																column.name as keyof typeof row
-															]?.value
-														}
+														{column.name !== 'published'
+															? row[
+																	column.name as keyof typeof row
+																]?.value
+															: formatDate(
+																	String(
+																		row[
+																			column.name as keyof typeof row
+																		]?.value,
+																	),
+																)}
 													</div>
 												</div>
 											),
