@@ -91,7 +91,7 @@ export const mapIssues = (source: any): Issues => {
 		price: source.price,
 		pricePaid: source.price_paid,
 		isDisabled: source.eliminado,
-		createdAt: formatDate(source.creacion),
+		createdAt: source.creacion,
 	} as Issues;
 };
 /** Map issue share api data => @interface IssuesShare */
