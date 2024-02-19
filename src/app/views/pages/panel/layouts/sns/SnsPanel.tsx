@@ -18,10 +18,7 @@ const SnsPanel: React.FC = () => {
 			<main className={`sb ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
 					<SnsSearchAndData />
-					<Masonry
-						breakpointCols={3}
-						className="my-masonry-grid"
-						columnClassName="my-masonry-grid_column"></Masonry>
+					
 				</section>
 
 				<section className="right">

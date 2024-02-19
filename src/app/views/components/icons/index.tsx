@@ -767,7 +767,7 @@ export const WindowsIcon: React.FC<{ styles?: any }> = ({ styles }) => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
-		stroke-width="0"
+		strokeWidth="0"
 		viewBox="0 0 448 512"
 		className={styles ? `${styles}` : ``}
 		height="1em"
