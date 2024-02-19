@@ -11,7 +11,8 @@ interface Link {
     target: string;
 }
 
-const processData = (data: any) => {
+const processData = async(data: any) => {
+
     const nodes: any[] = [];
     const links: any[] = [];
 
@@ -19,7 +20,7 @@ const processData = (data: any) => {
         return { nodes, links };
     }
 
-    data.forEach((item: any) => {
+    await data.forEach((item: any) => {
         let osType = 'Other';
         if (item.device_os_release.includes('Windows')) {
             osType = 'Windows';
@@ -34,6 +35,7 @@ const processData = (data: any) => {
             apps: item.apps_found,
         };
         nodes.push(mainNode);
+        console.log(mainNode)
 
         for (let i = 0; i < 100; i++) {
             const childNode = { id: `${item.id}-app-${i}`, label: `${item.id}-app-${i}`, parent: item.id };
@@ -87,6 +89,8 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
     const [endpoints, setEndpoints] = useState<any>({nodes: [], links: []});
     const [chartData, setChartData] = useState<any>(null);;
     const [lineChartData, setLineChartData] = useState<any>(null);
+    const [endpointLoaded, setEndpointLoaded] = useState<boolean>(false);
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
     const chartOptions = {
         responsive: true,
@@ -159,75 +163,91 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
         }
     };
 
-    useEffect(() => {
-      setEndpoints(processData(filteredData));
+    const processDataLine = () => {
+        const scanCounts: { [key: string]: number } = {};
 
-      if(endpoints.nodes[0]) {
-        const osCount = { Windows: 0, Mac: 0, Linux: 0 };
+        const startDate = moment().subtract(6, 'days');
 
-        endpoints.nodes.forEach((endpoint: any) => {
-            const osRelease = endpoint.osType ? endpoint.osType : '';
+        for (let i = 0; i < 7; i++) {
+            const date = moment(startDate).add(i, 'days').format('YYYY-MM-DD');
+            scanCounts[date] = 0;
+        }
 
-            if (osRelease.includes("Windows")) {
-                osCount.Windows++;
-            } else if (osRelease.includes("Mac")) {
-                osCount.Mac++;
-            } else if (osRelease.includes("Linux")) {
-                osCount.Linux++;
+        data.forEach((item: any) => {
+            const date = moment(item.creacion).format('YYYY-MM-DD');
+            if (scanCounts.hasOwnProperty(date)) {
+                scanCounts[date]++;
             }
         });
 
-        const processData = () => {
-            const scanCounts: { [key: string]: number } = {};
-
-            const startDate = moment().subtract(7, 'days');
-
-            for (let i = 0; i < 7; i++) {
-                const date = moment(startDate).add(i, 'days').format('YYYY-MM-DD');
-                scanCounts[date] = 0;
-            }
-
-            data.forEach((item: any) => {
-                const date = moment(item.creacion).format('YYYY-MM-DD');
-                if (scanCounts.hasOwnProperty(date)) {
-                    scanCounts[date]++;
-                }
-            });
-
-            const processedChartData = {
-                labels: Object.keys(scanCounts),
-                datasets: [{
-                    label: '',
-                    data: Object.values(scanCounts),
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1,
-                    
-                }]
-            };
-
-            setLineChartData(processedChartData);
-        };
-
-        if(filteredData.length && filteredData.length !== 0) {
-            processData();
-        }
-
-
         const processedChartData = {
-            labels: Object.keys(osCount),
+            labels: Object.keys(scanCounts),
             datasets: [{
-                label: 'OS Distribution',
-                data: Object.values(osCount),
-                backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)'],
-                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
-                borderWidth: 1
+                label: '',
+                data: Object.values(scanCounts),
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1,
+                
             }]
         };
+        console.log("linechartdata")
+        setLineChartData(processedChartData);
+    };
 
-        setChartData(processedChartData);
-      }
-    }, [data, filteredData]);
+    useEffect(() => {
+        processData(filteredData)
+            .then((procData: any) => {
+                console.log(`procdata: ${procData}`)
+                console.log(procData)
+                setEndpoints(procData);
+        
+                console.log("enters")
+                console.log(endpoints)
+                console.log("triggers main")
+        
+                if(endpoints.nodes[0]) {
+                    console.log("enters nodes")
+                    const osCount = { Windows: 0, Mac: 0, Linux: 0 };
+        
+                    endpoints.nodes.forEach((endpoint: any) => {
+                        const osRelease = endpoint.osType ? endpoint.osType : '';
+        
+                        if (osRelease.includes("Windows")) {
+                            osCount.Windows++;
+                        } else if (osRelease.includes("Mac")) {
+                            osCount.Mac++;
+                        } else if (osRelease.includes("Linux")) {
+                            osCount.Linux++;
+                        }
+                    });
+                    console.log("enters 2")
+        
+                    console.log(filteredData.length)
+        
+                    console.log("triggers")
+        
+                    if(filteredData.length && filteredData.length !== 0) {
+                        processDataLine();
+                    }
+        
+        
+                    const processedChartData = {
+                        labels: Object.keys(osCount),
+                        datasets: [{
+                            label: 'OS Distribution',
+                            data: Object.values(osCount),
+                            backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)'],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
+                            borderWidth: 1
+                        }]
+                    };
+        
+                    setChartData(processedChartData);
+                }
+
+            })
+    }, [data, filteredData, endpointLoaded]);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const transformRef = useRef(d3.zoomIdentity);
@@ -278,25 +298,38 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
         return;
     }, [data]);
 
+    useEffect(() => {
+        console.log("enters conditional")
+        console.log(endpoints)
+        if(endpoints.nodes.length > 0) {
+            setEndpointLoaded(true)
+        }
+        if (chartData && lineChartData) {
+            console.log("loaded")
+            setDataLoaded(true);
+        }
+    }, [chartData, lineChartData, endpoints]);
+
     return (
       <>
         <section className="w-1/6">
-            <Show when={chartData}>
+            <Show when={dataLoaded}>
                 <>
-                <div className="border-t border-x rounded-t h-[300px]">
-                    <Doughnut data={chartData} options={chartOptions} />
-                </div>
-                <div className="flex items-center h-6 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
-                    devices os
-                </div>
+                    <div className="border-t border-x rounded-t h-[300px]">
+                        <Doughnut data={chartData} options={chartOptions} key="osChart"/>
+                    </div>
+                    <div className="flex items-center h-6 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
+                        devices os
+                    </div>
                 </>
             </Show>
         </section>
+
         <section className="w-3/6">
-            <Show when={lineChartData}>
+            <Show when={dataLoaded}>
                 <>
                     <div className="border-t border-x rounded-t ml-4 h-[300px]">
-                        <Line data={lineChartData} options={lineChartOptions} />
+                        <Line data={lineChartData} options={lineChartOptions} key="scansChart"/>
                     </div>
                     <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
                         scans made last week
@@ -306,13 +339,14 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
         </section>
 
         <section className="w-1/3">
-            <Show when={(canvasRef !== null)}>
+            <Show when={dataLoaded}>
                 <>
                     <div className="border-t border-x rounded-t ml-4">
                         <canvas
                             ref={canvasRef}
                             width={600}
                             height={300}
+                            key="networkGraph"
                         />
                     </div>
                     <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">

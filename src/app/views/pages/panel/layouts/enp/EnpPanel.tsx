@@ -73,6 +73,11 @@ export const EnpPanel: React.FC<Props> = (props) => {
         });
     }
 
+    function processCompliance(scan: any) {
+        console.log(scan.report_data)
+        return scan.report_data ? true : false;
+    }
+
     const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
         const lowerCaseOSName = osName.toLowerCase();
         if (lowerCaseOSName.includes('windows')) {
@@ -86,7 +91,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
 
     return (
     <EndpointAppProvider>
-        <main className={`${showScreen ? 'actived' : ''} flex flex-1 flex-col gap-2 p-0 md:gap-4 md:p-10 ml-16 mt-2`}>
+        <main className={`${showScreen ? 'actived' : ''} flex flex-1 flex-col gap-2 p-0 md:gap-4 md:p-10 ml-16 mt-16 justify-normal`}>
             <header className='cursor-default flex'>
                 <h1 className="font-black text-gray-800 text-xl">ENDPOINT</h1>
                 <h1 className="ml-8 pt-1 cursor-pointer text-sm underline-offset-2 text-red-400 underline decoration-2 font-bold">DEVICE INVENTORY</h1>
@@ -139,7 +144,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
                 <Show when={scansFiltered.length > 0}>
                     <div className="rounded-b mb-5 border-b border-slate-200 flex-grow hover:cursor-default">
                         {scansFiltered.map((scan) => (
-                            <div className="flex items-center p-4 pl-6 border-x border-t text-slate-400 text-sm hover:cursor-pointer hover:bg-slate-50 duration-300 ease-in-out" onClick={() => {
+                            <div key={`device${scan.id}`} className="flex items-center p-4 pl-6 border-x border-t text-slate-400 text-sm hover:cursor-pointer hover:bg-slate-50 duration-300 ease-in-out" onClick={() => {
                                 navigate('/enp/' + scan.id)
                             }}>
                                 <div className="w-2/12">{scan.device_os_name}</div>
@@ -147,12 +152,12 @@ export const EnpPanel: React.FC<Props> = (props) => {
                                 <div className="w-2/12">{moment(scan.creacion).fromNow()}</div>
                                 <div className="w-2/12">{scan.apps_found}</div>
                                 <div className="w-2/12">
-                                    <Show when={scan.report_data}>
+                                    <Show when={processCompliance(scan)}>
                                         <button className="cursor-pointer bg-emerald-50 text-emerald-300 border-emerald-300 border h-8 text-xs rounded w-auto">
                                             <p className="cursor-default">compliant</p>
                                         </button>
                                     </Show>
-                                    <Show when={!scan.report_data}>
+                                    <Show when={!processCompliance(scan)}>
                                         <button className="cursor-pointer bg-red-50 text-red-300 border-red-300 border h-8 text-xs rounded w-auto">
                                             <p className="cursor-default">non compliant</p>
                                         </button>
