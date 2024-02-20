@@ -38,9 +38,9 @@ const Sidebar: React.FC = () => {
 					<Link
 						title="Admin Panel"
 						to="/admin/company"
-						className={`flex items-center text-tertiary-color-300 h-12 mb-0 px-6 py-1.75   ${
+						className={`flex items-center text-tertiary-color-300 h-12 mb-0 px-6 py-1.75  ${
 							isActivePath('/admin/company')
-								? 'text-secondary-color-50'
+								? 'active'
 								: 'text-tertiary-color-300'
 						}`}>
 						<AdminCompany />
@@ -56,9 +56,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Dashboard"
 				to="/dashboard"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75   ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
 					isActivePath('/dashboard')
-						? 'text-secondary-color-50'
+						? 'active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<ChartIcon />
@@ -73,9 +73,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Web"
 				to="/web"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/web')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<GlobeWebIcon />
@@ -90,9 +90,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Mobile"
 				to="/mobile"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/mobile')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<MobileIcon />
@@ -107,9 +107,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Cloud"
 				to="/cloud"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/cloud')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<CLoudIcon />
@@ -124,9 +124,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Lan"
 				to="/lan"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/lan')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<LanIcon />
@@ -141,9 +141,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Enp"
 				to="/enp"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/enp')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<EnpIcon />
@@ -158,9 +158,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Source Code"
 				to="/source"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/source')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<SourceCodeIcon />
@@ -175,9 +175,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Social Engineering"
 				to="/social"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/social')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<PeopleGroup />
@@ -192,9 +192,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Issues"
 				to="/issues"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/issues')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<BugIcon />
@@ -209,9 +209,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Customer Support"
 				to="/support"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/support')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<MessageIcon />
@@ -225,9 +225,9 @@ const Sidebar: React.FC = () => {
 
 			<Link
 				to="/preferences"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/preferences')
-						? ' text-secondary-color-50'
+						? ' active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<PreferenceIcon />
@@ -242,9 +242,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Inx"
 				to="/inx"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/inx')
-						? 'text-secondary-color-50'
+						? 'active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<InxIcon />
@@ -259,9 +259,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Sns"
 				to="/sns"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/sns')
-						? 'text-secondary-color-50'
+						? 'active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<SnbIcon />
@@ -276,9 +276,9 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Vdb"
 				to="/vdb"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
 					isActivePath('/vdb')
-						? 'text-secondary-color-50'
+						? 'active'
 						: 'text-tertiary-color-300'
 				}`}>
 				<DataIcon />
