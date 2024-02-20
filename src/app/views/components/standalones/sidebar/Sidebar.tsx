@@ -15,6 +15,7 @@ import {
 	PeopleGroup,
 	PreferenceIcon,
 	SnbIcon,
+	VdbIcon,
 	SourceCodeIcon,
 } from '../../';
 
@@ -172,7 +173,7 @@ const Sidebar: React.FC = () => {
 				className={
 					isActivePath('/vdb') ? 'active' : 'text-tertiary-color-300'
 				}>
-				<DataIcon />
+				<VdbIcon />
 				<span className={open ? 'block' : 'hidden'}>Vdb</span>
 			</Link>
 		</aside>
