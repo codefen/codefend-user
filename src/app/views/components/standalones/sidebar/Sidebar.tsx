@@ -71,12 +71,14 @@ const Sidebar: React.FC = () => {
 				<CLoudIcon />
 			</Link>
 
-			<Link
+			{/* 
+				<Link
 				title="Lan"
 				to="/lan"
 				className={isActivePath('/lan') ? 'active' : ''}>
 				<LanIcon />
 			</Link>
+				*/}
 
 			<Link
 				title="Enp"

@@ -1,10 +1,9 @@
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PanelPage } from './views/pages/panel/PanelPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AddDomainModal, Loader, ModalTitleWrapper } from './views/components';
-import { useModal } from './data';
+import { Loader } from './views/components';
 import {
 	AuthPage,
 	SignInLayout,
@@ -15,7 +14,7 @@ import {
 	WebApplication,
 	MobileApplication,
 	CloudApplicationPanel,
-	LanApplicationPanel,
+	/* LanApplicationPanel,*/
 	SourceCodePanel,
 	SocialEngineeringPanel,
 	EnpPanel,
@@ -35,8 +34,6 @@ import {
 } from '../app/views/pages';
 
 export const AppRouter: React.FC = () => {
-	const { showModal, setShowModal, showModalStr, setShowModalStr } =
-		useModal();
 	return (
 		<>
 			<ToastContainer
@@ -61,7 +58,7 @@ export const AppRouter: React.FC = () => {
 						<Route path="web" element={<WebApplication />} />
 						<Route path="mobile" element={<MobileApplication />} />
 						<Route path="cloud" element={<CloudApplicationPanel />} />
-						<Route path="lan" element={<LanApplicationPanel />} />
+						{/* <Route path="lan" element={<LanApplicationPanel />} /> */}
 						<Route path="source" element={<SourceCodePanel />} />
 
 						<Route path="social" element={<SocialEngineeringPanel />} />
