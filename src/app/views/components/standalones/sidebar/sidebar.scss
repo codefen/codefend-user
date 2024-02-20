@@ -1,11 +1,58 @@
 .sidebar {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	height: 100dvh;
+	position: fixed;
+	z-index: 4;
+	top: 0;
+
+	padding-block-start: calc(var(--nav-height) + 28px);
+
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: var(--primary-color-300);
+
+	background-color: var(--primary-color-100) !important;
+	color: var(--primary-color-100);
+	transition: background, color, border;
+	transition-duration: 500ms;
+	transition-timing-function: linear;
 
 	a {
-	
-		border-bottom: 1px solid var(--primary-color-300);
+		display: flex;
+		align-items: center;
+		height: 45px;
+		outline: none;
+
+		margin-block-start: 0;
+
+		padding-inline: 24px;
+		padding-block: 1.75dvh;
+
+		color: var(--tertiary-color-100);
+
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: var(--primary-color-300);
 		transition-property: color, background-color;
 		transition-duration: 175ms;
 		transition-timing-function: ease-out;
+
+		svg {
+			pointer-events: none !important;
+		}
+
+		&.disabled {
+			cursor: not-allowed;
+			color: var(--tertiary-color-200);
+			background-color: var(--primary-color-100);
+			&:hover {
+				cursor: not-allowed;
+				color: var(--tertiary-color-200);
+				background-color: var(--primary-color-100);
+			}
+		}
 
 		&.active {
 			background-color: var(--secondary-color-50);
