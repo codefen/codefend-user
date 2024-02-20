@@ -420,7 +420,7 @@ section {
 		.sender {
 			.header {
 				justify-content: space-between;
-				margin-inline-end: -1.5rem /* -20px */;
+				margin-inline-end: -1.5rem;
 
 				button {
 					height: 100%;
@@ -509,8 +509,8 @@ section {
 
 				.first-text {
 					text-align: center;
-					font-size: 1.5rem /* 24px */;
-					line-height: 2rem /* 32px */;
+					font-size: 1.5rem;
+					line-height: 2rem;
 					color: var(--secondary-color-200);
 					font-weight: 800;
 				}
@@ -518,8 +518,8 @@ section {
 				.second-text {
 					display: inline-block;
 					text-align: center;
-					font-size: 1.125rem /* 18px */;
-					line-height: 1.75rem /* 28px */;
+					font-size: 1.125rem;
+					line-height: 1.75rem;
 					color: var(--tertiary-color-200);
 				}
 			}
@@ -564,7 +564,7 @@ section {
 }
 
 .testing-cred {
-	border-bottom: 1px solid var(--primary-color-3002);
+	border-bottom: 1px solid var(--primary-color-300);
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
@@ -610,7 +610,6 @@ section {
 			transition-timing-function: linear;
 		}
 	}
-
 	.app-card {
 		&-border {
 			border: none;
@@ -637,7 +636,6 @@ section {
 					color: var(--tertiary-color-50);
 				}
 			}
-
 			.reviews {
 				div {
 					position: relative;
@@ -650,7 +648,6 @@ section {
 					}
 				}
 			}
-
 			&-img {
 				width: 6.149rem;
 			}
@@ -679,18 +676,15 @@ section {
 			}
 		}
 	}
-
 	.app-card-wrapper {
 		background: var(--primary-color-300);
 		border-radius: 10px;
-
 		.app-details {
 			span,
 			.reviews {
 				display: none;
 			}
 		}
-
 		.app-details-description.isDetail {
 			line-height: 21px;
 			max-height: 3.85rem;
@@ -713,7 +707,6 @@ section {
 				justify-content: flex-start;
 				padding-inline-start: 20px;
 				column-gap: 12px;
-
 				.stat {
 					border-radius: 5px;
 					border: none;
@@ -726,7 +719,6 @@ section {
 
 					&.active {
 						background-color: var(--primary-color-500);
-
 						.value,
 						p {
 							color: var(--secondary-color-200);
