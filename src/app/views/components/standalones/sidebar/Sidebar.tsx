@@ -193,37 +193,6 @@ const Sidebar: React.FC = () => {
 			</Link>
 
 			<Link
-				title="Customer Support"
-				to="/support"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
-					isActivePath('/support') ? ' active' : 'text-tertiary-color-300'
-				}`}>
-				<MessageIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Customer Support
-				</span>
-			</Link>
-
-			<Link
-				to="/preferences"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
-					isActivePath('/preferences')
-						? ' active'
-						: 'text-tertiary-color-300'
-				}`}>
-				<PreferenceIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Preferences
-				</span>
-			</Link>
-
-			<Link
 				title="Inx"
 				to="/inx"
 				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
