@@ -45,18 +45,18 @@ export const PanelPage: React.FC = () => {
 							/>
 						</Show>
 
-						{/* Desktop Resolution */}
-						<div className={isSmallScreen ? 'hidden' : 'block'}>
-							<Navbar />
-							<Sidebar />
-						</div>
-					
-						{/* Mobile Resolution */}
-						<div className={isSmallScreen ? 'absolute bottom-0 min-w-[100dvw]' : 'hidden'}>
-							<Header />
-							<SidebarResponsive />
-						</div>
-						
+						{!isSmallScreen ? (
+							<>
+								<Navbar />
+								<Sidebar />
+							</>
+						) : (
+							<>
+								<Header />
+								<SidebarResponsive />
+							</>
+						)}
+
 						<Suspense fallback={<Loader />}>
 							<Outlet />
 						</Suspense>

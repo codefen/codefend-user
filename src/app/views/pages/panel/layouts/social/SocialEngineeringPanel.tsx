@@ -72,7 +72,7 @@ const SocialEngineeringView = () => {
 						members={members ?? []}
 						handleDepartmentFilter={handleDepartmentFIlter}
 					/>
-					<SocialAttackVectors />
+					{/* <SocialAttackVectors />*/}
 				</section>
 			</main>
 		</>

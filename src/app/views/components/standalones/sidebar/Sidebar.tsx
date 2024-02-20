@@ -5,16 +5,14 @@ import {
 	BugIcon,
 	CLoudIcon,
 	ChartIcon,
-	DataIcon,
 	EnpIcon,
 	GlobeWebIcon,
 	InxIcon,
 	/*LanIcon,*/
-	MessageIcon,
 	MobileIcon,
 	PeopleGroup,
-	PreferenceIcon,
 	SnbIcon,
+	VdbIcon,
 	SourceCodeIcon,
 } from '../../';
 

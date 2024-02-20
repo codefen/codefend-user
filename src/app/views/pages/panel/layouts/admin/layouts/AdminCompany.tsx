@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AdminCompanyPanel } from './components/AdminCompanyPanel';
 import AdminCompanyDetails from './components/AdminCompanyDetails';
 
-const AdminCompanyLayout: React.FC = () => {
+const AdminCompany: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 
 	useEffect(() => {
@@ -30,4 +30,4 @@ const AdminCompanyLayout: React.FC = () => {
 	);
 };
 
-export default AdminCompanyLayout;
+export default AdminCompany;

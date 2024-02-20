@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
 import { OneIssue, UpdateIssue, useUpdateIssue } from '../../../../../../data';
 import { useTheme } from '../../../../../ThemeContext';
-import { FaBedPulse } from 'react-icons/fa6';
 
 interface IssueUpdatePanelProps {
 	completeIssue: OneIssue;

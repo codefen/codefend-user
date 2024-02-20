@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {  Loader } from './views/components';
+import { Loader } from './views/components';
 import {
 	AuthPage,
 	SignInLayout,
@@ -29,7 +29,7 @@ import {
 	IssuesUpdate,
 	AdminPage,
 	AdminUser,
-	AdminCompany
+	AdminCompany,
 } from './views/pages';
 import { PanelPage } from './views/pages/panel/PanelPage';
 
@@ -77,8 +77,7 @@ export const AppRouter: React.FC = () => {
 						</Route>
 						{/* Private Routes + only admin access */}
 						<Route path="admin/*" element={<AdminPage />}>
-							<Route index element={<Navigate to="user" replace />} />
-							{/* <Route path="user" element={<AdminUser />} /> */}
+							<Route index element={<Navigate to="company" replace />} />
 							<Route path="company" element={<AdminCompany />} />
 						</Route>
 					</Route>
