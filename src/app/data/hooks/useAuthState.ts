@@ -1,9 +1,8 @@
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { LoginParams, RegisterParams } from '..';
-
-import { useNavigate } from 'react-router';
-import useAuthStore from '../store/auth.store';
 import type { AuthState } from '../store/auth.store';
+import useAuthStore from '../store/auth.store';
 
 export const useUserAdmin = () => {
 	const {
@@ -54,7 +53,13 @@ export const useAuthState = () => {
 		return authStore
 			.register(params)
 			.then((response: any) => {
-				toast.success(`Signup phase one successful`);
+				console.log(response);
+				if (response.error) {
+					toast.error(response.message);
+					return false
+				} else {
+					toast.success(`Signup phase one successful`);
+				}
 				return true;
 			})
 			.catch((error: Error) => {

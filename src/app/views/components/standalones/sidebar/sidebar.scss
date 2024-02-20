@@ -12,7 +12,7 @@
 	border-right-width: 1px;
 	border-right-style: solid;
 	border-right-color: var(--primary-color-300);
-
+	transition: all .5s ease;
 	background-color: var(--primary-color-100) !important;
 	color: var(--primary-color-100);
 	transition: background, color, border;
@@ -31,12 +31,12 @@
 		padding-block: 1.75dvh;
 
 		color: var(--tertiary-color-100);
-
+		transition: all .3s ease;
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
 		border-bottom-color: var(--primary-color-300);
 		transition-property: color, background-color;
-		transition-duration: 175ms;
+		//transition-duration: 175ms;
 		transition-timing-function: ease-out;
 
 		svg {
