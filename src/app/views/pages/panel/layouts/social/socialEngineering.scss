@@ -2,9 +2,10 @@
 
 main.social {
 	padding-inline-start: 80px;
-	height: 90dvh;
 	min-height: auto;
 	max-height: none;
+	padding-block-end: 0;
+	padding-inline-end: 0;
 
 	.left {
 		.table {
@@ -28,7 +29,7 @@ main.social {
 
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		padding-inline-start: 50px;
+		padding-inline: 10px;
 		.filter {
 			.label {
 				display: flex;
