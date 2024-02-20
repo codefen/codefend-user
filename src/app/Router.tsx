@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { PanelPage } from './views/pages/panel/PanelPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Loader } from './views/components';
@@ -30,8 +29,8 @@ import {
 	IssuesUpdate,
 	AdminPage,
 	AdminUser,
-	AdminCompany,
-} from '../app/views/pages';
+} from './views/pages';
+import { PanelPage } from './views/pages/panel/PanelPage';
 
 export const AppRouter: React.FC = () => {
 	return (
@@ -79,7 +78,6 @@ export const AppRouter: React.FC = () => {
 						<Route path="admin/*" element={<AdminPage />}>
 							<Route index element={<Navigate to="user" replace />} />
 							<Route path="user" element={<AdminUser />} />
-							<Route path="company" element={<AdminCompany />} />
 						</Route>
 					</Route>
 					{/* Public Routes */}

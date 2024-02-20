@@ -7,7 +7,7 @@ export interface IntelSelected {
 	fileType: string;
 }
 
-export const useIntelReadFile = () => {
+const useIntelReadFile = () => {
 	const [fullDataLoading, setFullDataLoading] = useState<boolean>(false);
 	const [selectedResult, setSelectedResult] = useState<IntelSelected | null>(
 		null,
@@ -34,3 +34,5 @@ export const useIntelReadFile = () => {
 
 	return { fullDataLoading, selectedResult, setSelectedResult, readFile };
 };
+
+export default useIntelReadFile

@@ -50,7 +50,7 @@ const addTinyMce = (initialValue) => {
 
 	setTimeout(() => {
 		setTinyEditorContent('issue', initialValue);
-	}, 500);
+	}, 425);
 };
 
 export const getTinyEditorContent = (id) => {

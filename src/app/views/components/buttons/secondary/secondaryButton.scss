@@ -1,9 +1,15 @@
+@use '../../../styles/settings/mixin' as mixin;
+
 .btn {
 	&.btn-secondary {
 		background-color: var(--tertiary-color-400);
 
 		&:hover {
 			background-color: var(--tertiary-color-600);
+		}
+
+		@include mixin.respond(small) {
+			height: 65px;
 		}
 	}
 

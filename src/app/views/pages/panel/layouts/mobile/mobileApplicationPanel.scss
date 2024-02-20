@@ -1,5 +1,11 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.mobile {
 	.left {
+		@include mixin.respond(small) {
+			width: 100%;
+		}
+
 		.card {
 			overflow: hidden;
 			width: 100%;
@@ -7,6 +13,11 @@ main.mobile {
 			margin-block-end: 1rem;
 			flex: 1 1 5%;
 			border: 0px;
+
+			@include mixin.respond(small) {
+				display: contents;
+			}
+
 			.header {
 				font-size: 15px;
 				padding-inline-start: 0px;
@@ -15,12 +26,14 @@ main.mobile {
 			.actions {
 				div {
 					transition: color 150ms ease;
+
 					&:hover {
 						color: var(--secondary-color-300);
 					}
 				}
 			}
 		}
+
 		.search-app {
 			width: 100%;
 			margin-block-end: 0.75rem;
@@ -43,10 +56,13 @@ main.mobile {
 			width: 100%;
 			height: 100%;
 		}
+
 		.list {
 			flex: 1 1 90%;
+
 			.app-info {
 				height: fit-content;
+
 				.modal-wrapper {
 					background-color: rgba(0, 0, 0, 0.45);
 				}
@@ -67,6 +83,7 @@ main.mobile {
 				flex: 0.5 0.5 50%;
 				width: 50%;
 			}
+
 			.selected-content-tables {
 				display: flex;
 				flex-direction: column;
@@ -74,6 +91,7 @@ main.mobile {
 				flex: 0.5 0.5 49%;
 				width: 49%;
 				padding-inline-end: 10px;
+
 				.card.stats {
 					.content {
 						.stat {
@@ -107,6 +125,7 @@ main.mobile {
 						max-width: 640px;
 					}
 				}
+
 				@media only screen and (min-width: 768px) {
 					& {
 						max-width: 768px;
@@ -114,6 +133,10 @@ main.mobile {
 				}
 			}
 		}
+	}
+
+	@include mixin.respond(small) {
+		display: block;
 	}
 }
 
@@ -125,6 +148,7 @@ main.mobile {
 		filter: blur(150px) brightness(0.4);
 		z-index: 5;
 	}
+
 	.variant-2 {
 		width: 20rem;
 		top: 18dvh;

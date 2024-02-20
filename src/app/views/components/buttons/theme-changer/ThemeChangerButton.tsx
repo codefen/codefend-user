@@ -1,7 +1,6 @@
-import React from 'react';
 import { MoonIcon, Show, SunIcon } from '../..';
-import './themeChanger.scss';
 import { useTheme } from '../../../ThemeContext';
+import './themeChanger.scss';
 
 export const ThemeChangerButton = () => {
 	const { theme, changeTheme } = useTheme();

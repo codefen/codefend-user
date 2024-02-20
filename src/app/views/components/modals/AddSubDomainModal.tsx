@@ -65,7 +65,7 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 
 	return (
 		<div className="modal subdomain-modal">
-			<form className="w-full flex flex-col gap-y-3" onSubmit={handleSubmit}>
+			<form className="flex flex-col w-full gap-y-3" onSubmit={handleSubmit}>
 				<div className="form-input">
 					<span className="form-icon">
 						<div className="codefend-text-red">

@@ -1,9 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import addTinyMce, {
-	getTinyEditorContent,
-	setMode,
+	setMode
 } from '../../../../../../../editor-lib/';
-import { CompleteIssue, Issues } from '../../../../../../data';
 
 interface AppEditorProps {
 	onUpdateIssue?: any;
@@ -13,10 +11,9 @@ interface AppEditorProps {
 }
 const AppEditor: React.FC<AppEditorProps> = ({
 	initialValue,
-	onUpdateIssue,
 	isEditable,
 }) => {
-	const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
+	 const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
 
 	useEffect(() => {
 		const defaultValue = !Boolean(initialValue.trim().length)
@@ -24,7 +21,7 @@ const AppEditor: React.FC<AppEditorProps> = ({
 			: initialValue;
 
 		addTinyMce(defaultValue);
-	}, [initialValue]);
+	}, [initialValue]); 
 
 	useEffect(() => {
 		const timeID = setTimeout(() => {
@@ -39,7 +36,7 @@ const AppEditor: React.FC<AppEditorProps> = ({
 
 	return (
 		<>
-			<textarea name="name" id="issue" rows={4} cols={40}></textarea>
+			<textarea name="name" id="issue" rows={4} cols={40} defaultValue={''}></textarea>
 		</>
 	);
 };

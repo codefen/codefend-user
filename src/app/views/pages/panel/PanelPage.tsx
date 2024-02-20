@@ -1,20 +1,23 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { Loader, Show } from '../../components';
 import { useAuthStore } from '../../../data';
+import {
+	ErrorConection,
+	Header,
+	Loader,
+	Navbar,
+	Show,
+	Sidebar,
+	SidebarResponsive,
+} from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
-
-const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar'));
-const Sidebar = lazy(
-	() => import('../../components/standalones/sidebar/Sidebar'),
-);
-const ErrorConection = lazy(
-	() => import('../../components/modals/ErrorConection'),
-);
+import { useMediaQuery } from 'usehooks-ts';
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
 	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
+	const isSmallScreen = useMediaQuery('(max-width: 640px)');
+
 	if (!isAuth) logout();
 
 	useEffect(() => {
@@ -29,8 +32,8 @@ export const PanelPage: React.FC = () => {
 	}, []);
 
 	return (
-		<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
-			<>
+		<>
+			<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
 				<FlashLightProvider>
 					<>
 						<Show when={showModal}>
@@ -41,14 +44,30 @@ export const PanelPage: React.FC = () => {
 								}}
 							/>
 						</Show>
-						<Navbar />
-						<Sidebar />
-						<Suspense fallback={<Loader />}>
-							<Outlet />
-						</Suspense>
+
+						<div className={isSmallScreen ? 'hidden' : 'block'}>
+							<Navbar />
+						</div>
+						<div className={isSmallScreen ? 'block' : 'hidden'}>
+							<Header />
+						</div>
+						<div className={isSmallScreen ? 'block' : 'hidden'}>
+							<SidebarResponsive />
+						</div>
+
+						<div className="flex">
+							<div className="relative h-screen pt-[20px] mt-[2rem] xs:hidden sm:block">
+								<Sidebar />
+							</div>
+							<Suspense fallback={<Loader />}>
+								<Outlet />
+							</Suspense>
+						</div>
 					</>
 				</FlashLightProvider>
-			</>
-		</Show>
+			</Show>
+		</>
 	);
 };
+
+export default PanelPage;
