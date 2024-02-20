@@ -378,7 +378,7 @@ export interface ResultsVdbSearch {
 export interface VdbProps {
 	response: VdbResponseSearch;
 	request: VdbRequestSearch;
-	results?: ResultsVdbSearch[];
+	result?: ResultsVdbSearch[];
 }
 /* 
   "result": [
@@ -406,7 +406,7 @@ export interface VdbProps {
                 }
             }
         },
-
+	]
 
 "session": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiIxMDkiLCJleHAiOjE3MDU2MjUyNTd9.HivlkCsh5vAtxgWis5yA7B0rxmF14utrN13OaemyRlw",
     "user": {
