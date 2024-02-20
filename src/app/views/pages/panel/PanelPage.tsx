@@ -52,7 +52,7 @@ export const PanelPage: React.FC = () => {
 						</div>
 					
 						{/* Mobile Resolution */}
-						<div className={isSmallScreen ? 'block' : 'hidden'}>
+						<div className={isSmallScreen ? 'absolute bottom-0 min-w-[100dvw]' : 'hidden'}>
 							<Header />
 							<SidebarResponsive />
 						</div>

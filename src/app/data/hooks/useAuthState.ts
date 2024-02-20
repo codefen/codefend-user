@@ -55,7 +55,7 @@ export const useAuthState = () => {
 			.then((response: any) => {
 				console.log(response);
 				if (response.error) {
-					toast.error(response.message);
+					toast.error('An unexpected error has occurred on the server');
 					return false
 				} else {
 					toast.success(`Signup phase one successful`);

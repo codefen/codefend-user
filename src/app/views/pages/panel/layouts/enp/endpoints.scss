@@ -1,13 +1,6 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.enp {
-	@include mixin.respond(small) {
-		padding-inline-start: 1px;
-		display: flex;
-		flex-direction: column;
-		margin: 10px;
-	}
-
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -350,6 +343,13 @@ main.enp {
 		.graph-footer {
 			margin-left: 1rem;
 		}
+	}
+
+	@include mixin.respond(small) {
+		padding-inline-start: 1px;
+		display: flex;
+		flex-direction: column;
+		margin: 10px;
 	}
 }
 

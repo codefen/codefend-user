@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	BugIcon,
@@ -23,172 +23,119 @@ const SidebarResponsive: React.FC = () => {
 	const { open, handleChange } = usePanelStore();
 	const { userData } = useAuthStore();
 
+
 	return (
-		<aside
-			className={`sidenav ${open ? 'sidenav-collapsed' : ''} bg-[#222222]`}>
-			<ul className={`sidenav-nav ${!open ? 'hidden' : ''} bg-[#222222]`}>
-				<section className="flex justify-between">
-					<h1 className="pt-3">{userData.email}</h1>
-					<div className="change-theme">
-						<ThemeChangerButton />
-					</div>
-				</section>
-				<br />
+		<aside className={`sidenav ${open ? 'sidenav-open' : ''}`}>
+			<div className="sidenav-content">
+				<div className="sidenav-header">
+					<h1>{userData.email}</h1>
+					<ThemeChangerButton />
+				</div>
 				<hr />
-				<li className="sidenav-nav-item">
-					<Link
+				<div className="sidenav-menu">
+					<MenuItem
 						title="Dashboard"
+						icon={<ChartIcon />}
 						to="/dashboard"
-						className="sidenav-link-link "
-						onClick={handleChange}>
-						<ChartIcon />
-						<span className="sidenav-link-text">Dashboard</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Web"
+						icon={<GlobeWebIcon />}
 						to="/web"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<GlobeWebIcon />
-						<span className="sidenav-link-text">Web</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Mobile"
+						icon={<MobileIcon />}
 						to="/mobile"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<MobileIcon />
-						<span className="sidenav-link-text">Mobile</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Cloud"
+						icon={<CLoudIcon />}
 						to="/cloud"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<CLoudIcon />
-						<span className="sidenav-link-text">Cloud</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Lan"
+						icon={<LanIcon />}
 						to="/lan"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<LanIcon />
-						<span className="sidenav-link-text">Lan</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Enp"
+						icon={<EnpIcon />}
 						to="/enp"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<EnpIcon />
-						<span className="sidenav-link-text">Enp</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Source Code"
+						icon={<SourceCodeIcon />}
 						to="/source"
-						className="sidenav-link-link "
-						onClick={handleChange}>
-						<SourceCodeIcon />
-						<span className="sidenav-link-text">Source Code</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Social Engineering"
+						icon={<PeopleGroup />}
 						to="/social"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<PeopleGroup />
-						<span className="sidenav-link-text">Social Engineering</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Issues"
+						icon={<BugIcon />}
 						to="/issues"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<BugIcon />
-						<span className="sidenav-link-text">Issues</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Customer Support"
+						icon={<MessageIcon />}
 						to="/support"
-						className="sidenav-link-link "
-						onClick={handleChange}>
-						<MessageIcon />
-						<span className="sidenav-link-text">Customer Support</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
+						title="Preferences"
+						icon={<PreferenceIcon />}
 						to="/preferences"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<PreferenceIcon />
-						<span className="sidenav-link-text">Preferences</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Inx"
+						icon={<InxIcon />}
 						to="/inx"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<InxIcon />
-						<span className="sidenav-link-text">Inx</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Sns"
+						icon={<DataIcon />}
 						to="/sns"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<DataIcon />
-						<span className="sidenav-link-text">Sns</span>
-					</Link>
-				</li>
-
-				<li className="sidenav-nav-item">
-					<Link
+						onClick={handleChange}
+					/>
+					<MenuItem
 						title="Vdb"
+						icon={<DataIcon />}
 						to="/vdb"
-						className="sidenav-link-link"
-						onClick={handleChange}>
-						<DataIcon />
-						<span className="sidenav-link-text">Vdb</span>
-					</Link>
-				</li>
-			</ul>
+						onClick={handleChange}
+					/>
+				</div>
+			</div>
 		</aside>
+	);
+};
+
+interface MenuItemProps {
+	title: string;
+	icon: JSX.Element;
+	to: string;
+	onClick: () => void;
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({ title, icon, to, onClick }) => {
+	return (
+		<Link to={to} className="sidenav-link" onClick={onClick}>
+			{icon}
+			<span className="sidenav-link-text">{title}</span>
+		</Link>
 	);
 };
 
