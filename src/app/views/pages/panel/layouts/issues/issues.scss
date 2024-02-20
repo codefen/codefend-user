@@ -41,7 +41,7 @@ main.issues-list {
 main.issue-detail {
 	width: 100%;
 	padding-inline-end: 10px;
-	padding-inline-start: 35px;
+	padding-inline-start: 75px;
 	@include mixin.respond(small){
 		display: flex;
 		flex-direction: column;

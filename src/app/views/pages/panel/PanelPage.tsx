@@ -45,24 +45,21 @@ export const PanelPage: React.FC = () => {
 							/>
 						</Show>
 
-						<div className={isSmallScreen ? 'hidden' : 'block'}>
-							<Navbar />
-						</div>
-						<div className={isSmallScreen ? 'block' : 'hidden'}>
-							<Header />
-						</div>
-						<div className={isSmallScreen ? 'block' : 'hidden'}>
-							<SidebarResponsive />
-						</div>
-
-						<div className="flex">
-							<div className="relative h-screen pt-[20px] mt-[2rem] xs:hidden sm:block">
+						{!isSmallScreen ? (
+							<>
+								<Navbar />
 								<Sidebar />
-							</div>
-							<Suspense fallback={<Loader />}>
-								<Outlet />
-							</Suspense>
-						</div>
+							</>
+						) : (
+							<>
+								<Header />
+								<SidebarResponsive />
+							</>
+						)}
+
+						<Suspense fallback={<Loader />}>
+							<Outlet />
+						</Suspense>
 					</>
 				</FlashLightProvider>
 			</Show>

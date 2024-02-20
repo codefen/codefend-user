@@ -1,11 +1,6 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.webapp {
-	@include mixin.respond(small) {
-		display: block;
-		padding-inline-start: 1px;
-	}
-
 	padding-inline-end: 0px;
 	width: 100%;
 
@@ -15,6 +10,7 @@ main.webapp {
 		@include mixin.respond(small) {
 			width: 100%;
 			padding-block-start: 10px;
+
 			.header {
 				display: contents;
 			}
@@ -55,13 +51,6 @@ main.webapp {
 		width: 30%;
 		margin-inline-start: 10px;
 
-		@include mixin.respond(small) {
-			width: 95%;
-
-			.header {
-				max-width: 340px;
-			}
-		}
 
 		.card {
 			border: none;
@@ -82,11 +71,25 @@ main.webapp {
 				}
 			}
 		}
+
+		@include mixin.respond(small) {
+			width: 95%;
+
+			.header {
+				max-width: 340px;
+			}
+		}
+
 	}
 
 	.over {
 		overflow-y: auto;
 		overflow-x: hidden;
+	}
+
+	@include mixin.respond(small) {
+		display: block;
+		padding-inline-start: 1px;
 	}
 }
 
