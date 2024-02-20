@@ -1,23 +1,28 @@
-import { useAuthState, LanApplicationService } from '../../../data';
+import { useAuthState, LanApplicationService, Device } from '../../../data';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { GlobeWebIcon, PrimaryButton, SecondaryButton } from '..';
+import { GlobeWebIcon, ModalButtons } from '..';
 
 interface NetworkDeviceModalProps {
 	close: () => void;
 	onDone: () => void;
-	internalNetwork: {
-		id: number;
-		device_name: string;
-		device_ex_address: string;
-	}[];
+	internalNetwork: Device[];
 }
 
 export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 	props,
 ) => {
-	const [formData, setFormData] = useState({
+	const [
+		{
+			mainDomainId,
+			domainName,
+			vendorName,
+			internalIpAddress,
+			externalIpAddress,
+			isAddingInternalNetwork,
+		},
+		setFormData,
+	] = useState({
 		domainName: '',
 		vendorName: '',
 		mainDomainId: 0,
@@ -29,20 +34,9 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 	const { getUserdata } = useAuthState();
 	const companyID = getUserdata()?.companyID;
 
-	const navigate = useNavigate();
-
-	const {
-		mainDomainId,
-		domainName,
-		vendorName,
-		internalIpAddress,
-		externalIpAddress,
-		isAddingInternalNetwork,
-	} = formData;
-
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-
+		console.log({ mainDomainId });
 		if (!mainDomainId || mainDomainId === 0) {
 			return toast.error('Invalid main resource');
 		}
@@ -64,7 +58,8 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 				toast.success('successfully added Sub Network...');
 			})
 			.finally(() => {
-				navigate(0);
+				props.close();
+				props.onDone();
 			});
 
 		return;
@@ -80,7 +75,7 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 	return (
 		<>
 			<div className="modal text-format">
-				<form className="flex flex-col gap-y-3">
+				<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
 					<div className="form-input">
 						<span className="form-icon">
 							<div className="codefend-text-red">
@@ -91,8 +86,7 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 						<select
 							onChange={handleOnChange}
 							className="log-inputs modal_info"
-							value={formData.domainName}
-							name="domainName"
+							name="mainDomainId"
 							required>
 							<option value="" disabled>
 								main resource
@@ -117,7 +111,7 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 							onChange={handleOnChange}
 							className="log-inputs modal_info"
 							id="os-network-select"
-							value={formData.vendorName}
+							value={vendorName}
 							name="vendorName"
 							required>
 							<option value="" disabled>
@@ -141,6 +135,7 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 							type="text"
 							onChange={handleOnChange}
 							placeholder="hostname"
+							name="domainName"
 							required
 						/>
 					</div>
@@ -156,6 +151,7 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 							type="text"
 							onChange={handleOnChange}
 							placeholder="internal IP"
+							name="internalIpAddress"
 							required
 						/>
 					</div>
@@ -169,22 +165,14 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 						<input
 							type="text"
 							onChange={handleOnChange}
+							name="externalIpAddress"
 							placeholder="external IP"></input>
 					</div>
-					<div className="form-buttons">
-						<SecondaryButton
-							text="Cancel"
-							click={(e: React.FormEvent) => props.close?.()}
-							isDisabled={isAddingInternalNetwork}
-							className="btn-cancel codefend_secondary_ac"
-						/>
-						<PrimaryButton
-							text="Add access point"
-							click={handleSubmit}
-							isDisabled={isAddingInternalNetwork}
-							className="btn-add codefend_main_ac"
-						/>
-					</div>
+					<ModalButtons
+						close={() => props.close?.()}
+						confirmText="Add access point"
+						isDisabled={isAddingInternalNetwork}
+					/>
 				</form>
 			</div>
 		</>

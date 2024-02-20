@@ -20,7 +20,18 @@ export const AcessPointModal: React.FC<{
 	const { getUserdata } = useAuthState();
 	const companyID = getUserdata()?.companyID;
 
-	const [networkData, setNetworkData] = useState<NetworkData>({
+	const [
+		{
+			domainName,
+			vendorName,
+			username,
+			password,
+			internalAddress,
+			externalAddress,
+			isAddingInternalNetwork,
+		},
+		setNetworkData,
+	] = useState<NetworkData>({
 		domainName: '',
 		vendorName: '',
 		username: '',
@@ -39,14 +50,6 @@ export const AcessPointModal: React.FC<{
 	};
 
 	const { showModal, setShowModal } = useModal();
-
-	const {
-		domainName,
-		vendorName,
-		username,
-		password,
-		isAddingInternalNetwork,
-	} = networkData;
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -73,47 +76,43 @@ export const AcessPointModal: React.FC<{
 			}));
 		}
 
-		if (!username.trim() || username.length == 0) {
-			toast.error('Invalid username');
-			return setNetworkData((prevData) => ({
-				...prevData,
-				isAddingInternalNetwork: false,
-			}));
-		}
-
-		if (!password.trim() || password.length == 0) {
-			toast.error('Invalid password');
-			return setNetworkData((prevData) => ({
-				...prevData,
-				isAddingInternalNetwork: false,
-			}));
-		}
-
 		const requestParams = {
-			device_name: networkData.domainName,
-			device_version: networkData.vendorName,
-			access_username: networkData.username,
-			access_password: networkData.password,
-			device_in_address: networkData.internalAddress,
-			device_ex_address: networkData.externalAddress,
+			device_name: domainName,
+			device_version: vendorName,
+			access_username: username,
+			access_password: password,
+			device_in_address: internalAddress,
+			device_ex_address: externalAddress,
 		};
 
-		LanApplicationService.add(requestParams, companyID)
-			.then((res: any) => {
-				console.log(res);
-				props.onDone();
-				setShowModal(!showModal);
-				if (res.error === 1) {
-					toast.error('Error', res.error);
-				}
-				toast.success('successfully added Access Point...');
-			})
-			.finally(() => {
+		LanApplicationService.add(requestParams, companyID).then((res: any) => {
+			setShowModal(!showModal);
+
+			if (res.error == 1) {
+				let message = res.info.includes('device_in_address')
+					? 'Device internal address is invalid'
+					: res.info.includes('device_ex_address')
+						? 'device external address is invalid'
+						: 'An unexpected error has occurred on the server';
+
+				toast.error(message);
 				setNetworkData((prevData) => ({
 					...prevData,
 					isAddingInternalNetwork: false,
 				}));
-			});
+				console.log('fin?');
+				return;
+			}
+			console.log('Alo?');
+			toast.success('successfully added Access Point...');
+			setNetworkData((prevData) => ({
+				...prevData,
+				isAddingInternalNetwork: false,
+			}));
+
+			props.close();
+			props.onDone();
+		});
 	};
 
 	return (
@@ -129,7 +128,7 @@ export const AcessPointModal: React.FC<{
 						<select
 							onChange={handleChange}
 							className="log-inputs modal_info"
-							value={networkData.vendorName}
+							value={vendorName}
 							name="vendorName"
 							required>
 							<option value="" disabled>
@@ -152,7 +151,6 @@ export const AcessPointModal: React.FC<{
 						<input
 							type="text"
 							name="domainName"
-							value={networkData.domainName}
 							onChange={handleChange}
 							placeholder="hostname"
 							required
@@ -168,7 +166,7 @@ export const AcessPointModal: React.FC<{
 						<input
 							type="text"
 							name="internalAddress"
-							value={networkData.internalAddress}
+							value={internalAddress}
 							onChange={handleChange}
 							placeholder="Internal IP Address"
 							required
@@ -184,7 +182,7 @@ export const AcessPointModal: React.FC<{
 						<input
 							type="text"
 							name="externalAddress"
-							value={networkData.externalAddress}
+							value={externalAddress}
 							onChange={handleChange}
 							placeholder="External IP Address"
 							required
@@ -201,10 +199,8 @@ export const AcessPointModal: React.FC<{
 						<input
 							type="text"
 							name="username"
-							value={networkData.username}
 							onChange={handleChange}
 							placeholder="username"
-							required
 						/>
 					</div>
 					<div
@@ -224,7 +220,6 @@ export const AcessPointModal: React.FC<{
 							name="password"
 							onChange={handleChange}
 							placeholder="Password"
-							required
 						/>
 					</div>
 					<ModalButtons
