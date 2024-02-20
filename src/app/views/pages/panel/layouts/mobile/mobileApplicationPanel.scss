@@ -2,10 +2,6 @@
 
 main.mobile {
 	.left {
-		@include mixin.respond(small) {
-			width: 100%;
-		}
-
 		.card {
 			overflow: hidden;
 			width: 100%;
@@ -67,6 +63,9 @@ main.mobile {
 					background-color: rgba(0, 0, 0, 0.45);
 				}
 			}
+		}
+		@include mixin.respond(small) {
+			width: 100%;
 		}
 	}
 

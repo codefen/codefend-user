@@ -1,11 +1,6 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.source-code {
-	@include mixin.respond(small) {
-		display: block;
-		padding-inline-start: 1px;
-	}
-
 	.left {
 		flex: 1 1 68%;
 		width: 68%;
@@ -56,7 +51,10 @@ main.source-code {
 			width: 100%;
 		}
 	}
-
+	@include mixin.respond(small) {
+		display: block;
+		padding-inline-start: 1px;
+	}
 }
 
 [data-theme='dark'] {

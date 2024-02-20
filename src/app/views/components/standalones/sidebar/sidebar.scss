@@ -24,7 +24,7 @@
 		align-items: center;
 		height: 45px;
 		outline: none;
-
+		gap: 2rem;
 		margin-block-start: 0;
 
 		padding-inline: 24px;
@@ -47,6 +47,7 @@
 			cursor: not-allowed;
 			color: var(--tertiary-color-200);
 			background-color: var(--primary-color-100);
+
 			&:hover {
 				cursor: not-allowed;
 				color: var(--tertiary-color-200);
@@ -73,6 +74,10 @@
 	}
 }
 
+.sidebar-collapsed {
+  width: 16.5625rem;
+}
+
 [data-theme='dark'] {
 	.sidebar {
 		border: 1px solid transparent;
@@ -85,6 +90,7 @@
 			background-color: var(--primary-color-mask);
 			color: var(--secondary-color-50);
 		}
+
 		a {
 			border: none;
 		}

@@ -1,14 +1,11 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.social {
-	padding-inline-start: 20px;
+	padding-inline-start: 80px;
 	height: 90dvh;
 	min-height: auto;
 	max-height: none;
-	@include mixin.respond(small) {
-		display: block;
-		overflow: auto;
-	}
+
 	.left {
 		.table {
 			.item {
@@ -44,6 +41,10 @@ main.social {
 		@include mixin.respond(small) {
 			padding-inline-start: 0;
 		}
+	}
+	@include mixin.respond(small) {
+		display: block;
+		overflow: auto;
 	}
 }
 

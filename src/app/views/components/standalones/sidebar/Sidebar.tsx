@@ -29,88 +29,60 @@ const Sidebar: React.FC = () => {
 
 	return (
 		<aside
-			className={`sidebar relative duration-300 bg-primary-color-100 dark:bg-[#121a23]
-					${!open ? 'w-[4.08rem]' : 'w-60'}
-					flex  justify-between h-[100vh]  text-primary-color-50 flex-col
-			`}>
+		className={`sidebar ${open ? 'sidebar-collapsed' : ''}`}>
 			{showAdmin && (
 				<>
 					<Link
 						title="Admin Panel"
 						to="/admin/company"
-						className={`flex items-center text-tertiary-color-300 h-12 mb-0 px-6 py-1.75  ${
+						className={
 							isActivePath('/admin/company')
 								? 'active'
 								: 'text-tertiary-color-300'
-						}`}>
+						}>
 						<AdminCompany />
-						<span
-							className={`
-								duration-600
-								${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-							Admin Panel
-						</span>
+						<span className={open ? 'block' : 'hidden'}>Admin Panel</span>
 					</Link>
 				</>
 			)}
 			<Link
 				title="Dashboard"
 				to="/dashboard"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75  ${
+				className={
 					isActivePath('/dashboard') ? 'active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<ChartIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Dashboard
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Dashboard</span>
 			</Link>
 
 			<Link
 				title="Web"
 				to="/web"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/web') ? ' active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<GlobeWebIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Web
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Web</span>
 			</Link>
 
 			<Link
 				title="Mobile"
 				to="/mobile"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/mobile') ? ' active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<MobileIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Mobile
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Mobile</span>
 			</Link>
 
 			<Link
 				title="Cloud"
 				to="/cloud"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/cloud') ? ' active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<CLoudIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Cloud
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Cloud</span>
 			</Link>
 
 			{/* 
@@ -135,44 +107,31 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Enp"
 				to="/enp"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/enp') ? ' active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<EnpIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Enp
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Enp</span>
 			</Link>
 
 			<Link
 				title="Source Code"
 				to="/source"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/source') ? ' active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<SourceCodeIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Source Code
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Source Code</span>
 			</Link>
 
 			<Link
 				title="Social Engineering"
 				to="/social"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/social') ? ' active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<PeopleGroup />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
+				<span className={open ? 'block' : 'hidden'}>
 					Social Engineering
 				</span>
 			</Link>
@@ -180,61 +139,41 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Issues"
 				to="/issues"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/issues') ? ' active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<BugIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Issues
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Issues</span>
 			</Link>
 
 			<Link
 				title="Inx"
 				to="/inx"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/inx') ? 'active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<InxIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Inx
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Inx</span>
 			</Link>
 
 			<Link
 				title="Sns"
 				to="/sns"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/sns') ? 'active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<SnbIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Sns
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Sns</span>
 			</Link>
 
 			<Link
 				title="Vdb"
 				to="/vdb"
-				className={`flex items-center h-12 mb-0 px-6 py-1.75 ${
+				className={
 					isActivePath('/vdb') ? 'active' : 'text-tertiary-color-300'
-				}`}>
+				}>
 				<DataIcon />
-				<span
-					className={`
-					duration-600
-					${!open && 'hidden'}  p-[10px] origin-left min-w-[150px]`}>
-					Vdb
-				</span>
+				<span className={open ? 'block' : 'hidden'}>Vdb</span>
 			</Link>
 		</aside>
 	);
