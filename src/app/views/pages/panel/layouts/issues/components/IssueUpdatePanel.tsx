@@ -32,7 +32,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 	const navigate = useNavigate();
 	const { updatedIssue, dispatch, update } = useUpdateIssue();
 	const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
-	const [isEditable, setEditable] = useState(false);
+	const [isEditable, setEditable] = useState(true);
 	const { theme } = useTheme();
 
 	const handleIssueUpdate = useCallback(() => {
@@ -105,7 +105,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 						<LeftArrow isButton />
 					</div>
 					<Show
-						when={isEditable}
+						when={!isEditable}
 						fallback={
 							<div className="name flex-1">{updatedIssue.issueName}</div>
 						}>
@@ -123,12 +123,12 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 					</Show>
 					<div className="flex !p-0">
 						<div
-							className={`edit edit_btn  ${isEditable ? 'on' : 'off'}`}
+							className={`edit edit_btn  ${!isEditable ? 'on' : 'off'}`}
 							onClick={() => setEditable(!isEditable)}>
 							<PencilIcon isButton />
 						</div>
 						<div
-							className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
+							className={`save edit_btn ${!isEditable ? 'on' : 'off'}`}
 							onClick={() => handleIssueUpdate()}>
 							<SaveIcon isButton />
 						</div>
@@ -153,7 +153,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 				</div>
 				<div className="">
 					<AppEditor
-						isEditable={isEditable}
+						isEditable={!isEditable}
 						initialValue={safelyIssue().content ?? ''}
 						isIssueCreation={updatedIssue.isAddingIssue}
 					/>

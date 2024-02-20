@@ -6,7 +6,7 @@ import {
 	LeftArrow,
 	PageLoaderOverlay,
 	SaveIcon,
-	Show
+	Show,
 } from '../../../../../components';
 import AppEditor from './AppEditor';
 
@@ -19,9 +19,11 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 	const { newIssue, dispatch, save } = useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
 	const navigate = useNavigate();
+	const { theme } = useTheme();
 
 	const handleIssueUpdate = () => {
 		if (!isEditable) return;
+
 		save().then((response: any) => {
 			if (response !== undefined && response.id !== undefined) {
 				navigate(`/issues/update/${response.id}`);
@@ -45,22 +47,27 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			handleIssueUpdate();
 		}
 	};
-	const { theme } = useTheme();
 	useEffect(() => {
 		let contentWindow: Window | null;
-		let timeID;
+		let timeID, themeTiny;
 
 		const loadIframe = () => {
 			const iframe = document.getElementById(
 				'issue_ifr',
 			) as HTMLIFrameElement | null;
+
 			if (!iframe) {
 				timeID = setTimeout(() => loadIframe(), 30);
 			} else {
-				contentWindow = iframe.contentWindow!;
+				contentWindow = iframe.contentWindow! as WindowProxy;
+				const body = contentWindow.document;
 				contentWindow.document.body.setAttribute('data-theme', theme);
 				contentWindow.addEventListener('keydown', handleKeyDown);
-				timeID = setTimeout(() => setEditable((prev: boolean) => true), 30);
+				timeID = setTimeout(() => setEditable(true), 50);
+				themeTiny = setTimeout(
+					() => body.documentElement.setAttribute('data-theme', theme),
+					25,
+				);
 			}
 		};
 
@@ -71,6 +78,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 				contentWindow.removeEventListener('keydown', handleKeyDown);
 			}
 			clearTimeout(timeID!);
+			clearTimeout(themeTiny!);
 		};
 	}, [props.isLoading, handleKeyDown]);
 
