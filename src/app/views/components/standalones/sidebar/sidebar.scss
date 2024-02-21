@@ -84,10 +84,10 @@
 	.sidebar {
 		border: 1px solid transparent;
 		background: var(--primary-color-500) !important;
-		transition: background, color, border;
+		/* transition: background, color, border;
 		transition-duration: 500ms;
 		transition-timing-function: linear;
-
+ */
 		a.active {
 			background-color: var(--primary-color-mask);
 			color: var(--secondary-color-50);

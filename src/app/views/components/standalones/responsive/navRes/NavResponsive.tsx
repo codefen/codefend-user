@@ -8,15 +8,16 @@ import {
 	NetworkIcon,
 	NetworkSetingModal,
 	Show,
-} from '../../../';
+} from '../../..';
 import { useModal } from '../../../../../data';
 import {
 	useAuthStore,
 	useNetworkSettingState,
 	usePanelStore,
-} from '../../../../../data/store/';
+} from '../../../../../data/store';
+import './NavResponsive.scss'
 
-const Header: React.FC = () => {
+const NavResponsive: React.FC = () => {
 	const { logout } = useAuthStore((state) => state);
 	const { open, handleChange } = usePanelStore();
 	const { setNetworkSettingState, isOpen } = useNetworkSettingState(
@@ -32,7 +33,7 @@ const Header: React.FC = () => {
 	};
 
 	return (
-		<nav className="flex flex-col bg-[#1a1a1a]">
+		<footer className="flex flex-col">
 			<Show when={showModal && showModalStr === 'logout'}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<div
@@ -69,10 +70,10 @@ const Header: React.FC = () => {
 					</div>
 				</ModalWrapper>
 			</Show>
-			<div>
+			<div className='sidebav'>
 				<div className="flex items-center justify-around cursor-pointer min-h-20 ">
-					<div>
-						<div className="flex">
+					<div >
+						<div className="">
 							<span
 								className={`cursor-pointer duration-500 ${
 									open && 'rotate-[360deg]'
@@ -105,8 +106,8 @@ const Header: React.FC = () => {
 					</div>
 				</div>
 			</div>
-		</nav>
+		</footer>
 	);
 };
 
-export default Header;
+export default NavResponsive;

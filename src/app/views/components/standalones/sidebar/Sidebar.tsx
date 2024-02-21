@@ -14,6 +14,7 @@ import {
 	SnbIcon,
 	VdbIcon,
 	SourceCodeIcon,
+	DataIcon,
 } from '../../';
 
 import { usePanelStore, useUserAdmin } from '../../../../data';

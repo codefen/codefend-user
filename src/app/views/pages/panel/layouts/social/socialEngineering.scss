@@ -45,6 +45,7 @@ main.social {
 	@include mixin.respond(small) {
 		display: block;
 		overflow: auto;
+		padding-inline-start: 10px;
 	}
 }
 

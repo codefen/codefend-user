@@ -7,17 +7,17 @@ main.webapp {
 	.left {
 		width: 70%;
 
+		.header {
+			display: contents;
+		}
+
+		.title {
+			margin-bottom: 15px;
+		}
+
 		@include mixin.respond(small) {
 			width: 100%;
 			padding-block-start: 10px;
-
-			.header {
-				display: contents;
-			}
-
-			.title {
-				margin-bottom: 15px;
-			}
 		}
 
 		.table {
@@ -74,12 +74,13 @@ main.webapp {
 
 		@include mixin.respond(small) {
 			width: 95%;
-
+			height: auto;
+			min-height: auto;
+			padding-block-end: 150px;
 			.header {
 				max-width: 340px;
 			}
 		}
-
 	}
 
 	.over {
@@ -90,6 +91,7 @@ main.webapp {
 	@include mixin.respond(small) {
 		display: block;
 		padding-inline-start: 1px;
+		min-height: auto;
 	}
 }
 

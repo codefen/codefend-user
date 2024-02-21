@@ -1,2 +1,3 @@
-export * from './header';
+export * from './navRes';
 export * from './sidebarResponsive';
+export * from './headerRes'

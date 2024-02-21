@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
 	BugIcon,
@@ -23,15 +23,10 @@ const SidebarResponsive: React.FC = () => {
 	const { open, handleChange } = usePanelStore();
 	const { userData } = useAuthStore();
 
-
 	return (
 		<aside className={`sidenav ${open ? 'sidenav-open' : ''}`}>
 			<div className="sidenav-content">
-				<div className="sidenav-header">
-					<h1>{userData.email}</h1>
-					<ThemeChangerButton />
-				</div>
-				<hr />
+				
 				<div className="sidenav-menu">
 					<MenuItem
 						title="Dashboard"

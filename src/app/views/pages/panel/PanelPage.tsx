@@ -1,17 +1,18 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
+import { useMediaQuery } from 'usehooks-ts';
 import { useAuthStore } from '../../../data';
 import {
 	ErrorConection,
-	Header,
 	Loader,
 	Navbar,
 	Show,
 	Sidebar,
 	SidebarResponsive,
+	NavResponsive,
+	HeaderResponsive
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
-import { useMediaQuery } from 'usehooks-ts';
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -52,8 +53,9 @@ export const PanelPage: React.FC = () => {
 							</>
 						) : (
 							<>
-								<Header />
+								<HeaderResponsive />
 								<SidebarResponsive />
+								<NavResponsive />
 							</>
 						)}
 

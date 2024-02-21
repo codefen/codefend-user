@@ -1,0 +1,42 @@
+.head {
+  min-height: 65px;
+  color: var(--primary-color-50);
+  background: linear-gradient(144deg,
+      rgb(223, 223, 223) 0%,
+      rgb(219, 219, 219) 100%);
+  transition: background 125ms linear;
+  padding: 1rem;
+  z-index: 20;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mail {
+  padding-top: 10px;
+  text-align: left;
+  color: #404040;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+  user-select: none;
+}
+
+[data-theme='dark'] {
+  .head {
+    color: var(--tertiary-color-50);
+    background: linear-gradient(120deg,
+        rgba(76, 83, 92, 1) 0%,
+        rgba(54, 61, 69, 1) 24%,
+        rgba(32, 42, 53, 1) 47%,
+        rgba(25, 34, 44, 1) 73%,
+        rgba(22, 30, 40, 1) 100%);
+
+
+    .mail {
+      color: var(--tertiary-color-200);
+    }
+
+  }
+}
