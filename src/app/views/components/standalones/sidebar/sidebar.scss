@@ -86,7 +86,7 @@
 
 [data-theme='dark'] {
 	.sidebar {
-		border: 1px solid transparent;
+		border: none;
 		background: var(--primary-color-500) !important;
 		/* transition: background, color, border;
 		transition-duration: 500ms;
