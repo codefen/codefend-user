@@ -53,7 +53,6 @@ export const useAuthState = () => {
 		return authStore
 			.register(params)
 			.then((response: any) => {
-				console.log(response);
 				if (response.error) {
 					toast.error('An unexpected error has occurred on the server');
 					return false
