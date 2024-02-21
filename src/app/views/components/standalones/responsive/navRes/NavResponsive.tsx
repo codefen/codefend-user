@@ -71,9 +71,9 @@ const NavResponsive: React.FC = () => {
 				</ModalWrapper>
 			</Show>
 			<div className='sidebav'>
-				<div className="flex items-center justify-around cursor-pointer min-h-20 ">
+				<div className="flex items-center justify-around cursor-pointer min-h-24">
 					<div >
-						<div className="">
+						<div className="max-w-[40px]">
 							<span
 								className={`cursor-pointer duration-500 ${
 									open && 'rotate-[360deg]'

@@ -8,11 +8,11 @@ main.webapp {
 		width: 70%;
 
 		.header {
-			display: contents;
+			// display: contents;
 		}
 
 		.title {
-			margin-bottom: 15px;
+			// margin-bottom: 15px;
 		}
 
 		@include mixin.respond(small) {
@@ -22,7 +22,8 @@ main.webapp {
 
 		.table {
 			.domain-name {
-				width: 205px;
+				// width: 100%;
+				min-width: 35%;
 			}
 
 			.location {
