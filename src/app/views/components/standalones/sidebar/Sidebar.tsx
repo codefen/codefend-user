@@ -164,7 +164,7 @@ const Sidebar: React.FC = () => {
 				title="Vdb"
 				to="/vdb"
 				className={isActivePath('/vdb') ? 'active' : ''}>
-				<DataIcon />
+				<VdbIcon />
 				<span className={`${!open ? 'sidebar-text-visible' : ''}`}>
 					Vdb
 				</span>

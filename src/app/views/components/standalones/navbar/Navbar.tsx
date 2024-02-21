@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
 					</div>
 					<Breadcrumb
 						root="Codefend"
-						rootAction={() => navigate('/dashboard')}
+						rootAction={() => navigate('/admin/company')}
 					/>
 				</div>
 
