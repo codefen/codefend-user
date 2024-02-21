@@ -380,6 +380,6 @@ export const mapVdbSearch = (source: any): VdbProps => {
 	return {
 		response: source.response,
 		request: mapVdbRequestSearch(source.request),
-		results: source.results,
+		result: source.result,
 	};
 };

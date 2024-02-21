@@ -23,13 +23,13 @@ export const VdbSearchData: React.FC = () => {
 	const [selectedNow, setSelectedNow] = useState(false);
 
 	const safelyVdbData = (): ResultsVdbSearch[] =>
-		Array.isArray(getVdb().results) ? getVdb().results ?? [] : [];
+		Array.isArray(getVdb().result) ? getVdb().result ?? [] : [];
 
 	const vdbKeys = useMemo(
 		() => generateIDArray(safelyVdbData().length),
 		[safelyVdbData()],
 	);
-
+console.log(getVdb())
 	const dataTable = safelyVdbData().map((data: ResultsVdbSearch) => ({
 		publisshed: { value: data.advisory.date, style: 'date' },
 		ID: { value: data.entry.id, style: 'id' },
