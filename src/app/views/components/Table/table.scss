@@ -29,7 +29,8 @@
 		transition-property: border-image, border;
 		transition-duration: 325ms;
 		transition-timing-function: linear;
-		max-width: calc(var(--row-size-x) + -5%);
+
+		max-width: calc(var(--row-size-x) - var(--row-calc-x));
 
 		border-image: -moz-linear-gradient(
 			90deg,
@@ -277,7 +278,7 @@
 		flex: 1 1 270px !important;
 	}
 	.role {
-		min-width: 12.5rem;
+		min-width: 8.5rem;
 		flex: inherit !important;
 	}
 	.province {

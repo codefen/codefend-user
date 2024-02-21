@@ -142,6 +142,7 @@ export const TableV2: React.FC<TableProps> = ({
 					{
 						'--row-size': sizeY + 'dvh',
 						'--row-size-x': sizeX + '%',
+						'--row-calc-x': (sizeX < 100 ? 100 - sizeX - 3 : 0) + '%',
 					} as any
 				}>
 				<div className="columns-name">

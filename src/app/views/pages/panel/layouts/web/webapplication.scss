@@ -47,16 +47,15 @@ main.webapp {
 
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		padding-inline: auto;
+		padding-inline: 10px;
 		width: 30%;
 		margin-inline-start: 10px;
-
 
 		.card {
 			border: none;
 
 			.header {
-				border-bottom: 1px solid var(--primary-color-300)
+				border-bottom: 1px solid var(--primary-color-300);
 			}
 
 			&.stats {
@@ -109,7 +108,6 @@ main.webapp {
 		}
 
 		.right {
-			padding-inline: 10px;
 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
 
 			.card {

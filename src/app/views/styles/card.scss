@@ -119,6 +119,7 @@ section {
 			text-overflow: ellipsis;
 			overflow: hidden;
 			overflow-wrap: break-word;
+			padding-inline-end: 2px;
 
 			.app-card-title {
 				display: flex;
