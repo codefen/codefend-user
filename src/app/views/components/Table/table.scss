@@ -29,6 +29,7 @@
 		transition-property: border-image, border;
 		transition-duration: 325ms;
 		transition-timing-function: linear;
+		max-width: calc(var(--row-size-x) + -5%);
 
 		border-image: -moz-linear-gradient(
 			90deg,
@@ -82,6 +83,7 @@
 		overflow-y: auto;
 		//max-height: calc(100dvh - 149px);
 		max-height: var(--row-size);
+		max-width: var(--row-size-x);
 	}
 
 	.item {
@@ -221,9 +223,9 @@
 	.vul-title {
 		min-width: 100px;
 		overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
 	}
 	.vul-condition {
 		max-width: 100px;

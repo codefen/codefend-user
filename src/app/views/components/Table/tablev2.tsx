@@ -15,6 +15,7 @@ interface TableProps {
 	showEmpty: boolean;
 	tableAction?: TableAction;
 	sizeY: number;
+	sizeX?: number;
 	isSmall?: boolean;
 	selectItem?: (item: any) => void;
 	sort?: Sort;
@@ -38,65 +39,6 @@ export interface TableAction {
 	action: (id: string) => void;
 }
 
-/* 
-
-
-[
-	{
-		NAME: el pepe pepotelast,
-		EMAIL: emeilpepe@pepe.com,
-		PHONE: 22344134,
-		ROLE: marketing,
-		ID: 2,
-	},
-
-	{
-		NAME: Nacho Gomez,
-		EMAIL: nacho@codefend.com,
-		PHONE: 5491160177952,
-		ROLE: information tech,
-		ID: 5,
-	},
-	{
-		NAME: Gonzalo Martinez,
-		EMAIL: gonza@codefend.com,
-		PHONE: 817084334121,
-		ROLE: information tech,
-		ID: 7,
-	},
-	{
-		NAME: Gaspar de Luca,
-		EMAIL: deluca@codefend.com,
-		PHONE: 5491168844750,
-		ROLE: production & ops,
-		ID: 3,
-	},
-	{
-		NAME: Federico Mazza,
-		EMAIL: federicomazza@codefend.com,
-		PHONE: 5491124052310,
-		ROLE: information tech,
-		ID: 6,
-	}
-]
-
-Edd Krause
-edkrause@codefend.com
-5491164750409
-production & ops
-1
-Chris Russo
-chrisrusso@codefend.com
-5491139393710
-information tech
-4
-Asiyanbi "Hemsleek" Mubashir
-hemsleek@codefend.com
-2348108170354
-information tech
-
-*/
-
 export const TableV2: React.FC<TableProps> = ({
 	rowsData,
 	columns,
@@ -108,6 +50,7 @@ export const TableV2: React.FC<TableProps> = ({
 	selectItem,
 	sort = Sort.desc,
 	initialSelect = false,
+	sizeX = 100,
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
@@ -124,12 +67,27 @@ export const TableV2: React.FC<TableProps> = ({
 			const bValue = b[dataSort]?.value;
 
 			const isNumber = typeof aValue === 'number';
+			const isString = typeof aValue === 'string';
 
 			if (sortDirection === Sort.asc) {
 				//Change the sorting based on the data type of the value
-				return isNumber ? bValue - aValue : bValue.localeCompare(aValue);
+				if (isNumber) {
+					return bValue - aValue;
+				} else if (isString) {
+					return bValue.localeCompare(aValue);
+				} else {
+					//Check if it is less, greater or equal
+					return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+				}
 			} else {
-				return isNumber ? aValue - bValue : aValue.localeCompare(bValue);
+				if (isNumber) {
+					return aValue - bValue;
+				} else if (isString) {
+					return aValue.localeCompare(bValue);
+				} else {
+					//Check if it is less, greater or equal
+					return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
+				}
 			}
 		});
 	}, [rowsData, dataSort, sortDirection]);
@@ -178,7 +136,14 @@ export const TableV2: React.FC<TableProps> = ({
 
 	return (
 		<>
-			<div className={`table ${isSmall && 'small'}`}>
+			<div
+				className={`table ${isSmall && 'small'}`}
+				style={
+					{
+						'--row-size': sizeY + 'dvh',
+						'--row-size-x': sizeX + '%',
+					} as any
+				}>
 				<div className="columns-name">
 					{columns.map((column: ColumnTable, i: number) => (
 						<div
@@ -207,9 +172,7 @@ export const TableV2: React.FC<TableProps> = ({
 				<Show
 					when={showRows !== undefined && showRows}
 					fallback={<PageLoader />}>
-					<div
-						className="rows"
-						style={{ '--row-size': sizeY + 'dvh' } as any}>
+					<div className="rows">
 						{rows.map(
 							(row: Record<string, TableItem>, rowIndex: number) => (
 								<Fragment key={rowsID[rowIndex]}>
