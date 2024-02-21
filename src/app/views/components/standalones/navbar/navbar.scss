@@ -22,11 +22,14 @@
 		display: flex;
 		column-gap: 1rem;
 		height: 100%;
+		margin-left: 1vw;
 
 		.navbar-logo {
 			width: fit-content;
+			margin-top: 10px;
 			height: 100%;
-			padding-inline: 15px;
+			width: 50px;
+			// padding-inline: 15px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -47,6 +50,9 @@
 				rgba(255, 86, 94, 1) 10%,
 				rgba(254, 48, 49, 1) 70%
 			);
+			img {
+				height: 27px;
+			}
 		}
 		.breadcrumb {
 			color: #424242f7;
@@ -76,21 +82,24 @@
 	}
 	.right {
 		display: flex;
-		column-gap: 0.5rem;
+		column-gap: 20px;
 		height: 100%;
 		.change-theme {
-			border-inline-end: 2px solid var(--primary-color-100);
-			padding-inline-end: 20px;
+			// border-inline-end: 2px solid var(--primary-color-100);
+			// padding-inline-end: 20px;
 			height: 100%;
 			display: flex;
 			align-items: center;
+			svg {
+				height: 18px;
+			}
 		}
 
 		.user {
 			display: flex;
 			align-items: center;
-			margin-inline-end: 1rem;
-			padding-inline-start: 5px;
+			// margin-inline-end: 1rem;
+			// padding-inline-start: 5px;
 			column-gap: 0.75rem;
 
 			cursor: pointer;
