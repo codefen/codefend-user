@@ -2,19 +2,14 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	// padding-block-start: calc(var(--nav-height) + 28px);
-	// height: 100vh;
 	top: calc(var(--nav-height) + 28px);
 	left: 1vw;
 	position: fixed;
 	z-index: 4;
-	// width: 64px;
-	transition: width 0.5s ease;
-	// border-right-width: 1px;
-	// border-right-style: solid;
-	// border-right-color: var(--primary-color-300);
+	width: 50px;
+	transition: width 0.4s ease;
 	border: 1px solid var(--primary-color-300);
-	background-color: var(--primary-color-100) !important;
+	background-color: var(--primary-color-100);
 	color: var(--primary-color-100);
 
 	a {
@@ -24,44 +19,18 @@
 		height: 45px;
 		width: 50px;
 		outline: none;
-		// gap: 2rem;
-		// margin-block-start: 0;
 		color: var(--tertiary-color-100);
-		// padding-inline: 24px;
-		// padding-block: 1.75dvh;
-		transition: all 0.3s ease;
-
-		border-bottom-width: 1px;
-		border-bottom-style: solid;
-		border-bottom-color: var(--primary-color-300);
-
-		transition-property: color, background-color;
-		transition-duration: 175ms;
-		transition-timing-function: ease-out;
+		border-bottom: 1px solid var(--primary-color-300);
+		transition: color 0.5s ease, background-color 0.5s ease;
 
 		svg {
-			pointer-events: none !important;
+			pointer-events: none;
 		}
 
 		&.disabled {
 			cursor: not-allowed;
 			color: var(--tertiary-color-200);
 			background-color: var(--primary-color-100);
-
-			&:hover {
-				cursor: not-allowed;
-				color: var(--tertiary-color-200);
-				background-color: var(--primary-color-100);
-			}
-		}
-
-		&.active {
-			background-color: var(--secondary-color-50);
-			color: var(--primary-color);
-
-			&:hover {
-				color: var(--primary-color);
-			}
 		}
 
 		&.active {
@@ -72,33 +41,31 @@
 
 	&.sidebar-open {
 		width: 16.5rem;
+
+		a {
+			justify-content: revert-layer;
+			padding-left: 2rem;
+			gap: 10px;
+			width: 100%;
+		}
+
 	}
 
 	.sidebar-text-visible {
 		display: none;
 	}
-
-	&.sidebar-open .sidebar-text-visible {
-		display: block;
-		margin-left: 10px;
-	}
 }
 
-[data-theme='dark'] {
-	.sidebar {
-		border: none;
-		background: var(--primary-color-500) !important;
-		/* transition: background, color, border;
-		transition-duration: 500ms;
-		transition-timing-function: linear;
- */
-		a.active {
-			background-color: var(--primary-color-mask);
-			color: var(--secondary-color-50);
-		}
+[data-theme='dark'] .sidebar {
+	border: none;
+	background: var(--primary-color-500);
 
-		a {
-			border: none;
-		}
+	a.active {
+		background-color: var(--primary-color-mask);
+		color: var(--secondary-color-50);
+	}
+
+	a {
+		border: none;
 	}
 }

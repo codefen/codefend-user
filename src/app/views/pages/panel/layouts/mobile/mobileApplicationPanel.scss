@@ -135,7 +135,16 @@ main.mobile {
 	}
 
 	@include mixin.respond(small) {
-		display: block;
+		display: flex;
+		padding-inline-start: 10px;
+		overflow: auto;
+		height: 81dvh;
+		min-height: auto;
+		.right {
+			.selected-content {
+				display: none;
+			}
+		}
 	}
 }
 

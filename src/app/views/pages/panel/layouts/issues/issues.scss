@@ -43,7 +43,12 @@ main.issues-list {
 	@include mixin.respond(small) {
 		display: flex;
 		flex-direction: column;
-		padding-inline-start: 1px;
+		padding-inline-start: 10px;
+		min-height: auto;
+
+		.right {
+			width: 100%;
+		}
 	}
 }
 
