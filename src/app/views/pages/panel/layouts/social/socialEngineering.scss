@@ -20,10 +20,6 @@ main.social {
 				}
 			}
 		}
-		@include mixin.respond(small) {
-			padding-bottom: 10px;
-			padding-block-start: 1px;
-		}
 	}
 
 	.right {
@@ -46,6 +42,8 @@ main.social {
 		display: block;
 		overflow: auto;
 		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
 	}
 }
 

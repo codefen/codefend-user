@@ -1,3 +1,5 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.issues-list {
 	max-height: 100dvh;
 	padding-inline-end: 0;
@@ -90,6 +92,21 @@ main.issues-list {
 	}
 	.right {
 		width: 35%;
+	}
+
+	@include mixin.respond(small) {
+		display: flex;
+		flex-direction: column;
+		height: 81dvh;
+    min-height: auto;
+
+		.left {
+			width: 100%;
+		}
+
+		.right {
+			width: 100%;
+		}
 	}
 }
 
