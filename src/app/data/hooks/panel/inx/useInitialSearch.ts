@@ -15,13 +15,14 @@ interface SearchResult {
 
 export const useInitialSearch = () => {
 	const { search } = useParams();
+	//const history = useHistory();
 	const emptyState = {
 		intelData: [],
 		count: 0,
 		offSet: 0,
 		intelID: '',
-		search: search ?? '',
-		isLoading: true,
+		search: !search ? '' : search,
+		isLoading: false,
 	};
 
 	const [dataSearch, setSearchData] = useState<SearchResult>(emptyState);
@@ -31,13 +32,13 @@ export const useInitialSearch = () => {
 			...state,
 			intelData: [],
 			offSet: 0,
-			isLoading: true,
 		}));
 
 		return InxServices.initializeSearch(dataSearch.search, companyID)
 			.then((res: any) => {
 				if (res.error == '1')
 					throw new Error('An unexpected error has occurred');
+
 				setSearchData((state: SearchResult) => ({
 					...state,
 					intelID: res.response?.id ?? '',
@@ -63,7 +64,7 @@ export const useInitialSearch = () => {
 	};
 
 	const getData = (): SearchResult => {
-		return !dataSearch.isLoading ? dataSearch : emptyState;
+		return dataSearch;
 	};
 
 	return { getData, setSearchData, refetchInitial };

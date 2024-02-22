@@ -356,8 +356,8 @@ export const mapPreviusSearch = (source: any): PreviusSearch => {
 		userCountryCity: source.user_pais_ciudad,
 		userUA: source.user_ua,
 		condition: source.condicion,
-		isDisabled: source.eliminado === '1',
-		createdAt: formatDate(source.creacion),
+		isDisabled: source.eliminado == '1',
+		createdAt: source.creacion,
 	};
 };
 
