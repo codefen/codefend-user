@@ -16,12 +16,10 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 }) => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const entry = useIntersectionObserver(ref, {});
-	const { intelPreview, refetchPreview } = useIntelPreview();
+	const { intelPreview, isLoadingPreview, refetchPreview } = useIntelPreview();
 	const [previewReq, setPreviewReq] = useState<boolean>(false);
 
 	const isVisible = !!entry?.isIntersecting;
-
-	console.log({ isVisible });
 
 	if (isVisible && !previewReq) {
 		const params = {
@@ -33,6 +31,10 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 		refetchPreview(params, companyID)?.then(() => {});
 		setPreviewReq(true);
 	}
+
+	const previewHTML = intelPreview
+		.find((preview: any) => preview.id === intel.storage_id)
+		?.preview?.replace(/(\r\n|\n|\r)/g, '<br>');
 
 	return (
 		<div ref={ref}>
@@ -65,11 +67,9 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 						<div
 							className="preview-wrapper"
 							dangerouslySetInnerHTML={{
-								__html: intelPreview
-									.find(
-										(preview: any) => preview.id === intel.storage_id,
-									)
-									?.preview?.replace(/(\r\n|\n|\r)/g, '<br>'),
+								__html: isLoadingPreview
+									? 'Preview is loading...'
+									: previewHTML || 'There are no previews yet',
 							}}></div>
 					</div>
 				</div>

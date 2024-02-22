@@ -40,13 +40,6 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 		}
 	}, []);
 
-	const delay = (ms: number) => {
-		return new Promise((resolve) => {
-			const id = setTimeout(resolve, ms);
-			resolve(() => id);
-		});
-	};
-
 	const procSearch = (e?: React.FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
 		if (!getData().search.trim()) {
@@ -69,7 +62,6 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 				...state,
 				offSet: getData().offSet + res.intelLen,
 			}));
-			//processAllIntelData(res.intelResult);
 		});
 	};
 
