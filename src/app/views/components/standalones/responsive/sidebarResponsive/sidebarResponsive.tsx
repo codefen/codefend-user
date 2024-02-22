@@ -23,7 +23,7 @@ const menuItems = [
   { title: 'Web', icon: <GlobeWebIcon />, to: '/web' },
   { title: 'Mobile', icon: <MobileIcon />, to: '/mobile' },
   { title: 'Cloud', icon: <CLoudIcon />, to: '/cloud' },
-  { title: 'Lan', icon: <LanIcon />, to: '/lan' },
+  //{ title: 'Lan', icon: <LanIcon />, to: '/lan' },
   { title: 'Enp', icon: <EnpIcon />, to: '/enp' },
   { title: 'Source Code', icon: <SourceCodeIcon />, to: '/source' },
   { title: 'Social Engineering', icon: <PeopleGroup />, to: '/social' },

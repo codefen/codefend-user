@@ -54,9 +54,19 @@ main.source-code {
 			width: 100%;
 		}
 	}
+
 	@include mixin.respond(small) {
 		display: block;
-		padding-inline-start: 1px;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
+
+		.left {
+			padding-block-start: 25px
+		}
+		.card{
+			overflow: auto;
+		}
 	}
 }
 

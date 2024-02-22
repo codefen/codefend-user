@@ -72,9 +72,12 @@ main.dashboard {
 	@include mixin.respond(small) {
 		display: block;
 		min-height: auto;
-		padding-inline-start: 1px;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
 
 		.left {
+			width: 95%;
 			padding-block-start: 10px;
 		}
 	}

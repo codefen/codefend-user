@@ -141,6 +141,8 @@ main.sb {
 		width: 30%;
 	}
 	@include mixin.respond(small) {
+		display: block;
+		padding-inline-start: 10px;
 		.left {
 			width: 100%;
 		}
@@ -152,10 +154,6 @@ main.sb {
 
 main.preferences {
 
-	@include mixin.respond(small) {
-		display: block;
-		min-height: auto;
-	}
 	.left {
 		.table {
 			.rows {
@@ -164,7 +162,12 @@ main.preferences {
 			}
 		}
 	}
+	@include mixin.respond(small) {
+		display: block;
+		min-height: auto;
+	}
 }
+
 main.mobile,
 main.cloud {
 	flex: 1 1;
