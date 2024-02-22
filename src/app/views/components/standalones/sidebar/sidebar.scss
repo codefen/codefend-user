@@ -1,3 +1,5 @@
+@use '../../../styles/settings/mixin' as mixin;
+
 .sidebar {
 	display: flex;
 	flex-direction: column;
@@ -11,6 +13,7 @@
 	color: var(--primary-color-100);
 	border-radius: 0.55rem;
 	width: 51px;
+	height: 90dvh;
 
 	transition:
 		width 400ms ease,
@@ -25,8 +28,8 @@
 		border-top-right-radius: 0.55rem;
 	}
 	:last-child {
-		border-bottom-left-radius: 0.55rem;
-		border-bottom-right-radius: 0.55rem;
+		//border-bottom-left-radius: 0.55rem;
+		//border-bottom-right-radius: 0.55rem;
 	}
 
 	a {
@@ -42,10 +45,6 @@
 		width: 100%;
 		padding-inline: 18px;
 
-		transition-property: color, background-color, border;
-		transition-duration: 300ms;
-		transition-timing-function: linear;
-
 		svg {
 			pointer-events: none;
 		}
@@ -55,11 +54,7 @@
 			color: var(--tertiary-color-200);
 			background-color: var(--primary-color-100);
 		}
-		&:hover {
-			background-color: rgb(247 103 103 / 92%);
-			color: #f9f9f9e6;
-			border-bottom-color: rgb(247 103 103 / 92%);
-		}
+
 		&.active {
 			background-color: var(--secondary-color-50);
 			border-bottom-color: var(--secondary-color-50);
@@ -76,34 +71,61 @@
 
 			transition:
 				transform 385ms linear 180ms,
-				opacity 320ms ease-in 275ms,
-				visible 320ms ease-in 275ms;
+				opacity 320ms ease-in 300ms,
+				visible 320ms ease-in 300ms;
 		}
 	}
 
-	&.sidebar-open {
-		width: 200px;
+	&.is-open {
+		&:hover {
+			a {
+				column-gap: 1rem;
+				text-align: center;
+
+				transition-property: color, background-color, border;
+				transition-duration: 325ms;
+				transition-timing-function: linear;
+
+				&::after {
+					content: attr(data-text);
+					display: block;
+					visibility: visible;
+					opacity: 1;
+					transform: translateX(0%);
+					position: absolute;
+					left: 28%;
+					font-weight: 600;
+					word-spacing: 1.5px;
+					letter-spacing: 0.2px;
+				}
+
+				&:hover {
+					background-color: rgb(247 103 103 / 92%);
+					color: #f9f9f9e6;
+					border-bottom-color: rgb(247 103 103 / 92%);
+				}
+			}
+		}
+	}
+
+	&:hover {
+		width: 300px;
+
 		transition:
-			width 400ms ease 150ms,
+			width 500ms ease 125ms,
 			background 425ms linear,
 			filter 425ms ease,
 			blur 425ms ease,
 			backdrop-filter 425ms ease;
 
-		a {
-			column-gap: 1rem;
-			text-align: center;
-			&::after {
-				content: attr(data-text);
-				display: block;
-				visibility: visible;
-				opacity: 1;
-				transform: translateX(0%);
-				position: absolute;
-				left: 28%;
-				font-weight: 600;
-			}
+		@include mixin.respond(large) {
+			width: 275px;
+			height: 86dvh;
 		}
+	}
+
+	@include mixin.respond(large) {
+		height: 86dvh;
 	}
 }
 
@@ -111,27 +133,39 @@
 	border: none;
 	background: var(--primary-color-500);
 
-	a {
-		border: none;
+	&:hover {
+		background: linear-gradient(
+			90deg,
+			rgba(21, 32, 46, 0.6) 0%,
+			rgba(18, 26, 32, 0.8) 20%,
+			rgba(18, 26, 32, 0.2) 35%
+		);
+		backdrop-filter: blur(5px) saturate(0.45) contrast(0.97);
+		box-shadow: 2px 3px 15px 1px rgba(0, 0, 0, 0.35);
+	}
 
+	&.is-open {
 		&:hover {
-			background-color: #141f2cba;
-			color: #f76767db;
-		}
-
-		&.active {
-			background-color: var(--primary-color-mask);
-			color: var(--secondary-color-50);
+			a {
+				&:hover {
+					background: linear-gradient(
+						90deg,
+						rgba(21, 32, 46, 0.85) 5%,
+						rgba(18, 26, 32, 0.9) 25%,
+						rgba(18, 26, 32, 0.5) 30%
+					);
+					color: #f76767db;
+				}
+			}
 		}
 	}
 
-	&.sidebar-open {
-		background: linear-gradient(
-			90deg,
-			rgba(18, 26, 32, 1) 0%,
-			rgba(18, 26, 32, 0.87) 20%,
-			rgba(18, 26, 32, 0.25) 40%
-		);
-		backdrop-filter: blur(5px);
+	a {
+		border: none;
+
+		&.active {
+			background-color: var(--primary-color-mask) !important;
+			color: var(--secondary-color-50) !important;
+		}
 	}
 }

@@ -5,6 +5,12 @@
 		}
 	}
 
+	@if ($breakpoint == large) {
+		@media only screen and (max-width: 1480px) {
+			@content;
+		}
+	}
+
 	@if ($breakpoint == lmedium) {
 		@media only screen and (max-width: 980px) {
 			@content;

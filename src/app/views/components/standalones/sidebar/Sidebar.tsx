@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	AdminCompany,
@@ -26,18 +26,37 @@ const Sidebar: React.FC = () => {
 		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	const { open, isActivePath, handleChange } = usePanelStore();
 
+	const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+	const handleViewText = (action: string) => {
+		const currentRef = sidebarRef?.current!;
+		let timeID;
+		if (currentRef && action === 'enter') {
+			timeID = setTimeout(() => currentRef.classList.add('is-open'), 95);
+
+			//clearTimeout(timeID)
+		} else if (currentRef && action === 'leave') {
+			currentRef.classList.remove('is-open');
+		}
+	};
+
 	return (
-		<aside className={`sidebar ${open ? 'sidebar-open' : ''}`}>
+		<aside
+			ref={sidebarRef}
+			className={`sidebar`}
+			onMouseEnter={() => handleViewText('enter')}
+			onMouseLeave={() => handleViewText('leave')}>
 			{showAdmin && (
 				<>
 					<Link
 						title="Admin Panel"
 						to="/admin/company"
 						className={`${
-							isActivePath('/admin/company') ? ' active' : ''
+							isActivePath('/admin/company') ? 'active' : ''
 						}`}
 						onClick={() => open && handleChange()}
-						data-text="Admin Panel">
+						aria-label="Admin panel"
+						data-text="Admin panel">
 						<AdminCompany />
 					</Link>
 				</>
@@ -45,7 +64,8 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Dashboard"
 				to="/dashboard"
-				className={`${isActivePath('/dashboard') ? ' active' : ''}`}
+				className={`${isActivePath('/dashboard') ? 'active' : ''}`}
+				aria-label="Dashboard"
 				data-text="Dashboard">
 				<ChartIcon />
 			</Link>
@@ -53,7 +73,8 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Web"
 				to="/web"
-				className={`${isActivePath('/web') ? ' active' : ''}`}
+				className={`${isActivePath('/web') ? 'active' : ''}`}
+				aria-label="Web"
 				data-text="Web">
 				<GlobeWebIcon />
 			</Link>
@@ -61,7 +82,8 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Mobile"
 				to="/mobile"
-				className={`${isActivePath('/mobile') ? ' active' : ''}`}
+				className={`${isActivePath('/mobile') ? 'active' : ''}`}
+				aria-label="Mobile"
 				data-text="Mobile">
 				<MobileIcon />
 			</Link>
@@ -69,7 +91,8 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Cloud"
 				to="/cloud"
-				className={`${isActivePath('/cloud') ? ' active' : ''}`}
+				className={`${isActivePath('/cloud') ? 'active' : ''}`}
+				aria-label="Cloud"
 				data-text="Cloud">
 				<CLoudIcon />
 			</Link>
@@ -90,15 +113,17 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Enp"
 				to="/enp"
-				className={`${isActivePath('/enp') ? ' active' : ''}`}
-				data-text="Enp">
+				className={`${isActivePath('/enp') ? 'active' : ''}`}
+				aria-label="Endpoint monitoring"
+				data-text="End point monitoring">
 				<EnpIcon />
 			</Link>
 
 			<Link
 				title="Source Code"
 				to="/source"
-				className={`${isActivePath('/source') ? ' active' : ''}`}
+				className={`${isActivePath('/source') ? 'active' : ''}`}
+				aria-label="Source Code"
 				data-text="Source Code">
 				<SourceCodeIcon />
 			</Link>
@@ -106,7 +131,8 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Social Engineering"
 				to="/social"
-				className={`${isActivePath('/social') ? ' active' : ''}`}
+				className={`${isActivePath('/social') ? 'active' : ''}`}
+				aria-label="Social Engineering"
 				data-text="Social Engineering">
 				<PeopleGroup />
 			</Link>
@@ -114,7 +140,8 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Issues"
 				to="/issues"
-				className={`${isActivePath('/issues') ? ' active' : ''}`}
+				className={`${isActivePath('/issues') ? 'active' : ''}`}
+				aria-label="Issues"
 				data-text="Issues">
 				<BugIcon />
 			</Link>
@@ -122,7 +149,8 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Inx"
 				to="/inx"
-				className={`${isActivePath('/inx') ? ' active' : ''}`}
+				className={`${isActivePath('/inx') ? 'active' : ''}`}
+				aria-label="Inx"
 				data-text="Inx">
 				<InxIcon />
 			</Link>
@@ -130,15 +158,17 @@ const Sidebar: React.FC = () => {
 			<Link
 				title="Sns"
 				to="/sns"
-				className={`${isActivePath('/sns') ? ' active' : ''}`}
-				data-text="Sns">
+				className={`${isActivePath('/sns') ? 'active' : ''}`}
+				aria-label="Search dataleak"
+				data-text="Search data leak">
 				<SnbIcon />
 			</Link>
 
 			<Link
 				title="Vdb"
 				to="/vdb"
-				className={`${isActivePath('/vdb') ? ' active' : ''}`}
+				className={`${isActivePath('/vdb') ? 'active' : ''}`}
+				aria-label="Vdb"
 				data-text="Vdb">
 				<VdbIcon />
 			</Link>
