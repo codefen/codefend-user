@@ -63,8 +63,8 @@ main.issue-detail {
 			padding-block-start: 10px;
 		}
 
+		flex: 1 1 70%;
 		width: 70%;
-		max-width: 1000px;
 		background-color: var(--primary-color);
 		border: 1px solid var(--primary-color-300);
 
@@ -78,7 +78,7 @@ main.issue-detail {
 			height: 50px;
 			padding: 0px;
 
-			>div {
+			> div {
 				border-right: 1px solid var(--primary-color-300);
 				display: flex;
 				align-items: center;
@@ -206,7 +206,7 @@ main.issue-detail {
 	}
 
 	.right {
-		flex: 1 1;
+		flex: 1 1 25%;
 		height: 100%;
 		padding-inline: 0px;
 		width: 30%;
@@ -241,7 +241,6 @@ main.issue-detail {
 	}
 
 	main.issues-list {
-
 		.left {
 			.header {
 				.save {
@@ -250,7 +249,6 @@ main.issue-detail {
 					}
 				}
 			}
-
 		}
 
 		.right {
@@ -263,7 +261,6 @@ main.issue-detail {
 					}
 				}
 			}
-
 		}
 	}
 }
