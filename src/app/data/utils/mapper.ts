@@ -324,7 +324,7 @@ export const mapSupportProps = (source: any): SupportProps => {
 		csHeader: source.cs_header,
 		csBody: source.cs_body,
 		condition: source.condicion,
-		createdAt: formatDate(source.creacion),
+		createdAt: source.creacion,
 		isDisabled: source.eliminado == '1',
 	};
 };
