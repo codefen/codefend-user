@@ -5,7 +5,8 @@
 	//transition: all 400ms ease;
 
 	background: var(--tertiary-color-50);
-	padding: 7px;
+	padding-block: 10px;
+	padding-inline: 8px;
 	border-radius: 100%;
 
 	&:hover {
