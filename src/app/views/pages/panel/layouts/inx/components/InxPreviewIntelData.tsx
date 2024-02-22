@@ -19,8 +19,8 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 	const { intelPreview, isLoadingPreview, refetchPreview } = useIntelPreview();
 	const [previewReq, setPreviewReq] = useState<boolean>(false);
 
+	//Try to run every time the html appears or exits the screen
 	const isVisible = !!entry?.isIntersecting;
-
 	if (isVisible && !previewReq) {
 		const params = {
 			sid: intel.storage_id,
@@ -29,9 +29,12 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 		};
 
 		refetchPreview(params, companyID)?.then(() => {});
+
+		//Traffic light so that it only executes the first time it appears on the screen
 		setPreviewReq(true);
 	}
 
+	//Retrieves the preview to show it if the storage IDs match
 	const previewHTML = intelPreview
 		.find((preview: any) => preview.id === intel.storage_id)
 		?.preview?.replace(/(\r\n|\n|\r)/g, '<br>');

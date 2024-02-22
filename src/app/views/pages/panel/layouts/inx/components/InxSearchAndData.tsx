@@ -35,6 +35,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 		useInxReadFile();
 
 	useEffect(() => {
+		//It is executed when there is a "term" by default in the path
 		if (getData().search.trim() !== '') {
 			procSearch();
 		}
@@ -63,11 +64,6 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 				offSet: getData().offSet + res.intelLen,
 			}));
 		});
-	};
-
-	const procMoreResults = () => {
-		if (!getData().isLoading) return procIntelSearch();
-		return [];
 	};
 
 	const procReadFile = (intel: any) => {
