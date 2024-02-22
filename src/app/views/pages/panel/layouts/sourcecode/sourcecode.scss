@@ -1,6 +1,9 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.source-code {
+	&.actived {
+		padding-inline-end: 0;
+	}
 	.left {
 		flex: 1 1 68%;
 		width: 68%;
