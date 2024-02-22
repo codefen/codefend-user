@@ -1,7 +1,12 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.mobile {
+	height: 100dvh;
+	min-height: auto;
+
 	.left {
+		display: block;
+
 		.card {
 			overflow: hidden;
 			width: 100%;
@@ -64,6 +69,7 @@ main.mobile {
 				}
 			}
 		}
+
 		@include mixin.respond(small) {
 			width: 100%;
 		}
@@ -75,6 +81,7 @@ main.mobile {
 			align-items: center;
 			column-gap: 1rem;
 			margin-block: 1rem;
+
 
 			.selected-content-credentials {
 				height: 100%;
@@ -106,8 +113,12 @@ main.mobile {
 
 			.modal-header {
 				span {
-					font-size: 0.875rem /* 14px */;
-					line-height: 1.25rem /* 20px */;
+					font-size: 0.875rem
+						/* 14px */
+					;
+					line-height: 1.25rem
+						/* 20px */
+					;
 				}
 			}
 
@@ -140,11 +151,13 @@ main.mobile {
 		overflow: auto;
 		height: 81dvh;
 		min-height: auto;
+
 		.right {
 			.selected-content {
 				display: none;
 			}
 		}
+
 		.left {
 			padding-block-start: 35px;
 		}

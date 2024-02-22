@@ -1,8 +1,11 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.cloud {
+	height: 100dvh;
+	min-height: auto;
+
 	.left {
-		flex: 1 1 29%;
+		display: block;
 		width: 29%;
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -56,6 +59,7 @@ main.cloud {
 	.right {
 		flex: 1 1 71%;
 		width: 71%;
+		overflow-y: auto;
 
 		.selected-content {
 			display: flex;
@@ -80,13 +84,18 @@ main.cloud {
 
 	@include mixin.respond(small) {
 		display: flex;
-		flex-direction: column-reverse;
+		flex-direction: column;
 		padding-inline-start: 10px;
-		overflow: auto;
-		height: 81dvh;
-		min-height: auto;
+		padding-block-start: 5px;
+		padding-inline-end: .5px;
+
+		.left {
+			width: 95%;
+			padding-block-start: 0px;
+		}
 
 		.right {
+			width: 95%;
 
 			.selected-content {
 				.selected-content-tables {
