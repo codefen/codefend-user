@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { useLocation } from 'react-router';
+import { FaAngleDoubleRight } from "react-icons/fa";
 
 interface Props {
 	customSegment?: string[];
@@ -23,7 +24,7 @@ export const Breadcrumb: React.FC<Props> = (props) => {
 			</span>
 			{segments.map((segment: string, i: number) => (
 				<Fragment key={i}>
-					<span className="sep">|</span>
+					<span className="sep"><FaAngleDoubleRight /></span>
 					{segment}
 				</Fragment>
 			))}

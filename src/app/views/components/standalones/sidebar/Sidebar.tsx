@@ -123,7 +123,7 @@ const Sidebar: React.FC = () => {
 				to="/enp"
 				className={`${isActivePath('/enp') ? 'active' : ''}`}
 				aria-label="Endpoint monitoring"
-				data-text="End point monitoring">
+				data-text="Endpoint monitoring">
 				<EnpIcon />
 			</Link>
 
@@ -158,8 +158,8 @@ const Sidebar: React.FC = () => {
 				title="Inx"
 				to="/inx"
 				className={`${isActivePath('/inx') ? 'active' : ''}`}
-				aria-label="Inx"
-				data-text="Inx">
+				aria-label="Intelligence"
+				data-text="Intelligence">
 				<InxIcon />
 			</Link>
 

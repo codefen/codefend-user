@@ -67,10 +67,11 @@
 			font-size: 14px;
 			user-select: none;
 			.sep {
-				font-size: 21px;
+				font-size: 14px;
+				font-weight: 200;
 				margin-inline: 5px;
 				text-align: center;
-				padding-bottom: 3px;
+				padding-bottom: 2px;
 			}
 			.go-home {
 				transition: color 150ms linear;
