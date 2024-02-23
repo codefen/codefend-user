@@ -4,4 +4,12 @@
   min-width: 100dvw;
   background-color: #1a1a1a;
   z-index: 99;
+
+  .sideContent {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    min-height: 4rem;
+  }
 }

@@ -1,16 +1,21 @@
 import React from 'react';
-import { useAuthStore } from '../../../../../data';
-import { ThemeChangerButton } from '../../..';
-import './Header.scss'
+import { Logo, ThemeChangerButton } from '../../..';
+import './Header.scss';
+import { useTheme } from '../../../../ThemeContext';
 
 const Header: React.FC = () => {
-	const { userData } = useAuthStore();
+	const { theme } = useTheme();
 	return (
-		<header className='head'>
-			<section className='content'>
-				
-      <span className="mail">{userData.email ?? 'not-found'}</span>
-        
+		<header className="head">
+			<section className="content">
+				<div className='flex pt-3 max-w-[120px]'>
+					{theme === 'dark' ? (
+						<Logo theme="light" />
+					) : (
+						<Logo theme="dark" />
+					)}
+				</div>
+
 				<div>
 					<ThemeChangerButton />
 				</div>
