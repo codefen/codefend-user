@@ -12,7 +12,15 @@
 .content {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
+  button {
+    cursor: pointer;
+
+    &:hover {}
+  }
 }
+
 
 .mail {
   padding-top: 10px;

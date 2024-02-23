@@ -1,81 +1,111 @@
 .sidenav {
-	background-color: var(--primary-color-100);
-	color: var(--primary-color-100);
-	border: .5px solid var(--primary-color-300);
-	position: fixed;
-	z-index: 4;
-	top: 1px;
-	width: 0;
-	height: 100vh;
-	box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
-	height: 765px;
-	//padding-block-start: 22px;
-	top: 75px;
-	display: flex;
+  background-color: var(--primary-color-100);
+  color: var(--primary-color-200);
+  border: .5px solid var(--primary-color-300);
+  position: fixed;
+  z-index: 4;
+  top: 1px;
+  width: 0;
+  height: 100vh;
+  box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+  height: 765px;
+  top: 75px;
+  display: flex;
 
-	transition:
-		width 400ms ease,
-		background-color 425ms linear 150ms,
-		backdrop-filter 425ms linear 175ms,
-		filter 425ms linear 175ms,
-		blur 425ms linear 175ms,
-		backdrop-filter 425ms linear 175ms;
+  transition:
+    width 400ms ease,
+    background-color 425ms linear 150ms,
+    backdrop-filter 425ms linear 175ms,
+    filter 425ms linear 175ms,
+    blur 425ms linear 175ms,
+    backdrop-filter 425ms linear 175ms;
 
-	:first-child {
-		border-top-left-radius: 0.55rem;
-		border-top-right-radius: 0.55rem;
-	}
+  :first-child {
+    border-top-left-radius: 0.55rem;
+    border-top-right-radius: 0.55rem;
+  }
 
-	:last-child {
-		border-bottom-left-radius: 0.55rem;
-		border-bottom-right-radius: 0.55rem;
-	}
+  :last-child {
+    border-bottom-left-radius: 0.55rem;
+    border-bottom-right-radius: 0.55rem;
+  }
 }
 
 .sidenav-open {
-	width: 100%;
-	bottom: 0;
+	
+  flex-direction: column;
+  width: 100%;
+  bottom: 0;
 }
 
 .sidenav-content {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .sidenav-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; 
+  opacity: 1; 
+	margin-left: 10px;
+	margin-block-start: 10px;
+	width: 95%;
+	background-color: var(--primary-color-400);
+
+	span {
+		color: #000;
+	}
+
+	h1 {
+		color: #000;
+	}
 }
 
 .sidenav-menu {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-	a {
-		display: flex;
-		align-items: center;
-		color: var(--tertiary-color-100);
-		border-bottom: 1px solid var(--primary-color-300);
-		text-decoration: none;
-		border-radius: 0.625rem;
-		margin-bottom: 0.625rem;
-		padding: 0.5rem;
+.sidenav-menu a {
+  display: flex;
+  align-items: center;
+  color: var(--tertiary-color-100);
+  border-bottom: 1px solid var(--primary-color-300);
+  text-decoration: none;
+  border-radius: 0.625rem;
+  margin-bottom: 0.625rem;
+  padding: 0.5rem;
 
-		transition-property: color, background-color, border, filter, blur;
-		transition-duration: 300ms;
-		transition-timing-function: linear;
+  &:hover {
+    background-color: #fff;
+    color: #000;
+    filter: blur(2px);
+  }
 
-		&:hover {
-			background-color: #fff;
-			color: #000;
-			filter: blur(2px);
-		}
+  span {
+    margin-left: 1.5rem;
+  }
+}
 
-		span {
-			margin-left: 1.5rem;
-			transition: all 300ms ease;
-		}
+[data-theme='dark'] .sidenav {
+  background-color: var(--primary-color-600);
+}
+
+.sidenav:not(.sidenav-open) .sidenav-header {
+  opacity: 0;
+}
+
+
+[data-theme='dark'] .sidenav-header {
+  background-color: var(--primary-color-500);
+	h1{
+		color: #fff;
+	}
+
+	span {
+		color: #fff;
 	}
 }

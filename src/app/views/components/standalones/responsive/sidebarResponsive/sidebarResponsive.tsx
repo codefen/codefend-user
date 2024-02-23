@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { usePanelStore } from '../../../../../data/store/';
+import { useAuthStore, usePanelStore } from '../../../../../data/store/';
 import './sidebarResponsive.scss';
 import {
   BugIcon,
@@ -53,9 +53,18 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, icon, to, onClick }) => {
 
 const SidebarResponsive: React.FC = () => {
   const { open, handleChange } = usePanelStore();
+  const {userData} = useAuthStore(state => state)
 
   return (
     <aside className={`sidenav ${open ? 'sidenav-open' : ''}`}>
+      <header>
+      <div className={`sidenav-header ${!open && ''}`}>
+          <h1>
+          User: {userData.email}
+          </h1>
+          <span>ID: {userData.companyID}</span>
+        </div>
+      </header>
       <div className="sidenav-content">
         <div className="sidenav-menu">
           {menuItems.map((menuItem, index) => (

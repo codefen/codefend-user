@@ -1,14 +1,25 @@
 import React from 'react';
-import { Logo, ThemeChangerButton } from '../../..';
-import './Header.scss';
+import { Logo, MenuIcon, ThemeChangerButton } from '../../..';
+import { usePanelStore } from '../../../../../data';
 import { useTheme } from '../../../../ThemeContext';
+import './Header.scss';
 
 const Header: React.FC = () => {
 	const { theme } = useTheme();
+	const { open, handleChange } = usePanelStore();
 	return (
 		<header className="head">
 			<section className="content">
-				<div className='flex pt-3 max-w-[120px]'>
+				<button
+					
+					onClick={() => handleChange()}
+				>
+					<MenuIcon />
+				</button>
+
+				<div
+					className="flex pt-1 max-w-[120px]"
+					>
 					{theme === 'dark' ? (
 						<Logo theme="light" />
 					) : (
