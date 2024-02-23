@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
 	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
 	const showAdmin =
 		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
-	const { open, isActivePath, handleChange } = usePanelStore();
+	const { isActivePath } = usePanelStore();
 
 	const sidebarRef = useRef<HTMLDivElement | null>(null);
 
@@ -54,7 +54,6 @@ const Sidebar: React.FC = () => {
 						className={`${
 							isActivePath('/admin/company') ? 'active' : ''
 						}`}
-						onClick={() => open && handleChange()}
 						aria-label="Admin panel"
 						data-text="Admin panel">
 						<AdminCompany />
