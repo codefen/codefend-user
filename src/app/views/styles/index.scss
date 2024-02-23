@@ -170,6 +170,8 @@ main.preferences {
 main.mobile,
 main.cloud {
 	flex: 1 1;
+	padding-inline-end: 0;
+
 	.left {
 		flex: 1 1 31%;
 		width: 31%;
@@ -211,8 +213,12 @@ main.cloud {
 	.right {
 		flex: 1 1 69%;
 		width: 69%;
+		scrollbar-width: 0px;
 		padding-inline-end: 0;
 
+		&::-moz-scrollbar {
+			width: 0px;
+		}
 		&::-webkit-scrollbar {
 			width: 0px;
 		}
