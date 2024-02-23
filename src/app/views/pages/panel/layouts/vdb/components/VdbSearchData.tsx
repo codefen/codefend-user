@@ -12,6 +12,7 @@ import {
 	SearchBar,
 	Show,
 	TableV2,
+	RiskScore,
 } from '../../../../../components';
 
 export const VdbSearchData: React.FC = () => {
@@ -22,22 +23,20 @@ export const VdbSearchData: React.FC = () => {
 
 	const [selectedNow, setSelectedNow] = useState(false);
 
-	const safelyVdbData = (): ResultsVdbSearch[] =>
-		Array.isArray(getVdb().result) ? getVdb().result ?? [] : [];
+	const vdbKeys = useMemo(() => generateIDArray(getVdb().length), [getVdb()]);
 
-	const vdbKeys = useMemo(
-		() => generateIDArray(safelyVdbData().length),
-		[safelyVdbData()],
-	);
-console.log(getVdb())
-	const dataTable = safelyVdbData().map((data: ResultsVdbSearch) => ({
-		publisshed: { value: data.advisory.date, style: 'date' },
-		ID: { value: data.entry.id, style: 'id' },
+	const dataTable = getVdb().map((data: ResultsVdbSearch) => ({
+		ID: { value: data.entry.id, style: '' },
+		Identifier: { value: data.entry.id, style: 'id' },
 		cve: { value: data.source.cve.id, style: 'cve' },
-		title: { value: data.entry.title, style: 'title' },
-		score: { value: data.vulnerability.risk.value, style: 'vul-score' },
+		title: { value: data.entry.title, style: 'vul-title' },
+		score: {
+			value: <RiskScore riskScore={data.vulnerability.risk.value} />,
+			style: 'vul-score',
+		},
 		risk: { value: data.vulnerability.risk.name, style: 'vul-risk' },
 	}));
+
 	return (
 		<>
 			<div className="search-bar-container">
@@ -49,56 +48,58 @@ console.log(getVdb())
 					searchIcon={<ScanSearchIcon isButton />}
 				/>
 			</div>
-			<Show when={Boolean(safelyVdbData().length)}>
+			<div className="left-main">
 				<Show when={!isLoading} fallback={<PageLoader />}>
-					<>
-						<div className="mx-3">
-							<TableV2
-								rowsData={dataTable}
-								columns={vdbColumns}
-								showRows={!isLoading}
-								showEmpty={Boolean(safelyVdbData().length)}
-								sizeY={50}
-							/>
-							<div className="header">
-								<div className="title">
-									<div className="icon">
-										<BugIcon />
-									</div>
-									<span>Search vulnerabilities</span>
-								</div>
-								<select
-									onChange={(e) => {
-										console.log({ e });
-										setSortBy(e.target.value);
-										setSelectedNow(true);
-									}}
-									className="hidden md:inline bg-transparent ml-10">
-									<option value="" disabled>
-										Sort by
-									</option>
-									<option value="creacion">published</option>
-									<option value="score">score</option>
-									<option value="risk">risk</option>
-									<option value="vdb id">vdb id</option>
-								</select>
-								<div className="actions"></div>
+					<Show when={Boolean(getVdb().length)}>
+						<>
+							<div className="vdb-app-info">
+								<TableV2
+									rowsData={dataTable}
+									columns={vdbColumns}
+									showRows={!isLoading}
+									showEmpty={getVdb().length === 0}
+									sizeY={50}
+								/>
 							</div>
+						</>
+					</Show>
+				</Show>
+				<Show when={!isLoading && Boolean(getVdb().length)}>
+					<>
+						<div className="header">
+							<div className="title">
+								<div className="icon">
+									<BugIcon />
+								</div>
+								<span>Search vulnerabilities</span>
+							</div>
+							<select
+								onChange={(e) => {
+									setSortBy(e.target.value);
+									setSelectedNow(true);
+								}}
+								className="hidden md:inline bg-transparent ml-10">
+								<option value="" disabled>
+									Sort by
+								</option>
+								<option value="creacion">published</option>
+								<option value="score">score</option>
+								<option value="risk">risk</option>
+								<option value="vdb id">vdb id</option>
+							</select>
+						</div>
+						<div className="content">
+							{getVdb().map((vuln: ResultsVdbSearch, i: number) => (
+								<div className="search-result" key={vdbKeys[i]}>
+									<div className="header-result">
+										<h5 className="title">{vuln.entry.title}</h5>
+									</div>
+								</div>
+							))}
 						</div>
 					</>
 				</Show>
-			</Show>
-			<Show when={!isLoading} fallback={<PageLoader />}>
-				<div className="content">
-					{safelyVdbData().map((vuln: ResultsVdbSearch, i: number) => (
-						<div className="search-result" key={vdbKeys[i]}>
-							<div className="header">
-								<div className="title">{vuln.entry.title}</div>
-							</div>
-						</div>
-					))}
-				</div>
-			</Show>
+			</div>
 		</>
 	);
 };

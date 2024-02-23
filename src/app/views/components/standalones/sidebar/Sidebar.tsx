@@ -36,7 +36,7 @@ const Sidebar: React.FC = () => {
 			action === 'enter' &&
 			!currentRef.classList.contains('is-open')
 		) {
-			timeID = setTimeout(() => currentRef.classList.add('is-open'), 135);
+			timeID = setTimeout(() => currentRef.classList.add('is-open'), 100);
 		} else if (
 			currentRef &&
 			action === 'leave' &&

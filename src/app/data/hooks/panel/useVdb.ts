@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import {
 	FetchPattern,
+	ResultsVdbSearch,
 	VdbProps,
 	VdbService,
 	mapVdbSearch,
@@ -46,7 +47,8 @@ export const useInitialVdb = () => {
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchData(e.target.value);
 	};
-	const getData = () => (!isLoading && data ? data : ({} as VdbProps));
 
-	return { getVdb: getData, refetch, isLoading, searchData, handleChange };
+	const getVdb = () => (data ? data.result ?? [] : ([] as ResultsVdbSearch[]));
+
+	return { getVdb, refetch, isLoading, searchData, handleChange };
 };
