@@ -28,14 +28,21 @@ const Sidebar: React.FC = () => {
 
 	const sidebarRef = useRef<HTMLDivElement | null>(null);
 
-	const handleViewText = (action: string) => {
+	const handleViewText = (action: 'enter' | 'leave') => {
 		const currentRef = sidebarRef?.current!;
-		let timeID;
-		if (currentRef && action === 'enter') {
-			timeID = setTimeout(() => currentRef.classList.add('is-open'), 95);
-
-			//clearTimeout(timeID)
-		} else if (currentRef && action === 'leave') {
+		let timeID: ReturnType<typeof setTimeout>;
+		if (
+			currentRef &&
+			action === 'enter' &&
+			!currentRef.classList.contains('is-open')
+		) {
+			timeID = setTimeout(() => currentRef.classList.add('is-open'), 135);
+		} else if (
+			currentRef &&
+			action === 'leave' &&
+			currentRef.classList.contains('is-open')
+		) {
+			clearTimeout(timeID!);
 			currentRef.classList.remove('is-open');
 		}
 	};
@@ -44,8 +51,10 @@ const Sidebar: React.FC = () => {
 		<aside
 			ref={sidebarRef}
 			className={`sidebar`}
-			onMouseEnter={() => handleViewText('enter')}
-			onMouseLeave={() => handleViewText('leave')}>
+			onMouseEnter={(e) => handleViewText('enter')}
+			onFocus={(e) => handleViewText('enter')}
+			onBlur={(e) => handleViewText('leave')}
+			onMouseLeave={(e) => handleViewText('leave')}>
 			{showAdmin && (
 				<>
 					<Link
