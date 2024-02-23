@@ -198,7 +198,7 @@ export const TableV2: React.FC<TableProps> = ({
 														row[column.name as keyof typeof row]
 															?.style
 													}>
-													<div>
+													<div className='publish'>
 														{column.name !== 'published'
 															? row[
 																	column.name as keyof typeof row

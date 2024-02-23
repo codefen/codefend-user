@@ -4,9 +4,11 @@ import { Logo } from '../..';
 import {
 	ConfirmModal,
 	LogoutIcon,
+	MessageIcon,
 	ModalWrapper,
 	NetworkIcon,
 	NetworkSetingModal,
+	PreferenceIcon,
 	Show,
 } from '../../..';
 import { useModal } from '../../../../../data';
@@ -15,7 +17,7 @@ import {
 	useNetworkSettingState,
 	usePanelStore,
 } from '../../../../../data/store';
-import './NavResponsive.scss'
+import './NavResponsive.scss';
 
 const NavResponsive: React.FC = () => {
 	const { logout } = useAuthStore((state) => state);
@@ -70,22 +72,46 @@ const NavResponsive: React.FC = () => {
 					</div>
 				</ModalWrapper>
 			</Show>
-			<div className='sidebav'>
-				<div className="flex items-center justify-around cursor-pointer min-h-24">
-					<div >
-						<div className="max-w-[40px]">
-							<span
-								className={`cursor-pointer duration-500 ${
-									open && 'rotate-[360deg]'
-								}`}>
-								<Logo theme="aim" onClick={() => handleChange()} />
-							</span>
+
+			<div className="sidebav">
+				<div className="sideContent">
+
+				<div className="flex items-center gap-x-6">
+						<div
+							className="text-cyan-50"
+							title="Network Setting"
+							onClick={() => {
+								setNetworkSettingState(true);
+							}}>
+							<MessageIcon width={1.35} height={1.35} />
 						</div>
 					</div>
 
-					<div title="Logout" className="flex items-center gap-x-6">
+					<div className="flex items-center gap-x-6">
 						<div
-							className='text-cyan-50'
+							className="text-cyan-50"
+							title="Network Setting"
+							onClick={() => {
+								setNetworkSettingState(true);
+							}}>
+							<PreferenceIcon  width={1.35} height={1.35} />
+						</div>
+					</div>
+
+
+
+					<div className="max-w-[40px]">
+						<span
+							className={`cursor-pointer duration-500 ${
+								open && 'rotate-[360deg]'
+							}`}>
+							<Logo theme="aim" onClick={() => handleChange()} />
+						</span>
+					</div>
+
+					<div className="flex items-center gap-x-6">
+						<div
+							className="text-cyan-50"
 							title="Network Setting"
 							onClick={() => {
 								setNetworkSettingState(true);
@@ -93,7 +119,8 @@ const NavResponsive: React.FC = () => {
 							<NetworkIcon width={1.35} height={1.35} />
 						</div>
 					</div>
-					<div className='text-cyan-50'>
+
+					<div className="text-cyan-50">
 						<span
 							className="navbar-logout-icon"
 							onClick={(e: React.FormEvent) => {

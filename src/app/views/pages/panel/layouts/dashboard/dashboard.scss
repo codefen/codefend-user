@@ -5,7 +5,7 @@ main.dashboard {
 
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		padding-inline: 10px;
+		padding-inline: 15px;
 
 		.card {
 			border: none;
@@ -72,7 +72,7 @@ main.dashboard {
 	@include mixin.respond(small) {
 		display: block;
 		min-height: auto;
-		padding-inline-start: 10px;
+		padding-inline-start: 15px;
 		height: 81dvh;
 		min-height: auto;
 

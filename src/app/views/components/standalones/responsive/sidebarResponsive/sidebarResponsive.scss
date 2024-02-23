@@ -1,7 +1,7 @@
 .sidenav {
 	background-color: var(--primary-color-100);
 	color: var(--primary-color-100);
-	border: 1px solid var(--primary-color-300);
+	border: .5px solid var(--primary-color-300);
 	position: fixed;
 	z-index: 4;
 	top: 1px;
@@ -9,12 +9,13 @@
 	height: 100vh;
 	box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
 	height: 765px;
-	padding-block-start: 22px;
-	top: 73px;
+	//padding-block-start: 22px;
+	top: 75px;
+	display: flex;
 
 	transition:
 		width 400ms ease,
-		background 425ms linear 150ms,
+		background-color 425ms linear 150ms,
 		backdrop-filter 425ms linear 175ms,
 		filter 425ms linear 175ms,
 		blur 425ms linear 175ms,
@@ -29,7 +30,6 @@
 		border-bottom-left-radius: 0.55rem;
 		border-bottom-right-radius: 0.55rem;
 	}
-
 }
 
 .sidenav-open {
@@ -52,30 +52,30 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
-}
 
-.sidenav-link {
-	display: flex;
-	align-items: center;
-	color: var(--tertiary-color-100);
-	border-bottom: 1px solid var(--primary-color-300);
+	a {
+		display: flex;
+		align-items: center;
+		color: var(--tertiary-color-100);
+		border-bottom: 1px solid var(--primary-color-300);
+		text-decoration: none;
+		border-radius: 0.625rem;
+		margin-bottom: 0.625rem;
+		padding: 0.5rem;
 
-	text-decoration: none;
-	border-radius: 0.625rem;
-	margin-bottom: 0.625rem;
-	padding: 0.5rem;
+		transition-property: color, background-color, border, filter, blur;
+		transition-duration: 300ms;
+		transition-timing-function: linear;
 
-	transition-property: color, background-color, border;
-	transition-duration: 300ms;
-	transition-timing-function: linear;
+		&:hover {
+			background-color: #fff;
+			color: #000;
+			filter: blur(2px);
+		}
 
-}
-
-.sidenav-link:hover {
-	background-color: #fff;
-	color: #000;
-}
-
-.sidenav-link-text {
-	margin-left: 1.5rem;
+		span {
+			margin-left: 1.5rem;
+			transition: all 300ms ease;
+		}
+	}
 }

@@ -164,6 +164,14 @@ main.preferences {
 	@include mixin.respond(small) {
 		display: block;
 		min-height: auto;
+		height: 81dvh;
+		.left {
+			overflow-x: auto;
+			padding-block-start: 10px;
+		}
+		.right {
+			padding-block-start: 20px;
+		}
 	}
 }
 

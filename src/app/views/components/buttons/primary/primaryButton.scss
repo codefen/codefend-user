@@ -10,7 +10,8 @@ button.btn {
 		}
 
 		@include mixin.respond(small) {
-			height: 65px;
+			height: 44px;
+			min-width: 40px;
 		}		
 	}
 
