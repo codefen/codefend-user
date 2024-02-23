@@ -3,9 +3,10 @@
 main.mobile {
 	height: 100dvh;
 	min-height: auto;
+	overflow: hidden;
 
 	.left {
-		display: block;
+		display: flex;
 
 		.card {
 			overflow: hidden;
@@ -76,12 +77,15 @@ main.mobile {
 	}
 
 	.right {
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-inline-end: 10px;
+
 		.selected-content {
 			display: flex;
 			align-items: center;
 			column-gap: 1rem;
 			margin-block: 1rem;
-
 
 			.selected-content-credentials {
 				height: 100%;

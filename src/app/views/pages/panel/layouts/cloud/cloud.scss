@@ -5,8 +5,8 @@ main.cloud {
 	min-height: auto;
 
 	.left {
-		display: block;
-		width: 29%;
+		display: flex;
+		width: 25%;
 		overflow-y: auto;
 		overflow-x: hidden;
 		align-items: flex-end;
@@ -60,6 +60,7 @@ main.cloud {
 		flex: 1 1 71%;
 		width: 71%;
 		overflow-y: auto;
+		padding-inline-end: 10px;
 
 		.selected-content {
 			display: flex;
