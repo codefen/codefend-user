@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { defaultCrypto } from '../../../../data/mocks';
 import { PrimaryButton, SecondaryButton } from '../..';
 
@@ -16,8 +16,13 @@ const CryptoPayment = (props: CryptoPaymentProps) => {
 			<div className="scope-content">
 				<div className="flex items-center  show-border">
 					<div className="flex items-center gap-x-4 justify-between grow py-4 px-8">
-						{defaultCrypto.map((coin) => (
-							<img src={`/codefend/${coin.name}.svg`} alt={coin.name} />
+						{defaultCrypto.map((coin, i) => (
+							<Fragment key={i}>
+								<img
+									src={`/codefend/${coin.name}.svg`}
+									alt={coin.name}
+								/>
+							</Fragment>
 						))}
 					</div>
 					<div className="flex items-center gap-x-8 border-l h-full border-gray-400 px-8 ">
@@ -29,8 +34,8 @@ const CryptoPayment = (props: CryptoPaymentProps) => {
 					<div className="qrcode bg-white p-2 shadow-md">
 						<img src="/codefend/QR.svg" alt="qrcode-icon" />
 					</div>
-					<div className="details gap-y-1 text-black">
-						<h2 className="font-700 text-[16px] text-black">Bitcoin</h2>
+					<div className="details gap-y-1 ">
+						<h2 className="font-700 text-[16px] ">Bitcoin</h2>
 						<span>Price in USD: $1,500</span>
 						<span>Price in BTC: 0.03863912</span>
 						<div className="flex items-center gap-x-4 py-4 show-border my-4">

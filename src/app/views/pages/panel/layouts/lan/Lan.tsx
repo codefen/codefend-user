@@ -11,11 +11,14 @@ import '../../../../styles/flag.scss';
 import { LanNetworkData } from './components/LanNetworkData';
 import { LanNetworksChart } from './components/LanNetworksChart';
 import './Lan.scss';
+import { useFlashlight } from '../../FlashLightContext';
 
 const LanPage: React.FC = () => {
 	const { networks, loading, refetch } = useLan();
 
 	const [scanLoading, setScanLoading] = useState(false);
+
+	const flashlight = useFlashlight();
 
 	const scanLocal = async () => {
 		setScanLoading(true);
@@ -69,7 +72,7 @@ const LanPage: React.FC = () => {
 					/>
 				</section>
 
-				<section className="right">
+				<section className="right" ref={flashlight.rightPaneRef}>
 					<LanNetworksChart
 						isLoading={loading}
 						internalNetwork={internalNetworkDataInfo()}

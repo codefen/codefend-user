@@ -35,7 +35,6 @@ const processData = async(data: any) => {
             apps: item.apps_found,
         };
         nodes.push(mainNode);
-        console.log(mainNode)
 
         for (let i = 0; i < 100; i++) {
             const childNode = { id: `${item.id}-app-${i}`, label: `${item.id}-app-${i}`, parent: item.id };
@@ -186,28 +185,20 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
                 label: '',
                 data: Object.values(scanCounts),
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgb(255, 57, 57)',
                 tension: 0.1,
                 
             }]
         };
-        console.log("linechartdata")
         setLineChartData(processedChartData);
     };
 
     useEffect(() => {
         processData(filteredData)
             .then((procData: any) => {
-                console.log(`procdata: ${procData}`)
-                console.log(procData)
                 setEndpoints(procData);
         
-                console.log("enters")
-                console.log(endpoints)
-                console.log("triggers main")
-        
                 if(endpoints.nodes[0]) {
-                    console.log("enters nodes")
                     const osCount = { Windows: 0, Mac: 0, Linux: 0 };
         
                     endpoints.nodes.forEach((endpoint: any) => {
@@ -221,11 +212,6 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
                             osCount.Linux++;
                         }
                     });
-                    console.log("enters 2")
-        
-                    console.log(filteredData.length)
-        
-                    console.log("triggers")
         
                     if(filteredData.length && filteredData.length !== 0) {
                         processDataLine();
@@ -237,8 +223,8 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
                         datasets: [{
                             label: 'OS Distribution',
                             data: Object.values(osCount),
-                            backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)'],
-                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
+                            backgroundColor: ['rgba(254, 78, 78, 0.6)', 'rgba(255, 57, 57, 0.6)', 'rgba(203, 34, 34, 0.6)'],
+                            borderColor: ['rgba(254, 78, 78, 1)', 'rgba(255, 57, 57, 1)', 'rgba(203, 34, 34, 1)'],
                             borderWidth: 1
                         }]
                     };
@@ -299,13 +285,10 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
     }, [data]);
 
     useEffect(() => {
-        console.log("enters conditional")
-        console.log(endpoints)
         if(endpoints.nodes.length > 0) {
             setEndpointLoaded(true)
         }
         if (chartData && lineChartData) {
-            console.log("loaded")
             setDataLoaded(true);
         }
     }, [chartData, lineChartData, endpoints]);
@@ -315,10 +298,10 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
         <section className="w-1/6">
             <Show when={dataLoaded}>
                 <>
-                    <div className="border-t border-x rounded-t h-[300px]">
+                    <div className="enp-doughnut-chart">
                         <Doughnut data={chartData} options={chartOptions} key="osChart"/>
                     </div>
-                    <div className="flex items-center h-6 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
+                    <div className="enp-chart-text enp-chart-m0">
                         devices os
                     </div>
                 </>
@@ -328,10 +311,10 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
         <section className="w-3/6">
             <Show when={dataLoaded}>
                 <>
-                    <div className="border-t border-x rounded-t ml-4 h-[300px]">
+                    <div className="enp-line-chart">
                         <Line data={lineChartData} options={lineChartOptions} key="scansChart"/>
                     </div>
-                    <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
+                    <div className="enp-chart-text">
                         scans made last week
                     </div>
                 </>
@@ -341,7 +324,7 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
         <section className="w-1/3">
             <Show when={dataLoaded}>
                 <>
-                    <div className="border-t border-x rounded-t ml-4">
+                    <div className="enp-graph-chart">
                         <canvas
                             ref={canvasRef}
                             width={600}
@@ -349,7 +332,7 @@ export const ScanNetworkGraph = ({ data, filteredData }: { data: any; filteredDa
                             key="networkGraph"
                         />
                     </div>
-                    <div className="flex items-center h-6 ml-4 bg-slate-100 font-mono text-sm p-1 text-gray-400 rounded-b border-slate-200 border-b border-x cursor-default">
+                    <div className="enp-chart-text">
                         network graph
                     </div>
                 </>

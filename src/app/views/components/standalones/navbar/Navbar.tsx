@@ -1,103 +1,77 @@
-import React, { lazy } from 'react';
+import React, { lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import {
-	NetworkSettingState,
-	useModal,
-	useNetworkSettingState,
-} from '../../../../data';
-import {
-	ConfirmModal,
-	LogoutIcon,
-	ModalWrapper,
-	NetworkIcon,
-	Show,
-	NetworkSetingModal,
-} from '../..';
-import './navbar.scss';
+import { Breadcrumb, ThemeChangerButton } from '../..';
 import useAuthStore from '../../../../data/store/auth.store';
+import './navbar.scss';
+import { NavbarSubMenu } from './NavbarSubMenu';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
 const Navbar: React.FC = () => {
-	const { showModal, showModalStr, setShowModal, setShowModalStr } =
-		useModal();
-	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
-		(state: NetworkSettingState) => state,
-	);
 	const navigate = useNavigate();
-	const logout = useAuthStore((state) => state.logout);
+	const { userData } = useAuthStore((state) => state);
+	const [isMenuOpen, setMenuOpen] = useState(false);
+	const dropdownRef = useRef<HTMLDivElement>(null);
+	const userRef = useRef<HTMLDivElement>(null);
 
-	const handleLogout = () => {
-		logout();
-		navigate('/auth/signin');
-	};
+	useEffect(() => {
+		const handleClickOutsideMenu = (event: any) => {
+			if (
+				dropdownRef.current &&
+				userRef.current &&
+				!dropdownRef.current.contains(event.target) &&
+				!userRef.current.contains(event.target)
+			) {
+				setMenuOpen(false);
+			}
+		};
 
+		// Detect if they clicked outside the dropdown
+		document.addEventListener('mousedown', handleClickOutsideMenu);
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutsideMenu);
+		};
+	}, []);
 	return (
 		<>
 			<nav className="navbar">
-				<Show when={showModal && showModalStr === 'logout'}>
-					<ModalWrapper action={() => setShowModal(!showModal)}>
-						<div
-							className="modal-wrapper-title internal-tables disable-border"
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-							}}>
-							<ConfirmModal
-								header="ARE YOU SURE YOU WANT TO LOGOUT?"
-								cancelText="Cancel"
-								confirmText="Logout"
-								close={() => setShowModal(!showModal)}
-								action={() => handleLogout()}
-							/>
-						</div>
-					</ModalWrapper>
-				</Show>
-				<Show when={isOpen}>
-					<ModalWrapper action={() => setNetworkSettingState(!isOpen)}>
-						<div
-							className="modal-wrapper-title internal-tables disable-border"
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-							}}>
-							<div className="w-full mt-4">
-								<div className="w-full px-8 disable-border">
-									<NetworkSetingModal
-										close={() => setNetworkSettingState(!isOpen)}
-									/>
-								</div>
-							</div>
-						</div>
-					</ModalWrapper>
-				</Show>
-				<div className="navbar-logo">
-					<Link to="/">
-						<span className="navbar-logo-container">
-							<Logo theme="aim" />
-						</span>
-					</Link>
+				<div className="left">
+					<div className="navbar-logo">
+						<Link to="/">
+							<span className="navbar-logo-container">
+								<Logo theme="aim" />
+							</span>
+						</Link>
+					</div>
+					<Breadcrumb
+						root="Codefend"
+						rootAction={() => navigate('/dashboard')}
+					/>
 				</div>
 
-				<div title="Logout" className="gap-x-6 flex items-center">
-					<div
-						title="Network Setting"
-						onClick={() => {
-							setNetworkSettingState(true);
-						}}>
-						<NetworkIcon width={1.35} height={1.35} />
+				<div className="right">
+					<div className="change-theme">
+						<ThemeChangerButton />
 					</div>
 
-					<span
-						className="navbar-logout-icon"
-						onClick={(e: React.FormEvent) => {
+					<div
+						className="user"
+						ref={userRef}
+						onClick={(e) => {
 							e.preventDefault();
-							setShowModalStr('logout');
-							setShowModal(!showModal);
+							setMenuOpen((current) => !current);
 						}}>
-						<LogoutIcon />
-					</span>
+						<span className="email">{userData.email ?? 'not-found'}</span>
+						<div className="profile"></div>
+						<NavbarSubMenu
+							isOpen={isMenuOpen}
+							subMenuRef={dropdownRef}
+							userFullname={userData.name + ' ' + userData.lastName}
+							closeMenu={() => setMenuOpen(false)}
+						/>
+					</div>
 				</div>
 			</nav>
 		</>

@@ -107,8 +107,8 @@ section.access {
 			border-bottom: 3px solid #6f6f6f;
 
 			&.active {
-				color: #fe4e4e;
-				border-bottom: 3px solid #fe4e4e;
+				color: var(--secondary-color-50);
+				border-bottom: 3px solid var(--secondary-color-50);
 			}
 		}
 	}
@@ -136,7 +136,7 @@ section.access {
 		padding-block: 27px;
 		padding-inline: 75px;
 
-		background-color: #fff;
+		background-color: var(--primary-color);
 
 		@include mixin.respond(lmedium) {
 			padding-inline: 35px;
@@ -258,42 +258,54 @@ form.signup-confirm {
 	}
 }
 
-section.access {
-	input {
-		background-color: #fff;
-		border-color: #e5e5e5;
-		color: #222222;
+.network-btn {
+	position: absolute;
+	top: 2%;
+	right: 1.5%;
+	width: -moz-fit-content;
+	width: fit-content;
+	aspect-ratio: 1/1;
+	background-color: rgb(217 217 217 / 39%);
+	border-radius: 100%;
+	padding: 6px;
+	color: rgb(57 57 57 / 52%);
+	transition-property: color, background-color;
+	transition-duration: 125ms;
+	transition-timing-function: linear;
+	cursor: pointer;
+	user-select: none;
 
-		&:focus {
-			border-color: #fe4e4e;
-			caret-color: #fe4e4e;
-			color: #000;
-		}
+	&:hover {
+		background-color: rgb(197 197 197 / 64%);
+		color: rgb(57 57 57 / 70%);
+	}
+}
+
+[data-theme='dark'] {
+	section.access {
+		color: var(--tertiary-color);
 	}
 
-	.log-inputs {
-		background-color: #fff;
-		color: #222222;
-		border-color: #e5e5e5;
-		&.text-area:focus {
-			border-color: #fe4e4e;
-		}
-	}
-	button.btn {
-		&.btn-primary {
-			background-color: #fe4e4e !important;
-			color: #fff;
+	.network-btn {
+		position: absolute;
+		top: 2%;
+		right: 1.5%;
+		width: -moz-fit-content;
+		width: fit-content;
+		aspect-ratio: 1/1;
+		background-color: #333f4d78;
+		border-radius: 100%;
+		padding: 6px;
+		color: rgb(255 255 255 / 38%);
+		transition-property: color, background-color;
+		transition-duration: 125ms;
+		transition-timing-function: linear;
+		cursor: pointer;
+		user-select: none;
 
-			&:hover {
-				background: #cb2222 !important;
-			}
-		}
-	}
-
-	select {
-		color: #3d3d3d;
-		&:focus {
-			outline: 0px solid;
+		&:hover {
+			background-color: rgb(59 74 91 / 58%);
+			color: rgb(255 255 255 / 51%);
 		}
 	}
 }

@@ -5,12 +5,13 @@ interface Props {
 	close: () => void;
 	isDisabled: boolean;
 	confirmText: string;
+	boxStyle?: string;
 }
 
 export const ModalButtons: React.FC<Props> = (props) => {
 	return (
 		<div
-			className="form-buttons"
+			className={`form-buttons ${props.boxStyle ?? ''}`}
 			onClick={(e: React.FormEvent) => e.stopPropagation()}>
 			<SecondaryButton
 				text="Cancel"

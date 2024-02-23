@@ -15,6 +15,14 @@ export interface AuthState {
 	updateToken:(updatedToken: string)=>void;
 }
 
+/**
+ * These are two middleware that wrap the store.
+ * - devtools allows using react devtools with zustand
+ * - persist, adds data persistence/cache using local storage (Can be configured to use another system)
+ * 
+ * @param store        Store that will be wrapped
+ * @param persistence  Name / Identifier of the store in persistence
+ */
 const stateInitV2 = (store: any, persistence: any) =>
 	devtools(persist(store, persistence)) as StateCreator<
 		AuthState,

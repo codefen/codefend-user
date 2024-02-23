@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
 import { Loader, Show } from '../../components';
 import { useAuthStore } from '../../../data';
+import { FlashLightProvider } from './FlashLightContext';
 
 const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar'));
 const Sidebar = lazy(
@@ -30,19 +31,23 @@ export const PanelPage: React.FC = () => {
 	return (
 		<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
 			<>
-				<Show when={showModal}>
-					<ErrorConection
-						closeModal={() => {
-							setShowModal(false);
-							localStorage.removeItem('error');
-						}}
-					/>
-				</Show>
-				<Navbar />
-				<Sidebar />
-				<Suspense fallback={<Loader />}>
-					<Outlet />
-				</Suspense>
+				<FlashLightProvider>
+					<>
+						<Show when={showModal}>
+							<ErrorConection
+								closeModal={() => {
+									setShowModal(false);
+									localStorage.removeItem('error');
+								}}
+							/>
+						</Show>
+						<Navbar />
+						<Sidebar />
+						<Suspense fallback={<Loader />}>
+							<Outlet />
+						</Suspense>
+					</>
+				</FlashLightProvider>
 			</>
 		</Show>
 	);

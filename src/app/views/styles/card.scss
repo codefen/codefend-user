@@ -132,7 +132,7 @@ section {
 				}
 
 				.detail {
-					color: rgba(239, 68, 68, 1);
+					color: var(--tertiary-color-500);
 				}
 			}
 
@@ -472,7 +472,6 @@ section {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transform: translateY(-17%);
 
 	.empty-container {
 		.empty-card-wrapper {

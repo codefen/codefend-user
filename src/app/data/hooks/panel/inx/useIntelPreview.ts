@@ -6,6 +6,7 @@ export const useIntelPreview = () => {
 	const [intelPreview, setIntelPreview] = useState<any[]>([]);
 
 	const fetchPreview = async (params: any, companyID: string) => {
+		console.log({params});
 		return InxServices.preview(params, companyID).then((res) => {
 			if (!res.preview) return;
 

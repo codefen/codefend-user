@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 import { useEnp, useAuthState } from '../../../../../data';
 
-import './endpoints.scss';
+import './enpSingle.scss';
 
 interface Props {}
 
@@ -17,7 +17,6 @@ interface Endpoint {
 
 export const EnpPanel: React.FC<Props> = (props) => {
 	const [showScreen, setShowScreen] = useState<boolean>(false);
-	const { getAccessToken } = useAuthState();
 	const { id: scanID } = useParams();
 	const { getEndpoints, refetch, isLoading } = useEnp(Number(scanID));
 	const [refresh, setRefresh] = useState<boolean>(false);
@@ -32,19 +31,18 @@ export const EnpPanel: React.FC<Props> = (props) => {
 	const endpointsData: Endpoint[] = Boolean('data' in getEndpoints())
 		? getEndpoints().data
 		: [];
-	const { endpointAppStore, setEndpointAppStore } = useEndpointAppStore();
 
 	return (
 		<EndpointAppProvider>
-			<main className={`${showScreen ? 'actived' : ''}`}>
-				<section className="w-1/3">
+			<main className={`single-enp ${showScreen ? 'actived' : ''}`}>
+				<section className="left">
 					<EndpointsSidebar
 						endpoints={endpointsData[0]}
 						isLoading={isLoading}
 					/>
 				</section>
 
-				<section className="w-2/3">
+				<section className="right">
 					<EndpointInfo />
 				</section>
 			</main>

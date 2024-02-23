@@ -11,16 +11,13 @@ import {
 	SourceCodeIcon,
 	PeopleGroup,
 	BugIcon,
-	MessageIcon,
-	PreferenceIcon,
 	InxIcon,
-	DataIcon,
-	AdminUser,
 	AdminCompany,
-	Show,
+	SnbIcon,
+	VdbIcon,
 } from '../../';
 
-import { RUNNING_DESKTOP, useUserAdmin } from '../../../../data';
+import { useUserAdmin } from '../../../../data';
 import './sidebar.scss';
 
 const isActivePath = (verifyPath: string) => {
@@ -32,7 +29,8 @@ const isActivePath = (verifyPath: string) => {
 
 const Sidebar: React.FC = () => {
 	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin = isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
+	const showAdmin =
+		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	return (
 		<aside className="sidebar">
 			{showAdmin && (
@@ -80,11 +78,13 @@ const Sidebar: React.FC = () => {
 				<LanIcon />
 			</Link>
 
-
-				<Link title="Enp" to="/enp" className={isActivePath('/enp') ? 'active' : ''}>
-					<EnpIcon />
-				</Link>
-{/*
+			<Link
+				title="Enp"
+				to="/enp"
+				className={isActivePath('/enp') ? 'active' : ''}>
+				<EnpIcon />
+			</Link>
+			{/*
 			<Show when={RUNNING_DESKTOP()}>
 				<Link title="Enp" to="/enp" className={isActivePath('/enp')}>
 					<EnpIcon />
@@ -113,19 +113,6 @@ const Sidebar: React.FC = () => {
 			</Link>
 
 			<Link
-				title="Customer Support"
-				to="/support"
-				className={isActivePath('/support') ? 'active' : ''}>
-				<MessageIcon />
-			</Link>
-
-			<Link
-				to="/preferences"
-				className={isActivePath('/preferences') ? 'active' : ''}>
-				<PreferenceIcon />
-			</Link>
-
-			<Link
 				title="Inx"
 				to="/inx"
 				className={isActivePath('/inx') ? 'active' : ''}>
@@ -136,14 +123,14 @@ const Sidebar: React.FC = () => {
 				title="Sns"
 				to="/sns"
 				className={isActivePath('/sns') ? 'active' : ''}>
-				<DataIcon />
+				<SnbIcon />
 			</Link>
 
 			<Link
 				title="Vdb"
 				to="/vdb"
 				className={isActivePath('/vdb') ? 'active' : ''}>
-				<DataIcon />
+				<VdbIcon />
 			</Link>
 		</aside>
 	);

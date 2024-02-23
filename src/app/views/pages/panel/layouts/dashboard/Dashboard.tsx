@@ -12,10 +12,12 @@ import {
 } from '../../../../components';
 import '../../../../styles/flag.scss';
 import './dashboard.scss';
+import { useFlashlight } from '../../FlashLightContext';
 
 const Dashboard: React.FC = () => {
 	const { isLoading, companyData, refetch } = useDashboard();
 	const [showScreen, setShowScreen] = useState(false);
+	const flashlight = useFlashlight();
 
 	useEffect(() => {
 		refetch();
@@ -41,7 +43,7 @@ const Dashboard: React.FC = () => {
 				/>
 			</section>
 
-			<section className="right">
+			<section className="right" ref={flashlight.rightPaneRef}>
 				<VulnerabilitiesStatus
 					vulnerabilityByShare={companyData.issuesCondition ?? {}}
 				/>

@@ -1,15 +1,10 @@
-import {
-	EmptyScreenView,
-	AppCard,
-	Show,
-	PrimaryButton,
-} from '../../../../../components';
+import { EmptyScreenView, AppCard, Show } from '../../../../../components';
 import {
 	CloudApp,
 	generateIDArray,
 	useSelectedCloud,
 } from '../../../../../../data';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CloudSelectedDetails } from './CloudSelectedDetails';
 import SelectedCloud from '../cloudProvider';
 
@@ -31,6 +26,7 @@ export const CloudApplication = ({
 		selectedCloud,
 		dispatchCloud,
 	} = useSelectedCloud();
+	const [term, setTerm] = useState('');
 
 	const cloudKeys = useMemo(() => {
 		return cloudData ? generateIDArray(cloudData.length) : [];
@@ -64,34 +60,52 @@ export const CloudApplication = ({
 					<div className="brightness variant-2"></div>
 					<div className="brightness variant-3"></div>
 					<section className="left">
-						<div className="add-button">
-							<PrimaryButton
-								text="ADD CLOUD"
-								click={(e: React.FormEvent) => openModal()}
-							/>
+						<div className="card flex-grow">
+							<div className="header">
+								<div className="title">
+									<div className="icon"></div>
+									<span>Cloud Applications</span>
+								</div>
+								<div className="actions">
+									<div onClick={openModal}>Add cloud</div>
+								</div>
+							</div>
 						</div>
 
+						<input
+							type="text"
+							className="log-inputs search-app"
+							placeholder="search"
+							onChange={(e: any) => setTerm(e.target.value)}
+						/>
+
 						<div className="list">
-							{cloudData.map((app: CloudApp, index: number) => (
-								<div
-									className="app-info"
-									key={cloudKeys[index]}
-									onClick={() => selectCloud(app)}>
-									<AppCard
-										isActive={isCurrentCloudSelected(app.id)}
-										onDone={(id: string) => {
-											refresh();
-											dispatchCloud(null);
-										}}
-										id={app.id}
-										type="cloud"
-										name={app.appName}
-										appMedia={''}
-										appDesc={app.appDesc}
-										cloudProvider={app.cloudProvider.toLowerCase()}
-									/>
-								</div>
-							))}
+							{cloudData
+								.filter((cloud) =>
+									cloud.appName
+										.toLowerCase()
+										.includes(term.toLowerCase()),
+								)
+								.map((app: CloudApp, index: number) => (
+									<div
+										className="app-info"
+										key={cloudKeys[index]}
+										onClick={() => selectCloud(app)}>
+										<AppCard
+											isActive={isCurrentCloudSelected(app.id)}
+											onDone={(id: string) => {
+												refresh();
+												dispatchCloud(null);
+											}}
+											id={app.id}
+											type="cloud"
+											name={app.appName}
+											appMedia={''}
+											appDesc={app.appDesc}
+											cloudProvider={app.cloudProvider.toLowerCase()}
+										/>
+									</div>
+								))}
 						</div>
 					</section>
 					<section className="right">

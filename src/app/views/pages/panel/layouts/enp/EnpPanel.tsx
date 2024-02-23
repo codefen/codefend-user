@@ -9,6 +9,7 @@ import { EndpointAppProvider } from './EndpointContext';
 import { FaWindows, FaLinux, FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router';
 import moment from 'moment';
+import { FaRegTimesCircle, FaShieldAlt } from "react-icons/fa";
 
 import {
     useAuthState,
@@ -72,10 +73,53 @@ export const EnpPanel: React.FC<Props> = (props) => {
             return latestScan;
         });
     }
+    
+    function formatKeyName(key: any) {
+        return key.split('_')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
 
     function processCompliance(scan: any) {
-        console.log(scan.report_data)
-        return scan.report_data ? true : false;
+        if (!scan.report_data) {
+            return 0;
+        }
+
+        try {
+            const report = JSON.parse(scan.report_data);
+    
+            for (const key in report) {
+                if (report.hasOwnProperty(key)) {
+                    const value = report[key];
+                    if (Array.isArray(value)) {
+                        if (value.length === 0) {
+                            return 0;
+                        }
+                    } else if (typeof value === 'boolean' && !value) {
+                        return 0;
+                    }
+                }
+            }
+
+            return 1;
+        } catch (err) {
+            return 0;
+        }
+
+    }
+
+    function isScanComplianceValid(scan: any) {
+        if (!scan.report_data) {
+            return false;
+        }
+
+        try {
+            JSON.parse(scan.report_data);
+            return true;
+        } catch (err) {
+            return false;
+        }
+
     }
 
     const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
@@ -91,90 +135,118 @@ export const EnpPanel: React.FC<Props> = (props) => {
 
     return (
     <EndpointAppProvider>
-        <main className={`${showScreen ? 'actived' : ''} flex flex-1 flex-col gap-2 p-0 md:gap-4 md:p-10 ml-16 mt-16 justify-normal`}>
-            <header className='cursor-default flex'>
-                <h1 className="font-black text-gray-800 text-xl">ENDPOINT</h1>
-                <h1 className="ml-8 pt-1 cursor-pointer text-sm underline-offset-2 text-red-400 underline decoration-2 font-bold">DEVICE INVENTORY</h1>
+        <main className={`enp ${showScreen && 'actived'}`}>
+            <header className='enp-header'>
+                <h2>ENDPOINT</h2>
+                <h3>DEVICE INVENTORY</h3>
             </header>
-            <div className='flex flex-row justify-between cursor-default border h-12 bg-slate-50 text-gray-100 rounded-t border-slate-200 w-full'>
-                <div className='flex flex-row items-center'>
+
+            <div className="buttons-bar">
+                <div className="buttons-bar-wrapper ">
                     <section>
                         <ScanButton
                             onClick={() => scanLocal()}
-                            scanLoading={scanLoading} scanLocal={scanLocal} 
+                            scanLoading={scanLoading}
+                            scanLocal={scanLocal}
                         />
                     </section>
                 </div>
-                
-                <div className='flex items-center'>
+
+                <div className="buttons-bar-wrapper">
                     <section>
                         <ReportButton
-                            onClick={() => {true}}
+                            onClick={() => {
+                                true;
+                            }}
                         />
                     </section>
                 </div>
             </div>
 
             <ModalOS/>
-            <div className='flex flex-row'>
-                <Show when={scansFiltered.length > 0}>
-                    <ScanNetworkGraph
-                        data={scans}
-                        filteredData={scansFiltered}
-                    />
-                </Show>
+            <div className="enp-graphics">
+                <ScanNetworkGraph data={scans} filteredData={scansFiltered} />
             </div>
             
             <div>
-                <div className="rounded-t border-x border-t border-slate-200 flex-grow hover:cursor-default">
-                    <div className="flex p-4">
-                        <p className="text-sm font-bold text-gray-700 leading-none mt-1 ml-2 truncate uppercase">Scanned devices</p>
+                <div className="enp-table-header">
+                    <div className="enp-table-title">
+                        <h3>Scanned devices</h3>
                     </div>
         
-                    <div className="flex p-4 pt-0 ml-2 text-slate-400 text-sm">
-                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">device name</div>
-                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">operating system</div>
-                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">latest scan</div>
-                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">apps found</div>
-                        <div className="w-2/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">compliance ready</div>
-                        <div className="w-1/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">status</div>
-                        <div className="w-1/12 hover:cursor-pointer hover:text-red-500 duration-300 ease-in-out">scans</div>
+                    <div className="enp-table-columns">
+                        <div className="enp-table-column">device name</div>
+                        <div className="enp-table-column">operating system</div>
+                        <div className="enp-table-column">latest scan</div>
+                        <div className="enp-table-column">apps found</div>
+                        <div className="enp-table-column">compliance ready</div>
+                        <div className="enp-table-column">status</div>
+                        <div className="enp-table-column">scans</div>
                     </div>
                 </div>
                 <Show when={scansFiltered.length > 0}>
-                    <div className="rounded-b mb-5 border-b border-slate-200 flex-grow hover:cursor-default">
+                    <div className="enp-table-content">
                         {scansFiltered.map((scan) => (
-                            <div key={`device${scan.id}`} className="flex items-center p-4 pl-6 border-x border-t text-slate-400 text-sm hover:cursor-pointer hover:bg-slate-50 duration-300 ease-in-out" onClick={() => {
+                            <div key={`device-${scan.id}`} className="enp-content-row" onClick={() => {
                                 navigate('/enp/' + scan.id)
                             }}>
-                                <div className="w-2/12">{scan.device_os_name}</div>
-                                <div className="w-2/12">{scan.device_os_release}</div>
-                                <div className="w-2/12">{moment(scan.creacion).fromNow()}</div>
-                                <div className="w-2/12">{scan.apps_found}</div>
-                                <div className="w-2/12">
-                                    <Show when={processCompliance(scan)}>
-                                        <button className="cursor-pointer bg-emerald-50 text-emerald-300 border-emerald-300 border h-8 text-xs rounded w-auto">
-                                            <p className="cursor-default">compliant</p>
+                                <div className="enp-content-item">{scan.device_os_name}</div>
+                                <div className="enp-content-item">{scan.device_os_release}</div>
+                                <div className="enp-content-item">{moment(scan.creacion).fromNow()}</div>
+                                <div className="enp-content-item">{scan.apps_found}</div>
+                                <div className="enp-content-item enp-compliance">
+                                    <Show when={processCompliance(scan) === 1}>
+                                        <button className="enp-btn enp-scan-btn">
+                                            <span>compliant</span>
                                         </button>
                                     </Show>
                                     <Show when={!processCompliance(scan)}>
-                                        <button className="cursor-pointer bg-red-50 text-red-300 border-red-300 border h-8 text-xs rounded w-auto">
-                                            <p className="cursor-default">non compliant</p>
+                                        <button className="enp-btn enp-report-btn">
+                                            <span>non compliant</span>
                                         </button>
                                     </Show>
+
+                                    <div className="enp-compliance-details">
+                                        {
+                                            isScanComplianceValid(scan) ? Object.entries(JSON.parse(scan.report_data)).map(([key, value]: [string, any]) => (
+                                                <div className={(!value ? "enp-compliance-failed" : "enp-compliance-success") + " flex"}>
+                                                    <Show when={!value}>
+                                                        <FaRegTimesCircle/>
+                                                    </Show>
+                                                    <Show when={value}>
+                                                        <FaShieldAlt/>
+                                                    </Show>
+
+                                                    <p className="ml-2">{formatKeyName(key)}:</p>
+
+                                                    <Show when={value === false || value.length === 0}>
+                                                        <p className="ml-2"> Not detected</p>
+                                                    </Show>
+                                                    <Show when={value === true}>
+                                                        <p className="ml-2"> Detected</p>
+                                                    </Show>
+                                                    <Show when={value.length != 0}>
+                                                        <p className="ml-2"> {value}</p>
+                                                    </Show>
+                                                </div>
+                                            )): ''
+
+                                        }
+                                    </div>
                                 </div>
-                                <div className="w-1/12">
-                                    {
-                                        Number(scan.scanned) == 1 ?
-                                            <p className="cursor-default">Finished</p>
-                                        :
-                                        <div className="w-full h-full flex items-center justify-left bg-transparent">
-                                            <ImSpinner8 className="animate-spin h-3 w-3 text-gray-600 ml-1 mr-2" />
+                                <div className="enp-content-item small">
+                                    {Number(scan.scanned) == 1 ? (
+                                        <p className="p-default">Finished</p>
+                                    ) : (
+                                        <div className="enp-table-progres">
+                                            <ImSpinner8 className="w-3 h-3 ml-1 mr-2 text-gray-600 animate-spin" />
                                             <p>In progress</p>
                                         </div>
-                                    }
+                                    )}
                                 </div>
-                                <div className="w-1/12">{scan.additionalScans + 1}</div>
+                                <div className="enp-content-item small">
+                                    {scan.additionalScans + 1}
+                                </div>
                             </div>
                         ))}
                     </div>

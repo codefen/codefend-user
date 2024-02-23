@@ -20,13 +20,20 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 	const isVisible = !!entry?.isIntersecting;
 
 	return (
-		<div ref={ref} key={intelKey}>
+		<div ref={ref}>
 			<div className="w-full flex flex-row h-10 bg-[#f0f0f0] text-[#333]">
 				<div className="w-full red-border flex flex-row items-center px-7 ">
-					<input type="checkbox" checked className=" checkbox-color" />
-					<span className="flex-grow ml-3">
-						{intel?.name?.slice(0, 50)}
-					</span>
+					<label className="flex items-center max-w-[365px] min-w-[365px] text-left truncate">
+						<input
+							type="checkbox"
+							defaultChecked
+							className=" checkbox-color"
+						/>
+						<span className="flex-grow ml-3">
+							{intel?.name?.slice(0, 50)}
+						</span>
+					</label>
+
 					<span className="flex-grow ml-3">{intel.bucket_data}</span>
 					<span className="text-[#666] text-xs">{intel.date}</span>
 				</div>
