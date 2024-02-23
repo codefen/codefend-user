@@ -153,7 +153,6 @@ main.sb {
 }
 
 main.preferences {
-
 	.left {
 		.table {
 			.rows {
@@ -212,6 +211,11 @@ main.cloud {
 	.right {
 		flex: 1 1 69%;
 		width: 69%;
+		padding-inline-end: 0;
+
+		&::-webkit-scrollbar {
+			width: 0px;
+		}
 
 		.actions {
 			display: flex;
