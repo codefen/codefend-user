@@ -23,8 +23,6 @@ export const useIntelSearch = () => {
 				
 				setIntelData(intelProc);
 
-				console.log({intelProc});
-
 				return { intelLen: intelProc.length, intelResult };
 			})
 			.catch((error: Error) => toast.error(error.message));

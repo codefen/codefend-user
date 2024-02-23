@@ -45,7 +45,6 @@ const SignUpLayout: React.FC = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setLoading(true);
-		console.log(isLoading);
 		const requestParams: RegisterParams = {
 			lead_fname: signupForm.name,
 			lead_lname: signupForm.surname,
@@ -61,7 +60,6 @@ const SignUpLayout: React.FC = () => {
 		signUpUser(requestParams)
 			.then((isSuccess): any => {
 				if (isSuccess) {
-					console.log(isSuccess);
 					navigate('/auth/confirmation');
 				}
 			})

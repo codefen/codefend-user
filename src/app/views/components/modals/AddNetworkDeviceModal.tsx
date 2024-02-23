@@ -36,7 +36,6 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		console.log({ mainDomainId });
 		if (!mainDomainId || mainDomainId === 0) {
 			return toast.error('Invalid main resource');
 		}

@@ -109,7 +109,6 @@ export const equalsObj = (first: any, second: any): boolean =>{
 	const firstKeys = Object.keys(first);
   	const secondKeys = Object.keys(second);
 
-	  console.log("tienen keys");
 	if(firstKeys.length !== secondKeys.length) return false;
 
 	for (const key of firstKeys) {

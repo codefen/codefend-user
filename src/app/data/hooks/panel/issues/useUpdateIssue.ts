@@ -53,7 +53,6 @@ export const useUpdateIssue = () => {
 
 		return IssueService.modify(params, companyID)
 			.then((response: any) => {
-				console.log({ response });
 				if (response.response === 'error' || response.isAnError)
 					throw new Error(
 						response.message ?? 'An unexpected error has occurred',

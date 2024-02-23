@@ -100,10 +100,8 @@ export const AcessPointModal: React.FC<{
 					...prevData,
 					isAddingInternalNetwork: false,
 				}));
-				console.log('fin?');
 				return;
 			}
-			console.log('Alo?');
 			toast.success('successfully added Access Point...');
 			setNetworkData((prevData) => ({
 				...prevData,

@@ -26,7 +26,6 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 			e.preventDefault();
 			setCanEdit(false);
 			setLoading(true);
-			console.log('Execute');
 			if (apiUrl.length < 10) {
 				toast.error('invalid API URL, too short');
 				setLoading(false);

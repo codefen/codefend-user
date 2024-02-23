@@ -47,7 +47,6 @@ const FinishSignUpLayout = () => {
 			userState.password.length < 0 ||
 			userState.password.length > 50
 		) {
-			console.log({ pass: userState.password });
 			return toast.error('Invalid password');
 		}
 
