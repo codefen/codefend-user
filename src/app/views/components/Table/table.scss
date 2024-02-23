@@ -30,6 +30,8 @@
 		transition-duration: 325ms;
 		transition-timing-function: linear;
 
+		max-width: calc(var(--row-size-x) - var(--row-calc-x));
+
 		border-image: -moz-linear-gradient(
 			90deg,
 			rgba(255, 255, 255, 0.3) 15%,
@@ -82,6 +84,7 @@
 		overflow-y: auto;
 		//max-height: calc(100dvh - 149px);
 		max-height: var(--row-size);
+		max-width: var(--row-size-x);
 	}
 
 	.item {
@@ -220,6 +223,10 @@
 	}
 	.vul-title {
 		min-width: 100px;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
 	}
 	.vul-condition {
 		max-width: 100px;
@@ -271,7 +278,7 @@
 		flex: 1 1 270px !important;
 	}
 	.role {
-		min-width: 12.5rem;
+		min-width: 8.5rem;
 		flex: inherit !important;
 	}
 	.province {

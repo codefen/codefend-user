@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
-import DashboardSearchbar from './components/DashboardSearchbar';
-import DashboardCollaborators from './components/DashboardCollaborators';
 import DashboardAssets from './components/DashboardAssets';
+import DashboardCollaborators from './components/DashboardCollaborators';
+import DashboardSearchbar from './components/DashboardSearchbar';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities';
 
 import { IssuesShare, useDashboard } from '../../../../../data';
 import {
-	VulnerabilityRisk,
 	VulnerabilitiesStatus,
+	VulnerabilityRisk,
 } from '../../../../components';
 import '../../../../styles/flag.scss';
-import './dashboard.scss';
 import { useFlashlight } from '../../FlashLightContext';
+import './dashboard.scss';
 
 const Dashboard: React.FC = () => {
 	const { isLoading, companyData, refetch } = useDashboard();

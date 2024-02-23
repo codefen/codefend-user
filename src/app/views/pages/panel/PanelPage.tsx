@@ -1,20 +1,24 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { Loader, Show } from '../../components';
+import { useMediaQuery } from 'usehooks-ts';
 import { useAuthStore } from '../../../data';
+import {
+	ErrorConection,
+	Loader,
+	Navbar,
+	Show,
+	Sidebar,
+	SidebarResponsive,
+	NavResponsive,
+	HeaderResponsive
+} from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
-
-const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar'));
-const Sidebar = lazy(
-	() => import('../../components/standalones/sidebar/Sidebar'),
-);
-const ErrorConection = lazy(
-	() => import('../../components/modals/ErrorConection'),
-);
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
 	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
+	const isSmallScreen = useMediaQuery('(max-width: 640px)');
+
 	if (!isAuth) logout();
 
 	useEffect(() => {
@@ -29,8 +33,8 @@ export const PanelPage: React.FC = () => {
 	}, []);
 
 	return (
-		<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
-			<>
+		<>
+			<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
 				<FlashLightProvider>
 					<>
 						<Show when={showModal}>
@@ -41,14 +45,28 @@ export const PanelPage: React.FC = () => {
 								}}
 							/>
 						</Show>
-						<Navbar />
-						<Sidebar />
+
+						{!isSmallScreen ? (
+							<>
+								<Navbar />
+								<Sidebar />
+							</>
+						) : (
+							<>
+								<HeaderResponsive />
+								<SidebarResponsive />
+								<NavResponsive />
+							</>
+						)}
+
 						<Suspense fallback={<Loader />}>
 							<Outlet />
 						</Suspense>
 					</>
 				</FlashLightProvider>
-			</>
-		</Show>
+			</Show>
+		</>
 	);
 };
+
+export default PanelPage;

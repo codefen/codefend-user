@@ -19,11 +19,6 @@ const VdbPanel: React.FC<Props> = (props) => {
 			<main className={`sb ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
 					<VdbSearchData />
-
-					<Masonry
-						breakpointCols={3}
-						className="my-masonry-grid"
-						columnClassName="my-masonry-grid_column"></Masonry>
 				</section>
 				<section className="right">
 					<VdbPreviousSearches />

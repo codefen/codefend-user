@@ -91,7 +91,7 @@ export const mapIssues = (source: any): Issues => {
 		price: source.price,
 		pricePaid: source.price_paid,
 		isDisabled: source.eliminado,
-		createdAt: formatDate(source.creacion),
+		createdAt: source.creacion,
 	} as Issues;
 };
 /** Map issue share api data => @interface IssuesShare */
@@ -324,7 +324,7 @@ export const mapSupportProps = (source: any): SupportProps => {
 		csHeader: source.cs_header,
 		csBody: source.cs_body,
 		condition: source.condicion,
-		createdAt: formatDate(source.creacion),
+		createdAt: source.creacion,
 		isDisabled: source.eliminado == '1',
 	};
 };
@@ -356,8 +356,8 @@ export const mapPreviusSearch = (source: any): PreviusSearch => {
 		userCountryCity: source.user_pais_ciudad,
 		userUA: source.user_ua,
 		condition: source.condicion,
-		isDisabled: source.eliminado === '1',
-		createdAt: formatDate(source.creacion),
+		isDisabled: source.eliminado == '1',
+		createdAt: source.creacion,
 	};
 };
 
@@ -380,6 +380,6 @@ export const mapVdbSearch = (source: any): VdbProps => {
 	return {
 		response: source.response,
 		request: mapVdbRequestSearch(source.request),
-		results: source.results,
+		result: source.result,
 	};
 };

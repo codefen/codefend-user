@@ -1,12 +1,15 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.dashboard {
+	padding-inline-end: 0;
+
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
 
 		.card {
 			border: none;
+
 			&.risk-chart {
 				.content {
 					flex-direction: column;
@@ -17,12 +20,15 @@ main.dashboard {
 						min-width: 105px;
 						max-width: 0%;
 					}
+
 					.table {
 						flex: 1 1 100%;
 						max-width: 100%;
+
 						.columns-name {
 							align-items: center;
 							column-gap: 15px;
+
 							.risk {
 								margin-inline-end: 40px;
 							}
@@ -32,8 +38,10 @@ main.dashboard {
 							display: flex;
 							flex-direction: column;
 							align-items: center;
+
 							.item {
 								column-gap: 15px;
+
 								.risk {
 									margin-inline-end: 40px;
 									justify-self: flex-start;
@@ -45,6 +53,7 @@ main.dashboard {
 					}
 				}
 			}
+
 			&.stats {
 				.content {
 					.stat {
@@ -59,6 +68,19 @@ main.dashboard {
 	.over {
 		overflow-x: auto;
 	}
+
+	@include mixin.respond(small) {
+		display: block;
+		min-height: auto;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
+
+		.left {
+			width: 95%;
+			padding-block-start: 10px;
+		}
+	}
 }
 
 [data-theme='dark'] {
@@ -68,6 +90,7 @@ main.dashboard {
 		right: 31dvw;
 		filter: blur(100px) brightness(0.5) opacity(0.45);
 	}
+
 	.variant-2 {
 		width: 16rem;
 		top: 20dvh;
@@ -78,41 +101,14 @@ main.dashboard {
 	main.dashboard {
 		.right {
 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+
 			.card.risk-chart {
 				.content {
 					flex-direction: column;
 					row-gap: 2rem;
 
 					.chart {
-						flex: 1 1 100%;
-						min-width: 105px;
-						max-width: 0%;
-					}
-					.table {
-						flex: 1 1 100%;
-						max-width: 100%;
-						.columns-name {
-							align-items: center;
-							column-gap: 15px;
-							.risk {
-								margin-inline-end: 40px;
-							}
-						}
-
-						.rows {
-							display: flex;
-							flex-direction: column;
-							align-items: center;
-							.item {
-								column-gap: 15px;
-								.risk {
-									margin-inline-end: 40px;
-									justify-self: flex-start;
-									align-self: flex-start;
-									justify-content: flex-start;
-								}
-							}
-						}
+						min-width: 70px;
 					}
 				}
 			}

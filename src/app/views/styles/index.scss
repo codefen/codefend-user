@@ -141,6 +141,8 @@ main.sb {
 		width: 30%;
 	}
 	@include mixin.respond(small) {
+		display: block;
+		padding-inline-start: 10px;
 		.left {
 			width: 100%;
 		}
@@ -159,10 +161,17 @@ main.preferences {
 			}
 		}
 	}
+	@include mixin.respond(small) {
+		display: block;
+		min-height: auto;
+	}
 }
+
 main.mobile,
 main.cloud {
 	flex: 1 1;
+	padding-inline-end: 0;
+
 	.left {
 		flex: 1 1 31%;
 		width: 31%;
@@ -204,6 +213,15 @@ main.cloud {
 	.right {
 		flex: 1 1 69%;
 		width: 69%;
+		scrollbar-width: 0px;
+		padding-inline-end: 0;
+
+		&::-moz-scrollbar {
+			width: 0px;
+		}
+		&::-webkit-scrollbar {
+			width: 0px;
+		}
 
 		.actions {
 			display: flex;

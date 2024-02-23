@@ -1,9 +1,11 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.social {
-	@include mixin.respond(small) {
-		display: block;
-	}
+	min-height: auto;
+	max-height: none;
+	padding-block-end: 0;
+	padding-inline-end: 0;
+
 	.left {
 		.table {
 			.item {
@@ -17,9 +19,6 @@ main.social {
 					justify-content: center;
 				}
 			}
-		}
-		@include mixin.respond(small) {
-			padding-bottom: 10px;
 		}
 	}
 
@@ -35,6 +34,16 @@ main.social {
 				padding-block: 0.75rem;
 			}
 		}
+		@include mixin.respond(small) {
+			padding-inline-start: 0;
+		}
+	}
+	@include mixin.respond(small) {
+		display: block;
+		overflow: auto;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
 	}
 }
 

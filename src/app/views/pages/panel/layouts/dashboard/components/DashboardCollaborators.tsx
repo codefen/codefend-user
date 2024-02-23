@@ -24,15 +24,13 @@ const DashboardCollaborators: React.FC<{
 
 	return (
 		<div className="card colaborators flex-grow">
-			<SimpleSection
-				header="Team members"
-				icon={<PeopleGroup />}>
+			<SimpleSection header="Team members" icon={<PeopleGroup />}>
 				<TableV2
 					rowsData={dataTable}
 					showRows={!isLoading}
 					showEmpty={!isLoading && dataTable.length === 0}
 					columns={collaboratorsColumns}
-					sizeY={20}
+					sizeY={24.24}
 				/>
 			</SimpleSection>
 		</div>

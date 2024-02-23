@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CompanyInfo, User, companyServices, useAuthState } from '..';
 
-export const useCompany = () => {
+const useCompany = () => {
 	const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
 	const [loading, setLoading] = useState(true);
 	const { getUserdata } = useAuthState();
@@ -22,3 +22,5 @@ export const useCompany = () => {
 
 	return { companyInfo, loading };
 };
+
+export default useCompany;

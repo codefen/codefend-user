@@ -15,9 +15,9 @@ import {
 	LanIcon,
 	ConfirmModal,
 	Show,
+	AddNetworkDeviceModal,
 } from '../../../../../components';
 
-import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 interface LanNetworkDataProps {
@@ -92,11 +92,12 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 				headerTitle="Add network device"
 				close={() => setShowModal(false)}
 				isActive={showModal && showModalStr === 'add_network_device'}>
-				<AddAccessPointModal
+				<AddNetworkDeviceModal
 					onDone={() => {
 						props.refetchInternalNetwork();
 					}}
 					close={() => setShowModal(false)}
+					internalNetwork={props.internalNetwork ?? []}
 				/>
 			</ModalTitleWrapper>
 

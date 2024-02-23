@@ -1,39 +1,73 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.issues-list {
 	.left {
 		.table {
 			.vul-title {
 				max-width: 380px;
 			}
+
 			.vul-condition {
 				display: flex;
 				justify-content: center;
 			}
+
 			.id {
 				display: flex;
 				justify-content: flex-end;
 			}
 		}
+
+		@include mixin.respond(small) {
+			padding-block-start: 10px;
+		}
 	}
+
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
+
 		.card {
 			border: 0px solid transparent;
+
 			.risk-chart .content {
 				padding-block: 1px;
+
 				.chart {
 					min-width: 75px;
 				}
 			}
 		}
 	}
+
+	@include mixin.respond(small) {
+		display: flex;
+		flex-direction: column;
+		padding-inline-start: 10px;
+		min-height: auto;
+
+		.right {
+			width: 100%;
+		}
+		.card {
+			overflow: auto;
+		}
+	}
 }
+
 main.issue-detail {
 	width: 100%;
-	padding-inline-end: 0px;
+	padding-inline-end: 10px;
+	padding-inline-start: 75px;
+
 	.left {
+		@include mixin.respond(small) {
+			width: 100%;
+			padding-block-start: 10px;
+		}
+
+		flex: 1 1 70%;
 		width: 70%;
-		max-width: 1000px;
 		background-color: var(--primary-color);
 		border: 1px solid var(--primary-color-300);
 
@@ -53,6 +87,7 @@ main.issue-detail {
 				align-items: center;
 				padding: 0 13px;
 			}
+
 			.back {
 				transition: all 0.2s;
 				border-top: 1px solid var(--primary-color-300);
@@ -61,9 +96,11 @@ main.issue-detail {
 					background-color: var(--primary-color-400);
 				}
 			}
+
 			input {
 				height: 100%;
 			}
+
 			.name {
 				text-transform: uppercase;
 				font-weight: 700;
@@ -71,6 +108,7 @@ main.issue-detail {
 				border-right: none;
 				border-top: 1px solid var(--primary-color-300);
 			}
+
 			.edit {
 				margin-left: auto;
 				border-left: 1px solid var(--primary-color-300);
@@ -141,13 +179,16 @@ main.issue-detail {
 			height: 40px;
 			border-bottom: 1px solid var(--primary-color-300);
 			padding: 0 32px;
+
 			select {
 				color: var(--tertiary-color-300);
 			}
+
 			.issue-detail-select {
 				display: flex;
 				align-items: center;
 			}
+
 			.issue-detail-select:first-child {
 				border-right: 1px solid var(--primary-color-300);
 			}
@@ -158,6 +199,7 @@ main.issue-detail {
 				font-weight: bolder;
 				color: var(--secondary-color-50);
 				padding-right: 20px;
+
 				span {
 					color: var(--tertiary-color-200);
 					margin-left: 5px;
@@ -165,11 +207,22 @@ main.issue-detail {
 			}
 		}
 	}
+
 	.right {
-		flex: 1 1;
+		flex: 1 1 25%;
 		height: 100%;
 		padding-inline: 0px;
 		width: 30%;
+
+		@include mixin.respond(small) {
+			width: 100%;
+		}
+	}
+
+	@include mixin.respond(small) {
+		display: flex;
+		flex-direction: column;
+		padding-inline-start: 10px;
 	}
 }
 
@@ -182,14 +235,15 @@ main.issue-detail {
 		background: rgba(255, 255, 255, 0.7607843137);
 		z-index: 5;
 	}
+
 	.variant-2 {
 		width: 23rem;
 		bottom: 30dvh;
 		left: 5dvw;
 		filter: blur(120px) brightness(0.5) opacity(0.4);
 	}
+
 	main.issues-list {
-	
 		.left {
 			.header {
 				.save {
@@ -198,10 +252,11 @@ main.issue-detail {
 					}
 				}
 			}
-			
 		}
+
 		.right {
 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+
 			.card.stats {
 				.content {
 					.stat {
@@ -209,7 +264,6 @@ main.issue-detail {
 					}
 				}
 			}
-			
 		}
 	}
 }

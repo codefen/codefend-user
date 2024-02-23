@@ -12,15 +12,18 @@ export const useIntelSearch = () => {
 	) => {
 		return InxServices.search({ id, offset }, companyID)
 			.then((res: any) => {
-			/* 	if (res.error == '1') {
+				if (res.error == '1') {
 					throw new Error('An unexpected error has occurred');
-				} */
-				console.log(res)
+				}
 				const intelResult = res.response.map((intel: any) =>
 					mapIntelData(intel),
 				) as any[];
+
 				const intelProc = intelData.concat(intelResult);
+				
 				setIntelData(intelProc);
+
+				console.log({intelProc});
 
 				return { intelLen: intelProc.length, intelResult };
 			})

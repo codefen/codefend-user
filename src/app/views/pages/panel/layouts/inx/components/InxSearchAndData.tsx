@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useMemo } from 'react';
 import {
 	generateIDArray,
 	useAuthState,
@@ -28,78 +28,55 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 	const companyID = getUserdata()?.companyID as string;
 
 	const { getData, setSearchData, refetchInitial } = useInitialSearch();
+
 	const { intelData, refetchIntelData, setIntelData } = useIntelSearch();
-	const { intelPreview, refetchPreview } = useIntelPreview();
+
 	const { fullDataLoading, selectedResult, setSelectedResult, readFile } =
 		useInxReadFile();
 
 	useEffect(() => {
-		procSearch();
+		//It is executed when there is a "term" by default in the path
+		if (getData().search.trim() !== '') {
+			procSearch();
+		}
 	}, []);
 
-	const delay = (ms: number) => {
-		return new Promise((resolve) => {
-			setTimeout(resolve, ms);
-		});
-	};
-
-	const procSearch = (e?: React.FormEvent) => {
-		if (e) e.preventDefault();
+	const procSearch = (e?: React.FormEvent<HTMLFormElement>) => {
+		e?.preventDefault();
+		if (!getData().search.trim()) {
+			return;
+		}
+		setSearchData((prev) => ({ ...prev, isLoading: true }));
 		refetchInitial(companyID)?.then((res: any) => {
 			return procIntelSearch(res);
 		});
 	};
 
-	const procIntelSearch = (res?: string) => {
+	const procIntelSearch = (id?: string) => {
 		return refetchIntelData(
-			res ? res : getData().intelID,
+			id ? id : getData().intelID,
 			getData().offSet,
 			companyID,
 		).then((res: any) => {
 			props.refetch();
 			setSearchData((state: any) => ({
 				...state,
-				offSet: getData().offSet,
+				offSet: getData().offSet + res.intelLen,
 			}));
-			processAllIntelData(res.intelResult);
 		});
-	};
-
-	const processAllIntelData = async (inputData: any) => {
-		const data = inputData !== undefined ? inputData : [];
-		for (const intel of data) {
-			const params = {
-				sid: intel.storage_id,
-				bid: intel.bucket_id,
-				mid: intel.media_id,
-			};
-			processPreview(params);
-		}
-		await delay(4000);
-	};
-
-	const processPreview = (params: any) => {
-		return refetchPreview(params, companyID)?.then(() => {
-			const initial = intelData;
-			setIntelData([]);
-			setIntelData(initial);
-		});
-	};
-
-	const procMoreResults = () => {
-		if (!getData().isLoading) return procIntelSearch();
-		return [];
 	};
 
 	const procReadFile = (intel: any) => {
 		readFile(intel, companyID);
 	};
 
-	const intelKeys = () =>
-		intelData.length !== 0 ? generateIDArray(intelData.length) : [];
+	const intelKeys = useMemo(
+		() => (intelData.length !== 0 ? generateIDArray(intelData.length) : []),
+		[intelData],
+	);
 
 	return (
-		<div className="border h-5/6">
+		<div className="left-wrapper">
 			<Show when={selectedResult !== null}>
 				<>
 					<div className="fixed left-0 top-0 h-full w-full bg-gray-500 bg-opacity-25 overflow-y-hidden overflow-x-hidden outline-none">
@@ -167,14 +144,13 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 			</div>
 
 			<Show when={!getData().isLoading} fallback={<PageLoader />}>
-				<div className="flex internal-tables flex-col overflow-auto overflow-x-hidden border-r-0 max-h-[80dvh]">
+				<div className="internal-tables intel-results-container">
 					{intelData.map((intel: any, i: number) => (
-						<Fragment key={intelKeys()[i]}>
+						<Fragment key={intelKeys[i]}>
 							<InxPreviewIntelData
-								intelKey={intelKeys()[i]}
 								intel={intel}
 								readFile={procReadFile}
-								intelPreview={intelPreview}
+								companyID={companyID}
 							/>
 						</Fragment>
 					))}

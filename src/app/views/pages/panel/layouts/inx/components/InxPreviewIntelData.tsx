@@ -1,60 +1,78 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { PrimaryButton } from '../../../../../components';
+import { useIntelPreview } from '../../../../../../data';
 
 interface Props {
-	intelKey: string;
 	intel: any;
 	readFile: (intel: any) => void;
-	intelPreview: any;
+	companyID: string;
 }
 
 export const InxPreviewIntelData: React.FC<Props> = ({
-	intelKey,
 	intel,
 	readFile,
-	intelPreview,
+	companyID,
 }) => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const entry = useIntersectionObserver(ref, {});
+	const { intelPreview, isLoadingPreview, refetchPreview } = useIntelPreview();
+	const [previewReq, setPreviewReq] = useState<boolean>(false);
+
+	//Try to run every time the html appears or exits the screen
 	const isVisible = !!entry?.isIntersecting;
+	if (isVisible && !previewReq) {
+		const params = {
+			sid: intel.storage_id,
+			bid: intel.bucket_id,
+			mid: intel.media_id,
+		};
+
+		refetchPreview(params, companyID)?.then(() => {});
+
+		//Traffic light so that it only executes the first time it appears on the screen
+		setPreviewReq(true);
+	}
+
+	//Retrieves the preview to show it if the storage IDs match
+	const previewHTML = intelPreview
+		.find((preview: any) => preview.id === intel.storage_id)
+		?.preview?.replace(/(\r\n|\n|\r)/g, '<br>');
 
 	return (
 		<div ref={ref}>
-			<div className="w-full flex flex-row h-10 bg-[#f0f0f0] text-[#333]">
-				<div className="w-full red-border flex flex-row items-center px-7 ">
-					<label className="flex items-center max-w-[365px] min-w-[365px] text-left truncate">
+			<div className="intel-data-left">
+				<div className="intel-data-left-content">
+					<label className="intel-label">
 						<input
 							type="checkbox"
 							defaultChecked
-							className=" checkbox-color"
+							className="codefend-checkbox"
 						/>
-						<span className="flex-grow ml-3">
+						<span className="intel-text-label">
 							{intel?.name?.slice(0, 50)}
 						</span>
 					</label>
 
-					<span className="flex-grow ml-3">{intel.bucket_data}</span>
-					<span className="text-[#666] text-xs">{intel.date}</span>
+					<span className="intel-bucket-data ">{intel.bucket_data}</span>
+					<span className="intel-date">{intel.date}</span>
 				</div>
 				<PrimaryButton
 					text="Full data"
 					click={(e: React.FormEvent) => readFile(intel)}
-					className="no-border-height h-full items-center justify-center text-sm w-[5.3rem] no-padding"
+					className="no-border-height no-padding full-data-btn"
 				/>
 			</div>
 
-			<div className="w-full internal-tables disable-border no-border border-bottom py-2">
+			<div className="internal-tables disable-border no-border intel-data-right">
 				<div>
-					<div className="flex py-0.5 pl-14 pr-10">
+					<div className="intel-preview-data">
 						<div
-							className="max-w-md"
+							className="preview-wrapper"
 							dangerouslySetInnerHTML={{
-								__html: intelPreview
-									.find(
-										(preview: any) => preview.id === intel.storage_id,
-									)
-									?.preview?.replace(/(\r\n|\n|\r)/g, '<br>'),
+								__html: isLoadingPreview
+									? 'Preview is loading...'
+									: previewHTML || 'There are no previews yet',
 							}}></div>
 					</div>
 				</div>

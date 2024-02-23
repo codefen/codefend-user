@@ -1,3 +1,5 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.company {
 	overflow: hidden;
 	.left {
@@ -56,6 +58,28 @@ main.company {
 		width: 100%;
 		margin-top: 1rem;
 		border: 1px solid var(--primary-color-300);
+	}
+
+	@include mixin.respond(small) {
+		display: flex;
+    padding-inline-start: 10px;
+    overflow: auto;
+    flex-direction: column;
+    height: 81dvh;
+    min-height: auto;
+
+		.left {
+			width: 95%;
+			padding-block-start: 40px;
+			
+			.companies {
+				padding-bottom: 10px;
+			}
+		}
+
+		.right {
+			padding-block-start: 1px;
+		}
 	}
 }
 

@@ -4,20 +4,20 @@ import { toast } from 'react-toastify';
 
 export const useIntelPreview = () => {
 	const [intelPreview, setIntelPreview] = useState<any[]>([]);
+	const [isLoadingPreview, setPreviewLoading] = useState(false);
 
 	const fetchPreview = async (params: any, companyID: string) => {
-		console.log({params});
 		return InxServices.preview(params, companyID).then((res) => {
 			if (!res.preview) return;
 
 			const intelPreviewData = intelPreview;
 			intelPreviewData.push({
-				id: params.storage_id,
+				id: params.sid,
 				preview: res.preview,
 			});
 			setIntelPreview(intelPreviewData);
 			return true;
-		});
+		}).finally(()=> setPreviewLoading(false));
 	};
 
 	const refetchPreview = (params: any, companyID: string) => {
@@ -26,8 +26,9 @@ export const useIntelPreview = () => {
 			return;
 		}
 
+		setPreviewLoading(true);
 		return fetchPreview(params, companyID);
 	};
 
-	return { intelPreview, setIntelPreview, refetchPreview };
+	return { intelPreview, isLoadingPreview, setIntelPreview, refetchPreview };
 };

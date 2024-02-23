@@ -42,11 +42,11 @@ const AuthPage: React.FC = () => {
 			<div className="codefend-img-bg">
 				<Logo theme={'shadow'} />
 			</div>
-			<section className="access flex">
+			<section className="flex access">
 				<div className="container">
 					<div className="brand"></div>
 					<div className="xcodefend-img-bg">
-						<Logo theme={'dark'} />
+						<Logo theme={'light'} />
 					</div>
 					<div className="forms">
 						<div className="nav">

@@ -1,7 +1,112 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.issues-list {
 	max-height: 100dvh;
+	padding-inline-end: 0;
+
+	.left {
+		.left-wrapper {
+			height: 83.333333%;
+			border: 1px solid;
+
+			.intel-results-container {
+				display: flex;
+				flex-direction: column;
+				overflow-y: auto;
+				overflow-x: hidden;
+				border-right: 0px;
+				max-height: 80dvh;
+
+				.intel-data-left {
+					width: 100%;
+					display: flex;
+					flex-direction: row;
+					height: 2.5rem;
+					color: var(--tertiary-color-200);
+					background-color: var(--primary-color-400);
+
+					.intel-data-left-content {
+						width: 100%;
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						padding-inline: 1.75rem;
+
+						.intel-label {
+							display: flex;
+							align-items: center;
+							max-width: 365px;
+							min-width: 365px;
+							text-align: left;
+
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+
+							.intel-text-label {
+								flex: 1 1;
+								margin-inline-start: 0.75rem;
+							}
+						}
+
+						.intel-bucket-data {
+							flex: 1 1;
+							margin-inline-start: 0.75rem;
+						}
+
+						.intel-date {
+							color: var(--tertiary-color-300);
+							font-size: 0.75rem /* 12px */;
+							line-height: 1rem /* 16px */;
+						}
+					}
+
+					.full-data-btn {
+						height: 100%;
+						width: 5.3rem;
+						align-items: center;
+						justify-content: center;
+						font-size: 0.875rem /* 14px */;
+						line-height: 1.25rem /* 20px */;
+					}
+				}
+
+				.intel-data-right {
+					width: 100%;
+					border-bottom: 1px solid;
+					padding-block: 0.5rem;
+
+					.intel-preview-data {
+						display: flex;
+						padding-block: 0.125rem;
+						padding-inline-start: 3.5rem;
+						padding-inline-end: 2.5rem;
+
+						.preview-wrapper {
+							max-width: 28rem;
+						}
+					}
+				}
+			}
+		}
+	}
 	.right {
 		width: 35%;
+	}
+
+	@include mixin.respond(small) {
+		display: flex;
+		flex-direction: column;
+		height: 81dvh;
+    min-height: auto;
+
+		.left {
+			width: 100%;
+		}
+
+		.right {
+			width: 100%;
+		}
 	}
 }
 

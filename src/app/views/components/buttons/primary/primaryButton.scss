@@ -1,3 +1,6 @@
+@use '../../../styles/settings/mixin' as mixin;
+
+
 button.btn {
 	&.btn-primary {
 		background: var(--secondary-color-50) !important;
@@ -5,6 +8,10 @@ button.btn {
 		&:hover {
 			background: var(--secondary-color-300) !important;
 		}
+
+		@include mixin.respond(small) {
+			height: 65px;
+		}		
 	}
 
 	&.btn-add {

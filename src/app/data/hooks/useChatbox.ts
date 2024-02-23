@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { IssueService, useAuthState } from '..';
 import { CustomerSupportService } from '../services/panel/support.service';
 
-export const useChatbox = () => {
+const useChatbox = () => {
 	const [message, setMessage] = useState('');
 	const [isAdding, setIsAdding] = useState(false);
 	const { getUserdata } = useAuthState();
@@ -64,3 +64,5 @@ export const useChatbox = () => {
 		handleSupportSubmit,
 	};
 };
+
+export default useChatbox;

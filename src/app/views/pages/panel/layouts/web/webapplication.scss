@@ -1,15 +1,35 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.webapp {
 	padding-inline-end: 0px;
+	width: 100%;
+
 	.left {
 		width: 70%;
 
+		.header {
+			// display: contents;
+		}
+
+		.title {
+			// margin-bottom: 15px;
+		}
+
+		@include mixin.respond(small) {
+			width: 100%;
+			padding-block-start: 10px;
+		}
+
 		.table {
 			.domain-name {
-				width: 205px;
+				// width: 100%;
+				min-width: 35%;
 			}
+
 			.location {
 				width: 160px;
 			}
+
 			.item {
 				.location {
 					.flag {
@@ -17,6 +37,7 @@ main.webapp {
 					}
 				}
 			}
+
 			.action {
 				justify-content: center;
 				max-width: none;
@@ -24,17 +45,20 @@ main.webapp {
 			}
 		}
 	}
+
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		padding-inline: auto;
+		padding-inline: 10px;
 		width: 30%;
 		margin-inline-start: 10px;
 
 		.card {
 			border: none;
+
 			.header {
 				border-bottom: 1px solid var(--primary-color-300);
 			}
+
 			&.stats {
 				.content {
 					column-gap: 0px;
@@ -47,10 +71,27 @@ main.webapp {
 				}
 			}
 		}
+
+		@include mixin.respond(small) {
+			width: 95%;
+			height: auto;
+			min-height: auto;
+			padding-block-end: 150px;
+			.header {
+				max-width: 340px;
+			}
+		}
 	}
+
 	.over {
 		overflow-y: auto;
 		overflow-x: hidden;
+	}
+
+	@include mixin.respond(small) {
+		display: block;
+		padding-inline-start: 1px;
+		min-height: auto;
 	}
 }
 
@@ -61,19 +102,20 @@ main.webapp {
 		right: 22dvw;
 		filter: blur(125px) brightness(0.34) opacity(0.65);
 	}
+
 	main.webapp {
 		.header {
 			background: var(--primary-color-600);
 		}
 
 		.right {
-			padding-inline: 10px;
 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
 
 			.card {
 				.header {
 					background-color: var(--primary-color-500);
 				}
+
 				&.stats {
 					.content {
 						column-gap: 0px;

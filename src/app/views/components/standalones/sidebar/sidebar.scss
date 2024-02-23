@@ -1,92 +1,172 @@
+@use '../../../styles/settings/mixin' as mixin;
+
 .sidebar {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	height: 100dvh;
+	top: calc(var(--nav-height) + 28px);
+	left: 1vw;
 	position: fixed;
 	z-index: 4;
-	top: 0;
-
-	padding-block-start: calc(var(--nav-height) + 28px);
-
-	border-right-width: 1px;
-	border-right-style: solid;
-	border-right-color: var(--primary-color-300);
-
-	background-color: var(--primary-color-100) !important;
+	border: 1px solid var(--primary-color-300);
+	background-color: var(--primary-color-100);
 	color: var(--primary-color-100);
-	transition: background, color, border;
-	transition-duration: 500ms;
-	transition-timing-function: linear;
+	border-radius: 0.55rem;
+	width: 51px;
+	height: 90dvh;
+
+	transition:
+		width 400ms ease,
+		background 425ms linear 150ms,
+		backdrop-filter 425ms linear 175ms,
+		filter 425ms linear 175ms,
+		blur 425ms linear 175ms,
+		backdrop-filter 425ms linear 175ms;
+
+	:first-child {
+		border-top-left-radius: 0.55rem;
+		border-top-right-radius: 0.55rem;
+	}
+	:last-child {
+		//border-bottom-left-radius: 0.55rem;
+		//border-bottom-right-radius: 0.55rem;
+	}
 
 	a {
+		position: relative;
 		display: flex;
 		align-items: center;
+		justify-content: flex-start;
 		height: 45px;
 		outline: none;
-
-		margin-block-start: 0;
-
-		padding-inline: 24px;
-		padding-block: 1.75dvh;
-
 		color: var(--tertiary-color-100);
+		border-bottom: 1px solid var(--primary-color-300);
 
-		border-bottom-width: 1px;
-		border-bottom-style: solid;
-		border-bottom-color: var(--primary-color-300);
-		transition-property: color, background-color;
-		transition-duration: 175ms;
-		transition-timing-function: ease-out;
+		width: 100%;
+		padding-inline: 18px;
 
 		svg {
-			pointer-events: none !important;
+			pointer-events: none;
 		}
 
 		&.disabled {
 			cursor: not-allowed;
 			color: var(--tertiary-color-200);
 			background-color: var(--primary-color-100);
-			&:hover {
-				cursor: not-allowed;
-				color: var(--tertiary-color-200);
-				background-color: var(--primary-color-100);
-			}
 		}
 
 		&.active {
 			background-color: var(--secondary-color-50);
+			border-bottom-color: var(--secondary-color-50);
 			color: var(--primary-color);
+		}
 
-			&:hover {
-				color: var(--primary-color);
+		&::after {
+			content: '';
+			font-size: 0.95rem;
+			opacity: 0;
+			visibility: hidden;
+			overflow: hidden;
+			white-space: nowrap;
+			transform: translateX(-20%);
+
+			transition:
+				transform 385ms linear 180ms,
+				opacity 325ms ease-in 280ms,
+				visible 320ms ease-in 250ms;
+		}
+	}
+
+	&.is-open {
+		&:hover {
+			a {
+				column-gap: 1rem;
+				text-align: center;
+
+				transition-property: color, background-color, border;
+				transition-duration: 325ms;
+				transition-timing-function: linear;
+
+				&::after {
+					content: attr(data-text);
+					display: block;
+					visibility: visible;
+					opacity: 1;
+					transform: translateX(0%);
+					position: absolute;
+					left: 28%;
+					font-weight: 600;
+					word-spacing: 1.5px;
+					letter-spacing: 0.2px;
+				}
+
+				&:hover {
+					background-color: rgb(247 103 103 / 92%);
+					color: #f9f9f9e6;
+					border-bottom-color: rgb(247 103 103 / 92%);
+				}
 			}
 		}
 	}
 
-	a:first-child {
-		border-top: 1px solid var(--primary-color-300);
+	&:hover {
+		width: 300px;
+
+		transition:
+			width 500ms ease 125ms,
+			background 425ms linear,
+			filter 425ms ease,
+			blur 425ms ease,
+			backdrop-filter 425ms ease;
+
+		@include mixin.respond(large) {
+			width: 275px;
+			height: 86dvh;
+		}
 	}
 
-	a:hover {
-		color: var(--secondary-color-50);
+	@include mixin.respond(large) {
+		height: 86dvh;
 	}
 }
 
-[data-theme='dark'] {
-	.sidebar {
-		border: 1px solid transparent;
-		background: var(--primary-color-500) !important;
-		transition: background, color, border;
-		transition-duration: 500ms;
-		transition-timing-function: linear;
+[data-theme='dark'] .sidebar {
+	border: none;
+	background: var(--primary-color-500);
 
-		a.active {
-			background-color: var(--primary-color-mask);
-			color: var(--secondary-color-50);
+	&:hover {
+		background: linear-gradient(
+			90deg,
+			rgba(21, 32, 46, 0.6) 0%,
+			rgba(18, 26, 32, 0.8) 23%,
+			rgba(18, 26, 32, 0.38) 35%
+		);
+		backdrop-filter: blur(5px) saturate(0.55) contrast(1.05);
+		box-shadow: 2px 3px 15px 1px rgba(0, 0, 0, 0.35);
+	}
+
+	&.is-open {
+		&:hover {
+			a {
+				&:hover {
+					background: linear-gradient(
+						90deg,
+						rgba(21, 32, 46, 0.85) 5%,
+						rgba(18, 26, 32, 0.9) 25%,
+						rgba(18, 26, 32, 0.5) 30%
+					);
+					color: #f76767db;
+				}
+			}
 		}
-		a {
-			border: none;
+	}
+
+	a {
+		border: none;
+
+		&.active {
+			background-color: var(--primary-color-mask) !important;
+			color: var(--secondary-color-50) !important;
 		}
 	}
 }

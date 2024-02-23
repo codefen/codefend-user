@@ -1,5 +1,13 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.mobile {
+	height: 100dvh;
+	min-height: auto;
+	overflow: hidden;
+
 	.left {
+		display: flex;
+
 		.card {
 			overflow: hidden;
 			width: 100%;
@@ -7,6 +15,11 @@ main.mobile {
 			margin-block-end: 1rem;
 			flex: 1 1 5%;
 			border: 0px;
+
+			@include mixin.respond(small) {
+				display: contents;
+			}
+
 			.header {
 				font-size: 15px;
 				padding-inline-start: 0px;
@@ -15,12 +28,14 @@ main.mobile {
 			.actions {
 				div {
 					transition: color 150ms ease;
+
 					&:hover {
 						color: var(--secondary-color-300);
 					}
 				}
 			}
 		}
+
 		.search-app {
 			width: 100%;
 			margin-block-end: 0.75rem;
@@ -43,18 +58,29 @@ main.mobile {
 			width: 100%;
 			height: 100%;
 		}
+
 		.list {
 			flex: 1 1 90%;
+
 			.app-info {
 				height: fit-content;
+
 				.modal-wrapper {
 					background-color: rgba(0, 0, 0, 0.45);
 				}
 			}
 		}
+
+		@include mixin.respond(small) {
+			width: 100%;
+		}
 	}
 
 	.right {
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-inline-end: 10px;
+
 		.selected-content {
 			display: flex;
 			align-items: center;
@@ -67,6 +93,7 @@ main.mobile {
 				flex: 0.5 0.5 50%;
 				width: 50%;
 			}
+
 			.selected-content-tables {
 				display: flex;
 				flex-direction: column;
@@ -74,6 +101,7 @@ main.mobile {
 				flex: 0.5 0.5 49%;
 				width: 49%;
 				padding-inline-end: 10px;
+
 				.card.stats {
 					.content {
 						.stat {
@@ -89,8 +117,12 @@ main.mobile {
 
 			.modal-header {
 				span {
-					font-size: 0.875rem /* 14px */;
-					line-height: 1.25rem /* 20px */;
+					font-size: 0.875rem
+						/* 14px */
+					;
+					line-height: 1.25rem
+						/* 20px */
+					;
 				}
 			}
 
@@ -107,12 +139,31 @@ main.mobile {
 						max-width: 640px;
 					}
 				}
+
 				@media only screen and (min-width: 768px) {
 					& {
 						max-width: 768px;
 					}
 				}
 			}
+		}
+	}
+
+	@include mixin.respond(small) {
+		display: flex;
+		padding-inline-start: 10px;
+		overflow: auto;
+		height: 81dvh;
+		min-height: auto;
+
+		.right {
+			.selected-content {
+				display: none;
+			}
+		}
+
+		.left {
+			padding-block-start: 35px;
 		}
 	}
 }
@@ -125,6 +176,7 @@ main.mobile {
 		filter: blur(150px) brightness(0.4);
 		z-index: 5;
 	}
+
 	.variant-2 {
 		width: 20rem;
 		top: 18dvh;

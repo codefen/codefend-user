@@ -53,7 +53,6 @@ const deleteHandler = async (
 				company_id: companyID,
 			},
 		});
-		console.log({ deleteInternalNetwork: data });
 
 		return data;
 	} catch (error) {
@@ -71,8 +70,6 @@ const modify = async (lanID: string | number) => {
 				id: lanID,
 			},
 		});
-
-		console.log({ modifyInterNetwork: data });
 
 		return data;
 	} catch (error) {

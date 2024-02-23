@@ -1,3 +1,5 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.sb {
 	.left {
 		border: 1px solid var(--primary-color-300);
@@ -7,7 +9,7 @@ main.sb {
 		.content {
 			flex-wrap: wrap;
 			gap: 20px;
-			display: flex;
+			// display: flex;
 			padding: 10px;
 			overflow-y: auto;
 			height: 100%;
@@ -36,6 +38,19 @@ main.sb {
 					height: 100%;
 				}
 			}
+		}
+	}
+
+	@include mixin.respond(small) {
+		display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding-inline-start: 10px;
+    height: 81dvh;
+    min-height: auto;
+
+		.left {
+			width: 100%;
 		}
 	}
 }
