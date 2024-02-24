@@ -11,7 +11,8 @@
   height: 765px;
   top: 75px;
   display: flex;
-
+  align-items: center;
+  
   transition:
     width 400ms ease,
     background-color 425ms linear 150ms,
@@ -82,7 +83,6 @@
   &:hover {
     background-color: #fff;
     color: #000;
-    filter: blur(2px);
   }
 
   span {

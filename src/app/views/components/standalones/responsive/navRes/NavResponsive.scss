@@ -7,9 +7,18 @@
 
   .sideContent {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-around;  
     align-items: center;
     cursor: pointer;
     min-height: 4rem;
+  }
+}
+
+.rotate {
+  cursor: pointer;
+  transition-duration: 500ms;
+
+  &.open {
+    transform: rotate(180deg);
   }
 }
