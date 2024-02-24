@@ -37,6 +37,14 @@ main.issues-list {
 					min-width: 75px;
 				}
 			}
+			&.filtered {
+				.filters {
+					.filter {
+						width: 100%;
+						justify-content: space-between;
+					}
+				}
+			}
 		}
 	}
 
