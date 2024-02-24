@@ -221,14 +221,16 @@ main.cloud {
 	.right {
 		flex: 1 1 69%;
 		width: 69%;
-		scrollbar-width: 0px;
 		padding-inline-end: 0;
+		scrollbar-width: none;
 
 		&::-moz-scrollbar {
 			width: 0px;
+			display: none;
 		}
 		&::-webkit-scrollbar {
 			width: 0px;
+			display: none;
 		}
 
 		.actions {

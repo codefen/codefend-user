@@ -1,7 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
-import { PrimaryButton } from '../../../../../components';
+import {
+	Loader,
+	PageLoader,
+	PrimaryButton,
+	Show,
+} from '../../../../../components';
 import { formatDateTimeFormat, useIntelPreview } from '../../../../../../data';
+import { InxPreviusContentData } from './InxPreviusContentData';
 
 interface Props {
 	intel: any;
@@ -28,40 +34,31 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 			mid: intel.media_id,
 		};
 
-		refetchPreview(params, companyID)?.then(() => {});
+		refetchPreview(params, companyID);
 
 		//Traffic light so that it only executes the first time it appears on the screen
 		setPreviewReq(true);
 	}
 
-	//Retrieves the preview to show it if the storage IDs match
-	const previewHTML = intelPreview
-		.find((preview: any) => preview.id === intel.storage_id)
-		?.preview?.split(/\r?\n/)
-		.map((line: any) => {
-			const [domain, owner, email] = line.split('\t');
-			return `<p><strong>${domain}</strong>: ${owner} - ${email}</p>`;
-		})
-		.join('');
-
+	const formatDate = formatDateTimeFormat(intel.date);
 	return (
 		<article ref={ref} className="intel-data-card">
 			<header className="intel-data-header">
-				<h3 className="codefend-text-red intel-header-title">
+				<h3 className="intel-header-title" title={intel.name}>
 					{intel.name.slice(0, 50)}
 				</h3>
 				<span className="intel-header-text intel-header-mid-dash">-</span>
-				<span className="intel-header-text">
-					{formatDateTimeFormat(intel.date)}
+				<span className="intel-header-text" title={formatDate}>
+					{formatDate}
 				</span>
 			</header>
 
 			<section className="intel-data-content">
-				<div
-					className="intel-preview-container"
-					dangerouslySetInnerHTML={{
-						__html: previewHTML || 'There are no previews yet',
-					}}></div>
+				<InxPreviusContentData
+					loading={isLoadingPreview}
+					preview={intelPreview}
+					storageID={intel.storage_id}
+				/>
 			</section>
 		</article>
 	);

@@ -79,7 +79,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 
 	return (
 		<div className="left-wrapper">
-			<Show when={selectedResult !== null}>
+			{/* <Show when={selectedResult !== null}>
 				<>
 					<div className="fixed left-0 top-0 h-full w-full bg-gray-500 bg-opacity-25 overflow-y-hidden overflow-x-hidden outline-none">
 						<div className="pointer-events-none relative w-auto translate-y-[50px] transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:max-w-[1140px]">
@@ -129,7 +129,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 						</div>
 					</div>
 				</>
-			</Show>
+			</Show>*/}
 
 			<InxSearchBar searchFn={procSearch} initSearch={search!} />
 
@@ -150,9 +150,9 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 					</Show>
 				</div>
 			</Show>
-			<Show when={fullDataLoading}>
+			{/* <Show when={fullDataLoading}>
 				<PageLoaderOverlay />
-			</Show>
+			</Show>*/}
 		</div>
 	);
 };

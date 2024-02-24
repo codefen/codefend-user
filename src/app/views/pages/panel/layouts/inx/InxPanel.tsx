@@ -22,7 +22,7 @@ export const InxPanel: React.FC = () => {
 		<>
 			<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
-					<InxSearchAndData refetch={() => refresh(!control)} />
+					<InxSearchAndData refetch={() => refetch()} />
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
 					<InxPreviousSearches

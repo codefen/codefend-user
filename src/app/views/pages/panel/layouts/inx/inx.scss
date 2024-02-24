@@ -6,6 +6,7 @@ main.issues-list {
 	overflow: hidden;
 
 	.left {
+		width: 65%;
 		.left-wrapper {
 			height: 83.333333%;
 			border: 1px solid;
@@ -13,28 +14,31 @@ main.issues-list {
 			.intel-results-container {
 				width: 100%;
 				display: flex;
-				flex-flow: column wrap;
+				flex-flow: row wrap;
 				flex: 1 1;
 				gap: 0.75rem;
 
 				overflow-y: auto;
 				overflow-x: hidden;
 				border-right: 0px;
-				max-height: 85dvh;
+				max-height: 80dvh;
 				background: transparent;
-				scrollbar-width: 0px;
+				scrollbar-width: none;
 
 				&::-moz-scrollbar {
 					width: 0px;
+					display: none;
 				}
 				&::-webkit-scrollbar {
 					width: 0px;
+					display: none;
 				}
 
 				.intel-data-card {
 					width: 45%;
-					max-height: 400px;
-					min-height: 400px;
+					max-height: 355px;
+					min-height: 355px;
+					overflow-y: auto;
 
 					display: flex;
 					flex-grow: 0.5;
@@ -42,16 +46,31 @@ main.issues-list {
 
 					padding: 1rem;
 
-					background-color: var(--primary-color-100);
+					background-color: var(--primary-color-200);
 					border: 1px solid var(--primary-color-100);
 					border-radius: 0.175rem;
+
+					cursor: pointer;
+					transition:
+						background-color 300ms ease,
+						border 300ms ease;
+					scrollbar-width: none;
+
+					&::-moz-scrollbar {
+						width: 0px;
+						display: none;
+					}
+					&::-webkit-scrollbar {
+						width: 0px;
+						display: none;
+					}
 
 					.intel-data-header {
 						display: flex;
 						font-size: 0.875rem;
 						line-height: 1;
 						text-align: center;
-						padding-block-end: 0.25rem;
+						padding-block-end: 0.75rem;
 
 						.intel-header-title {
 							font-weight: 700;
@@ -61,6 +80,8 @@ main.issues-list {
 							overflow: hidden;
 							text-overflow: ellipsis;
 							white-space: nowrap;
+
+							color: var(--secondary-color-200);
 						}
 
 						.intel-header-mid-dash {
@@ -79,6 +100,8 @@ main.issues-list {
 						display: flex;
 						background-color: transparent;
 
+						color: var(--tertiary-color-200);
+
 						.intel-preview-container {
 							max-width: 100%;
 							background-color: transparent;
@@ -91,13 +114,21 @@ main.issues-list {
 								overflow: hidden;
 								text-wrap: pretty;
 								text-overflow: ellipsis;
-								color: var(--tertiary-color-500);
 							}
 						}
 					}
 
+					.loader {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						width: 100%;
+						height: 100%;
+						padding-block-start: 4rem;
+					}
+
 					&:hover {
-						background-color: var(--secondary-color);
+						background-color: #fff4f5;
 						border-color: var(--secondary-color-200);
 					}
 				}
@@ -119,7 +150,7 @@ main.issues-list {
 		}
 	}
 	.right {
-		width: 35%;
+		width: 34%;
 		.previous-search {
 			.card.table {
 				.rows {
@@ -150,6 +181,27 @@ main.issues-list {
 		.left {
 			> div {
 				border: 1px solid var(--primary-color-400);
+			}
+
+			.left-wrapper {
+				.intel-results-container {
+					.intel-data-card {
+						.intel-data-header {
+							.intel-header-text {
+								color: var(--tertiary-color-50);
+							}
+						}
+
+						.intel-data-content {
+							color: var(--tertiary-color-50);
+						}
+
+						&:hover {
+							background-color: #171f27;
+							border-color: #172029;
+						}
+					}
+				}
 			}
 		}
 	}
