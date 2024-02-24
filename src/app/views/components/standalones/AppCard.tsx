@@ -8,6 +8,7 @@ import {
 	Show,
 	StarRating,
 } from '..';
+import { useNavigate } from 'react-router';
 
 interface MobileAppCardProps {
 	isActive?: boolean;
@@ -52,6 +53,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 		isDetails,
 		handleDelete,
 	} = useAppCard({ type, name, isMainNetwork, showDetails, appMedia });
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -139,7 +141,14 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 							<Show when={isDetails}>
 								<>
 									<div className="actions">
-										<div onClick={() => alert('Add issue')}>
+										<div
+											onClick={() =>
+												navigate(
+													`/issues/create/${
+														isMobileType ? 'mobile' : 'cloud'
+													}`,
+												)
+											}>
 											Add issue
 										</div>
 										<div onClick={() => alert('Add credential')}>

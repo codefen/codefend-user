@@ -3,6 +3,7 @@ import { useAuthState } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
 import { getTinyEditorContent } from '../../../../../editor-lib';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 export interface SaveIssue {
 	issueName: string;
@@ -11,103 +12,79 @@ export interface SaveIssue {
 	isAddingIssue: boolean;
 }
 
-const validateNewIssue = (validate: boolean, message: string) => {
-	if (validate) {
-		toast.error(message);
-		return false;
-	}
-	return true;
-};
-
 export const useSaveIssue = () => {
 	const { getUserdata } = useAuthState();
-	const [newIssue, dispatch] = useState<SaveIssue>({
-		issueName: '',
-		score: '',
-		issueClass: '',
+    const { type } = useParams();
+	console.log({ type });
+    const [newIssue, setNewIssue] = useState<SaveIssue>({
+        issueName: '',
+        score: '',
+        issueClass: 
+		['web', 'mobile', 'cloud', 'lan', 'source', 'social', 'research'].includes(type ?? "") ? type as string : "",
+        isAddingIssue: false,
+    });
 
-		isAddingIssue: false,
-	});
+    const validateField = (value: string, message: string) => {
+        if (!value.trim()) {
+            toast.error(message);
+            return false;
+        }
+        return true;
+    };
 
-	const fetchSave = useCallback(
-		(companyID: string) => {
-			const _editorContent = getTinyEditorContent('issue');
-			if (
-				!validateNewIssue(
-					!_editorContent.trim(),
-					'Invalid content, please add content using the editor',
-				)
-			) {
-				return;
-			}
-			if (!validateNewIssue(!newIssue.score.trim(), 'Invalid score')) {
-				return;
-			}
+    const validateNewIssue = (editorContent: string) => {
+        if (!validateField(newIssue.score, 'Invalid score')) return false;
+        if (!validateField(newIssue.issueName, 'Invalid name')) return false;
+        if (!['web', 'mobile', 'cloud', 'lan', 'source', 'social', 'research'].includes(newIssue.issueClass)) {
+            toast.error('Invalid issue type');
+            return false;
+        }
+        if (!validateField(editorContent, 'Invalid content, please add content using the editor')) return false;
+        return true;
+    };
 
-			if (
-				!validateNewIssue(
-					!newIssue.issueName.trim() || newIssue.issueName.length > 100,
-					'Invalid name',
-				)
-			) {
-				return;
-			}
+	const fetchSave = async (companyID: string) => {
+		const _editorContent = getTinyEditorContent('issue');
 
-			if (
-				!validateNewIssue(
-					![
-						'web',
-						'mobile',
-						'cloud',
-						'lan',
-						'source',
-						'social',
-						'research',
-					].includes(newIssue.issueClass),
-					'Invalid issue type',
-				)
-			) {
-				return;
-			}
+		if (!validateNewIssue(_editorContent)) {
+			return;
+		}
+		setNewIssue(prevIssue => ({ ...prevIssue, isAddingIssue: true }));
+	
+		const params = {
+			risk_score: newIssue.score,
+			name: newIssue.issueName,
+			resource_class: newIssue.issueClass,
+			researcher_username: getUserdata()?.username,
+			main_desc: _editorContent,
+		};
+		
+		return IssueService.add(params, companyID)
+			.then((response: any) => {
+				if (response.response === 'error') {
+					throw new Error(response.message);
+				}
+				setNewIssue({
+					issueName: '',
+					score: '',
+					issueClass: '',
+					isAddingIssue: false,
+				});
+				toast.success('Successfully Added Issue...');
 
-			dispatch((state: SaveIssue) => ({
-				...state,
-				isAddingIssue: true,
-			}));
-			const params = {
-				risk_score: newIssue.score,
-				name: newIssue.issueName,
-				resource_class: newIssue.issueClass,
-				researcher_username: getUserdata()?.username,
-				main_desc: _editorContent,
-			};
-			return IssueService.add(params, companyID)
-				.then((response: any) => {
-					if (response.response === 'error') {
-						throw new Error(response.message);
-					}
-					dispatch({
-						issueName: '',
-						score: '',
-						issueClass: '',
-						isAddingIssue: false,
-					});
-					toast.success('Successfully Added Issue...');
-
-					return { id: response.new_issue.id };
-				})
-				.catch((error: Error) => {
-					toast.error(error.message);
-				})
-				.finally(() =>
-					dispatch((state: SaveIssue) => ({
-						...state,
-						isAddingIssue: false,
-					})),
-				);
-		},
-		[newIssue],
-	);
+				return { id: response.new_issue.id };
+			})
+			.catch((error: Error) => {
+				toast.error(error.message);
+				return {error:1};
+			})
+			.finally(() =>
+			setNewIssue((state: SaveIssue) => ({
+					...state,
+					isAddingIssue: false,
+				})),
+			);
+	};
 
 	const save = async () => {
 		const companyID = getUserdata()?.companyID;
@@ -118,5 +95,5 @@ export const useSaveIssue = () => {
 		return fetchSave(companyID);
 	};
 
-	return { newIssue, dispatch, save };
+	return { newIssue, dispatch: setNewIssue, save };
 };

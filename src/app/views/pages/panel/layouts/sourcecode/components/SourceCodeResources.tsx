@@ -11,8 +11,10 @@ import {
 	TrashIcon,
 	TableV2,
 	TableItem,
+	BugIcon,
 } from '../../../../../components';
 import { AddRepositoryModal } from '../../../../../components/modals/AddRepositoryModal';
+import { useNavigate } from 'react-router';
 
 interface SourceCodeProps {
 	isLoading: boolean;
@@ -26,6 +28,7 @@ export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
 		useModal();
 	const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] =
 		useState<string>('');
+	const navigate = useNavigate();
 
 	const dataTable = props.sourceCode.map(
 		(repository) =>
@@ -39,8 +42,22 @@ export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
 	);
 
 	const tableAction = {
-		icon: <TrashIcon />,
-		style: 'id cursor-pointer p-3 flex',
+		icon: (
+			<>
+				<span>
+					<TrashIcon />
+				</span>
+				<span
+					onClick={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						navigate(`/issues/create/source`);
+					}}>
+					<BugIcon isButton />
+				</span>
+			</>
+		),
+		style: 'id cursor-pointer action',
 		action: (id: string) => {
 			setSelectedSourceCodeIdToDelete(id);
 			setShowModal(!showModal);

@@ -20,6 +20,28 @@ main.source-code {
 			.id {
 				display: flex;
 			}
+
+			.action {
+				justify-content: center;
+				max-width: none;
+				width: 100%;
+				column-gap: 2px;
+
+				span {
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding-inline: 7px;
+					transition: color 200ms ease;
+					flex: 1 1;
+					width: 50%;
+
+					&:hover {
+						color: var(--secondary-color);
+					}
+				}
+			}
 		}
 
 		@include mixin.respond(small) {
@@ -62,9 +84,9 @@ main.source-code {
 		min-height: auto;
 
 		.left {
-			padding-block-start: 25px
+			padding-block-start: 25px;
 		}
-		.card{
+		.card {
 			overflow: auto;
 		}
 	}

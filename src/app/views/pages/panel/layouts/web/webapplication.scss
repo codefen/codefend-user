@@ -42,6 +42,20 @@ main.webapp {
 				justify-content: center;
 				max-width: none;
 				width: 100%;
+				column-gap: 2px;
+
+				span {
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding-inline: 7px;
+					transition: color 200ms ease;
+
+					&:hover {
+						color: var(--secondary-color);
+					}
+				}
 			}
 		}
 	}

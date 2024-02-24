@@ -73,6 +73,7 @@ export const AppRouter: React.FC = () => {
 						<Route path="issues/*" element={<IssuePage />}>
 							<Route index element={<IssuesPanel />} />
 							<Route path="create" element={<IssuesCreation />} />
+							<Route path="create/:type" element={<IssuesCreation />} />
 							<Route path="update/:id" element={<IssuesUpdate />} />
 						</Route>
 						{/* Private Routes + only admin access */}
