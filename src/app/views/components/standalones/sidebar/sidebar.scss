@@ -13,7 +13,7 @@
 	color: var(--primary-color-100);
 	border-radius: 0.55rem;
 	width: 51px;
-	height: 90dvh;
+	height: fit-content;
 
 	transition:
 		width 400ms ease,
@@ -118,15 +118,6 @@
 			filter 425ms ease,
 			blur 425ms ease,
 			backdrop-filter 425ms ease;
-
-		@include mixin.respond(large) {
-			width: 275px;
-			height: 86dvh;
-		}
-	}
-
-	@include mixin.respond(large) {
-		height: 86dvh;
 	}
 }
 
