@@ -2,7 +2,6 @@
 
 main.mobile {
 	height: 100dvh;
-	min-height: auto;
 	overflow: hidden;
 
 	.left {
@@ -151,20 +150,35 @@ main.mobile {
 
 	@include mixin.respond(small) {
 		display: flex;
+		flex-direction: column;
 		padding-inline-start: 10px;
-		overflow: auto;
 		height: 81dvh;
+		overflow-y: auto;
 		min-height: auto;
-
-		.right {
-			.selected-content {
-				display: none;
-			}
-		}
-
 		.left {
 			padding-block-start: 35px;
 		}
+
+		.right {
+			min-height: 600px;
+			width: 100%;	
+			overflow: hidden;
+
+			.selected-content {
+				display: block;
+				width: 100%;
+
+				.selected-content-credentials {
+					height: 100%;
+					width: 100%;
+				}
+
+				.selected-content-tables {
+					width: 100%;
+				}
+			}
+		}
+
 	}
 }
 

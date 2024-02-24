@@ -89,15 +89,17 @@ main.cloud {
 		padding-inline-start: 10px;
 		padding-block-start: 5px;
 		padding-inline-end: .5px;
-
+		height: 81dvh;
+		
 		.left {
-			width: 95%;
+			width: 104%;
 			padding-block-start: 0px;
+			min-height: 600px;
 		}
 
 		.right {
-			width: 95%;
-
+			width: 100%;
+			margin-top: 20px;
 			.selected-content {
 				.selected-content-tables {
 					display: none;

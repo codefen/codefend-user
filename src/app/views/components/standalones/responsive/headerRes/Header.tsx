@@ -7,19 +7,15 @@ import './Header.scss';
 const Header: React.FC = () => {
 	const { theme } = useTheme();
 	const { open, handleChange } = usePanelStore();
+
 	return (
 		<header className="head">
 			<section className="content">
-				<button
-					
-					onClick={() => handleChange()}
-				>
+				<button onClick={() => handleChange()}>
 					<MenuIcon />
 				</button>
 
-				<div
-					className="flex pt-1 max-w-[120px]"
-					>
+				<div className="flex pt-1 max-w-[120px]">
 					{theme === 'dark' ? (
 						<Logo theme="light" />
 					) : (

@@ -75,8 +75,7 @@ const NavResponsive: React.FC = () => {
 
 			<div className="sidebav">
 				<div className="sideContent">
-
-				<div className="flex items-center gap-x-6">
+					<div className="flex items-center gap-x-6">
 						<div
 							className="text-cyan-50"
 							title="Network Setting"
@@ -94,17 +93,13 @@ const NavResponsive: React.FC = () => {
 							onClick={() => {
 								setNetworkSettingState(true);
 							}}>
-							<PreferenceIcon  width={1.35} height={1.35} />
+							<PreferenceIcon width={1.35} height={1.35} />
 						</div>
 					</div>
 
-
-
 					<div className="max-w-[40px]">
 						<span
-							className={`cursor-pointer duration-500 ${
-								open && 'rotate-[360deg]'
-							}`}>
+							className={`rotate ${open ? 'open' : ''}`}>
 							<Logo theme="aim" onClick={() => handleChange()} />
 						</span>
 					</div>
