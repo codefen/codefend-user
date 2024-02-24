@@ -161,10 +161,10 @@ main.issues-list {
 	}
 
 	@include mixin.respond(small) {
-		display: flex;
-		flex-direction: column;
-		height: 81dvh;
+		display: block;
 		min-height: auto;
+    height: 85dvh;
+		overflow-y: auto;
 
 		.left {
 			width: 100%;

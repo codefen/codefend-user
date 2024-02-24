@@ -68,14 +68,14 @@ main.enp {
 	.enp-compliance .enp-compliance-details {
 		visibility: hidden;
 		opacity: 0;
-		transition: visibility 0.2s linear,opacity 0.3s linear;
+		transition: visibility 0.2s linear, opacity 0.3s linear;
 		width: 300px;
 		background: rgb(19, 27, 36, 0.7);
 		color: #fff;
 		text-align: center;
 		border-radius: 2px;
 		padding: 6px;
-		position:fixed;
+		position: fixed;
 		z-index: 1;
 		margin-left: -325px;
 		margin-top: -75px;
@@ -449,12 +449,37 @@ main.enp {
 	}
 
 	@include mixin.respond(small) {
-		padding-inline-start: 1px;
-		display: flex;
-		flex-direction: column;
+		padding-inline-start: 5px;
+		display: block;
 		margin: 10px;
-		width: auto;
+		width: 100%;
+		overflow-y: auto;
 		height: 81dvh;
+		min-height: auto;
+
+		.enp-table-content {
+			.enp-content-row {
+				.enp-content-item {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					.enp-table-progres {
+						p {
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+						}
+					}
+
+					.enp-btn {
+						display: flex;
+						align-items: center;
+						padding-left: 0;
+					}
+				}
+			}
+		}
 	}
 }
 

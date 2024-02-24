@@ -2,10 +2,6 @@
 
 section {
 	.header {
-		@include mixin.respond(small) {
-			max-width: 370px;
-		}
-
 		height: 40px;
 
 		display: flex;
@@ -54,6 +50,9 @@ section {
 				cursor: pointer !important;
 			}
 		}
+	}
+	@include mixin.respond(small) {
+		max-width: 370px;
 	}
 }
 
