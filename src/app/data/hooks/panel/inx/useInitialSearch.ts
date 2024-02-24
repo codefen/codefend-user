@@ -7,6 +7,7 @@ interface SearchResult {
 	intelID: string;
 	count: number;
 	offSet: number;
+	search: string;
 
 	isLoading: boolean;
 }
@@ -17,6 +18,7 @@ export const useInitialSearch = () => {
 		count: 0,
 		offSet: 0,
 		intelID: '',
+		search: '',
 		isLoading: false,
 	};
 
@@ -27,6 +29,7 @@ export const useInitialSearch = () => {
 			...state,
 			intelData: [],
 			offSet: 0,
+			search: term,
 		}));
 
 		return InxServices.initializeSearch(term, companyID)
