@@ -177,7 +177,16 @@
 					width: 2.5rem;
 				}
 				.username {
+					max-height: 45px;
+					max-width: 180px;
+
+					text-wrap: pretty;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
 					cursor: text;
+					-webkit-line-clamp: 2;
+					-webkit-text-size-adjust: auto;
 				}
 			}
 

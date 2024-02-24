@@ -26,8 +26,8 @@ export const formatDate = (stringDate: string): string => {
 	const date = new Date(stringDate);
 
 	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	const day = String(date.getDate()).padStart(2, '0');
+	const month = extractDateItem(date.getMonth() + 1 );
+    const day = extractDateItem(date.getDate());
 
 	return `${year}-${month}-${day}`;
 };
@@ -121,5 +121,19 @@ export const mapEpochToDate = (epochDate: number | string): string =>{
 	//Add a 0 at the beginning if the day is less than 10
     const day = ('0' + date.getDate()).slice(-2); 
     return `${year}-${month}-${day}`;
-
 }
+
+export const formatDateTimeFormat = (originalDate: string): string =>{
+	const date = new Date(originalDate);
+    
+    // Extract date and time components
+    const year = date.getFullYear();
+    const month = extractDateItem(date.getMonth() + 1 );
+    const day = extractDateItem(date.getDate());
+    const hours = extractDateItem(date.getHours());
+    const minutes = extractDateItem(date.getMinutes());
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+export const extractDateItem = (item: any) => String(item).padStart(2, '0');

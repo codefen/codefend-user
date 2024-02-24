@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { PrimaryButton } from '../../../../../components';
-import { useIntelPreview } from '../../../../../../data';
+import { formatDateTimeFormat, useIntelPreview } from '../../../../../../data';
 
 interface Props {
 	intel: any;
@@ -37,46 +37,32 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 	//Retrieves the preview to show it if the storage IDs match
 	const previewHTML = intelPreview
 		.find((preview: any) => preview.id === intel.storage_id)
-		?.preview?.replace(/(\r\n|\n|\r)/g, '<br>');
+		?.preview?.split(/\r?\n/)
+		.map((line: any) => {
+			const [domain, owner, email] = line.split('\t');
+			return `<p><strong>${domain}</strong>: ${owner} - ${email}</p>`;
+		})
+		.join('');
 
 	return (
-		<div ref={ref}>
-			<div className="intel-data-left">
-				<div className="intel-data-left-content">
-					<label className="intel-label">
-						<input
-							type="checkbox"
-							defaultChecked
-							className="codefend-checkbox"
-						/>
-						<span className="intel-text-label">
-							{intel?.name?.slice(0, 50)}
-						</span>
-					</label>
+		<article ref={ref} className="intel-data-card">
+			<header className="intel-data-header">
+				<h3 className="codefend-text-red intel-header-title">
+					{intel.name.slice(0, 50)}
+				</h3>
+				<span className="intel-header-text intel-header-mid-dash">-</span>
+				<span className="intel-header-text">
+					{formatDateTimeFormat(intel.date)}
+				</span>
+			</header>
 
-					<span className="intel-bucket-data ">{intel.bucket_data}</span>
-					<span className="intel-date">{intel.date}</span>
-				</div>
-				<PrimaryButton
-					text="Full data"
-					click={(e: React.FormEvent) => readFile(intel)}
-					className="no-border-height no-padding full-data-btn"
-				/>
-			</div>
-
-			<div className="internal-tables disable-border no-border intel-data-right">
-				<div>
-					<div className="intel-preview-data">
-						<div
-							className="preview-wrapper"
-							dangerouslySetInnerHTML={{
-								__html: isLoadingPreview
-									? 'Preview is loading...'
-									: previewHTML || 'There are no previews yet',
-							}}></div>
-					</div>
-				</div>
-			</div>
-		</div>
+			<section className="intel-data-content">
+				<div
+					className="intel-preview-container"
+					dangerouslySetInnerHTML={{
+						__html: previewHTML || 'There are no previews yet',
+					}}></div>
+			</section>
+		</article>
 	);
 };

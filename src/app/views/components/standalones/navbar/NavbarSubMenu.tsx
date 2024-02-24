@@ -85,7 +85,12 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 				}}>
 				<div className="user">
 					<div className="profile"></div>
-					<span className="username">{props.userFullname}</span>
+					<span
+						className="username"
+						title={props.userFullname}
+						aria-label={props.userFullname}>
+						{props.userFullname}
+					</span>
 				</div>
 				<div className="options">
 					<div

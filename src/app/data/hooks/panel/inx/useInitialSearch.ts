@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useParams } from 'react-router';
 import { InxServices } from '../../../';
 import { toast } from 'react-toastify';
 
 interface SearchResult {
 	intelData: any[];
-	search: string;
 	intelID: string;
 	count: number;
 	offSet: number;
@@ -14,27 +12,24 @@ interface SearchResult {
 }
 
 export const useInitialSearch = () => {
-	const { search } = useParams();
-	//const history = useHistory();
 	const emptyState = {
 		intelData: [],
 		count: 0,
 		offSet: 0,
 		intelID: '',
-		search: !search ? '' : search,
 		isLoading: false,
 	};
 
 	const [dataSearch, setSearchData] = useState<SearchResult>(emptyState);
 
-	const fetchInitialSearch = async (companyID: string) => {
+	const fetchInitialSearch = async (companyID: string, term: string) => {
 		setSearchData((state: SearchResult) => ({
 			...state,
 			intelData: [],
 			offSet: 0,
 		}));
 
-		return InxServices.initializeSearch(dataSearch.search, companyID)
+		return InxServices.initializeSearch(term, companyID)
 			.then((res: any) => {
 				if (res.error == '1')
 					throw new Error('An unexpected error has occurred');
@@ -47,25 +42,28 @@ export const useInitialSearch = () => {
 				}));
 				return res.response.id;
 			})
-			.catch(() =>
-				setSearchData((state: SearchResult) => ({
-					...state,
-					isLoading: false,
-				})),
+			.catch((e: Error) =>
+				{
+					setSearchData((state: SearchResult) => ({
+						...state,
+						isLoading: false,
+					}));
+
+					toast.error(e.message);
+					return {error: 1};
+				}
 			);
 	};
 
-	const refetchInitial = (companyID: string) => {
+	const refetchInitial = (companyID: string, term: string) => {
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;
 		}
-		return fetchInitialSearch(companyID);
+		return fetchInitialSearch(companyID, term);
 	};
 
-	const getData = (): SearchResult => {
-		return dataSearch;
-	};
+	const getData = (): SearchResult => dataSearch;
 
 	return { getData, setSearchData, refetchInitial };
 };

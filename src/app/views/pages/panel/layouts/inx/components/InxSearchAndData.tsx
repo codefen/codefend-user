@@ -3,20 +3,20 @@ import {
 	generateIDArray,
 	useAuthState,
 	useHighlightLinesWithUrl,
-	useIntelPreview,
 	useIntelSearch,
 	useInitialSearch,
 	useInxReadFile,
 } from '../../../../../../data';
 import {
 	CloseIcon,
+	EmptyCard,
 	PageLoader,
 	PageLoaderOverlay,
-	SearchBar,
-	SearchIcon,
 	Show,
 } from '../../../../../components';
 import { InxPreviewIntelData } from './InxPreviewIntelData';
+import { InxSearchBar } from './InxSearchBar';
+import { useParams } from 'react-router-dom';
 
 interface InxSearchAndDataProps {
 	refetch: () => void;
@@ -25,6 +25,7 @@ interface InxSearchAndDataProps {
 export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 	const { highlightWithUrl } = useHighlightLinesWithUrl();
 	const { getUserdata } = useAuthState();
+	const { search } = useParams();
 	const companyID = getUserdata()?.companyID as string;
 
 	const { getData, setSearchData, refetchInitial } = useInitialSearch();
@@ -36,18 +37,19 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 
 	useEffect(() => {
 		//It is executed when there is a "term" by default in the path
-		if (getData().search.trim() !== '') {
-			procSearch();
+		if (search && search.trim() !== '') {
+			procSearch(search);
 		}
 	}, []);
 
-	const procSearch = (e?: React.FormEvent<HTMLFormElement>) => {
-		e?.preventDefault();
-		if (!getData().search.trim()) {
+	const procSearch = (term: string) => {
+		if (!term.trim()) {
 			return;
 		}
 		setSearchData((prev) => ({ ...prev, isLoading: true }));
-		refetchInitial(companyID)?.then((res: any) => {
+		refetchInitial(companyID, term)?.then((res: any) => {
+			if (res.error == 1) return;
+
 			return procIntelSearch(res);
 		});
 	};
@@ -128,32 +130,24 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 					</div>
 				</>
 			</Show>
-			<div className="search-bar-container">
-				<SearchBar
-					inputValue={getData().search}
-					placeHolder="Search"
-					handleChange={(e: any) =>
-						setSearchData((state) => ({
-							...state,
-							search: e.target.value,
-						}))
-					}
-					handleSubmit={procSearch}
-					searchIcon={<SearchIcon isButton />}
-				/>
-			</div>
+
+			<InxSearchBar searchFn={procSearch} initSearch={search!} />
 
 			<Show when={!getData().isLoading} fallback={<PageLoader />}>
-				<div className="internal-tables intel-results-container">
-					{intelData.map((intel: any, i: number) => (
-						<Fragment key={intelKeys[i]}>
-							<InxPreviewIntelData
-								intel={intel}
-								readFile={procReadFile}
-								companyID={companyID}
-							/>
-						</Fragment>
-					))}
+				<div className="intel-results-container">
+					<Show when={Boolean(intelData.length)} fallback={<EmptyCard />}>
+						<>
+							{intelData.map((intel: any, i: number) => (
+								<Fragment key={intelKeys[i]}>
+									<InxPreviewIntelData
+										intel={intel}
+										readFile={procReadFile}
+										companyID={companyID}
+									/>
+								</Fragment>
+							))}
+						</>
+					</Show>
 				</div>
 			</Show>
 			<Show when={fullDataLoading}>
