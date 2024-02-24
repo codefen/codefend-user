@@ -439,12 +439,17 @@ export const osPercentCountColumns = [
 export const vdbColumns = [
 	{
 		name: 'Identifier',
-		value: 'Identifier',
+		value: 'ID',
+		style: 'id',
+	},
+	{
+		name: 'published',
+		value: 'published',
 		style: 'id',
 	},
 	{
 		name: 'cve',
-		value: 'cve',
+		value: 'CVE',
 		style: 'cve',
 	},
 	{

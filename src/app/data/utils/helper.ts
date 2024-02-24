@@ -1,19 +1,9 @@
-import { User } from '..';
-
 /** Gets token in localStorage */
 export const getToken = () => {
 	const storeJson = localStorage.getItem('authStore') ?? '';
 	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
 	return store ? store.state.accessToken  : "";
 };
-
-/** Set token in localStorage */
-export const setToken = (token: string) =>
-	window.localStorage.setItem('token', token);
-
-/** persist user data in localStorage */
-export const persistUser = (userData: User) =>
-	window.localStorage.setItem('user', JSON.stringify(userData));
 
 /** GET base api url in localStorage */
 export const getCustomBaseAPi = () =>
@@ -26,26 +16,6 @@ export const setCustomBaseAPi = (baseApi: string) =>
 /** delete custom base APi */
 export const deleteCustomBaseAPi = () =>
 	window.localStorage.removeItem('baseApi');
-
-/** persist user data in localStorage */
-export const getUser = (): User | null => {
-	const userData = window.localStorage.getItem('user');
-	if (userData !== null) return JSON.parse(userData);
-	return userData;
-};
-
-/** set token and user data for Auth */
-export const setAuth = (token: string, user: User) => {
-	if (!(token && user)) return;
-	setToken(token);
-	persistUser(user);
-};
-
-/** clear token and user data for Auth */
-export const clearAuth = () => {
-	window.localStorage.removeItem('token');
-	window.localStorage.removeItem('user');
-};
 
 export const RUNNING_DESKTOP = (): boolean => {
 	return window.__TAURI__ !== undefined;
@@ -84,10 +54,10 @@ export const generateIDArray = (N: number): string[] => {
 	});
 };
 /**
- * Clear a string of characters: "opiniones", "&nbsp;", "&Acirc;"
+ * Clear a string of characters: "opiniones", "&nbsp;", "&Acirc;", "reseñas"
  * Used to clean reviews
  */
-export const cleanReview = (source: string) => {
+export const cleanReview = (source: string): string => {
 	let update = source.replace(/\bopiniones\b/gi, '');
 	update = update.replace(/&nbsp;/g, '');
 	update = update.replace(/&Acirc;/g, '');
@@ -98,20 +68,28 @@ export const cleanReview = (source: string) => {
 	return update.trim();
 };
 
-
+/**
+ * Compare the equality of two objects
+ * @param first 
+ * @param second 
+ */
 export const equalsObj = (first: any, second: any): boolean =>{
-	if(!first || !second){
+	const bothAreNull = !first || !second;
+	if(bothAreNull){
 		return false;
 	}
-	if (typeof first !== 'object' || typeof second !== 'object') {
+	const noneIsAnObject = typeof first !== 'object' || typeof second !== 'object';
+	if (noneIsAnObject) {
 		return false;
 	}
 	const firstKeys = Object.keys(first);
   	const secondKeys = Object.keys(second);
 
-	if(firstKeys.length !== secondKeys.length) return false;
+	const propertyAreNotSame = firstKeys.length !== secondKeys.length;
+	if(propertyAreNotSame) return false;
 
 	for (const key of firstKeys) {
+		
 		if (!equalsValues(first[key], second[key])) {
 		  return false;
 		}
@@ -120,6 +98,28 @@ export const equalsObj = (first: any, second: any): boolean =>{
 	return true;
 };
 
+/**
+ * Compare the equality of two values
+ * @param first 
+ * @param second 
+ */
 export const equalsValues = (first: any, second: any)=>{
 	return first === second;
 };
+
+/**
+ * Maps a date in epoch format to "yyyy-mm-dd"
+ * @param epochDate 
+ */
+export const mapEpochToDate = (epochDate: number | string): string =>{
+	const date = new Date(Number(epochDate) * 1000); 
+
+	const year = date.getFullYear();
+	// Add a 0 at the beginning if the month is less than 10
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+
+	//Add a 0 at the beginning if the day is less than 10
+    const day = ('0' + date.getDate()).slice(-2); 
+    return `${year}-${month}-${day}`;
+
+}

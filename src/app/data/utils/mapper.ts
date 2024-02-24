@@ -23,6 +23,7 @@ import {
 	Webresources,
 	cleanReview,
 	formatDate,
+	mapEpochToDate,
 } from '..';
 
 /** Map @interface UserAPi => @interface User */
@@ -376,10 +377,20 @@ export const mapVdbRequestSearch = (source: any): VdbRequestSearch => {
 	};
 };
 
+export const mapVdbResults = (source: any) => {
+	return {
+		...source,
+		advisory: {
+			date: mapEpochToDate(source.advisory.date)
+		}
+
+	}
+}
+
 export const mapVdbSearch = (source: any): VdbProps => {
 	return {
 		response: source.response,
 		request: mapVdbRequestSearch(source.request),
-		result: source.result,
+		result: source.result.map((result: any)=> mapVdbResults(result)),
 	};
 };
