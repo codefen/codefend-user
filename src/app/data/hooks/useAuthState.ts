@@ -8,8 +8,7 @@ export const useUserAdmin = () => {
 	const {
 		userData: { accessRole },
 		accessToken,
-		isAuth,
-		updateUser
+		isAuth
 	} = useAuthStore((state: AuthState) => state);
 
 	const getRole = () => accessRole ?? '';
@@ -101,6 +100,7 @@ export const useAuthState = () => {
 		signInUser,
 		signUpUser,
 		signUpFinish,
-		updateUserData
+		updateUserData,
+		updateToken: authStore.updateToken
 	};
 };

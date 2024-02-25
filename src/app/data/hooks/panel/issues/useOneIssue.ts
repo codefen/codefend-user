@@ -4,7 +4,7 @@ import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 
 export const useOneIssue = () => {
-	const { getUserdata, updateUserData } = useAuthState();
+	const { getUserdata, updateUserData, updateToken } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<
 		FetchPattern<OneIssue>
 	>({
@@ -28,6 +28,7 @@ export const useOneIssue = () => {
 					})
 
 					updateUserData(mapLoginResponseToUser(response.user));
+					updateToken(response.session);
 				}
 			)
 			.catch((error) => dispatch({ data: null, error, isLoading: false }));
