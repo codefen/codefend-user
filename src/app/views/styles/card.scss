@@ -165,7 +165,8 @@
 		  border-bottom-width: 1px;
 		  border-bottom-style: solid;
 		  border-bottom-color: var(--primary-color-300);
-  
+		  width: 100%;
+		  justify-content: space-between;
 		  .value {
 			display: flex;
 			align-items: center;
