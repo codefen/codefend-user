@@ -7,7 +7,7 @@
 	border-color: var(--primary-color-300);
 	transition: color, background, border 500ms linear;
 	width: 100%;
-	
+
 	.header {
 	  height: 40px;
 	  display: flex;
@@ -645,7 +645,7 @@
   .left .card {
 	border: 1px solid #00000025;
     transition: color, background, border 500ms linear;
-	box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.3);
+	// box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.3);
   }
 
   .card {

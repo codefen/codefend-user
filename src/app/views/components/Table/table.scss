@@ -147,6 +147,7 @@
 		.location {
 			display: flex;
 			align-items: center;
+			gap: 10px;
 		}
 
 		&:hover {
@@ -322,6 +323,10 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+	}
+	.action {
+		column-gap: 16px;
+		justify-content: center;
 	}
 }
 
