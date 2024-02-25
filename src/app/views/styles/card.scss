@@ -2,6 +2,10 @@
 
 section {
 	.header {
+		@include mixin.respond(small) {
+			max-width: 370px;
+		}
+
 		height: 40px;
 
 		display: flex;
@@ -50,9 +54,6 @@ section {
 				cursor: pointer !important;
 			}
 		}
-	}
-	@include mixin.respond(small) {
-		max-width: 370px;
 	}
 }
 
@@ -118,7 +119,6 @@ section {
 			text-overflow: ellipsis;
 			overflow: hidden;
 			overflow-wrap: break-word;
-			padding-inline-end: 2px;
 
 			.app-card-title {
 				display: flex;

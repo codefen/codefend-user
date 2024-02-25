@@ -104,7 +104,7 @@
 		background: radial-gradient(
 			circle,
 			rgb(255 255 255 / 43%) 7%,
-			rgb(255 255 255 / 58%) 100%
+			rgb(255 255 255 / 58%) 100%	
 		);
 		opacity: 1;
 		visibility: visible;
@@ -122,6 +122,19 @@
 ///////////////////////////////////////////////////////////////////
 // DEFAULT SIZE PANEL
 //////////////////////////////////////////////////////////////////
+.sidebar.is-open + main {
+	opacity: 0.8;
+	
+	.left .app-card-content-img {
+		opacity: 0.4;
+	}
+}
+.sidebar + main {
+	transition: 100ms ease 0ms !important;
+	.left .app-card-content-img {
+		transition: 100ms ease 0ms !important;
+	}
+}
 main.dashboard,
 main.company,
 main.lan,

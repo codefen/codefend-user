@@ -47,22 +47,22 @@ const Sidebar: React.FC = () => {
 		}
 	};
 
+
 	return (
 		<aside
 			ref={sidebarRef}
 			className={`sidebar`}
-			onMouseEnter={(e) => handleViewText('enter')}
-			onFocus={(e) => handleViewText('enter')}
-			onBlur={(e) => handleViewText('leave')}
+			onMouseMove={(e) => handleViewText('enter')}
+			// onFocus={(e) => handleViewText('enter')}
+			onMouseUp={(e) => handleViewText('leave')}
 			onMouseLeave={(e) => handleViewText('leave')}>
 			{showAdmin && (
 				<>
 					<Link
 						title="Admin Panel"
 						to="/admin/company"
-						className={`${
-							isActivePath('/admin/company') ? 'active' : ''
-						}`}
+						className={`${isActivePath('/admin/company') ? 'active' : ''
+							}`}
 						aria-label="Admin panel"
 						data-text="Admin panel">
 						<AdminCompany />

@@ -210,6 +210,7 @@ export const SnbIcon = () => (
 		height="1em"
 		viewBox="0 0 608 525"
 		color="currentColor"
+		style={{ overflow: 'visible' }}
 		fill="currentColor">
 		<path
 			fillRule="evenodd"
@@ -225,6 +226,7 @@ export const VdbIcon = () => (
 		height="1em"
 		viewBox="0 0 445 378"
 		color="currentColor"
+		style={{ overflow: 'visible' }}
 		fill="currentColor">
 		<path
 			fillRule="evenodd"
