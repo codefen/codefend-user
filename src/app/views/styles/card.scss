@@ -650,7 +650,9 @@
 
   .card {
     border: 1px solid transparent;
-  
+	background: rgba(18, 26, 35, 0.3);
+	backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+	// box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
     .header {
       border: none;
     //   background-color: transparent;
@@ -662,25 +664,43 @@
       .content {
         justify-content: flex-start;
 		padding: 14px;
-        column-gap: 12px;
+        // column-gap: 12px;
         .stat {
-          border-radius: 5px;
-          border: none;
+          
+		//   border-left: 1px solid #00000083;
+		//   border-right: 1px solid #ffffff24;
+		  
+		  border-right: 1px solid !important;
+		  border-left: 1px solid !important;
+		  border-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 15%, rgb(17, 21, 28) 36%, rgb(17, 25, 53) 46%, rgb(13, 30, 61) 54%, rgb(18, 22, 31) 64%, rgba(255, 255, 255, 0) 85%);
+		  border-image-slice: 24;
           outline: none;
           background-color: var(--primary-color-300);
           flex: 1 1;
           min-height: 95px;
           max-height: 95px;
           row-gap: 4px;
-
+	
+		//   background: rgba(15, 24, 35, 0.3) !important;
+		//   backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
+		  background-image: linear-gradient(#444df70b 0.4px, transparent 0.4px),
+			  linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
+		//   background-size: 8px 8px;
           &.active {
-            background-color: var(--primary-color-500);
+			
             .value,
             p {
               color: var(--secondary-color-200);
             }
           }
-
+		  &:first-child {
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+		  }		  
+		  &:last-child {
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+		  }
           .value {
             color: var(--tertiary-color-400);
           }

@@ -227,7 +227,8 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 						<Show when={!props.isLoading} fallback={<PageLoader />}>
 							<div
 								className="rows"
-								style={{ '--row-size': 86 + 'dvh' } as any}>
+								// style={{ '--row-size': 80 + 'dvh' } as any}>
+								>
 								{TableMemo}
 							</div>
 						</Show>

@@ -1,6 +1,10 @@
-// @use '../../../../styles/settings/mixin' as mixin;
+@use '../../../../styles/settings/mixin' as mixin;
 
-// main.webapp {
+main.webapp {
+
+	.table .rows {
+		height: calc(100vh - 153px);
+	}
 // 	padding-inline-end: 0px;
 // 	width: 100%;
 
@@ -146,4 +150,4 @@
 // 			}
 // 		}
 // 	}
-// }
+}
