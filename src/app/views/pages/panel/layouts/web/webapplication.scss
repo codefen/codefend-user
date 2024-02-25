@@ -5,6 +5,18 @@ main.webapp {
 	.table .rows {
 		height: calc(100vh - 153px);
 	}
+	@include mixin.respond(small) {
+		min-height: auto;
+		height: 84dvh;
+		.left {
+			.card {
+				overflow-y: auto;
+				overflow-x: auto;
+			}
+		}
+	}
+}
+
 // 	padding-inline-end: 0px;
 // 	width: 100%;
 
@@ -150,4 +162,3 @@ main.webapp {
 // 			}
 // 		}
 // 	}
-}

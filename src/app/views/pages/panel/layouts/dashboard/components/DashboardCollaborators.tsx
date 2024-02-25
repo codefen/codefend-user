@@ -23,7 +23,7 @@ const DashboardCollaborators: React.FC<{
 	);
 
 	return (
-		<div className="card colaborators flex-grow">
+		<div className="flex-grow overflow-auto card">
 			<SimpleSection header="Team members" icon={<PeopleGroup />}>
 				<TableV2
 					rowsData={dataTable}

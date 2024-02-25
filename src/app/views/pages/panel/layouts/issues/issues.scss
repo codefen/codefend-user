@@ -214,6 +214,11 @@ main.issues-list {
 				}
 			}
 		}
+
+		@include mixin.respond(small) {
+			min-height: auto;
+			height: 84dvh;
+		}
 	}
 }
 
