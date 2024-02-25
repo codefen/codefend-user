@@ -1,3 +1,5 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.single-enp {
 	.left {
 		width: 33.333333%;
@@ -987,6 +989,20 @@ main.single-enp {
 					}
 				}
 			}
+		}
+	}
+
+	@include mixin.respond(small) {
+		min-height: auto;
+		height: 84dvh;
+		
+		.left {
+			width: 100%;
+			padding-bottom: 40px;
+		}
+
+		.right {
+			width: 100%;
 		}
 	}
 }

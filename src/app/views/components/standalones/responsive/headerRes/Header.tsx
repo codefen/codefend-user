@@ -11,7 +11,7 @@ const Header: React.FC = () => {
 	return (
 		<header className="head">
 			<section className="content">
-				<button onClick={() => handleChange()}>
+				<button className='rounded-full hover:bg-slate-400' onClick={() => handleChange()}>
 					<MenuIcon />
 				</button>
 

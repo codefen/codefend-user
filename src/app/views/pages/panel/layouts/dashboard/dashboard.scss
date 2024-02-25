@@ -12,6 +12,17 @@ main.dashboard {
 			}
 		}
 	}
+	@include mixin.respond(small) {
+		min-height: auto;
+		height: 84dvh;
+		
+		.left {
+			.card {
+				overflow: auto;
+			}
+		}
+	}
+}
 
 // 	padding-inline-end: 0;
 
@@ -126,4 +137,4 @@ main.dashboard {
 // 			}
 // 		}
 // 	}
-}
+

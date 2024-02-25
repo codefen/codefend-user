@@ -210,6 +210,11 @@ main.issue-detail {
 				}
 			}
 		}
+
+		@include mixin.respond(small) {
+			min-height: auto;
+			height: 84dvh;
+		}
 	}
 }
 

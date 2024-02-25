@@ -7,7 +7,7 @@
   top: 1px;
   width: 0;
   height: 100vh;
-  box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+  box-shadow: 0.063rem 0 .8rem 0 #3b4352;
   height: 765px;
   top: 75px;
   display: flex;
@@ -21,14 +21,8 @@
     blur 425ms linear 175ms,
     backdrop-filter 425ms linear 175ms;
 
-  :first-child {
-    border-top-left-radius: 0.55rem;
-    border-top-right-radius: 0.55rem;
-  }
-
-  :last-child {
-    border-bottom-left-radius: 0.55rem;
-    border-bottom-right-radius: 0.55rem;
+  header {
+    min-width: 350px;
   }
 }
 
@@ -52,6 +46,7 @@
   opacity: 1; 
 	margin-left: 10px;
 	margin-block-start: 10px;
+  border-radius: 10px;
 	width: 95%;
 	background-color: var(--primary-color-400);
 
@@ -74,7 +69,6 @@
   display: flex;
   align-items: center;
   color: var(--tertiary-color-100);
-  border-bottom: 1px solid var(--primary-color-300);
   text-decoration: none;
   border-radius: 0.625rem;
   margin-bottom: 0.625rem;
