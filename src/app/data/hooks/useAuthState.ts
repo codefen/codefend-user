@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { LoginParams, RegisterParams } from '..';
+import { LoginParams, RegisterParams, User } from '..';
 import type { AuthState } from '../store/auth.store';
 import useAuthStore from '../store/auth.store';
 
@@ -9,6 +9,7 @@ export const useUserAdmin = () => {
 		userData: { accessRole },
 		accessToken,
 		isAuth,
+		updateUser
 	} = useAuthStore((state: AuthState) => state);
 
 	const getRole = () => accessRole ?? '';
@@ -89,6 +90,10 @@ export const useAuthState = () => {
 			});
 	};
 
+	const updateUserData = (updatedUser: User)=> {
+		authStore.updateUser(updatedUser);
+	}
+
 	return {
 		getUserdata,
 		getAccessToken,
@@ -96,5 +101,6 @@ export const useAuthState = () => {
 		signInUser,
 		signUpUser,
 		signUpFinish,
+		updateUserData
 	};
 };

@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
-import { FetchPattern, OneIssue, mapOneIssue, useAuthState } from '../../../';
+import { FetchPattern, OneIssue, mapLoginResponseToUser, mapOneIssue, useAuthState } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 
 export const useOneIssue = () => {
-	const { getUserdata } = useAuthState();
+	const { getUserdata, updateUserData } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<
 		FetchPattern<OneIssue>
 	>({
@@ -20,11 +20,15 @@ export const useOneIssue = () => {
 		}));
 		IssueService.getOne(selectedID, companyID)
 			.then((response: any) =>
-				dispatch({
-					data: mapOneIssue(response),
-					error: null,
-					isLoading: false,
-				}),
+				{
+					dispatch({
+						data: mapOneIssue(response),
+						error: null,
+						isLoading: false,
+					})
+
+					updateUserData(mapLoginResponseToUser(response.user));
+				}
 			)
 			.catch((error) => dispatch({ data: null, error, isLoading: false }));
 	}, []);

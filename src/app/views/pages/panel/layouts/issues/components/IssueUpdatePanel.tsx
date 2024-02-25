@@ -9,7 +9,12 @@ import {
 } from '../../../../../components';
 import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
-import { OneIssue, UpdateIssue, useUpdateIssue } from '../../../../../../data';
+import {
+	OneIssue,
+	UpdateIssue,
+	formatDate,
+	useUpdateIssue,
+} from '../../../../../../data';
 import { useTheme } from '../../../../../ThemeContext';
 
 interface IssueUpdatePanelProps {
@@ -136,7 +141,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 				</div>
 				<div className="info">
 					<div>
-						Published: <span>{safelyIssue().createdAt}</span>
+						Published: <span>{formatDate(safelyIssue().createdAt)}</span>
 					</div>
 					<div>
 						Author: <span>@{safelyIssue().researcherUsername}</span>
