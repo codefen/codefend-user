@@ -135,14 +135,7 @@
 		transition: 100ms ease 0ms !important;
 	}
 }
-main.dashboard,
-main.company,
-main.lan,
-main.social,
-main.issues-list,
-main.source-code,
-main.preferences,
-main.sb {
+main {
 	.left {
 		flex-grow: 0.7;
 		flex-shrink: 0.7;
@@ -276,6 +269,24 @@ main.cloud {
 }
 
 [data-theme='dark'] {
+	main {
+		.variant-1 {
+			width: 16rem;
+			top: 4dvh;
+			right: 31dvw;
+			filter: blur(100px) brightness(0.5) opacity(0.45);
+		}
+	
+		.variant-2 {
+			width: 16rem;
+			top: 20dvh;
+			right: 2dvw;
+			filter: blur(115px) brightness(0.5);
+		}
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+		}
+	}
 	main.mobile,
 	main.cloud {
 		.left {

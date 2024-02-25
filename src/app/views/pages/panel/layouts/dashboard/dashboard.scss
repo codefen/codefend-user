@@ -1,117 +1,129 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.dashboard {
-	padding-inline-end: 0;
 
-	.right {
-		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		padding-inline: 15px;
+	.card.risk-chart {
+		.content {
+			flex-direction: column;
+			row-gap: 2rem;
 
-		.card {
-			border: none;
-
-			&.risk-chart {
-				.content {
-					flex-direction: column;
-					row-gap: 2rem;
-
-					.chart {
-						flex: 1 1 100%;
-						min-width: 105px;
-						max-width: 0%;
-					}
-
-					.table {
-						flex: 1 1 100%;
-						max-width: 100%;
-
-						.columns-name {
-							align-items: center;
-							column-gap: 15px;
-
-							.risk {
-								margin-inline-end: 40px;
-							}
-						}
-
-						.rows {
-							display: flex;
-							flex-direction: column;
-							align-items: center;
-
-							.item {
-								column-gap: 15px;
-
-								.risk {
-									margin-inline-end: 40px;
-									justify-self: flex-start;
-									align-self: flex-start;
-									justify-content: flex-start;
-								}
-							}
-						}
-					}
-				}
-			}
-
-			&.stats {
-				.content {
-					.stat {
-						background: transparent;
-						border: none;
-					}
-				}
+			.chart {
+				min-width: 170px;
 			}
 		}
 	}
 
-	.over {
-		overflow-x: auto;
-	}
+// 	padding-inline-end: 0;
 
-	@include mixin.respond(small) {
-		display: block;
-		min-height: auto;
-		padding-inline-start: 15px;
-		height: 81dvh;
-		min-height: auto;
+// 	.right {
+// 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+// 		padding-inline: 15px;
 
-		.left {
-			width: 95%;
-			padding-block-start: 10px;
-		}
-	}
-}
+// 		.card {
+// 			border: none;
 
-[data-theme='dark'] {
-	.variant-1 {
-		width: 16rem;
-		top: 4dvh;
-		right: 31dvw;
-		filter: blur(100px) brightness(0.5) opacity(0.45);
-	}
+// 			&.risk-chart {
+// 				.content {
+// 					flex-direction: column;
+// 					row-gap: 2rem;
 
-	.variant-2 {
-		width: 16rem;
-		top: 20dvh;
-		right: 2dvw;
-		filter: blur(115px) brightness(0.5);
-	}
+// 					.chart {
+// 						flex: 1 1 100%;
+// 						min-width: 105px;
+// 						max-width: 0%;
+// 					}
 
-	main.dashboard {
-		.right {
-			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+// 					.table {
+// 						flex: 1 1 100%;
+// 						max-width: 100%;
 
-			.card.risk-chart {
-				.content {
-					flex-direction: column;
-					row-gap: 2rem;
+// 						.columns-name {
+// 							align-items: center;
+// 							column-gap: 15px;
 
-					.chart {
-						min-width: 70px;
-					}
-				}
-			}
-		}
-	}
+// 							.risk {
+// 								margin-inline-end: 40px;
+// 							}
+// 						}
+
+// 						.rows {
+// 							display: flex;
+// 							flex-direction: column;
+// 							align-items: center;
+
+// 							.item {
+// 								column-gap: 15px;
+
+// 								.risk {
+// 									margin-inline-end: 40px;
+// 									justify-self: flex-start;
+// 									align-self: flex-start;
+// 									justify-content: flex-start;
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+
+// 			&.stats {
+// 				.content {
+// 					.stat {
+// 						background: transparent;
+// 						border: none;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	.over {
+// 		overflow-x: auto;
+// 	}
+
+// 	@include mixin.respond(small) {
+// 		display: block;
+// 		min-height: auto;
+// 		padding-inline-start: 15px;
+// 		height: 81dvh;
+// 		min-height: auto;
+
+// 		.left {
+// 			width: 95%;
+// 			padding-block-start: 10px;
+// 		}
+// 	}
+// }
+
+// [data-theme='dark'] {
+// 	.variant-1 {
+// 		width: 16rem;
+// 		top: 4dvh;
+// 		right: 31dvw;
+// 		filter: blur(100px) brightness(0.5) opacity(0.45);
+// 	}
+
+// 	.variant-2 {
+// 		width: 16rem;
+// 		top: 20dvh;
+// 		right: 2dvw;
+// 		filter: blur(115px) brightness(0.5);
+// 	}
+
+// 	main.dashboard {
+// 		.right {
+// 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+
+// 			.card.risk-chart {
+// 				.content {
+// 					flex-direction: column;
+// 					row-gap: 2rem;
+
+// 					.chart {
+// 						min-width: 70px;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
 }
