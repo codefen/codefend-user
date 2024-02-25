@@ -37,13 +37,15 @@ const addCSMessage = async (params: any, companyID: string) => {
 	return data;
 };
 
-const add = async (params: any, companyID: string) => {
+const add = async (body: any, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'issues/add',
 			company_id: companyID,
-			...params,
 		},
+		body: {
+			...body
+		}
 	}).catch((error: any) => handleFetchError(error))) as any;
 
 	return data;

@@ -61,8 +61,9 @@ export const useSaveIssue = () => {
 		
 		return IssueService.add(params, companyID)
 			.then((response: any) => {
+				console.log({response});
 				if (response.response === 'error') {
-					throw new Error(response.message);
+					throw new Error("An unexpected error has occurred on the server");
 				}
 				setNewIssue({
 					issueName: '',
@@ -75,7 +76,7 @@ export const useSaveIssue = () => {
 				return { id: response.new_issue.id };
 			})
 			.catch((error: Error) => {
-				toast.error(error.message);
+				toast.error("An unexpected error has occurred on the server");
 				return {error:1};
 			})
 			.finally(() =>

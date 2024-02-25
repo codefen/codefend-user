@@ -62,7 +62,7 @@ export const useUpdateIssue = () => {
 				return { updatedIssue };
 			})
 			.catch((error: Error) => {
-				toast.error(error.message);
+				toast.error("An unexpected error has occurred on the server");
 			})
 			.finally(() =>
 				dispatch((state: UpdateIssue) => ({

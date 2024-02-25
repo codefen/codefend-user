@@ -120,7 +120,6 @@ export const handleFetchError = (error: any) => {
 			data: { error: error ?? {}, isAnError: true, isNetworkError: true },
 		};
 	}
-	console.log({ error });
 	if (error.response?.data) {
 		const message = error.response.data.message;
 		console.log(error.response.data);

@@ -63,7 +63,9 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 				const body = contentWindow.document;
 				contentWindow.document.body.setAttribute('data-theme', theme);
 				contentWindow.addEventListener('keydown', handleKeyDown);
-				timeID = setTimeout(() => setEditable(true), 50);
+
+				timeID = setTimeout(() => setEditable(true), 75);
+
 				themeTiny = setTimeout(
 					() => body.documentElement.setAttribute('data-theme', theme),
 					25,
