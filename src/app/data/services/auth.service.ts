@@ -28,16 +28,14 @@ const registerFinish = async (registerParams: any): Promise<any> => {
 
 const login = async (loginParams: LoginParams): Promise<any> => {
 	const body = new FormData();
-	body.append("provided_email", loginParams.email);
-	body.append("provided_password", loginParams.password);
+	body.append('model', 'users/access');
+	body.append('provided_email', loginParams.email);
+	body.append('provided_password', loginParams.password);
 	const { data } = (await fetchPOST({
-		params: {
-			model: 'users/access',
-		},
 		body: body,
 		headers: {
-			"Content-Type": "multipart/form-data"
-		}
+			'Content-Type': 'multipart/form-data',
+		},
 	}).catch((error: any) => handleFetchError(error))) as any;
 
 	const response = data.response as string;
@@ -50,7 +48,6 @@ const login = async (loginParams: LoginParams): Promise<any> => {
 				...mapLoginResponseToUser(data.user),
 				exp: decodedToken.exp ?? 0,
 			};
-			
 		}
 		return { user, token, response };
 	}
