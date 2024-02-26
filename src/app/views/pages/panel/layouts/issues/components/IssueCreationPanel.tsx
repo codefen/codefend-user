@@ -16,7 +16,8 @@ interface IssueCreationPanelProps {
 }
 
 const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
-	const { newIssue, dispatch, save } = useSaveIssue();
+	const { newIssue, dispatch, save, shouldDisableClass, type } =
+		useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
 	const navigate = useNavigate();
 	const { theme } = useTheme();
@@ -87,7 +88,11 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 	return (
 		<>
 			<div className="header">
-				<div className="back" onClick={() => navigate('/issues')}>
+				<div
+					className="back"
+					onClick={() => {
+						type ? navigate(-1) : navigate('/issues');
+					}}>
 					<LeftArrow isButton />
 				</div>
 				<input
@@ -96,6 +101,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					name="issueName"
 					value={newIssue.issueName}
 					onChange={handleChange}
+					autoFocus
 				/>
 
 				<div className="flex !p-0">
@@ -112,10 +118,13 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<p className="pr-2">Class:</p>
 					<select
 						onChange={handleChange}
-						className="py-3  focus:outline-none log-inputs"
+						className={`py-3  focus:outline-none log-inputs ${
+							shouldDisableClass && 'opacity-50'
+						}`}
 						value={newIssue.issueClass}
 						name="issueClass"
-						required>
+						required
+						disabled={shouldDisableClass}>
 						<option value="" disabled>
 							Select Class
 						</option>
