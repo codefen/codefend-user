@@ -42,15 +42,24 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 
 	const formatDate = formatDateTimeFormat(intel.date);
 	return (
-		<article ref={ref} className="intel-data-card">
+		<article
+			ref={ref}
+			className="intel-data-card"
+			onClick={() => readFile(intel)}>
 			<header className="intel-data-header">
-				<h3 className="intel-header-title" title={intel.name}>
-					{intel.name.slice(0, 50)}
-				</h3>
-				<span className="intel-header-text intel-header-mid-dash">-</span>
-				<span className="intel-header-text" title={formatDate}>
-					{formatDate}
-				</span>
+				<div className="title-container">
+					<h3 className="intel-header-title" title={intel.name}>
+						{intel.name.slice(0, 50)}
+					</h3>
+				</div>
+				<div className="secondary-title">
+					<h4 className="intel-header-title intel-secondary-title">
+						{intel.bucket_data}
+					</h4>
+					<span className="intel-header-text" title={formatDate}>
+						{formatDate}
+					</span>
+				</div>
 			</header>
 
 			<section className="intel-data-content">

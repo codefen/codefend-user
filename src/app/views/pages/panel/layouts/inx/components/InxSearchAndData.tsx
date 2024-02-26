@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import {
 	generateIDArray,
 	useAuthState,
@@ -10,6 +10,7 @@ import {
 import {
 	CloseIcon,
 	EmptyCard,
+	ModalTitleWrapper,
 	PageLoader,
 	PageLoaderOverlay,
 	Show,
@@ -26,7 +27,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 	const { highlightWithUrl } = useHighlightLinesWithUrl();
 	const { getUserdata } = useAuthState();
 	const { search } = useParams();
-	const companyID = getUserdata()?.companyID as string;
+	const companyID = getUserdata().companyID;
 
 	const { getData, setSearchData, refetchInitial } = useInitialSearch();
 
@@ -34,6 +35,8 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 
 	const { fullDataLoading, selectedResult, setSelectedResult, readFile } =
 		useInxReadFile();
+
+	const [viewPreviewModal, setViewPreviewModal] = useState(true);
 
 	useEffect(() => {
 		//It is executed when there is a "term" by default in the path
@@ -77,82 +80,92 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 		[intelData],
 	);
 
+	const closePreviewModal = () => setViewPreviewModal(false);
+
 	return (
 		<div className="left-wrapper">
-			{/* <Show when={selectedResult !== null}>
+			<ModalTitleWrapper
+				close={closePreviewModal}
+				headerTitle="Full preview data"
+				isActive={selectedResult !== null && viewPreviewModal}>
 				<>
-					<div className="fixed left-0 top-0 h-full w-full bg-gray-500 bg-opacity-25 overflow-y-hidden overflow-x-hidden outline-none">
-						<div className="pointer-events-none relative w-auto translate-y-[50px] transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:max-w-[1140px]">
-							<div className="pointer-events-auto relative flex w-full flex-col border-none bg-white bg-clip-padding text-black dark:text-current shadow-lg outline-none dark:bg-neutral-600 ">
-								<div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
-									<h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
-										{selectedResult?.fileName},{' '}
-										{selectedResult?.fileType}
-									</h5>
-									<button
-										onClick={() => setSelectedResult(null)}
-										type="button"
-										className="btn btn no-border-height w-14 items-center justify-center">
-										<CloseIcon />
-									</button>
-								</div>
+					<div className="pointer-events-auto relative flex w-full flex-col border-none bg-white bg-clip-padding text-black dark:text-current shadow-lg outline-none dark:bg-neutral-600 ">
+						<div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+							<h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
+								{selectedResult?.fileName}, {selectedResult?.fileType}
+							</h5>
+							<button
+								onClick={() => setSelectedResult(null)}
+								type="button"
+								className="btn btn no-border-height w-14 items-center justify-center">
+								<CloseIcon />
+							</button>
+						</div>
 
-								<div className="relative p-4 max-h-[48rem] h-full overflow-y-scroll">
-									<h3 className="text-xl font-bold leading-normal text-neutral-800 dark:text-neutral-200">
-										Main results
-									</h3>
+						<div className="relative p-4 max-h-[48rem] h-full overflow-y-scroll">
+							<h3 className="text-xl font-bold leading-normal text-neutral-800 dark:text-neutral-200">
+								Main results
+							</h3>
 
-									<div
-										className="max-w-md text-xs break-words"
-										dangerouslySetInnerHTML={{
-											__html: highlightWithUrl(
-												selectedResult?.intelSelected,
-												getData().search,
-											),
-										}}></div>
+							<div
+								className="max-w-md text-xs break-words"
+								dangerouslySetInnerHTML={{
+									__html: highlightWithUrl(
+										selectedResult?.intelSelected,
+										getData().search,
+									),
+								}}></div>
 
-									<hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+							<hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-									<h3 className="text-xl font-bold leading-normal text-neutral-800 dark:text-neutral-200">
-										Full list
-									</h3>
-									<div
-										className="max-w-md text-xs break-words"
-										dangerouslySetInnerHTML={{
-											__html: selectedResult?.intelSelected.replace(
-												/(\r\n|\n|\r)/g,
-												'<br>',
-											),
-										}}></div>
-								</div>
-							</div>
+							<h3 className="text-xl font-bold leading-normal text-neutral-800 dark:text-neutral-200">
+								Full list
+							</h3>
+							<div
+								className="max-w-md text-xs break-words"
+								dangerouslySetInnerHTML={{
+									__html: selectedResult?.intelSelected.replace(
+										/(\r\n|\n|\r)/g,
+										'<br>',
+									),
+								}}></div>
 						</div>
 					</div>
 				</>
-			</Show>*/}
+			</ModalTitleWrapper>
 
 			<InxSearchBar searchFn={procSearch} initSearch={search!} />
 
 			<Show when={!getData().isLoading} fallback={<PageLoader />}>
-				<div className="intel-results-container">
-					<Show when={Boolean(intelData.length)} fallback={<EmptyCard />}>
-						<>
-							{intelData.map((intel: any, i: number) => (
-								<Fragment key={intelKeys[i]}>
-									<InxPreviewIntelData
-										intel={intel}
-										readFile={procReadFile}
-										companyID={companyID}
-									/>
-								</Fragment>
-							))}
-						</>
-					</Show>
-				</div>
+				<>
+					{Boolean(intelData.length) && (
+						<div className="intel-result-data">
+							<span className="result-text">Search Results:</span>{' '}
+							{getData().count}
+						</div>
+					)}
+					<div className="intel-results-container">
+						<Show
+							when={Boolean(intelData.length)}
+							fallback={<EmptyCard />}>
+							<>
+								{intelData.map((intel: any, i: number) => (
+									<Fragment key={intelKeys[i]}>
+										<InxPreviewIntelData
+											intel={intel}
+											readFile={procReadFile}
+											companyID={companyID}
+										/>
+									</Fragment>
+								))}
+							</>
+						</Show>
+					</div>
+				</>
 			</Show>
-			{/* <Show when={fullDataLoading}>
+			<Show when={fullDataLoading}>
 				<PageLoaderOverlay />
-			</Show>*/}
+			</Show>
 		</div>
 	);
 };
