@@ -39,25 +39,25 @@ html {
 	--tertiary-color-700: #000;
 }
 
-html[data-theme='dark'] {
+[data-theme='dark'] {
 	--line-color: #fe4e4e;
 	--primary-color-100: #fe4e4e;
 	--code-bkg: #ffebeb;
-	--text-color: #333333;
-	--text-color-alt: #333333;
+	--text-color: #d2d2d2;
+	--text-color-alt: #d2d2d2;
 	--text-color-alt2: #fe4e4e;
 	--text-color-alt3: rgb(206, 206, 206);
 	--table-border-color: rgb(153, 153, 153);
 
-	--primary-color: #202a35;
-	--primary-color-50: #1d2631;
-	--primary-color-100: #1c2531;
-	--primary-color-200: #19222c;
-	--primary-color-250: #171f29;
-	--primary-color-300: #161e28;
-	--primary-color-400: #131b24;
-	--primary-color-500: #121a23;
-	--primary-color-600: #0d141b;
+	--primary-color: #d2d2d2;
+	--primary-color-50: #d2d2d2;
+	--primary-color-100: #d2d2d2;
+	--primary-color-200: #d2d2d2;
+	--primary-color-250: #d2d2d2;
+	--primary-color-300: #d2d2d2;
+	--primary-color-400: #d2d2d2;
+	--primary-color-500: #d2d2d2;
+	--primary-color-600: #d2d2d2;
 
 	--secondary-color-mask: #ff0000;
 
@@ -78,8 +78,19 @@ html[data-theme='dark'] {
 	--tertiary-color-600: #999999;
 	--tertiary-color-700: #666;
 	--tertiary-color-800: #131313;
-}
 
+	code {
+		color: var(--text-color-alt2);
+		background-color: #130101;
+	}
+
+
+}
+*, ::before, ::after {
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary-color-50) var(--primary-color-500);
+}
 table,
 table td {
 	border-color: var(--table-border-color);
@@ -89,7 +100,7 @@ table td {
 }
 
 ::-webkit-scrollbar-track {
-	background: #e5e5e5;
+	background: var(--primary-color-500);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -120,7 +131,7 @@ table td {
 body {
 	font-family: Questrial, sans-serif;
 	line-height: 1.4;
-	margin: 1rem;
+	margin: 0 20px 0 20px;
 	color: var(--text-color-alt3);
 	overflow-x: hidden;
 }
@@ -175,7 +186,7 @@ code {
 	display: block;
 	white-space: pre-wrap;
 	overflow: auto;
-	width: calc(100% - 20px);
+	/* width: calc(100% - 20px); */
 	font-size: 90%;
 	color: var(--primary-color-100);
 	background-color: var(--code-bkg);
