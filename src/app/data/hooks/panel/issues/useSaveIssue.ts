@@ -14,34 +14,59 @@ export interface SaveIssue {
 
 export const useSaveIssue = () => {
 	const { getUserdata } = useAuthState();
-    const { type } = useParams();
+	const { type } = useParams();
 	console.log({ type });
-    const [newIssue, setNewIssue] = useState<SaveIssue>({
-        issueName: '',
-        score: '',
-        issueClass: 
-		['web', 'mobile', 'cloud', 'lan', 'source', 'social', 'research'].includes(type ?? "") ? type as string : "",
-        isAddingIssue: false,
-    });
+	const [newIssue, setNewIssue] = useState<SaveIssue>({
+		issueName: '',
+		score: '',
+		issueClass: [
+			'web',
+			'mobile',
+			'cloud',
+			'lan',
+			'source',
+			'social',
+			'research',
+		].includes(type ?? '')
+			? (type as string)
+			: '',
+		isAddingIssue: false,
+	});
 
-    const validateField = (value: string, message: string) => {
-        if (!value.trim()) {
-            toast.error(message);
-            return false;
-        }
-        return true;
-    };
+	const validateField = (value: string, message: string) => {
+		if (!value.trim()) {
+			toast.error(message);
+			return false;
+		}
+		return true;
+	};
 
-    const validateNewIssue = (editorContent: string) => {
-        if (!validateField(newIssue.score, 'Invalid score')) return false;
-        if (!validateField(newIssue.issueName, 'Invalid name')) return false;
-        if (!['web', 'mobile', 'cloud', 'lan', 'source', 'social', 'research'].includes(newIssue.issueClass)) {
-            toast.error('Invalid issue type');
-            return false;
-        }
-        if (!validateField(editorContent, 'Invalid content, please add content using the editor')) return false;
-        return true;
-    };
+	const validateNewIssue = (editorContent: string) => {
+		if (!validateField(newIssue.score, 'Invalid score')) return false;
+		if (!validateField(newIssue.issueName, 'Invalid name')) return false;
+		if (
+			![
+				'web',
+				'mobile',
+				'cloud',
+				'lan',
+				'source',
+				'social',
+				'research',
+			].includes(newIssue.issueClass)
+		) {
+			toast.error('Invalid issue type');
+			return false;
+		}
+		if (
+			!validateField(
+				editorContent,
+				'Invalid content, please add content using the editor',
+			)
+		)
+			return false;
+		return true;
+	};
 
 	const fetchSave = async (companyID: string) => {
 		const _editorContent = getTinyEditorContent('issue');
@@ -49,8 +74,8 @@ export const useSaveIssue = () => {
 		if (!validateNewIssue(_editorContent)) {
 			return;
 		}
-		setNewIssue(prevIssue => ({ ...prevIssue, isAddingIssue: true }));
-	
+		setNewIssue((prevIssue) => ({ ...prevIssue, isAddingIssue: true }));
+
 		const params = {
 			risk_score: newIssue.score,
 			name: newIssue.issueName,
@@ -58,12 +83,14 @@ export const useSaveIssue = () => {
 			researcher_username: getUserdata()?.username,
 			main_desc: _editorContent,
 		};
-		
+
 		return IssueService.add(params, companyID)
 			.then((response: any) => {
-				console.log({response});
+				console.log({ response });
 				if (response.response === 'error') {
-					throw new Error("An unexpected error has occurred on the server");
+					throw new Error(
+						'An unexpected error has occurred on the server',
+					);
 				}
 				setNewIssue({
 					issueName: '',
@@ -76,11 +103,11 @@ export const useSaveIssue = () => {
 				return { id: response.new_issue.id };
 			})
 			.catch((error: Error) => {
-				toast.error("An unexpected error has occurred on the server");
-				return {error:1};
+				toast.error('An unexpected error has occurred on the server');
+				return { error: 1 };
 			})
 			.finally(() =>
-			setNewIssue((state: SaveIssue) => ({
+				setNewIssue((state: SaveIssue) => ({
 					...state,
 					isAddingIssue: false,
 				})),
@@ -96,5 +123,7 @@ export const useSaveIssue = () => {
 		return fetchSave(companyID);
 	};
 
-	return { newIssue, dispatch: setNewIssue, save };
+	const shouldDisableClass = Boolean(type && newIssue.issueClass);
+
+	return { newIssue, dispatch: setNewIssue, save, shouldDisableClass };
 };
