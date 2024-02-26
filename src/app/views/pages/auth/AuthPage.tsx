@@ -14,7 +14,11 @@ const Logo = lazy(() => import('../../components/defaults/Logo'));
 
 const AuthPage: React.FC = () => {
 	const location = useLocation();
-	const { isAuth } = useAuthStore((state) => state);
+	const {
+		isAuth,
+		userData: { accessRole },
+	} = useAuthStore((state) => state);
+	const isAdmin = accessRole === 'admin';
 	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
@@ -74,7 +78,7 @@ const AuthPage: React.FC = () => {
 			</section>
 		</>
 	) : (
-		<Navigate to="/" />
+		<Navigate to={isAdmin ? '/admin' : '/'} />
 	);
 };
 
