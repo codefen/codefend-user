@@ -23,7 +23,7 @@ export const MessageCard: React.FC<Props> = (props) => {
 	return (
 		<>
 			<div className="flex flex-col">
-				<span className="pt-4 pb-3 px-4 border-b">{title}</span>
+				<span className="pt-4 pb-3 px-4">{title}</span>
 				<div className="flex flex-row items-start gap-x-8 p-6 tt">
 					<div className="rounded-full min-w-[2.185rem]">
 						<img

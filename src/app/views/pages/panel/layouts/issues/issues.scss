@@ -161,7 +161,7 @@ main.issue-detail {
 	.right {
 		// flex: 1 1 25%;
 		height: 100%;
-		padding-inline: 0px;
+		// padding-inline: 0px;
 		// width: 30%;
 
 		@include mixin.respond(small) {
@@ -208,7 +208,7 @@ main.issues-list {
 		}
 
 		.right {
-			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+			// box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
 
 			.card.stats {
 				.content {
