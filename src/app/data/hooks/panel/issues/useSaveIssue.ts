@@ -125,5 +125,5 @@ export const useSaveIssue = () => {
 
 	const shouldDisableClass = Boolean(type && newIssue.issueClass);
 
-	return { newIssue, dispatch: setNewIssue, save, shouldDisableClass };
+	return { newIssue, dispatch: setNewIssue, save, shouldDisableClass, type };
 };

@@ -16,7 +16,8 @@ interface IssueCreationPanelProps {
 }
 
 const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
-	const { newIssue, dispatch, save, shouldDisableClass } = useSaveIssue();
+	const { newIssue, dispatch, save, shouldDisableClass, type } =
+		useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
 	const navigate = useNavigate();
 	const { theme } = useTheme();
@@ -87,7 +88,11 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 	return (
 		<>
 			<div className="header">
-				<div className="back" onClick={() => navigate('/issues')}>
+				<div
+					className="back"
+					onClick={() => {
+						type ? navigate(-1) : navigate('/issues');
+					}}>
 					<LeftArrow isButton />
 				</div>
 				<input
