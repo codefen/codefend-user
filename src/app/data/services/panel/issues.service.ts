@@ -43,8 +43,9 @@ const add = async (body: any, companyID: string) => {
 			model: 'issues/add',
 			company_id: companyID,
 		},
-		body: {
-			...body
+		body: body,
+		headers: {
+			"Content-Type": "multipart/form-data"
 		}
 	}).catch((error: any) => handleFetchError(error))) as any;
 

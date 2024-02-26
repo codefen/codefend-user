@@ -76,15 +76,21 @@ export const useSaveIssue = () => {
 		}
 		setNewIssue((prevIssue) => ({ ...prevIssue, isAddingIssue: true }));
 
-		const params = {
+		const body = new FormData();
+		body.append("risk_score", newIssue.score);
+		body.append("name", newIssue.issueName);
+		body.append("resource_class", newIssue.issueClass);
+		body.append("researcher_username", getUserdata()?.username as string);
+		body.append("main_desc", _editorContent);
+/* 		const params = {
 			risk_score: newIssue.score,
 			name: newIssue.issueName,
 			resource_class: newIssue.issueClass,
 			researcher_username: getUserdata()?.username,
 			main_desc: _editorContent,
-		};
+		};*/
 
-		return IssueService.add(params, companyID)
+		return IssueService.add(body, companyID)
 			.then((response: any) => {
 				console.log({ response });
 				if (response.isAnError) {
