@@ -27,12 +27,17 @@ const registerFinish = async (registerParams: any): Promise<any> => {
 };
 
 const login = async (loginParams: LoginParams): Promise<any> => {
+	const body = new FormData();
+	body.append("provided_email", loginParams.email);
+	body.append("provided_password", loginParams.password);
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'users/access',
-			provided_email: loginParams.email,
-			provided_password: loginParams.password,
 		},
+		body: body,
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
 	}).catch((error: any) => handleFetchError(error))) as any;
 
 	const response = data.response as string;

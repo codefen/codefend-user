@@ -120,15 +120,6 @@ const Sidebar: React.FC = () => {
 				*/}
 
 			<Link
-				title="Enp"
-				to="/enp"
-				className={`${isActivePath('/enp') ? 'active' : ''}`}
-				aria-label="Endpoint monitoring"
-				data-text="Endpoint monitoring">
-				<EnpIcon />
-			</Link>
-
-			<Link
 				title="Source Code"
 				to="/source"
 				className={`${isActivePath('/source') ? 'active' : ''}`}
@@ -144,6 +135,15 @@ const Sidebar: React.FC = () => {
 				aria-label="Social Engineering"
 				data-text="Social Engineering">
 				<PeopleGroup />
+			</Link>
+
+			<Link
+				title="Enp"
+				to="/enp"
+				className={`${isActivePath('/enp') ? 'active' : ''}`}
+				aria-label="Endpoint monitoring"
+				data-text="Endpoint monitoring">
+				<EnpIcon />
 			</Link>
 
 			<Link

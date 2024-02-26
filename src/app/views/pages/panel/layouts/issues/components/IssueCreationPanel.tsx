@@ -66,10 +66,10 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 
 				timeID = setTimeout(() => setEditable(true), 75);
 
-				themeTiny = setTimeout(
+				/*themeTiny = setTimeout(
 					() => body.documentElement.setAttribute('data-theme', theme),
 					25,
-				);
+				);*/
 			}
 		};
 
