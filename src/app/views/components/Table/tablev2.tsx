@@ -150,7 +150,10 @@ export const TableV2: React.FC<TableProps> = ({
 						<div
 							className={`column ${column?.style}`}
 							key={columnsID[i]}
-							onClick={() => handleSort(column.name)}>
+							onClick={() => {
+								if (column.name === 'action') return;
+								handleSort(column.name);
+							}}>
 							{column.value}
 							<Show
 								when={
@@ -166,6 +169,9 @@ export const TableV2: React.FC<TableProps> = ({
 								}>
 								<span className="sort">{'↓'}</span>
 							</Show>
+							{dataSort !== column.name && column.name !== 'action' && (
+								<span className="sort active">{'↓'}</span>
+							)}
 						</div>
 					))}
 				</div>
@@ -198,7 +204,7 @@ export const TableV2: React.FC<TableProps> = ({
 														row[column.name as keyof typeof row]
 															?.style
 													}>
-													<div className='publish'>
+													<div className="publish">
 														{column.name !== 'published'
 															? row[
 																	column.name as keyof typeof row

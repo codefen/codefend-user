@@ -60,6 +60,10 @@
 			&:hover {
 				color: rgba(239, 68, 68, 1);
 			}
+
+			&:hover .sort.active{
+				visibility: visible;
+			}
 		}
 
 		div {
@@ -71,6 +75,9 @@
 			.sort {
 				padding-inline-start: 5px;
 				font-size: 15px;
+			}
+			.sort.active{
+				visibility: hidden;
 			}
 		}
 
