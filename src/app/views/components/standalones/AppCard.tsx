@@ -83,7 +83,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 				className={`app-card ${!isDetails ? 'app-card-border' : 'pt-5'} ${
 					isActive && 'active'
 				}`}>
-				<Show when={!isDetails}>
+				{/* <Show when={!isDetails}>
 					<button
 						className="app-delete-btn"
 						title={
@@ -96,7 +96,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 						}}>
 						<CloseIcon isButton />
 					</button>
-				</Show>
+				</Show> */}
 
 				<div className="app-card-content">
 					<div className="app-card-content-img">
