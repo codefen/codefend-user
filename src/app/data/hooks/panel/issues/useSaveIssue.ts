@@ -87,11 +87,12 @@ export const useSaveIssue = () => {
 		return IssueService.add(params, companyID)
 			.then((response: any) => {
 				console.log({ response });
-				if (response.response === 'error') {
+				if (response.isAnError) {
 					throw new Error(
 						'An unexpected error has occurred on the server',
 					);
 				}
+
 				setNewIssue({
 					issueName: '',
 					score: '',
