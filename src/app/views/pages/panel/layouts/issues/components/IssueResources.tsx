@@ -11,6 +11,7 @@ import {
 	ConfirmModal,
 	ModalTitleWrapper,
 	RiskScore,
+	Sort,
 	TableV2,
 	TrashIcon,
 } from '../../../../../components';
@@ -103,6 +104,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 					sizeY={80.5}
 					tableAction={actionTable}
 					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
+					sort={Sort.asc}
 				/>
 			</div>
 		</>
