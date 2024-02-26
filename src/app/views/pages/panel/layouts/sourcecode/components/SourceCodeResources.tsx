@@ -42,27 +42,31 @@ export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
 	);
 
 	const tableAction = {
-		icon: (
-			<>
-				<span>
-					<TrashIcon />
-				</span>
-				<span
-					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						navigate(`/issues/create/source`);
-					}}>
-					<BugIcon isButton />
-				</span>
-			</>
-		),
+		icon: [
+			{
+				action: (id: string) => {
+					setSelectedSourceCodeIdToDelete(id);
+					setShowModal(!showModal);
+					setShowModalStr('delete_resource');
+				},
+				render: (
+					<span>
+						<TrashIcon />
+					</span>
+				),
+			},
+			{
+				action: (id: string) => {
+					navigate(`/issues/create/source/${id}`);
+				},
+				render: (
+					<span>
+						<BugIcon isButton />
+					</span>
+				),
+			},
+		],
 		style: 'id cursor-pointer action',
-		action: (id: string) => {
-			setSelectedSourceCodeIdToDelete(id);
-			setShowModal(!showModal);
-			setShowModalStr('delete_resource');
-		},
 	};
 
 	return (

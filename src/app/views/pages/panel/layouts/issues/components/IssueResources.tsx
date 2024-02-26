@@ -44,12 +44,17 @@ export const IssueResources: React.FC<Props> = (props) => {
 		action: { value: 'actions', style: 'id' },
 	}));
 	const actionTable = {
-		icon: <TrashIcon />,
+		icon: [
+			{
+				action: (id: string) => {
+					setSelectedId(id);
+					setShowModal(!showModal);
+				},
+				render: <TrashIcon />,
+			},
+		],
+
 		style: 'trash',
-		action: (id: string) => {
-			setSelectedId(id);
-			setShowModal(!showModal);
-		},
 	};
 
 	return (

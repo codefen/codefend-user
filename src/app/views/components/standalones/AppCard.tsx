@@ -146,7 +146,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 												navigate(
 													`/issues/create/${
 														isMobileType ? 'mobile' : 'cloud'
-													}`,
+													}/${id}`,
 												)
 											}>
 											Add issue

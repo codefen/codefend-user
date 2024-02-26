@@ -34,9 +34,11 @@ export interface TableItem {
 }
 
 export interface TableAction {
-	icon: JSX.Element;
+	icon: Array<{
+		action: (id: string, type?: any) => void;
+		render: JSX.Element;
+	}>;
 	style: string;
-	action: (id: string) => void;
 }
 
 export const TableV2: React.FC<TableProps> = ({
@@ -221,17 +223,22 @@ export const TableV2: React.FC<TableProps> = ({
 											),
 										)}
 										<Show when={tableAction !== undefined}>
-											<div
-												className={tableAction?.style}
-												onClick={(e: React.FormEvent) => {
-													e.preventDefault();
-													e.stopPropagation();
-													tableAction?.action(
-														row['ID'].value as string,
-													);
-												}}>
-												{tableAction?.icon}
-											</div>
+											<>
+												{tableAction?.icon?.map((i, iconIndex) => (
+													<div
+														key={iconIndex}
+														className={tableAction?.style}
+														onClick={(e: React.FormEvent) => {
+															e.preventDefault();
+															e.stopPropagation();
+															i.action(
+																row['ID'].value as string,
+															);
+														}}>
+														{i.render}
+													</div>
+												))}
+											</>
 										</Show>
 									</div>
 								</Fragment>

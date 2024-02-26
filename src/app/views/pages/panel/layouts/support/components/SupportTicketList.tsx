@@ -108,13 +108,17 @@ export const SupportTicketList: React.FC<SupportTicketListProps> = (props) => {
 					showEmpty={!props.isLoading && dataTable.length === 0}
 					sizeY={79}
 					tableAction={{
-						icon: <TrashIcon />,
+						icon: [
+							{
+								action: (id: string) => {
+									setSelectedTicketIdToDelete(id);
+									setShowModal(!showModal);
+									setShowModalStr('delete_resource');
+								},
+								render: <TrashIcon />,
+							},
+						],
 						style: 'id',
-						action: (id: string) => {
-							setSelectedTicketIdToDelete(id);
-							setShowModal(!showModal);
-							setShowModalStr('delete_resource');
-						},
 					}}
 					selectItem={(id: String) => props.setSelectedTicket(id)}
 					sort={Sort.asc}

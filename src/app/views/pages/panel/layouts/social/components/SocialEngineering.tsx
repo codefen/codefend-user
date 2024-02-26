@@ -81,7 +81,10 @@ const SocialEngineering: React.FC<SocialProps> = (props) => {
 						</div>
 						<div
 							onClick={() => {
-								navigate('/issues/create/social');
+								const firstMemberId = safelyPreviousSearches()[0]?.id;
+								firstMemberId
+									? navigate(`/issues/create/social/${firstMemberId}`)
+									: navigate('/issues/create');
 							}}>
 							Add issues
 						</div>

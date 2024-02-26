@@ -80,7 +80,10 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 								}}>
 								<TrashIcon />
 							</span>
-							<span onClick={() => navigate('/issues/create/web')}>
+							<span
+								onClick={() =>
+									navigate(`/issues/create/web/${mainNetwork.id}`)
+								}>
 								<BugIcon isButton />
 							</span>
 						</div>
@@ -117,7 +120,10 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									}}>
 									<TrashIcon />
 								</span>
-								<span onClick={() => navigate('/issues/create/web')}>
+								<span
+									onClick={() =>
+										navigate(`/issues/create/web/${mainNetwork.id}`)
+									}>
 									<BugIcon isButton />
 								</span>
 							</div>
@@ -228,7 +234,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 							<div
 								className="rows"
 								// style={{ '--row-size': 80 + 'dvh' } as any}>
-								>
+							>
 								{TableMemo}
 							</div>
 						</Show>

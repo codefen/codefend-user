@@ -16,7 +16,7 @@ interface IssueCreationPanelProps {
 }
 
 const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
-	const { newIssue, dispatch, save, shouldDisableClass, type } =
+	const { newIssue, dispatch, save, shouldDisableClass, type, resourceId } =
 		useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
 	const navigate = useNavigate();
@@ -114,6 +114,12 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			</div>
 
 			<div className="info">
+				{resourceId && (
+					<div className="issue-detail-select">
+						<p className="pr-2">Resource ID:</p>
+						<span className="py-3 log-inputs">{resourceId}</span>
+					</div>
+				)}
 				<div className="issue-detail-select">
 					<p className="pr-2">Class:</p>
 					<select

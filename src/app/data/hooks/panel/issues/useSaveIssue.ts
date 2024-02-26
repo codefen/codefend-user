@@ -14,8 +14,8 @@ export interface SaveIssue {
 
 export const useSaveIssue = () => {
 	const { getUserdata } = useAuthState();
-	const { type } = useParams();
-	console.log({ type });
+	const { type, resourceId } = useParams();
+
 	const [newIssue, setNewIssue] = useState<SaveIssue>({
 		issueName: '',
 		score: '',
@@ -77,12 +77,15 @@ export const useSaveIssue = () => {
 		setNewIssue((prevIssue) => ({ ...prevIssue, isAddingIssue: true }));
 
 		const body = new FormData();
-		body.append("risk_score", newIssue.score);
-		body.append("name", newIssue.issueName);
-		body.append("resource_class", newIssue.issueClass);
-		body.append("researcher_username", getUserdata()?.username as string);
-		body.append("main_desc", _editorContent);
-/* 		const params = {
+		body.append('risk_score', newIssue.score);
+		body.append('name', newIssue.issueName);
+		body.append('resource_class', newIssue.issueClass);
+		body.append('researcher_username', getUserdata()?.username as string);
+		body.append('main_desc', _editorContent);
+		if (resourceId) {
+			body.append('resource_id', resourceId);
+		}
+		/* 		const params = {
 			risk_score: newIssue.score,
 			name: newIssue.issueName,
 			resource_class: newIssue.issueClass,
@@ -132,5 +135,12 @@ export const useSaveIssue = () => {
 
 	const shouldDisableClass = Boolean(type && newIssue.issueClass);
 
-	return { newIssue, dispatch: setNewIssue, save, shouldDisableClass, type };
+	return {
+		newIssue,
+		dispatch: setNewIssue,
+		save,
+		shouldDisableClass,
+		type,
+		resourceId,
+	};
 };
