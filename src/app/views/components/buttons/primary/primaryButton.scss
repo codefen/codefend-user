@@ -1,6 +1,5 @@
 @use '../../../styles/settings/mixin' as mixin;
 
-
 .btn {
 	&.btn-primary {
 		background: var(--secondary-color-50);
@@ -12,7 +11,7 @@
 		@include mixin.respond(small) {
 			height: 44px;
 			min-width: 40px;
-		}		
+		}
 	}
 
 	&.btn-add {
@@ -34,7 +33,8 @@
 [data-theme='dark'] {
 	button.btn {
 		&.btn-primary {
-			background: var(--secondary-color-200);
+			//background: var(--secondary-color-200);
+			background: #d73636;
 		}
 	}
 }
