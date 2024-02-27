@@ -104,13 +104,11 @@ export const MobileAppModal: React.FC<Props> = (props) => {
 
 	return (
 		<>
-			<div className="modal text-format">
-				<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
+			<div className="content">
+				<form className="form" onSubmit={handleSubmit}>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -127,10 +125,8 @@ export const MobileAppModal: React.FC<Props> = (props) => {
 					</div>
 
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -147,10 +143,8 @@ export const MobileAppModal: React.FC<Props> = (props) => {
 					</div>
 
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -166,10 +160,8 @@ export const MobileAppModal: React.FC<Props> = (props) => {
 						/>
 					</div>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -185,10 +177,8 @@ export const MobileAppModal: React.FC<Props> = (props) => {
 						/>
 					</div>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 						<select
 							onChange={(e) => {

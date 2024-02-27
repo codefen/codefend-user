@@ -18,32 +18,34 @@
 		height: 15px;
 		left: 13px;
 		
-		& + input {
+		& + * {
 			padding-left: 40px;
 		}
 	}
 
-	input {
-		height: 43px;
-		width: 100%;
-		padding-block: 0;
-		padding-inline: 15px;
-		background-color: var(--primary-color);
-		color: var(--tertiary-color-500);
-		border-width: 1px;
-		border-style: solid;
-		border-color: var(--primary-color-300);
-	
-		&:focus {
-			outline: 0px solid;
-			border: 1px solid var(--secondary-color-50) !important;
-			caret-color: var(--secondary-color-50) !important;
-			color: var(--tertiary-color-700);
-		}
-	}
+
 
 	& + * {
 		margin-top: 15px;
+	}
+}
+
+input, select {
+	height: 43px;
+	width: 100%;
+	padding-block: 0;
+	padding-inline: 15px;
+	background-color: var(--primary-color);
+	color: var(--tertiary-color-500);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--primary-color-300);
+
+	&:focus {
+		outline: 0px solid;
+		border: 1px solid var(--secondary-color-50) !important;
+		caret-color: var(--secondary-color-50) !important;
+		color: var(--tertiary-color-700);
 	}
 }
 

@@ -115,13 +115,11 @@ export const AcessPointModal: React.FC<{
 
 	return (
 		<>
-			<div className="modal text-format">
-				<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
+			<div className="content">
+				<form className="form" onSubmit={handleSubmit}>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 						<select
 							onChange={handleChange}
@@ -140,10 +138,8 @@ export const AcessPointModal: React.FC<{
 						</select>
 					</div>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -155,10 +151,8 @@ export const AcessPointModal: React.FC<{
 						/>
 					</div>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -171,10 +165,8 @@ export const AcessPointModal: React.FC<{
 						/>
 					</div>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -188,10 +180,8 @@ export const AcessPointModal: React.FC<{
 					</div>
 
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -207,10 +197,8 @@ export const AcessPointModal: React.FC<{
 							e.preventDefault();
 							e.stopPropagation();
 						}}>
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input

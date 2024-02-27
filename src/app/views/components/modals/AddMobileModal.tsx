@@ -72,12 +72,10 @@ const AddMobileModal: React.FC<Props> = (props) => {
 	return (
 		<>
 			<div className="content">
-				<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
-					<div className="form-input text">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+				<form className="form" onSubmit={handleSubmit}>
+					<div className="form-input">
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -89,11 +87,9 @@ const AddMobileModal: React.FC<Props> = (props) => {
 						/>
 					</div>
 
-					<div className="form-input text">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+					<div className="form-input">
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input

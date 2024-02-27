@@ -30,6 +30,7 @@
 	button.btn {
 		&.btn-secondary {
 			color: var(--primary-color-100);
+			background-color: var(--tertiary-color-600);
 		}
 	}
 }

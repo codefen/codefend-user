@@ -79,13 +79,11 @@ export const AddRepositoryModal: React.FC<AddRepositoryModalProps> = (
 
 	return (
 		<>
-			<div className="modal text-format">
-				<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
-					<div className="form-input text">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+			<div className="content">
+				<form className="form" onSubmit={handleSubmit}>
+					<div className="form-input">
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -101,11 +99,9 @@ export const AddRepositoryModal: React.FC<AddRepositoryModalProps> = (
 						/>
 					</div>
 
-					<div className="form-input text">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+					<div className="form-input">
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -120,11 +116,9 @@ export const AddRepositoryModal: React.FC<AddRepositoryModalProps> = (
 							required
 						/>
 					</div>
-					<div className="form-input text">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+					<div className="form-input">
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 						<input
 							type="text"
@@ -139,10 +133,8 @@ export const AddRepositoryModal: React.FC<AddRepositoryModalProps> = (
 						/>
 					</div>
 					<div className="form-input">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<select

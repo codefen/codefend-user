@@ -5,35 +5,35 @@ main.cloud {
 	min-height: auto;
 
 	.left {
-		display: flex;
-		width: 25%;
-		overflow-y: auto;
-		overflow-x: hidden;
-		align-items: flex-end;
+		// display: flex;
+		// width: 25%;
+		// overflow-y: auto;
+		// overflow-x: hidden;
+		// align-items: flex-end;
 
-		.card {
-			overflow: hidden;
-			width: 100%;
-			margin-block-start: 0.5rem;
-			margin-block-end: 1rem;
-			flex: 1 1 5%;
-			border: 0px;
+		// .card {
+		// 	overflow: hidden;
+		// 	width: 100%;
+		// 	margin-block-start: 0.5rem;
+		// 	margin-block-end: 1rem;
+		// 	flex: 1 1 5%;
+		// 	border: 0px;
 
-			.header {
-				font-size: 14px;
-				padding-inline-start: 0px;
-			}
+		// 	.header {
+		// 		font-size: 14px;
+		// 		padding-inline-start: 0px;
+		// 	}
 
-			.actions {
-				div {
-					transition: color 150ms ease;
+		// 	.actions {
+		// 		div {
+		// 			transition: color 150ms ease;
 
-					&:hover {
-						color: var(--secondary-color-300);
-					}
-				}
-			}
-		}
+		// 			&:hover {
+		// 				color: var(--secondary-color-300);
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 		.search-app {
 			width: 100%;

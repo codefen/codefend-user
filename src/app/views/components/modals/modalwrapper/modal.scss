@@ -23,12 +23,12 @@
 	display: flex;
 	flex-direction: column;
 	background: rgba(18, 26, 35, 0.3);
-	backdrop-filter: blur(7px) saturate(1) contrast(1);
-	box-shadow: 2px 3px 50vw 150px rgba(0, 0, 0, 0.4);
+	backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+	box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
 	border-image-slice: 1;
 	background-image: linear-gradient(#444df710 0.4px, transparent 0.4px),
 		linear-gradient(to right, #444df710 0.4px, #e5e5f700 0.4px);
-	background-size: 12px 12px;
+	background-size: 2px 2px;
 	border-radius: 10px;
 	overflow: hidden;
 	border: 1px solid var(--primary-color-300);
@@ -72,6 +72,7 @@
 	.content {
 		width: 100%;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		padding: 25px;
