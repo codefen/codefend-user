@@ -39,7 +39,7 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 			<Show when={showModal && showModalStr === 'logout'}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<div
-						className="modal-wrapper-title internal-tables disable-border"
+						className=""
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();

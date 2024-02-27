@@ -435,20 +435,6 @@
 	border-bottom: 0px solid var(--primary-color-300);
 }
 
-.modal-header {
-	display: flex;
-	align-items: center;
-	height: 40px;
-	padding: 0 20px;
-	background-color: var(--primary-color-200) !important;
-	border-bottom: 1px solid var(--primary-color-300) !important;
-	color: var(--tertiary-color-200) !important;
-	font-family: Roboto;
-	font-size: 13px;
-	line-height: 13px;
-	text-transform: uppercase;
-	font-weight: bold;
-}
 
 .internal-tables-active {
 	&:hover {

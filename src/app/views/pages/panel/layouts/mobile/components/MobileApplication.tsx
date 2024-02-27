@@ -72,7 +72,7 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 						<div className="card flex-grow">
 							<div className="header">
 								<div className="title">
-									<div className="icon"></div>
+									
 									<span>Mobile Applications</span>
 								</div>
 								<div className="actions">

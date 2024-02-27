@@ -1,12 +1,12 @@
 @use '../../../styles/settings/mixin' as mixin;
 
 
-button.btn {
+.btn {
 	&.btn-primary {
-		background: var(--secondary-color-50) !important;
+		background: var(--secondary-color-50);
 
 		&:hover {
-			background: var(--secondary-color-300) !important;
+			background: var(--secondary-color-100) !important;
 		}
 
 		@include mixin.respond(small) {
@@ -26,15 +26,15 @@ button.btn {
 		padding-inline: 1.75rem;
 
 		&:hover {
-			scale: 1.05;
+			scale: 1.02;
 		}
 	}
 }
 
 [data-theme='dark'] {
-	.btn {
-		.btn-primary {
-			background: var(--secondary-color-50);
+	button.btn {
+		&.btn-primary {
+			background: var(--secondary-color-200);
 		}
 	}
 }

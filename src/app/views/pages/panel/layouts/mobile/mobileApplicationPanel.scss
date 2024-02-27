@@ -2,16 +2,10 @@
 
 main.mobile {
 	.left {
-		display: flex;
-
 		.card {
-			@include mixin.respond(small) {
-				display: contents;
-			}
-
 			.header {
 				font-size: 15px;
-				padding-inline-start: 0px;
+				padding-inline-start: 10px;
 			}
 
 			.actions {
@@ -22,6 +16,9 @@ main.mobile {
 						color: var(--secondary-color-300);
 					}
 				}
+			}
+			@include mixin.respond(small) {
+				display: contents;
 			}
 		}
 
