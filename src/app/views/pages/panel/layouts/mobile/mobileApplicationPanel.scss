@@ -2,25 +2,25 @@
 
 main.mobile {
 	.left {
-		.card {
-			.header {
-				font-size: 15px;
-				padding-inline-start: 10px;
-			}
+		// .card {
+		// 	.header {
+		// 		font-size: 15px;
+		// 		padding-inline-start: 10px;
+		// 	}
 
-			.actions {
-				div {
-					transition: color 150ms ease;
+		// 	.actions {
+		// 		div {
+		// 			transition: color 150ms ease;
 
-					&:hover {
-						color: var(--secondary-color-300);
-					}
-				}
-			}
-			@include mixin.respond(small) {
-				display: contents;
-			}
-		}
+		// 			&:hover {
+		// 				color: var(--secondary-color-300);
+		// 			}
+		// 		}
+		// 	}
+		// 	@include mixin.respond(small) {
+		// 		display: contents;
+		// 	}
+		// }
 
 		.search-app {
 			width: 100%;
