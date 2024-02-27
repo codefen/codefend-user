@@ -104,7 +104,7 @@
 		background: radial-gradient(
 			circle,
 			rgb(255 255 255 / 43%) 7%,
-			rgb(255 255 255 / 58%) 100%	
+			rgb(255 255 255 / 58%) 100%
 		);
 		opacity: 1;
 		visibility: visible;
@@ -124,7 +124,7 @@
 //////////////////////////////////////////////////////////////////
 .sidebar.is-open + main {
 	opacity: 0.8;
-	
+
 	.left .app-card-content-img {
 		opacity: 0.4;
 	}
@@ -194,7 +194,6 @@ main.cloud {
 		width: 31%;
 		margin-block: -0.625rem;
 
-		//padding-block-end: 4rem;
 		padding-inline-end: 0.813rem;
 
 		display: flex;
@@ -202,6 +201,15 @@ main.cloud {
 		align-items: flex-start;
 		justify-content: flex-start;
 		max-height: 100dvh;
+
+		.card {
+			overflow: hidden;
+			width: 100%;
+			margin-block-start: 0.5rem;
+			margin-block-end: 0.25rem;
+			flex: 1 1 8.75%;
+			border: 0px;
+		}
 
 		.list {
 			display: flex;
@@ -285,7 +293,7 @@ main.cloud {
 			right: 31dvw;
 			filter: blur(100px) brightness(0.5) opacity(0.45);
 		}
-	
+
 		.variant-2 {
 			width: 16rem;
 			top: 20dvh;
