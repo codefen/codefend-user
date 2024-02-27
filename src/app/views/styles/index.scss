@@ -184,6 +184,9 @@ main.preferences {
 	}
 }
 
+///////////////////////////////////////////////////////////////////
+// MOBILE CLOUD PANEL
+//////////////////////////////////////////////////////////////////
 main.mobile,
 main.cloud {
 	flex: 1 1;
@@ -212,10 +215,32 @@ main.cloud {
 			// flex: 1 1 8.75%;
 			border: 0px;
 		}
+		.search-app {
+			width: 100%;
+			margin-block-end: 0.75rem;
+			margin-block-start: 0.5rem;
+			border-radius: 3px;
+			padding-inline-start: 1rem;
+			padding-inline-end: 1.35rem;
+			padding-block: 1.25rem;
+			font-size: 14px;
+			flex: 1 1 5%;
+		}
 
+		.mobile-card-delete {
+			position: fixed;
+			left: 0;
+			top: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+		}
 		.list {
 			display: flex;
 			flex-direction: column;
+			flex: 1 1 90%;
 			row-gap: 0.938rem;
 			width: 100%;
 			overflow-y: auto;
@@ -224,6 +249,7 @@ main.cloud {
 
 			.app-info {
 				cursor: pointer;
+				height: fit-content;
 			}
 		}
 
@@ -237,6 +263,7 @@ main.cloud {
 			}
 		}
 	}
+
 	.right {
 		flex: 1 1 69%;
 		width: 69%;
@@ -258,7 +285,67 @@ main.cloud {
 			width: 0px;
 			display: none;
 		}
+		.selected-content {
+			display: flex;
+			align-items: center;
+			column-gap: 1rem;
+			margin-block: 1rem;
 
+			.selected-content-credentials {
+				height: 100%;
+				align-self: stretch;
+				flex: 0.5 0.5 50%;
+				width: 50%;
+			}
+
+			.selected-content-tables {
+				display: flex;
+				flex-direction: column;
+				align-self: stretch;
+				flex: 0.5 0.5 49%;
+				width: 49%;
+				padding-inline-end: 10px;
+
+				.card.stats {
+					.content {
+						.stat {
+							background: transparent;
+						}
+					}
+				}
+			}
+		}
+		.quick-action {
+			width: 24rem;
+
+			.modal-header {
+				span {
+					font-size: 0.875rem /* 14px */;
+					line-height: 1.25rem /* 20px */;
+				}
+			}
+
+			.helper-box {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-inline: auto;
+				padding: 0.75rem;
+
+				@media only screen and (min-width: 640px) {
+					& {
+						max-width: 640px;
+					}
+				}
+
+				@media only screen and (min-width: 768px) {
+					& {
+						max-width: 768px;
+					}
+				}
+			}
+		}
 		.actions {
 			display: flex;
 			align-items: center;
@@ -286,6 +373,39 @@ main.cloud {
 			padding-inline-end: 10px;
 		}
 	}
+	
+	@include mixin.respond(small) {
+		display: flex;
+		flex-direction: column;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		overflow-y: auto;
+		min-height: auto;
+		.left {
+			padding-block-start: 35px;
+			width: 100%;
+		}
+
+		.right {
+			min-height: 600px;
+			width: 100%;
+			overflow: hidden;
+
+			.selected-content {
+				display: block;
+				width: 100%;
+
+				.selected-content-credentials {
+					height: 100%;
+					width: 100%;
+				}
+
+				.selected-content-tables {
+					width: 100%;
+				}
+			}
+		}
+	}	
 }
 
 [data-theme='dark'] {
