@@ -13,23 +13,19 @@
 	background-color: rgba(4, 10, 21, 0.5);
 }
 
-
 .modal-wrapper .modal {
+	position: relative;
 	opacity: 0;
 	animation: modalAnimation 0.2s ease-in 0.05s forwards;
-	// max-height: 100%;
 	min-width: 330px;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	background: rgba(18, 26, 35, 0.3);
-	backdrop-filter: blur(9px) saturate(0.8) contrast(1);
 	box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
 	border-image-slice: 1;
-	background-image: linear-gradient(#444df710 0.4px, transparent 0.4px),
-		linear-gradient(to right, #444df710 0.4px, #e5e5f700 0.4px);
-	background-size: 2px 2px;
 	border-radius: 10px;
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 	overflow: hidden;
 	border: 1px solid var(--primary-color-300);
 	border-left: 1px solid;
@@ -44,14 +40,58 @@
 		rgba(255, 255, 255, 0) 85%
 	);
 	border-image-slice: 1;
-	
+
+	&::before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		left: 0;
+		min-width: 330px;
+		width: 100%;
+		height: 100%;
+
+		@supports not (
+			(-webkit-backdrop-filter: blur(9px)) or (backdrop-filter: blur(9px))
+		) {
+			background: rgba(18, 26, 35, 0.95);
+			filter: blur(1px);
+		}
+
+		@supports (-webkit-backdrop-filter: blur(9px)) or
+			(backdrop-filter: blur(9px)) {
+			background: rgba(18, 26, 35, 0.3);
+			background:
+				-moz-linear-gradient(
+					rgba(68, 77, 247, 0.063) 0.4px,
+					transparent 0.4px
+				),
+				-moz-linear-gradient(to right, rgba(68, 77, 247, 0.063) 0.4px, rgba(
+								229,
+								229,
+								247,
+								0
+							)
+							0.4px);
+			background:
+				-webkit-linear-gradient(#444df710 0.4px, transparent 0.4px),
+				-webkit-linear-gradient(to right, #444df710 0.4px, #e5e5f700 0.4px);
+
+			background: linear-gradient(#444df710 0.4px, transparent 0.4px),
+				linear-gradient(to right, #444df710 0.4px, #e5e5f700 0.4px);
+			backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+			-webkit-backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+		}
+
+		background-size: 2px 2px;
+	}
+
 	&.med-w {
 		min-width: 560px;
 	}
 	&.max-w {
 		min-width: 860px;
 	}
-
 
 	.header {
 		display: flex;
@@ -83,24 +123,6 @@
 			display: grid;
 		}
 
-		// header {
-		// 	padding-block-start: 0.75rem;
-		// 	padding-inline: 0.75rem;
-		// 	display: flex;
-
-		// 	h4 {
-		// 		text-align: left;
-		// 		font-weight: bold;
-		// 		color: var(--tertiary-color-400);
-		// 		-webkit-line-clamp: 2;
-		// 		white-space: pre-line;
-		// 		line-height: 25px;
-		// 		padding-inline: 15px;
-		// 	}
-		// }
-
-
-
 		@media only screen and (min-width: 640px) {
 			& {
 				max-width: 640px;
@@ -113,8 +135,6 @@
 			}
 		}
 	}
-
-	
 }
 
 //   &-title {
@@ -346,11 +366,11 @@
 	.content {
 		color: var(--tertiary-color-500);
 
-		// .header {
-		//   h4 {
-		//     color: var(--tertiary-color-50);
-		//   }
-		// }
+		.header {
+			h4 {
+				color: var(--tertiary-color-200);
+			}
+		}
 	}
 
 	.error-wrapper {
@@ -378,13 +398,6 @@
 		}
 	}
 }
-
-
-
-
-
-
-
 
 // Definir la animación para backdrop-filter
 @keyframes overlayAnimation {

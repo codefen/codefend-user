@@ -19,6 +19,8 @@ button.btn {
 	border: none;
 	position: relative;
 
+	border: 0px;
+
 	transition-property: background, color;
 	transition-duration: 200ms;
 	transition-timing-function: cubic-bezier(0.15, -0.31, 0.73, 0.96);
