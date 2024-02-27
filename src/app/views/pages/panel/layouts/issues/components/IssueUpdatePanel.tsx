@@ -86,7 +86,9 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 
 	useEffect(() => {
 		let contentWindow: Window | null;
-		let themeTiny;
+		let themeTiny: NodeJS.Timeout | null = null;
+		let attempts = 0;
+		const maxAttempts = 10; // Establece el número máximo de intentos
 
 		const loadIframe = () => {
 			const iframe = document.getElementById(
@@ -94,20 +96,42 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 			) as HTMLIFrameElement | null;
 
 			if (!iframe) {
-				themeTiny = setTimeout(() => loadIframe(), 30);
+				attempts++;
+				if (attempts < maxAttempts) {
+					themeTiny = setTimeout(loadIframe, 3000); // Intenta cargar de nuevo después de 3 segundos
+				} else {
+					console.error(
+						'Se superó el número máximo de intentos para cargar el iframe.',
+					);
+				}
+				return;
+			}
+
+			contentWindow = iframe.contentWindow!;
+
+			const handleIframeLoad = () => {
+				const body = contentWindow!.document.body;
+				if (body) {
+					body.setAttribute('data-theme', theme);
+				}
+			};
+
+			if (
+				iframe.contentWindow &&
+				iframe.contentWindow.document.readyState === 'complete'
+			) {
+				handleIframeLoad();
 			} else {
-				contentWindow = iframe.contentWindow! as WindowProxy;
-				const body = contentWindow.document;
-				themeTiny = setTimeout(
-					() => body.documentElement.setAttribute('data-theme', theme),
-					25,
-				);
+				iframe.onload = handleIframeLoad;
 			}
 		};
 
 		loadIframe();
+
 		return () => {
-			clearTimeout(themeTiny!);
+			if (themeTiny) {
+				clearTimeout(themeTiny);
+			}
 		};
 	}, [theme]);
 

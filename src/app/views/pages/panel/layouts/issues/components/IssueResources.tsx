@@ -29,7 +29,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 	const { showModal, setShowModal } = useModal();
 	const { handleDelete } = useDeleteIssue();
 	const navigate = useNavigate();
-	props.issues.forEach((issue)=> console.log({date: issue.createdAt}))
+
 	const dataTable = props.issues.map((issue: Issues) => ({
 		ID: { value: issue.id, style: '' },
 		published: { value: issue.createdAt, style: 'date' },
