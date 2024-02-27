@@ -188,6 +188,8 @@ main.mobile,
 main.cloud {
 	flex: 1 1;
 	padding-inline-end: 0;
+	height: 100dvh;
+	overflow: hidden;
 
 	.left {
 		flex: 1 1 31%;
@@ -240,6 +242,13 @@ main.cloud {
 		width: 69%;
 		padding-inline-end: 0;
 		scrollbar-width: none;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-inline-end: 10px;
+		min-height: 100dvh;
+		max-height: 0%;
+		height: auto;
+		scrollbar-gutter: stable;
 
 		&::-moz-scrollbar {
 			width: 0px;

@@ -1,9 +1,6 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.mobile {
-	height: 100dvh;
-	overflow: hidden;
-
 	.left {
 		display: flex;
 
@@ -69,10 +66,6 @@ main.mobile {
 	}
 
 	.right {
-		overflow-y: auto;
-		overflow-x: hidden;
-		padding-inline-end: 10px;
-
 		.selected-content {
 			display: flex;
 			align-items: center;

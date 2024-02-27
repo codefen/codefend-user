@@ -1,9 +1,6 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.cloud {
-	height: 100dvh;
-	min-height: auto;
-
 	.left {
 		display: flex;
 		width: 25%;
@@ -50,11 +47,6 @@ main.cloud {
 	}
 
 	.right {
-		flex: 1 1 71%;
-		width: 71%;
-		overflow-y: auto;
-		padding-inline-end: 10px;
-
 		.selected-content {
 			display: flex;
 			align-items: center;
