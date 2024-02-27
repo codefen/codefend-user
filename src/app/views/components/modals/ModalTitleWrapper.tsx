@@ -18,13 +18,8 @@ const ModalTitleWrapper: React.FC<ModalTitleWrapperProps> = ({
 		<>
 			<Show when={isActive}>
 				<ModalWrapper action={close}>
-					<div
-						className="modal-wrapper-title internal-tables disable-border"
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}>
-						<div className="modal-header">
+					<>
+						<div className="header">
 							<div className="icon">
 								<StatIcon />
 							</div>
@@ -32,7 +27,7 @@ const ModalTitleWrapper: React.FC<ModalTitleWrapperProps> = ({
 						</div>
 						{children}
 						<div className="modal-helper-box text-format"></div>
-					</div>
+					</>
 				</ModalWrapper>
 			</Show>
 		</>

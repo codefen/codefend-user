@@ -64,10 +64,10 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 	);
 
 	return (
-		<div className="modal subdomain-modal">
+		<div className="content subdomain-modal">
 			<form className="flex flex-col w-full gap-y-3" onSubmit={handleSubmit}>
 				<div className="form-input">
-					<span className="form-icon">
+					<span className="icon">
 						<div className="codefend-text-red">
 							<GlobeWebIcon />
 						</div>
@@ -92,8 +92,8 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 					</select>
 				</div>
 
-				<div className="form-input text">
-					<span className="form-icon">
+				<div className="form-input">
+					<span className="icon">
 						<div className="codefend-text-red">
 							<GlobeWebIcon />
 						</div>
@@ -106,8 +106,8 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 					/>
 				</div>
 
-				<div className="form-input text">
-					<span className="form-icon">
+				<div className="form-input">
+					<span className="icon">
 						<div className="codefend-text-red">
 							<GlobeWebIcon />
 						</div>

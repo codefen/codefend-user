@@ -709,5 +709,38 @@
         }
       }
     }
+	&.messages {
+		
+		.content {
+		 
+	
+		  .messages-wrapper {
+		
+	
+			span {
+			
+			}
+	
+			.tt {
+			  border-bottom: 1px solid var(--primary-color-300);
+			}
+		  }
+		}
+	
+		.sender {
+		  .header {
+			justify-content: space-between;
+			margin-inline-end: -1.5rem;
+	
+			button {
+			  height: 100%;
+			}
+		  }
+	
+		  textarea {
+			color: var(--tertiary-color-400);
+		  }
+		}
+	  }	
   }
 }

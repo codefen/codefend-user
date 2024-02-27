@@ -71,7 +71,7 @@ const AddMobileModal: React.FC<Props> = (props) => {
 
 	return (
 		<>
-			<div className="modal flex items-center justify-center p-3 text-format">
+			<div className="content">
 				<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
 					<div className="form-input text">
 						<span className="form-icon">
