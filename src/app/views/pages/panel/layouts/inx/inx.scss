@@ -13,6 +13,10 @@ main.issues-list {
 			display: flex;
 			flex-flow: column nowrap;
 
+			.modal {
+				max-height: 90dvh;
+			}
+
 			.intel-result-data {
 				padding-inline-start: 10px;
 				line-height: 1;

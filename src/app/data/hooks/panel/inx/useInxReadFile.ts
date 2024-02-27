@@ -20,14 +20,12 @@ export const useInxReadFile = () => {
 			bid: intel.bucket_id,
 		};
 		InxServices.read(params, companyID)
-			.then((res: any) => {
-				if (res.intel) {
-					setSelectedResult({
-						intelSelected: res.intel as any,
-						fileName: intel.name as string,
-						fileType: intel.bucket_data as string,
-					});
-				}
+			.then(({response}) => {
+				setSelectedResult({
+					intelSelected: response,
+					fileName: intel.name as string,
+					fileType: intel.bucket_data as string,
+				});
 			})
 			.finally(() => setFullDataLoading(false));
 	};

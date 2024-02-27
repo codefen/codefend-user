@@ -72,7 +72,13 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 	};
 
 	const procReadFile = (intel: any) => {
-		readFile(intel, companyID);
+		if (
+			!selectedResult ||
+			(selectedResult && selectedResult?.fileName !== intel.name)
+		) {
+			readFile(intel, companyID);
+		}
+		setViewPreviewModal(true);
 	};
 
 	const intelKeys = useMemo(
@@ -82,6 +88,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 
 	const closePreviewModal = () => setViewPreviewModal(false);
 
+	console.log({ selectedResult });
 	return (
 		<div className="left-wrapper">
 			<ModalTitleWrapper
@@ -95,7 +102,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 								{selectedResult?.fileName}, {selectedResult?.fileType}
 							</h5>
 							<button
-								onClick={() => setSelectedResult(null)}
+								onClick={closePreviewModal}
 								type="button"
 								className="btn btn no-border-height w-14 items-center justify-center">
 								<CloseIcon />

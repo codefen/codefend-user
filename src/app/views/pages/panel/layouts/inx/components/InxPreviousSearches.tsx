@@ -20,13 +20,7 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
 	const safelyPreviousSearches = () =>
 		Array.isArray(previousSearches) ? previousSearches.reverse() : [];
 
-	const [currentLen, setCurrentLen] = useState(0);
-	let previusKeys: string[] = [];
-
-	if (currentLen !== safelyPreviousSearches().length) {
-		previusKeys = generateIDArray(safelyPreviousSearches().length);
-		setCurrentLen(previusKeys.length);
-	}
+	const previusKeys = generateIDArray(safelyPreviousSearches().length);
 
 	return (
 		<>
