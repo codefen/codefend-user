@@ -1,9 +1,59 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.webapp {
+	padding-inline-end: 0px;
 
 	.table .rows {
 		height: calc(100vh - 153px);
+	}
+	.left {
+		width: 70%;
+		.table {
+			.domain-name {
+				min-width: 35%;
+			}
+			.location {
+				width: 160px;
+			}
+
+			.item {
+				.location {
+					.flag {
+						margin-inline-end: 0.75rem;
+					}
+				}
+			}
+
+			.action {
+				justify-content: center;
+				max-width: none;
+				width: 100%;
+				column-gap: 2px;
+
+				span {
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding-inline: 7px;
+					transition: color 200ms ease;
+
+					&:hover {
+						color: var(--secondary-color);
+					}
+				}
+			}
+		}
+	}
+	.right {
+		width: 30%;
+		overflow-y: hidden;
+
+		.card {
+			.content {
+				padding-block: 0px;
+			}
+		}
 	}
 	@include mixin.respond(small) {
 		min-height: auto;
@@ -17,11 +67,8 @@ main.webapp {
 	}
 }
 
-// 	padding-inline-end: 0px;
-// 	width: 100%;
-
-// 	.left {
-// 		width: 70%;
+//.left {
+//	width: 70%;
 
 // 		.header {
 // 			// display: contents;
@@ -74,7 +121,7 @@ main.webapp {
 // 				}
 // 			}
 // 		}
-// 	}
+//}
 
 // 	.right {
 // 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
@@ -124,7 +171,24 @@ main.webapp {
 // 		min-height: auto;
 // 	}
 // }
-
+[data-theme='dark'] {
+	main.webapp {
+		.header {
+			background: var(--primary-color-600);
+		}
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+			.card {
+				&.stats {
+					.content {
+						column-gap: 0px;
+						padding-inline: 0px;
+					}
+				}
+			}
+		}
+	}
+}
 // [data-theme='dark'] {
 // 	.variant-1 {
 // 		width: 21rem;

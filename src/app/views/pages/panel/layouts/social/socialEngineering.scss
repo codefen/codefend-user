@@ -5,8 +5,10 @@ main.social {
 	max-height: none;
 	padding-block-end: 0;
 	padding-inline-end: 0;
+	overflow-y: hidden;
 
 	.left {
+		width: 70%;
 		.table {
 			.item {
 				height: 42px;
@@ -25,6 +27,7 @@ main.social {
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
+		width: 30%;
 		.filter {
 			width: 100%;
 			justify-content: space-between;

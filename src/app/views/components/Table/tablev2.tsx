@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { formatDate, generateIDArray } from '../../../data';
-import { EmptyCard, PageLoader, Show } from '..';
+import { EmptyCard, Loader, PageLoader, Show } from '..';
 import './table.scss';
 
 export enum Sort {

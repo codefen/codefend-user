@@ -68,7 +68,7 @@ export const WebApplicationLocation: React.FC<{
 					rowsData={dataTable}
 					showEmpty={false}
 					showRows={dataTable.length !== 0}
-					sizeY={20}
+					sizeY={16}
 					sizeX={93.75}
 					sort={Sort.asc}
 				/>
