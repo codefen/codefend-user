@@ -96,26 +96,18 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 				headerTitle="Full preview data"
 				isActive={selectedResult !== null && viewPreviewModal}>
 				<>
-					<div className="pointer-events-auto relative flex w-full flex-col border-none bg-white bg-clip-padding text-black dark:text-current shadow-lg outline-none dark:bg-neutral-600 ">
-						<div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
-							<h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
+					<div className="full-preview-container">
+						<div className="full-preview-header">
+							<h2 className="full-preview-title">
 								{selectedResult?.fileName}, {selectedResult?.fileType}
-							</h5>
-							<button
-								onClick={closePreviewModal}
-								type="button"
-								className="btn btn no-border-height w-14 items-center justify-center">
-								<CloseIcon />
-							</button>
+							</h2>
 						</div>
 
-						<div className="relative p-4 max-h-[48rem] h-full overflow-y-scroll">
-							<h3 className="text-xl font-bold leading-normal text-neutral-800 dark:text-neutral-200">
-								Main results
-							</h3>
+						<div className="full-preview-content">
+							<h3 className="preview-content-title">Main results</h3>
 
 							<div
-								className="max-w-md text-xs break-words"
+								className="preview-content"
 								dangerouslySetInnerHTML={{
 									__html: highlightWithUrl(
 										selectedResult?.intelSelected,
@@ -123,13 +115,11 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 									),
 								}}></div>
 
-							<hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+							<hr className="preview-dash 0"></hr>
 
-							<h3 className="text-xl font-bold leading-normal text-neutral-800 dark:text-neutral-200">
-								Full list
-							</h3>
+							<h3 className="preview-content-title">Full list</h3>
 							<div
-								className="max-w-md text-xs break-words"
+								className="preview-content"
 								dangerouslySetInnerHTML={{
 									__html: selectedResult?.intelSelected.replace(
 										/(\r\n|\n|\r)/g,

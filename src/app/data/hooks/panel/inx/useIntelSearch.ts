@@ -15,15 +15,17 @@ export const useIntelSearch = () => {
 				if (res.error == '1') {
 					throw new Error('An unexpected error has occurred');
 				}
+
 				const intelResult = res.response.map((intel: any) =>
 					mapIntelData(intel),
 				) as any[];
 
+
 				const intelProc = intelData.concat(intelResult);
 				
-				setIntelData(intelProc);
+				setIntelData(intelResult);
 
-				return { intelLen: intelProc.length, intelResult };
+				return { intelLen: intelResult.length, intelResult };
 			})
 			.catch((error: Error) => toast.error(error.message));
 	};

@@ -15,6 +15,77 @@ main.issues-list {
 
 			.modal {
 				max-height: 90dvh;
+
+				.header {
+					padding-block: 10px;
+				}
+
+				.full-preview-container {
+					width: 100%;
+					display: flex;
+					flex-flow: column nowrap;
+					flex: 1 1;
+					border: 0px;
+					background-clip: padding-box;
+					pointer-events: auto;
+					position: relative;
+					outline: none;
+
+					.full-preview-header {
+						display: flex;
+						flex: 1 0;
+						align-items: center;
+						justify-content: space-between;
+						border-top-left-radius: 0.375rem;
+						border-top-right-radius: 0.375rem;
+
+						border-bottom: 2px solid var(--primary-color-500);
+						padding: 1rem;
+
+						.full-preview-title {
+							font-size: 1.25rem /* 20px */;
+							line-height: 1.75rem /* 28px */;
+							font-weight: 500;
+							line-height: 1.5;
+							color: rgb(251 138 138 / 95%);
+						}
+					}
+
+					.full-preview-content {
+						position: relative;
+						padding: 1rem;
+						overflow-y: scroll;
+						height: auto;
+						max-height: 75dvh;
+						min-height: 75dvh;
+
+						.preview-content-title {
+							font-size: 1.25rem /* 20px */;
+							line-height: 1.75rem /* 28px */;
+							font-weight: 700;
+							line-height: 1.5;
+							color: var(--tertiary-color-50);
+						}
+
+						.preview-dash {
+							height: 1.5px;
+							margin-block: 2rem;
+							border: 0px;
+							background-color: var(--primary-color-50);
+						}
+
+						.preview-content {
+							font-size: 0.95rem;
+							line-height: 1.25rem;
+							overflow-wrap: break-word;
+							text-wrap: pretty;
+
+							color: #fff;
+							width: 100%;
+							max-width: 33rem;
+						}
+					}
+				}
 			}
 
 			.intel-result-data {
@@ -216,6 +287,29 @@ main.issues-list {
 		.left {
 			> div {
 				border: 1px solid var(--primary-color-400);
+			}
+
+			.modal {
+				&::before {
+					@supports (
+						(-webkit-backdrop-filter: blur(9px)) or
+							(backdrop-filter: blur(9px))
+					) {
+						backdrop-filter: blur(15px) saturate(0.95) contrast(1.02);
+					}
+				}
+				.full-preview-container {
+					.full-preview-header {
+						.full-preview-title {
+							color: #ff5e5ef2;
+						}
+					}
+					.full-preview-content {
+						.preview-content {
+							color: #ededed;
+						}
+					}
+				}
 			}
 
 			.left-wrapper {
