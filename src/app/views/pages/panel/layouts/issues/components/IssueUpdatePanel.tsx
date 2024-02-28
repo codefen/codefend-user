@@ -70,7 +70,6 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 			} else {
 				contentWindow = iframe.contentWindow! as WindowProxy;
 				contentWindow.addEventListener('keydown', handleKeyDown);
-				timeID = setTimeout(() => setEditable(true), 75);
 			}
 		};
 

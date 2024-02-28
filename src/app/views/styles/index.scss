@@ -1,6 +1,13 @@
 @forward 'settings/settings.scss';
 @use 'settings/mixin' as mixin;
 
+@layer utilities {
+	.filter-bg-rug {
+		background: #1c2531;
+		filter: url('/public/codefend/rugoso.svg') blur(1px);
+	}
+}
+
 ///////////////////////////////////////////////////////////////////
 // UTIL
 //////////////////////////////////////////////////////////////////
@@ -373,7 +380,7 @@ main.cloud {
 			padding-inline-end: 10px;
 		}
 	}
-	
+
 	@include mixin.respond(small) {
 		display: flex;
 		flex-direction: column;
@@ -405,7 +412,7 @@ main.cloud {
 				}
 			}
 		}
-	}	
+	}
 }
 
 [data-theme='dark'] {

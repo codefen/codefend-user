@@ -2,5 +2,24 @@
 	&.btn-tertiary {
 		background-color: var(--primary-color-300);
 		color: var(--tertiary-color-500);
+
+		transition: scale 200ms ease;
+
+		&:hover {
+			scale: 1.04;
+		}
+
+		&.error-tertiary-btn {
+			min-width: 150px;
+		}
+	}
+}
+
+[data-theme='dark'] {
+	button.btn {
+		&.btn-tertiary {
+			background-color: #19222c2e;
+			border: 1px solid var(--primary-color-600);
+		}
 	}
 }

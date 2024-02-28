@@ -13,8 +13,10 @@ export const InxPreviusContentData: React.FC<Props> = ({
 }) => {
 	//Retrieves the preview to show it if the storage IDs match
 	const previewHTML = preview
+
 		.find((preview: any) => preview.id === storageID)
-		?.preview?.split(/\r?\n/)
+		?.preview?.replace(/█/g, '-')
+		?.split(/\r?\n/)
 		.map((line: any) => {
 			const parts = line.split('\t');
 			if (parts.length === 3) {
@@ -24,6 +26,7 @@ export const InxPreviusContentData: React.FC<Props> = ({
 				return `<p>${line}</p>`; // Tratar líneas sin tabuladores de otra manera
 			}
 		})
+
 		.join('');
 
 	return (

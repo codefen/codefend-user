@@ -1,6 +1,6 @@
 import React from 'react';
 import '../buttons.scss';
-import './secondaryButton.scss';
+import './tertiaryButton.scss';
 
 interface TertiaryButtonProps {
 	click: (e: React.FormEvent<HTMLButtonElement>) => void;
