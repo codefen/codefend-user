@@ -10,7 +10,7 @@ main.source-code {
 
 		.table {
 			.item {
-				height: 42px;
+				height: 42.5px;
 			}
 
 			.source-code {
@@ -19,6 +19,41 @@ main.source-code {
 
 			.id {
 				display: flex;
+				min-width: 50px;
+				max-width: 50px;
+			}
+			.full-name {
+				min-width: 198px;
+				max-width: 198px;
+			}
+			.url {
+				max-width: 230px;
+				min-width: 230px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-height: 42px;
+
+				.publish {
+					text-wrap: pretty;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					@supports (-webkit-line-clamp: 2) {
+						-webkit-line-clamp: 2;
+					}
+				}
+			}
+
+			.boolean {
+				text-align: left;
+				max-width: 65px;
+				min-width: 65px;
+				margin-inline-end: 4px;
+
+				.publish {
+					justify-content: flex-start;
+					max-width: 65px;
+				}
 			}
 
 			.action {
@@ -26,6 +61,7 @@ main.source-code {
 				max-width: none;
 				width: 100%;
 				column-gap: 2px;
+				cursor: pointer;
 
 				span {
 					height: 100%;
