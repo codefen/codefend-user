@@ -12,7 +12,7 @@ export const SimpleSection: React.FC<Props> = ({ header, icon, children }) => {
 			<div className="header">
 				<div className="title">
 					<div className="icon">{icon}</div>
-					<h2>{header}</h2>
+					<span>{header}</span>
 				</div>
 			</div>
 			{children}

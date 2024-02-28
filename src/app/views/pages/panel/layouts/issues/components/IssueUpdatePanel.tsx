@@ -98,7 +98,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 			if (!iframe) {
 				attempts++;
 				if (attempts < maxAttempts) {
-					themeTiny = setTimeout(loadIframe, 3000); // Intenta cargar de nuevo después de 3 segundos
+					themeTiny = setTimeout(loadIframe, 200); // Intenta cargar de nuevo después de 3 segundos
 				} else {
 					console.error(
 						'Se superó el número máximo de intentos para cargar el iframe.',
