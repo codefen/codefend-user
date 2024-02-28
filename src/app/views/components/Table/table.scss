@@ -169,8 +169,13 @@
 
 	.domain-name,
 	.hostname {
-		width: 220px;
-		flex: inherit !important;
+		// width: 220px;
+		// flex: inherit !important;
+		min-width: 100px;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
 	}
 
 	.url {
