@@ -126,6 +126,30 @@
 	width: 100%;
 	height: 100%;
 }
+
+.network-btn {
+	position: absolute;
+	top: 2%;
+	right: 1.5%;
+	width: -moz-fit-content;
+	width: fit-content;
+	aspect-ratio: 1/1;
+	background-color: rgb(217 217 217 / 39%);
+	border-radius: 100%;
+	padding: 6px;
+	color: rgb(57 57 57 / 52%);
+	transition-property: color, background-color;
+	transition-duration: 125ms;
+	transition-timing-function: linear;
+	cursor: pointer;
+	user-select: none;
+	z-index: 100;
+
+	&:hover {
+		background-color: rgb(197 197 197 / 64%);
+		color: rgb(57 57 57 / 70%);
+	}
+}
 ///////////////////////////////////////////////////////////////////
 // DEFAULT SIZE PANEL
 //////////////////////////////////////////////////////////////////
@@ -415,83 +439,6 @@ main.cloud {
 	}
 }
 
-[data-theme='dark'] {
-	main {
-		// background: rgba(18, 26, 35, 0.3);
-		// backdrop-filter: blur(9px) saturate(0.8) contrast(1);
-		// box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
-		// background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
-		// 	linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
-		// background-size: 8px 8px;
-		.variant-1 {
-			width: 16rem;
-			top: 4dvh;
-			right: 31dvw;
-			filter: blur(100px) brightness(0.5) opacity(0.45);
-		}
-
-		.variant-2 {
-			width: 16rem;
-			top: 20dvh;
-			right: 2dvw;
-			filter: blur(115px) brightness(0.5);
-		}
-		.right {
-			// border-left: 1px solid;
-			// border-image: linear-gradient(
-			// 	0deg,
-			// 	rgba(255, 255, 255, 0) 15%,
-			// 	rgb(32 57 104) 36%,
-			// 	rgb(64 83 143) 46%,
-			// 	rgb(32 67 124) 54%,
-			// 	rgb(46 75 88) 64%,
-			// 	rgba(255, 255, 255, 0) 85%
-			// );
-			// border-image-slice: 1;
-			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
-			background-size: 14px 14px;
-			background: rgba(18, 26, 35, 0.3) !important;
-			backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
-			// box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
-			border-image-slice: 1;
-			background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
-				linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
-			background-size: 8px 8px;
-		}
-	}
-	main.mobile,
-	main.cloud {
-		.left {
-			.list {
-				.app-info {
-					border-radius: 10px;
-					background: var(--primary-color-250);
-					&:nth-child(1),
-					&:nth-child(2),
-					&:nth-child(3) {
-						background: var(--primary-color-500);
-						background: -moz-linear-gradient(
-							90deg,
-							var(--primary-color-400) 11%,
-							var(--primary-color-500) 73%
-						);
-						background: -webkit-linear-gradient(
-							90deg,
-							var(--primary-color-400) 11%,
-							var(--primary-color-500) 73%
-						);
-						background: linear-gradient(
-							90deg,
-							var(--primary-color-400) 11%,
-							var(--primary-color-500) 73%
-						);
-					}
-				}
-			}
-		}
-	}
-}
-
 ///////////////////////////////////////////////////////////////////
 // SEARCH BAR
 ///////////////////////////////////////////////////////////////////
@@ -587,4 +534,140 @@ main.cloud {
 	/* change div to reference your elements you put in <Masonry> */
 	background: transparent;
 	margin-bottom: 30px;
+}
+
+//////////////////////////////////////////////////////////////////
+// Error Boundry
+//////////////////////////////////////////////////////////////////
+
+.error-boundry {
+	width: 100%;
+	min-height: 100dvh;
+	position: relative;
+	display: flex;
+	flex-flow: column nowrap;
+	flex: 1 1;
+	justify-content: center;
+	align-items: center;
+	row-gap: 10rem;
+	padding-block: 4rem;
+	z-index: 1;
+
+	header {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		row-gap: 0.5rem;
+
+		.error-boundry-title {
+			width: fit-content;
+			font-size: 3.875rem;
+			line-height: 4.25rem;
+			font-weight: 700;
+			font-family: 'Questrial';
+			text-align: center;
+			text-wrap: balance;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			color: var(--tertiary-color-600);
+		}
+		.error-boundry-text {
+			width: fit-content;
+			font-size: 1.25rem;
+			line-height: 1.5rem;
+			font-weight: 400;
+			font-family: 'Questrial';
+			text-align: center;
+			text-wrap: balance;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			color: var(--tertiary-color-300);
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+// DARK MODE
+//////////////////////////////////////////////////////////////////
+
+[data-theme='dark'] {
+	main {
+		.variant-1 {
+			width: 16rem;
+			top: 4dvh;
+			right: 31dvw;
+			filter: blur(100px) brightness(0.5) opacity(0.45);
+		}
+
+		.variant-2 {
+			width: 16rem;
+			top: 20dvh;
+			right: 2dvw;
+			filter: blur(115px) brightness(0.5);
+		}
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+			background-size: 14px 14px;
+			background: rgba(18, 26, 35, 0.3) !important;
+			backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
+			// box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
+			border-image-slice: 1;
+			background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
+				linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
+			background-size: 8px 8px;
+		}
+	}
+	main.mobile,
+	main.cloud {
+		.left {
+			.list {
+				.app-info {
+					border-radius: 10px;
+					background: var(--primary-color-250);
+					&:nth-child(1),
+					&:nth-child(2),
+					&:nth-child(3) {
+						background: var(--primary-color-500);
+						background: -moz-linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+						background: -webkit-linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+						background: linear-gradient(
+							90deg,
+							var(--primary-color-400) 11%,
+							var(--primary-color-500) 73%
+						);
+					}
+				}
+			}
+		}
+	}
+
+	.network-btn {
+		background-color: #333f4d78;
+		color: rgb(255 255 255 / 38%);
+
+		&:hover {
+			background-color: rgb(59 74 91 / 58%);
+			color: rgb(255 255 255 / 51%);
+		}
+	}
+
+	.error-boundry {
+		header {
+			.error-boundry-title {
+				color: var(--tertiary-color-50);
+			}
+			.error-boundry-text {
+				color: var(--tertiary-color-100);
+			}
+		}
+	}
 }
