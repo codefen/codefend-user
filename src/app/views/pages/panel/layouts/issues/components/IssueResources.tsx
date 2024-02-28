@@ -113,7 +113,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 					sort={Sort.asc}
 					whelAction={(id: string) => {
-						navigateNewWindow(`/issues/${id}`);
+						navigateNewWindow(`/issues/update/${id}`);
 					}}
 				/>
 			</div>
