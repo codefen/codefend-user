@@ -20,6 +20,7 @@ interface TableProps {
 	selectItem?: (item: any) => void;
 	sort?: Sort;
 	initialSelect?: boolean;
+	whelAction?: (id: string) => void;
 }
 
 export interface ColumnTable {
@@ -53,6 +54,7 @@ export const TableV2: React.FC<TableProps> = ({
 	sort = Sort.desc,
 	initialSelect = false,
 	sizeX = 100,
+	whelAction,
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
@@ -191,6 +193,16 @@ export const TableV2: React.FC<TableProps> = ({
 												? 'left-marked'
 												: ''
 										}`}
+										onMouseDown={(e) => {
+											e.preventDefault();
+											if (e.button === 1) {
+												e.stopPropagation();
+
+												if (whelAction) {
+													whelAction(row['ID'].value as string);
+												}
+											}
+										}}
 										onClick={(e: any) => {
 											handleSelected(
 												e,

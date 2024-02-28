@@ -5,6 +5,7 @@ import {
 	issueColumns,
 	useDeleteIssue,
 	useModal,
+	useNewWindows,
 } from '../../../../../../data';
 import {
 	BugIcon,
@@ -29,6 +30,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 	const { showModal, setShowModal } = useModal();
 	const { handleDelete } = useDeleteIssue();
 	const navigate = useNavigate();
+	const { navigateNewWindow } = useNewWindows();
 
 	const dataTable = props.issues.map((issue: Issues) => ({
 		ID: { value: issue.id, style: '' },
@@ -88,6 +90,11 @@ export const IssueResources: React.FC<Props> = (props) => {
 					<div className="actions">
 						<div
 							className=""
+							onMouseDown={(e) => {
+								if (e.button === 1) {
+									navigateNewWindow('/issues/create');
+								}
+							}}
 							onClick={() => {
 								navigate('/issues/create');
 							}}>
@@ -105,6 +112,9 @@ export const IssueResources: React.FC<Props> = (props) => {
 					tableAction={actionTable}
 					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 					sort={Sort.asc}
+					whelAction={(id: string) => {
+						navigateNewWindow(`/issues/${id}`);
+					}}
 				/>
 			</div>
 		</>
