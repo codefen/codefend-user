@@ -562,6 +562,12 @@
   }
 }
 
+
+
+
+
+
+
 [data-theme='dark'] {
   .app-card {
     &-border {
@@ -664,8 +670,9 @@
 
     &.stats {
       .content {
+		column-gap: 0px;
         justify-content: flex-start;
-		padding: 14px;
+		padding: 0px;
         // column-gap: 12px;
         .stat {
           

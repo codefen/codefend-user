@@ -50,7 +50,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 	};
 	useEffect(() => {
 		let contentWindow: Window | null;
-		let timeID, themeTiny;
+		let timeID;
 
 		const loadIframe = () => {
 			const iframe = document.getElementById(
@@ -61,16 +61,8 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 				timeID = setTimeout(() => loadIframe(), 30);
 			} else {
 				contentWindow = iframe.contentWindow! as WindowProxy;
-				const body = contentWindow.document;
-				contentWindow.document.body.setAttribute('data-theme', theme);
 				contentWindow.addEventListener('keydown', handleKeyDown);
-
 				timeID = setTimeout(() => setEditable(true), 75);
-
-				/*themeTiny = setTimeout(
-					() => body.documentElement.setAttribute('data-theme', theme),
-					25,
-				);*/
 			}
 		};
 
@@ -81,9 +73,35 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 				contentWindow.removeEventListener('keydown', handleKeyDown);
 			}
 			clearTimeout(timeID!);
-			clearTimeout(themeTiny!);
 		};
 	}, [props.isLoading, handleKeyDown]);
+
+	useEffect(() => {
+		let contentWindow: Window | null;
+		let themeTiny;
+
+		const loadIframe = () => {
+			const iframe = document.getElementById(
+				'issue_ifr',
+			) as HTMLIFrameElement | null;
+
+			if (!iframe) {
+				themeTiny = setTimeout(() => loadIframe(), 30);
+			} else {
+				contentWindow = iframe.contentWindow! as WindowProxy;
+				const body = contentWindow.document;
+				themeTiny = setTimeout(
+					() => body.documentElement.setAttribute('data-theme', theme),
+					25,
+				);
+			}
+		};
+
+		loadIframe();
+		return () => {
+			clearTimeout(themeTiny!);
+		};
+	}, [theme]);
 
 	return (
 		<>

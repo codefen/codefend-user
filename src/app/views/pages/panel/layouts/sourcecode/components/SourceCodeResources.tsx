@@ -119,8 +119,8 @@ export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
 				</div>
 				<TableV2
 					rowsData={dataTable}
-					tableAction={tableAction}
 					columns={sourceCodeColumns}
+					tableAction={tableAction}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
 					sizeY={90}

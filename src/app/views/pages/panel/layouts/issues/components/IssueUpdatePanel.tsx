@@ -58,7 +58,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 	};
 	useEffect(() => {
 		let contentWindow: Window | null;
-		let timeID, themeTiny;
+		let timeID;
 
 		const loadIframe = () => {
 			const iframe = document.getElementById(
@@ -69,14 +69,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 				timeID = setTimeout(() => loadIframe(), 30);
 			} else {
 				contentWindow = iframe.contentWindow! as WindowProxy;
-				const body = contentWindow.document;
-
 				contentWindow.addEventListener('keydown', handleKeyDown);
-				timeID = setTimeout(() => setEditable((prev: boolean) => true), 20);
-				themeTiny = setTimeout(
-					() => body.documentElement.setAttribute('data-theme', theme),
-					25,
-				);
 			}
 		};
 
@@ -87,9 +80,59 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 				contentWindow.removeEventListener('keydown', handleKeyDown);
 			}
 			clearTimeout(timeID!);
-			clearTimeout(themeTiny!);
 		};
-	}, []);
+	}, [handleKeyDown]);
+
+	useEffect(() => {
+		let contentWindow: Window | null;
+		let themeTiny: NodeJS.Timeout | null = null;
+		let attempts = 0;
+		const maxAttempts = 10; // Establece el número máximo de intentos
+
+		const loadIframe = () => {
+			const iframe = document.getElementById(
+				'issue_ifr',
+			) as HTMLIFrameElement | null;
+
+			if (!iframe) {
+				attempts++;
+				if (attempts < maxAttempts) {
+					themeTiny = setTimeout(loadIframe, 200); // Intenta cargar de nuevo después de 3 segundos
+				} else {
+					console.error(
+						'Se superó el número máximo de intentos para cargar el iframe.',
+					);
+				}
+				return;
+			}
+
+			contentWindow = iframe.contentWindow!;
+
+			const handleIframeLoad = () => {
+				const body = contentWindow!.document.body;
+				if (body) {
+					body.setAttribute('data-theme', theme);
+				}
+			};
+
+			if (
+				iframe.contentWindow &&
+				iframe.contentWindow.document.readyState === 'complete'
+			) {
+				handleIframeLoad();
+			} else {
+				iframe.onload = handleIframeLoad;
+			}
+		};
+
+		loadIframe();
+
+		return () => {
+			if (themeTiny) {
+				clearTimeout(themeTiny);
+			}
+		};
+	}, [theme]);
 
 	useEffect(
 		() =>

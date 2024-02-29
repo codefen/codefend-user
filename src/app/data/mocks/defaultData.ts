@@ -354,7 +354,7 @@ export const sourceCodeColumns: ColumnTable[] = [
 	{
 		name: 'action',
 		value: 'actions',
-		style: 'id',
+		style: 'id action',
 	},
 ];
 

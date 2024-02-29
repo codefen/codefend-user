@@ -14,7 +14,7 @@
 	}
 
 	&.btn-cancel {
-		border: 1px solid var(--primary-color-300);
+		//border: 1px solid var(--primary-color-300);
 		padding-inline: 1rem;
 		margin-inline-end: 0.5rem;
 
@@ -29,8 +29,16 @@
 [data-theme] {
 	button.btn {
 		&.btn-secondary {
-			color: var(--primary-color-100);
-			background-color: var(--tertiary-color-600);
+			color: var(--tertiary-color-400);
+			background-color: #1b2531;
+		}
+	}
+
+	.network-form {
+		button.btn {
+			&.btn-secondary {
+				background-color: #232d3a;
+			}
 		}
 	}
 }

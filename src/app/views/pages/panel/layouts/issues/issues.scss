@@ -1,5 +1,9 @@
 @use '../../../../styles/settings/mixin' as mixin;
-
+main.issues-list {
+	.left .card {
+		height: calc(100vh - 74px);
+	}
+}
 main.issue-detail {
 	width: 100%;
 	padding-inline-end: 0px;
@@ -177,6 +181,14 @@ main.issue-detail {
 }
 main.issues-list {
 	padding-inline-end: 0;
+
+	.left {
+		width: 70%;
+	}
+
+	.right {
+		width: 30%;
+	}
 }
 
 [data-theme='dark'] {

@@ -1,21 +1,51 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.dashboard {
-
-	.card.risk-chart {
-		.content {
-			flex-direction: column;
-			row-gap: 2rem;
-
-			.chart {
-				min-width: 170px;
+	.left {
+		.card {
+			.content {
+				padding: 0px;
 			}
 		}
 	}
+
+	.right {
+		padding-inline-end: 0px;
+
+		.card {
+			&.risk-chart {
+				.content {
+					flex-direction: column;
+					row-gap: 2rem;
+
+					.chart {
+						min-width: 170px;
+					}
+				}
+			}
+		}
+	}
+
+	@include mixin.respond(large) {
+		.right {
+			.card {
+				&.risk-chart {
+					.content {
+						.chart {
+							flex: 1 1 100%;
+							min-width: 105px;
+							max-width: 0%;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	@include mixin.respond(small) {
 		min-height: auto;
 		height: 84dvh;
-		
+
 		.left {
 			.card {
 				overflow: auto;
@@ -106,6 +136,13 @@ main.dashboard {
 // 	}
 // }
 
+[data-theme='dark'] {
+	main.dashboard {
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+		}
+	}
+}
 // [data-theme='dark'] {
 // 	.variant-1 {
 // 		width: 16rem;
@@ -137,4 +174,3 @@ main.dashboard {
 // 			}
 // 		}
 // 	}
-
