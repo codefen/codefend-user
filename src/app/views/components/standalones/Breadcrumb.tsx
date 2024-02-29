@@ -24,7 +24,7 @@ export const Breadcrumb: React.FC<Props> = (props) => {
 	return (
 		<span className="breadcrumb">
 			<span className="go-home" onClick={props.rootAction}>
-				<b>company:</b> {companySelected?.name}
+				{companySelected?.name}
 			</span>
 			{segments.map((segment: string, i: number) => (
 				<Fragment key={i}>
