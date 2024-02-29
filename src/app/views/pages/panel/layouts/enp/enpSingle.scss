@@ -2,7 +2,8 @@
 
 main.single-enp {
 	.left {
-		width: 33.333333%;
+		// width: 33.333333%;
+		flex: 1 1 30%;
 
 		.enp-sidebar {
 			flex: 1 1;
@@ -412,8 +413,8 @@ main.single-enp {
 	}
 
 	.right {
-		width: 66.666667%;
-
+		// width: 66%;
+		flex: 1 1 70%;
 		.selected-app-container {
 			display: flex;
 			flex-direction: column;

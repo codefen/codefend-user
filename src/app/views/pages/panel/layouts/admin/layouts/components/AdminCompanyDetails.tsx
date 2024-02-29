@@ -227,16 +227,16 @@ const AdminCompanyDetails: React.FC = () => {
 							<p className="text-base pt-3 pb-3">{`name: ${companySelected?.name}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`website: ${companySelected?.website}`}</p>
+							<p className="text-base pt-3 pb-3">{`website: ${companySelected?.web}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`country: ${companySelected?.country}`}</p>
+							<p className="text-base pt-3 pb-3">{`country: ${companySelected?.pais_code}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`city: ${companySelected?.city}`}</p>
+							<p className="text-base pt-3 pb-3">{`city: ${companySelected?.pais_provincia}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
-							<p className="text-base pt-3 pb-3">{`address: ${companySelected?.address}`}</p>
+							<p className="text-base pt-3 pb-3">{`address: ${companySelected?.pais_ciudad}`}</p>
 						</div>
 						<div className="flex pl-8 text-format cursor-pointer">
 							<p className="text-base pt-3 pb-3">{`size: ${companySelected?.size}`}</p>

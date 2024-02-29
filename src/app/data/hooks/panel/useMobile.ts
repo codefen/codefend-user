@@ -40,7 +40,7 @@ export const useSelectedMobile = () => {
 };
 
 export const useMobile = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<MobileProps>>({
 		data: null,
@@ -65,7 +65,7 @@ export const useMobile = () => {
 	}, []);
 
 	const refetch = () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

@@ -51,15 +51,38 @@ const fetchFromAPI = async ({
 		url,
 		method,
 		headers: {
-			'Content-Type': 'application/json',
+			'Content-Type': 'multipart/form-data',
 			...headers,
 		},
 	};
 
-	if (method !== HTTP_METHODS.GET && body) requestConfig.data = body;
+	if (method !== HTTP_METHODS.GET) {
+        const bodyParams = new FormData();
 
-	if (params)
-		requestConfig.params = token ? { ...params, session: token } : params;
+		if (body) {
+			for (const key in body) {
+				if (Object.hasOwnProperty.call(body, key)) {
+					bodyParams.append(key, body[key]);
+				}
+			}
+		}
+
+		if (params) {
+			for (const key in params) {
+				if (Object.hasOwnProperty.call(params, key)) {
+					bodyParams.append(key, params[key]);
+				}
+			}
+		}
+
+		bodyParams.append('session', token);
+
+		requestConfig.data = bodyParams;
+	} else {
+		if (params) {
+			requestConfig.params = { ...params, session: token };
+		}
+	}
 
 	return axios(requestConfig);
 };

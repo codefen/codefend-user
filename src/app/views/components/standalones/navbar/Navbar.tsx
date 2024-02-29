@@ -1,6 +1,6 @@
 import React, { lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Breadcrumb, ThemeChangerButton } from '../..';
+import { Breadcrumb, ThemeChangerButton, MessageIcon, PreferenceIcon } from '../..';
 import { usePanelStore } from '../../../../data';
 import useAuthStore from '../../../../data/store/auth.store';
 import { NavbarSubMenu } from './NavbarSubMenu';
@@ -41,9 +41,8 @@ const Navbar: React.FC = () => {
 				<div className="left">
 					<div className="navbar-logo">
 						<span
-							className={`cursor-pointer duration-500 ${
-								open && 'rotate-[360deg]'
-							}`}>
+							className={`cursor-pointer duration-500 ${open && 'rotate-[360deg]'
+								}`}>
 							<Logo theme="aim" onClick={() => handleChange()} />
 						</span>
 					</div>
@@ -51,6 +50,25 @@ const Navbar: React.FC = () => {
 						root="Codefend"
 						rootAction={() => navigate('/admin/company')}
 					/>
+					<div className='actions'>
+						<div
+							className="action"
+							title="User preference"
+							onClick={() => {
+								navigate('/preferences');
+							}}>
+							<PreferenceIcon/>
+						</div>
+						<div
+							className="action"
+							title="Customer support"
+							onClick={() => {
+								navigate('/support');
+							}}>
+							<MessageIcon/>
+							{/* <span className="text-options">Customer support</span> */}
+						</div>
+					</div>
 				</div>
 
 				<div className="right">

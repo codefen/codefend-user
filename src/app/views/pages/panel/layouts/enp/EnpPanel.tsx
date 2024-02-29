@@ -31,7 +31,7 @@ interface IOSIconProps {
 
 export const EnpPanel: React.FC<Props> = (props) => {
     const { getAccessToken } = useAuthState();
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
     const [showScreen, setShowScreen] = useState<boolean>(false);
 	const [scans, setScans] = useState<any[]>([]);
 	const [scansFiltered, setScansFiltered] = useState<any[]>([]);
@@ -40,7 +40,7 @@ export const EnpPanel: React.FC<Props> = (props) => {
 	const navigate = useNavigate();
 
     useEffect(() => {
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		EnpService.getScans(companyID)
 		  .then((scans) => {
 			setScans(scans.data);

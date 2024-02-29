@@ -3,13 +3,13 @@ import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 
 export const useDeleteIssue = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const fetchDelete = (issueId: string, companyID: string) => {
 		return IssueService.delete(issueId, companyID);
 	};
 
 	const handleDelete = (deletedIssueId: string) => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

@@ -43,7 +43,7 @@ interface MemberInfo {
 }
 
 export const usePreferences = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany, getUserdata } = useAuthState();
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [company, setCompany] = useState<CompanyInfo | ''>('');
@@ -51,8 +51,7 @@ export const usePreferences = () => {
 	const [orders, serOrders] = useState<any[]>([]);
 
 	const fetchLan = useCallback(() => {
-		const user = getUserdata() as User;
-		const companyID = user?.companyID;
+		const companyID = getCompany();
 		setLoading(true);
 
 		PreferenceServices.getAll(companyID)
@@ -64,7 +63,7 @@ export const usePreferences = () => {
 			.finally(() => {
 				setLoading(false);
 			});
-	}, [getUserdata]);
+	}, [getUserdata, getCompany]);
 
 	useEffect(() => {
 		fetchLan();

@@ -17,8 +17,8 @@ export const AcessPointModal: React.FC<{
 	onDone: () => void;
 	close: () => void;
 }> = (props) => {
-	const { getUserdata } = useAuthState();
-	const companyID = getUserdata()?.companyID;
+	const { getCompany } = useAuthState();
+	const companyID = getCompany();
 
 	const [
 		{

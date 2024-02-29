@@ -6,7 +6,7 @@ import { DashboardProps} from '../..';
 import { toast } from 'react-toastify';
 
 export const useDashboard = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany, getUserdata } = useAuthState();
 	const [isLoading, setLoading] = useState(false);
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
@@ -24,7 +24,7 @@ export const useDashboard = () => {
 	}, []);
 
 	const refetch = () => {
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

@@ -19,7 +19,7 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 	const [subdomainDetection, setSubdomainDetection] = useState<boolean>(true);
 	const [isAddingDomain, setIsAddingDomain] = useState<boolean>(false);
 
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const handleSubmit = (e: React.FormEvent) => {
 		if (!domainName) return;
@@ -37,7 +37,7 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 			return;
 		}
 	
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 
 		WebApplicationService.addResource(domainName, companyID)
 			.then((response: any) => {

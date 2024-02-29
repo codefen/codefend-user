@@ -171,24 +171,7 @@ main.webapp {
 // 		min-height: auto;
 // 	}
 // }
-[data-theme='dark'] {
-	main.webapp {
-		.header {
-			background: var(--primary-color-600);
-		}
-		.right {
-			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
-			.card {
-				&.stats {
-					.content {
-						column-gap: 0px;
-						padding-inline: 0px;
-					}
-				}
-			}
-		}
-	}
-}
+
 // [data-theme='dark'] {
 // 	.variant-1 {
 // 		width: 21rem;

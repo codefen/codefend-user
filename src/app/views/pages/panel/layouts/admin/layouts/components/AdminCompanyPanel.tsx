@@ -1,6 +1,5 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import { useModal } from '../../../../../../../data';
-import { ApiHandlers } from '../../../../../../../data/services/api.service';
 import { ModalButtons, ModalTitleWrapper } from '../../../../../../components';
 import CompanyIndexView from './CompanyIndexView';
 
@@ -43,21 +42,6 @@ export const AdminCompanyPanel: React.FC<any> = () => {
 			...prevUserState,
 			[name]: value,
 		}));
-	};
-
-	const handleCreateCompany = (e: any) => {
-		e.preventDefault();
-		setAppState((prev: any) => ({ ...prev, isLoading: true }));
-		const requestBody = {
-			userId: selectedUser!.id,
-			companyId: companyStore!.id,
-			canWrite: selectedUser!.canWrite,
-			canRead: selectedUser!.canRead,
-		};
-
-		return ApiHandlers.createCompanyHandler(requestBody).finally(() =>
-			setAppState((prev: any) => ({ ...prev, isLoading: false })),
-		);
 	};
 
 	return (

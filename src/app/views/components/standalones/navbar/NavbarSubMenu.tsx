@@ -93,7 +93,7 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 					</span>
 				</div>
 				<div className="options">
-					<div
+					{/* <div
 						className="option"
 						onClick={() => {
 							props.closeMenu();
@@ -102,8 +102,8 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<PreferenceIcon width={1.25} height={1.25} />
 						<span className="text-options">User preference</span>
 						<ChevronIcon width={0.65} height={0.65} />
-					</div>
-					<div
+					</div> */}
+					{/* <div
 						className="option"
 						onClick={() => {
 							props.closeMenu();
@@ -112,7 +112,7 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<MessageIcon width={1.25} height={1.25} />
 						<span className="text-options">Customer support</span>
 						<ChevronIcon width={0.65} height={0.65} />
-					</div>
+					</div> */}
 					<div
 						className="option"
 						onClick={() => {

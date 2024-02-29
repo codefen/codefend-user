@@ -6,8 +6,8 @@ import { CustomerSupportService } from '../services/panel/support.service';
 const useChatbox = () => {
 	const [message, setMessage] = useState('');
 	const [isAdding, setIsAdding] = useState(false);
-	const { getUserdata } = useAuthState();
-	const companyID = getUserdata()?.companyID as string;
+	const { getUserdata, getCompany } = useAuthState();
+	const companyID = getCompany();
 	const userID = getUserdata()?.id as string;
 
 	const handleIssueSubmit = (
@@ -21,7 +21,7 @@ const useChatbox = () => {
 			issue_cs_body: !message.trim() ? textAreaValue : message,
 			issue_id: selectedID,
 		};
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		IssueService.addCSMessage(requestParams, companyID)
 			.then(() => {
 				setMessage('');

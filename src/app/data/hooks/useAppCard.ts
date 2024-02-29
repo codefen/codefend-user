@@ -11,7 +11,7 @@ interface HookProps {
 }
 
 export const useAppCard = (props: HookProps) => {
-	const { getUserdata } = useAuthState();
+	const { getUserdata, getCompany } = useAuthState();
 
 	const isDetails = useMemo(
 		() => Boolean(props.showDetails),
@@ -31,7 +31,7 @@ export const useAppCard = (props: HookProps) => {
 			const action = isMobileType ? MobileService : CloudService;
 
 			return action
-				.deleteApp(id, getUserdata()?.companyID as string)
+				.deleteApp(id, getCompany())
 				.then(() => {
 					toast.success(
 						`successfully deleted ${

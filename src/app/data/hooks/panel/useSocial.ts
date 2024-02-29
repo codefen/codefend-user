@@ -4,7 +4,7 @@ import { FetchPattern, SocialAplicationService, MemberV2 } from '../../../data';
 import { toast } from 'react-toastify';
 
 export const useSocial = () => {
-	const { getUserdata } = useAuthState();
+	const { getUserdata, getCompany } = useAuthState();
 	const [{ data, error, isLoading }, dispatch] = useState<
 		FetchPattern<MemberV2[]>
 	>({
@@ -27,7 +27,7 @@ export const useSocial = () => {
 	};
 
 	const refetch = useCallback(() => {
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

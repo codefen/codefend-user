@@ -31,8 +31,8 @@ export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
 		isAddingInternalNetwork: false,
 	});
 
-	const { getUserdata } = useAuthState();
-	const companyID = getUserdata()?.companyID;
+	const { getCompany } = useAuthState();
+	const companyID = getCompany();
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();

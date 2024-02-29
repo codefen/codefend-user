@@ -15,7 +15,7 @@ export interface LanProps {
 }
 
 export const useLan = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [{ data, error, isLoading }, dispatch] = useState<
 		FetchPattern<Device[]>
 	>({
@@ -43,7 +43,7 @@ export const useLan = () => {
 
 	/* Refetch Function. */
 	const refetch = () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

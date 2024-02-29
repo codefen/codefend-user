@@ -46,8 +46,8 @@ const SnsSearchAndData: React.FC = () => {
 	const [intelData, setIntelData] = useState<any[]>([]);
 	const [loading, setLoading] = useState(false);
 
-	const { getUserdata } = useAuthState();
-	const companyID = getUserdata()?.companyID as string;
+	const { getUserdata, getCompany } = useAuthState();
+	const companyID = getCompany();
 
 	const user = getUserdata as unknown as User;
 
