@@ -77,7 +77,7 @@ export const useSaveIssue = () => {
 		}
 		setNewIssue((prevIssue) => ({ ...prevIssue, isAddingIssue: true }));
 
-		const body = new FormData();
+		/*const body = new FormData();
 		body.append('risk_score', newIssue.score);
 		body.append('name', newIssue.issueName);
 		body.append('resource_class', newIssue.issueClass);
@@ -85,18 +85,22 @@ export const useSaveIssue = () => {
 		body.append('main_desc', _editorContent);
 		if (resourceId) {
 			body.append('resource_id', resourceId);
-		}
-		/* 		const params = {
+		}*/
+		let params = {
 			risk_score: newIssue.score,
 			name: newIssue.issueName,
 			resource_class: newIssue.issueClass,
 			researcher_username: getUserdata()?.username,
 			main_desc: _editorContent,
-		};*/
+		} as any;
 
-		return IssueService.add(body, companyID)
-			.then((response: any) => {
-				if (response.isAnError) {
+		if (resourceId) {
+			params.resource_id = resourceId;
+		}
+
+		return IssueService.add(params, companyID)
+			.then((res: any) => {
+				if (res.isAnError || res.response === "error") {
 					throw new Error(
 						'An unexpected error has occurred on the server',
 					);
@@ -110,7 +114,7 @@ export const useSaveIssue = () => {
 				});
 				toast.success('Successfully Added Issue...');
 
-				return { id: response.new_issue.id };
+				return { id: res.new_issue.id };
 			})
 			.catch((error: Error) => {
 				toast.error('An unexpected error has occurred on the server');

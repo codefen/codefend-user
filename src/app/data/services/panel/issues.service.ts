@@ -43,7 +43,7 @@ const add = async (body: any, companyID: string) => {
 			model: 'issues/add',
 			company_id: companyID,
 		},
-		body: body,
+		body,
 		headers: {
 			"Content-Type": "multipart/form-data"
 		}
