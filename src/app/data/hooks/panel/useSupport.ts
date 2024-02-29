@@ -10,6 +10,7 @@ import { useAuthState } from '..';
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
 
+/* Custom Hook "useAllTicket" to retrieve all tickets in customer support view*/
 export const useAllTicket = () => {
 	const { getCompany } = useAuthState();
 	const [{ data, error, isLoading }, dispatch] = useState({
@@ -55,6 +56,7 @@ export const useAllTicket = () => {
 	};
 };
 
+/* Custom hook "useOneTicket" to retrieve a single ticket*/
 export const useOneTicket = () => {
 	const { getUserdata, getCompany } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<TicketUnique>>(
@@ -81,7 +83,7 @@ export const useOneTicket = () => {
 	const refetch = (ticketID: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
-			console.error("Error: 'companyID' no está definido en userData.");
+			console.error("Error: 'companyID' is not defined in userData.");
 			toast.error('User information was not found');
 			return;
 		}
@@ -98,6 +100,7 @@ export const useOneTicket = () => {
 	};
 };
 
+/* Custom Hook "useAddTicket" to add a new ticket*/
 export const useAddTicket = () => {
 	const [title, setTitle] = useState('');
 	const [shortDescription, setShortDescription] = useState('');
@@ -141,6 +144,7 @@ export const useAddTicket = () => {
 	return { title, isAddingTicket, setShortDescription, setTitle, addTicket };
 };
 
+/* Custom Hook "useTicketDelete" to handle the "deletion" of a ticket*/
 export const useTicketDelete = () => {
 	const { getUserdata, getCompany } = useAuthState();
 	const fetchDelete = useCallback(

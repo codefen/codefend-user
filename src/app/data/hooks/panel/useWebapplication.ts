@@ -8,6 +8,7 @@ import {
 } from '../..';
 import { toast } from 'react-toastify';
 
+/* Custom Hook "useWebapplication" to manage the GET of web apps*/
 export const useWebapplication = () => {
 	const { getCompany } = useAuthState();
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -37,6 +38,7 @@ export const useWebapplication = () => {
 	return { webResources, isLoading, refetch };
 };
 
+/* Custom Hook "useDeleteWebResource" to handle "deleting" web apps */
 export const useDeleteWebResource = () => {
 	const [isDeletingResource, setIsDeletingResource] = useState<boolean>(false);
 	const { getCompany } = useAuthState();

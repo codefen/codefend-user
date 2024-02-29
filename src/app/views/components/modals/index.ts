@@ -9,3 +9,4 @@ export { default as ModalWrapper } from './modalwrapper/ModalWrapper';
 export * from './AddTicketModal';
 export * from './network-modal/NetworkSetingModal';
 export * from './order';
+export * from "./DeleteMobileCloudModal"

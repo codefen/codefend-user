@@ -3,7 +3,6 @@ export * from './issues';
 export * from './useCloud';
 export * from './useDashboard';
 export * from './useEnp';
-export {default as useIntelReadFile} from './useInx';
 export * from './useLan';
 export * from './useMobile';
 export * from './usePreferences';

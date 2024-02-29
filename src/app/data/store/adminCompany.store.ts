@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { ID, Monitoring, defaultCompanyCardData, equalsObj } from "..";
 
 export interface AdminCompany extends ID, Monitoring {
-    id: string;
     name: string;
     web: string;
     mercado: string;
@@ -20,7 +19,6 @@ export interface AdminCompany extends ID, Monitoring {
     owner_phone: string;
     orders_size: string;
     profile_media: string;
-
 }
 
 export interface AdminCompanyState {

@@ -19,6 +19,7 @@ const validateNewIssue = (validate: boolean, message: string) => {
 	return true;
 };
 
+/* Custom Hook "useUpdateIssue" to handle updating an issue*/
 export const useUpdateIssue = () => {
 	const { getCompany } = useAuthState();
 	const [updatedIssue, dispatch] = useState<UpdateIssue>({

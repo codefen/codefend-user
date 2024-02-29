@@ -10,6 +10,7 @@ import {
 import { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router';
 
+/* Custom Hook "useInitialVdb" to handle the search result in vdb */
 export const useInitialVdb = () => {
 	const { getCompany } = useAuthState();
 	const { search } = useParams();

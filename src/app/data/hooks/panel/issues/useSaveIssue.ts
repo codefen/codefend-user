@@ -12,6 +12,7 @@ export interface SaveIssue {
 	isAddingIssue: boolean;
 }
 
+/* Custom Hook "useSaveIssue" to handle saving an issue*/
 export const useSaveIssue = () => {
 	const { getUserdata, getCompany } = useAuthState();
 	const { type, resourceId } = useParams();

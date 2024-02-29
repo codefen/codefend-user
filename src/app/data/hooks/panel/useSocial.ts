@@ -3,6 +3,7 @@ import { useAuthState } from '..';
 import { FetchPattern, SocialAplicationService, MemberV2 } from '../../../data';
 import { toast } from 'react-toastify';
 
+/* Custom Hook "useSocial" to handle GET data in Social page*/
 export const useSocial = () => {
 	const { getUserdata, getCompany } = useAuthState();
 	const [{ data, error, isLoading }, dispatch] = useState<

@@ -11,34 +11,6 @@ import {
 import { toast } from 'react-toastify';
 import { FetchPattern } from 'app/data/interfaces/util';
 
-export const useSelectedMobile = () => {
-	const [selectedMobileApp, setSelectedMobileApp] = useState<MobileApp | null>(
-		null,
-	);
-
-	const isCurrentMobileSelected = (id: string) => {
-		let idSelected = selectedMobileApp ? selectedMobileApp?.id : '';
-		return id === idSelected;
-	};
-
-	const isNotNull = () =>
-		selectedMobileApp !== null && selectedMobileApp !== undefined;
-
-	const changeMobile = (mobile: MobileApp) => {
-		if (mobile && !isCurrentMobileSelected(mobile.id)) {
-			setSelectedMobileApp(mobile);
-		}
-	};
-
-	return {
-		isNotNull,
-		isCurrentMobileSelected,
-		changeMobile,
-		selectedMobileApp,
-		setSelectedMobileApp,
-	};
-};
-
 export const useMobile = () => {
 	const { getCompany } = useAuthState();
 
@@ -89,6 +61,7 @@ export const useMobileOne = (id: string) => {
 	const [mobile, setMobile] = useState<MobileUnique | null>(null);
 	const [isLoding, setLoading] = useState<boolean>(false);
 
+	/* Fetch cloud app */
 	const fetch = useCallback(() => {
 		const { getUserdata } = useAuthState();
 		const mobileInfo = getUserdata();
@@ -105,11 +78,14 @@ export const useMobileOne = (id: string) => {
 			});
 	}, []);
 
+	/* Refetch func*/
+	const refetch = useCallback(() => fetch(), []);
+
+	/* Utilities func */
 	const getMobile = useCallback((): MobileUnique => {
 		return !isLoding && mobile ? mobile : ({} as MobileUnique);
 	}, [mobile, isLoding]);
 
-	const refetch = useCallback(() => fetch(), []);
 
 	return { isLoding, getMobile, refetch };
 };

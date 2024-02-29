@@ -3,6 +3,7 @@ import { FetchPattern, OneIssue, mapLoginResponseToUser, mapOneIssue, useAuthSta
 import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 
+/* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
 	const { getCompany, updateUserData, updateToken } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<

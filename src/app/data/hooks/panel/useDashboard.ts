@@ -11,6 +11,7 @@ export const useDashboard = () => {
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
 	);
+	//Fetch dashboard data func
 	const fetchWeb = useCallback((companyID: string) => {
 		setLoading(true);
 
@@ -23,6 +24,7 @@ export const useDashboard = () => {
 			});
 	}, []);
 
+	//Refetch web app func
 	const refetch = () => {
 		const companyID = getCompany();
 		if (!companyID) {
