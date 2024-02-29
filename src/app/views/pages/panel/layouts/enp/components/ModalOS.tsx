@@ -36,7 +36,7 @@ export const ModalOS: React.FC<Props> = () => {
     let reducedUrl = `${parsedUrl.host}${parsedUrl.pathname}`.replace(/\/[^\/]*$/, '');
 
 	const osOptions: OsOptions = {
-        windows: `Invoke-WebRequest -Uri "https://web.codefend.com/releases/codefend-windows.exe" -OutFile "$env:TEMP\codefend-windows.exe"; & "$env:TEMP\codefend-windows.exe" '${getAccessToken()}' '${getCompany()}' '${reducedUrl}'; Pause; Remove-Item "$env:TEMP\codefend-windows.exe"`,
+        windows: `Invoke-WebRequest -Uri "https://web.codefend.com/releases/codefend-windows.exe" -OutFile "$env:TEMPcodefend-windows.exe"; & "$env:TEMPcodefend-windows.exe" '${getAccessToken()}' '${getCompany()}' '${reducedUrl}'; Pause; Remove-Item "$env:TEMPcodefend-windows.exe"`,
         mac: 'Mac Command',
         linux: `wget https://web.codefend.com/releases/codefend-linux -O /tmp/codefend-linux && chmod +x /tmp/codefend-linux && /tmp/codefend-linux ${getAccessToken()} ${getCompany()} ${reducedUrl}; rm /tmp/codefend-linux`
     };
