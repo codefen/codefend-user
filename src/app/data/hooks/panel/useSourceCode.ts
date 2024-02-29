@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 export const useSourceCode = () => {
 	const [sourceCode, setSource] = useState(null);
 	const [isLoading, setLoading] = useState(false);
-	const { getUserdata } = useAuthState();
+	const { getUserdata, getCompany } = useAuthState();
 
 	const fetcher = useCallback((companyID: string) => {
 		setLoading(true);
@@ -24,7 +24,7 @@ export const useSourceCode = () => {
 	}, []);
 
 	const refetch = useCallback(() => {
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		fetcher(companyID);
 	}, [getUserdata]);
 
@@ -39,7 +39,7 @@ export const useSourceCode = () => {
 	const deletedResource = useCallback(
 		(id: string) => {
 			setLoading(true);
-			const companyID = getUserdata()?.companyID as string;
+			const companyID = getCompany();
 			SourceCodeService.delete(id, companyID)
 				.then((response: any) => {
 					if (!response) {
@@ -58,7 +58,7 @@ export const useSourceCode = () => {
 	const addSourceCode = useCallback(
 		(params: string) => {
 			setLoading(true);
-			const companyID = getUserdata()?.companyID as string;
+			const companyID = getCompany();
 			return SourceCodeService.add(params, companyID)
 				.then((response: any) => {
 					if (!response) {

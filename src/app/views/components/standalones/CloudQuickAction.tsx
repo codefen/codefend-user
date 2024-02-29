@@ -9,7 +9,7 @@ interface CloudQuickActionProps {
 }
 
 export const CloudQuickAction: React.FC<CloudQuickActionProps> = (props) => {
-	const { getUserdata } = useAuthState();
+	const { getUserdata, getCompany } = useAuthState();
 	const [domainName, setDomainName] = useState('');
 	const [isAddingDomain, setIsAddingDomain] = useState(false);
 
@@ -26,9 +26,8 @@ export const CloudQuickAction: React.FC<CloudQuickActionProps> = (props) => {
 				toast.error('Invalaid domain');
 				return setIsAddingDomain(false);
 			}
-			const user = getUserdata() as User;
 			const requestParams = {
-				company_id: user?.companyID as string,
+				company_id: getCompany(),
 				resource_address_domain: domainName,
 			};
 

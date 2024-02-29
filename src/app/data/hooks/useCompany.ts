@@ -4,11 +4,10 @@ import { CompanyInfo, User, companyServices, useAuthState } from '..';
 const useCompany = () => {
 	const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
 	const [loading, setLoading] = useState(true);
-	const { getUserdata } = useAuthState();
+	const { getCompany, getUserdata } = useAuthState();
 
 	const fetchCompanyInfo = useCallback(() => {
-		const user = getUserdata() as User;
-		const companyID = user?.companyID;
+		const companyID = getCompany();
 		setLoading(true);
 
 		companyServices.getAll(companyID).then((response: any) => {

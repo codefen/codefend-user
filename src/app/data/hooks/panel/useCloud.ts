@@ -29,7 +29,7 @@ export const useSelectedCloud = () => {
 	};
 };
 export const useCloud = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<CloudApp[]>>({
 		data: null,
 		error: null,
@@ -55,7 +55,7 @@ export const useCloud = () => {
 
 	/* Refetch Function. */
 	const refetch = () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

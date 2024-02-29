@@ -16,7 +16,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 		type: 'p',
 		order: 1,
 	});
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	useEffect(() => {
 		setSelectedEndpoint(null);
@@ -30,7 +30,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 
 	useEffect(() => {
 		if (selectedEndpoint?.code_name) {
-			const companyID = getUserdata()?.companyID as string;
+			const companyID = getCompany();
 			EnpService.getVulns(selectedEndpoint?.code_name, companyID).then(
 				(enp) => {
 					setVuln(enp.data);

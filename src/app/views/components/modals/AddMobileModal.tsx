@@ -12,7 +12,7 @@ const AddMobileModal: React.FC<Props> = (props) => {
 	const [androidAddress, setAndroidAddress] = useState('');
 	const [iosAddress, setIosAddress] = useState('');
 	const [isAddingMobile, setIsAddingMobile] = useState(false);
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
@@ -40,7 +40,7 @@ const AddMobileModal: React.FC<Props> = (props) => {
 			MobileService.add(
 				androidAddress.trim(),
 				iosAddress.trim(),
-				getUserdata()?.companyID as string,
+				getCompany(),
 			)
 				.then((response: any) => {
 					if (

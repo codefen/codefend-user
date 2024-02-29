@@ -1,16 +1,31 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import CompanyCard from './CompanyCard';
-import { RigthArrowIcon } from '../../../../../../components';
-import { AdminCompany, useAdminCompanyStore } from '../../../../../../../data';
+import { RigthArrowIcon, Show } from '../../../../../../components';
+import { AdminCompany, useAdminCompanyStore, companyServices } from '../../../../../../../data';
 import './CompanyIndexView.scss';
+import { useNavigate } from 'react-router';
 
 const CompanyIndexView: React.FC = () => {
-	const { searchQuery, companies, isSelectedCompany } = useAdminCompanyStore(
+	const { searchQuery, companies, isSelectedCompany, updateCompanies } = useAdminCompanyStore(
 		(state) => state,
 	);
+
 	const { selectCompany, updateSearch } = useAdminCompanyStore(
 		(state) => state,
 	);
+
+	//const [companies, setCompanies] = useState([]);
+
+	useEffect(() => {
+		if(companies.length === 0) {
+			companyServices.getCompanies(1)
+				.then((data: any) => {
+					updateCompanies(data.companies);
+				})
+		}
+	});
+
+
 
 	const companiesToRender = useMemo(() => {
 		if (searchQuery.trim() === '' || searchQuery.trim().length < 2)
@@ -23,43 +38,28 @@ const CompanyIndexView: React.FC = () => {
 			company.name.toLowerCase().includes(query.toLowerCase()),
 		);
 	}, [searchQuery, companies]);
+	const navigate = useNavigate();
 
 	return (
 		<>
 			<div className="CompanyIndexView">
-				{Boolean(companies.length) && (
-					<div className="company-search relative">
-						<input
-							type="text"
-							name="searchQuery"
-							value={searchQuery}
-							onChange={(e) => updateSearch(e.target.value)}
-							placeholder="Search Company"
-							className="text w-full"
-							required
-						/>
-						<div
-							className="h-full absolute codefend-text-red flex items-center justify-center right-5"
-							style={{ color: 'black' }}>
-							<RigthArrowIcon width={2} height={2} />
-						</div>
+				{companies.length > 0 && (
+					<div className="companies">
+						{companies.map((company: AdminCompany) => (
+							<div
+								onClick={() => isSelectedCompany(company) ? navigate('/dashboard') : selectCompany(company)}
+								key={company.id}
+								className={`company ${
+									isSelectedCompany(company) ? 'selected' : ''
+								}`}>
+								<CompanyCard
+									company={company}
+									isSelected={isSelectedCompany(company)}
+								/>
+							</div>
+						))}
 					</div>
 				)}
-				<div className="companies">
-					{companiesToRender.map((company: AdminCompany) => (
-						<div
-							onClick={() => selectCompany(company)}
-							key={company.id}
-							className={`company ${
-								isSelectedCompany(company) ? 'selected' : ''
-							}`}>
-							<CompanyCard
-								company={company}
-								isSelected={isSelectedCompany(company)}
-							/>
-						</div>
-					))}
-				</div>
 			</div>
 		</>
 	);

@@ -66,8 +66,8 @@ export const useScanLocal = (token: string) => {
 
 // Hook principal que utiliza los hooks anteriores
 export const useEnp = (scanID: number) => {
-	const { getUserdata } = useAuthState();
-	const companyID = getUserdata()?.companyID as string;
+	const { getCompany } = useAuthState();
+	const companyID = getCompany();
 
 	const { getEndpoints, isLoading, refetch } = useFetchEndpoints(
 		companyID,

@@ -14,7 +14,7 @@ export const AddCloudModal: React.FC<Props> = (props) => {
 	const [provider, setProvider] = useState('');
 	const [description, setDescription] = useState('');
 	const [isAddingCloud, setAddingCloud] = useState(false);
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
@@ -41,7 +41,7 @@ export const AddCloudModal: React.FC<Props> = (props) => {
 			name: appName,
 			desc: description,
 		};
-		const company = getUserdata()?.companyID as string;
+		const company = getCompany();
 
 		CloudService.add(requestParams, company)
 			.then((response: any) => {

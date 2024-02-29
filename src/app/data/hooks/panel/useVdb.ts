@@ -11,7 +11,7 @@ import { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router';
 
 export const useInitialVdb = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const { search } = useParams();
 	const [searchData, setSearchData] = useState('');
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<VdbProps>>({
@@ -36,7 +36,7 @@ export const useInitialVdb = () => {
 
 	const refetch = () => {
 		setSearchData(search ?? '');
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

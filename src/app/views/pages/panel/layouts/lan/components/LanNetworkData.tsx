@@ -27,8 +27,8 @@ interface LanNetworkDataProps {
 }
 
 export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
-	const { getUserdata } = useAuthState();
-	const companyID = getUserdata()?.companyID;
+	const { getCompany } = useAuthState();
+	const companyID = getCompany();
 
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();

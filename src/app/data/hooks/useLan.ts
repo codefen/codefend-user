@@ -9,15 +9,14 @@ export interface LanProps {
 }
 
 export const useLan = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany, getUserdata } = useAuthState();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [networks, setNetworks] = useState<Device[]>([]);
 	const [error, setError] = useState<string | null>(null);
 	const [info, setInfo] = useState<string | null>(null);
 
 	const fetchLan = useCallback(() => {
-		const user = getUserdata();
-		const companyID = user?.companyID as string;
+		const companyID = getCompany();
 		setLoading(true);
 
 		LanApplicationService.getAll(companyID)
@@ -29,7 +28,7 @@ export const useLan = () => {
 			.finally(() => {
 				setLoading(false);
 			});
-	}, [getUserdata]);
+	}, [getCompany, getUserdata]);
 
 	useEffect(() => {
 		fetchLan();

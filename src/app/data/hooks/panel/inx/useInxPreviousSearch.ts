@@ -29,8 +29,8 @@ export interface PreviousSearch {
 }
 
 export const useInxPreviousSearch = () => {
-	const { getUserdata } = useAuthState();
-	const companyId = getUserdata()?.companyID;
+	const { getCompany } = useAuthState();
+	const companyId = getCompany();
 
 	const [{ data, isLoading }, dispatch] = useState<
 		FetchPattern<PreviousSearch[]>

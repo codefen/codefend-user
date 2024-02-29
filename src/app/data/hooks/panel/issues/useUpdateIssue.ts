@@ -20,7 +20,7 @@ const validateNewIssue = (validate: boolean, message: string) => {
 };
 
 export const useUpdateIssue = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [updatedIssue, dispatch] = useState<UpdateIssue>({
 		id: '',
 		issueName: '',
@@ -73,7 +73,7 @@ export const useUpdateIssue = () => {
 	};
 
 	const update = async () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

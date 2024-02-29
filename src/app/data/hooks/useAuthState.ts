@@ -27,6 +27,13 @@ export const useAuthState = () => {
 	const getAccessToken = () =>
 		authStore.accessToken ? authStore.accessToken : '';
 
+	const getCompany = () => {
+		const companySelectedFromLocalStorage = localStorage.getItem('companySelected');
+		return companySelectedFromLocalStorage !== null
+		? JSON.parse(companySelectedFromLocalStorage).id
+		: getUserdata()?.companyID;
+	}
+
 	const isAuth = () => authStore.isAuth;
 
 	const signInUser = (params: LoginParams): Promise<boolean> => {
@@ -101,6 +108,7 @@ export const useAuthState = () => {
 		signUpUser,
 		signUpFinish,
 		updateUserData,
+		getCompany,
 		updateToken: authStore.updateToken
 	};
 };

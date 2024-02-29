@@ -19,7 +19,7 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 	const [domainName, setDomainName] = useState('');
 	const [ipAddress, setIpAddress] = useState('');
 	const [isAddingSubDomain, setIsAddingSubDomain] = useState(false);
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
@@ -38,8 +38,7 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 
 			setIsAddingSubDomain(true);
 
-			const user = getUserdata() as User;
-			const companyID = user?.companyID as string;
+			const companyID = getCompany();
 
 			WebApplicationService.addSubresource(
 				mainDomainId,

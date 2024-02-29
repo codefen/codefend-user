@@ -13,7 +13,7 @@ export interface SaveIssue {
 }
 
 export const useSaveIssue = () => {
-	const { getUserdata } = useAuthState();
+	const { getUserdata, getCompany } = useAuthState();
 	const { type, resourceId } = useParams();
 
 	const [newIssue, setNewIssue] = useState<SaveIssue>({
@@ -95,7 +95,6 @@ export const useSaveIssue = () => {
 
 		return IssueService.add(body, companyID)
 			.then((response: any) => {
-				console.log({ response });
 				if (response.isAnError) {
 					throw new Error(
 						'An unexpected error has occurred on the server',
@@ -125,7 +124,7 @@ export const useSaveIssue = () => {
 	};
 
 	const save = async () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

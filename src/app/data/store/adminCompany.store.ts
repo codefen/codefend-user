@@ -4,23 +4,22 @@ import { ID, Monitoring, defaultCompanyCardData, equalsObj } from "..";
 export interface AdminCompany extends ID, Monitoring {
     id: string;
     name: string;
-    website: string;
-    market: string;
+    web: string;
+    mercado: string;
     size: string;
-    country: string;
-    city: string;
+    pais_code: string;
 
-    countryCode: string;
-    province: string;
-    address: string;
+    pais: string;
+    pais_provincia: string;
+    pais_ciudad: string;
 
-    ownerName: string;
-    ownerLastname:string;
-    ownerRole: string;
-    ownerEmail: string;
-    ownerPhone: string;
-    orderSize: string;
-    profileMedia: string;
+    owner_fname: string;
+    owner_lname:string;
+    owner_role: string;
+    owner_email: string;
+    owner_phone: string;
+    orders_size: string;
+    profile_media: string;
 
 }
 
@@ -32,21 +31,29 @@ export interface AdminCompanyState {
     isSelectedCompany: (company: AdminCompany)=>boolean;
     selectCompany: (company: AdminCompany)=>void;
     updateSearch: (updated: string)=>void;
+    updateCompanies: (updated: AdminCompany[])=>void;
 }
 
 const equals = (first:any,second:any)=>equalsObj(first, second);
 
+const companySelectedFromLocalStorage = localStorage.getItem('companySelected');
+const defaultCompanySelected = companySelectedFromLocalStorage !== null
+    ? JSON.parse(companySelectedFromLocalStorage)
+    : null;
+
 const useAdminCompanyStore = create<AdminCompanyState>((set, get)=>({
-    companies: defaultCompanyCardData,
-    companySelected: null,
+    companies: [],
+    companySelected: defaultCompanySelected,
     searchQuery: "",
     selectCompany: (company: AdminCompany)=> {
         const state = get();
-      
+
         if(!equals(state.companySelected, company)){
             set((current)=> ({...current, companySelected: company}));
+            localStorage.setItem('companySelected', JSON.stringify(company));
         } else {
             set((current)=> ({...current, companySelected: null}));
+            localStorage.removeItem('companySelected');
         }
 
     },
@@ -54,7 +61,8 @@ const useAdminCompanyStore = create<AdminCompanyState>((set, get)=>({
     initCompanies: ()=>{
         
     },
-    updateSearch: (updated: string)=> set((prev: AdminCompanyState)=> ({...prev, searchQuery: updated}))
+    updateSearch: (updated: string)=> set((prev: AdminCompanyState)=> ({...prev, searchQuery: updated})),
+    updateCompanies: (updated: AdminCompany[])=> set((prev: AdminCompanyState)=> ({...prev, companies: updated}))
 }));
 
 export default useAdminCompanyStore;

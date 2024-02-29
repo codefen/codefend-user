@@ -4,7 +4,7 @@ import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 
 export const useIssues = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<AllIssues>>({
 		data: null,
 		error: null,
@@ -28,7 +28,7 @@ export const useIssues = () => {
 	}, []);
 
 	const refetchAll = () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;
