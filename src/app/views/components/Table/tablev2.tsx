@@ -195,7 +195,10 @@ export const TableV2: React.FC<TableProps> = ({
 										}`}
 										onMouseDown={(e) => {
 											e.preventDefault();
-											if (e.button === 1) {
+											if (
+												e.button === 1 ||
+												(e.ctrlKey && e.button === 0)
+											) {
 												e.stopPropagation();
 
 												if (whelAction) {
