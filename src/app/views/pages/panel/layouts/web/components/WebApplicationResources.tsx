@@ -111,9 +111,9 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 								<span
 									onClick={() => {
 										setSelectedResource({
-											id: mainNetwork.id,
-											domain: mainNetwork.resourceDomain,
-											serverIp: mainNetwork.mainServer,
+											id: subNetwork.id,
+											domain: subNetwork.resourceDomain,
+											serverIp: subNetwork.mainServer,
 										});
 										setShowModal(true);
 										setShowModalStr('delete_resource');
@@ -122,7 +122,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 								</span>
 								<span
 									onClick={() =>
-										navigate(`/issues/create/web/${mainNetwork.id}`)
+										navigate(`/issues/create/web/${subNetwork.id}`)
 									}>
 									<BugIcon isButton />
 								</span>
