@@ -82,6 +82,37 @@
 			}
 		}
 	}
+
+	.actions {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.action {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 50px;
+			height: 100%;
+			border-left: 1px solid var(--tertiary-color-700);
+			border-right: 1px solid var(--tertiary-color-700);
+
+			svg {
+				width: 18px;
+				// height: 18px;
+			}
+			&:hover {
+				color: var(--secondary-color-50);
+				svg {
+					text-shadow: 1px 1px 3px #000000;
+				}
+			}
+			+ .action {
+				border-left: none;
+			}
+		}
+	}
+
 	.right {
 		display: flex;
 		column-gap: 20px;
