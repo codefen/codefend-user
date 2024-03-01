@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import addTinyMce, { setMode } from '../../../../../../../../public/editor-lib';
+import addTinyMce, { setMode } from '../../../../../../../editor-lib';
 
 interface AppEditorProps {
 	onUpdateIssue?: any;

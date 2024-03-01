@@ -5,9 +5,12 @@ import { PageLoader, Show } from '../../../../components';
 import './issues.scss';
 
 const IssuePage: React.FC<{}> = () => {
-	const status = useScript('/editor-lib/visual/mce/tinymce.min.js', {
-		removeOnUnmount: true,
-	});
+	const status = useScript(
+		'../../../../../../editor-lib/visual/mce/tinymce.min.js',
+		{
+			removeOnUnmount: true,
+		},
+	);
 	const path = useLocation().pathname;
 	const isNeedWaitScript =
 		path.startsWith('/issues/create') || path.startsWith('/issues/update');

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IssueService, useAuthState } from '../../../';
 import { toast } from 'react-toastify';
-import { getTinyEditorContent } from '../../../../../../public/editor-lib';
+import { getTinyEditorContent } from '../../../../../editor-lib';
 
 export interface UpdateIssue {
 	id: string;
