@@ -133,7 +133,6 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						}}>
 						<LogoutIcon width={1.25} height={1.25} />
 						<span className="text-options">Logout</span>
-						<ChevronIcon width={0.65} height={0.65} />
 					</div>
 				</div>
 			</div>
