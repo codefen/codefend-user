@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
 							onClick={() => {
 								setNetworkSettingState(true);
 							}}>
-							<NetworkIcon/>
+							<NetworkIcon width={1.1} height={1.1}/>
 							<span>{baseApiName}</span>
 						</div>
 						{/* <div className="action">
