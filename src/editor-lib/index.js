@@ -36,12 +36,12 @@ const addTinyMce = (initialValue) => {
 			{
 				title: 'Issue A',
 				description: 'simple issue, code, no media',
-				url: '/src/editor-lib/visual/mce/models/01.html',
+				url: '/public/templates/01.html',
 			},
 			{
 				title: 'Issue B',
 				description: 'simple issue, code, no media',
-				url: '/src/editor-lib/visual/mce/models/02.html',
+				url: '/public/templates/02.html',
 			},
 		],
 	};
