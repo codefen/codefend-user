@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useAuthState } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
-import { getTinyEditorContent } from '../../../../../editor-lib';
+import { getTinyEditorContent } from '../../../../../../public/editor-lib';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 
