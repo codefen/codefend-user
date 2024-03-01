@@ -91,12 +91,12 @@ const Navbar: React.FC = () => {
 							onClick={() => {
 								setNetworkSettingState(true);
 							}}>
-							<NetworkIcon />
+							<NetworkIcon/>
 							<span>{baseApiName}</span>
 						</div>
-						<div className="action">
+						{/* <div className="action">
 							<ThemeChangerButton />
-						</div>
+						</div> */}
 					</div>
 				</div>
 

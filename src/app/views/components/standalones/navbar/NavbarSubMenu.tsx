@@ -9,6 +9,7 @@ import {
 	NetworkSetingModal,
 	PreferenceIcon,
 	Show,
+	ThemeChangerButton,
 } from '../..';
 import {
 	NetworkSettingState,
@@ -124,6 +125,12 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<ChevronIcon width={0.65} height={0.65} />
 					</div> */}
 
+					<div
+						className="option"
+						>
+						<ThemeChangerButton />
+						<span className="text-options">Theme</span>
+					</div>
 					<div
 						className="option"
 						onClick={(e: React.FormEvent) => {
