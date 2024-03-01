@@ -7,9 +7,9 @@ const AdminUserLayout: React.FC = () => {
 		<>
 			<main className="admin-user">
 				<section className="left">
-					<div className="left-section-title title title-format">
+					{/* <div className="left-section-title title title-format">
 						Admin Panel
-					</div>
+					</div> */}
 					<AdminPanelApprove />
 				</section>
 				<section className="right">
