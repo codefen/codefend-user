@@ -1,0 +1,50 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
+main.sb {
+	overflow: hidden;
+	.left {
+		.vdb-app-info {
+			margin-inline: 0.75rem;
+			.table {
+				.item {
+					height: 43px;
+				}
+				.cve {
+					text-align: center;
+					max-width: 135px;
+					div {
+						justify-content: center;
+					}
+				}
+				.vul-title {
+					line-height: 1.3;
+					text-align: center;
+					width: auto;
+					padding-inline-end: 6px;
+					.publish {
+						text-align: left;
+						overflow: hidden;
+						text-wrap: pretty;
+						text-overflow: ellipsis;
+					}
+				}
+
+				.vul-risk {
+					min-width: 90px;
+					max-width: 90px;
+				}
+
+				.date {
+					text-align: left;
+					max-width: 95px;
+				}
+				.id {
+					max-width: 85px;
+				}
+				.publish {
+					justify-content: left;
+				}
+			}
+		}
+	}
+}

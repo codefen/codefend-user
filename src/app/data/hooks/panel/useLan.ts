@@ -14,8 +14,9 @@ export interface LanProps {
 	info: string | null;
 }
 
+/* Custom Hook "useLan" to handle recovery of all LAN apps*/
 export const useLan = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [{ data, error, isLoading }, dispatch] = useState<
 		FetchPattern<Device[]>
 	>({
@@ -23,8 +24,8 @@ export const useLan = () => {
 		error: null,
 		isLoading: false,
 	});
-	/* Fetch Cloud Apps */
-	const fetchLan = useCallback((companyID: string) => {
+	/* Fetch LAN  Apps */
+	const fetcher = useCallback((companyID: string) => {
 		dispatch((state: any) => ({
 			...state,
 			isLoading: true,
@@ -43,12 +44,12 @@ export const useLan = () => {
 
 	/* Refetch Function. */
 	const refetch = () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;
 		}
-		fetchLan(companyID);
+		fetcher(companyID);
 	};
 
 	return { loading: isLoading, networks: data, error, refetch };

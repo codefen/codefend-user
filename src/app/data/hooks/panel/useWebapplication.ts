@@ -8,8 +8,9 @@ import {
 } from '../..';
 import { toast } from 'react-toastify';
 
+/* Custom Hook "useWebapplication" to manage the GET of web apps*/
 export const useWebapplication = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const [webResources, setWebResources] = useState<WebapplicationProps>(
 		{} as WebapplicationProps,
@@ -30,24 +31,24 @@ export const useWebapplication = () => {
 
 	//Refetch Data
 	const refetch = () => {
-		const user = getUserdata() as User;
-		const companyID = user?.companyID as string;
+		const companyID = getCompany();
 		fetchWeb(companyID);
 	};
 
 	return { webResources, isLoading, refetch };
 };
 
+/* Custom Hook "useDeleteWebResource" to handle "deleting" web apps */
 export const useDeleteWebResource = () => {
 	const [isDeletingResource, setIsDeletingResource] = useState<boolean>(false);
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const handleDelete = async (
 		onDone: () => void | null,
 		id: string,
 	): Promise<any> => {
 		setIsDeletingResource(true);
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		if (!companyID) {
 			console.error("Error: 'companyID' no está definido en userData.");
 			toast.error('User information was not found');

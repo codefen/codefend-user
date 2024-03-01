@@ -1,6 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { AppCard } from './AppCard';
-import { CloudApp, MobileApp } from '../../../data';
+import {
+	CloudApp,
+	MobileApp,
+	RemoveAppStore,
+	useRemoveAppStore,
+} from '../../../data';
 
 interface AppCardInfoProps {
 	type?: string;
@@ -12,6 +17,16 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 	selectedApp,
 }) => {
 	const isMobileType = type === 'mobile';
+
+	const { setIsOpen, setData, setIsMobileType } = useRemoveAppStore(
+		(state: RemoveAppStore) => state,
+	);
+
+	useEffect(() => {
+		setData(selectedApp.id, selectedApp.appName);
+		setIsOpen(false);
+		setIsMobileType(isMobileType);
+	}, [selectedApp, isMobileType]);
 
 	return (
 		<div

@@ -6,7 +6,7 @@ interface ShowProps {
 	children: JSX.Element;
 }
 
-export const Show: React.FC<ShowProps> = ({ when, fallback, children }) => {
+const Show: React.FC<ShowProps> = ({ when, fallback, children }) => {
 	const content = useMemo(
 		() => (when ? children : fallback ?? <></>),
 		[when, fallback],
@@ -14,3 +14,5 @@ export const Show: React.FC<ShowProps> = ({ when, fallback, children }) => {
 
 	return <>{content}</>;
 };
+
+export default Show;

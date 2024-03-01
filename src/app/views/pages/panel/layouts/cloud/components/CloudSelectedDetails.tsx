@@ -1,5 +1,10 @@
-import React, { useCallback, useContext, useEffect } from 'react';
-import { CloudApp, useIssues } from '../../../../../../data';
+import React, { useEffect } from 'react';
+import {
+	CloudApp,
+	SelectMobileCloudApp,
+	useIssues,
+	useSelectMobileCloudApp,
+} from '../../../../../../data';
 import {
 	PageLoader,
 	AppCardInfo,
@@ -8,15 +13,17 @@ import {
 	VulnerabilitiesStatus,
 	VulnerabilityRisk,
 	Show,
-	PrimaryButton,
 } from '../../../../../components';
-import SelectedCloud from '../cloudProvider';
 
 export const CloudSelectedDetails = () => {
-	const selectedCloudApp = useContext(SelectedCloud);
-	const getSelected = selectedCloudApp ? selectedCloudApp : ({} as CloudApp);
+	const { appSelected } = useSelectMobileCloudApp(
+		(state: SelectMobileCloudApp) => state,
+	);
+
+	const getSelected = appSelected ? appSelected : ({} as CloudApp);
 
 	const { getIssues, isLoading, refetchAll } = useIssues();
+
 	useEffect(() => refetchAll(), []);
 	return (
 		<Show when={!isLoading} fallback={<PageLoader />}>

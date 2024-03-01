@@ -21,7 +21,7 @@ export const PrimaryButton = (props: PrimaryButtonProps) => {
 			type={type}
 			onClick={props.click}
 			disabled={props.isDisabled}
-			className={`log-inputs btn btn-primary ${primaryStyles}`}>
+			className={`btn btn-primary ${primaryStyles}`}>
 			<Show when={props.isDisabled! && loader}>
 				<ButtonLoader />
 			</Show>

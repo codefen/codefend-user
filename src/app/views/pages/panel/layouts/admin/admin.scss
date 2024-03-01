@@ -1,5 +1,8 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.company {
 	overflow: hidden;
+	padding-inline-end: 0px;
 	.left {
 		flex: 1 1 68%;
 		padding-inline-end: 0.5rem;
@@ -56,6 +59,48 @@ main.company {
 		width: 100%;
 		margin-top: 1rem;
 		border: 1px solid var(--primary-color-300);
+	}
+
+	@include mixin.respond(small) {
+		display: flex;
+		padding-inline-start: 10px;
+		overflow: auto;
+		flex-direction: column;
+		height: 81dvh;
+		min-height: auto;
+
+		.left {
+			width: 95%;
+			padding-block-start: 40px;
+
+			.companies {
+				padding-bottom: 10px;
+			}
+		}
+
+		.right {
+			padding-block-start: 1px;
+		}
+	}
+}
+
+.add-company.modal {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-inline: auto;
+	padding: 0.75rem;
+
+	@media only screen and (min-width: 320px) {
+		max-width: 320px;
+	}
+	@media only screen and (min-width: 640px) {
+		max-width: 640px;
+	}
+
+	.add-company-form {
+		padding: 1.5rem;
 	}
 }
 

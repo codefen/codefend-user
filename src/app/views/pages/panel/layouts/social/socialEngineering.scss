@@ -1,10 +1,14 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.social {
-	@include mixin.respond(small) {
-		display: block;
-	}
+	min-height: auto;
+	max-height: none;
+	padding-block-end: 0;
+	padding-inline-end: 0;
+	overflow-y: hidden;
+
 	.left {
+		width: 70%;
 		.table {
 			.item {
 				height: 42px;
@@ -18,15 +22,15 @@ main.social {
 				}
 			}
 		}
-		@include mixin.respond(small) {
-			padding-bottom: 10px;
-		}
 	}
 
 	.right {
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
+		width: 30%;
 		.filter {
+			width: 100%;
+			justify-content: space-between;
 			.label {
 				display: flex;
 				justify-content: flex-start;
@@ -35,6 +39,16 @@ main.social {
 				padding-block: 0.75rem;
 			}
 		}
+		@include mixin.respond(small) {
+			padding-inline-start: 0;
+		}
+	}
+	@include mixin.respond(small) {
+		display: block;
+		overflow: auto;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
 	}
 }
 

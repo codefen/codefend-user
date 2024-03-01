@@ -19,7 +19,7 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 	const [domainName, setDomainName] = useState('');
 	const [ipAddress, setIpAddress] = useState('');
 	const [isAddingSubDomain, setIsAddingSubDomain] = useState(false);
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
@@ -38,8 +38,7 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 
 			setIsAddingSubDomain(true);
 
-			const user = getUserdata() as User;
-			const companyID = user?.companyID as string;
+			const companyID = getCompany();
 
 			WebApplicationService.addSubresource(
 				mainDomainId,
@@ -64,10 +63,10 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 	);
 
 	return (
-		<div className="modal subdomain-modal">
-			<form className="w-full flex flex-col gap-y-3" onSubmit={handleSubmit}>
+		<div className="content subdomain-modal">
+			<form className="form" onSubmit={handleSubmit}>
 				<div className="form-input">
-					<span className="form-icon">
+					<span className="icon">
 						<div className="codefend-text-red">
 							<GlobeWebIcon />
 						</div>
@@ -92,8 +91,8 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 					</select>
 				</div>
 
-				<div className="form-input text">
-					<span className="form-icon">
+				<div className="form-input">
+					<span className="icon">
 						<div className="codefend-text-red">
 							<GlobeWebIcon />
 						</div>
@@ -106,8 +105,8 @@ const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
 					/>
 				</div>
 
-				<div className="form-input text">
-					<span className="form-icon">
+				<div className="form-input">
+					<span className="icon">
 						<div className="codefend-text-red">
 							<GlobeWebIcon />
 						</div>

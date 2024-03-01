@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const DashboardSearchbar: React.FC = () => {
 	const navigate = useNavigate();
 	const [searchValue, setSearchValue] = useState('');
-	const [searchClass, setSearchClass] = useState('');
+	const [searchClass, setSearchClass] = useState('email');
 	const getSearchClass = () => searchClass;
 
 	const selectBarOptions = {

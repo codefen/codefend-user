@@ -32,7 +32,7 @@ const IssueUpdate: React.FC<{}> = () => {
 								isLoading={isLoading}
 							/>
 						</section>
-						<section className="h-full flex-grow">
+						<section className="right">
 							<IssueChatDisplay
 								isLoading={isLoading}
 								selectedIssue={getIssues().issue}

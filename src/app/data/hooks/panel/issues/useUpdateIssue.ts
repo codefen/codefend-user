@@ -19,8 +19,9 @@ const validateNewIssue = (validate: boolean, message: string) => {
 	return true;
 };
 
+/* Custom Hook "useUpdateIssue" to handle updating an issue*/
 export const useUpdateIssue = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [updatedIssue, dispatch] = useState<UpdateIssue>({
 		id: '',
 		issueName: '',
@@ -53,7 +54,6 @@ export const useUpdateIssue = () => {
 
 		return IssueService.modify(params, companyID)
 			.then((response: any) => {
-				console.log({ response });
 				if (response.response === 'error' || response.isAnError)
 					throw new Error(
 						response.message ?? 'An unexpected error has occurred',
@@ -63,7 +63,7 @@ export const useUpdateIssue = () => {
 				return { updatedIssue };
 			})
 			.catch((error: Error) => {
-				toast.error(error.message);
+				toast.error("An unexpected error has occurred on the server");
 			})
 			.finally(() =>
 				dispatch((state: UpdateIssue) => ({
@@ -74,7 +74,7 @@ export const useUpdateIssue = () => {
 	};
 
 	const update = async () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

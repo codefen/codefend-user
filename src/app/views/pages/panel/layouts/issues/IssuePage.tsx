@@ -1,7 +1,7 @@
-import { PageLoader, Show } from '../../../../components';
 import React, { Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { useScript } from 'usehooks-ts';
+import { PageLoader, Show } from '../../../../components';
 import './issues.scss';
 
 const IssuePage: React.FC<{}> = () => {

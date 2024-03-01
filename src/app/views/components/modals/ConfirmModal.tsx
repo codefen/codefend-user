@@ -29,7 +29,7 @@ const ConfirmModal = (props: ConfirmModalProps) => {
 	);
 
 	return (
-		<div className="modal flex flex-col">
+		<div className="content">
 			<header>
 				<h4 className="text-small title-format">{props.header}</h4>
 			</header>

@@ -1,15 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
+import { useTheme } from '../../../../../ThemeContext';
 import {
 	LeftArrow,
 	PageLoaderOverlay,
-	PencilIcon,
 	SaveIcon,
 	Show,
 } from '../../../../../components';
-import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
-import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
-import { useTheme } from '../../../../../ThemeContext';
 
 interface IssueCreationPanelProps {
 	issues: Issues[];
@@ -17,12 +16,15 @@ interface IssueCreationPanelProps {
 }
 
 const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
-	const { newIssue, dispatch, save } = useSaveIssue();
+	const { newIssue, dispatch, save, shouldDisableClass, type, resourceId } =
+		useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
 	const navigate = useNavigate();
+	const { theme } = useTheme();
 
 	const handleIssueUpdate = () => {
 		if (!isEditable) return;
+
 		save().then((response: any) => {
 			if (response !== undefined && response.id !== undefined) {
 				navigate(`/issues/update/${response.id}`);
@@ -46,7 +48,6 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			handleIssueUpdate();
 		}
 	};
-	const { theme } = useTheme();
 	useEffect(() => {
 		let contentWindow: Window | null;
 		let timeID;
@@ -55,13 +56,13 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			const iframe = document.getElementById(
 				'issue_ifr',
 			) as HTMLIFrameElement | null;
+
 			if (!iframe) {
 				timeID = setTimeout(() => loadIframe(), 30);
 			} else {
-				contentWindow = iframe.contentWindow!;
-				contentWindow.document.body.setAttribute('data-theme', theme);
+				contentWindow = iframe.contentWindow! as WindowProxy;
 				contentWindow.addEventListener('keydown', handleKeyDown);
-				timeID = setTimeout(() => setEditable((prev: boolean) => true), 30);
+				timeID = setTimeout(() => setEditable(true), 75);
 			}
 		};
 
@@ -75,10 +76,41 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 		};
 	}, [props.isLoading, handleKeyDown]);
 
+	useEffect(() => {
+		let contentWindow: Window | null;
+		let themeTiny;
+
+		const loadIframe = () => {
+			const iframe = document.getElementById(
+				'issue_ifr',
+			) as HTMLIFrameElement | null;
+
+			if (!iframe) {
+				themeTiny = setTimeout(() => loadIframe(), 30);
+			} else {
+				contentWindow = iframe.contentWindow! as WindowProxy;
+				const body = contentWindow.document;
+				themeTiny = setTimeout(
+					() => body.documentElement.setAttribute('data-theme', theme),
+					25,
+				);
+			}
+		};
+
+		loadIframe();
+		return () => {
+			clearTimeout(themeTiny!);
+		};
+	}, [theme]);
+
 	return (
 		<>
 			<div className="header">
-				<div className="back" onClick={() => navigate('/issues')}>
+				<div
+					className="back"
+					onClick={() => {
+						type ? navigate(-1) : navigate('/issues');
+					}}>
 					<LeftArrow isButton />
 				</div>
 				<input
@@ -87,6 +119,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					name="issueName"
 					value={newIssue.issueName}
 					onChange={handleChange}
+					autoFocus
 				/>
 
 				<div className="flex !p-0">
@@ -99,14 +132,23 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 			</div>
 
 			<div className="info">
+				{resourceId && (
+					<div className="issue-detail-select">
+						<p className="pr-2">Resource ID:</p>
+						<span className="py-3 log-inputs">{resourceId}</span>
+					</div>
+				)}
 				<div className="issue-detail-select">
 					<p className="pr-2">Class:</p>
 					<select
 						onChange={handleChange}
-						className="  py-3  focus:outline-none log-inputs"
+						className={`py-3  focus:outline-none log-inputs ${
+							shouldDisableClass && 'opacity-50'
+						}`}
 						value={newIssue.issueClass}
 						name="issueClass"
-						required>
+						required
+						disabled={shouldDisableClass}>
 						<option value="" disabled>
 							Select Class
 						</option>
@@ -124,7 +166,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<p className="pr-2">Risk score:</p>
 					<select
 						onChange={handleChange}
-						className=" py-3 focus:outline-none log-inputs"
+						className="py-3  focus:outline-none log-inputs"
 						value={newIssue.score}
 						name="score"
 						required>

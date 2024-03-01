@@ -17,7 +17,7 @@ export const SecondaryButton = (props: SecondaryButtonProps) => {
 			type="button"
 			onClick={props.click}
 			disabled={props.isDisabled}
-			className={`log-inputs btn btn-secondary ${secondaryStyles}`}>
+			className={`btn btn-secondary ${secondaryStyles}`}>
 			{props.text}
 		</button>
 	);

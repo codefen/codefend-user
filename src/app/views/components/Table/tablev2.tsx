@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
-import { generateIDArray } from '../../../data';
-import { EmptyCard, PageLoader, Show } from '..';
+import { formatDate, generateIDArray } from '../../../data';
+import { EmptyCard, Loader, PageLoader, Show } from '..';
 import './table.scss';
 
 export enum Sort {
@@ -15,10 +15,12 @@ interface TableProps {
 	showEmpty: boolean;
 	tableAction?: TableAction;
 	sizeY: number;
+	sizeX?: number;
 	isSmall?: boolean;
 	selectItem?: (item: any) => void;
 	sort?: Sort;
 	initialSelect?: boolean;
+	whelAction?: (id: string) => void;
 }
 
 export interface ColumnTable {
@@ -33,9 +35,11 @@ export interface TableItem {
 }
 
 export interface TableAction {
-	icon: JSX.Element;
+	icon: Array<{
+		action: (id: string, type?: any) => void;
+		render: JSX.Element;
+	}>;
 	style: string;
-	action: (id: string) => void;
 }
 
 export const TableV2: React.FC<TableProps> = ({
@@ -49,9 +53,12 @@ export const TableV2: React.FC<TableProps> = ({
 	selectItem,
 	sort = Sort.desc,
 	initialSelect = false,
+	sizeX = 100,
+	whelAction,
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
+	const [selectedField, setSelectedField] = useState('');
 
 	const rows = useMemo(() => {
 		const rows =
@@ -59,22 +66,41 @@ export const TableV2: React.FC<TableProps> = ({
 				? []
 				: [...rowsData].flatMap((data: any) => data);
 		return rows.sort((a: any, b: any) => {
+			//Search for the value of the object by which you want to sort
 			const aValue = a[dataSort]?.value;
 			const bValue = b[dataSort]?.value;
 
+			const isNumber = typeof aValue === 'number';
+			const isString = typeof aValue === 'string';
+
 			if (sortDirection === Sort.asc) {
-				return aValue > bValue ? 1 : -1;
+				//Change the sorting based on the data type of the value
+				if (isNumber) {
+					return bValue - aValue;
+				} else if (isString) {
+					return bValue.localeCompare(aValue);
+				} else {
+					//Check if it is less, greater or equal
+					return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+				}
 			} else {
-				return aValue < bValue ? 1 : -1;
+				if (isNumber) {
+					return aValue - bValue;
+				} else if (isString) {
+					return aValue.localeCompare(bValue);
+				} else {
+					//Check if it is less, greater or equal
+					return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
+				}
 			}
 		});
 	}, [rowsData, dataSort, sortDirection]);
 	const rowsID = useMemo(() => generateIDArray(rows.length), [rows.length]);
-	const [selectedField, setSelectedField] = useState('');
 	const columnsID = useMemo(() => generateIDArray(columns.length), [columns]);
 
 	const handleSort = (columnName: string) => {
 		if (columnName === dataSort) {
+			//Change the column sort direction
 			setSortDirection((prevDirection) =>
 				prevDirection === Sort.asc ? Sort.desc : Sort.asc,
 			);
@@ -83,13 +109,9 @@ export const TableV2: React.FC<TableProps> = ({
 			setSortDirection(Sort.asc);
 		}
 	};
-	useEffect(() => {
-		if (Boolean(initialSelect)) {
-			setSelectedField(rowsID[0]);
-		}
-	}, [rowsID]);
 
 	const columnForRows = useMemo(() => {
+		//If the table action is present, it is removed from "columns" so that it does not appear
 		let result =
 			tableAction !== undefined
 				? columns.filter((column) => column.name !== 'action')
@@ -110,15 +132,32 @@ export const TableV2: React.FC<TableProps> = ({
 		}
 	};
 
+	useEffect(() => {
+		if (Boolean(initialSelect)) {
+			setSelectedField(rowsID[0]);
+		}
+	}, [rowsID]);
+
 	return (
 		<>
-			<div className={`table ${isSmall && 'small'}`}>
+			<div
+				className={`table ${isSmall && 'small'}`}
+				style={
+					{
+						'--row-size': sizeY + 'dvh',
+						'--row-size-x': sizeX + '%',
+						'--row-calc-x': (sizeX < 100 ? 100 - sizeX - 3 : 0) + '%',
+					} as any
+				}>
 				<div className="columns-name">
 					{columns.map((column: ColumnTable, i: number) => (
 						<div
 							className={`column ${column?.style}`}
 							key={columnsID[i]}
-							onClick={() => handleSort(column.name)}>
+							onClick={() => {
+								if (column.name === 'action') return;
+								handleSort(column.name);
+							}}>
 							{column.value}
 							<Show
 								when={
@@ -134,6 +173,9 @@ export const TableV2: React.FC<TableProps> = ({
 								}>
 								<span className="sort">{'↓'}</span>
 							</Show>
+							{dataSort !== column.name && column.name !== 'action' && (
+								<span className="sort active">{'↓'}</span>
+							)}
 						</div>
 					))}
 				</div>
@@ -141,9 +183,7 @@ export const TableV2: React.FC<TableProps> = ({
 				<Show
 					when={showRows !== undefined && showRows}
 					fallback={<PageLoader />}>
-					<div
-						className="rows"
-						style={{ '--row-size': sizeY + 'dvh' } as any}>
+					<div className="rows">
 						{rows.map(
 							(row: Record<string, TableItem>, rowIndex: number) => (
 								<Fragment key={rowsID[rowIndex]}>
@@ -153,6 +193,19 @@ export const TableV2: React.FC<TableProps> = ({
 												? 'left-marked'
 												: ''
 										}`}
+										onMouseDown={(e) => {
+											e.preventDefault();
+											if (
+												e.button === 1 ||
+												(e.ctrlKey && e.button === 0)
+											) {
+												e.stopPropagation();
+
+												if (whelAction) {
+													whelAction(row['ID'].value as string);
+												}
+											}
+										}}
 										onClick={(e: any) => {
 											handleSelected(
 												e,
@@ -168,28 +221,39 @@ export const TableV2: React.FC<TableProps> = ({
 														row[column.name as keyof typeof row]
 															?.style
 													}>
-													<div>
-														{
-															row[
-																column.name as keyof typeof row
-															]?.value
-														}
+													<div className="publish">
+														{column.name !== 'published'
+															? row[
+																	column.name as keyof typeof row
+																]?.value
+															: formatDate(
+																	String(
+																		row[
+																			column.name as keyof typeof row
+																		]?.value,
+																	),
+																)}
 													</div>
 												</div>
 											),
 										)}
 										<Show when={tableAction !== undefined}>
-											<div
-												className={tableAction?.style}
-												onClick={(e: React.FormEvent) => {
-													e.preventDefault();
-													e.stopPropagation();
-													tableAction?.action(
-														row['ID'].value as string,
-													);
-												}}>
-												{tableAction?.icon}
-											</div>
+											<>
+												{tableAction?.icon?.map((i, iconIndex) => (
+													<div
+														key={iconIndex}
+														className={tableAction?.style}
+														onClick={(e: React.FormEvent) => {
+															e.preventDefault();
+															e.stopPropagation();
+															i.action(
+																row['ID'].value as string,
+															);
+														}}>
+														{i.render}
+													</div>
+												))}
+											</>
 										</Show>
 									</div>
 								</Fragment>

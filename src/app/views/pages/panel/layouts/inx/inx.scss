@@ -1,7 +1,284 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.issues-list {
 	max-height: 100dvh;
+	padding-inline-end: 0;
+	overflow: hidden;
+
+	.left {
+		width: 65%;
+		.left-wrapper {
+			height: 83.333333%;
+			border: 1px solid;
+			display: flex;
+			flex-flow: column nowrap;
+
+			.modal {
+				max-height: 90dvh;
+
+				.header {
+					padding-block: 10px;
+				}
+
+				.full-preview-container {
+					width: 100%;
+					display: flex;
+					flex-flow: column nowrap;
+					flex: 1 1;
+					border: 0px;
+					background-clip: padding-box;
+					pointer-events: auto;
+					position: relative;
+					outline: none;
+
+					.full-preview-header {
+						display: flex;
+						flex: 1 0;
+						align-items: center;
+						justify-content: space-between;
+						border-top-left-radius: 0.375rem;
+						border-top-right-radius: 0.375rem;
+
+						border-bottom: 2px solid var(--primary-color-500);
+						padding: 1rem;
+
+						.full-preview-title {
+							font-size: 1.25rem /* 20px */;
+							line-height: 1.75rem /* 28px */;
+							font-weight: 500;
+							line-height: 1.5;
+							color: rgb(251 138 138 / 95%);
+						}
+					}
+
+					.full-preview-content {
+						position: relative;
+						padding: 1rem;
+						overflow-y: scroll;
+						height: auto;
+						max-height: 75dvh;
+						min-height: 75dvh;
+
+						.preview-content-title {
+							font-size: 1.25rem /* 20px */;
+							line-height: 1.75rem /* 28px */;
+							font-weight: 700;
+							line-height: 1.5;
+							color: var(--tertiary-color-50);
+						}
+
+						.preview-dash {
+							height: 1.5px;
+							margin-block: 2rem;
+							border: 0px;
+							background-color: var(--primary-color-50);
+						}
+
+						.preview-content {
+							font-size: 0.95rem;
+							line-height: 1.25rem;
+							overflow-wrap: break-word;
+							text-wrap: pretty;
+
+							color: #fff;
+							width: 100%;
+							max-width: 33rem;
+						}
+					}
+				}
+			}
+
+			.intel-result-data {
+				padding-inline-start: 10px;
+				line-height: 1;
+				margin-block-end: 10px;
+				color: var(--tertiary-color-500);
+				font-weight: 700;
+				font-size: 1.25rem;
+
+				.result-text {
+					color: var(--secondary-color-50);
+				}
+			}
+
+			.intel-results-container {
+				width: 100%;
+				display: flex;
+				flex-flow: row wrap;
+				flex: 1 1;
+				gap: 0.75rem;
+
+				overflow-y: auto;
+				overflow-x: hidden;
+				border-right: 0px;
+				max-height: 80dvh;
+				background: transparent;
+				scrollbar-width: none;
+
+				&::-moz-scrollbar {
+					width: 0px;
+					display: none;
+				}
+				&::-webkit-scrollbar {
+					width: 0px;
+					display: none;
+				}
+
+				.intel-data-card {
+					width: 45%;
+					max-height: 385px;
+					min-height: 385px;
+					overflow-y: auto;
+
+					display: flex;
+					flex-grow: 0.5;
+					flex-flow: column nowrap;
+
+					padding: 1rem;
+
+					background-color: var(--primary-color-200);
+					border: 1px solid var(--primary-color-100);
+					border-radius: 0.175rem;
+
+					cursor: pointer;
+					transition:
+						background-color 300ms ease,
+						border 300ms ease;
+					scrollbar-width: none;
+
+					&::-moz-scrollbar {
+						width: 0px;
+						display: none;
+					}
+					&::-webkit-scrollbar {
+						width: 0px;
+						display: none;
+					}
+
+					.intel-data-header {
+						display: flex;
+						flex-direction: column;
+						font-size: 0.875rem;
+						line-height: 1;
+						text-align: center;
+						padding-block-end: 0.85rem;
+
+						.title-container {
+							display: flex;
+						}
+						.secondary-title {
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							color: var(--secondary-color-100);
+							padding-block-start: 0.5rem;
+						}
+
+						.intel-header-title {
+							font-weight: 700;
+
+							text-transform: uppercase;
+
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+
+							color: var(--secondary-color-200);
+
+							&.intel-secondary-title {
+								text-transform: lowercase;
+							}
+						}
+
+						.intel-header-mid-dash {
+							padding-inline: 0.25rem;
+						}
+
+						.intel-header-text {
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+					}
+
+					.intel-data-content {
+						width: 100%;
+						display: flex;
+						background-color: transparent;
+
+						color: var(--tertiary-color-200);
+
+						.intel-preview-container {
+							max-width: 100%;
+							background-color: transparent;
+							word-spacing: 3px;
+							letter-spacing: 0.2px;
+
+							p {
+								font-size: 0.85rem;
+								line-height: 1.5;
+								overflow: hidden;
+								text-wrap: pretty;
+								text-overflow: ellipsis;
+							}
+						}
+					}
+
+					.loader {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						width: 100%;
+						height: 100%;
+						padding-block-start: 4rem;
+					}
+
+					&:hover {
+						background-color: #fff4f5;
+						border-color: var(--secondary-color-200);
+					}
+				}
+
+				.empty-card {
+					background: transparent;
+					margin-block-start: 5rem;
+					.empty-container {
+						background: transparent;
+						.empty-wrapper {
+							background: transparent;
+							.empty-content {
+								background: transparent;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	.right {
-		width: 35%;
+		width: 34%;
+		.previous-search {
+			.card.table {
+				.rows {
+					overflow-x: hidden;
+				}
+			}
+		}
+	}
+
+	@include mixin.respond(small) {
+		display: block;
+		min-height: auto;
+		height: 85dvh;
+		overflow-y: auto;
+
+		.left {
+			width: 100%;
+		}
+
+		.right {
+			width: 100%;
+		}
 	}
 }
 
@@ -10,6 +287,53 @@ main.issues-list {
 		.left {
 			> div {
 				border: 1px solid var(--primary-color-400);
+			}
+
+			.modal {
+				&::before {
+					@supports (
+						(-webkit-backdrop-filter: blur(9px)) or
+							(backdrop-filter: blur(9px))
+					) {
+						backdrop-filter: blur(15px) saturate(0.95) contrast(1.02);
+					}
+				}
+				.full-preview-container {
+					.full-preview-header {
+						.full-preview-title {
+							color: #ff5e5ef2;
+						}
+					}
+					.full-preview-content {
+						.preview-content {
+							color: #ededed;
+						}
+					}
+				}
+			}
+
+			.left-wrapper {
+				.intel-result-data {
+					color: var(--tertiary-color-50);
+				}
+				.intel-results-container {
+					.intel-data-card {
+						.intel-data-header {
+							.intel-header-text {
+								color: var(--tertiary-color-50);
+							}
+						}
+
+						.intel-data-content {
+							color: var(--tertiary-color-50);
+						}
+
+						&:hover {
+							background-color: #171f27;
+							border-color: #172029;
+						}
+					}
+				}
 			}
 		}
 	}

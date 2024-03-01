@@ -8,7 +8,7 @@ interface Props {
 
 export const ReportButton: React.FC<Props> = ({ onClick }) => {
 	return (
-		<div className="ml-4 flex">
+		<div className="report-btn-container">
 			<RefreshButton action={onClick} />
 			<GenerateReportButton action={onClick} />
 		</div>

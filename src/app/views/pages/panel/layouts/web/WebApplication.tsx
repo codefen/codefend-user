@@ -6,10 +6,10 @@ import { WebApplicationCredentials } from './components/WebApplicationCredential
 import { useWebapplication } from '../../../../../data';
 import '../../../../styles/flag.scss';
 import '../../../../components/Table/table.scss';
-import './webapplication.scss';
 import { PrimaryButton } from '../../../../components';
 import { useTheme } from '../../../../ThemeContext';
 import { useFlashlight } from '../../FlashLightContext';
+import './webapplication.scss';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view

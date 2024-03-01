@@ -18,7 +18,6 @@ const AdminPanelApprove: React.FC = () => {
 	useEffect(() => {
 		ApiHandlers.getPanelUsersApproval()
 			.then((res: any) => {
-				console.log(res);
 				if (res === false) {
 					console.error("Error fetching panel users approval.");
 				} else {

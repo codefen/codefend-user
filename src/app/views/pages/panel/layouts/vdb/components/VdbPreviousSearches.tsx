@@ -7,7 +7,6 @@ export const VdbPreviousSearches: React.FC = () => {
 			<div className="h-[36%] overflow-hidden">
 				<div className="w-full internal-tables h-full ">
 					<div className="py-3 px-5  flex flex-row gap-x-3.5 ">
-						{/* <RiLogosWechatFill className="codefend-text-red w-6 h-6" /> */}
 						<p className="text-small text-left font-bold title-format">
 							PREVIOUS SEARCHES
 						</p>

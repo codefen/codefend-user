@@ -1,18 +1,19 @@
 import React from 'react';
 import AdminPanelApprove from './components/AdminPanelApprove';
+import './adminUser.scss';
 
 const AdminUserLayout: React.FC = () => {
 	return (
 		<>
-			<main className="pt-12 p-8">
-				<section className="w-8/12 pr-2">
-					<div className="pb-[20px] title title-format h-16">
+			<main className="admin-user">
+				<section className="left">
+					{/* <div className="left-section-title title title-format">
 						Admin Panel
-					</div>
+					</div> */}
 					<AdminPanelApprove />
 				</section>
-				<section className="w-4/12 pl-2">
-					<div className="pb-9 title title-format h-16"></div>
+				<section className="right">
+					<div className="right-section-title title title-format"></div>
 				</section>
 			</main>
 		</>

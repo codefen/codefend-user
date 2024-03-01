@@ -1,7 +1,8 @@
 import { lazy } from 'react';
 
-export * from './auth'
+export * from './auth';
 
+export * from './panel/layouts/issues/'
 
 export const Dashboard = lazy(() => import('./panel/layouts/dashboard/Dashboard'))
 export const WebApplication = lazy(() => import('./panel/layouts/web/WebApplication'))
@@ -20,7 +21,8 @@ export const VdbPanel = lazy(() => import('./panel/layouts/vdb/VdbPanel'))
 export const AdminUser = lazy(() => import('./panel/layouts/admin/layouts/AdminUser'))
 export const AdminPage = lazy(() => import('./panel/layouts/admin/AdminPage'))
 export const AdminCompany = lazy(() => import('./panel/layouts/admin/layouts/AdminCompany'))
-export const IssuePage = lazy(() => import('./panel/layouts/issues/IssuePage'))
+/* export const IssuePage = lazy(() => import('./panel/layouts/issues/IssuePage'))
 export const IssuesCreation = lazy(() => import('./panel/layouts/issues/layouts/IssuesCreation'))
 export const IssuesPanel = lazy(() => import('./panel/layouts/issues/layouts/IssuesPanel'))
 export const IssuesUpdate = lazy(() => import('./panel/layouts/issues/layouts/IssuesUpdate'))
+ */

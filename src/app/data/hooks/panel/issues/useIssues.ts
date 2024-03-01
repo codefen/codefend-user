@@ -3,15 +3,17 @@ import { AllIssues, FetchPattern, mapAllIssues, useAuthState } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 
+/* Custom Hook "useOneIssue" to handle retrieval of all issues*/
 export const useIssues = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<AllIssues>>({
 		data: null,
 		error: null,
 		isLoading: false,
 	});
 
-	const fetchAll = useCallback((companyID: string) => {
+	//Fetch to recover the issues
+	const fetcher = useCallback((companyID: string) => {
 		dispatch((state: any) => ({
 			...state,
 			isLoading: true,
@@ -27,15 +29,17 @@ export const useIssues = () => {
 			.catch((error) => dispatch({ data: null, error, isLoading: false }));
 	}, []);
 
+	//Refetch func, calls that calls fetcher
 	const refetchAll = () => {
-		const companyID = getUserdata()?.companyID;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;
 		}
-		fetchAll(companyID);
+		fetcher(companyID);
 	};
 
+	/* Utilities func*/
 	const getIssues = (): AllIssues => {
 		const issuesData = isLoading ? ({} as AllIssues) : data;
 		return issuesData ?? ({} as AllIssues);

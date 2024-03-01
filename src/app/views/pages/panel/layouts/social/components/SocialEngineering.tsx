@@ -16,6 +16,7 @@ import {
 	useModal,
 } from '../../../../../../data';
 import AddSocialModal from '../../../../../components/modals/AddSocialModal';
+import { useNavigate } from 'react-router';
 
 interface SocialProps {
 	refetch: () => void;
@@ -26,7 +27,7 @@ interface SocialProps {
 const SocialEngineering: React.FC<SocialProps> = (props) => {
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
-
+	const navigate = useNavigate();
 	const safelyPreviousSearches = () =>
 		Array.isArray(props.socials) ? props.socials.slice().reverse() : [];
 
@@ -77,6 +78,15 @@ const SocialEngineering: React.FC<SocialProps> = (props) => {
 								setShowModalStr('add_member');
 							}}>
 							Add profile
+						</div>
+						<div
+							onClick={() => {
+								const firstMemberId = safelyPreviousSearches()[0]?.id;
+								firstMemberId
+									? navigate(`/issues/create/social/${firstMemberId}`)
+									: navigate('/issues/create');
+							}}>
+							Add issues
 						</div>
 					</div>
 				</div>

@@ -23,15 +23,13 @@ export const AddTicketModal: React.FC<AddTicketModalProps> = (props) => {
 
 	return (
 		<>
-			<div className="modal text-format">
+			<div className="content">
 				<form
-					className="w-full flex flex-col gap-y-3"
+					className="form"
 					onSubmit={handleSubmit}>
-					<div className="form-input texy">
-						<span className="form-icon">
-							<div className="codefend-text-red">
-								<GlobeWebIcon />
-							</div>
+					<div className="form-input">
+						<span className="icon">
+							<GlobeWebIcon />
 						</span>
 
 						<input
@@ -43,11 +41,9 @@ export const AddTicketModal: React.FC<AddTicketModalProps> = (props) => {
 						/>
 					</div>
 
-					<div className="form-input p-1">
-						<span className="form-icon top-[15%] left-0">
-							<div className="codefend-text-red">
-								<PencilIcon isButton />
-							</div>
+					<div className="form-input">
+						<span className="icon top-[15%] left-0">
+							<PencilIcon isButton />
 						</span>
 
 						<textarea

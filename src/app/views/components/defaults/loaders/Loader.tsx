@@ -9,6 +9,26 @@ const Spinner: React.FC<{ icon: string }> = ({ icon }) => (
 	<aside className={`spinner ${icon}`}></aside>
 );
 
+const SpinnerV2: React.FC<{ icon: string }> = ({ icon }) => (
+	<div className={`dotted-spinner ${icon}`}>
+		<div className="dotted-spinner-dot"></div>
+		<div className="dotted-spinner-dot"></div>
+		<div className="dotted-spinner-dot"></div>
+		<div className="dotted-spinner-dot"></div>
+		<div className="dotted-spinner-dot"></div>
+		<div className="dotted-spinner-dot"></div>
+		<div className="dotted-spinner-dot"></div>
+		<div className="dotted-spinner-dot"></div>
+	</div>
+);
+
+const OrbitSpinner: React.FC<{ icon: string }> = ({ icon }) => (
+	<aside className={`ball-spinner ${icon}`}>
+		<div className="ball-spinner-dot"></div>
+		<div className="ball-spinner-dot"></div>
+	</aside>
+);
+
 export const ButtonLoader: React.FC<{ left?: any; right?: any }> = ({
 	left = '7%',
 	right = 'inherit',
@@ -28,7 +48,15 @@ export const ButtonLoader: React.FC<{ left?: any; right?: any }> = ({
 export const Loader = () => {
 	return (
 		<div className="loader loader-screen">
-			<Spinner icon="icon" />
+			<OrbitSpinner icon="icon" />
+		</div>
+	);
+};
+
+export const PageOrbitLoader = () => {
+	return (
+		<div className="loader loader-full">
+			<SpinnerV2 icon="small-icon" />
 		</div>
 	);
 };
@@ -36,7 +64,7 @@ export const Loader = () => {
 export const PageLoader = () => {
 	return (
 		<div className="loader loader-full">
-			<Spinner icon="small-icon" />
+			<OrbitSpinner icon="small-icon" />
 		</div>
 	);
 };
@@ -44,7 +72,7 @@ export const PageLoader = () => {
 export const PageLoaderWhite = () => {
 	return (
 		<div className="loader loader-full">
-			<Spinner icon="icon" />
+			<OrbitSpinner icon="icon" />
 		</div>
 	);
 };
@@ -52,7 +80,7 @@ export const PageLoaderWhite = () => {
 export const PageLoaderOverlay = () => {
 	return (
 		<div className="loader loader-full overlay">
-			<Spinner icon="small-icon" />
+			<OrbitSpinner icon="small-icon" />
 		</div>
 	);
 };

@@ -29,7 +29,7 @@ export const RiskScore: React.FC<Props> = ({ riskScore }) => {
 	return (
 		<>
 			<span className="mt-2" title={riskScore}>
-				{riskScore}
+				{riskScore ? riskScore : 0}
 			</span>
 
 			<span className="mr-1"></span>

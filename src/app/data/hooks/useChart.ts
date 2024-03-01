@@ -18,7 +18,7 @@ interface DoughnutCharProps {
 	type: ChartValueType;
 }
 
-export const useDoughnutChart = (value: DoughnutCharProps) => {
+const useDoughnutChart = (value: DoughnutCharProps) => {
 	let metrics: any = null;
 	const metricsFunctions: { [key: string]: Function } = {
 		[ChartValueType.SOURCE_CODE]: MetricsService.computeSourceCodeMetrics,
@@ -71,3 +71,5 @@ export const useDoughnutChart = (value: DoughnutCharProps) => {
 
 	return { chartOptions, chartData, otherMetrics, total };
 };
+
+export default useDoughnutChart;

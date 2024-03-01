@@ -1,57 +1,74 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
-import { PrimaryButton } from '../../../../../components';
+import {
+	Loader,
+	PageLoader,
+	PrimaryButton,
+	Show,
+} from '../../../../../components';
+import { formatDateTimeFormat, useIntelPreview } from '../../../../../../data';
+import { InxPreviusContentData } from './InxPreviusContentData';
 
 interface Props {
-	intelKey: string;
 	intel: any;
 	readFile: (intel: any) => void;
-	intelPreview: any;
+	companyID: string;
 }
 
 export const InxPreviewIntelData: React.FC<Props> = ({
-	intelKey,
 	intel,
 	readFile,
-	intelPreview,
+	companyID,
 }) => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const entry = useIntersectionObserver(ref, {});
+	const { intelPreview, isLoadingPreview, refetchPreview } = useIntelPreview();
+	const [previewReq, setPreviewReq] = useState<boolean>(false);
+
+	//Try to run every time the html appears or exits the screen
 	const isVisible = !!entry?.isIntersecting;
+	if (isVisible && !previewReq) {
+		const params = {
+			sid: intel.storage_id,
+			bid: intel.bucket_id,
+			mid: intel.media_id,
+		};
 
+		refetchPreview(params, companyID);
+
+		//Traffic light so that it only executes the first time it appears on the screen
+		setPreviewReq(true);
+	}
+
+	const formatDate = formatDateTimeFormat(intel.date);
 	return (
-		<div ref={ref} key={intelKey}>
-			<div className="w-full flex flex-row h-10 bg-[#f0f0f0] text-[#333]">
-				<div className="w-full red-border flex flex-row items-center px-7 ">
-					<input type="checkbox" checked className=" checkbox-color" />
-					<span className="flex-grow ml-3">
-						{intel?.name?.slice(0, 50)}
+		<article
+			ref={ref}
+			className="intel-data-card"
+			onClick={() => readFile(intel)}>
+			<header className="intel-data-header">
+				<div className="title-container">
+					<h3 className="intel-header-title" title={intel.name}>
+						{intel.name.slice(0, 50)}
+					</h3>
+				</div>
+				<div className="secondary-title">
+					<h4 className="intel-header-title intel-secondary-title">
+						{intel.bucket_data}
+					</h4>
+					<span className="intel-header-text" title={formatDate}>
+						{formatDate}
 					</span>
-					<span className="flex-grow ml-3">{intel.bucket_data}</span>
-					<span className="text-[#666] text-xs">{intel.date}</span>
 				</div>
-				<PrimaryButton
-					text="Full data"
-					click={(e: React.FormEvent) => readFile(intel)}
-					className="no-border-height h-full items-center justify-center text-sm w-[5.3rem] no-padding"
-				/>
-			</div>
+			</header>
 
-			<div className="w-full internal-tables disable-border no-border border-bottom py-2">
-				<div>
-					<div className="flex py-0.5 pl-14 pr-10">
-						<div
-							className="max-w-md"
-							dangerouslySetInnerHTML={{
-								__html: intelPreview
-									.find(
-										(preview: any) => preview.id === intel.storage_id,
-									)
-									?.preview?.replace(/(\r\n|\n|\r)/g, '<br>'),
-							}}></div>
-					</div>
-				</div>
-			</div>
-		</div>
+			<section className="intel-data-content">
+				<InxPreviusContentData
+					loading={isLoadingPreview}
+					preview={intelPreview}
+					storageID={intel.storage_id}
+				/>
+			</section>
+		</article>
 	);
 };

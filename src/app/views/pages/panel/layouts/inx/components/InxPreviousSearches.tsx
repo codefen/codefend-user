@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
 	PageLoader,
 	PreviousMessage,
@@ -20,13 +20,7 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
 	const safelyPreviousSearches = () =>
 		Array.isArray(previousSearches) ? previousSearches.reverse() : [];
 
-	const previusKeys = useMemo(
-		() =>
-			Boolean(safelyPreviousSearches().length)
-				? generateIDArray(safelyPreviousSearches().length)
-				: [],
-		[safelyPreviousSearches()],
-	);
+	const previusKeys = generateIDArray(safelyPreviousSearches().length);
 
 	return (
 		<>
@@ -54,7 +48,9 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
 															{searchData.username}
 														</p>
 														<p className="text-base w-2/4">
-															{searchData.info.split("queries:")[1] ?? "--"}
+															{searchData.info.split(
+																'queries:',
+															)[1] ?? '--'}
 														</p>
 													</section>
 												</div>

@@ -4,6 +4,7 @@ import {
 	deleteCustomBaseAPi,
 	getCustomBaseAPi,
 	setCustomBaseAPi,
+	useAuthStore,
 } from '../../../../data';
 import React, { useCallback, useState } from 'react';
 import { baseUrl } from '../../../../data/utils/config';
@@ -21,12 +22,12 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
 	const [canEdit, setCanEdit] = useState(false);
 	const [isLoading, setLoading] = useState(false);
+	const { logout } = useAuthStore((state) => state);
 	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
 			e.preventDefault();
 			setCanEdit(false);
 			setLoading(true);
-			console.log('Execute');
 			if (apiUrl.length < 10) {
 				toast.error('invalid API URL, too short');
 				setLoading(false);
@@ -39,9 +40,10 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 			}
 
 			setCustomBaseAPi(apiUrl);
-			toast.success('Server has been changed successfully');
+			//toast.success('Server has been changed successfully');
 			close();
 			setLoading(false);
+			logout();
 			window.location.reload();
 		},
 		[apiUrl],
@@ -71,6 +73,7 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 							<option value="https://kundalini.codefend.com/kundalini/index.php"></option>
 							<option value="https://api.codefend.com/kundalini/index.php"></option>
 							<option value="https://api-mena.codefend.com/kundalini/index.php"></option>
+							<option value="https://kundalini-usa.codefend.com/kundalini/"></option>
 						</datalist>
 						<button
 							onClick={() => setCanEdit((currentValue) => !currentValue)}
@@ -86,8 +89,10 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 					<span
 						onClick={() => {
 							deleteCustomBaseAPi();
-							setApiUrl('');
+							setApiUrl(baseUrl);
 							setCanEdit(false);
+							close();
+							toast.success('Server has been changed successfully');
 						}}
 						className="network-form_inputs_edit_reset codefend-text-red">
 						click here to set back to default

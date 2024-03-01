@@ -1,5 +1,10 @@
 import React from 'react';
-import { defaultMobileCloudResourceAsset, useAppCard } from '../../../data';
+import {
+	RemoveAppStore,
+	defaultMobileCloudResourceAsset,
+	useAppCard,
+	useRemoveAppStore,
+} from '../../../data';
 import {
 	CloseIcon,
 	ConfirmModal,
@@ -8,11 +13,10 @@ import {
 	Show,
 	StarRating,
 } from '..';
+import { useNavigate } from 'react-router';
 
 interface MobileAppCardProps {
 	isActive?: boolean;
-	onDone?: (state: string) => void;
-	isMainNetwork?: string | boolean;
 	showDetails?: boolean;
 	cloudProvider?: any;
 	isMainGoogleNetwork?: string | boolean;
@@ -29,10 +33,8 @@ interface MobileAppCardProps {
 
 export const AppCard: React.FC<MobileAppCardProps> = ({
 	isActive,
-	onDone,
 	type,
 	name,
-	isMainNetwork,
 	showDetails,
 	cloudProvider,
 	isMainGoogleNetwork,
@@ -44,44 +46,22 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 	appReviews,
 	appDeveloper,
 }) => {
-	const {
-		showModal,
-		viewModal,
-		isMobileType,
-		isImage,
-		isDetails,
-		handleDelete,
-	} = useAppCard({ type, name, isMainNetwork, showDetails, appMedia });
+	const { isImage, isMobileType, isDetails } = useAppCard({
+		type,
+		showDetails,
+		appMedia,
+	});
+	const navigate = useNavigate();
+
+	const { setIsOpen } = useRemoveAppStore((state: RemoveAppStore) => state);
 
 	return (
 		<>
-			<ModalTitleWrapper
-				isActive={showModal}
-				close={() => viewModal(false)}
-				headerTitle="Delete mobile app">
-				<div
-					className="web-modal-wrapper internal-tables disable-border"
-					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-					}}>
-					<ConfirmModal
-						header={`Are you sure to remove ${
-							isMobileType ? 'mobile app' : 'cloud app'
-						} \n  ${name}, ID ${id}`}
-						cancelText="Cancel"
-						confirmText="Delete"
-						close={() => viewModal(false)}
-						action={() => handleDelete(id).finally(() => onDone?.(id))}
-					/>
-				</div>
-			</ModalTitleWrapper>
-
 			<div
 				className={`app-card ${!isDetails ? 'app-card-border' : 'pt-5'} ${
 					isActive && 'active'
 				}`}>
-				<Show when={!isDetails}>
+				{/* <Show when={!isDetails}>
 					<button
 						className="app-delete-btn"
 						title={
@@ -94,7 +74,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 						}}>
 						<CloseIcon isButton />
 					</button>
-				</Show>
+				</Show> */}
 
 				<div className="app-card-content">
 					<div className="app-card-content-img">
@@ -139,13 +119,20 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 							<Show when={isDetails}>
 								<>
 									<div className="actions">
-										<div onClick={() => alert('Add issue')}>
+										<div
+											onClick={() =>
+												navigate(
+													`/issues/create/${
+														isMobileType ? 'mobile' : 'cloud'
+													}/${id}`,
+												)
+											}>
 											Add issue
 										</div>
 										<div onClick={() => alert('Add credential')}>
 											Add credential
 										</div>
-										<div onClick={() => viewModal(true)}>
+										<div onClick={() => setIsOpen(true)}>
 											Delete resource
 										</div>
 									</div>

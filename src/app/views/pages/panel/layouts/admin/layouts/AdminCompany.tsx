@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AdminCompanyPanel } from './components/AdminCompanyPanel';
 import AdminCompanyDetails from './components/AdminCompanyDetails';
 
-const AdminCompanyLayout: React.FC = () => {
+const AdminCompany: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 
 	useEffect(() => {
@@ -15,19 +15,17 @@ const AdminCompanyLayout: React.FC = () => {
 		<>
 			<main className={`company ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
-					<div className="company-header title title-format">
+					{/* <div className="company-header title title-format">
 						Admin Company Panel
-					</div>
+					</div> */}
 					<AdminCompanyPanel />
 				</section>
 				<section className="right">
-					<div className="company-details-container title title-format">
-						<AdminCompanyDetails />
-					</div>
+					<AdminCompanyDetails />
 				</section>
 			</main>
 		</>
 	);
 };
 
-export default AdminCompanyLayout;
+export default AdminCompany;

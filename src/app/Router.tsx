@@ -1,10 +1,8 @@
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { PanelPage } from './views/pages/panel/PanelPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AddDomainModal, Loader, ModalTitleWrapper } from './views/components';
-import { useModal } from './data';
+import { Loader } from './views/components';
 import {
 	AuthPage,
 	SignInLayout,
@@ -15,7 +13,7 @@ import {
 	WebApplication,
 	MobileApplication,
 	CloudApplicationPanel,
-	LanApplicationPanel,
+	/* LanApplicationPanel,*/
 	SourceCodePanel,
 	SocialEngineeringPanel,
 	EnpPanel,
@@ -32,11 +30,10 @@ import {
 	AdminPage,
 	AdminUser,
 	AdminCompany,
-} from '../app/views/pages';
+} from './views/pages';
+import { PanelPage } from './views/pages/panel/PanelPage';
 
 export const AppRouter: React.FC = () => {
-	const { showModal, setShowModal, showModalStr, setShowModalStr } =
-		useModal();
 	return (
 		<>
 			<ToastContainer
@@ -61,7 +58,7 @@ export const AppRouter: React.FC = () => {
 						<Route path="web" element={<WebApplication />} />
 						<Route path="mobile" element={<MobileApplication />} />
 						<Route path="cloud" element={<CloudApplicationPanel />} />
-						<Route path="lan" element={<LanApplicationPanel />} />
+						{/* <Route path="lan" element={<LanApplicationPanel />} /> */}
 						<Route path="source" element={<SourceCodePanel />} />
 
 						<Route path="social" element={<SocialEngineeringPanel />} />
@@ -76,12 +73,15 @@ export const AppRouter: React.FC = () => {
 						<Route path="issues/*" element={<IssuePage />}>
 							<Route index element={<IssuesPanel />} />
 							<Route path="create" element={<IssuesCreation />} />
+							<Route
+								path="create/:type/:resourceId"
+								element={<IssuesCreation />}
+							/>
 							<Route path="update/:id" element={<IssuesUpdate />} />
 						</Route>
 						{/* Private Routes + only admin access */}
 						<Route path="admin/*" element={<AdminPage />}>
-							<Route index element={<Navigate to="user" replace />} />
-							<Route path="user" element={<AdminUser />} />
+							<Route index element={<Navigate to="company" replace />} />
 							<Route path="company" element={<AdminCompany />} />
 						</Route>
 					</Route>

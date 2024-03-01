@@ -1,0 +1,24 @@
+.sidebav {
+  position: absolute;
+  bottom: 0;
+  min-width: 100dvw;
+  background-color: #1a1a1a;
+  z-index: 99;
+
+  .sideContent {
+    display: flex;
+    justify-content: space-around;  
+    align-items: center;
+    cursor: pointer;
+    min-height: 4rem;
+  }
+}
+
+.rotate {
+  cursor: pointer;
+  transition-duration: 500ms;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}

@@ -1,15 +1,14 @@
-import { toast } from 'react-toastify';
-import { LoginParams, RegisterParams } from '..';
-
 import { useNavigate } from 'react-router';
-import useAuthStore from '../store/auth.store';
+import { toast } from 'react-toastify';
+import { LoginParams, RegisterParams, User } from '..';
 import type { AuthState } from '../store/auth.store';
+import useAuthStore from '../store/auth.store';
 
 export const useUserAdmin = () => {
 	const {
 		userData: { accessRole },
 		accessToken,
-		isAuth,
+		isAuth
 	} = useAuthStore((state: AuthState) => state);
 
 	const getRole = () => accessRole ?? '';
@@ -27,6 +26,13 @@ export const useAuthState = () => {
 
 	const getAccessToken = () =>
 		authStore.accessToken ? authStore.accessToken : '';
+
+	const getCompany = () => {
+		const companySelectedFromLocalStorage = localStorage.getItem('companySelected');
+		return companySelectedFromLocalStorage !== null
+		? JSON.parse(companySelectedFromLocalStorage).id
+		: getUserdata()?.companyID;
+	}
 
 	const isAuth = () => authStore.isAuth;
 
@@ -54,7 +60,12 @@ export const useAuthState = () => {
 		return authStore
 			.register(params)
 			.then((response: any) => {
-				toast.success(`Signup phase one successful`);
+				if (response.error) {
+					toast.error('An unexpected error has occurred on the server');
+					return false
+				} else {
+					toast.success(`Signup phase one successful`);
+				}
 				return true;
 			})
 			.catch((error: Error) => {
@@ -85,6 +96,10 @@ export const useAuthState = () => {
 			});
 	};
 
+	const updateUserData = (updatedUser: User)=> {
+		authStore.updateUser(updatedUser);
+	}
+
 	return {
 		getUserdata,
 		getAccessToken,
@@ -92,5 +107,8 @@ export const useAuthState = () => {
 		signInUser,
 		signUpUser,
 		signUpFinish,
+		updateUserData,
+		getCompany,
+		updateToken: authStore.updateToken
 	};
 };

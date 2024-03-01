@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './modal.scss';
 
 interface ModalWrapper {
@@ -25,7 +25,7 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, []);
 	return (
-		<div
+		<article
 			onDoubleClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -33,14 +33,14 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 			}}
 			className="modal-wrapper">
 			<div
-				className={`wrapper-content ${!isErrorBox ? 'max-w' : ''}`}
+				className={`modal ${!isErrorBox ? 'med-w' : ''}`}
 				onDoubleClick={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 				}}>
-				<article>{children}</article>
+				{children}
 			</div>
-		</div>
+		</article>
 	);
 };
 

@@ -1,15 +1,21 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.webapp {
 	padding-inline-end: 0px;
+
+	.table .rows {
+		height: calc(100vh - 153px);
+	}
 	.left {
 		width: 70%;
-
 		.table {
 			.domain-name {
-				width: 205px;
+				min-width: 35%;
 			}
 			.location {
 				width: 160px;
 			}
+
 			.item {
 				.location {
 					.flag {
@@ -17,77 +23,189 @@ main.webapp {
 					}
 				}
 			}
+
 			.action {
 				justify-content: center;
 				max-width: none;
 				width: 100%;
+				column-gap: 2px;
+
+				span {
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding-inline: 7px;
+					transition: color 200ms ease;
+
+					&:hover {
+						color: var(--secondary-color);
+					}
+				}
 			}
 		}
 	}
 	.right {
-		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		padding-inline: auto;
 		width: 30%;
-		margin-inline-start: 10px;
+		overflow-y: hidden;
 
 		.card {
-			border: none;
-			.header {
-				border-bottom: 1px solid var(--primary-color-300);
-			}
-			&.stats {
-				.content {
-					column-gap: 0px;
-
-					.stat {
-						border: 1.2px solid var(--primary-color-200);
-						border-top: 0px;
-						border-radius: 0px;
-					}
-				}
+			.content {
+				padding-block: 0px;
 			}
 		}
 	}
-	.over {
-		overflow-y: auto;
-		overflow-x: hidden;
-	}
-}
-
-[data-theme='dark'] {
-	.variant-1 {
-		width: 21rem;
-		top: 4dvh;
-		right: 22dvw;
-		filter: blur(125px) brightness(0.34) opacity(0.65);
-	}
-	main.webapp {
-		.header {
-			background: var(--primary-color-600);
-		}
-
-		.right {
-			padding-inline: 10px;
-			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
-
+	@include mixin.respond(small) {
+		min-height: auto;
+		height: 84dvh;
+		.left {
 			.card {
-				.header {
-					background-color: var(--primary-color-500);
-				}
-				&.stats {
-					.content {
-						column-gap: 0px;
-						padding-inline: 0px;
-
-						.stat {
-							background-color: transparent;
-							border: 1.2px solid var(--primary-color-200);
-							border-top: 0px;
-							border-radius: 0px;
-						}
-					}
-				}
+				overflow-y: auto;
+				overflow-x: auto;
 			}
 		}
 	}
 }
+
+//.left {
+//	width: 70%;
+
+// 		.header {
+// 			// display: contents;
+// 		}
+
+// 		.title {
+// 			// margin-bottom: 15px;
+// 		}
+
+// 		@include mixin.respond(small) {
+// 			width: 100%;
+// 			padding-block-start: 10px;
+// 		}
+
+// 		.table {
+// 			.domain-name {
+// 				// width: 100%;
+// 				min-width: 35%;
+// 			}
+
+// 			.location {
+// 				width: 160px;
+// 			}
+
+// 			.item {
+// 				.location {
+// 					.flag {
+// 						margin-inline-end: 0.75rem;
+// 					}
+// 				}
+// 			}
+
+// 			.action {
+// 				justify-content: center;
+// 				max-width: none;
+// 				width: 100%;
+// 				column-gap: 2px;
+
+// 				span {
+// 					height: 100%;
+// 					display: flex;
+// 					justify-content: center;
+// 					align-items: center;
+// 					padding-inline: 7px;
+// 					transition: color 200ms ease;
+
+// 					&:hover {
+// 						color: var(--secondary-color);
+// 					}
+// 				}
+// 			}
+// 		}
+//}
+
+// 	.right {
+// 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+// 		padding-inline: 10px;
+// 		width: 30%;
+// 		margin-inline-start: 10px;
+
+// 		.card {
+// 			border: none;
+
+// 			.header {
+// 				border-bottom: 1px solid var(--primary-color-300);
+// 			}
+
+// 			&.stats {
+// 				.content {
+// 					column-gap: 0px;
+
+// 					.stat {
+// 						border: 1.2px solid var(--primary-color-200);
+// 						border-top: 0px;
+// 						border-radius: 0px;
+// 					}
+// 				}
+// 			}
+// 		}
+
+// 		@include mixin.respond(small) {
+// 			width: 95%;
+// 			height: auto;
+// 			min-height: auto;
+// 			padding-block-end: 150px;
+// 			.header {
+// 				max-width: 340px;
+// 			}
+// 		}
+// 	}
+
+// 	.over {
+// 		overflow-y: auto;
+// 		overflow-x: hidden;
+// 	}
+
+// 	@include mixin.respond(small) {
+// 		display: block;
+// 		padding-inline-start: 1px;
+// 		min-height: auto;
+// 	}
+// }
+
+// [data-theme='dark'] {
+// 	.variant-1 {
+// 		width: 21rem;
+// 		top: 4dvh;
+// 		right: 22dvw;
+// 		filter: blur(125px) brightness(0.34) opacity(0.65);
+// 	}
+
+// 	main.webapp {
+// 		.header {
+// 			background: var(--primary-color-600);
+// 		}
+
+// 		.right {
+// 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+
+// 			.card {
+// 				.header {
+// 					background-color: var(--primary-color-500);
+// 				}
+
+// 				&.stats {
+// 					.content {
+// 						column-gap: 0px;
+// 						padding-inline: 0px;
+
+// 						.stat {
+// 							background-color: transparent;
+// 							border: 1.2px solid var(--primary-color-200);
+// 							border-top: 0px;
+// 							border-radius: 0px;
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}

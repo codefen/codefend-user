@@ -354,7 +354,7 @@ export const sourceCodeColumns: ColumnTable[] = [
 	{
 		name: 'action',
 		value: 'actions',
-		style: 'id',
+		style: 'id action',
 	},
 ];
 
@@ -438,18 +438,18 @@ export const osPercentCountColumns = [
 
 export const vdbColumns = [
 	{
-		name: 'id',
-		value: 'id',
+		name: 'Identifier',
+		value: 'ID',
 		style: 'id',
 	},
 	{
 		name: 'published',
 		value: 'published',
-		style: 'date',
+		style: 'id',
 	},
 	{
 		name: 'cve',
-		value: 'cve',
+		value: 'CVE',
 		style: 'cve',
 	},
 	{

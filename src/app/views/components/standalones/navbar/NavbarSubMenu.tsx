@@ -9,6 +9,7 @@ import {
 	NetworkSetingModal,
 	PreferenceIcon,
 	Show,
+	ThemeChangerButton,
 } from '../..';
 import {
 	NetworkSettingState,
@@ -39,7 +40,7 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 			<Show when={showModal && showModalStr === 'logout'}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<div
-						className="modal-wrapper-title internal-tables disable-border"
+						className=""
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
@@ -85,10 +86,15 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 				}}>
 				<div className="user">
 					<div className="profile"></div>
-					<span className="username">{props.userFullname}</span>
+					<span
+						className="username"
+						title={props.userFullname}
+						aria-label={props.userFullname}>
+						{props.userFullname}
+					</span>
 				</div>
 				<div className="options">
-					<div
+					{/* <div
 						className="option"
 						onClick={() => {
 							props.closeMenu();
@@ -97,8 +103,8 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<PreferenceIcon width={1.25} height={1.25} />
 						<span className="text-options">User preference</span>
 						<ChevronIcon width={0.65} height={0.65} />
-					</div>
-					<div
+					</div> */}
+					{/* <div
 						className="option"
 						onClick={() => {
 							props.closeMenu();
@@ -107,8 +113,8 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<MessageIcon width={1.25} height={1.25} />
 						<span className="text-options">Customer support</span>
 						<ChevronIcon width={0.65} height={0.65} />
-					</div>
-					<div
+					</div> */}
+					{/* <div
 						className="option"
 						onClick={() => {
 							props.closeMenu();
@@ -117,8 +123,14 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<NetworkIcon width={1.25} height={1.25} />
 						<span className="text-options">Netowork Setting</span>
 						<ChevronIcon width={0.65} height={0.65} />
-					</div>
+					</div> */}
 
+					<div
+						className="option"
+						>
+						<ThemeChangerButton />
+						<span className="text-options">Theme</span>
+					</div>
 					<div
 						className="option"
 						onClick={(e: React.FormEvent) => {
@@ -128,7 +140,6 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						}}>
 						<LogoutIcon width={1.25} height={1.25} />
 						<span className="text-options">Logout</span>
-						<ChevronIcon width={0.65} height={0.65} />
 					</div>
 				</div>
 			</div>

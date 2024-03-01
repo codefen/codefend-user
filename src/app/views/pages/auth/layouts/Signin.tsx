@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthState } from '../../../../data';
-import { PrimaryButton } from '../../../components';
+import {
+	NetworkSettingState,
+	useAuthState,
+	useNetworkSettingState,
+} from '../../../../data';
+import { NetworkIcon, PrimaryButton } from '../../../components';
 
 const SignInLayout: React.FC = () => {
 	const { signInUser } = useAuthState();
@@ -33,53 +37,64 @@ const SignInLayout: React.FC = () => {
 		}, 100);
 	};
 
+	const { setNetworkSettingState } = useNetworkSettingState(
+		(state: NetworkSettingState) => state,
+	);
+
 	return (
-		<form onSubmit={handleSubmit}>
-			<div className="input-group ">
-				<input
-					type="email"
-					onChange={(e) =>
-						setSigninForm((current) => ({
-							...current,
-							email: e.target.value,
-						}))
-					}
-					placeholder="Email address"
-					autoComplete="email"
-					required
-				/>
+		<>
+			<div
+				className="network-btn"
+				onClick={() => setNetworkSettingState(true)}>
+				<NetworkIcon width={1.5} height={1.5} />
 			</div>
-
-			<div className="input-group">
-				<input
-					type="password"
-					onChange={(e) =>
-						setSigninForm((current) => ({
-							...current,
-							password: e.target.value,
-						}))
-					}
-					placeholder="Password"
-					required
-				/>
-			</div>
-
-			<div className="extra-group ">
-				<PrimaryButton
-					text="Proceed"
-					isDisabled={signinForm.isLoading}
-					click={() => {}}
-					type="submit"
-					className="signin-btn"
-				/>
-
-				<div className="extra-group link-center link-underline">
-					<Link to="/auth/signup" className="link codefend-text-red">
-						Don’t have an account yet? Sign up
-					</Link>
+			<form onSubmit={handleSubmit}>
+				<div className="input-group ">
+					<input
+						type="email"
+						onChange={(e) =>
+							setSigninForm((current) => ({
+								...current,
+								email: e.target.value,
+							}))
+						}
+						placeholder="Email address"
+						autoComplete="email"
+						required
+					/>
 				</div>
-			</div>
-		</form>
+
+				<div className="input-group">
+					<input
+						type="password"
+						onChange={(e) =>
+							setSigninForm((current) => ({
+								...current,
+								password: e.target.value,
+							}))
+						}
+						placeholder="Password"
+						required
+					/>
+				</div>
+
+				<div className="extra-group ">
+					<PrimaryButton
+						text="Proceed"
+						isDisabled={signinForm.isLoading}
+						click={() => {}}
+						type="submit"
+						className="signin-btn"
+					/>
+
+					<div className="extra-group link-center link-underline">
+						<Link to="/auth/signup" className="link codefend-text-red">
+							Don’t have an account yet? Sign up
+						</Link>
+					</div>
+				</div>
+			</form>
+		</>
 	);
 };
 

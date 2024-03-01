@@ -4,6 +4,7 @@ import {
 	SearchBar,
 	Show,
 } from '../../../../../../views/components';
+import Masonry from 'react-masonry-css';
 import { ApiHandlers, User, useAuthState } from '../../../../../../data';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useLocation } from 'react-router';
@@ -45,8 +46,8 @@ const SnsSearchAndData: React.FC = () => {
 	const [intelData, setIntelData] = useState<any[]>([]);
 	const [loading, setLoading] = useState(false);
 
-	const { getUserdata } = useAuthState();
-	const companyID = getUserdata()?.companyID as string;
+	const { getUserdata, getCompany } = useAuthState();
+	const companyID = getCompany();
 
 	const user = getUserdata as unknown as User;
 
@@ -114,8 +115,13 @@ const SnsSearchAndData: React.FC = () => {
 				/>
 			</div>
 
+			
 			<Show when={!loading} fallback={<PageLoader />}>
 				<div className='content'>
+				<Masonry
+						breakpointCols={3}
+						className="my-masonry-grid"
+						columnClassName="my-masonry-grid_column">
 					{intelData.map((intel, index) => (
 						<div key={index} className="search-result">
 							<div className="header">
@@ -146,8 +152,10 @@ const SnsSearchAndData: React.FC = () => {
 							</div>
 						</div>
 					))}
+					</Masonry>
 				</div>
 			</Show>
+			
 		</>
 	);
 };

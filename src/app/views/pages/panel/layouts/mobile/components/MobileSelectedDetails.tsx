@@ -14,21 +14,24 @@ import {
 	IssuesCondition,
 	IssuesShare,
 	MobileApp,
+	SelectMobileCloudApp,
 	useMobileOne,
 	useModal,
+	useSelectMobileCloudApp,
 } from '../../../../../../data';
-import SelectedMobile from '../selectedContext';
 import Order from '../../../../../components/modals/order';
 
 export const MobileSelectedDetails: React.FC = (props) => {
-	const selectedMobileApp = useContext(SelectedMobile);
+	const { appSelected } = useSelectMobileCloudApp(
+		(state: SelectMobileCloudApp) => state,
+	);
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
-	const getSelected = selectedMobileApp
-		? selectedMobileApp
-		: ({} as MobileApp);
 
-	const getSelectedMobileAppId = selectedMobileApp ? selectedMobileApp.id : '';
+	console.log({ appSelected });
+	const getSelected = appSelected ? appSelected : ({} as MobileApp);
+
+	const getSelectedMobileAppId = appSelected ? appSelected.id : '';
 	const { isLoding, getMobile } = useMobileOne(getSelectedMobileAppId);
 
 	return (

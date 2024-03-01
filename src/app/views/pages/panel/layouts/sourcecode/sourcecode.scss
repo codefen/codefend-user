@@ -1,17 +1,87 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.source-code {
+	&.actived {
+		padding-inline-end: 0;
+	}
 	.left {
 		flex: 1 1 68%;
 		width: 68%;
+
 		.table {
 			.item {
-				height: 42px;
+				height: 42.5px;
 			}
+
 			.source-code {
 				justify-content: center;
 			}
+
 			.id {
 				display: flex;
+				min-width: 50px;
+				max-width: 50px;
 			}
+			.full-name {
+				min-width: 198px;
+				max-width: 198px;
+			}
+			.url {
+				max-width: 230px;
+				min-width: 230px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-height: 42px;
+
+				.publish {
+					text-wrap: pretty;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					@supports (-webkit-line-clamp: 2) {
+						-webkit-line-clamp: 2;
+					}
+				}
+			}
+
+			.boolean {
+				text-align: left;
+				max-width: 65px;
+				min-width: 65px;
+				margin-inline-end: 4px;
+
+				.publish {
+					justify-content: flex-start;
+					max-width: 65px;
+				}
+			}
+
+			.action {
+				justify-content: center;
+				max-width: none;
+				width: 100%;
+				column-gap: 2px;
+				cursor: pointer;
+
+				span {
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding-inline: 7px;
+					transition: color 200ms ease;
+					flex: 1 1;
+					width: 50%;
+
+					&:hover {
+						color: var(--secondary-color) !important;
+					}
+				}
+			}
+		}
+
+		@include mixin.respond(small) {
+			width: 100%;
 		}
 	}
 
@@ -20,19 +90,40 @@ main.source-code {
 		width: 33%;
 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
+		padding-inline-end: 20px;
 
 		.card {
 			&.risk-chart {
 				border: 0px;
+
 				.content {
 					flex-direction: column;
 					row-gap: 1.75rem;
+
 					.chart {
-						min-width: 120px;
+						min-width: 106px;
 						max-width: 0%;
 					}
 				}
 			}
+		}
+
+		@include mixin.respond(small) {
+			width: 100%;
+		}
+	}
+
+	@include mixin.respond(small) {
+		display: block;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
+
+		.left {
+			padding-block-start: 25px;
+		}
+		.card {
+			overflow: auto;
 		}
 	}
 }

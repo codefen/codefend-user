@@ -6,11 +6,12 @@ import { DashboardProps} from '../..';
 import { toast } from 'react-toastify';
 
 export const useDashboard = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany, getUserdata } = useAuthState();
 	const [isLoading, setLoading] = useState(false);
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
 	);
+	//Fetch dashboard data func
 	const fetchWeb = useCallback((companyID: string) => {
 		setLoading(true);
 
@@ -23,8 +24,9 @@ export const useDashboard = () => {
 			});
 	}, []);
 
+	//Refetch web app func
 	const refetch = () => {
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;

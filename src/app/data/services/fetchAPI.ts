@@ -2,7 +2,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { baseUrl } from '../utils/config';
 import { getCustomBaseAPi, getToken } from '../utils/helper';
 import { toast } from 'react-toastify';
-import useAuthStore from '../store/auth.store';
 
 enum HTTP_METHODS {
 	POST = 'post',
@@ -52,15 +51,38 @@ const fetchFromAPI = async ({
 		url,
 		method,
 		headers: {
-			'Content-Type': 'application/json',
+			'Content-Type': 'multipart/form-data',
 			...headers,
 		},
 	};
 
-	if (method !== HTTP_METHODS.GET && body) requestConfig.data = body;
+	if (method !== HTTP_METHODS.GET) {
+        const bodyParams = new FormData();
 
-	if (params)
-		requestConfig.params = token ? { ...params, session: token } : params;
+		if (body) {
+			for (const key in body) {
+				if (Object.hasOwnProperty.call(body, key)) {
+					bodyParams.append(key, body[key]);
+				}
+			}
+		}
+
+		if (params) {
+			for (const key in params) {
+				if (Object.hasOwnProperty.call(params, key)) {
+					bodyParams.append(key, params[key]);
+				}
+			}
+		}
+
+		bodyParams.append('session', token);
+
+		requestConfig.data = bodyParams;
+	} else {
+		if (params) {
+			requestConfig.params = { ...params, session: token };
+		}
+	}
 
 	return axios(requestConfig);
 };
@@ -121,7 +143,6 @@ export const handleFetchError = (error: any) => {
 			data: { error: error ?? {}, isAnError: true, isNetworkError: true },
 		};
 	}
-	console.log({ error });
 	if (error.response?.data) {
 		const message = error.response.data.message;
 		console.log(error.response.data);

@@ -1,15 +1,4 @@
-import React, { Fragment, useCallback, useMemo, useState } from 'react';
-import {
-	AddDomainModal,
-	AddSubDomainModal,
-	GlobeWebIcon,
-	EmptyCard,
-	PageLoader,
-	TrashIcon,
-	ModalTitleWrapper,
-	ConfirmModal,
-	Show,
-} from '../../../../../components';
+import React, { Fragment, useMemo, useState } from 'react';
 import {
 	Resouce,
 	Webresources,
@@ -17,6 +6,19 @@ import {
 	useDeleteWebResource,
 	useModal,
 } from '../../../../../../data';
+import {
+	AddDomainModal,
+	AddSubDomainModal,
+	BugIcon,
+	ConfirmModal,
+	EmptyCard,
+	GlobeWebIcon,
+	ModalTitleWrapper,
+	PageLoader,
+	Show,
+	TrashIcon,
+} from '../../../../../components';
+import { useNavigate } from 'react-router';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -37,6 +39,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
 		useModal();
 	const { handleDelete } = useDeleteWebResource();
+	const navigate = useNavigate();
 
 	const getResources = useMemo(() => {
 		const resources = props.isLoading ? [] : props.webResources;
@@ -64,18 +67,25 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 							<p className="">{mainNetwork.serverCountry}</p>
 						</div>
 
-						<div
-							className="id action"
-							onClick={() => {
-								setSelectedResource({
-									id: mainNetwork.id,
-									domain: mainNetwork.resourceDomain,
-									serverIp: mainNetwork.mainServer,
-								});
-								setShowModal(true);
-								setShowModalStr('delete_resource');
-							}}>
-							<TrashIcon />
+						<div className="id action">
+							<span
+								onClick={() => {
+									setSelectedResource({
+										id: mainNetwork.id,
+										domain: mainNetwork.resourceDomain,
+										serverIp: mainNetwork.mainServer,
+									});
+									setShowModal(true);
+									setShowModalStr('delete_resource');
+								}}>
+								<TrashIcon />
+							</span>
+							<span
+								onClick={() =>
+									navigate(`/issues/create/web/${mainNetwork.id}`)
+								}>
+								<BugIcon isButton />
+							</span>
 						</div>
 					</div>
 
@@ -98,17 +108,24 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 							</div>
 
 							<div className="id action">
-								<TrashIcon
-									action={() => {
+								<span
+									onClick={() => {
 										setSelectedResource({
 											id: subNetwork.id,
 											domain: subNetwork.resourceDomain,
-											serverIp: mainNetwork.mainServer,
+											serverIp: subNetwork.mainServer,
 										});
 										setShowModal(true);
 										setShowModalStr('delete_resource');
-									}}
-								/>
+									}}>
+									<TrashIcon />
+								</span>
+								<span
+									onClick={() =>
+										navigate(`/issues/create/web/${subNetwork.id}`)
+									}>
+									<BugIcon isButton />
+								</span>
 							</div>
 						</div>
 					))}
@@ -216,7 +233,8 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 						<Show when={!props.isLoading} fallback={<PageLoader />}>
 							<div
 								className="rows"
-								style={{ '--row-size': 77 + 'dvh' } as any}>
+								// style={{ '--row-size': 80 + 'dvh' } as any}>
+							>
 								{TableMemo}
 							</div>
 						</Show>

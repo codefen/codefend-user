@@ -13,6 +13,7 @@ export interface AuthState {
 	logout: () => void;
 	updateAuth:()=>void;
 	updateToken:(updatedToken: string)=>void;
+	updateUser: (user: User)=>void;
 }
 
 /**
@@ -71,7 +72,8 @@ const useAuthStore = create<AuthState>()(
 
 				set((current: AuthState)=>({...current, isAuth: updatedAuth}));
 			},
-			updateToken:(updatedToken: string)=> set((prev: AuthState)=>({...prev,  accessToken: updatedToken}))
+			updateToken:(updatedToken: string)=> set((prev: AuthState)=>({...prev,  accessToken: updatedToken})),
+			updateUser: (user: User)=> set((prev: AuthState)=> ({...prev, userData: user})),
 		}),
 		{
 		

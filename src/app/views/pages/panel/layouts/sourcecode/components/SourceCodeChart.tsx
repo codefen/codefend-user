@@ -88,6 +88,7 @@ export const SourceCodeChart: React.FC<Props> = (props) => {
 								showRows={dataTable.length !== 0}
 								showEmpty={dataTable.length === 0}
 								sizeY={25}
+								isSmall
 							/>
 						</div>
 					</Show>

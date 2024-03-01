@@ -8,7 +8,6 @@ const getAll = async (companyID: string) => {
 			company_id: companyID,
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
-
 	return data;
 };
 

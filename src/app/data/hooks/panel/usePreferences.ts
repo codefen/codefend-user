@@ -42,17 +42,17 @@ interface MemberInfo {
 	creacion: string;
 }
 
+/* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const usePreferences = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany, getUserdata } = useAuthState();
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [company, setCompany] = useState<CompanyInfo | ''>('');
 	const [members, setMembers] = useState<MemberInfo[]>([]);
 	const [orders, serOrders] = useState<any[]>([]);
 
-	const fetchLan = useCallback(() => {
-		const user = getUserdata() as User;
-		const companyID = user?.companyID;
+	const fetcher = useCallback(() => {
+		const companyID = getCompany();
 		setLoading(true);
 
 		PreferenceServices.getAll(companyID)
@@ -64,13 +64,13 @@ export const usePreferences = () => {
 			.finally(() => {
 				setLoading(false);
 			});
-	}, [getUserdata]);
+	}, [getUserdata, getCompany]);
 
 	useEffect(() => {
-		fetchLan();
+		fetcher();
 	}, []);
 
-	const refetch = useCallback(() => fetchLan(), []);
+	const refetch = useCallback(() => fetcher(), []);
 
 	return { loading, company, members, refetch, orders };
 };

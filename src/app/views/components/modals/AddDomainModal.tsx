@@ -19,7 +19,7 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 	const [subdomainDetection, setSubdomainDetection] = useState<boolean>(true);
 	const [isAddingDomain, setIsAddingDomain] = useState<boolean>(false);
 
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 
 	const handleSubmit = (e: React.FormEvent) => {
 		if (!domainName) return;
@@ -37,7 +37,7 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 			return;
 		}
 	
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 
 		WebApplicationService.addResource(domainName, companyID)
 			.then((response: any) => {
@@ -57,13 +57,11 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 		return;
 	};
 	return (
-		<div className="modal admin-modal text-format">
-			<form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
-				<div className="form-input-text">
-					<span className="form-icon">
-						<div className="codefend-text-red">
-							<GlobeWebIcon />
-						</div>
+		<div className="content">
+			<form className="form" onSubmit={handleSubmit}>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
 					</span>
 					<input
 						type="text"
@@ -75,7 +73,7 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 				</div>
 
 				<div
-					className=" form-input-checkbox"
+					className="form-checkbox"
 					onClick={(e: React.FormEvent) => e.stopPropagation()}>
 					<input
 						type="checkbox"

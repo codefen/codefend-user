@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { VdbPreviousSearches } from './components/VdbPreviousSearches';
 import { VdbSearchData } from './components/VdbSearchData';
-import Masonry from 'react-masonry-css';
+import './vdb.scss';
 
-interface Props {}
-
-const VdbPanel: React.FC<Props> = (props) => {
+const VdbPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [refresh, setRefresh] = useState(false);
 
@@ -19,11 +17,6 @@ const VdbPanel: React.FC<Props> = (props) => {
 			<main className={`sb ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
 					<VdbSearchData />
-
-					<Masonry
-						breakpointCols={3}
-						className="my-masonry-grid"
-						columnClassName="my-masonry-grid_column"></Masonry>
 				</section>
 				<section className="right">
 					<VdbPreviousSearches />

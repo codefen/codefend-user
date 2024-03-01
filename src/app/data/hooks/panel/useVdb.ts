@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import {
 	FetchPattern,
+	ResultsVdbSearch,
 	VdbProps,
 	VdbService,
 	mapVdbSearch,
@@ -9,8 +10,9 @@ import {
 import { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router';
 
+/* Custom Hook "useInitialVdb" to handle the search result in vdb */
 export const useInitialVdb = () => {
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const { search } = useParams();
 	const [searchData, setSearchData] = useState('');
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<VdbProps>>({
@@ -35,7 +37,7 @@ export const useInitialVdb = () => {
 
 	const refetch = () => {
 		setSearchData(search ?? '');
-		const companyID = getUserdata()?.companyID as string;
+		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;
@@ -46,7 +48,8 @@ export const useInitialVdb = () => {
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchData(e.target.value);
 	};
-	const getData = () => (!isLoading && data ? data : ({} as VdbProps));
 
-	return { getVdb: getData, refetch, isLoading, searchData, handleChange };
+	const getVdb = () => (data ? data.result ?? [] : ([] as ResultsVdbSearch[]));
+
+	return { getVdb, refetch, isLoading, searchData, handleChange };
 };
