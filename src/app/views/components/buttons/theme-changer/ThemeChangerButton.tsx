@@ -6,8 +6,8 @@ export const ThemeChangerButton = () => {
 	const { theme, changeTheme } = useTheme();
 
 	return (
-		<button
-			className={`theme`}
+		<div
+			
 			title="Change theme"
 			onClick={() => changeTheme()}>
 			<Show
@@ -15,6 +15,6 @@ export const ThemeChangerButton = () => {
 				fallback={<SunIcon width={1.75} height={1.75} />}>
 				<MoonIcon width={1.75} height={1.75} />
 			</Show>
-		</button>
+		</div>
 	);
 };

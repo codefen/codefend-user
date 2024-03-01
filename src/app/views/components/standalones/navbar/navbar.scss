@@ -87,19 +87,25 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		margin-right: -20px;
 
 		.action {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 50px;
+			min-width: 50px;
 			height: 100%;
-			border-left: 1px solid var(--tertiary-color-700);
-			border-right: 1px solid var(--tertiary-color-700);
+			padding: 0 10px;
+			border-left: 1px solid var(--tertiary-color-800);
+			border-right: 1px solid var(--tertiary-color-800);
+			background-color: #00000030;
 
 			svg {
 				width: 18px;
 				// height: 18px;
+			}
+			span {
+				margin-left: 5px;
 			}
 			&:hover {
 				color: var(--secondary-color-50);
