@@ -126,13 +126,13 @@ main.issue-detail {
 		.info {
 			display: flex;
 			align-items: stretch;
-			column-gap: 12px;
+			column-gap: 10px;
 			font-family: Roboto;
 			text-transform: uppercase;
-			font-size: 12px;
+			font-size: 11px;
 			height: 40px;
 			border-bottom: 1px solid var(--primary-color-300);
-			padding: 0 32px;
+			padding: 0 15px;
 
 			select {
 				color: var(--tertiary-color-300);
@@ -153,10 +153,15 @@ main.issue-detail {
 				font-weight: bolder;
 				color: var(--secondary-color-50);
 				padding-right: 20px;
+				// max-width: 40%;
+				// white-space: nowrap;
 
 				span {
 					color: var(--tertiary-color-200);
 					margin-left: 5px;
+					// text-overflow: ellipsis;
+					// overflow: hidden;
+					// white-space: nowrap;
 				}
 			}
 		}
@@ -178,17 +183,23 @@ main.issue-detail {
 		flex-direction: column;
 		padding-inline-start: 10px;
 	}
+	@include mixin.respond(wide) {
+		.left {
+			flex: 0 1 900px;	
+		}
+		.right {
+			flex: 0 1 30%;
+		}
+	}
+	.left {
+		flex: 0 1 900px;	
+	}
+	.right {
+		flex: 0 1 30%;
+	}
 }
 main.issues-list {
 	padding-inline-end: 0;
-
-	.left {
-		width: 70%;
-	}
-
-	.right {
-		width: 30%;
-	}
 }
 
 [data-theme='dark'] {
