@@ -1,9 +1,5 @@
 @use '../../../../styles/settings/mixin' as mixin;
-main.issues-list {
-	.left .card {
-		height: calc(100vh - 74px);
-	}
-}
+
 main.issue-detail {
 	width: 100%;
 	padding-inline-end: 0px;
@@ -185,14 +181,14 @@ main.issue-detail {
 	}
 	@include mixin.respond(wide) {
 		.left {
-			flex: 0 1 900px;	
+			flex: 0 1 900px;
 		}
 		.right {
 			flex: 0 1 30%;
 		}
 	}
 	.left {
-		flex: 0 1 900px;	
+		flex: 0 1 900px;
 	}
 	.right {
 		flex: 0 1 30%;
@@ -203,6 +199,28 @@ main.issues-list {
 
 	.left {
 		width: 70%;
+		padding-inline: 0;
+		overflow: hidden;
+
+		.table {
+			.column {
+				&.id {
+					justify-content: center;
+				}
+				&.vul-title {
+					max-width: 15.313rem;
+					min-width: 15.313rem;
+				}
+			}
+
+			.item {
+				.vul-title {
+					padding-inline-end: 1.875rem;
+					max-width: 15.313rem;
+					min-width: 15.313rem;
+				}
+			}
+		}
 	}
 
 	.right {
@@ -224,7 +242,7 @@ main.issues-list {
 		width: 23rem;
 		bottom: 30dvh;
 		left: 5dvw;
-		filter: blur(120px) brightness(0.5) opacity(0.4);
+		filter: blur(7.5rem) brightness(0.5) opacity(0.4);
 	}
 
 	main.issues-list {

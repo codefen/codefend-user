@@ -108,7 +108,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 					columns={issueColumns}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
-					sizeY={80.5}
+					sizeY={'calc(90dvh - 85px)'}
 					tableAction={actionTable}
 					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 					sort={Sort.asc}
