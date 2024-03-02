@@ -184,6 +184,11 @@ main.issues-list {
 
 	.left {
 		width: 70%;
+		padding-inline: 0px;
+
+		.card {
+			overflow-y: hidden;
+		}
 	}
 
 	.right {
