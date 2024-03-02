@@ -51,10 +51,9 @@ const Sidebar: React.FC = () => {
 		<aside
 			ref={sidebarRef}
 			className={`sidebar`}
-			// onFocus={(e) => handleViewText('enter')}
+			onFocus={(e) => handleViewText('enter')}
 			onMouseEnter={(e) => handleViewText('enter')}
 			onMouseUp={(e) => handleViewText('leave')}
-			onBlur={(e) => handleViewText('leave')}
 			onMouseLeave={(e) => handleViewText('leave')}>
 			{showAdmin && (
 				<>
