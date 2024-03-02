@@ -53,6 +53,7 @@ const Sidebar: React.FC = () => {
 			className={`sidebar`}
 			onFocus={(e) => handleViewText('enter')}
 			onMouseEnter={(e) => handleViewText('enter')}
+			onMouseUp={(e) => handleViewText('leave')}
 			onMouseLeave={(e) => handleViewText('leave')}>
 			{showAdmin && (
 				<>
