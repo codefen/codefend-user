@@ -290,6 +290,10 @@
 
 		.breadcrumb {
 			color: var(--tertiary-color-200);
+			.go-home {
+				color: var(--secondary-color-100);
+				text-shadow: 1px 1px 0px #00000030;
+			}
 		}
 
 		.user {
