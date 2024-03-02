@@ -2,10 +2,12 @@ import { useCallback, useState } from 'react';
 import { FetchPattern, OneIssue, mapLoginResponseToUser, mapOneIssue, useAuthState } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
 	const { getCompany, updateUserData, updateToken } = useAuthState();
+	const navigate = useNavigate();
 	const [{ data, isLoading }, dispatch] = useState<
 		FetchPattern<OneIssue>
 	>({
@@ -20,19 +22,26 @@ export const useOneIssue = () => {
 			isLoading: true,
 		}));
 		IssueService.getOne(selectedID, companyID)
-			.then((response: any) =>
+			.then((res: any) =>
 				{
+					if(res.response === "error"){
+						throw new Error("The issue you are trying to view does not exist");
+					}
 					dispatch({
-						data: mapOneIssue(response),
+						data: mapOneIssue(res),
 						error: null,
 						isLoading: false,
 					})
 
-					updateUserData(mapLoginResponseToUser(response.user));
-					updateToken(response.session);
+					updateUserData(mapLoginResponseToUser(res.user));
+					updateToken(res.session);
 				}
 			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+			.catch((error) => {
+				dispatch({ data: null, error, isLoading: false });
+				toast.error(error.message ?? "An unexpected error has occurred on the server");
+				navigate("/issues");
+			});
 	}, []);
 
 	const refetchOne = (selectedID: string) => {
