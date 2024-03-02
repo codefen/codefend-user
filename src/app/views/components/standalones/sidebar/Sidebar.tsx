@@ -26,34 +26,20 @@ const Sidebar: React.FC = () => {
 		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	const { isActivePath } = usePanelStore();
 
-	const sidebarRef = useRef<HTMLDivElement | null>(null);
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-	const handleViewText = (action: 'enter' | 'leave') => {
-		const currentRef = sidebarRef?.current!;
-		let timeID: ReturnType<typeof setTimeout>;
-		if (
-			currentRef &&
-			action === 'enter' &&
-			!currentRef.classList.contains('is-open')
-		) {
-			timeID = setTimeout(() => currentRef.classList.add('is-open'), 100);
-		} else if (
-			currentRef &&
-			action === 'leave' &&
-			currentRef.classList.contains('is-open')
-		) {
-			clearTimeout(timeID!);
-			currentRef.classList.remove('is-open');
+	const handleOpenSidebar = (action: 'enter' | 'leave') => {
+		if (action === 'enter') {
+			setIsSidebarOpen(true);
+		} else if (action === 'leave') {
+			setIsSidebarOpen(false);
 		}
 	};
-
 	return (
 		<aside
-			ref={sidebarRef}
-			className={`sidebar`}
-			onFocus={(e) => handleViewText('enter')}
-			onMouseEnter={(e) => handleViewText('enter')}
-			onMouseLeave={(e) => handleViewText('leave')}>
+			className={`sidebar ${isSidebarOpen ? 'is-open' : ''}`}
+			onMouseEnter={(e) => handleOpenSidebar('enter')}
+			onMouseLeave={(e) => handleOpenSidebar('leave')}>
 			{showAdmin && (
 				<>
 					<Link

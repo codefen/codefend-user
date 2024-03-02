@@ -13,7 +13,7 @@
 	color: var(--primary-color-100);
 	border-radius: 0.55rem;
 	width: 51px;
-	height: 90vh;
+	height: calc(90dvh - 12px);
 	transition:
 		width 130ms ease-out,
 		background 130ms linear,
@@ -22,14 +22,21 @@
 		blur 130ms linear,
 		backdrop-filter 130ms linear;
 
+	&:not(:hover) {
+		width: 51px !important;
+
+		a {
+			&::after {
+				content: '' !important;
+				opacity: 0;
+				transform: translateX(-13%);
+			}
+		}
+	}
+
 	:first-child {
 		border-top-left-radius: 0.54rem;
 		border-top-right-radius: 0.54rem;
-	}
-
-	:last-child {
-		//border-bottom-left-radius: 0.55rem;
-		//border-bottom-right-radius: 0.55rem;
 	}
 
 	a {
@@ -85,7 +92,7 @@
 		}
 	}
 
-	&.is-open {
+	&.is-open:hover {
 		width: 280px;
 
 		a {
@@ -93,8 +100,6 @@
 				content: attr(data-text);
 				opacity: 1;
 				transform: translateX(3%);
-				// position: absolute;
-				// left: 28%;
 			}
 
 			&:hover {
@@ -127,7 +132,6 @@
 		background: rgba(18, 26, 35, 0.3);
 		backdrop-filter: blur(9px) saturate(0.8) contrast(1);
 		box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
-		border-image-slice: 1;
 		background-image: linear-gradient(#444df710 0.4px, transparent 0.4px),
 			linear-gradient(to right, #444df710 0.4px, #e5e5f700 0.4px);
 		background-size: 2px 2px;
@@ -146,6 +150,14 @@
 				color: #f76767db;
 			}
 		}
+	}
+
+	&:not(:hover) {
+		background: var(--primary-color-500);
+		backdrop-filter: blur(5px) saturate(0.8) contrast(1);
+		box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.3);
+		background-image: none;
+		background-size: 14px 14px;
 	}
 
 	a {
