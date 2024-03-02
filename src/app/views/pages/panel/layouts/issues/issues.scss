@@ -200,6 +200,14 @@ main.issue-detail {
 }
 main.issues-list {
 	padding-inline-end: 0;
+
+	.left {
+		width: 70%;
+	}
+
+	.right {
+		width: 30%;
+	}
 }
 
 [data-theme='dark'] {

@@ -11,11 +11,11 @@ export const useSourceCode = () => {
 	const fetcher = useCallback((companyID: string) => {
 		setLoading(true);
 		SourceCodeService.getAll(companyID)
-			.then((response: any) => {
-				if (response.error !== '0') {
+			.then((res: any) => {
+				if (res.error !== '0') {
 				}
 				setSource(
-					response.disponibles.map((repo: any) => mapSourceCode(repo)),
+					res.disponibles ? res.disponibles.map((repo: any) => mapSourceCode(repo)) : []
 				);
 			})
 			.finally(() => {
