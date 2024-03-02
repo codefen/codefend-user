@@ -5,7 +5,13 @@ import React, {
 	useMemo,
 	useState,
 } from 'react';
-import { formatDate, generateIDArray } from '../../../data';
+import {
+	calculateRowCalcX,
+	calculateRowSize,
+	calculateRowSizeX,
+	formatDate,
+	generateIDArray,
+} from '../../../data';
 import { EmptyCard, Loader, PageLoader, Show } from '..';
 import './table.scss';
 
@@ -264,10 +270,9 @@ export const TableV2: React.FC<TableProps> = ({
 				className={`table ${isSmall && 'small'}`}
 				style={
 					{
-						'--row-size':
-							typeof sizeY === 'number' ? sizeY + 'dvh' : sizeY,
-						'--row-size-x': sizeX + '%',
-						'--row-calc-x': (sizeX < 100 ? 100 - sizeX - 3 : 0) + '%',
+						'--row-size': calculateRowSize(sizeY),
+						'--row-size-x': calculateRowSizeX(sizeX),
+						'--row-calc-x': calculateRowCalcX(sizeX),
 					} as any
 				}>
 				<TableColumns
