@@ -38,7 +38,7 @@ const SocialEngineeringMembers: React.FC<SocialEngineeringMembersProps> = ({
 									</label>
 								</div>
 								<div className="value">
-									<span className="text-blue-400">
+									<span className="icon-color">
 										<PeopleGroup />
 									</span>
 									<span>

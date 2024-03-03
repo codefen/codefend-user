@@ -106,6 +106,18 @@ main.source-code {
 					}
 				}
 			}
+
+			&.only-info {
+				.content {
+					.info {
+						a {
+							text-decoration-line: underline;
+							cursor: pointer;
+							outline: none;
+						}
+					}
+				}
+			}
 		}
 
 		@include mixin.respond(small) {

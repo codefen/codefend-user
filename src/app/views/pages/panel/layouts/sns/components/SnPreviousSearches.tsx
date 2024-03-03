@@ -23,16 +23,12 @@ const SnPreviousSearches: React.FC<{ isLoading?: boolean }> = (props) => {
 
 							<div className="rows internal-tables ">
 								<Show when={!props.isLoading} fallback={<PageLoader />}>
-									<>
-										<div className="flex px-3 py-1 text-format">
-											<section className="flex w-full items-center">
-												<p className="w-2/4">nacho</p>
-												<p className="text-base w-2/4">
-													codefend.com
-												</p>
-											</section>
-										</div>
-									</>
+									<div className="item-wrapper  text-format">
+										<section className="search-item">
+											<p>nacho</p>
+											<p>codefend.com</p>
+										</section>
+									</div>
 								</Show>
 							</div>
 						</>
@@ -41,7 +37,7 @@ const SnPreviousSearches: React.FC<{ isLoading?: boolean }> = (props) => {
 
 				<PrimaryButton
 					text="REQUEST PROFESSIONAL ASSISTANCE"
-					className="w-full mt-4"
+					className="primary-full"
 					click={() => alert('Processing your order')}
 				/>
 			</div>

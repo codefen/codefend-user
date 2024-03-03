@@ -41,13 +41,11 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
 										{safelyPreviousSearches().map(
 											(searchData: PreviousSearch, i: number) => (
 												<div
-													className="flex px-3 py-1 text-format text-gray-400"
+													className="item-wrapper"
 													key={previusKeys[i]}>
-													<section className="flex w-full items-center">
-														<p className="w-2/4">
-															{searchData.username}
-														</p>
-														<p className="text-base w-2/4">
+													<section className="search-item">
+														<p>{searchData.username}</p>
+														<p>
 															{searchData.info.split(
 																'queries:',
 															)[1] ?? '--'}
@@ -67,7 +65,7 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
 					click={() => {
 						alert('Processing your order');
 					}}
-					className="w-full mt-4"
+					className="primary-full"
 				/>
 			</div>
 		</>

@@ -115,7 +115,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 									),
 								}}></div>
 
-							<hr className="preview-dash 0"></hr>
+							<hr className="preview-dash "></hr>
 
 							<h3 className="preview-content-title">Full list</h3>
 							<div

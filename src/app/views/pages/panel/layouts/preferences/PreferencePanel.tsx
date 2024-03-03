@@ -7,11 +7,12 @@ import SettingOrderAndBilling from './components/SettingOrderAndBilling';
 import '../../../../styles/flag.scss';
 import SettingPersonalDetails from './components/SettingPersonaDetails';
 
+import './preference.scss';
+
 const PreferencePanel = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const { loading, company, members, orders } = usePreferences();
-	
-	
+
 	useEffect(() => {
 		setTimeout(() => {
 			setShowScreen(true);
@@ -33,10 +34,8 @@ const PreferencePanel = () => {
 						/>
 					</section>
 					<section className="right">
-						<SettingCompanyInformation
-							companyInfo={company}
-						/>
-						 <SettingPersonalDetails /> 
+						<SettingCompanyInformation companyInfo={company} />
+						<SettingPersonalDetails />
 					</section>
 				</main>
 			</Show>

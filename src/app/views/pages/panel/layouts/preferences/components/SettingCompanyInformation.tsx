@@ -36,22 +36,22 @@ const SettingCompanyInformation: React.FC<CompanyDataProps> = () => {
 
 	return (
 		<>
-			<div className="w-full internal-tables">
-				<div className="py-3 px-5 internal-tables-active flex flex-row items-center gap-x-6 ">
-					<p className="text-small text-left font-bold title-format">
-						COMPANY INFORMATION
-					</p>
-					<p className="text-small text-left font-bold title-format border-x-[1.5px]  title-format px-6 underline cursor-pointer codefend-text-red">
+			<div className="table-company-data internal-tables">
+				<div className="internal-tables-active company-data-header">
+					<p className="text-small title-format">COMPANY INFORMATION</p>
+					<p className="text-small title-format title-format codefend-text-red">
 						UPDATE
 					</p>
 				</div>
-				<div className="flex px-8 py-2">
-					<div className="w-full">
+				<div className="company-data-main">
+					<div className="company-data-main-wrapper">
 						{Object.entries(getCompanyData()).map((data, index) => (
-							<div key={index} className="flex px-3 py-1 text-format">
-								<section className="flex w-full items-center">
-									<p className="w-2/4">{data[0]}</p>
-									<p className="text-base w-2/4">{data[1]}</p>
+							<div
+								key={index}
+								className="company-table-content text-format">
+								<section className="company-data-content">
+									<p>{data[0]}</p>
+									<p>{data[1]}</p>
 								</section>
 							</div>
 						))}

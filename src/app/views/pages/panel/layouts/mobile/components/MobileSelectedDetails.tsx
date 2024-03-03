@@ -62,7 +62,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 								setShowModalStr('order');
 								setShowModal(true);
 							}}
-							className="w-full mb-4"
+							className="primary-full bottom"
 						/>
 						<VulnerabilityRisk
 							isLoading={isLoding}

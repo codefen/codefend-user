@@ -1,7 +1,17 @@
 import React, { lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Breadcrumb, ThemeChangerButton, MessageIcon, PreferenceIcon, NetworkIcon } from '../..';
-import { usePanelStore, NetworkSettingState, useNetworkSettingState } from '../../../../data';
+import {
+	Breadcrumb,
+	ThemeChangerButton,
+	MessageIcon,
+	PreferenceIcon,
+	NetworkIcon,
+} from '../..';
+import {
+	usePanelStore,
+	NetworkSettingState,
+	useNetworkSettingState,
+} from '../../../../data';
 import useAuthStore from '../../../../data/store/auth.store';
 import { NavbarSubMenu } from './NavbarSubMenu';
 import './navbar.scss';
@@ -19,8 +29,6 @@ const Navbar: React.FC = () => {
 		(state: NetworkSettingState) => state,
 	);
 	const [baseApiName, setBaseApiName] = useState('');
-	
-
 
 	useEffect(() => {
 		const handleClickOutsideMenu = (event: any) => {
@@ -40,14 +48,16 @@ const Navbar: React.FC = () => {
 		if (baseApi) {
 			// Encontrar la posición del primer punto después de //
 			const firstDotIndex = baseApi.indexOf('//') + 2; // Sumamos 2 para empezar después de //
-	  
+
 			// Extraer la parte de la URL desde // hasta el primer punto
-			const extractedUrl = baseApi.substring(firstDotIndex, baseApi.indexOf('.', firstDotIndex));
-	  
+			const extractedUrl = baseApi.substring(
+				firstDotIndex,
+				baseApi.indexOf('.', firstDotIndex),
+			);
+
 			// Mostrar la URL extraída en la consola (puedes usarla según tus necesidades)
-			setBaseApiName(extractedUrl)
-			
-		  }
+			setBaseApiName(extractedUrl);
+		}
 
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutsideMenu);
@@ -58,9 +68,7 @@ const Navbar: React.FC = () => {
 			<nav className="navbar">
 				<div className="left">
 					<div className="navbar-logo">
-						<span
-							className={`cursor-pointer duration-500 ${open && 'rotate-[360deg]'
-								}`}>
+						<span className={`${open && 'rotate-360'}`}>
 							<Logo theme="aim" onClick={() => handleChange()} />
 						</span>
 					</div>
@@ -68,14 +76,14 @@ const Navbar: React.FC = () => {
 						root="Codefend"
 						rootAction={() => navigate('/admin/company')}
 					/>
-					<div className='actions'>
+					<div className="actions">
 						<div
 							className="action"
 							title="User preference"
 							onClick={() => {
 								navigate('/preferences');
 							}}>
-							<PreferenceIcon/>
+							<PreferenceIcon />
 						</div>
 						<div
 							className="action"
@@ -83,7 +91,7 @@ const Navbar: React.FC = () => {
 							onClick={() => {
 								navigate('/support');
 							}}>
-							<MessageIcon/>
+							<MessageIcon />
 						</div>
 						<div
 							className="action"
@@ -91,7 +99,7 @@ const Navbar: React.FC = () => {
 							onClick={() => {
 								setNetworkSettingState(true);
 							}}>
-							<NetworkIcon width={1.1} height={1.1}/>
+							<NetworkIcon width={1.1} height={1.1} />
 							<span>{baseApiName}</span>
 						</div>
 						{/* <div className="action">
@@ -101,9 +109,7 @@ const Navbar: React.FC = () => {
 				</div>
 
 				<div className="right">
-					<div className='actions'>
-		
-
+					<div className="actions">
 						<div
 							className="user action"
 							ref={userRef}
@@ -111,7 +117,9 @@ const Navbar: React.FC = () => {
 								e.preventDefault();
 								setMenuOpen((current) => !current);
 							}}>
-							<span className="email">{userData.email ?? 'not-found'}</span>
+							<span className="email">
+								{userData.email ?? 'not-found'}
+							</span>
 							<div className="profile"></div>
 							<NavbarSubMenu
 								isOpen={isMenuOpen}

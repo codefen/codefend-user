@@ -1,0 +1,145 @@
+main.preferences {
+	padding-inline-end: 0px;
+	.right {
+		.table-company-data {
+			width: 100%;
+
+			.company-data-header {
+				display: flex;
+				flex-flow: row nowrap;
+				align-items: center;
+				padding-inline: 1.25rem;
+				padding-block: 0.75rem;
+				column-gap: 1.5rem;
+
+				p {
+					text-align: left;
+					font-weight: 700;
+				}
+
+				.update-btn {
+					border-left-width: 1.5px;
+					border-right-width: 1.5px;
+
+					padding-inline: 1.5rem;
+					text-decoration-line: underline;
+					cursor: pointer;
+				}
+			}
+
+			.company-data-main {
+				display: flex;
+				padding-block: 0.5rem;
+
+				.company-data-main-wrapper {
+					width: 100%;
+
+					.company-table-content {
+						display: flex;
+						padding-inline: 2.75rem;
+						padding-block: 0.25rem;
+
+						.company-data-content {
+							display: flex;
+							width: 100%;
+							align-items: center;
+
+							p {
+								width: 50%;
+								font-size: 1rem /* 16px */;
+								line-height: 1.5rem /* 24px */;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.table-personal-data {
+			width: 100%;
+			margin-block-start: 1.5rem;
+
+			.personal-data-header {
+				display: flex;
+				flex-flow: row nowrap;
+				align-items: center;
+				padding-inline: 1.25rem;
+				padding-block: 0.75rem;
+				column-gap: 1.5rem;
+
+				p {
+					font-weight: 700;
+					text-align: left;
+				}
+
+				.update-btn {
+					border-left-width: 1.5px;
+					border-right-width: 1.5px;
+
+					padding-inline: 1.5rem;
+					text-decoration-line: underline;
+					cursor: pointer;
+				}
+			}
+
+			.personal-data-content {
+				display: flex;
+				flex-flow: row nowrap;
+				align-items: center;
+				padding-inline: 2rem;
+				padding-block: 0.5rem;
+				column-gap: 1.75rem;
+
+				.personal-data-container {
+					margin-block-end: 5rem;
+
+					&.personal-header {
+						display: flex;
+
+						.img-fallback {
+							width: 4rem;
+							aspect-ratio: 1/1;
+						}
+
+						.img-container {
+							width: 4rem;
+							aspect-ratio: 1/1;
+							border-radius: 100%;
+
+							img {
+								overflow: hidden;
+								border-radius: 100%;
+							}
+						}
+					}
+				}
+
+				.personal-main {
+					width: 100%;
+
+					.personal-main-content {
+						display: flex;
+						padding-inline: 0.5rem;
+						padding-block: 0.25rem;
+
+						.main-content-wrapper {
+							display: flex;
+							align-items: center;
+							width: 100%;
+
+							.content-detail {
+								width: 40%;
+							}
+
+							.content-value {
+								width: 50%;
+								font-size: 1rem /* 16px */;
+								line-height: 1.5rem /* 24px */;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

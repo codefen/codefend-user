@@ -122,7 +122,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					autoFocus
 				/>
 
-				<div className="flex !p-0">
+				<div className="work-buttons">
 					<div
 						className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
 						onClick={() => handleIssueUpdate()}>

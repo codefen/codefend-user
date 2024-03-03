@@ -61,7 +61,7 @@ export const WebApplicationLocation: React.FC<{
 	);
 
 	return (
-		<div className="card !flex flex-col">
+		<div className="card location-card">
 			<SimpleSection header="Web servers by location" icon={<CircleIcon />}>
 				<TableV2
 					columns={webLocationColumn}

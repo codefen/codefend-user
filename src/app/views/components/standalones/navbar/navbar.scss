@@ -54,6 +54,15 @@
 			img {
 				height: 27px;
 			}
+
+			span {
+				cursor: pointer;
+				transition-duration: 500ms;
+
+				&.rotate-360 {
+					transform: rotate(360deg);
+				}
+			}
 		}
 		.breadcrumb {
 			color: #424242f7;
