@@ -95,6 +95,12 @@ table,
 table td {
 	border-color: var(--table-border-color);
 }
+table tr {
+	padding: 3px 5px;
+}
+table tr:nth-of-type(odd) {
+    background-color: #00000015;
+}
 ::-webkit-scrollbar {
 	width: 10px !important;
 }
@@ -134,6 +140,7 @@ body {
 	margin: 0 20px 0 20px;
 	color: var(--text-color-alt3);
 	overflow-x: hidden;
+	font-size: 14px;
 }
 h3 {
 	color: var(--text-color);
@@ -196,6 +203,9 @@ code {
 .tabla-header-issue {
 	display: flex;
 	margin-top: 30px;
+}
+.tabla-header-issue table {
+	width: 100%;
 }
 .tabla-header-issue tr {
 	border-bottom: 1px solid #bebebe;
