@@ -62,12 +62,16 @@ main.webapp {
 	}
 	@include mixin.respond(small) {
 		min-height: auto;
-		height: 84dvh;
+		height: 81dvh;
 		.left {
+			width: 100%;
 			.card {
 				overflow-y: auto;
 				overflow-x: auto;
 			}
+		}
+		.right {
+			width: 100%;
 		}
 	}
 }

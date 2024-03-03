@@ -65,6 +65,10 @@
 		line-height: 13px;
 		text-transform: uppercase;
 		font-weight: bold;
+
+		@include mixin.respond(small) {
+			justify-content: center;
+		}
 	}
 
 	.content {
