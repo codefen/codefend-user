@@ -38,43 +38,40 @@ const SettingPersonalDetails: React.FC = (props) => {
 
 	return (
 		<>
-			<div className="w-full mt-6  personal-details internal-tables">
-				<div className="flex flex-row items-center px-5 py-3 internal-tables-active gap-x-6 ">
-					<p className="font-bold text-left text-small title-format">
-						YOUR PERSONAL DETAILS
-					</p>
-					<p className="text-small text-left font-bold title-format border-x-[1.5px]  px-6 underline cursor-pointer title-format codefend-text-red">
+			<div className="table-personal-data personal-details internal-tables">
+				<div className="personal-data-header internal-tables-active">
+					<p className="text-small title-format">YOUR PERSONAL DETAILS</p>
+					<p className="text-small title-format update-btn title-format codefend-text-red">
 						UPDATE
 					</p>
 				</div>
-				<div className="flex flex-row items-center px-8 py-2 gap-x-7">
-					<section className="flex mb-20">
+				<div className="personal-data-content">
+					<section className="personal-data-container personal-header">
 						<Show
 							when={Boolean(userInfo().photo_media)}
 							fallback={
 								<img
 									src="/codefend/user-icon-gray.svg"
-									className="w-16 h-16"
+									className="img-fallback"
 									alt="default-profile-icon"
 								/>
 							}>
-							<div className="w-16 h-16 rounded-full profile-picture-wrapper">
+							<div className="img-container profile-picture-wrapper">
 								<img
 									src={userInfo().photo_media ?? ''}
 									alt="profile-picture"
-									className="overflow-hidden rounded-full "
 								/>
 							</div>
 						</Show>
 					</section>
-					<div className="w-full mb-20">
+					<div className="personal-main">
 						{personalDetails.map((detail: DetailProps) => (
 							<div
 								key={detail.title}
-								className="flex px-2 py-1 text-format">
-								<section className="flex items-center w-full">
-									<p className="w-[40%]">{detail.title}</p>
-									<p className="w-1/2 text-base">{detail.value}</p>
+								className="personal-main-content text-format">
+								<section className="main-content-wrapper">
+									<p className="content-detail">{detail.title}</p>
+									<p className="content-value">{detail.value}</p>
 								</section>
 							</div>
 						))}

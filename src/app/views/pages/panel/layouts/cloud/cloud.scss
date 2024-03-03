@@ -1,7 +1,13 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.cloud {
-
+	.left {
+		.card {
+			&.cloud-apps {
+				flex: 1 1;
+			}
+		}
+	}
 }
 
 [data-theme='dark'] {

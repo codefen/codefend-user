@@ -12,6 +12,11 @@
 			height: 44px;
 			min-width: 40px;
 		}
+
+		&.send-btn {
+			justify-content: center;
+			align-items: center;
+		}
 	}
 
 	&.btn-add {
@@ -26,6 +31,18 @@
 
 		&:hover {
 			scale: 1.02;
+		}
+	}
+	&.primary-full {
+		width: 100%;
+		margin-block-start: 1rem;
+
+		&.both {
+			margin-block-end: 1rem;
+		}
+		&.bottom {
+			margin-block-start: 0px;
+			margin-block-end: 1rem;
 		}
 	}
 }

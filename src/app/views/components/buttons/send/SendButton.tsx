@@ -18,7 +18,7 @@ export const SendButton = (props: SendButtonProps) => {
 			type="button"
 			onClick={props.click}
 			disabled={props.isDisabled}
-			className={`log-inputs btn btn-primary no-border-height items-center justify-center ${primaryStyles}`}>
+			className={`log-inputs btn btn-primary no-border-height send-btn ${primaryStyles}`}>
 			<Show when={!props.viewLoader} fallback={<ButtonLoader left="35%" />}>
 				<>{props.text}</>
 			</Show>

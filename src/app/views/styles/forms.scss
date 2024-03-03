@@ -17,20 +17,19 @@
 		width: 15px;
 		height: 15px;
 		left: 13px;
-		
+
 		& + * {
 			padding-left: 40px;
 		}
 	}
-
-
 
 	& + * {
 		margin-top: 15px;
 	}
 }
 
-input, select {
+input,
+select {
 	height: 43px;
 	width: 100%;
 	padding-block: 0;
@@ -103,8 +102,6 @@ input, select {
 	// }
 }
 
-
-
 // input,
 // select {
 // 	display: block;
@@ -132,6 +129,20 @@ input[type='text'],
 input[type='password'],
 input[type='email'] {
 	cursor: text;
+}
+
+.pencil-icon {
+	top: 15%;
+	left: 0;
+}
+.text-area-input {
+	display: block;
+	width: 100%;
+	padding: 0.75rem;
+	padding-inline: 2.75rem;
+	outline: none;
+	resize: none;
+	height: 7rem;
 }
 
 .log-inputs2 {
@@ -278,6 +289,13 @@ select {
 }
 
 [data-theme='dark'] {
+	.text-area-input {
+		background-color: var(--primary-color);
+		color: var(--tertiary-color-500);
+		border-width: 1px;
+		border-style: solid;
+		border-color: var(--primary-color-300);
+	}
 	.codefend-checkbox {
 		&::before {
 			border-color: var(--primary-color-500);

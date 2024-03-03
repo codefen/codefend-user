@@ -51,7 +51,7 @@ const WebApplicationView: React.FC = () => {
 				<PrimaryButton
 					text="START A PENTEST ON DEMAND"
 					click={() => changeTheme()}
-					className="w-full mt-4"
+					className="primary-full"
 				/>
 			</section>
 		</main>

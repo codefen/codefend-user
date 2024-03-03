@@ -24,9 +24,7 @@ export const AddTicketModal: React.FC<AddTicketModalProps> = (props) => {
 	return (
 		<>
 			<div className="content">
-				<form
-					className="form"
-					onSubmit={handleSubmit}>
+				<form className="form" onSubmit={handleSubmit}>
 					<div className="form-input">
 						<span className="icon">
 							<GlobeWebIcon />
@@ -42,7 +40,7 @@ export const AddTicketModal: React.FC<AddTicketModalProps> = (props) => {
 					</div>
 
 					<div className="form-input">
-						<span className="icon top-[15%] left-0">
+						<span className="pencil-icon">
 							<PencilIcon isButton />
 						</span>
 
@@ -50,7 +48,7 @@ export const AddTicketModal: React.FC<AddTicketModalProps> = (props) => {
 							ref={textAreaRef!}
 							onChange={(e) => setShortDescription(e.target.value)}
 							placeholder="short description"
-							className="block w-full py-3 bg-white  px-11   focus:outline-none dark:text-gray-300 resize-none h-28  log-inputs text-area "
+							className="text-area-input log-inputs text-area "
 							required></textarea>
 					</div>
 

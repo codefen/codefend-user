@@ -46,8 +46,8 @@ export class ErrorBoundary extends Component<
 									e.preventDefault();
 									e.stopPropagation();
 								}}>
-								<div className="w-full mt-4">
-									<div className="w-full px-8 disable-border">
+								<div className="network-modal-container">
+									<div className="network-modal-content disable-border">
 										<NetworkSetingModal
 											close={() => this.updateNetworkOpen()}
 										/>

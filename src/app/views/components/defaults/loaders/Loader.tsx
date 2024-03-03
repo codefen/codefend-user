@@ -1,14 +1,6 @@
 import React from 'react';
 import './loaders.scss';
 
-/**
- * Spinner for loaders made only with CSS
- * @param {string} icon - "loaders.scss" css class that defines the size of the Spinner
- */
-const Spinner: React.FC<{ icon: string }> = ({ icon }) => (
-	<aside className={`spinner ${icon}`}></aside>
-);
-
 const SpinnerV2: React.FC<{ icon: string }> = ({ icon }) => (
 	<div className={`dotted-spinner ${icon}`}>
 		<div className="dotted-spinner-dot"></div>

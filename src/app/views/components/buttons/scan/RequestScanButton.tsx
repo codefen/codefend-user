@@ -1,6 +1,6 @@
-import { ImSpinner8 } from 'react-icons/im';
-import { Show } from '../..';
+import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
+import './scanButtons.scss';
 
 interface RequestScanButtonProps {
 	scanLoading: boolean;
@@ -11,11 +11,9 @@ interface RequestScanButtonProps {
 export const RequestScanButton: React.FC<RequestScanButtonProps> = (props) => {
 	return (
 		<button className="btn scan-btn" onClick={props.action}>
-			<Show
-				when={props.scanLoading}
-				fallback={<p className="cursor-pointer">REQUEST SCAN</p>}>
+			<Show when={props.scanLoading} fallback={<p>REQUEST SCAN</p>}>
 				<div className="message">
-					<ImSpinner8 className="animate-spin h-4 w-4 text-red-400 mr-4" />
+					<ButtonLoader />
 					<p>{props.message}</p>
 				</div>
 			</Show>

@@ -44,6 +44,10 @@ main.issue-detail {
 
 			input {
 				height: 100%;
+
+				&.grow {
+					flex: 1 1;
+				}
 			}
 
 			.name {
@@ -52,6 +56,13 @@ main.issue-detail {
 				font-size: 14px;
 				border-right: none;
 				border-top: 1px solid var(--primary-color-300);
+
+				flex: 1 1;
+			}
+
+			.work-buttons {
+				display: flex;
+				padding: 0px !important;
 			}
 
 			.edit {
@@ -189,6 +200,13 @@ main.issue-detail {
 	}
 	.left {
 		flex: 0 1 900px;
+
+		textarea {
+			background-color: transparent;
+			outline: none;
+			border: 0px;
+			cursor: default;
+		}
 	}
 	.right {
 		flex: 0 1 30%;

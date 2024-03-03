@@ -53,6 +53,11 @@ main.webapp {
 			.content {
 				padding-block: 0px;
 			}
+
+			&.location-card {
+				display: flex !important;
+				flex-direction: column;
+			}
 		}
 	}
 	@include mixin.respond(small) {

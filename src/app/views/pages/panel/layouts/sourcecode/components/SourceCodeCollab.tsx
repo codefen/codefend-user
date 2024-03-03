@@ -14,7 +14,7 @@ export const SourceCodeCollab: React.FC = () => {
 								In order to review the source code in your company
 								private repositories we will need contributor access.
 								Plase add the following user:
-								<a className="cursor-pointer codefend-text-red underline">
+								<a className="codefend-text-red">
 									sourcecode@codefend.com
 								</a>
 							</p>

@@ -516,6 +516,24 @@
 			.rows {
 				max-height: 64dvh;
 				overflow: auto;
+
+				.item-wrapper {
+					display: flex;
+					padding-inline: 0.75rem;
+					padding-block: 0.25rem;
+
+					.search-item {
+						display: flex;
+						width: 100%;
+						align-items: center;
+
+						p {
+							width: 50%;
+							font-size: 1rem /* 16px */;
+							line-height: 1.5rem /* 24px */;
+						}
+					}
+				}
 			}
 		}
 	}
