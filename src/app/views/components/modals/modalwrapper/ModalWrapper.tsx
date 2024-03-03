@@ -25,22 +25,22 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, []);
 	return (
-		<article
+		<div
 			onDoubleClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
 				action && action();
 			}}
 			className="modal-wrapper">
-			<div
+			<article
 				className={`modal ${!isErrorBox ? 'med-w' : ''}`}
 				onDoubleClick={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 				}}>
 				{children}
-			</div>
-		</article>
+			</article>
+		</div>
 	);
 };
 

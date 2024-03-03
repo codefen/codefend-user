@@ -64,7 +64,7 @@ export const ChatBox: React.FC<Props> = (props) => {
 					isDisabled={!message.trim() || isAdding}
 					viewLoader={isAdding}
 					click={handleSubmit}
-					className="w-14 h-full relative"
+					className="send-extra-styles"
 				/>
 			</div>
 

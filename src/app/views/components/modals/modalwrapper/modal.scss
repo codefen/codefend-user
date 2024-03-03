@@ -109,6 +109,18 @@
 			}
 		}
 	}
+
+	.form-input {
+		.static-value {
+			display: block;
+			width: 100%;
+			padding-block: 0.75rem;
+			padding-inline: 2.75rem;
+			cursor: pointer;
+			font-size: 0.75rem /* 12px */;
+			line-height: 1rem /* 16px */;
+		}
+	}
 }
 
 //   &-title {

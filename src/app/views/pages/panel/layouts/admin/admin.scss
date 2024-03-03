@@ -8,11 +8,6 @@ main.company {
 		padding-inline-end: 0.5rem;
 		max-height: calc(100dvh - 70px);
 
-		.company-header {
-			padding-bottom: 20px;
-			height: 4rem;
-		}
-
 		.company-header-bar {
 			width: 100%;
 
@@ -27,17 +22,18 @@ main.company {
 				display: flex;
 				padding: 0.75rem;
 				padding-left: 2rem;
+
 				p {
 					text-align: left;
 					font-weight: bold;
 					border-right-width: 1px;
 
 					&.current-company {
-						padding-inline-end: 0.5rem;
+						padding-inline-end: 0.85rem;
 					}
 					&.company-btn {
 						cursor: pointer;
-						padding-inline: 0.5rem;
+						padding-inline: 0.85rem;
 						text-decoration-line: underline;
 					}
 				}
@@ -53,6 +49,125 @@ main.company {
 			margin-block-start: 4rem;
 			padding-block-end: 2.25rem;
 			height: 4rem;
+		}
+
+		.company-header {
+			padding-bottom: 20px;
+			height: 4rem;
+		}
+
+		.company-selected-fallback {
+			.company-selected-detail {
+				padding: 0.75rem;
+				padding-inline-start: 2rem;
+
+				p {
+					text-align: left;
+					font-weight: 700;
+				}
+			}
+
+			.company-no-selected {
+				display: flex;
+				padding-inline-start: 2rem;
+				cursor: pointer;
+
+				p {
+					font-size: 1rem /* 16px */;
+					line-height: 1.5rem /* 24px */;
+					padding-block: 0.75rem;
+				}
+			}
+		}
+
+		.company-selected {
+			.company-selected-header {
+				padding: 0.75rem;
+				padding-inline-start: 2rem;
+			}
+		}
+
+		.company-selected-item {
+			display: flex;
+			padding-inline-start: 2rem;
+			cursor: pointer;
+
+			p {
+				font-size: 1rem /* 16px */;
+				line-height: 1.5rem /* 24px */;
+				padding-block: 0.75rem;
+			}
+		}
+
+		.company-members {
+			max-height: 20rem;
+			overflow-y: scroll;
+
+			.company-member-header {
+				padding: 0.75rem;
+				padding-inline-start: 2rem;
+				display: flex;
+
+				p {
+					text-align: left;
+					font-weight: 700;
+					border-right-width: 1px;
+
+					&.company-title {
+						padding-inline-end: 0.5rem;
+					}
+
+					&.company-text {
+						padding-inline: 2rem;
+						text-decoration-line: underline;
+						cursor: pointer;
+					}
+				}
+			}
+			.company-columns {
+				display: flex;
+				padding: 0.75rem;
+				padding-inline-start: 2rem;
+
+				p {
+					font-size: 1rem /* 16px */;
+					line-height: 1.5rem /* 24px */;
+
+					&.l {
+						width: 8.333333%;
+					}
+					&.xl {
+						width: 16.666667%;
+					}
+					&.xll {
+						width: 50%;
+					}
+				}
+			}
+		}
+
+		.company-member-content {
+			display: flex;
+			padding-inline-start: 2rem;
+			cursor: pointer;
+
+			p {
+				font-size: 1rem /* 16px */;
+				line-height: 1.5rem /* 24px */;
+				padding-block: 0.75rem;
+
+				&.l {
+					width: 8.333333%;
+				}
+
+				&.xl {
+					width: 16.666667%;
+				}
+
+				&.xll {
+					width: 50%;
+				}
+			}
 		}
 	}
 

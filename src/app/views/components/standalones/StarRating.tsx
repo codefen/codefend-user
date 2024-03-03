@@ -174,11 +174,7 @@ export const StarRating: React.FC<StartRatingProps> = ({ rating }) => {
 						y2="11"
 						gradientUnits="userSpaceOnUse">
 						<stop offset="0.0782809" stopColor="#FF9400" />
-						<stop
-							offset="0.248281"
-							stopColor="#FF9400"
-							stopOpacity="0"
-						/>
+						<stop offset="0.248281" stopColor="#FF9400" stopOpacity="0" />
 					</linearGradient>
 					<linearGradient
 						id="paint2_linear_151_890"
@@ -196,7 +192,7 @@ export const StarRating: React.FC<StartRatingProps> = ({ rating }) => {
 	}
 
 	return (
-		<div className="flex relative">
+		<div className="rating-content">
 			{stars.map((star: any, i: number) => (
 				<Fragment key={i}>{star}</Fragment>
 			))}

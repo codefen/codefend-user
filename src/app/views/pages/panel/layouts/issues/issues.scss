@@ -48,6 +48,12 @@ main.issue-detail {
 				&.grow {
 					flex: 1 1;
 				}
+
+				&.add-issues {
+					flex: 1;
+					width: 90%;
+					height: 100%;
+				}
 			}
 
 			.name {

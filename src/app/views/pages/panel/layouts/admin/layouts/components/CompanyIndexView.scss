@@ -51,6 +51,7 @@
 				color: var(--tertiary-color-500);
 				padding: 0.5rem;
 				column-gap: 1.5rem;
+				pointer-events: none;
 
 				.img-wrapper {
 					width: 6.149rem;
@@ -71,12 +72,31 @@
 					flex: 1 1;
 					width: 100%;
 
+					.company-name {
+						font-weight: 700;
+						font-size: 18px;
+					}
+
+					.company-id {
+						margin-block-start: 0.5rem;
+						display: flex;
+						flex-direction: column;
+					}
+
 					.company-web {
 						font-size: 0.97rem;
 					}
 
 					.link {
 						color: var(--secondary-color-100);
+						z-index: 100;
+						pointer-events: auto;
+						text-decoration-line: underline;
+						visibility: hidden;
+
+						&.view {
+							visibility: visible;
+						}
 					}
 				}
 			}

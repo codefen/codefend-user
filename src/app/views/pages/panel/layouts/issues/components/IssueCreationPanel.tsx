@@ -114,7 +114,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<LeftArrow isButton />
 				</div>
 				<input
-					className="w-[90%] h-full flex-1"
+					className="add-issues"
 					placeholder="Add Issue title here..."
 					name="issueName"
 					value={newIssue.issueName}

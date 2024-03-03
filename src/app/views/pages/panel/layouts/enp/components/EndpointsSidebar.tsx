@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ImSpinner8 } from 'react-icons/im';
 import {
 	AppleIcon,
 	BugIcon,
+	ButtonLoader,
 	CheckIcon,
 	LinuxIcon,
+	PageLoader,
 	Show,
 	WarningIcon,
 	WindowsIcon,
@@ -137,11 +138,11 @@ export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
 	const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
 		const lowerCaseOSName = osName.toLowerCase();
 		if (lowerCaseOSName.includes('windows')) {
-			return <WindowsIcon styles="w-8 h-8 text-gray-600" />;
+			return <WindowsIcon styles="enp-os-icon" />;
 		} else if (lowerCaseOSName.includes('mac')) {
-			return <AppleIcon styles="w-8 h-8 text-gray-600" />;
+			return <AppleIcon styles="enp-os-icon" />;
 		} else {
-			return <LinuxIcon styles="w-8 h-8 text-gray-600" />;
+			return <LinuxIcon styles="enp-os-icon" />;
 		}
 	};
 
@@ -173,7 +174,7 @@ export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
 		<div className="enp-sidebar">
 			{isLoading ? (
 				<div className="sidebar-loader">
-					<ImSpinner8 className="animate-spin h-5 w-5 text-red-400" />
+					<PageLoader />
 				</div>
 			) : (
 				<>
@@ -224,7 +225,7 @@ export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
 						</div>
 					</div>
 
-					<div className="sidebar-search-bar ">
+					<div className="sidebar-search-bar">
 						<input
 							onKeyDown={(e) => {
 								const target = e.target as HTMLInputElement;
@@ -242,7 +243,7 @@ export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
 								<div className="main-content-empty-wrapper">
 									<div className="content-empty-loader">
 										<div className="empty-loader">
-											<ImSpinner8 className="animate-spin h-3 w-3 text-gray-500" />
+											<ButtonLoader />
 										</div>
 									</div>
 									<div className="content-empty-message">
