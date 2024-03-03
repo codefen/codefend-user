@@ -193,7 +193,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 						Risk score: <span>{safelyIssue().riskLevel}</span>
 					</div>
 					<div>
-						Resource: <span>{safelyIssue().name}</span>
+						Resource: <span>{safelyIssue().riskLevel}</span>
 					</div>
 					<div>
 						Status: <span>{safelyIssue().condition}</span>
