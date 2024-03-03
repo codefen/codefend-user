@@ -24,7 +24,7 @@ export const ModalButtons: React.FC<Props> = (props) => {
 				click={() => {}}
 				type="submit"
 				isDisabled={props.isDisabled}
-				className="btn-add codefend_main_ac"
+				className="btn-add codefend_main_ac ssm:min-h-[65px]"
 			/>
 		</div>
 	);

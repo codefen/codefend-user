@@ -58,6 +58,20 @@ main.enp {
 			display: flex;
 			margin-inline-start: 1rem;
 		}
+
+		@include mixin.respond(small) {
+			height: 5rem;
+
+			.scan-btn-container {
+				display: flex;
+				flex-direction: column;
+
+				.btn{
+					margin-bottom: 5px;
+				}
+			}
+			
+		}
 	}
 
 	.modal-os-container {
