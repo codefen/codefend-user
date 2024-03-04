@@ -54,7 +54,7 @@ button.btn {
 		}
 	}
 
-	@media only screen and (min-width: 639px) {
+	@media only screen and (max-width: 639px) {
 		&.limit-height {
 			min-height: 65px;
 		}
