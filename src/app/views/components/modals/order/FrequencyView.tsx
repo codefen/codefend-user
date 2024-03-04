@@ -38,7 +38,7 @@ const FrequencyView = (props: FrequencyViewProps) => {
 			</div>
 			<div className="scope-content">
 				<div
-					className={`option show-border cursor-pointer ${
+					className={`option show-border order-pointer ${
 						isOptionSelected('one snapshot') && `selected`
 					}`}
 					onClick={() => {
@@ -46,7 +46,7 @@ const FrequencyView = (props: FrequencyViewProps) => {
 					}}>
 					<img src="/codefend/order-frequency1.svg" alt="icon" />
 
-					<div className="flex flex-col">
+					<div className="order-snapshot">
 						<div className="top">
 							<span className="codefend-color">
 								One “snapshot” pentest:
@@ -56,13 +56,13 @@ const FrequencyView = (props: FrequencyViewProps) => {
 								de ser empleados, billed once.
 							</p>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							Se realizará un solo pentests + informe
 						</span>
 					</div>
 				</div>
 				<div
-					className={`option  bottom-border cursor-pointer ${
+					className={`option  bottom-border order-pointer ${
 						isOptionSelected('permanent surveillance') && `selected`
 					}`}
 					onClick={() => {
@@ -70,7 +70,7 @@ const FrequencyView = (props: FrequencyViewProps) => {
 					}}>
 					<img src="/codefend/order-frequency2.svg" alt="icon" />
 
-					<div className="flex flex-col">
+					<div className="order-snapshot">
 						<div className="top">
 							<span className="codefend-color">
 								Permanent surveillance:
@@ -80,30 +80,30 @@ const FrequencyView = (props: FrequencyViewProps) => {
 								billed monthly.
 							</p>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							Se realizará un máximo de 12 pentests anuales.
 						</span>
 					</div>
 				</div>
 			</div>
 
-			<div className="button-wrapper mt-6 flex justify-end gap-x-4">
-				<div className="bg-blue-600 w-[25%]">
+			<div className="button-wrapper next-btns">
+				<div className="secondary-container">
 					<SecondaryButton
 						text="back"
 						click={(e: any) => {
 							props.setActiveTab('scope');
 						}}
-						className=" codefend_secondary_ac w-full"
+						className=" codefend_secondary_ac full"
 					/>
 				</div>
-				<div className="bg-yellow-500 w-2/6">
+				<div className="primary-container">
 					<PrimaryButton
 						text="Continue to the next step"
 						click={() => {
 							props.setActiveTab('team size');
 						}}
-						className=" codefend_main_ac w-full"
+						className=" codefend_main_ac full"
 					/>
 				</div>
 			</div>

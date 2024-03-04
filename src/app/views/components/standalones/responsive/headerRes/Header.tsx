@@ -11,11 +11,11 @@ const Header: React.FC = () => {
 	return (
 		<header className="head">
 			<section className="content">
-				<button className='rounded-full hover:bg-slate-400' onClick={() => handleChange()}>
+				<button onClick={() => handleChange()}>
 					<MenuIcon />
 				</button>
 
-				<div className="flex pt-1 max-w-[120px]">
+				<div className="theme-changer">
 					{theme === 'dark' ? (
 						<Logo theme="light" />
 					) : (
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
 				</div>
 
 				<div>
-					<ThemeChangerButton />
+					<ThemeChangerButton activeText={false} />
 				</div>
 			</section>
 		</header>

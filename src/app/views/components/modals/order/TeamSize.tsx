@@ -41,7 +41,7 @@ const TeamSize = (props: TeamSizeProps) => {
 
 			<div className="scope-content">
 				<div
-					className={`option show-border cursor-pointer ${
+					className={`option show-border order-pointer ${
 						isOptionSelected('small') && `selected`
 					}`}
 					onClick={() => {
@@ -49,18 +49,18 @@ const TeamSize = (props: TeamSizeProps) => {
 					}}>
 					<h2>$1,500</h2>
 
-					<div className="flex flex-col">
+					<div className="order-snapshot">
 						<div className="top">
 							<span className="codefend-color">Small allocation:</span>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							un equipo multidiciplinario de hackers profesionales
 							revisando exclusivamente su caso.
 						</span>
 					</div>
 				</div>
 				<div
-					className={`option  bottom-border cursor-pointer ${
+					className={`option  bottom-border order-pointer ${
 						isOptionSelected('medium') && `selected`
 					}`}
 					onClick={() => {
@@ -68,18 +68,18 @@ const TeamSize = (props: TeamSizeProps) => {
 					}}>
 					<h2>$4,500</h2>
 
-					<div className="flex flex-col">
+					<div className="order-pointer">
 						<div className="top">
 							<span className="codefend-color"> Medium allocation:</span>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							un equipo multidiciplinario de hackers profesionales
 							revisando exclusivamente su caso.
 						</span>
 					</div>
 				</div>
 				<div
-					className={`option  bottom-border cursor-pointer ${
+					className={`option  bottom-border order-pointer ${
 						isOptionSelected('full') && `selected`
 					}`}
 					onClick={() => {
@@ -87,42 +87,37 @@ const TeamSize = (props: TeamSizeProps) => {
 					}}>
 					<h2>$13,500</h2>
 
-					<div className="flex flex-col">
+					<div className="order-pointer">
 						<div className="top">
 							<span className="codefend-color">
 								Full team allocation:
 							</span>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							un equipo multidiciplinario de hackers profesionales
 							revisando exclusivamente su caso.
 						</span>
 					</div>
 				</div>
 			</div>
-			{/* <div className="mt-20 flex items-center gap-x-2 show-border  px-10">
-        <input type="checkbox" alt="checkbox" className="" />
-        <span className="codefend-color">I confirm I have authorization</span>
-        <span className="text-black">and I’ve read and accept the disclaimer.</span>
-      </div> */}
 
-			<div className="button-wrapper mt-6 flex justify-end gap-x-4">
-				<div className="bg-blue-600 w-[25%]">
+			<div className="button-wrapper next-btns">
+				<div className="secondary-container">
 					<SecondaryButton
 						text="back"
 						click={(e: any) => {
 							props.setActiveTab('frequency');
 						}}
-						className=" codefend_secondary_ac w-full"
+						className="codefend_secondary_ac full"
 					/>
 				</div>
-				<div className="bg-yellow-500 w-2/6">
+				<div className="primary-container">
 					<PrimaryButton
 						text="Continue to the next step"
 						click={() => {
 							props.setActiveTab('order review');
 						}}
-						className=" codefend_main_ac w-full"
+						className="codefend_main_ac full"
 					/>
 				</div>
 			</div>

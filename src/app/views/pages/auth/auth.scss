@@ -264,6 +264,10 @@ form.signup-confirm {
 	}
 }
 
+.margin-top {
+	margin-block-start: 1.5rem;
+}
+
 [data-theme='dark'] {
 	section.access {
 		color: var(--tertiary-color);

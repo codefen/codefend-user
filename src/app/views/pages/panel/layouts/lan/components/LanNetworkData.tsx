@@ -101,7 +101,7 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 				/>
 			</ModalTitleWrapper>
 
-			<div className="card table flex-grow">
+			<div className="card table">
 				<div className="header">
 					<div className="title">
 						<div className="icon">
@@ -148,7 +148,7 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 									</div>
 									<div className="hostname">{network.device_name}</div>
 									<div
-										className="id cursor-pointer p-3 flex"
+										className="id actions"
 										onClick={() => {
 											setSelectedLanIdToDelete(String(network?.id));
 											setShowModal(!showModal);
@@ -184,7 +184,7 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 												return false;
 											}}>
 											<div
-												className="id cursor-pointer p-3 flex"
+												className="id actions"
 												onClick={(e: any) => {
 													e.preventDefault();
 													setSelectedLanIdToDelete(

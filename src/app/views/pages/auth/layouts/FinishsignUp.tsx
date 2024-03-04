@@ -116,19 +116,19 @@ const FinishSignUpLayout = () => {
 								/>
 							</div>
 
-							<div className="mt-6">
+							<div className="margin-top">
 								<span className="text-sm text-alt3">
 									I have read and accept the <u>Privacy Policy</u> and{' '}
 									<u>Terms of Use.</u>
 								</span>
 							</div>
-							<div className="mt-6">
+							<div className="margin-top">
 								<PrimaryButton
 									text="Proceed"
 									type="submit"
 									isDisabled={userState.isLoading}
 									click={handleSubmit}
-									className="flex items-center gap-x-2"
+									className="center"
 								/>
 							</div>
 						</form>

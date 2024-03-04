@@ -42,19 +42,19 @@ const PaymentMethod = (props: PaymentMethodProps) => {
 							<input
 								id="crypto"
 								type="radio"
-								className=""
+								className="radio-option"
 								checked={isOptionChecked('crypto')}
 								onChange={(value) => {
 									handleSelectedOption('crypto');
 								}}
 							/>
-							<label htmlFor="crypto" className="flex flex-col">
+							<label htmlFor="crypto" className="order-snapshot">
 								<div className="top">
 									<span className="codefend-color">
 										Cryptocurrency payment:
 									</span>
 								</div>
-								<span className="text-[#9b9a9a]">
+								<span className="one-pentest">
 									Codefend accepts direct cryptocurrecy payments in
 									bitcoin, ethereum, litecoin, monero, solana and the
 									stable coins usdc, usdt.
@@ -65,19 +65,19 @@ const PaymentMethod = (props: PaymentMethodProps) => {
 							<input
 								id="card"
 								type="radio"
-								className=""
+								className="radio-option"
 								checked={isOptionChecked('card')}
 								onChange={(value) => {
 									handleSelectedOption('card');
 								}}
 							/>
-							<label htmlFor="card" className="flex flex-col">
+							<label htmlFor="card" className="order-snapshot">
 								<div className="top">
 									<span className="codefend-color">
 										Credit and debit card payment:
 									</span>
 								</div>
-								<span className="text-[#9b9a9a]">
+								<span className="one-pentest">
 									One unique scan: Codefend will perform a 4 weeks IT
 									secuirty assessment on the selected scope, one
 									report, no subscription.
@@ -88,19 +88,19 @@ const PaymentMethod = (props: PaymentMethodProps) => {
 							<input
 								id="bank-transfer"
 								type="radio"
-								className=""
+								className="radio-option"
 								checked={isOptionChecked('bank transfer')}
 								onChange={(value) => {
 									handleSelectedOption('bank transfer');
 								}}
 							/>
-							<label htmlFor="bank-transfer" className="flex flex-col">
+							<label htmlFor="bank-transfer" className="order-snapshot">
 								<div className="top">
 									<span className="codefend-color">
 										Bank account / bank transfer:
 									</span>
 								</div>
-								<span className="text-[#9b9a9a]">
+								<span className="one-pentest">
 									Small team allocation. Codefend will allocate a team
 									of 2 hackers to accomplish this task within 4 weeks.
 									Individually reported issues.
@@ -109,23 +109,23 @@ const PaymentMethod = (props: PaymentMethodProps) => {
 						</div>
 					</div>
 
-					<div className="button-wrapper mt-6 flex justify-end gap-x-4">
-						<div className="bg-blue-600 w-[25%]">
+					<div className="button-wrapper next-btns">
+						<div className="secondary-container">
 							<SecondaryButton
 								text="back"
 								click={(e: any) => {
 									props.setActiveTab('order review');
 								}}
-								className=" codefend_secondary_ac w-full"
+								className="codefend_secondary_ac full"
 							/>
 						</div>
-						<div className="bg-yellow-500 w-2/6">
+						<div className="primary-container">
 							<PrimaryButton
 								text="Proceed to payment"
 								click={() => {
 									setShowTransactionView(true);
 								}}
-								className=" codefend_main_ac w-full"
+								className="codefend_main_ac full"
 							/>
 						</div>
 					</div>
@@ -133,9 +133,7 @@ const PaymentMethod = (props: PaymentMethodProps) => {
 			) : (
 				<>
 					<CryptoPayment
-						goBack={() => {
-							setShowTransactionView(false);
-						}}
+						goBack={() => setShowTransactionView(false)}
 						closeModal={props.closeModal}
 					/>
 				</>

@@ -44,8 +44,10 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
 													className="item-wrapper"
 													key={previusKeys[i]}>
 													<section className="search-item">
-														<p>{searchData.username}</p>
-														<p>
+														<p className="name">
+															{searchData.username}
+														</p>
+														<p className="result">
 															{searchData.info.split(
 																'queries:',
 															)[1] ?? '--'}

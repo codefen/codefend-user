@@ -66,7 +66,7 @@ export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
 				),
 			},
 		],
-		style: 'id cursor-pointer action',
+		style: 'id action',
 	};
 
 	return (

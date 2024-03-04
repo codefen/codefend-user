@@ -56,7 +56,7 @@ export const MobileApplication: React.FC<MobileApplicationProps> = ({
 				<div className="brightness variant-3"></div>
 
 				<section className="left">
-					<div className="card flex-grow">
+					<div className="card">
 						<div className="header">
 							<div className="title">
 								<span>Mobile Applications</span>

@@ -81,7 +81,7 @@ const LanPage: React.FC = () => {
 					<PrimaryButton
 						text={scanLoading ? <PageLoaderWhite /> : 'REQUEST SCAN'}
 						click={(e: any) => scanLocal()}
-						className="w-full mt-4"
+						className="primary-full"
 					/>
 				</section>
 			</main>

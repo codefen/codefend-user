@@ -19,10 +19,7 @@ const Order = ({ closeModal }: { closeModal: Function }) => {
 	return (
 		<>
 			<ModalWrapper action={() => closeModal()}>
-				<div
-					className={`order ${
-						activeTab === 'payment method' && 'no-max-h'
-					}`}>
+				<div className={`order`}>
 					<header className="order-header">
 						<img
 							src="/codefend/pentest-header-vector.svg"

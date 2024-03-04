@@ -33,10 +33,8 @@ const OrderReview = (props: OrderReviewProps) => {
 			</div>
 			<div className="scope-content">
 				<div
-					className={`option  cursor-pointer`}
-					onClick={() => {
-						handleSelectedOption('scope');
-					}}>
+					className={`option order-pointer`}
+					onClick={() => handleSelectedOption('scope')}>
 					<img
 						className={`${
 							isOptionSelected('scope') ? 'visible' : 'invisible'
@@ -45,7 +43,7 @@ const OrderReview = (props: OrderReviewProps) => {
 						alt="header-icon"
 					/>
 
-					<div className="flex flex-col">
+					<div className="order-snapshot">
 						<div className="top">
 							<span className="codefend-color">Scope of service:</span>
 							<p>
@@ -53,16 +51,16 @@ const OrderReview = (props: OrderReviewProps) => {
 								items in the company scope,
 							</p>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							the scope cloud be extended with
 						</span>
-						<span className="codefend-color underline">
+						<span className="codefend-color underline-high ">
 							some limitations.
 						</span>
 					</div>
 				</div>
 				<div
-					className={`option cursor-pointer`}
+					className={`option order-pointer`}
 					onClick={() => {
 						handleSelectedOption('frequency');
 					}}>
@@ -74,11 +72,11 @@ const OrderReview = (props: OrderReviewProps) => {
 						alt="header-icon"
 					/>
 
-					<div className="flex flex-col">
+					<div className="order-snapshot">
 						<div className="top">
 							<span className="codefend-color"> Frequency:</span>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							One unique scan: Codefend will perform a 4 weeks IT
 							secuirty assessment on the selected scope, one report, no
 							subscription.
@@ -86,7 +84,7 @@ const OrderReview = (props: OrderReviewProps) => {
 					</div>
 				</div>
 				<div
-					className={`option cursor-pointer`}
+					className={`option order-pointer`}
 					onClick={() => {
 						handleSelectedOption('team');
 					}}>
@@ -98,11 +96,11 @@ const OrderReview = (props: OrderReviewProps) => {
 						alt="header-icon"
 					/>
 
-					<div className="flex flex-col">
+					<div className="order-snapshot">
 						<div className="top">
 							<span className="codefend-color">Team capabilities:</span>
 						</div>
-						<span className="text-[#9b9a9a]">
+						<span className="one-pentest">
 							Small team allocation: Codefend will allocate a team of 2
 							hackers to accomplish this task within 4 weeks.
 							Individually reported issues.
@@ -110,29 +108,24 @@ const OrderReview = (props: OrderReviewProps) => {
 					</div>
 				</div>
 			</div>
-			{/* <div class="mt-20 flex items-center gap-x-2 show-border  px-10">
-        <input type="checkbox" alt="checkbox" class="" />
-        <span class="codefend-color">I confirm I have authorization</span>
-        <span class="text-black">and I’ve read and accept the disclaimer.</span>
-      </div> */}
 
-			<div className="button-wrapper mt-6 flex justify-end gap-x-4">
-				<div className="bg-blue-600 w-[25%]">
+			<div className="button-wrapper next-btns">
+				<div className="secondary-container ">
 					<SecondaryButton
 						text="back"
 						click={(e: any) => {
 							props.setActiveTab('team size');
 						}}
-						className=" codefend_secondary_ac w-full"
+						className=" codefend_secondary_ac full"
 					/>
 				</div>
-				<div className="bg-yellow-500 w-2/6">
+				<div className="primary-container">
 					<PrimaryButton
 						text="Continue to the next step"
 						click={() => {
 							props.setActiveTab('payment method');
 						}}
-						className=" codefend_main_ac w-full"
+						className=" codefend_main_ac full"
 					/>
 				</div>
 			</div>

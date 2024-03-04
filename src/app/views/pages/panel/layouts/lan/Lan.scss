@@ -27,6 +27,18 @@ main.lan {
 		}
 	}
 
+	.card {
+		&.table {
+			.rows {
+				.actions {
+					cursor: pointer;
+					padding: 0.75rem;
+					display: flex;
+				}
+			}
+		}
+	}
+
 	@include mixin.respond(small) {
 		display: block;
 		padding-inline-start: 1px;

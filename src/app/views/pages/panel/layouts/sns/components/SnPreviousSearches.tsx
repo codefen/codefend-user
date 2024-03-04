@@ -25,8 +25,8 @@ const SnPreviousSearches: React.FC<{ isLoading?: boolean }> = (props) => {
 								<Show when={!props.isLoading} fallback={<PageLoader />}>
 									<div className="item-wrapper  text-format">
 										<section className="search-item">
-											<p>nacho</p>
-											<p>codefend.com</p>
+											<p className="name">nacho</p>
+											<p className="result">codefend.com</p>
 										</section>
 									</div>
 								</Show>

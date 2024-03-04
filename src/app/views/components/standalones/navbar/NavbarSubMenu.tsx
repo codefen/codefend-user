@@ -125,8 +125,7 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 					</div> */}
 
 					<div className="option">
-						<ThemeChangerButton />
-						<span className="text-options">Theme</span>
+						<ThemeChangerButton activeText />
 					</div>
 					<div
 						className="option"

@@ -34,12 +34,29 @@ button.btn {
 		border-radius: 0px;
 	}
 
+	&.center {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	&.full {
+		width: 100%;
+	}
+
 	@media only screen and (max-width: 768px) {
 		& {
 			font-size: 15px;
 			height: 35px;
 			padding-block: 0;
 			padding-inline: 13px;
+		}
+	}
+
+	@media only screen and (min-width: 639px) {
+		&.limit-height {
+			min-height: 65px;
 		}
 	}
 }
