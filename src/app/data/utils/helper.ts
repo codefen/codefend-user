@@ -1,3 +1,5 @@
+import DOMPurify from 'isomorphic-dompurify';
+
 /** Gets token in localStorage */
 export const getToken = () => {
 	const storeJson = localStorage.getItem('authStore') ?? '';
@@ -148,4 +150,8 @@ export const calculateRowSizeX = (sizeX: number) => {
 
 export const calculateRowCalcX = (sizeX: number) => {
     return sizeX < 100 ? `calc(100% - ${sizeX}% - 3px)` : '0%';
+};
+
+export const cleanHTML = (html: any) => {
+    return DOMPurify.sanitize(html, {SAFE_FOR_TEMPLATES: true});
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
 	RemoveAppStore,
+	cleanHTML,
 	defaultMobileCloudResourceAsset,
 	useAppCard,
 	useRemoveAppStore,
@@ -143,20 +144,19 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 							<Show
 								when={!isMainGoogleNetwork}
 								fallback={
-									<>
-										<span>
-											This is our main GCP network. Please handle
-											with care.
-										</span>
-									</>
+									<span>
+										This is our main GCP network. Please handle with
+										care.
+									</span>
 								}>
 								<>
 									<p
 										className={`app-details-description ${
 											isMobileType ? 'isMobile' : 'notMobile'
-										} ${isDetails && 'isDetail'}`}>
-										{appDesc ?? ''}
-									</p>
+										} ${isDetails && 'isDetail'}`}
+										dangerouslySetInnerHTML={{
+											__html: cleanHTML(appDesc ?? ''),
+										}}></p>
 									{isMobileType && (
 										<>
 											<span>{appDeveloper ?? ''}</span>
