@@ -126,6 +126,10 @@ const TableRows: React.FC<any> = ({
 				aValue = aValue.props.riskScore;
 				bValue = bValue.props.riskScore;
 			}
+			if (typeof aValue === 'object' && aValue.props?.country) {
+				aValue = aValue.props.country;
+				bValue = bValue.props.country;
+			}
 			const isNumber = typeof aValue === 'number';
 			const isString = typeof aValue === 'string';
 

@@ -1,10 +1,6 @@
 @forward 'colors';
 @forward 'normalize.scss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @font-face {
 	font-family: 'Roboto';
 	font-style: normal;
@@ -65,18 +61,13 @@
 ::before,
 ::after {
 	box-sizing: border-box;
+	border-width: 0;
+	border-style: solid;
 	scrollbar-width: thin;
 	scrollbar-color: var(--secondary-color-50) var(--primary-color-500);
 }
 
 body {
-	overflow: hidden;
-	padding: 0;
-	margin: 0;
-	height: fit-content;
-	min-height: 100dvh;
-	max-width: 100dvw;
-	touch-action: manipulation;
 	transition: background, color;
 	transition-duration: 500ms;
 	transition-timing-function: linear;
@@ -103,10 +94,6 @@ body {
 }
 
 body[data-theme='dark'] {
-	transition: background;
-	transition-duration: 500ms;
-	transition-timing-function: linear;
-
 	background: rgb(29, 39, 50);
 	background: -moz-linear-gradient(
 		150deg,

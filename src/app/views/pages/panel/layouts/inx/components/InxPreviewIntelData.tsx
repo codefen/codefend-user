@@ -13,21 +13,26 @@ interface Props {
 	intel: any;
 	readFile: (intel: any) => void;
 	companyID: string;
+	intelLenght: number;
+	index: number;
 }
 
 export const InxPreviewIntelData: React.FC<Props> = ({
 	intel,
 	readFile,
 	companyID,
+	intelLenght,
+	index,
 }) => {
-	const ref = useRef<HTMLDivElement | null>(null);
-	const entry = useIntersectionObserver(ref, {});
+	const { isIntersecting, ref } = useIntersectionObserver({
+		threshold: 0.5,
+	});
 	const { intelPreview, isLoadingPreview, refetchPreview } = useIntelPreview();
 	const [previewReq, setPreviewReq] = useState<boolean>(false);
 
+	console.log({ index });
 	//Try to run every time the html appears or exits the screen
-	const isVisible = !!entry?.isIntersecting;
-	if (isVisible && !previewReq) {
+	if (isIntersecting && !previewReq) {
 		const params = {
 			sid: intel.storage_id,
 			bid: intel.bucket_id,

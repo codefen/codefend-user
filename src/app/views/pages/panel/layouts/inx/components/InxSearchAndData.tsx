@@ -97,6 +97,8 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 		selectedResult?.intelSelected.replace(/(\r\n|\n|\r)/g, '<br>'),
 	);
 
+	const intelLenght = intelData.length;
+
 	console.log({ selectedResult });
 	return (
 		<div className="left-wrapper">
@@ -145,9 +147,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 						</div>
 					)}
 					<div className="intel-results-container">
-						<Show
-							when={Boolean(intelData.length)}
-							fallback={<EmptyCard />}>
+						<Show when={Boolean(intelLenght)} fallback={<EmptyCard />}>
 							<>
 								{intelData.map((intel: any, i: number) => (
 									<Fragment key={intelKeys[i]}>
@@ -155,6 +155,8 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 											intel={intel}
 											readFile={procReadFile}
 											companyID={companyID}
+											intelLenght={intelLenght}
+											index={i}
 										/>
 									</Fragment>
 								))}

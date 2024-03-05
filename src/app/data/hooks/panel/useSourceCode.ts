@@ -44,7 +44,7 @@ export const useSourceCode = () => {
 				.then((response: any) => {
 					if (!response) {
 					}
-					toast.success('Successfully Deleted Web Resource...');
+					toast.success('Successfully deleted sourcecode resources...');
 					refetch();
 				})
 				.catch(() => {

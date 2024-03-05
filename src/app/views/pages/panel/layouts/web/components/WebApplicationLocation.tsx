@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	CircleIcon,
+	LocationItem,
 	SimpleSection,
 	Sort,
 	TableV2,
@@ -32,22 +33,16 @@ export const WebApplicationLocation: React.FC<{
 		setResources(metrics);
 	}, [metrics]);
 
-	const resourcesKey = useMemo(
-		() => generateIDArray(resources.length),
-		[resources],
-	);
-
 	const dataTable = useMemo(
 		() =>
 			resources.map((resource: any) => ({
 				ID: { value: '', style: '' },
 				location: {
 					value: (
-						<>
-							<span
-								className={`flag flag-${resource.countryCode.toLowerCase()}`}></span>
-							<pre>{' ' + resource.country}</pre>
-						</>
+						<LocationItem
+							country={resource.country}
+							countryCode={resource.countryCode}
+						/>
 					),
 					style: 'location',
 				},
