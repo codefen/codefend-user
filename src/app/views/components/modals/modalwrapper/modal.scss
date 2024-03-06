@@ -46,6 +46,10 @@
 
 	&.med-w {
 		min-width: 560px;
+
+		@include mixin.respond(small) {
+			min-width: 350px;
+		}
 	}
 	&.max-w {
 		min-width: 860px;
