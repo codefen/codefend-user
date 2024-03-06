@@ -1,9 +1,5 @@
 @use '../../../../styles/settings/mixin' as mixin;
-main.issues-list {
-	.left .card {
-		height: calc(100vh - 74px);
-	}
-}
+
 main.issue-detail {
 	width: 100%;
 	padding-inline-end: 0px;
@@ -48,6 +44,16 @@ main.issue-detail {
 
 			input {
 				height: 100%;
+
+				&.grow {
+					flex: 1 1;
+				}
+
+				&.add-issues {
+					flex: 1;
+					width: 90%;
+					height: 100%;
+				}
 			}
 
 			.name {
@@ -56,6 +62,13 @@ main.issue-detail {
 				font-size: 14px;
 				border-right: none;
 				border-top: 1px solid var(--primary-color-300);
+
+				flex: 1 1;
+			}
+
+			.work-buttons {
+				display: flex;
+				padding: 0px !important;
 			}
 
 			.edit {
@@ -126,13 +139,13 @@ main.issue-detail {
 		.info {
 			display: flex;
 			align-items: stretch;
-			column-gap: 12px;
+			// column-gap: 10px;
 			font-family: Roboto;
 			text-transform: uppercase;
-			font-size: 12px;
+			font-size: 11px;
 			height: 40px;
 			border-bottom: 1px solid var(--primary-color-300);
-			padding: 0 32px;
+			padding: 0 15px;
 
 			select {
 				color: var(--tertiary-color-300);
@@ -152,11 +165,16 @@ main.issue-detail {
 				align-items: center;
 				font-weight: bolder;
 				color: var(--secondary-color-50);
-				padding-right: 20px;
+				padding-right: 30px;
+				// max-width: 40%;
+				// white-space: nowrap;
 
 				span {
 					color: var(--tertiary-color-200);
 					margin-left: 5px;
+					// text-overflow: ellipsis;
+					// overflow: hidden;
+					// white-space: nowrap;
 				}
 			}
 		}
@@ -177,17 +195,79 @@ main.issue-detail {
 		display: flex;
 		flex-direction: column;
 		padding-inline-start: 10px;
+		min-height: auto;
+    height: 81dvh;
+	}
+	@include mixin.respond(wide) {
+		.left {
+			flex: 0 1 900px;
+		}
+		.right {
+			flex: 0 1 30%;
+		}
+	}
+	.left {
+		flex: 0 1 900px;
+
+		textarea {
+			background-color: transparent;
+			outline: none;
+			border: 0px;
+			cursor: default;
+		}
+	}
+	.right {
+		flex: 0 1 30%;
 	}
 }
+
+
 main.issues-list {
 	padding-inline-end: 0;
 
 	.left {
 		width: 70%;
+		padding-inline: 0;
+		overflow: hidden;
+
+		.table {
+			.column {
+				&.id {
+					justify-content: center;
+				}
+				&.vul-title {
+					max-width: 15.313rem;
+					min-width: 15.313rem;
+				}
+			}
+
+			.item {
+				.vul-title {
+					padding-inline-end: 1.875rem;
+					max-width: 15.313rem;
+					min-width: 15.313rem;
+				}
+			}
+		}
 	}
 
 	.right {
 		width: 30%;
+	}
+
+	@include mixin.respond(small) {
+		height: 81dvh;
+		min-height: auto;
+		.left {
+			width: 100%;
+
+			.card {
+				overflow-x: auto;
+			}
+		}
+		.right {
+			width: 100%;
+		}
 	}
 }
 
@@ -205,7 +285,7 @@ main.issues-list {
 		width: 23rem;
 		bottom: 30dvh;
 		left: 5dvw;
-		filter: blur(120px) brightness(0.5) opacity(0.4);
+		filter: blur(7.5rem) brightness(0.5) opacity(0.4);
 	}
 
 	main.issues-list {
@@ -229,11 +309,6 @@ main.issues-list {
 					}
 				}
 			}
-		}
-
-		@include mixin.respond(small) {
-			min-height: auto;
-			height: 84dvh;
 		}
 	}
 	main.issue-detail {

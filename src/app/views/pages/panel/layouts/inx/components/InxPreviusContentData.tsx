@@ -1,3 +1,4 @@
+import { cleanHTML } from '../../../../../../data';
 import { PageLoader, Show } from '../../../../../components';
 
 interface Props {
@@ -40,7 +41,7 @@ export const InxPreviusContentData: React.FC<Props> = ({
 			<div
 				className="intel-preview-container"
 				dangerouslySetInnerHTML={{
-					__html: previewHTML || 'There are no previews yet',
+					__html: cleanHTML(previewHTML) || 'There are no previews yet',
 				}}
 			/>
 		</Show>

@@ -64,7 +64,7 @@ export const useDeleteWebResource = () => {
 					throw new Error('An error has occurred on the server');
 				}
 
-				toast.success('Successfully Deleted Web Resource...');
+				toast.success('Successfully deleted Web resource...');
 				if (onDone && onDone !== undefined) onDone();
 			})
 			.catch((error: any) => {

@@ -13,7 +13,6 @@
 	background-color: rgba(4, 10, 21, 0.1);
 }
 
-
 .modal-wrapper .modal {
 	opacity: 0;
 	animation: modalAnimation 0.2s ease-in 0.05s forwards;
@@ -44,14 +43,17 @@
 		rgba(255, 255, 255, 0) 85%
 	);
 	border-image-slice: 1;
-	
+
 	&.med-w {
 		min-width: 560px;
+
+		@include mixin.respond(small) {
+			min-width: 350px;
+		}
 	}
 	&.max-w {
 		min-width: 860px;
 	}
-
 
 	.header {
 		display: flex;
@@ -67,6 +69,10 @@
 		line-height: 13px;
 		text-transform: uppercase;
 		font-weight: bold;
+
+		@include mixin.respond(small) {
+			justify-content: center;
+		}
 	}
 
 	.content {
@@ -99,8 +105,6 @@
 		// 	}
 		// }
 
-
-
 		@media only screen and (min-width: 640px) {
 			& {
 				max-width: 640px;
@@ -114,7 +118,17 @@
 		}
 	}
 
-	
+	.form-input {
+		.static-value {
+			display: block;
+			width: 100%;
+			padding-block: 0.75rem;
+			padding-inline: 2.75rem;
+			cursor: pointer;
+			font-size: 0.75rem /* 12px */;
+			line-height: 1rem /* 16px */;
+		}
+	}
 }
 
 //   &-title {
@@ -342,6 +356,22 @@
 	}
 }
 
+.network-modal-container {
+	width: 100%;
+	margin-block-start: 1rem;
+
+	.network-modal-content {
+		width: 100%;
+		padding-inline: 2rem;
+
+		@media only screen and (min-width: 640px) {
+			& {
+				padding-inline: 1px;
+			}
+		}
+	}
+}
+
 [data-theme='dark'] {
 	.content {
 		color: var(--tertiary-color-500);
@@ -378,13 +408,6 @@
 		}
 	}
 }
-
-
-
-
-
-
-
 
 // Definir la animación para backdrop-filter
 @keyframes overlayAnimation {

@@ -63,7 +63,7 @@ const SocialEngineering: React.FC<SocialProps> = (props) => {
 				/>
 			</ModalTitleWrapper>
 
-			<div className="card table flex-grow">
+			<div className="card table">
 				<div className="header">
 					<div className="title">
 						<div className="icon">

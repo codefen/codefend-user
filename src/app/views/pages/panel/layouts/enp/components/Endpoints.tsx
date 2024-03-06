@@ -64,7 +64,7 @@ export const Endpoints: React.FC<Endpoints> = (props) => {
 												<div className="os">{endpoint.Version}</div>
 												<div className="ip">{endpoint.Type}</div>
 												<div
-													className="id cursor-pointer p-3 flex"
+													className="id action"
 													onClick={() => {
 														setSelectedLanIdToDelete(
 															endpoint?.id,

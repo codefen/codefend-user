@@ -40,7 +40,6 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 			<Show when={showModal && showModalStr === 'logout'}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<div
-						className=""
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
@@ -66,8 +65,8 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 							e.preventDefault();
 							e.stopPropagation();
 						}}>
-						<div className="w-full mt-4">
-							<div className="w-full px-8 disable-border">
+						<div className="network-modal-container">
+							<div className="network-modal-content disable-border">
 								<NetworkSetingModal
 									close={() => setNetworkSettingState(!isOpen)}
 								/>
@@ -125,11 +124,8 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<ChevronIcon width={0.65} height={0.65} />
 					</div> */}
 
-					<div
-						className="option"
-						>
-						<ThemeChangerButton />
-						<span className="text-options">Theme</span>
+					<div className="option">
+						<ThemeChangerButton activeText />
 					</div>
 					<div
 						className="option"

@@ -64,15 +64,15 @@ export const ChatBox: React.FC<Props> = (props) => {
 					isDisabled={!message.trim() || isAdding}
 					viewLoader={isAdding}
 					click={handleSubmit}
-					className="w-14 h-full relative"
+					className="send-extra-styles"
 				/>
 			</div>
 
-			<div className="flex h-36 py-8 gap-x-9 px-6">
-				<div className="flex text-format  h-10 w-10  no-border-bottom">
+			<div className="chatbox-container ">
+				<div className="text-format chatbox-img  no-border-bottom">
 					<img src="/codefend/user-icon-gray.svg" alt="user-picture" />
 				</div>
-				<div className="no-border-bottom flex-grow">
+				<div className="no-border-bottom chatbox-content">
 					<textarea
 						onKeyDown={handleEnter}
 						ref={textAreaRef}
@@ -80,7 +80,6 @@ export const ChatBox: React.FC<Props> = (props) => {
 						onChange={(e) => setMessage(e.target.value)}
 						placeholder="add a new comment here..."
 						name="textArea"
-						className="w-full h-full outline-none bg-transparent resize-none"
 						required></textarea>
 				</div>
 			</div>

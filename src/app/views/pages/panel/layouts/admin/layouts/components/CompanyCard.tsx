@@ -11,7 +11,7 @@ interface CompanyCard {
 const CompanyCard: React.FC<CompanyCard> = ({ company, isSelected }) => {
 	return (
 		<>
-			<div className="pointer-events-none company-card">
+			<div className="company-card">
 				<div>
 					<div className="img-wrapper codefend-text-red">
 						<Show
@@ -22,15 +22,14 @@ const CompanyCard: React.FC<CompanyCard> = ({ company, isSelected }) => {
 					</div>
 				</div>
 				<div className="company-detail">
-
-					<span className="font-bold text-[18px]">
+					<span className="company-name">
 						{company.name ?? 'Company Name'}
 					</span>
-					<div className="mt-2 flex flex-col">
+					<div className="company-id">
 						<span>ID: {company.id ?? 'Company ID'}</span>
-					<span className="company-web">
-						{company.mercado ?? 'Company Category'}
-					</span>
+						<span className="company-web">
+							{company.mercado ?? 'Company Category'}
+						</span>
 						<span className="company-web">
 							{company.web ?? 'Company Website'}
 						</span>
@@ -38,10 +37,7 @@ const CompanyCard: React.FC<CompanyCard> = ({ company, isSelected }) => {
 
 					<a
 						href="/dashboard"
-						className={`pointer-events-auto link underline z-100 ${
-							isSelected ? 'visible' : 'invisible'
-						}`}>
-					</a>
+						className={`link ${isSelected ? 'visible' : ''}`}></a>
 				</div>
 			</div>
 		</>

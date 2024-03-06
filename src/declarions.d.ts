@@ -1,4 +1,4 @@
-declare module './editor-lib/' {
+declare module '/editor-lib' {
 	const tinyMCE: any;
 	export default tinyMCE;
 }

@@ -11,11 +11,11 @@ export const useSourceCode = () => {
 	const fetcher = useCallback((companyID: string) => {
 		setLoading(true);
 		SourceCodeService.getAll(companyID)
-			.then((response: any) => {
-				if (response.error !== '0') {
+			.then((res: any) => {
+				if (res.error !== '0') {
 				}
 				setSource(
-					response.disponibles.map((repo: any) => mapSourceCode(repo)),
+					res.disponibles ? res.disponibles.map((repo: any) => mapSourceCode(repo)) : []
 				);
 			})
 			.finally(() => {
@@ -44,7 +44,7 @@ export const useSourceCode = () => {
 				.then((response: any) => {
 					if (!response) {
 					}
-					toast.success('Successfully Deleted Web Resource...');
+					toast.success('Successfully deleted sourcecode resources...');
 					refetch();
 				})
 				.catch(() => {

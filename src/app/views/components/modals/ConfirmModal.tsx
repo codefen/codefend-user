@@ -45,7 +45,7 @@ const ConfirmModal = (props: ConfirmModalProps) => {
 						text={props.confirmText}
 						click={(e) => handleSubmit(e)}
 						isDisabled={isConfirm}
-						className="btn-add codefend_main_ac"
+						className="btn-add codefend_main_ac limit-height"
 					/>
 				</div>
 			</form>

@@ -39,16 +39,22 @@ main.social {
 				padding-block: 0.75rem;
 			}
 		}
-		@include mixin.respond(small) {
-			padding-inline-start: 0;
-		}
 	}
+
 	@include mixin.respond(small) {
 		display: block;
 		overflow: auto;
 		padding-inline-start: 10px;
 		height: 81dvh;
 		min-height: auto;
+
+		.left {
+			width: 100%;
+		}
+
+		.right {
+			width: 100%;
+		}
 	}
 }
 

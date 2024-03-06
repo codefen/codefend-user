@@ -7,6 +7,11 @@ main.dashboard {
 				padding: 0px;
 			}
 		}
+
+		.collaborators {
+			flex: 1 1;
+			overflow: auto;
+		}
 	}
 
 	.right {

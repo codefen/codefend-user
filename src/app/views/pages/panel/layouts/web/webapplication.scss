@@ -53,16 +53,25 @@ main.webapp {
 			.content {
 				padding-block: 0px;
 			}
+
+			&.location-card {
+				display: flex !important;
+				flex-direction: column;
+			}
 		}
 	}
 	@include mixin.respond(small) {
 		min-height: auto;
-		height: 84dvh;
+		height: 81dvh;
 		.left {
+			width: 100%;
 			.card {
 				overflow-y: auto;
 				overflow-x: auto;
 			}
+		}
+		.right {
+			width: 100%;
 		}
 	}
 }

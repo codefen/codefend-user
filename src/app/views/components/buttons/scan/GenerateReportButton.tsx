@@ -1,5 +1,4 @@
 import React from 'react';
-import { Show } from '../..';
 import '../buttons.scss';
 
 interface ReportButtonProps {

@@ -1,47 +1,30 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { generateIDArray } from '../../../data';
 
-interface Props {
+interface RiskScoreProps {
 	riskScore: string;
 }
 
-export const RiskScore: React.FC<Props> = ({ riskScore }) => {
-	const isValidRiskScore = useCallback((riskScore: string) => {
-		return riskScore && !isNaN(parseInt(riskScore));
-	}, []);
-
-	const generateVulnerabilityArray = useCallback(
-		(riskScore: string) =>
-			isValidRiskScore(riskScore)
-				? generateIDArray(parseInt(riskScore))
-				: [],
-		[isValidRiskScore],
-	);
-
-	const generateLimitedArray = useCallback(
-		(riskScore: string) =>
-			isValidRiskScore(riskScore)
-				? [...generateIDArray(Math.max(0, 5 - parseInt(riskScore)))]
-				: [...generateIDArray(5)],
-		[isValidRiskScore],
-	);
+export const RiskScore: React.FC<RiskScoreProps> = ({ riskScore }) => {
+	const parsedRiskScore = parseInt(riskScore);
+	const vulnerabilityCount = Math.max(0, parsedRiskScore);
+	const limitedCount = Math.max(0, 5 - parsedRiskScore);
 
 	return (
 		<>
-			<span className="mt-2" title={riskScore}>
+			<span className="score-value" title={riskScore}>
 				{riskScore ? riskScore : 0}
 			</span>
-
-			<span className="mr-1"></span>
-			{generateVulnerabilityArray(riskScore).map((scoreKey: string) => (
+			<span className="dash-between-val-ball"></span>
+			{Array.from({ length: vulnerabilityCount }, (_, index) => (
 				<span
-					key={scoreKey}
-					className="w-2 h-2 ml-0.5 mt-2 red-border rounded-full codefend-bg-red"></span>
+					key={`vulnerability_${index}`}
+					className="score-ball red-border codefend-bg-red"></span>
 			))}
-			{generateLimitedArray(riskScore).map((scoreKey: string) => (
+			{Array.from({ length: limitedCount }, (_, index) => (
 				<span
-					key={scoreKey}
-					className="w-2 h-2 ml-0.5 mt-2 codefend-border-red rounded-full"></span>
+					key={`limited_${index}`}
+					className="score-ball codefend-border-red"></span>
 			))}
 		</>
 	);

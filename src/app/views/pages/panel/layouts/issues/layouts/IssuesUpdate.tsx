@@ -23,7 +23,7 @@ const IssueUpdate: React.FC<{}> = () => {
 
 	return (
 		<>
-			<main className={`issue-detail w-full ${showScreen ? 'actived' : ''}`}>
+			<main className={`issue-detail ${showScreen ? 'actived' : ''}`}>
 				<Show when={showScreen} fallback={<PageLoader />}>
 					<>
 						<section className="left">

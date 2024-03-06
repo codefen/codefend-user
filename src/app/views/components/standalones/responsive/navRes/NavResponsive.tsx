@@ -35,7 +35,7 @@ const NavResponsive: React.FC = () => {
 	};
 
 	return (
-		<footer className="flex flex-col">
+		<footer className="nav-response-container">
 			<Show when={showModal && showModalStr === 'logout'}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<div
@@ -62,8 +62,8 @@ const NavResponsive: React.FC = () => {
 							e.preventDefault();
 							e.stopPropagation();
 						}}>
-						<div className="w-full mt-4">
-							<div className="w-full px-8 disable-border xs:px-[1px] sm:px-[1px]">
+						<div className="network-modal-container">
+							<div className="network-modal-content disable-border">
 								<NetworkSetingModal
 									close={() => setNetworkSettingState(!isOpen)}
 								/>
@@ -75,9 +75,9 @@ const NavResponsive: React.FC = () => {
 
 			<div className="sidebav">
 				<div className="sideContent">
-					<div className="flex items-center gap-x-6">
+					<div className="sidenav-btns">
 						<div
-							className="text-cyan-50"
+							className="sidenav-cyan-color"
 							title="Network Setting"
 							onClick={() => {
 								setNetworkSettingState(true);
@@ -86,9 +86,9 @@ const NavResponsive: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="flex items-center gap-x-6">
+					<div className="sidenav-btns">
 						<div
-							className="text-cyan-50"
+							className="sidenav-cyan-color"
 							title="Network Setting"
 							onClick={() => {
 								setNetworkSettingState(true);
@@ -97,16 +97,15 @@ const NavResponsive: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="max-w-[40px]">
-						<span
-							className={`rotate ${open ? 'open' : ''}`}>
+					<div className="sidenav-logo">
+						<span className={`rotate ${open ? 'open' : ''}`}>
 							<Logo theme="aim" onClick={() => handleChange()} />
 						</span>
 					</div>
 
-					<div className="flex items-center gap-x-6">
+					<div className="sidenav-btns">
 						<div
-							className="text-cyan-50"
+							className="sidenav-cyan-color"
 							title="Network Setting"
 							onClick={() => {
 								setNetworkSettingState(true);
@@ -115,7 +114,7 @@ const NavResponsive: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="text-cyan-50">
+					<div className="sidenav-cyan-color">
 						<span
 							className="navbar-logout-icon"
 							onClick={(e: React.FormEvent) => {

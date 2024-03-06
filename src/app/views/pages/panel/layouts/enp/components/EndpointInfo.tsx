@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FaBug } from 'react-icons/fa';
-import { BugIcon, Show } from '../../../../../components';
+import { BugIcon, CircleAskIcon, Show } from '../../../../../components';
 import { useEndpointAppStore } from '../EndpointContext';
-import { BsInfoCircleFill } from 'react-icons/bs';
 
 import { useAuthState, EnpService } from '../../../../../../data';
 
@@ -225,7 +223,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 	};
 
 	return (
-		<div className="table flex-grow">
+		<div className="table">
 			<div className="selected-app-container">
 				<div className="selected-info-app ">
 					<div className="left-info">
@@ -266,7 +264,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 						<div className="right-info">
 							<div className="right-top-info">
 								<div className="vul-reported">
-									<div className="flex ml-2">
+									<div className="vul-reported-wrapper">
 										<p className="vul-title">
 											Reported vulnerabilities:
 										</p>
@@ -281,7 +279,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 											<div className="vul-len">
 												<p className="vul-len-text">0</p>
 												<p className="vul-len-text">
-													<BsInfoCircleFill />
+													<CircleAskIcon />
 												</p>
 												<span className="not-found-text">
 													We've found 0 indexed vulnerabilities in
@@ -292,7 +290,7 @@ export const EndpointInfo: React.FC<Props> = () => {
 											<div className="waiting-container">
 												<p className="ask-icon">?</p>
 												<p className="ask-icon">
-													<BsInfoCircleFill />
+													<CircleAskIcon />
 												</p>
 												<span className="not-found-text">
 													The vulnerabilities are pending to be
@@ -475,21 +473,17 @@ export const EndpointInfo: React.FC<Props> = () => {
 
 										<Show
 											when={!isNaN(parseInt(vulnerability.score))}>
-											<div className="pl-2 table-item">
+											<div className="table-score-map table-item">
 												{mapScoreToWord(vulnerability.score)}
 											</div>
 										</Show>
 										<Show when={isNaN(parseInt(vulnerability.score))}>
-											<div className="group flex relative">
-												<p className="pl-2 w-1/12 text-gray-400">
-													?
+											<div className="table-score-group">
+												<p className="question-mark">?</p>
+												<p className="question-circle">
+													<CircleAskIcon />
 												</p>
-												<p className="text-sm text-gray-400 leading-none mt-1 ml-3 truncate">
-													<BsInfoCircleFill />
-												</p>
-												<span
-													className="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-xs text-gray-100 rounded-md absolute left-1/2 
-									-translate-x-1/2 translate-y-full opacity-0 m-2 max-w-48 mx-auto truncate">
+												<span className="question-text">
 													The vulnerability doesn't have a category
 													yet
 												</span>

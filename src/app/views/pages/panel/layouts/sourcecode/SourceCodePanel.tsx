@@ -44,7 +44,7 @@ const SourceCodePanel: React.FC = () => {
 
 					<PrimaryButton
 						text="REQUEST SCAN"
-						className="w-full mt-4"
+						className="primary-full"
 						click={() => alert('Processing your order')}
 					/>
 					<br />

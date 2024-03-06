@@ -114,7 +114,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					<LeftArrow isButton />
 				</div>
 				<input
-					className="w-[90%] h-full flex-1"
+					className="add-issues"
 					placeholder="Add Issue title here..."
 					name="issueName"
 					value={newIssue.issueName}
@@ -122,7 +122,7 @@ const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
 					autoFocus
 				/>
 
-				<div className="flex !p-0">
+				<div className="work-buttons">
 					<div
 						className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
 						onClick={() => handleIssueUpdate()}>

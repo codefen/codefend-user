@@ -155,11 +155,11 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 					<Show
 						when={!isEditable}
 						fallback={
-							<div className="name flex-1">{updatedIssue.issueName}</div>
+							<div className="name">{updatedIssue.issueName}</div>
 						}>
 						<input
 							type="text"
-							className="flex-1"
+							className="grow"
 							value={updatedIssue.issueName}
 							onChange={(e) =>
 								dispatch((state: UpdateIssue) => ({
@@ -169,7 +169,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 							}
 						/>
 					</Show>
-					<div className="flex !p-0">
+					<div className="work-buttons">
 						<div
 							className={`edit edit_btn  ${!isEditable ? 'on' : 'off'}`}
 							onClick={() => setEditable(!isEditable)}>
@@ -193,7 +193,7 @@ const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
 						Risk score: <span>{safelyIssue().riskLevel}</span>
 					</div>
 					<div>
-						Resource: <span>{safelyIssue().name}</span>
+						Resource: <span>{safelyIssue().riskLevel}</span>
 					</div>
 					<div>
 						Status: <span>{safelyIssue().condition}</span>

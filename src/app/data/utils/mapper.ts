@@ -133,7 +133,7 @@ export const mapGetCompanyToCompanyData = (source: any): DashboardProps => {
 		},
 		issuesShare: mapIssueShare(source),
 		issuesCondition: mapIssuesCondition(source),
-		members: source.members.map((member: any) => ({
+		members: source.members ? source.members.map((member: any) => ({
 			id: member.id,
 			companyID: member.company_id,
 			name: member.fname,
@@ -148,7 +148,7 @@ export const mapGetCompanyToCompanyData = (source: any): DashboardProps => {
 			countryCity: member.pais_ciudad,
 			isDisabled: member.eliminado === '1',
 			createdAt: member.creacion,
-		})),
+		})) : [],
 	} as DashboardProps;
 };
 

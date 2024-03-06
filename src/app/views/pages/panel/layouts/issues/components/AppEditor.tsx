@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import addTinyMce, { setMode } from '../../../../../../../editor-lib/';
+import addTinyMce, { setMode } from '../../../../../../../editor-lib';
 
 interface AppEditorProps {
 	onUpdateIssue?: any;
@@ -32,7 +32,6 @@ const AppEditor: React.FC<AppEditorProps> = ({ initialValue, isEditable }) => {
 	return (
 		<>
 			<textarea
-				className="bg-transparent outline-none border-none cursor-default"
 				name="name"
 				id="issue"
 				rows={4}

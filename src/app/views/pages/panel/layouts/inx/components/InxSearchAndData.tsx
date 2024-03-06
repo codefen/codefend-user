@@ -6,6 +6,7 @@ import {
 	useIntelSearch,
 	useInitialSearch,
 	useInxReadFile,
+	cleanHTML,
 } from '../../../../../../data';
 import {
 	CloseIcon,
@@ -88,6 +89,16 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 
 	const closePreviewModal = () => setViewPreviewModal(false);
 
+	const mainResultCleanHTML = cleanHTML(
+		highlightWithUrl(selectedResult?.intelSelected, getData().search),
+	);
+
+	const fullListCleanHTML = cleanHTML(
+		selectedResult?.intelSelected.replace(/(\r\n|\n|\r)/g, '<br>'),
+	);
+
+	const intelLenght = intelData.length;
+
 	console.log({ selectedResult });
 	return (
 		<div className="left-wrapper">
@@ -109,22 +120,16 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 							<div
 								className="preview-content"
 								dangerouslySetInnerHTML={{
-									__html: highlightWithUrl(
-										selectedResult?.intelSelected,
-										getData().search,
-									),
+									__html: mainResultCleanHTML,
 								}}></div>
 
-							<hr className="preview-dash 0"></hr>
+							<hr className="preview-dash "></hr>
 
 							<h3 className="preview-content-title">Full list</h3>
 							<div
 								className="preview-content"
 								dangerouslySetInnerHTML={{
-									__html: selectedResult?.intelSelected.replace(
-										/(\r\n|\n|\r)/g,
-										'<br>',
-									),
+									__html: fullListCleanHTML,
 								}}></div>
 						</div>
 					</div>
@@ -142,9 +147,7 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 						</div>
 					)}
 					<div className="intel-results-container">
-						<Show
-							when={Boolean(intelData.length)}
-							fallback={<EmptyCard />}>
+						<Show when={Boolean(intelLenght)} fallback={<EmptyCard />}>
 							<>
 								{intelData.map((intel: any, i: number) => (
 									<Fragment key={intelKeys[i]}>
@@ -152,6 +155,8 @@ export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 											intel={intel}
 											readFile={procReadFile}
 											companyID={companyID}
+											intelLenght={intelLenght}
+											index={i}
 										/>
 									</Fragment>
 								))}

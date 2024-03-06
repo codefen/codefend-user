@@ -41,7 +41,7 @@ export const IssueChatDisplay: React.FC<Props> = ({
 		<div
 			className={`card messages ${
 				location.pathname.startsWith('/issues/create') &&
-				'opacity-70 z-10 pointer-events-none animate-pulse"'
+				'active animate-pulse"'
 			}`}>
 			<SimpleSection header="Customer support" icon={<MessageIcon />}>
 				<>

@@ -53,7 +53,7 @@ export const CloudApplication = ({
 				<div className="brightness variant-2"></div>
 				<div className="brightness variant-3"></div>
 				<section className="left">
-					<div className="card flex-grow">
+					<div className="card cloud-apps">
 						<div className="header">
 							<div className="title">
 								<span>Cloud Applications</span>

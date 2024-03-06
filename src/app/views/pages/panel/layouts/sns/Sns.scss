@@ -41,13 +41,16 @@ main.sb {
 		}
 	}
 
+	.right {
+	}
+
 	@include mixin.respond(small) {
 		display: flex;
-    flex-direction: column;
-    overflow: auto;
-    padding-inline-start: 10px;
-    height: 81dvh;
-    min-height: auto;
+		flex-direction: column;
+		overflow: auto;
+		padding-inline-start: 10px;
+		height: 81dvh;
+		min-height: auto;
 
 		.left {
 			width: 100%;

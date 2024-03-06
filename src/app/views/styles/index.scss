@@ -90,6 +90,11 @@
 .flex {
 	display: flex;
 }
+.rating-content {
+	display: flex;
+	position: relative;
+}
+
 [data-theme='light'] {
 	.brightness {
 		opacity: 0;
@@ -167,9 +172,11 @@
 	}
 }
 main {
+	// justify-content: center;
 	.left {
 		flex: 1 1 70%;
 		padding: 0 14px;
+		margin: 0 auto;
 		// width: 70%;
 	}
 	.right {

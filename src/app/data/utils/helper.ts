@@ -1,3 +1,5 @@
+import DOMPurify from 'isomorphic-dompurify';
+
 /** Gets token in localStorage */
 export const getToken = () => {
 	const storeJson = localStorage.getItem('authStore') ?? '';
@@ -137,3 +139,19 @@ export const formatDateTimeFormat = (originalDate: string): string =>{
 }
 
 export const extractDateItem = (item: any) => String(item).padStart(2, '0');
+
+export const calculateRowSize = (sizeY: number | string) => {
+    return typeof sizeY === 'number' ? sizeY + 'dvh' : sizeY;
+};
+
+export const calculateRowSizeX = (sizeX: number) => {
+    return `${sizeX}%`;
+};
+
+export const calculateRowCalcX = (sizeX: number) => {
+    return sizeX < 100 ? `calc(100% - ${sizeX}% - 3px)` : '0%';
+};
+
+export const cleanHTML = (html: any) => {
+    return DOMPurify.sanitize(html, {SAFE_FOR_TEMPLATES: true});
+};
