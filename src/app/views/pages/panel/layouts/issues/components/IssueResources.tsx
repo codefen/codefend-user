@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import {
 	Issues,
+	RUNNING_DESKTOP,
 	generateIDArray,
 	issueColumns,
 	useDeleteIssue,
@@ -60,6 +61,10 @@ export const IssueResources: React.FC<Props> = (props) => {
 		style: 'trash',
 	};
 
+	const wheelActionEvent = !RUNNING_DESKTOP()
+		? (id: string) => navigateNewWindow(`/issues/update/${id}`)
+		: () => {};
+
 	return (
 		<>
 			<ModalTitleWrapper
@@ -112,9 +117,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 					tableAction={actionTable}
 					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 					sort={Sort.asc}
-					whelAction={(id: string) => {
-						navigateNewWindow(`/issues/update/${id}`);
-					}}
+					whelAction={wheelActionEvent}
 				/>
 			</div>
 		</>
