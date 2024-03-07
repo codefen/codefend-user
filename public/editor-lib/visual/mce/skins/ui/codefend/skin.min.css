@@ -3097,7 +3097,7 @@ body.tox-dialog__disable-scroll {
 }
 .tox .tox-menubar + .tox-toolbar,
 .tox .tox-menubar + .tox-toolbar-overlord .tox-toolbar__primary {
-	border-top: 1px solid var(--tertiary-color-700);
+	border-top: 1px solid var(--tertiary-color-50);
 	margin-top: -1px;
 }
 .tox .tox-toolbar--scrolling {
@@ -3121,7 +3121,7 @@ body.tox-dialog__disable-scroll {
 }
 .tox.tox-tinymce-aux .tox-toolbar__overflow {
 	background-color: var(--primary-color);
-	border: 1px solid var(--tertiary-color-400);
+	border: 1px solid var(--tertiary-color-50);
 	border-radius: 3px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
@@ -3140,7 +3140,7 @@ body.tox-dialog__disable-scroll {
 	flex-wrap: nowrap;
 }
 .tox:not([dir='rtl']) .tox-toolbar__group:not(:last-of-type) {
-	border-right: 1px solid var(--tertiary-color-700);
+	border-right: 1px solid var(--tertiary-color-50);
 }
 .tox[dir='rtl'] .tox-toolbar__group:not(:last-of-type) {
 	border-left: 1px solid #aaaaaa;

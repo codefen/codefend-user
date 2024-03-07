@@ -20,7 +20,7 @@ const addTinyMce = (initialValue) => {
 		plugins:
 			'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount charmap quickbars emoticons accordion',
 		toolbar:
-			'undo redo styles | strikethrough bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+			'undo redo | styles | strikethrough bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
 		advlist_bullet_styles: 'square',
 		table_use_colgroups: true,
 		branding: false,
