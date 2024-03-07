@@ -1,4 +1,5 @@
 import DOMPurify from 'isomorphic-dompurify';
+import { toast } from 'react-toastify';
 
 /** Gets token in localStorage */
 export const getToken = () => {
@@ -155,3 +156,12 @@ export const calculateRowCalcX = (sizeX: number) => {
 export const cleanHTML = (html: any) => {
     return DOMPurify.sanitize(html, {SAFE_FOR_TEMPLATES: true});
 };
+
+export const verifySession = (res: any, logout: any)=> {
+	if(res.response === "error"){
+		if(String(res.message).startsWith("invalid or expired")) {
+			toast.error('Your session has expired');
+			logout();
+		}
+	}
+}

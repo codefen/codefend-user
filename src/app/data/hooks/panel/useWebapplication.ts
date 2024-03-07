@@ -5,24 +5,31 @@ import {
 	WebapplicationProps,
 	mapToWebresourceProps,
 	useAuthState,
+	verifySession,
 } from '../..';
 import { toast } from 'react-toastify';
 
 /* Custom Hook "useWebapplication" to manage the GET of web apps*/
 export const useWebapplication = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany, logout } = useAuthState();
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const [webResources, setWebResources] = useState<WebapplicationProps>(
 		{} as WebapplicationProps,
 	);
 
-	//GET Webresourcer from API
+	//GET Web resourcer from API
 	const fetchWeb = useCallback((companyID: string) => {
 		setLoading(true);
 
 		WebApplicationService.get(companyID)
-			.then((response: any) =>
-				setWebResources(mapToWebresourceProps(response)),
+			.then((res: any) =>
+				{
+					verifySession(res, logout);
+
+
+					setWebResources(mapToWebresourceProps(res))
+
+				}
 			)
 			.finally(() => {
 				setLoading(false);

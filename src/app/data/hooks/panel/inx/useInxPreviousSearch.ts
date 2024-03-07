@@ -6,6 +6,7 @@ import {
 	PreviusSearch,
 	mapPreviusSearch,
 	useAuthState,
+	verifySession,
 } from '../../../';
 
 export interface PreviousSearch {
@@ -29,8 +30,7 @@ export interface PreviousSearch {
 }
 
 export const useInxPreviousSearch = () => {
-	const { getCompany } = useAuthState();
-	const companyId = getCompany();
+	const { getCompany, logout } = useAuthState();
 
 	const [{ data, isLoading }, dispatch] = useState<
 		FetchPattern<PreviousSearch[]>
@@ -44,14 +44,17 @@ export const useInxPreviousSearch = () => {
 		dispatch((state) => ({ ...state, isLoading: true }));
 
 		return InxServices.getPreviousSearches(companyID)
-			.then((response: any) => {
-				if (response.response !== 'success')
+			.then((res: any) => {
+				res = JSON.parse(String(res).trim());
+				verifySession(res, logout);
+
+				if (res.response !== 'success')
 					throw new Error(
-						response.message ?? 'An unexpected error has occurred',
+						res.message ?? 'An unexpected error has occurred',
 					);
 
 				dispatch({
-					data: response.previous_searches.map(
+					data: res.previous_searches.map(
 						(searches: any) =>
 							mapPreviusSearch(searches) as PreviusSearch,
 					),
@@ -63,11 +66,11 @@ export const useInxPreviousSearch = () => {
 	};
 
 	const refetch = () => {
-		if (!companyId) {
+		if (!getCompany()) {
 			toast.error('User information was not found');
 			return;
 		}
-		fetchInitialSearch(companyId);
+		fetchInitialSearch(getCompany());
 	};
 
 	const getData = (): PreviousSearch[] => {

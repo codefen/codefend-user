@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import {
 	Issues,
+	RUNNING_DESKTOP,
 	generateIDArray,
 	issueColumns,
 	useDeleteIssue,
@@ -30,7 +31,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 	const { showModal, setShowModal } = useModal();
 	const { handleDelete } = useDeleteIssue();
 	const navigate = useNavigate();
-	const { navigateNewWindow } = useNewWindows();
+	const { baseUrl } = useNewWindows();
 
 	const dataTable = props.issues.map((issue: Issues) => ({
 		ID: { value: issue.id, style: '' },
@@ -90,11 +91,6 @@ export const IssueResources: React.FC<Props> = (props) => {
 					<div className="actions">
 						<div
 							className=""
-							onMouseDown={(e) => {
-								if (e.button === 1) {
-									navigateNewWindow('/issues/create');
-								}
-							}}
 							onClick={() => {
 								navigate('/issues/create');
 							}}>
@@ -112,9 +108,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 					tableAction={actionTable}
 					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 					sort={Sort.asc}
-					whelAction={(id: string) => {
-						navigateNewWindow(`/issues/update/${id}`);
-					}}
+					urlNav={`${baseUrl}/issues/update/`}
 				/>
 			</div>
 		</>

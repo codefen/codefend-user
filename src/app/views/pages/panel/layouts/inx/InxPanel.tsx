@@ -27,7 +27,7 @@ export const InxPanel: React.FC = () => {
 				<section className="right" ref={flashlight.rightPaneRef}>
 					<InxPreviousSearches
 						isLoading={isLoading}
-						previousSearches={previousSearches ?? []}
+						previousSearches={previousSearches || []}
 					/>
 				</section>
 			</main>

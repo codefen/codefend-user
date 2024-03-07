@@ -56,36 +56,3 @@ export const useMobile = () => {
 		refetch,
 	};
 };
-
-export const useMobileOne = (id: string) => {
-	const [mobile, setMobile] = useState<MobileUnique | null>(null);
-	const [isLoding, setLoading] = useState<boolean>(false);
-
-	/* Fetch cloud app */
-	const fetch = useCallback(() => {
-		const { getUserdata } = useAuthState();
-		const mobileInfo = getUserdata();
-		setLoading(true);
-		MobileService.getMobileByID(id, mobileInfo?.companyID as string)
-			.then((response) => {
-				setMobile(mobileUniqueProps(response));
-			})
-			.catch((error: any) => {
-				console.error(error);
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	}, []);
-
-	/* Refetch func*/
-	const refetch = useCallback(() => fetch(), []);
-
-	/* Utilities func */
-	const getMobile = useCallback((): MobileUnique => {
-		return !isLoding && mobile ? mobile : ({} as MobileUnique);
-	}, [mobile, isLoding]);
-
-
-	return { isLoding, getMobile, refetch };
-};

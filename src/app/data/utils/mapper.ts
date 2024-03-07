@@ -98,21 +98,21 @@ export const mapIssues = (source: any): Issues => {
 /** Map issue share api data => @interface IssuesShare */
 export const mapIssueShare = (source: any): IssuesShare => {
 	return {
-		critical: source.issues_share.critical,
-		elevated: source.issues_share.elevated,
-		medium: source.issues_share.medium,
-		low: source.issues_share.low,
-		intel: source.issues_share.intel,
-		total: source.issues_share.total,
+		critical: source.issues_share.critical || "",
+		elevated: source.issues_share.elevated || "",
+		medium: source.issues_share.medium || "",
+		low: source.issues_share.low || "",
+		intel: source.issues_share.intel || "",
+		total: source.issues_share.total || "",
 	};
 };
 
 /** Map issue condition api data => @interface IssuesCondition */
 export const mapIssuesCondition = (source: any): IssuesCondition => {
 	return {
-		total: source.issues_condicion.total,
-		fixed: source.issues_condicion.fixed,
-		open: source.issues_condicion.open,
+		total: source.issues_condicion.total || "",
+		fixed: source.issues_condicion.fixed || "",
+		open: source.issues_condicion.open || "",
 	};
 };
 
@@ -201,20 +201,20 @@ export const mapToWebresourceProps = (source: any): WebapplicationProps => {
 /** Map mobile app api data => @interface MobileApp */
 export const mapMobileApp = (source: any): MobileApp => {
 	return {
-		id: source.id,
-		companyID: source.company_id,
-		appOS: source.app_os,
-		appName: source.app_name,
-		appLink: source.app_link,
-		appAppleSubheader: source.app_apple_subheader,
-		appDeveloper: source.app_developer,
-		appDesc: source.app_desc,
-		appRank: source.app_rank,
-		appReviews: cleanReview(source.app_reviews),
-		appAndroidDownloads: source.app_android_downloads,
-		appMedia: source.app_media,
+		id: source.id || "",
+		companyID: source.company_id || "",
+		appOS: source.app_os || "",
+		appName: source.app_name || "",
+		appLink: source.app_link || "",
+		appAppleSubheader: source.app_apple_subheader || "",
+		appDeveloper: source.app_developer || "",
+		appDesc: source.app_desc || "",
+		appRank: source.app_rank || "",
+		appReviews: cleanReview(source.app_reviews || ""),
+		appAndroidDownloads: source.app_android_downloads || "",
+		appMedia: source.app_media || "",
 		isDisabled: source.eliminado === '1',
-		createdAt: formatDate(source.creacion),
+		createdAt: formatDate(source.creacion || ""),
 	};
 };
 
@@ -236,11 +236,11 @@ export const mapMobileAppsArray = (source: any): MobileApp[] => {
 /** Map mobile one api data => @interface MobileUnique */
 export const mobileUniqueProps = (source: any): MobileUnique => {
 	return {
-		...mapMobileApp(source.unico),
-		creds: source.unico.creds,
-		issues: source.unico.issues,
-		issueShare: mapIssueShare(source.unico),
-		issueCondition: mapIssuesCondition(source.unico),
+		...mapMobileApp(source?.unico || {}),
+		creds: source?.unico?.creds || [],
+		issues: source?.unico?.issues ? source.unico.issues.map((issue: any)=> mapIssues(issue)) : [],
+		issueShare: mapIssueShare(source.unico || {}),
+		issueCondition: mapIssuesCondition(source.unico || {}),
 	};
 };
 

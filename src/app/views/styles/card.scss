@@ -12,7 +12,7 @@
 	width: 100%;
 
 	.header {
-		height: 40px;
+		height: 2.5rem;
 		display: flex;
 		align-items: center;
 		font-family: 'Roboto';
@@ -23,7 +23,7 @@
 		border-bottom: 1px solid var(--primary-color-300);
 		background-position: var(--primary-color-200);
 		color: var(--tertiary-color-200);
-		padding: 0 20px;
+		padding-inline: 1.25rem;
 		transition:
 			color,
 			background 500ms linear;
@@ -31,7 +31,7 @@
 		.title {
 			display: flex;
 			align-items: center;
-			padding-right: 13px;
+			padding-right: 0.813rem;
 
 			.icon {
 				color: var(--secondary-color-50);
@@ -52,7 +52,7 @@
 
 			div {
 				border-right: 1px solid var(--tertiary-color-700);
-				padding: 0 13px;
+				padding-inline: 0.813rem;
 				cursor: pointer !important;
 			}
 		}
@@ -81,7 +81,7 @@
 			.chart {
 				flex-grow: 0.3;
 				max-width: 15%;
-				min-width: 60px;
+				min-width: 3.75rem;
 
 				canvas {
 					width: 100% !important;
@@ -144,7 +144,7 @@
 					margin: 0;
 					text-wrap: wrap;
 					-webkit-line-clamp: 2;
-					padding-inline: 10px;
+					padding-inline: 0.625rem;
 					text-align: center;
 				}
 
@@ -176,7 +176,7 @@
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
-					column-gap: 7px;
+					column-gap: 0.438rem;
 
 					.icon-color {
 						color: rgb(96 165 250 / 1);
@@ -270,7 +270,7 @@
 	}
 
 	+ .card {
-		margin-block-start: 10px;
+		margin-block-start: 0.625rem;
 	}
 }
 
@@ -282,7 +282,7 @@
 	pointer-events: none;
 	font-size: 0.75rem;
 	line-height: 1rem;
-	border-radius: 10px;
+	border-radius: 0.625rem;
 	transition: border 200ms ease-in;
 	padding: 2rem;
 
@@ -320,7 +320,7 @@
 				object-position: center;
 				aspect-ratio: 1/1;
 				height: 100%;
-				border-radius: 5px;
+				border-radius: 0.313rem;
 				user-select: none;
 				transition: all 600ms linear;
 			}
@@ -395,49 +395,6 @@
 		.second-text {
 			padding-inline-start: 1rem;
 			border-left: 1px solid var(--tertiary-color-700);
-		}
-	}
-
-	.app-delete-btn {
-		width: fit-content;
-		display: flex;
-		align-self: flex-end;
-		align-items: center;
-		column-gap: 0.5rem;
-		font-size: 14px;
-		padding: 0.5rem;
-		border-radius: 5% 35% 0% 100% / 0% 65% 100% 100%;
-		cursor: pointer;
-		outline: none;
-		transition:
-			color,
-			background,
-			border 200ms ease;
-
-		background-color: var(--primary-color-400);
-		border-top-color: var(--primary-color-400);
-		border-right-color: var(--primary-color-400);
-		border-width: 1px;
-		border-bottom: 0px;
-		border-left: 0px;
-
-		button,
-		svg,
-		path {
-			color: oklch(0.53 0.01 131.28);
-			cursor: pointer;
-		}
-
-		&:hover {
-			background-color: var(--primary-color-300);
-			border-top-color: var(--primary-color-300);
-			border-right-color: var(--primary-color-300);
-		}
-
-		&:active {
-			background-color: var(--tertiary-color-50);
-			border-top-color: var(--tertiary-color-50);
-			border-right-color: var(--tertiary-color-50);
 		}
 	}
 }
@@ -543,7 +500,7 @@
 	display: flex;
 	justify-content: space-between;
 	padding-inline-end: 1.25rem;
-	border-radius: 10px;
+	border-radius: 0.313rem;
 
 	&.notMobile {
 		column-gap: 7rem;
@@ -572,18 +529,19 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	padding: 20px 24px;
-	column-gap: 43px;
+	padding-block: 1.25rem;
+	padding-inline: 1.5rem;
+	column-gap: 2.688rem;
 	font-size: 14px;
 	color: var(--tertiary-color-200);
 
 	.avatar img {
-		height: 50px;
+		height: 3.125rem;
 	}
 
 	.info {
 		display: flex;
-		column-gap: 10px;
+		column-gap: 0.625rem;
 
 		.icons {
 			display: flex;
@@ -646,11 +604,7 @@
 
 		&.active {
 			border: 1px solid var(--secondary-color-100);
-			border-radius: 10px;
-
-			.app-delete-btn {
-				border-radius: 5% 35% 0% 100% / 0% 65% 100% 100%;
-			}
+			border-radius: 0.625rem;
 		}
 
 		&-content {
@@ -666,7 +620,7 @@
 			.reviews {
 				div {
 					position: relative;
-					width: 75px;
+					width: 4.688rem;
 
 					img {
 						position: absolute;
@@ -705,7 +659,7 @@
 	}
 	.app-card-wrapper {
 		background: var(--primary-color-300);
-		border-radius: 10px;
+		border-radius: 0.625rem;
 		.app-details {
 			span,
 			.reviews {
@@ -724,17 +678,14 @@
 			color,
 			background,
 			border 500ms linear;
-		// box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.3);
 	}
 
 	.card {
 		border: 1px solid transparent;
 		background: rgba(18, 26, 35, 0.3);
 		backdrop-filter: blur(9px) saturate(0.8) contrast(1);
-		// box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
 		.header {
 			border: none;
-			//   background-color: transparent;
 			transition:
 				color,
 				background 700ms linear;
@@ -746,11 +697,7 @@
 				column-gap: 0px;
 				justify-content: flex-start;
 				padding: 0px;
-				// column-gap: 12px;
 				.stat {
-					//   border-left: 1px solid #00000083;
-					//   border-right: 1px solid #ffffff24;
-
 					border-right: 1px solid !important;
 					border-left: 1px solid !important;
 					border-image: linear-gradient(
@@ -766,18 +713,15 @@
 					outline: none;
 					background-color: var(--primary-color-300);
 					flex: 1 1;
-					min-height: 95px;
-					max-height: 95px;
-					row-gap: 4px;
+					min-height: 5.938rem;
+					max-height: 5.938rem;
+					row-gap: 0.25rem;
 
-					//   background: rgba(15, 24, 35, 0.3) !important;
-					//   backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
 					background-image: linear-gradient(
 							#444df70b 0.4px,
 							transparent 0.4px
 						),
 						linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
-					//   background-size: 8px 8px;
 					&.active {
 						.value,
 						p {
@@ -785,12 +729,12 @@
 						}
 					}
 					&:first-child {
-						border-top-left-radius: 5px;
-						border-bottom-left-radius: 5px;
+						border-top-left-radius: 0.313rem;
+						border-bottom-left-radius: 0.313rem;
 					}
 					&:last-child {
-						border-top-right-radius: 5px;
-						border-bottom-right-radius: 5px;
+						border-top-right-radius: 0.313rem;
+						border-bottom-right-radius: 0.313rem;
 					}
 					.value {
 						color: var(--tertiary-color-400);

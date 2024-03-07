@@ -28,7 +28,9 @@ export const IssueChatDisplay: React.FC<Props> = ({
 	const getIssue = useCallback((): IssueMessage[] => {
 		return selectedIssue?.cs ?? [];
 	}, [selectedIssue]);
+
 	const location = useLocation();
+
 	const messageKeys = useMemo(
 		(): string[] =>
 			Boolean(getIssue().length)

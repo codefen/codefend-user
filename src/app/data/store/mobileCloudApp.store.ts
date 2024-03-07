@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { CloudApp, CloudService, MobileApp, MobileService } from '..';
+import { CloudApp, CloudService, MobileApp, MobileService, MobileUnique, mobileUniqueProps } from '..';
 import { toast } from 'react-toastify';
 
 export interface RemoveAppStore {
@@ -41,14 +41,17 @@ export const useRemoveAppStore = create<RemoveAppStore>((set, _get)=>({
 
 export interface SelectMobileCloudApp {
     appSelected: MobileApp | CloudApp | null;
+    appUnique: MobileUnique | null;
     isNotNull: ()=> boolean;
     isCurrentSelected: (id: string)=> boolean;
     updateSelected: (updated: MobileApp | CloudApp)=> void;
     resetSelectedApp: ()=> void;
+    fetchMobileOne: () => Promise<any>;
 }
 
 export const useSelectMobileCloudApp = create<SelectMobileCloudApp>((set, _get)=>({
     appSelected: null,
+    appUnique: null,
     isNotNull: ()=>{
         const state = _get();
         return state.appSelected !== null && state.appSelected !== undefined;
@@ -64,5 +67,17 @@ export const useSelectMobileCloudApp = create<SelectMobileCloudApp>((set, _get)=
 		}
     },
     resetSelectedApp: ()=>
-        set((prev)=> ({...prev, appSelected: null}))
+        set((prev)=> ({...prev, appSelected: null})),
+
+    fetchMobileOne: async ()=> {
+        const {appSelected} = _get();
+
+        return MobileService.getMobileByID(appSelected?.id || "", appSelected?.companyID || "")
+        .then((response) => {
+            set((prev: SelectMobileCloudApp)=> ({...prev, appUnique: mobileUniqueProps(response)}))
+        })
+        .catch((error: any) => {
+            console.error(error);
+        });
+    }
 }))

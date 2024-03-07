@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
-import { CloudApp, FetchPattern, mapCloudApp, useAuthState } from '../..';
+import { CloudApp, FetchPattern, mapCloudApp, useAuthState, verifySession } from '../..';
 import { CloudService } from '../../services/panel/cloud.service';
 import { toast } from 'react-toastify';
 
 export const useCloud = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany,logout } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<CloudApp[]>>({
 		data: null,
 		error: null,
@@ -16,14 +16,18 @@ export const useCloud = () => {
 			...state,
 			isLoading: true,
 		}));
-
+		
 		CloudService.getAll(companyID)
 			.then((response: any) =>
-				dispatch({
-					data: response.disponibles.map((app: any) => mapCloudApp(app)),
-					error: null,
-					isLoading: false,
-				}),
+				{
+					verifySession(response, logout);
+					
+					dispatch({
+						data: response.disponibles.map((app: any) => mapCloudApp(app)),
+						error: null,
+						isLoading: false,
+					})
+				}
 			)
 			.catch((error) => dispatch({ data: null, error, isLoading: false }));
 	}, []);

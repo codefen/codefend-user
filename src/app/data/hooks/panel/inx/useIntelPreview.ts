@@ -8,7 +8,12 @@ export const useIntelPreview = () => {
 
 	const fetchPreview = async (params: any, companyID: string) => {
 		return InxServices.preview(params, companyID).then((res) => {
-			if (!res.preview) return;
+			res = JSON.parse(String(res).trim());
+
+			if (!res.preview){
+				setPreviewLoading(false);
+				return;
+			}
 
 			const intelPreviewData = intelPreview;
 			intelPreviewData.push({

@@ -17,7 +17,6 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 	selectedApp,
 }) => {
 	const isMobileType = type === 'mobile';
-
 	const { setIsOpen, setData, setIsMobileType } = useRemoveAppStore(
 		(state: RemoveAppStore) => state,
 	);
@@ -26,7 +25,7 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 		setData(selectedApp.id, selectedApp.appName);
 		setIsOpen(false);
 		setIsMobileType(isMobileType);
-	}, [selectedApp, isMobileType]);
+	}, [selectedApp]);
 
 	return (
 		<div

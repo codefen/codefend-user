@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import { mapSourceCode, useAuthState } from '../..';
+import { mapSourceCode, useAuthState, verifySession } from '../..';
 import { SourceCodeService } from '../../services/panel/sourcecode.service';
 import { toast } from 'react-toastify';
 
 export const useSourceCode = () => {
 	const [sourceCode, setSource] = useState(null);
 	const [isLoading, setLoading] = useState(false);
-	const { getUserdata, getCompany } = useAuthState();
+	const { getUserdata, getCompany, logout } = useAuthState();
 
 	const fetcher = useCallback((companyID: string) => {
 		setLoading(true);
 		SourceCodeService.getAll(companyID)
 			.then((res: any) => {
-				if (res.error !== '0') {
-				}
+				verifySession(res, logout);
+
 				setSource(
 					res.disponibles ? res.disponibles.map((repo: any) => mapSourceCode(repo)) : []
 				);
@@ -44,6 +44,7 @@ export const useSourceCode = () => {
 				.then((response: any) => {
 					if (!response) {
 					}
+
 					toast.success('Successfully deleted sourcecode resources...');
 					refetch();
 				})

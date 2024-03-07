@@ -2,11 +2,11 @@ import { useCallback, useState } from 'react';
 import { useAuthState } from '../useAuthState';
 import { DashboardService } from '../../services/panel/dashboard.service';
 import { mapGetCompanyToCompanyData } from '../../utils/mapper';
-import { DashboardProps} from '../..';
+import { DashboardProps, verifySession} from '../..';
 import { toast } from 'react-toastify';
 
 export const useDashboard = () => {
-	const { getCompany, getUserdata } = useAuthState();
+	const { getCompany, getUserdata, logout } = useAuthState();
 	const [isLoading, setLoading] = useState(false);
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
@@ -16,8 +16,10 @@ export const useDashboard = () => {
 		setLoading(true);
 
 		DashboardService.getCompanyInfo(companyID)
-			.then((response) => {
-				setCompanyResources(mapGetCompanyToCompanyData(response));
+			.then((res) => {
+				verifySession(res, logout);
+
+				setCompanyResources(mapGetCompanyToCompanyData(res));
 			})
 			.finally(() => {
 				setLoading(false);

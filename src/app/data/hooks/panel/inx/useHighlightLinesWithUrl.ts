@@ -3,7 +3,6 @@ import { useCallback } from 'react';
 export const useHighlightLinesWithUrl = () => {
 	const highlightWithUrl = (inputText: string, urlToFilter: string, contextLines: number = 3) => {
 		const textToSplit = inputText || '';
-		console.log({textToSplit});
 		return textToSplit
 			.split('\t')
 			.map((line, index, lines) =>

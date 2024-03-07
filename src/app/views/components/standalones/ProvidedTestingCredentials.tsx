@@ -26,19 +26,17 @@ export const ProvidedTestingCredentials: React.FC<
 	return (
 		<>
 			{props.isLoading ?? (
-				<>
-					<ModalWrapper action={() => {}}>
-						<div className="quick-action internal-tables disable-border">
-							<div className="modal-header">
-								|<span>{' Add cloud actions '}</span>|
-							</div>
-
-							<CloudQuickAction onDone={() => props.refetch?.()} />
-
-							<div className="helper-box"></div>
+				<ModalWrapper action={() => {}}>
+					<div className="quick-action internal-tables disable-border">
+						<div className="modal-header">
+							|<span>{' Add cloud actions '}</span>|
 						</div>
-					</ModalWrapper>
-				</>
+
+						<CloudQuickAction onDone={() => props.refetch?.()} />
+
+						<div className="helper-box"></div>
+					</div>
+				</ModalWrapper>
 			)}
 
 			<div className="card user-list">
