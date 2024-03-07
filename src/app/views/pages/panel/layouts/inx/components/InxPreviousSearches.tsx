@@ -36,28 +36,28 @@ export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
 							</div>
 
 							<div className="rows internal-tables ">
-								<Show when={!isLoading} fallback={<PageLoader />}>
-									<>
-										{safelyPreviousSearches().map(
-											(searchData: PreviousSearch, i: number) => (
-												<div
-													className="item-wrapper"
-													key={previusKeys[i]}>
-													<section className="search-item">
-														<p className="name">
-															{searchData.username}
-														</p>
-														<p className="result">
-															{searchData.info.split(
-																'queries:',
-															)[1] ?? '--'}
-														</p>
-													</section>
-												</div>
-											),
-										)}
-									</>
-								</Show>
+								{!isLoading ? (
+									safelyPreviousSearches().map(
+										(searchData: PreviousSearch, i: number) => (
+											<div
+												className="item-wrapper"
+												key={previusKeys[i]}>
+												<section className="search-item">
+													<p className="name">
+														{searchData.username}
+													</p>
+													<p className="result">
+														{searchData.info.split(
+															'queries:',
+														)[1] ?? '--'}
+													</p>
+												</section>
+											</div>
+										),
+									)
+								) : (
+									<PageLoader />
+								)}
 							</div>
 						</>
 					</SimpleSection>

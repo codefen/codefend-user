@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	AppCardInfo,
 	ProvidedTestingCredentials,
@@ -8,50 +8,55 @@ import {
 	PageLoader,
 	Show,
 	PrimaryButton,
+	OrderV2,
 } from '../../../../../components';
 import {
-	Issues,
 	IssuesCondition,
 	IssuesShare,
 	MobileApp,
+	MobileUnique,
 	SelectMobileCloudApp,
-	useMobileOne,
 	useModal,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
 import Order from '../../../../../components/modals/order';
 
 export const MobileSelectedDetails: React.FC = (props) => {
-	const { appSelected } = useSelectMobileCloudApp(
+	const [isLoding, setLoading] = useState<boolean>(false);
+
+	const { appSelected, fetchMobileOne, appUnique } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
+
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 
-	console.log({ appSelected });
-	const getSelected = appSelected ? appSelected : ({} as MobileApp);
+	useEffect(() => {
+		setLoading(true);
 
-	const getSelectedMobileAppId = appSelected ? appSelected.id : '';
-	const { isLoding, getMobile } = useMobileOne(getSelectedMobileAppId);
+		fetchMobileOne().finally(() => setLoading(false));
+	}, [appSelected]);
 
 	return (
 		<Show when={!isLoding} fallback={<PageLoader />}>
 			<>
 				<Show when={showModal && showModalStr === 'order'}>
-					<Order
+					<OrderV2
 						closeModal={() => {
-							setShowModalStr('');
 							setShowModal(false);
 						}}
 					/>
 				</Show>
 				<div>
-					<AppCardInfo type="mobile" selectedApp={getSelected} />
+					<AppCardInfo
+						type="mobile"
+						selectedApp={appSelected || ({} as MobileApp)}
+					/>
 				</div>
 				<div className="selected-content">
 					<div className="selected-content-credentials">
 						<ProvidedTestingCredentials
-							credentials={getMobile().creds ?? []}
+							credentials={appUnique?.creds || []}
 							isLoading={isLoding}
 						/>
 					</div>
@@ -67,14 +72,12 @@ export const MobileSelectedDetails: React.FC = (props) => {
 						<VulnerabilityRisk
 							isLoading={isLoding}
 							vulnerabilityByRisk={
-								getMobile().issueShare
-									? getMobile().issueShare
-									: ({} as IssuesShare)
+								appUnique?.issueShare || ({} as IssuesShare)
 							}
 						/>
 						<VulnerabilitiesStatus
 							vulnerabilityByShare={
-								getMobile().issueCondition ?? ({} as IssuesCondition)
+								appUnique?.issueCondition || ({} as IssuesCondition)
 							}
 						/>
 					</div>
@@ -83,7 +86,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 				<section className="card table">
 					<IssuesPanelMobileAndCloud
 						isLoading={isLoding}
-						issues={getMobile().issues ?? ([] as Issues[])}
+						issues={appUnique?.issues || []}
 					/>
 				</section>
 			</>

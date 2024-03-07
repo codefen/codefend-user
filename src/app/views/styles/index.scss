@@ -652,6 +652,10 @@ main.cloud {
 							var(--primary-color-500) 73%
 						);
 					}
+
+					.app-card-pt {
+						padding-block-start: 1.25rem;
+					}
 				}
 			}
 		}
@@ -676,5 +680,59 @@ main.cloud {
 				color: var(--tertiary-color-100);
 			}
 		}
+	}
+}
+
+.order-container {
+	width: 100%;
+	max-width: 51dvw;
+	max-height: 87.75dvh;
+	height: 100%;
+
+	padding: 1rem;
+
+	border-radius: 0.15rem;
+	background-color: var(--primary-color-50);
+	border: 1px solid var(--primary-color-400);
+
+	z-index: 120;
+
+	overflow: auto;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	.order-header {
+		display: flex;
+		flex-flow: column nowrap;
+		row-gap: 0.5rem;
+		justify-content: center;
+		align-items: flex-start;
+		flex: 1 1;
+
+		.order-header-title {
+			display: flex;
+			flex-flow: row nowrap;
+			column-gap: 1.35rem;
+			padding-inline-start: 0;
+			padding-inline-end: 1rem;
+			align-items: center;
+
+			h2 {
+				color: var(--tertiary-color-400);
+				font-size: 24px;
+				font-weight: 700;
+				text-transform: uppercase;
+				margin-block-start: auto;
+				padding-block-end: 6px;
+			}
+		}
+
+		.steps {
+		}
+	}
+
+	.orders-content {
 	}
 }

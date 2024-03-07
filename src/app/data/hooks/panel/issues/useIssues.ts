@@ -1,17 +1,17 @@
 import { useCallback, useState } from 'react';
-import { AllIssues, FetchPattern, mapAllIssues, useAuthState } from '../../../';
+import { AllIssues, FetchPattern, mapAllIssues, useAuthState, verifySession } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 
 /* Custom Hook "useOneIssue" to handle retrieval of all issues*/
 export const useIssues = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany, logout } = useAuthState();
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<AllIssues>>({
 		data: null,
 		error: null,
 		isLoading: false,
 	});
-
+	
 	//Fetch to recover the issues
 	const fetcher = useCallback((companyID: string) => {
 		dispatch((state: any) => ({
@@ -20,11 +20,15 @@ export const useIssues = () => {
 		}));
 		IssueService.getAll(companyID)
 			.then((response: any) =>
-				dispatch({
-					data: mapAllIssues(response),
-					error: null,
-					isLoading: false,
-				}),
+				{
+					verifySession(response, logout);
+					
+					dispatch({
+						data: mapAllIssues(response),
+						error: null,
+						isLoading: false,
+					})
+				}
 			)
 			.catch((error) => dispatch({ data: null, error, isLoading: false }));
 	}, []);

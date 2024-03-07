@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useAuthState } from '..';
-import { FetchPattern, SocialAplicationService, MemberV2 } from '../../../data';
+import { FetchPattern, SocialAplicationService, MemberV2, verifySession } from '../../../data';
 import { toast } from 'react-toastify';
 
 /* Custom Hook "useSocial" to handle GET data in Social page*/
 export const useSocial = () => {
-	const { getUserdata, getCompany } = useAuthState();
+	const { getUserdata, getCompany, logout } = useAuthState();
 	const [{ data, error, isLoading }, dispatch] = useState<
 		FetchPattern<MemberV2[]>
 	>({
@@ -18,6 +18,8 @@ export const useSocial = () => {
 		dispatch((state) => ({ ...state, isLoading: true }));
 		return SocialAplicationService.getAll(companyID)
 			.then((response: any) => {
+				verifySession(response, logout);
+
 				dispatch({
 					data: response.disponibles,
 					error: null,

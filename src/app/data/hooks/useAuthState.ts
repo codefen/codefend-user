@@ -109,6 +109,7 @@ export const useAuthState = () => {
 		signUpFinish,
 		updateUserData,
 		getCompany,
-		updateToken: authStore.updateToken
+		updateToken: authStore.updateToken,
+		logout: authStore.logout
 	};
 };

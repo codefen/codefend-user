@@ -30,7 +30,6 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 	const { intelPreview, isLoadingPreview, refetchPreview } = useIntelPreview();
 	const [previewReq, setPreviewReq] = useState<boolean>(false);
 
-	console.log({ index });
 	//Try to run every time the html appears or exits the screen
 	if (isIntersecting && !previewReq) {
 		const params = {

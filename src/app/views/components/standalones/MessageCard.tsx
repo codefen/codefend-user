@@ -21,21 +21,19 @@ export const MessageCard: React.FC<Props> = (props) => {
 	const message = props.body ?? '';
 
 	return (
-		<>
-			<div className="message-card">
-				<span className="message-card-title">{title}</span>
-				<div className="message-card-container tt">
-					<div className="message-card-content">
-						<img
-							src={`/codefend/user-icon${
-								!isAuthUserChat ? '-gray' : ''
-							}.svg`}
-							alt="user-picture"
-						/>
-					</div>
-					<p>{message}</p>
+		<div className="message-card">
+			<span className="message-card-title">{title}</span>
+			<div className="message-card-container tt">
+				<div className="message-card-content">
+					<img
+						src={`/codefend/user-icon${
+							!isAuthUserChat ? '-gray' : ''
+						}.svg`}
+						alt="user-picture"
+					/>
 				</div>
+				<p>{message}</p>
 			</div>
-		</>
+		</div>
 	);
 };

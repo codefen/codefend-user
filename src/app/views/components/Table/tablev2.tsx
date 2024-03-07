@@ -32,7 +32,7 @@ interface TableProps {
 	selectItem?: (item: any) => void;
 	sort?: Sort;
 	initialSelect?: boolean;
-	whelAction?: (id: string) => void;
+	urlNav?: string;
 }
 
 export interface ColumnTable {
@@ -103,7 +103,7 @@ const TableRows: React.FC<any> = ({
 	dataSort,
 	tableAction,
 	selectedField,
-	whelAction,
+	urlNav,
 	handleSelected,
 	initialSelect,
 }) => {
@@ -166,17 +166,6 @@ const TableRows: React.FC<any> = ({
 		return result ?? [];
 	}, [columns]);
 
-	const handleMouseDown = (e: any, rowId: any) => {
-		e.preventDefault();
-		if (e.button === 1 || (e.ctrlKey && e.button === 0)) {
-			e.stopPropagation();
-
-			if (whelAction) {
-				whelAction(rowId);
-			}
-		}
-	};
-
 	const handleClick = (e: any, i: number, rowId: any) => {
 		handleSelected(e, rowsID[i], rowId);
 	};
@@ -188,12 +177,12 @@ const TableRows: React.FC<any> = ({
 	return (
 		<div className="rows">
 			{rows.map((row: Record<string, TableItem>, rowIndex: number) => (
-				<div
+				<a
 					key={rowsID[rowIndex]}
 					className={`item ${
 						selectedField === rowsID[rowIndex] ? 'left-marked' : ''
 					}`}
-					onMouseDown={(e) => handleMouseDown(e, row['ID'].value)}
+					href={urlNav ? `${urlNav}${row['ID'].value}` : ''}
 					onClick={(e) => handleClick(e, rowIndex, row['ID'].value)}>
 					{columnForRows.map((column: ColumnTable, i: number) => (
 						<div
@@ -226,7 +215,7 @@ const TableRows: React.FC<any> = ({
 							))}
 						</>
 					</Show>
-				</div>
+				</a>
 			))}
 		</div>
 	);
@@ -244,7 +233,7 @@ export const TableV2: React.FC<TableProps> = ({
 	sort = Sort.desc,
 	initialSelect = false,
 	sizeX = 100,
-	whelAction,
+	urlNav,
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0].name);
@@ -253,6 +242,7 @@ export const TableV2: React.FC<TableProps> = ({
 		e.preventDefault();
 		if (selectItem !== undefined) {
 			selectItem(ID);
+			return;
 		}
 
 		if (key === selectedField) {
@@ -294,7 +284,7 @@ export const TableV2: React.FC<TableProps> = ({
 						sortDirection={sortDirection}
 						dataSort={dataSort}
 						tableAction={tableAction}
-						whelAction={whelAction}
+						urlNav={urlNav || ''}
 						handleSelected={handleSelected}
 						isActiveAction={!!tableAction}
 						selectedField={selectedField}

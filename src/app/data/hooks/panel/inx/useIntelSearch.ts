@@ -12,6 +12,8 @@ export const useIntelSearch = () => {
 	) => {
 		return InxServices.search({ id, offset }, companyID)
 			.then((res: any) => {
+				res = JSON.parse(String(res).trim());
+				
 				if (res.error == '1') {
 					throw new Error('An unexpected error has occurred');
 				}

@@ -34,13 +34,15 @@ export const useInitialSearch = () => {
 
 		return InxServices.initializeSearch(term, companyID)
 			.then((res: any) => {
+				res = JSON.parse(String(res).trim());
+
 				if (res.error == '1')
 					throw new Error('An unexpected error has occurred');
 
 				setSearchData((state: SearchResult) => ({
 					...state,
-					intelID: res.response?.id ?? '',
-					count: res.response?.count ?? 0,
+					intelID: res.response?.id || '',
+					count: res.response?.count || 0,
 					isLoading: false,
 				}));
 				return res.response.id;

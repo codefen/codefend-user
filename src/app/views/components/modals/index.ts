@@ -12,3 +12,5 @@ export * from './order';
 export * from "./DeleteMobileCloudModal"
 export * from "./AddCompanyModal";
 export * from "./AddUserCompanyModal"
+
+export * from "./orderv2/Orderv2.tsx"

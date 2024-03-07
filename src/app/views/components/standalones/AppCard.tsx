@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
 	RemoveAppStore,
 	cleanHTML,
@@ -56,135 +56,114 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 
 	const { setIsOpen } = useRemoveAppStore((state: RemoveAppStore) => state);
 
-	return (
-		<>
-			<div
-				className={`app-card ${!isDetails ? 'app-card-border' : 'pt-5'} ${
-					isActive && 'active'
-				}`}>
-				{/* <Show when={!isDetails}>
-					<button
-						className="app-delete-btn"
-						title={
-							isMobileType ? 'Remove mobile app' : 'Remove cloud app'
-						}
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-							viewModal(true);
-						}}>
-						<CloseIcon isButton />
-					</button>
-				</Show> */}
+	const handleClick = () =>
+		navigate(`/issues/create/${isMobileType ? 'mobile' : 'cloud'}/${id}`);
 
-				<div className="app-card-content">
-					<div className="app-card-content-img">
-						<Show
-							when={!isImage || !isMobileType}
-							fallback={
-								<img
-									src={`data:image/png;base64,${appMedia}`}
-									alt="mobile-image"
-								/>
-							}>
-							<img
-								src={
-									Array.from(defaultMobileCloudResourceAsset).includes(
-										name,
-									)
-										? `/codefend/${name}.jpg`
-										: `/clouds/${
-												cloudProvider
-													? `${
-															cloudProvider === 'gcp'
-																? 'google'
-																: cloudProvider
-														}.png`
-													: 'aws.png'
-											}`
-								}
-								alt="app-image"
-							/>
+	const handleDeleteResource = () => setIsOpen(true);
+
+	// Función de utilidad para generar clases condicionales
+	const generateCardClasses = () => {
+		let classes = 'app-card';
+		if (!isDetails) {
+			classes += ' app-card-border';
+		} else {
+			classes += ' app-card-pt';
+		}
+		if (isActive) {
+			classes += ' active';
+		}
+		return classes;
+	};
+
+	// Función para renderizar la imagen basada en las condiciones
+	const MemoizedRenderImage = useMemo(() => {
+		return !isImage || !isMobileType ? (
+			<img
+				src={
+					Array.from(defaultMobileCloudResourceAsset).includes(name)
+						? `/codefend/${name}.jpg`
+						: `/clouds/${cloudProvider ? `${cloudProvider === 'gcp' ? 'google' : cloudProvider}.png` : 'aws.png'}`
+				}
+				alt="app-image"
+			/>
+		) : (
+			<img src={`data:image/png;base64,${appMedia}`} alt="mobile-image" />
+		);
+	}, []);
+
+	const renderResourceDetail = () => {
+		if (isDetails) {
+			return (
+				<div className="actions">
+					<div onClick={handleClick}>Add issue</div>
+					<div onClick={() => alert('Add credential')}>Add credential</div>
+					<div onClick={handleDeleteResource}>Delete resource</div>
+				</div>
+			);
+		} else {
+			return <></>;
+		}
+	};
+
+	return (
+		<div className={generateCardClasses()}>
+			<div className="app-card-content">
+				<div className="app-card-content-img">{MemoizedRenderImage}</div>
+				<div className="app-card-content-body">
+					<div className="app-card-title">
+						<h3 className={`${isDetails ? 'detail' : 'card'}`}>
+							{isMainGoogleNetwork ? 'main google network' : name}
+						</h3>
+						<Show when={isDetails && !isMobileType}>
+							<span className="second-text detail">
+								resource id: {id}
+							</span>
 						</Show>
+						{renderResourceDetail()}
 					</div>
-					<div className="app-card-content-body">
-						<div className="app-card-title">
-							<h3 className={`${isDetails ? 'detail' : 'card'}`}>
-								{isMainGoogleNetwork ? 'main google network' : name}
-							</h3>
-							<Show when={isDetails && !isMobileType}>
-								<span className="second-text detail">
-									resource id: {id}
+					<div className="app-details text-gray">
+						<Show
+							when={!isMainGoogleNetwork}
+							fallback={
+								<span>
+									This is our main GCP network. Please handle with
+									care.
 								</span>
-							</Show>
-							<Show when={isDetails}>
-								<>
-									<div className="actions">
-										<div
-											onClick={() =>
-												navigate(
-													`/issues/create/${
-														isMobileType ? 'mobile' : 'cloud'
-													}/${id}`,
-												)
-											}>
-											Add issue
+							}>
+							<>
+								<p
+									className={`app-details-description ${
+										isMobileType ? 'isMobile' : 'notMobile'
+									} ${isDetails && 'isDetail'}`}
+									dangerouslySetInnerHTML={{
+										__html: cleanHTML(appDesc ?? ''),
+									}}></p>
+								{isMobileType && (
+									<>
+										<span>{appDeveloper ?? ''}</span>
+										<div className="reviews">
+											<span>{appRank ?? ''}</span>
+											{appReviews && <span>•</span>}
+											<span>
+												{' '}
+												{appReviews ? `${appReviews} reviews` : ''}
+											</span>
+											{isMobileType && (
+												<StarRating
+													rating={
+														Number(appRank?.replace(',', '.')) ||
+														0
+													}
+												/>
+											)}
 										</div>
-										<div onClick={() => alert('Add credential')}>
-											Add credential
-										</div>
-										<div onClick={() => setIsOpen(true)}>
-											Delete resource
-										</div>
-									</div>
-								</>
-							</Show>
-						</div>
-						<div className="app-details text-gray">
-							<Show
-								when={!isMainGoogleNetwork}
-								fallback={
-									<span>
-										This is our main GCP network. Please handle with
-										care.
-									</span>
-								}>
-								<>
-									<p
-										className={`app-details-description ${
-											isMobileType ? 'isMobile' : 'notMobile'
-										} ${isDetails && 'isDetail'}`}
-										dangerouslySetInnerHTML={{
-											__html: cleanHTML(appDesc ?? ''),
-										}}></p>
-									{isMobileType && (
-										<>
-											<span>{appDeveloper ?? ''}</span>
-											<div className="reviews">
-												<span>{appRank ?? ''}</span>
-												{appReviews && <span>•</span>}
-												<span>
-													{' '}
-													{appReviews
-														? `${appReviews} reviews`
-														: ''}
-												</span>
-												{isMobileType && (
-													<StarRating
-														rating={Number(
-															appRank?.replace(',', '.'),
-														)}
-													/>
-												)}
-											</div>
-										</>
-									)}
-								</>
-							</Show>
-						</div>
+									</>
+								)}
+							</>
+						</Show>
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };

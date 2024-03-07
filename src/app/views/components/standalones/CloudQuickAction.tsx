@@ -45,49 +45,47 @@ export const CloudQuickAction: React.FC<CloudQuickActionProps> = (props) => {
 	);
 
 	return (
-		<>
-			<div className="cloud-quick-actions text-format">
-				<form onSubmit={handleSubmit}>
-					<div className="input-group">
-						<span>
-							<div className="icon codefend-text-red">
-								<GlobeWebIcon />
-							</div>
-						</span>
+		<div className="cloud-quick-actions text-format">
+			<form onSubmit={handleSubmit}>
+				<div className="input-group">
+					<span>
+						<div className="icon codefend-text-red">
+							<GlobeWebIcon />
+						</div>
+					</span>
 
-						<input
-							className="log-inputs"
-							type="text"
-							onChange={(e) => setDomainName(e.target.value)}
-							id="quick-domain-name"
-							placeholder="action"
-							required
-						/>
-					</div>
+					<input
+						className="log-inputs"
+						type="text"
+						onChange={(e) => setDomainName(e.target.value)}
+						id="quick-domain-name"
+						placeholder="action"
+						required
+					/>
+				</div>
 
-					<div className="button-group">
-						<button
-							disabled={isAddingDomain}
-							type="button"
-							onClick={() => {
-								/* showModal */
-							}}
-							className="log-inputs cancel-btn codefend_secondary_ac">
-							cancel
-						</button>
+				<div className="button-group">
+					<button
+						disabled={isAddingDomain}
+						type="button"
+						onClick={() => {
+							/* showModal */
+						}}
+						className="log-inputs cancel-btn codefend_secondary_ac">
+						cancel
+					</button>
 
-						<button
-							disabled={isAddingDomain}
-							type="button"
-							className="log-inputs add-btn bg-codefend codefend_main_ac">
-							<Show when={isAddingDomain}>
-								<ButtonLoader />
-							</Show>
-							add action
-						</button>
-					</div>
-				</form>
-			</div>
-		</>
+					<button
+						disabled={isAddingDomain}
+						type="button"
+						className="log-inputs add-btn bg-codefend codefend_main_ac">
+						<Show when={isAddingDomain}>
+							<ButtonLoader />
+						</Show>
+						add action
+					</button>
+				</div>
+			</form>
+		</div>
 	);
 };

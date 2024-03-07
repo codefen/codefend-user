@@ -26,9 +26,9 @@ interface InxSearchAndDataProps {
 
 export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
 	const { highlightWithUrl } = useHighlightLinesWithUrl();
-	const { getUserdata } = useAuthState();
+	const { getCompany } = useAuthState();
 	const { search } = useParams();
-	const companyID = getUserdata().companyID;
+	const companyID = getCompany();
 
 	const { getData, setSearchData, refetchInitial } = useInitialSearch();
 

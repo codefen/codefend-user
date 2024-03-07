@@ -4,7 +4,7 @@ export const useNewWindows = ()=>{
 
     const navigateNewWindow = (path: string)=> {
         const newUrl = `${baseUrl}${path}`;
-        window.open(newUrl, '_blank');
+        window.open(newUrl, '_blank', 'noopener,noreferrer');
     }
 
     return { navigateNewWindow, baseUrl };
