@@ -1,9 +1,9 @@
-import { fetchPOST, handleFetchError } from '.';
+import { fetchPOST, handleFetchError } from '..';
 
 const getEndpoints = async (scan_id: number, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'resources/devices',
+			model: 'modules/epm/devices',
 			ac: 'get',
 			scan_id: scan_id,
 			company_id: companyID,
@@ -17,7 +17,7 @@ const getEndpoints = async (scan_id: number, companyID: string) => {
 const getScans = async (companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'resources/devices',
+			model: 'modules/epm/devices',
 			ac: 'get_scans',
 			company_id: companyID,
 		},
@@ -29,7 +29,7 @@ const getScans = async (companyID: string) => {
 const getVulns = async (code_name: string, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'resources/devices',
+			model: 'modules/epm/devices',
 			ac: 'get_vuln',
 			code_name: code_name,
 			company_id: companyID,

@@ -124,21 +124,4 @@ export const ApiHandlers = {
 				console.log(err);
 			});
 	},
-
-	initializeSnsData: async (data: any, companyID: string) => {
-		return fetchPOST({
-			params: {
-				model: 'offensive/sns',
-				ac: 'search',
-				company_id: companyID,
-				...data,
-			},
-		})
-			.then((res) => {
-				return res;
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	},
 };

@@ -659,6 +659,17 @@ main.cloud {
 				}
 			}
 		}
+
+		.right {
+			.card {
+				.content {
+					.chart {
+						flex: 1 1;
+						margin-inline: auto;
+					}
+				}
+			}
+		}
 	}
 
 	.network-btn {
@@ -678,6 +689,22 @@ main.cloud {
 			}
 			.error-boundry-text {
 				color: var(--tertiary-color-100);
+			}
+		}
+	}
+}
+
+.card.risk-chart {
+	.content {
+		.table {
+			.columns-name {
+				justify-content: center;
+			}
+
+			.rows {
+				.item {
+					justify-content: center;
+				}
 			}
 		}
 	}

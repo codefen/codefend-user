@@ -2,7 +2,7 @@ import { fetchPOST, handleFetchError } from '../';
 const getPreviousSearches = async (companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'offensive/inx',
+			model: 'modules/inx',
 			ac: 'view_previous',
 			company_id: companyID,
 		},
@@ -14,7 +14,7 @@ const getPreviousSearches = async (companyID: string) => {
 const initializeSearch = async (term: string, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'offensive/inx',
+			model: 'modules/inx',
 			ac: 'init_search',
 			term: term,
 			company_id: companyID,
@@ -27,7 +27,7 @@ const initializeSearch = async (term: string, companyID: string) => {
 const search = async (params: any, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'offensive/inx',
+			model: 'modules/inx',
 			ac: 'search',
 			company_id: companyID,
 			...params,
@@ -41,7 +41,7 @@ const search = async (params: any, companyID: string) => {
 const preview = async (params: any, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'offensive/inx',
+			model: 'modules/inx',
 			ac: 'preview',
 			company_id: companyID,
 			...params,
@@ -54,7 +54,7 @@ const preview = async (params: any, companyID: string) => {
 const read = async (params: any, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'offensive/inx',
+			model: 'modules/inx',
 			ac: 'read',
 			company_id: companyID,
 			...params,
