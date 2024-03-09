@@ -28,7 +28,7 @@ export const Breadcrumb: React.FC<Props> = (props) => {
 			</span>
 			{segments.map((segment: string, i: number) => (
 				<Fragment key={i}>
-					<span className="sep"><FaAngleDoubleRight /></span>
+					<span className="sep">//</span>
 					{segment}
 				</Fragment>
 			))}

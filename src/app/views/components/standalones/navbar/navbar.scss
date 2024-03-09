@@ -75,13 +75,13 @@
 			word-spacing: 3px;
 			font-size: 14px;
 			user-select: none;
-			// min-width: 200px;
+			min-width: 150px;
 			.sep {
-				font-size: 14px;
-				font-weight: 200;
-				margin-inline: 5px;
-				text-align: center;
-				padding-bottom: 2px;
+				// font-size: 14px;
+				// font-weight: 200;
+				margin: 0 3px;
+				// text-align: center;
+				// padding-bottom: 2px;
 			}
 			.go-home {
 				transition: color 150ms linear;
@@ -110,7 +110,7 @@
 			border-right: 1px solid var(--tertiary-color-800);
 			background-color: #00000030;
 			cursor: pointer;
-			
+
 			svg {
 				width: 18px;
 				// height: 18px;
