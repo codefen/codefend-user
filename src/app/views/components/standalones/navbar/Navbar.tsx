@@ -2,21 +2,34 @@ import React, { lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import {
 	Breadcrumb,
+	Show,
+	ModalWrapper,
+	ConfirmModal,
 	ThemeChangerButton,
 	MessageIcon,
 	PreferenceIcon,
 	NetworkIcon,
+	LogoutIcon,
 } from '../..';
 import {
 	usePanelStore,
 	NetworkSettingState,
 	useNetworkSettingState,
+	useModal,
 } from '../../../../data';
 import useAuthStore from '../../../../data/store/auth.store';
 import { NavbarSubMenu } from './NavbarSubMenu';
 import './navbar.scss';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
+
+// interface Props {
+// 	subMenuRef: any;
+// 	isOpen: boolean;
+// 	closeMenu: () => void;
+// 	userFullname: string;
+// 	userProfile?: string;
+// }
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
@@ -29,6 +42,9 @@ const Navbar: React.FC = () => {
 		(state: NetworkSettingState) => state,
 	);
 	const [baseApiName, setBaseApiName] = useState('');
+	const { logout } = useAuthStore((state) => state);
+	const { showModal, showModalStr, setShowModal, setShowModalStr } =
+	useModal();
 
 	useEffect(() => {
 		const handleClickOutsideMenu = (event: any) => {
@@ -44,20 +60,8 @@ const Navbar: React.FC = () => {
 
 		// Detect if they clicked outside the dropdown
 		document.addEventListener('mousedown', handleClickOutsideMenu);
-		const baseApi = localStorage.getItem('baseApi');
-		if (baseApi) {
-			// Encontrar la posición del primer punto después de //
-			const firstDotIndex = baseApi.indexOf('//') + 2; // Sumamos 2 para empezar después de //
-
-			// Extraer la parte de la URL desde // hasta el primer punto
-			const extractedUrl = baseApi.substring(
-				firstDotIndex,
-				baseApi.indexOf('.', firstDotIndex),
-			);
-
-			// Mostrar la URL extraída en la consola (puedes usarla según tus necesidades)
-			setBaseApiName(extractedUrl);
-		}
+		
+		setBaseApiName("kundalini");
 
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutsideMenu);
@@ -65,6 +69,26 @@ const Navbar: React.FC = () => {
 	}, []);
 	return (
 		<>
+			<Show when={showModal && showModalStr === 'logout'}>
+				<ModalWrapper action={() => setShowModal(!showModal)}>
+					<div
+						onClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+						}}>
+						<ConfirmModal
+							header="ARE YOU SURE YOU WANT TO LOGOUT?"
+							cancelText="Cancel"
+							confirmText="Logout"
+							close={() => setShowModal(!showModal)}
+							action={() => {
+								logout();
+								navigate('/auth/signin');
+							}}
+						/>
+					</div>
+				</ModalWrapper>
+			</Show>		
 			<nav className="navbar">
 				<div className="left">
 					<div className="navbar-logo">
@@ -102,14 +126,13 @@ const Navbar: React.FC = () => {
 							<NetworkIcon width={1.1} height={1.1} />
 							<span>{baseApiName}</span>
 						</div>
-						{/* <div className="action">
-							<ThemeChangerButton />
-						</div> */}
+
 					</div>
 				</div>
 
 				<div className="right">
 					<div className="actions">
+					
 						<div
 							className="user action"
 							ref={userRef}
@@ -120,7 +143,7 @@ const Navbar: React.FC = () => {
 							<span className="email">
 								{userData.email ?? 'not-found'}
 							</span>
-							<div className="profile"></div>
+							{/* <div className="profile"></div> */}
 							<NavbarSubMenu
 								isOpen={isMenuOpen}
 								subMenuRef={dropdownRef}
@@ -128,6 +151,18 @@ const Navbar: React.FC = () => {
 								closeMenu={() => setMenuOpen(false)}
 							/>
 						</div>
+						
+						<ThemeChangerButton />
+						
+						{/* <div
+							className="action"
+							title="Logout"
+							onClick={(e: React.FormEvent) => {
+								setShowModalStr('logout');
+								setShowModal(true);
+							}}>
+							<LogoutIcon width={1.1} height={1.1} />
+						</div> */}
 					</div>
 				</div>
 			</nav>
