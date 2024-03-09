@@ -12,13 +12,13 @@ export const ThemeChangerButton: React.FC<{ activeText: boolean }> = ({
 		<div
 			title="Change theme"
 			onClick={() => changeTheme()}
-			className="theme-content">
+			className="action">
 			<Show
 				when={theme === 'dark'}
 				fallback={<SunIcon width={1.75} height={1.75} />}>
 				<MoonIcon width={1.75} height={1.75} />
 			</Show>
-			<span className="text-options">{text}</span>
+			{/* <span className="text-options">{text}</span> */}
 		</div>
 	);
 };

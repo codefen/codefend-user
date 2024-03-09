@@ -84,7 +84,7 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 					e.stopPropagation();
 				}}>
 				<div className="user">
-					<div className="profile"></div>
+					{/* <div className="profile"></div> */}
 					<span
 						className="username"
 						title={props.userFullname}
@@ -124,9 +124,9 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 						<ChevronIcon width={0.65} height={0.65} />
 					</div> */}
 
-					<div className="option">
+					{/* <div className="option">
 						<ThemeChangerButton activeText />
-					</div>
+					</div> */}
 					<div
 						className="option"
 						onClick={(e: React.FormEvent) => {

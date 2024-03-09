@@ -8,7 +8,7 @@ import {
 	EnpIcon,
 	GlobeWebIcon,
 	InxIcon,
-	/*LanIcon,*/
+	LanIcon,
 	MobileIcon,
 	PeopleGroup,
 	SnbIcon,
@@ -22,11 +22,11 @@ import './sidebar.scss';
 
 const Sidebar: React.FC = () => {
 	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin =
-		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
+	const showAdmin = isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	const { isActivePath } = usePanelStore();
-
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const [isHidden, setIsHidden] = useState(false);
+	const [pressedKeys, setPressedKeys] = useState(new Set<string>());
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
 		if (action === 'enter') {
@@ -35,6 +35,36 @@ const Sidebar: React.FC = () => {
 			setIsSidebarOpen(false);
 		}
 	};
+
+	useEffect(() => {
+		const handleKeyDown = (event: KeyboardEvent) => {
+		  setPressedKeys((prevKeys) => {
+			const newKeys = new Set([...prevKeys, event.key]);
+	
+			if (newKeys.has('h') && newKeys.has('Control')) {
+			  setIsHidden((prevState) => !prevState);
+			}
+	
+			return newKeys;
+		  });
+		};
+	
+		const handleKeyUp = (event: KeyboardEvent) => {
+		  setPressedKeys((prevKeys) =>
+			new Set([...prevKeys].filter((key) => key !== event.key))
+		  );
+		};
+	
+		window.addEventListener('keydown', handleKeyDown);
+		window.addEventListener('keyup', handleKeyUp);
+	
+		return () => {
+		  window.removeEventListener('keydown', handleKeyDown);
+		  window.removeEventListener('keyup', handleKeyUp);
+		};
+	  }, []);
+	  
+	  
 	return (
 		<aside
 			className={`sidebar ${isSidebarOpen ? 'is-open' : ''}`}
@@ -45,9 +75,8 @@ const Sidebar: React.FC = () => {
 					<Link
 						title="Admin Panel"
 						to="/admin/company"
-						className={`${
-							isActivePath('/admin/company') ? 'active' : ''
-						}`}
+						className={`${isActivePath('/admin/company') ? 'active' : ''
+							}`}
 						aria-label="Admin panel"
 						data-text="Admin panel">
 						<AdminCompany />
@@ -90,18 +119,17 @@ const Sidebar: React.FC = () => {
 				<CLoudIcon />
 			</Link>
 
-			{/* 
-				<Link
-				title="Lan"
+			
+				{/* <Link
+				title="Network"
 				to="/lan"
 				className={`${
 					isActivePath('/lan') ? ' active' : ''
 				}`}
 				data-text="Lan">
 				<LanIcon />
-	
-			</Link>
-				*/}
+			</Link> */}
+				
 
 			<Link
 				title="Source Code"
@@ -138,7 +166,8 @@ const Sidebar: React.FC = () => {
 				data-text="Issues">
 				<BugIcon />
 			</Link>
-
+			{isHidden && (
+				<>
 			<Link
 				title="Inx"
 				to="/inx"
@@ -165,6 +194,8 @@ const Sidebar: React.FC = () => {
 				data-text="Vdb">
 				<VdbIcon />
 			</Link>
+			</>
+			)}
 		</aside>
 	);
 };

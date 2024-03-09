@@ -241,7 +241,7 @@
 				display: flex;
 				height: 9rem;
 				column-gap: 2.25rem;
-				padding-inline: 1.5rem;
+				padding: 1.5rem;
 
 				.chatbox-img {
 					display: flex;
@@ -584,7 +584,7 @@
 
 	.message-card-content {
 		border-radius: 100%;
-		width: 100%;
+		// width: 100%;
 		min-width: 2.185rem;
 
 		img {
