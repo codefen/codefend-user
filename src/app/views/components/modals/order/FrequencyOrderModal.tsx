@@ -6,7 +6,7 @@ export const FrequencyOrderModal = () => {
 	const { frequency, updateState } = useOrderStore((state) => state);
 
 	return (
-		<div>
+		<>
 			<div className="option-header">
 				<h3>
 					<b>We will size the task, please select the model.</b>
@@ -94,6 +94,6 @@ export const FrequencyOrderModal = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };

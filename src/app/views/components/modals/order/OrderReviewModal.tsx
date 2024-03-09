@@ -33,7 +33,7 @@ export const OrderReviewModal = () => {
 	if (teamSize === OrderTeamSize.FULL) teamSizeText = 'Full team';
 
 	return (
-		<div>
+		<>
 			<div className="option-header">
 				<h3>
 					<b>Great! We have these options to offer you!</b>
@@ -127,6 +127,6 @@ export const OrderReviewModal = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };

@@ -6,7 +6,7 @@ export const TeamSizeOrderModal = () => {
 	const { teamSize, updateState } = useOrderStore((state) => state);
 
 	return (
-		<div>
+		<>
 			<div className="option-header">
 				<h3>
 					<b>We will size the task, please select the model.</b>
@@ -92,6 +92,6 @@ export const TeamSizeOrderModal = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };

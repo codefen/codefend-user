@@ -12,7 +12,7 @@ export const ScopeOrderModal = () => {
 	} = useOrderStore((state) => state);
 
 	return (
-		<div>
+		<>
 			<div className="option-header">
 				<h3>
 					<b>Let's start a new pentest! what would like analyse?</b>
@@ -109,6 +109,6 @@ export const ScopeOrderModal = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
