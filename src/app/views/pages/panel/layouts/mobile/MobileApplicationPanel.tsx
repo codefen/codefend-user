@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
 	DeleteMobileCloudModal,
 	ModalTitleWrapper,
+	OrderV2,
 	PageLoader,
 	Show,
 } from '../../../../components';
@@ -9,6 +10,7 @@ import {
 	SelectMobileCloudApp,
 	useMobile,
 	useModal,
+	useOrderStore,
 	useSelectMobileCloudApp,
 } from '../../../../../data';
 
@@ -47,6 +49,8 @@ const MobileApplicationPanel: React.FC = () => {
 					close={() => setShowModal(false)}
 				/>
 			</ModalTitleWrapper>
+
+			<OrderV2 />
 
 			<DeleteMobileCloudModal onDone={() => refresh(!control)} />
 			<main className={`mobile ${showScreen ? 'actived' : ''}`}>

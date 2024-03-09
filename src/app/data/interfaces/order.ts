@@ -11,12 +11,12 @@ export enum OrderSection {
 }
 
 export enum ResourcesTypes {
-    WEB,
-    MOBILE,
-    CLOUD,
-    CODE,
-    SOCIAL,
-    NETWORK,
+    WEB="web",
+    MOBILE="mobile",
+    CLOUD="cloud",
+    CODE="source code",
+    SOCIAL="social",
+    NETWORK="network",
 }
 
 export enum OrderEnvironment {
@@ -30,11 +30,16 @@ export enum OrderTeamSize {
     FULL
 }
 
+export enum ScopeOption {
+    ALL,
+    TYPE
+}
+
 export interface ScopeOptions {
     totalResources: number;
     totalAllResources: number;
 
-    scopeOption: "all" | "type";
+    scopeOption: ScopeOption;
 }
 
 export enum OrderPaymentMethod {

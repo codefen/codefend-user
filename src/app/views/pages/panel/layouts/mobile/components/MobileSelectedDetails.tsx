@@ -17,6 +17,7 @@ import {
 	MobileUnique,
 	SelectMobileCloudApp,
 	useModal,
+	useOrderStore,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
 import Order from '../../../../../components/modals/order';
@@ -27,9 +28,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 	const { appSelected, fetchMobileOne, appUnique } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
-
-	const { showModal, showModalStr, setShowModal, setShowModalStr } =
-		useModal();
+	const { updateState } = useOrderStore((state) => state);
 
 	useEffect(() => {
 		setLoading(true);
@@ -40,13 +39,6 @@ export const MobileSelectedDetails: React.FC = (props) => {
 	return (
 		<Show when={!isLoding} fallback={<PageLoader />}>
 			<>
-				<Show when={showModal && showModalStr === 'order'}>
-					<OrderV2
-						closeModal={() => {
-							setShowModal(false);
-						}}
-					/>
-				</Show>
 				<div>
 					<AppCardInfo
 						type="mobile"
@@ -63,10 +55,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 					<div className="selected-content-tables">
 						<PrimaryButton
 							text="START A PENTEST ON DEMAND"
-							click={() => {
-								setShowModalStr('order');
-								setShowModal(true);
-							}}
+							click={() => updateState('open', true)}
 							className="primary-full bottom"
 						/>
 						<VulnerabilityRisk

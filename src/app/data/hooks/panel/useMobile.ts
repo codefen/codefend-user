@@ -3,17 +3,18 @@ import {
 	MobileApp,
 	MobileProps,
 	MobileService,
-	MobileUnique,
+	ResourcesTypes,
 	mapMobileProps,
-	mobileUniqueProps,
 	useAuthState,
+	useOrderStore,
+	verifySession,
 } from '../..';
 import { toast } from 'react-toastify';
 import { FetchPattern } from 'app/data/interfaces/util';
 
 export const useMobile = () => {
-	const { getCompany } = useAuthState();
-
+	const { getCompany, logout } = useAuthState();
+	const { updateState, setScopeTotalResources } = useOrderStore((state) => state);
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<MobileProps>>({
 		data: null,
 		error: null,
@@ -27,13 +28,23 @@ export const useMobile = () => {
 		}));
 		MobileService.getAll(companyID)
 			.then((response: any) =>
-				dispatch({
-					data: mapMobileProps(response),
-					error: null,
-					isLoading: false,
-				}),
+				{
+					verifySession(response, logout);
+					const resourcces = mapMobileProps(response);
+					dispatch({
+						data: resourcces,
+						error: null,
+						isLoading: false,
+					});
+					setScopeTotalResources(resourcces.available.length);
+				}
 			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+			.catch((error) => dispatch({ data: null, error, isLoading: false }))
+			.finally(()=>{
+				updateState("resourceType", ResourcesTypes.MOBILE);
+
+				
+			});
 	}, []);
 
 	const refetch = () => {

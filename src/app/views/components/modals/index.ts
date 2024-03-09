@@ -8,9 +8,8 @@ export { default as ModalTitleWrapper } from './ModalTitleWrapper';
 export { default as ModalWrapper } from './modalwrapper/ModalWrapper';
 export * from './AddTicketModal';
 export * from './network-modal/NetworkSetingModal';
-export * from './order';
 export * from "./DeleteMobileCloudModal"
 export * from "./AddCompanyModal";
 export * from "./AddUserCompanyModal"
 
-export * from "./orderv2/Orderv2.tsx"
+export * from "./order/Orderv2.tsx"
