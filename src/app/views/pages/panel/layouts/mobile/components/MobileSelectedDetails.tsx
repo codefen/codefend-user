@@ -20,7 +20,6 @@ import {
 	useOrderStore,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
-import Order from '../../../../../components/modals/order';
 
 export const MobileSelectedDetails: React.FC = (props) => {
 	const [isLoding, setLoading] = useState<boolean>(false);

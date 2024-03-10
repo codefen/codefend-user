@@ -1,9 +1,20 @@
-import React from 'react';
-import { PrimaryButton, SecondaryButton } from '../..';
-import { OrderSection, OrderTeamSize, useOrderStore } from '../../../../data';
+import React, { useState } from 'react';
+import { PrimaryButton, SecondaryButton } from '../../..';
+import {
+	OrderSection,
+	OrderTeamSize,
+	useOrderStore,
+} from '../../../../../data';
 
 export const TeamSizeOrderModal = () => {
 	const { teamSize, updateState } = useOrderStore((state) => state);
+
+	const [teamSizeW, setTeamSize] = useState<OrderTeamSize>(teamSize);
+
+	const nextStep = () => {
+		updateState('teamSize', teamSizeW);
+		updateState('orderStepActive', OrderSection.ORDER_REVIEW);
+	};
 
 	return (
 		<>
@@ -17,13 +28,12 @@ export const TeamSizeOrderModal = () => {
 				</h3>
 			</div>
 
-			<div
-				className={`scope-content show-both-borders ${teamSize === OrderTeamSize.SMALL && 'show-bottom-border'} ${teamSize === OrderTeamSize.FULL && 'show-top-border'}`}>
+			<div className="scope-content show-both-borders">
 				<div
-					className={`option show-border order-pointer ${
-						teamSize === OrderTeamSize.SMALL && `select-option`
+					className={`option show-both-borders order-pointer ${
+						teamSizeW === OrderTeamSize.SMALL && `select-option`
 					}`}
-					onClick={() => updateState('teamSize', OrderTeamSize.SMALL)}>
+					onClick={() => setTeamSize(OrderTeamSize.SMALL)}>
 					<h4 className="codefend-text-red">$1,500</h4>
 
 					<div className="order-snapshot">
@@ -37,10 +47,10 @@ export const TeamSizeOrderModal = () => {
 					</div>
 				</div>
 				<div
-					className={`option order-pointer ${teamSize === OrderTeamSize.SMALL && 'show-bottom-border'} ${teamSize === OrderTeamSize.FULL && 'show-top-border'} ${
-						teamSize === OrderTeamSize.MID && `select-option`
+					className={`option order-pointer show-both-borders ${
+						teamSizeW === OrderTeamSize.MID && `select-option`
 					}`}
-					onClick={() => updateState('teamSize', OrderTeamSize.MID)}>
+					onClick={() => setTeamSize(OrderTeamSize.MID)}>
 					<h4 className="codefend-text-red">$4,500</h4>
 
 					<div className="order-snapshot">
@@ -54,10 +64,10 @@ export const TeamSizeOrderModal = () => {
 					</div>
 				</div>
 				<div
-					className={`option  bottom-border order-pointer ${
-						teamSize === OrderTeamSize.FULL && `select-option`
+					className={`option show-both-borders order-pointer ${
+						teamSizeW === OrderTeamSize.FULL && `select-option`
 					}`}
-					onClick={() => updateState('teamSize', OrderTeamSize.FULL)}>
+					onClick={() => setTeamSize(OrderTeamSize.FULL)}>
 					<h4 className="codefend-text-red">$13,500</h4>
 
 					<div className="order-snapshot">
@@ -85,9 +95,7 @@ export const TeamSizeOrderModal = () => {
 				<div className="primary-container">
 					<PrimaryButton
 						text="Continue"
-						click={() =>
-							updateState('orderStepActive', OrderSection.ORDER_REVIEW)
-						}
+						click={nextStep}
 						className="full"
 					/>
 				</div>

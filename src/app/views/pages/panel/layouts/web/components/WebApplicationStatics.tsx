@@ -33,7 +33,7 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({
 					<div className="value">
 						{getCompanyMetric(getResources(), 'domain')}
 					</div>
-					<p className="text-fend-red">Domains</p>
+					<p className="codefend-text-red-200">Domains</p>
 				</div>
 				<div className="stat">
 					<div className="value">

@@ -1,13 +1,6 @@
 @forward 'settings/settings.scss';
 @use 'settings/mixin' as mixin;
 
-@layer utilities {
-	.filter-bg-rug {
-		background: #1c2531;
-		filter: url('/public/codefend/rugoso.svg') blur(1px);
-	}
-}
-
 ///////////////////////////////////////////////////////////////////
 // UTIL
 //////////////////////////////////////////////////////////////////
@@ -16,21 +9,25 @@
 	color: var(--primary-color-100);
 }
 
+.block {
+	display: block;
+}
+.underline-high {
+	text-decoration-line: underline;
+}
+.bg-transparent {
+	background-color: transparent !important;
+}
+
 .title-format {
 	font-family: Roboto, sans-serif;
 	text-transform: uppercase;
 	font-weight: bold;
-	//color: var(--primary-color-100);
-	//color: var(--tertiary-color-200);
 	color: var(--tertiary-color-700);
 }
 
 .red-border {
 	border-left: 6px solid var(--secondary-color-50) !important;
-}
-
-.border-bottom {
-	border-bottom: 1px solid var(--primary-color-300) !important;
 }
 
 .sub-domain-icon-v {
@@ -52,7 +49,9 @@
 .codefend-text-red {
 	color: var(--secondary-color-50) !important;
 }
-
+.codefend-text-red-200 {
+	color: var(--secondary-color-200) !important;
+}
 .text-white {
 	color: var(--primary-color-200) !important;
 }
@@ -66,25 +65,6 @@
 }
 .codefend-border-red {
 	border: 1px solid var(--secondary-color-50);
-}
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
-}
-
-.text-fend-red {
-	color: var(--secondary-color-200) !important;
-}
-
-.tox-textarea {
-	height: 500px !important;
 }
 
 .flex {

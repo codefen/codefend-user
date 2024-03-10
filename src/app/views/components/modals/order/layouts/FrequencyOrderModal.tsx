@@ -1,9 +1,20 @@
-import React from 'react';
-import { PrimaryButton, SecondaryButton } from '../..';
-import { OrderFrequency, OrderSection, useOrderStore } from '../../../../data';
+import React, { useState } from 'react';
+import { PrimaryButton, SecondaryButton } from '../../..';
+import {
+	OrderFrequency,
+	OrderSection,
+	useOrderStore,
+} from '../../../../../data';
 
 export const FrequencyOrderModal = () => {
 	const { frequency, updateState } = useOrderStore((state) => state);
+
+	const [frequencyW, setFrequency] = useState<OrderFrequency>(frequency);
+
+	const nextStep = () => {
+		updateState('frequency', frequencyW);
+		updateState('orderStepActive', OrderSection.TEAM_SIZE);
+	};
 
 	return (
 		<>
@@ -16,15 +27,12 @@ export const FrequencyOrderModal = () => {
 					</span>
 				</h3>
 			</div>
-			<div
-				className={`scope-content ${frequency === OrderFrequency.ONE_ORDER ? 'show-bottom-border' : 'show-top-border'}`}>
+			<div className="scope-content show-both-borders">
 				<div
-					className={`option order-pointer ${
-						frequency === OrderFrequency.ONE_ORDER && `select-option`
+					className={`option order-pointer show-both-borders ${
+						frequencyW === OrderFrequency.ONE_ORDER && `select-option`
 					}`}
-					onClick={() =>
-						updateState('frequency', OrderFrequency.ONE_ORDER)
-					}>
+					onClick={() => setFrequency(OrderFrequency.ONE_ORDER)}>
 					<img
 						src="/codefend/order-frequency1.svg"
 						alt="fast-pentest-icon"
@@ -46,12 +54,10 @@ export const FrequencyOrderModal = () => {
 					</div>
 				</div>
 				<div
-					className={`option order-pointer ${
-						frequency === OrderFrequency.SUBSCRIPTION && `select-option`
+					className={`option order-pointer show-both-borders ${
+						frequencyW === OrderFrequency.SUBSCRIPTION && `select-option`
 					}`}
-					onClick={() =>
-						updateState('frequency', OrderFrequency.SUBSCRIPTION)
-					}>
+					onClick={() => setFrequency(OrderFrequency.SUBSCRIPTION)}>
 					<img
 						src="/codefend/order-frequency2.svg"
 						alt="large-pentest-icon"
@@ -87,9 +93,7 @@ export const FrequencyOrderModal = () => {
 				<div className="primary-container">
 					<PrimaryButton
 						text="Continue"
-						click={() =>
-							updateState('orderStepActive', OrderSection.TEAM_SIZE)
-						}
+						click={nextStep}
 						className="full"
 					/>
 				</div>

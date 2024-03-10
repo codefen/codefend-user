@@ -1,6 +1,6 @@
-import React from 'react';
-import { OrderSection, ScopeOption, useOrderStore } from '../../../../data';
-import { PrimaryButton, SecondaryButton } from '../..';
+import React, { useState } from 'react';
+import { OrderSection, ScopeOption, useOrderStore } from '../../../../../data';
+import { PrimaryButton, SecondaryButton } from '../../..';
 
 export const ScopeOrderModal = () => {
 	const {
@@ -10,6 +10,15 @@ export const ScopeOrderModal = () => {
 		resetActiveOrder,
 		updateState,
 	} = useOrderStore((state) => state);
+
+	const [scopeOptionW, setScopeOptionW] = useState<ScopeOption>(
+		scope.scopeOption,
+	);
+
+	const nextStep = () => {
+		setScopeOption(scopeOptionW);
+		updateState('orderStepActive', OrderSection.FREQUENCY);
+	};
 
 	return (
 		<>
@@ -27,8 +36,8 @@ export const ScopeOrderModal = () => {
 						type="radio"
 						value={ScopeOption.TYPE}
 						className="radio-option"
-						defaultChecked={scope.scopeOption === ScopeOption.TYPE}
-						onClick={() => setScopeOption(ScopeOption.TYPE)}
+						defaultChecked={scopeOptionW === ScopeOption.TYPE}
+						onClick={() => setScopeOptionW(ScopeOption.TYPE)}
 					/>
 					<label htmlFor="scope-resources" className="order-snapshot">
 						<div className="top">
@@ -54,8 +63,8 @@ export const ScopeOrderModal = () => {
 						type="radio"
 						value={ScopeOption.ALL}
 						className="radio-option"
-						defaultChecked={scope.scopeOption === ScopeOption.ALL}
-						onClick={() => setScopeOption(ScopeOption.ALL)}
+						defaultChecked={scopeOptionW === ScopeOption.ALL}
+						onClick={() => setScopeOptionW(ScopeOption.ALL)}
 					/>
 					<label htmlFor="all-scope-resources" className="order-snapshot">
 						<div className="top">
@@ -64,7 +73,7 @@ export const ScopeOrderModal = () => {
 								I want to analyze all my team resources{' '}
 								<span className="codefend-text-red order-dash-space">
 									{' '}
-									- 18 resources:
+									- {scope.totalAllResources} resources:
 								</span>
 							</p>
 						</div>
@@ -102,9 +111,7 @@ export const ScopeOrderModal = () => {
 				<div className="primary-container">
 					<PrimaryButton
 						text="Continue"
-						click={() =>
-							updateState('orderStepActive', OrderSection.FREQUENCY)
-						}
+						click={nextStep}
 						className="full"
 					/>
 				</div>

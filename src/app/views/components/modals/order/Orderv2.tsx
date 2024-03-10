@@ -1,35 +1,54 @@
-import { OrderSection, useOrderStore } from '../../../../data';
+import {
+	OrderPaymentMethod,
+	OrderSection,
+	useOrderStore,
+} from '../../../../data';
 import { ModalWrapper } from '..';
-import { ScopeOrderModal } from './ScopeOrderModal';
-import { FrequencyOrderModal } from './FrequencyOrderModal';
-import { TeamSizeOrderModal } from './TeamSizeOrderModal';
-import { OrderReviewModal } from './OrderReviewModal';
+import { ScopeOrderModal } from './layouts/ScopeOrderModal';
+import { FrequencyOrderModal } from './layouts/FrequencyOrderModal';
+import { TeamSizeOrderModal } from './layouts/TeamSizeOrderModal';
+import { OrderReviewModal } from './layouts/OrderReviewModal';
 import './order.scss';
+import { useState } from 'react';
+import { PageLoader } from '../..';
+import { LeadOrderModal } from './layouts/LeadOrderModal';
+import { EnvironmentOrderModal } from './layouts/EnvironmentOrderModal';
+import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
+import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
+import { ActiveProgressLine } from './components/ActiveProgessiveSteps';
+import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 
 export const OrderV2 = () => {
-	const { orderStepActive, resetActiveOrder, open } = useOrderStore(
-		(state) => state,
-	);
-
-	const currentOrCompleted = (current: OrderSection, verify: OrderSection) => {
-		if (verify === current) return ' current';
-		return verify < current ? ' completed' : '';
-	};
+	const [isNextStep, updateNextStep] = useState(false);
+	const { orderStepActive, resetActiveOrder, open, paymentMethod } =
+		useOrderStore((state) => state);
 
 	const ActiveStep = () => {
+		if (isNextStep) return <PageLoader />;
 		if (orderStepActive === OrderSection.SCOPE) return <ScopeOrderModal />;
 		if (orderStepActive === OrderSection.FREQUENCY)
 			return <FrequencyOrderModal />;
 		if (orderStepActive === OrderSection.TEAM_SIZE)
 			return <TeamSizeOrderModal />;
 		if (orderStepActive === OrderSection.ORDER_REVIEW)
-			return <OrderReviewModal />;
-		if (orderStepActive === OrderSection.SELECT_LEAD) return <>Hola</>;
-		if (orderStepActive === OrderSection.ENVIRONMENT) return <>Hola</>;
-		if (orderStepActive === OrderSection.ADDITIONAL_INFO) return <>Hola</>;
-		if (orderStepActive === OrderSection.PAYMENT_METHOD) return <>Hola</>;
+			return <OrderReviewModal updateNextStep={updateNextStep} />;
+		if (orderStepActive === OrderSection.SELECT_LEAD)
+			return <LeadOrderModal />;
+		if (orderStepActive === OrderSection.ENVIRONMENT)
+			return <EnvironmentOrderModal />;
+		if (orderStepActive === OrderSection.ADDITIONAL_INFO)
+			return <AdditionalOrderModal />;
+		if (
+			orderStepActive === OrderSection.PAYMENT ||
+			paymentMethod !== OrderPaymentMethod.FINISHED
+		)
+			return <PaymentMethodOrderModal />;
 
-		return <>Hola</>;
+		return orderStepActive === OrderSection.WELCOME ? (
+			<WelcomeOrderModal />
+		) : (
+			<>adio</>
+		);
 	};
 
 	const close = () => {
@@ -51,26 +70,10 @@ export const OrderV2 = () => {
 						</div>
 
 						<div className="steps">
-							<span
-								className={`step ${currentOrCompleted(orderStepActive, OrderSection.SCOPE)}`}>
-								<div className="step-dot"></div>
-								<p>Scope</p>
-							</span>
-							<span
-								className={`step ${currentOrCompleted(orderStepActive, OrderSection.FREQUENCY)}`}>
-								<div className="step-dot"></div>
-								<p>Frequency</p>
-							</span>
-							<span
-								className={`step ${currentOrCompleted(orderStepActive, OrderSection.TEAM_SIZE)} ${orderStepActive + 1 === OrderSection.TEAM_SIZE ? 'next-step' : ''}`}>
-								<div className="step-dot"></div>
-								<p>Team size</p>
-							</span>
-							<span
-								className={`step ${currentOrCompleted(orderStepActive, OrderSection.ORDER_REVIEW)} ${orderStepActive + 1 === OrderSection.ORDER_REVIEW ? 'next-step' : ''}`}>
-								<div className="step-dot"></div>
-								<p>Order review</p>
-							</span>
+							<ActiveProgressLine
+								isNextStep={isNextStep}
+								orderStepActive={orderStepActive}
+							/>
 						</div>
 					</header>
 

@@ -22,12 +22,12 @@ export const VulnerabilitiesStatus: React.FC<{
 				<div onClick={() => navigate('/issues')} className="content">
 					<div className="stat">
 						<div className="value">
-							<span className="text-fend-red">
+							<span className="codefend-text-red-200">
 								{renderMetrics().open}
 							</span>
 							{`/${renderMetrics().total}`}
 						</div>
-						<p className="text-fend-red">Open issues</p>
+						<p className="codefend-text-red-200">Open issues</p>
 					</div>
 					<div className="stat">
 						<div className="value">

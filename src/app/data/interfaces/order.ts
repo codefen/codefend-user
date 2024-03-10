@@ -6,8 +6,9 @@ export enum OrderSection {
     SELECT_LEAD=5,
     ENVIRONMENT=6,
     ADDITIONAL_INFO=7,
-    PAYMENT_METHOD=8,
-    WELCOME=9
+    PAYMENT=8,
+    WELCOME=9,
+    PAYMENT_ERROR=10
 }
 
 export enum ResourcesTypes {
@@ -45,7 +46,8 @@ export interface ScopeOptions {
 export enum OrderPaymentMethod {
     CRYPTO,
     CARD,
-    BANK_TRANSFER
+    BANK_TRANSFER,
+    FINISHED
 }
 export enum OrderFrequency {
     ONE_ORDER,

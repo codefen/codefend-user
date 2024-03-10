@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { PrimaryButton, SecondaryButton } from '../..';
+import { PrimaryButton, SecondaryButton } from '../../..';
 import {
 	useOrderStore,
 	ScopeOption,
 	OrderFrequency,
 	OrderTeamSize,
 	OrderSection,
-} from '../../../../data';
+} from '../../../../../data';
+import { toast } from 'react-toastify';
 
-export const OrderReviewModal = () => {
+export const OrderReviewModal: React.FC<{
+	updateNextStep: (updated: boolean) => void;
+}> = (props) => {
 	const { resourceType, scope, frequency, teamSize, updateState } =
 		useOrderStore((state) => state);
 
@@ -32,6 +35,17 @@ export const OrderReviewModal = () => {
 	if (teamSize === OrderTeamSize.MID) teamSizeText = 'Medium team';
 	if (teamSize === OrderTeamSize.FULL) teamSizeText = 'Full team';
 
+	const nextStep = () => {
+		updateState('orderStepActive', OrderSection.SELECT_LEAD);
+		props.updateNextStep(true);
+
+		setTimeout(() => {
+			props.updateNextStep(false);
+			toast.success(
+				`Your request has been processed. You're about to finish!`,
+			);
+		}, 1100);
+	};
 	return (
 		<>
 			<div className="option-header">
@@ -67,10 +81,7 @@ export const OrderReviewModal = () => {
 					</div>
 				</div>
 				<div className="option">
-					<img
-						src="/codefend/pentest-header-vector.svg"
-						alt="header-icon"
-					/>
+					<img src="/codefend/frequency-1.png" alt="header-icon" />
 
 					<div className="order-snapshot">
 						<div className="top">
@@ -83,10 +94,7 @@ export const OrderReviewModal = () => {
 					</div>
 				</div>
 				<div className="option">
-					<img
-						src="/codefend/pentest-header-vector.svg"
-						alt="header-icon"
-					/>
+					<img src="/codefend/alloc-1.png" alt="header-icon" />
 
 					<div className="order-snapshot">
 						<div className="top">
@@ -120,9 +128,7 @@ export const OrderReviewModal = () => {
 				<div className="primary-container">
 					<PrimaryButton
 						text="Continue to the next step"
-						click={() =>
-							updateState('orderStepActive', OrderSection.SELECT_LEAD)
-						}
+						click={nextStep}
 						className="full"
 					/>
 				</div>
