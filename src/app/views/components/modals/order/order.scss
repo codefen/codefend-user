@@ -639,6 +639,7 @@
 		}
 
 		.scope-confirm {
+			position: relative;
 			display: flex;
 			align-items: center;
 			column-gap: 1rem;
@@ -648,6 +649,14 @@
 
 			.disclaimers {
 				padding-inline-end: 5px;
+			}
+
+			.error-message {
+				position: absolute;
+				bottom: -5%;
+				left: 11%;
+				color: var(--secondary-color-50);
+				font-weight: 700;
 			}
 		}
 

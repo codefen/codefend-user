@@ -36,8 +36,9 @@ export const PaymentMethodOrderModal = () => {
 						<input
 							id="bank-transfer"
 							type="radio"
+							name="payment-methods"
 							className="radio-option"
-							checked={
+							defaultChecked={
 								paymentMethodW === OrderPaymentMethod.BANK_TRANSFER
 							}
 							onChange={() =>
@@ -63,8 +64,9 @@ export const PaymentMethodOrderModal = () => {
 						<input
 							id="card"
 							type="radio"
+							name="payment-methods"
 							className="radio-option"
-							checked={paymentMethodW === OrderPaymentMethod.CARD}
+							defaultChecked={paymentMethodW === OrderPaymentMethod.CARD}
 							onChange={() => setPaymentMethod(OrderPaymentMethod.CARD)}
 						/>
 						<label htmlFor="card" className="order-snapshot">
@@ -86,8 +88,11 @@ export const PaymentMethodOrderModal = () => {
 						<input
 							id="crypto"
 							type="radio"
+							name="payment-methods"
 							className="radio-option"
-							checked={paymentMethodW === OrderPaymentMethod.CRYPTO}
+							defaultChecked={
+								paymentMethodW === OrderPaymentMethod.CRYPTO
+							}
 							onChange={() =>
 								setPaymentMethod(OrderPaymentMethod.CRYPTO)
 							}

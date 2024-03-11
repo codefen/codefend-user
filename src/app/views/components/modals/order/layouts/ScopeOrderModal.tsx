@@ -14,10 +14,30 @@ export const ScopeOrderModal = () => {
 	const [scopeOptionW, setScopeOptionW] = useState<ScopeOption>(
 		scope.scopeOption,
 	);
+	const [acceptConditions, setAcceptCondition] = useState<boolean>(false);
+	const [tryClick, setTryClick] = useState<boolean>(false);
 
 	const nextStep = () => {
-		setScopeOption(scopeOptionW);
-		updateState('orderStepActive', OrderSection.FREQUENCY);
+		if (acceptConditions) {
+			setScopeOption(scopeOptionW);
+
+			updateState('orderStepActive', OrderSection.FREQUENCY);
+		} else {
+			setTryClick(true);
+			setTimeout(() => setTryClick(false), 2500);
+		}
+	};
+
+	const ErrorMessage = () => {
+		if (tryClick) {
+			return (
+				<span className="block error-message">
+					You must accept the terms to continue
+				</span>
+			);
+		} else {
+			return <></>;
+		}
 	};
 
 	return (
@@ -90,6 +110,8 @@ export const ScopeOrderModal = () => {
 					type="checkbox"
 					alt="checkbox"
 					className="codefend-checkbox confirm-check"
+					defaultChecked={acceptConditions}
+					onChange={() => setAcceptCondition(!acceptConditions)}
 				/>
 				<label htmlFor="confirmation" className="confirm-label">
 					<span
@@ -99,12 +121,14 @@ export const ScopeOrderModal = () => {
 					</span>
 					<span>and I’ve read and accept the disclaimer.</span>
 				</label>
+				<ErrorMessage />
 			</div>
+
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
 					<SecondaryButton
 						text="cancel"
-						click={(e: any) => resetActiveOrder()}
+						click={resetActiveOrder}
 						className="full"
 					/>
 				</div>
