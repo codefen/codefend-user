@@ -24,14 +24,14 @@ export const ScopeOrderModal = () => {
 			updateState('orderStepActive', OrderSection.FREQUENCY);
 		} else {
 			setTryClick(true);
-			setTimeout(() => setTryClick(false), 2500);
+			setTimeout(() => setTryClick(false), 2600);
 		}
 	};
 
 	const ErrorMessage = () => {
 		if (tryClick) {
 			return (
-				<span className="block error-message">
+				<span className="block error-message vibrate">
 					You must accept the terms to continue
 				</span>
 			);

@@ -279,6 +279,16 @@ input[type='search']::-webkit-search-decoration {
 	-webkit-appearance: none;
 }
 
+input[type='radio'] {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+	z-index: -1;
+}
+
 button::-moz-focus-inner,
 input::-moz-focus-inner {
 	border: 0;

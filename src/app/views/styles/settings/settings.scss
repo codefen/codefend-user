@@ -218,15 +218,6 @@ main {
 	--checkmark-size: 1.2;
 }
 
-input[type='radio'] {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 1px;
-	height: 1px;
-	opacity: 0;
-	z-index: -1;
-}
 .codefend-radio {
 	--radio-len: 22px;
 	--radio-bg: linear-gradient(

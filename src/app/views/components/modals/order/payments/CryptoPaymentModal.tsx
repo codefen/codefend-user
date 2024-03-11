@@ -108,7 +108,7 @@ export const CryptoPaymentModal = () => {
 							onChange={(e: any) => setTransactionID(e.target.value)}
 						/>
 						{trySend && (
-							<span className="error-input">
+							<span className="error-input vibrate">
 								You must write the id of the transaction
 							</span>
 						)}
