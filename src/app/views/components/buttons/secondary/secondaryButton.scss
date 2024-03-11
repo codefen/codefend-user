@@ -26,10 +26,9 @@
 	}
 }
 
-[data-theme] {
+[data-theme='dark'] {
 	button.btn {
 		&.btn-secondary {
-			color: var(--tertiary-color-400);
 			background-color: #1b2531;
 		}
 	}

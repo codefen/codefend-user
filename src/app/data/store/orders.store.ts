@@ -46,5 +46,5 @@ export const useOrderStore = create<OrderStore>((set,_get)=>({
 
     updateState: (key: string, updated: any)=> set((current: OrderStore)=> ({...current, [key as keyof typeof current]: updated})),
 
-    resetActiveOrder: ()=>set((state:OrderStore)=>({...state, orderStepActive: OrderSection.SCOPE, open: false}))
+    resetActiveOrder: ()=>set((state:OrderStore)=>({...state, orderStepActive: OrderSection.SCOPE, open: false, paymentMethod: OrderPaymentMethod.BANK_TRANSFER}))
 }));

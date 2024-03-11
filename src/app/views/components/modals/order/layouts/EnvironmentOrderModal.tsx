@@ -28,7 +28,8 @@ export const EnvironmentOrderModal: React.FC<any> = () => {
 				</h3>
 			</div>
 			<div className="scope-content show-both-borders">
-				<div className="option show-bottom-border">
+				<div
+					className={`option block-xl show-both-borders ${environmentOrderW === OrderEnvironment.TEST && 'select-option'}`}>
 					<input
 						id="test-environment"
 						name="environmentTest"
@@ -49,7 +50,8 @@ export const EnvironmentOrderModal: React.FC<any> = () => {
 						</span>
 					</label>
 				</div>
-				<div className="option">
+				<div
+					className={`option block-xl show-both-borders ${environmentOrderW === OrderEnvironment.PRODUCTION && 'select-option'}`}>
 					<input
 						id="production-environment"
 						name="environmentTest"

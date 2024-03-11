@@ -53,7 +53,7 @@ export const OrderReviewModal: React.FC<{
 					<b>Great! We have these options to offer you!</b>
 				</h3>
 			</div>
-			<div className="scope-content">
+			<div className="scope-content show-both-borders">
 				<div className="option">
 					<img
 						src="/codefend/pentest-header-vector.svg"
@@ -62,7 +62,7 @@ export const OrderReviewModal: React.FC<{
 
 					<div className="order-snapshot">
 						<div className="top">
-							<span className="codefend-text-red">
+							<span className="codefend-text-red bottom-space">
 								Scope of service:
 							</span>
 						</div>
@@ -80,15 +80,17 @@ export const OrderReviewModal: React.FC<{
 						</p>
 					</div>
 				</div>
-				<div className="option">
+				<div className="option show-both-borders">
 					<img src="/codefend/frequency-1.png" alt="header-icon" />
 
 					<div className="order-snapshot">
 						<div className="top">
-							<span className="codefend-text-red">Frequency:</span>
+							<span className="codefend-text-red bottom-space">
+								Frequency:
+							</span>
 						</div>
 						<p className="pentest-option">
-							<span className="underline-high">{frequencyTitle}</span>
+							<span className="underline-high">{frequencyTitle}</span>{' '}
 							<span className="one-pentest">{frequencyText}</span>
 						</p>
 					</div>
@@ -98,7 +100,7 @@ export const OrderReviewModal: React.FC<{
 
 					<div className="order-snapshot">
 						<div className="top">
-							<span className="codefend-text-red">
+							<span className="codefend-text-red bottom-space">
 								Team capabilities:
 							</span>
 						</div>

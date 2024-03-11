@@ -21,7 +21,7 @@ export const LeadOrderModal = () => {
 			</div>
 			<div className="scope-content show-both-borders">
 				<div
-					className={`option show-both-borders order-pointer ${
+					className={`option block-xll show-both-borders order-pointer ${
 						leadNameW === '@chris' && `select-option`
 					}`}
 					onClick={() => setLeadName('@chris')}>
@@ -44,7 +44,7 @@ export const LeadOrderModal = () => {
 					</div>
 				</div>
 				<div
-					className={`option show-both-borders order-pointer ${
+					className={`option block-xll show-both-borders order-pointer ${
 						leadNameW === '@edd' && `select-option`
 					}`}
 					onClick={() => setLeadName('@edd')}>
@@ -67,7 +67,7 @@ export const LeadOrderModal = () => {
 					</div>
 				</div>
 				<div
-					className={`option show-both-borders order-pointer ${
+					className={`option block-xll show-both-borders order-pointer ${
 						leadNameW === '@onesto' && `select-option`
 					}`}
 					onClick={() => setLeadName('@onesto')}>

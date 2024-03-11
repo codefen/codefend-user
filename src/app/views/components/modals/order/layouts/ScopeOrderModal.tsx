@@ -50,7 +50,7 @@ export const ScopeOrderModal = () => {
 			</div>
 			<div className="scope-content show-both-borders">
 				<div
-					className={`option show-both-border ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}>
+					className={`option block-xll show-both-borders ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}>
 					<input
 						id="scope-resources"
 						name="scopeOption"
@@ -78,7 +78,7 @@ export const ScopeOrderModal = () => {
 					</label>
 				</div>
 				<div
-					className={`option show-both-border ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}>
+					className={`option block-xll show-both-borders ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}>
 					<input
 						id="all-scope-resources"
 						name="scopeOption"
@@ -117,7 +117,7 @@ export const ScopeOrderModal = () => {
 				/>
 				<label htmlFor="confirmation" className="confirm-label">
 					<span
-						className="codefend-text-red disclaimers"
+						className="codefend-text-red underline-high disclaimers"
 						title="Open disclaimers">
 						I confirm I have authorization
 					</span>

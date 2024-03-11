@@ -54,6 +54,12 @@ export const CardPaymentModal = () => {
 			</div>
 			<form className="bank-card-payment-form" onSubmit={submitCardPayment}>
 				<div className="scope-content card-payment">
+					<div className="order-img-wrapper fake-space show-both-borders">
+						<span>
+							Imagine that there are images of cards here (because I
+							don't have them)
+						</span>
+					</div>
 					<div className="bank-card-info">
 						<input
 							type="text"
