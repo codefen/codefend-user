@@ -59,6 +59,7 @@
 			--default-color: #ffdddd;
 
 			--completed-color: var(--secondary-color-100);
+			--current-color: #f8d3d3;
 
 			.step {
 				width: 100%;
@@ -178,11 +179,15 @@
 				&.current {
 					.step-dot {
 						border-color: var(--completed-color) !important;
+
+						&::before {
+							background: var(--current-color);
+							animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+						}
 					}
 
 					p {
 						color: var(--tertiary-color-600);
-						//font-weight: 600;
 					}
 
 					&::after {
@@ -741,6 +746,7 @@
 			.steps {
 				--default-color: #344251;
 				--completed-color: #0f1822;
+				--current-color: #242f3b;
 
 				.step {
 					p {

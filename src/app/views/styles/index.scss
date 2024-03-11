@@ -689,3 +689,9 @@ main.cloud {
 		}
 	}
 }
+
+@keyframes pulse {
+	50% {
+		opacity: 0.5;
+	}
+}
