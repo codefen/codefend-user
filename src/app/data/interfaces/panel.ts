@@ -97,9 +97,9 @@ export interface IssueMessage extends ResourceID, Monitoring {
 
 export interface DashboardProps {
 	company: Company;
-	issues: Issues[];
 	members: CompanyMember[];
 	resources: CompanyResource;
+	issues: Issues[];
 	issuesShare: IssuesShare;
 	issuesCondition: IssuesCondition;
 }
@@ -122,11 +122,16 @@ export interface MobileApp extends ResourceID, Monitoring {
 	appMedia: string;
 }
 
-export interface MobileUnique extends MobileApp {
+export interface UniqueApps {
 	creds: {} | null;
 	issues: Issues;
 	issueShare: IssuesShare;
 	issueCondition: IssuesCondition;
+}
+
+export interface MobileUnique extends MobileApp, UniqueApps {
+}
+export interface CloudUnique extends CloudApp, UniqueApps {
 }
 
 export interface MobileProps {

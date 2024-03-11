@@ -31,7 +31,8 @@ export const ScopeOrderModal = () => {
 	const ErrorMessage = () => {
 		if (tryClick) {
 			return (
-				<span className="block error-message vibrate">
+				<span
+					className={`block error-message ${!acceptConditions && 'vibrate'}`}>
 					You must accept the terms to continue
 				</span>
 			);

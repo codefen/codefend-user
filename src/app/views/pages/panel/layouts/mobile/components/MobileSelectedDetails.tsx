@@ -22,7 +22,7 @@ import {
 } from '../../../../../../data';
 
 export const MobileSelectedDetails: React.FC = (props) => {
-	const [isLoding, setLoading] = useState<boolean>(false);
+	const [isLoading, setLoading] = useState<boolean>(false);
 
 	const { appSelected, fetchMobileOne, appUnique } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
@@ -36,7 +36,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 	}, [appSelected]);
 
 	return (
-		<Show when={!isLoding} fallback={<PageLoader />}>
+		<Show when={!isLoading} fallback={<PageLoader />}>
 			<>
 				<div>
 					<AppCardInfo
@@ -48,7 +48,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 					<div className="selected-content-credentials">
 						<ProvidedTestingCredentials
 							credentials={appUnique?.creds || []}
-							isLoading={isLoding}
+							isLoading={isLoading}
 						/>
 					</div>
 					<div className="selected-content-tables">
@@ -58,7 +58,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 							className="primary-full bottom"
 						/>
 						<VulnerabilityRisk
-							isLoading={isLoding}
+							isLoading={isLoading}
 							vulnerabilityByRisk={
 								appUnique?.issueShare || ({} as IssuesShare)
 							}
@@ -73,7 +73,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 
 				<section className="card table">
 					<IssuesPanelMobileAndCloud
-						isLoading={isLoding}
+						isLoading={isLoading}
 						issues={appUnique?.issues || []}
 					/>
 				</section>

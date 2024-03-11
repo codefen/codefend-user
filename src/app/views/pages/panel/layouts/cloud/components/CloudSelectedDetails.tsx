@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	CloudApp,
+	IssuesCondition,
+	IssuesShare,
+	MobileApp,
 	SelectMobileCloudApp,
 	useIssues,
 	useOrderStore,
@@ -14,38 +17,54 @@ import {
 	VulnerabilitiesStatus,
 	VulnerabilityRisk,
 	Show,
+	PrimaryButton,
 } from '../../../../../components';
 
 export const CloudSelectedDetails = () => {
-	const { appSelected } = useSelectMobileCloudApp(
+	const [isLoading, setLoading] = useState<boolean>(false);
+	const { appSelected, fetchCloudOne, appUnique } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
 	const { updateState } = useOrderStore((state) => state);
-	const getSelected = appSelected ? appSelected : ({} as CloudApp);
 
-	const { getIssues, isLoading, refetchAll } = useIssues();
+	useEffect(() => {
+		setLoading(true);
 
-	useEffect(() => refetchAll(), []);
+		fetchCloudOne().finally(() => setLoading(false));
+	}, [appSelected]);
+
 	return (
 		<Show when={!isLoading} fallback={<PageLoader />}>
 			<>
 				<div>
-					<AppCardInfo selectedApp={getSelected} type="cloud" />
+					<AppCardInfo
+						selectedApp={appSelected || ({} as CloudApp)}
+						type="cloud"
+					/>
 				</div>
 				<div className="selected-content">
-					<div className=" ">
-						<VulnerabilityRisk
+					<div className="selected-content-credentials">
+						<ProvidedTestingCredentials
+							credentials={appUnique?.creds || []}
 							isLoading={isLoading}
-							vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
 						/>
 					</div>
 					<div className="selected-content-tables">
-						<ProvidedTestingCredentials
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							click={() => updateState('open', true)}
+							className="primary-full bottom"
+						/>
+						<VulnerabilityRisk
 							isLoading={isLoading}
-							credentials={[]}
+							vulnerabilityByRisk={
+								appUnique?.issueShare || ({} as IssuesShare)
+							}
 						/>
 						<VulnerabilitiesStatus
-							vulnerabilityByShare={getIssues()?.issueCondition ?? {}}
+							vulnerabilityByShare={
+								appUnique?.issueCondition || ({} as IssuesCondition)
+							}
 						/>
 					</div>
 				</div>
@@ -53,8 +72,7 @@ export const CloudSelectedDetails = () => {
 				<section className="card table">
 					<IssuesPanelMobileAndCloud
 						isLoading={isLoading}
-						issues={getIssues()?.issues ?? {}}
-						refetch={refetchAll}
+						issues={appUnique?.issues || []}
 					/>
 				</section>
 			</>

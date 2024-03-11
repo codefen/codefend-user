@@ -98,21 +98,21 @@ export const mapIssues = (source: any): Issues => {
 /** Map issue share api data => @interface IssuesShare */
 export const mapIssueShare = (source: any): IssuesShare => {
 	return {
-		critical: source.issues_share.critical || "",
-		elevated: source.issues_share.elevated || "",
-		medium: source.issues_share.medium || "",
-		low: source.issues_share.low || "",
-		intel: source.issues_share.intel || "",
-		total: source.issues_share.total || "",
+		critical: source?.issues_share?.critical || "",
+		elevated: source?.issues_share?.elevated || "",
+		medium: source?.issues_share?.medium || "",
+		low: source?.issues_share?.low || "",
+		intel: source?.issues_share?.intel || "",
+		total: source?.issues_share?.total || "",
 	};
 };
 
 /** Map issue condition api data => @interface IssuesCondition */
 export const mapIssuesCondition = (source: any): IssuesCondition => {
 	return {
-		total: source.issues_condicion.total || "",
-		fixed: source.issues_condicion.fixed || "",
-		open: source.issues_condicion.open || "",
+		total: source?.issues_condicion?.total || "",
+		fixed: source?.issues_condicion?.fixed || "",
+		open: source?.issues_condicion?.open || "",
 	};
 };
 
@@ -244,20 +244,30 @@ export const mobileUniqueProps = (source: any): MobileUnique => {
 	};
 };
 
+export const mapCloudUniqueProps = (source: any)=>{
+	return {
+		...mapCloudApp(source.unico),
+		creds: source?.unico?.creds || [],
+		issues: source?.unico?.issues ? source.unico.issues.map((issue: any)=> mapIssues(issue)) : [],
+		issueShare: mapIssueShare(source.unico || {}),
+		issueCondition: mapIssuesCondition(source.unico || {}),
+	}
+}
+
 /** Map cloud app api data => @interface CloudApp */
 export const mapCloudApp = (source: any): CloudApp => {
 	return {
-		id: source.id,
-		companyID: source.company_id,
-		appName: source.cloud_name,
-		appDesc: source.cloud_desc,
-		cloudProvider: source.cloud_provider,
-		cloudFirstKey: source.cloud_llave_1,
-		cloudSecondKey: source.cloud_llave_2,
-		cloudThirdKey: source.cloud_llave_3,
-		appMedia: source.media,
+		id: source.id || "",
+		companyID: source.company_id || "",
+		appName: source.cloud_name || "",
+		appDesc: source.cloud_desc || "",
+		cloudProvider: source.cloud_provider || "",
+		cloudFirstKey: source.cloud_llave_1 || "",
+		cloudSecondKey: source.cloud_llave_2 || "",
+		cloudThirdKey: source.cloud_llave_3 || "",
+		appMedia: source.media || "",
 		isDisabled: source.eliminado === '1',
-		createdAt: formatDate(source.creacion),
+		createdAt: source.creacion,
 	};
 };
 
