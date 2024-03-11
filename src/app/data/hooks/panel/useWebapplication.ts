@@ -5,6 +5,7 @@ import {
 	User,
 	WebapplicationProps,
 	mapToWebresourceProps,
+	useAdminCompanyStore,
 	useAuthState,
 	useOrderStore,
 	verifySession,
@@ -34,15 +35,12 @@ export const useWebapplication = () => {
 		WebApplicationService.get(companyID)
 			.then((res: any) =>
 				{
-					res = JSON.parse(removeStdClassObj(String(res)).trim());
+					//res = JSON.parse(String(res).trim());
 					verifySession(res, logout);
 
-					console.log({res});
 					const webResource = mapToWebresourceProps(res);
-					console.log({webResource});
 					setWebResources(webResource);
 					setScopeTotalResources(webResource.resources.length);
-
 				}
 			)
 			.finally(() => {

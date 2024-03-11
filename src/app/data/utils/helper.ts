@@ -7,6 +7,32 @@ export const getToken = () => {
 	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
 	return store ? store.state.accessToken  : "";
 };
+/** Gets company id in localStorage */
+export const getFullCompanyFromUser = () => {
+	const storeJson = localStorage.getItem('authStore') ?? '';
+	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+	const companyID = store ? store.state.userData.companyID  : "";
+	return {
+		id: String(companyID),
+		name: "codefend",
+		web: "",
+		size: "",
+		pais_code: "",
+		pais: "",
+		pais_provincia: "",
+		pais_ciudad: "",
+		owner_fname: "",
+		owner_lname: "",
+		owner_role: "",
+		owner_email: "",
+		owner_phone: "",
+		orders_size: "",
+		profile_media: "",
+		mercado: "",
+		isDisabled: false,
+		createdAt: ""
+	};
+};
 
 /** GET base api url in localStorage */
 export const getCustomBaseAPi = () =>

@@ -40,14 +40,6 @@ export const AdminCompanyPanel: React.FC<any> = () => {
 
 	const { setShowModal, showModal } = useModal();
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setAppState((prevUserState) => ({
-			...prevUserState,
-			[name]: value,
-		}));
-	};
-
 	return (
 		<>
 			<ModalTitleWrapper

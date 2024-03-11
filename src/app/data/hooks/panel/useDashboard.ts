@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useAuthState } from '../useAuthState';
 import { DashboardService } from '../../services/panel/dashboard.service';
 import { mapGetCompanyToCompanyData } from '../../utils/mapper';
-import { DashboardProps, verifySession} from '../..';
+import { DashboardProps, useAdminCompanyStore, verifySession} from '../..';
 import { toast } from 'react-toastify';
 
 export const useDashboard = () => {
@@ -11,6 +11,8 @@ export const useDashboard = () => {
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
 	);
+	const {selectCompany} = useAdminCompanyStore((state)=> state);
+	
 	//Fetch dashboard data func
 	const fetchWeb = useCallback((companyID: string) => {
 		setLoading(true);
@@ -18,7 +20,7 @@ export const useDashboard = () => {
 		DashboardService.getCompanyInfo(companyID)
 			.then((res) => {
 				verifySession(res, logout);
-
+				selectCompany(res.company, true);
 				setCompanyResources(mapGetCompanyToCompanyData(res));
 			})
 			.finally(() => {

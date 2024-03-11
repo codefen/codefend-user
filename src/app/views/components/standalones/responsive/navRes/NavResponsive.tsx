@@ -11,16 +11,15 @@ import {
 	PreferenceIcon,
 	Show,
 } from '../../..';
-import { useModal } from '../../../../../data';
+import { useAuthState, useModal } from '../../../../../data';
 import {
-	useAuthStore,
 	useNetworkSettingState,
 	usePanelStore,
 } from '../../../../../data/store';
 import './NavResponsive.scss';
 
 const NavResponsive: React.FC = () => {
-	const { logout } = useAuthStore((state) => state);
+	const { logout } = useAuthState();
 	const { open, handleChange } = usePanelStore();
 	const { setNetworkSettingState, isOpen } = useNetworkSettingState(
 		(state) => state,

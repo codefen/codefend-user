@@ -1,10 +1,10 @@
-import { create } from "zustand";
-import { ID, Monitoring, defaultCompanyCardData, equalsObj } from "..";
+import { StateCreator, create } from "zustand";
+import { ID, Monitoring, emptyCompany, equalsObj, getFullCompanyFromUser } from "..";
+import { PersistOptions, devtools, persist } from "zustand/middleware";
 
 export interface AdminCompany extends ID, Monitoring {
     name: string;
     web: string;
-    mercado: string;
     size: string;
     pais_code: string;
 
@@ -19,48 +19,61 @@ export interface AdminCompany extends ID, Monitoring {
     owner_phone: string;
     orders_size: string;
     profile_media: string;
+
+    mercado?: string;
 }
 
 export interface AdminCompanyState {
     companies: AdminCompany[];
-    companySelected: AdminCompany | null;
+    companySelected: AdminCompany;
     searchQuery: string;
-    initCompanies: ()=> void;
     isSelectedCompany: (company: AdminCompany)=>boolean;
-    selectCompany: (company: AdminCompany)=>void;
+    selectCompany: (company: AdminCompany, ignore?:boolean)=>void;
     updateSearch: (updated: string)=>void;
     updateCompanies: (updated: AdminCompany[])=>void;
+    reset: ()=> void;
 }
 
 const equals = (first:any,second:any)=>equalsObj(first, second);
 
-const companySelectedFromLocalStorage = localStorage.getItem('companySelected');
-const defaultCompanySelected = companySelectedFromLocalStorage !== null
-    ? JSON.parse(companySelectedFromLocalStorage)
-    : null;
+const defaultCompanySelected = getFullCompanyFromUser() as AdminCompany;
+const companyEMPTY = emptyCompany;
 
-const useAdminCompanyStore = create<AdminCompanyState>((set, get)=>({
+const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: PersistOptions<any,string>) =>
+	devtools(persist(store, persistence)) as StateCreator<
+    AdminCompanyState,
+		[],
+		[['zustand/persist', string]]
+	>;
+    
+const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=>({
     companies: [],
     companySelected: defaultCompanySelected,
     searchQuery: "",
-    selectCompany: (company: AdminCompany)=> {
+    selectCompany: (company: AdminCompany, ignore?: boolean)=> {
         const state = get();
 
-        if(!equals(state.companySelected, company)){
+        if(!equals(state.companySelected, company) || ignore){
             set((current)=> ({...current, companySelected: company}));
-            localStorage.setItem('companySelected', JSON.stringify(company));
         } else {
-            set((current)=> ({...current, companySelected: null}));
-            localStorage.removeItem('companySelected');
+            set((current)=> ({...current, companySelected: companyEMPTY}));
         }
 
     },
     isSelectedCompany: (company: AdminCompany)=> equals(company, get().companySelected),
-    initCompanies: ()=>{
-        
+    reset: ()=>{
+        set((state)=> ({...state, companySelected: companyEMPTY, companies: [] as AdminCompany[]}))
     },
     updateSearch: (updated: string)=> set((prev: AdminCompanyState)=> ({...prev, searchQuery: updated})),
-    updateCompanies: (updated: AdminCompany[])=> set((prev: AdminCompanyState)=> ({...prev, companies: updated}))
+    updateCompanies: (updated: AdminCompany[])=> {
+        const state = get();
+        const selectedFull = updated.find((updated:AdminCompany)=> updated.id === state.companySelected.id);
+        set((prev: AdminCompanyState)=> ({...prev, companies: updated, companySelected: selectedFull}));
+    }
+}),
+{
+
+    name: 'adminStore'
 }));
 
 export default useAdminCompanyStore;

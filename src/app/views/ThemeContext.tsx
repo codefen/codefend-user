@@ -13,7 +13,7 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-	let preferedUserTheme: 'dark' | 'light' = 'light';
+	let preferedUserTheme: 'dark' | 'light' = 'light'; //Default is light
 	if (localStorage.getItem('theme') !== null) {
 		preferedUserTheme = localStorage.getItem('theme') as 'dark' | 'light';
 	} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {

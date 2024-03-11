@@ -1,7 +1,11 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
-import { useAuthStore } from '../../../data';
+import {
+	getFullCompanyFromUser,
+	useAuthState,
+	useAuthStore,
+} from '../../../data';
 import {
 	ErrorConection,
 	Loader,
@@ -10,13 +14,17 @@ import {
 	Sidebar,
 	SidebarResponsive,
 	NavResponsive,
-	HeaderResponsive
+	HeaderResponsive,
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
+import { shallow } from 'zustand/shallow';
 
 export const PanelPage: React.FC = () => {
 	const [showModal, setShowModal] = useState(false);
-	const { isAuth, logout, updateAuth } = useAuthStore((state) => state);
+	const { updateAuth } = useAuthStore((state) => ({
+		updateAuth: state.updateAuth,
+	}));
+	const { isAuth, logout } = useAuthState();
 	const isSmallScreen = useMediaQuery('(max-width: 640px)');
 
 	if (!isAuth) logout();
@@ -34,7 +42,7 @@ export const PanelPage: React.FC = () => {
 
 	return (
 		<>
-			<Show when={isAuth} fallback={<Navigate to="/auth/signin" />}>
+			<Show when={isAuth()} fallback={<Navigate to="/auth/signin" />}>
 				<FlashLightProvider>
 					<>
 						<Show when={showModal}>

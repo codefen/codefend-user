@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { LoginParams, RegisterParams, User } from '..';
+import { LoginParams, RegisterParams, User, getFullCompanyFromUser, useAdminCompanyStore } from '..';
 import type { AuthState } from '../store/auth.store';
 import useAuthStore from '../store/auth.store';
 
@@ -21,18 +21,16 @@ export const useUserAdmin = () => {
 
 export const useAuthState = () => {
 	const authStore = useAuthStore((state: AuthState) => state);
+
+	const {companySelected, reset, selectCompany} = useAdminCompanyStore((state)=> state);
+
 	const navigate = useNavigate();
 	const getUserdata = () => authStore.userData;
 
 	const getAccessToken = () =>
 		authStore.accessToken ? authStore.accessToken : '';
 
-	const getCompany = () => {
-		const companySelectedFromLocalStorage = localStorage.getItem('companySelected');
-		return companySelectedFromLocalStorage !== null
-		? JSON.parse(companySelectedFromLocalStorage).id
-		: getUserdata()?.companyID;
-	}
+	const getCompany = () => companySelected.id;
 
 	const isAuth = () => authStore.isAuth;
 
@@ -53,7 +51,7 @@ export const useAuthState = () => {
 						: 'An unexpected error has occurred on the server',
 				);
 				return false;
-			});
+			}).finally(()=> selectCompany(getFullCompanyFromUser()));
 	};
 
 	const signUpUser = async (params: RegisterParams): Promise<boolean> => {
@@ -100,6 +98,11 @@ export const useAuthState = () => {
 		authStore.updateUser(updatedUser);
 	}
 
+	const logout = ()=>{
+		reset();
+		authStore.logout();
+	}
+
 	return {
 		getUserdata,
 		getAccessToken,
@@ -110,6 +113,6 @@ export const useAuthState = () => {
 		updateUserData,
 		getCompany,
 		updateToken: authStore.updateToken,
-		logout: authStore.logout
+		logout
 	};
 };

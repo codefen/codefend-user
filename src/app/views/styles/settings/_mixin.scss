@@ -47,3 +47,15 @@
 		}
 	}
 }
+
+@mixin minScreen($breakpoint) {
+	@media only screen and (min-width: $breakpoint) {
+		@content;
+	}
+}
+
+@mixin minScreenHeight($breakpoint) {
+	@media only screen and (min-height: $breakpoint) {
+		@content;
+	}
+}

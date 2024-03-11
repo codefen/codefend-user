@@ -1,19 +1,14 @@
 import { useNavigate } from 'react-router';
 import {
-	ChevronIcon,
 	ConfirmModal,
 	LogoutIcon,
-	MessageIcon,
 	ModalWrapper,
-	NetworkIcon,
 	NetworkSetingModal,
-	PreferenceIcon,
 	Show,
-	ThemeChangerButton,
 } from '../..';
 import {
 	NetworkSettingState,
-	useAuthStore,
+	useAuthState,
 	useModal,
 	useNetworkSettingState,
 } from '../../../../data';
@@ -31,7 +26,7 @@ export const NavbarSubMenu: React.FC<Props> = (props) => {
 	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
-	const { logout } = useAuthStore((state) => state);
+	const { logout } = useAuthState();
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 

@@ -1,3 +1,5 @@
+@use '../../../styles/settings/mixin' as media;
+
 .order-container {
 	width: 100%;
 	max-width: 51dvw;
@@ -22,6 +24,11 @@
 	--one-pentest-span: var(--tertiary-color-300);
 	--show-border-color: var(--tertiary-color-50);
 
+	@include media.minScreenHeight(800px) {
+		& {
+			min-height: 60dvh;
+		}
+	}
 	.order-header {
 		display: flex;
 		flex-flow: column nowrap;

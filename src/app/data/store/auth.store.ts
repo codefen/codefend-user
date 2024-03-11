@@ -1,6 +1,6 @@
 import { StateCreator, create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { AuthServices, User } from '..';
+import { AuthServices, User, useAdminCompanyStore } from '..';
 
 export interface AuthState {
 	userData: User;
@@ -45,7 +45,9 @@ const useAuthStore = create<AuthState>()(
 						return ({error:false});
 					 }).catch((error: Error)=> ({error: true, message: error.message, type: error.name}));
 			},
-			logout: () => set({ user: null, isAuth: false, accessToken: '' }),
+			logout: () => 
+				set({ user: null, isAuth: false, accessToken: '' })
+			,
 			register: (registroParams: any) => {
 				return AuthServices.register(registroParams).then(({data})=>{
 					if (data.response !== 'success') {

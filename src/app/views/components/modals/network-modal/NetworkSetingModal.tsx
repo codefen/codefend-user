@@ -4,7 +4,7 @@ import {
 	deleteCustomBaseAPi,
 	getCustomBaseAPi,
 	setCustomBaseAPi,
-	useAuthStore,
+	useAuthState,
 } from '../../../../data';
 import React, { useCallback, useState } from 'react';
 import { baseUrl } from '../../../../data/utils/config';
@@ -22,7 +22,7 @@ export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
 	const [canEdit, setCanEdit] = useState(false);
 	const [isLoading, setLoading] = useState(false);
-	const { logout } = useAuthStore((state) => state);
+	const { logout } = useAuthState();
 	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
 			e.preventDefault();
