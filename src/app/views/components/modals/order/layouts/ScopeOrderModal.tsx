@@ -49,7 +49,8 @@ export const ScopeOrderModal = () => {
 				</h3>
 			</div>
 			<div className="scope-content show-both-borders">
-				<div className="option show-bottom-border">
+				<div
+					className={`option show-both-border ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}>
 					<input
 						id="scope-resources"
 						name="scopeOption"
@@ -76,7 +77,8 @@ export const ScopeOrderModal = () => {
 						</span>
 					</label>
 				</div>
-				<div className="option">
+				<div
+					className={`option show-both-border ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}>
 					<input
 						id="all-scope-resources"
 						name="scopeOption"
