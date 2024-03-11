@@ -60,6 +60,7 @@ export const ScopeOrderModal = () => {
 						defaultChecked={scopeOptionW === ScopeOption.TYPE}
 						onClick={() => setScopeOptionW(ScopeOption.TYPE)}
 					/>
+					<div className="codefend-radio"></div>
 					<label htmlFor="scope-resources" className="order-snapshot">
 						<div className="top">
 							<p>
@@ -88,6 +89,7 @@ export const ScopeOrderModal = () => {
 						defaultChecked={scopeOptionW === ScopeOption.ALL}
 						onClick={() => setScopeOptionW(ScopeOption.ALL)}
 					/>
+					<div className="codefend-radio"></div>
 					<label htmlFor="all-scope-resources" className="order-snapshot">
 						<div className="top">
 							<p>

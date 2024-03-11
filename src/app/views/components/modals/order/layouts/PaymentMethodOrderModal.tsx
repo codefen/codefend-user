@@ -45,6 +45,7 @@ export const PaymentMethodOrderModal = () => {
 								setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER)
 							}
 						/>
+						<div className="codefend-radio"></div>
 						<label htmlFor="bank-transfer" className="order-snapshot">
 							<div className="top">
 								<p className="codefend-color">
@@ -69,6 +70,7 @@ export const PaymentMethodOrderModal = () => {
 							defaultChecked={paymentMethodW === OrderPaymentMethod.CARD}
 							onChange={() => setPaymentMethod(OrderPaymentMethod.CARD)}
 						/>
+						<div className="codefend-radio"></div>
 						<label htmlFor="card" className="order-snapshot">
 							<div className="top">
 								<p className="codefend-color">
@@ -97,6 +99,7 @@ export const PaymentMethodOrderModal = () => {
 								setPaymentMethod(OrderPaymentMethod.CRYPTO)
 							}
 						/>
+						<div className="codefend-radio"></div>
 						<label htmlFor="crypto" className="order-snapshot">
 							<div className="top">
 								<p className="codefend-color">

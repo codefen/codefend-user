@@ -217,3 +217,39 @@ main {
 	--checkbox-border-style: solid;
 	--checkmark-size: 1.2;
 }
+
+input[type='radio'] {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+	z-index: -1;
+}
+.codefend-radio {
+	--radio-len: 22px;
+	--radio-bg: linear-gradient(
+		to right bottom,
+		hsl(0deg 100% 71.98%),
+		hsl(0deg 91.59% 49.5%)
+	);
+	--radio-bg-before: linear-gradient(to right bottom, #ffeded, #d6d6d6);
+	--radio-scale: 1.1;
+	--radio-transition: 0.3s;
+}
+
+[data-theme='dark'] {
+	.codefend-radio {
+		--radio-bg: linear-gradient(
+			to right bottom,
+			hsl(0deg 80.21% 70.33%),
+			hsl(0deg 67.13% 37.05%)
+		);
+		--radio-bg-before: linear-gradient(
+			to right bottom,
+			rgb(32 44 56),
+			rgb(47 70 96)
+		);
+	}
+}

@@ -39,6 +39,7 @@ export const EnvironmentOrderModal: React.FC<any> = () => {
 						defaultChecked={environmentOrderW === OrderEnvironment.TEST}
 						onClick={() => setOrderEnvironment(OrderEnvironment.TEST)}
 					/>
+					<div className="codefend-radio"></div>
 					<label htmlFor="test-environment" className="order-snapshot">
 						<div className="top">
 							<p>Production environment / careful test</p>
@@ -65,6 +66,7 @@ export const EnvironmentOrderModal: React.FC<any> = () => {
 							setOrderEnvironment(OrderEnvironment.PRODUCTION)
 						}
 					/>
+					<div className="codefend-radio"></div>
 					<label
 						htmlFor="production-environment"
 						className="order-snapshot">

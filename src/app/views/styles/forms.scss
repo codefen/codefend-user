@@ -186,6 +186,28 @@ select {
 	}
 }
 
+.codefend-radio {
+	width: var(--radio-len);
+	height: var(--radio-len);
+	border-radius: 100%;
+	background: var(--radio-bg);
+	position: relative;
+}
+
+.codefend-radio::before {
+	content: '';
+	display: inline-block;
+	width: inherit;
+	height: inherit;
+	border-radius: inherit;
+	background: var(--radio-bg-before);
+	transform: scale(var(--radio-scale));
+	transition: var(--radio-transition);
+}
+input[type='radio']:checked + .codefend-radio::before {
+	transform: scale(0);
+}
+
 /* checkbox settings 👇 */
 .codefend-checkbox,
 .codefend-checkbox *,
