@@ -3,6 +3,7 @@ import {
 	CloudApp,
 	SelectMobileCloudApp,
 	useIssues,
+	useOrderStore,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
 import {
@@ -19,7 +20,7 @@ export const CloudSelectedDetails = () => {
 	const { appSelected } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
-
+	const { updateState } = useOrderStore((state) => state);
 	const getSelected = appSelected ? appSelected : ({} as CloudApp);
 
 	const { getIssues, isLoading, refetchAll } = useIssues();

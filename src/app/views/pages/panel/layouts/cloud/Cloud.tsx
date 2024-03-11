@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
 	DeleteMobileCloudModal,
 	ModalTitleWrapper,
+	OrderV2,
 	PageLoader,
 	Show,
 } from '../../../../components';
@@ -50,6 +51,7 @@ const CloudApplicationPanel: React.FC = () => {
 				/>
 			</ModalTitleWrapper>
 			<DeleteMobileCloudModal onDone={() => refresh(!control)} />
+			<OrderV2 />
 			<main className={`mobile cloud ${showScreen ? 'actived' : ''}`}>
 				<Show when={!isLoading} fallback={<PageLoader />}>
 					<CloudApplication

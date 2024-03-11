@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useSourceCode } from '../../../../../data';
+import { useOrderStore, useSourceCode } from '../../../../../data';
 import { SourceCodeResources } from './components/SourceCodeResources';
 import { SourceCodeChart } from './components/SourceCodeChart';
 import { SourceCodeCollab } from './components/SourceCodeCollab';
-import { PrimaryButton } from '../../../../components';
+import { OrderV2, PrimaryButton } from '../../../../components';
 import './sourcecode.scss';
 import { useFlashlight } from '../../FlashLightContext';
 
 const SourceCodePanel: React.FC = () => {
 	const { getSource, isLoading, addSourceCode, deletedResource } =
 		useSourceCode();
-
+	const { updateState } = useOrderStore((state) => state);
 	const [showScreen, setShowScreen] = useState(false);
 	const flashlight = useFlashlight();
 	useEffect(() => {
@@ -20,6 +20,7 @@ const SourceCodePanel: React.FC = () => {
 
 	return (
 		<>
+			<OrderV2 />
 			<main className={`source-code ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
 					<SourceCodeResources
@@ -43,9 +44,9 @@ const SourceCodePanel: React.FC = () => {
 					/>
 
 					<PrimaryButton
-						text="REQUEST SCAN"
+						text="START A PENTEST ON DEMAND"
 						className="primary-full"
-						click={() => alert('Processing your order')}
+						click={() => updateState('open', open)}
 					/>
 					<br />
 					<SourceCodeCollab />

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useAuthState } from '..';
-import { FetchPattern, SocialAplicationService, MemberV2, verifySession } from '../../../data';
+import { FetchPattern, SocialAplicationService, MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../../data';
 import { toast } from 'react-toastify';
 
 /* Custom Hook "useSocial" to handle GET data in Social page*/
@@ -13,7 +13,8 @@ export const useSocial = () => {
 		error: null,
 		isLoading: true,
 	});
-
+	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
+	
 	const fetchSocial = async (companyID: string) => {
 		dispatch((state) => ({ ...state, isLoading: true }));
 		return SocialAplicationService.getAll(companyID)
@@ -25,8 +26,9 @@ export const useSocial = () => {
 					error: null,
 					isLoading: false,
 				});
+				setScopeTotalResources(response.disponibles.length);
 			})
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+			.catch((error) => dispatch({ data: null, error, isLoading: false })).finally(()=> updateState("resourceType", ResourcesTypes.SOCIAL));
 	};
 
 	const refetch = useCallback(() => {

@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react';
-import { CloudApp, FetchPattern, mapCloudApp, useAuthState, verifySession } from '../..';
+import { CloudApp, FetchPattern, ResourcesTypes, mapCloudApp, useAuthState, useOrderStore, verifySession } from '../..';
 import { CloudService } from '../../services/panel/cloud.service';
 import { toast } from 'react-toastify';
 
 export const useCloud = () => {
 	const { getCompany,logout } = useAuthState();
+	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
 	const [{ data, isLoading }, dispatch] = useState<FetchPattern<CloudApp[]>>({
 		data: null,
 		error: null,
@@ -22,14 +23,17 @@ export const useCloud = () => {
 				{
 					verifySession(response, logout);
 					
+					const cloudResources = response.disponibles.map((app: any) => mapCloudApp(app));
+					
 					dispatch({
-						data: response.disponibles.map((app: any) => mapCloudApp(app)),
+						data: cloudResources,
 						error: null,
 						isLoading: false,
-					})
+					});
+					setScopeTotalResources(cloudResources.length)
 				}
 			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+			.catch((error) => dispatch({ data: null, error, isLoading: false })).finally(()=> updateState("resourceType", ResourcesTypes.CLOUD));
 	}, []);
 
 	/* Refetch Function. */

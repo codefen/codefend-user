@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { mapSourceCode, useAuthState, verifySession } from '../..';
+import { ResourcesTypes, mapSourceCode, useAuthState, useOrderStore, verifySession } from '../..';
 import { SourceCodeService } from '../../services/panel/sourcecode.service';
 import { toast } from 'react-toastify';
 
@@ -7,6 +7,7 @@ export const useSourceCode = () => {
 	const [sourceCode, setSource] = useState(null);
 	const [isLoading, setLoading] = useState(false);
 	const { getUserdata, getCompany, logout } = useAuthState();
+	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
 
 	const fetcher = useCallback((companyID: string) => {
 		setLoading(true);
@@ -14,12 +15,15 @@ export const useSourceCode = () => {
 			.then((res: any) => {
 				verifySession(res, logout);
 
+				const sourceCodeResource = res.disponibles ? res.disponibles.map((repo: any) => mapSourceCode(repo)) : [];
 				setSource(
-					res.disponibles ? res.disponibles.map((repo: any) => mapSourceCode(repo)) : []
+					sourceCodeResource
 				);
+				setScopeTotalResources(sourceCodeResource.length);
 			})
 			.finally(() => {
 				setLoading(false);
+				updateState("resourceType", ResourcesTypes.CODE);
 			});
 	}, []);
 

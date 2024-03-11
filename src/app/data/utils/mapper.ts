@@ -191,10 +191,10 @@ export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 /** Map web resources and company api data => @interface WebapplicationProps */
 export const mapToWebresourceProps = (source: any): WebapplicationProps => {
 	return {
-		company: mapCompany(source.company),
-		resources: source.resources.map((resource: any) =>
-			mapWebresourceApiToWebresource(resource),
-		),
+		company: source.company ? mapCompany(source.company) : {} as Company,
+		resources: source.resources ? source.resources.map((resource: any) =>
+			mapWebresourceApiToWebresource(resource) ,
+		) : [],
 	};
 };
 
