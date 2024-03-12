@@ -57,13 +57,12 @@ export const useAuthState = () => {
 	const signUpUser = async (params: RegisterParams): Promise<boolean> => {
 		return authStore
 			.register(params)
-			.then((response: any) => {
-				if (response.error) {
+			.then((res: any) => {
+				if (res.response !== "success") {
 					toast.error('An unexpected error has occurred on the server');
-					return false
-				} else {
-					toast.success(`Signup phase one successful`);
-				}
+					return false;
+				} 
+				toast.success(`Signup phase one successful`);
 				return true;
 			})
 			.catch((error: Error) => {
@@ -79,16 +78,18 @@ export const useAuthState = () => {
 	const signUpFinish = async (params: any): Promise<boolean> => {
 		return authStore
 			.registerFinish(params)
-			.then((response: any) => {
-				if (response.error) throw new Error(response.message);
-				navigate('/auth/signin');
+			.then((res: any) => {
+				console.log({res});
+				if (res.response !== "success" || res.response === "error") throw new Error("");
+
+				toast.success(
+					"Now you're registered! You can log in"
+				);
 				return true;
 			})
 			.catch((error: Error) => {
 				toast.error(
-					error.message && error.message !== undefined
-						? error.message
-						: 'An unexpected error has occurred on the server',
+					'An unexpected error has occurred on the server'
 				);
 				return false;
 			});

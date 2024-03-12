@@ -59,9 +59,7 @@ const SignUpLayout: React.FC = () => {
 		};
 		signUpUser(requestParams)
 			.then((isSuccess): any => {
-				if (isSuccess) {
-					navigate('/auth/confirmation');
-				}
+				if (isSuccess) navigate('/auth/confirmation');
 			})
 			.finally(() => setLoading(false));
 	};

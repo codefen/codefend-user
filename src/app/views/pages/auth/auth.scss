@@ -31,6 +31,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fdfdfd", endColorstr="#fafafa", GradientType=1);
 	background-repeat: no-repeat;
 	background-image: url('/codefend/access-bkg.webp');
+	background-size: cover;
 
 	@include mixin.respond(small) {
 		display: none;
@@ -46,6 +47,24 @@
 			object-fit: cover;
 			object-position: center;
 			overflow: hidden;
+		}
+
+		@include mixin.minScreen(1640px) {
+			& {
+				left: 11%;
+
+				img {
+					min-width: 130%;
+				}
+			}
+		}
+		@include mixin.minScreen(2020px) {
+			& {
+				left: 13%;
+				img {
+					min-width: 150%;
+				}
+			}
 		}
 
 		@include mixin.respond(lmedium) {

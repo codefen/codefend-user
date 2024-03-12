@@ -57,7 +57,7 @@ const useAuthStore = create<AuthState>()(
 				}).catch((error:Error)=>({error: true, message: error.message}));
 			},
 			registerFinish: (finishParams: any) => {
-				 return AuthServices.register(finishParams).then((data:any)=>{
+				 return AuthServices.registerFinish(finishParams).then(({data}: any)=>{
 					if (data.response !== 'success') {
 						throw new Error(data.error);
 					}

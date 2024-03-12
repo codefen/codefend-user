@@ -59,8 +59,8 @@ const FinishSignUpLayout = () => {
 		setUserState((prevState) => ({ ...prevState, isLoading: true }));
 
 		signUpFinish(requestParams)
-			.then(() => {
-				return navigate('/auth/signin');
+			.then((res) => {
+				if (res == true) navigate('/auth/signin');
 			})
 			.finally(() => {
 				setUserState((prevState) => ({
@@ -73,69 +73,56 @@ const FinishSignUpLayout = () => {
 	};
 
 	return (
-		<>
-			<section className="access log-component">
-				<div className="container">
-					<div className="forms">
-						<div className="nav">
-							<span className="active">
-								<a href="#">finish registration</a>
-							</span>
-						</div>
-						<form onSubmit={handleSubmit}>
-							<div style={{ maxWidth: '30%' }} className="input-group">
-								<input
-									type="email"
-									name="email"
-									value={userState.email}
-									onChange={handleChange}
-									placeholder="Select Username"
-									required
-								/>
-							</div>
+		<form onSubmit={handleSubmit}>
+			<div className="input-group">
+				<input
+					type="email"
+					name="email"
+					value={userState.email}
+					onChange={handleChange}
+					placeholder="Select Username"
+					required
+				/>
+			</div>
 
-							<div style={{ maxWidth: '30%' }} className="input-group">
-								<input
-									type="password"
-									name="password"
-									value={userState.password}
-									onChange={handleChange}
-									placeholder="Select Password"
-									required
-								/>
-							</div>
+			<div className="input-group">
+				<input
+					type="password"
+					name="password"
+					value={userState.password}
+					onChange={handleChange}
+					placeholder="Select Password"
+					required
+				/>
+			</div>
 
-							<div style={{ maxWidth: '30%' }} className="input-group">
-								<input
-									type="password"
-									name="confirmPassword"
-									value={userState.confirmPassword}
-									onChange={handleChange}
-									placeholder="Select Confirm Password"
-									required
-								/>
-							</div>
+			<div className="input-group">
+				<input
+					type="password"
+					name="confirmPassword"
+					value={userState.confirmPassword}
+					onChange={handleChange}
+					placeholder="Select Confirm Password"
+					required
+				/>
+			</div>
 
-							<div className="margin-top">
-								<span className="text-sm text-alt3">
-									I have read and accept the <u>Privacy Policy</u> and{' '}
-									<u>Terms of Use.</u>
-								</span>
-							</div>
-							<div className="margin-top">
-								<PrimaryButton
-									text="Proceed"
-									type="submit"
-									isDisabled={userState.isLoading}
-									click={handleSubmit}
-									className="center"
-								/>
-							</div>
-						</form>
-					</div>
-				</div>
-			</section>
-		</>
+			<div className="margin-top">
+				<span className="text-sm text-alt3">
+					I have read and accept the <u>Privacy Policy</u> and{' '}
+					<u>Terms of Use.</u>
+				</span>
+			</div>
+			<div className="margin-top">
+				<PrimaryButton
+					text="Proceed"
+					type="submit"
+					isDisabled={userState.isLoading}
+					click={handleSubmit}
+					className="center"
+				/>
+			</div>
+		</form>
 	);
 };
 
