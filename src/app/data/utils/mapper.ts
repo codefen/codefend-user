@@ -165,8 +165,10 @@ export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 		serverCountryCode: source.server_pais_code,
 		serverCountryProvince: source.server_pais_provincia,
 		serverCountryCity: source.server_pais_ciudad,
+		issueCount: source.issues_count || 0,
 		isDisabled: source.eliminado === '1',
 		createdAt: source.creacion,
+
 		childs: source.childs
 			? source.childs.map((child: any) => {
 					return {
@@ -180,6 +182,7 @@ export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 						serverCountryCode: child.server_pais_code,
 						serverCountryProvince: child.server_pais_provincia,
 						serverCountryCity: child.server_pais_ciudad,
+						issueCount: child?.issues_count || 0,
 						isDisabled: child.eliminado === '1',
 						createdAt: formatDate(child.creacion),
 					};

@@ -6,11 +6,6 @@ main.issue-detail {
 	padding-inline-start: 75px;
 
 	.left {
-		// flex: 1 1 70%;
-		// width: 70%;
-		// background-color: var(--primary-color);
-		// border: 1px solid var(--primary-color-300);
-		// padding-inline: 0;
 		> div {
 			border-left: 1px solid var(--primary-color-300);
 			border-right: 1px solid var(--primary-color-300);
@@ -196,7 +191,7 @@ main.issue-detail {
 		flex-direction: column;
 		padding-inline-start: 10px;
 		min-height: auto;
-    height: 81dvh;
+		height: 81dvh;
 	}
 	@include mixin.respond(wide) {
 		.left {
@@ -220,7 +215,6 @@ main.issue-detail {
 		flex: 0 1 30%;
 	}
 }
-
 
 main.issues-list {
 	padding-inline-end: 0;

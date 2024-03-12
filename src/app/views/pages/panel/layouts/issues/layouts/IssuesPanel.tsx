@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Issues, useIssues } from '../../../../../../data';
+import { useIssueReport, Issues, useIssues } from '../../../../../../data';
 import {
 	PrimaryButton,
 	VulnerabilitiesStatus,
@@ -12,8 +12,9 @@ import { useFlashlight } from '../../../FlashLightContext';
 const IssuesPanel: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);
-	const [filters, setFilters] = useState<Set<string>>(new Set([]));
+	const [filters, setFilters] = useState<string[]>([]);
 	const { getIssues, isLoading, refetchAll } = useIssues();
+	const { fetchReport } = useIssueReport();
 	const flashlight = useFlashlight();
 
 	useEffect(() => {
@@ -27,25 +28,33 @@ const IssuesPanel: React.FC = () => {
 	}, [control]);
 
 	const handleIssuesFilter = useMemo(() => {
-		const isFiltered = filters.size !== 0;
+		const isFiltered = filters.length !== 0;
 		if (!isFiltered) return { isFiltered };
 
 		const filteredData = getIssues()?.issues.filter((issue: Issues) =>
-			filters.has(issue.resourceClass),
+			filters.includes(issue.resourceClass),
 		);
 
 		return { filteredData, isFiltered };
 	}, [filters, getIssues()]);
 
 	const handleFilters = (issueClass: string) => {
-		if (filters.has(issueClass)) {
-			const updated = new Set(filters);
-			updated.delete(issueClass);
+		if (filters.includes(issueClass)) {
+			const updated = filters.filter((filter) => filter !== issueClass);
 			setFilters(updated);
 		} else {
-			setFilters((state) => new Set([...state, issueClass]));
+			setFilters([...filters, issueClass]);
 		}
 	};
+
+	const createInform = () => {
+		const issue = handleIssuesFilter.filteredData
+			? handleIssuesFilter.filteredData[1].resourceID
+			: '';
+
+		fetchReport(issue, filters[0]);
+	};
+
 	return (
 		<>
 			<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
@@ -69,8 +78,10 @@ const IssuesPanel: React.FC = () => {
 					/>
 					<PrimaryButton
 						text="GENERATE REPORT"
-						click={() => alert('Generating report')}
+						click={() => createInform()}
 						className="primary-full both"
+						isDisabled={filters.length !== 1 || filters[0] !== 'web'}
+						disabledLoader
 					/>
 
 					<VulnerabilityRisk

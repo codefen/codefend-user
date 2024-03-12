@@ -120,6 +120,11 @@
 				border-right-style: solid;
 				border-right-color: var(--primary-color-300);
 
+				flex: 1 1;
+				min-height: 5.938rem;
+				max-height: 5.938rem;
+				row-gap: 0.25rem;
+
 				&.active {
 					color: var(--secondary-color-200);
 				}
@@ -712,10 +717,6 @@
 					border-image-slice: 24;
 					outline: none;
 					background-color: var(--primary-color-300);
-					flex: 1 1;
-					min-height: 5.938rem;
-					max-height: 5.938rem;
-					row-gap: 0.25rem;
 
 					background-image: linear-gradient(
 							#444df70b 0.4px,

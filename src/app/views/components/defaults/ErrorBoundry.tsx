@@ -78,6 +78,7 @@ export class ErrorBoundary extends Component<
 							click={() => {
 								this.updateHasError();
 								window.history.back();
+								window.location.reload();
 							}}
 						/>
 					</div>

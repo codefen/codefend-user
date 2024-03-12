@@ -43,6 +43,14 @@ main.webapp {
 						color: var(--secondary-color);
 					}
 				}
+
+				.issue-count {
+					font-weight: 700;
+					padding-inline-start: 1.2rem;
+					padding-inline-end: 0;
+				}
+
+				.issue
 			}
 		}
 	}

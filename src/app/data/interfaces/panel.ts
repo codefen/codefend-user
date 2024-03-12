@@ -29,6 +29,7 @@ export interface Resouce extends ResourceID, Monitoring {
 	serverCountryCode: string;
 	serverCountryProvince: string;
 	serverCountryCity: string;
+	issueCount: string;
 }
 
 export interface Webresources extends Resouce {

@@ -16,10 +16,16 @@ export const PrimaryButton = (props: PrimaryButtonProps) => {
 	const primaryStyles = props.className ? props.className : '';
 	const type = props.type === 'submit' ? props.type : 'button';
 	const loader = props.disabledLoader ? false : true;
+
+	const handleClick = (e: React.FormEvent<HTMLButtonElement>) => {
+		if (!props.isDisabled) {
+			props.click?.(e);
+		}
+	};
 	return (
 		<button
 			type={type}
-			onClick={props.click}
+			onClick={handleClick}
 			disabled={props.isDisabled}
 			className={`btn btn-primary ${primaryStyles}`}>
 			<Show when={props.isDisabled! && loader}>

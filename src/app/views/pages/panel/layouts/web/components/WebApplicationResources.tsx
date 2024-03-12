@@ -15,6 +15,7 @@ import {
 	GlobeWebIcon,
 	ModalTitleWrapper,
 	PageLoader,
+	PrinterIcon,
 	Show,
 	TrashIcon,
 } from '../../../../../components';
@@ -85,6 +86,12 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									navigate(`/issues/create/web/${mainNetwork.id}`)
 								}>
 								<BugIcon isButton />
+								<span className="codefend-text-red issue-count">
+									{mainNetwork.issueCount}
+								</span>
+							</span>
+							<span>
+								<PrinterIcon isButton width={1.25} height={1.25} />
 							</span>
 						</div>
 					</div>
@@ -125,6 +132,9 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 										navigate(`/issues/create/web/${subNetwork.id}`)
 									}>
 									<BugIcon isButton />
+									<span className="codefend-text-red-200 issue-count">
+										{subNetwork.issueCount}
+									</span>
 								</span>
 							</div>
 						</div>

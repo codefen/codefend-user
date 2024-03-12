@@ -4,8 +4,7 @@ const getAll = async (companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'issues/index',
-			company_id: companyID,
-			resource_address_domain: 'clarin.com',
+			company_id: companyID
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
 
@@ -71,17 +70,30 @@ const modify = async (params: any, companyID: string) => {
 	return data;
 };
 
-const deleteIssue = async (issueId: string, companyID: string) => {
+const deleteIssue = async (issueID: string, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
 			model: 'issues/del',
 			company_id: companyID,
-			id: issueId,
+			id: issueID,
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
 
 	return data;
 };
+
+const generateInform = async (companyID: string, issueID:string,resource_type:string)=>{
+	const { data } = (await fetchPOST({
+		params: {
+			model: 'issues/inform',
+			company_id: companyID,
+			resource_id: issueID,
+			resource_type: resource_type
+		},
+	}).catch((error: any) => handleFetchError(error))) as any;
+
+	return data;
+}
 
 export const IssueService = {
 	getAll,
@@ -90,4 +102,5 @@ export const IssueService = {
 	add,
 	addCSMessage,
 	getOne,
+	generateInform
 };
