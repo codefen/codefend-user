@@ -3,7 +3,9 @@ import { OrderSection, useOrderStore } from '../../../../../data';
 import { PrimaryButton, SecondaryButton } from '../../..';
 
 export const LeadOrderModal = () => {
-	const { leadName, updateState } = useOrderStore((state) => state);
+	const { leadName, updateState, resetActiveOrder } = useOrderStore(
+		(state) => state,
+	);
 
 	const [leadNameW, setLeadName] = useState<string>(leadName);
 
@@ -94,9 +96,9 @@ export const LeadOrderModal = () => {
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container ">
 					<SecondaryButton
-						text=""
-						click={() => {}}
-						className="full order-default bg-transparent"
+						text="Cancel"
+						click={resetActiveOrder}
+						className="full"
 					/>
 				</div>
 				<div className="primary-container">

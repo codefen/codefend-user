@@ -39,7 +39,7 @@ Is there any other additional information for our professionals?`;
 					value={aditionalInfoW}
 					onChange={change}
 					placeholder={placeHolderText}
-					cols={70}
+					cols={82}
 					rows={11}></textarea>
 			</div>
 			<div className="button-wrapper next-btns">

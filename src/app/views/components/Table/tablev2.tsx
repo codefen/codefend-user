@@ -6,13 +6,14 @@ import React, {
 	useState,
 } from 'react';
 import {
+	RUNNING_DESKTOP,
 	calculateRowCalcX,
 	calculateRowSize,
 	calculateRowSizeX,
 	formatDate,
 	generateIDArray,
 } from '../../../data';
-import { EmptyCard, Loader, PageLoader, Show } from '..';
+import { EmptyCard, PageLoader, Show } from '..';
 import './table.scss';
 
 export enum Sort {
@@ -258,6 +259,8 @@ export const TableV2: React.FC<TableProps> = ({
 		}
 	};
 
+	const urlForRowItem = RUNNING_DESKTOP() ? '' : urlNav || '';
+
 	return (
 		<>
 			<div
@@ -284,7 +287,7 @@ export const TableV2: React.FC<TableProps> = ({
 						sortDirection={sortDirection}
 						dataSort={dataSort}
 						tableAction={tableAction}
-						urlNav={urlNav || ''}
+						urlNav={urlForRowItem}
 						handleSelected={handleSelected}
 						isActiveAction={!!tableAction}
 						selectedField={selectedField}

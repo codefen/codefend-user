@@ -52,6 +52,10 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 		[getResources],
 	);
 
+	const generateReport = () => {
+		alert('Deberia de generar un reporte');
+	};
+
 	const TableMemo = useMemo(
 		() =>
 			getResources.map((mainNetwork: Webresources, i: number) => (
@@ -136,7 +140,9 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 										{subNetwork.issueCount}
 									</span>
 								</span>
-								<span className="issue-printer">
+								<span
+									className="issue-printer"
+									onClick={generateReport}>
 									<PrinterIcon isButton width={1.27} height={1.27} />
 								</span>
 							</div>

@@ -1,8 +1,11 @@
 @use '../../../styles/settings/mixin' as media;
 
+.modal-wrapper {
+}
 .order-container {
 	width: 100%;
-	max-width: 51dvw;
+	max-width: 56dvw;
+	min-width: 56dvw;
 	max-height: 87.75dvh;
 	min-height: 87dvh;
 	height: 100%;
@@ -290,9 +293,8 @@
 		.bank-card-payment-form {
 			display: flex;
 			flex-flow: column nowrap;
-			flex: 0.5 0.5 90%;
+			flex: 1 1;
 			width: 100%;
-			height: 90%;
 		}
 
 		.scope-content {
@@ -304,6 +306,8 @@
 			}
 
 			textarea {
+				display: flex;
+				margin-inline: auto;
 				padding: 10px;
 				accent-color: var(--secondary-color-50);
 				border: 1px solid var(--primary-color-600);
@@ -518,8 +522,10 @@
 				display: flex;
 				align-items: center;
 				column-gap: 1.5rem;
-				padding-block: 0.75rem;
+				padding-block: 1rem;
 				padding-inline: 2.5rem;
+				min-height: 90px;
+				max-height: 90px;
 
 				&.block-xl {
 					padding-block: 1rem;

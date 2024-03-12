@@ -10,9 +10,8 @@ import { CryptoPaymentModal } from '../payments/CryptoPaymentModal';
 import { CardPaymentModal } from '../payments/CardPaymentModal';
 
 export const PaymentMethodOrderModal = () => {
-	const { paymentMethod, orderStepActive, updateState } = useOrderStore(
-		(state) => state,
-	);
+	const { paymentMethod, orderStepActive, updateState, resetActiveOrder } =
+		useOrderStore((state) => state);
 
 	const [paymentMethodW, setPaymentMethod] =
 		useState<OrderPaymentMethod>(paymentMethod);
@@ -118,9 +117,9 @@ export const PaymentMethodOrderModal = () => {
 				<div className="button-wrapper next-btns">
 					<div className="secondary-container">
 						<SecondaryButton
-							text=""
-							click={() => {}}
-							className="full order-default bg-transparent"
+							text="Cancel"
+							click={resetActiveOrder}
+							className="full"
 						/>
 					</div>
 					<div className="primary-container">
