@@ -45,12 +45,17 @@ main.webapp {
 				}
 
 				.issue-count {
+					font-size: 1.025rem;
 					font-weight: 700;
-					padding-inline-start: 1.2rem;
+					padding-inline-start: 0.5rem;
 					padding-inline-end: 0;
+					user-select: none;
+					cursor: pointer;
 				}
 
-				.issue
+				.issue-printer {
+					padding-inline-start: 8px;
+				}
 			}
 		}
 	}

@@ -90,8 +90,8 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									{mainNetwork.issueCount}
 								</span>
 							</span>
-							<span>
-								<PrinterIcon isButton width={1.25} height={1.25} />
+							<span className="issue-printer">
+								<PrinterIcon isButton width={1.27} height={1.27} />
 							</span>
 						</div>
 					</div>
@@ -135,6 +135,9 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									<span className="codefend-text-red-200 issue-count">
 										{subNetwork.issueCount}
 									</span>
+								</span>
+								<span className="issue-printer">
+									<PrinterIcon isButton width={1.27} height={1.27} />
 								</span>
 							</div>
 						</div>
