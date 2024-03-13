@@ -9,6 +9,7 @@ import {
 	MessageIcon,
 	PreferenceIcon,
 	NetworkIcon,
+	LogoutIcon,
 } from '../..';
 import {
 	usePanelStore,
@@ -125,6 +126,7 @@ const Navbar: React.FC = () => {
 							<NetworkIcon width={1.1} height={1.1} />
 							<span>{baseApiName}</span>
 						</div>
+						<ThemeChangerButton />
 					</div>
 				</div>
 
@@ -133,10 +135,11 @@ const Navbar: React.FC = () => {
 						<div
 							className="user action"
 							ref={userRef}
-							onClick={(e) => {
-								e.preventDefault();
-								setMenuOpen((current) => !current);
-							}}>
+							// onClick={(e) => {
+							// 	e.preventDefault();
+							// 	setMenuOpen((current) => !current);
+							// }}
+							>
 							<span className="email">
 								{userData.email ?? 'not-found'}
 							</span>
@@ -149,17 +152,17 @@ const Navbar: React.FC = () => {
 							/>
 						</div>
 
-						<ThemeChangerButton />
+						
 
-						{/* <div
-							className="action"
+						<div
+							className="action logout"
 							title="Logout"
 							onClick={(e: React.FormEvent) => {
 								setShowModalStr('logout');
 								setShowModal(true);
 							}}>
 							<LogoutIcon width={1.1} height={1.1} />
-						</div> */}
+						</div>
 					</div>
 				</div>
 			</nav>

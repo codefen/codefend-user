@@ -106,9 +106,10 @@
 			min-width: 50px;
 			height: 100%;
 			padding: 0 10px;
-			border-left: 1px solid var(--tertiary-color-800);
-			border-right: 1px solid var(--tertiary-color-800);
-			background-color: #00000030;
+			border-left: 1px solid #ffffff70;
+			border-right: 1px solid #ffffff70;
+			background-color: #00000005;
+			color: var(--tertiary-color-400);
 			cursor: pointer;
 
 			svg {
@@ -126,6 +127,11 @@
 			}
 			+ .action {
 				border-left: none;
+			}
+
+			&.logout {
+				background-color: #00000060;
+				color: #ffffff;
 			}
 		}
 	}
