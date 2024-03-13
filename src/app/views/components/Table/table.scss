@@ -2,7 +2,7 @@
 	width: 100%;
 	display: table;
 	flex: 1 1;
-	color: var(--tertiary-color-200);
+	// color: var(--tertiary-color-200);
 	border-collapse: collapse;
 	transition-property: border-image, border;
 	transition-duration: 325ms;
@@ -106,7 +106,7 @@
 		height: 40px;
 		padding: 0 20px;
 		border-bottom: 1px solid var(--primary-color-300);
-		color: var(--tertiary-color-200);
+		color: var(--tertiary-color-400);
 
 		font-family: Questrial;
 		font-size: 14px;
@@ -346,6 +346,7 @@
 	.action {
 		column-gap: 16px;
 		justify-content: center;
+		color: var(--tertiary-color-200);
 	}
 
 	.score-value {
@@ -458,8 +459,8 @@
 }
 
 .internal-tables div {
-	font-family: Roboto;
-	font-size: 12px;
+	// font-family: Roboto;
+	// font-size: 12px;
 	background-color: var(--primary-color-50);
 	border-bottom: 1px solid var(--primary-color-300);
 	color: var(--tertiary-color-200);

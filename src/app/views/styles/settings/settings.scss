@@ -160,51 +160,6 @@ a {
 	}
 }
 
-main {
-	width: 100%;
-	height: 100dvh;
-	min-height: 1000px;
-	max-height: calc(100dvh - var(--navbar-height));
-
-	display: flex;
-	justify-content: space-between;
-	column-gap: 0.625rem;
-
-	opacity: 0;
-	color: var(--primary-color-100);
-
-	padding-inline-start: calc(var(--sidebar-width) + 0.938rem);
-	padding-inline-end: 0.938rem;
-	padding-block-start: 3dvw;
-	padding-block-end: 0.938rem;
-
-	margin-block-start: var(--navbar-height);
-
-	transition-delay: 70ms;
-	transition-property: padding, opacity, background, color;
-	transition-duration: 400ms;
-	transition-timing-function: cubic-bezier(0.47, 1.64, 0.41, 0.8);
-
-	overflow-y: auto;
-	overflow-x: hidden;
-
-	@media only screen and (min-width: 1880px) {
-		margin-inline: auto;
-	}
-
-	&.actived {
-		opacity: 1;
-		padding-block-start: 0px;
-
-		.left {
-			padding-block-start: 65px;
-		}
-
-		.right {
-			padding-block-start: 65px;
-		}
-	}
-}
 
 .codefend-checkbox {
 	color: inherit !important;

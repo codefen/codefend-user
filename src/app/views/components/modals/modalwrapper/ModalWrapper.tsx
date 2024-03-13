@@ -33,15 +33,16 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 	};
 	return (
 		<div onDoubleClick={closeEvent} className="modal-wrapper">
-			<span className="modal-close-btn" onClick={closeEvent}>
-				<CloseIcon isButton />
-			</span>
+			
 			<article
 				className={`modal ${!isErrorBox ? 'med-w' : ''}`}
 				onDoubleClick={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 				}}>
+					<span className="modal-close-btn" onClick={closeEvent}>
+				<CloseIcon isButton />
+			</span>
 				{children}
 			</article>
 		</div>
