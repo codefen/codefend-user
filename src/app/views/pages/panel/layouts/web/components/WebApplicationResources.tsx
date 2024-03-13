@@ -5,6 +5,7 @@ import {
 	generateIDArray,
 	useDeleteWebResource,
 	useModal,
+	useReportStore,
 } from '../../../../../../data';
 import {
 	AddDomainModal,
@@ -13,6 +14,7 @@ import {
 	ConfirmModal,
 	EmptyCard,
 	GlobeWebIcon,
+	LocationItem,
 	ModalTitleWrapper,
 	PageLoader,
 	PrinterIcon,
@@ -20,6 +22,7 @@ import {
 	TrashIcon,
 } from '../../../../../components';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -37,6 +40,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
 		{} as any,
 	);
+	const { openModal, setResourceID } = useReportStore((state) => state);
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
 		useModal();
 	const { handleDelete } = useDeleteWebResource();
@@ -52,8 +56,15 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 		[getResources],
 	);
 
-	const generateReport = () => {
-		alert('Deberia de generar un reporte');
+	const generateReport = (resourceID: string, count: any) => {
+		if (Number(count) >= 1) {
+			openModal();
+			setResourceID(resourceID);
+		} else {
+			toast.error(
+				'The resource still does not have issues to make a report',
+			);
+		}
 	};
 
 	const TableMemo = useMemo(
@@ -94,7 +105,14 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									{mainNetwork.issueCount}
 								</span>
 							</span>
-							<span className="issue-printer">
+							<span
+								onClick={() =>
+									generateReport(
+										mainNetwork.id,
+										mainNetwork.issueCount,
+									)
+								}
+								className="issue-printer">
 								<PrinterIcon isButton width={1.27} height={1.27} />
 							</span>
 						</div>
@@ -142,7 +160,12 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 								</span>
 								<span
 									className="issue-printer"
-									onClick={generateReport}>
+									onClick={() =>
+										generateReport(
+											mainNetwork.id,
+											subNetwork.issueCount,
+										)
+									}>
 									<PrinterIcon isButton width={1.27} height={1.27} />
 								</span>
 							</div>
@@ -151,6 +174,51 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 				</Fragment>
 			)),
 		[getResources],
+	);
+
+	const tableData = getResources.map(
+		(mainNetwork: Webresources, i: number) => ({
+			ID: { value: mainNetwork.id, style: 'id' },
+			domainName: {
+				value: mainNetwork.resourceDomain,
+				style: 'domain-name',
+			},
+			mainServer: { value: mainNetwork.mainServer, style: 'server-ip' },
+			location: {
+				value: (
+					<LocationItem
+						country={mainNetwork.serverCountry}
+						countryCode={mainNetwork.serverCountryCode}
+					/>
+				),
+				style: 'location',
+			},
+			childs: {
+				value: (
+					<>
+						{mainNetwork.childs.map((subNetwork: Resouce) => (
+							<div key={'child_' + subNetwork.id} className="item">
+								<div className="id">{subNetwork.id}</div>
+								<div className="domain-name lined">
+									<span className="sub-domain-icon-v"></span>
+									<span className="sub-domain-icon-h"></span>
+									<span className="sub-resource-domain">
+										{subNetwork.resourceDomain}
+									</span>
+								</div>
+
+								<div className="server-ip">{subNetwork.mainServer}</div>
+								<LocationItem
+									country={subNetwork.serverCountry}
+									countryCode={subNetwork.serverCountryCode}
+								/>
+							</div>
+						))}
+					</>
+				),
+				style: '',
+			},
+		}),
 	);
 
 	return (

@@ -92,9 +92,12 @@
 
 	.rows {
 		overflow-y: auto;
-		//max-height: calc(100dvh - 149px);
 		max-height: var(--row-size);
 		max-width: var(--row-size-x);
+
+		a {
+			outline: none;
+		}
 	}
 
 	.item {

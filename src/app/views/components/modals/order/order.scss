@@ -32,6 +32,12 @@
 			min-height: 60dvh;
 		}
 	}
+	@include media.minScreen(1650px) {
+		& {
+			max-width: 49dvw;
+			min-width: 49dvw;
+		}
+	}
 	.order-header {
 		display: flex;
 		flex-flow: column nowrap;

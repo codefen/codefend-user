@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './modal.scss';
+import { CloseIcon } from '../..';
 
 interface ModalWrapper {
 	children: JSX.Element;
@@ -24,14 +25,17 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, []);
+
+	const closeEvent = (e: any) => {
+		e.preventDefault();
+		e.stopPropagation();
+		action && action();
+	};
 	return (
-		<div
-			onDoubleClick={(e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				action && action();
-			}}
-			className="modal-wrapper">
+		<div onDoubleClick={closeEvent} className="modal-wrapper">
+			<span className="modal-close-btn" onClick={closeEvent}>
+				<CloseIcon isButton />
+			</span>
 			<article
 				className={`modal ${!isErrorBox ? 'med-w' : ''}`}
 				onDoubleClick={(e) => {

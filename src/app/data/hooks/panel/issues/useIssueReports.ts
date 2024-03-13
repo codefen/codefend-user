@@ -1,15 +1,17 @@
 import { toast } from "react-toastify";
 import { useAuthState } from "../..";
-import { IssueService } from "../../../";
+import { IssueService, mapWebReportResources } from "../../../";
 
 export const useIssueReport = ()=>{
     const { getCompany } = useAuthState();
 
     const fetcher = (companyID: string, issueID: string, resourceType:string)=>{
-        IssueService.generateInform(companyID, issueID, resourceType).then((res:any)=>{
-            console.log("Respuesta de reportes");
-            console.log({res});
-            console.log("----------------------------------------")
+        return IssueService.generateInform(companyID, issueID, resourceType).then((res:any)=>{
+            let response: any;
+
+            if(resourceType === "web") response = mapWebReportResources(res);
+
+            return response;
         });
     }
 
@@ -17,10 +19,11 @@ export const useIssueReport = ()=>{
         const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
-			return;
+			return Promise.resolve(false);
 		}
 
-        fetcher(companyID, issueID, resourceType);
+
+        return fetcher(companyID, issueID, resourceType);
     }
 
 

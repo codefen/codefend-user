@@ -13,3 +13,4 @@ export * from "./AddCompanyModal";
 export * from "./AddUserCompanyModal"
 
 export * from "./order/Orderv2.tsx"
+export * from "./reports/WebReportModal.tsx"

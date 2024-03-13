@@ -400,6 +400,7 @@ export const issueColumns: ColumnTable[] = [
 		style: 'id',
 	},
 ];
+export const issuesColumnsWithoutAction: ColumnTable[] = issueColumns.filter(column => column.name !== 'action');
 
 export const sourceCodeChartColumns = [
 	{
@@ -586,6 +587,34 @@ export const webLocationColumn: ColumnTable[] = [
 		style: 'percent',
 	},
 ];
+
+export const webResourcesWithoutActions = [
+	{
+		name: "ID",
+		value: "id",
+		style: "id"
+	},
+	{
+		name: "domainName",
+		value: "domain",
+		style: "domain-name"
+	},
+	{
+		name: "mainServer",
+		value: "server ip",
+		style: "server-ip"
+	},
+	{
+		name: 'location',
+		value: 'location',
+		style: 'location',
+	},
+	{
+		name: "childs",
+		value: "",
+		style: ""
+	}
+]
 
 export const orderTab =
 	'scope,frequency,team size,order review,payment method'.split(',');

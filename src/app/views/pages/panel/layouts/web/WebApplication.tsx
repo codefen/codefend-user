@@ -3,10 +3,14 @@ import { WebApplicationResources } from './components/WebApplicationResources';
 import { WebApplicationLocation } from './components/WebApplicationLocation';
 import { WebApplicationStatics } from './components/WebApplicationStatics';
 import { WebApplicationCredentials } from './components/WebApplicationCredentials';
-import { useOrderStore, useWebapplication } from '../../../../../data';
+import {
+	useOrderStore,
+	useReportStore,
+	useWebapplication,
+} from '../../../../../data';
 import '../../../../styles/flag.scss';
 import '../../../../components/Table/table.scss';
-import { OrderV2, PrimaryButton } from '../../../../components';
+import { OrderV2, PrimaryButton, WebReportModal } from '../../../../components';
 import { useFlashlight } from '../../FlashLightContext';
 import './webapplication.scss';
 
@@ -25,9 +29,12 @@ const WebApplicationView: React.FC = () => {
 
 	const flashlight = useFlashlight();
 
+	const handleOpenModal = () => {};
+
 	return (
 		<>
 			<OrderV2 />
+			<WebReportModal />
 			<main className={`webapp ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<section className="left">
