@@ -54,11 +54,11 @@ export const IssueResources: React.FC<Props> = (props) => {
 					setSelectedId(id);
 					setShowModal(!showModal);
 				},
-				render: <TrashIcon />,
+				render: <span><TrashIcon /></span>,
 			},
 		],
 
-		style: 'trash',
+		style: 'trash action',
 	};
 
 	return (

@@ -38,16 +38,20 @@ main.webapp {
 					align-items: center;
 					padding-inline: 7px;
 					transition: color 200ms ease;
-
+					
 					&:hover {
-						color: var(--secondary-color);
+						color: var(--secondary-color-100);
+
+						svg path {
+							color: var(--secondary-color-100);
+						}
 					}
 				}
 
 				.issue-count {
-					font-size: 1.025rem;
+					font-size: 14px;
 					font-weight: 700;
-					padding-inline-start: 0.5rem;
+					padding-inline-start: 3px;
 					padding-inline-end: 0;
 					user-select: none;
 					cursor: pointer;
