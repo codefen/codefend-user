@@ -17,7 +17,7 @@ import {
 	LocationItem,
 	ModalTitleWrapper,
 	PageLoader,
-	PrinterIcon,
+	DocumentIcon,
 	Show,
 	TrashIcon,
 } from '../../../../../components';
@@ -84,7 +84,30 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 						</div>
 
 						<div className="id action">
+							
 							<span
+								title='Add Issue'
+								onClick={() =>
+									navigate(`/issues/create/web/${mainNetwork.id}`)
+								}>
+								<BugIcon isButton />
+								<span className="codefend-text-red issue-count">
+									{mainNetwork.issueCount}
+								</span>
+							</span>
+							<span
+								title='Create report'
+								onClick={() =>
+									generateReport(
+										mainNetwork.id,
+										mainNetwork.issueCount,
+									)
+								}
+								className="issue-printer">
+								<DocumentIcon isButton width={1.27} height={1.27} />
+							</span>
+							<span
+								title='Delete'
 								onClick={() => {
 									setSelectedResource({
 										id: mainNetwork.id,
@@ -95,25 +118,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									setShowModalStr('delete_resource');
 								}}>
 								<TrashIcon />
-							</span>
-							<span
-								onClick={() =>
-									navigate(`/issues/create/web/${mainNetwork.id}`)
-								}>
-								<BugIcon isButton />
-								<span className="codefend-text-red issue-count">
-									{mainNetwork.issueCount}
-								</span>
-							</span>
-							<span
-								onClick={() =>
-									generateReport(
-										mainNetwork.id,
-										mainNetwork.issueCount,
-									)
-								}
-								className="issue-printer">
-								<PrinterIcon isButton width={1.27} height={1.27} />
+								
 							</span>
 						</div>
 					</div>
@@ -138,6 +143,28 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 
 							<div className="id action">
 								<span
+									title='Add Issue'
+									onClick={() =>
+										navigate(`/issues/create/web/${subNetwork.id}`)
+									}>
+									<BugIcon isButton />
+									<span className="codefend-text-red-200 issue-count">
+										{subNetwork.issueCount}
+									</span>
+								</span>
+								<span
+									title='Create report'
+									className="issue-printer"
+									onClick={() =>
+										generateReport(
+											mainNetwork.id,
+											subNetwork.issueCount,
+										)
+									}>
+									<DocumentIcon isButton width={1.27} height={1.27} />
+								</span>
+								<span
+									title='Delete'
 									onClick={() => {
 										setSelectedResource({
 											id: subNetwork.id,
@@ -148,25 +175,6 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 										setShowModalStr('delete_resource');
 									}}>
 									<TrashIcon />
-								</span>
-								<span
-									onClick={() =>
-										navigate(`/issues/create/web/${subNetwork.id}`)
-									}>
-									<BugIcon isButton />
-									<span className="codefend-text-red-200 issue-count">
-										{subNetwork.issueCount}
-									</span>
-								</span>
-								<span
-									className="issue-printer"
-									onClick={() =>
-										generateReport(
-											mainNetwork.id,
-											subNetwork.issueCount,
-										)
-									}>
-									<PrinterIcon isButton width={1.27} height={1.27} />
 								</span>
 							</div>
 						</div>

@@ -348,7 +348,42 @@
 		justify-content: center;
 		color: var(--tertiary-color-200);
 	}
+	.action {
+		justify-content: center;
+		// max-width: none;
+		// width: 100%;
+		column-gap: 2px;
 
+		span {
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-inline: 7px;
+			transition: color 200ms ease;
+			
+			&:hover {
+				color: var(--secondary-color-100);
+
+				svg path {
+					color: var(--secondary-color-100);
+				}
+			}
+		}
+
+		.issue-count {
+			font-size: 14px;
+			font-weight: 700;
+			padding-inline-start: 3px;
+			padding-inline-end: 0;
+			user-select: none;
+			cursor: pointer;
+		}
+
+		.issue-printer {
+			padding-inline-start: 8px;
+		}
+	}
 	.score-value {
 		margin-block-start: 0.5rem;
 	}

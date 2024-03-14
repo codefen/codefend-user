@@ -147,7 +147,7 @@ export const WebReportModal: React.FC<WebReportModalProps> = () => {
 			? report.resources[0]?.resourceDomain || '. . .'
 			: '. . .';
 		return (
-			<ModalWrapper action={closeModal}>
+			<ModalWrapper action={closeModal} type='report'>
 				<div className="issues-reports">
 					<div className="issues-report-header">
 						<BugIcon />
