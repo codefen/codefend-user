@@ -7,6 +7,7 @@ export * from './Table';
 export * from './standalones';
 export * from './defaults';
 export * from './Table';
+export * from "./Table/TableWithoutActions"
 export * from './buttons';
 export * from './Table/tablev2';
 
