@@ -6,10 +6,12 @@ interface ModalWrapper {
 	children: JSX.Element;
 	isErrorBox?: boolean;
 	action?: () => void;
+	type?: string;
 }
 
 const ModalWrapper: React.FC<ModalWrapper> = ({
 	isErrorBox = false,
+	type = 'med-w',
 	children,
 	action,
 }) => {
@@ -35,7 +37,7 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 		<div onDoubleClick={closeEvent} className="modal-wrapper">
 			
 			<article
-				className={`modal ${!isErrorBox ? 'med-w' : ''}`}
+				className={`modal ${!isErrorBox ? type : ''}`}
 				onDoubleClick={(e) => {
 					e.preventDefault();
 					e.stopPropagation();

@@ -9,13 +9,14 @@
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
-	padding-top: 15vh;
+	// padding-top: 15vh;
 	z-index: 100;
 	background-color: rgba(42, 43, 53, 0.75);
 	// backdrop-filter: blur(6px) saturate(0.8) contrast(1);
 }
 
 .modal-wrapper .modal {
+	margin-top: 130px;
 	opacity: 0;
 	animation: modalAnimation 0.2s ease-in 0.05s forwards;
 	min-width: 330px;
@@ -42,7 +43,10 @@
 	// 	rgba(255, 255, 255, 0) 85%
 	// );
 	// border-image-slice: 1;
-
+	&.report {
+		margin-top: 20px;
+		// margin-bottom: 20px;
+	}
 	&.med-w {
 		min-width: 560px;
 
@@ -62,6 +66,7 @@
 		height: 24px;
 		padding: 5px;
 		cursor: pointer;
+		z-index: 100;
 	
 		svg {
 			// filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.75));
