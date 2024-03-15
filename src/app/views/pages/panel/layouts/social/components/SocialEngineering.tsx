@@ -15,7 +15,7 @@ import {
 	roleMap,
 	useModal,
 } from '../../../../../../data';
-import AddSocialModal from '../../../../../components/modals/AddSocialModal';
+import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
 import { useNavigate } from 'react-router';
 
 interface SocialProps {

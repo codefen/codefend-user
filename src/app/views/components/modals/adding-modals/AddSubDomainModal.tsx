@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { GlobeWebIcon, ModalButtons } from '../';
+import { GlobeWebIcon, ModalButtons } from '../..';
 import {
 	User,
 	WebApplicationService,
 	Webresources,
 	useAuthState,
-} from '../../../data';
+} from '../../../../data';
 
 interface SubdomainModalProps {
 	onDone: () => void;

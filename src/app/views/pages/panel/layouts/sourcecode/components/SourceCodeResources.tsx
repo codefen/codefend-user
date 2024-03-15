@@ -13,7 +13,7 @@ import {
 	TableItem,
 	BugIcon,
 } from '../../../../../components';
-import { AddRepositoryModal } from '../../../../../components/modals/AddRepositoryModal';
+import { AddRepositoryModal } from '../../../../../components/modals/adding-modals/AddRepositoryModal';
 import { useNavigate } from 'react-router';
 
 interface SourceCodeProps {

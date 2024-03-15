@@ -7,9 +7,27 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 
+	.download-pdf-btn {
+		position: absolute;
+		top: 6%;
+		right: 7%;
+		color: #fff;
+		background-color: #f73131;
+
+		border-radius: 5px;
+		padding-inline: 1.75rem;
+		padding-block: 0.75rem;
+
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 16px;
+		border: none;
+	}
+	.page-break {
+	}
+
 	.issues-report-header {
 		text-transform: uppercase;
-		page-break-before: always;
 		height: 30px;
 		display: flex;
 		align-items: center;
@@ -18,19 +36,27 @@
 		margin-block-end: 20px;
 		color: var(--secondary-color-200);
 
+		h1,
+		h2,
+		h3 {
+			color: var(--tertiary-color-500);
+			padding-inline-start: 0.75rem;
+			flex: 1 1;
+		}
+		h1 {
+			color: var(--tertiary-color-600);
+			font-size: 18px;
+			height: 100%;
+			display: flex;
+			align-items: center;
+		}
 		h2 {
 			font-size: 16px;
 			line-height: 16px;
-			flex: 1 1;
-			color: var(--tertiary-color-500);
-			padding-inline-start: 0.75rem;
 		}
 
 		h3 {
 			font-size: 15px;
-			flex: 1 1;
-			color: var(--tertiary-color-500);
-			padding-inline-start: 0.75rem;
 		}
 	}
 
@@ -78,6 +104,11 @@
 			span {
 				color: var(--tertiary-color-500);
 			}
+		}
+
+		hr {
+			margin-block-start: 3.5rem;
+			margin-block-end: 0.5rem;
 		}
 	}
 	.table {
@@ -156,5 +187,60 @@
 		height: 2px;
 		border-block: 10px;
 		background-color: var(--secondary-color-50);
+	}
+}
+
+@page {
+	size: Portrait;
+}
+
+@media only print {
+	*,
+	::before,
+	::after {
+		scrollbar-width: 0px;
+		scrollbar-color: none;
+	}
+
+	::-webkit-scrollbar {
+		width: 0px;
+	}
+
+	::-moz-scrollbar {
+		width: 0px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: none;
+	}
+	::-moz-scrollbar-track {
+		background: none;
+	}
+
+	body {
+		overflow: scroll;
+		font-size: 16px;
+	}
+	button {
+		display: none;
+	}
+
+	.issues-reports {
+		page-break-inside: auto;
+
+		.issues-report-header {
+			page-break-before: always;
+
+			&.no-break {
+				page-break-before: inherit;
+			}
+		}
+
+		.issue-header {
+			page-break-before: always;
+
+			.issue-header-info {
+			}
+		}
 	}
 }

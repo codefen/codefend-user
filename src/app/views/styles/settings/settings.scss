@@ -29,31 +29,31 @@
 }
 
 /* scrollbar */
-::-moz-scrollbar {
-	width: 10px;
-}
 ::-webkit-scrollbar {
 	width: 10px;
 }
 
-::-moz-scrollbar-track {
-	background: var(--primary-color-500);
+::-moz-scrollbar {
+	width: 10px;
 }
 ::-webkit-scrollbar-track {
 	background: var(--primary-color-500);
 }
-
-::-moz-scrollbar-thumb {
-	background: #ff6c6c;
+::-moz-scrollbar-track {
+	background: var(--primary-color-500);
 }
+
 ::-webkit-scrollbar-thumb {
 	background: #ff6c6c;
 }
+::-moz-scrollbar-thumb {
+	background: #ff6c6c;
+}
 
-::-moz-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
 	background: #e75e5e;
 }
-::-webkit-scrollbar-thumb:hover {
+::-moz-scrollbar-thumb:hover {
 	background: #e75e5e;
 }
 
@@ -63,6 +63,7 @@
 	box-sizing: border-box;
 	border-width: 0;
 	border-style: solid;
+
 	scrollbar-width: thin;
 	scrollbar-color: var(--secondary-color-50) var(--primary-color-500);
 }
@@ -159,7 +160,6 @@ a {
 		}
 	}
 }
-
 
 .codefend-checkbox {
 	color: inherit !important;

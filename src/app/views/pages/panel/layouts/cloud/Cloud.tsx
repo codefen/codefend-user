@@ -12,7 +12,7 @@ import {
 	useModal,
 	useSelectMobileCloudApp,
 } from '../../../../../data';
-import { AddCloudModal } from '../../../../components/modals/AddCloudModal';
+import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCloudModal';
 import { CloudApplication } from './components/CloudApplication';
 import './cloud.scss';
 

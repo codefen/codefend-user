@@ -1,8 +1,8 @@
-import { useAuthState } from '../../../data';
+import { useAuthState } from '../../../../data';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { GlobeWebIcon, ModalButtons } from '..';
-import { CloudService } from '../../../data';
+import { GlobeWebIcon, ModalButtons } from '../..';
+import { CloudService } from '../../../../data';
 
 interface Props {
 	onDone: () => void;

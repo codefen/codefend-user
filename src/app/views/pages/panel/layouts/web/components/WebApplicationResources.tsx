@@ -40,7 +40,9 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
 		{} as any,
 	);
-	const { openModal, setResourceID } = useReportStore((state) => state);
+	const { openModal, setResourceID, setResourceType } = useReportStore(
+		(state) => state,
+	);
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
 		useModal();
 	const { handleDelete } = useDeleteWebResource();
@@ -60,6 +62,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 		if (Number(count) >= 1) {
 			openModal();
 			setResourceID(resourceID);
+			setResourceType('web');
 		} else {
 			toast.error(
 				'The resource still does not have issues to make a report',
@@ -84,9 +87,8 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 						</div>
 
 						<div className="id action">
-							
 							<span
-								title='Add Issue'
+								title="Add Issue"
 								onClick={() =>
 									navigate(`/issues/create/web/${mainNetwork.id}`)
 								}>
@@ -96,7 +98,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 								</span>
 							</span>
 							<span
-								title='Create report'
+								title="Create report"
 								onClick={() =>
 									generateReport(
 										mainNetwork.id,
@@ -107,7 +109,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 								<DocumentIcon isButton width={1.27} height={1.27} />
 							</span>
 							<span
-								title='Delete'
+								title="Delete"
 								onClick={() => {
 									setSelectedResource({
 										id: mainNetwork.id,
@@ -118,7 +120,6 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									setShowModalStr('delete_resource');
 								}}>
 								<TrashIcon />
-								
 							</span>
 						</div>
 					</div>
@@ -143,7 +144,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 
 							<div className="id action">
 								<span
-									title='Add Issue'
+									title="Add Issue"
 									onClick={() =>
 										navigate(`/issues/create/web/${subNetwork.id}`)
 									}>
@@ -153,7 +154,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									</span>
 								</span>
 								<span
-									title='Create report'
+									title="Create report"
 									className="issue-printer"
 									onClick={() =>
 										generateReport(
@@ -164,7 +165,7 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 									<DocumentIcon isButton width={1.27} height={1.27} />
 								</span>
 								<span
-									title='Delete'
+									title="Delete"
 									onClick={() => {
 										setSelectedResource({
 											id: subNetwork.id,

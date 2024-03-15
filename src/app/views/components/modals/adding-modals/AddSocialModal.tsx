@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAuthState, SocialAplicationService } from '../../../data';
-import { GlobeWebIcon, ModalButtons } from '..';
+import { useAuthState, SocialAplicationService } from '../../../../data';
+import { GlobeWebIcon, ModalButtons } from '../..';
 
 interface SocialData {
 	fName: string;

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { generateIDArray } from '../../../data';
+import { generateIDArray } from '../../../../data';
 
 interface RiskScoreProps {
 	riskScore: string;

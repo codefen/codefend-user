@@ -32,6 +32,7 @@ import {
 	AdminCompany,
 } from './views/pages';
 import { PanelPage } from './views/pages/panel/PanelPage';
+import { PageReport } from './views/components/modals/reports/components/PageReport';
 
 export const AppRouter: React.FC = () => {
 	return (
@@ -84,6 +85,9 @@ export const AppRouter: React.FC = () => {
 							<Route index element={<Navigate to="company" replace />} />
 							<Route path="company" element={<AdminCompany />} />
 						</Route>
+					</Route>
+					<Route path="report/*" element={<PageReport />}>
+						<Route index element={<PageReport />}></Route>
 					</Route>
 					{/* Public Routes */}
 					<Route path="/auth/*" element={<AuthPage />}>

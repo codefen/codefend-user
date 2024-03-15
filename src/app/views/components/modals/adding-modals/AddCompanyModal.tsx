@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { GlobeWebIcon, ModalButtons } from '..';
+import { GlobeWebIcon, ModalButtons } from '../..';
 
 interface AddNewCompany {
 	companyStore: any | null;

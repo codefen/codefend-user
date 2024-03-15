@@ -1,7 +1,16 @@
-import { useAuthState, useModal, LanApplicationService } from '../../../data';
+import {
+	useAuthState,
+	useModal,
+	LanApplicationService,
+} from '../../../../data';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { GlobeWebIcon, ModalButtons, PrimaryButton, SecondaryButton } from '..';
+import {
+	GlobeWebIcon,
+	ModalButtons,
+	PrimaryButton,
+	SecondaryButton,
+} from '../..';
 
 interface NetworkData {
 	domainName: string;

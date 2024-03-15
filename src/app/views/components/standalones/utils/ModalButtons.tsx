@@ -1,5 +1,5 @@
 import React from 'react';
-import { PrimaryButton, SecondaryButton } from '..';
+import { PrimaryButton, SecondaryButton } from '../..';
 
 interface Props {
 	close: () => void;

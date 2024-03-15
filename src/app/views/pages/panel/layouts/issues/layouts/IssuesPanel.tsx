@@ -1,5 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useIssueReport, Issues, useIssues } from '../../../../../../data';
+import {
+	useIssueReport,
+	Issues,
+	useIssues,
+	useReportStore,
+} from '../../../../../../data';
 import {
 	PrimaryButton,
 	VulnerabilitiesStatus,
@@ -15,6 +20,7 @@ const IssuesPanel: React.FC = () => {
 	const [filters, setFilters] = useState<string[]>([]);
 	const { getIssues, isLoading, refetchAll } = useIssues();
 	const { fetchReport } = useIssueReport();
+	const { setResourceID, setResourceType } = useReportStore((state) => state);
 	const flashlight = useFlashlight();
 
 	useEffect(() => {
@@ -52,7 +58,9 @@ const IssuesPanel: React.FC = () => {
 			? handleIssuesFilter.filteredData[1].resourceID
 			: '';
 
-		fetchReport(issue, filters[0]);
+		setResourceID(issue);
+		setResourceType('web');
+		fetchReport();
 	};
 
 	return (

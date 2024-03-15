@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import { GlobeWebIcon, ModalButtons } from '../';
+import { GlobeWebIcon, ModalButtons } from '../..';
 import { toast } from 'react-toastify';
 import {
 	useAuthState,
 	WebApplicationService,
 	Webresources,
-} from '../../../data';
+} from '../../../../data';
 
 interface AddDomainProps {
 	onDone: () => void;
@@ -36,7 +36,7 @@ const AddDomainModal: React.FC<AddDomainProps> = (props) => {
 			setIsAddingDomain(false);
 			return;
 		}
-	
+
 		const companyID = getCompany();
 
 		WebApplicationService.addResource(domainName, companyID)

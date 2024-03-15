@@ -16,7 +16,7 @@ import {
 
 import './mobileApplicationPanel.scss';
 import { MobileApplication } from './components/MobileApplication';
-import AddMobileModal from '../../../../components/modals/AddMobileModal';
+import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
 
 const MobileApplicationPanel: React.FC = () => {
 	const { showModal, setShowModal } = useModal();

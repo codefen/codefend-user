@@ -79,7 +79,6 @@ export const useAuthState = () => {
 		return authStore
 			.registerFinish(params)
 			.then((res: any) => {
-				console.log({res});
 				if (res.response !== "success" || res.response === "error") throw new Error("");
 
 				toast.success(

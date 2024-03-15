@@ -31,15 +31,15 @@ export const RiskWithoutAction: React.FC<VulnerabilityRiskProps> = ({
 		type: ChartValueType.PLAIN,
 	});
 
-	const dataEmptyState = useMemo(() => {
+	const dataEmptyState = () => {
 		const { total, ...otherMetrics } = vulnerabilityByRisk;
 		return isEmptyData(otherMetrics);
-	}, [vulnerabilityByRisk]);
+	};
 
 	const { renderPercentage } = MetricsService;
 
-	const tableRows = useMemo(() => {
-		return Object.keys(otherMetrics).map(
+	const tableRows = () =>
+		Object.keys(otherMetrics).map(
 			(metric: string | number) =>
 				({
 					ID: { value: '', style: '' },
@@ -57,7 +57,6 @@ export const RiskWithoutAction: React.FC<VulnerabilityRiskProps> = ({
 					},
 				}) as Record<string, TableItem>,
 		);
-	}, [otherMetrics]);
 
 	return (
 		<div className="card risk-chart">
@@ -71,7 +70,7 @@ export const RiskWithoutAction: React.FC<VulnerabilityRiskProps> = ({
 
 							<TableWithoutActions
 								columns={vulnerabilityRiskColumns}
-								resources={tableRows}
+								resources={tableRows()}
 								id={5}
 								isLoading={!isLoading}
 							/>

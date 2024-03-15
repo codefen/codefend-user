@@ -17,8 +17,6 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
 	id,
 	needMarker,
 }) => {
-	console.log({ id: id });
-	console.log({ tableLen: resources.length });
 
 	const ColumnActive: React.FC<any> = (props) => {
 		if (props.column.name != 'childs') {

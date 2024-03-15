@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { MobileService, useAuthState } from '../../../data';
+import { MobileService, useAuthState } from '../../../../data';
 import { toast } from 'react-toastify';
-import { GlobeWebIcon, ModalButtons } from '..';
+import { GlobeWebIcon, ModalButtons } from '../..';
 
 interface Props {
 	onDone: () => void;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ModalButtons, ModalTitleWrapper, Show } from '..';
-import { ApiHandlers } from '../../../data/services';
+import { ModalButtons, ModalTitleWrapper, Show } from '../..';
+import { ApiHandlers } from '../../../../data/services';
 
 interface Props {
 	show: boolean;

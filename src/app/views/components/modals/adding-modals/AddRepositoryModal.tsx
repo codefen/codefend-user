@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GlobeWebIcon, ModalButtons } from '..';
+import { GlobeWebIcon, ModalButtons } from '../..';
 import { toast } from 'react-toastify';
 
 interface AddRepositoryModalProps {

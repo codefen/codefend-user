@@ -1,7 +1,7 @@
-import { useAuthState, LanApplicationService, Device } from '../../../data';
+import { useAuthState, LanApplicationService, Device } from '../../../../data';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { GlobeWebIcon, ModalButtons } from '..';
+import { GlobeWebIcon, ModalButtons } from '../..';
 
 interface NetworkDeviceModalProps {
 	close: () => void;

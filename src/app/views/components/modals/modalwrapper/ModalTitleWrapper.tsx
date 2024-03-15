@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalWrapper, Show, StatIcon } from '..';
+import { ModalWrapper, Show, StatIcon } from '../..';
 
 interface ModalTitleWrapperProps {
 	children: JSX.Element;

@@ -88,7 +88,7 @@ const generateInform = async (companyID: string, issueID:string,resource_type:st
 			model: 'issues/inform',
 			company_id: companyID,
 			resource_id: issueID,
-			resource_type: resource_type
+			resource_class: resource_type
 		},
 	}).catch((error: any) => handleFetchError(error))) as any;
 

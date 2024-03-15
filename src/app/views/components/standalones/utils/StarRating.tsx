@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { HalfStarIcon, StarIcon } from '..';
+import { HalfStarIcon, StarIcon } from '../..';
 
 interface StartRatingProps {
 	rating: number;
