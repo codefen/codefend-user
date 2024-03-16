@@ -87,22 +87,11 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 	if ((open && !isLoading) || (forceOpen && !isLoading)) {
 		if (!isModal) {
 			return (
-				<>
+				<div className='issues-reports tab'>
 					{' '}
-					<div className="issues-report-header">
+					<div className="main-header">
 						<ExecutiveSummaryIcon />
 						<h1>{resourceDomainText} Executive summary</h1>
-
-						{isModal ? (
-							<a
-								className="download-pdf-btn"
-								href="/report"
-								target="_blank">
-								Download PDF
-							</a>
-						) : (
-							''
-						)}
 					</div>
 					<p>
 						Our Red Team performed a security assessment of the internal
@@ -200,7 +189,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 								}}></div>
 						</div>
 					))}
-				</>
+				</div>
 			);
 		}
 		return (

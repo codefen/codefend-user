@@ -37,13 +37,13 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({
 				</div>
 				<div className="stat">
 					<div className="value">
-						<span>{getCompanyMetric(getResources(), 'subDomain')}</span>
+						{getCompanyMetric(getResources(), 'subDomain')}
 					</div>
 					<p>Subdomains</p>
 				</div>
 				<div className="stat">
 					<div className="value">
-						<span>{getCompanyMetric(getResources(), 'uniqueIp')}</span>
+						{getCompanyMetric(getResources(), 'uniqueIp')}
 					</div>
 					<p>Unique IPS</p>
 				</div>

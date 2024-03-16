@@ -7,201 +7,207 @@
 	max-height: calc(100vh - 40px);
 	overflow-y: auto;
 	overflow-x: hidden;
-}
-.loader {
-	min-height: 100dvh;
-	padding-block-end: 18dvh;
-}
 
-.download-pdf-btn {
-	position: absolute;
-	top: 6%;
-	right: 7%;
-	color: #fff;
-	background-color: #f73131;
-
-	outline: none;
-	border-radius: 5px;
-	padding-inline: 1.75rem;
-	padding-block: 0.75rem;
-
-	text-transform: uppercase;
-	font-weight: 700;
-	font-size: 16px;
-	border: none;
-}
-.page-break {
-}
-
-.issues-report-header {
-	text-transform: uppercase;
-	height: 30px;
-	display: flex;
-	align-items: center;
-	row-gap: 15px;
-	margin-block-start: 40px;
-	margin-block-end: 20px;
-	color: var(--secondary-color-200);
-
-	h1,
-	h2,
-	h3 {
-		color: var(--tertiary-color-500);
-		padding-inline-start: 0.75rem;
-		flex: 1 1;
+	&.tab {
+		max-height: inherit;
+		overflow-x: inherit;
 	}
-	h1 {
-		color: var(--tertiary-color-600);
-		font-size: 18px;
-		height: 100%;
+
+	.loader {
+		min-height: 100dvh;
+		padding-block-end: 18dvh;
+	}
+
+	.download-pdf-btn {
+		position: absolute;
+		top: 6%;
+		right: 7%;
+		color: #fff;
+		background-color: #f73131;
+
+		outline: none;
+		border-radius: 5px;
+		padding-inline: 1.75rem;
+		padding-block: 0.75rem;
+
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 16px;
+		border: none;
+	}
+	.page-break {
+	}
+
+	.issues-report-header, .main-header {
+		text-transform: uppercase;
+		height: 30px;
 		display: flex;
 		align-items: center;
-	}
-	h2 {
-		font-size: 16px;
-		line-height: 16px;
+		row-gap: 15px;
+		margin-block-start: 40px;
+		margin-block-end: 20px;
+		color: var(--secondary-color-200);
+
+		h1,
+		h2,
+		h3 {
+			color: var(--tertiary-color-500);
+			padding-inline-start: 0.75rem;
+			flex: 1 1;
+		}
+		h1 {
+			color: var(--tertiary-color-600);
+			font-size: 18px;
+			height: 100%;
+			display: flex;
+			align-items: center;
+		}
+		h2 {
+			font-size: 16px;
+			line-height: 16px;
+		}
+
+		h3 {
+			font-size: 15px;
+		}
 	}
 
-	h3 {
+	p {
 		font-size: 15px;
-	}
-}
+		margin-block: 1rem;
+		line-height: 1.6;
 
-p {
-	font-size: 15px;
-	margin-block: 1rem;
-	line-height: 1.6;
-
-	em {
-		font-style: normal;
-		color: #b21c1c;
-		padding: 5px;
-	}
-}
-
-.graph {
-	.card.risk-chart {
-		border: 0;
-
-		.header {
-			display: none;
+		em {
+			font-style: normal;
+			color: #b21c1c;
+			padding: 5px;
 		}
+	}
 
-		.content {
-			flex-flow: row nowrap;
+	.graph {
+		.card.risk-chart {
 			border: 0;
+
+			.header {
+				display: none;
+			}
+
+			.content {
+				flex-flow: row nowrap;
+				border: 0;
+			}
 		}
 	}
-}
-.issue-header {
-	display: flex;
-	flex-direction: column;
-	flex: 1 1;
-
-	.issue-header-info {
+	.issue-header {
 		display: flex;
-		align-items: stretch;
-		font-family: Roboto;
-		text-transform: uppercase;
-		font-size: 0.89rem;
-		height: 40px;
-		column-gap: 3rem;
-		color: var(--secondary-color-300);
+		flex-direction: column;
+		flex: 1 1;
 
-		span {
-			color: var(--tertiary-color-500);
-		}
-	}
+		.issue-header-info {
+			display: flex;
+			align-items: stretch;
+			font-family: Roboto;
+			text-transform: uppercase;
+			font-size: 0.89rem;
+			height: 40px;
+			column-gap: 3rem;
+			color: var(--secondary-color-300);
 
-	hr {
-		margin-block-start: 3.5rem;
-		margin-block-end: 0.5rem;
-	}
-}
-.table {
-	margin-block: 2.5rem;
-
-	.columns-name {
-		color: var(--tertiary-color-400);
-
-		.column {
-			&:hover {
-				color: #ce2e2e;
+			span {
+				color: var(--tertiary-color-500);
 			}
 		}
+
+		hr {
+			margin-block-start: 3.5rem;
+			margin-block-end: 0.5rem;
+		}
 	}
+	.table {
+		margin-block: 2.5rem;
 
-	.rows {
-		.item {
-			border: 0px;
-			color: var(--tertiary-color-500);
+		.columns-name {
+			color: var(--tertiary-color-400);
 
-			&:hover {
-				background-color: initial;
+			.column {
+				&:hover {
+					color: #ce2e2e;
+				}
 			}
+		}
 
-			&.left-marked {
-				background: rgb(247 247 247 / 0.15) !important;
+		.rows {
+			.item {
+				border: 0px;
+				color: var(--tertiary-color-500);
 
 				&:hover {
-					background: initial;
+					background-color: initial;
+				}
+
+				&.left-marked {
+					background: rgb(247 247 247 / 0.15) !important;
+
+					&:hover {
+						background: initial;
+					}
 				}
 			}
 		}
+		.domain-name {
+			max-width: 40%;
+			min-width: 40%;
+		}
+		.server-ip {
+			max-width: 25%;
+			min-width: 25%;
+		}
+		.id {
+			max-width: 10%;
+			min-width: 10%;
+		}
+		.location {
+			max-width: 25%;
+			min-width: 25%;
+		}
 	}
-	.domain-name {
-		max-width: 40%;
-		min-width: 40%;
-	}
-	.server-ip {
-		max-width: 25%;
-		min-width: 25%;
-	}
-	.id {
-		max-width: 10%;
-		min-width: 10%;
-	}
-	.location {
-		max-width: 25%;
-		min-width: 25%;
-	}
-}
-.empty-card {
-	.empty-container {
-		.empty-wrapper {
-			p {
-				&.first-text {
-					color: #cf4848;
-					font-weight: 700;
-					font-size: 1.35rem;
-				}
-				&.second-text {
-					color: var(--tertiary-color-400);
-					font-size: 0.96rem;
+	.empty-card {
+		.empty-container {
+			.empty-wrapper {
+				p {
+					&.first-text {
+						color: #cf4848;
+						font-weight: 700;
+						font-size: 1.35rem;
+					}
+					&.second-text {
+						color: var(--tertiary-color-400);
+						font-size: 0.96rem;
 
-					a {
-						color: var(--secondary-color-300);
+						a {
+							color: var(--secondary-color-300);
+						}
 					}
 				}
 			}
 		}
 	}
+
+	hr {
+		border: 0px;
+
+		height: 2px;
+		border-block: 10px;
+		background-color: var(--secondary-color-50);
+	}
+
+	.app-card-container {
+		margin-block: 3rem;
+	}
 }
-
-hr {
-	border: 0px;
-
-	height: 2px;
-	border-block: 10px;
-	background-color: var(--secondary-color-50);
-}
-
-.app-card-container {
-	margin-block: 3rem;
-}
-
 @page {
-	size: Portrait;
+	size: A4 portrait;
+	margin: 2cm;
 }
 
 @media only print {
@@ -230,19 +236,24 @@ hr {
 	body {
 		overflow: scroll;
 		font-size: 16px;
+		// margin: 2cm;
 	}
 	button {
 		display: none;
 	}
-
+	[class^="sub-domain-icon"], hr {
+		-webkit-print-color-adjust: exact; /* Para navegadores webkit (Chrome, Safari) */
+		color-adjust: exact; /* Para navegadores que soportan esta propiedad */
+		background-color: var(--secondary-color-50); /* Color de fondo para la impresión */
+	}
 	.issues-reports {
-		page-break-inside: auto;
+		// page-break-inside: auto;
 
 		.issues-report-header {
-			page-break-before: always;
+			// page-break-before: always;
 
 			&.no-break {
-				page-break-before: inherit;
+				// page-break-before: inherit;
 			}
 		}
 
