@@ -139,7 +139,7 @@
 // DEFAULT SIZE PANEL
 //////////////////////////////////////////////////////////////////
 .sidebar.is-open + main {
-	opacity: 0.8;
+	// opacity: 0.8;
 
 	.left .app-card-content-img {
 		opacity: 0.4;
@@ -152,17 +152,15 @@
 	}
 }
 main {
-	// justify-content: center;
 	.left {
 		flex: 1 1 70%;
 		padding: 0 14px;
 		margin: 0 auto;
-		// width: 70%;
 	}
 	.right {
 		flex: 1 1 30%;
-		padding: 0 14px;
-		// width: 30%;
+		padding: 0 14px 0 0;
+		height: 100%;
 	}
 	@include mixin.respond(small) {
 		display: block;
@@ -642,6 +640,7 @@ main.cloud {
 			filter: blur(115px) brightness(0.5);
 		}
 		.right {
+			padding-left: 14px;
 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
 			background-size: 14px 14px;
 			background: rgba(18, 26, 35, 0.3) !important;

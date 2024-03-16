@@ -169,6 +169,7 @@
 
 	a {
 		border: none;
+		color: var(--tertiary-color-300);
 
 		&.active {
 			background-color: var(--primary-color-mask) !important;

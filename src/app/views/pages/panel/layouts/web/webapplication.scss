@@ -3,95 +3,95 @@
 main.webapp {
 	padding-inline-end: 0px;
 
-	.table .rows {
+	.left .table .rows {
 		height: calc(100vh - 153px);
 	}
-	.left {
-		width: 70%;
-		.table {
-			.domain-name {
-				min-width: 35%;
-				max-width: 610px;
-			}
-			.location {
-				width: 160px;
-			}
+	// .left {
+	// 	width: 70%;
+	// 	.table {
+	// 		.domain-name {
+	// 			min-width: 35%;
+	// 			max-width: 610px;
+	// 		}
+	// 		.location {
+	// 			width: 160px;
+	// 		}
 
-			.item {
-				.location {
-					.flag {
-						margin-inline-end: 0.75rem;
-					}
-				}
-			}
+	// 		.item {
+	// 			.location {
+	// 				.flag {
+	// 					margin-inline-end: 0.75rem;
+	// 				}
+	// 			}
+	// 		}
 
-			.action {
-				justify-content: center;
-				max-width: none;
-				width: 100%;
-				column-gap: 2px;
+	// 		.action {
+	// 			justify-content: center;
+	// 			max-width: none;
+	// 			width: 100%;
+	// 			column-gap: 2px;
 
-				span {
-					height: 100%;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					padding-inline: 7px;
-					transition: color 200ms ease;
+	// 			span {
+	// 				height: 100%;
+	// 				display: flex;
+	// 				justify-content: center;
+	// 				align-items: center;
+	// 				padding-inline: 7px;
+	// 				transition: color 200ms ease;
 					
-					&:hover {
-						color: var(--secondary-color-100);
+	// 				&:hover {
+	// 					color: var(--secondary-color-100);
 
-						svg path {
-							color: var(--secondary-color-100);
-						}
-					}
-				}
+	// 					svg path {
+	// 						color: var(--secondary-color-100);
+	// 					}
+	// 				}
+	// 			}
 
-				.issue-count {
-					font-size: 14px;
-					font-weight: 700;
-					padding-inline-start: 3px;
-					padding-inline-end: 0;
-					user-select: none;
-					cursor: pointer;
-				}
+	// 			.issue-count {
+	// 				font-size: 14px;
+	// 				font-weight: 700;
+	// 				padding-inline-start: 3px;
+	// 				padding-inline-end: 0;
+	// 				user-select: none;
+	// 				cursor: pointer;
+	// 			}
 
-				.issue-printer {
-					padding-inline-start: 8px;
-				}
-			}
-		}
-	}
-	.right {
-		width: 30%;
-		overflow-y: hidden;
+	// 			.issue-printer {
+	// 				padding-inline-start: 8px;
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// .right {
+	// 	width: 30%;
+	// 	overflow-y: hidden;
 
-		.card {
-			.content {
-				padding-block: 0px;
-			}
+	// 	.card {
+	// 		.content {
+	// 			padding-block: 0px;
+	// 		}
 
-			&.location-card {
-				display: flex !important;
-				flex-direction: column;
-			}
-		}
-	}
-	@include mixin.respond(small) {
-		min-height: auto;
-		height: 81dvh;
-		.left {
-			width: 100%;
-			.card {
-				overflow-y: auto;
-				overflow-x: auto;
-			}
-		}
-		.right {
-			width: 100%;
-		}
-	}
+	// 		&.location-card {
+	// 			display: flex !important;
+	// 			flex-direction: column;
+	// 		}
+	// 	}
+	// }
+	// @include mixin.respond(small) {
+	// 	min-height: auto;
+	// 	height: 81dvh;
+	// 	.left {
+	// 		width: 100%;
+	// 		.card {
+	// 			overflow-y: auto;
+	// 			overflow-x: auto;
+	// 		}
+	// 	}
+	// 	.right {
+	// 		width: 100%;
+	// 	}
+	// }
 }
 
 //.left {

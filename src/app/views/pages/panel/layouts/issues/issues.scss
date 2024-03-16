@@ -16,7 +16,7 @@ main.issue-detail {
 			border-bottom: 1px solid var(--primary-color-300);
 			background-color: var(--primary-color);
 			font-family: Roboto;
-			color: var(--tertiary-color-200);
+			// color: var(--tertiary-color-200);
 			height: 50px;
 			padding: 0px;
 
@@ -165,7 +165,7 @@ main.issue-detail {
 				// white-space: nowrap;
 
 				span {
-					color: var(--tertiary-color-200);
+					color: var(--tertiary-color-300);
 					margin-left: 5px;
 					// text-overflow: ellipsis;
 					// overflow: hidden;
