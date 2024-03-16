@@ -1,5 +1,8 @@
 @use '../../../styles/settings/mixin' as mixin;
-
+.sidebar ~ main {
+	// background: rgba(18, 26, 35, 0.3);
+	// backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+}
 .sidebar {
 	display: flex;
 	flex-direction: column;
@@ -46,7 +49,7 @@
 		justify-content: flex-start;
 		height: 45px;
 		outline: none;
-		color: var(--tertiary-color-100);
+		color: var(--tertiary-color-450);
 		border-bottom: 1px solid var(--primary-color-300);
 		width: 100%;
 		padding-inline: 18px;
@@ -90,6 +93,10 @@
 				transform 275ms ease 90ms,
 				opacity 125ms ease-in 0ms;
 		}
+	}
+
+	&.is-open {
+		box-shadow: 2px 4px 13px rgba(0, 0, 0, 0.2);
 	}
 
 	&.is-open:hover {
