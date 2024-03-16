@@ -23,6 +23,7 @@
 		border-bottom: 1px solid var(--primary-color-300);
 		background-position: var(--primary-color-200);
 		color: var(--tertiary-color-200);
+		background-color: #f8f8f8;
 		padding-inline: 1.25rem;
 		transition:
 			color,
@@ -67,6 +68,12 @@
 			p {
 				color: var(--tertiary-color-400);
 			}
+		}
+	}
+
+	&.location-card {
+		.rows {
+			max-height: 50vh;
 		}
 	}
 
@@ -119,6 +126,7 @@
 				border-right-width: 1px;
 				border-right-style: solid;
 				border-right-color: var(--primary-color-300);
+				
 				flex: 1 1;
 
 				flex: 1 1;
@@ -134,7 +142,7 @@
 					font-weight: 700;
 					font-size: 32px;
 					line-height: 32px;
-					color: var(--tertiary-color-200);
+					color: var(--tertiary-color-300);
 
 					text-align: center;
 
@@ -276,7 +284,7 @@
 	}
 
 	+ .card {
-		margin-block-start: 0.625rem;
+		margin-block-start: 14px;
 	}
 }
 
