@@ -1,3 +1,13 @@
+body[print-report] {
+	overflow-y: auto;
+
+	#root {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+}
 .issues-reports {
 	position: relative;
 	padding: 20px;
@@ -35,10 +45,9 @@
 		font-size: 16px;
 		border: none;
 	}
-	.page-break {
-	}
 
-	.issues-report-header, .main-header {
+	.issues-report-header,
+	.main-header {
 		text-transform: uppercase;
 		height: 30px;
 		display: flex;
@@ -233,35 +242,31 @@
 		background: none;
 	}
 
-	body {
+	body[print-report] {
 		overflow: scroll;
 		font-size: 16px;
-		// margin: 2cm;
+
+		#root {
+			display: block;
+		}
 	}
+
 	button {
 		display: none;
 	}
-	[class^="sub-domain-icon"], hr {
+	[class^='sub-domain-icon'],
+	hr {
 		-webkit-print-color-adjust: exact; /* Para navegadores webkit (Chrome, Safari) */
 		color-adjust: exact; /* Para navegadores que soportan esta propiedad */
-		background-color: var(--secondary-color-50); /* Color de fondo para la impresión */
+		background-color: var(
+			--secondary-color-50
+		); /* Color de fondo para la impresión */
 	}
 	.issues-reports {
 		// page-break-inside: auto;
 
-		.issues-report-header {
-			// page-break-before: always;
-
-			&.no-break {
-				// page-break-before: inherit;
-			}
-		}
-
 		.issue-header {
 			page-break-before: always;
-
-			.issue-header-info {
-			}
 		}
 	}
 }
