@@ -208,7 +208,7 @@ code {
 	width: 100%;
 }
 .tabla-header-issue tr {
-	border-bottom: 1px solid #bebebe;
+	/* border-bottom: 1px solid #bebebe; */
 	display: block;
 }
 .tabla-header-issue .left {

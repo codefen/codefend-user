@@ -1,6 +1,7 @@
 import React from 'react';
 import {
 	BugIcon,
+	GlobeWebIcon,
 	ExecutiveSummaryIcon,
 	LocationItem,
 	PageLoader,
@@ -116,7 +117,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 					</div>
 					<hr />
 					<div className="issues-report-header">
-						<BugIcon />
+						<GlobeWebIcon />
 						<h2>scope & assets & attack surface</h2>
 					</div>
 					<p className="print-break">
@@ -146,16 +147,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 						id={3}
 					/>
 					<hr />
-					<div className="issues-report-header">
-						<BugIcon />
-						<h2>scope & assets & attack surface</h2>
-					</div>
-					<p>
-						Security assessments were conducted within the following
-						located resources. Several of these resources were
-						automatically detected and added by our staff and software and
-						may not contain regular content.
-					</p>
+					
 					{getIssues().map((issue: ReportIssues, i: number) => (
 						<div key={i + '-issue'}>
 							<div className="issue-header">
@@ -235,7 +227,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 				<hr />
 
 				<div className="issues-report-header">
-					<BugIcon />
+					<GlobeWebIcon />
 					<h2>scope & assets & attack surface</h2>
 				</div>
 
@@ -271,17 +263,6 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 				/>
 
 				<hr />
-
-				<div className="issues-report-header">
-					<BugIcon />
-					<h2>scope & assets & attack surface</h2>
-				</div>
-				<p>
-					Security assessments were conducted within the following located
-					resources. Several of these resources were automatically detected
-					and added by our staff and software and may not contain regular
-					content.
-				</p>
 
 				{getIssues().map((issue: ReportIssues, i: number) => (
 					<div key={i + '-issue'}>
