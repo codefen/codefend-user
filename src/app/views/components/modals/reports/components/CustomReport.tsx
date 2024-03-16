@@ -1,25 +1,16 @@
-import React from 'react';
-import {
-	BugIcon,
-	GlobeWebIcon,
-	ExecutiveSummaryIcon,
-	LocationItem,
-	PageLoader,
-	RiskScore,
-} from '../../..';
+import React, { useEffect } from 'react';
+import { BugIcon, ExecutiveSummaryIcon, PageLoader, RiskScore, GlobeWebIcon } from '../../..';
 import { TableWithoutActions } from '../../../Table/TableWithoutActions';
 import {
 	IssuesShare,
 	ReportIssues,
-	Resouce,
-	Webresources,
-	cleanHTML,
 	formatDate,
+	getCurrentTime,
 	issuesColumnsWithoutAction,
+	removeSpecialCharacters,
 	useNewWindows,
 	useReportInfoStore,
 	useReportStore,
-	webResourcesWithoutActions,
 } from '../../../../../data';
 import { RiskWithoutAction } from './RiskWithoutAction';
 import { WebResourceScope } from './WebResourceScope';
@@ -41,12 +32,37 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 	const { navigateNewWindow } = useNewWindows();
 	const resources = getResources();
 	let resourceDomainText = '. . .';
-
 	if (resourceType === 'web') {
 		resourceDomainText = resources?.[0]?.resourceDomain || '. . .';
 	} else if (resourceType === 'mobile' || resourceType === 'cloud') {
 		resourceDomainText = resources?.appName || '. . .';
 	}
+
+	useEffect(() => {
+		const addAttributeToBody = () => {
+			document.body.setAttribute('print-report', 'true');
+			const createdAt = Array.isArray(resources)
+				? resources?.[0]?.createdAt
+				: resources.createdAt;
+
+			document.title = `${formatDate(createdAt)}-${removeSpecialCharacters(resourceDomainText)}`;
+		};
+
+		const removeAttributeFromBody = () => {
+			document.body.removeAttribute('print-report');
+			document.title = 'Codefend';
+		};
+
+		if (!isModal) {
+			addAttributeToBody();
+			setTimeout(() => window.print(), 1000);
+		}
+		return () => {
+			if (!isModal) {
+				removeAttributeFromBody();
+			}
+		};
+	}, []);
 
 	const vulnerabilityDataTable = getIssues().map(
 		(issue: ReportIssues, i: number) => ({
@@ -185,7 +201,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 			);
 		}
 		return (
-			<div className="issues-reports" id="issue-web-report">
+			<div className={`issues-reports ${!isModal ? 'tab' : ''}`}>
 				<div className="issues-report-header">
 					<ExecutiveSummaryIcon />
 					<h1>{resourceDomainText} Executive summary</h1>

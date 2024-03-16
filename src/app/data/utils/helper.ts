@@ -61,6 +61,22 @@ export const formatDate = (stringDate: string): string => {
 	return `${year}-${month}-${day}`;
 };
 
+export const getCurrentTime = () => {
+	const now = new Date();
+	const hour = now.getHours();
+	const minutes = now.getMinutes();
+  
+	// Format minutes to always have two digits
+	const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  
+	return `${hour}:${formattedMinutes}`;
+  };
+
+  export const removeSpecialCharacters = (inputString: string) => {
+	const regex = /[.,;:_#?-]/g;  
+	return inputString.replace(regex, '');;
+  };
+
 /** check if  data is empty/zeros */
 export const isEmptyData = (data: any) => {
 	if (data.constructor !== Object) return true;
