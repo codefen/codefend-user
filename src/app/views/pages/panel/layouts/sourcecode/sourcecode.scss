@@ -88,14 +88,11 @@ main.source-code {
 	.right {
 		flex: 1 1 33%;
 		width: 33%;
-		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
 		padding-inline-end: 20px;
 
 		.card {
 			&.risk-chart {
-				border: 0px;
-
 				.content {
 					flex-direction: column;
 					row-gap: 1.75rem;
@@ -110,6 +107,9 @@ main.source-code {
 			&.only-info {
 				.content {
 					.info {
+						p {
+							line-height: 1.5;
+						}
 						a {
 							text-decoration-line: underline;
 							cursor: pointer;

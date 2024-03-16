@@ -1,4 +1,4 @@
-import { ApiHandlers } from '../../../../../../../data';
+import { AdminService } from '../../../../../../../data';
 import React, { useEffect, useState } from 'react';
 
 const AdminPanelApprove: React.FC = () => {
@@ -10,13 +10,13 @@ const AdminPanelApprove: React.FC = () => {
 			approval: condition,
 		};
 
-		ApiHandlers.approveUser(requestBody).then(() => {
+		AdminService.approveUser(requestBody).then(() => {
 			setPendingUsers(pendingUsers.filter((user: any) => user.id !== id));
 		});
 	};
 
 	useEffect(() => {
-		ApiHandlers.getPanelUsersApproval()
+		AdminService.getPanelUsersApproval()
 			.then((res: any) => {
 				if (res === false) {
 					console.error('Error fetching panel users approval.');

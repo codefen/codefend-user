@@ -17,7 +17,6 @@ import {
 	SupportProps,
 	TicketUnique,
 	User,
-	UserAPI,
 	VdbProps,
 	VdbRequestSearch,
 	WebReport,
@@ -28,10 +27,10 @@ import {
 	mapEpochToDate,
 } from '..';
 
-/** Map @interface UserAPi => @interface User */
-export const mapLoginResponseToUser: (response: UserAPI) => User = (
-	response: UserAPI,
-) => {
+/** Map to @interface User */
+export const mapLoginResponseToUser = (
+	response: any,
+): User => {
 	return {
 		id: response.id,
 		companyID: response.company_id,

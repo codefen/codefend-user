@@ -2,119 +2,6 @@
 
 import { ColumnTable } from '../../views/components/Table/tablev2';
 
-export const defaultCollaborators = [
-	{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
-	{ id: 'z_AbfPXTKms', name: 'Maru' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-];
-
-export const defaultInxData = [
-	{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
-	{ id: 'z_AbfPXTKms', name: 'Maru' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-];
-
-export const defaultInxResources = [
-	{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
-	{ id: 'z_AbfPXTKms', name: 'Maru' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-];
-
-export const defaultCompanyInfo = [
-	{
-		title: 'web',
-		value: 'hemsleek.com',
-	},
-	{
-		title: 'mercado',
-		value: 'Information Security',
-	},
-	{
-		title: 'owner',
-		value: 'Asiyanbi mubashir',
-	},
-	{
-		title: 'email',
-		value: 'hemsleek@codefend.com',
-	},
-	{
-		title: 'location',
-		value: 'buenos aires',
-	},
-	{
-		title: 'address',
-		value: 'Libertador',
-	},
-];
-
-export const defaultOrderBilling = [
-	{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
-	{ id: 'z_AbfPXTKms', name: 'Maru' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-	{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' },
-];
-
-export const defaultPersonalDetails = [
-	{
-		title: 'email',
-		value: 'hemsleek@codefend.com',
-	},
-	{
-		title: 'firstname',
-		value: 'Mubashir',
-	},
-	{
-		title: 'lastname',
-		value: 'Asiyanbi',
-	},
-	{
-		title: 'phone',
-		value: '+2348108170354',
-	},
-	{
-		title: 'role',
-		value: 'technical leader',
-	},
-];
-
-export const defaultPreviousSearches = [
-	{ username: 'nick@codefend.com', search: '@codefend.com' },
-	{ username: 'hemsleek@codefend.com', search: 'codefend.com' },
-	{ username: 'nick@codefend.com', search: '@codefend.com' },
-	{ username: 'nick@codefend.com', search: 'codefend.com' },
-	{ username: 'nick@codefend.com', search: '@codefend.com' },
-	{ username: 'nick@codefend.com', search: 'codefend.com' },
-];
-
-export const defaultSocialAttackVectors = {
-	'email attacks': 'enabled',
-	'telecom attacks': 'enabled',
-	'social network attacks': 'disabled',
-};
-
 export const osTypes = ['windows', 'linux', 'android', 'ios', 'unknown'];
 
 export const languageTypes = new Set([
@@ -153,24 +40,6 @@ export const languageTypes = new Set([
 	'wordpress',
 ]);
 
-export const defaultMobileCloudCredentials = [
-	{
-		username: 'operator@codefend.com',
-		password: 'mnxzcnxmxm9292%',
-		access_lvl: 'admin',
-	},
-
-	{
-		username: 'nacho@codefend.com',
-		password: 'nachochanchad@1290',
-		access_lvl: 'developer',
-	},
-	{
-		username: 'domain@codefend.com',
-		password: 'yatagunaKikishki_982',
-		access_lvl: 'manager',
-	},
-];
 export const defaultMobileCloudResourceAsset = new Set<string>([
 	'main cloud',
 	'mobile1',
@@ -616,9 +485,6 @@ export const webResourcesWithoutActions = [
 	}
 ]
 
-export const orderTab =
-	'scope,frequency,team size,order review,payment method'.split(',');
-
 export const defaultCrypto = [
 	{
 		name: 'btc',
@@ -637,18 +503,32 @@ export const defaultCrypto = [
 	},
 ];
 
-export const apiLinks = [
+export const defaultSocialAttackVectors = {
+	'email attacks': 'enabled',
+	'telecom attacks': 'enabled',
+	'social network attacks': 'disabled',
+};
+
+export const defaultPersonalDetails = [
 	{
-		name: 'Kundalini',
-		url: 'https://kundalini.codefend.com/kundalini/index.php',
+		title: 'email',
+		value: '',
 	},
 	{
-		name: 'Bahrain',
-		url: 'https://api.codefend.com/kundalini/index.php',
+		title: 'firstname',
+		value: '',
 	},
 	{
-		name: 'Mena',
-		url: 'https://api-mena.codefend.com/kundalini/index.php',
+		title: 'lastname',
+		value: '',
+	},
+	{
+		title: 'phone',
+		value: '',
+	},
+	{
+		title: 'role',
+		value: '',
 	},
 ];
 

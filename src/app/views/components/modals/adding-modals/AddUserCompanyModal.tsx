@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ModalButtons, ModalTitleWrapper, Show } from '../..';
-import { ApiHandlers } from '../../../../data/services';
+import { AdminService } from '../../../../data/services';
 
 interface Props {
 	show: boolean;
@@ -63,7 +63,7 @@ export const AddUserCompanyModal: React.FC<Props> = ({
 				canRead: selectedUser.canRead,
 			};
 
-			ApiHandlers.addUserCompany(requestBody);
+			AdminService.addUserCompany(requestBody);
 		}
 	};
 	return (

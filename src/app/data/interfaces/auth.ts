@@ -27,43 +27,6 @@ export interface LoginResponse {
 	message?: string;
 }
 
-// Tipo de retorno de la función de registro
-export interface RegisterResponse {
-	_id: string;
-	username: string;
-	email: string;
-	password: string;
-	role: string;
-	name: string;
-	companySize: string;
-	companyRole: string;
-	companyWeb: string;
-	companyCountry: string;
-}
-
-// Tipo de Usuario que retorna la API en el Login
-export interface UserAPI {
-	id: string;
-	company_id: string;
-	fname: string;
-	lname: string;
-	username: string;
-	role: string;
-	access_role: string;
-	email: string;
-	phone: string;
-	password: string;
-	mfa_llave: string;
-	profile_media: string;
-	pais: string;
-	pais_code: string;
-	pais_provincia: string;
-	pais_ciudad: string;
-	eliminado: string;
-	creacion: string;
-	exp?: number;
-}
-
 export interface RegisterFinishParams {
 	username: string;
 	password: string;

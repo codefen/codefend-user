@@ -1,5 +1,9 @@
-import { defaultOrderBilling, formatDate } from '../../../../../../data';
-import { EmptyCard, PageLoader, PreferenceIcon } from '../../../../../components';
+import { formatDate } from '../../../../../../data';
+import {
+	EmptyCard,
+	PageLoader,
+	PreferenceIcon,
+} from '../../../../../components';
 
 import React, { useState } from 'react';
 
@@ -9,15 +13,13 @@ interface BillingDataProps {
 }
 
 const SettingOrderAndBilling: React.FC<BillingDataProps> = (props) => {
-	const [orderBilling, setOrderBilling] = useState(defaultOrderBilling);
-
 	return (
 		<>
 			<div className="card table">
 				<div className="header">
 					<div className="title">
 						<div className="icon">
-							<PreferenceIcon/>
+							<PreferenceIcon />
 						</div>
 						<span>ORDERS & BILLING DETAILS</span>
 					</div>
