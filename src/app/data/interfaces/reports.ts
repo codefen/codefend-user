@@ -5,3 +5,8 @@ export interface WebReport {
 	issues: ReportIssues[];
 	issueShare: IssuesShare;
 }
+
+export interface ResourceScope<T> {
+	isLoading: boolean;
+	resources: T;
+}

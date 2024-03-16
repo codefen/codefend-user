@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
 	RemoveAppStore,
 	cleanHTML,
@@ -6,14 +6,7 @@ import {
 	useAppCard,
 	useRemoveAppStore,
 } from '../../../data';
-import {
-	CloseIcon,
-	ConfirmModal,
-	ModalTitleWrapper,
-	ModalWrapper,
-	Show,
-	StarRating,
-} from '..';
+import { Show, StarRating } from '..';
 import { useNavigate } from 'react-router';
 
 interface MobileAppCardProps {
@@ -30,6 +23,7 @@ interface MobileAppCardProps {
 	name: string;
 	appMedia: string;
 	appDesc: string;
+	openReport?: () => void;
 }
 
 export const AppCard: React.FC<MobileAppCardProps> = ({
@@ -46,6 +40,7 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 	appRank,
 	appReviews,
 	appDeveloper,
+	openReport,
 }) => {
 	const { isImage, isMobileType, isDetails } = useAppCard({
 		type,
@@ -96,8 +91,8 @@ export const AppCard: React.FC<MobileAppCardProps> = ({
 			return (
 				<div className="actions">
 					<div onClick={handleClick}>Add issue</div>
-					<div onClick={() => alert('Add credential')}>Add credential</div>
 					<div onClick={handleDeleteResource}>Delete resource</div>
+					<div onClick={openReport}>Report</div>
 				</div>
 			);
 		} else {

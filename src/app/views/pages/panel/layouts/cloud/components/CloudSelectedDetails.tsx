@@ -40,6 +40,7 @@ export const CloudSelectedDetails = () => {
 					<AppCardInfo
 						selectedApp={appSelected || ({} as CloudApp)}
 						type="cloud"
+						issueCount={appUnique?.issues?.length || 0}
 					/>
 				</div>
 				<div className="selected-content">

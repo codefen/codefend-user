@@ -42,6 +42,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 					<AppCardInfo
 						type="mobile"
 						selectedApp={appSelected || ({} as MobileApp)}
+						issueCount={appUnique?.issues?.length || 0}
 					/>
 				</div>
 				<div className="selected-content">

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { useAuthState, baseUrl, getCustomBaseAPi, getToken, handleFetchError, mapWebresourceApiToWebresource, mapReportIssues, mapIssueShare } from "../../..";
+import { useAuthState, baseUrl, getCustomBaseAPi, getToken, handleFetchError, mapWebresourceApiToWebresource, mapReportIssues, mapIssueShare, mapMobileApp } from "../../..";
 import { IssueService, mapWebReportResources, useReportInfoStore, useReportStore } from "../../../";
 
 export const useIssueReport = ()=>{
@@ -9,16 +9,16 @@ export const useIssueReport = ()=>{
     const { getCompany } = useAuthState();
     const {resourceID, resourceType} = useReportStore((state)=>state);
 	const {
-		setResources,
-		setIssues,
-		setIssueShare,
         setIsLoading,
 	} = useReportInfoStore((state) => state);
+
+  const xhr = new XMLHttpRequest();
     
+
     const fetcher = (companyID: string, issueID: string, resourceType:string)=>{
         setIsLoading(true);
 
-        const xhr = new XMLHttpRequest();
+        const abortController = new AbortController();
         const url = _baseUrl;
         const bodyParams = new FormData();
         
@@ -35,13 +35,20 @@ export const useIssueReport = ()=>{
             if (xhr.readyState === 4 && xhr.status === 200) {
               const response = JSON.parse(xhr.responseText);
 
-              if (resourceType === "web") {
-                if (response) {
+              if (response) {
+                localStorage.setItem("report-issues", JSON.stringify(response?.issues ? response?.issues.map((issue:any)=>mapReportIssues(issue)) : []));
+                
+                localStorage.setItem("report-share", JSON.stringify(mapIssueShare(response)));
+
+
+                if (resourceType === "web") {
                   localStorage.setItem("report-resource", JSON.stringify([mapWebresourceApiToWebresource(response.resource)]));
-                   localStorage.setItem("report-issues", JSON.stringify(response.issues.map((issue:any)=>mapReportIssues(issue))));
-                    localStorage.setItem("report-share", JSON.stringify(mapIssueShare(response)));
                 }
-              }
+                if (resourceType === "mobile") {
+                  localStorage.setItem("report-resource", JSON.stringify(mapMobileApp(response.resource)));
+                }
+            }
+
             }
             setIsLoading(false);
           };
@@ -64,5 +71,5 @@ export const useIssueReport = ()=>{
     }
 
 
-    return { fetchReport };
+    return { fetchReport, xhr };
 }
