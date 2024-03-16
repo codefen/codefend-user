@@ -7,7 +7,7 @@
 html {
 	--line-color: #fe4e4e;
 	--primary-color-100: #fe4e4e;
-	--code-bkg: #ffebeb;
+	--code-bkg: #FFE6EE;
 	--text-color: #333333;
 	--text-color-alt: #333333;
 	--text-color-alt2: #fe4e4e;
@@ -16,7 +16,7 @@ html {
 
 	--primary-color: #fff;
 	--primary-color-50: #fdfdfd;
-	--primary-color-100: #fafafa;
+	/* --primary-color-100: #fafafa; */
 	--primary-color-200: #f7f7f7;
 	--primary-color-300: #e5e5e5;
 	--primary-color-400: #f3f3f3;
@@ -42,7 +42,7 @@ html {
 [data-theme='dark'] {
 	--line-color: #fe4e4e;
 	--primary-color-100: #fe4e4e;
-	--code-bkg: #ffebeb;
+	--code-bkg: #130101;
 	--text-color: #d2d2d2;
 	--text-color-alt: #d2d2d2;
 	--text-color-alt2: #fe4e4e;
@@ -81,7 +81,7 @@ html {
 
 	code {
 		color: var(--text-color-alt2);
-		background-color: #130101;
+		/* background-color: #130101; */
 	}
 
 
@@ -195,7 +195,7 @@ code {
 	overflow: auto;
 	/* width: calc(100% - 20px); */
 	font-size: 90%;
-	color: var(--primary-color-100);
+	color: #990808;
 	background-color: var(--code-bkg);
 	padding: 20px;
 }
