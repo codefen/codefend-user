@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { FaWindows, FaLinux, FaApple } from 'react-icons/fa';
 import {
 	AppleIcon,
 	LinuxIcon,

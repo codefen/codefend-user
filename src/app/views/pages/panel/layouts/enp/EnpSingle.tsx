@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { EndpointsSidebar } from './components/EndpointsSidebar';
 import { EndpointInfo } from './components/EndpointInfo';
-import { EndpointAppProvider, useEndpointAppStore } from './EndpointContext';
+import { EndpointAppProvider } from './EndpointContext';
 import { useParams } from 'react-router-dom';
 
-import { useEnp, useAuthState } from '../../../../../data';
+import { useEnp } from '../../../../../data';
 
 import './enpSingle.scss';
 

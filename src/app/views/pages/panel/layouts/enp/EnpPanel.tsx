@@ -7,11 +7,15 @@ import { ModalOS } from './components/ModalOS';
 import { EndpointAppProvider } from './EndpointContext';
 import { useNavigate } from 'react-router';
 import moment from 'moment';
-import { FaRegTimesCircle, FaShieldAlt } from 'react-icons/fa';
 
 import { useAuthState, useScanLocal, EnpService } from '../../../../../data';
 
-import { ButtonLoader, Show } from '../../../../components';
+import {
+	ButtonLoader,
+	MiniTriangleIcon,
+	ShieldIcon,
+	Show,
+} from '../../../../components';
 
 import './endpoints.scss';
 
@@ -205,10 +209,10 @@ export const EnpPanel: React.FC = () => {
 																' flex'
 															}>
 															<Show when={!value}>
-																<FaRegTimesCircle />
+																<MiniTriangleIcon />
 															</Show>
 															<Show when={value}>
-																<FaShieldAlt />
+																<ShieldIcon />
 															</Show>
 
 															<p className="margin-start">
@@ -247,7 +251,7 @@ export const EnpPanel: React.FC = () => {
 											<p className="p-default">Finished</p>
 										) : (
 											<div className="enp-table-progres">
-												<ButtonLoader left={-16} />
+												<ButtonLoader left="-20%" />
 												<p>In progress</p>
 											</div>
 										)}

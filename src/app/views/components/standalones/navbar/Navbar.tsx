@@ -23,14 +23,6 @@ import './navbar.scss';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
-// interface Props {
-// 	subMenuRef: any;
-// 	isOpen: boolean;
-// 	closeMenu: () => void;
-// 	userFullname: string;
-// 	userProfile?: string;
-// }
-
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
 	const { logout, getUserdata } = useAuthState();
@@ -139,7 +131,7 @@ const Navbar: React.FC = () => {
 							// 	e.preventDefault();
 							// 	setMenuOpen((current) => !current);
 							// }}
-							>
+						>
 							<span className="email">
 								{userData.email ?? 'not-found'}
 							</span>
@@ -151,8 +143,6 @@ const Navbar: React.FC = () => {
 								closeMenu={() => setMenuOpen(false)}
 							/>
 						</div>
-
-						
 
 						<div
 							className="action logout"

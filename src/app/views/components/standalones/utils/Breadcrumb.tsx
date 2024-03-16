@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { useLocation } from 'react-router';
-import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useAdminCompanyStore } from '../../../../data';
 
 interface Props {

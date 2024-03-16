@@ -12,6 +12,11 @@ button {
 				align-items: center;
 				justify-content: flex-start;
 				background-color: transparent;
+
+				.button-loader {
+					border-color: rgb(0 0 0 / 25%) !important;
+					border-left-color: transparent !important;
+				}
 			}
 		}
 	}

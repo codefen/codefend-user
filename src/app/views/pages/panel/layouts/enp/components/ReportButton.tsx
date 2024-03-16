@@ -1,6 +1,5 @@
+import React from 'react';
 import { RefreshButton, GenerateReportButton } from '../../../../../components';
-import React, { useEffect, useState } from 'react';
-import { IoReload } from 'react-icons/io5';
 
 interface Props {
 	onClick: () => void;
