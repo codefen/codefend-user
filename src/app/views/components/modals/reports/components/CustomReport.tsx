@@ -75,6 +75,10 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 			return (
 				<WebResourceScope resources={resources} isLoading={isLoading} />
 			);
+		} else if (resourceType === 'mobile') {
+			return (
+				<MobileResourceScope resources={resources} isLoading={isLoading} />
+			);
 		}
 
 		return <></>;

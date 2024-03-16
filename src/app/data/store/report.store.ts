@@ -16,15 +16,22 @@ export interface ReportStoreState {
 export const useReportStore = create<ReportStoreState>((set, _get) => ({
 	open: false, 
     resourceID: "",
-    resourceType: "web",
+    resourceType: localStorage.getItem("resource-type") ? 
+    localStorage.getItem("resource-type")as string : "web",
 	openModal: ()=>
         set((current:any)=>({...current, open: true}))
     ,
-    closeModal: ()=>
-        set((current:any)=>({...current, open: false}))
+    closeModal: ()=>{
+        set((current:any)=>({...current, open: false}));
+        localStorage.removeItem("resource-type");
+    }
+        
     ,
     setResourceID: (updated: string)=> set((current:any)=>({...current, resourceID: updated})),
-    setResourceType: (updated: string)=> set((current:any)=>({...current, resourceType: updated}))
+    setResourceType: (updated: string)=> {
+        set((current:any)=>({...current, resourceType: updated}));
+        localStorage.setItem("resource-type", updated);
+    }
 }));
 
 export interface ReportInfoStore {
