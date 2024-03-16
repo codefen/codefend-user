@@ -178,7 +178,8 @@
 	.hostname {
 		// width: 220px;
 		// flex: inherit !important;
-		min-width: 100px;
+		min-width: 35%;
+		max-width: 610px;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
