@@ -141,7 +141,7 @@ export interface MobileApp extends ResourceID, Monitoring {
 
 export interface UniqueApps {
 	creds: {} | null;
-	issues: Issues;
+	issues: Issues[];
 	issueShare: IssuesShare;
 	issueCondition: IssuesCondition;
 }

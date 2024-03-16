@@ -32,7 +32,7 @@ import {
 	AdminCompany,
 } from './views/pages';
 import { PanelPage } from './views/pages/panel/PanelPage';
-import { PageReport } from './views/components/modals/reports/components/PageReport';
+import { PageReport } from './views/components/modals/reports/PageReport';
 
 export const AppRouter: React.FC = () => {
 	return (

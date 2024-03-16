@@ -29,12 +29,12 @@ import { CustomReport } from './components/CustomReport';
 
 export interface WebReportModalProps {}
 
-export const WebReportModal: React.FC<WebReportModalProps> = () => {
+export const ModalReport: React.FC<WebReportModalProps> = () => {
 	const { open, closeModal } = useReportStore((state) => state);
 
 	const { isLoading } = useReportInfoStore((state) => state);
 
-	const { fetchReport } = useIssueReport();
+	const { fetchReport, xhr } = useIssueReport();
 
 	useEffect(() => {
 		if (open && !isLoading) fetchReport();
@@ -43,6 +43,7 @@ export const WebReportModal: React.FC<WebReportModalProps> = () => {
 			localStorage.removeItem('report-issues');
 			localStorage.removeItem('report-resource');
 			localStorage.removeItem('report-share');
+			xhr.abort();
 		};
 	}, [open]);
 

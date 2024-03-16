@@ -10,7 +10,7 @@ import {
 } from '../../../../../data';
 import '../../../../styles/flag.scss';
 import '../../../../components/Table/table.scss';
-import { OrderV2, PrimaryButton, WebReportModal } from '../../../../components';
+import { OrderV2, PrimaryButton, ModalReport } from '../../../../components';
 import { useFlashlight } from '../../FlashLightContext';
 import './webapplication.scss';
 
@@ -20,6 +20,7 @@ const WebApplicationView: React.FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [refresh, setRefresh] = useState(false);
 	const { updateState } = useOrderStore((state) => state);
+	const flashlight = useFlashlight();
 
 	useEffect(() => {
 		refetch();
@@ -27,14 +28,10 @@ const WebApplicationView: React.FC = () => {
 		return () => clearTimeout(timeoutId);
 	}, [refresh]);
 
-	const flashlight = useFlashlight();
-
-	const handleOpenModal = () => {};
-
 	return (
 		<>
 			<OrderV2 />
-			<WebReportModal />
+			<ModalReport />
 			<main className={`webapp ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<section className="left">
