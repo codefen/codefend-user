@@ -217,11 +217,9 @@ main.issue-detail {
 }
 
 main.issues-list {
-	padding-inline-end: 0;
+	// padding-inline-end: 0;
 
 	.left {
-		width: 70%;
-		padding-inline: 0;
 		overflow: hidden;
 
 		.table {
