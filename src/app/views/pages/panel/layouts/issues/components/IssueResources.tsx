@@ -69,7 +69,7 @@ export const IssueResources: React.FC<Props> = (props) => {
 				<ConfirmModal
 					cancelText="Cancel"
 					confirmText="Delete"
-					header=""
+					header={`Are you sure you want to delete: '${props.issues.find((issue) => issue.id === selected)?.name}'?`}
 					close={() => setShowModal(false)}
 					action={() => {
 						handleDelete(selected)?.then(() => {
