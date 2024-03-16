@@ -92,11 +92,12 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 					<h1>{resourceDomainText} Executive summary</h1>
 
 					{isModal ? (
-						<button
+						<a
 							className="download-pdf-btn"
-							onClick={() => navigateNewWindow(`/report`)}>
+							href="/report"
+							target="_blank">
 							Download PDF
-						</button>
+						</a>
 					) : (
 						''
 					)}

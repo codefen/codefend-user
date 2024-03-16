@@ -40,9 +40,6 @@ export const ModalReport: React.FC<WebReportModalProps> = () => {
 		if (open && !isLoading) fetchReport();
 
 		return () => {
-			localStorage.removeItem('report-issues');
-			localStorage.removeItem('report-resource');
-			localStorage.removeItem('report-share');
 			xhr.abort();
 		};
 	}, [open]);
