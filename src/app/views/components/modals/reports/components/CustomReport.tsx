@@ -43,7 +43,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 
 	if (resourceType === 'web') {
 		resourceDomainText = resources?.[0]?.resourceDomain || '. . .';
-	} else if (resourceType === 'mobile') {
+	} else if (resourceType === 'mobile' || resourceType === 'cloud') {
 		resourceDomainText = resources?.appName || '. . .';
 	}
 
@@ -75,7 +75,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 			return (
 				<WebResourceScope resources={resources} isLoading={isLoading} />
 			);
-		} else if (resourceType === 'mobile') {
+		} else if (resourceType === 'mobile' || resourceType === 'cloud') {
 			return (
 				<MobileResourceScope resources={resources} isLoading={isLoading} />
 			);

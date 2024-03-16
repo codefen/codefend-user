@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { useAuthState, baseUrl, getCustomBaseAPi, getToken, handleFetchError, mapWebresourceApiToWebresource, mapReportIssues, mapIssueShare, mapMobileApp } from "../../..";
+import { useAuthState, baseUrl, getCustomBaseAPi, getToken, handleFetchError, mapWebresourceApiToWebresource, mapReportIssues, mapIssueShare, mapMobileApp, mapCloudApp } from "../../..";
 import { IssueService, mapWebReportResources, useReportInfoStore, useReportStore } from "../../../";
 
 export const useIssueReport = ()=>{
@@ -46,6 +46,9 @@ export const useIssueReport = ()=>{
                 }
                 if (resourceType === "mobile") {
                   localStorage.setItem("report-resource", JSON.stringify(mapMobileApp(response.resource)));
+                }
+                if (resourceType === "cloud") {
+                  localStorage.setItem("report-resource", JSON.stringify(mapCloudApp(response.resource)));
                 }
             }
 

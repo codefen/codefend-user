@@ -49,24 +49,17 @@ export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
 					setShowModal(!showModal);
 					setShowModalStr('delete_resource');
 				},
-				render: (
-					<span>
-						<TrashIcon />
-					</span>
-				),
+				render: <TrashIcon />,
+				style: '',
 			},
 			{
 				action: (id: string) => {
 					navigate(`/issues/create/source/${id}`);
 				},
-				render: (
-					<span>
-						<BugIcon isButton />
-					</span>
-				),
+				render: <BugIcon isButton />,
+				style: '',
 			},
 		],
-		style: 'id action',
 	};
 
 	return (

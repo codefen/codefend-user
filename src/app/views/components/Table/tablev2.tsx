@@ -48,11 +48,11 @@ export interface TableItem {
 }
 
 export interface TableAction {
-	icon: Array<{
+	icon: {
 		action: (id: string, type?: any) => void;
 		render: JSX.Element;
-	}>;
-	style: string;
+		style?: string;
+	}[];
 }
 
 const TableColumns: React.FC<any> = (props) => {
@@ -201,20 +201,20 @@ const TableRows: React.FC<any> = ({
 						</div>
 					))}
 					<Show when={isActiveAction}>
-						<>
+						<div className="id action">
 							{tableAction?.icon?.map((i: any, iconIndex: any) => (
-								<div
+								<span
 									key={iconIndex}
-									className={tableAction?.style}
+									className={i?.style}
 									onClick={(e: React.FormEvent) => {
 										e.preventDefault();
 										e.stopPropagation();
 										i.action(row['ID'].value as string);
 									}}>
 									{i.render}
-								</div>
+								</span>
 							))}
-						</>
+						</div>
 					</Show>
 				</a>
 			))}

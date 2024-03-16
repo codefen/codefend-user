@@ -25,8 +25,9 @@ export const AppCardInfo: React.FC<AppCardInfoProps> = ({
 	const { setIsOpen, setData, setIsMobileType } = useRemoveAppStore(
 		(state: RemoveAppStore) => state,
 	);
-	const { openModal, setResourceID, setResourceType, resourceType } =
-		useReportStore((state) => state);
+	const { openModal, setResourceID, setResourceType } = useReportStore(
+		(state) => state,
+	);
 
 	useEffect(() => {
 		setData(selectedApp.id, selectedApp.appName);

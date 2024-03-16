@@ -266,7 +266,7 @@ export const issueColumns: ColumnTable[] = [
 	{
 		name: 'action',
 		value: 'actions',
-		style: 'id',
+		style: 'id action',
 	},
 ];
 export const issuesColumnsWithoutAction: ColumnTable[] = issueColumns.filter(column => column.name !== 'action');

@@ -33,9 +33,12 @@ main.social {
 	}
 
 	.right {
-		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
 		padding-inline: 10px;
 		width: 30%;
+		display: flex;
+		flex-direction: column;
+		row-gap: 2rem;
+
 		.filter {
 			width: 100%;
 			justify-content: space-between;

@@ -116,9 +116,9 @@ export const SupportTicketList: React.FC<SupportTicketListProps> = (props) => {
 									setShowModalStr('delete_resource');
 								},
 								render: <TrashIcon />,
+								style: '',
 							},
 						],
-						style: 'id',
 					}}
 					selectItem={(id: String) => props.setSelectedTicket(id)}
 					sort={Sort.asc}
