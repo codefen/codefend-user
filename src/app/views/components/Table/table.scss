@@ -124,6 +124,9 @@
 			background-color: var(--primary-color-200);
 		}
 
+		&:nth-of-type(odd) {
+			background-color: #00000004;
+		}
 		&:last-child {
 			border-bottom: none;
 		}

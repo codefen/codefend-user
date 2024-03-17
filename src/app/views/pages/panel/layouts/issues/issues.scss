@@ -173,6 +173,7 @@ main.issue-detail {
 				}
 			}
 		}
+
 	}
 
 	.right {
@@ -240,6 +241,9 @@ main.issues-list {
 					min-width: 15.313rem;
 				}
 			}
+			.rows {
+				height: calc(100vh - 153px);
+			}			
 		}
 	}
 
