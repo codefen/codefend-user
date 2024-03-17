@@ -2,7 +2,6 @@ import React from 'react';
 
 interface Logo {
 	path: string;
-	styles: React.CSSProperties;
 }
 
 interface LogoProps {
@@ -13,15 +12,13 @@ interface LogoProps {
 const Logo = ({ theme, onClick }: LogoProps) => {
 	const themeToImage: Record<string, Logo> = {
 		light: {
-			path: '/codefend/logo-light.svg',
-			styles: { width: '120px', height: '30px' },
+			path: '/codefend/logo-light.svg'
 		},
 		dark: {
-			path: '/codefend/logo-dark.svg',
-			styles: { width: '200px', height: '30px' },
+			path: '/codefend/logo-dark.svg'
 		},
-		shadow: { path: '/codefend/logo-shadow.png', styles: {} },
-		aim: { path: '/codefend/aim-light.svg', styles: {} },
+		shadow: { path: '/codefend/logo-shadow.png' },
+		aim: { path: '/codefend/aim-light.svg' },
 	};
 
 	const selectedLogo = themeToImage[theme] as Logo;
@@ -31,7 +28,6 @@ const Logo = ({ theme, onClick }: LogoProps) => {
 			<div id="brand" className="brand-img" onClick={onClick}>
 				<img
 					src={selectedLogo.path}
-					style={selectedLogo.styles}
 					alt="Codefend Logo"
 					loading="lazy"
 				/>
