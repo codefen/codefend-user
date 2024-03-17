@@ -3,7 +3,7 @@ import { fetchPOST, handleFetchError } from '../';
 const initializeVdbData = async (keyword: string, companyID: string) => {
 	const { data } = (await fetchPOST({
 		params: {
-			model: 'modules/vdb',
+			model: 'modules/vdb_new',
 			ac: 'search',
 			company_id: companyID,
 			keyword,

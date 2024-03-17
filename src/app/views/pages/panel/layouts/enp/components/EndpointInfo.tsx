@@ -29,13 +29,32 @@ export const EndpointInfo: React.FC<Props> = () => {
 	useEffect(() => {
 		if (selectedEndpoint?.code_name) {
 			const companyID = getCompany();
-			EnpService.getVulns(selectedEndpoint?.code_name, companyID).then(
+			EnpService.getVulns(selectedEndpoint?.code_name, selectedEndpoint?.application_name, companyID).then(
 				(enp) => {
-					setVuln(enp.data);
+					if (enp.length && enp[0].id){
+						setVuln(enp);
+					} else {
+						setVuln([])
+					}
 				},
 			);
 		}
 	}, [selectedEndpoint]);
+
+	function extractCWEID(text: string) {
+		if(!text) {
+			return 0
+		}
+		var pattern = /CWE-(\d+)/;
+	
+		var match = text.match(pattern);
+	
+		if (match !== null) {
+			return match[1];
+		} else {
+			return "CWE ID not found.";
+		}
+	}
 
 	function compareVersions(versionA: any, versionB: any) {
 		if (!versionA) return -1;
@@ -57,10 +76,11 @@ export const EndpointInfo: React.FC<Props> = () => {
 		return 0;
 	}
 
-	function parseDate(date: any) {
-		const parsedDate = new Date(date);
+	function parseDate(timestamp: any) {
+		const parsedDate = new Date(timestamp * 1000);
 		return parsedDate.toISOString().split('T')[0];
 	}
+	
 
 	function highlightApplicationName(title: string, appName: string) {
 		const lowerCaseTitle = title.toLowerCase();
@@ -143,26 +163,25 @@ export const EndpointInfo: React.FC<Props> = () => {
 		setVuln(sorted);
 	};
 
-	const filterByCve = () => {
+	const filterByCwe = () => {
 		let sorted;
 		const filter = vulnFilter;
 
 		if (filter.type === 'c') {
 			sorted = [...vuln].sort((a: any, b: any) =>
 				filter.order === 1
-					? a.cve.localeCompare(b.cve)
-					: b.cve.localeCompare(a.cve),
-			);
+				? Number(extractCWEID(a.vulnerability)) - Number(extractCWEID(b.vulnerability))
+				: Number(extractCWEID(b.vulnerability)) - Number(extractCWEID(a.vulnerability)),
+		);
 			setVulnFilter({ type: 'c', order: filter.order === 1 ? -1 : 1 });
 		} else {
-			sorted = [...vuln].sort((a: any, b: any) =>
-				a.cve.localeCompare(b.cve),
+			sorted = [...vuln].sort((a, b) =>
+				Number(extractCWEID(a.vulnerability)) - Number(extractCWEID(b.vulnerability)),
 			);
 			setVulnFilter({ type: 'c', order: 1 });
 		}
 		setVuln(sorted);
 	};
-
 	const filterByTitle = () => {
 		let sorted;
 		const filter = vulnFilter;
@@ -190,11 +209,11 @@ export const EndpointInfo: React.FC<Props> = () => {
 
 		if (filter.type === 's') {
 			sorted = [...vuln].sort((a: any, b: any) =>
-				filter.order === 1 ? b.score - a.score : a.score - b.score,
+				filter.order === 1 ? b.risk_value - a.risk_value : a.risk_value - b.risk_value,
 			);
 			setVulnFilter({ type: 's', order: filter.order === 1 ? -1 : 1 });
 		} else {
-			sorted = [...vuln].sort((a: any, b: any) => a.score - b.score);
+			sorted = [...vuln].sort((a: any, b: any) => a.risk_value - b.risk_value);
 			setVulnFilter({ type: 's', order: 1 });
 		}
 
@@ -208,13 +227,13 @@ export const EndpointInfo: React.FC<Props> = () => {
 		if (filter.type === 'r') {
 			sorted = [...vuln].sort((a: any, b: any) =>
 				filter.order === 1
-					? b.score.localeCompare(a.score)
-					: a.score.localeCompare(b.score),
+					? b.risk_value.localeCompare(a.risk_value)
+					: a.risk_value.localeCompare(b.risk_value),
 			);
 			setVulnFilter({ type: 'r', order: filter.order === 1 ? -1 : 1 });
 		} else {
 			sorted = [...vuln].sort((a: any, b: any) =>
-				a.score.localeCompare(b.score),
+				a.risk_value.localeCompare(b.risk_value),
 			);
 			setVulnFilter({ type: 'r', order: 1 });
 		}
@@ -402,8 +421,8 @@ export const EndpointInfo: React.FC<Props> = () => {
 								(vulnFilter.type == 'c' ? 'special ' : '') +
 								'table-app-column xl'
 							}
-							onClick={() => filterByCve()}>
-							cve
+							onClick={() => filterByCwe()}>
+							cwe
 						</div>
 						<div
 							className={
@@ -437,13 +456,13 @@ export const EndpointInfo: React.FC<Props> = () => {
 										key={vulnerability.id}
 										className="table-row-item">
 										<div className="table-item l">
-											{parseDate(vulnerability.date)}
+											{parseDate(vulnerability.timestamp_create)}
 										</div>
 										<div className="table-item">
-											{vulnerability.vdb_id}
+											{vulnerability.id}
 										</div>
 										<div className="table-item xl">
-											{vulnerability.cve}
+											{extractCWEID(vulnerability.vulnerability)}
 										</div>
 										<div className="table-item xll large-item">
 											{highlightApplicationName(
@@ -453,13 +472,13 @@ export const EndpointInfo: React.FC<Props> = () => {
 										</div>
 										<div className="table-item xl vul-score">
 											<span className="score">
-												{!isNaN(parseInt(vulnerability.score))
-													? vulnerability.score
+												{!isNaN(parseInt(vulnerability.risk_value))
+													? vulnerability.risk_value
 													: 0}
 											</span>
 											{Array.from({ length: 5 }, (_, index) =>
 												index <
-												(parseInt(vulnerability.score) || 0) ? (
+												(parseInt(vulnerability.risk_value) || 0) ? (
 													<div
 														key={index}
 														className="score-fill-balls "></div>
@@ -472,12 +491,12 @@ export const EndpointInfo: React.FC<Props> = () => {
 										</div>
 
 										<Show
-											when={!isNaN(parseInt(vulnerability.score))}>
+											when={!isNaN(parseInt(vulnerability.risk_value))}>
 											<div className="table-score-map table-item">
-												{mapScoreToWord(vulnerability.score)}
+												{mapScoreToWord(vulnerability.risk_value)}
 											</div>
 										</Show>
-										<Show when={isNaN(parseInt(vulnerability.score))}>
+										<Show when={isNaN(parseInt(vulnerability.risk_value))}>
 											<div className="table-score-group">
 												<p className="question-mark">?</p>
 												<p className="question-circle">

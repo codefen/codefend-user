@@ -81,6 +81,19 @@ export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
 		return foundVersion ?? false;
 	}
 
+	const filterDuplicatesByCodeName = (apps: any) => {
+		const filteredApps: any[] = [];
+		const seenCodeNames = new Set();
+	
+		apps.forEach((app: any) => {
+			if (!seenCodeNames.has(app.code_name)) {
+				filteredApps.push(app);
+				seenCodeNames.add(app.code_name);
+			}
+		});
+	
+		return filteredApps;
+	};
 	function updateEndpointVersion(endpoint: any) {
 		const parsedVersion = parseVersions(endpoint);
 		endpoint.current_version = parsedVersion;
@@ -257,7 +270,7 @@ export const EndpointsSidebar: React.FC<Props> = ({ endpoints, isLoading }) => {
 							</div>
 						</Show>
 
-						{endpointApps
+						{filterDuplicatesByCodeName(endpointApps)
 							.map(updateEndpointVersion)
 							.sort(sortEndpoints)
 							.map((endpoint: any) => (
