@@ -1,9 +1,11 @@
+import { lazy } from 'react';
 import { getCurrentDate } from '../../../../../data';
-import { Logo, AimIcon } from '../../../';
+import { AimIcon } from '../../../';
 
 export interface ReportFrontpageProps {
 	resourceDomainText: string;
 }
+const Logo = lazy(() => import('../../../defaults/Logo'));
 
 export const ReportFrontpage: React.FC<ReportFrontpageProps> = (props) => {
 	return (

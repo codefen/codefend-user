@@ -1,27 +1,25 @@
-import React, { useEffect, lazy, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	BugIcon,
 	ExecutiveSummaryIcon,
 	PageLoader,
 	RiskScore,
 	GlobeWebIcon,
-	AimIcon,
 	DownloadIcon,
 } from '../../..';
 import { TableWithoutActions } from '../../../Table/TableWithoutActions';
 import {
 	IssuesShare,
 	ReportIssues,
+	addPrintAttributesFromBody,
 	formatDate,
-	getCurrentDate,
 	issuesColumnsWithoutAction,
 	mapCloudApp,
-	mapIssueShare,
 	mapIssueShareV2,
 	mapIssues,
 	mapMobileApp,
 	mapWebresourceApiToWebresource,
-	removeSpecialCharacters,
+	removePrintAttributesFromBody,
 	useIssueReport,
 	useReportStore,
 } from '../../../../../data';
@@ -29,17 +27,13 @@ import { RiskWithoutAction } from './RiskWithoutAction';
 import { WebResourceScope } from './WebResourceScope';
 import { MobileResourceScope } from './MobileResourceScope';
 import { ReportFrontpage } from './ReportFrontpage';
-const Logo = lazy(() => import('../../../defaults/Logo'));
+import { ReportSectionTemplate } from './ReportSection';
 
 interface CustomReportProps {
 	isModal?: boolean;
-	forceOpen?: boolean;
 }
 
-export const CustomReport: React.FC<CustomReportProps> = ({
-	isModal,
-	forceOpen,
-}) => {
+export const CustomReport: React.FC<CustomReportProps> = ({ isModal }) => {
 	const resources = useRef<any>(null);
 	const issues = useRef<any>(null);
 	const share = useRef<any>(null);
@@ -49,12 +43,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 	const { fetchReport, abort } = useIssueReport();
 
 	useEffect(() => {
-		const removeAttributeFromBody = () => {
-			document.body.removeAttribute('print-report');
-			document.title = 'Codefend';
-		};
 		if (!resources.current) {
-			console.log('Ejecuto ref en tab?');
 			fetchReport()
 				.then((response: any) => {
 					issues.current = response.issues.map((issue: any) =>
@@ -63,7 +52,6 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 					share.current = mapIssueShareV2(response);
 
 					if (resourceType === 'web') {
-						console.log('entro a wenb');
 						resources.current = [
 							mapWebresourceApiToWebresource(response.resource),
 						];
@@ -74,7 +62,6 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 					}
 					if (resources.current) {
 						if (resourceType === 'web') {
-							console.log('Entro ?');
 							setDomainText(resources.current[0].resourceDomain);
 						} else if (
 							resourceType === 'mobile' ||
@@ -94,33 +81,10 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 		return () => {
 			abort.abort();
 			if (!isModal) {
-				removeAttributeFromBody();
+				removePrintAttributesFromBody();
 			}
 		};
 	}, []);
-
-	const vulnerabilityDataTable = issues.current
-		? issues.current.map((issue: ReportIssues, i: number) => ({
-				published: { value: issue.createdAt, style: 'date' },
-				author: {
-					value: issue.researcherUsername,
-					style: 'username',
-				},
-				type: { value: issue.resourceClass, style: 'vul-class' },
-				risk: { value: issue.riskLevel, style: 'vul-risk' },
-				score: {
-					value: (
-						<RiskScore
-							key={issue.id + i + '-rs'}
-							riskScore={issue.riskScore}
-						/>
-					),
-					style: 'vul-score',
-				},
-				issueTitle: { value: issue.name, style: 'vul-title' },
-				status: { value: issue.condition, style: 'vul-condition' },
-			}))
-		: [];
 
 	const ActiveScope = () => {
 		if (resourceType === 'web') {
@@ -143,15 +107,33 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 	};
 
 	if (!isModal && resources.current) {
-		document.body.setAttribute('print-report', 'true');
-		const createdAt = Array.isArray(resources.current)
-			? resources.current?.[0]?.createdAt || ''
-			: resources.current?.createdAt || '';
-
-		document.title = `${formatDate(createdAt)}-${removeSpecialCharacters(resourceDomainText)}`;
+		addPrintAttributesFromBody(resources.current, resourceDomainText);
 	}
 
-	if ((open && !isLoading) || (forceOpen && !isLoading)) {
+	if ((open && !isLoading) || (!isModal && !isLoading)) {
+		const issuesTableRows = issues.current
+			? issues.current.map((issue: ReportIssues, i: number) => ({
+					published: { value: issue.createdAt, style: 'date' },
+					author: {
+						value: issue.researcherUsername,
+						style: 'username',
+					},
+					type: { value: issue.resourceClass, style: 'vul-class' },
+					risk: { value: issue.riskLevel, style: 'vul-risk' },
+					score: {
+						value: (
+							<RiskScore
+								key={issue.id + i + '-rs'}
+								riskScore={issue.riskScore}
+							/>
+						),
+						style: 'vul-score',
+					},
+					issueTitle: { value: issue.name, style: 'vul-title' },
+					status: { value: issue.condition, style: 'vul-condition' },
+				}))
+			: [];
+
 		return (
 			<div className={`issues-report ${!isModal ? 'tab' : ''}`}>
 				{!isModal ? (
@@ -165,15 +147,17 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 						<DownloadIcon />
 					</a>
 				)}
-				<div className="intro">
-					<div className="title">
-						<ExecutiveSummaryIcon />
-						<h1>
+				<ReportSectionTemplate
+					isIntro
+					title={
+						<>
 							{resourceDomainText} <span>Executive summary</span>
-						</h1>
-					</div>
-					<div className="contenido">
-						<p>
+						</>
+					}
+					isTitle
+					icon={<ExecutiveSummaryIcon />}
+					text={
+						<>
 							Our Red Team performed a security assessment of the
 							internal corporate network of {resourceDomainText}.{' '}
 							<br></br>The penetration test simulated an attack from an
@@ -188,54 +172,45 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 								identified within the scope of the engagement
 							</em>
 							which are broken down by severity in the table below.
-						</p>
-						<div className="graph">
-							<RiskWithoutAction
-								vulnerabilityByRisk={share.current as IssuesShare}
-								isLoading={isLoading}
-							/>
-						</div>
-					</div>
-				</div>
+						</>
+					}
+					mainContent={
+						<RiskWithoutAction
+							vulnerabilityByRisk={share.current as IssuesShare}
+							isLoading={isLoading}
+						/>
+					}
+				/>
 
-				<div className="section">
-					<div className="title-main">
-						<GlobeWebIcon />
-						<h2>scope & assets & attack surface</h2>
-					</div>
-					<div className="contenido">
-						<p className="print-break">
-							Security assessments were conducted within the following
-							located resources. Several of these resources were
-							automatically detected and added by our staff and software
-							and may not contain regular content.
-						</p>
-						<ActiveScope />
-					</div>
-				</div>
+				<ReportSectionTemplate
+					title="scope & assets & attack surface"
+					icon={<GlobeWebIcon />}
+					text="Security assessments were conducted within the following
+					located resources. Several of these resources were
+					automatically detected and added by our staff and software
+					and may not contain regular content."
+					isTextBreak
+					mainContent={<ActiveScope />}
+				/>
 
-				<div className="section">
-					<div className="title-main">
-						<BugIcon />
-						<h2>Vulnerabilities found in the structure</h2>
-					</div>
-					<div className="contenido">
-						<p>
-							The highest severity vulnerabilities give potential
+				<ReportSectionTemplate
+					title="Vulnerabilities found in the structure"
+					icon={<BugIcon />}
+					text="The highest severity vulnerabilities give potential
 							attackers the opportunity to completely take over user
 							accounts from the client with the corresponding risks. In
 							order to ensure data confidentiality, integrity, and
 							availability, security remediations should be implemented
-							as described in the security assessment findings.
-						</p>
+							as described in the security assessment findings."
+					mainContent={
 						<TableWithoutActions
 							isLoading={isLoading}
-							resources={vulnerabilityDataTable}
+							resources={issuesTableRows}
 							columns={issuesColumnsWithoutAction}
 							id={3}
 						/>
-					</div>
-				</div>
+					}
+				/>
 
 				{issues.current
 					? issues.current.map((issue: ReportIssues, i: number) => (

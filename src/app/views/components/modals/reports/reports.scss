@@ -208,23 +208,21 @@ body[print-report] {
 		}
 	}
 
-	.graph {
-		.card.risk-chart {
+	.card.risk-chart {
+		border: 0;
+
+		.header {
+			display: none;
+		}
+
+		.content {
+			flex-flow: row nowrap;
 			border: 0;
+			column-gap: 10rem;
+			min-width: 100%;
 
-			.header {
-				display: none;
-			}
-
-			.content {
-				flex-flow: row nowrap;
-				border: 0;
-				column-gap: 10rem;
-				min-width: 100%;
-
-				.chart {
-					max-width: 30%;
-				}
+			.chart {
+				max-width: 30%;
 			}
 		}
 	}

@@ -213,3 +213,17 @@ export const verifySession = (res: any, logout: any)=> {
 		}
 	}
 }
+
+export const removePrintAttributesFromBody = ()=>{
+	document.body.removeAttribute('print-report');
+	document.title = 'Codefend';
+}
+
+export const addPrintAttributesFromBody = (resources: any, resourceDomainText: string)=>{
+	document.body.setAttribute('print-report', 'true');
+	const createdAt = Array.isArray(resources)
+		? resources?.[0]?.createdAt || ''
+		: resources?.createdAt || '';
+
+	document.title = `${formatDate(createdAt)}-${removeSpecialCharacters(resourceDomainText)}`;
+}

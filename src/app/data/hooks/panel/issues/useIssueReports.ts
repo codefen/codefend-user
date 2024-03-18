@@ -11,7 +11,6 @@ export const useIssueReport = ()=>{
 
   const abortController = new AbortController();
   const fetcher = (companyID: string, issueID: string, resourceType: string) => {
-
     const url = _baseUrl;
     const bodyParams = new FormData();
 
@@ -30,9 +29,7 @@ export const useIssueReport = ()=>{
         signal: abortController.signal
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+        if (!response.ok)  throw new Error('Network response was not ok');
         return response.json();
     })
     .then(response => {
