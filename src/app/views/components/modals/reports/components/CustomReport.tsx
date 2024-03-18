@@ -63,7 +63,11 @@ export const CustomReport: React.FC<CustomReportProps> = ({ isModal }) => {
 			);
 		} else if (resourceType === 'mobile' || resourceType === 'cloud') {
 			return (
-				<MobileResourceScope resources={resources} isLoading={isLoading} />
+				<MobileResourceScope
+					type={resourceType}
+					resources={resources}
+					isLoading={isLoading}
+				/>
 			);
 		}
 

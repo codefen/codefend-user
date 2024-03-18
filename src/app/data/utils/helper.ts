@@ -77,7 +77,7 @@ export const getCurrentDate = () => {
 
 /** check if  data is empty/zeros */
 export const isEmptyData = (data: any) => {
-	if (data.constructor !== Object) return true;
+	if (!data || data.constructor !== Object) return true;
 
 	return Object.values(data).every(
 		(item) => Boolean(item) == false || item == 0,
@@ -85,7 +85,7 @@ export const isEmptyData = (data: any) => {
 };
 
 export const isEmptyShares = (data: any) => {
-	if (data.constructor !== Object) return true;
+	if (!data || data.constructor !== Object) return true;
 
 	return Object.values(data).every(
 		(item) => !Boolean(item),

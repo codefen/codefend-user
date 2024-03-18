@@ -36,10 +36,11 @@ export const useIssueReport = ()=>{
         return response.json();
     })
     .then(response => {
-        issues.current = response.issues.map((issue: any) => mapReportIssues(issue));
+
+        issues.current = response.issues ? response.issues.map((issue: any) => mapReportIssues(issue)) : [];
 
 		share.current = mapIssueShareV2(response);
-
+        
 		if (resourceType === 'web') {
 			resources.current = [
 				mapWebresourceApiToWebresource(response.resource),

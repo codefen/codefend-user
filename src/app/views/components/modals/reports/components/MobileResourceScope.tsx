@@ -1,15 +1,15 @@
 import React from 'react';
-import { ResourceScope, MobileApp, CloudApp } from '../../../../../data';
+import { ResourceScopeApp, MobileApp, CloudApp } from '../../../../../data';
 import { AppCard, EmptyCard } from '../../..';
 
 export const MobileResourceScope: React.FC<
-	ResourceScope<MobileApp | CloudApp>
-> = ({ isLoading, resources }) => {
+	ResourceScopeApp<MobileApp | CloudApp>
+> = ({ isLoading, resources, type }) => {
 	if (!isLoading) {
 		return (
 			<div className="app-card-container">
 				<AppCard
-					type="mobile"
+					type={type}
 					id={resources?.id || ''}
 					appMedia={resources?.appMedia || ''}
 					appDesc={resources?.appDesc || ''}
