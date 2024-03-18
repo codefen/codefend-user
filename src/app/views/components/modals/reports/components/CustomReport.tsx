@@ -164,7 +164,6 @@ export const CustomReport: React.FC<CustomReportProps> = ({
 							<h2>CONFIDENTIAL</h2>
 						</div>
 						<div className="title-portada">
-							<ExecutiveSummaryIcon />
 							<p>
 								This penetration test on {resourceDomainText} was
 								requested by <span>[company]</span> and conducted by
