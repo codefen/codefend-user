@@ -34,49 +34,19 @@ interface CustomReportProps {
 }
 
 export const CustomReport: React.FC<CustomReportProps> = ({ isModal }) => {
-	const resources = useRef<any>(null);
-	const issues = useRef<any>(null);
-	const share = useRef<any>(null);
-	const [resourceDomainText, setDomainText] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 	const { open, resourceType } = useReportStore((state: any) => state);
-	const { fetchReport, abort } = useIssueReport();
+	const { fetchReport, abort, resources, issues, share, resourceDomainText } =
+		useIssueReport();
 
 	useEffect(() => {
-		if (!resources.current) {
-			fetchReport()
-				.then((response: any) => {
-					issues.current = response.issues.map((issue: any) =>
-						mapIssues(issue),
-					);
-					share.current = mapIssueShareV2(response);
-
-					if (resourceType === 'web') {
-						resources.current = [
-							mapWebresourceApiToWebresource(response.resource),
-						];
-					} else if (resourceType === 'mobile') {
-						resources.current = mapMobileApp(response.resource);
-					} else if (resourceType === 'cloud') {
-						resources.current = mapCloudApp(response.resource);
-					}
-					if (resources.current) {
-						if (resourceType === 'web') {
-							setDomainText(resources.current[0].resourceDomain);
-						} else if (
-							resourceType === 'mobile' ||
-							resourceType === 'cloud'
-						) {
-							setDomainText(resources.current.appName);
-						}
-					}
-				})
-				.finally(() => {
-					if (!isModal) {
-						setTimeout(() => window.print(), 2000);
-					}
-					setIsLoading(false);
-				});
+		if (!resources) {
+			fetchReport().finally(() => {
+				if (!isModal) {
+					setTimeout(() => window.print(), 2000);
+				}
+				setIsLoading(false);
+			});
 		}
 		return () => {
 			abort.abort();
@@ -89,30 +59,24 @@ export const CustomReport: React.FC<CustomReportProps> = ({ isModal }) => {
 	const ActiveScope = () => {
 		if (resourceType === 'web') {
 			return (
-				<WebResourceScope
-					resources={resources.current}
-					isLoading={isLoading}
-				/>
+				<WebResourceScope resources={resources} isLoading={isLoading} />
 			);
 		} else if (resourceType === 'mobile' || resourceType === 'cloud') {
 			return (
-				<MobileResourceScope
-					resources={resources.current}
-					isLoading={isLoading}
-				/>
+				<MobileResourceScope resources={resources} isLoading={isLoading} />
 			);
 		}
 
 		return <></>;
 	};
 
-	if (!isModal && resources.current) {
-		addPrintAttributesFromBody(resources.current, resourceDomainText);
+	if (!isModal && resources) {
+		addPrintAttributesFromBody(resources, resourceDomainText);
 	}
 
 	if ((open && !isLoading) || (!isModal && !isLoading)) {
-		const issuesTableRows = issues.current
-			? issues.current.map((issue: ReportIssues, i: number) => ({
+		const issuesTableRows = issues
+			? issues.map((issue: ReportIssues, i: number) => ({
 					published: { value: issue.createdAt, style: 'date' },
 					author: {
 						value: issue.researcherUsername,
@@ -176,7 +140,7 @@ export const CustomReport: React.FC<CustomReportProps> = ({ isModal }) => {
 					}
 					mainContent={
 						<RiskWithoutAction
-							vulnerabilityByRisk={share.current as IssuesShare}
+							vulnerabilityByRisk={share as IssuesShare}
 							isLoading={isLoading}
 						/>
 					}
@@ -212,8 +176,8 @@ export const CustomReport: React.FC<CustomReportProps> = ({ isModal }) => {
 					}
 				/>
 
-				{issues.current
-					? issues.current.map((issue: ReportIssues, i: number) => (
+				{issues
+					? issues.map((issue: ReportIssues, i: number) => (
 							<div key={i + '-issue'}>
 								<div className="issue-header">
 									<div className="title-main issue-header-name">

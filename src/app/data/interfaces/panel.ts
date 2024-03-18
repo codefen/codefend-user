@@ -86,17 +86,6 @@ export interface Issues extends ResourceID, Monitoring {
 export interface ReportIssues extends Issues {
 	content: string;
 	totalIssues: string;
-	countC: number,
-	countH: number,
-	countM: number,
-	countL: number,
-	countI: number,
-
-	shareC: number,
-	shareH: number,
-	shareM: number,
-	shareL: number,
-	shareI: number,
 
 }
 export interface CompleteIssue extends Issues {

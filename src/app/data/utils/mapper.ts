@@ -96,57 +96,12 @@ export const mapIssues = (source: any): Issues => {
 		createdAt: source.creacion,
 	} as Issues;
 };
-/* 
-"issues": [
-        {
-            "id": "130",
-            "company_id": "1",
-            "resource_class": "web",
-            "resource_id": "1145",
-            "researcher_id": "1",
-            "researcher_username": "chris",
-            "risk_level": "medium",
-            "risk_score": "3",
-            "name": "Test nueva issue en web",
-            "condicion": "open",
-            "price": "",
-            "price_paid": "",
-            "eliminado": "0",
-            "creacion": "2024-03-12 09:19:38",
 
-            "total_issues": "1",
-            "issue": "<p>Probando nueva issue en web<\/p>",
-
-            "c_count": "0",
-            "h_count": "0",
-            "m_count": "1",
-            "l_count": "0",
-            "i_count": "0",
-
-            "c_share": 0,
-            "h_share": 0,
-            "m_share": 100,
-            "l_share": 0,
-            "i_share": 0
-        }
-    ]
-*/
 export const mapReportIssues = (source:any): ReportIssues=>{
 	return {
 		...mapIssues(source),
 		totalIssues: source?.total_issues || 0,
 		content: source?.issue || "",
-		countC: Number(source?.c_count || 0),
-		countH: Number(source?.h_count || 0),
-		countM: Number(source?.m_count || 0),
-		countL: Number(source?.l_count || 0),
-		countI: Number(source?.i_count || 0),
-
-		shareC: Number(source?.c_share || 0),
-		shareH: Number(source?.h_share || 0),
-		shareM: Number(source?.m_share || 0),
-		shareL: Number(source?.l_share || 0),
-		shareI: Number(source?.i_share || 0),
 	}
 }
 /** Map issue share api data => @interface IssuesShare */
