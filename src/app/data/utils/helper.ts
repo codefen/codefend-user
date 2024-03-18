@@ -61,15 +61,13 @@ export const formatDate = (stringDate: string): string => {
 	return `${year}-${month}-${day}`;
 };
 
-export const getCurrentTime = () => {
-	const now = new Date();
-	const hour = now.getHours();
-	const minutes = now.getMinutes();
-  
-	// Format minutes to always have two digits
-	const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  
-	return `${hour}:${formattedMinutes}`;
+export const getCurrentDate = () => {
+	const formattedDate = new Date();
+	const month = formattedDate.getMonth() + 1;
+	const day = formattedDate.getDate();
+	const year = formattedDate.getFullYear();
+
+	return `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
   };
 
   export const removeSpecialCharacters = (inputString: string) => {

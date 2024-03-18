@@ -15,7 +15,8 @@ export interface ReportStoreState {
 
 export const useReportStore = create<ReportStoreState>((set, _get) => ({
 	open: false, 
-    resourceID: "",
+    resourceID: localStorage.getItem("resource-id") ? 
+    localStorage.getItem("resource-id")as string : "",
     resourceType: localStorage.getItem("resource-type") ? 
     localStorage.getItem("resource-type")as string : "web",
 	openModal: ()=>
@@ -27,43 +28,12 @@ export const useReportStore = create<ReportStoreState>((set, _get) => ({
     }
         
     ,
-    setResourceID: (updated: string)=> set((current:any)=>({...current, resourceID: updated})),
+    setResourceID: (updated: string)=> {
+        set((current:any)=>({...current, resourceID: updated}));
+        localStorage.setItem("resource-id", updated);
+    },
     setResourceType: (updated: string)=> {
         set((current:any)=>({...current, resourceType: updated}));
         localStorage.setItem("resource-type", updated);
-    }
-}));
-
-export interface ReportInfoStore {
-    isLoading: boolean;
-
-    setResources: (updated: Webresources[])=>void;
-    setIssues: (updated: ReportIssues[])=>void;
-    setIssueShare: (updated: IssuesShare)=>void;
-    setIsLoading: (updated: boolean)=>void;
-
-    getResources: ()=>any;
-    getIssues: ()=>any;
-    getShare: ()=>any;
-}
-    
-export const useReportInfoStore = create<ReportInfoStore>((set, get)=>({
-    isLoading: false,
-
-    setResources: (updated: Webresources[])=> localStorage.setItem("report-resource", JSON.stringify(updated)),
-    setIssues: (updated: ReportIssues[])=> localStorage.setItem("report-issues", JSON.stringify(updated)),
-    setIssueShare: (updated: IssuesShare)=> localStorage.setItem("report-share", JSON.stringify(updated)),
-    setIsLoading: (updated: boolean)=> set((prev)=>({...prev, isLoading: updated})),
-    getResources: ()=>{
-        const resourceStorage = localStorage.getItem("report-resource");
-        return resourceStorage ? JSON.parse(resourceStorage) : [];
-    },
-    getIssues: ()=>{
-        const issueStorage = localStorage.getItem("report-issues");
-        return issueStorage ? JSON.parse(issueStorage) : [];
-    },
-    getShare: ()=>{
-        const issueShareStore = localStorage.getItem("report-share");
-        return issueShareStore ? JSON.parse(issueShareStore) : {};
     }
 }));

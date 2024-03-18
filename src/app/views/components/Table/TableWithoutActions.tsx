@@ -17,7 +17,6 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
 	id,
 	needMarker,
 }) => {
-
 	const ColumnActive: React.FC<any> = (props) => {
 		if (props.column.name != 'childs') {
 			return (
@@ -40,6 +39,7 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
 		return <></>;
 	};
 
+	const rows = resources ? resources : [];
 	return (
 		<div className="table">
 			<div className="columns-name">
@@ -51,7 +51,7 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
 			</div>
 			{!isLoading ? (
 				<div className="rows">
-					{resources.map((row: Record<string, TableItem>, i: number) => (
+					{rows.map((row: Record<string, TableItem>, i: number) => (
 						<Fragment key={i + id + '-row'}>
 							<div className={`item ${needMarker && 'left-marked'}`}>
 								{columns.map((column: ColumnTable, i: number) => (

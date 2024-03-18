@@ -21,7 +21,6 @@ body[print-report] {
 	&.tab {
 		max-height: inherit;
 		overflow-x: inherit;
-
 	}
 
 	.portada {
@@ -102,9 +101,9 @@ body[print-report] {
 				h1 span {
 					opacity: 0.4;
 				}
-			}	
+			}
 		}
-	}	
+	}
 
 	.intro {
 		// margin-top: 2000px;
@@ -134,14 +133,14 @@ body[print-report] {
 				}
 			}
 		}
-		
+
 		p {
 			font-size: 16px;
 			padding-left: 33px;
 		}
 		@media only print {
 			page-break-before: always;
-		}			
+		}
 	}
 
 	.section {
@@ -170,14 +169,15 @@ body[print-report] {
 			width: 20px;
 			height: 20px;
 		}
-		h2, h3 {
+		h2,
+		h3 {
 			color: var(--secondary-color-400);
 			font-size: 16px;
 			line-height: 16px;
 		}
 		@media only print {
 			-webkit-print-color-adjust: exact;
-			color-adjust: exact; 
+			color-adjust: exact;
 			background-color: #ffeded;
 		}
 	}
@@ -199,8 +199,6 @@ body[print-report] {
 			}
 		}
 	}
-
-
 
 	p {
 		font-size: 15px;
@@ -246,7 +244,6 @@ body[print-report] {
 			padding: 20px;
 			column-gap: 40px;
 			color: var(--secondary-color-300);
-			// border-bottom: 1px solid var(--tertiary-color-500);
 			background-color: #00000005;
 			@media only print {
 				background-color: #00000015;
@@ -346,7 +343,6 @@ body[print-report] {
 	}
 }
 
-
 @media only print {
 	* {
 		-webkit-print-color-adjust: exact;
@@ -393,7 +389,8 @@ body[print-report] {
 		display: none;
 	}
 	[class^='sub-domain-icon'],
-	hr, .codefend-header {
+	hr,
+	.codefend-header {
 		-webkit-print-color-adjust: exact;
 		color-adjust: exact;
 		background-color: var(--secondary-color-50);
@@ -406,13 +403,6 @@ body[print-report] {
 		}
 	}
 }
-
-
-
-
-
-
-
 
 // estilos iguales al editor tiny
 .issues-report .issue-main-content {
@@ -436,7 +426,7 @@ body[print-report] {
 			-webkit-print-color-adjust: exact; /* Para navegadores webkit (Chrome, Safari) */
 			color-adjust: exact;
 			background-color: #00000015;
-		}	
+		}
 	}
 	::-webkit-scrollbar {
 		width: 10px !important;
@@ -453,7 +443,7 @@ body[print-report] {
 	::-webkit-scrollbar-thumb:hover {
 		background: #e75e5e;
 	}
-	
+
 	h3 {
 		color: var(--tertiary-color-600);
 		border-bottom: 1px dotted var(--secondary-color-100);
@@ -548,5 +538,4 @@ body[print-report] {
 		flex: 1 1 35%;
 		padding-left: 40px;
 	}
-
 }

@@ -19,18 +19,20 @@ interface DoughnutCharProps {
 }
 
 const useDoughnutChart = (value: DoughnutCharProps) => {
-	let metrics: any = null;
-	const metricsFunctions: { [key: string]: Function } = {
-		[ChartValueType.SOURCE_CODE]: MetricsService.computeSourceCodeMetrics,
-		[ChartValueType.NETWORK_OS]: MetricsService.computeInternalNetworkOSAndCount
-	};
+    let metrics: any = null;
 
-	const selectedMetricsFunction = metricsFunctions[value.type];
-	if (selectedMetricsFunction) {
-		metrics = selectedMetricsFunction(value.data);
-	} else {
-		metrics = value.data;
-	}
+    const metricsFunctions: { [key: string]: Function } = {
+        [ChartValueType.SOURCE_CODE]: MetricsService.computeSourceCodeMetrics,
+        [ChartValueType.NETWORK_OS]: MetricsService.computeInternalNetworkOSAndCount
+    };
+
+    const selectedMetricsFunction = metricsFunctions[value.type];
+
+    if (selectedMetricsFunction) {
+        metrics = selectedMetricsFunction(value.data) || {}; 
+    } else {
+        metrics = value.data || {};
+    }
 	const { total, ...otherMetrics } = metrics;
 	const { theme } = useTheme();
 

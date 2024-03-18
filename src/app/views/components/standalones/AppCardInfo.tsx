@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { AppCard } from './AppCard';
 import {
 	CloudApp,
 	MobileApp,
 	RemoveAppStore,
 	useRemoveAppStore,
-	useReportInfoStore,
 	useReportStore,
 } from '../../../data';
 import { toast } from 'react-toastify';
