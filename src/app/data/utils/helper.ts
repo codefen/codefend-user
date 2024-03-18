@@ -84,6 +84,14 @@ export const isEmptyData = (data: any) => {
 	);
 };
 
+export const isEmptyShares = (data: any) => {
+	if (data.constructor !== Object) return true;
+
+	return Object.values(data).every(
+		(item) => !Boolean(item),
+	);
+};
+
 /* Random UUID generator function  */
 export const generateID = () => crypto.randomUUID();
 

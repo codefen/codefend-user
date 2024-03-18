@@ -95,9 +95,6 @@ body[print-report] {
 				}
 			}
 			@media only print {
-				// display: flex;
-				// margin-top: 10cm;
-				// page-break-after: always;
 				h1 span {
 					opacity: 0.4;
 				}
@@ -106,7 +103,6 @@ body[print-report] {
 	}
 
 	.intro {
-		// margin-top: 2000px;
 		.title {
 			text-transform: uppercase;
 			display: flex;
@@ -223,6 +219,12 @@ body[print-report] {
 			.content {
 				flex-flow: row nowrap;
 				border: 0;
+				column-gap: 10rem;
+				min-width: 100%;
+
+				.chart {
+					max-width: 30%;
+				}
 			}
 		}
 	}
@@ -258,6 +260,7 @@ body[print-report] {
 			margin-block-end: 0.5rem;
 		}
 	}
+
 	.table {
 		margin-block: 2.5rem;
 
@@ -278,6 +281,7 @@ body[print-report] {
 
 				&:hover {
 					background-color: initial;
+					color: inherit !important;
 				}
 				&:nth-of-type(odd) {
 					background-color: #00000005;

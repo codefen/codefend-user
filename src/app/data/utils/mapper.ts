@@ -160,6 +160,16 @@ export const mapIssueShare = (source: any): IssuesShare => {
 		total: source?.issues_share?.total || "",
 	};
 };
+export const mapIssueShareV2 = (source: any): IssuesShare => {
+	return {
+		critical: source?.issues_share?.c || "",
+		elevated: source?.issues_share?.h || "",
+		medium: source?.issues_share?.m || "",
+		low: source?.issues_share?.l || "",
+		intel: source?.issues_share?.i || "",
+		total: source?.issues_share?.f || "",
+	};
+};
 
 /** Map issue condition api data => @interface IssuesCondition */
 export const mapIssuesCondition = (source: any): IssuesCondition => {
