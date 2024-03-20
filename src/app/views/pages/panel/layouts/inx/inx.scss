@@ -9,15 +9,25 @@ main.issues-list {
 		width: 65%;
 		.left-wrapper {
 			height: 83.333333%;
-			border: 1px solid;
+			border: 1px solid var(--tertiary-color-100);
 			display: flex;
 			flex-flow: column nowrap;
 
 			.modal {
-				max-height: 90dvh;
+				min-height: calc(100dvh - 170px);
+				margin-block: auto;
+				max-width: 800px;
+				min-width: 800px;
+
+				--preview-title: rgba(255, 105, 105, 0.95);
+				--preview-sub-title: var(--tertiary-color-450);
+				--preview-text: var(--tertiary-color-500);
+				--preview-border-color: var(--tertiary-color-200);
+				--preview-dash-color: var(--tertiary-color-400);
 
 				.header {
 					padding-block: 10px;
+					border-color: var(--preview-border-color);
 				}
 
 				.full-preview-container {
@@ -39,7 +49,7 @@ main.issues-list {
 						border-top-left-radius: 0.375rem;
 						border-top-right-radius: 0.375rem;
 
-						border-bottom: 2px solid var(--primary-color-500);
+						border-bottom: 2px solid var(--preview-border-color);
 						padding: 1rem;
 
 						.full-preview-title {
@@ -47,7 +57,7 @@ main.issues-list {
 							line-height: 1.75rem /* 28px */;
 							font-weight: 500;
 							line-height: 1.5;
-							color: rgb(251 138 138 / 95%);
+							color: var(--preview-title);
 						}
 					}
 
@@ -60,29 +70,34 @@ main.issues-list {
 						min-height: 75dvh;
 
 						.preview-content-title {
-							font-size: 1.25rem /* 20px */;
-							line-height: 1.75rem /* 28px */;
+							font-size: 2.25rem;
+							letter-spacing: 0.5px;
+							line-height: 1;
+							border-bottom: 1px solid #ff5e5e;
+							margin-block: 1rem;
+							width: 300px;
 							font-weight: 700;
 							line-height: 1.5;
-							color: var(--tertiary-color-50);
+							color: var(--preview-sub-title);
 						}
 
 						.preview-dash {
 							height: 1.5px;
 							margin-block: 2rem;
 							border: 0px;
-							background-color: var(--primary-color-50);
+							background-color: var(--preview-dash-color);
 						}
 
 						.preview-content {
 							font-size: 0.95rem;
-							line-height: 1.25rem;
+							line-height: 2rem;
+							word-spacing: 1px;
 							overflow-wrap: break-word;
 							text-wrap: pretty;
 
-							color: #fff;
+							color: var(--preview-text);
 							width: 100%;
-							max-width: 33rem;
+							min-width: 100%;
 						}
 					}
 				}
@@ -290,24 +305,18 @@ main.issues-list {
 			}
 
 			.modal {
+				--preview-title: #ff5e5ef2;
+				--preview-sub-title: var(--tertiary-color-100);
+				--preview-text: #ededed;
+				--preview-border-color: var(--primary-color-500);
+				--preview-dash-color: var(--primary-color-600);
+
 				&::before {
 					@supports (
 						(-webkit-backdrop-filter: blur(9px)) or
 							(backdrop-filter: blur(9px))
 					) {
 						backdrop-filter: blur(15px) saturate(0.95) contrast(1.02);
-					}
-				}
-				.full-preview-container {
-					.full-preview-header {
-						.full-preview-title {
-							color: #ff5e5ef2;
-						}
-					}
-					.full-preview-content {
-						.preview-content {
-							color: #ededed;
-						}
 					}
 				}
 			}

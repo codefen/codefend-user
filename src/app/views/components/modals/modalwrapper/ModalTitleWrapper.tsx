@@ -15,22 +15,20 @@ const ModalTitleWrapper: React.FC<ModalTitleWrapperProps> = ({
 	close,
 }) => {
 	return (
-		<>
-			<Show when={isActive}>
-				<ModalWrapper action={close}>
-					<>
-						<div className="header">
-							<div className="icon">
-								<StatIcon />
-							</div>
-							{headerTitle}
+		<Show when={isActive}>
+			<ModalWrapper action={close}>
+				<>
+					<div className="header">
+						<div className="icon">
+							<StatIcon />
 						</div>
-						{children}
-						<div className="modal-helper-box text-format"></div>
-					</>
-				</ModalWrapper>
-			</Show>
-		</>
+						{headerTitle}
+					</div>
+					{children}
+					<div className="modal-helper-box text-format"></div>
+				</>
+			</ModalWrapper>
+		</Show>
 	);
 };
 

@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { LoginParams, RegisterParams, User, getFullCompanyFromUser, useAdminCompanyStore } from '..';
 import type { AuthState } from '../store/auth.store';
@@ -24,7 +23,6 @@ export const useAuthState = () => {
 
 	const {companySelected, reset, selectCompany} = useAdminCompanyStore((state)=> state);
 
-	const navigate = useNavigate();
 	const getUserdata = () => authStore.userData;
 
 	const getAccessToken = () =>

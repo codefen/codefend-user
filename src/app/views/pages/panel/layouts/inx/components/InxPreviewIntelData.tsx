@@ -9,20 +9,24 @@ import {
 import { formatDateTimeFormat, useIntelPreview } from '../../../../../../data';
 import { InxPreviusContentData } from './InxPreviusContentData';
 
-interface Props {
+interface InxPreviewIntelDataProps {
 	intel: any;
 	readFile: (intel: any) => void;
+	moreResults: (id?: string, more?: boolean) => Promise<void>;
 	companyID: string;
-	intelLenght: number;
 	index: number;
+	page: number;
+	maxPage: number;
 }
 
-export const InxPreviewIntelData: React.FC<Props> = ({
+export const InxPreviewIntelData: React.FC<InxPreviewIntelDataProps> = ({
 	intel,
 	readFile,
 	companyID,
-	intelLenght,
 	index,
+	page,
+	moreResults,
+	maxPage,
 }) => {
 	const { isIntersecting, ref } = useIntersectionObserver({
 		threshold: 0.5,
@@ -39,6 +43,10 @@ export const InxPreviewIntelData: React.FC<Props> = ({
 		};
 
 		refetchPreview(params, companyID);
+
+		if (page < maxPage && index === page - 3) {
+			moreResults('', true);
+		}
 
 		//Traffic light so that it only executes the first time it appears on the screen
 		setPreviewReq(true);

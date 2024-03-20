@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { InxServices } from '../../../';
 import { toast } from 'react-toastify';
 
 interface SearchResult {
-	intelData: any[];
 	intelID: string;
 	count: number;
 	offSet: number;
@@ -14,20 +13,19 @@ interface SearchResult {
 
 export const useInitialSearch = () => {
 	const emptyState = {
-		intelData: [],
 		count: 0,
 		offSet: 0,
 		intelID: '',
 		search: '',
 		isLoading: false,
 	};
+	const intelData = useRef([]);
 
 	const [dataSearch, setSearchData] = useState<SearchResult>(emptyState);
 
 	const fetchInitialSearch = async (companyID: string, term: string) => {
 		setSearchData((state: SearchResult) => ({
 			...state,
-			intelData: [],
 			offSet: 0,
 			search: term,
 		}));
@@ -36,13 +34,12 @@ export const useInitialSearch = () => {
 			.then((res: any) => {
 				res = JSON.parse(String(res).trim());
 
-				if (res.error == '1')
-					throw new Error('An unexpected error has occurred');
+				if (res.error == '1') throw new Error('An unexpected error has occurred');
 
 				setSearchData((state: SearchResult) => ({
 					...state,
-					intelID: res.response?.id || '',
-					count: res.response?.count || 0,
+					intelID: res.response.id || '',
+					count: res.response.count || 0,
 					isLoading: false,
 				}));
 				return res.response.id;
@@ -70,5 +67,5 @@ export const useInitialSearch = () => {
 
 	const getData = (): SearchResult => dataSearch;
 
-	return { getData, setSearchData, refetchInitial };
+	return { getData, setSearchData, refetchInitial, intelData };
 };

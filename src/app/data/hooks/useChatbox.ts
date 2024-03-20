@@ -48,7 +48,6 @@ const useChatbox = () => {
 				onDone();
 			})
 			.catch((error: any) => {
-				console.log(error.response);
 				toast.error(error.response);
 			})
 			.finally(() => {

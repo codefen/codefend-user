@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { InxServices, mapIntelData } from '../../../';
 import { toast } from 'react-toastify';
 
 export const useIntelSearch = () => {
-	const [intelData, setIntelData] = useState<any[]>([]);
+	//const [intelData, setIntelData] = useState<any[]>([]);
+	const intelData = useRef<any>([]);
+	const setIntelData = (updatedIntelData: any)=>{
+		intelData.current = updatedIntelData;
+	}
 
 	const refetchIntelData = async (
 		id: string,
@@ -20,17 +24,16 @@ export const useIntelSearch = () => {
 
 				const intelResult = res.response.map((intel: any) =>
 					mapIntelData(intel),
-				) as any[];
+				);
 
-
-				const intelProc = intelData.concat(intelResult);
-				
-				setIntelData(intelResult);
-
+				const intelProc = intelData.current.concat(intelResult);
+				intelData.current = intelProc;
 				return { intelLen: intelResult.length, intelResult };
 			})
 			.catch((error: Error) => toast.error(error.message));
 	};
 
-	return { intelData, setIntelData, refetchIntelData };
+
+
+	return { intelData: intelData.current, setIntelData, refetchIntelData };
 };
