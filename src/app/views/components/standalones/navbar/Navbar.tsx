@@ -124,18 +124,10 @@ const Navbar: React.FC = () => {
 
 				<div className="right">
 					<div className="actions">
-						<div
-							className="user action"
-							ref={userRef}
-							// onClick={(e) => {
-							// 	e.preventDefault();
-							// 	setMenuOpen((current) => !current);
-							// }}
-						>
+						<div className="user action" ref={userRef}>
 							<span className="email">
 								{userData.email ?? 'not-found'}
 							</span>
-							{/* <div className="profile"></div> */}
 							<NavbarSubMenu
 								isOpen={isMenuOpen}
 								subMenuRef={dropdownRef}

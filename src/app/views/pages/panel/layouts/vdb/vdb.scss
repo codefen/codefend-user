@@ -6,8 +6,14 @@ main.sb {
 		.vdb-app-info {
 			margin-inline: 0.75rem;
 			.table {
-				.item {
-					height: 46px;
+				.rows {
+					min-height: calc(99dvh - 173px);
+					max-height: calc(99dvh - 173px);
+					.item {
+						height: calc((1.4rem * 2) + 5px);
+						max-height: calc((1.4rem * 2) + 5px);
+						line-height: 1.4rem !important;
+					}
 				}
 				.cve {
 					text-align: center;
@@ -17,15 +23,16 @@ main.sb {
 					}
 				}
 				.vul-title {
-					line-height: 1.3;
 					text-align: center;
 					width: auto;
 					padding-inline-end: 6px;
+
 					.publish {
 						text-align: left;
-						overflow: hidden;
-						text-wrap: pretty;
 						text-overflow: ellipsis;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
+						overflow: hidden;
 					}
 				}
 

@@ -139,7 +139,7 @@ const TableRows: React.FC<any> = ({
 				if (isNumber) {
 					return bValue - aValue;
 				} else if (isString) {
-					return bValue.localeCompare(aValue);
+					return String(bValue).localeCompare(aValue);
 				} else {
 					//Check if it is less, greater or equal
 					return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;

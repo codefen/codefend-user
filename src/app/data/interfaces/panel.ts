@@ -391,3 +391,14 @@ export interface VdbProps {
 	request: VdbRequestSearch;
 	result?: ResultsVdbSearch[];
 }
+export interface ResultsVdbSearchV2 {
+	id: string;
+	entryID: string;
+	title: string;
+	vulnerability: string;
+	createdAt: string;
+	updatedAt: string;
+	riskScore: string;
+	riskName: string;
+	type: string;
+}

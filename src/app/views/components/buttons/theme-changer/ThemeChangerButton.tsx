@@ -18,7 +18,6 @@ export const ThemeChangerButton: React.FC<{ activeText?: boolean }> = ({
 				fallback={<SunIcon width={1.75} height={1.75} />}>
 				<MoonIcon width={1.75} height={1.75} />
 			</Show>
-			{/* <span className="text-options">{text}</span> */}
 		</div>
 	);
 };

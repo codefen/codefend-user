@@ -2,12 +2,15 @@ import { toast } from 'react-toastify';
 import {
 	FetchPattern,
 	ResultsVdbSearch,
+	ResultsVdbSearchV2,
 	VdbProps,
 	VdbService,
+	mapVdbResultV2,
+	mapVdbResults,
 	mapVdbSearch,
 	useAuthState,
 } from '../../';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
 /* Custom Hook "useInitialVdb" to handle the search result in vdb */
@@ -15,24 +18,18 @@ export const useInitialVdb = () => {
 	const { getCompany } = useAuthState();
 	const { search } = useParams();
 	const [searchData, setSearchData] = useState('');
-	const [{ data, isLoading }, dispatch] = useState<FetchPattern<VdbProps>>({
-		data: null,
-		error: null,
-		isLoading: false,
-	});
+	const [isLoading, setIsLoading] = useState(false);
+	const vdbResults = useRef<ResultsVdbSearchV2[]>([]);
 
 	const fetchInitialVdb = async (companyID: string, search: string) => {
-		dispatch((state) => ({ ...state, isLoading: true }));
+		setIsLoading(true);
 
 		return VdbService.initializeVdbData(search, companyID)
 			.then((response: any) =>
-				dispatch({
-					data: mapVdbSearch(response),
-					error: null,
-					isLoading: false,
-				}),
-			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+				{
+				vdbResults.current = response ? response.map((result: any)=> mapVdbResultV2(result)) : [];
+			}
+			).finally(()=> setIsLoading(false));
 	};
 
 	const refetch = () => {
@@ -49,7 +46,5 @@ export const useInitialVdb = () => {
 		setSearchData(e.target.value);
 	};
 
-	const getVdb = () => (data ? data.result ?? [] : ([] as ResultsVdbSearch[]));
-
-	return { getVdb, refetch, isLoading, searchData, handleChange };
+	return { vdbResults, refetch, isLoading, searchData, handleChange };
 };

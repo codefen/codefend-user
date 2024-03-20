@@ -13,6 +13,7 @@ import {
 	OneIssue,
 	PreviusSearch,
 	ReportIssues,
+	ResultsVdbSearchV2,
 	SourceCode,
 	SupportProps,
 	TicketUnique,
@@ -426,6 +427,20 @@ export const mapVdbSearch = (source: any): VdbProps => {
 		result: source.result.map((result: any)=> mapVdbResults(result)),
 	};
 };
+
+export const mapVdbResultV2 = (source:any): ResultsVdbSearchV2=>{
+	return {
+		id: source.id,
+		entryID: source.entry_id,
+		title: source.title,
+		vulnerability: source.vulnerability,
+		riskScore: source.risk_value,
+		riskName:  source.risk_name,
+		type: source.class,
+		createdAt: mapEpochToDate(source.timestamp_create),
+		updatedAt: mapEpochToDate(source.timestamp_change),
+	}
+}
 
 export const mapWebReportResources = (source: any): WebReport=> {
 	return {
