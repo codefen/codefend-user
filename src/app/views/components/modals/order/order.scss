@@ -38,6 +38,14 @@
 			min-width: 49dvw;
 		}
 	}
+	.order-plan-loader-title {
+		width: 100%;
+		text-align: center;
+		margin-block-end: 1.5rem;
+		background-color: var(--secondary-color-100);
+		color: var(--primary-color-100);
+		padding-block: 1rem;
+	}
 	.order-header {
 		display: flex;
 		flex-flow: column nowrap;
@@ -310,6 +318,10 @@
 				border-block: 2px solid var(--secondary-color-50);
 				background-color: #ffe7e7;
 			}
+			&.more-results {
+				max-height: 270px;
+				overflow-y: auto;
+			}
 
 			textarea {
 				display: flex;
@@ -325,6 +337,13 @@
 				&::placeholder {
 					color: var(--tertiary-color-500);
 				}
+			}
+
+			.hackers-profile-media {
+				width: 69px;
+				aspect-ratio: 1/1;
+				border-radius: 100%;
+				filter: grayscale(1);
 			}
 
 			.total-payment {

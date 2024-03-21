@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '../../..';
 import {
 	OrderFrequency,
 	OrderSection,
+	useOrderMembership,
 	useOrderStore,
 } from '../../../../../data';
 
 export const FrequencyOrderModal = () => {
-	const { frequency, updateState } = useOrderStore((state) => state);
+	const { frequency, updateState, referenceNumber } = useOrderStore(
+		(state) => state,
+	);
 
 	const [frequencyW, setFrequency] = useState<OrderFrequency>(frequency);
+	const { sendMemberShip } = useOrderMembership();
 
 	const nextStep = () => {
-		updateState('frequency', frequencyW);
-		updateState('orderStepActive', OrderSection.TEAM_SIZE);
+		if (referenceNumber) {
+			updateState('frequency', frequencyW);
+			sendMemberShip(frequencyW, referenceNumber).then((res: any) => {});
+			updateState('orderStepActive', OrderSection.TEAM_SIZE);
+		}
 	};
 
 	return (
@@ -30,9 +37,9 @@ export const FrequencyOrderModal = () => {
 			<div className="scope-content show-both-borders">
 				<div
 					className={`option order-pointer show-both-borders ${
-						frequencyW === OrderFrequency.ONE_ORDER && `select-option`
+						frequencyW === OrderFrequency.ONCE && `select-option`
 					}`}
-					onClick={() => setFrequency(OrderFrequency.ONE_ORDER)}>
+					onClick={() => setFrequency(OrderFrequency.ONCE)}>
 					<img
 						src="/codefend/order-frequency1.svg"
 						alt="fast-pentest-icon"
@@ -55,9 +62,9 @@ export const FrequencyOrderModal = () => {
 				</div>
 				<div
 					className={`option order-pointer show-both-borders ${
-						frequencyW === OrderFrequency.SUBSCRIPTION && `select-option`
+						frequencyW === OrderFrequency.MEMBER_SHIP && `select-option`
 					}`}
-					onClick={() => setFrequency(OrderFrequency.SUBSCRIPTION)}>
+					onClick={() => setFrequency(OrderFrequency.MEMBER_SHIP)}>
 					<img
 						src="/codefend/order-frequency2.svg"
 						alt="large-pentest-icon"
@@ -83,7 +90,7 @@ export const FrequencyOrderModal = () => {
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
 					<SecondaryButton
-						text="back"
+						text="Back"
 						click={(e: any) =>
 							updateState('orderStepActive', OrderSection.SCOPE)
 						}
@@ -92,7 +99,7 @@ export const FrequencyOrderModal = () => {
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="Continue"
+						text="Continue to the next step"
 						click={nextStep}
 						className="full"
 					/>

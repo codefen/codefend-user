@@ -26,9 +26,9 @@ export enum OrderEnvironment {
 }
 
 export enum OrderTeamSize {
-    SMALL,
-    MID,
-    FULL
+    SMALL="small",
+    MID="medium",
+    FULL="full"
 }
 
 export enum ScopeOption {
@@ -50,6 +50,15 @@ export enum OrderPaymentMethod {
     FINISHED
 }
 export enum OrderFrequency {
-    ONE_ORDER,
-    SUBSCRIPTION
+    ONCE="once",
+    MEMBER_SHIP="membership"
+}
+
+export interface CompanyResourcesID {
+    web: string[];
+    mobile: string[];
+    cloud: string[];
+    social: string[];
+    source: string[];
+    lan: string[];
 }

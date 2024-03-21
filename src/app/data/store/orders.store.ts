@@ -1,23 +1,26 @@
 import { create } from "zustand";
-import { OrderEnvironment, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption, ScopeOptions } from "..";
+import { OrderEnvironment, CompanyResourcesID, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption, ScopeOptions } from "..";
 
 
 
-interface OrderStore {
+export interface OrderStore {
     open: boolean;
 
     orderStepActive: OrderSection;
 
     resourceType: ResourcesTypes;
+    companyResourceIDs: CompanyResourcesID;
 
     acceptCondition: boolean;
     scope: ScopeOptions;
     frequency: OrderFrequency;
     teamSize: OrderTeamSize;
-    leadName: string;
+    providerId: string;
     environmentOrder: OrderEnvironment;
     aditionalInfo: string;
     paymentMethod: OrderPaymentMethod;
+
+    referenceNumber:string;
 
     setScopeTotalResources: (resources: number)=> void;
     setScopeAllTotalResources: (resources: number)=> void;
@@ -33,12 +36,14 @@ export const useOrderStore = create<OrderStore>((set,_get)=>({
     resourceType: ResourcesTypes.WEB,
     acceptCondition: false,
     scope: {totalAllResources: 18, totalResources: 0, scopeOption: ScopeOption.TYPE},
-    frequency: OrderFrequency.ONE_ORDER,
+    companyResourceIDs: {} as any,
+    frequency: OrderFrequency.ONCE,
     teamSize: OrderTeamSize.SMALL,
-    leadName: "@chris",
+    providerId: "",
     environmentOrder: OrderEnvironment.TEST,
     aditionalInfo: "",
     paymentMethod: OrderPaymentMethod.BANK_TRANSFER,
+    referenceNumber: '',
 
     setScopeTotalResources: (resources: number)=>set((current: OrderStore)=>({...current, scope:{...current.scope, totalResources: resources }})),
     setScopeAllTotalResources: (resources: number)=>set((current: OrderStore)=>({...current, scope:{...current.scope, totalAllResources: resources }})),

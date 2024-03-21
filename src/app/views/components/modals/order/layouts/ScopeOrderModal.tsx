@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
-import { OrderSection, ScopeOption, useOrderStore } from '../../../../../data';
+import {
+	OrderSection,
+	ScopeOption,
+	useOrderScope,
+	useOrderStore,
+} from '../../../../../data';
 import { PrimaryButton, SecondaryButton } from '../../..';
 
 export const ScopeOrderModal = () => {
 	const {
 		scope,
 		resourceType,
-		setScopeOption,
 		resetActiveOrder,
 		updateState,
+		setScopeOption,
 	} = useOrderStore((state) => state);
 
 	const [scopeOptionW, setScopeOptionW] = useState<ScopeOption>(
-		scope.scopeOption,
+		ScopeOption.TYPE,
 	);
 	const [acceptConditions, setAcceptCondition] = useState<boolean>(false);
 	const [tryClick, setTryClick] = useState<boolean>(false);
+	const { sendScopeOrders } = useOrderScope();
 
 	const nextStep = () => {
 		if (acceptConditions) {
 			setScopeOption(scopeOptionW);
 
+			const sendScope =
+				scopeOptionW === ScopeOption.TYPE ? resourceType : 'full';
+			sendScopeOrders(sendScope).then((res: any) => {
+				updateState('referenceNumber', res.order.reference_number);
+			});
 			updateState('orderStepActive', OrderSection.FREQUENCY);
 		} else {
 			setTryClick(true);
@@ -132,14 +143,14 @@ export const ScopeOrderModal = () => {
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
 					<SecondaryButton
-						text="cancel"
+						text="Cancel"
 						click={resetActiveOrder}
 						className="full"
 					/>
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="Continue"
+						text="Continue to the next step"
 						click={nextStep}
 						className="full"
 					/>

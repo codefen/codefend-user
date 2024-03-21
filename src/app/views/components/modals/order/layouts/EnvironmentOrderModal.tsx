@@ -29,18 +29,21 @@ export const EnvironmentOrderModal: React.FC<any> = () => {
 			</div>
 			<div className="scope-content show-both-borders">
 				<div
-					className={`option block-xl show-both-borders ${environmentOrderW === OrderEnvironment.TEST && 'select-option'}`}>
+					className={`option block-xl show-both-borders order-pointer ${environmentOrderW === OrderEnvironment.TEST && 'select-option'}`}
+					onClick={() => setOrderEnvironment(OrderEnvironment.TEST)}>
 					<input
 						id="test-environment"
 						name="environmentTest"
 						type="radio"
-						value={OrderEnvironment.TEST}
 						className="radio-option"
-						defaultChecked={environmentOrderW === OrderEnvironment.TEST}
-						onClick={() => setOrderEnvironment(OrderEnvironment.TEST)}
+						value={OrderEnvironment.TEST}
+						checked={environmentOrderW === OrderEnvironment.TEST}
+						readOnly
 					/>
 					<div className="codefend-radio"></div>
-					<label htmlFor="test-environment" className="order-snapshot">
+					<label
+						htmlFor="test-environment"
+						className="order-snapshot order-pointer">
 						<div className="top">
 							<p>Production environment / careful test</p>
 						</div>
@@ -52,24 +55,21 @@ export const EnvironmentOrderModal: React.FC<any> = () => {
 					</label>
 				</div>
 				<div
-					className={`option block-xl show-both-borders ${environmentOrderW === OrderEnvironment.PRODUCTION && 'select-option'}`}>
+					onClick={() => setOrderEnvironment(OrderEnvironment.PRODUCTION)}
+					className={`option block-xl show-both-borders order-pointer ${environmentOrderW === OrderEnvironment.PRODUCTION && 'select-option'}`}>
 					<input
 						id="production-environment"
 						name="environmentTest"
 						type="radio"
-						value={OrderEnvironment.PRODUCTION}
 						className="radio-option"
-						defaultChecked={
-							environmentOrderW === OrderEnvironment.PRODUCTION
-						}
-						onClick={() =>
-							setOrderEnvironment(OrderEnvironment.PRODUCTION)
-						}
+						value={OrderEnvironment.PRODUCTION}
+						checked={environmentOrderW === OrderEnvironment.PRODUCTION}
+						readOnly
 					/>
 					<div className="codefend-radio"></div>
 					<label
 						htmlFor="production-environment"
-						className="order-snapshot">
+						className="order-snapshot order-pointer">
 						<div className="top">
 							<p>Test environment / offensive test</p>
 						</div>

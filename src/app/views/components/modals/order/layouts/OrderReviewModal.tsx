@@ -6,45 +6,33 @@ import {
 	OrderFrequency,
 	OrderTeamSize,
 	OrderSection,
+	useOrderConfirm,
 } from '../../../../../data';
 import { toast } from 'react-toastify';
 
 export const OrderReviewModal: React.FC<{
 	updateNextStep: (updated: boolean) => void;
 }> = (props) => {
-	const { resourceType, scope, frequency, teamSize, updateState } =
-		useOrderStore((state) => state);
-
-	const resourcesText =
-		scope.scopeOption === ScopeOption.ALL
-			? 'All company '
-			: `Only ${resourceType.valueOf()} `;
-
-	const frequencyTitle =
-		frequency === OrderFrequency.ONE_ORDER
-			? 'One unique scan:'
-			: 'Permanent surveillance:';
-
-	const frequencyText =
-		frequency === OrderFrequency.ONE_ORDER
-			? `Codefend will perform a 4 weeks IT secuirty assessment on the selected scope, one report, no subscription.`
-			: `Codefend will perform out a maximum of 12 IT secuirty assessment per year.`;
-
-	let teamSizeText = '';
-	if (teamSize === OrderTeamSize.SMALL) teamSizeText = 'Small team';
-	if (teamSize === OrderTeamSize.MID) teamSizeText = 'Medium team';
-	if (teamSize === OrderTeamSize.FULL) teamSizeText = 'Full team';
+	const {
+		sendConfirmOrder,
+		teamSizeText,
+		frequencyText,
+		frequencyTitle,
+		resourcesText,
+		updateState,
+	} = useOrderConfirm();
 
 	const nextStep = () => {
-		updateState('orderStepActive', OrderSection.SELECT_LEAD);
-		props.updateNextStep(true);
-
-		setTimeout(() => {
-			props.updateNextStep(false);
-			toast.success(
-				`Your request has been processed. You're about to finish!`,
-			);
-		}, 1100);
+		sendConfirmOrder().then((res) => {
+			updateState('orderStepActive', OrderSection.SELECT_LEAD);
+			props.updateNextStep(true);
+			setTimeout(() => {
+				props.updateNextStep(false);
+				toast.success(
+					`Your request has been processed. You're about to finish!`,
+				);
+			}, 1100);
+		});
 	};
 	return (
 		<>

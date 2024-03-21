@@ -287,6 +287,7 @@ input[type='radio'] {
 	height: 1px;
 	opacity: 0;
 	z-index: -1;
+	visibility: hidden;
 }
 
 button::-moz-focus-inner,
@@ -311,6 +312,7 @@ p {
 	margin-block-end: 1em;
 	margin-inline-start: 0px;
 	margin-inline-end: 0px;
+	text-wrap: pretty;
 }
 
 blockquote,
@@ -329,9 +331,6 @@ pre {
 	margin: 0;
 }
 
-p {
-	text-wrap: pretty;
-}
 h1,
 h2,
 h3,
@@ -357,10 +356,3 @@ h6,
 .text-format p {
 	font-family: Questrial;
 }
-
-// input,
-// .modal_info,
-// .text-format p,
-// .title-format {
-// 	font-size: 0.942rem;
-// }

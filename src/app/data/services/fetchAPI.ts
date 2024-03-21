@@ -18,6 +18,7 @@ interface FetchParams {
 	body?: any;
 	params?: Record<string, any>;
 	headers?: Record<string, string>;
+	insecure?: boolean;
 }
 
 type FetchWhitoutMethods = Omit<FetchParams, 'method'>;
@@ -39,6 +40,7 @@ const fetchFromAPI = async ({
 	body,
 	params,
 	headers,
+	insecure
 }: FetchParams): Promise<any> => {
 	let token = getToken();
 	const customAPi = getCustomBaseAPi();
@@ -56,7 +58,7 @@ const fetchFromAPI = async ({
 		},
 	};
 
-	if (method !== HTTP_METHODS.GET) {
+	if (method !== HTTP_METHODS.GET && !insecure) {
         const bodyParams = new FormData();
 
 		if (body) {
@@ -90,14 +92,14 @@ const fetchFromAPI = async ({
 /** Make a POST request to the API using @function fetchFromAPIv2. */
 export const fetchPOST: ({}: FetchWhitoutMethods) => Promise<
 	AxiosResponse<any, any>
-> = async ({ path = '', body, params, headers = {} }) =>
-	fetchFromAPI({ method: HTTP_METHODS.POST, path, body, params, headers });
+> = async ({ path = '', body, params, headers = {}, insecure }) =>
+	fetchFromAPI({ method: HTTP_METHODS.POST, path, body, params, headers, insecure });
 
 /** Make a PUT request to the API using @function fetchFromAPIv2. */
 export const fetchPUT: ({}: FetchWhitoutMethods) => Promise<
 	AxiosResponse<any, any>
-> = async ({ path = '', body, params, headers }) =>
-	fetchFromAPI({ method: HTTP_METHODS.PUT, path, body, params, headers });
+> = async ({ path = '', body, params, headers, insecure }) =>
+	fetchFromAPI({ method: HTTP_METHODS.PUT, path, body, params, headers, insecure });
 
 /** Make a GET request to the API using @function fetchFromAPIv2. */
 export const fetchGET = async ({
