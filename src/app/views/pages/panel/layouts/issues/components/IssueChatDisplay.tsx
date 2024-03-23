@@ -1,8 +1,9 @@
-import React, { Fragment, useCallback, useMemo } from 'react';
+import { type FC, Fragment, useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router';
 import {
 	ChatBoxType,
-	CompleteIssue,
-	IssueMessage,
+	type CompleteIssue,
+	type IssueMessage,
 	generateIDArray,
 } from '../../../../../../data';
 import {
@@ -13,14 +14,13 @@ import {
 	Show,
 	SimpleSection,
 } from '../../../../../components';
-import { useLocation } from 'react-router';
 
 interface Props {
 	isLoading: boolean;
 	selectedIssue: CompleteIssue | null;
 	refetch: () => void;
 }
-export const IssueChatDisplay: React.FC<Props> = ({
+export const IssueChatDisplay: FC<Props> = ({
 	isLoading,
 	selectedIssue,
 	refetch,

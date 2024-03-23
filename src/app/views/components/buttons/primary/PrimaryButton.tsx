@@ -1,10 +1,10 @@
-import React from 'react';
+import { type FC, type FormEvent } from 'react';
 import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
 import './primaryButton.scss';
 
 interface PrimaryButtonProps {
-	click?: (e: React.FormEvent<HTMLButtonElement>) => void;
+	click?: (e: FormEvent<HTMLButtonElement>) => void;
 	isDisabled?: boolean;
 	text: string | JSX.Element;
 	className?: string;
@@ -12,7 +12,7 @@ interface PrimaryButtonProps {
 	disabledLoader?: boolean;
 }
 
-export const PrimaryButton = (props: PrimaryButtonProps) => {
+export const PrimaryButton: FC<PrimaryButtonProps> = (props) => {
 	const primaryStyles = props.className ? props.className : '';
 	const type = props.type === 'submit' ? props.type : 'button';
 	const loader = props.disabledLoader ? false : true;

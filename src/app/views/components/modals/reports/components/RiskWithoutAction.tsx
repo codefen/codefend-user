@@ -1,16 +1,15 @@
-import React, { useMemo } from 'react';
+import { type FC } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import {
 	EmptyCard,
 	BugIcon,
 	Show,
 	SimpleSection,
-	TableItem,
 	TableWithoutActions,
 } from '../../..';
 import {
-	IssuesShare,
-	isEmptyData,
+	type IssuesShare,
+	type TableItem,
 	useDoughnutChart,
 	MetricsService,
 	ChartValueType,
@@ -23,7 +22,7 @@ interface VulnerabilityRiskProps {
 	isLoading: boolean;
 }
 
-export const RiskWithoutAction: React.FC<VulnerabilityRiskProps> = ({
+export const RiskWithoutAction: FC<VulnerabilityRiskProps> = ({
 	vulnerabilityByRisk,
 	isLoading,
 }) => {

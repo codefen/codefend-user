@@ -1,13 +1,13 @@
+import { type FC } from 'react';
 import { LocationItem, TableWithoutActions } from '../../..';
 import {
-	Resouce,
-	ResourceScope,
-	Webresources,
+	type Resouce,
+	type ResourceScope,
+	type Webresources,
 	webResourcesWithoutActions,
 } from '../../../../../data';
-import React from 'react';
 
-export const WebResourceScope: React.FC<ResourceScope<Webresources[]>> = ({
+export const WebResourceScope: FC<ResourceScope<Webresources[]>> = ({
 	resources,
 	isLoading,
 }) => {

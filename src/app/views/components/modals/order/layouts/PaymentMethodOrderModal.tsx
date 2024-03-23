@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  {type FC,  useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '../../..';
 import {
 	useOrderStore,
@@ -9,7 +9,7 @@ import { BankPaymentModal } from '../payments/BankPaymentModal';
 import { CryptoPaymentModal } from '../payments/CryptoPaymentModal';
 import { CardPaymentModal } from '../payments/CardPaymentModal';
 
-export const PaymentMethodOrderModal = () => {
+export const PaymentMethodOrderModal: FC = () => {
 	const { paymentMethod, orderStepActive, updateState, resetActiveOrder } =
 		useOrderStore((state) => state);
 

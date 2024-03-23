@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { type FC } from 'react';
 import {
 	PageLoader,
 	PreviousMessage,
@@ -6,14 +6,14 @@ import {
 	Show,
 	SimpleSection,
 } from '../../../../../components';
-import { PreviousSearch, generateIDArray } from '../../../../../../data';
+import { type PreviousSearch, generateIDArray } from '../../../../../../data';
 
 interface InxPreviousSearchesProps {
 	isLoading: boolean;
 	previousSearches: PreviousSearch[];
 }
 
-export const InxPreviousSearches: React.FC<InxPreviousSearchesProps> = ({
+export const InxPreviousSearches: FC<InxPreviousSearchesProps> = ({
 	isLoading,
 	previousSearches,
 }) => {

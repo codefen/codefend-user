@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { BugIcon, CircleAskIcon, Show } from '../../../../../components';
 import { useEndpointAppStore } from '../EndpointContext';
 
 import { useAuthState, EnpService } from '../../../../../../data';
 
-interface Props {}
-
-export const EndpointInfo: React.FC<Props> = () => {
+export const EndpointInfo: FC = () => {
 	const [selectedEndpoint, setSelectedEndpoint] = useState<any>(null);
 	const { endpointAppStore, setEndpointAppStore } = useEndpointAppStore();
 	const [vuln, setVuln] = useState<any[]>([]);
@@ -29,30 +27,32 @@ export const EndpointInfo: React.FC<Props> = () => {
 	useEffect(() => {
 		if (selectedEndpoint?.code_name) {
 			const companyID = getCompany();
-			EnpService.getVulns(selectedEndpoint?.code_name, selectedEndpoint?.application_name, companyID).then(
-				(enp) => {
-					if (enp.length && enp[0].id){
-						setVuln(enp);
-					} else {
-						setVuln([])
-					}
-				},
-			);
+			EnpService.getVulns(
+				selectedEndpoint?.code_name,
+				selectedEndpoint?.application_name,
+				companyID,
+			).then((enp) => {
+				if (enp.length && enp[0].id) {
+					setVuln(enp);
+				} else {
+					setVuln([]);
+				}
+			});
 		}
 	}, [selectedEndpoint]);
 
 	function extractCWEID(text: string) {
-		if(!text) {
-			return 0
+		if (!text) {
+			return 0;
 		}
 		var pattern = /CWE-(\d+)/;
-	
+
 		var match = text.match(pattern);
-	
+
 		if (match !== null) {
 			return match[1];
 		} else {
-			return "CWE ID not found.";
+			return 'CWE ID not found.';
 		}
 	}
 
@@ -80,7 +80,6 @@ export const EndpointInfo: React.FC<Props> = () => {
 		const parsedDate = new Date(timestamp * 1000);
 		return parsedDate.toISOString().split('T')[0];
 	}
-	
 
 	function highlightApplicationName(title: string, appName: string) {
 		const lowerCaseTitle = title.toLowerCase();
@@ -170,13 +169,17 @@ export const EndpointInfo: React.FC<Props> = () => {
 		if (filter.type === 'c') {
 			sorted = [...vuln].sort((a: any, b: any) =>
 				filter.order === 1
-				? Number(extractCWEID(a.vulnerability)) - Number(extractCWEID(b.vulnerability))
-				: Number(extractCWEID(b.vulnerability)) - Number(extractCWEID(a.vulnerability)),
-		);
+					? Number(extractCWEID(a.vulnerability)) -
+						Number(extractCWEID(b.vulnerability))
+					: Number(extractCWEID(b.vulnerability)) -
+						Number(extractCWEID(a.vulnerability)),
+			);
 			setVulnFilter({ type: 'c', order: filter.order === 1 ? -1 : 1 });
 		} else {
-			sorted = [...vuln].sort((a, b) =>
-				Number(extractCWEID(a.vulnerability)) - Number(extractCWEID(b.vulnerability)),
+			sorted = [...vuln].sort(
+				(a, b) =>
+					Number(extractCWEID(a.vulnerability)) -
+					Number(extractCWEID(b.vulnerability)),
 			);
 			setVulnFilter({ type: 'c', order: 1 });
 		}
@@ -209,11 +212,15 @@ export const EndpointInfo: React.FC<Props> = () => {
 
 		if (filter.type === 's') {
 			sorted = [...vuln].sort((a: any, b: any) =>
-				filter.order === 1 ? b.risk_value - a.risk_value : a.risk_value - b.risk_value,
+				filter.order === 1
+					? b.risk_value - a.risk_value
+					: a.risk_value - b.risk_value,
 			);
 			setVulnFilter({ type: 's', order: filter.order === 1 ? -1 : 1 });
 		} else {
-			sorted = [...vuln].sort((a: any, b: any) => a.risk_value - b.risk_value);
+			sorted = [...vuln].sort(
+				(a: any, b: any) => a.risk_value - b.risk_value,
+			);
 			setVulnFilter({ type: 's', order: 1 });
 		}
 
@@ -478,7 +485,8 @@ export const EndpointInfo: React.FC<Props> = () => {
 											</span>
 											{Array.from({ length: 5 }, (_, index) =>
 												index <
-												(parseInt(vulnerability.risk_value) || 0) ? (
+												(parseInt(vulnerability.risk_value) ||
+													0) ? (
 													<div
 														key={index}
 														className="score-fill-balls "></div>
@@ -491,12 +499,17 @@ export const EndpointInfo: React.FC<Props> = () => {
 										</div>
 
 										<Show
-											when={!isNaN(parseInt(vulnerability.risk_value))}>
+											when={
+												!isNaN(parseInt(vulnerability.risk_value))
+											}>
 											<div className="table-score-map table-item">
 												{mapScoreToWord(vulnerability.risk_value)}
 											</div>
 										</Show>
-										<Show when={isNaN(parseInt(vulnerability.risk_value))}>
+										<Show
+											when={isNaN(
+												parseInt(vulnerability.risk_value),
+											)}>
 											<div className="table-score-group">
 												<p className="question-mark">?</p>
 												<p className="question-circle">

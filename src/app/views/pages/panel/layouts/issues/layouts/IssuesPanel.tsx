@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { type FC, useEffect, useMemo, useState } from 'react';
 import {
 	useIssueReport,
-	Issues,
+	type Issues,
 	useIssues,
 	useReportStore,
 } from '../../../../../../data';
@@ -14,7 +14,7 @@ import { IssueReport } from '../components/IssueReport';
 import { IssueResources } from '../components/IssueResources';
 import { useFlashlight } from '../../../FlashLightContext';
 
-const IssuesPanel: React.FC = () => {
+const IssuesPanel: FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);
 	const [filters, setFilters] = useState<string[]>([]);

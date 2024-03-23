@@ -1,10 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import { type FC, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GlobeWebIcon, ModalButtons } from '../..';
 import {
-	User,
 	WebApplicationService,
-	Webresources,
+	type Webresources,
 	useAuthState,
 } from '../../../../data';
 
@@ -14,7 +13,7 @@ interface SubdomainModalProps {
 	webResources: Webresources[];
 }
 
-const AddSubDomainModal: React.FC<SubdomainModalProps> = (props) => {
+const AddSubDomainModal: FC<SubdomainModalProps> = (props) => {
 	const [mainDomainId, setMainDomainId] = useState('');
 	const [domainName, setDomainName] = useState('');
 	const [ipAddress, setIpAddress] = useState('');

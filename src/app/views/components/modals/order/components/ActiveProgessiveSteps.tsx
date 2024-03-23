@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { OrderSection } from '../../../../../data';
 import { StepItem } from './StepItem';
 
@@ -7,7 +7,7 @@ interface ActiveProgressLineProps {
 	orderStepActive: OrderSection;
 }
 
-export const ActiveProgressLine: React.FC<ActiveProgressLineProps> = ({
+export const ActiveProgressLine: FC<ActiveProgressLineProps> = ({
 	isNextStep,
 	orderStepActive,
 }) => {

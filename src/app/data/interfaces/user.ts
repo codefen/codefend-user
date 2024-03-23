@@ -1,4 +1,4 @@
-import { Monitoring } from '.';
+import type { Monitoring } from '.';
 
 export interface User extends Monitoring {
 	id?: string;

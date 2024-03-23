@@ -4,4 +4,3 @@ export * from './loaders/Loader';
 export * from './Logo';
 export { default as Show } from './Show';
 export * from './SimpleSection';
-export * from './ActionSection';

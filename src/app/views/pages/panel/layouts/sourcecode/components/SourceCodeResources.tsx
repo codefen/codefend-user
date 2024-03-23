@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
+import { useNavigate } from 'react-router';
 import {
-	SourceCode,
+	type SourceCode,
 	sourceCodeColumns,
 	useModal,
+	type TableItem,
 } from '../../../../../../data';
 import {
 	ConfirmModal,
@@ -10,11 +12,9 @@ import {
 	SourceCodeIcon,
 	TrashIcon,
 	TableV2,
-	TableItem,
 	BugIcon,
 } from '../../../../../components';
 import { AddRepositoryModal } from '../../../../../components/modals/adding-modals/AddRepositoryModal';
-import { useNavigate } from 'react-router';
 
 interface SourceCodeProps {
 	isLoading: boolean;
@@ -23,7 +23,7 @@ interface SourceCodeProps {
 	update: (params: any) => void;
 }
 
-export const SourceCodeResources: React.FC<SourceCodeProps> = (props) => {
+export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 	const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] =

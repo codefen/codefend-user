@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import { type FC, useState } from 'react';
 import {
-	Issues,
-	RUNNING_DESKTOP,
-	generateIDArray,
+	type Issues,
+	Sort,
 	issueColumns,
 	useDeleteIssue,
 	useModal,
@@ -13,20 +12,19 @@ import {
 	ConfirmModal,
 	ModalTitleWrapper,
 	RiskScore,
-	Sort,
 	TableV2,
 	TrashIcon,
 } from '../../../../../components';
 import { useNavigate } from 'react-router';
 import '../../../../../components/Table/table.scss';
 
-interface Props {
+interface IssueResourcesProps {
 	isLoading: boolean;
 	issues: Issues[];
 	refresh: () => void;
 }
 
-export const IssueResources: React.FC<Props> = (props) => {
+export const IssueResources: FC<IssueResourcesProps> = (props) => {
 	const [selected, setSelectedId] = useState('');
 	const { showModal, setShowModal } = useModal();
 	const { handleDelete } = useDeleteIssue();

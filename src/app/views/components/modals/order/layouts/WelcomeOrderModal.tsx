@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '../../..';
-import {
-	OrderSection,
-	OrderTeamSize,
-	useOrderStore,
-} from '../../../../../data';
+import { useOrderStore } from '../../../../../data';
 
 export const WelcomeOrderModal = () => {
 	const { resetActiveOrder } = useOrderStore((state) => state);

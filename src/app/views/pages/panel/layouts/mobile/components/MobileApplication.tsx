@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AppCard, EmptyScreenView, Show } from '../../../../../components';
 import {
-	MobileApp,
-	SelectMobileCloudApp,
+	type MobileApp,
+	type SelectMobileCloudApp,
 	generateIDArray,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';

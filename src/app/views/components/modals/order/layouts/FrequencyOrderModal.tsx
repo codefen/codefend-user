@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '../../..';
 import {
 	OrderFrequency,
@@ -7,7 +7,7 @@ import {
 	useOrderStore,
 } from '../../../../../data';
 
-export const FrequencyOrderModal = () => {
+export const FrequencyOrderModal: FC = () => {
 	const { frequency, updateState, referenceNumber } = useOrderStore(
 		(state) => state,
 	);

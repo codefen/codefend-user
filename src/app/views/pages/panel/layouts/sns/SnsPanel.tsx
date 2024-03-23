@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Masonry from 'react-masonry-css';
 import SnPreviousSearches from './components/SnPreviousSearches';
 import SnsSearchAndData from './components/SnsSearchAndData';
 import './Sns.scss';
@@ -18,7 +17,6 @@ const SnsPanel: React.FC = () => {
 			<main className={`sb ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
 					<SnsSearchAndData />
-					
 				</section>
 
 				<section className="right">

@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState, type FC } from 'react';
 import { toast } from 'react-toastify';
-import { User, useAuthState } from '../../../data';
+import { type User, useAuthState } from '../../../data';
 
 import { ButtonLoader, GlobeWebIcon, Show } from '..';
 
@@ -8,7 +8,7 @@ interface CloudQuickActionProps {
 	onDone: () => void;
 }
 
-export const CloudQuickAction: React.FC<CloudQuickActionProps> = (props) => {
+export const CloudQuickAction: FC<CloudQuickActionProps> = (props) => {
 	const { getUserdata, getCompany } = useAuthState();
 	const [domainName, setDomainName] = useState('');
 	const [isAddingDomain, setIsAddingDomain] = useState(false);

@@ -1,10 +1,10 @@
-import React from 'react';
+import { type FC } from 'react';
 import { Logo, MenuIcon, ThemeChangerButton } from '../../..';
 import { usePanelStore } from '../../../../../data';
 import { useTheme } from '../../../../ThemeContext';
 import './Header.scss';
 
-const Header: React.FC = () => {
+const Header: FC = () => {
 	const { theme } = useTheme();
 	const { open, handleChange } = usePanelStore();
 

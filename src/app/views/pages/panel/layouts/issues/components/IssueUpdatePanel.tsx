@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { type FC, useCallback, useEffect, useState } from 'react';
 import {
 	LeftArrow,
 	PageLoader,
@@ -10,8 +10,8 @@ import {
 import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
 import {
-	OneIssue,
-	UpdateIssue,
+	type OneIssue,
+	type UpdateIssue,
 	formatDate,
 	useUpdateIssue,
 } from '../../../../../../data';
@@ -22,7 +22,7 @@ interface IssueUpdatePanelProps {
 	isLoading: boolean;
 }
 
-const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
+const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 	completeIssue,
 	isLoading,
 }) => {

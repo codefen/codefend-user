@@ -1,12 +1,12 @@
-import React, { ChangeEvent, useState } from 'react';
+import { type FC, type ChangeEvent, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 
 import { toast } from 'react-toastify';
 
 import { PrimaryButton } from '../../../components';
-import { useAuthState, RegisterFinishParams } from '../../../../data';
+import { useAuthState, type RegisterFinishParams } from '../../../../data';
 
-const FinishSignUpLayout = () => {
+const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useAuthState();
 
 	const [userState, setUserState] = useState({

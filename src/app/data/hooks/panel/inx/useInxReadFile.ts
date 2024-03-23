@@ -1,4 +1,4 @@
-import { InxServices, getCustomBaseAPi, baseUrl, getToken, handleFetchError } from '../../../';
+import { getCustomBaseAPi, baseUrl, getToken, handleFetchError } from '../../../';
 import { useRef, useState } from 'react';
 
 

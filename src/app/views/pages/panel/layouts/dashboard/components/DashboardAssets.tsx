@@ -1,9 +1,9 @@
-import React, { Fragment, useMemo } from 'react';
+import { type FC, Fragment, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { CircleIcon, SimpleSection } from '../../../../../components';
-import { CompanyResource, generateIDArray } from '../../../../../../data';
+import { type CompanyResource, generateIDArray } from '../../../../../../data';
 
-export const DashboardAssets: React.FC<{ resources: CompanyResource }> = ({
+export const DashboardAssets: FC<{ resources: CompanyResource }> = ({
 	resources,
 }) => {
 	const location = useLocation();

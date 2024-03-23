@@ -1,14 +1,13 @@
-import React from 'react';
-import { useNavigate } from 'react-router';
+import { type FC } from 'react';
 import { CompanyIcon, Show } from '../../../../../../components';
-import { AdminCompany } from '../../../../../../../data';
+import { type AdminCompany } from '../../../../../../../data';
 
 interface CompanyCard {
 	isSelected: boolean;
 	company: AdminCompany;
 }
 
-const CompanyCard: React.FC<CompanyCard> = ({ company, isSelected }) => {
+const CompanyCard: FC<CompanyCard> = ({ company, isSelected }) => {
 	return (
 		<>
 			<div className="company-card">

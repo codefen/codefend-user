@@ -2,9 +2,9 @@ import { toast } from 'react-toastify';
 import { useAuthState } from '.';
 import { OrderService } from '../services/order.service';
 import {
-	CompanyResourcesID,
+	type CompanyResourcesID,
 	OrderFrequency,
-	OrderStore,
+	type OrderStore,
 	OrderTeamSize,
 	ScopeOption,
 	useOrderStore,

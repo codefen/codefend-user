@@ -1,6 +1,6 @@
-import { StateCreator, create } from 'zustand';
+import { type StateCreator, create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { AuthServices, User, useAdminCompanyStore } from '..';
+import { AuthServices, type User, useAdminCompanyStore } from '..';
 
 export interface AuthState {
 	userData: User;

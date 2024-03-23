@@ -1,13 +1,14 @@
-import React, { Fragment, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 import {
 	MetricsService,
 	ChartValueType,
-	SourceCode,
+	type SourceCode,
 	generateIDArray,
 	isEmptyData,
 	languageTypes,
 	useDoughnutChart,
 	sourceCodeChartColumns,
+	type TableItem,
 } from '../../../../../../data';
 import {
 	ChartIcon,
@@ -15,7 +16,6 @@ import {
 	PageLoader,
 	Show,
 	SimpleSection,
-	TableItem,
 	TableV2,
 } from '../../../../../components';
 import { Doughnut } from 'react-chartjs-2';
@@ -25,7 +25,7 @@ interface Props {
 	sourceCode: SourceCode[];
 }
 
-export const SourceCodeChart: React.FC<Props> = (props) => {
+export const SourceCodeChart: FC<Props> = (props) => {
 	const { chartData, otherMetrics, total, chartOptions } = useDoughnutChart({
 		data: props.sourceCode,
 		type: ChartValueType.SOURCE_CODE,

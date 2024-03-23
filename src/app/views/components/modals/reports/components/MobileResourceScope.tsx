@@ -1,5 +1,9 @@
 import React from 'react';
-import { ResourceScopeApp, MobileApp, CloudApp } from '../../../../../data';
+import type {
+	ResourceScopeApp,
+	MobileApp,
+	CloudApp,
+} from '../../../../../data';
 import { AppCard, EmptyCard } from '../../..';
 
 export const MobileResourceScope: React.FC<

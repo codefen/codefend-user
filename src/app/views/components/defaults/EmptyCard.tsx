@@ -1,11 +1,11 @@
-import React from 'react';
+import { type FC } from 'react';
 
 interface EmptyCardProps {
 	title?: string;
 	info?: string;
 }
 
-const EmptyCard: React.FC<EmptyCardProps> = ({ title, info }) => {
+const EmptyCard: FC<EmptyCardProps> = ({ title, info }) => {
 	title = title ?? "There's no data to display here.";
 	info =
 		info ??

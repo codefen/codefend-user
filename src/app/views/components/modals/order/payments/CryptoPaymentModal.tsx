@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import { useState } from 'react';
 import {
 	OrderPaymentMethod,
 	OrderSection,

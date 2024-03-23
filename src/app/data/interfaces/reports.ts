@@ -1,4 +1,4 @@
-import { Issues, Webresources, IssuesShare, ReportIssues } from ".";
+import type { Issues, Webresources, IssuesShare, ReportIssues } from ".";
 
 export interface WebReport {
 	resources: Webresources[];

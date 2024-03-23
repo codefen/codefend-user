@@ -1,11 +1,11 @@
-import React from 'react';
+import { type FC } from 'react';
 import { RefreshButton, GenerateReportButton } from '../../../../../components';
 
-interface Props {
+interface ReportButtonProps {
 	onClick: () => void;
 }
 
-export const ReportButton: React.FC<Props> = ({ onClick }) => {
+export const ReportButton: FC<ReportButtonProps> = ({ onClick }) => {
 	return (
 		<div className="report-btn-container">
 			<RefreshButton action={onClick} />

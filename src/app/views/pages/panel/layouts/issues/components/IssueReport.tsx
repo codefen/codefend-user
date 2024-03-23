@@ -1,6 +1,6 @@
-import { IssueClass, generateIDArray } from '../../../../../../data';
+import { type IssueClass, generateIDArray } from '../../../../../../data';
 import { ChartIcon, Show, SimpleSection } from '../../../../../components';
-import React, { Fragment, useMemo } from 'react';
+import { type FC, Fragment, useMemo } from 'react';
 
 interface Props {
 	isLoading: boolean;
@@ -8,7 +8,7 @@ interface Props {
 	handleFilter: (issueClass: string) => void;
 }
 
-export const IssueReport: React.FC<Props> = (props) => {
+export const IssueReport: FC<Props> = (props) => {
 	const filterIssues = useMemo(() => {
 		return Object.keys(props.issuesClasses)
 			.filter((item) => item !== 'total')

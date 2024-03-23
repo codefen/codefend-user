@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { useOrderStore, useSourceCode } from '../../../../../data';
 import { SourceCodeResources } from './components/SourceCodeResources';
 import { SourceCodeChart } from './components/SourceCodeChart';
@@ -7,7 +7,7 @@ import { OrderV2, PrimaryButton } from '../../../../components';
 import './sourcecode.scss';
 import { useFlashlight } from '../../FlashLightContext';
 
-const SourceCodePanel: React.FC = () => {
+const SourceCodePanel: FC = () => {
 	const { getSource, isLoading, addSourceCode, deletedResource } =
 		useSourceCode();
 	const { updateState } = useOrderStore((state) => state);

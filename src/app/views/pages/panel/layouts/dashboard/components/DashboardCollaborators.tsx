@@ -1,13 +1,22 @@
-import React from 'react';
+import { type FC } from 'react';
 
 import { PeopleGroup, SimpleSection } from '../../../../../components';
-import { CompanyMember, collaboratorsColumns } from '../../../../../../data';
-import { TableItem, TableV2 } from '../../../../../components/Table/tablev2';
+import {
+	type CompanyMember,
+	collaboratorsColumns,
+	type TableItem,
+} from '../../../../../../data';
+import { TableV2 } from '../../../../../components/table/tablev2';
 
-const DashboardCollaborators: React.FC<{
+interface DashboardCollaboratorsProps {
 	members: CompanyMember[];
 	isLoading: boolean;
-}> = ({ members, isLoading }) => {
+}
+
+const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({
+	members,
+	isLoading,
+}) => {
 	const dataTable = members.map(
 		(member: CompanyMember) =>
 			({

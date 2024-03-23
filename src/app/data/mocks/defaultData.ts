@@ -1,6 +1,6 @@
 // default data for UI purpose
 
-import { ColumnTable } from '../../views/components/Table/tablev2';
+import type { ColumnTable } from '../../data';
 
 export const osTypes = ['windows', 'linux', 'android', 'ios', 'unknown'];
 

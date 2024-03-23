@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { type FC, useCallback, useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '..';
 
 interface ConfirmModalProps {
@@ -10,7 +10,7 @@ interface ConfirmModalProps {
 }
 
 // million-ignore
-const ConfirmModal = (props: ConfirmModalProps) => {
+const ConfirmModal: FC<ConfirmModalProps> = (props) => {
 	const [isConfirm, setConfirm] = useState<boolean>(false);
 
 	const handleSubmit = useCallback(

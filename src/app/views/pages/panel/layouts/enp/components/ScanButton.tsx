@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import {
 	ExternalScanButton,
 	RequestScanButton,
 } from '../../../../../components';
 import { useEndpointAppStore } from '../EndpointContext';
 
-interface Props {
+interface ScanButtonProps {
 	scanLoading: boolean;
 	scanLocal: () => void;
 	onClick: () => void;
 }
 
-export const ScanButton: React.FC<Props> = ({
+export const ScanButton: FC<ScanButtonProps> = ({
 	scanLoading,
 	scanLocal,
 	onClick,

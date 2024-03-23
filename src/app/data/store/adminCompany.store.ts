@@ -1,6 +1,6 @@
-import { StateCreator, create } from "zustand";
-import { ID, Monitoring, emptyCompany, equalsObj, getFullCompanyFromUser } from "..";
-import { PersistOptions, devtools, persist } from "zustand/middleware";
+import { type StateCreator, create } from "zustand";
+import { type ID, type Monitoring, emptyCompany, equalsObj, getFullCompanyFromUser } from "..";
+import { type PersistOptions, devtools, persist } from "zustand/middleware";
 
 export interface AdminCompany extends ID, Monitoring {
     name: string;

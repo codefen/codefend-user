@@ -1,18 +1,14 @@
 import { formatDate } from '../../../../../../data';
-import {
-	EmptyCard,
-	PageLoader,
-	PreferenceIcon,
-} from '../../../../../components';
+import { EmptyCard, PreferenceIcon, Show } from '../../../../../components';
 
-import React, { useState } from 'react';
+import { type FC } from 'react';
 
 interface BillingDataProps {
 	isLoading: boolean;
 	orders: any[];
 }
 
-const SettingOrderAndBilling: React.FC<BillingDataProps> = (props) => {
+const SettingOrderAndBilling: FC<BillingDataProps> = (props) => {
 	return (
 		<>
 			<div className="card table">
@@ -36,25 +32,23 @@ const SettingOrderAndBilling: React.FC<BillingDataProps> = (props) => {
 				</div>
 
 				<div className="rows">
-					{!props.isLoading
-						? props.orders.map((order: any) => (
-								<div key={order.order_id} className="item">
-									<div className="date">
-										{formatDate(order?.creacion ?? new Date())}
-									</div>
-									<div className="full-name">{order.order_desc}</div>
-									<div className="duration">{order.order_plazo}</div>
-									<div className="price">${order.order_price}</div>
-									<div className="price">
-										{order.order_price_disc}%
-									</div>
-									<div className="price">
-										${order.order_price_final}
-									</div>
-									<div className="status">{order.order_paid}</div>
+					<Show when={!props.isLoading}>
+						{props.orders.map((order: any) => (
+							<div
+								key={`pref-order-${crypto.randomUUID()}`}
+								className="item">
+								<div className="date">
+									{formatDate(order?.creacion ?? new Date())}
 								</div>
-							))
-						: null}
+								<div className="full-name">{order.order_desc}</div>
+								<div className="duration">{order.order_plazo}</div>
+								<div className="price">${order.order_price}</div>
+								<div className="price">{order.order_price_disc}%</div>
+								<div className="price">${order.order_price_final}</div>
+								<div className="status">{order.order_paid}</div>
+							</div>
+						))}
+					</Show>
 				</div>
 			</div>
 			{!props.isLoading && props.orders.length === 0 && <EmptyCard />}

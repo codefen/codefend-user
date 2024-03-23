@@ -1,15 +1,14 @@
-import { useAuthState } from '../../../../data';
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GlobeWebIcon, ModalButtons } from '../..';
-import { CloudService } from '../../../../data';
+import { CloudService, useAuthState } from '../../../../data';
 
 interface Props {
 	onDone: () => void;
 	close: () => void;
 }
 
-export const AddCloudModal: React.FC<Props> = (props) => {
+export const AddCloudModal: FC<Props> = (props) => {
 	const [appName, setAppName] = useState('');
 	const [provider, setProvider] = useState('');
 	const [description, setDescription] = useState('');

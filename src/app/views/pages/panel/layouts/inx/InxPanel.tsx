@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { InxSearchAndData } from './components/InxSearchAndData';
 import { InxPreviousSearches } from './components/InxPreviousSearches';
 import { useInxPreviousSearch } from '../../../../../data';
-import './inx.scss';
 import { useFlashlight } from '../../FlashLightContext';
+import './inx.scss';
 
-export const InxPanel: React.FC = () => {
+export const InxPanel: FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);
 	const { previousSearches, isLoading, refetch } = useInxPreviousSearch();

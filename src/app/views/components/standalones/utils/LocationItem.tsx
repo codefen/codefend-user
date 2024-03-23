@@ -1,11 +1,11 @@
-import React from 'react';
+import { type FC } from 'react';
 
 interface LocationItemProps {
 	countryCode: string;
 	country: string;
 }
 
-export const LocationItem: React.FC<LocationItemProps> = ({
+export const LocationItem: FC<LocationItemProps> = ({
 	countryCode,
 	country,
 }) => {

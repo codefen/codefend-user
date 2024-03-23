@@ -1,4 +1,4 @@
-import { MemberV2, User, Webresources } from '..';
+import { type MemberV2, type User, type Webresources } from '..';
 
 /** Compute InternalNetwork OS And Count */
 const computeInternalNetworkOSAndCount = (internalNetwork: any) => {

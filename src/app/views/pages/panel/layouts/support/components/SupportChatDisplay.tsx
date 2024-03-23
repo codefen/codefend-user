@@ -1,7 +1,7 @@
-import React, { Fragment, useContext, useEffect, useMemo } from 'react';
+import { type FC, Fragment, useContext, useEffect, useMemo } from 'react';
 import {
 	ChatBoxType,
-	SupportProps,
+	type SupportProps,
 	generateIDArray,
 	useOneTicket,
 } from '../../../../../../data';
@@ -15,9 +15,7 @@ import {
 } from '../../../../../components';
 import SelectedTicket from '../supportProvider';
 
-interface SupportChatDisplayProps {}
-
-export const SupportChatDisplay: React.FC<SupportChatDisplayProps> = () => {
+export const SupportChatDisplay: FC = () => {
 	const { getOneTicket, isLoading, refetch } = useOneTicket();
 	const selectedTicketID = useContext(SelectedTicket);
 

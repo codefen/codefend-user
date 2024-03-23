@@ -1,13 +1,13 @@
-import React from 'react';
+import { type FC } from 'react';
 import { ModalWrapper } from '..';
 
 import { useReportStore, webResourcesWithoutActions } from '../../../../data';
-import './reports.scss';
 import { CustomReport } from './components/CustomReport';
+import './reports.scss';
 
 export interface WebReportModalProps {}
 
-export const ModalReport: React.FC<WebReportModalProps> = () => {
+export const ModalReport: FC<WebReportModalProps> = () => {
 	const { open, closeModal } = useReportStore((state) => state);
 	if (open) {
 		return (

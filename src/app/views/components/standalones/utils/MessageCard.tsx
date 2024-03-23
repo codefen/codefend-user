@@ -1,5 +1,5 @@
 import { MetricsService, useAuthState } from '../../../../data';
-import React from 'react';
+import { type FC } from 'react';
 
 interface Props {
 	selectedID: string;
@@ -8,7 +8,7 @@ interface Props {
 	createdAt: string;
 }
 
-export const MessageCard: React.FC<Props> = (props) => {
+export const MessageCard: FC<Props> = (props) => {
 	const { getUserdata } = useAuthState();
 	const isAuthUserChat = MetricsService.isUserChat(
 		props.selectedID,

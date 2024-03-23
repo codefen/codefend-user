@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import {
 	BugIcon,
 	ExecutiveSummaryIcon,
@@ -7,21 +7,16 @@ import {
 	GlobeWebIcon,
 	DownloadIcon,
 } from '../../..';
-import { TableWithoutActions } from '../../../Table/TableWithoutActions';
+import { TableWithoutActions } from '../../../table/TableWithoutActions';
 import {
-	IssuesShare,
-	ReportIssues,
+	type ReportIssues,
 	addPrintAttributesFromBody,
 	formatDate,
 	issuesColumnsWithoutAction,
-	mapCloudApp,
-	mapIssueShareV2,
-	mapIssues,
-	mapMobileApp,
-	mapWebresourceApiToWebresource,
 	removePrintAttributesFromBody,
 	useIssueReport,
 	useReportStore,
+	type IssuesShare,
 } from '../../../../../data';
 import { RiskWithoutAction } from './RiskWithoutAction';
 import { WebResourceScope } from './WebResourceScope';
@@ -33,7 +28,7 @@ interface CustomReportProps {
 	isModal?: boolean;
 }
 
-export const CustomReport: React.FC<CustomReportProps> = ({ isModal }) => {
+export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const { open, resourceType } = useReportStore((state: any) => state);
 	const { fetchReport, abort, resources, issues, share, resourceDomainText } =

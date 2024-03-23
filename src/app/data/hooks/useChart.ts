@@ -6,8 +6,8 @@ import {
 	Tooltip,
 	Legend,
 	Colors,
-	ChartData,
-	ChartOptions,
+	type ChartData,
+	type ChartOptions,
 	ArcElement,
 } from 'chart.js/auto';
 import { MetricsService, ChartValueType } from '..';

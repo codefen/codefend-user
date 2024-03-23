@@ -1,17 +1,22 @@
-import React from 'react';
+import { type FC } from 'react';
+import { BugIcon, RiskScore, SimpleSection } from '../../../../../components';
 import {
-	BugIcon,
-	RiskScore,
-	SimpleSection,
+	type Issues,
+	topVulnerabilitiesColumn,
 	Sort,
-} from '../../../../../components';
-import { Issues, topVulnerabilitiesColumn } from '../../../../../../data';
-import { TableItem, TableV2 } from '../../../../../components/Table/tablev2';
+	type TableItem,
+} from '../../../../../../data';
+import { TableV2 } from '../../../../../components/table/tablev2';
 
-const DashboardVulnerabilities: React.FC<{
+interface DashboardVulnerabilitiesProps {
 	topVulnerabilities: Issues[];
 	isLoading: boolean;
-}> = ({ topVulnerabilities, isLoading }) => {
+}
+
+const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
+	topVulnerabilities,
+	isLoading,
+}) => {
 	const dataTable = topVulnerabilities.map(
 		(issue: Issues) =>
 			({

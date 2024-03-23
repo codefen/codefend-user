@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import { type FC, type ChangeEvent, useState } from 'react';
 import { GlobeWebIcon, ModalButtons } from '../..';
 
 interface AddNewCompany {
@@ -23,9 +23,7 @@ interface AddCompanyModalProps {
 	closeModal: () => void;
 }
 
-export const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
-	closeModal,
-}) => {
+export const AddCompanyModal: FC<AddCompanyModalProps> = ({ closeModal }) => {
 	const [
 		{
 			companyStore,

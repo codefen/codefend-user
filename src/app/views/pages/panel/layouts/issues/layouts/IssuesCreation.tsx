@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import IssueCreationPanel from '../components/IssueCreationPanel';
 import { IssueChatDisplay } from '../components/IssueChatDisplay';
 
-const IssuesCreation: React.FC<{}> = () => {
+const IssuesCreation: FC = () => {
 	const [showScreen, setShowScreen] = useState(false);
 	const [reShow, setReshow] = useState(false);
 

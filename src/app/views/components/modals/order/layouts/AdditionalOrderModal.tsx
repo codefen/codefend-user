@@ -1,8 +1,8 @@
-import React, { TextareaHTMLAttributes, useCallback, useState } from 'react';
+import { type FC, useCallback, useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '../../..';
 import { OrderSection, useOrderStore } from '../../../../../data';
 
-export const AdditionalOrderModal: React.FC<any> = () => {
+export const AdditionalOrderModal: FC = () => {
 	const [aditionalInfoW, setAditionalInfo] = useState('');
 	const { updateState } = useOrderStore((state) => state);
 

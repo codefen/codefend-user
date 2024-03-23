@@ -1,12 +1,12 @@
 import { ChartIcon, SimpleSection } from '../../../../../components';
 import { defaultSocialAttackVectors } from '../../../../../../data';
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 
 interface SocialAttackVectorsProps {
 	defaultSocialAttackVectors?: Record<string, 'enabled' | 'disabled'>;
 }
 
-const SocialAttackVectors: React.FC<SocialAttackVectorsProps> = (props) => {
+const SocialAttackVectors: FC<SocialAttackVectorsProps> = (props) => {
 	const [attackVectorState, setAttackVectorState] = useState(
 		props.defaultSocialAttackVectors || defaultSocialAttackVectors,
 	);

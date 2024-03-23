@@ -1,6 +1,10 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { type FC, type ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
+import {
+	type Issues,
+	type SaveIssue,
+	useSaveIssue,
+} from '../../../../../../data';
 import { useTheme } from '../../../../../ThemeContext';
 import {
 	LeftArrow,
@@ -15,7 +19,7 @@ interface IssueCreationPanelProps {
 	isLoading: boolean;
 }
 
-const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
+const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 	const { newIssue, dispatch, save, shouldDisableClass, type, resourceId } =
 		useSaveIssue();
 	const [isEditable, setEditable] = useState(false);

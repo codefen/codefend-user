@@ -1,5 +1,9 @@
-import { useAuthState, LanApplicationService, Device } from '../../../../data';
-import { useState } from 'react';
+import { type FC, useState } from 'react';
+import {
+	useAuthState,
+	LanApplicationService,
+	type Device,
+} from '../../../../data';
 import { toast } from 'react-toastify';
 import { GlobeWebIcon, ModalButtons } from '../..';
 
@@ -9,9 +13,7 @@ interface NetworkDeviceModalProps {
 	internalNetwork: Device[];
 }
 
-export const AddNetworkDeviceModal: React.FC<NetworkDeviceModalProps> = (
-	props,
-) => {
+export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
 	const [
 		{
 			mainDomainId,

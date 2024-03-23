@@ -1,7 +1,7 @@
 import { AdminService } from '../../../../../../../data';
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
-const AdminPanelApprove: React.FC = () => {
+const AdminPanelApprove: FC = () => {
 	const [pendingUsers, setPendingUsers] = useState([]);
 
 	const handleApprove = (id: any, condition: any) => {

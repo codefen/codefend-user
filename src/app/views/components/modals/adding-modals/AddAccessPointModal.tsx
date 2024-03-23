@@ -1,9 +1,9 @@
+import { type FC, useState } from 'react';
 import {
 	useAuthState,
 	useModal,
 	LanApplicationService,
 } from '../../../../data';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import {
 	GlobeWebIcon,
@@ -22,10 +22,12 @@ interface NetworkData {
 	isAddingInternalNetwork: boolean;
 }
 
-export const AcessPointModal: React.FC<{
+interface ComponentEvent {
 	onDone: () => void;
 	close: () => void;
-}> = (props) => {
+}
+
+export const AcessPointModal: FC<ComponentEvent> = (props) => {
 	const { getCompany } = useAuthState();
 	const companyID = getCompany();
 

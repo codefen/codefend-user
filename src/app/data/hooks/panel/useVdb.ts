@@ -1,16 +1,11 @@
 import { toast } from 'react-toastify';
 import {
-	FetchPattern,
-	ResultsVdbSearch,
-	ResultsVdbSearchV2,
-	VdbProps,
+	type ResultsVdbSearchV2,
 	VdbService,
 	mapVdbResultV2,
-	mapVdbResults,
-	mapVdbSearch,
 	useAuthState,
 } from '../../';
-import { ChangeEvent, useRef, useState } from 'react';
+import { type ChangeEvent, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
 /* Custom Hook "useInitialVdb" to handle the search result in vdb */

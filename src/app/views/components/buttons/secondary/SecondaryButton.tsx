@@ -1,15 +1,15 @@
-import React from 'react';
+import { type FC, type FormEvent } from 'react';
 import '../buttons.scss';
 import './secondaryButton.scss';
 
 interface SecondaryButtonProps {
-	click: (e: React.FormEvent<HTMLButtonElement>) => void;
+	click: (e: FormEvent<HTMLButtonElement>) => void;
 	isDisabled?: boolean;
 	text: string;
 	className?: string;
 }
 
-export const SecondaryButton = (props: SecondaryButtonProps) => {
+export const SecondaryButton: FC<SecondaryButtonProps> = (props) => {
 	const secondaryStyles = props.className ? props.className : '';
 
 	return (

@@ -1,3 +1,4 @@
+import { type FC } from 'react';
 import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
 import './scanButtons.scss';
@@ -8,7 +9,7 @@ interface RequestScanButtonProps {
 	action: () => void;
 }
 
-export const RequestScanButton: React.FC<RequestScanButtonProps> = (props) => {
+export const RequestScanButton: FC<RequestScanButtonProps> = (props) => {
 	return (
 		<button className="btn scan-btn" onClick={props.action}>
 			<Show when={props.scanLoading} fallback={<p>REQUEST SCAN</p>}>

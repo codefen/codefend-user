@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
-import { generateIDArray } from '../../../../data';
+import { type FC } from 'react';
 
 interface RiskScoreProps {
 	riskScore: string;
 }
 
-export const RiskScore: React.FC<RiskScoreProps> = ({ riskScore }) => {
+export const RiskScore: FC<RiskScoreProps> = ({ riskScore }) => {
 	const parsedRiskScore = parseInt(riskScore);
 	const vulnerabilityCount = Math.max(0, parsedRiskScore);
 	const limitedCount = Math.max(0, 5 - parsedRiskScore);

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NetworkIcon, PrimaryButton } from '../../../components';
 import {
-	RegisterParams,
+	type RegisterParams,
 	useAuthState,
 	companySizesList,
 	countries,
-	NetworkSettingState,
+	type NetworkSettingState,
 	useNetworkSettingState,
 } from '../../../../data';
 
@@ -23,7 +23,7 @@ interface SignupForm {
 	companyCountry: string;
 }
 
-const SignUpLayout: React.FC = () => {
+const SignUpLayout: FC = () => {
 	const { signUpUser } = useAuthState();
 
 	const navigate = useNavigate();

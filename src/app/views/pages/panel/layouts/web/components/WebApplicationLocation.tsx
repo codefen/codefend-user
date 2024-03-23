@@ -3,13 +3,12 @@ import {
 	CircleIcon,
 	LocationItem,
 	SimpleSection,
-	Sort,
 	TableV2,
 } from '../../../../../components';
 import {
 	MetricsService,
-	Webresources,
-	generateIDArray,
+	type Webresources,
+	Sort,
 	webLocationColumn,
 } from '../../../../../../data';
 

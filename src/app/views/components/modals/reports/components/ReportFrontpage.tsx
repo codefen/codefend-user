@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { type FC, lazy } from 'react';
 import { getCurrentDate } from '../../../../../data';
 import { AimIcon } from '../../../';
 
@@ -7,7 +7,7 @@ export interface ReportFrontpageProps {
 }
 const Logo = lazy(() => import('../../../defaults/Logo'));
 
-export const ReportFrontpage: React.FC<ReportFrontpageProps> = (props) => {
+export const ReportFrontpage: FC<ReportFrontpageProps> = (props) => {
 	return (
 		<div className="portada">
 			<div className="codefend-header">

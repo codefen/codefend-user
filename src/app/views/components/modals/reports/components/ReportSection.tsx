@@ -1,3 +1,5 @@
+import type { FC } from 'react';
+
 export interface ReportSectionTemplateProps {
 	title: string | JSX.Element;
 	text: string | JSX.Element;
@@ -8,7 +10,7 @@ export interface ReportSectionTemplateProps {
 	isIntro?: boolean;
 }
 
-export const ReportSectionTemplate: React.FC<ReportSectionTemplateProps> = ({
+export const ReportSectionTemplate: FC<ReportSectionTemplateProps> = ({
 	title,
 	text,
 	icon,

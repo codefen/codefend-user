@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 import addTinyMce, { setMode } from '../../../../../../../editor-lib';
 
 interface AppEditorProps {
@@ -7,7 +7,7 @@ interface AppEditorProps {
 	isEditable: boolean;
 	isIssueCreation?: any;
 }
-const AppEditor: React.FC<AppEditorProps> = ({ initialValue, isEditable }) => {
+const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable }) => {
 	const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
 
 	useEffect(() => {

@@ -1,17 +1,17 @@
-import React from 'react';
+import { type FC, type FormEvent } from 'react';
 import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
 import '../primary/primaryButton.scss';
 
 interface SendButtonProps {
-	click?: (e: React.FormEvent<HTMLButtonElement>) => void;
+	click?: (e: FormEvent<HTMLButtonElement>) => void;
 	isDisabled?: boolean;
 	viewLoader: boolean;
 	text: string | JSX.Element;
 	className?: string;
 }
 
-export const SendButton = (props: SendButtonProps) => {
+export const SendButton: FC<SendButtonProps> = (props) => {
 	const primaryStyles = props.className ? props.className : '';
 	return (
 		<button

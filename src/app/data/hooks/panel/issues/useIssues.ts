@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { AllIssues, FetchPattern, mapAllIssues, useAuthState, verifySession } from '../../../';
+import { type AllIssues, type FetchPattern, mapAllIssues, useAuthState, verifySession } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 

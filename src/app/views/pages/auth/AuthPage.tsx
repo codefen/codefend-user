@@ -1,10 +1,10 @@
-import React, { Suspense, lazy } from 'react';
+import { type FC, Suspense, lazy } from 'react';
 import { Outlet, useLocation, Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import './auth.scss';
 import {
-	NetworkSettingState,
+	type NetworkSettingState,
 	useAuthStore,
 	useNetworkSettingState,
 } from '../../../data';
@@ -12,7 +12,7 @@ import { ModalWrapper, NetworkSetingModal, Show } from '../../components';
 
 const Logo = lazy(() => import('../../components/defaults/Logo'));
 
-const AuthPage: React.FC = () => {
+const AuthPage: FC = () => {
 	const location = useLocation();
 	const {
 		isAuth,

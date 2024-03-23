@@ -10,11 +10,8 @@ import {
 	EnpIcon,
 	GlobeWebIcon,
 	InxIcon,
-	LanIcon,
-	MessageIcon,
 	MobileIcon,
 	PeopleGroup,
-	PreferenceIcon,
 	SourceCodeIcon,
 } from '../../..';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { PrimaryButton } from '..';
 
 interface EmptyScreenProps {
@@ -8,7 +8,7 @@ interface EmptyScreenProps {
 	event?: () => void;
 }
 
-const EmptyScreenView: React.FC<EmptyScreenProps> = ({
+const EmptyScreenView: FC<EmptyScreenProps> = ({
 	title,
 	info,
 	buttonText,

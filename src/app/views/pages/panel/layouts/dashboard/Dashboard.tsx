@@ -5,11 +5,8 @@ import DashboardCollaborators from './components/DashboardCollaborators';
 import DashboardSearchbar from './components/DashboardSearchbar';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities';
 
-import { IssuesShare, useDashboard } from '../../../../../data';
+import { type IssuesShare, useDashboard } from '../../../../../data';
 import {
-	GlobeWebIcon,
-	HelperBox,
-	Position,
 	VulnerabilitiesStatus,
 	VulnerabilityRisk,
 } from '../../../../components';

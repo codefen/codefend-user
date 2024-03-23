@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 import { GlobeWebIcon, ModalButtons } from '../..';
 import { toast } from 'react-toastify';
 
@@ -15,9 +15,7 @@ interface RepositoryModel {
 	isLoading: boolean;
 }
 
-export const AddRepositoryModal: React.FC<AddRepositoryModalProps> = (
-	props,
-) => {
+export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 	const [sourceCodeForm, setSourceCode] = useState<RepositoryModel>({
 		repositoryName: '',
 		repositoryUrl: '',

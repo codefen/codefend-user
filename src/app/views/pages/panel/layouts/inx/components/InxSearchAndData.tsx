@@ -1,11 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import { type FC, Fragment, useState } from 'react';
 import {
 	useAuthState,
 	useHighlightLinesWithUrl,
 	useIntelSearch,
 	useInitialSearch,
 	useInxReadFile,
-	cleanHTML,
 } from '../../../../../../data';
 import {
 	EmptyCard,
@@ -21,7 +20,7 @@ interface InxSearchAndDataProps {
 	refetch: () => void;
 }
 
-export const InxSearchAndData: React.FC<InxSearchAndDataProps> = (props) => {
+export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 	const { highlightWithUrl } = useHighlightLinesWithUrl();
 	const { getCompany } = useAuthState();
 	const companyID = getCompany();

@@ -8,7 +8,7 @@ import {
 	SimpleSection,
 	TrashIcon,
 } from '../../../../../components';
-import React, { Fragment, useMemo, useState } from 'react';
+import { type FC, Fragment, useMemo, useState } from 'react';
 
 interface Endpoints {
 	isLoading: boolean;
@@ -16,7 +16,7 @@ interface Endpoints {
 	onDelete: (id: string) => void;
 }
 
-export const Endpoints: React.FC<Endpoints> = (props) => {
+export const Endpoints: FC<Endpoints> = (props) => {
 	const { showModal, setShowModal } = useModal();
 	const [selectedLanIdToDelete, setSelectedLanIdToDelete] = useState('');
 

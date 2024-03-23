@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { type FC, useCallback, useState, type FormEvent } from 'react';
 import { MobileService, useAuthState } from '../../../../data';
 import { toast } from 'react-toastify';
 import { GlobeWebIcon, ModalButtons } from '../..';
@@ -8,14 +8,14 @@ interface Props {
 	close: () => void;
 }
 
-const AddMobileModal: React.FC<Props> = (props) => {
+const AddMobileModal: FC<Props> = (props) => {
 	const [androidAddress, setAndroidAddress] = useState('');
 	const [iosAddress, setIosAddress] = useState('');
 	const [isAddingMobile, setIsAddingMobile] = useState(false);
 	const { getCompany } = useAuthState();
 
 	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
+		(e: FormEvent) => {
 			e.preventDefault();
 			e.stopPropagation();
 			setIsAddingMobile(true);

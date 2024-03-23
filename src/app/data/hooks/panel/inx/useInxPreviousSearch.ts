@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import {
-	FetchPattern,
+	type FetchPattern,
 	InxServices,
-	PreviusSearch,
+	type PreviusSearch,
 	mapPreviusSearch,
 	useAuthState,
 	verifySession,

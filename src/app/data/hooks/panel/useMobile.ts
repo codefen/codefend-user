@@ -1,16 +1,16 @@
 import { useCallback, useState } from 'react';
 import {
-	MobileApp,
-	MobileProps,
+	type MobileApp,
+	type MobileProps,
 	MobileService,
 	ResourcesTypes,
 	mapMobileProps,
 	useAuthState,
 	useOrderStore,
 	verifySession,
+	type FetchPattern 
 } from '../..';
 import { toast } from 'react-toastify';
-import { FetchPattern } from 'app/data/interfaces/util';
 
 export const useMobile = () => {
 	const { getCompany, logout } = useAuthState();

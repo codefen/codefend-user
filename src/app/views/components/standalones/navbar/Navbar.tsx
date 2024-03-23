@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useRef, useState } from 'react';
+import { type FC, lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import {
 	Breadcrumb,
@@ -13,7 +13,7 @@ import {
 } from '../..';
 import {
 	usePanelStore,
-	NetworkSettingState,
+	type NetworkSettingState,
 	useNetworkSettingState,
 	useModal,
 	useAuthState,
@@ -23,7 +23,7 @@ import './navbar.scss';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
-const Navbar: React.FC = () => {
+const Navbar: FC = () => {
 	const navigate = useNavigate();
 	const { logout, getUserdata } = useAuthState();
 	const userData = getUserdata();

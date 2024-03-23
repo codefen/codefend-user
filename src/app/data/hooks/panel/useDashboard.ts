@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useAuthState } from '../useAuthState';
 import { DashboardService } from '../../services/panel/dashboard.service';
 import { mapGetCompanyToCompanyData } from '../../utils/mapper';
-import { DashboardProps, useAdminCompanyStore, verifySession} from '../..';
+import { type DashboardProps, useAdminCompanyStore, verifySession} from '../..';
 import { toast } from 'react-toastify';
 
 export const useDashboard = () => {

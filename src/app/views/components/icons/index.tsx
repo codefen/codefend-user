@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const ChartIcon = () => (
 	<svg
 		strokeWidth={0}

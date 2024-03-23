@@ -1,6 +1,6 @@
-import React from 'react';
+import { type FC } from 'react';
 import { CustomReport } from './components/CustomReport';
 
-export const PageReport = () => {
+export const PageReport: FC = () => {
 	return <CustomReport />;
 };

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {type  AxiosRequestConfig, type AxiosResponse } from 'axios';
 import { baseUrl } from '../utils/config';
 import { getCustomBaseAPi, getToken } from '../utils/helper';
 import { toast } from 'react-toastify';

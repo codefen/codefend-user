@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import { type FC, useMemo, useState, Fragment } from 'react';
 import {
 	useModal,
 	LanApplicationService,
-	Device,
+	type Device,
 	generateIDArray,
 	useAuthState,
 } from '../../../../../../data';
@@ -26,7 +26,7 @@ interface LanNetworkDataProps {
 	refetchInternalNetwork: () => void;
 }
 
-export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
+export const LanNetworkData: FC<LanNetworkDataProps> = (props) => {
 	const { getCompany } = useAuthState();
 	const companyID = getCompany();
 
@@ -138,7 +138,7 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 				<Show when={!props.isLoading} fallback={<PageLoader />}>
 					<div className="rows">
 						{props.internalNetwork.map((network: Device, i: number) => (
-							<React.Fragment key={internalKeys[i]}>
+							<Fragment key={internalKeys[i]}>
 								<div className="item left-marked">
 									<div className="id">{network.id}</div>
 									<div className="ip">{network.device_in_address}</div>
@@ -198,7 +198,7 @@ export const LanNetworkData: React.FC<LanNetworkDataProps> = (props) => {
 										</div>
 									</div>
 								))}
-							</React.Fragment>
+							</Fragment>
 						))}
 					</div>
 				</Show>

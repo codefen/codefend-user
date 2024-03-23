@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo, useState } from 'react';
 import {
-	Resouce,
-	Webresources,
+	type Resouce,
+	type Webresources,
 	generateIDArray,
 	useDeleteWebResource,
 	useModal,

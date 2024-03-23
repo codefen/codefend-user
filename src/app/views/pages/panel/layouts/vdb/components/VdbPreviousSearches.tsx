@@ -1,7 +1,7 @@
-import React from 'react';
+import { type FC } from 'react';
 import { PrimaryButton } from '../../../../../components';
 
-export const VdbPreviousSearches: React.FC = () => {
+export const VdbPreviousSearches: FC = () => {
 	return (
 		<div className="previous-search-container">
 			<div className="previous-search-wrapper">

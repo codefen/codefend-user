@@ -1,22 +1,19 @@
 import {
-	EmptyCard,
 	ModalTitleWrapper,
-	PageLoader,
 	PeopleGroup,
-	Show,
-	TableItem,
 	TableV2,
 } from '../../../../../../views/components';
 
 import {
-	MemberV2,
-	SuperMember,
+	type MemberV2,
+	type TableItem,
 	collaboratorsColumns,
 	roleMap,
 	useModal,
 } from '../../../../../../data';
 import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
 import { useNavigate } from 'react-router';
+import { type FC } from 'react';
 
 interface SocialProps {
 	refetch: () => void;
@@ -24,7 +21,7 @@ interface SocialProps {
 	socials: MemberV2[];
 }
 
-const SocialEngineering: React.FC<SocialProps> = (props) => {
+const SocialEngineering: FC<SocialProps> = (props) => {
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
 	const navigate = useNavigate();

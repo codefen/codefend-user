@@ -1,10 +1,4 @@
-import React, {
-	Fragment,
-	useCallback,
-	useEffect,
-	useMemo,
-	useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	RUNNING_DESKTOP,
 	calculateRowCalcX,
@@ -12,48 +6,11 @@ import {
 	calculateRowSizeX,
 	formatDate,
 	generateIDArray,
+	Sort,
 } from '../../../data';
 import { EmptyCard, PageLoader, Show } from '..';
 import './table.scss';
-
-export enum Sort {
-	asc = 'asc',
-	desc = 'desc',
-}
-
-interface TableProps {
-	rowsData: Record<string, TableItem>[];
-	columns: ColumnTable[];
-	showRows: boolean;
-	showEmpty: boolean;
-	tableAction?: TableAction;
-	sizeY: number | string;
-	sizeX?: number;
-	isSmall?: boolean;
-	selectItem?: (item: any) => void;
-	sort?: Sort;
-	initialSelect?: boolean;
-	urlNav?: string;
-}
-
-export interface ColumnTable {
-	name: string;
-	value: string;
-	style: string;
-}
-
-export interface TableItem {
-	value: string | JSX.Element;
-	style: string;
-}
-
-export interface TableAction {
-	icon: {
-		action: (id: string, type?: any) => void;
-		render: JSX.Element;
-		style?: string;
-	}[];
-}
+import type { ColumnTable, TableItem, TableProps } from '../../../data';
 
 const TableColumns: React.FC<any> = (props) => {
 	const handleSort = useCallback(

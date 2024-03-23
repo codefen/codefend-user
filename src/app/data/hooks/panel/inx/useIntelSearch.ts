@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { InxServices, mapIntelData } from '../../../';
 import { toast } from 'react-toastify';
 

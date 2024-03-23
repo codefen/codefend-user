@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompanyInfo, usePreferences } from '../../../../../../data';
+import { type CompanyInfo, usePreferences } from '../../../../../../data';
 
 interface CompanyDataProps {
 	companyInfo: CompanyInfo | '';

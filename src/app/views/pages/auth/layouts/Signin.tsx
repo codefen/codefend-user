@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { type FC, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-	NetworkSettingState,
 	useAuthState,
 	useNetworkSettingState,
+	type NetworkSettingState,
 } from '../../../../data';
 import { NetworkIcon, PrimaryButton } from '../../../components';
 
-const SignInLayout: React.FC = () => {
+const SignInLayout: FC = () => {
 	const { signInUser } = useAuthState();
 	const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const SignInLayout: React.FC = () => {
 		isLoading: false,
 	});
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		setSigninForm((current) => ({ ...current, isLoading: true }));
 

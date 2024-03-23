@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { PageLoader, PrimaryButton, SecondaryButton, Show } from '../../..';
 import {
 	OrderSection,
@@ -12,7 +12,7 @@ interface PricePlans {
 	full: string;
 	medium: string;
 }
-export const TeamSizeOrderModal = () => {
+export const TeamSizeOrderModal: FC = () => {
 	const { teamSize, updateState, referenceNumber } = useOrderStore(
 		(state) => state,
 	);

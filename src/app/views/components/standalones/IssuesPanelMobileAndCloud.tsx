@@ -1,14 +1,7 @@
-import React, { useMemo } from 'react';
-import {
-	BugIcon,
-	RiskScore,
-	SimpleSection,
-	TrashIcon,
-	TableV2,
-	Sort,
-} from '..';
+import { useMemo, type FC } from 'react';
+import { BugIcon, RiskScore, SimpleSection, TableV2 } from '..';
 import { useNavigate } from 'react-router';
-import { Issues, cloudAndMobileColumns } from '../../../data';
+import { type Issues, cloudAndMobileColumns, Sort } from '../../../data';
 
 interface Props {
 	isLoading: boolean;
@@ -16,7 +9,7 @@ interface Props {
 	refetch?: () => void;
 }
 
-export const IssuesPanelMobileAndCloud: React.FC<Props> = (props) => {
+export const IssuesPanelMobileAndCloud: FC<Props> = (props) => {
 	const navigate = useNavigate();
 	const formatIssues = useMemo((): Issues[] => {
 		if (!Array.isArray(props.issues))

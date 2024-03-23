@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
-import {
-	ChipIcon,
-	ModalButtons,
-	PrimaryButton,
-	SecondaryButton,
-} from '../../..';
+import { useState } from 'react';
+import { ModalButtons } from '../../..';
 import {
 	OrderPaymentMethod,
 	OrderSection,

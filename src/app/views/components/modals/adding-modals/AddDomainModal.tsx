@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { GlobeWebIcon, ModalButtons } from '../..';
-import { toast } from 'react-toastify';
-import {
-	useAuthState,
-	WebApplicationService,
-	Webresources,
-} from '../../../../data';
+import { useAuthState, WebApplicationService } from '../../../../data';
 
 interface AddDomainProps {
 	onDone: () => void;
@@ -14,7 +10,7 @@ interface AddDomainProps {
 	webResources: string[];
 }
 
-const AddDomainModal: React.FC<AddDomainProps> = (props) => {
+const AddDomainModal: FC<AddDomainProps> = (props) => {
 	const [domainName, setDomainName] = useState('');
 	const [subdomainDetection, setSubdomainDetection] = useState<boolean>(true);
 	const [isAddingDomain, setIsAddingDomain] = useState<boolean>(false);

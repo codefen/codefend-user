@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react';
+import { type FC, Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { useScript } from 'usehooks-ts';
 import { PageLoader, Show } from '../../../../components';
 import './issues.scss';
 
-const IssuePage: React.FC<{}> = () => {
+const IssuePage: FC = () => {
 	const status = useScript('/editor-lib/visual/mce/tinymce.min.js', {
 		removeOnUnmount: true,
 	});

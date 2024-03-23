@@ -1,3 +1,4 @@
+import { type FC } from 'react';
 import { useNavigate } from 'react-router';
 import {
 	ConfirmModal,
@@ -7,13 +8,13 @@ import {
 	Show,
 } from '../..';
 import {
-	NetworkSettingState,
+	type NetworkSettingState,
 	useAuthState,
 	useModal,
 	useNetworkSettingState,
 } from '../../../../data';
 
-interface Props {
+interface NavbarSubMenuProps {
 	subMenuRef: any;
 	isOpen: boolean;
 	closeMenu: () => void;
@@ -21,7 +22,7 @@ interface Props {
 	userProfile?: string;
 }
 
-export const NavbarSubMenu: React.FC<Props> = (props) => {
+export const NavbarSubMenu: FC<NavbarSubMenuProps> = (props) => {
 	const navigate = useNavigate();
 	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,

@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, type FC } from 'react';
 
 import { ModalWrapper, ChartIcon, EmptyCard, SimpleSection, Show } from '..';
 import { CloudQuickAction } from './CloudQuickAction';
@@ -12,9 +12,9 @@ interface ProvidedTestingCredentialsProps {
 	credentials: any;
 }
 
-export const ProvidedTestingCredentials: React.FC<
-	ProvidedTestingCredentialsProps
-> = (props) => {
+export const ProvidedTestingCredentials: FC<ProvidedTestingCredentialsProps> = (
+	props,
+) => {
 	const credentialKey = useMemo(
 		() =>
 			props.credentials && props.credentials.length !== 0
@@ -47,14 +47,13 @@ export const ProvidedTestingCredentials: React.FC<
 						<Show
 							when={!props.isLoading && props.credentials.length !== 0}>
 							{props.credentials.map((cred: any, index: number) => (
-								<Fragment key={credentialKey[index]}>
-									<TestingCredentialCard
-										{...cred}
-										hideBorderBottom={
-											props.credentials.legth - 1 === index
-										}
-									/>
-								</Fragment>
+								<TestingCredentialCard
+									key={credentialKey[index]}
+									{...cred}
+									hideBorderBottom={
+										props.credentials.legth - 1 === index
+									}
+								/>
 							))}
 						</Show>
 					</div>

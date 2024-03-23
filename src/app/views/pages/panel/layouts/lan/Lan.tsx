@@ -1,6 +1,6 @@
 // Core packages
 import { invoke } from '@tauri-apps/api/tauri';
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLan } from '../../../../../data';
 import {
@@ -13,7 +13,7 @@ import { LanNetworksChart } from './components/LanNetworksChart';
 import './Lan.scss';
 import { useFlashlight } from '../../FlashLightContext';
 
-const LanPage: React.FC = () => {
+const LanPage: FC = () => {
 	const { networks, loading, refetch } = useLan();
 
 	const [scanLoading, setScanLoading] = useState(false);

@@ -11,11 +11,10 @@ import {
 	OrderV2,
 } from '../../../../../components';
 import {
-	IssuesCondition,
-	IssuesShare,
-	MobileApp,
-	MobileUnique,
-	SelectMobileCloudApp,
+	type IssuesCondition,
+	type IssuesShare,
+	type MobileApp,
+	type SelectMobileCloudApp,
 	useModal,
 	useOrderStore,
 	useSelectMobileCloudApp,

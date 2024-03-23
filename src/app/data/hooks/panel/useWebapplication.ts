@@ -2,10 +2,8 @@ import { useCallback, useState } from 'react';
 import { WebApplicationService } from '../../services/panel/webapplication.service';
 import {
 	ResourcesTypes,
-	User,
-	WebapplicationProps,
+	type WebapplicationProps,
 	mapToWebresourceProps,
-	useAdminCompanyStore,
 	useAuthState,
 	useOrderStore,
 	verifySession,

@@ -1,8 +1,8 @@
 import {
 	CustomerSupportService,
-	FetchPattern,
-	SupportProps,
-	TicketUnique,
+	type FetchPattern,
+	type SupportProps,
+	type TicketUnique,
 	mapSupportProps,
 	mapTicketUnique,
 } from '../../';

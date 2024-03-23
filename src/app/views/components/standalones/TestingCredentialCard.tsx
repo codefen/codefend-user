@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 
 interface TestingCredentialProps {
 	username?: string;
@@ -8,9 +8,7 @@ interface TestingCredentialProps {
 }
 5;
 
-export const TestingCredentialCard: React.FC<TestingCredentialProps> = (
-	props,
-) => {
+export const TestingCredentialCard: FC<TestingCredentialProps> = (props) => {
 	return (
 		<div
 			className={`testing-cred ${props.hideBorderBottom ?? 'hide-border'}`}>

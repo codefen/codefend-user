@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { CompanyInfo, User, companyServices, useAuthState } from '..';
+import { type CompanyInfo, companyServices, useAuthState } from '..';
 
 const useCompany = () => {
 	const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);

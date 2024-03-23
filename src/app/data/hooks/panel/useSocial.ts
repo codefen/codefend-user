@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useAuthState } from '..';
-import { FetchPattern, SocialAplicationService, MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../../data';
+import { type FetchPattern, SocialAplicationService, type MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../../data';
 import { toast } from 'react-toastify';
 
 /* Custom Hook "useSocial" to handle GET data in Social page*/

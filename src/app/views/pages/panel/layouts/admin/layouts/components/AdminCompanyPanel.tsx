@@ -1,8 +1,7 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { type FC, useState } from 'react';
 import { useModal } from '../../../../../../../data';
 import {
 	AddCompanyModal,
-	ModalButtons,
 	ModalTitleWrapper,
 } from '../../../../../../components';
 import CompanyIndexView from './CompanyIndexView';
@@ -25,7 +24,7 @@ const initialAppState: AppState = {
 	isLoading: false,
 };
 
-export const AdminCompanyPanel: React.FC<any> = () => {
+export const AdminCompanyPanel: FC = () => {
 	const [
 		{
 			companyStore,

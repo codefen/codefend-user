@@ -1,12 +1,16 @@
-import React from 'react';
+import { type FC } from 'react';
 
-interface Props {
+interface SimpleSectionProps {
 	header: string;
 	icon: JSX.Element;
 	children: JSX.Element;
 }
 
-export const SimpleSection: React.FC<Props> = ({ header, icon, children }) => {
+export const SimpleSection: FC<SimpleSectionProps> = ({
+	header,
+	icon,
+	children,
+}) => {
 	return (
 		<>
 			<div className="header">

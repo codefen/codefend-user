@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	AdminCompany,
@@ -8,21 +8,20 @@ import {
 	EnpIcon,
 	GlobeWebIcon,
 	InxIcon,
-	LanIcon,
 	MobileIcon,
 	PeopleGroup,
 	SnbIcon,
 	VdbIcon,
 	SourceCodeIcon,
-	DataIcon,
 } from '../../';
 
 import { usePanelStore, useUserAdmin } from '../../../../data';
 import './sidebar.scss';
 
-const Sidebar: React.FC = () => {
+const Sidebar: FC = () => {
 	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin = isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
+	const showAdmin =
+		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
 	const { isActivePath } = usePanelStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
@@ -38,33 +37,33 @@ const Sidebar: React.FC = () => {
 
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
-		  setPressedKeys((prevKeys) => {
-			const newKeys = new Set([...prevKeys, event.key]);
-	
-			if (newKeys.has('h') && newKeys.has('Control')) {
-			  setIsHidden((prevState) => !prevState);
-			}
-	
-			return newKeys;
-		  });
+			setPressedKeys((prevKeys) => {
+				const newKeys = new Set([...prevKeys, event.key]);
+
+				if (newKeys.has('h') && newKeys.has('Control')) {
+					setIsHidden((prevState) => !prevState);
+				}
+
+				return newKeys;
+			});
 		};
-	
+
 		const handleKeyUp = (event: KeyboardEvent) => {
-		  setPressedKeys((prevKeys) =>
-			new Set([...prevKeys].filter((key) => key !== event.key))
-		  );
+			setPressedKeys(
+				(prevKeys) =>
+					new Set([...prevKeys].filter((key) => key !== event.key)),
+			);
 		};
-	
+
 		window.addEventListener('keydown', handleKeyDown);
 		window.addEventListener('keyup', handleKeyUp);
-	
+
 		return () => {
-		  window.removeEventListener('keydown', handleKeyDown);
-		  window.removeEventListener('keyup', handleKeyUp);
+			window.removeEventListener('keydown', handleKeyDown);
+			window.removeEventListener('keyup', handleKeyUp);
 		};
-	  }, []);
-	  
-	  
+	}, []);
+
 	return (
 		<aside
 			className={`sidebar ${isSidebarOpen ? 'is-open' : ''}`}
@@ -75,8 +74,9 @@ const Sidebar: React.FC = () => {
 					<Link
 						title="Admin Panel"
 						to="/admin/company"
-						className={`${isActivePath('/admin/company') ? 'active' : ''
-							}`}
+						className={`${
+							isActivePath('/admin/company') ? 'active' : ''
+						}`}
 						aria-label="Admin panel"
 						data-text="Admin panel">
 						<AdminCompany />
@@ -119,8 +119,7 @@ const Sidebar: React.FC = () => {
 				<CLoudIcon />
 			</Link>
 
-			
-				{/* <Link
+			{/* <Link
 				title="Network"
 				to="/lan"
 				className={`${
@@ -129,7 +128,6 @@ const Sidebar: React.FC = () => {
 				data-text="Lan">
 				<LanIcon />
 			</Link> */}
-				
 
 			<Link
 				title="Source Code"
@@ -168,33 +166,33 @@ const Sidebar: React.FC = () => {
 			</Link>
 			{isHidden && (
 				<>
-			<Link
-				title="Inx"
-				to="/inx"
-				className={`${isActivePath('/inx') ? 'active' : ''}`}
-				aria-label="Intelligence"
-				data-text="Intelligence">
-				<InxIcon />
-			</Link>
+					<Link
+						title="Inx"
+						to="/inx"
+						className={`${isActivePath('/inx') ? 'active' : ''}`}
+						aria-label="Intelligence"
+						data-text="Intelligence">
+						<InxIcon />
+					</Link>
 
-			<Link
-				title="Sns"
-				to="/sns"
-				className={`${isActivePath('/sns') ? 'active' : ''}`}
-				aria-label="Search dataleak"
-				data-text="Search data leak">
-				<SnbIcon />
-			</Link>
+					<Link
+						title="Sns"
+						to="/sns"
+						className={`${isActivePath('/sns') ? 'active' : ''}`}
+						aria-label="Search dataleak"
+						data-text="Search data leak">
+						<SnbIcon />
+					</Link>
 
-			<Link
-				title="Vdb"
-				to="/vdb"
-				className={`${isActivePath('/vdb') ? 'active' : ''}`}
-				aria-label="Vdb"
-				data-text="Vdb">
-				<VdbIcon />
-			</Link>
-			</>
+					<Link
+						title="Vdb"
+						to="/vdb"
+						className={`${isActivePath('/vdb') ? 'active' : ''}`}
+						aria-label="Vdb"
+						data-text="Vdb">
+						<VdbIcon />
+					</Link>
+				</>
 			)}
 		</aside>
 	);

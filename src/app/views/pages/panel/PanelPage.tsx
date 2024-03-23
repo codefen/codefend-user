@@ -1,11 +1,7 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import { type FC, Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
-import {
-	getFullCompanyFromUser,
-	useAuthState,
-	useAuthStore,
-} from '../../../data';
+import { useAuthState, useAuthStore } from '../../../data';
 import {
 	ErrorConection,
 	Loader,
@@ -17,9 +13,8 @@ import {
 	HeaderResponsive,
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
-import { shallow } from 'zustand/shallow';
 
-export const PanelPage: React.FC = () => {
+export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);
 	const { updateAuth } = useAuthStore((state) => ({
 		updateAuth: state.updateAuth,

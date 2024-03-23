@@ -6,7 +6,7 @@
 		"module": "ESNext",
 		"skipLibCheck": true,
 		"importHelpers": true,
-		"baseUrl": "src",
+		"baseUrl": "./",
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -16,12 +16,15 @@
 		"noEmit": true,
 		"esModuleInterop": true,
 		"noImplicitReturns": true,
-		"sourceMap": true,
+		"sourceMap": false,
 		"declaration": false,
 		"jsx": "react-jsx",
+		"verbatimModuleSyntax": true,
+		"importsNotUsedAsValues": "remove",
 
 		/* Linting */
 		"strict": true,
+		"alwaysStrict": true,
 		"forceConsistentCasingInFileNames": false,
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,

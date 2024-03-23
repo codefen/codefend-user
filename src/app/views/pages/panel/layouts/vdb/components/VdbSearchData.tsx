@@ -1,13 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import { type FC } from 'react';
 import {
-	ResultsVdbSearch,
-	ResultsVdbSearchV2,
-	generateIDArray,
+	type ResultsVdbSearchV2,
 	useInitialVdb,
 	vdbColumns,
 } from '../../../../../../data';
 import {
-	BugIcon,
 	ScanSearchIcon,
 	PageLoader,
 	SearchBar,
@@ -16,7 +13,7 @@ import {
 	RiskScore,
 } from '../../../../../components';
 
-export const VdbSearchData: React.FC = () => {
+export const VdbSearchData: FC = () => {
 	const { vdbResults, refetch, isLoading, searchData, handleChange } =
 		useInitialVdb();
 

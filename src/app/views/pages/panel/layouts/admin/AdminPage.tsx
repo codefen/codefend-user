@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react';
+import { type FC, Suspense } from 'react';
 import { AuthServices, useAuthState, useUserAdmin } from '../../../../../data';
 import { Loader } from '../../../../components';
 import { Navigate, Outlet } from 'react-router';
 import './admin.scss';
 
-const AdminPage: React.FC = () => {
+const AdminPage: FC = () => {
 	const { isAdmin, getAccessToken } = useUserAdmin();
 	const { logout } = useAuthState();
 	const isNotAuthenticated = AuthServices.verifyAuth();
@@ -17,9 +17,9 @@ const AdminPage: React.FC = () => {
 	return (
 		<>
 			{userHaveAccess ? (
-					<Suspense fallback={<Loader />}>
-						<Outlet />
-					</Suspense>
+				<Suspense fallback={<Loader />}>
+					<Outlet />
+				</Suspense>
 			) : (
 				<>
 					<Navigate to={'/'} />

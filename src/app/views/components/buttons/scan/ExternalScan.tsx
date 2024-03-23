@@ -1,14 +1,14 @@
-import React from 'react';
+import { type FC } from 'react';
 import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
-import "./scanButtons.scss";
+import './scanButtons.scss';
 
 interface RequestScanButtonProps {
 	scanLoading: boolean;
 	action: () => void;
 }
 
-export const ExternalScanButton: React.FC<RequestScanButtonProps> = (props) => {
+export const ExternalScanButton: FC<RequestScanButtonProps> = (props) => {
 	return (
 		<button
 			className="btn scan-btn"

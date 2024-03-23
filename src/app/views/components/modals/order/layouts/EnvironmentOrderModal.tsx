@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '../../..';
 import {
 	useOrderStore,
@@ -6,7 +6,7 @@ import {
 	OrderEnvironment,
 } from '../../../../../data';
 
-export const EnvironmentOrderModal: React.FC<any> = () => {
+export const EnvironmentOrderModal: FC = () => {
 	const { environmentOrder, updateState } = useOrderStore((state) => state);
 
 	const [environmentOrderW, setOrderEnvironment] =

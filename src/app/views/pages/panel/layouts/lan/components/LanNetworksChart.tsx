@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 import {
 	MetricsService,
 	ChartValueType,
-	Device,
-	generateIDArray,
+	type Device,
 	isEmptyData,
 	osTypes,
 	useDoughnutChart,

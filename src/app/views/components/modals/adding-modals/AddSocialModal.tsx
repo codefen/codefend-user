@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAuthState, SocialAplicationService } from '../../../../data';
 import { GlobeWebIcon, ModalButtons } from '../..';
@@ -17,7 +17,7 @@ interface Props {
 	close: () => void;
 }
 
-export const MobileAppModal: React.FC<Props> = (props) => {
+export const MobileAppModal: FC<Props> = (props) => {
 	const { getCompany } = useAuthState();
 	const companyID = getCompany();
 	const [socialData, setSocialData] = useState<SocialData>({

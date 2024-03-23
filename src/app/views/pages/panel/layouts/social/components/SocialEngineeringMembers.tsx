@@ -1,11 +1,10 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { type FC, type Dispatch, type SetStateAction } from 'react';
 import {
 	ChartIcon,
 	PeopleGroup,
-	Show,
 	SimpleSection,
 } from '../../../../../components';
-import { MemberV2, MetricsService, roleMap } from '../../../../../../data';
+import { type MemberV2, MetricsService, roleMap } from '../../../../../../data';
 
 interface SocialEngineeringMembersProps {
 	isLoading: boolean;
@@ -13,7 +12,7 @@ interface SocialEngineeringMembersProps {
 	handleDepartmentFilter: (role: string) => void;
 }
 
-const SocialEngineeringMembers: React.FC<SocialEngineeringMembersProps> = ({
+const SocialEngineeringMembers: FC<SocialEngineeringMembersProps> = ({
 	members,
 	handleDepartmentFilter,
 }) => {

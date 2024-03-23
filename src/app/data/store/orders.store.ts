@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { OrderEnvironment, CompanyResourcesID, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption, ScopeOptions } from "..";
+import { OrderEnvironment, type CompanyResourcesID, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption,type ScopeOptions } from "..";
 
 
 

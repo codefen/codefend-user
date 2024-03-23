@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { LoginParams, RegisterParams, User, getFullCompanyFromUser, useAdminCompanyStore } from '..';
+import { type LoginParams, type RegisterParams, type User, getFullCompanyFromUser, useAdminCompanyStore } from '..';
 import type { AuthState } from '../store/auth.store';
 import useAuthStore from '../store/auth.store';
 

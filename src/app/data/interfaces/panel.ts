@@ -1,4 +1,4 @@
-import { ID, Monitoring, ResourceID } from '.';
+import type { ID, Monitoring, ResourceID } from '.';
 
 export interface Company extends ID, Monitoring {
 	name: string;

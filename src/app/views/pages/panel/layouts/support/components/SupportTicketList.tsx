@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import { type FC, useContext, useState } from 'react';
 import {
-	SupportProps,
+	type SupportProps,
 	supportTicket,
 	useModal,
 	useTicketDelete,
+	Sort,
 } from '../../../../../../data';
 import {
 	ConfirmModal,
@@ -12,7 +13,6 @@ import {
 	TrashIcon,
 	AddTicketModal,
 	TableV2,
-	Sort,
 } from '../../../../../components';
 
 import SelectedTicket from '../supportProvider';
@@ -25,7 +25,7 @@ interface SupportTicketListProps {
 	refresh: () => void;
 }
 
-export const SupportTicketList: React.FC<SupportTicketListProps> = (props) => {
+export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 	const [selectedID, setSelectedTicketIdToDelete] = useState<string>('');

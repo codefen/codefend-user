@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { EndpointsSidebar } from './components/EndpointsSidebar';
 import { EndpointInfo } from './components/EndpointInfo';
 import { EndpointAppProvider } from './EndpointContext';
-import { useParams } from 'react-router-dom';
 
 import { useEnp } from '../../../../../data';
 
 import './enpSingle.scss';
 
-interface Props {}
-
 interface Endpoint {
 	id: string;
 }
 
-export const EnpPanel: React.FC<Props> = (props) => {
+export const EnpPanel: FC = (props) => {
 	const [showScreen, setShowScreen] = useState<boolean>(false);
 	const { id: scanID } = useParams();
 	const { getEndpoints, refetch, isLoading } = useEnp(Number(scanID));

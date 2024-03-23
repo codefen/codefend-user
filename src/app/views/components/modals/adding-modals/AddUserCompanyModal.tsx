@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type FC, useState } from 'react';
 import { ModalButtons, ModalTitleWrapper, Show } from '../..';
 import { AdminService } from '../../../../data/services';
 
@@ -20,7 +20,7 @@ interface UserData {
 	read_array: string[];
 }
 
-export const AddUserCompanyModal: React.FC<Props> = ({
+export const AddUserCompanyModal: FC<Props> = ({
 	closeModal,
 	show,
 	selectedUser,

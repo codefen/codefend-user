@@ -3,15 +3,11 @@ import { WebApplicationResources } from './components/WebApplicationResources';
 import { WebApplicationLocation } from './components/WebApplicationLocation';
 import { WebApplicationStatics } from './components/WebApplicationStatics';
 import { WebApplicationCredentials } from './components/WebApplicationCredentials';
-import {
-	useOrderStore,
-	useReportStore,
-	useWebapplication,
-} from '../../../../../data';
-import '../../../../styles/flag.scss';
-import '../../../../components/Table/table.scss';
+import { useOrderStore, useWebapplication } from '../../../../../data';
 import { OrderV2, PrimaryButton, ModalReport } from '../../../../components';
 import { useFlashlight } from '../../FlashLightContext';
+import '../../../../styles/flag.scss';
+import '../../../../components/Table/table.scss';
 import './webapplication.scss';
 
 const WebApplicationView: React.FC = () => {

@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import { type FC } from 'react';
 import { HalfStarIcon, StarIcon } from '../..';
 
 interface StartRatingProps {
 	rating: number;
 }
 
-export const StarRating: React.FC<StartRatingProps> = ({ rating }) => {
+export const StarRating: FC<StartRatingProps> = ({ rating }) => {
 	const stars = [];
 	const ratingRounded = Math.floor(rating);
 	const ratingDecimal = rating - ratingRounded;

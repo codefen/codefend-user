@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { FetchPattern, OneIssue, mapLoginResponseToUser, mapOneIssue, useAuthState } from '../../../';
+import { type FetchPattern, type OneIssue, mapLoginResponseToUser, mapOneIssue, useAuthState } from '../../../';
 import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';

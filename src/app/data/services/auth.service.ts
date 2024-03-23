@@ -1,4 +1,4 @@
-import { LoginParams, User, mapLoginResponseToUser } from '..';
+import { type LoginParams, type User, mapLoginResponseToUser } from '..';
 import { useAuthState } from '../hooks/useAuthState';
 import { decodePayload } from './decodedToken';
 import { fetchPOST, handleFetchError } from './fetchAPI';

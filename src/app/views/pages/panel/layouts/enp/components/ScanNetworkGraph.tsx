@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 import { Show } from '../../../../../components';
 import { Doughnut, Line } from 'react-chartjs-2';
 import moment from 'moment';
@@ -6,9 +6,9 @@ import * as d3 from 'd3';
 
 const RADIUS = 10;
 
-interface Link {
-	source: string;
-	target: string;
+interface ScanNetworkGraphProps {
+	data: any;
+	filteredData: any;
 }
 
 const processData = async (data: any) => {
@@ -101,12 +101,9 @@ const drawNetwork = (
 	});
 };
 
-export const ScanNetworkGraph = ({
+export const ScanNetworkGraph: FC<ScanNetworkGraphProps> = ({
 	data,
 	filteredData,
-}: {
-	data: any;
-	filteredData: any;
 }) => {
 	const [endpoints, setEndpoints] = useState<any>({ nodes: [], links: [] });
 	const [chartData, setChartData] = useState<any>(null);

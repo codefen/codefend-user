@@ -1,18 +1,17 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import { type FC, useEffect } from 'react';
 import CompanyCard from './CompanyCard';
-import { RigthArrowIcon, Show } from '../../../../../../components';
 import {
-	AdminCompany,
+	type AdminCompany,
 	useAdminCompanyStore,
 	companyServices,
 } from '../../../../../../../data';
 import './CompanyIndexView.scss';
 import { useNavigate } from 'react-router';
 
-const CompanyIndexView: React.FC = () => {
+const CompanyIndexView: FC = () => {
 	const navigate = useNavigate();
 
-	const { searchQuery, companies, isSelectedCompany, updateCompanies } =
+	const { companies, isSelectedCompany, updateCompanies } =
 		useAdminCompanyStore((state) => state);
 
 	const { selectCompany, updateSearch } = useAdminCompanyStore(

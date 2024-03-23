@@ -6,7 +6,7 @@ import {
 	setCustomBaseAPi,
 	useAuthState,
 } from '../../../../data';
-import React, { useCallback, useState } from 'react';
+import { type FC, useCallback, useState } from 'react';
 import { baseUrl } from '../../../../data/utils/config';
 import './networkSetting.scss';
 
@@ -14,9 +14,7 @@ interface NetworkSetingModalProps {
 	close: () => void;
 }
 
-export const NetworkSetingModal: React.FC<NetworkSetingModalProps> = ({
-	close,
-}) => {
+export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({ close }) => {
 	const customAPi = getCustomBaseAPi();
 	const defaultApiUrl = customAPi ? customAPi : baseUrl;
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);

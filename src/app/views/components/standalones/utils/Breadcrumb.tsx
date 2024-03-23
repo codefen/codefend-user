@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 import { useLocation } from 'react-router';
 import { useAdminCompanyStore } from '../../../../data';
 
@@ -8,7 +8,7 @@ interface Props {
 	rootAction: () => void;
 }
 
-export const Breadcrumb: React.FC<Props> = (props) => {
+export const Breadcrumb: FC<Props> = (props) => {
 	const location = useLocation();
 	const { companySelected } = useAdminCompanyStore((state) => state);
 

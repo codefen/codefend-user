@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import { useMemo, type FC } from 'react';
 import {
-	RemoveAppStore,
+	type RemoveAppStore,
 	cleanHTML,
 	defaultMobileCloudResourceAsset,
 	useAppCard,
@@ -26,7 +26,7 @@ interface MobileAppCardProps {
 	openReport?: () => void;
 }
 
-export const AppCard: React.FC<MobileAppCardProps> = ({
+export const AppCard: FC<MobileAppCardProps> = ({
 	isActive,
 	type,
 	name,

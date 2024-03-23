@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import { type FC, type ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { SearchBar, SearchIcon } from '../../../../../components';
 import { toast } from 'react-toastify';
 
-const DashboardSearchbar: React.FC = () => {
+const DashboardSearchbar: FC = () => {
 	const navigate = useNavigate();
 	const [searchValue, setSearchValue] = useState('');
 	const [searchClass, setSearchClass] = useState('email');

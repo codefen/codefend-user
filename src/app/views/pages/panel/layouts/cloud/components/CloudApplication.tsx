@@ -1,11 +1,11 @@
+import { type FC, useEffect, useMemo, useState } from 'react';
 import { EmptyScreenView, AppCard, Show } from '../../../../../components';
 import {
-	CloudApp,
-	SelectMobileCloudApp,
+	type CloudApp,
+	type SelectMobileCloudApp,
 	generateIDArray,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
-import React, { useEffect, useMemo, useState } from 'react';
 import { CloudSelectedDetails } from './CloudSelectedDetails';
 
 interface CloudApplicationProps {
@@ -13,10 +13,10 @@ interface CloudApplicationProps {
 	cloudData: CloudApp[];
 }
 
-export const CloudApplication = ({
+export const CloudApplication: FC<CloudApplicationProps> = ({
 	cloudData,
 	openModal,
-}: CloudApplicationProps) => {
+}) => {
 	const { isNotNull, appSelected, isCurrentSelected, updateSelected } =
 		useSelectMobileCloudApp((state: SelectMobileCloudApp) => state);
 

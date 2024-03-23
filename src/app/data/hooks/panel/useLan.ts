@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import {
-	Device,
-	FetchPattern,
+	type Device,
+	type FetchPattern,
 	LanApplicationService,
 	useAuthState,
 } from '../..';

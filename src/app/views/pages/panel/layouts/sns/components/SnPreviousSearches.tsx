@@ -5,9 +5,13 @@ import {
 	Show,
 	SimpleSection,
 } from '../../../../../../views/components';
-import React from 'react';
+import { type FC } from 'react';
 
-const SnPreviousSearches: React.FC<{ isLoading?: boolean }> = (props) => {
+interface LoadingComponentProps {
+	isLoading?: boolean;
+}
+
+const SnPreviousSearches: FC<LoadingComponentProps> = (props) => {
 	return (
 		<>
 			<div className="previous-search">

@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { ModalWrapper, Show, StatIcon } from '../..';
 
 interface ModalTitleWrapperProps {
@@ -8,7 +8,7 @@ interface ModalTitleWrapperProps {
 	close: () => void;
 }
 
-const ModalTitleWrapper: React.FC<ModalTitleWrapperProps> = ({
+const ModalTitleWrapper: FC<ModalTitleWrapperProps> = ({
 	children,
 	headerTitle,
 	isActive,

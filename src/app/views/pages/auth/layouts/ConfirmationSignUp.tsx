@@ -1,8 +1,8 @@
 import { PrimaryButton, SecondaryButton } from '../../../components';
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-const ConfirmationSignUp: React.FC = () => {
+const ConfirmationSignUp: FC = () => {
 	const navigate = useNavigate();
 	const [finishsignup, setFinishSignup] = useState({
 		referenceNumber: '',

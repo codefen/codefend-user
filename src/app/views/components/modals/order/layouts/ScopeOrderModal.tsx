@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { type FC, useState } from 'react';
 import {
 	OrderSection,
 	ScopeOption,
@@ -7,7 +7,7 @@ import {
 } from '../../../../../data';
 import { PrimaryButton, SecondaryButton } from '../../..';
 
-export const ScopeOrderModal = () => {
+export const ScopeOrderModal: FC = () => {
 	const {
 		scope,
 		resourceType,

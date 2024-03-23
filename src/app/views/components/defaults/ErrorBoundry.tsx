@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { TertiaryButton } from '../buttons/tertiary/TertiaryButton';
 import { ModalWrapper, NetworkIcon, NetworkSetingModal, Show } from '..';
 

@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {
-	AppleIcon,
-	LinuxIcon,
-	Show,
-	WindowsIcon,
-} from '../../../../../components';
+import { type FC, useEffect, useState } from 'react';
+import { AppleIcon, LinuxIcon, WindowsIcon } from '../../../../../components';
 import { getCustomBaseAPi } from '../../../../../../data';
 
 import { useEndpointAppStore } from '../EndpointContext';
@@ -14,8 +9,6 @@ import { useAuthState } from '../../../../../../data';
 
 import { baseUrl } from '../../../../../../data/utils/config';
 
-interface Props {}
-
 type OsOptions = {
 	[key: string]: string;
 	windows: string;
@@ -23,7 +16,7 @@ type OsOptions = {
 	linux: string;
 };
 
-export const ModalOS: React.FC<Props> = () => {
+export const ModalOS: FC = () => {
 	const { getAccessToken, getCompany } = useAuthState();
 	const { closeModal, isModalOpen } = useEndpointAppStore();
 

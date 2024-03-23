@@ -1,5 +1,5 @@
 import { useAddTicket } from '../../../../data';
-import React, { useRef } from 'react';
+import { type FC, useRef } from 'react';
 import { GlobeWebIcon, ModalButtons, PencilIcon } from '../..';
 
 interface AddTicketModalProps {
@@ -7,7 +7,7 @@ interface AddTicketModalProps {
 	onDone: () => void;
 }
 
-export const AddTicketModal: React.FC<AddTicketModalProps> = (props) => {
+export const AddTicketModal: FC<AddTicketModalProps> = (props) => {
 	const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 	const { isAddingTicket, setShortDescription, setTitle, addTicket } =
 		useAddTicket();

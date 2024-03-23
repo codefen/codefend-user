@@ -1,11 +1,6 @@
-import React, { useRef, useState } from 'react';
+import { type FC, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
-import {
-	Loader,
-	PageLoader,
-	PrimaryButton,
-	Show,
-} from '../../../../../components';
+
 import { formatDateTimeFormat, useIntelPreview } from '../../../../../../data';
 import { InxPreviusContentData } from './InxPreviusContentData';
 
@@ -19,7 +14,7 @@ interface InxPreviewIntelDataProps {
 	maxPage: number;
 }
 
-export const InxPreviewIntelData: React.FC<InxPreviewIntelDataProps> = ({
+export const InxPreviewIntelData: FC<InxPreviewIntelDataProps> = ({
 	intel,
 	readFile,
 	companyID,

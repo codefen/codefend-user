@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 import {
 	OrderSection,
 	useOrderProvider,
@@ -12,7 +12,7 @@ interface Provider {
 	profileMedia: string;
 }
 
-export const LeadOrderModal = () => {
+export const LeadOrderModal: FC = () => {
 	const { providerId, updateState, resetActiveOrder, referenceNumber } =
 		useOrderStore((state) => state);
 	const { sendOrderProvider, getCurrentProviders } = useOrderProvider();

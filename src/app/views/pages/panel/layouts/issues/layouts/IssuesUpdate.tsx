@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { useOneIssue } from '../../../../../../data';
 import { IssueChatDisplay } from '../components/IssueChatDisplay';
 import { useParams } from 'react-router';
 import IssueUpdatePanel from '../components/IssueUpdatePanel';
 import { PageLoader, Show } from '../../../../../components';
 
-const IssueUpdate: React.FC<{}> = () => {
+const IssueUpdate: FC = () => {
 	const { getIssues, isLoading, refetchOne } = useOneIssue();
 	const [showScreen, setShowScreen] = useState(false);
 	const [control, refresh] = useState(false);

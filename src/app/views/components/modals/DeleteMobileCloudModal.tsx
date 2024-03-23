@@ -1,13 +1,13 @@
+import { type FC, useCallback } from 'react';
 import { useAuthState, useRemoveAppStore } from '../../../data';
 import type { RemoveAppStore } from '../../../data';
 import { ConfirmModal, ModalTitleWrapper } from '.';
-import { useCallback } from 'react';
 
 interface DeleteMobileCloudModalProps {
 	onDone: (id: string) => void;
 }
 
-export const DeleteMobileCloudModal: React.FC<DeleteMobileCloudModalProps> = ({
+export const DeleteMobileCloudModal: FC<DeleteMobileCloudModalProps> = ({
 	onDone,
 }) => {
 	const { isOpen, setIsOpen, isMobileType, appName, id, handleDelete } =

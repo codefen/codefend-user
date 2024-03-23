@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import {
-	CloudApp,
-	IssuesCondition,
-	IssuesShare,
-	MobileApp,
-	SelectMobileCloudApp,
-	useIssues,
+	type CloudApp,
+	type IssuesCondition,
+	type IssuesShare,
+	type SelectMobileCloudApp,
 	useOrderStore,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
@@ -20,7 +18,7 @@ import {
 	PrimaryButton,
 } from '../../../../../components';
 
-export const CloudSelectedDetails = () => {
+export const CloudSelectedDetails: FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const { appSelected, fetchCloudOne, appUnique } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,

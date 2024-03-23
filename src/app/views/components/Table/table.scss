@@ -2,7 +2,6 @@
 	width: 100%;
 	display: table;
 	flex: 1 1;
-	// color: var(--tertiary-color-200);
 	border-collapse: collapse;
 	transition-property: border-image, border;
 	transition-duration: 325ms;
@@ -365,7 +364,7 @@
 			align-items: center;
 			padding-inline: 7px;
 			transition: color 200ms ease;
-			
+
 			&:hover {
 				color: var(--secondary-color-100);
 
@@ -579,9 +578,6 @@
 						.name {
 							font-size: 1rem /* 16px */;
 							line-height: 1.5rem /* 24px */;
-						}
-
-						.result {
 						}
 					}
 				}

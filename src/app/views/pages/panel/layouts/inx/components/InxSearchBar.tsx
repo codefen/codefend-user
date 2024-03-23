@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { type FC, useState } from 'react';
 import { SearchBar, SearchIcon } from '../../../../../components';
 
-interface Props {
+interface InxSearchBarProps {
 	initSearch: string;
 	searchFn: (term: string) => void;
 }
 
-export const InxSearchBar: React.FC<Props> = ({ searchFn, initSearch }) => {
+export const InxSearchBar: FC<InxSearchBarProps> = ({
+	searchFn,
+	initSearch,
+}) => {
 	const [searchState, setSearch] = useState(initSearch ?? '');
 
 	const handleSubmit = () => {

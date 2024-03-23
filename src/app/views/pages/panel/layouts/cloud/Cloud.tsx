@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import {
 	DeleteMobileCloudModal,
 	ModalReport,
@@ -8,7 +8,7 @@ import {
 	Show,
 } from '../../../../components';
 import {
-	SelectMobileCloudApp,
+	type SelectMobileCloudApp,
 	useCloud,
 	useModal,
 	useSelectMobileCloudApp,
@@ -17,7 +17,7 @@ import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCl
 import { CloudApplication } from './components/CloudApplication';
 import './cloud.scss';
 
-const CloudApplicationPanel: React.FC = () => {
+const CloudApplicationPanel: FC = () => {
 	const [showScreen, setShowScreen] = useState<boolean>(false);
 	const [control, refresh] = useState<boolean>(false);
 	const { isLoading, getCloudInfo, refetch } = useCloud();

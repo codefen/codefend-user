@@ -1,9 +1,12 @@
-import React from 'react';
+import { type FC } from 'react';
 import { ModalWrapper } from '.';
-import { ErrorIcon, LanIcon, PrimaryButton, SecondaryButton } from '..';
-import { NetworkSettingState, useNetworkSettingState } from '../../../data';
+import { LanIcon, PrimaryButton, SecondaryButton } from '..';
+import {
+	type NetworkSettingState,
+	useNetworkSettingState,
+} from '../../../data';
 
-const ErrorConection: React.FC<{ closeModal: () => void }> = (props) => {
+const ErrorConection: FC<{ closeModal: () => void }> = (props) => {
 	const { setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);

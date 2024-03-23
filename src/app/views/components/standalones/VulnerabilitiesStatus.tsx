@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { ChartIcon, SimpleSection } from '..';
 
-import { IssuesCondition } from '../../../data';
+import type { IssuesCondition } from '../../../data';
 
 export const VulnerabilitiesStatus: React.FC<{
 	vulnerabilityByShare: IssuesCondition;

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from '..';
 import { PreferenceServices } from '../../services';
-import { User } from '../../';
 
 interface CompanyInfo {
 	id: string;

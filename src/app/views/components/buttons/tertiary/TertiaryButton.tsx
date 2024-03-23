@@ -1,15 +1,15 @@
-import React from 'react';
+import { type FC, type FormEvent } from 'react';
 import '../buttons.scss';
 import './tertiaryButton.scss';
 
 interface TertiaryButtonProps {
-	click: (e: React.FormEvent<HTMLButtonElement>) => void;
+	click: (e: FormEvent<HTMLButtonElement>) => void;
 	isDisabled?: boolean;
 	text: string;
 	className?: string;
 }
 
-export const TertiaryButton = (props: TertiaryButtonProps) => {
+export const TertiaryButton: FC<TertiaryButtonProps> = (props) => {
 	const tertiaryStyles = props.className ? props.className : '';
 
 	return (

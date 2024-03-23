@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { CloudApp, CloudService, CloudUnique, MobileApp, MobileService, MobileUnique, mapCloudUniqueProps, mobileUniqueProps } from '..';
+import { type CloudApp, CloudService, type CloudUnique, type MobileApp, MobileService, type MobileUnique, mapCloudUniqueProps, mobileUniqueProps } from '..';
 import { toast } from 'react-toastify';
 
 export interface RemoveAppStore {

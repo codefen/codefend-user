@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import { ScanButton } from './components/ScanButton';
 import { ReportButton } from './components/ReportButton';
@@ -19,7 +19,7 @@ import {
 
 import './endpoints.scss';
 
-export const EnpPanel: React.FC = () => {
+export const EnpPanel: FC = () => {
 	const { getAccessToken } = useAuthState();
 	const { getCompany } = useAuthState();
 	const [showScreen, setShowScreen] = useState<boolean>(false);
@@ -202,6 +202,7 @@ export const EnpPanel: React.FC = () => {
 														JSON.parse(scan.report_data),
 													).map(([key, value]: [string, any]) => (
 														<div
+															key={`scan-enp-${key}`}
 															className={
 																(!value
 																	? 'enp-compliance-failed'

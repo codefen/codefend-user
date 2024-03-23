@@ -1,13 +1,13 @@
 import { EmptyCard, PageLoader, Show } from '../../../../../components';
-import { Member } from '../../../../../../data';
-import React from 'react';
+import { type Member } from '../../../../../../data';
+import { type FC } from 'react';
 
 interface CollaboratorDataProps {
 	isLoading: boolean;
 	members: Member[];
 }
 
-const SettingCollaboratorAndTeam: React.FC<CollaboratorDataProps> = (props) => {
+const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = (props) => {
 	return (
 		<>
 			<div className="card table">

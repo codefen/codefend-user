@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Fragment, useCallback } from 'react';
+import { type ChangeEvent, Fragment, useCallback, type FC } from 'react';
 import { PrimaryButton, Show } from '..';
 import { generateIDArray } from '../../../data';
 
@@ -20,7 +20,7 @@ interface SearchBarProps {
 	selectOptions?: SearchBarSelect;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = (props) => {
+export const SearchBar: FC<SearchBarProps> = (props) => {
 	const handleKeyPress = useCallback(
 		(e: React.KeyboardEvent<HTMLInputElement>) => {
 			if (e.key === 'Enter') {

@@ -1,4 +1,4 @@
-import {
+import type {
 	AllIssues,
 	CloudApp,
 	Company,
@@ -23,15 +23,12 @@ import {
 	WebReport,
 	WebapplicationProps,
 	Webresources,
-	cleanReview,
-	formatDate,
-	mapEpochToDate,
 } from '..';
 
+import { cleanReview, formatDate, mapEpochToDate } from '..';
+
 /** Map to @interface User */
-export const mapLoginResponseToUser = (
-	response: any,
-): User => {
+export const mapLoginResponseToUser = (response: any): User => {
 	return {
 		id: response.id,
 		companyID: response.company_id,
@@ -98,41 +95,41 @@ export const mapIssues = (source: any): Issues => {
 	} as Issues;
 };
 
-export const mapReportIssues = (source:any): ReportIssues=>{
+export const mapReportIssues = (source: any): ReportIssues => {
 	return {
 		...mapIssues(source),
 		totalIssues: source?.total_issues || 0,
-		content: source?.issue || "",
-	}
-}
+		content: source?.issue || '',
+	};
+};
 /** Map issue share api data => @interface IssuesShare */
 export const mapIssueShare = (source: any): IssuesShare => {
 	return {
-		critical: source?.issues_share?.critical || "",
-		elevated: source?.issues_share?.elevated || "",
-		medium: source?.issues_share?.medium || "",
-		low: source?.issues_share?.low || "",
-		intel: source?.issues_share?.intel || "",
-		total: source?.issues_share?.total || "",
+		critical: source?.issues_share?.critical || '',
+		elevated: source?.issues_share?.elevated || '',
+		medium: source?.issues_share?.medium || '',
+		low: source?.issues_share?.low || '',
+		intel: source?.issues_share?.intel || '',
+		total: source?.issues_share?.total || '',
 	};
 };
 export const mapIssueShareV2 = (source: any): IssuesShare => {
 	return {
-		critical: source?.issues_share?.c || "",
-		elevated: source?.issues_share?.h || "",
-		medium: source?.issues_share?.m || "",
-		low: source?.issues_share?.l || "",
-		intel: source?.issues_share?.i || "",
-		total: source?.issues_share?.f || "",
+		critical: source?.issues_share?.c || '',
+		elevated: source?.issues_share?.h || '',
+		medium: source?.issues_share?.m || '',
+		low: source?.issues_share?.l || '',
+		intel: source?.issues_share?.i || '',
+		total: source?.issues_share?.f || '',
 	};
 };
 
 /** Map issue condition api data => @interface IssuesCondition */
 export const mapIssuesCondition = (source: any): IssuesCondition => {
 	return {
-		total: source?.issues_condicion?.total || "",
-		fixed: source?.issues_condicion?.fixed || "",
-		open: source?.issues_condicion?.open || "",
+		total: source?.issues_condicion?.total || '',
+		fixed: source?.issues_condicion?.fixed || '',
+		open: source?.issues_condicion?.open || '',
 	};
 };
 
@@ -153,41 +150,43 @@ export const mapGetCompanyToCompanyData = (source: any): DashboardProps => {
 		},
 		issuesShare: mapIssueShare(source),
 		issuesCondition: mapIssuesCondition(source),
-		members: source.members ? source.members.map((member: any) => ({
-			id: member.id,
-			companyID: member.company_id,
-			name: member.fname,
-			lastName: member.lname,
-			companyRole: member.role,
-			email: member.email,
-			phone: member.phone,
-			profileMedia: member.profile_media,
-			country: member.pais,
-			countryCode: member.pais_code,
-			countryProvince: member.pais_provincia,
-			countryCity: member.pais_ciudad,
-			isDisabled: member.eliminado === '1',
-			createdAt: member.creacion,
-		})) : [],
+		members: source.members
+			? source.members.map((member: any) => ({
+					id: member.id,
+					companyID: member.company_id,
+					name: member.fname,
+					lastName: member.lname,
+					companyRole: member.role,
+					email: member.email,
+					phone: member.phone,
+					profileMedia: member.profile_media,
+					country: member.pais,
+					countryCode: member.pais_code,
+					countryProvince: member.pais_provincia,
+					countryCity: member.pais_ciudad,
+					isDisabled: member.eliminado === '1',
+					createdAt: member.creacion,
+				}))
+			: [],
 	} as DashboardProps;
 };
 
 /** Map web resources api data => @interface Webresources */
 export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 	return {
-		id: source?.id || "",
-		companyID: source?.company_id || "",
-		resourceDomain: source?.resource_domain || "",
-		resourceDomainDad: source?.resource_domain_dad || "",
-		servers: source?.servers || "",
-		mainServer: source?.main_server || "",
-		serverCountry: source?.server_pais || "",
-		serverCountryCode: source?.server_pais_code || "",
-		serverCountryProvince: source?.server_pais_provincia || "",
-		serverCountryCity: source?.server_pais_ciudad || "",
+		id: source?.id || '',
+		companyID: source?.company_id || '',
+		resourceDomain: source?.resource_domain || '',
+		resourceDomainDad: source?.resource_domain_dad || '',
+		servers: source?.servers || '',
+		mainServer: source?.main_server || '',
+		serverCountry: source?.server_pais || '',
+		serverCountryCode: source?.server_pais_code || '',
+		serverCountryProvince: source?.server_pais_provincia || '',
+		serverCountryCity: source?.server_pais_ciudad || '',
 		issueCount: source?.issues_count || 0,
 		isDisabled: source?.eliminado === '1',
-		createdAt: source?.creacion || "",
+		createdAt: source?.creacion || '',
 
 		childs: source?.childs
 			? source.childs.map((child: any) => {
@@ -214,30 +213,32 @@ export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 /** Map web resources and company api data => @interface WebapplicationProps */
 export const mapToWebresourceProps = (source: any): WebapplicationProps => {
 	return {
-		company: source.company ? mapCompany(source.company) : {} as Company,
-		resources: source.resources ? source.resources.map((resource: any) =>
-			mapWebresourceApiToWebresource(resource) ,
-		) : [],
+		company: source.company ? mapCompany(source.company) : ({} as Company),
+		resources: source.resources
+			? source.resources.map((resource: any) =>
+					mapWebresourceApiToWebresource(resource),
+				)
+			: [],
 	};
 };
 
 /** Map mobile app api data => @interface MobileApp */
 export const mapMobileApp = (source: any): MobileApp => {
 	return {
-		id: source.id || "",
-		companyID: source.company_id || "",
-		appOS: source.app_os || "",
-		appName: source.app_name || "",
-		appLink: source.app_link || "",
-		appAppleSubheader: source.app_apple_subheader || "",
-		appDeveloper: source.app_developer || "",
-		appDesc: source.app_desc || "",
-		appRank: source.app_rank || "",
-		appReviews: cleanReview(source.app_reviews || ""),
-		appAndroidDownloads: source.app_android_downloads || "",
-		appMedia: source.app_media || "",
+		id: source.id || '',
+		companyID: source.company_id || '',
+		appOS: source.app_os || '',
+		appName: source.app_name || '',
+		appLink: source.app_link || '',
+		appAppleSubheader: source.app_apple_subheader || '',
+		appDeveloper: source.app_developer || '',
+		appDesc: source.app_desc || '',
+		appRank: source.app_rank || '',
+		appReviews: cleanReview(source.app_reviews || ''),
+		appAndroidDownloads: source.app_android_downloads || '',
+		appMedia: source.app_media || '',
 		isDisabled: source.eliminado === '1',
-		createdAt: formatDate(source.creacion || ""),
+		createdAt: formatDate(source.creacion || ''),
 	};
 };
 
@@ -261,34 +262,38 @@ export const mobileUniqueProps = (source: any): MobileUnique => {
 	return {
 		...mapMobileApp(source?.unico || {}),
 		creds: source?.unico?.creds || [],
-		issues: source?.unico?.issues ? source.unico.issues.map((issue: any)=> mapIssues(issue)) : [],
+		issues: source?.unico?.issues
+			? source.unico.issues.map((issue: any) => mapIssues(issue))
+			: [],
 		issueShare: mapIssueShare(source.unico || {}),
 		issueCondition: mapIssuesCondition(source.unico || {}),
 	};
 };
 
-export const mapCloudUniqueProps = (source: any)=>{
+export const mapCloudUniqueProps = (source: any) => {
 	return {
 		...mapCloudApp(source.unico),
 		creds: source?.unico?.creds || [],
-		issues: source?.unico?.issues ? source.unico.issues.map((issue: any)=> mapIssues(issue)) : [],
+		issues: source?.unico?.issues
+			? source.unico.issues.map((issue: any) => mapIssues(issue))
+			: [],
 		issueShare: mapIssueShare(source.unico || {}),
 		issueCondition: mapIssuesCondition(source.unico || {}),
-	}
-}
+	};
+};
 
 /** Map cloud app api data => @interface CloudApp */
 export const mapCloudApp = (source: any): CloudApp => {
 	return {
-		id: source.id || "",
-		companyID: source.company_id || "",
-		appName: source.cloud_name || "",
-		appDesc: source.cloud_desc || "",
-		cloudProvider: source.cloud_provider || "",
-		cloudFirstKey: source.cloud_llave_1 || "",
-		cloudSecondKey: source.cloud_llave_2 || "",
-		cloudThirdKey: source.cloud_llave_3 || "",
-		appMedia: source.media || "",
+		id: source.id || '',
+		companyID: source.company_id || '',
+		appName: source.cloud_name || '',
+		appDesc: source.cloud_desc || '',
+		cloudProvider: source.cloud_provider || '',
+		cloudFirstKey: source.cloud_llave_1 || '',
+		cloudSecondKey: source.cloud_llave_2 || '',
+		cloudThirdKey: source.cloud_llave_3 || '',
+		appMedia: source.media || '',
 		isDisabled: source.eliminado === '1',
 		createdAt: source.creacion,
 	};
@@ -414,38 +419,41 @@ export const mapVdbResults = (source: any) => {
 	return {
 		...source,
 		advisory: {
-			date: mapEpochToDate(source.advisory.date)
-		}
-
-	}
-}
+			date: mapEpochToDate(source.advisory.date),
+		},
+	};
+};
 
 export const mapVdbSearch = (source: any): VdbProps => {
 	return {
 		response: source.response,
 		request: mapVdbRequestSearch(source.request),
-		result: source.result.map((result: any)=> mapVdbResults(result)),
+		result: source.result.map((result: any) => mapVdbResults(result)),
 	};
 };
 
-export const mapVdbResultV2 = (source:any): ResultsVdbSearchV2=>{
+export const mapVdbResultV2 = (source: any): ResultsVdbSearchV2 => {
 	return {
 		id: source.id,
 		entryID: source.entry_id,
 		title: source.title,
 		vulnerability: source.vulnerability,
 		riskScore: source.risk_value,
-		riskName:  source.risk_name,
+		riskName: source.risk_name,
 		type: source.class,
 		createdAt: mapEpochToDate(source.timestamp_create),
 		updatedAt: mapEpochToDate(source.timestamp_change),
-	}
-}
+	};
+};
 
-export const mapWebReportResources = (source: any): WebReport=> {
+export const mapWebReportResources = (source: any): WebReport => {
 	return {
 		resources: [mapWebresourceApiToWebresource(source.resource)],
-		issues: source.issues ? source.issues.map((issue:any)=>mapReportIssues(issue)) : [] as ReportIssues[],
-		issueShare: source.issues_share ? mapIssueShare(source) : {} as IssuesShare
-	}
-}
+		issues: source.issues
+			? source.issues.map((issue: any) => mapReportIssues(issue))
+			: ([] as ReportIssues[]),
+		issueShare: source.issues_share
+			? mapIssueShare(source)
+			: ({} as IssuesShare),
+	};
+};

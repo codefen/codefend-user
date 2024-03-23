@@ -5,8 +5,8 @@ import {
 	Show,
 } from '../../../../../../views/components';
 import Masonry from 'react-masonry-css';
-import { SnsService, User, useAuthState } from '../../../../../../data';
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import { SnsService, type User, useAuthState } from '../../../../../../data';
+import { type FC, useState, useEffect, type ChangeEvent } from 'react';
 import { useLocation } from 'react-router';
 
 interface PersonInfo {
@@ -31,7 +31,7 @@ interface PersonInfo {
 	[key: string]: any;
 }
 
-const SnsSearchAndData: React.FC = () => {
+const SnsSearchAndData: FC = () => {
 	const query = new URLSearchParams(useLocation().search);
 	const [searchData, setSearchData] = useState(query.get('search') ?? '');
 	const [searchClass, setSearchClass] = useState<string>(
@@ -51,9 +51,6 @@ const SnsSearchAndData: React.FC = () => {
 			setSearchData(searchData);
 			procSearch();
 		}
-	}, []);
-
-	useEffect(() => {
 		if (searchClass && searchData) procSearch(undefined!);
 	}, []);
 

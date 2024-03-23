@@ -1,13 +1,14 @@
 import { cleanHTML } from '../../../../../../data';
 import { PageLoader, Show } from '../../../../../components';
+import { type FC } from 'react';
 
-interface Props {
+interface InxPreviusContentDataProps {
 	preview: any;
 	storageID: any;
 	loading: boolean;
 }
 
-export const InxPreviusContentData: React.FC<Props> = ({
+export const InxPreviusContentData: FC<InxPreviusContentDataProps> = ({
 	preview,
 	storageID,
 	loading,

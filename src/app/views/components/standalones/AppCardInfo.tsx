@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 import { AppCard } from './AppCard';
 import {
-	CloudApp,
-	MobileApp,
-	RemoveAppStore,
+	type CloudApp,
+	type MobileApp,
+	type RemoveAppStore,
 	useRemoveAppStore,
 	useReportStore,
 } from '../../../data';
@@ -15,7 +15,7 @@ interface AppCardInfoProps {
 	issueCount: number;
 }
 
-export const AppCardInfo: React.FC<AppCardInfoProps> = ({
+export const AppCardInfo: FC<AppCardInfoProps> = ({
 	type,
 	selectedApp,
 	issueCount,

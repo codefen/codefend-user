@@ -1,6 +1,4 @@
-import { StateCreator, create } from "zustand";
-import { IssuesShare, ReportIssues, Webresources } from "..";
-import { PersistOptions, devtools, persist } from "zustand/middleware";
+import { create } from "zustand";
 
 export interface ReportStoreState {
 	open: boolean; 
