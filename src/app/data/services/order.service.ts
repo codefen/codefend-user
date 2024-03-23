@@ -110,6 +110,34 @@ const sendOrderProvider = async (companyID: string, referenceNumber: string, pro
     return data;
 }
 
+const sendOrderEnvironment = async (companyID: string, referenceNumber: string, environment: string) => {
+    const { data } = (await fetchPOST({
+        params: {
+            model: "orders/add",
+            phase: "environment",
+            company_id: companyID,
+            reference_number: referenceNumber,
+            environment: environment
+        }
+    }).catch((error: any) => handleFetchError(error))) as any;
+
+    return data;
+}
+
+const sendOrderProviderInfo= async (companyID: string, referenceNumber: string, providerInfo: string) => {
+    const { data } = (await fetchPOST({
+        params: {
+            model: "orders/add",
+            phase: "provider_info",
+            company_id: companyID,
+            reference_number: referenceNumber,
+            provider_info: providerInfo
+        }
+    }).catch((error: any) => handleFetchError(error))) as any;
+
+    return data;
+}
+
 export const OrderService = {
-    getTotalResourceCount, getCurrentPrices, getCurrentProviders, sendOrderScope, sendMemberShip, sendOrderPlan, sendOrderConfirm, sendOrderProvider
+    getTotalResourceCount, getCurrentPrices, getCurrentProviders, sendOrderScope, sendMemberShip, sendOrderPlan, sendOrderConfirm, sendOrderProvider, sendOrderEnvironment, sendOrderProviderInfo
 }
