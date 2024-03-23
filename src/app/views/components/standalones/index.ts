@@ -19,3 +19,5 @@ export * from './utils/ModalButtons';
 export * from './utils/StarRating';
 export * from "./utils/Breadcrumb";
 export * from "./utils/LocationItem"
+
+export * from "./helper-box/HelperBox"

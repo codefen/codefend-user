@@ -371,7 +371,6 @@ export const CloseIcon: React.FC<{
 	isButton?: boolean;
 }> = ({ isButton }): any => (
 	<svg
-		xmlns="http://www.w3.org/2000/svg"
 		fill="none"
 		viewBox="0 0 24 24"
 		strokeWidth={1.5}
@@ -676,6 +675,21 @@ export const RigthArrowIcon = ({
 		}}>
 		<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 		<path d="M4 9h8v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z"></path>
+	</svg>
+);
+
+export const SimpleRightArrowIcon = () => (
+	<svg
+		fill="none"
+		viewBox="0 0 24 24"
+		strokeWidth={1.5}
+		stroke="currentColor"
+		className="w-6 h-6">
+		<path
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+		/>
 	</svg>
 );
 
