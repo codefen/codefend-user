@@ -2,50 +2,34 @@
 
 .modal-wrapper {
 	position: fixed;
-	left: 0;
-	top: 0;
+	inset: 0;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
-	// padding-top: 15vh;
 	z-index: 100;
 	background-color: rgba(42, 43, 53, 0.75);
-	// backdrop-filter: blur(6px) saturate(0.8) contrast(1);
 }
 
 .modal-wrapper .modal {
-	margin-top: 130px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin-block: auto;
+
 	opacity: 0;
 	animation: modalAnimation 0.2s ease-in 0.05s forwards;
 	min-width: 330px;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
 	background: #ffffff;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.17);
 	border-image-slice: 1;
 	border-radius: 3px;
 	overflow: hidden;
 	color: var(--tertiary-color-600);
-	// backdrop-filter: blur(9px) saturate(0.8) contrast(1);
-	// border: 1px solid var(--primary-color-300);
-	// border-left: 1px solid;
-	// border-right: 1px solid;
-	// border-image: linear-gradient(
-	// 	190deg,
-	// 	rgba(255, 255, 255, 0) 15%,
-	// 	rgb(32 57 104) 36%,
-	// 	rgb(64 83 143) 46%,
-	// 	rgb(32 67 124) 54%,
-	// 	rgb(46 75 88) 64%,
-	// 	rgba(255, 255, 255, 0) 85%
-	// );
-	// border-image-slice: 1;
+
 	&.report {
 		margin-top: 20px;
-		// margin-bottom: 20px;
 	}
 	&.med-w {
 		min-width: 560px;
@@ -67,7 +51,7 @@
 		padding: 5px;
 		cursor: pointer;
 		z-index: 100;
-	
+
 		svg {
 			// filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.75));
 			color: black;
@@ -411,7 +395,6 @@
 			backdrop-filter: blur(9px) saturate(0.8) contrast(1);
 			// box-shadow: 2px 3px 30px 7px rgba(0, 0, 0, 0.2);
 			border-image-slice: 1;
-
 		}
 	}
 	.header {
@@ -419,9 +402,9 @@
 	}
 	.content {
 		color: var(--tertiary-color-100);
-	// 	background-image: linear-gradient(#23266140 0.4px, transparent 0.4px),
-	// 	linear-gradient(to right, #23266140 0.4px, #e5e5f700 0.4px);
-	// background-size: 8px 8px;
+		// 	background-image: linear-gradient(#23266140 0.4px, transparent 0.4px),
+		// 	linear-gradient(to right, #23266140 0.4px, #e5e5f700 0.4px);
+		// background-size: 8px 8px;
 		// .header {
 		//   h4 {
 		//     color: var(--tertiary-color-50);
