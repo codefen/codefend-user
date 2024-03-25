@@ -1,5 +1,5 @@
 import { type FC, useCallback, useState } from 'react';
-import { PrimaryButton, SecondaryButton } from '../../..';
+import { PrimaryButton } from '../../..';
 import { OrderSection, useOrderStore } from '../../../../../data';
 
 export const AdditionalOrderModal: FC = () => {
@@ -44,12 +44,14 @@ Is there any other additional information for our professionals?`;
 			</div>
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container ">
-					<SecondaryButton
+					<PrimaryButton
 						text="back"
 						click={() =>
 							updateState('orderStepActive', OrderSection.SELECT_LEAD)
 						}
 						className="full"
+						buttonStyle="black"
+						disabledLoader
 					/>
 				</div>
 				<div className="primary-container">
@@ -57,6 +59,7 @@ Is there any other additional information for our professionals?`;
 						text="Proceed to payment"
 						click={continueToPayment}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>

@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
-import { PrimaryButton, SecondaryButton } from '../../..';
-import {
-	useOrderStore,
-	ScopeOption,
-	OrderFrequency,
-	OrderTeamSize,
-	OrderSection,
-	useOrderConfirm,
-} from '../../../../../data';
+import { PrimaryButton } from '../../..';
+import { OrderSection, useOrderConfirm } from '../../../../../data';
 import { toast } from 'react-toastify';
 
 export const OrderReviewModal: React.FC<{
@@ -107,12 +100,14 @@ export const OrderReviewModal: React.FC<{
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container ">
-					<SecondaryButton
+					<PrimaryButton
 						text="back"
 						click={(e: any) =>
 							updateState('orderStepActive', OrderSection.TEAM_SIZE)
 						}
 						className="full"
+						buttonStyle="black"
+						disabledLoader
 					/>
 				</div>
 				<div className="primary-container">
@@ -120,6 +115,7 @@ export const OrderReviewModal: React.FC<{
 						text="Continue to the next step"
 						click={nextStep}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>

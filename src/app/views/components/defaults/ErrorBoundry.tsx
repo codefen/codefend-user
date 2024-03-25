@@ -1,6 +1,11 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { TertiaryButton } from '../buttons/tertiary/TertiaryButton';
-import { ModalWrapper, NetworkIcon, NetworkSetingModal, Show } from '..';
+import {
+	ModalWrapper,
+	NetworkIcon,
+	NetworkSetingModal,
+	PrimaryButton,
+	Show,
+} from '..';
 
 interface ErrorBoundaryProps {
 	children: ReactNode;
@@ -72,7 +77,7 @@ export class ErrorBoundary extends Component<
 							</p>
 						</header>
 
-						<TertiaryButton
+						<PrimaryButton
 							text="Go back"
 							className="error-tertiary-btn"
 							click={() => {
@@ -80,6 +85,7 @@ export class ErrorBoundary extends Component<
 								window.history.back();
 								window.location.reload();
 							}}
+							buttonStyle="gray"
 						/>
 					</div>
 				</>

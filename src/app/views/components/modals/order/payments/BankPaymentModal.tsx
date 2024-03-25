@@ -1,4 +1,4 @@
-import { PrimaryButton, SecondaryButton } from '../../..';
+import { PrimaryButton } from '../../..';
 import {
 	OrderPaymentMethod,
 	OrderSection,
@@ -80,13 +80,20 @@ export const BankPaymentModal = () => {
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
-					<SecondaryButton text="Back" click={backStep} className="full" />
+					<PrimaryButton
+						text="Back"
+						click={backStep}
+						className="full"
+						buttonStyle="black"
+						disabledLoader
+					/>
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
 						text="I have made the payment"
 						click={finishStep}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>

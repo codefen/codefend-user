@@ -1,6 +1,6 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ModalWrapper } from '.';
-import { LanIcon, PrimaryButton, SecondaryButton } from '..';
+import { LanIcon, PrimaryButton } from '..';
 import {
 	type NetworkSettingState,
 	useNetworkSettingState,
@@ -58,14 +58,15 @@ const ErrorConection: FC<{ closeModal: () => void }> = (props) => {
 						</strong>
 					</p>
 					<div className="error-buttons ">
-						<SecondaryButton
+						<PrimaryButton
 							text="Go to Network Settings"
 							click={(e: any) => {
 								props.closeModal();
 								setNetworkSettingState(true);
-								// window.location.reload();
 							}}
 							className="btn-cancel codefend_secondary_ac"
+							buttonStyle="black"
+							disabledLoader
 						/>
 						<PrimaryButton
 							text="email offline@codefend.com"
@@ -76,6 +77,7 @@ const ErrorConection: FC<{ closeModal: () => void }> = (props) => {
 								)
 							}
 							className="btn-add codefend_main_ac"
+							buttonStyle="red"
 						/>
 					</div>
 				</div>

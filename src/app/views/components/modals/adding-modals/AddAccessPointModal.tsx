@@ -5,12 +5,7 @@ import {
 	LanApplicationService,
 } from '../../../../data';
 import { toast } from 'react-toastify';
-import {
-	GlobeWebIcon,
-	ModalButtons,
-	PrimaryButton,
-	SecondaryButton,
-} from '../..';
+import { GlobeWebIcon, ModalButtons } from '../..';
 
 interface NetworkData {
 	domainName: string;

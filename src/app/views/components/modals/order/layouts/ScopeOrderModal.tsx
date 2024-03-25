@@ -5,7 +5,7 @@ import {
 	useOrderScope,
 	useOrderStore,
 } from '../../../../../data';
-import { PrimaryButton, SecondaryButton } from '../../..';
+import { PrimaryButton } from '../../..';
 
 export const ScopeOrderModal: FC = () => {
 	const {
@@ -142,10 +142,12 @@ export const ScopeOrderModal: FC = () => {
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
-					<SecondaryButton
+					<PrimaryButton
 						text="Cancel"
 						click={resetActiveOrder}
 						className="full"
+						buttonStyle="black"
+						disabledLoader
 					/>
 				</div>
 				<div className="primary-container">
@@ -153,6 +155,7 @@ export const ScopeOrderModal: FC = () => {
 						text="Continue to the next step"
 						click={nextStep}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>

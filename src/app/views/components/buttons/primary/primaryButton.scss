@@ -1,22 +1,62 @@
 @use '../../../styles/settings/mixin' as mixin;
 
 .btn {
-	&.btn-primary {
+	&.btn-red {
 		background: var(--secondary-color-50);
 
 		&:hover {
 			background: var(--secondary-color-100) !important;
 		}
+	}
 
-		&.send-btn {
-			justify-content: center;
-			align-items: center;
+	&.btn-black {
+		background-color: var(--tertiary-color-400);
 
-			&.send-extra-styles {
-				position: relative;
-				width: 3.5rem;
-				height: 100%;
-			}
+		&:hover {
+			background-color: var(--tertiary-color-600);
+		}
+
+		@include mixin.respond(small) {
+			height: 65px;
+		}
+	}
+
+	&.btn-gray {
+		background-color: var(--primary-color-300);
+		color: var(--tertiary-color-500);
+
+		transition: scale 200ms ease;
+
+		&:hover {
+			scale: 1.04;
+		}
+
+		&.error-tertiary-btn {
+			min-width: 175px;
+			max-width: 175px;
+			font-size: 1.15rem;
+		}
+	}
+
+	&.send-btn {
+		justify-content: center;
+		align-items: center;
+
+		&.send-extra-styles {
+			position: relative;
+			width: 3.5rem;
+			height: 100%;
+		}
+	}
+
+	&.btn-cancel {
+		padding-inline: 1rem;
+		margin-inline-end: 0.5rem;
+
+		width: 50%;
+
+		&:hover {
+			scale: 1.05;
 		}
 	}
 
@@ -50,8 +90,19 @@
 
 [data-theme='dark'] {
 	button.btn {
-		&.btn-primary {
+		&.btn-red {
 			background: #d73636;
+		}
+		&.btn-black {
+			background-color: #1b2531;
+		}
+	}
+
+	.network-form {
+		button.btn {
+			&.btn-secondary {
+				background-color: #232d3a;
+			}
 		}
 	}
 }

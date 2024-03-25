@@ -1,13 +1,10 @@
 import { type FC, useState } from 'react';
-import { PrimaryButton, SecondaryButton } from '../../..';
+import { PrimaryButton } from '../../..';
 import {
 	useOrderStore,
 	OrderPaymentMethod,
 	OrderSection,
 } from '../../../../../data';
-import { BankPaymentModal } from '../payments/BankPaymentModal';
-import { CryptoPaymentModal } from '../payments/CryptoPaymentModal';
-import { CardPaymentModal } from '../payments/CardPaymentModal';
 
 export const PaymentMethodOrderModal: FC = () => {
 	const { paymentMethod, updateState, resetActiveOrder } = useOrderStore(
@@ -113,13 +110,20 @@ export const PaymentMethodOrderModal: FC = () => {
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
-					<SecondaryButton text="Back" click={backStep} className="full" />
+					<PrimaryButton
+						text="Back"
+						click={backStep}
+						className="full"
+						buttonStyle="black"
+						disabledLoader
+					/>
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
 						text="Payment"
 						click={nextStep}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>

@@ -1,5 +1,5 @@
-import { PrimaryButton, SecondaryButton } from '../../../components';
 import { type FC, useState } from 'react';
+import { PrimaryButton } from '../../../components';
 import { useNavigate } from 'react-router';
 
 const ConfirmationSignUp: FC = () => {
@@ -45,16 +45,19 @@ const ConfirmationSignUp: FC = () => {
 				/>
 			</div>
 			<div className="confirm-button">
-				<SecondaryButton
+				<PrimaryButton
 					text="Assistance"
 					click={() => {}}
 					isDisabled={finishsignup.isLoading}
+					buttonStyle="black"
+					disabledLoader
 				/>
 				<PrimaryButton
 					text="Proceed"
 					type="submit"
 					isDisabled={finishsignup.isLoading}
 					click={() => {}}
+					buttonStyle="red"
 				/>
 			</div>
 		</form>

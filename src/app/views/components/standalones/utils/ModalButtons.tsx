@@ -1,5 +1,5 @@
 import React from 'react';
-import { PrimaryButton, SecondaryButton } from '../..';
+import { PrimaryButton } from '../..';
 
 interface Props {
 	close: () => void;
@@ -15,11 +15,13 @@ export const ModalButtons: React.FC<Props> = (props) => {
 		<div
 			className={`form-buttons ${props.boxStyle ?? ''}`}
 			onClick={(e: React.FormEvent) => e.stopPropagation()}>
-			<SecondaryButton
+			<PrimaryButton
 				text={closeText}
 				click={(e: any) => props.close?.()}
 				isDisabled={props.isDisabled}
 				className="btn-cancel codefend_secondary_ac"
+				buttonStyle="black"
+				disabledLoader
 			/>
 			<PrimaryButton
 				text={props.confirmText}
@@ -27,6 +29,7 @@ export const ModalButtons: React.FC<Props> = (props) => {
 				type="submit"
 				isDisabled={props.isDisabled}
 				className="btn-add codefend_main_ac limit-height"
+				buttonStyle="red"
 			/>
 		</div>
 	);

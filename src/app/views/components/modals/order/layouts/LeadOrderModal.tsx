@@ -4,7 +4,7 @@ import {
 	useOrderProvider,
 	useOrderStore,
 } from '../../../../../data';
-import { PageLoader, PrimaryButton, SecondaryButton, Show } from '../../..';
+import { PageLoader, PrimaryButton, Show } from '../../..';
 
 interface Provider {
 	id: string;
@@ -122,10 +122,12 @@ export const LeadOrderModal: FC = () => {
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container ">
-					<SecondaryButton
+					<PrimaryButton
 						text="Cancel"
 						click={resetActiveOrder}
 						className="full"
+						buttonStyle="black"
+						disabledLoader
 					/>
 				</div>
 				<div className="primary-container">
@@ -133,6 +135,7 @@ export const LeadOrderModal: FC = () => {
 						text="Continue"
 						click={nextStep}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>

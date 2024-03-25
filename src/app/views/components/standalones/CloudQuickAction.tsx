@@ -2,7 +2,13 @@ import { useCallback, useState, type FC } from 'react';
 import { toast } from 'react-toastify';
 import { type User, useAuthState } from '../../../data';
 
-import { ButtonLoader, GlobeWebIcon, Show } from '..';
+import {
+	ButtonLoader,
+	GlobeWebIcon,
+	ModalButtons,
+	PrimaryButton,
+	Show,
+} from '..';
 
 interface CloudQuickActionProps {
 	onDone: () => void;
@@ -64,27 +70,12 @@ export const CloudQuickAction: FC<CloudQuickActionProps> = (props) => {
 					/>
 				</div>
 
-				<div className="button-group">
-					<button
-						disabled={isAddingDomain}
-						type="button"
-						onClick={() => {
-							/* showModal */
-						}}
-						className="log-inputs cancel-btn codefend_secondary_ac">
-						cancel
-					</button>
-
-					<button
-						disabled={isAddingDomain}
-						type="button"
-						className="log-inputs add-btn bg-codefend codefend_main_ac">
-						<Show when={isAddingDomain}>
-							<ButtonLoader />
-						</Show>
-						add action
-					</button>
-				</div>
+				<ModalButtons
+					close={() => {}}
+					closeText="cancel"
+					confirmText="add action"
+					isDisabled={isAddingDomain}
+				/>
 			</form>
 		</div>
 	);

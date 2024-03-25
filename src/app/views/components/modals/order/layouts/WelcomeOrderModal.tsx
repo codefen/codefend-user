@@ -1,4 +1,4 @@
-import { PrimaryButton, SecondaryButton } from '../../..';
+import { PrimaryButton } from '../../..';
 import { useOrderStore } from '../../../../../data';
 
 export const WelcomeOrderModal = () => {
@@ -41,10 +41,12 @@ export const WelcomeOrderModal = () => {
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
-					<SecondaryButton
+					<PrimaryButton
 						text=""
 						click={() => {}}
 						className="full order-default bg-transparent"
+						buttonStyle="black"
+						disabledLoader
 					/>
 				</div>
 				<div className="primary-container">
@@ -52,6 +54,7 @@ export const WelcomeOrderModal = () => {
 						text="returns to app"
 						click={() => resetActiveOrder()}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>

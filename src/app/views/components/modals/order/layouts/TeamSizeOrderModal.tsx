@@ -1,5 +1,5 @@
 import { type FC, useEffect, useState } from 'react';
-import { PageLoader, PrimaryButton, SecondaryButton, Show } from '../../..';
+import { PageLoader, PrimaryButton, Show } from '../../..';
 import {
 	OrderSection,
 	OrderTeamSize,
@@ -122,12 +122,14 @@ export const TeamSizeOrderModal: FC = () => {
 
 				<div className="button-wrapper next-btns">
 					<div className="secondary-container">
-						<SecondaryButton
+						<PrimaryButton
 							text="Back"
 							click={(e: any) =>
 								updateState('orderStepActive', OrderSection.FREQUENCY)
 							}
 							className="full"
+							buttonStyle="black"
+							disabledLoader
 						/>
 					</div>
 					<div className="primary-container">
@@ -135,6 +137,7 @@ export const TeamSizeOrderModal: FC = () => {
 							text="Continue to the next step"
 							click={nextStep}
 							className="full"
+							buttonStyle="red"
 						/>
 					</div>
 				</div>

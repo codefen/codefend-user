@@ -6,7 +6,7 @@ import {
 	defaultCrypto,
 	useOrderStore,
 } from '../../../../../data';
-import { CopiedIcon, CopyIcon, PrimaryButton, SecondaryButton } from '../../..';
+import { CopiedIcon, CopyIcon, PrimaryButton } from '../../..';
 
 export const CryptoPaymentModal = () => {
 	const { teamSize, updateState } = useOrderStore((state) => state);
@@ -123,13 +123,20 @@ export const CryptoPaymentModal = () => {
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
-					<SecondaryButton text="back" click={backStep} className="full" />
+					<PrimaryButton
+						text="back"
+						click={backStep}
+						className="full"
+						buttonStyle="black"
+						disabledLoader
+					/>
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
 						text="Verify transaction"
 						click={finishStep}
 						className="full"
+						buttonStyle="red"
 					/>
 				</div>
 			</div>
