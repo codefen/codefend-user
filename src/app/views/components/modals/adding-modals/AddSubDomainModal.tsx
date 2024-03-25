@@ -1,11 +1,6 @@
-import { type FC, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
+import { type FC, type FormEvent } from 'react';
 import { GlobeWebIcon, ModalButtons } from '../..';
-import {
-	WebApplicationService,
-	type Webresources,
-	useAuthState,
-} from '../../../../data';
+import { type Webresources, useAddSubResource } from '../../../../data';
 
 interface SubdomainModalProps {
 	onDone: () => void;
@@ -14,52 +9,21 @@ interface SubdomainModalProps {
 }
 
 const AddSubDomainModal: FC<SubdomainModalProps> = (props) => {
-	const [mainDomainId, setMainDomainId] = useState('');
-	const [domainName, setDomainName] = useState('');
-	const [ipAddress, setIpAddress] = useState('');
-	const [isAddingSubDomain, setIsAddingSubDomain] = useState(false);
-	const { getCompany } = useAuthState();
+	const {
+		handleAddSubResource,
+		setDomainName,
+		setIpAddress,
+		setMainDomainId,
+		isAddingSubDomain,
+		mainDomainId,
+	} = useAddSubResource(props.onDone, props.close);
 
-	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
-			e.preventDefault();
-			e.stopPropagation();
+	const handleSubmit = (e: FormEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
 
-			if (!mainDomainId || mainDomainId.length == 0) {
-				toast.error('Invalid main resource');
-				return;
-			}
-
-			if (!domainName || domainName.length == 0 || domainName.length > 100) {
-				toast.error('Invalid domain');
-				return;
-			}
-
-			setIsAddingSubDomain(true);
-
-			const companyID = getCompany();
-
-			WebApplicationService.addSubresource(
-				mainDomainId,
-				domainName,
-				companyID,
-			)
-				.then((response: any) => {
-					if (!response && !response.company)
-						throw new Error('An error has occurred on the server');
-
-					setDomainName('');
-					props.onDone();
-					toast.success('Successfully Added Domain..');
-				})
-				.catch((error: any) => {
-					toast.error(error.message);
-					props.close?.();
-				})
-				.finally(() => setIsAddingSubDomain(false));
-		},
-		[domainName, mainDomainId],
-	);
+		handleAddSubResource();
+	};
 
 	return (
 		<div className="content subdomain-modal">

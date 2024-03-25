@@ -133,7 +133,7 @@ export const fetchDELETE: ({}: FetchWhitoutMethods) => Promise<
 		headers,
 	});
 
-export const handleFetchError = (error: any) => {
+export const handleFetchError = (error: any): Promise<any> => {
 	if (
 		error.name === 'AxiosError' &&
 		(error.message === 'Network Error' ||
@@ -141,9 +141,9 @@ export const handleFetchError = (error: any) => {
 	) {
 		localStorage.setItem('error', JSON.stringify(true));
 		window.dispatchEvent(new Event('errorState'));
-		return {
+		return Promise.resolve({
 			data: { error: error ?? {}, isAnError: true, isNetworkError: true },
-		};
+		});
 	}
 	if (error.response?.data) {
 		const message = error.response.data.message;
@@ -151,7 +151,7 @@ export const handleFetchError = (error: any) => {
 		message && toast.error(message);
 	}
 
-	return {
+	return Promise.resolve({
 		data: { error: error ?? {}, isAnError: true, isNetworkError: true },
-	};
+	});
 };

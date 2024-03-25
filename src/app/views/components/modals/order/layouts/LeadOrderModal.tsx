@@ -9,6 +9,7 @@ import { PageLoader, PrimaryButton, Show } from '../../..';
 interface Provider {
 	id: string;
 	username: string;
+	name: string;
 	profileMedia: string;
 }
 
@@ -32,6 +33,7 @@ export const LeadOrderModal: FC = () => {
 										id: provider.id,
 										username: provider.username,
 										profileMedia: provider.profile_media,
+										name: `${provider.fname} ${provider.lname}`,
 									}) as Provider,
 							)
 						: [];
@@ -101,17 +103,19 @@ export const LeadOrderModal: FC = () => {
 								<div className="order-snapshot">
 									<div className="top">
 										<p>
-											Codefend private team |{' '}
+											{provider.name} |{' '}
 											<span className="codefend-text-red">
-												{' '}
-												lead:{' '}
+												@{provider.username}
 											</span>
-											@{provider.username}
 										</p>
 									</div>
 									<span className="one-pentest">
 										An internal selection of professional/s that best
 										fit your needs.
+									</span>
+									<span className="one-pentest leading-text">
+										<span className="codefend-text-red">Match:</span>{' '}
+										specialized in <b>web resources.</b>
 									</span>
 								</div>
 							</div>

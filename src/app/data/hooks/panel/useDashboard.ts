@@ -1,32 +1,17 @@
 import { useCallback, useState } from 'react';
 import { useAuthState } from '../useAuthState';
-import { DashboardService } from '../../services/panel/dashboard.service';
 import { mapGetCompanyToCompanyData } from '../../utils/mapper';
 import { type DashboardProps, useAdminCompanyStore, verifySession} from '../..';
 import { toast } from 'react-toastify';
+import { useFetcher } from '../util/useFetcher';
 
 export const useDashboard = () => {
-	const { getCompany, getUserdata, logout } = useAuthState();
-	const [isLoading, setLoading] = useState(false);
+	const { getCompany, logout } = useAuthState();
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
 	);
 	const {selectCompany} = useAdminCompanyStore((state)=> state);
-	
-	//Fetch dashboard data func
-	const fetchWeb = useCallback((companyID: string) => {
-		setLoading(true);
-
-		DashboardService.getCompanyInfo(companyID)
-			.then((res) => {
-				verifySession(res, logout);
-				selectCompany(res.company, true);
-				setCompanyResources(mapGetCompanyToCompanyData(res));
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	}, []);
 
 	//Refetch web app func
 	const refetch = () => {
@@ -36,7 +21,11 @@ export const useDashboard = () => {
 			return;
 		}
 		setCompanyResources({} as DashboardProps);
-		fetchWeb(companyID);
+		fetcher<any>("post", {body: {company_id: companyID, model: "companies/dashboard"}})?.then(({ data })=>{
+			verifySession(data, logout);
+			selectCompany(data.company, true);
+			setCompanyResources(mapGetCompanyToCompanyData(data));
+		});
 	};
 
 	return { isLoading, companyData, refetch };

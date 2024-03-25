@@ -103,116 +103,114 @@ export const MobileAppModal: FC<Props> = (props) => {
 	};
 
 	return (
-		<>
-			<div className="content">
-				<form className="form" onSubmit={handleSubmit}>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
+		<div className="content">
+			<form className="form" onSubmit={handleSubmit}>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
 
-						<input
-							type="text"
-							onChange={(e) => {
-								setSocialData((prevData) => ({
-									...prevData,
-									fName: e.target.value,
-								}));
-							}}
-							placeholder="first name"
-							required
-						/>
-					</div>
-
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							onChange={(e) => {
-								setSocialData((prevData) => ({
-									...prevData,
-									lName: e.target.value,
-								}));
-							}}
-							placeholder="last name"
-							required
-						/>
-					</div>
-
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							onChange={(e) => {
-								setSocialData((prevData) => ({
-									...prevData,
-									mail: e.target.value,
-								}));
-							}}
-							placeholder="email address"
-							required
-						/>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							onChange={(e) => {
-								setSocialData((prevData) => ({
-									...prevData,
-									phone: e.target.value,
-								}));
-							}}
-							placeholder="phone number"
-							required
-						/>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-						<select
-							onChange={(e) => {
-								setSocialData((prevData) => ({
-									...prevData,
-									role: e.target.value,
-								}));
-							}}
-							id="social-data"
-							className="log-inputs modal_info"
-							value={socialData.role}
-							required>
-							<option value="" disabled>
-								role
-							</option>
-							<option value="admin">administrative</option>
-							<option value="human">human resources</option>
-							<option value="info">information tech</option>
-							<option value="ads">marketing</option>
-							<option value="sales">sales</option>
-							<option value="finance">finance</option>
-							<option value="cs">customer service</option>
-							<option value="prod">production & ops</option>
-							<option value="plan">strategy & planning</option>
-						</select>
-					</div>
-					<ModalButtons
-						close={props.close!}
-						isDisabled={isAddingMember}
-						confirmText="Add member"
+					<input
+						type="text"
+						onChange={(e) => {
+							setSocialData((prevData) => ({
+								...prevData,
+								fName: e.target.value,
+							}));
+						}}
+						placeholder="first name"
+						required
 					/>
-				</form>
-			</div>
-		</>
+				</div>
+
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						onChange={(e) => {
+							setSocialData((prevData) => ({
+								...prevData,
+								lName: e.target.value,
+							}));
+						}}
+						placeholder="last name"
+						required
+					/>
+				</div>
+
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						onChange={(e) => {
+							setSocialData((prevData) => ({
+								...prevData,
+								mail: e.target.value,
+							}));
+						}}
+						placeholder="email address"
+						required
+					/>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						onChange={(e) => {
+							setSocialData((prevData) => ({
+								...prevData,
+								phone: e.target.value,
+							}));
+						}}
+						placeholder="phone number"
+						required
+					/>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+					<select
+						onChange={(e) => {
+							setSocialData((prevData) => ({
+								...prevData,
+								role: e.target.value,
+							}));
+						}}
+						id="social-data"
+						className="log-inputs modal_info"
+						value={socialData.role}
+						required>
+						<option value="" disabled>
+							role
+						</option>
+						<option value="admin">administrative</option>
+						<option value="human">human resources</option>
+						<option value="info">information tech</option>
+						<option value="ads">marketing</option>
+						<option value="sales">sales</option>
+						<option value="finance">finance</option>
+						<option value="cs">customer service</option>
+						<option value="prod">production & ops</option>
+						<option value="plan">strategy & planning</option>
+					</select>
+				</div>
+				<ModalButtons
+					close={props.close!}
+					isDisabled={isAddingMember}
+					confirmText="Add member"
+				/>
+			</form>
+		</div>
 	);
 };
 

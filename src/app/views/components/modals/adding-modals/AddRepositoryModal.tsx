@@ -76,90 +76,88 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 	};
 
 	return (
-		<>
-			<div className="content">
-				<form className="form" onSubmit={handleSubmit}>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
+		<div className="content">
+			<form className="form" onSubmit={handleSubmit}>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
 
-						<input
-							type="text"
-							onChange={(e) =>
-								setSourceCode((current: RepositoryModel) => ({
-									...current,
-									repositoryName: e.target.value,
-								}))
-							}
-							placeholder="repository name"
-							required
-						/>
-					</div>
-
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							onChange={(e) =>
-								setSourceCode((current: RepositoryModel) => ({
-									...current,
-									repositoryUrl: e.target.value,
-								}))
-							}
-							placeholder="repository url"
-							required
-						/>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-						<input
-							type="text"
-							onChange={(e) =>
-								setSourceCode((current: RepositoryModel) => ({
-									...current,
-									sourceCode: e.target.value,
-								}))
-							}
-							placeholder="source code language"
-							required
-						/>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<select
-							onChange={(e) =>
-								setSourceCode((current: RepositoryModel) => ({
-									...current,
-									visibility: e.target.value,
-								}))
-							}
-							className="log-inputs modal_info"
-							value={sourceCodeForm.visibility}
-							required>
-							<option value="" disabled>
-								visibility
-							</option>
-							<option value="public">public</option>
-							<option value="private">private</option>
-						</select>
-					</div>
-
-					<ModalButtons
-						close={props.close!}
-						isDisabled={sourceCodeForm.isLoading}
-						confirmText="Add repository"
+					<input
+						type="text"
+						onChange={(e) =>
+							setSourceCode((current: RepositoryModel) => ({
+								...current,
+								repositoryName: e.target.value,
+							}))
+						}
+						placeholder="repository name"
+						required
 					/>
-				</form>
-			</div>
-		</>
+				</div>
+
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						onChange={(e) =>
+							setSourceCode((current: RepositoryModel) => ({
+								...current,
+								repositoryUrl: e.target.value,
+							}))
+						}
+						placeholder="repository url"
+						required
+					/>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+					<input
+						type="text"
+						onChange={(e) =>
+							setSourceCode((current: RepositoryModel) => ({
+								...current,
+								sourceCode: e.target.value,
+							}))
+						}
+						placeholder="source code language"
+						required
+					/>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<select
+						onChange={(e) =>
+							setSourceCode((current: RepositoryModel) => ({
+								...current,
+								visibility: e.target.value,
+							}))
+						}
+						className="log-inputs modal_info"
+						value={sourceCodeForm.visibility}
+						required>
+						<option value="" disabled>
+							visibility
+						</option>
+						<option value="public">public</option>
+						<option value="private">private</option>
+					</select>
+				</div>
+
+				<ModalButtons
+					close={props.close!}
+					isDisabled={sourceCodeForm.isLoading}
+					confirmText="Add repository"
+				/>
+			</form>
+		</div>
 	);
 };

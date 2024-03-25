@@ -120,108 +120,106 @@ export const AcessPointModal: FC<ComponentEvent> = (props) => {
 	};
 
 	return (
-		<>
-			<div className="content">
-				<form className="form" onSubmit={handleSubmit}>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-						<select
-							onChange={handleChange}
-							className="log-inputs modal_info"
-							value={vendorName}
-							name="vendorName"
-							required>
-							<option value="" disabled>
-								os / vendor
-							</option>
-							<option value="windows">windows</option>
-							<option value="linux">linux</option>
-							<option value="unknown">unknown</option>
-							<option value="android">android</option>
-							<option value="ios">ios</option>
-						</select>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
+		<div className="content">
+			<form className="form" onSubmit={handleSubmit}>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+					<select
+						onChange={handleChange}
+						className="log-inputs modal_info"
+						value={vendorName}
+						name="vendorName"
+						required>
+						<option value="" disabled>
+							os / vendor
+						</option>
+						<option value="windows">windows</option>
+						<option value="linux">linux</option>
+						<option value="unknown">unknown</option>
+						<option value="android">android</option>
+						<option value="ios">ios</option>
+					</select>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
 
-						<input
-							type="text"
-							name="domainName"
-							onChange={handleChange}
-							placeholder="hostname"
-							required
-						/>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							name="internalAddress"
-							value={internalAddress}
-							onChange={handleChange}
-							placeholder="Internal IP Address"
-							required
-						/>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							name="externalAddress"
-							value={externalAddress}
-							onChange={handleChange}
-							placeholder="External IP Address"
-							required
-						/>
-					</div>
-
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							name="username"
-							onChange={handleChange}
-							placeholder="username"
-						/>
-					</div>
-					<div
-						className="form-input"
-						onClick={(e: any) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}>
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="password"
-							name="password"
-							onChange={handleChange}
-							placeholder="Password"
-						/>
-					</div>
-					<ModalButtons
-						confirmText="Add access point"
-						isDisabled={isAddingInternalNetwork}
-						close={() => props.close()}
+					<input
+						type="text"
+						name="domainName"
+						onChange={handleChange}
+						placeholder="hostname"
+						required
 					/>
-				</form>
-			</div>
-		</>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						name="internalAddress"
+						value={internalAddress}
+						onChange={handleChange}
+						placeholder="Internal IP Address"
+						required
+					/>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						name="externalAddress"
+						value={externalAddress}
+						onChange={handleChange}
+						placeholder="External IP Address"
+						required
+					/>
+				</div>
+
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						name="username"
+						onChange={handleChange}
+						placeholder="username"
+					/>
+				</div>
+				<div
+					className="form-input"
+					onClick={(e: any) => {
+						e.preventDefault();
+						e.stopPropagation();
+					}}>
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="password"
+						name="password"
+						onChange={handleChange}
+						placeholder="Password"
+					/>
+				</div>
+				<ModalButtons
+					confirmText="Add access point"
+					isDisabled={isAddingInternalNetwork}
+					close={() => props.close()}
+				/>
+			</form>
+		</div>
 	);
 };
 

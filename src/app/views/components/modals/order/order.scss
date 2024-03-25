@@ -124,27 +124,30 @@
 
 		.option-header {
 			font-size: 14px;
-			margin-block-start: 0;
-			margin-block-end: 1rem;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
-			padding: 0 2rem;
 			width: 100%;
 			max-width: 100%;
 			background: var(--option-header-bg);
-			margin-block: 1rem;
-			padding-block: 0.5rem;
+			padding-inline: 1.75rem;
 
-			margin-block-start: 1.75rem;
-			padding-inline: 2rem;
+			margin-block-end: 1rem;
+			min-height: calc(1.35rem * 2 + 16px);
+			max-height: calc(1.35rem * 2 + 16px);
 
 			h3 {
 				font-size: 14px;
+				line-height: 1.35rem;
 				font-weight: 600;
 				white-space: break-spaces;
-				line-height: 1.75rem;
 				color: var(--option-header-title);
+
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				text-overflow: ellipsis;
 			}
 			h2 {
 				text-align: center;
@@ -194,10 +197,10 @@
 			}
 
 			.hackers-profile-media {
-				width: 69px;
+				width: 68px;
 				aspect-ratio: 1/1;
-				border-radius: 100%;
 				filter: grayscale(1);
+				clip-path: circle(50% at 50% 50%);
 			}
 
 			.total-payment {
@@ -461,6 +464,10 @@
 
 				.one-pentest {
 					color: var(--one-pentest-span);
+
+					&.leading-text {
+						line-height: 2rem;
+					}
 				}
 
 				.limitations {

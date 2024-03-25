@@ -58,67 +58,65 @@ export const AddCloudModal: FC<Props> = (props) => {
 	};
 
 	return (
-		<>
-			<div className="content">
-				<form className="form" onSubmit={handleSubmit}>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
+		<div className="content">
+			<form className="form" onSubmit={handleSubmit}>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
 
-						<select
-							onChange={(e) => {
-								setProvider(e.target.value);
-							}}
-							className="log-inputs modal_info"
-							value={provider}
-							id="select-provider-cloud"
-							required>
-							<option value="" disabled>
-								Provider
-							</option>
-							<option value="azure">Azure</option>
-							<option value="aws">AWS</option>
-							<option value="google">Google</option>
-						</select>
-					</div>
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
+					<select
+						onChange={(e) => {
+							setProvider(e.target.value);
+						}}
+						className="log-inputs modal_info"
+						value={provider}
+						id="select-provider-cloud"
+						required>
+						<option value="" disabled>
+							Provider
+						</option>
+						<option value="azure">Azure</option>
+						<option value="aws">AWS</option>
+						<option value="google">Google</option>
+					</select>
+				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
 
-						<input
-							type="text"
-							onChange={(e) => {
-								setAppName(e.target.value);
-							}}
-							placeholder="name"
-							required
-						/>
-					</div>
-
-					<div className="form-input">
-						<span className="icon">
-							<GlobeWebIcon />
-						</span>
-
-						<input
-							type="text"
-							onChange={(e) => {
-								setDescription(e.target.value);
-							}}
-							placeholder="description"
-							required
-						/>
-					</div>
-
-					<ModalButtons
-						close={props.close}
-						isDisabled={isAddingCloud}
-						confirmText="Add cloud"
+					<input
+						type="text"
+						onChange={(e) => {
+							setAppName(e.target.value);
+						}}
+						placeholder="name"
+						required
 					/>
-				</form>
-			</div>
-		</>
+				</div>
+
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
+
+					<input
+						type="text"
+						onChange={(e) => {
+							setDescription(e.target.value);
+						}}
+						placeholder="description"
+						required
+					/>
+				</div>
+
+				<ModalButtons
+					close={props.close}
+					isDisabled={isAddingCloud}
+					confirmText="Add cloud"
+				/>
+			</form>
+		</div>
 	);
 };

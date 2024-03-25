@@ -104,7 +104,8 @@ const sendOrderProvider = async (companyID: string, referenceNumber: string, pro
             reference_number: referenceNumber,
             provider_class: "user",
             provider_id: providerID
-        }
+        },
+        insecure: true
     }).catch((error: any) => handleFetchError(error))) as any;
 
     return data;

@@ -1,6 +1,6 @@
 import { type LoginParams, type User, mapLoginResponseToUser } from '..';
 import { useAuthState } from '../hooks/useAuthState';
-import { decodePayload } from './decodedToken';
+import { decodePayload } from '../utils/decodedToken';
 import { fetchPOST, handleFetchError } from './fetchAPI';
 
 const register = async (registerParams: any) => {

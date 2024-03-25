@@ -1,55 +1,22 @@
 import { type FC, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { GlobeWebIcon, ModalButtons } from '../..';
-import { useAuthState, WebApplicationService } from '../../../../data';
+import { useAddWebResourcce } from '../../../../data';
 
 interface AddDomainProps {
 	onDone: () => void;
-	close?: () => void;
+	close: () => void;
 	webResources: string[];
 }
 
 const AddDomainModal: FC<AddDomainProps> = (props) => {
-	const [domainName, setDomainName] = useState('');
 	const [subdomainDetection, setSubdomainDetection] = useState<boolean>(true);
-	const [isAddingDomain, setIsAddingDomain] = useState<boolean>(false);
-
-	const { getCompany } = useAuthState();
-
+	const { handleAddResource, isAddingDomain, setDomainName } =
+		useAddWebResourcce(props.onDone, props.close);
 	const handleSubmit = (e: React.FormEvent) => {
-		if (!domainName) return;
 		e.preventDefault();
 		e.stopPropagation();
-
-		setIsAddingDomain(true);
-		if (
-			!domainName.trim() ||
-			domainName.length === 0 ||
-			domainName.length > 100
-		) {
-			toast.error('Invalid domain');
-			setIsAddingDomain(false);
-			return;
-		}
-
-		const companyID = getCompany();
-
-		WebApplicationService.addResource(domainName, companyID)
-			.then((response: any) => {
-				if (response.isAnError || Number(response.error) > 0) {
-					throw new Error('An error has occurred on the server');
-				}
-
-				setDomainName('');
-				props.onDone();
-				toast.success('Successfully Added Domain..');
-			})
-			.catch((error: any) => {
-				toast.error(error.message);
-				props.close?.();
-			})
-			.finally(() => setIsAddingDomain(false));
+		handleAddResource();
 		return;
 	};
 	return (
