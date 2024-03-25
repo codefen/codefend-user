@@ -25,8 +25,8 @@ export const LeadOrderModal: FC = () => {
 		if (isLoading) {
 			getCurrentProviders(referenceNumber)
 				.then((res: any) => {
-					providers.current = res.providers
-						? res.providers.map(
+					providers.current = res.provider_users
+						? res.provider_users.map(
 								(provider: any) =>
 									({
 										id: provider.id,
@@ -35,7 +35,9 @@ export const LeadOrderModal: FC = () => {
 									}) as Provider,
 							)
 						: [];
-					setProviderId(res.providers ? res.providers[0].id : '');
+					setProviderId(
+						res.provider_users ? res.provider_users[0].id : '',
+					);
 				})
 				.finally(() => setIsLoading(false));
 		}
@@ -47,6 +49,9 @@ export const LeadOrderModal: FC = () => {
 		updateState('orderStepActive', OrderSection.ENVIRONMENT);
 	};
 
+	const backStep = () =>
+		updateState('orderStepActive', OrderSection.ORDER_REVIEW);
+
 	const ProviderLoader = () => (
 		<div>
 			<h2 className="order-plan-loader-title">
@@ -57,54 +62,63 @@ export const LeadOrderModal: FC = () => {
 	);
 
 	const ProviderEmptyFallback = () => (
-		<div>
+		<div className="option-header">
 			<h2>Oops sorry, we have no suppliers available at this time</h2>
 		</div>
 	);
 
 	return (
 		<>
-			<Show when={!isLoading} fallback={<ProviderLoader />}>
-				<div className="option-header">
-					<h3>
-						<b>Please select your desired team to conduct this order:</b>
-					</h3>
-				</div>
+			<Show when={isLoading}>
+				<ProviderLoader />
+			</Show>
+			<Show when={!isLoading && !Boolean(providers.current.length)}>
+				<ProviderEmptyFallback />
 			</Show>
 
-			{!Boolean(providers.current.length) && !isLoading ? (
-				<ProviderEmptyFallback />
-			) : (
-				<div className="scope-content show-both-borders more-results">
-					{providers.current.map((provider) => (
-						<div
-							key={`prov-${provider.id}`}
-							className={`option block-xll show-both-borders order-pointer ${
-								providerIdW === provider.id && `select-option`
-							}`}
-							onClick={() => setProviderId(provider.id)}>
-							<img
-								className="hackers-profile-media"
-								src={`data:image/png;base64, ${provider.profileMedia}`}
-								alt="header-icon"
-							/>
-							<div className="order-snapshot">
-								<div className="top">
-									<p>
-										Codefend private team |{' '}
-										<span className="codefend-text-red"> lead: </span>
-										@{provider.username}
-									</p>
+			<Show when={Boolean(providers.current.length) && !isLoading}>
+				<>
+					<div className="option-header">
+						<h3>
+							<b>
+								Please select your desired team to conduct this order:
+							</b>
+						</h3>
+					</div>
+					<div className="scope-content show-both-borders more-results">
+						{providers.current.map((provider) => (
+							<div
+								key={`prov-${provider.id}`}
+								className={`option block-xll show-both-borders order-pointer ${
+									providerIdW === provider.id && `select-option`
+								}`}
+								onClick={() => setProviderId(provider.id)}>
+								<img
+									className="hackers-profile-media"
+									src={`data:image/png;base64, ${provider.profileMedia}`}
+									alt="header-icon"
+								/>
+								<div className="order-snapshot">
+									<div className="top">
+										<p>
+											Codefend private team |{' '}
+											<span className="codefend-text-red">
+												{' '}
+												lead:{' '}
+											</span>
+											@{provider.username}
+										</p>
+									</div>
+									<span className="one-pentest">
+										An internal selection of professional/s that best
+										fit your needs.
+									</span>
 								</div>
-								<span className="one-pentest">
-									An internal selection of professional/s that best fit
-									your needs.
-								</span>
 							</div>
-						</div>
-					))}
-				</div>
-			)}
+						))}
+					</div>
+				</>
+			</Show>
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container ">

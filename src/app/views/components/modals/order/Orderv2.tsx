@@ -19,6 +19,7 @@ import {
 	useOrders,
 } from '../../../../data';
 import './order.scss';
+import { AnyPaymentMetod } from './layouts/AnyPaymentMetod';
 
 export const OrderV2 = () => {
 	const [isNextStep, updateNextStep] = useState(false);
@@ -46,11 +47,11 @@ export const OrderV2 = () => {
 			return <EnvironmentOrderModal />;
 		if (orderStepActive === OrderSection.ADDITIONAL_INFO)
 			return <AdditionalOrderModal />;
-		if (
-			orderStepActive === OrderSection.PAYMENT ||
-			paymentMethod !== OrderPaymentMethod.FINISHED
-		)
+		if (orderStepActive === OrderSection.PAYMENT)
 			return <PaymentMethodOrderModal />;
+
+		if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD)
+			return <AnyPaymentMetod />;
 
 		return orderStepActive === OrderSection.WELCOME ? (
 			<WelcomeOrderModal />

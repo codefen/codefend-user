@@ -1,17 +1,12 @@
-import { type FC, useMemo } from 'react';
+import type { FC, ReactNode } from 'react';
 
 interface ShowProps {
 	when: boolean;
-	fallback?: JSX.Element;
-	children: JSX.Element | JSX.Element[];
+	fallback?: ReactNode;
+	children: ReactNode;
 }
 
-const Show: FC<ShowProps> = ({ when, fallback, children }) => {
-	const content = useMemo(
-		() => (when ? children : fallback || null),
-		[when, fallback],
-	);
-	return content;
-};
+const Show: FC<ShowProps> = ({ when, fallback = null, children }) =>
+	when ? children : fallback;
 
 export default Show;

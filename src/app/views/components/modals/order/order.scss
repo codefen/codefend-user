@@ -1,6 +1,8 @@
 @use '../../../styles/settings/mixin' as media;
 
 .modal-wrapper {
+	border: 0px;
+	flex: 1 1;
 }
 .order-container {
 	width: 100%;
@@ -14,7 +16,6 @@
 
 	border-radius: 0.15rem;
 	background-color: var(--primary-color-100);
-	border: 1px solid var(--primary-color-500);
 
 	z-index: 120;
 
@@ -26,10 +27,14 @@
 
 	--one-pentest-span: var(--tertiary-color-300);
 	--show-border-color: var(--tertiary-color-50);
+	--option-header-bg: var(--secondary-color);
+	--option-header-title: var(--primary-color-50);
+	--option-header-span: var(--primary-color-200);
 
 	@include media.minScreenHeight(800px) {
 		& {
-			min-height: 60dvh;
+			min-height: 73dvh;
+			max-height: 73dvh;
 		}
 	}
 	@include media.minScreen(1650px) {
@@ -70,166 +75,6 @@
 				text-transform: uppercase;
 				margin-block-start: auto;
 				padding-block-end: 6px;
-			}
-		}
-
-		.steps {
-			-webkit-box-flex: 0;
-			flex: 0 0 100%;
-			justify-content: space-around;
-			display: flex;
-			margin-block-start: 0.75rem;
-			width: 100%;
-			--default-color: #ffdddd;
-
-			--completed-color: var(--secondary-color-100);
-			--current-color: #ffb8b8;
-
-			.step {
-				width: 100%;
-				position: relative;
-				display: flex;
-				flex-wrap: wrap;
-				-webkit-box-pack: center;
-				justify-content: center;
-
-				.step-dot {
-					position: relative;
-					display: inline-block;
-					width: 30px;
-					height: 30px;
-
-					border: 1px solid var(--default-color) !important;
-					background-color: var(--default-color);
-
-					border-radius: 30px;
-					border: 1px solid;
-					margin: auto;
-
-					top: 0.125em;
-					z-index: 2;
-
-					&:before {
-						content: '';
-						position: absolute;
-						top: -1px;
-						left: -1px;
-						width: 30px;
-						height: 30px;
-						transform: scale(0.75);
-						border-radius: 30px;
-						background-color: var(--default-color);
-
-						transition: background-color 250ms ease;
-					}
-				}
-
-				p {
-					font-size: 15px;
-					display: block;
-					margin: 0.5em 0;
-					text-align: center;
-					flex: 0 0 100%;
-					color: var(--tertiary-color-400);
-					letter-spacing: 0.5px;
-				}
-
-				&::before,
-				&::after {
-					position: absolute;
-					border: 1px solid var(--default-color);
-					height: 1px;
-					display: block;
-					z-index: 1;
-					top: 15px;
-					content: '';
-				}
-
-				&::before {
-					width: 100%;
-					border: 1px solid var(--default-color);
-				}
-
-				&::after {
-					width: 0%;
-					left: 0;
-					transition: 0.2s linear;
-					border: 1px solid var(--default-color);
-				}
-
-				&:first-child {
-					&::before,
-					&::after {
-						width: 50% !important;
-						left: unset;
-						right: unset;
-						transform: translateX(51%);
-					}
-				}
-
-				&:last-child {
-					&::before,
-					&::after {
-						width: 50% !important;
-						left: unset;
-						right: unset;
-						transform: translateX(-51%);
-					}
-				}
-
-				&.completed {
-					.step-dot {
-						border-color: var(--completed-color) !important;
-
-						&::before {
-							background-color: var(--completed-color);
-						}
-					}
-					p {
-						color: var(--tertiary-color-700);
-					}
-
-					&::before,
-					&::after {
-						width: 100%;
-						transition: 0.2s linear;
-					}
-
-					&::after {
-						border: 1px solid var(--completed-color) !important;
-					}
-				}
-
-				&.current {
-					.step-dot {
-						border-color: var(--completed-color) !important;
-
-						&::before {
-							background: var(--current-color);
-							animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-						}
-					}
-
-					p {
-						color: var(--tertiary-color-600);
-					}
-
-					&::after {
-						border: 1px solid var(--completed-color) !important;
-						width: calc(50% - 10px);
-						transition: 0.2s linear;
-					}
-
-					&::before {
-						border: 1px solid var(--default-color);
-					}
-				}
-
-				&.next-step {
-					&::before {
-						top: 15px;
-					}
-				}
 			}
 		}
 	}
@@ -284,23 +129,32 @@
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
-			column-gap: 0.2rem;
 			padding: 0 2rem;
 			width: 100%;
 			max-width: 100%;
+			background: var(--option-header-bg);
+			margin-block: 1rem;
+			padding-block: 0.5rem;
+
+			margin-block-start: 1.75rem;
+			padding-inline: 2rem;
 
 			h3 {
-				color: var(--tertiary-color-500);
 				font-size: 14px;
 				font-weight: 600;
 				white-space: break-spaces;
 				line-height: 1.75rem;
+				color: var(--option-header-title);
+			}
+			h2 {
+				text-align: center;
+				width: 100%;
 			}
 			b {
 				margin-inline-end: 5px;
 			}
 			span {
-				color: var(--tertiary-color-300);
+				color: var(--option-header-span);
 			}
 		}
 

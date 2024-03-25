@@ -16,64 +16,67 @@ export const ActiveProgressLine: FC<ActiveProgressLineProps> = ({
 		return verify < current ? 'completed' : '';
 	};
 
-	if (isNextStep || orderStepActive > OrderSection.PAYMENT) return <></>;
-	if (orderStepActive <= OrderSection.ORDER_REVIEW)
-		return (
-			<div className="steps">
-				<StepItem
-					text="Scope"
-					styles={currentOrCompleted(orderStepActive, OrderSection.SCOPE)}
-				/>
-				<StepItem
-					text="Frequency"
-					styles={currentOrCompleted(
-						orderStepActive,
-						OrderSection.FREQUENCY,
-					)}
-				/>
-				<StepItem
-					text="Team size"
-					styles={currentOrCompleted(
-						orderStepActive,
-						OrderSection.TEAM_SIZE,
-					)}
-				/>
-				<StepItem
-					text="Order review"
-					styles={currentOrCompleted(
-						orderStepActive,
-						OrderSection.ORDER_REVIEW,
-					)}
-				/>
-			</div>
-		);
-
 	return (
 		<div className="steps">
 			<StepItem
-				text="Profesional"
+				text="1"
+				styles={currentOrCompleted(orderStepActive, OrderSection.SCOPE)}
+			/>
+			<StepItem
+				text="2"
+				styles={currentOrCompleted(orderStepActive, OrderSection.FREQUENCY)}
+			/>
+			<StepItem
+				text="3"
+				styles={currentOrCompleted(orderStepActive, OrderSection.TEAM_SIZE)}
+			/>
+			<StepItem
+				text="4"
+				styles={currentOrCompleted(
+					orderStepActive,
+					OrderSection.ORDER_REVIEW,
+				)}
+			/>
+			<StepItem
+				text="5"
 				styles={currentOrCompleted(
 					orderStepActive,
 					OrderSection.SELECT_LEAD,
 				)}
 			/>
 			<StepItem
-				text="Environemnt"
+				text="6"
 				styles={currentOrCompleted(
 					orderStepActive,
 					OrderSection.ENVIRONMENT,
 				)}
 			/>
 			<StepItem
-				text="Additional info"
+				text="7"
 				styles={currentOrCompleted(
 					orderStepActive,
 					OrderSection.ADDITIONAL_INFO,
 				)}
 			/>
 			<StepItem
-				text="Payment"
+				text="8"
 				styles={currentOrCompleted(orderStepActive, OrderSection.PAYMENT)}
+			/>
+			<StepItem
+				text="9"
+				styles={currentOrCompleted(
+					orderStepActive,
+					OrderSection.ANY_PAYMENT_METHOD,
+				)}
+			/>
+			<StepItem
+				text="10"
+				styles={currentOrCompleted(
+					orderStepActive,
+					orderStepActive == OrderSection.WELCOME
+						? OrderSection.WELCOME
+						: OrderSection.PAYMENT_ERROR,
+				)}
 			/>
 		</div>
 	);

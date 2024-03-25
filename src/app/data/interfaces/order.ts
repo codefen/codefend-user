@@ -7,7 +7,8 @@ export enum OrderSection {
     ENVIRONMENT=6,
     ADDITIONAL_INFO=7,
     PAYMENT=8,
-    WELCOME=9,
+    ANY_PAYMENT_METHOD=9,
+    WELCOME=10,
     PAYMENT_ERROR=10
 }
 

@@ -21,6 +21,7 @@ body[data-theme='light'] {
 
 	--secondary-color-mask: #ff0000;
 
+	--secondary-color: #ff6363;
 	--secondary-color-50: #fe4e4e;
 	--secondary-color-100: #ff3939;
 	--secondary-color-200: #e84f4f;
@@ -75,9 +76,11 @@ body[data-theme='dark'] {
 
 @keyframes agrandar-y-volver {
 	0% {
-	  transform: scale(1); /* Tamaño normal del texto al inicio de la animación */
+		transform: scale(
+			1
+		); /* Tamaño normal del texto al inicio de la animación */
 	}
 	100% {
-	  transform: scale(1.1); /* Tamaño agrandado al final de la animación */
+		transform: scale(1.1); /* Tamaño agrandado al final de la animación */
 	}
-  }
+}

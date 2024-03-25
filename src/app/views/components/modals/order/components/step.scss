@@ -1,0 +1,63 @@
+.steps {
+	flex: 0 0 100%;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	margin-block-start: 0.75rem;
+	width: 100%;
+	--default-color: var(--secondary-color-50);
+	--completed-color: var(--secondary-color-100);
+	--current-color: #ffb8b8;
+
+	.step {
+		width: 55px;
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+
+		.step-dot {
+			position: relative;
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+
+			background-color: var(--default-color);
+
+			border-radius: 30px;
+			margin: auto;
+
+			top: 0.125em;
+		}
+
+		&.completed {
+			.step-dot {
+				width: 17px;
+				height: 17px;
+				background-color: var(--completed-color);
+			}
+		}
+
+		&.current {
+			.step-dot {
+				width: 24px;
+				height: 24px;
+			}
+
+			&::before {
+				content: attr(data-text);
+				position: absolute;
+				z-index: 2;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+
+				padding-block-start: 2px;
+
+				color: #fff;
+				font-weight: 700;
+				font-size: 1.075rem;
+			}
+		}
+	}
+}
