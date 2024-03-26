@@ -13,6 +13,7 @@ import {
 import '../../../../styles/flag.scss';
 import { useFlashlight } from '../../FlashLightContext';
 import './dashboard.scss';
+import { WelcomeGuide } from '../../../../components/standalones/welcome/WelcomeGuide.tsx';
 
 const Dashboard: React.FC = () => {
 	const { isLoading, companyData, refetch } = useDashboard();
@@ -28,22 +29,9 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
-			{/* Example of how to use the helper box
-			<HelperBox
-				icon={<GlobeWebIcon />}
-				title="Web resources:"
-				highlight="Add your web application and start a pentest"
-				text="From this section you can control all your web applications, add and remove domains and subdomain to your scope."
-				coords={{
-					left: '10%',
-					right: 'none',
-					top: '10%',
-					bottom: 'none',
-				}}
-				arrow={{ position: Position.TOP, coordX: '50%', coordY: '10%' }}
-			/>*/}
 			<div className="brightness variant-1"></div>
 			<div className="brightness variant-2"></div>
+
 			<section className="left">
 				<DashboardSearchbar />
 				<DashboardVulnerabilities

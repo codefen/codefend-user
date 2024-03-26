@@ -25,10 +25,11 @@ const Sidebar: FC = () => {
 	const { isActivePath } = usePanelStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
+	const [openGuide, setIsOpenGuide] = useState(true);
 	const [pressedKeys, setPressedKeys] = useState(new Set<string>());
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
-		if (action === 'enter') {
+		if (action === 'enter' && !openGuide) {
 			setIsSidebarOpen(true);
 		} else if (action === 'leave') {
 			setIsSidebarOpen(false);

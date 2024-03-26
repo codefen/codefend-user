@@ -7,19 +7,14 @@ import { TeamSizeOrderModal } from './layouts/TeamSizeOrderModal';
 import { OrderReviewModal } from './layouts/OrderReviewModal';
 import { PageLoader } from '../..';
 import { LeadOrderModal } from './layouts/LeadOrderModal';
-import { EnvironmentOrderModal } from './layouts/EnvironmentOrderModal';
+import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
 import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
 import { ActiveProgressLine } from './components/ActiveProgessiveSteps';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
-import {
-	OrderPaymentMethod,
-	OrderSection,
-	useOrderStore,
-	useOrders,
-} from '../../../../data';
-import './order.scss';
+import { OrderSection, useOrderStore, useOrders } from '../../../../data';
 import { AnyPaymentMetod } from './layouts/AnyPaymentMetod';
+import './order.scss';
 
 export const OrderV2 = () => {
 	const [isNextStep, updateNextStep] = useState(false);
@@ -44,7 +39,7 @@ export const OrderV2 = () => {
 		if (orderStepActive === OrderSection.SELECT_LEAD)
 			return <LeadOrderModal />;
 		if (orderStepActive === OrderSection.ENVIRONMENT)
-			return <EnvironmentOrderModal />;
+			return <OffensiveOrderModal />;
 		if (orderStepActive === OrderSection.ADDITIONAL_INFO)
 			return <AdditionalOrderModal />;
 		if (orderStepActive === OrderSection.PAYMENT)

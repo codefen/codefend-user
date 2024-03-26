@@ -1,8 +1,8 @@
 export interface HelperBoxCords {
-	right: string;
-	left: string;
-	top: string;
-	bottom: string;
+	right?: string;
+	left?: string;
+	top?: string;
+	bottom?: string;
 }
 
 export interface CoordsCssVariable extends React.CSSProperties {
@@ -36,4 +36,9 @@ export interface HelperBoxProps {
 	highlight: string;
 	coords: HelperBoxCords;
 	arrow: ArrowPosition;
+
+	isFinishStep?: boolean;
+
+	close: ()=>void;
+	next: ()=>void;
 }

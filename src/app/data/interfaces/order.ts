@@ -21,9 +21,10 @@ export enum ResourcesTypes {
     NETWORK="network",
 }
 
-export enum OrderEnvironment {
-    TEST,
-    PRODUCTION
+export enum OrderOffensive {
+    CAREFUL="careful",
+    OFFENSIVE="offensive",
+    ADVERSARY="offensive"
 }
 
 export enum OrderTeamSize {

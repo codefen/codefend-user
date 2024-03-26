@@ -63,19 +63,16 @@ export const useAddMobileResource = () => {
 	const isNotValidData = ()=>{
 		if (androidAddress.length > 165) {
 			toast.error('Invalid android address');
-			setIsAddingMobile(false);
 			return true;
 		}
 
 		if (iosAddress.length > 165) {
 			toast.error('Invalid ios address');
-			setIsAddingMobile(false);
 			return true;
 		}
 
 		if (!iosAddress.trim() && !androidAddress.trim()) {
 			toast.error('Kindly fill in field(s)');
-			setIsAddingMobile(false);
 			return true;
 		}
 

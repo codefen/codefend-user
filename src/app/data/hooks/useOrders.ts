@@ -294,3 +294,26 @@ export const useOrderProvider = () => {
 
 	return { sendOrderProvider, getCurrentProviders };
 };
+
+
+export const useOrderOffensive = () => {
+	const { getCompany } = useAuthState();
+
+	const fetcher = (companyID: string, referenceNumber: string, offensiveness:string) => {
+		return OrderService.sendOrderOffensive(companyID, referenceNumber, offensiveness).then(
+			(res: any) => res
+		);
+	};
+
+	const sendOrderProvider = (referenceNumber: string, offensiveness: string) => {
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return Promise.resolve(false);
+		}
+
+		return fetcher(companyID, referenceNumber, offensiveness);
+	};
+
+	return { sendOrderProvider };
+};

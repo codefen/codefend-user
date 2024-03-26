@@ -13,6 +13,7 @@ import {
 	HeaderResponsive,
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
+import { WelcomeGroupTour } from '../../components/standalones/welcome/WelcomeGroupTour';
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -40,6 +41,7 @@ export const PanelPage: FC = () => {
 			<Show when={isAuth()} fallback={<Navigate to="/auth/signin" />}>
 				<FlashLightProvider>
 					<>
+						<WelcomeGroupTour />
 						<Show when={showModal}>
 							<ErrorConection
 								closeModal={() => {

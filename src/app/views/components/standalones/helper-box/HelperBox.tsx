@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { CloseIcon, SimpleRightArrowIcon } from '../..';
+import { CloseIcon, Show, SimpleRightArrowIcon } from '../..';
 import {
 	Position,
 	type HelperBoxProps,
@@ -12,8 +12,11 @@ export const HelperBox: FC<HelperBoxProps> = ({
 	title,
 	text,
 	highlight,
-	coords,
+	coords: { bottom = '0%', left = '0%', right = '0%', top = '0%' },
 	arrow,
+	close,
+	next,
+	isFinishStep,
 }) => {
 	const { position, coordX = '50%', coordY = '50%', color = '' } = arrow;
 	const arrowColors = {
@@ -25,10 +28,10 @@ export const HelperBox: FC<HelperBoxProps> = ({
 	const defaultArrowColor = color || arrowColors[position];
 
 	const boxStyles: CoordsCssVariable = {
-		'--coord-top': `${coords.top}`,
-		'--coord-bottom': `${coords.bottom}`,
-		'--coord-left': `${coords.left}`,
-		'--coord-right': `${coords.right}`,
+		'--coord-top': `${top}`,
+		'--coord-bottom': `${bottom}`,
+		'--coord-left': `${left}`,
+		'--coord-right': `${right}`,
 		'--arrow-X': `${coordX}`,
 		'--arrow-Y': `${coordY}`,
 		'--arrow-color': `${defaultArrowColor}`,
@@ -42,14 +45,16 @@ export const HelperBox: FC<HelperBoxProps> = ({
 					<h2>{title}</h2>
 				</div>
 
-				<button className="close-btn">
+				<button className="close-btn" onClick={close}>
 					<CloseIcon isButton />
 				</button>
 			</header>
 			<b>{highlight}</b>
 			<p>{text}</p>
-			<button className="next-btn">
-				Continue <SimpleRightArrowIcon />
+			<button className="next-btn" onClick={next}>
+				<Show when={!isFinishStep} fallback={'Finish guide'}>
+					Continue <SimpleRightArrowIcon />
+				</Show>
 			</button>
 		</article>
 	);

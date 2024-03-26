@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { OrderEnvironment, type CompanyResourcesID, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption,type ScopeOptions } from "..";
+import { OrderOffensive, type CompanyResourcesID, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption,type ScopeOptions } from "..";
 
 
 
@@ -16,7 +16,7 @@ export interface OrderStore {
     frequency: OrderFrequency;
     teamSize: OrderTeamSize;
     providerId: string;
-    environmentOrder: OrderEnvironment;
+    offensiveOrder: OrderOffensive;
     aditionalInfo: string;
     paymentMethod: OrderPaymentMethod;
 
@@ -40,7 +40,7 @@ export const useOrderStore = create<OrderStore>((set,_get)=>({
     frequency: OrderFrequency.ONCE,
     teamSize: OrderTeamSize.SMALL,
     providerId: "",
-    environmentOrder: OrderEnvironment.TEST,
+    offensiveOrder: OrderOffensive.CAREFUL,
     aditionalInfo: "",
     paymentMethod: OrderPaymentMethod.BANK_TRANSFER,
     referenceNumber: '',
