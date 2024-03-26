@@ -1,23 +1,24 @@
-export { default as Logo } from '../defaults/Logo';
-export { default as Navbar } from './navbar/Navbar';
-export { default as Sidebar } from './sidebar/Sidebar';
+export { default as Logo } from '../defaults/Logo.tsx';
+export { default as Navbar } from './navbar/Navbar.tsx';
+export { default as Sidebar } from './sidebar/Sidebar.tsx';
 export * from './responsive';
 export * from '../defaults/loaders/Loader';
-export * from './utils/MessageCard';
-export * from './AppCard';
-export * from './AppCardInfo';
-export * from './ChatBox';
-export * from './CloudQuickAction';
-export * from './IssuesPanelMobileAndCloud';
-export * from './utils/MessageCard';
-export * from './ProvidedTestingCredentials';
-export * from './VulnerabilitiesStatus';
-export * from './VulnerabilityRisk';
-export * from './SearchBar';
-export * from './utils/RiskScore';
-export * from './utils/ModalButtons';
-export * from './utils/StarRating';
-export * from "./utils/Breadcrumb";
-export * from "./utils/LocationItem"
+export * from './utils/MessageCard.tsx';
+export * from './AppCard.tsx';
+export * from './AppCardInfo.tsx';
+export * from './ChatBox.tsx';
+export * from './CloudQuickAction.tsx';
+export * from './IssuesPanelMobileAndCloud.tsx';
+export * from './utils/MessageCard.tsx';
+export * from './ProvidedTestingCredentials.tsx';
+export * from './VulnerabilitiesStatus.tsx';
+export * from './VulnerabilityRisk.tsx';
+export * from './SearchBar.tsx';
+export * from './utils/RiskScore.tsx';
+export * from './utils/ModalButtons.tsx';
+export * from './utils/StarRating.tsx';
+export * from "./utils/Breadcrumb.tsx";
+export * from "./utils/LocationItem.tsx";
+export * from "./utils/ProfileMedia.tsx";
 
-export * from "./helper-box/HelperBox"
+export * from "./helper-box/HelperBox.tsx";

@@ -1,3 +1,15 @@
+import type { FC } from 'react';
+
+interface IconProps {
+	half?: boolean;
+	stroke?: number | string;
+	isButton?: boolean;
+	width?: number | string;
+	height?: number | string;
+	action?: () => void;
+	styles?: string;
+}
+
 export const ChartIcon = () => (
 	<svg
 		strokeWidth={0}
@@ -60,10 +72,7 @@ export const CLoudIcon = () => (
 	</svg>
 );
 
-export const LanIcon: React.FC<{ width?: string; height?: string }> = ({
-	width = '1em',
-	height = '1em',
-}) => (
+export const LanIcon: FC<IconProps> = ({ width = '1em', height = '1em' }) => (
 	<svg
 		strokeWidth={0}
 		height={height}
@@ -321,7 +330,7 @@ export const CollaboratorsIcon = () => (
 	</svg>
 );
 
-export const TrashIcon: React.FC<{ action?: any }> = ({ action }) => (
+export const TrashIcon: FC<IconProps> = ({ action }) => (
 	<svg
 		onClick={action}
 		strokeWidth="1.7"
@@ -365,9 +374,7 @@ export const StatIcon = () => (
 	</svg>
 );
 
-export const CloseIcon: React.FC<{
-	isButton?: boolean;
-}> = ({ isButton }): any => (
+export const CloseIcon: FC<IconProps> = ({ isButton }): any => (
 	<svg
 		fill="none"
 		viewBox="0 0 24 24"
@@ -388,7 +395,7 @@ export const CloseIcon: React.FC<{
 	</svg>
 );
 
-export const LeftArrow: React.FC<{ isButton?: boolean }> = ({ isButton }) => (
+export const LeftArrow: FC<IconProps> = ({ isButton }) => (
 	<svg
 		strokeWidth={0}
 		height="1em"
@@ -829,7 +836,7 @@ export const CheckIcon = () => (
 	</svg>
 );
 
-export const WindowsIcon: React.FC<{ styles?: any }> = ({ styles }) => (
+export const WindowsIcon: FC<IconProps> = ({ styles }) => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
@@ -842,7 +849,7 @@ export const WindowsIcon: React.FC<{ styles?: any }> = ({ styles }) => (
 	</svg>
 );
 
-export const LinuxIcon: React.FC<{ styles?: any }> = ({ styles }) => (
+export const LinuxIcon: FC<IconProps> = ({ styles }) => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
@@ -855,7 +862,7 @@ export const LinuxIcon: React.FC<{ styles?: any }> = ({ styles }) => (
 	</svg>
 );
 
-export const AppleIcon: React.FC<{ styles?: any }> = ({ styles }) => (
+export const AppleIcon: FC<IconProps> = ({ styles }) => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
@@ -880,7 +887,7 @@ export const WarningIcon = () => (
 	</svg>
 );
 
-export const CircleAskIcon: React.FC<{ styles?: any }> = ({ styles }) => (
+export const CircleAskIcon: FC<IconProps> = ({ styles }) => (
 	<svg
 		stroke="currentColor"
 		fill="currentColor"
@@ -893,55 +900,17 @@ export const CircleAskIcon: React.FC<{ styles?: any }> = ({ styles }) => (
 	</svg>
 );
 
-export const StarIcon = () => (
-	<svg width="18" height="18" viewBox="0 0 21 20" fill="none">
-		<g filter="url(#filter0_d_151_891)">
-			<path
-				d="M15.4101 6.57395C15.4706 6.39104 15.7294 6.39104 15.7899 6.57395L16.8119 9.66322C16.839 9.74511 16.9155 9.80041 17.0018 9.80041H20.3013C20.4959 9.80041 20.5759 10.0502 20.4175 10.1632L17.7543 12.0635C17.683 12.1145 17.6531 12.2059 17.6806 12.2892L18.6993 15.3684C18.7601 15.552 18.5507 15.7063 18.3933 15.594L15.7162 13.6837C15.6467 13.6341 15.5533 13.6341 15.4838 13.6837L12.8067 15.594C12.6493 15.7063 12.4399 15.552 12.5007 15.3684L13.5194 12.2892C13.5469 12.2059 13.517 12.1145 13.4457 12.0635L10.7825 10.1632C10.6241 10.0502 10.7041 9.80041 10.8987 9.80041H14.1982C14.2845 9.80041 14.361 9.74511 14.3881 9.66322L15.4101 6.57395Z"
-				fill="#FF9400"
-			/>
-			<path
-				d="M15.7424 6.58966L16.7644 9.67893C16.7983 9.78129 16.894 9.85041 17.0018 9.85041H20.3013C20.4473 9.85041 20.5073 10.0377 20.3884 10.1225L17.7253 12.0228C17.6361 12.0865 17.5987 12.2008 17.6332 12.3049L18.6518 15.3841C18.6974 15.5218 18.5404 15.6376 18.4223 15.5533L15.7452 13.643C15.6583 13.581 15.5417 13.581 15.4548 13.643L12.7777 15.5533C12.6596 15.6376 12.5026 15.5218 12.5482 15.3841L13.5668 12.3049C13.6013 12.2008 13.5639 12.0865 13.4747 12.0228L10.8116 10.1225C10.6927 10.0377 10.7527 9.85041 10.8987 9.85041H14.1982C14.306 9.85041 14.4017 9.78129 14.4356 9.67893L15.4576 6.58966C15.503 6.45247 15.697 6.45247 15.7424 6.58966Z"
-				stroke="#FD8B00"
-				strokeWidth="0.1"
-			/>
-		</g>
-		<defs>
-			<filter
-				id="filter0_d_151_891"
-				x="0.698242"
-				y="0.436768"
-				width="29.8035"
-				height="29.1953"
-				filterUnits="userSpaceOnUse"
-				colorInterpolationFilters="sRGB">
-				<feFlood floodOpacity="0" result="BackgroundImageFix" />
-				<feColorMatrix
-					in="SourceAlpha"
-					type="matrix"
-					values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-					result="hardAlpha"
-				/>
-				<feOffset dy="4" />
-				<feGaussianBlur stdDeviation="5" />
-				<feComposite in2="hardAlpha" operator="out" />
-				<feColorMatrix
-					type="matrix"
-					values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.13 0"
-				/>
-				<feBlend
-					mode="normal"
-					in2="BackgroundImageFix"
-					result="effect1_dropShadow_151_891"
-				/>
-				<feBlend
-					mode="normal"
-					in="SourceGraphic"
-					in2="effect1_dropShadow_151_891"
-					result="shape"
-				/>
-			</filter>
-		</defs>
+export const StarIcon: FC<IconProps> = ({ half }) => (
+	<svg
+		viewBox="0 0 24 24"
+		fill="currentColor"
+		id="star-icon"
+		className={half ? 'half-icon' : ''}>
+		<path
+			fillRule="evenodd"
+			d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+			clipRule="evenodd"
+		/>
 	</svg>
 );
 
@@ -1229,6 +1198,26 @@ export const DownloadIcon = () => (
 			strokeLinecap="round"
 			strokeLinejoin="round"
 			d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z"
+		/>
+	</svg>
+);
+
+export const VerificationIcons = () => (
+	<svg viewBox="0 0 24 24" fill="currentColor">
+		<path
+			fillRule="evenodd"
+			d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+			clipRule="evenodd"
+		/>
+	</svg>
+);
+
+export const LocationIcon = () => (
+	<svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+		<path
+			fillRule="evenodd"
+			d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+			clipRule="evenodd"
 		/>
 	</svg>
 );
