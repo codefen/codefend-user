@@ -8,7 +8,6 @@ export const useFetcher = ()=>{
     useEffect(() => {
         httpService?.updateUrlInstance();
       return () => {
-        httpService?.cancelRequest();
         setHttpService(null);
       };
     });
