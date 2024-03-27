@@ -8,11 +8,10 @@ export const useFetcher = ()=>{
     useEffect(() => {
         httpService?.updateUrlInstance();
       return () => {
-        // Limpia el servicio cuando el componente se desmonta
         httpService?.cancelRequest();
         setHttpService(null);
       };
-    }, []);
+    });
 
     const fetcher = <T>(method: 'post' | 'get', options: HttpRequestOptions)=>{
         setIsLoading(true);

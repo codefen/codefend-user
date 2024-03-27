@@ -34,8 +34,13 @@ import {
 import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from './views/components/modals/reports/PageReport';
 import { ProviderPage } from './views/pages/panel/layouts/providers/ProviderPanel';
+import { useAuthState, useUserAdmin, useUserProvider } from './data';
 
 export const AppRouter: React.FC = () => {
+	const { isAdmin } = useUserAdmin();
+	const { isHacker } = useUserProvider();
+	const { getAccessToken } = useAuthState();
+
 	return (
 		<>
 			<ToastContainer
@@ -82,18 +87,30 @@ export const AppRouter: React.FC = () => {
 							<Route path="update/:id" element={<IssuesUpdate />} />
 						</Route>
 						{/* Private Routes + only admin access */}
-						<Route path="admin/*" element={<AdminPage />}>
-							<Route index element={<Navigate to="company" replace />} />
-							<Route path="company" element={<AdminCompany />} />
+
+						{isAdmin() && (
+							<Route path="admin/*" element={<AdminPage />}>
+								<Route
+									index
+									element={<Navigate to="company" replace />}
+								/>
+								<Route path="company" element={<AdminCompany />} />
+							</Route>
+						)}
+						{isHacker() && (
+							<Route
+								path="provider/*"
+								index
+								element={<ProviderPage />}
+							/>
+						)}
+					</Route>
+					{getAccessToken() && (
+						<Route path="report/*" element={<PageReport />}>
+							<Route index element={<PageReport />}></Route>
 						</Route>
-						<Route
-							path="provider/*"
-							index
-							element={<ProviderPage />}></Route>
-					</Route>
-					<Route path="report/*" element={<PageReport />}>
-						<Route index element={<PageReport />}></Route>
-					</Route>
+					)}
+
 					{/* Public Routes */}
 					<Route path="/auth/*" element={<AuthPage />}>
 						<Route index element={<Navigate to="signin" replace />} />

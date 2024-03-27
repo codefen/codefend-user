@@ -3,6 +3,7 @@ import type { Monitoring } from '.';
 export interface User extends Monitoring {
 	id?: string;
 	companyID: string;
+	companyAccessIds: string;
 	accessRole: string;
 	mfaKey: string;
 	role: string;
@@ -15,11 +16,7 @@ export interface User extends Monitoring {
 	profileMedia?: string | null;
 	country?: string;
 	countryCode: string;
-	companySize?: string | number;
-	companyName?: string;
 	companyRole: string;
-	companyWeb?: string;
-	companyCountry?: string;
 	exp?: number;
 }
 

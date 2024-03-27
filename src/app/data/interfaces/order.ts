@@ -24,7 +24,7 @@ export enum ResourcesTypes {
 export enum OrderOffensive {
     CAREFUL="careful",
     OFFENSIVE="offensive",
-    ADVERSARY="offensive"
+    ADVERSARY="adversary"
 }
 
 export enum OrderTeamSize {
@@ -38,6 +38,17 @@ export enum ScopeOption {
     TYPE
 }
 
+export enum CryptoPayment {
+    BITCOIN="BTC",
+    ETHERIUM="ETH",
+    LITECOIN="LTC",
+    SOLANA="SOL",
+    MONERO="XMR",
+    USDT="USDT",
+    USDC="USDC"
+
+}
+
 export interface ScopeOptions {
     totalResources: number;
     totalAllResources: number;
@@ -46,10 +57,9 @@ export interface ScopeOptions {
 }
 
 export enum OrderPaymentMethod {
-    CRYPTO,
-    CARD,
-    BANK_TRANSFER,
-    FINISHED
+    CRYPTO="cc",
+    CARD="card",
+    BANK_TRANSFER="bank"
 }
 export enum OrderFrequency {
     ONCE="once",

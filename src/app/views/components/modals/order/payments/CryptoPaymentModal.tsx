@@ -1,14 +1,27 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
+	CryptoPayment,
 	OrderPaymentMethod,
 	OrderSection,
 	OrderTeamSize,
 	defaultCrypto,
+	useOrderCryptoFinancial,
 	useOrderStore,
 } from '../../../../../data';
 import { CopiedIcon, CopyIcon, PrimaryButton } from '../../..';
 
 export const CryptoPaymentModal = () => {
+	const {
+		getCryptoFinancialInfo,
+		cryptoBtc,
+		cryptoEth,
+		cryptoLtc,
+		cryptoMonero,
+		cryptoSol,
+		cryptoUsdC,
+		cryptoUsdT,
+	} = useOrderCryptoFinancial();
+
 	const { teamSize, updateState } = useOrderStore((state) => state);
 	const [cryptoAddress, setCryptoAddress] = useState(
 		'bc1qxypfpkrcwpszp20azl804nuxn8n95cf6g0rgy2',
@@ -16,6 +29,10 @@ export const CryptoPaymentModal = () => {
 	const [copied, setCopied] = useState(false);
 	const [transactionID, setTransactionID] = useState('');
 	const [trySend, setTrySend] = useState(false);
+	const [crypto, setCrypto] = useState<CryptoPayment>(CryptoPayment.BITCOIN);
+	const [walletId, setWalletId] = useState(
+		'bc1qxypfpkrcwpszp20azl804nuxn8n95cf6g0rgy2',
+	);
 
 	const copyTextToClipboard = () => {
 		navigator.clipboard.writeText(cryptoAddress).then(() => {
@@ -36,12 +53,20 @@ export const CryptoPaymentModal = () => {
 
 	const finishStep = () => {
 		let someActionWithThis = transactionID;
-		if (someActionWithThis.trim()) {
-			updateState('paymentMethod', OrderPaymentMethod.FINISHED);
-		} else {
-			setTrySend(true);
-			setTimeout(() => setTrySend(false), 2300);
-		}
+		setTrySend(true);
+		setTimeout(() => setTrySend(false), 2300);
+	};
+
+	Object.values(CryptoPayment).map((key: any) => console.log({ key }));
+
+	const values = {
+		[CryptoPayment.BITCOIN.valueOf()]: CryptoPayment.BITCOIN,
+		[CryptoPayment.ETHERIUM.valueOf()]: CryptoPayment.ETHERIUM,
+		[CryptoPayment.LITECOIN.valueOf()]: CryptoPayment.LITECOIN,
+		[CryptoPayment.MONERO.valueOf()]: CryptoPayment.MONERO,
+		[CryptoPayment.SOLANA.valueOf()]: CryptoPayment.SOLANA,
+		[CryptoPayment.USDC.valueOf()]: CryptoPayment.USDC,
+		[CryptoPayment.USDT.valueOf()]: CryptoPayment.USDT,
 	};
 
 	return (
@@ -54,28 +79,31 @@ export const CryptoPaymentModal = () => {
 			<div className="scope-content crypto-payment">
 				<div className="order-img-wrapper show-both-borders ">
 					<div className="order-img">
-						{defaultCrypto.map((coin, i) => (
-							<img
-								key={i}
-								src={`/codefend/${coin.name}.svg`}
-								alt={coin.name}
-							/>
+						{Object.values(CryptoPayment).map((coin, i) => (
+							<>
+								{coin === 'USDT' && (
+									<div className="crypto-usd-dash"></div>
+								)}
+								<img
+									key={i}
+									src={`/codefend/${coin.toLowerCase()}.svg`}
+									alt={coin.toLowerCase()}
+									className={`${crypto.valueOf() === coin && 'selected-crypto'}`}
+									onClick={() => {
+										setCrypto(values[coin]);
+									}}
+								/>
+							</>
 						))}
-						<img
-							src="/codefend/usdc.svg"
-							className="crypto-usd crypto-usd-dash"
-							alt="coin-icon"
-						/>
-						<img
-							src="/codefend/tether.svg"
-							className="crypto-usd"
-							alt="tether-icon"
-						/>
 					</div>
 				</div>
 				<div className="payment-details">
 					<div className="qrcode">
-						<img src="/codefend/QR.svg" alt="qrcode-icon" />
+						<img
+							src="/codefend/QR.svg"
+							alt="qrcode-icon"
+							className="qr-img"
+						/>
 					</div>
 					<div className="details space">
 						<div className="top">
@@ -86,9 +114,7 @@ export const CryptoPaymentModal = () => {
 						</div>
 
 						<div className="address-container select-option">
-							<span className="address-text">
-								bc1qxypfpkrcwpszp20azl804nuxn8n95cf6g0rgy2
-							</span>
+							<span className="address-text">{walletId}</span>
 
 							<div
 								className={`copy-icon order-pointer ${copied && 'copied'}`}

@@ -139,6 +139,36 @@ const sendOrderProviderInfo= async (companyID: string, referenceNumber: string, 
     return data;
 }
 
+const sendOrderFinancial = async (companyID: string, referenceNumber: string, financial: string) => {
+    const { data } = (await fetchPOST({
+        params: {
+            model: "orders/add",
+            phase: "financial",
+            company_id: companyID,
+            reference_number: referenceNumber,
+            financial_resource: financial
+        },
+        insecure: true
+    }).catch((error: any) => handleFetchError(error))) as any;
+
+    return data;
+}
+
+const sendOrderFinancialBank = async (companyID: string, referenceNumber: string, financial: string) => {
+    const { data } = (await fetchPOST({
+        params: {
+            model: "orders/add",
+            phase: "financial",
+            company_id: companyID,
+            reference_number: referenceNumber,
+            financial_resource: financial
+        },
+        insecure: true
+    }).catch((error: any) => handleFetchError(error))) as any;
+
+    return data;
+}
+
 export const OrderService = {
-    getTotalResourceCount, getCurrentPrices, getCurrentProviders, sendOrderScope, sendMemberShip, sendOrderPlan, sendOrderConfirm, sendOrderProvider, sendOrderOffensive, sendOrderProviderInfo
+    getTotalResourceCount, getCurrentPrices, getCurrentProviders, sendOrderScope, sendMemberShip, sendOrderPlan, sendOrderConfirm, sendOrderProvider, sendOrderOffensive, sendOrderProviderInfo, sendOrderFinancial
 }

@@ -32,6 +32,7 @@ const login = async (loginParams: LoginParams): Promise<any> => {
 	}).catch((error: any) => handleFetchError(error))) as any;
 
 	const response = data.response as string;
+	
 	if (response === 'success') {
 		const token = data.session as string;
 		let user = {} as User;

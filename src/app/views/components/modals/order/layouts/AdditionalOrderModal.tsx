@@ -1,10 +1,15 @@
 import { type FC, useCallback, useState } from 'react';
 import { PrimaryButton } from '../../..';
-import { OrderSection, useOrderStore } from '../../../../../data';
+import {
+	OrderSection,
+	useOrderStore,
+	userOrderProviderInfo,
+} from '../../../../../data';
 
 export const AdditionalOrderModal: FC = () => {
 	const [aditionalInfoW, setAditionalInfo] = useState('');
-	const { updateState } = useOrderStore((state) => state);
+	const { updateState, referenceNumber } = useOrderStore((state) => state);
+	const { sendOrderProviderInfo } = userOrderProviderInfo();
 
 	const placeHolderText = `What is the main reason to conduct this excersive?
 
@@ -19,6 +24,7 @@ Is there any other additional information for our professionals?`;
 	}, []);
 	const continueToPayment = () => {
 		updateState('aditionalInfo', aditionalInfoW);
+		sendOrderProviderInfo(referenceNumber, aditionalInfoW);
 		updateState('orderStepActive', OrderSection.PAYMENT);
 	};
 
@@ -47,7 +53,7 @@ Is there any other additional information for our professionals?`;
 					<PrimaryButton
 						text="back"
 						click={() =>
-							updateState('orderStepActive', OrderSection.SELECT_LEAD)
+							updateState('orderStepActive', OrderSection.ENVIRONMENT)
 						}
 						className="full"
 						buttonStyle="black"

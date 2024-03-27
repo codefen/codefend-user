@@ -9,6 +9,8 @@ import {
 	ScopeOption,
 	useOrderStore,
 } from '..';
+import { useRef, useState } from 'react';
+import { useFetcher } from './util/useFetcher';
 
 export const useOrders = () => {
 	const { getCompany } = useAuthState();
@@ -317,3 +319,95 @@ export const useOrderOffensive = () => {
 
 	return { sendOrderProvider };
 };
+
+export const userOrderProviderInfo = () => {
+	const { getCompany } = useAuthState();
+
+	const fetcher = (companyID: string, referenceNumber: string, info:string) => {
+		return OrderService.sendOrderProviderInfo(companyID, referenceNumber, info).then(
+			(res: any) => res
+		);
+	};
+
+	const sendOrderProviderInfo = (referenceNumber: string, info: string) => {
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return Promise.resolve(false);
+		}
+
+		return fetcher(companyID, referenceNumber, info);
+	};
+
+	return { sendOrderProviderInfo };
+};
+
+export const userOrderFinancialResource = () => {
+	const { getCompany } = useAuthState();
+
+	const fetcher = (companyID: string, referenceNumber: string, financial: string) => {
+		return OrderService.sendOrderFinancial(companyID, referenceNumber, financial).then(
+			(res: any) => res
+		);
+	};
+
+	const sendOrderFinancial = (referenceNumber: string, financial: string) => {
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return Promise.resolve(false);
+		}
+
+		return fetcher(companyID, referenceNumber, financial);
+	};
+
+	return { sendOrderFinancial };
+};
+
+export interface OrderCryptoFinancial {
+	walletID: string;
+	qrCode: string;
+}
+
+export const useOrderCryptoFinancial = ()=>{
+	const [fetcher] = useFetcher();
+	const { getCompany } = useAuthState();
+	const cryptoBtc = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+	const cryptoEth = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+	const cryptoLtc = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+	const cryptoMonero = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+	const cryptoSol = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+	const cryptoUsdT = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+	const cryptoUsdC = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+
+	const getCryptoFinancialInfo = (referenceNumber: string, crypto: string)=> {
+		fetcher("post", {
+			body: {
+				model: "orders/add",
+				phase: "financial",
+				company_id: getCompany(),
+				reference_number: referenceNumber,
+				financial_resource: crypto
+			}
+		}).then((res)=>{
+			console.log({ res });
+		});
+	}
+
+	return { getCryptoFinancialInfo, cryptoEth, cryptoBtc, cryptoLtc, cryptoMonero, cryptoSol, cryptoUsdT, cryptoUsdC };
+}
+
+/*
+export const useOrderCryptoSave = (cryptoAddress: string)=>{
+	const [copied, setCopied] = useState(false);
+	const [transactionID, setTransactionID] = useState('');
+	const [cryptoAddress, setC] = useState('');
+	const [trySend, setTrySend] = useState(false);
+
+	const copyTextToClipboard = () => {
+		navigator.clipboard.writeText(cryptoAddress).then(() => {
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
+		});
+	};
+}*/

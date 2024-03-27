@@ -3,21 +3,6 @@ import { type LoginParams, type RegisterParams, type User, getFullCompanyFromUse
 import type { AuthState } from '../store/auth.store';
 import useAuthStore from '../store/auth.store';
 
-export const useUserAdmin = () => {
-	const {
-		userData: { accessRole },
-		accessToken,
-		isAuth
-	} = useAuthStore((state: AuthState) => state);
-
-	const getRole = () => accessRole ?? '';
-	const isCurrentAuthValid = () => isAuth;
-	const getAccessToken = () => accessToken;
-	const isAdmin = () => getRole() === 'admin';
-
-	return { isCurrentAuthValid, isAdmin, getAccessToken };
-};
-
 export const useAuthState = () => {
 	const authStore = useAuthStore((state: AuthState) => state);
 
@@ -114,3 +99,25 @@ export const useAuthState = () => {
 		logout
 	};
 };
+
+export const useUserAdmin = () => {
+	const {
+		userData: { accessRole },
+		accessToken,
+		isAuth
+	} = useAuthStore((state: AuthState) => state);
+
+	const getRole = () => accessRole ?? '';
+	const isCurrentAuthValid = () => isAuth;
+	const getAccessToken = () => accessToken;
+	const isAdmin = () => getRole() === 'admin';
+
+	return { isCurrentAuthValid, isAdmin, getAccessToken };
+};
+
+export const useUserProvider = ()=>{
+	const { userData: { accessRole } } = useAuthStore((state: AuthState) => state);
+	const getRole = () => accessRole ?? '';
+	const isHacker = () => getRole() === 'hacker';
+	return { getRole, isHacker}
+}

@@ -9,6 +9,10 @@
 		}
 	}
 
+	&.btn-dark-red {
+		background: var(--secondary-color-400);
+	}
+
 	&.btn-black {
 		background-color: var(--tertiary-color-400);
 

@@ -17,7 +17,7 @@ export const OffensiveOrderModal: FC = () => {
 	const { sendOrderProvider } = useOrderOffensive();
 
 	const nextStep = () => {
-		updateState('environmentOrder', offensiveOrderW);
+		updateState('offensiveOrder', offensiveOrderW);
 		sendOrderProvider(referenceNumber, offensiveOrderW);
 		updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
 	};
@@ -35,7 +35,9 @@ export const OffensiveOrderModal: FC = () => {
 			<div className="scope-content show-both-borders">
 				<div
 					className={`option order-pointer show-both-borders ${
-						offensiveOrderW === OrderOffensive.CAREFUL && `select-option`
+						offensiveOrderW === OrderOffensive.CAREFUL
+							? `select-option`
+							: ``
 					}`}
 					onClick={() => setOffensiveOrder(OrderOffensive.CAREFUL)}>
 					<img
@@ -61,8 +63,9 @@ export const OffensiveOrderModal: FC = () => {
 				</div>
 				<div
 					className={`option order-pointer show-both-borders ${
-						offensiveOrderW === OrderOffensive.OFFENSIVE &&
-						`select-option`
+						offensiveOrderW === OrderOffensive.OFFENSIVE
+							? `select-option`
+							: ``
 					}`}
 					onClick={() => setOffensiveOrder(OrderOffensive.OFFENSIVE)}>
 					<img

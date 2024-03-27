@@ -33,7 +33,6 @@ export const CardPaymentModal = () => {
 	const submitCardPayment = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
-		updateState('paymentMethod', OrderPaymentMethod.FINISHED);
 	};
 
 	const backStep = () => {

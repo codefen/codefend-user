@@ -32,6 +32,7 @@ export const mapLoginResponseToUser = (response: any): User => {
 	return {
 		id: response.id,
 		companyID: response.company_id,
+		companyAccessIds: response.company_access_ids,
 		name: response.fname,
 		lastName: response.lname,
 		username: response.username,
@@ -42,7 +43,6 @@ export const mapLoginResponseToUser = (response: any): User => {
 		password: response.password,
 		mfaKey: response.mfa_llave,
 		profileMedia: response.profile_media,
-		companyCountry: response.pais,
 		country: response.pais,
 		countryCode: response.pais_code,
 		isDisabled: response.eliminado === '1',

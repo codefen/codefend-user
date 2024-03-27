@@ -6,6 +6,7 @@ import './primaryButton.scss';
 enum ButtonStyles {
 	RED = 'red',
 	BLACK = 'black',
+	DARK_RED = 'dark-red',
 	GRAY = 'gray',
 	SEND = 'send',
 	DEFAULT = 'default',
@@ -18,7 +19,7 @@ interface PrimaryButtonProps {
 	className?: string;
 	type?: 'submit' | 'reset' | 'button';
 	disabledLoader?: boolean;
-	buttonStyle?: 'red' | 'black' | 'gray' | 'default' | 'send' | ButtonStyles;
+	buttonStyle?: 'red' | 'black' | 'gray' | 'default' | 'send' | 'dark-red' | ButtonStyles;
 	hideContent?: boolean;
 }
 
@@ -37,6 +38,7 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
 		[ButtonStyles.BLACK]: 'btn-black',
 		[ButtonStyles.GRAY]: 'btn-gray',
 		[ButtonStyles.SEND]: 'btn-red send-btn',
+		[ButtonStyles.DARK_RED]: 'btn-dark-red',
 		[ButtonStyles.DEFAULT]: '',
 	};
 

@@ -4,12 +4,14 @@ import {
 	useOrderStore,
 	OrderPaymentMethod,
 	OrderSection,
+	userOrderFinancialResource,
 } from '../../../../../data';
 
 export const PaymentMethodOrderModal: FC = () => {
-	const { paymentMethod, updateState, resetActiveOrder } = useOrderStore(
+	const { paymentMethod, updateState, referenceNumber } = useOrderStore(
 		(state) => state,
 	);
+	const { sendOrderFinancial } = userOrderFinancialResource();
 
 	const [paymentMethodW, setPaymentMethod] =
 		useState<OrderPaymentMethod>(paymentMethod);
@@ -19,6 +21,7 @@ export const PaymentMethodOrderModal: FC = () => {
 
 	const nextStep = () => {
 		updateState('paymentMethod', paymentMethodW);
+		sendOrderFinancial(referenceNumber, paymentMethodW);
 		updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
 	};
 

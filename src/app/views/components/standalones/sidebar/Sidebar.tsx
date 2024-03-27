@@ -13,23 +13,22 @@ import {
 	SnbIcon,
 	VdbIcon,
 	SourceCodeIcon,
+	ProfileIcon,
 } from '../../';
 
-import { usePanelStore, useUserAdmin } from '../../../../data';
+import { usePanelStore, useUserAdmin, useUserProvider } from '../../../../data';
 import './sidebar.scss';
 
 const Sidebar: FC = () => {
-	const { isCurrentAuthValid, isAdmin, getAccessToken } = useUserAdmin();
-	const showAdmin =
-		isCurrentAuthValid() && isAdmin() && getAccessToken() !== null;
+	const { isAdmin } = useUserAdmin();
+	const { isHacker } = useUserProvider();
 	const { isActivePath } = usePanelStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
-	const [openGuide, setIsOpenGuide] = useState(true);
 	const [pressedKeys, setPressedKeys] = useState(new Set<string>());
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
-		if (action === 'enter' && !openGuide) {
+		if (action === 'enter') {
 			setIsSidebarOpen(true);
 		} else if (action === 'leave') {
 			setIsSidebarOpen(false);
@@ -70,7 +69,7 @@ const Sidebar: FC = () => {
 			className={`sidebar ${isSidebarOpen ? 'is-open' : ''}`}
 			onMouseEnter={(e) => handleOpenSidebar('enter')}
 			onMouseLeave={(e) => handleOpenSidebar('leave')}>
-			{showAdmin && (
+			{isAdmin() && (
 				<>
 					<Link
 						title="Admin Panel"
@@ -84,6 +83,19 @@ const Sidebar: FC = () => {
 					</Link>
 				</>
 			)}
+			{isHacker() && (
+				<>
+					<Link
+						to="/provider"
+						className={`${isActivePath('/provider') ? 'active' : ''}`}
+						title="Provider profile"
+						aria-label="Provider profile"
+						data-text="Provider profile">
+						<ProfileIcon isVisible />
+					</Link>
+				</>
+			)}
+
 			<Link
 				title="Dashboard"
 				to="/dashboard"

@@ -5,9 +5,10 @@ import {
 	StarRating,
 	VerificationIcons,
 } from '../../../../components';
-import './provider.scss';
 import { AboutProvider } from './layouts/AboutProvider';
 import { ProviderSidebar } from './components/ProviderSidebar';
+import { ProviderList } from './components/ProviderList';
+import './provider.scss';
 
 export const ProviderPage = () => {
 	const [showScreen, setShowScreen] = useState(false);
@@ -83,29 +84,7 @@ export const ProviderPage = () => {
 				</div>
 			</section>
 			<section className="right">
-				<div className="providers-list">
-					<h2>Providers</h2>
-
-					<div className="provider-card">
-						<ProfileMedia
-							src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
-							size="75px"
-						/>
-						<div className="provider-card-content">
-							<div className="provider-name">
-								<p>
-									Indila Indigo |{' '}
-									<span className="codefend-text-red">@Indila</span>
-								</p>
-							</div>
-							<span className="provider-desc">Web chaos since 2008</span>
-							<span className="provider-score">
-								<span>4.55 score</span>
-								<span>236 reviews *starts*</span>
-							</span>
-						</div>
-					</div>
-				</div>
+				<ProviderList />
 			</section>
 		</main>
 	);
