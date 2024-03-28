@@ -14,6 +14,8 @@ import {
 	VdbIcon,
 	SourceCodeIcon,
 	ProfileIcon,
+	PreferenceIcon,
+	MessageIcon,
 } from '../../';
 
 import { usePanelStore, useUserAdmin, useUserProvider } from '../../../../data';
@@ -24,8 +26,6 @@ const Sidebar: FC = () => {
 	const { isHacker } = useUserProvider();
 	const { isActivePath } = usePanelStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const [isHidden, setIsHidden] = useState(false);
-	const [pressedKeys, setPressedKeys] = useState(new Set<string>());
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
 		if (action === 'enter') {
@@ -34,35 +34,6 @@ const Sidebar: FC = () => {
 			setIsSidebarOpen(false);
 		}
 	};
-
-	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			setPressedKeys((prevKeys) => {
-				const newKeys = new Set([...prevKeys, event.key]);
-
-				if (newKeys.has('h') && newKeys.has('Control')) {
-					setIsHidden((prevState) => !prevState);
-				}
-
-				return newKeys;
-			});
-		};
-
-		const handleKeyUp = (event: KeyboardEvent) => {
-			setPressedKeys(
-				(prevKeys) =>
-					new Set([...prevKeys].filter((key) => key !== event.key)),
-			);
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		window.addEventListener('keyup', handleKeyUp);
-
-		return () => {
-			window.removeEventListener('keydown', handleKeyDown);
-			window.removeEventListener('keyup', handleKeyUp);
-		};
-	}, []);
 
 	return (
 		<aside
@@ -95,15 +66,6 @@ const Sidebar: FC = () => {
 					</Link>
 				</>
 			)}
-
-			<Link
-				to="/provider"
-				className={`${isActivePath('/provider') ? 'active' : ''}`}
-				title="Provider profile"
-				aria-label="Provider profile"
-				data-text="Provider profile">
-				<ProfileIcon isVisible />
-			</Link>
 
 			<Link
 				title="Dashboard"
@@ -186,36 +148,50 @@ const Sidebar: FC = () => {
 				data-text="Issues">
 				<BugIcon />
 			</Link>
-			{isHidden && (
-				<>
-					<Link
-						title="Inx"
-						to="/inx"
-						className={`${isActivePath('/inx') ? 'active' : ''}`}
-						aria-label="Intelligence"
-						data-text="Intelligence">
-						<InxIcon />
-					</Link>
 
-					<Link
-						title="Sns"
-						to="/sns"
-						className={`${isActivePath('/sns') ? 'active' : ''}`}
-						aria-label="Search dataleak"
-						data-text="Search data leak">
-						<SnbIcon />
-					</Link>
+			<Link
+				title="Inx"
+				to="/inx"
+				className={`${isActivePath('/inx') ? 'active' : ''}`}
+				aria-label="Intelligence"
+				data-text="Intelligence">
+				<InxIcon />
+			</Link>
 
-					<Link
-						title="Vdb"
-						to="/vdb"
-						className={`${isActivePath('/vdb') ? 'active' : ''}`}
-						aria-label="Vdb"
-						data-text="Vdb">
-						<VdbIcon />
-					</Link>
-				</>
-			)}
+			<Link
+				title="Sns"
+				to="/sns"
+				className={`${isActivePath('/sns') ? 'active' : ''}`}
+				aria-label="Search dataleak"
+				data-text="Search data leak">
+				<SnbIcon />
+			</Link>
+
+			<Link
+				title="Vdb"
+				to="/vdb"
+				className={`${isActivePath('/vdb') ? 'active' : ''}`}
+				aria-label="Vdb"
+				data-text="Vdb">
+				<VdbIcon />
+			</Link>
+
+			<Link
+				title="Preference"
+				to="/preferences"
+				className={`${isActivePath('/preferences') ? 'active' : ''}`}
+				aria-label="Preference"
+				data-text="Preference">
+				<PreferenceIcon />
+			</Link>
+			<Link
+				title="Support"
+				to="/support"
+				className={`${isActivePath('/support') ? 'active' : ''}`}
+				aria-label="Support"
+				data-text="Support">
+				<MessageIcon />
+			</Link>
 		</aside>
 	);
 };

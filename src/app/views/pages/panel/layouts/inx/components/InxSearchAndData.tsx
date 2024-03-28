@@ -28,12 +28,13 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 
 	const { getData, setSearchData, refetchInitial } = useInitialSearch();
 
-	const { intelData, refetchIntelData } = useIntelSearch();
+	const { intelData, refetchIntelData, setIntelData } = useIntelSearch();
 
 	const { fullDataLoading, selectedResult, fileName, fileType, readFile } =
 		useInxReadFile();
 
 	const procSearch = (term: string) => {
+		setIntelData([]);
 		if (!term.trim()) {
 			return;
 		}
@@ -43,14 +44,15 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 		refetchInitial(companyID, term)?.then((res: any) => {
 			if (res.error == 1) return;
 
-			return procIntelSearch(res);
+			return procIntelSearch(res, false);
 		});
 	};
 
 	const procIntelSearch = (id?: string, more?: boolean) => {
+		const offSet = more ? getData().offSet : 0;
 		return refetchIntelData(
 			id ? id : getData().intelID,
-			getData().offSet,
+			offSet,
 			companyID,
 		).then((res: any) => {
 			if (!more) {
@@ -58,7 +60,7 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 			}
 			setSearchData((state: any) => ({
 				...state,
-				offSet: getData().offSet + res.intelLen,
+				offSet: offSet + res.intelLen,
 			}));
 		});
 	};

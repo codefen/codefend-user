@@ -95,22 +95,6 @@ const Navbar: FC = () => {
 					<div className="actions">
 						<div
 							className="action"
-							title="User preference"
-							onClick={() => {
-								navigate('/preferences');
-							}}>
-							<PreferenceIcon />
-						</div>
-						<div
-							className="action"
-							title="Customer support"
-							onClick={() => {
-								navigate('/support');
-							}}>
-							<MessageIcon />
-						</div>
-						<div
-							className="action"
 							title="Network settings"
 							onClick={() => {
 								setNetworkSettingState(true);
