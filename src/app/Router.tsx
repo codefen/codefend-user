@@ -35,6 +35,8 @@ import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from './views/components/modals/reports/PageReport';
 import { ProviderPage } from './views/pages/panel/layouts/providers/ProviderPanel';
 import { useAuthState, useUserAdmin, useUserProvider } from './data';
+import { AboutProvider } from './views/pages/panel/layouts/providers/layouts/AboutProvider';
+import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/OrdersReviewProviders';
 
 export const AppRouter: React.FC = () => {
 	const { isAdmin } = useUserAdmin();
@@ -60,34 +62,6 @@ export const AppRouter: React.FC = () => {
 				<Routes>
 					{/* Private Routes */}
 					<Route path="/*" element={<PanelPage />}>
-						<Route index element={<Dashboard />} />
-						<Route path="dashboard" element={<Dashboard />} />
-						<Route path="web" element={<WebApplication />} />
-						<Route path="mobile" element={<MobileApplication />} />
-						<Route path="cloud" element={<CloudApplicationPanel />} />
-						{/* <Route path="lan" element={<LanApplicationPanel />} /> */}
-						<Route path="source" element={<SourceCodePanel />} />
-
-						<Route path="social" element={<SocialEngineeringPanel />} />
-						<Route path="enp" element={<EnpPanel />} />
-						<Route path="enp/:id" element={<EnpSingle />} />
-						<Route path="support" element={<SupportPanel />} />
-						<Route path="preferences" element={<PreferencePanel />} />
-						<Route path="inx" element={<InxPanel />} />
-						<Route path="sns" element={<SnsPanel />} />
-						<Route path="vdb" element={<VdbPanel />} />
-
-						<Route path="issues/*" element={<IssuePage />}>
-							<Route index element={<IssuesPanel />} />
-							<Route path="create" element={<IssuesCreation />} />
-							<Route
-								path="create/:type/:resourceId"
-								element={<IssuesCreation />}
-							/>
-							<Route path="update/:id" element={<IssuesUpdate />} />
-						</Route>
-						{/* Private Routes + only admin access */}
-
 						{isAdmin() && (
 							<Route path="admin/*" element={<AdminPage />}>
 								<Route
@@ -97,14 +71,58 @@ export const AppRouter: React.FC = () => {
 								<Route path="company" element={<AdminCompany />} />
 							</Route>
 						)}
+
 						{isHacker() && (
-							<Route
-								path="provider/*"
-								index
-								element={<ProviderPage />}
-							/>
+							<Route path="provider/*" element={<ProviderPage />}>
+								<Route
+									path="profile"
+									element={<AboutProvider />}></Route>
+								<Route
+									path="orders"
+									element={<OrdersReviewProviders />}></Route>
+							</Route>
 						)}
-						<Route path="provider/*" index element={<ProviderPage />} />
+						{!isHacker() && (
+							<>
+								<Route index element={<Dashboard />} />
+								<Route path="dashboard" element={<Dashboard />} />
+								<Route path="web" element={<WebApplication />} />
+								<Route path="mobile" element={<MobileApplication />} />
+								<Route
+									path="cloud"
+									element={<CloudApplicationPanel />}
+								/>
+								<Route path="source" element={<SourceCodePanel />} />
+
+								<Route
+									path="social"
+									element={<SocialEngineeringPanel />}
+								/>
+								<Route path="enp" element={<EnpPanel />} />
+								<Route path="enp/:id" element={<EnpSingle />} />
+								<Route path="support" element={<SupportPanel />} />
+								<Route
+									path="preferences"
+									element={<PreferencePanel />}
+								/>
+								<Route path="inx" element={<InxPanel />} />
+								<Route path="sns" element={<SnsPanel />} />
+								<Route path="vdb" element={<VdbPanel />} />
+
+								<Route path="issues/*" element={<IssuePage />}>
+									<Route index element={<IssuesPanel />} />
+									<Route path="create" element={<IssuesCreation />} />
+									<Route
+										path="create/:type/:resourceId"
+										element={<IssuesCreation />}
+									/>
+									<Route
+										path="update/:id"
+										element={<IssuesUpdate />}
+									/>
+								</Route>
+							</>
+						)}
 					</Route>
 					{getAccessToken() && (
 						<Route path="report/*" element={<PageReport />}>

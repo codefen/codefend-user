@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import { ProviderSidebar } from './components/sidebar/ProviderSidebar';
 import { ProviderList } from './components/ProviderList';
 import { useProviderSidebar } from './hook/useProviderSidebar';
-import { ActiveProviderPanel } from './layouts/ActiveProviderPanel';
 import { ProviderHeader } from './components/ProviderHeader';
 import { useAuthState } from '../../../../../data';
 import './provider.scss';
+import { Outlet } from 'react-router';
 
 export const ProviderPage = () => {
 	const [showScreen, setShowScreen] = useState(false);
-	const [sidebarOption, updateSidebarOption] = useProviderSidebar();
+	const [sidebarOption] = useProviderSidebar();
 	const { getUserdata } = useAuthState();
 
 	useEffect(() => {
@@ -35,12 +35,11 @@ export const ProviderPage = () => {
 					totalReview={236}
 				/>
 				<div className="provider-content">
-					<ProviderSidebar
-						activeOption={sidebarOption}
-						update={updateSidebarOption}
-					/>
+					<ProviderSidebar activeOption={sidebarOption} />
 					<div className="provider-main-content">
-						<ActiveProviderPanel activeOptions={sidebarOption} />
+						<Suspense>
+							<Outlet />
+						</Suspense>
 					</div>
 				</div>
 			</section>

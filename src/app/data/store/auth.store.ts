@@ -50,7 +50,7 @@ const useAuthStore = create<AuthState>()(
 							accessToken: token,
 							isAuth: true,
 						}));
-						return { error: false };
+						return { user , error: false };
 					})
 					.catch((error: Error) => ({
 						error: true,

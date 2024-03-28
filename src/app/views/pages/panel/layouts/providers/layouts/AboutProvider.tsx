@@ -1,3 +1,5 @@
+import { ConfirmOrderCard } from '../components/confirm-order-card/ConfirmOrderCard';
+
 export const AboutProvider = () => {
 	return (
 		<div className="provider-about">

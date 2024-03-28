@@ -16,6 +16,7 @@ import {
 	ProfileIcon,
 	PreferenceIcon,
 	MessageIcon,
+	ProviderOrdersIcon,
 } from '../../';
 
 import { usePanelStore, useUserAdmin, useUserProvider } from '../../../../data';
@@ -57,53 +58,54 @@ const Sidebar: FC = () => {
 			{isHacker() && (
 				<>
 					<Link
-						to="/provider"
-						className={`${isActivePath('/provider') ? 'active' : ''}`}
+						to="/provider/profile"
+						className={`${isActivePath('/provider/profile') ? 'active' : ''}`}
 						title="Provider profile"
 						aria-label="Provider profile"
 						data-text="Provider profile">
 						<ProfileIcon isVisible />
 					</Link>
+					<Link
+						to="/provider/orders"
+						className={`${isActivePath('/provider/orders') ? 'active' : ''}`}
+						title="Provider profile"
+						aria-label="Provider profile"
+						data-text="Provider profile">
+						<ProviderOrdersIcon isVisible />
+					</Link>
 				</>
 			)}
 
-			<Link
-				title="Dashboard"
-				to="/dashboard"
-				className={`${isActivePath('/dashboard') ? 'active' : ''}`}
-				aria-label="Dashboard"
-				data-text="Dashboard">
-				<ChartIcon />
-			</Link>
+			{!isHacker() && (
+				<>
+					<Link
+						title="Web"
+						to="/web"
+						className={`${isActivePath('/web') ? 'active' : ''}`}
+						aria-label="Web"
+						data-text="Web">
+						<GlobeWebIcon />
+					</Link>
 
-			<Link
-				title="Web"
-				to="/web"
-				className={`${isActivePath('/web') ? 'active' : ''}`}
-				aria-label="Web"
-				data-text="Web">
-				<GlobeWebIcon />
-			</Link>
+					<Link
+						title="Mobile"
+						to="/mobile"
+						className={`${isActivePath('/mobile') ? 'active' : ''}`}
+						aria-label="Mobile"
+						data-text="Mobile">
+						<MobileIcon />
+					</Link>
 
-			<Link
-				title="Mobile"
-				to="/mobile"
-				className={`${isActivePath('/mobile') ? 'active' : ''}`}
-				aria-label="Mobile"
-				data-text="Mobile">
-				<MobileIcon />
-			</Link>
+					<Link
+						title="Cloud"
+						to="/cloud"
+						className={`${isActivePath('/cloud') ? 'active' : ''}`}
+						aria-label="Cloud"
+						data-text="Cloud">
+						<CLoudIcon />
+					</Link>
 
-			<Link
-				title="Cloud"
-				to="/cloud"
-				className={`${isActivePath('/cloud') ? 'active' : ''}`}
-				aria-label="Cloud"
-				data-text="Cloud">
-				<CLoudIcon />
-			</Link>
-
-			{/* <Link
+					{/* <Link
 				title="Network"
 				to="/lan"
 				className={`${
@@ -113,85 +115,87 @@ const Sidebar: FC = () => {
 				<LanIcon />
 			</Link> */}
 
-			<Link
-				title="Source Code"
-				to="/source"
-				className={`${isActivePath('/source') ? 'active' : ''}`}
-				aria-label="Source Code"
-				data-text="Source Code">
-				<SourceCodeIcon />
-			</Link>
+					<Link
+						title="Source Code"
+						to="/source"
+						className={`${isActivePath('/source') ? 'active' : ''}`}
+						aria-label="Source Code"
+						data-text="Source Code">
+						<SourceCodeIcon />
+					</Link>
 
-			<Link
-				title="Social Engineering"
-				to="/social"
-				className={`${isActivePath('/social') ? 'active' : ''}`}
-				aria-label="Social Engineering"
-				data-text="Social Engineering">
-				<PeopleGroup />
-			</Link>
+					<Link
+						title="Social Engineering"
+						to="/social"
+						className={`${isActivePath('/social') ? 'active' : ''}`}
+						aria-label="Social Engineering"
+						data-text="Social Engineering">
+						<PeopleGroup />
+					</Link>
 
-			<Link
-				title="Enp"
-				to="/enp"
-				className={`${isActivePath('/enp') ? 'active' : ''}`}
-				aria-label="Endpoint monitoring"
-				data-text="Endpoint monitoring">
-				<EnpIcon />
-			</Link>
+					<Link
+						title="Enp"
+						to="/enp"
+						className={`${isActivePath('/enp') ? 'active' : ''}`}
+						aria-label="Endpoint monitoring"
+						data-text="Endpoint monitoring">
+						<EnpIcon />
+					</Link>
 
-			<Link
-				title="Issues"
-				to="/issues"
-				className={`${isActivePath('/issues') ? 'active' : ''}`}
-				aria-label="Issues"
-				data-text="Issues">
-				<BugIcon />
-			</Link>
+					<Link
+						title="Issues"
+						to="/issues"
+						className={`${isActivePath('/issues') ? 'active' : ''}`}
+						aria-label="Issues"
+						data-text="Issues">
+						<BugIcon />
+					</Link>
 
-			<Link
-				title="Inx"
-				to="/inx"
-				className={`${isActivePath('/inx') ? 'active' : ''}`}
-				aria-label="Intelligence"
-				data-text="Intelligence">
-				<InxIcon />
-			</Link>
+					<Link
+						title="Inx"
+						to="/inx"
+						className={`${isActivePath('/inx') ? 'active' : ''}`}
+						aria-label="Intelligence"
+						data-text="Intelligence">
+						<InxIcon />
+					</Link>
 
-			<Link
-				title="Sns"
-				to="/sns"
-				className={`${isActivePath('/sns') ? 'active' : ''}`}
-				aria-label="Search dataleak"
-				data-text="Search data leak">
-				<SnbIcon />
-			</Link>
+					<Link
+						title="Sns"
+						to="/sns"
+						className={`${isActivePath('/sns') ? 'active' : ''}`}
+						aria-label="Search dataleak"
+						data-text="Search data leak">
+						<SnbIcon />
+					</Link>
 
-			<Link
-				title="Vdb"
-				to="/vdb"
-				className={`${isActivePath('/vdb') ? 'active' : ''}`}
-				aria-label="Vdb"
-				data-text="Vdb">
-				<VdbIcon />
-			</Link>
+					<Link
+						title="Vdb"
+						to="/vdb"
+						className={`${isActivePath('/vdb') ? 'active' : ''}`}
+						aria-label="Vdb"
+						data-text="Vdb">
+						<VdbIcon />
+					</Link>
 
-			<Link
-				title="Preference"
-				to="/preferences"
-				className={`${isActivePath('/preferences') ? 'active' : ''}`}
-				aria-label="Preference"
-				data-text="Preference">
-				<PreferenceIcon />
-			</Link>
-			<Link
-				title="Support"
-				to="/support"
-				className={`${isActivePath('/support') ? 'active' : ''}`}
-				aria-label="Support"
-				data-text="Support">
-				<MessageIcon />
-			</Link>
+					<Link
+						title="Preference"
+						to="/preferences"
+						className={`${isActivePath('/preferences') ? 'active' : ''}`}
+						aria-label="Preference"
+						data-text="Preference">
+						<PreferenceIcon />
+					</Link>
+					<Link
+						title="Support"
+						to="/support"
+						className={`${isActivePath('/support') ? 'active' : ''}`}
+						aria-label="Support"
+						data-text="Support">
+						<MessageIcon />
+					</Link>
+				</>
+			)}
 		</aside>
 	);
 };

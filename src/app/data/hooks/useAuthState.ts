@@ -17,7 +17,7 @@ export const useAuthState = () => {
 
 	const isAuth = () => authStore.isAuth;
 
-	const signInUser = (params: LoginParams): Promise<boolean> => {
+	const signInUser = (params: LoginParams): Promise<any> => {
 		return authStore
 			.login(params)
 			.then((response: any) => {
@@ -25,7 +25,7 @@ export const useAuthState = () => {
 					throw new Error(response.message);
 				}
 				toast.success(`Login successful`);
-				return true;
+				return response.user;
 			})
 			.catch((error: any) => {
 				toast.error(
@@ -67,6 +67,7 @@ export const useAuthState = () => {
 				toast.success(
 					"Now you're registered! You can log in"
 				);
+				
 				return true;
 			})
 			.catch((error: Error) => {

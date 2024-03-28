@@ -22,19 +22,23 @@ const SignInLayout: FC = () => {
 		e.preventDefault();
 		setSigninForm((current) => ({ ...current, isLoading: true }));
 
-		setTimeout(() => {
-			signInUser({
-				email: signinForm.email,
-				password: signinForm.password,
+		signInUser({
+			email: signinForm.email,
+			password: signinForm.password,
+		})
+			.then((user) => {
+				if (user) {
+					if (user?.accessRole == 'user') navigate('/');
+					if (user?.accessRole == 'admin') navigate('/admin');
+					if (user?.accessRole == 'hacker') navigate('/provider/profile');
+				}
 			})
-				.then((isLoggedIn) => isLoggedIn ?? navigate('/'))
-				.finally(() =>
-					setSigninForm((current) => ({
-						...current,
-						isLoading: false,
-					})),
-				);
-		}, 100);
+			.finally(() =>
+				setSigninForm((current) => ({
+					...current,
+					isLoading: false,
+				})),
+			);
 	};
 
 	const { setNetworkSettingState } = useNetworkSettingState(
