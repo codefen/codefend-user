@@ -67,8 +67,10 @@ const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=
     updateSearch: (updated: string)=> set((prev: AdminCompanyState)=> ({...prev, searchQuery: updated})),
     updateCompanies: (updated: AdminCompany[])=> {
         const state = get();
-        const selectedFull = updated.find((updated:AdminCompany)=> updated.id === state.companySelected.id);
-        set((prev: AdminCompanyState)=> ({...prev, companies: updated, companySelected: selectedFull}));
+        set((prev: AdminCompanyState)=> ({...prev, 
+            companies: updated, 
+            companySelected: updated[0]
+        }));
     }
 }),
 {

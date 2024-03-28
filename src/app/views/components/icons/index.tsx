@@ -1198,7 +1198,7 @@ export const DownloadIcon = () => (
 	</svg>
 );
 
-export const VerificationIcons = () => (
+export const VerificationIcon = () => (
 	<svg viewBox="0 0 24 24" fill="currentColor">
 		<path
 			fillRule="evenodd"

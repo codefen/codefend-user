@@ -129,10 +129,12 @@ export const equalsObj = (first: any, second: any): boolean =>{
 	if(bothAreNull){
 		return false;
 	}
+	
 	const noneIsAnObject = typeof first !== 'object' || typeof second !== 'object';
 	if (noneIsAnObject) {
 		return false;
 	}
+
 	const firstKeys = Object.keys(first);
   	const secondKeys = Object.keys(second);
 

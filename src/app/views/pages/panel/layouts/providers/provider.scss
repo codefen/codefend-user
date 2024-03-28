@@ -1,3 +1,5 @@
+@use '../../../../styles/settings/mixin' as media;
+
 main.provider {
 	padding-inline-end: 0;
 	padding-block-end: 0;
@@ -72,7 +74,7 @@ main.provider {
 
 				.provider-main-info {
 					margin-inline-start: 16rem;
-					padding-inline-end: 2.5rem;
+					padding-inline-end: 2rem;
 					border-inline-end: 1px solid var(--provider-border-color);
 					min-width: 18rem;
 					max-width: 18rem;
@@ -98,15 +100,16 @@ main.provider {
 					flex: 1 1;
 
 					.provider-verification {
-						padding-block: 0.75rem;
 						background: #caffca;
+						padding-block-end: 0.75rem;
+						padding-block-start: 0.4rem;
 						border-block-end: 1px solid var(--provider-border-color);
-						padding-inline-start: 0.5rem;
 						color: #008000;
-						display: flex;
-						align-items: center;
 
 						p {
+							display: inline-flex;
+							width: fit-content;
+							align-items: center;
 							height: 100%;
 							text-align: center;
 							padding-block-start: 2px;
@@ -121,6 +124,7 @@ main.provider {
 							width: 20px;
 							aspect-ratio: 1/1;
 							color: #28da28;
+							margin-block-end: 3px;
 						}
 					}
 
@@ -159,24 +163,14 @@ main.provider {
 								max-height: 2.25rem;
 								min-height: 2.25rem;
 
-								display: -webkit-box;
-								font-size: 1rem;
-								line-height: 2rem;
-								padding-block: 0.25rem;
 								border-block-end: 1px solid var(--provider-border-color);
 								padding-inline-start: 0.75rem;
 								padding-inline-end: 1rem;
 								color: var(--tertiary-color-300);
 
-								-webkit-box-orient: vertical;
-
-								overflow: hidden;
-								-webkit-line-clamp: 1;
-								text-overflow: ellipsis;
-
 								svg {
-									display: inline-flex;
 									margin-inline-end: 0.25rem;
+									margin-block-end: 3px;
 									width: 15px;
 									color: var(--secondary-color-100);
 								}
@@ -191,37 +185,6 @@ main.provider {
 			display: flex;
 			border-inline: 1px solid var(--provider-border-color);
 
-			.provider-sidebar {
-				border-inline-end: 1px solid var(--provider-border-color);
-
-				ul {
-					list-style: none;
-					padding: 0;
-					display: flex;
-					flex-direction: column;
-					margin-block-start: 3.5rem;
-					margin-block-end: 0;
-
-					li {
-						padding-inline: 2rem;
-						padding-block: 1rem;
-						border-block: 0.5px solid var(--provider-border-color);
-
-						&:first-child {
-							border-block-start: 2.25px solid
-								var(--provider-border-color);
-						}
-						&:last-child {
-							border-block-end: 2.25px solid var(--provider-border-color);
-						}
-
-						&.current {
-							color: var(--secondary-color-100);
-						}
-					}
-				}
-			}
-
 			.provider-main-content {
 				display: flex;
 				flex: 1 1 70%;
@@ -232,12 +195,21 @@ main.provider {
 	}
 
 	.right {
-		padding-inline-end: 0;
-		box-shadow: -3px 0px 6px 3px rgba(0, 0, 0, 0.15);
+		display: none;
+		opacity: 0;
 
-		height: 100%;
-		min-height: 100dvh;
-		max-height: none;
+		@include media.minScreen(1300px) {
+			& {
+				display: block;
+				opacity: 1;
+				padding-inline-end: 0;
+				box-shadow: -3px 0px 6px 3px rgba(0, 0, 0, 0.15);
+
+				height: 100%;
+				min-height: 100dvh;
+				max-height: none;
+			}
+		}
 	}
 }
 

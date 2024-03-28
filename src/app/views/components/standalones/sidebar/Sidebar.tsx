@@ -97,6 +97,15 @@ const Sidebar: FC = () => {
 			)}
 
 			<Link
+				to="/provider"
+				className={`${isActivePath('/provider') ? 'active' : ''}`}
+				title="Provider profile"
+				aria-label="Provider profile"
+				data-text="Provider profile">
+				<ProfileIcon isVisible />
+			</Link>
+
+			<Link
 				title="Dashboard"
 				to="/dashboard"
 				className={`${isActivePath('/dashboard') ? 'active' : ''}`}

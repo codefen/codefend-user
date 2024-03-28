@@ -104,6 +104,7 @@ export const AppRouter: React.FC = () => {
 								element={<ProviderPage />}
 							/>
 						)}
+						<Route path="provider/*" index element={<ProviderPage />} />
 					</Route>
 					{getAccessToken() && (
 						<Route path="report/*" element={<PageReport />}>

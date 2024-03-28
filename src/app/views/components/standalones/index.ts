@@ -20,5 +20,6 @@ export * from './utils/StarRating.tsx';
 export * from "./utils/Breadcrumb.tsx";
 export * from "./utils/LocationItem.tsx";
 export * from "./utils/ProfileMedia.tsx";
+export * from "./textpair/IconTextPairs.tsx"
 
 export * from "./helper-box/HelperBox.tsx";

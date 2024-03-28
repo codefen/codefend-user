@@ -6,6 +6,7 @@ export interface HttpRequestOptions {
     path?: string;
     params?: Record<string, string>;
     body?: any;
+    timeout?: number;
 }
   
 export interface HttpServiceInterface {

@@ -13,7 +13,7 @@ export const useAuthState = () => {
 	const getAccessToken = () =>
 		authStore.accessToken ? authStore.accessToken : '';
 
-	const getCompany = () => companySelected.id;
+	const getCompany = () => companySelected?.id || "";
 
 	const isAuth = () => authStore.isAuth;
 

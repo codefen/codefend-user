@@ -1,0 +1,31 @@
+.provider-sidebar {
+	border-inline-end: 1px solid var(--provider-border-color);
+
+	ul {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		margin-block-start: 3.5rem;
+		margin-block-end: 0;
+
+		li {
+			padding-inline: 2rem;
+			padding-block: 1rem;
+			border-block: 0.5px solid var(--provider-border-color);
+			cursor: pointer;
+			user-select: none;
+
+			&:first-child {
+				border-block-start: 2.25px solid var(--provider-border-color);
+			}
+			&:last-child {
+				border-block-end: 2.25px solid var(--provider-border-color);
+			}
+
+			&.current {
+				color: var(--secondary-color-100);
+			}
+		}
+	}
+}

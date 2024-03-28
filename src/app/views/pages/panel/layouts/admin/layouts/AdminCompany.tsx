@@ -15,9 +15,6 @@ const AdminCompany: FC = () => {
 		<>
 			<main className={`company ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
-					{/* <div className="company-header title title-format">
-						Admin Company Panel
-					</div> */}
 					<AdminCompanyPanel />
 				</section>
 				<section className="right">

@@ -134,6 +134,10 @@ export const fetchDELETE: ({}: FetchWhitoutMethods) => Promise<
 	});
 
 export const handleFetchError = (error: any): Promise<any> => {
+	console.log({ error })
+	if(error.code === "ECONNABORTED"){
+		toast.error("Server response timeout, the server is possibly slow");
+	}
 	if (
 		error.name === 'AxiosError' &&
 		(error.message === 'Network Error' ||

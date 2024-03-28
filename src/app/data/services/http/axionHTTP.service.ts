@@ -52,6 +52,7 @@ export class AxiosHttpService implements HttpServiceInterface {
 		path = '',
 		insecure,
 		requireJson = false,
+		timeout=8000
 	}: HttpRequestOptions): Promise<T> {
 		let data: any;
 		let contentType: string;
@@ -85,6 +86,7 @@ export class AxiosHttpService implements HttpServiceInterface {
 			url: url,
 			signal: this.abortController.signal,
 			method: 'POST',
+			timeout: timeout,
 		}).catch((error: any) => handleFetchError(error));
 	}
 
