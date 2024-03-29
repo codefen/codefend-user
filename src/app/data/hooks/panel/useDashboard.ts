@@ -26,7 +26,7 @@ export const useDashboard = () => {
 		}
 		setCompanyResources({} as DashboardProps);
 		fetcher<any>('post', {
-			body: { company_id: companyID, model: 'companies/dashboard' }, insecure:true
+			body: { company_id: companyID, model: 'companies/dashboard' }
 		})?.then(({ data }) => {
 			verifySession(data, logout);
 			selectCompany(data.company, true);

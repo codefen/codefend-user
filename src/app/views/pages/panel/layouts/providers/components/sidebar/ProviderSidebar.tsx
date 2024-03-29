@@ -1,30 +1,50 @@
 import type { FC } from 'react';
+import { useProviderSidebar } from '../../../../../../../data';
 import './providersidebar.scss';
 
-export interface ProviderSidebarProps {
-	activeOption:
-		| 'orders'
-		| 'profile'
-		| 'education'
-		| 'work-experiences'
-		| string;
-}
+export const ProviderSidebar: FC = () => {
+	const { activeOption, activeSubOption, setActiveSubOption } =
+		useProviderSidebar();
 
-export const ProviderSidebar: FC<ProviderSidebarProps> = ({ activeOption }) => {
+	if (activeOption === 'profile') {
+		return (
+			<div className="provider-sidebar">
+				<ul>
+					<li
+						className={`${activeSubOption === 0 && 'current'}`}
+						onClick={() => setActiveSubOption(0)}>
+						<span>About me</span>
+					</li>
+					<li
+						className={`${activeSubOption === 1 && 'current'}`}
+						onClick={() => setActiveSubOption(1)}>
+						<span>Orders review</span>
+					</li>
+					<li className={`disabled `}>
+						<span>Work experiences</span>
+					</li>
+					<li className={`disabled `}>
+						<span>Education</span>
+					</li>
+				</ul>
+			</div>
+		);
+	}
 	return (
 		<div className="provider-sidebar">
 			<ul>
-				<li className={`${activeOption === 'profile' && 'current'}`}>
-					<span>About me</span>
+				<li
+					className={`${activeSubOption === 0 && 'current'}`}
+					onClick={() => setActiveSubOption(0)}>
+					<span>New orders</span>
 				</li>
-				<li className={`${activeOption === 'orders' && 'current'}`}>
-					<span>Orders review</span>
+				<li
+					className={`${activeSubOption === 1 && 'current'}`}
+					onClick={() => setActiveSubOption(1)}>
+					<span>Finished orders</span>
 				</li>
 				<li className={`disabled `}>
-					<span>Work experiences</span>
-				</li>
-				<li className={`disabled `}>
-					<span>Education</span>
+					<span>Profile stadistics</span>
 				</li>
 			</ul>
 		</div>

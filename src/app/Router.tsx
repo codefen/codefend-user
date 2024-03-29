@@ -35,8 +35,8 @@ import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from './views/components/modals/reports/PageReport';
 import { ProviderPage } from './views/pages/panel/layouts/providers/ProviderPanel';
 import { useAuthState, useUserAdmin, useUserProvider } from './data';
-import { AboutProvider } from './views/pages/panel/layouts/providers/layouts/about-provider/AboutProvider';
-import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/OrdersReviewProviders';
+import { ProfileProviderLayout } from './views/pages/panel/layouts/providers/layouts/profile-provider/ProfileProviderLayout';
+import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/orders-provider/OrdersProviderLayout';
 
 export const AppRouter: React.FC = () => {
 	const { isAdmin } = useUserAdmin();
@@ -75,11 +75,22 @@ export const AppRouter: React.FC = () => {
 						{isHacker() && (
 							<Route path="provider/*" element={<ProviderPage />}>
 								<Route
-									path="profile"
-									element={<AboutProvider />}></Route>
+									path="profile/"
+									element={<ProfileProviderLayout />}
+								/>
+								<Route
+									path="profile/:view"
+									element={<ProfileProviderLayout />}
+								/>
+
 								<Route
 									path="orders"
-									element={<OrdersReviewProviders />}></Route>
+									element={<OrdersReviewProviders />}
+								/>
+								<Route
+									path="orders/:view"
+									element={<OrdersReviewProviders />}
+								/>
 							</Route>
 						)}
 						{!isHacker() && (
