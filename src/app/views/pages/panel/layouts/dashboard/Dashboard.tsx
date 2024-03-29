@@ -23,8 +23,9 @@ const Dashboard: React.FC = () => {
 	const [showScreen] = useShowScreen();
 	const { isLoading, companyData, refetch } = useDashboard();
 	useEffect(() => {
+		console.log('entre ??');
 		refetch();
-	});
+	}, []);
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
