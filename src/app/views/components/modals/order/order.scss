@@ -6,7 +6,8 @@
 }
 .order-container {
 	width: 700px;
-	// height: 600px;
+	// min-height: 580px;
+	max-height: 90vh;
 	// padding: 20px 0;
 
 	border-radius: 0.15rem;
@@ -14,7 +15,7 @@
 
 	z-index: 120;
 
-	overflow: auto;
+	overflow: hidden;
 
 	display: flex;
 	flex-direction: column;
@@ -128,6 +129,7 @@
 		flex-direction: column;
 		flex: 1 1 100%;
 		min-height: 400px;
+		
 
 		.step-header {
 			font-size: 14px;
@@ -173,8 +175,8 @@
 				text-overflow: ellipsis;
 
 				span {
-					display: block;
-					font-size: 14px;
+					// display: block;
+					// font-size: 14px;
 				}
 			}
 			h2 {
@@ -197,8 +199,9 @@
 		}
 
 		.step-content {
-			// min-height: 280px;
+			flex: 1;
 			padding: 20px 0px;
+			overflow-y: auto;
 
 			&.crypto-payment {
 				margin-block: 0;
@@ -645,26 +648,26 @@
 			position: relative;
 			display: flex;
 			align-items: center;
-			column-gap: 1rem;
-
-			padding-inline: 2.5rem;
-			padding-block: 0.5rem;
-
+			gap: 15px;
+			padding: 20px 4.5rem;
+			border-bottom: 1px solid #00000010;
+			border-top: 1px solid #00000010;
+			
 			.disclaimers {
 				padding-inline-end: 5px;
 			}
 
 			.error-message {
 				position: absolute;
-				bottom: -5%;
-				left: 11%;
-				color: var(--secondary-color-50);
+				bottom: 0px;
+				left: 65px;
+				color: var(--tertiary-color-800);
 				font-weight: 700;
 			}
 		}
 
 		.button-wrapper {
-			margin: 2rem;
+			margin: 1rem;
 
 			&.next-btns {
 				display: flex;
