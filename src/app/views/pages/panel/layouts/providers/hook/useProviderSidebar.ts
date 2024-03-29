@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 
 export enum ProviderSidebarOptions {
 	ABOUT,
@@ -8,10 +9,13 @@ export enum ProviderSidebarOptions {
 }
 
 export const useProviderSidebar = ()=>{
-    const [sidebarOption, setSidebarOption] = useState(ProviderSidebarOptions.ABOUT);
-    const updateSidebarOption = (updated: number) => {
-		setSidebarOption(updated);
-	};
+	const location = useLocation();
+	const active = location.pathname.split("/")[2];
+    const [sidebarOption, setSidebarOption] = useState(active);
+	useEffect(()=>{
+		const active = location.pathname.split("/")[2];
+		setSidebarOption(active);
+	}, [location]);
 
-    return [sidebarOption, updateSidebarOption] as const;
+    return [sidebarOption] as const;
 }

@@ -29,5 +29,9 @@
 		object-fit: cover;
 		object-position: center;
 		clip-path: circle(50% at 50% 50%);
+
+		&.gray-scale-filter {
+			filter: grayscale(1);
+		}
 	}
 }

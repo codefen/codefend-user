@@ -26,6 +26,12 @@
 			&.current {
 				color: var(--secondary-color-100);
 			}
+
+			&.disabled {
+				opacity: 0.6;
+				cursor: default;
+				user-select: none;
+			}
 		}
 	}
 }

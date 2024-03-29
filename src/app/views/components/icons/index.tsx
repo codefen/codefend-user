@@ -8,6 +8,7 @@ interface IconProps {
 	height?: number | string;
 	action?: () => void;
 	styles?: string;
+	className?: string;
 	isVisible?: boolean;
 }
 
@@ -106,7 +107,6 @@ export const EnpIcon = () => (
 
 export const SourceCodeIcon = () => (
 	<svg
-		xmlns="http://www.w3.org/2000/svg"
 		strokeWidth={0}
 		height="1em"
 		width="1em"
@@ -131,7 +131,7 @@ export const PeopleGroup = () => (
 	</svg>
 );
 
-export const BugIcon = ({ isButton }: { isButton?: boolean }) => (
+export const BugIcon: FC<IconProps> = ({ isButton, className }) => (
 	<svg
 		strokeWidth={1.7}
 		height="1.3em"
@@ -139,6 +139,7 @@ export const BugIcon = ({ isButton }: { isButton?: boolean }) => (
 		viewBox="0 0 24 24"
 		stroke="currentColor"
 		fill="none"
+		className={`${className && className}`}
 		style={{
 			overflow: 'visible',
 			cursor: !isButton ? 'default' : 'pointer',
@@ -149,21 +150,19 @@ export const BugIcon = ({ isButton }: { isButton?: boolean }) => (
 	</svg>
 );
 
-export const MessageIcon = ({
+export const MessageIcon: FC<IconProps> = ({
 	width = 1,
 	height = 1,
-}: {
-	width?: number;
-	height?: number;
+	className,
 }) => (
 	<svg
 		strokeWidth={0}
 		height={height + 'rem'}
 		width={width + 'rem'}
-		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 512 512"
 		color="currentColor"
 		fill="currentColor"
+		className={`${className && className}`}
 		style={{ overflow: 'visible' }}>
 		<path d="M64 0C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z"></path>
 	</svg>
@@ -179,7 +178,6 @@ export const PreferenceIcon = ({
 		strokeWidth={0}
 		height={height + 'rem'}
 		width={width + 'rem'}
-		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 13 14"
 		color="currentColor"
 		fill="currentColor"
@@ -264,12 +262,12 @@ export const MenuIcon = () => (
 	</svg>
 );
 
-export const SearchIcon = ({ isButton }: { isButton?: boolean }) => (
+export const SearchIcon: FC<IconProps> = ({ isButton, className }) => (
 	<svg
 		strokeWidth={0}
 		height="1.3em"
 		width="1.3em"
-		xmlns="http://www.w3.org/2000/svg"
+		className={`${className && className}`}
 		viewBox="0 0 512 512"
 		color="currentColor"
 		fill="currentColor"
@@ -283,18 +281,16 @@ export const SearchIcon = ({ isButton }: { isButton?: boolean }) => (
 	</svg>
 );
 
-export const LogoutIcon = ({
+export const LogoutIcon: FC<IconProps> = ({
 	width = 1,
 	height = 1,
-}: {
-	width?: number;
-	height?: number;
+	className,
 }) => (
 	<svg
 		strokeWidth={0}
 		height={height + 'rem'}
 		width={width + 'rem'}
-		xmlns="http://www.w3.org/2000/svg"
+		className={`${className && className}`}
 		viewBox="0 0 512 512"
 		color="currentColor"
 		fill="currentColor"
@@ -415,7 +411,7 @@ export const LeftArrow: FC<IconProps> = ({ isButton }) => (
 	</svg>
 );
 
-export const SaveIcon = ({ isButton }: { isButton?: boolean }) => (
+export const SaveIcon: FC<IconProps> = ({ isButton }) => (
 	<svg
 		strokeWidth={0}
 		height="1em"
@@ -434,7 +430,7 @@ export const SaveIcon = ({ isButton }: { isButton?: boolean }) => (
 	</svg>
 );
 
-export const SendIcon = ({ isButton }: { isButton?: boolean }) => (
+export const SendIcon: FC<IconProps> = ({ isButton }) => (
 	<svg
 		strokeWidth={2}
 		height="1em"
@@ -488,7 +484,7 @@ export const VdbIcon2 = () => (
 	</svg>
 );
 
-export const PencilIcon = ({ isButton }: { isButton?: boolean }) => (
+export const PencilIcon: FC<IconProps> = ({ isButton }) => (
 	<svg
 		strokeWidth={0}
 		height="1em"
@@ -549,7 +545,7 @@ export const AdminCompany = () => (
 	</svg>
 );
 
-export const ScanSearchIcon = ({ isButton }: { isButton?: boolean }) => (
+export const ScanSearchIcon: FC<IconProps> = ({ isButton }) => (
 	<svg
 		strokeWidth={0}
 		height="1.3em"
@@ -567,13 +563,7 @@ export const ScanSearchIcon = ({ isButton }: { isButton?: boolean }) => (
 	</svg>
 );
 
-export const EditIcon = ({
-	width,
-	height,
-}: {
-	width: number;
-	height: number;
-}) => (
+export const EditIcon: FC<IconProps> = ({ width, height }) => (
 	<svg
 		strokeWidth={0}
 		height={height + 'rem'}
@@ -591,13 +581,7 @@ export const EditIcon = ({
 	</svg>
 );
 
-export const NetworkIcon = ({
-	width,
-	height,
-}: {
-	width: number;
-	height: number;
-}) => (
+export const NetworkIcon: FC<IconProps> = ({ width, height }) => (
 	<svg
 		strokeWidth={2}
 		height="1em"
@@ -638,13 +622,7 @@ export const NetworkIcon = ({
 	</svg>
 );
 
-export const CompanyIcon = ({
-	width = 1,
-	height = 1,
-}: {
-	width?: number;
-	height?: number;
-}) => (
+export const CompanyIcon: FC<IconProps> = ({ width = 1, height = 1 }) => (
 	<svg
 		strokeWidth={0}
 		height={width + 'rem'}
@@ -659,13 +637,7 @@ export const CompanyIcon = ({
 	</svg>
 );
 
-export const RigthArrowIcon = ({
-	width = 1,
-	height = 1,
-}: {
-	width?: number;
-	height?: number;
-}) => (
+export const RigthArrowIcon: FC<IconProps> = ({ width = 1, height = 1 }) => (
 	<svg
 		strokeWidth={2}
 		height={width + 'rem'}
@@ -694,14 +666,10 @@ export const SimpleRightArrowIcon = () => (
 	</svg>
 );
 
-export const CopyIcon = ({
+export const CopyIcon: FC<IconProps> = ({
 	width = 1,
 	height = 1,
 	isButton,
-}: {
-	width?: number;
-	height?: number;
-	isButton?: boolean;
 }) => (
 	<svg
 		strokeWidth={1}
@@ -723,13 +691,7 @@ export const CopyIcon = ({
 	</svg>
 );
 
-export const CopiedIcon = ({
-	width = 1,
-	height = 1,
-}: {
-	width?: number;
-	height?: number;
-}) => (
+export const CopiedIcon: FC<IconProps> = ({ width = 1, height = 1 }) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 24 24"
@@ -746,13 +708,7 @@ export const CopiedIcon = ({
 	</svg>
 );
 
-export const ChevronIcon = ({
-	width = 1,
-	height = 1,
-}: {
-	width?: number;
-	height?: number;
-}) => (
+export const ChevronIcon: FC<IconProps> = ({ width = 1, height = 1 }) => (
 	<svg
 		id="chevron-icon"
 		width={width + 'rem'}
@@ -779,13 +735,7 @@ export const ChevronIcon = ({
 	</svg>
 );
 
-export const MoonIcon = ({
-	width = 1,
-	height = 1,
-}: {
-	width?: number;
-	height?: number;
-}) => (
+export const MoonIcon: FC<IconProps> = ({ width = 1, height = 1 }) => (
 	<svg
 		width={width + 'rem'}
 		height={height + 'rem'}
@@ -801,13 +751,7 @@ export const MoonIcon = ({
 	</svg>
 );
 
-export const SunIcon = ({
-	width = 1,
-	height = 1,
-}: {
-	width?: number;
-	height?: number;
-}) => (
+export const SunIcon: FC<IconProps> = ({ width = 1, height = 1 }) => (
 	<svg
 		width={width + 'rem'}
 		height={height + 'rem'}
@@ -1080,14 +1024,10 @@ export const ChipIcon = () => (
 	</svg>
 );
 
-export const PrinterIcon = ({
+export const PrinterIcon: FC<IconProps> = ({
 	width = 1,
 	height = 1,
 	isButton,
-}: {
-	width?: number;
-	height?: number;
-	isButton?: boolean;
 }) => (
 	<svg
 		color="currentColor"
@@ -1107,14 +1047,10 @@ export const PrinterIcon = ({
 	</svg>
 );
 
-export const DocumentIcon = ({
+export const DocumentIcon: FC<IconProps> = ({
 	width = 1,
 	height = 1,
 	isButton,
-}: {
-	width?: number;
-	height?: number;
-	isButton?: boolean;
 }) => (
 	<svg
 		color="currentColor"
@@ -1246,5 +1182,23 @@ export const ProfileIcon: FC<IconProps> = ({ isButton, isVisible }) => (
 				</g>
 			</g>
 		</g>
+	</svg>
+);
+
+export const ProviderOrdersIcon: FC<IconProps> = ({ isButton, isVisible }) => (
+	<svg
+		fill="none"
+		viewBox="0 0 24 24"
+		strokeWidth={1.5}
+		stroke="currentColor"
+		style={{
+			overflow: isVisible ? 'visible' : 'auto',
+			cursor: isButton ? 'pointer' : 'default',
+		}}>
+		<path
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+		/>
 	</svg>
 );
