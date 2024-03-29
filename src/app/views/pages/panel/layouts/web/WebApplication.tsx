@@ -3,7 +3,11 @@ import { WebApplicationResources } from './components/WebApplicationResources';
 import { WebApplicationLocation } from './components/WebApplicationLocation';
 import { WebApplicationStatics } from './components/WebApplicationStatics';
 import { WebApplicationCredentials } from './components/WebApplicationCredentials';
-import { useOrderStore, useWebapplication } from '../../../../../data';
+import {
+	useOrderStore,
+	useShowScreen,
+	useWebapplication,
+} from '../../../../../data';
 import { OrderV2, PrimaryButton, ModalReport } from '../../../../components';
 import { useFlashlight } from '../../FlashLightContext';
 import '../../../../styles/flag.scss';
@@ -12,17 +16,14 @@ import './webapplication.scss';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
+	const [showScreen, control, refresh] = useShowScreen();
 	const { webResources, isLoading, refetch } = useWebapplication();
-	const [showScreen, setShowScreen] = useState(false);
-	const [refresh, setRefresh] = useState(false);
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 
 	useEffect(() => {
 		refetch();
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [refresh]);
+	}, [control]);
 
 	return (
 		<>
@@ -33,7 +34,7 @@ const WebApplicationView: React.FC = () => {
 				<section className="left">
 					<WebApplicationResources
 						isLoading={isLoading}
-						refresh={() => setRefresh(!refresh)}
+						refresh={refresh}
 						webResources={webResources.resources}
 					/>
 				</section>

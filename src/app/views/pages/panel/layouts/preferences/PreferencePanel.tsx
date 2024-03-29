@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { usePreferences } from '../../../../../data';
+import { usePreferences, useShowScreen } from '../../../../../data';
 import { PageLoader, Show } from '../../../../../views/components';
 import SettingCollaboratorAndTeam from './components/SettingCollaboratorAndTeam';
 import SettingCompanyInformation from './components/SettingCompanyInformation';
@@ -10,14 +10,8 @@ import SettingPersonalDetails from './components/SettingPersonaDetails';
 import './preference.scss';
 
 const PreferencePanel = () => {
-	const [showScreen, setShowScreen] = useState(false);
+	const [showScreen] = useShowScreen();
 	const { loading, company, members, orders } = usePreferences();
-
-	useEffect(() => {
-		setTimeout(() => {
-			setShowScreen(true);
-		}, 50);
-	});
 
 	return (
 		<>

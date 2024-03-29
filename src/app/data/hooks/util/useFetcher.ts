@@ -10,14 +10,14 @@ export const useFetcher = ()=>{
       return () => {
         setHttpService(null);
       };
-    });
+    }, [httpService]);
 
     const fetcher = <T>(method: 'post' | 'get', options: HttpRequestOptions)=>{
         setIsLoading(true);
         if(method === "post"){
-            return httpService ? httpService.post<T>(options).finally(()=> setIsLoading(false)) : Promise.resolve();
+            return httpService ? httpService.post<T>(options).finally(()=> setIsLoading(false)) : Promise.resolve(false);
         }
-        return httpService ? httpService.get<T>(options).finally(()=> setIsLoading(false)) : Promise.resolve();
+        return httpService ? httpService.get<T>(options).finally(()=> setIsLoading(false)) : Promise.resolve(false);
     }
 
     const cancelRequest = ()=>httpService?.cancelRequest();

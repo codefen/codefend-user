@@ -111,8 +111,12 @@ export const useOrderScope = () => {
 			resourceScope.trim(),
 			resourcesID,
 		).then((res: any) => {
+			if(Number(res.error) === 1){
+				throw new Error("An error has occurred with the");
+			}
+
 			return res;
-		});
+		}).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendScopeOrders = (resourceScope: string) => {
@@ -141,8 +145,11 @@ export const useOrderMembership = () => {
 			referenceNumber,
 			memberShip,
 		).then((res: any) => {
+			if(Number(res.error) === 1){
+				throw new Error("An error has occurred with the");
+			}
 			return res;
-		});
+		}).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendMemberShip = (memberShip: string, referenceNumber: string) => {
@@ -173,8 +180,11 @@ export const useOrderPlan = () => {
 			chosenPrice,
 			chosenPlan,
 		).then((res: any) => {
+			if(Number(res.error) === 1){
+				throw new Error("An error has occurred with the");
+			}
 			return res;
-		});
+		}).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendPlanTeamSize = (
@@ -191,14 +201,19 @@ export const useOrderPlan = () => {
 		return fetcher(companyID, referenceNumber, chosenPlan, chosenPrice);
 	};
 
-	const getCurrentPrices = () => {
+	const getCurrentPrices = (referenceNumber: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return Promise.resolve(false);
 		}
 
-		return OrderService.getCurrentPrices(companyID).then((res: any) => res);
+		return OrderService.getCurrentPrices(companyID, referenceNumber).then((res: any) => {
+			if(Number(res.error) === 1){
+				throw new Error("An error has occurred with the");
+			}
+			return res;
+		}).catch((error: Error)=> toast.error(error.message));
 	};
 
 	return { sendPlanTeamSize, getCurrentPrices };
@@ -238,9 +253,13 @@ export const useOrderConfirm = () => {
 	const fetcher = (companyID: string, referenceNumber: string) => {
 		return OrderService.sendOrderConfirm(companyID, referenceNumber).then(
 			(res: any) => {
+				if(Number(res.error) === 1){
+					throw new Error("An error has occurred with the");
+				}
+
 				return res;
 			},
-		);
+		).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendConfirmOrder = () => {
@@ -268,8 +287,13 @@ export const useOrderProvider = () => {
 
 	const fetcher = (companyID: string, referenceNumber: string, providerID:string) => {
 		return OrderService.sendOrderProvider(companyID, referenceNumber, providerID).then(
-			(res: any) => res
-		);
+			(res: any) => {
+				if(Number(res.error) === 1){
+					throw new Error("An error has occurred with the");
+				}
+				return res;
+			}
+		).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendOrderProvider = (referenceNumber: string, providerID: string) => {
@@ -290,8 +314,13 @@ export const useOrderProvider = () => {
 		}
 
 		return OrderService.getCurrentProviders(companyID, referenceNumber).then(
-			(res: any) => res,
-		);
+			(res: any) => {
+				if(Number(res.error) === 1){
+					throw new Error("An error has occurred with the");
+				}
+				return res;
+			}
+		).catch((error: Error)=> toast.error(error.message));
 	};
 
 	return { sendOrderProvider, getCurrentProviders };
@@ -303,8 +332,13 @@ export const useOrderOffensive = () => {
 
 	const fetcher = (companyID: string, referenceNumber: string, offensiveness:string) => {
 		return OrderService.sendOrderOffensive(companyID, referenceNumber, offensiveness).then(
-			(res: any) => res
-		);
+			(res: any) => {
+				if(Number(res.error) === 1){
+					throw new Error("An error has occurred with the");
+				}
+				return res;
+			}
+		).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendOrderProvider = (referenceNumber: string, offensiveness: string) => {
@@ -325,8 +359,13 @@ export const userOrderProviderInfo = () => {
 
 	const fetcher = (companyID: string, referenceNumber: string, info:string) => {
 		return OrderService.sendOrderProviderInfo(companyID, referenceNumber, info).then(
-			(res: any) => res
-		);
+			(res: any) => {
+				if(Number(res.error) === 1){
+					throw new Error("An error has occurred with the");
+				}
+				return res;
+			}
+		).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendOrderProviderInfo = (referenceNumber: string, info: string) => {
@@ -347,8 +386,13 @@ export const userOrderFinancialResource = () => {
 
 	const fetcher = (companyID: string, referenceNumber: string, financial: string) => {
 		return OrderService.sendOrderFinancial(companyID, referenceNumber, financial).then(
-			(res: any) => res
-		);
+			(res: any) => {
+				if(Number(res.error) === 1){
+					throw new Error("An error has occurred with the");
+				}
+				return res;
+			}
+		).catch((error: Error)=> toast.error(error.message));
 	};
 
 	const sendOrderFinancial = (referenceNumber: string, financial: string) => {
@@ -389,9 +433,13 @@ export const useOrderCryptoFinancial = ()=>{
 				reference_number: referenceNumber,
 				financial_resource: crypto
 			}
-		}).then((res)=>{
+		}).then((res: any)=>{
+			if(Number(res.error) === 1){
+				throw new Error("An error has occurred with the");
+			}
+
 			console.log({ res });
-		});
+		}).catch((error: Error)=> toast.error(error.message));
 	}
 
 	return { getCryptoFinancialInfo, cryptoEth, cryptoBtc, cryptoLtc, cryptoMonero, cryptoSol, cryptoUsdT, cryptoUsdC };

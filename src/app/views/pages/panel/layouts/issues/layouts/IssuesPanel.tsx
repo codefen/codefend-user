@@ -4,6 +4,7 @@ import {
 	type Issues,
 	useIssues,
 	useReportStore,
+	useShowScreen,
 } from '../../../../../../data';
 import {
 	PrimaryButton,
@@ -15,8 +16,7 @@ import { IssueResources } from '../components/IssueResources';
 import { useFlashlight } from '../../../FlashLightContext';
 
 const IssuesPanel: FC = () => {
-	const [showScreen, setShowScreen] = useState(false);
-	const [control, refresh] = useState(false);
+	const [showScreen, control, refresh] = useShowScreen();
 	const [filters, setFilters] = useState<string[]>([]);
 	const { getIssues, isLoading, refetchAll } = useIssues();
 	const { fetchReport } = useIssueReport();
@@ -25,12 +25,6 @@ const IssuesPanel: FC = () => {
 
 	useEffect(() => {
 		refetchAll();
-		setShowScreen(false);
-		const timeoutId = setTimeout(() => {
-			setShowScreen(true);
-		}, 75);
-
-		return () => clearTimeout(timeoutId);
 	}, [control]);
 
 	const handleIssuesFilter = useMemo(() => {
@@ -75,7 +69,7 @@ const IssuesPanel: FC = () => {
 								? handleIssuesFilter.filteredData
 								: getIssues()?.issues ?? []
 						}
-						refresh={() => refresh(!control)}
+						refresh={refresh}
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>

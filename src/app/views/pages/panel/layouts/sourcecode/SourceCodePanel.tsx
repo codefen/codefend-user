@@ -1,5 +1,9 @@
 import { type FC, useEffect, useState } from 'react';
-import { useOrderStore, useSourceCode } from '../../../../../data';
+import {
+	useOrderStore,
+	useShowScreen,
+	useSourceCode,
+} from '../../../../../data';
 import { SourceCodeResources } from './components/SourceCodeResources';
 import { SourceCodeChart } from './components/SourceCodeChart';
 import { SourceCodeCollab } from './components/SourceCodeCollab';
@@ -8,15 +12,11 @@ import './sourcecode.scss';
 import { useFlashlight } from '../../FlashLightContext';
 
 const SourceCodePanel: FC = () => {
+	const [showScreen, _, refresh] = useShowScreen();
 	const { getSource, isLoading, addSourceCode, deletedResource } =
 		useSourceCode();
 	const { updateState } = useOrderStore((state) => state);
-	const [showScreen, setShowScreen] = useState(false);
 	const flashlight = useFlashlight();
-	useEffect(() => {
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [showScreen]);
 
 	return (
 		<>
@@ -27,12 +27,7 @@ const SourceCodePanel: FC = () => {
 						isLoading={isLoading}
 						sourceCode={getSource() ?? []}
 						update={(params: any) => {
-							addSourceCode(params).finally(() => {
-								setShowScreen(false);
-								setTimeout(() => {
-									setShowScreen(true);
-								}, 50);
-							});
+							addSourceCode(params)?.finally(() => refresh());
 						}}
 						onDelete={deletedResource}
 					/>

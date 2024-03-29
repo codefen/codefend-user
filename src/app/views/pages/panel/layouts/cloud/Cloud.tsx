@@ -12,14 +12,14 @@ import {
 	useCloud,
 	useModal,
 	useSelectMobileCloudApp,
+	useShowScreen,
 } from '../../../../../data';
 import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCloudModal';
 import { CloudApplication } from './components/CloudApplication';
 import './cloud.scss';
 
 const CloudApplicationPanel: FC = () => {
-	const [showScreen, setShowScreen] = useState<boolean>(false);
-	const [control, refresh] = useState<boolean>(false);
+	const [showScreen, control, refresh] = useShowScreen();
 	const { isLoading, getCloudInfo, refetch } = useCloud();
 	const { setShowModal, showModal } = useModal();
 	const { resetSelectedApp } = useSelectMobileCloudApp(
@@ -27,13 +27,10 @@ const CloudApplicationPanel: FC = () => {
 	);
 
 	useEffect(() => {
-		setShowScreen(false);
 		refetch();
 		const timeoutId = setTimeout(() => {
-			setShowScreen(true);
 			resetSelectedApp();
 		}, 50);
-
 		return () => clearTimeout(timeoutId);
 	}, [control]);
 
@@ -47,11 +44,11 @@ const CloudApplicationPanel: FC = () => {
 					close={() => setShowModal(false)}
 					onDone={() => {
 						setShowModal(false);
-						refresh(!control);
+						refresh();
 					}}
 				/>
 			</ModalTitleWrapper>
-			<DeleteMobileCloudModal onDone={() => refresh(!control)} />
+			<DeleteMobileCloudModal onDone={refresh} />
 			<OrderV2 />
 			<ModalReport />
 			<main className={`mobile cloud ${showScreen ? 'actived' : ''}`}>

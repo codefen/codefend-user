@@ -22,7 +22,7 @@ export const TeamSizeOrderModal: FC = () => {
 	const { getCurrentPrices, sendPlanTeamSize } = useOrderPlan();
 
 	useEffect(() => {
-		getCurrentPrices().then((res) => {
+		getCurrentPrices(referenceNumber).then((res) => {
 			setCurrentPrices({
 				small: res.plans_prices.small,
 				medium: res.plans_prices.medium,

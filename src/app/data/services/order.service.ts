@@ -41,14 +41,16 @@ const sendMemberShip = async (companyID: string, referenceNumber: string, member
     return data;
 }
 
-const getCurrentPrices = async (companyID: string) => {
+const getCurrentPrices = async (companyID: string, referenceNumber: string) => {
     const { data } = (await fetchPOST({
         params: {
             model: "orders/add",
             phase: "plan",
             company_id: companyID,
+            reference_number: referenceNumber,
             show: "prices"
-        }
+        },
+        insecure:true
     }).catch((error: any) => handleFetchError(error))) as any;
 
     return data;

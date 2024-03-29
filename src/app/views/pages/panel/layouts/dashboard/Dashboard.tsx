@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import DashboardAssets from './components/DashboardAssets';
 import DashboardCollaborators from './components/DashboardCollaborators';
 import DashboardSearchbar from './components/DashboardSearchbar';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities';
 
-import { type IssuesShare, useDashboard } from '../../../../../data';
+import {
+	type IssuesShare,
+	useDashboard,
+	useShowScreen,
+} from '../../../../../data';
 import {
 	VulnerabilitiesStatus,
 	VulnerabilityRisk,
@@ -13,19 +17,14 @@ import {
 import '../../../../styles/flag.scss';
 import { useFlashlight } from '../../FlashLightContext';
 import './dashboard.scss';
-import { WelcomeGuide } from '../../../../components/standalones/welcome/WelcomeGuide.tsx';
 
 const Dashboard: React.FC = () => {
-	const { isLoading, companyData, refetch } = useDashboard();
-	const [showScreen, setShowScreen] = useState(false);
 	const flashlight = useFlashlight();
-
+	const [showScreen] = useShowScreen();
+	const { isLoading, companyData, refetch } = useDashboard();
 	useEffect(() => {
 		refetch();
-		setShowScreen(false);
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, []);
+	});
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>

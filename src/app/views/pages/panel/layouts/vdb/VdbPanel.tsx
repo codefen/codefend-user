@@ -1,17 +1,11 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC } from 'react';
 import { VdbPreviousSearches } from './components/VdbPreviousSearches';
 import { VdbSearchData } from './components/VdbSearchData';
+import { useShowScreen } from '../../../../../data';
 import './vdb.scss';
 
 const VdbPanel: FC = () => {
-	const [showScreen, setShowScreen] = useState(false);
-	const [refresh, setRefresh] = useState(false);
-
-	useEffect(() => {
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [refresh]);
-
+	const [showScreen] = useShowScreen();
 	return (
 		<>
 			<main className={`sb ${showScreen ? 'actived' : ''}`}>

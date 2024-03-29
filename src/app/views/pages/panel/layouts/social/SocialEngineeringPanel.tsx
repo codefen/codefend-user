@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useOrderStore, useSocial } from '../../../../../data';
-import SocialAttackVectors from './components/SocialAttackVectors';
+import { useOrderStore, useShowScreen, useSocial } from '../../../../../data';
 import SocialEngineering from './components/SocialEngineering';
 import SocialEngineeringMembers from './components/SocialEngineeringMembers';
 import './socialEngineering.scss';
@@ -8,8 +7,8 @@ import { useFlashlight } from '../../FlashLightContext';
 import { OrderV2, PrimaryButton } from '../../../../components';
 
 const SocialEngineeringView = () => {
+	const [showScreen] = useShowScreen();
 	const { members, refetch, loading } = useSocial();
-	const [showScreen, setShowScreen] = useState(false);
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 	const [socialFilters, setSocialFilters] = useState({
@@ -19,21 +18,18 @@ const SocialEngineeringView = () => {
 
 	useEffect(() => {
 		refetch();
-		setShowScreen(false);
-		setTimeout(() => setShowScreen(true), 50);
 	}, []);
 
 	const handleDepartmentFIlter = (role: string) => {
-		if (socialFilters.department.has(role)) {
-			const updated = new Set(socialFilters.department);
-			updated.delete(role);
-			setSocialFilters((state: any) => ({ ...state, department: updated }));
-		} else {
-			setSocialFilters((state: any) => ({
-				...state,
-				department: new Set([...state.department, role]),
-			}));
-		}
+		setSocialFilters((prevState) => {
+			const updatedDepartment = new Set(prevState.department);
+			if (updatedDepartment.has(role)) {
+				updatedDepartment.delete(role);
+			} else {
+				updatedDepartment.add(role);
+			}
+			return { ...prevState, department: updatedDepartment };
+		});
 	};
 
 	const handleFilter = useMemo(() => {
@@ -78,7 +74,6 @@ const SocialEngineeringView = () => {
 						members={members ?? []}
 						handleDepartmentFilter={handleDepartmentFIlter}
 					/>
-					{/* <SocialAttackVectors />*/}
 				</section>
 			</main>
 		</>

@@ -35,6 +35,7 @@ export interface Provider {
     fname: string;
     lname: string;
     username: string;
+    headline: string
     role: string;
     access_role: string;
     email: string;

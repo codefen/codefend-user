@@ -12,6 +12,7 @@ import {
 	useMobile,
 	useModal,
 	useSelectMobileCloudApp,
+	useShowScreen,
 } from '../../../../../data';
 
 import './mobileApplicationPanel.scss';
@@ -19,9 +20,8 @@ import { MobileApplication } from './components/MobileApplication';
 import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
 
 const MobileApplicationPanel: React.FC = () => {
+	const [showScreen, control, refresh] = useShowScreen();
 	const { showModal, setShowModal } = useModal();
-	const [showScreen, setShowScreen] = useState<boolean>(false);
-	const [control, refresh] = useState<boolean>(false);
 	const { getMobileInfo, refetch, isLoading } = useMobile();
 	const { resetSelectedApp } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
@@ -29,9 +29,7 @@ const MobileApplicationPanel: React.FC = () => {
 
 	useEffect(() => {
 		refetch();
-		setShowModal(false);
 		const timeoutId = setTimeout(() => {
-			setShowScreen(true);
 			resetSelectedApp();
 		}, 50);
 
@@ -45,14 +43,14 @@ const MobileApplicationPanel: React.FC = () => {
 				headerTitle="Add mobile app"
 				close={() => setShowModal(false)}>
 				<AddMobileModal
-					onDone={() => refresh(!control)}
+					onDone={refresh}
 					close={() => setShowModal(false)}
 				/>
 			</ModalTitleWrapper>
 
 			<OrderV2 />
 			<ModalReport />
-			<DeleteMobileCloudModal onDone={() => refresh(!control)} />
+			<DeleteMobileCloudModal onDone={refresh} />
 			<main className={`mobile ${showScreen ? 'actived' : ''}`}>
 				<Show when={!isLoading} fallback={<PageLoader />}>
 					<MobileApplication

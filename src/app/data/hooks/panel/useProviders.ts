@@ -36,7 +36,7 @@ export const useProviderProfile = () => {
 		});
 	};
 
-	return { providerProfile: provider, isLoading, refetch } as const;
+	return { providerProfile: provider, isLoading, refetch, cancelRequest } as const;
 };
 
 export enum ProviderSidebarOptions {

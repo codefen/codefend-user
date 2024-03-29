@@ -1,36 +1,52 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ResourcesTypes, mapSourceCode, useAuthState, useOrderStore, verifySession } from '../..';
+import {
+	ResourcesTypes,
+	mapSourceCode,
+	useAuthState,
+	useOrderStore,
+	verifySession,
+} from '../..';
 import { SourceCodeService } from '../../services/panel/sourcecode.service';
 import { toast } from 'react-toastify';
+import { useFetcher } from '../util/useFetcher';
 
 export const useSourceCode = () => {
+	const [fetcher,_, isLoading] = useFetcher();
 	const [sourceCode, setSource] = useState(null);
-	const [isLoading, setLoading] = useState(false);
-	const { getUserdata, getCompany, logout } = useAuthState();
-	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
+	const { getCompany, logout } = useAuthState();
+	const { updateState, setScopeTotalResources } = useOrderStore(
+		(state) => state,
+	);
 
-	const fetcher = useCallback((companyID: string) => {
-		setLoading(true);
-		SourceCodeService.getAll(companyID)
-			.then((res: any) => {
-				verifySession(res, logout);
+	const fetchAll = useCallback((companyID: string) => {
+		fetcher('post', {
+			body: {
+				model: 'resources/source',
+				ac: 'view_all',
+				company_id: companyID,
+			},
+		})
+			.then(({ data }: any) => {
+				verifySession(data, logout);
 
-				const sourceCodeResource = res.disponibles ? res.disponibles.map((repo: any) => mapSourceCode(repo)) : [];
-				setSource(
-					sourceCodeResource
-				);
+				const sourceCodeResource = data.disponibles
+					? data.disponibles.map((repo: any) => mapSourceCode(repo))
+					: [];
+				setSource(sourceCodeResource);
 				setScopeTotalResources(sourceCodeResource.length);
 			})
-			.finally(() => {
-				setLoading(false);
-				updateState("resourceType", ResourcesTypes.CODE);
-			});
+			.finally(() => updateState('resourceType', ResourcesTypes.CODE));
 	}, []);
 
-	const refetch = useCallback(() => {
+	const refetch = () => {
 		const companyID = getCompany();
-		fetcher(companyID);
-	}, [getUserdata]);
+		if (!companyID) {
+			toast.error('User information was not found');
+			return;
+		}
+
+		fetchAll(companyID);
+	};
 
 	useEffect(() => {
 		refetch();
@@ -40,46 +56,68 @@ export const useSourceCode = () => {
 		return isLoading ? ({} as any) : sourceCode;
 	}, [sourceCode]);
 
-	const deletedResource = useCallback(
-		(id: string) => {
-			setLoading(true);
-			const companyID = getCompany();
-			SourceCodeService.delete(id, companyID)
-				.then((response: any) => {
-					if (!response) {
-					}
+	const fetDeleteResources = (id: string, companyID: string) => {
+		fetcher('post', {
+			body: {
+				model: 'resources/source',
+				ac: 'del',
+				id: id,
+				company_id: companyID,
+			},
+		})
+			.then(({ data }: any) => {
+				toast.success('Successfully deleted sourcecode resources...');
+				refetch();
+			})
+			.catch(() => {
+				toast.error('An error has occurred on the server');
+			});
+	};
 
-					toast.success('Successfully deleted sourcecode resources...');
-					refetch();
-				})
-				.catch(() => {
-					toast.error('An error has occurred on the server');
-				})
-				.finally(() => setLoading(false));
-		},
-		[getUserdata],
-	);
+	const refetchDelete = (id: string) => {
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return;
+		}
 
-	const addSourceCode = useCallback(
-		(params: string) => {
-			setLoading(true);
-			const companyID = getCompany();
-			return SourceCodeService.add(params, companyID)
-				.then((response: any) => {
-					if (!response) {
-					}
-					refetch();
-					toast.success('Successfully repository is added');
-				})
-				.catch(() => {
-					toast.error('An error has occurred on the server');
-				})
-				.finally(() => {
-					setLoading(false);
-				});
-		},
-		[getUserdata],
-	);
+		return fetDeleteResources(id, companyID);
+	};
 
-	return { getSource, isLoading, deletedResource, addSourceCode };
+	const addSourceCode = (params: any, companyID: string) => {
+		return fetcher('post', {
+			body: {
+				model: 'resources/source',
+				ac: 'add',
+				company_id: companyID,
+				...params,
+			},
+		})
+			.then(({ params }: any) => {
+				if (!params) {
+				}
+				refetch();
+				toast.success('Successfully repository is added');
+			})
+			.catch(() => {
+				toast.error('An error has occurred on the server');
+			});
+	};
+
+	const refetchAdd = (params: string) => {
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return;
+		}
+
+		return addSourceCode(params, companyID);
+	};
+
+	return {
+		getSource,
+		isLoading,
+		deletedResource: refetchDelete,
+		addSourceCode: refetchAdd,
+	};
 };

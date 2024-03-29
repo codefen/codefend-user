@@ -60,7 +60,7 @@ export const useAddMobileResource = () => {
 	const [iosAddress, setIosAddress] = useState('');
 	const { getCompany } = useAuthState();
 
-	const isNotValidData = ()=>{
+	const isNotValidData = () => {
 		if (androidAddress.length > 165) {
 			toast.error('Invalid android address');
 			return true;
@@ -77,7 +77,7 @@ export const useAddMobileResource = () => {
 		}
 
 		return false;
-	}
+	};
 
 	const handleAddMobileResource = (
 		onDone: () => void,
@@ -89,7 +89,7 @@ export const useAddMobileResource = () => {
 			return;
 		}
 
-		if(isNotValidData()) return;
+		if (isNotValidData()) return;
 
 		fetcher<any>('post', {
 			body: {
@@ -100,15 +100,11 @@ export const useAddMobileResource = () => {
 				company_id: companyID,
 			},
 		})
-			.then((response: any) => {
-				if (
-					response.android_error ||
-					response.apple_error ||
-					response.isAnError
-				) {
+			.then((res: any) => {
+				console.log({ res });
+				if (res.android_error || res.apple_error || res.isAnError) {
 					throw new Error(
-						response.android_info ??
-							'An error has occurred on the server',
+						res?.android_info || 'An error has occurred on the server',
 					);
 				}
 
@@ -122,5 +118,10 @@ export const useAddMobileResource = () => {
 			});
 	};
 
-	return {handleAddMobileResource, isAddingMobile: isLoading, setIosAddress, setAndroidAddress};
+	return {
+		handleAddMobileResource,
+		isAddingMobile: isLoading,
+		setIosAddress,
+		setAndroidAddress,
+	};
 };

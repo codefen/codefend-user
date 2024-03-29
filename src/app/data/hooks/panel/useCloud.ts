@@ -1,39 +1,41 @@
 import { useCallback, useState } from 'react';
-import { type CloudApp,type  FetchPattern, ResourcesTypes, mapCloudApp, useAuthState, useOrderStore, verifySession } from '../..';
-import { CloudService } from '../../services/panel/cloud.service';
+import { useFetcher } from '../util/useFetcher';
+import {
+	type CloudApp,
+	ResourcesTypes,
+	mapCloudApp,
+	useAuthState,
+	useOrderStore,
+	verifySession,
+} from '../..';
 import { toast } from 'react-toastify';
 
 export const useCloud = () => {
-	const { getCompany,logout } = useAuthState();
-	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
-	const [{ data, isLoading }, dispatch] = useState<FetchPattern<CloudApp[]>>({
-		data: null,
-		error: null,
-		isLoading: false,
-	});
+	const { getCompany, logout } = useAuthState();
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const { updateState, setScopeTotalResources } = useOrderStore(
+		(state) => state,
+	);
+	const [data, setData] = useState<CloudApp[]>([]);
+
 	/* Fetch Cloud Apps */
 	const fetchAll = useCallback((companyID: string) => {
-		dispatch((state: any) => ({
-			...state,
-			isLoading: true,
-		}));
-		
-		CloudService.getAll(companyID)
-			.then((response: any) =>
-				{
-					verifySession(response, logout);
-					
-					const cloudResources = response.disponibles.map((app: any) => mapCloudApp(app));
-					
-					dispatch({
-						data: cloudResources,
-						error: null,
-						isLoading: false,
-					});
-					setScopeTotalResources(cloudResources.length)
-				}
-			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false })).finally(()=> updateState("resourceType", ResourcesTypes.CLOUD));
+		fetcher('post', {
+			body: {
+				model: 'resources/cloud',
+				ac: 'view_all',
+				company_id: companyID,
+			},
+		}).then(({ data }: any) => {
+				verifySession(data, logout);
+
+				const cloudResources = data?.disponibles ? data.disponibles.map((app: any) =>
+					mapCloudApp(app),
+				) : [];
+
+				setData(cloudResources)
+				setScopeTotalResources(cloudResources.length);
+			}).finally(() => updateState('resourceType', ResourcesTypes.CLOUD));
 	}, []);
 
 	/* Refetch Function. */

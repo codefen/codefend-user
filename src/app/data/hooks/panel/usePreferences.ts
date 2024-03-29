@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from '..';
 import { PreferenceServices } from '../../services';
+import { toast } from 'react-toastify';
+import { verifySession } from '../..';
+import { useFetcher } from '../util/useFetcher';
 
 interface CompanyInfo {
 	id: string;
@@ -43,33 +46,40 @@ interface MemberInfo {
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const usePreferences = () => {
-	const { getCompany, getUserdata } = useAuthState();
-
-	const [loading, setLoading] = useState<boolean>(false);
+	const { getCompany, logout } = useAuthState();
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
 	const [company, setCompany] = useState<CompanyInfo | ''>('');
 	const [members, setMembers] = useState<MemberInfo[]>([]);
 	const [orders, serOrders] = useState<any[]>([]);
 
-	const fetcher = useCallback(() => {
-		const companyID = getCompany();
-		setLoading(true);
-
-		PreferenceServices.getAll(companyID)
-			.then((response: any) => {
-				setCompany(response.company);
-				setMembers(response.company_members);
-				serOrders(response.company_orders);
-			})
-			.finally(() => {
-				setLoading(false);
+	const fetchAll = useCallback((companyID: string) => {
+		fetcher("post", {
+			body: {
+				model: 'companies/preferences',
+				company_id: companyID,
+			}
+		}).then(({ data }: any) => {
+				verifySession(data, logout);
+				setCompany(data.company);
+				setMembers(data.company_members);
+				serOrders(data.company_orders);
 			});
-	}, [getUserdata, getCompany]);
-
-	useEffect(() => {
-		fetcher();
 	}, []);
 
-	const refetch = useCallback(() => fetcher(), []);
+	const refetch = () => {
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return;
+		}
 
-	return { loading, company, members, refetch, orders };
+		fetchAll(companyID);
+	}
+
+	useEffect(() => {
+		refetch();
+		return ()=> cancelRequest();
+	}, []);
+
+	return { loading: isLoading, company, members, refetch, orders };
 };

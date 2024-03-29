@@ -1,43 +1,41 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useAuthState } from '..';
-import { type FetchPattern, SocialAplicationService, type MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../../data';
+import {type MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../../data';
 import { toast } from 'react-toastify';
+import { useFetcher } from '../util/useFetcher';
 
 /* Custom Hook "useSocial" to handle GET data in Social page*/
 export const useSocial = () => {
-	const { getUserdata, getCompany, logout } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<MemberV2[]>
-	>({
-		data: null,
-		error: null,
-		isLoading: true,
-	});
+	const { getCompany, logout } = useAuthState();
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const data = useRef<MemberV2[]>([]);
 	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
 	
-	const fetchSocial = async (companyID: string) => {
-		dispatch((state) => ({ ...state, isLoading: true }));
-		return SocialAplicationService.getAll(companyID)
-			.then((response: any) => {
+	const fetchSocial = (companyID: string) => {
+		fetcher("post", {
+			body: {
+				model: 'resources/se',
+				ac: 'view_all',
+				company_id: companyID,
+			}
+		}).then((response: any) => {
 				verifySession(response, logout);
 
-				dispatch({
-					data: response.disponibles,
-					error: null,
-					isLoading: false,
-				});
-				setScopeTotalResources(response.disponibles.length);
-			})
-			.catch((error) => dispatch({ data: null, error, isLoading: false })).finally(()=> updateState("resourceType", ResourcesTypes.SOCIAL));
-	};
+				const socialResources = response?.disponibles || [];
+				console.log({ socialResources });
+				data.current = socialResources;
+				setScopeTotalResources(socialResources.length);
+			}).finally(()=> updateState("resourceType", ResourcesTypes.SOCIAL));
+	}
 
-	const refetch = useCallback(() => {
+	const refetch = () => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return;
 		}
 		fetchSocial(companyID);
-	}, [getUserdata]);
-	return { members: data, loading: isLoading, error, refetch };
+	};
+
+	return { members: data.current, loading: isLoading, refetch };
 };

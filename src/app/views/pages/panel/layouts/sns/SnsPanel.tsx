@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import type { FC } from 'react';
 import SnPreviousSearches from './components/SnPreviousSearches';
 import SnsSearchAndData from './components/SnsSearchAndData';
+import { useShowScreen } from '../../../../../data';
 import './Sns.scss';
 
-const SnsPanel: React.FC = () => {
-	const [showScreen, setShowScreen] = useState(false);
-
-	useEffect(() => {
-		setTimeout(() => {
-			setShowScreen(true);
-		}, 50);
-	});
+const SnsPanel: FC = () => {
+	const [showScreen] = useShowScreen();
 
 	return (
 		<>
