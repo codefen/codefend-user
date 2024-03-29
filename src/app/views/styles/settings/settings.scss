@@ -173,17 +173,7 @@ a {
 	--checkmark-size: 1.2;
 }
 
-.codefend-radio {
-	--radio-len: 22px;
-	--radio-bg: linear-gradient(
-		to right bottom,
-		hsl(0deg 100% 71.98%),
-		hsl(0deg 91.59% 49.5%)
-	);
-	--radio-bg-before: linear-gradient(to right bottom, #ffeded, #d6d6d6);
-	--radio-scale: 1.1;
-	--radio-transition: 0.3s;
-}
+
 
 [data-theme='dark'] {
 	.codefend-radio {

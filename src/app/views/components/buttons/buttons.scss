@@ -3,14 +3,14 @@ button.btn {
 	justify-content: center;
 	align-items: center;
 	outline: none;
-	cursor: pointer;
+	cursor: pointer !important;
 
 	padding-inline: 23px;
 
 	color: var(--primary-color);
-	font-size: 13px;
+	font-size: 14px;
 	font-family: 'Questrial';
-	font-weight: 800;
+	font-weight: 400;
 	text-decoration: none;
 
 	height: 45px;
@@ -21,12 +21,16 @@ button.btn {
 
 	border: 0px;
 
-	transition-property: background, color;
-	transition-duration: 200ms;
+	transition-property: background, color, transform;
+	transition-duration: 130ms;
 	transition-timing-function: cubic-bezier(0.15, -0.31, 0.73, 0.96);
 
 	&:focus {
 		outline: none;
+	}
+
+	&:hover {
+		transform: scale(1.02);
 	}
 
 	&.no-border-height {

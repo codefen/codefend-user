@@ -1,26 +1,31 @@
 .steps {
-	flex: 0 0 100%;
-	justify-content: center;
+	// flex: 0 0 100%;
+	// justify-content: center;
+	flex: 1.2;
+	justify-content: space-between;
 	align-items: center;
 	display: flex;
-	margin-block-start: 0.75rem;
-	width: 100%;
-	--default-color: var(--secondary-color-50);
-	--completed-color: var(--secondary-color-100);
-	--current-color: #ffb8b8;
+	// margin-block-start: 0.75rem;
+	// width: 100%;
+	padding: 15px 15px;
+	// background-color: #00000007;
+	--default-color: #00000020;
+	--completed-color: #000000;
+	--current-color: #000000d2;
 
 	.step {
-		width: 55px;
+		// width: 25px;
 		position: relative;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+		flex: 1;
 
 		.step-dot {
 			position: relative;
 			display: inline-block;
-			width: 16px;
-			height: 16px;
+			width: 11px;
+			height: 11px;
 
 			background-color: var(--default-color);
 
@@ -29,21 +34,27 @@
 
 			top: 0.125em;
 		}
-
+		img {
+			display: none;
+		}
 		&.completed {
 			.step-dot {
-				width: 17px;
-				height: 17px;
+				// width: 17px;
+				// height: 17px;
 				background-color: var(--completed-color);
 			}
 		}
 
 		&.current {
 			.step-dot {
-				width: 24px;
-				height: 24px;
+				width: 25px;
+				height: 25px;
+				background-color: var(--current-color);
+				// display: none;
 			}
-
+			img {
+				// display: inline;
+			}
 			&::before {
 				content: attr(data-text);
 				position: absolute;

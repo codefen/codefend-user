@@ -34,9 +34,9 @@ export const FrequencyOrderModal: FC = () => {
 					</span>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders">
+			<div className="step-content">
 				<div
-					className={`option order-pointer show-both-borders ${
+					className={`option order-pointer ${
 						frequencyW === OrderFrequency.ONCE && `select-option`
 					}`}
 					onClick={() => setFrequency(OrderFrequency.ONCE)}>
@@ -61,7 +61,7 @@ export const FrequencyOrderModal: FC = () => {
 					</div>
 				</div>
 				<div
-					className={`option order-pointer show-both-borders ${
+					className={`option order-pointer ${
 						frequencyW === OrderFrequency.MEMBER_SHIP && `select-option`
 					}`}
 					onClick={() => setFrequency(OrderFrequency.MEMBER_SHIP)}>
