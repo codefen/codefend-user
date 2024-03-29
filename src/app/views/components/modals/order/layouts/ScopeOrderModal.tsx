@@ -54,15 +54,15 @@ export const ScopeOrderModal: FC = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>Let's start a new pentest! what would like analyse?</b>
 					<span>Please select the assets that you would ike to scope</span>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders">
+			<div className="step-content">
 				<div
-					className={`option block-xll show-both-borders ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}>
+					className={`option block-xll ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}>
 					<input
 						id="scope-resources"
 						name="scopeOption"
@@ -91,7 +91,7 @@ export const ScopeOrderModal: FC = () => {
 					</label>
 				</div>
 				<div
-					className={`option block-xll show-both-borders ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}>
+					className={`option block-xll ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}>
 					<input
 						id="all-scope-resources"
 						name="scopeOption"

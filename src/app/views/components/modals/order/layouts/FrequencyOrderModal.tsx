@@ -25,7 +25,7 @@ export const FrequencyOrderModal: FC = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>We will size the task, please select the model.</b>
 					<span>
@@ -43,6 +43,7 @@ export const FrequencyOrderModal: FC = () => {
 					<img
 						src="/codefend/order-frequency1.svg"
 						alt="fast-pentest-icon"
+						className='step-image'
 					/>
 
 					<div className="order-snapshot">
@@ -68,6 +69,7 @@ export const FrequencyOrderModal: FC = () => {
 					<img
 						src="/codefend/order-frequency2.svg"
 						alt="large-pentest-icon"
+						className='step-image'
 					/>
 
 					<div className="order-snapshot">
