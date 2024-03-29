@@ -60,17 +60,17 @@ const Sidebar: FC = () => {
 					<Link
 						to="/provider/profile"
 						className={`${isActivePath('/provider/profile') ? 'active' : ''}`}
-						title="Provider profile"
-						aria-label="Provider profile"
-						data-text="Provider profile">
+						title="My profile"
+						aria-label="My profile"
+						data-text="My profile">
 						<ProfileIcon isVisible />
 					</Link>
 					<Link
 						to="/provider/orders"
 						className={`${isActivePath('/provider/orders') ? 'active' : ''}`}
-						title="Provider profile"
-						aria-label="Provider profile"
-						data-text="Provider profile">
+						title="Orders"
+						aria-label="Orders"
+						data-text="Orders">
 						<ProviderOrdersIcon isVisible />
 					</Link>
 				</>
@@ -78,6 +78,14 @@ const Sidebar: FC = () => {
 
 			{!isHacker() && (
 				<>
+					<Link
+						title="Dashboard"
+						to="/dashboard"
+						className={`${isActivePath('/dashboard') ? 'active' : ''}`}
+						aria-label="Dashboard"
+						data-text="Dashboard">
+						<ChartIcon />
+					</Link>
 					<Link
 						title="Web"
 						to="/web"
