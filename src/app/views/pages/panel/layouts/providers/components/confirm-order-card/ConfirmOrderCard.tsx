@@ -18,6 +18,10 @@ export interface ConfirmOrderCardProps {
 	provider: string;
 	scope: ScopeOption | 0 | 1;
 	distributor: string;
+	price: string;
+	handleActivate: (id: string) => void;
+	id: string;
+	isSelected?: boolean;
 }
 
 export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
@@ -27,13 +31,19 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	provider,
 	scope,
 	distributor,
+	price,
+	id,
+	isSelected,
+	handleActivate,
 }) => {
 	const teamSize = sizeOrder.valueOf();
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
-
+	const onClick = () => handleActivate(id);
 	return (
-		<div className="confirm-order-card">
+		<div
+			className={`confirm-order-card ${isSelected && 'active'}`}
+			onClick={onClick}>
 			<div className="provider-order-info flex-col">
 				<h2>
 					<span className="codefend-text-red">
@@ -74,7 +84,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 			</div>
 			<div className="provider-order-main-content flex-col">
 				<div className="order-price-dist">
-					<span className="price">$4.500</span>
+					<span className="price">${price}</span>
 					<span className="distributor">distributor: {distributor}</span>
 				</div>
 				<div className="flex-row buttons">

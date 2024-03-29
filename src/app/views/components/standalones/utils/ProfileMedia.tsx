@@ -8,6 +8,7 @@ interface ProfileMediaProps {
 	bottom?: string;
 	right?: string;
 	left?: string;
+	activeGrayScale?: boolean;
 }
 
 interface ProfileMediaCssVar extends CSSProperties {
@@ -26,10 +27,11 @@ export const ProfileMedia: FC<ProfileMediaProps> = ({
 	bottom = '0',
 	left = '0',
 	right = '0',
+	activeGrayScale,
 }) => {
 	return (
 		<div
-			className={`profile-media-container ${borderWhite && 'border-white'}`}
+			className={`profile-media-container ${borderWhite && 'border-white'} `}
 			style={
 				{
 					'--profile-media-size': size,
@@ -40,7 +42,7 @@ export const ProfileMedia: FC<ProfileMediaProps> = ({
 				} as ProfileMediaCssVar
 			}>
 			<img
-				className="profile-media"
+				className={`profile-media ${activeGrayScale && 'gray-scale-filter'}`}
 				src={src}
 				alt="profile-media"
 				aria-label="provider profile media"

@@ -35,7 +35,7 @@ import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from './views/components/modals/reports/PageReport';
 import { ProviderPage } from './views/pages/panel/layouts/providers/ProviderPanel';
 import { useAuthState, useUserAdmin, useUserProvider } from './data';
-import { AboutProvider } from './views/pages/panel/layouts/providers/layouts/AboutProvider';
+import { AboutProvider } from './views/pages/panel/layouts/providers/layouts/about-provider/AboutProvider';
 import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/OrdersReviewProviders';
 
 export const AppRouter: React.FC = () => {

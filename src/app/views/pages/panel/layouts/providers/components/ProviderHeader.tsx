@@ -33,15 +33,15 @@ export const ProviderHeader: FC<ProviderHeaderProps> = ({
 	totalAudits,
 }) => (
 	<div className="provider-header">
-		<div className="provider-banner-container">
+		{/*<div className="provider-banner-container">
 			<img
 				className="provider-banner"
 				src={bannerImg}
 				alt="banner"
 				aria-label="provider banner"
 			/>
-		</div>
-		<ProfileMedia borderWhite src={profileMedia} top="12rem" left="2.5rem" />
+		</div>*/}
+		<ProfileMedia src={profileMedia} size="110px" top="8%" left="4rem" />
 
 		<div className="provider-header-content">
 			<div className="provider-main-info">

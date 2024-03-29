@@ -3,7 +3,7 @@
 main.provider {
 	padding-inline-end: 0;
 	padding-block-end: 0;
-	--provider-border-color: var(--tertiary-color-50);
+	--provider-border-color: var(--primary-color-300);
 
 	.provider-score {
 		height: 100%;
@@ -28,13 +28,20 @@ main.provider {
 
 	.left {
 		padding-inline: 0px;
-		padding-block-start: 60px;
+		margin-block-start: 62px;
+		max-width: 950px;
+		background: #fff;
+		box-shadow: 0px 0px 2rem 1px rgba(0, 0, 0, 0.1);
+		padding-block-start: 0px;
+		border-radius: 4px;
 
 		.provider-header {
 			position: relative;
 			display: flex;
 			flex-direction: column;
-			border-inline: 1px solid var(--provider-border-color);
+			min-height: 140px;
+			max-height: 140px;
+			height: 100%;
 
 			.provider-banner-container {
 				.provider-banner {
@@ -69,7 +76,7 @@ main.provider {
 			.provider-header-content {
 				display: flex;
 				flex-direction: row;
-				height: 120px;
+				height: 100%;
 				border-bottom: 1px solid var(--provider-border-color);
 
 				.provider-main-info {
@@ -78,6 +85,7 @@ main.provider {
 					border-inline-end: 1px solid var(--provider-border-color);
 					min-width: 18rem;
 					max-width: 18rem;
+					padding-block-start: 1rem;
 
 					h3 {
 						color: var(--tertiary-color-600);
@@ -184,7 +192,6 @@ main.provider {
 
 		.provider-content {
 			display: flex;
-			border-inline: 1px solid var(--provider-border-color);
 
 			.provider-main-content {
 				display: flex;
@@ -198,13 +205,14 @@ main.provider {
 	.right {
 		display: none;
 		opacity: 0;
+		max-width: 600px;
 
 		@include media.minScreen(1300px) {
 			& {
 				display: block;
 				opacity: 1;
 				padding-inline-end: 0;
-				box-shadow: -3px 0px 6px 3px rgba(0, 0, 0, 0.15);
+				box-shadow: -3px 0px 20px 3px rgba(0, 0, 0, 0.1);
 
 				height: 100%;
 				min-height: 100dvh;
@@ -214,97 +222,10 @@ main.provider {
 	}
 }
 
-.provider-about {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	padding: 1.5rem;
-
-	.about-header {
-		width: 100%;
-
-		h2 {
-			color: var(--secondary-color-100);
-			border-bottom: 1px solid;
-			width: fit-content;
-			border-radius: 1px;
-		}
-	}
-}
-
 .providers-list {
 	h2 {
 		padding-inline-start: 1rem;
 		padding-block-end: 1rem;
 		font-size: 2rem;
-	}
-}
-
-.provider-card {
-	position: relative;
-	width: 100%;
-	height: 95px;
-	display: flex;
-	align-items: flex-start;
-	border-block: 1px solid var(--tertiary-color-200);
-
-	.provider-card-content {
-		flex: 1 1;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		margin-inline-start: 7rem;
-		padding-block-start: 0.5rem;
-
-		.provider-name {
-			padding-block-end: 0.65rem;
-			h3 {
-				font-size: 1.2rem;
-				color: var(--tertiary-color-500);
-				display: flex;
-
-				b,
-				span {
-					display: -webkit-box;
-					-webkit-box-orient: vertical;
-
-					overflow: hidden;
-					-webkit-line-clamp: 1;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-				b {
-					padding-inline-end: 3px;
-					max-width: 170px;
-				}
-
-				span {
-					padding-inline-start: 3px;
-					max-width: 130px;
-				}
-			}
-		}
-
-		.provider-desc {
-			line-height: 1.2rem;
-			color: var(--tertiary-color-300);
-
-			max-height: calc((1.2rem) * 2);
-			min-height: calc((1.2rem) * 2);
-			max-width: 285px;
-
-			display: -webkit-box;
-			line-clamp: 2;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-
-		.provider-score {
-			padding-block-start: 0.25rem;
-			padding-inline-start: 0;
-		}
 	}
 }
