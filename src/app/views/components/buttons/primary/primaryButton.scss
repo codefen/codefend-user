@@ -14,10 +14,11 @@
 	}
 
 	&.btn-black {
-		background-color: var(--tertiary-color-400);
+		color: var(--tertiary-color-300);
+		background-color: var(--tertiary-color-50);
 
 		&:hover {
-			background-color: var(--tertiary-color-600);
+			// background-color: var(--tertiary-color-100);
 		}
 
 		@include mixin.respond(small) {

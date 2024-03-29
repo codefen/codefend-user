@@ -193,10 +193,20 @@ select {
 }
 
 .codefend-radio {
+	--radio-len: 18px;
+	--radio-bg: linear-gradient(
+		to right bottom,
+		hsl(0deg 100% 71.98%),
+		hsl(0deg 91.59% 49.5%)
+	);
+	--radio-bg-before: var(--tertiary-color-200);
+	--radio-scale: 1.1;
+	--radio-transition: 0.3s;
+
 	width: var(--radio-len);
 	height: var(--radio-len);
 	border-radius: 100%;
-	background: var(--radio-bg);
+	border: 1px solid var(--radio-bg-before);
 	position: relative;
 }
 
@@ -209,9 +219,16 @@ select {
 	background: var(--radio-bg-before);
 	transform: scale(var(--radio-scale));
 	transition: var(--radio-transition);
+	transform: scale(0.5);
+    margin: -1px;
 }
-input[type='radio']:checked + .codefend-radio::before {
-	transform: scale(0);
+input[type='radio']:checked + .codefend-radio {
+	border: 1px solid var(--secondary-color-100);
+
+	&::before {
+		transform: scale(0.6);
+		background: var(--secondary-color-100);
+	}
 }
 
 /* checkbox settings 👇 */

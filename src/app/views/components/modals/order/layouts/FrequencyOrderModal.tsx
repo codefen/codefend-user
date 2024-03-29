@@ -25,7 +25,7 @@ export const FrequencyOrderModal: FC = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>We will size the task, please select the model.</b>
 					<span>
@@ -34,15 +34,16 @@ export const FrequencyOrderModal: FC = () => {
 					</span>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders">
+			<div className="step-content">
 				<div
-					className={`option order-pointer show-both-borders ${
+					className={`option order-pointer ${
 						frequencyW === OrderFrequency.ONCE && `select-option`
 					}`}
 					onClick={() => setFrequency(OrderFrequency.ONCE)}>
 					<img
 						src="/codefend/order-frequency1.svg"
 						alt="fast-pentest-icon"
+						className='step-image'
 					/>
 
 					<div className="order-snapshot">
@@ -61,13 +62,14 @@ export const FrequencyOrderModal: FC = () => {
 					</div>
 				</div>
 				<div
-					className={`option order-pointer show-both-borders ${
+					className={`option order-pointer ${
 						frequencyW === OrderFrequency.MEMBER_SHIP && `select-option`
 					}`}
 					onClick={() => setFrequency(OrderFrequency.MEMBER_SHIP)}>
 					<img
 						src="/codefend/order-frequency2.svg"
 						alt="large-pentest-icon"
+						className='step-image'
 					/>
 
 					<div className="order-snapshot">
