@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useAuthState } from '../useAuthState';
 import { mapGetCompanyToCompanyData } from '../../utils/mapper';
 import {
@@ -26,7 +26,7 @@ export const useDashboard = () => {
 		}
 		setCompanyResources({} as DashboardProps);
 		fetcher<any>('post', {
-			body: { company_id: companyID, model: 'companies/dashboard' }
+			body: { company_id: companyID, model: 'companies/dashboard' },
 		})?.then(({ data }) => {
 			verifySession(data, logout);
 			selectCompany(data.company, true);

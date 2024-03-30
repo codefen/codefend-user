@@ -29,6 +29,21 @@ main.social {
 				flex: 1 1 !important;
 				max-width: 500px;
 			}
+
+			.full-name {
+				max-width: 180px;
+
+				.publish {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: normal;
+					-webkit-line-clamp: 2;
+					display: -webkit-box;
+					line-height: 1.25rem;
+					max-height: calc(1.25rem * 2);
+					margin-inline-end: 17px;
+				}
+			}
 		}
 	}
 

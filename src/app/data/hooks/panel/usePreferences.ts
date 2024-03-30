@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useAuthState } from '..';
-import { PreferenceServices } from '../../services';
 import { toast } from 'react-toastify';
+import { useAuthState } from '..';
 import { verifySession } from '../..';
 import { useFetcher } from '../util/useFetcher';
 

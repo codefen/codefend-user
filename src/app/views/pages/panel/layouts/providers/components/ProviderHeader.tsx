@@ -1,5 +1,6 @@
 import { useEffect, type FC } from 'react';
 import {
+	CircleAskIcon,
 	IconTextPairs,
 	LocationIcon,
 	ProfileMedia,
@@ -15,7 +16,7 @@ export const ProviderHeader: FC = () => {
 		if (!providerProfile) {
 			refetch();
 		}
-	});
+	}, []);
 
 	const profileMedia = providerProfile
 		? `data:image/png;base64, ${providerProfile.profile_media}`
@@ -26,6 +27,8 @@ export const ProviderHeader: FC = () => {
 		? formatToMonthYear(providerProfile.creacion)
 		: '...';
 	const memberLocation = `${providerProfile && providerProfile.pais}, ${providerProfile && providerProfile.pais_provincia}, ${providerProfile && providerProfile.pais_ciudad}`;
+
+	console.log({ ver: providerProfile?.id_verified });
 	return (
 		<div className="provider-header">
 			{/*<div className="provider-banner-container">
@@ -51,21 +54,32 @@ export const ProviderHeader: FC = () => {
 				</div>
 
 				<div className="provider-extra-info">
-					<IconTextPairs
-						icon={<VerificationIcon />}
-						className="provider-verification">
-						{true ? (
+					{!Boolean(providerProfile?.id_verified) ? (
+						<IconTextPairs
+							icon={<VerificationIcon />}
+							className={`provider-verification verified`}>
 							<p>
 								<span className="highlight">Deal confidence</span>{' '}
 								address & identity verified
 							</p>
-						) : (
-							''
-						)}
-					</IconTextPairs>
+						</IconTextPairs>
+					) : (
+						<IconTextPairs
+							icon={<CircleAskIcon />}
+							className={`provider-verification not-verified`}>
+							<p>
+								<span className="highlight">
+									Uncertainty in the agreement
+								</span>{' '}
+								unverified address and identity
+							</p>
+						</IconTextPairs>
+					)}
 					<div className="provider-info-wrapper">
 						<div className="provider-finish-audit">
-							<span className="audit-count">{0}</span>
+							<span className="audit-count">
+								{providerProfile?.finished_orders || 0}
+							</span>
 							<span className="audit-title">Finished Audits</span>
 						</div>
 						<div className="provider-score-local">
@@ -79,10 +93,11 @@ export const ProviderHeader: FC = () => {
 							<span className="provider-score">
 								<span className="score-info">
 									<b>score: </b>
-									{0}
+									{providerProfile?.score || 0}
 								</span>
 								<span className="score-review">
-									{0} reviews <StarRating rating={4.5} />
+									{providerProfile?.reviews_final || 0} reviews{' '}
+									<StarRating rating={providerProfile?.score} />
 								</span>
 							</span>
 						</div>

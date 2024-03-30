@@ -1,3 +1,4 @@
+import { type FC, useEffect, type ChangeEvent } from 'react';
 import {
 	PageLoader,
 	ScanSearchIcon,
@@ -5,45 +6,19 @@ import {
 	Show,
 } from '../../../../../../views/components';
 import Masonry from 'react-masonry-css';
-import { SnsService, type User, useAuthState } from '../../../../../../data';
-import { type FC, useState, useEffect, type ChangeEvent } from 'react';
-import { useLocation } from 'react-router';
-
-interface PersonInfo {
-	name: string;
-	email?: string;
-	phone?: string;
-	address?: string;
-	city?: string;
-	state?: string;
-	zip?: string;
-	gender?: string;
-	lastip?: string;
-	username?: string;
-	country?: string;
-	created?: string;
-	followers?: string;
-	hash?: string;
-	id?: string;
-	birthdate?: string;
-	regdate?: string;
-	uid?: string;
-	[key: string]: any;
-}
+import { useSns } from '../../../../../../data';
 
 const SnsSearchAndData: FC = () => {
-	const query = new URLSearchParams(useLocation().search);
-	const [searchData, setSearchData] = useState(query.get('search') ?? '');
-	const [searchClass, setSearchClass] = useState<string>(
-		query.get('class') ?? '',
-	);
-	const [intelData, setIntelData] = useState<any[]>([]);
-	const [loading, setLoading] = useState(false);
-
-	const { getUserdata, getCompany } = useAuthState();
-	const companyID = getCompany();
-
-	const user = getUserdata as unknown as User;
+	const {
+		searchClass,
+		searchData,
+		isLoading,
+		intelData,
+		setSearchClass,
+		setSearchData,
+		getUserdata,
+		handleSearch,
+	} = useSns();
 
 	useEffect(() => {
 		if (!getUserdata()) return;
@@ -55,33 +30,9 @@ const SnsSearchAndData: FC = () => {
 	}, []);
 
 	const procSearch = (e?: React.FormEvent): any => {
-		if (e) {
-			e.preventDefault();
-		}
-		setLoading(true);
-		setIntelData([]);
-		SnsService.initialSnsData(
-			{
-				keyword: searchData,
-				class: searchClass,
-			},
-			companyID,
-		)
-			.then((res: any) => {
-				const arrayOfObjects = Object.entries(res.response.results).map(
-					([key, value]) => {
-						const name = key.split('_').slice(1, -2).join('_');
-						return { name, value: value as PersonInfo[] };
-					},
-				);
-				setIntelData(arrayOfObjects);
-			})
-			.catch((err: any) => {
-				console.log(err);
-			})
-			.finally(() => {
-				setLoading(false);
-			});
+		if (e) e.preventDefault();
+
+		handleSearch();
 	};
 	const selectBarOptions = {
 		options: { email: 'email', password: 'password', name: 'full name' },
@@ -106,7 +57,7 @@ const SnsSearchAndData: FC = () => {
 				/>
 			</div>
 
-			<Show when={!loading} fallback={<PageLoader />}>
+			<Show when={!isLoading} fallback={<PageLoader />}>
 				<div className="content">
 					<Masonry
 						breakpointCols={3}
@@ -119,7 +70,7 @@ const SnsSearchAndData: FC = () => {
 								</div>
 								<div className="info">
 									{intel?.value.map(
-										(subIntel: PersonInfo, subIndex: number) => (
+										(subIntel: any, subIndex: number) => (
 											<div
 												key={subIndex}
 												className="text"

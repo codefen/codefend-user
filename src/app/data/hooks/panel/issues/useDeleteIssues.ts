@@ -1,14 +1,28 @@
 import { useAuthState } from '../../../';
-import { IssueService } from '../../../services/panel/issues.service';
 import { toast } from 'react-toastify';
+import { useFetcher } from '../../util/useFetcher';
 
 /* Custom Hook "useDeleteIssue" to handle the "deletion" of an issue */
 export const useDeleteIssue = () => {
 	const { getCompany } = useAuthState();
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
 
 	//Fetch func
-	const fetcher = (issueId: string, companyID: string) => {
-		return IssueService.delete(issueId, companyID);
+	const fetchDelete = (issueId: string, companyID: string) => {
+		return fetcher('post', {
+			body: {
+				model: 'issues/del',
+				company_id: companyID,
+				id: issueId,
+			},
+		})
+			.then(({data}: any) => {
+				if (data.response !== 'success')
+					throw new Error(data.message);
+
+				toast.success('Successfully deleted Issue...');
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	//refetch func
@@ -18,14 +32,7 @@ export const useDeleteIssue = () => {
 			toast.error('User information was not found');
 			return;
 		}
-		return fetcher(deletedIssueId, companyID)
-			.then((response: any) => {
-				if (response.response !== 'success')
-					throw new Error(response.message);
-
-				toast.success('Successfully deleted Issue...');
-			})
-			.catch((error: Error) => toast.error(error.message));
+		return fetchDelete(deletedIssueId, companyID);
 	};
 
 	return { handleDelete: refetch };

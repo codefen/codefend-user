@@ -1,39 +1,17 @@
-import {  useState } from 'react';
-import { useAuthState } from '../../../';
-import { IssueService } from '../../../services/panel/issues.service';
-import { getTinyEditorContent } from '../../../../../editor-lib';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
+import { useAuthState } from '../../../';
+import { getTinyEditorContent } from '../../../../../editor-lib';
+import { useFetcher } from '../../util/useFetcher';
 
 export interface SaveIssue {
 	issueName: string;
 	score: string;
 	issueClass: string;
-	isAddingIssue: boolean;
 }
 
-/* Custom Hook "useSaveIssue" to handle saving an issue*/
-export const useSaveIssue = () => {
-	const { getUserdata, getCompany } = useAuthState();
-	const { type, resourceId } = useParams();
-
-	const [newIssue, setNewIssue] = useState<SaveIssue>({
-		issueName: '',
-		score: '',
-		issueClass: [
-			'web',
-			'mobile',
-			'cloud',
-			'lan',
-			'source',
-			'social',
-			'research',
-		].includes(type ?? '')
-			? (type as string)
-			: '',
-		isAddingIssue: false,
-	});
-
+export const useIssuesValidations = () => {
 	const validateField = (value: string, message: string) => {
 		if (!value.trim()) {
 			toast.error(message);
@@ -42,7 +20,7 @@ export const useSaveIssue = () => {
 		return true;
 	};
 
-	const validateNewIssue = (editorContent: string) => {
+	const validateNewIssue = (newIssue: SaveIssue, editorContent: string) => {
 		if (!validateField(newIssue.score, 'Invalid score')) return false;
 		if (!validateField(newIssue.issueName, 'Invalid name')) return false;
 		if (
@@ -69,38 +47,53 @@ export const useSaveIssue = () => {
 		return true;
 	};
 
+	return [validateNewIssue] as const;
+};
+
+/* Custom Hook "useSaveIssue" to handle saving an issue*/
+export const useSaveIssue = () => {
+	const { getUserdata, getCompany } = useAuthState();
+	const { type, resourceId } = useParams();
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [validateNewIssue] = useIssuesValidations();
+
+	const [newIssue, setNewIssue] = useState<SaveIssue>({
+		issueName: '',
+		score: '',
+		issueClass: [
+			'web',
+			'mobile',
+			'cloud',
+			'lan',
+			'source',
+			'social',
+			'research',
+		].includes(type ?? '')
+			? (type as string)
+			: '',
+	});
+
 	const fetchSave = async (companyID: string) => {
 		const _editorContent = getTinyEditorContent('issue');
 
-		if (!validateNewIssue(_editorContent)) {
+		if (!validateNewIssue(newIssue, _editorContent)) {
 			return;
 		}
-		setNewIssue((prevIssue) => ({ ...prevIssue, isAddingIssue: true }));
 
-		/*const body = new FormData();
-		body.append('risk_score', newIssue.score);
-		body.append('name', newIssue.issueName);
-		body.append('resource_class', newIssue.issueClass);
-		body.append('researcher_username', getUserdata()?.username as string);
-		body.append('main_desc', _editorContent);
-		if (resourceId) {
-			body.append('resource_id', resourceId);
-		}*/
-		let params = {
-			risk_score: newIssue.score,
-			name: newIssue.issueName,
-			resource_class: newIssue.issueClass,
-			researcher_username: getUserdata()?.username,
-			main_desc: _editorContent,
-		} as any;
-
-		if (resourceId) {
-			params.resource_id = resourceId;
-		}
-
-		return IssueService.add(params, companyID)
-			.then((res: any) => {
-				if (res.isAnError || res.response === "error") {
+		return fetcher<any>('post', {
+			body: {
+				model: 'issues/add',
+				company_id: companyID,
+				risk_score: newIssue.score,
+				name: newIssue.issueName,
+				resource_class: newIssue.issueClass,
+				researcher_username: getUserdata()?.username,
+				main_desc: _editorContent,
+				resource_id: resourceId || undefined,
+			},
+		})
+			.then(({ data }: any) => {
+				if (data.isAnError || data.response === 'error') {
 					throw new Error(
 						'An unexpected error has occurred on the server',
 					);
@@ -110,22 +103,15 @@ export const useSaveIssue = () => {
 					issueName: '',
 					score: '',
 					issueClass: '',
-					isAddingIssue: false,
 				});
 				toast.success('Successfully Added Issue...');
 
-				return { id: res.new_issue.id };
+				return { id: data.new_issue.id };
 			})
 			.catch((error: Error) => {
 				toast.error('An unexpected error has occurred on the server');
 				return { error: 1 };
-			})
-			.finally(() =>
-				setNewIssue((state: SaveIssue) => ({
-					...state,
-					isAddingIssue: false,
-				})),
-			);
+			});
 	};
 
 	const save = async () => {
@@ -141,6 +127,7 @@ export const useSaveIssue = () => {
 
 	return {
 		newIssue,
+		isAddingIssue: isLoading,
 		dispatch: setNewIssue,
 		save,
 		shouldDisableClass,

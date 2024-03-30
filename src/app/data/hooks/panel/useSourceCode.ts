@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
 	ResourcesTypes,
 	mapSourceCode,
@@ -6,8 +7,6 @@ import {
 	useOrderStore,
 	verifySession,
 } from '../..';
-import { SourceCodeService } from '../../services/panel/sourcecode.service';
-import { toast } from 'react-toastify';
 import { useFetcher } from '../util/useFetcher';
 
 export const useSourceCode = () => {

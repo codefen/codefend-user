@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useFetcher } from '../util/useFetcher';
+import { toast } from 'react-toastify';
+import { useFetcher } from '../../util/useFetcher';
 import {
 	type CloudApp,
 	ResourcesTypes,
@@ -7,8 +8,7 @@ import {
 	useAuthState,
 	useOrderStore,
 	verifySession,
-} from '../..';
-import { toast } from 'react-toastify';
+} from '../../..';
 
 export const useCloud = () => {
 	const { getCompany, logout } = useAuthState();

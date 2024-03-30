@@ -1,9 +1,22 @@
 @use '../../../../styles/settings/mixin' as media;
 
 main.provider {
+	--provider-border-color: var(--primary-color-300);
+	--provider-bg-color: var(--primary-color-50);
+	--left-shadow: 0px 0px 2rem 1px rgba(0, 0, 0, 0.1);
+	--provider-verified: #caffca;
+	--provider-verified-100: #28da28;
+	--provider-verified-200: #008000;
+
+	--provider-not-verified: #ffe4e4;
+	--provider-not-verified-100: var(--secondary-color-50);
+	--provider-not-verified-200: var(--secondary-color-100);
+}
+
+main.provider {
 	padding-inline-end: 0;
 	padding-block-end: 0;
-	--provider-border-color: var(--primary-color-300);
+	padding-inline-start: 80px;
 
 	.provider-score {
 		height: 100%;
@@ -29,11 +42,13 @@ main.provider {
 	.left {
 		padding-inline: 0px;
 		margin-block-start: 62px;
-		max-width: 950px;
-		background: #fff;
-		box-shadow: 0px 0px 2rem 1px rgba(0, 0, 0, 0.1);
+		max-width: 960px;
+		background: vat(--provider-bg-color);
+		box-shadow: var(--left-shadow);
 		padding-block-start: 0px;
 		border-radius: 4px;
+		height: fit-content;
+		min-width: 895px;
 
 		.provider-header {
 			position: relative;
@@ -76,11 +91,11 @@ main.provider {
 			.provider-header-content {
 				display: flex;
 				flex-direction: row;
-				height: 100%;
+				height: 130px;
 				border-bottom: 1px solid var(--provider-border-color);
 
 				.provider-main-info {
-					margin-inline-start: 16rem;
+					margin-inline-start: 15rem;
 					padding-inline-end: 2rem;
 					border-inline-end: 1px solid var(--provider-border-color);
 					min-width: 18rem;
@@ -108,11 +123,27 @@ main.provider {
 					flex: 1 1;
 
 					.provider-verification {
-						background: #caffca;
 						padding-block-end: 0.75rem;
 						padding-block-start: 0.4rem;
 						border-block-end: 1px solid var(--provider-border-color);
-						color: #008000;
+
+						&.verified {
+							background: var(--provider-verified);
+							color: var(--provider-verified-200);
+
+							svg {
+								color: var(--provider-verified-100);
+							}
+						}
+
+						&.not-verified {
+							background: var(--provider-not-verified);
+							color: var(--provider-not-verified-200);
+
+							svg {
+								color: var(--provider-not-verified-100);
+							}
+						}
 
 						p {
 							display: inline-flex;
@@ -132,7 +163,6 @@ main.provider {
 						svg {
 							width: 20px;
 							aspect-ratio: 1/1;
-							color: #28da28;
 							margin-block-end: 3px;
 						}
 					}
@@ -198,6 +228,7 @@ main.provider {
 				flex: 1 1 70%;
 				width: 100%;
 				height: 100%;
+				min-height: 80dvh;
 			}
 		}
 	}
@@ -207,16 +238,21 @@ main.provider {
 		opacity: 0;
 		max-width: 600px;
 
+		.providers-list {
+			height: 100%;
+			min-height: 100dvh;
+		}
+
 		@include media.minScreen(1300px) {
 			& {
-				display: block;
 				opacity: 1;
 				padding-inline-end: 0;
 				box-shadow: -3px 0px 20px 3px rgba(0, 0, 0, 0.1);
 
-				height: 100%;
+				display: flex;
+				flex-direction: column;
 				min-height: 100dvh;
-				max-height: none;
+				height: max-content;
 			}
 		}
 	}
@@ -227,5 +263,17 @@ main.provider {
 		padding-inline-start: 1rem;
 		padding-block-end: 1rem;
 		font-size: 2rem;
+	}
+}
+[data-theme='dark'] {
+	main {
+		--left-shadow: 0px 0px 5rem 0px rgb(141 141 141 / 5%);
+		--provider-verified: #b1ffb1;
+		--provider-verified-100: #18d018;
+		--provider-verified-200: #026502;
+
+		--provider-not-verified: #b04646;
+		--provider-not-verified-100: #730101;
+		--provider-not-verified-200: #550000;
 	}
 }

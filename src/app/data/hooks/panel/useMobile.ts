@@ -100,11 +100,11 @@ export const useAddMobileResource = () => {
 				company_id: companyID,
 			},
 		})
-			.then((res: any) => {
-				console.log({ res });
-				if (res.android_error || res.apple_error || res.isAnError) {
+			.then(({data}: any) => {
+				console.log({ res: data });
+				if (data.android_error || data.apple_error || data.isAnError) {
 					throw new Error(
-						res?.android_info || 'An error has occurred on the server',
+						data?.android_info || 'An error has occurred on the server',
 					);
 				}
 

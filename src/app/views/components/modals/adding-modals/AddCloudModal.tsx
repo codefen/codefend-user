@@ -1,7 +1,6 @@
-import { type FC, useState } from 'react';
-import { toast } from 'react-toastify';
+import { type FC } from 'react';
 import { GlobeWebIcon, ModalButtons } from '../..';
-import { CloudService, useAuthState } from '../../../../data';
+import { useAddCloud } from '../../../../data';
 
 interface Props {
 	onDone: () => void;
@@ -9,52 +8,22 @@ interface Props {
 }
 
 export const AddCloudModal: FC<Props> = (props) => {
-	const [appName, setAppName] = useState('');
-	const [provider, setProvider] = useState('');
-	const [description, setDescription] = useState('');
-	const [isAddingCloud, setAddingCloud] = useState(false);
-	const { getCompany } = useAuthState();
+	const {
+		provider,
+		refetch,
+		isAddingCloud,
+		setAppName,
+		setProvider,
+		setDescription,
+		validations,
+	} = useAddCloud(props.close, props.onDone);
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setAddingCloud(true);
+		if (validations()) return;
 
-		if (!provider.trim()) {
-			toast.error('Select cloud provider');
-			setAddingCloud(false);
-			return;
-		}
-
-		if (!appName.trim() || appName.length > 150) {
-			toast.error('Invalid app name');
-			setAddingCloud(false);
-			return;
-		}
-
-		const requestParams = {
-			llave_1: '',
-			llave_2: '',
-			llave_3: '',
-			provider: provider,
-			name: appName,
-			desc: description,
-		};
-		const company = getCompany();
-
-		CloudService.add(requestParams, company)
-			.then((response: any) => {
-				if (response?.isAnError || Number(response.error) > 0) {
-					throw new Error('An error has occurred on the server');
-				}
-
-				props.onDone();
-				props.close();
-				toast.success('Successfully Added Cloud...');
-			})
-			.finally(() => {
-				setAddingCloud(false);
-			});
+		refetch();
 	};
 
 	return (
@@ -66,12 +35,10 @@ export const AddCloudModal: FC<Props> = (props) => {
 					</span>
 
 					<select
-						onChange={(e) => {
-							setProvider(e.target.value);
-						}}
+						onChange={(e) => setProvider(e.target.value)}
 						className="log-inputs modal_info"
-						value={provider}
 						id="select-provider-cloud"
+						value={provider}
 						required>
 						<option value="" disabled>
 							Provider
@@ -88,9 +55,7 @@ export const AddCloudModal: FC<Props> = (props) => {
 
 					<input
 						type="text"
-						onChange={(e) => {
-							setAppName(e.target.value);
-						}}
+						onChange={(e) => setAppName(e.target.value)}
 						placeholder="name"
 						required
 					/>
@@ -103,9 +68,7 @@ export const AddCloudModal: FC<Props> = (props) => {
 
 					<input
 						type="text"
-						onChange={(e) => {
-							setDescription(e.target.value);
-						}}
+						onChange={(e) => setDescription(e.target.value)}
 						placeholder="description"
 						required
 					/>

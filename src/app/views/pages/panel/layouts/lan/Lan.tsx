@@ -45,7 +45,7 @@ const LanPage: FC = () => {
 
 	const internalNetworkDataInfo = () => {
 		const internalNetworkData = loading ? [] : networks;
-		return internalNetworkData ?? [];
+		return internalNetworkData || [];
 	};
 
 	const [showScreen, setShowScreen] = useState(false);

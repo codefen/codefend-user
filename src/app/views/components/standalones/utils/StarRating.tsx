@@ -3,20 +3,36 @@ import { HalfStarIcon, StarIcon } from '../..';
 import './util.scss';
 
 interface StartRatingProps {
-	rating: number;
+	rating?: number;
 }
 
-export const StarRating: FC<StartRatingProps> = ({ rating }) => {
+const calculateStars = (rating: number) => {
+	const fullStars = Math.floor(rating);
+	const hasPartialStar = rating % 1 !== 0;
+	const partialStarPercentage = hasPartialStar ? (rating % 1) * 100 : 0;
+
+	return { fullStars, hasPartialStar, partialStarPercentage };
+};
+
+export const StarRating: FC<StartRatingProps> = ({ rating = 0 }) => {
+	const { fullStars, hasPartialStar, partialStarPercentage } =
+		calculateStars(rating);
 	const stars = [];
 	const ratingRounded = Math.floor(rating);
 	const ratingDecimal = rating - ratingRounded;
 
-	for (let i = 0; i < ratingRounded; i++) {
+	for (let i = 0; i < fullStars; i++) {
 		stars.push(<StarIcon key={`star_${i}`} />);
 	}
 
-	if (ratingDecimal > 0) {
-		stars.push(<StarIcon key={`halfstar_${stars.length}`} half />);
+	if (hasPartialStar) {
+		stars.push(
+			<StarIcon
+				key={`partialStar_${fullStars}`}
+				percentage={`${partialStarPercentage}%`}
+				half
+			/>,
+		);
 	}
 
 	return <div className="rating-content">{stars}</div>;

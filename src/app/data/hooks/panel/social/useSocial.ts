@@ -1,14 +1,15 @@
-import { useCallback, useRef, useState } from 'react';
-import { useAuthState } from '..';
-import {type MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../../data';
+import { useRef } from 'react';
 import { toast } from 'react-toastify';
-import { useFetcher } from '../util/useFetcher';
+import {type MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../..';
+import { useAuthState } from '../..';
+import { useFetcher } from '../../util/useFetcher';
 
 /* Custom Hook "useSocial" to handle GET data in Social page*/
 export const useSocial = () => {
 	const { getCompany, logout } = useAuthState();
 	const [fetcher, cancelRequest, isLoading] = useFetcher();
-	const data = useRef<MemberV2[]>([]);
+	
+	const dataRef = useRef<MemberV2[]>([]);
 	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
 	
 	const fetchSocial = (companyID: string) => {
@@ -18,12 +19,12 @@ export const useSocial = () => {
 				ac: 'view_all',
 				company_id: companyID,
 			}
-		}).then((response: any) => {
-				verifySession(response, logout);
+		}).then(({ data }: any) => {
+				verifySession(data, logout);
 
-				const socialResources = response?.disponibles || [];
+				const socialResources = data?.disponibles || [];
 				console.log({ socialResources });
-				data.current = socialResources;
+				dataRef.current = socialResources;
 				setScopeTotalResources(socialResources.length);
 			}).finally(()=> updateState("resourceType", ResourcesTypes.SOCIAL));
 	}
@@ -37,5 +38,5 @@ export const useSocial = () => {
 		fetchSocial(companyID);
 	};
 
-	return { members: data.current, loading: isLoading, refetch };
+	return { members: dataRef.current, loading: isLoading, refetch };
 };

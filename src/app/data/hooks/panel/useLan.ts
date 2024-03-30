@@ -1,11 +1,7 @@
-import { useCallback, useState } from 'react';
-import {
-	type Device,
-	type FetchPattern,
-	LanApplicationService,
-	useAuthState,
-} from '../..';
+import { useCallback, useRef, useState } from 'react';
+import { type Device, useAuthState } from '../..';
 import { toast } from 'react-toastify';
+import { useFetcher } from '../util/useFetcher';
 
 export interface LanProps {
 	loading: boolean;
@@ -17,29 +13,24 @@ export interface LanProps {
 /* Custom Hook "useLan" to handle recovery of all LAN apps*/
 export const useLan = () => {
 	const { getCompany } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<Device[]>
-	>({
-		data: null,
-		error: null,
-		isLoading: false,
-	});
-	/* Fetch LAN  Apps */
-	const fetcher = useCallback((companyID: string) => {
-		dispatch((state: any) => ({
-			...state,
-			isLoading: true,
-		}));
+	const [fetcher,_, isLoading] = useFetcher();
+	const [error, setError] = useState(false);
+	const dataRef = useRef<Device[]>([]);
 
-		LanApplicationService.getAll(companyID)
-			.then((response: any) => {
-				dispatch({
-					data: response.disponibles,
-					error: null,
-					isLoading: false,
-				});
+	/* Fetch LAN  Apps */
+	const fetchAllLan = useCallback((companyID: string) => {
+		fetcher('post', {
+			body: {
+				model: 'resources/lan',
+				ac: 'view_all',
+				company_id: companyID,
+			},
+		})
+			.then(({data}: any) => {
+				dataRef.current = data.disponibles;
+				setError(false);
 			})
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+			.catch(() => setError(true));
 	}, []);
 
 	/* Refetch Function. */
@@ -49,8 +40,8 @@ export const useLan = () => {
 			toast.error('User information was not found');
 			return;
 		}
-		fetcher(companyID);
+		fetchAllLan(companyID);
 	};
 
-	return { loading: isLoading, networks: data, error, refetch };
+	return { loading: isLoading, networks: dataRef.current, error, refetch };
 };

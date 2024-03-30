@@ -1,23 +1,25 @@
-import { useCallback, useState } from 'react';
-import { EnpService, type FetchPattern, useAuthState } from '../../';
+import { useCallback, useRef, useState } from 'react';
+import { useFetcher } from '../util/useFetcher';
+import { useAuthState } from '../../';
 import { invoke } from '@tauri-apps/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 
 const useFetchEndpoints = (companyID: string, scanID: number) => {
-	const [{ data, error, isLoading }, dispatch] = useState<FetchPattern<any>>({
-		data: null,
-		error: null,
-		isLoading: true,
-	});
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const dataRef = useRef<any>();
 
 	const fetchEnd = async (companyID: string) => {
-		dispatch((state) => ({ ...state, isLoading: true }));
-		return EnpService.getEndpoints(scanID, companyID)
-			.then((res) => {
-				dispatch({ data: res, error: null, isLoading: false });
-			})
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+		fetcher('post', {
+			body: {
+				model: 'modules/epm/devices',
+				ac: 'get',
+				scan_id: scanID,
+				company_id: companyID,
+			},
+		}).then(({ data }: any) => {
+			dataRef.current = data;
+		});
 	};
 
 	const refetch = async () => {
@@ -25,8 +27,8 @@ const useFetchEndpoints = (companyID: string, scanID: number) => {
 	};
 
 	const getEndpoints = () => {
-		const endData = isLoading ? ({} as any) : data;
-		return endData ?? {};
+		const endData = isLoading ? ({} as any) : dataRef;
+		return endData || {};
 	};
 
 	return { getEndpoints, isLoading, refetch };
@@ -37,12 +39,12 @@ export const useScanLocal = (token: string) => {
 	const [scanLoading, setScanLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const handleScanResult = useCallback((result: any) => {
+	const handleScanResult = (result: any) => {
 		if (result.success) {
 			return true;
 		}
 		return false;
-	}, []);
+	};
 
 	const scanLocal = useCallback(async () => {
 		setScanLoading(true);
@@ -50,7 +52,7 @@ export const useScanLocal = (token: string) => {
 			const resParsed = JSON.parse(
 				await invoke('scan_local', { sessionId: token }),
 			);
-			return handleScanResult(resParsed)
+			return handleScanResult(resParsed);
 		} catch (error: any) {
 			console.error({ error });
 			toast.error(JSON.parse(error).error);

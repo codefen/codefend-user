@@ -1,37 +1,29 @@
 import {
-	CustomerSupportService,
-	type FetchPattern,
 	type SupportProps,
 	type TicketUnique,
-	mapSupportProps,
 	mapTicketUnique,
-} from '../../';
-import { useAuthState } from '..';
+} from '../../..';
+import { useAuthState } from '../..';
 import { toast } from 'react-toastify';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { useFetcher } from '../../util/useFetcher';
 
 /* Custom Hook "useAllTicket" to retrieve all tickets in customer support view*/
 export const useAllTicket = () => {
 	const { getCompany } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState({
-		data: null,
-		error: null,
-		isLoading: true,
-	});
+	const [fetcher,_, isLoading] = useFetcher();
+	const dataRef = useRef<SupportProps[]>([]);
 
 	const fetchAll = async (companyID: string) => {
-		dispatch((state) => ({ ...state, isLoading: true }));
-		return CustomerSupportService.getAll(companyID)
-			.then((data) =>
-				dispatch({
-					data: data.disponibles
-						.map((dis: any) => mapSupportProps(dis))
-						.reverse(),
-					error: null,
-					isLoading: false,
-				}),
-			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+		fetcher('post', {
+			body: {
+				model: 'cs/index',
+				ac: 'view_all',
+				company_id: companyID,
+			},
+		}).then(({ data }: any) => {
+			dataRef.current = data.disponibles || [];
+		});
 	};
 
 	const refetch = () => {
@@ -42,11 +34,10 @@ export const useAllTicket = () => {
 			return;
 		}
 		fetchAll(companyID);
-		if (error) console.log({ error });
 	};
 	const getTikets = (): SupportProps[] => {
-		const ticket = isLoading ? ([] as SupportProps[]) : data;
-		return ticket?.reverse() ?? [];
+		const ticket = isLoading ? ([] as SupportProps[]) : dataRef.current;
+		return ticket.reverse() || [];
 	};
 
 	return {
@@ -58,39 +49,35 @@ export const useAllTicket = () => {
 
 /* Custom hook "useOneTicket" to retrieve a single ticket*/
 export const useOneTicket = () => {
-	const { getUserdata, getCompany } = useAuthState();
-	const [{ data, isLoading }, dispatch] = useState<FetchPattern<TicketUnique>>(
-		{
-			data: null,
-			error: null,
-			isLoading: true,
-		},
-	);
+	const { getCompany } = useAuthState();
+	const [fetcher,_, isLoading] = useFetcher();
+	const dataRef = useRef<TicketUnique>();
 
 	const fetchOne = async (companyID: string, ticketID: string) => {
-		dispatch((state) => ({ ...state, isLoading: true }));
-		return CustomerSupportService.getOne(ticketID, companyID)
-			.then((response) =>
-				dispatch({
-					data: mapTicketUnique(response),
-					error: null,
-					isLoading: false,
-				}),
-			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+		return fetcher('post', {
+			body: {
+				model: 'cs/index',
+				ac: 'view_one',
+				company_id: companyID,
+				id: ticketID,
+			},
+		}).then(({ data }: any) => {
+			dataRef.current = mapTicketUnique(data);
+		});
 	};
 
 	const refetch = (ticketID: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
-			console.error("Error: 'companyID' is not defined in userData.");
 			toast.error('User information was not found');
 			return;
 		}
 		fetchOne(companyID, ticketID);
 	};
 	const getOneTicket = (): TicketUnique => {
-		return isLoading ? ({} as TicketUnique) : data ?? ({} as TicketUnique);
+		return isLoading
+			? ({} as TicketUnique)
+			: dataRef.current || ({} as TicketUnique);
 	};
 
 	return {
@@ -102,20 +89,24 @@ export const useOneTicket = () => {
 
 /* Custom Hook "useAddTicket" to add a new ticket*/
 export const useAddTicket = () => {
+	const [fetcher,_, isLoading] = useFetcher();
 	const [title, setTitle] = useState('');
 	const [shortDescription, setShortDescription] = useState('');
-	const [isAddingTicket, setIsAddingTicket] = useState(false);
 	const { getUserdata, getCompany } = useAuthState();
 
 	const fetchAdd = async (params: any, userID: string, companyID: string) => {
-		setIsAddingTicket(true);
-		return CustomerSupportService.add(params, userID, companyID)
-			.then(() => {
-				toast.success('Successfully Added Ticket...');
-			})
-			.finally(() => {
-				setIsAddingTicket(false);
-			});
+		return fetcher('post', {
+			body: {
+				model: 'cs/index',
+				ac: 'add',
+				user_id: userID,
+				company_id: companyID,
+				...params,
+			},
+		}).then(({data}:any) => {
+			console.log({ data });
+			toast.success('Successfully Added Ticket...');
+		});
 	};
 
 	const addTicket = (): any => {
@@ -141,15 +132,23 @@ export const useAddTicket = () => {
 		return fetchAdd(params, userID, companyID);
 	};
 
-	return { title, isAddingTicket, setShortDescription, setTitle, addTicket };
+	return { title, isAddingTicket: isLoading, setShortDescription, setTitle, addTicket };
 };
 
 /* Custom Hook "useTicketDelete" to handle the "deletion" of a ticket*/
 export const useTicketDelete = () => {
-	const { getUserdata, getCompany } = useAuthState();
+	const {getCompany } = useAuthState();
+	const [fetcher,_, isLoading] = useFetcher();
 	const fetchDelete = useCallback(
 		async (ticketID: string, companyID: string) => {
-			return CustomerSupportService.delete(ticketID, companyID);
+			return fetcher("post", {
+				body: {
+					model: 'cs/index',
+					ac: 'del',
+					id: ticketID,
+					company_id: companyID,
+				}
+			}).then(({ data }:any)=> data);
 		},
 		[],
 	);

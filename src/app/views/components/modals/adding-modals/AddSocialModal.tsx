@@ -1,16 +1,6 @@
 import { type FC, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useAuthState, SocialAplicationService } from '../../../../data';
+import { useAddSocial } from '../../../../data';
 import { GlobeWebIcon, ModalButtons } from '../..';
-
-interface SocialData {
-	fName: string;
-	lName: string;
-	mail: string;
-	phone: string;
-	role: string;
-	isAddingMember: boolean;
-}
 
 interface Props {
 	onDone: () => void;
@@ -18,88 +8,19 @@ interface Props {
 }
 
 export const MobileAppModal: FC<Props> = (props) => {
-	const { getCompany } = useAuthState();
-	const companyID = getCompany();
-	const [socialData, setSocialData] = useState<SocialData>({
-		fName: '',
-		lName: '',
-		mail: '',
-		phone: '',
-		role: '',
-
-		isAddingMember: false,
-	});
-	const { fName, isAddingMember, lName, mail, phone, role } = socialData;
+	const {
+		handleAddSocialResource,
+		validations,
+		role,
+		isAddingMember,
+		setSocialData,
+	} = useAddSocial(props.onDone, props.close);
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setSocialData((prevData) => ({ ...prevData, isAddingMember: true }));
-
-		if (!fName.trim() || fName.length > 40) {
-			toast.error('Invalid name');
-			return setSocialData((prevData) => ({
-				...prevData,
-				isAddingMember: false,
-			}));
-		}
-
-		if (!lName.trim() || lName.length > 40) {
-			toast.error('Invalid name');
-			return setSocialData((prevData) => ({
-				...prevData,
-				isAddingMember: false,
-			}));
-		}
-
-		let regexMail = /^[\w.-]+@([\w-]+\.)+[\w-]{2,10}$/;
-		if (!mail.trim() || mail.length === 0 || !regexMail.test(mail)) {
-			toast.error('Invalid email');
-			setSocialData((prevData) => ({
-				...prevData,
-				isAddingMember: false,
-			}));
-			return;
-		}
-
-		if (!phone || phone.length == 0 || phone.length > 20) {
-			toast.error('Invalid phone');
-			setSocialData((prevData) => ({
-				...prevData,
-				isAddingMember: false,
-			}));
-			return;
-		}
-
-		if (!role) {
-			toast.error('Invalid role');
-
-			setSocialData((prevData) => ({
-				...prevData,
-				isAddingMember: false,
-			}));
-			return;
-		}
-
-		const requestParams = {
-			member_fname: fName,
-			member_lname: lName,
-			member_email: mail,
-			member_phone: phone,
-			member_role: role,
-		};
-
-		SocialAplicationService.add(requestParams, companyID!)
-			.then(() => {
-				props.onDone();
-				toast.success('Successfully Added Member...');
-			})
-			.finally(() => {
-				setSocialData((prevData) => ({
-					...prevData,
-					isAddingMember: false,
-				}));
-			});
+		if (validations()) return;
+		handleAddSocialResource();
 	};
 
 	return (
@@ -112,12 +33,12 @@ export const MobileAppModal: FC<Props> = (props) => {
 
 					<input
 						type="text"
-						onChange={(e) => {
+						onChange={(e) =>
 							setSocialData((prevData) => ({
 								...prevData,
 								fName: e.target.value,
-							}));
-						}}
+							}))
+						}
 						placeholder="first name"
 						required
 					/>
@@ -130,12 +51,12 @@ export const MobileAppModal: FC<Props> = (props) => {
 
 					<input
 						type="text"
-						onChange={(e) => {
+						onChange={(e) =>
 							setSocialData((prevData) => ({
 								...prevData,
 								lName: e.target.value,
-							}));
-						}}
+							}))
+						}
 						placeholder="last name"
 						required
 					/>
@@ -148,12 +69,12 @@ export const MobileAppModal: FC<Props> = (props) => {
 
 					<input
 						type="text"
-						onChange={(e) => {
+						onChange={(e) =>
 							setSocialData((prevData) => ({
 								...prevData,
 								mail: e.target.value,
-							}));
-						}}
+							}))
+						}
 						placeholder="email address"
 						required
 					/>
@@ -165,12 +86,12 @@ export const MobileAppModal: FC<Props> = (props) => {
 
 					<input
 						type="text"
-						onChange={(e) => {
+						onChange={(e) =>
 							setSocialData((prevData) => ({
 								...prevData,
 								phone: e.target.value,
-							}));
-						}}
+							}))
+						}
 						placeholder="phone number"
 						required
 					/>
@@ -180,15 +101,15 @@ export const MobileAppModal: FC<Props> = (props) => {
 						<GlobeWebIcon />
 					</span>
 					<select
-						onChange={(e) => {
+						onChange={(e) =>
 							setSocialData((prevData) => ({
 								...prevData,
 								role: e.target.value,
-							}));
-						}}
+							}))
+						}
 						id="social-data"
 						className="log-inputs modal_info"
-						value={socialData.role}
+						value={role}
 						required>
 						<option value="" disabled>
 							role

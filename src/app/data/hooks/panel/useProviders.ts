@@ -23,7 +23,7 @@ export const useProviderProfile = () => {
 			body: {
 				company_id: companyID,
 				provider_id: getUserdata().id,
-				model: 'provider/profile/view',
+				model: 'providers/profiles/view',
 			},
             insecure: true
 		})?.then(({ data }) => {

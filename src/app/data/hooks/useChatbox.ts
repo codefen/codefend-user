@@ -1,64 +1,17 @@
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import { IssueService, useAuthState } from '..';
-import { CustomerSupportService } from '../services/panel/support.service';
+import {  useMessageState } from '..';
+import { useAddIssueMessage } from './panel/issues/useAddMessage';
+import { useAddSupportMessage } from './panel/support/useAddSupportMessage';
 
 const useChatbox = () => {
-	const [message, setMessage] = useState('');
-	const [isAdding, setIsAdding] = useState(false);
-	const { getUserdata, getCompany } = useAuthState();
-	const companyID = getCompany();
-	const userID = getUserdata()?.id as string;
-
-	const handleIssueSubmit = (
-		selectedID: string,
-		onDone: () => void,
-		textAreaValue: string,
-	) => {
-		setIsAdding(true);
-
-		const requestParams = {
-			issue_cs_body: !message.trim() ? textAreaValue : message,
-			issue_id: selectedID,
-		};
-		const companyID = getCompany();
-		IssueService.addCSMessage(requestParams, companyID)
-			.then(() => {
-				setMessage('');
-				onDone();
-			})
-			.finally(() => {
-				setIsAdding(false);
-			});
-	};
-
-	const handleSupportSubmit = (
-		selectedID: string,
-		onDone: () => void,
-		textAreaValue: string,
-	) => {
-		const params = {
-			cs_body: !message.trim() ? textAreaValue : message,
-			dad_id: selectedID,
-		};
-
-		CustomerSupportService.add(params, userID, companyID)
-			.then(() => {
-				setMessage('');
-				onDone();
-			})
-			.catch((error: any) => {
-				toast.error(error.response);
-			})
-			.finally(() => {
-				setIsAdding(false);
-			});
-	};
+	const { message, isLoading, getCompany, getUserdata, setMessage, fetcher } =
+	useMessageState();
+	const {handleIssueSubmit} = useAddIssueMessage(message, setMessage, fetcher, getCompany);
+	const {handleSupportSubmit} = useAddSupportMessage(message, setMessage, fetcher, getCompany, getUserdata);
 
 	return {
 		message,
 		setMessage,
-		isAdding,
+		isAdding: isLoading,
 		handleIssueSubmit,
 		handleSupportSubmit,
 	};

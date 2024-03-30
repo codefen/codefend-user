@@ -3,7 +3,7 @@
 	width: 14px;
 
 	&.half-icon {
-		clip-path: inset(0 50% 0 0);
+		clip-path: inset(0 var(--half-percentage) 0 0);
 	}
 }
 

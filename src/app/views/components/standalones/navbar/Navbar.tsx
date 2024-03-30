@@ -59,6 +59,17 @@ const Navbar: FC = () => {
 			document.removeEventListener('mousedown', handleClickOutsideMenu);
 		};
 	}, []);
+
+	const rootAction = () => {
+		if (getUserdata().accessRole === 'admin') {
+			navigate('/admin/company');
+			return;
+		} else if (getUserdata().accessRole === 'hacker') {
+			navigate('/provider/profile');
+			return;
+		}
+		navigate('/');
+	};
 	return (
 		<>
 			<Show when={showModal && showModalStr === 'logout'}>
@@ -88,10 +99,7 @@ const Navbar: FC = () => {
 							<Logo theme="aim" onClick={() => handleChange()} />
 						</span>
 					</div>
-					<Breadcrumb
-						root="Codefend"
-						rootAction={() => navigate('/admin/company')}
-					/>
+					<Breadcrumb root="Codefend" rootAction={rootAction} />
 					<div className="actions">
 						<div
 							className="action"

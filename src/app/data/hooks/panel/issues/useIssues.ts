@@ -1,36 +1,31 @@
-import { useCallback, useState } from 'react';
-import { type AllIssues, type FetchPattern, mapAllIssues, useAuthState, verifySession } from '../../../';
-import { IssueService } from '../../../services/panel/issues.service';
+import { useCallback, useRef, useState } from 'react';
+import {
+	type AllIssues,
+	type FetchPattern,
+	mapAllIssues,
+	useAuthState,
+	verifySession,
+} from '../../../';
 import { toast } from 'react-toastify';
+import { useFetcher } from '../../util/useFetcher';
 
 /* Custom Hook "useOneIssue" to handle retrieval of all issues*/
 export const useIssues = () => {
 	const { getCompany, logout } = useAuthState();
-	const [{ data, isLoading }, dispatch] = useState<FetchPattern<AllIssues>>({
-		data: null,
-		error: null,
-		isLoading: false,
-	});
-	
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const dataRef = useRef<AllIssues>();
+
 	//Fetch to recover the issues
-	const fetcher = useCallback((companyID: string) => {
-		dispatch((state: any) => ({
-			...state,
-			isLoading: true,
-		}));
-		IssueService.getAll(companyID)
-			.then((response: any) =>
-				{
-					verifySession(response, logout);
-					
-					dispatch({
-						data: mapAllIssues(response),
-						error: null,
-						isLoading: false,
-					})
-				}
-			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
+	const fetchAll = useCallback((companyID: string) => {
+		fetcher('post', {
+			body: {
+				model: 'issues/index',
+				company_id: companyID,
+			},
+		}).then(({ data }: any) => {
+			verifySession(data, logout);
+			dataRef.current = mapAllIssues(data);
+		});
 	}, []);
 
 	//Refetch func, calls that calls fetcher
@@ -40,13 +35,13 @@ export const useIssues = () => {
 			toast.error('User information was not found');
 			return;
 		}
-		fetcher(companyID);
+		fetchAll(companyID);
 	};
 
 	/* Utilities func*/
 	const getIssues = (): AllIssues => {
-		const issuesData = isLoading ? ({} as AllIssues) : data;
-		return issuesData ?? ({} as AllIssues);
+		const issuesData = isLoading ? ({} as AllIssues) : dataRef.current;
+		return issuesData || ({} as AllIssues);
 	};
 
 	return { getIssues, isLoading, refetchAll };

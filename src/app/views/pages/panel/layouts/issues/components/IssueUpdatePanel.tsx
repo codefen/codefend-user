@@ -1,4 +1,5 @@
 import { type FC, useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import {
 	LeftArrow,
 	PageLoader,
@@ -7,7 +8,6 @@ import {
 	SaveIcon,
 	Show,
 } from '../../../../../components';
-import { useNavigate } from 'react-router';
 import AppEditor from './AppEditor';
 import {
 	type OneIssue,
@@ -35,8 +35,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 	};
 
 	const navigate = useNavigate();
-	const { updatedIssue, dispatch, update } = useUpdateIssue();
-	const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
+	const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
 	const [isEditable, setEditable] = useState(true);
 	const { theme } = useTheme();
 
@@ -203,10 +202,10 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 					<AppEditor
 						isEditable={!isEditable}
 						initialValue={safelyIssue().content ?? ''}
-						isIssueCreation={updatedIssue.isAddingIssue}
+						isIssueCreation={isAddingIssue}
 					/>
 				</div>
-				<Show when={updatedIssue.isAddingIssue}>
+				<Show when={isAddingIssue}>
 					<PageLoaderOverlay />
 				</Show>
 			</>

@@ -20,8 +20,15 @@ interface IssueCreationPanelProps {
 }
 
 const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
-	const { newIssue, dispatch, save, shouldDisableClass, type, resourceId } =
-		useSaveIssue();
+	const {
+		newIssue,
+		isAddingIssue,
+		dispatch,
+		save,
+		shouldDisableClass,
+		type,
+		resourceId,
+	} = useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
 	const navigate = useNavigate();
 	const { theme } = useTheme();
@@ -193,7 +200,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 					isIssueCreation
 				/>
 			</div>
-			<Show when={newIssue.isAddingIssue}>
+			<Show when={isAddingIssue}>
 				<PageLoaderOverlay />
 			</Show>
 		</>
