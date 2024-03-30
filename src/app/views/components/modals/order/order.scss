@@ -202,6 +202,7 @@
 			flex: 1;
 			padding: 20px 0px;
 			overflow-y: auto;
+			max-height: calc(100vh - 50vh);
 
 			&.crypto-payment {
 				margin-block: 0;
@@ -209,7 +210,7 @@
 			}
 
 			&.more-results {
-				max-height: 270px;
+				max-height: 370px;
 				overflow-y: auto;
 			}
 
@@ -233,7 +234,9 @@
 				width: 68px;
 				aspect-ratio: 1/1;
 				filter: grayscale(1);
+				opacity: 0.8;
 				clip-path: circle(50% at 50% 50%);
+				transition: all .110s ease-in;
 			}
 
 			.total-payment {
@@ -445,9 +448,9 @@
 				display: flex;
 				align-items: center;
 				column-gap: 2.5rem;
-				padding-block: 2rem;
+				padding-block: 17px;
 				padding-inline: 4.5rem;
-				min-height: 90px;
+				// min-height: 90px;
 				// max-height: 90px;
 				border-top: 1px solid var(--show-border-color);
 				border-bottom: 1px solid #00000000;
@@ -489,10 +492,23 @@
 					transition: all .110s ease-in;
 					opacity: 0.7;
 					width: 40px;
+
+					&.enviroment {
+						width: auto;
+					}
 				}
 
 				&:last-child {
 					border-bottom: 1px solid var(--show-border-color);
+				}
+
+				.price-value {
+					color: var(--tertiary-color-450);
+					font-family: Roboto;
+				}
+
+				.alt-color {
+					color: var(--secondary-color-300);
 				}
 			}
 
@@ -514,6 +530,22 @@
 					filter: grayscale(0);
 					opacity: 1;
 				}
+				
+				.hackers-profile-media {
+					filter: grayscale(0);
+					opacity: 1;
+				}
+				h5 {
+					color: var(--secondary-color-200);
+				}
+				.price-value {
+					color: var(--secondary-color-200);
+					font-family: Roboto;
+				}
+
+				.alt-color {
+					color: var(--secondary-color-200);
+				}
 			}
 
 			.order-snapshot {
@@ -530,7 +562,7 @@
 					font-weight: 600;
 
 					&.pentest-option {
-						white-space: break-spaces;
+						white-space: break-spaces;;
 					}
 
 					.space {

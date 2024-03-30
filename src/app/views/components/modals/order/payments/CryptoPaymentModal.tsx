@@ -71,12 +71,12 @@ export const CryptoPaymentModal = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>Select your payment cryptocurrency:</b>
 				</h3>
 			</div>
-			<div className="scope-content crypto-payment">
+			<div className="step-content crypto-payment">
 				<div className="order-img-wrapper show-both-borders ">
 					<div className="order-img">
 						{Object.values(CryptoPayment).map((coin, i) => (

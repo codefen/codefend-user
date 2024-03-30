@@ -20,8 +20,10 @@ const sendOrderScope = async (companyID: string, resourceClass: string, resource
             phase: "scope",
             company_id: companyID,
             resources_class: resourceClass,
-            resources_ids: resources_ids
-        }
+            resources_ids: resources_ids,
+            developer: "increible"
+        },
+        insecure: true
     }).catch((error: any) => handleFetchError(error))) as any;
 
     return data;

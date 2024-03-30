@@ -33,12 +33,12 @@ export const BankPaymentModal = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>Please select your desired option to see the details:</b>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders bank-payment">
+			<div className="step-content bank-payment">
 				<div className="payment-bank-options show-bottom-border">
 					<div className="payment-bank">
 						<div className="top">

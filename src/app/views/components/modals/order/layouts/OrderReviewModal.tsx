@@ -29,12 +29,12 @@ export const OrderReviewModal: React.FC<{
 	};
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>Great! We have these options to offer you!</b>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders">
+			<div className="step-content">
 				<div className="option">
 					<img
 						src="/codefend/pentest-header-vector.svg"
@@ -61,7 +61,7 @@ export const OrderReviewModal: React.FC<{
 						</p>
 					</div>
 				</div>
-				<div className="option show-both-borders">
+				<div className="option">
 					<img src="/codefend/frequency-1.png" alt="header-icon" />
 
 					<div className="order-snapshot">

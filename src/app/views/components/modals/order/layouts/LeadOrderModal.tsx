@@ -80,18 +80,18 @@ export const LeadOrderModal: FC = () => {
 
 			<Show when={Boolean(providers.current.length) && !isLoading}>
 				<>
-					<div className="option-header">
+					<div className="step-header">
 						<h3>
 							<b>
 								Please select your desired team to conduct this order:
 							</b>
 						</h3>
 					</div>
-					<div className="scope-content show-both-borders more-results">
+					<div className="step-content more-results">
 						{providers.current.map((provider) => (
 							<div
 								key={`prov-${provider.id}`}
-								className={`option block-xll show-both-borders order-pointer ${
+								className={`option block-xll order-pointer ${
 									providerIdW === provider.id && `select-option`
 								}`}
 								onClick={() => setProviderId(provider.id)}>

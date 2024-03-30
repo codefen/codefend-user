@@ -27,14 +27,14 @@ export const PaymentMethodOrderModal: FC = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>Great! We have these options to offer you!</b>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders">
+			<div className="step-content">
 				<div
-					className={`option show-both-borders ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}>
+					className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}>
 					<input
 						id="bank-transfer"
 						type="radio"
@@ -63,7 +63,7 @@ export const PaymentMethodOrderModal: FC = () => {
 				</div>
 
 				<div
-					className={`option show-both-borders ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}>
+					className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}>
 					<input
 						id="card"
 						type="radio"
@@ -88,7 +88,7 @@ export const PaymentMethodOrderModal: FC = () => {
 				</div>
 
 				<div
-					className={`option show-both-borders ${paymentMethodW === OrderPaymentMethod.CRYPTO ? 'select-option' : ''}`}>
+					className={`option ${paymentMethodW === OrderPaymentMethod.CRYPTO ? 'select-option' : ''}`}>
 					<input
 						id="crypto"
 						type="radio"

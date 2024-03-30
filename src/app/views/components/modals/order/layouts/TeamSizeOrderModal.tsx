@@ -53,7 +53,7 @@ export const TeamSizeOrderModal: FC = () => {
 	return (
 		<Show when={currentPrices !== null} fallback={<TeamSizeLoader />}>
 			<>
-				<div className="option-header">
+				<div className="step-header">
 					<h3>
 						<b>We will size the task, please select the model.</b>
 						<span>
@@ -63,17 +63,17 @@ export const TeamSizeOrderModal: FC = () => {
 					</h3>
 				</div>
 
-				<div className="scope-content show-both-borders">
+				<div className="step-content">
 					<div
-						className={`option show-both-borders order-pointer ${
+						className={`option order-pointer ${
 							teamSizeW === OrderTeamSize.SMALL && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.SMALL)}>
-						<h4 className="codefend-text-red">${currentPrices?.small}</h4>
+						<h4 className="price-value">${currentPrices?.small}</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5>Small allocation:</h5>
+								<h5 className="alt-color">Small allocation:</h5>
 							</div>
 							<span className="one-pentest">
 								a multidisciplinary team of professional hackers
@@ -82,17 +82,17 @@ export const TeamSizeOrderModal: FC = () => {
 						</div>
 					</div>
 					<div
-						className={`option order-pointer show-both-borders ${
+						className={`option order-pointer ${
 							teamSizeW === OrderTeamSize.MID && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.MID)}>
-						<h4 className="codefend-text-red">
+						<h4 className="price-value">
 							${currentPrices?.medium}
 						</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5>Medium allocation:</h5>
+								<h5 className="alt-color">Medium allocation:</h5>
 							</div>
 							<span className="one-pentest">
 								a multidisciplinary team of professional hackers
@@ -101,15 +101,15 @@ export const TeamSizeOrderModal: FC = () => {
 						</div>
 					</div>
 					<div
-						className={`option show-both-borders order-pointer ${
+						className={`option order-pointer ${
 							teamSizeW === OrderTeamSize.FULL && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.FULL)}>
-						<h4 className="codefend-text-red">${currentPrices?.full}</h4>
+						<h4 className="price-value">${currentPrices?.full}</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5>Full team allocation:</h5>
+								<h5 className="alt-color">Full team allocation:</h5>
 							</div>
 							<span className="one-pentest">
 								a multidisciplinary team of professional hackers

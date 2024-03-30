@@ -24,7 +24,7 @@ export const OffensiveOrderModal: FC = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>
 						Please tell us about the environment. Are this systems in
@@ -32,23 +32,24 @@ export const OffensiveOrderModal: FC = () => {
 					</b>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders">
+			<div className="step-content">
 				<div
-					className={`option order-pointer show-both-borders ${
+					className={`option order-pointer ${
 						offensiveOrderW === OrderOffensive.CAREFUL
 							? `select-option`
 							: ``
 					}`}
 					onClick={() => setOffensiveOrder(OrderOffensive.CAREFUL)}>
 					<img
-						src="/codefend/order-frequency1.svg"
-						alt="fast-pentest-icon"
+						src="/codefend/pentest-careful.png"
+						alt="careful-pentest-icon"
+						className='step-image enviroment'
 					/>
 
 					<div className="order-snapshot">
 						<div className="top">
 							<p className="pentest-option">
-								<span className="codefend-text-red space">
+								<span className="alt-color space">
 									Careful pentest:
 								</span>
 								recommended for production environments.
@@ -62,21 +63,22 @@ export const OffensiveOrderModal: FC = () => {
 					</div>
 				</div>
 				<div
-					className={`option order-pointer show-both-borders ${
+					className={`option order-pointer ${
 						offensiveOrderW === OrderOffensive.OFFENSIVE
 							? `select-option`
 							: ``
 					}`}
 					onClick={() => setOffensiveOrder(OrderOffensive.OFFENSIVE)}>
 					<img
-						src="/codefend/order-frequency1.svg"
-						alt="fast-pentest-icon"
+						src="/codefend/pentest-offensive.png"
+						alt="offensive-pentest-icon"
+						className='step-image enviroment'
 					/>
 
 					<div className="order-snapshot">
 						<div className="top">
 							<p className="pentest-option">
-								<span className="codefend-text-red space">
+								<span className="alt-color space">
 									Offensive pentest:
 								</span>
 								recommended for test environment
@@ -90,20 +92,21 @@ export const OffensiveOrderModal: FC = () => {
 					</div>
 				</div>
 				<div
-					className={`option order-pointer show-both-borders ${
+					className={`option order-pointer ${
 						offensiveOrderW === OrderOffensive.ADVERSARY &&
 						`select-option`
 					}`}
 					onClick={() => setOffensiveOrder(OrderOffensive.ADVERSARY)}>
 					<img
-						src="/codefend/order-frequency1.svg"
-						alt="fast-pentest-icon"
+						src="/codefend/pentest-adversary.png"
+						alt="adversary-pentest-icon"
+						className='step-image enviroment'
 					/>
 
 					<div className="order-snapshot">
 						<div className="top">
 							<p className="pentest-option">
-								<span className="codefend-text-red space">
+								<span className="alt-color space">
 									Adversary simulation pentest:
 								</span>
 								not recommended / may cause stress
