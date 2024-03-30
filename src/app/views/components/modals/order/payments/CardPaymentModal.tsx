@@ -41,13 +41,13 @@ export const CardPaymentModal = () => {
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>Please enter your payment information</b>
 				</h3>
 			</div>
 			<form className="bank-card-payment-form" onSubmit={submitCardPayment}>
-				<div className="scope-content card-payment">
+				<div className="step-content card-payment">
 					<div className="order-img-wrapper fake-space show-both-borders">
 						<span>
 							Imagine that there are images of cards here (because I

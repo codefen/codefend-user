@@ -69,11 +69,11 @@ export const TeamSizeOrderModal: FC = () => {
 							teamSizeW === OrderTeamSize.SMALL && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.SMALL)}>
-						<h4 className="codefend-text-red">${currentPrices?.small}</h4>
+						<h4 className="price-value">${currentPrices?.small}</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5>Small allocation:</h5>
+								<h5 className="alt-color">Small allocation:</h5>
 							</div>
 							<span className="one-pentest">
 								a multidisciplinary team of professional hackers
@@ -86,13 +86,13 @@ export const TeamSizeOrderModal: FC = () => {
 							teamSizeW === OrderTeamSize.MID && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.MID)}>
-						<h4 className="codefend-text-red">
+						<h4 className="price-value">
 							${currentPrices?.medium}
 						</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5>Medium allocation:</h5>
+								<h5 className="alt-color">Medium allocation:</h5>
 							</div>
 							<span className="one-pentest">
 								a multidisciplinary team of professional hackers
@@ -105,11 +105,11 @@ export const TeamSizeOrderModal: FC = () => {
 							teamSizeW === OrderTeamSize.FULL && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.FULL)}>
-						<h4 className="codefend-text-red">${currentPrices?.full}</h4>
+						<h4 className="price-value">${currentPrices?.full}</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5>Full team allocation:</h5>
+								<h5 className="alt-color">Full team allocation:</h5>
 							</div>
 							<span className="one-pentest">
 								a multidisciplinary team of professional hackers

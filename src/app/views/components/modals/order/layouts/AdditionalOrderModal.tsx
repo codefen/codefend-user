@@ -30,7 +30,7 @@ Is there any other additional information for our professionals?`;
 
 	return (
 		<>
-			<div className="option-header">
+			<div className="step-header">
 				<h3>
 					<b>
 						At this point you can provide any additional information for
@@ -38,7 +38,7 @@ Is there any other additional information for our professionals?`;
 					</b>
 				</h3>
 			</div>
-			<div className="scope-content show-both-borders space">
+			<div className="step-content space">
 				<textarea
 					name="aditionalInfoW"
 					id="aditional-info-order"

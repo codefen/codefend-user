@@ -49,7 +49,7 @@ export const FrequencyOrderModal: FC = () => {
 					<div className="order-snapshot">
 						<div className="top">
 							<p className="pentest-option">
-								<span className="codefend-text-red space">
+								<span className="alt-color space">
 									One “snapshot” pentest:
 								</span>
 								recommended for initial review of resources before of
@@ -75,7 +75,7 @@ export const FrequencyOrderModal: FC = () => {
 					<div className="order-snapshot">
 						<div className="top">
 							<p className="pentest-option">
-								<span className="codefend-text-red space">
+								<span className="alt-color space">
 									Permanent surveillance:
 								</span>
 								recommended for permanent monitoring resources, billed
