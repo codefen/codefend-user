@@ -64,7 +64,7 @@ const ErrorConection: FC<{ closeModal: () => void }> = (props) => {
 								props.closeModal();
 								setNetworkSettingState(true);
 							}}
-							className="btn-cancel codefend_secondary_ac"
+							className="btn-cancel codefend_secondary_ac btn-error-con"
 							buttonStyle="black"
 							disabledLoader
 						/>
@@ -76,7 +76,7 @@ const ErrorConection: FC<{ closeModal: () => void }> = (props) => {
 										encodeURIComponent('offline@codefend.com'),
 								)
 							}
-							className="btn-add codefend_main_ac"
+							className="btn-add codefend_main_ac btn-send-email"
 							buttonStyle="red"
 						/>
 					</div>

@@ -1,6 +1,8 @@
-import { EmptyCard, PageLoader, Show } from '../../../../../components';
-import { type Member } from '../../../../../../data';
 import { type FC } from 'react';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
+import EmptyCard from '@defaults/EmptyCard.tsx';
+import type { Member } from '@interfaces/panel';
 
 interface CollaboratorDataProps {
 	isLoading: boolean;

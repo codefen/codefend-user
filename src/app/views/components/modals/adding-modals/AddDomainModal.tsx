@@ -1,7 +1,8 @@
 import { type FC, useState } from 'react';
 
-import { GlobeWebIcon, ModalButtons } from '../..';
-import { useAddWebResourcce } from '../../../../data';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon } from '@icons';
+import { useAddWebResourcce } from '@resourcesHooks/web/useWebapplication.ts';
 
 interface AddDomainProps {
 	onDone: () => void;

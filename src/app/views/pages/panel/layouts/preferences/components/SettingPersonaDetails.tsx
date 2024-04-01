@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { defaultPersonalDetails, useCompany } from '../../../../../../data';
-import { Show } from '../../../../../../views/components';
+import { defaultPersonalDetails } from '@mocks/defaultData.ts';
+import Show from '@defaults/Show.tsx';
+import useGetAllCompanies from '@userHooks/admins/useGetAllCompanies.ts';
 
 interface DetailProps {
 	title: string;
@@ -12,7 +13,7 @@ const SettingPersonalDetails: React.FC = (props) => {
 		defaultPersonalDetails,
 	);
 
-	const { companyInfo } = useCompany();
+	const { companyInfo } = useGetAllCompanies();
 
 	const userInfo = () => {
 		if (!companyInfo) {

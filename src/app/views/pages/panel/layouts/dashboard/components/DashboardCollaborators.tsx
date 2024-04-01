@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-import { PeopleGroup, SimpleSection } from '../../../../../components';
+import { PeopleGroupIcon, SimpleSection } from '../../../../../components';
 import {
 	type CompanyMember,
 	collaboratorsColumns,
@@ -33,7 +33,7 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({
 
 	return (
 		<div className="collaborators card">
-			<SimpleSection header="Team members" icon={<PeopleGroup />}>
+			<SimpleSection header="Team members" icon={<PeopleGroupIcon />}>
 				<TableV2
 					rowsData={dataTable}
 					showRows={!isLoading}

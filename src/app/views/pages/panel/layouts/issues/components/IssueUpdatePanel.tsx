@@ -1,21 +1,16 @@
 import { type FC, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
+import { PencilIcon, SaveIcon, LeftArrowIcon } from '@icons';
 import {
-	LeftArrow,
-	PageLoader,
-	PageLoaderOverlay,
-	PencilIcon,
-	SaveIcon,
-	Show,
-} from '../../../../../components';
-import AppEditor from './AppEditor';
-import {
-	type OneIssue,
 	type UpdateIssue,
-	formatDate,
 	useUpdateIssue,
-} from '../../../../../../data';
-import { useTheme } from '../../../../../ThemeContext';
+} from '@panelHooks/issues/useUpdateIssue.ts';
+import { type OneIssue } from '@interfaces/panel.ts';
+import { formatDate } from '@utils/helper.ts';
+import { useTheme } from '../../../../../ThemeContext.tsx';
+import AppEditor from './AppEditor.tsx';
+import Show from '@defaults/Show.tsx';
 
 interface IssueUpdatePanelProps {
 	completeIssue: OneIssue;
@@ -149,7 +144,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 			<>
 				<div className="header">
 					<div className="back" onClick={() => navigate('/issues')}>
-						<LeftArrow isButton />
+						<LeftArrowIcon isButton />
 					</div>
 					<Show
 						when={!isEditable}

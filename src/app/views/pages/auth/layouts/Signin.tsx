@@ -1,14 +1,14 @@
 import { type FC, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-	useAuthState,
 	useNetworkSettingState,
 	type NetworkSettingState,
 } from '../../../../data';
 import { NetworkIcon, PrimaryButton } from '../../../components';
+import { useLoginAction } from '../../../../data/hooks/users/common/useLoginAction.ts';
 
 const SignInLayout: FC = () => {
-	const { signInUser } = useAuthState();
+	const { signInUser } = useLoginAction();
 	const navigate = useNavigate();
 
 	const [signinForm, setSigninForm] = useState({

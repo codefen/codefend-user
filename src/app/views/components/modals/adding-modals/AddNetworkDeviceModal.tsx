@@ -1,11 +1,8 @@
-import { type FC, useState } from 'react';
-import {
-	useAuthState,
-	LanApplicationService,
-	type Device,
-} from '../../../../data';
-import { toast } from 'react-toastify';
-import { GlobeWebIcon, ModalButtons } from '../..';
+import { type FC } from 'react';
+import { type Device } from '../../../../data';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon } from '@icons';
+import { useAddLanV2 } from '@resourcesHooks/netowrk/useAddLanV2';
 
 interface NetworkDeviceModalProps {
 	close: () => void;
@@ -14,63 +11,22 @@ interface NetworkDeviceModalProps {
 }
 
 export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
-	const [
-		{
-			mainDomainId,
-			domainName,
-			vendorName,
-			internalIpAddress,
-			externalIpAddress,
-			isAddingInternalNetwork,
-		},
-		setFormData,
-	] = useState({
-		domainName: '',
-		vendorName: '',
-		mainDomainId: 0,
-		internalIpAddress: '',
-		externalIpAddress: '',
-		isAddingInternalNetwork: false,
-	});
-
-	const { getCompany } = useAuthState();
-	const companyID = getCompany();
+	const { vendorName, isLoading, validators, refetch, setFormData } =
+		useAddLanV2(props.onDone, props.close);
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		if (!mainDomainId || mainDomainId === 0) {
-			return toast.error('Invalid main resource');
-		}
+		e.stopPropagation();
 
-		if (!domainName.trim() || domainName.length == 0) {
-			return toast.error('Invalid host name');
-		}
-
-		const requestBody = {
-			device_name: domainName,
-			device_os: vendorName,
-			device_in_address: internalIpAddress,
-			device_ex_address: externalIpAddress,
-			resource_lan_dad: mainDomainId,
-		};
-
-		LanApplicationService.add(requestBody, companyID)
-			.then(() => {
-				toast.success('successfully added Sub Network...');
-			})
-			.finally(() => {
-				props.close();
-				props.onDone();
-			});
-
-		return;
+		if (validators()) return;
+		refetch();
 	};
 
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 	) => {
 		const { name, value } = e.target;
-		setFormData((prevData) => ({ ...prevData, [name]: value }));
+		setFormData((prevData: any) => ({ ...prevData, [name]: value }));
 	};
 
 	return (
@@ -161,7 +117,7 @@ export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
 				<ModalButtons
 					close={() => props.close?.()}
 					confirmText="Add access point"
-					isDisabled={isAddingInternalNetwork}
+					isDisabled={isLoading}
 				/>
 			</form>
 		</div>

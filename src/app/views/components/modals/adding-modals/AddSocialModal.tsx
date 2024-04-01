@@ -1,6 +1,7 @@
-import { type FC, useState } from 'react';
-import { useAddSocial } from '../../../../data';
-import { GlobeWebIcon, ModalButtons } from '../..';
+import { type FC } from 'react';
+import { useAddSocial } from '@resourcesHooks/social/useAddSocial';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon } from '@icons';
 
 interface Props {
 	onDone: () => void;

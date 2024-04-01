@@ -1,6 +1,6 @@
 import {
 	ModalTitleWrapper,
-	PeopleGroup,
+	PeopleGroupIcon,
 	TableV2,
 } from '../../../../../../views/components';
 
@@ -64,7 +64,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 				<div className="header">
 					<div className="title">
 						<div className="icon">
-							<PeopleGroup />
+							<PeopleGroupIcon />
 						</div>
 						<span>Social Engineering</span>
 					</div>

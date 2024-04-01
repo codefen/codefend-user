@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
+import { OrderV2 } from '@modals/order/Orderv2.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { useMobile } from '@resourcesHooks/mobile/useMobile.ts';
 import {
-	DeleteMobileCloudModal,
-	ModalReport,
-	ModalTitleWrapper,
-	OrderV2,
-	PageLoader,
-	Show,
-} from '../../../../components';
-import {
-	type SelectMobileCloudApp,
-	useMobile,
-	useModal,
 	useSelectMobileCloudApp,
-	useShowScreen,
-} from '../../../../../data';
+	type SelectMobileCloudApp,
+} from '@stores/mobileCloudApp.store.ts';
+import useModal from '#commonHooks/useModal.ts';
 
 import './mobileApplicationPanel.scss';
 import { MobileApplication } from './components/MobileApplication';

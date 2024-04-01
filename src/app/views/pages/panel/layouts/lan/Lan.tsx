@@ -1,17 +1,15 @@
 // Core packages
-import { invoke } from '@tauri-apps/api/tauri';
 import { type FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useLan } from '../../../../../data';
-import {
-	PageLoaderWhite,
-	PrimaryButton,
-} from '../../../../../views/components';
-import '../../../../styles/flag.scss';
-import { LanNetworkData } from './components/LanNetworkData';
-import { LanNetworksChart } from './components/LanNetworksChart';
+import { invoke } from '@tauri-apps/api/tauri';
+import { useLan } from '@resourcesHooks/netowrk/useLan.ts';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import { PageLoaderWhite } from '@defaults/loaders/Loader.tsx';
+import { LanNetworkData } from './components/LanNetworkData.tsx';
+import { LanNetworksChart } from './components/LanNetworksChart.tsx';
+import { useFlashlight } from '../../FlashLightContext.tsx';
+import '@styles/flag.scss';
 import './Lan.scss';
-import { useFlashlight } from '../../FlashLightContext';
 
 const LanPage: FC = () => {
 	const { networks, loading, refetch } = useLan();

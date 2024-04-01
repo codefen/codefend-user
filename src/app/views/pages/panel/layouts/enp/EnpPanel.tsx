@@ -1,14 +1,22 @@
-import { type FC, useEffect, useState } from 'react';
-
-import { ScanButton } from './components/ScanButton';
-import { ReportButton } from './components/ReportButton';
-import { ScanNetworkGraph } from './components/ScanNetworkGraph';
-import { ModalOS } from './components/ModalOS';
-import { EndpointAppProvider } from './EndpointContext';
-import { useNavigate } from 'react-router';
+import { type FC, useEffect } from 'react';
 import moment from 'moment';
+import { useNavigate } from 'react-router';
 
-import { useAuthState, useScanLocal, EnpService } from '../../../../../data';
+import { ScanButton } from './components/ScanButton.tsx';
+import { ReportButton } from './components/ReportButton.tsx';
+import { ScanNetworkGraph } from './components/ScanNetworkGraph.tsx';
+import { ModalOS } from './components/ModalOS.tsx';
+import { EndpointAppProvider } from './EndpointContext.tsx';
+
+import { useAuthState } from '#commonHooks/useAuthState.ts';
+import {
+	formatKeyName,
+	isScanComplianceValid,
+	processCompliance,
+} from '@utils/helper.ts';
+import { useScanLocal } from '@moduleHooks/enp/useScanLocal.ts';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { useEnpGetScans } from '@moduleHooks/enp/useEnpGetScans.ts';
 
 import {
 	ButtonLoader,
@@ -16,101 +24,18 @@ import {
 	ShieldIcon,
 	Show,
 } from '../../../../components';
-
 import './endpoints.scss';
 
 export const EnpPanel: FC = () => {
 	const { getAccessToken } = useAuthState();
-	const { getCompany } = useAuthState();
-	const [showScreen, setShowScreen] = useState<boolean>(false);
-	const [scans, setScans] = useState<any[]>([]);
-	const [scansFiltered, setScansFiltered] = useState<any[]>([]);
+	const [showScreen, control] = useShowScreen();
+	const { refetch, scans, scansFiltered } = useEnpGetScans();
 	const { scanLoading, scanLocal } = useScanLocal(getAccessToken());
-	const [refresh, setRefresh] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const companyID = getCompany();
-		EnpService.getScans(companyID).then((scans) => {
-			setScans(scans.data);
-
-			if (scans?.data?.length) {
-				setScansFiltered(processScans(scans.data));
-			}
-		});
-		setShowScreen(false);
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [refresh]);
-
-	function processScans(scans: any) {
-		const groupedScans = scans.reduce((acc: any, scan: any) => {
-			const macAddress = scan.device_mac_address;
-			if (!acc[macAddress]) {
-				acc[macAddress] = [];
-			}
-			acc[macAddress].push(scan);
-			return acc;
-		}, {});
-
-		return Object.values(groupedScans).map((scans: any) => {
-			const latestScan = scans.sort((a: any, b: any) => {
-				return (
-					new Date(b.creacion).getTime() - new Date(a.creacion).getTime()
-				);
-			})[0];
-
-			latestScan.additionalScans = scans.length - 1;
-			return latestScan;
-		});
-	}
-
-	function formatKeyName(key: any) {
-		return key
-			.split('_')
-			.map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-			.join(' ');
-	}
-
-	function processCompliance(scan: any) {
-		if (!scan.report_data) {
-			return 0;
-		}
-
-		try {
-			const report = JSON.parse(scan.report_data);
-
-			for (const key in report) {
-				if (report.hasOwnProperty(key)) {
-					const value = report[key];
-					if (Array.isArray(value)) {
-						if (value.length === 0) {
-							return 0;
-						}
-					} else if (typeof value === 'boolean' && !value) {
-						return 0;
-					}
-				}
-			}
-
-			return 1;
-		} catch (err) {
-			return 0;
-		}
-	}
-
-	function isScanComplianceValid(scan: any) {
-		if (!scan.report_data) {
-			return false;
-		}
-
-		try {
-			JSON.parse(scan.report_data);
-			return true;
-		} catch (err) {
-			return false;
-		}
-	}
+		refetch();
+	}, [control]);
 
 	return (
 		<EndpointAppProvider>

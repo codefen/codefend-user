@@ -1,21 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { Logo } from '../..';
-import {
-	ConfirmModal,
-	LogoutIcon,
-	MessageIcon,
-	ModalWrapper,
-	NetworkIcon,
-	NetworkSetingModal,
-	PreferenceIcon,
-	Show,
-} from '../../..';
-import { useAuthState, useModal } from '../../../../../data';
-import {
-	useNetworkSettingState,
-	usePanelStore,
-} from '../../../../../data/store';
+import Logo from '@defaults/Logo.tsx';
+import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
+import { NetworkSetingModal } from '@modals/network-modal/NetworkSetingModal.tsx';
+import ConfirmModal from '@modals/ConfirmModal.tsx';
+import { PreferenceIcon, NetworkIcon, MessageIcon, LogoutIcon } from '@icons';
+import Show from '@defaults/Show.tsx';
+import { useAuthState } from '#commonHooks/useAuthState.ts';
+import useModal from '#commonHooks/useModal.ts';
+import usePanelStore from '@stores/panel.store.ts';
+import useNetworkSettingState from '@stores/apiLink.store.ts';
 import './NavResponsive.scss';
 
 const NavResponsive: React.FC = () => {

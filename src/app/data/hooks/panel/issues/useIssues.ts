@@ -7,7 +7,7 @@ import {
 	verifySession,
 } from '../../../';
 import { toast } from 'react-toastify';
-import { useFetcher } from '../../util/useFetcher';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 /* Custom Hook "useOneIssue" to handle retrieval of all issues*/
 export const useIssues = () => {

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { WebApplicationResources } from './components/WebApplicationResources';
-import { WebApplicationLocation } from './components/WebApplicationLocation';
-import { WebApplicationStatics } from './components/WebApplicationStatics';
-import { WebApplicationCredentials } from './components/WebApplicationCredentials';
-import {
-	useOrderStore,
-	useShowScreen,
-	useWebapplication,
-} from '../../../../../data';
-import { OrderV2, PrimaryButton, ModalReport } from '../../../../components';
-import { useFlashlight } from '../../FlashLightContext';
-import '../../../../styles/flag.scss';
-import '../../../../components/Table/table.scss';
+import React, { useEffect } from 'react';
+import { WebApplicationResources } from './components/WebApplicationResources.tsx';
+import { WebApplicationLocation } from './components/WebApplicationLocation.tsx';
+import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
+import { WebApplicationCredentials } from './components/WebApplicationCredentials.tsx';
+import { useOrderStore } from '@stores/orders.store';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { useWebapplication } from '@resourcesHooks/web/useWebapplication.ts';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import { OrderV2 } from '@modals/order/Orderv2.tsx';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import { useFlashlight } from '../../FlashLightContext.tsx';
+import '@styles/flag.scss';
+import '@table/table.scss';
 import './webapplication.scss';
 
 const WebApplicationView: React.FC = () => {

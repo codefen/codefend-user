@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { SupportChatDisplay } from './components/SupportChatDisplay';
 import { SupportTicketList } from './components/SupportTicketList';
-import { useAllTicket, useShowScreen } from '../../../../../data';
-import { Show } from '../../../../components';
-import SelectedTicket from './supportProvider';
+import { useAllTicket } from '@panelHooks/support/useSupport';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import Show from '@defaults/Show.tsx';
+import SelectedTicket from './supportProvider.ts';
 import './support.scss';
 
-const SupportPanel: React.FC = () => {
+const SupportPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const [selectedTicket, setSelectedTicket] = useState<string>('');
 	const { getTikets, isLoading, refetch } = useAllTicket();

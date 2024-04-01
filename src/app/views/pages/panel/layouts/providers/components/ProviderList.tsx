@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ProviderCard } from './provider-card/ProviderCard';
+import { ProviderCard } from './provider-card/ProviderCard.tsx';
 
 export const ProviderList = () => {
 	const [active, setActiveCard] = useState<string>('');

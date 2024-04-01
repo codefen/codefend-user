@@ -1,4 +1,5 @@
 import { type FC, useMemo } from 'react';
+import { Doughnut } from 'react-chartjs-2';
 import {
 	MetricsService,
 	ChartValueType,
@@ -10,15 +11,12 @@ import {
 	sourceCodeChartColumns,
 	type TableItem,
 } from '../../../../../../data';
-import {
-	ChartIcon,
-	EmptyCard,
-	PageLoader,
-	Show,
-	SimpleSection,
-	TableV2,
-} from '../../../../../components';
-import { Doughnut } from 'react-chartjs-2';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
+import EmptyCard from '@defaults/EmptyCard.tsx';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { ChartIcon } from '@icons';
+import { TableV2 } from '@table/tablev2.tsx';
 
 interface Props {
 	isLoading: boolean;

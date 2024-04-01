@@ -1,12 +1,9 @@
 import { useEffect, type FC } from 'react';
-import {
-	CircleAskIcon,
-	IconTextPairs,
-	LocationIcon,
-	ProfileMedia,
-	StarRating,
-	VerificationIcon,
-} from '../../../../../components';
+import { StarRating } from '@standalones/utils/StarRating.tsx';
+import { ProfileMedia } from '@standalones/utils/ProfileMedia.tsx';
+import { IconTextPairs } from '@standalones/textpair/IconTextPairs.tsx';
+import { CircleAskIcon, LocationIcon, VerificationIcon } from '@icons';
+
 import { formatToMonthYear, useProviderProfile } from '../../../../../../data';
 
 export const ProviderHeader: FC = () => {

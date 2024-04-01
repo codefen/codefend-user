@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { usePreferences, useShowScreen } from '../../../../../data';
-import { PageLoader, Show } from '../../../../../views/components';
-import SettingCollaboratorAndTeam from './components/SettingCollaboratorAndTeam';
-import SettingCompanyInformation from './components/SettingCompanyInformation';
-import SettingOrderAndBilling from './components/SettingOrderAndBilling';
+import { usePreferences } from '@panelHooks/preference/usePreferences.ts';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import Show from '@defaults/Show.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import SettingCollaboratorAndTeam from './components/SettingCollaboratorAndTeam.tsx';
+import SettingCompanyInformation from './components/SettingCompanyInformation.tsx';
+import SettingOrderAndBilling from './components/SettingOrderAndBilling.tsx';
+import SettingPersonalDetails from './components/SettingPersonaDetails.tsx';
 import '../../../../styles/flag.scss';
-import SettingPersonalDetails from './components/SettingPersonaDetails';
 
 import './preference.scss';
 

@@ -119,7 +119,7 @@ export const SourceCodeIcon = () => (
 	</svg>
 );
 
-export const PeopleGroup = () => (
+export const PeopleGroupIcon = () => (
 	<svg
 		strokeWidth={0}
 		height="1em"
@@ -393,7 +393,7 @@ export const CloseIcon: FC<IconProps> = ({ isButton }): any => (
 	</svg>
 );
 
-export const LeftArrow: FC<IconProps> = ({ isButton }) => (
+export const LeftArrowIcon: FC<IconProps> = ({ isButton }) => (
 	<svg
 		strokeWidth={0}
 		height="1em"
@@ -504,7 +504,7 @@ export const PencilIcon: FC<IconProps> = ({ isButton }) => (
 	</svg>
 );
 
-export const PreviousMessage = () => (
+export const PreviousMessageIcon = () => (
 	<svg
 		strokeWidth={0}
 		height="1em"

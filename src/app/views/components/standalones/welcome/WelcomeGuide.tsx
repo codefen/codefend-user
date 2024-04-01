@@ -11,7 +11,7 @@ import {
 	EnpIcon,
 	GlobeWebIcon,
 	MobileIcon,
-	PeopleGroup,
+	PeopleGroupIcon,
 	SourceCodeIcon,
 } from '../..';
 
@@ -134,7 +134,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						next={() => setNextStep(WelcomeSteps.ENP)}
 						coords={{ top: '22.05rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
-						icon={<PeopleGroup />}
+						icon={<PeopleGroupIcon />}
 						text="Any description for social"
 						title="Any title for social"
 						highlight="Any highlight for social"

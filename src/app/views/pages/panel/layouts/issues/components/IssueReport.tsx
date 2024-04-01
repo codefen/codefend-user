@@ -1,6 +1,9 @@
-import { type IssueClass, generateIDArray } from '../../../../../../data';
-import { ChartIcon, Show, SimpleSection } from '../../../../../components';
 import { type FC, Fragment, useMemo } from 'react';
+import { generateIDArray } from '@utils/helper.ts';
+import { type IssueClass } from '@interfaces/panel.ts';
+import { ChartIcon } from '@icons';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import Show from '@defaults/Show.tsx';
 
 interface Props {
 	isLoading: boolean;

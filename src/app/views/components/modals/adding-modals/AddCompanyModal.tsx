@@ -1,6 +1,6 @@
 import { type FC, type ChangeEvent, useState } from 'react';
-import { GlobeWebIcon, ModalButtons } from '../..';
-
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon } from '@icons';
 interface AddNewCompany {
 	companyStore: any | null;
 	usersToShow: any[];

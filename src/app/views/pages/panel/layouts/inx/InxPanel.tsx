@@ -1,8 +1,9 @@
-import { type FC, useEffect, useState } from 'react';
-import { InxSearchAndData } from './components/InxSearchAndData';
-import { InxPreviousSearches } from './components/InxPreviousSearches';
-import { useInxPreviousSearch, useShowScreen } from '../../../../../data';
-import { useFlashlight } from '../../FlashLightContext';
+import { type FC, useEffect } from 'react';
+import { InxSearchAndData } from './components/InxSearchAndData.tsx';
+import { InxPreviousSearches } from './components/InxPreviousSearches.tsx';
+import { useInxPreviousSearch } from '@moduleHooks/inx/useInxPreviousSearch.ts';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { useFlashlight } from '../../FlashLightContext.tsx';
 import './inx.scss';
 
 export const InxPanel: FC = () => {

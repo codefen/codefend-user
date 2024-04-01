@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 import { useAuthState } from '../../../';
 import { getTinyEditorContent } from '../../../../../editor-lib';
-import { useFetcher } from '../../util/useFetcher';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export interface SaveIssue {
 	issueName: string;

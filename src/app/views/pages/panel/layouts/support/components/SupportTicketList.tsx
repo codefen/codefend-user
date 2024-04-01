@@ -1,4 +1,5 @@
 import { type FC, useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
 	type SupportProps,
 	supportTicket,
@@ -8,15 +9,13 @@ import {
 } from '../../../../../../data';
 import {
 	ConfirmModal,
-	MessageIcon,
 	ModalTitleWrapper,
-	TrashIcon,
 	AddTicketModal,
-	TableV2,
 } from '../../../../../components';
+import { TrashIcon, MessageIcon } from '@icons';
+import { TableV2 } from '@table/tablev2.tsx';
 
 import SelectedTicket from '../supportProvider';
-import { toast } from 'react-toastify';
 
 interface SupportTicketListProps {
 	setSelectedTicket: (state: any) => void;

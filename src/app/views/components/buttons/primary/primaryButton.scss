@@ -91,6 +91,13 @@
 			margin-block-end: 1rem;
 		}
 	}
+
+	&.btn-send-email {
+		width: 48%;
+	}
+	&.btn-error-con {
+		width: 48%;
+	}
 }
 
 [data-theme='dark'] {

@@ -1,11 +1,9 @@
-import {
-	PageLoader,
-	PreviousMessage,
-	PrimaryButton,
-	Show,
-	SimpleSection,
-} from '../../../../../../views/components';
 import { type FC } from 'react';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import { PreviousMessageIcon } from '@icons';
 
 interface LoadingComponentProps {
 	isLoading?: boolean;
@@ -18,7 +16,7 @@ const SnPreviousSearches: FC<LoadingComponentProps> = (props) => {
 				<div className="card table sns">
 					<SimpleSection
 						header="Previous Searches"
-						icon={<PreviousMessage />}>
+						icon={<PreviousMessageIcon />}>
 						<>
 							<div className="columns-name">
 								<div className="column">username</div>

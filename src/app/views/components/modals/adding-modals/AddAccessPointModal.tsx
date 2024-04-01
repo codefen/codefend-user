@@ -1,21 +1,7 @@
-import { type FC, useState } from 'react';
-import {
-	useAuthState,
-	useModal,
-	LanApplicationService,
-} from '../../../../data';
-import { toast } from 'react-toastify';
-import { GlobeWebIcon, ModalButtons } from '../..';
+import { type FC } from 'react';
 
-interface NetworkData {
-	domainName: string;
-	vendorName: string;
-	username: string;
-	password: string;
-	internalAddress: string;
-	externalAddress: string;
-	isAddingInternalNetwork: boolean;
-}
+import { GlobeWebIcon, ModalButtons } from '../..';
+import { useAddLan } from '@resourcesHooks/netowrk/useAddLan.ts';
 
 interface ComponentEvent {
 	onDone: () => void;
@@ -23,100 +9,31 @@ interface ComponentEvent {
 }
 
 export const AcessPointModal: FC<ComponentEvent> = (props) => {
-	const { getCompany } = useAuthState();
-	const companyID = getCompany();
-
-	const [
-		{
-			domainName,
-			vendorName,
-			username,
-			password,
-			internalAddress,
-			externalAddress,
-			isAddingInternalNetwork,
-		},
+	const {
+		vendorName,
+		internalAddress,
+		externalAddress,
+		isLoading,
+		validators,
+		refetch,
 		setNetworkData,
-	] = useState<NetworkData>({
-		domainName: '',
-		vendorName: '',
-		username: '',
-		password: '',
-		internalAddress: '',
-		externalAddress: '',
-		isAddingInternalNetwork: false,
-	});
+	} = useAddLan(props.onDone, props.close);
 
 	const handleChange = (e: any) => {
 		const { name, value } = e.target;
-		setNetworkData((prevData) => ({
+		setNetworkData((prevData: any) => ({
 			...prevData,
 			[name]: value,
 		}));
 	};
 
-	const { showModal, setShowModal } = useModal();
-
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		setNetworkData((prevData) => ({
-			...prevData,
-			isAddingInternalNetwork: true,
-		}));
+		if (validators()) return;
 
-		if (!domainName.trim() || domainName.length == 0) {
-			toast.error('Invalid host name');
-			return setNetworkData((prevData) => ({
-				...prevData,
-				isAddingInternalNetwork: false,
-			}));
-		}
-
-		if (!vendorName.trim()) {
-			toast.error('Invalid vendor name');
-			return setNetworkData((prevData) => ({
-				...prevData,
-				isAddingInternalNetwork: false,
-			}));
-		}
-
-		const requestParams = {
-			device_name: domainName,
-			device_version: vendorName,
-			access_username: username,
-			access_password: password,
-			device_in_address: internalAddress,
-			device_ex_address: externalAddress,
-		};
-
-		LanApplicationService.add(requestParams, companyID).then((res: any) => {
-			setShowModal(!showModal);
-
-			if (res.error == 1) {
-				let message = res.info.includes('device_in_address')
-					? 'Device internal address is invalid'
-					: res.info.includes('device_ex_address')
-						? 'device external address is invalid'
-						: 'An unexpected error has occurred on the server';
-
-				toast.error(message);
-				setNetworkData((prevData) => ({
-					...prevData,
-					isAddingInternalNetwork: false,
-				}));
-				return;
-			}
-			toast.success('successfully added Access Point...');
-			setNetworkData((prevData) => ({
-				...prevData,
-				isAddingInternalNetwork: false,
-			}));
-
-			props.close();
-			props.onDone();
-		});
+		refetch();
 	};
 
 	return (
@@ -215,7 +132,7 @@ export const AcessPointModal: FC<ComponentEvent> = (props) => {
 				</div>
 				<ModalButtons
 					confirmText="Add access point"
-					isDisabled={isAddingInternalNetwork}
+					isDisabled={isLoading}
 					close={() => props.close()}
 				/>
 			</form>

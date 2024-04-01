@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuthState } from '../../../';
 import { toast } from 'react-toastify';
 import { getTinyEditorContent } from '../../../../../editor-lib';
-import { useFetcher } from '../../util/useFetcher';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export interface UpdateIssue {
 	id: string;

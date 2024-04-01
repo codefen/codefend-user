@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { PrimaryButton } from '../../../../../components';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 
 export const VdbPreviousSearches: FC = () => {
 	return (

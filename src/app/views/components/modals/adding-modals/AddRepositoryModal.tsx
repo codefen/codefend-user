@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
-import { GlobeWebIcon, ModalButtons } from '../..';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon } from '@icons';
 import { toast } from 'react-toastify';
 
 interface AddRepositoryModalProps {

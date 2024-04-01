@@ -9,25 +9,31 @@ interface Props {
 	boxStyle?: string;
 }
 
-export const ModalButtons: React.FC<Props> = (props) => {
-	const closeText = props.closeText ? props.closeText : 'Cancel';
+export const ModalButtons: React.FC<Props> = ({
+	closeText = '',
+	boxStyle = '',
+	close,
+	confirmText = '',
+	isDisabled,
+}) => {
+	const text = Boolean(closeText.trim()) ? closeText : 'Cancel';
 	return (
 		<div
-			className={`form-buttons ${props.boxStyle ?? ''}`}
+			className={`form-buttons ${boxStyle}`}
 			onClick={(e: React.FormEvent) => e.stopPropagation()}>
 			<PrimaryButton
-				text={closeText}
-				click={(e: any) => props.close?.()}
-				isDisabled={props.isDisabled}
+				text={text}
+				click={(e: any) => close?.()}
+				isDisabled={isDisabled}
 				className="btn-cancel codefend_secondary_ac"
 				buttonStyle="black"
 				disabledLoader
 			/>
 			<PrimaryButton
-				text={props.confirmText}
+				text={confirmText}
 				click={() => {}}
 				type="submit"
-				isDisabled={props.isDisabled}
+				isDisabled={isDisabled}
 				className="btn-add codefend_main_ac limit-height"
 				buttonStyle="red"
 			/>

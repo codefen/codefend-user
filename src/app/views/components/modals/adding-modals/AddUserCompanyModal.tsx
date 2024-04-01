@@ -1,6 +1,8 @@
 import { type FC, useState } from 'react';
-import { ModalButtons, ModalTitleWrapper, Show } from '../..';
-import { AdminService } from '../../../../data/services';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import Show from '@defaults/Show';
+import { useAddCompanyUser } from '@userHooks/admins/useAddCompanyUser';
 
 interface Props {
 	show: boolean;
@@ -29,6 +31,7 @@ export const AddUserCompanyModal: FC<Props> = ({
 	companySelected,
 }) => {
 	const [filterUsers, setFilterUsers] = useState<UserData[]>([]);
+	const { fetchAdd } = useAddCompanyUser();
 
 	const handleInputChange = (value: any) => {
 		const maxResults = 3;
@@ -63,7 +66,7 @@ export const AddUserCompanyModal: FC<Props> = ({
 				canRead: selectedUser.canRead,
 			};
 
-			AdminService.addUserCompany(requestBody);
+			fetchAdd(requestBody);
 		}
 	};
 	return (

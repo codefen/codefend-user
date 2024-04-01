@@ -1,11 +1,5 @@
-import { type FC, useMemo, useState, Fragment } from 'react';
-import {
-	useModal,
-	LanApplicationService,
-	type Device,
-	generateIDArray,
-	useAuthState,
-} from '../../../../../../data';
+import { type FC, useMemo, Fragment } from 'react';
+import { useModal, type Device, generateIDArray } from '../../../../../../data';
 import {
 	EmptyCard,
 	PageLoader,
@@ -19,6 +13,7 @@ import {
 } from '../../../../../components';
 
 import { toast } from 'react-toastify';
+import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan';
 
 interface LanNetworkDataProps {
 	isLoading: boolean;
@@ -27,29 +22,14 @@ interface LanNetworkDataProps {
 }
 
 export const LanNetworkData: FC<LanNetworkDataProps> = (props) => {
-	const { getCompany } = useAuthState();
-	const companyID = getCompany();
-
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
 
-	const [selectedLanIdToDelete, setSelectedLanIdToDelete] = useState<
-		string | null
-	>(null);
-
-	const [isDeletingLan, setIsDeletingLan] = useState<boolean>(false);
+	const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } =
+		useDeleteLan(props.refetchInternalNetwork, () => setShowModal(false));
 
 	const handleDelete = () => {
-		setIsDeletingLan(true);
-		LanApplicationService.delete(selectedLanIdToDelete!, companyID!)
-			.then(() => {
-				props.refetchInternalNetwork();
-				setShowModal(!showModal);
-				toast.success('Successfully Deleted lan...');
-			})
-			.finally(() => {
-				setIsDeletingLan(false);
-			});
+		refetch();
 	};
 
 	const internalKeys = useMemo(() => {

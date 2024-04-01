@@ -26,7 +26,8 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 	const companyID = getCompany();
 	const [viewPreviewModal, setViewPreviewModal] = useState(true);
 
-	const { getData, setSearchData, refetchInitial } = useInitialSearch();
+	const { getData, setSearchData, refetchInitial, isLoading } =
+		useInitialSearch();
 
 	const { intelData, refetchIntelData, setIntelData } = useIntelSearch();
 
@@ -38,8 +39,6 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 		if (!term.trim()) {
 			return;
 		}
-
-		setSearchData((prev) => ({ ...prev, isLoading: true }));
 
 		refetchInitial(companyID, term)?.then((res: any) => {
 			if (res.error == 1) return;
@@ -121,7 +120,7 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 
 			<InxSearchBar searchFn={procSearch} initSearch={''} />
 
-			<Show when={!getData().isLoading} fallback={<PageLoader />}>
+			<Show when={!isLoading} fallback={<PageLoader />}>
 				<>
 					{Boolean(intelData.length) && (
 						<div className="intel-result-data">

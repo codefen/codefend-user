@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import SnPreviousSearches from './components/SnPreviousSearches';
-import SnsSearchAndData from './components/SnsSearchAndData';
-import { useShowScreen } from '../../../../../data';
+import SnPreviousSearches from './components/SnPreviousSearches.tsx';
+import SnsSearchAndData from './components/SnsSearchAndData.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import './Sns.scss';
 
 const SnsPanel: FC = () => {

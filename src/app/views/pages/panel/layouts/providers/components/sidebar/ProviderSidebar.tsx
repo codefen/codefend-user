@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useProviderSidebar } from '../../../../../../../data';
+import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 import './providersidebar.scss';
 
 export const ProviderSidebar: FC = () => {

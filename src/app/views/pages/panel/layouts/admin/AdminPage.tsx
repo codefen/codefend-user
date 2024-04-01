@@ -1,13 +1,13 @@
 import { type FC, Suspense } from 'react';
-import { AuthServices, useAuthState, useUserAdmin } from '../../../../../data';
+import { useAuthState, useUserAdmin } from '../../../../../data';
 import { Loader } from '../../../../components';
 import { Navigate, Outlet } from 'react-router';
 import './admin.scss';
 
 const AdminPage: FC = () => {
 	const { isAdmin, getAccessToken } = useUserAdmin();
-	const { logout } = useAuthState();
-	const isNotAuthenticated = AuthServices.verifyAuth();
+	const { logout, getUserdata, isAuth } = useAuthState();
+	const isNotAuthenticated = !getUserdata() || !isAuth();
 	if (isNotAuthenticated) {
 		logout();
 	}

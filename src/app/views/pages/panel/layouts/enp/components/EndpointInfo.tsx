@@ -1,21 +1,27 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useEffect } from 'react';
 import { BugIcon, CircleAskIcon, Show } from '../../../../../components';
-import { useEndpointAppStore } from '../EndpointContext';
-
-import { useAuthState, EnpService } from '../../../../../../data';
+import { useEndpointAppStore } from '../EndpointContext.tsx';
+import {
+	extractCWEID,
+	compareVersions,
+	mapScoreToWord,
+	highlightToBeforeAfterMatch,
+} from '@utils/helper.ts';
+import { useEnpGetVulns } from '@moduleHooks/enp/useEnpGetVulns';
 
 export const EndpointInfo: FC = () => {
-	const [selectedEndpoint, setSelectedEndpoint] = useState<any>(null);
 	const { endpointAppStore, setEndpointAppStore } = useEndpointAppStore();
-	const [vuln, setVuln] = useState<any[]>([]);
-	const [vulnFilter, setVulnFilter] = useState({
-		type: 'p',
-		order: 1,
-	});
-	const { getCompany } = useAuthState();
+	const {
+		vuln,
+		selectedEndpoint,
+		vulnFilter,
+		setVuln,
+		setVulnFilter,
+		setSelectedEndpoint,
+		refetch,
+	} = useEnpGetVulns();
 
 	useEffect(() => {
-		setSelectedEndpoint(null);
 		setVuln([]);
 		setVulnFilter({
 			type: 'p',
@@ -26,74 +32,21 @@ export const EndpointInfo: FC = () => {
 
 	useEffect(() => {
 		if (selectedEndpoint?.code_name) {
-			const companyID = getCompany();
-			EnpService.getVulns(
-				selectedEndpoint?.code_name,
-				selectedEndpoint?.application_name,
-				companyID,
-			).then((enp) => {
-				if (enp.length && enp[0].id) {
-					setVuln(enp);
-				} else {
-					setVuln([]);
-				}
-			});
+			refetch();
 		}
 	}, [selectedEndpoint]);
-
-	function extractCWEID(text: string) {
-		if (!text) {
-			return 0;
-		}
-		var pattern = /CWE-(\d+)/;
-
-		var match = text.match(pattern);
-
-		if (match !== null) {
-			return match[1];
-		} else {
-			return 'CWE ID not found.';
-		}
-	}
-
-	function compareVersions(versionA: any, versionB: any) {
-		if (!versionA) return -1;
-		if (!versionB) return 0;
-
-		const partsA = versionA.split('.').map(Number);
-		const partsB = versionB.split('.').map(Number);
-
-		const maxLength = Math.max(partsA.length, partsB.length);
-
-		for (let i = 0; i < maxLength; i++) {
-			const partA = partsA[i] || 0;
-			const partB = partsB[i] || 0;
-
-			if (partA > partB) return 1;
-			if (partA < partB) return -1;
-		}
-
-		return 0;
-	}
 
 	function parseDate(timestamp: any) {
 		const parsedDate = new Date(timestamp * 1000);
 		return parsedDate.toISOString().split('T')[0];
 	}
 
-	function highlightApplicationName(title: string, appName: string) {
-		const lowerCaseTitle = title.toLowerCase();
-		const lowerCaseAppName = appName.toLowerCase();
-
-		if (!lowerCaseTitle.includes(lowerCaseAppName)) {
-			return title;
-		}
-
-		const index = lowerCaseTitle.indexOf(lowerCaseAppName);
-
-		const before = title.substring(0, index);
-		const match = title.substring(index, index + appName.length);
-		const after = title.substring(index + appName.length);
+	function highlightApplicationName(titleS: string, appName: string) {
+		const { before, match, after, title } = highlightToBeforeAfterMatch(
+			titleS,
+			appName,
+		);
+		if (title) return title;
 
 		return (
 			<>
@@ -102,19 +55,6 @@ export const EndpointInfo: FC = () => {
 				{after}
 			</>
 		);
-	}
-
-	function mapScoreToWord(score: number) {
-		const mapping: { [key: number]: string } = {
-			0: '?',
-			1: 'intel',
-			2: 'low',
-			3: 'medium',
-			4: 'elevated',
-			5: 'critical',
-		};
-
-		return mapping[score] || '?';
 	}
 
 	// Filters

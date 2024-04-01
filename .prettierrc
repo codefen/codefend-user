@@ -21,5 +21,30 @@
 	"useTabs": true,
 	"embeddedLanguageFormatting": "auto",
 	"importOrderSeparation": true,
-	"importOrderSortSpecifiers": true
+	"importOrderSortSpecifiers": true,
+	"importOrder": [
+		"<THIRD_PARTY_MODULES>",
+		"^[./]",
+		"^@/(.*)$",
+		"^#commonHooks/(.*)$",
+		"^#commonUserHooks/(.*)$",
+		"^@hooks/(.*)$",
+		"^@userHooks/(.*)$",
+		"^@resourcesHooks/(.*)$",
+		"^@panelHooks/(.*)$",
+		"^@moduleHooks/(.*)$",
+		"^@stores/(.*)$",
+		"^@interfaces/(.*)$",
+		"^@utils/(.*)$",
+		"^@mocks/(.*)$",
+		"^@services/(.*)$",
+		"^@buttons/(.*)$",
+		"^@modals/(.*)$",
+		"^@icons/(.*)$",
+		"^@standalones/(.*)$",
+		"^@defaults/(.*)$",
+		"^@table/(.*)$",
+		"^@styles/(.*)$",
+		"^[./(.scss)$]"
+	]
 }

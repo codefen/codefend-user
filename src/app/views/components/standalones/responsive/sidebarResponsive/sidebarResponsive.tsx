@@ -11,7 +11,7 @@ import {
 	GlobeWebIcon,
 	InxIcon,
 	MobileIcon,
-	PeopleGroup,
+	PeopleGroupIcon,
 	SourceCodeIcon,
 } from '../../..';
 
@@ -23,7 +23,7 @@ const menuItems = [
 	//{ title: 'Lan', icon: <LanIcon />, to: '/lan' },
 	{ title: 'Enp', icon: <EnpIcon />, to: '/enp' },
 	{ title: 'Source', icon: <SourceCodeIcon />, to: '/source' },
-	{ title: 'Social', icon: <PeopleGroup />, to: '/social' },
+	{ title: 'Social', icon: <PeopleGroupIcon />, to: '/social' },
 	{ title: 'Issues', icon: <BugIcon />, to: '/issues' },
 	{ title: 'Inx', icon: <InxIcon />, to: '/inx' },
 	{ title: 'Sns', icon: <DataIcon />, to: '/sns' },

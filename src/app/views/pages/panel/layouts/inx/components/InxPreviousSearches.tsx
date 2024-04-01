@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import {
 	PageLoader,
-	PreviousMessage,
+	PreviousMessageIcon,
 	PrimaryButton,
 	Show,
 	SimpleSection,
@@ -28,7 +28,7 @@ export const InxPreviousSearches: FC<InxPreviousSearchesProps> = ({
 				<div className="card table inx">
 					<SimpleSection
 						header="Previous Searches"
-						icon={<PreviousMessage />}>
+						icon={<PreviousMessageIcon />}>
 						<>
 							<div className="columns-name">
 								<div className="column">username</div>

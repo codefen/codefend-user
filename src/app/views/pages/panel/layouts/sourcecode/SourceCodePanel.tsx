@@ -1,15 +1,14 @@
-import { type FC, useEffect, useState } from 'react';
-import {
-	useOrderStore,
-	useShowScreen,
-	useSourceCode,
-} from '../../../../../data';
-import { SourceCodeResources } from './components/SourceCodeResources';
-import { SourceCodeChart } from './components/SourceCodeChart';
-import { SourceCodeCollab } from './components/SourceCodeCollab';
-import { OrderV2, PrimaryButton } from '../../../../components';
+import { type FC } from 'react';
+import { useOrderStore } from '@stores/orders.store.ts';
+import { useSourceCode } from '@resourcesHooks/sourcecode/useSourceCode.ts';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { SourceCodeResources } from './components/SourceCodeResources.tsx';
+import { SourceCodeChart } from './components/SourceCodeChart.tsx';
+import { SourceCodeCollab } from './components/SourceCodeCollab.tsx';
+import { OrderV2 } from '@modals/order/Orderv2.tsx';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import { useFlashlight } from '../../FlashLightContext.tsx';
 import './sourcecode.scss';
-import { useFlashlight } from '../../FlashLightContext';
 
 const SourceCodePanel: FC = () => {
 	const [showScreen, _, refresh] = useShowScreen();

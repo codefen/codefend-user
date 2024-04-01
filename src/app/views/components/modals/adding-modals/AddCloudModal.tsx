@@ -1,6 +1,7 @@
 import { type FC } from 'react';
-import { GlobeWebIcon, ModalButtons } from '../..';
-import { useAddCloud } from '../../../../data';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon } from '@icons';
+import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud.ts';
 
 interface Props {
 	onDone: () => void;

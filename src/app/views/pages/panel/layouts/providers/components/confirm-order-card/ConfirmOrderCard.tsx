@@ -1,18 +1,15 @@
+import type { FC } from 'react';
 import {
 	ScopeOption,
 	type OrderOffensive,
 	type OrderTeamSize,
-	useModal,
 } from '../../../../../../../data';
-import {
-	BugIcon,
-	IconTextPairs,
-	ModalWrapper,
-	PrimaryButton,
-	Show,
-} from '../../../../../../components';
+import useModal from '#commonHooks/useModal';
+import { IconTextPairs, ModalWrapper } from '../../../../../../components';
+import { BugIcon } from '@icons';
+import Show from '@defaults/Show';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import './confirorder.scss';
-import type { FC } from 'react';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';

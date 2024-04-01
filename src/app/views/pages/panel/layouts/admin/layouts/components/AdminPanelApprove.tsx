@@ -1,32 +1,11 @@
-import { AdminService } from '../../../../../../../data';
-import { type FC, useEffect, useState } from 'react';
+import { userApproveUser } from '@userHooks/admins/userApproveUser';
+import { type FC, useEffect } from 'react';
 
 const AdminPanelApprove: FC = () => {
-	const [pendingUsers, setPendingUsers] = useState([]);
-
-	const handleApprove = (id: any, condition: any) => {
-		const requestBody = {
-			user_id: id,
-			approval: condition,
-		};
-
-		AdminService.approveUser(requestBody).then(() => {
-			setPendingUsers(pendingUsers.filter((user: any) => user.id !== id));
-		});
-	};
+	const { pendingUsers, handleApprove, getPanelApprove } = userApproveUser();
 
 	useEffect(() => {
-		AdminService.getPanelUsersApproval()
-			.then((res: any) => {
-				if (res === false) {
-					console.error('Error fetching panel users approval.');
-				} else {
-					setPendingUsers(res.data);
-				}
-			})
-			.catch((error) => {
-				console.error('Error fetching panel users approval.', error);
-			});
+		getPanelApprove();
 	}, []);
 
 	return (

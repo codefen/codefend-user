@@ -1,4 +1,4 @@
-import { type Fetcher } from '../../util/useFetcher';
+import { type Fetcher } from '#commonHooks/useFetcher.ts';
 import { toast } from 'react-toastify';
 
 export const useAddIssueMessage = (message: string, setMessage: (updated: string)=>void, fetcher: Fetcher, getCompany: ()=>any) => {

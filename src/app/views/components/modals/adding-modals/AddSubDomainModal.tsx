@@ -1,6 +1,8 @@
 import { type FC, type FormEvent } from 'react';
-import { GlobeWebIcon, ModalButtons } from '../..';
-import { type Webresources, useAddSubResource } from '../../../../data';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon } from '@icons';
+import { useAddSubResource } from '@resourcesHooks/web/useWebapplication.ts';
+import { type Webresources } from '@interfaces/panel.ts';
 
 interface SubdomainModalProps {
 	onDone: () => void;

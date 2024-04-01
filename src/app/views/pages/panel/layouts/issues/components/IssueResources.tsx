@@ -1,22 +1,16 @@
 import { type FC, useState } from 'react';
-import {
-	type Issues,
-	Sort,
-	issueColumns,
-	useDeleteIssue,
-	useModal,
-	useNewWindows,
-} from '../../../../../../data';
-import {
-	BugIcon,
-	ConfirmModal,
-	ModalTitleWrapper,
-	RiskScore,
-	TableV2,
-	TrashIcon,
-} from '../../../../../components';
 import { useNavigate } from 'react-router';
-import '../../../../../components/Table/table.scss';
+import { type Issues, Sort } from '../../../../../../data';
+import { issueColumns } from '@mocks/defaultData.ts';
+import { useDeleteIssue } from '@panelHooks/issues/useDeleteIssues.ts';
+import useModal from '#commonHooks/useModal.ts';
+import { useNewWindows } from '#commonHooks/useNewWindows.ts';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
+import ConfirmModal from '@modals/ConfirmModal.tsx';
+import { RiskScore } from '@standalones/utils/RiskScore.tsx';
+import { TrashIcon, BugIcon } from '@icons';
+import { TableV2 } from '@table/tablev2.tsx';
+import '@table/table.scss';
 
 interface IssueResourcesProps {
 	isLoading: boolean;

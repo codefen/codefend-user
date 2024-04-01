@@ -1,14 +1,14 @@
 export * from './panel';
-export * from './panel/inx';
+export * from './modules/inx';
 export * from './panel/issues';
 export * from './useAppCard';
-export * from './useAuthState';
-export * from "./util/useNewWindows";
+export * from './common/useAuthState';
+export * from "./common/useNewWindows";
 export * from "./useOrders";
-export { default as useDoughnutChart } from './useChart';
+export { default as useDoughnutChart } from './common/useChart';
 export { default as useChatbox } from './useChatbox';
-export { default as useCompany } from './useCompany';
-export { default as useModal } from './util/useModal';
-export * from "./userWelcomeUser";
-export * from "./util/useShowScreen";
-export * from "./util/useMessageState"
+export { default as useGetAllCompanies } from './users/admins/useGetAllCompanies';
+export { default as useModal } from './common/useModal';
+export * from "./panel/userWelcomeUser";
+export * from "./common/useShowScreen";
+export * from "./common/useMessageState"

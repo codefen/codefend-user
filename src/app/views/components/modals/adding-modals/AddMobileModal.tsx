@@ -1,5 +1,5 @@
 import { type FC, type FormEvent } from 'react';
-import { useAddMobileResource } from '../../../../data';
+import { useAddMobileResource } from '@resourcesHooks/mobile/useAddMobileResource';
 import { GlobeWebIcon, ModalButtons } from '../..';
 
 interface Props {

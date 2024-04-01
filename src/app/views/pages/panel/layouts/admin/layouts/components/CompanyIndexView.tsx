@@ -1,26 +1,22 @@
 import { type FC, useEffect } from 'react';
-import CompanyCard from './CompanyCard';
-import {
-	type AdminCompany,
-	useAdminCompanyStore,
-	companyServices,
-} from '../../../../../../../data';
-import './CompanyIndexView.scss';
 import { useNavigate } from 'react-router';
+import CompanyCard from './CompanyCard.tsx';
+import useAdminCompanyStore from '@stores/adminCompany.store.ts';
+import { type AdminCompany } from '@stores/adminCompany.store.ts';
+import './CompanyIndexView.scss';
+import { useGetCompany } from '@userHooks/admins/useGetCompany';
 
 const CompanyIndexView: FC = () => {
 	const navigate = useNavigate();
-
+	const { getCompany, loading } = useGetCompany();
 	const { companies, companySelected, isSelectedCompany, updateCompanies } =
 		useAdminCompanyStore((state) => state);
 
-	const { selectCompany, updateSearch } = useAdminCompanyStore(
-		(state) => state,
-	);
+	const { selectCompany } = useAdminCompanyStore((state) => state);
 
 	useEffect(() => {
 		if (companies.length === 0) {
-			companyServices.getCompanies(1).then((data: any) => {
+			getCompany('1').then((data: any) => {
 				updateCompanies(data.companies);
 			});
 		}

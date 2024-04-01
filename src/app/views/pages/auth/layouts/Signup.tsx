@@ -10,6 +10,7 @@ import {
 	type NetworkSettingState,
 	useNetworkSettingState,
 } from '../../../../data';
+import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 
 interface SignupForm {
 	name: string;
@@ -24,7 +25,7 @@ interface SignupForm {
 }
 
 const SignUpLayout: FC = () => {
-	const { signUpUser } = useAuthState();
+	const { signUpUser } = useRegisterAction();
 
 	const navigate = useNavigate();
 

@@ -6,14 +6,10 @@ import {
 	useModal,
 	type TableItem,
 } from '../../../../../../data';
-import {
-	ConfirmModal,
-	ModalTitleWrapper,
-	SourceCodeIcon,
-	TrashIcon,
-	TableV2,
-	BugIcon,
-} from '../../../../../components';
+import ConfirmModal from '@modals/ConfirmModal.tsx';
+import { TrashIcon, BugIcon, SourceCodeIcon } from '@icons';
+import { TableV2 } from '@table/tablev2.tsx';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import { AddRepositoryModal } from '../../../../../components/modals/adding-modals/AddRepositoryModal';
 
 interface SourceCodeProps {

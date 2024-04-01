@@ -8,12 +8,12 @@ import {
 import {
 	ChatBox,
 	MessageCard,
-	MessageIcon,
 	PageLoader,
-	Show,
 	SimpleSection,
 } from '../../../../../components';
 import SelectedTicket from '../supportProvider';
+import Show from '@defaults/Show.tsx';
+import { MessageIcon } from '@icons';
 
 export const SupportChatDisplay: FC = () => {
 	const { getOneTicket, isLoading, refetch } = useOneTicket();

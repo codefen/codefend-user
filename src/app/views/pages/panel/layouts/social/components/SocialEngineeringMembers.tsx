@@ -1,9 +1,6 @@
-import { type FC, type Dispatch, type SetStateAction } from 'react';
-import {
-	ChartIcon,
-	PeopleGroup,
-	SimpleSection,
-} from '../../../../../components';
+import { type FC } from 'react';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { PeopleGroupIcon, ChartIcon } from '@icons';
 import { type MemberV2, MetricsService, roleMap } from '../../../../../../data';
 
 interface SocialEngineeringMembersProps {
@@ -38,7 +35,7 @@ const SocialEngineeringMembers: FC<SocialEngineeringMembersProps> = ({
 								</div>
 								<div className="value">
 									<span className="icon-color">
-										<PeopleGroup />
+										<PeopleGroupIcon />
 									</span>
 									<span>
 										{

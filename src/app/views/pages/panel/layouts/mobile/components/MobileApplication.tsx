@@ -1,12 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { AppCard, EmptyScreenView, Show } from '../../../../../components';
+import { useEffect, useMemo, useState, type FC } from 'react';
+import { AppCard } from '@standalones/AppCard.tsx';
+import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
+import Show from '@defaults/Show.tsx';
+import { generateIDArray } from '@utils/helper.ts';
+import { type MobileApp } from '@interfaces/panel.ts';
 import {
-	type MobileApp,
-	type SelectMobileCloudApp,
-	generateIDArray,
 	useSelectMobileCloudApp,
-} from '../../../../../../data';
-import { MobileSelectedDetails } from './MobileSelectedDetails';
+	type SelectMobileCloudApp,
+} from '@stores/mobileCloudApp.store.ts';
+import { MobileSelectedDetails } from './MobileSelectedDetails.tsx';
 
 interface MobileApplicationProps {
 	openModal: () => void;
@@ -14,7 +16,7 @@ interface MobileApplicationProps {
 	isLoading: boolean;
 }
 
-export const MobileApplication: React.FC<MobileApplicationProps> = ({
+export const MobileApplication: FC<MobileApplicationProps> = ({
 	openModal,
 	mobileInfo,
 }) => {

@@ -8,7 +8,7 @@ import {
 	mobileUniqueProps,
 } from '..';
 import { toast } from 'react-toastify';
-import { AxiosHttpService } from '../services/http/axionHTTP.service';
+import { AxiosHttpService } from '../services/http/axiosHTTP.service';
 
 export interface RemoveAppStore {
 	isOpen: boolean;

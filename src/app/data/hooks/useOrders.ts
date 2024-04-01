@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import { useAuthState } from '.';
-import { OrderService } from '../services/order.service';
 import {
 	type CompanyResourcesID,
 	OrderFrequency,
@@ -9,43 +8,54 @@ import {
 	ScopeOption,
 	useOrderStore,
 } from '..';
-import { useRef, useState } from 'react';
-import { useFetcher } from './util/useFetcher';
+import { useRef } from 'react';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export const useOrders = () => {
 	const { getCompany } = useAuthState();
+	const [fetcher,_, isLoading] = useFetcher();
 	const { setScopeAllTotalResources, updateState } = useOrderStore(
 		(state) => state,
 	);
 
-	const fetcher = (companyID: string) => {
-		OrderService.getTotalResourceCount(companyID).then((res: any) => {
+	const fetchGetTotal = (companyID: string) => {
+		fetcher('post', {
+			body: {
+				model: 'resources/index',
+				size: 'full',
+				company_id: companyID,
+			},
+		}).then(({ data }: any) => {
 			const companyResourceIDs: CompanyResourcesID = {
-				web: res.resources_web
-					? res.resources_web.map((resource: any) => resource.id as string)
-					: [],
-				mobile: res.resources_mobile
-					? res.resources_mobile.map(
+				web: data.resources_web
+					? data.resources_web.map(
 							(resource: any) => resource.id as string,
 						)
 					: [],
-				social: res.resources_social
-					? res.resources_social.map(
+				mobile: data.resources_mobile
+					? data.resources_mobile.map(
 							(resource: any) => resource.id as string,
 						)
 					: [],
-				cloud: res.resources_cloud
-					? res.resources_cloud.map(
+				social: data.resources_social
+					? data.resources_social.map(
 							(resource: any) => resource.id as string,
 						)
 					: [],
-				source: res.resources_source
-					? res.resources_source.map(
+				cloud: data.resources_cloud
+					? data.resources_cloud.map(
 							(resource: any) => resource.id as string,
 						)
 					: [],
-				lan: res.resources_lan
-					? res.resources_lan.map((resource: any) => resource.id as string)
+				source: data.resources_source
+					? data.resources_source.map(
+							(resource: any) => resource.id as string,
+						)
+					: [],
+				lan: data.resources_lan
+					? data.resources_lan.map(
+							(resource: any) => resource.id as string,
+						)
 					: [],
 			};
 
@@ -69,17 +79,18 @@ export const useOrders = () => {
 			return;
 		}
 
-		fetcher(companyID);
+		fetchGetTotal(companyID);
 	};
 
 	return { refetchTotal };
 };
 
 export const useOrderScope = () => {
+	const [fetcher, _, isLoading] = useFetcher();
 	const { getCompany } = useAuthState();
 	const { companyResourceIDs } = useOrderStore((state) => state);
 
-	const fetcher = (companyID: string, resourceScope: string) => {
+	const fetchScope = (companyID: string, resourceScope: string) => {
 		let resourcesID: string = '';
 
 		if (resourceScope === 'full') {
@@ -106,17 +117,23 @@ export const useOrderScope = () => {
 			resourcesID = `lan:${companyResourceIDs.lan.join(',')};`;
 		}
 
-		return OrderService.sendOrderScope(
-			companyID,
-			resourceScope.trim(),
-			resourcesID,
-		).then((res: any) => {
-			if(Number(res.error) === 1){
-				throw new Error("An error has occurred with the");
-			}
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'scope',
+				company_id: companyID,
+				resources_class: resourceScope.trim(),
+				resources_ids: resourcesID,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
+				}
 
-			return res;
-		}).catch((error: Error)=> toast.error(error.message));
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	const sendScopeOrders = (resourceScope: string) => {
@@ -126,7 +143,7 @@ export const useOrderScope = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, resourceScope);
+		return fetchScope(companyID, resourceScope);
 	};
 
 	return { sendScopeOrders };
@@ -134,22 +151,29 @@ export const useOrderScope = () => {
 
 export const useOrderMembership = () => {
 	const { getCompany } = useAuthState();
+	const [fetcher, _] = useFetcher();
 
-	const fetcher = (
+	const fetchmemberShip = (
 		companyID: string,
 		referenceNumber: string,
 		memberShip: string,
 	) => {
-		return OrderService.sendMemberShip(
-			companyID,
-			referenceNumber,
-			memberShip,
-		).then((res: any) => {
-			if(Number(res.error) === 1){
-				throw new Error("An error has occurred with the");
-			}
-			return res;
-		}).catch((error: Error)=> toast.error(error.message));
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'membership',
+				company_id: companyID,
+				reference_number: referenceNumber,
+				membership: memberShip,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
+				}
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	const sendMemberShip = (memberShip: string, referenceNumber: string) => {
@@ -159,7 +183,7 @@ export const useOrderMembership = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, referenceNumber, memberShip);
+		return fetchmemberShip(companyID, referenceNumber, memberShip);
 	};
 
 	return { sendMemberShip };
@@ -167,24 +191,31 @@ export const useOrderMembership = () => {
 
 export const useOrderPlan = () => {
 	const { getCompany } = useAuthState();
+	const [fetcher, _] = useFetcher();
 
-	const fetcher = (
+	const fetchPlan = (
 		companyID: string,
 		referenceNumber: string,
 		chosenPlan: string,
 		chosenPrice: string,
 	) => {
-		return OrderService.sendOrderPlan(
-			companyID,
-			referenceNumber,
-			chosenPrice,
-			chosenPlan,
-		).then((res: any) => {
-			if(Number(res.error) === 1){
-				throw new Error("An error has occurred with the");
-			}
-			return res;
-		}).catch((error: Error)=> toast.error(error.message));
+		fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'plan',
+				company_id: companyID,
+				reference_number: referenceNumber,
+				chosen_plan: chosenPlan,
+				chosen_plan_price: chosenPrice,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
+				}
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	const sendPlanTeamSize = (
@@ -198,7 +229,7 @@ export const useOrderPlan = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, referenceNumber, chosenPlan, chosenPrice);
+		return fetchPlan(companyID, referenceNumber, chosenPlan, chosenPrice);
 	};
 
 	const getCurrentPrices = (referenceNumber: string) => {
@@ -208,12 +239,22 @@ export const useOrderPlan = () => {
 			return Promise.resolve(false);
 		}
 
-		return OrderService.getCurrentPrices(companyID, referenceNumber).then((res: any) => {
-			if(Number(res.error) === 1){
-				throw new Error("An error has occurred with the");
-			}
-			return res;
-		}).catch((error: Error)=> toast.error(error.message));
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'plan',
+				company_id: companyID,
+				reference_number: referenceNumber,
+				show: 'prices',
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
+				}
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	return { sendPlanTeamSize, getCurrentPrices };
@@ -229,7 +270,7 @@ export const useOrderConfirm = () => {
 		updateState,
 		referenceNumber,
 	} = useOrderStore((state: OrderStore) => state);
-
+	const [fetcher, _] = useFetcher();
 	const resourcesText =
 		scope.scopeOption === ScopeOption.ALL
 			? 'All company '
@@ -250,16 +291,23 @@ export const useOrderConfirm = () => {
 	if (teamSize === OrderTeamSize.MID) teamSizeText = 'Medium team';
 	if (teamSize === OrderTeamSize.FULL) teamSizeText = 'Full team';
 
-	const fetcher = (companyID: string, referenceNumber: string) => {
-		return OrderService.sendOrderConfirm(companyID, referenceNumber).then(
-			(res: any) => {
-				if(Number(res.error) === 1){
-					throw new Error("An error has occurred with the");
+	const fetchConfirm = (companyID: string, referenceNumber: string) => {
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'confirm',
+				company_id: companyID,
+				reference_number: referenceNumber,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
 				}
 
-				return res;
-			},
-		).catch((error: Error)=> toast.error(error.message));
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	const sendConfirmOrder = () => {
@@ -269,7 +317,7 @@ export const useOrderConfirm = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, referenceNumber);
+		return fetchConfirm(companyID, referenceNumber);
 	};
 
 	return {
@@ -284,16 +332,30 @@ export const useOrderConfirm = () => {
 
 export const useOrderProvider = () => {
 	const { getCompany } = useAuthState();
+	const [fetcher, _] = useFetcher();
 
-	const fetcher = (companyID: string, referenceNumber: string, providerID:string) => {
-		return OrderService.sendOrderProvider(companyID, referenceNumber, providerID).then(
-			(res: any) => {
-				if(Number(res.error) === 1){
-					throw new Error("An error has occurred with the");
+	const fetchProviders = (
+		companyID: string,
+		referenceNumber: string,
+		providerID: string,
+	) => {
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'providers',
+				company_id: companyID,
+				reference_number: referenceNumber,
+				provider_class: 'user',
+				provider_id: providerID,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
 				}
-				return res;
-			}
-		).catch((error: Error)=> toast.error(error.message));
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	const sendOrderProvider = (referenceNumber: string, providerID: string) => {
@@ -303,7 +365,7 @@ export const useOrderProvider = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, referenceNumber, providerID);
+		return fetchProviders(companyID, referenceNumber, providerID);
 	};
 
 	const getCurrentProviders = (referenceNumber: string) => {
@@ -312,43 +374,64 @@ export const useOrderProvider = () => {
 			toast.error('User information was not found');
 			return Promise.resolve(false);
 		}
-
-		return OrderService.getCurrentProviders(companyID, referenceNumber).then(
-			(res: any) => {
-				if(Number(res.error) === 1){
-					throw new Error("An error has occurred with the");
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'providers',
+				company_id: companyID,
+				reference_number: referenceNumber,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
 				}
-				return res;
-			}
-		).catch((error: Error)=> toast.error(error.message));
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	return { sendOrderProvider, getCurrentProviders };
 };
 
-
 export const useOrderOffensive = () => {
 	const { getCompany } = useAuthState();
+	const [fetcher, _] = useFetcher();
 
-	const fetcher = (companyID: string, referenceNumber: string, offensiveness:string) => {
-		return OrderService.sendOrderOffensive(companyID, referenceNumber, offensiveness).then(
-			(res: any) => {
-				if(Number(res.error) === 1){
-					throw new Error("An error has occurred with the");
+	const fetchOffensive = (
+		companyID: string,
+		referenceNumber: string,
+		offensiveness: string,
+	) => {
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'offensiveness',
+				company_id: companyID,
+				reference_number: referenceNumber,
+				offensiveness: offensiveness,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
 				}
-				return res;
-			}
-		).catch((error: Error)=> toast.error(error.message));
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
-	const sendOrderProvider = (referenceNumber: string, offensiveness: string) => {
+	const sendOrderProvider = (
+		referenceNumber: string,
+		offensiveness: string,
+	) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, referenceNumber, offensiveness);
+		return fetchOffensive(companyID, referenceNumber, offensiveness);
 	};
 
 	return { sendOrderProvider };
@@ -356,16 +439,28 @@ export const useOrderOffensive = () => {
 
 export const userOrderProviderInfo = () => {
 	const { getCompany } = useAuthState();
-
-	const fetcher = (companyID: string, referenceNumber: string, info:string) => {
-		return OrderService.sendOrderProviderInfo(companyID, referenceNumber, info).then(
-			(res: any) => {
-				if(Number(res.error) === 1){
-					throw new Error("An error has occurred with the");
+	const [fetcher, _] = useFetcher();
+	const fetchProviderInfo = (
+		companyID: string,
+		referenceNumber: string,
+		providerInfo: string,
+	) => {
+		return fetcher('post', {
+			body: {
+				model: 'orders/add',
+				phase: 'provider_info',
+				company_id: companyID,
+				reference_number: referenceNumber,
+				provider_info: providerInfo,
+			},
+		})
+			.then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
 				}
-				return res;
-			}
-		).catch((error: Error)=> toast.error(error.message));
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	const sendOrderProviderInfo = (referenceNumber: string, info: string) => {
@@ -375,7 +470,7 @@ export const userOrderProviderInfo = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, referenceNumber, info);
+		return fetchProviderInfo(companyID, referenceNumber, info);
 	};
 
 	return { sendOrderProviderInfo };
@@ -383,16 +478,27 @@ export const userOrderProviderInfo = () => {
 
 export const userOrderFinancialResource = () => {
 	const { getCompany } = useAuthState();
-
-	const fetcher = (companyID: string, referenceNumber: string, financial: string) => {
-		return OrderService.sendOrderFinancial(companyID, referenceNumber, financial).then(
-			(res: any) => {
-				if(Number(res.error) === 1){
-					throw new Error("An error has occurred with the");
-				}
-				return res;
+	const [fetcher, _] = useFetcher();
+	const fetchFinancial = (
+		companyID: string,
+		referenceNumber: string,
+		financial: string,
+	) => {
+		return fetcher("post", {
+			body: {
+				model: "orders/add",
+				phase: "financial",
+				company_id: companyID,
+				reference_number: referenceNumber,
+				financial_resource: financial
 			}
-		).catch((error: Error)=> toast.error(error.message));
+		}).then(({ data }: any) => {
+				if (Number(data.error) === 1) {
+					throw new Error('An error has occurred with the');
+				}
+				return data;
+			})
+			.catch((error: Error) => toast.error(error.message));
 	};
 
 	const sendOrderFinancial = (referenceNumber: string, financial: string) => {
@@ -402,7 +508,7 @@ export const userOrderFinancialResource = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetcher(companyID, referenceNumber, financial);
+		return fetchFinancial(companyID, referenceNumber, financial);
 	};
 
 	return { sendOrderFinancial };
@@ -413,37 +519,57 @@ export interface OrderCryptoFinancial {
 	qrCode: string;
 }
 
-export const useOrderCryptoFinancial = ()=>{
+export const useOrderCryptoFinancial = () => {
 	const [fetcher] = useFetcher();
 	const { getCompany } = useAuthState();
-	const cryptoBtc = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
-	const cryptoEth = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
-	const cryptoLtc = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
-	const cryptoMonero = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
-	const cryptoSol = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
-	const cryptoUsdT = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
-	const cryptoUsdC = useRef<OrderCryptoFinancial>({walletID: "", qrCode: ""});
+	const cryptoBtc = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
+	const cryptoEth = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
+	const cryptoLtc = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
+	const cryptoMonero = useRef<OrderCryptoFinancial>({
+		walletID: '',
+		qrCode: '',
+	});
+	const cryptoSol = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
+	const cryptoUsdT = useRef<OrderCryptoFinancial>({
+		walletID: '',
+		qrCode: '',
+	});
+	const cryptoUsdC = useRef<OrderCryptoFinancial>({
+		walletID: '',
+		qrCode: '',
+	});
 
-	const getCryptoFinancialInfo = (referenceNumber: string, crypto: string)=> {
-		fetcher("post", {
+	const getCryptoFinancialInfo = (referenceNumber: string, crypto: string) => {
+		fetcher('post', {
 			body: {
-				model: "orders/add",
-				phase: "financial",
+				model: 'orders/add',
+				phase: 'financial',
 				company_id: getCompany(),
 				reference_number: referenceNumber,
-				financial_resource: crypto
-			}
-		}).then((res: any)=>{
-			if(Number(res.error) === 1){
-				throw new Error("An error has occurred with the");
-			}
+				financial_resource: crypto,
+			},
+		})
+			.then((res: any) => {
+				if (Number(res.error) === 1) {
+					throw new Error('An error has occurred with the');
+				}
 
-			console.log({ res });
-		}).catch((error: Error)=> toast.error(error.message));
-	}
+				console.log({ res });
+			})
+			.catch((error: Error) => toast.error(error.message));
+	};
 
-	return { getCryptoFinancialInfo, cryptoEth, cryptoBtc, cryptoLtc, cryptoMonero, cryptoSol, cryptoUsdT, cryptoUsdC };
-}
+	return {
+		getCryptoFinancialInfo,
+		cryptoEth,
+		cryptoBtc,
+		cryptoLtc,
+		cryptoMonero,
+		cryptoSol,
+		cryptoUsdT,
+		cryptoUsdC,
+	};
+};
 
 /*
 export const useOrderCryptoSave = (cryptoAddress: string)=>{

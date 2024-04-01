@@ -1,7 +1,7 @@
 import { useState, type FC, useEffect } from 'react';
-import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard';
-import { useProviderSidebar } from '../../../../../../../data';
 import { useParams } from 'react-router';
+import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard.tsx';
+import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 
 export const OrdersReviewProviders: FC = () => {
 	const { view } = useParams();

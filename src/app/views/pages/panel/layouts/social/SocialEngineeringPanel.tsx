@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useOrderStore, useShowScreen, useSocial } from '../../../../../data';
-import SocialEngineering from './components/SocialEngineering';
-import SocialEngineeringMembers from './components/SocialEngineeringMembers';
+import { useOrderStore } from '@stores/orders.store.ts';
+import SocialEngineering from './components/SocialEngineering.tsx';
+import SocialEngineeringMembers from './components/SocialEngineeringMembers.tsx';
+import { useFlashlight } from '../../FlashLightContext.tsx';
+import { OrderV2 } from '@modals/order/Orderv2.tsx';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
-import { useFlashlight } from '../../FlashLightContext';
-import { OrderV2, PrimaryButton } from '../../../../components';
 
 const SocialEngineeringView = () => {
 	const [showScreen] = useShowScreen();

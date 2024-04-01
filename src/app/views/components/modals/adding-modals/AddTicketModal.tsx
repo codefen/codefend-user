@@ -1,6 +1,7 @@
-import { useAddTicket } from '../../../../data';
 import { type FC, useRef } from 'react';
-import { GlobeWebIcon, ModalButtons, PencilIcon } from '../..';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { GlobeWebIcon, PencilIcon } from '@icons';
+import { useAddTicket } from '@panelHooks/support/useSupport.ts';
 
 interface AddTicketModalProps {
 	close: () => void;

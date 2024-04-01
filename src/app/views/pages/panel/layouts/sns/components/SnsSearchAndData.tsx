@@ -1,12 +1,10 @@
 import { type FC, useEffect, type ChangeEvent } from 'react';
-import {
-	PageLoader,
-	ScanSearchIcon,
-	SearchBar,
-	Show,
-} from '../../../../../../views/components';
+import { SearchBar } from '../../../../../../views/components';
+import { ScanSearchIcon } from '@icons';
 import Masonry from 'react-masonry-css';
-import { useSns } from '../../../../../../data';
+import { useSns } from '@moduleHooks/sns/useSns.ts';
+import Show from '@defaults/Show.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
 
 const SnsSearchAndData: FC = () => {
 	const {

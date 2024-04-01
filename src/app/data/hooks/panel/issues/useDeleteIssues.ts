@@ -1,6 +1,6 @@
 import { useAuthState } from '../../../';
 import { toast } from 'react-toastify';
-import { useFetcher } from '../../util/useFetcher';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 /* Custom Hook "useDeleteIssue" to handle the "deletion" of an issue */
 export const useDeleteIssue = () => {

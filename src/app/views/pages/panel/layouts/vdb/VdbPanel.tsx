@@ -1,7 +1,7 @@
 import { type FC } from 'react';
-import { VdbPreviousSearches } from './components/VdbPreviousSearches';
-import { VdbSearchData } from './components/VdbSearchData';
-import { useShowScreen } from '../../../../../data';
+import { VdbPreviousSearches } from './components/VdbPreviousSearches.tsx';
+import { VdbSearchData } from './components/VdbSearchData.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import './vdb.scss';
 
 const VdbPanel: FC = () => {

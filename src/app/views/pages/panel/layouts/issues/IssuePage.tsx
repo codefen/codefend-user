@@ -1,7 +1,8 @@
 import { type FC, Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { useScript } from 'usehooks-ts';
-import { PageLoader, Show } from '../../../../components';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
 import './issues.scss';
 
 const IssuePage: FC = () => {

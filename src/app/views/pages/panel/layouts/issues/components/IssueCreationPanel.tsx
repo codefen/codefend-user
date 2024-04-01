@@ -7,7 +7,7 @@ import {
 } from '../../../../../../data';
 import { useTheme } from '../../../../../ThemeContext';
 import {
-	LeftArrow,
+	LeftArrowIcon,
 	PageLoaderOverlay,
 	SaveIcon,
 	Show,
@@ -122,7 +122,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 					onClick={() => {
 						type ? navigate(-1) : navigate('/issues');
 					}}>
-					<LeftArrow isButton />
+					<LeftArrowIcon isButton />
 				</div>
 				<input
 					className="add-issues"

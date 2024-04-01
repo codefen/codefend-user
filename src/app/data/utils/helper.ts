@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 /** Gets token in localStorage */
 export const getToken = () => {
 	const storeJson = localStorage.getItem('authStore') ?? '';
-	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+	const store = storeJson ? JSON.parse(storeJson) : {};
 	return store ? store.state.accessToken  : "";
 };
 /** Gets company id in localStorage */
@@ -46,6 +46,7 @@ export const setCustomBaseAPi = (baseApi: string) =>
 export const deleteCustomBaseAPi = () =>
 	window.localStorage.removeItem('baseApi');
 
+/** check if it is running on tauri on web  */
 export const RUNNING_DESKTOP = (): boolean => {
 	return window.__TAURI__ !== undefined;
 };
@@ -121,8 +122,6 @@ export const cleanReview = (source: string): string => {
 
 /**
  * Compare the equality of two objects
- * @param first 
- * @param second 
  */
 export const equalsObj = (first: any, second: any): boolean =>{
 	const bothAreNull = !first || !second;
@@ -153,8 +152,6 @@ export const equalsObj = (first: any, second: any): boolean =>{
 
 /**
  * Compare the equality of two values
- * @param first 
- * @param second 
  */
 export const equalsValues = (first: any, second: any)=>{
 	return first === second;
@@ -242,3 +239,137 @@ export const formatToMonthYear = (dateString: string)=> {
   
 	return `${month} ${year}`;
   }
+
+  export const formatKeyName = (key: any)=> {
+	return key
+		.split('_')
+		.map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(' ');
+}
+
+export const processScans = (scans: any)=> {
+	const groupedScans = scans.reduce((acc: any, scan: any) => {
+		const macAddress = scan.device_mac_address;
+		if (!acc[macAddress]) {
+			acc[macAddress] = [];
+		}
+		acc[macAddress].push(scan);
+		return acc;
+	}, {});
+
+	return Object.values(groupedScans).map((scans: any) => {
+		const latestScan = scans.sort((a: any, b: any) => {
+			return (
+				new Date(b.creacion).getTime() - new Date(a.creacion).getTime()
+			);
+		})[0];
+
+		latestScan.additionalScans = scans.length - 1;
+		return latestScan;
+	});
+}
+
+export const isScanComplianceValid = (scan: any)=> {
+	if (!scan.report_data) {
+		return false;
+	}
+
+	try {
+		JSON.parse(scan.report_data);
+		return true;
+	} catch (err) {
+		return false;
+	}
+}
+
+export const  processCompliance = (scan: any)=> {
+	if (!scan.report_data) {
+		return 0;
+	}
+
+	try {
+		const report = JSON.parse(scan.report_data);
+
+		for (const key in report) {
+			if (report.hasOwnProperty(key)) {
+				const value = report[key];
+				if (Array.isArray(value)) {
+					if (value.length === 0) {
+						return 0;
+					}
+				} else if (typeof value === 'boolean' && !value) {
+					return 0;
+				}
+			}
+		}
+
+		return 1;
+	} catch (err) {
+		return 0;
+	}
+}
+
+export const extractCWEID = (text: string)=> {
+	if (!text) {
+		return 0;
+	}
+	var pattern = /CWE-(\d+)/;
+
+	var match = text.match(pattern);
+
+	if (match !== null) {
+		return match[1];
+	} else {
+		return 'CWE ID not found.';
+	}
+}
+
+export const compareVersions = (versionA: any, versionB: any)=> {
+	if (!versionA) return -1;
+	if (!versionB) return 0;
+
+	const partsA = versionA.split('.').map(Number);
+	const partsB = versionB.split('.').map(Number);
+
+	const maxLength = Math.max(partsA.length, partsB.length);
+
+	for (let i = 0; i < maxLength; i++) {
+		const partA = partsA[i] || 0;
+		const partB = partsB[i] || 0;
+
+		if (partA > partB) return 1;
+		if (partA < partB) return -1;
+	}
+
+	return 0;
+}
+
+export const mapScoreToWord = (score: number)=> {
+	const mapping: { [key: number]: string } = {
+		0: '?',
+		1: 'intel',
+		2: 'low',
+		3: 'medium',
+		4: 'elevated',
+		5: 'critical',
+	};
+
+	return mapping[score] || '?';
+}
+
+export const highlightToBeforeAfterMatch = (title: string, appName: string)=> {
+	const lowerCaseTitle = title.toLowerCase();
+	const lowerCaseAppName = appName.toLowerCase();
+
+	if (!lowerCaseTitle.includes(lowerCaseAppName)) {
+		return {before: undefined, match: undefined, after: undefined, title: title};
+	}
+
+	const index = lowerCaseTitle.indexOf(lowerCaseAppName);
+
+	const before = title.substring(0, index);
+	const match = title.substring(index, index + appName.length);
+	const after = title.substring(index + appName.length);
+
+	return {before, match, after, title: undefined};
+}

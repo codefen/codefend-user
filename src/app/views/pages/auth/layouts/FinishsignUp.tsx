@@ -5,9 +5,10 @@ import { toast } from 'react-toastify';
 
 import { PrimaryButton } from '../../../components';
 import { useAuthState, type RegisterFinishParams } from '../../../../data';
+import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 
 const FinishSignUpLayout: FC = () => {
-	const { signUpFinish } = useAuthState();
+	const { signUpFinish } = useRegisterAction();
 
 	const [userState, setUserState] = useState({
 		email: '',

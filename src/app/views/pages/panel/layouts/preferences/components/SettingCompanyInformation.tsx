@@ -1,11 +1,11 @@
-import React from 'react';
+import { type FC } from 'react';
 import { type CompanyInfo, usePreferences } from '../../../../../../data';
 
 interface CompanyDataProps {
 	companyInfo: CompanyInfo | '';
 }
 
-const SettingCompanyInformation: React.FC<CompanyDataProps> = () => {
+const SettingCompanyInformation: FC<CompanyDataProps> = () => {
 	const { company } = usePreferences();
 
 	const getCompanyData = () => {

@@ -1,6 +1,11 @@
 import { type StateCreator, create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { AuthServices, type User, useAdminCompanyStore } from '..';
+import {
+	type User,
+	decodePayload,
+	mapLoginResponseToUser,
+} from '..';
+import { AxiosHttpService } from '../services/http/axiosHTTP.service';
 
 export interface AuthState {
 	userData: User;
@@ -38,11 +43,30 @@ const useAuthStore = create<AuthState>()(
 			isAuth: false,
 			accessToken: '',
 			login: (loginParams: any) => {
-				return AuthServices.login(loginParams)
-					.then(({ user, token, response, message }) => {
-						if (response !== 'success') throw new Error(message);
+				const fetchcer = AxiosHttpService.getInstance();
+				return fetchcer
+					.post<any>({
+						body: {
+							provided_password: loginParams.password,
+							provided_email: loginParams.email,
+							model: 'users/access',
+						},
+					})
+					.then(({ data }: any) => {
+						if (data.response !== 'success')
+							throw new Error(data.message);
+						if (!data.user)
+							throw new Error('An unexpected error has ocurred');
 
-						if (!user) throw new Error('An unexpected error has ocurred');
+						const token = data.session as string;
+						let user = {} as User;
+						if (token) {
+							const decodedToken = decodePayload(token);
+							user = {
+								...mapLoginResponseToUser(data.user),
+								exp: decodedToken.exp || 0,
+							};
+						}
 
 						set((prev: AuthState) => ({
 							...prev,
@@ -50,18 +74,19 @@ const useAuthStore = create<AuthState>()(
 							accessToken: token,
 							isAuth: true,
 						}));
-						return { user , error: false };
+						return { user, error: false };
 					})
-					.catch((error: Error) => ({
-						error: true,
-						message: error.message,
-						type: error.name,
-					}));
+					.catch((e) => ({ error: true, message: e.message }));
 			},
 			logout: () => set({ user: null, isAuth: false, accessToken: '' }),
-			register: (registroParams: any) => {
-				return AuthServices.register(registroParams)
-					.then(({ data }) => {
+			register: (registerParams: any) => {
+				const fetchcer = AxiosHttpService.getInstance();
+				return fetchcer.post<any>({
+						body: {
+							model: 'users/new',
+							...registerParams,
+						},
+					}).then(({ data }: any) => {
 						if (data.response !== 'success') {
 							throw new Error(data.error);
 						}
@@ -73,7 +98,14 @@ const useAuthStore = create<AuthState>()(
 					}));
 			},
 			registerFinish: (finishParams: any) => {
-				return AuthServices.registerFinish(finishParams)
+				const fetchcer = AxiosHttpService.getInstance();
+				return fetchcer.post<any>({
+						body: {
+							model: 'users/new',
+							phase: 2,
+							...finishParams,
+						},
+					})
 					.then(({ data }: any) => {
 						if (data.response !== 'success') {
 							throw new Error(data.error);

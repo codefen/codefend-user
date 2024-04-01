@@ -1,6 +1,6 @@
 import type { User } from '../../../';
-import { type Fetcher } from '../../util/useFetcher';
 import { toast } from 'react-toastify';
+import { type Fetcher } from '#commonHooks/useFetcher.ts';
 
 export const useAddSupportMessage = (
 	message: string,

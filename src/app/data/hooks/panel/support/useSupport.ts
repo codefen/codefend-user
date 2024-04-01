@@ -6,7 +6,7 @@ import {
 import { useAuthState } from '../..';
 import { toast } from 'react-toastify';
 import { useCallback, useRef, useState } from 'react';
-import { useFetcher } from '../../util/useFetcher';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 /* Custom Hook "useAllTicket" to retrieve all tickets in customer support view*/
 export const useAllTicket = () => {

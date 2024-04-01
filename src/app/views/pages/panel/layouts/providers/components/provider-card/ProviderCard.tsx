@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { ProfileMedia, StarRating } from '../../../../../../components';
+import { StarRating } from '@standalones/utils/StarRating.tsx';
+import { ProfileMedia } from '@standalones/utils/ProfileMedia.tsx';
 import './providercard.scss';
 
 interface ProviderCardProps {

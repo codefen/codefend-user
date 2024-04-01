@@ -5,20 +5,18 @@ import {
 	VulnerabilityRisk,
 	VulnerabilitiesStatus,
 	IssuesPanelMobileAndCloud,
-	PageLoader,
-	Show,
-	PrimaryButton,
-	OrderV2,
 } from '../../../../../components';
 import {
 	type IssuesCondition,
 	type IssuesShare,
 	type MobileApp,
 	type SelectMobileCloudApp,
-	useModal,
 	useOrderStore,
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import Show from '@defaults/Show.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
 
 export const MobileSelectedDetails: React.FC = (props) => {
 	const [isLoading, setLoading] = useState<boolean>(false);

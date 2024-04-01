@@ -1,5 +1,6 @@
 import { type FC } from 'react';
-import { SearchIcon, SimpleSection } from '../../../../../components';
+import { SearchIcon } from '@icons';
+import { SimpleSection } from '@defaults/SimpleSection';
 
 export const SourceCodeCollab: FC = () => {
 	return (

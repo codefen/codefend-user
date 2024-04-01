@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import { type OneIssue, mapLoginResponseToUser, mapOneIssue, useAuthState } from '../../../';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
-import { useFetcher } from '../../util/useFetcher';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {

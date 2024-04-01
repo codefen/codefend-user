@@ -9,7 +9,7 @@ import {
 	GlobeWebIcon,
 	InxIcon,
 	MobileIcon,
-	PeopleGroup,
+	PeopleGroupIcon,
 	SnbIcon,
 	VdbIcon,
 	SourceCodeIcon,
@@ -138,7 +138,7 @@ const Sidebar: FC = () => {
 						className={`${isActivePath('/social') ? 'active' : ''}`}
 						aria-label="Social Engineering"
 						data-text="Social Engineering">
-						<PeopleGroup />
+						<PeopleGroupIcon />
 					</Link>
 
 					<Link
