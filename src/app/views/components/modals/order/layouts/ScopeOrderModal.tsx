@@ -79,7 +79,7 @@ export const ScopeOrderModal: FC = () => {
 								{' '}
 								I want to analyze all my team {resourceType.valueOf()}{' '}
 								resources
-								<span className="codefend-text-red order-dash-space">
+								<span className="alt-color order-dash-space">
 									- {scope.totalResources} resources:
 								</span>
 							</p>
@@ -107,7 +107,7 @@ export const ScopeOrderModal: FC = () => {
 							<p>
 								{' '}
 								I want to analyze all my team resources{' '}
-								<span className="codefend-text-red order-dash-space">
+								<span className="alt-color order-dash-space">
 									{' '}
 									- {scope.totalAllResources} resources:
 								</span>
