@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 export const useEnpGetScans  =()=>{
     const { getCompany } = useAuthState();
     const [fetcher,_, isLoading] = useFetcher();
-	const dataRef = useRef<any>();
+	const dataRef = useRef<any[]>([]);
 	const [scansFiltered, setScansFiltered] = useState<any[]>([]);
 
 

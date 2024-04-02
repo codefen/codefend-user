@@ -32,7 +32,8 @@ export const useInitialSearch = () => {
 				ac: 'init_search',
 				term: term,
 				company_id: companyID,
-			}
+			},
+			insecure: true
 		}).then(({ data }: any) => {
 				data = JSON.parse(String(data).trim());
 

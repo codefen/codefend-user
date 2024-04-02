@@ -16,7 +16,7 @@ const CompanyIndexView: FC = () => {
 
 	useEffect(() => {
 		if (companies.length === 0) {
-			getCompany('1').then((data: any) => {
+			getCompany('1').then(({ data }: any) => {
 				updateCompanies(data.companies);
 			});
 		}

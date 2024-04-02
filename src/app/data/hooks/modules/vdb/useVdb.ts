@@ -24,10 +24,14 @@ export const useInitialVdb = () => {
 				company_id: companyID,
 				keyword: search,
 			},
+			insecure: true
 		}).then(({ data }: any) => {
-			vdbResults.current = data
+			vdbResults.current = Array.isArray(data)
 				? data.map((result: any) => mapVdbResultV2(result))
 				: [];
+			if(vdbResults.current){
+				toast.success("No search results found");
+			}
 		});
 	};
 

@@ -13,7 +13,7 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 	const fetchAdd = (companyID: string) => {
 		fetcher('post', {
 			body: {
-				model: 'resource/cloud',
+				model: 'resources/cloud',
 				ac: 'add',
 				company_id: companyID,
 				llave_1: '',

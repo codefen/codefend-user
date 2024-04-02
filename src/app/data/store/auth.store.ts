@@ -86,8 +86,9 @@ const useAuthStore = create<AuthState>()(
 							model: 'users/new',
 							...registerParams,
 						},
+						insecure: true
 					}).then(({ data }: any) => {
-						if (data.response !== 'success') {
+						if (data.response !== 'success' || data.error == "1") {
 							throw new Error(data.error);
 						}
 						return { error: false, ...data };

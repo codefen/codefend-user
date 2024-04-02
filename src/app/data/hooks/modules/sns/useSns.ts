@@ -46,14 +46,18 @@ export const useSns = ()=>{
                 keyword: searchData,
 				class: searchClass,
             }
-        }).then((res: any) => {
-            const arrayOfObjects = Object.entries(res.response.results).map(
+        }).then(({ data }: any) => {
+            const arrayOfObjects = Object.entries(data.response.results).map(
                 ([key, value]) => {
                     const name = key.split('_').slice(1, -2).join('_');
                     return { name, value: value as PersonInfo[] };
                 },
             );
             intelDataRef.current = arrayOfObjects;
+
+            if(arrayOfObjects.length === 0 || data.response.size == 0){
+                toast.success("No search results found");
+            }
         })
     }
 

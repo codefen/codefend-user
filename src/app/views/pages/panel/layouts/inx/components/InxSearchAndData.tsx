@@ -41,6 +41,7 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 		}
 
 		refetchInitial(companyID, term)?.then((res: any) => {
+			console.log({ res });
 			if (res.error == 1) return;
 
 			return procIntelSearch(res, false);
