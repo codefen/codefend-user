@@ -9,7 +9,7 @@ import {
 	useOrderStore,
 	CryptoPayment,
 } from '..';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export const useOrders = () => {
@@ -415,11 +415,14 @@ export const useOrderOffensive = () => {
 		})
 			.then(({ data }: any) => {
 				if (Number(data.error) === 1) {
-					throw new Error('An error has occurred with the');
+					throw new Error(String(data.info).startsWith("Order->offensiveness can only") ? "Can only be adversary if plan is full." : 'An error has occurred with the');
 				}
 				return data;
 			})
-			.catch((error: Error) => toast.error(error.message));
+			.catch((error: Error) => {
+				toast.error(error.message);
+				return {error: true}
+			});
 	};
 
 	const sendOrderProvider = (
@@ -517,16 +520,19 @@ export const userOrderFinancialResource = () => {
 
 export interface OrderCryptoFinancial {
 	walletID: string;
-	qrCode: string;
 	currencyActive: CryptoPayment;
 }
 
 export const useOrderCryptoFinancial = () => {
 	const [fetcher] = useFetcher();
 	const { getCompany } = useAuthState();
-	const walletActive = useRef<OrderCryptoFinancial>({ walletID: '. . .', qrCode: '', currencyActive: CryptoPayment.BITCOIN });
+	const [walletActive, setWallet] = useState<OrderCryptoFinancial>({ walletID: '. . .', currencyActive: CryptoPayment.BITCOIN });
+	const qrCode = useRef<string>();
 
 	const getCryptoFinancialInfo = (referenceNumber: string, crypto?: CryptoPayment) => {
+		qrCode.current =undefined;
+		setWallet(({walletID: "...", currencyActive: crypto || CryptoPayment.BITCOIN}));
+
 		fetcher('post', {
 			body: {
 				model: 'orders/add',
@@ -534,41 +540,68 @@ export const useOrderCryptoFinancial = () => {
 				company_id: getCompany(),
 				reference_number: referenceNumber,
 				cc_blockchain: crypto || "BTC",
-			},
-			insecure: true
+			}
 		})
-			.then((res: any) => {
+			.then(({data}: any) => {
 				
-				if (Number(res.error) === 1) {
+				if (Number(data.error) === 1) {
 					throw new Error('An error has occurred with the');
 				}
-
-				walletActive.current = {
-					walletID: res.cc.cc_address,
-					qrCode: res.cc.cc_address_qr,
+				setWallet({
+					walletID: data.cc.cc_address,
 					currencyActive: crypto || CryptoPayment.BITCOIN
-				}
+				});
+				qrCode.current = data.cc.cc_address_qr;
 			})
 			.catch((error: Error) => toast.error(error.message));
 	};
 
 	return {
 		getCryptoFinancialInfo,
-		walletActive
+		walletActive,
+		qrCode
 	};
 };
 
-/*
-export const useOrderCryptoSave = (cryptoAddress: string)=>{
+
+export const useOrderSaveCryptoPayment = ()=>{
+	const [fetcher] = useFetcher();
+	const { getCompany } = useAuthState();
 	const [copied, setCopied] = useState(false);
 	const [transactionID, setTransactionID] = useState('');
-	const [cryptoAddress, setC] = useState('');
 	const [trySend, setTrySend] = useState(false);
 
-	const copyTextToClipboard = () => {
+	const copyTextToClipboard = (cryptoAddress: string) => {
 		navigator.clipboard.writeText(cryptoAddress).then(() => {
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
 		});
 	};
-}*/
+
+	const saveCryptoPayment = (referenceNumber: string, crypto: string, address: string)=>{
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return Promise.resolve(false);
+		}
+		return fetcher("post", {
+			body: {
+				model: 'orders/add',
+				phase: 'financial_cc',
+				company_id: getCompany(),
+				reference_number: referenceNumber,
+				cc_blockchain: crypto,
+				cc_from_address: address,
+				cc_xfer_id: transactionID
+			},
+			insecure: true
+		}).then(({data}:any)=>{
+			if (Number(data.error) === 1) {
+				throw new Error('An error has occurred with the');
+			}
+			return data;
+		});
+	}
+
+	return {transactionID, trySend, copied, setTrySend, setTransactionID, copyTextToClipboard, saveCryptoPayment};
+}

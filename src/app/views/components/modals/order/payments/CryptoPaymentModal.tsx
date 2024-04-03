@@ -3,7 +3,9 @@ import {
 	CryptoPayment,
 	OrderSection,
 	OrderTeamSize,
+	formatWalletID,
 	useOrderCryptoFinancial,
+	useOrderSaveCryptoPayment,
 	useOrderStore,
 } from '../../../../../data';
 import { CopiedIcon, CopyIcon, PrimaryButton } from '../../..';
@@ -13,24 +15,21 @@ export const CryptoPaymentModal = () => {
 		(state) => state,
 	);
 
-	const { getCryptoFinancialInfo, walletActive } = useOrderCryptoFinancial();
+	const { getCryptoFinancialInfo, walletActive, qrCode } =
+		useOrderCryptoFinancial();
+	const {
+		copied,
+		trySend,
+		transactionID,
+		setTrySend,
+		setTransactionID,
+		copyTextToClipboard,
+		saveCryptoPayment,
+	} = useOrderSaveCryptoPayment();
 
 	useEffect(() => {
 		getCryptoFinancialInfo(referenceNumber);
 	}, []);
-
-	const [copied, setCopied] = useState(false);
-	const [transactionID, setTransactionID] = useState('');
-	const [trySend, setTrySend] = useState(false);
-
-	const [crypto, setCrypto] = useState<CryptoPayment>(CryptoPayment.BITCOIN);
-
-	const copyTextToClipboard = () => {
-		navigator.clipboard.writeText(walletActive.current.walletID).then(() => {
-			setCopied(true);
-			setTimeout(() => setCopied(false), 2000);
-		});
-	};
 
 	const finalPrice = () => {
 		if (teamSize === OrderTeamSize.SMALL) return '$1,500';
@@ -43,9 +42,18 @@ export const CryptoPaymentModal = () => {
 	};
 
 	const finishStep = () => {
-		let someActionWithThis = transactionID;
-		setTrySend(true);
-		setTimeout(() => setTrySend(false), 2300);
+		if (transactionID) {
+			saveCryptoPayment(
+				referenceNumber,
+				walletActive.currencyActive,
+				walletActive.walletID,
+			).then(() => {
+				updateState('orderStepActive', OrderSection.WELCOME);
+			});
+		} else {
+			setTrySend(true);
+			setTimeout(() => setTrySend(false), 2000);
+		}
 	};
 
 	const values = {
@@ -57,7 +65,9 @@ export const CryptoPaymentModal = () => {
 		[CryptoPayment.USDC.valueOf()]: CryptoPayment.USDC,
 		[CryptoPayment.USDT.valueOf()]: CryptoPayment.USDT,
 	};
-
+	const qrCodeActive = qrCode.current
+		? `data:image/png;base64, ${qrCode.current}`
+		: '/codefend/QR.svg';
 	return (
 		<>
 			<div className="step-header">
@@ -77,9 +87,12 @@ export const CryptoPaymentModal = () => {
 									key={i}
 									src={`/codefend/${coin.toLowerCase()}.svg`}
 									alt={coin.toLowerCase()}
-									className={`${crypto.valueOf() === coin && 'selected-crypto'}`}
+									className={`${walletActive.currencyActive.valueOf() === coin && 'selected-crypto'}`}
 									onClick={() => {
-										setCrypto(values[coin]);
+										getCryptoFinancialInfo(
+											referenceNumber,
+											values[coin],
+										);
 									}}
 								/>
 							</Fragment>
@@ -89,9 +102,9 @@ export const CryptoPaymentModal = () => {
 				<div className="payment-details">
 					<div className="qrcode">
 						<img
-							src="/codefend/QR.svg"
+							src={qrCodeActive}
 							alt="qrcode-icon"
-							className="qr-img"
+							className={`qr-img ${!qrCode.current && 'overlay'}`}
 						/>
 					</div>
 					<div className="details space">
@@ -104,12 +117,16 @@ export const CryptoPaymentModal = () => {
 
 						<div className="address-container select-option">
 							<span className="address-text">
-								{walletActive.current.walletID}
+								{walletActive.walletID !== '. . .'
+									? formatWalletID(walletActive.walletID)
+									: walletActive.walletID}
 							</span>
 
 							<div
 								className={`copy-icon order-pointer ${copied && 'copied'}`}
-								onClick={copyTextToClipboard}>
+								onClick={() =>
+									copyTextToClipboard(walletActive.walletID)
+								}>
 								{copied ? (
 									<CopiedIcon width={1.25} height={1.25} />
 								) : (

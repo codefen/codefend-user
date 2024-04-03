@@ -18,8 +18,11 @@ export const OffensiveOrderModal: FC = () => {
 
 	const nextStep = () => {
 		updateState('offensiveOrder', offensiveOrderW);
-		sendOrderProvider(referenceNumber, offensiveOrderW);
-		updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
+		sendOrderProvider(referenceNumber, offensiveOrderW).then((data: any) => {
+			if (data.error == 0) {
+				updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
+			}
+		});
 	};
 
 	return (
@@ -43,7 +46,7 @@ export const OffensiveOrderModal: FC = () => {
 					<img
 						src="/codefend/pentest-careful.png"
 						alt="careful-pentest-icon"
-						className='step-image enviroment'
+						className="step-image enviroment"
 					/>
 
 					<div className="order-snapshot">
@@ -72,7 +75,7 @@ export const OffensiveOrderModal: FC = () => {
 					<img
 						src="/codefend/pentest-offensive.png"
 						alt="offensive-pentest-icon"
-						className='step-image enviroment'
+						className="step-image enviroment"
 					/>
 
 					<div className="order-snapshot">
@@ -100,7 +103,7 @@ export const OffensiveOrderModal: FC = () => {
 					<img
 						src="/codefend/pentest-adversary.png"
 						alt="adversary-pentest-icon"
-						className='step-image enviroment'
+						className="step-image enviroment"
 					/>
 
 					<div className="order-snapshot">

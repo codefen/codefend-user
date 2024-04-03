@@ -481,3 +481,14 @@ const swap = (arr: any[], i: number, j: number): void => {
 	arr[i] = arr[j];
 	arr[j] = temp;
 };
+
+export const formatWalletID = (walletID: string)=> {
+    if (typeof walletID !== 'string') {
+        return '';
+    }
+
+    const firstFour = walletID.slice(0, 4);
+    const lastThree = walletID.slice(-3);
+
+    return `${firstFour}*****${lastThree}`;
+}
