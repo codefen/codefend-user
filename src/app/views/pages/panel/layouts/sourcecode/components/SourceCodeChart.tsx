@@ -85,7 +85,6 @@ export const SourceCodeChart: FC<Props> = (props) => {
 								rowsData={dataTable}
 								showRows={dataTable.length !== 0}
 								showEmpty={dataTable.length === 0}
-								sizeY={25}
 								isSmall
 							/>
 						</div>

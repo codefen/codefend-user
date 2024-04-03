@@ -1,15 +1,15 @@
-import { WelcomeGuide } from './WelcomeGuide';
-import { WelcomeModal } from './WelcomeModal';
-import { useAuthState, useWelcomeUser } from '../../../../data';
-import { useEffect } from 'react';
 import { useReadLocalStorage } from 'usehooks-ts';
+import { WelcomeGuide } from './WelcomeGuide.tsx';
+import { WelcomeModal } from './WelcomeModal.tsx';
+import { useWelcomeUser } from '@panelHooks/userWelcomeUser.ts';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 export const WelcomeGroupTour = () => {
+	const { isProvider, isReseller } = useUserRole();
 	const initialValue = useReadLocalStorage<boolean>('openWelcomeModal');
-	const [openModal, openGuide, setOpenGuide, setOpenModal] = useWelcomeUser(
-		initialValue || true,
-	);
-	const { getUserdata } = useAuthState();
+	const isOpen = isProvider() || isReseller() ? false : initialValue || true;
+	const [openModal, openGuide, setOpenGuide, setOpenModal] =
+		useWelcomeUser(isOpen);
 
 	const closeGuide = () => {
 		setOpenGuide(false);

@@ -25,7 +25,6 @@ export const ProviderHeader: FC = () => {
 		: '...';
 	const memberLocation = `${providerProfile && providerProfile.pais}, ${providerProfile && providerProfile.pais_provincia}, ${providerProfile && providerProfile.pais_ciudad}`;
 
-	console.log({ ver: providerProfile?.id_verified });
 	return (
 		<div className="provider-header">
 			{/*<div className="provider-banner-container">

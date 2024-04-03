@@ -1,10 +1,10 @@
-import { useState, type FC, useEffect } from 'react';
-import { HelperBox } from '..';
-import './welcome.scss';
-import { Position, useUserAdmin } from '../../../../data';
+import { useState, type FC } from 'react';
+import { HelperBox } from '../helper-box/HelperBox.tsx';
+import { Position } from '@interfaces/helperbox.ts';
+import Show from '@defaults/Show.tsx';
+
 import {
-	Show,
-	AdminCompany,
+	AdminCompanyIcon,
 	BugIcon,
 	CLoudIcon,
 	ChartIcon,
@@ -13,7 +13,9 @@ import {
 	MobileIcon,
 	PeopleGroupIcon,
 	SourceCodeIcon,
-} from '../..';
+} from '@icons';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import './welcome.scss';
 
 enum WelcomeSteps {
 	ADMIN,
@@ -42,7 +44,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	defaultOpenValue,
 	closeGuide,
 }) => {
-	const { isAdmin } = useUserAdmin();
+	const { isAdmin } = useUserRole();
 	const [currentStep, setNextStep] = useState(
 		!isAdmin() ? WelcomeSteps.DASHBOARD : WelcomeSteps.ADMIN,
 	);
@@ -56,7 +58,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						next={() => setNextStep(WelcomeSteps.DASHBOARD)}
 						coords={{ top: '4rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '22%' }}
-						icon={<AdminCompany />}
+						icon={<AdminCompanyIcon />}
 						text="Any description for admin"
 						title="Any title for admin"
 						highlight="Any highlight text for admin"

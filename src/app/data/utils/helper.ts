@@ -1,36 +1,37 @@
 import DOMPurify from 'isomorphic-dompurify';
 import { toast } from 'react-toastify';
+import { Sort } from '..';
 
 /** Gets token in localStorage */
 export const getToken = () => {
 	const storeJson = localStorage.getItem('authStore') ?? '';
 	const store = storeJson ? JSON.parse(storeJson) : {};
-	return store ? store.state.accessToken  : "";
+	return store ? store.state.accessToken : '';
 };
 /** Gets company id in localStorage */
 export const getFullCompanyFromUser = () => {
 	const storeJson = localStorage.getItem('authStore') ?? '';
 	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
-	const companyID = store ? store.state.userData.companyID  : "";
+	const companyID = store ? store.state.userData.companyID : '';
 	return {
 		id: String(companyID),
-		name: "codefend",
-		web: "",
-		size: "",
-		pais_code: "",
-		pais: "",
-		pais_provincia: "",
-		pais_ciudad: "",
-		owner_fname: "",
-		owner_lname: "",
-		owner_role: "",
-		owner_email: "",
-		owner_phone: "",
-		orders_size: "",
-		profile_media: "",
-		mercado: "",
+		name: 'codefend',
+		web: '',
+		size: '',
+		pais_code: '',
+		pais: '',
+		pais_provincia: '',
+		pais_ciudad: '',
+		owner_fname: '',
+		owner_lname: '',
+		owner_role: '',
+		owner_email: '',
+		owner_phone: '',
+		orders_size: '',
+		profile_media: '',
+		mercado: '',
 		isDisabled: false,
-		createdAt: ""
+		createdAt: '',
 	};
 };
 
@@ -56,8 +57,8 @@ export const formatDate = (stringDate: string): string => {
 	const date = new Date(stringDate);
 
 	const year = date.getFullYear();
-	const month = extractDateItem(date.getMonth() + 1 );
-    const day = extractDateItem(date.getDate());
+	const month = extractDateItem(date.getMonth() + 1);
+	const day = extractDateItem(date.getDate());
 
 	return `${year}-${month}-${day}`;
 };
@@ -69,12 +70,12 @@ export const getCurrentDate = () => {
 	const year = formattedDate.getFullYear();
 
 	return `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
-  };
+};
 
-  export const removeSpecialCharacters = (inputString: string) => {
-	const regex = /[.,;:_#?-]/g;  
-	return inputString.replace(regex, '');;
-  };
+export const removeSpecialCharacters = (inputString: string) => {
+	const regex = /[.,;:_#?-]/g;
+	return inputString.replace(regex, '');
+};
 
 /** check if  data is empty/zeros */
 export const isEmptyData = (data: any) => {
@@ -88,9 +89,7 @@ export const isEmptyData = (data: any) => {
 export const isEmptyShares = (data: any) => {
 	if (!data || data.constructor !== Object) return true;
 
-	return Object.values(data).every(
-		(item) => !Boolean(item),
-	);
+	return Object.values(data).every((item) => !Boolean(item));
 };
 
 /* Random UUID generator function  */
@@ -115,7 +114,7 @@ export const cleanReview = (source: string): string => {
 	update = update.replace(/&Acirc;/g, '');
 	update = update.replace(/&plusmn;/g, '');
 	update = update.replace(/&Atilde;/g, '');
-	update = update.replace("reseas", '');
+	update = update.replace('reseas', '');
 
 	return update.trim();
 };
@@ -123,27 +122,27 @@ export const cleanReview = (source: string): string => {
 /**
  * Compare the equality of two objects
  */
-export const equalsObj = (first: any, second: any): boolean =>{
+export const equalsObj = (first: any, second: any): boolean => {
 	const bothAreNull = !first || !second;
-	if(bothAreNull){
+	if (bothAreNull) {
 		return false;
 	}
-	
-	const noneIsAnObject = typeof first !== 'object' || typeof second !== 'object';
+
+	const noneIsAnObject =
+		typeof first !== 'object' || typeof second !== 'object';
 	if (noneIsAnObject) {
 		return false;
 	}
 
 	const firstKeys = Object.keys(first);
-  	const secondKeys = Object.keys(second);
+	const secondKeys = Object.keys(second);
 
 	const propertyAreNotSame = firstKeys.length !== secondKeys.length;
-	if(propertyAreNotSame) return false;
+	if (propertyAreNotSame) return false;
 
 	for (const key of firstKeys) {
-		
 		if (!equalsValues(first[key], second[key])) {
-		  return false;
+			return false;
 		}
 	}
 
@@ -153,101 +152,114 @@ export const equalsObj = (first: any, second: any): boolean =>{
 /**
  * Compare the equality of two values
  */
-export const equalsValues = (first: any, second: any)=>{
+export const equalsValues = (first: any, second: any) => {
 	return first === second;
 };
 
 /**
  * Maps a date in epoch format to "yyyy-mm-dd"
- * @param epochDate 
+ * @param epochDate
  */
-export const mapEpochToDate = (epochDate: number | string): string =>{
-	const date = new Date(Number(epochDate) * 1000); 
+export const mapEpochToDate = (epochDate: number | string): string => {
+	const date = new Date(Number(epochDate) * 1000);
 
 	const year = date.getFullYear();
 	// Add a 0 at the beginning if the month is less than 10
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+	const month = ('0' + (date.getMonth() + 1)).slice(-2);
 
 	//Add a 0 at the beginning if the day is less than 10
-    const day = ('0' + date.getDate()).slice(-2); 
-    return `${year}-${month}-${day}`;
-}
+	const day = ('0' + date.getDate()).slice(-2);
+	return `${year}-${month}-${day}`;
+};
 
-export const formatDateTimeFormat = (originalDate: string): string =>{
+export const formatDateTimeFormat = (originalDate: string): string => {
 	const date = new Date(originalDate);
-    
-    // Extract date and time components
-    const year = date.getFullYear();
-    const month = extractDateItem(date.getMonth() + 1 );
-    const day = extractDateItem(date.getDate());
-    const hours = extractDateItem(date.getHours());
-    const minutes = extractDateItem(date.getMinutes());
 
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
+	// Extract date and time components
+	const year = date.getFullYear();
+	const month = extractDateItem(date.getMonth() + 1);
+	const day = extractDateItem(date.getDate());
+	const hours = extractDateItem(date.getHours());
+	const minutes = extractDateItem(date.getMinutes());
+
+	return `${year}-${month}-${day} ${hours}:${minutes}`;
+};
 
 export const extractDateItem = (item: any) => String(item).padStart(2, '0');
 
 export const calculateRowSize = (sizeY: number | string) => {
-    return typeof sizeY === 'number' ? sizeY + 'dvh' : sizeY;
+	return typeof sizeY === 'number' ? sizeY + 'dvh' : sizeY;
 };
 
 export const calculateRowSizeX = (sizeX: number) => {
-    return `${sizeX}%`;
+	return `${sizeX}%`;
 };
 
 export const calculateRowCalcX = (sizeX: number) => {
-    return sizeX < 100 ? `calc(100% - ${sizeX}% - 3px)` : '0%';
+	return sizeX < 100 ? `calc(100% - ${sizeX}% - 3px)` : '0%';
 };
 
 export const cleanHTML = (html: any) => {
-    return DOMPurify.sanitize(html, {SAFE_FOR_TEMPLATES: true});
+	return DOMPurify.sanitize(html, { SAFE_FOR_TEMPLATES: true });
 };
 
-export const verifySession = (res: any, logout: any)=> {
-	if(res.response === "error"){
-		if(String(res.message).startsWith("invalid or expired")) {
+export const verifySession = (res: any, logout: any) => {
+	if (res.response === 'error') {
+		if (String(res.message).startsWith('invalid or expired')) {
 			toast.error('Your session has expired');
 			logout();
 		}
 	}
-}
+};
 
-export const removePrintAttributesFromBody = ()=>{
+export const removePrintAttributesFromBody = () => {
 	document.body.removeAttribute('print-report');
 	document.title = 'Codefend';
-}
+};
 
-export const addPrintAttributesFromBody = (resources: any, resourceDomainText: string)=>{
+export const addPrintAttributesFromBody = (
+	resources: any,
+	resourceDomainText: string,
+) => {
 	document.body.setAttribute('print-report', 'true');
 	const createdAt = Array.isArray(resources)
 		? resources?.[0]?.createdAt || ''
 		: resources?.createdAt || '';
 
 	document.title = `${formatDate(createdAt)}-${removeSpecialCharacters(resourceDomainText)}`;
-}
+};
 
-export const formatToMonthYear = (dateString: string)=> {
+export const formatToMonthYear = (dateString: string) => {
 	const months = [
-	  'January', 'February', 'March', 'April', 'May', 'June',
-	  'July', 'August', 'September', 'October', 'November', 'December'
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
 	];
-  
+
 	const date = new Date(dateString);
 	const month = months[date.getMonth()];
 	const year = date.getFullYear();
-  
-	return `${month} ${year}`;
-  }
 
-  export const formatKeyName = (key: any)=> {
+	return `${month} ${year}`;
+};
+
+export const formatKeyName = (key: any) => {
 	return key
 		.split('_')
 		.map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
-}
+};
 
-export const processScans = (scans: any)=> {
+export const processScans = (scans: any) => {
 	const groupedScans = scans.reduce((acc: any, scan: any) => {
 		const macAddress = scan.device_mac_address;
 		if (!acc[macAddress]) {
@@ -259,17 +271,15 @@ export const processScans = (scans: any)=> {
 
 	return Object.values(groupedScans).map((scans: any) => {
 		const latestScan = scans.sort((a: any, b: any) => {
-			return (
-				new Date(b.creacion).getTime() - new Date(a.creacion).getTime()
-			);
+			return new Date(b.creacion).getTime() - new Date(a.creacion).getTime();
 		})[0];
 
 		latestScan.additionalScans = scans.length - 1;
 		return latestScan;
 	});
-}
+};
 
-export const isScanComplianceValid = (scan: any)=> {
+export const isScanComplianceValid = (scan: any) => {
 	if (!scan.report_data) {
 		return false;
 	}
@@ -280,9 +290,9 @@ export const isScanComplianceValid = (scan: any)=> {
 	} catch (err) {
 		return false;
 	}
-}
+};
 
-export const  processCompliance = (scan: any)=> {
+export const processCompliance = (scan: any) => {
 	if (!scan.report_data) {
 		return 0;
 	}
@@ -307,9 +317,9 @@ export const  processCompliance = (scan: any)=> {
 	} catch (err) {
 		return 0;
 	}
-}
+};
 
-export const extractCWEID = (text: string)=> {
+export const extractCWEID = (text: string) => {
 	if (!text) {
 		return 0;
 	}
@@ -322,9 +332,9 @@ export const extractCWEID = (text: string)=> {
 	} else {
 		return 'CWE ID not found.';
 	}
-}
+};
 
-export const compareVersions = (versionA: any, versionB: any)=> {
+export const compareVersions = (versionA: any, versionB: any) => {
 	if (!versionA) return -1;
 	if (!versionB) return 0;
 
@@ -342,9 +352,9 @@ export const compareVersions = (versionA: any, versionB: any)=> {
 	}
 
 	return 0;
-}
+};
 
-export const mapScoreToWord = (score: number)=> {
+export const mapScoreToWord = (score: number) => {
 	const mapping: { [key: number]: string } = {
 		0: '?',
 		1: 'intel',
@@ -355,14 +365,19 @@ export const mapScoreToWord = (score: number)=> {
 	};
 
 	return mapping[score] || '?';
-}
+};
 
-export const highlightToBeforeAfterMatch = (title: string, appName: string)=> {
+export const highlightToBeforeAfterMatch = (title: string, appName: string) => {
 	const lowerCaseTitle = title.toLowerCase();
 	const lowerCaseAppName = appName.toLowerCase();
 
 	if (!lowerCaseTitle.includes(lowerCaseAppName)) {
-		return {before: undefined, match: undefined, after: undefined, title: title};
+		return {
+			before: undefined,
+			match: undefined,
+			after: undefined,
+			title: title,
+		};
 	}
 
 	const index = lowerCaseTitle.indexOf(lowerCaseAppName);
@@ -371,5 +386,102 @@ export const highlightToBeforeAfterMatch = (title: string, appName: string)=> {
 	const match = title.substring(index, index + appName.length);
 	const after = title.substring(index + appName.length);
 
-	return {before, match, after, title: undefined};
-}
+	return { before, match, after, title: undefined };
+};
+
+export const flattenRowsData = (rowsData: any[]) => {
+	return Boolean(rowsData.length) ? [...rowsData].flatMap((data) => data) : [];
+};
+export const compareValues = (
+	a: any,
+	b: any,
+	sortDirection: string,
+): number => {
+	if (typeof a === 'object' && typeof b === 'object') {
+		a = getValueFromObject(a);
+		b = getValueFromObject(b);
+	}
+
+	if (sortDirection === Sort.asc) {
+		return a < b ? -1 : a > b ? 1 : 0;
+	} else {
+		return a > b ? -1 : a < b ? 1 : 0;
+	}
+};
+
+export const getValueFromObject = (value: any): any => {
+	return value.props?.riskScore || value.props?.country || value;
+};
+
+export const quickSort = (
+	arr: any[],
+	dataSort: string,
+	sortDirection: string,
+): any[] => {
+	console.time('timeStamp');
+
+	if (arr.length <= 1) {
+		console.timeEnd('timeStamp');
+		return arr;
+	}
+
+	const stack = [];
+	let left = 0;
+	let right = arr.length - 1;
+
+	const auxArr = [...arr];
+
+	stack.push(left, right);
+
+	while (stack.length) {
+		right = stack.pop()!;
+		left = stack.pop()!;
+
+		const pivotIndex = partition(
+			auxArr,
+			left,
+			right,
+			dataSort,
+			sortDirection,
+		);
+
+		if (left < pivotIndex - 1) {
+			stack.push(left, pivotIndex - 1);
+		}
+
+		if (pivotIndex + 1 < right) {
+			stack.push(pivotIndex + 1, right);
+		}
+	}
+
+	console.timeEnd('timeStamp');
+	return auxArr;
+};
+
+const partition = (
+	arr: any[],
+	left: number,
+	right: number,
+	dataSort: string,
+	sortDirection: string,
+): number => {
+	const pivotValue = arr[right][dataSort]?.value;
+	let pivotIndex = left;
+
+	for (let i = left; i < right; i++) {
+		const aValue = arr[i][dataSort]?.value;
+		if (compareValues(aValue, pivotValue, sortDirection) < 0) {
+			swap(arr, i, pivotIndex);
+			pivotIndex++;
+		}
+	}
+
+	swap(arr, pivotIndex, right);
+	return pivotIndex;
+};
+
+const swap = (arr: any[], i: number, j: number): void => {
+	const temp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = temp;
+};

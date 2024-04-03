@@ -112,7 +112,6 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 					tableAction={tableAction}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
-					sizeY={90}
 				/>
 			</div>
 		</>

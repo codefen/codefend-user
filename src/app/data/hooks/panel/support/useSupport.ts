@@ -104,7 +104,6 @@ export const useAddTicket = () => {
 				...params,
 			},
 		}).then(({data}:any) => {
-			console.log({ data });
 			toast.success('Successfully Added Ticket...');
 		});
 	};

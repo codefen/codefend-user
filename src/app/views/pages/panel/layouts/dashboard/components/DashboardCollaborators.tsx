@@ -39,7 +39,6 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({
 					showRows={!isLoading}
 					showEmpty={!isLoading && dataTable.length === 0}
 					columns={collaboratorsColumns}
-					sizeY={24.24}
 				/>
 			</SimpleSection>
 		</div>

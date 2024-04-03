@@ -5,6 +5,12 @@ main.webapp {
 
 	.left .table .rows {
 		height: calc(100vh - 153px);
+
+		.action {
+			.publish {
+				overflow: visible;
+			}
+		}
 	}
 	// .left {
 	// 	width: 70%;
@@ -38,7 +44,7 @@ main.webapp {
 	// 				align-items: center;
 	// 				padding-inline: 7px;
 	// 				transition: color 200ms ease;
-					
+
 	// 				&:hover {
 	// 					color: var(--secondary-color-100);
 

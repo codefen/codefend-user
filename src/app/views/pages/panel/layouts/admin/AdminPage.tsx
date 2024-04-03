@@ -1,11 +1,11 @@
 import { type FC, Suspense } from 'react';
-import { useAuthState, useUserAdmin } from '../../../../../data';
-import { Loader } from '../../../../components';
+import { useAuthState } from '#commonHooks/useAuthState.ts';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import { Loader } from '@defaults/loaders/Loader.tsx';
 import { Navigate, Outlet } from 'react-router';
-import './admin.scss';
 
 const AdminPage: FC = () => {
-	const { isAdmin, getAccessToken } = useUserAdmin();
+	const { isAdmin, getAccessToken } = useUserRole();
 	const { logout, getUserdata, isAuth } = useAuthState();
 	const isNotAuthenticated = !getUserdata() || !isAuth();
 	if (isNotAuthenticated) {

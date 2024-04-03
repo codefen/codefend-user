@@ -1,28 +1,19 @@
-import React, { Fragment, useMemo, useState } from 'react';
-import {
-	type Resouce,
-	type Webresources,
-	generateIDArray,
-	useDeleteWebResource,
-	useModal,
-	useReportStore,
-} from '../../../../../../data';
-import {
-	AddDomainModal,
-	AddSubDomainModal,
-	BugIcon,
-	ConfirmModal,
-	EmptyCard,
-	GlobeWebIcon,
-	LocationItem,
-	ModalTitleWrapper,
-	PageLoader,
-	DocumentIcon,
-	Show,
-	TrashIcon,
-} from '../../../../../components';
+import { useMemo, useState, type ReactNode, type FC } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { useDeleteWebResource } from '@resourcesHooks/web/useWebapplication.ts';
+import { webResourcesColumns } from '@mocks/defaultData.ts';
+import type { TableItem } from '@interfaces/table.ts';
+import type { Webresources, Resouce } from '@interfaces/panel.ts';
+import { useReportStore } from '@stores/report.store.ts';
+import useModal from '#commonHooks/useModal.ts';
+import { LocationItem } from '@standalones/utils/LocationItem.tsx';
+import { TableV2 } from '@table/tablev2.tsx';
+import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon } from '@icons';
+import ConfirmModal from '@modals/ConfirmModal.tsx';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
+import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
+import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -36,7 +27,7 @@ interface SelectedResource {
 	serverIp: string;
 }
 
-export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
+export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
 		{} as any,
 	);
@@ -48,15 +39,40 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 	const { handleDelete } = useDeleteWebResource();
 	const navigate = useNavigate();
 
+	const selectResource = (id: string, isChild?: boolean) => {
+		const findResourceByID = (
+			id: string,
+			isChild: boolean,
+		): Resouce | Webresources | null => {
+			for (const resource of getResources) {
+				if (isChild) {
+					for (const child of resource.childs) {
+						if (child.id === id) {
+							return child;
+						}
+					}
+				} else {
+					if (resource.id === id) {
+						return resource;
+					}
+				}
+			}
+			return null;
+		};
+		const resource = findResourceByID(id, Boolean(isChild));
+		if (resource) {
+			setSelectedResource({
+				id: resource.id,
+				domain: resource.resourceDomain,
+				serverIp: resource.mainServer,
+			});
+		}
+	};
+
 	const getResources = useMemo(() => {
 		const resources = props.isLoading ? [] : props.webResources;
 		return resources !== undefined ? resources.reverse() : [];
 	}, [props.webResources, props.isLoading]);
-
-	const resourceKeys = useMemo(
-		() => generateIDArray(getResources.length),
-		[getResources],
-	);
 
 	const generateReport = (resourceID: string, count: any) => {
 		if (Number(count) >= 1) {
@@ -70,124 +86,10 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 		}
 	};
 
-	const TableMemo = useMemo(
-		() =>
-			getResources.map((mainNetwork: Webresources, i: number) => (
-				<Fragment key={resourceKeys[i]}>
-					<div className="item left-marked">
-						<div className="id">{mainNetwork.id}</div>
-						<div className="domain-name">
-							{mainNetwork.resourceDomain}
-						</div>
-						<div className="server-ip">{mainNetwork.mainServer}</div>
-						<div className="location">
-							<span
-								className={`flag flag-${mainNetwork.serverCountryCode.toLowerCase()}`}></span>
-							<p className="">{mainNetwork.serverCountry}</p>
-						</div>
-
-						<div className="id action">
-							<span
-								title="Add Issue"
-								onClick={() =>
-									navigate(`/issues/create/web/${mainNetwork.id}`)
-								}>
-								<BugIcon isButton />
-								<span className="codefend-text-red issue-count">
-									{mainNetwork.issueCount}
-								</span>
-							</span>
-							<span
-								title="Create report"
-								onClick={() =>
-									generateReport(
-										mainNetwork.id,
-										mainNetwork.issueCount,
-									)
-								}
-								className="issue-printer">
-								<DocumentIcon isButton width={1.27} height={1.27} />
-							</span>
-							<span
-								title="Delete"
-								onClick={() => {
-									setSelectedResource({
-										id: mainNetwork.id,
-										domain: mainNetwork.resourceDomain,
-										serverIp: mainNetwork.mainServer,
-									});
-									setShowModal(true);
-									setShowModalStr('delete_resource');
-								}}>
-								<TrashIcon />
-							</span>
-						</div>
-					</div>
-
-					{mainNetwork.childs.map((subNetwork: Resouce) => (
-						<div key={subNetwork.id} className="item">
-							<div className="id">{subNetwork.id}</div>
-							<div className="domain-name lined">
-								<span className="sub-domain-icon-v"></span>
-								<span className="sub-domain-icon-h"></span>
-								<span className="sub-resource-domain">
-									{subNetwork.resourceDomain}
-								</span>
-							</div>
-
-							<div className="server-ip">{subNetwork.mainServer}</div>
-							<div className="location">
-								<span
-									className={`flag flag-${subNetwork.serverCountryCode.toLowerCase()}`}></span>
-								<p className="">{subNetwork.serverCountry}</p>
-							</div>
-
-							<div className="id action">
-								<span
-									title="Add Issue"
-									onClick={() =>
-										navigate(`/issues/create/web/${subNetwork.id}`)
-									}>
-									<BugIcon isButton />
-									<span className="codefend-text-red-200 issue-count">
-										{subNetwork.issueCount}
-									</span>
-								</span>
-								<span
-									title="Create report"
-									className="issue-printer"
-									onClick={() =>
-										generateReport(
-											mainNetwork.id,
-											subNetwork.issueCount,
-										)
-									}>
-									<DocumentIcon isButton width={1.27} height={1.27} />
-								</span>
-								<span
-									title="Delete"
-									onClick={() => {
-										setSelectedResource({
-											id: subNetwork.id,
-											domain: subNetwork.resourceDomain,
-											serverIp: subNetwork.mainServer,
-										});
-										setShowModal(true);
-										setShowModalStr('delete_resource');
-									}}>
-									<TrashIcon />
-								</span>
-							</div>
-						</div>
-					))}
-				</Fragment>
-			)),
-		[getResources],
-	);
-
-	const tableData = getResources.map(
+	const tableData: Record<string, TableItem>[] = getResources.map(
 		(mainNetwork: Webresources, i: number) => ({
-			ID: { value: mainNetwork.id, style: 'id' },
+			ID: { value: '', style: '' },
+			Identifier: { value: mainNetwork.id, style: 'id' },
 			domainName: {
 				value: mainNetwork.resourceDomain,
 				style: 'domain-name',
@@ -196,35 +98,130 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 			location: {
 				value: (
 					<LocationItem
+						key={mainNetwork.id + i + '-ml'}
 						country={mainNetwork.serverCountry}
 						countryCode={mainNetwork.serverCountryCode}
 					/>
 				),
 				style: 'location',
 			},
-			childs: {
+			action: {
 				value: (
 					<>
-						{mainNetwork.childs.map((subNetwork: Resouce) => (
-							<div key={'child_' + subNetwork.id} className="item">
-								<div className="id">{subNetwork.id}</div>
-								<div className="domain-name lined">
-									<span className="sub-domain-icon-v"></span>
-									<span className="sub-domain-icon-h"></span>
-									<span className="sub-resource-domain">
-										{subNetwork.resourceDomain}
-									</span>
-								</div>
-
-								<div className="server-ip">{subNetwork.mainServer}</div>
-								<LocationItem
-									country={subNetwork.serverCountry}
-									countryCode={subNetwork.serverCountryCode}
-								/>
-							</div>
-						))}
+						<span
+							title="Add Issue"
+							onClick={() =>
+								navigate(`/issues/create/web/${mainNetwork.id}`)
+							}>
+							<BugIcon isButton />
+							<span className="codefend-text-red-200 issue-count">
+								{mainNetwork.issueCount}
+							</span>
+						</span>
+						<span
+							title="Create report"
+							className="issue-printer"
+							onClick={() =>
+								generateReport(mainNetwork.id, mainNetwork.issueCount)
+							}>
+							<DocumentIcon isButton width={1.27} height={1.27} />
+						</span>
+						<span
+							title="Delete"
+							onClick={() => {
+								selectResource(mainNetwork.id, true);
+								setShowModal(true);
+								setShowModalStr('delete_resource');
+							}}>
+							<TrashIcon />
+						</span>
 					</>
 				),
+				style: 'id action',
+			},
+			childs: {
+				value: (props) =>
+					(
+						<>
+							{mainNetwork.childs.map(
+								(subNetwork: Resouce, i: number) => (
+									<a
+										key={`child-${i}-${subNetwork.id}`}
+										className={`item`}
+										href={
+											props.urlNav
+												? `${props.urlNav}${subNetwork.id}`
+												: ''
+										}
+										onClick={(e) =>
+											props.handleClick(
+												e,
+												`child-${subNetwork.id}`,
+												'',
+											)
+										}>
+										<div className="id">{subNetwork.id}</div>
+										<div className="domain-name lined">
+											<span className="sub-domain-icon-v"></span>
+											<span className="sub-domain-icon-h"></span>
+											<span className="sub-resource-domain">
+												{subNetwork.resourceDomain}
+											</span>
+										</div>
+
+										<div className="server-ip">
+											{subNetwork.mainServer}
+										</div>
+										<div className="location">
+											<LocationItem
+												key={subNetwork.id + i + '-lc'}
+												country={subNetwork.serverCountry}
+												countryCode={subNetwork.serverCountryCode}
+											/>
+										</div>
+										<div className="id action">
+											<span
+												title="Add Issue"
+												onClick={() =>
+													navigate(
+														`/issues/create/web/${subNetwork.id}`,
+													)
+												}>
+												<BugIcon isButton />
+												<span className="codefend-text-red-200 issue-count">
+													{subNetwork.issueCount}
+												</span>
+											</span>
+											<span
+												title="Create report"
+												className="issue-printer"
+												onClick={() =>
+													generateReport(
+														mainNetwork.id,
+														subNetwork.issueCount,
+													)
+												}>
+												<DocumentIcon
+													isButton
+													width={1.27}
+													height={1.27}
+												/>
+											</span>
+											<span
+												title="Delete"
+												onClick={() => {
+													selectResource(subNetwork.id, true);
+													setShowModal(true);
+													setShowModalStr('delete_resource');
+												}}>
+												<TrashIcon />
+											</span>
+										</div>
+									</a>
+								),
+							)}
+						</>
+					) as ReactNode,
 				style: '',
 			},
 		}),
@@ -318,26 +315,12 @@ export const WebApplicationResources: React.FC<WebResourcesProps> = (props) => {
 						</div>
 					</div>
 
-					<div className="table">
-						<div className="columns-name">
-							<div className="id">id</div>
-							<div className="domain-name">domain</div>
-							<div className="server-ip">main server</div>
-							<div className="location">location</div>
-							<div className="id action">actions</div>
-						</div>
-						<Show when={!props.isLoading} fallback={<PageLoader />}>
-							<div
-								className="rows"
-								// style={{ '--row-size': 80 + 'dvh' } as any}>
-							>
-								{TableMemo}
-							</div>
-						</Show>
-						<Show when={!props.isLoading && getResources.length === 0}>
-							<EmptyCard />
-						</Show>
-					</div>
+					<TableV2
+						columns={webResourcesColumns}
+						rowsData={tableData}
+						showEmpty={!props.isLoading && !Boolean(tableData.length)}
+						showRows={!props.isLoading}
+					/>
 				</div>
 			</div>
 		</>

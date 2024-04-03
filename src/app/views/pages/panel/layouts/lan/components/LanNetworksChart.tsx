@@ -66,7 +66,6 @@ export const LanNetworksChart: React.FC<LanNetworksChartProps> = (props) => {
 										rowsData={dataTable}
 										showEmpty={false}
 										showRows={true}
-										sizeY={30}
 									/>
 								</>
 							</Show>

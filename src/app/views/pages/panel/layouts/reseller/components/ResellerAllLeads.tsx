@@ -33,7 +33,6 @@ export const ResellerAllLeads = () => {
 						rowsData={dataTable}
 						showEmpty={dataTable.length == 0}
 						showRows={dataTable.length !== 0}
-						sizeY={50}
 					/>
 				</div>
 			</SimpleSection>

@@ -48,7 +48,6 @@ export const VdbSearchData: FC = () => {
 						columns={vdbColumns}
 						showRows={!isLoading}
 						showEmpty={!Boolean(vdbResults.current.length)}
-						sizeY={75}
 					/>
 				</div>
 			</Show>

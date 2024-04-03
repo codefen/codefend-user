@@ -1,3 +1,5 @@
+import type { FC, ReactNode } from "react";
+
 export enum Sort {
 	asc = 'asc',
 	desc = 'desc',
@@ -9,12 +11,11 @@ export interface TableProps {
 	showRows: boolean;
 	showEmpty: boolean;
 	tableAction?: TableAction;
-	sizeY: number | string;
+	sizeY?: number | string;
 	sizeX?: number;
 	isSmall?: boolean;
 	selectItem?: (item: any) => void;
 	sort?: Sort;
-	initialSelect?: boolean;
 	urlNav?: string;
 }
 
@@ -25,14 +26,15 @@ export interface ColumnTable {
 }
 
 export interface TableItem {
-	value: string | JSX.Element;
+	value: ReactNode | ((props: any ) => ReactNode);
 	style: string;
 }
 
 export interface TableAction {
 	icon: {
 		action: (id: string, type?: any) => void;
-		render: JSX.Element;
+		render: ReactNode | ((props: any ) => ReactNode);
+		extraAttr?: string;
 		style?: string;
 	}[];
 }

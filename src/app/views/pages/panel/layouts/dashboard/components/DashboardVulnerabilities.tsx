@@ -45,7 +45,6 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
 						columns={topVulnerabilitiesColumn}
 						showRows={!isLoading}
 						showEmpty={!isLoading && topVulnerabilities.length === 0}
-						sizeY={35}
 						sort={Sort.asc}
 					/>
 				</SimpleSection>

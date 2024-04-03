@@ -23,7 +23,6 @@ export const useSocial = () => {
 				verifySession(data, logout);
 
 				const socialResources = data?.disponibles || [];
-				console.log({ socialResources });
 				dataRef.current = socialResources;
 				setScopeTotalResources(socialResources.length);
 			}).finally(()=> updateState("resourceType", ResourcesTypes.SOCIAL));

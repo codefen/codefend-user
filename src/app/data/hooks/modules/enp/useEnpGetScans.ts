@@ -20,7 +20,6 @@ export const useEnpGetScans  =()=>{
                 company_id: companyID,
 			},
 		}).then(({ data }: any) => {
-            console.log({ data });
 			dataRef.current = data.data;
 
 			if (data?.data?.length) {

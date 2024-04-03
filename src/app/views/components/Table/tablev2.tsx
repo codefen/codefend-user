@@ -1,18 +1,35 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+	type ReactNode,
+	memo,
+	useRef,
+	Fragment,
+	type FC,
+} from 'react';
 import {
 	RUNNING_DESKTOP,
 	calculateRowCalcX,
-	calculateRowSize,
 	calculateRowSizeX,
+	flattenRowsData,
 	formatDate,
 	generateIDArray,
+	quickSort,
+} from '@utils/helper.ts';
+import Show from '@defaults/Show.tsx';
+import EmptyCard from '@defaults/EmptyCard.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import {
+	type ColumnTable,
+	type TableItem,
+	type TableProps,
 	Sort,
-} from '../../../data';
-import { EmptyCard, PageLoader, Show } from '..';
+} from '@interfaces/table.ts';
 import './table.scss';
-import type { ColumnTable, TableItem, TableProps } from '../../../data';
 
-const TableColumns: React.FC<any> = (props) => {
+const TableColumns: FC<any> = (props) => {
 	const handleSort = useCallback(
 		(columnName: string) => {
 			if (columnName === props.dataSort) {
@@ -24,12 +41,7 @@ const TableColumns: React.FC<any> = (props) => {
 				props.updateDirection(Sort.asc);
 			}
 		},
-		[
-			props.dataSort,
-			props.sortDirection,
-			props.updateDirection,
-			props.updateSortData,
-		],
+		[props.dataSort, props.sortDirection],
 	);
 
 	const isAsc = props.sortDirection === Sort.asc;
@@ -38,7 +50,7 @@ const TableColumns: React.FC<any> = (props) => {
 			{props.columns.map((column: ColumnTable, i: number) => (
 				<div
 					className={`column ${column?.style}`}
-					key={i}
+					key={`c-${i}`}
 					onClick={() => {
 						if (column.name === 'action') return;
 						handleSort(column.name);
@@ -53,7 +65,7 @@ const TableColumns: React.FC<any> = (props) => {
 	);
 };
 
-const TableRows: React.FC<any> = ({
+const TableRows: FC<any> = ({
 	rowsData,
 	isActiveAction,
 	columns,
@@ -63,133 +75,117 @@ const TableRows: React.FC<any> = ({
 	selectedField,
 	urlNav,
 	handleSelected,
-	initialSelect,
 }) => {
 	const [flattenedRows, setFlattenedRows] = useState<any[]>([]);
 
 	useEffect(() => {
-		if (rowsData) {
-			const flattened = [...rowsData].flatMap((data: any) => data);
-			setFlattenedRows(flattened);
+		if (!Boolean(flattenedRows.length) && rowsData) {
+			setFlattenedRows(flattenRowsData(rowsData));
 		}
 	}, [rowsData]);
 
-	const rows = useMemo(() => {
-		return flattenedRows.sort((a: any, b: any) => {
-			//Search for the value of the object by which you want to sort
-			let aValue = a[dataSort]?.value;
-			let bValue = b[dataSort]?.value;
+	const rows = useMemo(
+		() => quickSort(flattenedRows.slice(), dataSort, sortDirection),
+		[dataSort, sortDirection, flattenedRows],
+	);
 
-			if (typeof aValue === 'object' && aValue.props?.riskScore) {
-				aValue = aValue.props.riskScore;
-				bValue = bValue.props.riskScore;
+	const rowsID2 = (i: number, ID: string) => `rowi-${i}-${ID}`;
+
+	const filterForRow = () => {
+		const columnForRows: ColumnTable[] = [];
+		for (const column of columns) {
+			if (isActiveAction && column.name === 'action') {
+				continue;
 			}
-			if (typeof aValue === 'object' && aValue.props?.country) {
-				aValue = aValue.props.country;
-				bValue = bValue.props.country;
-			}
-			const isNumber = typeof aValue === 'number';
-			const isString = typeof aValue === 'string';
-
-			if (sortDirection === Sort.asc) {
-				//Change the sorting based on the data type of the value
-				if (isNumber) {
-					return bValue - aValue;
-				} else if (isString) {
-					return String(bValue).localeCompare(aValue);
-				} else {
-					//Check if it is less, greater or equal
-					return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-				}
-			} else {
-				if (isNumber) {
-					return aValue - bValue;
-				} else if (isString) {
-					return aValue.localeCompare(bValue);
-				} else {
-					//Check if it is less, greater or equal
-					return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
-				}
-			}
-		});
-	}, [flattenedRows, dataSort, sortDirection]);
-
-	const rowsID = useMemo(() => generateIDArray(rows.length), [rows.length]);
-
-	const columnForRows = useMemo(() => {
-		//If the table action is present, it is removed from "columns" so that it does not appear
-		let result = isActiveAction
-			? columns.filter((column: ColumnTable) => column.name !== 'action')
-			: columns;
-		return result ?? [];
-	}, [columns]);
-
-	const handleClick = (e: any, i: number, rowId: any) => {
-		handleSelected(e, rowsID[i], rowId);
+			columnForRows.push(column);
+		}
+		return columnForRows;
 	};
 
-	useEffect(() => {
-		initialSelect(rowsID[0]);
-	}, []);
+	const columnForRows = filterForRow();
+
+	const handleClick = (e: any, key: string, rowId: any) =>
+		handleSelected(e, key, rowId);
 
 	return (
 		<div className="rows">
 			{rows.map((row: Record<string, TableItem>, rowIndex: number) => (
-				<a
-					key={rowsID[rowIndex]}
-					className={`item ${
-						selectedField === rowsID[rowIndex] ? 'left-marked' : ''
-					}`}
-					href={urlNav ? `${urlNav}${row['ID'].value}` : ''}
-					onClick={(e) => handleClick(e, rowIndex, row['ID'].value)}>
-					{columnForRows.map((column: ColumnTable, i: number) => (
-						<div
-							key={i}
-							className={row[column.name as keyof typeof row]?.style}>
-							<div className="publish">
-								{column.name !== 'published'
-									? row[column.name as keyof typeof row]?.value
-									: formatDate(
-											String(
-												row[column.name as keyof typeof row]?.value,
-											),
-										)}
+				<Fragment key={rowsID2(rowIndex, row['ID'].value as string)}>
+					<a
+						className={`item ${
+							selectedField ===
+							rowsID2(rowIndex, row['ID'].value as string)
+								? 'left-marked'
+								: ''
+						}`}
+						href={urlNav ? `${urlNav}${row['ID'].value}` : ''}
+						onClick={(e) =>
+							handleClick(
+								e,
+								rowsID2(rowIndex, row['ID'].value as string),
+								row['ID'].value,
+							)
+						}>
+						{columnForRows.map((column: ColumnTable, i: number) => (
+							<Fragment key={i}>
+								{column.name !== 'childs' && (
+									<div
+										className={
+											row[column.name as keyof typeof row]?.style
+										}>
+										<div className="publish">
+											{column.name !== 'published'
+												? (row[column.name as keyof typeof row]
+														?.value as ReactNode)
+												: formatDate(
+														String(
+															row[
+																column.name as keyof typeof row
+															]?.value,
+														),
+													)}
+										</div>
+									</div>
+								)}
+							</Fragment>
+						))}
+						<Show when={isActiveAction}>
+							<div className="id action">
+								{tableAction?.icon?.map((i: any, iconIndex: any) => (
+									<span
+										key={iconIndex}
+										className={i?.style}
+										onClick={(e: React.FormEvent) => {
+											e.preventDefault();
+											e.stopPropagation();
+											i.action(row['ID'].value as string);
+										}}>
+										{typeof i.render === 'function'
+											? i.render({ extraAttr: row['issue'] })
+											: i.render}
+									</span>
+								))}
 							</div>
-						</div>
-					))}
-					<Show when={isActiveAction}>
-						<div className="id action">
-							{tableAction?.icon?.map((i: any, iconIndex: any) => (
-								<span
-									key={iconIndex}
-									className={i?.style}
-									onClick={(e: React.FormEvent) => {
-										e.preventDefault();
-										e.stopPropagation();
-										i.action(row['ID'].value as string);
-									}}>
-									{i.render}
-								</span>
-							))}
-						</div>
-					</Show>
-				</a>
+						</Show>
+					</a>
+					{row['childs'] && typeof row['childs'].value === 'function'
+						? row['childs'].value({ urlNav, handleClick })!
+						: ''}
+				</Fragment>
 			))}
 		</div>
 	);
 };
 
-export const TableV2: React.FC<TableProps> = ({
+export const TableV2: FC<TableProps> = ({
 	rowsData,
 	columns,
 	showRows,
 	tableAction,
-	sizeY = 100,
 	showEmpty,
 	isSmall = false,
 	selectItem,
 	sort = Sort.desc,
-	initialSelect = false,
 	sizeX = 100,
 	urlNav,
 }) => {
@@ -210,12 +206,6 @@ export const TableV2: React.FC<TableProps> = ({
 		}
 	};
 
-	const initSelectField = (id: any) => {
-		if (Boolean(initialSelect)) {
-			setSelectedField(id);
-		}
-	};
-
 	const urlForRowItem = RUNNING_DESKTOP() ? '' : urlNav || '';
 
 	return (
@@ -224,7 +214,6 @@ export const TableV2: React.FC<TableProps> = ({
 				className={`table ${isSmall && 'small'}`}
 				style={
 					{
-						'--row-size': calculateRowSize(sizeY),
 						'--row-size-x': calculateRowSizeX(sizeX),
 						'--row-calc-x': calculateRowCalcX(sizeX),
 					} as any
@@ -248,7 +237,6 @@ export const TableV2: React.FC<TableProps> = ({
 						handleSelected={handleSelected}
 						isActiveAction={!!tableAction}
 						selectedField={selectedField}
-						initialSelect={initSelectField}
 					/>
 				</Show>
 				<Show when={showEmpty}>

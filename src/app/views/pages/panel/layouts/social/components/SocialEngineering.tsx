@@ -92,7 +92,6 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 					rowsData={dataTable}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
-					sizeY={95}
 				/>
 			</div>
 		</>

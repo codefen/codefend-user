@@ -98,8 +98,6 @@ export const getCountryMetrics = (resources: any[]) => {
 	.concat(resources);
 
 	const countries = domainsAndSubDomains.reduce((acc: any, value: any) => {
-		console.log({ acc });
-		console.log({ value });
 		if (!value.serverCountryCode || value.serverCountryCode === '-')
 			return acc;
 		if (acc[value.serverCountryCode]) {

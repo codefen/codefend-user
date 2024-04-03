@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, type ReactNode } from 'react';
 import { EmptyCard, PageLoader } from '..';
 import { formatDate } from '../../../data';
 import type { ColumnTable, TableItem } from '../../../data';
@@ -63,7 +63,7 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
 									/>
 								))}
 							</div>
-							{row['childs']?.value}
+							{row['childs']?.value as ReactNode}
 						</Fragment>
 					))}
 				</div>

@@ -7,6 +7,7 @@ import {
 	OrderTeamSize,
 	ScopeOption,
 	useOrderStore,
+	CryptoPayment,
 } from '..';
 import { useRef } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
@@ -517,57 +518,43 @@ export const userOrderFinancialResource = () => {
 export interface OrderCryptoFinancial {
 	walletID: string;
 	qrCode: string;
+	currencyActive: CryptoPayment;
 }
 
 export const useOrderCryptoFinancial = () => {
 	const [fetcher] = useFetcher();
 	const { getCompany } = useAuthState();
-	const cryptoBtc = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
-	const cryptoEth = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
-	const cryptoLtc = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
-	const cryptoMonero = useRef<OrderCryptoFinancial>({
-		walletID: '',
-		qrCode: '',
-	});
-	const cryptoSol = useRef<OrderCryptoFinancial>({ walletID: '', qrCode: '' });
-	const cryptoUsdT = useRef<OrderCryptoFinancial>({
-		walletID: '',
-		qrCode: '',
-	});
-	const cryptoUsdC = useRef<OrderCryptoFinancial>({
-		walletID: '',
-		qrCode: '',
-	});
+	const walletActive = useRef<OrderCryptoFinancial>({ walletID: '. . .', qrCode: '', currencyActive: CryptoPayment.BITCOIN });
 
-	const getCryptoFinancialInfo = (referenceNumber: string, crypto: string) => {
+	const getCryptoFinancialInfo = (referenceNumber: string, crypto?: CryptoPayment) => {
 		fetcher('post', {
 			body: {
 				model: 'orders/add',
-				phase: 'financial',
+				phase: 'financial_cc',
 				company_id: getCompany(),
 				reference_number: referenceNumber,
-				financial_resource: crypto,
+				cc_blockchain: crypto || "BTC",
 			},
+			insecure: true
 		})
 			.then((res: any) => {
+				
 				if (Number(res.error) === 1) {
 					throw new Error('An error has occurred with the');
 				}
 
-				console.log({ res });
+				walletActive.current = {
+					walletID: res.cc.cc_address,
+					qrCode: res.cc.cc_address_qr,
+					currencyActive: crypto || CryptoPayment.BITCOIN
+				}
 			})
 			.catch((error: Error) => toast.error(error.message));
 	};
 
 	return {
 		getCryptoFinancialInfo,
-		cryptoEth,
-		cryptoBtc,
-		cryptoLtc,
-		cryptoMonero,
-		cryptoSol,
-		cryptoUsdT,
-		cryptoUsdC,
+		walletActive
 	};
 };
 

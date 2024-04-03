@@ -1,41 +1,32 @@
-import { useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import {
 	CryptoPayment,
-	OrderPaymentMethod,
 	OrderSection,
 	OrderTeamSize,
-	defaultCrypto,
 	useOrderCryptoFinancial,
 	useOrderStore,
 } from '../../../../../data';
 import { CopiedIcon, CopyIcon, PrimaryButton } from '../../..';
 
 export const CryptoPaymentModal = () => {
-	const {
-		getCryptoFinancialInfo,
-		cryptoBtc,
-		cryptoEth,
-		cryptoLtc,
-		cryptoMonero,
-		cryptoSol,
-		cryptoUsdC,
-		cryptoUsdT,
-	} = useOrderCryptoFinancial();
-
-	const { teamSize, updateState } = useOrderStore((state) => state);
-	const [cryptoAddress, setCryptoAddress] = useState(
-		'bc1qxypfpkrcwpszp20azl804nuxn8n95cf6g0rgy2',
+	const { teamSize, updateState, referenceNumber } = useOrderStore(
+		(state) => state,
 	);
+
+	const { getCryptoFinancialInfo, walletActive } = useOrderCryptoFinancial();
+
+	useEffect(() => {
+		getCryptoFinancialInfo(referenceNumber);
+	}, []);
+
 	const [copied, setCopied] = useState(false);
 	const [transactionID, setTransactionID] = useState('');
 	const [trySend, setTrySend] = useState(false);
+
 	const [crypto, setCrypto] = useState<CryptoPayment>(CryptoPayment.BITCOIN);
-	const [walletId, setWalletId] = useState(
-		'bc1qxypfpkrcwpszp20azl804nuxn8n95cf6g0rgy2',
-	);
 
 	const copyTextToClipboard = () => {
-		navigator.clipboard.writeText(cryptoAddress).then(() => {
+		navigator.clipboard.writeText(walletActive.current.walletID).then(() => {
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
 		});
@@ -56,8 +47,6 @@ export const CryptoPaymentModal = () => {
 		setTrySend(true);
 		setTimeout(() => setTrySend(false), 2300);
 	};
-
-	Object.values(CryptoPayment).map((key: any) => console.log({ key }));
 
 	const values = {
 		[CryptoPayment.BITCOIN.valueOf()]: CryptoPayment.BITCOIN,
@@ -80,7 +69,7 @@ export const CryptoPaymentModal = () => {
 				<div className="order-img-wrapper show-both-borders ">
 					<div className="order-img">
 						{Object.values(CryptoPayment).map((coin, i) => (
-							<>
+							<Fragment key={`cc-${i}`}>
 								{coin === 'USDT' && (
 									<div className="crypto-usd-dash"></div>
 								)}
@@ -93,7 +82,7 @@ export const CryptoPaymentModal = () => {
 										setCrypto(values[coin]);
 									}}
 								/>
-							</>
+							</Fragment>
 						))}
 					</div>
 				</div>
@@ -114,7 +103,9 @@ export const CryptoPaymentModal = () => {
 						</div>
 
 						<div className="address-container select-option">
-							<span className="address-text">{walletId}</span>
+							<span className="address-text">
+								{walletActive.current.walletID}
+							</span>
 
 							<div
 								className={`copy-icon order-pointer ${copied && 'copied'}`}

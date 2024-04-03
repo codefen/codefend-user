@@ -105,7 +105,6 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 					rowsData={dataTable}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
-					sizeY={79}
 					tableAction={{
 						icon: [
 							{
@@ -121,7 +120,6 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 					}}
 					selectItem={(id: String) => props.setSelectedTicket(id)}
 					sort={Sort.asc}
-					initialSelect
 				/>
 			</div>
 		</>

@@ -1,5 +1,4 @@
-import { useState, type FC } from 'react';
-import { useAuthState, useWelcomeUser } from '../../../../data';
+import { type FC } from 'react';
 import { ModalWrapper, PrimaryButton, Show } from '../../';
 import './welcome.scss';
 import { Link } from 'react-router-dom';
@@ -41,7 +40,6 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 									across our services!
 								</b>
 							</p>
-							{/* https://www.codefend.com/services */}
 							<ul className="list">
 								<li>
 									<Link

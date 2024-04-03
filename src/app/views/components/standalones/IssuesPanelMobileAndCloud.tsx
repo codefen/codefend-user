@@ -41,7 +41,6 @@ export const IssuesPanelMobileAndCloud: FC<Props> = (props) => {
 				columns={cloudAndMobileColumns}
 				showRows={!props.isLoading}
 				showEmpty={!props.isLoading && formatIssues.length === 0}
-				sizeY={30}
 				sort={Sort.desc}
 			/>
 		</SimpleSection>

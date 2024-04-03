@@ -1,8 +1,8 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-	AdminCompany,
 	BugIcon,
+	AdminCompanyIcon,
 	CLoudIcon,
 	ChartIcon,
 	EnpIcon,
@@ -17,14 +17,14 @@ import {
 	PreferenceIcon,
 	MessageIcon,
 	ProviderOrdersIcon,
-} from '../../';
+} from '@icons';
 
-import { usePanelStore, useUserAdmin, useUserProvider } from '../../../../data';
+import usePanelStore from '@stores/panel.store.ts';
 import './sidebar.scss';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 const Sidebar: FC = () => {
-	const { isAdmin } = useUserAdmin();
-	const { isHacker } = useUserProvider();
+	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
 	const { isActivePath } = usePanelStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -35,6 +35,10 @@ const Sidebar: FC = () => {
 			setIsSidebarOpen(false);
 		}
 	};
+
+	const haveAccessToResources = !isProvider() && !isReseller();
+	const haveAccessToModules = !isProvider() && !isReseller();
+	const haveAccessToSupport = !isProvider() && !isReseller();
 
 	return (
 		<aside
@@ -47,19 +51,20 @@ const Sidebar: FC = () => {
 						title="Admin Panel"
 						to="/admin/company"
 						className={`${
-							isActivePath('/admin/company') ? 'active' : ''
+							isActivePath('/admin/company', isAdmin()) ? 'active' : ''
 						}`}
 						aria-label="Admin panel"
 						data-text="Admin panel">
-						<AdminCompany />
+						<AdminCompanyIcon />
 					</Link>
 				</>
 			)}
-			{isHacker() && (
+
+			{isProvider() && (
 				<>
 					<Link
 						to="/provider/profile"
-						className={`${isActivePath('/provider/profile') ? 'active' : ''}`}
+						className={`${isActivePath('/provider/profile', isProvider()) ? 'active' : ''}`}
 						title="My profile"
 						aria-label="My profile"
 						data-text="My profile">
@@ -76,21 +81,25 @@ const Sidebar: FC = () => {
 				</>
 			)}
 
-			<Link
-				to="/reseller"
-				className={`${isActivePath('/reseller') ? 'active' : ''}`}
-				title="Reseller"
-				aria-label="Reseller"
-				data-text="Reseller">
-				<ProfileIcon isVisible />
-			</Link>
+			{isReseller() && (
+				<>
+					<Link
+						to="/reseller"
+						className={`${isActivePath('/reseller', isReseller()) ? 'active' : ''}`}
+						title="Reseller"
+						aria-label="Reseller"
+						data-text="Reseller">
+						<ProfileIcon isVisible />
+					</Link>
+				</>
+			)}
 
-			{!isHacker() && (
+			{haveAccessToResources && (
 				<>
 					<Link
 						title="Dashboard"
 						to="/dashboard"
-						className={`${isActivePath('/dashboard') ? 'active' : ''}`}
+						className={`${isActivePath('/dashboard', isNormalUser()) ? 'active' : ''}`}
 						aria-label="Dashboard"
 						data-text="Dashboard">
 						<ChartIcon />
@@ -167,7 +176,10 @@ const Sidebar: FC = () => {
 						data-text="Issues">
 						<BugIcon />
 					</Link>
-
+				</>
+			)}
+			{haveAccessToModules && (
+				<>
 					<Link
 						title="Inx"
 						to="/inx"
@@ -194,7 +206,10 @@ const Sidebar: FC = () => {
 						data-text="Vdb">
 						<VdbIcon />
 					</Link>
-
+				</>
+			)}
+			{haveAccessToSupport && (
+				<>
 					<Link
 						title="Preference"
 						to="/preferences"

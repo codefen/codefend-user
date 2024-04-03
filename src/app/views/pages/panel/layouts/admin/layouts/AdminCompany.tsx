@@ -1,6 +1,7 @@
 import { type FC, useEffect, useState } from 'react';
 import { AdminCompanyPanel } from './components/AdminCompanyPanel';
 import AdminCompanyDetails from './components/AdminCompanyDetails';
+import '../admin.scss';
 
 const AdminCompany: FC = () => {
 	const [showScreen, setShowScreen] = useState(false);

@@ -13,7 +13,8 @@ export const WebResourceScope: FC<ResourceScope<Webresources[]>> = ({
 }) => {
 	const scopeDataTable = resources
 		? resources.map((mainNetwork: Webresources, i: number) => ({
-				ID: { value: mainNetwork.id, style: 'id' },
+				ID: { value: '', style: '' },
+				Identifier: { value: mainNetwork.id, style: 'id' },
 				domainName: {
 					value: mainNetwork.resourceDomain,
 					style: 'domain-name',

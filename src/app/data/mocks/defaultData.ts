@@ -498,7 +498,7 @@ export const defaultListLeadsColumns: ColumnTable[] = [
 
 export const webResourcesWithoutActions = [
 	{
-		name: "ID",
+		name: "Identifier",
 		value: "id",
 		style: "id"
 	},
@@ -524,6 +524,7 @@ export const webResourcesWithoutActions = [
 	}
 ]
 
+export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id"}])
 export const defaultCrypto = [
 	{
 		name: 'btc',

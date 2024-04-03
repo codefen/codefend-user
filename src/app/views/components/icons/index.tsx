@@ -533,7 +533,7 @@ export const AdminUser = () => (
 	</svg>
 );
 
-export const AdminCompany = () => (
+export const AdminCompanyIcon = () => (
 	<svg
 		strokeWidth={0}
 		height="1em"
