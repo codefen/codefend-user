@@ -76,6 +76,15 @@ const Sidebar: FC = () => {
 				</>
 			)}
 
+			<Link
+				to="/reseller"
+				className={`${isActivePath('/reseller') ? 'active' : ''}`}
+				title="Reseller"
+				aria-label="Reseller"
+				data-text="Reseller">
+				<ProfileIcon isVisible />
+			</Link>
+
 			{!isHacker() && (
 				<>
 					<Link

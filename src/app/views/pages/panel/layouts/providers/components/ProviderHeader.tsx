@@ -1,10 +1,10 @@
 import { useEffect, type FC } from 'react';
 import { StarRating } from '@standalones/utils/StarRating.tsx';
-import { ProfileMedia } from '@standalones/utils/ProfileMedia.tsx';
 import { IconTextPairs } from '@standalones/textpair/IconTextPairs.tsx';
 import { CircleAskIcon, LocationIcon, VerificationIcon } from '@icons';
 
 import { formatToMonthYear, useProviderProfile } from '../../../../../../data';
+import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
 
 export const ProviderHeader: FC = () => {
 	const { providerProfile, refetch } = useProviderProfile();
@@ -36,19 +36,13 @@ export const ProviderHeader: FC = () => {
 					aria-label="provider banner"
 				/>
 			</div>*/}
-			<ProfileMedia
-				src={`${profileMedia ? profileMedia : '/util/default-profilemedia.webp'}`}
-				size="110px"
-				top="8%"
-				left="4rem"
-			/>
-
 			<div className="provider-header-content">
-				<div className="provider-main-info">
-					<h3>{providerName}</h3>
-					<h4>{headLine}</h4>
-					<span>Member since {memberTime}</span>
-				</div>
+				<ProfileHeader
+					profileMedia={profileMedia}
+					title={providerName}
+					headline={headLine}
+					bottomText={`Member since ${memberTime}`}
+				/>
 
 				<div className="provider-extra-info">
 					{!Boolean(providerProfile?.id_verified) ? (

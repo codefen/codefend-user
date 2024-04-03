@@ -37,6 +37,7 @@ import { ProviderPage } from './views/pages/panel/layouts/providers/ProviderPane
 import { useAuthState, useUserAdmin, useUserProvider } from './data';
 import { ProfileProviderLayout } from './views/pages/panel/layouts/providers/layouts/profile-provider/ProfileProviderLayout';
 import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/orders-provider/OrdersProviderLayout';
+import { ResellerPage } from './views/pages/panel/layouts/reseller/ResellerPage';
 
 export const AppRouter: React.FC = () => {
 	const { isAdmin } = useUserAdmin();
@@ -72,6 +73,7 @@ export const AppRouter: React.FC = () => {
 							</Route>
 						)}
 
+						<Route path="reseller/" element={<ResellerPage />} />
 						{isHacker() && (
 							<Route path="provider/*" element={<ProviderPage />}>
 								<Route

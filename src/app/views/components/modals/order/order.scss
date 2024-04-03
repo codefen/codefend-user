@@ -52,7 +52,6 @@
 		justify-content: flex-start;
 		align-items: flex-start;
 		// padding: 20px 35px;
-		
 
 		.order-header-title {
 			display: flex;
@@ -62,7 +61,7 @@
 			padding: 15px 35px 20px 35px;
 			width: 100%;
 			// justify-content: center;
-			
+
 			img {
 				height: 28px;
 				margin-top: 5px;
@@ -129,7 +128,6 @@
 		flex-direction: column;
 		flex: 1 1 100%;
 		min-height: 400px;
-		
 
 		.step-header {
 			font-size: 14px;
@@ -236,7 +234,7 @@
 				filter: grayscale(1);
 				opacity: 0.8;
 				clip-path: circle(50% at 50% 50%);
-				transition: all .110s ease-in;
+				transition: all 0.11s ease-in;
 			}
 
 			.total-payment {
@@ -295,7 +293,7 @@
 						width: 2px;
 						height: 100%;
 						background: var(--tertiary-color-300);
-						left: 38rem;
+						left: 36rem;
 					}
 				}
 			}
@@ -455,7 +453,7 @@
 				border-top: 1px solid var(--show-border-color);
 				border-bottom: 1px solid #00000000;
 				// box-sizing: border-box;
-				transition: all .130s ease-in;
+				transition: all 0.13s ease-in;
 
 				&.block-xl {
 					padding-block: 1rem;
@@ -489,7 +487,7 @@
 
 				.step-image {
 					filter: grayscale(1);
-					transition: all .110s ease-in;
+					transition: all 0.11s ease-in;
 					opacity: 0.7;
 					width: 40px;
 
@@ -517,7 +515,7 @@
 				border-bottom: 1px solid #fe4e4e55;
 				background-color: #ff131305;
 				box-shadow: 0 0 8px #00000025;
-				
+
 				&:last-child {
 					border-bottom: 1px solid #fe4e4e55;
 				}
@@ -530,7 +528,7 @@
 					filter: grayscale(0);
 					opacity: 1;
 				}
-				
+
 				.hackers-profile-media {
 					filter: grayscale(0);
 					opacity: 1;
@@ -562,7 +560,7 @@
 					font-weight: 600;
 
 					&.pentest-option {
-						white-space: break-spaces;;
+						white-space: break-spaces;
 					}
 
 					.space {
@@ -684,7 +682,7 @@
 			padding: 20px 4.5rem;
 			border-bottom: 1px solid #00000010;
 			border-top: 1px solid #00000010;
-			
+
 			.disclaimers {
 				padding-inline-end: 5px;
 			}

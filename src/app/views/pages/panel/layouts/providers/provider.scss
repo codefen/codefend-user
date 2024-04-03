@@ -68,25 +68,6 @@ main.provider {
 					min-height: 210px;
 				}
 			}
-			.provider-profile-media {
-				position: absolute;
-				width: 140px;
-				aspect-ratio: 1/1;
-				top: 12rem;
-				left: 2.5rem;
-				background: #fff;
-				border-radius: 100%;
-				padding: 4px;
-
-				.provider-profilemedia {
-					position: relative;
-					width: 140px;
-					aspect-ratio: 1/1;
-					object-fit: cover;
-					object-position: center;
-					clip-path: circle(50% at 50% 50%);
-				}
-			}
 
 			.provider-header-content {
 				display: flex;
@@ -94,29 +75,6 @@ main.provider {
 				height: 130px;
 				border-bottom: 1px solid var(--provider-border-color);
 
-				.provider-main-info {
-					margin-inline-start: 15rem;
-					padding-inline-end: 2rem;
-					border-inline-end: 1px solid var(--provider-border-color);
-					min-width: 18rem;
-					max-width: 18rem;
-					padding-block-start: 1rem;
-
-					h3 {
-						color: var(--tertiary-color-600);
-						font-size: 1.75rem;
-						margin-block-start: 1rem;
-						line-height: 2.5rem;
-					}
-					h4 {
-						font-size: 1.1rem;
-						letter-spacing: 0.5px;
-					}
-					span {
-						color: var(--tertiary-color-300);
-						line-height: 2.5rem;
-					}
-				}
 				.provider-extra-info {
 					display: flex;
 					flex-direction: column;

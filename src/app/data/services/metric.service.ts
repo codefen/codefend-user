@@ -88,16 +88,18 @@ const renderPercentage = (value: string, total: string) => {
 };
 
 /** Get resources  country locations and metric */
-export const getCountryMetrics = (resources: Webresources[]) => {
+export const getCountryMetrics = (resources: any[]) => {
 	if (!resources) return [];
-
 	const domainsAndSubDomains = resources
-		.reduce((acc: any, resource: Webresources) => {
-			return resource.childs === null ? acc : acc.concat(resource.childs);
-		}, [])
-		.concat(resources);
+	.reduce((acc: any, resource: any) => {
+		if (!resource.childs) return acc; 
+		return acc.concat(resource.childs);
+	}, [])
+	.concat(resources);
 
 	const countries = domainsAndSubDomains.reduce((acc: any, value: any) => {
+		console.log({ acc });
+		console.log({ value });
 		if (!value.serverCountryCode || value.serverCountryCode === '-')
 			return acc;
 		if (acc[value.serverCountryCode]) {

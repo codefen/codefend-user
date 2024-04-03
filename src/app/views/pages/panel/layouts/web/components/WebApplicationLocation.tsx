@@ -9,7 +9,7 @@ import {
 	MetricsService,
 	type Webresources,
 	Sort,
-	webLocationColumn,
+	locationTableColumn,
 } from '../../../../../../data';
 
 export const WebApplicationLocation: React.FC<{
@@ -58,7 +58,7 @@ export const WebApplicationLocation: React.FC<{
 		<div className="card location-card">
 			<SimpleSection header="Web servers by location" icon={<CircleIcon />}>
 				<TableV2
-					columns={webLocationColumn}
+					columns={locationTableColumn}
 					rowsData={dataTable}
 					showEmpty={false}
 					showRows={dataTable.length !== 0}

@@ -439,7 +439,7 @@ export const defaultCompanyCardData = [
 	},
 ];
 
-export const webLocationColumn: ColumnTable[] = [
+export const locationTableColumn: ColumnTable[] = [
 	{
 		name: 'location',
 		value: 'location',
@@ -456,6 +456,45 @@ export const webLocationColumn: ColumnTable[] = [
 		style: 'percent',
 	},
 ];
+
+export const defaultListLeadsColumns: ColumnTable[] = [
+	{
+		name: "area",	
+		value: "area",	
+		style: "area",	
+	},
+	{
+		name: "company",	
+		value: "company",	
+		style: "company",	
+	},
+	{
+		name: "website",	
+		value: "website",	
+		style: "full-name",	
+	},
+	{
+		name: "size",	
+		value: "size",	
+		style: "size",	
+	},
+	{
+		name: "fullname",	
+		value: "leads full name",	
+		style: "full-name",	
+	},
+	{
+		name: "phone",	
+		value: "phone",	
+		style: "phone",	
+	},
+	{
+		name: "postContact",	
+		value: "post-contact",	
+		style: "post",	
+	},
+]
+
 
 export const webResourcesWithoutActions = [
 	{
@@ -531,6 +570,7 @@ export const defaultPersonalDetails = [
 		value: '',
 	},
 ];
+
 
 export const emptyCompany = {
 	id: "",
