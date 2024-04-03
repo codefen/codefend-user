@@ -52,7 +52,6 @@ export const useDeleteWebResource = () => {
 	): Promise<any> => {
 		const companyID = getCompany();
 		if (!companyID) {
-			console.error("Error: 'companyID' no está definido en userData.");
 			toast.error('User information was not found');
 			return;
 		}
@@ -107,7 +106,6 @@ export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
 
 		const companyID = getCompany();
 		if (!companyID) {
-			console.error("Error: 'companyID' no está definido en userData.");
 			toast.error('User information was not found');
 			return;
 		}

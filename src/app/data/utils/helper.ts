@@ -418,10 +418,8 @@ export const quickSort = (
 	dataSort: string,
 	sortDirection: string,
 ): any[] => {
-	console.time('timeStamp');
 
 	if (arr.length <= 1) {
-		console.timeEnd('timeStamp');
 		return arr;
 	}
 
@@ -453,8 +451,6 @@ export const quickSort = (
 			stack.push(pivotIndex + 1, right);
 		}
 	}
-
-	console.timeEnd('timeStamp');
 	return auxArr;
 };
 

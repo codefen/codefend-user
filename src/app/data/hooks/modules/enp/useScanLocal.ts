@@ -23,7 +23,6 @@ export const useScanLocal = (token: string) => {
 			);
 			return handleScanResult(resParsed);
 		} catch (error: any) {
-			console.error({ error });
 			toast.error(JSON.parse(error).error);
 		} finally {
 			setScanLoading(false);
