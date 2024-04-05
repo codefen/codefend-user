@@ -1,20 +1,27 @@
+import { type FC, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { EditIcon, ModalButtons } from '../..';
+import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { EditIcon } from '@icons';
+import Show from '@defaults/Show.tsx';
+import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import {
 	deleteCustomBaseAPi,
 	getCustomBaseAPi,
 	setCustomBaseAPi,
-	useAuthState,
-} from '../../../../data';
-import { type FC, useCallback, useState } from 'react';
-import { baseUrl } from '../../../../data/utils/config';
+} from '@utils/helper.ts';
+import { useAuthState } from '#commonHooks/useAuthState.ts';
+import { baseUrl } from '@utils/config.ts';
 import './networkSetting.scss';
 
 interface NetworkSetingModalProps {
+	isOpen: boolean;
 	close: () => void;
 }
 
-export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({ close }) => {
+export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
+	close,
+	isOpen,
+}) => {
 	const customAPi = getCustomBaseAPi();
 	const defaultApiUrl = customAPi ? customAPi : baseUrl;
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
@@ -49,60 +56,81 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({ close }) => {
 
 	return (
 		<>
-			<header className="network-header">
-				<h4 className="network-header_title title-format">
-					Network Setting
-				</h4>
-			</header>
-			<form onSubmit={handleSubmit} className="network-form">
-				<div className="network-form_inputs">
-					<div className="network-form_inputs_edit">
-						<input
-							value={apiUrl}
-							disabled={!canEdit}
-							type="url"
-							onChange={(e) => setApiUrl(e.target.value)}
-							className={` log-inputs ${!canEdit && 'opacity'}`}
-							placeholder="Enter API URI"
-							list="api-urls"
-							required
-						/>
-						<datalist id="api-urls">
-							<option value="https://kundalini.codefend.com/kundalini/index.php"></option>
-							<option value="https://api.codefend.com/kundalini/index.php"></option>
-							<option value="https://api-mena.codefend.com/kundalini/index.php"></option>
-							<option value="https://kundalini-usa.codefend.com/kundalini/"></option>
-						</datalist>
-						<button
-							onClick={() => setCanEdit((currentValue) => !currentValue)}
-							type="button"
-							className="edit-btn">
-							<span
-								className={`edit-btn_icon ${!canEdit ? 'off' : 'on'}`}>
-								<EditIcon width={2} height={2} />
-							</span>
-						</button>
+			<Show when={isOpen}>
+				<ModalWrapper action={close}>
+					<div
+						className="modal-wrapper-title internal-tables disable-border"
+						onClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+						}}>
+						<div className="network-modal-container">
+							<div className="network-modal-content disable-border">
+								<header className="network-header">
+									<h4 className="network-header_title title-format">
+										Network Setting
+									</h4>
+								</header>
+								<form onSubmit={handleSubmit} className="network-form">
+									<div className="network-form_inputs">
+										<div className="network-form_inputs_edit">
+											<input
+												value={apiUrl}
+												disabled={!canEdit}
+												type="url"
+												onChange={(e) => setApiUrl(e.target.value)}
+												className={` log-inputs ${!canEdit && 'opacity'}`}
+												placeholder="Enter API URI"
+												list="api-urls"
+												required
+											/>
+											<datalist id="api-urls">
+												<option value="https://kundalini.codefend.com/kundalini/index.php"></option>
+												<option value="https://api.codefend.com/kundalini/index.php"></option>
+												<option value="https://api-mena.codefend.com/kundalini/index.php"></option>
+												<option value="https://kundalini-usa.codefend.com/kundalini/"></option>
+											</datalist>
+											<button
+												onClick={() =>
+													setCanEdit(
+														(currentValue) => !currentValue,
+													)
+												}
+												type="button"
+												className="edit-btn">
+												<span
+													className={`edit-btn_icon ${!canEdit ? 'off' : 'on'}`}>
+													<EditIcon width={2} height={2} />
+												</span>
+											</button>
+										</div>
+
+										<span
+											onClick={() => {
+												deleteCustomBaseAPi();
+												setApiUrl(baseUrl);
+												setCanEdit(false);
+												close();
+												toast.success(
+													'Server has been changed successfully',
+												);
+											}}
+											className="network-form_inputs_edit_reset codefend-text-red">
+											click here to set back to default
+										</span>
+									</div>
+
+									<ModalButtons
+										close={close}
+										isDisabled={isLoading}
+										confirmText="Save changes"
+									/>
+								</form>
+							</div>
+						</div>
 					</div>
-
-					<span
-						onClick={() => {
-							deleteCustomBaseAPi();
-							setApiUrl(baseUrl);
-							setCanEdit(false);
-							close();
-							toast.success('Server has been changed successfully');
-						}}
-						className="network-form_inputs_edit_reset codefend-text-red">
-						click here to set back to default
-					</span>
-				</div>
-
-				<ModalButtons
-					close={() => close()}
-					isDisabled={isLoading}
-					confirmText="Save changes"
-				/>
-			</form>
+				</ModalWrapper>
+			</Show>
 		</>
 	);
 };

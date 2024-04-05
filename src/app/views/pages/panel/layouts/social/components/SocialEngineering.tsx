@@ -1,7 +1,10 @@
 import {
+	BugIcon,
+	ConfirmModal,
 	ModalTitleWrapper,
 	PeopleGroupIcon,
 	TableV2,
+	TrashIcon,
 } from '../../../../../../views/components';
 
 import {
@@ -14,6 +17,7 @@ import {
 import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
 import { useNavigate } from 'react-router';
 import { type FC } from 'react';
+import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 
 interface SocialProps {
 	refetch: () => void;
@@ -24,6 +28,9 @@ interface SocialProps {
 const SocialEngineering: FC<SocialProps> = (props) => {
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
+	const [handleDeleteResource, { setSelectedId, isLoading }] = useAddSocial(
+		() => setShowModal(false),
+	);
 	const navigate = useNavigate();
 	const safelyPreviousSearches = () =>
 		Array.isArray(props.socials) ? props.socials.slice().reverse() : [];
@@ -45,6 +52,24 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 			}) as Record<string, TableItem>,
 	);
 
+	const tableAction = {
+		icon: [
+			{
+				action: (id: string, type?: any) =>
+					navigate(`/issues/create/social/${id}`),
+				render: <BugIcon />,
+			},
+			{
+				action: (id: string, type?: any) => {
+					setShowModalStr('delete');
+					setShowModal(true);
+					setSelectedId(id);
+				},
+				render: <TrashIcon />,
+			},
+		],
+	};
+
 	return (
 		<>
 			<ModalTitleWrapper
@@ -56,6 +81,20 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 						props.refetch();
 						setShowModal(false);
 					}}
+					close={() => setShowModal(false)}
+				/>
+			</ModalTitleWrapper>
+			<ModalTitleWrapper
+				isActive={showModal && showModalStr === 'delete'}
+				close={() => setShowModal(false)}
+				headerTitle="Delete social engineering">
+				<ConfirmModal
+					action={() => {
+						handleDeleteResource();
+					}}
+					header=""
+					cancelText="Cancel"
+					confirmText="Delete"
 					close={() => setShowModal(false)}
 				/>
 			</ModalTitleWrapper>
@@ -76,22 +115,14 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 							}}>
 							Add profile
 						</div>
-						<div
-							onClick={() => {
-								const firstMemberId = safelyPreviousSearches()[0]?.id;
-								firstMemberId
-									? navigate(`/issues/create/social/${firstMemberId}`)
-									: navigate('/issues/create');
-							}}>
-							Add issues
-						</div>
 					</div>
 				</div>
 				<TableV2
 					columns={collaboratorsColumns}
 					rowsData={dataTable}
+					tableAction={tableAction}
 					showRows={!props.isLoading}
-					showEmpty={!props.isLoading && dataTable.length === 0}
+					showEmpty={!props.isLoading && !Boolean(dataTable.length)}
 				/>
 			</div>
 		</>

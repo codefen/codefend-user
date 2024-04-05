@@ -5,7 +5,7 @@ import { useDeleteWebResource } from '@resourcesHooks/web/useWebapplication.ts';
 import { webResourcesColumns } from '@mocks/defaultData.ts';
 import type { TableItem } from '@interfaces/table.ts';
 import type { Webresources, Resouce } from '@interfaces/panel.ts';
-import { useReportStore } from '@stores/report.store.ts';
+import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { LocationItem } from '@standalones/utils/LocationItem.tsx';
 import { TableV2 } from '@table/tablev2.tsx';
@@ -14,6 +14,7 @@ import ConfirmModal from '@modals/ConfirmModal.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
+import { findWebResourceByID } from '@utils/helper.ts';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -28,38 +29,23 @@ interface SelectedResource {
 }
 
 export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
+	const navigate = useNavigate();
 	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
 		{} as any,
 	);
 	const { openModal, setResourceID, setResourceType } = useReportStore(
-		(state) => state,
+		(state: ReportStoreState) => state,
 	);
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
 		useModal();
 	const { handleDelete } = useDeleteWebResource();
-	const navigate = useNavigate();
+	const getResources = useMemo(() => {
+		const resources = props.isLoading ? [] : props.webResources;
+		return resources !== undefined ? resources.reverse() : [];
+	}, [props.webResources, props.isLoading]);
 
 	const selectResource = (id: string, isChild?: boolean) => {
-		const findResourceByID = (
-			id: string,
-			isChild: boolean,
-		): Resouce | Webresources | null => {
-			for (const resource of getResources) {
-				if (isChild) {
-					for (const child of resource.childs) {
-						if (child.id === id) {
-							return child;
-						}
-					}
-				} else {
-					if (resource.id === id) {
-						return resource;
-					}
-				}
-			}
-			return null;
-		};
-		const resource = findResourceByID(id, Boolean(isChild));
+		const resource = findWebResourceByID(getResources, id, Boolean(isChild));
 		if (resource) {
 			setSelectedResource({
 				id: resource.id,
@@ -68,11 +54,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 			});
 		}
 	};
-
-	const getResources = useMemo(() => {
-		const resources = props.isLoading ? [] : props.webResources;
-		return resources !== undefined ? resources.reverse() : [];
-	}, [props.webResources, props.isLoading]);
 
 	const generateReport = (resourceID: string, count: any) => {
 		if (Number(count) >= 1) {
@@ -197,7 +178,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												className="issue-printer"
 												onClick={() =>
 													generateReport(
-														mainNetwork.id,
+														subNetwork.id,
 														subNetwork.issueCount,
 													)
 												}>

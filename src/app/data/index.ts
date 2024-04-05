@@ -9,3 +9,4 @@ export * from './store';
 export * from './utils/config';
 export * from './utils/helper';
 export * from './utils/mapper';
+export * from './utils/metric.service';

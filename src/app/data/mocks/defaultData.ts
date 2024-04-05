@@ -141,6 +141,11 @@ export const collaboratorsColumns: ColumnTable[] = [
 		value: 'role',
 		style: 'role',
 	},
+	{
+		name: 'action',
+		value: 'actions',
+		style: 'id action',
+	}
 ];
 
 export const vulnerabilityRiskColumns: ColumnTable[] = [

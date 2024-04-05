@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	BugIcon,
@@ -36,198 +36,152 @@ const Sidebar: FC = () => {
 		}
 	};
 
-	const haveAccessToResources = !isProvider() && !isReseller();
-	const haveAccessToModules = !isProvider() && !isReseller();
-	const haveAccessToSupport = !isProvider() && !isReseller();
+	const isNotProviderAndReseller = !isProvider() && !isReseller();
+
+	const menuItems = [
+		{
+			title: 'Admin Panel',
+			icon: <AdminCompanyIcon />,
+			to: '/admin/company',
+			root: isAdmin(),
+			haveAccess: isAdmin(),
+		},
+		{
+			title: 'My profile',
+			icon: <ProfileIcon isVisible />,
+			to: '/provider/profile',
+			root: isProvider(),
+			haveAccess: isProvider(),
+		},
+		{
+			title: 'Orders',
+			icon: <ProviderOrdersIcon isVisible />,
+			to: '/provider/orders',
+			root: false,
+			haveAccess: isProvider(),
+		},
+		{
+			title: 'Reseller',
+			icon: <ProfileIcon isVisible />,
+			to: '/reseller',
+			root: isReseller(),
+			haveAccess: isReseller(),
+		},
+		{
+			title: 'Dashboard',
+			icon: <ChartIcon />,
+			to: '/dashboard',
+			root: !isProvider() && !isReseller() && !isAdmin(),
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Web',
+			icon: <GlobeWebIcon />,
+			to: '/web',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Mobile',
+			icon: <MobileIcon />,
+			to: '/mobile',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Cloud',
+			icon: <CLoudIcon />,
+			to: '/cloud',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Source Code',
+			icon: <SourceCodeIcon />,
+			to: '/source',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Social Engineering',
+			icon: <PeopleGroupIcon />,
+			to: '/social',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		//{ title: 'Network', icon: <LanIcon />, to: '/lan' },
+		{
+			title: 'Enp',
+			icon: <EnpIcon />,
+			to: '/enp',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Issues',
+			icon: <BugIcon />,
+			to: '/issues',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Inx',
+			icon: <InxIcon />,
+			to: '/inx',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Sns',
+			icon: <SnbIcon />,
+			to: '/sns',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Vdb',
+			icon: <VdbIcon />,
+			to: '/vdb',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Preference',
+			icon: <PreferenceIcon />,
+			to: '/preference',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+		{
+			title: 'Support',
+			icon: <MessageIcon />,
+			to: '/support',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+	];
 
 	return (
 		<aside
 			className={`sidebar ${isSidebarOpen ? 'is-open' : ''}`}
 			onMouseEnter={(e) => handleOpenSidebar('enter')}
 			onMouseLeave={(e) => handleOpenSidebar('leave')}>
-			{isAdmin() && (
-				<>
-					<Link
-						title="Admin Panel"
-						to="/admin/company"
-						className={`${
-							isActivePath('/admin/company', isAdmin()) ? 'active' : ''
-						}`}
-						aria-label="Admin panel"
-						data-text="Admin panel">
-						<AdminCompanyIcon />
-					</Link>
-				</>
-			)}
-
-			{isProvider() && (
-				<>
-					<Link
-						to="/provider/profile"
-						className={`${isActivePath('/provider/profile', isProvider()) ? 'active' : ''}`}
-						title="My profile"
-						aria-label="My profile"
-						data-text="My profile">
-						<ProfileIcon isVisible />
-					</Link>
-					<Link
-						to="/provider/orders"
-						className={`${isActivePath('/provider/orders') ? 'active' : ''}`}
-						title="Orders"
-						aria-label="Orders"
-						data-text="Orders">
-						<ProviderOrdersIcon isVisible />
-					</Link>
-				</>
-			)}
-
-			{isReseller() && (
-				<>
-					<Link
-						to="/reseller"
-						className={`${isActivePath('/reseller', isReseller()) ? 'active' : ''}`}
-						title="Reseller"
-						aria-label="Reseller"
-						data-text="Reseller">
-						<ProfileIcon isVisible />
-					</Link>
-				</>
-			)}
-
-			{haveAccessToResources && (
-				<>
-					<Link
-						title="Dashboard"
-						to="/dashboard"
-						className={`${isActivePath('/dashboard', isNormalUser()) ? 'active' : ''}`}
-						aria-label="Dashboard"
-						data-text="Dashboard">
-						<ChartIcon />
-					</Link>
-					<Link
-						title="Web"
-						to="/web"
-						className={`${isActivePath('/web') ? 'active' : ''}`}
-						aria-label="Web"
-						data-text="Web">
-						<GlobeWebIcon />
-					</Link>
-
-					<Link
-						title="Mobile"
-						to="/mobile"
-						className={`${isActivePath('/mobile') ? 'active' : ''}`}
-						aria-label="Mobile"
-						data-text="Mobile">
-						<MobileIcon />
-					</Link>
-
-					<Link
-						title="Cloud"
-						to="/cloud"
-						className={`${isActivePath('/cloud') ? 'active' : ''}`}
-						aria-label="Cloud"
-						data-text="Cloud">
-						<CLoudIcon />
-					</Link>
-
-					{/* <Link
-				title="Network"
-				to="/lan"
-				className={`${
-					isActivePath('/lan') ? ' active' : ''
-				}`}
-				data-text="Lan">
-				<LanIcon />
-			</Link> */}
-
-					<Link
-						title="Source Code"
-						to="/source"
-						className={`${isActivePath('/source') ? 'active' : ''}`}
-						aria-label="Source Code"
-						data-text="Source Code">
-						<SourceCodeIcon />
-					</Link>
-
-					<Link
-						title="Social Engineering"
-						to="/social"
-						className={`${isActivePath('/social') ? 'active' : ''}`}
-						aria-label="Social Engineering"
-						data-text="Social Engineering">
-						<PeopleGroupIcon />
-					</Link>
-
-					<Link
-						title="Enp"
-						to="/enp"
-						className={`${isActivePath('/enp') ? 'active' : ''}`}
-						aria-label="Endpoint monitoring"
-						data-text="Endpoint monitoring">
-						<EnpIcon />
-					</Link>
-
-					<Link
-						title="Issues"
-						to="/issues"
-						className={`${isActivePath('/issues') ? 'active' : ''}`}
-						aria-label="Issues"
-						data-text="Issues">
-						<BugIcon />
-					</Link>
-				</>
-			)}
-			{haveAccessToModules && (
-				<>
-					<Link
-						title="Inx"
-						to="/inx"
-						className={`${isActivePath('/inx') ? 'active' : ''}`}
-						aria-label="Intelligence"
-						data-text="Intelligence">
-						<InxIcon />
-					</Link>
-
-					<Link
-						title="Sns"
-						to="/sns"
-						className={`${isActivePath('/sns') ? 'active' : ''}`}
-						aria-label="Search dataleak"
-						data-text="Search data leak">
-						<SnbIcon />
-					</Link>
-
-					<Link
-						title="Vdb"
-						to="/vdb"
-						className={`${isActivePath('/vdb') ? 'active' : ''}`}
-						aria-label="Vdb"
-						data-text="Vdb">
-						<VdbIcon />
-					</Link>
-				</>
-			)}
-			{haveAccessToSupport && (
-				<>
-					<Link
-						title="Preference"
-						to="/preferences"
-						className={`${isActivePath('/preferences') ? 'active' : ''}`}
-						aria-label="Preference"
-						data-text="Preference">
-						<PreferenceIcon />
-					</Link>
-					<Link
-						title="Support"
-						to="/support"
-						className={`${isActivePath('/support') ? 'active' : ''}`}
-						aria-label="Support"
-						data-text="Support">
-						<MessageIcon />
-					</Link>
-				</>
-			)}
+			{menuItems.map((item) => (
+				<Fragment key={`sb-${item.to}`}>
+					{item.haveAccess ? (
+						<Link
+							title={item.title}
+							to={item.to}
+							className={`${
+								isActivePath(item.to, item.root) ? 'active' : ''
+							}`}
+							aria-label={item.title}
+							data-text={item.title}>
+							{item.icon}
+						</Link>
+					) : null}
+				</Fragment>
+			))}
 		</aside>
 	);
 };

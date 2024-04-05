@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PrimaryButton } from '../../..';
 import { OrderSection, useOrderConfirm } from '../../../../../data';
 import { toast } from 'react-toastify';
+import useTimeout from '#commonHooks/useTimeout';
 
 export const OrderReviewModal: React.FC<{
 	updateNextStep: (updated: boolean) => void;
@@ -14,17 +15,16 @@ export const OrderReviewModal: React.FC<{
 		resourcesText,
 		updateState,
 	} = useOrderConfirm();
+	const { oneExecute } = useTimeout(() => {
+		props.updateNextStep(false);
+		toast.success(`Your request has been processed. You're about to finish!`);
+	}, 1100);
 
 	const nextStep = () => {
 		sendConfirmOrder().then((res) => {
 			updateState('orderStepActive', OrderSection.SELECT_LEAD);
 			props.updateNextStep(true);
-			setTimeout(() => {
-				props.updateNextStep(false);
-				toast.success(
-					`Your request has been processed. You're about to finish!`,
-				);
-			}, 1100);
+			oneExecute();
 		});
 	};
 	return (

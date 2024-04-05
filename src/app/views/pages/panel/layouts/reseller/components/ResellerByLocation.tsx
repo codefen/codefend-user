@@ -2,7 +2,7 @@ import { SimpleSection } from '@defaults/SimpleSection';
 import { CircleIcon } from '@icons';
 import { Sort } from '@interfaces/table';
 import { locationTableColumn } from '@mocks/defaultData';
-import { MetricsService } from '@services/metric.service';
+import { MetricsService } from '@utils/metric.service';
 import { LocationItem } from '@standalones/index';
 import { TableV2 } from '@table/tablev2';
 import { useCallback, useEffect, useMemo, useState, type FC } from 'react';

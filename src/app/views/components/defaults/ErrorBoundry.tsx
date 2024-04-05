@@ -1,11 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import {
-	ModalWrapper,
-	NetworkIcon,
-	NetworkSetingModal,
-	PrimaryButton,
-	Show,
-} from '..';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import { NetworkIcon } from '@icons';
+import { NetworkSetingModal } from '@modals/network-modal/NetworkSetingModal.tsx';
 
 interface ErrorBoundaryProps {
 	children: ReactNode;
@@ -43,24 +39,10 @@ export class ErrorBoundary extends Component<
 			//Renders the alternative error message
 			return (
 				<>
-					<Show when={this.state.isNetworkOpen}>
-						<ModalWrapper action={() => this.updateNetworkOpen()}>
-							<div
-								className="modal-wrapper-title internal-tables disable-border"
-								onClick={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-								}}>
-								<div className="network-modal-container">
-									<div className="network-modal-content disable-border">
-										<NetworkSetingModal
-											close={() => this.updateNetworkOpen()}
-										/>
-									</div>
-								</div>
-							</div>
-						</ModalWrapper>
-					</Show>
+					<NetworkSetingModal
+						close={() => this.updateNetworkOpen()}
+						isOpen={this.state.isNetworkOpen}
+					/>
 					<div
 						className="network-btn"
 						onClick={() => this.updateNetworkOpen()}>

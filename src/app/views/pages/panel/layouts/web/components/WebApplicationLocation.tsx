@@ -60,8 +60,8 @@ export const WebApplicationLocation: React.FC<{
 				<TableV2
 					columns={locationTableColumn}
 					rowsData={dataTable}
-					showEmpty={false}
-					showRows={dataTable.length !== 0}
+					showEmpty={!isLoading && !Boolean(dataTable.length)}
+					showRows={!isLoading}
 					sizeX={93.75}
 					sort={Sort.asc}
 				/>

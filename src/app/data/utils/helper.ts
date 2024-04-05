@@ -1,6 +1,6 @@
 import DOMPurify from 'isomorphic-dompurify';
 import { toast } from 'react-toastify';
-import { Sort } from '..';
+import { Sort, type Resouce, type Webresources } from '..';
 
 /** Gets token in localStorage */
 export const getToken = () => {
@@ -492,3 +492,24 @@ export const formatWalletID = (walletID: string)=> {
 
     return `${firstFour}*****${lastThree}`;
 }
+
+export const findWebResourceByID = (
+	getResources: Webresources[],
+	id: string,
+	isChild: boolean,
+): Resouce | Webresources | null => {
+	for (const resource of getResources) {
+		if (isChild) {
+			for (const child of resource.childs) {
+				if (child.id === id) {
+					return child;
+				}
+			}
+		} else {
+			if (resource.id === id) {
+				return resource;
+			}
+		}
+	}
+	return null;
+};

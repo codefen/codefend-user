@@ -5,7 +5,7 @@ import {
 	decodePayload,
 	mapLoginResponseToUser,
 } from '..';
-import { AxiosHttpService } from '../services/http/axiosHTTP.service';
+import { AxiosHttpService } from '../services/axiosHTTP.service';
 
 export interface AuthState {
 	userData: User;

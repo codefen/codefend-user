@@ -1,6 +1,6 @@
-import {  useMessageState } from '..';
-import { useAddIssueMessage } from './panel/issues/useAddMessage';
-import { useAddSupportMessage } from './panel/support/useAddSupportMessage';
+import {  useMessageState } from '../..';
+import { useAddIssueMessage } from '../panel/issues/useAddMessage';
+import { useAddSupportMessage } from '../panel/support/useAddSupportMessage';
 
 const useChatbox = () => {
 	const { message, isLoading, getCompany, getUserdata, setMessage, fetcher } =

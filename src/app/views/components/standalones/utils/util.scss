@@ -35,3 +35,13 @@
 		}
 	}
 }
+
+.active {
+	.profile-media-container {
+		.profile-media {
+			&.gray-scale-filter {
+				filter: grayscale(0);
+			}
+		}
+	}
+}

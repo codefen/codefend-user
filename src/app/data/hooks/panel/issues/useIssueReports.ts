@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuthState, baseUrl, getCustomBaseAPi, getToken, handleFetchError, mapIssueShareV2, mapMobileApp, mapWebresourceApiToWebresource, mapCloudApp, mapReportIssues} from "../../..";
+import { useAuthState, baseUrl, getCustomBaseAPi, getToken, mapIssueShareV2, mapMobileApp, mapWebresourceApiToWebresource, mapCloudApp, mapReportIssues} from "../../..";
 import { useReportStore } from "../../../";
+import { handleFetchError } from "@services/api.utils";
 
 export const useIssueReport = ()=>{
     const resources = useRef<any>(null);

@@ -3,13 +3,18 @@
 main.webapp {
 	padding-inline-end: 0px;
 
-	.left .table .rows {
-		height: calc(100vh - 153px);
-
-		.action {
-			.publish {
-				overflow: visible;
+	.left {
+		padding-inline-start: 0;
+		.table .rows {
+			.action {
+				.publish {
+					overflow: visible;
+				}
 			}
+		}
+
+		.empty-card {
+			min-width: 725px;
 		}
 	}
 	// .left {

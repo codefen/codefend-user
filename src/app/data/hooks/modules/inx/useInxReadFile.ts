@@ -1,4 +1,5 @@
-import { getCustomBaseAPi, baseUrl, getToken, handleFetchError } from '../../..';
+import { handleFetchError } from '@services/api.utils';
+import { getCustomBaseAPi, baseUrl, getToken } from '../../..';
 import { useRef, useState } from 'react';
 
 export const useInxReadFile = () => {

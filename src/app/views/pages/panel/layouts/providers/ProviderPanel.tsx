@@ -9,6 +9,7 @@ import './provider.scss';
 
 export const ProviderPage = () => {
 	const [showScreen] = useShowScreen();
+	console.log({ showScreen });
 	return (
 		<main className={`provider ${showScreen ? 'actived' : ''}`}>
 			<section className="left">

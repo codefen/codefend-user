@@ -5,6 +5,7 @@ import {
 	useAuthState,
 	useOrderStore,
 	verifySession,
+	type Company,
 } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
@@ -12,10 +13,10 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 /* Custom Hook "useWebapplication" to manage the GET of web apps*/
 export const useWebapplication = () => {
 	const { getCompany, logout } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher();
 	const { setScopeTotalResources } = useOrderStore((state) => state);
 	const [webResources, setWebResources] = useState<WebapplicationProps>(
-		{} as WebapplicationProps,
+		{company: {} as Company, resources: []}
 	);
 
 	//Refetch Data

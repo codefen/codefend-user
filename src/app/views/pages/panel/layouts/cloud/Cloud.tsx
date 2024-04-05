@@ -15,6 +15,7 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCloudModal';
 import { CloudApplication } from './components/CloudApplication';
 import './cloud.scss';
+import useTimeout from '#commonHooks/useTimeout';
 
 const CloudApplicationPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -23,13 +24,11 @@ const CloudApplicationPanel: FC = () => {
 	const { resetSelectedApp } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
+	const { oneExecute } = useTimeout(() => resetSelectedApp(), 50);
 
 	useEffect(() => {
 		refetch();
-		const timeoutId = setTimeout(() => {
-			resetSelectedApp();
-		}, 50);
-		return () => clearTimeout(timeoutId);
+		oneExecute();
 	}, [control]);
 
 	return (

@@ -44,7 +44,7 @@ export const ProviderHeader: FC = () => {
 				/>
 
 				<div className="provider-extra-info">
-					{!Boolean(providerProfile?.id_verified) ? (
+					{Boolean(providerProfile?.id_verified) ? (
 						<IconTextPairs
 							icon={<VerificationIcon />}
 							className={`provider-verification verified`}>

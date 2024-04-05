@@ -1,5 +1,5 @@
 import { type StateCreator, create } from "zustand";
-import { type ID, type Monitoring, emptyCompany, equalsObj, getFullCompanyFromUser } from "..";
+import { type ID, type Monitoring, emptyCompany, equalsObj } from "..";
 import { type PersistOptions, devtools, persist } from "zustand/middleware";
 
 export interface AdminCompany extends ID, Monitoring {
@@ -36,7 +36,6 @@ export interface AdminCompanyState {
 
 const equals = (first:any,second:any)=>equalsObj(first, second);
 
-const defaultCompanySelected = getFullCompanyFromUser() as AdminCompany;
 const companyEMPTY = emptyCompany;
 
 const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: PersistOptions<any,string>) =>
@@ -48,7 +47,31 @@ const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: Persis
     
 const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=>({
     companies: [],
-    companySelected: defaultCompanySelected,
+    companySelected: (()=>{
+        const storeJson = localStorage.getItem('authStore') ?? '';
+        const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+        const companyID = store ? store.state.userData.companyID : '';
+        return {
+            id: companyID,
+            name: 'codefend',
+            web: '',
+            size: '',
+            pais_code: '',
+            pais: '',
+            pais_provincia: '',
+            pais_ciudad: '',
+            owner_fname: '',
+            owner_lname: '',
+            owner_role: '',
+            owner_email: '',
+            owner_phone: '',
+            orders_size: '',
+            profile_media: '',
+            mercado: '',
+            isDisabled: false,
+            createdAt: '',
+        };
+    })(),
     searchQuery: "",
     selectCompany: (company: AdminCompany, ignore?: boolean)=> {
         const state = get();

@@ -11,7 +11,7 @@ export interface ReportStoreState {
     setResourceType: (updated:string)=>void;
 }
 
-export const useReportStore = create<ReportStoreState>((set, _get) => ({
+export const useReportStore = create<ReportStoreState>((set) => ({
 	open: false, 
     resourceID: localStorage.getItem("resource-id") ? 
     localStorage.getItem("resource-id")as string : "",

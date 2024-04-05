@@ -1,24 +1,18 @@
 import { type FC, lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import {
-	Breadcrumb,
-	Show,
-	ModalWrapper,
-	ConfirmModal,
-	ThemeChangerButton,
-	MessageIcon,
-	PreferenceIcon,
-	NetworkIcon,
-	LogoutIcon,
-} from '../..';
-import {
-	usePanelStore,
-	type NetworkSettingState,
-	useNetworkSettingState,
-	useModal,
-	useAuthState,
-} from '../../../../data';
-import { NavbarSubMenu } from './NavbarSubMenu';
+import { ThemeChangerButton } from '@buttons/theme-changer/ThemeChangerButton.tsx';
+import ConfirmModal from '@modals/ConfirmModal.tsx';
+import { Breadcrumb } from '@standalones/utils/Breadcrumb.tsx';
+import { LogoutIcon, NetworkIcon } from '@icons';
+import Show from '@defaults/Show.tsx';
+import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
+import { NetworkSetingModal } from '@modals/network-modal/NetworkSetingModal.tsx';
+import { NavbarSubMenu } from './NavbarSubMenu.tsx';
+import { usePanelStore } from '../../../../data';
+import useModal from '#commonHooks/useModal.ts';
+import { useAuthState } from '#commonHooks/useAuthState.ts';
+import type { NetworkSettingState } from '@stores/apiLink.store.ts';
+import useNetworkSettingState from '@stores/apiLink.store.ts';
 import './navbar.scss';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
@@ -74,24 +68,22 @@ const Navbar: FC = () => {
 		<>
 			<Show when={showModal && showModalStr === 'logout'}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
-					<div
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}>
-						<ConfirmModal
-							header="ARE YOU SURE YOU WANT TO LOGOUT?"
-							cancelText="Cancel"
-							confirmText="Logout"
-							close={() => setShowModal(!showModal)}
-							action={() => {
-								logout();
-								navigate('/auth/signin');
-							}}
-						/>
-					</div>
+					<ConfirmModal
+						header="ARE YOU SURE YOU WANT TO LOGOUT?"
+						cancelText="Cancel"
+						confirmText="Logout"
+						close={() => setShowModal(!showModal)}
+						action={() => {
+							logout();
+							navigate('/auth/signin');
+						}}
+					/>
 				</ModalWrapper>
 			</Show>
+			<NetworkSetingModal
+				close={() => setNetworkSettingState(!isOpen)}
+				isOpen={isOpen}
+			/>
 			<nav className="navbar">
 				<div className="left">
 					<div className="navbar-logo">

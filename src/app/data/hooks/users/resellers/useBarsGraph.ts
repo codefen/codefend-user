@@ -11,9 +11,9 @@ export const useBarsGraph = () => {
 
 	const generateData = (): GraphData[] => {
 		const data: GraphData[] = [];
-		for (let semana = 1; semana <= 52; semana++) {
+		for (let week = 1; week <= 52; week++) {
 			const resellers = Math.floor(Math.random() * 21); // Generar número aleatorio entre 0 y 20
-			data.push({ week: semana, resellers });
+			data.push({ week, resellers });
 		}
 		return data;
 	};

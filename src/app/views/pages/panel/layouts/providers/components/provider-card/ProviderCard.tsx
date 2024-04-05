@@ -9,7 +9,6 @@ interface ProviderCardProps {
 	username: string;
 	desc: string;
 	score: number | string;
-	rating: number;
 	totalReviews: string;
 	handleActivate: (id: string) => void;
 	id: string;
@@ -20,7 +19,6 @@ export const ProviderCard: FC<ProviderCardProps> = ({
 	img,
 	name,
 	desc,
-	rating,
 	score,
 	totalReviews,
 	username,
@@ -51,7 +49,7 @@ export const ProviderCard: FC<ProviderCardProps> = ({
 				<span className="provider-score">
 					<span className="score-info">{score} score</span>
 					<span className="score-review">
-						{totalReviews} reviews <StarRating rating={rating} />
+						{totalReviews} reviews <StarRating rating={Number(score)} />
 					</span>
 				</span>
 			</div>

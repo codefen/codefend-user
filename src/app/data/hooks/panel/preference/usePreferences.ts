@@ -77,7 +77,7 @@ export const usePreferences = () => {
 
 	useEffect(() => {
 		refetch();
-		return ()=> cancelRequest();
+		return ()=> cancelRequest("uniqueRequest");
 	}, []);
 
 	return { loading: isLoading, company, members, refetch, orders };

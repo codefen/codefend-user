@@ -1,17 +1,11 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC } from 'react';
 import { AdminCompanyPanel } from './components/AdminCompanyPanel';
 import AdminCompanyDetails from './components/AdminCompanyDetails';
+import { useShowScreen } from '#commonHooks/useShowScreen';
 import '../admin.scss';
 
 const AdminCompany: FC = () => {
-	const [showScreen, setShowScreen] = useState(false);
-
-	useEffect(() => {
-		setTimeout(() => {
-			setShowScreen(true);
-		}, 50);
-	});
-
+	const [showScreen] = useShowScreen();
 	return (
 		<>
 			<main className={`company ${showScreen ? 'actived' : ''}`}>

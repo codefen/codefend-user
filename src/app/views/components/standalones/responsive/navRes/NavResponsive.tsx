@@ -47,24 +47,10 @@ const NavResponsive: React.FC = () => {
 					</div>
 				</ModalWrapper>
 			</Show>
-			<Show when={isOpen}>
-				<ModalWrapper action={() => setNetworkSettingState(!isOpen)}>
-					<div
-						className="modal-wrapper-title internal-tables disable-border"
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}>
-						<div className="network-modal-container">
-							<div className="network-modal-content disable-border">
-								<NetworkSetingModal
-									close={() => setNetworkSettingState(!isOpen)}
-								/>
-							</div>
-						</div>
-					</div>
-				</ModalWrapper>
-			</Show>
+			<NetworkSetingModal
+				close={() => setNetworkSettingState(!isOpen)}
+				isOpen={isOpen}
+			/>
 
 			<div className="sidebav">
 				<div className="sideContent">

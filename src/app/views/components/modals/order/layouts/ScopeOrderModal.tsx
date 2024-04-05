@@ -5,7 +5,8 @@ import {
 	useOrderScope,
 	useOrderStore,
 } from '../../../../../data';
-import { PrimaryButton } from '../../..';
+import useTimeout from '#commonHooks/useTimeout.ts';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 
 export const ScopeOrderModal: FC = () => {
 	const {
@@ -22,7 +23,7 @@ export const ScopeOrderModal: FC = () => {
 	const [acceptConditions, setAcceptCondition] = useState<boolean>(false);
 	const [tryClick, setTryClick] = useState<boolean>(false);
 	const { sendScopeOrders } = useOrderScope();
-
+	const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
 	const nextStep = () => {
 		if (acceptConditions) {
 			setScopeOption(scopeOptionW);
@@ -35,7 +36,7 @@ export const ScopeOrderModal: FC = () => {
 			updateState('orderStepActive', OrderSection.FREQUENCY);
 		} else {
 			setTryClick(true);
-			setTimeout(() => setTryClick(false), 2600);
+			oneExecute();
 		}
 	};
 

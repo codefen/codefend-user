@@ -2,13 +2,11 @@ import { type FC, Suspense, lazy } from 'react';
 import { Outlet, useLocation, Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
+import { NetworkSetingModal } from '@modals/network-modal/NetworkSetingModal.tsx';
+import type { NetworkSettingState } from '@stores/apiLink.store.ts';
+import useNetworkSettingState from '@stores/apiLink.store.ts';
+import useAuthStore from '@stores/auth.store.ts';
 import './auth.scss';
-import {
-	type NetworkSettingState,
-	useAuthStore,
-	useNetworkSettingState,
-} from '../../../data';
-import { ModalWrapper, NetworkSetingModal, Show } from '../../components';
 
 const Logo = lazy(() => import('../../components/defaults/Logo'));
 
@@ -25,24 +23,10 @@ const AuthPage: FC = () => {
 
 	return !isAuth ? (
 		<>
-			<Show when={isOpen}>
-				<ModalWrapper action={() => setNetworkSettingState(!isOpen)}>
-					<div
-						className="modal-wrapper-title internal-tables disable-border"
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}>
-						<div className="network-modal-container">
-							<div className="network-modal-content disable-border">
-								<NetworkSetingModal
-									close={() => setNetworkSettingState(!isOpen)}
-								/>
-							</div>
-						</div>
-					</div>
-				</ModalWrapper>
-			</Show>
+			<NetworkSetingModal
+				close={() => setNetworkSettingState(!isOpen)}
+				isOpen={isOpen}
+			/>
 			<div className="codefend-img-bg">
 				<Logo theme={'shadow'} />
 			</div>

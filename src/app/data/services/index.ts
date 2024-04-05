@@ -1,4 +1,2 @@
-export * from '../utils/decodedToken';
-export * from './fetchAPI';
-export * from './metric.service';
+export * from './decodedToken';
 

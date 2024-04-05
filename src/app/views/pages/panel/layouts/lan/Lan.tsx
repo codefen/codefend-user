@@ -8,6 +8,7 @@ import { PageLoaderWhite } from '@defaults/loaders/Loader.tsx';
 import { LanNetworkData } from './components/LanNetworkData.tsx';
 import { LanNetworksChart } from './components/LanNetworksChart.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import '@styles/flag.scss';
 import './Lan.scss';
 
@@ -17,6 +18,7 @@ const LanPage: FC = () => {
 	const [scanLoading, setScanLoading] = useState(false);
 
 	const flashlight = useFlashlight();
+	const [showScreen, setShowScreen] = useShowScreen();
 
 	const scanLocal = async () => {
 		setScanLoading(true);
@@ -46,15 +48,8 @@ const LanPage: FC = () => {
 		return internalNetworkData || [];
 	};
 
-	const [showScreen, setShowScreen] = useState(false);
-
 	useEffect(() => {
 		refetch();
-		const timeoutId = setTimeout(() => {
-			setShowScreen(true);
-		}, 50);
-
-		return () => clearTimeout(timeoutId);
 	}, []);
 
 	return (
