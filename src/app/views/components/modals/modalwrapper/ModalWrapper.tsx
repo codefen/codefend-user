@@ -11,7 +11,7 @@ interface ModalWrapper {
 
 const ModalWrapper: React.FC<ModalWrapper> = ({
 	isErrorBox = false,
-	type = 'med-w',
+	type,
 	children,
 	action,
 }) => {

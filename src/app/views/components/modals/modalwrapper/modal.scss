@@ -9,7 +9,7 @@
 	align-items: flex-start;
 	justify-content: center;
 	z-index: 100;
-	background-color: rgba(42, 43, 53, 0.45);
+	background-color: rgba(242, 243, 243, .9);
 }
 
 .modal-wrapper .modal {
@@ -32,14 +32,16 @@
 		margin-top: 20px;
 	}
 	&.med-w {
-		min-width: 560px;
+		width: 100%;
+		max-width: 560px;
 
 		@include mixin.respond(small) {
 			min-width: 350px;
 		}
 	}
 	&.max-w {
-		min-width: 860px;
+		width: 100%;
+		max-width: 860px;
 	}
 
 	.modal-close-btn {

@@ -18,17 +18,15 @@
 	flex-direction: column;
 	min-height: fit-content;
 	max-height: fit-content;
-	max-width: 700px;
+	// max-width: 700px;
 
 	.welcome-modal-header {
 		display: flex;
-		flex-direction: row;
 		align-items: center;
+		justify-content: flex-start;
+		padding: 20px;
 		width: 100%;
-		column-gap: 0.5rem;
-		padding-block-start: 1rem;
-		padding-block-end: 1rem;
-		padding-inline: 1rem;
+		column-gap: 10px;
 		background: linear-gradient(
 			90deg,
 			rgba(190, 27, 27, 1) 33%,
@@ -39,41 +37,43 @@
 		h2 {
 			color: var(--primary-color);
 			font-weight: 500;
-			font-size: 1.75rem;
-			text-align: right;
-			width: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: flex-end;
-			padding-inline-end: 4rem;
+			// font-size: 1.75rem;
+			// text-align: right;
+			// width: 100%;
+			// display: flex;
+			// align-items: center;
+			// justify-content: flex-end;
+			// padding-inline-end: 4rem;
 		}
 	}
 
 	.welcome-content {
 		display: flex;
-		flex: 1 1;
 		width: 100%;
-		align-items: center;
-		margin-block: 2.75rem;
+		align-items: flex-start;
+		padding: 30px;
+		gap: 30px;
 
 		img {
-			idth: 110px;
+			width: 90px;
 			display: flex;
-			height: 110px;
-			margin-inline: 1.25rem;
+			// height: 110px;
+			// margin-inline: 1.25rem;
 			align-self: flex-start;
 		}
 
 		.welcome-info {
 			display: flex;
 			flex-direction: column;
-			max-width: 411px;
+			// max-width: 411px;
 
 			h3 {
-				font-size: 1.15rem;
-				font-weight: 700;
+				// font-size: 1.15rem;
+				// font-weight: 700;
+				font-family: Roboto;
+				text-transform: uppercase;
 				color: var(--tertiary-color-600);
-				line-height: 2rem;
+				margin-bottom: 5px;
 			}
 
 			.main-paragraph {
@@ -106,15 +106,15 @@
 
 	.welcome-btns {
 		display: flex;
-		column-gap: 2.5rem;
+		column-gap: 14px;
 		margin-block-start: auto;
 		padding-inline: 1rem;
 		padding-block-end: 1rem;
 		justify-content: flex-end;
-		background: linear-gradient(
-			0deg,
-			var(--secondary-color-50) 55%,
-			transparent 55%
-		);
+		// background: linear-gradient(
+		// 	0deg,
+		// 	var(--secondary-color-50) 55%,
+		// 	transparent 55%
+		// );
 	}
 }
