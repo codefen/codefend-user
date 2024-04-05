@@ -1,7 +1,9 @@
-import { type FC } from 'react';
+import { type FC, lazy } from 'react';
 import { ModalWrapper, PrimaryButton, Show } from '../../';
 import './welcome.scss';
 import { Link } from 'react-router-dom';
+
+const Logo = lazy(() => import('../../defaults/Logo'));
 
 interface WelcomeModalProps {
 	defaultOpenValue: boolean;
@@ -16,23 +18,24 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 }) => {
 	return (
 		<Show when={defaultOpenValue}>
-			<ModalWrapper action={closeModal}>
+			<ModalWrapper action={closeModal} type='max-w'>
 				<div className="welcome-modal-container">
 					<header className="welcome-modal-header">
-						<h2>Be welcome to codefend!</h2>
+						<h2>welcome to codefend</h2>
 					</header>
 
 					<div className="welcome-content">
-						<img
+						<Logo theme="aimColor" />
+						{/* <img
 							src="/codefend/pentest-header-vector.svg"
 							alt="codefend-icon"
 							aria-label="codefend-icon"
 							decoding="async"
-						/>
+						/> */}
 						<div className="welcome-info">
-							<h3>Helo there! and welcome to Codefend!</h3>
+							<h3>Hello and welcome to Codefend</h3>
 							<p className="main-paragraph">
-								We hope you hace a pleasent experience across our
+								We hope you have a pleasent experience across our
 								holistic information security platform.{' '}
 								<b>
 									We would love to provide you a brief introduction
@@ -57,7 +60,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 								</li>
 							</ul>
 							<p className="take-guide">
-								<b>Let's take a 5 minutes tour</b> acriss the
+								<b>Let's take a 2 minutes tour</b> across the
 								application in order to explore the most relevant
 								codefend features and capabilities!
 							</p>
@@ -73,7 +76,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 						/>
 						<PrimaryButton
 							buttonStyle="red"
-							text="Continue tour"
+							text="Start tour"
 							disabledLoader
 							click={startGuide}
 						/>
