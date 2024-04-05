@@ -62,12 +62,29 @@
 					}
 				}
 			}
+		}
+		&_extra {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-block-start: 0.75rem;
 
+			&_insecure {
+				height: 33px !important;
+				padding-inline: 10px !important;
+				transition: all 100ms ease !important;
+
+				svg {
+					width: 23px;
+					height: 23px;
+				}
+			}
 			&_reset {
+				width: fit-content;
 				text-decoration-line: underline;
 				text-align: right;
 				margin-inline-end: 0.5rem;
-				margin-block-start: 1rem;
+
 				cursor: pointer;
 			}
 		}

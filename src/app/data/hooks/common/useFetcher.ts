@@ -6,7 +6,7 @@ export type Fetcher = <T>(method: 'post' | 'get', options: HttpRequestOptions) =
 export type FetchMethodType<T> = (options: HttpRequestOptions) => Promise<T>;
 
 export const useFetcher = ()=>{
-    const [httpService, setHttpService] = useState<AxiosHttpService>();
+    const [httpService, setHttpService] = useState<AxiosHttpService | undefined>(AxiosHttpService.getInstance());
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
       setHttpService(AxiosHttpService.getInstance());

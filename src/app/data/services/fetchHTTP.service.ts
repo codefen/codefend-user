@@ -46,6 +46,8 @@ export class FetchHttpService extends HttpService {
 		requestId="uniqueRequest",
 		requireSession=true,
 	}: HttpRequestOptions): Promise<T> {
+		const insecureStore = localStorage.getItem("insecure") == "true" ? true : false;
+		insecure = insecureStore ? insecureStore : insecure;
 		const abortController = this.getAbortController(requestId);
 		let data = requireSession ? { ...body, session: this.session } : body;
 

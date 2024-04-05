@@ -1,7 +1,7 @@
-import { type FC, useCallback, useState } from 'react';
+import { type FC, useCallback, useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import { EditIcon } from '@icons';
+import { EditIcon, ShieldIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
 import Show from '@defaults/Show.tsx';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import {
@@ -12,6 +12,8 @@ import {
 import { useAuthState } from '#commonHooks/useAuthState.ts';
 import { baseUrl } from '@utils/config.ts';
 import './networkSetting.scss';
+import { useLocalStorage } from 'usehooks-ts';
+import { PrimaryButton } from '../..';
 
 interface NetworkSetingModalProps {
 	isOpen: boolean;
@@ -22,6 +24,10 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 	close,
 	isOpen,
 }) => {
+	const [insecure, setInsecure] = useLocalStorage(
+		'insecure',
+		Boolean(localStorage.getItem('insecure')),
+	);
 	const customAPi = getCustomBaseAPi();
 	const defaultApiUrl = customAPi ? customAPi : baseUrl;
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
@@ -53,6 +59,14 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 		},
 		[apiUrl],
 	);
+
+	const updateInsecure = () => {
+		if (!insecure) {
+			setInsecure(true);
+		} else {
+			setInsecure(false);
+		}
+	};
 
 	return (
 		<>
@@ -105,19 +119,36 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 											</button>
 										</div>
 
-										<span
-											onClick={() => {
-												deleteCustomBaseAPi();
-												setApiUrl(baseUrl);
-												setCanEdit(false);
-												close();
-												toast.success(
-													'Server has been changed successfully',
-												);
-											}}
-											className="network-form_inputs_edit_reset codefend-text-red">
-											click here to set back to default
-										</span>
+										<div className="network-form_inputs_extra">
+											<PrimaryButton
+												text={
+													!insecure ? (
+														<ShieldOnIcon />
+													) : (
+														<ShieldOffIcon />
+													)
+												}
+												buttonStyle="gray"
+												click={() => updateInsecure()}
+												disabledLoader
+												type="button"
+												className="network-form_inputs_extra_insecure"
+											/>
+
+											<span
+												onClick={() => {
+													deleteCustomBaseAPi();
+													setApiUrl(baseUrl);
+													setCanEdit(false);
+													close();
+													toast.success(
+														'Server has been changed successfully',
+													);
+												}}
+												className="network-form_inputs_extra_reset codefend-text-red">
+												click here to set back to default
+											</span>
+										</div>
 									</div>
 
 									<ModalButtons

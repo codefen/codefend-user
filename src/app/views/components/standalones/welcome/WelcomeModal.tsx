@@ -18,7 +18,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 }) => {
 	return (
 		<Show when={defaultOpenValue}>
-			<ModalWrapper action={closeModal} type='max-w'>
+			<ModalWrapper action={closeModal} type="max-w">
 				<div className="welcome-modal-container">
 					<header className="welcome-modal-header">
 						<h2>welcome to codefend</h2>
@@ -52,9 +52,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 									</Link>
 								</li>
 								<li>
-									<Link
-										to="https://www.codefend.com/services"
-										target="_blank">
+									<Link to="https://www.codefend.com" target="_blank">
 										2 - Learn how to use the interface
 									</Link>
 								</li>
