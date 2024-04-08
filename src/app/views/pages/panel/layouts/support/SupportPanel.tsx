@@ -17,6 +17,7 @@ const SupportPanel: FC = () => {
 			setSelectedTicket(getTikets()[0].id);
 		}
 	}, [getTikets(), isLoading]);
+
 	useEffect(() => {
 		refetch();
 	}, [control]);
@@ -30,7 +31,7 @@ const SupportPanel: FC = () => {
 							setSelectedTicket(ticketID)
 						}
 						isLoading={isLoading}
-						tickets={getTikets() ?? []}
+						tickets={getTikets()}
 						refresh={refresh}
 					/>
 				</section>

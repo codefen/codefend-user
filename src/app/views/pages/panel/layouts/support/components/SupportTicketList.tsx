@@ -1,7 +1,7 @@
 import { type FC, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import {
-	type SupportProps,
+	type Ticket,
 	supportTicket,
 	useModal,
 	useTicketDelete,
@@ -20,7 +20,7 @@ import SelectedTicket from '../supportProvider';
 interface SupportTicketListProps {
 	setSelectedTicket: (state: any) => void;
 	isLoading: boolean;
-	tickets: SupportProps[];
+	tickets: Ticket[];
 	refresh: () => void;
 }
 
@@ -43,14 +43,14 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 			props.refresh();
 		});
 	};
-	const dataTable = props.tickets.map((ticket: SupportProps) => ({
+	const dataTable = props.tickets.map((ticket: Ticket) => ({
 		ID: { value: ticket.id, style: '' },
-		author: { value: '@' + ticket.userUsername, style: 'username' },
-		published: { value: ticket.createdAt, style: 'date' },
-		title: { value: ticket.csHeader, style: 'vul-title' },
+		author: { value: '@' + ticket.user_username, style: 'username' },
+		published: { value: ticket.creacion, style: 'date' },
+		title: { value: ticket.cs_header, style: 'vul-title' },
 		status: {
-			value: ticket.condition,
-			style: `status ${ticket.condition === 'open' && 'codefend-text-red'}`,
+			value: ticket.condicion,
+			style: `status ${ticket.condicion === 'open' && 'codefend-text-red'}`,
 		},
 		action: { value: 'actions', style: 'id' },
 	}));

@@ -16,7 +16,7 @@ import type {
 	ResultsVdbSearchV2,
 	SourceCode,
 	SupportProps,
-	TicketUnique,
+	TicketWithChild,
 	User,
 	VdbProps,
 	VdbRequestSearch,
@@ -368,7 +368,7 @@ export const mapSupportProps = (source: any): SupportProps => {
 	};
 };
 
-export const mapTicketUnique = (source: any): TicketUnique => {
+export const mapTicketUnique = (source: any): TicketWithChild => {
 	return {
 		...mapSupportProps(source.unico),
 		childs:

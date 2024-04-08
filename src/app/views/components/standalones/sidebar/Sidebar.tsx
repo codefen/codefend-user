@@ -148,7 +148,7 @@ const Sidebar: FC = () => {
 		{
 			title: 'Preference',
 			icon: <PreferenceIcon />,
-			to: '/preference',
+			to: '/preferences',
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},

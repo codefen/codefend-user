@@ -1,9 +1,9 @@
 import { type FC, Fragment, useContext, useEffect, useMemo } from 'react';
 import {
 	ChatBoxType,
-	type SupportProps,
+	type Ticket,
 	generateIDArray,
-	useOneTicket,
+	type TicketWithChild,
 } from '../../../../../../data';
 import {
 	ChatBox,
@@ -14,6 +14,7 @@ import {
 import SelectedTicket from '../supportProvider';
 import Show from '@defaults/Show.tsx';
 import { MessageIcon } from '@icons';
+import { useOneTicket } from '@panelHooks/support/useOneTicket';
 
 export const SupportChatDisplay: FC = () => {
 	const { getOneTicket, isLoading, refetch } = useOneTicket();
@@ -25,12 +26,8 @@ export const SupportChatDisplay: FC = () => {
 		}
 	}, [selectedTicketID]);
 
-	const ticketSelected = () =>
-		getOneTicket() !== undefined
-			? getOneTicket()
-			: ({ csHeader: '' } as SupportProps);
-
-	const childTicket = (): SupportProps[] => getOneTicket()?.childs ?? [];
+	const childTicket = (): Ticket[] =>
+		getOneTicket() ? getOneTicket()?.childs || [] : [];
 
 	const ticketKeys = useMemo(() => {
 		return childTicket() ? generateIDArray(childTicket().length) : [];
@@ -40,36 +37,32 @@ export const SupportChatDisplay: FC = () => {
 		<>
 			<div className="card messages">
 				<SimpleSection
-					header={ticketSelected().csHeader}
+					header={getOneTicket()?.cs_header || ''}
 					icon={<MessageIcon />}>
 					<div className="content">
 						<Show when={!isLoading} fallback={<PageLoader />}>
-							<>
-								<div
-									className={`messages-wrapper ${
-										childTicket().length > 3 && 'item'
-									}`}>
-									<MessageCard
-										selectedID={ticketSelected().userID ?? ''}
-										body={ticketSelected()?.csBody ?? ''}
-										username={ticketSelected()?.userUsername! ?? ''}
-										createdAt={ticketSelected()?.createdAt! ?? ''}
-									/>
+							<div
+								className={`messages-wrapper ${
+									childTicket().length > 3 && 'item'
+								}`}>
+								<MessageCard
+									selectedID={getOneTicket()?.user_id || ''}
+									body={getOneTicket()?.cs_body || ''}
+									username={getOneTicket()?.user_username! || ''}
+									createdAt={getOneTicket()?.creacion || ''}
+								/>
 
-									{childTicket().map(
-										(ticket: SupportProps, i: number) => (
-											<Fragment key={ticketKeys[i]}>
-												<MessageCard
-													selectedID={ticket.userID ?? ''}
-													body={ticket.csBody ?? ''}
-													username={ticket.userUsername ?? ''}
-													createdAt={ticket.createdAt ?? ''}
-												/>
-											</Fragment>
-										),
-									)}
-								</div>
-							</>
+								{childTicket().map((ticket: Ticket, i: number) => (
+									<Fragment key={ticketKeys[i]}>
+										<MessageCard
+											selectedID={ticket.user_id || ''}
+											body={ticket.cs_body || ''}
+											username={ticket.user_username || ''}
+											createdAt={ticket.creacion || ''}
+										/>
+									</Fragment>
+								))}
+							</div>
 						</Show>
 					</div>
 				</SimpleSection>

@@ -304,18 +304,22 @@ export interface CompanyInfo extends ID {
 	creacion: string;
 }
 
-export interface SupportProps extends ResourceID, Monitoring {
-	dadID: string;
-	userID: string;
-	userEmail: string;
-	userUsername: string;
-	csHeader: string;
-	csBody: string;
-	condition: string;
+export interface Ticket {
+	id: string;
+	company_id: string;
+	dad_id: string;
+	user_id: string;
+	user_email: string;
+	user_username: string;
+	cs_header: string;
+	cs_body: string;
+	condicion: string;
+	eliminado: string;
+	creacion: string;
 }
 
-export interface TicketUnique extends SupportProps {
-	childs: SupportProps[];
+export interface TicketWithChild extends Ticket {
+	childs: Ticket[];
 }
 
 export interface PreviusSearch extends ResourceID, Monitoring {

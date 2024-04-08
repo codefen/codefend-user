@@ -1,27 +1,35 @@
 import {
-	type SupportProps,
-	type TicketUnique,
-	mapTicketUnique,
-} from '../../..';
+	type Ticket,
+} from '@interfaces/panel.ts';
 import { useAuthState } from '../..';
 import { toast } from 'react-toastify';
 import { useCallback, useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 
+
+
+interface ApiResponse {
+	disponibles: Ticket[];
+	eliminados: Ticket[];
+	error: string;
+	info: string;
+
+}
+/* */
 /* Custom Hook "useAllTicket" to retrieve all tickets in customer support view*/
 export const useAllTicket = () => {
 	const { getCompany } = useAuthState();
 	const [fetcher,_, isLoading] = useFetcher();
-	const dataRef = useRef<SupportProps[]>([]);
+	const dataRef = useRef<Ticket[]>([]);
 
 	const fetchAll = async (companyID: string) => {
-		fetcher('post', {
+		fetcher<ApiResponse>('post', {
 			body: {
 				model: 'cs/index',
 				ac: 'view_all',
 				company_id: companyID,
 			},
-		}).then(({ data }: any) => {
+		}).then(({ data }) => {
 			dataRef.current = data.disponibles || [];
 		});
 	};
@@ -35,55 +43,14 @@ export const useAllTicket = () => {
 		}
 		fetchAll(companyID);
 	};
-	const getTikets = (): SupportProps[] => {
-		const ticket = isLoading ? ([] as SupportProps[]) : dataRef.current;
-		return ticket.reverse() || [];
+	const getTikets = (): Ticket[] => {
+		return isLoading ? [] : dataRef.current || [];
 	};
 
 	return {
 		getTikets,
 		isLoading,
 		refetch,
-	};
-};
-
-/* Custom hook "useOneTicket" to retrieve a single ticket*/
-export const useOneTicket = () => {
-	const { getCompany } = useAuthState();
-	const [fetcher,_, isLoading] = useFetcher();
-	const dataRef = useRef<TicketUnique>();
-
-	const fetchOne = async (companyID: string, ticketID: string) => {
-		return fetcher('post', {
-			body: {
-				model: 'cs/index',
-				ac: 'view_one',
-				company_id: companyID,
-				id: ticketID,
-			},
-		}).then(({ data }: any) => {
-			dataRef.current = mapTicketUnique(data);
-		});
-	};
-
-	const refetch = (ticketID: string) => {
-		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
-		fetchOne(companyID, ticketID);
-	};
-	const getOneTicket = (): TicketUnique => {
-		return isLoading
-			? ({} as TicketUnique)
-			: dataRef.current || ({} as TicketUnique);
-	};
-
-	return {
-		getOneTicket,
-		refetch,
-		isLoading,
 	};
 };
 

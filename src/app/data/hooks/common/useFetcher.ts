@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 import { AxiosHttpService } from "../../services/axiosHTTP.service";
 import type { HttpRequestOptions } from "../../services/http.service";
+import type { AxiosHeaders } from "axios";
 
-export type Fetcher = <T>(method: 'post' | 'get', options: HttpRequestOptions) => Promise<T>;
+export type Fetcher = <T>(method: 'post' | 'get', options: HttpRequestOptions) => Promise<AxiosFetchResponse<T>>;
 export type FetchMethodType<T> = (options: HttpRequestOptions) => Promise<T>;
+
+interface AxiosFetchResponse<T> {
+	config: any;
+	data: T;
+	headers: AxiosHeaders;
+	request: XMLHttpRequest;
+	status: number;
+	statusText: string;
+}
 
 export const useFetcher = ()=>{
     const [httpService, setHttpService] = useState<AxiosHttpService | undefined>(AxiosHttpService.getInstance());
@@ -29,6 +39,7 @@ export const useFetcher = ()=>{
         const response = await (httpService[method] as FetchMethodType<T>)(
           options,
         );
+        console.log({ response });
         return response;
       } catch (error) {
         console.warn('Error in make request: ', error);
@@ -39,8 +50,7 @@ export const useFetcher = ()=>{
     };
 
     const fetcher: Fetcher = <T>(method: 'post' | 'get', options: HttpRequestOptions)=>{
-        const insecure = sessionStorage.getItem("insecure");
-        return makeRequest<T>(method, options);
+        return makeRequest<AxiosFetchResponse<T>>(method, options);
     }
 
     const cancelRequest = (requestId: string)=>httpService?.cancelRequest(requestId);

@@ -138,7 +138,8 @@ input[type='email'] {
 }
 
 .pencil-icon {
-	top: 15%;
+	position: absolute;
+	top: 12%;
 	left: 0;
 }
 .text-area-input {
@@ -220,7 +221,7 @@ select {
 	transform: scale(var(--radio-scale));
 	transition: var(--radio-transition);
 	transform: scale(0.5);
-    margin: -1px;
+	margin: -1px;
 }
 input[type='radio']:checked + .codefend-radio {
 	border: 1px solid var(--secondary-color-100);
