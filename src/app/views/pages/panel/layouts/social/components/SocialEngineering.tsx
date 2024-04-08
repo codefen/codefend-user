@@ -26,14 +26,15 @@ interface SocialProps {
 }
 
 const SocialEngineering: FC<SocialProps> = (props) => {
+	const navigate = useNavigate();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
+
 	const [handleDeleteResource, { setSelectedId, isLoading }] = useAddSocial(
 		() => setShowModal(false),
 	);
-	const navigate = useNavigate();
-	const safelyPreviousSearches = () =>
-		Array.isArray(props.socials) ? props.socials.slice().reverse() : [];
+
+	const safelyPreviousSearches = () => props.socials.slice().reverse();
 
 	const dataTable = safelyPreviousSearches().map(
 		(member: MemberV2) =>

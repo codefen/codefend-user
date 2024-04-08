@@ -7,13 +7,13 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 /* Custom Hook "useSocial" to handle GET data in Social page*/
 export const useSocial = () => {
 	const { getCompany, logout } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher();
 	
 	const dataRef = useRef<MemberV2[]>([]);
 	const { updateState,setScopeTotalResources } = useOrderStore((state) => state);
 	
 	const fetchSocial = (companyID: string) => {
-		fetcher("post", {
+		fetcher<any>("post", {
 			body: {
 				model: 'resources/se',
 				ac: 'view_all',

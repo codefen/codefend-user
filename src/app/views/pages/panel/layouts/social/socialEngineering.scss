@@ -13,26 +13,25 @@ main.social {
 			.item {
 				height: 42px;
 			}
-			.role {
-				justify-content: center;
-				display: flex;
-				text-align: center;
-				div {
-					justify-content: center;
-				}
+			.email {
+				min-width: 15.575rem;
+				max-width: none;
+				max-width: none;
+				flex: 1 1 0% !important;
+			}
+			.id {
+				min-width: 4rem;
+				max-width: 4rem;
 			}
 			.phone {
-				max-width: 300px;
+				min-width: 10rem;
 			}
-
-			.email {
-				flex: 1 1 !important;
-				max-width: 500px;
+			.role {
+				min-width: 10rem;
 			}
-
 			.full-name {
-				max-width: 180px;
-
+				min-width: 10rem;
+				max-width: 21.5rem;
 				.publish {
 					overflow: hidden;
 					text-overflow: ellipsis;

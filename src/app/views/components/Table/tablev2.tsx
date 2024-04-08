@@ -4,8 +4,6 @@ import React, {
 	useMemo,
 	useState,
 	type ReactNode,
-	memo,
-	useRef,
 	Fragment,
 	type FC,
 } from 'react';
@@ -15,7 +13,6 @@ import {
 	calculateRowSizeX,
 	flattenRowsData,
 	formatDate,
-	generateIDArray,
 	quickSort,
 } from '@utils/helper.ts';
 import Show from '@defaults/Show.tsx';
@@ -79,9 +76,7 @@ const TableRows: FC<any> = ({
 	const [flattenedRows, setFlattenedRows] = useState<any[]>([]);
 
 	useEffect(() => {
-		if (!Boolean(flattenedRows.length) && rowsData) {
-			setFlattenedRows(flattenRowsData(rowsData));
-		}
+		setFlattenedRows(flattenRowsData(rowsData));
 	}, [rowsData]);
 
 	const rows = useMemo(
@@ -209,40 +204,38 @@ export const TableV2: FC<TableProps> = ({
 	const urlForRowItem = RUNNING_DESKTOP() ? '' : urlNav || '';
 
 	return (
-		<>
-			<div
-				className={`table ${isSmall && 'small'}`}
-				style={
-					{
-						'--row-size-x': calculateRowSizeX(sizeX),
-						'--row-calc-x': calculateRowCalcX(sizeX),
-					} as any
-				}>
-				<TableColumns
-					columns={columns}
-					dataSort={dataSort}
-					sortDirection={sortDirection}
-					updateSortData={(updated: any) => setDataSort(updated)}
-					updateDirection={(updated: any) => setSortDirection(updated)}
-				/>
+		<div
+			className={`table ${isSmall && 'small'}`}
+			style={
+				{
+					'--row-size-x': calculateRowSizeX(sizeX),
+					'--row-calc-x': calculateRowCalcX(sizeX),
+				} as any
+			}>
+			<TableColumns
+				columns={columns}
+				dataSort={dataSort}
+				sortDirection={sortDirection}
+				updateSortData={(updated: any) => setDataSort(updated)}
+				updateDirection={(updated: any) => setSortDirection(updated)}
+			/>
 
-				<Show when={showRows} fallback={<PageLoader />}>
-					<TableRows
-						rowsData={rowsData}
-						columns={columns}
-						sortDirection={sortDirection}
-						dataSort={dataSort}
-						tableAction={tableAction}
-						urlNav={urlForRowItem}
-						handleSelected={handleSelected}
-						isActiveAction={!!tableAction}
-						selectedField={selectedField}
-					/>
-				</Show>
-				<Show when={showEmpty}>
-					<EmptyCard />
-				</Show>
-			</div>
-		</>
+			<Show when={showRows} fallback={<PageLoader />}>
+				<TableRows
+					rowsData={rowsData}
+					columns={columns}
+					sortDirection={sortDirection}
+					dataSort={dataSort}
+					tableAction={tableAction}
+					urlNav={urlForRowItem}
+					handleSelected={handleSelected}
+					isActiveAction={!!tableAction}
+					selectedField={selectedField}
+				/>
+			</Show>
+			<Show when={showEmpty}>
+				<EmptyCard />
+			</Show>
+		</div>
 	);
 };

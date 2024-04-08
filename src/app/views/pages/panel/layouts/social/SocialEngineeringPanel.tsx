@@ -13,7 +13,9 @@ const SocialEngineeringView = () => {
 	const [showScreen] = useShowScreen();
 	const { members, refetch, loading } = useSocial();
 	const { updateState } = useOrderStore((state) => state);
+
 	const flashlight = useFlashlight();
+
 	const [socialFilters, setSocialFilters] = useState({
 		department: new Set<string>(),
 		attackVectors: new Set<string>(),
@@ -26,28 +28,32 @@ const SocialEngineeringView = () => {
 	const handleDepartmentFIlter = (role: string) => {
 		setSocialFilters((prevState) => {
 			const updatedDepartment = new Set(prevState.department);
+
 			if (updatedDepartment.has(role)) {
 				updatedDepartment.delete(role);
 			} else {
 				updatedDepartment.add(role);
 			}
+
 			return { ...prevState, department: updatedDepartment };
 		});
 	};
 
-	const handleFilter = useMemo(() => {
+	const filteredData = useMemo(() => {
+		console.log({ socialFilter: socialFilters.department });
 		const isFiltered =
 			socialFilters.department.size !== 0 ||
 			socialFilters.attackVectors.size !== 0;
-		if (!isFiltered) return { isFiltered };
-		if (!members) return { isFiltered: false };
 
-		const filteredData = members.filter((member) =>
+		if (!isFiltered || !members) return members || [];
+
+		console.log({ members });
+		const filterData = members.filter((member) =>
 			socialFilters.department.has(member.member_role),
 		);
-
-		return { filteredData, isFiltered };
-	}, [members, socialFilters]);
+		console.log({ filterData });
+		return filterData;
+	}, [members, socialFilters.department]);
 
 	return (
 		<>
@@ -59,11 +65,7 @@ const SocialEngineeringView = () => {
 					<SocialEngineering
 						refetch={refetch}
 						isLoading={loading}
-						socials={
-							handleFilter.isFiltered
-								? handleFilter.filteredData!
-								: members ?? []
-						}
+						socials={filteredData}
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
@@ -74,7 +76,7 @@ const SocialEngineeringView = () => {
 					/>
 					<SocialEngineeringMembers
 						isLoading={loading}
-						members={members ?? []}
+						members={members || []}
 						handleDepartmentFilter={handleDepartmentFIlter}
 					/>
 				</section>
