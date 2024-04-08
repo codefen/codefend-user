@@ -115,7 +115,7 @@ export const topVulnerabilitiesColumn: ColumnTable[] = [
 
 ];
 
-export const collaboratorsColumns: ColumnTable[] = [
+export const memberColumn: ColumnTable[] = [
 	{
 		name: 'ID',
 		value: 'id',
@@ -140,13 +140,14 @@ export const collaboratorsColumns: ColumnTable[] = [
 		name: 'role',
 		value: 'role',
 		style: 'role',
-	},
-	{
-		name: 'action',
-		value: 'actions',
-		style: 'id action',
 	}
 ];
+
+export const memberColumnWithActions: ColumnTable[] = memberColumn.concat([{
+	name: 'action',
+	value: 'actions',
+	style: 'id action',
+}])
 
 export const vulnerabilityRiskColumns: ColumnTable[] = [
 	{

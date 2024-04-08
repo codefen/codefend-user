@@ -10,7 +10,7 @@ import {
 import {
 	type MemberV2,
 	type TableItem,
-	collaboratorsColumns,
+	memberColumnWithActions,
 	roleMap,
 	useModal,
 } from '../../../../../../data';
@@ -122,7 +122,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 					</div>
 				</div>
 				<TableV2
-					columns={collaboratorsColumns}
+					columns={memberColumnWithActions}
 					rowsData={dataTable}
 					tableAction={tableAction}
 					showRows={!props.isLoading}

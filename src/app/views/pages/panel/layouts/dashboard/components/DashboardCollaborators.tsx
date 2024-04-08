@@ -3,7 +3,7 @@ import { type FC } from 'react';
 import { PeopleGroupIcon, SimpleSection } from '../../../../../components';
 import {
 	type CompanyMember,
-	collaboratorsColumns,
+	memberColumn,
 	type TableItem,
 } from '../../../../../../data';
 import { TableV2 } from '../../../../../components/table/tablev2';
@@ -38,7 +38,7 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({
 					rowsData={dataTable}
 					showRows={!isLoading}
 					showEmpty={!isLoading && dataTable.length === 0}
-					columns={collaboratorsColumns}
+					columns={memberColumn}
 				/>
 			</SimpleSection>
 		</div>
