@@ -29,7 +29,7 @@ export const StarRating: FC<StartRatingProps> = ({ rating = 0 }) => {
 		stars.push(
 			<StarIcon
 				key={`partialStar_${fullStars}`}
-				percentage={`${partialStarPercentage}%`}
+				percentage={`${100 - partialStarPercentage}%`}
 				half
 			/>,
 		);
