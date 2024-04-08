@@ -31,7 +31,10 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 		useModal();
 
 	const [handleDeleteResource, { setSelectedId, isLoading }] = useAddSocial(
-		() => setShowModal(false),
+		() => {
+			setShowModal(false);
+			props.refetch();
+		},
 	);
 
 	const safelyPreviousSearches = () => props.socials.slice().reverse();
@@ -79,8 +82,8 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 				headerTitle="Add a new member">
 				<AddSocialModal
 					onDone={() => {
-						props.refetch();
 						setShowModal(false);
+						props.refetch();
 					}}
 					close={() => setShowModal(false)}
 				/>

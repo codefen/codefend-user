@@ -521,15 +521,11 @@ export const webResourcesWithoutActions = [
 		name: 'location',
 		value: 'location',
 		style: 'location',
-	},
-	{
-		name: "childs",
-		value: "",
-		style: ""
 	}
 ]
 
-export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id"}])
+export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id"}]);
+
 export const defaultCrypto = [
 	{
 		name: 'btc',

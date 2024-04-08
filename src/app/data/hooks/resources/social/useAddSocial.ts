@@ -56,7 +56,7 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 	};
 
 	const fetchAdd = (companyID: string) => {
-		fetcher('post', {
+		fetcher<any>('post', {
 			body: {
 				model: 'resources/se',
 				ac: 'add',
@@ -67,10 +67,13 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 				member_phone: phone,
 				member_role: role,
 			},
-		}).then(() => {
+		}).then(({ data }: any) => {
+			if(data.error != "0"){
+				throw new Error("");
+			}
 			onDone();
 			toast.success('Successfully Added Member...');
-		});
+		}).catch((err:Error)=> toast.error("Unexpected server error when trying to add the social resource"));
 	};
 
 	const handleAddSocialResource = () => {

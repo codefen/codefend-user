@@ -141,24 +141,34 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												'',
 											)
 										}>
-										<div className="id">{subNetwork.id}</div>
+										<div className="id">
+											<div className="publish">{subNetwork.id}</div>
+										</div>
 										<div className="domain-name lined">
-											<span className="sub-domain-icon-v"></span>
-											<span className="sub-domain-icon-h"></span>
-											<span className="sub-resource-domain">
-												{subNetwork.resourceDomain}
-											</span>
+											<div className="publish">
+												<span className="sub-domain-icon-v"></span>
+												<span className="sub-domain-icon-h"></span>
+												<span className="sub-resource-domain">
+													{subNetwork.resourceDomain}
+												</span>
+											</div>
 										</div>
 
 										<div className="server-ip">
-											{subNetwork.mainServer}
+											<div className="publish">
+												{subNetwork.mainServer}
+											</div>
 										</div>
 										<div className="location">
-											<LocationItem
-												key={subNetwork.id + i + '-lc'}
-												country={subNetwork.serverCountry}
-												countryCode={subNetwork.serverCountryCode}
-											/>
+											<div className="publish">
+												<LocationItem
+													key={subNetwork.id + i + '-lc'}
+													country={subNetwork.serverCountry}
+													countryCode={
+														subNetwork.serverCountryCode
+													}
+												/>
+											</div>
 										</div>
 										<div className="id action">
 											<span

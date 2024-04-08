@@ -28,10 +28,13 @@ export const useAddSocial = (onDone: () => void) => {
 		
 			},
 		}).then(({ data }: any) => {
-			console.log({ data });
+			if(data.error != "0"){
+				throw new Error("");
+			}
             toast.success('Successfully delete Member...');
+			onDone();
             
-		}).finally(()=> onDone());
+		}).catch((err:Error)=> toast.error("Unexpected server error when trying to delete the social resource"));
 	};
 
 	const handleDeleteResource = () => {

@@ -10,7 +10,7 @@ import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
 
 const SocialEngineeringView = () => {
-	const [showScreen] = useShowScreen();
+	const [showScreen, control, refresh] = useShowScreen();
 	const { members, refetch, loading } = useSocial();
 	const { updateState } = useOrderStore((state) => state);
 
@@ -23,7 +23,7 @@ const SocialEngineeringView = () => {
 
 	useEffect(() => {
 		refetch();
-	}, []);
+	}, [control]);
 
 	const handleDepartmentFIlter = (role: string) => {
 		setSocialFilters((prevState) => {
@@ -40,19 +40,15 @@ const SocialEngineeringView = () => {
 	};
 
 	const filteredData = useMemo(() => {
-		console.log({ socialFilter: socialFilters.department });
 		const isFiltered =
 			socialFilters.department.size !== 0 ||
 			socialFilters.attackVectors.size !== 0;
 
 		if (!isFiltered || !members) return members || [];
 
-		console.log({ members });
-		const filterData = members.filter((member) =>
+		return members.filter((member) =>
 			socialFilters.department.has(member.member_role),
 		);
-		console.log({ filterData });
-		return filterData;
 	}, [members, socialFilters.department]);
 
 	return (
@@ -63,7 +59,7 @@ const SocialEngineeringView = () => {
 				<div className="brightness variant-2"></div>
 				<section className="left">
 					<SocialEngineering
-						refetch={refetch}
+						refetch={refresh}
 						isLoading={loading}
 						socials={filteredData}
 					/>
