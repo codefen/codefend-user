@@ -145,10 +145,39 @@ main.issue-detail {
 			select {
 				color: var(--tertiary-color-300);
 			}
+			input[type='number'] {
+				margin: 0;
+				width: 53%;
+				padding-inline: 1rem;
+
+				&.off {
+					color: var(--tertiary-color-300);
+					font-weight: normal;
+					outline: none;
+					height: 100%;
+					border: 0;
+				}
+			}
+
+			.info-resourcer-id {
+				width: 170px;
+				padding-right: 10px;
+			}
 
 			.issue-detail-select {
 				display: flex;
 				align-items: center;
+				padding-inline-end: 0;
+
+				&.select-resource {
+					width: fit-content;
+					flex: 0.45 0 0%;
+				}
+
+				p,
+				label {
+					padding-inline: 0.75rem;
+				}
 			}
 
 			.issue-detail-select:first-child {
@@ -160,9 +189,7 @@ main.issue-detail {
 				align-items: center;
 				font-weight: bolder;
 				color: var(--secondary-color-50);
-				padding-right: 30px;
-				// max-width: 40%;
-				// white-space: nowrap;
+				padding-right: 25px;
 
 				span {
 					color: var(--tertiary-color-300);
@@ -173,7 +200,6 @@ main.issue-detail {
 				}
 			}
 		}
-
 	}
 
 	.right {
@@ -243,7 +269,7 @@ main.issues-list {
 			}
 			.rows {
 				height: calc(100vh - 153px);
-			}			
+			}
 		}
 	}
 

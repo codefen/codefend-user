@@ -15,8 +15,6 @@ import type {
 	ReportIssues,
 	ResultsVdbSearchV2,
 	SourceCode,
-	SupportProps,
-	TicketWithChild,
 	User,
 	VdbProps,
 	VdbRequestSearch,
@@ -352,31 +350,6 @@ export const mapOneIssue = (source: any): OneIssue => {
 	};
 };
 
-export const mapSupportProps = (source: any): SupportProps => {
-	return {
-		id: source.id,
-		companyID: source.company_id,
-		dadID: source.dad_id,
-		userID: source.user_id,
-		userEmail: source.user_email,
-		userUsername: source.user_username,
-		csHeader: source.cs_header,
-		csBody: source.cs_body,
-		condition: source.condicion,
-		createdAt: source.creacion,
-		isDisabled: source.eliminado == '1',
-	};
-};
-
-export const mapTicketUnique = (source: any): TicketWithChild => {
-	return {
-		...mapSupportProps(source.unico),
-		childs:
-			source.unico.childs !== null
-				? source.unico.childs.map((child: any) => mapSupportProps(child))
-				: [],
-	};
-};
 
 export const mapPreviusSearch = (source: any): PreviusSearch => {
 	return {

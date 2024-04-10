@@ -1,11 +1,6 @@
 import { type FC, type ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import {
-	type Issues,
-	type SaveIssue,
-	useSaveIssue,
-} from '../../../../../../data';
-import { useTheme } from '../../../../../ThemeContext';
+import { type SaveIssue, useSaveIssue } from '../../../../../../data';
 import {
 	LeftArrowIcon,
 	PageLoaderOverlay,
@@ -13,106 +8,48 @@ import {
 	Show,
 } from '../../../../../components';
 import AppEditor from './AppEditor';
+import useLoadIframe from '@panelHooks/issues/useLoadIframe';
 
 interface IssueCreationPanelProps {
-	issues: Issues[];
 	isLoading: boolean;
 }
 
 const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
-	const {
-		newIssue,
-		isAddingIssue,
-		dispatch,
-		save,
-		shouldDisableClass,
-		type,
-		resourceId,
-	} = useSaveIssue();
-	const [isEditable, setEditable] = useState(false);
 	const navigate = useNavigate();
-	const { theme } = useTheme();
-
-	const handleIssueUpdate = () => {
+	const { newIssue, isAddingIssue, dispatch, save, shouldDisableClass, type } =
+		useSaveIssue();
+	const [isEditable, setEditable] = useState(false);
+	const handleIssueUpdate = (
+		isEditable: boolean,
+		callBack: () => Promise<any>,
+	) => {
 		if (!isEditable) return;
 
-		save().then((response: any) => {
+		callBack().then((response: any) => {
 			if (response !== undefined && response.id !== undefined) {
 				navigate(`/issues/update/${response.id}`);
 			}
 		});
 	};
-
+	const [isLoaded] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
+	useEffect(() => {
+		let timeID;
+		if (isLoaded) {
+			timeID = setTimeout(() => setEditable(true), 75);
+		}
+		return () => clearTimeout(timeID!);
+	}, [isLoaded]);
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 	) => {
 		const { name, value } = e.target;
+		if (name == 'resourceID' && (!value || isNaN(Number(value)))) return;
+
 		dispatch((state: SaveIssue) => ({
 			...state,
-			[name]: value,
+			[name]: name == 'resourceID' ? value.replace(/[^0-9]/g, '') : value,
 		}));
 	};
-
-	const handleKeyDown = (event: any) => {
-		if (event.ctrlKey && (event.key === 's' || event.keyCode === 83)) {
-			event.preventDefault();
-			handleIssueUpdate();
-		}
-	};
-	useEffect(() => {
-		let contentWindow: Window | null;
-		let timeID;
-
-		const loadIframe = () => {
-			const iframe = document.getElementById(
-				'issue_ifr',
-			) as HTMLIFrameElement | null;
-
-			if (!iframe) {
-				timeID = setTimeout(() => loadIframe(), 30);
-			} else {
-				contentWindow = iframe.contentWindow! as WindowProxy;
-				contentWindow.addEventListener('keydown', handleKeyDown);
-				timeID = setTimeout(() => setEditable(true), 75);
-			}
-		};
-
-		loadIframe();
-
-		return () => {
-			if (contentWindow) {
-				contentWindow.removeEventListener('keydown', handleKeyDown);
-			}
-			clearTimeout(timeID!);
-		};
-	}, [props.isLoading, handleKeyDown]);
-
-	useEffect(() => {
-		let contentWindow: Window | null;
-		let themeTiny;
-
-		const loadIframe = () => {
-			const iframe = document.getElementById(
-				'issue_ifr',
-			) as HTMLIFrameElement | null;
-
-			if (!iframe) {
-				themeTiny = setTimeout(() => loadIframe(), 30);
-			} else {
-				contentWindow = iframe.contentWindow! as WindowProxy;
-				const body = contentWindow.document;
-				themeTiny = setTimeout(
-					() => body.documentElement.setAttribute('data-theme', theme),
-					25,
-				);
-			}
-		};
-
-		loadIframe();
-		return () => {
-			clearTimeout(themeTiny!);
-		};
-	}, [theme]);
 
 	return (
 		<>
@@ -136,26 +73,31 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 				<div className="work-buttons">
 					<div
 						className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
-						onClick={() => handleIssueUpdate()}>
+						onClick={() => handleIssueUpdate(isEditable, save)}>
 						<SaveIcon isButton />
 					</div>
 				</div>
 			</div>
 
 			<div className="info">
-				{resourceId && (
-					<div className="issue-detail-select">
-						<p className="pr-2">Resource ID:</p>
-						<span className="py-3 log-inputs">{resourceId}</span>
+				{newIssue.resourceID ? (
+					<div className="issue-detail-select select-resource">
+						<label>Resource ID:</label>
+						<input
+							className="log-inputs"
+							type="number"
+							value={newIssue.resourceID}
+							name="resourceID"
+							onChange={handleChange}
+							pattern="\d*"
+						/>
 					</div>
-				)}
+				) : null}
 				<div className="issue-detail-select">
 					<p className="pr-2">Class:</p>
 					<select
 						onChange={handleChange}
-						className={`py-3  focus:outline-none log-inputs ${
-							shouldDisableClass && 'opacity-50'
-						}`}
+						className={`log-inputs ${shouldDisableClass && 'opacity-50'}`}
 						value={newIssue.issueClass}
 						name="issueClass"
 						required

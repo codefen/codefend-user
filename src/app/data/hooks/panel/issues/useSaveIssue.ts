@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 import { useAuthState } from '../../../';
@@ -9,6 +9,7 @@ export interface SaveIssue {
 	issueName: string;
 	score: string;
 	issueClass: string;
+	resourceID?: number;
 }
 
 export const useIssuesValidations = () => {
@@ -54,9 +55,8 @@ export const useIssuesValidations = () => {
 export const useSaveIssue = () => {
 	const { getUserdata, getCompany } = useAuthState();
 	const { type, resourceId } = useParams();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher();
 	const [validateNewIssue] = useIssuesValidations();
-
 	const [newIssue, setNewIssue] = useState<SaveIssue>({
 		issueName: '',
 		score: '',
@@ -71,6 +71,7 @@ export const useSaveIssue = () => {
 		].includes(type ?? '')
 			? (type as string)
 			: '',
+		resourceID: Number(resourceId),
 	});
 
 	const fetchSave = async (companyID: string) => {
@@ -89,7 +90,7 @@ export const useSaveIssue = () => {
 				resource_class: newIssue.issueClass,
 				researcher_username: getUserdata()?.username,
 				main_desc: _editorContent,
-				resource_id: resourceId || undefined,
+				resource_id: newIssue.resourceID ? newIssue.resourceID : undefined,
 			},
 		})
 			.then(({ data }: any) => {
@@ -132,6 +133,5 @@ export const useSaveIssue = () => {
 		save,
 		shouldDisableClass,
 		type,
-		resourceId,
 	};
 };

@@ -9,7 +9,7 @@ const IssuesCreation: FC = () => {
 	return (
 		<main className={`issue-detail ${showScreen ? 'actived' : ''}`}>
 			<section className="left">
-				<IssueCreationPanel isLoading={showScreen} issues={[]} />
+				<IssueCreationPanel isLoading={showScreen} />
 			</section>
 			<section className="right">
 				<IssueChatDisplay

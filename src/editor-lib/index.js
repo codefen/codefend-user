@@ -1,12 +1,8 @@
 export const setTinyEditorContent = (id, value) => {
-	if (
-		(id == null || id == undefined) &&
-		(value === null || value == undefined)
-	) {
-		return;
-	}
-
-	tinyMCE.get(id)?.setContent(value);
+	if (!id && !value) return;
+	
+	const editor = tinyMCE.get(id);
+	if(editor) editor.setContent(value);
 };
 
 const addTinyMce = (initialValue) => {
@@ -17,10 +13,16 @@ const addTinyMce = (initialValue) => {
 	const options = {
 		selector: '#issue',
 		promotion: false,
-		plugins:
-			'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount charmap quickbars emoticons accordion',
+		plugins: [
+			'preview', 'importcss', 'searchreplace', 'autolink', 'autosave',
+			'save', 'directionality', 'code', 'visualblocks', 'visualchars',
+			'fullscreen', 'image', 'link', 'media', 'template', 'codesample',
+			'table', 'charmap', 'pagebreak', 'nonbreaking', 'anchor',
+			'insertdatetime', 'advlist', 'lists', 'wordcount', 'charmap',
+			'quickbars', 'emoticons', 'accordion'
+		  ],
 		toolbar:
-			'undo redo | styles | strikethrough bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+			'inserttemplate | undo redo | styles | strikethrough bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
 		advlist_bullet_styles: 'square',
 		table_use_colgroups: true,
 		branding: false,
@@ -48,9 +50,9 @@ const addTinyMce = (initialValue) => {
 
 	tinyMCE.init(options);
 
-	setTimeout(() => {
-		setTinyEditorContent('issue', initialValue);
-	}, 475);
+	setTimeout(() => 
+		setTinyEditorContent('issue', initialValue)
+	, 500);
 };
 
 export const getTinyEditorContent = (id) => {

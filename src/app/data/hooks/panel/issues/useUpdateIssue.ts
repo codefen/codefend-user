@@ -8,6 +8,7 @@ export interface UpdateIssue {
 	id: string;
 	issueName: string;
 	score: string;
+	resourceID: number | undefined;
 }
 
 const validateNewIssue = (validate: boolean, message: string) => {
@@ -21,11 +22,12 @@ const validateNewIssue = (validate: boolean, message: string) => {
 /* Custom Hook "useUpdateIssue" to handle updating an issue*/
 export const useUpdateIssue = () => {
 	const { getCompany } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher();
 	const [updatedIssue, dispatch] = useState<UpdateIssue>({
 		id: '',
 		issueName: '',
-		score: ''
+		score: '',
+		resourceID: 1
 	});
 
 	const fetchSave = (companyID: string) => {
@@ -42,12 +44,12 @@ export const useUpdateIssue = () => {
 		return fetcher('post', {
 			body: {
 				model: 'issues/mod',
-				resource_id: 1,
 				company_id: companyID,
 				resource_address_domain: 'clarin.com',
 				id: updatedIssue.id,
 				main_desc: _editorContent,
 				name: updatedIssue.issueName,
+				resource_id: updatedIssue.resourceID || 1,
 				risk_score: updatedIssue.score,
 			},
 		}).then(({ data }: any) => {

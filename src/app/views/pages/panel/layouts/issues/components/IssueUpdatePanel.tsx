@@ -1,4 +1,10 @@
-import { type FC, useCallback, useEffect, useState } from 'react';
+import {
+	type FC,
+	useCallback,
+	useEffect,
+	useState,
+	type ChangeEvent,
+} from 'react';
 import { useNavigate } from 'react-router';
 import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
 import { PencilIcon, SaveIcon, LeftArrowIcon } from '@icons';
@@ -6,11 +12,11 @@ import {
 	type UpdateIssue,
 	useUpdateIssue,
 } from '@panelHooks/issues/useUpdateIssue.ts';
-import { type OneIssue } from '@interfaces/panel.ts';
+import { type CompleteIssue, type OneIssue } from '@interfaces/panel.ts';
 import { formatDate } from '@utils/helper.ts';
-import { useTheme } from '../../../../../ThemeContext.tsx';
 import AppEditor from './AppEditor.tsx';
 import Show from '@defaults/Show.tsx';
+import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
 
 interface IssueUpdatePanelProps {
 	completeIssue: OneIssue;
@@ -21,19 +27,9 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 	completeIssue,
 	isLoading,
 }) => {
-	const safelyIssue = (): any => {
-		const result =
-			completeIssue.issue !== undefined && completeIssue.issue !== null
-				? completeIssue.issue
-				: { id: '', riskScore: '0', content: '', cs: [], name: '' };
-		return result;
-	};
-
 	const navigate = useNavigate();
-	const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
 	const [isEditable, setEditable] = useState(true);
-	const { theme } = useTheme();
-
+	const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
 	const handleIssueUpdate = useCallback(() => {
 		update()
 			.then((response: any) => {
@@ -42,102 +38,44 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 			.finally(() => {
 				navigate(`/issues`);
 			});
-	}, [safelyIssue, update]);
+	}, [update]);
+	const [isLoaded] = useLoadIframe(handleIssueUpdate);
 
-	const handleKeyDown = (event: any) => {
-		if (event.ctrlKey && (event.key === 's' || event.keyCode === 83)) {
-			event.preventDefault();
-			handleIssueUpdate();
-		}
-	};
-	useEffect(() => {
-		let contentWindow: Window | null;
-		let timeID;
-
-		const loadIframe = () => {
-			const iframe = document.getElementById(
-				'issue_ifr',
-			) as HTMLIFrameElement | null;
-
-			if (!iframe) {
-				timeID = setTimeout(() => loadIframe(), 30);
-			} else {
-				contentWindow = iframe.contentWindow! as WindowProxy;
-				contentWindow.addEventListener('keydown', handleKeyDown);
-			}
-		};
-
-		loadIframe();
-
-		return () => {
-			if (contentWindow) {
-				contentWindow.removeEventListener('keydown', handleKeyDown);
-			}
-			clearTimeout(timeID!);
-		};
-	}, [handleKeyDown]);
-
-	useEffect(() => {
-		let contentWindow: Window | null;
-		let themeTiny: NodeJS.Timeout | null = null;
-		let attempts = 0;
-		const maxAttempts = 10; // Establece el número máximo de intentos
-
-		const loadIframe = () => {
-			const iframe = document.getElementById(
-				'issue_ifr',
-			) as HTMLIFrameElement | null;
-
-			if (!iframe) {
-				attempts++;
-				if (attempts < maxAttempts) {
-					themeTiny = setTimeout(loadIframe, 200); // Intenta cargar de nuevo después de 3 segundos
-				} else {
-					console.error(
-						'Se superó el número máximo de intentos para cargar el iframe.',
-					);
-				}
-				return;
-			}
-
-			contentWindow = iframe.contentWindow!;
-
-			const handleIframeLoad = () => {
-				const body = contentWindow!.document.body;
-				if (body) {
-					body.setAttribute('data-theme', theme);
-				}
-			};
-
-			if (
-				iframe.contentWindow &&
-				iframe.contentWindow.document.readyState === 'complete'
-			) {
-				handleIframeLoad();
-			} else {
-				iframe.onload = handleIframeLoad;
-			}
-		};
-
-		loadIframe();
-
-		return () => {
-			if (themeTiny) {
-				clearTimeout(themeTiny);
-			}
-		};
-	}, [theme]);
-
+	const safelyIssue = (): CompleteIssue | Partial<CompleteIssue> =>
+		completeIssue.issue
+			? completeIssue.issue
+			: {
+					id: '',
+					createdAt: '',
+					riskScore: '0',
+					resourceID: '1',
+					content: '',
+					cs: [],
+					name: '',
+				};
 	useEffect(
 		() =>
 			dispatch((state: UpdateIssue) => ({
 				...state,
-				id: safelyIssue().id,
-				issueName: safelyIssue().name,
-				score: safelyIssue().riskScore,
+				id: safelyIssue().id || '',
+				issueName: safelyIssue().name || '',
+				score: safelyIssue().riskScore || '',
+				resourceID: Number(safelyIssue().resourceID || 1),
 			})),
 		[completeIssue],
 	);
+
+	const handleChange = (
+		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+	) => {
+		const { name, value } = e.target;
+		if (name == 'resourceID' && (!value || isNaN(Number(value)))) return;
+
+		dispatch((state) => ({
+			...state,
+			[name]: name == 'resourceID' ? value.replace(/[^0-9]/g, '') : value,
+		}));
+	};
 
 	return (
 		<Show when={!isLoading} fallback={<PageLoader />}>
@@ -155,12 +93,8 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 							type="text"
 							className="grow"
 							value={updatedIssue.issueName}
-							onChange={(e) =>
-								dispatch((state: UpdateIssue) => ({
-									...state,
-									issueName: e.target.value,
-								}))
-							}
+							name="issueName"
+							onChange={handleChange}
 						/>
 					</Show>
 					<div className="work-buttons">
@@ -178,8 +112,25 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 				</div>
 				<div className="info">
 					<div>
-						Published: <span>{formatDate(safelyIssue().createdAt)}</span>
+						Published: <span>{formatDate(safelyIssue().createdAt!)}</span>
 					</div>
+					{updatedIssue.resourceID !== 1 ? (
+						<div className="info-resourcer-id">
+							Resource ID:{' '}
+							<input
+								type="number"
+								className={`${isEditable && 'off'}`}
+								value={updatedIssue.resourceID}
+								disabled={isEditable}
+								name="resourceID"
+								onChange={handleChange}
+								step="1"
+								inputMode="numeric"
+								pattern="\d*"
+							/>
+						</div>
+					) : null}
+
 					<div>
 						Author: <span>@{safelyIssue().researcherUsername}</span>
 					</div>
@@ -196,7 +147,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 				<div className="">
 					<AppEditor
 						isEditable={!isEditable}
-						initialValue={safelyIssue().content ?? ''}
+						initialValue={safelyIssue().content || ''}
 						isIssueCreation={isAddingIssue}
 					/>
 				</div>

@@ -86,4 +86,5 @@ export class FetchHttpService extends HttpService {
 			.then((response: Response) => handleResponse(response))
 			.catch((error: any) => handleFetchError(error));
 	}
+	
 }

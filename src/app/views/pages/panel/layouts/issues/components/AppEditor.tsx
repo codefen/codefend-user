@@ -7,26 +7,25 @@ interface AppEditorProps {
 	isEditable: boolean;
 	isIssueCreation?: any;
 }
-const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable }) => {
-	const emptyUpdateIssueText = () => '<p>Please add issues here...</p>';
 
+const EMPTY_TEXT = '<p>Please add issues here...</p>';
+
+const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable }) => {
 	useEffect(() => {
+		console.log({ condForDefault: !Boolean(initialValue.trim().length) });
 		const defaultValue = !Boolean(initialValue.trim().length)
-			? emptyUpdateIssueText()
+			? EMPTY_TEXT
 			: initialValue;
 
 		addTinyMce(defaultValue);
 	}, [initialValue]);
 
 	useEffect(() => {
-		const timeID = setTimeout(() => {
-			if (isEditable) {
-				setMode('issue', 'design');
-			} else {
-				setMode('issue', 'readonly');
-			}
-		}, 35);
-		return () => clearTimeout(timeID);
+		if (isEditable) {
+			setMode('issue', 'design');
+		} else {
+			setMode('issue', 'readonly');
+		}
 	}, [isEditable]);
 
 	return (
@@ -36,7 +35,7 @@ const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable }) => {
 				id="issue"
 				rows={4}
 				cols={40}
-				defaultValue={''}></textarea>
+				defaultValue=""></textarea>
 		</>
 	);
 };
