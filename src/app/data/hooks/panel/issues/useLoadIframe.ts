@@ -30,7 +30,7 @@ const useLoadIframe = (keyDownExc: ()=>any, extraExc?: ()=>void) => {
     }
   };
 
-  const handleIframeLoad = (contentWindow: WindowProxy) => {
+  const updateTinyMceTheme = (contentWindow: WindowProxy) => {
     const body = contentWindow.document.body;
     if (body) {
       body.setAttribute('data-theme', theme);
@@ -56,9 +56,9 @@ const useLoadIframe = (keyDownExc: ()=>any, extraExc?: ()=>void) => {
     contentWindowRef.current = iframe.contentWindow as WindowProxy;
 
     if (contentWindowRef.current && contentWindowRef.current.document.readyState === 'complete') {
-        handleIframeLoad(contentWindowRef.current!);
+        updateTinyMceTheme(contentWindowRef.current!);
     } else {
-        const onLoad = ()=> handleIframeLoad(contentWindowRef.current!);
+        const onLoad = ()=> updateTinyMceTheme(contentWindowRef.current!);
         iframe.onload = onLoad;
     }
 
