@@ -398,8 +398,6 @@ body[print-report] {
 		background-color: var(--secondary-color-50);
 	}
 	.issues-report {
-		// page-break-inside: auto;
-
 		.issue-header {
 			page-break-before: always;
 		}
