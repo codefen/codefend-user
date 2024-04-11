@@ -1,6 +1,5 @@
 import { type FC, Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { useMediaQuery } from 'usehooks-ts';
 import { useAuthState, useAuthStore } from '../../../data';
 import {
 	ErrorConection,
@@ -8,9 +7,6 @@ import {
 	Navbar,
 	Show,
 	Sidebar,
-	SidebarResponsive,
-	NavResponsive,
-	HeaderResponsive,
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
 import { WelcomeGroupTour } from '../../components/standalones/welcome/WelcomeGroupTour';
@@ -21,7 +17,6 @@ export const PanelPage: FC = () => {
 		updateAuth: state.updateAuth,
 	}));
 	const { isAuth, logout } = useAuthState();
-	const isSmallScreen = useMediaQuery('(max-width: 640px)');
 
 	if (!isAuth) logout();
 
@@ -51,18 +46,8 @@ export const PanelPage: FC = () => {
 							/>
 						</Show>
 
-						{!isSmallScreen ? (
-							<>
-								<Navbar />
-								<Sidebar />
-							</>
-						) : (
-							<>
-								<HeaderResponsive />
-								<SidebarResponsive />
-								<NavResponsive />
-							</>
-						)}
+						<Navbar />
+						<Sidebar />
 
 						<Suspense fallback={<Loader />}>
 							<Outlet />
