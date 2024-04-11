@@ -35,18 +35,23 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 		useIssueReport();
 
 	useEffect(() => {
+		let timeoutId: any;
 		if (!resources) {
 			fetchReport().finally(() => {
 				if (!isModal) {
-					setTimeout(() => window.print(), 2000);
+					timeoutId = setTimeout(() => window.print(), 2000);
 				}
 				setIsLoading(false);
 			});
+		}
+		if (!isModal && resources) {
+			addPrintAttributesFromBody(resources, resourceDomainText);
 		}
 		return () => {
 			abort.abort();
 			if (!isModal) {
 				removePrintAttributesFromBody();
+				clearTimeout(timeoutId);
 			}
 		};
 	}, []);
@@ -69,18 +74,10 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 		return <></>;
 	};
 
-	if (!isModal && resources) {
-		addPrintAttributesFromBody(resources, resourceDomainText);
-	}
-
 	if ((open && !isLoading) || (!isModal && !isLoading)) {
 		const issuesTableRows = issues
 			? issues.map((issue: ReportIssues, i: number) => ({
 					published: { value: issue.createdAt, style: 'date' },
-					author: {
-						value: issue.researcherUsername,
-						style: 'username',
-					},
 					type: { value: issue.resourceClass, style: 'vul-class' },
 					risk: { value: issue.riskLevel, style: 'vul-risk' },
 					score: {

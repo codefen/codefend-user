@@ -37,14 +37,14 @@ export const useInitialSearch = () => {
 		}).then(({ data }: any) => {
 				data = JSON.parse(String(data).trim());
 
-				if (data.error == '1') throw new Error('An unexpected error has occurred');
+				if (data?.error == '1') throw new Error('An unexpected error has occurred');
 
 				setSearchData((state: SearchResult) => ({
 					...state,
-					intelID: data.response.id || '',
-					count: data.response.count || 0,
+					intelID: data.id || '',
+					count: 0,
 				}));
-				return data.response.id;
+				return {id: data.id, error: 0};
 			})
 			.catch((e: Error) =>
 				{

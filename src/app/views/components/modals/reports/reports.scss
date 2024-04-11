@@ -309,6 +309,18 @@ body[print-report] {
 			max-width: 25%;
 			min-width: 25%;
 		}
+		.vul-class {
+			flex: 0.165 0.165 0% !important;
+		}
+		.vul-risk {
+			flex: 0.19 0.19 0% !important;
+		}
+		.vul-title {
+			flex: 1 1;
+		}
+		.vul-condition {
+			max-width: 75px;
+		}
 	}
 	.empty-card {
 		.empty-container {
