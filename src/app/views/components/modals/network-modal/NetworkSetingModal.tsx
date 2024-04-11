@@ -1,7 +1,7 @@
-import { type FC, useCallback, useState, useRef } from 'react';
+import { type FC, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import { EditIcon, ShieldIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
+import { EditIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
 import Show from '@defaults/Show.tsx';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import {
@@ -12,7 +12,6 @@ import {
 import { useAuthState } from '#commonHooks/useAuthState.ts';
 import { baseUrl } from '@utils/config.ts';
 import './networkSetting.scss';
-import { useLocalStorage } from 'usehooks-ts';
 import { PrimaryButton } from '../..';
 
 interface NetworkSetingModalProps {
@@ -24,9 +23,8 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 	close,
 	isOpen,
 }) => {
-	const [insecure, setInsecure] = useLocalStorage(
-		'insecure',
-		Boolean(localStorage.getItem('insecure')),
+	const [insecure, setInsecure] = useState(
+		localStorage.getItem('insecure') == 'true' ? true : false,
 	);
 	const customAPi = getCustomBaseAPi();
 	const defaultApiUrl = customAPi ? customAPi : baseUrl;
@@ -34,30 +32,34 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 	const [canEdit, setCanEdit] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 	const { logout } = useAuthState();
-	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
-			e.preventDefault();
-			setCanEdit(false);
-			setLoading(true);
-			if (apiUrl.length < 10) {
-				toast.error('invalid API URL, too short');
-				setLoading(false);
-				return;
-			}
-			close();
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		setCanEdit(false);
+		setLoading(true);
 
-			if (apiUrl !== defaultApiUrl) {
-				setCustomBaseAPi(apiUrl);
-				toast.success('Server has been changed successfully');
-				logout();
-				window.location.reload();
-			}
+		if (apiUrl.length < 10) {
+			toast.error('invalid API URL, too short');
 			setLoading(false);
-		},
-		[apiUrl],
-	);
+			return;
+		}
+		localStorage.setItem('insecure', String(insecure));
+		close();
+		setLoading(false);
+		if (apiUrl !== defaultApiUrl) {
+			setCustomBaseAPi(apiUrl);
+			toast.success('Server has been changed successfully');
+			logout();
+			window.location.reload();
+		}
+	};
 
-	const updateInsecure = () => setInsecure(!insecure);
+	const handleCancel = () => {
+		close();
+		setInsecure(localStorage.getItem('insecure') == 'true' ? true : false);
+	};
+
+	const updateInsecure = () => setInsecure((prev) => !prev);
 
 	return (
 		<Show when={isOpen}>
@@ -140,7 +142,7 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 								</div>
 
 								<ModalButtons
-									close={close}
+									close={handleCancel}
 									isDisabled={isLoading}
 									confirmText="Save changes"
 								/>
