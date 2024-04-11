@@ -237,7 +237,6 @@
 	.vul-score {
 		width: 85px;
 		flex: inherit !important;
-		column-gap: 0.175rem;
 
 		.risk-score {
 			margin-block-start: 0.5rem;
@@ -399,6 +398,7 @@
 		aspect-ratio: 1/1;
 		border-radius: 100%;
 		margin-block-start: 0.5rem;
+		margin-inline: 0.12rem;
 	}
 }
 
