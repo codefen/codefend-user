@@ -101,10 +101,10 @@ export const useSelectMobileCloudApp = create<SelectMobileCloudApp>(
 						company_id: appSelected?.companyID || '',
 					},
 				})
-				.then((response) => {
+				.then(({data}:any) => {
 					set((prev: SelectMobileCloudApp) => ({
 						...prev,
-						appUnique: mobileUniqueProps(response),
+						appUnique: mobileUniqueProps(data),
 					}));
 				});
 		},
@@ -121,10 +121,10 @@ export const useSelectMobileCloudApp = create<SelectMobileCloudApp>(
 						company_id: appSelected?.companyID || '',
 					},
 				})
-				.then((res) => {
+				.then(({data}:any) => {
 					set((prev: SelectMobileCloudApp) => ({
 						...prev,
-						appUnique: mapCloudUniqueProps(res),
+						appUnique: mapCloudUniqueProps(data),
 					}));
 				});
 		},
