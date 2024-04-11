@@ -1,10 +1,10 @@
-import { handleFetchError } from '@services/api.utils';
-import { getCustomBaseAPi, baseUrl, getToken } from '../../..';
 import { useRef, useState } from 'react';
+import { FetchHttpService } from '@services/fetchHTTP.service';
+import { useFetcher } from '#commonHooks/useFetcher';
 
 export const useInxReadFile = () => {
 	const [fullDataLoading, setFullDataLoading] = useState<boolean>(false);
-
+	const [fetcher,_, isLoading] = useFetcher();
 	const selectedResult = useRef<any>(null);
 	const fileName = useRef<string>("");
 	const fileType = useRef<string>("");
@@ -13,33 +13,19 @@ export const useInxReadFile = () => {
 	}
 	const readFile = (intel: any, companyID: string) => {
 		setFullDataLoading(true);
-		const url = getCustomBaseAPi() ? getCustomBaseAPi() : baseUrl;
-		let token = getToken();
-		const bodyParams = new FormData();
-		bodyParams.append("model", 'modules/inx');
-		bodyParams.append("ac", 'read');
-		bodyParams.append("company_id", companyID);
-		bodyParams.append("sid", intel.storage_id);
-		bodyParams.append("bid", intel.bucket_id);
-		bodyParams.append("session", token);
-
-		fetch(url, {
-			method: "POST",
-			body: bodyParams,
-			headers: {
-				'Accept': 'application/json'
+		fetcher("post", {
+			body: {
+				model: "modules/inx",
+				ac: "read",
+				company_id: companyID,
+				sid: intel.storageid,
+				bid: intel.simhash
 			}
-		}).then( (response) => {
-			if (!response.ok)  throw new Error('Network response was not ok');
-			return response.text();
-		}).then((res: any) => {
-			selectedResult.current = JSON.parse(String(res).trim()).response;
+		}).then(({data}: any) => {
+			selectedResult.current = JSON.parse(String(data).trim()).response;
 			fileName.current = intel.name;
-			fileType.current = intel.bucket_data;
+			fileType.current = intel.bucket;
 		})
-		.catch((error) => 
-			handleFetchError(error.message)
-		)
 		.finally(()=>setFullDataLoading(false));
 	};
 

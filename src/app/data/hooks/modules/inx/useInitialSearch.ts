@@ -10,32 +10,26 @@ interface SearchResult {
 }
 
 export const useInitialSearch = () => {
-	const emptyState = {
+	const [fetcher, _, isLoading] = useFetcher();
+	const [dataSearch, setSearchData] = useState<SearchResult>({
 		count: 0,
 		offSet: 0,
 		intelID: '',
 		search: '',
-	};
-	const [fetcher, _, isLoading] = useFetcher();
-	const intelData = useRef([]);
-	const [dataSearch, setSearchData] = useState<SearchResult>(emptyState);
+	});
 
 	const fetchInitialSearch = async (companyID: string, term: string) => {
-		setSearchData((state: SearchResult) => ({
-			...state,
-			offSet: 0,
-			search: term,
-		}));
-		fetcher("post", {
+		return fetcher("post", {
 			body: {
 				model: 'modules/inx',
 				ac: 'init_search',
 				term: term,
 				company_id: companyID,
 			},
-			insecure: true
+			requestId: `ini-${term.trim()}`,
+			timeout: 10000
 		}).then(({ data }: any) => {
-				data = JSON.parse(String(data).trim());
+				if(typeof data === "string") data = JSON.parse(data.trim());
 
 				if (data?.error == '1') throw new Error('An unexpected error has occurred');
 
@@ -44,12 +38,12 @@ export const useInitialSearch = () => {
 					intelID: data.id || '',
 					count: 0,
 				}));
-				return {id: data.id, error: 0};
+				return {id: data.id as string, error: 0};
 			})
 			.catch((e: Error) =>
 				{
 					toast.error(e.message);
-					return {error: 1};
+					return {id: "", error: 1};
 				}
 			);
 	};
@@ -57,12 +51,12 @@ export const useInitialSearch = () => {
 	const refetchInitial = (companyID: string, term: string) => {
 		if (!companyID) {
 			toast.error('User information was not found');
-			return;
+			return Promise.reject({error: 1});
 		}
 		return fetchInitialSearch(companyID, term);
 	};
 
 	const getData = (): SearchResult => dataSearch;
 
-	return { getData, setSearchData, refetchInitial, intelData, isLoading };
+	return { getData, setSearchData, refetchInitial, isLoading };
 };

@@ -20,7 +20,6 @@ export const handleFetchError = (error: any): Promise<any> => {
 	}
 	if (error.response?.data) {
 		const message = error.response.data.message;
-		console.log(error.response.data);
 		message && toast.error(message);
 	}
 

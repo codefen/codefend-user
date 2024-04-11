@@ -42,7 +42,9 @@ export const InxPreviusContentData: FC<InxPreviusContentDataProps> = ({
 			<div
 				className="intel-preview-container"
 				dangerouslySetInnerHTML={{
-					__html: cleanHTML(previewHTML) || 'There are no previews yet',
+					__html: previewHTML
+						? cleanHTML(previewHTML)
+						: 'There are no previews yet',
 				}}
 			/>
 		</Show>

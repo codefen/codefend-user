@@ -15,17 +15,17 @@ interface AxiosFetchResponse<T> {
 	statusText: string;
 }
 
-export const useFetcher = ()=>{
+export const useFetcher = (isRoot?: boolean)=>{
     const [httpService, setHttpService] = useState<AxiosHttpService | undefined>(AxiosHttpService.getInstance());
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
       setHttpService(AxiosHttpService.getInstance());
       if(httpService) httpService?.updateUrlInstance();
       return () => {
-        httpService?.cancelAll();
+        if(isRoot) httpService?.cancelAll();
         setHttpService(undefined);
       };
-    }, [httpService]);
+    }, []);
 
     const makeRequest = async <T>(
       method: 'post' | 'get', options: HttpRequestOptions
@@ -39,7 +39,6 @@ export const useFetcher = ()=>{
         const response = await (httpService[method] as FetchMethodType<T>)(
           options,
         );
-        console.log({ response });
         return response;
       } catch (error) {
         console.warn('Error in make request: ', error);
