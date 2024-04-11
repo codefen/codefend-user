@@ -16,16 +16,18 @@ export const OrderReviewModal: React.FC<{
 		updateState,
 	} = useOrderConfirm();
 	const { oneExecute } = useTimeout(() => {
+		console.log('entro ?');
 		props.updateNextStep(false);
 		toast.success(`Your request has been processed. You're about to finish!`);
 	}, 1100);
 
 	const nextStep = () => {
-		sendConfirmOrder().then((res) => {
-			updateState('orderStepActive', OrderSection.SELECT_LEAD);
-			props.updateNextStep(true);
-			oneExecute();
-		});
+		sendConfirmOrder()
+			.then((res) => {
+				updateState('orderStepActive', OrderSection.SELECT_LEAD);
+				props.updateNextStep(true);
+			})
+			.finally(oneExecute);
 	};
 	return (
 		<>

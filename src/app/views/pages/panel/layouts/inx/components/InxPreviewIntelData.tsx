@@ -35,8 +35,8 @@ export const InxPreviewIntelData: FC<InxPreviewIntelDataProps> = ({
 		if (isIntersecting && !previewReq) {
 			const params = {
 				sid: intel.storageid,
-				bid: intel.simhash,
-				mid: intel.media,
+				bid: intel.bucket,
+				mid: intel.type,
 			};
 
 			refetchPreview(params, companyID);

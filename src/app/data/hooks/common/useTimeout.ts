@@ -1,25 +1,25 @@
 import { useCallback, useEffect, useRef } from "react";
 
-const useTimeout = (callback: ()=>void, delay:number)=> {
-    const timeoutRef = useRef<NodeJS.Timeout>();
+const useTimeout = (callback: () => void, delay: number) => {
+	const timeoutRef = useRef<NodeJS.Timeout>();
 
-    const clear = () => {
-        if(timeoutRef.current) clearTimeout(timeoutRef.current);
-        timeoutRef.current = undefined;
-    };
+	const clear = useCallback(() => {
+		if (timeoutRef.current) clearTimeout(timeoutRef.current);
+		timeoutRef.current = undefined;
+	}, [timeoutRef]);
 
-    useEffect(() => {
-        return clear;
-    }, []);
+	const oneExecute = useCallback(() => {
+		clear();
+        console.log({ timeoutRef })
+		if (timeoutRef.current === undefined) {
+			timeoutRef.current = setTimeout(()=> callback(), delay);
+		}
+	}, [timeoutRef, callback, delay]);
 
-    const oneExecute = ()=>{
-        clear();
-        if(timeoutRef.current == undefined){
-            timeoutRef.current = setTimeout(callback, delay);
-        }
-    }
+	useEffect(() => {
+		return clear;
+	}, []);
 
-    return { clear, oneExecute };
-}
-
+	return { clear, oneExecute };
+};
 export default useTimeout;

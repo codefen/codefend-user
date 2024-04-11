@@ -25,6 +25,7 @@ export const OrderV2 = () => {
 
 	useEffect(() => {
 		refetchTotal();
+		updateNextStep(false);
 	}, [scope.totalResources]);
 
 	const ActiveStep = () => {
@@ -70,14 +71,14 @@ export const OrderV2 = () => {
 								alt="codefend-icon"
 								aria-label="codefend-icon"
 							/>
-							<h2><span>Execute a </span>new pentest</h2>
+							<h2>
+								<span>Execute a </span>new pentest
+							</h2>
 							<ActiveProgressLine
 								isNextStep={isNextStep}
 								orderStepActive={orderStepActive}
 							/>
 						</div>
-
-							
 					</header>
 
 					<div className="orders-content">

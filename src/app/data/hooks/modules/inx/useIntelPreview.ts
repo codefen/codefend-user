@@ -21,15 +21,11 @@ export const useIntelPreview = () => {
 		})
 			.then(({ data }: any) => {
 				if (!data || data.trim() === "") return false;	
-				data = JSON.parse(String(data).trim());
-
-				if (!data.preview) return false;
-				
 
 				const intelPreviewData = intelPreview.current;
 				intelPreviewData.push({
 					id: params.sid,
-					preview: data.preview,
+					preview: data,
 				});
 				setIntelPreview(intelPreviewData);
 				return true;

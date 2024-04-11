@@ -19,10 +19,10 @@ export const useInxReadFile = () => {
 				ac: "read",
 				company_id: companyID,
 				sid: intel.storageid,
-				bid: intel.simhash
+				bid: intel.bucket
 			}
 		}).then(({data}: any) => {
-			selectedResult.current = JSON.parse(String(data).trim()).response;
+			selectedResult.current = data;
 			fileName.current = intel.name;
 			fileType.current = intel.bucket;
 		})
