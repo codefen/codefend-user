@@ -12,7 +12,6 @@ const EMPTY_TEXT = '<p>Please add issues here...</p>';
 
 const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable }) => {
 	useEffect(() => {
-		console.log({ condForDefault: !Boolean(initialValue.trim().length) });
 		const defaultValue = !Boolean(initialValue.trim().length)
 			? EMPTY_TEXT
 			: initialValue;

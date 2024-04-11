@@ -20,14 +20,13 @@ main.source-code {
 			.id {
 				display: flex;
 				min-width: 50px;
-				max-width: 50px;
+				max-width: 85px;
 			}
 			.full-name {
-				min-width: 198px;
-				max-width: 198px;
+				min-width: 175px;
+				max-width: 350px;
 			}
 			.url {
-				max-width: 230px;
 				min-width: 230px;
 				overflow: hidden;
 				text-overflow: ellipsis;
@@ -60,6 +59,7 @@ main.source-code {
 				width: 100%;
 				column-gap: 2px;
 				cursor: pointer;
+				max-width: 100px;
 
 				span {
 					height: 100%;

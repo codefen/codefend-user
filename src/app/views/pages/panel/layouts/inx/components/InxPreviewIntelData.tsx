@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, useEffect } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 
 import { formatDateTimeFormat, useIntelPreview } from '../../../../../../data';
@@ -26,26 +26,30 @@ export const InxPreviewIntelData: FC<InxPreviewIntelDataProps> = ({
 	const { isIntersecting, ref } = useIntersectionObserver({
 		threshold: 0.5,
 	});
-	const { intelPreview, isLoadingPreview, refetchPreview } = useIntelPreview();
+	const { intelPreview, isLoadingPreview, refetchPreview, cancelRequest } =
+		useIntelPreview();
 	const [previewReq, setPreviewReq] = useState<boolean>(false);
 
-	//Try to run every time the html appears or exits the screen
-	if (isIntersecting && !previewReq) {
-		const params = {
-			sid: intel.storage_id,
-			bid: intel.bucket_id,
-			mid: intel.media_id,
-		};
+	useEffect(() => {
+		//Try to run every time the html appears or exits the screen
+		if (isIntersecting && !previewReq) {
+			const params = {
+				sid: intel.storageid,
+				bid: intel.simhash,
+				mid: intel.media,
+			};
 
-		refetchPreview(params, companyID);
+			refetchPreview(params, companyID);
 
-		if (page < maxPage && index === page - 3) {
-			moreResults('', true);
+			if (page < maxPage && index === page - 3) {
+				moreResults('', true);
+			}
+
+			//Traffic light so that it only executes the first time it appears on the screen
+			setPreviewReq(true);
 		}
-
-		//Traffic light so that it only executes the first time it appears on the screen
-		setPreviewReq(true);
-	}
+		return () => cancelRequest(`p-${intel.storageid}-${intel.simhash}`);
+	}, [isIntersecting]);
 
 	const formatDate = formatDateTimeFormat(intel.date);
 	return (
@@ -61,7 +65,7 @@ export const InxPreviewIntelData: FC<InxPreviewIntelDataProps> = ({
 				</div>
 				<div className="secondary-title">
 					<h4 className="intel-header-title intel-secondary-title">
-						{intel.bucket_data}
+						{intel.bucket}
 					</h4>
 					<span className="intel-header-text" title={formatDate}>
 						{formatDate}
@@ -73,7 +77,7 @@ export const InxPreviewIntelData: FC<InxPreviewIntelDataProps> = ({
 				<InxPreviusContentData
 					loading={isLoadingPreview}
 					preview={intelPreview}
-					storageID={intel.storage_id}
+					storageID={intel.storageid}
 				/>
 			</section>
 		</article>

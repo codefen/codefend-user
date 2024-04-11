@@ -36,15 +36,18 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 
 	const procSearch = (term: string) => {
 		setIntelData([]);
-		if (!term.trim()) {
-			return;
-		}
+		setSearchData({
+			intelID: '',
+			count: 0,
+			offSet: 0,
+			search: term,
+		});
+		if (!term.trim()) return;
 
 		refetchInitial(companyID, term)?.then((res: any) => {
-			console.log({ res });
 			if (res.error == 1) return;
 
-			return procIntelSearch(res, false);
+			return procIntelSearch(res.id, false);
 		});
 	};
 
@@ -61,6 +64,7 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 			setSearchData((state: any) => ({
 				...state,
 				offSet: offSet + res.intelLen,
+				count: offSet + res.intelLen,
 			}));
 		});
 	};

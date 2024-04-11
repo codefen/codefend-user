@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export const useIntelPreview = () => {
-	const [fetcher, _, isLoading] = useFetcher();
+	const [fetcher, cancelRequest, isLoading] = useFetcher();
 	const intelPreview = useRef<any[]>([]);
 	const setIntelPreview = (updated: any) => {
 		intelPreview.current = updated;
@@ -17,10 +17,13 @@ export const useIntelPreview = () => {
 				company_id: companyID,
 				...params,
 			},
+			requestId: `p-${params.sid}-${params.bid}`
 		})
 			.then(({ data }: any) => {
+				if (!data || data.trim() === "") return false;	
 				data = JSON.parse(String(data).trim());
-				if (!data.preview) return;
+
+				if (!data.preview) return false;
 				
 
 				const intelPreviewData = intelPreview.current;
@@ -36,7 +39,7 @@ export const useIntelPreview = () => {
 	const refetchPreview = (params: any, companyID: string) => {
 		if (!companyID) {
 			toast.error('User information was not found');
-			return;
+			return Promise.resolve(false);
 		}
 		return fetchPreview(params, companyID);
 	};
@@ -46,5 +49,6 @@ export const useIntelPreview = () => {
 		isLoadingPreview: isLoading,
 		setIntelPreview,
 		refetchPreview,
+		cancelRequest
 	};
 };

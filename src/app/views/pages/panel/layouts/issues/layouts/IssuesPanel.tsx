@@ -10,6 +10,7 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { IssueReport } from '../components/IssueReport.tsx';
 import { IssueResources } from '../components/IssueResources.tsx';
 import { useFlashlight } from '../../../FlashLightContext.tsx';
+import { SelectReportTypeModal } from '@modals/reports/SelectReportType.tsx';
 
 const IssuesPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -55,6 +56,7 @@ const IssuesPanel: FC = () => {
 
 	return (
 		<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+			<SelectReportTypeModal />
 			<div className="brightness variant-1"></div>
 			<section className="left">
 				<IssueResources
