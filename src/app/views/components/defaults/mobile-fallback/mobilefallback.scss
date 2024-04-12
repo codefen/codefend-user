@@ -1,0 +1,60 @@
+.fallback-container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-block-start: 3rem;
+	column-gap: 2.5rem;
+	padding-inline: 1rem;
+
+	.logo-container {
+		align-self: flex-start;
+		img {
+			width: 75px;
+			max-width: 75px;
+			aspect-ratio: 1/1;
+		}
+	}
+
+	.fallback-content {
+		display: flex;
+		flex-direction: column;
+		row-gap: 2rem;
+	}
+
+	.title {
+		font-size: 3rem;
+		font-weight: 700;
+	}
+
+	.text-container {
+		width: 100%;
+		margin-inline: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		row-gap: 0.5rem;
+
+		p {
+			font-size: 1.25rem;
+			text-align: left;
+		}
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.fallback-container {
+		flex-direction: column;
+		align-items: center;
+		row-gap: 2.5rem;
+
+		.logo-container {
+			align-self: center;
+		}
+
+		.fallback-content {
+			text-align: center;
+		}
+	}
+}
