@@ -10,7 +10,6 @@ const useTimeout = (callback: () => void, delay: number) => {
 
 	const oneExecute = useCallback(() => {
 		clear();
-        console.log({ timeoutRef })
 		if (timeoutRef.current === undefined) {
 			timeoutRef.current = setTimeout(()=> callback(), delay);
 		}

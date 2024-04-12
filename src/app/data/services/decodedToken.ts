@@ -15,7 +15,6 @@ export const decodePayload: (token: string) => any = (token: string) => {
   const payloadBase64 = token.split(".")[1];
 
   if (!payloadBase64) {
-    console.error("Token inválido");
     return null;
   }
 
@@ -24,7 +23,6 @@ export const decodePayload: (token: string) => any = (token: string) => {
 
     return decodedPayload;
   } catch (error) {
-    console.error("Error al decodificar el payload:", error);
     return null;
   }
 };
