@@ -7,7 +7,7 @@ export const MobileFallback = () => (
 		</picture>
 
 		<div className="fallback-content">
-			<h1 className="title">Not available</h1>
+			<h1 className="title">Mobile version in progress!</h1>
 			<div className="text-container">
 				<p>We continue working on the version for mobile devices</p>
 				<p>

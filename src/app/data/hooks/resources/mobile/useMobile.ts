@@ -15,7 +15,7 @@ export const useMobile = () => {
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
 	);
-	const [fetcher,_, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher(true);
 
 	const mobileData = useRef<MobileApp[]>([]);
 

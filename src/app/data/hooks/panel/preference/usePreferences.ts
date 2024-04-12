@@ -46,7 +46,7 @@ interface MemberInfo {
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const usePreferences = () => {
 	const { getCompany, logout } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher, cancelRequest, isLoading] = useFetcher(true);
 	const [company, setCompany] = useState<CompanyInfo | ''>('');
 	const [members, setMembers] = useState<MemberInfo[]>([]);
 	const [orders, serOrders] = useState<any[]>([]);

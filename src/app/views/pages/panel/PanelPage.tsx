@@ -15,7 +15,7 @@ import { MobileFallback } from '@defaults/mobile-fallback/MobileFallback';
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);
-	const matches = useMediaQuery('(min-width: 1300px)');
+	const matches = useMediaQuery('(min-width: 1200px)');
 	const { updateAuth } = useAuthStore((state) => ({
 		updateAuth: state.updateAuth,
 	}));

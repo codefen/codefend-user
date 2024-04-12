@@ -12,7 +12,7 @@ import {
 
 export const useCloud = () => {
 	const { getCompany, logout } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher(true);
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
 	);
