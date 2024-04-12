@@ -8,6 +8,7 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
+import Show from '@defaults/Show.tsx';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -70,11 +71,13 @@ const SocialEngineeringView = () => {
 						className="primary-full"
 						click={() => updateState('open', open)}
 					/>
-					<SocialEngineeringMembers
-						isLoading={loading}
-						members={members || []}
-						handleDepartmentFilter={handleDepartmentFIlter}
-					/>
+					<Show when={members && Boolean(members.length)}>
+						<SocialEngineeringMembers
+							isLoading={loading}
+							members={members || []}
+							handleDepartmentFilter={handleDepartmentFIlter}
+						/>
+					</Show>
 				</section>
 			</main>
 		</>
