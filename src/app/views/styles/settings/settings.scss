@@ -132,12 +132,14 @@ a {
 	text-decoration: none;
 	color: inherit;
 	text-decoration: inherit;
+	outline: none;
 
 	svg {
 		pointer-events: none;
 	}
 
 	&.disabled {
+		outline: none;
 		cursor: not-allowed !important;
 		color: var(--tertiary-color-200) !important;
 		background-color: var(--primary-color-100) !important;
@@ -147,6 +149,12 @@ a {
 			color: var(--tertiary-color-200) !important;
 			background-color: var(--primary-color-100) !important;
 		}
+		&:active {
+			outline: none;
+		}
+	}
+	&:focus {
+		outline: none;
 	}
 }
 
