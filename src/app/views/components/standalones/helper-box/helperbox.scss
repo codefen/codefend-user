@@ -1,14 +1,18 @@
 .helper-box {
 	background: linear-gradient(
 		360deg,
-		rgba(203, 34, 34, 1) 20%,
-		rgba(254, 78, 78, 1) 84%
+		rgba(203, 34, 34, 1) 65%,
+		rgba(254, 78, 78, 1) 100%
 	);
+	// background: var(--primary-color-100);
+	// border: 1px solid var(--primary-color-50);
+	box-shadow: 4px 4px 16px #00000030;
 	width: fit-content;
 	height: fit-content;
-	max-width: 365px;
+	min-width: 365px;
+	max-width: 700px;
 
-	padding-block-end: 0.75rem;
+	padding: 25px;
 	border-radius: 5px;
 	position: sticky;
 	left: var(--coord-left);
@@ -27,21 +31,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding-inline: 0.5rem;
-		padding-block-start: 0.5rem;
-		border-top-right-radius: 5px;
-		border-top-left-radius: 5px;
+		margin-bottom: 15px;
 
 		.title-container {
 			display: flex;
 			align-items: center;
-			column-gap: 0.5rem;
+			column-gap: 10px;
 
 			h2 {
-				font-size: 1rem;
+				// font-size: 1rem;
 				height: 100%;
-				line-height: 1.5;
-				padding-block-start: 1px;
+				// line-height: 1.5;
+				// padding-block-start: 1px;
 			}
 		}
 
@@ -49,6 +50,8 @@
 			border: none;
 			color: #fff;
 			font-weight: 500;
+			// margin-top: -30px;
+			// margin-right: -14px;
 
 			width: fit-content;
 			height: fit-content;
@@ -57,34 +60,26 @@
 	}
 
 	b {
-		font-size: 1.05rem;
-		display: block;
-		line-height: 1.35rem;
-		max-width: 360px;
-		min-width: 360px;
-		padding-block-start: 0.5rem;
+		// font-size: 1.05rem;
+		// display: block;
+		// line-height: 1.35rem;
 		text-overflow: ellipsis;
 		line-clamp: 1;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
-		max-height: calc(1.35rem + 0.5rem + 0.05rem);
-		padding-inline: 0.5rem;
+
 	}
 	p {
-		padding-inline: 0.5rem;
-		font-size: 0.85rem;
-		line-height: 1.35rem;
-		max-width: 275px;
-		min-width: 275px;
+
 		text-overflow: ellipsis;
 		line-clamp: 3;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 4;
 		overflow: hidden;
-		max-height: calc(1.35rem * 4);
+		// max-height: calc(1.35rem * 4);
 	}
 
 	.next-btn {
