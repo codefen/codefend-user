@@ -16,6 +16,8 @@ export interface RegisterParams {
 	company_web: string;
 	company_size: string | number;
 	company_area: string;
+	reseller_name: string;
+	reseller_id: string;
 	phase: string;
 }
 

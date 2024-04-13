@@ -9,8 +9,10 @@ import {
 	countries,
 	type NetworkSettingState,
 	useNetworkSettingState,
+	defaultCountries,
 } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
+import { AxiosHttpService } from '@services/axiosHTTP.service';
 
 interface SignupForm {
 	name: string;
@@ -22,13 +24,16 @@ interface SignupForm {
 	companySize: string;
 	companyWeb: string;
 	companyCountry: string;
+	reseller: { id: string; name: string };
 }
 
 const SignUpLayout: FC = () => {
 	const { signUpUser } = useRegisterAction();
 
 	const navigate = useNavigate();
-
+	const [resellers, setResellers] = useState<{ id: string; name: string }[]>(
+		[],
+	);
 	const [signupForm, setSignupForm] = useState<SignupForm>({
 		name: '',
 		surname: '',
@@ -39,9 +44,35 @@ const SignUpLayout: FC = () => {
 		companySize: '',
 		companyWeb: '',
 		companyCountry: '',
+		reseller: { id: '', name: '' },
 	});
 
 	const [isLoading, setLoading] = useState<boolean>(false);
+	const updateResellerArea = (e: any) => {
+		setSignupForm((current: any) => ({
+			...current,
+			companyCountry: e.target.value,
+		}));
+		const country = defaultCountries.find(
+			(country) => country.name == e.target.value,
+		);
+		AxiosHttpService.getInstance()
+			.post({
+				body: {
+					model: 'resellers/index',
+					area: country ? country.alpha2Code : '',
+				},
+			})
+			.then(({ data }: any) => {
+				setResellers(data.resellers);
+			});
+	};
+	const updateReseller = (e: any) => {
+		setSignupForm((current: any) => ({
+			...current,
+			reseller: JSON.parse(e.target.value),
+		}));
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -56,6 +87,8 @@ const SignUpLayout: FC = () => {
 			company_web: signupForm.companyWeb,
 			company_size: signupForm.companySize,
 			company_area: signupForm.companyCountry,
+			reseller_name: signupForm.reseller.name,
+			reseller_id: signupForm.reseller.id,
 			phase: '1',
 		};
 		signUpUser(requestParams)
@@ -211,12 +244,7 @@ const SignUpLayout: FC = () => {
 					<select
 						id="countries"
 						name="country"
-						onChange={(e) =>
-							setSignupForm((current: any) => ({
-								...current,
-								companyCountry: e.target.value,
-							}))
-						}
+						onChange={updateResellerArea}
 						className="log-inputs log-text"
 						value={signupForm.companyCountry}
 						required>
@@ -230,6 +258,24 @@ const SignUpLayout: FC = () => {
 						))}
 					</select>
 				</div>
+				<div className="input-group">
+					<select
+						id="resellers"
+						name="reseller"
+						onChange={updateReseller}
+						className="log-inputs log-text"
+						value={JSON.stringify(signupForm.reseller)}
+						required>
+						<option value={JSON.stringify({ id: '', name: '' })} disabled>
+							Reseller
+						</option>
+						{Array.from(resellers).map((reseller) => (
+							<option key={reseller.id} value={JSON.stringify(reseller)}>
+								{reseller.name}
+							</option>
+						))}
+					</select>
+				</div>
 
 				<div className="extra-group">
 					<span className="link link-color">
@@ -238,14 +284,6 @@ const SignUpLayout: FC = () => {
 					</span>
 				</div>
 				<div className="extra-group">
-					{/* <button
-					disabled={isLoading}
-					type="submit"
-					className="btn btn-primary signup-button">
-					{isLoading && <ButtonLoader />}
-					proceed
-				</button> */}
-
 					<PrimaryButton
 						text="Proceed"
 						isDisabled={isLoading}

@@ -8,7 +8,7 @@ import {
 import { AxiosHttpService } from '../services/axiosHTTP.service';
 
 export interface AuthState {
-	userData: User;
+	userData: User | null;
 	isAuth: boolean;
 	accessToken: string;
 
@@ -78,19 +78,19 @@ const useAuthStore = create<AuthState>()(
 					})
 					.catch((e) => ({ error: true, message: e.message }));
 			},
-			logout: () => set({ user: null, isAuth: false, accessToken: '' }),
+			logout: () => set({ userData: null, isAuth: false, accessToken: '' }),
 			register: (registerParams: any) => {
 				const fetchcer = AxiosHttpService.getInstance();
 				return fetchcer.post<any>({
 						body: {
 							model: 'users/new',
 							...registerParams,
-						},
-						insecure: true
+						}
 					}).then(({ data }: any) => {
-						if (data.response !== 'success' || data.error == "1") {
+						if (data.error !== "0") {
 							throw new Error(data.error);
 						}
+
 						return { error: false, ...data };
 					})
 					.catch((error: Error) => ({
@@ -121,7 +121,8 @@ const useAuthStore = create<AuthState>()(
 			updateAuth: () => {
 				const state = _get() as AuthState;
 				const currentTimestamp = Math.floor(Date.now() / 1000);
-				const updatedAuth: boolean =
+				
+				const updatedAuth = state.userData &&
 					Object.keys(state.userData).length > 0 &&
 					(state.accessToken?.trim() ?? '') !== '' &&
 					!(currentTimestamp >= state.userData.exp!);

@@ -48,9 +48,9 @@ const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: Persis
 const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=>({
     companies: [],
     companySelected: (()=>{
-        const storeJson = localStorage.getItem('authStore') ?? '';
-        const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
-        const companyID = store ? store.state.userData.companyID : '';
+        const storeJson = localStorage.getItem('authStore');
+        const store = storeJson ? JSON.parse(storeJson) : null;
+        const companyID = store.state.userdata ? store.state.userData?.companyID : '';
         return {
             id: companyID,
             name: 'codefend',

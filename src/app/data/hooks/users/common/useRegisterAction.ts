@@ -8,7 +8,7 @@ export const useRegisterAction = ()=>{
     const signUpUser = async (params: RegisterParams): Promise<boolean> => {
 		return register(params)
 			.then((res: any) => {
-				if (res.error) {
+				if (res.error === "1") {
 					toast.error('An unexpected error has occurred on the server');
 					return false;
 				} 

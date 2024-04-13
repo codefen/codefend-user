@@ -7,16 +7,14 @@ import type { NetworkSettingState } from '@stores/apiLink.store.ts';
 import useNetworkSettingState from '@stores/apiLink.store.ts';
 import useAuthStore from '@stores/auth.store.ts';
 import './auth.scss';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 const Logo = lazy(() => import('../../components/defaults/Logo'));
 
 const AuthPage: FC = () => {
 	const location = useLocation();
-	const {
-		isAuth,
-		userData: { accessRole },
-	} = useAuthStore((state) => state);
-	const isAdmin = accessRole === 'admin';
+	const { isAuth } = useAuthStore((state) => state);
+	const { isAdmin } = useUserRole();
 	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
@@ -62,7 +60,7 @@ const AuthPage: FC = () => {
 			</section>
 		</>
 	) : (
-		<Navigate to={isAdmin ? '/admin' : '/'} />
+		<Navigate to={isAdmin() ? '/admin' : '/'} />
 	);
 };
 

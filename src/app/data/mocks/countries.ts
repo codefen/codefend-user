@@ -1,4 +1,4 @@
-const defaultCountries = [
+export const defaultCountries = [
 	{
 		name: 'Afghanistan',
 		alpha2Code: 'AF',

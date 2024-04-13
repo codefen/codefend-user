@@ -8,7 +8,7 @@ export const useUserData = ()=>{
     const getUserdata = () => authStore.userData;
     const getAccessToken = () =>
     authStore.accessToken ? authStore.accessToken : '';
-    const getCompany = () => companySelected?.id || getUserdata().companyID;
+    const getCompany = () => companySelected?.id || getUserdata()?.companyID;
     const isAuth = () => authStore.isAuth;
 
 	const logout = ()=>{
