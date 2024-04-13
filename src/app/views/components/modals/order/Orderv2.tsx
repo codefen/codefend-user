@@ -15,11 +15,14 @@ import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 import { OrderSection, useOrderStore, useOrders } from '../../../../data';
 import { AnyPaymentMetod } from './layouts/AnyPaymentMetod';
 import './order.scss';
+import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';
+import { PaymentErrorOrderModal } from './layouts/PaymentErrorOrderModal';
 
 export const OrderV2 = () => {
 	const [isNextStep, updateNextStep] = useState(false);
-	const { orderStepActive, resetActiveOrder, open, paymentMethod, scope } =
-		useOrderStore((state) => state);
+	const { orderStepActive, resetActiveOrder, open, scope } = useOrderStore(
+		(state) => state,
+	);
 
 	const { refetchTotal } = useOrders();
 
@@ -48,11 +51,13 @@ export const OrderV2 = () => {
 
 		if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD)
 			return <AnyPaymentMetod />;
+		if (orderStepActive === OrderSection.PAYMENT_ERROR)
+			return <PaymentErrorOrderModal />;
 
 		return orderStepActive === OrderSection.WELCOME ? (
 			<WelcomeOrderModal />
 		) : (
-			<>adio</>
+			<WaitingCheckOrderModal />
 		);
 	};
 

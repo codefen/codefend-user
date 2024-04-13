@@ -23,7 +23,9 @@ export const BankPaymentModal = () => {
 	const backStep = () => {
 		updateState('orderStepActive', OrderSection.PAYMENT);
 	};
-	const finishStep = () => {};
+	const finishStep = () => {
+		updateState('orderStepActive', OrderSection.WAIT_CHECK);
+	};
 
 	const finalPrice = () => {
 		if (teamSize === OrderTeamSize.SMALL) return '$1,500';

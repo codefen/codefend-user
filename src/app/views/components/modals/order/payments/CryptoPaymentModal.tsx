@@ -48,7 +48,7 @@ export const CryptoPaymentModal = () => {
 				walletActive.currencyActive,
 				walletActive.walletID,
 			).then(() => {
-				updateState('orderStepActive', OrderSection.WELCOME);
+				updateState('orderStepActive', OrderSection.WAIT_CHECK);
 			});
 		} else {
 			setTrySend(true);

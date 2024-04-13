@@ -650,36 +650,6 @@
 			}
 		}
 
-		.welcome-remember {
-			border: 1px solid var(--show-border-color);
-
-			border-radius: 2px;
-			width: 100%;
-			display: flex;
-			max-width: 80%;
-			align-items: center;
-			margin-inline: auto;
-			padding-inline: 1.5rem;
-			padding-block: 1.5rem;
-			column-gap: 1.5rem;
-			margin-block-start: 2.75rem;
-
-			img {
-				width: 18%;
-				height: 55px;
-			}
-
-			.top {
-				p {
-					line-height: 2;
-					font-size: 1.1rem;
-					word-spacing: 1px;
-					letter-spacing: 0.1px;
-					font-weight: 500;
-				}
-			}
-		}
-
 		.scope-confirm {
 			position: relative;
 			display: flex;

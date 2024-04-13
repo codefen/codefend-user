@@ -8,8 +8,9 @@ export enum OrderSection {
     ADDITIONAL_INFO=7,
     PAYMENT=8,
     ANY_PAYMENT_METHOD=9,
-    WELCOME=10,
-    PAYMENT_ERROR=10
+    PAYMENT_ERROR=10,
+    WELCOME=11,
+    WAIT_CHECK=12,
 }
 
 export enum ResourcesTypes {

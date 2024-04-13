@@ -3,47 +3,47 @@ import { useOrderStore } from '@stores/orders.store.ts';
 import { RememberCard } from '../components/remember/RememberCard.tsx';
 import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
 
-export const WelcomeOrderModal = () => {
+export const PaymentErrorOrderModal = () => {
 	const { resetActiveOrder } = useOrderStore((state) => state);
 
 	return (
 		<>
 			<OrderAlertMessage
-				imageIcon={<img src="/codefend/fav.png" alt="Codefend logo" />}
-				title="Welcome">
+				imageIcon={<img src="/util/credit-card.png" alt="Codefend logo" />}
+				title="It didn't work!">
 				<p>
-					<span className="block bolder">
-						Your payment has been sucessfully processed!
+					<span className="bolder block">
+						It has not been possible to process your payment!
 					</span>
-					The selected team has been notified and will start the test as
-					soon as possible.{' '}
+					Please return to the previous screen and select a different
+					payment method. If the problem persists,
 					<span className="codefend-text-red underline-high">
-						A confirmation email has been sent!
+						please contact your bank to authorize the transaction or
+						update details.
 					</span>{' '}
-					Please feel free to close this window.
 				</p>
 			</OrderAlertMessage>
 			<RememberCard>
-				you'll be always notified by email whenever a new vulnerability or
-				issue is reported!
+				bank and cryptocurrency payments are also efficient payment methods!
 			</RememberCard>
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
 					<PrimaryButton
-						text=""
+						text="cancel"
 						click={() => {}}
-						className="full order-default bg-transparent"
+						className="full"
 						buttonStyle="black"
 						disabledLoader
 					/>
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="returns to app"
+						text="update payment details"
 						click={() => resetActiveOrder()}
 						className="full"
 						buttonStyle="red"
+						disabledLoader
 					/>
 				</div>
 			</div>

@@ -3,37 +3,36 @@ import { useOrderStore } from '@stores/orders.store.ts';
 import { RememberCard } from '../components/remember/RememberCard.tsx';
 import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
 
-export const WelcomeOrderModal = () => {
+export const WaitingCheckOrderModal = () => {
 	const { resetActiveOrder } = useOrderStore((state) => state);
 
 	return (
 		<>
 			<OrderAlertMessage
-				imageIcon={<img src="/codefend/fav.png" alt="Codefend logo" />}
-				title="Welcome">
+				imageIcon={<img src="/util/hourglass.png" alt="Codefend logo" />}
+				title="Await for confirmation">
 				<p>
-					<span className="block bolder">
-						Your payment has been sucessfully processed!
+					<span className="bolder block">
+						The chosen payment method requires confirmation.
 					</span>
-					The selected team has been notified and will start the test as
-					soon as possible.{' '}
+					Please allow our team a maximum of 24 hours to verify your
+					payment.
 					<span className="codefend-text-red underline-high">
-						A confirmation email has been sent!
-					</span>{' '}
-					Please feel free to close this window.
+						You will receive an email once the payment is confirmed and
+						your team will start immediately.
+					</span>
 				</p>
 			</OrderAlertMessage>
 			<RememberCard>
-				you'll be always notified by email whenever a new vulnerability or
-				issue is reported!
+				bank and cryptocurrency payments are also efficient payment methods!
 			</RememberCard>
 
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
 					<PrimaryButton
-						text=""
+						text="cancel"
 						click={() => {}}
-						className="full order-default bg-transparent"
+						className="full"
 						buttonStyle="black"
 						disabledLoader
 					/>
