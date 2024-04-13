@@ -13,7 +13,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 /* Custom Hook "useWebapplication" to manage the GET of web apps*/
 export const useWebapplication = () => {
 	const { getCompany, logout } = useAuthState();
-	const [fetcher,_, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher(true);
 	const { setScopeTotalResources } = useOrderStore((state) => state);
 	const [webResources, setWebResources] = useState<WebapplicationProps>(
 		{company: {} as Company, resources: []}

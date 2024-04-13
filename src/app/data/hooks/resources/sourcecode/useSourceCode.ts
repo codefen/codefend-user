@@ -10,7 +10,7 @@ import {
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export const useSourceCode = () => {
-	const [fetcher,_, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher(true);
 	const [sourceCode, setSource] = useState(null);
 	const { getCompany, logout } = useAuthState();
 	const { updateState, setScopeTotalResources } = useOrderStore(

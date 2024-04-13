@@ -11,7 +11,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export const useDashboard = () => {
 	const { getCompany, logout } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher, cancelRequest, isLoading] = useFetcher(true);
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
 	);

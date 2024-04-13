@@ -10,9 +10,12 @@ import {
 } from '../../components';
 import { FlashLightProvider } from './FlashLightContext';
 import { WelcomeGroupTour } from '../../components/standalones/welcome/WelcomeGroupTour';
+import { useMediaQuery } from 'usehooks-ts';
+import { MobileFallback } from '@defaults/mobile-fallback/MobileFallback';
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);
+	const matches = useMediaQuery('(min-width: 1200px)');
 	const { updateAuth } = useAuthStore((state) => ({
 		updateAuth: state.updateAuth,
 	}));
@@ -32,8 +35,8 @@ export const PanelPage: FC = () => {
 	}, []);
 
 	return (
-		<>
-			<Show when={isAuth()} fallback={<Navigate to="/auth/signin" />}>
+		<Show when={isAuth()} fallback={<Navigate to="/auth/signin" />}>
+			<Show when={matches} fallback={<MobileFallback />}>
 				<FlashLightProvider>
 					<>
 						<WelcomeGroupTour />
@@ -55,7 +58,7 @@ export const PanelPage: FC = () => {
 					</>
 				</FlashLightProvider>
 			</Show>
-		</>
+		</Show>
 	);
 };
 
