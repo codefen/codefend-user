@@ -29,6 +29,7 @@ main.reseller {
 		padding-inline-end: 0;
 		padding-inline: 1rem;
 		flex: 0.4 0.4 0%;
+		height: auto;
 
 		.card.leads {
 			.stat {
@@ -70,6 +71,11 @@ main.reseller {
 	display: flex;
 	margin-block: 1rem;
 	column-gap: 1rem;
+	justify-content: space-between;
+}
+
+.reseller-graph {
+	max-width: fit-content;
 }
 
 .asset-content {
