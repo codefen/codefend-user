@@ -41,6 +41,7 @@ const Sidebar: FC = () => {
 	const menuItems = [
 		{
 			title: 'Admin Panel',
+			id: 'sidebar_admin',
 			icon: <AdminCompanyIcon />,
 			to: '/admin/company',
 			root: isAdmin(),
@@ -48,6 +49,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'My profile',
+			id: 'sidebar_profile',
 			icon: <ProfileIcon isVisible />,
 			to: '/provider/profile',
 			root: isProvider(),
@@ -55,6 +57,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Orders',
+			id: 'sidebar_orders',
 			icon: <ProviderOrdersIcon isVisible />,
 			to: '/provider/orders',
 			root: false,
@@ -62,6 +65,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Reseller',
+			id: 'sidebar_reseller',
 			icon: <ProfileIcon isVisible />,
 			to: '/reseller',
 			root: isReseller(),
@@ -69,6 +73,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Dashboard',
+			id: 'sidebar_dashboard',
 			icon: <ChartIcon />,
 			to: '/dashboard',
 			root: !isProvider() && !isReseller() && !isAdmin(),
@@ -76,6 +81,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Web',
+			id: 'sidebar_web',
 			icon: <GlobeWebIcon />,
 			to: '/web',
 			root: false,
@@ -83,6 +89,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Mobile',
+			id: 'sidebar_mobile',
 			icon: <MobileIcon />,
 			to: '/mobile',
 			root: false,
@@ -90,6 +97,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Cloud',
+			id: 'sidebar_cloud',
 			icon: <CLoudIcon />,
 			to: '/cloud',
 			root: false,
@@ -97,6 +105,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Source Code',
+			id: 'sidebar_source',
 			icon: <SourceCodeIcon />,
 			to: '/source',
 			root: false,
@@ -104,6 +113,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Social Engineering',
+			id: 'sidebar_social',
 			icon: <PeopleGroupIcon />,
 			to: '/social',
 			root: false,
@@ -113,13 +123,15 @@ const Sidebar: FC = () => {
 
 		{
 			title: 'Issues',
+			id: 'sidebar_issues',
 			icon: <BugIcon />,
 			to: '/issues',
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
 		{
-			title: 'Enp',
+			title: 'EPM',
+			id: 'sidebar_epm',
 			icon: <EnpIcon />,
 			to: '/enp',
 			root: false,
@@ -127,6 +139,7 @@ const Sidebar: FC = () => {
 		},		
 		{
 			title: 'Inx',
+			id: 'sidebar_inx',
 			icon: <InxIcon />,
 			to: '/inx',
 			root: false,
@@ -134,6 +147,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Sns',
+			id: 'sidebar_sns',
 			icon: <SnbIcon />,
 			to: '/sns',
 			root: false,
@@ -141,25 +155,29 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Vdb',
+			id: 'sidebar_vdb',
 			icon: <VdbIcon />,
 			to: '/vdb',
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
 		{
-			title: 'Preference',
-			icon: <PreferenceIcon />,
-			to: '/preferences',
-			root: false,
-			haveAccess: isNotProviderAndReseller,
-		},
-		{
 			title: 'Support',
+			id: 'sidebar_support',
 			icon: <MessageIcon />,
 			to: '/support',
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
+		{
+			title: 'Preferences',
+			id: 'sidebar_preferences',
+			icon: <PreferenceIcon />,
+			to: '/preferences',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
+
 	];
 
 	return (
@@ -173,6 +191,7 @@ const Sidebar: FC = () => {
 						<Link
 							title={item.title}
 							to={item.to}
+							id={item.id}
 							className={`${
 								isActivePath(item.to, item.root) ? 'active' : ''
 							}`}
