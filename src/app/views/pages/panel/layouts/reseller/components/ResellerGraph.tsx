@@ -13,7 +13,7 @@ export const ResellerGraph = () => {
 	}, []);
 
 	return (
-		<div className="card">
+		<div className="card reseller-graph">
 			<SimpleSection header="Leads per week" icon={<ChartIcon />}>
 				<div className="content">
 					<svg ref={svgRef} />

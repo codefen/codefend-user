@@ -24,9 +24,15 @@
 		.provider-name {
 			padding-block-end: 0.65rem;
 			h3 {
-				font-size: 1.2rem;
+				font-size: 1.125rem;
 				color: var(--tertiary-color-500);
 				display: flex;
+
+				b.card-provider-name {
+					max-width: 150px;
+					text-overflow: ellipsis;
+					white-space: normal;
+				}
 
 				b,
 				span {

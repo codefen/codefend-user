@@ -205,7 +205,7 @@ main.provider {
 			& {
 				opacity: 1;
 				padding-inline-end: 0;
-				box-shadow: -3px 0px 20px 3px rgba(0, 0, 0, 0.1);
+				box-shadow: var(--right-pane-shadow);
 
 				display: flex;
 				flex-direction: column;
