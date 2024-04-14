@@ -7,8 +7,31 @@ import {
 } from '..';
 import { AxiosHttpService } from '../services/axiosHTTP.service';
 
+const EMPTY_USER:User = {
+	id: '',
+	accessRole: '',
+	companyAccessIds: "" ,
+	email: '',
+	phone: '',
+	lastName: "",
+	username: '',
+	companyID: "",	
+	companyRole: "",
+	countryCode: "",
+	createdAt: "",
+	isDisabled: false,
+	mfaKey: "",
+	name: "",
+	role: "",
+	profileMedia: "",
+	country: "",
+	password: "",
+	exp: 0,
+
+}
+
 export interface AuthState {
-	userData: User | null;
+	userData: User;
 	isAuth: boolean;
 	accessToken: string;
 
@@ -39,7 +62,7 @@ const stateInitV2 = (store: any, persistence: any) =>
 const useAuthStore = create<AuthState>()(
 	stateInitV2(
 		(set: any, _get: any) => ({
-			userData: {} as User,
+			userData: EMPTY_USER,
 			isAuth: false,
 			accessToken: '',
 			login: (loginParams: any) => {
@@ -78,7 +101,7 @@ const useAuthStore = create<AuthState>()(
 					})
 					.catch((e) => ({ error: true, message: e.message }));
 			},
-			logout: () => set({ userData: null, isAuth: false, accessToken: '' }),
+			logout: () => set({ userData: EMPTY_USER, isAuth: false, accessToken: '' }),
 			register: (registerParams: any) => {
 				const fetchcer = AxiosHttpService.getInstance();
 				return fetchcer.post<any>({

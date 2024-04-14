@@ -46,22 +46,13 @@ const Navbar: FC = () => {
 
 		// Detect if they clicked outside the dropdown
 		document.addEventListener('mousedown', handleClickOutsideMenu);
-
 		setBaseApiName('kundalini');
-
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutsideMenu);
 		};
 	}, []);
 
 	const rootAction = () => {
-		if (getUserdata().accessRole === 'admin') {
-			navigate('/admin/company');
-			return;
-		} else if (getUserdata().accessRole === 'hacker') {
-			navigate('/provider/profile');
-			return;
-		}
 		navigate('/');
 	};
 	return (
@@ -110,7 +101,7 @@ const Navbar: FC = () => {
 					<div className="actions">
 						<div className="user action" ref={userRef}>
 							<span className="email">
-								{userData.email ?? 'not-found'}
+								{userData.email || 'not-found'}
 							</span>
 							<NavbarSubMenu
 								isOpen={isMenuOpen}
