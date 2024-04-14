@@ -41,7 +41,7 @@ export const ProviderCard: FC<ProviderCardProps> = ({
 			<div className="provider-card-content">
 				<div className="provider-name">
 					<h3>
-						<b>{name} </b>|{' '}
+						<b className="card-provider-name">{name} </b>|{' '}
 						<span className="codefend-text-red">@{username}</span>
 					</h3>
 				</div>

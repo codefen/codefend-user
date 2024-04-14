@@ -49,6 +49,7 @@
 			font-size: 1.175rem;
 			color: var(--text-color);
 			font-weight: 700;
+			max-width: 385px;
 
 			.text-dark {
 				color: var(--text-dark-color);
@@ -128,6 +129,7 @@
 			cursor: pointer;
 			word-spacing: 2px;
 			margin-block-end: 1rem;
+			white-space: nowrap;
 		}
 
 		.btn-order-card {

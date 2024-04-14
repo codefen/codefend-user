@@ -102,7 +102,11 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 						</span>
 					</div>
 					<div className="flex-row buttons">
-						<button className="btn-decline">refuse order</button>
+						<button
+							className="btn-decline"
+							onClick={() => alert('Refuse')}>
+							refuse order
+						</button>
 						<PrimaryButton
 							text="Confirm order"
 							buttonStyle="red"
