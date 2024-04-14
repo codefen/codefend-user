@@ -81,10 +81,17 @@
 						margin-block-start: 0.5rem;
 						display: flex;
 						flex-direction: column;
+						width: 140px;
 					}
 
 					.company-web {
 						font-size: 0.97rem;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						overflow: hidden;
+						-webkit-line-clamp: 2;
+						white-space: normal;
+						overflow-wrap: break-word;
 					}
 
 					.link {

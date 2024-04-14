@@ -22,15 +22,17 @@ const CompanyCard: FC<CompanyCard> = ({ company, isSelected }) => {
 				</div>
 				<div className="company-detail">
 					<span className="company-name">
-						{company.name ?? 'Company Name'}
+						{company.name || 'Company Name'}
 					</span>
 					<div className="company-id">
-						<span>ID: {company.id ?? 'Company ID'}</span>
+						<span>ID: {company.id || 'Company ID'}</span>
 						<span className="company-web">
-							{company.mercado ?? 'Company Category'}
+							{company.mercado || 'Company Category'}
 						</span>
-						<span className="company-web">
-							{company.web ?? 'Company Website'}
+						<span
+							className="company-web"
+							title={company.web || 'Company Website'}>
+							{company.web || 'Company Website'}
 						</span>
 					</div>
 
