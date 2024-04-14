@@ -110,13 +110,7 @@ const Sidebar: FC = () => {
 			haveAccess: isNotProviderAndReseller,
 		},
 		//{ title: 'Network', icon: <LanIcon />, to: '/lan' },
-		{
-			title: 'Enp',
-			icon: <EnpIcon />,
-			to: '/enp',
-			root: false,
-			haveAccess: isNotProviderAndReseller,
-		},
+
 		{
 			title: 'Issues',
 			icon: <BugIcon />,
@@ -124,6 +118,13 @@ const Sidebar: FC = () => {
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
+		{
+			title: 'Enp',
+			icon: <EnpIcon />,
+			to: '/enp',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},		
 		{
 			title: 'Inx',
 			icon: <InxIcon />,

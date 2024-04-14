@@ -7,6 +7,7 @@ import {
 } from '../../../../data';
 import './helperbox.scss';
 
+
 export const HelperBox: FC<HelperBoxProps> = ({
 	icon,
 	title,
@@ -26,6 +27,8 @@ export const HelperBox: FC<HelperBoxProps> = ({
 		[Position.RIGHT]: '#e13434',
 	};
 	const defaultArrowColor = color || arrowColors[position];
+
+	
 
 	const boxStyles: CoordsCssVariable = {
 		'--coord-top': `${top}`,

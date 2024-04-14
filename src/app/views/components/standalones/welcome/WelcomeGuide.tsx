@@ -23,6 +23,7 @@ enum WelcomeSteps {
 	WEB,
 	MOBILE,
 	CLOUD,
+	NET,
 	SOURCE,
 	SOCIAL,
 	ENP,
@@ -33,12 +34,17 @@ enum WelcomeSteps {
 	RESONANCE,
 	HACKER,
 	RESELLER,
+	SUPPORT,
+	PREFERENCES,
 }
 
 export interface WelcomeGuideProps {
 	defaultOpenValue: boolean;
 	closeGuide: () => void;
 }
+
+
+  
 
 export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	defaultOpenValue,
@@ -48,7 +54,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	const [currentStep, setNextStep] = useState(
 		!isAdmin() ? WelcomeSteps.DASHBOARD : WelcomeSteps.ADMIN,
 	);
-
+	
 	return (
 		<Show when={defaultOpenValue}>
 			<div className="guide-container">
@@ -69,12 +75,12 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.WEB)}
-						coords={{ top: '6rem', left: '6rem' }}
+						coords={{ top: '4rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<ChartIcon />}
-						text="Any description for dashboard"
-						title="Any title for dashboard"
-						highlight="Any highlight text for dashboard"
+						text="In the dashboard you can find information about the most critical issues detected in your scope, and relevant details  about your team and resources."
+						title="dashboard"
+						highlight="Have a brief of your security posture!"
 					/>
 				</Show>
 
@@ -85,9 +91,9 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						coords={{ top: '9.25rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<GlobeWebIcon />}
-						text="Any description for web"
-						title="Any title for web"
-						highlight="Any highlight text for web"
+						text="From this section you can control all your web applications, add and remove domains and subdomains to your scope."
+						title="scope: web resources"
+						highlight="Add your web applications and start a pentest!"
 					/>
 				</Show>
 
@@ -98,9 +104,9 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						coords={{ top: '12.25rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<MobileIcon />}
-						text="Any description for mobile"
-						title="Any title for mobile"
-						highlight="Any highlight for mobile"
+						text="From this section you can control all your mobile applications, and those employeed by your team, add any application that you would like to audit."
+						title="scope: mobile resources"
+						highlight="Add your mobile applications and start a pentest!"
 					/>
 				</Show>
 
@@ -111,12 +117,25 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						coords={{ top: '15.75rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<CLoudIcon />}
-						text="Any description for cloud"
-						title="Any title for cloud"
-						highlight="Any highlight for cloud"
+						text="From this section you can control all your cloud infrastructure, add your cloud details and allow our experts to secure your infrastructure!"
+						title="scope: cloud resources"
+						highlight="Add your cloud infrastructure and start a pentest!"
 					/>
 				</Show>
 
+				<Show when={currentStep === WelcomeSteps.NET}>
+					<HelperBox
+						close={closeGuide}
+						next={() => setNextStep(WelcomeSteps.SOURCE)}
+						coords={{ top: '18.9rem', left: '6rem' }}
+						arrow={{ position: Position.LEFT, coordY: '35%' }}
+						icon={<SourceCodeIcon />}
+						text="From this section you can control all your network infrastructure, add network devices and IP addresses and unveil the security of these assets!"
+						title="scope: network resources"
+						highlight="Define and pentest your network infrastructure"
+					/>
+				</Show>
+				
 				<Show when={currentStep === WelcomeSteps.SOURCE}>
 					<HelperBox
 						close={closeGuide}
@@ -124,49 +143,77 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						coords={{ top: '18.9rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<SourceCodeIcon />}
-						text="Any description for source"
-						title="Any title for source"
-						highlight="Any highlight for source"
+						text="From this section you can control all your source code, add and remove code repositories to your scope, and request a manual analysis."
+						title="scope: source code review"
+						highlight="Add your source code and start a review!"
 					/>
 				</Show>
 
 				<Show when={currentStep === WelcomeSteps.SOCIAL}>
 					<HelperBox
 						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.ENP)}
+						next={() => setNextStep(WelcomeSteps.ISSUES)}
 						coords={{ top: '22.05rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<PeopleGroupIcon />}
-						text="Any description for social"
-						title="Any title for social"
-						highlight="Any highlight for social"
+						text="From this section you can control all your social media urls and request a manual analysis."
+						title="scope: social resources"
+						highlight="Add your social accounts and start a review!"
+					/>
+				</Show>
+
+
+
+				<Show when={currentStep === WelcomeSteps.ISSUES}>
+					<HelperBox
+						close={closeGuide}
+						next={() => setNextStep(WelcomeSteps.ENP)}
+						coords={{ top: '28.57rem', left: '6rem' }}
+						arrow={{ position: Position.LEFT, coordY: '35%' }}
+						icon={<BugIcon />}
+						text="Onces you request a pentest, the hacker will report all the issues here in a list, you can click on them to see more info."
+						title="issues"
+						highlight="See issues at real time!"
 					/>
 				</Show>
 
 				<Show when={currentStep === WelcomeSteps.ENP}>
 					<HelperBox
 						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.ISSUES)}
+						next={() => setNextStep(WelcomeSteps.SUPPORT)}
 						coords={{ top: '25.28rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<EnpIcon />}
-						text="Any description for enp"
-						title="Any title for enp"
-						highlight="Any highlight for enp"
-						isFinishStep
+						text="Scan you computers to track issues on your installed aplications"
+						title="Endpoint monitoring"
+						highlight="Know what you installed"
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.ISSUES}>
+
+				<Show when={currentStep === WelcomeSteps.SUPPORT}>
+					<HelperBox
+						close={closeGuide}
+						next={() => setNextStep(WelcomeSteps.PREFERENCES)}
+						coords={{ top: '28.57rem', left: '6rem' }}
+						arrow={{ position: Position.LEFT, coordY: '35%' }}
+						icon={<BugIcon />}
+						text="You can contact codefend’s customer support with any kind of security related matters that you have while your subscription is active!"
+						title="codefend contact support"
+						highlight="Contact us at any time!"
+					/>
+				</Show>
+
+				<Show when={currentStep === WelcomeSteps.PREFERENCES}>
 					<HelperBox
 						close={closeGuide}
 						next={closeGuide}
 						coords={{ top: '28.57rem', left: '6rem' }}
 						arrow={{ position: Position.LEFT, coordY: '35%' }}
 						icon={<BugIcon />}
-						text="Any description for issues"
-						title="Any title for issues"
-						highlight="Any highlight for issues"
+						text="From this section you can update your user details, update security measures, administrate team members and see your invoices and orders."
+						title="preferences"
+						highlight="Administrate preferences, team and your invoices!"
 						isFinishStep
 					/>
 				</Show>
