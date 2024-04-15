@@ -13,16 +13,6 @@
 		"preview": "vite preview",
 		"tauri": "WEBKIT_DISABLE_COMPOSITING_MODE=1 tauri"
 	},
-	"lint-staged": {
-		"src/**/*.{ts,tsx,json}": [
-			"eslint --fix",
-			"prettier --write"
-		],
-		"./*.{js,ts,json}": [
-			"eslint --fix",
-			"prettier --write"
-		]
-	},
 	"dependencies": {
 		"@tauri-apps/api": "1.5.3",
 		"@tauri-apps/cli": "1.5.11",
@@ -36,7 +26,7 @@
 		"react-dom": "18.2.0",
 		"react-masonry-css": "1.0.16",
 		"react-router": "6.21.2",
-		"react-router-dom": "6.22.3",
+		"react-router-dom": "6.21.2",
 		"react-toastify": "10.0.5",
 		"usehooks-ts": "3.1.0",
 		"zustand": "4.5.2"

@@ -24,7 +24,7 @@ import './sidebar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 const Sidebar: FC = () => {
-	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
+	const { isAdmin, isProvider, isReseller } = useUserRole();
 	const { isActivePath } = usePanelStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -136,7 +136,7 @@ const Sidebar: FC = () => {
 			to: '/enp',
 			root: false,
 			haveAccess: isNotProviderAndReseller,
-		},		
+		},
 		{
 			title: 'Inx',
 			id: 'sidebar_inx',
@@ -177,7 +177,6 @@ const Sidebar: FC = () => {
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
-
 	];
 
 	return (
@@ -186,7 +185,7 @@ const Sidebar: FC = () => {
 			onMouseEnter={(e) => handleOpenSidebar('enter')}
 			onMouseLeave={(e) => handleOpenSidebar('leave')}>
 			{menuItems.map((item) => (
-				<Fragment key={`sb-${item.to}`}>
+				<Fragment key={`sb-${item.title}`}>
 					{item.haveAccess ? (
 						<Link
 							title={item.title}

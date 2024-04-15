@@ -40,7 +40,13 @@ import { ResellerPage } from './views/pages/panel/layouts/reseller/ResellerPage'
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 export const AppRouter: React.FC = () => {
-	const { isAdmin, isProvider, isReseller, getAccessToken } = useUserRole();
+	const {
+		isAdmin,
+		isProvider,
+		isReseller,
+		getAccessToken,
+		isCurrentAuthValid,
+	} = useUserRole();
 	const haveAccessToResources = !isProvider() && !isReseller();
 	const haveAccessToModules = !isProvider() && !isReseller();
 	const haveAccessToSupport = !isProvider() && !isReseller();
@@ -66,7 +72,9 @@ export const AppRouter: React.FC = () => {
 						<Route
 							index
 							element={
-								isAdmin() ? (
+								!getAccessToken().trim() || !isCurrentAuthValid() ? (
+									<Navigate to="/auth/signin" replace />
+								) : isAdmin() ? (
 									<AdminCompany />
 								) : isProvider() ? (
 									<ProviderPage />
