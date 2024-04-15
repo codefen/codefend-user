@@ -1,13 +1,17 @@
 import { PrimaryButton } from '../../..';
 import {
-	OrderPaymentMethod,
 	OrderSection,
 	OrderTeamSize,
+	useOrderSaveBank,
 	useOrderStore,
 } from '../../../../../data';
 
 export const BankPaymentModal = () => {
-	const { teamSize, updateState } = useOrderStore((state) => state);
+	const { teamSize, updateState, referenceNumber } = useOrderStore(
+		(state) => state,
+	);
+	const [transactionID, { setTransactionID, saveBankPayment }] =
+		useOrderSaveBank();
 
 	const BankInfo: React.FC<any> = (props) => {
 		return (
@@ -24,7 +28,12 @@ export const BankPaymentModal = () => {
 		updateState('orderStepActive', OrderSection.PAYMENT);
 	};
 	const finishStep = () => {
-		updateState('orderStepActive', OrderSection.WAIT_CHECK);
+		if (!transactionID) return;
+		console.log({ transactionID });
+		saveBankPayment(referenceNumber, transactionID).finally(() =>
+			updateState('orderStepActive', OrderSection.WAIT_CHECK),
+		);
+		setTransactionID('');
 	};
 
 	const finalPrice = () => {
@@ -72,9 +81,19 @@ export const BankPaymentModal = () => {
 					</div>
 				</div>
 
-				<div className="total-payment">
-					<span>Total to be paid in USD</span>
-					<span>{finalPrice()}</span>
+				<div className="bank-payment-options show-bottom-border">
+					<div className="total-payment-option">
+						<span>Total to be paid in USD</span>
+						<span>{finalPrice()}</span>
+					</div>
+					<div className="bank-transfer-input">
+						<input
+							type="text"
+							placeholder="Transaction Id"
+							autoComplete="off"
+							onChange={(e) => setTransactionID(e.target.value)}
+						/>
+					</div>
 				</div>
 			</div>
 

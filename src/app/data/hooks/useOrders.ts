@@ -124,7 +124,7 @@ export const useOrderScope = () => {
 				phase: 'scope',
 				company_id: companyID,
 				resources_class: resourceScope.trim(),
-				resources_ids: resourcesID,
+				resources_ids: resourcesID
 			},
 		})
 			.then(({ data }: any) => {
@@ -593,8 +593,7 @@ export const useOrderSaveCryptoPayment = ()=>{
 				cc_blockchain: crypto,
 				cc_from_address: address,
 				cc_xfer_id: transactionID
-			},
-			insecure: true
+			}
 		}).then(({data}:any)=>{
 			if (Number(data.error) === 1) {
 				throw new Error('An error has occurred with the');
@@ -604,4 +603,32 @@ export const useOrderSaveCryptoPayment = ()=>{
 	}
 
 	return {transactionID, trySend, copied, setTrySend, setTransactionID, copyTextToClipboard, saveCryptoPayment};
+}
+
+export const useOrderSaveBank = ()=>{
+	const [fetcher] = useFetcher();
+	const { getCompany } = useAuthState();
+	const [transactionID, setTransactionID] = useState('');
+	const saveBankPayment = (referenceNumber: string, address: string)=>{
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return Promise.resolve(false);
+		}
+		return fetcher("post", {
+			body: {
+				model: 'orders/add',
+				phase: 'bank',
+				company_id: getCompany(),
+				reference_number: referenceNumber,
+				bank_xfer_id: address,
+			},
+			insecure: true
+		}).then(({data}:any)=>{
+			console.log({data})
+			return data;
+		});
+	}
+
+	return [transactionID, {setTransactionID, saveBankPayment}] as const;
 }
