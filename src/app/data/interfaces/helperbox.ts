@@ -1,8 +1,8 @@
 export interface HelperBoxCords {
-	right?: string;
-	left?: string;
-	top?: string;
-	bottom?: string;
+	right?: number;
+	left?: number;
+	top?: number;
+	bottom?: number;
 }
 
 export interface CoordsCssVariable extends React.CSSProperties {

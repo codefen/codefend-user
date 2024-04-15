@@ -1,6 +1,6 @@
 import { useState, type FC } from 'react';
 import { HelperBox } from '../helper-box/HelperBox.tsx';
-import { Position } from '@interfaces/helperbox.ts';
+import { Position, type HelperBoxCords } from '@interfaces/helperbox.ts';
 import Show from '@defaults/Show.tsx';
 
 import {
@@ -38,7 +38,7 @@ enum WelcomeSteps {
 	PREFERENCES,
 }
 
-const getButtonCoordinates = (buttonId) => {
+const getButtonCoordinates = (buttonId: string): HelperBoxCords => {
 	const buttonElement = document.getElementById(buttonId);
 	if (buttonElement) {
 		const buttonRect = buttonElement.getBoundingClientRect();
@@ -50,14 +50,13 @@ const getButtonCoordinates = (buttonId) => {
 
 		return { top, left };
 	}
-	return null;
+	return {};
 };
 
 export interface WelcomeGuideProps {
 	defaultOpenValue: boolean;
 	closeGuide: () => void;
 }
-
 
 export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	defaultOpenValue,
@@ -67,7 +66,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	const [currentStep, setNextStep] = useState(
 		!isAdmin() ? WelcomeSteps.DASHBOARD : WelcomeSteps.ADMIN,
 	);
-	
+
 	return (
 		<Show when={defaultOpenValue}>
 			<div className="guide-container">
@@ -148,7 +147,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						highlight="Define and pentest your network infrastructure"
 					/>
 				</Show>
-				
+
 				<Show when={currentStep === WelcomeSteps.SOURCE}>
 					<HelperBox
 						close={closeGuide}
@@ -200,7 +199,6 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						highlight="Know what you installed"
 					/>
 				</Show>
-
 
 				<Show when={currentStep === WelcomeSteps.SUPPORT}>
 					<HelperBox
