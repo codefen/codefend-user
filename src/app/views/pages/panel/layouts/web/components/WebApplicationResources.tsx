@@ -47,6 +47,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const selectResource = (id: string, isChild?: boolean) => {
 		const resource = findWebResourceByID(getResources, id, Boolean(isChild));
 		if (resource) {
+			console.log({ resource });
 			setSelectedResource({
 				id: resource.id,
 				domain: resource.resourceDomain,
@@ -110,7 +111,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 						<span
 							title="Delete"
 							onClick={() => {
-								selectResource(mainNetwork.id, true);
+								selectResource(mainNetwork.id, false);
 								setShowModal(true);
 								setShowModalStr('delete_resource');
 							}}>
