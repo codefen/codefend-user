@@ -5,18 +5,15 @@ import {
 	OrderSection,
 	OrderTeamSize,
 	useOrderStore,
+	userOrderCardPayment,
 } from '../../../../../data';
 
 export const CardPaymentModal = () => {
-	const { teamSize, updateState } = useOrderStore((state) => state);
-
-	const [cardInfo, setCardInfo] = useState({
-		cardOwner: '',
-		cardNumber: '',
-		cardDueDate: '',
-		cardDueYear: '',
-		cardCVC: '',
-	});
+	const { teamSize, updateState, referenceNumber } = useOrderStore(
+		(state) => state,
+	);
+	const [cardInfo, { setCardInfo, sendPayment, isLoading }] =
+		userOrderCardPayment();
 
 	const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) =>
 		setCardInfo((state: any) => ({
@@ -33,6 +30,13 @@ export const CardPaymentModal = () => {
 	const submitCardPayment = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
+		sendPayment(referenceNumber)
+			.then(() => {
+				updateState('orderStepActive', OrderSection.WELCOME);
+			})
+			.catch(() => {
+				updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
+			});
 	};
 
 	const backStep = () => {

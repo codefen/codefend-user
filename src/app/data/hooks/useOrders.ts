@@ -631,6 +631,39 @@ export const useOrderSaveBank = ()=>{
 
 	return [transactionID, {setTransactionID, saveBankPayment}] as const;
 }
+export const userOrderCardPayment = ()=>{
+	const [fetcher, isLoading,_] = useFetcher();
+	const { getCompany } = useAuthState();
+	const [cardInfo, setCardInfo] = useState({
+		cardOwner: '',
+		cardNumber: '',
+		cardDueDate: '',
+		cardDueYear: '',
+		cardCVC: '',
+	});
+
+
+	const sendPayment = (referenceNumber: string)=>{
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return Promise.resolve(false);
+		}
+		return fetcher("post", {
+			body: {
+				model: 'orders/add',
+				phase: 'card',
+				company_id: getCompany(),
+				reference_number: referenceNumber,
+			}
+		}).then(({data}:any)=>{
+			console.log({data});
+			return data;
+		});
+	}
+
+	return [cardInfo, {setCardInfo, sendPayment, isLoading}] as const;
+}
 
 export const userOrderFnished = ()=>{
 	const [fetcher] = useFetcher();
