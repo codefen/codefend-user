@@ -10,6 +10,7 @@ import { BugIcon } from '@icons';
 import Show from '@defaults/Show';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import './confirorder.scss';
+import { useProviderOrderAction } from '@userHooks/providers/useProviderOrderAction.ts';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -40,6 +41,8 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
 	const onClick = () => handleActivate(id);
+	const { confirmOrder, refuseOrder, isLoading, requestId } =
+		useProviderOrderAction();
 	const { showModal, setShowModal } = useModal();
 
 	return (
@@ -104,14 +107,16 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 					<div className="flex-row buttons">
 						<button
 							className="btn-decline"
-							onClick={() => alert('Refuse')}>
+							disabled={isLoading && requestId == 'refuseOrder'}
+							onClick={() => refuseOrder(id)}>
 							refuse order
 						</button>
 						<PrimaryButton
+							click={() => confirmOrder(id)}
 							text="Confirm order"
 							buttonStyle="red"
-							disabledLoader
 							className="btn-order-card"
+							isDisabled={isLoading && requestId == 'confirmOrder'}
 						/>
 					</div>
 				</div>
