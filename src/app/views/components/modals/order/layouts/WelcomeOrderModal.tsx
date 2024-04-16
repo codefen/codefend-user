@@ -2,9 +2,18 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { RememberCard } from '../components/remember/RememberCard.tsx';
 import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
+import { userOrderFnished } from '@hooks/useOrders.ts';
 
 export const WelcomeOrderModal = () => {
-	const { resetActiveOrder } = useOrderStore((state) => state);
+	const { resetActiveOrder, referenceNumber } = useOrderStore(
+		(state) => state,
+	);
+	const finishOrder = userOrderFnished();
+
+	const orderFinished = () => {
+		finishOrder(referenceNumber);
+		resetActiveOrder();
+	};
 
 	return (
 		<>
@@ -41,7 +50,7 @@ export const WelcomeOrderModal = () => {
 				<div className="primary-container">
 					<PrimaryButton
 						text="returns to app"
-						click={() => resetActiveOrder()}
+						click={() => orderFinished()}
 						className="full"
 						buttonStyle="red"
 					/>

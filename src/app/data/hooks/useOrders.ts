@@ -622,8 +622,7 @@ export const useOrderSaveBank = ()=>{
 				company_id: getCompany(),
 				reference_number: referenceNumber,
 				bank_xfer_id: address,
-			},
-			insecure: true
+			}
 		}).then(({data}:any)=>{
 			console.log({data})
 			return data;
@@ -631,4 +630,29 @@ export const useOrderSaveBank = ()=>{
 	}
 
 	return [transactionID, {setTransactionID, saveBankPayment}] as const;
+}
+
+export const userOrderFnished = ()=>{
+	const [fetcher] = useFetcher();
+	const { getCompany } = useAuthState();
+	const finishOrder = (referenceNumber: string)=>{
+		const companyID = getCompany();
+		if (!companyID) {
+			toast.error('User information was not found');
+			return Promise.resolve(false);
+		}
+		return fetcher("post", {
+			body: {
+				model: 'orders/add',
+				phase: 'finished',
+				company_id: getCompany(),
+				reference_number: referenceNumber,
+			}
+		}).then(({data}:any)=>{
+			console.log({data});
+			return data;
+		});
+	}
+
+	return finishOrder;
 }
