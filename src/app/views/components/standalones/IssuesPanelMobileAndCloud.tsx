@@ -21,7 +21,7 @@ export const IssuesPanelMobileAndCloud: FC<Props> = (props) => {
 	}, [props.issues]);
 
 	const dataTable = formatIssues.map((issue) => ({
-		ID: { value: '', style: '' },
+		ID: { value: issue.id, style: '' },
 		published: { value: issue.createdAt, style: 'date' },
 		author: { value: issue.researcherUsername, style: 'username' },
 		type: { value: issue.resourceClass, style: 'vul-class' },
@@ -41,6 +41,7 @@ export const IssuesPanelMobileAndCloud: FC<Props> = (props) => {
 				columns={cloudAndMobileColumns}
 				showRows={!props.isLoading}
 				showEmpty={!props.isLoading && formatIssues.length === 0}
+				selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 				sort={Sort.desc}
 			/>
 		</SimpleSection>

@@ -7,6 +7,7 @@ import {
 	type TableItem,
 } from '../../../../../../data';
 import { TableV2 } from '../../../../../components/table/tablev2';
+import { useNavigate } from 'react-router';
 
 interface DashboardVulnerabilitiesProps {
 	topVulnerabilities: Issues[];
@@ -17,10 +18,11 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
 	topVulnerabilities,
 	isLoading,
 }) => {
+	const navigate = useNavigate();
 	const dataTable = topVulnerabilities.map(
 		(issue: Issues) =>
 			({
-				ID: { value: '', style: '' },
+				ID: { value: issue.id, style: '' },
 				published: { value: issue.createdAt, style: 'date' },
 				author: {
 					value: '@' + issue.researcherUsername,
@@ -45,6 +47,7 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
 						columns={topVulnerabilitiesColumn}
 						showRows={!isLoading}
 						showEmpty={!isLoading && topVulnerabilities.length === 0}
+						selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 						sort={Sort.asc}
 					/>
 				</SimpleSection>
