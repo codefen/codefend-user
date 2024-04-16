@@ -129,7 +129,7 @@ const Sidebar: FC = () => {
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
-		{
+		/*{
 			title: 'EPM',
 			id: 'sidebar_epm',
 			icon: <EnpIcon />,
@@ -160,7 +160,7 @@ const Sidebar: FC = () => {
 			to: '/vdb',
 			root: false,
 			haveAccess: isNotProviderAndReseller,
-		},
+		},*/
 		{
 			title: 'Support',
 			id: 'sidebar_support',

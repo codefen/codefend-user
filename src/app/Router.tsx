@@ -150,7 +150,8 @@ export const AppRouter: React.FC = () => {
 								</Route>
 							</>
 						)}
-						{haveAccessToModules && (
+
+						{/*haveAccessToModules && (
 							<>
 								<Route path="enp">
 									<Route index element={<EnpPanel />} />
@@ -161,7 +162,7 @@ export const AppRouter: React.FC = () => {
 								<Route path="sns" element={<SnsPanel />} />
 								<Route path="vdb" element={<VdbPanel />} />
 							</>
-						)}
+						)*/}
 						{haveAccessToSupport && (
 							<>
 								<Route path="support" element={<SupportPanel />} />
