@@ -11,7 +11,8 @@ const DashboardSearchbar: FC = () => {
 
 	const selectBarOptions = {
 		options: { email: 'email', password: 'password', name: 'full name' },
-		placeHolder: 'chose a class',
+		placeHolder: '',
+		defaultSelectOption: 'email',
 		value: getSearchClass(),
 		change: (e: ChangeEvent<HTMLSelectElement>) =>
 			setSearchClass(e.target.value),

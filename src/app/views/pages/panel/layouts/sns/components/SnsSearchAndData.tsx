@@ -34,9 +34,10 @@ const SnsSearchAndData: FC = () => {
 	};
 	const selectBarOptions = {
 		options: { email: 'email', password: 'password', name: 'full name' },
-		placeHolder: 'email',
+		placeHolder: '',
 		value: searchClass,
 		change: (e: any) => setSearchClass(e.target.value),
+		defaultSelectOption: 'email',
 	};
 
 	return (

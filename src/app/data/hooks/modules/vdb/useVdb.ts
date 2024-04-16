@@ -29,7 +29,7 @@ export const useInitialVdb = () => {
 			vdbResults.current = Array.isArray(data)
 				? data.map((result: any) => mapVdbResultV2(result))
 				: [];
-			if(vdbResults.current){
+			if(!Boolean(vdbResults.current.length)){
 				toast.success("No search results found");
 			}
 		});

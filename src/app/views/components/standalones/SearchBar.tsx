@@ -6,6 +6,7 @@ interface SearchBarSelect {
 	options: any;
 	placeHolder: string;
 	value: string;
+	defaultSelectOption?: any;
 	change: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -69,10 +70,7 @@ export const SearchBar: FC<SearchBarProps> = (props) => {
 						<select
 							className="search-select log-inputs"
 							onChange={props?.selectOptions?.change}
-							defaultValue={props?.selectOptions?.value}>
-							<option value="" disabled>
-								{props?.selectOptions?.placeHolder}
-							</option>
+							value={props.selectOptions?.value}>
 							{optionsKeys.map((keyOption, i: number) => (
 								<Fragment key={optionUUID[i]}>
 									<option value={String(keyOption)}>
