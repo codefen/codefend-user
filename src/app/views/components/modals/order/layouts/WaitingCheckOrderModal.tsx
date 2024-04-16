@@ -9,7 +9,7 @@ export const WaitingCheckOrderModal = () => {
 	return (
 		<>
 			<OrderAlertMessage
-				imageIcon={<img src="/util/hourglass.png" alt="Codefend logo" />}
+				imageIcon={<img src="/util/orders-clock.png" alt="Codefend logo" />}
 				title="Await for confirmation">
 				<p>
 					<span className="bolder block">

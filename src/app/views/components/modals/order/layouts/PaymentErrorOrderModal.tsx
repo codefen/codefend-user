@@ -9,7 +9,9 @@ export const PaymentErrorOrderModal = () => {
 	return (
 		<>
 			<OrderAlertMessage
-				imageIcon={<img src="/util/credit-card.png" alt="Codefend logo" />}
+				imageIcon={
+					<img src="/util/orders-cp-crash.png" alt="Codefend logo" />
+				}
 				title="It didn't work!">
 				<p>
 					<span className="bolder block">
