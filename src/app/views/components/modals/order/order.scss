@@ -738,6 +738,14 @@
 	}
 }
 
+.img-red-neuronal {
+	position: absolute;
+	top: 1px;
+	overflow: hidden;
+	left: -10px;
+	width: 275px;
+}
+
 [data-theme='dark'] {
 	.order-container {
 		background-color: var(--primary-color-50);

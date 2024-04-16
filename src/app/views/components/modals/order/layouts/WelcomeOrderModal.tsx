@@ -17,6 +17,11 @@ export const WelcomeOrderModal = () => {
 
 	return (
 		<>
+			<img
+				src="/util/orders-welcome-red.png"
+				className="img-red-neuronal"
+				alt=""
+			/>
 			<OrderAlertMessage
 				imageIcon={<img src="/codefend/fav.png" alt="Codefend logo" />}
 				title="Welcome">
