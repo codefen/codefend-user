@@ -79,3 +79,12 @@
 		}
 	}
 }
+
+[data-theme='dark'] {
+	.provider-card {
+		&.active {
+			border-block-color: #732525;
+			background: var(--primary-color-300);
+		}
+	}
+}
