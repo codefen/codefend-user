@@ -141,4 +141,8 @@ main.reseller {
 		--reseller-not-verified-100: #730101;
 		--reseller-not-verified-200: #550000;
 	}
+
+	.reseller-header {
+		background-color: var(--primary-color-100);
+	}
 }
