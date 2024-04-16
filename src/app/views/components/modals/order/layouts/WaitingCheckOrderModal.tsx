@@ -30,9 +30,9 @@ export const WaitingCheckOrderModal = () => {
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container">
 					<PrimaryButton
-						text="cancel"
+						text=""
 						click={() => {}}
-						className="full"
+						className="full order-default bg-transparent"
 						buttonStyle="black"
 						disabledLoader
 					/>
