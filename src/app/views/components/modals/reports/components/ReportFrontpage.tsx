@@ -1,6 +1,7 @@
 import { type FC, lazy } from 'react';
-import { getCurrentDate } from '../../../../../data';
+import { getCurrentDate, useAdminCompanyStore } from '../../../../../data';
 import { AimIcon } from '../../../';
+import { useUserData } from '#commonUserHooks/useAuthState';
 
 export interface ReportFrontpageProps {
 	resourceDomainText: string;
@@ -8,6 +9,8 @@ export interface ReportFrontpageProps {
 const Logo = lazy(() => import('../../../defaults/Logo'));
 
 export const ReportFrontpage: FC<ReportFrontpageProps> = (props) => {
+	const { companySelected } = useAdminCompanyStore();
+
 	return (
 		<div className="portada">
 			<div className="codefend-header">
@@ -23,7 +26,8 @@ export const ReportFrontpage: FC<ReportFrontpageProps> = (props) => {
 			<div className="title-portada">
 				<p>
 					This penetration test on {props.resourceDomainText} was requested
-					by <span>[company]</span> and conducted by Codefend.
+					by <span>[{companySelected.name}]</span> and conducted by
+					Codefend.
 				</p>
 			</div>
 		</div>
