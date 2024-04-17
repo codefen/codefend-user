@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 import DashboardAssets from './components/DashboardAssets.tsx';
 import DashboardCollaborators from './components/DashboardCollaborators.tsx';
-import DashboardSearchbar from './components/DashboardSearchbar.tsx';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
 import { type IssuesShare } from '@interfaces/panel.ts';
@@ -28,7 +27,6 @@ const Dashboard: React.FC = () => {
 			<div className="brightness variant-2"></div>
 
 			<section className="left">
-				<DashboardSearchbar />
 				<DashboardVulnerabilities
 					isLoading={isLoading}
 					topVulnerabilities={companyData.issues ?? []}
