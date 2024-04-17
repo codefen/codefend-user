@@ -156,15 +156,14 @@
 			// padding-inline-start: 5px;
 			column-gap: 0.75rem;
 
-			cursor: pointer;
 			position: relative;
+			cursor: default;
 
 			.email {
 				text-align: left;
 				color: #404040;
 				letter-spacing: 0.3px;
 				font-weight: 500;
-				user-select: none;
 			}
 			.profile {
 				width: 2rem;
