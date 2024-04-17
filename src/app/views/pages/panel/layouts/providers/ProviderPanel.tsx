@@ -22,9 +22,6 @@ export const ProviderPage = () => {
 					</div>
 				</div>
 			</section>
-			<section className="right">
-				<ProviderList />
-			</section>
 		</main>
 	);
 };
