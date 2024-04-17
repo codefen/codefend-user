@@ -1,4 +1,4 @@
-import { useMemo, type FC } from 'react';
+import { type FC } from 'react';
 import {
 	type RemoveAppStore,
 	cleanHTML,
@@ -71,7 +71,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	};
 
 	// Función para renderizar la imagen basada en las condiciones
-	const MemoizedRenderImage = useMemo(() => {
+	const MemoizedRenderImage = () => {
 		return !isImage || !isMobileType ? (
 			<img
 				src={
@@ -84,7 +84,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 		) : (
 			<img src={`data:image/png;base64,${appMedia}`} alt="mobile-image" />
 		);
-	}, []);
+	};
 
 	const renderResourceDetail = () => {
 		if (isDetails) {
@@ -103,7 +103,9 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	return (
 		<div className={generateCardClasses()}>
 			<div className="app-card-content">
-				<div className="app-card-content-img">{MemoizedRenderImage}</div>
+				<div className="app-card-content-img">
+					{<MemoizedRenderImage />}
+				</div>
 				<div className="app-card-content-body">
 					<div className="app-card-title">
 						<h3 className={`${isDetails ? 'detail' : 'card'}`}>

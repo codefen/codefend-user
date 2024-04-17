@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FC } from 'react';
+import { useCallback, useEffect, useMemo, useState, type FC } from 'react';
 import { AppCard } from '@standalones/AppCard.tsx';
 import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
 import Show from '@defaults/Show.tsx';
@@ -25,10 +25,6 @@ export const MobileApplication: FC<MobileApplicationProps> = ({
 
 	const [term, setTerm] = useState('');
 
-	const mobileKeys = useMemo(() => {
-		return mobileInfo ? generateIDArray(mobileInfo.length) : [];
-	}, [mobileInfo]);
-
 	const selectMobile = (mobile: MobileApp) => {
 		if (isNotNull() && isCurrentSelected(mobile.id)) return;
 
@@ -40,6 +36,14 @@ export const MobileApplication: FC<MobileApplicationProps> = ({
 			updateSelected(mobileInfo[0]);
 		}
 	}, [appSelected]);
+
+	const getMobileInfo = useCallback(
+		() =>
+			mobileInfo.filter((app: MobileApp) =>
+				app.appName.toLowerCase().includes(term.toLowerCase()),
+			),
+		[term],
+	);
 
 	return (
 		<Show
@@ -76,33 +80,30 @@ export const MobileApplication: FC<MobileApplicationProps> = ({
 					/>
 
 					<div className="list">
-						{mobileInfo
-							?.filter((app: MobileApp) =>
-								app.appName.toLowerCase().includes(term.toLowerCase()),
-							)
-							.map((mobile: MobileApp, i: number) => (
+						{getMobileInfo().map((mobile: MobileApp, i: number) => {
+							console.log({ mobile });
+							return (
 								<div
-									key={mobileKeys[i]}
+									key={`mob-${i}`}
 									className="app-info"
 									onClick={(e: React.FormEvent) => {
 										e.preventDefault();
 										selectMobile(mobile);
 									}}>
-									<>
-										<AppCard
-											isActive={isCurrentSelected(mobile.id)}
-											type="mobile"
-											id={mobile.id}
-											appMedia={mobile.appMedia}
-											appDesc={mobile.appDesc}
-											appReviews={mobile.appReviews}
-											appRank={mobile.appRank}
-											appDeveloper={mobile.appDeveloper}
-											name={mobile.appName}
-										/>
-									</>
+									<AppCard
+										isActive={isCurrentSelected(mobile.id)}
+										type="mobile"
+										id={mobile.id}
+										appMedia={mobile.appMedia}
+										appDesc={mobile.appDesc}
+										appReviews={mobile.appReviews}
+										appRank={mobile.appRank}
+										appDeveloper={mobile.appDeveloper}
+										name={mobile.appName}
+									/>
 								</div>
-							))}
+							);
+						})}
 					</div>
 				</section>
 
