@@ -7,9 +7,9 @@ import { create } from 'zustand';
 
 
 export interface ProviderProfileStore {
-	provider?: Provider;
+	provider: Provider | undefined;
 	loginSequence?: string;
-	setProvider: (updated: Provider) => void;
+	setProvider: (updated: Provider | undefined) => void;
 	setLogicSequence: (updated: string) => void;
 }
 
@@ -17,13 +17,13 @@ export const useProviderProfileStore = create<ProviderProfileStore>(
 	(set, _get) => ({
 		provider: undefined,
 		loginSequence: undefined,
-		setProvider: (updated: Provider) => {
+		setProvider: (updated: Provider | undefined) => {
 			set((prev: ProviderProfileStore) => ({
 				...prev,
-				provider: {
+				provider: updated? {
 					...updated,
-					id_verified: updated?.id_verified == "1",
-				},
+					id_verified: updated ? updated?.id_verified == "1" : false,
+				}:undefined,
 			}));
 		},
 		setLogicSequence: (updated: string) => {

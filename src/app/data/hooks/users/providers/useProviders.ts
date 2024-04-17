@@ -35,6 +35,6 @@ export const useProviderProfile = () => {
 		});
 	};
 
-	return { providerProfile: provider, isLoading, refetch, cancelRequest } as const;
+	return { providerProfile: provider, isLoading, refetch, cancelRequest, setProvider } as const;
 };
 

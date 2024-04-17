@@ -7,12 +7,13 @@ import { formatToMonthYear, useProviderProfile } from '../../../../../../data';
 import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
 
 export const ProviderHeader: FC = () => {
-	const { providerProfile, refetch } = useProviderProfile();
+	const { providerProfile, refetch, setProvider } = useProviderProfile();
 
 	useEffect(() => {
 		if (!providerProfile) {
 			refetch();
 		}
+		return () => setProvider(undefined);
 	}, []);
 
 	const profileMedia = providerProfile
