@@ -517,3 +517,16 @@ export const findWebResourceByID = (
 	}
 	return null;
 };
+
+export const formatNumber = (price: string): string=> {
+    const number = parseFloat(price);
+    if (isNaN(number)) {
+        throw new Error("Invalid input. Please provide a valid number as string.");
+    }
+    const parts = number.toString().split('').reverse().join('').match(/\d{1,3}/g);
+
+	// Join the sections with commas
+	const formattedNumber = parts?.join(',').split('').reverse().join('');
+
+	return formattedNumber || '';
+}

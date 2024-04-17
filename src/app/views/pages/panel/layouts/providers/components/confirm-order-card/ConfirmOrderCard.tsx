@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import {
 	ScopeOption,
+	formatNumber,
 	type OrderOffensive,
 	type OrderTeamSize,
 } from '../../../../../../../data';
@@ -99,7 +100,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 				</div>
 				<div className="provider-order-main-content flex-col">
 					<div className="order-price-dist">
-						<span className="price">${price}</span>
+						<span className="price">${formatNumber(price)}</span>
 						<span className="distributor">
 							distributor: {distributor}
 						</span>
