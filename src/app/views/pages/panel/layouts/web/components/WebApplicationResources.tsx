@@ -147,7 +147,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 										</div>
 										<div className="domain-name lined">
 											<div className="publish">
-												<span className="sub-domain-icon-v"></span>
+												<span
+													className={`sub-domain-icon-v ${mainNetwork.childs.length == i + 1 && 'sub-is-last'}`}></span>
 												<span className="sub-domain-icon-h"></span>
 												<span className="sub-resource-domain">
 													{subNetwork.resourceDomain}

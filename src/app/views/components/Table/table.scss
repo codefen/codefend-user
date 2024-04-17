@@ -142,6 +142,10 @@
 				height: calc(100% + 2px);
 				top: 0px;
 				bottom: 0px;
+
+				&.sub-is-last {
+					height: 50%;
+				}
 			}
 
 			.sub-domain-icon-h {
