@@ -13,8 +13,9 @@ export const useProviderOrderAction =()=>{
       setRequestId("confirmOrder");
          fetcher("post", {
             body: {
-                model: "providers/confirm",
+                model: "providers/orders/confirm",
                 company_id: getCompany(),
+                order_id: orderId
             },
             requestId: "confirmOrder"
          }).then(({data}:any)=>{
@@ -29,8 +30,9 @@ export const useProviderOrderAction =()=>{
       setRequestId("refuseOrder");
       fetcher("post", {
          body: {
-             model: "providers/refuse",
+             model: "providers/orders/cancel",
              company_id: getCompany(),
+             order_id: orderId
          },
          requestId: "refuseOrder"
       }).then(({data}:any)=>{

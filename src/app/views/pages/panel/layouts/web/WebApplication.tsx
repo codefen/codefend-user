@@ -10,7 +10,6 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
-import '@styles/flag.scss';
 import '@table/table.scss';
 import './webapplication.scss';
 

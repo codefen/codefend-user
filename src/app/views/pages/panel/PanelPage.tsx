@@ -12,6 +12,7 @@ import { FlashLightProvider } from './FlashLightContext';
 import { WelcomeGroupTour } from '../../components/standalones/welcome/WelcomeGroupTour';
 import { useMediaQuery } from 'usehooks-ts';
 import { MobileFallback } from '@defaults/mobile-fallback/MobileFallback';
+import '../../styles/flag.scss';
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);

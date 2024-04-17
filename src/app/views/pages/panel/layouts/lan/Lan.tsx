@@ -9,7 +9,6 @@ import { LanNetworkData } from './components/LanNetworkData.tsx';
 import { LanNetworksChart } from './components/LanNetworksChart.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import '@styles/flag.scss';
 import './Lan.scss';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';

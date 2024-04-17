@@ -10,7 +10,6 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
-import '@styles/flag.scss';
 import './dashboard.scss';
 
 const Dashboard: React.FC = () => {

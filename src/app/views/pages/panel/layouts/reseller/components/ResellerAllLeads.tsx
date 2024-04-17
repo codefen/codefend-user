@@ -3,8 +3,6 @@ import { GlobeWebIcon } from '@icons';
 import { defaultListLeadsColumns } from '@mocks/defaultData';
 import { LocationItem } from '@standalones/index';
 import { TableV2 } from '@table/tablev2';
-import { generateIDArray } from '@utils/helper';
-import '@styles/flag.scss';
 import type { Lead } from '@interfaces/lead';
 import type { FC } from 'react';
 
