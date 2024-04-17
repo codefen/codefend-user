@@ -36,8 +36,12 @@ export const getFullCompanyFromUser = () => {
 };
 
 /** GET base api url in localStorage */
-export const getCustomBaseAPi = () =>
-	window.localStorage.getItem('baseApi') ?? '';
+export const getCustomBaseAPi = () => {
+		const storeJson = localStorage.getItem('authStore') ?? '';
+		const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+		
+		return store?.state?.userData?.accessRole === "admin" ? localStorage.getItem('baseApi') || '' : "";
+	};
 
 /** SET baseApi in localStorage */
 export const setCustomBaseAPi = (baseApi: string) =>

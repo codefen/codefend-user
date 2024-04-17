@@ -24,7 +24,7 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 	isOpen,
 }) => {
 	const [insecure, setInsecure] = useState(
-		localStorage.getItem('insecure') == 'true' ? true : false,
+		localStorage.getItem('a20af8d9') == 'true' ? true : false,
 	);
 	const customAPi = getCustomBaseAPi();
 	const defaultApiUrl = customAPi ? customAPi : baseUrl;
@@ -43,7 +43,7 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 			setLoading(false);
 			return;
 		}
-		localStorage.setItem('insecure', String(insecure));
+		localStorage.setItem('a20af8d9', String(insecure));
 		close();
 		setLoading(false);
 		if (apiUrl !== defaultApiUrl) {

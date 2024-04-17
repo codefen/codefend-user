@@ -55,7 +55,7 @@ export class AxiosHttpService extends HttpService {
 		requestId = 'uniqueRequest',
 		requireSession=true
 	}: HttpRequestOptions): Promise<T> {
-		const insecureStore = localStorage.getItem("insecure") == "true" ? true : false;
+		const insecureStore = localStorage.getItem("a20af8d9") == "true" ? true : false;
 		insecure = insecureStore ? insecureStore : insecure;
 		const abortController = this.getAbortController(requestId);
 		let data = requireSession ? { ...body, session: this.session } : body;

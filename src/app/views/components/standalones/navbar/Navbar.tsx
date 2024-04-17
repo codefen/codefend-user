@@ -14,6 +14,7 @@ import { useAuthState } from '#commonHooks/useAuthState.ts';
 import type { NetworkSettingState } from '@stores/apiLink.store.ts';
 import useNetworkSettingState from '@stores/apiLink.store.ts';
 import './navbar.scss';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
@@ -21,6 +22,7 @@ const Navbar: FC = () => {
 	const navigate = useNavigate();
 	const { logout, getUserdata } = useAuthState();
 	const userData = getUserdata();
+	const { isAdmin } = useUserRole();
 	const { open, handleChange } = usePanelStore();
 	const [isMenuOpen, setMenuOpen] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
@@ -71,10 +73,13 @@ const Navbar: FC = () => {
 					/>
 				</ModalWrapper>
 			</Show>
-			<NetworkSetingModal
-				close={() => setNetworkSettingState(!isOpen)}
-				isOpen={isOpen}
-			/>
+			{isAdmin() && (
+				<NetworkSetingModal
+					close={() => setNetworkSettingState(!isOpen)}
+					isOpen={isOpen}
+				/>
+			)}
+
 			<nav className="navbar">
 				<div className="left">
 					<div className="navbar-logo">
@@ -84,15 +89,18 @@ const Navbar: FC = () => {
 					</div>
 					<Breadcrumb root="Codefend" rootAction={rootAction} />
 					<div className="actions">
-						<div
-							className="action"
-							title="Network settings"
-							onClick={() => {
-								setNetworkSettingState(true);
-							}}>
-							<NetworkIcon width={1.1} height={1.1} />
-							<span>{baseApiName}</span>
-						</div>
+						{isAdmin() && (
+							<div
+								className="action"
+								title="Network settings"
+								onClick={() => {
+									setNetworkSettingState(true);
+								}}>
+								<NetworkIcon width={1.1} height={1.1} />
+								<span>{baseApiName}</span>
+							</div>
+						)}
+
 						<ThemeChangerButton />
 					</div>
 				</div>

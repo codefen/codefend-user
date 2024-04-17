@@ -15,16 +15,9 @@ const AuthPage: FC = () => {
 	const location = useLocation();
 	const { isAuth } = useAuthStore((state) => state);
 	const { isAdmin } = useUserRole();
-	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
-		(state: NetworkSettingState) => state,
-	);
 
 	return !isAuth ? (
 		<>
-			<NetworkSetingModal
-				close={() => setNetworkSettingState(!isOpen)}
-				isOpen={isOpen}
-			/>
 			<div className="codefend-img-bg">
 				<Logo theme={'shadow'} />
 			</div>
