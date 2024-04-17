@@ -88,7 +88,7 @@ export interface FullOrder {
     chosen_plan: string;
     chosen_plan_price: string;
     funds_full: string;
-    funds_hacker: string;
+    funds_provider: string;
     funds_codefend: string;
     funds_reseller: string;
     provider_class: string;

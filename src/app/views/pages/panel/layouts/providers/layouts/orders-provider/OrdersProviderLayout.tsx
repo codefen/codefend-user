@@ -41,7 +41,7 @@ export const OrdersReviewProviders: FC = () => {
 								| 'offensive'
 								| 'adversary'
 						}
-						price={order.funds_hacker}
+						price={order.funds_provider}
 						type={order.resources_class}
 						provider={
 							getUserdata().id == order.provider_id
