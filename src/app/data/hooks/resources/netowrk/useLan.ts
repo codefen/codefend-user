@@ -29,8 +29,7 @@ export const useLan = () => {
 			.then(({data}: any) => {
 				dataRef.current = data.disponibles;
 				setError(false);
-			})
-			.catch(() => setError(true));
+			}).catch(() => setError(true));
 	}, []);
 
 	/* Refetch Function. */

@@ -17,6 +17,7 @@ import {
 	PreferenceIcon,
 	MessageIcon,
 	ProviderOrdersIcon,
+	LanIcon,
 } from '@icons';
 
 import usePanelStore from '@stores/panel.store.ts';
@@ -119,7 +120,14 @@ const Sidebar: FC = () => {
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
-		//{ title: 'Network', icon: <LanIcon />, to: '/lan' },
+		{
+			title: 'Network',
+			id: 'sidebar_lan',
+			icon: <LanIcon />,
+			to: '/lan',
+			root: false,
+			haveAccess: isNotProviderAndReseller,
+		},
 
 		{
 			title: 'Issues',

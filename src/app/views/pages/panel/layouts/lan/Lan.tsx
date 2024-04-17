@@ -11,37 +11,14 @@ import { useFlashlight } from '../../FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import '@styles/flag.scss';
 import './Lan.scss';
+import { useOrderStore } from '@stores/orders.store.ts';
+import { OrderV2 } from '@modals/order/Orderv2.tsx';
 
 const LanPage: FC = () => {
 	const { networks, loading, refetch } = useLan();
-
-	const [scanLoading, setScanLoading] = useState(false);
-
+	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
-	const [showScreen, setShowScreen] = useShowScreen();
-
-	const scanLocal = async () => {
-		setScanLoading(true);
-		return invoke('scan_local')
-			.then((res: any) => {
-				const parsedRes = JSON.parse(res);
-
-				if (parsedRes.success) {
-					setScanLoading(false);
-					toast.success(parsedRes.success);
-				} else {
-					setScanLoading(false);
-				}
-			})
-			.catch((err: any) => {
-				setScanLoading(false);
-				const parsedErr = JSON.parse(err);
-
-				if (parsedErr.error) {
-					toast.error(parsedErr.error);
-				}
-			});
-	};
+	const [showScreen, control] = useShowScreen();
 
 	const internalNetworkDataInfo = () => {
 		const internalNetworkData = loading ? [] : networks;
@@ -50,10 +27,11 @@ const LanPage: FC = () => {
 
 	useEffect(() => {
 		refetch();
-	}, []);
+	}, [control]);
 
 	return (
 		<>
+			<OrderV2 />
 			<main className={`lan ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
@@ -72,8 +50,8 @@ const LanPage: FC = () => {
 					/>
 
 					<PrimaryButton
-						text={scanLoading ? <PageLoaderWhite /> : 'REQUEST SCAN'}
-						click={(e: any) => scanLocal()}
+						text="START A PENTEST ON DEMAND"
+						click={() => updateState('open', true)}
 						className="primary-full"
 					/>
 				</section>

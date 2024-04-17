@@ -3,14 +3,6 @@ import { type Device, useAuthState } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 
-interface NetworkData {
-	domainName: string;
-	vendorName: string;
-	username: string;
-	password: string;
-	internalAddress: string;
-	externalAddress: string;
-}
 
 export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useAuthState();
@@ -68,6 +60,7 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	};
 
 	const validators = () => {
+		console.log({mainDomainId});
 		if (!mainDomainId || mainDomainId === 0) {
 			toast.error('Invalid main resource');
 			return true;
@@ -81,6 +74,7 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	};
 
 	return {
+		mainDomainId,
 		vendorName,
 		isLoading,
 		validators,

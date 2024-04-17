@@ -517,6 +517,39 @@ export const webResourcesWithoutActions = [
 	}
 ]
 
+export const lanResourcesTable = [
+	{
+		name: "Identifier",
+		value: "id",
+		style: "id"
+	},
+	{
+		name: "internalIp",
+		value: "internal IP",
+		style: "ip"
+	},
+	{
+		name: "externalIp",
+		value: "external IP",
+		style: "ip"
+	},
+	{
+		name: 'osVendor',
+		value: 'os / vendor',
+		style: 'os',
+	},
+	{
+		name: 'hostname',
+		value: 'hostname',
+		style: 'hostname',
+	},
+	{
+		name: 'action',
+		value: 'actions',
+		style: 'id action',
+	},
+]
+
 export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id"}]);
 
 export const defaultCrypto = [

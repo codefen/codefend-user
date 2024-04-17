@@ -197,6 +197,7 @@ export enum ChatBoxType {
 	ISSUE,
 	SUPPORT,
 }
+export type DeviceChild = Omit<Device, "childs">;
 
 export interface Device {
 	id: string;
@@ -214,7 +215,7 @@ export interface Device {
 	pem: string;
 	ppk: string;
 	resource_lan_dad: string;
-	childs?: Device[] | null;
+	childs?: DeviceChild[] | null;
 }
 
 export interface DeviceListResponse {
