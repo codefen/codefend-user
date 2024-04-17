@@ -91,7 +91,8 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 											</div>
 											<div className="ip">
 												<div className="publish lined">
-													<span className="sub-domain-icon-v"></span>
+													<span
+														className={`sub-domain-icon-v ${network.childs?.length === i + 1 && 'sub-is-last'}`}></span>
 													<span className="sub-domain-icon-h"></span>
 													{netChild.device_in_address}
 												</div>

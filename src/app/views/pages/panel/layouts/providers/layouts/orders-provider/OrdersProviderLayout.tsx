@@ -28,6 +28,10 @@ export const OrdersReviewProviders: FC = () => {
 		getProviderOrders();
 	}, []);
 
+	const removeOrder = (id: string) => {
+		orders.current = orders.current.filter((order) => order.id !== id);
+	};
+
 	if (activeSubOption === 0) {
 		return (
 			<div className="provider-about">
@@ -52,6 +56,7 @@ export const OrdersReviewProviders: FC = () => {
 						scope={order.resources_class === 'full' ? 1 : 0}
 						sizeOrder={order.chosen_plan as 'small' | 'medium' | 'full'}
 						handleActivate={handleActive}
+						removeOrder={removeOrder}
 						isSelected={active === order.id}
 					/>
 				))}

@@ -22,6 +22,7 @@ export interface ConfirmOrderCardProps {
 	distributor: string;
 	price: string;
 	handleActivate: (id: string) => void;
+	removeOrder: (id: string) => void;
 	id: string;
 	isSelected?: boolean;
 }
@@ -37,6 +38,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	id,
 	isSelected,
 	handleActivate,
+	removeOrder,
 }) => {
 	const teamSize = sizeOrder.valueOf();
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
@@ -45,6 +47,11 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	const { confirmOrder, refuseOrder, isLoading, requestId } =
 		useProviderOrderAction();
 	const { showModal, setShowModal } = useModal();
+
+	const refuseOrderClick = () => {
+		removeOrder(id);
+		refuseOrder(id);
+	};
 
 	return (
 		<>
@@ -109,7 +116,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 						<button
 							className="btn-decline"
 							disabled={isLoading && requestId == 'refuseOrder'}
-							onClick={() => refuseOrder(id)}>
+							onClick={refuseOrderClick}>
 							refuse order
 						</button>
 						<PrimaryButton
