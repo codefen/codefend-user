@@ -48,9 +48,9 @@ export const OrdersReviewProviders: FC = () => {
 								? getUserdata().username || 'unknown'
 								: 'unknown'
 						}
-						distributor={'albilad'}
+						distributor={order.reseller_name || ''}
 						scope={order.resources_class === 'full' ? 1 : 0}
-						sizeOrder={'full'}
+						sizeOrder={order.chosen_plan as 'small' | 'medium' | 'full'}
 						handleActivate={handleActive}
 						isSelected={active === order.id}
 					/>
