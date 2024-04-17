@@ -1,18 +1,21 @@
-import { type FC, useMemo, Fragment } from 'react';
-import { useModal, type Device, generateIDArray } from '../../../../../../data';
+import { type FC, useMemo, Fragment, type ReactNode } from 'react';
 import {
-	EmptyCard,
-	PageLoader,
+	useModal,
+	type Device,
+	generateIDArray,
+	lanResourcesTable,
+	type TableItem,
+} from '../../../../../../data';
+import {
 	AddAccessPointModal,
 	ModalTitleWrapper,
 	TrashIcon,
 	LanIcon,
 	ConfirmModal,
-	Show,
 	AddNetworkDeviceModal,
+	TableV2,
 } from '../../../../../components';
 
-import { toast } from 'react-toastify';
 import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan';
 
 interface LanNetworkDataProps {
@@ -21,22 +24,115 @@ interface LanNetworkDataProps {
 	refetchInternalNetwork: () => void;
 }
 
-export const LanNetworkData: FC<LanNetworkDataProps> = (props) => {
+export const LanNetworkData: FC<LanNetworkDataProps> = ({
+	isLoading,
+	internalNetwork,
+	refetchInternalNetwork,
+}) => {
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
 
 	const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } =
-		useDeleteLan(props.refetchInternalNetwork, () => setShowModal(false));
+		useDeleteLan(refetchInternalNetwork, () => setShowModal(false));
 
 	const handleDelete = () => {
-		refetch();
+		refetch(selectedLanIdToDelete);
 	};
 
-	const internalKeys = useMemo(() => {
-		return props.internalNetwork
-			? generateIDArray(props.internalNetwork.length)
-			: [];
-	}, [props.internalNetwork]);
+	const tableData: Record<string, TableItem>[] = internalNetwork.map(
+		(network) => ({
+			ID: { value: '', style: '' },
+			Identifier: { value: network.id, style: 'id' },
+			internalIp: { value: network.device_in_address, style: 'ip' },
+			externalIp: { value: network.device_ex_address, style: 'ip' },
+			osVendor: {
+				value: `${network.device_os}/${network.device_vendor}`,
+				style: 'os',
+			},
+			hostname: { value: network.device_name, style: 'hostname' },
+			action: {
+				value: (
+					<>
+						<span
+							title="Delete"
+							onClick={() => {
+								setSelectedLanIdToDelete(network.id);
+								setShowModal(!showModal);
+								setShowModalStr('delete_resource');
+							}}>
+							<TrashIcon />
+						</span>
+					</>
+				),
+				style: 'id action',
+			},
+			childs: {
+				value: (props) =>
+					(
+						<>
+							{network.childs
+								? network.childs.map((netChild, i) => (
+										<a
+											key={`child-${i}-${netChild.id}`}
+											className={`item`}
+											href={
+												props.urlNav
+													? `${props.urlNav}${netChild.id}`
+													: ''
+											}
+											onClick={(e) =>
+												props.handleClick(
+													e,
+													`child-${netChild.id}`,
+													'',
+												)
+											}>
+											<div className="id">
+												<div className="publish">{netChild.id}</div>
+											</div>
+											<div className="ip">
+												<div className="publish lined">
+													<span className="sub-domain-icon-v"></span>
+													<span className="sub-domain-icon-h"></span>
+													{netChild.device_in_address}
+												</div>
+											</div>
+											<div className="ip">
+												<div className="publish">
+													{netChild.device_ex_address}
+												</div>
+											</div>
+											<div className="os">
+												<div className="publish">
+													{netChild.device_os}/
+													{netChild.device_vendor}
+												</div>
+											</div>
+											<div className="hostname">
+												<div className="publish">
+													{netChild.device_name}
+												</div>
+											</div>
+											<div className="id action">
+												<span
+													title="Delete"
+													onClick={() => {
+														setSelectedLanIdToDelete(netChild.id);
+														setShowModal(!showModal);
+														setShowModalStr('delete_resource');
+													}}>
+													<TrashIcon />
+												</span>
+											</div>
+										</a>
+									))
+								: null}
+						</>
+					) as ReactNode,
+				style: '',
+			},
+		}),
+	);
 
 	return (
 		<>
@@ -62,7 +158,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = (props) => {
 				<AddAccessPointModal
 					onDone={() => {
 						setShowModal(false);
-						props.refetchInternalNetwork();
+						refetchInternalNetwork();
 					}}
 					close={() => setShowModal(false)}
 				/>
@@ -74,10 +170,10 @@ export const LanNetworkData: FC<LanNetworkDataProps> = (props) => {
 				isActive={showModal && showModalStr === 'add_network_device'}>
 				<AddNetworkDeviceModal
 					onDone={() => {
-						props.refetchInternalNetwork();
+						refetchInternalNetwork();
 					}}
 					close={() => setShowModal(false)}
-					internalNetwork={props.internalNetwork ?? []}
+					internalNetwork={internalNetwork ?? []}
 				/>
 			</ModalTitleWrapper>
 
@@ -107,85 +203,13 @@ export const LanNetworkData: FC<LanNetworkDataProps> = (props) => {
 					</div>
 				</div>
 
-				<div className="columns-name">
-					<div className="id">id</div>
-					<div className="ip">internal IP</div>
-					<div className="ip">external IP</div>
-					<div className="os">os / vendor</div>
-					<div className="hostname">hostname</div>
-					<div className="id">actions</div>
-				</div>
-				<Show when={!props.isLoading} fallback={<PageLoader />}>
-					<div className="rows">
-						{props.internalNetwork.map((network: Device, i: number) => (
-							<Fragment key={internalKeys[i]}>
-								<div className="item left-marked">
-									<div className="id">{network.id}</div>
-									<div className="ip">{network.device_in_address}</div>
-									<div className="ip">{network.device_ex_address}</div>
-									<div className="os">
-										{network.device_os}/{network.device_vendor}
-									</div>
-									<div className="hostname">{network.device_name}</div>
-									<div
-										className="id actions"
-										onClick={() => {
-											setSelectedLanIdToDelete(String(network?.id));
-											setShowModal(!showModal);
-											setShowModalStr('delete_resource');
-										}}>
-										<TrashIcon />
-									</div>
-								</div>
-
-								{network.childs?.map((subNetwork: Device) => (
-									<div className="item" key={subNetwork.id}>
-										<div className="id">{subNetwork.id}</div>
-										<div className="ip lined">
-											<span className="sub-domain-icon-v"></span>
-											<span className="sub-domain-icon-h"></span>
-											{subNetwork.device_in_address}
-										</div>
-										<div className="ip">
-											{subNetwork.device_ex_address}
-										</div>
-										<div className="os">
-											{subNetwork.device_os}/
-											{subNetwork.device_vendor}
-										</div>
-										<div className="hostname">
-											{subNetwork.device_name}
-										</div>
-										<div
-											className=""
-											onClick={(e) => {
-												e.preventDefault();
-												e.stopPropagation();
-												return false;
-											}}>
-											<div
-												className="id actions"
-												onClick={(e: any) => {
-													e.preventDefault();
-													setSelectedLanIdToDelete(
-														String(network?.id),
-													);
-													setShowModal(!showModal);
-													setShowModalStr('delete_resource');
-												}}>
-												<TrashIcon />
-											</div>
-										</div>
-									</div>
-								))}
-							</Fragment>
-						))}
-					</div>
-				</Show>
+				<TableV2
+					columns={lanResourcesTable}
+					rowsData={tableData}
+					showRows={!isLoading}
+					showEmpty={!isLoading && internalNetwork.length === 0}
+				/>
 			</div>
-			<Show when={!props.isLoading && props.internalNetwork.length === 0}>
-				<EmptyCard />
-			</Show>
 		</>
 	);
 };

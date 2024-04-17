@@ -13,7 +13,6 @@ import {
 	WebApplication,
 	MobileApplication,
 	CloudApplicationPanel,
-	/* LanApplicationPanel,*/
 	SourceCodePanel,
 	SocialEngineeringPanel,
 	EnpPanel,
@@ -38,6 +37,7 @@ import { ProfileProviderLayout } from './views/pages/panel/layouts/providers/lay
 import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/orders-provider/OrdersProviderLayout';
 import { ResellerPage } from './views/pages/panel/layouts/reseller/ResellerPage';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import LanPage from './views/pages/panel/layouts/lan/Lan';
 
 export const AppRouter: React.FC = () => {
 	const {
@@ -131,7 +131,7 @@ export const AppRouter: React.FC = () => {
 									element={<CloudApplicationPanel />}
 								/>
 								<Route path="source" element={<SourceCodePanel />} />
-
+								<Route path="lan" element={<LanPage />} />
 								<Route
 									path="social"
 									element={<SocialEngineeringPanel />}

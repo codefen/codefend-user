@@ -11,8 +11,14 @@ interface NetworkDeviceModalProps {
 }
 
 export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
-	const { vendorName, isLoading, validators, refetch, setFormData } =
-		useAddLanV2(props.onDone, props.close);
+	const {
+		mainDomainId,
+		vendorName,
+		isLoading,
+		validators,
+		refetch,
+		setFormData,
+	} = useAddLanV2(props.onDone, props.close);
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
@@ -41,8 +47,9 @@ export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
 						onChange={handleOnChange}
 						className="log-inputs modal_info"
 						name="mainDomainId"
+						value={mainDomainId}
 						required>
-						<option value="" disabled>
+						<option value="0" disabled>
 							main resource
 						</option>
 						{props.internalNetwork.map((resource: any) => (

@@ -4,6 +4,16 @@ main.lan {
 	.left {
 		flex: 1 1 68%;
 		width: 68%;
+
+		.table {
+			.rows {
+				.action {
+					.publish {
+						justify-content: center;
+					}
+				}
+			}
+		}
 	}
 
 	.right {
@@ -30,29 +40,7 @@ main.lan {
 	.card {
 		&.table {
 			.rows {
-				.actions {
-					cursor: pointer;
-					padding: 0.75rem;
-					display: flex;
-				}
 			}
-		}
-	}
-
-	@include mixin.respond(small) {
-		display: block;
-		padding-inline-start: 1px;
-		overflow: auto;
-
-		.left {
-			width: 100%;
-			padding-bottom: 10px;
-			overflow: auto;
-			padding-block-start: 10px;
-		}
-
-		.right {
-			width: 100%;
 		}
 	}
 }
