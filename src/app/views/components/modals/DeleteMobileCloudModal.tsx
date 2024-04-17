@@ -27,7 +27,7 @@ export const DeleteMobileCloudModal: FC<DeleteMobileCloudModalProps> = ({
 
 	const headerTitle = `Are you sure to remove ${
 		isMobileType ? 'mobile app' : 'cloud app'
-	} \n  ${appName}, ID ${id}`;
+	} \n  ${appName}`;
 
 	return (
 		<ModalTitleWrapper
