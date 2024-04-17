@@ -2,6 +2,7 @@ import React from 'react';
 import { ChartIcon } from '@icons';
 import type { Webresources } from '@interfaces/panel.ts';
 import { MetricsService } from '@utils/metric.service.ts';
+import { StatAsset } from '@standalones/stat-asset/StatAsset.tsx';
 
 interface WebResourceStaticProps {
 	webResources: Webresources[];
@@ -30,24 +31,18 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({
 				<div className="actions"></div>
 			</div>
 			<div className="content">
-				<div className="stat">
-					<div className="value">
-						{getCompanyMetric(getResources(), 'domain')}
-					</div>
-					<p className="codefend-text-red-200">Domains</p>
-				</div>
-				<div className="stat">
-					<div className="value">
-						{getCompanyMetric(getResources(), 'subDomain')}
-					</div>
-					<p>Subdomains</p>
-				</div>
-				<div className="stat">
-					<div className="value">
-						{getCompanyMetric(getResources(), 'uniqueIp')}
-					</div>
-					<p>Unique IPS</p>
-				</div>
+				<StatAsset
+					value={getCompanyMetric(getResources(), 'domain')}
+					valueTitle="Domains"
+				/>
+				<StatAsset
+					value={getCompanyMetric(getResources(), 'subDomain')}
+					valueTitle="Subdomains"
+				/>
+				<StatAsset
+					value={getCompanyMetric(getResources(), 'uniqueIp')}
+					valueTitle="Unique IPS"
+				/>
 			</div>
 		</div>
 	);

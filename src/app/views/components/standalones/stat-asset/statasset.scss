@@ -16,6 +16,10 @@
 	max-height: 5.938rem;
 	row-gap: 0.55rem;
 
+	&.default {
+		cursor: default !important;
+	}
+
 	&:hover {
 		.value,
 		p {

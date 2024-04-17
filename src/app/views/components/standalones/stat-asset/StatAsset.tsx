@@ -17,7 +17,9 @@ export const StatAsset: FC<StatAssetProps> = ({
 	onClick,
 }) => {
 	return (
-		<div className={`stat ${isActive && 'stat-active'}`} onClick={onClick}>
+		<div
+			className={`stat ${isActive && 'stat-active'} ${!onClick && 'default'}`}
+			onClick={onClick}>
 			<div className={`value`}>{value}</div>
 			<p className={`${isRed && 'codefend-text-red-200'}`}>{valueTitle}</p>
 		</div>
