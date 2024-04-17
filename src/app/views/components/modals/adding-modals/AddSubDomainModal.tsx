@@ -70,20 +70,6 @@ const AddSubDomainModal: FC<SubdomainModalProps> = (props) => {
 					/>
 				</div>
 
-				<div className="form-input">
-					<span className="icon">
-						<div className="codefend-text-red">
-							<GlobeWebIcon />
-						</div>
-					</span>
-					<input
-						type="text"
-						onChange={(e) => setIpAddress(e.target.value)}
-						placeholder="IP address"
-						disabled
-					/>
-				</div>
-
 				<ModalButtons
 					close={props.close!}
 					isDisabled={isAddingSubDomain}
