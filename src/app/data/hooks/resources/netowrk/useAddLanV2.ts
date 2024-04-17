@@ -10,15 +10,13 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	const [
 		{
 			mainDomainId,
-			domainName,
-			vendorName,
+			desc,
 			internalIpAddress,
 			externalIpAddress,
 		},
 		setFormData,
 	] = useState({
-		domainName: '',
-		vendorName: '',
+		desc: '',
 		mainDomainId: 0,
 		internalIpAddress: '',
 		externalIpAddress: '',
@@ -50,8 +48,7 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 			return;
 		}
 		const requestBody = {
-			device_name: domainName,
-			device_os: vendorName,
+			device_desc: desc,
 			device_in_address: internalIpAddress,
 			device_ex_address: externalIpAddress,
 			resource_lan_dad: mainDomainId,
@@ -65,17 +62,11 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 			toast.error('Invalid main resource');
 			return true;
 		}
-
-		if (!domainName.trim() || domainName.length == 0) {
-			toast.error('Invalid host name');
-			return true;
-		}
 		return false;
 	};
 
 	return {
 		mainDomainId,
-		vendorName,
 		isLoading,
 		validators,
 		refetch,

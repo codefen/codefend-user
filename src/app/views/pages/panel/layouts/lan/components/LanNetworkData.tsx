@@ -45,11 +45,10 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			Identifier: { value: network.id, style: 'id' },
 			internalIp: { value: network.device_in_address, style: 'ip' },
 			externalIp: { value: network.device_ex_address, style: 'ip' },
-			osVendor: {
-				value: `${network.device_os}/${network.device_vendor}`,
-				style: 'os',
+			description: {
+				value: `${network.device_desc}`,
+				style: 'full-name',
 			},
-			hostname: { value: network.device_name, style: 'hostname' },
 			action: {
 				value: (
 					<>
@@ -102,15 +101,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 													{netChild.device_ex_address}
 												</div>
 											</div>
-											<div className="os">
+											<div className="full-name">
 												<div className="publish">
-													{netChild.device_os}/
-													{netChild.device_vendor}
-												</div>
-											</div>
-											<div className="hostname">
-												<div className="publish">
-													{netChild.device_name}
+													{netChild.device_desc}
 												</div>
 											</div>
 											<div className="id action">
@@ -183,7 +176,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 						<div className="icon">
 							<LanIcon />
 						</div>
-						<span>Internal network structure</span>
+						<span>Network structure</span>
 					</div>
 					<div className="actions">
 						<div

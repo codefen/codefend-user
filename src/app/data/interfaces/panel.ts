@@ -211,6 +211,7 @@ export interface Device {
 	device_os: string;
 	device_vendor: string;
 	device_version: string;
+	device_desc: string; 
 	eliminado: string;
 	pem: string;
 	ppk: string;

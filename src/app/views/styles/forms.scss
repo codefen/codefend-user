@@ -141,6 +141,10 @@ input[type='email'] {
 	position: absolute;
 	top: 12%;
 	left: 0;
+
+	&.need-m {
+		margin-inline-start: 10px;
+	}
 }
 .text-area-input {
 	display: block;

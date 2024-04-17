@@ -4,10 +4,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 interface NetworkData {
-	domainName: string;
-	vendorName: string;
-	username: string;
-	password: string;
+	desc: string;
 	internalAddress: string;
 	externalAddress: string;
 }
@@ -18,19 +15,13 @@ export const useAddLan = (onDone: () => void, close: () => void) => {
 	const [fetcher, _, isLoading] = useFetcher();
 	const [
 		{
-			domainName,
-			vendorName,
-			username,
-			password,
+			desc,
 			internalAddress,
 			externalAddress,
 		},
 		setNetworkData,
 	] = useState<NetworkData>({
-		domainName: '',
-		vendorName: '',
-		username: '',
-		password: '',
+		desc: '',
 		internalAddress: '',
 		externalAddress: '',
 	});
@@ -69,35 +60,19 @@ export const useAddLan = (onDone: () => void, close: () => void) => {
 			return;
 		}
 		const requestParams = {
-			device_name: domainName,
-			device_version: vendorName,
-			access_username: username,
-			access_password: password,
+			device_desc: desc,
 			device_in_address: internalAddress,
 			device_ex_address: externalAddress,
 		};
 		fetchOne(requestParams, companyID);
 	};
 
-	const validators = () => {
-		if (!domainName.trim() || domainName.length == 0) {
-			toast.error('Invalid host name');
-			return true;
-		}
 
-		if (!vendorName.trim()) {
-			toast.error('Invalid vendor name');
-			return true;
-		}
-		return false;
-	};
 
 	return {
-		vendorName,
 		internalAddress,
 		externalAddress,
 		isLoading,
-		validators,
 		refetch,
         setNetworkData
 	};

@@ -20,7 +20,7 @@ export const DashboardAssets: FC<{ resources: CompanyResource }> = ({
 	const mapAssetsNames = {
 		['web']: 'WEB & EXTERNAL',
 		['mobile']: 'MOBILE APPS',
-		['lan']: 'INTERNAL',
+		['lan']: 'NETWORK',
 		['cloud']: 'CLOUD ASSETS',
 		['source']: 'SOURCE CODE',
 		['social']: 'SOCIAL ENGINEERING',

@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-import { GlobeWebIcon, ModalButtons } from '../..';
+import { GlobeWebIcon, ModalButtons, PencilIcon } from '../..';
 import { useAddLan } from '@resourcesHooks/netowrk/useAddLan.ts';
 
 interface ComponentEvent {
@@ -10,11 +10,9 @@ interface ComponentEvent {
 
 export const AcessPointModal: FC<ComponentEvent> = (props) => {
 	const {
-		vendorName,
 		internalAddress,
 		externalAddress,
 		isLoading,
-		validators,
 		refetch,
 		setNetworkData,
 	} = useAddLan(props.onDone, props.close);
@@ -31,47 +29,12 @@ export const AcessPointModal: FC<ComponentEvent> = (props) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if (validators()) return;
-
 		refetch();
 	};
 
 	return (
 		<div className="content">
 			<form className="form" onSubmit={handleSubmit}>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-					<select
-						onChange={handleChange}
-						className="log-inputs modal_info"
-						value={vendorName}
-						name="vendorName"
-						required>
-						<option value="" disabled>
-							os / vendor
-						</option>
-						<option value="windows">windows</option>
-						<option value="linux">linux</option>
-						<option value="unknown">unknown</option>
-						<option value="android">android</option>
-						<option value="ios">ios</option>
-					</select>
-				</div>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-
-					<input
-						type="text"
-						name="domainName"
-						onChange={handleChange}
-						placeholder="hostname"
-						required
-					/>
-				</div>
 				<div className="form-input">
 					<span className="icon">
 						<GlobeWebIcon />
@@ -100,36 +63,19 @@ export const AcessPointModal: FC<ComponentEvent> = (props) => {
 						required
 					/>
 				</div>
-
 				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
+					<span className="pencil-icon need-m">
+						<PencilIcon />
 					</span>
-
-					<input
-						type="text"
-						name="username"
+					<textarea
 						onChange={handleChange}
-						placeholder="username"
-					/>
+						name="desc"
+						placeholder="short description"
+						className="text-area-input log-inputs2 text-area "
+						maxLength={512}
+						required></textarea>
 				</div>
-				<div
-					className="form-input"
-					onClick={(e: any) => {
-						e.preventDefault();
-						e.stopPropagation();
-					}}>
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
 
-					<input
-						type="password"
-						name="password"
-						onChange={handleChange}
-						placeholder="Password"
-					/>
-				</div>
 				<ModalButtons
 					confirmText="Add access point"
 					isDisabled={isLoading}

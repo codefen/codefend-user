@@ -534,14 +534,9 @@ export const lanResourcesTable = [
 		style: "ip"
 	},
 	{
-		name: 'osVendor',
-		value: 'os / vendor',
-		style: 'os',
-	},
-	{
-		name: 'hostname',
-		value: 'hostname',
-		style: 'hostname',
+		name: 'description',
+		value: 'description',
+		style: 'full-name',
 	},
 	{
 		name: 'action',
