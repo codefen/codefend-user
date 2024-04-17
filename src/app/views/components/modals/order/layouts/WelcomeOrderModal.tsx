@@ -54,7 +54,7 @@ export const WelcomeOrderModal = () => {
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="returns to app"
+						text="close"
 						click={() => orderFinished()}
 						className="full"
 						buttonStyle="red"
