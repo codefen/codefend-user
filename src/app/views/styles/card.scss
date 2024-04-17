@@ -464,6 +464,10 @@
 				color: var(--tertiary-color-200);
 				display: inline-block;
 				font-size: 0.91rem;
+
+				a {
+					margin-inline-start: 5px;
+				}
 			}
 		}
 

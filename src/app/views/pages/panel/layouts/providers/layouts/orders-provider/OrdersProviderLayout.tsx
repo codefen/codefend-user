@@ -3,11 +3,17 @@ import { useParams } from 'react-router';
 import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard.tsx';
 import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 import { useProviderOrders } from '@userHooks/providers/useProviderOrders.ts';
+import { useUserData } from '#commonUserHooks/useAuthState.ts';
+import Show from '@defaults/Show.tsx';
+import EmptyCard from '@defaults/EmptyCard.tsx';
 
 export const OrdersReviewProviders: FC = () => {
 	const { view } = useParams();
+	const { getUserdata } = useUserData();
 	const { activeSubOption, setActiveSubOption } = useProviderSidebar();
+
 	const [orders, { getProviderOrders }] = useProviderOrders();
+
 	const [active, setActiveCard] = useState<string>('');
 	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
 	useEffect(() => {
@@ -25,20 +31,36 @@ export const OrdersReviewProviders: FC = () => {
 	if (activeSubOption === 0) {
 		return (
 			<div className="provider-about">
-				{orders.current.map((order) => (
+				{orders.current.map((order, i) => (
 					<ConfirmOrderCard
-						offensive={order.offensive}
-						distributor={order.distributor}
-						provider={order.provider}
-						scope={order.scope}
-						sizeOrder={order.sizeOrder}
-						type={order.type}
-						price={order.price}
-						handleActivate={handleActive}
+						key={`order-${order.id}${i}`}
 						id={order.id}
+						offensive={
+							order.offensiveness as
+								| 'careful'
+								| 'offensive'
+								| 'adversary'
+						}
+						price={order.funds_hacker}
+						type={order.resources_class}
+						provider={
+							getUserdata().id == order.provider_id
+								? getUserdata().username || 'unknown'
+								: 'unknown'
+						}
+						distributor={'albilad'}
+						scope={order.resources_class === 'full' ? 1 : 0}
+						sizeOrder={'full'}
+						handleActivate={handleActive}
 						isSelected={active === order.id}
 					/>
 				))}
+				<Show when={!Boolean(orders.current.length)}>
+					<EmptyCard
+						title="Welcome to the Platform!"
+						info="No orders yet, but your profile is being showcased to potential clients. Enhance it for better visibility and attract more clients."
+					/>
+				</Show>
 			</div>
 		);
 	}

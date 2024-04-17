@@ -1,54 +1,24 @@
 import { useAuthState } from "#commonHooks/useAuthState";
 import { useFetcher } from "#commonHooks/useFetcher";
+import type { FullOrder } from "@interfaces/order";
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export const useProviderOrders = ()=>{
-    const { getCompany,getUserdata } = useAuthState();
+    const { getCompany } = useAuthState();
     const [fetcher,_, isLoading] = useFetcher();
-    const orders = useRef<any[]>([]);
+    const orders = useRef<FullOrder[]>([]);
 
     const getProviderOrders =  ()=>{
         fetcher("post", {
             body: {
                 model: "providers/orders",
-                company_id: getCompany(),
-                user_id: getUserdata()?.id
+                company_id: getCompany()
             }
         }).then(({data}:any)=>{
-            console.log({data});
-            orders.current = [
-                {
-                    id: 1,
-                    offensive: "adversary",
-                    distributor: "Al bilad",
-                    provider: "eddkrauser",
-                    scope: 1,
-                    sizeOrder: "full",
-                    type: "all",
-                    price: "13.500",
-                },
-                {
-                    id: 2,
-                    offensive: "offensive",
-                    distributor: "Al bilad",
-                    provider: "eddkrauser",
-                    scope: 1,
-                    sizeOrder: "medium",
-                    type: "web",
-                    price: "7.500",
-                },
-                {
-                    id: 3,
-                    offensive: "careful",
-                    distributor: "Al bilad",
-                    provider: "eddkrauser",
-                    scope: 1,
-                    sizeOrder: "small",
-                    type: "mobile",
-                    price: "1.500",
-                }
-            ];
-        });
+            if(data.error != "0") throw new Error();
+            orders.current = data.orders ? data.orders : [];
+        }).catch(()=> toast.error("An unexpected error has occurred with the server"));
     }
 
     return [orders, {getProviderOrders, isLoading}] as const;

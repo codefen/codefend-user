@@ -75,3 +75,57 @@ export interface CompanyResourcesID {
     source: string[];
     lan: string[];
 }
+export interface FullOrder {
+    id: string;
+    company_id: string;
+    user_id: string;
+    user_email: string;
+    user_username: string;
+    resources_class: string;
+    resources_ids: string;
+    membership: string;
+    membership_renewal: string;
+    chosen_plan: string;
+    chosen_plan_price: string;
+    funds_full: string;
+    funds_hacker: string;
+    funds_codefend: string;
+    funds_reseller: string;
+    provider_class: string;
+    provider_id: string;
+
+    offensiveness: string;
+    provider_info: string;
+    financial_resource: string;
+    cc_blockchain: string;
+    cc_from_address: string;
+    cc_xfer_id: string;
+    cc_value_received: string;
+    card_name: string;
+    card_number: string;
+    card_exp: string;
+    card_cvv: string;
+    bank_xfer_id: string;
+    condicion_financial: string;
+    condicion_provider: string;
+    condicion_finished: string;
+    condicion_phase: string;
+    condicion_review: string;
+    fecha_financial_confirmacion: string;
+    fecha_provider_confirmacion: string;
+    fecha_cierre_calculada: string;
+    fecha_cierre_real: string;
+    reference_number: string;
+    reseller_id: string;
+    reseller_name: string;
+    user_ua: string;
+    user_ra: string;
+    user_hci: string;
+    user_hxff: string;
+    user_pais: string;
+    user_pais_code: string;
+    user_pais_provincia: string;
+    user_pais_ciudad: string;
+    eliminado: string;
+    creacion: string;
+}
