@@ -164,7 +164,7 @@ const TableRows: FC<any> = ({
 						</Show>
 					</a>
 					{row['childs'] && typeof row['childs'].value === 'function'
-						? row['childs'].value({ urlNav, handleClick })!
+						? row['childs'].value({ urlNav, handleClick, selectedField })!
 						: ''}
 				</Fragment>
 			))}

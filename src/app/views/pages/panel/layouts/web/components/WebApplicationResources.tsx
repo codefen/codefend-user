@@ -129,7 +129,12 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 								(subNetwork: Resouce, i: number) => (
 									<a
 										key={`child-${i}-${subNetwork.id}`}
-										className={`item`}
+										className={`item ${
+											props.selectedField ===
+											`child-${subNetwork.id}`
+												? 'left-marked'
+												: ''
+										}`}
 										href={
 											props.urlNav
 												? `${props.urlNav}${subNetwork.id}`
