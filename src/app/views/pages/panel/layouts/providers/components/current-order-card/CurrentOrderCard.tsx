@@ -93,6 +93,11 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 							className="icon-text">
 							<span className="text-bold">Resources:</span>
 							<span className="text-light border">{resources}</span>
+							<span
+								className="codefend-text-red all-scope"
+								onClick={() => setShowModal(true)}>
+								view scope
+							</span>
 						</IconTextPairs>
 						<IconTextPairs
 							icon={<BugIcon className="codefend-text-red" />}
