@@ -45,6 +45,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	id,
 	isSelected,
 	handleActivate,
+	removeOrder,
 }) => {
 	const { showModal, setShowModal } = useModal();
 	const { cancelConfirm } = useProviderRefuseOrder();
@@ -58,6 +59,10 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 		setOrderId(id);
 	};
 
+	const handleConfirm = () => {
+		confirmOrder(id);
+		removeOrder(id);
+	};
 	const teamSize = sizeOrder.valueOf();
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
@@ -128,7 +133,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 							refuse order
 						</button>
 						<PrimaryButton
-							click={() => confirmOrder(id)}
+							click={handleConfirm}
 							text="Confirm order"
 							buttonStyle="red"
 							className="btn-order-card"
