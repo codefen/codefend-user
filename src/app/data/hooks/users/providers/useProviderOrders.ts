@@ -12,7 +12,7 @@ export const useProviderOrders = ()=>{
     const getProviderOrders =  ()=>{
         fetcher("post", {
             body: {
-                model: "providers/orders",
+                model: "providers/orders/index",
                 company_id: getCompany()
             }
         }).then(({data}:any)=>{
