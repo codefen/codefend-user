@@ -3,6 +3,7 @@ import { PageLoader, PrimaryButton, Show } from '../../..';
 import {
 	OrderSection,
 	OrderTeamSize,
+	formatNumber,
 	useOrderPlan,
 	useOrderStore,
 } from '../../../../../data';
@@ -69,7 +70,9 @@ export const TeamSizeOrderModal: FC = () => {
 							teamSizeW === OrderTeamSize.SMALL && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.SMALL)}>
-						<h4 className="price-value">${currentPrices?.small}</h4>
+						<h4 className="price-value">
+							${formatNumber(currentPrices?.small || '0')}
+						</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
@@ -87,7 +90,7 @@ export const TeamSizeOrderModal: FC = () => {
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.MID)}>
 						<h4 className="price-value">
-							${currentPrices?.medium}
+							${formatNumber(currentPrices?.medium || '0')}
 						</h4>
 
 						<div className="order-snapshot">
@@ -105,7 +108,9 @@ export const TeamSizeOrderModal: FC = () => {
 							teamSizeW === OrderTeamSize.FULL && `select-option`
 						}`}
 						onClick={() => setTeamSize(OrderTeamSize.FULL)}>
-						<h4 className="price-value">${currentPrices?.full}</h4>
+						<h4 className="price-value">
+							${formatNumber(currentPrices?.full || '0')}
+						</h4>
 
 						<div className="order-snapshot">
 							<div className="top">
