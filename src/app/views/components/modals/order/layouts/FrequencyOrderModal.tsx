@@ -43,7 +43,7 @@ export const FrequencyOrderModal: FC = () => {
 					<img
 						src="/codefend/order-frequency1.svg"
 						alt="fast-pentest-icon"
-						className='step-image'
+						className="step-image"
 					/>
 
 					<div className="order-snapshot">
@@ -69,7 +69,7 @@ export const FrequencyOrderModal: FC = () => {
 					<img
 						src="/codefend/order-frequency2.svg"
 						alt="large-pentest-icon"
-						className='step-image'
+						className="step-image"
 					/>
 
 					<div className="order-snapshot">
@@ -103,7 +103,7 @@ export const FrequencyOrderModal: FC = () => {
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="Continue to the next step"
+						text="Proceed to the next step"
 						click={nextStep}
 						className="full"
 						buttonStyle="red"

@@ -113,7 +113,7 @@ export const OrderReviewModal: React.FC<{
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="Continue to the next step"
+						text="Proceed to the next step"
 						click={nextStep}
 						className="full"
 						buttonStyle="red"

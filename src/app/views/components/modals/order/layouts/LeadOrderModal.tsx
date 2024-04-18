@@ -136,7 +136,7 @@ export const LeadOrderModal: FC = () => {
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="Continue"
+						text="Proceed to the next step"
 						click={nextStep}
 						className="full"
 						buttonStyle="red"
