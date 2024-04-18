@@ -10,10 +10,10 @@ import { IconTextPairs, ModalWrapper } from '../../../../../../components';
 import { BugIcon } from '@icons';
 import Show from '@defaults/Show';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import './confirorder.scss';
 import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
+import '../ordercards.scss';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';

@@ -530,3 +530,13 @@ export const formatNumber = (price: string): string=> {
 
 	return formattedNumber || '';
 }
+
+export const calculateDaysDifference = (targetDate: string | Date): number =>{
+    const date = typeof targetDate === 'string' ? new Date(targetDate) : targetDate;
+    const currentDate = new Date();
+    const differenceInMS = date.getTime() - currentDate.getTime();
+    
+    // Convert the difference in milliseconds to days
+    const differenceInDays = Math.ceil(differenceInMS / (1000 * 60 * 60 * 24));
+    return differenceInDays;
+}

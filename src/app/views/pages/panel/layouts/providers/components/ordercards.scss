@@ -99,6 +99,9 @@
 			flex-direction: column;
 			margin-inline-start: auto;
 			margin-inline-end: 2rem;
+			&.expand {
+				flex: 1;
+			}
 
 			.price {
 				color: var(--text-red);
@@ -112,6 +115,15 @@
 				font-size: 1.15rem;
 				color: var(--text-dark-color);
 				text-transform: capitalize;
+			}
+		}
+
+		.current-extend {
+			font-size: 1.5rem;
+			line-height: 1.5;
+
+			&.m-t-auto {
+				margin-block-start: auto;
 			}
 		}
 	}

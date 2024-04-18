@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import {
 	ScopeOption,
+	calculateDaysDifference,
 	formatNumber,
 	type OrderOffensive,
 	type OrderTeamSize,
@@ -9,11 +10,10 @@ import useModal from '#commonHooks/useModal';
 import { IconTextPairs, ModalWrapper } from '../../../../../../components';
 import { BugIcon } from '@icons';
 import Show from '@defaults/Show';
-import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
-import './currentOrder.scss';
+import '../ordercards.scss';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -114,12 +114,15 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 					</div>
 				</div>
 				<div className="provider-order-main-content flex-col">
-					<div className="order-price-dist">
-						<span className="distributor">Left: {distributor}</span>
-						<span className="distributor">
-							distributor: {distributor}
+					<div className="order-price-dist expand">
+						<span className="current-extend">
+							{calculateDaysDifference(new Date(Date.now()))} Days left
 						</span>
-						<span className="distributor">Price: {distributor}</span>
+						<span className="current-extend">Price: {price}</span>
+
+						<span className="current-extend m-t-auto">
+							Distributor: {distributor}
+						</span>
 					</div>
 				</div>
 			</div>
