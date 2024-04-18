@@ -7,15 +7,19 @@ import { useUserData } from '#commonUserHooks/useAuthState.ts';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { ProviderOrderRefuseModal } from '../../components/refuse-modal/ProviderOrderRefuseModal.tsx';
+import { useProviderRefuseStore } from '@stores/providerOrder.store.ts';
 
 export const OrdersReviewProviders: FC = () => {
 	const { view } = useParams();
 	const { getUserdata } = useUserData();
 	const { activeSubOption, setActiveSubOption } = useProviderSidebar();
 	const [orders, { getProviderOrders }] = useProviderOrders();
-
+	const { refuseState, setRefuseState, orderId } = useProviderRefuseStore();
 	const [active, setActiveCard] = useState<string>('');
 	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
+	const removeOrder = (id: string) => {
+		orders.current = orders.current.filter((order) => order.id !== id);
+	};
 	useEffect(() => {
 		if (view) {
 			if (view.startsWith('new')) {
@@ -27,15 +31,17 @@ export const OrdersReviewProviders: FC = () => {
 		}
 		getProviderOrders();
 	}, []);
-
-	const removeOrder = (id: string) => {
-		orders.current = orders.current.filter((order) => order.id !== id);
-	};
+	useEffect(() => {
+		if (refuseState === 2) {
+			removeOrder(orderId);
+			setRefuseState(0);
+		}
+	}, [refuseState]);
 
 	if (activeSubOption === 0) {
 		return (
 			<>
-				<ProviderOrderRefuseModal onRefuse={removeOrder} />
+				<ProviderOrderRefuseModal />
 				<div className="provider-about">
 					{orders.current.map((order, i) => (
 						<ConfirmOrderCard

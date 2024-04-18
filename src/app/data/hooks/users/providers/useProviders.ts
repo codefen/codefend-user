@@ -23,8 +23,7 @@ export const useProviderProfile = () => {
 				company_id: companyID,
 				provider_id: getUserdata().id,
 				model: 'providers/profiles/view',
-			},
-            insecure: true
+			}
 		})?.then(({ data }) => {
             if(Number(data.error) !== 0) throw new Error("A problem has occurred with the provider profile");
 

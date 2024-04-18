@@ -4,15 +4,8 @@ import Show from '@defaults/Show.tsx';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import { OrderRejectionForm } from '@modals/OrderRejectionForm';
 import './refusemodal.scss';
-import type { FC } from 'react';
 
-interface ProviderOrderRefuseModalProps {
-	onRefuse: (id: string) => void;
-}
-
-export const ProviderOrderRefuseModal: FC<ProviderOrderRefuseModalProps> = ({
-	onRefuse,
-}) => {
+export const ProviderOrderRefuseModal = () => {
 	const { openRefuse, openReasonReject, setOpenReasonReject, allClose } =
 		useProviderRefuseStore();
 
@@ -32,7 +25,7 @@ export const ProviderOrderRefuseModal: FC<ProviderOrderRefuseModalProps> = ({
 					/>
 				</Show>
 
-				{openReasonReject && <OrderRejectionForm onRefuse={onRefuse} />}
+				{openReasonReject && <OrderRejectionForm />}
 			</>
 		</ModalTitleWrapper>
 	);

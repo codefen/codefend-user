@@ -21,8 +21,7 @@ export const useProviderIndex = ()=>{
 			body: {
 				company_id: companyID,
 				model: 'providers/profiles/index',
-			},
-            insecure: true
+			}
 		}).then(({ data }: any)=>{
             providers.current = data?.providers ? data.providers : [];
         })

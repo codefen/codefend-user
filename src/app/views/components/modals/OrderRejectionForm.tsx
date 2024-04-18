@@ -3,14 +3,8 @@ import { useState, type FC } from 'react';
 import { ModalButtons, PencilIcon } from '..';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 
-interface OrderRejectionFormProps {
-	onRefuse: (id: string) => void;
-}
-
-export const OrderRejectionForm: FC<OrderRejectionFormProps> = ({
-	onRefuse,
-}) => {
-	const { setIsRefusing, setOrderId, allClose, orderId } =
+export const OrderRejectionForm = () => {
+	const { setIsRefusing, setRefuseState, allClose, orderId } =
 		useProviderRefuseStore();
 	const { refuseOrder, isRefusing } = useProviderRefuseOrder();
 	const [reason, setReason] = useState('');
@@ -27,9 +21,8 @@ export const OrderRejectionForm: FC<OrderRejectionFormProps> = ({
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
 		refuseOrder(selectedReason, reason, orderId).finally(() => {
-			onRefuse(orderId);
+			setRefuseState(2);
 			setIsRefusing(false);
-			setOrderId('');
 			allClose();
 		});
 	};
