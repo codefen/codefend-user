@@ -42,10 +42,10 @@ export const AcessPointModal: FC<ComponentEvent> = (props) => {
 
 					<input
 						type="text"
-						name="internalAddress"
-						value={internalAddress}
+						name="externalAddress"
+						value={externalAddress}
 						onChange={handleChange}
-						placeholder="Internal IP Address"
+						placeholder="External IP Address"
 						required
 					/>
 				</div>
@@ -56,13 +56,14 @@ export const AcessPointModal: FC<ComponentEvent> = (props) => {
 
 					<input
 						type="text"
-						name="externalAddress"
-						value={externalAddress}
+						name="internalAddress"
+						value={internalAddress}
 						onChange={handleChange}
-						placeholder="External IP Address"
+						placeholder="Internal IP Address"
 						required
 					/>
 				</div>
+
 				<div className="form-input">
 					<span className="pencil-icon need-m">
 						<PencilIcon />

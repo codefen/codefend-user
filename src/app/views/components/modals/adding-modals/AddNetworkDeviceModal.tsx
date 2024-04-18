@@ -57,7 +57,17 @@ export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
 						))}
 					</select>
 				</div>
+				<div className="form-input">
+					<span className="icon">
+						<GlobeWebIcon />
+					</span>
 
+					<input
+						type="text"
+						onChange={handleOnChange}
+						name="externalIpAddress"
+						placeholder="external IP"></input>
+				</div>
 				<div className="form-input">
 					<span className="icon">
 						<GlobeWebIcon />
@@ -71,17 +81,7 @@ export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
 						required
 					/>
 				</div>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
 
-					<input
-						type="text"
-						onChange={handleOnChange}
-						name="externalIpAddress"
-						placeholder="external IP"></input>
-				</div>
 				<div className="form-input">
 					<span className="pencil-icon need-m">
 						<PencilIcon />
