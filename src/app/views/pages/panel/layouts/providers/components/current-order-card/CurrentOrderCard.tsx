@@ -65,9 +65,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 				onClick={onClick}>
 				<div className="provider-order-info flex-col">
 					<h2>
-						<span className="codefend-text-red">
-							New {teamSize} size orders:
-						</span>
+						<span className="codefend-text-red">New</span>
 						<span className="text-dark">{offensiveOrder}</span>,{' '}
 						<span className="normal">{type} pentest</span>
 					</h2>
@@ -118,7 +116,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 					<div className="flex-row buttons move-to-right">
 						<PrimaryButton
 							click={() => {}}
-							text="Confirm order"
+							text="Finish order"
 							buttonStyle="red"
 							className="btn-order-card"
 						/>
