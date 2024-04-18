@@ -10,10 +10,10 @@ import { IconTextPairs, ModalWrapper } from '../../../../../../components';
 import { BugIcon } from '@icons';
 import Show from '@defaults/Show';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import './confirorder.scss';
 import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
+import './currentOrder.scss';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -29,7 +29,7 @@ export interface ConfirmOrderCardProps {
 	isSelected?: boolean;
 }
 
-export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
+export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 	sizeOrder,
 	offensive,
 	type,
@@ -115,25 +115,11 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 				</div>
 				<div className="provider-order-main-content flex-col">
 					<div className="order-price-dist">
-						<span className="price">${formatNumber(price)}</span>
+						<span className="distributor">Left: {distributor}</span>
 						<span className="distributor">
 							distributor: {distributor}
 						</span>
-					</div>
-					<div className="flex-row buttons">
-						<button
-							className="btn-decline"
-							disabled={isRefusing}
-							onClick={handleClickRefuse}>
-							refuse order
-						</button>
-						<PrimaryButton
-							click={handleConfirm}
-							text="Confirm order"
-							buttonStyle="red"
-							className="btn-order-card"
-							isDisabled={isLoading}
-						/>
+						<span className="distributor">Price: {distributor}</span>
 					</div>
 				</div>
 			</div>

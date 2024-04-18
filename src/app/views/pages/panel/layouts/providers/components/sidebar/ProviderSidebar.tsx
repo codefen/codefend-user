@@ -41,6 +41,11 @@ export const ProviderSidebar: FC = () => {
 				<li
 					className={`${activeSubOption === 1 && 'current'}`}
 					onClick={() => setActiveSubOption(1)}>
+					<span>Current orders</span>
+				</li>
+				<li
+					className={`${activeSubOption === 2 && 'current'}`}
+					onClick={() => setActiveSubOption(2)}>
 					<span>Finished orders</span>
 				</li>
 				<li className={`disabled `}>
