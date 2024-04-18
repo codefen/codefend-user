@@ -43,10 +43,10 @@ const LanPage: FC = () => {
 				</section>
 
 				<section className="right" ref={flashlight.rightPaneRef}>
-					<LanNetworksChart
+					{/* <LanNetworksChart
 						isLoading={loading}
 						internalNetwork={internalNetworkDataInfo()}
-					/>
+					/>*/}
 
 					<PrimaryButton
 						text="START A PENTEST ON DEMAND"
