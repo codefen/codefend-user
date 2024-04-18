@@ -2,17 +2,18 @@ import { type FC } from 'react';
 import {
 	ScopeOption,
 	calculateDaysDifference,
-	formatNumber,
+	formatReverseDate,
 	type OrderOffensive,
 	type OrderTeamSize,
 } from '../../../../../../../data';
 import useModal from '#commonHooks/useModal';
-import { IconTextPairs, ModalWrapper } from '../../../../../../components';
+import {
+	IconTextPairs,
+	ModalWrapper,
+	PrimaryButton,
+} from '../../../../../../components';
 import { BugIcon } from '@icons';
 import Show from '@defaults/Show';
-import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
-import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
-import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import '../ordercards.scss';
 
 export interface ConfirmOrderCardProps {
@@ -23,6 +24,7 @@ export interface ConfirmOrderCardProps {
 	scope: ScopeOption | 0 | 1;
 	distributor: string;
 	price: string;
+	finishDate: string;
 	handleActivate: (id: string) => void;
 	removeOrder: (id: string) => void;
 	id: string;
@@ -41,23 +43,11 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 	isSelected,
 	handleActivate,
 	removeOrder,
+	finishDate,
 }) => {
 	const { showModal, setShowModal } = useModal();
-	const { cancelConfirm } = useProviderRefuseOrder();
-	const { confirmOrder, isLoading } = useProviderConfirm();
-	const { setClickRefuse, setOrderId, isRefusing } = useProviderRefuseStore();
 	const onClick = () => handleActivate(id);
 
-	const handleClickRefuse = () => {
-		cancelConfirm();
-		setClickRefuse(true);
-		setOrderId(id);
-	};
-
-	const handleConfirm = () => {
-		confirmOrder(id);
-		removeOrder(id);
-	};
 	const teamSize = sizeOrder.valueOf();
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
@@ -105,24 +95,33 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 							className="icon-text">
 							<span className="text-bold">Resources:</span>
 							<span className="text-light border">{resources}</span>
-							<span
-								className="codefend-text-red all-scope"
-								onClick={() => setShowModal(true)}>
-								view scope
-							</span>
+						</IconTextPairs>
+						<IconTextPairs
+							icon={<BugIcon className="codefend-text-red" />}
+							className="icon-text">
+							<span className="text-bold">Price:</span>{' '}
+							<span className="text-light">${price}</span>
 						</IconTextPairs>
 					</div>
 				</div>
 				<div className="provider-order-main-content flex-col">
 					<div className="order-price-dist expand">
 						<span className="current-extend">
-							{calculateDaysDifference(new Date(Date.now()))} Days left
+							{calculateDaysDifference(finishDate)} Days left -
+							{formatReverseDate(finishDate)}
 						</span>
-						<span className="current-extend">Price: {price}</span>
 
 						<span className="current-extend m-t-auto">
 							Distributor: {distributor}
 						</span>
+					</div>
+					<div className="flex-row buttons move-to-right">
+						<PrimaryButton
+							click={() => {}}
+							text="Confirm order"
+							buttonStyle="red"
+							className="btn-order-card"
+						/>
 					</div>
 				</div>
 			</div>

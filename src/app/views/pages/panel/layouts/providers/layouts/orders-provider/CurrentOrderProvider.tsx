@@ -26,6 +26,7 @@ export const CurrentOrderProvider = () => {
 				<CurrentOrderCard
 					key={`order-${order.id}${i}`}
 					id={order.id}
+					finishDate={order.fecha_cierre_calculada}
 					offensive={
 						order.offensiveness as 'careful' | 'offensive' | 'adversary'
 					}

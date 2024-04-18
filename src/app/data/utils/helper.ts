@@ -540,3 +540,12 @@ export const calculateDaysDifference = (targetDate: string | Date): number =>{
     const differenceInDays = Math.ceil(differenceInMS / (1000 * 60 * 60 * 24));
     return differenceInDays;
 }
+export const formatReverseDate = (stringDate: string): string => {
+	const date = new Date(stringDate);
+
+	const year = date.getFullYear();
+	const month = extractDateItem(date.getMonth() + 1);
+	const day = extractDateItem(date.getDate());
+
+	return `${day}-${month}-${year}`;
+};

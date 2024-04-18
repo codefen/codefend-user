@@ -119,8 +119,9 @@
 		}
 
 		.current-extend {
-			font-size: 1.5rem;
+			font-size: 1.25rem;
 			line-height: 1.5;
+			text-align: right;
 
 			&.m-t-auto {
 				margin-block-start: auto;
@@ -131,6 +132,10 @@
 	.buttons {
 		flex: 1 1;
 		align-items: flex-end;
+
+		&.move-to-right {
+			justify-content: flex-end;
+		}
 
 		.btn-decline {
 			outline: none;
