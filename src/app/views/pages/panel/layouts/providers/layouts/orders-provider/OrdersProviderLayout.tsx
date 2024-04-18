@@ -35,7 +35,7 @@ export const OrdersReviewProviders: FC = () => {
 	if (activeSubOption === 0) {
 		return (
 			<>
-				<ProviderOrderRefuseModal />
+				<ProviderOrderRefuseModal onRefuse={removeOrder} />
 				<div className="provider-about">
 					{orders.current.map((order, i) => (
 						<ConfirmOrderCard
