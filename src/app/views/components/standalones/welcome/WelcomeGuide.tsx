@@ -75,7 +75,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.DASHBOARD)}
 						coords={getButtonCoordinates('sidebar_admin')}
-						arrow={{ position: Position.LEFT, coordY: '22%' }}
+						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<AdminCompanyIcon />}
 						text="Any description for admin"
 						title="Any title for admin"
