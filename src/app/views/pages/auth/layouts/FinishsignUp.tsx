@@ -81,7 +81,7 @@ const FinishSignUpLayout: FC = () => {
 					name="email"
 					value={userState.email}
 					onChange={handleChange}
-					placeholder="Select Username"
+					placeholder="Email address"
 					required
 				/>
 			</div>
@@ -92,7 +92,7 @@ const FinishSignUpLayout: FC = () => {
 					name="password"
 					value={userState.password}
 					onChange={handleChange}
-					placeholder="Select Password"
+					placeholder="Password"
 					required
 				/>
 			</div>
@@ -103,7 +103,7 @@ const FinishSignUpLayout: FC = () => {
 					name="confirmPassword"
 					value={userState.confirmPassword}
 					onChange={handleChange}
-					placeholder="Select Confirm Password"
+					placeholder="Confirm Password"
 					required
 				/>
 			</div>
