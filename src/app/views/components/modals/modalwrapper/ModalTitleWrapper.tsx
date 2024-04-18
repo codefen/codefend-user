@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { ModalWrapper, Show, StatIcon } from '../..';
 
 interface ModalTitleWrapperProps {
-	children: JSX.Element;
+	children: ReactNode;
 	headerTitle: string;
 	isActive: boolean;
 	close: () => void;

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
 import {
 	ScopeOption,
 	formatNumber,
@@ -6,12 +6,19 @@ import {
 	type OrderTeamSize,
 } from '../../../../../../../data';
 import useModal from '#commonHooks/useModal';
-import { IconTextPairs, ModalWrapper } from '../../../../../../components';
+import {
+	ConfirmModal,
+	IconTextPairs,
+	ModalTitleWrapper,
+	ModalWrapper,
+} from '../../../../../../components';
 import { BugIcon } from '@icons';
 import Show from '@defaults/Show';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import './confirorder.scss';
-import { useProviderOrderAction } from '@userHooks/providers/useProviderOrderAction.ts';
+import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
+import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
+import { useProviderRefuseStore } from '@stores/providerOrder.store';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -38,21 +45,22 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	id,
 	isSelected,
 	handleActivate,
-	removeOrder,
 }) => {
+	const { showModal, setShowModal } = useModal();
+	const { cancelConfirm } = useProviderRefuseOrder();
+	const { confirmOrder, isLoading, requestId } = useProviderConfirm();
+	const { setClickRefuse, setOrderId, isRefusing } = useProviderRefuseStore();
+	const onClick = () => handleActivate(id);
+
+	const handleClickRefuse = () => {
+		cancelConfirm();
+		setClickRefuse(true);
+		setOrderId(id);
+	};
+
 	const teamSize = sizeOrder.valueOf();
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
-	const onClick = () => handleActivate(id);
-	const { confirmOrder, refuseOrder, isLoading, requestId } =
-		useProviderOrderAction();
-	const { showModal, setShowModal } = useModal();
-
-	const refuseOrderClick = () => {
-		removeOrder(id);
-		refuseOrder(id);
-	};
-
 	return (
 		<>
 			<Show when={showModal}>
@@ -115,8 +123,8 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 					<div className="flex-row buttons">
 						<button
 							className="btn-decline"
-							disabled={isLoading && requestId == 'refuseOrder'}
-							onClick={refuseOrderClick}>
+							disabled={isRefusing}
+							onClick={handleClickRefuse}>
 							refuse order
 						</button>
 						<PrimaryButton

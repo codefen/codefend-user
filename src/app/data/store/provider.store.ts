@@ -1,11 +1,6 @@
 import type { Provider } from '@interfaces/provider';
 import { create } from 'zustand';
 
-
-
-
-
-
 export interface ProviderProfileStore {
 	provider: Provider | undefined;
 	loginSequence?: string;

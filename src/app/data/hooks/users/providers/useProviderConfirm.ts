@@ -3,7 +3,7 @@ import { useFetcher } from "#commonHooks/useFetcher";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-export const useProviderOrderAction =()=>{
+export const useProviderConfirm =()=>{
     const { getCompany } = useAuthState();
     const [fetcher,cancelRequest, isLoading] = useFetcher();
     const [requestId, setRequestId] = useState("");
