@@ -547,7 +547,8 @@ export const lanResourcesTable = [
 		value: 'actions',
 		style: 'id action',
 	},
-]
+];
+export const lanResourcesTableWithoutAction = lanResourcesTable.filter((column)=> column.name !== "action")
 
 export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id"}]);
 

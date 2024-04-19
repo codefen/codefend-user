@@ -5,6 +5,7 @@ import {
 	generateIDArray,
 	lanResourcesTable,
 	type TableItem,
+	lanResourcesTableWithoutAction,
 } from '../../../../../../data';
 import {
 	AddAccessPointModal,
@@ -32,7 +33,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 }) => {
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
-	const { isAdmin } = useUserRole();
+	const { isAdmin, isNormalUser } = useUserRole();
 	const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } =
 		useDeleteLan(refetchInternalNetwork, () => setShowModal(false));
 
@@ -271,7 +272,11 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 				</div>
 
 				<TableV2
-					columns={lanResourcesTable}
+					columns={
+						isNormalUser()
+							? lanResourcesTableWithoutAction
+							: lanResourcesTable
+					}
 					rowsData={tableData2}
 					showRows={!isLoading}
 					showEmpty={!isLoading && internalNetwork.length === 0}

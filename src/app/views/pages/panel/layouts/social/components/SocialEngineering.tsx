@@ -31,7 +31,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 	const navigate = useNavigate();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
-	const { isAdmin, isNormalUser } = useUserRole();
+	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const [handleDeleteResource, { setSelectedId, isLoading }] = useAddSocial(
 		() => {
 			setShowModal(false);
@@ -59,16 +59,17 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 	);
 
 	const tableAction = {
-		icon: [
-			{
-				action: (id: string, type?: any) =>
-					navigate(`/issues/create/social/${id}`),
-				render: <BugIcon isButton />,
-			},
-		],
+		icon: [] as any,
 	};
 
-	if (isAdmin()) {
+	if (isProvider()) {
+		tableAction.icon.push({
+			action: (id: string, type?: any) =>
+				navigate(`/issues/create/social/${id}`),
+			render: <BugIcon isButton />,
+		});
+	}
+	if (isAdmin() || isNormalUser()) {
 		tableAction.icon.push({
 			action: (id: string, type?: any) => {
 				setShowModalStr('delete');
