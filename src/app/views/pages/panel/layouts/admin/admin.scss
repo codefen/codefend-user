@@ -27,10 +27,14 @@ main.company {
 				p {
 					text-align: left;
 					font-weight: bold;
-					border-right-width: 1px;
 
 					&.current-company {
 						padding-inline-end: 0.85rem;
+					}
+					&.dash-company-btn {
+						display: inline;
+						cursor: default;
+						user-select: none;
 					}
 					&.company-btn {
 						cursor: pointer;

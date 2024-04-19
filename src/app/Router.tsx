@@ -38,6 +38,7 @@ import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/lay
 import { ResellerPage } from './views/pages/panel/layouts/reseller/ResellerPage';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import LanPage from './views/pages/panel/layouts/lan/Lan';
+import useAdminCompanyStore from '@stores/adminCompany.store';
 
 export const AppRouter: React.FC = () => {
 	const {
@@ -47,9 +48,12 @@ export const AppRouter: React.FC = () => {
 		getAccessToken,
 		isCurrentAuthValid,
 	} = useUserRole();
+	const { companies } = useAdminCompanyStore();
 	const haveAccessToResources = !isProvider() && !isReseller();
 	const haveAccessToModules = !isProvider() && !isReseller();
 	const haveAccessToSupport = !isProvider() && !isReseller();
+	const isProviderWithAccess =
+		isProvider() && companies.length > 0 && companies[0] !== null;
 	return (
 		<>
 			<ToastContainer
@@ -86,7 +90,7 @@ export const AppRouter: React.FC = () => {
 							}
 						/>
 
-						{isAdmin() && (
+						{(isAdmin() || isProviderWithAccess) && (
 							<Route path="admin/*" element={<AdminPage />}>
 								<Route
 									index
@@ -122,8 +126,10 @@ export const AppRouter: React.FC = () => {
 						)}
 
 						{haveAccessToResources && (
+							<Route path="dashboard" element={<Dashboard />} />
+						)}
+						{(haveAccessToResources || isProviderWithAccess) && (
 							<>
-								<Route path="dashboard" element={<Dashboard />} />
 								<Route path="web" element={<WebApplication />} />
 								<Route path="mobile" element={<MobileApplication />} />
 								<Route

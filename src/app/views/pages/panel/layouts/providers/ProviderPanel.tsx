@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet } from 'react-router';
 
 import { ProviderSidebar } from './components/sidebar/ProviderSidebar.tsx';
@@ -6,9 +6,14 @@ import { ProviderList } from './components/ProviderList.tsx';
 import { ProviderHeader } from './components/ProviderHeader.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import './provider.scss';
+import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
 
 export const ProviderPage = () => {
 	const [showScreen] = useShowScreen();
+	const { getProviderCompanyAccess } = useProviderCompanies();
+	useEffect(() => {
+		getProviderCompanyAccess();
+	}, []);
 	return (
 		<main className={`provider ${showScreen ? 'actived' : ''}`}>
 			<section className="left">

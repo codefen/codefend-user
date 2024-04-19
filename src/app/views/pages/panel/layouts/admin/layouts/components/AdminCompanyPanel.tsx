@@ -3,8 +3,10 @@ import { useModal } from '../../../../../../../data';
 import {
 	AddCompanyModal,
 	ModalTitleWrapper,
+	Show,
 } from '../../../../../../components';
 import CompanyIndexView from './CompanyIndexView';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 interface AppState {
 	companyStore: any | null;
@@ -36,6 +38,7 @@ export const AdminCompanyPanel: FC = () => {
 		},
 		setAppState,
 	] = useState(initialAppState);
+	const { isAdmin, isProvider } = useUserRole();
 
 	const { setShowModal, showModal } = useModal();
 
@@ -53,11 +56,16 @@ export const AdminCompanyPanel: FC = () => {
 					<p className="text-small title-format current-company">
 						Current companies
 					</p>
-					<p
-						onClick={() => setShowModal(!showModal)}
-						className="company-btn text-small title-format codefend-text-red">
-						Create new company
-					</p>
+					<Show when={isAdmin() && !isProvider()}>
+						<>
+							<span className="dash-company-btn">|</span>
+							<p
+								onClick={() => setShowModal(!showModal)}
+								className="company-btn text-small title-format codefend-text-red">
+								Create new company
+							</p>
+						</>
+					</Show>
 				</div>
 			</div>
 

@@ -23,10 +23,12 @@ import {
 import usePanelStore from '@stores/panel.store.ts';
 import './sidebar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import useAdminCompanyStore from '@stores/adminCompany.store';
 
 const Sidebar: FC = () => {
 	const { isAdmin, isProvider, isReseller } = useUserRole();
 	const { isActivePath } = usePanelStore();
+	const { companies } = useAdminCompanyStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
@@ -38,16 +40,10 @@ const Sidebar: FC = () => {
 	};
 
 	const isNotProviderAndReseller = !isProvider() && !isReseller();
+	const isProviderWithAccess =
+		isProvider() && companies.length > 0 && companies[0] !== null;
 
 	const menuItems = [
-		{
-			title: 'Admin Panel',
-			id: 'sidebar_admin',
-			icon: <AdminCompanyIcon />,
-			to: '/admin/company',
-			root: isAdmin(),
-			haveAccess: isAdmin(),
-		},
 		{
 			title: 'My profile',
 			id: 'sidebar_profile',
@@ -63,6 +59,14 @@ const Sidebar: FC = () => {
 			to: '/provider/orders',
 			root: false,
 			haveAccess: isProvider(),
+		},
+		{
+			title: 'Company Panel',
+			id: 'sidebar_admin',
+			icon: <AdminCompanyIcon />,
+			to: '/admin/company',
+			root: isAdmin(),
+			haveAccess: isAdmin() || isProviderWithAccess,
 		},
 		{
 			title: 'Reseller',
@@ -86,7 +90,7 @@ const Sidebar: FC = () => {
 			icon: <GlobeWebIcon />,
 			to: '/web',
 			root: false,
-			haveAccess: isNotProviderAndReseller,
+			haveAccess: isNotProviderAndReseller || isProviderWithAccess,
 		},
 		{
 			title: 'Mobile',
@@ -94,7 +98,7 @@ const Sidebar: FC = () => {
 			icon: <MobileIcon />,
 			to: '/mobile',
 			root: false,
-			haveAccess: isNotProviderAndReseller,
+			haveAccess: isNotProviderAndReseller || isProviderWithAccess,
 		},
 		{
 			title: 'Cloud',
@@ -102,7 +106,7 @@ const Sidebar: FC = () => {
 			icon: <CLoudIcon />,
 			to: '/cloud',
 			root: false,
-			haveAccess: isNotProviderAndReseller,
+			haveAccess: isNotProviderAndReseller || isProviderWithAccess,
 		},
 		{
 			title: 'Source Code',
@@ -110,7 +114,7 @@ const Sidebar: FC = () => {
 			icon: <SourceCodeIcon />,
 			to: '/source',
 			root: false,
-			haveAccess: isNotProviderAndReseller,
+			haveAccess: isNotProviderAndReseller || isProviderWithAccess,
 		},
 		{
 			title: 'Social Engineering',
@@ -118,7 +122,7 @@ const Sidebar: FC = () => {
 			icon: <PeopleGroupIcon />,
 			to: '/social',
 			root: false,
-			haveAccess: isNotProviderAndReseller,
+			haveAccess: isNotProviderAndReseller || isProviderWithAccess,
 		},
 		{
 			title: 'Network',
@@ -126,7 +130,7 @@ const Sidebar: FC = () => {
 			icon: <LanIcon />,
 			to: '/lan',
 			root: false,
-			haveAccess: isNotProviderAndReseller,
+			haveAccess: isNotProviderAndReseller || isProviderWithAccess,
 		},
 
 		{
@@ -135,7 +139,7 @@ const Sidebar: FC = () => {
 			icon: <BugIcon />,
 			to: '/issues',
 			root: false,
-			haveAccess: isNotProviderAndReseller,
+			haveAccess: isNotProviderAndReseller || isProviderWithAccess,
 		},
 		/*{
 			title: 'EPM',
