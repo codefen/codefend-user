@@ -29,7 +29,6 @@ export const BankPaymentModal = () => {
 	};
 	const finishStep = () => {
 		if (!transactionID) return;
-		console.log({ transactionID });
 		saveBankPayment(referenceNumber, transactionID).finally(() =>
 			updateState('orderStepActive', OrderSection.WAIT_CHECK),
 		);

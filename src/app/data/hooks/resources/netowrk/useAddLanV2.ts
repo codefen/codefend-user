@@ -57,7 +57,6 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	};
 
 	const validators = () => {
-		console.log({mainDomainId});
 		if (!mainDomainId || mainDomainId === 0) {
 			toast.error('Invalid main resource');
 			return true;

@@ -80,30 +80,27 @@ export const MobileApplication: FC<MobileApplicationProps> = ({
 					/>
 
 					<div className="list">
-						{getMobileInfo().map((mobile: MobileApp, i: number) => {
-							console.log({ mobile });
-							return (
-								<div
-									key={`mob-${i}`}
-									className="app-info"
-									onClick={(e: React.FormEvent) => {
-										e.preventDefault();
-										selectMobile(mobile);
-									}}>
-									<AppCard
-										isActive={isCurrentSelected(mobile.id)}
-										type="mobile"
-										id={mobile.id}
-										appMedia={mobile.appMedia}
-										appDesc={mobile.appDesc}
-										appReviews={mobile.appReviews}
-										appRank={mobile.appRank}
-										appDeveloper={mobile.appDeveloper}
-										name={mobile.appName}
-									/>
-								</div>
-							);
-						})}
+						{getMobileInfo().map((mobile: MobileApp, i: number) => (
+							<div
+								key={`mob-${i}`}
+								className="app-info"
+								onClick={(e: React.FormEvent) => {
+									e.preventDefault();
+									selectMobile(mobile);
+								}}>
+								<AppCard
+									isActive={isCurrentSelected(mobile.id)}
+									type="mobile"
+									id={mobile.id}
+									appMedia={mobile.appMedia}
+									appDesc={mobile.appDesc}
+									appReviews={mobile.appReviews}
+									appRank={mobile.appRank}
+									appDeveloper={mobile.appDeveloper}
+									name={mobile.appName}
+								/>
+							</div>
+						))}
 					</div>
 				</section>
 

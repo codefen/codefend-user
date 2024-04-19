@@ -144,7 +144,6 @@ export const useOrderScope = () => {
 		} else if (resourceScope === 'lan') {
 			resource = {lan: resumeResources.lan};
 		}
-		console.log({resource});
 		return fetcher('post', {
 			body: {
 				model: 'orders/add',
@@ -651,7 +650,6 @@ export const useOrderSaveBank = ()=>{
 				bank_xfer_id: address,
 			}
 		}).then(({data}:any)=>{
-			console.log({data})
 			return data;
 		});
 	}
@@ -684,7 +682,6 @@ export const userOrderCardPayment = ()=>{
 				reference_number: referenceNumber,
 			}
 		}).then(({data}:any)=>{
-			console.log({data});
 			return data;
 		});
 	}
@@ -709,7 +706,6 @@ export const userOrderFnished = ()=>{
 				reference_number: referenceNumber,
 			}
 		}).then(({data}:any)=>{
-			console.log({data});
 			return data;
 		});
 	}

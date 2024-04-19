@@ -20,7 +20,6 @@ export const useProviderRefuseOrder = ()=>{
            },
            requestId: "refuseOrder"
         }).then(({data}:any)=>{
-           console.log({data});
            toast.success("You have rejected the order");
         }).catch((err:any)=>{
            toast.error("An unexpected error has occurred, when rejecting the order try again later");

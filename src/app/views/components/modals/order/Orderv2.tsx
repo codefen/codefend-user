@@ -29,7 +29,7 @@ export const OrderV2 = () => {
 	useEffect(() => {
 		refetchTotal();
 		updateNextStep(false);
-	}, [scope.totalResources]);
+	}, []);
 
 	const ActiveStep = () => {
 		if (isNextStep) return <PageLoader />;
