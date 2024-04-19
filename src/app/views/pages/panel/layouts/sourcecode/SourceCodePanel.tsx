@@ -9,11 +9,13 @@ import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import './sourcecode.scss';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 const SourceCodePanel: FC = () => {
 	const [showScreen, _, refresh] = useShowScreen();
 	const { getSource, isLoading, addSourceCode, deletedResource } =
 		useSourceCode();
+	const { isAdmin, isNormalUser } = useUserRole();
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 
@@ -36,12 +38,14 @@ const SourceCodePanel: FC = () => {
 						isLoading={isLoading}
 						sourceCode={getSource() ?? []}
 					/>
+					{isAdmin() || isNormalUser() ? (
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							className="primary-full"
+							click={() => updateState('open', open)}
+						/>
+					) : null}
 
-					<PrimaryButton
-						text="START A PENTEST ON DEMAND"
-						className="primary-full"
-						click={() => updateState('open', open)}
-					/>
 					<br />
 					<SourceCodeCollab />
 				</section>

@@ -5,12 +5,14 @@ import {
 	sourceCodeColumns,
 	useModal,
 	type TableItem,
+	sourceCodeColumnsWithoutAction,
 } from '../../../../../../data';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { TrashIcon, BugIcon, SourceCodeIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import { AddRepositoryModal } from '../../../../../components/modals/adding-modals/AddRepositoryModal';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 interface SourceCodeProps {
 	isLoading: boolean;
@@ -25,6 +27,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] =
 		useState<string>('');
 	const navigate = useNavigate();
+	const { isAdmin, isProvider, isNormalUser } = useUserRole();
 
 	const dataTable = props.sourceCode.map(
 		(repository) =>
@@ -41,15 +44,6 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 		icon: [
 			{
 				action: (id: string) => {
-					setSelectedSourceCodeIdToDelete(id);
-					setShowModal(!showModal);
-					setShowModalStr('delete_resource');
-				},
-				render: <TrashIcon />,
-				style: '',
-			},
-			{
-				action: (id: string) => {
 					navigate(`/issues/create/source/${id}`);
 				},
 				render: <BugIcon isButton />,
@@ -57,6 +51,18 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 			},
 		],
 	};
+
+	if (isAdmin()) {
+		tableAction.icon.push({
+			action: (id: string) => {
+				setSelectedSourceCodeIdToDelete(id);
+				setShowModal(!showModal);
+				setShowModalStr('delete_resource');
+			},
+			render: <TrashIcon />,
+			style: '',
+		});
+	}
 
 	return (
 		<>
@@ -108,8 +114,12 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 				</div>
 				<TableV2
 					rowsData={dataTable}
-					columns={sourceCodeColumns}
-					tableAction={tableAction}
+					columns={
+						isNormalUser()
+							? sourceCodeColumnsWithoutAction
+							: sourceCodeColumns
+					}
+					tableAction={isNormalUser() ? undefined : tableAction}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
 				/>

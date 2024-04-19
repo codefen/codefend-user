@@ -17,10 +17,11 @@ import {
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 export const MobileSelectedDetails: React.FC = (props) => {
 	const [isLoading, setLoading] = useState<boolean>(false);
-
+	const { isAdmin, isNormalUser } = useUserRole();
 	const { appSelected, fetchMobileOne, appUnique } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
@@ -50,11 +51,14 @@ export const MobileSelectedDetails: React.FC = (props) => {
 						/>
 					</div>
 					<div className="selected-content-tables">
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							click={() => updateState('open', true)}
-							className="primary-full bottom"
-						/>
+						<Show when={isAdmin() || isNormalUser()}>
+							<PrimaryButton
+								text="START A PENTEST ON DEMAND"
+								click={() => updateState('open', true)}
+								className="primary-full bottom"
+							/>
+						</Show>
+
 						<VulnerabilityRisk
 							isLoading={isLoading}
 							vulnerabilityByRisk={

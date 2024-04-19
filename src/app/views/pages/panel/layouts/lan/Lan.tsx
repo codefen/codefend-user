@@ -1,24 +1,22 @@
 // Core packages
-import { type FC, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { invoke } from '@tauri-apps/api/tauri';
+import { type FC, useEffect } from 'react';
 import { useLan } from '@resourcesHooks/netowrk/useLan.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
-import { PageLoaderWhite } from '@defaults/loaders/Loader.tsx';
 import { LanNetworkData } from './components/LanNetworkData.tsx';
-import { LanNetworksChart } from './components/LanNetworksChart.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import './Lan.scss';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import Show from '@defaults/Show.tsx';
 
 const LanPage: FC = () => {
 	const { networks, loading, refetch } = useLan();
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 	const [showScreen, control] = useShowScreen();
-
+	const { isAdmin, isNormalUser } = useUserRole();
 	const internalNetworkDataInfo = () => {
 		const internalNetworkData = loading ? [] : networks;
 		return internalNetworkData || [];
@@ -42,18 +40,19 @@ const LanPage: FC = () => {
 					/>
 				</section>
 
-				<section className="right" ref={flashlight.rightPaneRef}>
-					{/* <LanNetworksChart
+				<Show when={isAdmin() || isNormalUser()}>
+					<section className="right" ref={flashlight.rightPaneRef}>
+						{/* <LanNetworksChart
 						isLoading={loading}
 						internalNetwork={internalNetworkDataInfo()}
 					/>*/}
-
-					<PrimaryButton
-						text="START A PENTEST ON DEMAND"
-						click={() => updateState('open', true)}
-						className="primary-full"
-					/>
-				</section>
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							click={() => updateState('open', true)}
+							className="primary-full"
+						/>
+					</section>
+				</Show>
 			</main>
 		</>
 	);

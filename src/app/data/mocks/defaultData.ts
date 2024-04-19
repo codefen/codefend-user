@@ -225,6 +225,8 @@ export const sourceCodeColumns: ColumnTable[] = [
 	},
 ];
 
+export const sourceCodeColumnsWithoutAction: ColumnTable[] = sourceCodeColumns.filter((column)=> column.name !== "action")
+
 export const issueColumns: ColumnTable[] = [
 	{
 		name: 'published',

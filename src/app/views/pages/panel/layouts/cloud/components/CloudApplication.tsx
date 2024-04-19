@@ -7,6 +7,7 @@ import {
 	useSelectMobileCloudApp,
 } from '../../../../../../data';
 import { CloudSelectedDetails } from './CloudSelectedDetails';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 interface CloudApplicationProps {
 	openModal: () => void;
@@ -19,7 +20,6 @@ export const CloudApplication: FC<CloudApplicationProps> = ({
 }) => {
 	const { isNotNull, appSelected, isCurrentSelected, updateSelected } =
 		useSelectMobileCloudApp((state: SelectMobileCloudApp) => state);
-
 	const [term, setTerm] = useState('');
 
 	const cloudKeys = useMemo(() => {

@@ -13,11 +13,13 @@ import {
 	memberColumnWithActions,
 	roleMap,
 	useModal,
+	memberColumn,
 } from '../../../../../../data';
 import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
 import { useNavigate } from 'react-router';
 import { type FC } from 'react';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 interface SocialProps {
 	refetch: () => void;
@@ -29,7 +31,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 	const navigate = useNavigate();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
-
+	const { isAdmin, isNormalUser } = useUserRole();
 	const [handleDeleteResource, { setSelectedId, isLoading }] = useAddSocial(
 		() => {
 			setShowModal(false);
@@ -63,16 +65,19 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 					navigate(`/issues/create/social/${id}`),
 				render: <BugIcon />,
 			},
-			{
-				action: (id: string, type?: any) => {
-					setShowModalStr('delete');
-					setShowModal(true);
-					setSelectedId(id);
-				},
-				render: <TrashIcon />,
-			},
 		],
 	};
+
+	if (isAdmin()) {
+		tableAction.icon.push({
+			action: (id: string, type?: any) => {
+				setShowModalStr('delete');
+				setShowModal(true);
+				setSelectedId(id);
+			},
+			render: <TrashIcon />,
+		});
+	}
 
 	return (
 		<>
@@ -122,7 +127,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 					</div>
 				</div>
 				<TableV2
-					columns={memberColumnWithActions}
+					columns={isNormalUser() ? memberColumn : memberColumnWithActions}
 					rowsData={dataTable}
 					tableAction={tableAction}
 					showRows={!props.isLoading}

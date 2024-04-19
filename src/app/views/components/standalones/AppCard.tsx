@@ -8,6 +8,7 @@ import {
 } from '../../../data';
 import { Show, StarRating } from '..';
 import { useNavigate } from 'react-router';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 interface MobileAppCardProps {
 	isActive?: boolean;
@@ -42,6 +43,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	appDeveloper,
 	openReport,
 }) => {
+	const { isAdmin } = useUserRole();
 	const { isImage, isMobileType, isDetails } = useAppCard({
 		type,
 		showDetails,
@@ -91,7 +93,9 @@ export const AppCard: FC<MobileAppCardProps> = ({
 			return (
 				<div className="actions">
 					<div onClick={handleClick}>Add issue</div>
-					<div onClick={handleDeleteResource}>Delete resource</div>
+					{isAdmin() && (
+						<div onClick={handleDeleteResource}>Delete resource</div>
+					)}
 					<div onClick={openReport}>Report</div>
 				</div>
 			);

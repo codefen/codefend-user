@@ -9,12 +9,13 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
 import Show from '@defaults/Show.tsx';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { members, refetch, loading } = useSocial();
 	const { updateState } = useOrderStore((state) => state);
-
+	const { isAdmin, isNormalUser } = useUserRole();
 	const flashlight = useFlashlight();
 
 	const [socialFilters, setSocialFilters] = useState({
@@ -66,11 +67,13 @@ const SocialEngineeringView = () => {
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
-					<PrimaryButton
-						text="START A PENTEST ON DEMAND"
-						className="primary-full"
-						click={() => updateState('open', open)}
-					/>
+					<Show when={isAdmin() || isNormalUser()}>
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							className="primary-full"
+							click={() => updateState('open', open)}
+						/>
+					</Show>
 					<Show when={members && Boolean(members.length)}>
 						<SocialEngineeringMembers
 							isLoading={loading}
