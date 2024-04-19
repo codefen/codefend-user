@@ -38,11 +38,11 @@ export const useOrders = () => {
 								id: resource.id,
 								resource_domain: resource.resource_domain,
 								server: resource.main_server,
-								childs: resource.childs.map((childRes: any)=>({
+								childs: resource.childs ? resource.childs.map((childRes: any)=>({
 									id: childRes.id,
 									resource_domain: childRes.resource_domain,
 									server: childRes.main_server,
-								})),
+								})) : [],
 							}),
 						)
 					: [],
@@ -84,11 +84,11 @@ export const useOrders = () => {
 								id: resource.id,
 								device_ex_address: resource.device_ex_address,
 								device_in_address: resource.device_in_address,
-								childs: resource.childs.map((childRes: any)=>({
+								childs: resource.childs ? resource.childs.map((childRes: any)=>({
 									id: childRes.id,
 									device_ex_address: childRes.device_ex_address,
 									device_in_address: childRes.device_in_address,
-								})),
+								})) : [],
 
 							}),
 						)
