@@ -1,3 +1,5 @@
+import type { CloudResourceResume, LanResourceResume, MobileResourceResume, SocialResourceResume, SourceResourceResume, WebResourceResume } from "./resources-resumes";
+
 export enum OrderSection {
     SCOPE=1,
     FREQUENCY=2,
@@ -67,14 +69,15 @@ export enum OrderFrequency {
     MEMBER_SHIP="membership"
 }
 
-export interface CompanyResourcesID {
-    web: string[];
-    mobile: string[];
-    cloud: string[];
-    social: string[];
-    source: string[];
-    lan: string[];
+export interface ResumeAllResources {
+    web: WebResourceResume[];
+    mobile: MobileResourceResume[];
+    cloud: CloudResourceResume[];
+    social: SocialResourceResume;
+    source: SourceResourceResume[];
+    lan: LanResourceResume[];
 }
+
 export interface FullOrder {
     id: string;
     company_id: string;

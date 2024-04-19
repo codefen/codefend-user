@@ -549,3 +549,12 @@ export const formatReverseDate = (stringDate: string): string => {
 
 	return `${day}-${month}-${year}`;
 };
+export const getDomainCounts = (members: any) => {
+	const domainCounts = members.reduce((acc:any, member:any) => {
+	  const [, domain] = member.member_email.split('@');
+	  acc[domain] = (acc[domain] || 0) + 1;
+	  return acc;
+	}, {});
+  
+	return Object.entries(domainCounts).map(([domain, quantity]) => ({ domain, quantity }));
+  };

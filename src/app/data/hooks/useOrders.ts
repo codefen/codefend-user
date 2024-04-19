@@ -1,16 +1,19 @@
 import { toast } from 'react-toastify';
 import { useAuthState } from '.';
 import {
-	type CompanyResourcesID,
+	type ResumeAllResources,
 	OrderFrequency,
 	type OrderStore,
 	OrderTeamSize,
 	ScopeOption,
 	useOrderStore,
 	CryptoPayment,
+	getDomainCounts,
+	ResourcesTypes,
 } from '..';
 import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import type { SocialDomain, SocialResourceResume } from '@interfaces/resources-resumes';
 
 export const useOrders = () => {
 	const { getCompany } = useAuthState();
@@ -24,52 +27,84 @@ export const useOrders = () => {
 			body: {
 				model: 'resources/index',
 				size: 'full',
+				childs: "yes",
 				company_id: companyID,
 			},
 		}).then(({ data }: any) => {
-			const companyResourceIDs: CompanyResourcesID = {
+			const resumeResources: ResumeAllResources = {
 				web: data.resources_web
 					? data.resources_web.map(
-							(resource: any) => resource.id as string,
+							(resource: any) => ({
+								id: resource.id,
+								resource_domain: resource.resource_domain,
+								server: resource.main_server,
+								childs: resource.childs.map((childRes: any)=>({
+									id: childRes.id,
+									resource_domain: childRes.resource_domain,
+									server: childRes.main_server,
+								})),
+							}),
 						)
 					: [],
 				mobile: data.resources_mobile
 					? data.resources_mobile.map(
-							(resource: any) => resource.id as string,
+							(resource: any) => ({
+								id: resource.id,
+								app_name: resource.app_name,
+								app_link: resource.app_link
+							}),
 						)
 					: [],
-				social: data.resources_social
-					? data.resources_social.map(
-							(resource: any) => resource.id as string,
-						)
-					: [],
+				social: data.resources_social 
+					? {
+						social_resources: getDomainCounts(data.resources_social)
+					 } as SocialResourceResume
+					: {social_resources: []} as SocialResourceResume,
 				cloud: data.resources_cloud
 					? data.resources_cloud.map(
-							(resource: any) => resource.id as string,
-						)
-					: [],
+						(resource: any) => ({
+							id: resource.id,
+							cloud_name: resource.cloud_name,
+							cloud_provider: resource.cloud_provider,
+						}),
+					)
+				: [],
 				source: data.resources_source
 					? data.resources_source.map(
-							(resource: any) => resource.id as string,
+							(resource: any) => ({
+								id: resource.id,
+								name: resource.name,
+								access_link: resource.access_link
+							}),
 						)
 					: [],
 				lan: data.resources_lan
 					? data.resources_lan.map(
-							(resource: any) => resource.id as string,
+							(resource: any) => ({
+								id: resource.id,
+								device_ex_address: resource.device_ex_address,
+								device_in_address: resource.device_in_address,
+								childs: resource.childs.map((childRes: any)=>({
+									id: childRes.id,
+									device_ex_address: childRes.device_ex_address,
+									device_in_address: childRes.device_in_address,
+								})),
+
+							}),
 						)
 					: [],
 			};
 
 			const countAllTotalResource =
-				companyResourceIDs.web.length +
-				companyResourceIDs.mobile.length +
-				companyResourceIDs.social.length +
-				companyResourceIDs.cloud.length +
-				companyResourceIDs.source.length +
-				companyResourceIDs.lan.length;
+			resumeResources.web.length +
+				resumeResources.mobile.length +
+				resumeResources.cloud.length +
+				resumeResources.source.length +
+				resumeResources.lan.length +
+				resumeResources.social.social_resources.length;
 
 			setScopeAllTotalResources(countAllTotalResource);
-			updateState('companyResourceIDs', companyResourceIDs);
+			updateState('resumeResources', resumeResources);
 		});
 	};
 
@@ -89,42 +124,35 @@ export const useOrders = () => {
 export const useOrderScope = () => {
 	const [fetcher, _, isLoading] = useFetcher();
 	const { getCompany } = useAuthState();
-	const { companyResourceIDs } = useOrderStore((state) => state);
+	const { resumeResources } = useOrderStore((state) => state);
 
 	const fetchScope = (companyID: string, resourceScope: string) => {
-		let resourcesID: string = '';
+		console.log({ resumeResources });
+		let resource: any = {};
 
 		if (resourceScope === 'full') {
-			for (const key in companyResourceIDs) {
-				if (companyResourceIDs.hasOwnProperty(key)) {
-					const ids =
-						companyResourceIDs[
-							key as keyof typeof companyResourceIDs
-						].join(',');
-					resourcesID += `${key}:${ids};`;
-				}
-			}
+			resource = resumeResources;
 		} else if (resourceScope === 'web') {
-			resourcesID = `web:${companyResourceIDs.web.join(',')};`;
+			resource = {web: resumeResources.web};
 		} else if (resourceScope === 'mobile') {
-			resourcesID = `mobile:${companyResourceIDs.mobile.join(',')};`;
+			resource = {mobile: resumeResources.mobile};
 		} else if (resourceScope === 'cloud') {
-			resourcesID = `cloud:${companyResourceIDs.cloud.join(',')};`;
+			resource = {cloud: resumeResources.cloud};
 		} else if (resourceScope === 'source') {
-			resourcesID = `social:${companyResourceIDs.social.join(',')};`;
+			resource = {source: resumeResources.source};
 		} else if (resourceScope === 'social') {
-			resourcesID = `source:${companyResourceIDs.source.join(',')};`;
+			resource = {social: resumeResources.social};
 		} else if (resourceScope === 'lan') {
-			resourcesID = `lan:${companyResourceIDs.lan.join(',')};`;
+			resource = {lan: resumeResources.lan};
 		}
-
+		console.log({resource})
 		return fetcher('post', {
 			body: {
 				model: 'orders/add',
 				phase: 'scope',
 				company_id: companyID,
 				resources_class: resourceScope.trim(),
-				resources_ids: resourcesID
+				resources_scope: JSON.stringify(resource)
 			},
 		})
 			.then(({ data }: any) => {

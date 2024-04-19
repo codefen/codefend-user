@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { OrderOffensive, type CompanyResourcesID, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption,type ScopeOptions } from "..";
+import { OrderOffensive, type ResumeAllResources, OrderFrequency, OrderPaymentMethod, OrderSection, OrderTeamSize, ResourcesTypes, ScopeOption,type ScopeOptions } from "..";
 
 
 
@@ -9,7 +9,7 @@ export interface OrderStore {
     orderStepActive: OrderSection;
 
     resourceType: ResourcesTypes;
-    companyResourceIDs: CompanyResourcesID;
+    resumeResources: ResumeAllResources;
 
     acceptCondition: boolean;
     scope: ScopeOptions;
@@ -36,7 +36,7 @@ export const useOrderStore = create<OrderStore>((set,_get)=>({
     resourceType: ResourcesTypes.WEB,
     acceptCondition: false,
     scope: {totalAllResources: 18, totalResources: 0, scopeOption: ScopeOption.TYPE},
-    companyResourceIDs: {} as any,
+    resumeResources: {} as any,
     frequency: OrderFrequency.ONCE,
     teamSize: OrderTeamSize.SMALL,
     providerId: "",
