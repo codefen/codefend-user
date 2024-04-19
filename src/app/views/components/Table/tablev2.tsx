@@ -107,7 +107,7 @@ const TableRows: FC<any> = ({
 			{rows.map((row: Record<string, TableItem>, rowIndex: number) => (
 				<Fragment key={rowsID2(rowIndex, row['ID'].value as string)}>
 					<a
-						className={`item ${
+						className={`item ${!urlNav && 'item-with-out-action'} ${
 							selectedField ===
 							rowsID2(rowIndex, row['ID'].value as string)
 								? 'left-marked'

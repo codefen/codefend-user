@@ -19,6 +19,9 @@ main.dashboard {
 
 	.right {
 		padding-inline-end: 0px;
+		display: flex;
+		flex-direction: column;
+		row-gap: 1.25rem;
 
 		.card {
 			&.risk-chart {

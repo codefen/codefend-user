@@ -11,6 +11,7 @@ import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import './dashboard.scss';
+import { PrimaryButton } from '@buttons/index.ts';
 
 const Dashboard: React.FC = () => {
 	const flashlight = useFlashlight();
@@ -41,7 +42,13 @@ const Dashboard: React.FC = () => {
 				<VulnerabilitiesStatus
 					vulnerabilityByShare={companyData.issuesCondition ?? {}}
 				/>
-
+				<PrimaryButton
+					text="Go to vulnerabilities"
+					buttonStyle="red"
+					className="full"
+					click={() => {}}
+					disabledLoader
+				/>
 				<VulnerabilityRisk
 					vulnerabilityByRisk={
 						companyData.issuesShare ?? ({} as IssuesShare)

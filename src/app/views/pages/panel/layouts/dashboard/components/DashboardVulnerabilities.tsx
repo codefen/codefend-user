@@ -49,6 +49,7 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
 						showEmpty={!isLoading && topVulnerabilities.length === 0}
 						selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 						sort={Sort.asc}
+						urlNav="issues/update/"
 					/>
 				</SimpleSection>
 			</div>

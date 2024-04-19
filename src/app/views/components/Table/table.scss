@@ -123,6 +123,10 @@
 			background-color: var(--primary-color-200);
 		}
 
+		&.item-with-out-action {
+			cursor: default !important;
+		}
+
 		&:nth-of-type(odd) {
 			background-color: #00000004;
 		}
