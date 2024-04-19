@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode, type FC } from 'react';
+import { useMemo, useState, type ReactNode, type FC, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useDeleteWebResource } from '@resourcesHooks/web/useWebapplication.ts';
@@ -15,6 +15,7 @@ import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import { findWebResourceByID } from '@utils/helper.ts';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -30,6 +31,8 @@ interface SelectedResource {
 
 export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const navigate = useNavigate();
+	const { isAdmin, isProvider } = useUserRole();
+	const userHaveAccess = useRef<boolean>(isAdmin() || isProvider());
 	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
 		{} as any,
 	);
@@ -93,7 +96,11 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 						<span
 							title="Add Issue"
 							onClick={() =>
-								navigate(`/issues/create/web/${mainNetwork.id}`)
+								navigate(
+									userHaveAccess.current
+										? `/issues/create/web/${mainNetwork.id}`
+										: '',
+								)
 							}>
 							<BugIcon isButton />
 							<span className="codefend-text-red-200 issue-count">
@@ -108,15 +115,17 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							}>
 							<DocumentIcon isButton width={1.27} height={1.27} />
 						</span>
-						<span
-							title="Delete"
-							onClick={() => {
-								selectResource(mainNetwork.id, false);
-								setShowModal(true);
-								setShowModalStr('delete_resource');
-							}}>
-							<TrashIcon />
-						</span>
+						{userHaveAccess.current && (
+							<span
+								title="Delete"
+								onClick={() => {
+									selectResource(mainNetwork.id, false);
+									setShowModal(true);
+									setShowModalStr('delete_resource');
+								}}>
+								<TrashIcon />
+							</span>
+						)}
 					</>
 				),
 				style: 'id action',
@@ -182,7 +191,9 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												title="Add Issue"
 												onClick={() =>
 													navigate(
-														`/issues/create/web/${subNetwork.id}`,
+														userHaveAccess.current
+															? `/issues/create/web/${subNetwork.id}`
+															: '',
 													)
 												}>
 												<BugIcon isButton />
@@ -205,15 +216,17 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 													height={1.27}
 												/>
 											</span>
-											<span
-												title="Delete"
-												onClick={() => {
-													selectResource(subNetwork.id, true);
-													setShowModal(true);
-													setShowModalStr('delete_resource');
-												}}>
-												<TrashIcon />
-											</span>
+											{userHaveAccess.current && (
+												<span
+													title="Delete"
+													onClick={() => {
+														selectResource(subNetwork.id, true);
+														setShowModal(true);
+														setShowModalStr('delete_resource');
+													}}>
+													<TrashIcon />
+												</span>
+											)}
 										</div>
 									</a>
 								),
@@ -302,13 +315,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 									setShowModalStr('add_subdomain');
 								}}>
 								Add subdomain
-							</div>
-							<div
-								onClick={() => {
-									if (props.isLoading) return;
-									alert('adding credentials');
-								}}>
-								Add Credentials
 							</div>
 						</div>
 					</div>
