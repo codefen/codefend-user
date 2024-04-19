@@ -129,7 +129,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 								(subNetwork: Resouce, i: number) => (
 									<a
 										key={`child-${i}-${subNetwork.id}`}
-										className={`item ${
+										className={`item item-with-out-action ${
 											props.selectedField ===
 											`child-${subNetwork.id}`
 												? 'left-marked'

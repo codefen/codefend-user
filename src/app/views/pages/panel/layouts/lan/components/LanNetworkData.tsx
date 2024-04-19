@@ -73,7 +73,12 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 								? network.childs.map((netChild, i) => (
 										<a
 											key={`child-${i}-${netChild.id}`}
-											className={`item`}
+											className={`item item-with-out-action ${
+												props.selectedField ===
+												`child-${netChild.id}`
+													? 'left-marked'
+													: ''
+											}`}
 											href={
 												props.urlNav
 													? `${props.urlNav}${netChild.id}`
