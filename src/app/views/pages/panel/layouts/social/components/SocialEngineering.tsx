@@ -63,7 +63,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 			{
 				action: (id: string, type?: any) =>
 					navigate(`/issues/create/social/${id}`),
-				render: <BugIcon />,
+				render: <BugIcon isButton />,
 			},
 		],
 	};
