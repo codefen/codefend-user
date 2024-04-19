@@ -12,7 +12,7 @@ import {
 	type ReportIssues,
 	addPrintAttributesFromBody,
 	formatDate,
-	issuesColumnsWithoutAction,
+	issuesColumnsWithoutActionAuthor,
 	removePrintAttributesFromBody,
 	useIssueReport,
 	useReportStore,
@@ -166,7 +166,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 						<TableWithoutActions
 							isLoading={isLoading}
 							resources={issuesTableRows}
-							columns={issuesColumnsWithoutAction}
+							columns={issuesColumnsWithoutActionAuthor}
 							id={3}
 						/>
 					}

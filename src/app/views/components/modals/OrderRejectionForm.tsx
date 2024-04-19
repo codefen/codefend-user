@@ -27,7 +27,7 @@ export const OrderRejectionForm = () => {
 		});
 	};
 	return (
-		<div className="content">
+		<div className="content refuse">
 			<h2>You can tell us why you want to reject the order</h2>
 			<form className="form" onSubmit={handleSubmit}>
 				<div className="form-input">

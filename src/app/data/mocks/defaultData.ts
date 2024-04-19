@@ -267,7 +267,8 @@ export const issueColumns: ColumnTable[] = [
 		style: 'id action',
 	},
 ];
-export const issuesColumnsWithoutAction: ColumnTable[] = issueColumns.filter(column => column.name !== 'action' && column.name !== 'author');
+export const issuesColumnsWithoutAction: ColumnTable[] = issueColumns.filter(column => column.name !== 'action');
+export const issuesColumnsWithoutActionAuthor: ColumnTable[] = issueColumns.filter(column => column.name !== 'action' && column.name !== 'author');
 
 export const sourceCodeChartColumns = [
 	{

@@ -1,7 +1,10 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { type Issues, Sort } from '../../../../../../data';
-import { issueColumns } from '@mocks/defaultData.ts';
+import {
+	issueColumns,
+	issuesColumnsWithoutAction,
+} from '@mocks/defaultData.ts';
 import { useDeleteIssue } from '@panelHooks/issues/useDeleteIssues.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { useNewWindows } from '#commonHooks/useNewWindows.ts';
@@ -11,6 +14,8 @@ import { RiskScore } from '@standalones/utils/RiskScore.tsx';
 import { TrashIcon, BugIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import '@table/table.scss';
+import { useUserRole } from '#commonUserHooks/useUserRole';
+import Show from '@defaults/Show';
 
 interface IssueResourcesProps {
 	isLoading: boolean;
@@ -24,8 +29,9 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 	const { handleDelete } = useDeleteIssue();
 	const navigate = useNavigate();
 	const { baseUrl } = useNewWindows();
+	const { isProvider, isAdmin } = useUserRole();
 
-	const dataTable = props.issues.map((issue: Issues) => ({
+	let dataTable = props.issues.map((issue: Issues) => ({
 		ID: { value: issue.id, style: '' },
 		published: { value: issue.createdAt, style: 'date' },
 		author: { value: issue.researcherUsername, style: 'username' },
@@ -37,7 +43,6 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 		},
 		issueTitle: { value: issue.name, style: 'vul-title' },
 		status: { value: issue.condition, style: 'vul-condition' },
-		action: { value: 'actions', style: 'id' },
 	}));
 	const actionTable = {
 		icon: [
@@ -51,6 +56,12 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 			},
 		],
 	};
+	if (isAdmin() || isProvider()) {
+		dataTable.map((rows: any) => ({
+			...rows,
+			action: { value: 'actions', style: 'id' },
+		}));
+	}
 
 	return (
 		<>
@@ -79,23 +90,29 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 						</div>
 						<span>Issues</span>
 					</div>
-					<div className="actions">
-						<div
-							className=""
-							onClick={() => {
-								navigate('/issues/create');
-							}}>
-							Add finding
+					<Show when={isAdmin() || isProvider()}>
+						<div className="actions">
+							<div
+								className=""
+								onClick={() => {
+									navigate('/issues/create');
+								}}>
+								Add finding
+							</div>
 						</div>
-					</div>
+					</Show>
 				</div>
 
 				<TableV2
 					rowsData={dataTable}
-					columns={issueColumns}
+					columns={
+						isAdmin() || isProvider()
+							? issueColumns
+							: issuesColumnsWithoutAction
+					}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
-					tableAction={actionTable}
+					tableAction={isAdmin() || isProvider() ? actionTable : undefined}
 					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
 					sort={Sort.asc}
 					urlNav={`${baseUrl}/issues/update/`}
