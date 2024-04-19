@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, type FC, type ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -52,8 +52,16 @@ export const AppRouter: React.FC = () => {
 	const haveAccessToResources = !isProvider() && !isReseller();
 	const haveAccessToModules = !isProvider() && !isReseller();
 	const haveAccessToSupport = !isProvider() && !isReseller();
+	const haveAccessToCreateIssue = isProvider() || isAdmin();
 	const isProviderWithAccess =
 		isProvider() && companies.length > 0 && companies[0] !== null;
+
+	const GuardRoute: FC<{ access: boolean; element: ReactNode }> = ({
+		access,
+		element,
+	}) => {
+		return access ? element : <Navigate to="/" replace />;
+	};
 	return (
 		<>
 			<ToastContainer
@@ -121,13 +129,24 @@ export const AppRouter: React.FC = () => {
 								/>
 							</Route>
 						)}
-						{isReseller() && (
-							<Route path="reseller/" element={<ResellerPage />} />
-						)}
-
-						{haveAccessToResources && (
-							<Route path="dashboard" element={<Dashboard />} />
-						)}
+						<Route
+							path="reseller/"
+							element={
+								<GuardRoute
+									element={<ResellerPage />}
+									access={haveAccessToResources}
+								/>
+							}
+						/>
+						<Route
+							path="dashboard"
+							element={
+								<GuardRoute
+									element={<Dashboard />}
+									access={haveAccessToResources}
+								/>
+							}
+						/>
 						{(haveAccessToResources || isProviderWithAccess) && (
 							<>
 								<Route path="web" element={<WebApplication />} />
@@ -144,7 +163,16 @@ export const AppRouter: React.FC = () => {
 								/>
 								<Route path="issues/*" element={<IssuePage />}>
 									<Route index element={<IssuesPanel />} />
-									<Route path="create" element={<IssuesCreation />} />
+
+									<Route
+										path="create"
+										element={
+											<GuardRoute
+												element={<IssuesCreation />}
+												access={haveAccessToCreateIssue}
+											/>
+										}
+									/>
 									<Route
 										path="create/:type/:resourceId"
 										element={<IssuesCreation />}
