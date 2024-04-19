@@ -32,7 +32,7 @@ interface SelectedResource {
 export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const navigate = useNavigate();
 	const { isAdmin, isProvider } = useUserRole();
-	const userHaveAccess = useRef<boolean>(isAdmin() || isProvider());
+	const userHaveAccess = isAdmin() || isProvider();
 	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
 		{} as any,
 	);
@@ -97,7 +97,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							title="Add Issue"
 							onClick={() =>
 								navigate(
-									userHaveAccess.current
+									userHaveAccess
 										? `/issues/create/web/${mainNetwork.id}`
 										: '',
 								)
@@ -115,7 +115,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							}>
 							<DocumentIcon isButton width={1.27} height={1.27} />
 						</span>
-						{userHaveAccess.current && (
+						{isAdmin() && (
 							<span
 								title="Delete"
 								onClick={() => {
@@ -191,7 +191,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												title="Add Issue"
 												onClick={() =>
 													navigate(
-														userHaveAccess.current
+														userHaveAccess
 															? `/issues/create/web/${subNetwork.id}`
 															: '',
 													)
@@ -216,7 +216,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 													height={1.27}
 												/>
 											</span>
-											{userHaveAccess.current && (
+											{isAdmin() && (
 												<span
 													title="Delete"
 													onClick={() => {

@@ -12,6 +12,7 @@ import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import '@table/table.scss';
 import './webapplication.scss';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -19,6 +20,7 @@ const WebApplicationView: React.FC = () => {
 	const { webResources, isLoading, refetch } = useWebapplication();
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
+	const { isAdmin, isNormalUser } = useUserRole();
 
 	useEffect(() => {
 		refetch();
@@ -49,11 +51,13 @@ const WebApplicationView: React.FC = () => {
 					/>
 
 					<WebApplicationCredentials />
-					<PrimaryButton
-						text="START A PENTEST ON DEMAND"
-						click={() => updateState('open', true)}
-						className="primary-full"
-					/>
+					{(isAdmin() || isNormalUser()) && (
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							click={() => updateState('open', true)}
+							className="primary-full"
+						/>
+					)}
 				</section>
 			</main>
 		</>
