@@ -128,7 +128,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 					</div>
 				</div>
 				<TableV2
-					columns={isNormalUser() ? memberColumn : memberColumnWithActions}
+					columns={memberColumnWithActions}
 					rowsData={dataTable}
 					tableAction={tableAction}
 					showRows={!props.isLoading}

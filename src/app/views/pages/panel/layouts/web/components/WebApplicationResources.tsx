@@ -16,6 +16,7 @@ import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import { findWebResourceByID } from '@utils/helper.ts';
 import { useUserRole } from '#commonUserHooks/useUserRole';
+import Show from '@defaults/Show';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -94,7 +95,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				value: (
 					<>
 						<span
-							title="Add Issue"
+							title={`${isNormalUser() ? '' : 'Add Issue'}`}
 							onClick={() =>
 								navigate(
 									userHaveAccess
@@ -115,7 +116,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							}>
 							<DocumentIcon isButton width={1.27} height={1.27} />
 						</span>
-						{isAdmin() && (
+						<Show when={isNormalUser() || isAdmin()}>
 							<span
 								title="Delete"
 								onClick={() => {
@@ -125,7 +126,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 								}}>
 								<TrashIcon />
 							</span>
-						)}
+						</Show>
 					</>
 				),
 				style: 'id action',
@@ -216,7 +217,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 													height={1.27}
 												/>
 											</span>
-											{isAdmin() && (
+											<Show when={isNormalUser() || isAdmin()}>
 												<span
 													title="Delete"
 													onClick={() => {
@@ -226,7 +227,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 													}}>
 													<TrashIcon />
 												</span>
-											)}
+											</Show>
 										</div>
 									</a>
 								),
