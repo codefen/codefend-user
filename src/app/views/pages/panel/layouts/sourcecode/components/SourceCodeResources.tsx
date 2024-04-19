@@ -41,18 +41,18 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	);
 
 	const tableAction = {
-		icon: [
-			{
-				action: (id: string) => {
-					navigate(`/issues/create/source/${id}`);
-				},
-				render: <BugIcon isButton />,
-				style: '',
-			},
-		],
+		icon: [] as any,
 	};
-
-	if (isAdmin()) {
+	if (isProvider()) {
+		tableAction.icon.push({
+			action: (id: string) => {
+				navigate(`/issues/create/source/${id}`);
+			},
+			render: <BugIcon isButton />,
+			style: '',
+		});
+	}
+	if (isAdmin() || isNormalUser()) {
 		tableAction.icon.push({
 			action: (id: string) => {
 				setSelectedSourceCodeIdToDelete(id);
@@ -114,12 +114,8 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 				</div>
 				<TableV2
 					rowsData={dataTable}
-					columns={
-						isNormalUser()
-							? sourceCodeColumnsWithoutAction
-							: sourceCodeColumns
-					}
-					tableAction={isNormalUser() ? undefined : tableAction}
+					columns={sourceCodeColumns}
+					tableAction={tableAction}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
 				/>

@@ -43,7 +43,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	appDeveloper,
 	openReport,
 }) => {
-	const { isAdmin } = useUserRole();
+	const { isAdmin, isNormalUser } = useUserRole();
 	const { isImage, isMobileType, isDetails } = useAppCard({
 		type,
 		showDetails,
@@ -93,9 +93,10 @@ export const AppCard: FC<MobileAppCardProps> = ({
 			return (
 				<div className="actions">
 					<div onClick={handleClick}>Add issue</div>
-					{isAdmin() && (
+					<Show when={isAdmin() || isNormalUser()}>
 						<div onClick={handleDeleteResource}>Delete resource</div>
-					)}
+					</Show>
+
 					<div onClick={openReport}>Report</div>
 				</div>
 			);

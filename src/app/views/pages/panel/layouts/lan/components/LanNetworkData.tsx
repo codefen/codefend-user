@@ -33,7 +33,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 }) => {
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
-	const { isAdmin, isNormalUser } = useUserRole();
+	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } =
 		useDeleteLan(refetchInternalNetwork, () => setShowModal(false));
 
@@ -42,7 +42,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 	};
 	let tableData2: Record<string, TableItem>[] = [];
 
-	if (isAdmin()) {
+	if (isAdmin() || isNormalUser()) {
 		tableData2 = internalNetwork.map((network) => ({
 			ID: { value: '', style: '' },
 			Identifier: { value: network.id, style: 'id' },
@@ -273,7 +273,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 
 				<TableV2
 					columns={
-						isNormalUser()
+						isProvider()
 							? lanResourcesTableWithoutAction
 							: lanResourcesTable
 					}
