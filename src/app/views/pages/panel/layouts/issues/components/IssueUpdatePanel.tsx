@@ -17,6 +17,7 @@ import { formatDate } from '@utils/helper.ts';
 import AppEditor from './AppEditor.tsx';
 import Show from '@defaults/Show.tsx';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 interface IssueUpdatePanelProps {
 	completeIssue: OneIssue;
@@ -30,6 +31,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 	const navigate = useNavigate();
 	const [isEditable, setEditable] = useState(true);
 	const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
+	const { isAdmin, isProvider } = useUserRole();
 	const handleIssueUpdate = useCallback(() => {
 		update()
 			.then((response: any) => {
@@ -97,18 +99,20 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 							onChange={handleChange}
 						/>
 					</Show>
-					<div className="work-buttons">
-						<div
-							className={`edit edit_btn  ${!isEditable ? 'on' : 'off'}`}
-							onClick={() => setEditable(!isEditable)}>
-							<PencilIcon isButton />
+					{isAdmin() || isProvider() ? (
+						<div className="work-buttons">
+							<div
+								className={`edit edit_btn  ${!isEditable ? 'on' : 'off'}`}
+								onClick={() => setEditable(!isEditable)}>
+								<PencilIcon isButton />
+							</div>
+							<div
+								className={`save edit_btn ${!isEditable ? 'on' : 'off'}`}
+								onClick={() => handleIssueUpdate()}>
+								<SaveIcon isButton />
+							</div>
 						</div>
-						<div
-							className={`save edit_btn ${!isEditable ? 'on' : 'off'}`}
-							onClick={() => handleIssueUpdate()}>
-							<SaveIcon isButton />
-						</div>
-					</div>
+					) : null}
 				</div>
 				<div className="info">
 					<div>

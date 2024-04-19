@@ -12,11 +12,13 @@ import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import './dashboard.scss';
 import { PrimaryButton } from '@buttons/index.ts';
+import { useNavigate } from 'react-router';
 
 const Dashboard: React.FC = () => {
 	const flashlight = useFlashlight();
 	const [showScreen] = useShowScreen();
 	const { isLoading, companyData, refetch } = useDashboard();
+	const navigate = useNavigate();
 	useEffect(() => {
 		refetch();
 	}, []);
@@ -46,7 +48,7 @@ const Dashboard: React.FC = () => {
 					text="Go to vulnerabilities"
 					buttonStyle="red"
 					className="full"
-					click={() => {}}
+					click={() => navigate('/issues')}
 					disabledLoader
 				/>
 				<VulnerabilityRisk
