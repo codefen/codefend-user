@@ -127,7 +127,6 @@ export const useOrderScope = () => {
 	const { resumeResources } = useOrderStore((state) => state);
 
 	const fetchScope = (companyID: string, resourceScope: string) => {
-		console.log({ resumeResources });
 		let resource: any = {};
 
 		if (resourceScope === 'full') {
@@ -145,7 +144,7 @@ export const useOrderScope = () => {
 		} else if (resourceScope === 'lan') {
 			resource = {lan: resumeResources.lan};
 		}
-		console.log({resource})
+		console.log({resource});
 		return fetcher('post', {
 			body: {
 				model: 'orders/add',
