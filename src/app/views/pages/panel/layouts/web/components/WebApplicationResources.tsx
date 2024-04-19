@@ -31,7 +31,7 @@ interface SelectedResource {
 
 export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const navigate = useNavigate();
-	const { isAdmin, isProvider } = useUserRole();
+	const { isAdmin, isProvider, isNormalUser } = useUserRole();
 	const userHaveAccess = isAdmin() || isProvider();
 	const [selectedResource, setSelectedResource] = useState<SelectedResource>(
 		{} as any,
@@ -188,7 +188,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 										</div>
 										<div className="id action">
 											<span
-												title="Add Issue"
+												title={`${isNormalUser() ? '' : 'Add Issue'}`}
 												onClick={() =>
 													navigate(
 														userHaveAccess
@@ -202,7 +202,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												</span>
 											</span>
 											<span
-												title="Create report"
+												title="View report"
 												className="issue-printer"
 												onClick={() =>
 													generateReport(
