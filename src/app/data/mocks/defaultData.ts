@@ -527,15 +527,16 @@ export const lanResourcesTable = [
 		style: "id"
 	},
 	{
-		name: "internalIp",
-		value: "internal IP",
-		style: "ip"
-	},
-	{
 		name: "externalIp",
 		value: "external IP",
 		style: "ip"
 	},
+	{
+		name: "internalIp",
+		value: "internal IP",
+		style: "ip"
+	},
+
 	{
 		name: 'description',
 		value: 'description',

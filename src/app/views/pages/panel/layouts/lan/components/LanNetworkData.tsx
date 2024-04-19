@@ -137,8 +137,8 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 		tableData2 = internalNetwork.map((network) => ({
 			ID: { value: '', style: '' },
 			Identifier: { value: network.id, style: 'id' },
-			internalIp: { value: network.device_in_address, style: 'ip' },
 			externalIp: { value: network.device_ex_address, style: 'ip' },
+			internalIp: { value: network.device_in_address, style: 'ip' },
 			description: {
 				value: `${network.device_desc}`,
 				style: 'full-name',
@@ -173,18 +173,19 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 												<div className="publish">{netChild.id}</div>
 											</div>
 											<div className="ip">
-												<div className="publish lined">
+												<div className="publish">
 													<span
 														className={`sub-domain-icon-v ${network.childs?.length === i + 1 && 'sub-is-last'}`}></span>
 													<span className="sub-domain-icon-h"></span>
-													{netChild.device_in_address}
-												</div>
-											</div>
-											<div className="ip">
-												<div className="publish">
 													{netChild.device_ex_address}
 												</div>
 											</div>
+											<div className="ip">
+												<div className="publish lined">
+													{netChild.device_in_address}
+												</div>
+											</div>
+
 											<div className="full-name">
 												<div className="publish">
 													{netChild.device_desc}
