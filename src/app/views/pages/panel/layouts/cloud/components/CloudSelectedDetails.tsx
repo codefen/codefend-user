@@ -17,6 +17,7 @@ import {
 	Show,
 	PrimaryButton,
 } from '../../../../../components';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 export const CloudSelectedDetails: FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -24,7 +25,7 @@ export const CloudSelectedDetails: FC = () => {
 		(state: SelectMobileCloudApp) => state,
 	);
 	const { updateState } = useOrderStore((state) => state);
-
+	const { isAdmin, isNormalUser } = useUserRole();
 	useEffect(() => {
 		setLoading(true);
 
@@ -49,11 +50,13 @@ export const CloudSelectedDetails: FC = () => {
 						/>
 					</div>
 					<div className="selected-content-tables">
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							click={() => updateState('open', true)}
-							className="primary-full bottom"
-						/>
+						<Show when={isAdmin() || isNormalUser()}>
+							<PrimaryButton
+								text="START A PENTEST ON DEMAND"
+								click={() => updateState('open', true)}
+								className="primary-full bottom"
+							/>
+						</Show>
 						<VulnerabilityRisk
 							isLoading={isLoading}
 							vulnerabilityByRisk={
