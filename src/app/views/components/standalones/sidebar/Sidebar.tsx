@@ -126,7 +126,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Network',
-			id: 'sidebar_lan',
+			id: 'sidebar_net',
 			icon: <LanIcon />,
 			to: '/lan',
 			root: false,

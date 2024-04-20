@@ -13,6 +13,9 @@ import {
 	MobileIcon,
 	PeopleGroupIcon,
 	SourceCodeIcon,
+	LanIcon,
+	MessageIcon,
+	PreferenceIcon
 } from '@icons';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import './welcome.scss';
@@ -40,6 +43,7 @@ enum WelcomeSteps {
 
 const getButtonCoordinates = (buttonId: string): HelperBoxCords => {
 	const buttonElement = document.getElementById(buttonId);
+
 	if (buttonElement) {
 		const buttonRect = buttonElement.getBoundingClientRect();
 		const buttonWidth = buttonRect.width;
@@ -53,6 +57,7 @@ const getButtonCoordinates = (buttonId: string): HelperBoxCords => {
 	return {};
 };
 
+
 export interface WelcomeGuideProps {
 	defaultOpenValue: boolean;
 	closeGuide: () => void;
@@ -62,7 +67,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	defaultOpenValue,
 	closeGuide,
 }) => {
-	const { isAdmin } = useUserRole();
+	const { isAdmin, isProvider  } = useUserRole();
 	const [currentStep, setNextStep] = useState(
 		!isAdmin() ? WelcomeSteps.DASHBOARD : WelcomeSteps.ADMIN,
 	);
@@ -75,9 +80,9 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.DASHBOARD)}
 						coords={getButtonCoordinates('sidebar_admin')}
-						arrow={{ position: Position.LEFT, coordY: '5%' }}
+						arrow={{ position: Position.LEFT, coordY: '7%' }}
 						icon={<AdminCompanyIcon />}
-						text="Any description for admin"
+						text="Any description for admin Any description for admin Any description for admin Any description for adminAny description for admin Any description for admin"
 						title="Any title for admin"
 						highlight="Any highlight text for admin"
 					/>
@@ -135,19 +140,6 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.NET}>
-					<HelperBox
-						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.SOURCE)}
-						coords={getButtonCoordinates('sidebar_net')}
-						arrow={{ position: Position.LEFT, coordY: '5%' }}
-						icon={<SourceCodeIcon />}
-						text="From this section you can control all your network infrastructure, add network devices and IP addresses and unveil the security of these assets!"
-						title="scope: network resources"
-						highlight="Define and pentest your network infrastructure"
-					/>
-				</Show>
-
 				<Show when={currentStep === WelcomeSteps.SOURCE}>
 					<HelperBox
 						close={closeGuide}
@@ -164,7 +156,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 				<Show when={currentStep === WelcomeSteps.SOCIAL}>
 					<HelperBox
 						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.ISSUES)}
+						next={() => setNextStep(WelcomeSteps.NET)}
 						coords={getButtonCoordinates('sidebar_social')}
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<PeopleGroupIcon />}
@@ -174,10 +166,25 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
+
+				<Show when={currentStep === WelcomeSteps.NET}>
+					<HelperBox
+						close={closeGuide}
+						next={() => setNextStep(WelcomeSteps.ISSUES)}
+						coords={getButtonCoordinates('sidebar_net')}
+						arrow={{ position: Position.LEFT, coordY: '5%' }}
+						icon={<LanIcon />}
+						text="From this section you can control all your network infrastructure, add network devices and IP addresses and unveil the security of these assets!"
+						title="scope: network resources"
+						highlight="Define and pentest your network infrastructure"
+					/>
+				</Show>
+
+
 				<Show when={currentStep === WelcomeSteps.ISSUES}>
 					<HelperBox
 						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.EPM)}
+						next={() => setNextStep(WelcomeSteps.SUPPORT)}
 						coords={getButtonCoordinates('sidebar_issues')}
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<BugIcon />}
@@ -187,7 +194,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.EPM}>
+				{/* <Show when={currentStep === WelcomeSteps.EPM}>
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.SUPPORT)}
@@ -198,7 +205,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						title="Endpoint monitoring"
 						highlight="Know what you installed"
 					/>
-				</Show>
+				</Show> */}
 
 				<Show when={currentStep === WelcomeSteps.SUPPORT}>
 					<HelperBox
@@ -206,7 +213,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						next={() => setNextStep(WelcomeSteps.PREFERENCES)}
 						coords={getButtonCoordinates('sidebar_support')}
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
-						icon={<BugIcon />}
+						icon={<MessageIcon />}
 						text="You can contact codefend’s customer support with any kind of security related matters that you have while your subscription is active!"
 						title="codefend contact support"
 						highlight="Contact us at any time!"
@@ -219,7 +226,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						next={closeGuide}
 						coords={getButtonCoordinates('sidebar_preferences')}
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
-						icon={<BugIcon />}
+						icon={<PreferenceIcon />}
 						text="From this section you can update your user details, update security measures, administrate team members and see your invoices and orders."
 						title="preferences"
 						highlight="Administrate preferences, team and your invoices!"
