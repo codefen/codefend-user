@@ -8,6 +8,7 @@ export const useProviderCompanies = ()=>{
     const {updateCompanies} = useAdminCompanyStore();
     
     const getProviderCompanyAccess = ()=>{
+        
         fetcher("post", {
             body: {
                 model: "providers/companies/access",

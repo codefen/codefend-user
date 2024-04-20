@@ -11,6 +11,7 @@ import { IconTextPairs, PrimaryButton } from '../../../../../../components';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
 import { ProviderScope } from '@standalones/order-scope/OrderScope';
+import { useProviderOrderFinish } from '@userHooks/providers/useProviderOrderFinish';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -44,6 +45,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 	resourcesScope,
 }) => {
 	const { showModal, setShowModal } = useModal();
+	const finishOrder = useProviderOrderFinish();
 	const onClick = () => handleActivate(id);
 
 	const teamSize = sizeOrder.valueOf();
@@ -117,7 +119,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 					</div>
 					<div className="flex-row buttons move-to-right">
 						<PrimaryButton
-							click={() => {}}
+							click={() => finishOrder(id)}
 							text="Finish order"
 							buttonStyle="red"
 							className="btn-order-card"

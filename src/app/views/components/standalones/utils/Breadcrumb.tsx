@@ -22,7 +22,9 @@ export const Breadcrumb: FC<Props> = (props) => {
 	return (
 		<span className="breadcrumb">
 			<span className="go-home" onClick={props.rootAction}>
-				{companySelected.name && companySelected.name !== 'unknow'
+				{companySelected &&
+				companySelected?.name &&
+				companySelected?.name !== 'unknow'
 					? companySelected.name
 					: getUserdata().company_name}
 			</span>

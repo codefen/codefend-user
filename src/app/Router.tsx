@@ -89,7 +89,7 @@ export const AppRouter: React.FC = () => {
 								) : isAdmin() ? (
 									<AdminCompany />
 								) : isProvider() ? (
-									<ProviderPage />
+									<Navigate to="/provider/profile" />
 								) : isReseller() ? (
 									<ResellerPage />
 								) : (
@@ -110,6 +110,7 @@ export const AppRouter: React.FC = () => {
 
 						{isProvider() && (
 							<Route path="provider/*" element={<ProviderPage />}>
+								<Route index element={<Navigate to="profile" />} />
 								<Route
 									path="profile/"
 									element={<ProfileProviderLayout />}

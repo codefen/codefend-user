@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react';
-import { Outlet } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 
 import { ProviderSidebar } from './components/sidebar/ProviderSidebar.tsx';
 import { ProviderList } from './components/ProviderList.tsx';

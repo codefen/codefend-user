@@ -83,7 +83,6 @@ const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=
         } else {
             set((current)=> ({...current, companySelected: emptyCompany}));
         }
-
     },
     isSelectedCompany: (company: AdminCompany)=> equals(company, get().companySelected),
     reset: ()=>{
