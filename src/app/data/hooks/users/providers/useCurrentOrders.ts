@@ -1,12 +1,12 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
 import type { FullOrder } from "@/app/data";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export const useCurrentOrders = ()=>{
     const { getCompany } = useUserData();
     const [fetcher,_, isLoading] = useFetcher();
-    const currentOrders = useRef<FullOrder[]>([]);
+    const [currentOrders, setCurrentOrders] = useState<FullOrder[]>([]);
 
     const getConfirmOrders = ()=>{
         fetcher("post", {
@@ -16,9 +16,9 @@ export const useCurrentOrders = ()=>{
             }
         }).then(({data}:any)=>{
             if(data.error != "0") throw new Error();
-            currentOrders.current = data.orders ? data.orders : [];
+            setCurrentOrders(data.orders ? data.orders : []);
         })
     }
 
-    return [currentOrders, {getConfirmOrders, isLoading}] as const;
+    return [currentOrders, {setCurrentOrders,getConfirmOrders, isLoading}] as const;
 }

@@ -9,7 +9,7 @@ export interface ProviderScopeProps {
 	isOpen: boolean;
 	scope: any;
 	onClose: () => void;
-	onConfirm?: () => void;
+	onConfirm: () => void;
 	viewConfirm: boolean;
 }
 
@@ -145,7 +145,7 @@ export const ProviderScope: FC<ProviderScopeProps> = ({
 						<PrimaryButton
 							text="Confirm order"
 							buttonStyle="dark-red"
-							click={() => onConfirm?.()}
+							click={() => onConfirm()}
 							disabledLoader
 							className="scope-btn"
 						/>

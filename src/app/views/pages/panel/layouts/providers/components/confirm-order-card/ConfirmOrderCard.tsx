@@ -58,8 +58,8 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	};
 
 	const handleConfirm = () => {
-		confirmOrder(id);
 		removeOrder(id);
+		confirmOrder(id);
 		setShowModal(false);
 	};
 	const teamSize = sizeOrder.valueOf();

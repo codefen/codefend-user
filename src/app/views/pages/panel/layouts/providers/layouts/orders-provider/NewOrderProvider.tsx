@@ -11,12 +11,12 @@ import { useProviderRefuseStore } from '@stores/providerOrder.store.ts';
 
 export const NewOrderProvider = () => {
 	const { getUserdata } = useUserData();
-	const [orders, { getProviderOrders }] = useProviderOrders();
+	const [orders, { setOrders, getProviderOrders }] = useProviderOrders();
 	const { refuseState, setRefuseState, orderId } = useProviderRefuseStore();
 	const [active, setActiveCard] = useState<string>('');
 	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
 	const removeOrder = (id: string) => {
-		orders.current = orders.current.filter((order) => order.id !== id);
+		setOrders((prev) => prev.filter((order) => order.id !== id));
 	};
 
 	useEffect(() => {
@@ -34,7 +34,7 @@ export const NewOrderProvider = () => {
 		<>
 			<ProviderOrderRefuseModal />
 			<div className="provider-about">
-				{orders.current.map((order, i) => (
+				{orders.map((order, i) => (
 					<ConfirmOrderCard
 						key={`order-${order.id}${i}`}
 						id={order.id}
@@ -62,7 +62,7 @@ export const NewOrderProvider = () => {
 						)}
 					/>
 				))}
-				<Show when={!Boolean(orders.current.length)}>
+				<Show when={!Boolean(orders.length)}>
 					<EmptyCard
 						title="Welcome to the Platform!"
 						info="No orders yet, but your profile is being showcased to potential clients. Enhance it for better visibility and attract more clients."

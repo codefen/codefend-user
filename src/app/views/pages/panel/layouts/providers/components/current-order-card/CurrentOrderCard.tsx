@@ -58,6 +58,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 				scope={resourcesScope}
 				onClose={() => setShowModal(false)}
 				viewConfirm={false}
+				onConfirm={() => {}}
 			/>
 			<div
 				className={`confirm-order-card ${isSelected && 'active'}`}
@@ -119,7 +120,10 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 					</div>
 					<div className="flex-row buttons move-to-right">
 						<PrimaryButton
-							click={() => finishOrder(id)}
+							click={() => {
+								finishOrder(id);
+								removeOrder(id);
+							}}
 							text="Finish order"
 							buttonStyle="red"
 							className="btn-order-card"

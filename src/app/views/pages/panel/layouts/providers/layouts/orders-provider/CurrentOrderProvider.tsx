@@ -6,14 +6,13 @@ import { CurrentOrderCard } from '../../components/current-order-card/CurrentOrd
 import { useUserData } from '#commonUserHooks/useUserData';
 
 export const CurrentOrderProvider = () => {
-	const [currentOrders, { getConfirmOrders, isLoading }] = useCurrentOrders();
+	const [currentOrders, { setCurrentOrders, getConfirmOrders }] =
+		useCurrentOrders();
 	const { getUserdata } = useUserData();
 	const [active, setActiveCard] = useState<string>('');
 	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
 	const removeOrder = (id: string) => {
-		currentOrders.current = currentOrders.current.filter(
-			(order) => order.id !== id,
-		);
+		setCurrentOrders((prev) => prev.filter((order) => order.id !== id));
 	};
 
 	useEffect(() => {
@@ -22,7 +21,7 @@ export const CurrentOrderProvider = () => {
 
 	return (
 		<div className="provider-about">
-			{currentOrders.current.map((order, i) => (
+			{currentOrders.map((order, i) => (
 				<CurrentOrderCard
 					key={`order-${order.id}${i}`}
 					id={order.id}
@@ -46,7 +45,7 @@ export const CurrentOrderProvider = () => {
 					resourcesScope={JSON.parse(order.resources_scope.trim() || '{}')}
 				/>
 			))}
-			<Show when={!Boolean(currentOrders.current.length)}>
+			<Show when={!Boolean(currentOrders.length)}>
 				<EmptyCard
 					title="Welcome to the Platform!"
 					info="No orders yet, but your profile is being showcased to potential clients. Enhance it for better visibility and attract more clients."
