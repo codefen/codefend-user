@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 import { NewOrderProvider } from './NewOrderProvider.tsx';
 import { CurrentOrderProvider } from './CurrentOrderProvider.tsx';
+import { FinishOrderProvider } from './FinishOrderProvider.tsx';
 
 export const OrdersReviewProviders: FC = () => {
 	const { view } = useParams();
@@ -29,5 +30,5 @@ export const OrdersReviewProviders: FC = () => {
 		return <CurrentOrderProvider />;
 	}
 
-	return undefined;
+	return <FinishOrderProvider />;
 };
