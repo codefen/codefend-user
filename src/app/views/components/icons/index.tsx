@@ -1238,10 +1238,40 @@ export const ShieldOffIcon: FC<IconProps> = () => (
 	</svg>
 );
 
-export const SpaceInvaders = () => (
+export const SpaceInvaders: FC<IconProps> = () => (
 	<svg viewBox="0 0 24 24" width="256" height="256" stroke="none">
 		<path
 			fill="currentColor"
 			d="M23.5 12H22v-1.5a.5.5 0 0 0-.5-.5H20V8.5a.5.5 0 0 0-.5-.5H18V6h1.5a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5V5h-1.5a.5.5 0 0 0-.5.5V8H9V5.5a.5.5 0 0 0-.5-.5H7V3.5a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5H6v2H4.5a.5.5 0 0 0-.5.5V10H2.5a.5.5 0 0 0-.5.5V12H.5a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V15h1v3.5a.5.5 0 0 0 .5.5H6v1.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5H7v-1h10v1h-3.5a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V19h1.5a.5.5 0 0 0 .5-.5V15h1v3.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5zM9 12.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2zm9 0a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2z"></path>
+	</svg>
+);
+
+export const WorksIcon: FC<IconProps> = ({ isVisible }) => (
+	<svg
+		width="1.1rem"
+		height="1.1rem"
+		viewBox="0 0 24 24"
+		fill="none"
+		style={{
+			overflow: isVisible ? 'visible' : 'auto',
+		}}>
+		<path
+			d="M2 9C2 7.89543 2.89543 7 4 7H20C21.1046 7 22 7.89543 22 9V20C22 21.1046 21.1046 22 20 22H4C2.89543 22 2 21.1046 2 20V9Z"
+			stroke="currentColor"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"></path>
+		<path
+			d="M16 7V4C16 2.89543 15.1046 2 14 2H10C8.89543 2 8 2.89543 8 4V7"
+			stroke="currentColor"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"></path>
+		<path
+			d="M22 12L12.3922 13.9216C12.1333 13.9733 11.8667 13.9733 11.6078 13.9216L2 12"
+			stroke="currentColor"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"></path>
 	</svg>
 );

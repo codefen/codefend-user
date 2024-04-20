@@ -18,6 +18,7 @@ import {
 	MessageIcon,
 	ProviderOrdersIcon,
 	LanIcon,
+	WorksIcon,
 } from '@icons';
 
 import usePanelStore from '@stores/panel.store.ts';
@@ -55,7 +56,7 @@ const Sidebar: FC = () => {
 		{
 			title: 'Orders',
 			id: 'sidebar_orders',
-			icon: <ProviderOrdersIcon isVisible />,
+			icon: <WorksIcon isVisible />,
 			to: '/provider/orders',
 			root: false,
 			haveAccess: isProvider(),
