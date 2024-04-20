@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 import { PrimaryButton } from '../../../components';
-import { useAuthState, type RegisterFinishParams } from '../../../../data';
+import { type RegisterFinishParams } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 
 const FinishSignUpLayout: FC = () => {

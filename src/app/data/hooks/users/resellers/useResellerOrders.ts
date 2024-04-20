@@ -1,11 +1,11 @@
-import { useAuthState } from '../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef } from 'react';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useResellerOrders = ()=>{
     const [fetcher, _, isLoading] = useFetcher();
-    const { getCompany } = useAuthState();
+    const { getCompany } = useUserData();
     const orders = useRef<any[]>([]);
 
     const getResellerOrders =  ()=>{

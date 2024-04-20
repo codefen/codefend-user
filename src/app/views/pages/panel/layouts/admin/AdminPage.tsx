@@ -1,11 +1,10 @@
 import { type FC, Suspense } from 'react';
-import { useAuthState } from '#commonHooks/useAuthState.ts';
-import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { Loader } from '@defaults/loaders/Loader.tsx';
-import { Navigate, Outlet } from 'react-router';
+import { Outlet } from 'react-router';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 const AdminPage: FC = () => {
-	const { logout, getUserdata, isAuth } = useAuthState();
+	const { logout, getUserdata, isAuth } = useUserData();
 	const isNotAuthenticated = !getUserdata() || !isAuth();
 	if (isNotAuthenticated) {
 		logout();

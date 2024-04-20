@@ -1,6 +1,6 @@
 import {  useRef } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useAuthState } from '../../..';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 const useFetchEndpoints = (companyID: string, scanID: number) => {
 	const [fetcher,_, isLoading] = useFetcher();
@@ -35,7 +35,7 @@ const useFetchEndpoints = (companyID: string, scanID: number) => {
 
 // Hook principal que utiliza los hooks anteriores
 export const useEnp = (scanID: number) => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const companyID = getCompany();
 
 	const { getEndpoints, isLoading, refetch } = useFetchEndpoints(

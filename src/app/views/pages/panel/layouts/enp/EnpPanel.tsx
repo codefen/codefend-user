@@ -8,7 +8,6 @@ import { ScanNetworkGraph } from './components/ScanNetworkGraph.tsx';
 import { ModalOS } from './components/ModalOS.tsx';
 import { EndpointAppProvider } from './EndpointContext.tsx';
 
-import { useAuthState } from '#commonHooks/useAuthState.ts';
 import {
 	formatKeyName,
 	isScanComplianceValid,
@@ -25,9 +24,10 @@ import {
 	Show,
 } from '../../../../components';
 import './endpoints.scss';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
 
 export const EnpPanel: FC = () => {
-	const { getAccessToken } = useAuthState();
+	const { getAccessToken } = useUserData();
 	const [showScreen, control] = useShowScreen();
 	const { refetch, scans, scansFiltered } = useEnpGetScans();
 	const { scanLoading, scanLocal } = useScanLocal(getAccessToken());

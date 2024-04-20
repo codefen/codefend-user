@@ -1,7 +1,7 @@
 import { type FC, lazy } from 'react';
 import { getCurrentDate, useAdminCompanyStore } from '../../../../../data';
 import { AimIcon } from '../../../';
-import { useUserData } from '#commonUserHooks/useAuthState';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export interface ReportFrontpageProps {
 	resourceDomainText: string;

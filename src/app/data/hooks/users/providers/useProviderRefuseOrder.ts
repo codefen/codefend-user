@@ -1,11 +1,10 @@
-import { useAuthState } from "#commonHooks/useAuthState";
 import { useFetcher } from "#commonHooks/useFetcher";
+import { useUserData } from "#commonUserHooks/useUserData";
 import { useProviderRefuseStore } from "@stores/providerOrder.store";
-import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export const useProviderRefuseOrder = ()=>{
-    const { getCompany } = useAuthState();
+    const { getCompany } = useUserData();
     const [fetcher,cancelRequest,_] = useFetcher();
     const { isRefusing } = useProviderRefuseStore();
 

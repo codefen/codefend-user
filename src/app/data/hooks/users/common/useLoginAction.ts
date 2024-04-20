@@ -17,7 +17,26 @@ export const useLoginAction = () => {
 				if (data?.error) {
 					throw new Error(data.message);
 				}
-				console.log({ dataLogin: data})
+				selectCompany({
+					id: data.company_id,
+					name: data.company_name,
+					web: '',
+					size: '',
+					pais_code: '',
+					pais: '',
+					pais_provincia: '',
+					pais_ciudad: '',
+					owner_fname: '',
+					owner_lname: '',
+					owner_role: '',
+					owner_email: '',
+					owner_phone: '',
+					orders_size: '',
+					profile_media: '',
+					mercado: '',
+					isDisabled: false,
+					createdAt: '',
+				})
 				toast.success(`Login successful`);
 				return data.user;
 			})
@@ -28,8 +47,7 @@ export const useLoginAction = () => {
 						: 'An unexpected error has occurred on the server',
 				);
 				return false;
-			})
-			.finally(() => selectCompany(getFullCompanyFromUser()));
+			});
 	};
 
     return { signInUser }

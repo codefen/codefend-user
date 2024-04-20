@@ -1,11 +1,11 @@
-import { useAuthState } from "#commonHooks/useAuthState";
 import { useFetcher } from "#commonHooks/useFetcher";
+import { useUserData } from "#commonUserHooks/useUserData";
 import type { FullOrder } from "@interfaces/order";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 
 export const useProviderOrders = ()=>{
-    const { getCompany } = useAuthState();
+    const { getCompany } = useUserData();
     const [fetcher,_, isLoading] = useFetcher();
     const orders = useRef<FullOrder[]>([]);
 

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAuthState } from '../..';
 import { verifySession } from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface CompanyInfo {
 	id: string;
@@ -45,7 +45,8 @@ interface MemberInfo {
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const usePreferences = () => {
-	const { getCompany, logout } = useAuthState();
+	const { logout } = useUserData();
+	const { getCompany} = useUserData();
 	const [fetcher, cancelRequest, isLoading] = useFetcher(true);
 	const [company, setCompany] = useState<CompanyInfo | ''>('');
 	const [members, setMembers] = useState<MemberInfo[]>([]);

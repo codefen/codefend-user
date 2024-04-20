@@ -1,10 +1,10 @@
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useAuthState } from '#commonHooks/useAuthState.ts';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useEnpGetVulns = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _, isLoading] = useFetcher();
 	const dataRef = useRef<any[]>([]);
 	const selectedEndpointRef = useRef<any>();

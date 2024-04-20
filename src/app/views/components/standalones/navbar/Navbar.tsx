@@ -10,17 +10,17 @@ import { NetworkSetingModal } from '@modals/network-modal/NetworkSetingModal.tsx
 import { NavbarSubMenu } from './NavbarSubMenu.tsx';
 import { usePanelStore } from '../../../../data';
 import useModal from '#commonHooks/useModal.ts';
-import { useAuthState } from '#commonHooks/useAuthState.ts';
 import type { NetworkSettingState } from '@stores/apiLink.store.ts';
 import useNetworkSettingState from '@stores/apiLink.store.ts';
 import './navbar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
 const Navbar: FC = () => {
 	const navigate = useNavigate();
-	const { logout, getUserdata } = useAuthState();
+	const { logout, getUserdata } = useUserData();
 	const userData = getUserdata();
 	const { isAdmin } = useUserRole();
 	const { open, handleChange } = usePanelStore();
@@ -114,7 +114,7 @@ const Navbar: FC = () => {
 							<NavbarSubMenu
 								isOpen={isMenuOpen}
 								subMenuRef={dropdownRef}
-								userFullname={userData.name + ' ' + userData.lastName}
+								userFullname={userData.fname + ' ' + userData.lname}
 								closeMenu={() => setMenuOpen(false)}
 							/>
 						</div>

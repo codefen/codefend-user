@@ -3,7 +3,7 @@ import Show from '@defaults/Show';
 import { useCurrentOrders } from '@userHooks/providers/useCurrentOrders';
 import { useEffect, useState } from 'react';
 import { CurrentOrderCard } from '../../components/current-order-card/CurrentOrderCard';
-import { useUserData } from '#commonUserHooks/useAuthState';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const CurrentOrderProvider = () => {
 	const [currentOrders, { getConfirmOrders, isLoading }] = useCurrentOrders();
@@ -33,7 +33,7 @@ export const CurrentOrderProvider = () => {
 					price={order.funds_provider}
 					type={order.resources_class}
 					provider={
-						getUserdata()?.id == order?.provider_id
+						getUserdata().id == order?.provider_id
 							? getUserdata().username || 'unknown'
 							: 'unknown'
 					}

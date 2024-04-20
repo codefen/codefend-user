@@ -1,11 +1,11 @@
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useAuthState } from '@hooks/index';
+import { useUserData } from '#commonUserHooks/useUserData';
 import { useState } from 'react';
 
 export const userApproveUser = () => {
 	const [pendingUsers, setPendingUsers] = useState([]);
 	const [fetcher, _, isLoading] = useFetcher();
-	const { getAccessToken } = useAuthState();
+	const { getAccessToken } = useUserData();
 
 	const fetchApprove = (body: any) => {
 		return fetcher('post', {

@@ -1,18 +1,18 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import {
 	type AllIssues,
-	type FetchPattern,
 	mapAllIssues,
-	useAuthState,
 	verifySession,
 } from '../../../';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 /* Custom Hook "useOneIssue" to handle retrieval of all issues*/
 export const useIssues = () => {
-	const { getCompany, logout } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const {  logout } = useUserData();
+	const { getCompany} = useUserData();
+	const [fetcher,_, isLoading] = useFetcher();
 	const dataRef = useRef<AllIssues>();
 
 	//Fetch to recover the issues

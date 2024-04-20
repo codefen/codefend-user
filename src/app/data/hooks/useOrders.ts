@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify';
-import { useAuthState } from '.';
 import {
 	type ResumeAllResources,
 	OrderFrequency,
@@ -9,14 +8,14 @@ import {
 	useOrderStore,
 	CryptoPayment,
 	getDomainCounts,
-	ResourcesTypes,
 } from '..';
 import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import type { SocialDomain, SocialResourceResume } from '@interfaces/resources-resumes';
+import type { SocialResourceResume } from '@interfaces/resources-resumes';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useOrders = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
 	const { setScopeAllTotalResources, updateState } = useOrderStore(
 		(state) => state,
@@ -123,7 +122,7 @@ export const useOrders = () => {
 
 export const useOrderScope = () => {
 	const [fetcher, _, isLoading] = useFetcher();
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const { resumeResources } = useOrderStore((state) => state);
 
 	const fetchScope = (companyID: string, resourceScope: string) => {
@@ -177,7 +176,7 @@ export const useOrderScope = () => {
 };
 
 export const useOrderMembership = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _] = useFetcher();
 
 	const fetchmemberShip = (
@@ -217,7 +216,7 @@ export const useOrderMembership = () => {
 };
 
 export const useOrderPlan = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _] = useFetcher();
 
 	const fetchPlan = (
@@ -288,7 +287,7 @@ export const useOrderPlan = () => {
 };
 
 export const useOrderConfirm = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const {
 		resourceType,
 		scope,
@@ -358,7 +357,7 @@ export const useOrderConfirm = () => {
 };
 
 export const useOrderProvider = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _] = useFetcher();
 
 	const fetchProviders = (
@@ -422,7 +421,7 @@ export const useOrderProvider = () => {
 };
 
 export const useOrderOffensive = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _] = useFetcher();
 
 	const fetchOffensive = (
@@ -468,7 +467,7 @@ export const useOrderOffensive = () => {
 };
 
 export const userOrderProviderInfo = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _] = useFetcher();
 	const fetchProviderInfo = (
 		companyID: string,
@@ -507,7 +506,7 @@ export const userOrderProviderInfo = () => {
 };
 
 export const userOrderFinancialResource = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _] = useFetcher();
 	const fetchFinancial = (
 		companyID: string,
@@ -551,7 +550,7 @@ export interface OrderCryptoFinancial {
 
 export const useOrderCryptoFinancial = () => {
 	const [fetcher] = useFetcher();
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [walletActive, setWallet] = useState<OrderCryptoFinancial>({ walletID: '. . .', currencyActive: CryptoPayment.BITCOIN });
 	const qrCode = useRef<string>();
 
@@ -592,7 +591,7 @@ export const useOrderCryptoFinancial = () => {
 
 export const useOrderSaveCryptoPayment = ()=>{
 	const [fetcher] = useFetcher();
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [copied, setCopied] = useState(false);
 	const [transactionID, setTransactionID] = useState('');
 	const [trySend, setTrySend] = useState(false);
@@ -633,7 +632,7 @@ export const useOrderSaveCryptoPayment = ()=>{
 
 export const useOrderSaveBank = ()=>{
 	const [fetcher] = useFetcher();
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [transactionID, setTransactionID] = useState('');
 	const saveBankPayment = (referenceNumber: string, address: string)=>{
 		const companyID = getCompany();
@@ -658,7 +657,7 @@ export const useOrderSaveBank = ()=>{
 }
 export const userOrderCardPayment = ()=>{
 	const [fetcher, isLoading,_] = useFetcher();
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [cardInfo, setCardInfo] = useState({
 		cardOwner: '',
 		cardNumber: '',
@@ -691,7 +690,7 @@ export const userOrderCardPayment = ()=>{
 
 export const userOrderFnished = ()=>{
 	const [fetcher] = useFetcher();
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const finishOrder = (referenceNumber: string)=>{
 		const companyID = getCompany();
 		if (!companyID) {

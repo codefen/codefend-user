@@ -3,15 +3,16 @@ import {
 	type MobileApp,
 	ResourcesTypes,
 	mapMobileProps,
-	useAuthState,
 	useOrderStore,
 	verifySession,
 } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useMobile = () => {
-	const { getCompany, logout } = useAuthState();
+	const { logout } = useUserData();
+	const { getCompany} = useUserData();
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
 	);

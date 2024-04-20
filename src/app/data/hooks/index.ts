@@ -2,7 +2,6 @@ export * from './panel';
 export * from './modules/inx';
 export * from './panel/issues';
 export * from './common/useAppCard';
-export * from './common/useAuthState';
 export * from "./common/useNewWindows";
 export * from "./useOrders";
 export { default as useDoughnutChart } from './common/useChart';

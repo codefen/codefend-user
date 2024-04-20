@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useAuthState } from '../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useAddCloud = (onDone: () => void, close: () => void) => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [appName, setAppName] = useState('');
 	const [provider, setProvider] = useState('');
 	const [description, setDescription] = useState('');

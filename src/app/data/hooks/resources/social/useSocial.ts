@@ -1,12 +1,13 @@
 import { useRef } from 'react';
 import { toast } from 'react-toastify';
 import {type MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../..';
-import { useAuthState } from '../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 /* Custom Hook "useSocial" to handle GET data in Social page*/
 export const useSocial = () => {
-	const { getCompany, logout } = useAuthState();
+	const { logout } = useUserData();
+	const { getCompany} = useUserData();
 	const [fetcher,_, isLoading] = useFetcher(true);
 	
 	const dataRef = useRef<MemberV2[]>([]);

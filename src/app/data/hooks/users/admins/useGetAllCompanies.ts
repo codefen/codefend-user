@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
-import { type CompanyInfo, useAuthState } from '../../..';
+import { type CompanyInfo} from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { toast } from 'react-toastify';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 const useGetAllCompanies = () => {
 	const [fetcher, _, isLoading] = useFetcher();
 	const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
-	const { getCompany } = useAuthState();
+	const { getCompany } = 	useUserData();
+
 
 	const fetchCompanyInfo = useCallback(() => {
 		const companyID = getCompany();

@@ -1,6 +1,6 @@
 import { type FC, Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { useAuthState, useAuthStore } from '../../../data';
+import { useAuthStore } from '../../../data';
 import {
 	ErrorConection,
 	Loader,
@@ -13,6 +13,7 @@ import { WelcomeGroupTour } from '../../components/standalones/welcome/WelcomeGr
 import { useMediaQuery } from 'usehooks-ts';
 import { MobileFallback } from '@defaults/mobile-fallback/MobileFallback';
 import '../../styles/flag.scss';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -20,7 +21,7 @@ export const PanelPage: FC = () => {
 	const { updateAuth } = useAuthStore((state) => ({
 		updateAuth: state.updateAuth,
 	}));
-	const { isAuth, logout } = useAuthState();
+	const { isAuth, logout } = useUserData();
 
 	if (!isAuth) logout();
 

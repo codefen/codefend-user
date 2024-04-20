@@ -1,14 +1,16 @@
 import { useCallback, useRef } from 'react';
-import { type OneIssue, mapLoginResponseToUser, mapOneIssue, useAuthState } from '../../../';
+import { type OneIssue, mapOneIssue } from '../../../';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
-	const { getCompany, updateUserData, updateToken } = useAuthState();
+	const {  updateUserData, updateToken } = useUserData();
+	const { getCompany } = useUserData();
 	const navigate = useNavigate();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const [fetcher,_, isLoading] = useFetcher();
 	const dataRef = useRef<OneIssue>();
 
 	const fetchOne = useCallback((companyID: string, selectedID: string) => {
@@ -25,7 +27,7 @@ export const useOneIssue = () => {
 					}
 					dataRef.current = mapOneIssue(data);
 
-					updateUserData(mapLoginResponseToUser(data.user));
+					updateUserData(data.user);
 					updateToken(data.session);
 				}
 			)

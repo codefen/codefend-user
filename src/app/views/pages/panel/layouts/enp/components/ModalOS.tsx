@@ -1,13 +1,12 @@
 import { type FC, useEffect, useState } from 'react';
 import { AppleIcon, LinuxIcon, WindowsIcon } from '../../../../../components';
-import { getCustomBaseAPi } from '../../../../../../data';
+import { getCustomBaseAPi } from '@utils/helper.ts';
 
-import { useEndpointAppStore } from '../EndpointContext';
+import { useEndpointAppStore } from '../EndpointContext.tsx';
 import { toast } from 'react-toastify';
 
-import { useAuthState } from '../../../../../../data';
-
-import { baseUrl } from '../../../../../../data/utils/config';
+import { baseUrl } from '../../../../../../data/utils/config.ts';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
 
 type OsOptions = {
 	[key: string]: string;
@@ -17,7 +16,7 @@ type OsOptions = {
 };
 
 export const ModalOS: FC = () => {
-	const { getAccessToken, getCompany } = useAuthState();
+	const { getAccessToken, getCompany } = useUserData();
 	const { closeModal, isModalOpen } = useEndpointAppStore();
 
 	const [selectedOS, setSelectedOS] = useState<string>('windows');

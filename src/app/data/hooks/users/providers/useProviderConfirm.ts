@@ -1,10 +1,10 @@
-import { useAuthState } from "#commonHooks/useAuthState";
 import { useFetcher } from "#commonHooks/useFetcher";
+import { useUserData } from "#commonUserHooks/useUserData";
 
 import { toast } from "react-toastify";
 
 export const useProviderConfirm =()=>{
-    const { getCompany } = useAuthState();
+    const { getCompany } = useUserData();
     const [fetcher,_, isLoading] = useFetcher();
 
     const confirmOrder = (orderId: string)=>{

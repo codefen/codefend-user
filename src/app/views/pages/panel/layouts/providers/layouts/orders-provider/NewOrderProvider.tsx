@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard.tsx';
 import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 import { useProviderOrders } from '@userHooks/providers/useProviderOrders.ts';
-import { useUserData } from '#commonUserHooks/useAuthState.ts';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { ProviderOrderRefuseModal } from '../../components/refuse-modal/ProviderOrderRefuseModal.tsx';

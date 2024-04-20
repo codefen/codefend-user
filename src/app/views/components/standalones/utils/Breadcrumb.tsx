@@ -1,7 +1,7 @@
 import { type FC, Fragment } from 'react';
 import { useLocation } from 'react-router';
 import { useAdminCompanyStore } from '../../../../data';
-import { useUserData } from '#commonUserHooks/useAuthState';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface Props {
 	customSegment?: string[];
@@ -22,9 +22,9 @@ export const Breadcrumb: FC<Props> = (props) => {
 	return (
 		<span className="breadcrumb">
 			<span className="go-home" onClick={props.rootAction}>
-				{companySelected?.name !== 'unknow'
-					? companySelected?.name
-					: getUserdata().companyRole}
+				{companySelected.name && companySelected.name !== 'unknow'
+					? companySelected.name
+					: getUserdata().company_name}
 			</span>
 			{segments.map((segment: string, i: number) => (
 				<Fragment key={i}>

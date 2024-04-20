@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { NetworkIcon, PrimaryButton } from '../../../components';
 import {
 	type RegisterParams,
-	useAuthState,
 	companySizesList,
 	countries,
 	type NetworkSettingState,

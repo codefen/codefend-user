@@ -3,32 +3,9 @@ import { devtools, persist } from 'zustand/middleware';
 import {
 	type User,
 	decodePayload,
-	mapLoginResponseToUser,
 } from '..';
 import { AxiosHttpService } from '../services/axiosHTTP.service';
-
-const EMPTY_USER:User = {
-	id: '',
-	accessRole: '',
-	companyAccessIds: "" ,
-	email: '',
-	phone: '',
-	lastName: "",
-	username: '',
-	companyID: "",	
-	companyRole: "",
-	countryCode: "",
-	createdAt: "",
-	isDisabled: false,
-	mfaKey: "",
-	name: "",
-	role: "",
-	profileMedia: "",
-	country: "",
-	password: "",
-	exp: 0,
-
-}
+import { EMPTY_USER } from '@mocks/empty';
 
 export interface AuthState {
 	userData: User;
@@ -86,7 +63,7 @@ const useAuthStore = create<AuthState>()(
 						if (token) {
 							const decodedToken = decodePayload(token);
 							user = {
-								...mapLoginResponseToUser(data.user),
+								...data.user,
 								exp: decodedToken.exp || 0,
 							};
 						}

@@ -6,9 +6,9 @@ import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 
 import Show from '@defaults/Show.tsx';
 import useModal from '#commonHooks/useModal.ts';
-import { useAuthState } from '#commonHooks/useAuthState.ts';
 import type { NetworkSettingState } from '@stores/apiLink.store.ts';
 import useNetworkSettingState from '@stores/apiLink.store.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface NavbarSubMenuProps {
 	subMenuRef: any;
@@ -23,7 +23,7 @@ export const NavbarSubMenu: FC<NavbarSubMenuProps> = (props) => {
 	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
-	const { logout } = useAuthState();
+	const { logout } = useUserData();
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 

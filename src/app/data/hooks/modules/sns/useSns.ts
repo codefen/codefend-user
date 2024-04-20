@@ -1,8 +1,8 @@
 import { useRef, useState } from "react"
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useAuthState } from "../../common/useAuthState";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
+import { useUserData } from "#commonUserHooks/useUserData";
 
 interface PersonInfo {
 	name: string;
@@ -27,7 +27,7 @@ interface PersonInfo {
 }
 
 export const useSns = ()=>{
-    const { getCompany, getUserdata } = useAuthState();
+    const { getCompany, getUserdata } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
     const query = new URLSearchParams(useLocation().search);
 	const [searchData, setSearchData] = useState(query.get('search') || '');

@@ -1,11 +1,11 @@
 import {  useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useAuthState } from '#commonHooks/useAuthState.ts';
 import { processScans } from '@utils/helper.ts';
 import { toast } from 'react-toastify';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useEnpGetScans  =()=>{
-    const { getCompany } = useAuthState();
+    const { getCompany } = useUserData();
     const [fetcher,_, isLoading] = useFetcher();
 	const dataRef = useRef<any[]>([]);
 	const [scansFiltered, setScansFiltered] = useState<any[]>([]);

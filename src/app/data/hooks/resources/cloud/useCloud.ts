@@ -5,13 +5,14 @@ import {
 	type CloudApp,
 	ResourcesTypes,
 	mapCloudApp,
-	useAuthState,
 	useOrderStore,
 	verifySession,
 } from '../../..';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useCloud = () => {
-	const { getCompany, logout } = useAuthState();
+	const { logout } = useUserData();
+	const { getCompany} = useUserData();
 	const [fetcher,_, isLoading] = useFetcher(true);
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,

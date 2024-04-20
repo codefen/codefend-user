@@ -2,15 +2,15 @@ import { toast } from 'react-toastify';
 import {
 	type ResultsVdbSearchV2,
 	mapVdbResultV2,
-	useAuthState,
 } from '../../..';
 import { type ChangeEvent, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 /* Custom Hook "useInitialVdb" to handle the search result in vdb */
 export const useInitialVdb = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const { search } = useParams();
 	const [searchData, setSearchData] = useState('');
 	const vdbResults = useRef<ResultsVdbSearchV2[]>([]);

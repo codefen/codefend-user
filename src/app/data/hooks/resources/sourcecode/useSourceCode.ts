@@ -3,16 +3,16 @@ import { toast } from 'react-toastify';
 import {
 	ResourcesTypes,
 	mapSourceCode,
-	useAuthState,
 	useOrderStore,
 	verifySession,
 } from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useSourceCode = () => {
+	const { getCompany, logout} = useUserData();
 	const [fetcher,_, isLoading] = useFetcher(true);
 	const [sourceCode, setSource] = useState(null);
-	const { getCompany, logout } = useAuthState();
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
 	);

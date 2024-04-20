@@ -1,24 +1,21 @@
 import {
 	type Ticket,
 } from '@interfaces/panel.ts';
-import { useAuthState } from '../..';
 import { toast } from 'react-toastify';
 import { useCallback, useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-
-
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface ApiResponse {
 	disponibles: Ticket[];
 	eliminados: Ticket[];
 	error: string;
 	info: string;
-
 }
-/* */
+
 /* Custom Hook "useAllTicket" to retrieve all tickets in customer support view*/
 export const useAllTicket = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
 	const dataRef = useRef<Ticket[]>([]);
 
@@ -58,7 +55,7 @@ export const useAddTicket = () => {
 	const [fetcher,_, isLoading] = useFetcher();
 	const [title, setTitle] = useState('');
 	const [shortDescription, setShortDescription] = useState('');
-	const { getUserdata, getCompany } = useAuthState();
+	const { getUserdata, getCompany } = useUserData();
 
 	const fetchAdd = async (params: any, userID: string, companyID: string) => {
 		return fetcher('post', {
@@ -76,7 +73,7 @@ export const useAddTicket = () => {
 
 	const addTicket = (): any => {
 		const companyID = getCompany();
-		const userID = getUserdata()?.id;
+		const userID = getUserdata().id;
 		if (!companyID || !userID) {
 			toast.error('User information was not found');
 			return;
@@ -102,7 +99,7 @@ export const useAddTicket = () => {
 
 /* Custom Hook "useTicketDelete" to handle the "deletion" of a ticket*/
 export const useTicketDelete = () => {
-	const {getCompany } = useAuthState();
+	const {getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
 	const fetchDelete = useCallback(
 		async (ticketID: string, companyID: string) => {

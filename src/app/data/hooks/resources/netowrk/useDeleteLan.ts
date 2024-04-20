@@ -1,10 +1,10 @@
-import { useCallback, useRef, useState } from 'react';
-import { type Device, useAuthState } from '../../..';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useDeleteLan = (onDone: () => void, close: () => void) => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, _, isLoading] = useFetcher();
     const [selectedLanIdToDelete, setSelectedLanIdToDelete] = useState<
     string 

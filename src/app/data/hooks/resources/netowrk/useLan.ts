@@ -1,7 +1,8 @@
 import { useCallback, useRef, useState } from 'react';
-import { type Device, useAuthState } from '../../..';
+import { type Device } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export interface LanProps {
 	loading: boolean;
@@ -12,7 +13,7 @@ export interface LanProps {
 
 /* Custom Hook "useLan" to handle recovery of all LAN apps*/
 export const useLan = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
 	const [error, setError] = useState(false);
 	const dataRef = useRef<Device[]>([]);

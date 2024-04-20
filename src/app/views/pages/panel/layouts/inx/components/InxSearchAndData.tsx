@@ -1,6 +1,5 @@
 import { type FC, Fragment, useState } from 'react';
 import {
-	useAuthState,
 	useHighlightLinesWithUrl,
 	useIntelSearch,
 	useInitialSearch,
@@ -15,6 +14,7 @@ import {
 } from '../../../../../components';
 import { InxPreviewIntelData } from './InxPreviewIntelData';
 import { InxSearchBar } from './InxSearchBar';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface InxSearchAndDataProps {
 	refetch: () => void;
@@ -22,7 +22,7 @@ interface InxSearchAndDataProps {
 
 export const InxSearchAndData: FC<InxSearchAndDataProps> = (props) => {
 	const { highlightWithUrl } = useHighlightLinesWithUrl();
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const companyID = getCompany();
 	const [viewPreviewModal, setViewPreviewModal] = useState(true);
 

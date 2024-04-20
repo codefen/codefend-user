@@ -2,17 +2,17 @@ import { useState } from 'react';
 import {
 	type WebapplicationProps,
 	mapToWebresourceProps,
-	useAuthState,
 	useOrderStore,
 	verifySession,
 	type Company,
 } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 /* Custom Hook "useWebapplication" to manage the GET of web apps*/
 export const useWebapplication = () => {
-	const { getCompany, logout } = useAuthState();
+	const { getCompany, logout } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher(true);
 	const { setScopeTotalResources } = useOrderStore((state) => state);
 	const [webResources, setWebResources] = useState<WebapplicationProps>(
@@ -44,7 +44,7 @@ export const useWebapplication = () => {
 
 /* Custom Hook "useDeleteWebResource" to handle "deleting" web apps */
 export const useDeleteWebResource = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher, cancelRequest, isLoading] = useFetcher();
 
 	const handleDelete = async (
@@ -85,8 +85,8 @@ export const useDeleteWebResource = () => {
 };
 
 export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
-	const { getCompany } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const { getCompany } = useUserData();
+	const [fetcher,_, isLoading] = useFetcher();
 	const [domainName, setDomainName] = useState('');
 
 	const verifyDomainName = () => {
@@ -136,8 +136,8 @@ export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
 };
 
 export const useAddSubResource = (onDone: () => void, onClose: () => void) => {
-	const { getCompany } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const { getCompany } = useUserData();
+	const [fetcher,_, isLoading] = useFetcher();
 	const [domainName, setDomainName] = useState('');
 	const [ipAddress, setIpAddress] = useState('');
 	const [mainDomainId, setMainDomainId] = useState('');

@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
-import { useAuthState } from '../../../';
 import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export interface SaveIssue {
 	issueName: string;
@@ -53,7 +53,7 @@ export const useIssuesValidations = () => {
 
 /* Custom Hook "useSaveIssue" to handle saving an issue*/
 export const useSaveIssue = () => {
-	const { getUserdata, getCompany } = useAuthState();
+	const { getUserdata, getCompany } = useUserData();
 	const { type, resourceId } = useParams();
 	const [fetcher,_, isLoading] = useFetcher();
 	const [validateNewIssue] = useIssuesValidations();
@@ -88,7 +88,7 @@ export const useSaveIssue = () => {
 				risk_score: newIssue.score,
 				name: newIssue.issueName,
 				resource_class: newIssue.issueClass,
-				researcher_username: getUserdata()?.username,
+				researcher_username: getUserdata().username,
 				main_desc: _editorContent,
 				resource_id: newIssue.resourceID ? newIssue.resourceID : undefined,
 			},

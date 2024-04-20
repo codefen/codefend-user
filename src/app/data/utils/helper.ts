@@ -12,7 +12,7 @@ export const getToken = () => {
 export const getFullCompanyFromUser = () => {
 	const storeJson = localStorage.getItem('authStore');
 	const store = storeJson ? JSON.parse(storeJson) : null;
-	const companyID = store ? store.state.userData.companyID : '';
+	const companyID = store ? store.state.userData.company_id : '';
 	return {
 		id: String(companyID),
 		name: 'unknow',

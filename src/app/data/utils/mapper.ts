@@ -25,29 +25,6 @@ import type {
 
 import { cleanReview, formatDate, mapEpochToDate } from '..';
 
-/** Map to @interface User */
-export const mapLoginResponseToUser = (response: any): User => {
-	return {
-		id: response.id,
-		companyID: response.company_id,
-		companyAccessIds: response.company_access_ids,
-		name: response.fname,
-		lastName: response.lname,
-		username: response.username,
-		companyRole: response.role,
-		accessRole: response.access_role,
-		email: response.email,
-		phone: response.phone,
-		password: response.password,
-		mfaKey: response.mfa_llave,
-		profileMedia: response.profile_media,
-		country: response.pais,
-		countryCode: response.pais_code,
-		isDisabled: response.eliminado === '1',
-		createdAt: response.creacion,
-	} as User;
-};
-
 /** Map company api data => @interface Company   */
 export const mapCompany = (source: any): Company => {
 	return {

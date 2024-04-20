@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useAuthState } from '../../common/useAuthState';
 import { mapGetCompanyToCompanyData } from '../../../utils/mapper';
 import {
 	type DashboardProps,
@@ -8,9 +7,10 @@ import {
 } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useDashboard = () => {
-	const { getCompany, logout } = useAuthState();
+	const {getCompany,logout} = useUserData();
 	const [fetcher,_, isLoading] = useFetcher(true);
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,

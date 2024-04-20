@@ -1,11 +1,11 @@
-import { useAuthState } from '../../../';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 /* Custom Hook "useDeleteIssue" to handle the "deletion" of an issue */
 export const useDeleteIssue = () => {
-	const { getCompany } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const { getCompany } = useUserData();
+	const [fetcher, _, isLoading] = useFetcher();
 
 	//Fetch func
 	const fetchDelete = (issueId: string, companyID: string) => {

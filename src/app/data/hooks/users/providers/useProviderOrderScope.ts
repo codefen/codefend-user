@@ -1,10 +1,10 @@
-import { useAuthState } from "#commonHooks/useAuthState";
 import { useFetcher } from "#commonHooks/useFetcher";
+import { useUserData } from "#commonUserHooks/useUserData";
 import type { Provider } from "@interfaces/provider";
 import { useRef } from "react";
 
 export const useProviderOrderScope = ()=>{
-    const { getCompany } = useAuthState();
+    const { getCompany } = useUserData();
     const [fetcher,_, isLoading] = useFetcher();
     const providers = useRef<Provider[]>();
     

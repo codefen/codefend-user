@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 import {
 	type PreviusSearch,
 	mapPreviusSearch,
-	useAuthState,
 	verifySession,
 } from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export interface PreviousSearch {
 	id: string;
@@ -29,7 +29,7 @@ export interface PreviousSearch {
 }
 
 export const useInxPreviousSearch = () => {
-	const { getCompany, logout } = useAuthState();
+	const { getCompany, logout } = useUserData();
 	const [fetcher, _, isLoading] = useFetcher();
 	const dataRef = useRef<PreviousSearch[]>([]);
 

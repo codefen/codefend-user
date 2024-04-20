@@ -1,14 +1,14 @@
 import {
 	type TicketWithChild,
 } from '@interfaces/panel.ts';
-import { useAuthState } from '../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef } from 'react';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 /* Custom hook "useOneTicket" to retrieve a single ticket*/
 export const useOneTicket = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
 	const dataRef = useRef<TicketWithChild>();
 

@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuthState, baseUrl, getCustomBaseAPi, getToken, mapIssueShareV2, mapMobileApp, mapWebresourceApiToWebresource, mapCloudApp, mapReportIssues} from "../../..";
+import {  baseUrl, getCustomBaseAPi, getToken, mapIssueShareV2, mapMobileApp, mapWebresourceApiToWebresource, mapCloudApp, mapReportIssues} from "../../..";
 import { useReportStore } from "../../../";
 import { handleFetchError } from "@services/api.utils";
+import { useUserData } from "#commonUserHooks/useUserData";
 
 export const useIssueReport = ()=>{
     const resources = useRef<any>(null);
@@ -10,7 +11,7 @@ export const useIssueReport = ()=>{
 	const share = useRef<any>(null);
 	const [resourceDomainText, setDomainText] = useState('');
     
-    const { getCompany } = useAuthState();
+    const { getCompany } = useUserData();
     const {resourceID, resourceType} = useReportStore((state)=>state);
 
   const abortController = new AbortController();

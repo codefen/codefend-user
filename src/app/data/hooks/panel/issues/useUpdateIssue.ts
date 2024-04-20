@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useAuthState } from '../../../';
 import { toast } from 'react-toastify';
 import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export interface UpdateIssue {
 	id: string;
@@ -21,7 +21,7 @@ const validateNewIssue = (validate: boolean, message: string) => {
 
 /* Custom Hook "useUpdateIssue" to handle updating an issue*/
 export const useUpdateIssue = () => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
 	const [updatedIssue, dispatch] = useState<UpdateIssue>({
 		id: '',

@@ -1,9 +1,9 @@
-import { useAuthState } from "#commonHooks/useAuthState";
 import { useFetcher } from "#commonHooks/useFetcher";
+import { useUserData } from "#commonUserHooks/useUserData";
 import useAdminCompanyStore from "@stores/adminCompany.store";
 
 export const useProviderCompanies = ()=>{
-    const { getCompany,getUserdata } = useAuthState();
+    const { getUserdata } = useUserData();
     const [fetcher,_, isLoading] = useFetcher();
     const {updateCompanies} = useAdminCompanyStore();
     
@@ -11,7 +11,7 @@ export const useProviderCompanies = ()=>{
         fetcher("post", {
             body: {
                 model: "providers/companies/access",
-                company_id: getUserdata().companyID,
+                company_id: getUserdata().company_id,
             }
         }).then(({ data }: any)=>{
             if(data.error != "0") throw new Error();

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { toast } from 'react-toastify';
-import { useAuthState } from '../..';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface SocialData {
 	fName: string;
@@ -13,7 +13,7 @@ interface SocialData {
 }
 
 export const useAddSocial = (onDone: () => void) => {
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 	const [selectedId, setSelectedId] = useState<string>('');
 	const [fetcher, _, isLoading] = useFetcher();
 

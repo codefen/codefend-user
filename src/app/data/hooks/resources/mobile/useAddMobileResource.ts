@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useAuthState } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const useAddMobileResource = () => {
 	const [fetcher,_, isLoading] = useFetcher();
 
 	const [androidAddress, setAndroidAddress] = useState('');
 	const [iosAddress, setIosAddress] = useState('');
-	const { getCompany } = useAuthState();
+	const { getCompany } = useUserData();
 
 	const isNotValidData = () => {
 		if (androidAddress.length > 165) {

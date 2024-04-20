@@ -1,4 +1,4 @@
-import { type FC, useCallback, useState } from 'react';
+import { type FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import { EditIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
@@ -9,10 +9,10 @@ import {
 	getCustomBaseAPi,
 	setCustomBaseAPi,
 } from '@utils/helper.ts';
-import { useAuthState } from '#commonHooks/useAuthState.ts';
 import { baseUrl } from '@utils/config.ts';
 import './networkSetting.scss';
 import { PrimaryButton } from '../..';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface NetworkSetingModalProps {
 	isOpen: boolean;
@@ -31,7 +31,7 @@ export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
 	const [apiUrl, setApiUrl] = useState(defaultApiUrl);
 	const [canEdit, setCanEdit] = useState(false);
 	const [isLoading, setLoading] = useState(false);
-	const { logout } = useAuthState();
+	const { logout } = useUserData();
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
