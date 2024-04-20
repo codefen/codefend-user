@@ -11,16 +11,9 @@ export const useProviderProfile = () => {
     const {provider, setProvider, setLogicSequence} = useProviderProfileStore((state)=> state);
 
 	const refetch = () => {
-		const companyID = getCompany();
-
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
-
 		fetcher<any>('post', {
 			body: {
-				company_id: companyID,
+				company_id: getUserdata().companyID,
 				provider_id: getUserdata().id,
 				model: 'providers/profiles/view',
 			}
