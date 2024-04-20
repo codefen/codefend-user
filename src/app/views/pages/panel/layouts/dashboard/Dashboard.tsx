@@ -31,18 +31,18 @@ const Dashboard: React.FC = () => {
 			<section className="left">
 				<DashboardVulnerabilities
 					isLoading={isLoading}
-					topVulnerabilities={companyData.issues ?? []}
+					topVulnerabilities={companyData.issues || []}
 				/>
-				<DashboardAssets resources={companyData.resources ?? {}} />
+				<DashboardAssets resources={companyData.resources || {}} />
 				<DashboardCollaborators
 					isLoading={isLoading}
-					members={companyData.members ?? []}
+					members={companyData.members || []}
 				/>
 			</section>
 
 			<section className="right" ref={flashlight.rightPaneRef}>
 				<VulnerabilitiesStatus
-					vulnerabilityByShare={companyData.issuesCondition ?? {}}
+					vulnerabilityByShare={companyData.issuesCondition || {}}
 				/>
 				<PrimaryButton
 					text="Go to vulnerabilities"
@@ -52,9 +52,7 @@ const Dashboard: React.FC = () => {
 					disabledLoader
 				/>
 				<VulnerabilityRisk
-					vulnerabilityByRisk={
-						companyData.issuesShare ?? ({} as IssuesShare)
-					}
+					vulnerabilityByRisk={companyData.issuesShare || {}}
 					isLoading={isLoading}
 				/>
 			</section>

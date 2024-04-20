@@ -111,17 +111,16 @@ export const mapIssuesCondition = (source: any): IssuesCondition => {
 /** Map dashboard company api data => @interface DashboardProps */
 export const mapGetCompanyToCompanyData = (source: any): DashboardProps => {
 	return {
-		company: mapCompany(source.company),
 		issues: source.issues
 			? source.issues.map((issue: any) => mapIssues(issue))
 			: [],
 		resources: {
-			web: source.resources.web,
-			mobile: source.resources.mobile,
-			cloud: source.resources.cloud,
-			lan: source.resources.lan,
-			source: source.resources.source,
-			social: source.resources.social,
+			web: source?.resources.web || "",
+			mobile: source?.resources.mobile || "",
+			cloud: source?.resources.cloud || "",
+			lan: source?.resources.lan || "",
+			source: source?.resources.source || "",
+			social: source?.resources.social || "",
 		},
 		issuesShare: mapIssueShare(source),
 		issuesCondition: mapIssuesCondition(source),

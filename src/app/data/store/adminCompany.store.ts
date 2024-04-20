@@ -1,6 +1,7 @@
 import { type StateCreator, create } from "zustand";
-import { type ID, type Monitoring, emptyCompany, equalsObj } from "..";
+import { type ID, type Monitoring, equalsObj } from "..";
 import { type PersistOptions, devtools, persist } from "zustand/middleware";
+import { EMPTY_COMPANY } from "@mocks/empty";
 
 export interface AdminCompany extends ID, Monitoring {
     name: string;
@@ -36,7 +37,7 @@ export interface AdminCompanyState {
 
 const equals = (first:any,second:any)=>equalsObj(first, second);
 
-const companyEMPTY = emptyCompany;
+const emptyCompany = EMPTY_COMPANY;
 
 const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: PersistOptions<any,string>) =>
 	devtools(persist(store, persistence)) as StateCreator<
@@ -50,10 +51,11 @@ const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=
     companySelected: (()=>{
         const storeJson = localStorage.getItem('authStore');
         const store = storeJson ? JSON.parse(storeJson) : null;
-        const companyID = store.state.userdata ? store.state.userData?.companyID : '';
+        const companyID = store.state.userdata ? store.state.userData?.company_id : '';
+        const companyName = store.state.userdata ? store.state.userData?.company_name : '';
         return {
             id: companyID,
-            name: 'codefend',
+            name: companyName,
             web: '',
             size: '',
             pais_code: '',
@@ -79,13 +81,13 @@ const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=
         if(!equals(state.companySelected, company) || ignore){
             set((current)=> ({...current, companySelected: company}));
         } else {
-            set((current)=> ({...current, companySelected: companyEMPTY}));
+            set((current)=> ({...current, companySelected: emptyCompany}));
         }
 
     },
     isSelectedCompany: (company: AdminCompany)=> equals(company, get().companySelected),
     reset: ()=>{
-        set((state)=> ({...state, companySelected: companyEMPTY, companies: [] as AdminCompany[]}))
+        set((state)=> ({...state, companySelected: emptyCompany, companies: [] as AdminCompany[]}))
     },
     updateSearch: (updated: string)=> set((prev: AdminCompanyState)=> ({...prev, searchQuery: updated})),
     updateCompanies: (updated: AdminCompany[])=> {
