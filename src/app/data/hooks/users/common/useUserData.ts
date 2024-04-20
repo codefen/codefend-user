@@ -10,7 +10,7 @@ export const useUserData = ()=>{
     const getAccessToken = () =>
     authStore.accessToken ? authStore.accessToken : '';
 
-    const getCompany = () => companySelected.id || getUserdata().company_id;
+    const getCompany = () => companySelected?.id || getUserdata().company_id;
 
     const isAuth = () => authStore.isAuth;
 
