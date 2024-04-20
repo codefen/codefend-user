@@ -77,7 +77,7 @@ export const useOrders = () => {
 							}),
 						)
 					: [],
-				lan: data.resources_lan
+				network: data.resources_lan
 					? data.resources_lan.map(
 							(resource: any) => ({
 								id: resource.id,
@@ -99,7 +99,7 @@ export const useOrders = () => {
 				resumeResources.mobile.length +
 				resumeResources.cloud.length +
 				resumeResources.source.length +
-				resumeResources.lan.length +
+				resumeResources.network.length +
 				resumeResources.social.social_resources.length;
 
 			setScopeAllTotalResources(countAllTotalResource);
@@ -140,8 +140,8 @@ export const useOrderScope = () => {
 			resource = {source: resumeResources.source};
 		} else if (resourceScope === 'social') {
 			resource = {social: resumeResources.social};
-		} else if (resourceScope === 'lan') {
-			resource = {lan: resumeResources.lan};
+		} else if (resourceScope === 'network') {
+			resource = {lan: resumeResources.network};
 		}
 		return fetcher('post', {
 			body: {

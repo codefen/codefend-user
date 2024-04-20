@@ -1,5 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
-import { type Device } from '../../..';
+import { useRef } from 'react';
+import { ResourcesTypes, useOrderStore, verifySession, type Device } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -13,13 +13,13 @@ export interface LanProps {
 
 /* Custom Hook "useLan" to handle recovery of all LAN apps*/
 export const useLan = () => {
-	const { getCompany } = useUserData();
+	const { getCompany , logout} = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
-	const [error, setError] = useState(false);
+	const { setScopeTotalResources,updateState } = useOrderStore((state) => state);
 	const dataRef = useRef<Device[]>([]);
 
 	/* Fetch LAN  Apps */
-	const fetchAllLan = useCallback((companyID: string) => {
+	const fetchAllLan = (companyID: string) => {
 		fetcher('post', {
 			body: {
 				model: 'resources/lan',
@@ -28,10 +28,13 @@ export const useLan = () => {
 			},
 		})
 			.then(({data}: any) => {
-				dataRef.current = data.disponibles;
-				setError(false);
-			}).catch(() => setError(true));
-	}, []);
+				verifySession(data, logout);
+				
+				dataRef.current = data.disponibles ? data.disponibles : [];
+
+				setScopeTotalResources(dataRef.current.length);
+			}).finally(() => updateState('resourceType', ResourcesTypes.NETWORK));
+	};
 
 	/* Refetch Function. */
 	const refetch = () => {
@@ -43,5 +46,5 @@ export const useLan = () => {
 		fetchAllLan(companyID);
 	};
 
-	return { loading: isLoading, networks: dataRef.current, error, refetch };
+	return { loading: isLoading, networks: dataRef.current, refetch };
 };

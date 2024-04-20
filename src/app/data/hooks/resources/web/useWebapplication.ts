@@ -5,6 +5,7 @@ import {
 	useOrderStore,
 	verifySession,
 	type Company,
+	ResourcesTypes,
 } from '../../..';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
@@ -14,7 +15,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 export const useWebapplication = () => {
 	const { getCompany, logout } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher(true);
-	const { setScopeTotalResources } = useOrderStore((state) => state);
+	const { setScopeTotalResources, updateState } = useOrderStore((state) => state);
 	const [webResources, setWebResources] = useState<WebapplicationProps>(
 		{company: {} as Company, resources: []}
 	);
@@ -36,7 +37,7 @@ export const useWebapplication = () => {
 			const webResource = mapToWebresourceProps(data);
 			setWebResources(webResource);
 			setScopeTotalResources(webResource.resources.length);
-		});
+		}).finally(() => updateState('resourceType', ResourcesTypes.WEB));
 	};
 
 	return { webResources, isLoading, refetch };

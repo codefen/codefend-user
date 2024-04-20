@@ -4,6 +4,7 @@ import { PrimaryButton } from '@buttons/index';
 import './orderscope.scss';
 import { EmptyCard, ModalTitleWrapper } from '../..';
 import { OrderScopeTable } from './OrderTableScope';
+import { OrderScopeBar } from './OrderScopeBar';
 
 export interface ProviderScopeProps {
 	isOpen: boolean;
@@ -35,53 +36,17 @@ export const ProviderScope: FC<ProviderScopeProps> = ({
 		'w' | 'm' | 'c' | 's' | 'sc' | 'n' | 'u'
 	>(defineActiveAlias(scope));
 
-	const handleActivate = (
-		scopeAlias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n',
-		verify: string,
-	) => {
-		if (verify in scope && resourceActive !== scopeAlias) {
-			setResourceActive(scopeAlias);
-		}
-	};
-	console.log({ scope });
 	return (
 		<ModalTitleWrapper
 			headerTitle="Order Scope"
 			isActive={isOpen}
 			close={onClose}>
 			<div className="order-scope-container">
-				<div className="order-scope-sidebar">
-					<span
-						className={`scope-sb-e ${resourceActive == 'w' && 'scope-sb-active'} ${!('web' in scope) && 'scope-sb-disable'}`}
-						onClick={() => handleActivate('w', 'web')}>
-						Web
-					</span>
-					<span
-						className={`scope-sb-e ${resourceActive == 'm' && 'scope-sb-active'} ${!('mobile' in scope) && 'scope-sb-disable'}`}
-						onClick={() => handleActivate('m', 'mobile')}>
-						Mobile
-					</span>
-					<span
-						className={`scope-sb-e ${resourceActive == 'c' && 'scope-sb-active'} ${!('cloud' in scope) && 'scope-sb-disable'}`}
-						onClick={() => handleActivate('c', 'cloud')}>
-						Cloud
-					</span>
-					<span
-						className={`scope-sb-e ${resourceActive == 's' && 'scope-sb-active'} ${!('social' in scope) && 'scope-sb-disable'}`}
-						onClick={() => handleActivate('s', 'social')}>
-						Social
-					</span>
-					<span
-						className={`scope-sb-e ${resourceActive == 'sc' && 'scope-sb-active'} ${!('source' in scope) && 'scope-sb-disable'}`}
-						onClick={() => handleActivate('sc', 'source')}>
-						Source
-					</span>
-					<span
-						className={`scope-sb-e ${resourceActive == 'n' && 'scope-sb-active'} ${!('lan' in scope) && 'scope-sb-disable'}`}
-						onClick={() => handleActivate('n', 'lan')}>
-						Network
-					</span>
-				</div>
+				<OrderScopeBar
+					scope={scope}
+					resourceActive={resourceActive}
+					updateResourceA={(updated) => setResourceActive(updated)}
+				/>
 
 				<div className="scope-content">
 					<Show when={resourceActive === 'u'}>

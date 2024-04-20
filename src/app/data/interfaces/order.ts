@@ -19,7 +19,7 @@ export enum ResourcesTypes {
     WEB="web",
     MOBILE="mobile",
     CLOUD="cloud",
-    CODE="source code",
+    CODE="source",
     SOCIAL="social",
     NETWORK="network",
 }
@@ -75,7 +75,7 @@ export interface ResumeAllResources {
     cloud: CloudResourceResume[];
     social: SocialResourceResume;
     source: SourceResourceResume[];
-    lan: LanResourceResume[];
+    network: LanResourceResume[];
 }
 
 export interface FullOrder {
