@@ -22,7 +22,7 @@ export const FinishOrderProvider = () => {
 				<FinishOrderCard
 					key={`order-${order.id}${i}`}
 					id={order.id}
-					finishDate={order.fecha_cierre_calculada}
+					finishDate={order.fecha_cierre_real}
 					offensive={
 						order.offensiveness as 'careful' | 'offensive' | 'adversary'
 					}

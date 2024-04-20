@@ -55,6 +55,7 @@ export const FinishOrderCard: FC<ConfirmOrderCardProps> = ({
 				scope={resourcesScope}
 				onClose={() => setShowModal(false)}
 				viewConfirm={false}
+				onConfirm={() => {}}
 			/>
 			<div
 				className={`confirm-order-card ${isSelected && 'active'}`}
@@ -109,7 +110,7 @@ export const FinishOrderCard: FC<ConfirmOrderCardProps> = ({
 							Finish date {formatReverseDate(finishDate)}
 						</span>
 
-						<span className="current-extend m-t-auto">
+						<span className="current-extend">
 							Distributor: {distributor}
 						</span>
 					</div>
