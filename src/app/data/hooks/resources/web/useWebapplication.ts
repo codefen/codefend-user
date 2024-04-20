@@ -19,7 +19,7 @@ export const useWebapplication = () => {
 		{company: {} as Company, resources: []}
 	);
 
-	//Refetch Data
+	// - - -  refetch data  - - -
 	const refetch = () => {
 		const companyID = getCompany();
 

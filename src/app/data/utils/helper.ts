@@ -10,12 +10,12 @@ export const getToken = () => {
 };
 /** Gets company id in localStorage */
 export const getFullCompanyFromUser = () => {
-	const storeJson = localStorage.getItem('authStore') ?? '';
-	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+	const storeJson = localStorage.getItem('authStore');
+	const store = storeJson ? JSON.parse(storeJson) : null;
 	const companyID = store ? store.state.userData.companyID : '';
 	return {
 		id: String(companyID),
-		name: 'codefend',
+		name: 'unknow',
 		web: '',
 		size: '',
 		pais_code: '',

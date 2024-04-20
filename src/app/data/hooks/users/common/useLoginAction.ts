@@ -17,6 +17,7 @@ export const useLoginAction = () => {
 				if (data?.error) {
 					throw new Error(data.message);
 				}
+				console.log({ dataLogin: data})
 				toast.success(`Login successful`);
 				return data.user;
 			})

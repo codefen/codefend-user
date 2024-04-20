@@ -3,7 +3,7 @@ import { useFetcher } from "#commonHooks/useFetcher";
 import useAdminCompanyStore from "@stores/adminCompany.store";
 
 export const useProviderCompanies = ()=>{
-    const { getCompany } = useAuthState();
+    const { getCompany,getUserdata } = useAuthState();
     const [fetcher,_, isLoading] = useFetcher();
     const {updateCompanies} = useAdminCompanyStore();
     
@@ -11,7 +11,7 @@ export const useProviderCompanies = ()=>{
         fetcher("post", {
             body: {
                 model: "providers/companies/access",
-                company_id: getCompany(),
+                company_id: getUserdata().companyID,
             }
         }).then(({ data }: any)=>{
             if(data.error != "0") throw new Error();

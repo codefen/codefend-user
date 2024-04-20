@@ -11,13 +11,13 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export const useDashboard = () => {
 	const { getCompany, logout } = useAuthState();
-	const [fetcher, cancelRequest, isLoading] = useFetcher(true);
+	const [fetcher,_, isLoading] = useFetcher(true);
 	const [companyData, setCompanyResources] = useState<DashboardProps>(
 		{} as DashboardProps,
 	);
 	const { selectCompany } = useAdminCompanyStore((state) => state);
 
-	//Refetch web app func
+	// -/ Refetch web app func
 	const refetch = () => {
 		const companyID = getCompany();
 		if (!companyID) {

@@ -23,7 +23,7 @@ const CompanyIndexView: FC = () => {
 		if (!companySelected) {
 			selectCompany(companies[0] || undefined);
 		}
-	});
+	}, []);
 
 	return (
 		<>
@@ -33,11 +33,7 @@ const CompanyIndexView: FC = () => {
 						{companies.map((company: AdminCompany) => (
 							<div
 								key={company.id}
-								onClick={() =>
-									isSelectedCompany(company)
-										? navigate('/dashboard')
-										: selectCompany(company)
-								}
+								onClick={() => selectCompany(company)}
 								className={`company ${
 									isSelectedCompany(company) ? 'selected' : ''
 								}`}>

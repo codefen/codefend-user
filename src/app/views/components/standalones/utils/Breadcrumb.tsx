@@ -1,7 +1,7 @@
 import { type FC, Fragment } from 'react';
 import { useLocation } from 'react-router';
 import { useAdminCompanyStore } from '../../../../data';
-import { useUserRole } from '#commonUserHooks/useUserRole';
+import { useUserData } from '#commonUserHooks/useAuthState';
 
 interface Props {
 	customSegment?: string[];
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const Breadcrumb: FC<Props> = (props) => {
-	const { isProvider, isReseller } = useUserRole();
+	const { getUserdata } = useUserData();
 	const location = useLocation();
 	const { companySelected } = useAdminCompanyStore((state) => state);
 
@@ -19,13 +19,12 @@ export const Breadcrumb: FC<Props> = (props) => {
 		.filter((segment) => segment !== '');
 
 	const segments = !props.customSegment ? defaultSegment : props.customSegment;
-	const rootFallback = isProvider() ? 'Hacker' : 'Reseller';
 	return (
 		<span className="breadcrumb">
 			<span className="go-home" onClick={props.rootAction}>
 				{companySelected?.name !== 'unknow'
 					? companySelected?.name
-					: rootFallback}
+					: getUserdata().companyRole}
 			</span>
 			{segments.map((segment: string, i: number) => (
 				<Fragment key={i}>
