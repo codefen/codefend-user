@@ -96,6 +96,7 @@ export interface FullOrder {
     funds_reseller: string;
     provider_class: string;
     provider_id: string;
+    resources_scope: string;
 
     offensiveness: string;
     provider_info: string;

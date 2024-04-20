@@ -43,6 +43,7 @@ export const CurrentOrderProvider = () => {
 					handleActivate={handleActive}
 					removeOrder={removeOrder}
 					isSelected={active === order.id}
+					resourcesScope={JSON.parse(order.resources_scope.trim() || '{}')}
 				/>
 			))}
 			<Show when={!Boolean(currentOrders.current.length)}>

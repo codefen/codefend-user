@@ -1,0 +1,72 @@
+.order-scope-container {
+	min-width: 600px;
+	h2 {
+		padding-inline: 1rem;
+		line-height: 2rem;
+		margin-block-start: 2rem;
+		margin-block-end: 1.5rem;
+	}
+
+	.table {
+		.rows {
+			overflow-y: auto;
+			height: auto;
+			max-height: 275px;
+			margin-block-end: 1.5rem;
+		}
+	}
+}
+
+.order-scope-sidebar {
+	display: flex;
+	column-gap: 1.75rem;
+	padding-inline: 5rem;
+	margin-block-end: 1rem;
+	margin-block-start: 1rem;
+	padding-block-start: 1rem;
+
+	.scope-sb-e {
+		font-size: 1.125rem;
+		cursor: pointer;
+		user-select: none;
+
+		&.scope-sb-active {
+			border-bottom: 1px solid var(--secondary-color-100);
+			font-weight: 700;
+		}
+
+		&.scope-sb-disable {
+			cursor: default;
+			color: var(--tertiary-color-300);
+		}
+	}
+}
+
+.scope-content {
+	padding-inline: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.close-btn {
+	margin-inline-end: 2rem;
+	margin-block-end: 1rem;
+}
+
+.scope-confirm-btn {
+	width: 100%;
+	display: flex;
+	margin-inline-start: auto;
+	justify-content: flex-end;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 1) 47%,
+		rgba(255, 57, 57, 1) 48%
+	);
+
+	.scope-btn {
+		margin-inline-end: 1.25rem;
+		margin-block-end: 1rem;
+	}
+}

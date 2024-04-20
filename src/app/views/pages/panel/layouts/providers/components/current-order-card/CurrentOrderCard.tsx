@@ -7,14 +7,10 @@ import {
 	type OrderTeamSize,
 } from '../../../../../../../data';
 import useModal from '#commonHooks/useModal';
-import {
-	IconTextPairs,
-	ModalWrapper,
-	PrimaryButton,
-} from '../../../../../../components';
+import { IconTextPairs, PrimaryButton } from '../../../../../../components';
 import { BugIcon } from '@icons';
-import Show from '@defaults/Show';
 import '../ordercards.scss';
+import { ProviderScope } from '@standalones/order-scope/OrderScope';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -29,6 +25,7 @@ export interface ConfirmOrderCardProps {
 	removeOrder: (id: string) => void;
 	id: string;
 	isSelected?: boolean;
+	resourcesScope: any;
 }
 
 export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
@@ -44,6 +41,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 	handleActivate,
 	removeOrder,
 	finishDate,
+	resourcesScope,
 }) => {
 	const { showModal, setShowModal } = useModal();
 	const onClick = () => handleActivate(id);
@@ -53,13 +51,12 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
 	return (
 		<>
-			<Show when={showModal}>
-				<ModalWrapper action={() => setShowModal(false)}>
-					<div>
-						<h2>This is scope</h2>
-					</div>
-				</ModalWrapper>
-			</Show>
+			<ProviderScope
+				isOpen={showModal}
+				scope={resourcesScope}
+				onClose={() => setShowModal(false)}
+				viewConfirm={false}
+			/>
 			<div
 				className={`confirm-order-card ${isSelected && 'active'}`}
 				onClick={onClick}>

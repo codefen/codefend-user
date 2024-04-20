@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useState, type FC } from 'react';
 import {
 	ScopeOption,
 	formatNumber,
@@ -14,6 +14,7 @@ import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import '../ordercards.scss';
+import { ProviderScope } from '@standalones/order-scope/OrderScope';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -27,6 +28,7 @@ export interface ConfirmOrderCardProps {
 	removeOrder: (id: string) => void;
 	id: string;
 	isSelected?: boolean;
+	resourcesScope: any;
 }
 
 export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
@@ -41,6 +43,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	isSelected,
 	handleActivate,
 	removeOrder,
+	resourcesScope,
 }) => {
 	const { showModal, setShowModal } = useModal();
 	const { cancelConfirm } = useProviderRefuseOrder();
@@ -57,19 +60,20 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	const handleConfirm = () => {
 		confirmOrder(id);
 		removeOrder(id);
+		setShowModal(false);
 	};
 	const teamSize = sizeOrder.valueOf();
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
 	return (
 		<>
-			<Show when={showModal}>
-				<ModalWrapper action={() => setShowModal(false)}>
-					<div>
-						<h2>This is scope</h2>
-					</div>
-				</ModalWrapper>
-			</Show>
+			<ProviderScope
+				isOpen={showModal}
+				scope={resourcesScope}
+				onClose={() => setShowModal(false)}
+				onConfirm={handleConfirm}
+				viewConfirm
+			/>
 			<div
 				className={`confirm-order-card ${isSelected && 'active'}`}
 				onClick={onClick}>
@@ -104,12 +108,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 							icon={<BugIcon className="codefend-text-red" />}
 							className="icon-text">
 							<span className="text-bold">Resources:</span>
-							<span className="text-light border">{resources}</span>
-							<span
-								className="codefend-text-red all-scope"
-								onClick={() => setShowModal(true)}>
-								view scope
-							</span>
+							<span className="text-light">{resources}</span>
 						</IconTextPairs>
 					</div>
 				</div>
@@ -128,7 +127,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 							refuse order
 						</button>
 						<PrimaryButton
-							click={handleConfirm}
+							click={() => setShowModal(true)}
 							text="Confirm order"
 							buttonStyle="red"
 							className="btn-order-card"
