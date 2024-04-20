@@ -39,15 +39,6 @@ export class ErrorBoundary extends Component<
 			//Renders the alternative error message
 			return (
 				<>
-					<NetworkSetingModal
-						close={() => this.updateNetworkOpen()}
-						isOpen={this.state.isNetworkOpen}
-					/>
-					<div
-						className="network-btn"
-						onClick={() => this.updateNetworkOpen()}>
-						<NetworkIcon width={1.5} height={1.5} />
-					</div>
 					<div className="error-boundry">
 						<header>
 							<h2 className="error-boundry-title">
@@ -65,7 +56,9 @@ export class ErrorBoundary extends Component<
 							click={() => {
 								this.updateHasError();
 								window.history.back();
-								window.location.reload();
+								setTimeout(() => {
+									window.location.reload();
+								}, 150);
 							}}
 							buttonStyle="gray"
 						/>
