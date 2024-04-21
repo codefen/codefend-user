@@ -15,6 +15,7 @@ import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOr
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import '../ordercards.scss';
 import { ProviderScope } from '@standalones/order-scope/OrderScope';
+import { OrderCardTemplate } from '../order-card-template/OrderCardTemplate';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -74,44 +75,16 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 				onConfirm={handleConfirm}
 				viewConfirm
 			/>
-			<div
-				className={`confirm-order-card ${isSelected && 'active'}`}
-				onClick={onClick}>
-				<div className="provider-order-info flex-col">
-					<h2>
-						<span className="codefend-text-red">
-							New {teamSize} size orders:
-						</span>
-						<span className="text-dark">{offensiveOrder}</span>,{' '}
-						<span className="normal">{type} pentest</span>
-					</h2>
-					<div className="order-important-info flex-col">
-						<IconTextPairs
-							icon={<BugIcon className="codefend-text-red" />}
-							className="icon-text">
-							<span className="text-bold">Offensivness:</span>{' '}
-							<span className="text-light">{offensiveOrder}</span>
-						</IconTextPairs>
-						<IconTextPairs
-							icon={<BugIcon className="codefend-text-red" />}
-							className="icon-text">
-							<span className="text-bold">Order size:</span>
-							<span className="text-light">{teamSize} allocation</span>
-						</IconTextPairs>
-						<IconTextPairs
-							icon={<BugIcon className="codefend-text-red" />}
-							className="icon-text">
-							<span className="text-bold">Profesional:</span>{' '}
-							<span className="text-light">@{provider}</span>
-						</IconTextPairs>
-						<IconTextPairs
-							icon={<BugIcon className="codefend-text-red" />}
-							className="icon-text">
-							<span className="text-bold">Resources:</span>
-							<span className="text-light">{resources}</span>
-						</IconTextPairs>
-					</div>
-				</div>
+			<OrderCardTemplate
+				id={id}
+				handleActivate={handleActivate}
+				isSelected={Boolean(isSelected)}
+				offensive={offensive}
+				price={price}
+				provider={provider}
+				sizeOrder={sizeOrder}
+				state="New"
+				type={type}>
 				<div className="provider-order-main-content flex-col">
 					<div className="order-price-dist">
 						<span className="price">${formatNumber(price)}</span>
@@ -135,7 +108,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 						/>
 					</div>
 				</div>
-			</div>
+			</OrderCardTemplate>
 		</>
 	);
 };
