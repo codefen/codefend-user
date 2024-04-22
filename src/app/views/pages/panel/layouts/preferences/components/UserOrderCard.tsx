@@ -13,6 +13,7 @@ import { PrimaryButton } from '@buttons/index';
 import Show from '@defaults/Show';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import '../../providers/components/ordercards.scss';
+import { useQualitySurveyStart } from '@hooks/quality-survey/useQualitySurveyStart';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -51,12 +52,14 @@ export const UserOrderCard: FC<ConfirmOrderCardProps> = ({
 	const { showModal, setShowModal } = useModal();
 	const { updateIsOpen, updateOrderId, updateReferenceNumber } =
 		useQualitySurveyStore();
+	const startPoll = useQualitySurveyStart();
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
 
 	const handleOpenPoll = () => {
 		updateIsOpen(true);
 		updateOrderId(id);
 		updateReferenceNumber(referenceNumber);
+		startPoll(id, referenceNumber);
 	};
 
 	return (

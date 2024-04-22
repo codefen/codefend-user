@@ -3,25 +3,24 @@ import { useUserData } from "#commonUserHooks/useUserData";
 import { QualitySurveyPhase } from "@interfaces/quality-feedback";
 import { useQualitySurveyStore } from "@stores/qualitySurvey.store";
 
-export const useFindQualitySurvey =()=>{
+export const useQualitySurveyStart =()=>{
     const { getCompany } = useUserData();
     const [fetcher] = useFetcher();
-    const {updateIsOpen,updatePhase, updateProvider} = useQualitySurveyStore();
+    const {updateProvider} = useQualitySurveyStore();
 
-    const searchPoll = ()=>{
+    const startPoll = (orderId: string, referenceNumber:string)=>{
          fetcher("post", {
             body: {
-                model: "poll/search",
-                company_id: getCompany()
+                model: "orders/review",
+                phase: "start",
+                company_id: getCompany(),
+                order_id: orderId,
+                reference_number: referenceNumber,
             }
          }).then(({data}:any)=>{
             if(data.error != "0") throw new Error();
-            
-            updatePhase(QualitySurveyPhase.INIT);
-            updateIsOpen(true);
-            //updateProvider(data.provider)
          });
     }
 
-    return searchPoll;
+    return startPoll;
 }

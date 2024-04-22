@@ -21,12 +21,11 @@ export interface ProviderProfileStore {
     updateProvider: (provider: any) => void;
     updateOrderId: (orderId: string) => void;
     updateReferenceNumber: (referenceNumber: string) => void;
-
 }
 
 export const useQualitySurveyStore = create<ProviderProfileStore>(
 	(set, _get) => ({
-        isOpen: true,
+        isOpen: false,
 		activePhase: QualitySurveyPhase.INIT,
         referenceNumber: "",
         orderId: "",
