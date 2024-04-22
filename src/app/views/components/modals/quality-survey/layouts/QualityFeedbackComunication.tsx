@@ -2,15 +2,26 @@ import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { Show } from '../../..';
 import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
+import { useQualityCommunication } from '@hooks/quality-survey/useQualityCommunication';
 
 export const QualityFeedbackComunication = () => {
-	const { isOpen, provider, updatePhase, updateIsOpen, updatePollVal } =
-		useQualitySurveyStore();
+	const {
+		isOpen,
+		provider,
+		updatePhase,
+		updateIsOpen,
+		updatePollVal,
+		pollVal,
+	} = useQualitySurveyStore();
+	const sendCommunication = useQualityCommunication();
 	return (
 		<QualityFeedback
 			isActive={isOpen}
 			onClose={() => updateIsOpen(false)}
-			onNext={() => updatePhase(QualitySurveyPhase.MESSAGE)}
+			onNext={() => {
+				updatePhase(QualitySurveyPhase.MESSAGE);
+				sendCommunication(pollVal);
+			}}
 			providerImg="/util/default-profilemedia.webp"
 			name={'Edd krause'}
 			username={'edd'}

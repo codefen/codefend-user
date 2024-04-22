@@ -2,25 +2,25 @@ import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
 import { useQualitySurveyStore } from "@stores/qualitySurvey.store";
 
-export const useQualityOveralPhase =()=>{
+export const useQualityTechSupport =()=>{
     const { getCompany } = useUserData();
     const [fetcher] = useFetcher();
     const {orderId,referenceNumber} = useQualitySurveyStore();
 
-    const sendOverallPhase = ( pollVal: string )=>{
+    const sendTechSupport = ( pollVal: string )=>{
          fetcher("post", {
             body: {
                 model: "orders/review",
-                phase: "overall_score",
+                phase: "cs_provided",
                 company_id: getCompany(),
                 order_id: orderId,
                 reference_number: referenceNumber,
-                overall_score: pollVal
+                cs_provided: pollVal
             }
          }).then(({data}:any)=>{
             if(data.error != "0") throw new Error();
          });
     }
 
-    return sendOverallPhase;
+    return sendTechSupport;
 }

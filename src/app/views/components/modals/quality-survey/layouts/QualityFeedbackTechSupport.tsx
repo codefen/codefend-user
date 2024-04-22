@@ -1,15 +1,26 @@
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
+import { useQualityTechSupport } from '@hooks/quality-survey/useQualityTechSupport';
 
 export const QualityFeedbackTechSupport = () => {
-	const { isOpen, provider, updatePhase, updateIsOpen, updatePollVal } =
-		useQualitySurveyStore();
+	const {
+		isOpen,
+		provider,
+		updatePhase,
+		updateIsOpen,
+		updatePollVal,
+		pollVal,
+	} = useQualitySurveyStore();
+	const sendTechSupport = useQualityTechSupport();
 	return (
 		<QualityFeedback
 			isActive={isOpen}
 			onClose={() => updateIsOpen(false)}
-			onNext={() => updatePhase(QualitySurveyPhase.FINDING)}
+			onNext={() => {
+				updatePhase(QualitySurveyPhase.FINDING);
+				sendTechSupport(pollVal);
+			}}
 			providerImg="/util/default-profilemedia.webp"
 			name={'Edd krause'}
 			username={'edd'}

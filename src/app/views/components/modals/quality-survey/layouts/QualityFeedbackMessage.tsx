@@ -1,6 +1,7 @@
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
+import { useQualityMessage } from '@hooks/quality-survey/useQualityMessage';
 
 export const QualityFeedbackMessage = () => {
 	const {
@@ -11,6 +12,7 @@ export const QualityFeedbackMessage = () => {
 		message,
 		updateMessage,
 	} = useQualitySurveyStore();
+	const sendMessage = useQualityMessage();
 
 	const placeHolderText = `Please kindly provide a brief description of your experience with ${provider.name}. This information is very important for the professional reputation and will be visible to others customers.`;
 	return (
@@ -20,10 +22,12 @@ export const QualityFeedbackMessage = () => {
 			onClose={() => {
 				updateIsOpen(false);
 				updatePhase(QualitySurveyPhase.INIT);
+				sendMessage('');
 			}}
 			onNext={() => {
 				updateIsOpen(false);
 				updatePhase(QualitySurveyPhase.INIT);
+				sendMessage(message);
 			}}
 			providerImg="/util/default-profilemedia.webp"
 			name={'Edd krause'}
