@@ -152,10 +152,11 @@ main.preferences {
 .orders-preference-card {
 	overflow: hidden;
 	.order-preference-content {
-		max-height: 35rem;
+		max-height: calc(100vh - 17.5rem);
 		overflow-y: auto;
 	}
 	.confirm-order-card {
-		margin-inline: auto;
+		margin-inline-end: auto;
+		margin-inline-start: 1rem;
 	}
 }

@@ -17,14 +17,17 @@ export const QualityFeedbackOverall = () => {
 	return (
 		<QualityFeedback
 			isActive={isOpen}
-			onClose={() => updateIsOpen(false)}
+			onClose={() => {
+				updateIsOpen(false);
+				updatePhase(QualitySurveyPhase.INIT);
+			}}
 			onNext={() => {
 				updatePhase(QualitySurveyPhase.TECH_CAPABILITIES);
 				sendOverallPhase(pollVal);
 			}}
-			providerImg="/util/default-profilemedia.webp"
-			name={'Edd krause'}
-			username={'edd'}
+			providerImg={`data:image/png;base64,${provider.profile_media}`}
+			name={`${provider.fname} ${provider.lname}`}
+			username={provider.username}
 			desc={'Allow hackers to place their own description here.'}
 			reviews="186"
 			score="4.55"

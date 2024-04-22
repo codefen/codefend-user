@@ -12,13 +12,15 @@ export const useQualitySurveyStart =()=>{
          fetcher("post", {
             body: {
                 model: "orders/review",
-                phase: "start",
+                phase: "profile_info",
                 company_id: getCompany(),
                 order_id: orderId,
                 reference_number: referenceNumber,
             }
          }).then(({data}:any)=>{
             if(data.error != "0") throw new Error();
+
+            updateProvider(data.provider);
          });
     }
 
