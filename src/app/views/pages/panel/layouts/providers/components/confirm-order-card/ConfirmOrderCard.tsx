@@ -128,7 +128,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 						</button>
 						<PrimaryButton
 							click={() => setShowModal(true)}
-							text="Confirm order"
+							text="View order"
 							buttonStyle="red"
 							className="btn-order-card"
 							isDisabled={isLoading}
