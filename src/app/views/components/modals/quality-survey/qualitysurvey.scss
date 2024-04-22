@@ -12,6 +12,8 @@
 
 	h2 {
 		color: #fff;
+		letter-spacing: 0.25px;
+		word-spacing: 1px;
 	}
 }
 
@@ -65,7 +67,7 @@
 	position: relative;
 	display: flex;
 	justify-content: space-around;
-	border-block: 2px solid var(--tertiary-color-100);
+	border-block: 3px solid var(--primary-color-400);
 	margin-inline: 3rem;
 	padding-block: 1.5rem;
 	--name-color: var(--tertiary-color-500);

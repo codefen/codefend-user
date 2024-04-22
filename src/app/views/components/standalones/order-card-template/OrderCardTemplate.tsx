@@ -15,7 +15,7 @@ export interface OrderCardTemplateProps extends PropsWithChildren {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
 	offensive: OrderOffensive | 'careful' | 'offensive' | 'adversary';
 	type: string;
-	state: 'New' | 'Current' | 'Finished';
+	state: 'New' | 'Current' | 'Finished' | 'Order';
 	provider: string;
 	price: string;
 	viewScope?: ReactNode;

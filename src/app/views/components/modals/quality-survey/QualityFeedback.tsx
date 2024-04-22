@@ -47,9 +47,9 @@ export const QualityFeedback: FC<QualityFeedbackProps> = ({
 				<div className="quality-provider-info">
 					<ProfileMedia
 						src={providerImg}
-						size="70px"
-						top=".75rem"
-						left="1rem"
+						size="75px"
+						top="1rem"
+						left=".5rem"
 					/>
 					<div className="provider-info-content">
 						<div className="provider-info-header">

@@ -17,7 +17,10 @@ export const QualityFeedbackComunication = () => {
 	return (
 		<QualityFeedback
 			isActive={isOpen}
-			onClose={() => updateIsOpen(false)}
+			onClose={() => {
+				updateIsOpen(false);
+				updatePhase(QualitySurveyPhase.INIT);
+			}}
 			onNext={() => {
 				updatePhase(QualitySurveyPhase.MESSAGE);
 				sendCommunication(pollVal);
@@ -25,7 +28,7 @@ export const QualityFeedbackComunication = () => {
 			providerImg={`data:image/png;base64,${provider.profile_media}`}
 			name={`${provider.fname} ${provider.lname}`}
 			username={provider.username}
-			desc={'Allow hackers to place their own description here.'}
+			desc={provider.headline}
 			reviews="186"
 			score="4.55"
 			specialist="web"

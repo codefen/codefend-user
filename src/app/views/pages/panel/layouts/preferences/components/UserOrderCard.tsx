@@ -79,7 +79,7 @@ export const UserOrderCard: FC<ConfirmOrderCardProps> = ({
 				price={price}
 				provider={provider}
 				sizeOrder={sizeOrder}
-				state="Finished"
+				state="Order"
 				type={type}
 				viewPrice
 				viewScope={

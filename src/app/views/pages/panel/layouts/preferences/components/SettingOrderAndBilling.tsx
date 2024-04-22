@@ -19,7 +19,6 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 }) => {
 	const [active, setActiveCard] = useState<string>('');
 	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
-	
 
 	return (
 		<>
