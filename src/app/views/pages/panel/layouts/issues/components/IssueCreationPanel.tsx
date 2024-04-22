@@ -108,9 +108,9 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 						<option value="web">web</option>
 						<option value="mobile">mobile</option>
 						<option value="cloud">cloud</option>
-						<option value="lan">internal network</option>
-						<option value="source">source code</option>
 						<option value="social">social & osint</option>
+						<option value="source">source code</option>
+						<option value="lan">internal network</option>
 						<option value="research">research</option>
 					</select>
 				</div>

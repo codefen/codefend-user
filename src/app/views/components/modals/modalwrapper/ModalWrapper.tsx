@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, type ReactNode } from 'react';
 import './modal.scss';
 import { CloseIcon } from '../..';
 
 interface ModalWrapper {
-	children: JSX.Element;
+	children: ReactNode;
 	isErrorBox?: boolean;
 	action?: () => void;
 	type?: string;

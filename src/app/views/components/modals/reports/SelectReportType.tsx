@@ -1,4 +1,5 @@
-import { ModalTitleWrapper, ModalWrapper } from '..';
+import type { Issues } from '@interfaces/index';
+import { ModalTitleWrapper } from '..';
 import {
 	BugIcon,
 	CLoudIcon,
@@ -9,8 +10,43 @@ import {
 	SourceCodeIcon,
 } from '../..';
 import './report-type.scss';
+import { useRef, type FC } from 'react';
 
-export const SelectReportTypeModal = () => {
+interface SelectReportTypeModalProps {
+	issues: Issues[];
+}
+
+export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
+	issues,
+}) => {
+	const getIssueResourceCount = (
+		issues: Issues[],
+		resourceClass: string,
+		acceptOrphans?: boolean,
+	) => {
+		return issues.reduce((acc, issue) => {
+			const isTargetResource = issue.resourceClass === resourceClass;
+			const isOrphan = !issue.resourceID;
+
+			if (
+				isTargetResource &&
+				((!acceptOrphans && !isOrphan) || acceptOrphans)
+			) {
+				return acc + 1;
+			} else if (resourceClass === 'any' && acceptOrphans && isOrphan) {
+				return acc + 1;
+			}
+
+			return acc;
+		}, 0);
+	};
+	const webCount = useRef(getIssueResourceCount(issues, 'web'));
+	const mobileCount = useRef(getIssueResourceCount(issues, 'mobile'));
+	const cloudCount = useRef(getIssueResourceCount(issues, 'cloud'));
+	const socialCount = useRef(getIssueResourceCount(issues, 'social'));
+	const sourceCount = useRef(getIssueResourceCount(issues, 'source'));
+	const networkCount = useRef(getIssueResourceCount(issues, 'network'));
+	const orphanCount = useRef(getIssueResourceCount(issues, 'any', true));
 	return (
 		<ModalTitleWrapper
 			headerTitle="Select report type"
@@ -22,10 +58,10 @@ export const SelectReportTypeModal = () => {
 					<figure className="report-type-card">
 						<GlobeWebIcon />
 
-						<figcaption className="caption-card">
+						<figcaption className={'caption-card'}>
 							<h4>Web</h4>
 							<h5>
-								total resource <span>30</span>
+								total issues <span>{webCount.current}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -33,10 +69,10 @@ export const SelectReportTypeModal = () => {
 					<figure className="report-type-card">
 						<MobileIcon />
 
-						<figcaption className="caption-card">
+						<figcaption className={'caption-card'}>
 							<h4>Mobile</h4>
 							<h5>
-								total resource <span>7</span>
+								total issues <span>{mobileCount.current}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -44,10 +80,10 @@ export const SelectReportTypeModal = () => {
 					<figure className="report-type-card">
 						<CLoudIcon />
 
-						<figcaption className="caption-card">
+						<figcaption className={'caption-card'}>
 							<h4>Cloud</h4>
 							<h5>
-								total resource <span>5</span>
+								total issues <span>{cloudCount.current}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -55,10 +91,10 @@ export const SelectReportTypeModal = () => {
 					<figure className="report-type-card">
 						<SourceCodeIcon />
 
-						<figcaption className="caption-card">
+						<figcaption className={'caption-card'}>
 							<h4>Source</h4>
 							<h5>
-								total resource <span>10</span>
+								total issues <span>{sourceCount.current}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -66,10 +102,10 @@ export const SelectReportTypeModal = () => {
 					<figure className="report-type-card">
 						<PeopleGroupIcon />
 
-						<figcaption className="caption-card">
+						<figcaption className={'caption-card'}>
 							<h4>Social</h4>
 							<h5>
-								total resource <span>20</span>
+								total issues <span>{socialCount.current}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -77,10 +113,10 @@ export const SelectReportTypeModal = () => {
 					<figure className="report-type-card">
 						<LanIcon />
 
-						<figcaption className="caption-card">
+						<figcaption className={'caption-card'}>
 							<h4>Network</h4>
 							<h5>
-								total resource <span>0</span>
+								total issues <span>{networkCount.current}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -88,10 +124,10 @@ export const SelectReportTypeModal = () => {
 					<figure className="report-type-card">
 						<BugIcon />
 
-						<figcaption className="caption-card">
+						<figcaption className={'caption-card'}>
 							<h4>Huerfano</h4>
 							<h5>
-								total resource <span>4</span>
+								total issues <span>{orphanCount.current}</span>
 							</h5>
 						</figcaption>
 					</figure>

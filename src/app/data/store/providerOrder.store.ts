@@ -21,7 +21,7 @@ export const useProviderRefuseStore = create<ProviderProfileStore>(
 		openRefuse: false,
         openReasonReject: false,
         isRefusing: false,
-        refuseState: 0,
+        refuseState: 0 as 0,
         setOrderId: (orderId: string) => set({ orderId }),
         setClickRefuse: (openRefuse: boolean) => set({ openRefuse, openReasonReject: false, refuseState: 0 as 0}),
         setOpenReasonReject: (openReasonReject: boolean) => set({ openRefuse: false, openReasonReject, refuseState: 1 }),

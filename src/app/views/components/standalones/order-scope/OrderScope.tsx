@@ -87,7 +87,7 @@ export const ProviderScope: FC<ProviderScopeProps> = ({
 						<OrderScopeTable
 							resourceScope={scope?.source || []}
 							scopeALias="sc"
-							title="This is order scoial scope"
+							title="This is order scource code scope"
 						/>
 					</Show>
 					<Show when={resourceActive === 'n'}>

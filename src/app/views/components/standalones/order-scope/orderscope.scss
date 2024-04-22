@@ -58,10 +58,10 @@
 	display: flex;
 	margin-inline-start: auto;
 	justify-content: flex-end;
-	background: rgb(255, 255, 255);
+	background: var(--primary-color);
 	background: linear-gradient(
 		180deg,
-		rgba(255, 255, 255, 1) 47%,
+		var(--primary-color) 47%,
 		rgba(255, 57, 57, 1) 48%
 	);
 

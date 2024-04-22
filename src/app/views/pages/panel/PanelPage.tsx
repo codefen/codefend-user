@@ -14,6 +14,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { MobileFallback } from '@defaults/mobile-fallback/MobileFallback';
 import '../../styles/flag.scss';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager';
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -42,6 +43,7 @@ export const PanelPage: FC = () => {
 				<FlashLightProvider>
 					<>
 						<WelcomeGroupTour />
+						<QualityFeedbackManager />
 						<Show when={showModal}>
 							<ErrorConection
 								closeModal={() => {

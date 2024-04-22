@@ -1,0 +1,50 @@
+import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
+import { QualityFeedback } from '../QualityFeedback';
+import { QualitySurveyPhase } from '@interfaces/quality-feedback';
+
+export const QualityFeedbackMessage = () => {
+	const {
+		isOpen,
+		provider,
+		updatePhase,
+		updateIsOpen,
+		message,
+		updateMessage,
+	} = useQualitySurveyStore();
+
+	const placeHolderText = `Please kindly provide a brief description of your experience with ${provider.name}. This information is very important for the professional reputation and will be visible to others customers.`;
+	return (
+		<QualityFeedback
+			isFinish
+			isActive={isOpen}
+			onClose={() => {
+				updateIsOpen(false);
+				updatePhase(QualitySurveyPhase.INIT);
+			}}
+			onNext={() => {
+				updateIsOpen(false);
+				updatePhase(QualitySurveyPhase.INIT);
+			}}
+			providerImg="/util/default-profilemedia.webp"
+			name={'Edd krause'}
+			username={'edd'}
+			desc={'Allow hackers to place their own description here.'}
+			reviews="186"
+			score="4.55"
+			specialist="web"
+			title="Would you like to add a profesional recommendation for Edd?"
+			question="">
+			<div className="quality-poll">
+				<textarea
+					name="message"
+					value={message}
+					placeholder={placeHolderText}
+					onChange={(e) => updateMessage(e.target.value)}
+					id="quality-review"
+					maxLength={255}
+					cols={30}
+					rows={5}></textarea>
+			</div>
+		</QualityFeedback>
+	);
+};

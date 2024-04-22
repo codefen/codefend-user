@@ -47,3 +47,13 @@ export const EMPTY_COMPANY = {
 	isDisabled: false,
 	createdAt: ""
 };
+
+export const EMPTY_PROVIDER = {
+	name: "",
+	img: "",
+	username: "",
+	score: "",
+	reviews: "",
+	desc: "",
+	specialist: "",
+}
