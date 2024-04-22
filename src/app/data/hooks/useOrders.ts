@@ -123,7 +123,7 @@ export const useOrders = () => {
 export const useOrderScope = () => {
 	const [fetcher, _, isLoading] = useFetcher();
 	const { getCompany } = useUserData();
-	const { resumeResources } = useOrderStore((state) => state);
+	const { resumeResources, updateState } = useOrderStore((state) => state);
 
 	const fetchScope = (companyID: string, resourceScope: string) => {
 		let resource: any = {};
@@ -156,7 +156,7 @@ export const useOrderScope = () => {
 				if (Number(data.error) === 1) {
 					throw new Error('An error has occurred with the');
 				}
-
+				updateState("orderId", data.order.id)
 				return data;
 			})
 			.catch((error: Error) => toast.error(error.message));
@@ -183,6 +183,7 @@ export const useOrderMembership = () => {
 		companyID: string,
 		referenceNumber: string,
 		memberShip: string,
+		orderId: string
 	) => {
 		return fetcher('post', {
 			body: {
@@ -191,6 +192,7 @@ export const useOrderMembership = () => {
 				company_id: companyID,
 				reference_number: referenceNumber,
 				membership: memberShip,
+				order_id: orderId,
 			},
 		})
 			.then(({ data }: any) => {
@@ -202,14 +204,14 @@ export const useOrderMembership = () => {
 			.catch((error: Error) => toast.error(error.message));
 	};
 
-	const sendMemberShip = (memberShip: string, referenceNumber: string) => {
+	const sendMemberShip = (memberShip: string, referenceNumber: string, orderId: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return Promise.resolve(false);
 		}
 
-		return fetchmemberShip(companyID, referenceNumber, memberShip);
+		return fetchmemberShip(companyID, referenceNumber, memberShip, orderId);
 	};
 
 	return { sendMemberShip };
@@ -224,6 +226,7 @@ export const useOrderPlan = () => {
 		referenceNumber: string,
 		chosenPlan: string,
 		chosenPrice: string,
+		orderId: string
 	) => {
 		fetcher('post', {
 			body: {
@@ -233,6 +236,7 @@ export const useOrderPlan = () => {
 				reference_number: referenceNumber,
 				chosen_plan: chosenPlan,
 				chosen_plan_price: chosenPrice,
+				order_id: orderId,
 			},
 		})
 			.then(({ data }: any) => {
@@ -248,6 +252,7 @@ export const useOrderPlan = () => {
 		chosenPlan: string,
 		chosenPrice: string,
 		referenceNumber: string,
+		orderId: string
 	) => {
 		const companyID = getCompany();
 		if (!companyID) {
@@ -255,10 +260,10 @@ export const useOrderPlan = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetchPlan(companyID, referenceNumber, chosenPlan, chosenPrice);
+		return fetchPlan(companyID, referenceNumber, chosenPlan, chosenPrice, orderId);
 	};
 
-	const getCurrentPrices = (referenceNumber: string) => {
+	const getCurrentPrices = (referenceNumber: string, orderId: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
@@ -271,6 +276,7 @@ export const useOrderPlan = () => {
 				phase: 'plan',
 				company_id: companyID,
 				reference_number: referenceNumber,
+				order_id: orderId,
 				show: 'prices',
 			},
 		})
@@ -295,6 +301,7 @@ export const useOrderConfirm = () => {
 		teamSize,
 		updateState,
 		referenceNumber,
+		orderId
 	} = useOrderStore((state: OrderStore) => state);
 	const [fetcher, _] = useFetcher();
 	const resourcesText =
@@ -324,6 +331,7 @@ export const useOrderConfirm = () => {
 				phase: 'confirm',
 				company_id: companyID,
 				reference_number: referenceNumber,
+				order_id: orderId,
 			},
 		})
 			.then(({ data }: any) => {
@@ -364,6 +372,7 @@ export const useOrderProvider = () => {
 		companyID: string,
 		referenceNumber: string,
 		providerID: string,
+		orderId: string
 	) => {
 		return fetcher('post', {
 			body: {
@@ -373,6 +382,7 @@ export const useOrderProvider = () => {
 				reference_number: referenceNumber,
 				provider_class: 'user',
 				provider_id: providerID,
+				order_id: orderId,
 			},
 		})
 			.then(({ data }: any) => {
@@ -384,17 +394,17 @@ export const useOrderProvider = () => {
 			.catch((error: Error) => toast.error(error.message));
 	};
 
-	const sendOrderProvider = (referenceNumber: string, providerID: string) => {
+	const sendOrderProvider = (referenceNumber: string, providerID: string, orderId: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return Promise.resolve(false);
 		}
 
-		return fetchProviders(companyID, referenceNumber, providerID);
+		return fetchProviders(companyID, referenceNumber, providerID, orderId);
 	};
 
-	const getCurrentProviders = (referenceNumber: string) => {
+	const getCurrentProviders = (referenceNumber: string, orderId: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
@@ -406,6 +416,7 @@ export const useOrderProvider = () => {
 				phase: 'providers',
 				company_id: companyID,
 				reference_number: referenceNumber,
+				order_id: orderId,
 			},
 		})
 			.then(({ data }: any) => {
@@ -428,6 +439,7 @@ export const useOrderOffensive = () => {
 		companyID: string,
 		referenceNumber: string,
 		offensiveness: string,
+		orderId: string
 	) => {
 		return fetcher('post', {
 			body: {
@@ -436,6 +448,7 @@ export const useOrderOffensive = () => {
 				company_id: companyID,
 				reference_number: referenceNumber,
 				offensiveness: offensiveness,
+				order_id: orderId
 			},
 		})
 			.then(({ data }: any) => {
@@ -453,6 +466,7 @@ export const useOrderOffensive = () => {
 	const sendOrderProvider = (
 		referenceNumber: string,
 		offensiveness: string,
+		orderId: string
 	) => {
 		const companyID = getCompany();
 		if (!companyID) {
@@ -460,7 +474,7 @@ export const useOrderOffensive = () => {
 			return Promise.resolve(false);
 		}
 
-		return fetchOffensive(companyID, referenceNumber, offensiveness);
+		return fetchOffensive(companyID, referenceNumber, offensiveness, orderId);
 	};
 
 	return { sendOrderProvider };
@@ -473,6 +487,7 @@ export const userOrderProviderInfo = () => {
 		companyID: string,
 		referenceNumber: string,
 		providerInfo: string,
+		orderId: string
 	) => {
 		return fetcher('post', {
 			body: {
@@ -481,6 +496,7 @@ export const userOrderProviderInfo = () => {
 				company_id: companyID,
 				reference_number: referenceNumber,
 				provider_info: providerInfo,
+				order_id: orderId
 			},
 		})
 			.then(({ data }: any) => {
@@ -492,14 +508,14 @@ export const userOrderProviderInfo = () => {
 			.catch((error: Error) => toast.error(error.message));
 	};
 
-	const sendOrderProviderInfo = (referenceNumber: string, info: string) => {
+	const sendOrderProviderInfo = (referenceNumber: string, info: string, orderId: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return Promise.resolve(false);
 		}
 
-		return fetchProviderInfo(companyID, referenceNumber, info);
+		return fetchProviderInfo(companyID, referenceNumber, info, orderId);
 	};
 
 	return { sendOrderProviderInfo };
@@ -512,6 +528,7 @@ export const userOrderFinancialResource = () => {
 		companyID: string,
 		referenceNumber: string,
 		financial: string,
+		orderId: string
 	) => {
 		return fetcher("post", {
 			body: {
@@ -519,7 +536,8 @@ export const userOrderFinancialResource = () => {
 				phase: "financial",
 				company_id: companyID,
 				reference_number: referenceNumber,
-				financial_resource: financial
+				financial_resource: financial,
+				order_id: orderId
 			}
 		}).then(({ data }: any) => {
 				if (Number(data.error) === 1) {
@@ -530,14 +548,14 @@ export const userOrderFinancialResource = () => {
 			.catch((error: Error) => toast.error(error.message));
 	};
 
-	const sendOrderFinancial = (referenceNumber: string, financial: string) => {
+	const sendOrderFinancial = (referenceNumber: string, financial: string, orderId: string) => {
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
 			return Promise.resolve(false);
 		}
 
-		return fetchFinancial(companyID, referenceNumber, financial);
+		return fetchFinancial(companyID, referenceNumber, financial, orderId);
 	};
 
 	return { sendOrderFinancial };
@@ -603,7 +621,7 @@ export const useOrderSaveCryptoPayment = ()=>{
 		});
 	};
 
-	const saveCryptoPayment = (referenceNumber: string, crypto: string, address: string)=>{
+	const saveCryptoPayment = (referenceNumber: string, crypto: string, address: string, orderId: string)=>{
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
@@ -617,7 +635,8 @@ export const useOrderSaveCryptoPayment = ()=>{
 				reference_number: referenceNumber,
 				cc_blockchain: crypto,
 				cc_from_address: address,
-				cc_xfer_id: transactionID
+				cc_xfer_id: transactionID,
+				order_id: orderId
 			}
 		}).then(({data}:any)=>{
 			if (Number(data.error) === 1) {
@@ -634,7 +653,7 @@ export const useOrderSaveBank = ()=>{
 	const [fetcher] = useFetcher();
 	const { getCompany } = useUserData();
 	const [transactionID, setTransactionID] = useState('');
-	const saveBankPayment = (referenceNumber: string, address: string)=>{
+	const saveBankPayment = (referenceNumber: string, address: string, orderId: string)=>{
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
@@ -647,6 +666,7 @@ export const useOrderSaveBank = ()=>{
 				company_id: getCompany(),
 				reference_number: referenceNumber,
 				bank_xfer_id: address,
+				order_id: orderId
 			}
 		}).then(({data}:any)=>{
 			return data;
@@ -667,7 +687,7 @@ export const userOrderCardPayment = ()=>{
 	});
 
 
-	const sendPayment = (referenceNumber: string)=>{
+	const sendPayment = (referenceNumber: string, orderId: string)=>{
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
@@ -679,6 +699,7 @@ export const userOrderCardPayment = ()=>{
 				phase: 'card',
 				company_id: getCompany(),
 				reference_number: referenceNumber,
+				order_id: orderId,
 			}
 		}).then(({data}:any)=>{
 			return data;
@@ -691,7 +712,7 @@ export const userOrderCardPayment = ()=>{
 export const userOrderFnished = ()=>{
 	const [fetcher] = useFetcher();
 	const { getCompany } = useUserData();
-	const finishOrder = (referenceNumber: string)=>{
+	const finishOrder = (referenceNumber: string, orderId: string)=>{
 		const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
@@ -703,6 +724,7 @@ export const userOrderFnished = ()=>{
 				phase: 'finished',
 				company_id: getCompany(),
 				reference_number: referenceNumber,
+				order_id: orderId
 			}
 		}).then(({data}:any)=>{
 			return data;

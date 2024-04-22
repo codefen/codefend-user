@@ -5,13 +5,13 @@ import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
 import { userOrderFnished } from '@hooks/useOrders.ts';
 
 export const WelcomeOrderModal = () => {
-	const { resetActiveOrder, referenceNumber } = useOrderStore(
+	const { resetActiveOrder, referenceNumber, orderId } = useOrderStore(
 		(state) => state,
 	);
 	const finishOrder = userOrderFnished();
 
 	const orderFinished = () => {
-		finishOrder(referenceNumber);
+		finishOrder(referenceNumber, orderId);
 		resetActiveOrder();
 	};
 

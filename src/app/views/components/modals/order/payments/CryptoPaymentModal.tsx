@@ -11,7 +11,7 @@ import {
 import { CopiedIcon, CopyIcon, PrimaryButton } from '../../..';
 
 export const CryptoPaymentModal = () => {
-	const { teamSize, updateState, referenceNumber } = useOrderStore(
+	const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(
 		(state) => state,
 	);
 
@@ -47,6 +47,7 @@ export const CryptoPaymentModal = () => {
 				referenceNumber,
 				walletActive.currencyActive,
 				walletActive.walletID,
+				orderId,
 			).then(() => {
 				updateState('orderStepActive', OrderSection.WAIT_CHECK);
 			});

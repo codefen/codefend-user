@@ -14,8 +14,13 @@ interface Provider {
 }
 
 export const LeadOrderModal: FC = () => {
-	const { providerId, updateState, resetActiveOrder, referenceNumber } =
-		useOrderStore((state) => state);
+	const {
+		providerId,
+		updateState,
+		resetActiveOrder,
+		referenceNumber,
+		orderId,
+	} = useOrderStore((state) => state);
 	const { sendOrderProvider, getCurrentProviders } = useOrderProvider();
 
 	const [providerIdW, setProviderId] = useState<string>(providerId);
@@ -24,7 +29,7 @@ export const LeadOrderModal: FC = () => {
 
 	useEffect(() => {
 		if (isLoading) {
-			getCurrentProviders(referenceNumber)
+			getCurrentProviders(referenceNumber, orderId)
 				.then((res: any) => {
 					providers.current = res.provider_users
 						? res.provider_users.map(
@@ -46,7 +51,7 @@ export const LeadOrderModal: FC = () => {
 	}, []);
 
 	const nextStep = () => {
-		sendOrderProvider(referenceNumber, providerIdW);
+		sendOrderProvider(referenceNumber, providerIdW, orderId);
 		updateState('providerId', providerIdW);
 		updateState('orderStepActive', OrderSection.ENVIRONMENT);
 	};

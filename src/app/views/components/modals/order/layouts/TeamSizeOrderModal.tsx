@@ -14,7 +14,7 @@ interface PricePlans {
 	medium: string;
 }
 export const TeamSizeOrderModal: FC = () => {
-	const { teamSize, updateState, referenceNumber } = useOrderStore(
+	const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(
 		(state) => state,
 	);
 
@@ -23,7 +23,7 @@ export const TeamSizeOrderModal: FC = () => {
 	const { getCurrentPrices, sendPlanTeamSize } = useOrderPlan();
 
 	useEffect(() => {
-		getCurrentPrices(referenceNumber).then((res) => {
+		getCurrentPrices(referenceNumber, orderId).then((res) => {
 			setCurrentPrices({
 				small: res.plans_prices.small,
 				medium: res.plans_prices.medium,
@@ -37,7 +37,7 @@ export const TeamSizeOrderModal: FC = () => {
 			? currentPrices[teamSizeW.valueOf() as keyof typeof currentPrices]
 			: '';
 
-		sendPlanTeamSize(teamSizeW, chosenPrice, referenceNumber);
+		sendPlanTeamSize(teamSizeW, chosenPrice, referenceNumber, orderId);
 		updateState('teamSize', teamSizeW);
 		updateState('orderStepActive', OrderSection.ORDER_REVIEW);
 	};

@@ -8,9 +8,8 @@ import {
 } from '../../../../../data';
 
 export const PaymentMethodOrderModal: FC = () => {
-	const { paymentMethod, updateState, referenceNumber } = useOrderStore(
-		(state) => state,
-	);
+	const { paymentMethod, updateState, referenceNumber, orderId } =
+		useOrderStore((state) => state);
 	const { sendOrderFinancial } = userOrderFinancialResource();
 
 	const [paymentMethodW, setPaymentMethod] =
@@ -21,7 +20,7 @@ export const PaymentMethodOrderModal: FC = () => {
 
 	const nextStep = () => {
 		updateState('paymentMethod', paymentMethodW);
-		sendOrderFinancial(referenceNumber, paymentMethodW);
+		sendOrderFinancial(referenceNumber, paymentMethodW, orderId);
 		updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
 	};
 

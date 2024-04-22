@@ -9,7 +9,7 @@ import {
 } from '../../../../../data';
 
 export const CardPaymentModal = () => {
-	const { teamSize, updateState, referenceNumber } = useOrderStore(
+	const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(
 		(state) => state,
 	);
 	const [cardInfo, { setCardInfo, sendPayment, isLoading }] =
@@ -30,7 +30,7 @@ export const CardPaymentModal = () => {
 	const submitCardPayment = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
-		sendPayment(referenceNumber)
+		sendPayment(referenceNumber, orderId)
 			.then(() => {
 				updateState('orderStepActive', OrderSection.WELCOME);
 			})

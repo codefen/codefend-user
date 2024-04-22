@@ -8,7 +8,7 @@ import {
 } from '../../../../../data';
 
 export const FrequencyOrderModal: FC = () => {
-	const { frequency, updateState, referenceNumber } = useOrderStore(
+	const { frequency, updateState, referenceNumber, orderId } = useOrderStore(
 		(state) => state,
 	);
 
@@ -18,7 +18,9 @@ export const FrequencyOrderModal: FC = () => {
 	const nextStep = () => {
 		if (referenceNumber) {
 			updateState('frequency', frequencyW);
-			sendMemberShip(frequencyW, referenceNumber).then((res: any) => {});
+			sendMemberShip(frequencyW, referenceNumber, orderId).then(
+				(res: any) => {},
+			);
 			updateState('orderStepActive', OrderSection.TEAM_SIZE);
 		}
 	};

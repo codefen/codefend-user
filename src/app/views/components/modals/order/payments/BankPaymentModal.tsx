@@ -7,7 +7,7 @@ import {
 } from '../../../../../data';
 
 export const BankPaymentModal = () => {
-	const { teamSize, updateState, referenceNumber } = useOrderStore(
+	const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(
 		(state) => state,
 	);
 	const [transactionID, { setTransactionID, saveBankPayment }] =
@@ -29,7 +29,7 @@ export const BankPaymentModal = () => {
 	};
 	const finishStep = () => {
 		if (!transactionID) return;
-		saveBankPayment(referenceNumber, transactionID).finally(() =>
+		saveBankPayment(referenceNumber, transactionID, orderId).finally(() =>
 			updateState('orderStepActive', OrderSection.WAIT_CHECK),
 		);
 		setTransactionID('');

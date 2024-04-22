@@ -8,7 +8,9 @@ import {
 
 export const AdditionalOrderModal: FC = () => {
 	const [aditionalInfoW, setAditionalInfo] = useState('');
-	const { updateState, referenceNumber } = useOrderStore((state) => state);
+	const { updateState, referenceNumber, orderId } = useOrderStore(
+		(state) => state,
+	);
 	const { sendOrderProviderInfo } = userOrderProviderInfo();
 
 	const placeHolderText = `What is the main reason to conduct this excersive?
@@ -24,7 +26,7 @@ Is there any other additional information for our professionals?`;
 	}, []);
 	const continueToPayment = () => {
 		updateState('aditionalInfo', aditionalInfoW);
-		sendOrderProviderInfo(referenceNumber, aditionalInfoW);
+		sendOrderProviderInfo(referenceNumber, aditionalInfoW, orderId);
 		updateState('orderStepActive', OrderSection.PAYMENT);
 	};
 

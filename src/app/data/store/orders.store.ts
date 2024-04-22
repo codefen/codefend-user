@@ -21,6 +21,7 @@ export interface OrderStore {
     paymentMethod: OrderPaymentMethod;
 
     referenceNumber:string;
+    orderId: string;
 
     setScopeTotalResources: (resources: number)=> void;
     setScopeAllTotalResources: (resources: number)=> void;
@@ -44,6 +45,7 @@ export const useOrderStore = create<OrderStore>((set,_get)=>({
     aditionalInfo: "",
     paymentMethod: OrderPaymentMethod.BANK_TRANSFER,
     referenceNumber: '',
+    orderId: "",
 
     setScopeTotalResources: (resources: number)=>set((current: OrderStore)=>({...current, scope:{...current.scope, totalResources: resources }})),
     setScopeAllTotalResources: (resources: number)=>set((current: OrderStore)=>({...current, scope:{...current.scope, totalAllResources: resources }})),

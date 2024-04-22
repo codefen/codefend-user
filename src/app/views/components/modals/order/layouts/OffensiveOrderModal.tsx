@@ -8,9 +8,8 @@ import {
 } from '../../../../../data';
 
 export const OffensiveOrderModal: FC = () => {
-	const { offensiveOrder, updateState, referenceNumber } = useOrderStore(
-		(state) => state,
-	);
+	const { offensiveOrder, updateState, referenceNumber, orderId } =
+		useOrderStore((state) => state);
 
 	const [offensiveOrderW, setOffensiveOrder] =
 		useState<OrderOffensive>(offensiveOrder);
@@ -18,11 +17,13 @@ export const OffensiveOrderModal: FC = () => {
 
 	const nextStep = () => {
 		updateState('offensiveOrder', offensiveOrderW);
-		sendOrderProvider(referenceNumber, offensiveOrderW).then((data: any) => {
-			if (data.error == 0) {
-				updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
-			}
-		});
+		sendOrderProvider(referenceNumber, offensiveOrderW, orderId).then(
+			(data: any) => {
+				if (data.error == 0) {
+					updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
+				}
+			},
+		);
 	};
 
 	return (
