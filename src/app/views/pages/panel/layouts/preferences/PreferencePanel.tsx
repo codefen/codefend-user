@@ -9,14 +9,15 @@ import SettingPersonalDetails from './components/SettingPersonaDetails.tsx';
 
 import './preference.scss';
 import { useEffect } from 'react';
+import { useQualitySurveyStore } from '@stores/qualitySurvey.store.ts';
 
 const PreferencePanel = () => {
 	const [showScreen] = useShowScreen();
 	const { orders, company, members, isLoading, refetch } = usePreferences();
-
+	const { isFinishQualityPoll } = useQualitySurveyStore();
 	useEffect(() => {
 		refetch();
-	}, []);
+	}, [isFinishQualityPoll]);
 
 	return (
 		<>

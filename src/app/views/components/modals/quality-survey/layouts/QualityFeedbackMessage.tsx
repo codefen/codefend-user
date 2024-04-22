@@ -11,6 +11,7 @@ export const QualityFeedbackMessage = () => {
 		updateIsOpen,
 		message,
 		updateMessage,
+		updateIsFinishQualityPoll,
 	} = useQualitySurveyStore();
 	const sendMessage = useQualityMessage();
 
@@ -23,11 +24,13 @@ export const QualityFeedbackMessage = () => {
 				updateIsOpen(false);
 				updatePhase(QualitySurveyPhase.INIT);
 				sendMessage('');
+				updateIsFinishQualityPoll(true);
 			}}
 			onNext={() => {
 				updateIsOpen(false);
 				updatePhase(QualitySurveyPhase.INIT);
 				sendMessage(message);
+				updateIsFinishQualityPoll(true);
 			}}
 			providerImg={`data:image/png;base64,${provider.profile_media}`}
 			name={`${provider.fname} ${provider.lname}`}

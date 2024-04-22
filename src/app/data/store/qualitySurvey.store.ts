@@ -6,6 +6,7 @@ import { create } from 'zustand';
 
 export interface ProviderProfileStore {
     isOpen: boolean;
+    isFinishQualityPoll: boolean;
 	activePhase: QualitySurveyPhase;
     orderId: string;
     referenceNumber: string;
@@ -21,11 +22,13 @@ export interface ProviderProfileStore {
     updateProvider: (provider: any) => void;
     updateOrderId: (orderId: string) => void;
     updateReferenceNumber: (referenceNumber: string) => void;
+    updateIsFinishQualityPoll: (isFinishQualityPoll: boolean) => void;
 }
 
 export const useQualitySurveyStore = create<ProviderProfileStore>(
 	(set, _get) => ({
         isOpen: false,
+        isFinishQualityPoll: false,
 		activePhase: QualitySurveyPhase.INIT,
         referenceNumber: "",
         orderId: "",
@@ -40,5 +43,6 @@ export const useQualitySurveyStore = create<ProviderProfileStore>(
         updateProvider: (provider: any) => set({ provider: provider }),
         updateOrderId: (orderId: string) => set({ orderId: orderId }),
         updateReferenceNumber: (referenceNumber: string) => set({ referenceNumber: referenceNumber }),
+        updateIsFinishQualityPoll: (isFinishQualityPoll: boolean) => set({ isFinishQualityPoll: isFinishQualityPoll }),
 	}),
 );

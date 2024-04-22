@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { PreferenceIcon } from '@icons';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
@@ -6,6 +6,7 @@ import { SimpleSection } from '@defaults/SimpleSection';
 import type { CompanyOrders } from '@interfaces/preferences';
 import { UserOrderCard } from './UserOrderCard';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 
 interface BillingDataProps {
 	isLoading: boolean;
@@ -18,6 +19,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 }) => {
 	const [active, setActiveCard] = useState<string>('');
 	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
+	
 
 	return (
 		<>
