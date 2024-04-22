@@ -19,7 +19,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = (props) => {
 						<span>COLLABORATORS AND TEAM MEMBERS</span>
 					</div>
 					<div className="actions">
-						<div>ADD NEW MEMBER</div>
+						
 					</div>
 				</div>
 

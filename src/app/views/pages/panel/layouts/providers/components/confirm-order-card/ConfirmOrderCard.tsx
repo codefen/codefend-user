@@ -15,7 +15,7 @@ import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOr
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import '../ordercards.scss';
 import { ProviderScope } from '@standalones/order-scope/OrderScope';
-import { OrderCardTemplate } from '../order-card-template/OrderCardTemplate';
+import { OrderCardTemplate } from '../../../../../../components/standalones/order-card-template/OrderCardTemplate';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';

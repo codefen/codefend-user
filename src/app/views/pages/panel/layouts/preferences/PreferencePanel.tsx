@@ -8,23 +8,28 @@ import SettingOrderAndBilling from './components/SettingOrderAndBilling.tsx';
 import SettingPersonalDetails from './components/SettingPersonaDetails.tsx';
 
 import './preference.scss';
+import { useEffect } from 'react';
 
 const PreferencePanel = () => {
 	const [showScreen] = useShowScreen();
-	const { loading, company, members, orders } = usePreferences();
+	const { orders, company, members, isLoading, refetch } = usePreferences();
+
+	useEffect(() => {
+		refetch();
+	}, []);
 
 	return (
 		<>
 			<Show when={showScreen} fallback={<PageLoader />}>
 				<main className={`preferences ${showScreen ? 'actived' : ''}`}>
 					<section className="left">
-						<SettingOrderAndBilling
-							isLoading={loading}
-							orders={orders ?? []}
-						/>
 						<SettingCollaboratorAndTeam
-							isLoading={loading}
-							members={members ?? []}
+							isLoading={isLoading}
+							members={members}
+						/>
+						<SettingOrderAndBilling
+							isLoading={isLoading}
+							orders={orders}
 						/>
 					</section>
 					<section className="right">

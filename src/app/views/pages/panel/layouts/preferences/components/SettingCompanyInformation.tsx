@@ -1,64 +1,46 @@
 import { type FC } from 'react';
-import { type CompanyInfo, usePreferences } from '../../../../../../data';
+import {
+	type CompanyInfo,
+	usePreferences,
+	formatDate,
+} from '../../../../../../data';
 
 interface CompanyDataProps {
-	companyInfo: CompanyInfo | '';
+	companyInfo: CompanyInfo;
 }
 
-const SettingCompanyInformation: FC<CompanyDataProps> = () => {
-	const { company } = usePreferences();
-
-	const getCompanyData = () => {
-		if (!company) {
-			return {
-				name: '',
-				web: '',
-				mercado: '',
-				owner: '',
-				email: '',
-				location: '',
-				address: '',
-			};
-		}
-
-		return {
-			name: company.owner_fname,
-			web: company.web,
-			mercado: company.mercado,
-			owner: `${company.owner_fname} ${company.owner_lname}`,
-			email: company.owner_email,
-			location: company.pais_provincia,
-			address: `${
-				company.address === 'non available' ? '-' : company.address
-			}`,
-		};
+const SettingCompanyInformation: FC<CompanyDataProps> = ({ companyInfo }) => {
+	const companyImportantData = {
+		['company name']: companyInfo.name,
+		web: companyInfo.web || '---',
+		country: companyInfo.pais || '---',
+		province: companyInfo.pais_provincia || '---',
+		['owner name']: companyInfo.owner_fname
+			? `${companyInfo.owner_fname} ${companyInfo.owner_lname}`
+			: '---',
+		['owner email']: companyInfo.owner_email || '---',
+		['created at']: formatDate(companyInfo.creacion),
 	};
-
 	return (
-		<>
-			<div className="table-company-data internal-tables">
-				<div className="internal-tables-active company-data-header">
-					<p className="text-small title-format">COMPANY INFORMATION</p>
-					<p className="text-small title-format title-format codefend-text-red">
-						UPDATE
-					</p>
-				</div>
-				<div className="company-data-main">
-					<div className="company-data-main-wrapper">
-						{Object.entries(getCompanyData()).map((data, index) => (
-							<div
-								key={index}
-								className="company-table-content text-format">
-								<section className="company-data-content">
-									<p>{data[0]}</p>
-									<p>{data[1]}</p>
-								</section>
-							</div>
-						))}
-					</div>
+		<div className="table-company-data internal-tables">
+			<div className="internal-tables-active company-data-header">
+				<p className="text-small title-format">COMPANY INFORMATION</p>
+			</div>
+			<div className="company-data-main">
+				<div className="company-data-main-wrapper">
+					{Object.entries(companyImportantData).map((data, index) => (
+						<div
+							key={index}
+							className="company-table-content text-format">
+							<section className="company-data-content">
+								<p>{data[0]}</p>
+								<p>{data[1]}</p>
+							</section>
+						</div>
+					))}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

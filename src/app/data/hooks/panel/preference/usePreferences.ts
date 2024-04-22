@@ -3,54 +3,17 @@ import { toast } from 'react-toastify';
 import { verifySession } from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-
-interface CompanyInfo {
-	id: string;
-	name: string;
-	web: string;
-	mercado: string;
-	size: string;
-	pais: string;
-	pais_code: string;
-	pais_provincia: string;
-	pais_ciudad: string;
-	address: string;
-	owner_fname: string;
-	owner_lname: string;
-	owner_role: string;
-	owner_email: string;
-	owner_phone: string;
-	profile_media: string;
-	orders_size: string;
-	eliminado: string;
-	creacion: string;
-}
-
-interface MemberInfo {
-	id: string;
-	company_id: string;
-	fname: string;
-	lname: string;
-	role: string;
-	email: string;
-	phone: string;
-	profile_media: string;
-	pais: string;
-	pais_code: string;
-	pais_provincia: string;
-	pais_ciudad: string;
-	eliminado: string;
-	creacion: string;
-}
+import type { CompanyOrders, MemberInfo, CompanyInfo } from '@interfaces/preferences';
+import { EMPTY_COMPANY_CUSTOM } from '@mocks/empty';
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const usePreferences = () => {
 	const { logout } = useUserData();
 	const { getCompany} = useUserData();
 	const [fetcher, cancelRequest, isLoading] = useFetcher(true);
-	const [company, setCompany] = useState<CompanyInfo | ''>('');
+	const [company, setCompany] = useState<CompanyInfo>(EMPTY_COMPANY_CUSTOM as CompanyInfo);
 	const [members, setMembers] = useState<MemberInfo[]>([]);
-	const [orders, serOrders] = useState<any[]>([]);
+	const [orders, serOrders] = useState<CompanyOrders[]>([]);
 
 	const fetchAll = useCallback((companyID: string) => {
 		fetcher("post", {
@@ -60,9 +23,9 @@ export const usePreferences = () => {
 			}
 		}).then(({ data }: any) => {
 				verifySession(data, logout);
-				setCompany(data.company);
-				setMembers(data.company_members);
-				serOrders(data.company_orders);
+				setCompany(data.company ? data.company : EMPTY_COMPANY_CUSTOM);
+				setMembers(data.company_members ? data.company_members : []);
+				serOrders(data.company_orders ? data.company_orders : []);
 			});
 	}, []);
 
@@ -76,10 +39,5 @@ export const usePreferences = () => {
 		fetchAll(companyID);
 	}
 
-	useEffect(() => {
-		refetch();
-		return ()=> cancelRequest("uniqueRequest");
-	}, []);
-
-	return { loading: isLoading, company, members, refetch, orders };
+	return { orders, company, members, isLoading, refetch };
 };

@@ -1,18 +1,18 @@
 import { type FC } from 'react';
 import {
 	ScopeOption,
-	calculateDaysDifference,
-	formatReverseDate,
 	type OrderOffensive,
 	type OrderTeamSize,
-} from '../../../../../../../data';
+} from '../../../../../../data';
 import useModal from '#commonHooks/useModal';
-import { IconTextPairs, PrimaryButton } from '../../../../../../components';
 import { BugIcon } from '@icons';
-import '../ordercards.scss';
 import { ProviderScope } from '@standalones/order-scope/OrderScope';
-import { useProviderOrderFinish } from '@userHooks/providers/useProviderOrderFinish';
-import { OrderCardTemplate } from '../../../../../../components/standalones/order-card-template/OrderCardTemplate';
+import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
+import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
+import { PrimaryButton } from '@buttons/index';
+import Show from '@defaults/Show';
+import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
+import '../../providers/components/ordercards.scss';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -20,35 +20,45 @@ export interface ConfirmOrderCardProps {
 	type: string;
 	provider: string;
 	scope: ScopeOption | 0 | 1;
-	distributor: string;
 	price: string;
-	finishDate: string;
 	handleActivate: (id: string) => void;
-	removeOrder: (id: string) => void;
 	id: string;
 	isSelected?: boolean;
 	resourcesScope: any;
+
+	conditionReview: string;
+	conditionProvider: string;
+	conditionFinancial: string;
+	referenceNumber: string;
 }
 
-export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
+export const UserOrderCard: FC<ConfirmOrderCardProps> = ({
 	sizeOrder,
 	offensive,
 	type,
 	provider,
 	scope,
-	distributor,
 	price,
 	id,
 	isSelected,
 	handleActivate,
-	removeOrder,
-	finishDate,
 	resourcesScope,
+	conditionReview,
+	conditionProvider,
+	conditionFinancial,
+	referenceNumber,
 }) => {
 	const { showModal, setShowModal } = useModal();
-	const finishOrder = useProviderOrderFinish();
-
+	const { updateIsOpen, updateOrderId, updateReferenceNumber } =
+		useQualitySurveyStore();
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
+
+	const handleOpenPoll = () => {
+		updateIsOpen(true);
+		updateOrderId(id);
+		updateReferenceNumber(referenceNumber);
+	};
+
 	return (
 		<>
 			<ProviderScope
@@ -66,7 +76,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 				price={price}
 				provider={provider}
 				sizeOrder={sizeOrder}
-				state="Current"
+				state="Finished"
 				type={type}
 				viewPrice
 				viewScope={
@@ -85,25 +95,25 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 				<div className="provider-order-main-content flex-col">
 					<div className="order-price-dist expand">
 						<span className="current-extend">
-							{calculateDaysDifference(finishDate)} Days left -
-							{formatReverseDate(finishDate)}
+							Financial state: {conditionFinancial}
 						</span>
 
-						<span className="current-extend m-t-auto">
-							Distributor: {distributor}
+						<span className="current-extend">
+							Provider state: {conditionProvider}
 						</span>
 					</div>
-					<div className="flex-row buttons move-to-right">
+					<Show
+						when={
+							conditionProvider === 'finished' &&
+							conditionReview === 'unreviewed'
+						}>
 						<PrimaryButton
-							click={() => {
-								finishOrder(id);
-								removeOrder(id);
-							}}
-							text="Finish order"
+							text="Start the survey"
 							buttonStyle="red"
-							className="btn-order-card"
+							click={handleOpenPoll}
+							disabledLoader
 						/>
-					</div>
+					</Show>
 				</div>
 			</OrderCardTemplate>
 		</>

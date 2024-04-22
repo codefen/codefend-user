@@ -1,58 +1,64 @@
-import { type FC } from 'react';
-import { formatDate } from '@utils/helper.ts';
+import { useState, type FC } from 'react';
 import { PreferenceIcon } from '@icons';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
+import { SimpleSection } from '@defaults/SimpleSection';
+import type { CompanyOrders } from '@interfaces/preferences';
+import { UserOrderCard } from './UserOrderCard';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface BillingDataProps {
 	isLoading: boolean;
-	orders: any[];
+	orders: CompanyOrders[];
 }
 
-const SettingOrderAndBilling: FC<BillingDataProps> = (props) => {
+const SettingOrderAndBilling: FC<BillingDataProps> = ({
+	orders,
+	isLoading,
+}) => {
+	const [active, setActiveCard] = useState<string>('');
+	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
+
 	return (
 		<>
-			<div className="card table">
-				<div className="header">
-					<div className="title">
-						<div className="icon">
-							<PreferenceIcon />
-						</div>
-						<span>ORDERS & BILLING DETAILS</span>
+			<div className="card orders-preference-card">
+				<SimpleSection
+					header="ORDERS & BILLING DETAILS"
+					icon={<PreferenceIcon />}>
+					<div className="order-preference-content">
+						<Show when={Boolean(orders.length)} fallback={<EmptyCard />}>
+							{orders.map((order, i) => (
+								<UserOrderCard
+									key={`order-${order.id}${i}`}
+									id={order.id}
+									offensive={
+										order.offensiveness as
+											| 'careful'
+											| 'offensive'
+											| 'adversary'
+									}
+									price={order.funds_full}
+									type={order.resources_class}
+									provider={order.provider_username}
+									scope={order.resources_class === 'full' ? 1 : 0}
+									sizeOrder={
+										order.chosen_plan as 'small' | 'medium' | 'full'
+									}
+									handleActivate={handleActive}
+									isSelected={active === order.id}
+									resourcesScope={JSON.parse(
+										order.resources_scope.trim() || '{}',
+									)}
+									conditionFinancial={order.condicion_financial}
+									conditionProvider={order.condicion_provider}
+									conditionReview={order.condicion_review}
+									referenceNumber={order.reference_number}
+								/>
+							))}
+						</Show>
 					</div>
-				</div>
-
-				<div className="columns-name">
-					<div className="date">date</div>
-					<div className="full-name">order</div>
-					<div className="duration">duration</div>
-					<div className="price">price</div>
-					<div className="price">discount</div>
-					<div className="price">final price</div>
-					<div className="status">status</div>
-				</div>
-
-				<div className="rows">
-					<Show when={!props.isLoading}>
-						{props.orders.map((order: any) => (
-							<div
-								key={`pref-order-${crypto.randomUUID()}`}
-								className="item">
-								<div className="date">
-									{formatDate(order?.creacion ?? new Date())}
-								</div>
-								<div className="full-name">{order.order_desc}</div>
-								<div className="duration">{order.order_plazo}</div>
-								<div className="price">${order.order_price}</div>
-								<div className="price">{order.order_price_disc}%</div>
-								<div className="price">${order.order_price_final}</div>
-								<div className="status">{order.order_paid}</div>
-							</div>
-						))}
-					</Show>
-				</div>
+				</SimpleSection>
 			</div>
-			{!props.isLoading && props.orders.length === 0 && <EmptyCard />}
 		</>
 	);
 };

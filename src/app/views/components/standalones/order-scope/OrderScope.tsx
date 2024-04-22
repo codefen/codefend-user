@@ -1,5 +1,5 @@
 import Show from '@defaults/Show';
-import { useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { PrimaryButton } from '@buttons/index';
 import './orderscope.scss';
 import { EmptyCard, ModalTitleWrapper } from '../..';
@@ -35,6 +35,9 @@ export const ProviderScope: FC<ProviderScopeProps> = ({
 	const [resourceActive, setResourceActive] = useState<
 		'w' | 'm' | 'c' | 's' | 'sc' | 'n' | 'u'
 	>(defineActiveAlias(scope));
+	useEffect(() => {
+		setResourceActive(defineActiveAlias(scope));
+	}, [scope]);
 
 	return (
 		<ModalTitleWrapper

@@ -548,6 +548,45 @@ export const lanResourcesTable = [
 		style: 'id action',
 	},
 ];
+
+export const companyOrdersColumns = [
+	{
+		name: "orderClass",
+		value: "class",
+		style: "vul-class"
+	},
+	{
+		name: "offensiveness",
+		value: "offensiveness",
+		style: "vul-offensiveness"
+	},
+	{
+		name: 'membership',
+		value: 'membership',
+		style: 'vul-member',
+	},
+	{
+		name: 'plan',
+		value: 'plan',
+		style: 'vul-class',
+	},
+	{
+		name: 'condition',
+		value: 'condition',
+		style: 'vul-offensiveness',
+	},
+	{
+		name: 'planPrice',
+		value: 'plan price',
+		style: 'vul-class',
+	},
+	{
+		name: 'action',
+		value: 'actions',
+		style: 'id action',
+	}
+];
+
 export const lanResourcesTableWithoutAction = lanResourcesTable.filter((column)=> column.name !== "action")
 
 export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id"}]);

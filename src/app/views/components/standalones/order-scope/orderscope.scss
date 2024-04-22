@@ -70,3 +70,33 @@
 		margin-block-end: 1rem;
 	}
 }
+
+[data-theme='dark'] {
+	.scope-confirm-btn {
+		background: var(--primary-color-100);
+		background: linear-gradient(
+			180deg,
+			var(--primary-color-100) 47%,
+			var(--secondary-color-400) 48%
+		);
+	}
+
+	.order-scope-container {
+		h2 {
+			color: var(--tertiary-color-300);
+		}
+	}
+	.order-scope-sidebar {
+		.scope-sb-e {
+			color: var(--tertiary-color-300);
+
+			&.scope-sb-active {
+				color: var(--tertiary-color-50);
+			}
+
+			&.scope-sb-disable {
+				color: var(--tertiary-color-500);
+			}
+		}
+	}
+}

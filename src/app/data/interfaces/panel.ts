@@ -306,8 +306,7 @@ export interface CompanyInfo extends ID {
 	creacion: string;
 }
 
-export interface Ticket {
-	id: string;
+export interface Ticket extends ID{
 	company_id: string;
 	dad_id: string;
 	user_id: string;
