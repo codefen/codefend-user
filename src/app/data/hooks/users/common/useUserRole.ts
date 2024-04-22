@@ -6,7 +6,7 @@ export const useUserRole = ()=>{
 	const getRole = () => userData ? userData.access_role : '';
 	const isNormalUser = () => getRole() === 'user';
 	const isAdmin = () => getRole() === 'admin';
-	const isProvider = () => getRole() === 'hacker';
+	const isProvider = () => getRole() === 'provider';
 	const isReseller = () => getRole() === 'reseller';
 
     const isCurrentAuthValid = () => isAuth;

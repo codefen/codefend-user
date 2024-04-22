@@ -30,7 +30,7 @@ const SignInLayout: FC = () => {
 				if (user) {
 					if (user?.accessRole == 'user') navigate('/');
 					if (user?.accessRole == 'admin') navigate('/admin');
-					if (user?.accessRole == 'hacker') navigate('/provider/profile');
+					if (user?.accessRole == 'provider') navigate('/provider/profile');
 				}
 			})
 			.finally(() =>
