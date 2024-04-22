@@ -28,7 +28,7 @@ export const CryptoPaymentModal = () => {
 	} = useOrderSaveCryptoPayment();
 
 	useEffect(() => {
-		getCryptoFinancialInfo(referenceNumber);
+		getCryptoFinancialInfo(referenceNumber, undefined, orderId);
 	}, []);
 
 	const finalPrice = () => {
@@ -93,6 +93,7 @@ export const CryptoPaymentModal = () => {
 										getCryptoFinancialInfo(
 											referenceNumber,
 											values[coin],
+											orderId,
 										);
 									}}
 								/>

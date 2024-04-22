@@ -572,7 +572,7 @@ export const useOrderCryptoFinancial = () => {
 	const [walletActive, setWallet] = useState<OrderCryptoFinancial>({ walletID: '. . .', currencyActive: CryptoPayment.BITCOIN });
 	const qrCode = useRef<string>();
 
-	const getCryptoFinancialInfo = (referenceNumber: string, crypto?: CryptoPayment) => {
+	const getCryptoFinancialInfo = (referenceNumber: string, crypto?: CryptoPayment, orderId?: string) => {
 		qrCode.current =undefined;
 		setWallet(({walletID: "...", currencyActive: crypto || CryptoPayment.BITCOIN}));
 
@@ -583,6 +583,7 @@ export const useOrderCryptoFinancial = () => {
 				company_id: getCompany(),
 				reference_number: referenceNumber,
 				cc_blockchain: crypto || "BTC",
+				order_id: orderId
 			}
 		})
 			.then(({data}: any) => {
