@@ -39,6 +39,7 @@ import { ResellerPage } from './views/pages/panel/layouts/reseller/ResellerPage'
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import LanPage from './views/pages/panel/layouts/lan/Lan';
 import useAdminCompanyStore from '@stores/adminCompany.store';
+import { PasswordRecovery } from './views/pages/auth/layouts/PasswordRecovery';
 
 export const AppRouter: React.FC = () => {
 	const {
@@ -220,6 +221,7 @@ export const AppRouter: React.FC = () => {
 						<Route path="signin" element={<SignInLayout />} />
 						<Route path="signup" element={<SignUpLayout />} />
 						<Route path="confirmation" element={<ConfirmationSignUp />} />
+						<Route path="recovery" element={<PasswordRecovery />} />
 
 						<Route path="signup/:ref" element={<FinishSignUpLayout />} />
 					</Route>

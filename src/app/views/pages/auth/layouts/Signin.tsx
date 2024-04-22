@@ -30,7 +30,8 @@ const SignInLayout: FC = () => {
 				if (user) {
 					if (user?.accessRole == 'user') navigate('/');
 					if (user?.accessRole == 'admin') navigate('/admin');
-					if (user?.accessRole == 'provider') navigate('/provider/profile');
+					if (user?.accessRole == 'provider')
+						navigate('/provider/profile');
 				}
 			})
 			.finally(() =>
@@ -84,8 +85,12 @@ const SignInLayout: FC = () => {
 					type="submit"
 					className="signin-btn"
 				/>
-
 				<div className="extra-group link-center link-underline">
+					<Link to="/auth/recovery" className="link codefend-text-red">
+						Have you forgotten your password? Recover it here!
+					</Link>
+				</div>
+				<div className="extra-group link-center link-underline low-space">
 					<Link to="/auth/signup" className="link codefend-text-red">
 						Don’t have an account yet? Sign up
 					</Link>

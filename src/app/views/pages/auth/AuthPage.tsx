@@ -31,7 +31,10 @@ const AuthPage: FC = () => {
 						<div className="nav">
 							<span
 								className={
-									location.pathname === '/auth/signin' ? 'active' : ''
+									location.pathname === '/auth/signin' ||
+									location.pathname === '/auth/recovery'
+										? 'active'
+										: ''
 								}>
 								<Link to="/auth/signin">access</Link>
 							</span>
