@@ -16,7 +16,7 @@ const ModalTitleWrapper: FC<ModalTitleWrapperProps> = ({
 }) => {
 	return (
 		<Show when={isActive}>
-			<ModalWrapper action={close}>
+			<ModalWrapper action={close} showCloseBtn type="title-wrapper">
 				<>
 					<div className="header">
 						<div className="icon">

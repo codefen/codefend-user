@@ -1,12 +1,13 @@
 import React, { useEffect, type ReactNode } from 'react';
 import './modal.scss';
-import { CloseIcon } from '../..';
+import { CloseIcon, Show } from '../..';
 
 interface ModalWrapper {
 	children: ReactNode;
 	isErrorBox?: boolean;
 	action?: () => void;
 	type?: string;
+	showCloseBtn?: boolean;
 }
 
 const ModalWrapper: React.FC<ModalWrapper> = ({
@@ -14,6 +15,7 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 	type,
 	children,
 	action,
+	showCloseBtn,
 }) => {
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -41,9 +43,11 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 					e.preventDefault();
 					e.stopPropagation();
 				}}>
-				<span className="modal-close-btn" onClick={closeEvent}>
-					<CloseIcon isButton />
-				</span>
+				<Show when={Boolean(showCloseBtn)}>
+					<span className="modal-close-btn" onClick={closeEvent}>
+						<CloseIcon isButton />
+					</span>
+				</Show>
 				{children}
 			</article>
 		</div>

@@ -11,7 +11,7 @@ export const ModalReport: FC<WebReportModalProps> = () => {
 	const { open, closeModal } = useReportStore((state) => state);
 	if (open) {
 		return (
-			<ModalWrapper action={closeModal} type="report">
+			<ModalWrapper action={closeModal} type="report" showCloseBtn>
 				<CustomReport isModal />
 			</ModalWrapper>
 		);

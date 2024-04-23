@@ -67,6 +67,11 @@
 			}
 		}
 	}
+	&.title-wrapper {
+		.modal-close-btn {
+			top: 5px;
+		}
+	}
 
 	.header {
 		display: flex;
@@ -389,14 +394,6 @@
 	}
 	.content {
 		color: var(--tertiary-color-100);
-		// 	background-image: linear-gradient(#23266140 0.4px, transparent 0.4px),
-		// 	linear-gradient(to right, #23266140 0.4px, #e5e5f700 0.4px);
-		// background-size: 8px 8px;
-		// .header {
-		//   h4 {
-		//     color: var(--tertiary-color-50);
-		//   }
-		// }
 	}
 
 	.error-wrapper {
@@ -421,6 +418,15 @@
 	.empty-content {
 		.second-text {
 			color: var(--tertiary-color-400);
+		}
+	}
+	.modal-wrapper .modal .modal-close-btn {
+		svg {
+			color: var(--tertiary-color-50);
+
+			&:hover {
+				color: var(--secondary-color-50);
+			}
 		}
 	}
 }
