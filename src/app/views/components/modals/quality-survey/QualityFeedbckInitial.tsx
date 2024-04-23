@@ -30,7 +30,7 @@ export const QualityFeedbckInitial: FC<QualityFeedbackProps> = ({
 						We are <b>pleased to confirm the successful completion</b> of
 						your requested penetration testing by{' '}
 						<b className="codefend-text-red">
-							our verified professional,{' Edgardo krause'}.
+							our verified professional, { name }.
 						</b>{' '}
 						To maintain and exceed our service standards we kindly ask you
 						to complete the survey below to gauge your satisfaction and
