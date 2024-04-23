@@ -10,6 +10,7 @@ import {
 import {
 	ConfirmModal,
 	IconTextPairs,
+	ModalWrapper,
 	PrimaryButton,
 	Show,
 } from '../../../../../../components';
@@ -63,16 +64,18 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 	return (
 		<>
 			<Show when={showModal}>
-				<ConfirmModal
-					action={() => {
-						finishOrder(id);
-						removeOrder(id);
-					}}
-					close={() => setShowModal(false)}
-					cancelText="Not yet"
-					confirmText="Yes, I'm sure"
-					header="Are you sure you want to finish the job?"
-				/>
+				<ModalWrapper action={() => setShowModal(false)}>
+					<ConfirmModal
+						action={() => {
+							finishOrder(id);
+							removeOrder(id);
+						}}
+						close={() => setShowModal(false)}
+						cancelText="Not yet"
+						confirmText="Yes, I'm sure"
+						header="Are you sure you want to finish the job?"
+					/>
+				</ModalWrapper>
 			</Show>
 			<OrderCardTemplate
 				id={id}
