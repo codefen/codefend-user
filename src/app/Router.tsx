@@ -40,6 +40,10 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import LanPage from './views/pages/panel/layouts/lan/Lan';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import { PasswordRecovery } from './views/pages/auth/layouts/PasswordRecovery';
+import { TermsAndCondition } from './views/pages/help-center/TermsAndCondition';
+import { HelpCenter } from './views/pages/help-center/HelpCenter';
+import { SecurityAndPrivacyPolicy } from './views/pages/help-center/SecurityAndPrivacyPolicy';
+import { HelpNotfound } from './views/pages/help-center/HelpNotfound';
 
 export const AppRouter: React.FC = () => {
 	const {
@@ -216,6 +220,17 @@ export const AppRouter: React.FC = () => {
 					)}
 
 					{/* Public Routes */}
+					<Route path="/help/*" element={<HelpCenter />}>
+						<Route
+							path="terms-and-condition"
+							element={<TermsAndCondition />}
+						/>
+						<Route
+							path="security-and-privacy-policy"
+							element={<SecurityAndPrivacyPolicy />}
+						/>
+						<Route path="*" element={<HelpNotfound />} />
+					</Route>
 					<Route path="/auth/*" element={<AuthPage />}>
 						<Route index element={<Navigate to="signin" replace />} />
 						<Route path="signin" element={<SignInLayout />} />

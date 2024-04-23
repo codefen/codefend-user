@@ -272,8 +272,14 @@ const SignUpLayout: FC = () => {
 
 			<div className="extra-group">
 				<span className="link link-color">
-					I have read and accept the <u>Privacy Policy</u> and{' '}
-					<u>Terms of Use.</u>
+					I have read and accept the{' '}
+					<Link to="/help/security-and-privacy-policy" target="_blank">
+						<u>security-and-privacy-policy</u>
+					</Link>{' '}
+					and{' '}
+					<Link to="/help/terms-and-condition" target="_blank">
+						<u>Terms of Use.</u>
+					</Link>
 				</span>
 			</div>
 			<div className="extra-group">
