@@ -17,5 +17,5 @@ export const useCopyToClipboard = ()=> {
         });
     }
 
-    return [copyToClipboard, { error, success }]
+    return [copyToClipboard, { error, success }] as const;
 }

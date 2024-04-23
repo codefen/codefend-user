@@ -19,7 +19,7 @@ export const useGetScopeTables = () => {
 		if (scopeALias === 'w') {
 			rows =
 				scope.map((res: WebResourceResume) => ({
-					ID: { value: '', style: '' },
+					ID: { value: res.id, style: '' },
 					Identifier: { value: res.id, style: 'id' },
 					domainName: {
 						value: res.resource_domain,
@@ -42,7 +42,7 @@ export const useGetScopeTables = () => {
 											props.handleClick(
 												e,
 												`child-${resChild.id}`,
-												'',
+												resChild.id,
 											)
 										}>
 										<div className="id">
@@ -75,7 +75,7 @@ export const useGetScopeTables = () => {
 		if (scopeALias === 'm') {
 			rows =
 				scope.map((res: any) => ({
-					ID: { value: '', style: '' },
+					ID: { value: res.id, style: '' },
 					Identifier: { value: res.id, style: 'id' },
 					name: {
 						value: res.app_name,
@@ -114,13 +114,13 @@ export const useGetScopeTables = () => {
 		if (scopeALias === 'sc') {
 			rows =
 				scope.map((res: SourceResourceResume) => ({
-					ID: { value: '', style: '' },
+					ID: { value: res.id, style: '' },
 					Identifier: { value: res.id, style: 'id' },
 					name: {
 						value: res.name,
 						style: 'full-name',
 					},
-					url: { value: res.access_link, style: 'url' },
+					link: { value: res.access_link, style: 'url' },
 				})) || [];
 			return { rows, columns: sourceCodeScopeColumns };
 		}

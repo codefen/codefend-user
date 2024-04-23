@@ -44,7 +44,7 @@ export const sourceCodeScopeColumns = [
         value: 'name',
         style: 'full-name',
     },
-    { name: 'url', value: 'url', style: 'url' },
+    { name: 'link', value: 'url', style: 'url' },
 ];
 export const networkScopeColumns = [
     { name: 'Identifier', value: 'id', style: 'id' },
