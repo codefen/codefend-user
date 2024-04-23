@@ -18,7 +18,7 @@ export const QualityFeedbackManager = () => {
 		return (
 			<QualityFeedbckInitial
 				isActive={isOpen}
-				name={provider.name}
+				name={provider.fname + ' ' + provider.lname}
 				onClose={() => updateIsOpen(false)}
 				onNext={() => updatePhase(QualitySurveyPhase.OVERALL)}
 			/>
