@@ -222,6 +222,7 @@ export const AppRouter: React.FC = () => {
 						<Route path="signup" element={<SignUpLayout />} />
 						<Route path="confirmation" element={<ConfirmationSignUp />} />
 						<Route path="recovery" element={<PasswordRecovery />} />
+						<Route path="recovery/:ref" element={<PasswordRecovery />} />
 
 						<Route path="signup/:ref" element={<FinishSignUpLayout />} />
 					</Route>

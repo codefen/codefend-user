@@ -1,39 +1,59 @@
 import { useState } from 'react';
 import { PrimaryButton } from '../../../components';
 import { usePasswordRecovery } from '#commonUserHooks/usePasswordRecovery';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 export const PasswordRecovery = () => {
+	const { ref } = useParams();
 	const navigate = useNavigate();
 	const { sendEmailForRecovery, passwordRecover } = usePasswordRecovery();
 	const [activePhase, setPhase] = useState<'email' | 'code'>('email');
 	const [passwordRecovery, setPasswordRecovery] = useState({
 		email: '',
-		referenceNumber: '',
+		referenceNumber: ref || '',
 		newPassword: '',
+		repeatedPassword: '',
 	});
 
 	const handleSendCode = async (e: any) => {
 		e.preventDefault();
 		sendEmailForRecovery(passwordRecovery.email);
 		setPhase('code');
+		toast.success(
+			'We have sent an email with the reference code to clear your password',
+		);
 	};
 
 	const handlePasswordRecovery = (e: any) => {
 		e.preventDefault();
+		if (passwordRecovery.newPassword !== passwordRecovery.repeatedPassword) {
+			toast.error('The passwords you sent do not match');
+			return;
+		}
 		passwordRecover(
 			passwordRecovery.email,
 			passwordRecovery.referenceNumber,
 			passwordRecovery.newPassword,
-		).finally(() => {
-			setPhase('email');
-			setPasswordRecovery({
-				email: '',
-				referenceNumber: '',
-				newPassword: '',
+		)
+			.then((res) => {
+				if (res.error != '0') throw new Error(res.info);
+
+				toast.success('Your password has been updated successfully');
+				setPhase('email');
+				setPasswordRecovery({
+					email: '',
+					referenceNumber: '',
+					newPassword: '',
+					repeatedPassword: '',
+				});
+				navigate('/auth/signin');
+			})
+			.catch((err) => {
+				toast.error(
+					'We have not been able to update the password, try generating a new code',
+				);
 			});
-			navigate('/auth/signin');
-		});
 	};
 
 	if (activePhase === 'email') {
@@ -108,6 +128,23 @@ export const PasswordRecovery = () => {
 						setPasswordRecovery((current) => ({
 							...current,
 							newPassword: e.target.value,
+						}));
+					}}
+					name="otp"
+					placeholder="Enter new password"
+					required
+				/>
+			</div>
+			<div className="confirm-input">
+				<label htmlFor="otp">Repeat new password</label>
+				<input
+					id="otp"
+					type="password"
+					value={passwordRecovery.repeatedPassword}
+					onChange={(e) => {
+						setPasswordRecovery((current) => ({
+							...current,
+							repeatedPassword: e.target.value,
 						}));
 					}}
 					name="otp"
