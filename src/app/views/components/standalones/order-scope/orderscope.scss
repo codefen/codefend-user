@@ -11,8 +11,11 @@
 		.rows {
 			overflow-y: auto;
 			height: auto;
-			max-height: 275px;
+			max-height: 245px;
 			margin-block-end: 1.5rem;
+			min-height: 245px;
+			min-width: 685px;
+			max-width: 685px;
 		}
 	}
 }
