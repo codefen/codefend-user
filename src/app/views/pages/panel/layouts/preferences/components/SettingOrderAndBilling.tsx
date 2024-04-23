@@ -7,6 +7,7 @@ import type { CompanyOrders } from '@interfaces/preferences';
 import { UserOrderCard } from './UserOrderCard';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
+import { PageLoader } from '@defaults/index';
 
 interface BillingDataProps {
 	isLoading: boolean;
@@ -27,7 +28,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 					header="ORDERS & BILLING DETAILS"
 					icon={<PreferenceIcon />}>
 					<div className="order-preference-content">
-						<Show when={Boolean(orders.length)} fallback={<EmptyCard />}>
+						<Show when={Boolean(orders.length)}>
 							{orders.map((order, i) => (
 								<UserOrderCard
 									key={`order-${order.id}${i}`}
@@ -56,6 +57,12 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 									referenceNumber={order.reference_number}
 								/>
 							))}
+						</Show>
+						<Show when={!Boolean(orders.length) && isLoading}>
+							<PageLoader />
+						</Show>
+						<Show when={!Boolean(orders.length) && !isLoading}>
+							<EmptyCard />
 						</Show>
 					</div>
 				</SimpleSection>

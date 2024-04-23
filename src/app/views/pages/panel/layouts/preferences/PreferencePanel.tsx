@@ -32,7 +32,7 @@ const PreferencePanel = () => {
 						/>
 						<SettingOrderAndBilling
 							isLoading={isLoading}
-							orders={orders}
+							orders={orders || []}
 						/>
 					</section>
 					<section className="right">

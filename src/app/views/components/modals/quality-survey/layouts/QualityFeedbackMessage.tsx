@@ -43,6 +43,7 @@ export const QualityFeedbackMessage = () => {
 			question="">
 			<div className="quality-poll">
 				<textarea
+					className="text-area-input log-inputs2"
 					name="message"
 					value={message}
 					placeholder={placeHolderText}

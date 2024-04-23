@@ -10,7 +10,7 @@ import { EMPTY_COMPANY_CUSTOM } from '@mocks/empty';
 export const usePreferences = () => {
 	const { logout } = useUserData();
 	const { getCompany} = useUserData();
-	const [fetcher, cancelRequest, isLoading] = useFetcher(true);
+	const [fetcher, _, isLoading] = useFetcher(true);
 	const [company, setCompany] = useState<CompanyInfo>(EMPTY_COMPANY_CUSTOM as CompanyInfo);
 	const [members, setMembers] = useState<MemberInfo[]>([]);
 	const [orders, serOrders] = useState<CompanyOrders[]>([]);
