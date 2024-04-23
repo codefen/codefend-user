@@ -44,6 +44,7 @@ import { TermsAndCondition } from './views/pages/help-center/TermsAndCondition';
 import { HelpCenter } from './views/pages/help-center/HelpCenter';
 import { SecurityAndPrivacyPolicy } from './views/pages/help-center/SecurityAndPrivacyPolicy';
 import { HelpNotfound } from './views/pages/help-center/HelpNotfound';
+import { InvitationSignup } from './views/pages/auth/layouts/InvitationSignup';
 
 export const AppRouter: React.FC = () => {
 	const {
@@ -235,6 +236,10 @@ export const AppRouter: React.FC = () => {
 						<Route index element={<Navigate to="signin" replace />} />
 						<Route path="signin" element={<SignInLayout />} />
 						<Route path="signup" element={<SignUpLayout />} />
+						<Route
+							path="signup/invitation"
+							element={<InvitationSignup />}
+						/>
 						<Route path="confirmation" element={<ConfirmationSignUp />} />
 						<Route path="recovery" element={<PasswordRecovery />} />
 						<Route path="recovery/:ref" element={<PasswordRecovery />} />
