@@ -586,6 +586,33 @@ export const companyOrdersColumns = [
 		style: 'id action',
 	}
 ];
+export const companyMembersColumns = [
+	{
+		name: "Identifier",
+		value: "id",
+		style: "id"
+	},
+	{
+		name: "fullName",
+		value: "full name",
+		style: "full-name"
+	},
+	{
+		name: "email",
+		value: "email",
+		style: "email"
+	},
+	{
+		name: "phone",
+		value: "phone",
+		style: "phone"
+	},
+	{
+		name: "role",
+		value: "role",
+		style: "role"
+	},
+];
 
 export const lanResourcesTableWithoutAction = lanResourcesTable.filter((column)=> column.name !== "action")
 

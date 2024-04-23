@@ -1,60 +1,47 @@
 import { type FC } from 'react';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import Show from '@defaults/Show.tsx';
-import EmptyCard from '@defaults/EmptyCard.tsx';
 import type { Member } from '@interfaces/panel';
+import { PeopleGroupIcon } from '@icons';
+import { TableV2 } from '@table/tablev2';
+import { companyMembersColumns } from '@mocks/defaultData';
 
 interface CollaboratorDataProps {
 	isLoading: boolean;
 	members: Member[];
 }
 
-const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = (props) => {
+const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
+	members,
+	isLoading,
+}) => {
+	const dataTable = members.map((member) => ({
+		ID: { value: '', style: '' },
+		Identifier: { value: member.id, style: 'id' },
+		fullName: {
+			value: `${member.fname} ${member.lname}`,
+			style: 'full-name',
+		},
+		email: { value: member.email, style: 'email' },
+		phone: { value: member.phone, style: 'phone' },
+		role: { value: member.role, style: 'role' },
+	}));
 	return (
-		<>
-			<div className="card table">
-				<div className="header">
-					<div className="title">
-						<div className="icon">{/* <HiSolidUserGroup /> */}</div>
-						<span>COLLABORATORS AND TEAM MEMBERS</span>
+		<div className="card table">
+			<div className="header">
+				<div className="title">
+					<div className="icon">
+						<PeopleGroupIcon />
 					</div>
-					<div className="actions">
-						
-					</div>
+					<span>COLLABORATORS AND TEAM MEMBERS</span>
 				</div>
-
-				<div className="columns-name">
-					<div className="id">id</div>
-					<div className="full-name">full name</div>
-					<div className="email">email</div>
-					<div className="phone">phone</div>
-					<div className="role">role</div>
-				</div>
-
-				<div className="rows">
-					<Show when={!props.isLoading} fallback={<PageLoader />}>
-						<>
-							{props.members.map((member: Member) => (
-								<div key={member.id} className="item">
-									<div className="id">{member.id}</div>
-									<div className="full-name">{`${member.fname} ${member.lname}`}</div>
-									<div className="email">{member.email}</div>
-									<div className="phone">
-										<Show when={!member.eliminado} fallback={<>-</>}>
-											<>+${member.phone}</>
-										</Show>
-									</div>
-									<div className="role">{member.role}</div>
-								</div>
-							))}
-						</>
-					</Show>
-				</div>
+				<div className="actions"></div>
 			</div>
-			<Show when={!props.isLoading && !Boolean(props.members.length)}>
-				<EmptyCard />
-			</Show>
-		</>
+			<TableV2
+				columns={companyMembersColumns}
+				rowsData={dataTable}
+				showRows={!isLoading}
+				showEmpty={!Boolean(dataTable.length) && !isLoading}
+			/>
+		</div>
 	);
 };
 

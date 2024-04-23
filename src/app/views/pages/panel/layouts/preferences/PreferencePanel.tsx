@@ -28,7 +28,7 @@ const PreferencePanel = () => {
 					<section className="left">
 						<SettingCollaboratorAndTeam
 							isLoading={isLoading}
-							members={members}
+							members={members || []}
 						/>
 						<SettingOrderAndBilling
 							isLoading={isLoading}
