@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { CurrentOrderCard } from '../../components/current-order-card/CurrentOrderCard';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { ProviderScope } from '@standalones/order-scope/OrderScope';
+import ConfirmModal from '@modals/ConfirmModal';
 
 export const CurrentOrderProvider = () => {
 	const [currentOrders, { setCurrentOrders, getConfirmOrders }] =
@@ -23,6 +24,7 @@ export const CurrentOrderProvider = () => {
 	return (
 		<>
 			<ProviderScope />
+
 			<div className="provider-about">
 				{currentOrders.map((order, i) => (
 					<CurrentOrderCard

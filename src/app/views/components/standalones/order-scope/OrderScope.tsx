@@ -51,42 +51,42 @@ export const ProviderScope: FC = () => {
 						<OrderScopeTable
 							resourceScope={scope?.web || []}
 							scopeALias="w"
-							title="This is order web scope"
+							title="Scope"
 						/>
 					</Show>
 					<Show when={resourceActive === 'm'}>
 						<OrderScopeTable
 							resourceScope={scope?.mobile || []}
 							scopeALias="m"
-							title="This is order mobile scope"
+							title="Scope"
 						/>
 					</Show>
 					<Show when={resourceActive === 'c'}>
 						<OrderScopeTable
 							resourceScope={scope?.cloud || []}
 							scopeALias="c"
-							title="This is order cloud scope"
+							title="Scope"
 						/>
 					</Show>
 					<Show when={resourceActive === 's'}>
 						<OrderScopeTable
 							resourceScope={scope?.social?.social_resources || []}
 							scopeALias="s"
-							title="This is order scoial scope"
+							title="Scope"
 						/>
 					</Show>
 					<Show when={resourceActive === 'sc'}>
 						<OrderScopeTable
 							resourceScope={scope?.source || []}
 							scopeALias="sc"
-							title="This is order scource code scope"
+							title="Scope"
 						/>
 					</Show>
 					<Show when={resourceActive === 'n'}>
 						<OrderScopeTable
 							resourceScope={scope?.lan || []}
 							scopeALias="n"
-							title="This is order network scope"
+							title="Scope"
 						/>
 					</Show>
 				</div>
