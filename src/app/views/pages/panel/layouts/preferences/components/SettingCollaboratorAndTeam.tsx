@@ -3,6 +3,7 @@ import type { Member } from '@interfaces/panel';
 import { PeopleGroupIcon } from '@icons';
 import { TableV2 } from '@table/tablev2';
 import { companyMembersColumns } from '@mocks/defaultData';
+import useModalStore from '@stores/modal.store';
 
 interface CollaboratorDataProps {
 	isLoading: boolean;
@@ -13,6 +14,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 	members,
 	isLoading,
 }) => {
+	const { setModalId, setIsOpen } = useModalStore();
 	const dataTable = members.map((member) => ({
 		ID: { value: '', style: '' },
 		Identifier: { value: member.id, style: 'id' },
@@ -24,6 +26,11 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 		phone: { value: member.phone, style: 'phone' },
 		role: { value: member.role, style: 'role' },
 	}));
+
+	const handleAddCollaborator = () => {
+		setModalId('add-collaborator');
+		setIsOpen(true);
+	};
 	return (
 		<div className="card table">
 			<div className="header">
@@ -33,7 +40,9 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 					</div>
 					<span>COLLABORATORS AND TEAM MEMBERS</span>
 				</div>
-				<div className="actions"></div>
+				<div className="actions">
+					<div onClick={handleAddCollaborator}>Add collaborator</div>
+				</div>
 			</div>
 			<TableV2
 				columns={companyMembersColumns}

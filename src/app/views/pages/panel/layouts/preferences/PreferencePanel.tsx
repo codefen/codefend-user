@@ -11,6 +11,7 @@ import './preference.scss';
 import { useEffect } from 'react';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store.ts';
 import { ProviderScope } from '@standalones/order-scope/OrderScope.tsx';
+import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 
 const PreferencePanel = () => {
 	const [showScreen] = useShowScreen();
@@ -23,6 +24,7 @@ const PreferencePanel = () => {
 	return (
 		<>
 			<ProviderScope />
+			<AddCollaboratorModal />
 			<Show when={showScreen} fallback={<PageLoader />}>
 				<main className={`preferences ${showScreen ? 'actived' : ''}`}>
 					<section className="left">
