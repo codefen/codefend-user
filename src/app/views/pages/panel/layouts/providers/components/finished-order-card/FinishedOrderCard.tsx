@@ -5,12 +5,11 @@ import {
 	type OrderOffensive,
 	type OrderTeamSize,
 } from '../../../../../../../data';
-import useModal from '#commonHooks/useModal';
 import { IconTextPairs } from '../../../../../../components';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
-import { ProviderScope } from '@standalones/order-scope/OrderScope';
 import { OrderCardTemplate } from '../../../../../../components/standalones/order-card-template/OrderCardTemplate';
+import useOrderScopeStore from '@stores/orderScope.store';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -41,54 +40,49 @@ export const FinishOrderCard: FC<ConfirmOrderCardProps> = ({
 	finishDate,
 	resourcesScope,
 }) => {
-	const { showModal, setShowModal } = useModal();
-
+	const { updateOpen, updateScope, updateViewConfirm } = useOrderScopeStore();
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
+	const handleOpenScope = () => {
+		updateOpen(true);
+		updateScope(resourcesScope);
+		updateViewConfirm(false);
+	};
 	return (
-		<>
-			<ProviderScope
-				isOpen={showModal}
-				scope={resourcesScope}
-				onClose={() => setShowModal(false)}
-				viewConfirm={false}
-				onConfirm={() => {}}
-			/>
-			<OrderCardTemplate
-				id={id}
-				handleActivate={handleActivate}
-				isSelected={Boolean(isSelected)}
-				offensive={offensive}
-				price={price}
-				provider={provider}
-				sizeOrder={sizeOrder}
-				state="Finished"
-				type={type}
-				viewPrice
-				viewScope={
-					<IconTextPairs
-						icon={<BugIcon className="codefend-text-red" />}
-						className="icon-text">
-						<span className="text-bold">Resources:</span>
-						<span className="text-light border">{resources}</span>
-						<span
-							className="codefend-text-red all-scope"
-							onClick={() => setShowModal(true)}>
-							view scope
-						</span>
-					</IconTextPairs>
-				}>
-				<div className="provider-order-main-content flex-col">
-					<div className="order-price-dist expand">
-						<span className="current-extend">
-							Finish date {formatReverseDate(finishDate)}
-						</span>
+		<OrderCardTemplate
+			id={id}
+			handleActivate={handleActivate}
+			isSelected={Boolean(isSelected)}
+			offensive={offensive}
+			price={price}
+			provider={provider}
+			sizeOrder={sizeOrder}
+			state="Finished"
+			type={type}
+			viewPrice
+			viewScope={
+				<IconTextPairs
+					icon={<BugIcon className="codefend-text-red" />}
+					className="icon-text">
+					<span className="text-bold">Resources:</span>
+					<span className="text-light border">{resources}</span>
+					<span
+						className="codefend-text-red all-scope"
+						onClick={handleOpenScope}>
+						view scope
+					</span>
+				</IconTextPairs>
+			}>
+			<div className="provider-order-main-content flex-col">
+				<div className="order-price-dist expand">
+					<span className="current-extend">
+						Finish date {formatReverseDate(finishDate)}
+					</span>
 
-						<span className="current-extend">
-							Distributor: {distributor}
-						</span>
-					</div>
+					<span className="current-extend">
+						Distributor: {distributor}
+					</span>
 				</div>
-			</OrderCardTemplate>
-		</>
+			</div>
+		</OrderCardTemplate>
 	);
 };

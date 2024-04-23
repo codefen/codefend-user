@@ -4,9 +4,7 @@ import {
 	type OrderOffensive,
 	type OrderTeamSize,
 } from '../../../../../../data';
-import useModal from '#commonHooks/useModal';
 import { BugIcon } from '@icons';
-import { ProviderScope } from '@standalones/order-scope/OrderScope';
 import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
 import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
 import { PrimaryButton } from '@buttons/index';
@@ -14,6 +12,7 @@ import Show from '@defaults/Show';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import '../../providers/components/ordercards.scss';
 import { useQualitySurveyStart } from '@hooks/quality-survey/useQualitySurveyStart';
+import useOrderScopeStore from '@stores/orderScope.store';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -49,9 +48,9 @@ export const UserOrderCard: FC<ConfirmOrderCardProps> = ({
 	conditionFinancial,
 	referenceNumber,
 }) => {
-	const { showModal, setShowModal } = useModal();
 	const { updateIsOpen, updateOrderId, updateReferenceNumber } =
 		useQualitySurveyStore();
+	const { updateOpen, updateScope, updateViewConfirm } = useOrderScopeStore();
 	const startPoll = useQualitySurveyStart();
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
 
@@ -62,15 +61,14 @@ export const UserOrderCard: FC<ConfirmOrderCardProps> = ({
 		startPoll(id, referenceNumber);
 	};
 
+	const handleOpenScope = () => {
+		updateOpen(true);
+		updateScope(resourcesScope);
+		updateViewConfirm(false);
+	};
+
 	return (
 		<>
-			<ProviderScope
-				isOpen={showModal}
-				scope={resourcesScope}
-				onClose={() => setShowModal(false)}
-				viewConfirm={false}
-				onConfirm={() => {}}
-			/>
 			<OrderCardTemplate
 				id={id}
 				handleActivate={handleActivate}
@@ -90,7 +88,7 @@ export const UserOrderCard: FC<ConfirmOrderCardProps> = ({
 						<span className="text-light border">{resources}</span>
 						<span
 							className="codefend-text-red all-scope"
-							onClick={() => setShowModal(true)}>
+							onClick={handleOpenScope}>
 							view scope
 						</span>
 					</IconTextPairs>

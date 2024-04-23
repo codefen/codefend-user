@@ -1,21 +1,17 @@
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 import {
 	ScopeOption,
 	formatNumber,
 	type OrderOffensive,
 	type OrderTeamSize,
 } from '../../../../../../../data';
-import useModal from '#commonHooks/useModal';
-import { IconTextPairs, ModalWrapper } from '../../../../../../components';
-import { BugIcon } from '@icons';
-import Show from '@defaults/Show';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import '../ordercards.scss';
-import { ProviderScope } from '@standalones/order-scope/OrderScope';
 import { OrderCardTemplate } from '../../../../../../components/standalones/order-card-template/OrderCardTemplate';
+import useOrderScopeStore from '@stores/orderScope.store';
 
 export interface ConfirmOrderCardProps {
 	sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';
@@ -46,11 +42,11 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	removeOrder,
 	resourcesScope,
 }) => {
-	const { showModal, setShowModal } = useModal();
+	const { updateOpen, updateScope, updateViewConfirm, updateOnConfirm } =
+		useOrderScopeStore();
 	const { cancelConfirm } = useProviderRefuseOrder();
 	const { confirmOrder, isLoading } = useProviderConfirm();
 	const { setClickRefuse, setOrderId, isRefusing } = useProviderRefuseStore();
-	const onClick = () => handleActivate(id);
 
 	const handleClickRefuse = () => {
 		cancelConfirm();
@@ -58,23 +54,22 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 		setOrderId(id);
 	};
 
-	const handleConfirm = () => {
-		removeOrder(id);
-		confirmOrder(id);
-		setShowModal(false);
+	const handleOpenScope = () => {
+		const handleConfirm = () => {
+			removeOrder(id);
+			confirmOrder(id);
+			updateOpen(false);
+		};
+		updateOpen(true);
+		updateScope(resourcesScope);
+		updateViewConfirm(true);
+		updateOnConfirm(handleConfirm);
 	};
 	const teamSize = sizeOrder.valueOf();
 	const offensiveOrder = `${offensive.valueOf()} pentest`;
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
 	return (
 		<>
-			<ProviderScope
-				isOpen={showModal}
-				scope={resourcesScope}
-				onClose={() => setShowModal(false)}
-				onConfirm={handleConfirm}
-				viewConfirm
-			/>
 			<OrderCardTemplate
 				id={id}
 				handleActivate={handleActivate}
@@ -100,7 +95,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 							refuse order
 						</button>
 						<PrimaryButton
-							click={() => setShowModal(true)}
+							click={handleOpenScope}
 							text="View order"
 							buttonStyle="red"
 							className="btn-order-card"

@@ -10,6 +10,7 @@ import SettingPersonalDetails from './components/SettingPersonaDetails.tsx';
 import './preference.scss';
 import { useEffect } from 'react';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store.ts';
+import { ProviderScope } from '@standalones/order-scope/OrderScope.tsx';
 
 const PreferencePanel = () => {
 	const [showScreen] = useShowScreen();
@@ -21,6 +22,7 @@ const PreferencePanel = () => {
 
 	return (
 		<>
+			<ProviderScope />
 			<Show when={showScreen} fallback={<PageLoader />}>
 				<main className={`preferences ${showScreen ? 'actived' : ''}`}>
 					<section className="left">

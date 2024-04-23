@@ -5,22 +5,11 @@ import './orderscope.scss';
 import { EmptyCard, ModalTitleWrapper } from '../..';
 import { OrderScopeTable } from './OrderTableScope';
 import { OrderScopeBar } from './OrderScopeBar';
+import useOrderScopeStore from '@stores/orderScope.store';
 
-export interface ProviderScopeProps {
-	isOpen: boolean;
-	scope: any;
-	onClose: () => void;
-	onConfirm: () => void;
-	viewConfirm: boolean;
-}
-
-export const ProviderScope: FC<ProviderScopeProps> = ({
-	isOpen,
-	scope,
-	onClose,
-	onConfirm,
-	viewConfirm,
-}) => {
+export const ProviderScope: FC = () => {
+	const { open, scope, viewConfirm, onConfirm, updateOpen } =
+		useOrderScopeStore();
 	const defineActiveAlias = (scopeV: any) => {
 		if (scopeV && typeof scopeV === 'object') {
 			if ('web' in scopeV) return 'w';
@@ -42,8 +31,8 @@ export const ProviderScope: FC<ProviderScopeProps> = ({
 	return (
 		<ModalTitleWrapper
 			headerTitle="Order Scope"
-			isActive={isOpen}
-			close={onClose}>
+			isActive={open}
+			close={() => updateOpen(false)}>
 			<div className="order-scope-container">
 				<OrderScopeBar
 					scope={scope}
@@ -105,7 +94,7 @@ export const ProviderScope: FC<ProviderScopeProps> = ({
 					<PrimaryButton
 						text="Close"
 						buttonStyle="black"
-						click={() => onClose()}
+						click={() => updateOpen(false)}
 						disabledLoader
 						className="close-btn"
 					/>

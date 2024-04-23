@@ -8,6 +8,7 @@ import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { ProviderOrderRefuseModal } from '../../components/refuse-modal/ProviderOrderRefuseModal.tsx';
 import { useProviderRefuseStore } from '@stores/providerOrder.store.ts';
+import { ProviderScope } from '@standalones/order-scope/OrderScope.tsx';
 
 export const NewOrderProvider = () => {
 	const { getUserdata } = useUserData();
@@ -33,6 +34,7 @@ export const NewOrderProvider = () => {
 	return (
 		<>
 			<ProviderOrderRefuseModal />
+			<ProviderScope />
 			<div className="provider-about">
 				{orders.map((order, i) => (
 					<ConfirmOrderCard
