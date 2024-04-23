@@ -31,7 +31,7 @@ export const QualityFeedbackFinding = () => {
 			reviews="186"
 			score="4.55"
 			specialist="web"
-			title="Number of Findings:"
+			title="Issues Volume:"
 			question="How satisfied were you with the number of findings reported by the specialist?">
 			<div className="quality-poll">
 				<label>

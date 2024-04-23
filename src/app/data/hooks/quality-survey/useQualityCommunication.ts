@@ -11,11 +11,11 @@ export const useQualityCommunication =()=>{
          fetcher("post", {
             body: {
                 model: "orders/review",
-                phase: "issues_volume",
+                phase: "process_speed",
                 company_id: getCompany(),
                 order_id: orderId,
                 reference_number: referenceNumber,
-                issues_volume: pollVal
+                process_speed: pollVal
             }
          }).then(({data}:any)=>{
             if(data.error != "0") throw new Error();

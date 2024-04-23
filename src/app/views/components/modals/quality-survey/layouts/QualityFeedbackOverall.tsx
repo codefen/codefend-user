@@ -32,7 +32,7 @@ export const QualityFeedbackOverall = () => {
 			reviews="186"
 			score="4.55"
 			specialist="web"
-			title="Overall Satisfaction:"
+			title="Overall score:"
 			question="How would you rate your overall satisfaction with the service provided by our profesional?">
 			<div className="quality-poll">
 				<label>

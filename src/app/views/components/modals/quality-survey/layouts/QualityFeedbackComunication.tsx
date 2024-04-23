@@ -32,7 +32,7 @@ export const QualityFeedbackComunication = () => {
 			reviews="186"
 			score="4.55"
 			specialist="web"
-			title="Timeliness and Communication:"
+			title="Process Speed:"
 			question="How would you rate the timeliness and effectiveness of communication from our professional?">
 			<div className="quality-poll">
 				<label>

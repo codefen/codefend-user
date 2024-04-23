@@ -31,7 +31,7 @@ export const QualityFeedbackReporting = () => {
 			reviews="186"
 			score="4.55"
 			specialist="web"
-			title="Reporting Capabilities:"
+			title="Inform Clearness:"
 			question="Were the reported issues provided clear, easy to reproduce, and adequately detailed?">
 			<div className="quality-poll">
 				<label>
