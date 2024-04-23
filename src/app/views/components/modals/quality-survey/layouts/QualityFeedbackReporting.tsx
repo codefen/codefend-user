@@ -2,16 +2,12 @@ import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
 import { useQualityReporting } from '@hooks/quality-survey/useQualityReporting';
+import { useRef } from 'react';
 
 export const QualityFeedbackReporting = () => {
-	const {
-		isOpen,
-		provider,
-		updatePhase,
-		updateIsOpen,
-		updatePollVal,
-		pollVal,
-	} = useQualitySurveyStore();
+	const { isOpen, provider, updatePhase, updateIsOpen } =
+		useQualitySurveyStore();
+	const pollRefVal = useRef('3');
 	const sendReporting = useQualityReporting();
 	return (
 		<QualityFeedback
@@ -22,7 +18,7 @@ export const QualityFeedbackReporting = () => {
 			}}
 			onNext={() => {
 				updatePhase(QualitySurveyPhase.TECH_SUPPORT);
-				sendReporting(pollVal);
+				sendReporting(pollRefVal.current);
 			}}
 			providerImg={`data:image/png;base64,${provider.profile_media}`}
 			name={`${provider.fname} ${provider.lname}`}
@@ -39,7 +35,7 @@ export const QualityFeedbackReporting = () => {
 						type="radio"
 						name="reportingVal"
 						className="radio-option"
-						onChange={(e) => updatePollVal('1')}
+						onChange={(e) => (pollRefVal.current = '1')}
 						value="1"
 						required
 					/>
@@ -51,7 +47,7 @@ export const QualityFeedbackReporting = () => {
 						type="radio"
 						name="reportingVal"
 						className="radio-option"
-						onChange={(e) => updatePollVal('2')}
+						onChange={(e) => (pollRefVal.current = '2')}
 						value="2"
 						required
 					/>
@@ -63,7 +59,7 @@ export const QualityFeedbackReporting = () => {
 						type="radio"
 						name="reportingVal"
 						className="radio-option"
-						onChange={(e) => updatePollVal('3')}
+						onChange={(e) => (pollRefVal.current = '3')}
 						value="3"
 						defaultChecked
 						required
@@ -76,7 +72,7 @@ export const QualityFeedbackReporting = () => {
 						type="radio"
 						name="reportingVal"
 						className="radio-option"
-						onChange={(e) => updatePollVal('4')}
+						onChange={(e) => (pollRefVal.current = '4')}
 						value="4"
 						required
 					/>
@@ -88,7 +84,7 @@ export const QualityFeedbackReporting = () => {
 						type="radio"
 						name="reportingVal"
 						className="radio-option"
-						onChange={(e) => updatePollVal('5')}
+						onChange={(e) => (pollRefVal.current = '5')}
 						value="5"
 						required
 					/>
