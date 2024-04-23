@@ -27,10 +27,15 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 
 const Sidebar: FC = () => {
-	const { isAdmin, isProvider, isReseller } = useUserRole();
-	const { isActivePath } = usePanelStore();
-	const { companies } = useAdminCompanyStore();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const { isActivePath } = usePanelStore();
+	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
+	const { companies } = useAdminCompanyStore();
+
+	const isNotProviderAndReseller = !isProvider() && !isReseller();
+
+	const isProviderWithAccess =
+		isProvider() && companies.length > 0 && companies[0] !== null;
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
 		if (action === 'enter') {
@@ -39,11 +44,6 @@ const Sidebar: FC = () => {
 			setIsSidebarOpen(false);
 		}
 	};
-
-	const isNotProviderAndReseller = !isProvider() && !isReseller();
-	const isProviderWithAccess =
-		isProvider() && companies.length > 0 && companies[0] !== null;
-
 	const menuItems = [
 		{
 			title: 'My profile',
@@ -82,7 +82,7 @@ const Sidebar: FC = () => {
 			id: 'sidebar_dashboard',
 			icon: <ChartIcon />,
 			to: '/dashboard',
-			root: !isProvider() && !isReseller() && !isAdmin(),
+			root: !isProvider() && !isReseller() && !isAdmin() && isNormalUser(),
 			haveAccess: isNotProviderAndReseller,
 		},
 		{
@@ -198,7 +198,7 @@ const Sidebar: FC = () => {
 			onMouseEnter={(e) => handleOpenSidebar('enter')}
 			onMouseLeave={(e) => handleOpenSidebar('leave')}>
 			{menuItems.map((item) => (
-				<Fragment key={`sb-${item.title}`}>
+				<Fragment key={`sb-${item.id}`}>
 					{item.haveAccess ? (
 						<Link
 							title={item.title}
