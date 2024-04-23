@@ -15,7 +15,7 @@ import {
 	SourceCodeIcon,
 	LanIcon,
 	MessageIcon,
-	PreferenceIcon
+	PreferenceIcon,
 } from '@icons';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import './welcome.scss';
@@ -57,7 +57,6 @@ const getButtonCoordinates = (buttonId: string): HelperBoxCords => {
 	return {};
 };
 
-
 export interface WelcomeGuideProps {
 	defaultOpenValue: boolean;
 	closeGuide: () => void;
@@ -67,7 +66,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	defaultOpenValue,
 	closeGuide,
 }) => {
-	const { isAdmin, isProvider  } = useUserRole();
+	const { isAdmin, isProvider } = useUserRole();
 	const [currentStep, setNextStep] = useState(
 		!isAdmin() ? WelcomeSteps.DASHBOARD : WelcomeSteps.ADMIN,
 	);
@@ -79,7 +78,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.DASHBOARD)}
-						coords={getButtonCoordinates('sidebar_admin')}
+						coords={getButtonCoordinates('sidebar_company')}
 						arrow={{ position: Position.LEFT, coordY: '7%' }}
 						icon={<AdminCompanyIcon />}
 						text="Any description for admin Any description for admin Any description for admin Any description for adminAny description for admin Any description for admin"
@@ -166,7 +165,6 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-
 				<Show when={currentStep === WelcomeSteps.NET}>
 					<HelperBox
 						close={closeGuide}
@@ -179,7 +177,6 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						highlight="Define and pentest your network infrastructure"
 					/>
 				</Show>
-
 
 				<Show when={currentStep === WelcomeSteps.ISSUES}>
 					<HelperBox

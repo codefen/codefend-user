@@ -63,7 +63,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Company Panel',
-			id: 'sidebar_admin',
+			id: 'sidebar_company',
 			icon: <AdminCompanyIcon />,
 			to: '/admin/company',
 			root: isAdmin(),

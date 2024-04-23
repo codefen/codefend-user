@@ -2,23 +2,15 @@
 	z-index: 9999;
 }
 .helper-box {
-	// background: linear-gradient(
-	// 	360deg,
-	// 	rgba(162, 20, 20, 1) 0%,
-	// 	rgba(230, 78, 78, 1) 0%
-	// );
-	// background: var(--primary-color-100);
-	// border: 1px solid var(--primary-color-50);
 	box-shadow: 4px 4px 16px #00000030;
 	width: fit-content;
 	height: fit-content;
 	min-width: 365px;
 	max-width: 420px;
 
-	// padding: 25px;
 	border-radius: 5px;
 
-	position: sticky;
+	position: relative;
 	left: var(--coord-left);
 	right: var(--coord-right);
 	top: var(--coord-top);
