@@ -23,7 +23,7 @@ export const useProviderIndex = ()=>{
 				model: 'providers/profiles/index',
 			}
 		}).then(({ data }: any)=>{
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
             providers.current = data?.providers ? data.providers : [];
         })
     }

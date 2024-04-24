@@ -28,7 +28,7 @@ export const useAddSocial = (onDone: () => void) => {
 		
 			},
 		}).then(({ data }: any) => {
-			if(data.error != "0"){
+			if(data.error != "0" || data.response == "error"){
 				throw new Error("");
 			}
             toast.success('Successfully delete Member...');

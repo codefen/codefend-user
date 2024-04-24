@@ -5,6 +5,7 @@ import useModalStore from '@stores/modal.store';
 import useCredentialStore from '@stores/credential.store';
 import { useState } from 'react';
 import { useAddResourceCredentials } from '@resourcesHooks/useAddResourceCredentials';
+import { toast } from 'react-toastify';
 
 export const AddCredentialModal = () => {
 	const { isOpen, modalId, setIsOpen } = useModalStore();
@@ -17,7 +18,8 @@ export const AddCredentialModal = () => {
 		grades: '',
 	});
 
-	const handleSend = () => {
+	const handleSend = (e: any) => {
+		e.preventDefault();
 		const { userNameOrEmail, password, grades, accessLevel } = credentials;
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -34,7 +36,16 @@ export const AddCredentialModal = () => {
 			password,
 			accessLevel,
 			grades,
-		);
+		)
+			.then(() => {
+				toast.success('Credential added successfully');
+			})
+			.catch(() => {
+				toast.error('Something went wrong');
+			})
+			.finally(() => {
+				setIsOpen(false);
+			});
 	};
 
 	return (

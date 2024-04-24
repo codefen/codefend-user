@@ -6,9 +6,11 @@ export const useAddResourceCredentials = ()=>{
 	const [fetcher,_, isLoading] = useFetcher();
 
     const addCrdentials = (type: string, id: string, username: string, email:string, password: string,accessLevel:string, grades:string)=>{
-        fetcher("post", {
+        return fetcher("post", {
             body: {
-                company: getCompany(),
+                model: "creds/add",
+                ac: "add",
+                company_id: getCompany(),
                 resource_class: type,
                 resource_id: id,
                 email: email,
@@ -18,8 +20,12 @@ export const useAddResourceCredentials = ()=>{
                 info: grades
             }
         }).then(({data}:any)=>{
-            if(data.error != "0")
+            if(data.error != "0" || data.response == "error")
 				throw new Error("");
+
+            return true;
+        }).catch(()=>{
+            return false;
         });
     }
 

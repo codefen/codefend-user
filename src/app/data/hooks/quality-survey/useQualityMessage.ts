@@ -18,7 +18,7 @@ export const useQualityMessage =()=>{
                 provider_review: message
             }
          }).then(({data}:any)=>{
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
          });
     }
 

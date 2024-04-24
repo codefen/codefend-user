@@ -18,7 +18,7 @@ export const useQualitySurveyStart =()=>{
                 reference_number: referenceNumber,
             }
          }).then(({data}:any)=>{
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
 
             updateProvider(data.provider);
          });

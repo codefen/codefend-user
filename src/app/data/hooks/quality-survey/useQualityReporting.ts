@@ -18,7 +18,7 @@ export const useQualityReporting =()=>{
                 inform_clearness: pollVal
             }
          }).then(({data}:any)=>{
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
          });
     }
 

@@ -68,7 +68,7 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 				member_role: role,
 			},
 		}).then(({ data }: any) => {
-			if(data.error != "0"){
+			if(data.error != "0" || data.response == "error"){
 				throw new Error("");
 			}
 			onDone();

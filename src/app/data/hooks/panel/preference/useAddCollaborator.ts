@@ -16,7 +16,7 @@ export const useAddCollaborator = () => {
                 invoke_user_email: email
 			}
 		}).then(({ data }: any) => {
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
 
             toast.success("The invitation has been sent the invitation to the email");
 		}).catch(()=>{

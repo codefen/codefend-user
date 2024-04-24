@@ -15,7 +15,7 @@ export const useProviderCompanies = ()=>{
                 company_id: getUserdata().company_id,
             }
         }).then(({ data }: any)=>{
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
             
             if(data.accessible_companies && data.accessible_companies.length > 0){
                 const companies = data.accessible_companies.filter((comapny:any) => comapny!== null);

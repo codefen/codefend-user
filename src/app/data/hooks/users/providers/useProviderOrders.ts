@@ -16,7 +16,7 @@ export const useProviderOrders = ()=>{
                 company_id: getCompany()
             }
         }).then(({data}:any)=>{
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
             setOrders(data.orders ? data.orders : []);
         }).catch(()=> toast.error("An unexpected error has occurred with the server"));
     }

@@ -16,7 +16,7 @@ export const useProviderConfirm =()=>{
             },
             requestId: "confirmOrder"
          }).then(({data}:any)=>{
-            if(data.error != "0") throw new Error();
+            if(data.error != "0" || data.response == "error") throw new Error();
             toast.success("You have accepted the order correctly");
          }).catch((err:any)=>{
             toast.error("The order could not be accepted correctly");
