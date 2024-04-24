@@ -370,6 +370,7 @@
 			align-items: center;
 			padding-inline: 7px;
 			transition: color 200ms ease;
+			cursor: pointer;
 
 			&:hover {
 				color: var(--secondary-color-100);

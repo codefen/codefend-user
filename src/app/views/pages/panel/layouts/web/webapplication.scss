@@ -1,21 +1,41 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
 main.webapp {
 	padding-inline-end: 0px;
 
 	.left {
 		padding-inline-start: 0;
-		.table .rows {
-			.action {
-				.publish {
-					overflow: visible;
+		.table {
+			.rows {
+				.action {
+					.publish {
+						overflow: visible;
+					}
 				}
+			}
+
+			.id {
+				max-width: 70px;
+
+				&.action {
+					max-width: 130px;
+				}
+			}
+			.server-ip {
+				width: 130px;
+			}
+			.domain-name {
+				max-width: none;
 			}
 		}
 
 		.empty-card {
 			min-width: 725px;
 		}
+	}
+	.right {
+		box-shadow: var(--right-pane-shadow);
+		padding-inline: 0;
+		padding-inline-start: 1rem;
+		padding-inline-end: 1rem;
 	}
 	// .left {
 	// 	width: 70%;
@@ -87,20 +107,6 @@ main.webapp {
 	// 			display: flex !important;
 	// 			flex-direction: column;
 	// 		}
-	// 	}
-	// }
-	// @include mixin.respond(small) {
-	// 	min-height: auto;
-	// 	height: 81dvh;
-	// 	.left {
-	// 		width: 100%;
-	// 		.card {
-	// 			overflow-y: auto;
-	// 			overflow-x: auto;
-	// 		}
-	// 	}
-	// 	.right {
-	// 		width: 100%;
 	// 	}
 	// }
 }
@@ -210,13 +216,19 @@ main.webapp {
 // 	}
 // }
 
-// [data-theme='dark'] {
-// 	.variant-1 {
-// 		width: 21rem;
-// 		top: 4dvh;
-// 		right: 22dvw;
-// 		filter: blur(125px) brightness(0.34) opacity(0.65);
-// 	}
+[data-theme='dark'] {
+	.variant-1 {
+		width: 21rem;
+		top: 4dvh;
+		right: 22dvw;
+		filter: blur(125px) brightness(0.34) opacity(0.65);
+	}
+	main.webapp {
+		.right {
+			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+		}
+	}
+}
 
 // 	main.webapp {
 // 		.header {

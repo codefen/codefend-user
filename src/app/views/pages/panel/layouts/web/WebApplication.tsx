@@ -13,6 +13,7 @@ import { useFlashlight } from '../../FlashLightContext.tsx';
 import '@table/table.scss';
 import './webapplication.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import { AddCredentialModal } from '@modals/adding-modals/AddCredentialModal.tsx';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -30,6 +31,7 @@ const WebApplicationView: React.FC = () => {
 		<>
 			<OrderV2 />
 			<ModalReport />
+			<AddCredentialModal />
 			<main className={`webapp ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<section className="left">

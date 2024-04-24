@@ -1309,3 +1309,12 @@ export const ScopeIcon: FC<IconProps> = ({ isButton }) => (
 		/>
 	</svg>
 );
+
+export const CredentialIcon: FC<IconProps> = () => (
+	<svg height="1.5rem" width="1.5rem" viewBox="0 0 32 32" fill="currentColor">
+		<path d="m16 22a4 4 0 1 0 -4-4 4 4 0 0 0 4 4zm0-6a2 2 0 1 1 -2 2 2 2 0 0 1 2-2z" />
+		<path d="m14 6h4v2h-4z" />
+		<path d="m24 2h-16a2.002 2.002 0 0 0 -2 2v24a2.0023 2.0023 0 0 0 2 2h16a2.0027 2.0027 0 0 0 2-2v-24a2.0023 2.0023 0 0 0 -2-2zm-4 26h-8v-2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1zm2 0v-2a3 3 0 0 0 -3-3h-6a3 3 0 0 0 -3 3v2h-2v-24h16v24z" />
+		<path d="m0 0h32v32h-32z" fill="none" />
+	</svg>
+);

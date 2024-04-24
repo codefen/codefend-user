@@ -9,7 +9,13 @@ import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { LocationItem } from '@standalones/utils/LocationItem.tsx';
 import { TableV2 } from '@table/tablev2.tsx';
-import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon } from '@icons';
+import {
+	TrashIcon,
+	GlobeWebIcon,
+	BugIcon,
+	DocumentIcon,
+	CredentialIcon,
+} from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
@@ -17,6 +23,8 @@ import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import { findWebResourceByID } from '@utils/helper.ts';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import Show from '@defaults/Show';
+import useCredentialStore from '@stores/credential.store';
+import useModalStore from '@stores/modal.store';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -42,6 +50,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	);
 	const { showModal, setShowModal, showModalStr, setShowModalStr } =
 		useModal();
+	const { setCrendentialType, setResourceId } = useCredentialStore();
+	const { setIsOpen, setModalId } = useModalStore();
 	const { handleDelete } = useDeleteWebResource();
 	const getResources = useMemo(() => {
 		const resources = props.isLoading ? [] : props.webResources;
@@ -108,7 +118,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							</span>
 						</span>
 						<span
-							title="Create report"
+							title="View report"
 							className="issue-printer"
 							onClick={() =>
 								generateReport(mainNetwork.id, mainNetwork.issueCount)
@@ -124,6 +134,18 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 									setShowModalStr('delete_resource');
 								}}>
 								<TrashIcon />
+							</span>
+						</Show>
+						<Show when={isNormalUser() || isAdmin()}>
+							<span
+								title="Add credentials"
+								onClick={() => {
+									setResourceId(mainNetwork.id);
+									setCrendentialType('web');
+									setIsOpen(true);
+									setModalId('web');
+								}}>
+								<CredentialIcon />
 							</span>
 						</Show>
 					</>
@@ -225,6 +247,18 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 														setShowModalStr('delete_resource');
 													}}>
 													<TrashIcon />
+												</span>
+											</Show>
+											<Show when={isNormalUser() || isAdmin()}>
+												<span
+													title="Add credentials"
+													onClick={() => {
+														setResourceId(subNetwork.id);
+														setCrendentialType('web');
+														setIsOpen(true);
+														setModalId('web');
+													}}>
+													<CredentialIcon />
 												</span>
 											</Show>
 										</div>
