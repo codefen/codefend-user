@@ -13,11 +13,12 @@ export const AddCredentialModal = () => {
 	const [credentials, setCredentials] = useState({
 		userNameOrEmail: '',
 		password: '',
+		accessLevel: '',
 		grades: '',
 	});
 
 	const handleSend = () => {
-		const { userNameOrEmail, password, grades } = credentials;
+		const { userNameOrEmail, password, grades, accessLevel } = credentials;
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 		const username = !emailPattern.test(userNameOrEmail)
@@ -25,7 +26,15 @@ export const AddCredentialModal = () => {
 			: '';
 		const email = emailPattern.test(userNameOrEmail) ? userNameOrEmail : '';
 
-		addCrdentials(type, resourceId, username, email, password, grades);
+		addCrdentials(
+			type,
+			resourceId,
+			username,
+			email,
+			password,
+			accessLevel,
+			grades,
+		);
 	};
 
 	return (
@@ -70,6 +79,28 @@ export const AddCredentialModal = () => {
 						/>
 					</div>
 					<div className="form-input">
+						<span className="icon">
+							<GlobeWebIcon />
+						</span>
+
+						<select
+							onChange={(e) =>
+								setCredentials((prev) => ({
+									...prev,
+									accessLevel: e.target.value,
+								}))
+							}
+							className="log-inputs modal_info"
+							defaultValue="none"
+							required>
+							<option value="none" disabled>
+								Access Level
+							</option>
+							<option value="user">User</option>
+							<option value="admin">Admin</option>
+						</select>
+					</div>
+					<div className="form-input">
 						<span className="pencil-icon need-m">
 							<PencilIcon isButton />
 						</span>
@@ -89,7 +120,7 @@ export const AddCredentialModal = () => {
 
 					<ModalButtons
 						close={() => setIsOpen(false)}
-						isDisabled={false}
+						isDisabled={isLoading}
 						confirmText="Add credential"
 					/>
 				</form>

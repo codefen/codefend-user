@@ -5,7 +5,7 @@ export const useAddResourceCredentials = ()=>{
     const { getCompany, logout } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
 
-    const addCrdentials = (type: string, id: string, username: string, email:string, password: string, grades:string)=>{
+    const addCrdentials = (type: string, id: string, username: string, email:string, password: string,accessLevel:string, grades:string)=>{
         fetcher("post", {
             body: {
                 company: getCompany(),
@@ -14,8 +14,12 @@ export const useAddResourceCredentials = ()=>{
                 email: email,
                 username: username,
                 password: password,
-                supplementary_information: grades
+                access_level: accessLevel,
+                info: grades
             }
+        }).then(({data}:any)=>{
+            if(data.error != "0")
+				throw new Error("");
         });
     }
 
