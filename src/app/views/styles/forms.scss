@@ -154,6 +154,12 @@ input[type='email'] {
 	outline: none;
 	resize: none;
 	height: 7rem;
+
+	&.xll {
+		height: 12rem;
+		width: 30rem;
+		line-height: 1.65;
+	}
 }
 
 .log-inputs2 {

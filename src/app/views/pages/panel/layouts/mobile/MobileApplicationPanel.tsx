@@ -16,6 +16,7 @@ import useModal from '#commonHooks/useModal.ts';
 import './mobileApplicationPanel.scss';
 import { MobileApplication } from './components/MobileApplication';
 import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
+import { AddCredentialModal } from '@modals/adding-modals/AddCredentialModal';
 
 const MobileApplicationPanel: React.FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -49,6 +50,7 @@ const MobileApplicationPanel: React.FC = () => {
 			<OrderV2 />
 			<ModalReport />
 			<DeleteMobileCloudModal onDone={refresh} />
+			<AddCredentialModal />
 			<main className={`mobile ${showScreen ? 'actived' : ''}`}>
 				<Show when={!isLoading} fallback={<PageLoader />}>
 					<MobileApplication

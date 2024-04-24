@@ -16,6 +16,7 @@ import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCl
 import { CloudApplication } from './components/CloudApplication';
 import './cloud.scss';
 import useTimeout from '#commonHooks/useTimeout';
+import { AddCredentialModal } from '@modals/adding-modals/AddCredentialModal';
 
 const CloudApplicationPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -48,6 +49,7 @@ const CloudApplicationPanel: FC = () => {
 			<DeleteMobileCloudModal onDone={refresh} />
 			<OrderV2 />
 			<ModalReport />
+			<AddCredentialModal />
 			<main className={`mobile cloud ${showScreen ? 'actived' : ''}`}>
 				<Show when={!isLoading} fallback={<PageLoader />}>
 					<CloudApplication

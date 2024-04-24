@@ -9,6 +9,8 @@ import {
 import { Show, StarRating } from '..';
 import { useNavigate } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole';
+import useModalStore from '@stores/modal.store';
+import useCredentialStore from '@stores/credential.store';
 
 interface MobileAppCardProps {
 	isActive?: boolean;
@@ -44,6 +46,8 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	openReport,
 }) => {
 	const { isAdmin, isNormalUser } = useUserRole();
+	const { setCrendentialType, setResourceId } = useCredentialStore();
+	const { setIsOpen: setOpenCredentials, setModalId } = useModalStore();
 	const { isImage, isMobileType, isDetails } = useAppCard({
 		type,
 		showDetails,
@@ -97,6 +101,15 @@ export const AppCard: FC<MobileAppCardProps> = ({
 						<div onClick={handleDeleteResource}>Delete resource</div>
 					</Show>
 
+					<div
+						onClick={() => {
+							setResourceId(id);
+							setModalId(type == 'mobile' ? 'mobile' : 'cloud');
+							setCrendentialType(type == 'mobile' ? 'mobile' : 'cloud');
+							setOpenCredentials(true);
+						}}>
+						Add credentials
+					</div>
 					<div onClick={openReport}>Report</div>
 				</div>
 			);
