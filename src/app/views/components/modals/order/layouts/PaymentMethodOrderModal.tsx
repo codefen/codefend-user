@@ -33,18 +33,16 @@ export const PaymentMethodOrderModal: FC = () => {
 			</div>
 			<div className="step-content">
 				<div
-					className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}>
+					className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}
+					onClick={() =>
+						setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER)
+					}>
 					<input
 						id="bank-transfer"
 						type="radio"
 						name="payment-methods"
 						className="radio-option"
-						defaultChecked={
-							paymentMethodW === OrderPaymentMethod.BANK_TRANSFER
-						}
-						onChange={() =>
-							setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER)
-						}
+						checked={paymentMethodW === OrderPaymentMethod.BANK_TRANSFER}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="bank-transfer" className="order-snapshot">
@@ -62,14 +60,14 @@ export const PaymentMethodOrderModal: FC = () => {
 				</div>
 
 				<div
-					className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}>
+					className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}
+					onClick={() => setPaymentMethod(OrderPaymentMethod.CARD)}>
 					<input
 						id="card"
 						type="radio"
 						name="payment-methods"
 						className="radio-option"
-						defaultChecked={paymentMethodW === OrderPaymentMethod.CARD}
-						onChange={() => setPaymentMethod(OrderPaymentMethod.CARD)}
+						checked={paymentMethodW === OrderPaymentMethod.CARD}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="card" className="order-snapshot">
@@ -87,14 +85,14 @@ export const PaymentMethodOrderModal: FC = () => {
 				</div>
 
 				<div
-					className={`option ${paymentMethodW === OrderPaymentMethod.CRYPTO ? 'select-option' : ''}`}>
+					className={`option ${paymentMethodW === OrderPaymentMethod.CRYPTO ? 'select-option' : ''}`}
+					onClick={() => setPaymentMethod(OrderPaymentMethod.CRYPTO)}>
 					<input
 						id="crypto"
 						type="radio"
 						name="payment-methods"
 						className="radio-option"
-						defaultChecked={paymentMethodW === OrderPaymentMethod.CRYPTO}
-						onChange={() => setPaymentMethod(OrderPaymentMethod.CRYPTO)}
+						checked={paymentMethodW === OrderPaymentMethod.CRYPTO}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="crypto" className="order-snapshot">
