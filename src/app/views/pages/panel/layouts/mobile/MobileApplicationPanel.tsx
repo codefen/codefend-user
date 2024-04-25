@@ -14,29 +14,32 @@ import {
 import useModal from '#commonHooks/useModal.ts';
 
 import './mobileApplicationPanel.scss';
-import { MobileApplication } from './components/MobileApplication';
 import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
-import { AddCredentialModal } from '@modals/adding-modals/AddCredentialModal';
+import useTimeout from '#commonHooks/useTimeout.ts';
+import EmptyScreenView from '@defaults/EmptyScreenView';
+import { ListResourceWithSearch } from '@standalones/LeftMobileCloud';
+import { MobileSelectedDetails } from './components/MobileSelectedDetails';
 
 const MobileApplicationPanel: React.FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { showModal, setShowModal } = useModal();
 	const { getMobileInfo, refetch, isLoading } = useMobile();
-	const { resetSelectedApp } = useSelectMobileCloudApp(
+	const { resetSelectedApp, isNotNull } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
+	const { oneExecute } = useTimeout(() => resetSelectedApp(), 50);
 
 	useEffect(() => {
 		refetch();
-		const timeoutId = setTimeout(() => {
-			resetSelectedApp();
-		}, 50);
-
-		return () => clearTimeout(timeoutId);
+		oneExecute();
 	}, [control]);
 
+	const handleShow = () => {
+		setShowModal(true);
+	};
+
 	return (
-		<>
+		<main className={`mobile ${showScreen ? 'actived' : ''}`}>
 			<ModalTitleWrapper
 				isActive={showModal}
 				headerTitle="Add mobile app"
@@ -47,20 +50,38 @@ const MobileApplicationPanel: React.FC = () => {
 				/>
 			</ModalTitleWrapper>
 
+			<DeleteMobileCloudModal onDone={refresh} />
 			<OrderV2 />
 			<ModalReport />
-			<DeleteMobileCloudModal onDone={refresh} />
-			<AddCredentialModal />
-			<main className={`mobile ${showScreen ? 'actived' : ''}`}>
-				<Show when={!isLoading} fallback={<PageLoader />}>
-					<MobileApplication
-						openModal={() => setShowModal(true)}
-						mobileInfo={getMobileInfo()}
-						isLoading={isLoading}
+			<Show when={!isLoading && Boolean(getMobileInfo().length)}>
+				<div className="brightness variant-1"></div>
+				<div className="brightness variant-2"></div>
+				<div className="brightness variant-3"></div>
+				<section className="left">
+					<ListResourceWithSearch
+						openModal={handleShow}
+						type="Mobile"
+						resources={getMobileInfo() || []}
 					/>
-				</Show>
-			</main>
-		</>
+				</section>
+				<section className="right">
+					<Show when={isNotNull()}>
+						<MobileSelectedDetails />
+					</Show>
+				</section>
+			</Show>
+			<Show when={isLoading}>
+				<PageLoader />
+			</Show>
+			<Show when={!isLoading && !Boolean(getMobileInfo().length)}>
+				<EmptyScreenView
+					buttonText="Add Mobile"
+					title={"There's no data to display here"}
+					info={'Start by clicking on the button below'}
+					event={handleShow}
+				/>
+			</Show>
+		</main>
 	);
 };
 

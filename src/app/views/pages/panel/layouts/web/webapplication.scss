@@ -12,6 +12,10 @@ main.webapp {
 				}
 			}
 
+			.issue-icon {
+				min-width: 65px;
+			}
+
 			.id {
 				max-width: 70px;
 
@@ -36,6 +40,13 @@ main.webapp {
 		padding-inline: 0;
 		padding-inline-start: 1rem;
 		padding-inline-end: 1rem;
+		display: flex;
+		flex-direction: column;
+		row-gap: 1.115rem;
+
+		.btn.primary-full {
+			margin-block-start: 0;
+		}
 	}
 	// .left {
 	// 	width: 70%;

@@ -9,7 +9,7 @@ export * from './ChatBox.tsx';
 export * from './CloudQuickAction.tsx';
 export * from './IssuesPanelMobileAndCloud.tsx';
 export * from './utils/MessageCard.tsx';
-export * from './ProvidedTestingCredentials.tsx';
+export * from './credential-card/ProvidedTestingCredentials.tsx';
 export * from './VulnerabilitiesStatus.tsx';
 export * from './VulnerabilityRisk.tsx';
 export * from './SearchBar.tsx';

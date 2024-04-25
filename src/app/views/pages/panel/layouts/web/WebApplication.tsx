@@ -13,8 +13,7 @@ import { useFlashlight } from '../../FlashLightContext.tsx';
 import '@table/table.scss';
 import './webapplication.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
-import { AddCredentialModal } from '@modals/adding-modals/AddCredentialModal.tsx';
-import useRightPaneStore from '@stores/rightPane.store.ts';
+import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import Show from '@defaults/Show.tsx';
 
 const WebApplicationView: React.FC = () => {
@@ -24,7 +23,6 @@ const WebApplicationView: React.FC = () => {
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 	const { isAdmin, isNormalUser } = useUserRole();
-	const { activePage } = useRightPaneStore();
 
 	useEffect(() => {
 		refetch();
@@ -34,7 +32,7 @@ const WebApplicationView: React.FC = () => {
 		<>
 			<OrderV2 />
 			<ModalReport />
-			<AddCredentialModal />
+			<CredentialsModal />
 			<main className={`webapp ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<section className="left">
@@ -45,35 +43,23 @@ const WebApplicationView: React.FC = () => {
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
-					<Show when={activePage == 1}>
-						<WebApplicationLocation
-							isLoading={isLoading}
-							webResources={webResources.resources}
+					<WebApplicationLocation
+						isLoading={isLoading}
+						webResources={webResources.resources}
+					/>
+					<Show when={isAdmin() || isNormalUser()}>
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							click={() => updateState('open', true)}
+							className="primary-full"
 						/>
-
-						<WebApplicationStatics
-							webResources={webResources.resources}
-							isLoading={isLoading}
-						/>
-
-						<WebApplicationCredentials />
-						<Show when={isAdmin() || isNormalUser()}>
-							<PrimaryButton
-								text="START A PENTEST ON DEMAND"
-								click={() => updateState('open', true)}
-								className="primary-full"
-							/>
-						</Show>
 					</Show>
-					<Show when={activePage == 2}>
-						<Show when={isAdmin() || isNormalUser()}>
-							<PrimaryButton
-								text="START A PENTEST ON DEMAND"
-								click={() => updateState('open', true)}
-								className="primary-full"
-							/>
-						</Show>
-					</Show>
+					<WebApplicationStatics
+						webResources={webResources.resources}
+						isLoading={isLoading}
+					/>
+
+					<WebApplicationCredentials />
 				</section>
 			</main>
 		</>

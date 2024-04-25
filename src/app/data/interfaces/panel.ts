@@ -1,4 +1,5 @@
 import type { ID, Monitoring, ResourceID } from '.';
+import type { ResourceCredential } from './creds';
 
 export interface Company extends ID, Monitoring {
 	name: string;
@@ -129,7 +130,7 @@ export interface MobileApp extends ResourceID, Monitoring {
 }
 
 export interface UniqueApps {
-	creds: {} | null;
+	creds: ResourceCredential[];
 	issues: Issues[];
 	issueShare: IssuesShare;
 	issueCondition: IssuesCondition;

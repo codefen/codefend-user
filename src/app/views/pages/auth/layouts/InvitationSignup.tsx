@@ -1,15 +1,23 @@
-import { type FC } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, type FC } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { PrimaryButton } from '../../../components';
 import { useSignupInvitation } from '#commonUserHooks/useSignupInvitation';
 
 export const InvitationSignup: FC = () => {
+	const { ref } = useParams();
 	const { setForm, sendSignUp, isLoading } = useSignupInvitation();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		sendSignUp();
 	};
+
+	useEffect(() => {
+		setForm((current: any) => ({
+			...current,
+			invokeHash: ref || '',
+		}));
+	}, [ref]);
 
 	return (
 		<form onSubmit={handleSubmit}>

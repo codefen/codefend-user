@@ -263,9 +263,6 @@ main.cloud {
 	.left {
 		flex: 1 1 31%;
 		width: 31%;
-		// margin-block: -0.625rem;
-
-		// padding-inline-end: 0.813rem;
 
 		display: flex;
 		flex-direction: column;
@@ -353,15 +350,30 @@ main.cloud {
 		}
 		.selected-content {
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
 			column-gap: 1rem;
 			margin-block: 1rem;
+			height: 64%;
 
 			.selected-content-credentials {
 				height: 100%;
-				align-self: stretch;
-				flex: 0.5 0.5 50%;
+				flex: 1 1 100%;
 				width: 50%;
+
+				.card {
+					&.user-list {
+						height: 100%;
+
+						.list {
+							display: flex;
+							flex-direction: column;
+							height: 90%;
+							.empty-card {
+								margin-block: auto;
+							}
+						}
+					}
+				}
 			}
 
 			.selected-content-tables {

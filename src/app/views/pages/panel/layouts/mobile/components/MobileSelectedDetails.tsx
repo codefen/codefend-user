@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { IssuesPanelMobileAndCloud } from '@standalones/IssuesPanelMobileAndCloud.tsx';
+import { AppCardInfo } from '@standalones/AppCardInfo.tsx';
+import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
+import { ProvidedTestingCredentials } from '@standalones/credential-card/ProvidedTestingCredentials';
+import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
+import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
+import type {
+	IssuesCondition,
+	MobileApp,
+	IssuesShare,
+} from '@interfaces/panel.ts';
+import { useOrderStore } from '@stores/orders.store.ts';
 import {
-	AppCardInfo,
-	ProvidedTestingCredentials,
-	VulnerabilityRisk,
-	VulnerabilitiesStatus,
-	IssuesPanelMobileAndCloud,
-} from '../../../../../components';
-import {
-	type IssuesCondition,
-	type IssuesShare,
-	type MobileApp,
-	type SelectMobileCloudApp,
-	useOrderStore,
 	useSelectMobileCloudApp,
-} from '../../../../../../data';
+	type SelectMobileCloudApp,
+} from '@stores/mobileCloudApp.store.ts';
+
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import { useUserRole } from '#commonUserHooks/useUserRole';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 export const MobileSelectedDetails: React.FC = (props) => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -29,13 +31,12 @@ export const MobileSelectedDetails: React.FC = (props) => {
 
 	useEffect(() => {
 		setLoading(true);
-
 		fetchMobileOne().finally(() => setLoading(false));
 	}, [appSelected]);
-
-	return (
-		<Show when={!isLoading} fallback={<PageLoader />}>
+	if (!isLoading) {
+		return (
 			<>
+				<CredentialsModal />
 				<div>
 					<AppCardInfo
 						type="mobile"
@@ -48,6 +49,8 @@ export const MobileSelectedDetails: React.FC = (props) => {
 						<ProvidedTestingCredentials
 							credentials={appUnique?.creds || []}
 							isLoading={isLoading}
+							resourceId={appSelected?.id || ''}
+							type="mobile"
 						/>
 					</div>
 					<div className="selected-content-tables">
@@ -80,6 +83,8 @@ export const MobileSelectedDetails: React.FC = (props) => {
 					/>
 				</section>
 			</>
-		</Show>
-	);
+		);
+	} else {
+		return <PageLoader />;
+	}
 };

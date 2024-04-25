@@ -13,16 +13,17 @@ import {
 } from '@stores/mobileCloudApp.store.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCloudModal';
-import { CloudApplication } from './components/CloudApplication';
 import './cloud.scss';
 import useTimeout from '#commonHooks/useTimeout';
-import { AddCredentialModal } from '@modals/adding-modals/AddCredentialModal';
+import { CloudSelectedDetails } from './components/CloudSelectedDetails';
+import { ListResourceWithSearch } from '@standalones/LeftMobileCloud';
+import EmptyScreenView from '@defaults/EmptyScreenView';
 
 const CloudApplicationPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { isLoading, getCloudInfo, refetch } = useCloud();
 	const { setShowModal, showModal } = useModal();
-	const { resetSelectedApp } = useSelectMobileCloudApp(
+	const { resetSelectedApp, isNotNull } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
 	const { oneExecute } = useTimeout(() => resetSelectedApp(), 50);
@@ -33,7 +34,7 @@ const CloudApplicationPanel: FC = () => {
 	}, [control]);
 
 	return (
-		<>
+		<main className={`mobile cloud ${showScreen ? 'actived' : ''}`}>
 			<ModalTitleWrapper
 				isActive={showModal}
 				headerTitle="Add Cloud"
@@ -49,16 +50,35 @@ const CloudApplicationPanel: FC = () => {
 			<DeleteMobileCloudModal onDone={refresh} />
 			<OrderV2 />
 			<ModalReport />
-			<AddCredentialModal />
-			<main className={`mobile cloud ${showScreen ? 'actived' : ''}`}>
-				<Show when={!isLoading} fallback={<PageLoader />}>
-					<CloudApplication
+			<Show when={!isLoading && Boolean(getCloudInfo().length)}>
+				<div className="brightness variant-1"></div>
+				<div className="brightness variant-2"></div>
+				<div className="brightness variant-3"></div>
+				<section className="left">
+					<ListResourceWithSearch
 						openModal={() => setShowModal(!showModal)}
-						cloudData={getCloudInfo()}
+						type="Cloud"
+						resources={getCloudInfo() || []}
 					/>
-				</Show>
-			</main>
-		</>
+				</section>
+				<section className="right">
+					<Show when={isNotNull()}>
+						<CloudSelectedDetails />
+					</Show>
+				</section>
+			</Show>
+			<Show when={isLoading}>
+				<PageLoader />
+			</Show>
+			<Show when={!isLoading && !Boolean(getCloudInfo().length)}>
+				<EmptyScreenView
+					buttonText="Add Cloud"
+					title="There's no data to display here"
+					info="Start by clicking on the button below"
+					event={() => setShowModal(!showModal)}
+				/>
+			</Show>
+		</main>
 	);
 };
 

@@ -46,8 +46,6 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	openReport,
 }) => {
 	const { isAdmin, isNormalUser } = useUserRole();
-	const { setCrendentialType, setResourceId } = useCredentialStore();
-	const { setIsOpen: setOpenCredentials, setModalId } = useModalStore();
 	const { isImage, isMobileType, isDetails } = useAppCard({
 		type,
 		showDetails,
@@ -100,16 +98,6 @@ export const AppCard: FC<MobileAppCardProps> = ({
 					<Show when={isAdmin() || isNormalUser()}>
 						<div onClick={handleDeleteResource}>Delete resource</div>
 					</Show>
-
-					<div
-						onClick={() => {
-							setResourceId(id);
-							setModalId(type == 'mobile' ? 'mobile' : 'cloud');
-							setCrendentialType(type == 'mobile' ? 'mobile' : 'cloud');
-							setOpenCredentials(true);
-						}}>
-						Add credentials
-					</div>
 					<div onClick={openReport}>Report</div>
 				</div>
 			);

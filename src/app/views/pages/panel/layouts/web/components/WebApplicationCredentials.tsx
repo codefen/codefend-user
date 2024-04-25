@@ -1,10 +1,8 @@
 import React from 'react';
-import { ChartIcon, SimpleSection } from '../../../../../components';
+import { ChartIcon } from '../../../../../components';
 import { StatAsset } from '@standalones/stat-asset/StatAsset.tsx';
-import useRightPaneStore from '@stores/rightPane.store';
 
 export const WebApplicationCredentials: React.FC = () => {
-	const { setActivePage } = useRightPaneStore();
 	return (
 		<div className="card stats">
 			<div className="over">
@@ -16,9 +14,7 @@ export const WebApplicationCredentials: React.FC = () => {
 						<span>Credentials statics</span>
 					</div>
 
-					<div className="actions">
-						<div onClick={() => setActivePage(2)}>View credentials</div>
-					</div>
+					<div className="actions"></div>
 				</div>
 				<div className="content">
 					<StatAsset value="0" valueTitle="Admin credentials" />

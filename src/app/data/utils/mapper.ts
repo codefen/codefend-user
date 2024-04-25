@@ -1,3 +1,4 @@
+import { EMPTY_SHARE } from '@mocks/empty';
 import type {
 	AllIssues,
 	CloudApp,
@@ -239,7 +240,7 @@ export const mobileUniqueProps = (source: any): MobileUnique => {
 		issues: source?.unico?.issues
 			? source.unico.issues.map((issue: any) => mapIssues(issue))
 			: [],
-		issueShare: mapIssueShare(source.unico || {}),
+		issueShare: source.unico.issues_share || EMPTY_SHARE,
 		issueCondition: mapIssuesCondition(source.unico || {}),
 	};
 };
@@ -251,7 +252,7 @@ export const mapCloudUniqueProps = (source: any) => {
 		issues: source?.unico?.issues
 			? source.unico.issues.map((issue: any) => mapIssues(issue))
 			: [],
-		issueShare: mapIssueShare(source.unico || {}),
+		issueShare: source.unico.issues_share || EMPTY_SHARE,
 		issueCondition: mapIssuesCondition(source.unico || {}),
 	};
 };

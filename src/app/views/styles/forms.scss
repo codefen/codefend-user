@@ -145,6 +145,10 @@ input[type='email'] {
 	&.need-m {
 		margin-inline-start: 10px;
 	}
+
+	&.down-top {
+		top: 8.5%;
+	}
 }
 .text-area-input {
 	display: block;
@@ -157,7 +161,7 @@ input[type='email'] {
 
 	&.xll {
 		height: 12rem;
-		width: 30rem;
+		width: 100%;
 		line-height: 1.65;
 	}
 }

@@ -77,3 +77,12 @@ export const EMPTY_PROVIDER = {
 	desc: "",
 	specialist: "",
 }
+
+export const EMPTY_SHARE = {
+	total: "0",
+	critical: "0",
+    elevated: "0",
+    medium: "1",
+    low: "0",
+    intel: "0",
+}

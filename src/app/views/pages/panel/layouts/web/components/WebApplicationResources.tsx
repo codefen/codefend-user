@@ -58,17 +58,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 		return resources !== undefined ? resources.reverse() : [];
 	}, [props.webResources, props.isLoading]);
 
-	const selectResource = (id: string, isChild?: boolean) => {
-		const resource = findWebResourceByID(getResources, id, Boolean(isChild));
-		if (resource) {
-			setSelectedResource({
-				id: resource.id,
-				domain: resource.resourceDomain,
-				serverIp: resource.mainServer,
-			});
-		}
-	};
-
 	const generateReport = (resourceID: string, count: any) => {
 		if (Number(count) >= 1) {
 			openModal();
@@ -104,6 +93,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				value: (
 					<>
 						<span
+							className="id action issue-icon"
 							title={`${isNormalUser() ? '' : 'Add Issue'}`}
 							onClick={() =>
 								navigate(
@@ -129,14 +119,18 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							<span
 								title="Delete"
 								onClick={() => {
-									selectResource(mainNetwork.id, false);
+									setSelectedResource({
+										id: mainNetwork.id,
+										domain: mainNetwork.resourceDomain,
+										serverIp: mainNetwork.mainServer,
+									});
 									setShowModal(true);
 									setShowModalStr('delete_resource');
 								}}>
 								<TrashIcon />
 							</span>
 						</Show>
-						<Show when={isNormalUser() || isAdmin()}>
+						<Show when={isNormalUser() || isAdmin() || isProvider()}>
 							<span
 								title="Add credentials"
 								onClick={() => {
@@ -208,7 +202,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												/>
 											</div>
 										</div>
-										<div className="id action">
+										<div className="id action issue-icon">
 											<span
 												title={`${isNormalUser() ? '' : 'Add Issue'}`}
 												onClick={() =>
@@ -242,14 +236,23 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												<span
 													title="Delete"
 													onClick={() => {
-														selectResource(subNetwork.id, true);
+														setSelectedResource({
+															id: subNetwork.id,
+															domain: subNetwork.resourceDomain,
+															serverIp: subNetwork.mainServer,
+														});
 														setShowModal(true);
 														setShowModalStr('delete_resource');
 													}}>
 													<TrashIcon />
 												</span>
 											</Show>
-											<Show when={isNormalUser() || isAdmin()}>
+											<Show
+												when={
+													isNormalUser() ||
+													isAdmin() ||
+													isProvider()
+												}>
 												<span
 													title="Add credentials"
 													onClick={() => {
