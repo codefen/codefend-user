@@ -124,6 +124,7 @@ export const MobileAppModal: FC<Props> = (props) => {
 						<option value="cs">customer service</option>
 						<option value="prod">production & ops</option>
 						<option value="plan">strategy & planning</option>
+						<option value="law">legal affairs</option>
 					</select>
 				</div>
 				<ModalButtons

@@ -1,17 +1,16 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { NetworkIcon, PrimaryButton } from '../../../components';
+import { PrimaryButton } from '../../../components';
 import {
 	type RegisterParams,
 	companySizesList,
 	countries,
-	type NetworkSettingState,
-	useNetworkSettingState,
 	defaultCountries,
 } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
+import { useFindResellerArea } from '#commonUserHooks/useFindResellerArea';
 
 interface SignupForm {
 	name: string;
@@ -28,11 +27,10 @@ interface SignupForm {
 
 const SignUpLayout: FC = () => {
 	const { signUpUser } = useRegisterAction();
-
 	const navigate = useNavigate();
-	const [resellers, setResellers] = useState<{ id: string; name: string }[]>(
-		[],
-	);
+	const [resellers, findResellers] = useFindResellerArea();
+	const [isLoading, setLoading] = useState<boolean>(false);
+
 	const [signupForm, setSignupForm] = useState<SignupForm>({
 		name: '',
 		surname: '',
@@ -46,7 +44,6 @@ const SignUpLayout: FC = () => {
 		reseller: { id: '', name: '' },
 	});
 
-	const [isLoading, setLoading] = useState<boolean>(false);
 	const updateResellerArea = (e: any) => {
 		setSignupForm((current: any) => ({
 			...current,
@@ -55,17 +52,9 @@ const SignUpLayout: FC = () => {
 		const country = defaultCountries.find(
 			(country) => country.name == e.target.value,
 		);
-		AxiosHttpService.getInstance()
-			.post({
-				body: {
-					model: 'resellers/index',
-					area: country ? country.alpha2Code : '',
-				},
-			})
-			.then(({ data }: any) => {
-				setResellers(data.resellers);
-			});
+		findResellers(country ? country.alpha2Code : '');
 	};
+
 	const updateReseller = (e: any) => {
 		setSignupForm((current: any) => ({
 			...current,
@@ -96,10 +85,6 @@ const SignUpLayout: FC = () => {
 			})
 			.finally(() => setLoading(false));
 	};
-
-	const { setNetworkSettingState } = useNetworkSettingState(
-		(state: NetworkSettingState) => state,
-	);
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -191,7 +176,7 @@ const SignUpLayout: FC = () => {
 					}
 					name="company_website"
 					placeholder="https://example.com"
-					pattern="/^(https?|http?|ftp?):\/\/[^\s/$.?#].[^\s]*$/;"
+					pattern="(https?://.*\..*)|(.*\..*)"
 					size={60}
 					required
 				/>
@@ -219,18 +204,31 @@ const SignUpLayout: FC = () => {
 				</select>
 			</div>
 			<div className="input-group">
-				<input
-					type="text"
+				<select
 					onChange={(e) =>
-						setSignupForm((current: any) => ({
-							...current,
+						setSignupForm((prevData) => ({
+							...prevData,
 							companyRole: e.target.value,
 						}))
 					}
-					name="company_role"
-					placeholder="Company Role"
-					required
-				/>
+					id="social-data"
+					defaultValue={''}
+					className="log-inputs log-text"
+					required>
+					<option value="" disabled>
+						role
+					</option>
+					<option value="admin">administrative</option>
+					<option value="human">human resources</option>
+					<option value="info">information tech</option>
+					<option value="ads">marketing</option>
+					<option value="sales">sales</option>
+					<option value="finance">finance</option>
+					<option value="cs">customer service</option>
+					<option value="prod">production & ops</option>
+					<option value="plan">strategy & planning</option>
+					<option value="law">legal affairs</option>
+				</select>
 			</div>
 
 			<div className="input-group">
