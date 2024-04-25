@@ -40,6 +40,8 @@ export const OrderReviewModal: React.FC<{
 					<img
 						src="/codefend/pentest-header-vector.svg"
 						alt="header-icon"
+						decoding="async"
+						loading="lazy"
 					/>
 
 					<div className="order-snapshot">
@@ -63,7 +65,12 @@ export const OrderReviewModal: React.FC<{
 					</div>
 				</div>
 				<div className="option">
-					<img src="/codefend/frequency-1.png" alt="header-icon" />
+					<img
+						src="/codefend/frequency-1.png"
+						alt="header-icon"
+						decoding="async"
+						loading="lazy"
+					/>
 
 					<div className="order-snapshot">
 						<div className="top">
@@ -78,7 +85,12 @@ export const OrderReviewModal: React.FC<{
 					</div>
 				</div>
 				<div className="option">
-					<img src="/codefend/alloc-1.png" alt="header-icon" />
+					<img
+						src="/codefend/alloc-1.png"
+						alt="header-icon"
+						decoding="async"
+						loading="lazy"
+					/>
 
 					<div className="order-snapshot">
 						<div className="top">

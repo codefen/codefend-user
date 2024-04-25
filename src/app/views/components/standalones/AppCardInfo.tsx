@@ -1,13 +1,8 @@
 import { useEffect, type FC } from 'react';
 import { AppCard } from './AppCard';
-import {
-	type CloudApp,
-	type MobileApp,
-	type RemoveAppStore,
-	useRemoveAppStore,
-	useReportStore,
-} from '../../../data';
+import { type CloudApp, type MobileApp, useReportStore } from '../../../data';
 import { toast } from 'react-toastify';
+import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
 
 interface AppCardInfoProps {
 	type?: string;
@@ -22,7 +17,7 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 }) => {
 	const isMobileType = type === 'mobile';
 	const { setIsOpen, setData, setIsMobileType } = useRemoveAppStore(
-		(state: RemoveAppStore) => state,
+		(state) => state,
 	);
 	const { openModal, setResourceID, setResourceType } = useReportStore(
 		(state) => state,

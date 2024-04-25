@@ -16,7 +16,7 @@ import { useOrderStore } from '@stores/orders.store.ts';
 import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
-} from '@stores/mobileCloudApp.store.ts';
+} from '@stores/mobileCloudSelect.store.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';

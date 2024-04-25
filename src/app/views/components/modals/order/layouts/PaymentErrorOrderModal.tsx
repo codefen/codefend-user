@@ -10,7 +10,12 @@ export const PaymentErrorOrderModal = () => {
 		<>
 			<OrderAlertMessage
 				imageIcon={
-					<img src="/util/orders-cp-crash.png" alt="Codefend logo" />
+					<img
+						src="/util/orders-cp-crash.png"
+						alt="Codefend logo"
+						decoding="async"
+						loading="lazy"
+					/>
 				}
 				title="It didn't work!">
 				<p>

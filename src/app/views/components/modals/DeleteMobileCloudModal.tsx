@@ -2,7 +2,7 @@ import { type FC, useCallback } from 'react';
 import {
 	useRemoveAppStore,
 	type RemoveAppStore,
-} from '@stores/mobileCloudApp.store.ts';
+} from '@stores/mobileCloudRemove.store';
 import { ConfirmModal, ModalTitleWrapper } from '.';
 import { useUserData } from '#commonUserHooks/useUserData';
 

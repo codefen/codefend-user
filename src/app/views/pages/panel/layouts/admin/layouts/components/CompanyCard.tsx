@@ -15,7 +15,14 @@ const CompanyCard: FC<CompanyCard> = ({ company, isSelected }) => {
 					<div className="img-wrapper codefend-text-red">
 						<Show
 							when={!company.profile_media}
-							fallback={<img src="" alt="company-icon" />}>
+							fallback={
+								<img
+									src=""
+									alt="company-icon"
+									decoding="async"
+									loading="lazy"
+								/>
+							}>
 							<CompanyIcon width={2.838} height={2.838} />
 						</Show>
 					</div>

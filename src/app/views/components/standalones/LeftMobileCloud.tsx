@@ -2,7 +2,7 @@ import { AppCard } from '@standalones/AppCard.tsx';
 import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
-} from '@stores/mobileCloudApp.store';
+} from '@stores/mobileCloudSelect.store';
 import { useCallback, useEffect, useState, type FC } from 'react';
 
 interface LeftMobileCloudProps {
@@ -17,11 +17,11 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 	type,
 }) => {
 	const [term, setTerm] = useState('');
-	const { isNotNull, appSelected, isCurrentSelected, updateSelected } =
+	const { appSelected, isCurrentSelected, updateSelected } =
 		useSelectMobileCloudApp((state: SelectMobileCloudApp) => state);
 
 	const selectResource = (resource: any) => {
-		if (isNotNull() && isCurrentSelected(resource.id)) return;
+		if (Boolean(appSelected) && isCurrentSelected(resource.id)) return;
 
 		updateSelected(resource);
 	};

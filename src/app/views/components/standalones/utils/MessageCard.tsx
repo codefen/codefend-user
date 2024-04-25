@@ -31,6 +31,8 @@ export const MessageCard: FC<Props> = (props) => {
 							!isAuthUserChat ? '-gray' : ''
 						}.svg`}
 						alt="user-picture"
+						decoding="async"
+						loading="lazy"
 					/>
 				</div>
 				<p>{message}</p>

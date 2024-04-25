@@ -292,6 +292,8 @@ export const EndpointsSidebar: FC<Props> = ({ endpoints, isLoading }) => {
 														src={endpoint.icon_url}
 														alt=""
 														className="app-img"
+														decoding="async"
+														loading="lazy"
 													/>
 												) : (
 													<span className="app-img no-img-url">

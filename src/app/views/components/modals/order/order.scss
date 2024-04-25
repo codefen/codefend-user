@@ -27,17 +27,6 @@
 	--option-header-title: var(--primary-color-50);
 	--option-header-span: var(--primary-color-200);
 
-	// @include media.minScreenHeight(800px) {
-	// 	& {
-	// 		min-height: 60dvh;
-	// 	}
-	// }
-	// @include media.minScreen(1650px) {
-	// 	& {
-	// 		max-width: 49dvw;
-	// 		min-width: 49dvw;
-	// 	}
-	// }
 	.order-plan-loader-title {
 		width: 100%;
 		text-align: center;
@@ -46,12 +35,16 @@
 		color: var(--primary-color-100);
 		padding-block: 1rem;
 	}
+
+	.stripe-container {
+		overflow-y: auto;
+		margin-block-end: 2rem;
+	}
 	.order-header {
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: flex-start;
-		// padding: 20px 35px;
 
 		.order-header-title {
 			display: flex;

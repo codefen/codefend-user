@@ -107,6 +107,8 @@ export const CryptoPaymentModal = () => {
 							src={qrCodeActive}
 							alt="qrcode-icon"
 							className={`qr-img ${!qrCode.current && 'overlay'}`}
+							decoding="async"
+							loading="eager"
 						/>
 					</div>
 					<div className="details space">

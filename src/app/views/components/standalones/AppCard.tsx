@@ -1,16 +1,13 @@
 import { type FC } from 'react';
 import {
-	type RemoveAppStore,
 	cleanHTML,
 	defaultMobileCloudResourceAsset,
 	useAppCard,
-	useRemoveAppStore,
 } from '../../../data';
 import { Show, StarRating } from '..';
 import { useNavigate } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import useModalStore from '@stores/modal.store';
-import useCredentialStore from '@stores/credential.store';
+import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
 
 interface MobileAppCardProps {
 	isActive?: boolean;
@@ -53,7 +50,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	});
 	const navigate = useNavigate();
 
-	const { setIsOpen } = useRemoveAppStore((state: RemoveAppStore) => state);
+	const { setIsOpen } = useRemoveAppStore((state) => state);
 
 	const handleClick = () =>
 		navigate(`/issues/create/${isMobileType ? 'mobile' : 'cloud'}/${id}`);
@@ -84,9 +81,16 @@ export const AppCard: FC<MobileAppCardProps> = ({
 						: `/clouds/${cloudProvider ? `${cloudProvider === 'gcp' ? 'google' : cloudProvider}.png` : 'aws.png'}`
 				}
 				alt="app-image"
+				decoding="async"
+				loading="lazy"
 			/>
 		) : (
-			<img src={`data:image/png;base64,${appMedia}`} alt="mobile-image" />
+			<img
+				src={`data:image/png;base64,${appMedia}`}
+				alt="mobile-image"
+				decoding="async"
+				loading="lazy"
+			/>
 		);
 	};
 

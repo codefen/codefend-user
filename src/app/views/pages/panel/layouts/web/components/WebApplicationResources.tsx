@@ -93,7 +93,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				value: (
 					<>
 						<span
-							className="id action issue-icon"
+							className="issue-icon"
 							title={`${isNormalUser() ? '' : 'Add Issue'}`}
 							onClick={() =>
 								navigate(
@@ -201,68 +201,72 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												/>
 											</div>
 										</div>
-										<div className="id action issue-icon">
-											<span
-												title={`${isNormalUser() ? '' : 'Add Issue'}`}
-												onClick={() =>
-													navigate(
-														userHaveAccess
-															? `/issues/create/web/${subNetwork.id}`
-															: '',
-													)
-												}>
-												<BugIcon isButton />
-												<span className="codefend-text-red-200 issue-count">
-													{subNetwork.issueCount}
-												</span>
-											</span>
-											<span
-												title="View report"
-												className="issue-printer"
-												onClick={() =>
-													generateReport(
-														subNetwork.id,
-														subNetwork.issueCount,
-													)
-												}>
-												<DocumentIcon
-													isButton
-													width={1.27}
-													height={1.27}
-												/>
-											</span>
-											<Show when={isNormalUser() || isAdmin()}>
+										<div className="id action">
+											<div className="publish">
 												<span
-													title="Delete"
-													onClick={() => {
-														setSelectedResource({
-															id: subNetwork.id,
-															domain: subNetwork.resourceDomain,
-															serverIp: subNetwork.mainServer,
-														});
-														setShowModal(true);
-														setShowModalStr('delete_resource');
-													}}>
-													<TrashIcon />
+													className="issue-icon"
+													title={`${isNormalUser() ? '' : 'Add Issue'}`}
+													onClick={() =>
+														navigate(
+															userHaveAccess
+																? `/issues/create/web/${subNetwork.id}`
+																: '',
+														)
+													}>
+													<BugIcon isButton />
+													<span className="codefend-text-red-200 issue-count">
+														{subNetwork.issueCount}
+													</span>
 												</span>
-											</Show>
-											<Show
-												when={
-													isNormalUser() ||
-													isAdmin() ||
-													isProvider()
-												}>
 												<span
-													title="Add credentials"
-													onClick={() => {
-														setResourceId(subNetwork.id);
-														setCrendentialType('web');
-														setIsOpen(true);
-														setModalId('web');
-													}}>
-													<CredentialIcon />
+													title="View report"
+													className="issue-printer"
+													onClick={() =>
+														generateReport(
+															subNetwork.id,
+															subNetwork.issueCount,
+														)
+													}>
+													<DocumentIcon
+														isButton
+														width={1.27}
+														height={1.27}
+													/>
 												</span>
-											</Show>
+												<Show when={isNormalUser() || isAdmin()}>
+													<span
+														title="Delete"
+														onClick={() => {
+															setSelectedResource({
+																id: subNetwork.id,
+																domain:
+																	subNetwork.resourceDomain,
+																serverIp: subNetwork.mainServer,
+															});
+															setShowModal(true);
+															setShowModalStr('delete_resource');
+														}}>
+														<TrashIcon />
+													</span>
+												</Show>
+												<Show
+													when={
+														isNormalUser() ||
+														isAdmin() ||
+														isProvider()
+													}>
+													<span
+														title="Add credentials"
+														onClick={() => {
+															setResourceId(subNetwork.id);
+															setCrendentialType('web');
+															setIsOpen(true);
+															setModalId('web');
+														}}>
+														<CredentialIcon />
+													</span>
+												</Show>
+											</div>
 										</div>
 									</a>
 								),

@@ -199,6 +199,8 @@ export const EndpointInfo: FC = () => {
 									src={selectedEndpoint.icon_url}
 									alt=""
 									className="img-app"
+									decoding="async"
+									loading="lazy"
 								/>
 							) : selectedEndpoint?.application_name ? (
 								<span className="img-app no-img">

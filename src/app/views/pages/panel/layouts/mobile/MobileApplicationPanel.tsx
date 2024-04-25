@@ -10,7 +10,7 @@ import { useMobile } from '@resourcesHooks/mobile/useMobile.ts';
 import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
-} from '@stores/mobileCloudApp.store.ts';
+} from '@stores/mobileCloudSelect.store.ts';
 import useModal from '#commonHooks/useModal.ts';
 
 import './mobileApplicationPanel.scss';
@@ -24,7 +24,7 @@ const MobileApplicationPanel: React.FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { showModal, setShowModal } = useModal();
 	const { getMobileInfo, refetch, isLoading } = useMobile();
-	const { resetSelectedApp, isNotNull } = useSelectMobileCloudApp(
+	const { resetSelectedApp, appSelected } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
 	const { oneExecute } = useTimeout(() => resetSelectedApp(), 50);
@@ -65,7 +65,7 @@ const MobileApplicationPanel: React.FC = () => {
 					/>
 				</section>
 				<section className="right">
-					<Show when={isNotNull()}>
+					<Show when={Boolean(appSelected)}>
 						<MobileSelectedDetails />
 					</Show>
 				</section>

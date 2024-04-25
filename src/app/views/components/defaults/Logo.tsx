@@ -24,7 +24,12 @@ const Logo = ({ theme, onClick }: LogoProps) => {
 
 	return (
 		<div id="brand" className="brand-img" onClick={onClick}>
-			<img src={selectedLogo.path} alt="Codefend Logo" loading="lazy" />
+			<img
+				src={selectedLogo.path}
+				alt="Codefend Logo"
+				decoding="async"
+				loading="lazy"
+			/>
 		</div>
 	);
 };

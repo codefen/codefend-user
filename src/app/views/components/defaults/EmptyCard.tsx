@@ -18,6 +18,7 @@ const EmptyCard: FC<EmptyCardProps> = ({ title, info }) => {
 					<img
 						src="/codefend/not-allowed.svg"
 						alt="Not allowed icon"
+						decoding="async"
 						loading="lazy"
 						width="5rem"
 						height="5rem"

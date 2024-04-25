@@ -10,7 +10,7 @@ import useModal from '#commonHooks/useModal.ts';
 import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
-} from '@stores/mobileCloudApp.store.ts';
+} from '@stores/mobileCloudSelect.store.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCloudModal';
 import './cloud.scss';
@@ -23,7 +23,7 @@ const CloudApplicationPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { isLoading, getCloudInfo, refetch } = useCloud();
 	const { setShowModal, showModal } = useModal();
-	const { resetSelectedApp, isNotNull } = useSelectMobileCloudApp(
+	const { resetSelectedApp, appSelected } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
 	const { oneExecute } = useTimeout(() => resetSelectedApp(), 50);
@@ -62,7 +62,7 @@ const CloudApplicationPanel: FC = () => {
 					/>
 				</section>
 				<section className="right">
-					<Show when={isNotNull()}>
+					<Show when={Boolean(appSelected)}>
 						<CloudSelectedDetails />
 					</Show>
 				</section>

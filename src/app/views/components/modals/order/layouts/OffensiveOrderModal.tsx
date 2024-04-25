@@ -48,6 +48,8 @@ export const OffensiveOrderModal: FC = () => {
 						src="/codefend/pentest-careful.png"
 						alt="careful-pentest-icon"
 						className="step-image enviroment"
+						decoding="async"
+						loading="lazy"
 					/>
 
 					<div className="order-snapshot">
@@ -77,6 +79,8 @@ export const OffensiveOrderModal: FC = () => {
 						src="/codefend/pentest-offensive.png"
 						alt="offensive-pentest-icon"
 						className="step-image enviroment"
+						decoding="async"
+						loading="lazy"
 					/>
 
 					<div className="order-snapshot">
@@ -105,6 +109,8 @@ export const OffensiveOrderModal: FC = () => {
 						src="/codefend/pentest-adversary.png"
 						alt="adversary-pentest-icon"
 						className="step-image enviroment"
+						decoding="async"
+						loading="lazy"
 					/>
 
 					<div className="order-snapshot">

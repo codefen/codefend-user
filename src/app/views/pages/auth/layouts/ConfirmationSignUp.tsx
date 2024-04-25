@@ -18,7 +18,12 @@ const ConfirmationSignUp: FC = () => {
 		<form onSubmit={handleCompleteSignup} className="signup-confirm">
 			<div className="check-mail">
 				<div className="check-mail_img">
-					<img src="/codefend/check_email.png" alt="mail-image" />
+					<img
+						src="/codefend/check_email.png"
+						alt="mail-image"
+						decoding="async"
+						loading="lazy"
+					/>
 				</div>
 				<div className="check-mail_text">
 					<span>we have sent you an email with a code!</span>

@@ -46,6 +46,8 @@ export const FrequencyOrderModal: FC = () => {
 						src="/codefend/order-frequency1.svg"
 						alt="fast-pentest-icon"
 						className="step-image"
+						decoding="async"
+						loading="lazy"
 					/>
 
 					<div className="order-snapshot">

@@ -6,7 +6,6 @@ export * from './utils/MessageCard.tsx';
 export * from './AppCard.tsx';
 export * from './AppCardInfo.tsx';
 export * from './ChatBox.tsx';
-export * from './CloudQuickAction.tsx';
 export * from './IssuesPanelMobileAndCloud.tsx';
 export * from './utils/MessageCard.tsx';
 export * from './credential-card/ProvidedTestingCredentials.tsx';
