@@ -63,15 +63,14 @@ export const ScopeOrderModal: FC = () => {
 			</div>
 			<div className="step-content">
 				<div
-					className={`option ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}>
+					className={`option ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}
+					onClick={() => setScopeOptionW(ScopeOption.TYPE)}>
 					<input
 						id="scope-resources"
 						name="scopeOption"
 						type="radio"
-						value={ScopeOption.TYPE}
 						className="radio-option"
-						defaultChecked={scopeOptionW === ScopeOption.TYPE}
-						onClick={() => setScopeOptionW(ScopeOption.TYPE)}
+						checked={scopeOptionW === ScopeOption.TYPE}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="scope-resources" className="order-snapshot">
@@ -92,15 +91,14 @@ export const ScopeOrderModal: FC = () => {
 					</label>
 				</div>
 				<div
-					className={`option ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}>
+					className={`option ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}
+					onClick={() => setScopeOptionW(ScopeOption.ALL)}>
 					<input
 						id="all-scope-resources"
 						name="scopeOption"
 						type="radio"
-						value={ScopeOption.ALL}
 						className="radio-option"
-						defaultChecked={scopeOptionW === ScopeOption.ALL}
-						onClick={() => setScopeOptionW(ScopeOption.ALL)}
+						checked={scopeOptionW === ScopeOption.ALL}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="all-scope-resources" className="order-snapshot">
