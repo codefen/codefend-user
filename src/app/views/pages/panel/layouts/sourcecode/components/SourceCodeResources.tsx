@@ -8,11 +8,13 @@ import {
 	sourceCodeColumnsWithoutAction,
 } from '../../../../../../data';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import { TrashIcon, BugIcon, SourceCodeIcon } from '@icons';
+import { TrashIcon, BugIcon, SourceCodeIcon, CredentialIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import { AddRepositoryModal } from '../../../../../components/modals/adding-modals/AddRepositoryModal';
 import { useUserRole } from '#commonUserHooks/useUserRole';
+import useCredentialStore from '@stores/credential.store';
+import useModalStore from '@stores/modal.store';
 
 interface SourceCodeProps {
 	isLoading: boolean;
@@ -28,6 +30,8 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 		useState<string>('');
 	const navigate = useNavigate();
 	const { isAdmin, isProvider, isNormalUser } = useUserRole();
+	const { setCrendentialType, setResourceId } = useCredentialStore();
+	const { setIsOpen, setModalId } = useModalStore();
 
 	const dataTable = props.sourceCode.map(
 		(repository) =>
@@ -41,7 +45,18 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	);
 
 	const tableAction = {
-		icon: [] as any,
+		icon: [
+			{
+				action: (id: string) => {
+					setResourceId(id);
+					setCrendentialType('source');
+					setIsOpen(true);
+					setModalId('source');
+				},
+				render: <CredentialIcon />,
+				style: '',
+			},
+		] as any,
 	};
 	if (isProvider()) {
 		tableAction.icon.push({
