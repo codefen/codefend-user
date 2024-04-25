@@ -130,18 +130,17 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 								<TrashIcon />
 							</span>
 						</Show>
-						<Show when={isNormalUser() || isAdmin() || isProvider()}>
-							<span
-								title="Add credentials"
-								onClick={() => {
-									setResourceId(mainNetwork.id);
-									setCrendentialType('web');
-									setIsOpen(true);
-									setModalId('web');
-								}}>
-								<CredentialIcon />
-							</span>
-						</Show>
+
+						<span
+							title="Add credentials"
+							onClick={() => {
+								setResourceId(mainNetwork.id);
+								setCrendentialType('web');
+								setIsOpen(true);
+								setModalId('web');
+							}}>
+							<CredentialIcon />
+						</span>
 					</>
 				),
 				style: 'id action',

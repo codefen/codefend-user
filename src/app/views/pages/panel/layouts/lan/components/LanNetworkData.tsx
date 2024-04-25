@@ -1,8 +1,7 @@
-import { type FC, useMemo, Fragment, type ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import {
 	useModal,
 	type Device,
-	generateIDArray,
 	lanResourcesTable,
 	type TableItem,
 	lanResourcesTableWithoutAction,
@@ -15,10 +14,14 @@ import {
 	ConfirmModal,
 	AddNetworkDeviceModal,
 	TableV2,
+	CredentialIcon,
+	Show,
 } from '../../../../../components';
 
 import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan';
 import { useUserRole } from '#commonUserHooks/useUserRole';
+import useModalStore from '@stores/modal.store';
+import useCredentialStore from '@stores/credential.store';
 
 interface LanNetworkDataProps {
 	isLoading: boolean;
@@ -33,6 +36,8 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 }) => {
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
+	const { setCrendentialType, setResourceId } = useCredentialStore();
+	const { setIsOpen, setModalId } = useModalStore();
 	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } =
 		useDeleteLan(refetchInternalNetwork, () => setShowModal(false));
@@ -40,10 +45,8 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 	const handleDelete = () => {
 		refetch(selectedLanIdToDelete);
 	};
-	let tableData2: Record<string, TableItem>[] = [];
-
-	if (isAdmin() || isNormalUser()) {
-		tableData2 = internalNetwork.map((network) => ({
+	let tableData2: Record<string, TableItem>[] = internalNetwork.map(
+		(network) => ({
 			ID: { value: '', style: '' },
 			Identifier: { value: network.id, style: 'id' },
 			internalIp: { value: network.device_in_address, style: 'ip' },
@@ -55,14 +58,27 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			action: {
 				value: (
 					<>
+						<Show when={isAdmin() || isNormalUser()}>
+							<span
+								title="Delete"
+								onClick={() => {
+									setSelectedLanIdToDelete(network.id);
+									setShowModal(!showModal);
+									setShowModalStr('delete_resource');
+								}}>
+								<TrashIcon />
+							</span>
+						</Show>
+
 						<span
-							title="Delete"
+							title="Add credentials"
 							onClick={() => {
-								setSelectedLanIdToDelete(network.id);
-								setShowModal(!showModal);
-								setShowModalStr('delete_resource');
+								setResourceId(network.id);
+								setCrendentialType('lan');
+								setIsOpen(true);
+								setModalId('lan');
 							}}>
-							<TrashIcon />
+							<CredentialIcon />
 						</span>
 					</>
 				),
@@ -116,82 +132,30 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 												</div>
 											</div>
 											<div className="id action">
-												<span
-													title="Delete"
-													onClick={() => {
-														setSelectedLanIdToDelete(netChild.id);
-														setShowModal(!showModal);
-														setShowModalStr('delete_resource');
-													}}>
-													<TrashIcon />
-												</span>
-											</div>
-										</a>
-									))
-								: null}
-						</>
-					) as ReactNode,
-				style: '',
-			},
-		}));
-	} else {
-		tableData2 = internalNetwork.map((network) => ({
-			ID: { value: '', style: '' },
-			Identifier: { value: network.id, style: 'id' },
-			externalIp: { value: network.device_ex_address, style: 'ip' },
-			internalIp: { value: network.device_in_address, style: 'ip' },
-			description: {
-				value: `${network.device_desc}`,
-				style: 'full-name',
-			},
-			childs: {
-				value: (props) =>
-					(
-						<>
-							{network.childs
-								? network.childs.map((netChild, i) => (
-										<a
-											key={`child-${i}-${netChild.id}`}
-											className={`item item-with-out-action ${
-												props.selectedField ===
-												`child-${netChild.id}`
-													? 'left-marked'
-													: ''
-											}`}
-											href={
-												props.urlNav
-													? `${props.urlNav}${netChild.id}`
-													: ''
-											}
-											onClick={(e) =>
-												props.handleClick(
-													e,
-													`child-${netChild.id}`,
-													'',
-												)
-											}>
-											<div className="id">
-												<div className="publish">{netChild.id}</div>
-											</div>
-											<div className="ip">
-												<div className="publish">
+												<Show when={isAdmin() || isNormalUser()}>
 													<span
-														className={`sub-domain-icon-v ${network.childs?.length === i + 1 && 'sub-is-last'}`}></span>
-													<span className="sub-domain-icon-h"></span>
-													{netChild.device_ex_address}
-												</div>
+														title="Delete"
+														onClick={() => {
+															setSelectedLanIdToDelete(
+																netChild.id,
+															);
+															setShowModal(!showModal);
+															setShowModalStr('delete_resource');
+														}}>
+														<TrashIcon />
+													</span>
+												</Show>
 											</div>
-											<div className="ip">
-												<div className="publish lined">
-													{netChild.device_in_address}
-												</div>
-											</div>
-
-											<div className="full-name">
-												<div className="publish">
-													{netChild.device_desc}
-												</div>
-											</div>
+											<span
+												title="Add credentials"
+												onClick={() => {
+													setResourceId(network.id);
+													setCrendentialType('lan');
+													setIsOpen(true);
+													setModalId('lan');
+												}}>
+												<CredentialIcon />
+											</span>
 										</a>
 									))
 								: null}
@@ -199,8 +163,8 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 					) as ReactNode,
 				style: '',
 			},
-		}));
-	}
+		}),
+	);
 
 	return (
 		<>

@@ -10,6 +10,7 @@ import { useOrderStore } from '@stores/orders.store.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import Show from '@defaults/Show.tsx';
+import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 
 const LanPage: FC = () => {
 	const { networks, loading, refetch } = useLan();
@@ -29,6 +30,7 @@ const LanPage: FC = () => {
 	return (
 		<>
 			<OrderV2 />
+			<CredentialsModal />
 			<main className={`lan ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
