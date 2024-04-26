@@ -11,42 +11,50 @@ main.social {
 		width: 70%;
 		.table {
 			.item {
-				height: 42px;
+				height: 43px;
 			}
-			.email {
-				min-width: 15.575rem;
-				max-width: none;
-				max-width: none;
-				flex: 1 1 0% !important;
-			}
+
 			.id {
-				min-width: 4rem;
-				max-width: 4rem;
+				min-width: 6.5%;
+				max-width: 6.5%;
 			}
 			.phone {
-				min-width: 10rem;
+				min-width: 19%;
+				max-width: 19%;
+				margin-inline-end: 1%;
 			}
-			.role {
-				min-width: 10rem;
-			}
+
 			.full-name {
-				min-width: 10rem;
-				max-width: 21.5rem;
+				min-width: 19.5%;
+				max-width: 19.5%;
+				margin-inline-end: 1%;
 				.publish {
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: normal;
 					-webkit-line-clamp: 2;
 					display: -webkit-box;
-					line-height: 1.25rem;
-					max-height: calc(1.25rem * 2);
-					margin-inline-end: 17px;
+					line-height: 1.25em;
+					max-height: 2.5em;
 					-webkit-box-align: center;
 				}
 			}
+			.email {
+				min-width: 25%;
+				max-width: 25%;
+				margin-inline-end: 1%;
+			}
+			.role {
+				min-width: 15%;
+				max-width: 15%;
+				margin-inline-end: 1%;
+			}
 			.action {
-				span {
-					cursor: pointer;
+				min-width: 12%;
+				max-width: 12%;
+
+				.publish {
+					justify-content: center;
 				}
 			}
 		}

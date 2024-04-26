@@ -1,6 +1,7 @@
 import {
 	BugIcon,
 	ConfirmModal,
+	CredentialIcon,
 	ModalTitleWrapper,
 	PeopleGroupIcon,
 	TableV2,
@@ -20,6 +21,8 @@ import { useNavigate } from 'react-router';
 import { type FC } from 'react';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
+import useCredentialStore from '@stores/credential.store';
+import useModalStore from '@stores/modal.store';
 
 interface SocialProps {
 	refetch: () => void;
@@ -31,13 +34,16 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 	const navigate = useNavigate();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
-	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const [handleDeleteResource, { setSelectedId, isLoading }] = useAddSocial(
 		() => {
 			setShowModal(false);
 			props.refetch();
 		},
 	);
+
+	const { isAdmin, isNormalUser, isProvider } = useUserRole();
+	const { setCrendentialType, setResourceId } = useCredentialStore();
+	const { setIsOpen, setModalId } = useModalStore();
 
 	const safelyPreviousSearches = () => props.socials.slice().reverse();
 
@@ -62,13 +68,23 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 		icon: [] as any,
 	};
 
-	if (isProvider()) {
+	if (isProvider() || isAdmin()) {
 		tableAction.icon.push({
 			action: (id: string, type?: any) =>
 				navigate(`/issues/create/social/${id}`),
 			render: <BugIcon isButton />,
 		});
 	}
+	tableAction.icon.push({
+		action: (id: string) => {
+			setResourceId(id);
+			setCrendentialType('social');
+			setIsOpen(true);
+			setModalId('social');
+		},
+		render: <CredentialIcon />,
+		style: '',
+	});
 	if (isAdmin() || isNormalUser()) {
 		tableAction.icon.push({
 			action: (id: string, type?: any) => {

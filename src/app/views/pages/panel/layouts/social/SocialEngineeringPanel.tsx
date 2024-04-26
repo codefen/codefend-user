@@ -10,6 +10,7 @@ import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
 import Show from '@defaults/Show.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -56,6 +57,7 @@ const SocialEngineeringView = () => {
 	return (
 		<>
 			<OrderV2 />
+			<CredentialsModal />
 			<main className={`social ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
