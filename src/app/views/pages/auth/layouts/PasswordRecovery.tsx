@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PrimaryButton } from '../../../components';
 import { usePasswordRecovery } from '#commonUserHooks/usePasswordRecovery';
 import { useNavigate, useParams } from 'react-router';
@@ -11,10 +11,17 @@ export const PasswordRecovery = () => {
 	const [activePhase, setPhase] = useState<'email' | 'code'>('email');
 	const [passwordRecovery, setPasswordRecovery] = useState({
 		email: '',
-		referenceNumber: ref || '',
+		referenceNumber: '',
 		newPassword: '',
 		repeatedPassword: '',
 	});
+	useEffect(() => {
+		console.log({ ref });
+		setPasswordRecovery((current: any) => ({
+			...current,
+			referenceNumber: ref || '',
+		}));
+	}, [ref]);
 
 	const handleSendCode = async (e: any) => {
 		e.preventDefault();

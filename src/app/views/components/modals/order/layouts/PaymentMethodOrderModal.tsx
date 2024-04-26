@@ -42,7 +42,9 @@ export const PaymentMethodOrderModal: FC = () => {
 						type="radio"
 						name="payment-methods"
 						className="radio-option"
-						checked={paymentMethodW === OrderPaymentMethod.BANK_TRANSFER}
+						defaultChecked={
+							paymentMethodW === OrderPaymentMethod.BANK_TRANSFER
+						}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="bank-transfer" className="order-snapshot">
@@ -67,7 +69,7 @@ export const PaymentMethodOrderModal: FC = () => {
 						type="radio"
 						name="payment-methods"
 						className="radio-option"
-						checked={paymentMethodW === OrderPaymentMethod.CARD}
+						defaultChecked={paymentMethodW === OrderPaymentMethod.CARD}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="card" className="order-snapshot">
@@ -92,7 +94,7 @@ export const PaymentMethodOrderModal: FC = () => {
 						type="radio"
 						name="payment-methods"
 						className="radio-option"
-						checked={paymentMethodW === OrderPaymentMethod.CRYPTO}
+						defaultChecked={paymentMethodW === OrderPaymentMethod.CRYPTO}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="crypto" className="order-snapshot">
