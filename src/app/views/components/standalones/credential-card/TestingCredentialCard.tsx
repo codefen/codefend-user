@@ -19,17 +19,21 @@ export const TestingCredentialCard: FC<TestingCredentialProps> = (props) => {
 				<span>{props?.accessLVL || ''}</span>
 			</div>
 			<div className="info">
-				<div className="text">
+				<div className="text columns">
 					<span>username:</span>
 					<span>password:</span>
-					<span className="extra-info-cred">Extra info:</span>
+					<span>Extra info:</span>
 				</div>
 				<div className="text">
 					<span>{props?.username || ''}</span>
 					<span>{props?.password || ''}</span>
 					<span
-						className="codefend-text-red extra-info-cred extra-info-btn"
-						onClick={props.viewInfo}>
+						className={`codefend-text-red extra-info-cred ${!props.info && 'extra-info-disabled'}`}
+						onClick={() => {
+							if (props.info) {
+								props.viewInfo();
+							}
+						}}>
 						View info...
 					</span>
 				</div>

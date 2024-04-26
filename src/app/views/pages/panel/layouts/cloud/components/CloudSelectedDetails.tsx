@@ -29,15 +29,18 @@ export const CloudSelectedDetails: FC = () => {
 	);
 	const { updateState } = useOrderStore((state) => state);
 	const { isAdmin, isNormalUser } = useUserRole();
-	useEffect(() => {
+	const handleFetcheUnique = () => {
 		setLoading(true);
 		fetchCloudOne().finally(() => setLoading(false));
+	};
+	useEffect(() => {
+		handleFetcheUnique();
 	}, [appSelected]);
 
 	if (!isLoading) {
 		return (
 			<>
-				<CredentialsModal />
+				<CredentialsModal onComplete={handleFetcheUnique} />
 				<div>
 					<AppCardInfo
 						selectedApp={appSelected || ({} as CloudApp)}

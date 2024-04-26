@@ -29,14 +29,17 @@ export const MobileSelectedDetails: React.FC = (props) => {
 	);
 	const { updateState } = useOrderStore((state) => state);
 
-	useEffect(() => {
+	const handleFetcheUnique = () => {
 		setLoading(true);
 		fetchMobileOne().finally(() => setLoading(false));
+	};
+	useEffect(() => {
+		handleFetcheUnique();
 	}, [appSelected]);
 	if (!isLoading) {
 		return (
 			<>
-				<CredentialsModal />
+				<CredentialsModal onComplete={handleFetcheUnique} />
 				<div>
 					<AppCardInfo
 						type="mobile"

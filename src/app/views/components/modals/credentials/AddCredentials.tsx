@@ -7,12 +7,14 @@ interface AddCredentialsProps {
 	type: string;
 	resourceId: string;
 	close: () => void;
+	onComplete?: () => void;
 }
 
 export const AddCredentials: FC<AddCredentialsProps> = ({
 	type,
 	resourceId,
 	close,
+	onComplete,
 }) => {
 	const { handleSend, setCredentials, isLoading } =
 		useAddResourceCredentials();
@@ -21,6 +23,7 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 		e.preventDefault();
 		handleSend(type, resourceId);
 		close();
+		if (onComplete) onComplete();
 	};
 
 	return (
@@ -95,8 +98,7 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 					}
 					placeholder="You can provide additional information for access."
 					className="text-area-input xll log-inputs2 text-area "
-					maxLength={4000}
-					required></textarea>
+					maxLength={4000}></textarea>
 			</div>
 
 			<ModalButtons

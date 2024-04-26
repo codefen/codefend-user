@@ -5,8 +5,13 @@ import useCredentialStore, { CredentialPage } from '@stores/credential.store';
 import Show from '@defaults/Show';
 import { AddCredentials } from './AddCredentials';
 import { ViewCredentials } from './ViewCredentials';
+import type { FC } from 'react';
 
-export const CredentialsModal = () => {
+interface CredentialsModalProps {
+	onComplete?: () => void;
+}
+
+export const CredentialsModal: FC<CredentialsModalProps> = ({ onComplete }) => {
 	const { isOpen, modalId, setIsOpen } = useModalStore();
 	const { type, resourceId, activePage, setActivePage } = useCredentialStore();
 	const handleClose = () => {
@@ -40,6 +45,7 @@ export const CredentialsModal = () => {
 							<AddCredentials
 								close={handleClose}
 								resourceId={resourceId}
+								onComplete={onComplete}
 								type={type}
 							/>
 						</Show>
