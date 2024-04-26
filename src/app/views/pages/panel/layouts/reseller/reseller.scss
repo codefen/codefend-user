@@ -67,23 +67,12 @@ main.reseller {
 		}
 	}
 }
-.reseller-assets {
-	display: flex;
-	margin-block: 1rem;
-	column-gap: 1rem;
-	justify-content: space-between;
-}
 
 .reseller-graph {
 	max-width: fit-content;
 }
 
-.asset-content {
-	display: flex;
-
-	.stats {
-		display: flex;
-	}
+.reseller-assets-content {
 }
 
 .reseller-tables {
