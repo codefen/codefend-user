@@ -14,18 +14,17 @@ import { useResellerOrders } from '@userHooks/resellers/useResellerOrders';
 
 export const ResellerPage = () => {
 	const [showScreen] = useShowScreen();
-	const [reseller, { getResellerProfile, isLoading: isLoadingReseller }] =
-		useResellerDashboard();
+	//const [reseller, { getResellerProfile, isLoading: isLoadingReseller }] =
+	//	useResellerDashboard();
 	const [leads, { getResellerLeads, isLoading: isLoadingLeads }] =
 		useResellerLeads();
-	const [companies, { getResellerCompanies, isLoading: isLoadingCompanies }] =
-		useResellerCompanies();
-	const [orders, { getResellerOrders, isLoading: isLoadingOrders }] =
-		useResellerOrders();
+	//const [companies, { getResellerCompanies, isLoading: isLoadingCompanies }] =
+	//	useResellerCompanies();
+	//const [orders, { getResellerOrders, isLoading: isLoadingOrders }] =
+	//	useResellerOrders();
 
 	useEffect(() => {
 		getResellerLeads();
-		getResellerProfile();
 
 		let iframes = document.querySelectorAll('iframe');
 		iframes.forEach((iframe) => {
@@ -52,7 +51,7 @@ export const ResellerPage = () => {
 				</div>
 			</section>
 			<section className="right">
-				<NewLeadsData />
+				<NewLeadsData leads={leads.current} />
 				<ResellerByLocation locationResource={[]} isLoading={false} />
 			</section>
 		</main>
