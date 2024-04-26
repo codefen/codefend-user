@@ -161,6 +161,44 @@ export const getCompanyMetric = (resources: Webresources[], type: string) => {
 	return '';
 };
 
+/** Get resources  country locations and metric */
+export const getLeadsCountryMetrics = (resources: any[]) => {
+	if (!resources) return [];
+
+    const countries = resources.reduce((acc: any, value: any) => {
+        if (!value.lead_pais || value.lead_pais === '-')
+            return acc;
+        if (acc[value.lead_pais_code]) {
+            acc[value.lead_pais_code].count++;
+            return acc;
+        } else {
+            acc[value.lead_pais_code] = {
+                count: 1,
+                country: value.lead_pais,
+                countryCode: value.lead_pais_code,
+                percentage: 1,
+            };
+
+            return acc;
+        }
+    }, {});
+
+    const total = Object.keys(countries).reduce(
+        (acc, value) => acc + countries[value].count,
+        0,
+    );
+
+    const data = Object.keys(countries).map((countryKey: any) => {
+        return {
+            ...countries[countryKey],
+            percentage:
+                Math.round((countries[countryKey].count / total) * 100 * 10) / 10,
+        };
+    });
+
+    return data;
+};
+
 export const MetricsService = {
 	isUserChat,
 	computeMemberRolesCount,
@@ -169,4 +207,5 @@ export const MetricsService = {
 	renderPercentage,
 	getCompanyMetric,
 	getCountryMetrics,
+	getLeadsCountryMetrics
 };

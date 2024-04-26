@@ -5,46 +5,36 @@ import { locationTableColumn } from '@mocks/defaultData';
 import { MetricsService } from '@utils/metric.service';
 import { LocationItem } from '@standalones/index';
 import { TableV2 } from '@table/tablev2';
-import { useCallback, useEffect, useMemo, useState, type FC } from 'react';
-
-interface LocationResource {
-	serverCountryCode: string;
-	serverCountry: string;
-}
+import { useMemo, useState, type FC } from 'react';
+import type { Lead } from '@interfaces/lead';
 
 interface ResellerByLocationProps {
-	locationResource: LocationResource[];
+	leads: Lead[];
 	isLoading: boolean;
 }
 
 export const ResellerByLocation: FC<ResellerByLocationProps> = ({
-	locationResource,
+	leads,
 	isLoading,
 }) => {
-	const getResources = isLoading ? [] : locationResource;
-
-	const dataTable = useMemo(
-		() =>
-			MetricsService.getCountryMetrics(getResources).map(
-				(resource: any) => ({
-					ID: { value: '', style: '' },
-					location: {
-						value: (
-							<LocationItem
-								country={resource.country}
-								countryCode={resource.countryCode}
-							/>
-						),
-						style: 'location',
-					},
-					count: { value: resource.count, style: 'count' },
-					percent: {
-						value: `${resource.percentage}%`,
-						style: 'percent',
-					},
-				}),
-			),
-		[locationResource],
+	const dataTable = MetricsService.getLeadsCountryMetrics(leads).map(
+		(resource: any) => ({
+			ID: { value: '', style: '' },
+			location: {
+				value: (
+					<LocationItem
+						country={resource.country}
+						countryCode={resource.countryCode}
+					/>
+				),
+				style: 'location',
+			},
+			count: { value: resource.count, style: 'count' },
+			percent: {
+				value: `${resource.percentage}%`,
+				style: 'percent',
+			},
+		}),
 	);
 
 	return (
@@ -53,9 +43,8 @@ export const ResellerByLocation: FC<ResellerByLocationProps> = ({
 				<TableV2
 					columns={locationTableColumn}
 					rowsData={dataTable}
-					showEmpty={false}
-					showRows={dataTable.length !== 0}
-					sizeX={93.75}
+					showEmpty={!isLoading && !Boolean(dataTable.length)}
+					showRows={!isLoading}
 					sort={Sort.asc}
 				/>
 			</SimpleSection>

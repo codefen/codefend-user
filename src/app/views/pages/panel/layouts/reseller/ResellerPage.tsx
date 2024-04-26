@@ -52,7 +52,10 @@ export const ResellerPage = () => {
 			</section>
 			<section className="right">
 				<NewLeadsData leads={leads.current} />
-				<ResellerByLocation locationResource={[]} isLoading={false} />
+				<ResellerByLocation
+					leads={leads.current}
+					isLoading={isLoadingLeads}
+				/>
 			</section>
 		</main>
 	);
