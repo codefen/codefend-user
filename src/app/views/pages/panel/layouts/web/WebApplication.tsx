@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { WebApplicationResources } from './components/WebApplicationResources.tsx';
-import { WebApplicationLocation } from './components/WebApplicationLocation.tsx';
 import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
 import { WebApplicationCredentials } from './components/WebApplicationCredentials.tsx';
 import { useOrderStore } from '@stores/orders.store';
@@ -15,6 +14,7 @@ import './webapplication.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import Show from '@defaults/Show.tsx';
+import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -43,9 +43,11 @@ const WebApplicationView: React.FC = () => {
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
-					<WebApplicationLocation
+					<ResourceByLocation
 						isLoading={isLoading}
-						webResources={webResources.resources}
+						resource={webResources.resources}
+						title="Web servers by location"
+						type="web"
 					/>
 					<Show when={isAdmin() || isNormalUser()}>
 						<PrimaryButton

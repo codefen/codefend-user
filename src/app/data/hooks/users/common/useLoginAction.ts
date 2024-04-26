@@ -20,6 +20,7 @@ export const useLoginAction = () => {
 				selectCompany({
 					id: data.company_id,
 					name: data.company_name,
+					sub_class: "",
 					web: '',
 					size: '',
 					pais_code: '',

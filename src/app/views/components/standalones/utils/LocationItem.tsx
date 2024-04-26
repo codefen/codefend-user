@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import '/public/flags/flags.css';
 
 interface LocationItemProps {
 	countryCode: string;

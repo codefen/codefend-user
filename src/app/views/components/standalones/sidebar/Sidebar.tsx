@@ -73,8 +73,16 @@ const Sidebar: FC = () => {
 			title: 'Leads',
 			id: 'sidebar_leads',
 			icon: <ProfileIcon isVisible />,
-			to: '/leads',
+			to: '/reseller/leads',
 			root: isReseller(),
+			haveAccess: isReseller(),
+		},
+		{
+			title: 'Users',
+			id: 'sidebar_users',
+			icon: <ProfileIcon isVisible />,
+			to: '/reseller/users',
+			root: false,
 			haveAccess: isReseller(),
 		},
 		{

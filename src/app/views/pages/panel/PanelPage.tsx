@@ -1,20 +1,19 @@
-import { type FC, Suspense, useEffect, useState } from 'react';
+import { type FC, Suspense, useEffect, useState, lazy } from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { useAuthStore } from '../../../data';
-import {
-	ErrorConection,
-	Loader,
-	Navbar,
-	Show,
-	Sidebar,
-} from '../../components';
-import { FlashLightProvider } from './FlashLightContext';
-import { WelcomeGroupTour } from '../../components/standalones/welcome/WelcomeGroupTour';
 import { useMediaQuery } from 'usehooks-ts';
-import { MobileFallback } from '@defaults/mobile-fallback/MobileFallback';
-import '../../styles/flag.scss';
-import { useUserData } from '#commonUserHooks/useUserData';
-import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager';
+import useAuthStore from '@stores/auth.store.ts';
+import Show from '@defaults/Show.tsx';
+import ErrorConection from '@modals/ErrorConection.tsx';
+import { Loader } from '@defaults/loaders/Loader.tsx';
+import { FlashLightProvider } from './FlashLightContext.tsx';
+import { WelcomeGroupTour } from '@standalones/welcome/WelcomeGroupTour.tsx';
+import { MobileFallback } from '@defaults/mobile-fallback/MobileFallback.tsx';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
+import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager.tsx';
+import '/public/flags/flags.css';
+
+export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
+export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);

@@ -88,7 +88,7 @@ const renderPercentage = (value: string, total: string) => {
 };
 
 /** Get resources  country locations and metric */
-export const getCountryMetrics = (resources: any[]) => {
+export const getCountryMetrics = (resources: any[], type:string) => {
 	if (!resources) return [];
 	const domainsAndSubDomains = resources
 	.reduce((acc: any, resource: any) => {
@@ -97,23 +97,43 @@ export const getCountryMetrics = (resources: any[]) => {
 	}, [])
 	.concat(resources);
 
-	const countries = domainsAndSubDomains.reduce((acc: any, value: any) => {
-		if (!value.serverCountryCode || value.serverCountryCode === '-')
-			return acc;
-		if (acc[value.serverCountryCode]) {
-			acc[value.serverCountryCode].count++;
-			return acc;
-		} else {
-			acc[value.serverCountryCode] = {
-				count: 1,
-				country: value.serverCountry,
-				countryCode: value.serverCountryCode,
-				percentage: 1,
-			};
+	const countries = resources.reduce((acc: any, value: any) => {
+		let countryCode, countryName;
 
-			return acc;
+		if (type === 'lead') {
+		  countryCode = value.lead_pais_code || null;
+		  countryName = value.lead_pais || null;
+		} else if (type === 'web') {
+		  countryCode = value.serverCountryCode || null;
+		  countryName = value.serverCountry || null;
+		} else {
+		  countryCode = value.pais_code || null;
+		  countryName = value.pais || null;
 		}
-	}, {});
+		if (!countryCode || countryCode === '-' || countryCode === 'unknown') {
+			if (!acc["unkw"]) {
+			  acc["unkw"] = {
+				count: 1,
+				country: "unknown",
+				countryCode: "unkw",
+				percentage: 1,
+			  };
+			} else {
+			  acc["unkw"].count++;
+			}
+		  } else if (acc[countryCode]) {
+			acc[countryCode].count++;
+		  } else {
+			acc[countryCode] = {
+			  count: 1,
+			  country: countryName,
+			  countryCode,
+			  percentage: 1,
+			};
+		  }
+
+		  return acc;
+    }, {});
 
 	const total = Object.keys(countries).reduce(
 		(acc, value) => acc + countries[value].count,
@@ -162,25 +182,45 @@ export const getCompanyMetric = (resources: Webresources[], type: string) => {
 };
 
 /** Get resources  country locations and metric */
-export const getLeadsCountryMetrics = (resources: any[]) => {
+const getResellerCountryMetrics = (resources: any[], type:string) => {
 	if (!resources) return [];
 
     const countries = resources.reduce((acc: any, value: any) => {
-        if (!value.lead_pais || value.lead_pais === '-')
-            return acc;
-        if (acc[value.lead_pais_code]) {
-            acc[value.lead_pais_code].count++;
-            return acc;
-        } else {
-            acc[value.lead_pais_code] = {
-                count: 1,
-                country: value.lead_pais,
-                countryCode: value.lead_pais_code,
-                percentage: 1,
-            };
+		let countryCode, countryName;
 
-            return acc;
-        }
+		if (type === 'lead') {
+		  countryCode = value.lead_pais_code || null;
+		  countryName = value.lead_pais || null;
+		} else if (type === 'web') {
+		  countryCode = value.serverCountryCode || null;
+		  countryName = value.serverCountry || null;
+		} else {
+		  countryCode = value.pais_code || null;
+		  countryName = value.pais || null;
+		}
+		if (!countryCode || countryCode === '-' || countryCode === 'unknown') {
+			if (!acc["unkw"]) {
+			  acc["unkw"] = {
+				count: 1,
+				country: "unknown",
+				countryCode: "unkw",
+				percentage: 1,
+			  };
+			} else {
+			  acc["unkw"].count++;
+			}
+		  } else if (acc[countryCode]) {
+			acc[countryCode].count++;
+		  } else {
+			acc[countryCode] = {
+			  count: 1,
+			  country: countryName,
+			  countryCode,
+			  percentage: 1,
+			};
+		  }
+
+		  return acc;
     }, {});
 
     const total = Object.keys(countries).reduce(
@@ -207,5 +247,4 @@ export const MetricsService = {
 	renderPercentage,
 	getCompanyMetric,
 	getCountryMetrics,
-	getLeadsCountryMetrics
 };

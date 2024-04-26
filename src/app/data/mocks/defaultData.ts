@@ -476,12 +476,12 @@ export const defaultListLeadsColumns: ColumnTable[] = [
 	},
 	{
 		name: "size",	
-		value: "size",	
+		value: "company size",	
 		style: "size",	
 	},
 	{
 		name: "fullname",	
-		value: "leads full name",	
+		value: "full name",	
 		style: "full-name",	
 	},
 	{
@@ -493,6 +493,45 @@ export const defaultListLeadsColumns: ColumnTable[] = [
 		name: "postContact",	
 		value: "post-contact",	
 		style: "post",	
+	},
+]
+
+export const resellerUserActiveColumns: ColumnTable[] = [
+	{
+		name: "area",	
+		value: "area",	
+		style: "area",	
+	},
+	{
+		name: "company",	
+		value: "company",	
+		style: "company",	
+	},
+	{
+		name: "role",	
+		value: "role",	
+		style: "role",	
+	},
+	{
+		name: "fullname",	
+		value: "full name",	
+		style: "full-name",	
+	},
+	{
+		name: "phone",	
+		value: "phone",	
+		style: "phone",	
+	},
+	{
+		name: "email",	
+		value: "email",	
+		style: "email",	
+	},
+	
+	{
+		name: "published",	
+		value: "Sign up date",	
+		style: "date",	
 	},
 ]
 

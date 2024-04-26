@@ -1,17 +1,17 @@
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef } from 'react';
-import type { Lead } from '@interfaces/lead';
 import { useUserData } from '#commonUserHooks/useUserData';
+import type { ResellerUser } from '@interfaces/user';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 
-export const useResellerLeads = ()=>{
+export const useResellerUsers = ()=>{
     const [fetcher, _, isLoading] = useFetcher();
     const { getCompany } = useUserData();
     const {selectCompany} =  useAdminCompanyStore(state=> state);
-    const leads = useRef<Lead[]>([]);
+    const users = useRef<ResellerUser[]>([]);
 
-    const getResellerLeads =  ()=>{
+    const getResellerUsers =  ()=>{
         const companyID = getCompany();
 		if (!companyID) {
 			toast.error('User information was not found');
@@ -19,11 +19,11 @@ export const useResellerLeads = ()=>{
 		}
         fetcher("post", {
             body: {
-                model: "resellers/dashboard/leads",
+                model: "resellers/dashboard/users",
                 company_id: getCompany(),
             }
         }).then(({data}: any)=>{
-            leads.current = data.leads; 
+            users.current = data.users;
             selectCompany({
                 id: data.company.id,
                 name: data.company.name,
@@ -43,10 +43,10 @@ export const useResellerLeads = ()=>{
                 profile_media: data.company.profile_media,
                 mercado: '',
                 isDisabled: false,
-                createdAt:  data.company.creacion,
+                createdAt: data.company.creacion,
             }, true);
         })
     }
 
-    return [leads, {getResellerLeads, isLoading}] as const;
+    return [users, {getResellerUsers, isLoading}] as const;
 }

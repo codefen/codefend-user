@@ -30,12 +30,6 @@ main.reseller {
 		padding-inline: 1rem;
 		flex: 0.4 0.4 0%;
 		height: auto;
-
-		.card.leads {
-			.stat {
-				width: 130px;
-			}
-		}
 	}
 }
 
@@ -70,9 +64,6 @@ main.reseller {
 
 .reseller-graph {
 	max-width: fit-content;
-}
-
-.reseller-assets-content {
 }
 
 .reseller-tables {
@@ -125,13 +116,74 @@ main.reseller {
 		.phone {
 			flex: 1 1 14.33% !important;
 			max-width: 14.33%;
+			margin-inline-end: 2%;
+		}
+		.email {
+			flex: 1 1 14.33% !important;
+			max-width: 14.33%;
+		}
+		.role {
+			flex: 1 1 14.33% !important;
+			max-width: 14.33%;
+			margin-inline-end: 1%;
+		}
+		.date {
+			flex: 1 1 14.33% !important;
+			max-width: 14.33%;
 		}
 		.post {
 			min-width: 12%;
 			max-width: 12%;
 		}
+	}
+}
 
-		.location {
+div.reseller-tables.table-users {
+	.table {
+		.item {
+			min-height: 42px;
+			user-select: text;
+		}
+		.company {
+			flex: 1 1 13.7% !important;
+			min-width: 13.7%;
+			max-width: 13.7%;
+			margin-inline-end: 1%;
+		}
+		.role {
+			min-width: 13.7%;
+			max-width: 13.7%;
+			margin-inline-end: 1%;
+		}
+		.full-name {
+			min-width: 13.7%;
+			max-width: 13.7%;
+			margin-inline-end: 1%;
+		}
+		.email {
+			min-width: 19.5%;
+			max-width: 19.5%;
+			margin-inline-end: 1%;
+			.publish {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: normal;
+				overflow-wrap: break-word;
+				line-height: 1.3rem;
+			}
+		}
+		.phone {
+			min-width: 13.7%;
+			max-width: 13.7%;
+			margin-inline-end: 1%;
+		}
+
+		.date {
+			min-width: 13.7%;
+			max-width: 13.7%;
 		}
 	}
 }

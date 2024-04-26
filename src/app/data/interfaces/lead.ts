@@ -1,5 +1,6 @@
-export interface Lead {
-    id: string;
+import type { AuditData, CompanyData } from "./util";
+
+export interface Lead extends CompanyData, AuditData {
     lead_fname: string;
     username: string;
     password: string;
@@ -7,10 +8,6 @@ export interface Lead {
     lead_role: string;
     lead_email: string;
     lead_phone: string;
-    company_name: string;
-    company_web: string;
-    company_size:string;
-    company_area: string;
     reseller_id: string;
     reseller_name: string;
     lead_ra: string;
@@ -24,6 +21,4 @@ export interface Lead {
     lead_reference_number: string;
     order_size: string;
     condicion: string;
-  eliminado: string;
-  creacion: string;
 }

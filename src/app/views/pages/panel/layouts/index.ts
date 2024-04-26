@@ -5,7 +5,6 @@ export { default as MobileApplicationPanel } from './mobile/MobileApplicationPan
 export * from './mobile/components/MobileSelectedDetails';
 export { default as WebApplication } from './web/WebApplication';
 export * from './web/components/WebApplicationCredentials';
-export * from './web/components/WebApplicationLocation';
 export * from './web/components/WebApplicationResources';
 export * from './web/components/WebApplicationStatics';
 

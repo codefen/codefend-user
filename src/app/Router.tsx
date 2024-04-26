@@ -35,7 +35,7 @@ import { PageReport } from '@modals/reports/PageReport.tsx';
 import { ProviderPage } from './views/pages/panel/layouts/providers/ProviderPanel';
 import { ProfileProviderLayout } from './views/pages/panel/layouts/providers/layouts/profile-provider/ProfileProviderLayout';
 import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/orders-provider/OrdersProviderLayout';
-import { ResellerPage } from './views/pages/panel/layouts/reseller/ResellerPage';
+import { ResellerLeadsLayout } from './views/pages/panel/layouts/reseller/layouts/ResellerLeadsLayout';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import LanPage from './views/pages/panel/layouts/lan/Lan';
 import useAdminCompanyStore from '@stores/adminCompany.store';
@@ -45,6 +45,7 @@ import { HelpCenter } from './views/pages/help-center/HelpCenter';
 import { SecurityAndPrivacyPolicy } from './views/pages/help-center/SecurityAndPrivacyPolicy';
 import { HelpNotfound } from './views/pages/help-center/HelpNotfound';
 import { InvitationSignup } from './views/pages/auth/layouts/InvitationSignup';
+import { ResellerUsersLayout } from './views/pages/panel/layouts/reseller/layouts/ResellerUsersLayout';
 
 export const AppRouter: React.FC = () => {
 	const {
@@ -97,7 +98,7 @@ export const AppRouter: React.FC = () => {
 								) : isProvider() ? (
 									<Navigate to="/provider/profile" />
 								) : isReseller() ? (
-									<ResellerPage />
+									<Navigate to="/reseller/leads" />
 								) : (
 									<Dashboard />
 								)
@@ -136,15 +137,19 @@ export const AppRouter: React.FC = () => {
 								/>
 							</Route>
 						)}
-						<Route
-							path="reseller/"
-							element={
-								<GuardRoute
-									element={<ResellerPage />}
-									access={haveAccessToResources}
+						{isReseller() && (
+							<>
+								<Route
+									index
+									path="reseller/leads"
+									element={<ResellerLeadsLayout />}
 								/>
-							}
-						/>
+								<Route
+									path="reseller/users"
+									element={<ResellerUsersLayout />}
+								/>
+							</>
+						)}
 						<Route
 							path="dashboard"
 							element={
