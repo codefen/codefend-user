@@ -70,7 +70,8 @@ export const ScopeOrderModal: FC = () => {
 						name="scopeOption"
 						type="radio"
 						className="radio-option"
-						defaultChecked={scopeOptionW === ScopeOption.TYPE}
+						checked={scopeOptionW === ScopeOption.TYPE}
+						onChange={() => {}}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="scope-resources" className="order-snapshot">
@@ -98,7 +99,8 @@ export const ScopeOrderModal: FC = () => {
 						name="scopeOption"
 						type="radio"
 						className="radio-option"
-						defaultChecked={scopeOptionW === ScopeOption.ALL}
+						checked={scopeOptionW === ScopeOption.ALL}
+						onChange={() => {}}
 					/>
 					<div className="codefend-radio"></div>
 					<label htmlFor="all-scope-resources" className="order-snapshot">
