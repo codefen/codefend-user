@@ -11,11 +11,11 @@ export const SourceCodeCollab: FC = () => {
 					icon={<SearchIcon />}>
 					<div className="content">
 						<div className="info">
-							<p>
+							<p className="collab-info">
 								In order to review the source code in your company
 								private repositories we will need contributor access.
 								Plase add the following user:
-								<a className="codefend-text-red">
+								<a className="codefend-text-red email-collab">
 									sourcecode@codefend.com
 								</a>
 							</p>

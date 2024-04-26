@@ -146,20 +146,22 @@ const TableRows: FC<any> = ({
 						))}
 						<Show when={isActiveAction}>
 							<div className="id action">
-								{tableAction?.icon?.map((i: any, iconIndex: any) => (
-									<span
-										key={iconIndex}
-										className={i?.style}
-										onClick={(e: React.FormEvent) => {
-											e.preventDefault();
-											e.stopPropagation();
-											i.action(row['ID'].value as string);
-										}}>
-										{typeof i.render === 'function'
-											? i.render({ extraAttr: row['issue'] })
-											: i.render}
-									</span>
-								))}
+								<div className="publish">
+									{tableAction?.icon?.map((i: any, iconIndex: any) => (
+										<span
+											key={iconIndex}
+											className={i?.style}
+											onClick={(e: React.FormEvent) => {
+												e.preventDefault();
+												e.stopPropagation();
+												i.action(row['ID'].value as string);
+											}}>
+											{typeof i.render === 'function'
+												? i.render({ extraAttr: row['issue'] })
+												: i.render}
+										</span>
+									))}
+								</div>
 							</div>
 						</Show>
 					</a>

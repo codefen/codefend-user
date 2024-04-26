@@ -67,6 +67,15 @@
 			padding: 1.25rem;
 			p {
 				color: var(--tertiary-color-400);
+
+				&.collab-info {
+					line-height: 1.5;
+				}
+			}
+			a.email-collab {
+				text-decoration-line: underline;
+				cursor: pointer;
+				outline: none;
 			}
 		}
 	}

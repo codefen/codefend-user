@@ -1,5 +1,3 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
 main.source-code {
 	&.actived {
 		padding-inline-end: 0;
@@ -10,82 +8,66 @@ main.source-code {
 
 		.table {
 			.item {
-				height: 42.5px;
-			}
-
-			.source-code {
-				justify-content: center;
+				min-height: 46px;
 			}
 
 			.id {
-				display: flex;
-				min-width: 50px;
-				max-width: 85px;
+				min-width: 8%;
+				max-width: 8%;
+				margin-inline-end: 1%;
+			}
+			.action {
+				min-width: 12%;
+				max-width: 12%;
+			}
+			.source-code,
+			.boolean {
+				min-width: 10%;
+				max-width: 10%;
+				margin-inline-end: 1%;
 			}
 			.full-name {
-				min-width: 175px;
-				max-width: 350px;
+				max-width: 24%;
+				min-width: 24%;
+				margin-inline-start: 0%;
+				margin-inline-end: 1%;
 			}
 			.url {
-				min-width: 230px;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				max-height: 42px;
-
+				max-width: 30%;
+				min-width: 30%;
+				margin-inline-start: 0%;
+				margin-inline-end: 2%;
+			}
+			.url {
 				.publish {
-					text-wrap: pretty;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
 					overflow: hidden;
 					text-overflow: ellipsis;
-					line-clamp: 2;
 					-webkit-line-clamp: 2;
-				}
-			}
-
-			.boolean {
-				text-align: left;
-				max-width: 65px;
-				min-width: 65px;
-				margin-inline-end: 4px;
-
-				.publish {
-					justify-content: flex-start;
-					max-width: 65px;
+					line-height: 1.4em;
+					max-height: 2.8em;
+					white-space: normal;
+					word-wrap: break-word;
 				}
 			}
 
 			.action {
 				justify-content: center;
-				max-width: none;
-				width: 100%;
 				column-gap: 2px;
 				cursor: pointer;
-				max-width: 100px;
 
-				span {
+				.publish {
 					height: 100%;
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					padding-inline: 7px;
-					transition: color 200ms ease;
-					flex: 1 1;
-					width: 50%;
-
-					&:hover {
-						color: var(--secondary-color) !important;
-					}
 				}
 			}
-		}
-
-		@include mixin.respond(small) {
-			width: 100%;
 		}
 	}
 
 	.right {
-		flex: 1 1 33%;
-		width: 33%;
 		padding-inline: 10px;
 		padding-inline-end: 20px;
 
@@ -101,39 +83,6 @@ main.source-code {
 					}
 				}
 			}
-
-			&.only-info {
-				.content {
-					.info {
-						p {
-							line-height: 1.5;
-						}
-						a {
-							text-decoration-line: underline;
-							cursor: pointer;
-							outline: none;
-						}
-					}
-				}
-			}
-		}
-
-		@include mixin.respond(small) {
-			width: 100%;
-		}
-	}
-
-	@include mixin.respond(small) {
-		display: block;
-		padding-inline-start: 10px;
-		height: 81dvh;
-		min-height: auto;
-
-		.left {
-			padding-block-start: 25px;
-		}
-		.card {
-			overflow: auto;
 		}
 	}
 }

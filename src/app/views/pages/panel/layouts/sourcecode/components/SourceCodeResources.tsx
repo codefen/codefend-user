@@ -45,20 +45,9 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	);
 
 	const tableAction = {
-		icon: [
-			{
-				action: (id: string) => {
-					setResourceId(id);
-					setCrendentialType('source');
-					setIsOpen(true);
-					setModalId('source');
-				},
-				render: <CredentialIcon />,
-				style: '',
-			},
-		] as any,
+		icon: [] as any,
 	};
-	if (isProvider()) {
+	if (isProvider() || isAdmin()) {
 		tableAction.icon.push({
 			action: (id: string) => {
 				navigate(`/issues/create/source/${id}`);
@@ -67,6 +56,16 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 			style: '',
 		});
 	}
+	tableAction.icon.push({
+		action: (id: string) => {
+			setResourceId(id);
+			setCrendentialType('source');
+			setIsOpen(true);
+			setModalId('source');
+		},
+		render: <CredentialIcon />,
+		style: '',
+	});
 	if (isAdmin() || isNormalUser()) {
 		tableAction.icon.push({
 			action: (id: string) => {
