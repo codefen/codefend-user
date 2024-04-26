@@ -472,7 +472,7 @@ export const defaultListLeadsColumns: ColumnTable[] = [
 	{
 		name: "website",	
 		value: "website",	
-		style: "full-name",	
+		style: "web-site",	
 	},
 	{
 		name: "size",	

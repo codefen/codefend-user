@@ -95,38 +95,61 @@ main.reseller {
 .reseller-tables {
 	display: flex;
 	flex-direction: column;
-}
-.table {
-	.area {
-		flex: 1 1 55px !important;
-		max-width: 55px;
+	margin-block-start: 2rem;
 
-		pre {
-			display: none;
+	.table {
+		.rows {
+			max-height: 70dvh;
 		}
-	}
-	.size {
-		flex: 1 1 100px !important;
-		max-width: 100px;
-	}
-	.company {
-		flex: 1 1 120px !important;
-		max-width: 120px;
-	}
-	.phone {
-		flex: 1 1 120px !important;
-		max-width: 120px;
-	}
-	.post {
-		min-width: 100px;
-		max-width: 100px;
-	}
-	.full-name {
-		max-width: none;
-	}
-	.location {
-		max-width: 170px;
-		min-width: 170px;
+		.area {
+			flex: 1 1 7% !important;
+			max-width: 7%;
+			min-width: 7%;
+
+			pre {
+				display: none;
+			}
+		}
+
+		.company {
+			flex: 1 1 14.33% !important;
+			margin-inline-end: 0.5rem;
+			min-width: 14.33%;
+			max-width: 14.33%;
+			text-overflow: ellipsis;
+			white-space: normal;
+			-webkit-line-clamp: 1;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+		}
+		.web-site {
+			max-width: 25%;
+			min-width: 25%;
+			margin-inline-end: 2%;
+		}
+		.size {
+			flex: 1 1 10% !important;
+			max-width: 10%;
+			margin-inline-end: 1%;
+		}
+		.full-name {
+			max-width: 14.33%;
+			min-width: 14.33%;
+			margin-inline-end: 1%;
+		}
+
+		.phone {
+			flex: 1 1 14.33% !important;
+			max-width: 14.33%;
+		}
+		.post {
+			min-width: 12%;
+			max-width: 12%;
+		}
+
+		.location {
+		}
 	}
 }
 

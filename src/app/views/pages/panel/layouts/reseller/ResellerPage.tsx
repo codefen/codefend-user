@@ -24,63 +24,36 @@ export const ResellerPage = () => {
 		useResellerOrders();
 
 	useEffect(() => {
-		getResellerProfile();
 		getResellerLeads();
-		getResellerCompanies();
-		getResellerOrders();
+		getResellerProfile();
+
+		let iframes = document.querySelectorAll('iframe');
+		iframes.forEach((iframe) => {
+			if (iframe.parentNode) {
+				iframe.parentNode.removeChild(iframe);
+			}
+		});
+		return () => {
+			let iframes = document.querySelectorAll('iframe');
+			iframes.forEach((iframe) => {
+				if (iframe.parentNode) {
+					iframe.parentNode.removeChild(iframe);
+				}
+			});
+		};
 	}, []);
 
-	const assets = [
-		{
-			value: '970',
-			title: 'Total companies',
-		},
-		{
-			value: '2650',
-			title: 'Total Users',
-		},
-		{
-			value: '1282',
-			title: 'Total Orders',
-		},
-	];
-	const location = [
-		{
-			serverCountryCode: 'sa',
-			serverCountry: 'Saudi Arabia',
-		},
-		{
-			serverCountryCode: 'ba',
-			serverCountry: 'Bahrain',
-		},
-		{
-			serverCountryCode: 'ua',
-			serverCountry: 'United Arab Emirates',
-		},
-		{
-			serverCountryCode: 'qt',
-			serverCountry: 'Qatar',
-		},
-		{
-			serverCountryCode: 'ku',
-			serverCountry: 'Kuwait',
-		},
-	];
 	return (
 		<main className={`reseller ${showScreen ? 'actived' : ''}`}>
 			<section className="left">
 				<ResellerHeader />
-				<div className="reseller-assets">
-					<ResellerAssetsStats assets={assets} assetsKey="left" />
-					<ResellerGraph />
-				</div>
 				<div className="reseller-tables">
 					<ResellerAllLeads leads={leads.current} />
 				</div>
 			</section>
 			<section className="right">
 				<NewLeadsData />
-				<ResellerByLocation locationResource={location} isLoading={false} />
+				<ResellerByLocation locationResource={[]} isLoading={false} />
 			</section>
 		</main>
 	);

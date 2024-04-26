@@ -25,7 +25,7 @@ export const ResellerAllLeads: FC<ResellerAllLeadsProps> = ({ leads }) => {
 					style: 'area',
 				},
 				company: { value: lead.company_name, style: 'company' },
-				website: { value: lead.company_web, style: 'full-name' },
+				website: { value: lead.company_web, style: 'web-site' },
 				size: { value: lead.company_size, style: 'size' },
 				fullname: {
 					value: `${lead.lead_fname} ${lead.lead_lname}`,

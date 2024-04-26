@@ -30,6 +30,7 @@ export const EMPTY_USER:User = {
 export const EMPTY_COMPANY = {
 	id: "",
 	name: "unknow",
+	sub_class: "",
 	web: "",
 	size: "",
 	pais_code: "",

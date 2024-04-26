@@ -1,4 +1,5 @@
 import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
+import useAdminCompanyStore from '@stores/adminCompany.store';
 import type { FC } from 'react';
 
 export interface ResellerHeaderProps {
@@ -18,13 +19,16 @@ export const ResellerHeader: FC<ResellerHeaderProps> = ({
 	currentBalance = 54000,
 	totalProfits = 577675,
 }) => {
+	const { companySelected } = useAdminCompanyStore((state) => state);
+
 	return (
 		<div className="reseller-header">
 			<div className="reseller-header-content">
 				<ProfileHeader
-					title="Al-bilad"
-					headline="www.al-bilad.com"
-					bottomText="exclusive distributor"
+					profileMedia={`data:image/png;base64,${companySelected.profile_media}`}
+					title={companySelected.name}
+					headline={companySelected.web}
+					bottomText={`${companySelected.sub_class} distributor`}
 				/>
 				<div className="reseller-extra-info">
 					<div>

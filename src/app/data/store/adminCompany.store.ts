@@ -8,6 +8,7 @@ export interface AdminCompany extends ID, Monitoring {
     web: string;
     size: string;
     pais_code: string;
+    sub_class: string;
 
     pais: string;
     pais_provincia: string;
@@ -56,6 +57,7 @@ const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=
         return {
             id: companyID,
             name: companyName,
+            sub_class: "",
             web: '',
             size: '',
             pais_code: '',
