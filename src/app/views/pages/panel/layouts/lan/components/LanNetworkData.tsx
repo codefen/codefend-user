@@ -16,12 +16,14 @@ import {
 	TableV2,
 	CredentialIcon,
 	Show,
+	BugIcon,
 } from '../../../../../components';
 
 import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useModalStore from '@stores/modal.store';
 import useCredentialStore from '@stores/credential.store';
+import { useNavigate } from 'react-router';
 
 interface LanNetworkDataProps {
 	isLoading: boolean;
@@ -34,6 +36,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 	internalNetwork,
 	refetchInternalNetwork,
 }) => {
+	const navigate = useNavigate();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
 	const { setCrendentialType, setResourceId } = useCredentialStore();
@@ -58,15 +61,14 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			action: {
 				value: (
 					<>
-						<Show when={isAdmin() || isNormalUser()}>
+						<Show when={isAdmin() || isProvider()}>
 							<span
-								title="Delete"
-								onClick={() => {
-									setSelectedLanIdToDelete(network.id);
-									setShowModal(!showModal);
-									setShowModalStr('delete_resource');
-								}}>
-								<TrashIcon />
+								className="issue-icon"
+								title={`${isNormalUser() ? '' : 'Add Issue'}`}
+								onClick={() =>
+									navigate(`/issues/create/lan/${network.id}`)
+								}>
+								<BugIcon isButton />
 							</span>
 						</Show>
 
@@ -80,6 +82,17 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 							}}>
 							<CredentialIcon />
 						</span>
+						<Show when={isAdmin() || isNormalUser()}>
+							<span
+								title="Delete"
+								onClick={() => {
+									setSelectedLanIdToDelete(network.id);
+									setShowModal(!showModal);
+									setShowModalStr('delete_resource');
+								}}>
+								<TrashIcon />
+							</span>
+						</Show>
 					</>
 				),
 				style: 'id action',
@@ -132,30 +145,46 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 												</div>
 											</div>
 											<div className="id action">
-												<Show when={isAdmin() || isNormalUser()}>
+												<div className="publish">
+													<Show when={isAdmin() || isProvider()}>
+														<span
+															className="issue-icon"
+															title={`${isNormalUser() ? '' : 'Add Issue'}`}
+															onClick={() =>
+																navigate(
+																	`/issues/create/lan/${netChild.id}`,
+																)
+															}>
+															<BugIcon isButton />
+														</span>
+													</Show>
+													<Show when={isAdmin() || isNormalUser()}>
+														<span
+															title="Delete"
+															onClick={() => {
+																setSelectedLanIdToDelete(
+																	netChild.id,
+																);
+																setShowModal(!showModal);
+																setShowModalStr(
+																	'delete_resource',
+																);
+															}}>
+															<TrashIcon />
+														</span>
+													</Show>
 													<span
-														title="Delete"
+														title="Add credentials"
 														onClick={() => {
-															setSelectedLanIdToDelete(
-																netChild.id,
-															);
-															setShowModal(!showModal);
-															setShowModalStr('delete_resource');
+															setResourceId(netChild.id);
+															setCrendentialType('lan');
+															setIsOpen(true);
+															setModalId('lan');
 														}}>
-														<TrashIcon />
+														<CredentialIcon />
 													</span>
-												</Show>
+												</div>
 											</div>
-											<span
-												title="Add credentials"
-												onClick={() => {
-													setResourceId(network.id);
-													setCrendentialType('lan');
-													setIsOpen(true);
-													setModalId('lan');
-												}}>
-												<CredentialIcon />
-											</span>
 										</a>
 									))
 								: null}
@@ -236,11 +265,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 				</div>
 
 				<TableV2
-					columns={
-						isProvider()
-							? lanResourcesTableWithoutAction
-							: lanResourcesTable
-					}
+					columns={lanResourcesTable}
 					rowsData={tableData2}
 					showRows={!isLoading}
 					showEmpty={!isLoading && internalNetwork.length === 0}
