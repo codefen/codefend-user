@@ -83,12 +83,6 @@ main.reseller {
 
 	.stats {
 		display: flex;
-		border: 1px solid var(--reseller-border-color);
-		height: fit-content;
-
-		.stat {
-			width: 135px;
-		}
 	}
 }
 
