@@ -88,52 +88,54 @@ const renderPercentage = (value: string, total: string) => {
 };
 
 /** Get resources  country locations and metric */
-export const getCountryMetrics = (resources: any[], type:string) => {
+export const getCountryMetrics = (resources: any[], type: string) => {
 	if (!resources) return [];
-	const domainsAndSubDomains = resources
-	.reduce((acc: any, resource: any) => {
-		if (!resource.childs) return acc; 
-		return acc.concat(resource.childs);
-	}, [])
-	.concat(resources);
+	const resourceFlat = resources
+		.reduce((acc: any, resource: any) => {
+			if (!resource.childs) return acc;
+			return acc.concat(resource.childs);
+		}, [])
+		.concat(resources);
+		
+	const dataToUse = type === 'web' ? resourceFlat : resources;
 
-	const countries = resources.reduce((acc: any, value: any) => {
+	const countries = dataToUse.reduce((acc: any, value: any) => {
 		let countryCode, countryName;
 
 		if (type === 'lead') {
-		  countryCode = value.lead_pais_code || null;
-		  countryName = value.lead_pais || null;
+			countryCode = value.lead_pais_code || null;
+			countryName = value.lead_pais || null;
 		} else if (type === 'web') {
-		  countryCode = value.serverCountryCode || null;
-		  countryName = value.serverCountry || null;
+			countryCode = value.serverCountryCode || null;
+			countryName = value.serverCountry || null;
 		} else {
-		  countryCode = value.pais_code || null;
-		  countryName = value.pais || null;
+			countryCode = value.pais_code || null;
+			countryName = value.pais || null;
 		}
 		if (!countryCode || countryCode === '-' || countryCode === 'unknown') {
-			if (!acc["unkw"]) {
-			  acc["unkw"] = {
-				count: 1,
-				country: "unknown",
-				countryCode: "unkw",
-				percentage: 1,
-			  };
+			if (!acc['unkw']) {
+				acc['unkw'] = {
+					count: 1,
+					country: 'unknown',
+					countryCode: 'unkw',
+					percentage: 1,
+				};
 			} else {
-			  acc["unkw"].count++;
+				acc['unkw'].count++;
 			}
-		  } else if (acc[countryCode]) {
+		} else if (acc[countryCode]) {
 			acc[countryCode].count++;
-		  } else {
+		} else {
 			acc[countryCode] = {
-			  count: 1,
-			  country: countryName,
-			  countryCode,
-			  percentage: 1,
+				count: 1,
+				country: countryName,
+				countryCode,
+				percentage: 1,
 			};
-		  }
+		}
 
-		  return acc;
-    }, {});
+		return acc;
+	}, {});
 
 	const total = Object.keys(countries).reduce(
 		(acc, value) => acc + countries[value].count,
@@ -179,64 +181,6 @@ export const getCompanyMetric = (resources: Webresources[], type: string) => {
 	}
 
 	return '';
-};
-
-/** Get resources  country locations and metric */
-const getResellerCountryMetrics = (resources: any[], type:string) => {
-	if (!resources) return [];
-
-    const countries = resources.reduce((acc: any, value: any) => {
-		let countryCode, countryName;
-
-		if (type === 'lead') {
-		  countryCode = value.lead_pais_code || null;
-		  countryName = value.lead_pais || null;
-		} else if (type === 'web') {
-		  countryCode = value.serverCountryCode || null;
-		  countryName = value.serverCountry || null;
-		} else {
-		  countryCode = value.pais_code || null;
-		  countryName = value.pais || null;
-		}
-		if (!countryCode || countryCode === '-' || countryCode === 'unknown') {
-			if (!acc["unkw"]) {
-			  acc["unkw"] = {
-				count: 1,
-				country: "unknown",
-				countryCode: "unkw",
-				percentage: 1,
-			  };
-			} else {
-			  acc["unkw"].count++;
-			}
-		  } else if (acc[countryCode]) {
-			acc[countryCode].count++;
-		  } else {
-			acc[countryCode] = {
-			  count: 1,
-			  country: countryName,
-			  countryCode,
-			  percentage: 1,
-			};
-		  }
-
-		  return acc;
-    }, {});
-
-    const total = Object.keys(countries).reduce(
-        (acc, value) => acc + countries[value].count,
-        0,
-    );
-
-    const data = Object.keys(countries).map((countryKey: any) => {
-        return {
-            ...countries[countryKey],
-            percentage:
-                Math.round((countries[countryKey].count / total) * 100 * 10) / 10,
-        };
-    });
-
-    return data;
 };
 
 export const MetricsService = {

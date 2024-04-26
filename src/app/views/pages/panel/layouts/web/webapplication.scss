@@ -5,6 +5,7 @@ main.webapp {
 		padding-inline-start: 0;
 		.table {
 			.rows {
+				max-height: 86dvh;
 				.action {
 					.publish {
 						overflow: visible;
@@ -40,12 +41,11 @@ main.webapp {
 		padding-inline: 0;
 		padding-inline-start: 1rem;
 		padding-inline-end: 1rem;
-		display: flex;
-		flex-direction: column;
-		row-gap: 1.115rem;
+		min-height: 100dvh;
+		height: 110%;
 
 		.btn.primary-full {
-			margin-block-start: 0;
+			margin-block: 1rem;
 		}
 	}
 	// .left {
