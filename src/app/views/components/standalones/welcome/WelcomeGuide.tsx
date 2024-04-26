@@ -39,6 +39,7 @@ enum WelcomeSteps {
 	RESELLER,
 	SUPPORT,
 	PREFERENCES,
+	NOTHING,
 }
 
 const getButtonCoordinates = (buttonId: string): HelperBoxCords => {
@@ -62,15 +63,26 @@ export interface WelcomeGuideProps {
 	closeGuide: () => void;
 }
 
+const defineInitialTour = (role: string) => {
+	if (role === 'admin') {
+		return WelcomeSteps.ADMIN;
+	} else if (role == 'provider') {
+		return WelcomeSteps.NOTHING;
+	} else if (role === 'reseller') {
+		return WelcomeSteps.NOTHING;
+	}
+	return WelcomeSteps.DASHBOARD;
+};
+
 export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	defaultOpenValue,
 	closeGuide,
 }) => {
-	const { isAdmin, isProvider } = useUserRole();
-	const [currentStep, setNextStep] = useState(
-		!isAdmin() ? WelcomeSteps.DASHBOARD : WelcomeSteps.ADMIN,
-	);
-
+	const { isAdmin, isProvider, isNormalUser, getRole } = useUserRole();
+	const [currentStep, setNextStep] = useState(defineInitialTour(getRole()));
+	if (defaultOpenValue && currentStep === WelcomeSteps.NOTHING) {
+		closeGuide();
+	}
 	return (
 		<Show when={defaultOpenValue}>
 			<div className="guide-container">
@@ -87,7 +99,11 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.DASHBOARD}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.DASHBOARD &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.WEB)}
@@ -100,7 +116,11 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.WEB}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.WEB &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.MOBILE)}
@@ -113,10 +133,14 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.MOBILE}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.MOBILE &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.CLOUD)}
+						next={() => setNextStep(WelcomeSteps.NET)}
 						coords={getButtonCoordinates('sidebar_mobile')}
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<MobileIcon />}
@@ -126,7 +150,28 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.CLOUD}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.NET &&
+						(isAdmin() || isNormalUser())
+					}>
+					<HelperBox
+						close={closeGuide}
+						next={() => setNextStep(WelcomeSteps.CLOUD)}
+						coords={getButtonCoordinates('sidebar_net')}
+						arrow={{ position: Position.LEFT, coordY: '5%' }}
+						icon={<LanIcon />}
+						text="From this section you can control all your network infrastructure, add network devices and IP addresses and unveil the security of these assets!"
+						title="scope: network resources"
+						highlight="Define and pentest your network infrastructure"
+					/>
+				</Show>
+
+				<Show
+					when={
+						currentStep === WelcomeSteps.CLOUD &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.SOURCE)}
@@ -139,7 +184,11 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.SOURCE}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.SOURCE &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.SOCIAL)}
@@ -152,10 +201,14 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.SOCIAL}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.SOCIAL &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.NET)}
+						next={() => setNextStep(WelcomeSteps.ISSUES)}
 						coords={getButtonCoordinates('sidebar_social')}
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<PeopleGroupIcon />}
@@ -165,20 +218,11 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.NET}>
-					<HelperBox
-						close={closeGuide}
-						next={() => setNextStep(WelcomeSteps.ISSUES)}
-						coords={getButtonCoordinates('sidebar_net')}
-						arrow={{ position: Position.LEFT, coordY: '5%' }}
-						icon={<LanIcon />}
-						text="From this section you can control all your network infrastructure, add network devices and IP addresses and unveil the security of these assets!"
-						title="scope: network resources"
-						highlight="Define and pentest your network infrastructure"
-					/>
-				</Show>
-
-				<Show when={currentStep === WelcomeSteps.ISSUES}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.ISSUES &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.SUPPORT)}
@@ -204,7 +248,11 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show> */}
 
-				<Show when={currentStep === WelcomeSteps.SUPPORT}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.SUPPORT &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
 						next={() => setNextStep(WelcomeSteps.PREFERENCES)}
@@ -217,7 +265,11 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 					/>
 				</Show>
 
-				<Show when={currentStep === WelcomeSteps.PREFERENCES}>
+				<Show
+					when={
+						currentStep === WelcomeSteps.PREFERENCES &&
+						(isAdmin() || isNormalUser())
+					}>
 					<HelperBox
 						close={closeGuide}
 						next={closeGuide}

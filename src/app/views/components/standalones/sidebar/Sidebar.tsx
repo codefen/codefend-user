@@ -70,10 +70,10 @@ const Sidebar: FC = () => {
 			haveAccess: isAdmin() || isProviderWithAccess,
 		},
 		{
-			title: 'Reseller',
-			id: 'sidebar_reseller',
+			title: 'Leads',
+			id: 'sidebar_leads',
 			icon: <ProfileIcon isVisible />,
-			to: '/reseller',
+			to: '/leads',
 			root: isReseller(),
 			haveAccess: isReseller(),
 		},

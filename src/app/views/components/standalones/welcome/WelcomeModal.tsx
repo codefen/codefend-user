@@ -2,6 +2,7 @@ import { type FC, lazy } from 'react';
 import { ModalWrapper, PrimaryButton, Show } from '../../';
 import './welcome.scss';
 import { Link } from 'react-router-dom';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
@@ -16,6 +17,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 	closeModal,
 	startGuide,
 }) => {
+	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
 	return (
 		<Show when={defaultOpenValue}>
 			<ModalWrapper action={closeModal} type="max-w">
@@ -57,27 +59,39 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 									</Link>
 								</li>
 							</ul>
-							<p className="take-guide">
-								<b>Let's take a 2 minutes tour</b> across the
-								application in order to explore the most relevant
-								codefend features and capabilities!
-							</p>
+							<Show when={isAdmin() || isNormalUser()}>
+								<p className="take-guide">
+									<b>Let's take a 2 minutes tour</b> across the
+									application in order to explore the most relevant
+									codefend features and capabilities!
+								</p>
+							</Show>
 						</div>
 					</div>
 
 					<div className="welcome-btns">
-						<PrimaryButton
-							buttonStyle="gray"
-							text="Cancel tour"
-							disabledLoader
-							click={closeModal}
-						/>
-						<PrimaryButton
-							buttonStyle="red"
-							text="Start tour"
-							disabledLoader
-							click={startGuide}
-						/>
+						<Show when={isAdmin() || isNormalUser()}>
+							<PrimaryButton
+								buttonStyle="gray"
+								text="Cancel tour"
+								disabledLoader
+								click={closeModal}
+							/>
+							<PrimaryButton
+								buttonStyle="red"
+								text="Start tour"
+								disabledLoader
+								click={startGuide}
+							/>
+						</Show>
+						<Show when={isProvider() || isReseller()}>
+							<PrimaryButton
+								buttonStyle="red"
+								text="Close"
+								disabledLoader
+								click={closeModal}
+							/>
+						</Show>
 					</div>
 				</div>
 			</ModalWrapper>
