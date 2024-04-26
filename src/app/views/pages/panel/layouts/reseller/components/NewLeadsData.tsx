@@ -28,13 +28,13 @@ export const NewLeadsData: FC<NewLeadsDataProps> = ({ leads }) => {
 						/>
 						<StatAsset
 							value={`${Math.round((totalVerified / totalLeads) * 100)}%`}
-							valueTitle={'Email verified'}
+							valueTitle={'Users Created'}
 							isActive={assetActive === 1}
 							onClick={() => setAssetActive(1)}
 						/>
 						<StatAsset
 							value={`${Math.round(((totalLeads - totalVerified) / totalLeads) * 100)}%`}
-							valueTitle={'Failed to verify'}
+							valueTitle={'Fail to convert'}
 							isActive={assetActive === 2}
 							onClick={() => setAssetActive(2)}
 						/>
