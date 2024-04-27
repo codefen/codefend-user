@@ -123,6 +123,9 @@ section.access {
 			}
 		}
 
+		.btn {
+			width: 140px;
+		}
 		form {
 			.input-group {
 				margin-block-start: 0.5rem;
@@ -211,7 +214,7 @@ form.signup-confirm {
 		margin-block-start: 1.5rem;
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: flex-start;
 		column-gap: 1rem;
 
 		button {
