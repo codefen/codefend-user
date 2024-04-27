@@ -54,7 +54,7 @@
 				left: 11%;
 
 				img {
-					min-width: 130%;
+					// min-width: 130%;
 				}
 			}
 		}
@@ -122,12 +122,14 @@ section.access {
 		span {
 			font-size: 1.125rem /* 18px */;
 			line-height: 1.75rem /* 28px */;
-
+			color: var(--tertiary-color-300);
 			padding-block: 3px;
-			padding-inline: 0;
-			border-bottom: 3px solid #6f6f6f;
+			padding-inline: 10px;
+			border-bottom: 3px solid #e3e3e3;
+			// opacity: .8;
 
 			&.active {
+				opacity: 1;
 				color: var(--secondary-color-50);
 				border-bottom: 3px solid var(--secondary-color-50);
 			}
