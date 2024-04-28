@@ -17,7 +17,7 @@ const CompanyCard: FC<CompanyCard> = ({ company, isSelected }) => {
 							when={!company.profile_media}
 							fallback={
 								<img
-									src=""
+									src={`data:image/png;base64,${company.profile_media}`}
 									alt="company-icon"
 									decoding="async"
 									loading="lazy"

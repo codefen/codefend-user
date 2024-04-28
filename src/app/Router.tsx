@@ -15,29 +15,20 @@ import {
 	CloudApplicationPanel,
 	SourceCodePanel,
 	SocialEngineeringPanel,
-	EnpPanel,
-	EnpSingle,
 	SupportPanel,
 	PreferencePanel,
-	InxPanel,
-	SnsPanel,
-	VdbPanel,
-	IssuePage,
-	IssuesPanel,
-	IssuesCreation,
-	IssuesUpdate,
 	AdminPage,
-	AdminUser,
 	AdminCompany,
+	ResellerLeadsLayout,
+	ResellerUsersLayout,
+	LanPage,
+	ProviderPage,
+	ProfileProviderLayout,
+	OrdersReviewProviders,
 } from './views/pages';
 import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from '@modals/reports/PageReport.tsx';
-import { ProviderPage } from './views/pages/panel/layouts/providers/ProviderPanel';
-import { ProfileProviderLayout } from './views/pages/panel/layouts/providers/layouts/profile-provider/ProfileProviderLayout';
-import { OrdersReviewProviders } from './views/pages/panel/layouts/providers/layouts/orders-provider/OrdersProviderLayout';
-import { ResellerLeadsLayout } from './views/pages/panel/layouts/reseller/layouts/ResellerLeadsLayout';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
-import LanPage from './views/pages/panel/layouts/lan/Lan';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import { PasswordRecovery } from './views/pages/auth/layouts/PasswordRecovery';
 import { TermsAndCondition } from './views/pages/help-center/TermsAndCondition';
@@ -45,21 +36,28 @@ import { HelpCenter } from './views/pages/help-center/HelpCenter';
 import { SecurityAndPrivacyPolicy } from './views/pages/help-center/SecurityAndPrivacyPolicy';
 import { HelpNotfound } from './views/pages/help-center/HelpNotfound';
 import { InvitationSignup } from './views/pages/auth/layouts/InvitationSignup';
-import { ResellerUsersLayout } from './views/pages/panel/layouts/reseller/layouts/ResellerUsersLayout';
+import {
+	IssuePage,
+	IssuesCreation,
+	IssuesPanel,
+	IssuesUpdate,
+} from './views/pages/panel/layouts/issues';
 
 export const AppRouter: React.FC = () => {
 	const {
 		isAdmin,
 		isProvider,
 		isReseller,
+		isNormalUser,
 		getAccessToken,
 		isCurrentAuthValid,
 	} = useUserRole();
 	const { companies } = useAdminCompanyStore();
 	const haveAccessToResources = !isProvider() && !isReseller();
-	const haveAccessToModules = !isProvider() && !isReseller();
 	const haveAccessToSupport = !isProvider() && !isReseller();
 	const haveAccessToCreateIssue = isProvider() || isAdmin();
+	const allRolesLoggedIn =
+		isProvider() || isReseller() || isAdmin() || isNormalUser();
 	const isProviderWithAccess =
 		isProvider() && companies.length > 0 && companies[0] !== null;
 
@@ -219,7 +217,7 @@ export const AppRouter: React.FC = () => {
 							</>
 						)}
 					</Route>
-					{haveAccessToResources && (
+					{allRolesLoggedIn && (
 						<Route path="report/*" element={<PageReport />}>
 							<Route index element={<PageReport />}></Route>
 						</Route>

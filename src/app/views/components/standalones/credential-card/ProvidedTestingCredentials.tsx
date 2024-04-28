@@ -39,38 +39,36 @@ export const ProvidedTestingCredentials: FC<
 				isOpen={viewMore.open}
 			/>
 			<div className="card user-list">
-				<div className="over">
-					<div className="header">
-						<div className="title">
-							<div className="icon">
-								<ChartIcon />
-							</div>
-							<span>provided testing credentials</span>
+				<div className="header">
+					<div className="title">
+						<div className="icon">
+							<ChartIcon />
 						</div>
+						<span>provided testing credentials</span>
+					</div>
 
-						<div className="actions">
-							<div onClick={handleOpen}>Add Credentials</div>
-						</div>
+					<div className="actions">
+						<div onClick={handleOpen}>Add Credentials</div>
 					</div>
-					<div className="list">
-						<Show when={!isLoading && credentials.length !== 0}>
-							{credentials.map((cred: any, i: number) => (
-								<TestingCredentialCard
-									key={`${cred.id}-${i}`}
-									username={cred.username || cred.email || '---'}
-									password={cred.password || '---'}
-									accessLVL={cred.access_level || 'Unknown'}
-									info={cred.info || ''}
-									viewInfo={() =>
-										setViewMore({ id: cred.id, open: true })
-									}
-								/>
-							))}
-						</Show>
-						<Show when={!isLoading && credentials.length === 0}>
-							<EmptyCard />
-						</Show>
-					</div>
+				</div>
+				<div className="list">
+					<Show when={!isLoading && credentials.length !== 0}>
+						{credentials.map((cred: any, i: number) => (
+							<TestingCredentialCard
+								key={`${cred.id}-${i}`}
+								username={cred.username || cred.email || '---'}
+								password={cred.password || '---'}
+								accessLVL={cred.access_level || 'Unknown'}
+								info={cred.info || ''}
+								viewInfo={() =>
+									setViewMore({ id: cred.id, open: true })
+								}
+							/>
+						))}
+					</Show>
+					<Show when={!isLoading && credentials.length === 0}>
+						<EmptyCard />
+					</Show>
 				</div>
 			</div>
 		</>

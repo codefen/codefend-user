@@ -28,7 +28,7 @@
 		padding-inline: 1.25rem;
 		transition:
 			color,
-			background 500ms linear;
+			background 275ms linear;
 
 		.title {
 			display: flex;
@@ -83,7 +83,7 @@
 
 	&.location-card {
 		.rows {
-			max-height: 25rem;
+			max-height: 18.5rem;
 		}
 	}
 
@@ -726,7 +726,7 @@
 			border: none;
 			transition:
 				color,
-				background 700ms linear;
+				background 275ms linear;
 			background: #0d141b59;
 		}
 

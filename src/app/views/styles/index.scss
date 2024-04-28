@@ -279,6 +279,12 @@ main.cloud {
 			margin-block-end: 0.25rem;
 			// flex: 1 1 8.75%;
 			border: 0px;
+
+			&.cloud-apps {
+				.header {
+					height: 2.9rem;
+				}
+			}
 		}
 		.search-app {
 			width: 100%;
@@ -308,13 +314,18 @@ main.cloud {
 			flex: 1 1 90%;
 			row-gap: 0.938rem;
 			width: 100%;
-			overflow-y: auto;
-			overflow-x: hidden;
 			padding-inline-end: 10px;
+			overflow-y: auto;
+			max-height: 74dvh;
 
 			.app-info {
 				cursor: pointer;
 				height: fit-content;
+				background: linear-gradient(
+					130deg,
+					var(--primary-color),
+					var(--primary-color-200)
+				);
 			}
 		}
 
@@ -336,11 +347,13 @@ main.cloud {
 		scrollbar-width: none;
 		overflow-y: auto;
 		overflow-x: hidden;
-		padding-inline-end: 10px;
 		min-height: 100dvh;
 		max-height: 0%;
 		height: auto;
 		scrollbar-gutter: stable;
+		box-shadow: var(--right-pane-shadow);
+		padding-inline-end: 12px;
+		padding-inline-start: 14px;
 
 		&::-moz-scrollbar {
 			width: 0px;
@@ -384,7 +397,6 @@ main.cloud {
 				align-self: stretch;
 				flex: 0.5 0.5 49%;
 				width: 49%;
-				padding-inline-end: 10px;
 
 				.card.stats {
 					.content {

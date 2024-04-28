@@ -6,7 +6,7 @@ import { useResellerUsers } from '@userHooks/resellers/useResellerUsers';
 import { ResellerAllUser } from '../components/ResellerAllUser';
 import '../reseller.scss';
 
-export const ResellerUsersLayout = () => {
+const ResellerUsersLayout = () => {
 	const [showScreen] = useShowScreen();
 
 	const [users, { getResellerUsers, isLoading }] = useResellerUsers();
@@ -34,3 +34,4 @@ export const ResellerUsersLayout = () => {
 		</main>
 	);
 };
+export default ResellerUsersLayout;
