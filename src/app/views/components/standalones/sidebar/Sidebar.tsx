@@ -19,6 +19,8 @@ import {
 	ProviderOrdersIcon,
 	LanIcon,
 	WorksIcon,
+	LeadIcon,
+	UsersIcon,
 } from '@icons';
 
 import usePanelStore from '@stores/panel.store.ts';
@@ -72,7 +74,7 @@ const Sidebar: FC = () => {
 		{
 			title: 'Leads',
 			id: 'sidebar_leads',
-			icon: <ProfileIcon isVisible />,
+			icon: <LeadIcon isVisible />,
 			to: '/reseller/leads',
 			root: isReseller(),
 			haveAccess: isReseller(),
@@ -80,7 +82,7 @@ const Sidebar: FC = () => {
 		{
 			title: 'Users',
 			id: 'sidebar_users',
-			icon: <ProfileIcon isVisible />,
+			icon: <UsersIcon isVisible />,
 			to: '/reseller/users',
 			root: false,
 			haveAccess: isReseller(),
