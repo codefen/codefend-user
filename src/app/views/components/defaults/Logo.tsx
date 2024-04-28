@@ -16,6 +16,7 @@ const Logo = ({ theme, onClick }: LogoProps) => {
 			path: '/codefend/logo-dark.svg',
 		},
 		shadow: { path: '/codefend/logo-shadow.png' },
+		inshadow: { path: '/codefend/logo-inshadow.png' },
 		aim: { path: '/codefend/aim-light.svg' },
 		aimColor: { path: '/codefend/pentest-header-vector.svg' },
 	};

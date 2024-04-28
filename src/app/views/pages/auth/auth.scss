@@ -1,98 +1,5 @@
 @use '../../styles/settings/mixin' as mixin;
 
-.codefend-img-bg {
-	position: fixed;
-	top: 0;
-	left: 0;
-	min-width: 100dvw;
-	min-height: 100dvh;
-	z-index: 0;
-	background-position: center;
-	background-size: cover;
-	background: rgb(253, 253, 253);
-	background: -moz-linear-gradient(
-		150deg,
-		rgba(253, 253, 253, 1) 11%,
-		rgba(255, 255, 255, 1) 48%,
-		rgba(250, 250, 250, 1) 89%
-	);
-	background: -webkit-linear-gradient(
-		150deg,
-		rgba(253, 253, 253, 1) 11%,
-		rgba(255, 255, 255, 1) 48%,
-		rgba(250, 250, 250, 1) 89%
-	);
-	background: linear-gradient(
-		150deg,
-		rgba(253, 253, 253, 1) 11%,
-		rgba(255, 255, 255, 1) 48%,
-		rgba(250, 250, 250, 1) 89%
-	);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fdfdfd", endColorstr="#fafafa", GradientType=1);
-	background-repeat: no-repeat;
-	background-image: url('/codefend/access-bkg.webp');
-	background-size: cover;
-
-	@include mixin.respond(small) {
-		display: none;
-	}
-
-	.brand-img {
-		top: 40%;
-		position: absolute;
-		left: 10%;
-
-		img {
-			min-width: 0;
-			object-fit: cover;
-			object-position: center;
-			overflow: hidden;
-		}
-
-		@include mixin.minScreen(1640px) {
-			& {
-				left: 11%;
-
-				img {
-					min-width: 130%;
-				}
-			}
-		}
-		@include mixin.minScreen(2020px) {
-			& {
-				left: 13%;
-				img {
-					min-width: 150%;
-				}
-			}
-		}
-
-		@include mixin.respond(lmedium) {
-			& {
-				left: 5%;
-
-				img {
-					width: 83%;
-				}
-			}
-		}
-
-		@include mixin.respond(xmedium) {
-			img {
-				width: 68%;
-			}
-		}
-	}
-}
-
-.xcodefend-img-bg {
-	display: none;
-
-	@include mixin.respond(small) {
-		display: flex;
-		justify-content: center;
-	}
-}
 
 section.access {
 	min-width: 100dvw;
@@ -100,72 +7,101 @@ section.access {
 	position: relative;
 	z-index: 1;
 	color: #222222;
+	background: rgb(150,12,12);
+	background: linear-gradient(294deg, rgb(150, 12, 12) 70%, rgb(208, 5, 5) 90%);
 
-	.container {
-		min-height: 100dvh;
-		min-width: 100dvw;
-
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-
-		@include mixin.respond(small) {
-			display: block;
-		}
+	
+	.bkg {
+		background-repeat: no-repeat;
+		background-image: url('/codefend/access-bkg.png');
+		background-size: auto 100vh;
+		// background-size: contain;
+		background-position: 70%;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		
 	}
-
-	.nav {
-		display: flex;
-		margin-block-end: 20px;
-		column-gap: 1.25rem /* 20px */;
-
-		span {
-			font-size: 1.125rem /* 18px */;
-			line-height: 1.75rem /* 28px */;
-
-			padding-block: 3px;
-			padding-inline: 0;
-			border-bottom: 3px solid #6f6f6f;
-
-			&.active {
-				color: var(--secondary-color-50);
-				border-bottom: 3px solid var(--secondary-color-50);
-			}
-		}
-	}
+	
 
 	.brand {
-		padding-block: 30px;
-		padding-inline: 140px;
-		flex-grow: 1;
-		max-width: 740px;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		user-select: none;
-		min-width: 54%;
+		position: absolute;
+		right: 60vw;
+		top: 27vh;
+		z-index: 10;
+		width: 800px;
+		max-width: 35vw;
 
 		@include mixin.respond(small) {
 			display: none;
 		}
+		span {
+			position: absolute;
+			right: 4%;
+			bottom: 10%;
+			color: #ffffff;
+			font-size: 0.8vw;
+			opacity: 0.8;
+		}
+		.brand-img {
+			// max-width: 350px;
+		}
 	}
 
 	.forms {
-		min-width: 40%;
-		min-height: 100dvh;
-
+		width: 100%;
+		width: 45vw;
+		max-width: 700px;
+		// min-width: 500px;
+		// height: 90vh;
+		// min-height: 0vh;
+		// top: 50%;
+		// transform: translateY(-50%);
+		top: 5vh;
+		bottom: 5vh;
+		right: 5vw;
+		box-shadow: 0px 0px 30px #00000060;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		flex-grow: 1;
-
 		padding-block: 27px;
-		padding-inline: 75px;
+		padding-inline: 65px;
+		z-index: 10;
+		position: absolute;
+		border-radius: 10px;
 
 		background-color: var(--primary-color);
+		overflow: auto;
 
 		@include mixin.respond(lmedium) {
 			padding-inline: 35px;
 		}
+
+		.nav {
+			display: flex;
+			margin-block-end: 20px;
+			column-gap: 1.25rem /* 20px */;
+	
+			span {
+				font-size: 1.125rem /* 18px */;
+				line-height: 1.75rem /* 28px */;
+				color: var(--tertiary-color-300);
+				padding-block: 3px;
+				padding-inline: 10px;
+				border-bottom: 3px solid #e3e3e3;
+				// opacity: .8;
+	
+				&.active {
+					opacity: 1;
+					color: var(--secondary-color-50);
+					border-bottom: 3px solid var(--secondary-color-50);
+				}
+			}
+		}
+
 
 		.link {
 			font-size: 0.875rem /* 14px */;
@@ -187,6 +123,9 @@ section.access {
 			}
 		}
 
+		.btn {
+			width: 140px;
+		}
 		form {
 			.input-group {
 				margin-block-start: 0.5rem;
@@ -275,7 +214,7 @@ form.signup-confirm {
 		margin-block-start: 1.5rem;
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: flex-start;
 		column-gap: 1rem;
 
 		button {
