@@ -72,7 +72,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 
 				<div className="work-buttons">
 					<div
-						className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
+						className={`save action-btn ${isEditable ? 'on' : 'off'}`}
 						onClick={() => handleIssueUpdate(isEditable, save)}>
 						<SaveIcon isButton />
 					</div>
@@ -94,7 +94,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 					</div>
 				) : null}
 				<div className="issue-detail-select">
-					<p className="pr-2">Class:</p>
+					Class:
 					<select
 						onChange={handleChange}
 						className={`log-inputs ${shouldDisableClass && 'opacity-50'}`}
@@ -116,7 +116,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 				</div>
 
 				<div className="issue-detail-select">
-					<p className="pr-2">Risk score:</p>
+					Risk score:
 					<select
 						onChange={handleChange}
 						className="py-3  focus:outline-none log-inputs"

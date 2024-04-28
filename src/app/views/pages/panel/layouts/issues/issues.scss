@@ -6,6 +6,7 @@ main.issue-detail {
 	padding-inline-start: 75px;
 
 	.left {
+		gap: 0px;
 		> div {
 			border-left: 1px solid var(--primary-color-300);
 			border-right: 1px solid var(--primary-color-300);
@@ -13,6 +14,7 @@ main.issue-detail {
 		.header {
 			display: flex;
 			align-items: stretch;
+			border-top: 1px solid var(--primary-color-300);
 			border-bottom: 1px solid var(--primary-color-300);
 			background-color: var(--primary-color);
 			font-family: Roboto;
@@ -30,7 +32,7 @@ main.issue-detail {
 			.back {
 				transition: all 0.2s;
 				border-right: 1px solid var(--primary-color-300);
-				border-top: 1px solid var(--primary-color-300);
+				// border-top: 1px solid var(--primary-color-300);
 
 				&:hover {
 					background-color: var(--primary-color-400);
@@ -39,15 +41,24 @@ main.issue-detail {
 
 			input {
 				height: 100%;
+				flex: 1;
+				width: 90%;
+				height: 100%;
+				border: none;
 
 				&.grow {
 					flex: 1 1;
 				}
+				
+				&:focus {
+					border: none !important;
+				}
 
 				&.add-issues {
-					flex: 1;
-					width: 90%;
-					height: 100%;
+					// flex: 1;
+					// width: 90%;
+					// height: 100%;
+					// border-bottom: none;
 				}
 			}
 
@@ -56,7 +67,7 @@ main.issue-detail {
 				font-weight: 700;
 				font-size: 14px;
 				border-right: none;
-				border-top: 1px solid var(--primary-color-300);
+				// border-top: 1px solid var(--primary-color-300);
 
 				flex: 1 1;
 			}
@@ -66,15 +77,8 @@ main.issue-detail {
 				padding: 0px !important;
 			}
 
-			.edit {
-				margin-left: auto;
-				border-left: 1px solid var(--primary-color-300);
-				transition: all 0.2s;
-				color: var(--secondary-color-50);
-				border-top: 1px solid var(--primary-color-300);
-
-				&_btn {
-					cursor: pointer;
+			.action-btn {
+				cursor: pointer;
 					display: flex;
 					align-items: center;
 					justify-content: center;
@@ -82,22 +86,31 @@ main.issue-detail {
 					height: 100%;
 					width: 45px;
 					padding: 0;
-				}
+			}
+
+			.edit {
+				margin-left: auto;
+				color: var(--secondary-color-300);
+				border-left: 1px solid var(--primary-color-300);
+				transition: all 0.2s;
 
 				&.on {
-					color: var(--primary-color);
-					background-color: var(--tertiary-color-700);
-					border-color: var(--tertiary-color-700);
+					color: var(--secondary-color-50);
+					background-color: var(--primary-color-200);
 
 					&:hover {
-						background-color: var(--tertiary-color-400);
-						border-color: var(--tertiary-color-400);
+						color: var(--secondary-color-50);
+						background-color: var(--primary-color-200);
 					}
 				}
 
 				&:hover {
-					background-color: var(--primary-color-400);
-					border-color: var(--primary-color-400);
+					color: var(--secondary-color-50);
+					background-color: var(--primary-color-200);
+					svg {
+						transform: scale(1.1);
+						transition: all 0.1s;
+					}
 				}
 			}
 
@@ -105,23 +118,28 @@ main.issue-detail {
 				cursor: pointer;
 				border-right: 0px;
 				transition: all 0.2s;
-				color: var(--secondary-color-50);
-				border-top: 1px solid var(--primary-color-300);
+				color: var(--secondary-color-300);
+				max-width: 0px;
+				overflow: hidden;
 
 				&.on {
-					color: var(--primary-color);
-					background-color: var(--secondary-color-50);
-					border-color: var(--secondary-color-50);
+					color: var(--secondary-color-50);
+					background-color: var(--primary-color-500);
+					max-width: 50px;
 
 					&:hover {
-						background-color: var(--secondary-color-300);
-						border-color: var(--secondary-color-300);
+						color: var(--secondary-color-50);
+						background-color: var(--primary-color-500);
 					}
 				}
 
 				&:hover {
-					background-color: var(--primary-color-400);
-					border-color: var(--primary-color-400);
+					color: var(--secondary-color-50);
+					background-color: var(--primary-color-500);
+					svg {
+						transition: all 0.1s;
+						transform: scale(1.1);
+					}
 				}
 			}
 
@@ -144,18 +162,34 @@ main.issue-detail {
 
 			select {
 				color: var(--tertiary-color-300);
+				height: 100%;
+				border: none;
+				background: none;
+				padding-left: 5px;
 			}
 			input[type='number'] {
 				margin: 0;
 				width: 53%;
 				padding-inline: 1rem;
+				background: none;
+				font-family: Roboto;
+				text-transform: uppercase;
+				font-size: 13px;
+				font-weight: bold;
+				font-weight: normal;
+				border: none;
 
 				&.off {
 					color: var(--tertiary-color-300);
-					font-weight: normal;
+					font-weight: bold;
 					outline: none;
-					height: 100%;
+					// height: 100%;
 					border: 0;
+					font-size: 11px;
+				}
+				&:focus {
+					border: none !important;
+					color: var(--secondary-color-50);
 				}
 			}
 
@@ -167,7 +201,9 @@ main.issue-detail {
 			.issue-detail-select {
 				display: flex;
 				align-items: center;
-				padding-inline-end: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				// padding-inline-end: 0;
 
 				&.select-resource {
 					width: fit-content;
@@ -176,7 +212,8 @@ main.issue-detail {
 
 				p,
 				label {
-					padding-inline: 0.75rem;
+					// padding-inline: 15px;
+					white-space: nowrap;
 				}
 			}
 
@@ -190,6 +227,7 @@ main.issue-detail {
 				font-weight: bolder;
 				color: var(--secondary-color-50);
 				padding-right: 25px;
+				white-space: nowrap;
 
 				span {
 					color: var(--tertiary-color-300);
@@ -308,32 +346,25 @@ main.issues-list {
 		filter: blur(7.5rem) brightness(0.5) opacity(0.4);
 	}
 
-	main.issues-list {
+	main.issue-detail {
 		.left {
 			.header {
-				.save {
+				.edit {
 					&.on {
+						// background: none !important;
 						color: var(--tertiary-color-50);
 					}
 				}
-			}
-		}
-
-		.right {
-			// box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
-
-			.card.stats {
-				.content {
-					.stat {
-						background-color: transparent;
+				.save {
+					&.on {
+						// background: none !important;
+						color: var(--secondary-color-50);
 					}
 				}
 			}
-		}
-	}
-	main.issue-detail {
-		.info {
-			background: rgba(18, 26, 35, 0.3);
+			.info {
+				background: rgba(18, 26, 35, 0.3);
+			}
 		}
 	}
 }
