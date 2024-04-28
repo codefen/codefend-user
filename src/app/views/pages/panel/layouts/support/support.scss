@@ -18,17 +18,17 @@ main.support {
 		}
 	}
 	.right {
-		width: 35%;
-		display: flex;
-		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-		margin-inline-start: 10px;
-		padding-inline-end: 0;
+		// width: 35%;
+		// display: flex;
+		// box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
+		// margin-inline-start: 10px;
+		// padding-inline-end: 0;
 	}
-	&.actived {
-		.right {
-			padding-block-start: 50px;
-		}
-	}
+	// &.actived {
+	// 	.right {
+	// 		padding-block-start: 50px;
+	// 	}
+	// }
 	.form-input {
 		textarea.text-area-input {
 			padding-inline-start: 1.5rem !important;
