@@ -166,10 +166,9 @@ main {
 		padding: 0 14px 0 20px;
 		height: 100%;
 		box-shadow: var(--right-pane-shadow);
-
-		.btn.primary-full {
-			margin-block: 1rem;
-		}
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
 	}
 	// @include mixin.respond(small) {
 	// 	display: block;
