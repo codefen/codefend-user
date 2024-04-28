@@ -48,7 +48,6 @@ const SourceCodePanel: FC = () => {
 						/>
 					) : null}
 
-					<br />
 					<SourceCodeCollab />
 				</section>
 			</main>
