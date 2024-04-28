@@ -163,8 +163,10 @@ main {
 	}
 	.right {
 		flex: 1 1 30%;
-		padding: 0 14px 0 0;
+		padding: 0 14px 0 20px;
 		height: 100%;
+		box-shadow: var(--right-pane-shadow);
+
 	}
 	@include mixin.respond(small) {
 		display: block;
@@ -195,9 +197,9 @@ main {
 	// color: var(--primary-color-100);
 
 	padding-inline-start: calc(var(--sidebar-width) + 20px);
-	padding-inline-end: 0.938rem;
+	// padding-inline-end: 0.938rem;
 	padding-block-start: 3dvw;
-	padding-block-end: 0.938rem;
+	// padding-block-end: 0.938rem;
 
 	margin-block-start: var(--navbar-height);
 

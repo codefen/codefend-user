@@ -89,7 +89,15 @@ const Navbar: FC = () => {
 					</div>
 					<Breadcrumb root="Codefend" rootAction={rootAction} />
 					<div className="actions">
-						{true && (
+						
+
+						
+					</div>
+				</div>
+
+				<div className="right">
+					<div className="actions">
+					{true && (
 							<div
 								className="action"
 								title="Network settings"
@@ -100,13 +108,6 @@ const Navbar: FC = () => {
 								<span>{baseApiName}</span>
 							</div>
 						)}
-
-						<ThemeChangerButton />
-					</div>
-				</div>
-
-				<div className="right">
-					<div className="actions">
 						<div className="user action" ref={userRef}>
 							<span className="email">
 								{userData.email || 'not-found'}
@@ -118,7 +119,7 @@ const Navbar: FC = () => {
 								closeMenu={() => setMenuOpen(false)}
 							/>
 						</div>
-
+						<ThemeChangerButton />
 						<div
 							className="action logout"
 							title="Logout"
