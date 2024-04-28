@@ -11,6 +11,7 @@
 		border 500ms linear;
 	width: 100%;
 	background-color: var(--primary-color);
+	border-radius: 3px;
 
 	.header {
 		height: 2.5rem;
@@ -91,14 +92,14 @@
 		.content {
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
+			justify-content: space-evenly;
 			padding: 1.485rem;
-			column-gap: 1dvw;
+			gap: 1dvw;
 
 			.chart {
 				flex-grow: 0.3;
 				max-width: 15%;
-				min-width: 3.75rem;
+				min-width: 170px;
 
 				canvas {
 					width: 100% !important;
@@ -108,13 +109,16 @@
 
 			.table {
 				flex-grow: 0.7;
-				max-width: 70%;
+				// max-width: 70%;
 
 				.rows .item {
 					&:hover {
 						color: var(--secondary-color-200);
 					}
 				}
+			}
+			@include mixin.respond(large) {
+				flex-direction: column;
 			}
 		}
 	}
@@ -402,7 +406,7 @@
 					max-height: 3rem;
 					overflow: hidden;
 					font-size: 14px;
-					line-height: 1.25rem;
+					line-height: 1.5rem;
 					margin: 0;
 					text-wrap: pretty;
 

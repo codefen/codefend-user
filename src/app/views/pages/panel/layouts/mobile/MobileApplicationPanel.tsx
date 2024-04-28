@@ -43,7 +43,9 @@ const MobileApplicationPanel: React.FC = () => {
 			<ModalTitleWrapper
 				isActive={showModal}
 				headerTitle="Add mobile app"
-				close={() => setShowModal(false)}>
+				close={() => setShowModal(false)}
+				type="med-w"
+				>
 				<AddMobileModal
 					onDone={refresh}
 					close={() => setShowModal(false)}

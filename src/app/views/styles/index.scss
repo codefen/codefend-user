@@ -160,6 +160,9 @@ main {
 		flex: 1 1 70%;
 		padding: 0 14px;
 		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
 	}
 	.right {
 		flex: 1 1 30%;

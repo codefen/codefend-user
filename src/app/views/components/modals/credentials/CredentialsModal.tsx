@@ -20,7 +20,7 @@ export const CredentialsModal: FC<CredentialsModalProps> = ({ onComplete }) => {
 	};
 	return (
 		<Show when={isOpen && modalId == type}>
-			<ModalWrapper action={handleClose} type="credential-modal">
+			<ModalWrapper action={handleClose} type="credential-modal med-w">
 				<div className="card">
 					<div className="header">
 						<div className="title">

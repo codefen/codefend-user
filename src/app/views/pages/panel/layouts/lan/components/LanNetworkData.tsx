@@ -200,6 +200,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			<ModalTitleWrapper
 				headerTitle="Delete LAN"
 				close={() => setShowModal(false)}
+				// type="med-w"
 				isActive={showModal && showModalStr === 'delete_resource'}>
 				<ConfirmModal
 					header=""
@@ -215,6 +216,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			<ModalTitleWrapper
 				headerTitle="Add access point"
 				close={() => setShowModal(false)}
+				type="med-w"
 				isActive={showModal && showModalStr === 'add_access_point'}>
 				<AddAccessPointModal
 					onDone={() => {
@@ -228,6 +230,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			<ModalTitleWrapper
 				headerTitle="Add network device"
 				close={() => setShowModal(false)}
+				type="med-w"
 				isActive={showModal && showModalStr === 'add_network_device'}>
 				<AddNetworkDeviceModal
 					onDone={() => {
