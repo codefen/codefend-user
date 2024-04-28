@@ -90,22 +90,19 @@ main.issue-detail {
 
 			.edit {
 				margin-left: auto;
-				color: var(--secondary-color-300);
+				color: var(--secondary-color-100);
 				border-left: 1px solid var(--primary-color-300);
 				transition: all 0.2s;
 
 				&.on {
-					color: var(--secondary-color-50);
 					background-color: var(--primary-color-200);
 
 					&:hover {
-						color: var(--secondary-color-50);
 						background-color: var(--primary-color-200);
 					}
 				}
 
 				&:hover {
-					color: var(--secondary-color-50);
 					background-color: var(--primary-color-200);
 					svg {
 						transform: scale(1.1);
