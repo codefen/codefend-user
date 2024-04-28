@@ -1,11 +1,11 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.social {
-	min-height: auto;
-	max-height: none;
-	padding-block-end: 0;
-	padding-inline-end: 0;
-	overflow-y: hidden;
+	// min-height: auto;
+	// max-height: none;
+	// padding-block-end: 0;
+	// padding-inline-end: 0;
+	// overflow-y: hidden;
 
 	.left {
 		width: 70%;
@@ -61,11 +61,11 @@ main.social {
 	}
 
 	.right {
-		padding-inline: 10px;
-		width: 30%;
-		display: flex;
-		flex-direction: column;
-		row-gap: 2rem;
+		// padding-inline: 10px;
+		// width: 30%;
+		// display: flex;
+		// flex-direction: column;
+		// row-gap: 2rem;
 
 		.filter {
 			width: 100%;

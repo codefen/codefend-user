@@ -41,7 +41,7 @@ section.access {
 		right: 60vw;
 		top: 27vh;
 		z-index: 10;
-		width: 800px;
+		width: 570px;
 		max-width: 35vw;
 
 		@include mixin.respond(small) {
