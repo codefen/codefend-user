@@ -23,6 +23,7 @@ import { WebResourceScope } from './WebResourceScope';
 import { MobileResourceScope } from './MobileResourceScope';
 import { ReportFrontpage } from './ReportFrontpage';
 import { ReportSectionTemplate } from './ReportSection';
+import useTimeout from '#commonHooks/useTimeout';
 
 interface CustomReportProps {
 	isModal?: boolean;
@@ -33,13 +34,13 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 	const { open, resourceType } = useReportStore((state: any) => state);
 	const { fetchReport, resources, issues, share, resourceDomainText } =
 		useIssueReport();
+	const { oneExecute } = useTimeout(() => window.print(), 2000);
 
 	useEffect(() => {
-		let timeoutId: any;
 		if (!resources) {
 			fetchReport().finally(() => {
 				if (!isModal) {
-					timeoutId = setTimeout(() => window.print(), 2200);
+					oneExecute();
 				}
 				setIsLoading(false);
 			});
@@ -50,10 +51,9 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 		return () => {
 			if (!isModal) {
 				removePrintAttributesFromBody();
-				clearTimeout(timeoutId);
 			}
 		};
-	}, []);
+	}, [resources]);
 
 	const ActiveScope = () => {
 		if (resourceType === 'web') {
