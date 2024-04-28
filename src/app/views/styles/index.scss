@@ -163,22 +163,27 @@ main {
 	}
 	.right {
 		flex: 1 1 30%;
-		padding: 0 14px 0 0;
+		padding: 0 14px 0 20px;
 		height: 100%;
-	}
-	@include mixin.respond(small) {
-		display: block;
-		padding-inline-start: 10px;
-		.left {
-			width: 100%;
-			padding-block-start: 10px !important;
-		}
-		.right {
-			width: 100%;
-			height: auto;
-			min-height: auto;
+		box-shadow: var(--right-pane-shadow);
+
+		.btn.primary-full {
+			margin-block: 1rem;
 		}
 	}
+	// @include mixin.respond(small) {
+	// 	display: block;
+	// 	padding-inline-start: 10px;
+	// 	.left {
+	// 		width: 100%;
+	// 		padding-block-start: 10px !important;
+	// 	}
+	// 	.right {
+	// 		width: 100%;
+	// 		height: auto;
+	// 		min-height: auto;
+	// 	}
+	// }
 }
 
 main {
@@ -195,9 +200,9 @@ main {
 	// color: var(--primary-color-100);
 
 	padding-inline-start: calc(var(--sidebar-width) + 20px);
-	padding-inline-end: 0.938rem;
+	// padding-inline-end: 0.938rem;
 	padding-block-start: 3dvw;
-	padding-block-end: 0.938rem;
+	// padding-block-end: 0.938rem;
 
 	margin-block-start: var(--navbar-height);
 
@@ -227,6 +232,9 @@ main {
 	}
 }
 
+///////////////////////////////////////////////////////////////////
+// PREFERENCES PANEL
+//////////////////////////////////////////////////////////////////
 main.preferences {
 	.left {
 		.table {
@@ -277,12 +285,6 @@ main.cloud {
 			margin-block-end: 0.25rem;
 			// flex: 1 1 8.75%;
 			border: 0px;
-
-			&.cloud-apps {
-				.header {
-					height: 2.9rem;
-				}
-			}
 		}
 		.search-app {
 			width: 100%;
@@ -312,18 +314,13 @@ main.cloud {
 			flex: 1 1 90%;
 			row-gap: 0.938rem;
 			width: 100%;
-			padding-inline-end: 10px;
 			overflow-y: auto;
-			max-height: 74dvh;
+			overflow-x: hidden;
+			padding-inline-end: 10px;
 
 			.app-info {
 				cursor: pointer;
 				height: fit-content;
-				background: linear-gradient(
-					130deg,
-					var(--primary-color),
-					var(--primary-color-200)
-				);
 			}
 		}
 
@@ -345,13 +342,11 @@ main.cloud {
 		scrollbar-width: none;
 		overflow-y: auto;
 		overflow-x: hidden;
+		padding-inline-end: 10px;
 		min-height: 100dvh;
 		max-height: 0%;
 		height: auto;
 		scrollbar-gutter: stable;
-		box-shadow: var(--right-pane-shadow);
-		padding-inline-end: 12px;
-		padding-inline-start: 14px;
 
 		&::-moz-scrollbar {
 			width: 0px;
@@ -395,6 +390,7 @@ main.cloud {
 				align-self: stretch;
 				flex: 0.5 0.5 49%;
 				width: 49%;
+				padding-inline-end: 10px;
 
 				.card.stats {
 					.content {
@@ -569,6 +565,7 @@ main.cloud {
 	}
 }
 
+
 ///////////////////////////////////////////////////////////////////
 // editor tiny
 //////////////////////////////////////////////////////////////////
@@ -585,6 +582,8 @@ main.cloud {
 		display: grid !important;
 	}
 }
+
+
 //////////////////////////////////////////////////////////////////
 // MASSONRY
 //////////////////////////////////////////////////////////////////
@@ -595,10 +594,10 @@ main.cloud {
 	margin-bottom: 30px;
 }
 
+
 //////////////////////////////////////////////////////////////////
 // Error Boundry
 //////////////////////////////////////////////////////////////////
-
 .error-boundry {
 	width: 100%;
 	min-height: 100dvh;
@@ -649,7 +648,6 @@ main.cloud {
 //////////////////////////////////////////////////////////////////
 // DARK MODE
 //////////////////////////////////////////////////////////////////
-
 [data-theme='dark'] {
 	main {
 		.variant-1 {

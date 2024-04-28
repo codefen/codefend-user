@@ -1,14 +1,24 @@
 @use '../../styles/settings/mixin' as mixin;
 
-
+#particles-js {
+	width: 100vw;
+	height: 100vh;
+position: absolute;
+z-index: 1;
+background: rgb(150,12,12);
+background: linear-gradient(294deg, rgb(150, 12, 12) 70%, rgb(208, 5, 5) 90%);
+canvas {
+	width: 70vw !important;
+}
+}
 section.access {
 	min-width: 100dvw;
 	min-height: 100dvh;
 	position: relative;
 	z-index: 1;
 	color: #222222;
-	background: rgb(150,12,12);
-	background: linear-gradient(294deg, rgb(150, 12, 12) 70%, rgb(208, 5, 5) 90%);
+	// background: rgb(150,12,12);
+	// background: linear-gradient(294deg, rgb(150, 12, 12) 70%, rgb(208, 5, 5) 90%);
 
 	
 	.bkg {
@@ -31,7 +41,7 @@ section.access {
 		right: 60vw;
 		top: 27vh;
 		z-index: 10;
-		width: 800px;
+		width: 570px;
 		max-width: 35vw;
 
 		@include mixin.respond(small) {
@@ -53,7 +63,7 @@ section.access {
 	.forms {
 		width: 100%;
 		width: 45vw;
-		max-width: 700px;
+		max-width: 650px;
 		// min-width: 500px;
 		// height: 90vh;
 		// min-height: 0vh;
