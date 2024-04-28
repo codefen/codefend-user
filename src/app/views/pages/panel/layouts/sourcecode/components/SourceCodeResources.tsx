@@ -99,6 +99,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 			<ModalTitleWrapper
 				close={() => setShowModal(false)}
 				headerTitle="Add repository"
+				type="med-w"
 				isActive={showModal && showModalStr === 'add_repository'}>
 				<AddRepositoryModal
 					onDone={(params: any) => {

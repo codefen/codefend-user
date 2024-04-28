@@ -61,7 +61,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 							<PrimaryButton
 								text="START A PENTEST ON DEMAND"
 								click={() => updateState('open', true)}
-								className="primary-full bottom"
+								className="primary-full"
 							/>
 						</Show>
 

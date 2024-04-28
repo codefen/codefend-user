@@ -38,7 +38,9 @@ const CloudApplicationPanel: FC = () => {
 			<ModalTitleWrapper
 				isActive={showModal}
 				headerTitle="Add Cloud"
-				close={() => setShowModal(false)}>
+				close={() => setShowModal(false)}
+				type="med-w"
+				>
 				<AddCloudModal
 					close={() => setShowModal(false)}
 					onDone={() => {
