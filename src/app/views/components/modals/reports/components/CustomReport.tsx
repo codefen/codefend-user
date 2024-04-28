@@ -31,7 +31,7 @@ interface CustomReportProps {
 export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const { open, resourceType } = useReportStore((state: any) => state);
-	const { fetchReport, abort, resources, issues, share, resourceDomainText } =
+	const { fetchReport, resources, issues, share, resourceDomainText } =
 		useIssueReport();
 
 	useEffect(() => {
@@ -39,7 +39,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 		if (!resources) {
 			fetchReport().finally(() => {
 				if (!isModal) {
-					timeoutId = setTimeout(() => window.print(), 2000);
+					timeoutId = setTimeout(() => window.print(), 2200);
 				}
 				setIsLoading(false);
 			});
@@ -48,7 +48,6 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 			addPrintAttributesFromBody(resources, resourceDomainText);
 		}
 		return () => {
-			abort.abort();
 			if (!isModal) {
 				removePrintAttributesFromBody();
 				clearTimeout(timeoutId);

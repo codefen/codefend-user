@@ -1,56 +1,43 @@
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import {  baseUrl, getCustomBaseAPi, getToken, mapIssueShareV2, mapMobileApp, mapWebresourceApiToWebresource, mapCloudApp, mapReportIssues} from "../../..";
+import { mapIssueShareV2, mapMobileApp, mapWebresourceApiToWebresource, mapCloudApp, mapReportIssues} from "../../..";
 import { useReportStore } from "../../../";
-import { handleFetchError } from "@services/api.utils";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { useFetcher } from "#commonHooks/useFetcher";
 
 export const useIssueReport = ()=>{
     const resources = useRef<any>(null);
 	const issues = useRef<any>(null);
-	const share = useRef<any>(null);
+	const [share, setShare] = useState<any>(null);
 	const [resourceDomainText, setDomainText] = useState('');
+    const [fetcher] = useFetcher();
     
     const { getCompany } = useUserData();
     const {resourceID, resourceType} = useReportStore((state)=>state);
 
-  const abortController = new AbortController();
-  const fetcher = (companyID: string, issueID: string, resourceType: string, token:string) => {
-    const url = getCustomBaseAPi() ? getCustomBaseAPi() : baseUrl;
-    const bodyParams = new FormData();
+  const getReport = (companyID: string, issueID: string, resourceType: string) => {
 
-    bodyParams.append("model", 'issues/inform');
-    bodyParams.append("company_id", companyID);
-    bodyParams.append("resource_id", issueID);
-    bodyParams.append("resource_class", resourceType);
-    bodyParams.append("session", token);
-
-    return fetch(url, {
-        method: 'POST',
-        body: bodyParams,
-        headers: {
-            'Accept': 'application/json'
+    return fetcher("post", {
+        body: {
+            model: 'issues/inform',
+            company_id: companyID,
+            resource_id: issueID,
+            resource_class: resourceType
         },
-        signal: abortController.signal
-    })
-    .then(response => {
-        if (!response.ok)  throw new Error('Network response was not ok');
-        return response.json();
-    })
-    .then(response => {
+    }).then(({data}:any) => {
 
-        issues.current = response.issues ? response.issues.map((issue: any) => mapReportIssues(issue)) : [];
+        issues.current = data.issues ? data.issues.map((issue: any) => mapReportIssues(issue)) : [];
 
-		share.current = mapIssueShareV2(response);
+		setShare(mapIssueShareV2(data));
         
 		if (resourceType === 'web') {
 			resources.current = [
-				mapWebresourceApiToWebresource(response.resource),
+				mapWebresourceApiToWebresource(data.resource),
 			];
 		} else if (resourceType === 'mobile') {
-			resources.current = mapMobileApp(response.resource);
+			resources.current = mapMobileApp(data.resource);
 		} else if (resourceType === 'cloud') {
-			resources.current = mapCloudApp(response.resource);
+			resources.current = mapCloudApp(data.resource);
 		}
 
 		if (resources.current) {
@@ -64,10 +51,7 @@ export const useIssueReport = ()=>{
 			}
 	    }
                     
-        return response;
-    })
-    .catch(error => {
-        handleFetchError(error.message);
+        return data;
     });
 }
 
@@ -77,11 +61,10 @@ export const useIssueReport = ()=>{
         toast.error('User information was not found');
         return Promise.resolve(false);
       }
-      let token = getToken();
 
-        return fetcher(companyID, resourceID, resourceType, token);
+      return getReport(companyID, resourceID, resourceType);
     }
 
 
-    return { fetchReport, resourceDomainText, resources: resources.current, issues: issues.current, share: share.current, abort: abortController };
+    return { fetchReport, resourceDomainText, resources: resources.current, issues: issues.current, share };
 }

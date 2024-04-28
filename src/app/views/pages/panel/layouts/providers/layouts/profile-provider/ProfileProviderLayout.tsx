@@ -4,7 +4,7 @@ import { cleanHTML, useProviderProfile } from '../../../../../../../data';
 import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 import './aboutprovider.scss';
 
-export const ProfileProviderLayout = () => {
+const ProfileProviderLayout = () => {
 	const { view } = useParams();
 	const { activeSubOption, setActiveSubOption } = useProviderSidebar();
 	const { providerProfile } = useProviderProfile();
@@ -38,3 +38,5 @@ export const ProfileProviderLayout = () => {
 
 	return undefined;
 };
+
+export default ProfileProviderLayout;

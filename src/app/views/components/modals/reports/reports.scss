@@ -17,6 +17,8 @@ body[print-report] {
 	max-height: calc(100vh - 40px);
 	overflow-y: auto;
 	overflow-x: hidden;
+	height: 100dvh;
+	margin-inline: auto;
 
 	&.tab {
 		max-height: inherit;
@@ -410,6 +412,8 @@ body[print-report] {
 		background-color: var(--secondary-color-50);
 	}
 	.issues-report {
+		margin-inline: 0;
+		height: auto;
 		.issue-header {
 			page-break-before: always;
 		}

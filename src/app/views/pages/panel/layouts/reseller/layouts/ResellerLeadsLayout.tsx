@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useResellerLeads } from '@userHooks/resellers/useResellerLeads';
 import '../reseller.scss';
 
-export const ResellerLeadsLayout = () => {
+const ResellerLeadsLayout = () => {
 	const [showScreen] = useShowScreen();
 	//const [reseller, { getResellerProfile, isLoading: isLoadingReseller }] =
 	//	useResellerDashboard();
@@ -42,3 +42,5 @@ export const ResellerLeadsLayout = () => {
 		</main>
 	);
 };
+
+export default ResellerLeadsLayout;

@@ -17,7 +17,7 @@ export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
 
 export const PanelPage: FC = () => {
 	const [showModal, setShowModal] = useState(false);
-	const matches = useMediaQuery('(min-width: 1200px)');
+	const matches = useMediaQuery('(min-width: 1175px)');
 	const { updateAuth } = useAuthStore((state) => ({
 		updateAuth: state.updateAuth,
 	}));

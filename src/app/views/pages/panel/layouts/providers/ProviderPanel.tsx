@@ -8,7 +8,7 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import './provider.scss';
 import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
 
-export const ProviderPage = () => {
+const ProviderPage = () => {
 	const [showScreen] = useShowScreen();
 	const { getProviderCompanyAccess } = useProviderCompanies();
 	useEffect(() => {
@@ -30,3 +30,5 @@ export const ProviderPage = () => {
 		</main>
 	);
 };
+
+export default ProviderPage;

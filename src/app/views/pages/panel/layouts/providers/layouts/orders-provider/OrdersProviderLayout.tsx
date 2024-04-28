@@ -5,7 +5,7 @@ import { NewOrderProvider } from './NewOrderProvider.tsx';
 import { CurrentOrderProvider } from './CurrentOrderProvider.tsx';
 import { FinishOrderProvider } from './FinishOrderProvider.tsx';
 
-export const OrdersReviewProviders: FC = () => {
+const OrdersReviewProviders: FC = () => {
 	const { view } = useParams();
 	const { activeSubOption, setActiveSubOption } = useProviderSidebar();
 
@@ -32,3 +32,5 @@ export const OrdersReviewProviders: FC = () => {
 
 	return <FinishOrderProvider />;
 };
+
+export default OrdersReviewProviders;
