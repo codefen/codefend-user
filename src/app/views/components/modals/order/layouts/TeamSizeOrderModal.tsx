@@ -25,9 +25,9 @@ export const TeamSizeOrderModal: FC = () => {
 	useEffect(() => {
 		getCurrentPrices(referenceNumber, orderId).then((res) => {
 			setCurrentPrices({
-				small: res.plans_prices.small,
-				medium: res.plans_prices.medium,
-				full: res.plans_prices.full,
+				small: res?.plans_prices?.small || '0',
+				medium: res?.plans_prices?.medium || '0',
+				full: res?.plans_prices?.full || '0',
 			});
 		});
 	}, []);
