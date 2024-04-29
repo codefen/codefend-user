@@ -1,12 +1,14 @@
 import { type FC, Fragment, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CircleIcon, SimpleSection } from '../../../../../components';
 import { type CompanyResource, generateIDArray } from '../../../../../../data';
+import { StatAsset } from '@standalones/stat-asset/StatAsset';
 
 export const DashboardAssets: FC<{ resources: CompanyResource }> = ({
 	resources,
 }) => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const resourceKeys = useMemo(
 		() => generateIDArray(Object.keys(resources).length),
 		[Object.keys(resources).length],
@@ -35,24 +37,18 @@ export const DashboardAssets: FC<{ resources: CompanyResource }> = ({
 						(resource: string | number, i: number) => {
 							return (
 								<Fragment key={resourceKeys[i]}>
-									<Link
-										to={`/${resource}`}
-										className={`stat ${
-											isActivePath(resource as string)
-												? 'active'
-												: ''
-										}`}>
-										<span className="value">
-											{resources[resource as keyof typeof resources]}
-										</span>
-										<p>
-											{
-												mapAssetsNames[
-													resource as keyof typeof mapAssetsNames
-												]
-											}
-										</p>
-									</Link>
+									<StatAsset
+										valueTitle={
+											mapAssetsNames[
+												resource as keyof typeof mapAssetsNames
+											]
+										}
+										value={
+											resources[resource as keyof typeof resources]
+										}
+										isActive={isActivePath(resource as string)}
+										onClick={() => navigate(`/${resource}`)}
+									/>
 								</Fragment>
 							);
 						},
