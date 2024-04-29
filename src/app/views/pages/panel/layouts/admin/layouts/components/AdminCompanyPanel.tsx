@@ -47,6 +47,7 @@ export const AdminCompanyPanel: FC = () => {
 			<ModalTitleWrapper
 				headerTitle="Add a new company"
 				close={() => setShowModal(false)}
+				type="med-w"
 				isActive={showModal}>
 				<AddCompanyModal closeModal={() => setShowModal(false)} />
 			</ModalTitleWrapper>

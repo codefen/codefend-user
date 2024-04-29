@@ -67,11 +67,11 @@ export const ProviderHeader: FC = () => {
 						</IconTextPairs>
 					)}
 					<div className="provider-info-wrapper">
-						<div className="provider-finish-audit">
-							<span className="audit-count">
+						<div className="stat">
+							<div className="value">
 								{providerProfile?.finished_orders || 0}
-							</span>
-							<span className="audit-title">Finished Audits</span>
+							</div>
+							<p className="audit-title">Finished Audits</p>
 						</div>
 						<div className="provider-score-local">
 							<IconTextPairs

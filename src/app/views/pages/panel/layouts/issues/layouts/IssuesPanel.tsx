@@ -78,7 +78,7 @@ const IssuesPanel: FC = () => {
 				<PrimaryButton
 					text="GENERATE REPORT"
 					click={() => createInform()}
-					className="primary-full both"
+					className="primary-full"
 					isDisabled={filters.length !== 1 || filters[0] !== 'web'}
 					disabledLoader
 				/>

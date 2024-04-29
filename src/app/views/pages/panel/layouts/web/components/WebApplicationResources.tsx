@@ -283,6 +283,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 			<ModalTitleWrapper
 				isActive={showModal && showModalStr === 'add_domain'}
 				close={() => setShowModal(false)}
+				type="med-w"
 				headerTitle="Add web resource">
 				<AddDomainModal
 					onDone={() => {
@@ -299,6 +300,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 			<ModalTitleWrapper
 				isActive={showModal && showModalStr === 'delete_resource'}
 				close={() => setShowModal(false)}
+				type="med-w"
 				headerTitle="Delete web resource">
 				<ConfirmModal
 					header={`Are you sure to remove\n ${selectedResource.domain} - ${selectedResource.serverIp}`}
@@ -316,6 +318,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 			<ModalTitleWrapper
 				isActive={showModal && showModalStr === 'add_subdomain'}
 				close={() => setShowModal(false)}
+				type="med-w"
 				headerTitle="Add web sub-resource">
 				<AddSubDomainModal
 					onDone={() => {

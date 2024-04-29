@@ -23,18 +23,18 @@ main.dashboard {
 		// flex-direction: column;
 		// row-gap: 1.25rem;
 
-		.card {
-			&.risk-chart {
-				.content {
-					flex-direction: column;
-					row-gap: 2rem;
+		// .card {
+		// 	&.risk-chart {
+		// 		.content {
+		// 			flex-direction: column;
+		// 			row-gap: 2rem;
 
-					.chart {
-						min-width: 170px;
-					}
-				}
-			}
-		}
+		// 			.chart {
+		// 				min-width: 170px;
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 	@include mixin.respond(large) {

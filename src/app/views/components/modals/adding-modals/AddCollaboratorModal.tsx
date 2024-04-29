@@ -23,6 +23,7 @@ export const AddCollaboratorModal = () => {
 	return (
 		<ModalTitleWrapper
 			close={() => setIsOpen(false)}
+			type="med-w"
 			isActive={isOpen && modalId == 'add-collaborator'}
 			headerTitle="Add collaborator">
 			<div className="content">

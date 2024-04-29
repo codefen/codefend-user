@@ -101,6 +101,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 			<ModalTitleWrapper
 				isActive={showModal && showModalStr === 'add_member'}
 				close={() => setShowModal(false)}
+				type="med-w"
 				headerTitle="Add a new member">
 				<AddSocialModal
 					onDone={() => {

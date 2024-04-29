@@ -28,8 +28,7 @@
 	}
 }
 
-input,
-select {
+input {
 	height: 43px;
 	width: 100%;
 	padding-block: 0;
@@ -43,6 +42,27 @@ select {
 	&:focus {
 		outline: 0px solid;
 		border: 1px solid var(--secondary-color-50) !important;
+		caret-color: var(--secondary-color-50) !important;
+		color: var(--tertiary-color-700);
+	}
+	&:-internal-autofill-selected {
+		background-color: var(--primary-color) !important;
+	}
+}
+
+select {
+	height: 43px;
+	width: 100%;
+	padding-block: 0;
+	padding-inline: 15px;
+	background-color: var(--primary-color);
+	color: var(--tertiary-color-500);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--primary-color-300);
+
+	&:focus {
+		outline: 0px solid;
 		caret-color: var(--secondary-color-50) !important;
 		color: var(--tertiary-color-700);
 	}
@@ -129,6 +149,9 @@ select {
 		&:-internal-autofill-selected {
 			background-color: var(--primary-color) !important;
 		}
+	}
+	select {
+		color: var(--tertiary-color-300) !important;
 	}
 }
 input[type='text'],

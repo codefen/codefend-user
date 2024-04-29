@@ -12,16 +12,16 @@
 		li {
 			padding-inline: 2rem;
 			padding-block: 1rem;
-			border-block: 0.5px solid var(--provider-border-color);
+			border-bottom: 1px solid var(--provider-border-color);
 			cursor: pointer;
 			user-select: none;
 
 			&:first-child {
-				border-block-start: 2.25px solid var(--provider-border-color);
+				border-top: 1px solid var(--provider-border-color);
 			}
-			&:last-child {
-				border-block-end: 2.25px solid var(--provider-border-color);
-			}
+			// &:last-child {
+			// 	border-block-end: 1px solid var(--provider-border-color);
+			// }
 
 			&.current {
 				color: var(--secondary-color-100);

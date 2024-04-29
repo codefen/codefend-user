@@ -102,12 +102,12 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 					{isAdmin() || isProvider() ? (
 						<div className="work-buttons">
 							<div
-								className={`edit edit_btn  ${!isEditable ? 'on' : 'off'}`}
+								className={`edit action-btn  ${!isEditable ? 'on' : 'off'}`}
 								onClick={() => setEditable(!isEditable)}>
 								<PencilIcon isButton />
 							</div>
 							<div
-								className={`save edit_btn ${!isEditable ? 'on' : 'off'}`}
+								className={`save action-btn ${!isEditable ? 'on' : 'off'}`}
 								onClick={() => handleIssueUpdate()}>
 								<SaveIcon isButton />
 							</div>
