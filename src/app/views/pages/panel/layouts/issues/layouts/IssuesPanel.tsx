@@ -17,6 +17,7 @@ import {
 	EMPTY_ISSUECONDITION,
 	EMPTY_SHARE,
 } from '@mocks/empty.ts';
+import { ModalReport, OrderV2 } from '@modals/index.ts';
 
 const IssuesPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -70,6 +71,7 @@ const IssuesPanel: FC = () => {
 						: issues
 				}
 			/>
+			<ModalReport />
 			<div className="brightness variant-1"></div>
 			<section className="left">
 				<IssueResources

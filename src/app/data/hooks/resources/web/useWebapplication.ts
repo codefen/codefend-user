@@ -21,14 +21,14 @@ export const useWebapplication = () => {
 	);
 
 	// - - -  refetch data  - - -
-	const refetch = () => {
+	const refetch = (childs?: string) => {
 		const companyID = getCompany();
 
 		fetcher<any>('post', {
 			body: {
 				company_id: companyID,
 				model: 'resources/web/index',
-				childs: 'yes',
+				childs: childs? childs:'yes',
 				resource_address_domain: 'clarin.com',
 			},
 		}).then(({ data }) => {

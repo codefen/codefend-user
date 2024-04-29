@@ -20,7 +20,6 @@ import ConfirmModal from '@modals/ConfirmModal.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
-import { findWebResourceByID } from '@utils/helper.ts';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import Show from '@defaults/Show';
 import useCredentialStore from '@stores/credential.store';

@@ -4,7 +4,7 @@ import { useProviderOrderFinished } from '@userHooks/providers/useProviderOrderF
 import { useEffect, useState } from 'react';
 import { FinishOrderCard } from '../../components/finished-order-card/FinishedOrderCard';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { ProviderScope } from '@standalones/order-scope/OrderScope';
+import { ProviderScope } from '@modals/order-scope/OrderScope';
 
 export const FinishOrderProvider = () => {
 	const [finishedOrders, { getFinishedOrders, isLoading }] =

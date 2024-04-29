@@ -10,10 +10,11 @@
 	border-radius: 0.5rem;
 
 	h3 {
-		padding-block-start: 1rem;
 		width: 100%;
 		text-align: left;
-		padding-inline-start: 1.5rem;
+		padding-block-start: 1.5rem;
+		padding-inline-start: 3.75rem;
+		font-size: 1.5rem;
 	}
 
 	.report-type-container {
@@ -27,64 +28,31 @@
 	}
 }
 
-.report-type-card {
-	width: 135px;
-	height: 95px;
-
-	display: flex;
-	flex-direction: column;
-	padding: 0.25rem;
-	justify-content: space-between;
-	align-items: center;
-	cursor: pointer;
-	transition: all 120ms ease;
-	padding-block-start: 0.5rem;
-
-	svg {
-		width: 36px;
-		height: 36px;
+.type-selector-container {
+	h3 {
+		margin-block-end: 1rem;
 	}
 
-	.caption-card {
-		font-weight: 700;
-		text-transform: uppercase;
-		border-radius: 0.35rem;
-		color: var(--tertiary-color-450);
-		display: flex;
-		flex-direction: column;
-		text-align: center;
-		row-gap: 0.25rem;
-		transition: all 200ms ease;
+	.table {
+		max-width: 90%;
+		margin-inline: auto;
 
-		h4 {
-			font-size: 1.35rem;
-			transition: color 190ms ease;
-		}
-		h5 {
-			transition: color 190ms ease;
-			font-size: 1rem;
-			text-transform: lowercase;
-			color: var(--tertiary-color-200);
-
-			span {
-				color: var(--secondary-color-50);
-			}
-		}
-	}
-
-	&:hover {
-		scale: 1.075;
-
-		svg {
-			color: var(--secondary-color-100);
+		.rows {
+			max-height: 17rem;
 		}
 
-		.caption-card {
-			h4 {
-				color: var(--secondary-color-100);
-			}
-			h5 {
-				color: var(--tertiary-color-500);
+		.full-name {
+			margin-inline-end: 1%;
+
+			.publish {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: normal;
+				overflow-wrap: break-word;
+				line-height: 1.3rem;
 			}
 		}
 	}

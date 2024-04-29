@@ -20,7 +20,7 @@ import { PaymentErrorOrderModal } from './layouts/PaymentErrorOrderModal';
 
 export const OrderV2 = () => {
 	const [isNextStep, updateNextStep] = useState(false);
-	const { orderStepActive, resetActiveOrder, open, scope } = useOrderStore(
+	const { orderStepActive, resetActiveOrder, open } = useOrderStore(
 		(state) => state,
 	);
 

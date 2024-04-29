@@ -6,65 +6,67 @@ import {
 	sourceCodeScopeColumns,
 	webScopeColumns,
 } from '@mocks/scopeColumns';
-import type {
-	LanResourceResume,
-	SocialDomain,
-	SourceResourceResume,
-	WebResourceResume,
-} from '@interfaces/resources-resumes';
 
 export const useGetScopeTables = () => {
 	const getDataScopeResourceTable = (scopeALias: string, scope: any[]) => {
 		let rows = [];
 		if (scopeALias === 'w') {
 			rows =
-				scope.map((res: WebResourceResume) => ({
+				scope.map((res: any) => ({
 					ID: { value: res.id, style: '' },
 					Identifier: { value: res.id, style: 'id' },
 					domainName: {
 						value: res.resource_domain,
 						style: 'domain-name',
 					},
-					server: { value: res.server, style: 'server-ip' },
+					server: {
+						value: res.server || res.main_server,
+						style: 'server-ip',
+					},
 					childs: {
 						value: (props: any) => (
 							<>
-								{res.childs.map((resChild, i) => (
-									<a
-										key={`child-${i}-${resChild.id}`}
-										className={`item item-with-out-action ${
-											props.selectedField === `child-${resChild.id}`
-												? 'left-marked'
-												: ''
-										}`}
-										href=""
-										onClick={(e) =>
-											props.handleClick(
-												e,
-												`child-${resChild.id}`,
-												resChild.id,
-											)
-										}>
-										<div className="id">
-											<div className="publish">{resChild.id}</div>
-										</div>
-										<div className="domain-name lined">
-											<div className="publish">
-												<span
-													className={`sub-domain-icon-v ${res.childs.length == i + 1 && 'sub-is-last'}`}></span>
-												<span className="sub-domain-icon-h"></span>
-												<span className="sub-resource-domain">
-													{resChild.resource_domain}
-												</span>
-											</div>
-										</div>
-										<div className="server-ip">
-											<div className="publish">
-												{resChild.server}
-											</div>
-										</div>
-									</a>
-								))}
+								{res.childs
+									? res.childs.map((resChild: any, i: number) => (
+											<a
+												key={`child-${i}-${resChild.id}`}
+												className={`item item-with-out-action ${
+													props.selectedField ===
+													`child-${resChild.id}`
+														? 'left-marked'
+														: ''
+												}`}
+												href=""
+												onClick={(e) =>
+													props.handleClick(
+														e,
+														`child-${resChild.id}`,
+														resChild.id,
+													)
+												}>
+												<div className="id">
+													<div className="publish">
+														{resChild.id}
+													</div>
+												</div>
+												<div className="domain-name lined">
+													<div className="publish">
+														<span
+															className={`sub-domain-icon-v ${res.childs.length == i + 1 && 'sub-is-last'}`}></span>
+														<span className="sub-domain-icon-h"></span>
+														<span className="sub-resource-domain">
+															{resChild.resource_domain}
+														</span>
+													</div>
+												</div>
+												<div className="server-ip">
+													<div className="publish">
+														{resChild.server}
+													</div>
+												</div>
+											</a>
+										))
+									: null}
 							</>
 						),
 						style: '',
@@ -100,7 +102,7 @@ export const useGetScopeTables = () => {
 		}
 		if (scopeALias === 's') {
 			rows =
-				scope.map((res: SocialDomain, i: number) => ({
+				scope.map((res: any, i: number) => ({
 					ID: { value: '', style: '' },
 					Identifier: { value: i + 1, style: 'id' },
 					domain: {
@@ -113,7 +115,7 @@ export const useGetScopeTables = () => {
 		}
 		if (scopeALias === 'sc') {
 			rows =
-				scope.map((res: SourceResourceResume) => ({
+				scope.map((res: any) => ({
 					ID: { value: res.id, style: '' },
 					Identifier: { value: res.id, style: 'id' },
 					name: {
@@ -127,7 +129,7 @@ export const useGetScopeTables = () => {
 		if (scopeALias === 'n') {
 			console.log({ scope });
 			rows =
-				scope.map((res: LanResourceResume) => ({
+				scope.map((res: any) => ({
 					ID: { value: '', style: '' },
 					Identifier: { value: res.id, style: 'id' },
 					externalIp: {
@@ -138,42 +140,47 @@ export const useGetScopeTables = () => {
 					childs: {
 						value: (props: any) => (
 							<>
-								{res.childs.map((resChild, i) => (
-									<a
-										key={`child-${i}-${resChild.id}`}
-										className={`item item-with-out-action ${
-											props.selectedField === `child-${resChild.id}`
-												? 'left-marked'
-												: ''
-										}`}
-										href=""
-										onClick={(e) =>
-											props.handleClick(
-												e,
-												`child-${resChild.id}`,
-												'',
-											)
-										}>
-										<div className="id">
-											<div className="publish">{resChild.id}</div>
-										</div>
-										<div className="server-ip lined">
-											<div className="publish">
-												<span
-													className={`sub-domain-icon-v ${res.childs.length == i + 1 && 'sub-is-last'}`}></span>
-												<span className="sub-domain-icon-h"></span>
-												<span className="sub-resource-domain">
-													{resChild.device_ex_address}
-												</span>
-											</div>
-										</div>
-										<div className="server-ip">
-											<div className="publish">
-												{resChild.device_in_address}
-											</div>
-										</div>
-									</a>
-								))}
+								{res.childs
+									? res.childs.map((resChild: any, i: number) => (
+											<a
+												key={`child-${i}-${resChild.id}`}
+												className={`item item-with-out-action ${
+													props.selectedField ===
+													`child-${resChild.id}`
+														? 'left-marked'
+														: ''
+												}`}
+												href=""
+												onClick={(e) =>
+													props.handleClick(
+														e,
+														`child-${resChild.id}`,
+														'',
+													)
+												}>
+												<div className="id">
+													<div className="publish">
+														{resChild.id}
+													</div>
+												</div>
+												<div className="server-ip lined">
+													<div className="publish">
+														<span
+															className={`sub-domain-icon-v ${res.childs.length == i + 1 && 'sub-is-last'}`}></span>
+														<span className="sub-domain-icon-h"></span>
+														<span className="sub-resource-domain">
+															{resChild.device_ex_address}
+														</span>
+													</div>
+												</div>
+												<div className="server-ip">
+													<div className="publish">
+														{resChild.device_in_address}
+													</div>
+												</div>
+											</a>
+										))
+									: null}
 							</>
 						),
 						style: '',

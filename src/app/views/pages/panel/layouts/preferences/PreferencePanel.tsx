@@ -10,7 +10,7 @@ import SettingPersonalDetails from './components/SettingPersonaDetails.tsx';
 import './preference.scss';
 import { useEffect } from 'react';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store.ts';
-import { ProviderScope } from '@standalones/order-scope/OrderScope.tsx';
+import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 
 const PreferencePanel = () => {

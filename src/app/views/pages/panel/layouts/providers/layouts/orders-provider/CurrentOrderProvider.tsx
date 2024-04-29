@@ -4,7 +4,7 @@ import { useCurrentOrders } from '@userHooks/providers/useCurrentOrders';
 import { useEffect, useState } from 'react';
 import { CurrentOrderCard } from '../../components/current-order-card/CurrentOrderCard';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { ProviderScope } from '@standalones/order-scope/OrderScope';
+import { ProviderScope } from '@modals/order-scope/OrderScope';
 import ConfirmModal from '@modals/ConfirmModal';
 
 export const CurrentOrderProvider = () => {
