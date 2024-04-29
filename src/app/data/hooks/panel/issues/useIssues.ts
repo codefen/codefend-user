@@ -3,6 +3,11 @@ import {
 	type AllIssues,
 	mapAllIssues,
 	verifySession,
+	type IssuesUtils,
+	type Issues,
+	mapIssues,
+	mapIssuesCondition,
+	mapIssueShare,
 } from '../../../';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
@@ -13,7 +18,8 @@ export const useIssues = () => {
 	const {  logout } = useUserData();
 	const { getCompany} = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
-	const dataRef = useRef<AllIssues>();
+	const dataRef = useRef<Issues[]>([]);
+	const otherInfo = useRef<IssuesUtils>();
 
 	//Fetch to recover the issues
 	const fetchAll = useCallback((companyID: string) => {
@@ -24,7 +30,14 @@ export const useIssues = () => {
 			},
 		}).then(({ data }: any) => {
 			verifySession(data, logout);
-			dataRef.current = mapAllIssues(data);
+			dataRef.current = data.issues
+			? data.issues.map((issue: any) => mapIssues(issue))
+			: [];
+			otherInfo.current = {
+				issueClass: data.issues_class,
+				issueShare: mapIssueShare(data),
+				issueCondition: mapIssuesCondition(data)
+			};
 		});
 	}, []);
 
@@ -38,11 +51,5 @@ export const useIssues = () => {
 		fetchAll(companyID);
 	};
 
-	/* Utilities func*/
-	const getIssues = (): AllIssues => {
-		const issuesData = isLoading ? ({} as AllIssues) : dataRef.current;
-		return issuesData || ({} as AllIssues);
-	};
-
-	return { getIssues, isLoading, refetchAll };
+	return { issues: dataRef.current, others: otherInfo.current, isLoading, refetchAll };
 };

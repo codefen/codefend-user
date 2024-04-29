@@ -11,6 +11,7 @@ import {
 } from '../..';
 import './report-type.scss';
 import { useRef, type FC } from 'react';
+import useModalStore from '@stores/modal.store';
 
 interface SelectReportTypeModalProps {
 	issues: Issues[];
@@ -19,39 +20,48 @@ interface SelectReportTypeModalProps {
 export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 	issues,
 }) => {
-	const getIssueResourceCount = (
+	const { isOpen, modalId, setIsOpen } = useModalStore();
+	const getIssueResourceCountV2 = (
 		issues: Issues[],
-		resourceClass: string,
-		acceptOrphans?: boolean,
+		resourceClasses: string[],
 	) => {
+		const initialCounts: Record<string, number> = {};
+		for (const resourceClass of resourceClasses) {
+			initialCounts[resourceClass] = 0;
+		}
+		initialCounts['unknown'] = 0;
+		initialCounts['research'] = 0;
 		return issues.reduce((acc, issue) => {
-			const isTargetResource = issue.resourceClass === resourceClass;
-			const isOrphan = !issue.resourceID;
+			const isOrphan =
+				issue.resourceClass === 'research' || !issue.resourceID;
+			const belongsToClass = resourceClasses.includes(issue.resourceClass);
 
-			if (
-				isTargetResource &&
-				((!acceptOrphans && !isOrphan) || acceptOrphans)
-			) {
-				return acc + 1;
-			} else if (resourceClass === 'any' && acceptOrphans && isOrphan) {
-				return acc + 1;
+			if (isOrphan) {
+				acc['research']++;
+			} else if (belongsToClass) {
+				acc[issue.resourceClass]++;
+			} else {
+				acc['unknown']++;
 			}
 
 			return acc;
-		}, 0);
+		}, initialCounts);
 	};
-	const webCount = useRef(getIssueResourceCount(issues, 'web'));
-	const mobileCount = useRef(getIssueResourceCount(issues, 'mobile'));
-	const cloudCount = useRef(getIssueResourceCount(issues, 'cloud'));
-	const socialCount = useRef(getIssueResourceCount(issues, 'social'));
-	const sourceCount = useRef(getIssueResourceCount(issues, 'source'));
-	const networkCount = useRef(getIssueResourceCount(issues, 'network'));
-	const orphanCount = useRef(getIssueResourceCount(issues, 'any', true));
+	const resourceCount = getIssueResourceCountV2(issues, [
+		'web',
+		'mobile',
+		'cloud',
+		'social',
+		'source',
+		'lan',
+	]);
+	console.log({ any: resourceCount });
+
 	return (
 		<ModalTitleWrapper
 			headerTitle="Select report type"
-			isActive={false}
-			close={() => {}}>
+			isActive={isOpen && modalId == 'selectReport'}
+			close={() => setIsOpen(false)}>
 			<div className="report-type-modal">
 				<h3>Choose the resource class to generate the report</h3>
 				<div className="report-type-container">
@@ -61,7 +71,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						<figcaption className={'caption-card'}>
 							<h4>Web</h4>
 							<h5>
-								total issues <span>{webCount.current}</span>
+								total issues <span>{resourceCount['web']}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -72,7 +82,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						<figcaption className={'caption-card'}>
 							<h4>Mobile</h4>
 							<h5>
-								total issues <span>{mobileCount.current}</span>
+								total issues <span>{resourceCount['mobile']}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -83,7 +93,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						<figcaption className={'caption-card'}>
 							<h4>Cloud</h4>
 							<h5>
-								total issues <span>{cloudCount.current}</span>
+								total issues <span>{resourceCount['cloud']}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -94,7 +104,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						<figcaption className={'caption-card'}>
 							<h4>Source</h4>
 							<h5>
-								total issues <span>{sourceCount.current}</span>
+								total issues <span>{resourceCount['source']}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -105,7 +115,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						<figcaption className={'caption-card'}>
 							<h4>Social</h4>
 							<h5>
-								total issues <span>{socialCount.current}</span>
+								total issues <span>{resourceCount['social']}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -116,7 +126,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						<figcaption className={'caption-card'}>
 							<h4>Network</h4>
 							<h5>
-								total issues <span>{networkCount.current}</span>
+								total issues <span>{resourceCount['lan']}</span>
 							</h5>
 						</figcaption>
 					</figure>
@@ -127,7 +137,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						<figcaption className={'caption-card'}>
 							<h4>Huerfano</h4>
 							<h5>
-								total issues <span>{orphanCount.current}</span>
+								total issues <span>{resourceCount['research']}</span>
 							</h5>
 						</figcaption>
 					</figure>

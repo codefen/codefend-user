@@ -165,11 +165,14 @@ export interface IssueClass {
 	research: string;
 }
 
-export interface AllIssues {
-	issues: Issues[];
+export interface IssuesUtils {
 	issueClass: IssueClass;
 	issueShare: IssuesShare;
 	issueCondition: IssuesCondition;
+}
+
+export interface AllIssues extends IssuesUtils{
+	issues: Issues[];
 }
 
 export interface SourceCode extends ResourceID, Monitoring {

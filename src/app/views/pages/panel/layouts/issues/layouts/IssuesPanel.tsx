@@ -11,13 +11,20 @@ import { IssueReport } from '../components/IssueReport.tsx';
 import { IssueResources } from '../components/IssueResources.tsx';
 import { useFlashlight } from '../../../FlashLightContext.tsx';
 import { SelectReportTypeModal } from '@modals/reports/SelectReportType.tsx';
+import useModalStore from '@stores/modal.store.ts';
+import {
+	EMPTY_ISSUECLASS,
+	EMPTY_ISSUECONDITION,
+	EMPTY_SHARE,
+} from '@mocks/empty.ts';
 
 const IssuesPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const [filters, setFilters] = useState<string[]>([]);
-	const { getIssues, isLoading, refetchAll } = useIssues();
+	const { issues, others, isLoading, refetchAll } = useIssues();
 	const { fetchReport } = useIssueReport();
 	const { setResourceID, setResourceType } = useReportStore((state) => state);
+	const { setIsOpen, setModalId } = useModalStore();
 	const flashlight = useFlashlight();
 
 	useEffect(() => {
@@ -26,14 +33,14 @@ const IssuesPanel: FC = () => {
 
 	const handleIssuesFilter = useMemo(() => {
 		const isFiltered = filters.length !== 0;
-		if (!isFiltered) return { isFiltered };
+		if (!isFiltered) return { filteredData: [], isFiltered };
 
-		const filteredData = getIssues()?.issues.filter((issue: Issues) =>
+		const filteredData = issues.filter((issue: Issues) =>
 			filters.includes(issue.resourceClass),
 		);
 
 		return { filteredData, isFiltered };
-	}, [filters, getIssues()]);
+	}, [filters, issues]);
 
 	const handleFilters = (issueClass: string) => {
 		if (filters.includes(issueClass)) {
@@ -56,7 +63,13 @@ const IssuesPanel: FC = () => {
 
 	return (
 		<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
-			<SelectReportTypeModal issues={getIssues().issues || []} />
+			<SelectReportTypeModal
+				issues={
+					handleIssuesFilter.isFiltered
+						? handleIssuesFilter.filteredData
+						: issues
+				}
+			/>
 			<div className="brightness variant-1"></div>
 			<section className="left">
 				<IssueResources
@@ -64,7 +77,7 @@ const IssuesPanel: FC = () => {
 					issues={
 						handleIssuesFilter.isFiltered
 							? handleIssuesFilter.filteredData
-							: getIssues()?.issues ?? []
+							: issues
 					}
 					refresh={refresh}
 				/>
@@ -73,22 +86,30 @@ const IssuesPanel: FC = () => {
 				<IssueReport
 					handleFilter={handleFilters}
 					isLoading={isLoading}
-					issuesClasses={getIssues()?.issueClass ?? {}}
+					issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
 				/>
 				<PrimaryButton
 					text="GENERATE REPORT"
-					click={() => createInform()}
+					click={(e) => {
+						setIsOpen(true);
+						setModalId('selectReport');
+					}}
 					className="primary-full"
-					isDisabled={filters.length !== 1 || filters[0] !== 'web'}
+					isDisabled={
+						!Boolean(issues.length) &&
+						!Boolean(handleIssuesFilter.filteredData.length)
+					}
 					disabledLoader
 				/>
 
 				<VulnerabilityRisk
 					isLoading={isLoading}
-					vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
+					vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
 				/>
 				<VulnerabilitiesStatus
-					vulnerabilityByShare={getIssues()?.issueCondition ?? {}}
+					vulnerabilityByShare={
+						others?.issueCondition || EMPTY_ISSUECONDITION
+					}
 				/>
 			</section>
 		</main>

@@ -87,3 +87,19 @@ export const EMPTY_SHARE = {
     low: "0",
     intel: "0",
 }
+
+export const EMPTY_ISSUECLASS = {
+	total: "0",
+	web: "0",
+	mobile: "0",
+	infra: "0",
+	source: "0",
+	social: "0",
+	research: "0"
+}
+
+export const EMPTY_ISSUECONDITION = {
+	total: "0",
+	fixed: "0",
+	open: "0"
+}
