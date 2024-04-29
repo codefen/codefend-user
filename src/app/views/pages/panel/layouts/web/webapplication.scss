@@ -43,8 +43,15 @@ main.webapp {
 		// padding-inline-end: 1rem;
 		// min-height: 100dvh;
 		// height: 110%;
-
-		
+		.table {
+			.item {
+				.location {
+					.flag {
+						margin-inline-end: 0.75rem;
+					}
+				}
+			}
+		}
 	}
 	// .left {
 	// 	width: 70%;
@@ -131,11 +138,6 @@ main.webapp {
 // 			// margin-bottom: 15px;
 // 		}
 
-// 		@include mixin.respond(small) {
-// 			width: 100%;
-// 			padding-block-start: 10px;
-// 		}
-
 // 		.table {
 // 			.domain-name {
 // 				// width: 100%;
@@ -201,27 +203,6 @@ main.webapp {
 // 				}
 // 			}
 // 		}
-
-// 		@include mixin.respond(small) {
-// 			width: 95%;
-// 			height: auto;
-// 			min-height: auto;
-// 			padding-block-end: 150px;
-// 			.header {
-// 				max-width: 340px;
-// 			}
-// 		}
-// 	}
-
-// 	.over {
-// 		overflow-y: auto;
-// 		overflow-x: hidden;
-// 	}
-
-// 	@include mixin.respond(small) {
-// 		display: block;
-// 		padding-inline-start: 1px;
-// 		min-height: auto;
 // 	}
 // }
 
