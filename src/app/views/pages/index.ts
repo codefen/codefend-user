@@ -22,6 +22,7 @@ export const AdminCompany = lazy(() => import('./panel/layouts/admin/layouts/Adm
 
 export const ResellerLeadsLayout= lazy(() => import('./panel/layouts/reseller/layouts/ResellerLeadsLayout.tsx'))
 export const ResellerUsersLayout= lazy(() => import('./panel/layouts/reseller/layouts/ResellerUsersLayout.tsx'))
+export const ResellerCompaniesLayout= lazy(() => import('./panel/layouts/reseller/layouts/ResellerCompaniesLayout.tsx'))
 export const ProviderPage= lazy(() => import('./panel/layouts/providers/ProviderPanel.tsx'))
 export const ProfileProviderLayout= lazy(() => import('./panel/layouts/providers/layouts/profile-provider/ProfileProviderLayout.tsx'))
 export const OrdersReviewProviders = lazy(() => import('./panel/layouts/providers/layouts/orders-provider/OrdersProviderLayout.tsx'))

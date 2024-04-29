@@ -1,58 +1,54 @@
 import { SimpleSection } from '@defaults/SimpleSection';
 import { GlobeWebIcon } from '@icons';
 import {
-	defaultListLeadsColumns,
+	resellerCompanyColumns,
 	resellerUserActiveColumns,
 } from '@mocks/defaultData';
 import { LocationItem } from '@standalones/index';
 import { TableV2 } from '@table/tablev2';
-import type { Lead } from '@interfaces/lead';
 import type { FC } from 'react';
 import type { ResellerUser } from '@interfaces/user';
+import type { Company } from '@interfaces/company';
 
-interface ResellerAllUserProps {
-	users: ResellerUser[];
+interface ResellerAllCompaniesProps {
+	companies: Company[];
 	isLoading: boolean;
 }
 
-export const ResellerAllUser: FC<ResellerAllUserProps> = ({
-	users,
+export const ResellerAllCompanies: FC<ResellerAllCompaniesProps> = ({
+	companies,
 	isLoading,
 }) => {
-	const dataTable = users.map(
-		(user: ResellerUser) =>
+	const dataTable = companies.map(
+		(company: Company) =>
 			({
 				ID: { value: '', style: '' },
 				area: {
 					value: (
 						<LocationItem
-							country={user.pais || 'unknown'}
-							countryCode={user.pais_code}
+							country={company.pais || 'unknown'}
+							countryCode={company.pais_code}
 						/>
 					),
 					style: 'area',
 				},
-				company: { value: user.company_name, style: 'company' },
-				role: { value: user.role, style: 'role' },
-
+				company: { value: company.name, style: 'company' },
+				website: { value: company.web, style: 'web-site' },
+				size: { value: company.size, style: 'size' },
 				fullname: {
-					value: `${user.fname} ${user.lname}`,
+					value: `${company.owner_fname} ${company.owner_lname}`,
 					style: 'full-name',
 				},
-				phone: { value: user.phone, style: 'phone' },
-				email: { value: user.email, style: 'email' },
-				published: { value: user.creacion, style: 'date' },
+				published: { value: company.creacion, style: 'date' },
 			}) as any,
 	);
 
 	return (
 		<div className="card">
-			<SimpleSection
-				header="Listing all users created"
-				icon={<GlobeWebIcon />}>
+			<SimpleSection header="Listing all companies" icon={<GlobeWebIcon />}>
 				<div className="">
 					<TableV2
-						columns={resellerUserActiveColumns}
+						columns={resellerCompanyColumns}
 						rowsData={dataTable}
 						showEmpty={!isLoading && !Boolean(dataTable.length)}
 						showRows={!isLoading}

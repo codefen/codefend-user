@@ -74,9 +74,14 @@ main.reseller {
 	.table {
 		.rows {
 			max-height: 70dvh;
+			.item {
+				min-height: 42px;
+				user-select: text;
+			}
 		}
+
 		.area {
-			flex: 1 1 7% !important;
+			flex: 1 1 7%;
 			max-width: 7%;
 			min-width: 7%;
 
@@ -101,6 +106,16 @@ main.reseller {
 			max-width: 25%;
 			min-width: 25%;
 			margin-inline-end: 2%;
+			.publish {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: normal;
+				overflow-wrap: break-word;
+				line-height: 1.3rem;
+			}
 		}
 		.size {
 			flex: 1 1 10% !important;
@@ -140,10 +155,6 @@ main.reseller {
 
 div.reseller-tables.table-users {
 	.table {
-		.item {
-			min-height: 42px;
-			user-select: text;
-		}
 		.company {
 			flex: 1 1 13.7% !important;
 			min-width: 13.7%;
@@ -187,7 +198,34 @@ div.reseller-tables.table-users {
 		}
 	}
 }
-
+div.reseller-tables.table-companies {
+	.table {
+		.area {
+			flex: 1 1 16%;
+			max-width: 16%;
+			min-width: 16%;
+			pre {
+				display: block;
+			}
+		}
+		.size {
+			max-width: 12%;
+			min-width: 12%;
+			margin-inline-end: 1%;
+		}
+		.web-site,
+		.full-name,
+		.company {
+			max-width: 18%;
+			min-width: 18%;
+			margin-inline-end: 1%;
+		}
+		.date {
+			max-width: 14%;
+			min-width: 14%;
+		}
+	}
+}
 [data-theme='dark'] {
 	main {
 		--reseller-header-shadow: 0px 0px 5rem 0px rgb(141 141 141 / 5%);

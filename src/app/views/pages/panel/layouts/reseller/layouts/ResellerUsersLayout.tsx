@@ -27,7 +27,7 @@ const ResellerUsersLayout = () => {
 				<ResourceByLocation
 					resource={users.current}
 					isLoading={isLoading}
-					type="user"
+					type="g"
 					title="Users by location"
 				/>
 			</section>

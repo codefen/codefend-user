@@ -24,6 +24,7 @@ interface MobileAppCardProps {
 	appMedia: string;
 	appDesc: string;
 	openReport?: () => void;
+	issueCount?: number;
 }
 
 export const AppCard: FC<MobileAppCardProps> = ({
@@ -41,6 +42,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	appReviews,
 	appDeveloper,
 	openReport,
+	issueCount,
 }) => {
 	const { isAdmin, isNormalUser } = useUserRole();
 	const { isImage, isMobileType, isDetails } = useAppCard({
@@ -96,13 +98,18 @@ export const AppCard: FC<MobileAppCardProps> = ({
 
 	const renderResourceDetail = () => {
 		if (isDetails) {
+			const activeReport = issueCount !== undefined && issueCount >= 1;
 			return (
 				<div className="actions">
 					<div onClick={handleClick}>Add issue</div>
 					<Show when={isAdmin() || isNormalUser()}>
 						<div onClick={handleDeleteResource}>Delete resource</div>
 					</Show>
-					<div onClick={openReport}>Report</div>
+					<div
+						onClick={openReport}
+						className={!activeReport ? 'disable-report-action' : ''}>
+						Report
+					</div>
 				</div>
 			);
 		} else {

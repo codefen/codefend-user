@@ -73,7 +73,7 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Leads',
-			id: 'sidebar_leads',
+			id: 'sidebar_r_leads',
 			icon: <LeadIcon isVisible />,
 			to: '/reseller/leads',
 			root: isReseller(),
@@ -81,9 +81,17 @@ const Sidebar: FC = () => {
 		},
 		{
 			title: 'Users',
-			id: 'sidebar_users',
+			id: 'sidebar_r_users',
 			icon: <UsersIcon isVisible />,
 			to: '/reseller/users',
+			root: false,
+			haveAccess: isReseller(),
+		},
+		{
+			title: 'Company',
+			id: 'sidebar_r_company',
+			icon: <AdminCompanyIcon />,
+			to: '/reseller/companies',
 			root: false,
 			haveAccess: isReseller(),
 		},

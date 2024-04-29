@@ -18,7 +18,7 @@ export const ResellerAllLeads: FC<ResellerAllLeadsProps> = ({ leads }) => {
 				area: {
 					value: (
 						<LocationItem
-							country={''}
+							country={lead.lead_pais || 'unknown'}
 							countryCode={lead.lead_pais_code}
 						/>
 					),

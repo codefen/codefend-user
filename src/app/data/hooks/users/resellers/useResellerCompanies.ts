@@ -20,8 +20,8 @@ export const useResellerCompanies = ()=>{
                 company_id: getCompany(),
             }
         }).then(({data}: any)=>{
-            console.log({data});
-        })
+            companies.current = data.companies;
+        });
     }
 
     return [companies, {getResellerCompanies, isLoading}] as const;

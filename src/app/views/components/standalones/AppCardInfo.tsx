@@ -34,10 +34,6 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 	const openReport = () => {
 		if (issueCount >= 1) {
 			openModal();
-		} else {
-			toast.error(
-				'This resource does not have issues to generate a report.',
-			);
 		}
 	};
 	return (
@@ -54,6 +50,7 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 					appMedia={selectedApp.appMedia}
 					appDesc={selectedApp.appDesc}
 					name={selectedApp.appName}
+					issueCount={issueCount}
 					appReviews={
 						'appReviews' in selectedApp ? selectedApp.appReviews : ''
 					}

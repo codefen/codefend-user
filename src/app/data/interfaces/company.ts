@@ -1,5 +1,6 @@
-export interface Company {
-    id: string;
+import type { AuditData, LocationData } from "./util";
+
+export interface Company extends AuditData, LocationData{
     name: string;
     class: string;
     sub_class: string;
@@ -7,10 +8,6 @@ export interface Company {
     web: string;
     mercado: string;
     size: string;
-    pais: string;
-    pais_code: string;
-    pais_provincia:string;
-    pais_ciudad: string;
     address: string;
     admin_user_id: string;
     admin_user_name: string;
@@ -24,6 +21,4 @@ export interface Company {
     orders_size: string;
     reseller_id: string;
     reseller_name: string;
-    eliminado: string;
-    creacion: string;
 }

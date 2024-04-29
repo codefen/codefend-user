@@ -535,6 +535,38 @@ export const resellerUserActiveColumns: ColumnTable[] = [
 	},
 ]
 
+export const resellerCompanyColumns: ColumnTable[] = [
+	{
+		name: "area",	
+		value: "area",	
+		style: "area",	
+	},
+	{
+		name: "company",	
+		value: "company",	
+		style: "company",	
+	},
+	{
+		name: "website",	
+		value: "website",	
+		style: "web-site",	
+	},
+	{
+		name: "size",	
+		value: "company size",	
+		style: "size",	
+	},
+	{
+		name: "fullname",	
+		value: "full name",	
+		style: "full-name",	
+	},
+	{
+		name: "published",	
+		value: "Creation date",	
+		style: "date",	
+	},
+]
 
 export const webResourcesWithoutActions = [
 	{
