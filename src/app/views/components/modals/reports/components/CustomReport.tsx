@@ -24,6 +24,7 @@ import { MobileResourceScope } from './MobileResourceScope';
 import { ReportFrontpage } from './ReportFrontpage';
 import { ReportSectionTemplate } from './ReportSection';
 import useTimeout from '#commonHooks/useTimeout';
+import { NetworkResourceScope } from './NetworkResourceScope';
 
 interface CustomReportProps {
 	isModal?: boolean;
@@ -68,8 +69,11 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 					isLoading={isLoading}
 				/>
 			);
+		} else if (resourceType == 'lan') {
+			return (
+				<NetworkResourceScope resources={resources} isLoading={isLoading} />
+			);
 		}
-
 		return <></>;
 	};
 

@@ -217,21 +217,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 														{subNetwork.issueCount}
 													</span>
 												</span>
-												<span
-													title="View report"
-													className="issue-printer"
-													onClick={() =>
-														generateReport(
-															subNetwork.id,
-															subNetwork.issueCount,
-														)
-													}>
-													<DocumentIcon
-														isButton
-														width={1.27}
-														height={1.27}
-													/>
-												</span>
+
 												<Show when={isNormalUser() || isAdmin()}>
 													<span
 														title="Delete"

@@ -673,6 +673,8 @@ export const lanResourcesTable = [
 	},
 ];
 
+export const lanResourcesTableWithoutAction = lanResourcesTable.filter((column)=> column.name !== "action");
+
 export const companyOrdersColumns = [
 	{
 		name: "orderClass",
@@ -737,8 +739,6 @@ export const companyMembersColumns = [
 		style: "role"
 	},
 ];
-
-export const lanResourcesTableWithoutAction = lanResourcesTable.filter((column)=> column.name !== "action")
 
 export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id action"}]);
 

@@ -8,7 +8,13 @@ import {
 	sourceCodeColumnsWithoutAction,
 } from '../../../../../../data';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import { TrashIcon, BugIcon, SourceCodeIcon, CredentialIcon } from '@icons';
+import {
+	TrashIcon,
+	BugIcon,
+	SourceCodeIcon,
+	CredentialIcon,
+	DocumentIcon,
+} from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import { AddRepositoryModal } from '../../../../../components/modals/adding-modals/AddRepositoryModal';
@@ -56,6 +62,11 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 			style: '',
 		});
 	}
+	tableAction.icon.push({
+		action: (id: string) => {},
+		render: <DocumentIcon isButton width={1.27} height={1.27} />,
+		style: '',
+	});
 	tableAction.icon.push({
 		action: (id: string) => {
 			setResourceId(id);
