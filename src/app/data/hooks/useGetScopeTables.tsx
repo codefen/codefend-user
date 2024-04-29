@@ -127,7 +127,6 @@ export const useGetScopeTables = () => {
 			return { rows, columns: sourceCodeScopeColumns };
 		}
 		if (scopeALias === 'n') {
-			console.log({ scope });
 			rows =
 				scope.map((res: any) => ({
 					ID: { value: '', style: '' },

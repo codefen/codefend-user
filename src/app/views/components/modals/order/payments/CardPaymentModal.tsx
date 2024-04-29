@@ -38,7 +38,6 @@ export const CardPaymentModal = () => {
 				order_id: orderId,
 			},
 		}).then(({ data }: any) => {
-			console.log({ merchData: data });
 			merchId.current = data.merch_cid;
 			return data.merch_cs as string;
 		});
@@ -63,7 +62,6 @@ export const CardPaymentModal = () => {
 				timeout: 100000,
 			})
 				.then(({ data }: any) => {
-					console.log({ data });
 					if (data.status === 'complete') {
 						updateState('orderStepActive', OrderSection.WELCOME);
 					}

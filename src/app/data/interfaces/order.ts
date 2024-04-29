@@ -27,18 +27,21 @@ export enum ResourcesTypes {
 export enum OrderOffensive {
     CAREFUL="careful",
     OFFENSIVE="offensive",
-    ADVERSARY="adversary"
+    ADVERSARY="adversary",
+    UNKNOWN="unknown"
 }
 
 export enum OrderTeamSize {
     SMALL="small",
     MID="medium",
-    FULL="full"
+    FULL="full",
+    UNKNOWN="unknown"
 }
 
 export enum ScopeOption {
     ALL,
-    TYPE
+    TYPE,
+    UNKNOWN
 }
 
 export enum CryptoPayment {
@@ -62,11 +65,13 @@ export interface ScopeOptions {
 export enum OrderPaymentMethod {
     CRYPTO="cc",
     CARD="card",
-    BANK_TRANSFER="bank"
+    BANK_TRANSFER="bank",
+    UNKNOWN="unknown"
 }
 export enum OrderFrequency {
     ONCE="once",
-    MEMBER_SHIP="membership"
+    MEMBER_SHIP="membership",
+    UNKNOWN="unknown"
 }
 
 export interface ResumeAllResources {

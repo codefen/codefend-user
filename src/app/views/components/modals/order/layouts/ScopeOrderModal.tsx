@@ -18,14 +18,14 @@ export const ScopeOrderModal: FC = () => {
 	} = useOrderStore((state) => state);
 
 	const [scopeOptionW, setScopeOptionW] = useState<ScopeOption>(
-		ScopeOption.TYPE,
+		ScopeOption.UNKNOWN,
 	);
 	const [acceptConditions, setAcceptCondition] = useState<boolean>(false);
 	const [tryClick, setTryClick] = useState<boolean>(false);
 	const { sendScopeOrders } = useOrderScope();
 	const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
 	const nextStep = () => {
-		if (acceptConditions) {
+		if (acceptConditions && scopeOptionW !== ScopeOption.UNKNOWN) {
 			setScopeOption(scopeOptionW);
 
 			const sendScope =
@@ -34,7 +34,7 @@ export const ScopeOrderModal: FC = () => {
 				updateState('referenceNumber', res.order.reference_number);
 			});
 			updateState('orderStepActive', OrderSection.FREQUENCY);
-		} else {
+		} else if (!acceptConditions) {
 			setTryClick(true);
 			oneExecute();
 		}

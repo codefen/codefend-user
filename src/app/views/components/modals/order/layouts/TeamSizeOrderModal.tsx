@@ -37,9 +37,11 @@ export const TeamSizeOrderModal: FC = () => {
 			? currentPrices[teamSizeW.valueOf() as keyof typeof currentPrices]
 			: '';
 
-		sendPlanTeamSize(teamSizeW, chosenPrice, referenceNumber, orderId);
-		updateState('teamSize', teamSizeW);
-		updateState('orderStepActive', OrderSection.ORDER_REVIEW);
+		if (teamSizeW !== OrderTeamSize.UNKNOWN) {
+			sendPlanTeamSize(teamSizeW, chosenPrice, referenceNumber, orderId);
+			updateState('teamSize', teamSizeW);
+			updateState('orderStepActive', OrderSection.ORDER_REVIEW);
+		}
 	};
 
 	const TeamSizeLoader = () => (

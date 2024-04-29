@@ -13,7 +13,6 @@ export const InvitationSignup: FC = () => {
 	};
 
 	useEffect(() => {
-		console.log({ ref });
 		setForm((current: any) => ({
 			...current,
 			invokeHash: ref || '',

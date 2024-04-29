@@ -20,7 +20,6 @@ export const useResellerDashboard = ()=>{
                 company_id: getCompany(),
             }
         }).then(({data}: any)=>{
-            console.log({data});
         })
     }
 

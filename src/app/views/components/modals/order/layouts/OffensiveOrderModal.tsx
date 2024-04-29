@@ -16,14 +16,16 @@ export const OffensiveOrderModal: FC = () => {
 	const { sendOrderProvider } = useOrderOffensive();
 
 	const nextStep = () => {
-		updateState('offensiveOrder', offensiveOrderW);
-		sendOrderProvider(referenceNumber, offensiveOrderW, orderId).then(
-			(data: any) => {
-				if (data.error == 0) {
-					updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
-				}
-			},
-		);
+		if (offensiveOrderW !== OrderOffensive.UNKNOWN) {
+			updateState('offensiveOrder', offensiveOrderW);
+			sendOrderProvider(referenceNumber, offensiveOrderW, orderId).then(
+				(data: any) => {
+					if (data.error == 0) {
+						updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
+					}
+				},
+			);
+		}
 	};
 
 	return (

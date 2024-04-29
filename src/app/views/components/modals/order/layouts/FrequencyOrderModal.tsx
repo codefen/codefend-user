@@ -16,7 +16,7 @@ export const FrequencyOrderModal: FC = () => {
 	const { sendMemberShip } = useOrderMembership();
 
 	const nextStep = () => {
-		if (referenceNumber) {
+		if (referenceNumber && frequencyW !== OrderFrequency.UNKNOWN) {
 			updateState('frequency', frequencyW);
 			sendMemberShip(frequencyW, referenceNumber, orderId).then(
 				(res: any) => {},

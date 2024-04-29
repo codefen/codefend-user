@@ -16,7 +16,6 @@ export const PasswordRecovery = () => {
 		repeatedPassword: '',
 	});
 	useEffect(() => {
-		console.log({ ref });
 		setPasswordRecovery((current: any) => ({
 			...current,
 			referenceNumber: ref || '',
