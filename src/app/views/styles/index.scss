@@ -310,22 +310,6 @@ main.cloud {
 			width: 100%;
 			height: 100%;
 		}
-		.list {
-			display: flex;
-			flex-direction: column;
-			flex: 1 1 90%;
-			row-gap: 0.938rem;
-			width: 100%;
-			overflow-y: auto;
-			overflow-x: hidden;
-			// padding-inline-end: 10px;
-
-			.app-info {
-				cursor: pointer;
-				height: fit-content;
-			}
-		}
-
 		.add-button {
 			display: flex;
 			width: 100%;
@@ -470,37 +454,20 @@ main.cloud {
 			padding-inline-end: 10px;
 		}
 	}
-
-	@include mixin.respond(small) {
+}
+main {
+	.list {
 		display: flex;
 		flex-direction: column;
-		padding-inline-start: 10px;
-		height: 81dvh;
+		flex: 1 1 90%;
+		row-gap: 0.938rem;
+		width: 100%;
 		overflow-y: auto;
-		min-height: auto;
-		.left {
-			padding-block-start: 35px;
-			width: 100%;
-		}
+		overflow-x: hidden;
 
-		.right {
-			min-height: 600px;
-			width: 100%;
-			overflow: hidden;
-
-			.selected-content {
-				display: block;
-				width: 100%;
-
-				.selected-content-credentials {
-					height: 100%;
-					width: 100%;
-				}
-
-				.selected-content-tables {
-					width: 100%;
-				}
-			}
+		.app-info {
+			cursor: pointer;
+			height: fit-content;
 		}
 	}
 }

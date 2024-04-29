@@ -16,6 +16,7 @@ import useModalStore from '@stores/modal.store';
 import { ResourceFigure } from '@standalones/resource-figure/ResourceFigure';
 import { ViewResourcesTable } from './components/ViewResourcesTable';
 import { useReportStore } from '@stores/report.store';
+import { ViewAppCard } from './components/ViewAppCard';
 
 interface SelectReportTypeModalProps {
 	issues: Issues[];
@@ -164,11 +165,23 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						/>
 					</div>
 				</Show>
-				<Show when={activeView !== 'selector'}>
+				<Show
+					when={
+						activeView !== 'selector' &&
+						activeView !== 'mobile' &&
+						activeView !== 'cloud'
+					}>
 					<ViewResourcesTable
 						scopeALias={alias}
 						type={activeView}
 						getReport={handleReportForTable}
+					/>
+				</Show>
+				<Show when={activeView === 'mobile' || activeView === 'cloud'}>
+					<ViewAppCard
+						getReport={handleReportForTable}
+						scopeALias={alias}
+						type={activeView}
 					/>
 				</Show>
 			</div>

@@ -56,4 +56,41 @@
 			}
 		}
 	}
+
+	.card {
+		.list {
+			max-width: 90%;
+			margin-inline: auto;
+			max-height: 21rem;
+			padding-block-end: 2rem;
+
+			.app-info {
+				border-radius: 0.75rem;
+			}
+			.app-card-border {
+				border-radius: 0.65rem;
+			}
+
+			.app-card-content-body .app-card-title h3 {
+				overflow: hidden;
+			}
+		}
+	}
+}
+
+[data-theme='dark'] {
+	.type-selector-container {
+		.card {
+			.list {
+				.app-info {
+					border: 1px solid var(--primary-color-600);
+					margin-inline-end: 1rem;
+				}
+				.app-card-content-body .app-card-title,
+				h3 {
+					background: var(--primary-color-200);
+				}
+			}
+		}
+	}
 }
