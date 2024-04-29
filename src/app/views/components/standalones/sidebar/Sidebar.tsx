@@ -96,6 +96,14 @@ const Sidebar: FC = () => {
 			haveAccess: isReseller(),
 		},
 		{
+			title: 'Orders',
+			id: 'sidebar_r_orders',
+			icon: <ChartIcon />,
+			to: '/reseller/orders',
+			root: false,
+			haveAccess: isReseller(),
+		},
+		{
 			title: 'Dashboard',
 			id: 'sidebar_dashboard',
 			icon: <ChartIcon />,

@@ -568,6 +568,59 @@ export const resellerCompanyColumns: ColumnTable[] = [
 	},
 ]
 
+export const resellerOrdersColumn: ColumnTable[] = [
+	{
+		name: "area",	
+		value: "area",	
+		style: "area",	
+	},
+	{
+		name: "company",	
+		value: "company",	
+		style: "id",	
+	},
+	{
+		name: "plan",	
+		value: "plan",	
+		style: "plan",	
+	},
+	{
+		name: "provider",	
+		value: "provider",	
+		style: "id",	
+	},
+	{
+		name: "resellerFunds",	
+		value: "reseller fund",	
+		style: "funds",	
+	},
+	{
+		name: "codefendFunds",	
+		value: "codefend fund",	
+		style: "funds",	
+	},
+	{
+		name: "providerFunds",	
+		value: "provider fund",	
+		style: "funds",	
+	},
+	{
+		name: "orderState",	
+		value: "state",	
+		style: "state",	
+	},
+	{
+		name: "finish",	
+		value: "Finish date",	
+		style: "date",	
+	},
+	{
+		name: "published",	
+		value: "Creation date",	
+		style: "date",	
+	},
+]
+
 export const webResourcesWithoutActions = [
 	{
 		name: "Identifier",

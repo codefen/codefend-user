@@ -2,11 +2,12 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
+import type { FullOrder } from '@interfaces/order';
 
 export const useResellerOrders = ()=>{
     const [fetcher, _, isLoading] = useFetcher();
     const { getCompany } = useUserData();
-    const orders = useRef<any[]>([]);
+    const orders = useRef<FullOrder[]>([]);
 
     const getResellerOrders =  ()=>{
         const companyID = getCompany();
@@ -20,7 +21,7 @@ export const useResellerOrders = ()=>{
                 company_id: getCompany(),
             }
         }).then(({data}: any)=>{
-            console.log({data});
+            orders.current = data.orders ? data.orders : [];
         })
     }
 

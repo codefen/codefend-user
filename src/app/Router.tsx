@@ -26,6 +26,7 @@ import {
 	ProfileProviderLayout,
 	OrdersReviewProviders,
 	ResellerCompaniesLayout,
+	ResellerOrdersLayout,
 } from './views/pages';
 import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from '@modals/reports/PageReport.tsx';
@@ -150,6 +151,10 @@ export const AppRouter: React.FC = () => {
 								<Route
 									path="reseller/companies"
 									element={<ResellerCompaniesLayout />}
+								/>
+								<Route
+									path="reseller/orders"
+									element={<ResellerOrdersLayout />}
 								/>
 							</>
 						)}
