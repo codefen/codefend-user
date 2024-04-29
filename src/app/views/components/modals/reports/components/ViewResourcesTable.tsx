@@ -13,7 +13,7 @@ const getPath = (alias: string) => {
 	if (alias == 'm') return 'mobile';
 	if (alias == 'c') return 'cloud';
 	if (alias == 'sc') return 'source';
-	if (alias == 'n') return 'lan';
+	return 'lan';
 };
 export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 	type,
