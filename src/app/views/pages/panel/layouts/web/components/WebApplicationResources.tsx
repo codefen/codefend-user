@@ -108,7 +108,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 						</span>
 						<span
 							title="View report"
-							className="issue-printer"
+							className={`issue-printer ${Number(mainNetwork.final_issues) == 0 ? 'off' : ''}`}
 							onClick={() =>
 								generateReport(mainNetwork.id, mainNetwork.final_issues)
 							}>
@@ -219,7 +219,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												</span>
 												<span
 													title="View report"
-													className="issue-printer"
+													className={`issue-printer ${Number(subNetwork.final_issues) == 0 ? 'off' : ''}`}
 													onClick={() =>
 														generateReport(
 															subNetwork.id,

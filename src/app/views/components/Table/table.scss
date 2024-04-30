@@ -379,6 +379,17 @@
 					color: var(--secondary-color-100);
 				}
 			}
+
+			&.off {
+				opacity: 0.5;
+				cursor: default;
+
+				&:hover,
+				&:hover svg,
+				&:hover path {
+					color: inherit;
+				}
+			}
 		}
 
 		.issue-count {
