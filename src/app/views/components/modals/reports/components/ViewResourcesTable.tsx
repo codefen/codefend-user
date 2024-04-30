@@ -36,7 +36,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 				let filterResult = resources;
 				if (scopeALias == 'w') {
 					filterResult = filterResult.filter(
-						(resource: any) => resource.issues_count > 0,
+						(resource: any) => resource.final_issues > 0,
 					);
 				}
 				dataTable.current = getDataScopeResourceTable(
