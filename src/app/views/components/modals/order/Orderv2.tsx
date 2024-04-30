@@ -4,9 +4,7 @@ import { ModalWrapper } from '..';
 import { ScopeOrderModal } from './layouts/ScopeOrderModal';
 import { FrequencyOrderModal } from './layouts/FrequencyOrderModal';
 import { TeamSizeOrderModal } from './layouts/TeamSizeOrderModal';
-import { OrderReviewModal } from './layouts/OrderReviewModal';
 import { PageLoader } from '../..';
-import { LeadOrderModal } from './layouts/LeadOrderModal';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
 import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
@@ -38,10 +36,10 @@ export const OrderV2 = () => {
 			return <FrequencyOrderModal />;
 		if (orderStepActive === OrderSection.TEAM_SIZE)
 			return <TeamSizeOrderModal />;
-		if (orderStepActive === OrderSection.ORDER_REVIEW)
-			return <OrderReviewModal updateNextStep={updateNextStep} />;
-		if (orderStepActive === OrderSection.SELECT_LEAD)
-			return <LeadOrderModal />;
+		//if (orderStepActive === OrderSection.ORDER_REVIEW)
+		//	return <OrderReviewModal updateNextStep={updateNextStep} />;
+		//if (orderStepActive === OrderSection.SELECT_LEAD)
+		//	return <LeadOrderModal />;
 		if (orderStepActive === OrderSection.ENVIRONMENT)
 			return <OffensiveOrderModal />;
 		if (orderStepActive === OrderSection.ADDITIONAL_INFO)

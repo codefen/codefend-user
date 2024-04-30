@@ -137,7 +137,7 @@ export const OffensiveOrderModal: FC = () => {
 					<PrimaryButton
 						text="back"
 						click={() =>
-							updateState('orderStepActive', OrderSection.SELECT_LEAD)
+							updateState('orderStepActive', OrderSection.TEAM_SIZE)
 						}
 						className="full"
 						buttonStyle="black"

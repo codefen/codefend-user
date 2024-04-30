@@ -34,43 +34,29 @@ export const ActiveProgressLine: FC<ActiveProgressLineProps> = ({
 				text="4"
 				styles={currentOrCompleted(
 					orderStepActive,
-					OrderSection.ORDER_REVIEW,
+					OrderSection.ENVIRONMENT,
 				)}
 			/>
 			<StepItem
 				text="5"
 				styles={currentOrCompleted(
 					orderStepActive,
-					OrderSection.SELECT_LEAD,
-				)}
-			/>
-			<StepItem
-				text="6"
-				styles={currentOrCompleted(
-					orderStepActive,
-					OrderSection.ENVIRONMENT,
-				)}
-			/>
-			<StepItem
-				text="7"
-				styles={currentOrCompleted(
-					orderStepActive,
 					OrderSection.ADDITIONAL_INFO,
 				)}
 			/>
 			<StepItem
-				text="8"
+				text="6"
 				styles={currentOrCompleted(orderStepActive, OrderSection.PAYMENT)}
 			/>
 			<StepItem
-				text="9"
+				text="7"
 				styles={currentOrCompleted(
 					orderStepActive,
 					OrderSection.ANY_PAYMENT_METHOD,
 				)}
 			/>
 			<StepItem
-				text="10"
+				text="8"
 				styles={currentOrCompleted(
 					orderStepActive,
 					orderStepActive == OrderSection.WELCOME

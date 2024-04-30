@@ -18,7 +18,7 @@ export const ScopeOrderModal: FC = () => {
 	} = useOrderStore((state) => state);
 
 	const [scopeOptionW, setScopeOptionW] = useState<ScopeOption>(
-		ScopeOption.UNKNOWN,
+		scope.scopeOption,
 	);
 	const [acceptConditions, setAcceptCondition] = useState<boolean>(false);
 	const [tryClick, setTryClick] = useState<boolean>(false);
