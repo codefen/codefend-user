@@ -15,17 +15,25 @@ main.lan {
 			}
 
 			.id {
-				max-width: 9%;
+				max-width: 8%;
+				min-width: 8%;
+				margin-inline-end: 1%;
 
 				&.action {
-					max-width: 12%;
+					max-width: 14%;
+					min-width: 14%;
 				}
 			}
 
-			.ip,
+			.ip {
+				max-width: 22%;
+				min-width: 22%;
+				margin-inline-end: 1%;
+			}
 			.full-name {
-				flex: 27% !important;
-				max-width: 27%;
+				max-width: 30%;
+				min-width: 30%;
+				margin-inline-end: 1%;
 			}
 		}
 	}
