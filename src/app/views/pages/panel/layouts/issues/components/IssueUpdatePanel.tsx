@@ -107,20 +107,9 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 					<div>
 						Published: <span>{formatDate(issueData.creacion)}</span>
 					</div>
-					{updatedIssue.resourceID !== 1 &&
-					updatedIssue.resourceID !== 0 ? (
+					{updatedIssue.resourceID && updatedIssue.resourceID !== 0 ? (
 						<div className="info-resourcer-id">
-							Resource ID:{' '}
-							<input
-								type="number"
-								value={updatedIssue.resourceID}
-								disabled={true}
-								name="resourceID"
-								onChange={handleChange}
-								step="1"
-								inputMode="numeric"
-								pattern="\d*"
-							/>
+							Resource ID: <span>@{issueData.resource_id}</span>
 						</div>
 					) : null}
 

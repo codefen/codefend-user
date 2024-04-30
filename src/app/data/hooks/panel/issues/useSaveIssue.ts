@@ -54,24 +54,13 @@ export const useIssuesValidations = () => {
 /* Custom Hook "useSaveIssue" to handle saving an issue*/
 export const useSaveIssue = () => {
 	const { getUserdata, getCompany } = useUserData();
-	const { type, resourceId } = useParams();
 	const [fetcher,_, isLoading] = useFetcher();
 	const [validateNewIssue] = useIssuesValidations();
 	const [newIssue, setNewIssue] = useState<SaveIssue>({
 		issueName: '',
 		score: '',
-		issueClass: [
-			'web',
-			'mobile',
-			'cloud',
-			'lan',
-			'source',
-			'social',
-			'research',
-		].includes(type ?? '')
-			? (type as string)
-			: '',
-		resourceID: Number(resourceId),
+		issueClass: "",
+		resourceID: 0,
 	});
 
 	const fetchSave = async (companyID: string) => {
@@ -124,14 +113,10 @@ export const useSaveIssue = () => {
 		return fetchSave(companyID);
 	};
 
-	const shouldDisableClass = Boolean(type && newIssue.issueClass);
-
 	return {
 		newIssue,
 		isAddingIssue: isLoading,
 		dispatch: setNewIssue,
 		save,
-		shouldDisableClass,
-		type,
 	};
 };

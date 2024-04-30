@@ -18,7 +18,8 @@ export const useGetResources = () => {
 			body: {
 				company_id: companyID,
 				model: `resources/${path}`,
-				ac: 'view_all'
+				ac: 'view_all',
+				childs: "yes"
 			},
 		}).then(({ data }) => {
 			return data.resources ? data.resources as any[]

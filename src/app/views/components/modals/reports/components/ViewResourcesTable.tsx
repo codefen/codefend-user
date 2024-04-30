@@ -7,6 +7,7 @@ export interface OrderCloudScopeProps {
 	type: string;
 	scopeALias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
 	getReport: (id: string, type: string) => void;
+	activeFilter: boolean;
 }
 const getPath = (alias: string) => {
 	if (alias == 'w') return 'web/index';
@@ -19,6 +20,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 	type,
 	scopeALias,
 	getReport,
+	activeFilter,
 }) => {
 	const { getAnyResource } = useGetResources();
 	const getDataScopeResourceTable = useGetScopeTables();
@@ -34,7 +36,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 		getAnyResource(getPath(scopeALias))
 			.then((resources) => {
 				let filterResult = resources;
-				if (scopeALias == 'w') {
+				if (activeFilter && scopeALias == 'w') {
 					filterResult = filterResult.filter(
 						(resource: any) => resource.final_issues > 0,
 					);

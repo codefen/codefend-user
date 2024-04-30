@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { type Issues, Sort } from '../../../../../../data';
 import {
@@ -21,16 +21,16 @@ interface IssueResourcesProps {
 	isLoading: boolean;
 	issues: Issues[];
 	refresh: () => void;
+	addFinding: () => void;
 }
 
 export const IssueResources: FC<IssueResourcesProps> = (props) => {
+	const navigate = useNavigate();
 	const [selected, setSelectedId] = useState('');
 	const { showModal, setShowModal } = useModal();
 	const { handleDelete } = useDeleteIssue();
-	const navigate = useNavigate();
 	const { baseUrl } = useNewWindows();
 	const { isProvider, isAdmin } = useUserRole();
-
 	let dataTable = props.issues.map((issue: Issues) => ({
 		ID: { value: issue.id, style: '' },
 		published: { value: issue.createdAt, style: 'date' },
@@ -92,11 +92,7 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 					</div>
 					<Show when={isAdmin() || isProvider()}>
 						<div className="actions">
-							<div
-								className=""
-								onClick={() => {
-									navigate('/issues/create');
-								}}>
+							<div className="" onClick={() => props.addFinding()}>
 								Add finding
 							</div>
 						</div>

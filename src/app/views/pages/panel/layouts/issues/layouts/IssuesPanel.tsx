@@ -23,8 +23,6 @@ const IssuesPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const [filters, setFilters] = useState<string[]>([]);
 	const { issues, others, isLoading, refetchAll } = useIssues();
-	const { fetchReport } = useIssueReport();
-	const { setResourceID, setResourceType } = useReportStore((state) => state);
 	const { setIsOpen, setModalId } = useModalStore();
 	const flashlight = useFlashlight();
 
@@ -52,6 +50,11 @@ const IssuesPanel: FC = () => {
 		}
 	};
 
+	const handleAddFinding = () => {
+		setIsOpen(true);
+		setModalId('selectFinding');
+	};
+
 	return (
 		<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
 			<SelectReportTypeModal
@@ -72,6 +75,7 @@ const IssuesPanel: FC = () => {
 							: issues
 					}
 					refresh={refresh}
+					addFinding={handleAddFinding}
 				/>
 			</section>
 			<section className="right" ref={flashlight.rightPaneRef}>

@@ -17,6 +17,7 @@ import { ResourceFigure } from '@standalones/resource-figure/ResourceFigure';
 import { ViewResourcesTable } from './components/ViewResourcesTable';
 import { useReportStore } from '@stores/report.store';
 import { ViewAppCard } from './components/ViewAppCard';
+import { useNavigate } from 'react-router';
 
 interface SelectReportTypeModalProps {
 	issues: Issues[];
@@ -51,6 +52,7 @@ const getIssueResourceCountV2 = (
 export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 	issues,
 }) => {
+	const navigate = useNavigate();
 	const { isOpen, modalId, setIsOpen } = useModalStore();
 	const [activeView, setActiveView] = useState('selector');
 	const [alias, setAlias] = useState<'w' | 'm' | 'c' | 's' | 'sc' | 'n'>('w');
@@ -94,17 +96,31 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 	};
 
 	const handleReportForTable = (id: string, type: string) => {
-		setIsOpen(false);
-		setActiveView('selector');
-		openModal();
-		setResourceID(id);
-		setResourceType(type);
+		if (modalId == 'selectReport') {
+			setIsOpen(false);
+			setActiveView('selector');
+			openModal();
+			setResourceID(id);
+			setResourceType(type);
+		} else if (modalId == 'selectFinding') {
+			navigate(`/issues/create/${type}/${id}`);
+		}
 	};
-
+	const handleResearch = () => {
+		if (modalId == 'selectFinding') {
+			navigate(`/issues/create/research`);
+		}
+	};
+	const f =
+		modalId == 'selectReport'
+			? 'Choose the resource class to generate the report'
+			: '';
 	return (
 		<ModalTitleWrapper
 			headerTitle="Select report type"
-			isActive={isOpen && modalId == 'selectReport'}
+			isActive={
+				isOpen && (modalId == 'selectReport' || modalId == 'selectFinding')
+			}
 			close={handleClose}>
 			<div
 				className={`report-type-modal ${activeView !== 'selector' && 'type-selector-container'}`}>
@@ -116,14 +132,20 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 							title="Web"
 							count={resourceCount.current['web']}
 							click={() => handleChangeView('web', 'w')}
-							isActive={resourceCount.current['web'] > 0}
+							isActive={
+								resourceCount.current['web'] > 0 ||
+								modalId == 'selectFinding'
+							}
 						/>
 						<ResourceFigure
 							icon={<MobileIcon />}
 							title="Mobile"
 							count={resourceCount.current['mobile']}
 							click={() => handleChangeView('mobile', 'm')}
-							isActive={resourceCount.current['mobile'] > 0}
+							isActive={
+								resourceCount.current['mobile'] > 0 ||
+								modalId == 'selectFinding'
+							}
 						/>
 
 						<ResourceFigure
@@ -131,7 +153,10 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 							title="Cloud"
 							count={resourceCount.current['cloud']}
 							click={() => handleChangeView('cloud', 'c')}
-							isActive={resourceCount.current['cloud'] > 0}
+							isActive={
+								resourceCount.current['cloud'] > 0 ||
+								modalId == 'selectFinding'
+							}
 						/>
 
 						<ResourceFigure
@@ -139,7 +164,10 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 							title="Source"
 							count={resourceCount.current['source']}
 							click={() => handleChangeView('source code', 'sc')}
-							isActive={resourceCount.current['source'] > 0}
+							isActive={
+								resourceCount.current['source'] > 0 ||
+								modalId == 'selectFinding'
+							}
 						/>
 
 						<ResourceFigure
@@ -147,6 +175,10 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 							title="Social"
 							count={resourceCount.current['social']}
 							click={() => handleChangeView('social', 's')}
+							isActive={
+								resourceCount.current['social'] > 0 ||
+								modalId == 'selectFinding'
+							}
 						/>
 
 						<ResourceFigure
@@ -154,14 +186,21 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 							title="Network"
 							count={resourceCount.current['lan']}
 							click={() => handleChangeView('network', 'n')}
-							isActive={resourceCount.current['lan'] > 0}
+							isActive={
+								resourceCount.current['lan'] > 0 ||
+								modalId == 'selectFinding'
+							}
 						/>
 
 						<ResourceFigure
 							icon={<BugIcon />}
 							title="Research"
 							count={resourceCount.current['research']}
-							isActive={resourceCount.current['research'] > 0}
+							isActive={
+								resourceCount.current['research'] > 0 ||
+								modalId == 'selectFinding'
+							}
+							click={handleResearch}
 						/>
 					</div>
 				</Show>
@@ -175,6 +214,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						scopeALias={alias}
 						type={activeView}
 						getReport={handleReportForTable}
+						activeFilter={modalId !== 'selectFinding'}
 					/>
 				</Show>
 				<Show when={activeView === 'mobile' || activeView === 'cloud'}>

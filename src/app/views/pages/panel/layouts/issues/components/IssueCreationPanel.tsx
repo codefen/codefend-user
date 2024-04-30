@@ -1,5 +1,5 @@
 import { type FC, type ChangeEvent, useEffect, useState } from 'react';
-import { useNavigate, type NavigateFunction } from 'react-router';
+import { useNavigate, useParams, type NavigateFunction } from 'react-router';
 import { type SaveIssue, useSaveIssue } from '../../../../../../data';
 import {
 	LeftArrowIcon,
@@ -28,8 +28,8 @@ const handleIssueUpdate = (
 };
 const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 	const navigate = useNavigate();
-	const { newIssue, isAddingIssue, dispatch, save, shouldDisableClass, type } =
-		useSaveIssue();
+	const { type, resourceId } = useParams();
+	const { newIssue, isAddingIssue, dispatch, save } = useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
 	const [isLoaded] = useLoadIframe(() =>
 		handleIssueUpdate(isEditable, save, navigate),
@@ -37,6 +37,22 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 
 	useEffect(() => {
 		let timeID;
+		const isValidID = !isNaN(Number(resourceId)) && Number(resourceId) !== 0;
+		dispatch((state) => ({
+			...state,
+			issueClass: [
+				'web',
+				'mobile',
+				'cloud',
+				'lan',
+				'source',
+				'social',
+				'research',
+			].includes(type || '')
+				? (type as string)
+				: '',
+			resourceID: isValidID ? Number(resourceId) : 0,
+		}));
 		if (isLoaded) {
 			timeID = setTimeout(() => setEditable(true), 75);
 		}
@@ -53,7 +69,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 			[name]: name == 'resourceID' ? value.replace(/[^0-9]/g, '') : value,
 		}));
 	};
-
+	const shouldDisableClass = type !== '' && newIssue.issueClass !== '';
 	return (
 		<>
 			<div className="header">
@@ -83,17 +99,9 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 			</div>
 
 			<div className="info">
-				{newIssue.resourceID ? (
-					<div className="issue-detail-select select-resource">
-						<label>Resource ID:</label>
-						<input
-							className="log-inputs"
-							type="number"
-							value={newIssue.resourceID}
-							name="resourceID"
-							onChange={handleChange}
-							pattern="\d*"
-						/>
+				{newIssue.resourceID && newIssue.resourceID !== 0 ? (
+					<div className="info-resourcer-id">
+						Resource ID: <span>{newIssue.resourceID}</span>
 					</div>
 				) : null}
 				<div className="issue-detail-select">
@@ -140,7 +148,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 
 			<div>
 				<AppEditor
-					initialValue={''}
+					initialValue={'<p>Please add issues here...</p>'}
 					isEditable={isEditable}
 					isIssueCreation
 				/>
