@@ -157,6 +157,8 @@ export const ScopeOrderModal: FC = () => {
 						click={nextStep}
 						className="full"
 						buttonStyle="red"
+						isDisabled={scopeOptionW === ScopeOption.UNKNOWN}
+						disabledLoader
 					/>
 				</div>
 			</div>

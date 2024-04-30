@@ -132,8 +132,8 @@ export const LeadOrderModal: FC = () => {
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container ">
 					<PrimaryButton
-						text="Cancel"
-						click={resetActiveOrder}
+						text="Back"
+						click={backStep}
 						className="full"
 						buttonStyle="black"
 						disabledLoader

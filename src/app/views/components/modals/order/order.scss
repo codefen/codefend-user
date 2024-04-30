@@ -27,6 +27,18 @@
 	--option-header-title: var(--primary-color-50);
 	--option-header-span: var(--primary-color-200);
 
+	button:disabled {
+		opacity: 0.75;
+		cursor: default !important;
+
+		&:hover,
+		&:focus {
+			background-color: var(--secondary-color-50) !important;
+			scale: 1;
+			transform: scale(1);
+		}
+	}
+
 	.order-plan-loader-title {
 		width: 100%;
 		text-align: center;
@@ -39,6 +51,10 @@
 	.stripe-container {
 		overflow-y: auto;
 		margin-block-end: 2rem;
+	}
+	.stripe-back-btn {
+		max-width: 40%;
+		margin-inline-start: 1.5rem;
 	}
 	.order-header {
 		display: flex;

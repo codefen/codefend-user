@@ -112,6 +112,8 @@ export const BankPaymentModal = () => {
 						click={finishStep}
 						className="full"
 						buttonStyle="red"
+						isDisabled={transactionID.trim() === ''}
+						disabledLoader
 					/>
 				</div>
 			</div>

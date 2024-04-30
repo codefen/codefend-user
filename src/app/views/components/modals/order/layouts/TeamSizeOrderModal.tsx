@@ -144,6 +144,8 @@ export const TeamSizeOrderModal: FC = () => {
 							click={nextStep}
 							className="full"
 							buttonStyle="red"
+							isDisabled={teamSizeW === OrderTeamSize.UNKNOWN}
+							disabledLoader
 						/>
 					</div>
 				</div>

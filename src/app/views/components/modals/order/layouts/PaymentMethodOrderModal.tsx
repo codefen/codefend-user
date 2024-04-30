@@ -140,6 +140,8 @@ export const PaymentMethodOrderModal: FC = () => {
 						click={nextStep}
 						className="full"
 						buttonStyle="red"
+						isDisabled={paymentMethodW === OrderPaymentMethod.UNKNOWN}
+						disabledLoader
 					/>
 				</div>
 			</div>

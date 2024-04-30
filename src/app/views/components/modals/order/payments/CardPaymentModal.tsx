@@ -1,9 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-	OrderSection,
-	useOrderStore,
-	userOrderCardPayment,
-} from '../../../../../data';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { OrderSection, useOrderStore } from '../../../../../data';
 import { loadStripe } from '@stripe/stripe-js';
 import {
 	EmbeddedCheckoutProvider,
@@ -11,8 +7,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { ModalButtons } from '@standalones/utils/ModalButtons';
-import { FetchHttpService } from '@services/fetchHTTP.service';
+import { PrimaryButton } from '../../..';
 
 //pk_live_51OJhuSAYz1YvxmilzJk2qtYgC6lrwwjziEOc69rTgUI0guBwWsAlnHOViPvLlf6myPtxFrsr0l1JfmdTjDjV9iRt00zJeEpd45
 let stripePromise = loadStripe(
@@ -95,14 +90,14 @@ export const CardPaymentModal = () => {
 					className="stripe-container"
 					id="stripe-ex-contentr"
 				/>
+				<PrimaryButton
+					text="Back"
+					buttonStyle="black"
+					disabledLoader
+					click={backStep}
+					className="stripe-back-btn"
+				/>
 			</EmbeddedCheckoutProvider>
-			<ModalButtons
-				close={backStep}
-				closeText="Back"
-				confirmText="Next Step"
-				isDisabled={false}
-				boxStyle="button-wrapper next-btns"
-			/>
 		</>
 	);
 };

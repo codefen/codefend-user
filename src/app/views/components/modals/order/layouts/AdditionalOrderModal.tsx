@@ -68,6 +68,7 @@ Is there any other additional information for our professionals?`;
 						click={continueToPayment}
 						className="full"
 						buttonStyle="red"
+						disabledLoader
 					/>
 				</div>
 			</div>

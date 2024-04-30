@@ -18,9 +18,7 @@ export const FrequencyOrderModal: FC = () => {
 	const nextStep = () => {
 		if (referenceNumber && frequencyW !== OrderFrequency.UNKNOWN) {
 			updateState('frequency', frequencyW);
-			sendMemberShip(frequencyW, referenceNumber, orderId).then(
-				(res: any) => {},
-			);
+			sendMemberShip(frequencyW, referenceNumber, orderId);
 			updateState('orderStepActive', OrderSection.TEAM_SIZE);
 		}
 	};
@@ -107,6 +105,8 @@ export const FrequencyOrderModal: FC = () => {
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
+						isDisabled={frequencyW === OrderFrequency.UNKNOWN}
+						disabledLoader
 						text="Proceed to the next step"
 						click={nextStep}
 						className="full"

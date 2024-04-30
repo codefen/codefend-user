@@ -150,6 +150,8 @@ export const OffensiveOrderModal: FC = () => {
 						click={nextStep}
 						className="full"
 						buttonStyle="red"
+						isDisabled={offensiveOrderW === OrderOffensive.UNKNOWN}
+						disabledLoader
 					/>
 				</div>
 			</div>
