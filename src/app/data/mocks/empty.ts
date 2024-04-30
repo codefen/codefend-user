@@ -90,13 +90,14 @@ export const EMPTY_SHARE = {
 }
 
 export const EMPTY_ISSUECLASS = {
-	total: "0",
-	web: "0",
-	mobile: "0",
-	infra: "0",
-	source: "0",
-	social: "0",
-	research: "0"
+	total:     "0",
+	web:       "0",
+	mobile:    "0",
+	infra:     "0",
+	lan:       "0",
+	source:    "0",
+	social:    "0",
+	research:  "0"
 }
 
 export const EMPTY_ISSUECONDITION = {

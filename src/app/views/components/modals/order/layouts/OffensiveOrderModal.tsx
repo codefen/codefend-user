@@ -102,38 +102,36 @@ export const OffensiveOrderModal: FC = () => {
 						</span>
 					</div>
 				</div>
-				<Show when={teamSize === OrderTeamSize.FULL}>
-					<div
-						className={`option order-pointer ${
-							offensiveOrderW === OrderOffensive.ADVERSARY &&
-							`select-option`
-						}`}
-						onClick={() => setOffensiveOrder(OrderOffensive.ADVERSARY)}>
-						<img
-							src="/codefend/pentest-adversary.png"
-							alt="adversary-pentest-icon"
-							className="step-image enviroment"
-							decoding="async"
-							loading="lazy"
-						/>
+				<div
+					className={`option order-pointer ${
+						offensiveOrderW === OrderOffensive.ADVERSARY &&
+						`select-option`
+					}`}
+					onClick={() => setOffensiveOrder(OrderOffensive.ADVERSARY)}>
+					<img
+						src="/codefend/pentest-adversary.png"
+						alt="adversary-pentest-icon"
+						className="step-image enviroment"
+						decoding="async"
+						loading="lazy"
+					/>
 
-						<div className="order-snapshot">
-							<div className="top">
-								<p className="pentest-option">
-									<span className="alt-color space">
-										Adversary simulation pentest:
-									</span>
-									not recommended / may cause stress
-								</p>
-							</div>
-							<span className="one-pentest">
-								Codefend's professionals will use all possible tecniques
-								in order to simulate a real attack & cause disorder.
-								Global scope, only premium.
-							</span>
+					<div className="order-snapshot">
+						<div className="top">
+							<p className="pentest-option">
+								<span className="alt-color space">
+									Adversary simulation pentest:
+								</span>
+								not recommended / may cause stress
+							</p>
 						</div>
+						<span className="one-pentest">
+							Codefend's professionals will use all possible tecniques in
+							order to simulate a real attack & cause disorder. Global
+							scope, only premium.
+						</span>
 					</div>
-				</Show>
+				</div>
 			</div>
 			<div className="button-wrapper next-btns">
 				<div className="secondary-container ">

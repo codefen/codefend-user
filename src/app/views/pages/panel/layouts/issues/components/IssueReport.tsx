@@ -16,7 +16,7 @@ export const IssueReport: FC<Props> = (props) => {
 		return Object.keys(props.issuesClasses)
 			.filter((item) => item !== 'total')
 			.filter(
-				(item: any, index: number) =>
+				(item: any) =>
 					props.issuesClasses[item as keyof typeof props.issuesClasses] !=
 					'0',
 			);
