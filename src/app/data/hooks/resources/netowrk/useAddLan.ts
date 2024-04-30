@@ -35,7 +35,7 @@ export const useAddLan = (onDone: () => void, close: () => void) => {
 				...params,
 			},
 		}).then(({ data }: any) => {
-			if (data.error == 1) {
+			if (data.error == 1 || data.response === "error") {
 				let message = data.info.includes('device_in_address')
 					? 'Device internal address is invalid'
 					: data.info.includes('device_ex_address')

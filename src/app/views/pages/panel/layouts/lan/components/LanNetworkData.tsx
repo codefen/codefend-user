@@ -164,6 +164,16 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 															<BugIcon isButton />
 														</span>
 													</Show>
+													<span
+														title="View report"
+														className="issue-printer"
+														onClick={() => {}}>
+														<DocumentIcon
+															isButton
+															width={1.27}
+															height={1.27}
+														/>
+													</span>
 													<Show when={isAdmin() || isNormalUser()}>
 														<span
 															title="Delete"

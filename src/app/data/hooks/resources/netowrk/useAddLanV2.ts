@@ -22,7 +22,7 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 		externalIpAddress: '',
 	});
 	/* Fetch LAN  Apps */
-	const fetchOne = useCallback((params: any, companyID: string) => {
+	const fetchSaveChild = useCallback((params: any, companyID: string) => {
 		fetcher('post', {
 			body: {
 				model: 'resources/lan',
@@ -32,11 +32,19 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 			},
 		})
 			.then(({ data }: any) => {
+				if (data.error == 1 || data.response === "error") {
+					let message = data.info.includes('device_in_address')
+						? 'Device internal address is invalid'
+						: data.info.includes('device_ex_address')
+							? 'device external address is invalid'
+							: 'An unexpected error has occurred on the server';
+	
+					toast.error(message);
+					return;
+				}
 				toast.success('successfully added Sub Network...');
-			})
-			.finally(() => {
-				close();
-				onDone();
+					close();
+					onDone();
 			});
 	}, []);
 
@@ -53,7 +61,7 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 			device_ex_address: externalIpAddress,
 			resource_lan_dad: mainDomainId,
 		};
-		fetchOne(requestBody, companyID);
+		fetchSaveChild(requestBody, companyID);
 	};
 
 	const validators = () => {
