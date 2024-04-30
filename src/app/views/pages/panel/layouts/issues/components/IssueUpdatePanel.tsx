@@ -132,7 +132,27 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 						Resource: <span>{issueData.resource_class}</span>
 					</div>
 					<div>
-						Risk: <span>{issueData.risk_level}</span>
+						Risk:{' '}
+						<select
+							onChange={(e: any) =>
+								dispatch((state) => ({
+									...state,
+									score: e.target.value,
+								}))
+							}
+							className="py-3 focus:outline-none log-inputs"
+							defaultValue={updatedIssue.score}
+							name="score"
+							disabled={isEditable}>
+							<option value="5">critical</option>
+							<option value="4">elevated</option>
+							<option value="3">medium</option>
+							<option value="2">low</option>
+							<option value="1">intel</option>
+							<option value="" hidden>
+								Unknown
+							</option>
+						</select>
 					</div>
 					<div>
 						Status:
@@ -146,7 +166,6 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 							className={`log-inputs`}
 							defaultValue={issueData.condicion}
 							name="status"
-							required
 							disabled={isEditable}>
 							<option value="open">open</option>
 							<option value="fixed">fixed</option>
