@@ -33,6 +33,10 @@ button.btn {
 		transform: scale(1.01);
 	}
 
+	&.margin-block {
+		margin-block: 1.25rem;
+	}
+
 	&.no-border-height {
 		height: auto;
 		border-radius: 0px;

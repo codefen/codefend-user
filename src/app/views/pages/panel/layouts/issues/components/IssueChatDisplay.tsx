@@ -22,7 +22,7 @@ export const IssueChatDisplay: FC<Props> = ({
 	refetch,
 }) => {
 	const location = useLocation();
-
+	const getIssueCs = selectedIssue.cs ? selectedIssue.cs : [];
 	return (
 		<div
 			className={`card messages ${
@@ -35,9 +35,9 @@ export const IssueChatDisplay: FC<Props> = ({
 						<Show when={!isLoading} fallback={<PageLoader />}>
 							<div
 								className={`messages-wrapper ${
-									selectedIssue.cs.length > 3 && 'item'
+									getIssueCs.length > 3 && 'item'
 								}`}>
-								{selectedIssue.cs.map(
+								{getIssueCs.map(
 									(message: IssueCustomerSupport, i: number) => (
 										<Fragment key={`mess-${message.id}-${i}`}>
 											<MessageCard

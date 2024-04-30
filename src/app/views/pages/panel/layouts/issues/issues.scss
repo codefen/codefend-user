@@ -239,10 +239,7 @@ main.issue-detail {
 	}
 
 	.right {
-		// flex: 1 1 25%;
 		height: 100%;
-		// padding-inline: 0px;
-		// width: 30%;
 
 		@include mixin.respond(small) {
 			width: 100%;
@@ -285,6 +282,10 @@ main.issues-list {
 	.left {
 		overflow: hidden;
 
+		.card {
+			overflow-y: hidden;
+		}
+
 		.table {
 			.column {
 				&.id {
@@ -302,13 +303,31 @@ main.issues-list {
 				}
 			}
 			.rows {
-				height: calc(100vh - 153px);
+				height: 80dvh;
+				max-height: 70rem;
 			}
 		}
 	}
 
 	.right {
+		display: block;
 		width: 30%;
+		height: 65rem;
+		margin-block-end: 5rem;
+
+		.card {
+			&.risk-chart {
+				margin-block-end: 1.25rem;
+				.content {
+					flex-direction: column;
+					@include mixin.minScreen(1825px) {
+						& {
+							flex-direction: row;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@include mixin.respond(small) {
