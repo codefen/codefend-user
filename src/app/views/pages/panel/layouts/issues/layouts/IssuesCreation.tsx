@@ -2,6 +2,7 @@ import { type FC, useEffect, useState } from 'react';
 import IssueCreationPanel from '../components/IssueCreationPanel';
 import { IssueChatDisplay } from '../components/IssueChatDisplay';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import type { IssueCustomerSupport, IssueUpdateData } from '@interfaces/issues';
 
 const IssuesCreation: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -14,7 +15,7 @@ const IssuesCreation: FC = () => {
 			<section className="right">
 				<IssueChatDisplay
 					isLoading={false}
-					selectedIssue={null}
+					selectedIssue={{} as IssueUpdateData}
 					refetch={() => {}}
 				/>
 			</section>

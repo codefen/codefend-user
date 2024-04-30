@@ -159,7 +159,7 @@ export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 		serverCountryCode: source?.server_pais_code || '',
 		serverCountryProvince: source?.server_pais_provincia || '',
 		serverCountryCity: source?.server_pais_ciudad || '',
-		issueCount: source?.issues_count || 0,
+		final_issues: source?.final_issues || 0,
 		isDisabled: source?.eliminado === '1',
 		createdAt: source?.creacion || '',
 
@@ -176,7 +176,7 @@ export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 						serverCountryCode: child.server_pais_code,
 						serverCountryProvince: child.server_pais_provincia,
 						serverCountryCity: child.server_pais_ciudad,
-						issueCount: child?.issues_count || 0,
+						final_issues: child?.final_issues || 0,
 						isDisabled: child.eliminado === '1',
 						createdAt: formatDate(child.creacion),
 					};

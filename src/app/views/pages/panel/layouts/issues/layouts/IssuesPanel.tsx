@@ -52,16 +52,6 @@ const IssuesPanel: FC = () => {
 		}
 	};
 
-	const createInform = () => {
-		const issue = handleIssuesFilter.filteredData
-			? handleIssuesFilter.filteredData[1].resourceID
-			: '';
-
-		setResourceID(issue);
-		setResourceType('web');
-		fetchReport();
-	};
-
 	return (
 		<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
 			<SelectReportTypeModal

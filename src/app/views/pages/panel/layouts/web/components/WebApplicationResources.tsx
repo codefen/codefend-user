@@ -103,14 +103,14 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							}>
 							<BugIcon isButton />
 							<span className="codefend-text-red-200 issue-count">
-								{mainNetwork.issueCount}
+								{mainNetwork.final_issues}
 							</span>
 						</span>
 						<span
 							title="View report"
 							className="issue-printer"
 							onClick={() =>
-								generateReport(mainNetwork.id, mainNetwork.issueCount)
+								generateReport(mainNetwork.id, mainNetwork.final_issues)
 							}>
 							<DocumentIcon isButton width={1.27} height={1.27} />
 						</span>
@@ -214,8 +214,23 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 													}>
 													<BugIcon isButton />
 													<span className="codefend-text-red-200 issue-count">
-														{subNetwork.issueCount}
+														{subNetwork.final_issues}
 													</span>
+												</span>
+												<span
+													title="View report"
+													className="issue-printer"
+													onClick={() =>
+														generateReport(
+															subNetwork.id,
+															subNetwork.final_issues,
+														)
+													}>
+													<DocumentIcon
+														isButton
+														width={1.27}
+														height={1.27}
+													/>
 												</span>
 
 												<Show when={isNormalUser() || isAdmin()}>

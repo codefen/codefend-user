@@ -22,7 +22,7 @@ export const IssueChatDisplay: FC<Props> = ({
 	refetch,
 }) => {
 	const location = useLocation();
-	const getIssueCs = selectedIssue.cs ? selectedIssue.cs : [];
+	const getIssueCs = selectedIssue?.cs ? selectedIssue?.cs : [];
 	return (
 		<div
 			className={`card messages ${
