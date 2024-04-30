@@ -1,5 +1,5 @@
 import { type FC, type ChangeEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, type NavigateFunction } from 'react-router';
 import { type SaveIssue, useSaveIssue } from '../../../../../../data';
 import {
 	LeftArrowIcon,
@@ -13,25 +13,28 @@ import useLoadIframe from '@panelHooks/issues/useLoadIframe';
 interface IssueCreationPanelProps {
 	isLoading: boolean;
 }
+const handleIssueUpdate = (
+	isEditable: boolean,
+	callBack: () => Promise<any>,
+	navigate: NavigateFunction,
+) => {
+	if (!isEditable) return;
 
+	callBack().then((response: any) => {
+		if (response !== undefined && response.id !== undefined) {
+			navigate(`/issues/update/${response.id}`);
+		}
+	});
+};
 const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 	const navigate = useNavigate();
 	const { newIssue, isAddingIssue, dispatch, save, shouldDisableClass, type } =
 		useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
-	const handleIssueUpdate = (
-		isEditable: boolean,
-		callBack: () => Promise<any>,
-	) => {
-		if (!isEditable) return;
+	const [isLoaded] = useLoadIframe(() =>
+		handleIssueUpdate(isEditable, save, navigate),
+	);
 
-		callBack().then((response: any) => {
-			if (response !== undefined && response.id !== undefined) {
-				navigate(`/issues/update/${response.id}`);
-			}
-		});
-	};
-	const [isLoaded] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
 	useEffect(() => {
 		let timeID;
 		if (isLoaded) {
@@ -73,7 +76,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 				<div className="work-buttons">
 					<div
 						className={`save action-btn ${isEditable ? 'on' : 'off'}`}
-						onClick={() => handleIssueUpdate(isEditable, save)}>
+						onClick={() => handleIssueUpdate(isEditable, save, navigate)}>
 						<SaveIcon isButton />
 					</div>
 				</div>

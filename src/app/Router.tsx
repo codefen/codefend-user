@@ -198,6 +198,10 @@ export const AppRouter: React.FC = () => {
 										element={<IssuesCreation />}
 									/>
 									<Route
+										path="create/:type"
+										element={<IssuesCreation />}
+									/>
+									<Route
 										path="update/:id"
 										element={<IssuesUpdate />}
 									/>
