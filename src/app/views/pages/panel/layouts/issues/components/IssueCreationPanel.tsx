@@ -3,41 +3,43 @@ import { useNavigate, useParams, type NavigateFunction } from 'react-router';
 import { type SaveIssue, useSaveIssue } from '../../../../../../data';
 import {
 	LeftArrowIcon,
+	PageLoader,
 	PageLoaderOverlay,
 	SaveIcon,
 	Show,
 } from '../../../../../components';
 import AppEditor from './AppEditor';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe';
+import useTimeout from '#commonHooks/useTimeout';
 
 interface IssueCreationPanelProps {
 	isLoading: boolean;
 }
-const handleIssueUpdate = (
-	isEditable: boolean,
-	callBack: () => Promise<any>,
-	navigate: NavigateFunction,
-) => {
-	if (!isEditable) return;
 
-	callBack().then((response: any) => {
-		if (response !== undefined && response.id !== undefined) {
-			navigate(`/issues/update/${response.id}`);
-		}
-	});
-};
 const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 	const navigate = useNavigate();
 	const { type, resourceId } = useParams();
+
+	const handleIssueUpdate = (
+		isEditable: boolean,
+		callBack: () => Promise<any>,
+	) => {
+		if (!isEditable) return;
+
+		callBack().then((response: any) => {
+			if (response !== undefined && response.id !== undefined) {
+				navigate(`/issues/update/${response.id}`);
+			}
+		});
+	};
 	const { newIssue, isAddingIssue, dispatch, save } = useSaveIssue();
 	const [isEditable, setEditable] = useState(false);
-	const [isLoaded] = useLoadIframe(() =>
-		handleIssueUpdate(isEditable, save, navigate),
-	);
+	const [isLoaded] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
+	const { oneExecute, clear } = useTimeout(() => setEditable(true), 75);
 
 	useEffect(() => {
-		let timeID;
-		const isValidID = !isNaN(Number(resourceId)) && Number(resourceId) !== 0;
+		const isValidID =
+			!isNaN(Number(resourceId || '')) && Number(resourceId) !== 0;
 		dispatch((state) => ({
 			...state,
 			issueClass: [
@@ -53,20 +55,25 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 				: '',
 			resourceID: isValidID ? Number(resourceId) : 0,
 		}));
-		if (isLoaded) {
-			timeID = setTimeout(() => setEditable(true), 75);
-		}
-		return () => clearTimeout(timeID!);
+		if (isLoaded) oneExecute();
+		return () => {
+			clear();
+			dispatch(() => ({
+				issueName: '',
+				score: '',
+				issueClass: '',
+				resourceID: 0,
+			}));
+		};
 	}, [isLoaded]);
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 	) => {
 		const { name, value } = e.target;
-		if (name == 'resourceID' && (!value || isNaN(Number(value)))) return;
 
 		dispatch((state: SaveIssue) => ({
 			...state,
-			[name]: name == 'resourceID' ? value.replace(/[^0-9]/g, '') : value,
+			[name]: value,
 		}));
 	};
 	const shouldDisableClass = type !== '' && newIssue.issueClass !== '';
@@ -92,7 +99,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 				<div className="work-buttons">
 					<div
 						className={`save action-btn ${isEditable ? 'on' : 'off'}`}
-						onClick={() => handleIssueUpdate(isEditable, save, navigate)}>
+						onClick={() => handleIssueUpdate(isEditable, save)}>
 						<SaveIcon isButton />
 					</div>
 				</div>
@@ -150,7 +157,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 				<AppEditor
 					initialValue={'<p>Please add issues here...</p>'}
 					isEditable={isEditable}
-					isIssueCreation
+					isCreation={true}
 				/>
 			</div>
 			<Show when={isAddingIssue}>

@@ -14,12 +14,12 @@ import './report-type.scss';
 import { useEffect, useRef, useState, type FC } from 'react';
 import useModalStore from '@stores/modal.store';
 import { ResourceFigure } from '@standalones/resource-figure/ResourceFigure';
-import { ViewResourcesTable } from './components/ViewResourcesTable';
+import { ViewResourcesTable } from './ViewResourcesTable';
 import { useReportStore } from '@stores/report.store';
-import { ViewAppCard } from './components/ViewAppCard';
+import { ViewAppCard } from './ViewAppCard';
 import { useNavigate } from 'react-router';
 
-interface SelectReportTypeModalProps {
+interface SelectAnyResourceModalProps {
 	issues: Issues[];
 }
 
@@ -49,7 +49,7 @@ const getIssueResourceCountV2 = (
 	}, initialCounts);
 };
 
-export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
+export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 	issues,
 }) => {
 	const navigate = useNavigate();
@@ -103,7 +103,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 			setResourceID(id);
 			setResourceType(type);
 		} else if (modalId == 'selectFinding') {
-			navigate(`/issues/create/${type}/${id}`);
+			navigate(`/issues/create/${type == 'network' ? 'lan' : type}/${id}`);
 		}
 	};
 	const handleResearch = () => {
@@ -111,13 +111,16 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 			navigate(`/issues/create/research`);
 		}
 	};
-	const f =
+	const title =
 		modalId == 'selectReport'
 			? 'Choose the resource class to generate the report'
-			: '';
+			: 'Choose the resource class you want to create the issues for';
+	const header =
+		modalId == 'selectReport' ? 'Select report type' : 'Create new issue';
+
 	return (
 		<ModalTitleWrapper
-			headerTitle="Select report type"
+			headerTitle={header}
 			isActive={
 				isOpen && (modalId == 'selectReport' || modalId == 'selectFinding')
 			}
@@ -125,7 +128,7 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 			<div
 				className={`report-type-modal ${activeView !== 'selector' && 'type-selector-container'}`}>
 				<Show when={activeView === 'selector'}>
-					<h3>Choose the resource class to generate the report</h3>
+					<h3>{title}</h3>
 					<div className="report-type-container">
 						<ResourceFigure
 							icon={<GlobeWebIcon />}
@@ -213,8 +216,9 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 					<ViewResourcesTable
 						scopeALias={alias}
 						type={activeView}
-						getReport={handleReportForTable}
+						handleSelect={handleReportForTable}
 						activeFilter={modalId !== 'selectFinding'}
+						modalId={modalId}
 					/>
 				</Show>
 				<Show when={activeView === 'mobile' || activeView === 'cloud'}>
@@ -222,6 +226,8 @@ export const SelectReportTypeModal: FC<SelectReportTypeModalProps> = ({
 						getReport={handleReportForTable}
 						scopeALias={alias}
 						type={activeView}
+						activeFilter={modalId !== 'selectFinding'}
+						modalId={modalId}
 					/>
 				</Show>
 			</div>

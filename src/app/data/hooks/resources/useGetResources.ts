@@ -22,8 +22,10 @@ export const useGetResources = () => {
 				childs: "yes"
 			},
 		}).then(({ data }) => {
-			return data.resources ? data.resources as any[]
-			: data.disponibles ? data.disponibles as any[] : [];
+			let resources = [];
+			if (data.resources) resources = data.resources;
+			if (!Boolean(resources.length) && data.disponibles) resources = data.disponibles;
+			return resources;
 		});
 	};
 

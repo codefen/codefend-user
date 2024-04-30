@@ -10,7 +10,7 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { IssueReport } from '../components/IssueReport.tsx';
 import { IssueResources } from '../components/IssueResources.tsx';
 import { useFlashlight } from '../../../FlashLightContext.tsx';
-import { SelectReportTypeModal } from '@modals/reports/SelectReportType.tsx';
+import { SelectAnyResourceModal } from '@modals/select-resources/SelectAnyResourceModal.tsx';
 import useModalStore from '@stores/modal.store.ts';
 import {
 	EMPTY_ISSUECLASS,
@@ -57,7 +57,7 @@ const IssuesPanel: FC = () => {
 
 	return (
 		<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
-			<SelectReportTypeModal
+			<SelectAnyResourceModal
 				issues={
 					handleIssuesFilter.isFiltered
 						? handleIssuesFilter.filteredData

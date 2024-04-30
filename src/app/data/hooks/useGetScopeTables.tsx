@@ -1,4 +1,9 @@
 import {
+	memberColumn,
+	memberColumnWithoutContact,
+	roleMap,
+} from '@mocks/defaultData';
+import {
 	cloudScopeColumns,
 	mobileScopeColumns,
 	networkScopeColumns,
@@ -7,7 +12,7 @@ import {
 	webScopeColumns,
 } from '@mocks/scopeColumns';
 
-export const useGetScopeTables = () => {
+export const useGetScopeTables = (changeSocial?: boolean) => {
 	const getDataScopeResourceTable = (scopeALias: string, scope: any[]) => {
 		let rows = [];
 		if (scopeALias === 'w') {
@@ -100,7 +105,7 @@ export const useGetScopeTables = () => {
 				})) || [];
 			return { rows, columns: cloudScopeColumns };
 		}
-		if (scopeALias === 's') {
+		if (scopeALias === 's' && !changeSocial) {
 			rows =
 				scope.map((res: any, i: number) => ({
 					ID: { value: '', style: '' },
@@ -112,6 +117,21 @@ export const useGetScopeTables = () => {
 					quantity: { value: res.quantity, style: 'id' },
 				})) || [];
 			return { rows, columns: socialScopeColumns };
+		}
+		if (scopeALias === 's' && changeSocial) {
+			rows =
+				scope.map((res: any, i: number) => ({
+					ID: { value: res.id, style: 'id' },
+					fullName: {
+						value: `${res.member_fname} ${res.member_lname}`,
+						style: 'full-name',
+					},
+					role: {
+						value: roleMap[res.member_role as keyof typeof roleMap],
+						style: 'role',
+					},
+				})) || [];
+			return { rows, columns: memberColumnWithoutContact };
 		}
 		if (scopeALias === 'sc') {
 			rows =
@@ -129,7 +149,7 @@ export const useGetScopeTables = () => {
 		if (scopeALias === 'n') {
 			rows =
 				scope.map((res: any) => ({
-					ID: { value: '', style: '' },
+					ID: { value: res.id, style: '' },
 					Identifier: { value: res.id, style: 'id' },
 					externalIp: {
 						value: res.device_ex_address,
@@ -154,7 +174,7 @@ export const useGetScopeTables = () => {
 													props.handleClick(
 														e,
 														`child-${resChild.id}`,
-														'',
+														resChild.id,
 													)
 												}>
 												<div className="id">

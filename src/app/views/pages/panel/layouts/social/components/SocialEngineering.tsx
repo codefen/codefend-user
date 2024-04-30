@@ -14,7 +14,6 @@ import {
 	memberColumnWithActions,
 	roleMap,
 	useModal,
-	memberColumn,
 } from '../../../../../../data';
 import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
 import { useNavigate } from 'react-router';
@@ -52,7 +51,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 			({
 				ID: { value: member.id, style: 'id' },
 				fullName: {
-					value: member.member_fname + ' ' + member.member_lname,
+					value: `${member.member_fname} ${member.member_lname}`,
 					style: 'full-name',
 				},
 				email: { value: member.member_email, style: 'email' },

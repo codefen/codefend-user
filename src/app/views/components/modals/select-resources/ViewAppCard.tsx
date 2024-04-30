@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, type FC } from 'react';
 import { useGetResources } from '@resourcesHooks/useGetResources';
-import { AppCard } from '../../..';
+import { AppCard } from '../..';
 
 export interface ViewAppCardProps {
 	type: string;
 	scopeALias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
 	getReport: (id: string, type: string) => void;
+	activeFilter: boolean;
+	modalId: string;
 }
 const getPath = (alias: string) => {
 	if (alias == 'm') return 'mobile';
@@ -15,6 +17,8 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 	type,
 	scopeALias,
 	getReport,
+	activeFilter,
+	modalId,
 }) => {
 	const { getAnyResource } = useGetResources();
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -29,14 +33,19 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 			})
 			.finally(() => setLoading(false));
 	}, [scopeALias]);
-
+	const title =
+		modalId == 'selectReport'
+			? `Select your ${type} resource to generate report`
+			: `Select your ${type} resource to create issue`;
 	return (
 		<div className="card">
-			<h3>Select your {type} resource to generate report</h3>
+			<h3>{title}</h3>
 			<div className="list">
 				{apps.current && !isLoading
 					? apps.current
-							.filter((app: any) => app.final_issues > 0)
+							.filter(
+								(app: any) => app?.final_issues > 0 && !activeFilter,
+							)
 							.map((resource, i) => (
 								<div
 									key={`${resource.id}-${i}`}

@@ -134,6 +134,7 @@ export const memberColumn: ColumnTable[] = [
 		style: 'role',
 	}
 ];
+export const memberColumnWithoutContact: ColumnTable[] = memberColumn.filter((col)=> col.name !== "phone" && col.name !== "email");
 
 export const memberColumnWithActions: ColumnTable[] = memberColumn.concat([{
 	name: 'action',

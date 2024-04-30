@@ -168,7 +168,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 					<AppEditor
 						isEditable={!isEditable}
 						initialValue={issueData.issue}
-						isIssueCreation={isAddingIssue}
+						isCreation={false}
 					/>
 				</div>
 				<Show when={isAddingIssue}>

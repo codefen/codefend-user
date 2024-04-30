@@ -1,3 +1,5 @@
+
+
 export const setTinyEditorContent = (id, value) => {
 	if (!id && !value) return;
 	
@@ -9,7 +11,6 @@ const addTinyMce = (initialValue) => {
 	if (tinyMCE.EditorManager.activeEditor) {
 		tinyMCE.remove();
 	}
-
 	const options = {
 		selector: '#issue',
 		promotion: false,
@@ -47,12 +48,12 @@ const addTinyMce = (initialValue) => {
 			},
 		],
 	};
-
-	tinyMCE.init(options);
-
-	setTimeout(() => 
-		setTinyEditorContent('issue', initialValue)
-	, 500);
+	try {
+		tinyMCE.init(options);
+		//setTimeout(() => setTinyEditorContent('issue', initialValue), 500);
+	} catch (e) {
+		console.error(e);
+	}
 };
 
 export const getTinyEditorContent = (id) => {

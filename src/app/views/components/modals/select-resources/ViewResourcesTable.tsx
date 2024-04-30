@@ -6,24 +6,27 @@ import { useGetResources } from '@resourcesHooks/useGetResources';
 export interface OrderCloudScopeProps {
 	type: string;
 	scopeALias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
-	getReport: (id: string, type: string) => void;
+	handleSelect: (id: string, type: string) => void;
 	activeFilter: boolean;
+	modalId: string;
 }
 const getPath = (alias: string) => {
 	if (alias == 'w') return 'web/index';
 	if (alias == 'm') return 'mobile';
 	if (alias == 'c') return 'cloud';
 	if (alias == 'sc') return 'source';
+	if (alias == 's') return 'se';
 	return 'lan';
 };
 export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 	type,
 	scopeALias,
-	getReport,
+	handleSelect,
 	activeFilter,
+	modalId,
 }) => {
 	const { getAnyResource } = useGetResources();
-	const getDataScopeResourceTable = useGetScopeTables();
+	const getDataScopeResourceTable = useGetScopeTables(true);
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const dataTable = useRef<any>({
 		columns: [{ ID: { value: '', style: '' } }],
@@ -41,6 +44,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 						(resource: any) => resource.final_issues > 0,
 					);
 				}
+
 				dataTable.current = getDataScopeResourceTable(
 					scopeALias,
 					filterResult,
@@ -49,9 +53,13 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 			.finally(() => setLoading(false));
 	}, [scopeALias]);
 
+	const title =
+		modalId == 'selectReport'
+			? `Select your ${type} resource to generate report`
+			: `Select your ${type} resource to create issue`;
 	return (
 		<>
-			<h3>Select your {type} resource to generate report</h3>
+			<h3>{title}</h3>
 			<TableV2
 				columns={dataTable.current.columns}
 				rowsData={dataTable.current.rows}
@@ -59,7 +67,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 				showEmpty={!isLoading && !Boolean(dataTable.current.rows.length)}
 				sizeY={15}
 				selectItem={(id: string) => {
-					getReport(id, type.startsWith('source') ? 'source' : type);
+					handleSelect(id, type.startsWith('source') ? 'source' : type);
 				}}
 			/>
 		</>
