@@ -27,14 +27,14 @@ export const CardPaymentModal = () => {
 		return fetcher<any>('post', {
 			body: {
 				model: 'orders/add',
-				phase: 'financial_card_co',
+				phase: 'financial_card_launch',
 				company_id: getCompany(),
 				reference_number: referenceNumber,
 				order_id: orderId,
 			},
 		}).then(({ data }: any) => {
 			merchId.current = data.merch_cid;
-			return data.merch_cs as string;
+			return data.merch_cs;
 		});
 	}, [merchId]);
 
@@ -48,7 +48,7 @@ export const CardPaymentModal = () => {
 			fetcher<any>('post', {
 				body: {
 					model: 'orders/add',
-					phase: 'financial_card_s',
+					phase: 'financial_card_finish',
 					company_id: getCompany(),
 					reference_number: referenceNumber,
 					order_id: orderId,

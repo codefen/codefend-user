@@ -40,7 +40,7 @@ export const TeamSizeOrderModal: FC = () => {
 		if (teamSizeW !== OrderTeamSize.UNKNOWN) {
 			sendPlanTeamSize(teamSizeW, chosenPrice, referenceNumber, orderId);
 			updateState('teamSize', teamSizeW);
-			updateState('orderStepActive', OrderSection.ORDER_REVIEW);
+			updateState('orderStepActive', OrderSection.ENVIRONMENT);
 		}
 	};
 
