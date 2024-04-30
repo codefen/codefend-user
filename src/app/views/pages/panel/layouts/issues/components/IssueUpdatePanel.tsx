@@ -12,20 +12,20 @@ import {
 	type UpdateIssue,
 	useUpdateIssue,
 } from '@panelHooks/issues/useUpdateIssue.ts';
-import { type CompleteIssue, type OneIssue } from '@interfaces/panel.ts';
 import { formatDate } from '@utils/helper.ts';
 import AppEditor from './AppEditor.tsx';
 import Show from '@defaults/Show.tsx';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import type { IssueUpdateData } from '@interfaces/issues.ts';
 
 interface IssueUpdatePanelProps {
-	completeIssue: OneIssue;
+	issueData: IssueUpdateData;
 	isLoading: boolean;
 }
 
 const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
-	completeIssue,
+	issueData,
 	isLoading,
 }) => {
 	const navigate = useNavigate();
@@ -43,28 +43,17 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 	}, [update]);
 	const [isLoaded] = useLoadIframe(handleIssueUpdate);
 
-	const safelyIssue = (): CompleteIssue | Partial<CompleteIssue> =>
-		completeIssue.issue
-			? completeIssue.issue
-			: {
-					id: '',
-					createdAt: '',
-					riskScore: '0',
-					resourceID: '1',
-					content: '',
-					cs: [],
-					name: '',
-				};
 	useEffect(
 		() =>
 			dispatch((state: UpdateIssue) => ({
 				...state,
-				id: safelyIssue().id || '',
-				issueName: safelyIssue().name || '',
-				score: safelyIssue().riskScore || '',
-				resourceID: Number(safelyIssue().resourceID || 1),
+				id: issueData.id,
+				issueName: issueData.name || '',
+				score: issueData.risk_score || '',
+				resourceID: Number(issueData.resource_id || 1),
+				status: issueData.condicion,
 			})),
-		[completeIssue],
+		[issueData],
 	);
 
 	const handleChange = (
@@ -116,9 +105,10 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 				</div>
 				<div className="info">
 					<div>
-						Published: <span>{formatDate(safelyIssue().createdAt!)}</span>
+						Published: <span>{formatDate(issueData.creacion)}</span>
 					</div>
-					{updatedIssue.resourceID !== 1 ? (
+					{updatedIssue.resourceID !== 1 &&
+					updatedIssue.resourceID !== 0 ? (
 						<div className="info-resourcer-id">
 							Resource ID:{' '}
 							<input
@@ -136,22 +126,38 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 					) : null}
 
 					<div>
-						Author: <span>@{safelyIssue().researcherUsername}</span>
+						Author: <span>@{issueData.researcher_username}</span>
 					</div>
 					<div>
-						Risk score: <span>{safelyIssue().riskLevel}</span>
+						Resource: <span>{issueData.resource_class}</span>
 					</div>
 					<div>
-						Resource: <span>{safelyIssue().riskLevel}</span>
+						Risk: <span>{issueData.risk_level}</span>
 					</div>
 					<div>
-						Status: <span>{safelyIssue().condition}</span>
+						Status:
+						<select
+							onChange={(e: any) =>
+								dispatch((state) => ({
+									...state,
+									status: e.target.value,
+								}))
+							}
+							className={`log-inputs`}
+							defaultValue={issueData.condicion}
+							name="status"
+							required
+							disabled={isEditable}>
+							<option value="open">open</option>
+							<option value="fixed">fixed</option>
+							<option value="verified">verified</option>
+						</select>
 					</div>
 				</div>
 				<div className="">
 					<AppEditor
 						isEditable={!isEditable}
-						initialValue={safelyIssue().content || ''}
+						initialValue={issueData.issue}
 						isIssueCreation={isAddingIssue}
 					/>
 				</div>

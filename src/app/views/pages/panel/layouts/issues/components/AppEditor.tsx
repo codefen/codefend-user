@@ -1,5 +1,9 @@
-import { type FC, useEffect } from 'react';
-import addTinyMce, { setMode } from '../../../../../../../editor-lib';
+import { type FC, useEffect, useState } from 'react';
+import addTinyMce, {
+	setMode,
+	setTinyEditorContent,
+	getTinyEditorContent,
+} from '../../../../../../../editor-lib';
 
 interface AppEditorProps {
 	onUpdateIssue?: any;
@@ -11,15 +15,24 @@ interface AppEditorProps {
 const EMPTY_TEXT = '<p>Please add issues here...</p>';
 
 const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable }) => {
+	const [first, setFirst] = useState(true);
+
 	useEffect(() => {
 		const defaultValue = !Boolean(initialValue.trim().length)
 			? EMPTY_TEXT
 			: initialValue;
-
 		addTinyMce(defaultValue);
+		setFirst(false);
 	}, [initialValue]);
 
 	useEffect(() => {
+		if (!first) {
+			const _editorContent = getTinyEditorContent('issue');
+			setTinyEditorContent(
+				'issue',
+				_editorContent ? _editorContent : initialValue || EMPTY_TEXT,
+			);
+		}
 		if (isEditable) {
 			setMode('issue', 'design');
 		} else {

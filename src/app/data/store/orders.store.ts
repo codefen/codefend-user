@@ -86,6 +86,11 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
 			...state,
 			orderStepActive: OrderSection.SCOPE,
 			open: false,
+			scope: {
+				totalAllResources: 0,
+				totalResources: 0,
+				scopeOption: ScopeOption.UNKNOWN,
+			},
             frequency: OrderFrequency.UNKNOWN,
             teamSize: OrderTeamSize.UNKNOWN,
             offensiveOrder: OrderOffensive.UNKNOWN,

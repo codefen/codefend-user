@@ -1,9 +1,10 @@
-import { useCallback, useRef } from 'react';
-import { type OneIssue, mapOneIssue } from '../../../';
+import { useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import type { IssueUpdateData } from '@interfaces/issues';
+import { EMPTY_ISSUEUPDATE } from '@mocks/empty';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
@@ -11,9 +12,9 @@ export const useOneIssue = () => {
 	const { getCompany } = useUserData();
 	const navigate = useNavigate();
 	const [fetcher,_, isLoading] = useFetcher();
-	const dataRef = useRef<OneIssue>();
+	const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
 
-	const fetchOne = useCallback((companyID: string, selectedID: string) => {
+	const fetchOne = (companyID: string, selectedID: string) => {
 		fetcher("post",{
 			body: {
 				model: 'issues/view',
@@ -25,17 +26,17 @@ export const useOneIssue = () => {
 					if(data.response === "error"){
 						throw new Error("The issue you are trying to view does not exist");
 					}
-					dataRef.current = mapOneIssue(data);
+					issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
 
 					updateUserData(data.user);
 					updateToken(data.session);
 				}
 			)
 			.catch((error) => {
-				toast.error(error.message ?? "An unexpected error has occurred on the server");
+				toast.error(error.message || "An unexpected error has occurred on the server");
 				navigate("/issues");
 			});
-	}, []);
+	};
 
 	const refetchOne = (selectedID: string) => {
 		const companyID = getCompany();
@@ -46,11 +47,5 @@ export const useOneIssue = () => {
 		fetchOne(companyID, selectedID);
 	};
 
-	const getIssues = (): OneIssue => {
-		const empty = { issue: null, company: null } as OneIssue;
-		const issuesData = isLoading ? empty : dataRef.current;
-		return issuesData || empty;
-	};
-
-	return { getIssues, isLoading, refetchOne };
+	return { getIssue: issue.current, isLoading, refetchOne };
 };

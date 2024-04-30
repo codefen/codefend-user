@@ -2,13 +2,14 @@ import { type FC, useCallback, useState } from 'react';
 import { PrimaryButton } from '../../..';
 import {
 	OrderSection,
+	OrderTeamSize,
 	useOrderStore,
 	userOrderProviderInfo,
 } from '../../../../../data';
 
 export const AdditionalOrderModal: FC = () => {
 	const [aditionalInfoW, setAditionalInfo] = useState('');
-	const { updateState, referenceNumber, orderId } = useOrderStore(
+	const { updateState, referenceNumber, orderId, teamSize } = useOrderStore(
 		(state) => state,
 	);
 	const { sendOrderProviderInfo } = userOrderProviderInfo();
@@ -28,6 +29,13 @@ Is there any other additional information for our professionals?`;
 		updateState('aditionalInfo', aditionalInfoW);
 		sendOrderProviderInfo(referenceNumber, aditionalInfoW, orderId);
 		updateState('orderStepActive', OrderSection.PAYMENT);
+	};
+	const backStep = () => {
+		if (teamSize === OrderTeamSize.SMALL) {
+			updateState('orderStepActive', OrderSection.TEAM_SIZE);
+		} else {
+			updateState('orderStepActive', OrderSection.ENVIRONMENT);
+		}
 	};
 
 	return (
@@ -54,9 +62,7 @@ Is there any other additional information for our professionals?`;
 				<div className="secondary-container ">
 					<PrimaryButton
 						text="back"
-						click={() =>
-							updateState('orderStepActive', OrderSection.ENVIRONMENT)
-						}
+						click={backStep}
 						className="full"
 						buttonStyle="black"
 						disabledLoader

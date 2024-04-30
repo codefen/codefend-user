@@ -8,7 +8,7 @@ import Show from '@defaults/Show.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 
 const IssueUpdate: FC = () => {
-	const { getIssues, isLoading, refetchOne } = useOneIssue();
+	const { getIssue, isLoading, refetchOne } = useOneIssue();
 	const [showScreen, control, refresh] = useShowScreen();
 	const { id } = useParams();
 
@@ -22,14 +22,14 @@ const IssueUpdate: FC = () => {
 				<>
 					<section className="left">
 						<IssueUpdatePanel
-							completeIssue={getIssues()}
+							issueData={getIssue}
 							isLoading={isLoading}
 						/>
 					</section>
 					<section className="right">
 						<IssueChatDisplay
 							isLoading={isLoading}
-							selectedIssue={getIssues().issue}
+							selectedIssue={getIssue}
 							refetch={refresh}
 						/>
 					</section>

@@ -49,7 +49,7 @@ main.issue-detail {
 				&.grow {
 					flex: 1 1;
 				}
-				
+
 				&:focus {
 					border: none !important;
 				}
@@ -79,13 +79,13 @@ main.issue-detail {
 
 			.action-btn {
 				cursor: pointer;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					flex: 1 1;
-					height: 100%;
-					width: 45px;
-					padding: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex: 1 1;
+				height: 100%;
+				width: 45px;
+				padding: 0;
 			}
 
 			.edit {
@@ -138,11 +138,6 @@ main.issue-detail {
 						transform: scale(1.1);
 					}
 				}
-			}
-
-			@include mixin.respond(small) {
-				width: 100%;
-				padding-block-start: 10px;
 			}
 		}
 
@@ -225,14 +220,20 @@ main.issue-detail {
 				color: var(--secondary-color-50);
 				padding-right: 25px;
 				white-space: nowrap;
+				cursor: default;
 
 				span {
 					color: var(--tertiary-color-300);
 					margin-left: 5px;
-					// text-overflow: ellipsis;
-					// overflow: hidden;
-					// white-space: nowrap;
+					cursor: default;
 				}
+			}
+
+			select:disabled {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				cursor: default;
 			}
 		}
 	}

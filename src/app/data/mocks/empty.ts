@@ -1,3 +1,4 @@
+import { IssuesStatus } from "@interfaces/issues";
 import type { User } from "..";
 
 export const EMPTY_USER:User = {
@@ -103,3 +104,17 @@ export const EMPTY_ISSUECONDITION = {
 	fixed: "0",
 	open: "0"
 }
+export const EMPTY_ISSUEUPDATE = {
+    id: "",
+	researcher_username: "",
+    resource_class: "",
+    resource_id: "",
+    risk_level: "",
+    risk_score: "",
+    name: "",
+    issue: "",
+    condicion: IssuesStatus.VOID,
+    cs: [],
+    creacion: "",
+    eliminado: "0",
+  };

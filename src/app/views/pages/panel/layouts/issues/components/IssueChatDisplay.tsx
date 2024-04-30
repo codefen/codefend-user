@@ -1,11 +1,6 @@
 import { type FC, Fragment, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router';
-import {
-	ChatBoxType,
-	type CompleteIssue,
-	type IssueMessage,
-	generateIDArray,
-} from '../../../../../../data';
+import { ChatBoxType, type IssueMessage } from '../../../../../../data';
 import {
 	MessageIcon,
 	PageLoader,
@@ -14,10 +9,11 @@ import {
 	Show,
 	SimpleSection,
 } from '../../../../../components';
+import type { IssueUpdateData } from '@interfaces/issues';
 
 interface Props {
 	isLoading: boolean;
-	selectedIssue: CompleteIssue | null;
+	selectedIssue: IssueUpdateData;
 	refetch: () => void;
 }
 export const IssueChatDisplay: FC<Props> = ({
@@ -25,19 +21,11 @@ export const IssueChatDisplay: FC<Props> = ({
 	selectedIssue,
 	refetch,
 }) => {
+	const location = useLocation();
+
 	const getIssue = useCallback((): IssueMessage[] => {
 		return selectedIssue?.cs ?? [];
 	}, [selectedIssue]);
-
-	const location = useLocation();
-
-	const messageKeys = useMemo(
-		(): string[] =>
-			Boolean(getIssue().length)
-				? generateIDArray(getIssue().length)
-				: ([] as string[]),
-		[getIssue],
-	);
 
 	return (
 		<div
@@ -54,7 +42,7 @@ export const IssueChatDisplay: FC<Props> = ({
 									getIssue().length > 3 && 'item'
 								}`}>
 								{getIssue().map((message: IssueMessage, i: number) => (
-									<Fragment key={messageKeys[i]}>
+									<Fragment key={`mess-${message.id}-${i}`}>
 										<MessageCard
 											body={message.body}
 											selectedID={message.userID}

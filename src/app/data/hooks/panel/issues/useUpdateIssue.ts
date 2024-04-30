@@ -3,12 +3,14 @@ import { toast } from 'react-toastify';
 import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { IssuesStatus } from '@interfaces/issues';
 
 export interface UpdateIssue {
 	id: string;
 	issueName: string;
 	score: string;
 	resourceID: number | undefined;
+	status: IssuesStatus;
 }
 
 const validateNewIssue = (validate: boolean, message: string) => {
@@ -27,7 +29,8 @@ export const useUpdateIssue = () => {
 		id: '',
 		issueName: '',
 		score: '',
-		resourceID: 1
+		resourceID: 1,
+		status: IssuesStatus.OPEN
 	});
 
 	const fetchSave = (companyID: string) => {
@@ -45,12 +48,12 @@ export const useUpdateIssue = () => {
 			body: {
 				model: 'issues/mod',
 				company_id: companyID,
-				resource_address_domain: 'clarin.com',
 				id: updatedIssue.id,
 				main_desc: _editorContent,
 				name: updatedIssue.issueName,
 				resource_id: updatedIssue.resourceID || 1,
 				risk_score: updatedIssue.score,
+				condicion: updatedIssue.status
 			},
 		}).then(({ data }: any) => {
 				if (data.response === 'error' || data.isAnError)
