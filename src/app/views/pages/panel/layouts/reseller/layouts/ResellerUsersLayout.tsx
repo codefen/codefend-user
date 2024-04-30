@@ -3,8 +3,11 @@ import { useEffect } from 'react';
 import { ResellerHeader } from '../components/ResellerHeader';
 import { ResourceByLocation } from '../../../../../components/standalones/ResourceByLocation';
 import { useResellerUsers } from '@userHooks/resellers/useResellerUsers';
-import { ResellerAllUser } from '../components/ResellerAllUser';
 import '../reseller.scss';
+import type { ResellerUser } from '@interfaces/user';
+import { LocationItem } from '@standalones/utils/LocationItem';
+import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
+import { resellerUserActiveColumns } from '@mocks/defaultData';
 
 const ResellerUsersLayout = () => {
 	const [showScreen] = useShowScreen();
@@ -14,13 +17,42 @@ const ResellerUsersLayout = () => {
 	useEffect(() => {
 		getResellerUsers();
 	}, []);
+	const rows = users.current.map(
+		(user: ResellerUser) =>
+			({
+				ID: { value: '', style: '' },
+				area: {
+					value: (
+						<LocationItem
+							country={user.pais || 'unknown'}
+							countryCode={user.pais_code}
+						/>
+					),
+					style: 'area',
+				},
+				company: { value: user.company_name, style: 'company' },
+				role: { value: user.role, style: 'role' },
 
+				fullname: {
+					value: `${user.fname} ${user.lname}`,
+					style: 'full-name',
+				},
+				phone: { value: user.phone, style: 'phone' },
+				email: { value: user.email, style: 'email' },
+				published: { value: user.creacion, style: 'date' },
+			}) as any,
+	);
 	return (
 		<main className={`reseller ${showScreen ? 'actived' : ''}`}>
 			<section className="left">
 				<ResellerHeader />
 				<div className="reseller-tables table-users">
-					<ResellerAllUser isLoading={isLoading} users={users.current} />
+					<SimpleSectionWithTable
+						title="Listing all users created"
+						columns={resellerUserActiveColumns}
+						rows={rows}
+						isLoading={isLoading}
+					/>
 				</div>
 			</section>
 			<section className="right">

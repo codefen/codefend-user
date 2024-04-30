@@ -129,7 +129,7 @@ const TableRows: FC<any> = ({
 											row[column.name as keyof typeof row]?.style
 										}>
 										<div className="publish">
-											{column.name !== 'published'
+											{!column.name.startsWith('publish')
 												? (row[column.name as keyof typeof row]
 														?.value as ReactNode)
 												: formatDate(

@@ -3,8 +3,11 @@ import { useEffect } from 'react';
 import { ResellerHeader } from '../components/ResellerHeader';
 import '../reseller.scss';
 import { useResellerCompanies } from '@userHooks/resellers/useResellerCompanies';
-import { ResellerAllCompanies } from '../components/ResellerAllCompanies';
 import { ResourceByLocation } from '@standalones/ResourceByLocation';
+import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
+import { LocationItem } from '@standalones/utils/LocationItem';
+import type { Company } from '@interfaces/company';
+import { resellerCompanyColumns } from '@mocks/defaultData';
 
 const ResellerCompaniesLayout = () => {
 	const [showScreen] = useShowScreen();
@@ -16,14 +19,40 @@ const ResellerCompaniesLayout = () => {
 		getResellerCompanies();
 	}, []);
 
+	const rows = companies.current.map(
+		(company: Company) =>
+			({
+				ID: { value: '', style: '' },
+				area: {
+					value: (
+						<LocationItem
+							country={company.pais || 'unknown'}
+							countryCode={company.pais_code}
+						/>
+					),
+					style: 'area',
+				},
+				company: { value: company.name, style: 'company' },
+				website: { value: company.web, style: 'web-site' },
+				size: { value: company.size, style: 'size' },
+				fullname: {
+					value: `${company.owner_fname} ${company.owner_lname}`,
+					style: 'full-name',
+				},
+				published: { value: company.creacion, style: 'date' },
+			}) as any,
+	);
+
 	return (
 		<main className={`reseller ${showScreen ? 'actived' : ''}`}>
 			<section className="left">
 				<ResellerHeader />
 				<div className="reseller-tables table-companies">
-					<ResellerAllCompanies
+					<SimpleSectionWithTable
+						title="Listing all companies"
+						columns={resellerCompanyColumns}
+						rows={rows}
 						isLoading={isLoading}
-						companies={companies.current}
 					/>
 				</div>
 			</section>

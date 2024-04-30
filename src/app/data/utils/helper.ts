@@ -58,14 +58,17 @@ export const RUNNING_DESKTOP = (): boolean => {
 
 /** Date formatter */
 export const formatDate = (stringDate: string): string => {
-	const date = new Date(stringDate);
+	const parsedDate = new Date(stringDate);
 
-	const year = date.getFullYear();
-	const month = extractDateItem(date.getMonth() + 1);
-	const day = extractDateItem(date.getDate());
+	if (isNaN(parsedDate.getTime())) return stringDate;
+	
 
+	const year = parsedDate.getFullYear();
+	const month = extractDateItem(parsedDate.getMonth() + 1);
+	const day = extractDateItem(parsedDate.getDate());
+  
 	return `${year}-${month}-${day}`;
-};
+  };
 
 export const getCurrentDate = () => {
 	const formattedDate = new Date();

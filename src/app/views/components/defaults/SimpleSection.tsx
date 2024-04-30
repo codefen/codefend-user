@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import { type FC, type ReactNode } from 'react';
 
 interface SimpleSectionProps {
 	header: string;
-	icon: JSX.Element;
+	icon: ReactNode;
 	children: JSX.Element;
 }
 

@@ -570,53 +570,43 @@ export const resellerCompanyColumns: ColumnTable[] = [
 
 export const resellerOrdersColumn: ColumnTable[] = [
 	{
+		name: "Identifier",	
+		value: "id",	
+		style: "id",	
+	},
+	{
 		name: "area",	
 		value: "area",	
 		style: "area",	
 	},
 	{
-		name: "company",	
-		value: "company",	
-		style: "id",	
-	},
-	{
-		name: "plan",	
-		value: "plan",	
-		style: "plan",	
-	},
-	{
-		name: "provider",	
-		value: "provider",	
-		style: "id",	
-	},
-	{
-		name: "resellerFunds",	
-		value: "reseller fund",	
-		style: "funds",	
-	},
-	{
-		name: "codefendFunds",	
-		value: "codefend fund",	
-		style: "funds",	
-	},
-	{
-		name: "providerFunds",	
-		value: "provider fund",	
-		style: "funds",	
+		name: "orderType",	
+		value: "resource class",	
+		style: "type",	
 	},
 	{
 		name: "orderState",	
-		value: "state",	
+		value: "order state",	
 		style: "state",	
 	},
 	{
-		name: "finish",	
-		value: "Finish date",	
-		style: "date",	
+		name: "paymentState",	
+		value: "payment state",	
+		style: "state",	
 	},
 	{
 		name: "published",	
 		value: "Creation date",	
+		style: "date",	
+	},
+	{
+		name: "publishPay",	
+		value: "Payment date",	
+		style: "date",	
+	},
+	{
+		name: "publishedFinish",	
+		value: "Finish date",	
 		style: "date",	
 	},
 ]

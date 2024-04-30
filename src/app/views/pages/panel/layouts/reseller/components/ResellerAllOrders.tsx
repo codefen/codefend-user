@@ -25,6 +25,7 @@ export const ResellerAllOrders: FC<ResellerAllOrdersProps> = ({
 		(order: FullOrder) =>
 			({
 				ID: { value: '', style: '' },
+				Identifier: { value: order.id, style: 'id' },
 				area: {
 					value: (
 						<LocationItem
@@ -34,24 +35,18 @@ export const ResellerAllOrders: FC<ResellerAllOrdersProps> = ({
 					),
 					style: 'area',
 				},
-				company: { value: order.company_id, style: 'id' },
-				plan: { value: order.chosen_plan, style: 'plan' },
-				provider: {
-					value: order.provider_id,
-					style: 'id',
-				},
-				resellerFunds: { value: order.funds_reseller, style: 'funds' },
-				codefendFunds: { value: order.funds_codefend, style: 'funds' },
-				providerFunds: { value: order.funds_provider, style: 'funds' },
-
+				orderType: { value: order.resources_class, style: 'type' },
 				orderState: { value: order.condicion_provider, style: 'state' },
-				finish: {
-					value: order.fecha_cierre_real
-						? formatDate(order.fecha_cierre_real)
-						: '---',
+				paymentState: { value: order.condicion_financial, style: 'state' },
+				published: { value: order.creacion, style: 'date' },
+				publishPay: {
+					value: order.fecha_financial_confirmacion,
 					style: 'date',
 				},
-				published: { value: order.creacion, style: 'date' },
+				publishedFinish: {
+					value: order.fecha_cierre_real || '---',
+					style: 'date',
+				},
 			}) as any,
 	);
 
