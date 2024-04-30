@@ -77,10 +77,7 @@ export const OrderV2 = () => {
 							<h2>
 								<span>Execute a </span>new pentest
 							</h2>
-							<ActiveProgressLine
-								isNextStep={isNextStep}
-								orderStepActive={orderStepActive}
-							/>
+							<ActiveProgressLine orderStepActive={orderStepActive} />
 						</div>
 					</header>
 

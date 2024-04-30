@@ -3,12 +3,10 @@ import { OrderSection } from '../../../../../data';
 import { StepItem } from './StepItem';
 
 interface ActiveProgressLineProps {
-	isNextStep: boolean;
 	orderStepActive: OrderSection;
 }
 
 export const ActiveProgressLine: FC<ActiveProgressLineProps> = ({
-	isNextStep,
 	orderStepActive,
 }) => {
 	const currentOrCompleted = (current: OrderSection, verify: OrderSection) => {
