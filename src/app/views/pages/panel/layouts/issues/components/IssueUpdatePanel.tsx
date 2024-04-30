@@ -113,9 +113,8 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 							Resource ID:{' '}
 							<input
 								type="number"
-								className={`${isEditable && 'off'}`}
 								value={updatedIssue.resourceID}
-								disabled={isEditable}
+								disabled={true}
 								name="resourceID"
 								onChange={handleChange}
 								step="1"
