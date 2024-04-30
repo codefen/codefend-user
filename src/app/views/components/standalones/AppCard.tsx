@@ -44,7 +44,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	openReport,
 	issueCount,
 }) => {
-	const { isAdmin, isNormalUser } = useUserRole();
+	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const { isImage, isMobileType, isDetails } = useAppCard({
 		type,
 		showDetails,
@@ -54,8 +54,10 @@ export const AppCard: FC<MobileAppCardProps> = ({
 
 	const { setIsOpen } = useRemoveAppStore((state) => state);
 
-	const handleClick = () =>
-		navigate(`/issues/create/${isMobileType ? 'mobile' : 'cloud'}/${id}`);
+	const handleClick = () => {
+		if (isAdmin() || isProvider())
+			navigate(`/issues/create/${isMobileType ? 'mobile' : 'cloud'}/${id}`);
+	};
 
 	const handleDeleteResource = () => setIsOpen(true);
 
@@ -101,7 +103,9 @@ export const AppCard: FC<MobileAppCardProps> = ({
 			const activeReport = issueCount !== undefined && issueCount >= 1;
 			return (
 				<div className="actions">
-					<div onClick={handleClick}>Add issue</div>
+					<Show when={isAdmin() || isProvider()}>
+						<div onClick={handleClick}>Add issue</div>
+					</Show>
 					<Show when={isAdmin() || isNormalUser()}>
 						<div onClick={handleDeleteResource}>Delete resource</div>
 					</Show>

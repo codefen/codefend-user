@@ -47,7 +47,7 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
 	scope: {
 		totalAllResources: 18,
 		totalResources: 0,
-		scopeOption: ScopeOption.TYPE,
+		scopeOption: ScopeOption.UNKNOWN,
 	},
 	resumeResources: {} as any,
 	frequency: OrderFrequency.UNKNOWN,
