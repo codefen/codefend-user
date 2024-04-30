@@ -4,6 +4,14 @@ export enum IssuesStatus {
 	OPEN="open", VERIFIED="verified", FIXED="fixed",VOID=""
 }
 
+export interface IssueCustomerSupport extends AuditCompanyData{
+    issue_id: string;
+    user_id: string;
+    user_username: string;
+    user_company: string;
+    issue_cs_body: string;
+}
+
 export interface Issue extends AuditCompanyData{
     resource_class: string;
     resource_id: string;
@@ -28,5 +36,6 @@ export interface IssueUpdateData extends AuditData{
     name: string;
     issue: string;
     condicion: IssuesStatus;
-    cs: any[];
+    cs: IssueCustomerSupport[];
 }
+

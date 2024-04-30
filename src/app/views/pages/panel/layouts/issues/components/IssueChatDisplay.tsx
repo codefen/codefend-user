@@ -9,7 +9,7 @@ import {
 	Show,
 	SimpleSection,
 } from '../../../../../components';
-import type { IssueUpdateData } from '@interfaces/issues';
+import type { IssueCustomerSupport, IssueUpdateData } from '@interfaces/issues';
 
 interface Props {
 	isLoading: boolean;
@@ -23,10 +23,6 @@ export const IssueChatDisplay: FC<Props> = ({
 }) => {
 	const location = useLocation();
 
-	const getIssue = useCallback((): IssueMessage[] => {
-		return selectedIssue?.cs ?? [];
-	}, [selectedIssue]);
-
 	return (
 		<div
 			className={`card messages ${
@@ -39,24 +35,26 @@ export const IssueChatDisplay: FC<Props> = ({
 						<Show when={!isLoading} fallback={<PageLoader />}>
 							<div
 								className={`messages-wrapper ${
-									getIssue().length > 3 && 'item'
+									selectedIssue.cs.length > 3 && 'item'
 								}`}>
-								{getIssue().map((message: IssueMessage, i: number) => (
-									<Fragment key={`mess-${message.id}-${i}`}>
-										<MessageCard
-											body={message.body}
-											selectedID={message.userID}
-											createdAt={message.createdAt}
-											username={message.userUsername}
-										/>
-									</Fragment>
-								))}
+								{selectedIssue.cs.map(
+									(message: IssueCustomerSupport, i: number) => (
+										<Fragment key={`mess-${message.id}-${i}`}>
+											<MessageCard
+												body={message.issue_cs_body}
+												selectedID={message.user_id}
+												createdAt={message.creacion}
+												username={message.user_username}
+											/>
+										</Fragment>
+									),
+								)}
 							</div>
 						</Show>
 					</div>
 					<ChatBox
 						type={ChatBoxType.ISSUE}
-						selectedID={selectedIssue?.id ?? ''}
+						selectedID={selectedIssue.id}
 						onDone={refetch}
 					/>
 				</>
