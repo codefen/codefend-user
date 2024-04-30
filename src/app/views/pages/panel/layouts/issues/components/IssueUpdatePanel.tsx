@@ -151,6 +151,9 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 							<option value="open">open</option>
 							<option value="fixed">fixed</option>
 							<option value="verified">verified</option>
+							<option value="" hidden>
+								Unknown
+							</option>
 						</select>
 					</div>
 				</div>
