@@ -1,5 +1,10 @@
 import { useEffect, useState, type FC } from 'react';
-import { DocumentIcon, ImportantIcon, PreferenceIcon } from '@icons';
+import {
+	DocumentIcon,
+	DocumentTextIcon,
+	ImportantIcon,
+	PreferenceIcon,
+} from '@icons';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { SimpleSection } from '@defaults/SimpleSection';
@@ -34,6 +39,11 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 		updateReferenceNumber(referenceNumber);
 		startPoll(id, referenceNumber);
 	};
+	const handleOpenScope = (scope: any) => {
+		updateOpen(true);
+		updateScope(scope);
+		updateViewConfirm(false);
+	};
 
 	const dataTable = orders.map(
 		(order: CompanyOrders) =>
@@ -43,7 +53,10 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 				size: { value: order.chosen_plan, style: 'size' },
 				offensivness: { value: order.offensiveness, style: 'offensivness' },
 				type: { value: order.resources_class, style: 'type' },
-				provider: { value: order.provider_username, style: 'username' },
+				provider: {
+					value: `@${order.provider_username}`,
+					style: 'username',
+				},
 				funds: { value: order.funds_full, style: 'funds' },
 				state: { value: order.condicion_provider, style: 'state' },
 				publishedFinish: {
@@ -70,6 +83,14 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 									}
 								}}>
 								<ImportantIcon />
+							</span>
+							<span
+								onClick={() => {
+									handleOpenScope(
+										JSON.parse(order.resources_scope.trim() || '{}'),
+									);
+								}}>
+								<DocumentTextIcon />
 							</span>
 						</>
 					),
