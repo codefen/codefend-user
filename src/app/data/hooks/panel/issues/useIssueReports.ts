@@ -40,9 +40,9 @@ export const useIssueReport = ()=>{
 			resources.current = mapCloudApp(data.resource);
 		} else if (resourceType === 'lan') {
 			resources.current = [data.resource];
-		} else if (resourceType === 'source') {
-			resources.current = data.resource;
-		}
+		} else if (resourceType === 'source' || resourceType === 'social') {
+			resources.current = data?.resource || {};
+        }
 
 		if (resources.current) {
 			if (resourceType === 'web') {
@@ -56,6 +56,9 @@ export const useIssueReport = ()=>{
 			    setDomainText(resources.current[0].device_ex_address);
             } else if(resourceType === 'source'){
                 setDomainText(resources.current.name);
+            }else if(resourceType === 'social'){
+                //setDomainText(`${resources.current.member_fname}  ${resources.current.member_lname}`);
+                setDomainText(`Some Name`);
             }
 	    }
                     

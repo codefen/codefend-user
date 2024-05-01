@@ -11,6 +11,7 @@ import './socialEngineering.scss';
 import Show from '@defaults/Show.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
+import { ModalReport } from '@modals/index.ts';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -58,6 +59,7 @@ const SocialEngineeringView = () => {
 		<>
 			<OrderV2 />
 			<CredentialsModal />
+			<ModalReport />
 			<main className={`social ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>

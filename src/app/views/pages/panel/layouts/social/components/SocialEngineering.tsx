@@ -56,7 +56,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 		if (Number(count) >= 1) {
 			openModal();
 			setResourceID(resourceID);
-			setResourceType('source');
+			setResourceType('social');
 		} else {
 			toast.error(
 				'The resource still does not have issues to make a report',
