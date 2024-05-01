@@ -62,17 +62,19 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 								<AppCard
 									id={resource.id}
 									type={type}
-									name={resource.app_name}
-									appMedia={type == 'mobile' ? resource.app_media : ''}
-									appDesc={resource.app_desc}
+									name={
+										resource?.app_name || resource?.cloud_name || ''
+									}
+									appDesc={
+										resource?.app_desc || resource?.cloud_desc || ''
+									}
+									appMedia={
+										type == 'mobile' ? resource?.app_media : ''
+									}
 									appReviews={resource?.app_reviews || undefined}
 									appRank={resource?.app_rank || undefined}
 									appDeveloper={resource?.app_developer || undefined}
-									cloudProvider={
-										resource?.cloudProvider
-											? resource.cloudProvider.toLowerCase()
-											: undefined
-									}
+									cloudProvider={resource?.cloud_provider || undefined}
 								/>
 							</div>
 						))
