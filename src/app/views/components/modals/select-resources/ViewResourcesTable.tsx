@@ -44,7 +44,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 						(resource: any) => resource.final_issues > 0,
 					);
 				}
-				if (scopeALias == 'w' || scopeALias == 'n') {
+				if (activeFilter && (scopeALias == 'w' || scopeALias == 'n')) {
 					filterResult = filterResult.map((resource: any) => ({
 						...resource,
 						childs: resource.childs.filter(
