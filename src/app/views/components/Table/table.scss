@@ -177,6 +177,11 @@
 		&:hover {
 			background-color: var(--primary-color-100);
 		}
+		&.item-disabled {
+			opacity: 0.45;
+			user-select: none;
+			cursor: default;
+		}
 	}
 
 	.id {

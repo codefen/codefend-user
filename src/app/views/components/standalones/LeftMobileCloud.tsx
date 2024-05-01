@@ -79,6 +79,8 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 										? resource.cloudProvider.toLowerCase()
 										: undefined
 								}
+								issueCount={resource.final_issue}
+								activeViewCount
 							/>
 						</div>
 					))}

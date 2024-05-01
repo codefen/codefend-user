@@ -1,10 +1,11 @@
 import { type FC } from 'react';
 import {
 	cleanHTML,
+	cleanReview,
 	defaultMobileCloudResourceAsset,
 	useAppCard,
 } from '../../../data';
-import { Show, StarRating } from '..';
+import { BugIcon, Show, StarRating } from '..';
 import { useNavigate } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
@@ -25,6 +26,7 @@ interface MobileAppCardProps {
 	appDesc: string;
 	openReport?: () => void;
 	issueCount?: number;
+	activeViewCount?: boolean;
 }
 
 export const AppCard: FC<MobileAppCardProps> = ({
@@ -43,6 +45,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	appDeveloper,
 	openReport,
 	issueCount,
+	activeViewCount,
 }) => {
 	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const { isImage, isMobileType, isDetails } = useAppCard({
@@ -122,7 +125,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	};
 
 	return (
-		<div className={generateCardClasses()}>
+		<div className={`${generateCardClasses()}`}>
 			<div className="app-card-content">
 				<div className="app-card-content-img">
 					{<MemoizedRenderImage />}
@@ -130,7 +133,18 @@ export const AppCard: FC<MobileAppCardProps> = ({
 				<div className="app-card-content-body">
 					<div className="app-card-title">
 						<h3 className={`${isDetails ? 'detail' : 'card'}`}>
-							{isMainGoogleNetwork ? 'main google network' : name}
+							{isMainGoogleNetwork
+								? 'main google network'
+								: cleanReview(name, true)}
+							<Show when={Boolean(activeViewCount)}>
+								<div className="view-count-issues">
+									-{' '}
+									<span className="codefend-text-red inline-flex">
+										<BugIcon />
+										{issueCount || 0}
+									</span>
+								</div>
+							</Show>
 						</h3>
 						<Show when={isDetails && !isMobileType}>
 							<span className="second-text detail">

@@ -127,6 +127,7 @@ export interface MobileApp extends ResourceID, Monitoring {
 	appReviews: string;
 	appAndroidDownloads: string;
 	appMedia: string;
+	final_issue: string;
 }
 
 export interface UniqueApps {
@@ -154,6 +155,7 @@ export interface CloudApp extends ResourceID, Monitoring {
 	cloudSecondKey: string;
 	cloudThirdKey: string;
 	appMedia: string;
+	final_issue: string;
 }
 export interface IssueClass {
 	total: string;

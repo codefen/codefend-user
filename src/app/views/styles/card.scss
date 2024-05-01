@@ -255,7 +255,10 @@
 	// 	margin-block-start: 14px;
 	// }
 }
-
+.app-card-disabled {
+	opacity: 0.5;
+	cursor: default;
+}
 .app-card {
 	display: flex;
 	flex-direction: column;
@@ -327,6 +330,20 @@
 					font-weight: 700;
 					text-transform: uppercase;
 					border: 0px;
+
+					.view-count-issues {
+						display: inline-flex;
+						margin-inline-start: 0.5rem;
+						column-gap: 0.25rem;
+						align-items: center;
+
+						.inline-flex {
+							display: inline-flex;
+							column-gap: 0.25rem;
+							align-items: center;
+							font-size: 1.015rem;
+						}
+					}
 				}
 
 				.card {

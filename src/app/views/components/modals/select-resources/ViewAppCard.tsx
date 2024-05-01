@@ -49,7 +49,7 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 					? apps.current.map((resource, i) => (
 							<div
 								key={`${resource.id}-${i}`}
-								className="app-info"
+								className={`app-info ${activeFilter && Number(resource?.final_issues) <= 0 ? 'app-card-disabled' : ''}`}
 								onClick={(e: React.FormEvent) => {
 									e.preventDefault();
 									getReport(resource.id, type);
@@ -70,6 +70,8 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 									appRank={resource?.app_rank || undefined}
 									appDeveloper={resource?.app_developer || undefined}
 									cloudProvider={resource?.cloud_provider || undefined}
+									issueCount={resource?.final_issues || 0}
+									activeViewCount
 								/>
 							</div>
 						))
