@@ -29,9 +29,18 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 
 		getAnyResource(getPath(scopeALias))
 			.then((resources) => {
-				apps.current = resources;
+				let filterResult = resources;
+				if (activeFilter) {
+					filterResult = filterResult.filter(
+						(app: any) => app.final_issues > 0,
+					);
+				}
+				apps.current = filterResult;
 			})
 			.finally(() => setLoading(false));
+		return () => {
+			apps.current = [];
+		};
 	}, [scopeALias]);
 	const title =
 		modalId == 'selectReport'
@@ -42,39 +51,31 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 			<h3>{title}</h3>
 			<div className="list">
 				{apps.current && !isLoading
-					? apps.current
-							.filter(
-								(app: any) => app?.final_issues > 0 && !activeFilter,
-							)
-							.map((resource, i) => (
-								<div
-									key={`${resource.id}-${i}`}
-									className="app-info"
-									onClick={(e: React.FormEvent) => {
-										e.preventDefault();
-										getReport(resource.id, type);
-									}}>
-									<AppCard
-										id={resource.id}
-										type={type}
-										name={resource.app_name}
-										appMedia={
-											type == 'mobile' ? resource.app_media : ''
-										}
-										appDesc={resource.app_desc}
-										appReviews={resource?.app_reviews || undefined}
-										appRank={resource?.app_rank || undefined}
-										appDeveloper={
-											resource?.app_developer || undefined
-										}
-										cloudProvider={
-											resource?.cloudProvider
-												? resource.cloudProvider.toLowerCase()
-												: undefined
-										}
-									/>
-								</div>
-							))
+					? apps.current.map((resource, i) => (
+							<div
+								key={`${resource.id}-${i}`}
+								className="app-info"
+								onClick={(e: React.FormEvent) => {
+									e.preventDefault();
+									getReport(resource.id, type);
+								}}>
+								<AppCard
+									id={resource.id}
+									type={type}
+									name={resource.app_name}
+									appMedia={type == 'mobile' ? resource.app_media : ''}
+									appDesc={resource.app_desc}
+									appReviews={resource?.app_reviews || undefined}
+									appRank={resource?.app_rank || undefined}
+									appDeveloper={resource?.app_developer || undefined}
+									cloudProvider={
+										resource?.cloudProvider
+											? resource.cloudProvider.toLowerCase()
+											: undefined
+									}
+								/>
+							</div>
+						))
 					: null}
 			</div>
 		</div>

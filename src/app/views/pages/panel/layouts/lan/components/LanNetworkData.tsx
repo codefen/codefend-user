@@ -92,8 +92,10 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 						</Show>
 						<span
 							title="View report"
-							className="issue-printer"
-							onClick={() => {}}>
+							className={`issue-printer ${Number(network.final_issues) == 0 ? 'off' : ''}`}
+							onClick={() =>
+								generateReport(network.id, network.final_issues)
+							}>
 							<DocumentIcon isButton width={1.27} height={1.27} />
 						</span>
 						<span

@@ -39,18 +39,31 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 		getAnyResource(getPath(scopeALias))
 			.then((resources) => {
 				let filterResult = resources;
-				if (activeFilter && scopeALias == 'w') {
+				if (activeFilter) {
 					filterResult = filterResult.filter(
 						(resource: any) => resource.final_issues > 0,
 					);
 				}
-
+				if (scopeALias == 'w' || scopeALias == 'n') {
+					filterResult = filterResult.map((resource: any) => ({
+						...resource,
+						childs: resource.childs.filter(
+							(resource: any) => resource?.final_issues > 0,
+						),
+					}));
+				}
 				dataTable.current = getDataScopeResourceTable(
 					scopeALias,
 					filterResult,
 				);
 			})
 			.finally(() => setLoading(false));
+		return () => {
+			dataTable.current = {
+				columns: [],
+				rows: [],
+			};
+		};
 	}, [scopeALias]);
 
 	const title =
