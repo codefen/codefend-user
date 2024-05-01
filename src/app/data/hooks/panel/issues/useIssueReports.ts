@@ -38,8 +38,8 @@ export const useIssueReport = ()=>{
 			resources.current = mapMobileApp(data.resource);
 		} else if (resourceType === 'cloud') {
 			resources.current = mapCloudApp(data.resource);
-		} else if (resourceType === 'source') {
-			resources.current = data.resource;
+		} else if (resourceType === 'lan') {
+			resources.current = [data.resource];
 		}
 
 		if (resources.current) {
@@ -50,7 +50,7 @@ export const useIssueReport = ()=>{
 				resourceType === 'cloud'
 			) {
 			    setDomainText(resources.current.appName);
-			} else if (resourceType === 'source'){
+			} else if (resourceType === 'lan'){
 			    setDomainText(resources.current[0].device_ex_address);
 
             }
