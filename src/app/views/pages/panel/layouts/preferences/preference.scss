@@ -191,6 +191,10 @@ main.preferences {
 			.id.action {
 				max-width: 8%;
 				min-width: 8%;
+
+				.publish {
+					justify-content: center;
+				}
 			}
 		}
 	}
