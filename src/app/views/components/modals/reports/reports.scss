@@ -357,6 +357,47 @@ body[print-report] {
 	.app-card-container {
 		margin-block: 3rem;
 	}
+
+	.source-code-scope {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid var(--primary-color-600);
+		border-radius: 4px;
+		padding-inline: 0;
+
+		li {
+			width: 100%;
+			display: flex;
+			padding-inline: 1rem;
+			border-block-end: 1px solid var(--primary-color-600);
+			align-items: center;
+			justify-content: flex-start;
+
+			&:first-child {
+				.source-scope-item {
+					padding-block-start: 1rem;
+				}
+			}
+			&:last-child {
+				border-block-end: none;
+				.source-scope-item {
+					padding-block-end: 1rem;
+				}
+			}
+
+			.source-scope-item {
+				min-width: 35%;
+				line-height: 20px;
+				padding-block-end: 5px;
+				padding-block-start: 0.75rem;
+			}
+			.item-value {
+				min-width: 65%;
+				border-inline-start: 1px solid var(--primary-color-600);
+				padding-inline-start: 1rem;
+			}
+		}
+	}
 }
 
 @media only print {

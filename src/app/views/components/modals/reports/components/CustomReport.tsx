@@ -25,6 +25,7 @@ import { ReportFrontpage } from './ReportFrontpage';
 import { ReportSectionTemplate } from './ReportSection';
 import useTimeout from '#commonHooks/useTimeout';
 import { NetworkResourceScope } from './NetworkResourceScope';
+import { SourceScope } from './SourceScope';
 
 interface CustomReportProps {
 	isModal?: boolean;
@@ -73,7 +74,10 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 			return (
 				<NetworkResourceScope resources={resources} isLoading={isLoading} />
 			);
+		} else if (resourceType == 'source') {
+			return <SourceScope resources={resources} isLoading={isLoading} />;
 		}
+
 		return <></>;
 	};
 

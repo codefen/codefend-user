@@ -17,11 +17,15 @@ main.source-code {
 				margin-inline-end: 1%;
 			}
 			.action {
-				min-width: 14.5%;
-				max-width: 14.5%;
+				min-width: 15.5%;
+				max-width: 15.5%;
 			}
-			.source-code,
 			.boolean {
+				min-width: 9%;
+				max-width: 9%;
+				margin-inline-end: 1%;
+			}
+			.source-code {
 				min-width: 10%;
 				max-width: 10%;
 				margin-inline-end: 1%;
