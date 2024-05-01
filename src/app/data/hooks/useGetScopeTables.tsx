@@ -1,4 +1,5 @@
 import Show from '@defaults/Show';
+import type { TableItem } from '@interfaces/table';
 import {
 	memberColumn,
 	memberColumnWithIssue,
@@ -100,7 +101,7 @@ export const useGetScopeTables = (
 					},
 				})) || [];
 			return {
-				rows,
+				rows: rows as Record<string, TableItem>[],
 				columns: Boolean(useInIssueReport)
 					? webScopeColumnsWithCount
 					: webScopeColumns,
@@ -143,7 +144,10 @@ export const useGetScopeTables = (
 					},
 					quantity: { value: res.quantity, style: 'id' },
 				})) || [];
-			return { rows, columns: socialScopeColumns };
+			return {
+				rows: rows as Record<string, TableItem>[],
+				columns: socialScopeColumns,
+			};
 		}
 		if (scopeALias === 's' && useResumeSocial) {
 			rows =
@@ -165,7 +169,7 @@ export const useGetScopeTables = (
 						: undefined,
 				})) || [];
 			return {
-				rows,
+				rows: rows as Record<string, TableItem>[],
 				columns: Boolean(useInIssueReport)
 					? memberColumnWithIssue
 					: memberColumnWithoutContact,
@@ -189,7 +193,7 @@ export const useGetScopeTables = (
 						: undefined,
 				})) || [];
 			return {
-				rows,
+				rows: rows as Record<string, TableItem>[],
 				columns: Boolean(useInIssueReport)
 					? sourceCodeScopeWithIssueColumns
 					: sourceCodeScopeColumns,
@@ -269,13 +273,13 @@ export const useGetScopeTables = (
 					},
 				})) || [];
 			return {
-				rows,
+				rows: rows as Record<string, TableItem>[],
 				columns: Boolean(useInIssueReport)
 					? networkScopeWithIssueColumns
 					: networkScopeColumns,
 			};
 		}
-		return { rows: [], columns: [] };
+		return { rows: [] as Record<string, TableItem>[], columns: [] };
 	};
 	return getDataScopeResourceTable;
 };

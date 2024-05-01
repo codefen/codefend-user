@@ -24,7 +24,7 @@ export const OrderScopeTable: FC<OrderCloudScopeProps> = ({
 			<h2>{title}</h2>
 			<TableV2
 				columns={dataTable.columns}
-				rowsData={dataTable.rows}
+				rowsData={dataTable.rows as any}
 				showRows={true}
 				showEmpty={!Boolean(dataTable.rows.length)}
 				sizeY={15}
