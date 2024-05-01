@@ -338,7 +338,7 @@ body[print-report] {
 						font-size: 0.96rem;
 
 						a {
-							color: var(--secondary-color-300);
+							color: var(--secondary-color-100);
 						}
 					}
 				}
@@ -492,7 +492,7 @@ body[print-report] {
 	}
 
 	p a {
-		color: var(--primary-color-100);
+		color: var(--secondary-color-100);
 	}
 
 	li {
@@ -500,7 +500,7 @@ body[print-report] {
 	}
 
 	li a {
-		color: var(--primary-color-100);
+		color: var(--secondary-color-100);
 	}
 
 	figure.image img {
@@ -547,11 +547,23 @@ body[print-report] {
 	}
 	.tabla-header-issue .left {
 		flex: 1 1 60%;
-		/* border-right: 1px solid var(--primary-color-100); */
+		overflow: inherit;
+		padding-block-start: 0px;
+		padding: 0;
+		display: inherit;
+		row-gap: 0;
 		padding-right: 40px;
 	}
 	.tabla-header-issue .right {
+		height: inherit;
+		margin-block-end: 0px;
+		padding-block-start: 0px;
+		width: inherit;
+		padding: 0px;
+		box-shadow: inherit;
+
 		flex: 1 1 35%;
 		padding-left: 40px;
+
 	}
 }

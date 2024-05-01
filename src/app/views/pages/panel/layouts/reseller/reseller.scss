@@ -9,14 +9,8 @@ main.reseller {
 	padding-inline-end: 0;
 
 	.left {
-		// padding-inline: 0px;
-		// max-width: 1250px;
-		// flex: 1 1 10%;
-		// background: vat(--reseller-bg-color);
-
-		// border-radius: 4px;
-		// height: fit-content;
-		// min-width: 895px;
+		// gap: 0;
+		overflow: hidden;
 	}
 
 	.right {
@@ -35,19 +29,19 @@ main.reseller {
 
 .reseller-header {
 	position: relative;
-	display: flex;
-	flex-direction: column;
-	min-height: 130px;
-	max-height: 130px;
-	height: 100%;
-	background-color: #fff;
-	box-shadow: var(--reseller-header-shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: 130px;
+    max-height: 130px;
+    height: 100%;
+    background-color: #f8f8f8;	
+	border: 1px solid var(--primary-color-300);
 
 	.reseller-header-content {
 		display: flex;
 		flex-direction: row;
 		height: 130px;
-		border-bottom: 2px solid var(--reseller-border-color);
+		// border-bottom: 2px solid var(--reseller-border-color);
 
 		.reseller-extra-info {
 			display: flex;
@@ -70,10 +64,16 @@ main.reseller {
 	display: flex;
 	flex-direction: column;
 	// margin-block-start: 2rem;
+	// max-height: calc(100vh - 200px);
+	
+	.card {
+		overflow: hidden;
+	}
 
 	.table {
 		.rows {
-			max-height: 70dvh;
+			max-height: calc(100vh - 300px);
+
 			.item {
 				min-height: 42px;
 				user-select: text;

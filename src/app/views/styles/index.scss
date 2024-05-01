@@ -213,7 +213,7 @@ main {
 	transition-duration: 400ms;
 	transition-timing-function: cubic-bezier(0.47, 1.64, 0.41, 0.8);
 
-	overflow-y: auto;
+	overflow-y: hidden;
 	overflow-x: hidden;
 
 	@media only screen and (min-width: 1880px) {
