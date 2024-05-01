@@ -11,6 +11,7 @@ import { useFlashlight } from '../../FlashLightContext.tsx';
 import './sourcecode.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
+import { ModalReport } from '@modals/index.ts';
 
 const SourceCodePanel: FC = () => {
 	const [showScreen, _, refresh] = useShowScreen();
@@ -24,6 +25,7 @@ const SourceCodePanel: FC = () => {
 		<>
 			<OrderV2 />
 			<CredentialsModal />
+			<ModalReport />
 			<main className={`source-code ${showScreen ? 'actived' : ''}`}>
 				<section className="left">
 					<SourceCodeResources
