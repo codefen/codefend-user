@@ -32,7 +32,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 		setIsOpen(true);
 	};
 	return (
-		<div className="card table">
+		<div className="card">
 			<div className="header">
 				<div className="title">
 					<div className="icon">

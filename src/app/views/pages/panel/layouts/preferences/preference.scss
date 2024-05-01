@@ -154,6 +154,45 @@ main.preferences {
 	.order-preference-content {
 		max-height: calc(100vh - 17.5rem);
 		overflow-y: auto;
+
+		.table {
+			.id {
+				max-width: 6.75%;
+				min-width: 6.75%;
+			}
+			.size {
+				max-width: 11%;
+				min-width: 11%;
+			}
+			.offensivness {
+				max-width: 12.5%;
+				min-width: 12.5%;
+			}
+			.type {
+				max-width: 10%;
+				min-width: 10%;
+			}
+			.username {
+				max-width: 18%;
+				min-width: 18%;
+			}
+			.funds {
+				max-width: 11%;
+				min-width: 11%;
+			}
+			.state {
+				max-width: 12.5%;
+				min-width: 12.5%;
+			}
+			.date {
+				max-width: 12.5%;
+				min-width: 12.5%;
+			}
+			.id.action {
+				max-width: 5.75%;
+				min-width: 5.75%;
+			}
+		}
 	}
 	.confirm-order-card {
 		margin-inline-end: auto;

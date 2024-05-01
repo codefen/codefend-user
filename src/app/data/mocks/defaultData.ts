@@ -786,4 +786,50 @@ export const defaultPersonalDetails = [
 	},
 ];
 
-
+export const defaultOrderColumns = [
+	{
+		name: "Identifier",
+		value: "id",
+		style: "id"
+	},
+	{
+		name: "size",
+		value: "size",
+		style: "size"
+	},
+	{
+		name: "offensivness",
+		value: "offensivness",
+		style: "offensivness"
+	},
+	{
+		name: "type",
+		value: "class",
+		style: "type"
+	},
+	{
+		name: "provider",
+		value: "provider",
+		style: "username"
+	},
+	{
+		name: "funds",
+		value: "funds",
+		style: "funds"
+	},
+	{
+		name: "state",
+		value: "state",
+		style: "state"
+	},
+	{
+		name: "publishedFinish",
+		value: "finish date",
+		style: "date"
+	},
+	{
+		name: "action",
+		value: "actions",
+		style: "id action"
+	}
+]

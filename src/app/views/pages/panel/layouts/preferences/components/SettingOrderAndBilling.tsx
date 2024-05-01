@@ -1,5 +1,5 @@
 import { useEffect, useState, type FC } from 'react';
-import { PreferenceIcon } from '@icons';
+import { DocumentIcon, ImportantIcon, PreferenceIcon } from '@icons';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { SimpleSection } from '@defaults/SimpleSection';
@@ -8,6 +8,11 @@ import { UserOrderCard } from './UserOrderCard';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { PageLoader } from '@defaults/index';
+import { TableV2 } from '@table/tablev2';
+import { defaultOrderColumns } from '@mocks/defaultData';
+import type { TableItem } from '@interfaces/table';
+import { useQualitySurveyStart } from '@hooks/quality-survey/useQualitySurveyStart';
+import useOrderScopeStore from '@stores/orderScope.store';
 
 interface BillingDataProps {
 	isLoading: boolean;
@@ -18,8 +23,60 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 	orders,
 	isLoading,
 }) => {
-	const [active, setActiveCard] = useState<string>('');
-	const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
+	const { updateIsOpen, updateOrderId, updateReferenceNumber } =
+		useQualitySurveyStore();
+	const { updateOpen, updateScope, updateViewConfirm } = useOrderScopeStore();
+	const startPoll = useQualitySurveyStart();
+
+	const handleOpenPoll = (id: string, referenceNumber: string) => {
+		updateIsOpen(true);
+		updateOrderId(id);
+		updateReferenceNumber(referenceNumber);
+		startPoll(id, referenceNumber);
+	};
+
+	const dataTable = orders.map(
+		(order: CompanyOrders) =>
+			({
+				ID: { value: '', style: 'id' },
+				Identifier: { value: order.id, style: 'id' },
+				size: { value: order.chosen_plan, style: 'size' },
+				offensivness: { value: order.offensiveness, style: 'offensivness' },
+				type: { value: order.resources_class, style: 'type' },
+				provider: { value: order.provider_username, style: 'username' },
+				funds: { value: order.funds_full, style: 'funds' },
+				state: { value: order.condicion_provider, style: 'state' },
+				publishedFinish: {
+					value: order?.fecha_cierre_real || '--/--/--',
+					style: 'date',
+				},
+				action: {
+					value: (
+						<>
+							<span
+								title={
+									order.condicion_provider === 'finished' &&
+									order.condicion_review === 'unreviewed'
+										? 'Start quality poll'
+										: 'The poll is now completed'
+								}
+								className={`${order.condicion_provider === 'finished' && order.condicion_review === 'unreviewed' ? 'order-poll-active' : 'order-poll-disabled'}`}
+								onClick={() => {
+									if (
+										order.condicion_provider === 'finished' &&
+										order.condicion_review === 'unreviewed'
+									) {
+										handleOpenPoll(order.id, order.reference_number);
+									}
+								}}>
+								<ImportantIcon />
+							</span>
+						</>
+					),
+					style: 'id action',
+				},
+			}) as Record<string, TableItem>,
+	);
 
 	return (
 		<>
@@ -28,42 +85,12 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 					header="ORDERS & BILLING DETAILS"
 					icon={<PreferenceIcon />}>
 					<div className="order-preference-content">
-						<Show when={Boolean(orders.length)}>
-							{orders.map((order, i) => (
-								<UserOrderCard
-									key={`order-${order.id}${i}`}
-									id={order.id}
-									offensive={
-										order.offensiveness as
-											| 'careful'
-											| 'offensive'
-											| 'adversary'
-									}
-									price={order.funds_full}
-									type={order.resources_class}
-									provider={order.provider_username}
-									scope={order.resources_class === 'full' ? 1 : 0}
-									sizeOrder={
-										order.chosen_plan as 'small' | 'medium' | 'full'
-									}
-									handleActivate={handleActive}
-									isSelected={active === order.id}
-									resourcesScope={JSON.parse(
-										order.resources_scope.trim() || '{}',
-									)}
-									conditionFinancial={order.condicion_financial}
-									conditionProvider={order.condicion_provider}
-									conditionReview={order.condicion_review}
-									referenceNumber={order.reference_number}
-								/>
-							))}
-						</Show>
-						<Show when={!Boolean(orders.length) && isLoading}>
-							<PageLoader />
-						</Show>
-						<Show when={!Boolean(orders.length) && !isLoading}>
-							<EmptyCard />
-						</Show>
+						<TableV2
+							columns={defaultOrderColumns}
+							rowsData={dataTable}
+							showRows={!isLoading}
+							showEmpty={!isLoading && !Boolean(orders.length)}
+						/>
 					</div>
 				</SimpleSection>
 			</div>

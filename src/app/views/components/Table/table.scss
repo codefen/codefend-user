@@ -395,6 +395,21 @@
 					color: inherit;
 				}
 			}
+
+			&.order-poll-active {
+				cursor: pointer;
+				color: var(--secondary-color-100);
+			}
+			&.order-poll-disabled {
+				cursor: default;
+				color: var(--tertiary-color-200);
+				opacity: 0.5;
+				&:hover,
+				&:hover svg,
+				&:hover path {
+					color: var(--tertiary-color-200);
+				}
+			}
 		}
 
 		.issue-count {
