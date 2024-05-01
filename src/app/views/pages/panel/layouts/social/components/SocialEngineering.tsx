@@ -2,8 +2,10 @@ import {
 	BugIcon,
 	ConfirmModal,
 	CredentialIcon,
+	DocumentIcon,
 	ModalTitleWrapper,
 	PeopleGroupIcon,
+	Show,
 	TableV2,
 	TrashIcon,
 } from '../../../../../../views/components';
@@ -14,6 +16,7 @@ import {
 	memberColumnWithActions,
 	roleMap,
 	useModal,
+	useReportStore,
 } from '../../../../../../data';
 import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
 import { useNavigate } from 'react-router';
@@ -22,6 +25,7 @@ import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
+import { toast } from 'react-toastify';
 
 interface SocialProps {
 	refetch: () => void;
@@ -43,9 +47,22 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
-
+	const { openModal, setResourceID, setResourceType } = useReportStore(
+		(state) => state,
+	);
 	const safelyPreviousSearches = () => props.socials.slice().reverse();
 
+	const generateReport = (resourceID: string, count: any) => {
+		if (Number(count) >= 1) {
+			openModal();
+			setResourceID(resourceID);
+			setResourceType('source');
+		} else {
+			toast.error(
+				'The resource still does not have issues to make a report',
+			);
+		}
+	};
 	const dataTable = safelyPreviousSearches().map(
 		(member: MemberV2) =>
 			({
@@ -60,40 +77,60 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 					value: roleMap[member.member_role as keyof typeof roleMap],
 					style: 'role',
 				},
+				action: {
+					value: (
+						<>
+							<span
+								className="issue-icon"
+								title={`${isNormalUser() ? '' : 'Add Issue'}`}
+								onClick={() =>
+									navigate(
+										isProvider() || isAdmin()
+											? `/issues/create/social/${member.id}`
+											: '',
+									)
+								}>
+								<BugIcon isButton />
+								<span className="codefend-text-red-200 issue-count">
+									{member.final_issues}
+								</span>
+							</span>
+							<span
+								title="View report"
+								className={`issue-printer ${Number(member.final_issues) == 0 ? 'off' : ''}`}
+								onClick={() =>
+									generateReport(member.id, member.final_issues)
+								}>
+								<DocumentIcon isButton width={1.27} height={1.27} />
+							</span>
+							<Show when={isNormalUser() || isAdmin()}>
+								<span
+									title="Delete"
+									onClick={() => {
+										setShowModalStr('delete');
+										setShowModal(true);
+										setSelectedId(member.id);
+									}}>
+									<TrashIcon />
+								</span>
+							</Show>
+
+							<span
+								title="Add credentials"
+								onClick={() => {
+									setResourceId(member.id);
+									setCrendentialType('source');
+									setIsOpen(true);
+									setModalId('source');
+								}}>
+								<CredentialIcon />
+							</span>
+						</>
+					),
+					style: 'id action',
+				},
 			}) as Record<string, TableItem>,
 	);
-
-	const tableAction = {
-		icon: [] as any,
-	};
-
-	if (isProvider() || isAdmin()) {
-		tableAction.icon.push({
-			action: (id: string, type?: any) =>
-				navigate(`/issues/create/social/${id}`),
-			render: <BugIcon isButton />,
-		});
-	}
-	tableAction.icon.push({
-		action: (id: string) => {
-			setResourceId(id);
-			setCrendentialType('social');
-			setIsOpen(true);
-			setModalId('social');
-		},
-		render: <CredentialIcon />,
-		style: '',
-	});
-	if (isAdmin() || isNormalUser()) {
-		tableAction.icon.push({
-			action: (id: string, type?: any) => {
-				setShowModalStr('delete');
-				setShowModal(true);
-				setSelectedId(id);
-			},
-			render: <TrashIcon />,
-		});
-	}
 
 	return (
 		<>
@@ -146,7 +183,6 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 				<TableV2
 					columns={memberColumnWithActions}
 					rowsData={dataTable}
-					tableAction={tableAction}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && !Boolean(dataTable.length)}
 				/>

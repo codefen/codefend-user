@@ -295,6 +295,7 @@ export const mapSourceCode = (source: any): SourceCode => {
 		accessLink: source.access_link,
 		isPublic: source.is_public,
 		sourceCode: source.source_code,
+		finalIssue: source.final_issues || "0",
 		isDisabled: source.eliminado === '1',
 		createdAt: source.creacion,
 	};

@@ -180,6 +180,7 @@ export interface SourceCode extends ResourceID, Monitoring {
 	accessLink: string;
 	isPublic: string;
 	sourceCode: string;
+	finalIssue: string;
 }
 
 export enum ChartValueType {
@@ -206,6 +207,7 @@ export type DeviceChild = Omit<Device, "childs">;
 export interface Device {
 	id: string;
 	company_id: string;
+	final_issues: string;
 	device_in_address: string;
 	access_username: string;
 	access_password: string;
@@ -260,6 +262,7 @@ export interface MemberV2 {
 	member_email: string;
 	member_phone: string;
 	member_role: string;
+	final_issues: string;
 	eliminado: string;
 	creacion: string;
 }

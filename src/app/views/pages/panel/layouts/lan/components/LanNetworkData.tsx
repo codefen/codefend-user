@@ -70,6 +70,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 									navigate(`/issues/create/lan/${network.id}`)
 								}>
 								<BugIcon isButton />
+								<span className="codefend-text-red-200 issue-count">
+									{network.final_issues}
+								</span>
 							</span>
 						</Show>
 						<span
@@ -162,6 +165,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 																)
 															}>
 															<BugIcon isButton />
+															<span className="codefend-text-red-200 issue-count">
+																{netChild?.final_issues || 0}
+															</span>
 														</span>
 													</Show>
 													<span

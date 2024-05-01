@@ -6,6 +6,7 @@ import {
 	useModal,
 	type TableItem,
 	sourceCodeColumnsWithoutAction,
+	useReportStore,
 } from '../../../../../../data';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import {
@@ -21,6 +22,8 @@ import { AddRepositoryModal } from '../../../../../components/modals/adding-moda
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
+import Show from '@defaults/Show';
+import { toast } from 'react-toastify';
 
 interface SourceCodeProps {
 	isLoading: boolean;
@@ -38,7 +41,20 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	const { isAdmin, isProvider, isNormalUser } = useUserRole();
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
-
+	const { openModal, setResourceID, setResourceType } = useReportStore(
+		(state) => state,
+	);
+	const generateReport = (resourceID: string, count: any) => {
+		if (Number(count) >= 1) {
+			openModal();
+			setResourceID(resourceID);
+			setResourceType('source');
+		} else {
+			toast.error(
+				'The resource still does not have issues to make a report',
+			);
+		}
+	};
 	const dataTable = props.sourceCode.map(
 		(repository) =>
 			({
@@ -47,47 +63,60 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 				url: { value: repository.accessLink, style: 'url' },
 				visibility: { value: repository.isPublic, style: 'boolean' },
 				sourceCode: { value: repository.sourceCode, style: 'source-code' },
+				action: {
+					value: (
+						<>
+							<span
+								className="issue-icon"
+								title={`${isNormalUser() ? '' : 'Add Issue'}`}
+								onClick={() =>
+									navigate(
+										isProvider() || isAdmin()
+											? `/issues/create/source/${repository.id}`
+											: '',
+									)
+								}>
+								<BugIcon isButton />
+								<span className="codefend-text-red-200 issue-count">
+									{repository.finalIssue}
+								</span>
+							</span>
+							<span
+								title="View report"
+								className={`issue-printer ${Number(repository.finalIssue) == 0 ? 'off' : ''}`}
+								onClick={() =>
+									generateReport(repository.id, repository.finalIssue)
+								}>
+								<DocumentIcon isButton width={1.27} height={1.27} />
+							</span>
+							<Show when={isNormalUser() || isAdmin()}>
+								<span
+									title="Delete"
+									onClick={() => {
+										setSelectedSourceCodeIdToDelete(repository.id);
+										setShowModal(!showModal);
+										setShowModalStr('delete_resource');
+									}}>
+									<TrashIcon />
+								</span>
+							</Show>
+
+							<span
+								title="Add credentials"
+								onClick={() => {
+									setResourceId(repository.id);
+									setCrendentialType('source');
+									setIsOpen(true);
+									setModalId('source');
+								}}>
+								<CredentialIcon />
+							</span>
+						</>
+					),
+					style: 'id action',
+				},
 			}) as Record<string, TableItem>,
 	);
-
-	const tableAction = {
-		icon: [] as any,
-	};
-	if (isProvider() || isAdmin()) {
-		tableAction.icon.push({
-			action: (id: string) => {
-				navigate(`/issues/create/source/${id}`);
-			},
-			render: <BugIcon isButton />,
-			style: '',
-		});
-	}
-	tableAction.icon.push({
-		action: (id: string) => {},
-		render: <DocumentIcon isButton width={1.27} height={1.27} />,
-		style: '',
-	});
-	tableAction.icon.push({
-		action: (id: string) => {
-			setResourceId(id);
-			setCrendentialType('source');
-			setIsOpen(true);
-			setModalId('source');
-		},
-		render: <CredentialIcon />,
-		style: '',
-	});
-	if (isAdmin() || isNormalUser()) {
-		tableAction.icon.push({
-			action: (id: string) => {
-				setSelectedSourceCodeIdToDelete(id);
-				setShowModal(!showModal);
-				setShowModalStr('delete_resource');
-			},
-			render: <TrashIcon />,
-			style: '',
-		});
-	}
 
 	return (
 		<>
@@ -141,7 +170,6 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 				<TableV2
 					rowsData={dataTable}
 					columns={sourceCodeColumns}
-					tableAction={tableAction}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
 				/>
