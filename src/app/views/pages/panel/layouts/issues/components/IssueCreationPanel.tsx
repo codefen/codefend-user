@@ -120,7 +120,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 						name="issueClass"
 						required
 						disabled={shouldDisableClass}>
-						<option value="" disabled>
+						<option value="" disabled hidden selected>
 							Select Class
 						</option>
 						<option value="web">web</option>
@@ -141,7 +141,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 						value={newIssue.score}
 						name="score"
 						required>
-						<option value="" disabled>
+						<option value="" disabled hidden selected>
 							Select Score
 						</option>
 						<option value="5">critical</option>

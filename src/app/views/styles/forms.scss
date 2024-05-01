@@ -363,7 +363,7 @@ input[type='radio']:checked + .codefend-radio {
 
 [data-theme='dark'] {
 	input {
-		background-color: #1d263130;
+		background-color: #1d263120;
 		color: var(--tertiary-color-100);
 		&:focus {
 			color: var(--tertiary-color-200);
@@ -374,11 +374,15 @@ input[type='radio']:checked + .codefend-radio {
 		
 	}
 	select {
-		background-color: #1d263110;
+		background-color: #1d263120;
 		color: var(--tertiary-color-300) !important;
 	}
 	textarea {
-		background-color: #1d263110 !important;
+		background-color: #1d263120 !important;
+		&:focus {
+			color: var(--tertiary-color-200);
+			border: 1px solid var(--secondary-color-50) !important;
+		}
 	}
 	::placeholder {
 		color: #ffffff70;
