@@ -66,7 +66,7 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 												</div>
 												<div className="server-ip">
 													<div className="publish">
-														{resChild.server}
+														{resChild.main_server}
 													</div>
 												</div>
 											</a>
