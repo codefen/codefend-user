@@ -7,14 +7,14 @@ export const SourceCodeCollab: FC = () => {
 		<>
 			<div className="card only-info">
 				<SimpleSection
-					header="Add out to your repository"
+					header="Add your repository"
 					icon={<SearchIcon />}>
 					<div className="content">
 						<div className="info">
 							<p className="collab-info">
 								In order to review the source code in your company
 								private repositories we will need contributor access.
-								Plase add the following user:
+								Plase add the following user: &nbsp;
 								<a className="codefend-text-red email-collab">
 									sourcecode@codefend.com
 								</a>
