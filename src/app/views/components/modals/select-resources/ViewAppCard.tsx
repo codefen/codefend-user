@@ -71,7 +71,7 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 									appDeveloper={resource?.app_developer || undefined}
 									cloudProvider={resource?.cloud_provider || undefined}
 									issueCount={resource?.final_issues || 0}
-									activeViewCount
+									activeViewCount={activeFilter}
 								/>
 							</div>
 						))
