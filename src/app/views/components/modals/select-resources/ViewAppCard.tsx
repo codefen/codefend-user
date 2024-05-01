@@ -30,11 +30,6 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 		getAnyResource(getPath(scopeALias))
 			.then((resources) => {
 				let filterResult = resources;
-				if (activeFilter) {
-					filterResult = filterResult.filter(
-						(app: any) => app.final_issues > 0,
-					);
-				}
 				apps.current = filterResult;
 			})
 			.finally(() => setLoading(false));

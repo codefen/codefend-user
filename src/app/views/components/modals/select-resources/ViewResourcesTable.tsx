@@ -26,7 +26,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 	modalId,
 }) => {
 	const { getAnyResource } = useGetResources();
-	const getDataScopeResourceTable = useGetScopeTables(true);
+	const getDataScopeResourceTable = useGetScopeTables(activeFilter, true);
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const dataTable = useRef<any>({
 		columns: [{ ID: { value: '', style: '' } }],
@@ -39,19 +39,6 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 		getAnyResource(getPath(scopeALias))
 			.then((resources) => {
 				let filterResult = resources;
-				if (activeFilter) {
-					filterResult = filterResult.filter(
-						(resource: any) => resource.final_issues > 0,
-					);
-				}
-				if (activeFilter && (scopeALias == 'w' || scopeALias == 'n')) {
-					filterResult = filterResult.map((resource: any) => ({
-						...resource,
-						childs: resource.childs.filter(
-							(resource: any) => resource?.final_issues > 0,
-						),
-					}));
-				}
 				dataTable.current = getDataScopeResourceTable(
 					scopeALias,
 					filterResult,

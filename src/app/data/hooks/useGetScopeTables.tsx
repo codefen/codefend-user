@@ -1,5 +1,7 @@
+import Show from '@defaults/Show';
 import {
 	memberColumn,
+	memberColumnWithIssue,
 	memberColumnWithoutContact,
 	roleMap,
 } from '@mocks/defaultData';
@@ -7,12 +9,18 @@ import {
 	cloudScopeColumns,
 	mobileScopeColumns,
 	networkScopeColumns,
+	networkScopeWithIssueColumns,
 	socialScopeColumns,
 	sourceCodeScopeColumns,
+	sourceCodeScopeWithIssueColumns,
 	webScopeColumns,
+	webScopeColumnsWithCount,
 } from '@mocks/scopeColumns';
 
-export const useGetScopeTables = (changeSocial?: boolean) => {
+export const useGetScopeTables = (
+	useInIssueReport?: boolean,
+	useResumeSocial?: boolean,
+) => {
 	const getDataScopeResourceTable = (scopeALias: string, scope: any[]) => {
 		let rows = [];
 		if (scopeALias === 'w') {
@@ -28,6 +36,12 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 						value: res.server || res.main_server,
 						style: 'server-ip',
 					},
+					issue: Boolean(useInIssueReport)
+						? {
+								value: res.final_issues,
+								style: 'id',
+							}
+						: undefined,
 					childs: {
 						value: (props: any) => (
 							<>
@@ -35,7 +49,7 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 									? res.childs.map((resChild: any, i: number) => (
 											<a
 												key={`child-${i}-${resChild.id}`}
-												className={`item item-with-out-action ${
+												className={`item item-with-out-action ${useInIssueReport && Number(resChild.final_issues) <= 0 ? 'item-disabled' : ''} ${
 													props.selectedField ===
 													`child-${resChild.id}`
 														? 'left-marked'
@@ -69,6 +83,13 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 														{resChild.main_server}
 													</div>
 												</div>
+												<Show when={Boolean(useInIssueReport)}>
+													<div className="id">
+														<div className="publish">
+															{resChild.final_issues}
+														</div>
+													</div>
+												</Show>
 											</a>
 										))
 									: null}
@@ -77,7 +98,12 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 						style: '',
 					},
 				})) || [];
-			return { rows, columns: webScopeColumns };
+			return {
+				rows,
+				columns: Boolean(useInIssueReport)
+					? webScopeColumnsWithCount
+					: webScopeColumns,
+			};
 		}
 		if (scopeALias === 'm') {
 			rows =
@@ -105,7 +131,7 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 				})) || [];
 			return { rows, columns: cloudScopeColumns };
 		}
-		if (scopeALias === 's' && !changeSocial) {
+		if (scopeALias === 's' && !useResumeSocial) {
 			rows =
 				scope.map((res: any, i: number) => ({
 					ID: { value: '', style: '' },
@@ -118,7 +144,7 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 				})) || [];
 			return { rows, columns: socialScopeColumns };
 		}
-		if (scopeALias === 's' && changeSocial) {
+		if (scopeALias === 's' && useResumeSocial) {
 			rows =
 				scope.map((res: any, i: number) => ({
 					ID: { value: res.id, style: 'id' },
@@ -130,8 +156,19 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 						value: roleMap[res.member_role as keyof typeof roleMap],
 						style: 'role',
 					},
+					issue: Boolean(useInIssueReport)
+						? {
+								value: res.final_issues,
+								style: 'id',
+							}
+						: undefined,
 				})) || [];
-			return { rows, columns: memberColumnWithoutContact };
+			return {
+				rows,
+				columns: Boolean(useInIssueReport)
+					? memberColumnWithIssue
+					: memberColumnWithoutContact,
+			};
 		}
 		if (scopeALias === 'sc') {
 			rows =
@@ -143,8 +180,19 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 						style: 'full-name',
 					},
 					link: { value: res.access_link, style: 'url' },
+					issue: Boolean(useInIssueReport)
+						? {
+								value: res.final_issues,
+								style: 'id',
+							}
+						: undefined,
 				})) || [];
-			return { rows, columns: sourceCodeScopeColumns };
+			return {
+				rows,
+				columns: Boolean(useInIssueReport)
+					? sourceCodeScopeWithIssueColumns
+					: sourceCodeScopeColumns,
+			};
 		}
 		if (scopeALias === 'n') {
 			rows =
@@ -156,6 +204,12 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 						style: 'server-ip',
 					},
 					internalIp: { value: res.device_in_address, style: 'server-ip' },
+					issue: Boolean(useInIssueReport)
+						? {
+								value: res.final_issues,
+								style: 'id',
+							}
+						: undefined,
 					childs: {
 						value: (props: any) => (
 							<>
@@ -163,7 +217,7 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 									? res.childs.map((resChild: any, i: number) => (
 											<a
 												key={`child-${i}-${resChild.id}`}
-												className={`item item-with-out-action ${
+												className={`item item-with-out-action ${useInIssueReport && Number(resChild?.final_issues || 0) <= 0 ? 'item-disabled' : ''} ${
 													props.selectedField ===
 													`child-${resChild.id}`
 														? 'left-marked'
@@ -197,6 +251,13 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 														{resChild.device_in_address}
 													</div>
 												</div>
+												<Show when={Boolean(useInIssueReport)}>
+													<div className="id">
+														<div className="publish">
+															{resChild?.final_issues || 0}
+														</div>
+													</div>
+												</Show>
 											</a>
 										))
 									: null}
@@ -205,7 +266,12 @@ export const useGetScopeTables = (changeSocial?: boolean) => {
 						style: '',
 					},
 				})) || [];
-			return { rows, columns: networkScopeColumns };
+			return {
+				rows,
+				columns: Boolean(useInIssueReport)
+					? networkScopeWithIssueColumns
+					: networkScopeColumns,
+			};
 		}
 		return { rows: [], columns: [] };
 	};

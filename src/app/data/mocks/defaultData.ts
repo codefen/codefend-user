@@ -142,6 +142,12 @@ export const memberColumnWithActions: ColumnTable[] = memberColumn.concat([{
 	style: 'id action',
 }])
 
+export const memberColumnWithIssue: ColumnTable[] = memberColumn.concat([{
+	name: 'issue',
+	value: 'issues',
+	style: 'id',
+}])
+
 export const vulnerabilityRiskColumns: ColumnTable[] = [
 	{
 		name: 'risk',

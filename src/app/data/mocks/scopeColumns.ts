@@ -28,6 +28,8 @@ export const webScopeColumns = [
     { name: 'server', value: 'server', style: 'server-ip' },
 ];
 
+export const webScopeColumnsWithCount = [...webScopeColumns, {name: "issue", value: "issues", style: "id"}];
+
 export const socialScopeColumns = [
     { name: 'Identifier', value: 'id', style: 'id' },
     {
@@ -46,6 +48,8 @@ export const sourceCodeScopeColumns = [
     },
     { name: 'link', value: 'url', style: 'url' },
 ];
+export const sourceCodeScopeWithIssueColumns = sourceCodeScopeColumns.concat( ({name: "issue", value: "issues", style: "id"}) );
+
 export const networkScopeColumns = [
     { name: 'Identifier', value: 'id', style: 'id' },
     {
@@ -59,3 +63,5 @@ export const networkScopeColumns = [
         style: 'server-ip',
     }
 ];
+
+export const networkScopeWithIssueColumns = networkScopeColumns.concat( ({name: "issue", value: "issues", style: "id"}) );

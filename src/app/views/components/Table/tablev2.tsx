@@ -107,7 +107,7 @@ const TableRows: FC<any> = ({
 			{rows.map((row: Record<string, TableItem>, rowIndex: number) => (
 				<Fragment key={rowsID2(rowIndex, row['ID'].value as string)}>
 					<a
-						className={`item ${!urlNav && 'item-with-out-action'} ${
+						className={`item ${!urlNav && 'item-with-out-action'} ${row['issue'] && Number(row['issue']?.value as number) <= 0 ? 'item-disabled' : ''} ${
 							selectedField ===
 							rowsID2(rowIndex, row['ID'].value as string)
 								? 'left-marked'
@@ -187,7 +187,7 @@ export const TableV2: FC<TableProps> = ({
 	urlNav,
 }) => {
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
-	const [dataSort, setDataSort] = useState<string>(columns[0].name);
+	const [dataSort, setDataSort] = useState<string>(columns[0]?.name || '');
 	const [selectedField, setSelectedField] = useState('');
 	const handleSelected = (e: any, key: string, ID: string) => {
 		e.preventDefault();
