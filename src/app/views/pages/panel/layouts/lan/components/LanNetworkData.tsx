@@ -5,6 +5,7 @@ import {
 	lanResourcesTable,
 	type TableItem,
 	lanResourcesTableWithoutAction,
+	useReportStore,
 } from '../../../../../../data';
 import {
 	AddAccessPointModal,
@@ -25,6 +26,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole';
 import useModalStore from '@stores/modal.store';
 import useCredentialStore from '@stores/credential.store';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 interface LanNetworkDataProps {
 	isLoading: boolean;
@@ -45,9 +47,22 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } =
 		useDeleteLan(refetchInternalNetwork, () => setShowModal(false));
-
+	const { openModal, setResourceID, setResourceType } = useReportStore(
+		(state: any) => state,
+	);
 	const handleDelete = () => {
 		refetch(selectedLanIdToDelete);
+	};
+	const generateReport = (resourceID: string, count: any) => {
+		if (Number(count) >= 1) {
+			openModal();
+			setResourceID(resourceID);
+			setResourceType('source');
+		} else {
+			toast.error(
+				'The resource still does not have issues to make a report',
+			);
+		}
 	};
 	let tableData2: Record<string, TableItem>[] = internalNetwork.map(
 		(network) => ({
@@ -172,8 +187,13 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 													</Show>
 													<span
 														title="View report"
-														className="issue-printer"
-														onClick={() => {}}>
+														className={`issue-printer ${Number(netChild.final_issues) == 0 ? 'off' : ''}`}
+														onClick={() =>
+															generateReport(
+																netChild.id,
+																netChild.final_issues,
+															)
+														}>
 														<DocumentIcon
 															isButton
 															width={1.27}

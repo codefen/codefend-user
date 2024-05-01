@@ -42,7 +42,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
 	const { openModal, setResourceID, setResourceType } = useReportStore(
-		(state) => state,
+		(state: any) => state,
 	);
 	const generateReport = (resourceID: string, count: any) => {
 		if (Number(count) >= 1) {

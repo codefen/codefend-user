@@ -48,7 +48,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
 	const { openModal, setResourceID, setResourceType } = useReportStore(
-		(state) => state,
+		(state: any) => state,
 	);
 	const safelyPreviousSearches = () => props.socials.slice().reverse();
 
