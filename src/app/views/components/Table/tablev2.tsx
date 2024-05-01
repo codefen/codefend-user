@@ -99,8 +99,12 @@ const TableRows: FC<any> = ({
 
 	const columnForRows = filterForRow();
 
-	const handleClick = (e: any, key: string, rowId: any) =>
-		handleSelected(e, key, rowId);
+	const handleClick = (
+		e: any,
+		key: string,
+		rowId: any,
+		issueCount?: string | number,
+	) => handleSelected(e, key, rowId, issueCount);
 
 	return (
 		<div className="rows">
@@ -119,6 +123,7 @@ const TableRows: FC<any> = ({
 								e,
 								rowsID2(rowIndex, row['ID'].value as string),
 								row['ID'].value,
+								row['issue'] ? Number(row['issue'].value) : undefined,
 							)
 						}>
 						{columnForRows.map((column: ColumnTable, i: number) => (
@@ -166,7 +171,11 @@ const TableRows: FC<any> = ({
 						</Show>
 					</a>
 					{row['childs'] && typeof row['childs'].value === 'function'
-						? row['childs'].value({ urlNav, handleClick, selectedField })!
+						? row['childs'].value({
+								urlNav,
+								handleClick,
+								selectedField,
+							})!
 						: ''}
 				</Fragment>
 			))}
@@ -189,10 +198,15 @@ export const TableV2: FC<TableProps> = ({
 	const [sortDirection, setSortDirection] = useState<Sort>(sort);
 	const [dataSort, setDataSort] = useState<string>(columns[0]?.name || '');
 	const [selectedField, setSelectedField] = useState('');
-	const handleSelected = (e: any, key: string, ID: string) => {
+	const handleSelected = (
+		e: any,
+		key: string,
+		ID: string,
+		issueCount?: string | number,
+	) => {
 		e.preventDefault();
 		if (selectItem !== undefined) {
-			selectItem(ID);
+			selectItem(issueCount ? { issueCount, ID } : ID);
 			return;
 		}
 

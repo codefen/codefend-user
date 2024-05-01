@@ -5,7 +5,7 @@ import { AppCard } from '../..';
 export interface ViewAppCardProps {
 	type: string;
 	scopeALias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
-	getReport: (id: string, type: string) => void;
+	getReport: (id: string, type: string, count: number) => void;
 	activeFilter: boolean;
 	modalId: string;
 }
@@ -52,7 +52,7 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 								className={`app-info ${activeFilter && Number(resource?.final_issues) <= 0 ? 'app-card-disabled' : ''}`}
 								onClick={(e: React.FormEvent) => {
 									e.preventDefault();
-									getReport(resource.id, type);
+									getReport(resource.id, type, resource?.final_issues);
 								}}>
 								<AppCard
 									id={resource.id}

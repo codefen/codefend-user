@@ -18,6 +18,7 @@ import { ViewResourcesTable } from './ViewResourcesTable';
 import { useReportStore } from '@stores/report.store';
 import { ViewAppCard } from './ViewAppCard';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 interface SelectAnyResourceModalProps {
 	issues: Issues[];
@@ -95,13 +96,19 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 		}
 	};
 
-	const handleReportForTable = (id: string, type: string) => {
+	const handleReportForTable = (id: string, type: string, count: number) => {
 		if (modalId == 'selectReport') {
-			setIsOpen(false);
-			setActiveView('selector');
-			openModal();
-			setResourceID(id);
-			setResourceType(type);
+			if (count >= 1) {
+				setIsOpen(false);
+				setActiveView('selector');
+				openModal();
+				setResourceID(id);
+				setResourceType(type == 'network' ? 'lan' : type);
+			} else {
+				toast.error(
+					'The resource still does not have issues to make a report',
+				);
+			}
 		} else if (modalId == 'selectFinding') {
 			navigate(`/issues/create/${type == 'network' ? 'lan' : type}/${id}`);
 		}

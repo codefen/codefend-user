@@ -6,7 +6,7 @@ import { useGetResources } from '@resourcesHooks/useGetResources';
 export interface OrderCloudScopeProps {
 	type: string;
 	scopeALias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
-	handleSelect: (id: string, type: string) => void;
+	handleSelect: (id: string, type: string, count: number) => void;
 	activeFilter: boolean;
 	modalId: string;
 }
@@ -66,8 +66,12 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 				showRows={!isLoading}
 				showEmpty={!isLoading && !Boolean(dataTable.current.rows.length)}
 				sizeY={15}
-				selectItem={(id: string) => {
-					handleSelect(id, type.startsWith('source') ? 'source' : type);
+				selectItem={(item: any) => {
+					handleSelect(
+						item.ID,
+						type.startsWith('source') ? 'source' : type,
+						Number(item.issueCount),
+					);
 				}}
 			/>
 		</>
