@@ -50,7 +50,7 @@ const addTinyMce = (initialValue) => {
 	};
 	try {
 		tinyMCE.init(options);
-		//setTimeout(() => setTinyEditorContent('issue', initialValue), 500);
+		setTimeout(() => setTinyEditorContent('issue', initialValue), 500);
 	} catch (e) {
 		console.error(e);
 	}

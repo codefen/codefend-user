@@ -41,7 +41,7 @@ export const AddCloudModal: FC<Props> = (props) => {
 						id="select-provider-cloud"
 						value={provider}
 						required>
-						<option value="" disabled>
+						<option value="" disabled hidden selected>
 							Provider
 						</option>
 						<option value="azure">Azure</option>

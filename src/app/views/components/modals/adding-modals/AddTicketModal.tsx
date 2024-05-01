@@ -40,7 +40,7 @@ export const AddTicketModal: FC<AddTicketModalProps> = (props) => {
 				</div>
 
 				<div className="form-input">
-					<span className="pencil-icon">
+					<span className="pencil-icon need-m">
 						<PencilIcon isButton />
 					</span>
 

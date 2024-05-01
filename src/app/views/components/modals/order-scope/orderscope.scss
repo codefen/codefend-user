@@ -1,10 +1,7 @@
 .order-scope-container {
 	min-width: 600px;
 	h2 {
-		padding-inline: 1rem;
-		line-height: 2rem;
-		margin-block-start: 2rem;
-		margin-block-end: 1.5rem;
+		padding: 0px 0px 15px 0px;
 	}
 
 	.table {
@@ -22,11 +19,8 @@
 
 .order-scope-sidebar {
 	display: flex;
-	column-gap: 1.75rem;
-	padding-inline: 5rem;
-	margin-block-end: 1rem;
-	margin-block-start: 1rem;
-	padding-block-start: 1rem;
+	gap: 20px;
+	padding: 10px;
 
 	.scope-sb-e {
 		font-size: 1.125rem;
@@ -52,38 +46,38 @@
 	flex-direction: column;
 }
 
-.close-btn {
-	margin-inline-end: 2rem;
-	margin-block-end: 1rem;
-}
+// .close-btn {
+// 	margin-inline-end: 2rem;
+// 	margin-block-end: 1rem;
+// }
 
 .scope-confirm-btn {
 	width: 100%;
 	display: flex;
 	margin-inline-start: auto;
 	justify-content: flex-end;
-	background: var(--primary-color);
-	background: linear-gradient(
-		180deg,
-		var(--primary-color) 47%,
-		rgba(255, 57, 57, 1) 48%
-	);
+	// background: var(--primary-color);
+	// background: linear-gradient(
+	// 	180deg,
+	// 	var(--primary-color) 47%,
+	// 	rgba(255, 57, 57, 1) 48%
+	// );
 
-	.scope-btn {
-		margin-inline-end: 1.25rem;
-		margin-block-end: 1rem;
-	}
+	// .scope-btn {
+	// 	margin-inline-end: 1.25rem;
+	// 	margin-block-end: 1rem;
+	// }
 }
 
 [data-theme='dark'] {
-	.scope-confirm-btn {
-		background: var(--primary-color-100);
-		background: linear-gradient(
-			180deg,
-			var(--primary-color-100) 47%,
-			var(--secondary-color-400) 48%
-		);
-	}
+	// .scope-confirm-btn {
+	// 	background: var(--primary-color-100);
+	// 	background: linear-gradient(
+	// 		180deg,
+	// 		var(--primary-color-100) 47%,
+	// 		var(--secondary-color-400) 48%
+	// 	);
+	// }
 
 	.order-scope-container {
 		h2 {
