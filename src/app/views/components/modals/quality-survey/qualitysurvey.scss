@@ -135,12 +135,12 @@
 	display: flex;
 	margin-inline-start: auto;
 	justify-content: flex-end;
-	background: var(--primary-color);
-	background: linear-gradient(
-		180deg,
-		var(--primary-color) 47%,
-		rgba(255, 57, 57, 1) 48%
-	);
+	// background: var(--primary-color);
+	// background: linear-gradient(
+	// 	180deg,
+	// 	var(--primary-color) 47%,
+	// 	rgba(255, 57, 57, 1) 48%
+	// );
 
 	.quality-btn {
 		margin-inline-end: 1.5rem;

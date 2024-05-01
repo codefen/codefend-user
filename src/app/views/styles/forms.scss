@@ -141,19 +141,7 @@ select {
 // 	}
 // }
 
-[data-theme='dark'] {
-	input {
-		&:focus {
-			color: var(--tertiary-color-200);
-		}
-		&:-internal-autofill-selected {
-			background-color: var(--primary-color) !important;
-		}
-	}
-	select {
-		color: var(--tertiary-color-300) !important;
-	}
-}
+
 input[type='text'],
 input[type='password'],
 input[type='email'] {
@@ -162,6 +150,7 @@ input[type='email'] {
 
 .pencil-icon {
 	position: absolute;
+	color: var(--secondary-color-50);
 	top: 12%;
 	left: 0;
 
@@ -370,6 +359,38 @@ input[type='radio']:checked + .codefend-radio {
 		opacity: 1;
 	}
 }
+
+
+[data-theme='dark'] {
+	input {
+		background-color: #1d263130;
+		color: var(--tertiary-color-100);
+		&:focus {
+			color: var(--tertiary-color-200);
+		}
+		&:-internal-autofill-selected {
+			background-color: var(--primary-color) !important;
+		}
+		
+	}
+	select {
+		background-color: #1d263110;
+		color: var(--tertiary-color-300) !important;
+	}
+	textarea {
+		background-color: #1d263110 !important;
+	}
+	::placeholder {
+		color: #ffffff70;
+		opacity: 1;
+	  }
+	  
+	  ::-ms-input-placeholder {
+		color: #ffffff70;
+	  }
+}
+
+
 
 [data-theme='dark'] {
 	.text-area-input {

@@ -33,7 +33,7 @@ export const ProviderScope: FC = () => {
 			headerTitle="Order Scope"
 			isActive={open}
 			close={() => updateOpen(false)}>
-			<div className="order-scope-container">
+			<div className="content order-scope-container">
 				<OrderScopeBar
 					scope={scope}
 					resourceActive={resourceActive}
