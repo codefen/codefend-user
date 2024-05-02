@@ -62,7 +62,7 @@ export const CloudSelectedDetails: FC = () => {
 							<PrimaryButton
 								text="START A PENTEST ON DEMAND"
 								click={() => updateState('open', true)}
-								className="primary-full bottom"
+								className="primary-full"
 							/>
 						</Show>
 						<VulnerabilityRisk

@@ -1,5 +1,5 @@
 import { type FC, useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
 	useNetworkSettingState,
 	type NetworkSettingState,
@@ -10,6 +10,7 @@ import { useLoginAction } from '../../../../data/hooks/users/common/useLoginActi
 const SignInLayout: FC = () => {
 	const { signInUser } = useLoginAction();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const [signinForm, setSigninForm] = useState({
 		email: '',
@@ -27,7 +28,10 @@ const SignInLayout: FC = () => {
 			password: signinForm.password,
 		})
 			.then((user) => {
-				if (user) {
+				const state = location.state;
+				if (user && state && state?.redirect) {
+					navigate(state.redirect);
+				} else if (user) {
 					if (user?.accessRole == 'user') navigate('/');
 					if (user?.accessRole == 'admin') navigate('/admin');
 					if (user?.accessRole == 'provider')
@@ -47,64 +51,64 @@ const SignInLayout: FC = () => {
 	);
 
 	return (
-			<>
+		<>
 			<div
 				className="network-btn"
 				onClick={() => setNetworkSettingState(true)}>
 				<NetworkIcon width={1.5} height={1.5} />
+			</div>
+			<form onSubmit={handleSubmit}>
+				<div className="input-group ">
+					<input
+						type="email"
+						onChange={(e) =>
+							setSigninForm((current) => ({
+								...current,
+								email: e.target.value,
+							}))
+						}
+						placeholder="Email address"
+						autoComplete="email"
+						required
+					/>
 				</div>
-				<form onSubmit={handleSubmit}>
-					<div className="input-group ">
-						<input
-							type="email"
-							onChange={(e) =>
-								setSigninForm((current) => ({
-									...current,
-									email: e.target.value,
-								}))
-							}
-							placeholder="Email address"
-							autoComplete="email"
-							required
-						/>
-					</div>
 
-					<div className="input-group">
-						<input
-							type="password"
-							onChange={(e) =>
-								setSigninForm((current) => ({
-									...current,
-									password: e.target.value,
-								}))
-							}
-							placeholder="Password"
-							required
-						/>
-					</div>
+				<div className="input-group">
+					<input
+						type="password"
+						onChange={(e) =>
+							setSigninForm((current) => ({
+								...current,
+								password: e.target.value,
+							}))
+						}
+						placeholder="Password"
+						required
+					/>
+				</div>
 
-					<div className="extra-group ">
-						<PrimaryButton
-							text="Proceed"
-							isDisabled={signinForm.isLoading}
-							click={() => { }}
-							type="submit"
-							className="signin-btn"
-						/>
-						<div className="extra-group link-center link-underline">
-							<Link to="/auth/recovery" className="link codefend-text-red">
-								Have you forgotten your password? Recover it here!
-							</Link>
-						</div>
-						<div className="extra-group link-center link-underline low-space">
-							<Link to="/auth/signup" className="link codefend-text-red">
-								Don’t have an account yet? Sign up
-							</Link>
-						</div>
+				<div className="extra-group ">
+					<PrimaryButton
+						text="Proceed"
+						isDisabled={signinForm.isLoading}
+						click={() => {}}
+						type="submit"
+						className="signin-btn"
+					/>
+					<div className="extra-group link-center link-underline">
+						<Link to="/auth/recovery" className="link codefend-text-red">
+							Have you forgotten your password? Recover it here!
+						</Link>
 					</div>
-				</form>
-			</>
-			);
+					<div className="extra-group link-center link-underline low-space">
+						<Link to="/auth/signup" className="link codefend-text-red">
+							Don’t have an account yet? Sign up
+						</Link>
+					</div>
+				</div>
+			</form>
+		</>
+	);
 };
 
-			export default SignInLayout;
+export default SignInLayout;
