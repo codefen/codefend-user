@@ -5,7 +5,7 @@ import {
 	useState,
 	type ChangeEvent,
 } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
 import { PencilIcon, SaveIcon, LeftArrowIcon } from '@icons';
 import {
@@ -29,6 +29,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 	isLoading,
 }) => {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const [isEditable, setEditable] = useState(true);
 	const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
 	const { isAdmin, isProvider } = useUserRole();
@@ -67,12 +68,22 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 			[name]: name == 'resourceID' ? value.replace(/[^0-9]/g, '') : value,
 		}));
 	};
+	const handleBack = () => {
+		const state = location.state;
+		console.log({ state });
+
+		if (state && state?.redirect !== null) {
+			navigate(state.redirect);
+		} else {
+			navigate('/issues');
+		}
+	};
 
 	return (
 		<Show when={!isLoading} fallback={<PageLoader />}>
 			<>
 				<div className="header">
-					<div className="back" onClick={() => navigate('/issues')}>
+					<div className="back" onClick={handleBack}>
 						<LeftArrowIcon isButton />
 					</div>
 					<Show

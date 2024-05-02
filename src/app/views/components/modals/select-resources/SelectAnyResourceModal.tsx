@@ -112,6 +112,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 				);
 			}
 		} else if (modalId == 'selectFinding') {
+			setIsOpen(false);
 			navigate(`/issues/create/${type == 'network' ? 'lan' : type}/${id}`);
 		}
 	};

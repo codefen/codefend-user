@@ -22,8 +22,8 @@ export const useIssuesValidations = () => {
 	};
 
 	const validateNewIssue = (newIssue: SaveIssue, editorContent: string) => {
-		if (!validateField(newIssue.score, 'Invalid score')) return false;
-		if (!validateField(newIssue.issueName, 'Invalid name')) return false;
+		if (!validateField(newIssue.score, 'Invalid risk score. Add a risk score to the issue')) return false;
+		if (!validateField(newIssue.issueName, 'Invalid issue name. Add a name to the issue')) return false;
 		if (
 			![
 				'web',

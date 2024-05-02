@@ -1,5 +1,10 @@
 import { type FC, type ChangeEvent, useEffect, useState } from 'react';
-import { useNavigate, useParams, type NavigateFunction } from 'react-router';
+import {
+	useLocation,
+	useNavigate,
+	useParams,
+	type NavigateFunction,
+} from 'react-router';
 import { type SaveIssue, useSaveIssue } from '../../../../../../data';
 import {
 	LeftArrowIcon,
@@ -18,6 +23,7 @@ interface IssueCreationPanelProps {
 
 const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { type, resourceId } = useParams();
 
 	const handleIssueUpdate = (
@@ -28,7 +34,9 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 
 		callBack().then((response: any) => {
 			if (response !== undefined && response.id !== undefined) {
-				navigate(`/issues/update/${response.id}`);
+				navigate(`/issues/update/${response.id}`, {
+					state: location.state,
+				});
 			}
 		});
 	};

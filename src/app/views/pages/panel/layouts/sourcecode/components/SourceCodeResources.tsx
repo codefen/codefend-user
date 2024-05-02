@@ -1,5 +1,5 @@
 import { type FC, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import {
 	type SourceCode,
 	sourceCodeColumns,
@@ -33,11 +33,11 @@ interface SourceCodeProps {
 }
 
 export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
+	const navigate = useNavigate();
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 	const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] =
 		useState<string>('');
-	const navigate = useNavigate();
 	const { isAdmin, isProvider, isNormalUser } = useUserRole();
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
@@ -74,6 +74,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 										isProvider() || isAdmin()
 											? `/issues/create/source/${repository.id}`
 											: '',
+										{ state: { redirect: '/source' } },
 									)
 								}>
 								<BugIcon isButton />

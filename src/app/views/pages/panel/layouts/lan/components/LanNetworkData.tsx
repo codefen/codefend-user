@@ -25,7 +25,7 @@ import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useModalStore from '@stores/modal.store';
 import useCredentialStore from '@stores/credential.store';
-import { useNavigate } from 'react-router';
+import { redirect, useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 interface LanNetworkDataProps {
@@ -40,6 +40,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 	refetchInternalNetwork,
 }) => {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
 	const { setCrendentialType, setResourceId } = useCredentialStore();
@@ -82,7 +83,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 								className="issue-icon"
 								title={`${isNormalUser() ? '' : 'Add Issue'}`}
 								onClick={() =>
-									navigate(`/issues/create/lan/${network.id}`)
+									navigate(`/issues/create/lan/${network.id}`, {
+										state: { redirect: location.pathname },
+									})
 								}>
 								<BugIcon isButton />
 								<span className="codefend-text-red-200 issue-count">
@@ -179,6 +182,12 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 															onClick={() =>
 																navigate(
 																	`/issues/create/lan/${netChild.id}`,
+																	{
+																		state: {
+																			redirect:
+																				location.pathname,
+																		},
+																	},
 																)
 															}>
 															<BugIcon isButton />

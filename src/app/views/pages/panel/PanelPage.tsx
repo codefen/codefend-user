@@ -17,15 +17,12 @@ export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
 
 export const PanelPage: FC = () => {
 	const location = useLocation();
-
-	console.log({ path: location.pathname });
 	const [showModal, setShowModal] = useState(false);
 	const matches = useMediaQuery('(min-width: 1175px)');
 	const { updateAuth } = useAuthStore((state) => ({
 		updateAuth: state.updateAuth,
 	}));
 	const { isAuth, logout } = useUserData();
-
 	if (!isAuth) logout();
 
 	useEffect(() => {
@@ -40,7 +37,14 @@ export const PanelPage: FC = () => {
 	}, []);
 
 	return (
-		<Show when={isAuth()} fallback={<Navigate to="/auth/signin" />}>
+		<Show
+			when={isAuth()}
+			fallback={
+				<Navigate
+					to="/auth/signin"
+					state={{ redirect: location.pathname }}
+				/>
+			}>
 			<Show when={matches} fallback={<MobileFallback />}>
 				<FlashLightProvider>
 					<>

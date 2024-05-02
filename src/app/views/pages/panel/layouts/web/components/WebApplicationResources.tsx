@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode, type FC, useRef } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useDeleteWebResource } from '@resourcesHooks/web/useWebapplication.ts';
 import { webResourcesColumns } from '@mocks/defaultData.ts';
@@ -99,6 +99,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 									userHaveAccess
 										? `/issues/create/web/${mainNetwork.id}`
 										: '',
+									{ state: { redirect: '/web' } },
 								)
 							}>
 							<BugIcon isButton />
@@ -210,6 +211,11 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 															userHaveAccess
 																? `/issues/create/web/${subNetwork.id}`
 																: '',
+															{
+																state: {
+																	redirect: '/web',
+																},
+															},
 														)
 													}>
 													<BugIcon isButton />

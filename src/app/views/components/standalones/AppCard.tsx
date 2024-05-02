@@ -6,7 +6,7 @@ import {
 	useAppCard,
 } from '../../../data';
 import { BugIcon, Show, StarRating } from '..';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
 
@@ -47,19 +47,22 @@ export const AppCard: FC<MobileAppCardProps> = ({
 	issueCount,
 	activeViewCount,
 }) => {
+	const navigate = useNavigate();
+	const location = useLocation();
 	const { isAdmin, isNormalUser, isProvider } = useUserRole();
 	const { isImage, isMobileType, isDetails } = useAppCard({
 		type,
 		showDetails,
 		appMedia,
 	});
-	const navigate = useNavigate();
 
 	const { setIsOpen } = useRemoveAppStore((state) => state);
 
 	const handleClick = () => {
 		if (isAdmin() || isProvider())
-			navigate(`/issues/create/${isMobileType ? 'mobile' : 'cloud'}/${id}`);
+			navigate(`/issues/create/${isMobileType ? 'mobile' : 'cloud'}/${id}`, {
+				state: { redirect: location.pathname },
+			});
 	};
 
 	const handleDeleteResource = () => setIsOpen(true);

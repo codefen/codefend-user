@@ -19,7 +19,7 @@ import {
 	useReportStore,
 } from '../../../../../../data';
 import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
-import { useNavigate } from 'react-router';
+import { redirect, useNavigate } from 'react-router';
 import { type FC } from 'react';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
@@ -88,6 +88,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 										isProvider() || isAdmin()
 											? `/issues/create/social/${member.id}`
 											: '',
+										{ state: { redirect: '/social' } },
 									)
 								}>
 								<BugIcon isButton />

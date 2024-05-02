@@ -33,6 +33,7 @@ main.issue-detail {
 				transition: all 0.2s;
 				border-right: 1px solid var(--primary-color-300);
 				// border-top: 1px solid var(--primary-color-300);
+				cursor: pointer;
 
 				&:hover {
 					background-color: var(--primary-color-400);
