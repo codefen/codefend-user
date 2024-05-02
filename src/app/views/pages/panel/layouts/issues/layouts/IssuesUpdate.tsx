@@ -14,6 +14,9 @@ const IssueUpdate: FC = () => {
 
 	useEffect(() => {
 		refetchOne(id as string);
+		return () => {
+			localStorage.removeItem('viewMessage');
+		};
 	}, [control]);
 
 	return (

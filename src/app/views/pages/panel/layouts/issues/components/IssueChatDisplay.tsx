@@ -10,6 +10,7 @@ import {
 	SimpleSection,
 } from '../../../../../components';
 import type { IssueCustomerSupport, IssueUpdateData } from '@interfaces/issues';
+import { toast } from 'react-toastify';
 
 interface Props {
 	isLoading: boolean;
@@ -23,6 +24,18 @@ export const IssueChatDisplay: FC<Props> = ({
 }) => {
 	const location = useLocation();
 	const getIssueCs = selectedIssue?.cs ? selectedIssue?.cs : [];
+	const onDone = () => {
+		const viewMessage = localStorage.getItem('viewMessage')
+			? JSON.parse(localStorage.getItem('viewMessage') as string)
+			: { view: true };
+		refetch();
+		if (viewMessage.view) {
+			toast.success(
+				'We aim to respond to your queries within 24 to 48 hours.',
+			);
+			localStorage.setItem('viewMessage', JSON.stringify({ view: false }));
+		}
+	};
 	return (
 		<div
 			className={`card messages ${
@@ -55,7 +68,7 @@ export const IssueChatDisplay: FC<Props> = ({
 					<ChatBox
 						type={ChatBoxType.ISSUE}
 						selectedID={selectedIssue.id}
-						onDone={refetch}
+						onDone={onDone}
 					/>
 				</>
 			</SimpleSection>
