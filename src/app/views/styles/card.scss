@@ -255,10 +255,7 @@
 	// 	margin-block-start: 14px;
 	// }
 }
-.app-card-disabled {
-	opacity: 0.5;
-	cursor: default;
-}
+
 .app-card {
 	display: flex;
 	flex-direction: column;
@@ -346,7 +343,7 @@
 					}
 				}
 
-				.card {
+				.card-resume {
 					color: var(--tertiary-color-700);
 				}
 
@@ -615,7 +612,7 @@
 
 		&-content {
 			.app-card-title {
-				.card {
+				.card-resume {
 					color: var(--tertiary-color-50);
 				}
 

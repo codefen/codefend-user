@@ -42,7 +42,7 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 			? `Select your ${type} resource to generate report`
 			: `Select your ${type} resource to create issue`;
 	return (
-		<div className="card">
+		<div className="app-card-container">
 			<h3>{title}</h3>
 			<div className="list">
 				{apps.current && !isLoading

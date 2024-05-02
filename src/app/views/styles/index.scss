@@ -468,6 +468,11 @@ main {
 		.app-info {
 			cursor: pointer;
 			height: fit-content;
+
+			&.app-card-disabled {
+				opacity: 0.5;
+				cursor: default;
+			}
 		}
 	}
 }

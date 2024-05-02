@@ -132,7 +132,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 				</div>
 				<div className="app-card-content-body">
 					<div className="app-card-title">
-						<h3 className={`${isDetails ? 'detail' : 'card'}`}>
+						<h3 className={`${isDetails ? 'detail' : 'card-resume'}`}>
 							{isMainGoogleNetwork
 								? 'main google network'
 								: cleanReview(name, true)}

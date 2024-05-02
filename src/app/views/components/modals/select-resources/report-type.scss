@@ -43,11 +43,11 @@
 
 		.full-name {
 			margin-inline-end: 1%;
+		}
 
+		.full-name,
+		.url {
 			.publish {
-				display: -webkit-box;
-				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 2;
 				text-overflow: ellipsis;
 				overflow: hidden;
 				white-space: normal;
@@ -57,7 +57,7 @@
 		}
 	}
 
-	.card {
+	.app-card-container {
 		.list {
 			max-width: 90%;
 			margin-inline: auto;
@@ -80,15 +80,11 @@
 
 [data-theme='dark'] {
 	.type-selector-container {
-		.card {
+		.app-card-container {
 			.list {
 				.app-info {
-					border: 1px solid var(--primary-color-600);
+					border: 1px solid var(--tertiary-color-450);
 					margin-inline-end: 1rem;
-				}
-				.app-card-content-body .app-card-title,
-				h3 {
-					background: var(--primary-color-200);
 				}
 			}
 		}

@@ -11,7 +11,7 @@ const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useRegisterAction();
 
 	const [userState, setUserState] = useState({
-		email: '',
+		username: '',
 		password: '',
 		confirmPassword: '',
 		isLoading: false,
@@ -36,9 +36,9 @@ const FinishSignUpLayout: FC = () => {
 			);
 		}
 		if (
-			!userState.email ||
-			userState.email.length < 0 ||
-			userState.email.length > 50
+			!userState.username ||
+			userState.username.length < 0 ||
+			userState.username.length > 50
 		) {
 			return toast.error('Invalid username');
 		}
@@ -52,7 +52,7 @@ const FinishSignUpLayout: FC = () => {
 		}
 
 		const requestParams: RegisterFinishParams = {
-			username: userState.email,
+			username: userState.username,
 			password: userState.password,
 			lead_reference_number: ref,
 		};
@@ -77,11 +77,11 @@ const FinishSignUpLayout: FC = () => {
 		<form onSubmit={handleSubmit}>
 			<div className="input-group">
 				<input
-					type="email"
-					name="email"
-					value={userState.email}
+					type="text"
+					name="username"
+					value={userState.username}
 					onChange={handleChange}
-					placeholder="Email address"
+					placeholder="Username"
 					required
 				/>
 			</div>

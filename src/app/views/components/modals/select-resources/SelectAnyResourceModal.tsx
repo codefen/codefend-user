@@ -60,7 +60,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 	const { openModal, setResourceID, setResourceType } = useReportStore(
 		(state) => state,
 	);
-	const resourceCount = useRef<Record<string, number>>({
+	const [resourceCount, setResourceCount] = useState<Record<string, number>>({
 		web: 0,
 		mobile: 0,
 		cloud: 0,
@@ -70,14 +70,16 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 		research: 0,
 	});
 	useEffect(() => {
-		resourceCount.current = getIssueResourceCountV2(issues, [
-			'web',
-			'mobile',
-			'cloud',
-			'social',
-			'source',
-			'lan',
-		]);
+		setResourceCount(
+			getIssueResourceCountV2(issues, [
+				'web',
+				'mobile',
+				'cloud',
+				'social',
+				'source',
+				'lan',
+			]),
+		);
 	}, [issues]);
 
 	const handleChangeView = (
@@ -140,20 +142,19 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 						<ResourceFigure
 							icon={<GlobeWebIcon />}
 							title="Web"
-							count={resourceCount.current['web']}
+							count={resourceCount['web']}
 							click={() => handleChangeView('web', 'w')}
 							isActive={
-								resourceCount.current['web'] > 0 ||
-								modalId == 'selectFinding'
+								resourceCount['web'] > 0 || modalId == 'selectFinding'
 							}
 						/>
 						<ResourceFigure
 							icon={<MobileIcon />}
 							title="Mobile"
-							count={resourceCount.current['mobile']}
+							count={resourceCount['mobile']}
 							click={() => handleChangeView('mobile', 'm')}
 							isActive={
-								resourceCount.current['mobile'] > 0 ||
+								resourceCount['mobile'] > 0 ||
 								modalId == 'selectFinding'
 							}
 						/>
@@ -161,21 +162,20 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 						<ResourceFigure
 							icon={<CLoudIcon />}
 							title="Cloud"
-							count={resourceCount.current['cloud']}
+							count={resourceCount['cloud']}
 							click={() => handleChangeView('cloud', 'c')}
 							isActive={
-								resourceCount.current['cloud'] > 0 ||
-								modalId == 'selectFinding'
+								resourceCount['cloud'] > 0 || modalId == 'selectFinding'
 							}
 						/>
 
 						<ResourceFigure
 							icon={<SourceCodeIcon />}
 							title="Source"
-							count={resourceCount.current['source']}
+							count={resourceCount['source']}
 							click={() => handleChangeView('source code', 'sc')}
 							isActive={
-								resourceCount.current['source'] > 0 ||
+								resourceCount['source'] > 0 ||
 								modalId == 'selectFinding'
 							}
 						/>
@@ -183,10 +183,10 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 						<ResourceFigure
 							icon={<PeopleGroupIcon />}
 							title="Social"
-							count={resourceCount.current['social']}
+							count={resourceCount['social']}
 							click={() => handleChangeView('social', 's')}
 							isActive={
-								resourceCount.current['social'] > 0 ||
+								resourceCount['social'] > 0 ||
 								modalId == 'selectFinding'
 							}
 						/>
@@ -194,20 +194,19 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 						<ResourceFigure
 							icon={<LanIcon />}
 							title="Network"
-							count={resourceCount.current['lan']}
+							count={resourceCount['lan']}
 							click={() => handleChangeView('network', 'n')}
 							isActive={
-								resourceCount.current['lan'] > 0 ||
-								modalId == 'selectFinding'
+								resourceCount['lan'] > 0 || modalId == 'selectFinding'
 							}
 						/>
 
 						<ResourceFigure
 							icon={<BugIcon />}
 							title="Research"
-							count={resourceCount.current['research']}
+							count={resourceCount['research']}
 							isActive={
-								resourceCount.current['research'] > 0 ||
+								resourceCount['research'] > 0 ||
 								modalId == 'selectFinding'
 							}
 							click={handleResearch}
