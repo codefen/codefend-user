@@ -498,7 +498,7 @@ export const defaultListLeadsColumns: ColumnTable[] = [
 	},
 	{
 		name: "postContact",	
-		value: "post-contact",	
+		value: "contacted",	
 		style: "post",	
 	},
 ]
