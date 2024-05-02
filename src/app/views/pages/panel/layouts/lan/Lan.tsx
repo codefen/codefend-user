@@ -11,6 +11,7 @@ import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import Show from '@defaults/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
+import { ModalReport } from '@modals/index.ts';
 
 const LanPage: FC = () => {
 	const { networks, loading, refetch } = useLan();
@@ -31,6 +32,7 @@ const LanPage: FC = () => {
 		<>
 			<OrderV2 />
 			<CredentialsModal />
+			<ModalReport />
 			<main className={`lan ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
