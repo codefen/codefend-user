@@ -5,11 +5,12 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import type { IssueUpdateData } from '@interfaces/issues';
 import { EMPTY_ISSUEUPDATE } from '@mocks/empty';
+import { verifySession } from '@utils/helper';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
 	const {  updateUserData, updateToken } = useUserData();
-	const { getCompany } = useUserData();
+	const { getCompany,logout } = useUserData();
 	const navigate = useNavigate();
 	const [fetcher,_, isLoading] = useFetcher();
 	const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
@@ -23,8 +24,9 @@ export const useOneIssue = () => {
 			}
 		}).then(({data}: any) =>
 				{
-					if(data.response === "error"){
-						throw new Error("The issue you are trying to view does not exist");
+					verifySession(data, logout);
+					if(data.response === "error" || data.error == "1"){
+						throw new Error(data.message || "");
 					}
 					issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
 
@@ -33,6 +35,10 @@ export const useOneIssue = () => {
 				}
 			)
 			.catch((error) => {
+				//"The issue you are trying to view does not exist"
+				if(String(error.message || "").startsWith("invalid or expired")){
+					return;
+				}
 				toast.error(error.message || "An unexpected error has occurred on the server");
 				navigate("/issues");
 			});
