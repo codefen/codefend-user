@@ -31,7 +31,7 @@ const ResellerOrdersLayout = () => {
 				<ResourceByLocation
 					resource={orders.current}
 					isLoading={isLoading}
-					type="g"
+					type="order"
 					title="Orders by location"
 				/>
 			</section>

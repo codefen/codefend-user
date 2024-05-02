@@ -30,10 +30,8 @@ export const ResourceByLocation: FC<ResourceByLocationProps> = ({
 			location: {
 				value: (
 					<LocationItem
-						country={resource?.country || resource?.user_pais || ''}
-						countryCode={
-							resource?.countryCode || resource?.user_pais_code || ''
-						}
+						country={resource?.country}
+						countryCode={resource?.countryCode}
 					/>
 				),
 				style: 'location',

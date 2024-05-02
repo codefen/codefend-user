@@ -108,6 +108,9 @@ export const getCountryMetrics = (resources: any[], type: string) => {
 		} else if (type === 'web') {
 			countryCode = value.serverCountryCode || null;
 			countryName = value.serverCountry || null;
+		} else if (type === 'order') {
+			countryCode = value.user_pais_code || null;
+			countryName = value.user_pais || null;
 		} else {
 			countryCode = value.pais_code || null;
 			countryName = value.pais || null;
