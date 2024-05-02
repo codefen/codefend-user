@@ -15,6 +15,7 @@ import SelectedTicket from '../supportProvider';
 import Show from '@defaults/Show.tsx';
 import { MessageIcon } from '@icons';
 import { useOneTicket } from '@panelHooks/support/useOneTicket';
+import { toast } from 'react-toastify';
 
 export const SupportChatDisplay: FC = () => {
 	const { getOneTicket, isLoading, refetch } = useOneTicket();
@@ -33,6 +34,18 @@ export const SupportChatDisplay: FC = () => {
 		return childTicket() ? generateIDArray(childTicket().length) : [];
 	}, [childTicket]);
 
+	const onDone = () => {
+		const viewMessage = localStorage.getItem('viewMessage')
+			? JSON.parse(localStorage.getItem('viewMessage') as string)
+			: { view: true };
+		refetch(selectedTicketID);
+		if (viewMessage.view) {
+			toast.success(
+				'We aim to respond to your queries within 24 to 48 hours.',
+			);
+			localStorage.setItem('viewMessage', JSON.stringify({ view: false }));
+		}
+	};
 	return (
 		<>
 			<div className="card messages">
@@ -69,7 +82,7 @@ export const SupportChatDisplay: FC = () => {
 
 				<ChatBox
 					type={ChatBoxType.SUPPORT}
-					onDone={() => refetch(selectedTicketID)}
+					onDone={onDone}
 					selectedID={selectedTicketID}
 				/>
 			</div>
