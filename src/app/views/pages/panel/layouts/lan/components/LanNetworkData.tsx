@@ -58,7 +58,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 		if (Number(count) >= 1) {
 			openModal();
 			setResourceID(resourceID);
-			setResourceType('source');
+			setResourceType('lan');
 		} else {
 			toast.error(
 				'The resource still does not have issues to make a report',
