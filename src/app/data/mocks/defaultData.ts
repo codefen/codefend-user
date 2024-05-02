@@ -586,35 +586,36 @@ export const resellerOrdersColumn: ColumnTable[] = [
 		value: "area",	
 		style: "area",	
 	},
+	
 	{
 		name: "orderType",	
-		value: "resource class",	
+		value: "scope",	
 		style: "type",	
 	},
 	{
-		name: "orderState",	
-		value: "order state",	
-		style: "state",	
+		name: "plan",	
+		value: "plan",	
+		style: "plan",	
 	},
 	{
-		name: "paymentState",	
-		value: "payment state",	
-		style: "state",	
+		name: "funds",	
+		value: "price",	
+		style: "funds",	
 	},
 	{
 		name: "published",	
-		value: "Creation date",	
+		value: "created",	
 		style: "date",	
 	},
 	{
-		name: "publishPay",	
-		value: "Payment date",	
-		style: "date",	
+		name: "paid",	
+		value: "paid",	
+		style: "paid",	
 	},
 	{
-		name: "publishedFinish",	
-		value: "Finish date",	
-		style: "date",	
+		name: "finish",	
+		value: "finished",	
+		style: "finish",	
 	},
 ]
 

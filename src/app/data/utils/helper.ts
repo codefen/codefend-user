@@ -418,7 +418,7 @@ export const compareValues = (
 };
 
 export const getValueFromObject = (value: any): any => {
-	return value.props?.riskScore || value.props?.country || value;
+	return value.props?.riskScore || value.props?.country || value.props?.name || value;
 };
 
 export const quickSort = (

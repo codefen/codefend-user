@@ -32,6 +32,7 @@ export const EMPTY_COMPANY = {
 	id: "",
 	name: "unknow",
 	sub_class: "",
+	reseller_revenue_share: "0",
 	web: "",
 	size: "",
 	pais_code: "",
@@ -119,3 +120,11 @@ export const EMPTY_ISSUEUPDATE = {
     creacion: "",
     eliminado: "0",
   };
+
+  export const EMPTY_RESELLERHEADER ={
+	final_sales_volume: "",
+	sum_funds_full: "",
+	sum_funds_reseller: "",
+	balance_now: ""
+
+  }

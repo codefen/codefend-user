@@ -1,6 +1,8 @@
 import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
 import useAdminCompanyStore from '@stores/adminCompany.store';
-import type { FC } from 'react';
+import { useResellerDashboardHeader } from '@userHooks/resellers/useResellerDashboardHeader';
+import { formatNumber } from '@utils/helper';
+import { useEffect, type FC } from 'react';
 
 export interface ResellerHeaderProps {
 	distributionPercentage?: string;
@@ -20,28 +22,52 @@ export const ResellerHeader: FC<ResellerHeaderProps> = ({
 	totalProfits = 577675,
 }) => {
 	const { companySelected } = useAdminCompanyStore((state) => state);
+	const [reseller_header, company, { getResellerHeader, isLoading }] =
+		useResellerDashboardHeader();
+
+	useEffect(() => {
+		if (!reseller_header.id || !company.id) {
+			getResellerHeader();
+		}
+	}, []);
 
 	return (
 		<div className="reseller-header">
 			<div className="reseller-header-content">
 				<ProfileHeader
-					profileMedia={`data:image/png;base64,${companySelected.profile_media}`}
-					title={companySelected.name}
-					headline={companySelected.web}
-					bottomText={`${companySelected.sub_class} distributor`}
+					profileMedia={`data:image/png;base64,${company.profile_media}`}
+					title={company.name}
+					headline={company.web}
+					bottomText={`${company.sub_class} distributor`}
 				/>
 				<div className="reseller-extra-info">
 					<div>
-						Distribution deal: {distributionPercentage} net sale |{' '}
+						Distribution deal: {company.reseller_revenue_share}% net sale
+						|{' '}
 					</div>
 					<div>
-						total sales: {totalSales} | total invoiced: ${totalInvoiced}{' '}
+						total sales:{' '}
+						{reseller_header.final_sales_volume
+							? formatNumber(reseller_header.final_sales_volume)
+							: '...'}{' '}
+						| total invoiced: $
+						{reseller_header?.sum_funds_reseller
+							? formatNumber(reseller_header?.sum_funds_reseller)
+							: '...'}{' '}
 						{currency}
 					</div>
 					<div>
-						total profits: ${totalProfits} {currency} |{' '}
+						total profits: $
+						{reseller_header?.sum_funds_full
+							? formatNumber(reseller_header?.sum_funds_full)
+							: '...'}{' '}
+						{currency} |{' '}
 						<span className="codefend-text-red">
-							current balance: ${currentBalance} {currency}
+							current balance:
+							{reseller_header?.balance_now
+								? `$${formatNumber(reseller_header.balance_now)}`
+								: '...'}{' '}
+							{currency}
 						</span>
 					</div>
 				</div>

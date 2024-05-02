@@ -9,9 +9,10 @@ import { TableV2 } from '@table/tablev2.tsx';
 import type { Lead } from '@interfaces/lead.ts';
 import type { ResellerUser } from '@interfaces/user.ts';
 import type { Webresources } from '@interfaces/panel.ts';
+import type { FullOrder } from '@interfaces/order';
 
 interface ResourceByLocationProps {
-	resource: Lead[] | ResellerUser[] | Webresources[];
+	resource: Lead[] | ResellerUser[] | Webresources[] | FullOrder[];
 	isLoading: boolean;
 	type: string;
 	title: string;
@@ -29,8 +30,10 @@ export const ResourceByLocation: FC<ResourceByLocationProps> = ({
 			location: {
 				value: (
 					<LocationItem
-						country={resource.country}
-						countryCode={resource.countryCode}
+						country={resource?.country || resource?.user_pais || ''}
+						countryCode={
+							resource?.countryCode || resource?.user_pais_code || ''
+						}
 					/>
 				),
 				style: 'location',

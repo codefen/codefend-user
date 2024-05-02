@@ -1,5 +1,5 @@
 import { SimpleSection } from '@defaults/SimpleSection';
-import { GlobeWebIcon } from '@icons';
+import { CheckCircleIcon, GlobeWebIcon, XCircleIcon } from '@icons';
 import {
 	resellerCompanyColumns,
 	resellerOrdersColumn,
@@ -30,22 +30,36 @@ export const ResellerAllOrders: FC<ResellerAllOrdersProps> = ({
 					value: (
 						<LocationItem
 							country={order.user_pais || 'unknown'}
-							countryCode={order.user_pais_code}
+							countryCode={order.user_pais_code || ''}
 						/>
 					),
 					style: 'area',
 				},
 				orderType: { value: order.resources_class, style: 'type' },
-				orderState: { value: order.condicion_provider, style: 'state' },
-				paymentState: { value: order.condicion_financial, style: 'state' },
-				published: { value: order.creacion, style: 'date' },
-				publishPay: {
-					value: order.fecha_financial_confirmacion,
-					style: 'date',
+				plan: { value: order.chosen_plan, style: 'plan' },
+
+				funds: {
+					value: `$${order.funds_full}`,
+					style: 'funds',
 				},
-				publishedFinish: {
-					value: order.fecha_cierre_real || '---',
-					style: 'date',
+				published: { value: order.creacion, style: 'date' },
+				paid: {
+					value:
+						order?.condicion_financial == 'confirmed' ? (
+							<CheckCircleIcon name="y" />
+						) : (
+							<XCircleIcon name="n" />
+						),
+					style: `paid ${order?.condicion_financial == 'confirmed' ? 'confirmed' : 'unconfirmed'}`,
+				},
+				finish: {
+					value:
+						order?.condicion_provider == 'finished' ? (
+							<CheckCircleIcon name="y" />
+						) : (
+							<XCircleIcon name="n" />
+						),
+					style: `finish ${order?.condicion_provider == 'finished' ? 'confirmed' : 'unconfirmed'}`,
 				},
 			}) as any,
 	);

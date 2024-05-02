@@ -29,7 +29,7 @@ const ResellerOrdersLayout = () => {
 			</section>
 			<section className="right">
 				<ResourceByLocation
-					resource={[]}
+					resource={orders.current}
 					isLoading={isLoading}
 					type="g"
 					title="Orders by location"

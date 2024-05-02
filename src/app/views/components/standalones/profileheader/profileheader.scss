@@ -19,12 +19,12 @@
 }
 
 .provider-main-info {
-	margin-inline-start: 15rem;
-	padding-inline-end: 2rem;
+	padding-inline-start: 14rem;
 	border-inline-end: 1px solid var(--provider-border-color);
-	min-width: 18rem;
-	max-width: 18rem;
 	padding-block-start: 1rem;
+	max-width: 25%;
+	min-width: 350px;
+	flex: 1 1;
 
 	h3 {
 		color: var(--tertiary-color-600);

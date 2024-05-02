@@ -9,6 +9,7 @@ export interface AdminCompany extends ID, Monitoring {
     size: string;
     pais_code: string;
     sub_class: string;
+    reseller_revenue_share?: string;
 
     pais: string;
     pais_provincia: string;
