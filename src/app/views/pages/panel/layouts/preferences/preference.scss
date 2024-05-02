@@ -203,3 +203,56 @@ main.preferences {
 		margin-inline-start: 1rem;
 	}
 }
+
+.member-tables {
+	.table {
+		.columns--name {
+			padding-inline-end: 32px;
+		}
+		.id {
+			max-width: 6.5%;
+			min-width: 6.5%;
+			flex: 1 1 6.5% !important;
+		}
+		.area,
+		.company {
+			flex: 1 1 11% !important;
+			max-width: 11%;
+			min-width: 11%;
+			margin-inline-end: 1%;
+		}
+
+		.full-name {
+			flex: 1 1 18% !important;
+			max-width: 18%;
+			min-width: 18%;
+			margin-inline-end: 1%;
+		}
+		.email {
+			flex: 1 1 20.5% !important;
+			max-width: 20.5%;
+			min-width: 20.5%;
+			margin-inline-end: 1%;
+		}
+		.phone {
+			flex: 1 1 12.5% !important;
+			max-width: 12.5%;
+			min-width: 12.5%;
+			margin-inline-end: 1%;
+		}
+		.role {
+			flex: 1 1 9% !important;
+			max-width: 9%;
+			min-width: 9%;
+			margin-inline-end: 1%;
+		}
+		.id.action {
+			max-width: 5.5%;
+			min-width: 5.5%;
+
+			.publish {
+				justify-content: center;
+			}
+		}
+	}
+}

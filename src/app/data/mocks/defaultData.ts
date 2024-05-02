@@ -737,6 +737,50 @@ export const companyMembersColumns = [
 	},
 ];
 
+export const preferenceMemberColumns = [
+	{
+		name: "Identifier",
+		value: "id",
+		style: "id"
+	},
+	{
+		name: "area",
+		value: "area",
+		style: "area"
+	},
+	{
+		name: "company",
+		value: "company",
+		style: "company"
+	},
+	{
+		name: "fullName",
+		value: "full name",
+		style: "full-name"
+	},
+	{
+		name: "email",
+		value: "email",
+		style: "email"
+	},
+	{
+		name: "phone",
+		value: "phone",
+		style: "phone"
+	},
+	{
+		name: "role",
+		value: "role",
+		style: "role"
+	},
+	{
+		name: "action",
+		value: "action",
+		style: "id action"
+	}
+];
+
+
 export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id action"}]);
 
 export const defaultCrypto = [

@@ -242,6 +242,7 @@ export interface OneIssue {
 export interface Member {
 	id: string;
 	company_id: string;
+	company_name: string;
 	fname: string;
 	lname: string;
 	role: string;
@@ -254,6 +255,8 @@ export interface Member {
 	pais_ciudad: string;
 	eliminado: string;
 	creacion: string;
+
+	company_access_ids?: string;
 }
 
 export interface MemberV2 {

@@ -1,5 +1,6 @@
 import { useEffect, useState, type FC } from 'react';
 import {
+	ChartIcon,
 	DocumentIcon,
 	DocumentTextIcon,
 	ImportantIcon,
@@ -104,7 +105,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 			<div className="card orders-preference-card">
 				<SimpleSection
 					header="ORDERS & BILLING DETAILS"
-					icon={<PreferenceIcon />}>
+					icon={<ChartIcon />}>
 					<div className="order-preference-content">
 						<TableV2
 							columns={defaultOrderColumns}

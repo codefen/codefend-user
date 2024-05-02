@@ -1,9 +1,13 @@
 import { type FC } from 'react';
 import type { Member } from '@interfaces/panel';
-import { PeopleGroupIcon } from '@icons';
+import { ExitIcon, PeopleGroupIcon } from '@icons';
 import { TableV2 } from '@table/tablev2';
-import { companyMembersColumns } from '@mocks/defaultData';
+import {
+	companyMembersColumns,
+	preferenceMemberColumns,
+} from '@mocks/defaultData';
 import useModalStore from '@stores/modal.store';
+import { LocationItem } from '@standalones/index';
 
 interface CollaboratorDataProps {
 	isLoading: boolean;
@@ -18,6 +22,16 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 	const dataTable = members.map((member) => ({
 		ID: { value: '', style: '' },
 		Identifier: { value: member.id, style: 'id' },
+		area: {
+			value: (
+				<LocationItem
+					country={member.pais || 'unknown'}
+					countryCode={member.pais_code}
+				/>
+			),
+			style: 'area',
+		},
+		company: { value: member.company_name, style: 'company' },
 		fullName: {
 			value: `${member.fname} ${member.lname}`,
 			style: 'full-name',
@@ -25,6 +39,18 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 		email: { value: member.email, style: 'email' },
 		phone: { value: member.phone, style: 'phone' },
 		role: { value: member.role, style: 'role' },
+		action: {
+			value: (
+				<>
+					<span
+						title="Remove from the company"
+						className={`${!member.company_access_ids ? 'off' : ''}`}>
+						<ExitIcon />
+					</span>
+				</>
+			),
+			style: 'id action',
+		},
 	}));
 
 	const handleAddCollaborator = () => {
@@ -32,7 +58,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 		setIsOpen(true);
 	};
 	return (
-		<div className="card">
+		<div className="card member-tables">
 			<div className="header">
 				<div className="title">
 					<div className="icon">
@@ -45,7 +71,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 				</div>
 			</div>
 			<TableV2
-				columns={companyMembersColumns}
+				columns={preferenceMemberColumns}
 				rowsData={dataTable}
 				showRows={!isLoading}
 				showEmpty={!Boolean(dataTable.length) && !isLoading}
