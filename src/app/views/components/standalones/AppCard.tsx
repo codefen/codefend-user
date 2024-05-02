@@ -141,7 +141,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
 									-{' '}
 									<span className="codefend-text-red inline-flex">
 										<BugIcon />
-										{issueCount || 0}
+										{issueCount}
 									</span>
 								</div>
 							</Show>

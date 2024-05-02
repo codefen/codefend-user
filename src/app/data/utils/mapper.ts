@@ -212,7 +212,7 @@ export const mapMobileApp = (source: any): MobileApp => {
 		appReviews: cleanReview(source.app_reviews || ''),
 		appAndroidDownloads: source.app_android_downloads || '',
 		appMedia: source.app_media || '',
-		final_issue: source?.final_issue || "0",
+		final_issue: source?.final_issues || "0",
 		isDisabled: source.eliminado === '1',
 		createdAt: formatDate(source.creacion || ''),
 	};
@@ -270,7 +270,7 @@ export const mapCloudApp = (source: any): CloudApp => {
 		cloudSecondKey: source.cloud_llave_2 || '',
 		cloudThirdKey: source.cloud_llave_3 || '',
 		appMedia: source.media || '',
-		final_issue: source?.final_issue || "0",
+		final_issue: source?.final_issues || "0",
 		isDisabled: source.eliminado === '1',
 		createdAt: source.creacion,
 	};
