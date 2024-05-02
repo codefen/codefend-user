@@ -67,8 +67,10 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 				showEmpty={!isLoading && !Boolean(dataTable.current.rows.length)}
 				sizeY={15}
 				selectItem={(item: any) => {
+					let id = item;
+					if (activeFilter) id = item.ID;
 					handleSelect(
-						item.ID,
+						id,
 						type.startsWith('source') ? 'source' : type,
 						Number(item.issueCount),
 					);

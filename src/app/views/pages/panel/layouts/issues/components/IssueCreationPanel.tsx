@@ -38,8 +38,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 	const { oneExecute, clear } = useTimeout(() => setEditable(true), 75);
 
 	useEffect(() => {
-		const isValidID =
-			!isNaN(Number(resourceId || '')) && Number(resourceId) !== 0;
+		const isValidID = !isNaN(Number(resourceId)) && Number(resourceId) !== 0;
 		dispatch((state) => ({
 			...state,
 			issueClass: [
@@ -120,7 +119,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 						name="issueClass"
 						required
 						disabled={shouldDisableClass}>
-						<option value="" disabled hidden selected>
+						<option value="" disabled hidden>
 							Select Class
 						</option>
 						<option value="web">web</option>
@@ -138,10 +137,10 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 					<select
 						onChange={handleChange}
 						className="py-3  focus:outline-none log-inputs"
-						value={newIssue.score}
+						defaultValue={newIssue?.score || ''}
 						name="score"
 						required>
-						<option value="" disabled hidden selected>
+						<option value="" disabled hidden>
 							Select Score
 						</option>
 						<option value="5">critical</option>

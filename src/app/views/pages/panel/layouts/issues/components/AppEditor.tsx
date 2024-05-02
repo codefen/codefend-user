@@ -28,17 +28,24 @@ const AppEditor: FC<AppEditorProps> = ({
 	}, [initialValue]);
 
 	useEffect(() => {
-		const editor = getTinyEditorContent ? getTinyEditorContent('issue') : '';
-		setTinyEditorContent(
-			'issue',
-			!editor || editor == '' ? initialValue : editor,
-		);
-		if (!first) {
-			if (!isCreation) {
-				setMode('issue', isEditable ? 'design' : 'readonly');
-			} else {
-				setMode('issue', 'design');
+		try {
+			if (!first) {
+				const editor = getTinyEditorContent
+					? getTinyEditorContent('issue')
+					: '';
+				setTinyEditorContent(
+					'issue',
+					!editor || editor == '' ? initialValue : editor,
+				);
 			}
+		} catch (e: any) {
+			console.error(e);
+		}
+
+		if (!isCreation) {
+			setMode('issue', isEditable ? 'design' : 'readonly');
+		} else {
+			setMode('issue', 'design');
 		}
 	}, [isEditable]);
 

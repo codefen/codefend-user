@@ -1,5 +1,5 @@
 import { type FC, Suspense, useEffect, useState, lazy } from 'react';
-import { Navigate, Outlet } from 'react-router';
+import { Navigate, Outlet, useLocation } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
 import useAuthStore from '@stores/auth.store.ts';
 import Show from '@defaults/Show.tsx';
@@ -16,6 +16,9 @@ export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
 
 export const PanelPage: FC = () => {
+	const location = useLocation();
+
+	console.log({ path: location.pathname });
 	const [showModal, setShowModal] = useState(false);
 	const matches = useMediaQuery('(min-width: 1175px)');
 	const { updateAuth } = useAuthStore((state) => ({

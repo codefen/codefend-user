@@ -62,7 +62,9 @@ export const useGetScopeTables = (
 														e,
 														`child-${resChild.id}`,
 														resChild.id,
-														resChild.final_issues,
+														!useInIssueReport
+															? undefined
+															: resChild.final_issues,
 													)
 												}>
 												<div className="id">
@@ -234,7 +236,9 @@ export const useGetScopeTables = (
 														e,
 														`child-${resChild.id}`,
 														resChild.id,
-														resChild.final_issues,
+														!useInIssueReport
+															? undefined
+															: resChild.final_issues,
 													)
 												}>
 												<div className="id">
