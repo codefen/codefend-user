@@ -19,7 +19,6 @@ const ResellerOrdersLayout = () => {
 		<main className={`reseller ${showScreen ? 'actived' : ''}`}>
 			<section className="left">
 				<ResellerHeader />
-				<div></div>
 				<div className="reseller-tables table-orders">
 					<ResellerAllOrders
 						isLoading={isLoading}

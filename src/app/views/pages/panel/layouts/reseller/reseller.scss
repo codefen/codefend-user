@@ -149,6 +149,10 @@ main.reseller {
 		.post {
 			min-width: 6%;
 			max-width: 6%;
+
+			.publish {
+				justify-content: center;
+			}
 		}
 	}
 }
@@ -270,19 +274,12 @@ div.reseller-tables.table-orders {
 			.publish {
 				justify-content: center;
 			}
-			&.confirmed {
-				color: #65d52e;
-			}
-
-			&.unconfirmed {
-				color: var(--secondary-color-150);
-			}
 		}
 	}
 }
 
 @media only screen and (max-width: 1525px) {
-	div.reseller-tables.table-orders {
+	div.reseller-tables {
 		.table {
 			.area {
 				.publish {

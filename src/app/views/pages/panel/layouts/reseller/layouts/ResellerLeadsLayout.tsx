@@ -9,6 +9,7 @@ import type { Lead } from '@interfaces/lead';
 import { LocationItem } from '@standalones/utils/LocationItem';
 import { defaultListLeadsColumns } from '@mocks/defaultData';
 import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
+import { CheckCircleIcon, XCircleIcon } from '@icons';
 
 const ResellerLeadsLayout = () => {
 	const [showScreen] = useShowScreen();
@@ -38,7 +39,14 @@ const ResellerLeadsLayout = () => {
 					style: 'full-name',
 				},
 				phone: { value: lead.lead_phone, style: 'phone' },
-				postContact: { value: 'Okey', style: 'post' },
+				postContact: {
+					value: true ? (
+						<CheckCircleIcon name="y" />
+					) : (
+						<XCircleIcon name="n" />
+					),
+					style: `post ${true ? 'confirmed' : 'unconfirmed'}`,
+				},
 			}) as any,
 	);
 	return (

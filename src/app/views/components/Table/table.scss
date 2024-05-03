@@ -441,6 +441,13 @@
 		margin-block-start: 0.5rem;
 		margin-inline: 0.12rem;
 	}
+	.confirmed {
+		color: #65d52e;
+	}
+
+	.unconfirmed {
+		color: var(--secondary-color-150);
+	}
 }
 
 [data-theme='dark'] {

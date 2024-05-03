@@ -1,6 +1,6 @@
 import './mobilefallback.scss';
 
-export const MobileFallback = () => (
+const MobileFallback = () => (
 	<div className="fallback-container">
 		<picture className="logo-container">
 			<img
@@ -23,3 +23,5 @@ export const MobileFallback = () => (
 		</div>
 	</div>
 );
+
+export default MobileFallback;

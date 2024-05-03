@@ -1,17 +1,19 @@
 import type { FC } from 'react';
 import { ModalWrapper } from '.';
-import { LanIcon, PrimaryButton } from '..';
+import { LanIcon, PrimaryButton, Show } from '..';
 import {
 	type NetworkSettingState,
 	useNetworkSettingState,
 } from '../../../data';
 
-const ErrorConection: FC<{ closeModal: () => void }> = (props) => {
+const ErrorConection: FC<{ closeModal: () => void; open: boolean }> = (
+	props,
+) => {
 	const { setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
 	return (
-		<>
+		<Show when={props.open}>
 			<ModalWrapper isErrorBox={true} action={props.closeModal}>
 				<div
 					className="error-wrapper"
@@ -82,7 +84,7 @@ const ErrorConection: FC<{ closeModal: () => void }> = (props) => {
 					</div>
 				</div>
 			</ModalWrapper>
-		</>
+		</Show>
 	);
 };
 
