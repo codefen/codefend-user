@@ -135,7 +135,7 @@ export const TeamSizeOrderModal: FC = () => {
 					</div>
 					<div className="primary-container">
 						<PrimaryButton
-							text="Proceed to the next step"
+							text="Next step"
 							click={nextStep}
 							className="full"
 							buttonStyle="red"

@@ -41,7 +41,10 @@ Is there any other additional information for our professionals?`;
 	return (
 		<>
 			<div className="step-header">
-				<h3>Optionally, would you like to add any notes for the ethical hacker?</h3>
+				<h3>
+					Optionally, would you like to add any notes for the ethical
+					hacker?
+				</h3>
 			</div>
 			<div className="step-content space">
 				<textarea
@@ -65,7 +68,7 @@ Is there any other additional information for our professionals?`;
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="Proceed to payment"
+						text="Next step"
 						click={continueToPayment}
 						className="full"
 						buttonStyle="red"

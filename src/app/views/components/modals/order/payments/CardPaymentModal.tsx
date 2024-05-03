@@ -88,14 +88,14 @@ export const CardPaymentModal = () => {
 					className="stripe-container"
 					id="stripe-ex-contentr"
 				/>
-				<PrimaryButton
-					text="Back"
-					buttonStyle="black"
-					disabledLoader
-					click={backStep}
-					className="stripe-back-btn"
-				/>
 			</EmbeddedCheckoutProvider>
+			<PrimaryButton
+				text="Back"
+				buttonStyle="black"
+				disabledLoader
+				click={backStep}
+				className="stripe-back-btn"
+			/>
 		</>
 	);
 };

@@ -98,7 +98,7 @@ export const FrequencyOrderModal: FC = () => {
 					<PrimaryButton
 						isDisabled={frequencyW === OrderFrequency.UNKNOWN}
 						disabledLoader
-						text="Proceed to the next step"
+						text="Next step"
 						click={nextStep}
 						className="full"
 						buttonStyle="red"

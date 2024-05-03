@@ -56,7 +56,9 @@ export const ScopeOrderModal: FC = () => {
 	return (
 		<>
 			<div className="step-header">
-				<h3>Start a new pentest! Please select the assets that you would like to scope:
+				<h3>
+					Start a new pentest! Please select the assets that you would like
+					to scope:
 				</h3>
 			</div>
 			<div className="step-content">
@@ -76,15 +78,15 @@ export const ScopeOrderModal: FC = () => {
 						<div className="top">
 							<p>
 								{' '}
-								Analyze all {resourceType.valueOf()}{' '}
-								resources
+								Analyze all {resourceType.valueOf()} resources
 								<span className="alt-color order-dash-space">
 									- {scope.totalResources} resources:
 								</span>
 							</p>
 						</div>
 						<span className="one-pentest">
-						Our experts will focus solely on assessing the security of your {resourceType.valueOf()}-based assets.
+							Our experts will focus solely on assessing the security of
+							your {resourceType.valueOf()}-based assets.
 						</span>
 					</label>
 				</div>
@@ -112,7 +114,7 @@ export const ScopeOrderModal: FC = () => {
 							</p>
 						</div>
 						<span className="one-pentest">
-						A holistic assessment of all your company's resources.
+							A holistic assessment of all your company's resources.
 						</span>
 					</label>
 				</div>
@@ -149,7 +151,7 @@ export const ScopeOrderModal: FC = () => {
 				</div>
 				<div className="primary-container">
 					<PrimaryButton
-						text="Proceed to the next step"
+						text="Next step"
 						click={nextStep}
 						className="full"
 						buttonStyle="red"

@@ -55,6 +55,9 @@
 	.stripe-back-btn {
 		max-width: 40%;
 		margin-inline-start: 1.5rem;
+		margin-block-start: auto;
+		margin-block-end: 1rem;
+		min-height: 40px;
 	}
 	.order-header {
 		display: flex;
