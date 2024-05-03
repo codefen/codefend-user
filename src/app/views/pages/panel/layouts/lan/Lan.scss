@@ -6,22 +6,18 @@ main.lan {
 		width: 68%;
 
 		.table {
-			.rows {
-				.action {
-					.publish {
-						justify-content: center;
-					}
-				}
-			}
-
 			.id {
 				max-width: 8%;
 				min-width: 8%;
 				margin-inline-end: 1%;
 
 				&.action {
-					max-width: 14%;
-					min-width: 14%;
+					max-width: 17.5%;
+					min-width: 17.5%;
+
+					.publish {
+						justify-content: center;
+					}
 				}
 			}
 
@@ -31,8 +27,8 @@ main.lan {
 				margin-inline-end: 1%;
 			}
 			.full-name {
-				max-width: 30%;
-				min-width: 30%;
+				max-width: 26.5%;
+				min-width: 26.5%;
 				margin-inline-end: 1%;
 			}
 		}

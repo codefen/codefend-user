@@ -231,8 +231,8 @@ export const addPrintAttributesFromBody = (
 ) => {
 	document.body.setAttribute('print-report', 'true');
 	const createdAt = Array.isArray(resources)
-		? resources?.[0]?.createdAt || ''
-		: resources?.createdAt || '';
+		? resources?.[0]?.createdAt || resources?.[0]?.creacion || ''
+		: resources?.createdAt || resources?.creacion || '';
 
 	document.title = `${formatDate(createdAt)}-${removeSpecialCharacters(resourceDomainText)}`;
 };
