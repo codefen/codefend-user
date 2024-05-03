@@ -30,43 +30,10 @@ export const PaymentMethodOrderModal: FC = () => {
 		<>
 			<div className="step-header">
 				<h3>
-					<b>Great! We have these options to offer you!</b>
+					<b>Great!</b> Please select your payment method:
 				</h3>
 			</div>
 			<div className="step-content">
-				<div
-					className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}
-					onClick={() =>
-						setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER)
-					}>
-					<input
-						id="bank-transfer"
-						type="radio"
-						name="payment-methods"
-						className="radio-option"
-						value={paymentMethodW}
-						checked={paymentMethodW === OrderPaymentMethod.BANK_TRANSFER}
-						defaultChecked={
-							paymentMethodW === OrderPaymentMethod.BANK_TRANSFER
-						}
-						onChange={() => {}}
-						required
-					/>
-					<div className="codefend-radio"></div>
-					<label htmlFor="bank-transfer" className="order-snapshot">
-						<div className="top">
-							<p className="codefend-color">
-								Bank account / bank transfer:
-							</p>
-						</div>
-						<span className="one-pentest">
-							Small team allocation. Codefend will allocate a team of 2
-							hackers to accomplish this task within 4 weeks.
-							Individually reported issues.
-						</span>
-					</label>
-				</div>
-
 				<div
 					className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}
 					onClick={() => setPaymentMethod(OrderPaymentMethod.CARD)}>
@@ -89,9 +56,7 @@ export const PaymentMethodOrderModal: FC = () => {
 							</p>
 						</div>
 						<span className="one-pentest">
-							One unique scan: Codefend will perform a 4 weeks IT
-							security assessment on the selected scope, one report, no
-							subscription.
+						Experience the swiftest payment method available. Initiate your penetration test promptly with our secure international card payments.
 						</span>
 					</label>
 				</div>
@@ -116,9 +81,38 @@ export const PaymentMethodOrderModal: FC = () => {
 							<p className="codefend-color">Cryptocurrency payment:</p>
 						</div>
 						<span className="one-pentest">
-							Codefend accepts direct cryptocurrecy payments in bitcoin,
-							ethereum, litecoin, monero, solana and the stable coins
-							usdc, usdt.
+						Codefend gladly accepts direct cryptocurrency payments in Bitcoin, Ethereum, Litecoin, Solana, Monero, and stablecoins like USDC and USDT.
+						</span>
+					</label>
+				</div>
+				
+				<div
+					className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}
+					onClick={() =>
+						setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER)
+					}>
+					<input
+						id="bank-transfer"
+						type="radio"
+						name="payment-methods"
+						className="radio-option"
+						value={paymentMethodW}
+						checked={paymentMethodW === OrderPaymentMethod.BANK_TRANSFER}
+						defaultChecked={
+							paymentMethodW === OrderPaymentMethod.BANK_TRANSFER
+						}
+						onChange={() => {}}
+						required
+					/>
+					<div className="codefend-radio"></div>
+					<label htmlFor="bank-transfer" className="order-snapshot">
+						<div className="top">
+							<p className="codefend-color">
+								Bank trasfer / bank wire:
+							</p>
+						</div>
+						<span className="one-pentest">
+						Ideal for substantial orders! Verification is required, and confirmation may take up to 48 hours after payment receipt.
 						</span>
 					</label>
 				</div>

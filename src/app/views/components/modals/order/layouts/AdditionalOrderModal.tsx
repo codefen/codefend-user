@@ -41,12 +41,7 @@ Is there any other additional information for our professionals?`;
 	return (
 		<>
 			<div className="step-header">
-				<h3>
-					<b>
-						At this point you can provide any additional information for
-						the professional
-					</b>
-				</h3>
+				<h3>Optionally, would you like to add any notes for the ethical hacker?</h3>
 			</div>
 			<div className="step-content space">
 				<textarea

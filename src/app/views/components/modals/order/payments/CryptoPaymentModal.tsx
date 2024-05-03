@@ -72,9 +72,7 @@ export const CryptoPaymentModal = () => {
 	return (
 		<>
 			<div className="step-header">
-				<h3>
-					<b>Select your payment cryptocurrency:</b>
-				</h3>
+				<h3>Select your desired cryptocurrency:</h3>
 			</div>
 			<div className="step-content crypto-payment">
 				<div className="order-img-wrapper show-both-borders ">
@@ -114,8 +112,7 @@ export const CryptoPaymentModal = () => {
 					<div className="details space">
 						<div className="top">
 							<p className="crypto-payment">
-								You hace selected Bitcoin{' '}
-								<span className="codefend-text-red">address:</span>
+								<span className="codefend-text-red">.</span>
 							</p>
 						</div>
 

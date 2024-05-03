@@ -61,13 +61,7 @@ export const TeamSizeOrderModal: FC = () => {
 		<Show when={currentPrices !== null} fallback={<TeamSizeLoader />}>
 			<>
 				<div className="step-header">
-					<h3>
-						<b>We will size the task, please select the model.</b>
-						<span>
-							Below you can see various options that will help us
-							personalize your experience:
-						</span>
-					</h3>
+					<h3>Select the desired allocation to protect your company.</h3>
 				</div>
 
 				<div className="step-content">
@@ -85,8 +79,7 @@ export const TeamSizeOrderModal: FC = () => {
 								<h5 className="alt-color">Small allocation:</h5>
 							</div>
 							<span className="one-pentest">
-								a multidisciplinary team of professional hackers
-								exclusively reviewing your case.
+								This is our basic plan! fits well for small size companies.
 							</span>
 						</div>
 					</div>
@@ -101,11 +94,10 @@ export const TeamSizeOrderModal: FC = () => {
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5 className="alt-color">Medium allocation:</h5>
+								<h5><span className="alt-color">Medium allocation:</span> most selected!</h5>
 							</div>
 							<span className="one-pentest">
-								a multidisciplinary team of professional hackers
-								exclusively reviewing your case.
+								Recommended if your company relies on the scoped resources.
 							</span>
 						</div>
 					</div>
@@ -120,11 +112,10 @@ export const TeamSizeOrderModal: FC = () => {
 
 						<div className="order-snapshot">
 							<div className="top">
-								<h5 className="alt-color">Full team allocation:</h5>
+								<h5 className="alt-color">Full allocation:</h5>
 							</div>
 							<span className="one-pentest">
-								a multidisciplinary team of professional hackers
-								exclusively reviewing your case.
+							For companies that heavily rely on IT or handle sensitive data.
 							</span>
 						</div>
 					</div>

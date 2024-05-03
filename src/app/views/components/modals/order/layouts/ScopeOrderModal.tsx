@@ -56,9 +56,7 @@ export const ScopeOrderModal: FC = () => {
 	return (
 		<>
 			<div className="step-header">
-				<h3>
-					<b>Let's start a new pentest! what would like analyse?</b>
-					<span>Please select the assets that you would ike to scope</span>
+				<h3>Start a new pentest! Please select the assets that you would like to scope:
 				</h3>
 			</div>
 			<div className="step-content">
@@ -78,7 +76,7 @@ export const ScopeOrderModal: FC = () => {
 						<div className="top">
 							<p>
 								{' '}
-								I want to analyze all my team {resourceType.valueOf()}{' '}
+								Analyze all {resourceType.valueOf()}{' '}
 								resources
 								<span className="alt-color order-dash-space">
 									- {scope.totalResources} resources:
@@ -86,8 +84,7 @@ export const ScopeOrderModal: FC = () => {
 							</p>
 						</div>
 						<span className="one-pentest">
-							This option allocates the resources exclusively on your
-							{resourceType.valueOf()} resources.
+						Our experts will focus solely on assessing the security of your {resourceType.valueOf()}-based assets.
 						</span>
 					</label>
 				</div>
@@ -107,7 +104,7 @@ export const ScopeOrderModal: FC = () => {
 						<div className="top">
 							<p>
 								{' '}
-								I want to analyze all my team resources{' '}
+								Analyze all company resources{' '}
 								<span className="alt-color order-dash-space">
 									{' '}
 									- {scope.totalAllResources} resources:
@@ -115,8 +112,7 @@ export const ScopeOrderModal: FC = () => {
 							</p>
 						</div>
 						<span className="one-pentest">
-							This option allocates the resources in all the resources
-							loaded in the app.
+						A holistic assessment of all your company's resources.
 						</span>
 					</label>
 				</div>

@@ -44,9 +44,7 @@ export const BankPaymentModal = () => {
 	return (
 		<>
 			<div className="step-header">
-				<h3>
-					<b>Please select your desired option to see the details:</b>
-				</h3>
+				<h3>Please proceed with the transaction and complete with the details:</h3>
 			</div>
 			<div className="step-content bank-payment">
 				<div className="payment-bank-options show-bottom-border">
