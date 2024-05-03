@@ -81,9 +81,7 @@ export const CardPaymentModal = () => {
 	return (
 		<>
 			<div className="step-header">
-				<h3>
-					<b>Please enter your payment information</b>
-				</h3>
+				<h3>Please complete with your payment information</h3>
 			</div>
 			<EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
 				<EmbeddedCheckout

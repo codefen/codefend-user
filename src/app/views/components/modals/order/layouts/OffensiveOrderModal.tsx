@@ -32,11 +32,7 @@ export const OffensiveOrderModal: FC = () => {
 	return (
 		<>
 			<div className="step-header">
-				<h3>
-					<b>
-						Please tell us about the environment. Are this systems in
-						active use?
-					</b>
+				<h3>Please tell us about the environment. Are the systems in active use?
 				</h3>
 			</div>
 			<div className="step-content">
@@ -65,9 +61,7 @@ export const OffensiveOrderModal: FC = () => {
 							</p>
 						</div>
 						<span className="one-pentest">
-							All or some of the resources are in a production
-							environment Codefend's professionals will be extra careeful
-							and will avoid risk.
+							Codefend's professionals will be extra careful and will avoid all possible risk.
 						</span>
 					</div>
 				</div>
@@ -96,9 +90,7 @@ export const OffensiveOrderModal: FC = () => {
 							</p>
 						</div>
 						<span className="one-pentest">
-							All the resources or infrastructure is an a test
-							environment Codefend's professionals may use more
-							disruptive or risky techniques.
+							Codefend's professionals may use more disruptive or risky techniques.
 						</span>
 					</div>
 				</div>
@@ -120,15 +112,13 @@ export const OffensiveOrderModal: FC = () => {
 						<div className="top">
 							<p className="pentest-option">
 								<span className="alt-color space">
-									Adversary simulation pentest:
+									Adversary simulation:
 								</span>
-								not recommended / may cause stress
+								⚠️ could cause stress! 
 							</p>
 						</div>
 						<span className="one-pentest">
-							Codefend's professionals will use all possible tecniques in
-							order to simulate a real attack & cause disorder. Global
-							scope, only premium.
+							Codefend's professionals will use all possible tecniques to simulate a real attack.
 						</span>
 					</div>
 				</div>

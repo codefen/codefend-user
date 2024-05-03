@@ -27,10 +27,8 @@ export const FrequencyOrderModal: FC = () => {
 		<>
 			<div className="step-header">
 				<h3>
-					<b>We will size the task, please select the model.</b>
 					<span>
-						Below you can see various options that will help us
-						personalize your experience:
+						Select between one unique pentest or our exclusive subscription!
 					</span>
 				</h3>
 			</div>
@@ -50,16 +48,10 @@ export const FrequencyOrderModal: FC = () => {
 
 					<div className="order-snapshot">
 						<div className="top">
-							<p className="pentest-option">
-								<span className="alt-color space">
-									One “snapshot” pentest:
-								</span>
-								recommended for initial review of resources before of
-								being employees, billed eleven.
-							</p>
+							<p className="pentest-option"><span className="alt-color space">Snapshot pentest:</span> recommended for an initial review of the resources.</p>
 						</div>
 						<span className="one-pentest">
-							A single pentest + report will be carried out
+							Fully printable reports, & support to fix all vulnerabilities. Delivery 4 weeks or less!
 						</span>
 					</div>
 				</div>
@@ -80,12 +72,11 @@ export const FrequencyOrderModal: FC = () => {
 								<span className="alt-color space">
 									Permanent surveillance:
 								</span>
-								recommended for permanent monitoring resources, billed
-								monthly.
+								keep your assets secure and keep aside of risk!
 							</p>
 						</div>
 						<span className="one-pentest">
-							A maximum of 12 pentests will be carried out annually.
+							Stay ahead of exploits, data-leaks and hackers with our 12 months subscription.
 						</span>
 					</div>
 				</div>
