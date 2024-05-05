@@ -1,5 +1,8 @@
 main.preferences {
 	padding-inline-end: 0px;
+	.left {
+		overflow-y: hidden;
+	}
 	.right {
 		// display: flex;
 		// flex-direction: column;
@@ -150,7 +153,7 @@ main.preferences {
 }
 
 .orders-preference-card {
-	overflow: hidden;
+	// overflow: hidden;
 	.order-preference-content {
 		max-height: calc(100vh - 17.5rem);
 		overflow-y: auto;

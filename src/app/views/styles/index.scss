@@ -243,7 +243,7 @@ main.preferences {
 	.left {
 		.table {
 			.rows {
-				max-height: 36vh;
+				max-height: calc(50vh - 126px);
 				overflow-y: auto;
 			}
 		}
