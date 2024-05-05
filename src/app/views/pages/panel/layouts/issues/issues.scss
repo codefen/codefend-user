@@ -304,8 +304,7 @@ main.issues-list {
 				}
 			}
 			.rows {
-				height: 80dvh;
-				max-height: 70rem;
+				max-height: calc(100vh - 150px);
 			}
 		}
 	}
