@@ -12,7 +12,7 @@ export const useFinishForwardOrder = ()=>{
             body: {
                 model: "providers/orders/forward",
                 company_id: getCompany(),
-                provider_id: transferProvider,
+                chosen_provider_id: transferProvider,
                 order_id
             }
         }).then(({ data }: any) => {
