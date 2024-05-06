@@ -22,7 +22,7 @@ export const ProvidedTestingCredentials: FC<
 > = ({ credentials, isLoading, resourceId, type, refetch }) => {
 	const { setCrendentialType, setResourceId, setViewMore, viewMore } =
 		useCredentialStore();
-	const { setIsOpen, setModalId } = useModalStore();
+	const { setIsOpen, setModalId, modalId } = useModalStore();
 	const handleOpen = () => {
 		setIsOpen(true);
 		setResourceId(resourceId);

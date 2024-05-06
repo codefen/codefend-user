@@ -19,6 +19,7 @@ import useTimeout from '#commonHooks/useTimeout.ts';
 import EmptyScreenView from '@defaults/EmptyScreenView';
 import { ListResourceWithSearch } from '@standalones/LeftMobileCloud';
 import { MobileSelectedDetails } from './components/MobileSelectedDetails';
+import { CredentialsModal } from '@modals/credentials/CredentialsModal';
 
 const MobileApplicationPanel: React.FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -44,8 +45,7 @@ const MobileApplicationPanel: React.FC = () => {
 				isActive={showModal}
 				headerTitle="Add mobile app"
 				close={() => setShowModal(false)}
-				type="med-w"
-				>
+				type="med-w">
 				<AddMobileModal
 					onDone={refresh}
 					close={() => setShowModal(false)}

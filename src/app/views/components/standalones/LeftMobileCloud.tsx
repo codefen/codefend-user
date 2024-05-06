@@ -1,4 +1,5 @@
 import { AppCard } from '@standalones/AppCard.tsx';
+import useCredentialStore from '@stores/credential.store';
 import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
@@ -19,7 +20,7 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 	const [term, setTerm] = useState('');
 	const { appSelected, isCurrentSelected, updateSelected } =
 		useSelectMobileCloudApp((state: SelectMobileCloudApp) => state);
-
+	const { setViewMore } = useCredentialStore();
 	const selectResource = (resource: any) => {
 		if (Boolean(appSelected) && isCurrentSelected(resource.id)) return;
 
@@ -63,6 +64,7 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 							onClick={(e: React.FormEvent) => {
 								e.preventDefault();
 								selectResource(resource);
+								setViewMore({ id: '', open: false });
 							}}>
 							<AppCard
 								isActive={isCurrentSelected(resource.id)}
