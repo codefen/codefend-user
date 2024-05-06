@@ -77,7 +77,7 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 					className="log-inputs modal_info"
 					defaultValue="none"
 					required>
-					<option value="none" disabled hidden selected>
+					<option value="none" disabled hidden>
 						Access Level
 					</option>
 					<option value="user">User</option>

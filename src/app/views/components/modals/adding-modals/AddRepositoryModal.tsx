@@ -145,7 +145,7 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 						className="log-inputs modal_info"
 						value={sourceCodeForm.visibility}
 						required>
-						<option value="" disabled hidden selected>
+						<option value="" disabled hidden>
 							visibility
 						</option>
 						<option value="public">public</option>

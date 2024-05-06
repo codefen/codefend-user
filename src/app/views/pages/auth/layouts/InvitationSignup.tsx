@@ -127,7 +127,7 @@ export const InvitationSignup: FC = () => {
 					defaultValue={''}
 					className="log-inputs log-text"
 					required>
-					<option value="" disabled hidden selected>
+					<option value="" disabled hidden>
 						role
 					</option>
 					<option value="admin">administrative</option>
@@ -154,7 +154,7 @@ export const InvitationSignup: FC = () => {
 					defaultValue={''}
 					className="log-inputs log-text"
 					required>
-					<option value="" disabled hidden selected>
+					<option value="" disabled hidden>
 						Idiom
 					</option>
 					<option value="ar">Arabic</option>

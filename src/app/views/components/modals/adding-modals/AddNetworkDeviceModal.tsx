@@ -45,7 +45,7 @@ export const AddNetworkDeviceModal: FC<NetworkDeviceModalProps> = (props) => {
 						name="mainDomainId"
 						value={mainDomainId}
 						required>
-						<option value="0" disabled hidden selected>
+						<option value="0" disabled hidden>
 							main resource
 						</option>
 						{props.internalNetwork.map((resource: any) => (

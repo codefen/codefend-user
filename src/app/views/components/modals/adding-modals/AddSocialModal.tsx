@@ -112,7 +112,7 @@ export const MobileAppModal: FC<Props> = (props) => {
 						className="log-inputs modal_info"
 						value={role}
 						required>
-						<option value="" disabled hidden selected>
+						<option value="" disabled hidden>
 							role
 						</option>
 						<option value="admin">administrative</option>

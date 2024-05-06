@@ -43,7 +43,7 @@ const AddSubDomainModal: FC<SubdomainModalProps> = (props) => {
 						name="Main resource"
 						id="select-subdomain-resources"
 						required>
-						<option value="" disabled hidden selected>
+						<option value="" disabled hidden>
 							main resource
 						</option>
 						{props.webResources
