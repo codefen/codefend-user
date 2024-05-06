@@ -304,17 +304,16 @@ main.issues-list {
 				}
 			}
 			.rows {
-				height: 80dvh;
-				max-height: 70rem;
+				max-height: calc(100vh - 150px);
 			}
 		}
 	}
 
 	.right {
-		display: block;
-		width: 30%;
-		height: 65rem;
-		margin-block-end: 5rem;
+		// display: block;
+		// width: 30%;
+		// height: 65rem;
+		// margin-block-end: 5rem;
 
 		.card {
 			&.risk-chart {

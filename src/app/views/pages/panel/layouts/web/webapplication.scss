@@ -2,10 +2,11 @@ main.webapp {
 	padding-inline-end: 0px;
 
 	.left {
+		overflow-y: hidden;
 		padding-inline-start: 0;
 		.table {
 			.rows {
-				max-height: 86dvh;
+				max-height: calc(100vh - 150px);
 				.action {
 					.publish {
 						overflow: visible;

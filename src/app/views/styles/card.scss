@@ -1,7 +1,8 @@
 @use '../styles/settings/mixin' as mixin;
 
 .card {
-	overflow-x: hidden;
+	overflow: hidden;
+	flex: 0 0 auto;
 	border-width: 1px;
 	border-style: solid;
 	border-color: var(--primary-color-300);
