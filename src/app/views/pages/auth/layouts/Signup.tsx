@@ -196,7 +196,7 @@ const SignUpLayout: FC = () => {
 					name="company_size"
 					value={signupForm.companySize}
 					required>
-					<option value="" disabled hidden selected>
+					<option value="" disabled hidden>
 						Select Company Size
 					</option>
 					{companySizesList.map((company) => (
@@ -218,7 +218,7 @@ const SignUpLayout: FC = () => {
 					defaultValue={''}
 					className="log-inputs log-text"
 					required>
-					<option value="" disabled hidden selected>
+					<option value="" disabled hidden>
 						role
 					</option>
 					<option value="admin">administrative</option>
@@ -242,7 +242,7 @@ const SignUpLayout: FC = () => {
 					className="log-inputs log-text"
 					value={signupForm.companyCountry}
 					required>
-					<option value="" disabled hidden selected>
+					<option value="" disabled hidden>
 						Select your country
 					</option>
 					{Array.from(countries).map((country) => (
@@ -264,7 +264,7 @@ const SignUpLayout: FC = () => {
 						value={JSON.stringify({ id: '', name: '' })}
 						disabled
 						hidden
-						selected>
+						>
 						Reseller
 					</option>
 					{Array.from(resellers).map((reseller) => (
@@ -287,7 +287,7 @@ const SignUpLayout: FC = () => {
 					defaultValue={''}
 					className="log-inputs log-text"
 					required>
-					<option value="" disabled hidden selected>
+					<option value="" disabled hidden>
 						Idiom
 					</option>
 					<option value="ar">Arabic</option>
