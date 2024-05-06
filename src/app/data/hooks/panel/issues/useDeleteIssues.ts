@@ -18,7 +18,7 @@ export const useDeleteIssue = () => {
 		})
 			.then(({data}: any) => {
 				if (data.response !== 'success')
-					throw new Error(data.message);
+					throw new Error(data.info);
 
 				toast.success('Successfully deleted Issue...');
 			})

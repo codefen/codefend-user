@@ -13,6 +13,7 @@ export const useSignupInvitation = ()=>{
         lastname: "",
         username: "",
         role: "",
+        idiom: "",
         phone: "",
         password: ""
     })
@@ -28,7 +29,8 @@ export const useSignupInvitation = ()=>{
                 user_username: form.username,
                 user_role: form.role,
                 user_phone: form.phone,
-                user_password: form.password
+                user_password: form.password,
+                user_idiom: form.idiom
             }
         }).then(({data}:any)=>{
             if (data.error != "0") throw new Error();
@@ -41,7 +43,8 @@ export const useSignupInvitation = ()=>{
                 username: "",
                 role: "",
                 phone: "",
-                password: ""
+                password: "",
+                idiom: ""
             });
             toast.success("Now you're registered! You can log in");
         }).catch(()=>{

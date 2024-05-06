@@ -213,7 +213,7 @@ export const cleanHTML = (html: any) => {
 
 export const verifySession = (res: any, logout: any) => {
 	if (res.response === 'error') {
-		if (String(res.message).startsWith('invalid or expired')) {
+		if (String(res.info).startsWith('invalid or expired')) {
 			toast.error('Your session has expired');
 			logout();
 		}

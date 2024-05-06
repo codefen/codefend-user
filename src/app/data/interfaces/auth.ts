@@ -18,6 +18,7 @@ export interface RegisterParams {
 	company_area: string;
 	reseller_name: string;
 	reseller_id: string;
+	idiom: string;
 	phase: string;
 }
 

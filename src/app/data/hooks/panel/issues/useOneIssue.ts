@@ -26,7 +26,7 @@ export const useOneIssue = () => {
 				{
 					verifySession(data, logout);
 					if(data.response === "error" || data.error == "1"){
-						throw new Error(data.message || "");
+						throw new Error(data.info || "");
 					}
 					issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
 

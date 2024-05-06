@@ -47,7 +47,7 @@ export const useInxPreviousSearch = () => {
 
 				if (data.response !== 'success')
 					throw new Error(
-						data.message ?? 'An unexpected error has occurred',
+						data.info || 'An unexpected error has occurred',
 					);
 				dataRef.current = data.previous_searches ? data.previous_searches.map(
 					(searches: any) => mapPreviusSearch(searches) as PreviusSearch,

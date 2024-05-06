@@ -58,7 +58,7 @@ export const useUpdateIssue = () => {
 		}).then(({ data }: any) => {
 				if (data.response === 'error' || data.isAnError)
 					throw new Error(
-						data.message ?? 'An unexpected error has occurred',
+						data.info || 'An unexpected error has occurred',
 					);
 
 				toast.success('Successfully Added Issue...');

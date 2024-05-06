@@ -54,7 +54,7 @@ const useAuthStore = create<AuthState>()(
 					})
 					.then(({ data }: any) => {
 						if (data.response !== 'success')
-							throw new Error(data.message);
+							throw new Error(data.info);
 						if (!data.user)
 							throw new Error('An unexpected error has ocurred');
 
@@ -76,7 +76,7 @@ const useAuthStore = create<AuthState>()(
 						}));
 						return { user, error: false };
 					})
-					.catch((e) => ({ error: true, message: e.message }));
+					.catch((e) => ({ error: true, info: e.message }));
 			},
 			logout: () => set({ userData: EMPTY_USER, isAuth: false, accessToken: '' }),
 			register: (registerParams: any) => {
@@ -88,14 +88,14 @@ const useAuthStore = create<AuthState>()(
 						}
 					}).then(({ data }: any) => {
 						if (data.error !== "0") {
-							throw new Error(data.error);
+							throw new Error(data.info || "");
 						}
 
 						return { error: false, ...data };
 					})
 					.catch((error: Error) => ({
 						error: true,
-						message: error.message,
+						info: error.message,
 					}));
 			},
 			registerFinish: (finishParams: any) => {
@@ -108,14 +108,14 @@ const useAuthStore = create<AuthState>()(
 						},
 					})
 					.then(({ data }: any) => {
-						if (data.response !== 'success') {
-							throw new Error(data.error);
+						if (data.response !== 'success' || data.error == "1") {
+							throw new Error(data.info);
 						}
 						return { error: false, ...data };
 					})
 					.catch((error: Error) => ({
 						error: true,
-						message: error.message,
+						info: error.message,
 					}));
 			},
 			updateAuth: () => {

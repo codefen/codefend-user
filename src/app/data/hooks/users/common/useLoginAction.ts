@@ -15,7 +15,7 @@ export const useLoginAction = () => {
 		return login(params)
 			.then((data: any) => {
 				if (data?.error) {
-					throw new Error(data.message);
+					throw new Error(data.info);
 				}
 				selectCompany({
 					id: data.company_id,

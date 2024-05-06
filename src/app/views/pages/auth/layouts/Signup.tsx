@@ -23,6 +23,7 @@ interface SignupForm {
 	companyWeb: string;
 	companyCountry: string;
 	reseller: { id: string; name: string };
+	idiom: string;
 }
 
 const SignUpLayout: FC = () => {
@@ -42,6 +43,7 @@ const SignUpLayout: FC = () => {
 		companyWeb: '',
 		companyCountry: '',
 		reseller: { id: '', name: '' },
+		idiom: '',
 	});
 
 	const updateResellerArea = (e: any) => {
@@ -77,6 +79,7 @@ const SignUpLayout: FC = () => {
 			company_area: signupForm.companyCountry,
 			reseller_name: signupForm.reseller.name,
 			reseller_id: signupForm.reseller.id,
+			idiom: signupForm.idiom,
 			phase: '1',
 		};
 		signUpUser(requestParams)
@@ -257,7 +260,11 @@ const SignUpLayout: FC = () => {
 					className="log-inputs log-text"
 					value={JSON.stringify(signupForm.reseller)}
 					required>
-					<option value={JSON.stringify({ id: '', name: '' })} disabled hidden selected>
+					<option
+						value={JSON.stringify({ id: '', name: '' })}
+						disabled
+						hidden
+						selected>
 						Reseller
 					</option>
 					{Array.from(resellers).map((reseller) => (
@@ -265,6 +272,26 @@ const SignUpLayout: FC = () => {
 							{reseller.name}
 						</option>
 					))}
+				</select>
+			</div>
+
+			<div className="input-group">
+				<select
+					onChange={(e) =>
+						setSignupForm((prevData) => ({
+							...prevData,
+							idiom: e.target.value,
+						}))
+					}
+					id="social-data"
+					defaultValue={''}
+					className="log-inputs log-text"
+					required>
+					<option value="" disabled hidden selected>
+						Idiom
+					</option>
+					<option value="ar">Arabic</option>
+					<option value="en">English</option>
 				</select>
 			</div>
 

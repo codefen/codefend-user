@@ -29,7 +29,8 @@ export const useRegisterAction = ()=>{
     const signUpFinish = async (params: any): Promise<boolean> => {
 		return registerFinish(params)
 			.then((res: any) => {
-				if (res.response !== "success" || res.response === "error") throw new Error("");
+				console.log({res})
+				if (res.response === "error" || res.error == true || res.error == "1") throw new Error(res.info || "");
 
 				toast.success(
 					"Now you're registered! You can log in"
@@ -37,10 +38,14 @@ export const useRegisterAction = ()=>{
 				
 				return true;
 			})
-			.catch((error: Error) => {
-				toast.error(
-					'An unexpected error has occurred on the server'
-				);
+			.catch((e: Error) => {
+				if(e.message.startsWith("Invalid")) {
+					toast.error("Invalid email or username");
+				} else {
+					toast.error(
+						'An unexpected error has occurred on the server'
+					);
+				}
 				return false;
 			});
 	};

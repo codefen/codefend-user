@@ -116,18 +116,50 @@ export const InvitationSignup: FC = () => {
 			</div>
 
 			<div className="input-group">
-				<input
-					type="text"
+				<select
 					onChange={(e) =>
 						setForm((current: any) => ({
 							...current,
 							role: e.target.value,
 						}))
 					}
-					name="role"
-					placeholder="Role"
-					required
-				/>
+					id="social-data"
+					defaultValue={''}
+					className="log-inputs log-text"
+					required>
+					<option value="" disabled hidden selected>
+						role
+					</option>
+					<option value="admin">administrative</option>
+					<option value="human">human resources</option>
+					<option value="info">information tech</option>
+					<option value="ads">marketing</option>
+					<option value="sales">sales</option>
+					<option value="finance">finance</option>
+					<option value="cs">customer service</option>
+					<option value="prod">production & ops</option>
+					<option value="plan">strategy & planning</option>
+					<option value="law">legal affairs</option>
+				</select>
+			</div>
+			<div className="input-group">
+				<select
+					onChange={(e) =>
+						setForm((current: any) => ({
+							...current,
+							idiom: e.target.value,
+						}))
+					}
+					id="social-data"
+					defaultValue={''}
+					className="log-inputs log-text"
+					required>
+					<option value="" disabled hidden selected>
+						Idiom
+					</option>
+					<option value="ar">Arabic</option>
+					<option value="en">English</option>
+				</select>
 			</div>
 
 			<div className="input-group">
