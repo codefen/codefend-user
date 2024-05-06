@@ -2,6 +2,7 @@ import { type FC, useEffect, useRef, useState } from 'react';
 import { ModalTitleWrapper, PageLoader, PrimaryButton, Show } from '../..';
 import { useFinishForwardOrder } from '@userHooks/providers/useFinishForwardOrder';
 import './ordertransfer.scss';
+import { toast } from 'react-toastify';
 
 interface OrderProviderTransferProps {
 	providers: any[];
@@ -21,6 +22,7 @@ export const OrderProviderTransfer: FC<OrderProviderTransferProps> = ({
 	const sendTransfer = () => {
 		finishForwardOrder(orderId).then(() => {
 			close(true);
+			toast.success('The order has been transferred successfully');
 		});
 	};
 
