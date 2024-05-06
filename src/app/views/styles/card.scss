@@ -257,6 +257,28 @@
 	// }
 }
 
+@media only screen and (max-width: 1325px) {
+	.card {
+		.header {
+			.actions {
+				div {
+					font-size: 0.875rem !important;
+				}
+			}
+		}
+	}
+
+	main {
+		.app-card {
+			.actions {
+				div {
+					font-size: 0.875rem !important;
+				}
+			}
+		}
+	}
+}
+
 .app-card {
 	display: flex;
 	flex-direction: column;

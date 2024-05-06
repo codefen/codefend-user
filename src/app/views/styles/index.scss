@@ -418,33 +418,35 @@ main.cloud {
 				}
 			}
 		}
-		.actions {
-			display: flex;
-			align-items: center;
-			border-left: 1px solid var(--tertiary-color-700);
-			color: var(--secondary-color-50);
-			// margin-inline-start: 10px;
+		.app-card {
+			.actions {
+				display: flex;
+				align-items: center;
+				border-left: 1px solid var(--tertiary-color-700);
+				color: var(--secondary-color-50);
+				// margin-inline-start: 10px;
 
-			div {
-				border-right: 1px solid var(--tertiary-color-700);
-				padding: 0 11px;
-				letter-spacing: 1px;
-				font-size: 13.5px;
-				cursor: pointer !important;
-				user-select: none;
-				pointer-events: auto;
-				transition: color 150ms ease;
-
-				&:hover {
-					color: var(--secondary-color-300);
-				}
-
-				&.disable-report-action {
-					cursor: default !important;
-					opacity: 0.5;
+				div {
+					border-right: 1px solid var(--tertiary-color-700);
+					padding: 0 11px;
+					letter-spacing: 1px;
+					font-size: 13.5px;
+					cursor: pointer !important;
+					user-select: none;
+					pointer-events: auto;
+					transition: color 150ms ease;
 
 					&:hover {
-						color: inherit;
+						color: var(--secondary-color-300);
+					}
+
+					&.disable-report-action {
+						cursor: default !important;
+						opacity: 0.5;
+
+						&:hover {
+							color: inherit;
+						}
 					}
 				}
 			}
