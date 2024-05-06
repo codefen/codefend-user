@@ -33,7 +33,6 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	offensive,
 	type,
 	provider,
-	scope,
 	distributor,
 	price,
 	id,
@@ -42,8 +41,14 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	removeOrder,
 	resourcesScope,
 }) => {
-	const { updateOpen, updateScope, updateViewConfirm, updateOnConfirm } =
-		useOrderScopeStore();
+	const {
+		updateOpen,
+		updateScope,
+		updateViewConfirm,
+		updateOnConfirm,
+		updateViewTransfer,
+		updateOrderId,
+	} = useOrderScopeStore();
 	const { cancelConfirm } = useProviderRefuseOrder();
 	const { confirmOrder, isLoading } = useProviderConfirm();
 	const { setClickRefuse, setOrderId, isRefusing } = useProviderRefuseStore();
@@ -55,19 +60,20 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	};
 
 	const handleOpenScope = () => {
-		const handleConfirm = () => {
+		const handleConfirm = (notConfirm?: boolean) => {
 			removeOrder(id);
-			confirmOrder(id);
+			if (!notConfirm) {
+				confirmOrder(id);
+			}
 			updateOpen(false);
 		};
+		updateOrderId(id);
 		updateOpen(true);
+		updateViewTransfer(true);
 		updateScope(resourcesScope);
 		updateViewConfirm(true);
 		updateOnConfirm(handleConfirm);
 	};
-	const teamSize = sizeOrder.valueOf();
-	const offensiveOrder = `${offensive.valueOf()} pentest`;
-	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
 	return (
 		<>
 			<OrderCardTemplate
