@@ -10,10 +10,6 @@ import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.
 
 const ProviderPage = () => {
 	const [showScreen] = useShowScreen();
-	const { getProviderCompanyAccess } = useProviderCompanies();
-	useEffect(() => {
-		getProviderCompanyAccess();
-	}, []);
 	return (
 		<main className={`provider ${showScreen ? 'actived' : ''}`}>
 			<section className="left">

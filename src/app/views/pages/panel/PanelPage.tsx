@@ -9,6 +9,7 @@ import { WelcomeGroupTour } from '@standalones/welcome/WelcomeGroupTour.tsx';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager.tsx';
 import '/public/flags/flags.css';
+import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
 
 export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
@@ -21,15 +22,17 @@ export const PanelPage: FC = () => {
 	const location = useLocation();
 	const [showModal, setShowModal] = useState(false);
 	const matches = useMediaQuery('(min-width: 1175px)');
-	const { isAuth, logout } = useUserData();
+	const { isAuth, logout, getUserdata } = useUserData();
 	const { updateAuth } = useAuthStore((state) => state);
 	if (!isAuth) logout();
-
+	const { getProviderCompanyAccess } = useProviderCompanies();
 	useEffect(() => {
 		updateAuth();
 		const handleChange = () => setShowModal(true);
 		window.addEventListener('errorState', handleChange);
-
+		if (getUserdata().access_role === 'provider') {
+			getProviderCompanyAccess();
+		}
 		return () => {
 			window.removeEventListener('errorState', handleChange);
 			localStorage.removeItem('error');
