@@ -211,6 +211,16 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 															height={1.27}
 														/>
 													</span>
+													<span
+														title="Add credentials"
+														onClick={() => {
+															setResourceId(netChild.id);
+															setCrendentialType('lan');
+															setIsOpen(true);
+															setModalId('lan');
+														}}>
+														<CredentialIcon />
+													</span>
 													<Show when={isAdmin() || isNormalUser()}>
 														<span
 															title="Delete"
@@ -226,16 +236,6 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 															<TrashIcon />
 														</span>
 													</Show>
-													<span
-														title="Add credentials"
-														onClick={() => {
-															setResourceId(netChild.id);
-															setCrendentialType('lan');
-															setIsOpen(true);
-															setModalId('lan');
-														}}>
-														<CredentialIcon />
-													</span>
 												</div>
 											</div>
 										</a>
