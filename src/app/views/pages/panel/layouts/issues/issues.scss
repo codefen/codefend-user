@@ -278,10 +278,9 @@ main.issue-detail {
 }
 
 main.issues-list {
-	// padding-inline-end: 0;
-
 	.left {
 		overflow: hidden;
+		padding-inline-start: 0;
 
 		.card {
 			overflow-y: hidden;
