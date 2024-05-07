@@ -40,7 +40,9 @@ export interface AdminCompanyState {
 const equals = (first:any,second:any)=>equalsObj(first, second);
 
 const emptyCompany = EMPTY_COMPANY;
+const userData = localStorage.getItem('authStore') ? JSON.parse(localStorage.getItem('authStore') as string).state?.userData || {} : {};
 
+const id = JSON.parse(localStorage.getItem('authStore') || "{}").state?.userData?.company_id || ""
 const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: PersistOptions<any,string>) =>
 	devtools(persist(store, persistence)) as StateCreator<
     AdminCompanyState,
@@ -50,33 +52,11 @@ const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: Persis
     
 const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=>({
     companies: [],
-    companySelected: (()=>{
-        const storeJson = localStorage.getItem('authStore');
-        const store = storeJson ? JSON.parse(storeJson) : null;
-        const companyID = store.state.userdata ? store.state.userData?.company_id : '';
-        const companyName = store.state.userdata ? store.state.userData?.company_name : '';
-        return {
-            id: companyID,
-            name: companyName,
-            sub_class: "",
-            web: '',
-            size: '',
-            pais_code: '',
-            pais: '',
-            pais_provincia: '',
-            pais_ciudad: '',
-            owner_fname: '',
-            owner_lname: '',
-            owner_role: '',
-            owner_email: '',
-            owner_phone: '',
-            orders_size: '',
-            profile_media: '',
-            mercado: '',
-            isDisabled: false,
-            createdAt: '',
-        };
-    })(),
+    companySelected: {
+        ...emptyCompany,
+        id:   JSON.parse(localStorage.getItem('authStore') || "{}").state?.userData?.company_id || "",
+        name: JSON.parse(localStorage.getItem('authStore') || "{}").state?.userData?.company_name || "",
+    },
     searchQuery: "",
     selectCompany: (company: AdminCompany, ignore?: boolean)=> {
         const state = get();

@@ -6,6 +6,7 @@ import {
 	useAuthStore,
 	type AuthState,
 } from '../../../';
+import { EMPTY_COMPANY } from '@mocks/empty';
 
 export const useLoginAction = () => {
 	const { login } = useAuthStore((state: AuthState) => state);
@@ -18,25 +19,9 @@ export const useLoginAction = () => {
 					throw new Error(data.info);
 				}
 				selectCompany({
-					id: data.company_id,
-					name: data.company_name,
-					sub_class: "",
-					web: '',
-					size: '',
-					pais_code: '',
-					pais: '',
-					pais_provincia: '',
-					pais_ciudad: '',
-					owner_fname: '',
-					owner_lname: '',
-					owner_role: '',
-					owner_email: '',
-					owner_phone: '',
-					orders_size: '',
-					profile_media: '',
-					mercado: '',
-					isDisabled: false,
-					createdAt: '',
+					...EMPTY_COMPANY,
+					id: data.user.company_id || "",
+					name: data.user.company_name || "",
 				})
 				toast.success(`Login successful`);
 				return data.user;
