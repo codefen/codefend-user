@@ -58,7 +58,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	const dataTable = props.sourceCode.map(
 		(repository) =>
 			({
-				ID: { value: repository.id, style: 'id' },
+				ID: { value: Number(repository.id), style: 'id' },
 				name: { value: repository.name, style: 'full-name' },
 				url: { value: repository.accessLink, style: 'url' },
 				visibility: { value: repository.isPublic, style: 'boolean' },

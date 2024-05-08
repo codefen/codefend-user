@@ -68,7 +68,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 	let tableData2: Record<string, TableItem>[] = internalNetwork.map(
 		(network) => ({
 			ID: { value: '', style: '' },
-			Identifier: { value: network.id, style: 'id' },
+			Identifier: { value: Number(network.id), style: 'id' },
 			internalIp: { value: network.device_in_address, style: 'ip' },
 			externalIp: { value: network.device_ex_address, style: 'ip' },
 			description: {

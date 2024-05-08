@@ -72,7 +72,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const tableData: Record<string, TableItem>[] = getResources.map(
 		(mainNetwork: Webresources, i: number) => ({
 			ID: { value: '', style: '' },
-			Identifier: { value: mainNetwork.id, style: 'id' },
+			Identifier: { value: Number(mainNetwork.id), style: 'id' },
 			domainName: {
 				value: mainNetwork.resourceDomain,
 				style: 'domain-name',
