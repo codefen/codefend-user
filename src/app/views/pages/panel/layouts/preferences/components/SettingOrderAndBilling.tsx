@@ -31,7 +31,8 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 }) => {
 	const { updateIsOpen, updateOrderId, updateReferenceNumber } =
 		useQualitySurveyStore();
-	const { updateOpen, updateScope, updateViewConfirm } = useOrderScopeStore();
+	const { updateOpen, updateScope, updateViewConfirm, updateViewTransfer } =
+		useOrderScopeStore();
 	const startPoll = useQualitySurveyStart();
 
 	const handleOpenPoll = (id: string, referenceNumber: string) => {
@@ -44,6 +45,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 		updateOpen(true);
 		updateScope(scope);
 		updateViewConfirm(false);
+		updateViewTransfer(false);
 	};
 
 	const dataTable = orders.map(

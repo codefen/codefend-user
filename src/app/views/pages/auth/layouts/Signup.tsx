@@ -170,7 +170,7 @@ const SignUpLayout: FC = () => {
 			</div>
 			<div className="input-group">
 				<input
-					type="url"
+					type="text"
 					onChange={(e) =>
 						setSignupForm((current: any) => ({
 							...current,
@@ -179,7 +179,7 @@ const SignUpLayout: FC = () => {
 					}
 					name="company_website"
 					placeholder="https://example.com"
-					pattern="(https?://.*\..*)|(.*\..*)"
+					pattern="(https?://.*\..*)|(.*\..*)|(*.*)"
 					size={60}
 					required
 				/>
@@ -263,8 +263,7 @@ const SignUpLayout: FC = () => {
 					<option
 						value={JSON.stringify({ id: '', name: '' })}
 						disabled
-						hidden
-						>
+						hidden>
 						Reseller
 					</option>
 					{Array.from(resellers).map((reseller) => (

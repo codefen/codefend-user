@@ -87,7 +87,7 @@ const useAuthStore = create<AuthState>()(
 							...registerParams,
 						}
 					}).then(({ data }: any) => {
-						if (data.error !== "0") {
+						if (data.error == "1") {
 							throw new Error(data.info || "");
 						}
 
