@@ -18,7 +18,7 @@ const SourceCodePanel: FC = () => {
 	const { getSource, isLoading, addSourceCode, deletedResource } =
 		useSourceCode();
 	const { isAdmin, isNormalUser } = useUserRole();
-	const { updateState } = useOrderStore((state) => state);
+	const { updateState, scope } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 
 	return (
@@ -47,6 +47,8 @@ const SourceCodePanel: FC = () => {
 							text="START A PENTEST ON DEMAND"
 							className="primary-full"
 							click={() => updateState('open', open)}
+							disabledLoader
+							isDisabled={scope.totalResources <= 0}
 						/>
 					) : null}
 

@@ -53,6 +53,18 @@ button.btn {
 		width: 100%;
 	}
 
+	&:disabled {
+		opacity: 0.65;
+		cursor: default !important;
+
+		&:hover,
+		&:focus {
+			background-color: var(--secondary-color-50) !important;
+			scale: 1;
+			transform: scale(1);
+		}
+	}
+
 	@media only screen and (max-width: 768px) {
 		& {
 			font-size: 15px;
