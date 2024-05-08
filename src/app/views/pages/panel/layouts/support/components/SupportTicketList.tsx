@@ -42,14 +42,15 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 	};
 	const dataTable = props.tickets.map((ticket: Ticket) => ({
 		ID: { value: ticket.id, style: '' },
-		author: { value: '@' + ticket.user_username, style: 'username' },
+		Identifier: { value: Number(ticket.id), style: 'id' },
+		author: { value: `@${ticket.user_username}`, style: 'username' },
 		published: { value: ticket.creacion, style: 'date' },
 		title: { value: ticket.cs_header, style: 'vul-title' },
 		status: {
 			value: ticket.condicion,
 			style: `status ${ticket.condicion === 'open' && 'codefend-text-red'}`,
 		},
-		action: { value: 'actions', style: 'id' },
+		action: { value: 'actions', style: 'id action' },
 	}));
 
 	return (
@@ -117,7 +118,6 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 						],
 					}}
 					selectItem={(id: String) => props.setSelectedTicket(id)}
-					sort={Sort.asc}
 				/>
 			</div>
 		</>

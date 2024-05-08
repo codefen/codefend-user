@@ -6,19 +6,44 @@ main.support {
 		width: 65%;
 
 		.table {
-			.id {
-				display: flex;
-				justify-content: center;
+			.rows {
+				max-height: calc(100dvh - 150px);
 			}
-			.item {
-				.id {
-					padding-inline-start: 1.25rem;
+			.id {
+				min-width: 6.5%;
+				max-width: 6.5%;
+			}
+			.username {
+				min-width: 12%;
+				max-width: 12%;
+				margin-inline-end: 1%;
+			}
+			.date {
+				min-width: 12%;
+				max-width: 12%;
+			}
+
+			.vul-title {
+				min-width: 49.5%;
+				max-width: 49.5%;
+				margin-inline-end: 1%;
+			}
+			.status {
+				min-width: 9%;
+				max-width: 9%;
+			}
+
+			.id.action {
+				min-width: 9%;
+				max-width: 9%;
+				.publish {
+					justify-content: center;
 				}
 			}
 		}
 	}
 	.right {
-		padding-block-start: 55px;
+		padding-block-start: 53px;
 	}
 
 	@include mixin.respond(small) {

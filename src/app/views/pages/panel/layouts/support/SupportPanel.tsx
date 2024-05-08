@@ -39,7 +39,6 @@ const SupportPanel: FC = () => {
 					/>
 				</section>
 				<section className="right">
-					{/*<div>Queries may take between 24/48 hours to be answered.</div>*/}
 					<Show when={selectedTicket !== null}>
 						<SupportChatDisplay />
 					</Show>

@@ -350,6 +350,9 @@ export const vdbColumns = [
 ];
 
 export const supportTicket: ColumnTable[] = [
+	{name: 'Identifier',
+	value: 'ID',
+	style: 'id',},
 	{
 		name: 'author',
 		value: 'author',
