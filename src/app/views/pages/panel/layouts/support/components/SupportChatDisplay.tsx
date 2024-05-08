@@ -11,13 +11,15 @@ import Show from '@defaults/Show.tsx';
 import { MessageIcon } from '@icons';
 import { useOneTicket } from '@panelHooks/support/useOneTicket';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 export const SupportChatDisplay: FC = () => {
 	const { getOneTicket, isLoading, refetch } = useOneTicket();
+	const dad = useParams();
 	const selectedTicketID = useContext(SelectedTicket);
 
 	useEffect(() => {
-		refetch(selectedTicketID || '0');
+		refetch(dad || selectedTicketID || '');
 	}, [selectedTicketID]);
 
 	const childTicket = (): Ticket[] =>
