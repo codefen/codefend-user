@@ -15,7 +15,7 @@ import { ModalReport } from '@modals/index.ts';
 
 const LanPage: FC = () => {
 	const { networks, loading, refetch } = useLan();
-	const { updateState } = useOrderStore((state) => state);
+	const { updateState, scope } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 	const [showScreen, control] = useShowScreen();
 	const { isAdmin, isNormalUser } = useUserRole();
@@ -54,6 +54,8 @@ const LanPage: FC = () => {
 							text="START A PENTEST ON DEMAND"
 							click={() => updateState('open', true)}
 							className="primary-full"
+							disabledLoader
+							isDisabled={scope.totalResources <= 0}
 						/>
 					</section>
 				</Show>

@@ -16,7 +16,7 @@ import { ModalReport } from '@modals/index.ts';
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { members, refetch, loading } = useSocial();
-	const { updateState } = useOrderStore((state) => state);
+	const { updateState, scope } = useOrderStore((state) => state);
 	const { isAdmin, isNormalUser } = useUserRole();
 	const flashlight = useFlashlight();
 
@@ -83,6 +83,8 @@ const SocialEngineeringView = () => {
 							text="START A PENTEST ON DEMAND"
 							className="primary-full"
 							click={() => updateState('open', open)}
+							disabledLoader
+							isDisabled={scope.totalResources <= 0}
 						/>
 					</Show>
 				</section>
