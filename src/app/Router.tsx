@@ -223,8 +223,8 @@ export const AppRouter: React.FC = () => {
 						)*/}
 						{haveAccessToSupport && (
 							<>
-								<Route path="support" element={<SupportPanel />} />
-								<Route path="support/:dad" element={<SupportPanel />} />
+								<Route path="cs" element={<SupportPanel />} />
+								<Route path="cs/:dad" element={<SupportPanel />} />
 								<Route
 									path="preferences"
 									element={<PreferencePanel />}

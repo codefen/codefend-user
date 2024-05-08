@@ -201,10 +201,10 @@ const Sidebar: FC = () => {
 			haveAccess: isNotProviderAndReseller,
 		},*/
 		{
-			title: 'Support',
+			title: 'Customer Support',
 			id: 'sidebar_support',
 			icon: <MessageIcon />,
-			to: '/support',
+			to: '/cs',
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
