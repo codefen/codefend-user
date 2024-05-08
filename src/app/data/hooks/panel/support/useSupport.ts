@@ -27,6 +27,7 @@ export const useAllTicket = () => {
 				company_id: companyID,
 			},
 		}).then(({ data }) => {
+			if(data.error == "1"){return;}
 			dataRef.current = data.disponibles || [];
 		});
 	};
@@ -67,6 +68,7 @@ export const useAddTicket = () => {
 				...params,
 			},
 		}).then(({data}:any) => {
+			if(data.error == "1"){return;}
 			toast.success('Successfully Added Ticket...');
 		});
 	};

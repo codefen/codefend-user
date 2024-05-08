@@ -15,11 +15,11 @@ import { useParams } from 'react-router';
 
 export const SupportChatDisplay: FC = () => {
 	const { getOneTicket, isLoading, refetch } = useOneTicket();
-	const dad = useParams();
+	const { dad } = useParams();
 	const selectedTicketID = useContext(SelectedTicket);
 
 	useEffect(() => {
-		refetch(dad || selectedTicketID || '');
+		refetch(dad || selectedTicketID || '0');
 	}, [selectedTicketID]);
 
 	const childTicket = (): Ticket[] =>

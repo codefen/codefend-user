@@ -1,4 +1,5 @@
 import {
+	type Ticket,
 	type TicketWithChild,
 } from '@interfaces/panel.ts';
 import { toast } from 'react-toastify';
@@ -21,8 +22,12 @@ export const useOneTicket = () => {
 				id: ticketID,
 			},
 		}).then(({ data }: any) => {
-			if(data.error == "1"){return;}
-			dataRef.current = data.unico;
+			if(data.error == "1"){
+				dataRef.current = {} as TicketWithChild;
+			} else {
+				dataRef.current = data.unico;
+			}
+			
 		});
 	};
 

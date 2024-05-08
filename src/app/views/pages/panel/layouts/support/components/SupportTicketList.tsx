@@ -36,7 +36,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 		deletTicket(selectedID)?.then(() => {
 			toast.success('Successfully deleted');
 			setShowModal(!showModal);
-			props.setSelectedTicket(selectedID);
+			props.setSelectedTicket('');
 			props.refresh();
 		});
 	};
