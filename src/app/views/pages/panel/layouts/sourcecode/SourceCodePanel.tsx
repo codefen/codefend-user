@@ -40,7 +40,7 @@ const SourceCodePanel: FC = () => {
 				<section className="right" ref={flashlight.rightPaneRef}>
 					<SourceCodeChart
 						isLoading={isLoading}
-						sourceCode={getSource() ?? []}
+						sourceCode={getSource() || []}
 					/>
 					{isAdmin() || isNormalUser() ? (
 						<PrimaryButton

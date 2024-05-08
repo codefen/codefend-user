@@ -71,18 +71,18 @@ const SocialEngineeringView = () => {
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
-					<Show when={isAdmin() || isNormalUser()}>
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							className="primary-full"
-							click={() => updateState('open', open)}
-						/>
-					</Show>
 					<Show when={members && Boolean(members.length)}>
 						<SocialEngineeringMembers
 							isLoading={loading}
 							members={members || []}
 							handleDepartmentFilter={handleDepartmentFIlter}
+						/>
+					</Show>
+					<Show when={isAdmin() || isNormalUser()}>
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							className="primary-full"
+							click={() => updateState('open', open)}
 						/>
 					</Show>
 				</section>
