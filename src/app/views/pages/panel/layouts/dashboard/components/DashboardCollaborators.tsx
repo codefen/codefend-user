@@ -1,12 +1,9 @@
 import { type FC } from 'react';
 
 import { PeopleGroupIcon, SimpleSection } from '../../../../../components';
-import {
-	type CompanyMember,
-	memberColumn,
-	type TableItem,
-} from '../../../../../../data';
+import { memberColumn, type TableItem } from '../../../../../../data';
 import { TableV2 } from '../../../../../components/table/tablev2';
+import type { CompanyMember } from '@interfaces/dashboard';
 
 interface DashboardCollaboratorsProps {
 	members: CompanyMember[];
@@ -22,12 +19,12 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({
 			({
 				ID: { value: member.id, style: 'id' },
 				fullName: {
-					value: member.name + ' ' + member.lastName,
+					value: `${member.fname} ${member.lname}`,
 					style: 'full-name',
 				},
 				email: { value: member.email, style: 'email' },
 				phone: { value: member.phone, style: 'phone' },
-				role: { value: member.companyRole, style: 'role' },
+				role: { value: member.role, style: 'role' },
 			}) as Record<string, TableItem>,
 	);
 

@@ -128,3 +128,29 @@ export const EMPTY_ISSUEUPDATE = {
 	balance_now: ""
 
   }
+
+  export const EMPTY_DASHBOARD_PROPS = {
+	issues: [],
+	issues_condicion: {
+	  fixed: "",
+	  open: "",
+	  total: ""
+	},
+	issues_share: {
+	  critical: "",
+	  elevated: "",
+	  intel: "", 
+	  low: "",
+	  medium: "",
+	  total: ""
+	},
+	members: [],
+	resources: {
+	  cloud: "",
+	  lan: "",
+	  mobile: "",
+	  social: "",
+	  source: "",
+	  web: ""
+	}
+  };

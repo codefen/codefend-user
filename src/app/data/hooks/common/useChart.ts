@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import {
 	Chart as ChartJS,
@@ -19,27 +19,18 @@ interface DoughnutCharProps {
 }
 
 const useDoughnutChart = (value: DoughnutCharProps) => {
-    let metrics: any = null;
-
+	const { theme } = useTheme();
     const metricsFunctions: { [key: string]: Function } = {
         [ChartValueType.SOURCE_CODE]: MetricsService.computeSourceCodeMetrics,
         [ChartValueType.NETWORK_OS]: MetricsService.computeInternalNetworkOSAndCount
     };
-
     const selectedMetricsFunction = metricsFunctions[value.type];
-
-    if (selectedMetricsFunction) {
-        metrics = selectedMetricsFunction(value.data) || {}; 
-    } else {
-        metrics = value.data || {};
-    }
-	const { total, ...otherMetrics } = metrics;
-	const { theme } = useTheme();
-
+	const metric = selectedMetricsFunction ? selectedMetricsFunction(value.data) || {} : value.data || {};
+	const { total, ...otherMetrics } = metric;
+	
 	useEffect(() => {
 		ChartJS.register(Title, Tooltip, Legend, Colors, ArcElement);
 	}, []);
-
 	const chartData = useMemo(() => {
 		const labels = Object.keys(otherMetrics).map((key: any)=> !key ? "Unknown" : key);
 		return {

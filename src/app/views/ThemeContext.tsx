@@ -16,7 +16,7 @@ function getInitialTheme(): 'dark' | 'light' {
 
 const ThemeContext = createContext({} as Theme);
 
-export const useTheme = () => {
+export const useTheme = (): Theme => {
 	const context = useContext(ThemeContext);
 	if (!context)
 		throw new Error('useTheme must be used within a ThemeProvider');

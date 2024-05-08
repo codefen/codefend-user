@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
 
 			<section className="right" ref={flashlight.rightPaneRef}>
 				<VulnerabilitiesStatus
-					vulnerabilityByShare={companyData.issuesCondition || {}}
+					vulnerabilityByShare={companyData.issues_condicion || {}}
 				/>
 				<PrimaryButton
 					text="Go to vulnerabilities"
@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
 					disabledLoader
 				/>
 				<VulnerabilityRisk
-					vulnerabilityByRisk={companyData.issuesShare || {}}
+					vulnerabilityByRisk={companyData.issues_share || {}}
 					isLoading={isLoading}
 				/>
 			</section>

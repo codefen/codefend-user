@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { PrimaryButton } from '../../../components';
 import { type RegisterFinishParams } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
+import { Link } from 'react-router-dom';
 
 const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useRegisterAction();
@@ -110,8 +111,20 @@ const FinishSignUpLayout: FC = () => {
 
 			<div className="margin-top">
 				<span className="text-sm text-alt3">
-					I have read and accept the <u>Privacy Policy</u> and{' '}
-					<u>Terms of Use.</u>
+					I have read and accept the{' '}
+					<Link
+						className="codefend-text-red"
+						to="/help/security-and-privacy-policy"
+						target="_blank">
+						<u>Privacy Policy</u>
+					</Link>{' '}
+					and{' '}
+					<Link
+						className="codefend-text-red"
+						to="/help/terms-and-condition"
+						target="_blank">
+						<u>Terms of Use.</u>
+					</Link>
 				</span>
 			</div>
 			<div className="margin-top">
