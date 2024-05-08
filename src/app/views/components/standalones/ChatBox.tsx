@@ -51,7 +51,8 @@ export const ChatBox: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<div className="sender">
+		<div
+			className={`sender ${props.selectedID == '' ? 'sender-disable' : ''}`}>
 			<div className="header">
 				<div className="title">
 					<div className="icon">
@@ -60,8 +61,10 @@ export const ChatBox: React.FC<Props> = (props) => {
 					<span>Add new entry</span>
 				</div>
 				<PrimaryButton
-					text={<SendIcon isButton />}
-					isDisabled={!message.trim() || isAdding}
+					text={<SendIcon />}
+					isDisabled={
+						!message.trim() || isAdding || props.selectedID == ''
+					}
 					disabledLoader
 					hideContent={isAdding}
 					click={handleSubmit}
@@ -77,6 +80,7 @@ export const ChatBox: React.FC<Props> = (props) => {
 				<div className="no-border-bottom chatbox-content">
 					<textarea
 						onKeyDown={handleEnter}
+						disabled={props.selectedID == '' || isAdding}
 						ref={textAreaRef}
 						value={message}
 						onChange={(e) => setMessage(e.target.value)}

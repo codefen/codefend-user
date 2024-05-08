@@ -15,8 +15,6 @@ import {
 import { TrashIcon, MessageIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 
-import SelectedTicket from '../supportProvider';
-
 interface SupportTicketListProps {
 	setSelectedTicket: (state: any) => void;
 	isLoading: boolean;
@@ -28,18 +26,17 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 	const [selectedID, setSelectedTicketIdToDelete] = useState<string>('');
-	const selectedTicketID = useContext(SelectedTicket);
 	const { deletTicket } = useTicketDelete();
 
 	const handleDelete = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent> | undefined,
 	) => {
-		if (e) {
-			e.preventDefault();
-		}
+		if (e) e.preventDefault();
+
 		deletTicket(selectedID)?.then(() => {
 			toast.success('Successfully deleted');
 			setShowModal(!showModal);
+			props.setSelectedTicket(selectedID);
 			props.refresh();
 		});
 	};
@@ -61,8 +58,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 				headerTitle="Add ticket"
 				isActive={showModal && showModalStr === 'add_ticket'}
 				close={() => setShowModal(!showModal)}
-				type="med-w"
-				>
+				type="med-w">
 				<AddTicketModal
 					close={() => setShowModal(!showModal)}
 					onDone={() => {

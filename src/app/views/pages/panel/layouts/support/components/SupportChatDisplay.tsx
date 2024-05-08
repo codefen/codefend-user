@@ -1,10 +1,5 @@
 import { type FC, Fragment, useContext, useEffect, useMemo } from 'react';
-import {
-	ChatBoxType,
-	type Ticket,
-	generateIDArray,
-	type TicketWithChild,
-} from '../../../../../../data';
+import { ChatBoxType, type Ticket } from '../../../../../../data';
 import {
 	ChatBox,
 	MessageCard,
@@ -22,17 +17,11 @@ export const SupportChatDisplay: FC = () => {
 	const selectedTicketID = useContext(SelectedTicket);
 
 	useEffect(() => {
-		if (selectedTicketID.trim().length !== 0) {
-			refetch(selectedTicketID);
-		}
+		refetch(selectedTicketID || '0');
 	}, [selectedTicketID]);
 
 	const childTicket = (): Ticket[] =>
 		getOneTicket() ? getOneTicket()?.childs || [] : [];
-
-	const ticketKeys = useMemo(() => {
-		return childTicket() ? generateIDArray(childTicket().length) : [];
-	}, [childTicket]);
 
 	const onDone = () => {
 		const viewMessage = localStorage.getItem('viewMessage')
@@ -58,15 +47,17 @@ export const SupportChatDisplay: FC = () => {
 								className={`messages-wrapper ${
 									childTicket().length > 3 && 'item'
 								}`}>
-								<MessageCard
-									selectedID={getOneTicket()?.user_id || ''}
-									body={getOneTicket()?.cs_body || ''}
-									username={getOneTicket()?.user_username! || ''}
-									createdAt={getOneTicket()?.creacion || ''}
-								/>
+								<Show when={Boolean(getOneTicket())}>
+									<MessageCard
+										selectedID={getOneTicket()?.user_id || ''}
+										body={getOneTicket()?.cs_body || ''}
+										username={getOneTicket()?.user_username! || ''}
+										createdAt={getOneTicket()?.creacion || ''}
+									/>
+								</Show>
 
 								{childTicket().map((ticket: Ticket, i: number) => (
-									<Fragment key={ticketKeys[i]}>
+									<Fragment key={`tk-${ticket.id}-${i}`}>
 										<MessageCard
 											selectedID={ticket.user_id || ''}
 											body={ticket.cs_body || ''}

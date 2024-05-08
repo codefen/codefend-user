@@ -48,7 +48,7 @@ export const AddTicketModal: FC<AddTicketModalProps> = (props) => {
 						ref={textAreaRef!}
 						onChange={(e) => setShortDescription(e.target.value)}
 						placeholder="short description"
-						className="text-area-input log-inputs text-area "
+						className="text-area-input log-inputs2 text-area "
 						required></textarea>
 				</div>
 

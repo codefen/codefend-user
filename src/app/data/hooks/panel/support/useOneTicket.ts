@@ -21,6 +21,7 @@ export const useOneTicket = () => {
 				id: ticketID,
 			},
 		}).then(({ data }: any) => {
+			if(data.error == "1"){return;}
 			dataRef.current = data.unico;
 		});
 	};
