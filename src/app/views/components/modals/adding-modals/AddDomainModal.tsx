@@ -11,7 +11,6 @@ interface AddDomainProps {
 }
 
 const AddDomainModal: FC<AddDomainProps> = (props) => {
-	const [subdomainDetection, setSubdomainDetection] = useState<boolean>(true);
 	const { handleAddResource, isAddingDomain, setDomainName } =
 		useAddWebResourcce(props.onDone, props.close);
 	const handleSubmit = (e: React.FormEvent) => {
@@ -34,23 +33,6 @@ const AddDomainModal: FC<AddDomainProps> = (props) => {
 						onChange={(e) => setDomainName(e.target.value)}
 						required
 					/>
-				</div>
-
-				<div
-					className="form-checkbox"
-					onClick={(e: React.FormEvent) => e.stopPropagation()}>
-					<input
-						type="checkbox"
-						id="subdomain-detection-check"
-						onChange={(e) => setSubdomainDetection(!subdomainDetection)}
-						defaultChecked={subdomainDetection}
-						className="codefend-checkbox"
-					/>
-					<label
-						className="modal_info"
-						htmlFor="subdomain-detection-check">
-						Automatic subdomain detection
-					</label>
 				</div>
 
 				<ModalButtons
