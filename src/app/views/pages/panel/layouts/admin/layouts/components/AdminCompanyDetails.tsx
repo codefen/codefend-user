@@ -82,53 +82,7 @@ const AdminCompanyDetails: React.FC = () => {
 							<p>{`size: ${companySelected?.size}`}</p>
 						</div>
 					</div>
-					<Show when={isAdmin() && !isProvider()}>
-						<>
-							<div className="encabezado internal-tables company-members">
-								<div className="company-member-header internal-tables-active">
-									<p className="text-small title-format company-title">
-										Company members
-									</p>
-									<p
-										onClick={() => setShowModal(!showModal)}
-										className="text-small title-format company-text codefend-text-red">
-										Add member
-									</p>
-								</div>
-								<div className="company-columns text-format">
-									<p className="l">id</p>
-									<p className="xl">full name</p>
-									<p className="xll">role</p>
-									<p className="xll">permissions</p>
-								</div>
-							</div>
-							<Show
-								when={usersToShow.length > 0 && usersToShow[0].canRead}>
-								<>
-									{usersToShow
-										.filter((user: any) =>
-											user.read_array.includes(companySelected!.id),
-										)
-										.map((user: any) => (
-											<div
-												onClick={() => {
-													setSelectedUser(user);
-													setShowModal(!showModal);
-												}}
-												className="company-member-content text-format"
-												key={user.id}>
-												<p className="l">{user.id}</p>
-												<p className="xll">{user.name}</p>
-												<p className="xl"> - </p>
-												<p className="xl">{`Can write: ${user.write_array.includes(
-													companySelected!.id,
-												)}`}</p>
-											</div>
-										))}
-								</>
-							</Show>
-						</>
-					</Show>
+					<div className="encabezado internal-tables company-members"></div>
 				</div>
 			</Show>
 		</>
