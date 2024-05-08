@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import { GlobeWebIcon } from '@icons';
+import { GlobeWebIcon, PencilIcon } from '@icons';
 import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud.ts';
 
 interface Props {
@@ -63,16 +63,15 @@ export const AddCloudModal: FC<Props> = (props) => {
 				</div>
 
 				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
+					<span className="pencil-icon need-m">
+						<PencilIcon />
 					</span>
-
-					<input
-						type="text"
+					<textarea
 						onChange={(e) => setDescription(e.target.value)}
-						placeholder="description"
-						required
-					/>
+						name="desc"
+						placeholder="short description"
+						className="text-area-input log-inputs2 text-area "
+						maxLength={600}></textarea>
 				</div>
 
 				<ModalButtons
