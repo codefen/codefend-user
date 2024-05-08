@@ -52,7 +52,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({
 		(order: CompanyOrders) =>
 			({
 				ID: { value: '', style: 'id' },
-				Identifier: { value: order.id, style: 'id' },
+				Identifier: { value: Number(order.id), style: 'id' },
 				size: { value: order.chosen_plan, style: 'size' },
 				offensivness: { value: order.offensiveness, style: 'offensivness' },
 				type: { value: order.resources_class, style: 'type' },

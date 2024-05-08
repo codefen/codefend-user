@@ -21,7 +21,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 	const { setModalId, setIsOpen } = useModalStore();
 	const dataTable = members.map((member) => ({
 		ID: { value: '', style: '' },
-		Identifier: { value: member.id, style: 'id' },
+		Identifier: { value: Number(member.id), style: 'id' },
 		area: {
 			value: (
 				<LocationItem
