@@ -118,7 +118,7 @@ export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
 				company_id: companyID,
 				resource_address_domain: domainName,
 			},
-			timeout: 40000
+			timeout: 55000
 		})
 			.then(({ data }) => {
 				if (data.isAnError || Number(data.error) > 0) {

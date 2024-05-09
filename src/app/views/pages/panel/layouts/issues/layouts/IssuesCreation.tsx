@@ -13,11 +13,7 @@ const IssuesCreation: FC = () => {
 				<IssueCreationPanel isLoading={showScreen} />
 			</section>
 			<section className="right">
-				<IssueChatDisplay
-					isLoading={false}
-					selectedIssue={{} as IssueUpdateData}
-					refetch={() => {}}
-				/>
+				<IssueChatDisplay id="" />
 			</section>
 		</main>
 	);
