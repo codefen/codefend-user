@@ -1,9 +1,7 @@
-export interface Issue {
-	company_id: string;
+import type { AuditCompanyData, ContactData, LocationData } from "./util";
+
+export interface Issue extends AuditCompanyData{
 	condicion: string;
-	creacion: string;
-	eliminado: string;
-	id: string;
 	name: string;
 	price: string;
 	price_paid: string;
@@ -30,19 +28,7 @@ export interface Issue {
     total: string;
   }
 
-  export interface CompanyMember {
-    company_id: string;
-    creacion: string;
-    eliminado: string;
-    email: string;
-    fname: string;
-    id: string;
-    lname: string;
-    pais: string;
-    pais_ciudad: string;
-    pais_code: string;
-    pais_provincia: string;
-    phone: string;
+  export interface CompanyMember extends ContactData, AuditCompanyData, LocationData{
     profile_media: string;
     role: string;
    }

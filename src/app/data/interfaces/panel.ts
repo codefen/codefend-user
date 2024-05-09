@@ -59,19 +59,6 @@ export interface IssuesCondition {
 	open: string | number;
 }
 
-export interface CompanyMember extends ResourceID, Monitoring {
-	name: string;
-	lastName: string;
-	companyRole: string;
-	email: string;
-	phone: string;
-	profileMedia: string;
-	country: string;
-	countryCode: string;
-	countryProvince: string;
-	countryCity: string;
-}
-
 export interface Issues extends ResourceID, Monitoring {
 	resourceClass: string;
 	resourceID: string;
@@ -100,15 +87,6 @@ export interface IssueMessage extends ResourceID, Monitoring {
 	userUsername: string;
 	userCompany: string;
 	body: string;
-}
-
-export interface DashboardProps {
-	company: Company;
-	members: CompanyMember[];
-	resources: CompanyResource;
-	issues: Issues[];
-	issuesShare: IssuesShare;
-	issuesCondition: IssuesCondition;
 }
 
 export interface WebapplicationProps {

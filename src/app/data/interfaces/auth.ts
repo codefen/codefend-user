@@ -5,7 +5,6 @@ export interface LoginParams {
 	password: string;
 }
 
-//paso 1
 export interface RegisterParams {
 	lead_fname: string;
 	lead_lname?: string;
@@ -22,7 +21,6 @@ export interface RegisterParams {
 	phase: string;
 }
 
-// Tipo de retorno de la función de inicio de sesión
 export interface LoginResponse {
 	user?: User;
 	token?: string;

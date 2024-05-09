@@ -1,10 +1,11 @@
 import { type FC, Fragment, useMemo } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CircleIcon, SimpleSection } from '../../../../../components';
-import { type CompanyResource, generateIDArray } from '../../../../../../data';
+import { generateIDArray } from '../../../../../../data';
 import { StatAsset } from '@standalones/stat-asset/StatAsset';
+import type { ResourceCount } from '@interfaces/dashboard';
 
-export const DashboardAssets: FC<{ resources: CompanyResource }> = ({
+export const DashboardAssets: FC<{ resources: ResourceCount }> = ({
 	resources,
 }) => {
 	const location = useLocation();

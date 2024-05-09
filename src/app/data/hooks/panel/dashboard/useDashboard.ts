@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { mapGetCompanyToCompanyData } from '../../../utils/mapper';
-import { type DashboardProps, verifySession } from '../../..';
 import { toast } from 'react-toastify';
+import { verifySession } from '@utils/helper.ts';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useUserData } from '#commonUserHooks/useUserData';
-import { EMPTY_DASHBOARD_PROPS } from '@mocks/empty';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
+import { EMPTY_DASHBOARD_PROPS } from '@mocks/empty.ts';
 import type { DashboardPropsV2 } from '@interfaces/dashboard';
 
 export const useDashboard = () => {

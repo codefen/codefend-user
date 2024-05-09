@@ -3,7 +3,6 @@ import type {
 	AllIssues,
 	CloudApp,
 	Company,
-	DashboardProps,
 	IssueMessage,
 	Issues,
 	IssuesCondition,
@@ -107,43 +106,6 @@ export const mapIssuesCondition = (source: any): IssuesCondition => {
 		fixed: source?.issues_condicion?.fixed || '',
 		open: source?.issues_condicion?.open || '',
 	};
-};
-
-/** Map dashboard company api data => @interface DashboardProps */
-export const mapGetCompanyToCompanyData = (source: any): DashboardProps => {
-	return {
-		issues: source.issues
-			? source.issues.map((issue: any) => mapIssues(issue))
-			: [],
-		resources: {
-			web: source?.resources.web || "",
-			mobile: source?.resources.mobile || "",
-			cloud: source?.resources.cloud || "",
-			lan: source?.resources.lan || "",
-			source: source?.resources.source || "",
-			social: source?.resources.social || "",
-		},
-		issuesShare: mapIssueShare(source),
-		issuesCondition: mapIssuesCondition(source),
-		members: source.members
-			? source.members.map((member: any) => ({
-					id: member.id,
-					companyID: member.company_id,
-					name: member.fname,
-					lastName: member.lname,
-					companyRole: member.role,
-					email: member.email,
-					phone: member.phone,
-					profileMedia: member.profile_media,
-					country: member.pais,
-					countryCode: member.pais_code,
-					countryProvince: member.pais_provincia,
-					countryCity: member.pais_ciudad,
-					isDisabled: member.eliminado === '1',
-					createdAt: member.creacion,
-				}))
-			: [],
-	} as DashboardProps;
 };
 
 /** Map web resources api data => @interface Webresources */

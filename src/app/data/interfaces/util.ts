@@ -28,8 +28,8 @@ export interface CompanyData {
 export interface LocationData {
     pais: string;
     pais_code: string;
-    pais_provincia: string;
     pais_ciudad: string;
+    pais_provincia: string;
 }
 
 export interface ContactData {

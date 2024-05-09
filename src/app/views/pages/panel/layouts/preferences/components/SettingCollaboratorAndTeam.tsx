@@ -2,10 +2,7 @@ import { type FC } from 'react';
 import type { Member } from '@interfaces/panel';
 import { ExitIcon, PeopleGroupIcon } from '@icons';
 import { TableV2 } from '@table/tablev2';
-import {
-	companyMembersColumns,
-	preferenceMemberColumns,
-} from '@mocks/defaultData';
+import { preferenceMemberColumns } from '@mocks/defaultData';
 import useModalStore from '@stores/modal.store';
 import { LocationItem } from '@standalones/index';
 
