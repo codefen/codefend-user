@@ -6,7 +6,7 @@ import Show from '@defaults/Show.tsx';
 import { MessageIcon } from '@icons';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
-import { MessageList } from './MessageList';
+import { MessageList } from '../../../../../components/standalones/MessageList';
 import { useSWRMessage } from '@panelHooks/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { EMPTY_TICKET_WITHCHILD } from '@mocks/empty';
@@ -26,10 +26,6 @@ export const SupportChatDisplay: FC = () => {
 			: { view: true };
 
 		if (newMessage) {
-			/* mutate(`${getCompany()}-${selectedTicketID}-cs`, {
-				populateCache: true,
-				optimisticData: data,
-			});*/
 			mutate({ ...data, childs: [...data.childs, newMessage] });
 		}
 

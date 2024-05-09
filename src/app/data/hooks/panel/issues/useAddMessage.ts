@@ -5,11 +5,11 @@ export const useAddIssueMessage = (message: string, setMessage: (updated: string
 
 	const fetchSend = (
 		selectedID: string,
-		onDone: () => void,
+		onDone: (newCs?: any) => void,
 		textAreaValue: string,
 		companyID: string,
 	) => {
-		fetcher('post', {
+		fetcher<any>('post', {
 			body: {
 				model: 'issues/cs',
 				ac: 'add',
@@ -17,9 +17,9 @@ export const useAddIssueMessage = (message: string, setMessage: (updated: string
 				issue_cs_body: !message.trim() ? textAreaValue : message,
 				issue_id: selectedID,
 			},
-		}).then(() => {
+		}).then(({data}) => {
 			setMessage('');
-			onDone();
+			onDone(data?.issues_cs);
 		});
 	};
 

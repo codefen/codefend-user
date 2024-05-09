@@ -30,11 +30,7 @@ const IssueUpdate: FC = () => {
 						/>
 					</section>
 					<section className="right">
-						<IssueChatDisplay
-							isLoading={isLoading}
-							selectedIssue={getIssue}
-							refetch={refresh}
-						/>
+						<IssueChatDisplay id={id || '0'} />
 					</section>
 				</>
 			</Show>

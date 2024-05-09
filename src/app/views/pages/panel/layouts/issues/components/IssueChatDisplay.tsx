@@ -9,26 +9,27 @@ import {
 	Show,
 	SimpleSection,
 } from '../../../../../components';
-import type { IssueCustomerSupport, IssueUpdateData } from '@interfaces/issues';
 import { toast } from 'react-toastify';
+import { useUserData } from '#commonUserHooks/useUserData';
+import { useSWRIssueMessage } from '@panelHooks/issues/useSWRIssueMessage';
+import { MessageList } from '@standalones/MessageList';
 
-interface Props {
-	isLoading: boolean;
-	selectedIssue: IssueUpdateData;
-	refetch: () => void;
+interface IssueChatDisplayProps {
+	id: string;
 }
-export const IssueChatDisplay: FC<Props> = ({
-	isLoading,
-	selectedIssue,
-	refetch,
-}) => {
+export const IssueChatDisplay: FC<IssueChatDisplayProps> = ({ id }) => {
 	const location = useLocation();
-	const getIssueCs = selectedIssue?.cs ? selectedIssue?.cs : [];
-	const onDone = () => {
+	const { getCompany } = useUserData();
+	const { data, isLoading, mutate } = useSWRIssueMessage(id, getCompany());
+
+	const onDone = (newMessage?: any) => {
 		const viewMessage = localStorage.getItem('viewMessage')
 			? JSON.parse(localStorage.getItem('viewMessage') as string)
 			: { view: true };
-		refetch();
+
+		if (newMessage) {
+			mutate([...data, newMessage]);
+		}
 		if (viewMessage.view) {
 			toast.success(
 				'We aim to respond to your queries within 24 to 48 hours.',
@@ -46,28 +47,12 @@ export const IssueChatDisplay: FC<Props> = ({
 				<>
 					<div className="content">
 						<Show when={!isLoading} fallback={<PageLoader />}>
-							<div
-								className={`messages-wrapper ${
-									getIssueCs.length > 3 && 'item'
-								}`}>
-								{getIssueCs.map(
-									(message: IssueCustomerSupport, i: number) => (
-										<Fragment key={`mess-${message.id}-${i}`}>
-											<MessageCard
-												body={message.issue_cs_body}
-												selectedID={message.user_id}
-												createdAt={message.creacion}
-												username={message.user_username}
-											/>
-										</Fragment>
-									),
-								)}
-							</div>
+							<MessageList tickets={data} />
 						</Show>
 					</div>
 					<ChatBox
 						type={ChatBoxType.ISSUE}
-						selectedID={selectedIssue.id}
+						selectedID={id}
 						onDone={onDone}
 					/>
 				</>
