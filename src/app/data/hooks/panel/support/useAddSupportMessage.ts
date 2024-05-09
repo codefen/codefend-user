@@ -11,11 +11,11 @@ export const useAddSupportMessage = (
 ) => {
 	const fetchSend = (
 		selectedID: string,
-		onDone: () => void,
+		onDone: (newCs?:any) => void,
 		textAreaValue: string,
 		companyID: string,
 	) => {
-		fetcher('post', {
+		fetcher<any>('post', {
 			body: {
 				model: 'cs/index',
 				ac: 'add',
@@ -24,9 +24,9 @@ export const useAddSupportMessage = (
 				cs_body: !message.trim() ? textAreaValue : message,
 				dad_id: selectedID,
 			},
-		}).then(() => {
+		}).then(({ data }) => {
 			setMessage('');
-			onDone();
+			onDone(data?.cs);
 		});
 	};
 

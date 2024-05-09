@@ -13,17 +13,16 @@ const SupportPanel: FC = () => {
 	const { getTikets, isLoading, refetch } = useAllTicket();
 
 	useEffect(() => {
-		if (!isLoading && Boolean(getTikets().length)) {
-			setSelectedTicket(getTikets()[0].id);
-		}
-	}, [getTikets(), isLoading]);
-
-	useEffect(() => {
 		refetch();
+		setSelectedTicket('');
 		return () => {
 			localStorage.removeItem('viewMessage');
 		};
 	}, [control]);
+
+	if (selectedTicket == '' && !isLoading && Boolean(getTikets().length)) {
+		setSelectedTicket(getTikets()[0].id);
+	}
 
 	return (
 		<SelectedTicket.Provider value={selectedTicket}>

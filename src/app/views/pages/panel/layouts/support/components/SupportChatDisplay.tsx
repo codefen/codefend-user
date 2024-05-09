@@ -1,35 +1,38 @@
-import { type FC, Fragment, useContext, useEffect, useMemo } from 'react';
+import { type FC, useContext, useEffect, useRef } from 'react';
 import { ChatBoxType, type Ticket } from '../../../../../../data';
-import {
-	ChatBox,
-	MessageCard,
-	PageLoader,
-	SimpleSection,
-} from '../../../../../components';
+import { ChatBox, PageLoader, SimpleSection } from '../../../../../components';
 import SelectedTicket from '../supportProvider';
 import Show from '@defaults/Show.tsx';
 import { MessageIcon } from '@icons';
-import { useOneTicket } from '@panelHooks/support/useOneTicket';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
+import { MessageList } from './MessageList';
+import { useSWRMessage } from '@panelHooks/useSWRTickets';
+import { useUserData } from '#commonUserHooks/useUserData';
+import { EMPTY_TICKET_WITHCHILD } from '@mocks/empty';
 
 export const SupportChatDisplay: FC = () => {
-	const { getOneTicket, isLoading, refetch } = useOneTicket();
+	const { getCompany } = useUserData();
 	const { dad } = useParams();
 	const selectedTicketID = useContext(SelectedTicket);
+	const { data, isLoading, mutate } = useSWRMessage(
+		dad || selectedTicketID || '0',
+		getCompany(),
+	);
 
-	useEffect(() => {
-		refetch(dad || selectedTicketID || '0');
-	}, [selectedTicketID]);
-
-	const childTicket = (): Ticket[] =>
-		getOneTicket() ? getOneTicket()?.childs || [] : [];
-
-	const onDone = () => {
+	const onDone = (newMessage?: any) => {
 		const viewMessage = localStorage.getItem('viewMessage')
 			? JSON.parse(localStorage.getItem('viewMessage') as string)
 			: { view: true };
-		refetch(selectedTicketID);
+
+		if (newMessage) {
+			/* mutate(`${getCompany()}-${selectedTicketID}-cs`, {
+				populateCache: true,
+				optimisticData: data,
+			});*/
+			mutate({ ...data, childs: [...data.childs, newMessage] });
+		}
+
 		if (viewMessage.view) {
 			toast.success(
 				'We aim to respond to your queries within 24 to 48 hours.',
@@ -37,38 +40,17 @@ export const SupportChatDisplay: FC = () => {
 			localStorage.setItem('viewMessage', JSON.stringify({ view: false }));
 		}
 	};
+
+	const { childs, ...ticketDad } = data ? data : EMPTY_TICKET_WITHCHILD;
+	childs.unshift(ticketDad as Ticket);
+
 	return (
 		<>
 			<div className="card messages">
-				<SimpleSection
-					header={getOneTicket()?.cs_header || ''}
-					icon={<MessageIcon />}>
+				<SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
 					<div className="content">
 						<Show when={!isLoading} fallback={<PageLoader />}>
-							<div
-								className={`messages-wrapper ${
-									childTicket().length > 3 && 'item'
-								}`}>
-								<Show when={Boolean(getOneTicket())}>
-									<MessageCard
-										selectedID={getOneTicket()?.user_id || ''}
-										body={getOneTicket()?.cs_body || ''}
-										username={getOneTicket()?.user_username! || ''}
-										createdAt={getOneTicket()?.creacion || ''}
-									/>
-								</Show>
-
-								{childTicket().map((ticket: Ticket, i: number) => (
-									<Fragment key={`tk-${ticket.id}-${i}`}>
-										<MessageCard
-											selectedID={ticket.user_id || ''}
-											body={ticket.cs_body || ''}
-											username={ticket.user_username || ''}
-											createdAt={ticket.creacion || ''}
-										/>
-									</Fragment>
-								))}
-							</div>
+							<MessageList tickets={childs} />
 						</Show>
 					</div>
 				</SimpleSection>

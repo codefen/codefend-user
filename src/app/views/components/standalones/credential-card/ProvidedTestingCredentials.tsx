@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 
 import { TestingCredentialCard } from './TestingCredentialCard';
-import { SimpleSection } from '@defaults/SimpleSection';
 import { ChartIcon } from '@icons';
 import Show from '@defaults/Show';
 import EmptyCard from '@defaults/EmptyCard';

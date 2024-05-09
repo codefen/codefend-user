@@ -3,13 +3,13 @@ import { MessageIcon, PrimaryButton, SendIcon } from '..';
 import { useChatbox, ChatBoxType } from '../../../data';
 import { toast } from 'react-toastify';
 
-interface Props {
+interface ChatBoxProps {
 	type: ChatBoxType;
-	onDone: () => void;
+	onDone: (newMessage?: string) => void;
 	selectedID: string;
 }
 
-export const ChatBox: React.FC<Props> = (props) => {
+export const ChatBox: React.FC<ChatBoxProps> = (props) => {
 	const {
 		message,
 		setMessage,

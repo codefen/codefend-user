@@ -154,3 +154,18 @@ export const EMPTY_ISSUEUPDATE = {
 	  web: ""
 	}
   };
+
+  export const EMPTY_TICKET_WITHCHILD = {
+	id: '', 
+	company_id: '',
+	dad_id: '',
+	user_id: '',
+	user_email: '',
+	user_username: '',
+	cs_header: '',
+	cs_body: '',
+	condicion: '',
+	eliminado: '',
+	creacion: '',
+	childs: []
+  };
