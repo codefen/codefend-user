@@ -28,7 +28,7 @@ export const useSWRMessage = (ticketID: string,companyID: string) => {
         {
             keepPreviousData: true,
             revalidateOnReconnect: true,
-            refreshInterval: 6000,
+            refreshInterval: 3000,
             refreshWhenHidden: true,
             revalidateOnFocus: true,
             revalidateOnMount: true
