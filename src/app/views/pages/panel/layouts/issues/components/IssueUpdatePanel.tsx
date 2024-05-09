@@ -70,7 +70,6 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({
 	};
 	const handleBack = () => {
 		const state = location.state;
-		console.log({ state });
 
 		if (state && state?.redirect !== null) {
 			navigate(state.redirect);

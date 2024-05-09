@@ -29,7 +29,6 @@ export const useRegisterAction = ()=>{
     const signUpFinish = async (params: any): Promise<boolean> => {
 		return registerFinish(params)
 			.then((res: any) => {
-				console.log({res})
 				if (res.response === "error" || res.error == true || res.error == "1") throw new Error(res.info || "");
 
 				toast.success(
