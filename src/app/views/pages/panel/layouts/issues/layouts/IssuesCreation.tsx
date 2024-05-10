@@ -13,7 +13,7 @@ const IssuesCreation: FC = () => {
 				<IssueCreationPanel isLoading={showScreen} />
 			</section>
 			<section className="right">
-				<IssueChatDisplay id="" />
+				<IssueChatDisplay id="0" />
 			</section>
 		</main>
 	);

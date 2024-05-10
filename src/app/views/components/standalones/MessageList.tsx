@@ -20,7 +20,7 @@ export const MessageList: FC<MessageListProps> = ({ tickets }) => {
 
 	return (
 		<div className={`messages-wrapper`}>
-			<Show when={tickets[0].id !== ''}>
+			<Show when={tickets[0] && tickets[0]?.id !== ''}>
 				{tickets.map((ticket: any, i: number) => (
 					<MessageCard
 						key={`tk-${ticket.id}-${i}`}
