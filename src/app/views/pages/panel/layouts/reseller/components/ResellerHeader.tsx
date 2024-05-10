@@ -51,15 +51,15 @@ export const ResellerHeader: FC<ResellerHeaderProps> = ({
 							? formatNumber(reseller_header.final_sales_volume)
 							: '...'}{' '}
 						| total invoiced: $
-						{reseller_header?.sum_funds_reseller
-							? formatNumber(reseller_header?.sum_funds_reseller)
+						{reseller_header?.sum_funds_full
+							? formatNumber(reseller_header?.sum_funds_full)
 							: '...'}{' '}
 						{currency}
 					</div>
 					<div>
 						total profits: $
-						{reseller_header?.sum_funds_full
-							? formatNumber(reseller_header?.sum_funds_full)
+						{reseller_header?.sum_funds_reseller
+							? formatNumber(reseller_header?.sum_funds_reseller)
 							: '...'}{' '}
 						{currency} |{' '}
 						<span className="codefend-text-red">
