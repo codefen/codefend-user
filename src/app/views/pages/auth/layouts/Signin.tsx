@@ -1,10 +1,6 @@
 import { type FC, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {
-	useNetworkSettingState,
-	type NetworkSettingState,
-} from '../../../../data';
-import { NetworkIcon, PrimaryButton } from '../../../components';
+import { PrimaryButton } from '../../../components';
 import { useLoginAction } from '../../../../data/hooks/users/common/useLoginAction.ts';
 
 const SignInLayout: FC = () => {
@@ -46,17 +42,8 @@ const SignInLayout: FC = () => {
 			);
 	};
 
-	const { setNetworkSettingState } = useNetworkSettingState(
-		(state: NetworkSettingState) => state,
-	);
-
 	return (
 		<>
-			<div
-				className="network-btn"
-				onClick={() => setNetworkSettingState(true)}>
-				<NetworkIcon width={1.5} height={1.5} />
-			</div>
 			<form onSubmit={handleSubmit}>
 				<div className="input-group ">
 					<input

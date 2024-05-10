@@ -73,7 +73,7 @@ const Navbar: FC = () => {
 					/>
 				</ModalWrapper>
 			</Show>
-			{true && (
+			{isAdmin() && (
 				<NetworkSetingModal
 					close={() => setNetworkSettingState(!isOpen)}
 					isOpen={isOpen}
@@ -88,16 +88,12 @@ const Navbar: FC = () => {
 						</span>
 					</div>
 					<Breadcrumb root="Codefend" rootAction={rootAction} />
-					<div className="actions">
-						
-
-						
-					</div>
+					<div className="actions"></div>
 				</div>
 
 				<div className="right">
 					<div className="actions">
-					{true && (
+						{isAdmin() && (
 							<div
 								className="action"
 								title="Network settings"

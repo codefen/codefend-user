@@ -9,7 +9,6 @@ import {
 	defaultCountries,
 } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
-import { AxiosHttpService } from '@services/axiosHTTP.service';
 import { useFindResellerArea } from '#commonUserHooks/useFindResellerArea';
 
 interface SignupForm {
