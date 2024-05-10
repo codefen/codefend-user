@@ -3928,7 +3928,6 @@ const topCountriesOnList = [
 	'United Arab Emirates',
 	'Bahrain',
 	'Kuwait',
-	'Israel',
 	'India',
 	'United Kingdom of Great Britain and Northern Ireland',
 ];
