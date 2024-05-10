@@ -28,7 +28,6 @@
 		.company {
 			width: 100%;
 			cursor: pointer;
-			flex-grow: 1;
 			background: #ffe4e40d;
 			border: 1px solid rgb(222 222 222 / 70%);
 			box-shadow: 4px 2px 8px 0px rgb(170 170 170 / 10%);
@@ -115,6 +114,22 @@
 						}
 					}
 				}
+			}
+		}
+	}
+}
+
+body[data-theme='dark'] {
+	.CompanyIndexView {
+		.company {
+			background: var(--primary-color-100);
+			box-shadow: 4px 2px 8px 0px rgb(22 30 40 / 57%);
+			border-color: rgb(12 18 24 / 40%);
+
+			&.selected {
+				border: 1px solid rgb(213 43 43 / 67%);
+				box-shadow: 4px 2px 8px 0px rgb(177 25 25 / 21%);
+				background: #141c27;
 			}
 		}
 	}
