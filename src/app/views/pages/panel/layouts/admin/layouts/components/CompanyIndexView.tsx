@@ -4,19 +4,23 @@ import useAdminCompanyStore from '@stores/adminCompany.store.ts';
 import { type AdminCompany } from '@stores/adminCompany.store.ts';
 import './CompanyIndexView.scss';
 import { useGetCompany } from '@userHooks/admins/useGetCompany';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 const CompanyIndexView: FC = () => {
-	const { getCompany, loading } = useGetCompany();
+	const { isAdmin } = useUserRole();
+	const { getCompany } = useGetCompany();
 	const { companies, companySelected, isSelectedCompany, updateCompanies } =
 		useAdminCompanyStore((state) => state);
 
 	const { selectCompany } = useAdminCompanyStore((state) => state);
 
 	useEffect(() => {
-		getCompany().then(({ data }: any) => {
-			updateCompanies(data.companies);
-		});
-		if (!companySelected) {
+		if (isAdmin()) {
+			getCompany().then(({ data }: any) => {
+				updateCompanies(data.companies);
+			});
+		}
+		if (isAdmin() && !companySelected) {
 			selectCompany(companies[0] || undefined);
 		}
 	}, []);

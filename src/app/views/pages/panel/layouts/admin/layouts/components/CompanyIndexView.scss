@@ -34,6 +34,8 @@
 			box-shadow: 4px 2px 8px 0px rgb(170 170 170 / 10%);
 			border-radius: 0.4rem;
 
+			transition: all 150ms ease;
+
 			@include respond(medium) {
 				width: 70%;
 			}
