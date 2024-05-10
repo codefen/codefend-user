@@ -20,15 +20,19 @@
 		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 		margin-top: 1.5rem;
 		overflow: auto;
-		gap: 1rem;
+		padding: 1rem;
 		padding-bottom: 10rem;
+		column-gap: 1.25rem;
+		row-gap: 2rem;
 
 		.company {
 			width: 100%;
 			cursor: pointer;
-			border: 1px solid var(--tertiary-color-500);
 			flex-grow: 1;
-			border-radius: 4px;
+			background: #ffe4e40d;
+			border: 1px solid rgb(222 222 222 / 70%);
+			box-shadow: 4px 2px 8px 0px rgb(170 170 170 / 10%);
+			border-radius: 0.4rem;
 
 			@include respond(medium) {
 				width: 70%;
@@ -38,7 +42,9 @@
 			}
 
 			&.selected {
-				border-color: var(--secondary-color-100);
+				border: 1px solid rgba(255, 27, 27, 0.55);
+				box-shadow: 4px 3px 8px 1px rgb(255 146 146 / 10%);
+				background: #ffe4e40d;
 			}
 
 			.company-card {
