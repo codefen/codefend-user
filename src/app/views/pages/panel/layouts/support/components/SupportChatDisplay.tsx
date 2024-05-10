@@ -37,8 +37,8 @@ export const SupportChatDisplay: FC = () => {
 		}
 	};
 
-	const { childs, ...ticketDad } = data ? data : EMPTY_TICKET_WITHCHILD;
-	childs.unshift(ticketDad as Ticket);
+	const { childs, ...ticketDad } = data;
+	const alltickets = [ticketDad, ...childs];
 
 	return (
 		<>
@@ -46,7 +46,7 @@ export const SupportChatDisplay: FC = () => {
 				<SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
 					<div className="content">
 						<Show when={!isLoading} fallback={<PageLoader />}>
-							<MessageList tickets={childs} />
+							<MessageList tickets={alltickets} />
 						</Show>
 					</div>
 				</SimpleSection>
