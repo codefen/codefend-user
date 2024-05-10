@@ -75,8 +75,7 @@ const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=
     updateCompanies: (updated: AdminCompany[])=> {
         const state = get();
         set((prev: AdminCompanyState)=> ({...prev, 
-            companies: updated, 
-            companySelected: updated[0]
+            companies: updated
         }));
     }
 }),
