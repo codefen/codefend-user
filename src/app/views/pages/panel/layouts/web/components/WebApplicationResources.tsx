@@ -151,7 +151,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 						<>
 							{mainNetwork.childs.map(
 								(subNetwork: Resouce, i: number) => (
-									<a
+									<div
 										key={`child-${i}-${subNetwork.id}`}
 										className={`item item-with-out-action ${
 											props.selectedField ===
@@ -274,7 +274,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												</Show>
 											</div>
 										</div>
-									</a>
+									</div>
 								),
 							)}
 						</>
