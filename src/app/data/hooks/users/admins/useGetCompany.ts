@@ -4,21 +4,12 @@ import { toast } from "react-toastify";
 export const useGetCompany = () => {
 	const [fetcher, _, isLoading] = useFetcher();
 
-	const fetchCompanyInfo = (companyID: string) => {
+    const getCompany = () => {
 		return fetcher("post", {
 			body: {
-				model: "companies/index",
-				company_id: companyID
+				model: "companies/index"
 			}
 		});
-	}
-
-    const getCompany = (companyID: string) => {
-		if (!companyID) {
-			toast.error('User information was not found');
-			return Promise.resolve(false);
-		}
-		return fetchCompanyInfo(companyID);
 	};
 
 

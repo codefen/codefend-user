@@ -13,11 +13,9 @@ const CompanyIndexView: FC = () => {
 	const { selectCompany } = useAdminCompanyStore((state) => state);
 
 	useEffect(() => {
-		if (companies.length === 0) {
-			getCompany('1').then(({ data }: any) => {
-				updateCompanies(data.companies);
-			});
-		}
+		getCompany().then(({ data }: any) => {
+			updateCompanies(data.companies);
+		});
 		if (!companySelected) {
 			selectCompany(companies[0] || undefined);
 		}
