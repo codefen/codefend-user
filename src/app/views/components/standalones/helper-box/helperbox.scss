@@ -1,5 +1,6 @@
 .guide-container + .navbar + .sidebar {
 	z-index: 9999;
+	pointer-events: none;
 }
 .helper-box {
 	box-shadow: 4px 4px 16px #00000030;
