@@ -18,5 +18,5 @@ export const useFindResellerArea = ()=>{
         });
     }
 
-    return [resellers, findResellers] as const;
+    return [resellers, findResellers,setResellers] as const;
 }

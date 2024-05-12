@@ -7,6 +7,7 @@ import {
 	companySizesList,
 	countries,
 	defaultCountries,
+	topCountriesOnList,
 } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 import { useFindResellerArea } from '#commonUserHooks/useFindResellerArea';
@@ -28,7 +29,7 @@ interface SignupForm {
 const SignUpLayout: FC = () => {
 	const { signUpUser } = useRegisterAction();
 	const navigate = useNavigate();
-	const [resellers, findResellers] = useFindResellerArea();
+	const [resellers, findResellers, setResellers] = useFindResellerArea();
 	const [isLoading, setLoading] = useState<boolean>(false);
 
 	const [signupForm, setSignupForm] = useState<SignupForm>({
@@ -53,13 +54,26 @@ const SignUpLayout: FC = () => {
 		const country = defaultCountries.find(
 			(country) => country.name == e.target.value,
 		);
-		findResellers(country ? country.alpha2Code : '');
+		if (topCountriesOnList.includes(country?.name || '')) {
+			setResellers([]);
+			setSignupForm((current: any) => ({
+				...current,
+				reseller: { id: '77', name: 'Holool Albilad LLC' },
+			}));
+		} else {
+			setSignupForm((current: any) => ({
+				...current,
+				reseller: { id: '', name: '' },
+			}));
+			findResellers(country ? country.alpha2Code : '');
+		}
 	};
 
 	const updateReseller = (e: any) => {
+		const { value } = e.target;
 		setSignupForm((current: any) => ({
 			...current,
-			reseller: JSON.parse(e.target.value),
+			reseller: resellers.find((reseller) => reseller.id == value) || {},
 		}));
 	};
 
@@ -257,16 +271,25 @@ const SignUpLayout: FC = () => {
 					name="reseller"
 					onChange={updateReseller}
 					className="log-inputs log-text"
-					value={JSON.stringify(signupForm.reseller)}
+					defaultValue={''}
+					value={
+						topCountriesOnList.includes(signupForm?.companyCountry || '')
+							? ''
+							: signupForm.reseller.id
+					}
+					disabled={
+						topCountriesOnList.includes(signupForm?.companyCountry || '')
+							? true
+							: false
+					}
 					required>
-					<option
-						value={JSON.stringify({ id: '', name: '' })}
-						disabled
-						hidden>
-						Reseller
+					<option value={''} disabled hidden>
+						{topCountriesOnList.includes(signupForm?.companyCountry || '')
+							? 'Holool Albilad LLC'
+							: 'Reseller'}
 					</option>
-					{Array.from(resellers).map((reseller) => (
-						<option key={reseller.id} value={JSON.stringify(reseller)}>
+					{resellers.map((reseller) => (
+						<option key={reseller.id} value={reseller.id}>
 							{reseller.name}
 						</option>
 					))}

@@ -68,7 +68,7 @@ const TableRows: FC<TableRowsProps> = ({
 		<div className="rows">
 			{rows.map((row: Record<string, TableItem>, rowIndex: number) => (
 				<Fragment key={rowsID2(rowIndex, row['ID'].value as string)}>
-					<div
+					<a
 						className={`item ${!urlNav ? 'item-with-out-action' : ''} ${row['issue'] && Number(row['issue']?.value as number) <= 0 ? 'item-disabled' : ''} ${
 							selectedField ===
 							rowsID2(rowIndex, row['ID'].value as string)
@@ -110,7 +110,7 @@ const TableRows: FC<TableRowsProps> = ({
 						<Show when={isActiveAction}>
 							<ActionColumn actions={tableAction!} row={row} />
 						</Show>
-					</div>
+					</a>
 					{row['childs'] && typeof row['childs'].value === 'function'
 						? row['childs'].value({
 								urlNav,

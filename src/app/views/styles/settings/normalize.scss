@@ -49,6 +49,15 @@ html,
 	font-size: 14px;
 }
 
+body[data-theme='dark'] select option {
+	background: var(--primary-color-600);
+	color: #fff;
+	outline: none;
+}
+body[data-theme='dark'] select option:checked {
+	background: rgba(13, 21, 28, 1);
+}
+
 body {
 	overflow: hidden;
 	padding: 0;

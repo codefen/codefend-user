@@ -48,7 +48,7 @@ export const useGetScopeTables = (
 							<>
 								{res.childs
 									? res.childs.map((resChild: any, i: number) => (
-											<div
+											<a
 												key={`child-${i}-${resChild.id}`}
 												className={`item item-with-out-action ${useInIssueReport && Number(resChild.final_issues) <= 0 ? 'item-disabled' : ''} ${
 													props.selectedField ===
@@ -94,7 +94,7 @@ export const useGetScopeTables = (
 														</div>
 													</div>
 												</Show>
-											</div>
+											</a>
 										))
 									: null}
 							</>
