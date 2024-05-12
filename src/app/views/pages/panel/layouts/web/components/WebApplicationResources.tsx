@@ -92,7 +92,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				value: (
 					<>
 						<span
-							className="issue-icon"
+							className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
 							title={`${isNormalUser() ? '' : 'Add Issue'}`}
 							onClick={() =>
 								navigate(
@@ -159,11 +159,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 												? 'left-marked'
 												: ''
 										}`}
-										href={
-											props.urlNav
-												? `${props.urlNav}${subNetwork.id}`
-												: ''
-										}
+										href=""
 										onClick={(e) =>
 											props.handleClick(
 												e,
@@ -204,7 +200,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 										<div className="id action">
 											<div className="publish">
 												<span
-													className="issue-icon"
+													className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
 													title={`${isNormalUser() ? '' : 'Add Issue'}`}
 													onClick={() =>
 														navigate(

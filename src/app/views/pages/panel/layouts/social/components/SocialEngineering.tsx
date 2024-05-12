@@ -81,7 +81,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 					value: (
 						<>
 							<span
-								className="issue-icon"
+								className={`issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
 								title={`${isNormalUser() ? '' : 'Add Issue'}`}
 								onClick={() =>
 									navigate(

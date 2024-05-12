@@ -78,21 +78,24 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			action: {
 				value: (
 					<>
-						<Show when={isAdmin() || isProvider()}>
-							<span
-								className="issue-icon"
-								title={`${isNormalUser() ? '' : 'Add Issue'}`}
-								onClick={() =>
-									navigate(`/issues/create/lan/${network.id}`, {
+						<span
+							className={`issue-icon issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
+							title={`${isNormalUser() ? '' : 'Add Issue'}`}
+							onClick={() =>
+								navigate(
+									isProvider() || isAdmin()
+										? `/issues/create/lan/${network.id}`
+										: '',
+									{
 										state: { redirect: location.pathname },
-									})
-								}>
-								<BugIcon isButton />
-								<span className="codefend-text-red-200 issue-count">
-									{network.final_issues}
-								</span>
+									},
+								)
+							}>
+							<BugIcon isButton />
+							<span className="codefend-text-red-200 issue-count">
+								{network.final_issues}
 							</span>
-						</Show>
+						</span>
 						<span
 							title="View report"
 							className={`issue-printer ${Number(network.final_issues) == 0 ? 'off' : ''}`}
@@ -140,11 +143,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 													? 'left-marked'
 													: ''
 											}`}
-											href={
-												props.urlNav
-													? `${props.urlNav}${netChild.id}`
-													: ''
-											}
+											href={''}
 											onClick={(e) =>
 												props.handleClick(
 													e,
@@ -175,27 +174,27 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 											</div>
 											<div className="id action">
 												<div className="publish">
-													<Show when={isAdmin() || isProvider()}>
-														<span
-															className="issue-icon"
-															title={`${isNormalUser() ? '' : 'Add Issue'}`}
-															onClick={() =>
-																navigate(
-																	`/issues/create/lan/${netChild.id}`,
-																	{
-																		state: {
-																			redirect:
-																				location.pathname,
-																		},
+													<span
+														className={`issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
+														title={`${isNormalUser() ? '' : 'Add Issue'}`}
+														onClick={() =>
+															navigate(
+																isProvider() || isAdmin()
+																	? `/issues/create/lan/${netChild.id}`
+																	: '',
+																{
+																	state: {
+																		redirect:
+																			location.pathname,
 																	},
-																)
-															}>
-															<BugIcon isButton />
-															<span className="codefend-text-red-200 issue-count">
-																{netChild?.final_issues || 0}
-															</span>
+																},
+															)
+														}>
+														<BugIcon isButton />
+														<span className="codefend-text-red-200 issue-count">
+															{netChild?.final_issues || 0}
 														</span>
-													</Show>
+													</span>
 													<span
 														title="View report"
 														className={`issue-printer ${Number(netChild.final_issues) == 0 ? 'off' : ''}`}

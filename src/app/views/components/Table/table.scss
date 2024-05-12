@@ -412,6 +412,29 @@
 			}
 		}
 
+		.issue-icon {
+			min-width: 65px;
+
+			&.disable {
+				cursor: default;
+
+				svg,
+				path,
+				.issue-count {
+					cursor: default;
+				}
+
+				&:hover,
+				&:focus {
+					color: var(--tertiary-color-200);
+					svg,
+					svg path {
+						color: var(--tertiary-color-200);
+					}
+				}
+			}
+		}
+
 		.issue-count {
 			font-size: 14px;
 			font-weight: 700;
