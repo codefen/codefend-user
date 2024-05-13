@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { androidUriValidation, iosUriValidation } from '@/app/constants/validations';
 
 export const useAddMobileResource = () => {
 	const [fetcher,_, isLoading] = useFetcher();
@@ -11,12 +12,12 @@ export const useAddMobileResource = () => {
 	const { getCompany } = useUserData();
 
 	const isNotValidData = () => {
-		if (androidAddress.trim() !== "" && !androidAddress.startsWith("https://play.google.com")) {
+		if (androidUriValidation( androidAddress) ) {
 			toast.error('Invalid android address');
 			return true;
 		}
 
-		if (iosAddress.trim() !== "" && !iosAddress.startsWith("https://apps.apple.com")) {
+		if (iosUriValidation( iosAddress) ) {
 			toast.error('Invalid ios address');
 			return true;
 		}

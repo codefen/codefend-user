@@ -26,3 +26,6 @@ ESTAS VALIDACIONES SOLO VALIDAN SI EL TEXTO NO ESTA VACIO
 */
 export const phoneNumberValidation = (phone?:string)=> phone?.trim() !== "" && !phoneNumberRegexVal.test(phone || "");
 export const nameValidation = (name?:string)=> name && name?.trim() !== "" && name.length > 100;
+
+export const androidUriValidation = (address:string)=> address.trim() !== "" && !address.startsWith("https://play.google.com");
+export const iosUriValidation = (address:string)=> address.trim() !== "" && !address.startsWith("https://apps.apple.com");
