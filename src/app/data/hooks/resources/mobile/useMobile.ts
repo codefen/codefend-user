@@ -13,10 +13,10 @@ import { useUserData } from '#commonUserHooks/useUserData';
 export const useMobile = () => {
 	const { logout } = useUserData();
 	const { getCompany} = useUserData();
+	const [fetcher,_, isLoading] = useFetcher(true);
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
 	);
-	const [fetcher,_, isLoading] = useFetcher(true);
 
 	const mobileData = useRef<MobileApp[]>([]);
 

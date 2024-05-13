@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull, nameValidation, phoneNumberValidation, emailRegexVal } from '@/app/constants/validations';
 
 interface SocialData {
 	fName: string;
@@ -9,7 +10,6 @@ interface SocialData {
 	mail: string;
 	phone: string;
 	role: string;
-	isAddingMember: boolean;
 }
 
 export const useAddSocial = (onDone: () => void, close: () => void) => {
@@ -20,30 +20,27 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 		mail: '',
 		phone: '',
 		role: '',
-
-		isAddingMember: false,
 	});
-	const { fName, isAddingMember, lName, mail, phone, role } = socialData;
-	const [fetcher, cancelRequest, isLoading] = useFetcher();
+	const { fName, lName, mail, phone, role } = socialData;
+	const [fetcher, _, isLoading] = useFetcher();
 
 	const validations = () => {
-		if (!fName.trim() || fName.length > 40) {
+		if (nameValidation(fName)) {
 			toast.error('Invalid name');
 			return true;
 		}
 
-		if (!lName.trim() || lName.length > 40) {
+		if (nameValidation(lName)) {
 			toast.error('Invalid name');
 			return true;
 		}
 
-		let regexMail = /^[\w.-]+@([\w-]+\.)+[\w-]{2,10}$/;
-		if (!mail.trim() || mail.length === 0 || !regexMail.test(mail)) {
+		if (mail.trim() !== "" && !emailRegexVal.test(mail)) {
 			toast.error('Invalid email');
 			return true;
 		}
 
-		if (!phone || phone.length == 0 || phone.length > 20) {
+		if (phoneNumberValidation(phone)) {
 			toast.error('Invalid phone');
 			return true;
 		}
@@ -67,8 +64,9 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 				member_phone: phone,
 				member_role: role,
 			},
+			insecure: true
 		}).then(({ data }: any) => {
-			if(data.error != "0" || data.response == "error"){
+			if(apiErrorValidation(data.error, data.response)){
 				throw new Error("");
 			}
 			onDone();
@@ -78,10 +76,7 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 
 	const handleAddSocialResource = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		fetchAdd(companyID);
 	};
 

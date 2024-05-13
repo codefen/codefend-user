@@ -8,7 +8,7 @@ interface Props {
 	close: () => void;
 }
 
-export const MobileAppModal: FC<Props> = (props) => {
+export const AddSocialResourceModal: FC<Props> = (props) => {
 	const {
 		handleAddSocialResource,
 		validations,
@@ -40,8 +40,7 @@ export const MobileAppModal: FC<Props> = (props) => {
 								fName: e.target.value,
 							}))
 						}
-						placeholder="first name"
-						required
+						placeholder="name"
 					/>
 				</div>
 
@@ -59,7 +58,6 @@ export const MobileAppModal: FC<Props> = (props) => {
 							}))
 						}
 						placeholder="last name"
-						required
 					/>
 				</div>
 
@@ -77,7 +75,6 @@ export const MobileAppModal: FC<Props> = (props) => {
 							}))
 						}
 						placeholder="email address"
-						required
 					/>
 				</div>
 				<div className="form-input">
@@ -94,7 +91,6 @@ export const MobileAppModal: FC<Props> = (props) => {
 							}))
 						}
 						placeholder="phone number"
-						required
 					/>
 				</div>
 				<div className="form-input">
@@ -137,4 +133,4 @@ export const MobileAppModal: FC<Props> = (props) => {
 	);
 };
 
-export default MobileAppModal;
+export default AddSocialResourceModal;

@@ -18,7 +18,7 @@ import {
 	useModal,
 	useReportStore,
 } from '../../../../../../data';
-import AddSocialModal from '../../../../../components/modals/adding-modals/AddSocialModal';
+import AddSocialResourceModal from '../../../../../components/modals/adding-modals/AddSocialResourceModal';
 import { redirect, useNavigate } from 'react-router';
 import { type FC } from 'react';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
@@ -140,7 +140,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 				close={() => setShowModal(false)}
 				type="med-w"
 				headerTitle="Add a new member">
-				<AddSocialModal
+				<AddSocialResourceModal
 					onDone={() => {
 						setShowModal(false);
 						props.refetch();

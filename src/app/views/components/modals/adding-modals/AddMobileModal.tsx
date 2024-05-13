@@ -18,6 +18,7 @@ const AddMobileModal: FC<Props> = (props) => {
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
+
 		handleAddMobileResource(props.onDone, props.close);
 	};
 

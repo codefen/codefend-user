@@ -11,18 +11,18 @@ export const useAddMobileResource = () => {
 	const { getCompany } = useUserData();
 
 	const isNotValidData = () => {
-		if (androidAddress.length > 165) {
+		if (androidAddress.trim() !== "" && !androidAddress.startsWith("https://play.google.com")) {
 			toast.error('Invalid android address');
 			return true;
 		}
 
-		if (iosAddress.length > 165) {
+		if (iosAddress.trim() !== "" && !iosAddress.startsWith("https://apps.apple.com")) {
 			toast.error('Invalid ios address');
 			return true;
 		}
 
-		if (!iosAddress.trim() && !androidAddress.trim()) {
-			toast.error('Kindly fill in field(s)');
+		if(iosAddress.trim() === "" && androidAddress.trim() === ""){
+			toast.error('Please add at least one Android or iOS app');
 			return true;
 		}
 
@@ -38,8 +38,9 @@ export const useAddMobileResource = () => {
 			toast.error('User information was not found');
 			return;
 		}
-
-		if (isNotValidData()) return;
+		if (isNotValidData()) {
+			return;
+		}
 
 		fetcher<any>('post', {
 			body: {
@@ -63,7 +64,6 @@ export const useAddMobileResource = () => {
 			})
 			.catch((error: Error) => {
 				toast.error(error.message);
-				onClose();
 			});
 	};
 
