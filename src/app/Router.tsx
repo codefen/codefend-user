@@ -201,10 +201,7 @@ export const AppRouter: React.FC = () => {
 										path="create/:type"
 										element={<IssuesCreation />}
 									/>
-									<Route
-										path="update/:id"
-										element={<IssuesUpdate />}
-									/>
+									<Route path=":id" element={<IssuesUpdate />} />
 								</Route>
 							</>
 						)}

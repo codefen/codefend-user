@@ -41,7 +41,7 @@ export const IssuesPanelMobileAndCloud: FC<Props> = (props) => {
 				columns={cloudAndMobileColumns}
 				showRows={!props.isLoading}
 				showEmpty={!props.isLoading && formatIssues.length === 0}
-				selectItem={(id: any) => navigate(`/issues/update/${id}`)}
+				selectItem={(id: any) => navigate(`/issues/${id}`)}
 				urlNav="issues/update/"
 				sort={Sort.desc}
 			/>

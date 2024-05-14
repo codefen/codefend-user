@@ -109,9 +109,9 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}
 					tableAction={isAdmin() || isProvider() ? actionTable : undefined}
-					selectItem={(id: any) => navigate(`/issues/update/${id}`)}
+					selectItem={(id: any) => navigate(`/issues/${id}`)}
 					sort={Sort.asc}
-					urlNav={`${baseUrl}/issues/update/`}
+					urlNav={`${baseUrl}/issues/`}
 				/>
 			</div>
 		</>

@@ -34,7 +34,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 
 		callBack().then((response: any) => {
 			if (response !== undefined && response.id !== undefined) {
-				navigate(`/issues/update/${response.id}`, {
+				navigate(`/issues/${response.id}`, {
 					state: location.state,
 				});
 			}
