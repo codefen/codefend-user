@@ -4,7 +4,6 @@ import DashboardAssets from './components/DashboardAssets.tsx';
 import DashboardCollaborators from './components/DashboardCollaborators.tsx';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
-import { type IssuesShare } from '@interfaces/panel.ts';
 import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
@@ -17,11 +16,8 @@ import { useNavigate } from 'react-router';
 const Dashboard: React.FC = () => {
 	const flashlight = useFlashlight();
 	const [showScreen] = useShowScreen();
-	const { isLoading, companyData, refetch } = useDashboard();
+	const { isLoading, data } = useDashboard();
 	const navigate = useNavigate();
-	useEffect(() => {
-		refetch();
-	}, []);
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
@@ -31,18 +27,18 @@ const Dashboard: React.FC = () => {
 			<section className="left">
 				<DashboardVulnerabilities
 					isLoading={isLoading}
-					topVulnerabilities={companyData.issues || []}
+					topVulnerabilities={data?.issues || []}
 				/>
-				<DashboardAssets resources={companyData.resources || {}} />
+				<DashboardAssets resources={data?.resources || {}} />
 				<DashboardCollaborators
 					isLoading={isLoading}
-					members={companyData.members || []}
+					members={data?.members || []}
 				/>
 			</section>
 
 			<section className="right" ref={flashlight.rightPaneRef}>
 				<VulnerabilitiesStatus
-					vulnerabilityByShare={companyData.issues_condicion || {}}
+					vulnerabilityByShare={data?.issues_condicion || {}}
 				/>
 				<PrimaryButton
 					text="Go to vulnerabilities"
@@ -52,7 +48,7 @@ const Dashboard: React.FC = () => {
 					disabledLoader
 				/>
 				<VulnerabilityRisk
-					vulnerabilityByRisk={companyData.issues_share || {}}
+					vulnerabilityByRisk={data?.issues_share || {}}
 					isLoading={isLoading}
 				/>
 			</section>
