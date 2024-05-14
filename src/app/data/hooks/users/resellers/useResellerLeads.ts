@@ -4,7 +4,7 @@ import type { Lead } from '@interfaces/lead';
 import { useUserData } from '#commonUserHooks/useUserData';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
-import { verifySession } from '@utils/helper';
+import { verifySession } from '@/app/constants/validations';
 
 export const useResellerLeads = ()=>{
     const [fetcher, _, isLoading] = useFetcher();

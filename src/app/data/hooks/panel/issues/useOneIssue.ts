@@ -5,7 +5,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import type { IssueUpdateData } from '@interfaces/issues';
 import { EMPTY_ISSUEUPDATE } from '@mocks/empty';
-import { verifySession } from '@utils/helper';
+import { verifySession } from '@/app/constants/validations';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/

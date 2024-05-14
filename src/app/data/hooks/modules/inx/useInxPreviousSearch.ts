@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 import {
 	type PreviusSearch,
 	mapPreviusSearch,
-	verifySession,
 } from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { verifySession } from '@/app/constants/validations';
 
 export interface PreviousSearch {
 	id: string;

@@ -2,7 +2,7 @@ import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
 import { apiErrorValidation } from "@/app/constants/validations";
 import type { Provider } from "@interfaces/provider";
-import { verifySession } from "@utils/helper";
+import { verifySession } from '@/app/constants/validations';
 import { useRef } from "react";
 
 export const useProviderOrderScope = ()=>{

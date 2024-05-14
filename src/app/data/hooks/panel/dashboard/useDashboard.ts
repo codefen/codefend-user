@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { verifySession } from '@utils/helper.ts';
+import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { EMPTY_DASHBOARD_PROPS } from '@mocks/empty.ts';

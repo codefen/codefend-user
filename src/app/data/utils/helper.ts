@@ -211,15 +211,6 @@ export const cleanHTML = (html: any) => {
 	return DOMPurify.sanitize(html, { SAFE_FOR_TEMPLATES: true });
 };
 
-export const verifySession = (res: any, logout: any) => {
-	if (res.response === 'error' && String(res.info).startsWith('invalid or expired')) {
-			toast.error('Your session has expired');
-			logout();
-			return true;
-	}
-	return false;
-};
-
 export const removePrintAttributesFromBody = () => {
 	document.body.removeAttribute('print-report');
 	document.title = 'Codefend';

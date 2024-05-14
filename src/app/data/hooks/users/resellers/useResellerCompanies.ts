@@ -2,7 +2,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
-import { verifySession } from '@utils/helper';
+import { verifySession } from '@/app/constants/validations';
 
 export const useResellerCompanies = ()=>{
     const [fetcher, _, isLoading] = useFetcher();

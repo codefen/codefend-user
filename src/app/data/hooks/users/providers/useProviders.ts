@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import {  verifySession } from '../../../index.ts';
+import { verifySession } from '@/app/constants/validations';
 import { useProviderProfileStore } from '../../../store/provider.store.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations.ts';

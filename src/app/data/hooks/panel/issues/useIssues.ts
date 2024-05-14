@@ -1,8 +1,5 @@
 import { useCallback, useRef } from 'react';
 import {
-	type AllIssues,
-	mapAllIssues,
-	verifySession,
 	type IssuesUtils,
 	type Issues,
 	mapIssues,
@@ -10,6 +7,7 @@ import {
 	mapIssueShare,
 } from '../../../';
 import { toast } from 'react-toastify';
+import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 

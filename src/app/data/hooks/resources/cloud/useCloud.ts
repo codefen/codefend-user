@@ -4,9 +4,9 @@ import {
 	type CloudApp,
 	ResourcesTypes,
 	mapCloudApp,
-	useOrderStore,
-	verifySession,
+	useOrderStore
 } from '../../..';
+import { verifySession } from '@/app/constants/validations';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 

@@ -2,7 +2,7 @@ import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
 import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
 import useAdminCompanyStore from "@stores/adminCompany.store";
-import { verifySession } from "@utils/helper";
+import { verifySession } from '@/app/constants/validations';
 
 export const useProviderCompanies = ()=>{
     const { getUserdata,logout } = useUserData();

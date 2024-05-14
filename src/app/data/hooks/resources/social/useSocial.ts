@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { toast } from 'react-toastify';
-import {type MemberV2, verifySession, useOrderStore, ResourcesTypes } from '../../..';
+import {type MemberV2, useOrderStore, ResourcesTypes } from '../../..';
+import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 

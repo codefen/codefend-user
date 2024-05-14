@@ -14,6 +14,15 @@ export const companyIdIsNotNull = (companyID?:any)=>{
     return false;
 }
 
+export const verifySession = (res: any, logout: any) => {
+	if (res.response === 'error' && String(res.info).startsWith('invalid or expired')) {
+			toast.error('Your session has expired');
+			logout();
+			return true;
+	}
+	return false;
+};
+
 /* 
  PATTERN REGEXS
 */

@@ -3,10 +3,10 @@ import {
 	type WebapplicationProps,
 	mapToWebresourceProps,
 	useOrderStore,
-	verifySession,
 	type Company,
 	ResourcesTypes,
 } from '../../..';
+import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';

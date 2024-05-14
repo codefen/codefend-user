@@ -4,9 +4,8 @@ import {
 	ResourcesTypes,
 	mapMobileProps,
 	useOrderStore,
-	verifySession,
 } from '../../..';
-import { toast } from 'react-toastify';
+import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
