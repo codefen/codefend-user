@@ -34,7 +34,7 @@ const fetcher = ([model, {company, logout}]:any) =>{
 export const useDashboard = () => {
 	const { getCompany, logout } = useUserData();
 	const swrKeYRef = useRef<any>(["companies/dashboard", {company: getCompany(), logout}]);
-	const { data, mutate, isLoading } = useSWR(
+	const { data, isLoading } = useSWR(
 		swrKeYRef.current,
 		(key:any)=> fetcher(key),
 		{

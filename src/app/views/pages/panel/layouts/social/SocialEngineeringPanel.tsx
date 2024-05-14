@@ -15,7 +15,7 @@ import { ModalReport } from '@modals/index.ts';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
-	const { members, refetch, loading } = useSocial();
+	const { members, refetch, isLoading } = useSocial();
 	const { updateState, scope } = useOrderStore((state) => state);
 	const { isAdmin, isNormalUser } = useUserRole();
 	const flashlight = useFlashlight();
@@ -50,7 +50,7 @@ const SocialEngineeringView = () => {
 
 		if (!isFiltered || !members) return members || [];
 
-		return members.filter((member) =>
+		return members.filter((member: any) =>
 			socialFilters.department.has(member.member_role),
 		);
 	}, [members, socialFilters.department]);
@@ -66,14 +66,14 @@ const SocialEngineeringView = () => {
 				<section className="left">
 					<SocialEngineering
 						refetch={refresh}
-						isLoading={loading}
+						isLoading={isLoading}
 						socials={filteredData}
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
 					<Show when={members && Boolean(members.length)}>
 						<SocialEngineeringMembers
-							isLoading={loading}
+							isLoading={isLoading}
 							members={members || []}
 							handleDepartmentFilter={handleDepartmentFIlter}
 						/>
