@@ -1,5 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { apiErrorValidation } from "@/app/constants/validations";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -27,7 +28,7 @@ export const useAddResourceCredentials = ()=>{
                 info: grades
             }
         }).then(({data}:any)=>{
-            if(data.error != "0" || data.response == "error")
+            if (apiErrorValidation(data?.error, data?.response))
 				throw new Error("");
 
             return true;

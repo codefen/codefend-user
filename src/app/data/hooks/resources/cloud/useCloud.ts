@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import {
 	type CloudApp,
@@ -9,6 +8,7 @@ import {
 	verifySession,
 } from '../../..';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useCloud = () => {
 	const { logout } = useUserData();
@@ -28,7 +28,10 @@ export const useCloud = () => {
 				company_id: companyID,
 			},
 		}).then(({ data }: any) => {
-				verifySession(data, logout);
+				if(verifySession(data, logout)) return;
+				if (apiErrorValidation(data?.error, data?.response)) {
+					throw new Error('An error has occurred on the server');
+				}
 
 				const cloudResources = data?.disponibles ? data.disponibles.map((app: any) =>
 					mapCloudApp(app),
@@ -42,10 +45,7 @@ export const useCloud = () => {
 	/* Refetch Function. */
 	const refetch = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		fetchAll(companyID);
 	};
 

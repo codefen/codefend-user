@@ -1,6 +1,6 @@
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { toast } from 'react-toastify';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 
 export const useGetResources = () => {
@@ -10,10 +10,7 @@ export const useGetResources = () => {
 	// - - -  refetch data  - - -
 	const getAnyResource = (path?: string) => {
 		const companyID = getCompany();
-        if (!companyID) {
-			toast.error('User information was not found');
-			return Promise.resolve([]);
-		}
+		if (companyIdIsNotNull(companyID)) return Promise.reject([]);
 		return fetcher<any>('post', {
 			body: {
 				company_id: companyID,
@@ -22,11 +19,14 @@ export const useGetResources = () => {
 				childs: "yes"
 			},
 		}).then(({ data }) => {
+			if (apiErrorValidation(data?.error, data?.response))
+				throw new Error('');
+			
 			let resources = [];
 			if (data.resources) resources = data.resources;
 			if (!Boolean(resources.length) && data.disponibles) resources = data.disponibles;
 			return resources;
-		});
+		}).catch(()=> []);
 	};
 
 	return { isLoading, getAnyResource };

@@ -4,25 +4,29 @@ import { useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import type { ResellerUser } from '@interfaces/user';
 import useAdminCompanyStore from '@stores/adminCompany.store';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { verifySession } from '@utils/helper';
 
 export const useResellerUsers = ()=>{
     const [fetcher, _, isLoading] = useFetcher();
-    const { getCompany } = useUserData();
+    const { getCompany,logout } = useUserData();
     const {selectCompany} =  useAdminCompanyStore(state=> state);
     const users = useRef<ResellerUser[]>([]);
 
     const getResellerUsers =  ()=>{
         const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
+
         fetcher("post", {
             body: {
                 model: "resellers/dashboard/users",
                 company_id: getCompany(),
             }
         }).then(({data}: any)=>{
+            if(verifySession(data, logout)) return;
+            if (apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('An error has occurred on the server');
+			}
             users.current = data.users;
             selectCompany({
                 id: data.company.id,

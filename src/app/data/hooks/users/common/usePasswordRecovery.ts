@@ -1,4 +1,5 @@
 import { useFetcher } from "#commonHooks/useFetcher";
+import { apiErrorValidation } from "@/app/constants/validations";
 
 export const usePasswordRecovery = ()=>{
     const [fetcher,_, isLoading] = useFetcher(true);
@@ -22,6 +23,9 @@ export const usePasswordRecovery = ()=>{
                 new_password: newPassowrd
             }
         }).then(({data}:any)=>{
+            if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('An error has occurred on the server');
+			}
             return data;
         })
     }

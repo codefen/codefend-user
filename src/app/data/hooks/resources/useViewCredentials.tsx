@@ -1,5 +1,6 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation } from '@/app/constants/validations';
 import type { ResourceCredential } from '@interfaces/creds';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -18,7 +19,8 @@ export const useViewCredentials = () => {
 				resource_id: id,
 			},
 		}).then(({ data }: any) => {
-			if (data.error != '0' || data.response == 'error') throw new Error('');
+			if (apiErrorValidation(data?.error, data?.response))
+				throw new Error('');
 
 			setCredentials(data.disponibles ? data.disponibles : []);
 		});

@@ -21,7 +21,7 @@ export const useSocial = () => {
 				company_id: companyID,
 			}
 		}).then(({ data }: any) => {
-				verifySession(data, logout);
+			if(verifySession(data, logout)) return;
 
 				const socialResources = data?.disponibles || [];
 				dataRef.current = socialResources;

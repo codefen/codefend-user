@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export interface SaveIssue {
 	issueName: string;
@@ -83,7 +84,7 @@ export const useSaveIssue = () => {
 			},
 		})
 			.then(({ data }: any) => {
-				if (data.isAnError || data.response === 'error') {
+				if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
 					throw new Error(
 						'An unexpected error has occurred on the server',
 					);
@@ -106,10 +107,7 @@ export const useSaveIssue = () => {
 
 	const save = async () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		return fetchSave(companyID);
 	};
 

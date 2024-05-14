@@ -20,7 +20,7 @@ export const OrderRejectionForm = () => {
 
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
-		refuseOrder(selectedReason, reason, orderId).finally(() => {
+		refuseOrder(selectedReason, reason, orderId).then(() => {
 			setRefuseState(2);
 			setIsRefusing(false);
 			allClose();

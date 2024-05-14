@@ -1,5 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
 import type { Provider } from "@interfaces/provider";
 import { useRef } from "react";
 import { toast } from "react-toastify";
@@ -11,11 +12,7 @@ export const useProviderIndex = ()=>{
 
     const getProviders = ()=>{
         const companyID = getCompany();
-
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 
         fetcher<any>('post', {
 			body: {
@@ -23,7 +20,9 @@ export const useProviderIndex = ()=>{
 				model: 'providers/profiles/index',
 			}
 		}).then(({ data }: any)=>{
-            if(data.error != "0" || data.response == "error") throw new Error();
+            if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('An error has occurred on the server');
+			}
             providers.current = data?.providers ? data.providers : [];
         })
     }

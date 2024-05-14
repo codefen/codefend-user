@@ -24,8 +24,9 @@ export const PanelPage: FC = () => {
 	const matches = useMediaQuery('(min-width: 1175px)');
 	const { isAuth, logout, getUserdata } = useUserData();
 	const { updateAuth } = useAuthStore((state) => state);
-	if (!isAuth) logout();
 	const { getProviderCompanyAccess } = useProviderCompanies();
+	if (!isAuth) logout();
+
 	useEffect(() => {
 		updateAuth();
 		const handleChange = () => setShowModal(true);

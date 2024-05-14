@@ -1,8 +1,7 @@
-import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useState } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import useResellerHeaderStore from '@stores/resellerHeader.store';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useResellerDashboardHeader = ()=>{
     const [fetcher, _, isLoading] = useFetcher();
@@ -11,18 +10,18 @@ export const useResellerDashboardHeader = ()=>{
 
     const getResellerHeader =  ()=>{
         const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
         fetcher("post", {
             body: {
                 model: "resellers/dashboard/header",
                 company_id: getCompany(),
             }
         }).then(({data}: any)=>{
+            if (apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('An error has occurred on the server');
+			}
             setResellerHeader(data.reseller_header);
-            setCompany(data.company)
+            setCompany(data.company);
         });
     }
 

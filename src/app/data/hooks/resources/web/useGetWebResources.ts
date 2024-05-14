@@ -31,7 +31,7 @@ export const useGetWebResources = () => {
 				resource_address_domain: 'clarin.com',
 			},
 		}).then(({ data }) => {
-			verifySession(data, logout);
+			if(verifySession(data, logout)) return;
 			if (apiErrorValidation(data?.error, data?.response)) {
 				throw new Error('An error has occurred on the server');
 			}

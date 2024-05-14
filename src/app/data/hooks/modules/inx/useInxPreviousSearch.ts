@@ -43,7 +43,7 @@ export const useInxPreviousSearch = () => {
 		})
 			.then(({ data }: any) => {
 				data = JSON.parse(String(data).trim());
-				verifySession(data, logout);
+				if(verifySession(data, logout)) return;
 
 				if (data.response !== 'success')
 					throw new Error(

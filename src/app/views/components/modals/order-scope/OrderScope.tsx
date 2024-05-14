@@ -9,6 +9,18 @@ import useOrderScopeStore from '@stores/orderScope.store';
 import { OrderProviderTransfer } from '../ordertransfer/OrderProviderTransfer';
 import { useForwardOrder } from '@userHooks/providers/useForwardOrder';
 
+const defineActiveAlias = (scopeV: any) => {
+	if (scopeV && typeof scopeV === 'object') {
+		if ('web' in scopeV) return 'w';
+		if ('mobile' in scopeV) return 'm';
+		if ('cloud' in scopeV) return 'c';
+		if ('social' in scopeV) return 's';
+		if ('source' in scopeV) return 'sc';
+		if ('lan' in scopeV) return 'n';
+	}
+	return 'u';
+};
+
 export const ProviderScope: FC = () => {
 	const {
 		open,
@@ -20,17 +32,6 @@ export const ProviderScope: FC = () => {
 		updateOpen,
 	} = useOrderScopeStore();
 	const [forwardOrder, isLoading] = useForwardOrder();
-	const defineActiveAlias = (scopeV: any) => {
-		if (scopeV && typeof scopeV === 'object') {
-			if ('web' in scopeV) return 'w';
-			if ('mobile' in scopeV) return 'm';
-			if ('cloud' in scopeV) return 'c';
-			if ('social' in scopeV) return 's';
-			if ('source' in scopeV) return 'sc';
-			if ('lan' in scopeV) return 'n';
-		}
-		return 'u';
-	};
 	const [resourceActive, setResourceActive] = useState<
 		'w' | 'm' | 'c' | 's' | 'sc' | 'n' | 'u'
 	>(defineActiveAlias(scope));

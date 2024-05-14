@@ -10,7 +10,7 @@ export interface OrderCloudScopeProps {
 	activeFilter: boolean;
 	modalId: string;
 }
-const getPath = (alias: string) => {
+const getPath = (alias: string): string => {
 	if (alias == 'w') return 'web/index';
 	if (alias == 'm') return 'mobile';
 	if (alias == 'c') return 'cloud';

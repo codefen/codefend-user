@@ -1,5 +1,6 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 import type { FullOrder } from '@interfaces/order';
 import { useRef } from 'react';
 import { toast } from 'react-toastify';
@@ -11,10 +12,7 @@ export const useProviderOrderFinished = () => {
 
 	const getFinishedOrders = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		return fetcher('post', {
 			body: {
 				model: 'providers/orders/index/finished',
@@ -22,7 +20,9 @@ export const useProviderOrderFinished = () => {
 			},
 		})
 			.then(({ data }: any) => {
-				if (data.error != '0') throw new Error();
+				if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+					throw new Error('An error has occurred on the server');
+				}
 				finishedOrders.current = data.orders ? data.orders : [];
 			})
 			.catch((err: any) => {

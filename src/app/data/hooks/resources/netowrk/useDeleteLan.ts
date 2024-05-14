@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useDeleteLan = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useUserData();
@@ -20,7 +21,7 @@ export const useDeleteLan = (onDone: () => void, close: () => void) => {
 				company_id: companyID
 			},
 		}).then(({ data }: any) => {
-			if(data.error !== "0") throw new Error();
+			if (apiErrorValidation(data?.error, data?.response))  throw new Error();
             close();
             onDone();
             toast.success('Successfully Deleted lan...');
@@ -30,10 +31,7 @@ export const useDeleteLan = (onDone: () => void, close: () => void) => {
 	/* Refetch Function. */
 	const refetch = (id: string) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 	
 		fetchDelete(companyID, id);
 	};

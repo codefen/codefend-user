@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation } from '@/app/constants/validations';
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const useAddCollaborator = () => {
@@ -16,7 +17,9 @@ export const useAddCollaborator = () => {
                 invoke_user_email: email
 			}
 		}).then(({ data }: any) => {
-            if(data.error != "0" || data.response == "error") throw new Error("");
+			if (apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('');
+			}
 
             toast.success("The invitation has been sent the invitation to the email");
 		}).catch(()=>{

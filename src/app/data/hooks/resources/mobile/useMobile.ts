@@ -9,6 +9,7 @@ import {
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useMobile = () => {
 	const { logout } = useUserData();
@@ -22,10 +23,8 @@ export const useMobile = () => {
 
 	const refetch = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
+		
 		fetcher<any>('post', {
 			body: {
 				model: 'resources/mobile',
@@ -34,7 +33,10 @@ export const useMobile = () => {
 			},
 		})
 			.then(({ data }: any) => {
-				verifySession(data, logout);
+				if(verifySession(data, logout)) return;
+				if (apiErrorValidation(data?.error, data?.response)){
+					throw new Error("");
+				}
 				const resourcces = mapMobileProps(data);
 				mobileData.current = resourcces.available;
 				setScopeTotalResources(resourcces.available.length);

@@ -6,6 +6,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import type { IssueUpdateData } from '@interfaces/issues';
 import { EMPTY_ISSUEUPDATE } from '@mocks/empty';
 import { verifySession } from '@utils/helper';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
@@ -24,8 +25,8 @@ export const useOneIssue = () => {
 			}
 		}).then(({data}: any) =>
 				{
-					verifySession(data, logout);
-					if(data.response === "error" || data.error == "1"){
+					if(verifySession(data, logout)) return;
+					if(apiErrorValidation(data?.error, data?.response)){
 						throw new Error(data.info || "");
 					}
 					issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
@@ -46,10 +47,7 @@ export const useOneIssue = () => {
 
 	const refetchOne = (selectedID: string) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		fetchOne(companyID, selectedID);
 	};
 

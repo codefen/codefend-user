@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 
 export const useAddLanV2 = (onDone: () => void, close: () => void) => {
@@ -32,7 +33,7 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 			},
 		})
 			.then(({ data }: any) => {
-				if (data.error == 1 || data.response === "error") {
+				if (apiErrorValidation(data?.error, data?.response)) {
 					let message = data.info.includes('device_in_address')
 						? 'Device internal address is invalid'
 						: data.info.includes('device_ex_address')
@@ -51,10 +52,7 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	/* Refetch Function. */
 	const refetch = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		const requestBody = {
 			device_desc: desc,
 			device_in_address: internalIpAddress,

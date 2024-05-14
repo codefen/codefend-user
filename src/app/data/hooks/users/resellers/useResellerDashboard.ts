@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useState } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useResellerDashboard = ()=>{
     const [fetcher, _, isLoading] = useFetcher();
@@ -10,10 +11,7 @@ export const useResellerDashboard = ()=>{
 
     const getResellerProfile =  ()=>{
         const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
         fetcher("post", {
             body: {
                 model: "resellers/dashboard",

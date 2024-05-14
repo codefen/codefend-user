@@ -4,6 +4,7 @@ import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { IssuesStatus } from '@interfaces/issues';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export interface UpdateIssue {
 	id: string;
@@ -56,7 +57,7 @@ export const useUpdateIssue = () => {
 				condicion: updatedIssue.status
 			},
 		}).then(({ data }: any) => {
-				if (data.response === 'error' || data.isAnError)
+				if (data.isAnError || apiErrorValidation(data?.error, data?.response))
 					throw new Error(
 						data.info || 'An unexpected error has occurred',
 					);
@@ -64,18 +65,14 @@ export const useUpdateIssue = () => {
 				toast.success('Successfully Added Issue...');
 				return { updatedIssue };
 			})
-			.catch((error: Error) => {
+			.catch((e: Error) => {
 				toast.error('An unexpected error has occurred on the server');
 			});
 	};
 
 	const update = async () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
-
+		if (companyIdIsNotNull(companyID)) return;
 		return fetchSave(companyID);
 	};
 

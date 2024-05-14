@@ -1,4 +1,5 @@
 import { useFetcher } from "#commonHooks/useFetcher";
+import { apiErrorValidation } from "@/app/constants/validations";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -33,7 +34,9 @@ export const useSignupInvitation = ()=>{
                 user_idiom: form.idiom
             }
         }).then(({data}:any)=>{
-            if (data.error != "0") throw new Error();
+            if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('An error has occurred on the server');
+			}
             navigate("/auth/signin");
             setForm({
                 invokeEmail: '',

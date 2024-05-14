@@ -20,9 +20,11 @@ export const OrderProviderTransfer: FC<OrderProviderTransferProps> = ({
 	const [transferProvider, isLoading, { finishForwardOrder, setTransfer }] =
 		useFinishForwardOrder();
 	const sendTransfer = () => {
-		finishForwardOrder(orderId).then(() => {
+		finishForwardOrder(orderId).then((data) => {
 			close(true);
-			toast.success('The order has been transferred successfully');
+			if (data) {
+				toast.success('The order has been transferred successfully');
+			}
 		});
 	};
 

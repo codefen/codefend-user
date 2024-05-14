@@ -28,7 +28,7 @@ export const useLan = () => {
 			},
 		})
 			.then(({data}: any) => {
-				verifySession(data, logout);
+				if(verifySession(data, logout)) return;
 				
 				dataRef.current = data.disponibles ? data.disponibles : [];
 

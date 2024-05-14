@@ -1,5 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
 
 import { toast } from "react-toastify";
 
@@ -8,15 +9,19 @@ export const useProviderConfirm =()=>{
     const [fetcher,_, isLoading] = useFetcher();
 
     const confirmOrder = (orderId: string)=>{
+      const companyID = getCompany();
+		if (companyIdIsNotNull(companyID)) return;
          fetcher("post", {
             body: {
                 model: "providers/orders/confirm",
-                company_id: getCompany(),
+                company_id: companyID,
                 order_id: orderId
             },
             requestId: "confirmOrder"
          }).then(({data}:any)=>{
-            if(data.error != "0" || data.response == "error") throw new Error();
+            if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+               throw new Error('An error has occurred on the server');
+            }
             toast.success("You have accepted the order correctly");
          }).catch((err:any)=>{
             toast.error("The order could not be accepted correctly");

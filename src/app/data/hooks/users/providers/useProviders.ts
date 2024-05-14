@@ -3,6 +3,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import {  verifySession } from '../../../index.ts';
 import { useProviderProfileStore } from '../../../store/provider.store.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations.ts';
 
 
 export const useProviderProfile = () => {
@@ -11,16 +12,20 @@ export const useProviderProfile = () => {
     const {provider, setProvider, setLogicSequence} = useProviderProfileStore((state)=> state);
 
 	const refetch = () => {
+		const companyID = getUserdata().company_id;
+		if (companyIdIsNotNull(companyID)) return;
 		fetcher<any>('post', {
 			body: {
-				company_id: getUserdata().company_id,
+				company_id: companyID,
 				provider_id: getUserdata().id,
 				model: 'providers/profiles/view',
 			}
 		})?.then(({ data }) => {
-            if(Number(data.error) !== 0) throw new Error("");
+			if(verifySession(data, logout)) return;
+            if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('An error has occurred on the server');
+			}
 
-			verifySession(data, logout);
 
             setProvider(data.provider);
             setLogicSequence(data.logic_sequence);

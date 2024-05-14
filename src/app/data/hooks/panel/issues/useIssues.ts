@@ -29,7 +29,7 @@ export const useIssues = () => {
 				company_id: companyID,
 			},
 		}).then(({ data }: any) => {
-			verifySession(data, logout);
+			if(verifySession(data, logout)) return;
 			dataRef.current = data.issues
 			? data.issues.map((issue: any) => mapIssues(issue))
 			: [];

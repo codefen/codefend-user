@@ -1,5 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
 import type { FullOrder } from "@/app/data";
 import { useRef, useState } from "react";
 
@@ -9,13 +10,17 @@ export const useCurrentOrders = ()=>{
     const [currentOrders, setCurrentOrders] = useState<FullOrder[]>([]);
 
     const getConfirmOrders = ()=>{
+        const companyID = getCompany();
+		if (companyIdIsNotNull(companyID)) return;
         fetcher("post", {
             body: {
                 model: "providers/orders/index/confirmed",
-                company_id: getCompany(),
+                company_id: companyID,
             }
         }).then(({data}:any)=>{
-            if(data.error != "0" || data.response == "error") throw new Error();
+            if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+                throw new Error('An error has occurred on the server');
+             }
             setCurrentOrders(data.orders ? data.orders : []);
         })
     }

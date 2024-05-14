@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useAddCloud = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useUserData();
@@ -24,7 +25,7 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 				desc: description,
 			},
 		}).then(({ data }: any) => {
-			if (data?.isAnError || data.response === "error") {
+			if (data?.isAnError || apiErrorValidation(data?.error, data?.response)) {
 				throw new Error('An error has occurred on the server');
 			}
 
@@ -36,10 +37,7 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 
 	const refetch = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		fetchAdd(companyID);
 	};
 

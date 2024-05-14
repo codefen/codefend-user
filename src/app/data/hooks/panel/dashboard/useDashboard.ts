@@ -5,6 +5,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { EMPTY_DASHBOARD_PROPS } from '@mocks/empty.ts';
 import type { DashboardPropsV2 } from '@interfaces/dashboard';
+import { apiErrorValidation } from '@/app/constants/validations';
 
 export const useDashboard = () => {
 	const { getCompany, logout } = useUserData();
@@ -22,7 +23,10 @@ export const useDashboard = () => {
 		fetcher<any>('post', {
 			body: { company_id: companyID, model: 'companies/dashboard' },
 		}).then(({ data }) => {
-			verifySession(data, logout);
+			if(verifySession(data, logout)) return;
+			if (apiErrorValidation(data?.error, data?.response)) {
+				throw new Error('');
+			}
 			setCompanyResources(
 				data
 					? {

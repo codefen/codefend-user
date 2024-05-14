@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 /* Custom Hook "useDeleteIssue" to handle the "deletion" of an issue */
 export const useDeleteIssue = () => {
@@ -17,7 +18,7 @@ export const useDeleteIssue = () => {
 			},
 		})
 			.then(({data}: any) => {
-				if (data.response !== 'success')
+				if(apiErrorValidation(data?.error, data?.response))
 					throw new Error(data.info);
 
 				toast.success('Successfully deleted Issue...');
@@ -28,10 +29,7 @@ export const useDeleteIssue = () => {
 	//refetch func
 	const refetch = (deletedIssueId: string) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		return fetchDelete(deletedIssueId, companyID);
 	};
 

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { toast } from 'react-toastify';
 import { AxiosHttpService } from '../services/axiosHTTP.service';
+import { apiErrorValidation } from '@/app/constants/validations';
 
 export interface RemoveAppStore {
 	isOpen: boolean;
@@ -36,7 +37,10 @@ export const useRemoveAppStore = create<RemoveAppStore>((set, _get) => ({
 					id: state.id,
 				},
 			})
-			.then(() => {
+			.then(({data}:any) => {
+				if (apiErrorValidation(data?.error, data?.response)) {
+					throw new Error('');
+				}
 				toast.success(
 					`successfully deleted ${
 						state.isMobileType ? 'mobile app' : 'cloud'

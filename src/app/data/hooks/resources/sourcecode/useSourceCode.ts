@@ -8,6 +8,7 @@ import {
 } from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useSourceCode = () => {
 	const { getCompany, logout} = useUserData();
@@ -26,7 +27,11 @@ export const useSourceCode = () => {
 			},
 		})
 			.then(({ data }: any) => {
-				verifySession(data, logout);
+				if(verifySession(data, logout)) return;
+				if (apiErrorValidation(data?.error, data?.response)) {
+					throw new Error('An error has occurred on the server');
+				}
+			
 
 				const sourceCodeResource = data.disponibles
 					? data.disponibles.map((repo: any) => mapSourceCode(repo))
@@ -39,10 +44,7 @@ export const useSourceCode = () => {
 
 	const refetch = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 
 		fetchAll(companyID);
 	};
@@ -65,6 +67,9 @@ export const useSourceCode = () => {
 			},
 		})
 			.then(({ data }: any) => {
+				if (apiErrorValidation(data?.error, data?.response)) {
+					throw new Error('An error has occurred on the server');
+				}
 				toast.success('Successfully deleted sourcecode resources...');
 				refetch();
 			})
@@ -75,10 +80,7 @@ export const useSourceCode = () => {
 
 	const refetchDelete = (id: string) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 
 		return fetDeleteResources(id, companyID);
 	};
@@ -105,10 +107,7 @@ export const useSourceCode = () => {
 
 	const refetchAdd = (params: string) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 
 		return addSourceCode(params, companyID);
 	};

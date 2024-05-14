@@ -1,5 +1,5 @@
 import { type Fetcher } from '#commonHooks/useFetcher.ts';
-import { toast } from 'react-toastify';
+import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 export const useAddIssueMessage = (message: string, setMessage: (updated: string)=>void, fetcher: Fetcher, getCompany: ()=>any) => {
 
@@ -18,6 +18,8 @@ export const useAddIssueMessage = (message: string, setMessage: (updated: string
 				issue_id: selectedID,
 			},
 		}).then(({data}) => {
+			if(apiErrorValidation(data?.error, data?.response))
+				throw new Error("");
 			setMessage('');
 			onDone(data?.issues_cs);
 		});
@@ -29,10 +31,7 @@ export const useAddIssueMessage = (message: string, setMessage: (updated: string
 		textAreaValue: string,
 	) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		fetchSend(selectedID, onDone, textAreaValue, companyID);
 	};
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { androidUriValidation, iosUriValidation } from '@/app/constants/validations';
+import { androidUriValidation, apiErrorValidation, companyIdIsNotNull, iosUriValidation } from '@/app/constants/validations';
 
 export const useAddMobileResource = () => {
 	const [fetcher,_, isLoading] = useFetcher();
@@ -35,10 +35,7 @@ export const useAddMobileResource = () => {
 		onClose: () => void,
 	) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNotNull(companyID)) return;
 		if (isNotValidData()) {
 			return;
 		}
@@ -53,7 +50,7 @@ export const useAddMobileResource = () => {
 			},
 		})
 			.then(({ data }: any) => {
-				if (data.android_error || data.apple_error || data.isAnError) {
+				if (data.android_error || data.apple_error || apiErrorValidation(data?.error, data?.response)) {
 					throw new Error(
 						data?.android_info || 'An error has occurred on the server',
 					);
