@@ -1,5 +1,5 @@
 import { QualitySurveyPhase, type PollValues } from '@interfaces/quality-feedback';
-import { EMPTY_PROVIDER } from '@mocks/empty';
+import { EMPTY_PROVIDER } from '@/app/constants/empty';
 import { create } from 'zustand';
 
 

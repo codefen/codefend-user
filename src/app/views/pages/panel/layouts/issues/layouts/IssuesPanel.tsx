@@ -16,7 +16,7 @@ import {
 	EMPTY_ISSUECLASS,
 	EMPTY_ISSUECONDITION,
 	EMPTY_SHARE,
-} from '@mocks/empty.ts';
+} from '@/app/constants/empty.ts';
 import { ModalReport, OrderV2 } from '@modals/index.ts';
 
 const IssuesPanel: FC = () => {

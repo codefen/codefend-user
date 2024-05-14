@@ -5,7 +5,7 @@ import {
 	decodePayload,
 } from '..';
 import { AxiosHttpService } from '../services/axiosHTTP.service';
-import { EMPTY_USER } from '@mocks/empty';
+import { EMPTY_USER } from '@/app/constants/empty';
 
 export interface AuthState {
 	userData: User;

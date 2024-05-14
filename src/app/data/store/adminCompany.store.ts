@@ -1,7 +1,7 @@
 import { type StateCreator, create } from "zustand";
 import { type ID, type Monitoring, equalsObj } from "..";
 import { type PersistOptions, devtools, persist } from "zustand/middleware";
-import { EMPTY_COMPANY } from "@mocks/empty";
+import { EMPTY_COMPANY } from "@/app/constants/empty";
 
 export interface AdminCompany extends ID, Monitoring {
     name: string;

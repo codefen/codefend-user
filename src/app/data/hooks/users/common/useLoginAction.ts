@@ -6,7 +6,7 @@ import {
 	useAuthStore,
 	type AuthState,
 } from '../../../';
-import { EMPTY_COMPANY } from '@mocks/empty';
+import { EMPTY_COMPANY } from '@/app/constants/empty';
 
 export const useLoginAction = () => {
 	const { login } = useAuthStore((state: AuthState) => state);

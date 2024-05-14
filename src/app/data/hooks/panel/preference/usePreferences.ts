@@ -4,7 +4,7 @@ import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import type { CompanyOrders, CompanyInfo } from '@interfaces/preferences';
-import { EMPTY_COMPANY_CUSTOM } from '@mocks/empty';
+import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/

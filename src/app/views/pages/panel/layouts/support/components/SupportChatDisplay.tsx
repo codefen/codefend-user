@@ -9,7 +9,7 @@ import { useParams } from 'react-router';
 import { MessageList } from '../../../../../components/standalones/MessageList';
 import { useSWRMessage } from '@panelHooks/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { EMPTY_TICKET_WITHCHILD } from '@mocks/empty';
+import { EMPTY_TICKET_WITHCHILD } from '@/app/constants/empty';
 
 export const SupportChatDisplay: FC = () => {
 	const { getCompany } = useUserData();

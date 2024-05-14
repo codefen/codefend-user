@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import type { IssueUpdateData } from '@interfaces/issues';
-import { EMPTY_ISSUEUPDATE } from '@mocks/empty';
+import { EMPTY_ISSUEUPDATE } from '@/app/constants/empty';
 import { verifySession } from '@/app/constants/validations';
 import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
 

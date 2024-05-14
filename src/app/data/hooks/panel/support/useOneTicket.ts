@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { EMPTY_TICKET_WITHCHILD } from '@mocks/empty';
+import { EMPTY_TICKET_WITHCHILD } from '@/app/constants/empty';
 
 /* Custom hook "useOneTicket" to retrieve a single ticket*/
 export const useOneTicket = () => {

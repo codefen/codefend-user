@@ -1,4 +1,4 @@
-import { EMPTY_COMPANY, EMPTY_RESELLERHEADER } from '@mocks/empty';
+import { EMPTY_COMPANY, EMPTY_RESELLERHEADER } from '@/app/constants/empty';
 import { create } from 'zustand';
 
 export interface ResellerHeaderStore {

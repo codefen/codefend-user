@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
-import { EMPTY_DASHBOARD_PROPS } from '@mocks/empty.ts';
+import { EMPTY_DASHBOARD_PROPS } from '@/app/constants/empty';
 import type { DashboardPropsV2 } from '@interfaces/dashboard';
 import { apiErrorValidation } from '@/app/constants/validations';
 

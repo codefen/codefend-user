@@ -1,4 +1,4 @@
-import { EMPTY_SHARE } from '@mocks/empty';
+import { EMPTY_SHARE } from '@/app/constants/empty';
 import type {
 	AllIssues,
 	CloudApp,

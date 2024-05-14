@@ -1,5 +1,5 @@
 import { IssuesStatus } from "@interfaces/issues";
-import type { User } from "..";
+import type { User } from "../data";
 
 export const EMPTY_USER:User = {
 	id: "",
