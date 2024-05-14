@@ -2,15 +2,14 @@ import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { PrimaryButton } from '../../../components';
+import { type RegisterParams, companySizesList } from '../../../../data';
+import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
+import { useFindResellerArea } from '#commonUserHooks/useFindResellerArea';
 import {
-	type RegisterParams,
-	companySizesList,
 	countries,
 	defaultCountries,
 	topCountriesOnList,
-} from '../../../../data';
-import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
-import { useFindResellerArea } from '#commonUserHooks/useFindResellerArea';
+} from '@/app/constants/countries';
 
 interface SignupForm {
 	name: string;
@@ -258,7 +257,7 @@ const SignUpLayout: FC = () => {
 					<option value="" disabled hidden>
 						Select your country
 					</option>
-					{Array.from(countries).map((country) => (
+					{Array.from(countries).map((country: any) => (
 						<option key={country.value} value={country.value}>
 							{country.label}
 						</option>

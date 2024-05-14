@@ -4,7 +4,7 @@ import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
 import { WebApplicationCredentials } from './components/WebApplicationCredentials.tsx';
 import { useOrderStore } from '@stores/orders.store';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import { useWebapplication } from '@resourcesHooks/web/useWebapplication.ts';
+import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
@@ -19,7 +19,7 @@ import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
 	const [showScreen, control, refresh] = useShowScreen();
-	const { webResources, isLoading, refetch } = useWebapplication();
+	const { webResources, isLoading, refetch } = useGetWebResources();
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 	const { isAdmin, isNormalUser } = useUserRole();

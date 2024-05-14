@@ -29,3 +29,8 @@ export const nameValidation = (name?:string)=> name && name?.trim() !== "" && na
 
 export const androidUriValidation = (address:string)=> address.trim() !== "" && !address.startsWith("https://play.google.com");
 export const iosUriValidation = (address:string)=> address.trim() !== "" && !address.startsWith("https://apps.apple.com");
+
+/*
+ESTAS VALIDACIONES VALIDAN DATOS QUE NO DEBEN ESTAR VACIAS
+*/
+export const isNotEmpty = (data?:string)=> data && data?.trim() !== "";

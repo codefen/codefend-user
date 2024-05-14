@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode, type FC, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { useDeleteWebResource } from '@resourcesHooks/web/useWebapplication.ts';
+import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import { webResourcesColumns } from '@mocks/defaultData.ts';
 import type { TableItem } from '@interfaces/table.ts';
 import type { Webresources, Resouce } from '@interfaces/panel.ts';

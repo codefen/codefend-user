@@ -1,8 +1,8 @@
 import { type FC, type FormEvent } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import { GlobeWebIcon } from '@icons';
-import { useAddSubResource } from '@resourcesHooks/web/useWebapplication.ts';
 import { type Webresources } from '@interfaces/panel.ts';
+import { useAddSubResource } from '@resourcesHooks/web/useAddSubResources.ts';
 
 interface SubdomainModalProps {
 	onDone: () => void;
@@ -14,7 +14,6 @@ const AddSubDomainModal: FC<SubdomainModalProps> = (props) => {
 	const {
 		handleAddSubResource,
 		setDomainName,
-		setIpAddress,
 		setMainDomainId,
 		isAddingSubDomain,
 		mainDomainId,

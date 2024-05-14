@@ -11,7 +11,6 @@ export * from '../resources/social/useSocial.ts';
 export * from '../resources/sourcecode/useSourceCode.ts';
 export * from './support/useSupport.ts';
 export * from '../modules/vdb/useVdb.ts';
-export * from '../resources/web/useWebapplication.ts';
 export * from "../users/providers/useProviders.ts";
 export * from "../resources/social/useAddSocial.ts"
 export * from "../modules/sns/useSns.ts";
