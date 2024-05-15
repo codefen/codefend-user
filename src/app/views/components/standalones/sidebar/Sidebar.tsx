@@ -27,17 +27,22 @@ import usePanelStore from '@stores/panel.store.ts';
 import './sidebar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 const Sidebar: FC = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const { isActivePath } = usePanelStore();
+	const { getUserdata } = useUserData();
 	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
-	const { companies } = useAdminCompanyStore();
+	const { companies, companySelected } = useAdminCompanyStore();
 
 	const isNotProviderAndReseller = !isProvider() && !isReseller();
 
 	const isProviderWithAccess =
-		isProvider() && companies.length > 0 && companies[0] !== null;
+		isProvider() &&
+		companies.length > 0 &&
+		companies[0] !== null &&
+		companySelected?.id !== getUserdata().company_id;
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
 		if (action === 'enter') {
@@ -69,7 +74,9 @@ const Sidebar: FC = () => {
 			icon: <AdminCompanyIcon />,
 			to: '/admin/company',
 			root: isAdmin(),
-			haveAccess: isAdmin() || isProviderWithAccess,
+			haveAccess:
+				isAdmin() ||
+				(isProvider() && companies.length > 0 && companies[0] !== null),
 		},
 		{
 			title: 'Leads',

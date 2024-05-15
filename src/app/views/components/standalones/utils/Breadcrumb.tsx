@@ -2,6 +2,7 @@ import { type FC, Fragment } from 'react';
 import { useLocation } from 'react-router';
 import { useAdminCompanyStore } from '../../../../data';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { Show } from '../..';
 
 interface Props {
 	customSegment?: string[];
@@ -21,17 +22,27 @@ export const Breadcrumb: FC<Props> = (props) => {
 	const segments = !props.customSegment ? defaultSegment : props.customSegment;
 	return (
 		<span className="breadcrumb">
-			<span className="go-home" onClick={props.rootAction}>
-				{companySelected &&
-				companySelected?.name &&
-				companySelected?.name !== 'unknow'
-					? companySelected.name
-					: getUserdata().company_name}
-			</span>
+			<Show
+				when={
+					getUserdata().access_role !== 'provider' ||
+					(getUserdata().access_role === 'provider' &&
+						companySelected?.id !== getUserdata().company_id)
+				}>
+				<span className="go-home" onClick={props.rootAction}>
+					{companySelected &&
+					companySelected?.name &&
+					companySelected?.name !== 'unknow'
+						? companySelected.name
+						: getUserdata().company_name}
+				</span>
+				<span className="sep">//</span>
+			</Show>
 			{segments.map((segment: string, i: number) => (
 				<Fragment key={i}>
-					<span className="sep">//</span>
 					{segment}
+					<span className="sep">
+						{segments.length - 1 === i ? '' : '//'}
+					</span>
 				</Fragment>
 			))}
 		</span>
