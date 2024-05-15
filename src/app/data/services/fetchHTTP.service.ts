@@ -1,12 +1,22 @@
-import { getCustomBaseAPi, getToken } from '../index.ts';
-import { baseUrl } from '../utils/config.ts';
 import { HttpService } from './abstractHttp.service.ts';
 import { handleFetchError, handleResponse } from './api.utils.ts';
 import type { HttpRequestOptions, HttpServiceInterface } from './http.service';
 
+/**
+ * Implementacion de HttpService utilizando Vanilla Fetch, para realizar las solicitudes HTTP
+ *
+ * @see {HttpService}
+ */
 export class FetchHttpService extends HttpService {
+	/**
+	 * Instancia singleton de AxiosHttpService
+	 */
 	private static instance: FetchHttpService;
 
+	/**
+	 * Recupera el instancia singleton de AxiosHttpService
+	 * @returns AxiosHttpService
+	 */
 	static getInstance(): FetchHttpService {
 		if (!FetchHttpService.instance) {
 			FetchHttpService.instance = new FetchHttpService();
@@ -18,23 +28,27 @@ export class FetchHttpService extends HttpService {
 		path = '',
 		headers = { Accept: 'application/json' },
 		params,
-		requestId="uniqueRequest",
-		requireSession=true,
+		requestId = 'uniqueRequest',
+		requireSession = true,
 	}: HttpRequestOptions): Promise<T> {
 		const abortController = this.getAbortController(requestId);
 		let queryParams: URLSearchParams | undefined;
 		if (params) queryParams = new URLSearchParams(params);
 		if (requireSession) {
-			if(queryParams) queryParams = new URLSearchParams();
-			queryParams?.append("session", this.session)
+			if (queryParams) queryParams = new URLSearchParams();
+			queryParams?.append('session', this.session);
 		}
 
-		return fetch(`${this.getURL(path)}${queryParams ? `?${queryParams.toString()}` : ''}`, {
-			method: 'GET',
-			headers: headers,
-			signal: abortController.signal,
-		}).then((response: Response) => handleResponse(response))
-		.catch((error: any) => handleFetchError(error));
+		return fetch(
+			`${this.getURL(path)}${queryParams ? `?${queryParams.toString()}` : ''}`,
+			{
+				method: 'GET',
+				headers: headers,
+				signal: abortController.signal,
+			},
+		)
+			.then((response: Response) => handleResponse(response))
+			.catch((error: any) => handleFetchError(error));
 	}
 
 	public override async post<T>({
@@ -43,10 +57,11 @@ export class FetchHttpService extends HttpService {
 		path = '',
 		insecure,
 		requireJson = false,
-		requestId="uniqueRequest",
-		requireSession=true,
+		requestId = 'uniqueRequest',
+		requireSession = true,
 	}: HttpRequestOptions): Promise<T> {
-		const insecureStore = localStorage.getItem("a20af8d9") == "true" ? true : false;
+		const insecureStore =
+			localStorage.getItem('a20af8d9') == 'true' ? true : false;
 		insecure = insecureStore ? insecureStore : insecure;
 		const abortController = this.getAbortController(requestId);
 		let data = requireSession ? { ...body, session: this.session } : body;
@@ -67,18 +82,20 @@ export class FetchHttpService extends HttpService {
 				}
 			}
 			data = urlParam;
-            headers = {...headers, 'Content-Type': 'application/json'};
-
+			headers = { ...headers, 'Content-Type': 'application/json' };
 		} else {
 			data = JSON.stringify({ ...body, session: this.session });
-            headers = {...headers, 'Content-Type': 'application/x-www-form-urlencoded'};
+			headers = {
+				...headers,
+				'Content-Type': 'application/x-www-form-urlencoded',
+			};
 		}
 
 		return fetch(
 			`${this.getURL(path)}${insecure ? `?${data.toString()}` : ''}`,
 			{
 				method: 'POST',
-				headers: {'Content-Type': 'multipart/form-data', ...headers},
+				headers: { 'Content-Type': 'multipart/form-data', ...headers },
 				body: !insecure ? data : undefined,
 				signal: abortController.signal,
 			},
@@ -86,5 +103,4 @@ export class FetchHttpService extends HttpService {
 			.then((response: Response) => handleResponse(response))
 			.catch((error: any) => handleFetchError(error));
 	}
-	
 }

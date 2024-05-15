@@ -41,7 +41,7 @@ const computeSourceCodeMetrics = (source: any) => {
 	if (!Array.isArray(source) || source.length === 0) return {};
 
 	const metrics = source.reduce((acc: any, metric: any) => {
-		const code = metric.sourceCode;
+		const code = metric.source_code;
 		if (acc[code]) {
 			acc[code] += 1;
 		} else {

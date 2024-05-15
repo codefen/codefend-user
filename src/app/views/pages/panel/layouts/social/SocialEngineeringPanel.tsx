@@ -12,6 +12,7 @@ import Show from '@defaults/Show.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/index.ts';
+import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -27,6 +28,10 @@ const SocialEngineeringView = () => {
 
 	useEffect(() => {
 		refetch();
+		return () => {
+			const service = AxiosHttpService.getInstance();
+			service.cancelAll();
+		};
 	}, [control]);
 
 	const handleDepartmentFIlter = (role: string) => {

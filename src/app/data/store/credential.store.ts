@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create, type StoreApi, type UseBoundStore } from 'zustand';
 
 export enum CredentialPage {
     ADD,
@@ -23,7 +23,7 @@ export interface CredentialStore {
     setCredential: (cred:any)=> void;
 }
 
-const useCredentialStore = create<CredentialStore>((set) => ({
+const useCredentialStore:UseBoundStore<StoreApi<CredentialStore>> = create<CredentialStore>((set) => ({
 	type: '',
     resourceId: "",
     activePage: CredentialPage.ADD,

@@ -24,16 +24,19 @@ import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
 import Show from '@defaults/Show';
 import { toast } from 'react-toastify';
+import { useDeleteSourceCode } from '@resourcesHooks/sourcecode/useDeleteSourceCode';
+import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
 
 interface SourceCodeProps {
 	isLoading: boolean;
-	sourceCode: SourceCode[];
-	onDelete: (deleted: string) => void;
-	update: (params: any) => void;
+	sourceCode: any[];
+	refetch: () => void;
 }
 
 export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	const navigate = useNavigate();
+	const { deletedResource } = useDeleteSourceCode();
+	const { addSourceCode } = useAddSourceCode();
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 	const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] =
@@ -55,14 +58,15 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 			);
 		}
 	};
+
 	const dataTable = props.sourceCode.map(
 		(repository) =>
 			({
 				ID: { value: Number(repository.id), style: 'id' },
 				name: { value: repository.name, style: 'full-name' },
-				url: { value: repository.accessLink, style: 'url' },
-				visibility: { value: repository.isPublic, style: 'boolean' },
-				sourceCode: { value: repository.sourceCode, style: 'source-code' },
+				url: { value: repository.access_link, style: 'url' },
+				visibility: { value: repository.is_public, style: 'boolean' },
+				sourceCode: { value: repository.source_code, style: 'source-code' },
 				action: {
 					value: (
 						<>
@@ -79,14 +83,17 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 								}>
 								<BugIcon isButton />
 								<span className="codefend-text-red-200 issue-count">
-									{repository.finalIssue}
+									{repository.final_issues}
 								</span>
 							</span>
 							<span
 								title="View report"
-								className={`issue-printer ${Number(repository.finalIssue) == 0 ? 'off' : ''}`}
+								className={`issue-printer ${Number(repository.final_issues) == 0 ? 'off' : ''}`}
 								onClick={() =>
-									generateReport(repository.id, repository.finalIssue)
+									generateReport(
+										repository.id,
+										repository.final_issues,
+									)
 								}>
 								<DocumentIcon isButton width={1.27} height={1.27} />
 							</span>
@@ -131,8 +138,9 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 					header=""
 					close={() => setShowModal(!showModal)}
 					action={() => {
-						props.onDelete(selectedSourceCodeIdToDelete);
+						deletedResource(selectedSourceCodeIdToDelete);
 						setShowModal(!showModal);
+						props.refetch();
 					}}
 				/>
 			</ModalTitleWrapper>
@@ -144,8 +152,9 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 				isActive={showModal && showModalStr === 'add_repository'}>
 				<AddRepositoryModal
 					onDone={(params: any) => {
-						props.update(params);
+						addSourceCode(params);
 						setShowModal(!showModal);
+						props.refetch();
 					}}
 					close={() => setShowModal(!showModal)}
 				/>
@@ -169,7 +178,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 					</div>
 				</div>
 				<TableV2
-					rowsData={dataTable}
+					rowsData={dataTable || []}
 					columns={sourceCodeColumns}
 					showRows={!props.isLoading}
 					showEmpty={!props.isLoading && dataTable.length === 0}

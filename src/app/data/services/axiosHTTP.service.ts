@@ -5,10 +5,21 @@ import { handleFetchError } from './api.utils.ts';
 import { HttpService } from './abstractHttp.service.ts';
 
 
-
+/**
+ * Implementacion de HttpService utilizando Axios, para realizar las solicitudes HTTP
+ * 
+ * @see {HttpService}
+ */
 export class AxiosHttpService extends HttpService {
+	/**
+	 * Instancia singleton de AxiosHttpService
+	 */
 	private static instance: AxiosHttpService;
 
+	/**
+	 * Recupera el instancia singleton de AxiosHttpService
+	 * @returns AxiosHttpService
+	 */
 	public static getInstance(): AxiosHttpService {
 		if (!AxiosHttpService.instance) {
 			AxiosHttpService.instance = new AxiosHttpService();
@@ -22,7 +33,7 @@ export class AxiosHttpService extends HttpService {
 		params,
 		requestId="uniqueRequest",
 		requireSession=true,
-		timeout=12000
+		timeout=30000
 	}: HttpRequestOptions): Promise<T> {
 		const abortController = this.getAbortController(requestId);
 		const requestConfig: AxiosRequestConfig = {

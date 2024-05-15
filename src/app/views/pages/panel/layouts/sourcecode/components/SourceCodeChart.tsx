@@ -20,7 +20,7 @@ import { TableV2 } from '@table/tablev2.tsx';
 
 interface Props {
 	isLoading: boolean;
-	sourceCode: SourceCode[];
+	sourceCode: any[];
 }
 
 export const SourceCodeChart: FC<Props> = (props) => {
@@ -32,10 +32,6 @@ export const SourceCodeChart: FC<Props> = (props) => {
 	const dataEmptyState = useMemo(() => {
 		return isEmptyData(otherMetrics);
 	}, [otherMetrics]);
-
-	const sourceKeys = useMemo(() => {
-		return props.isLoading ? [] : generateIDArray(props.sourceCode.length);
-	}, [props.sourceCode]);
 
 	const { renderPercentage } = MetricsService;
 

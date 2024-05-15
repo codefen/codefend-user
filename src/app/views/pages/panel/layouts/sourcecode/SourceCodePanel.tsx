@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useEffect, type FC } from 'react';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { useSourceCode } from '@resourcesHooks/sourcecode/useSourceCode.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
@@ -12,14 +12,22 @@ import './sourcecode.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/index.ts';
+import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
 
 const SourceCodePanel: FC = () => {
-	const [showScreen, _, refresh] = useShowScreen();
-	const { getSource, isLoading, addSourceCode, deletedResource } =
-		useSourceCode();
+	const [showScreen, control, refresh] = useShowScreen();
+	const { data, isLoading, refetch } = useSourceCode();
 	const { isAdmin, isNormalUser } = useUserRole();
 	const { updateState, scope } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
+
+	useEffect(() => {
+		refetch();
+		return () => {
+			const service = AxiosHttpService.getInstance();
+			service.cancelAll();
+		};
+	}, [control]);
 
 	return (
 		<>
@@ -30,17 +38,14 @@ const SourceCodePanel: FC = () => {
 				<section className="left">
 					<SourceCodeResources
 						isLoading={isLoading}
-						sourceCode={getSource() ?? []}
-						update={(params: any) => {
-							addSourceCode(params)?.finally(() => refresh());
-						}}
-						onDelete={deletedResource}
+						sourceCode={data ? data : []}
+						refetch={refresh}
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
 					<SourceCodeChart
 						isLoading={isLoading}
-						sourceCode={getSource() || []}
+						sourceCode={data ? data : []}
 					/>
 					{isAdmin() || isNormalUser() ? (
 						<PrimaryButton
