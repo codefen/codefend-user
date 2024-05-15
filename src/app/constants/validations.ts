@@ -30,6 +30,13 @@ export const emailRegexVal = /([-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*|"
 
 export const phoneNumberRegexVal = /^\+?((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){2,13}\d$/;
 
+export const passwordRegexVal = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[^a-zA-Z\d\s]).{16,}$/;
+
+export const upperCaseRegexVal = /[A-Z]/;
+export const lowerCaseRegexVal = /[a-z]/;
+export const specialCharRegexVal = /[!@#$%^&*(),.?":{}|<>]/;
+export const numberRegexVAL = /\d/;
+
 /*
 ESTAS VALIDACIONES SOLO VALIDAN SI EL TEXTO NO ESTA VACIO
 */
@@ -43,3 +50,12 @@ export const iosUriValidation = (address:string)=> address.trim() !== "" && !add
 ESTAS VALIDACIONES VALIDAN DATOS QUE NO DEBEN ESTAR VACIAS
 */
 export const isNotEmpty = (data?:string)=> data && data?.trim() !== "";
+export const isEquals = (source1?:string, source2?:string)=> source1 == source2;
+export const hasUpperCase = (str?:string)=> !!str && upperCaseRegexVal.test(str);
+export const hasLowerCase = (str?:string) => !!str &&lowerCaseRegexVal.test(str);
+export const hasSpecialChar = (str?:string) => !!str && specialCharRegexVal.test(str);
+export const hasStrNumber = (str?:string) => !!str && numberRegexVAL.test(str);
+export const hasMinChars = (str:string, minLength:number) => !!str  && str.length >= minLength;
+  
+
+export const passwordValidation = (pass:string)=> pass.trim() && !passwordRegexVal.test(pass);

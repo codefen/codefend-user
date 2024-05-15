@@ -3,6 +3,8 @@ import { PrimaryButton } from '../../../components';
 import { usePasswordRecovery } from '#commonUserHooks/usePasswordRecovery';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { PasswordRequirenments } from './PasswordRequirenments';
+import { isEquals, passwordValidation } from '@/app/constants/validations';
 
 export const PasswordRecovery = () => {
 	const { ref } = useParams();
@@ -33,7 +35,16 @@ export const PasswordRecovery = () => {
 
 	const handlePasswordRecovery = (e: any) => {
 		e.preventDefault();
-		if (passwordRecovery.newPassword !== passwordRecovery.repeatedPassword) {
+		if (passwordValidation(passwordRecovery.newPassword)) {
+			toast.error('The password is not in a valid format');
+			return;
+		}
+		if (
+			!isEquals(
+				passwordRecovery.newPassword,
+				passwordRecovery.repeatedPassword,
+			)
+		) {
 			toast.error('The passwords you sent do not match');
 			return;
 		}
@@ -99,6 +110,7 @@ export const PasswordRecovery = () => {
 						required
 					/>
 				</div>
+
 				<div className="confirm-button">
 					<PrimaryButton
 						text="Proceed"
@@ -163,12 +175,13 @@ export const PasswordRecovery = () => {
 					required
 				/>
 			</div>
+			<PasswordRequirenments password={passwordRecovery.newPassword} />
 			<div className="confirm-button">
 				<PrimaryButton
 					text="Proceed"
 					type="submit"
-					click={() => {}}
 					buttonStyle="red"
+					disabledLoader
 				/>
 			</div>
 		</form>

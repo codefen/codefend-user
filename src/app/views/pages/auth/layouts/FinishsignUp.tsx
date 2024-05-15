@@ -7,6 +7,8 @@ import { PrimaryButton } from '../../../components';
 import { type RegisterFinishParams } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 import { Link } from 'react-router-dom';
+import { PasswordRequirenments } from './PasswordRequirenments';
+import { isEquals, passwordValidation } from '@/app/constants/validations';
 
 const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useRegisterAction();
@@ -31,10 +33,13 @@ const FinishSignUpLayout: FC = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (userState.password !== userState.confirmPassword) {
-			return toast.error(
-				'Password does not match, Kindly check and try again !!!',
-			);
+		if (passwordValidation(userState.password)) {
+			toast.error('The password is not in a valid format');
+			return;
+		}
+		if (!isEquals(userState.password, userState.confirmPassword)) {
+			toast.error('The passwords you sent do not match');
+			return;
 		}
 		if (
 			!userState.username ||
@@ -108,7 +113,7 @@ const FinishSignUpLayout: FC = () => {
 					required
 				/>
 			</div>
-
+			<PasswordRequirenments password={userState.password} />
 			<div className="margin-top">
 				<span className="text-sm text-alt3">
 					I have read and accept the{' '}
