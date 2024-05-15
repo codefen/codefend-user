@@ -2,7 +2,6 @@ import { type FC, type ChangeEvent, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 
 import { toast } from 'react-toastify';
-
 import { PrimaryButton } from '../../../components';
 import { type RegisterFinishParams } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
@@ -14,12 +13,10 @@ const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useRegisterAction();
 
 	const [userState, setUserState] = useState({
-		username: '',
 		password: '',
 		confirmPassword: '',
 		isLoading: false,
 	});
-
 	const navigate = useNavigate();
 	const { ref } = useParams();
 
@@ -41,24 +38,9 @@ const FinishSignUpLayout: FC = () => {
 			toast.error('The passwords you sent do not match');
 			return;
 		}
-		if (
-			!userState.username ||
-			userState.username.length < 0 ||
-			userState.username.length > 50
-		) {
-			return toast.error('Invalid username');
-		}
-
-		if (
-			!userState.password ||
-			userState.password.length < 0 ||
-			userState.password.length > 50
-		) {
-			return toast.error('Invalid password');
-		}
 
 		const requestParams: RegisterFinishParams = {
-			username: userState.username,
+			username: crypto.randomUUID(),
 			password: userState.password,
 			lead_reference_number: ref,
 		};
@@ -81,17 +63,6 @@ const FinishSignUpLayout: FC = () => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<div className="input-group">
-				<input
-					type="text"
-					name="username"
-					value={userState.username}
-					onChange={handleChange}
-					placeholder="Username"
-					required
-				/>
-			</div>
-
 			<div className="input-group">
 				<input
 					type="password"
