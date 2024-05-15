@@ -23,7 +23,6 @@ export const useSWRIssueMessage = (ticketID: string,companyID: string) => {
 		`${companyID}-${ticketID}-cs`,
 		fetcher,
         {
-			refreshInterval: 3000,
             revalidateOnReconnect: true,
             refreshWhenHidden: true,
             revalidateOnFocus: true,	
