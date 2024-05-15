@@ -56,6 +56,7 @@ export const NewOrderProvider = () => {
 						distributor={order.reseller_name || ''}
 						scope={order.resources_class === 'full' ? 1 : 0}
 						sizeOrder={order.chosen_plan as 'small' | 'medium' | 'full'}
+						companyName={order.company_name}
 						handleActivate={handleActive}
 						removeOrder={removeOrder}
 						isSelected={active === order.id}

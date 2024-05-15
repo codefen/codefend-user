@@ -20,6 +20,7 @@ export interface OrderCardTemplateProps extends PropsWithChildren {
 	price: string;
 	viewScope?: ReactNode;
 	viewPrice?: boolean;
+	companyName?: string;
 }
 
 export const OrderCardTemplate: FC<OrderCardTemplateProps> = ({
@@ -35,6 +36,7 @@ export const OrderCardTemplate: FC<OrderCardTemplateProps> = ({
 	viewScope,
 	viewPrice,
 	children,
+	companyName,
 }) => {
 	const onClick = () => handleActivate(id);
 	const teamSize = sizeOrder.valueOf();
@@ -53,8 +55,8 @@ export const OrderCardTemplate: FC<OrderCardTemplateProps> = ({
 					<IconTextPairs
 						icon={<BugIcon className="codefend-text-red" />}
 						className="icon-text">
-						<span className="text-bold">Offensivness:</span>{' '}
-						<span className="text-light">{offensiveOrder}</span>
+						<span className="text-bold">Company:</span>{' '}
+						<span className="text-light">{companyName}</span>
 					</IconTextPairs>
 					<IconTextPairs
 						icon={<BugIcon className="codefend-text-red" />}

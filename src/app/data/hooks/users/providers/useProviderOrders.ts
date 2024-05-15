@@ -14,7 +14,7 @@ export const useProviderOrders = ()=>{
     const getProviderOrders =  ()=>{
         const companyID = getCompany();
 		if (companyIdIsNotNull(companyID)) return;
-        fetcher("post", {
+        fetcher<any>("post", {
             body: {
                 model: "providers/orders/index/unconfirmed",
                 company_id: companyID

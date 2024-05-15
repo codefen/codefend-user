@@ -86,6 +86,7 @@ export interface ResumeAllResources {
 export interface FullOrder {
     id: string;
     company_id: string;
+    company_name: string;
     user_id: string;
     user_email: string;
     user_username: string;

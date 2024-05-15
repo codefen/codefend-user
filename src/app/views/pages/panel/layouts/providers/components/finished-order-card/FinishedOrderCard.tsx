@@ -24,6 +24,7 @@ export interface ConfirmOrderCardProps {
 	id: string;
 	isSelected?: boolean;
 	resourcesScope: any;
+	companyName: string;
 }
 
 export const FinishOrderCard: FC<ConfirmOrderCardProps> = ({
@@ -39,6 +40,7 @@ export const FinishOrderCard: FC<ConfirmOrderCardProps> = ({
 	handleActivate,
 	finishDate,
 	resourcesScope,
+	companyName,
 }) => {
 	const { updateOpen, updateScope, updateViewConfirm } = useOrderScopeStore();
 	const resources = `all ${scope == ScopeOption.ALL ? 'company' : type} resources`;
@@ -53,6 +55,7 @@ export const FinishOrderCard: FC<ConfirmOrderCardProps> = ({
 			handleActivate={handleActivate}
 			isSelected={Boolean(isSelected)}
 			offensive={offensive}
+			companyName={companyName}
 			price={price}
 			provider={provider}
 			sizeOrder={sizeOrder}

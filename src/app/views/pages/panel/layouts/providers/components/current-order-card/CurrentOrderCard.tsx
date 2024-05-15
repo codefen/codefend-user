@@ -34,6 +34,7 @@ export interface ConfirmOrderCardProps {
 	id: string;
 	isSelected?: boolean;
 	resourcesScope: any;
+	companyName: string;
 }
 
 export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
@@ -50,6 +51,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 	removeOrder,
 	finishDate,
 	resourcesScope,
+	companyName,
 }) => {
 	const { showModal, setShowModal } = useModal();
 	const { updateOpen, updateScope, updateViewConfirm } = useOrderScopeStore();
@@ -82,6 +84,7 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
 				handleActivate={handleActivate}
 				isSelected={Boolean(isSelected)}
 				offensive={offensive}
+				companyName={companyName}
 				price={price}
 				provider={provider}
 				sizeOrder={sizeOrder}

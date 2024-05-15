@@ -26,6 +26,7 @@ export interface ConfirmOrderCardProps {
 	id: string;
 	isSelected?: boolean;
 	resourcesScope: any;
+	companyName: string;
 }
 
 export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
@@ -40,6 +41,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 	handleActivate,
 	removeOrder,
 	resourcesScope,
+	companyName
 }) => {
 	const {
 		updateOpen,
@@ -80,6 +82,7 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
 				id={id}
 				handleActivate={handleActivate}
 				isSelected={Boolean(isSelected)}
+				companyName={companyName}
 				offensive={offensive}
 				price={price}
 				provider={provider}
