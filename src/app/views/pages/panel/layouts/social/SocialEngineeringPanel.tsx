@@ -28,10 +28,6 @@ const SocialEngineeringView = () => {
 
 	useEffect(() => {
 		refetch();
-		return () => {
-			const service = AxiosHttpService.getInstance();
-			service.cancelAll();
-		};
 	}, [control]);
 
 	const handleDepartmentFIlter = (role: string) => {

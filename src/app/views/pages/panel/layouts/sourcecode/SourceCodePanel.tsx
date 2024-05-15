@@ -23,10 +23,6 @@ const SourceCodePanel: FC = () => {
 
 	useEffect(() => {
 		refetch();
-		return () => {
-			const service = AxiosHttpService.getInstance();
-			service.cancelAll();
-		};
 	}, [control]);
 
 	return (
