@@ -13,6 +13,8 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/index.ts';
 import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
+import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
+import Show from '@defaults/Show.tsx';
 
 const SourceCodePanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -31,30 +33,41 @@ const SourceCodePanel: FC = () => {
 			<CredentialsModal />
 			<ModalReport />
 			<main className={`source-code ${showScreen ? 'actived' : ''}`}>
-				<section className="left">
-					<SourceCodeResources
-						isLoading={isLoading}
-						sourceCode={data ? data : []}
-						refetch={refresh}
-					/>
-				</section>
-				<section className="right" ref={flashlight.rightPaneRef}>
-					<SourceCodeChart
-						isLoading={isLoading}
-						sourceCode={data ? data : []}
-					/>
-					{isAdmin() || isNormalUser() ? (
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							className="primary-full"
-							click={() => updateState('open', open)}
-							disabledLoader
-							isDisabled={scope.totalResources <= 0}
+				<Show when={!isLoading && Boolean(data?.length)}>
+					<section className="left">
+						<SourceCodeResources
+							isLoading={isLoading}
+							sourceCode={data ? data : []}
+							refetch={refresh}
 						/>
-					) : null}
+					</section>
+					<section className="right" ref={flashlight.rightPaneRef}>
+						<SourceCodeChart
+							isLoading={isLoading}
+							sourceCode={data ? data : []}
+						/>
+						{isAdmin() || isNormalUser() ? (
+							<PrimaryButton
+								text="START A PENTEST ON DEMAND"
+								className="primary-full"
+								click={() => updateState('open', open)}
+								disabledLoader
+								isDisabled={scope.totalResources <= 0}
+							/>
+						) : null}
 
-					<SourceCodeCollab />
-				</section>
+						<SourceCodeCollab />
+					</section>
+				</Show>
+				<Show when={!isLoading && !Boolean(data?.length)}>
+					<EmptyScreenView
+						type="source"
+						buttonText="Add Source"
+						title="There's no data to display here"
+						info="Start by adding a new source code resource"
+						event={refetch}
+					/>
+				</Show>
 			</main>
 		</>
 	);

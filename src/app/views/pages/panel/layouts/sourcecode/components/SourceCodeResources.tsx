@@ -25,7 +25,6 @@ import useModalStore from '@stores/modal.store';
 import Show from '@defaults/Show';
 import { toast } from 'react-toastify';
 import { useDeleteSourceCode } from '@resourcesHooks/sourcecode/useDeleteSourceCode';
-import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
 
 interface SourceCodeProps {
 	isLoading: boolean;
@@ -36,7 +35,6 @@ interface SourceCodeProps {
 export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 	const navigate = useNavigate();
 	const { deletedResource } = useDeleteSourceCode();
-	const { addSourceCode } = useAddSourceCode();
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
 	const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] =
@@ -151,8 +149,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 				type="med-w"
 				isActive={showModal && showModalStr === 'add_repository'}>
 				<AddRepositoryModal
-					onDone={(params: any) => {
-						addSourceCode(params);
+					onDone={() => {
 						setShowModal(!showModal);
 						props.refetch();
 					}}

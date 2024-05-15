@@ -1,9 +1,9 @@
 import { type FC, type FormEvent } from 'react';
 import { GlobeWebIcon, PencilIcon, PrimaryButton, Show } from '..';
-import AddMobileModal from '@modals/adding-modals/AddMobileModal';
 import { useAddMobileResource } from '@resourcesHooks/mobile/useAddMobileResource';
 import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud';
 import { useAddLan } from '@resourcesHooks/netowrk/useAddLan';
+import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
 
 interface EmptyScreenProps {
 	title?: string;
@@ -45,6 +45,9 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 		setNetworkData,
 	} = useAddLan(event, () => {});
 
+	const [sourceCodeForm, { isAddingSource, addSourceCode, setSourceCode }] =
+		useAddSourceCode();
+
 	const handleChange = (e: any) => {
 		const { name, value } = e.target;
 		setNetworkData((prevData: any) => ({
@@ -62,8 +65,10 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 		} else if (type === 'cloud') {
 			if (validations()) return;
 			handleAddCloud();
-		} else if (type == 'network') {
+		} else if (type === 'network') {
 			handleAddNetwork();
+		} else if (type === 'source') {
+			addSourceCode().then(() => event());
 		}
 	};
 	return (
@@ -192,13 +197,91 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 									required></textarea>
 							</div>
 						</Show>
+						<Show when={type === 'source'}>
+							<div className="form-input">
+								<span className="icon">
+									<GlobeWebIcon />
+								</span>
+
+								<input
+									type="text"
+									onChange={(e) =>
+										setSourceCode((current: any) => ({
+											...current,
+											repositoryName: e.target.value,
+										}))
+									}
+									placeholder="repository name"
+									required
+								/>
+							</div>
+
+							<div className="form-input">
+								<span className="icon">
+									<GlobeWebIcon />
+								</span>
+
+								<input
+									type="text"
+									onChange={(e) =>
+										setSourceCode((current: any) => ({
+											...current,
+											repositoryUrl: e.target.value,
+										}))
+									}
+									placeholder="repository url"
+									required
+								/>
+							</div>
+							<div className="form-input">
+								<span className="icon">
+									<GlobeWebIcon />
+								</span>
+								<input
+									type="text"
+									onChange={(e) =>
+										setSourceCode((current: any) => ({
+											...current,
+											sourceCode: e.target.value,
+										}))
+									}
+									placeholder="source code language"
+									required
+								/>
+							</div>
+							<div className="form-input">
+								<span className="icon">
+									<GlobeWebIcon />
+								</span>
+
+								<select
+									onChange={(e) =>
+										setSourceCode((current: any) => ({
+											...current,
+											visibility: e.target.value,
+										}))
+									}
+									className="log-inputs modal_info"
+									value={sourceCodeForm.visibility}
+									required>
+									<option value="" disabled hidden>
+										visibility
+									</option>
+									<option value="public">public</option>
+									<option value="private">private</option>
+								</select>
+							</div>
+						</Show>
 						<div className="button">
 							<PrimaryButton
 								buttonStyle="red"
 								type="submit"
 								text={buttonText ?? ''}
 								isDisabled={
-									isAddingMobile || isAddingCloud || isAddingNetwork
+									isAddingMobile ||
+									isAddingCloud ||
+									isAddingNetwork ||
+									isAddingSource
 								}
 							/>
 						</div>

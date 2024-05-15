@@ -2,78 +2,25 @@ import { type FC, useState } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import { GlobeWebIcon } from '@icons';
 import { toast } from 'react-toastify';
+import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
 
 interface AddRepositoryModalProps {
-	onDone: (params: any) => void;
+	onDone: () => void;
 	close: () => void;
-}
-interface RepositoryModel {
-	repositoryName: string;
-	repositoryUrl: string;
-	sourceCode: string;
-	visibility: string;
-
-	isLoading: boolean;
 }
 
 export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
-	const [sourceCodeForm, setSourceCode] = useState<RepositoryModel>({
-		repositoryName: '',
-		repositoryUrl: '',
-		sourceCode: '',
-		visibility: '',
-
-		isLoading: false,
-	});
+	const [sourceCodeForm, { isAddingSource, addSourceCode, setSourceCode }] =
+		useAddSourceCode();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setSourceCode((current) => ({ ...current, isLoading: true }));
-		const { repositoryName, repositoryUrl, sourceCode, visibility } =
-			sourceCodeForm;
-		if (
-			!repositoryName.trim() ||
-			repositoryName.length == 0 ||
-			repositoryName.length > 150
-		) {
-			toast.error('Invalid name');
-			setSourceCode((current) => ({ ...current, isLoading: false }));
-			return;
-		}
 
-		if (
-			!repositoryUrl.trim() ||
-			repositoryUrl.length == 0 ||
-			repositoryUrl.length > 150
-		) {
-			toast.error('Invalid url');
-			setSourceCode((current) => ({ ...current, isLoading: false }));
-			return;
-		}
-
-		if (
-			!sourceCode.trim() ||
-			sourceCode.length == 0 ||
-			sourceCode.length > 30
-		) {
-			toast.error('Invalid language');
-			setSourceCode((current) => ({ ...current, isLoading: false }));
-			return;
-		}
-		if (!visibility.trim()) {
-			toast.error('Select visibility');
-			setSourceCode((current) => ({ ...current, isLoading: false }));
-			return;
-		}
-
-		const requestParams = {
-			name: repositoryName,
-			access_link: repositoryUrl,
-			source_code: sourceCode,
-			is_public: visibility === 'public' ? 'yes' : 'no',
-		};
-		props.onDone(requestParams);
+		addSourceCode().then(() => {
+			props.onDone();
+			props.close();
+		});
 	};
 
 	return (
@@ -87,7 +34,7 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 					<input
 						type="text"
 						onChange={(e) =>
-							setSourceCode((current: RepositoryModel) => ({
+							setSourceCode((current) => ({
 								...current,
 								repositoryName: e.target.value,
 							}))
@@ -105,7 +52,7 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 					<input
 						type="text"
 						onChange={(e) =>
-							setSourceCode((current: RepositoryModel) => ({
+							setSourceCode((current) => ({
 								...current,
 								repositoryUrl: e.target.value,
 							}))
@@ -121,7 +68,7 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 					<input
 						type="text"
 						onChange={(e) =>
-							setSourceCode((current: RepositoryModel) => ({
+							setSourceCode((current) => ({
 								...current,
 								sourceCode: e.target.value,
 							}))
@@ -137,7 +84,7 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 
 					<select
 						onChange={(e) =>
-							setSourceCode((current: RepositoryModel) => ({
+							setSourceCode((current) => ({
 								...current,
 								visibility: e.target.value,
 							}))
@@ -155,7 +102,7 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 
 				<ModalButtons
 					close={props.close!}
-					isDisabled={sourceCodeForm.isLoading}
+					isDisabled={isAddingSource}
 					confirmText="Add repository"
 				/>
 			</form>
