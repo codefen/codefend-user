@@ -31,6 +31,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 
 const Sidebar: FC = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 	const { isActivePath } = usePanelStore();
 	const { getUserdata } = useUserData();
 	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -45,11 +46,7 @@ const Sidebar: FC = () => {
 		companySelected?.id !== getUserdata().company_id;
 
 	const handleOpenSidebar = (action: 'enter' | 'leave') => {
-		if (action === 'enter') {
-			setIsSidebarOpen(true);
-		} else if (action === 'leave') {
-			setIsSidebarOpen(false);
-		}
+		setIsSidebarOpen(action === 'enter' ? true : false);
 	};
 	const menuItems = [
 		{
