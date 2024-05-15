@@ -12,7 +12,7 @@ export const useSourceCode = () => {
 		(state) => state,
 	);
 	const { getCompany, logout} = useUserData();
-	const swrKeYRef = useRef<any>(["resources/source", {company: getCompany(), logout}]);
+	const swrKeYRef = useRef<any>([["resources/source", "view_all"], {company: getCompany(), logout}]);
 	const { data, mutate, isLoading,isValidating } = useSWR(
 		swrKeYRef.current,
 		(key:any)=> disponibleFetcher(key),

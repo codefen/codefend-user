@@ -11,7 +11,7 @@ export const useSocial = () => {
 	);
 	const { getCompany, logout } = useUserData();
 	const swrKeYRef = useRef<any>([
-		'resources/se',
+		['resources/se', "view_all"],
 		{ company: getCompany(), logout },
 	]);
 
