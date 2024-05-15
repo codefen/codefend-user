@@ -128,7 +128,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<GlobeWebIcon />}
 						text="From this section you can control all your web applications, add and remove domains and subdomains to your scope."
-						title="scope: web resources"
+						title="web resources"
 						highlight="Add your web applications and start a pentest!"
 					/>
 				</Show>
@@ -145,7 +145,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<MobileIcon />}
 						text="From this section you can control all your mobile applications, and those employeed by your team, add any application that you would like to audit."
-						title="scope: mobile resources"
+						title="mobile resources"
 						highlight="Add your mobile applications and start a pentest!"
 					/>
 				</Show>
@@ -162,7 +162,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<LanIcon />}
 						text="From this section you can control all your network infrastructure, add network devices and IP addresses and unveil the security of these assets!"
-						title="scope: network resources"
+						title="network resources"
 						highlight="Define and pentest your network infrastructure"
 					/>
 				</Show>
@@ -179,7 +179,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<CLoudIcon />}
 						text="From this section you can control all your cloud infrastructure, add your cloud details and allow our experts to secure your infrastructure!"
-						title="scope: cloud resources"
+						title="cloud resources"
 						highlight="Add your cloud infrastructure and start a pentest!"
 					/>
 				</Show>
@@ -196,7 +196,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<SourceCodeIcon />}
 						text="From this section you can control all your source code, add and remove code repositories to your scope, and request a manual analysis."
-						title="scope: source code review"
+						title="source code review"
 						highlight="Add your source code and start a review!"
 					/>
 				</Show>
@@ -213,7 +213,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<PeopleGroupIcon />}
 						text="From this section you can control all your social media urls and request a manual analysis."
-						title="scope: social resources"
+						title="social resources"
 						highlight="Add your social accounts and start a review!"
 					/>
 				</Show>

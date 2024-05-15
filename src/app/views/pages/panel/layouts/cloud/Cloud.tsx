@@ -76,7 +76,7 @@ const CloudApplicationPanel: FC = () => {
 					type="cloud"
 					buttonText="Add Cloud"
 					title="There's no data to display here"
-					info="Start by clicking on the button below"
+					info="Start by adding a new cloud resource"
 					event={refetch}
 				/>
 			</Show>
