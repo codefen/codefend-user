@@ -12,12 +12,13 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import Show from '@defaults/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/index.ts';
+import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
 
 const LanPage: FC = () => {
+	const [showScreen, control, refresh] = useShowScreen();
 	const { networks, loading, refetch } = useLan();
 	const { updateState, scope } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
-	const [showScreen, control] = useShowScreen();
 	const { isAdmin, isNormalUser } = useUserRole();
 	const internalNetworkDataInfo = () => {
 		const internalNetworkData = loading ? [] : networks;
@@ -36,28 +37,39 @@ const LanPage: FC = () => {
 			<main className={`lan ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
-				<section className="left">
-					<LanNetworkData
-						isLoading={loading}
-						refetchInternalNetwork={refetch}
-						internalNetwork={internalNetworkDataInfo()}
-					/>
-				</section>
+				<Show when={!loading && Boolean(internalNetworkDataInfo().length)}>
+					<section className="left">
+						<LanNetworkData
+							isLoading={loading}
+							refetchInternalNetwork={refresh}
+							internalNetwork={internalNetworkDataInfo()}
+						/>
+					</section>
 
-				<Show when={isAdmin() || isNormalUser()}>
-					<section className="right" ref={flashlight.rightPaneRef}>
-						{/* <LanNetworksChart
+					<Show when={isAdmin() || isNormalUser()}>
+						<section className="right" ref={flashlight.rightPaneRef}>
+							{/* <LanNetworksChart
 						isLoading={loading}
 						internalNetwork={internalNetworkDataInfo()}
 					/>*/}
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							click={() => updateState('open', true)}
-							className="primary-full"
-							disabledLoader
-							isDisabled={scope.totalResources <= 0}
-						/>
-					</section>
+							<PrimaryButton
+								text="START A PENTEST ON DEMAND"
+								click={() => updateState('open', true)}
+								className="primary-full"
+								disabledLoader
+								isDisabled={scope.totalResources <= 0}
+							/>
+						</section>
+					</Show>
+				</Show>
+				<Show when={!loading && !Boolean(internalNetworkDataInfo().length)}>
+					<EmptyScreenView
+						buttonText="Add Network"
+						title={"There's no data to display here"}
+						info={'Start by adding a new network structure'}
+						type="network"
+						event={refresh}
+					/>
 				</Show>
 			</main>
 		</>

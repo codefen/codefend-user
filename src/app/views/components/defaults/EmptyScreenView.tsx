@@ -3,6 +3,7 @@ import { GlobeWebIcon, PencilIcon, PrimaryButton, Show } from '..';
 import AddMobileModal from '@modals/adding-modals/AddMobileModal';
 import { useAddMobileResource } from '@resourcesHooks/mobile/useAddMobileResource';
 import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud';
+import { useAddLan } from '@resourcesHooks/netowrk/useAddLan';
 
 interface EmptyScreenProps {
 	title?: string;
@@ -28,13 +29,29 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 
 	const {
 		provider,
-		refetch,
+		refetch: handleAddCloud,
 		isAddingCloud,
 		setAppName,
 		setProvider,
 		setDescription,
 		validations,
 	} = useAddCloud(() => {}, event);
+
+	const {
+		internalAddress,
+		externalAddress,
+		isLoading: isAddingNetwork,
+		refetch: handleAddNetwork,
+		setNetworkData,
+	} = useAddLan(event, () => {});
+
+	const handleChange = (e: any) => {
+		const { name, value } = e.target;
+		setNetworkData((prevData: any) => ({
+			...prevData,
+			[name]: value,
+		}));
+	};
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -44,7 +61,9 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 			handleAddMobileResource(event, () => {});
 		} else if (type === 'cloud') {
 			if (validations()) return;
-			refetch();
+			handleAddCloud();
+		} else if (type == 'network') {
+			handleAddNetwork();
 		}
 	};
 	return (
@@ -130,12 +149,57 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 									maxLength={600}></textarea>
 							</div>
 						</Show>
+						<Show when={type === 'network'}>
+							<div className="form-input">
+								<span className="icon">
+									<GlobeWebIcon />
+								</span>
+
+								<input
+									type="text"
+									name="externalAddress"
+									value={externalAddress}
+									onChange={handleChange}
+									placeholder="External IP Address"
+									required
+								/>
+							</div>
+							<div className="form-input">
+								<span className="icon">
+									<GlobeWebIcon />
+								</span>
+
+								<input
+									type="text"
+									name="internalAddress"
+									value={internalAddress}
+									onChange={handleChange}
+									placeholder="Internal IP Address"
+									required
+								/>
+							</div>
+
+							<div className="form-input">
+								<span className="pencil-icon need-m">
+									<PencilIcon />
+								</span>
+								<textarea
+									onChange={handleChange}
+									name="desc"
+									placeholder="short description"
+									className="text-area-input log-inputs2 text-area "
+									maxLength={512}
+									required></textarea>
+							</div>
+						</Show>
 						<div className="button">
 							<PrimaryButton
 								buttonStyle="red"
 								type="submit"
 								text={buttonText ?? ''}
-								isDisabled={isAddingMobile || isAddingCloud}
+								isDisabled={
+									isAddingMobile || isAddingCloud || isAddingNetwork
+								}
 							/>
 						</div>
 					</form>
