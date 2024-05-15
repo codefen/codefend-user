@@ -39,8 +39,7 @@ const CloudApplicationPanel: FC = () => {
 				isActive={showModal}
 				headerTitle="Add Cloud"
 				close={() => setShowModal(false)}
-				type="med-w"
-				>
+				type="med-w">
 				<AddCloudModal
 					close={() => setShowModal(false)}
 					onDone={() => {
@@ -74,10 +73,11 @@ const CloudApplicationPanel: FC = () => {
 			</Show>
 			<Show when={!isLoading && !Boolean(getCloudInfo().length)}>
 				<EmptyScreenView
+					type="cloud"
 					buttonText="Add Cloud"
 					title="There's no data to display here"
 					info="Start by clicking on the button below"
-					event={() => setShowModal(!showModal)}
+					event={refetch}
 				/>
 			</Show>
 		</main>

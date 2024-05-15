@@ -513,30 +513,42 @@
 			padding: 0 1.75rem;
 
 			.header {
+				width: 100%;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				column-gap: 0.25rem;
 
 				.first-text {
+					width: 100%;
 					text-align: center;
-					font-size: 1.5rem;
 					line-height: 2rem;
 					color: var(--secondary-color-200);
 					font-weight: 800;
+
+					font-size: 2rem;
+					margin-block-end: 6px;
 				}
 
 				.second-text {
+					width: 100%;
 					display: inline-block;
 					text-align: center;
-					font-size: 1.125rem;
 					line-height: 1.75rem;
 					color: var(--tertiary-color-200);
+
+					font-size: 1.25rem;
 				}
 			}
 
+			.form-input {
+				margin-inline: auto;
+				width: 85%;
+			}
+
 			.button {
-				width: 40%;
+				width: 85%;
+				margin-inline: auto;
 
 				button {
 					width: 100%;

@@ -79,8 +79,9 @@ const MobileApplicationPanel: React.FC = () => {
 				<EmptyScreenView
 					buttonText="Add Mobile"
 					title={"There's no data to display here"}
-					info={'Start by clicking on the button below'}
-					event={handleShow}
+					info={'Start by adding a new mobile application'}
+					type="mobile"
+					event={refresh}
 				/>
 			</Show>
 		</main>
