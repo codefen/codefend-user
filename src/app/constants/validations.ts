@@ -58,4 +58,4 @@ export const hasStrNumber = (str?:string) => !!str && numberRegexVAL.test(str);
 export const hasMinChars = (str:string, minLength:number) => !!str  && str.length >= minLength;
   
 
-export const passwordValidation = (pass:string)=> pass.trim() && !passwordRegexVal.test(pass);
+export const passwordValidation = (pass:string)=> !!pass.trim() && passwordRegexVal.test(pass);
