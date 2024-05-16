@@ -5,7 +5,7 @@ import {
 } from '@stores/mobileCloudRemove.store';
 import { ConfirmModal, ModalTitleWrapper } from '.';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { userRevoke } from '#commonUserHooks/userRevoke';
+import { useUserRevoke } from '#commonUserHooks/useUserRevoke';
 import useModalStore from '@stores/modal.store';
 
 interface UserRevokeModalProps {
@@ -19,7 +19,7 @@ export const UserRevokeModal: FC<UserRevokeModalProps> = ({
 	name,
 	onDone,
 }) => {
-	const { revokeAccessUser } = userRevoke();
+	const { revokeAccessUser } = useUserRevoke();
 	const { setIsOpen, isOpen, modalId } = useModalStore();
 
 	const revoke = () => {

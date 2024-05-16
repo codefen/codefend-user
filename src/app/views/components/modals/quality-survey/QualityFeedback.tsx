@@ -20,6 +20,7 @@ interface QualityFeedbackProps extends PropsWithChildren {
 	title: string;
 	question: string;
 	isFinish?: boolean;
+	isRevoke?: boolean;
 }
 
 export const QualityFeedback: FC<QualityFeedbackProps> = ({
@@ -37,6 +38,7 @@ export const QualityFeedback: FC<QualityFeedbackProps> = ({
 	question,
 	children,
 	isFinish,
+	isRevoke,
 }) => {
 	const experience = `How was your experience with ${name}?`;
 	return (
@@ -86,7 +88,13 @@ export const QualityFeedback: FC<QualityFeedbackProps> = ({
 						/>
 					</Show>
 					<PrimaryButton
-						text={!isFinish ? 'continues' : 'send recommendation'}
+						text={
+							!isFinish
+								? !isRevoke
+									? 'continues'
+									: 'Revoke access'
+								: 'send recommendation'
+						}
 						buttonStyle="dark-red"
 						className="quality-btn"
 						click={onNext}

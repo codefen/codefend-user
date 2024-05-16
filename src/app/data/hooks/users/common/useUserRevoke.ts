@@ -4,7 +4,7 @@ import { useUserData } from "./useUserData";
 import { toast } from "react-toastify";
 
 
-export const userRevoke = ()=>{
+export const useUserRevoke = ()=>{
     const { getCompany } = useUserData();
     const [fetcher,_, isLoading] = useFetcher();
 

@@ -9,6 +9,7 @@ import { QualityFeedbackTechSupport } from './layouts/QualityFeedbackTechSupport
 import { QualityFeedbackFinding } from './layouts/QualityFeedbackFinding';
 import { QualityFeedbackComunication } from './layouts/QualityFeedbackComunication';
 import { QualityFeedbackMessage } from './layouts/QualityFeedbackMessage';
+import { QualityFeedbackRevokeAccess } from './layouts/QualityFeedbackRevokeAccess';
 
 export const QualityFeedbackManager = () => {
 	const { isOpen, activePhase, provider, updatePhase, updateIsOpen } =
@@ -44,6 +45,9 @@ export const QualityFeedbackManager = () => {
 	}
 	if (activePhase === QualitySurveyPhase.MESSAGE) {
 		return <QualityFeedbackMessage />;
+	}
+	if (activePhase === QualitySurveyPhase.REVOKE) {
+		return <QualityFeedbackRevokeAccess />;
 	}
 
 	return undefined;
