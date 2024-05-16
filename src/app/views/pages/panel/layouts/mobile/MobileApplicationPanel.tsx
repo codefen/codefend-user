@@ -19,7 +19,6 @@ import useTimeout from '#commonHooks/useTimeout.ts';
 import EmptyScreenView from '@defaults/EmptyScreenView';
 import { ListResourceWithSearch } from '@standalones/LeftMobileCloud';
 import { MobileSelectedDetails } from './components/MobileSelectedDetails';
-import { CredentialsModal } from '@modals/credentials/CredentialsModal';
 
 const MobileApplicationPanel: React.FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();

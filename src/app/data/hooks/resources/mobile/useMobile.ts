@@ -13,7 +13,7 @@ import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validati
 export const useMobile = () => {
 	const { logout } = useUserData();
 	const { getCompany} = useUserData();
-	const [fetcher,_, isLoading] = useFetcher(true);
+	const [fetcher,_, isLoading] = useFetcher();
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
 	);
@@ -30,8 +30,7 @@ export const useMobile = () => {
 				ac: 'view_all',
 				company_id: companyID,
 			},
-		})
-			.then(({ data }: any) => {
+		}).then(({ data }: any) => {
 				if(verifySession(data, logout)) return;
 				if (apiErrorValidation(data?.error, data?.response)){
 					throw new Error("");

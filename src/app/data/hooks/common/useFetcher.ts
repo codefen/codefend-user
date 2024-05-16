@@ -38,8 +38,6 @@ export const useFetcher = (isRoot?: boolean)=>{
       }
 
       return () => {
-        //Si el componente root se desmonta se cancela todo
-        if(isRoot) httpService.current?.cancelAll();
         httpService.current = undefined;
       };
     }, []);
