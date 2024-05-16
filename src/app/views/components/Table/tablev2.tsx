@@ -50,7 +50,7 @@ export const TableV2: FC<TableProps> = ({
 
 	return (
 		<div
-			className={`table ${isSmall && 'small'}`}
+			className={`table ${isSmall && 'small'} ${!tableAction && 'table-with-out-action'}`}
 			style={
 				{
 					'--row-size-x': calculateRowSizeX(sizeX),

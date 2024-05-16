@@ -238,34 +238,35 @@ export const sourceCodeColumnsWithoutAction: ColumnTable[] = sourceCodeColumns.f
 
 export const issueColumns: ColumnTable[] = [
 	{
-		name: 'published',
-		value: 'published',
-		style: 'date',
+		name: 'issueTitle',
+		value: 'issue',
+		style: 'vul-title',
 	},
 	{
 		name: 'author',
 		value: 'author',
 		style: 'username',
 	},
+	/*{
+		name: 'risk',
+		value: 'risk',
+		style: 'vul-risk',
+	},*/
 	{
 		name: 'type',
 		value: 'class',
 		style: 'vul-class',
 	},
-	{
-		name: 'risk',
-		value: 'risk',
-		style: 'vul-risk',
-	},
+
 	{
 		name: 'score',
-		value: 'score',
+		value: 'risk level',
 		style: 'vul-score',
 	},
 	{
-		name: 'issueTitle',
-		value: 'issue title',
-		style: 'vul-title',
+		name: 'published',
+		value: 'published',
+		style: 'date',
 	},
 	{
 		name: 'status',

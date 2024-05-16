@@ -1,7 +1,5 @@
 .table {
 	width: 100%;
-	// display: table;
-	// flex: 1 1;
 	border-collapse: collapse;
 	transition-property: border-image, border;
 	transition-duration: 325ms;
@@ -271,13 +269,44 @@
 	.vul-title {
 		min-width: 100px;
 		overflow: hidden;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 5;
+
+		&.resource-icon {
+			.publish {
+				display: inline-flex;
+				align-items: center !important;
+				text-align: center;
+				column-gap: 6px;
+
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+			}
+		}
 	}
 
 	.vul-condition {
 		max-width: 100px;
+
+		&.with-icon {
+			.publish {
+				padding-inline: 9px;
+				svg {
+					width: 1.5rem;
+					height: 1.5rem;
+
+					&.open {
+						color: oklch(0.7 0.19 23.4);
+					}
+					&.verified {
+						color: oklch(0.65 0.14 246.14);
+					}
+					&.fixed {
+						color: oklch(0.73 0.21 144.11);
+					}
+				}
+			}
+		}
 	}
 
 	.trash {

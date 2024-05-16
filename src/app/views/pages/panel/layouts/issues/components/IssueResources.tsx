@@ -11,11 +11,20 @@ import { useNewWindows } from '#commonHooks/useNewWindows.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { RiskScore } from '@standalones/utils/RiskScore.tsx';
-import { TrashIcon, BugIcon } from '@icons';
+import {
+	TrashIcon,
+	BugIcon,
+	ImportantIcon,
+	EyeIcon,
+	LockClosedIcon,
+	MagnifyingGlassIcon,
+} from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import '@table/table.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import Show from '@defaults/Show';
+import { ResourceIconText } from '@standalones/utils/ResourceIconText';
+import { ModalInput } from '@defaults/ModalInput';
 
 interface IssueResourcesProps {
 	isLoading: boolean;
@@ -24,6 +33,14 @@ interface IssueResourcesProps {
 	addFinding: () => void;
 }
 
+const getCondIcon = (condition: string) => {
+	if (condition === 'open')
+		return <ImportantIcon className="open" name={condition} />;
+	if (condition === 'verified')
+		return <EyeIcon className="verified" name={condition} />;
+	return <LockClosedIcon className="fixed" name={condition} />;
+};
+
 export const IssueResources: FC<IssueResourcesProps> = (props) => {
 	const navigate = useNavigate();
 	const [selected, setSelectedId] = useState('');
@@ -31,19 +48,36 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 	const { handleDelete } = useDeleteIssue();
 	const { baseUrl } = useNewWindows();
 	const { isProvider, isAdmin } = useUserRole();
-	let dataTable = props.issues.map((issue: Issues) => ({
-		ID: { value: issue.id, style: '' },
-		published: { value: issue.createdAt, style: 'date' },
-		author: { value: issue.researcherUsername, style: 'username' },
-		type: { value: issue.resourceClass, style: 'vul-class' },
-		risk: { value: issue.riskLevel, style: 'vul-risk' },
-		score: {
-			value: <RiskScore riskScore={issue.riskScore} />,
-			style: 'vul-score',
-		},
-		issueTitle: { value: issue.name, style: 'vul-title' },
-		status: { value: issue.condition, style: 'vul-condition' },
-	}));
+	const [searchTerm, setTerm] = useState('');
+
+	const dataTable = props.issues
+		.filter((issue) =>
+			issue.name.toLowerCase().includes(searchTerm.toLowerCase()),
+		)
+		.map((issue: Issues) => ({
+			ID: { value: issue.id, style: '' },
+			issueTitle: {
+				value: (
+					<ResourceIconText
+						name={issue.name}
+						resourceClass={issue.resourceClass}
+					/>
+				),
+				style: 'vul-title resource-icon',
+			},
+			published: { value: issue.createdAt, style: 'date' },
+			author: { value: `@${issue.researcherUsername}`, style: 'username' },
+			type: { value: issue.resourceClass, style: 'vul-class' },
+			risk: { value: issue.riskLevel, style: 'vul-risk' },
+			score: {
+				value: <RiskScore riskScore={issue.riskScore} />,
+				style: 'vul-score',
+			},
+			status: {
+				value: issue.condition,
+				style: 'vul-condition',
+			},
+		}));
 	const actionTable = {
 		icon: [
 			{
@@ -56,13 +90,6 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 			},
 		],
 	};
-	if (isAdmin() || isProvider()) {
-		dataTable.map((rows: any) => ({
-			...rows,
-			action: { value: 'actions', style: 'id' },
-		}));
-	}
-
 	return (
 		<>
 			<ModalTitleWrapper
@@ -97,6 +124,14 @@ export const IssueResources: FC<IssueResourcesProps> = (props) => {
 							</div>
 						</div>
 					</Show>
+				</div>
+
+				<div className="">
+					<ModalInput
+						icon={<MagnifyingGlassIcon />}
+						setValue={(val: string) => setTerm(val)}
+						placeholder="Search issue. . ."
+					/>
 				</div>
 
 				<TableV2

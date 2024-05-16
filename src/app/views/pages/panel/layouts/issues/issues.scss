@@ -54,13 +54,6 @@ main.issue-detail {
 				&:focus {
 					border: none !important;
 				}
-
-				&.add-issues {
-					// flex: 1;
-					// width: 90%;
-					// height: 100%;
-					// border-bottom: none;
-				}
 			}
 
 			.name {
@@ -68,7 +61,6 @@ main.issue-detail {
 				font-weight: 700;
 				font-size: 14px;
 				border-right: none;
-				// border-top: 1px solid var(--primary-color-300);
 
 				flex: 1 1;
 			}
@@ -296,16 +288,16 @@ main.issues-list {
 				align-items: flex-start;
 			}
 			.date {
-				min-width: 12%;
-				max-width: 12%;
+				min-width: 13%;
+				max-width: 13%;
 			}
 
 			.username {
 				display: none;
 			}
 			.vul-class {
-				min-width: 7%;
-				max-width: 7%; //27 y 4
+				min-width: 8%;
+				max-width: 8%; //27 y 4
 				margin-inline-end: 1%;
 			}
 
@@ -315,30 +307,21 @@ main.issues-list {
 				margin-inline-end: 1%;
 			}
 			.vul-score {
-				min-width: 11.5%;
-				max-width: 11.5%; //49.5 y 1
+				min-width: 13%;
+				max-width: 13%; //49.5 y 1
 				margin-inline-end: 1%;
 				.score-value {
 					margin-block-start: 0.25rem;
 				}
 			}
 			.vul-title {
-				min-width: 40.5%;
-				max-width: 40.5%;
+				min-width: 46%;
+				max-width: 46%;
 				margin-inline-end: 1%;
-
-				.publish {
-					word-break: break-all;
-					white-space: break-spaces;
-					line-height: 1.1rem;
-					max-height: 2.2rem;
-					display: ruby-text;
-				}
 			}
 			.vul-condition {
-				min-width: 8%;
-				max-width: 8%; //58.5 y 2
-				margin-inline-end: 1%;
+				min-width: 10%;
+				max-width: 10%; //58.5 y 2
 			}
 
 			.id.action {
@@ -347,6 +330,14 @@ main.issues-list {
 
 				.publish {
 					justify-content: center;
+				}
+			}
+
+			&.table-with-out-action {
+				.vul-title {
+					min-width: 53%;
+					max-width: 53%;
+					margin-inline-end: 1%;
 				}
 			}
 
@@ -372,14 +363,21 @@ main.issues-list {
 					margin-inline-end: 1%;
 				}
 				.vul-title {
-					min-width: 36%;
-					max-width: 36%;
+					min-width: 45%;
+					max-width: 45%;
 					margin-inline-end: 1%;
 				}
 				.vul-condition {
 					min-width: 6.5%;
 					max-width: 6.5%;
 					margin-inline-end: 1%;
+				}
+
+				&.table-with-out-action {
+					.vul-title {
+						min-width: 52%;
+						max-width: 52%;
+					}
 				}
 			}
 		}
