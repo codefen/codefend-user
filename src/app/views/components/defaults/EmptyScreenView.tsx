@@ -1,11 +1,12 @@
 import { type FC, type FormEvent } from 'react';
-import { GlobeWebIcon, PencilIcon, PrimaryButton, Show } from '..';
+import { GlobeWebIcon, PrimaryButton, Show } from '..';
 import { useAddMobileResource } from '@resourcesHooks/mobile/useAddMobileResource';
 import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud';
 import { useAddLan } from '@resourcesHooks/netowrk/useAddLan';
 import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
 import { useAddSocial } from '@panelHooks/index';
 import { ModalInput } from './ModalInput';
+import { ModalTextArea } from './ModalTextArea';
 
 interface EmptyScreenProps {
 	title?: string;
@@ -40,8 +41,6 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 	} = useAddCloud(() => {}, event);
 
 	const {
-		internalAddress,
-		externalAddress,
 		isLoading: isAddingNetwork,
 		refetch: handleAddNetwork,
 		setNetworkData,
@@ -129,113 +128,78 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 								required
 							/>
 
-							<div className="form-input">
-								<span className="pencil-icon need-m">
-									<PencilIcon />
-								</span>
-								<textarea
-									onChange={(e) => setDescription(e.target.value)}
-									name="desc"
-									placeholder="short description"
-									className="text-area-input log-inputs2 text-area "
-									maxLength={600}></textarea>
-							</div>
+							<ModalTextArea
+								setValue={(val: string) => setDescription(val)}
+								placeholder="short description"
+								maxLength={600}
+							/>
 						</Show>
 						<Show when={type === 'network'}>
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
+							<ModalInput
+								setValue={(val: string) =>
+									setNetworkData((prevData: any) => ({
+										...prevData,
+										externalAddress: val,
+									}))
+								}
+								placeholder="External IP Address"
+								required
+							/>
+							<ModalInput
+								setValue={(val: string) =>
+									setNetworkData((prevData: any) => ({
+										...prevData,
+										internalAddress: val,
+									}))
+								}
+								placeholder="Internal IP Address"
+								required
+							/>
 
-								<input
-									type="text"
-									name="externalAddress"
-									value={externalAddress}
-									onChange={handleChange}
-									placeholder="External IP Address"
-									required
-								/>
-							</div>
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
-
-								<input
-									type="text"
-									name="internalAddress"
-									value={internalAddress}
-									onChange={handleChange}
-									placeholder="Internal IP Address"
-									required
-								/>
-							</div>
-
-							<div className="form-input">
-								<span className="pencil-icon need-m">
-									<PencilIcon />
-								</span>
-								<textarea
-									onChange={handleChange}
-									name="desc"
-									placeholder="short description"
-									className="text-area-input log-inputs2 text-area "
-									maxLength={512}
-									required></textarea>
-							</div>
+							<ModalTextArea
+								setValue={(val: string) =>
+									setNetworkData((prevData: any) => ({
+										...prevData,
+										desc: val,
+									}))
+								}
+								placeholder="short description"
+								maxLength={512}
+								required
+							/>
 						</Show>
 						<Show when={type === 'source'}>
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
+							<ModalInput
+								setValue={(val: string) =>
+									setSourceCode((current: any) => ({
+										...current,
+										repositoryName: val,
+									}))
+								}
+								placeholder="repository name"
+								required
+							/>
+							<ModalInput
+								setValue={(val: string) =>
+									setSourceCode((current: any) => ({
+										...current,
+										repositoryUrl: val,
+									}))
+								}
+								placeholder="repository url"
+								required
+							/>
+							<ModalInput
+								setValue={(val: string) =>
+									setSourceCode((current: any) => ({
+										...current,
+										sourceCode: val,
+									}))
+								}
+								placeholder="source code language"
+								required
+							/>
 
-								<input
-									type="text"
-									onChange={(e) =>
-										setSourceCode((current: any) => ({
-											...current,
-											repositoryName: e.target.value,
-										}))
-									}
-									placeholder="repository name"
-									required
-								/>
-							</div>
-
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
-
-								<input
-									type="text"
-									onChange={(e) =>
-										setSourceCode((current: any) => ({
-											...current,
-											repositoryUrl: e.target.value,
-										}))
-									}
-									placeholder="repository url"
-									required
-								/>
-							</div>
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
-								<input
-									type="text"
-									onChange={(e) =>
-										setSourceCode((current: any) => ({
-											...current,
-											sourceCode: e.target.value,
-										}))
-									}
-									placeholder="source code language"
-									required
-								/>
-							</div>
 							<div className="form-input">
 								<span className="icon">
 									<GlobeWebIcon />
@@ -260,72 +224,46 @@ const EmptyScreenView: FC<EmptyScreenProps> = ({
 							</div>
 						</Show>
 						<Show when={type === 'social'}>
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
+							<ModalInput
+								setValue={(val: string) =>
+									setSocialData((prevData) => ({
+										...prevData,
+										fName: val,
+									}))
+								}
+								placeholder="name"
+							/>
 
-								<input
-									type="text"
-									onChange={(e) =>
-										setSocialData((prevData) => ({
-											...prevData,
-											fName: e.target.value,
-										}))
-									}
-									placeholder="name"
-								/>
-							</div>
+							<ModalInput
+								setValue={(val: string) =>
+									setSocialData((prevData) => ({
+										...prevData,
+										lName: val,
+									}))
+								}
+								placeholder="last name"
+							/>
 
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
+							<ModalInput
+								setValue={(val: string) =>
+									setSocialData((prevData) => ({
+										...prevData,
+										mail: val,
+									}))
+								}
+								placeholder="email address"
+							/>
 
-								<input
-									type="text"
-									onChange={(e) =>
-										setSocialData((prevData) => ({
-											...prevData,
-											lName: e.target.value,
-										}))
-									}
-									placeholder="last name"
-								/>
-							</div>
+							<ModalInput
+								setValue={(val: string) =>
+									setSocialData((prevData) => ({
+										...prevData,
+										phone: val,
+									}))
+								}
+								placeholder="phone number"
+							/>
 
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
-
-								<input
-									type="text"
-									onChange={(e) =>
-										setSocialData((prevData) => ({
-											...prevData,
-											mail: e.target.value,
-										}))
-									}
-									placeholder="email address"
-								/>
-							</div>
-							<div className="form-input">
-								<span className="icon">
-									<GlobeWebIcon />
-								</span>
-
-								<input
-									type="text"
-									onChange={(e) =>
-										setSocialData((prevData) => ({
-											...prevData,
-											phone: e.target.value,
-										}))
-									}
-									placeholder="phone number"
-								/>
-							</div>
 							<div className="form-input">
 								<span className="icon">
 									<GlobeWebIcon />
