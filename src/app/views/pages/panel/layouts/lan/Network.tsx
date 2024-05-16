@@ -5,7 +5,7 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { LanNetworkData } from './components/NetworkData.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import './Lan.scss';
+import './network.scss';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';

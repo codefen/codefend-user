@@ -13,6 +13,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/index.ts';
 import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
+import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -64,31 +65,42 @@ const SocialEngineeringView = () => {
 			<main className={`social ${showScreen ? 'actived' : ''}`}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
-				<section className="left">
-					<SocialEngineering
-						refetch={refresh}
-						isLoading={isLoading}
-						socials={filteredData}
-					/>
-				</section>
-				<section className="right" ref={flashlight.rightPaneRef}>
-					<Show when={members && Boolean(members.length)}>
-						<SocialEngineeringMembers
+				<Show when={!isLoading && Boolean(members?.length)}>
+					<section className="left">
+						<SocialEngineering
+							refetch={refresh}
 							isLoading={isLoading}
-							members={members || []}
-							handleDepartmentFilter={handleDepartmentFIlter}
+							socials={filteredData}
 						/>
-					</Show>
-					<Show when={isAdmin() || isNormalUser()}>
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							className="primary-full"
-							click={() => updateState('open', open)}
-							disabledLoader
-							isDisabled={scope.totalResources <= 0}
-						/>
-					</Show>
-				</section>
+					</section>
+					<section className="right" ref={flashlight.rightPaneRef}>
+						<Show when={members && Boolean(members.length)}>
+							<SocialEngineeringMembers
+								isLoading={isLoading}
+								members={members || []}
+								handleDepartmentFilter={handleDepartmentFIlter}
+							/>
+						</Show>
+						<Show when={isAdmin() || isNormalUser()}>
+							<PrimaryButton
+								text="START A PENTEST ON DEMAND"
+								className="primary-full"
+								click={() => updateState('open', open)}
+								disabledLoader
+								isDisabled={scope.totalResources <= 0}
+							/>
+						</Show>
+					</section>
+				</Show>
+				<Show when={!isLoading && !Boolean(members?.length)}>
+					<EmptyScreenView
+						type="social"
+						buttonText="Add Social resource"
+						title="Social Engineering"
+						info={'Start by adding a new person'}
+						event={refetch}
+					/>
+				</Show>
 			</main>
 		</>
 	);
