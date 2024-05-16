@@ -30,7 +30,7 @@ export const useUserHavePollActive = () => {
 		useQualitySurveyStore();
     const startPoll = useQualitySurveyStart();
 	const swrKeYRef = useRef<any>(["users/communiques/index", {company: getCompany(), user: getUserdata().id, logout}]);
-	const { data, isLoading } = useSWR(
+	const { data, isLoading,isValidating } = useSWR(
 		swrKeYRef.current,
 		(key:any)=> fetcher(key),
 		{
@@ -54,6 +54,6 @@ export const useUserHavePollActive = () => {
                 updateReferenceNumber(orderComunique.order_reference_number);
             });
         }
-    }, [data,isLoading]);
+    }, [data,isLoading,isValidating]);
 
 };
