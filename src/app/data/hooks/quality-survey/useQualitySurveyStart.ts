@@ -12,7 +12,7 @@ export const useQualitySurveyStart =()=>{
     const startPoll = (orderId: string, referenceNumber:string)=>{
         const companyID = getCompany();
 		if (companyIdIsNotNull(companyID) || !orderId) return;
-         fetcher("post", {
+        return fetcher("post", {
             body: {
                 model: "orders/review",
                 phase: "profile_info",

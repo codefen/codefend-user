@@ -10,6 +10,7 @@ import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager.tsx';
 import '/public/flags/flags.css';
 import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
+import { useUserHavePollActive } from '@hooks/quality-survey/useUserHavePollActive.ts';
 
 export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
@@ -25,6 +26,7 @@ export const PanelPage: FC = () => {
 	const { isAuth, logout, getUserdata } = useUserData();
 	const { updateAuth } = useAuthStore((state) => state);
 	const { getProviderCompanyAccess } = useProviderCompanies();
+	useUserHavePollActive();
 	if (!isAuth) logout();
 
 	useEffect(() => {
