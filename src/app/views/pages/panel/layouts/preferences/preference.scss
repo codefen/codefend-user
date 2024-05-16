@@ -2,12 +2,16 @@ main.preferences {
 	padding-inline-end: 0px;
 	.left {
 		overflow-y: hidden;
+
+		.modal.revoke-modal {
+			max-width: 500px;
+
+			.content form {
+				width: 65%;
+			}
+		}
 	}
 	.right {
-		// display: flex;
-		// flex-direction: column;
-		// row-gap: 2rem;
-
 		.table-company-data {
 			width: 100%;
 

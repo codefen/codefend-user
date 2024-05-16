@@ -1,21 +1,32 @@
-import { type FC } from 'react';
+import { useRef, type FC } from 'react';
 import type { Member } from '@interfaces/panel';
 import { ExitIcon, PeopleGroupIcon } from '@icons';
 import { TableV2 } from '@table/tablev2';
 import { preferenceMemberColumns } from '@mocks/defaultData';
 import useModalStore from '@stores/modal.store';
 import { LocationItem } from '@standalones/index';
+import { UserRevokeModal } from '@modals/UserRevokeModal';
 
 interface CollaboratorDataProps {
 	isLoading: boolean;
 	members: Member[];
+	refetch: () => void;
 }
 
 const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 	members,
 	isLoading,
+	refetch,
 }) => {
 	const { setModalId, setIsOpen } = useModalStore();
+	const userRevokeData = useRef(['', '']);
+
+	const openRevokeModal = (userId: string, name: string) => {
+		userRevokeData.current = [userId, name];
+		setModalId('revoke');
+		setIsOpen(true);
+	};
+
 	const dataTable = members.map((member) => ({
 		ID: { value: '', style: '' },
 		Identifier: { value: Number(member.id), style: 'id' },
@@ -41,7 +52,13 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 				<>
 					<span
 						title="Remove from the company"
-						className={`${!member.company_access_ids ? 'off' : ''}`}>
+						className={`${!member.company_access_ids ? 'off' : ''}`}
+						onClick={() =>
+							openRevokeModal(
+								member.id,
+								`${member.fname} ${member.lname}`,
+							)
+						}>
 						<ExitIcon />
 					</span>
 				</>
@@ -55,25 +72,32 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 		setIsOpen(true);
 	};
 	return (
-		<div className="card member-tables">
-			<div className="header">
-				<div className="title">
-					<div className="icon">
-						<PeopleGroupIcon />
-					</div>
-					<span>COLLABORATORS AND TEAM MEMBERS</span>
-				</div>
-				<div className="actions">
-					<div onClick={handleAddCollaborator}>Add collaborator</div>
-				</div>
-			</div>
-			<TableV2
-				columns={preferenceMemberColumns}
-				rowsData={dataTable}
-				showRows={!isLoading}
-				showEmpty={!Boolean(dataTable.length) && !isLoading}
+		<>
+			<UserRevokeModal
+				name={userRevokeData.current[1]}
+				userID={userRevokeData.current[0]}
+				onDone={refetch}
 			/>
-		</div>
+			<div className="card member-tables">
+				<div className="header">
+					<div className="title">
+						<div className="icon">
+							<PeopleGroupIcon />
+						</div>
+						<span>COLLABORATORS AND TEAM MEMBERS</span>
+					</div>
+					<div className="actions">
+						<div onClick={handleAddCollaborator}>Add collaborator</div>
+					</div>
+				</div>
+				<TableV2
+					columns={preferenceMemberColumns}
+					rowsData={dataTable}
+					showRows={!isLoading}
+					showEmpty={!Boolean(dataTable.length) && !isLoading}
+				/>
+			</div>
+		</>
 	);
 };
 

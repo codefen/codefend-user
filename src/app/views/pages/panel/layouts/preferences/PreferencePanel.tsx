@@ -14,12 +14,12 @@ import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 
 const PreferencePanel = () => {
-	const [showScreen] = useShowScreen();
+	const [showScreen, control, refresh] = useShowScreen();
 	const { orders, company, members, isLoading, refetch } = usePreferences();
 	const { isFinishQualityPoll } = useQualitySurveyStore();
 	useEffect(() => {
 		refetch();
-	}, [isFinishQualityPoll]);
+	}, [isFinishQualityPoll, control]);
 
 	return (
 		<>
@@ -31,6 +31,7 @@ const PreferencePanel = () => {
 						<SettingCollaboratorAndTeam
 							isLoading={isLoading}
 							members={members || []}
+							refetch={refresh}
 						/>
 						<SettingOrderAndBilling
 							isLoading={isLoading}
