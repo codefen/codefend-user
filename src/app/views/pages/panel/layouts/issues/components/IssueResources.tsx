@@ -11,14 +11,7 @@ import { useNewWindows } from '#commonHooks/useNewWindows.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { RiskScore } from '@standalones/utils/RiskScore.tsx';
-import {
-	TrashIcon,
-	BugIcon,
-	ImportantIcon,
-	EyeIcon,
-	LockClosedIcon,
-	MagnifyingGlassIcon,
-} from '@icons';
+import { TrashIcon, BugIcon, MagnifyingGlassIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import '@table/table.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole';
@@ -32,14 +25,6 @@ interface IssueResourcesProps {
 	refresh: () => void;
 	addFinding: () => void;
 }
-
-const getCondIcon = (condition: string) => {
-	if (condition === 'open')
-		return <ImportantIcon className="open" name={condition} />;
-	if (condition === 'verified')
-		return <EyeIcon className="verified" name={condition} />;
-	return <LockClosedIcon className="fixed" name={condition} />;
-};
 
 export const IssueResources: FC<IssueResourcesProps> = (props) => {
 	const navigate = useNavigate();

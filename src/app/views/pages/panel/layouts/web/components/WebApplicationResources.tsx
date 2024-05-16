@@ -15,6 +15,7 @@ import {
 	BugIcon,
 	DocumentIcon,
 	CredentialIcon,
+	MagnifyingGlassIcon,
 } from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
@@ -24,6 +25,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole';
 import Show from '@defaults/Show';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
+import { ModalInput } from '@defaults/ModalInput';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -52,6 +54,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
 	const { handleDelete } = useDeleteWebResource();
+	const [searchTerm, setTerm] = useState('');
 	const getResources = useMemo(() => {
 		const resources = props.isLoading ? [] : props.webResources;
 		return resources !== undefined ? resources.reverse() : [];
@@ -69,8 +72,13 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 		}
 	};
 
-	const tableData: Record<string, TableItem>[] = getResources.map(
-		(mainNetwork: Webresources, i: number) => ({
+	const tableData: Record<string, TableItem>[] = getResources
+		.filter((mainNetwork) =>
+			mainNetwork.resourceDomain
+				.toLowerCase()
+				.includes(searchTerm.toLowerCase()),
+		)
+		.map((mainNetwork: Webresources, i: number) => ({
 			ID: { value: '', style: '' },
 			Identifier: { value: Number(mainNetwork.id), style: 'id' },
 			domainName: {
@@ -277,8 +285,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 					) as ReactNode,
 				style: '',
 			},
-		}),
-	);
+		}));
 
 	return (
 		<>
@@ -362,6 +369,14 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 								Add subdomain
 							</div>
 						</div>
+					</div>
+
+					<div className="">
+						<ModalInput
+							icon={<MagnifyingGlassIcon />}
+							setValue={(val: string) => setTerm(val)}
+							placeholder="Search resource. . ."
+						/>
 					</div>
 
 					<TableV2
