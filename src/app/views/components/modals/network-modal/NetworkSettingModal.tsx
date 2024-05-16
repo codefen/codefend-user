@@ -14,12 +14,12 @@ import './networkSetting.scss';
 import { PrimaryButton } from '../..';
 import { useUserData } from '#commonUserHooks/useUserData';
 
-interface NetworkSetingModalProps {
+interface NetworkSettingModalProps {
 	isOpen: boolean;
 	close: () => void;
 }
 
-export const NetworkSetingModal: FC<NetworkSetingModalProps> = ({
+export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({
 	close,
 	isOpen,
 }) => {

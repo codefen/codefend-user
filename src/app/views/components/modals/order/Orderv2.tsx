@@ -8,7 +8,7 @@ import { PageLoader } from '../..';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
 import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
-import { ActiveProgressLine } from './components/ActiveProgessiveSteps';
+import { ActiveProgressiveSteps } from './components/ActiveProgressiveSteps';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 import { OrderSection, useOrderStore, useOrders } from '../../../../data';
 import { AnyPaymentMetod } from './layouts/AnyPaymentMetod';
@@ -77,7 +77,9 @@ export const OrderV2 = () => {
 							<h2>
 								<span>Execute a </span>new pentest
 							</h2>
-							<ActiveProgressLine orderStepActive={orderStepActive} />
+							<ActiveProgressiveSteps
+								orderStepActive={orderStepActive}
+							/>
 						</div>
 					</header>
 

@@ -2,11 +2,11 @@ import { type FC } from 'react';
 import { OrderSection } from '../../../../../data';
 import { StepItem } from './StepItem';
 
-interface ActiveProgressLineProps {
+interface ActiveProgressiveStepsProps {
 	orderStepActive: OrderSection;
 }
 
-export const ActiveProgressLine: FC<ActiveProgressLineProps> = ({
+export const ActiveProgressiveSteps: FC<ActiveProgressiveStepsProps> = ({
 	orderStepActive,
 }) => {
 	const currentOrCompleted = (current: OrderSection, verify: OrderSection) => {

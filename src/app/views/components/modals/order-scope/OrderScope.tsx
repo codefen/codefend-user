@@ -6,7 +6,7 @@ import { EmptyCard, ModalTitleWrapper } from '../..';
 import { OrderScopeTable } from './OrderTableScope';
 import { OrderScopeBar } from './OrderScopeBar';
 import useOrderScopeStore from '@stores/orderScope.store';
-import { OrderProviderTransfer } from '../ordertransfer/OrderProviderTransfer';
+import { OrderProviderTransfer } from '../order-transfer/OrderProviderTransfer';
 import { useForwardOrder } from '@userHooks/providers/useForwardOrder';
 
 const defineActiveAlias = (scopeV: any) => {

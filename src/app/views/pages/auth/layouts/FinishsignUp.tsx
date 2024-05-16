@@ -6,7 +6,7 @@ import { PrimaryButton } from '../../../components';
 import { type RegisterFinishParams } from '../../../../data';
 import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 import { Link } from 'react-router-dom';
-import { PasswordRequirenments } from './PasswordRequirenments';
+import { PasswordRequirements } from './PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 
 const FinishSignUpLayout: FC = () => {
@@ -84,7 +84,7 @@ const FinishSignUpLayout: FC = () => {
 					required
 				/>
 			</div>
-			<PasswordRequirenments password={userState.password} />
+			<PasswordRequirements password={userState.password} />
 			<div className="margin-top">
 				<span className="text-sm text-alt3">
 					I have read and accept the{' '}

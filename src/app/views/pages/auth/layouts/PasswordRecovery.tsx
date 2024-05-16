@@ -3,7 +3,7 @@ import { PrimaryButton } from '../../../components';
 import { usePasswordRecovery } from '#commonUserHooks/usePasswordRecovery';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { PasswordRequirenments } from './PasswordRequirenments';
+import { PasswordRequirements } from './PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 
 export const PasswordRecovery = () => {
@@ -175,7 +175,7 @@ export const PasswordRecovery = () => {
 					required
 				/>
 			</div>
-			<PasswordRequirenments password={passwordRecovery.newPassword} />
+			<PasswordRequirements password={passwordRecovery.newPassword} />
 			<div className="confirm-button">
 				<PrimaryButton
 					text="Proceed"

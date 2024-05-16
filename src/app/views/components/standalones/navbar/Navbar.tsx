@@ -6,7 +6,7 @@ import { Breadcrumb } from '@standalones/utils/Breadcrumb.tsx';
 import { LogoutIcon, NetworkIcon } from '@icons';
 import Show from '@defaults/Show.tsx';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
-import { NetworkSetingModal } from '@modals/network-modal/NetworkSetingModal.tsx';
+import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 import { NavbarSubMenu } from './NavbarSubMenu.tsx';
 import { usePanelStore } from '../../../../data';
 import useModal from '#commonHooks/useModal.ts';
@@ -74,7 +74,7 @@ const Navbar: FC = () => {
 				</ModalWrapper>
 			</Show>
 			{isAdmin() && (
-				<NetworkSetingModal
+				<NetworkSettingModal
 					close={() => setNetworkSettingState(!isOpen)}
 					isOpen={isOpen}
 				/>

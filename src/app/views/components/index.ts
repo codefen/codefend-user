@@ -16,5 +16,5 @@ export const Sidebar = lazy(
 	() => import('../../views/components/standalones/sidebar/Sidebar'),
 );
 export const ErrorConection = lazy(
-	() => import('../../views/components/modals/ErrorConection'),
+	() => import('./modals/ErrorConnection'),
 );

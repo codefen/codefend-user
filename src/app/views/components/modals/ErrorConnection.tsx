@@ -6,9 +6,12 @@ import {
 	useNetworkSettingState,
 } from '../../../data';
 
-const ErrorConection: FC<{ closeModal: () => void; open: boolean }> = (
-	props,
-) => {
+interface ErrorConnectionProps {
+	closeModal: () => void;
+	open: boolean;
+}
+
+const ErrorConnection: FC<ErrorConnectionProps> = (props) => {
 	const { setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
@@ -88,4 +91,4 @@ const ErrorConection: FC<{ closeModal: () => void; open: boolean }> = (
 	);
 };
 
-export default ErrorConection;
+export default ErrorConnection;

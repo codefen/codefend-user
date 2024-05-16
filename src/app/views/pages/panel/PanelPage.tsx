@@ -13,7 +13,7 @@ import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.
 
 export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
-export const ErrorConection = lazy(() => import('@modals/ErrorConection.tsx'));
+export const ErrorConection = lazy(() => import('@modals/ErrorConnection.tsx'));
 export const MobileFallback = lazy(
 	() => import('@defaults/mobile-fallback/MobileFallback.tsx'),
 );

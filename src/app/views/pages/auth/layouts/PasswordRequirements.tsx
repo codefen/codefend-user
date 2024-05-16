@@ -8,11 +8,11 @@ import {
 	hasUpperCase,
 } from '@/app/constants/validations';
 
-interface PasswordRequirenmentsProps {
+interface PasswordRequirementsProps {
 	password: string;
 }
 
-export const PasswordRequirenments: FC<PasswordRequirenmentsProps> = ({
+export const PasswordRequirements: FC<PasswordRequirementsProps> = ({
 	password,
 }) => (
 	<div className="password-req-container">

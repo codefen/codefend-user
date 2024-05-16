@@ -7,7 +7,7 @@ export { default as ConfirmModal } from './ConfirmModal';
 export { default as ModalTitleWrapper } from './modalwrapper/ModalTitleWrapper.tsx';
 export { default as ModalWrapper } from './modalwrapper/ModalWrapper';
 export * from './adding-modals/AddTicketModal.tsx';
-export * from './network-modal/NetworkSetingModal';
+export * from './network-modal/NetworkSettingModal.tsx';
 export * from "./DeleteMobileCloudModal"
 export * from "./adding-modals/AddCompanyModal.tsx";
 export * from "./adding-modals/AddUserCompanyModal.tsx"

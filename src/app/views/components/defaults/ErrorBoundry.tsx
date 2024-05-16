@@ -1,7 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { NetworkIcon } from '@icons';
-import { NetworkSetingModal } from '@modals/network-modal/NetworkSetingModal.tsx';
+import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal';
 
 interface ErrorBoundaryProps {
 	children: ReactNode;
