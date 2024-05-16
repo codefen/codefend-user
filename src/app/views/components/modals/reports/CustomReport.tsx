@@ -6,8 +6,8 @@ import {
 	RiskScore,
 	GlobeWebIcon,
 	DownloadIcon,
-} from '../../..';
-import { TableWithoutActions } from '../../../table/TableWithoutActions';
+} from '../..';
+import { TableWithoutActions } from '../../table/TableWithoutActions';
 import {
 	type ReportIssues,
 	addPrintAttributesFromBody,
@@ -17,15 +17,15 @@ import {
 	useIssueReport,
 	useReportStore,
 	type IssuesShare,
-} from '../../../../../data';
-import { RiskWithoutAction } from './RiskWithoutAction';
-import { WebResourceScope } from './WebResourceScope';
-import { MobileResourceScope } from './MobileResourceScope';
-import { ReportFrontpage } from './ReportFrontpage';
-import { ReportSectionTemplate } from './ReportSection';
+} from '../../../../data';
+import { RiskWithoutAction } from './components/RiskWithoutAction';
+import { WebResourceScope } from './components/WebResourceScope';
+import { MobileResourceScope } from './components/MobileResourceScope';
+import { ReportFrontpage } from './components/ReportFrontpage';
+import { ReportSectionTemplate } from './components/ReportSection';
 import useTimeout from '#commonHooks/useTimeout';
-import { NetworkResourceScope } from './NetworkResourceScope';
-import { SourceScope } from './SourceScope';
+import { NetworkResourceScope } from './components/NetworkResourceScope';
+import { SourceScope } from './components/SourceScope';
 
 interface CustomReportProps {
 	isModal?: boolean;

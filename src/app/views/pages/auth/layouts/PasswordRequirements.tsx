@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import './passwordrequirenments.scss';
+import './passwordrequirements.scss';
 import {
 	hasLowerCase,
 	hasMinChars,

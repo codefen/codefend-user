@@ -6,7 +6,7 @@ export const Dashboard = lazy(() => import('./panel/layouts/dashboard/Dashboard.
 export const WebApplication = lazy(() => import('./panel/layouts/web/WebApplication.tsx'))
 export const MobileApplication = lazy(() => import('./panel/layouts/mobile/MobileApplicationPanel.tsx'))
 export const CloudApplicationPanel = lazy(() => import('./panel/layouts/cloud/Cloud.tsx'))
-export const LanPage = lazy(() => import('./panel/layouts/lan/Lan.tsx'))
+export const LanPage = lazy(() => import('./panel/layouts/lan/Network.tsx'))
 export const EnpPanel = lazy(() => import('./panel/layouts/enp/EnpPanel.tsx'))
 export const EnpSingle = lazy(() => import('./panel/layouts/enp/EnpSingle.tsx'))
 export const SourceCodePanel = lazy(() => import('./panel/layouts/sourcecode/SourceCodePanel.tsx'))

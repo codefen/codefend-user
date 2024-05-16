@@ -2,7 +2,7 @@
 import { type FC, useEffect } from 'react';
 import { useLan } from '@resourcesHooks/netowrk/useLan.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
-import { LanNetworkData } from './components/LanNetworkData.tsx';
+import { LanNetworkData } from './components/NetworkData.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import './Lan.scss';
@@ -14,7 +14,7 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/index.ts';
 import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
 
-const LanPage: FC = () => {
+const NetworkPage: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { networks, loading, refetch } = useLan();
 	const { updateState, scope } = useOrderStore((state) => state);
@@ -75,4 +75,4 @@ const LanPage: FC = () => {
 		</>
 	);
 };
-export default LanPage;
+export default NetworkPage;

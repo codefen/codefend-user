@@ -1,8 +1,8 @@
 import { type FC } from 'react';
 import { ModalWrapper } from '..';
 
-import { useReportStore, webResourcesWithoutActions } from '../../../../data';
-import { CustomReport } from './components/CustomReport';
+import { useReportStore } from '../../../../data';
+import { CustomReport } from './CustomReport';
 import './reports.scss';
 
 export interface WebReportModalProps {}
