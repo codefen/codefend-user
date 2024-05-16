@@ -45,7 +45,7 @@ export const useUserHavePollActive = () => {
 
     useEffect(()=>{
         console.log({data});
-        const orderComunique = data.length > 0 ? data.find((item:any) => item.model === 'order_finished') : undefined;
+        const orderComunique = data.length > 0 ? data.find((item:any) => item.solved == "unsolved" && item.model === 'order_finished') : undefined;
         if(!isOpen && orderComunique) {   
             startPoll(orderComunique.order_id, orderComunique.order_reference_number)?.finally(()=>{
                 
