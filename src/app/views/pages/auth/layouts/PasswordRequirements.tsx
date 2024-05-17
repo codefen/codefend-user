@@ -55,8 +55,8 @@ export const PasswordRequirements: FC<PasswordRequirementsProps> = ({
 				<small>
 					{' '}
 					<div
-						className={`dashed-item ${hasMinChars(password, 12) ? 'strike' : 'no-strike'}`}></div>
-					At least 12 characters
+						className={`dashed-item ${hasMinChars(password, 16) ? 'strike' : 'no-strike'}`}></div>
+					At least 16 characters
 				</small>
 			</span>
 		</div>

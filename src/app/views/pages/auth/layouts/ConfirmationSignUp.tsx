@@ -1,9 +1,11 @@
 import { type FC, useState } from 'react';
 import { PrimaryButton } from '../../../components';
 import { useNavigate } from 'react-router';
+import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 
 const ConfirmationSignUp: FC = () => {
 	const navigate = useNavigate();
+	const { updateReferenceNumber, refetch } = useRecomendedUsername();
 	const [finishsignup, setFinishSignup] = useState({
 		referenceNumber: '',
 		isLoading: false,
@@ -11,6 +13,9 @@ const ConfirmationSignUp: FC = () => {
 
 	const handleCompleteSignup = async (e: any) => {
 		e.preventDefault();
+		updateReferenceNumber(finishsignup.referenceNumber);
+		refetch();
+
 		navigate(`/auth/signup/${finishsignup.referenceNumber}`);
 	};
 

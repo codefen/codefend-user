@@ -22,6 +22,9 @@ export const PasswordRecovery = () => {
 			...current,
 			referenceNumber: ref || '',
 		}));
+		if (ref) {
+			setPhase('code');
+		}
 	}, [ref]);
 
 	const handleSendCode = async (e: any) => {
@@ -35,7 +38,7 @@ export const PasswordRecovery = () => {
 
 	const handlePasswordRecovery = (e: any) => {
 		e.preventDefault();
-		if (passwordValidation(passwordRecovery.newPassword)) {
+		if (!passwordValidation(passwordRecovery.newPassword)) {
 			toast.error('The password is not in a valid format');
 			return;
 		}
@@ -97,7 +100,7 @@ export const PasswordRecovery = () => {
 					<label htmlFor="otp">Email</label>
 					<input
 						id="otp"
-						type="text"
+						type="email"
 						value={passwordRecovery.email}
 						onChange={(e) => {
 							setPasswordRecovery((current) => ({
@@ -105,7 +108,8 @@ export const PasswordRecovery = () => {
 								email: e.target.value,
 							}));
 						}}
-						name="otp"
+						name="email"
+						autoComplete="email"
 						placeholder="Enter email"
 						required
 					/>

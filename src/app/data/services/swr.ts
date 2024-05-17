@@ -30,3 +30,18 @@ export const disponibleFetcher = ([[model, ac], { company, logout }]: any) => {
 		})
 		.catch(() => [] as any);
 };
+
+export const genericFetcher = ([model, params]: any) => {
+	if (params?.company_id && companyIdIsNotNull(params?.company_id)) return Promise.reject({});
+
+	return AxiosHttpService.getInstance()
+		.post<any>({
+			body: { model: model, ...params },
+		})
+		.then(({ data }) => {
+			if (apiErrorValidation(data?.error, data?.response))
+				throw new Error('');
+			return data;
+		})
+		.catch(() => {});
+};

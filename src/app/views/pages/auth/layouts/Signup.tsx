@@ -190,8 +190,7 @@ const SignUpLayout: FC = () => {
 						}))
 					}
 					name="company_website"
-					placeholder="https://example.com"
-					pattern="(https?://.*\..*)|(.*\..*)|(*.*)"
+					placeholder="example.com"
 					size={60}
 					required
 				/>

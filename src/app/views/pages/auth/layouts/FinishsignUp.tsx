@@ -1,4 +1,4 @@
-import { type FC, type ChangeEvent, useState } from 'react';
+import { type FC, type ChangeEvent, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 
 import { toast } from 'react-toastify';
@@ -8,17 +8,29 @@ import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
 import { Link } from 'react-router-dom';
 import { PasswordRequirements } from './PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
+import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 
 const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useRegisterAction();
+	const { ref } = useParams();
+	const { data } = useRecomendedUsername(ref);
 
 	const [userState, setUserState] = useState({
+		username: '',
 		password: '',
 		confirmPassword: '',
+		ref: '',
 		isLoading: false,
 	});
 	const navigate = useNavigate();
-	const { ref } = useParams();
+
+	useEffect(() => {
+		setUserState((prev: any) => ({
+			...prev,
+			ref: ref || '',
+			username: data ? data?.recommended_username || '' : '',
+		}));
+	}, [ref, data]);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -30,7 +42,7 @@ const FinishSignUpLayout: FC = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (passwordValidation(userState.password)) {
+		if (!passwordValidation(userState.password)) {
 			toast.error('The password is not in a valid format');
 			return;
 		}
@@ -40,9 +52,9 @@ const FinishSignUpLayout: FC = () => {
 		}
 
 		const requestParams: RegisterFinishParams = {
-			username: crypto.randomUUID(),
+			username: userState.username,
 			password: userState.password,
-			lead_reference_number: ref,
+			lead_reference_number: userState.ref,
 		};
 
 		setUserState((prevState) => ({ ...prevState, isLoading: true }));
@@ -57,12 +69,20 @@ const FinishSignUpLayout: FC = () => {
 					isLoading: false,
 				}));
 			});
-
-		return null;
 	};
 
 	return (
 		<form onSubmit={handleSubmit}>
+			<div className="input-group">
+				<input
+					type="text"
+					name="ref"
+					value={userState.ref}
+					onChange={handleChange}
+					placeholder="Reference Number"
+					required
+				/>
+			</div>
 			<div className="input-group">
 				<input
 					type="password"

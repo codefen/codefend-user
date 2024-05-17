@@ -13,8 +13,6 @@ export interface AuthState {
 	accessToken: string;
 
 	login: (loginParams: any) => Promise<any>;
-	register: (registerParams: any) => Promise<any>;
-	registerFinish: (finishParams: any) => Promise<any>;
 	logout: () => void;
 	updateAuth: () => void;
 	updateToken: (updatedToken: string) => void;
@@ -59,15 +57,11 @@ const useAuthStore = create<AuthState>()(
 							throw new Error('An unexpected error has ocurred');
 
 						const token = data.session as string;
-						let user = {} as User;
-						if (token) {
-							const decodedToken = decodePayload(token);
-							user = {
-								...data.user,
-								exp: decodedToken.exp || 0,
-							};
-						}
-
+						const decodedToken = decodePayload(token || "");
+						const user ={
+							...data.user,
+							exp: decodedToken?.exp || 0,
+						};
 						set((prev: AuthState) => ({
 							...prev,
 							userData: user,
@@ -79,45 +73,6 @@ const useAuthStore = create<AuthState>()(
 					.catch((e) => ({ error: true, info: e.message }));
 			},
 			logout: () => set({ userData: EMPTY_USER, isAuth: false, accessToken: '' }),
-			register: (registerParams: any) => {
-				const fetchcer = AxiosHttpService.getInstance();
-				return fetchcer.post<any>({
-						body: {
-							model: 'users/new',
-							...registerParams,
-						}
-					}).then(({ data }: any) => {
-						if (data.error == "1") {
-							throw new Error(data.info || "");
-						}
-
-						return { error: false, ...data };
-					})
-					.catch((error: Error) => ({
-						error: true,
-						info: error.message,
-					}));
-			},
-			registerFinish: (finishParams: any) => {
-				const fetchcer = AxiosHttpService.getInstance();
-				return fetchcer.post<any>({
-						body: {
-							model: 'users/new',
-							phase: 2,
-							...finishParams,
-						},
-					})
-					.then(({ data }: any) => {
-						if (data.response !== 'success' || data.error == "1") {
-							throw new Error(data.info);
-						}
-						return { error: false, ...data };
-					})
-					.catch((error: Error) => ({
-						error: true,
-						info: error.message,
-					}));
-			},
 			updateAuth: () => {
 				const state = _get() as AuthState;
 				const currentTimestamp = Math.floor(Date.now() / 1000);
