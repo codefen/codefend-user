@@ -1,8 +1,8 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import { GlobeWebIcon } from '@icons';
-import { toast } from 'react-toastify';
 import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
+import { ModalInput } from '@defaults/ModalInput';
 
 interface AddRepositoryModalProps {
 	onDone: () => void;
@@ -26,57 +26,37 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 	return (
 		<div className="content">
 			<form className="form" onSubmit={handleSubmit}>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
+				<ModalInput
+					setValue={(val: string) =>
+						setSourceCode((current: any) => ({
+							...current,
+							repositoryName: val,
+						}))
+					}
+					placeholder="repository name"
+					required
+				/>
+				<ModalInput
+					setValue={(val: string) =>
+						setSourceCode((current: any) => ({
+							...current,
+							repositoryUrl: val,
+						}))
+					}
+					placeholder="repository url"
+					required
+				/>
+				<ModalInput
+					setValue={(val: string) =>
+						setSourceCode((current: any) => ({
+							...current,
+							sourceCode: val,
+						}))
+					}
+					placeholder="source code language"
+					required
+				/>
 
-					<input
-						type="text"
-						onChange={(e) =>
-							setSourceCode((current) => ({
-								...current,
-								repositoryName: e.target.value,
-							}))
-						}
-						placeholder="repository name"
-						required
-					/>
-				</div>
-
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-
-					<input
-						type="text"
-						onChange={(e) =>
-							setSourceCode((current) => ({
-								...current,
-								repositoryUrl: e.target.value,
-							}))
-						}
-						placeholder="repository url"
-						required
-					/>
-				</div>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-					<input
-						type="text"
-						onChange={(e) =>
-							setSourceCode((current) => ({
-								...current,
-								sourceCode: e.target.value,
-							}))
-						}
-						placeholder="source code language"
-						required
-					/>
-				</div>
 				<div className="form-input">
 					<span className="icon">
 						<GlobeWebIcon />
@@ -84,7 +64,7 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 
 					<select
 						onChange={(e) =>
-							setSourceCode((current) => ({
+							setSourceCode((current: any) => ({
 								...current,
 								visibility: e.target.value,
 							}))
@@ -99,7 +79,6 @@ export const AddRepositoryModal: FC<AddRepositoryModalProps> = (props) => {
 						<option value="private">private</option>
 					</select>
 				</div>
-
 				<ModalButtons
 					close={props.close!}
 					isDisabled={isAddingSource}

@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { useAddSocial } from '@resourcesHooks/social/useAddSocial';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import { GlobeWebIcon } from '@icons';
+import { ModalInput } from '@defaults/ModalInput';
 
 interface Props {
 	onDone: () => void;
@@ -27,72 +28,46 @@ export const AddSocialResourceModal: FC<Props> = (props) => {
 	return (
 		<div className="content">
 			<form className="form" onSubmit={handleSubmit}>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
+				<ModalInput
+					setValue={(val: string) =>
+						setSocialData((prevData) => ({
+							...prevData,
+							fName: val,
+						}))
+					}
+					placeholder="name"
+				/>
 
-					<input
-						type="text"
-						onChange={(e) =>
-							setSocialData((prevData) => ({
-								...prevData,
-								fName: e.target.value,
-							}))
-						}
-						placeholder="name"
-					/>
-				</div>
+				<ModalInput
+					setValue={(val: string) =>
+						setSocialData((prevData) => ({
+							...prevData,
+							lName: val,
+						}))
+					}
+					placeholder="last name"
+				/>
 
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
+				<ModalInput
+					setValue={(val: string) =>
+						setSocialData((prevData) => ({
+							...prevData,
+							mail: val,
+						}))
+					}
+					placeholder="email address"
+				/>
 
-					<input
-						type="text"
-						onChange={(e) =>
-							setSocialData((prevData) => ({
-								...prevData,
-								lName: e.target.value,
-							}))
-						}
-						placeholder="last name"
-					/>
-				</div>
+				<ModalInput
+					setValue={(val: string) =>
+						setSocialData((prevData) => ({
+							...prevData,
+							phone: val,
+						}))
+					}
+					placeholder="phone number"
+				/>
 
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-
-					<input
-						type="text"
-						onChange={(e) =>
-							setSocialData((prevData) => ({
-								...prevData,
-								mail: e.target.value,
-							}))
-						}
-						placeholder="email address"
-					/>
-				</div>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-
-					<input
-						type="text"
-						onChange={(e) =>
-							setSocialData((prevData) => ({
-								...prevData,
-								phone: e.target.value,
-							}))
-						}
-						placeholder="phone number"
-					/>
-				</div>
 				<div className="form-input">
 					<span className="icon">
 						<GlobeWebIcon />

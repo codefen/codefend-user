@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import Show from '@defaults/Show.tsx';
@@ -40,17 +39,11 @@ const MobileApplicationPanel: React.FC = () => {
 
 	return (
 		<main className={`mobile ${showScreen ? 'actived' : ''}`}>
-			<ModalTitleWrapper
-				isActive={showModal}
-				headerTitle="Add mobile app"
+			<AddMobileModal
+				isOpen={showModal}
+				onDone={refresh}
 				close={() => setShowModal(false)}
-				type="med-w">
-				<AddMobileModal
-					onDone={refresh}
-					close={() => setShowModal(false)}
-				/>
-			</ModalTitleWrapper>
-
+			/>
 			<DeleteMobileCloudModal onDone={refresh} />
 			<OrderV2 />
 			<ModalReport />

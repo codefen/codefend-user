@@ -3,7 +3,6 @@ import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { OrderV2 } from '@modals/order/Orderv2';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import Show from '@defaults/Show.tsx';
 import { useCloud } from '@resourcesHooks/cloud/useCloud.ts';
 import useModal from '#commonHooks/useModal.ts';
@@ -35,19 +34,14 @@ const CloudApplicationPanel: FC = () => {
 
 	return (
 		<main className={`mobile cloud ${showScreen ? 'actived' : ''}`}>
-			<ModalTitleWrapper
-				isActive={showModal}
-				headerTitle="Add Cloud"
+			<AddCloudModal
+				isOpen={showModal}
 				close={() => setShowModal(false)}
-				type="med-w">
-				<AddCloudModal
-					close={() => setShowModal(false)}
-					onDone={() => {
-						setShowModal(false);
-						refresh();
-					}}
-				/>
-			</ModalTitleWrapper>
+				onDone={() => {
+					setShowModal(false);
+					refresh();
+				}}
+			/>
 			<DeleteMobileCloudModal onDone={refresh} />
 			<OrderV2 />
 			<ModalReport />

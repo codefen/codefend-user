@@ -1,3 +1,5 @@
+import type { PropsWithChildren } from "react";
+
 export interface FetchPattern<D> {
 	error: null | Error;
 	data: D | null;
@@ -37,4 +39,20 @@ export interface ContactData {
     lname: string;
     email: string;
     phone: string;
+}
+
+export interface ComponentEvent {
+	onDone?: () => void;
+	close?: () => void;
+}
+
+export interface ComponentEventWithOpen extends ComponentEvent {
+	isOpen: boolean;
+}
+
+
+export interface ComponentEventWithChildren {
+	onDone?: () => void;
+	close?: () => void;
+    children: (isLoading: boolean) => React.ReactNode;
 }

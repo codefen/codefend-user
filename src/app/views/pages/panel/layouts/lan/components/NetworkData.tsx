@@ -4,7 +4,6 @@ import {
 	type Device,
 	lanResourcesTable,
 	type TableItem,
-	lanResourcesTableWithoutAction,
 	useReportStore,
 } from '../../../../../../data';
 import {
@@ -265,19 +264,14 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 				/>
 			</ModalTitleWrapper>
 
-			<ModalTitleWrapper
-				headerTitle="Add access point"
+			<AddAccessPointModal
+				isOpen={showModal && showModalStr === 'add_access_point'}
+				onDone={() => {
+					setShowModal(false);
+					refetchInternalNetwork();
+				}}
 				close={() => setShowModal(false)}
-				type="med-w"
-				isActive={showModal && showModalStr === 'add_access_point'}>
-				<AddAccessPointModal
-					onDone={() => {
-						setShowModal(false);
-						refetchInternalNetwork();
-					}}
-					close={() => setShowModal(false)}
-				/>
-			</ModalTitleWrapper>
+			/>
 
 			<ModalTitleWrapper
 				headerTitle="Add network device"

@@ -1,65 +1,30 @@
-import { type FC, type FormEvent } from 'react';
-import { useAddMobileResource } from '@resourcesHooks/mobile/useAddMobileResource';
-import { GlobeWebIcon, ModalButtons } from '../..';
+import { type FC } from 'react';
+import { ModalButtons, ModalTitleWrapper } from '../..';
+import MobileResourceForm from '@modals/forms/MobileResourceForm';
+import type { ComponentEventWithOpen } from '@interfaces/util';
 
-interface Props {
-	onDone: () => void;
-	close: () => void;
-}
-
-const AddMobileModal: FC<Props> = (props) => {
-	const {
-		handleAddMobileResource,
-		setAndroidAddress,
-		setIosAddress,
-		isAddingMobile,
-	} = useAddMobileResource();
-
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-
-		handleAddMobileResource(props.onDone, props.close);
-	};
-
-	return (
+const AddMobileModal: FC<ComponentEventWithOpen> = ({
+	isOpen,
+	close,
+	onDone,
+}) => (
+	<ModalTitleWrapper
+		headerTitle="Add mobile app"
+		close={() => close?.()}
+		isActive={isOpen}
+		type="med-w">
 		<div className="content">
-			<form className="form" onSubmit={handleSubmit}>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-
-					<input
-						type="text"
-						onChange={(e) => {
-							setAndroidAddress(e.target.value);
-						}}
-						placeholder="android download link"
+			<MobileResourceForm close={close} onDone={onDone}>
+				{(isLoading) => (
+					<ModalButtons
+						confirmText="Add mobile app"
+						isDisabled={isLoading}
+						close={() => close?.()}
 					/>
-				</div>
-
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-
-					<input
-						type="text"
-						onChange={(e) => {
-							setIosAddress(e.target.value);
-						}}
-						placeholder="ios download link"
-					/>
-				</div>
-				<ModalButtons
-					close={props.close}
-					isDisabled={isAddingMobile}
-					confirmText="Add mobile app"
-				/>
-			</form>
+				)}
+			</MobileResourceForm>
 		</div>
-	);
-};
+	</ModalTitleWrapper>
+);
 
 export default AddMobileModal;
