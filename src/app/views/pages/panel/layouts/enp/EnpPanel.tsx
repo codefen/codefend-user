@@ -1,5 +1,4 @@
 import { type FC, useEffect } from 'react';
-import moment from 'moment';
 import { useNavigate } from 'react-router';
 
 import { ScanButton } from './components/ScanButton.tsx';
@@ -9,6 +8,7 @@ import { ModalOS } from './components/ModalOS.tsx';
 import { EndpointAppProvider } from './EndpointContext.tsx';
 
 import {
+	formatDate,
 	formatKeyName,
 	isScanComplianceValid,
 	processCompliance,
@@ -104,7 +104,7 @@ export const EnpPanel: FC = () => {
 										{scan.device_os_release}
 									</div>
 									<div className="enp-content-item">
-										{moment(scan.creacion).fromNow()}
+										{formatDate(scan.creacion)}
 									</div>
 									<div className="enp-content-item">
 										{scan.apps_found}

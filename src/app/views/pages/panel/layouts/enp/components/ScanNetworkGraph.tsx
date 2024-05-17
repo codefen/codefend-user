@@ -1,8 +1,8 @@
 import { type FC, useEffect, useRef, useState } from 'react';
 import { Show } from '../../../../../components';
 import { Doughnut, Line } from 'react-chartjs-2';
-import moment from 'moment';
 import * as d3 from 'd3';
+import { formatDate } from '@utils/helper';
 
 const RADIUS = 10;
 
@@ -184,15 +184,18 @@ export const ScanNetworkGraph: FC<ScanNetworkGraphProps> = ({
 	const processDataLine = () => {
 		const scanCounts: { [key: string]: number } = {};
 
-		const startDate = moment().subtract(6, 'days');
+		const startDate = new Date();
+		startDate.setDate(startDate.getDate() - 6);
 
 		for (let i = 0; i < 7; i++) {
-			const date = moment(startDate).add(i, 'days').format('YYYY-MM-DD');
-			scanCounts[date] = 0;
+			const date = new Date(startDate);
+			date.setDate(date.getDate() + i);
+			const formattedDate = formatDate(date.toDateString());
+			scanCounts[formattedDate] = 0;
 		}
 
 		data.forEach((item: any) => {
-			const date = moment(item.creacion).format('YYYY-MM-DD');
+			const date = formatDate(item.creacion);
 			if (scanCounts.hasOwnProperty(date)) {
 				scanCounts[date]++;
 			}

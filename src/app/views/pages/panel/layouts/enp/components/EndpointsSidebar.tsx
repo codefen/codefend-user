@@ -11,7 +11,7 @@ import {
 	WindowsIcon,
 } from '../../../../../components';
 import { useEndpointAppStore } from '../EndpointContext';
-import moment from 'moment';
+import { formatDate } from '@utils/helper';
 
 interface Props {
 	endpoints: any;
@@ -208,7 +208,7 @@ export const EndpointsSidebar: FC<Props> = ({ endpoints, isLoading }) => {
 										{endpoints.device_os_release}
 									</p>
 									<p className="header-os-date">
-										{moment(endpoints.creacion).fromNow()}
+										{formatDate(endpoints.creacion)}
 									</p>
 								</div>
 							</div>
