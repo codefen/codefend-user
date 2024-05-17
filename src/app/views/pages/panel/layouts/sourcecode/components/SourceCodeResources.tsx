@@ -1,11 +1,9 @@
 import { type FC, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import {
-	type SourceCode,
 	sourceCodeColumns,
 	useModal,
 	type TableItem,
-	sourceCodeColumnsWithoutAction,
 	useReportStore,
 } from '../../../../../../data';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
@@ -142,20 +140,14 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 					}}
 				/>
 			</ModalTitleWrapper>
-
-			<ModalTitleWrapper
-				close={() => setShowModal(false)}
-				headerTitle="Add repository"
-				type="med-w"
-				isActive={showModal && showModalStr === 'add_repository'}>
-				<AddRepositoryModal
-					onDone={() => {
-						setShowModal(!showModal);
-						props.refetch();
-					}}
-					close={() => setShowModal(!showModal)}
-				/>
-			</ModalTitleWrapper>
+			<AddRepositoryModal
+				isOpen={showModal && showModalStr === 'add_repository'}
+				onDone={() => {
+					setShowModal(!showModal);
+					props.refetch();
+				}}
+				close={() => setShowModal(!showModal)}
+			/>
 			<div className="card">
 				<div className="header">
 					<div className="title">

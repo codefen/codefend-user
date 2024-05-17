@@ -19,7 +19,7 @@ import {
 	useReportStore,
 } from '../../../../../../data';
 import AddSocialResourceModal from '../../../../../components/modals/adding-modals/AddSocialResourceModal';
-import { redirect, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { type FC } from 'react';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
@@ -135,19 +135,14 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 
 	return (
 		<>
-			<ModalTitleWrapper
-				isActive={showModal && showModalStr === 'add_member'}
+			<AddSocialResourceModal
+				isOpen={showModal && showModalStr === 'add_member'}
+				onDone={() => {
+					setShowModal(false);
+					props.refetch();
+				}}
 				close={() => setShowModal(false)}
-				type="med-w"
-				headerTitle="Add a new member">
-				<AddSocialResourceModal
-					onDone={() => {
-						setShowModal(false);
-						props.refetch();
-					}}
-					close={() => setShowModal(false)}
-				/>
-			</ModalTitleWrapper>
+			/>
 			<ModalTitleWrapper
 				isActive={showModal && showModalStr === 'delete'}
 				close={() => setShowModal(false)}
