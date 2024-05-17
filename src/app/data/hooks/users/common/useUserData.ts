@@ -12,7 +12,7 @@ export const useUserData = ()=>{
 
     const getCompany = () => companySelected?.id || getUserdata().company_id;
 
-    const isAuth = () => authStore.isAuth;
+    const isAuth = () => authStore.isAuth || !authStore.accessToken;
 
 	const logout = ()=>{
 		reset();

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import DashboardAssets from './components/DashboardAssets.tsx';
 import DashboardCollaborators from './components/DashboardCollaborators.tsx';

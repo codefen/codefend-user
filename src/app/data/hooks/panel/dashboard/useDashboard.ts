@@ -8,7 +8,9 @@ import useSWR from 'swr';
 
 const fetcher = ([model, {company, logout}]:any) =>{
 	if (companyIdIsNotNull(company)) return Promise.reject(EMPTY_DASHBOARD_PROPS);
-	return AxiosHttpService.getInstance()
+	const axiosHttp = AxiosHttpService.getInstance();
+	axiosHttp.updateUrlInstance();
+	return axiosHttp
 		.post<any>({
 			body: {company_id: company, model}
 		})

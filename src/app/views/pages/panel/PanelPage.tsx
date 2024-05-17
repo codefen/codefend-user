@@ -27,7 +27,7 @@ export const PanelPage: FC = () => {
 	const { updateAuth } = useAuthStore((state) => state);
 	const { getProviderCompanyAccess } = useProviderCompanies();
 	useUserHavePollActive();
-	if (!isAuth) logout();
+	if (!isAuth()) logout();
 
 	useEffect(() => {
 		updateAuth();

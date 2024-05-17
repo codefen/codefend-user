@@ -7,11 +7,12 @@ import {
 	type AuthState,
 } from '../../../';
 import { EMPTY_COMPANY } from '@/app/constants/empty';
+import { AxiosHttpService } from '@services/axiosHTTP.service';
 
 export const useLoginAction = () => {
 	const { login } = useAuthStore((state: AuthState) => state);
 	const { selectCompany } = useAdminCompanyStore((state) => state);
-
+	const axiosHttp = AxiosHttpService.getInstance();
 	const signInUser = (params: LoginParams): Promise<any> => {
 		return login(params)
 			.then((data: any) => {
@@ -24,6 +25,7 @@ export const useLoginAction = () => {
 					name: data.user.company_name || "",
 				})
 				toast.success(`Login successful`);
+				axiosHttp.updateUrlInstance();
 				return data.user;
 			})
 			.catch((error: any) => {
