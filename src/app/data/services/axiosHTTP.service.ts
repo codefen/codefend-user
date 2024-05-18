@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 import type { HttpRequestOptions } from './http.service.ts';
 import axios from 'axios';
-import { handleFetchError } from './api.utils.ts';
+import { handleFetchError } from '../utils/api.utils.ts';
 import { HttpService } from './abstractHttp.service.ts';
 
 

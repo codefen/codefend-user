@@ -1,11 +1,7 @@
 import { toast } from "react-toastify";
 
 export const handleFetchError = (error: any): Promise<any> => {
-	if (error.code === "ECONNABORTED" ||
-		error.name === 'AxiosError' &&
-		(error.message === 'Network Error' ||
-			error.message === 'Request failed with status code 500')
-	) {
+	if (error.name === 'AxiosError' && !error.message.startsWith("timeout")) {
 		localStorage.setItem('error', JSON.stringify(true));
 		window.dispatchEvent(new Event('errorState'));
 		return Promise.resolve({

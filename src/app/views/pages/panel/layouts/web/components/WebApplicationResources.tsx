@@ -73,10 +73,16 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	};
 
 	const tableData: Record<string, TableItem>[] = getResources
-		.filter((mainNetwork) =>
-			mainNetwork.resourceDomain
-				.toLowerCase()
-				.includes(searchTerm.toLowerCase()),
+		.filter(
+			(mainNetwork) =>
+				mainNetwork.resourceDomain
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase()) ||
+				mainNetwork.childs.some((s) =>
+					s.resourceDomain
+						.toLowerCase()
+						.includes(searchTerm.toLowerCase()),
+				),
 		)
 		.map((mainNetwork: Webresources, i: number) => ({
 			ID: { value: '', style: '' },
@@ -157,8 +163,13 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				value: (props) =>
 					(
 						<>
-							{mainNetwork.childs.map(
-								(subNetwork: Resouce, i: number) => (
+							{mainNetwork.childs
+								.filter((s: Resouce) =>
+									s.resourceDomain
+										.toLowerCase()
+										.includes(searchTerm.toLowerCase()),
+								)
+								.map((subNetwork: Resouce, i: number) => (
 									<a
 										key={`child-${i}-${subNetwork.id}`}
 										className={`item item-with-out-action ${
@@ -279,8 +290,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 											</div>
 										</div>
 									</a>
-								),
-							)}
+								))}
 						</>
 					) as ReactNode,
 				style: '',
