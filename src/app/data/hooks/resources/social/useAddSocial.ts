@@ -63,8 +63,7 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 				member_email: mail,
 				member_phone: phone,
 				member_role: role,
-			},
-			insecure: true
+			}
 		}).then(({ data }: any) => {
 			if(apiErrorValidation(data.error, data.response)){
 				throw new Error("");

@@ -4,6 +4,10 @@ main.webapp {
 	.left {
 		overflow-y: hidden;
 		padding-inline-start: 0;
+		.card .over .form-input input {
+			border: none;
+			border-bottom: 1px solid var(--primary-color-300);
+		}
 		.table {
 			.rows {
 				max-height: calc(100vh - 186px);

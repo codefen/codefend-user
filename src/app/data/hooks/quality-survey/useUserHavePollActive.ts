@@ -11,7 +11,7 @@ const fetcher = ([model, {company,user, logout}]:any) =>{
 	if (companyIdIsNotNull(company)) return Promise.reject(false);
 	return AxiosHttpService.getInstance()
 		.post<any>({
-			body: {company_id: company, user_id: user, model}, insecure: true
+			body: {company_id: company, user_id: user, model}
 		})
 		.then(({ data }) =>{
 			if(verifySession(data, logout)) return;

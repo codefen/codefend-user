@@ -20,9 +20,8 @@ export const CardPaymentModal = () => {
 	const { updateState, referenceNumber, orderId } = useOrderStore(
 		(state) => state,
 	);
-	const [stripeId, setStripeId] = useState('');
 	const merchId = useRef('null');
-
+	const optionsRef = useRef({});
 	const fetchClientSecret = useCallback(() => {
 		return fetcher<any>('post', {
 			body: {
@@ -38,11 +37,7 @@ export const CardPaymentModal = () => {
 		});
 	}, [merchId]);
 
-	const backStep = () => {
-		updateState('orderStepActive', OrderSection.PAYMENT);
-	};
-
-	let options = {
+	optionsRef.current = {
 		fetchClientSecret,
 		onComplete: () => {
 			fetcher<any>('post', {
@@ -54,7 +49,7 @@ export const CardPaymentModal = () => {
 					order_id: orderId,
 					merch_cid: merchId.current,
 				},
-				timeout: 100000,
+				timeout: 1000000,
 			})
 				.then(({ data }: any) => {
 					if (data.status === 'complete') {
@@ -78,12 +73,18 @@ export const CardPaymentModal = () => {
 		};
 	}, []);
 
+	const backStep = () => {
+		updateState('orderStepActive', OrderSection.PAYMENT);
+	};
+
 	return (
 		<>
 			<div className="step-header">
 				<h3>Please complete with your payment information</h3>
 			</div>
-			<EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+			<EmbeddedCheckoutProvider
+				stripe={stripePromise}
+				options={optionsRef.current}>
 				<EmbeddedCheckout
 					className="stripe-container"
 					id="stripe-ex-contentr"

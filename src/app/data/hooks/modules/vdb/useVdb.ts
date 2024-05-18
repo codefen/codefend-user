@@ -23,8 +23,7 @@ export const useInitialVdb = () => {
 				ac: 'search',
 				company_id: companyID,
 				keyword: search,
-			},
-			insecure: true
+			}
 		}).then(({ data }: any) => {
 			vdbResults.current = Array.isArray(data)
 				? data.map((result: any) => mapVdbResultV2(result))
