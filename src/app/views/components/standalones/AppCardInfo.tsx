@@ -1,12 +1,11 @@
 import { useEffect, type FC } from 'react';
 import { AppCard } from './AppCard';
-import { type CloudApp, type MobileApp, useReportStore } from '../../../data';
-import { toast } from 'react-toastify';
+import { type MobileApp, useReportStore } from '../../../data';
 import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
 
 interface AppCardInfoProps {
-	type?: string;
-	selectedApp: MobileApp | CloudApp;
+	type: string;
+	selectedApp: MobileApp | any;
 	issueCount: number;
 }
 
@@ -24,11 +23,11 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 	);
 
 	useEffect(() => {
-		setData(selectedApp.id, selectedApp.appName);
+		setData(selectedApp.id, selectedApp?.appName || selectedApp?.cloud_name);
 		setIsOpen(false);
 		setIsMobileType(isMobileType);
 		setResourceID(selectedApp.id);
-		setResourceType(isMobileType ? 'mobile' : 'cloud');
+		setResourceType(type);
 	}, [selectedApp]);
 
 	const openReport = () => {
@@ -45,23 +44,19 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 				<AppCard
 					showDetails
 					openReport={openReport}
-					type={type}
 					id={selectedApp.id}
-					appMedia={selectedApp.appMedia}
-					appDesc={selectedApp.appDesc}
-					name={selectedApp.appName}
+					type={type}
 					issueCount={issueCount}
-					appReviews={
-						'appReviews' in selectedApp ? selectedApp.appReviews : ''
-					}
-					appRank={'appRank' in selectedApp ? selectedApp.appRank : ''}
-					appDeveloper={
-						'appDeveloper' in selectedApp ? selectedApp.appDeveloper : ''
-					}
+					appMedia={isMobileType ? selectedApp?.appMedia : ''}
+					appDesc={selectedApp?.appDesc || selectedApp?.cloud_desc}
+					name={selectedApp?.appName || selectedApp?.cloud_name}
+					appReviews={selectedApp?.appReviews || undefined}
+					appRank={selectedApp?.appRank || undefined}
+					appDeveloper={selectedApp?.appDeveloper || undefined}
 					cloudProvider={
-						'cloudProvider' in selectedApp
-							? selectedApp.cloudProvider.toLowerCase()
-							: ''
+						selectedApp?.cloud_provider
+							? selectedApp.cloud_provider.toLowerCase()
+							: undefined
 					}
 				/>
 			</div>

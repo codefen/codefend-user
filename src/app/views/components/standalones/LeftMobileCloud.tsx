@@ -4,7 +4,7 @@ import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
 } from '@stores/mobileCloudSelect.store';
-import { useCallback, useEffect, useState, type FC } from 'react';
+import { useCallback, useEffect, useMemo, useState, type FC } from 'react';
 
 interface LeftMobileCloudProps {
 	resources: any[];
@@ -21,22 +21,28 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 	const { appSelected, isCurrentSelected, updateSelected } =
 		useSelectMobileCloudApp((state: SelectMobileCloudApp) => state);
 	const { setViewMore } = useCredentialStore();
+
 	const selectResource = (resource: any) => {
 		if (Boolean(appSelected) && isCurrentSelected(resource.id)) return;
 
 		updateSelected(resource);
 	};
+
 	useEffect(() => {
 		if (appSelected === null) {
 			updateSelected(resources[0]);
 		}
 	}, [appSelected]);
 
-	const getResourcesFiltered = useCallback(
+	const resourceFiltered = useMemo(
 		() =>
-			resources.filter((app) =>
-				app.appName.toLowerCase().includes(term.toLowerCase()),
-			),
+			type == 'Mobile'
+				? resources.filter((app) =>
+						app?.appName.toLowerCase().includes(term.toLowerCase()),
+					)
+				: resources.filter((app) =>
+						app?.cloud_name.toLowerCase().includes(term.toLowerCase()),
+					),
 		[term],
 	);
 	return (
@@ -57,7 +63,7 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 					onChange={(e: any) => setTerm(e.target.value)}
 				/>
 				<div className="list">
-					{getResourcesFiltered().map((resource, i) => (
+					{resourceFiltered.map((resource, i) => (
 						<div
 							key={`${resource.id}-${i}`}
 							className="app-info"
@@ -70,15 +76,15 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 								isActive={isCurrentSelected(resource.id)}
 								id={resource.id}
 								type={type.toLowerCase()}
-								name={resource.appName}
-								appMedia={type == 'Mobile' ? resource.appMedia : ''}
-								appDesc={resource.appDesc}
+								name={resource?.appName || resource?.cloud_name}
+								appMedia={type == 'Mobile' ? resource?.appMedia : ''}
+								appDesc={resource?.appDesc || resource?.cloud_desc}
 								appReviews={resource?.appReviews || undefined}
 								appRank={resource?.appRank || undefined}
 								appDeveloper={resource?.appDeveloper || undefined}
 								cloudProvider={
-									resource?.cloudProvider
-										? resource.cloudProvider.toLowerCase()
+									resource?.cloud_provider
+										? resource.cloud_provider.toLowerCase()
 										: undefined
 								}
 								issueCount={resource.final_issue}

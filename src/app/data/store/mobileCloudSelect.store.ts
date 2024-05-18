@@ -1,19 +1,17 @@
 import { create } from 'zustand';
 import {
 	type CloudApp,
-	type CloudUnique,
 	type MobileApp,
-	type MobileUnique,
 	mapCloudUniqueProps,
 	mobileUniqueProps,
 } from '..';
 import { AxiosHttpService } from '../services/axiosHTTP.service';
 
 export interface SelectMobileCloudApp {
-	appSelected: MobileApp | CloudApp | null;
-	appUnique: MobileUnique | CloudUnique | null;
+	appSelected: any;
+	appUnique: any | null;
 	isCurrentSelected: (id: string) => boolean;
-	updateSelected: (updated: MobileApp | CloudApp) => void;
+	updateSelected: (updated: any) => void;
 	resetSelectedApp: () => void;
 	fetchMobileOne: () => Promise<any>;
 	fetchCloudOne: () => Promise<any>;
@@ -40,12 +38,12 @@ export const useSelectMobileCloudApp = create<SelectMobileCloudApp>(
 		appSelected: null,
 		appUnique: null,
 		isCurrentSelected: (id: string) => {
-			const state = _get();
-			return Boolean(state.appSelected) && state.appSelected?.id === id;
+			const {appSelected} = _get();
+			return Boolean(appSelected) && appSelected?.id === id;
 		},
-		updateSelected: (updated: MobileApp | CloudApp) => {
-			const state = _get();
-			if (updated && !state.isCurrentSelected(updated.id)) {
+		updateSelected: (updated: any) => {
+			const {isCurrentSelected} = _get();
+			if (updated && !isCurrentSelected(updated.id)) {
 				set((prev) => ({ ...prev, appSelected: updated }));
 			}
 		},
@@ -62,7 +60,7 @@ export const useSelectMobileCloudApp = create<SelectMobileCloudApp>(
 		},
 		fetchCloudOne: async () => {
 			const { appSelected } = _get();
-			return fetchResource(appSelected?.id || '',appSelected?.companyID || '', "cloud").then((data:any) => {
+			return fetchResource(appSelected?.id || '',appSelected?.company_id || '', "cloud").then((data:any) => {
 				set((prev: SelectMobileCloudApp) => ({
 					...prev,
 					appUnique: mapCloudUniqueProps(data),

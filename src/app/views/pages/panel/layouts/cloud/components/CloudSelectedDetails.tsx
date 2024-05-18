@@ -24,11 +24,11 @@ import { useUserRole } from '#commonUserHooks/useUserRole';
 
 export const CloudSelectedDetails: FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
+	const { isAdmin, isNormalUser } = useUserRole();
+	const { updateState } = useOrderStore((state) => state);
 	const { appSelected, fetchCloudOne, appUnique } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
 	);
-	const { updateState } = useOrderStore((state) => state);
-	const { isAdmin, isNormalUser } = useUserRole();
 	const handleFetcheUnique = () => {
 		setLoading(true);
 		fetchCloudOne().finally(() => setLoading(false));

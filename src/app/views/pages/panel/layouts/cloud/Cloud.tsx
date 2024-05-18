@@ -20,7 +20,7 @@ import EmptyScreenView from '@defaults/EmptyScreenView';
 
 const CloudApplicationPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
-	const { isLoading, getCloudInfo, refetch } = useCloud();
+	const { isLoading, data, refetch } = useCloud();
 	const { setShowModal, showModal } = useModal();
 	const { resetSelectedApp, appSelected } = useSelectMobileCloudApp(
 		(state: SelectMobileCloudApp) => state,
@@ -45,7 +45,7 @@ const CloudApplicationPanel: FC = () => {
 			<DeleteMobileCloudModal onDone={refresh} />
 			<OrderV2 />
 			<ModalReport />
-			<Show when={!isLoading && Boolean(getCloudInfo().length)}>
+			<Show when={!isLoading && Boolean(data.length)}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
 				<div className="brightness variant-3"></div>
@@ -53,7 +53,7 @@ const CloudApplicationPanel: FC = () => {
 					<ListResourceWithSearch
 						openModal={() => setShowModal(!showModal)}
 						type="Cloud"
-						resources={getCloudInfo() || []}
+						resources={data}
 					/>
 				</section>
 				<section className="right">
@@ -65,7 +65,7 @@ const CloudApplicationPanel: FC = () => {
 			<Show when={isLoading}>
 				<PageLoader />
 			</Show>
-			<Show when={!isLoading && !Boolean(getCloudInfo().length)}>
+			<Show when={!isLoading && !Boolean(data.length)}>
 				<EmptyScreenView
 					type="cloud"
 					buttonText="Add Cloud"

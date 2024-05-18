@@ -4,7 +4,6 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { defaultConfig, disponibleFetcher } from '@services/swr';
 import useSWR from 'swr';
 
-/* Custom Hook "useSocial" to handle GET data in Social page*/
 export const useSocial = () => {
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
