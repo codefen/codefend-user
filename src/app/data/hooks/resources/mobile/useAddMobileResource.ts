@@ -3,10 +3,11 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { androidUriValidation, apiErrorValidation, companyIdIsNotNull, iosUriValidation } from '@/app/constants/validations';
+import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 
 export const useAddMobileResource = () => {
+	const { setNewApp } = useSelectedApp();
 	const [fetcher,_, isLoading] = useFetcher();
-
 	const [androidAddress, setAndroidAddress] = useState('');
 	const [iosAddress, setIosAddress] = useState('');
 	const { getCompany } = useUserData();
@@ -35,11 +36,8 @@ export const useAddMobileResource = () => {
 		onClose: () => void,
 	) => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
-		if (isNotValidData()) {
-			return;
-		}
-
+		if (isNotValidData() || companyIdIsNotNull(companyID)) return;
+	
 		fetcher<any>('post', {
 			body: {
 				model: 'resources/mobile',
@@ -55,10 +53,10 @@ export const useAddMobileResource = () => {
 						data?.android_info || 'An error has occurred on the server',
 					);
 				}
-
-				onDone();
-				onClose();
+				setNewApp({android: data?.android, apple: data?.apple});
 				toast.success('Successfully Added Mobile App...');
+				onClose();
+				onDone();
 			})
 			.catch((error: Error) => {
 				toast.error(error.message);

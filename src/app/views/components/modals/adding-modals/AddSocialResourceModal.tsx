@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import type { ComponentEventWithOpen } from '@interfaces/util.ts';
-import SocialResourceForm from '@modals/forms/SocialResourceForm.tsx';
+import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 
 export const AddSocialResourceModal: FC<ComponentEventWithOpen> = ({

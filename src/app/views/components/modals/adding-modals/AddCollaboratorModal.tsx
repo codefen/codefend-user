@@ -1,7 +1,7 @@
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import useModalStore from '@stores/modal.store.ts';
 import { ModalTitleWrapper } from '../../index.ts';
-import CollaboratorForm from '@modals/forms/CollaboratorForm.tsx';
+import CollaboratorForm from '@/app/views/components/forms/CollaboratorForm.tsx';
 
 export const AddCollaboratorModal = () => {
 	const { isOpen, modalId, setIsOpen } = useModalStore();

@@ -3,11 +3,11 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import {  genericFetcher } from '@services/swr';
 import useSWR from 'swr';
 
-export const useGetOneCloud = () => {
+export const useGetOneMobile = () => {
 	const { getCompany } = useUserData();
 
 	const swrKeYRef = useRef<any>([
-		'resources/cloud',
+		'resources/mobile',
 		{ company_id: getCompany(), ac: 'view_one', id: "0" },
 	]);
 
@@ -16,18 +16,21 @@ export const useGetOneCloud = () => {
 		(key: any) => genericFetcher(key),
 		{
             fallback: {},
+
             revalidateOnMount: false,
             revalidateIfStale: false,
             revalidateOnFocus: false,
-            refreshWhenHidden: false,
             revalidateOnReconnect: false,
-			keepPreviousData:false
+
+            refreshWhenHidden: false,
+			refreshWhenOffline: false,
+			keepPreviousData:false,
 		},
 	);
 
 	const refetch = (id:any) =>
 		{
-            swrKeYRef.current = ["resources/cloud", { company_id: getCompany(), ac: 'view_one', id: id }];
+            swrKeYRef.current = ["resources/mobile", { company_id: getCompany(), ac: 'view_one', id: id }];
             mutate(undefined, {
                 revalidate: true,
                 optimisticData: data,

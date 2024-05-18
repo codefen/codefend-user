@@ -17,13 +17,13 @@ const CloudApplicationPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { isLoading, data, refetch, updateData } = useCloud();
 	const { setShowModal, showModal } = useModal();
-	const { appSelected, setAppSelected, newApp } = useSelectedApp();
+	const { appSelected, setAppSelected, newApp, setNewApp } = useSelectedApp();
 
 	useEffect(() => {
 		refetch();
 		return () => {
 			setAppSelected(null);
-			setAppSelected(null);
+			setNewApp(null);
 		};
 	}, [control]);
 
@@ -39,15 +39,14 @@ const CloudApplicationPanel: FC = () => {
 		setAppSelected(null);
 		refresh();
 	};
+	const onAdd = () => updateData(newApp);
 
 	return (
 		<>
 			<AddCloudModal
 				isOpen={showModal}
 				close={() => setShowModal(false)}
-				onDone={() => {
-					updateData(newApp);
-				}}
+				onDone={onAdd}
 			/>
 			<DeleteMobileCloudModal onDone={onDelete} />
 			<OrderV2 />

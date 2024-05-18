@@ -1,10 +1,10 @@
 import { type FC } from 'react';
 import { PrimaryButton, Show } from '..';
-import { NetworkDadForm } from '@modals/forms/NetworkDadForm';
-import MobileResourceForm from '@modals/forms/MobileResourceForm';
-import { CloudResourceForm } from '@modals/forms/CloudResourceForm';
-import SocialResourceForm from '@modals/forms/SocialResourceForm';
-import { SourceResourceForm } from '@modals/forms/SourceResourceForm';
+import { NetworkDadForm } from '@/app/views/components/forms/NetworkDadForm';
+import MobileResourceForm from '@/app/views/components/forms/MobileResourceForm';
+import { CloudResourceForm } from '@/app/views/components/forms/CloudResourceForm';
+import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm';
+import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
 
 interface EmptyScreenProps {
 	title?: string;

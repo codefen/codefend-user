@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
-import { SourceResourceForm } from '@modals/forms/SourceResourceForm';
+import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
 
 export const AddRepositoryModal: FC<ComponentEventWithOpen> = ({
 	isOpen,

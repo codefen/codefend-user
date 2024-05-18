@@ -1,57 +1,57 @@
 import { useRef } from 'react';
 import {
-	type MobileApp,
 	ResourcesTypes,
-	mapMobileProps,
-	useOrderStore,
+	useOrderStore
 } from '../../..';
-import { verifySession } from '@/app/constants/validations';
-import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { defaultConfig, disponibleFetcher } from '@services/swr';
+import useSWR from 'swr';
 
 export const useMobile = () => {
-	const { logout } = useUserData();
-	const { getCompany} = useUserData();
-	const [fetcher,_, isLoading] = useFetcher();
 	const { updateState, setScopeTotalResources } = useOrderStore(
 		(state) => state,
 	);
+	const { getCompany, logout} = useUserData();
+	
+	const swrKeYRef = useRef<any>([
+		['resources/mobile', "view_all"],
+		{ company: getCompany(), logout },
+	]);
 
-	const mobileData = useRef<MobileApp[]>([]);
-
-	const refetch = () => {
-		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
-		
-		fetcher<any>('post', {
-			body: {
-				model: 'resources/mobile',
-				ac: 'view_all',
-				company_id: companyID,
-			},
-		}).then(({ data }: any) => {
-				if(verifySession(data, logout)) return;
-				if (apiErrorValidation(data?.error, data?.response)){
-					throw new Error("");
-				}
-				const resourcces = mapMobileProps(data);
-				mobileData.current = resourcces.available;
-				setScopeTotalResources(resourcces.available.length);
-			})
-			.finally(() => {
+	const { data, mutate, isLoading, isValidating } = useSWR(
+		swrKeYRef.current,
+		(key: any) => disponibleFetcher(key),
+		{
+			...defaultConfig,
+			onSuccess: () => {
+				setScopeTotalResources(data.length);
 				updateState('resourceType', ResourcesTypes.MOBILE);
-			});
-	};
+			},
+		},
+	);
+	
+	const refetch = () =>
+		mutate(undefined, {
+			revalidate: true,
+			optimisticData: data,
+		});
 
-	const getMobileInfo = (): MobileApp[] =>
-		!isLoading ? mobileData.current : [];
+	const updateData = (newData:any)=>{
+		console.log({newData});
+		let updatedData: any[] = [];
+		if(newData?.andoird) updatedData = [...data, newData.andoird];
+		if(newData?.apple) updatedData = [...updatedData, newData.apple];
+		
+		mutate(updatedData, {
+			revalidate: true,
+			optimisticData: updatedData
+		});
+	}
 
 	return {
-		isLoading,
-		getMobileInfo,
+		data: data ? data : [],
+		isLoading: isLoading || isValidating,
 		refetch,
+		updateData
 	};
 };
-
-

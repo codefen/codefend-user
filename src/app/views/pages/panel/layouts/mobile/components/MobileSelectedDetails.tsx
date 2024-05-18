@@ -1,56 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { IssuesPanelMobileAndCloud } from '@standalones/IssuesPanelMobileAndCloud.tsx';
 import { AppCardInfo } from '@standalones/AppCardInfo.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ProvidedTestingCredentials } from '@standalones/credential-card/ProvidedTestingCredentials';
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
-import type {
-	IssuesCondition,
-	MobileApp,
-	IssuesShare,
-} from '@interfaces/panel.ts';
+
 import { useOrderStore } from '@stores/orders.store.ts';
-import {
-	useSelectMobileCloudApp,
-	type SelectMobileCloudApp,
-} from '@stores/useSelectedApp.store';
 
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
+import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 
 export const MobileSelectedDetails: React.FC = (props) => {
-	const [isLoading, setLoading] = useState<boolean>(false);
 	const { isAdmin, isNormalUser } = useUserRole();
-	const { appSelected, fetchMobileOne, appUnique } = useSelectMobileCloudApp(
-		(state: SelectMobileCloudApp) => state,
-	);
+	const { data, isLoading, refetch } = useGetOneMobile();
+	const { appSelected } = useSelectedApp();
 	const { updateState } = useOrderStore((state) => state);
-
-	const handleFetcheUnique = () => {
-		setLoading(true);
-		fetchMobileOne().finally(() => setLoading(false));
-	};
+	const onRefetch = () => refetch(appSelected?.id);
 	useEffect(() => {
-		handleFetcheUnique();
+		if (appSelected) onRefetch();
 	}, [appSelected]);
+
 	if (!isLoading) {
 		return (
 			<>
-				<CredentialsModal onComplete={handleFetcheUnique} />
+				<CredentialsModal onComplete={onRefetch} />
 				<div>
 					<AppCardInfo
 						type="mobile"
-						selectedApp={appSelected || ({} as MobileApp)}
-						issueCount={appUnique?.issues?.length || 0}
+						selectedApp={appSelected}
+						issueCount={data?.issues ? data.issues.length : 0}
 					/>
 				</div>
 				<div className="selected-content">
 					<div className="selected-content-credentials">
 						<ProvidedTestingCredentials
-							credentials={appUnique?.creds || []}
+							credentials={data?.creds || []}
 							isLoading={isLoading}
 							resourceId={appSelected?.id || ''}
 							type="mobile"
@@ -67,14 +56,10 @@ export const MobileSelectedDetails: React.FC = (props) => {
 
 						<VulnerabilityRisk
 							isLoading={isLoading}
-							vulnerabilityByRisk={
-								appUnique?.issueShare || ({} as IssuesShare)
-							}
+							vulnerabilityByRisk={data?.issueShare || {}}
 						/>
 						<VulnerabilitiesStatus
-							vulnerabilityByShare={
-								appUnique?.issueCondition || ({} as IssuesCondition)
-							}
+							vulnerabilityByShare={data?.issueCondition || {}}
 						/>
 					</div>
 				</div>
@@ -82,7 +67,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 				<section className="card table">
 					<IssuesPanelMobileAndCloud
 						isLoading={isLoading}
-						issues={appUnique?.issues || []}
+						issues={data?.issues || []}
 					/>
 				</section>
 			</>

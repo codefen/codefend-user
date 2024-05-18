@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import SupportTicketForm from '@modals/forms/SupportTicketForm';
+import SupportTicketForm from '@/app/views/components/forms/SupportTicketForm';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 

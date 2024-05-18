@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { type ComponentEventWithOpen, type Device } from '../../../../data';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import SubNetworkForm from '@modals/forms/SubNetworkForm';
+import SubNetworkForm from '@/app/views/components/forms/SubNetworkForm';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 
 interface AddNetworkDeviceModalProps extends ComponentEventWithOpen {

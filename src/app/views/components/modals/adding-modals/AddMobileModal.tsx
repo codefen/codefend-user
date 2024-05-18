@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ModalButtons, ModalTitleWrapper } from '../..';
-import MobileResourceForm from '@modals/forms/MobileResourceForm';
+import MobileResourceForm from '@/app/views/components/forms/MobileResourceForm';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 
 const AddMobileModal: FC<ComponentEventWithOpen> = ({

@@ -36,7 +36,7 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 		() =>
 			type == 'Mobile'
 				? resources.filter((app) =>
-						app?.appName.toLowerCase().includes(term.toLowerCase()),
+						app?.app_name.toLowerCase().includes(term.toLowerCase()),
 					)
 				: resources.filter((app) =>
 						app?.cloud_name.toLowerCase().includes(term.toLowerCase()),
@@ -70,12 +70,12 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 								isActive={isSelected(resource.id)}
 								id={resource.id}
 								type={type.toLowerCase()}
-								name={resource?.appName || resource?.cloud_name}
-								appMedia={type == 'Mobile' ? resource?.appMedia : ''}
-								appDesc={resource?.appDesc || resource?.cloud_desc}
-								appReviews={resource?.appReviews || undefined}
-								appRank={resource?.appRank || undefined}
-								appDeveloper={resource?.appDeveloper || undefined}
+								name={resource?.app_name || resource?.cloud_name}
+								appMedia={type == 'Mobile' ? resource?.app_media : ''}
+								appDesc={resource?.app_desc || resource?.cloud_desc}
+								appReviews={resource?.app_reviews || undefined}
+								appRank={resource?.app_rank || undefined}
+								appDeveloper={resource?.app_developer || undefined}
 								cloudProvider={
 									resource?.cloud_provider
 										? resource.cloud_provider.toLowerCase()

@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import type { ComponentEventWithOpen } from '@interfaces/util';
-import { CloudResourceForm } from '@modals/forms/CloudResourceForm';
+import { CloudResourceForm } from '@/app/views/components/forms/CloudResourceForm';
 
 export const AddCloudModal: FC<ComponentEventWithOpen> = ({
 	isOpen,

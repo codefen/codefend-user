@@ -45,12 +45,12 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 					id={selectedApp.id}
 					type={type}
 					issueCount={issueCount}
-					appMedia={isMobileType ? selectedApp?.appMedia : ''}
-					appDesc={selectedApp?.appDesc || selectedApp?.cloud_desc}
-					name={selectedApp?.appName || selectedApp?.cloud_name}
-					appReviews={selectedApp?.appReviews || undefined}
-					appRank={selectedApp?.appRank || undefined}
-					appDeveloper={selectedApp?.appDeveloper || undefined}
+					appMedia={isMobileType ? selectedApp?.app_media : ''}
+					appDesc={selectedApp?.app_desc || selectedApp?.cloud_desc}
+					name={selectedApp?.app_name || selectedApp?.cloud_name}
+					appReviews={selectedApp?.app_reviews || undefined}
+					appRank={selectedApp?.app_rank || undefined}
+					appDeveloper={selectedApp?.app_developer || undefined}
 					cloudProvider={
 						selectedApp?.cloud_provider
 							? selectedApp.cloud_provider.toLowerCase()

@@ -18,21 +18,18 @@ import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
 export const CloudSelectedDetails: FC = () => {
 	const { isAdmin, isNormalUser } = useUserRole();
 	const { appSelected } = useSelectedApp();
-	const { data, isLoading, refetch, updateCreds } = useGetOneCloud();
+	const { data, isLoading, refetch } = useGetOneCloud();
 	const { updateState } = useOrderStore((state) => state);
 
+	const onRefetch = () => refetch(appSelected?.id);
 	useEffect(() => {
-		if (appSelected) refetch(appSelected.id);
+		if (appSelected) onRefetch();
 	}, [appSelected]);
-
-	const onComplete = () => {
-		refetch(appSelected?.id);
-	};
 
 	if (!isLoading) {
 		return (
 			<>
-				<CredentialsModal onComplete={onComplete} />
+				<CredentialsModal onComplete={onRefetch} />
 				<div>
 					<AppCardInfo
 						selectedApp={appSelected || {}}
