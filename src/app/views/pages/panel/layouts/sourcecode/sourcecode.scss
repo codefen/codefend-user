@@ -48,15 +48,15 @@ main.source-code {
 				margin-inline-start: 0%;
 				margin-inline-end: 2%;
 				.publish {
-					display: -webkit-box;
-					-webkit-box-orient: vertical;
-					overflow: hidden;
 					text-overflow: ellipsis;
+					overflow: hidden;
+					white-space: normal;
+					overflow-wrap: break-word;
+					word-wrap: break-word;
 					-webkit-line-clamp: 2;
+
 					line-height: 1.4em;
 					max-height: 2.8em;
-					white-space: normal;
-					word-wrap: break-word;
 				}
 			}
 		}
