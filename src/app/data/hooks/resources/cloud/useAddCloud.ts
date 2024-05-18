@@ -12,7 +12,7 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 	const [fetcher, _, isLoading] = useFetcher();
 
 	const fetchAdd = (companyID: string) => {
-		fetcher('post', {
+		return fetcher('post', {
 			body: {
 				model: 'resources/cloud',
 				ac: 'add',
@@ -32,13 +32,14 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 			onDone();
 			close();
 			toast.success('Successfully Added Cloud...');
+			return data;
 		}).catch((e: Error)=> toast.error(e.message) );
 	};
 
 	const refetch = () => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
-		fetchAdd(companyID);
+		if (companyIdIsNotNull(companyID)) return Promise.reject(false);
+		return fetchAdd(companyID);
 	};
 
 	const validations = () => {

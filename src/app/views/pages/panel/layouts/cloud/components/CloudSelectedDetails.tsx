@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useEffect } from 'react';
 
 import { IssuesPanelMobileAndCloud } from '@standalones/IssuesPanelMobileAndCloud.tsx';
 import { AppCardInfo } from '@standalones/AppCardInfo.tsx';
@@ -6,52 +6,44 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ProvidedTestingCredentials } from '@standalones/credential-card/ProvidedTestingCredentials';
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
-import type {
-	IssuesCondition,
-	CloudApp,
-	IssuesShare,
-} from '@interfaces/panel.ts';
 import { useOrderStore } from '@stores/orders.store.ts';
 
-import {
-	useSelectMobileCloudApp,
-	type SelectMobileCloudApp,
-} from '@stores/mobileCloudSelect.store.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole';
+import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
 
 export const CloudSelectedDetails: FC = () => {
-	const [isLoading, setLoading] = useState<boolean>(false);
 	const { isAdmin, isNormalUser } = useUserRole();
+	const { appSelected } = useSelectedApp();
+	const { data, isLoading, refetch, updateCreds } = useGetOneCloud();
 	const { updateState } = useOrderStore((state) => state);
-	const { appSelected, fetchCloudOne, appUnique } = useSelectMobileCloudApp(
-		(state: SelectMobileCloudApp) => state,
-	);
-	const handleFetcheUnique = () => {
-		setLoading(true);
-		fetchCloudOne().finally(() => setLoading(false));
-	};
+
 	useEffect(() => {
-		handleFetcheUnique();
+		if (appSelected) refetch(appSelected.id);
 	}, [appSelected]);
+
+	const onComplete = () => {
+		refetch(appSelected?.id);
+	};
 
 	if (!isLoading) {
 		return (
 			<>
-				<CredentialsModal onComplete={handleFetcheUnique} />
+				<CredentialsModal onComplete={onComplete} />
 				<div>
 					<AppCardInfo
-						selectedApp={appSelected || ({} as CloudApp)}
+						selectedApp={appSelected || {}}
 						type="cloud"
-						issueCount={appUnique?.issues?.length || 0}
+						issueCount={data?.issues ? data.issues.length : 0}
 					/>
 				</div>
 				<div className="selected-content">
 					<div className="selected-content-credentials">
 						<ProvidedTestingCredentials
-							credentials={appUnique?.creds || []}
+							credentials={data?.creds || []}
 							isLoading={isLoading}
 							resourceId={appSelected?.id || ''}
 							type="cloud"
@@ -67,14 +59,10 @@ export const CloudSelectedDetails: FC = () => {
 						</Show>
 						<VulnerabilityRisk
 							isLoading={isLoading}
-							vulnerabilityByRisk={
-								appUnique?.issueShare || ({} as IssuesShare)
-							}
+							vulnerabilityByRisk={data?.issues_share || {}}
 						/>
 						<VulnerabilitiesStatus
-							vulnerabilityByShare={
-								appUnique?.issueCondition || ({} as IssuesCondition)
-							}
+							vulnerabilityByShare={data?.issues_condicion || {}}
 						/>
 					</div>
 				</div>
@@ -82,7 +70,7 @@ export const CloudSelectedDetails: FC = () => {
 				<section className="card table">
 					<IssuesPanelMobileAndCloud
 						isLoading={isLoading}
-						issues={appUnique?.issues || []}
+						issues={data?.issues || []}
 					/>
 				</section>
 			</>

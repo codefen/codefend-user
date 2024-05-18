@@ -49,6 +49,7 @@ export const iosUriValidation = (address:string)=> address.trim() !== "" && !add
 /*
 ESTAS VALIDACIONES VALIDAN DATOS QUE NO DEBEN ESTAR VACIAS
 */
+export const hasEmail = (email:string)=> isNotEmpty(email) && emailRegexVal.test(email);
 export const isNotEmpty = (data?:string)=> !!data && data?.trim() !== "";
 export const isEquals = (source1?:string, source2?:string)=> source1 == source2;
 export const hasUpperCase = (str?:string)=> !!str && upperCaseRegexVal.test(str);

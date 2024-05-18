@@ -4,12 +4,14 @@ import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud.ts';
 import { ModalTextArea } from '@defaults/ModalTextArea';
 import { ModalInput } from '@defaults/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
+import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 
 export const CloudResourceForm: FC<ComponentEventWithChildren> = ({
 	close,
 	onDone,
 	children,
 }) => {
+	const { setNewApp } = useSelectedApp();
 	const {
 		provider,
 		refetch,
@@ -24,7 +26,9 @@ export const CloudResourceForm: FC<ComponentEventWithChildren> = ({
 		e.preventDefault();
 		e.stopPropagation();
 		if (validations()) return;
-		refetch();
+		refetch().then((data: any) => {
+			setNewApp(data.resources_cloud);
+		});
 	};
 
 	return (

@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation } from "@/app/constants/validations";
+import { apiErrorValidation, hasEmail } from "@/app/constants/validations";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -30,7 +30,6 @@ export const useAddResourceCredentials = ()=>{
         }).then(({data}:any)=>{
             if (apiErrorValidation(data?.error, data?.response))
 				throw new Error("");
-
             return true;
         }).catch(()=>{
             return false;
@@ -39,27 +38,24 @@ export const useAddResourceCredentials = ()=>{
 
     const handleSend = (type: string, resourceId: string) => {
 		const { userNameOrEmail, password, grades, accessLevel } = credentials;
-		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-		const username = !emailPattern.test(userNameOrEmail)
-			? userNameOrEmail
-			: '';
-		const email = emailPattern.test(userNameOrEmail) ? userNameOrEmail : '';
-
-		addCrdentials(
+		return addCrdentials(
 			type,
 			resourceId,
-			username,
-			email,
+			!hasEmail(userNameOrEmail)
+			? userNameOrEmail
+			: '',
+			hasEmail(userNameOrEmail) ? userNameOrEmail : '',
 			password,
 			accessLevel,
 			grades,
 		)
 			.then(() => {
 				toast.success('Credential added successfully');
+				return true;
 			})
 			.catch(() => {
 				toast.error('Something went wrong');
+				return false;
 			});
 	};
 

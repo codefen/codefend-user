@@ -5,7 +5,7 @@ import { type Issues, cloudAndMobileColumns, Sort } from '../../../data';
 
 interface Props {
 	isLoading: boolean;
-	issues: Issues[] | Issues;
+	issues: any | any[];
 	refetch?: () => void;
 }
 
@@ -20,17 +20,23 @@ export const IssuesPanelMobileAndCloud: FC<Props> = (props) => {
 		return props.issues;
 	}, [props.issues]);
 
-	const dataTable = formatIssues.map((issue) => ({
+	const dataTable = formatIssues.map((issue: any) => ({
 		ID: { value: Number(issue.id), style: '' },
-		published: { value: issue.createdAt, style: 'date' },
-		author: { value: issue.researcherUsername, style: 'username' },
-		type: { value: issue.resourceClass, style: 'vul-class' },
-		risk: { value: issue.riskLevel, style: 'vul-risk' },
+		published: { value: issue?.createdAt || issue?.creacion, style: 'date' },
+		author: {
+			value: issue?.researcherUsername || issue?.researcher_username,
+			style: 'username',
+		},
+		type: {
+			value: issue?.resourceClass || issue?.resource_class,
+			style: 'vul-class',
+		},
+		risk: { value: issue?.riskLevel || issue?.risk_level, style: 'vul-risk' },
 		score: {
-			value: <RiskScore riskScore={issue.riskScore} />,
+			value: <RiskScore riskScore={issue?.riskScore || issue?.risk_score} />,
 			style: 'vul-score',
 		},
-		issueTitle: { value: issue.name, style: 'vul-title' },
+		issueTitle: { value: issue?.name, style: 'vul-title' },
 	}));
 	return (
 		<SimpleSection

@@ -28,6 +28,9 @@ export const ProvidedTestingCredentials: FC<
 		setCrendentialType(type);
 		setModalId(type);
 	};
+	const userCred = (cred: any) =>
+		!cred.username ? cred.email || '---' : cred.username;
+
 	return (
 		<>
 			<ViewMoreInfoModal
@@ -55,7 +58,7 @@ export const ProvidedTestingCredentials: FC<
 						{credentials.map((cred: any, i: number) => (
 							<TestingCredentialCard
 								key={`${cred.id}-${i}`}
-								username={cred.username || cred.email || '---'}
+								username={userCred(cred)}
 								password={cred.password || '---'}
 								accessLVL={cred.access_level || 'Unknown'}
 								info={cred.info || ''}

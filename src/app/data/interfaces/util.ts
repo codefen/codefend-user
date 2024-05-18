@@ -56,3 +56,11 @@ export interface ComponentEventWithChildren {
 	close?: () => void;
     children: (isLoading: boolean) => React.ReactNode;
 }
+
+export interface EmptyFallbackData {
+    type: string;
+    title: string;
+    subtitle: string;
+    btnText: string;
+    event: () => void;
+}

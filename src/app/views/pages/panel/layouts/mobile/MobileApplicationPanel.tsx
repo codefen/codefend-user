@@ -9,14 +9,14 @@ import { useMobile } from '@resourcesHooks/mobile/useMobile.ts';
 import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
-} from '@stores/mobileCloudSelect.store.ts';
+} from '@stores/useSelectedApp.store';
 import useModal from '#commonHooks/useModal.ts';
 
 import './mobileApplicationPanel.scss';
 import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
 import useTimeout from '#commonHooks/useTimeout.ts';
 import EmptyScreenView from '@defaults/EmptyScreenView';
-import { ListResourceWithSearch } from '@standalones/LeftMobileCloud';
+import { ListResourceWithSearch } from '@standalones/ListResourceWithSearch';
 import { MobileSelectedDetails } from './components/MobileSelectedDetails';
 
 const MobileApplicationPanel: React.FC = () => {

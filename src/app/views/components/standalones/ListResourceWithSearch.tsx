@@ -1,10 +1,7 @@
+import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { AppCard } from '@standalones/AppCard.tsx';
 import useCredentialStore from '@stores/credential.store';
-import {
-	useSelectMobileCloudApp,
-	type SelectMobileCloudApp,
-} from '@stores/mobileCloudSelect.store';
-import { useCallback, useEffect, useMemo, useState, type FC } from 'react';
+import { useEffect, useMemo, useState, type FC } from 'react';
 
 interface LeftMobileCloudProps {
 	resources: any[];
@@ -17,22 +14,23 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 	openModal,
 	type,
 }) => {
+	const { appSelected, setAppSelected, isSelected } = useSelectedApp();
 	const [term, setTerm] = useState('');
-	const { appSelected, isCurrentSelected, updateSelected } =
-		useSelectMobileCloudApp((state: SelectMobileCloudApp) => state);
+
 	const { setViewMore } = useCredentialStore();
 
-	const selectResource = (resource: any) => {
-		if (Boolean(appSelected) && isCurrentSelected(resource.id)) return;
-
-		updateSelected(resource);
-	};
-
 	useEffect(() => {
-		if (appSelected === null) {
-			updateSelected(resources[0]);
+		if (!appSelected) {
+			setAppSelected(resources[0]);
 		}
-	}, [appSelected]);
+	}, [resources]);
+
+	const updateSelectedApp = (resource: any) => {
+		if (!isSelected(resource.id)) {
+			setAppSelected(resource);
+		}
+		setViewMore({ id: '', open: false });
+	};
 
 	const resourceFiltered = useMemo(
 		() =>
@@ -46,7 +44,7 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 		[term],
 	);
 	return (
-		<div className={'card cloud-apps'}>
+		<div className="card cloud-apps">
 			<div className="over">
 				<div className="header">
 					<div className="title">
@@ -67,13 +65,9 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 						<div
 							key={`${resource.id}-${i}`}
 							className="app-info"
-							onClick={(e: React.FormEvent) => {
-								e.preventDefault();
-								selectResource(resource);
-								setViewMore({ id: '', open: false });
-							}}>
+							onClick={() => updateSelectedApp(resource)}>
 							<AppCard
-								isActive={isCurrentSelected(resource.id)}
+								isActive={isSelected(resource.id)}
 								id={resource.id}
 								type={type.toLowerCase()}
 								name={resource?.appName || resource?.cloud_name}

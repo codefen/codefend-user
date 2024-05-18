@@ -15,7 +15,6 @@ import type {
 	ReportIssues,
 	ResultsVdbSearchV2,
 	SourceCode,
-	User,
 	VdbProps,
 	VdbRequestSearch,
 	WebReport,

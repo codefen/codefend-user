@@ -14,7 +14,7 @@ import { useOrderStore } from '@stores/orders.store.ts';
 import {
 	useSelectMobileCloudApp,
 	type SelectMobileCloudApp,
-} from '@stores/mobileCloudSelect.store.ts';
+} from '@stores/useSelectedApp.store';
 
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import Show from '@defaults/Show.tsx';

@@ -36,9 +36,17 @@ export const useCloud = () => {
 			optimisticData: data,
 		});
 
+	const updateData = (newData:any)=>{
+		mutate([...data, newData], {
+			revalidate: true,
+			optimisticData: data
+		});
+	}
+
 	return {
 		data: data ? data : [],
 		isLoading: isLoading || isValidating,
-		refetch
+		refetch,
+		updateData
 	};
 };

@@ -1,7 +1,9 @@
 import { useAddResourceCredentials } from '@resourcesHooks/useAddResourceCredentials';
 import type { FC } from 'react';
-import { GlobeWebIcon, PencilIcon } from '@icons';
+import { GlobeWebIcon } from '@icons';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { ModalTextArea } from '@defaults/ModalTextArea';
+import { ModalInput } from '@defaults/ModalInput';
 
 interface AddCredentialsProps {
 	type: string;
@@ -21,47 +23,30 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 
 	const handleClickSend = (e: any) => {
 		e.preventDefault();
-		handleSend(type, resourceId);
-		close();
-		if (onComplete) onComplete();
+		handleSend(type, resourceId).finally(() => {
+			close();
+			if (onComplete) onComplete();
+		});
 	};
 
 	return (
 		<form className="form" onSubmit={handleClickSend}>
-			<div className="form-input">
-				<span className="icon">
-					<GlobeWebIcon />
-				</span>
-
-				<input
-					type="text"
-					onChange={(e) =>
-						setCredentials((prev) => ({
-							...prev,
-							userNameOrEmail: e.target.value,
-						}))
-					}
-					placeholder="User credential (Username or Email)"
-					required
-				/>
-			</div>
-			<div className="form-input">
-				<span className="icon">
-					<GlobeWebIcon />
-				</span>
-
-				<input
-					type="password"
-					onChange={(e) =>
-						setCredentials((prev) => ({
-							...prev,
-							password: e.target.value,
-						}))
-					}
-					placeholder="Password credential"
-					required
-				/>
-			</div>
+			<ModalInput
+				type="text"
+				setValue={(e) =>
+					setCredentials((prev) => ({ ...prev, userNameOrEmail: e }))
+				}
+				placeholder="User credential (Username or Email)"
+				required
+			/>
+			<ModalInput
+				type="password"
+				setValue={(e) =>
+					setCredentials((prev) => ({ ...prev, password: e }))
+				}
+				placeholder="Password credential"
+				required
+			/>
 			<div className="form-input">
 				<span className="icon">
 					<GlobeWebIcon />
@@ -84,22 +69,18 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 					<option value="admin">Admin</option>
 				</select>
 			</div>
-			<div className="form-input">
-				<span className="pencil-icon need-m down-top">
-					<PencilIcon isButton />
-				</span>
 
-				<textarea
-					onChange={(e) =>
-						setCredentials((prev) => ({
-							...prev,
-							grades: e.target.value,
-						}))
-					}
-					placeholder="You can provide additional information for access."
-					className="text-area-input xll log-inputs2 text-area "
-					maxLength={4000}></textarea>
-			</div>
+			<ModalTextArea
+				setValue={(val) =>
+					setCredentials((prev) => ({
+						...prev,
+						grades: val,
+					}))
+				}
+				className="text-area-input xll"
+				placeholder="You can provide additional information for access."
+				maxLength={4000}
+			/>
 
 			<ModalButtons
 				close={close}

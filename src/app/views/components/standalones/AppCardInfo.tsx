@@ -1,11 +1,11 @@
 import { useEffect, type FC } from 'react';
 import { AppCard } from './AppCard';
-import { type MobileApp, useReportStore } from '../../../data';
+import { useReportStore } from '../../../data';
 import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
 
 interface AppCardInfoProps {
 	type: string;
-	selectedApp: MobileApp | any;
+	selectedApp: any;
 	issueCount: number;
 }
 
@@ -31,9 +31,7 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 	}, [selectedApp]);
 
 	const openReport = () => {
-		if (issueCount >= 1) {
-			openModal();
-		}
+		if (issueCount >= 1) openModal();
 	};
 	return (
 		<div

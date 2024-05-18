@@ -7,6 +7,7 @@ interface ModalInputProps {
 	defaultValue?: string;
 	required?: boolean;
 	maxLength?: number;
+	className?: string;
 	setValue: (target: string) => void;
 }
 
@@ -17,11 +18,12 @@ export const ModalTextArea: FC<ModalInputProps> = ({
 	defaultValue = '',
 	required = false,
 	maxLength,
+	className = '',
 }) => (
 	<div className="form-input">
 		<span className="pencil-icon need-m">{icon}</span>
 		<textarea
-			className="text-area-input log-inputs2 text-area"
+			className={`text-area-input log-inputs2 text-area ${className}`}
 			onChange={(e) => setValue(e.target.value)}
 			defaultValue={defaultValue}
 			placeholder={placeholder}
