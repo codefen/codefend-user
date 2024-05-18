@@ -24,8 +24,14 @@ interface Props {
 }
 
 export const SourceCodeChart: FC<Props> = (props) => {
+	const fixedSourceCode = props.sourceCode.map((sourceCode) => ({
+		...sourceCode,
+		source_code: String(sourceCode.source_code)
+			.replace(' ', '')
+			.toLowerCase(),
+	}));
 	const { chartData, otherMetrics, total, chartOptions } = useDoughnutChart({
-		data: props.sourceCode,
+		data: fixedSourceCode,
 		type: ChartValueType.SOURCE_CODE,
 	});
 
@@ -36,22 +42,22 @@ export const SourceCodeChart: FC<Props> = (props) => {
 	const { renderPercentage } = MetricsService;
 
 	const dataTable = Object.keys(otherMetrics).map(
-		(network: any) =>
+		(sourceCode: any) =>
 			({
 				ID: { value: '', style: '' },
 				code: {
-					value: languageTypes.has(network.toLowerCase())
-						? network
+					value: languageTypes.has(sourceCode.toLowerCase().trim())
+						? sourceCode
 						: 'Unknown',
 					style: 'os',
 				},
 				count: {
-					value: otherMetrics[network as keyof typeof otherMetrics],
+					value: otherMetrics[sourceCode as keyof typeof otherMetrics],
 					style: 'count',
 				},
 				percent: {
 					value: renderPercentage(
-						String(otherMetrics[network as keyof typeof otherMetrics]),
+						String(otherMetrics[sourceCode as keyof typeof otherMetrics]),
 						String(total),
 					),
 					style: 'percent',

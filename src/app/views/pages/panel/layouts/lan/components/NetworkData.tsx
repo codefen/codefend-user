@@ -21,7 +21,7 @@ import {
 	LanIcon,
 	TrashIcon,
 } from '@icons';
-import { TableV2 } from '@table/tablev2.ts';
+import { TableV2 } from '@table/tablev2.tsx';
 import { lanResourcesTable } from '@mocks/defaultData.ts';
 import Show from '@defaults/Show';
 

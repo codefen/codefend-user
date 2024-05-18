@@ -5,13 +5,13 @@ import type { ColumnTable } from '../../data';
 export const osTypes = ['windows', 'linux', 'android', 'ios', 'unknown'];
 
 export const languageTypes = new Set([
+	'js',
 	'javascript',
+	'ts',
+	'typescript',
 	'php',
 	'python',
-	'typescript',
 	'java',
-	'js',
-	'ts',
 	'rust',
 	'html',
 	'css',
