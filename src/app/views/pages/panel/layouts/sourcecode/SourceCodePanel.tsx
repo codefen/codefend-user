@@ -11,8 +11,7 @@ import { useFlashlight } from '../../FlashLightContext.tsx';
 import './sourcecode.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ModalReport } from '@modals/index.ts';
-import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
 import Show from '@defaults/Show.tsx';
 

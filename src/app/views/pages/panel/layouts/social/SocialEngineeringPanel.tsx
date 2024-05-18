@@ -11,7 +11,7 @@ import './socialEngineering.scss';
 import Show from '@defaults/Show.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ModalReport } from '@modals/index.ts';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
 import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
 

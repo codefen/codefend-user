@@ -23,9 +23,9 @@ import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import Show from '@defaults/Show';
-import useCredentialStore from '@stores/credential.store';
-import useModalStore from '@stores/modal.store';
-import { ModalInput } from '@defaults/ModalInput';
+import useCredentialStore from '@stores/credential.store.ts';
+import useModalStore from '@stores/modal.store.ts';
+import { ModalInput } from '@defaults/ModalInput.tsx';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -289,23 +289,14 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 
 	return (
 		<>
-			<ModalTitleWrapper
-				isActive={showModal && showModalStr === 'add_domain'}
+			<AddDomainModal
+				isOpen={showModal && showModalStr === 'add_domain'}
+				onDone={() => {
+					setShowModal(!showModal);
+					props.refresh();
+				}}
 				close={() => setShowModal(false)}
-				type="med-w"
-				headerTitle="Add web resource">
-				<AddDomainModal
-					onDone={() => {
-						setShowModal(!showModal);
-						props.refresh();
-					}}
-					close={() => setShowModal(false)}
-					webResources={getResources.map(
-						(resource: Webresources) => resource.resourceDomain,
-					)}
-				/>
-			</ModalTitleWrapper>
-
+			/>
 			<ModalTitleWrapper
 				isActive={showModal && showModalStr === 'delete_resource'}
 				close={() => setShowModal(false)}
@@ -323,7 +314,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 					}
 				/>
 			</ModalTitleWrapper>
-
 			<ModalTitleWrapper
 				isActive={showModal && showModalStr === 'add_subdomain'}
 				close={() => setShowModal(false)}
@@ -338,7 +328,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 					webResources={getResources}
 				/>
 			</ModalTitleWrapper>
-
 			<div className="card">
 				<div className="over">
 					<div className="header">

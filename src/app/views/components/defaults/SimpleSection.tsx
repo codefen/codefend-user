@@ -23,3 +23,5 @@ export const SimpleSection: FC<SimpleSectionProps> = ({
 		</>
 	);
 };
+
+export default SimpleSection;

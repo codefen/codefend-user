@@ -29,7 +29,7 @@ export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
 				company_id: companyID,
 				resource_address_domain: domainName,
 			},
-			timeout: 55000
+			timeout: 80000
 		})
             .then(({ data }) => {
 				if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

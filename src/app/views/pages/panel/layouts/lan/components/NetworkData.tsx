@@ -1,31 +1,29 @@
 import { type FC, type ReactNode } from 'react';
-import {
-	useModal,
-	type Device,
-	lanResourcesTable,
-	type TableItem,
-	useReportStore,
-} from '../../../../../../data';
-import {
-	AddAccessPointModal,
-	ModalTitleWrapper,
-	TrashIcon,
-	LanIcon,
-	ConfirmModal,
-	AddNetworkDeviceModal,
-	TableV2,
-	CredentialIcon,
-	Show,
-	BugIcon,
-	DocumentIcon,
-} from '../../../../../components';
-
-import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan';
-import { useUserRole } from '#commonUserHooks/useUserRole';
-import useModalStore from '@stores/modal.store';
-import useCredentialStore from '@stores/credential.store';
-import { redirect, useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+
+import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan.ts';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import useModalStore from '@stores/modal.store.ts';
+import useCredentialStore from '@stores/credential.store.ts';
+import type { Device } from '@interfaces/panel.ts';
+import useModal from '#commonHooks/useModal.ts';
+import { useReportStore } from '@stores/report.store.ts';
+import type { TableItem } from '@interfaces/table.tsx';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
+import ConfirmModal from '@modals/ConfirmModal.tsx';
+import AddAccessPointModal from '@modals/adding-modals/AddAccessPointModal.tsx';
+import { AddNetworkDeviceModal } from '@modals/adding-modals/AddNetworkDeviceModal.tsx';
+import {
+	BugIcon,
+	CredentialIcon,
+	DocumentIcon,
+	LanIcon,
+	TrashIcon,
+} from '@icons';
+import { TableV2 } from '@table/tablev2.ts';
+import { lanResourcesTable } from '@mocks/defaultData.ts';
+import Show from '@defaults/Show';
 
 interface LanNetworkDataProps {
 	isLoading: boolean;
@@ -64,7 +62,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			);
 		}
 	};
-	let tableData2: Record<string, TableItem>[] = internalNetwork.map(
+	const tableData2: Record<string, TableItem>[] = internalNetwork.map(
 		(network) => ({
 			ID: { value: '', style: '' },
 			Identifier: { value: Number(network.id), style: 'id' },
@@ -272,21 +270,14 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 				}}
 				close={() => setShowModal(false)}
 			/>
-
-			<ModalTitleWrapper
-				headerTitle="Add network device"
+			<AddNetworkDeviceModal
+				isOpen={showModal && showModalStr === 'add_network_device'}
+				onDone={() => {
+					refetchInternalNetwork();
+				}}
 				close={() => setShowModal(false)}
-				type="med-w"
-				isActive={showModal && showModalStr === 'add_network_device'}>
-				<AddNetworkDeviceModal
-					onDone={() => {
-						refetchInternalNetwork();
-					}}
-					close={() => setShowModal(false)}
-					internalNetwork={internalNetwork ?? []}
-				/>
-			</ModalTitleWrapper>
-
+				internalNetwork={internalNetwork ?? []}
+			/>
 			<div className="card table">
 				<div className="header">
 					<div className="title">

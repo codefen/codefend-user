@@ -55,19 +55,14 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 
 	return (
 		<>
-			<ModalTitleWrapper
-				headerTitle="Add ticket"
-				isActive={showModal && showModalStr === 'add_ticket'}
+			<AddTicketModal
+				isOpen={showModal && showModalStr === 'add_ticket'}
 				close={() => setShowModal(!showModal)}
-				type="med-w">
-				<AddTicketModal
-					close={() => setShowModal(!showModal)}
-					onDone={() => {
-						setShowModal(!showModal);
-						props.refresh();
-					}}
-				/>
-			</ModalTitleWrapper>
+				onDone={() => {
+					setShowModal(!showModal);
+					props.refresh();
+				}}
+			/>
 
 			<ModalTitleWrapper
 				headerTitle="Delete ticket"

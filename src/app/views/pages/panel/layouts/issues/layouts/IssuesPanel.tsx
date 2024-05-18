@@ -17,7 +17,7 @@ import {
 	EMPTY_ISSUECONDITION,
 	EMPTY_SHARE,
 } from '@/app/constants/empty.ts';
-import { ModalReport, OrderV2 } from '@modals/index.ts';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
 
 const IssuesPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();

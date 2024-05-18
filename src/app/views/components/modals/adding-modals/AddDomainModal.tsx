@@ -1,48 +1,32 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import { GlobeWebIcon } from '@icons';
-import { useAddWebResourcce } from '@resourcesHooks/web/useAddWebResources';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import type { ComponentEventWithOpen } from '@interfaces/util';
+import WebDomainForm from '@modals/forms/WebDomainForm';
 
-interface AddDomainProps {
-	onDone: () => void;
-	close: () => void;
-	webResources: string[];
-}
-
-const AddDomainModal: FC<AddDomainProps> = (props) => {
-	const { handleAddResource, isAddingDomain, setDomainName } =
-		useAddWebResourcce(props.onDone, props.close);
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-		handleAddResource();
-		return;
-	};
-	return (
+const AddDomainModal: FC<ComponentEventWithOpen> = ({
+	isOpen,
+	close,
+	onDone,
+}) => (
+	<ModalTitleWrapper
+		isActive={isOpen}
+		close={() => close?.()}
+		type="med-w"
+		headerTitle="Add web resource">
 		<div className="content">
-			<form className="form" onSubmit={handleSubmit}>
-				<div className="form-input">
-					<span className="icon">
-						<GlobeWebIcon />
-					</span>
-					<input
-						type="text"
-						className="log-inputs"
-						placeholder="domain name"
-						onChange={(e) => setDomainName(e.target.value)}
-						required
+			<WebDomainForm close={close} onDone={onDone}>
+				{(isLoading) => (
+					<ModalButtons
+						close={close!}
+						isDisabled={isLoading}
+						confirmText="Add web resource"
 					/>
-				</div>
-
-				<ModalButtons
-					close={props.close!}
-					isDisabled={isAddingDomain}
-					confirmText="Add web resource"
-				/>
-			</form>
+				)}
+			</WebDomainForm>
 		</div>
-	);
-};
+	</ModalTitleWrapper>
+);
 
 export default AddDomainModal;
