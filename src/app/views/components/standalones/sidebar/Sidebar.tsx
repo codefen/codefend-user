@@ -1,4 +1,10 @@
-import { type FC, useState, Fragment } from 'react';
+import {
+	type FC,
+	useState,
+	PureComponent,
+	type ReactNode,
+	useCallback,
+} from 'react';
 import { Link } from 'react-router-dom';
 import {
 	BugIcon,
@@ -23,16 +29,49 @@ import {
 	UsersIcon,
 } from '@icons';
 
-import usePanelStore from '@stores/panel.store.ts';
 import './sidebar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import { useUserData } from '#commonUserHooks/useUserData';
 
+interface SidebarItemProps {
+	id: string;
+	title: string;
+	to: string;
+	haveAccess: boolean;
+	icon?: ReactNode;
+	isActive: boolean;
+}
+
+const verifyPath = (verifyPath: string, isRoot: boolean) => {
+	const currentPath = window.location.pathname;
+	if (currentPath === '/' && isRoot) return true;
+	return currentPath.startsWith(verifyPath);
+};
+
+class SidebarItem extends PureComponent<SidebarItemProps> {
+	override render() {
+		const { id, haveAccess, title, to, icon, isActive } = this.props;
+
+		if (haveAccess) {
+			return (
+				<Link
+					title={title}
+					to={to}
+					id={id}
+					className={`${isActive ? 'active' : ''}`}
+					aria-label={title}
+					data-text={title}>
+					{icon}
+				</Link>
+			);
+		}
+		return null;
+	}
+}
+
 const Sidebar: FC = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-	const { isActivePath } = usePanelStore();
 	const { getUserdata } = useUserData();
 	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
 	const { companies, companySelected } = useAdminCompanyStore();
@@ -221,29 +260,31 @@ const Sidebar: FC = () => {
 			haveAccess: isNotProviderAndReseller,
 		},
 	];
-
+	const getItems = useCallback((menu: any[]) => {
+		const items: JSX.Element[] = [];
+		const count = menu.length;
+		for (let i = 0; i < count; i++) {
+			const { id, haveAccess, title, icon, to, root } = menu[i];
+			items[i] = (
+				<SidebarItem
+					key={`sb-${id}`}
+					id={id}
+					haveAccess={haveAccess}
+					title={title}
+					icon={icon}
+					to={to}
+					isActive={verifyPath(to, root)}
+				/>
+			);
+		}
+		return items;
+	}, []);
 	return (
 		<aside
 			className={`sidebar ${isSidebarOpen ? 'is-open' : ''}`}
 			onMouseEnter={(e) => handleOpenSidebar('enter')}
 			onMouseLeave={(e) => handleOpenSidebar('leave')}>
-			{menuItems.map((item) => (
-				<Fragment key={`sb-${item.id}`}>
-					{item.haveAccess ? (
-						<Link
-							title={item.title}
-							to={item.to}
-							id={item.id}
-							className={`${
-								isActivePath(item.to, item.root) ? 'active' : ''
-							}`}
-							aria-label={item.title}
-							data-text={item.title}>
-							{item.icon}
-						</Link>
-					) : null}
-				</Fragment>
-			))}
+			{getItems(menuItems)}
 		</aside>
 	);
 };
