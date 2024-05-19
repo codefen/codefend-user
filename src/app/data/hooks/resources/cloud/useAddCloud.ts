@@ -1,17 +1,13 @@
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useAddCloud = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useUserData();
-	const [appName, setAppName] = useState('');
-	const [provider, setProvider] = useState('');
-	const [description, setDescription] = useState('');
 	const [fetcher, _, isLoading] = useFetcher();
 
-	const fetchAdd = (companyID: string) => {
+	const fetchAdd = (companyID: string,app:string,provider:string,desc:string) => {
 		return fetcher('post', {
 			body: {
 				model: 'resources/cloud',
@@ -21,8 +17,8 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 				llave_2: '',
 				llave_3: '',
 				provider: provider,
-				name: appName,
-				desc: description,
+				name: app,
+				desc: desc,
 			},
 		}).then(({ data }: any) => {
 			if (data?.isAnError || apiErrorValidation(data?.error, data?.response)) {
@@ -36,19 +32,19 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 		}).catch((e: Error)=> toast.error(e.message) );
 	};
 
-	const refetch = () => {
+	const refetch = (app:string,provider:string,desc:string) => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return Promise.reject(false);
-		return fetchAdd(companyID);
+		if (companyIdIsNull(companyID)) return Promise.reject(false);
+		return fetchAdd(companyID,app,provider,desc);
 	};
 
-	const validations = () => {
-		if (!provider.trim()) {
+	const validations = (app:string,prov:string) => {
+		if (!prov.trim()) {
 			toast.error('Select cloud provider');
 			return true;
 		}
 
-		if (!appName.trim() || appName.length > 150) {
+		if (!app.trim() || app.length > 150) {
 			toast.error('Invalid app name');
 			return true;
 		}
@@ -56,12 +52,8 @@ export const useAddCloud = (onDone: () => void, close: () => void) => {
 	};
 
 	return {
-		provider,
 		refetch,
 		isAddingCloud: isLoading,
-		setAppName,
-		setProvider,
-		setDescription,
 		validations,
 	};
 };

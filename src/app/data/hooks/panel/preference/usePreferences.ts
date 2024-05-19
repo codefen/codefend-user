@@ -5,7 +5,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import type { CompanyOrders, CompanyInfo } from '@interfaces/preferences';
 import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const usePreferences = () => {
@@ -41,7 +41,7 @@ export const usePreferences = () => {
 
 	const refetch = () => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 
 		fetchAll(companyID);
 	};

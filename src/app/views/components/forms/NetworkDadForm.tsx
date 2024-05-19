@@ -10,10 +10,8 @@ export const NetworkDadForm: FC<ComponentEventWithChildren> = ({
 	close,
 	children,
 }) => {
-	const { isLoading, refetch, setNetworkData } = useAddLan(
-		onDone ? onDone : () => {},
-		close ? close : () => {},
-	);
+	const { isLoading, refetch, internalAddress, externalAddress, desc } =
+		useAddLan(onDone ? onDone : () => {}, close ? close : () => {});
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -25,33 +23,18 @@ export const NetworkDadForm: FC<ComponentEventWithChildren> = ({
 	return (
 		<form className="form" onSubmit={handleSubmit}>
 			<ModalInput
-				setValue={(val: string) =>
-					setNetworkData((prevData: any) => ({
-						...prevData,
-						externalAddress: val,
-					}))
-				}
+				ref={externalAddress}
 				placeholder="External IP Address"
 				required
 			/>
 			<ModalInput
-				setValue={(val: string) =>
-					setNetworkData((prevData: any) => ({
-						...prevData,
-						internalAddress: val,
-					}))
-				}
+				ref={internalAddress}
 				placeholder="Internal IP Address"
 				required
 			/>
 
 			<ModalTextArea
-				setValue={(val: string) =>
-					setNetworkData((prevData: any) => ({
-						...prevData,
-						desc: val,
-					}))
-				}
+				ref={desc}
 				placeholder="short description"
 				maxLength={512}
 				required

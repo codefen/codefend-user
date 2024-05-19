@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import useAdminCompanyStore from "@stores/adminCompany.store";
 import { verifySession } from '@/app/constants/validations';
 
@@ -11,7 +11,7 @@ export const useProviderCompanies = ()=>{
     
     const getProviderCompanyAccess = ()=>{
         const companyID = getUserdata().company_id;
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
         fetcher("post", {
             body: {
                 model: "providers/companies/access",

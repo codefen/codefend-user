@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from 'react';
 import { SupportChatDisplay } from './components/SupportChatDisplay';
 import { SupportTicketList } from './components/SupportTicketList';
-import { useAllTicket } from '@panelHooks/support/useSupport';
+import { useAllTicket } from '@panelHooks/support/useAllTickets.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import Show from '@defaults/Show.tsx';
 import SelectedTicket from './supportProvider.ts';

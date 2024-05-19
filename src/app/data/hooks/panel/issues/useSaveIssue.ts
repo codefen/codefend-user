@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export interface SaveIssue {
 	issueName: string;
@@ -107,7 +107,7 @@ export const useSaveIssue = () => {
 
 	const save = async () => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		return fetchSave(companyID);
 	};
 

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useRef, type FC } from 'react';
 import { GlobeWebIcon } from '@icons';
 import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud.ts';
 import { ModalTextArea } from '@defaults/ModalTextArea';
@@ -11,22 +11,33 @@ export const CloudResourceForm: FC<ComponentEventWithChildren> = ({
 	onDone,
 	children,
 }) => {
+	const provider = useRef<HTMLSelectElement>(null);
+	const appName = useRef<HTMLInputElement>(null);
+	const description = useRef<HTMLTextAreaElement>(null);
+
 	const { setNewApp } = useSelectedApp();
-	const {
-		provider,
-		refetch,
-		isAddingCloud,
-		setAppName,
-		setProvider,
-		setDescription,
-		validations,
-	} = useAddCloud(onDone ? onDone : () => {}, close ? close : () => {});
+	const { refetch, isAddingCloud, validations } = useAddCloud(
+		onDone ? onDone : () => {},
+		close ? close : () => {},
+	);
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
-		if (validations()) return;
-		refetch().then((data: any) => {
+		if (
+			validations(
+				appName.current?.value || '',
+				provider.current?.value || '',
+			)
+		) {
+			return;
+		}
+
+		refetch(
+			appName.current?.value || '',
+			provider.current?.value || '',
+			description.current?.value || '',
+		).then((data: any) => {
 			setNewApp(data.resources_cloud);
 		});
 	};
@@ -39,10 +50,9 @@ export const CloudResourceForm: FC<ComponentEventWithChildren> = ({
 				</span>
 
 				<select
-					onChange={(e) => setProvider(e.target.value)}
+					ref={provider}
 					className="log-inputs modal_info"
 					id="select-provider-cloud"
-					value={provider}
 					required>
 					<option value="" disabled hidden>
 						Provider
@@ -52,14 +62,10 @@ export const CloudResourceForm: FC<ComponentEventWithChildren> = ({
 					<option value="google">Google</option>
 				</select>
 			</div>
-			<ModalInput
-				setValue={(val: string) => setAppName(val)}
-				placeholder="name"
-				required
-			/>
+			<ModalInput ref={appName} placeholder="name" required />
 
 			<ModalTextArea
-				setValue={(val: string) => setDescription(val)}
+				ref={description}
 				placeholder="short description"
 				maxLength={600}
 			/>

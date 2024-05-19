@@ -1,29 +1,29 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { androidUriValidation, apiErrorValidation, companyIdIsNotNull, iosUriValidation } from '@/app/constants/validations';
+import { androidUriValidation, apiErrorValidation, companyIdIsNull, iosUriValidation } from '@/app/constants/validations';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 
 export const useAddMobileResource = () => {
 	const { setNewApp } = useSelectedApp();
 	const [fetcher,_, isLoading] = useFetcher();
-	const [androidAddress, setAndroidAddress] = useState('');
-	const [iosAddress, setIosAddress] = useState('');
+	const androidAddress = useRef<HTMLInputElement>(null);
+	const iosAddress = useRef<HTMLInputElement>(null);
 	const { getCompany } = useUserData();
 
 	const isNotValidData = () => {
-		if (androidUriValidation( androidAddress) ) {
+		if (androidUriValidation( androidAddress.current?.value || "") ) {
 			toast.error('Invalid android address');
 			return true;
 		}
 
-		if (iosUriValidation( iosAddress) ) {
+		if (iosUriValidation( iosAddress.current?.value || "") ) {
 			toast.error('Invalid ios address');
 			return true;
 		}
 
-		if(iosAddress.trim() === "" && androidAddress.trim() === ""){
+		if((iosAddress.current?.value === undefined || iosAddress.current?.value?.trim() === "") && (androidAddress.current?.value === undefined || androidAddress.current?.value?.trim() === "")){
 			toast.error('Please add at least one Android or iOS app');
 			return true;
 		}
@@ -36,14 +36,14 @@ export const useAddMobileResource = () => {
 		onClose: () => void,
 	) => {
 		const companyID = getCompany();
-		if (isNotValidData() || companyIdIsNotNull(companyID)) return;
+		if (isNotValidData() || companyIdIsNull(companyID)) return;
 	
 		fetcher<any>('post', {
 			body: {
 				model: 'resources/mobile',
 				ac: 'add',
-				app_android_link: androidAddress,
-				app_apple_link: iosAddress,
+				app_android_link: androidAddress.current?.value || "",
+				app_apple_link: iosAddress.current?.value || "",
 				company_id: companyID,
 			},
 		})
@@ -66,7 +66,7 @@ export const useAddMobileResource = () => {
 	return {
 		handleAddMobileResource,
 		isAddingMobile: isLoading,
-		setIosAddress,
-		setAndroidAddress,
+		iosAddress,
+		androidAddress,
 	};
 };

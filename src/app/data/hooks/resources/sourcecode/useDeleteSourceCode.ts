@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useDeleteSourceCode = () => {
 	const { getCompany } = useUserData();
@@ -29,7 +29,7 @@ export const useDeleteSourceCode = () => {
 
 	const deletedResource = (id: string) => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 
 		return fetDeleteResources(id, companyID);
 	};

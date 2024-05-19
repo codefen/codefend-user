@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import type { Provider } from "@interfaces/provider";
 import { useRef } from "react";
 import { toast } from "react-toastify";
@@ -12,7 +12,7 @@ export const useProviderIndex = ()=>{
 
     const getProviders = ()=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 
         fetcher<any>('post', {
 			body: {

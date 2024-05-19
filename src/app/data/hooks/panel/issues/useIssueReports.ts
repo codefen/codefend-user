@@ -10,7 +10,7 @@ import {
 import { useReportStore } from '../../../';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useFetcher } from '#commonHooks/useFetcher';
-import { companyIdIsNotNull } from '@/app/constants/validations';
+import { companyIdIsNull } from '@/app/constants/validations';
 
 export const useIssueReport = () => {
 	const resources = useRef<any>(null);
@@ -74,7 +74,7 @@ export const useIssueReport = () => {
 
 	const fetchReport = () => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return Promise.resolve(false);
+		if (companyIdIsNull(companyID)) return Promise.resolve(false);
 
 		return getReport(companyID, resourceID, resourceType);
 	};

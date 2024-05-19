@@ -9,7 +9,7 @@ import {
 import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useGetWebResources = () => {
 	const { getCompany, logout } = useUserData();
@@ -21,7 +21,7 @@ export const useGetWebResources = () => {
 
 	const refetch = (childs?: string) => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 
 		fetcher<any>('post', {
 			body: {

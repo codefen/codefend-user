@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { companyIdIsNotNull, verifySession } from '@/app/constants/validations';
+import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { EMPTY_DASHBOARD_PROPS } from '@/app/constants/empty';
 import { apiErrorValidation } from '@/app/constants/validations';
@@ -7,7 +7,7 @@ import { AxiosHttpService } from '@services/axiosHTTP.service';
 import useSWR from 'swr';
 
 const fetcher = ([model, {company, logout}]:any) =>{
-	if (companyIdIsNotNull(company)) return Promise.reject(EMPTY_DASHBOARD_PROPS);
+	if (companyIdIsNull(company)) return Promise.reject(EMPTY_DASHBOARD_PROPS);
 	const axiosHttp = AxiosHttpService.getInstance();
 	axiosHttp.updateUrlInstance();
 	return axiosHttp

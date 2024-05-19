@@ -9,8 +9,14 @@ export const SourceResourceForm: FC<ComponentEventWithChildren> = ({
 	onDone,
 	children,
 }) => {
-	const [sourceCodeForm, { isAddingSource, addSourceCode, setSourceCode }] =
-		useAddSourceCode();
+	const {
+		isLoading,
+		addSourceCode,
+		repositoryName,
+		repositoryUrl,
+		sourceCode,
+		visibility,
+	} = useAddSourceCode();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -25,32 +31,17 @@ export const SourceResourceForm: FC<ComponentEventWithChildren> = ({
 	return (
 		<form className="form" onSubmit={handleSubmit}>
 			<ModalInput
-				setValue={(val: string) =>
-					setSourceCode((current: any) => ({
-						...current,
-						repositoryName: val,
-					}))
-				}
+				ref={repositoryName}
 				placeholder="repository name"
 				required
 			/>
 			<ModalInput
-				setValue={(val: string) =>
-					setSourceCode((current: any) => ({
-						...current,
-						repositoryUrl: val,
-					}))
-				}
+				ref={repositoryUrl}
 				placeholder="repository url"
 				required
 			/>
 			<ModalInput
-				setValue={(val: string) =>
-					setSourceCode((current: any) => ({
-						...current,
-						sourceCode: val,
-					}))
-				}
+				ref={sourceCode}
 				placeholder="source code language"
 				required
 			/>
@@ -60,16 +51,7 @@ export const SourceResourceForm: FC<ComponentEventWithChildren> = ({
 					<GlobeWebIcon />
 				</span>
 
-				<select
-					onChange={(e) =>
-						setSourceCode((current: any) => ({
-							...current,
-							visibility: e.target.value,
-						}))
-					}
-					className="log-inputs modal_info"
-					value={sourceCodeForm.visibility}
-					required>
+				<select ref={visibility} className="log-inputs modal_info" required>
 					<option value="" disabled hidden>
 						visibility
 					</option>
@@ -77,7 +59,7 @@ export const SourceResourceForm: FC<ComponentEventWithChildren> = ({
 					<option value="private">private</option>
 				</select>
 			</div>
-			{children(isAddingSource)}
+			{children(isLoading)}
 		</form>
 	);
 };

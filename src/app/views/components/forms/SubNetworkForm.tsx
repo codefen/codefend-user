@@ -15,14 +15,19 @@ const SubNetworkForm: FC<SubNetworkFormProps> = ({
 	children,
 	internalNetwork,
 }) => {
-	const { mainDomainId, isLoading, validators, refetch, setFormData } =
-		useAddLanV2(onDone ? onDone : () => {}, close ? close : () => {});
+	const {
+		isLoading,
+		refetch,
+		mainDomainId,
+		desc,
+		externalAddress,
+		internalAddress,
+	} = useAddLanV2(onDone ? onDone : () => {}, close ? close : () => {});
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if (validators()) return;
 		refetch();
 	};
 
@@ -34,15 +39,9 @@ const SubNetworkForm: FC<SubNetworkFormProps> = ({
 				</span>
 
 				<select
-					onChange={(e) =>
-						setFormData((prevData: any) => ({
-							...prevData,
-							mainDomainId: e.target.value,
-						}))
-					}
+					ref={mainDomainId}
 					className="log-inputs modal_info"
 					name="mainDomainId"
-					value={mainDomainId}
 					required>
 					<option value="0" disabled hidden>
 						main resource
@@ -56,32 +55,10 @@ const SubNetworkForm: FC<SubNetworkFormProps> = ({
 					))}
 				</select>
 			</div>
-			<ModalInput
-				setValue={(val: string) =>
-					setFormData((prevData: any) => ({
-						...prevData,
-						externalIpAddress: val,
-					}))
-				}
-				placeholder="external IP"
-			/>
-			<ModalInput
-				setValue={(val: string) =>
-					setFormData((prevData: any) => ({
-						...prevData,
-						internalIpAddress: val,
-					}))
-				}
-				placeholder="internal IP"
-				required
-			/>
+			<ModalInput ref={externalAddress} placeholder="external IP" />
+			<ModalInput ref={internalAddress} placeholder="internal IP" required />
 			<ModalTextArea
-				setValue={(val: string) =>
-					setFormData((prevData: any) => ({
-						...prevData,
-						desc: val,
-					}))
-				}
+				ref={desc}
 				placeholder="short description"
 				maxLength={600}
 			/>

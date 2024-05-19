@@ -10,8 +10,8 @@ const MobileResourceForm: FC<ComponentEventWithChildren> = ({
 }) => {
 	const {
 		handleAddMobileResource,
-		setAndroidAddress,
-		setIosAddress,
+		iosAddress,
+		androidAddress,
 		isAddingMobile,
 	} = useAddMobileResource();
 
@@ -27,14 +27,8 @@ const MobileResourceForm: FC<ComponentEventWithChildren> = ({
 
 	return (
 		<form className="form" onSubmit={handleSubmit}>
-			<ModalInput
-				setValue={(val: string) => setAndroidAddress(val)}
-				placeholder="android download link"
-			/>
-			<ModalInput
-				setValue={(val: string) => setIosAddress(val)}
-				placeholder="ios download link"
-			/>
+			<ModalInput ref={androidAddress} placeholder="android download link" />
+			<ModalInput ref={iosAddress} placeholder="ios download link" />
 			{children(isAddingMobile)}
 		</form>
 	);

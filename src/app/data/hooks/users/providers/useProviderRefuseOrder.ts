@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import { useProviderRefuseStore } from "@stores/providerOrder.store";
 import { toast } from "react-toastify";
 
@@ -11,7 +11,7 @@ export const useProviderRefuseOrder = ()=>{
 
     const refuseOrder = (selectedReason: string, reason: string,orderId:string)=>{
       const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return Promise.reject();
+		if (companyIdIsNull(companyID)) return Promise.reject();
         return fetcher("post", {
            body: {
                model: "providers/orders/cancel",

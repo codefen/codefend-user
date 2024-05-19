@@ -1,12 +1,6 @@
-import { type FC, useContext, useState } from 'react';
+import { type FC, useState } from 'react';
 import { toast } from 'react-toastify';
-import {
-	type Ticket,
-	supportTicket,
-	useModal,
-	useTicketDelete,
-	Sort,
-} from '../../../../../../data';
+import { type Ticket, supportTicket, useModal } from '../../../../../../data';
 import {
 	ConfirmModal,
 	ModalTitleWrapper,
@@ -14,6 +8,7 @@ import {
 } from '../../../../../components';
 import { TrashIcon, MessageIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
+import { useTicketDelete } from '@panelHooks/support/useTicketDelete.ts';
 
 interface SupportTicketListProps {
 	setSelectedTicket: (state: any) => void;

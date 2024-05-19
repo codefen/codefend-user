@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 //Cuando la api falla suele enviar "error" con valor 1 o "response" con el valor de "error"
 export const apiErrorValidation = (error?: any, response?: any)=> error == "1" || response === "error";
 
-export const companyIdIsNotNull = (companyID?:any)=>{
+export const companyIdIsNull = (companyID?:any)=>{
     if (!companyID) {
         toast.error('User information was not found');
         return true;

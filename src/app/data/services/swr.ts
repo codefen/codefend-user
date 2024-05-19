@@ -1,6 +1,6 @@
 import {
 	apiErrorValidation,
-	companyIdIsNotNull,
+	companyIdIsNull,
 	verifySession,
 } from '@/app/constants/validations';
 import { AxiosHttpService } from './axiosHTTP.service';
@@ -15,7 +15,7 @@ export const defaultConfig = {
 };
 
 export const disponibleFetcher = ([[model, ac], { company, logout }]: any) => {
-	if (companyIdIsNotNull(company)) return Promise.reject([]);
+	if (companyIdIsNull(company)) return Promise.reject([]);
 	return AxiosHttpService.getInstance()
 		.post<any>({
 			body: { model: model, ac: ac, company_id: company },
@@ -32,7 +32,7 @@ export const disponibleFetcher = ([[model, ac], { company, logout }]: any) => {
 };
 
 export const genericFetcher = ([model, params]: any) => {
-	if (params?.company_id && companyIdIsNotNull(params?.company_id)) return Promise.reject({});
+	if (params?.company_id && companyIdIsNull(params?.company_id)) return Promise.reject({});
 
 	return AxiosHttpService.getInstance()
 		.post<any>({

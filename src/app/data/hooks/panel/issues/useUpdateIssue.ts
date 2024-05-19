@@ -4,7 +4,7 @@ import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { IssuesStatus } from '@interfaces/issues';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export interface UpdateIssue {
 	id: string;
@@ -72,7 +72,7 @@ export const useUpdateIssue = () => {
 
 	const update = async () => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		return fetchSave(companyID);
 	};
 

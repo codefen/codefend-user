@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import { QualitySurveyPhase } from "@interfaces/quality-feedback";
 import { useQualitySurveyStore } from "@stores/qualitySurvey.store";
 
@@ -11,7 +11,7 @@ export const useQualitySurveyStart =()=>{
 
     const startPoll = (orderId: string, referenceNumber:string)=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID) || !orderId) return;
+		if (companyIdIsNull(companyID) || !orderId) return;
         return fetcher("post", {
             body: {
                 model: "orders/review",

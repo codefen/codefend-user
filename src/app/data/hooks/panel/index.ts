@@ -9,7 +9,7 @@ export * from '../resources/mobile/useMobile.ts';
 export * from './preference/usePreferences.ts';
 export * from '../resources/social/useSocial.ts';
 export * from '../resources/sourcecode/useSourceCode.ts';
-export * from './support/useSupport.ts';
+export * from './support/useAddTicket.ts';
 export * from '../modules/vdb/useVdb.ts';
 export * from "../users/providers/useProviders.ts";
 export * from "../resources/social/useAddSocial.ts"

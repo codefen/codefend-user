@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { type CompanyInfo} from '@interfaces/panel.ts';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { verifySession } from '@/app/constants/validations';
 
 const useGetAllCompanies = () => {
@@ -13,7 +13,7 @@ const useGetAllCompanies = () => {
 
 	const fetchCompanyInfo = useCallback(() => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		fetcher("post", {
 			body: {
 				model: "companies/dashboard",

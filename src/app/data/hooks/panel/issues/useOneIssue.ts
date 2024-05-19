@@ -6,7 +6,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import type { IssueUpdateData } from '@interfaces/issues';
 import { EMPTY_ISSUEUPDATE } from '@/app/constants/empty';
 import { verifySession } from '@/app/constants/validations';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
@@ -47,7 +47,7 @@ export const useOneIssue = () => {
 
 	const refetchOne = (selectedID: string) => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		fetchOne(companyID, selectedID);
 	};
 

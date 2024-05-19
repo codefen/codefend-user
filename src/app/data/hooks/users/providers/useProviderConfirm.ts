@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ export const useProviderConfirm =()=>{
 
     const confirmOrder = (orderId: string)=>{
       const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
          fetcher("post", {
             body: {
                 model: "providers/orders/confirm",

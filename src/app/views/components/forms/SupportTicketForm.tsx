@@ -1,15 +1,15 @@
 import { type FC } from 'react';
-import { useAddTicket } from '@panelHooks/support/useSupport.ts';
-import type { ComponentEventWithChildren } from '@interfaces/util';
-import { ModalInput } from '@defaults/ModalInput';
-import { ModalTextArea } from '@defaults/ModalTextArea';
+import { useAddTicket } from '@panelHooks/support/useAddTicket.ts';
+import type { ComponentEventWithChildren } from '@interfaces/util.ts';
+import { ModalInput } from '@defaults/ModalInput.tsx';
+import { ModalTextArea } from '@defaults/ModalTextArea.tsx';
 
 const SupportTicketForm: FC<ComponentEventWithChildren> = ({
 	onDone,
 	close,
 	children,
 }) => {
-	const { isAddingTicket, setShortDescription, setTitle, addTicket } =
+	const { isAddingTicket, addTicket, title, shortDescription } =
 		useAddTicket();
 
 	const handleSubmit = (e: React.FormEvent) => {
@@ -23,13 +23,9 @@ const SupportTicketForm: FC<ComponentEventWithChildren> = ({
 
 	return (
 		<form className="form" onSubmit={handleSubmit}>
-			<ModalInput
-				setValue={(val: string) => setTitle(val)}
-				placeholder="title"
-				required
-			/>
+			<ModalInput ref={title} placeholder="title" required />
 			<ModalTextArea
-				setValue={(val: string) => setShortDescription(val)}
+				ref={shortDescription}
 				placeholder="short description"
 				required
 			/>

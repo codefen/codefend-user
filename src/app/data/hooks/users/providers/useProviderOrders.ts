@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import type { FullOrder } from "@interfaces/order";
 import { verifySession } from '@/app/constants/validations';
 import { useRef, useState } from "react";
@@ -13,7 +13,7 @@ export const useProviderOrders = ()=>{
 
     const getProviderOrders =  ()=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
         fetcher<any>("post", {
             body: {
                 model: "providers/orders/index/unconfirmed",

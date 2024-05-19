@@ -1,5 +1,5 @@
 import { type Fetcher } from '#commonHooks/useFetcher.ts';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useAddIssueMessage = (message: string, setMessage: (updated: string)=>void, fetcher: Fetcher, getCompany: ()=>any) => {
 
@@ -31,7 +31,7 @@ export const useAddIssueMessage = (message: string, setMessage: (updated: string
 		textAreaValue: string,
 	) => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		fetchSend(selectedID, onDone, textAreaValue, companyID);
 	};
 

@@ -1,18 +1,17 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
 import { apiErrorValidation, hasEmail } from "@/app/constants/validations";
-import { useState } from "react";
+import { useRef } from "react";
 import { toast } from "react-toastify";
 
 export const useAddResourceCredentials = ()=>{
     const { getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
-	const [credentials, setCredentials] = useState({
-		userNameOrEmail: '',
-		password: '',
-		accessLevel: '',
-		grades: '',
-	});
+	const userNameOrEmail = useRef<HTMLInputElement>(null);
+	const password = useRef<HTMLInputElement>(null);
+	const accessLevel = useRef<HTMLSelectElement>(null);
+	const grades = useRef<HTMLTextAreaElement>(null);
+
 
     const addCrdentials = (type: string, id: string, username: string, email:string, password: string,accessLevel:string, grades:string)=>{
         return fetcher("post", {
@@ -37,17 +36,17 @@ export const useAddResourceCredentials = ()=>{
     }
 
     const handleSend = (type: string, resourceId: string) => {
-		const { userNameOrEmail, password, grades, accessLevel } = credentials;
+		const vUsernameOrEmail = userNameOrEmail.current?.value || "";
 		return addCrdentials(
 			type,
 			resourceId,
-			!hasEmail(userNameOrEmail)
-			? userNameOrEmail
+			!hasEmail(vUsernameOrEmail)
+			? vUsernameOrEmail
 			: '',
-			hasEmail(userNameOrEmail) ? userNameOrEmail : '',
-			password,
-			accessLevel,
-			grades,
+			hasEmail(vUsernameOrEmail) ? vUsernameOrEmail : '',
+			password.current?.value || "",
+			accessLevel.current?.value || "",
+			grades.current?.value || "",
 		)
 			.then(() => {
 				toast.success('Credential added successfully');
@@ -60,5 +59,5 @@ export const useAddResourceCredentials = ()=>{
 	};
 
 
-    return {handleSend, setCredentials, isLoading};
+    return {handleSend, isLoading, userNameOrEmail, password, accessLevel, grades};
 }

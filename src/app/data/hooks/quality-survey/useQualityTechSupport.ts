@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import { useQualitySurveyStore } from "@stores/qualitySurvey.store";
 
 export const useQualityTechSupport =()=>{
@@ -10,7 +10,7 @@ export const useQualityTechSupport =()=>{
 
     const sendTechSupport = ( pollVal: string )=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
          fetcher("post", {
             body: {
                 model: "orders/review",

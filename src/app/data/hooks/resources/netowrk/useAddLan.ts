@@ -1,31 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
-
-interface NetworkData {
-	desc: string;
-	internalAddress: string;
-	externalAddress: string;
-}
-
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useAddLan = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useUserData();
 	const [fetcher, _, isLoading] = useFetcher();
-	const [
-		{
-			desc,
-			internalAddress,
-			externalAddress,
-		},
-		setNetworkData,
-	] = useState<NetworkData>({
-		desc: '',
-		internalAddress: '',
-		externalAddress: '',
-	});
+	const desc = useRef<HTMLTextAreaElement>(null);
+	const internalAddress = useRef<HTMLInputElement>(null);
+	const externalAddress = useRef<HTMLInputElement>(null);
+
 	/* Fetch LAN  Apps */
 	const fetchOne = useCallback((params: any, companyID: string) => {
 		fetcher('post', {
@@ -56,22 +41,21 @@ export const useAddLan = (onDone: () => void, close: () => void) => {
 	/* Refetch Function. */
 	const refetch = () => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		const requestParams = {
-			device_desc: desc,
-			device_in_address: internalAddress,
-			device_ex_address: externalAddress,
+			device_desc: desc.current?.value || "",
+			device_in_address: internalAddress.current?.value || "",
+			device_ex_address: externalAddress.current?.value || "",
 		};
 		fetchOne(requestParams, companyID);
 	};
 
-
-
 	return {
-		internalAddress,
-		externalAddress,
 		isLoading,
 		refetch,
-        setNetworkData
+		internalAddress,
+		externalAddress,
+        desc,
+
 	};
 };

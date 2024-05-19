@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useDeleteWebResource = () => {
 	const { getCompany } = useUserData();
@@ -12,7 +12,7 @@ export const useDeleteWebResource = () => {
 		id: string,
 	): Promise<any> => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		fetcher<any>('post', {
 			body: {
 				model: 'resources/web/del',

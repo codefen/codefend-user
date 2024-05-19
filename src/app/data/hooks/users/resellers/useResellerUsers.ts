@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import type { ResellerUser } from '@interfaces/user';
 import useAdminCompanyStore from '@stores/adminCompany.store';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { verifySession } from '@/app/constants/validations';
 
 export const useResellerUsers = ()=>{
@@ -14,7 +14,7 @@ export const useResellerUsers = ()=>{
 
     const getResellerUsers =  ()=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 
         fetcher("post", {
             body: {

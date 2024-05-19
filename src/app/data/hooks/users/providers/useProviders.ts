@@ -3,7 +3,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { verifySession } from '@/app/constants/validations';
 import { useProviderProfileStore } from '../../../store/provider.store.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations.ts';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations.ts';
 
 
 export const useProviderProfile = () => {
@@ -13,7 +13,7 @@ export const useProviderProfile = () => {
 
 	const refetch = () => {
 		const companyID = getUserdata().company_id;
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 		fetcher<any>('post', {
 			body: {
 				company_id: companyID,

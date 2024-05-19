@@ -11,75 +11,35 @@ export const SocialResourceForm: FC<ComponentEventWithChildren> = ({
 }) => {
 	const {
 		handleAddSocialResource,
-		validations,
-		role,
 		isAddingMember,
-		setSocialData,
+		fName,
+		lName,
+		mail,
+		phone,
+		role,
 	} = useAddSocial(onDone ? onDone : () => {}, close ? close : () => {});
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
-		if (validations()) return;
 		handleAddSocialResource();
 	};
 
 	return (
 		<form className="form" onSubmit={handleSubmit}>
-			<ModalInput
-				setValue={(val: string) =>
-					setSocialData((prevData) => ({
-						...prevData,
-						fName: val,
-					}))
-				}
-				placeholder="name"
-			/>
-
-			<ModalInput
-				setValue={(val: string) =>
-					setSocialData((prevData) => ({
-						...prevData,
-						lName: val,
-					}))
-				}
-				placeholder="last name"
-			/>
-
-			<ModalInput
-				setValue={(val: string) =>
-					setSocialData((prevData) => ({
-						...prevData,
-						mail: val,
-					}))
-				}
-				placeholder="email address"
-			/>
-
-			<ModalInput
-				setValue={(val: string) =>
-					setSocialData((prevData) => ({
-						...prevData,
-						phone: val,
-					}))
-				}
-				placeholder="phone number"
-			/>
+			<ModalInput ref={fName} placeholder="name" />
+			<ModalInput ref={lName} placeholder="last name" />
+			<ModalInput ref={mail} placeholder="email address" />
+			<ModalInput ref={phone} placeholder="phone number" />
 
 			<div className="form-input">
 				<span className="icon">
 					<GlobeWebIcon />
 				</span>
 				<select
-					onChange={(e) =>
-						setSocialData((prevData) => ({
-							...prevData,
-							role: e.target.value,
-						}))
-					}
+					ref={role}
 					id="social-data"
 					className="log-inputs modal_info"
-					value={role}
 					required>
 					<option value="" disabled hidden>
 						role

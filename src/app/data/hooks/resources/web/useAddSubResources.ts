@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull, isNotEmpty } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull, isNotEmpty } from '@/app/constants/validations';
 
 export const useAddSubResource = (onDone: () => void, onClose: () => void) => {
 	const { getCompany } = useUserData();
@@ -29,7 +29,7 @@ export const useAddSubResource = (onDone: () => void, onClose: () => void) => {
 		if (verifyDomainName()) return;
 
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 
 		fetcher<any>('post', {
 			body: {

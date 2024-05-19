@@ -18,8 +18,14 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 	close,
 	onComplete,
 }) => {
-	const { handleSend, setCredentials, isLoading } =
-		useAddResourceCredentials();
+	const {
+		handleSend,
+		isLoading,
+		userNameOrEmail,
+		password,
+		accessLevel,
+		grades,
+	} = useAddResourceCredentials();
 
 	const handleClickSend = (e: any) => {
 		e.preventDefault();
@@ -32,18 +38,13 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 	return (
 		<form className="form" onSubmit={handleClickSend}>
 			<ModalInput
-				type="text"
-				setValue={(e) =>
-					setCredentials((prev) => ({ ...prev, userNameOrEmail: e }))
-				}
+				ref={userNameOrEmail}
 				placeholder="User credential (Username or Email)"
 				required
 			/>
 			<ModalInput
 				type="password"
-				setValue={(e) =>
-					setCredentials((prev) => ({ ...prev, password: e }))
-				}
+				ref={password}
 				placeholder="Password credential"
 				required
 			/>
@@ -53,12 +54,7 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 				</span>
 
 				<select
-					onChange={(e) =>
-						setCredentials((prev) => ({
-							...prev,
-							accessLevel: e.target.value,
-						}))
-					}
+					ref={accessLevel}
 					className="log-inputs modal_info"
 					defaultValue="none"
 					required>
@@ -71,12 +67,7 @@ export const AddCredentials: FC<AddCredentialsProps> = ({
 			</div>
 
 			<ModalTextArea
-				setValue={(val) =>
-					setCredentials((prev) => ({
-						...prev,
-						grades: val,
-					}))
-				}
+				ref={grades}
 				className="text-area-input xll"
 				placeholder="You can provide additional information for access."
 				maxLength={4000}

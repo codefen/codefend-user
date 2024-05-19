@@ -8,6 +8,7 @@ import {
 	type TableItem,
 } from '@interfaces/table.ts';
 import ActionColumn from './TableActionColumn';
+import Row from './Row';
 
 interface TableRowsProps {
 	rowsData: Record<string, TableItem>[];
@@ -25,8 +26,6 @@ interface TableRowsProps {
 		issueCount?: string | number,
 	) => void;
 }
-
-const rowsID2 = (i: number, ID: string) => `rowi-${i}-${ID}`;
 
 const filterForRow = (columns: ColumnTable[], isActiveAction: boolean) => {
 	const columnForRows: ColumnTable[] = [];
@@ -64,64 +63,28 @@ const TableRows: FC<TableRowsProps> = ({
 		issueCount?: string | number,
 	) => handleSelected(e, key, rowId, issueCount);
 
-	return (
-		<div className="rows">
-			{rows.map((row: Record<string, TableItem>, rowIndex: number) => (
-				<Fragment key={rowsID2(rowIndex, row['ID'].value as string)}>
-					<a
-						className={`item ${!urlNav ? 'item-with-out-action' : ''} ${row['issue'] && Number(row['issue']?.value as number) <= 0 ? 'item-disabled' : ''} ${
-							selectedField ===
-							rowsID2(rowIndex, row['ID'].value as string)
-								? 'left-marked'
-								: ''
-						}`}
-						href={urlNav ? `${urlNav}${row['ID'].value}` : ''}
-						onClick={(e) =>
-							handleClick(
-								e,
-								rowsID2(rowIndex, row['ID'].value as string),
-								row['ID'].value,
-								row['issue'] ? Number(row['issue'].value) : undefined,
-							)
-						}>
-						{columnForRows.map((column: ColumnTable, i: number) => (
-							<Fragment key={i}>
-								{column.name !== 'childs' && (
-									<div
-										className={
-											row[column.name as keyof typeof row]?.style
-										}>
-										<div className="publish">
-											{!column.name.startsWith('publish')
-												? (row[column.name as keyof typeof row]
-														?.value as ReactNode)
-												: formatDate(
-														String(
-															row[
-																column.name as keyof typeof row
-															]?.value,
-														),
-													)}
-										</div>
-									</div>
-								)}
-							</Fragment>
-						))}
-						<Show when={isActiveAction}>
-							<ActionColumn actions={tableAction!} row={row} />
-						</Show>
-					</a>
-					{row['childs'] && typeof row['childs'].value === 'function'
-						? row['childs'].value({
-								urlNav,
-								handleClick,
-								selectedField,
-							})!
-						: ''}
-				</Fragment>
-			))}
-		</div>
-	);
+	const getRows = (r: Record<string, TableItem>[]) => {
+		let rows: JSX.Element[] = [];
+		const rowCount = r.length;
+		for (let i = 0; i < rowCount; i++) {
+			rows[i] = (
+				<Row
+					key={`row-${r[i]['ID'].value}-${i}`}
+					row={r[i]}
+					rowIndex={i}
+					columns={columnForRows}
+					urlNav={urlNav}
+					selectedField={selectedField}
+					handleClick={handleClick}
+					isActiveAction={isActiveAction}
+					tableAction={tableAction}
+				/>
+			);
+		}
+		return rows;
+	};
+
+	return <div className="rows">{getRows(rows)}</div>;
 };
 
 export default TableRows;

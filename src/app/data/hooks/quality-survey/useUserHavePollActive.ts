@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { companyIdIsNotNull, verifySession } from '@/app/constants/validations';
+import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { apiErrorValidation } from '@/app/constants/validations';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
@@ -8,7 +8,7 @@ import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { useQualitySurveyStart } from './useQualitySurveyStart';
 
 const fetcher = ([model, {company,user, logout}]:any) =>{
-	if (companyIdIsNotNull(company)) return Promise.reject(false);
+	if (companyIdIsNull(company)) return Promise.reject(false);
 	return AxiosHttpService.getInstance()
 		.post<any>({
 			body: {company_id: company, user_id: user, model}

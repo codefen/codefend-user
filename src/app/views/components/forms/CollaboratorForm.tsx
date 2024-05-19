@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useRef, type FC } from 'react';
 import { useAddCollaborator } from '@panelHooks/preference/useAddCollaborator.ts';
 import { toast } from 'react-toastify';
 import { ModalInput } from '@defaults/ModalInput.tsx';
@@ -10,25 +10,21 @@ const CollaboratorForm: FC<ComponentEventWithChildren> = ({
 	close,
 	children,
 }) => {
-	const [email, setEmail] = useState('');
+	const email = useRef<HTMLInputElement>(null);
 	const { sendAddCollaborator, isLoading } = useAddCollaborator();
 	const handleSend = (e: any) => {
 		e.preventDefault();
-		if (!isNotEmpty(email)) {
+		if (!isNotEmpty(email.current?.value)) {
 			toast.error("You must enter the collaborator's email");
 			return;
 		}
-		sendAddCollaborator(email)
+		sendAddCollaborator(email.current?.value || '')
 			.then(() => onDone?.())
 			.finally(() => close?.());
 	};
 	return (
 		<form className="form" onSubmit={handleSend}>
-			<ModalInput
-				setValue={(val) => setEmail(val)}
-				placeholder="Collaborator email"
-				required
-			/>
+			<ModalInput ref={email} placeholder="Collaborator email" required />
 			{children(isLoading)}
 		</form>
 	);

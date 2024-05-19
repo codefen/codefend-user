@@ -1,5 +1,5 @@
 import { useFetcher } from "#commonHooks/useFetcher";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import { useUserData } from "./useUserData";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ export const useUserRevoke = ()=>{
 
     const revokeAccessUser = (userID: string)=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return Promise.reject(false);
+		if (companyIdIsNull(companyID)) return Promise.reject(false);
         
         return fetcher<any>("post", {
             body: {

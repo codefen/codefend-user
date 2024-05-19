@@ -1,27 +1,25 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
+const validators = (mainDomainId:string | number) => {
+	if (!Number(mainDomainId)) {
+		toast.error('Invalid main resource');
+		return true;
+	}
+	return false;
+};
 
 export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useUserData();
 	const [fetcher, _, isLoading] = useFetcher();
-	const [
-		{
-			mainDomainId,
-			desc,
-			internalIpAddress,
-			externalIpAddress,
-		},
-		setFormData,
-	] = useState({
-		desc: '',
-		mainDomainId: 0,
-		internalIpAddress: '',
-		externalIpAddress: '',
-	});
+	const desc = useRef<HTMLTextAreaElement>(null);
+	const internalAddress = useRef<HTMLInputElement>(null);
+	const externalAddress = useRef<HTMLInputElement>(null);
+	const mainDomainId = useRef<HTMLSelectElement>(null);
+
 	/* Fetch LAN  Apps */
 	const fetchSaveChild = useCallback((params: any, companyID: string) => {
 		fetcher('post', {
@@ -52,29 +50,22 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 	/* Refetch Function. */
 	const refetch = () => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID) || validators(mainDomainId.current?.value || 0)) return;
 		const requestBody = {
-			device_desc: desc,
-			device_in_address: internalIpAddress,
-			device_ex_address: externalIpAddress,
-			resource_lan_dad: mainDomainId,
+			device_desc: desc.current?.value || "",
+			device_in_address: internalAddress.current?.value || "",
+			device_ex_address: externalAddress.current?.value || "",
+			resource_lan_dad: mainDomainId.current?.value || "",
 		};
 		fetchSaveChild(requestBody, companyID);
 	};
 
-	const validators = () => {
-		if (!mainDomainId || mainDomainId === 0) {
-			toast.error('Invalid main resource');
-			return true;
-		}
-		return false;
-	};
-
 	return {
-		mainDomainId,
 		isLoading,
-		validators,
 		refetch,
-		setFormData,
+		mainDomainId,
+		desc,
+		externalAddress,
+		internalAddress
 	};
 };

@@ -8,8 +8,10 @@ const WebDomainForm: FC<ComponentEventWithChildren> = ({
 	close,
 	children,
 }) => {
-	const { handleAddResource, isAddingDomain, setDomainName } =
-		useAddWebResourcce(onDone ? onDone : () => {}, close ? close : () => {});
+	const { handleAddResource, isLoading, domainName } = useAddWebResourcce(
+		onDone ? onDone : () => {},
+		close ? close : () => {},
+	);
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -18,12 +20,8 @@ const WebDomainForm: FC<ComponentEventWithChildren> = ({
 	};
 	return (
 		<form className="form" onSubmit={handleSubmit}>
-			<ModalInput
-				setValue={(val: string) => setDomainName(val)}
-				placeholder="domain name"
-				required
-			/>
-			{children(isAddingDomain)}
+			<ModalInput ref={domainName} placeholder="domain name" required />
+			{children(isLoading)}
 		</form>
 	);
 };

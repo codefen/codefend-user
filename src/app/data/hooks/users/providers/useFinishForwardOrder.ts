@@ -1,6 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
-import { apiErrorValidation, companyIdIsNotNull } from "@/app/constants/validations";
+import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import { useRef, useState } from "react";
 
 export const useFinishForwardOrder = ()=>{
@@ -10,7 +10,7 @@ export const useFinishForwardOrder = ()=>{
     
     const finishForwardOrder = (order_id: any)=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return Promise.reject(false);
+		if (companyIdIsNull(companyID)) return Promise.reject(false);
         return fetcher("post", {
             body: {
                 model: "providers/orders/forward",

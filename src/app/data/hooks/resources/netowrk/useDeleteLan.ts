@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useDeleteLan = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useUserData();
@@ -31,7 +31,7 @@ export const useDeleteLan = (onDone: () => void, close: () => void) => {
 	/* Refetch Function. */
 	const refetch = (id: string) => {
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 	
 		fetchDelete(companyID, id);
 	};

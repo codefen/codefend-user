@@ -1,6 +1,6 @@
 import type { User } from '../../../';
-import { toast } from 'react-toastify';
 import { type Fetcher } from '#commonHooks/useFetcher.ts';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useAddSupportMessage = (
 	message: string,
@@ -25,6 +25,7 @@ export const useAddSupportMessage = (
 				dad_id: selectedID,
 			},
 		}).then(({ data }) => {
+			if(apiErrorValidation(data?.error, data?.response)){return;}
 			setMessage('');
 			onDone(data?.cs);
 		});
@@ -36,10 +37,7 @@ export const useAddSupportMessage = (
 		textAreaValue: string,
 	) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
 		fetchSend(selectedID, onDone, textAreaValue, companyID);
 	};
 

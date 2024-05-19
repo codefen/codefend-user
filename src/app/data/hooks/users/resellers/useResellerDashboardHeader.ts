@@ -1,7 +1,7 @@
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import useResellerHeaderStore from '@stores/resellerHeader.store';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useResellerDashboardHeader = ()=>{
     const [fetcher, _, isLoading] = useFetcher();
@@ -10,7 +10,7 @@ export const useResellerDashboardHeader = ()=>{
 
     const getResellerHeader =  ()=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
         fetcher("post", {
             body: {
                 model: "resellers/dashboard/header",

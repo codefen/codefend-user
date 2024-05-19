@@ -1,33 +1,34 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { apiErrorValidation, companyIdIsNotNull, isNotEmpty } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull, isNotEmpty } from '@/app/constants/validations';
+
+const verifyDomainName = (domainName: string) => {
+	if (!isNotEmpty(domainName)) {
+		toast.error('Invalid domain');
+		return true;
+	}
+	return false;
+};
 
 export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
 	const { getCompany } = useUserData();
 	const [fetcher,_, isLoading] = useFetcher();
-	const [domainName, setDomainName] = useState('');
+	const domainName = useRef<HTMLInputElement>(null);
 
-	const verifyDomainName = () => {
-		if (!isNotEmpty(domainName)) {
-			toast.error('Invalid domain');
-			return true;
-		}
-		return false;
-	};
 
 	const handleAddResource = () => {
-		if (verifyDomainName()) return;
+		if (verifyDomainName(domainName.current?.value || "")) return;
 
 		const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
 
 		fetcher<any>('post', {
 			body: {
 				model: 'resources/web/add',
 				company_id: companyID,
-				resource_address_domain: domainName,
+				resource_address_domain: domainName.current?.value || "",
 			},
 			timeout: 180000
 		})
@@ -35,7 +36,6 @@ export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
 				if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
 					throw new Error('An error has occurred on the server');
 				}
-				setDomainName('');
 				toast.success('Successfully Added Domain..');
 				onDone();
 			})
@@ -45,5 +45,5 @@ export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
 			});
 	};
 
-	return { handleAddResource, isAddingDomain: isLoading, setDomainName };
+	return { handleAddResource, isLoading, domainName };
 };

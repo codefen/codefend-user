@@ -1,5 +1,11 @@
 import { GlobeWebIcon } from '@icons';
-import type { FC } from 'react';
+import {
+	forwardRef,
+	type FC,
+	type ForwardedRef,
+	type PropsWithRef,
+	type ReactNode,
+} from 'react';
 
 type HTMLInputTypeAttribute =
 	| 'checkbox'
@@ -17,33 +23,37 @@ type HTMLInputTypeAttribute =
 	| 'url';
 
 interface ModalInputProps {
-	icon?: React.ReactNode;
+	icon?: ReactNode;
 	type?: HTMLInputTypeAttribute;
 	placeholder?: string;
 	defaultValue?: string;
 	required?: boolean;
-	setValue: (target: string) => void;
+	setValue?: (target: string) => void;
 }
 
-export const ModalInput: FC<ModalInputProps> = ({
-	icon = <GlobeWebIcon />,
-	type = 'text',
-	placeholder = '',
-	setValue,
-	defaultValue = '',
-	required = false,
-}) => (
-	<div className="form-input">
-		<span className="icon">{icon}</span>
+export const ModalInput = forwardRef(function ModalInput(
+	{
+		icon = <GlobeWebIcon />,
+		type = 'text',
+		placeholder = '',
+		setValue,
+		defaultValue = '',
+		required = false,
+	}: ModalInputProps,
+	ref: ForwardedRef<HTMLInputElement>,
+) {
+	return (
+		<div className="form-input">
+			<span className="icon">{icon}</span>
 
-		<input
-			type={type}
-			onChange={(e) => {
-				setValue(e.target.value);
-			}}
-			defaultValue={defaultValue}
-			placeholder={placeholder}
-			required={required}
-		/>
-	</div>
-);
+			<input
+				ref={ref}
+				type={type}
+				onChange={(e) => setValue?.(e.target.value)}
+				defaultValue={defaultValue}
+				placeholder={placeholder}
+				required={required}
+			/>
+		</div>
+	);
+});

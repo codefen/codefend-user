@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import type { Lead } from '@interfaces/lead';
 import { useUserData } from '#commonUserHooks/useUserData';
 import useAdminCompanyStore from '@stores/adminCompany.store';
-import { apiErrorValidation, companyIdIsNotNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { verifySession } from '@/app/constants/validations';
 
 export const useResellerLeads = ()=>{
@@ -14,7 +14,7 @@ export const useResellerLeads = ()=>{
 
     const getResellerLeads =  ()=>{
         const companyID = getCompany();
-		if (companyIdIsNotNull(companyID)) return;
+		if (companyIdIsNull(companyID)) return;
         fetcher("post", {
             body: {
                 model: "resellers/dashboard/leads",
