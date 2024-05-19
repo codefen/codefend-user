@@ -37,7 +37,6 @@ export const useMobile = () => {
 		});
 
 	const updateData = (newData:any)=>{
-		console.log({newData});
 		let updatedData: any[] = [];
 		if(newData?.andoird) updatedData = [...data, newData.andoird];
 		if(newData?.apple) updatedData = [...updatedData, newData.apple];
