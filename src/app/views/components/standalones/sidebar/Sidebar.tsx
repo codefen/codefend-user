@@ -38,7 +38,6 @@ interface SidebarItemProps {
 	id: string;
 	title: string;
 	to: string;
-	haveAccess: boolean;
 	icon?: ReactNode;
 	isActive: boolean;
 }
@@ -51,22 +50,18 @@ const verifyPath = (verifyPath: string, isRoot: boolean) => {
 
 class SidebarItem extends PureComponent<SidebarItemProps> {
 	override render() {
-		const { id, haveAccess, title, to, icon, isActive } = this.props;
-
-		if (haveAccess) {
-			return (
-				<Link
-					title={title}
-					to={to}
-					id={id}
-					className={`${isActive ? 'active' : ''}`}
-					aria-label={title}
-					data-text={title}>
-					{icon}
-				</Link>
-			);
-		}
-		return null;
+		const { id, title, to, icon, isActive } = this.props;
+		return (
+			<Link
+				title={title}
+				to={to}
+				id={id}
+				className={`${isActive ? 'active' : ''}`}
+				aria-label={title}
+				data-text={title}>
+				{icon}
+			</Link>
+		);
 	}
 }
 
@@ -265,17 +260,18 @@ const Sidebar: FC = () => {
 		const count = menu.length;
 		for (let i = 0; i < count; i++) {
 			const { id, haveAccess, title, icon, to, root } = menu[i];
-			items[i] = (
-				<SidebarItem
-					key={`sb-${id}`}
-					id={id}
-					haveAccess={haveAccess}
-					title={title}
-					icon={icon}
-					to={to}
-					isActive={verifyPath(to, root)}
-				/>
-			);
+			if (haveAccess) {
+				items.push(
+					<SidebarItem
+						key={`sb-${id}`}
+						id={id}
+						title={title}
+						icon={icon}
+						to={to}
+						isActive={verifyPath(to, root)}
+					/>,
+				);
+			}
 		}
 		return items;
 	}, []);
