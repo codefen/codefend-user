@@ -31,6 +31,7 @@ export const useSourceCode = () => {
 		refetch: ()=> mutate(undefined, {
 			revalidate: true,
 			optimisticData: data,
+			populateCache: false,
 		}),
 	};
 };

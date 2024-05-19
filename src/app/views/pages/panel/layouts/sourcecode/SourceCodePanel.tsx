@@ -8,12 +8,11 @@ import { SourceCodeCollab } from './components/SourceCodeCollab.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
-import './sourcecode.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
-import Show from '@defaults/Show.tsx';
+import EmptyLayout from '../EmptyLayout.tsx';
+import './sourcecode.scss';
 
 const SourceCodePanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -26,48 +25,46 @@ const SourceCodePanel: FC = () => {
 		refetch();
 	}, [control]);
 
+	const socialEmptyScreen = {
+		type: 'source',
+		title: "There's no data to display here",
+		subtitle: 'Start by adding a new source code resource',
+		btnText: 'Add source code',
+		event: refetch,
+	};
 	return (
 		<>
 			<OrderV2 />
 			<CredentialsModal />
 			<ModalReport />
-			<main className={`source-code ${showScreen ? 'actived' : ''}`}>
-				<Show when={!isLoading && Boolean(data?.length)}>
-					<section className="left">
-						<SourceCodeResources
-							isLoading={isLoading}
-							sourceCode={data ? data : []}
-							refetch={refresh}
-						/>
-					</section>
-					<section className="right" ref={flashlight.rightPaneRef}>
-						<SourceCodeChart
-							isLoading={isLoading}
-							sourceCode={data ? data : []}
-						/>
-						{isAdmin() || isNormalUser() ? (
-							<PrimaryButton
-								text="START A PENTEST ON DEMAND"
-								className="primary-full"
-								click={() => updateState('open', open)}
-								disabledLoader
-								isDisabled={scope.totalResources <= 0}
-							/>
-						) : null}
-
-						<SourceCodeCollab />
-					</section>
-				</Show>
-				<Show when={!isLoading && !Boolean(data?.length)}>
-					<EmptyScreenView
-						type="source"
-						buttonText="Add Source"
-						title="There's no data to display here"
-						info="Start by adding a new source code resource"
-						event={refetch}
+			<EmptyLayout
+				className="source-code"
+				fallback={socialEmptyScreen}
+				showScreen={showScreen}
+				isLoading={isLoading}
+				dataAvalaible={Boolean(data.length)}>
+				<section className="left">
+					<SourceCodeResources
+						isLoading={isLoading}
+						sourceCode={data}
+						refetch={refresh}
 					/>
-				</Show>
-			</main>
+				</section>
+				<section className="right" ref={flashlight.rightPaneRef}>
+					<SourceCodeChart isLoading={isLoading} sourceCode={data} />
+					{isAdmin() || isNormalUser() ? (
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							className="primary-full"
+							click={() => updateState('open', open)}
+							disabledLoader
+							isDisabled={scope.totalResources <= 0}
+						/>
+					) : null}
+
+					<SourceCodeCollab />
+				</section>
+			</EmptyLayout>
 		</>
 	);
 };

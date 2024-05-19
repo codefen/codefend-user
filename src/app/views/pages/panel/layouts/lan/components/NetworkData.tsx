@@ -13,7 +13,7 @@ import type { TableItem } from '@interfaces/table.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import AddAccessPointModal from '@modals/adding-modals/AddAccessPointModal.tsx';
-import { AddNetworkDeviceModal } from '@modals/adding-modals/AddNetworkDeviceModal.tsx';
+import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal';
 import {
 	BugIcon,
 	CredentialIcon,
@@ -270,7 +270,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 				}}
 				close={() => setShowModal(false)}
 			/>
-			<AddNetworkDeviceModal
+			<AddSubNetworkModal
 				isOpen={showModal && showModalStr === 'add_network_device'}
 				onDone={() => {
 					refetchInternalNetwork();

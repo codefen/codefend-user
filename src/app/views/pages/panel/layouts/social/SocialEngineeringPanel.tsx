@@ -12,8 +12,7 @@ import Show from '@defaults/Show.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
-import EmptyScreenView from '@defaults/EmptyScreenView.tsx';
+import EmptyLayout from '../EmptyLayout.tsx';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -57,51 +56,53 @@ const SocialEngineeringView = () => {
 		);
 	}, [members, socialFilters.department]);
 
+	const socialEmptyScreen = {
+		type: 'social',
+		title: 'Social Engineering',
+		subtitle: 'Start by adding a new person',
+		btnText: 'Add Social resource',
+		event: refetch,
+	};
+
 	return (
 		<>
 			<OrderV2 />
 			<CredentialsModal />
 			<ModalReport />
-			<main className={`social ${showScreen ? 'actived' : ''}`}>
+			<EmptyLayout
+				className="social"
+				fallback={socialEmptyScreen}
+				showScreen={showScreen}
+				isLoading={isLoading}
+				dataAvalaible={Boolean(members.length)}>
 				<div className="brightness variant-1"></div>
 				<div className="brightness variant-2"></div>
-				<Show when={!isLoading && Boolean(members?.length)}>
-					<section className="left">
-						<SocialEngineering
-							refetch={refresh}
-							isLoading={isLoading}
-							socials={filteredData}
-						/>
-					</section>
-					<section className="right" ref={flashlight.rightPaneRef}>
-						<Show when={members && Boolean(members.length)}>
-							<SocialEngineeringMembers
-								isLoading={isLoading}
-								members={members || []}
-								handleDepartmentFilter={handleDepartmentFIlter}
-							/>
-						</Show>
-						<Show when={isAdmin() || isNormalUser()}>
-							<PrimaryButton
-								text="START A PENTEST ON DEMAND"
-								className="primary-full"
-								click={() => updateState('open', open)}
-								disabledLoader
-								isDisabled={scope.totalResources <= 0}
-							/>
-						</Show>
-					</section>
-				</Show>
-				<Show when={!isLoading && !Boolean(members?.length)}>
-					<EmptyScreenView
-						type="social"
-						buttonText="Add Social resource"
-						title="Social Engineering"
-						info={'Start by adding a new person'}
-						event={refetch}
+				<section className="left">
+					<SocialEngineering
+						refetch={refresh}
+						isLoading={isLoading}
+						socials={filteredData}
 					/>
-				</Show>
-			</main>
+				</section>
+				<section className="right" ref={flashlight.rightPaneRef}>
+					<Show when={members && Boolean(members.length)}>
+						<SocialEngineeringMembers
+							isLoading={isLoading}
+							members={members || []}
+							handleDepartmentFilter={handleDepartmentFIlter}
+						/>
+					</Show>
+					<Show when={isAdmin() || isNormalUser()}>
+						<PrimaryButton
+							text="START A PENTEST ON DEMAND"
+							className="primary-full"
+							click={() => updateState('open', open)}
+							disabledLoader
+							isDisabled={scope.totalResources <= 0}
+						/>
+					</Show>
+				</section>
+			</EmptyLayout>
 		</>
 	);
 };

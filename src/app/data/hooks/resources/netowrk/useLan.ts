@@ -47,5 +47,5 @@ export const useLan = () => {
 		fetchAllLan(companyID);
 	};
 
-	return { loading: isLoading, networks: dataRef.current, refetch };
+	return { loading: isLoading, networks: dataRef.current ? dataRef.current : [], refetch };
 };

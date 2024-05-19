@@ -4,11 +4,11 @@ import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import SubNetworkForm from '@/app/views/components/forms/SubNetworkForm';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 
-interface AddNetworkDeviceModalProps extends ComponentEventWithOpen {
+interface AddSubNetworkModalProps extends ComponentEventWithOpen {
 	internalNetwork: Device[];
 }
 
-export const AddNetworkDeviceModal: FC<AddNetworkDeviceModalProps> = ({
+export const AddSubNetworkModal: FC<AddSubNetworkModalProps> = ({
 	close,
 	onDone,
 	internalNetwork,

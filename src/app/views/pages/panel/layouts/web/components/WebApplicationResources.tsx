@@ -324,20 +324,16 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 					}
 				/>
 			</ModalTitleWrapper>
-			<ModalTitleWrapper
-				isActive={showModal && showModalStr === 'add_subdomain'}
+
+			<AddSubDomainModal
+				isOpen={showModal && showModalStr === 'add_subdomain'}
+				onDone={() => {
+					setShowModal(false);
+					props.refresh();
+				}}
 				close={() => setShowModal(false)}
-				type="med-w"
-				headerTitle="Add web sub-resource">
-				<AddSubDomainModal
-					onDone={() => {
-						setShowModal(false);
-						props.refresh();
-					}}
-					close={() => setShowModal(false)}
-					webResources={getResources}
-				/>
-			</ModalTitleWrapper>
+				webResources={getResources}
+			/>
 			<div className="card">
 				<div className="over">
 					<div className="header">

@@ -1,82 +1,40 @@
-import { type FC, type FormEvent } from 'react';
+import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import { GlobeWebIcon } from '@icons';
 import { type Webresources } from '@interfaces/panel.ts';
-import { useAddSubResource } from '@resourcesHooks/web/useAddSubResources.ts';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import SubDomainForm from '../../forms/SubDomainForm';
+import type { ComponentEventWithOpen } from '@interfaces/util';
 
-interface SubdomainModalProps {
-	onDone: () => void;
-	close: () => void;
+interface AddSubDomainModalProps extends ComponentEventWithOpen {
 	webResources: Webresources[];
 }
 
-const AddSubDomainModal: FC<SubdomainModalProps> = (props) => {
-	const {
-		handleAddSubResource,
-		setDomainName,
-		setMainDomainId,
-		isAddingSubDomain,
-		mainDomainId,
-	} = useAddSubResource(props.onDone, props.close);
-
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-
-		handleAddSubResource();
-	};
-
-	return (
+const AddSubDomainModal: FC<AddSubDomainModalProps> = ({
+	close,
+	onDone,
+	webResources,
+	isOpen,
+}) => (
+	<ModalTitleWrapper
+		isActive={isOpen}
+		close={() => close?.()}
+		type="med-w"
+		headerTitle="Add web sub-resource">
 		<div className="content subdomain-modal">
-			<form className="form" onSubmit={handleSubmit}>
-				<div className="form-input">
-					<span className="icon">
-						<div className="codefend-text-red">
-							<GlobeWebIcon />
-						</div>
-					</span>
-					<select
-						onChange={(e) => setMainDomainId(e.target.value)}
-						value={mainDomainId}
-						className="log-inputs modal_info"
-						name="Main resource"
-						id="select-subdomain-resources"
-						required>
-						<option value="" disabled hidden>
-							main resource
-						</option>
-						{props.webResources
-							.reverse()
-							.map((resource: Webresources) => (
-								<option key={resource.id} value={resource.id}>
-									{resource.resourceDomain}
-								</option>
-							))}
-					</select>
-				</div>
-
-				<div className="form-input">
-					<span className="icon">
-						<div className="codefend-text-red">
-							<GlobeWebIcon />
-						</div>
-					</span>
-					<input
-						type="text"
-						onChange={(e) => setDomainName(e.target.value)}
-						placeholder="domain name"
-						required
+			<SubDomainForm
+				close={close}
+				onDone={onDone}
+				webResources={webResources}>
+				{(isLoading) => (
+					<ModalButtons
+						close={close!}
+						isDisabled={isLoading}
+						confirmText="Add web resource"
 					/>
-				</div>
-
-				<ModalButtons
-					close={props.close!}
-					isDisabled={isAddingSubDomain}
-					confirmText="Add web resource"
-				/>
-			</form>
+				)}
+			</SubDomainForm>
 		</div>
-	);
-};
+	</ModalTitleWrapper>
+);
 
 export default AddSubDomainModal;
