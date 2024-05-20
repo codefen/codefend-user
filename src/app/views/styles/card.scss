@@ -642,6 +642,14 @@
 		align-items: center;
 		column-gap: 2rem;
 		padding: 1.5rem;
+
+		p {
+			max-width: 100%;
+			overflow: hidden;
+			text-wrap: pretty;
+			overflow-wrap: break-word;
+			max-height: none;
+		}
 	}
 
 	.message-card-content {
