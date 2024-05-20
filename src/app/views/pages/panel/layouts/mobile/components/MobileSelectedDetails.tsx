@@ -14,6 +14,7 @@ import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const MobileSelectedDetails: React.FC = (props) => {
 	const { isAdmin, isNormalUser } = useUserRole();
@@ -31,7 +32,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 				<CredentialsModal onComplete={onRefetch} />
 				<div>
 					<AppCardInfo
-						type="mobile"
+						type={RESOURCE_CLASS.MOBILE}
 						selectedApp={appSelected}
 						issueCount={data?.issues ? data.issues.length : 0}
 					/>
@@ -42,7 +43,7 @@ export const MobileSelectedDetails: React.FC = (props) => {
 							credentials={data?.creds || []}
 							isLoading={isLoading}
 							resourceId={appSelected?.id || ''}
-							type="mobile"
+							type={RESOURCE_CLASS.MOBILE}
 						/>
 					</div>
 					<div className="selected-content-tables">

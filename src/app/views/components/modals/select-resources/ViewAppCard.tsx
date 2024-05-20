@@ -1,17 +1,23 @@
 import { useEffect, useRef, useState, type FC } from 'react';
 import { useGetResources } from '@resourcesHooks/useGetResources';
 import { AppCard } from '../..';
+import type { ScopeAlias } from '@interfaces/util';
+import {
+	MODAL_KEY_OPEN,
+	RESOURCE_CLASS,
+	RESOURCE_CLASS_ALIAS,
+} from '@/app/constants/app-texts';
 
 export interface ViewAppCardProps {
 	type: string;
-	scopeALias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
+	scopeALias: ScopeAlias;
 	getReport: (id: string, type: string, count: number) => void;
 	activeFilter: boolean;
 	modalId: string;
 }
 const getPath = (alias: string) => {
-	if (alias == 'm') return 'mobile';
-	return 'cloud';
+	if (alias == RESOURCE_CLASS_ALIAS.MOBILE) return RESOURCE_CLASS.MOBILE;
+	return RESOURCE_CLASS.CLOUD;
 };
 export const ViewAppCard: FC<ViewAppCardProps> = ({
 	type,
@@ -38,7 +44,7 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 		};
 	}, [scopeALias]);
 	const title =
-		modalId == 'selectReport'
+		modalId === MODAL_KEY_OPEN.SELECT_REPORT
 			? `Select your ${type} resource to generate report`
 			: `Select your ${type} resource to create issue`;
 	return (
@@ -64,7 +70,9 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
 										resource?.app_desc || resource?.cloud_desc || ''
 									}
 									appMedia={
-										type == 'mobile' ? resource?.app_media : ''
+										type == RESOURCE_CLASS.MOBILE
+											? resource?.app_media
+											: ''
 									}
 									appReviews={resource?.app_reviews || undefined}
 									appRank={resource?.app_rank || undefined}

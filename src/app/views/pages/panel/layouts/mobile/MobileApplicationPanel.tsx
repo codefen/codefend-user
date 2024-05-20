@@ -13,6 +13,7 @@ import { MobileSelectedDetails } from './components/MobileSelectedDetails';
 import EmptyLayout from '../EmptyLayout';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import './mobileApplicationPanel.scss';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 const MobileApplicationPanel: React.FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -38,7 +39,7 @@ const MobileApplicationPanel: React.FC = () => {
 	const handleShow = () => setShowModal(true);
 
 	const mobileEmptyScreen = {
-		type: 'mobile',
+		type: RESOURCE_CLASS.MOBILE,
 		title: 'There’s no data to display here',
 		subtitle: 'Start by adding a new mobile application',
 		btnText: 'Add Mobile',

@@ -4,6 +4,7 @@ import { CircleIcon, SimpleSection } from '../../../../../components';
 import { generateIDArray } from '../../../../../../data';
 import { StatAsset } from '@standalones/stat-asset/StatAsset';
 import type { ResourceCount } from '@interfaces/dashboard';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const DashboardAssets: FC<{ resources: ResourceCount }> = ({
 	resources,
@@ -16,17 +17,18 @@ export const DashboardAssets: FC<{ resources: ResourceCount }> = ({
 	);
 
 	const isActivePath = (current: string) => {
-		if (current === 'web') return location.pathname === '/dashboard';
+		if (current === RESOURCE_CLASS.WEB)
+			return location.pathname === '/dashboard';
 		return current === location.pathname;
 	};
 
 	const mapAssetsNames = {
-		['web']: 'WEB & EXTERNAL',
-		['mobile']: 'MOBILE APPS',
+		[RESOURCE_CLASS.WEB]: 'WEB & EXTERNAL',
+		[RESOURCE_CLASS.MOBILE]: 'MOBILE APPS',
 		['lan']: 'NETWORK',
-		['cloud']: 'CLOUD ASSETS',
-		['source']: 'SOURCE CODE',
-		['social']: 'SOCIAL ENGINEERING',
+		[RESOURCE_CLASS.CLOUD]: 'CLOUD ASSETS',
+		[RESOURCE_CLASS.SOURCE]: 'SOURCE CODE',
+		[RESOURCE_CLASS.SOCIAL]: 'SOCIAL ENGINEERING',
 	};
 	return (
 		<div className="card stats">

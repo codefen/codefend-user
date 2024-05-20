@@ -25,6 +25,7 @@ import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface SocialProps {
 	refetch: () => void;
@@ -55,7 +56,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 		if (Number(count) >= 1) {
 			openModal();
 			setResourceID(resourceID);
-			setResourceType('social');
+			setResourceType(RESOURCE_CLASS.SOCIAL);
 		}
 	};
 	const dataTable = safelyPreviousSearches().map(
@@ -103,7 +104,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 								<span
 									title="Delete"
 									onClick={() => {
-										setShowModalStr('delete');
+										setShowModalStr(MODAL_KEY_OPEN.DELETE_MEMBER);
 										setShowModal(true);
 										setSelectedId(member.id);
 									}}>
@@ -115,9 +116,9 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 								title="Add credentials"
 								onClick={() => {
 									setResourceId(member.id);
-									setCrendentialType('source');
+									setCrendentialType(RESOURCE_CLASS.SOCIAL);
 									setIsOpen(true);
-									setModalId('source');
+									setModalId(RESOURCE_CLASS.SOCIAL);
 								}}>
 								<CredentialIcon />
 							</span>
@@ -131,7 +132,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 	return (
 		<>
 			<AddSocialResourceModal
-				isOpen={showModal && showModalStr === 'add_member'}
+				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_MEMBER}
 				onDone={() => {
 					setShowModal(false);
 					props.refetch();
@@ -139,7 +140,9 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 				close={() => setShowModal(false)}
 			/>
 			<ModalTitleWrapper
-				isActive={showModal && showModalStr === 'delete'}
+				isActive={
+					showModal && showModalStr === MODAL_KEY_OPEN.DELETE_MEMBER
+				}
 				close={() => setShowModal(false)}
 				headerTitle="Delete social engineering">
 				<ConfirmModal
@@ -165,7 +168,7 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 						<div
 							onClick={() => {
 								setShowModal(!showModal);
-								setShowModalStr('add_member');
+								setShowModalStr(MODAL_KEY_OPEN.ADD_MEMBER);
 							}}>
 							Add profile
 						</div>

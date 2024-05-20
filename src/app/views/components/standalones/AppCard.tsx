@@ -9,6 +9,7 @@ import { BugIcon, Show, StarRating } from '..';
 import { useLocation, useNavigate } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface MobileAppCardProps {
 	isActive?: boolean;
@@ -60,9 +61,12 @@ export const AppCard: FC<MobileAppCardProps> = ({
 
 	const handleClick = () => {
 		if (isAdmin() || isProvider())
-			navigate(`/issues/create/${isMobileType ? 'mobile' : 'cloud'}/${id}`, {
-				state: { redirect: location.pathname },
-			});
+			navigate(
+				`/issues/create/${isMobileType ? RESOURCE_CLASS.MOBILE : RESOURCE_CLASS.CLOUD}/${id}`,
+				{
+					state: { redirect: location.pathname },
+				},
+			);
 	};
 
 	const handleDeleteResource = () => setIsOpen(true);

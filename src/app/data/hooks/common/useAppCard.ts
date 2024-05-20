@@ -1,3 +1,4 @@
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import {  useMemo } from 'react';
 
 interface HookProps {
@@ -12,7 +13,7 @@ export const useAppCard = (props: HookProps) => {
 		() => Boolean(props.showDetails),
 		[props.showDetails],
 	);
-	const isMobileType = useMemo(() => props.type === 'mobile', [props.type]);
+	const isMobileType = useMemo(() => props.type === RESOURCE_CLASS.MOBILE, [props.type]);
 	
 	const isImage = useMemo(
 		() => props.appMedia.trim() && props.appMedia !== undefined,

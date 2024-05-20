@@ -10,6 +10,7 @@ import { TrashIcon, MessageIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import { useTicketDelete } from '@panelHooks/support/useTicketDelete.ts';
 import { SUPPORT_PANEL_TEXT } from '@/app/constants/app-toast-texts';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 interface SupportTicketListProps {
 	setSelectedTicket: (state: any) => void;
@@ -52,7 +53,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 	return (
 		<>
 			<AddTicketModal
-				isOpen={showModal && showModalStr === 'add_ticket'}
+				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_TICKET}
 				close={() => setShowModal(!showModal)}
 				onDone={() => {
 					setShowModal(!showModal);
@@ -84,7 +85,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 						<div
 							onClick={() => {
 								setShowModal(!showModal);
-								setShowModalStr('add_ticket');
+								setShowModalStr(MODAL_KEY_OPEN.ADD_TICKET);
 							}}>
 							Add Entry
 						</div>
@@ -101,7 +102,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 								action: (id: string) => {
 									setSelectedTicketIdToDelete(id);
 									setShowModal(!showModal);
-									setShowModalStr('delete_resource');
+									setShowModalStr(MODAL_KEY_OPEN.DELETE_TICKET);
 								},
 								render: <TrashIcon />,
 								style: '',

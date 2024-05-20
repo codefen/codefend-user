@@ -23,6 +23,7 @@ import {
 import { TableV2 } from '@table/tablev2.tsx';
 import { lanResourcesTable } from '@mocks/defaultData.ts';
 import Show from '@defaults/Show';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 interface LanNetworkDataProps {
 	isLoading: boolean;
@@ -102,7 +103,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 								setResourceId(network.id);
 								setCrendentialType('lan');
 								setIsOpen(true);
-								setModalId('lan');
+								setModalId(MODAL_KEY_OPEN.NETWORK_CREDS);
 							}}>
 							<CredentialIcon />
 						</span>
@@ -112,7 +113,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 								onClick={() => {
 									setSelectedLanIdToDelete(network.id);
 									setShowModal(!showModal);
-									setShowModalStr('delete_resource');
+									setShowModalStr(MODAL_KEY_OPEN.DELETE_NETWORK);
 								}}>
 								<TrashIcon />
 							</span>
@@ -221,7 +222,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 																);
 																setShowModal(!showModal);
 																setShowModalStr(
-																	'delete_resource',
+																	MODAL_KEY_OPEN.DELETE_NETWORK,
 																);
 															}}>
 															<TrashIcon />
@@ -245,7 +246,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 				headerTitle="Delete LAN"
 				close={() => setShowModal(false)}
 				// type="med-w"
-				isActive={showModal && showModalStr === 'delete_resource'}>
+				isActive={
+					showModal && showModalStr === MODAL_KEY_OPEN.DELETE_NETWORK
+				}>
 				<ConfirmModal
 					header=""
 					cancelText="Cancel"
@@ -258,7 +261,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			</ModalTitleWrapper>
 
 			<AddAccessPointModal
-				isOpen={showModal && showModalStr === 'add_access_point'}
+				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_NETWORK}
 				onDone={() => {
 					setShowModal(false);
 					refetchInternalNetwork();
@@ -266,7 +269,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 				close={() => setShowModal(false)}
 			/>
 			<AddSubNetworkModal
-				isOpen={showModal && showModalStr === 'add_network_device'}
+				isOpen={
+					showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_NETWORK
+				}
 				onDone={() => {
 					refetchInternalNetwork();
 				}}
@@ -285,14 +290,14 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 						<div
 							onClick={() => {
 								setShowModal(!showModal);
-								setShowModalStr('add_access_point');
+								setShowModalStr(MODAL_KEY_OPEN.ADD_NETWORK);
 							}}>
 							Add access point
 						</div>
 						<div
 							onClick={() => {
 								setShowModal(!showModal);
-								setShowModalStr('add_network_device');
+								setShowModalStr(MODAL_KEY_OPEN.ADD_SUB_NETWORK);
 							}}>
 							Add network device
 						</div>

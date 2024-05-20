@@ -1,6 +1,7 @@
 import { useEffect, useState, type FC } from 'react';
 import type { Issues } from '@interfaces/index';
-import { ModalTitleWrapper } from '..';
+import type { ScopeAlias } from '@interfaces/util.ts';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import {
 	BugIcon,
 	CLoudIcon,
@@ -18,6 +19,11 @@ import { useReportStore } from '@stores/report.store';
 import { ViewAppCard } from './ViewAppCard';
 import { useNavigate } from 'react-router';
 import './report-type.scss';
+import {
+	MODAL_KEY_OPEN,
+	RESOURCE_CLASS,
+	RESOURCE_CLASS_ALIAS,
+} from '@/app/constants/app-texts';
 
 interface SelectAnyResourceModalProps {
 	issues: Issues[];
@@ -31,20 +37,20 @@ const getIssueResourceCountV2 = (
 	for (const resourceClass of resourceClasses) {
 		initialCounts[resourceClass] = 0;
 	}
-	initialCounts['unknown'] = 0;
-	initialCounts['research'] = 0;
+	initialCounts[RESOURCE_CLASS.UNKNOWN] = 0;
+	initialCounts[RESOURCE_CLASS.RESEARCH] = 0;
 	return issues.reduce((acc, issue) => {
-		const isOrphan = issue.resourceClass === 'research' || !issue.resourceID;
+		const isOrphan =
+			issue.resourceClass === RESOURCE_CLASS.RESEARCH || !issue.resourceID;
 		const belongsToClass = resourceClasses.includes(issue.resourceClass);
 
 		if (isOrphan) {
-			acc['research']++;
+			acc[RESOURCE_CLASS.RESEARCH]++;
 		} else if (belongsToClass) {
 			acc[issue.resourceClass]++;
 		} else {
-			acc['unknown']++;
+			acc[RESOURCE_CLASS.UNKNOWN]++;
 		}
-
 		return acc;
 	}, initialCounts);
 };
@@ -55,7 +61,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 	const navigate = useNavigate();
 	const { isOpen, modalId, setIsOpen } = useModalStore();
 	const [activeView, setActiveView] = useState('selector');
-	const [alias, setAlias] = useState<'w' | 'm' | 'c' | 's' | 'sc' | 'n'>('w');
+	const [alias, setAlias] = useState<ScopeAlias>(RESOURCE_CLASS_ALIAS.WEB);
 	const { openModal, setResourceID, setResourceType } = useReportStore(
 		(state) => state,
 	);
@@ -71,20 +77,17 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 	useEffect(() => {
 		setResourceCount(
 			getIssueResourceCountV2(issues, [
-				'web',
-				'mobile',
-				'cloud',
-				'social',
-				'source',
+				RESOURCE_CLASS.WEB,
+				RESOURCE_CLASS.MOBILE,
+				RESOURCE_CLASS.CLOUD,
+				RESOURCE_CLASS.SOCIAL,
+				RESOURCE_CLASS.SOURCE,
 				'lan',
 			]),
 		);
 	}, [issues]);
 
-	const handleChangeView = (
-		view: string,
-		alias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n',
-	) => {
+	const handleChangeView = (view: string, alias: ScopeAlias) => {
 		setActiveView(view);
 		setAlias(alias);
 	};
@@ -98,36 +101,42 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 	};
 
 	const handleReportForTable = (id: string, type: string, count: number) => {
-		if (modalId == 'selectReport') {
+		if (modalId == MODAL_KEY_OPEN.SELECT_REPORT) {
 			if (count >= 1) {
 				setIsOpen(false);
 				setActiveView('selector');
 				openModal();
 				setResourceID(id);
-				setResourceType(type == 'network' ? 'lan' : type);
+				setResourceType(type == RESOURCE_CLASS.NETWORK ? 'lan' : type);
 			}
-		} else if (modalId == 'selectFinding') {
+		} else if (modalId == MODAL_KEY_OPEN.SELECT_FINDING) {
 			setIsOpen(false);
-			navigate(`/issues/create/${type == 'network' ? 'lan' : type}/${id}`);
+			navigate(
+				`/issues/create/${type == RESOURCE_CLASS.NETWORK ? 'lan' : type}/${id}`,
+			);
 		}
 	};
 	const handleResearch = () => {
-		if (modalId == 'selectFinding') {
+		if (modalId == MODAL_KEY_OPEN.SELECT_FINDING) {
 			navigate(`/issues/create/research`);
 		}
 	};
 	const title =
-		modalId == 'selectReport'
+		modalId == MODAL_KEY_OPEN.SELECT_REPORT
 			? 'Choose the resource class to generate the report'
 			: 'Choose the resource class you want to create the issues for';
 	const header =
-		modalId == 'selectReport' ? 'Select report type' : 'Create new issue';
+		modalId == MODAL_KEY_OPEN.SELECT_REPORT
+			? 'Select report type'
+			: 'Create new issue';
 
 	return (
 		<ModalTitleWrapper
 			headerTitle={header}
 			isActive={
-				isOpen && (modalId == 'selectReport' || modalId == 'selectFinding')
+				isOpen &&
+				(modalId == MODAL_KEY_OPEN.SELECT_REPORT ||
+					modalId == MODAL_KEY_OPEN.SELECT_FINDING)
 			}
 			close={handleClose}>
 			<div
@@ -137,73 +146,106 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 					<div className="report-type-container">
 						<ResourceFigure
 							icon={<GlobeWebIcon />}
-							title="Web"
-							count={resourceCount['web']}
-							click={() => handleChangeView('web', 'w')}
+							title={RESOURCE_CLASS.WEB}
+							count={resourceCount[RESOURCE_CLASS.WEB]}
+							click={() =>
+								handleChangeView(
+									RESOURCE_CLASS.WEB,
+									RESOURCE_CLASS_ALIAS.WEB,
+								)
+							}
 							isActive={
-								resourceCount['web'] > 0 || modalId == 'selectFinding'
+								resourceCount[RESOURCE_CLASS.WEB] > 0 ||
+								modalId == MODAL_KEY_OPEN.SELECT_FINDING
 							}
 						/>
 						<ResourceFigure
 							icon={<MobileIcon />}
-							title="Mobile"
-							count={resourceCount['mobile']}
-							click={() => handleChangeView('mobile', 'm')}
+							title={RESOURCE_CLASS.MOBILE}
+							count={resourceCount[RESOURCE_CLASS.MOBILE]}
+							click={() =>
+								handleChangeView(
+									RESOURCE_CLASS.MOBILE,
+									RESOURCE_CLASS_ALIAS.MOBILE,
+								)
+							}
 							isActive={
-								resourceCount['mobile'] > 0 ||
-								modalId == 'selectFinding'
+								resourceCount[RESOURCE_CLASS.MOBILE] > 0 ||
+								modalId == MODAL_KEY_OPEN.SELECT_FINDING
 							}
 						/>
 
 						<ResourceFigure
 							icon={<CLoudIcon />}
-							title="Cloud"
-							count={resourceCount['cloud']}
-							click={() => handleChangeView('cloud', 'c')}
+							title={RESOURCE_CLASS.CLOUD}
+							count={resourceCount[RESOURCE_CLASS.CLOUD]}
+							click={() =>
+								handleChangeView(
+									RESOURCE_CLASS.CLOUD,
+									RESOURCE_CLASS_ALIAS.CLOUD,
+								)
+							}
 							isActive={
-								resourceCount['cloud'] > 0 || modalId == 'selectFinding'
+								resourceCount[RESOURCE_CLASS.CLOUD] > 0 ||
+								modalId == MODAL_KEY_OPEN.SELECT_FINDING
 							}
 						/>
 
 						<ResourceFigure
 							icon={<SourceCodeIcon />}
-							title="Source"
-							count={resourceCount['source']}
-							click={() => handleChangeView('source code', 'sc')}
+							title={RESOURCE_CLASS.SOURCE}
+							count={resourceCount[RESOURCE_CLASS.SOURCE]}
+							click={() =>
+								handleChangeView(
+									RESOURCE_CLASS.SOURCE,
+									RESOURCE_CLASS_ALIAS.SOURCE,
+								)
+							}
 							isActive={
-								resourceCount['source'] > 0 ||
-								modalId == 'selectFinding'
+								resourceCount[RESOURCE_CLASS.SOURCE] > 0 ||
+								modalId == MODAL_KEY_OPEN.SELECT_FINDING
 							}
 						/>
 
 						<ResourceFigure
 							icon={<PeopleGroupIcon />}
-							title="Social"
-							count={resourceCount['social']}
-							click={() => handleChangeView('social', 's')}
+							title={RESOURCE_CLASS.SOCIAL}
+							count={resourceCount[RESOURCE_CLASS.SOCIAL]}
+							click={() =>
+								handleChangeView(
+									RESOURCE_CLASS.SOCIAL,
+									RESOURCE_CLASS_ALIAS.SOCIAL,
+								)
+							}
 							isActive={
-								resourceCount['social'] > 0 ||
-								modalId == 'selectFinding'
+								resourceCount[RESOURCE_CLASS.SOCIAL] > 0 ||
+								modalId == MODAL_KEY_OPEN.SELECT_FINDING
 							}
 						/>
 
 						<ResourceFigure
 							icon={<LanIcon />}
-							title="Network"
+							title={RESOURCE_CLASS.NETWORK}
 							count={resourceCount['lan']}
-							click={() => handleChangeView('network', 'n')}
+							click={() =>
+								handleChangeView(
+									RESOURCE_CLASS.NETWORK,
+									RESOURCE_CLASS_ALIAS.NETWORK,
+								)
+							}
 							isActive={
-								resourceCount['lan'] > 0 || modalId == 'selectFinding'
+								resourceCount['lan'] > 0 ||
+								modalId == MODAL_KEY_OPEN.SELECT_FINDING
 							}
 						/>
 
 						<ResourceFigure
 							icon={<BugIcon />}
-							title="Research"
-							count={resourceCount['research']}
+							title={RESOURCE_CLASS.RESEARCH}
+							count={resourceCount[RESOURCE_CLASS.RESEARCH]}
 							isActive={
-								resourceCount['research'] > 0 ||
-								modalId == 'selectFinding'
+								resourceCount[RESOURCE_CLASS.RESEARCH] > 0 ||
+								modalId == MODAL_KEY_OPEN.SELECT_FINDING
 							}
 							click={handleResearch}
 						/>
@@ -212,23 +254,27 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 				<Show
 					when={
 						activeView !== 'selector' &&
-						activeView !== 'mobile' &&
-						activeView !== 'cloud'
+						activeView !== RESOURCE_CLASS.MOBILE &&
+						activeView !== RESOURCE_CLASS.CLOUD
 					}>
 					<ViewResourcesTable
 						scopeALias={alias}
 						type={activeView}
 						handleSelect={handleReportForTable}
-						activeFilter={modalId !== 'selectFinding'}
+						activeFilter={modalId !== MODAL_KEY_OPEN.SELECT_FINDING}
 						modalId={modalId}
 					/>
 				</Show>
-				<Show when={activeView === 'mobile' || activeView === 'cloud'}>
+				<Show
+					when={
+						activeView === RESOURCE_CLASS.MOBILE ||
+						activeView === RESOURCE_CLASS.CLOUD
+					}>
 					<ViewAppCard
 						getReport={handleReportForTable}
 						scopeALias={alias}
 						type={activeView}
-						activeFilter={modalId !== 'selectFinding'}
+						activeFilter={modalId !== MODAL_KEY_OPEN.SELECT_FINDING}
 						modalId={modalId}
 					/>
 				</Show>

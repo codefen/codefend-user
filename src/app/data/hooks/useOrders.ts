@@ -15,6 +15,7 @@ import type { SocialResourceResume } from '@interfaces/resources-resumes';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { ORDER_PHASES_TEXT } from '@/app/constants/app-toast-texts';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const useOrders = () => {
 	const { getCompany } = useUserData();
@@ -121,17 +122,17 @@ export const useOrderScope = () => {
 
 		if (resourceScope === 'full') {
 			resource = resumeResources;
-		} else if (resourceScope === 'web') {
+		} else if (resourceScope === RESOURCE_CLASS.WEB) {
 			resource = { web: resumeResources.web };
-		} else if (resourceScope === 'mobile') {
+		} else if (resourceScope === RESOURCE_CLASS.MOBILE) {
 			resource = { mobile: resumeResources.mobile };
-		} else if (resourceScope === 'cloud') {
+		} else if (resourceScope === RESOURCE_CLASS.CLOUD) {
 			resource = { cloud: resumeResources.cloud };
-		} else if (resourceScope === 'source') {
+		} else if (resourceScope === RESOURCE_CLASS.SOURCE) {
 			resource = { source: resumeResources.source };
-		} else if (resourceScope === 'social') {
+		} else if (resourceScope === RESOURCE_CLASS.SOCIAL) {
 			resource = { social: resumeResources.social };
-		} else if (resourceScope === 'network') {
+		} else if (resourceScope === RESOURCE_CLASS.NETWORK) {
 			resource = { lan: resumeResources.network };
 		}
 		return fetcher('post', {

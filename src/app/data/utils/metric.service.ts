@@ -1,3 +1,4 @@
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { type MemberV2, type User, type Webresources } from '..';
 
 /** Compute InternalNetwork OS And Count */
@@ -97,7 +98,7 @@ export const getCountryMetrics = (resources: any[], type: string) => {
 		}, [])
 		.concat(resources);
 		
-	const dataToUse = type === 'web' ? resourceFlat : resources;
+	const dataToUse = type === RESOURCE_CLASS.WEB ? resourceFlat : resources;
 
 	const countries = dataToUse.reduce((acc: any, value: any) => {
 		let countryCode, countryName;
@@ -105,7 +106,7 @@ export const getCountryMetrics = (resources: any[], type: string) => {
 		if (type === 'lead') {
 			countryCode = value.lead_pais_code || null;
 			countryName = value.lead_pais || null;
-		} else if (type === 'web') {
+		} else if (type === RESOURCE_CLASS.WEB) {
 			countryCode = value.serverCountryCode || null;
 			countryName = value.serverCountry || null;
 		} else if (type === 'order') {

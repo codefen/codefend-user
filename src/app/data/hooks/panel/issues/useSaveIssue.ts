@@ -5,6 +5,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, ISSUE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export interface SaveIssue {
 	issueName: string;
@@ -27,13 +28,13 @@ export const useIssuesValidations = () => {
 		if (!validateField(newIssue.issueName, ISSUE_PANEL_TEXT.EMPTY_ISSUE_NAME)) return false;
 		if (
 			![
-				'web',
-				'mobile',
-				'cloud',
+				RESOURCE_CLASS.WEB,
+				RESOURCE_CLASS.MOBILE,
+				RESOURCE_CLASS.CLOUD,
 				'lan',
-				'source',
-				'social',
-				'research',
+				RESOURCE_CLASS.SOURCE,
+				RESOURCE_CLASS.SOCIAL,
+				RESOURCE_CLASS.RESEARCH,
 			].includes(newIssue.issueClass)
 		) {
 			toast.error(ISSUE_PANEL_TEXT.EMPTY_ISSUE_CLASS);

@@ -13,6 +13,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
 
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -57,7 +58,7 @@ const SocialEngineeringView = () => {
 	}, [members, socialFilters.department]);
 
 	const socialEmptyScreen = {
-		type: 'social',
+		type: RESOURCE_CLASS.SOCIAL,
 		title: 'Social Engineering',
 		subtitle: 'Start by adding a new person',
 		btnText: 'Add Social resource',

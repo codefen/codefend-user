@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { AxiosHttpService } from '../services/axiosHTTP.service';
 import { apiErrorValidation } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, CLOUD_PANEL_TEXT, MOBILE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export interface RemoveAppStore {
 	isOpen: boolean;
@@ -32,7 +33,7 @@ export const useRemoveAppStore = create<RemoveAppStore>((set, _get) => ({
 		return fetchcer
 			.post({
 				body: {
-					model: `resources/${state.isMobileType ? 'mobile' : 'cloud'}`,
+					model: `resources/${state.isMobileType ? RESOURCE_CLASS.MOBILE : RESOURCE_CLASS.CLOUD}`,
 					ac: 'del',
 					company_id: companyID,
 					id: state.id,

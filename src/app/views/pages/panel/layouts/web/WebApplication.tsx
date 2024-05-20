@@ -15,6 +15,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import Show from '@defaults/Show.tsx';
 import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -47,7 +48,7 @@ const WebApplicationView: React.FC = () => {
 						isLoading={isLoading}
 						resource={webResources.resources}
 						title="Web servers by location"
-						type="web"
+						type={RESOURCE_CLASS.WEB}
 					/>
 					<Show when={isAdmin() || isNormalUser()}>
 						<PrimaryButton

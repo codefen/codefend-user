@@ -1,7 +1,7 @@
+import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
 import Show from '@defaults/Show';
 import type { TableItem } from '@interfaces/table';
 import {
-	memberColumn,
 	memberColumnWithIssue,
 	memberColumnWithoutContact,
 	roleMap,
@@ -24,7 +24,7 @@ export const useGetScopeTables = (
 ) => {
 	const getDataScopeResourceTable = (scopeALias: string, scope: any[]) => {
 		let rows = [];
-		if (scopeALias === 'w') {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.WEB) {
 			rows =
 				scope.map((res: any) => ({
 					ID: { value: res.id, style: '' },
@@ -109,7 +109,7 @@ export const useGetScopeTables = (
 					: webScopeColumns,
 			};
 		}
-		if (scopeALias === 'm') {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.MOBILE) {
 			rows =
 				scope.map((res: any) => ({
 					ID: { value: res.id, style: '' },
@@ -122,7 +122,7 @@ export const useGetScopeTables = (
 				})) || [];
 			return { rows, columns: mobileScopeColumns };
 		}
-		if (scopeALias === 'c') {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.CLOUD) {
 			rows =
 				scope.map((res: any) => ({
 					ID: { value: '', style: '' },
@@ -135,7 +135,7 @@ export const useGetScopeTables = (
 				})) || [];
 			return { rows, columns: cloudScopeColumns };
 		}
-		if (scopeALias === 's' && !useResumeSocial) {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.SOCIAL && !useResumeSocial) {
 			rows =
 				scope.map((res: any, i: number) => ({
 					ID: { value: '', style: '' },
@@ -151,7 +151,7 @@ export const useGetScopeTables = (
 				columns: socialScopeColumns,
 			};
 		}
-		if (scopeALias === 's' && useResumeSocial) {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.SOCIAL && useResumeSocial) {
 			rows =
 				scope.map((res: any, i: number) => ({
 					ID: { value: res.id, style: 'id' },
@@ -177,7 +177,7 @@ export const useGetScopeTables = (
 					: memberColumnWithoutContact,
 			};
 		}
-		if (scopeALias === 'sc') {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.SOURCE) {
 			rows =
 				scope.map((res: any) => ({
 					ID: { value: res.id, style: '' },
@@ -201,7 +201,7 @@ export const useGetScopeTables = (
 					: sourceCodeScopeColumns,
 			};
 		}
-		if (scopeALias === 'n') {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.NETWORK) {
 			rows =
 				scope.map((res: any) => ({
 					ID: { value: res.id, style: '' },

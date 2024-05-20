@@ -13,6 +13,7 @@ import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.
 import { useUserHavePollActive } from '@hooks/quality-survey/useUserHavePollActive.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 
 export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
@@ -36,23 +37,23 @@ export const PanelPage: FC = () => {
 		updateAuth();
 		const handleChange = () => {
 			setShowModal(true);
-			setShowModalStr('error');
+			setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
 		};
 		const handleKeyDown = (e: any) => {
 			if (e.ctrlKey && e.altKey && e.key === 'ñ') {
 				setShowModal(true);
-				setShowModalStr('network');
+				setShowModalStr(MODAL_KEY_OPEN.NETWORK_SETTING);
 			}
 		};
-		window.addEventListener('errorState', handleChange);
+		window.addEventListener(MODAL_KEY_OPEN.ERROR_STATE, handleChange);
 		window.addEventListener('keydown', handleKeyDown);
 		if (getUserdata().access_role === 'provider') {
 			getProviderCompanyAccess();
 		}
 		return () => {
-			window.removeEventListener('errorState', handleChange);
+			window.removeEventListener(MODAL_KEY_OPEN.ERROR_STATE, handleChange);
 			window.removeEventListener('keydown', handleKeyDown);
-			localStorage.removeItem('error');
+			localStorage.removeItem(MODAL_KEY_OPEN.ERROR_CONNECTION);
 		};
 	}, []);
 
@@ -69,7 +70,10 @@ export const PanelPage: FC = () => {
 				<FlashLightProvider>
 					<>
 						<NetworkSettingModal
-							isOpen={showModal && showModalStr === 'network'}
+							isOpen={
+								showModal &&
+								showModalStr === MODAL_KEY_OPEN.NETWORK_SETTING
+							}
 							close={() => setShowModal(false)}
 						/>
 						<WelcomeGroupTour />
@@ -78,9 +82,14 @@ export const PanelPage: FC = () => {
 						<ErrorConection
 							closeModal={() => {
 								setShowModal(false);
-								localStorage.removeItem('error');
+								localStorage.removeItem(
+									MODAL_KEY_OPEN.ERROR_CONNECTION,
+								);
 							}}
-							open={showModal && showModalStr === 'error'}
+							open={
+								showModal &&
+								showModalStr === MODAL_KEY_OPEN.ERROR_CONNECTION
+							}
 						/>
 
 						<Navbar />

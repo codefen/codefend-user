@@ -2,20 +2,26 @@ import { useEffect, useRef, useState, type FC } from 'react';
 import { useGetScopeTables } from '@hooks/useGetScopeTables';
 import { TableV2 } from '@table/tablev2';
 import { useGetResources } from '@resourcesHooks/useGetResources';
+import type { ScopeAlias } from '@interfaces/util';
+import {
+	MODAL_KEY_OPEN,
+	RESOURCE_CLASS,
+	RESOURCE_CLASS_ALIAS,
+} from '@/app/constants/app-texts';
 
 export interface OrderCloudScopeProps {
 	type: string;
-	scopeALias: 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
+	scopeALias: ScopeAlias;
 	handleSelect: (id: string, type: string, count: number) => void;
 	activeFilter: boolean;
 	modalId: string;
 }
 const getPath = (alias: string): string => {
-	if (alias == 'w') return 'web/index';
-	if (alias == 'm') return 'mobile';
-	if (alias == 'c') return 'cloud';
-	if (alias == 'sc') return 'source';
-	if (alias == 's') return 'se';
+	if (alias == RESOURCE_CLASS_ALIAS.WEB) return 'web/index';
+	if (alias == RESOURCE_CLASS_ALIAS.MOBILE) return 'mobile';
+	if (alias == RESOURCE_CLASS_ALIAS.CLOUD) return 'cloud';
+	if (alias == RESOURCE_CLASS_ALIAS.SOURCE) return 'source';
+	if (alias == RESOURCE_CLASS_ALIAS.SOCIAL) return 'se';
 	return 'lan';
 };
 export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
@@ -54,7 +60,7 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 	}, [scopeALias]);
 
 	const title =
-		modalId == 'selectReport'
+		modalId == MODAL_KEY_OPEN.SELECT_REPORT
 			? `Select your ${type} resource to generate report`
 			: `Select your ${type} resource to create issue`;
 	return (
@@ -71,7 +77,9 @@ export const ViewResourcesTable: FC<OrderCloudScopeProps> = ({
 					if (activeFilter) id = item.ID;
 					handleSelect(
 						id,
-						type.startsWith('source') ? 'source' : type,
+						type.startsWith(RESOURCE_CLASS.SOURCE)
+							? RESOURCE_CLASS.SOURCE
+							: type,
 						Number(item.issueCount),
 					);
 				}}

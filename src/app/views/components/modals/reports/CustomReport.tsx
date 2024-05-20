@@ -26,6 +26,7 @@ import { ReportSectionTemplate } from './components/ReportSection';
 import useTimeout from '#commonHooks/useTimeout';
 import { NetworkResourceScope } from './components/NetworkResourceScope';
 import { SourceScope } from './components/SourceScope';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface CustomReportProps {
 	isModal?: boolean;
@@ -58,11 +59,14 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 	}, [resources]);
 
 	const ActiveScope = () => {
-		if (resourceType === 'web') {
+		if (resourceType === RESOURCE_CLASS.WEB) {
 			return (
 				<WebResourceScope resources={resources} isLoading={isLoading} />
 			);
-		} else if (resourceType === 'mobile' || resourceType === 'cloud') {
+		} else if (
+			resourceType === RESOURCE_CLASS.MOBILE ||
+			resourceType === RESOURCE_CLASS.CLOUD
+		) {
 			return (
 				<MobileResourceScope
 					type={resourceType}
@@ -74,7 +78,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 			return (
 				<NetworkResourceScope resources={resources} isLoading={isLoading} />
 			);
-		} else if (resourceType == 'source') {
+		} else if (resourceType == RESOURCE_CLASS.SOURCE) {
 			return <SourceScope resources={resources} isLoading={isLoading} />;
 		}
 

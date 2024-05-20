@@ -1,3 +1,4 @@
+import { RESOURCE_CLASS } from "@/app/constants/app-texts";
 import { create } from "zustand";
 
 export interface ReportStoreState {
@@ -16,7 +17,7 @@ export const useReportStore = create<ReportStoreState>((set) => ({
     resourceID: localStorage.getItem("resource-id") ? 
     localStorage.getItem("resource-id")as string : "",
     resourceType: localStorage.getItem("resource-type") ? 
-    localStorage.getItem("resource-type")as string : "web",
+    localStorage.getItem("resource-type")as string : RESOURCE_CLASS.WEB,
 	openModal: ()=>
         set((current:any)=>({...current, open: true}))
     ,

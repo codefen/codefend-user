@@ -7,6 +7,7 @@ import { ConfirmModal, ModalTitleWrapper } from '.';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useUserRevoke } from '#commonUserHooks/useUserRevoke';
 import useModalStore from '@stores/modal.store';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 interface UserRevokeModalProps {
 	userID: string;
@@ -33,7 +34,7 @@ export const UserRevokeModal: FC<UserRevokeModalProps> = ({
 	return (
 		<ModalTitleWrapper
 			type="revoke-modal"
-			isActive={modalId == 'revoke' && isOpen}
+			isActive={modalId == MODAL_KEY_OPEN.REVOKE_USER && isOpen}
 			close={close}
 			headerTitle="Revoke access">
 			<div

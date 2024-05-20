@@ -18,6 +18,7 @@ import {
 	EMPTY_SHARE,
 } from '@/app/constants/empty.ts';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 
 const IssuesPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -52,7 +53,7 @@ const IssuesPanel: FC = () => {
 
 	const handleAddFinding = () => {
 		setIsOpen(true);
-		setModalId('selectFinding');
+		setModalId(MODAL_KEY_OPEN.SELECT_FINDING);
 	};
 
 	return (
@@ -88,7 +89,7 @@ const IssuesPanel: FC = () => {
 					text="GENERATE REPORT"
 					click={(e) => {
 						setIsOpen(true);
-						setModalId('selectReport');
+						setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
 					}}
 					className="primary-full margin-block"
 					isDisabled={

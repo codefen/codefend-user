@@ -22,6 +22,7 @@ import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
 import Show from '@defaults/Show';
 import { useDeleteSourceCode } from '@resourcesHooks/sourcecode/useDeleteSourceCode';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface SourceCodeProps {
 	isLoading: boolean;
@@ -46,7 +47,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 		if (Number(count) >= 1) {
 			openModal();
 			setResourceID(resourceID);
-			setResourceType('source');
+			setResourceType(RESOURCE_CLASS.SOURCE);
 		}
 	};
 
@@ -94,7 +95,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 									onClick={() => {
 										setSelectedSourceCodeIdToDelete(repository.id);
 										setShowModal(!showModal);
-										setShowModalStr('delete_resource');
+										setShowModalStr(MODAL_KEY_OPEN.DELETE_SOURCE);
 									}}>
 									<TrashIcon />
 								</span>
@@ -104,9 +105,9 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 								title="Add credentials"
 								onClick={() => {
 									setResourceId(repository.id);
-									setCrendentialType('source');
+									setCrendentialType(RESOURCE_CLASS.SOURCE);
 									setIsOpen(true);
-									setModalId('source');
+									setModalId(RESOURCE_CLASS.SOURCE);
 								}}>
 								<CredentialIcon />
 							</span>
@@ -122,7 +123,9 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 			<ModalTitleWrapper
 				close={() => setShowModal(false)}
 				headerTitle="Delete source code"
-				isActive={showModal && showModalStr === 'delete_resource'}>
+				isActive={
+					showModal && showModalStr === MODAL_KEY_OPEN.DELETE_SOURCE
+				}>
 				<ConfirmModal
 					cancelText="Cancel"
 					confirmText="Delete"
@@ -136,7 +139,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 				/>
 			</ModalTitleWrapper>
 			<AddRepositoryModal
-				isOpen={showModal && showModalStr === 'add_repository'}
+				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SOURCE}
 				onDone={() => {
 					setShowModal(!showModal);
 					props.refetch();
@@ -155,7 +158,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 						<div
 							onClick={() => {
 								setShowModal(true);
-								setShowModalStr('add_repository');
+								setShowModalStr(MODAL_KEY_OPEN.ADD_SOURCE);
 							}}>
 							Add repository
 						</div>

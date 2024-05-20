@@ -25,6 +25,7 @@ import Show from '@defaults/Show';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { ModalInput } from '@defaults/ModalInput.tsx';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface WebResourcesProps {
 	refresh: () => void;
@@ -63,7 +64,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 		if (Number(count) >= 1) {
 			openModal();
 			setResourceID(resourceID);
-			setResourceType('web');
+			setResourceType(RESOURCE_CLASS.WEB);
 		}
 	};
 
@@ -134,7 +135,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 										serverIp: mainNetwork.mainServer,
 									});
 									setShowModal(true);
-									setShowModalStr('delete_resource');
+									setShowModalStr(MODAL_KEY_OPEN.DELETE_WEB);
 								}}>
 								<TrashIcon />
 							</span>
@@ -144,9 +145,9 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							title="Add credentials"
 							onClick={() => {
 								setResourceId(mainNetwork.id);
-								setCrendentialType('web');
+								setCrendentialType(RESOURCE_CLASS.WEB);
 								setIsOpen(true);
-								setModalId('web');
+								setModalId(RESOURCE_CLASS.WEB);
 							}}>
 							<CredentialIcon />
 						</span>
@@ -260,7 +261,9 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 																serverIp: subNetwork.mainServer,
 															});
 															setShowModal(true);
-															setShowModalStr('delete_resource');
+															setShowModalStr(
+																MODAL_KEY_OPEN.DELETE_WEB,
+															);
 														}}>
 														<TrashIcon />
 													</span>
@@ -275,9 +278,11 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 														title="Add credentials"
 														onClick={() => {
 															setResourceId(subNetwork.id);
-															setCrendentialType('web');
+															setCrendentialType(
+																RESOURCE_CLASS.WEB,
+															);
 															setIsOpen(true);
-															setModalId('web');
+															setModalId(RESOURCE_CLASS.WEB);
 														}}>
 														<CredentialIcon />
 													</span>
@@ -295,7 +300,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	return (
 		<>
 			<AddDomainModal
-				isOpen={showModal && showModalStr === 'add_domain'}
+				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_DOMAIN}
 				onDone={() => {
 					setShowModal(!showModal);
 					props.refresh();
@@ -303,7 +308,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				close={() => setShowModal(false)}
 			/>
 			<ModalTitleWrapper
-				isActive={showModal && showModalStr === 'delete_resource'}
+				isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_WEB}
 				close={() => setShowModal(false)}
 				type="med-w"
 				headerTitle="Delete web resource">
@@ -321,7 +326,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 			</ModalTitleWrapper>
 
 			<AddSubDomainModal
-				isOpen={showModal && showModalStr === 'add_subdomain'}
+				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
 				onDone={() => {
 					setShowModal(false);
 					props.refresh();
@@ -345,7 +350,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 									if (props.isLoading) return;
 
 									setShowModal(true);
-									setShowModalStr('add_domain');
+									setShowModalStr(MODAL_KEY_OPEN.ADD_DOMAIN);
 								}}>
 								Add domain
 							</div>
@@ -354,7 +359,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 									if (props.isLoading) return;
 
 									setShowModal(true);
-									setShowModalStr('add_subdomain');
+									setShowModalStr(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
 								}}>
 								Add subdomain
 							</div>

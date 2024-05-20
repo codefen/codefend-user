@@ -6,6 +6,7 @@ import Show from '@defaults/Show';
 import { AddCredentials } from './AddCredentials';
 import { ViewCredentials } from './ViewCredentials';
 import type { FC } from 'react';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface CredentialsModalProps {
 	onComplete?: () => void;
@@ -29,7 +30,11 @@ export const CredentialsModal: FC<CredentialsModalProps> = ({ onComplete }) => {
 							</div>
 							<span>Credentials</span>
 						</div>
-						<Show when={type !== 'cloud' && type !== 'mobile'}>
+						<Show
+							when={
+								type !== RESOURCE_CLASS.CLOUD &&
+								type !== RESOURCE_CLASS.MOBILE
+							}>
 							<div className="actions">
 								<div onClick={() => setActivePage(CredentialPage.ADD)}>
 									Add

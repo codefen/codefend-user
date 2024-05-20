@@ -6,6 +6,7 @@ import { preferenceMemberColumns } from '@mocks/defaultData';
 import useModalStore from '@stores/modal.store';
 import { LocationItem } from '@standalones/index';
 import { UserRevokeModal } from '@modals/UserRevokeModal';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 interface CollaboratorDataProps {
 	isLoading: boolean;
@@ -23,7 +24,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 
 	const openRevokeModal = (userId: string, name: string) => {
 		userRevokeData.current = [userId, name];
-		setModalId('revoke');
+		setModalId(MODAL_KEY_OPEN.REVOKE_USER);
 		setIsOpen(true);
 	};
 
@@ -68,7 +69,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({
 	}));
 
 	const handleAddCollaborator = () => {
-		setModalId('add-collaborator');
+		setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);
 		setIsOpen(true);
 	};
 	return (

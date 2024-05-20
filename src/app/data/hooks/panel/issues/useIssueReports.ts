@@ -10,6 +10,7 @@ import { useReportStore } from '../../../';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { companyIdIsNull } from '@/app/constants/validations';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const useIssueReport = () => {
 	const resources = useRef<any>(null);
@@ -40,28 +41,28 @@ export const useIssueReport = () => {
 
 			setShare(mapIssueShareV2(data));
 
-			if (resourceType === 'web') {
+			if (resourceType === RESOURCE_CLASS.WEB) {
 				resources.current = [mapWebresourceApiToWebresource(data.resource)];
-			} else if (resourceType === 'mobile') {
+			} else if (resourceType === RESOURCE_CLASS.MOBILE) {
 				resources.current = mapMobileApp(data.resource);
-			} else if (resourceType === 'cloud') {
+			} else if (resourceType === RESOURCE_CLASS.CLOUD) {
 				resources.current = mapCloudApp(data.resource);
 			} else if (resourceType === 'lan') {
 				resources.current = [data.resource];
-			} else if (resourceType === 'source' || resourceType === 'social') {
+			} else if (resourceType === RESOURCE_CLASS.SOURCE || resourceType === RESOURCE_CLASS.SOCIAL) {
 				resources.current = data?.resource || {};
 			}
 
 			if (resources.current) {
-				if (resourceType === 'web') {
+				if (resourceType === RESOURCE_CLASS.WEB) {
 					setDomainText(resources.current[0].resourceDomain);
-				} else if (resourceType === 'mobile' || resourceType === 'cloud') {
+				} else if (resourceType === RESOURCE_CLASS.MOBILE || resourceType === RESOURCE_CLASS.CLOUD) {
 					setDomainText(resources.current.appName);
 				} else if (resourceType === 'lan') {
 					setDomainText(resources.current[0].device_ex_address);
-				} else if (resourceType === 'source') {
+				} else if (resourceType === RESOURCE_CLASS.SOURCE) {
 					setDomainText(resources.current.name);
-				} else if (resourceType === 'social') {
+				} else if (resourceType === RESOURCE_CLASS.SOCIAL) {
 					//setDomainText(`${resources.current.member_fname}  ${resources.current.member_lname}`);
 					setDomainText(`Some Name`);
 				}

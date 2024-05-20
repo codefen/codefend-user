@@ -34,5 +34,5 @@ export const useSWRMessage = (ticketID: string,companyID: string) => {
         }
 	);
 
-	return { data, mutate, isLoading };
+	return { data: data ? data : EMPTY_TICKET_WITHCHILD, mutate, isLoading };
 };

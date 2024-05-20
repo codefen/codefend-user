@@ -2,6 +2,7 @@ import { useEffect, type FC } from 'react';
 import { AppCard } from './AppCard';
 import { useReportStore } from '../../../data';
 import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface AppCardInfoProps {
 	type: string;
@@ -14,7 +15,7 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({
 	selectedApp,
 	issueCount,
 }) => {
-	const isMobileType = type === 'mobile';
+	const isMobileType = type === RESOURCE_CLASS.MOBILE;
 	const { setIsOpen, setData, setIsMobileType } = useRemoveAppStore(
 		(state) => state,
 	);

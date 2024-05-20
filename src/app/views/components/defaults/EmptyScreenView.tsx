@@ -5,6 +5,7 @@ import MobileResourceForm from '@/app/views/components/forms/MobileResourceForm'
 import { CloudResourceForm } from '@/app/views/components/forms/CloudResourceForm';
 import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm';
 import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface EmptyScreenProps {
 	title?: string;
@@ -44,7 +45,7 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 							<span className="first-text">{title}</span>
 							<span className="second-text">{info}</span>
 						</div>
-						<Show when={type === 'network'}>
+						<Show when={type === RESOURCE_CLASS.NETWORK}>
 							<NetworkDadForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -54,7 +55,7 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 								)}
 							</NetworkDadForm>
 						</Show>
-						<Show when={type === 'mobile'}>
+						<Show when={type === RESOURCE_CLASS.MOBILE}>
 							<MobileResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -64,7 +65,7 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 								)}
 							</MobileResourceForm>
 						</Show>
-						<Show when={type === 'cloud'}>
+						<Show when={type === RESOURCE_CLASS.CLOUD}>
 							<CloudResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -74,7 +75,7 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 								)}
 							</CloudResourceForm>
 						</Show>
-						<Show when={type === 'social'}>
+						<Show when={type === RESOURCE_CLASS.SOCIAL}>
 							<SocialResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -84,7 +85,7 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 								)}
 							</SocialResourceForm>
 						</Show>
-						<Show when={type === 'source'}>
+						<Show when={type === RESOURCE_CLASS.SOURCE}>
 							<SourceResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton

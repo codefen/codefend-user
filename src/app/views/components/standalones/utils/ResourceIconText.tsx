@@ -9,6 +9,7 @@ import {
 	PeopleGroupIcon,
 	SourceCodeIcon,
 } from '../..';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface ResourceIconTextProps {
 	resourceClass: string;
@@ -20,11 +21,13 @@ export const ResourceIconText: FC<ResourceIconTextProps> = ({
 	name,
 }) => {
 	const ResourceIcon = (props: any) => {
-		if (props.resourceClass === 'web') return <GlobeWebIcon />;
-		if (props.resourceClass === 'mobile') return <MobileIcon />;
-		if (props.resourceClass === 'cloud') return <CLoudIcon />;
-		if (props.resourceClass === 'source') return <SourceCodeIcon />;
-		if (props.resourceClass === 'social') return <PeopleGroupIcon />;
+		if (props.resourceClass === RESOURCE_CLASS.WEB) return <GlobeWebIcon />;
+		if (props.resourceClass === RESOURCE_CLASS.MOBILE) return <MobileIcon />;
+		if (props.resourceClass === RESOURCE_CLASS.CLOUD) return <CLoudIcon />;
+		if (props.resourceClass === RESOURCE_CLASS.SOURCE)
+			return <SourceCodeIcon />;
+		if (props.resourceClass === RESOURCE_CLASS.SOCIAL)
+			return <PeopleGroupIcon />;
 		if (props.resourceClass === 'lan') return <LanIcon />;
 
 		return <BugIcon />;

@@ -4,8 +4,8 @@ import { useGetScopeTables } from '@hooks/useGetScopeTables';
 import { useCopyToClipboard } from '#commonHooks/useCopyToClipboard';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
-
-type ScopeAlias = 'w' | 'm' | 'c' | 's' | 'sc' | 'n';
+import type { ScopeAlias } from '@interfaces/util';
+import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
 
 export interface OrderCloudScopeProps {
 	title: string;
@@ -15,11 +15,11 @@ export interface OrderCloudScopeProps {
 
 const getLinkByScopeAlias = (resource: any, scopeAlias: ScopeAlias) => {
 	switch (scopeAlias) {
-		case 'm':
+		case RESOURCE_CLASS_ALIAS.MOBILE:
 			return resource?.app_link || '';
-		case 'sc':
+		case RESOURCE_CLASS_ALIAS.SOURCE:
 			return resource?.access_link || '';
-		case 'w':
+		case RESOURCE_CLASS_ALIAS.WEB:
 			return resource?.resource_domain || '';
 		default:
 			return '';
@@ -38,7 +38,7 @@ export const OrderScopeTable: FC<OrderCloudScopeProps> = ({
 	const copyElement = (id: any) => {
 		if (!id) return;
 		let copiedEl = '';
-		if (scopeALias === 'w') {
+		if (scopeALias === RESOURCE_CLASS_ALIAS.WEB) {
 			const childResource = resourceScope
 				.flatMap((resource) => resource.childs)
 				.find((child) => child.id === id);

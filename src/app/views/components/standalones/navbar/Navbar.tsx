@@ -15,6 +15,7 @@ import useNetworkSettingState from '@stores/apiLink.store.ts';
 import './navbar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
@@ -59,7 +60,7 @@ const Navbar: FC = () => {
 	};
 	return (
 		<>
-			<Show when={showModal && showModalStr === 'logout'}>
+			<Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<ConfirmModal
 						header="ARE YOU SURE YOU WANT TO LOGOUT?"
@@ -120,7 +121,7 @@ const Navbar: FC = () => {
 							className="action logout"
 							title="Logout"
 							onClick={(e: React.FormEvent) => {
-								setShowModalStr('logout');
+								setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
 								setShowModal(true);
 							}}>
 							<LogoutIcon width={1.1} height={1.1} />

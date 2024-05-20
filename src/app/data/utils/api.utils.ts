@@ -1,9 +1,10 @@
+import { MODAL_KEY_OPEN } from "@/app/constants/app-texts";
 import { toast } from "react-toastify";
 
 export const handleFetchError = (error: any): Promise<any> => {
 	if (error.name === 'AxiosError' && !error.message.startsWith("timeout")) {
 		localStorage.setItem('error', JSON.stringify(true));
-		window.dispatchEvent(new Event('errorState'));
+		window.dispatchEvent(new Event(MODAL_KEY_OPEN.ERROR_STATE));
 		return Promise.resolve({
 			data: { error: error ?? {}, isAnError: true, isNetworkError: true },
 		});

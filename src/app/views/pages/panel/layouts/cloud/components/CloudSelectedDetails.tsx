@@ -14,6 +14,7 @@ import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const CloudSelectedDetails: FC = () => {
 	const { isAdmin, isNormalUser } = useUserRole();
@@ -33,7 +34,7 @@ export const CloudSelectedDetails: FC = () => {
 				<div>
 					<AppCardInfo
 						selectedApp={appSelected || {}}
-						type="cloud"
+						type={RESOURCE_CLASS.CLOUD}
 						issueCount={data?.issues ? data.issues.length : 0}
 					/>
 				</div>
@@ -43,7 +44,7 @@ export const CloudSelectedDetails: FC = () => {
 							credentials={data?.creds || []}
 							isLoading={isLoading}
 							resourceId={appSelected?.id || ''}
-							type="cloud"
+							type={RESOURCE_CLASS.CLOUD}
 						/>
 					</div>
 					<div className="selected-content-tables">

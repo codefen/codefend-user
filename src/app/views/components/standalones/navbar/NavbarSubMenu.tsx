@@ -9,6 +9,7 @@ import useModal from '#commonHooks/useModal.ts';
 import type { NetworkSettingState } from '@stores/apiLink.store.ts';
 import useNetworkSettingState from '@stores/apiLink.store.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 interface NavbarSubMenuProps {
 	subMenuRef: any;
@@ -29,7 +30,7 @@ export const NavbarSubMenu: FC<NavbarSubMenuProps> = (props) => {
 
 	return (
 		<>
-			<Show when={showModal && showModalStr === 'logout'}>
+			<Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>
 				<ModalWrapper action={() => setShowModal(!showModal)}>
 					<ConfirmModal
 						header="ARE YOU SURE YOU WANT TO LOGOUT?"
@@ -66,7 +67,7 @@ export const NavbarSubMenu: FC<NavbarSubMenuProps> = (props) => {
 						className="option"
 						onClick={(e: React.FormEvent) => {
 							props.closeMenu();
-							setShowModalStr('logout');
+							setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
 							setShowModal(true);
 						}}>
 						<LogoutIcon width={1.25} height={1.25} />

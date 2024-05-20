@@ -16,6 +16,7 @@ import {
 import AppEditor from './AppEditor';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe';
 import useTimeout from '#commonHooks/useTimeout';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface IssueCreationPanelProps {
 	isLoading: boolean;
@@ -50,13 +51,13 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 		dispatch((state) => ({
 			...state,
 			issueClass: [
-				'web',
-				'mobile',
-				'cloud',
+				RESOURCE_CLASS.WEB,
+				RESOURCE_CLASS.MOBILE,
+				RESOURCE_CLASS.CLOUD,
 				'lan',
-				'source',
-				'social',
-				'research',
+				RESOURCE_CLASS.SOURCE,
+				RESOURCE_CLASS.SOCIAL,
+				RESOURCE_CLASS.RESEARCH,
 			].includes(type || '')
 				? (type as string)
 				: '',
@@ -130,13 +131,13 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = (props) => {
 						<option value="" disabled hidden>
 							Select Class
 						</option>
-						<option value="web">web</option>
-						<option value="mobile">mobile</option>
-						<option value="cloud">cloud</option>
-						<option value="social">social & osint</option>
-						<option value="source">source code</option>
+						<option value={RESOURCE_CLASS.WEB}>web</option>
+						<option value={RESOURCE_CLASS.MOBILE}>mobile</option>
+						<option value={RESOURCE_CLASS.CLOUD}>cloud</option>
+						<option value={RESOURCE_CLASS.SOCIAL}>social & osint</option>
+						<option value={RESOURCE_CLASS.SOURCE}>source code</option>
 						<option value="lan">network</option>
-						<option value="research">research</option>
+						<option value={RESOURCE_CLASS.RESEARCH}>research</option>
 					</select>
 				</div>
 
