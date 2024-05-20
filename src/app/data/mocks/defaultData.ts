@@ -68,23 +68,18 @@ export const roleMap = {
 };
 
 export const companySizesList = [
-    { label: '1-10', value: '1-10' },
-    { label: '11-50', value: '11-50' },
-    { label: '51-200', value: '51-200' },
-    { label: '201-500', value: '201-500' },
-    { label: '>500', value: '>500' },
+	{ label: '1-10', value: '1-10' },
+	{ label: '11-50', value: '11-50' },
+	{ label: '51-200', value: '51-200' },
+	{ label: '201-500', value: '201-500' },
+	{ label: '>500', value: '>500' },
 ];
 
 export const topVulnerabilitiesColumn: ColumnTable[] = [
 	{
-		name: 'published',
-		value: 'published',
-		style: 'date',
-	},
-	{
-		name: 'author',
-		value: 'author',
-		style: 'username',
+		name: 'issueTitle',
+		value: 'issue title',
+		style: 'vul-title',
 	},
 	{
 		name: 'type',
@@ -92,21 +87,22 @@ export const topVulnerabilitiesColumn: ColumnTable[] = [
 		style: 'vul-class',
 	},
 	{
-		name: 'risk',
-		value: 'risk',
-		style: 'vul-risk',
-	},
-	{
-		name: 'score',
-		value: 'score',
-		style: 'vul-score',
-	},
-	{
-		name: 'issueTitle',
-		value: 'issue title',
-		style: 'vul-title',
+		name: 'author',
+		value: 'author',
+		style: 'username',
 	},
 
+	{
+		name: 'score',
+		value: 'risk level',
+		style: 'vul-score',
+	},
+
+	{
+		name: 'published',
+		value: 'published',
+		style: 'date',
+	},
 ];
 
 export const memberColumn: ColumnTable[] = [
@@ -134,21 +130,27 @@ export const memberColumn: ColumnTable[] = [
 		name: 'role',
 		value: 'role',
 		style: 'role',
-	}
+	},
 ];
-export const memberColumnWithoutContact: ColumnTable[] = memberColumn.filter((col)=> col.name !== "phone" && col.name !== "email");
+export const memberColumnWithoutContact: ColumnTable[] = memberColumn.filter(
+	(col) => col.name !== 'phone' && col.name !== 'email',
+);
 
-export const memberColumnWithActions: ColumnTable[] = memberColumn.concat([{
-	name: 'action',
-	value: 'actions',
-	style: 'id action',
-}])
+export const memberColumnWithActions: ColumnTable[] = memberColumn.concat([
+	{
+		name: 'action',
+		value: 'actions',
+		style: 'id action',
+	},
+]);
 
-export const memberColumnWithIssue: ColumnTable[] = memberColumn.concat([{
-	name: 'issue',
-	value: 'issues',
-	style: 'id',
-}])
+export const memberColumnWithIssue: ColumnTable[] = memberColumn.concat([
+	{
+		name: 'issue',
+		value: 'issues',
+		style: 'id',
+	},
+]);
 
 export const vulnerabilityRiskColumns: ColumnTable[] = [
 	{
@@ -234,7 +236,8 @@ export const sourceCodeColumns: ColumnTable[] = [
 	},
 ];
 
-export const sourceCodeColumnsWithoutAction: ColumnTable[] = sourceCodeColumns.filter((column)=> column.name !== "action")
+export const sourceCodeColumnsWithoutAction: ColumnTable[] =
+	sourceCodeColumns.filter((column) => column.name !== 'action');
 
 export const issueColumns: ColumnTable[] = [
 	{
@@ -279,8 +282,13 @@ export const issueColumns: ColumnTable[] = [
 		style: 'id action',
 	},
 ];
-export const issuesColumnsWithoutAction: ColumnTable[] = issueColumns.filter(column => column.name !== 'action');
-export const issuesColumnsWithoutActionAuthor: ColumnTable[] = issueColumns.filter(column => column.name !== 'action' && column.name !== 'author');
+export const issuesColumnsWithoutAction: ColumnTable[] = issueColumns.filter(
+	(column) => column.name !== 'action',
+);
+export const issuesColumnsWithoutActionAuthor: ColumnTable[] =
+	issueColumns.filter(
+		(column) => column.name !== 'action' && column.name !== 'author',
+	);
 
 export const sourceCodeChartColumns = [
 	{
@@ -351,9 +359,7 @@ export const vdbColumns = [
 ];
 
 export const supportTicket: ColumnTable[] = [
-	{name: 'Identifier',
-	value: 'ID',
-	style: 'id',},
+	{ name: 'Identifier', value: 'ID', style: 'id' },
 	{
 		name: 'author',
 		value: 'author',
@@ -473,196 +479,196 @@ export const locationTableColumn: ColumnTable[] = [
 
 export const defaultListLeadsColumns: ColumnTable[] = [
 	{
-		name: "area",	
-		value: "area",	
-		style: "area",	
+		name: 'area',
+		value: 'area',
+		style: 'area',
 	},
 	{
-		name: "company",	
-		value: "company",	
-		style: "company",	
+		name: 'company',
+		value: 'company',
+		style: 'company',
 	},
 	{
-		name: "website",	
-		value: "website",	
-		style: "web-site",	
+		name: 'website',
+		value: 'website',
+		style: 'web-site',
 	},
 	{
-		name: "size",	
-		value: "company size",	
-		style: "size",	
+		name: 'size',
+		value: 'company size',
+		style: 'size',
 	},
 	{
-		name: "fullname",	
-		value: "full name",	
-		style: "full-name",	
+		name: 'fullname',
+		value: 'full name',
+		style: 'full-name',
 	},
 	{
-		name: "phone",	
-		value: "phone",	
-		style: "phone",	
+		name: 'phone',
+		value: 'phone',
+		style: 'phone',
 	},
 	{
-		name: "postContact",	
-		value: "contacted",	
-		style: "post",	
+		name: 'postContact',
+		value: 'contacted',
+		style: 'post',
 	},
-]
+];
 
 export const resellerUserActiveColumns: ColumnTable[] = [
 	{
-		name: "area",	
-		value: "area",	
-		style: "area",	
+		name: 'area',
+		value: 'area',
+		style: 'area',
 	},
 	{
-		name: "company",	
-		value: "company",	
-		style: "company",	
+		name: 'company',
+		value: 'company',
+		style: 'company',
 	},
 	{
-		name: "role",	
-		value: "role",	
-		style: "role",	
+		name: 'role',
+		value: 'role',
+		style: 'role',
 	},
 	{
-		name: "fullname",	
-		value: "full name",	
-		style: "full-name",	
+		name: 'fullname',
+		value: 'full name',
+		style: 'full-name',
 	},
 	{
-		name: "phone",	
-		value: "phone",	
-		style: "phone",	
+		name: 'phone',
+		value: 'phone',
+		style: 'phone',
 	},
 	{
-		name: "email",	
-		value: "email",	
-		style: "email",	
+		name: 'email',
+		value: 'email',
+		style: 'email',
 	},
-	
+
 	{
-		name: "published",	
-		value: "Sign up date",	
-		style: "date",	
+		name: 'published',
+		value: 'Sign up date',
+		style: 'date',
 	},
-]
+];
 
 export const resellerCompanyColumns: ColumnTable[] = [
 	{
-		name: "area",	
-		value: "area",	
-		style: "area",	
+		name: 'area',
+		value: 'area',
+		style: 'area',
 	},
 	{
-		name: "company",	
-		value: "company",	
-		style: "company",	
+		name: 'company',
+		value: 'company',
+		style: 'company',
 	},
 	{
-		name: "website",	
-		value: "website",	
-		style: "web-site",	
+		name: 'website',
+		value: 'website',
+		style: 'web-site',
 	},
 	{
-		name: "size",	
-		value: "company size",	
-		style: "size",	
+		name: 'size',
+		value: 'company size',
+		style: 'size',
 	},
 	{
-		name: "fullname",	
-		value: "full name",	
-		style: "full-name",	
+		name: 'fullname',
+		value: 'full name',
+		style: 'full-name',
 	},
 	{
-		name: "published",	
-		value: "Creation date",	
-		style: "date",	
+		name: 'published',
+		value: 'Creation date',
+		style: 'date',
 	},
-]
+];
 
 export const resellerOrdersColumn: ColumnTable[] = [
 	{
-		name: "Identifier",	
-		value: "id",	
-		style: "id",	
+		name: 'Identifier',
+		value: 'id',
+		style: 'id',
 	},
 	{
-		name: "area",	
-		value: "area",	
-		style: "area",	
+		name: 'area',
+		value: 'area',
+		style: 'area',
 	},
-	
+
 	{
-		name: "orderType",	
-		value: "scope",	
-		style: "type",	
-	},
-	{
-		name: "plan",	
-		value: "plan",	
-		style: "plan",	
+		name: 'orderType',
+		value: 'scope',
+		style: 'type',
 	},
 	{
-		name: "funds",	
-		value: "price",	
-		style: "funds",	
+		name: 'plan',
+		value: 'plan',
+		style: 'plan',
 	},
 	{
-		name: "published",	
-		value: "created",	
-		style: "date",	
+		name: 'funds',
+		value: 'price',
+		style: 'funds',
 	},
 	{
-		name: "paid",	
-		value: "paid",	
-		style: "paid",	
+		name: 'published',
+		value: 'created',
+		style: 'date',
 	},
 	{
-		name: "finish",	
-		value: "finished",	
-		style: "finish",	
+		name: 'paid',
+		value: 'paid',
+		style: 'paid',
 	},
-]
+	{
+		name: 'finish',
+		value: 'finished',
+		style: 'finish',
+	},
+];
 
 export const webResourcesWithoutActions = [
 	{
-		name: "Identifier",
-		value: "id",
-		style: "id"
+		name: 'Identifier',
+		value: 'id',
+		style: 'id',
 	},
 	{
-		name: "domainName",
-		value: "domain",
-		style: "domain-name"
+		name: 'domainName',
+		value: 'domain',
+		style: 'domain-name',
 	},
 	{
-		name: "mainServer",
-		value: "server ip",
-		style: "server-ip"
+		name: 'mainServer',
+		value: 'server ip',
+		style: 'server-ip',
 	},
 	{
 		name: 'location',
 		value: 'location',
 		style: 'location',
-	}
-]
+	},
+];
 
 export const lanResourcesTable = [
 	{
-		name: "Identifier",
-		value: "id",
-		style: "id"
+		name: 'Identifier',
+		value: 'id',
+		style: 'id',
 	},
 	{
-		name: "externalIp",
-		value: "external IP",
-		style: "ip"
+		name: 'externalIp',
+		value: 'external IP',
+		style: 'ip',
 	},
 	{
-		name: "internalIp",
-		value: "internal IP",
-		style: "ip"
+		name: 'internalIp',
+		value: 'internal IP',
+		style: 'ip',
 	},
 
 	{
@@ -677,18 +683,20 @@ export const lanResourcesTable = [
 	},
 ];
 
-export const lanResourcesTableWithoutAction = lanResourcesTable.filter((column)=> column.name !== "action");
+export const lanResourcesTableWithoutAction = lanResourcesTable.filter(
+	(column) => column.name !== 'action',
+);
 
 export const companyOrdersColumns = [
 	{
-		name: "orderClass",
-		value: "class",
-		style: "vul-class"
+		name: 'orderClass',
+		value: 'class',
+		style: 'vul-class',
 	},
 	{
-		name: "offensiveness",
-		value: "offensiveness",
-		style: "vul-offensiveness"
+		name: 'offensiveness',
+		value: 'offensiveness',
+		style: 'vul-offensiveness',
 	},
 	{
 		name: 'membership',
@@ -714,81 +722,82 @@ export const companyOrdersColumns = [
 		name: 'action',
 		value: 'actions',
 		style: 'id action',
-	}
+	},
 ];
 export const companyMembersColumns = [
 	{
-		name: "Identifier",
-		value: "id",
-		style: "id"
+		name: 'Identifier',
+		value: 'id',
+		style: 'id',
 	},
 	{
-		name: "fullName",
-		value: "full name",
-		style: "full-name"
+		name: 'fullName',
+		value: 'full name',
+		style: 'full-name',
 	},
 	{
-		name: "email",
-		value: "email",
-		style: "email"
+		name: 'email',
+		value: 'email',
+		style: 'email',
 	},
 	{
-		name: "phone",
-		value: "phone",
-		style: "phone"
+		name: 'phone',
+		value: 'phone',
+		style: 'phone',
 	},
 	{
-		name: "role",
-		value: "role",
-		style: "role"
+		name: 'role',
+		value: 'role',
+		style: 'role',
 	},
 ];
 
 export const preferenceMemberColumns = [
 	{
-		name: "Identifier",
-		value: "id",
-		style: "id"
+		name: 'Identifier',
+		value: 'id',
+		style: 'id',
 	},
 	{
-		name: "area",
-		value: "area",
-		style: "area"
+		name: 'area',
+		value: 'area',
+		style: 'area',
 	},
 	{
-		name: "company",
-		value: "company",
-		style: "company"
+		name: 'company',
+		value: 'company',
+		style: 'company',
 	},
 	{
-		name: "fullName",
-		value: "full name",
-		style: "full-name"
+		name: 'fullName',
+		value: 'full name',
+		style: 'full-name',
 	},
 	{
-		name: "email",
-		value: "email",
-		style: "email"
+		name: 'email',
+		value: 'email',
+		style: 'email',
 	},
 	{
-		name: "phone",
-		value: "phone",
-		style: "phone"
+		name: 'phone',
+		value: 'phone',
+		style: 'phone',
 	},
 	{
-		name: "role",
-		value: "role",
-		style: "role"
+		name: 'role',
+		value: 'role',
+		style: 'role',
 	},
 	{
-		name: "action",
-		value: "action",
-		style: "id action"
-	}
+		name: 'action',
+		value: 'action',
+		style: 'id action',
+	},
 ];
 
-
-export const webResourcesColumns = webResourcesWithoutActions.concat([{name: "action",value:"actions",style:"id action"}]);
+export const webResourcesColumns = webResourcesWithoutActions.concat([
+	{ name: 'action', value: 'actions', style: 'id action' },
+]);
 
 export const defaultCrypto = [
 	{
@@ -839,48 +848,48 @@ export const defaultPersonalDetails = [
 
 export const defaultOrderColumns = [
 	{
-		name: "Identifier",
-		value: "id",
-		style: "id"
+		name: 'Identifier',
+		value: 'id',
+		style: 'id',
 	},
 	{
-		name: "size",
-		value: "size",
-		style: "size"
+		name: 'size',
+		value: 'size',
+		style: 'size',
 	},
 	{
-		name: "offensivness",
-		value: "offensivness",
-		style: "offensivness"
+		name: 'offensivness',
+		value: 'offensivness',
+		style: 'offensivness',
 	},
 	{
-		name: "type",
-		value: "class",
-		style: "type"
+		name: 'type',
+		value: 'class',
+		style: 'type',
 	},
 	{
-		name: "provider",
-		value: "provider",
-		style: "username"
+		name: 'provider',
+		value: 'provider',
+		style: 'username',
 	},
 	{
-		name: "funds",
-		value: "funds",
-		style: "funds"
+		name: 'funds',
+		value: 'funds',
+		style: 'funds',
 	},
 	{
-		name: "state",
-		value: "state",
-		style: "state"
+		name: 'state',
+		value: 'state',
+		style: 'state',
 	},
 	{
-		name: "publishedFinish",
-		value: "finish date",
-		style: "date"
+		name: 'publishedFinish',
+		value: 'finish date',
+		style: 'date',
 	},
 	{
-		name: "action",
-		value: "actions",
-		style: "id action"
-	}
-]
+		name: 'action',
+		value: 'actions',
+		style: 'id action',
+	},
+];

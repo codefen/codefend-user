@@ -8,6 +8,7 @@ import {
 import { TableV2 } from '../../../../../components/table/tablev2';
 import { useNavigate } from 'react-router';
 import type { Issue } from '@interfaces/dashboard';
+import { ResourceIconText } from '@standalones/utils/ResourceIconText';
 
 interface DashboardVulnerabilitiesProps {
 	topVulnerabilities: Issue[];
@@ -23,18 +24,25 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
 		(issue: Issue) =>
 			({
 				ID: { value: issue.id, style: '' },
-				published: { value: issue.creacion, style: 'date' },
+				issueTitle: {
+					value: (
+						<ResourceIconText
+							name={issue.name}
+							resourceClass={issue.resource_class}
+						/>
+					),
+					style: 'vul-title resource-icon',
+				},
+				type: { value: issue.resource_class, style: 'vul-class' },
 				author: {
-					value: '@' + issue.researcher_username,
+					value: `@${issue.researcher_username}`,
 					style: 'username',
 				},
-				issueTitle: { value: issue.name, style: 'vul-title' },
-				risk: { value: issue.risk_level, style: 'vul-risk' },
-				type: { value: issue.resource_class, style: 'vul-class' },
 				score: {
 					value: <RiskScore riskScore={issue.risk_score} />,
 					style: 'vul-score flex no-border-bottom',
 				},
+				published: { value: issue.creacion, style: 'date' },
 			}) as Record<string, TableItem>,
 	);
 
