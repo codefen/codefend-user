@@ -361,19 +361,14 @@ export const vdbColumns = [
 export const supportTicket: ColumnTable[] = [
 	{ name: 'Identifier', value: 'ID', style: 'id' },
 	{
-		name: 'author',
-		value: 'author',
-		style: 'username',
-	},
-	{
-		name: 'published',
-		value: 'published',
-		style: 'date',
-	},
-	{
 		name: 'title',
 		value: 'title',
 		style: 'vul-title',
+	},
+	{
+		name: 'author',
+		value: 'author',
+		style: 'username',
 	},
 	{
 		name: 'status',
@@ -381,9 +376,14 @@ export const supportTicket: ColumnTable[] = [
 		style: 'status',
 	},
 	{
+		name: 'published',
+		value: 'published',
+		style: 'date',
+	},
+	{
 		name: 'action',
 		value: 'actions',
-		style: 'id',
+		style: 'id action',
 	},
 ];
 

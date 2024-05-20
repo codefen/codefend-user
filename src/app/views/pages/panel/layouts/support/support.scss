@@ -13,29 +13,32 @@ main.support {
 				min-width: 6.5%;
 				max-width: 6.5%;
 			}
-			.username {
-				min-width: 12%;
-				max-width: 12%;
+
+			.vul-title {
+				min-width: 42%;
+				max-width: 42%;
 				margin-inline-end: 1%;
+			}
+			.username {
+				min-width: 19%;
+				max-width: 19%;
 			}
 			.date {
 				min-width: 12%;
 				max-width: 12%;
 			}
-
-			.vul-title {
-				min-width: 49.5%;
-				max-width: 49.5%;
-				margin-inline-end: 1%;
-			}
 			.status {
-				min-width: 9%;
-				max-width: 9%;
+				min-width: 12%;
+				max-width: 12%;
+				text-align: center;
+				.publish {
+					justify-content: center;
+				}
 			}
 
 			.id.action {
-				min-width: 9%;
-				max-width: 9%;
+				min-width: 7.5%;
+				max-width: 7.5%;
 				.publish {
 					justify-content: center;
 				}

@@ -38,7 +38,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 	const dataTable = props.tickets.map((ticket: Ticket) => ({
 		ID: { value: ticket.id, style: '' },
 		Identifier: { value: Number(ticket.id), style: 'id' },
-		author: { value: `@${ticket.user_username}`, style: 'username' },
+		author: { value: `${ticket.user_username}`, style: 'username' },
 		published: { value: ticket.creacion, style: 'date' },
 		title: { value: ticket.cs_header, style: 'vul-title' },
 		status: {
