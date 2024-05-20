@@ -11,6 +11,8 @@ import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackMa
 import '/public/flags/flags.css';
 import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
 import { useUserHavePollActive } from '@hooks/quality-survey/useUserHavePollActive.ts';
+import useModal from '#commonHooks/useModal.ts';
+import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 
 export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
@@ -21,7 +23,8 @@ export const MobileFallback = lazy(
 
 export const PanelPage: FC = () => {
 	const location = useLocation();
-	const [showModal, setShowModal] = useState(false);
+	const { showModal, setShowModal, setShowModalStr, showModalStr } =
+		useModal();
 	const matches = useMediaQuery('(min-width: 1175px)');
 	const { isAuth, logout, getUserdata } = useUserData();
 	const { updateAuth } = useAuthStore((state) => state);
@@ -31,13 +34,24 @@ export const PanelPage: FC = () => {
 
 	useEffect(() => {
 		updateAuth();
-		const handleChange = () => setShowModal(true);
+		const handleChange = () => {
+			setShowModal(true);
+			setShowModalStr('error');
+		};
+		const handleKeyDown = (e: any) => {
+			if (e.ctrlKey && e.altKey && e.key === 'ñ') {
+				setShowModal(true);
+				setShowModalStr('network');
+			}
+		};
 		window.addEventListener('errorState', handleChange);
+		window.addEventListener('keydown', handleKeyDown);
 		if (getUserdata().access_role === 'provider') {
 			getProviderCompanyAccess();
 		}
 		return () => {
 			window.removeEventListener('errorState', handleChange);
+			window.removeEventListener('keydown', handleKeyDown);
 			localStorage.removeItem('error');
 		};
 	}, []);
@@ -54,6 +68,10 @@ export const PanelPage: FC = () => {
 			<Show when={matches} fallback={<MobileFallback />}>
 				<FlashLightProvider>
 					<>
+						<NetworkSettingModal
+							isOpen={showModal && showModalStr === 'network'}
+							close={() => setShowModal(false)}
+						/>
 						<WelcomeGroupTour />
 						<QualityFeedbackManager />
 
@@ -62,7 +80,7 @@ export const PanelPage: FC = () => {
 								setShowModal(false);
 								localStorage.removeItem('error');
 							}}
-							open={showModal}
+							open={showModal && showModalStr === 'error'}
 						/>
 
 						<Navbar />
