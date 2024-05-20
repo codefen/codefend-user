@@ -1,8 +1,8 @@
+import { toast } from "react-toastify";
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import {  PROVIDER_PANEL_TEXT } from "@/app/constants/app-toast-texts";
 import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
-
-import { toast } from "react-toastify";
 
 export const useProviderConfirm =()=>{
     const { getCompany } = useUserData();
@@ -20,11 +20,11 @@ export const useProviderConfirm =()=>{
             requestId: "confirmOrder"
          }).then(({data}:any)=>{
             if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-               throw new Error('An error has occurred on the server');
+               throw new Error(PROVIDER_PANEL_TEXT.FAILURE_ACCEPT_ORDER);
             }
-            toast.success("You have accepted the order correctly");
-         }).catch((err:any)=>{
-            toast.error("The order could not be accepted correctly");
+            toast.success(PROVIDER_PANEL_TEXT.ACCEPTED_ORDER);
+         }).catch((e:Error)=>{
+            toast.error(e.message);
          })
     }
 

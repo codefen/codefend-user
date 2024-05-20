@@ -3,8 +3,9 @@ import { useUserData } from "#commonUserHooks/useUserData";
 import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import type { FullOrder } from "@interfaces/order";
 import { verifySession } from '@/app/constants/validations';
-import { useRef, useState } from "react";
+import {useState } from "react";
 import { toast } from "react-toastify";
+import { APP_MESSAGE_TOAST } from "@/app/constants/app-toast-texts";
 
 export const useProviderOrders = ()=>{
     const { getCompany,logout } = useUserData();
@@ -22,10 +23,10 @@ export const useProviderOrders = ()=>{
         }).then(({data}:any)=>{
             if(verifySession(data, logout)) return;
             if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-				throw new Error('An error has occurred on the server');
+				throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
             setOrders(data.orders ? data.orders : []);
-        }).catch(()=> toast.error("An unexpected error has occurred with the server"));
+        }).catch((e: Error)=> toast.error(e.message));
     }
 
     return [orders, {setOrders, getProviderOrders, isLoading}] as const;

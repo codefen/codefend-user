@@ -3,10 +3,11 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, NETWORK_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 const validators = (mainDomainId:string | number) => {
 	if (!Number(mainDomainId)) {
-		toast.error('Invalid main resource');
+		toast.error(NETWORK_PANEL_TEXT.INVALID_DAD_NETWORK);
 		return true;
 	}
 	return false;
@@ -33,15 +34,15 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
 			.then(({ data }: any) => {
 				if (apiErrorValidation(data?.error, data?.response)) {
 					let message = data.info.includes('device_in_address')
-						? 'Device internal address is invalid'
-						: data.info.includes('device_ex_address')
-							? 'device external address is invalid'
-							: 'An unexpected error has occurred on the server';
+					? NETWORK_PANEL_TEXT.INVALID_LAN_IN_ADDRESS
+					: data.info.includes('device_ex_address')
+						? NETWORK_PANEL_TEXT.INVALID_LAN_EX_ADDRESS
+						: APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR;
 	
 					toast.error(message);
 					return;
 				}
-				toast.success('successfully added Sub Network...');
+				toast.success(NETWORK_PANEL_TEXT.ADD_SUB_NETWORK);
 					close();
 					onDone();
 			});

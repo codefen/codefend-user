@@ -3,14 +3,15 @@ import { useRef } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { SUPPORT_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 const validators = (title: string, shortDescription: string) => {
 	if (!title.trim()) {
-		toast.error('Invalid ticket title');
+		toast.error(SUPPORT_PANEL_TEXT.EMPTY_TICKET_TITLE);
 		return true;
 	}
 	if (!shortDescription.trim()) {
-		toast.error('Invalid short description');
+		toast.error(SUPPORT_PANEL_TEXT.EMPTY_TICKET_DESC);
 		return true;
 	}
 	return false;
@@ -33,7 +34,7 @@ export const useAddTicket = () => {
 			},
 		}).then(({data}:any) => {
 			if(apiErrorValidation(data?.error, data?.response)){return;}
-			toast.success('Successfully Added Ticket...');
+			toast.success(SUPPORT_PANEL_TEXT.ADD_TICKET);
 		});
 	};
 

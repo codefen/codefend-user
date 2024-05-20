@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { ResourcesTypes, useOrderStore, type Device } from '../../..';
-import { verifySession } from '@/app/constants/validations';
-import { toast } from 'react-toastify';
+import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 
@@ -40,10 +39,7 @@ export const useLan = () => {
 	/* Refetch Function. */
 	const refetch = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
 		fetchAllLan(companyID);
 	};
 

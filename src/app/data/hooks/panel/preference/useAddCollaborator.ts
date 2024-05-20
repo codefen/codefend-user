@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, PREFERENCE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const useAddCollaborator = () => {
@@ -18,12 +19,12 @@ export const useAddCollaborator = () => {
 			}
 		}).then(({ data }: any) => {
 			if (apiErrorValidation(data?.error, data?.response)) {
-				throw new Error('');
+				throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
 
-            toast.success("The invitation has been sent the invitation to the email");
-		}).catch(()=>{
-            toast.error("An error has occurred with the server and we have not been able to send the invitation");
+            toast.success(PREFERENCE_PANEL_TEXT.GUEST_COLABORATOR);
+		}).catch((e: Error)=>{
+            toast.error(e.message);
         });
 	};
 

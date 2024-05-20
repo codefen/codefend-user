@@ -6,7 +6,8 @@ import {
 } from '../../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { verifySession } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 
 export interface PreviousSearch {
 	id: string;
@@ -45,10 +46,12 @@ export const useInxPreviousSearch = () => {
 				data = JSON.parse(String(data).trim());
 				if(verifySession(data, logout)) return;
 
-				if (data.response !== 'success')
+				if (apiErrorValidation(data?.error, data?.response)){
 					throw new Error(
-						data.info || 'An unexpected error has occurred',
+						data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR
 					);
+				}
+				
 				dataRef.current = data.previous_searches ? data.previous_searches.map(
 					(searches: any) => mapPreviusSearch(searches) as PreviusSearch,
 				) : [];
@@ -57,11 +60,9 @@ export const useInxPreviousSearch = () => {
 	};
 
 	const refetch = () => {
-		if (!getCompany()) {
-			toast.error('User information was not found');
-			return;
-		}
-		fetchInitialSearch(getCompany());
+		const companyID = getCompany();
+		if (companyIdIsNull(companyID)) return;
+		fetchInitialSearch(companyID);
 	};
 
 	const getData = (): PreviousSearch[] => {

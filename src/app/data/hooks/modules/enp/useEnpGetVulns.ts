@@ -1,7 +1,7 @@
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef, useState } from 'react';
-import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { companyIdIsNull } from '@/app/constants/validations';
 
 export const useEnpGetVulns = () => {
 	const { getCompany } = useUserData();
@@ -37,10 +37,7 @@ export const useEnpGetVulns = () => {
 
 	const refetch = async () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
 		fetchEnd(
 			selectedEndpointRef.current?.code_name,
 			selectedEndpointRef.current?.application_name,

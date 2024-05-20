@@ -1,8 +1,11 @@
-import { type FC, useEffect, useRef, useState } from 'react';
-import { ModalTitleWrapper, PageLoader, PrimaryButton, Show } from '../..';
-import { useFinishForwardOrder } from '@userHooks/providers/useFinishForwardOrder';
-import './ordertransfer.scss';
+import { type FC } from 'react';
 import { toast } from 'react-toastify';
+import { useFinishForwardOrder } from '@userHooks/providers/useFinishForwardOrder';
+import { PROVIDER_PANEL_TEXT } from '@/app/constants/app-toast-texts';
+import './ordertransfer.scss';
+import Show from '@defaults/Show';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 
 interface OrderProviderTransferProps {
 	providers: any[];
@@ -23,7 +26,7 @@ export const OrderProviderTransfer: FC<OrderProviderTransferProps> = ({
 		finishForwardOrder(orderId).then((data) => {
 			close(true);
 			if (data) {
-				toast.success('The order has been transferred successfully');
+				toast.success(PROVIDER_PANEL_TEXT.TRANSFER_ORDER);
 			}
 		});
 	};

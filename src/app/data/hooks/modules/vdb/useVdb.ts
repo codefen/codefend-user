@@ -7,6 +7,8 @@ import { type ChangeEvent, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { companyIdIsNull } from '@/app/constants/validations';
 
 /* Custom Hook "useInitialVdb" to handle the search result in vdb */
 export const useInitialVdb = () => {
@@ -29,7 +31,7 @@ export const useInitialVdb = () => {
 				? data.map((result: any) => mapVdbResultV2(result))
 				: [];
 			if(!Boolean(vdbResults.current.length)){
-				toast.success("No search results found");
+				toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
 			}
 		});
 	};
@@ -37,10 +39,7 @@ export const useInitialVdb = () => {
 	const refetch = () => {
 		setSearchData(search ?? '');
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
 		fetchInitialVdb(companyID, searchData);
 	};
 

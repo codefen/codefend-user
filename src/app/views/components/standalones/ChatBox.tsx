@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { MessageIcon, PrimaryButton, SendIcon } from '..';
 import { useChatbox, ChatBoxType } from '../../../data';
 import { toast } from 'react-toastify';
+import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 
 interface ChatBoxProps {
 	type: ChatBoxType;
@@ -24,7 +25,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
 		e.preventDefault();
 
 		if (!textAreaRef.current?.value!.trim()) {
-			toast.error('You must write a message');
+			toast.error(CHATBOX_TEXT.EMPTY_MESSAGE);
 			return;
 		}
 		if (props.type === ChatBoxType.ISSUE) {

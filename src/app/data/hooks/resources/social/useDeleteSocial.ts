@@ -2,21 +2,13 @@ import { useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
-
-interface SocialData {
-	fName: string;
-	lName: string;
-	mail: string;
-	phone: string;
-	role: string;
-	isAddingMember: boolean;
-}
+import { APP_MESSAGE_TOAST, SOCIAL_PANEL_TEXT } from '@/app/constants/app-toast-texts';
+import { companyIdIsNull } from '@/app/constants/validations';
 
 export const useAddSocial = (onDone: () => void) => {
 	const { getCompany } = useUserData();
 	const [selectedId, setSelectedId] = useState<string>('');
 	const [fetcher, _, isLoading] = useFetcher();
-
 
 	const fetchDelete = (companyID: string) => {
 		fetcher('post', {
@@ -29,20 +21,17 @@ export const useAddSocial = (onDone: () => void) => {
 			},
 		}).then(({ data }: any) => {
 			if(data.error != "0" || data.response == "error"){
-				throw new Error("");
+				throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
-            toast.success('Successfully delete Member...');
+            toast.success(SOCIAL_PANEL_TEXT.DELETED_SOCIAL);
 			onDone();
             
-		}).catch((err:Error)=> toast.error("Unexpected server error when trying to delete the social resource"));
+		}).catch((e:Error)=> toast.error(e.message));
 	};
 
 	const handleDeleteResource = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
 		fetchDelete(companyID);
 	};
 

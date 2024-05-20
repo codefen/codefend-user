@@ -1,12 +1,11 @@
 import {
-	type Ticket,
 	type TicketWithChild,
 } from '@interfaces/panel.ts';
-import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { EMPTY_TICKET_WITHCHILD } from '@/app/constants/empty';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 /* Custom hook "useOneTicket" to retrieve a single ticket*/
 export const useOneTicket = () => {
@@ -23,9 +22,9 @@ export const useOneTicket = () => {
 				id: ticketID,
 			},
 		}).then(({ data }: any) => {
-			if(data.error == "1"){
+			if(apiErrorValidation(data?.error, data?.response)){
 				dataRef.current = EMPTY_TICKET_WITHCHILD;
-				throw new Error("");
+				throw new Error(data?.info || "");
 			} else {
 				dataRef.current = {...data.unico, childs: data.unico?.childs ? data.unico?.childs : []};
 			}
@@ -35,10 +34,7 @@ export const useOneTicket = () => {
 
 	const refetch = (ticketID: string) => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
 		fetchOne(companyID, ticketID);
 	};
 

@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, SOURCE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export const useDeleteSourceCode = () => {
 	const { getCompany } = useUserData();
@@ -18,22 +19,20 @@ export const useDeleteSourceCode = () => {
 		})
 			.then(({ data }: any) => {
 				if (apiErrorValidation(data?.error, data?.response)) {
-					throw new Error('An error has occurred on the server');
+					throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				}
-				toast.success('Successfully deleted sourcecode resources...');
+				toast.success(SOURCE_PANEL_TEXT.DELETED_SOURCE);
 			})
-			.catch(() => {
-				toast.error('An error has occurred on the server');
+			.catch((e: Error) => {
+				toast.error(e.message);
 			});
 	};
 
 	const deletedResource = (id: string) => {
 		const companyID = getCompany();
 		if (companyIdIsNull(companyID)) return;
-
 		return fetDeleteResources(id, companyID);
 	};
-
 
 	return {
 		isDeleting: isLoading,

@@ -25,7 +25,6 @@ import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
-import { toast } from 'react-toastify';
 
 interface SocialProps {
 	refetch: () => void;
@@ -57,10 +56,6 @@ const SocialEngineering: FC<SocialProps> = (props) => {
 			openModal();
 			setResourceID(resourceID);
 			setResourceType('social');
-		} else {
-			toast.error(
-				'The resource still does not have issues to make a report',
-			);
 		}
 	};
 	const dataTable = safelyPreviousSearches().map(

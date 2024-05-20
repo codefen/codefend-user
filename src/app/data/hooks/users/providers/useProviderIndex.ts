@@ -1,9 +1,9 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { APP_MESSAGE_TOAST } from "@/app/constants/app-toast-texts";
 import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import type { Provider } from "@interfaces/provider";
 import { useRef } from "react";
-import { toast } from "react-toastify";
 
 export const useProviderIndex = ()=>{
     const { getCompany } = useUserData();
@@ -21,7 +21,7 @@ export const useProviderIndex = ()=>{
 			}
 		}).then(({ data }: any)=>{
             if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-				throw new Error('An error has occurred on the server');
+				throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
             providers.current = data?.providers ? data.providers : [];
         })

@@ -1,5 +1,4 @@
 import DOMPurify from 'isomorphic-dompurify';
-import { toast } from 'react-toastify';
 import { Sort, type Resouce, type Webresources } from '..';
 
 /** Gets token in localStorage */

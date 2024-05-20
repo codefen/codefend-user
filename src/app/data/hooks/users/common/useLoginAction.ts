@@ -1,13 +1,13 @@
 import { toast } from 'react-toastify';
 import {
 	type LoginParams,
-	getFullCompanyFromUser,
 	useAdminCompanyStore,
 	useAuthStore,
 	type AuthState,
 } from '../../../';
 import { EMPTY_COMPANY } from '@/app/constants/empty';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
+import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 
 export const useLoginAction = () => {
 	const { login } = useAuthStore((state: AuthState) => state);
@@ -17,22 +17,20 @@ export const useLoginAction = () => {
 		return login(params)
 			.then((data: any) => {
 				if (data?.error) {
-					throw new Error(data.info);
+					throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				}
 				selectCompany({
 					...EMPTY_COMPANY,
 					id: data.user.company_id || "",
 					name: data.user.company_name || "",
 				})
-				toast.success(`Login successful`);
+				toast.success(AUTH_TEXT.LOGIN_SUCCESS);
 				axiosHttp.updateUrlInstance();
 				return data.user;
 			})
-			.catch((error: any) => {
+			.catch((e: any) => {
 				toast.error(
-					error.message
-						? error.message
-						: 'An unexpected error has occurred on the server',
+					e.message
 				);
 				return false;
 			});

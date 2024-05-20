@@ -8,25 +8,26 @@ import {
 	isNotEmpty,
 } from '@/app/constants/validations';
 import { useRef } from 'react';
+import { APP_MESSAGE_TOAST, SOURCE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 const validations = (repositoryName:string,repositoryUrl:string,sourceCode:string,visibility:string) => {
 	if (!isNotEmpty(repositoryName) || repositoryName.length > 150) {
-		toast.error('Invalid name');
+		toast.error(SOURCE_PANEL_TEXT.EMPTY_NAME);
 		return true;
 	}
 
 	if (!isNotEmpty(repositoryUrl)) {
-		toast.error('Invalid url');
+		toast.error(SOURCE_PANEL_TEXT.EMPTY_REPOSITORY_URL);
 		return true;
 	}
 
 	if (!isNotEmpty(sourceCode) || sourceCode.length > 40) {
-		toast.error('Invalid language');
+		toast.error(SOURCE_PANEL_TEXT.EMPTY_SOURCE_CODE_LANGUAGE);
 		return true;
 	}
 
 	if (!isNotEmpty(visibility)) {
-		toast.error('Select visibility');
+		toast.error(SOURCE_PANEL_TEXT.EMPTY_REPO_VISIBILITY);
 		return true;
 	}
 	return false;
@@ -51,12 +52,12 @@ export const useAddSourceCode = () => {
 		})
 			.then(({ data }: any) => {
 				if (apiErrorValidation(data?.error, data?.response)) {
-					throw new Error('');
+					throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				}
-				toast.success('Successfully repository is added');
+				toast.success(SOURCE_PANEL_TEXT.ADD_SOURCE);
 			})
-			.catch(() => {
-				toast.error('An error has occurred on the server');
+			.catch((e: Error) => {
+				toast.error(e.message);
 			});
 	};
 

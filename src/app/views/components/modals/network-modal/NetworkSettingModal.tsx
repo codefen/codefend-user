@@ -13,6 +13,7 @@ import { baseUrl } from '@utils/config.ts';
 import './networkSetting.scss';
 import { PrimaryButton } from '../..';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 
 interface NetworkSettingModalProps {
 	isOpen: boolean;
@@ -32,6 +33,15 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({
 	const [canEdit, setCanEdit] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 	const { logout } = useUserData();
+
+	const setDefaultUrl = (url: string) => {
+		deleteCustomBaseAPi();
+		setApiUrl(url);
+		close();
+		toast.success(APP_MESSAGE_TOAST.SERVER_UPDATED);
+		logout();
+		window.location.reload();
+	};
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -39,7 +49,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({
 		setLoading(true);
 
 		if (apiUrl.length < 10) {
-			toast.error('invalid API URL, too short');
+			toast.error(APP_MESSAGE_TOAST.INVALID_API_URL);
 			setLoading(false);
 			return;
 		}
@@ -48,7 +58,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({
 		setLoading(false);
 		if (apiUrl !== defaultApiUrl) {
 			setCustomBaseAPi(apiUrl);
-			toast.success('Server has been changed successfully');
+			toast.success(APP_MESSAGE_TOAST.SERVER_UPDATED);
 			logout();
 			window.location.reload();
 		}
@@ -126,15 +136,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({
 										/>
 
 										<span
-											onClick={() => {
-												deleteCustomBaseAPi();
-												setApiUrl(baseUrl);
-												setCanEdit(false);
-												close();
-												toast.success(
-													'Server has been changed successfully',
-												);
-											}}
+											onClick={() => setDefaultUrl(baseUrl)}
 											className="network-form_inputs_extra_reset codefend-text-red">
 											click here to set back to default
 										</span>

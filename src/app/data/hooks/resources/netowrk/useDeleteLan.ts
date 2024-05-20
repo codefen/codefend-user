@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, NETWORK_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export const useDeleteLan = (onDone: () => void, close: () => void) => {
 	const { getCompany } = useUserData();
@@ -21,11 +22,11 @@ export const useDeleteLan = (onDone: () => void, close: () => void) => {
 				company_id: companyID
 			},
 		}).then(({ data }: any) => {
-			if (apiErrorValidation(data?.error, data?.response))  throw new Error();
+			if (apiErrorValidation(data?.error, data?.response))  throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
             close();
             onDone();
-            toast.success('Successfully Deleted lan...');
-		}).catch((e: Error)=> toast.error("An unexpected error has occurred with the server"));
+            toast.success(NETWORK_PANEL_TEXT.DELETED_LAN);
+		}).catch((e: Error)=> toast.error(e.message));
 	}, []);
 
 	/* Refetch Function. */

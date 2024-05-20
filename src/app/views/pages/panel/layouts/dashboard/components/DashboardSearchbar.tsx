@@ -2,6 +2,7 @@ import { type FC, type ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { SearchBar, SearchIcon } from '../../../../../components';
 import { toast } from 'react-toastify';
+import { DASHBOARD_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 const DashboardSearchbar: FC = () => {
 	const navigate = useNavigate();
@@ -21,7 +22,7 @@ const DashboardSearchbar: FC = () => {
 	const handleSubmit = () => {
 		if (!searchValue.trim()) return;
 		if (!searchClass) {
-			toast.warn('You must select a class to search');
+			toast.warn(DASHBOARD_PANEL_TEXT.EMPTY_CLASS_SEARCH);
 			return;
 		}
 		navigate('/sns?search=' + searchValue + '&class=' + searchClass);

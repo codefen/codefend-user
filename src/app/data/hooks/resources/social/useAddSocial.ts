@@ -3,30 +3,31 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, nameValidation, phoneNumberValidation, emailRegexVal } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, SOCIAL_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 const validations = (fName:string,lName:string,mail:string,phone:string,role:string) => {
 	if (nameValidation(fName)) {
-		toast.error('Invalid name');
+		toast.error(SOCIAL_PANEL_TEXT.INVALID_NAME);
 		return true;
 	}
 
 	if (nameValidation(lName)) {
-		toast.error('Invalid name');
+		toast.error(SOCIAL_PANEL_TEXT.INVALID_FAMILY_NAME);
 		return true;
 	}
 
 	if (mail.trim() !== "" && !emailRegexVal.test(mail)) {
-		toast.error('Invalid email');
+		toast.error(SOCIAL_PANEL_TEXT.INVALID_EMAIL);
 		return true;
 	}
 
 	if (phoneNumberValidation(phone)) {
-		toast.error('Invalid phone');
+		toast.error(SOCIAL_PANEL_TEXT.INVALID_PHONE);
 		return true;
 	}
 
 	if (!role) {
-		toast.error('Invalid role');
+		toast.error(SOCIAL_PANEL_TEXT.INVALID_ROLE);
 		return true;
 	}
 	return false;
@@ -56,11 +57,11 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
 			}
 		}).then(({ data }: any) => {
 			if(apiErrorValidation(data.error, data.response)){
-				throw new Error("");
+				throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
 			onDone();
-			toast.success('Successfully Added Member...');
-		}).catch((err:Error)=> toast.error("Unexpected server error when trying to add the social resource"));
+			toast.success(SOCIAL_PANEL_TEXT.ADD_SOCIAL_MEMBER);
+		}).catch((e:Error)=> toast.error(e.message));
 	};
 
 	const handleAddSocialResource = () => {

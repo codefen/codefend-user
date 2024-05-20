@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { toast } from 'react-toastify';
 import {
 	mapIssueShareV2,
 	mapMobileApp,

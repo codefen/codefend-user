@@ -5,6 +5,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { IssuesStatus } from '@interfaces/issues';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, ISSUE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export interface UpdateIssue {
 	id: string;
@@ -59,14 +60,14 @@ export const useUpdateIssue = () => {
 		}).then(({ data }: any) => {
 				if (data.isAnError || apiErrorValidation(data?.error, data?.response))
 					throw new Error(
-						data.info || 'An unexpected error has occurred',
+						data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR
 					);
 
-				toast.success('Successfully Added Issue...');
+				toast.success(ISSUE_PANEL_TEXT.UPDATED_ISSUE);
 				return { updatedIssue };
 			})
 			.catch((e: Error) => {
-				toast.error('An unexpected error has occurred on the server');
+				toast.error(e.message);
 			});
 	};
 

@@ -3,6 +3,8 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { companyIdIsNull } from "@/app/constants/validations";
+import { APP_MESSAGE_TOAST } from "@/app/constants/app-toast-texts";
 
 interface PersonInfo {
 	name: string;
@@ -56,17 +58,14 @@ export const useSns = ()=>{
             intelDataRef.current = arrayOfObjects;
 
             if(arrayOfObjects.length === 0 || data.response.size == 0){
-                toast.success("No search results found");
+                toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
             }
         })
     }
 
     const handleSearch = ()=>{
         const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
         fetchSearch(companyID);
     }
 

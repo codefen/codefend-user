@@ -2,7 +2,7 @@ import { useFetcher } from "#commonHooks/useFetcher";
 import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import { useUserData } from "./useUserData";
 import { toast } from "react-toastify";
-
+import { APP_MESSAGE_TOAST, PREFERENCE_PANEL_TEXT } from "@/app/constants/app-toast-texts";
 
 export const useUserRevoke = ()=>{
     const { getCompany } = useUserData();
@@ -20,9 +20,9 @@ export const useUserRevoke = ()=>{
             }
         }).then(({data}:any)=>{
             if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-                throw new Error('An error has occurred on the server');
+                throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
              }
-             toast.success("Access has been successfully revoked");
+             toast.success(PREFERENCE_PANEL_TEXT.REVOKE_USER_ACCESS);
         });
     }
 

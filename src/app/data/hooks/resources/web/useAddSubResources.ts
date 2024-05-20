@@ -1,17 +1,18 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, isNotEmpty } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 const verifyDomainName = (mainDomainId:string, domainName: string) => {
 	if (!isNotEmpty(mainDomainId)) {
-		toast.error('Invalid main resource');
+		toast.error(WEB_PANEL_TEXT.INVALID_DAD_DOMAIN);
 		return true;
 	}
 
 	if (!isNotEmpty(domainName)) {
-		toast.error('Invalid domain');
+		toast.error(WEB_PANEL_TEXT.INVALID_SUB_DOMAIN);
 		return true;
 	}
 
@@ -39,11 +40,11 @@ export const useAddSubResource = (onDone: () => void, onClose: () => void) => {
 			},
 		}).then(({ data }) => {
 			if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-				throw new Error('An error has occurred on the server');
+				throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
 
 				onDone();
-				toast.success('Successfully Added Domain..');
+				toast.success(WEB_PANEL_TEXT.ADD_SUB_DOMAIN);
 			})
 			.catch((error: any) => {
 				toast.error(error.message);

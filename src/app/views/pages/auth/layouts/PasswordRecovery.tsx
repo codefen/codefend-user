@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { PasswordRequirements } from './PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
+import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 
 export const PasswordRecovery = () => {
 	const { ref } = useParams();
@@ -31,15 +32,13 @@ export const PasswordRecovery = () => {
 		e.preventDefault();
 		sendEmailForRecovery(passwordRecovery.email);
 		setPhase('code');
-		toast.success(
-			'We have sent an email with the reference code to clear your password',
-		);
+		toast.success(AUTH_TEXT.SEND_RECOVERY_CODE);
 	};
 
 	const handlePasswordRecovery = (e: any) => {
 		e.preventDefault();
 		if (!passwordValidation(passwordRecovery.newPassword)) {
-			toast.error('The password is not in a valid format');
+			toast.error(AUTH_TEXT.INVALID_PASSWORD);
 			return;
 		}
 		if (
@@ -48,7 +47,7 @@ export const PasswordRecovery = () => {
 				passwordRecovery.repeatedPassword,
 			)
 		) {
-			toast.error('The passwords you sent do not match');
+			toast.error(AUTH_TEXT.PASSWORD_NOT_MATCH);
 			return;
 		}
 		passwordRecover(
@@ -59,7 +58,7 @@ export const PasswordRecovery = () => {
 			.then((res) => {
 				if (res.error != '0') throw new Error(res.info);
 
-				toast.success('Your password has been updated successfully');
+				toast.success(AUTH_TEXT.PASSWORD_UPDATED);
 				setPhase('email');
 				setPasswordRecovery({
 					email: '',
@@ -70,9 +69,7 @@ export const PasswordRecovery = () => {
 				navigate('/auth/signin');
 			})
 			.catch((err) => {
-				toast.error(
-					'We have not been able to update the password, try generating a new code',
-				);
+				toast.error(AUTH_TEXT.FAILURE_PASSWORD_UPDATED);
 			});
 	};
 

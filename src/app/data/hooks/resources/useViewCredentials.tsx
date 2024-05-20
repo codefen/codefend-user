@@ -3,7 +3,6 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation } from '@/app/constants/validations';
 import type { ResourceCredential } from '@interfaces/creds';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 
 export const useViewCredentials = () => {
 	const { getCompany } = useUserData();

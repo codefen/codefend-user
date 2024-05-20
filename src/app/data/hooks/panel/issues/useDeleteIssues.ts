@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, ISSUE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 /* Custom Hook "useDeleteIssue" to handle the "deletion" of an issue */
 export const useDeleteIssue = () => {
@@ -16,12 +17,11 @@ export const useDeleteIssue = () => {
 				company_id: companyID,
 				id: issueId,
 			},
-		})
-			.then(({data}: any) => {
+		}).then(({data}: any) => {
 				if(apiErrorValidation(data?.error, data?.response))
-					throw new Error(data.info);
+					throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 
-				toast.success('Successfully deleted Issue...');
+				toast.success(ISSUE_PANEL_TEXT.DELETED_ISSUE);
 			})
 			.catch((error: Error) => toast.error(error.message));
 	};

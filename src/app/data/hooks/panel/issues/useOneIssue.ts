@@ -7,6 +7,7 @@ import type { IssueUpdateData } from '@interfaces/issues';
 import { EMPTY_ISSUEUPDATE } from '@/app/constants/empty';
 import { verifySession } from '@/app/constants/validations';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
@@ -40,7 +41,7 @@ export const useOneIssue = () => {
 				if(String(error.message || "").startsWith("invalid or expired")){
 					return;
 				}
-				toast.error(error.message || "An unexpected error has occurred on the server");
+				toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				navigate("/issues");
 			});
 	};

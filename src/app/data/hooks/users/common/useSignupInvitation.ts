@@ -1,4 +1,5 @@
 import { useFetcher } from "#commonHooks/useFetcher";
+import { APP_MESSAGE_TOAST, AUTH_TEXT } from "@/app/constants/app-toast-texts";
 import { apiErrorValidation } from "@/app/constants/validations";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -35,7 +36,7 @@ export const useSignupInvitation = ()=>{
             }
         }).then(({data}:any)=>{
             if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-				throw new Error('An error has occurred on the server');
+				throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
             navigate("/auth/signin");
             setForm({
@@ -49,9 +50,9 @@ export const useSignupInvitation = ()=>{
                 password: "",
                 idiom: ""
             });
-            toast.success("Now you're registered! You can log in");
-        }).catch(()=>{
-            toast.error("A server crash has occurred and we have not been able to register you");
+            toast.success(AUTH_TEXT.FINISH_REGISTER);
+        }).catch((e: Error)=>{
+            toast.error(e.message);
         });
     }
 

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { toast } from 'react-toastify';
 import { AxiosHttpService } from '../services/axiosHTTP.service';
 import { apiErrorValidation } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, CLOUD_PANEL_TEXT, MOBILE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export interface RemoveAppStore {
 	isOpen: boolean;
@@ -31,24 +32,24 @@ export const useRemoveAppStore = create<RemoveAppStore>((set, _get) => ({
 		return fetchcer
 			.post({
 				body: {
-					model: `resources/${state.isMobileType ?'mobile':'cloud'}`,
+					model: `resources/${state.isMobileType ? 'mobile' : 'cloud'}`,
 					ac: 'del',
 					company_id: companyID,
 					id: state.id,
 				},
 			})
-			.then(({data}:any) => {
+			.then(({ data }: any) => {
 				if (apiErrorValidation(data?.error, data?.response)) {
-					throw new Error('');
+					throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				}
 				toast.success(
-					`successfully deleted ${
-						state.isMobileType ? 'mobile app' : 'cloud'
-					} `,
+					state.isMobileType
+						? MOBILE_PANEL_TEXT.DELETED_MOBILE
+						: CLOUD_PANEL_TEXT.DELETED_CLOUD,
 				);
 			})
-			.catch(() => {
-				toast.error('An unexpected error has occurred on the server');
+			.catch((e: Error) => {
+				toast.error(e.message);
 			});
 	},
 }));

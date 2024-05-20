@@ -9,6 +9,7 @@ import {
 import { TrashIcon, MessageIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import { useTicketDelete } from '@panelHooks/support/useTicketDelete.ts';
+import { SUPPORT_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 interface SupportTicketListProps {
 	setSelectedTicket: (state: any) => void;
@@ -29,7 +30,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = (props) => {
 		if (e) e.preventDefault();
 
 		deletTicket(selectedID)?.then(() => {
-			toast.success('Successfully deleted');
+			toast.success(SUPPORT_PANEL_TEXT.DELETED_TICKET);
 			setShowModal(!showModal);
 			props.setSelectedTicket('');
 			props.refresh();

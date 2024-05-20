@@ -1,10 +1,9 @@
-import { type FC, Fragment, useCallback, useMemo } from 'react';
+import { type FC } from 'react';
 import { useLocation } from 'react-router';
-import { ChatBoxType, type IssueMessage } from '../../../../../../data';
+import { ChatBoxType } from '../../../../../../data';
 import {
 	MessageIcon,
 	PageLoader,
-	MessageCard,
 	ChatBox,
 	Show,
 	SimpleSection,
@@ -13,6 +12,7 @@ import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useSWRIssueMessage } from '@panelHooks/issues/useSWRIssueMessage';
 import { MessageList } from '@standalones/MessageList';
+import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 
 interface IssueChatDisplayProps {
 	id: string;
@@ -23,18 +23,19 @@ export const IssueChatDisplay: FC<IssueChatDisplayProps> = ({ id }) => {
 	const { data, isLoading, mutate } = useSWRIssueMessage(id, getCompany());
 
 	const onDone = (newMessage?: any) => {
-		const viewMessage = localStorage.getItem('viewMessage')
-			? JSON.parse(localStorage.getItem('viewMessage') as string)
+		const viewMessage = localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE)
+			? JSON.parse(localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE) as string)
 			: { view: true };
 
 		if (newMessage) {
 			mutate([...data, newMessage]);
 		}
 		if (viewMessage.view) {
-			toast.success(
-				'We aim to respond to your queries within 24 to 48 hours.',
+			toast.success(CHATBOX_TEXT.WAIT_FOR_RESPONSE);
+			localStorage.setItem(
+				CHATBOX_TEXT.VIEW_MESSAGE,
+				JSON.stringify({ view: false }),
 			);
-			localStorage.setItem('viewMessage', JSON.stringify({ view: false }));
 		}
 	};
 	return (

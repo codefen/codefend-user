@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export const useDeleteWebResource = () => {
 	const { getCompany } = useUserData();
@@ -22,10 +23,10 @@ export const useDeleteWebResource = () => {
 		})
 			.then(({ data }) => {
 				if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-					throw new Error('An error has occurred on the server');
+					throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				}
 
-				toast.success('Successfully deleted Web resource...');
+				toast.success(WEB_PANEL_TEXT.DELETED_WEB);
 				if (onDone && onDone !== undefined) onDone();
 			})
 			.catch((error: any) => {

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import { baseUrl } from '../../../../../../data/utils/config.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts.ts';
 
 type OsOptions = {
 	[key: string]: string;
@@ -39,9 +40,9 @@ export const ModalOS: FC = () => {
 	const copyToClipboard = async (text: string) => {
 		try {
 			await navigator.clipboard.writeText(text);
-			toast.success('Text copied to clipboard');
+			toast.success(APP_MESSAGE_TOAST.COPY_TEXT);
 		} catch (err) {
-			console.error('Failed to copy text: ', err);
+			console.error(APP_MESSAGE_TOAST.FAILURE_COPY, err);
 		}
 	};
 

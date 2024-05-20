@@ -4,6 +4,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { androidUriValidation, apiErrorValidation, companyIdIsNull, iosUriValidation } from '@/app/constants/validations';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { APP_MESSAGE_TOAST, MOBILE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export const useAddMobileResource = () => {
 	const { setNewApp } = useSelectedApp();
@@ -14,17 +15,17 @@ export const useAddMobileResource = () => {
 
 	const isNotValidData = () => {
 		if (androidUriValidation( androidAddress.current?.value || "") ) {
-			toast.error('Invalid android address');
+			toast.error(MOBILE_PANEL_TEXT.INVALID_ANDROID);
 			return true;
 		}
 
 		if (iosUriValidation( iosAddress.current?.value || "") ) {
-			toast.error('Invalid ios address');
+			toast.error(MOBILE_PANEL_TEXT.INVALID_IOS);
 			return true;
 		}
 
 		if((iosAddress.current?.value === undefined || iosAddress.current?.value?.trim() === "") && (androidAddress.current?.value === undefined || androidAddress.current?.value?.trim() === "")){
-			toast.error('Please add at least one Android or iOS app');
+			toast.error(MOBILE_PANEL_TEXT.EMPTY_MOBILE_APP);
 			return true;
 		}
 
@@ -50,11 +51,11 @@ export const useAddMobileResource = () => {
 			.then(({ data }: any) => {
 				if (data.android_error || data.apple_error || apiErrorValidation(data?.error, data?.response)) {
 					throw new Error(
-						data?.android_info || 'An error has occurred on the server',
+						data?.android_info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR
 					);
 				}
 				setNewApp({android: data?.android, apple: data?.apple});
-				toast.success('Successfully Added Mobile App...');
+				toast.success(MOBILE_PANEL_TEXT.ADD_MOBILE);
 				onClose();
 				onDone();
 			})

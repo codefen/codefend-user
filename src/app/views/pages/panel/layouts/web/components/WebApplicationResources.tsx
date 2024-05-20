@@ -1,6 +1,5 @@
-import { useMemo, useState, type ReactNode, type FC, useRef } from 'react';
+import { useMemo, useState, type ReactNode, type FC } from 'react';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import { webResourcesColumns } from '@mocks/defaultData.ts';
 import type { TableItem } from '@interfaces/table.ts';
@@ -65,10 +64,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 			openModal();
 			setResourceID(resourceID);
 			setResourceType('web');
-		} else {
-			toast.error(
-				'The resource still does not have issues to make a report',
-			);
 		}
 	};
 

@@ -1,5 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { PROVIDER_PANEL_TEXT } from "@/app/constants/app-toast-texts";
 import { apiErrorValidation, companyIdIsNull } from "@/app/constants/validations";
 import { useProviderRefuseStore } from "@stores/providerOrder.store";
 import { toast } from "react-toastify";
@@ -23,11 +24,11 @@ export const useProviderRefuseOrder = ()=>{
            requestId: "refuseOrder"
         }).then(({data}:any)=>{
          if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-				throw new Error('An error has occurred on the server');
+				throw new Error(PROVIDER_PANEL_TEXT.FAILURE_REFUSE_ORDER);
 			}
-           toast.success("You have rejected the order");
-        }).catch((err:any)=>{
-           toast.error("An unexpected error has occurred, when rejecting the order try again later");
+           toast.success(PROVIDER_PANEL_TEXT.REFUSED_ORDER);
+        }).catch((e:Error)=>{
+           toast.error(e.message);
         });
    }
    const cancelConfirm = ()=>cancelRequest("confirmRequest");

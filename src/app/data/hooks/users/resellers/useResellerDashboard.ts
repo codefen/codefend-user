@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useState } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';

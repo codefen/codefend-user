@@ -10,6 +10,7 @@ import { MessageList } from '../../../../../components/standalones/MessageList';
 import { useSWRMessage } from '@panelHooks/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { EMPTY_TICKET_WITHCHILD } from '@/app/constants/empty';
+import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 
 export const SupportChatDisplay: FC = () => {
 	const { getCompany } = useUserData();
@@ -21,8 +22,8 @@ export const SupportChatDisplay: FC = () => {
 	);
 
 	const onDone = (newMessage?: any) => {
-		const viewMessage = localStorage.getItem('viewMessage')
-			? JSON.parse(localStorage.getItem('viewMessage') as string)
+		const viewMessage = localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE)
+			? JSON.parse(localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE) as string)
 			: { view: true };
 
 		if (newMessage) {
@@ -30,10 +31,11 @@ export const SupportChatDisplay: FC = () => {
 		}
 
 		if (viewMessage.view) {
-			toast.success(
-				'We aim to respond to your queries within 24 to 48 hours.',
+			toast.success(CHATBOX_TEXT.WAIT_FOR_RESPONSE);
+			localStorage.setItem(
+				CHATBOX_TEXT.VIEW_MESSAGE,
+				JSON.stringify({ view: false }),
 			);
-			localStorage.setItem('viewMessage', JSON.stringify({ view: false }));
 		}
 	};
 

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router';
 import { getTinyEditorContent } from '../../../../../editor-lib';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, ISSUE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export interface SaveIssue {
 	issueName: string;
@@ -23,8 +23,8 @@ export const useIssuesValidations = () => {
 	};
 
 	const validateNewIssue = (newIssue: SaveIssue, editorContent: string) => {
-		if (!validateField(newIssue.score, 'Invalid risk score. Add a risk score to the issue')) return false;
-		if (!validateField(newIssue.issueName, 'Invalid issue name. Add a name to the issue')) return false;
+		if (!validateField(newIssue.score, ISSUE_PANEL_TEXT.EMPTY_ISSUE_RISK)) return false;
+		if (!validateField(newIssue.issueName, ISSUE_PANEL_TEXT.EMPTY_ISSUE_NAME)) return false;
 		if (
 			![
 				'web',
@@ -36,13 +36,13 @@ export const useIssuesValidations = () => {
 				'research',
 			].includes(newIssue.issueClass)
 		) {
-			toast.error('Invalid issue type');
+			toast.error(ISSUE_PANEL_TEXT.EMPTY_ISSUE_CLASS);
 			return false;
 		}
 		if (
 			!validateField(
 				editorContent,
-				'Invalid content, please add content using the editor',
+				ISSUE_PANEL_TEXT.EMPTY_ISSUE_CONT
 			)
 		)
 			return false;
@@ -86,7 +86,7 @@ export const useSaveIssue = () => {
 			.then(({ data }: any) => {
 				if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
 					throw new Error(
-						'An unexpected error has occurred on the server',
+						APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR
 					);
 				}
 
@@ -95,12 +95,12 @@ export const useSaveIssue = () => {
 					score: '',
 					issueClass: '',
 				});
-				toast.success('Successfully Added Issue...');
+				toast.success(ISSUE_PANEL_TEXT.ADD_ISSUE);
 
 				return { id: data.new_issue.id };
 			})
-			.catch((error: Error) => {
-				toast.error('An unexpected error has occurred on the server');
+			.catch((e: Error) => {
+				toast.error(e.message);
 				return { error: 1 };
 			});
 	};

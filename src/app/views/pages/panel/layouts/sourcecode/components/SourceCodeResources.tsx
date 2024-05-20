@@ -21,7 +21,6 @@ import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
 import Show from '@defaults/Show';
-import { toast } from 'react-toastify';
 import { useDeleteSourceCode } from '@resourcesHooks/sourcecode/useDeleteSourceCode';
 
 interface SourceCodeProps {
@@ -48,10 +47,6 @@ export const SourceCodeResources: FC<SourceCodeProps> = (props) => {
 			openModal();
 			setResourceID(resourceID);
 			setResourceType('source');
-		} else {
-			toast.error(
-				'The resource still does not have issues to make a report',
-			);
 		}
 	};
 

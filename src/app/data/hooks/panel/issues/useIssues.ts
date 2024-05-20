@@ -6,8 +6,7 @@ import {
 	mapIssuesCondition,
 	mapIssueShare,
 } from '../../../';
-import { toast } from 'react-toastify';
-import { verifySession } from '@/app/constants/validations';
+import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 
@@ -42,10 +41,7 @@ export const useIssues = () => {
 	//Refetch func, calls that calls fetcher
 	const refetchAll = () => {
 		const companyID = getCompany();
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
+		if (companyIdIsNull(companyID)) return;
 		fetchAll(companyID);
 	};
 

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { ModalInput } from '@defaults/ModalInput.tsx';
 import { isNotEmpty } from '@/app/constants/validations.ts';
 import type { ComponentEventWithChildren } from '@interfaces/util.ts';
+import { PREFERENCE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 const CollaboratorForm: FC<ComponentEventWithChildren> = ({
 	onDone,
@@ -15,7 +16,7 @@ const CollaboratorForm: FC<ComponentEventWithChildren> = ({
 	const handleSend = (e: any) => {
 		e.preventDefault();
 		if (!isNotEmpty(email.current?.value)) {
-			toast.error("You must enter the collaborator's email");
+			toast.error(PREFERENCE_PANEL_TEXT.INVALID_COLABORATOR_EMAIL);
 			return;
 		}
 		sendAddCollaborator(email.current?.value || '')

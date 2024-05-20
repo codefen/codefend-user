@@ -1,5 +1,6 @@
 import { useFetcher } from "#commonHooks/useFetcher";
 import { useUserData } from "#commonUserHooks/useUserData";
+import { APP_MESSAGE_TOAST } from "@/app/constants/app-toast-texts";
 import { apiErrorValidation, hasEmail } from "@/app/constants/validations";
 import { useRef } from "react";
 import { toast } from "react-toastify";
@@ -49,11 +50,11 @@ export const useAddResourceCredentials = ()=>{
 			grades.current?.value || "",
 		)
 			.then(() => {
-				toast.success('Credential added successfully');
+				toast.success(APP_MESSAGE_TOAST.ADD_CREDENTIAL);
 				return true;
 			})
 			.catch(() => {
-				toast.error('Something went wrong');
+				toast.error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				return false;
 			});
 	};

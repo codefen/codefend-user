@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { APP_MESSAGE_TOAST } from "./app-toast-texts";
 
 /* 
     VALIDACIONES GENERALES / TRANSVERSALES
@@ -8,7 +9,7 @@ export const apiErrorValidation = (error?: any, response?: any)=> error == "1" |
 
 export const companyIdIsNull = (companyID?:any)=>{
     if (!companyID) {
-        toast.error('User information was not found');
+        toast.error(APP_MESSAGE_TOAST.USER_INFO_NOT_FOUND);
         return true;
     }
     return false;
@@ -16,7 +17,7 @@ export const companyIdIsNull = (companyID?:any)=>{
 
 export const verifySession = (res: any, logout: any) => {
 	if (res.response === 'error' && String(res.info).startsWith('invalid or expired')) {
-			toast.error('Your session has expired');
+			toast.error(APP_MESSAGE_TOAST.SESSION_EXPIRED);
 			logout();
 			return true;
 	}

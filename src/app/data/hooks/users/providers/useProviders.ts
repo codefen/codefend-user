@@ -4,7 +4,7 @@ import { verifySession } from '@/app/constants/validations';
 import { useProviderProfileStore } from '../../../store/provider.store.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations.ts';
-
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts.ts';
 
 export const useProviderProfile = () => {
 	const { getUserdata, logout } = useUserData();
@@ -23,13 +23,11 @@ export const useProviderProfile = () => {
 		})?.then(({ data }) => {
 			if(verifySession(data, logout)) return;
             if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-				throw new Error('An error has occurred on the server');
+				throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 			}
-
-
             setProvider(data.provider);
             setLogicSequence(data.logic_sequence);
-		}).catch(()=>toast.error("A problem has occurred with the provider profile"));
+		}).catch((e: Error)=>toast.error(e.message));
 	};
 
 	return { providerProfile: provider, isLoading, refetch, cancelRequest, setProvider } as const;

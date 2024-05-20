@@ -1,3 +1,4 @@
+import { useEffect, useState, type FC } from 'react';
 import type { Issues } from '@interfaces/index';
 import { ModalTitleWrapper } from '..';
 import {
@@ -10,15 +11,13 @@ import {
 	Show,
 	SourceCodeIcon,
 } from '../..';
-import './report-type.scss';
-import { useEffect, useRef, useState, type FC } from 'react';
 import useModalStore from '@stores/modal.store';
 import { ResourceFigure } from '@standalones/resource-figure/ResourceFigure';
 import { ViewResourcesTable } from './ViewResourcesTable';
 import { useReportStore } from '@stores/report.store';
 import { ViewAppCard } from './ViewAppCard';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
+import './report-type.scss';
 
 interface SelectAnyResourceModalProps {
 	issues: Issues[];
@@ -106,10 +105,6 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({
 				openModal();
 				setResourceID(id);
 				setResourceType(type == 'network' ? 'lan' : type);
-			} else {
-				toast.error(
-					'The resource still does not have issues to make a report',
-				);
 			}
 		} else if (modalId == 'selectFinding') {
 			setIsOpen(false);

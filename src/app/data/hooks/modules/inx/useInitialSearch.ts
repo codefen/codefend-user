@@ -1,6 +1,8 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 
 interface SearchResult {
 	intelID: string;
@@ -31,7 +33,7 @@ export const useInitialSearch = () => {
 		}).then(({ data }: any) => {
 				if(typeof data === "string") data = JSON.parse(data.trim());
 
-				if (data?.error == '1') throw new Error('An unexpected error has occurred');
+				if (data?.error == '1') throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 
 				setSearchData((state: SearchResult) => ({
 					...state,
@@ -49,10 +51,7 @@ export const useInitialSearch = () => {
 	};
 
 	const refetchInitial = (companyID: string, term: string) => {
-		if (!companyID) {
-			toast.error('User information was not found');
-			return Promise.reject({error: 1});
-		}
+		if (companyIdIsNull(companyID)) return Promise.reject({error: 1});
 		return fetchInitialSearch(companyID, term);
 	};
 

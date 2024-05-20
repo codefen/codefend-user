@@ -1,6 +1,5 @@
 import { type FC, type ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan.ts';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
@@ -56,10 +55,6 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
 			openModal();
 			setResourceID(resourceID);
 			setResourceType('lan');
-		} else {
-			toast.error(
-				'The resource still does not have issues to make a report',
-			);
 		}
 	};
 	const tableData2: Record<string, TableItem>[] = internalNetwork.map(

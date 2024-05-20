@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { PasswordRequirements } from './PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
+import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 
 const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useRegisterAction();
@@ -43,11 +44,11 @@ const FinishSignUpLayout: FC = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!passwordValidation(userState.password)) {
-			toast.error('The password is not in a valid format');
+			toast.error(AUTH_TEXT.INVALID_PASSWORD);
 			return;
 		}
 		if (!isEquals(userState.password, userState.confirmPassword)) {
-			toast.error('The passwords you sent do not match');
+			toast.error(AUTH_TEXT.PASSWORD_NOT_MATCH);
 			return;
 		}
 

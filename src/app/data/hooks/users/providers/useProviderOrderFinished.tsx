@@ -1,5 +1,6 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import {
 	apiErrorValidation,
 	companyIdIsNull,
@@ -27,15 +28,11 @@ export const useProviderOrderFinished = () => {
 					data.isAnError ||
 					apiErrorValidation(data?.error, data?.response)
 				) {
-					throw new Error('An error has occurred on the server');
+					throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 				}
 				finishedOrders.current = data.orders ? data.orders : [];
 			})
-			.catch((err: any) => {
-				toast.error(
-					'An unexpected error has occurred, when rejecting the order try again later',
-				);
-			});
+			.catch((e: Error) => toast.error(e.message));
 	};
 
 	return [finishedOrders, { getFinishedOrders, isLoading }] as const;

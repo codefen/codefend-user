@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 
 export const useIntelPreview = () => {
 	const [fetcher, cancelRequest, isLoading] = useFetcher();
@@ -20,7 +20,7 @@ export const useIntelPreview = () => {
 			requestId: `p-${params.sid}-${params.bid}`
 		})
 			.then(({ data }: any) => {
-				if (!data || data.trim() === "") return false;	
+				if (!data || apiErrorValidation(data?.error, data?.response)) return false;	
 
 				const intelPreviewData = intelPreview.current;
 				intelPreviewData.push({
@@ -33,10 +33,7 @@ export const useIntelPreview = () => {
 	};
 
 	const refetchPreview = (params: any, companyID: string) => {
-		if (!companyID) {
-			toast.error('User information was not found');
-			return Promise.resolve(false);
-		}
+		if (companyIdIsNull(companyID)) return;
 		return fetchPreview(params, companyID);
 	};
 
