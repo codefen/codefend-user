@@ -78,6 +78,14 @@
 	transition-duration: 325ms;
 	transition-timing-function: linear;
 
+	&.table-item-no-selected {
+		.item,
+		.columns-name,
+		.rows {
+			user-select: none;
+		}
+	}
+
 	&.small {
 		.columns-name,
 		.item {
@@ -119,7 +127,8 @@
 			rgba(255, 255, 255, 0.3) 85%
 		);
 		border-image-slice: 1;
-		border-block: 1px solid;
+		border-block-end: 1px solid;
+		border-top: none;
 
 		.column {
 			color: inherit;

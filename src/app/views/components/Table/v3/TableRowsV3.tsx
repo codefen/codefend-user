@@ -21,13 +21,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
 	isNeedMultipleCheck,
 }) => {
 	const flattenedRows = flattenRows(rows);
-	const {
-		selectedItems,
-		setSelectedItems,
-		removeItem,
-		disableOnChange,
-		setDisableOnChange,
-	} = useTableStoreV3();
+	const { selectedItems, setSelectedItems, removeItem } = useTableStoreV3();
 	const handleClick = (e: any, item: any) => {};
 	const handleChecked = (e: ChangeEvent<HTMLInputElement>, id: string) => {
 		if (e.target.checked && !selectedItems.includes(id)) {
@@ -59,7 +53,9 @@ const TableRowsV3: FC<TableRowsProps> = ({
 				);
 			} else if (isNeedMultipleCheck) {
 				rows[i] = (
-					<label className={`item label ${itemDisable}`}>
+					<label
+						className={`item label ${itemDisable}`}
+						data-id={r[i]['id']}>
 						<div
 							className="item-cell"
 							style={{ '--cell-expand': '2.5%' } as any}>
