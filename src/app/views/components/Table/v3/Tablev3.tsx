@@ -152,7 +152,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 							top: Math.min(selectionBox.startY, selectionBox.endY),
 							width: Math.abs(selectionBox.endX - selectionBox.startX),
 							height: Math.abs(selectionBox.endY - selectionBox.startY),
-							backgroundColor: 'rgba(0, 0, 0, 0.2)',
+							backgroundColor: '#ffd5d54d',
+							border: '1px solid #ffa0a0',
 						}}
 					/>
 				)}
