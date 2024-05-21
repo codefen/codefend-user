@@ -48,6 +48,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 	const tableRef = useRef<HTMLDivElement>(null);
 	const { setSelectedItems, selectedItems, cleanSelected, removeItem } =
 		useTableStoreV3();
+	const prevRef = useRef<any>([]);
 	const preProcessedRows = usePreProcessedRows(
 		rows,
 		initialOrder,
@@ -61,6 +62,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 	) => {
 		if (!isNeedMultipleCheck && !isSelecting) return;
 		setIsSelecting(true);
+		prevRef.current = selectedItems;
 		setSelectionBox({
 			startX: e.clientX,
 			startY: e.clientY,
@@ -111,8 +113,11 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 
 					if (isInSelectionBox && !selectedItems.includes(id)) {
 						setSelectedItems(id);
-					} else if (!isInSelectionBox && selectedItems.includes(id)) {
-						console.log('Entreee ?? EN MOUSE MOVE');
+					} else if (
+						!isInSelectionBox &&
+						!prevRef.current.includes(id) &&
+						selectedItems.includes(id)
+					) {
 						removeItem(id || '');
 					}
 				}
