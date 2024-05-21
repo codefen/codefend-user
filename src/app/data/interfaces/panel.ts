@@ -21,20 +21,52 @@ export interface Company extends ID, Monitoring {
 	orderSize: string;
 }
 
-export interface Resouce extends ResourceID, Monitoring {
-	resourceDomain: string;
-	resourceDomainDad: string;
+/* "id": "5874",
+            "company_id": "128",
+            "resource_domain": "www.test.com",
+            "resource_domain_dad": "",
+            "servers": "52.6.51.18",
+            "main_server": "52.6.51.18",
+            "server_pais": "United States",
+            "server_pais_code": "US",
+            "server_pais_provincia": "Virginia",
+            "server_pais_ciudad": "Ashburn",
+            "creacion": "2024-04-19 00:50:10",
+            "childs": [
+                {
+                    "id": "5877",
+                    "company_id": "128",
+                    "resource_domain": "wa.www.test.com",
+                    "resource_domain_dad": "5874",
+                    "servers": "",
+                    "main_server": "",
+                    "server_pais": "",
+                    "server_pais_code": "",
+                    "server_pais_provincia": "",
+                    "server_pais_ciudad": "",
+                    "creacion": "2024-04-19 00:50:26"
+                },*/
+
+export interface Resouce  {
+	id: string;
+	company_id: string;
+	resource_domain: string;
+	resource_domain_dad: string;
 	servers: string;
-	mainServer: string;
-	serverCountry: string;
-	serverCountryCode: string;
-	serverCountryProvince: string;
-	serverCountryCity: string;
-	final_issues: string;
+	main_server: string;
+	server_pais: string;
+	server_pais_code: string;
+	server_pais_provincia: string;
+	server_pais_ciudad: string;
+	final_issues?: string;
+	under_scan: string;
+
+	creacion: string;
+	eliminado: string;
 }
 
-export interface Webresources extends Resouce {
-	childs: Resouce[];
+export interface Webresource extends Resouce {
+	childs?: Resouce[];
 }
 
 export interface CompanyResource {
@@ -87,11 +119,6 @@ export interface IssueMessage extends ResourceID, Monitoring {
 	userUsername: string;
 	userCompany: string;
 	body: string;
-}
-
-export interface WebapplicationProps {
-	company: Company;
-	resources: Webresources[];
 }
 
 export interface MobileApp extends ResourceID, Monitoring {

@@ -1,5 +1,5 @@
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
-import { type MemberV2, type User, type Webresources } from '..';
+import { type MemberV2, type User, type Webresource } from '..';
 
 /** Compute InternalNetwork OS And Count */
 const computeInternalNetworkOSAndCount = (internalNetwork: any) => {
@@ -107,8 +107,8 @@ export const getCountryMetrics = (resources: any[], type: string) => {
 			countryCode = value.lead_pais_code || null;
 			countryName = value.lead_pais || null;
 		} else if (type === RESOURCE_CLASS.WEB) {
-			countryCode = value.serverCountryCode || null;
-			countryName = value.serverCountry || null;
+			countryCode = value.server_pais_code || null;
+			countryName = value.server_pais || null;
 		} else if (type === 'order') {
 			countryCode = value.user_pais_code || null;
 			countryName = value.user_pais || null;
@@ -157,27 +157,27 @@ export const getCountryMetrics = (resources: any[], type: string) => {
 	return data;
 };
 
-export const getCompanyMetric = (resources: Webresources[], type: string) => {
+export const getCompanyMetric = (resources: Webresource[], type: string) => {
 	if (!resources) return '';
 
 	if (type === 'domain') {
 		return resources.length;
 	} else if (type === 'subDomain') {
-		return resources.reduce((acc: any, value: Webresources) => {
-			return value.childs === null ? acc : value.childs.length + acc;
+		return resources.reduce((acc: any, value: Webresource) => {
+			return !value?.childs ? acc : value?.childs.length + acc;
 		}, 0);
 	} else if (type === 'uniqueIp') {
 		const domainsAndSubDomains = resources
-			.reduce((acc: any, value: Webresources) => {
-				return value.childs === null ? acc : acc.concat(value.childs);
+			.reduce((acc: any, value: Webresource) => {
+				return !value?.childs ? acc : acc.concat(value?.childs);
 			}, [])
 			.concat(resources);
 
 		return domainsAndSubDomains.filter(
-			(resource: any, index: any, arr: any) => {
+			(resource: Webresource, index: number, arr: Webresource[]) => {
 				return (
 					arr.findIndex(
-						(r: any) => r.mainServer === resource.mainServer,
+						(r: Webresource) => r.main_server === resource.main_server,
 					) === index
 				);
 			},

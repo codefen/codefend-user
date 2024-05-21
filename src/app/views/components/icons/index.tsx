@@ -133,7 +133,7 @@ export const PeopleGroupIcon = () => (
 	</svg>
 );
 
-export const BugIcon: FC<IconProps> = ({ isButton, className }) => (
+export const BugIcon: FC<IconProps> = ({ isButton, className = '' }) => (
 	<svg
 		strokeWidth={1.7}
 		height="1.3em"

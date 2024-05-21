@@ -9,7 +9,6 @@ import { useParams } from 'react-router';
 import { MessageList } from '../../../../../components/standalones/MessageList';
 import { useSWRMessage } from '@panelHooks/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { EMPTY_TICKET_WITHCHILD } from '@/app/constants/empty';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 
 export const SupportChatDisplay: FC = () => {

@@ -38,3 +38,11 @@ export interface TableAction {
 		style?: string;
 	}[];
 }
+
+export interface ColumnTableV3 {
+	header: string;
+	key: string;
+	styles: string;
+	weight: string;
+	render: (data: any, next?:any) => ReactNode;
+}

@@ -1,13 +1,11 @@
-import { useMemo, useState, type ReactNode, type FC } from 'react';
+import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
 import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
-import { webResourcesColumns } from '@mocks/defaultData.ts';
-import type { TableItem } from '@interfaces/table.ts';
-import type { Webresources, Resouce } from '@interfaces/panel.ts';
+import type { ColumnTableV3 } from '@interfaces/table.ts';
+import type { Webresource } from '@interfaces/panel.ts';
 import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { LocationItem } from '@standalones/utils/LocationItem.tsx';
-import { TableV2 } from '@table/tablev2.tsx';
 import {
 	TrashIcon,
 	GlobeWebIcon,
@@ -26,10 +24,13 @@ import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { ModalInput } from '@defaults/ModalInput.tsx';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
+import Tablev3 from '@table/v3/Tablev3';
+import TextChild from '@standalones/utils/TextChild';
+import useTableStoreV3 from '@table/v3/tablev3.store';
 
 interface WebResourcesProps {
 	refresh: () => void;
-	webResources: Webresources[];
+	webResources: Webresource[];
 	isLoading: boolean;
 }
 
@@ -39,7 +40,55 @@ interface SelectedResource {
 	serverIp: string;
 }
 
-export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
+const webColumns: ColumnTableV3[] = [
+	{
+		header: 'ID',
+		key: 'id',
+		styles: 'item-cell-1',
+		weight: '5%',
+		render: (ID: any) => ID,
+	},
+	{
+		header: 'domain',
+		key: 'full-c',
+		styles: 'item-cell-2',
+		weight: '53.5%',
+		render: (row: any, next?: any) =>
+			!row?.resource_domain_dad ? (
+				row.resource_domain
+			) : (
+				<TextChild
+					subNetwork={row.resource_domain}
+					isLast={!next || (next && !next.resource_domain_dad)}
+				/>
+			),
+	},
+	{
+		header: 'server ip',
+		key: 'main_server',
+		styles: 'item-cell-3',
+		weight: '10.5%',
+		render: (ip: any) => ip,
+	},
+	{
+		header: 'area',
+		key: 'full',
+		styles: 'item-cell-4',
+		weight: '13%',
+		render: (row: any) => (
+			<LocationItem
+				country={row?.server_pais || ''}
+				countryCode={row?.server_pais_code || ''}
+			/>
+		),
+	},
+];
+
+export const WebApplicationResources: FC<WebResourcesProps> = ({
+	isLoading,
+	refresh,
+	webResources,
+}) => {
 	const navigate = useNavigate();
 	const { isAdmin, isProvider, isNormalUser } = useUserRole();
 	const userHaveAccess = isAdmin() || isProvider();
@@ -54,248 +103,77 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
 	const { handleDelete } = useDeleteWebResource();
-	const [searchTerm, setTerm] = useState('');
-	const getResources = useMemo(() => {
-		const resources = props.isLoading ? [] : props.webResources;
-		return resources !== undefined ? resources.reverse() : [];
-	}, [props.webResources, props.isLoading]);
 
-	const generateReport = (resourceID: string, count: any) => {
-		if (Number(count) >= 1) {
+	const createIssue = (id: string) => {
+		navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
+			state: { redirect: '/web' },
+		});
+	};
+	const generateWebReport = (id: string, final_issues: any) => {
+		if (Number(final_issues) >= 1) {
 			openModal();
-			setResourceID(resourceID);
+			setResourceID(id);
 			setResourceType(RESOURCE_CLASS.WEB);
 		}
 	};
+	const deleteWebResource = (row: any) => {
+		setSelectedResource({
+			id: row.id,
+			domain: row.resourceDomain,
+			serverIp: row.mainServer,
+		});
+		setShowModal(true);
+		setShowModalStr(MODAL_KEY_OPEN.DELETE_WEB);
+	};
+	const addCreds = (id: string) => {
+		setResourceId(id);
+		setCrendentialType(RESOURCE_CLASS.WEB);
+		setIsOpen(true);
+		setModalId(RESOURCE_CLASS.WEB);
+	};
 
-	const tableData: Record<string, TableItem>[] = getResources
-		.filter(
-			(mainNetwork) =>
-				mainNetwork.resourceDomain
-					.toLowerCase()
-					.includes(searchTerm.toLowerCase()) ||
-				mainNetwork.childs.some((s) =>
-					s.resourceDomain
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase()),
-				),
-		)
-		.map((mainNetwork: Webresources, i: number) => ({
-			ID: { value: '', style: '' },
-			Identifier: { value: Number(mainNetwork.id), style: 'id' },
-			domainName: {
-				value: mainNetwork.resourceDomain,
-				style: 'domain-name',
-			},
-			mainServer: { value: mainNetwork.mainServer, style: 'server-ip' },
-			location: {
-				value: (
-					<LocationItem
-						key={mainNetwork.id + i + '-ml'}
-						country={mainNetwork.serverCountry}
-						countryCode={mainNetwork.serverCountryCode}
-					/>
-				),
-				style: 'location',
-			},
-			action: {
-				value: (
-					<>
-						<span
-							className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
-							title={`${isNormalUser() ? '' : 'Add Issue'}`}
-							onClick={() =>
-								navigate(
-									userHaveAccess
-										? `/issues/create/web/${mainNetwork.id}`
-										: '',
-									{ state: { redirect: '/web' } },
-								)
-							}>
-							<BugIcon isButton />
-							<span className="codefend-text-red-200 issue-count">
-								{mainNetwork.final_issues}
-							</span>
+	const webColumnsWith = [
+		...webColumns,
+		{
+			header: '',
+			key: 'full-2',
+			styles: 'item-cell-5 action',
+			weight: '15.5%',
+			render: (row: any) => (
+				<div className="publish" key={`actr-${row.id}`}>
+					<span
+						className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
+						title={`${isNormalUser() ? '' : 'Add Issue'}`}
+						onClick={() => createIssue(row.id)}>
+						<BugIcon isButton key={`bugi-${row.id}`} />
+						<span className="codefend-text-red-200 issue-count">
+							{row.final_issues}
 						</span>
-						<span
-							title="View report"
-							className={`issue-printer ${Number(mainNetwork.final_issues) == 0 ? 'off' : ''}`}
-							onClick={() =>
-								generateReport(mainNetwork.id, mainNetwork.final_issues)
-							}>
-							<DocumentIcon isButton width={1.27} height={1.27} />
+					</span>
+					<span
+						title="View report"
+						className={`issue-printer ${Number(row.final_issues) == 0 ? 'off' : ''}`}
+						onClick={() => generateWebReport(row.id, row.final_issues)}>
+						<DocumentIcon
+							isButton
+							width={1.27}
+							height={1.27}
+							key={`doci-${row.id}`}
+						/>
+					</span>
+					<Show when={isNormalUser() || isAdmin()}>
+						<span title="Delete" onClick={() => deleteWebResource(row)}>
+							<TrashIcon />
 						</span>
-						<Show when={isNormalUser() || isAdmin()}>
-							<span
-								title="Delete"
-								onClick={() => {
-									setSelectedResource({
-										id: mainNetwork.id,
-										domain: mainNetwork.resourceDomain,
-										serverIp: mainNetwork.mainServer,
-									});
-									setShowModal(true);
-									setShowModalStr(MODAL_KEY_OPEN.DELETE_WEB);
-								}}>
-								<TrashIcon />
-							</span>
-						</Show>
+					</Show>
 
-						<span
-							title="Add credentials"
-							onClick={() => {
-								setResourceId(mainNetwork.id);
-								setCrendentialType(RESOURCE_CLASS.WEB);
-								setIsOpen(true);
-								setModalId(RESOURCE_CLASS.WEB);
-							}}>
-							<CredentialIcon />
-						</span>
-					</>
-				),
-				style: 'id action',
-			},
-			childs: {
-				value: (props) =>
-					(
-						<>
-							{mainNetwork.childs
-								.filter((s: Resouce) =>
-									s.resourceDomain
-										.toLowerCase()
-										.includes(searchTerm.toLowerCase()),
-								)
-								.map((subNetwork: Resouce, i: number) => (
-									<a
-										key={`child-${i}-${subNetwork.id}`}
-										className={`item item-with-out-action ${
-											props.selectedField ===
-											`child-${subNetwork.id}`
-												? 'left-marked'
-												: ''
-										}`}
-										href=""
-										onClick={(e) =>
-											props.handleClick(
-												e,
-												`child-${subNetwork.id}`,
-												'',
-											)
-										}>
-										<div className="id">
-											<div className="publish">{subNetwork.id}</div>
-										</div>
-										<div className="domain-name lined">
-											<div className="publish">
-												<span
-													className={`sub-domain-icon-v ${mainNetwork.childs.length == i + 1 && 'sub-is-last'}`}></span>
-												<span className="sub-domain-icon-h"></span>
-												<span className="sub-resource-domain">
-													{subNetwork.resourceDomain}
-												</span>
-											</div>
-										</div>
-
-										<div className="server-ip">
-											<div className="publish">
-												{subNetwork.mainServer}
-											</div>
-										</div>
-										<div className="location">
-											<div className="publish">
-												<LocationItem
-													key={subNetwork.id + i + '-lc'}
-													country={subNetwork.serverCountry}
-													countryCode={
-														subNetwork.serverCountryCode
-													}
-												/>
-											</div>
-										</div>
-										<div className="id action">
-											<div className="publish">
-												<span
-													className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
-													title={`${isNormalUser() ? '' : 'Add Issue'}`}
-													onClick={() =>
-														navigate(
-															userHaveAccess
-																? `/issues/create/web/${subNetwork.id}`
-																: '',
-															{
-																state: {
-																	redirect: '/web',
-																},
-															},
-														)
-													}>
-													<BugIcon isButton />
-													<span className="codefend-text-red-200 issue-count">
-														{subNetwork.final_issues}
-													</span>
-												</span>
-												<span
-													title="View report"
-													className={`issue-printer ${Number(subNetwork.final_issues) == 0 ? 'off' : ''}`}
-													onClick={() =>
-														generateReport(
-															subNetwork.id,
-															subNetwork.final_issues,
-														)
-													}>
-													<DocumentIcon
-														isButton
-														width={1.27}
-														height={1.27}
-													/>
-												</span>
-
-												<Show when={isNormalUser() || isAdmin()}>
-													<span
-														title="Delete"
-														onClick={() => {
-															setSelectedResource({
-																id: subNetwork.id,
-																domain:
-																	subNetwork.resourceDomain,
-																serverIp: subNetwork.mainServer,
-															});
-															setShowModal(true);
-															setShowModalStr(
-																MODAL_KEY_OPEN.DELETE_WEB,
-															);
-														}}>
-														<TrashIcon />
-													</span>
-												</Show>
-												<Show
-													when={
-														isNormalUser() ||
-														isAdmin() ||
-														isProvider()
-													}>
-													<span
-														title="Add credentials"
-														onClick={() => {
-															setResourceId(subNetwork.id);
-															setCrendentialType(
-																RESOURCE_CLASS.WEB,
-															);
-															setIsOpen(true);
-															setModalId(RESOURCE_CLASS.WEB);
-														}}>
-														<CredentialIcon />
-													</span>
-												</Show>
-											</div>
-										</div>
-									</a>
-								))}
-						</>
-					) as ReactNode,
-				style: '',
-			},
-		}));
+					<span title="Add credentials" onClick={() => addCreds(row.id)}>
+						<CredentialIcon key={`credi-${row.id}`} />
+					</span>
+				</div>
+			),
+		},
+	];
 
 	return (
 		<>
@@ -303,7 +181,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_DOMAIN}
 				onDone={() => {
 					setShowModal(!showModal);
-					props.refresh();
+					refresh();
 				}}
 				close={() => setShowModal(false)}
 			/>
@@ -318,7 +196,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 					confirmText="Delete"
 					close={() => setShowModal(false)}
 					action={() =>
-						handleDelete(props.refresh, selectedResource.id).then(() =>
+						handleDelete(refresh, selectedResource.id).then(() =>
 							setShowModal(false),
 						)
 					}
@@ -329,10 +207,10 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
 				onDone={() => {
 					setShowModal(false);
-					props.refresh();
+					refresh();
 				}}
 				close={() => setShowModal(false)}
-				webResources={getResources}
+				webResources={webResources}
 			/>
 			<div className="card">
 				<div className="over">
@@ -347,7 +225,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 						<div className="actions">
 							<div
 								onClick={() => {
-									if (props.isLoading) return;
+									if (isLoading) return;
 
 									setShowModal(true);
 									setShowModalStr(MODAL_KEY_OPEN.ADD_DOMAIN);
@@ -356,7 +234,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 							</div>
 							<div
 								onClick={() => {
-									if (props.isLoading) return;
+									if (isLoading) return;
 
 									setShowModal(true);
 									setShowModalStr(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
@@ -366,19 +244,13 @@ export const WebApplicationResources: FC<WebResourcesProps> = (props) => {
 						</div>
 					</div>
 
-					<div className="">
-						<ModalInput
-							icon={<MagnifyingGlassIcon />}
-							setValue={(val: string) => setTerm(val)}
-							placeholder="Search resource. . ."
-						/>
-					</div>
-
-					<TableV2
-						columns={webResourcesColumns}
-						rowsData={tableData}
-						showEmpty={!props.isLoading && !Boolean(tableData.length)}
-						showRows={!props.isLoading}
+					<Tablev3
+						className="table-web"
+						columns={webColumnsWith}
+						rows={webResources}
+						showRows={!isLoading}
+						initialOrder="resource_domain"
+						isNeedMultipleCheck
 					/>
 				</div>
 			</div>

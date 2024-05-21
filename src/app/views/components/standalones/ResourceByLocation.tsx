@@ -8,11 +8,11 @@ import { LocationItem } from '@standalones/utils/LocationItem.tsx';
 import { TableV2 } from '@table/tablev2.tsx';
 import type { Lead } from '@interfaces/lead.ts';
 import type { ResellerUser } from '@interfaces/user.ts';
-import type { Webresources } from '@interfaces/panel.ts';
+import type { Webresource } from '@interfaces/panel.ts';
 import type { FullOrder } from '@interfaces/order';
 
 interface ResourceByLocationProps {
-	resource: Lead[] | ResellerUser[] | Webresources[] | FullOrder[];
+	resource: Lead[] | ResellerUser[] | Webresource[] | FullOrder[];
 	isLoading: boolean;
 	type: string;
 	title: string;

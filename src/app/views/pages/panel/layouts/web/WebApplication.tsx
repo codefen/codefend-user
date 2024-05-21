@@ -16,6 +16,7 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import Show from '@defaults/Show.tsx';
 import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
+import useTableStoreV3 from '@table/v3/tablev3.store.ts';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -24,6 +25,7 @@ const WebApplicationView: React.FC = () => {
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 	const { isAdmin, isNormalUser } = useUserRole();
+	const { selectedItems } = useTableStoreV3();
 
 	useEffect(() => {
 		refetch();
@@ -40,13 +42,13 @@ const WebApplicationView: React.FC = () => {
 					<WebApplicationResources
 						isLoading={isLoading}
 						refresh={refresh}
-						webResources={webResources.resources}
+						webResources={webResources}
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
 					<ResourceByLocation
 						isLoading={isLoading}
-						resource={webResources.resources}
+						resource={webResources}
 						title="Web servers by location"
 						type={RESOURCE_CLASS.WEB}
 					/>
@@ -55,12 +57,11 @@ const WebApplicationView: React.FC = () => {
 							text="START A PENTEST ON DEMAND"
 							click={() => updateState('open', true)}
 							className="primary-full"
+							isDisabled={selectedItems.length === 0}
+							disabledLoader
 						/>
 					</Show>
-					<WebApplicationStatics
-						webResources={webResources.resources}
-						isLoading={isLoading}
-					/>
+					<WebApplicationStatics webResources={webResources} />
 
 					<WebApplicationCredentials />
 				</section>

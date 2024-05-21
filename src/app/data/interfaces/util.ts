@@ -6,6 +6,7 @@ export interface FetchPattern<D> {
 	isLoading: boolean;
 }
 export type ScopeAlias = 'w' | 'm' | 'c' | 's' | 'sc' | 'n' | 'r' | 'u';
+
 export type ID = {id: string}
 
 export type CompanyID = {company_id: string}

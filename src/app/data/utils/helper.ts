@@ -1,5 +1,5 @@
 import DOMPurify from 'isomorphic-dompurify';
-import { Sort, type Resouce, type Webresources } from '..';
+import { Sort, type Resouce, type Webresource } from '..';
 
 /** Gets token in localStorage */
 export const getToken = () => {
@@ -492,13 +492,13 @@ export const formatWalletID = (walletID: string)=> {
 }
 
 export const findWebResourceByID = (
-	getResources: Webresources[],
+	getResources: Webresource[],
 	id: string,
 	isChild: boolean,
-): Resouce | Webresources | null => {
+): Resouce | Webresource | null => {
 	for (const resource of getResources) {
-		if (isChild) {
-			for (const child of resource.childs) {
+		if (isChild && resource?.childs) {
+			for (const child of resource?.childs) {
 				if (child.id === id) {
 					return child;
 				}

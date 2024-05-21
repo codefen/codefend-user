@@ -1,22 +1,15 @@
 import React from 'react';
 import { ChartIcon } from '@icons';
-import type { Webresources } from '@interfaces/panel.ts';
+import type { Webresource } from '@interfaces/panel.ts';
 import { MetricsService } from '@utils/metric.service.ts';
 import { StatAsset } from '@standalones/stat-asset/StatAsset.tsx';
 
 interface WebResourceStaticProps {
-	webResources: Webresources[];
-	isLoading: boolean;
+	webResources: Webresource[];
 }
 export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({
 	webResources,
-	isLoading,
 }) => {
-	const getResources = () => {
-		const resources = isLoading ? [] : webResources;
-		return resources ?? [];
-	};
-
 	const { getCompanyMetric } = MetricsService;
 
 	return (
@@ -32,15 +25,15 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({
 			</div>
 			<div className="content">
 				<StatAsset
-					value={getCompanyMetric(getResources(), 'domain')}
+					value={getCompanyMetric(webResources, 'domain')}
 					valueTitle="Domains"
 				/>
 				<StatAsset
-					value={getCompanyMetric(getResources(), 'subDomain')}
+					value={getCompanyMetric(webResources, 'subDomain')}
 					valueTitle="Subdomains"
 				/>
 				<StatAsset
-					value={getCompanyMetric(getResources(), 'uniqueIp')}
+					value={getCompanyMetric(webResources, 'uniqueIp')}
 					valueTitle="Unique IPS"
 				/>
 			</div>

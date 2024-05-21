@@ -4,46 +4,21 @@ main.webapp {
 	.left {
 		overflow-y: hidden;
 		padding-inline-start: 0;
-		.card .over .form-input input {
-			border: none;
-			border-bottom: 1px solid var(--primary-color-300);
-		}
-		.table {
+		.table.table-web {
 			.rows {
 				max-height: calc(100vh - 186px);
-				.action {
-					.publish {
-						overflow: visible;
-					}
-				}
 			}
 
-			.id {
-				max-width: 70px;
-
-				&.action {
-					max-width: 130px;
-				}
-			}
-			.server-ip {
-				width: 130px;
-			}
-			.domain-name {
-				max-width: none;
+			.column.item-cell.item-cell-1 {
+				--cell-expand: 7.5% !important;
+				padding-inline-start: 1%;
 			}
 		}
-
 		.empty-card {
 			min-width: 725px;
 		}
 	}
 	.right {
-		// box-shadow: var(--right-pane-shadow);
-		// padding-inline: 0;
-		// padding-inline-start: 1rem;
-		// padding-inline-end: 1rem;
-		// min-height: 100dvh;
-		// height: 110%;
 		.table {
 			.item {
 				.location {
@@ -54,158 +29,7 @@ main.webapp {
 			}
 		}
 	}
-	// .left {
-	// 	width: 70%;
-	// 	.table {
-	// 		.domain-name {
-	// 			min-width: 35%;
-	// 			max-width: 610px;
-	// 		}
-	// 		.location {
-	// 			width: 160px;
-	// 		}
-
-	// 		.item {
-	// 			.location {
-	// 				.flag {
-	// 					margin-inline-end: 0.75rem;
-	// 				}
-	// 			}
-	// 		}
-
-	// 		.action {
-	// 			justify-content: center;
-	// 			max-width: none;
-	// 			width: 100%;
-	// 			column-gap: 2px;
-
-	// 			span {
-	// 				height: 100%;
-	// 				display: flex;
-	// 				justify-content: center;
-	// 				align-items: center;
-	// 				padding-inline: 7px;
-	// 				transition: color 200ms ease;
-
-	// 				&:hover {
-	// 					color: var(--secondary-color-100);
-
-	// 					svg path {
-	// 						color: var(--secondary-color-100);
-	// 					}
-	// 				}
-	// 			}
-
-	// 			.issue-count {
-	// 				font-size: 14px;
-	// 				font-weight: 700;
-	// 				padding-inline-start: 3px;
-	// 				padding-inline-end: 0;
-	// 				user-select: none;
-	// 				cursor: pointer;
-	// 			}
-
-	// 			.issue-printer {
-	// 				padding-inline-start: 8px;
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// .right {
-	// 	width: 30%;
-	// 	overflow-y: hidden;
-
-	// 	.card {
-	// 		.content {
-	// 			padding-block: 0px;
-	// 		}
-
-	// 		&.location-card {
-	// 			display: flex !important;
-	// 			flex-direction: column;
-	// 		}
-	// 	}
-	// }
 }
-
-//.left {
-//	width: 70%;
-
-// 		.header {
-// 			// display: contents;
-// 		}
-
-// 		.title {
-// 			// margin-bottom: 15px;
-// 		}
-
-// 		.table {
-// 			.domain-name {
-// 				// width: 100%;
-// 				min-width: 35%;
-// 			}
-
-// 			.location {
-// 				width: 160px;
-// 			}
-
-// 			.item {
-// 				.location {
-// 					.flag {
-// 						margin-inline-end: 0.75rem;
-// 					}
-// 				}
-// 			}
-
-// 			.action {
-// 				justify-content: center;
-// 				max-width: none;
-// 				width: 100%;
-// 				column-gap: 2px;
-
-// 				span {
-// 					height: 100%;
-// 					display: flex;
-// 					justify-content: center;
-// 					align-items: center;
-// 					padding-inline: 7px;
-// 					transition: color 200ms ease;
-
-// 					&:hover {
-// 						color: var(--secondary-color);
-// 					}
-// 				}
-// 			}
-// 		}
-//}
-
-// 	.right {
-// 		box-shadow: rgba(0, 0, 0, 0.35) -20px 0px 70px -45px;
-// 		padding-inline: 10px;
-// 		width: 30%;
-// 		margin-inline-start: 10px;
-
-// 		.card {
-// 			border: none;
-
-// 			.header {
-// 				border-bottom: 1px solid var(--primary-color-300);
-// 			}
-
-// 			&.stats {
-// 				.content {
-// 					column-gap: 0px;
-
-// 					.stat {
-// 						border: 1.2px solid var(--primary-color-200);
-// 						border-top: 0px;
-// 						border-radius: 0px;
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// }
 
 [data-theme='dark'] {
 	.variant-1 {
@@ -220,33 +44,3 @@ main.webapp {
 		}
 	}
 }
-
-// 	main.webapp {
-// 		.header {
-// 			background: var(--primary-color-600);
-// 		}
-
-// 		.right {
-// 			box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
-
-// 			.card {
-// 				.header {
-// 					background-color: var(--primary-color-500);
-// 				}
-
-// 				&.stats {
-// 					.content {
-// 						column-gap: 0px;
-// 						padding-inline: 0px;
-
-// 						.stat {
-// 							background-color: transparent;
-// 							border: 1.2px solid var(--primary-color-200);
-// 							border-top: 0px;
-// 							border-radius: 0px;
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
