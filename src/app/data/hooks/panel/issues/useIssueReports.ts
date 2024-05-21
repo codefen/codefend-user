@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import {
 	mapIssueShareV2,
 	mapMobileApp,
-	mapWebresourceApiToWebresource,
 	mapCloudApp,
 	mapReportIssues,
 } from '../../..';
@@ -42,7 +41,7 @@ export const useIssueReport = () => {
 			setShare(mapIssueShareV2(data));
 
 			if (resourceType === RESOURCE_CLASS.WEB) {
-				resources.current = [mapWebresourceApiToWebresource(data.resource)];
+				resources.current = [data.resource];
 			} else if (resourceType === RESOURCE_CLASS.MOBILE) {
 				resources.current = mapMobileApp(data.resource);
 			} else if (resourceType === RESOURCE_CLASS.CLOUD) {
@@ -55,7 +54,7 @@ export const useIssueReport = () => {
 
 			if (resources.current) {
 				if (resourceType === RESOURCE_CLASS.WEB) {
-					setDomainText(resources.current[0].resourceDomain);
+					setDomainText(resources.current[0].resource_domain);
 				} else if (resourceType === RESOURCE_CLASS.MOBILE || resourceType === RESOURCE_CLASS.CLOUD) {
 					setDomainText(resources.current.appName);
 				} else if (resourceType === 'lan') {

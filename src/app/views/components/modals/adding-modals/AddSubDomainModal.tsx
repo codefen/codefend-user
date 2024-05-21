@@ -1,12 +1,12 @@
 import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import { type Webresources } from '@interfaces/panel.ts';
+import { type Webresource } from '@interfaces/panel.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import SubDomainForm from '../../forms/SubDomainForm';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 
 interface AddSubDomainModalProps extends ComponentEventWithOpen {
-	webResources: Webresources[];
+	webResources: Webresource[];
 }
 
 const AddSubDomainModal: FC<AddSubDomainModalProps> = ({

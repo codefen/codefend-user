@@ -18,8 +18,6 @@ import type {
 	VdbProps,
 	VdbRequestSearch,
 	WebReport,
-	WebapplicationProps,
-	Webresources,
 } from '..';
 
 import { cleanReview, formatDate, mapEpochToDate } from '..';
@@ -107,8 +105,7 @@ export const mapIssuesCondition = (source: any): IssuesCondition => {
 	};
 };
 
-/** Map web resources api data => @interface Webresources */
-export const mapWebresourceApiToWebresource = (source: any): Webresources => {
+export const mapWebresourceApiToWebresource = (source: any): any => {
 	return {
 		id: source?.id || '',
 		companyID: source?.company_id || '',
@@ -143,19 +140,7 @@ export const mapWebresourceApiToWebresource = (source: any): Webresources => {
 					};
 				})
 			: [],
-	} as Webresources;
-};
-
-/** Map web resources and company api data => @interface WebapplicationProps */
-export const mapToWebresourceProps = (source: any): WebapplicationProps => {
-	return {
-		company: source.company ? mapCompany(source.company) : ({} as Company),
-		resources: source.resources
-			? source.resources.map((resource: any) =>
-					mapWebresourceApiToWebresource(resource),
-				)
-			: [],
-	};
+	} as any;
 };
 
 /** Map mobile app api data => @interface MobileApp */

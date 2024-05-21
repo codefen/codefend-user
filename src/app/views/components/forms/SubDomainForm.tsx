@@ -1,12 +1,12 @@
 import { type FC, type FormEvent } from 'react';
 import { GlobeWebIcon } from '@icons';
-import { type Webresources } from '@interfaces/panel.ts';
+import { type Webresource } from '@interfaces/panel.ts';
 import { useAddSubResource } from '@resourcesHooks/web/useAddSubResources.ts';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 import { ModalInput } from '@defaults/ModalInput';
 
 interface SubDomainFormProps extends ComponentEventWithChildren {
-	webResources: Webresources[];
+	webResources: Webresource[];
 }
 
 const SubDomainForm: FC<SubDomainFormProps> = ({
@@ -42,9 +42,9 @@ const SubDomainForm: FC<SubDomainFormProps> = ({
 					<option value="" disabled hidden>
 						main resource
 					</option>
-					{webResources.reverse().map((resource: Webresources) => (
+					{webResources.reverse().map((resource: Webresource) => (
 						<option key={resource.id} value={resource.id}>
-							{resource.resourceDomain}
+							{resource.resource_domain}
 						</option>
 					))}
 				</select>

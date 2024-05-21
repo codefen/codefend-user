@@ -1,6 +1,5 @@
 import { useCallback, type FC } from 'react';
 import { Sort } from '@interfaces/table.ts';
-import useTableStoreV3 from './tablev3.store';
 
 interface TableColumnsProps {
 	columns: any[];
@@ -17,9 +16,7 @@ const TableColumnsV3: FC<TableColumnsProps> = ({
 	columns,
 	setSort,
 	setSortColumn,
-	isNeedMultipleCheck,
 }) => {
-	const { toggleSelectAll, activetSelectAll } = useTableStoreV3();
 	const handleSort = useCallback((cn: string, cds: string, cs: Sort) => {
 		if (cn === cds) {
 			setSort(cs === Sort.asc ? Sort.desc : Sort.asc);
