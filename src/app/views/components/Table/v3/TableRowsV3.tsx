@@ -37,11 +37,9 @@ const TableRowsV3: FC<TableRowsProps> = ({
 		if (checked) {
 			setSelectedItems(value);
 		} else if (!checked) {
-			console.log({ selectingActive });
 			if (!selectingActive) {
 				removeItem(value);
 			} else {
-				console.log('entre?');
 				setActiveSelecting(false);
 			}
 		}
