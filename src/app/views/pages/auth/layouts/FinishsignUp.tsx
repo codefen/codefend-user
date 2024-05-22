@@ -4,16 +4,16 @@ import { useParams, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { PrimaryButton } from '../../../components';
 import { type RegisterFinishParams } from '../../../../data';
-import { useRegisterAction } from '@userHooks/auth/useRegisterAction';
-import { Link } from 'react-router-dom';
+import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { PasswordRequirements } from './PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { TermsOfUse } from './TermsOfUse';
+import { AuthInput } from '@defaults/AuthInput';
 
 const FinishSignUpLayout: FC = () => {
-	const { signUpFinish } = useRegisterAction();
+	const { signUpFinish, isLoading } = useRegisterPhaseTwo();
 	const { ref } = useParams();
 	const { data } = useRecomendedUsername(ref);
 
@@ -22,7 +22,6 @@ const FinishSignUpLayout: FC = () => {
 		password: '',
 		confirmPassword: '',
 		ref: '',
-		isLoading: false,
 	});
 	const navigate = useNavigate();
 
@@ -34,11 +33,10 @@ const FinishSignUpLayout: FC = () => {
 		}));
 	}, [ref, data]);
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
+	const handleChange = (field: string, value: any) => {
 		setUserState((prevUserState) => ({
 			...prevUserState,
-			[name]: value,
+			[field]: value,
 		}));
 	};
 
@@ -58,61 +56,42 @@ const FinishSignUpLayout: FC = () => {
 			password: userState.password,
 			lead_reference_number: userState.ref,
 		};
-
-		setUserState((prevState) => ({ ...prevState, isLoading: true }));
-
-		signUpFinish(requestParams)
-			.then((res) => {
-				if (res == true) navigate('/auth/signin');
-			})
-			.finally(() => {
-				setUserState((prevState) => ({
-					...prevState,
-					isLoading: false,
-				}));
-			});
+		signUpFinish(requestParams).then((res) => {
+			if (res == true) navigate('/auth/signin');
+		});
 	};
 
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="input-group">
 				<input
-					type="text"
-					name="ref"
 					value={userState.username}
-					onChange={handleChange}
+					onChange={(e) => handleChange('username', e.target.value)}
+					type="text"
 					placeholder="Username"
 					required
 				/>
 			</div>
-			<div className="input-group">
-				<input
-					type="password"
-					name="password"
-					value={userState.password}
-					onChange={handleChange}
-					placeholder="Password"
-					required
-				/>
-			</div>
+			<AuthInput
+				setVal={(val) => handleChange('password', val)}
+				type="password"
+				placeholder="Password"
+				required
+			/>
+			<AuthInput
+				setVal={(val) => handleChange('confirmPassword', val)}
+				type="password"
+				placeholder="Confirm Password"
+				required
+			/>
 
-			<div className="input-group">
-				<input
-					type="password"
-					name="confirmPassword"
-					value={userState.confirmPassword}
-					onChange={handleChange}
-					placeholder="Confirm Password"
-					required
-				/>
-			</div>
 			<PasswordRequirements password={userState.password} />
 			<TermsOfUse />
 			<div className="margin-top">
 				<PrimaryButton
 					text="Proceed"
 					type="submit"
-					isDisabled={userState.isLoading}
+					isDisabled={isLoading}
 					click={handleSubmit}
 					className="center"
 				/>

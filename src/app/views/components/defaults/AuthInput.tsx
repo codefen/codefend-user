@@ -23,6 +23,7 @@ interface AuthInputProps {
 	placeholder?: string;
 	defaultValue?: string;
 	required?: boolean;
+	setVal?: (data: any) => void;
 }
 
 export const AuthInput = forwardRef(function AuthInput(
@@ -32,12 +33,17 @@ export const AuthInput = forwardRef(function AuthInput(
 		defaultValue = '',
 		required = false,
 		autoComplete = 'off',
+		setVal,
 	}: AuthInputProps,
 	ref: ForwardedRef<HTMLInputElement>,
 ) {
+	const onChange = (e: any) => {
+		if (setVal) setVal(e.target.value);
+	};
 	return (
 		<div className="input-group">
 			<input
+				onChange={onChange}
 				ref={ref}
 				type={type}
 				defaultValue={defaultValue}
