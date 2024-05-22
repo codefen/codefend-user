@@ -12,6 +12,7 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import './network.scss';
+import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
 
 const NetworkPage: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -24,14 +25,6 @@ const NetworkPage: FC = () => {
 		refetch();
 	}, [control]);
 
-	const networkEmptyScreen = {
-		type: 'network',
-		title: "There's no data to display here",
-		subtitle: 'Start by adding a new network structure',
-		btnText: 'Add network resource',
-		event: refetch,
-	};
-
 	return (
 		<>
 			<OrderV2 />
@@ -40,6 +33,7 @@ const NetworkPage: FC = () => {
 			<EmptyLayout
 				className="lan"
 				fallback={networkEmptyScreen}
+				event={refresh}
 				showScreen={showScreen}
 				isLoading={loading}
 				dataAvalaible={Boolean(networks.length)}>

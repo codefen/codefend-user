@@ -11,6 +11,7 @@ interface EmptyLayoutProps {
 	dataAvalaible: boolean;
 
 	fallback: EmptyFallbackData;
+	event: () => void;
 }
 
 class EmptyLayout extends PureComponent<EmptyLayoutProps> {
@@ -22,6 +23,7 @@ class EmptyLayout extends PureComponent<EmptyLayoutProps> {
 			dataAvalaible,
 			isLoading,
 			fallback,
+			event,
 		} = this.props;
 		return (
 			<main className={`${className} ${showScreen ? 'actived' : ''}`}>
@@ -35,7 +37,7 @@ class EmptyLayout extends PureComponent<EmptyLayoutProps> {
 						title={fallback.title}
 						info={fallback.subtitle}
 						buttonText={fallback.btnText}
-						event={fallback.event}
+						event={event}
 					/>
 				</Show>
 			</main>

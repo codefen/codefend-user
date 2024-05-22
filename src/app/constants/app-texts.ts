@@ -44,5 +44,56 @@ export enum MODAL_KEY_OPEN {
     NETWORK_CREDS="lan",
     REVOKE_USER="revoke",
     ADD_COLLABORATOR="add-collaborator",
-
 }
+
+export enum TABLE_KEYS {
+    ID="id",
+    COUNT_ISSUE="final_issues",
+    FULL_ROW="full",
+    FULL_WITH_NEXT="full-c",
+    ACTION="action",
+    ITEM_CLASS=".item",
+    ITEM_ROW_ID="data-id"
+}
+
+export const webEmptyScreen = {
+    type: RESOURCE_CLASS.WEB,
+    title: 'There’s no data to display here',
+    subtitle: 'Start by adding a new web resource',
+    btnText: 'Add domain',
+};
+
+export const mobileEmptyScreen = {
+    type: RESOURCE_CLASS.MOBILE,
+    title: 'There’s no data to display here',
+    subtitle: 'Start by adding a new mobile application',
+    btnText: 'Add mobile',
+};
+
+export const cloudEmptyScreen = {
+    type: 'cloud',
+    title: 'There’s no data to display here',
+    subtitle: 'Start by adding a new cloud resource',
+    btnText: 'Add cloud',
+};
+
+export const socialEmptyScreen = {
+    type: RESOURCE_CLASS.SOCIAL,
+    title: 'Social Engineering',
+    subtitle: 'Start by adding a new person',
+    btnText: 'Add social resource',
+};
+
+export const sourceEmptyScreen = {
+    type: RESOURCE_CLASS.SOURCE,
+    title: "There's no data to display here",
+    subtitle: 'Start by adding a new source code resource',
+    btnText: 'Add source code',
+};
+
+export const networkEmptyScreen = {
+    type: 'network',
+    title: "There's no data to display here",
+    subtitle: 'Start by adding a new network structure',
+    btnText: 'Add network resource',
+};

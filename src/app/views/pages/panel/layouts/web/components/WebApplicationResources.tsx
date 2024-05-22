@@ -23,7 +23,11 @@ import Show from '@defaults/Show';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { ModalInput } from '@defaults/ModalInput.tsx';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
+import {
+	MODAL_KEY_OPEN,
+	RESOURCE_CLASS,
+	TABLE_KEYS,
+} from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import TextChild from '@standalones/utils/TextChild';
 import useTableStoreV3 from '@table/v3/tablev3.store';
@@ -50,7 +54,7 @@ const webColumns: ColumnTableV3[] = [
 	},
 	{
 		header: 'domain',
-		key: 'full-c',
+		key: TABLE_KEYS.FULL_WITH_NEXT,
 		styles: 'item-cell-2',
 		weight: '53.5%',
 		render: (row: any, next?: any) =>
@@ -72,7 +76,7 @@ const webColumns: ColumnTableV3[] = [
 	},
 	{
 		header: 'area',
-		key: 'full',
+		key: TABLE_KEYS.FULL_ROW,
 		styles: 'item-cell-4',
 		weight: '13%',
 		render: (row: any) => (

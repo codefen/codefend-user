@@ -19,7 +19,14 @@ interface PrimaryButtonProps {
 	className?: string;
 	type?: 'submit' | 'reset' | 'button';
 	disabledLoader?: boolean;
-	buttonStyle?: 'red' | 'black' | 'gray' | 'default' | 'send' | 'dark-red' | ButtonStyles;
+	buttonStyle?:
+		| 'red'
+		| 'black'
+		| 'gray'
+		| 'default'
+		| 'send'
+		| 'dark-red'
+		| ButtonStyles;
 	hideContent?: boolean;
 }
 
@@ -42,7 +49,6 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
 		[ButtonStyles.DEFAULT]: '',
 	};
 
-	const loader = disabledLoader ? false : true;
 	const handleClick = (e: React.FormEvent<HTMLButtonElement>) => {
 		if (!isDisabled) click?.(e);
 	};
@@ -53,7 +59,7 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
 			onClick={handleClick}
 			disabled={isDisabled}
 			className={`btn ${buttonStyles[buttonStyle]} ${className}`}>
-			<Show when={Boolean(isDisabled) && loader}>
+			<Show when={Boolean(isDisabled) && !disabledLoader}>
 				<ButtonLoader />
 			</Show>
 			<Show when={!hideContent} fallback={<ButtonLoader left="33%" />}>

@@ -6,6 +6,7 @@ import { CloudResourceForm } from '@/app/views/components/forms/CloudResourceFor
 import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm';
 import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import WebDomainForm from '../forms/WebDomainForm';
 
 interface EmptyScreenProps {
 	title?: string;
@@ -45,6 +46,16 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 							<span className="first-text">{title}</span>
 							<span className="second-text">{info}</span>
 						</div>
+						<Show when={type === RESOURCE_CLASS.WEB}>
+							<WebDomainForm onDone={event}>
+								{(isLoading) => (
+									<EmptyScreenButton
+										isDisabled={isLoading}
+										buttonText={buttonText}
+									/>
+								)}
+							</WebDomainForm>
+						</Show>
 						<Show when={type === RESOURCE_CLASS.NETWORK}>
 							<NetworkDadForm onDone={event}>
 								{(isLoading) => (

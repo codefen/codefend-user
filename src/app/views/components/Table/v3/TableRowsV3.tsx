@@ -1,9 +1,9 @@
-import { useEffect, type ChangeEvent, type FC } from 'react';
+import { type ChangeEvent, type FC } from 'react';
 import { type ColumnTableV3 } from '@interfaces/table.ts';
 import RowV3 from './RowV3';
 import { flattenRows } from '@utils/sort.service';
-import { useTableV3 } from '@hooks/table/useTableV3';
 import useTableStoreV3 from './tablev3.store';
+import { TABLE_KEYS } from '@/app/constants/app-texts';
 
 interface TableRowsProps {
 	rows: any[];
@@ -35,7 +35,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
 		let rows: JSX.Element[] = [];
 		const rowCount = r.length;
 		for (let i = 0; i < rowCount; i++) {
-			const itemDisable = ` ${isActiveDisable && r[i]['final_issues'] && r[i]['final_issues'] <= 0 ? 'item-disabled' : ''}`;
+			const itemDisable = ` ${isActiveDisable && r[i][TABLE_KEYS.COUNT_ISSUE] && r[i][TABLE_KEYS.COUNT_ISSUE] <= 0 ? 'item-disabled' : ''}`;
 			if (urlNav) {
 				const needUrl = !urlNav ? 'item-with-out-action' : '';
 				rows[i] = (
@@ -55,22 +55,24 @@ const TableRowsV3: FC<TableRowsProps> = ({
 				rows[i] = (
 					<label
 						className={`item label ${itemDisable}`}
-						data-id={r[i]['id']}>
+						data-id={r[i][TABLE_KEYS.ID]}>
 						<div
 							className="item-cell"
 							style={{ '--cell-expand': '2.5%' } as any}>
 							<input
 								type="checkbox"
 								name="t-rows"
-								value={r[i]['id']}
+								value={r[i][TABLE_KEYS.ID]}
 								className="codefend-checkbox"
-								defaultChecked={selectedItems.includes(r[i]['id'])}
-								checked={selectedItems.includes(r[i]['id'])}
-								onChange={(e) => handleChecked(e, r[i]['id'])}
+								defaultChecked={selectedItems.includes(
+									r[i][TABLE_KEYS.ID],
+								)}
+								checked={selectedItems.includes(r[i][TABLE_KEYS.ID])}
+								onChange={(e) => handleChecked(e, r[i][TABLE_KEYS.ID])}
 							/>
 						</div>
 						<RowV3
-							key={`r-${r[i]['id']}-${i}`}
+							key={`r-${r[i][TABLE_KEYS.ID]}-${i}`}
 							row={r[i]}
 							nextRow={r?.[i + 1]}
 							columns={columns}
@@ -83,7 +85,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
 						className={`item ${itemDisable}`}
 						onClick={(e) => handleClick(e, r[i])}>
 						<RowV3
-							key={`r-${r[i]['id']}-${i}`}
+							key={`r-${r[i][TABLE_KEYS.ID]}-${i}`}
 							row={r[i]}
 							nextRow={r?.[i + 1]}
 							columns={columns}

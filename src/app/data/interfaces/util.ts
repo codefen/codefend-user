@@ -63,5 +63,4 @@ export interface EmptyFallbackData {
     title: string;
     subtitle: string;
     btnText: string;
-    event: () => void;
 }

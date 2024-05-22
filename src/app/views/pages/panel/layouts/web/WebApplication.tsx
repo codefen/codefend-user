@@ -15,8 +15,9 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import Show from '@defaults/Show.tsx';
 import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
-import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
+import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import useTableStoreV3 from '@table/v3/tablev3.store.ts';
+import EmptyLayout from '../EmptyLayout.tsx';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -36,7 +37,13 @@ const WebApplicationView: React.FC = () => {
 			<OrderV2 />
 			<ModalReport />
 			<CredentialsModal />
-			<main className={`webapp ${showScreen ? 'actived' : ''}`}>
+			<EmptyLayout
+				className="webapp"
+				fallback={webEmptyScreen}
+				event={refresh}
+				showScreen={showScreen}
+				isLoading={isLoading}
+				dataAvalaible={Boolean(webResources.length)}>
 				<div className="brightness variant-1"></div>
 				<section className="left">
 					<WebApplicationResources
@@ -65,7 +72,7 @@ const WebApplicationView: React.FC = () => {
 
 					<WebApplicationCredentials />
 				</section>
-			</main>
+			</EmptyLayout>
 		</>
 	);
 };

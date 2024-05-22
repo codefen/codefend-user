@@ -13,7 +13,7 @@ import { MobileSelectedDetails } from './components/MobileSelectedDetails';
 import EmptyLayout from '../EmptyLayout';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import './mobileApplicationPanel.scss';
-import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { mobileEmptyScreen } from '@/app/constants/app-texts';
 
 const MobileApplicationPanel: React.FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -38,14 +38,6 @@ const MobileApplicationPanel: React.FC = () => {
 
 	const handleShow = () => setShowModal(true);
 
-	const mobileEmptyScreen = {
-		type: RESOURCE_CLASS.MOBILE,
-		title: 'There’s no data to display here',
-		subtitle: 'Start by adding a new mobile application',
-		btnText: 'Add Mobile',
-		event: refresh,
-	};
-
 	const onDelete = () => {
 		setAppSelected(null);
 		refresh();
@@ -63,6 +55,7 @@ const MobileApplicationPanel: React.FC = () => {
 			<EmptyLayout
 				className="mobile"
 				fallback={mobileEmptyScreen}
+				event={refresh}
 				showScreen={showScreen}
 				isLoading={isLoading}
 				dataAvalaible={Boolean(data.length)}>

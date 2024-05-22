@@ -9,7 +9,8 @@ import { PageLoader } from '@defaults/loaders/Loader';
 import './tablev3.scss';
 import useTableStoreV3 from './tablev3.store';
 import { ModalInput } from '@defaults/ModalInput';
-import { CloseIcon, MagnifyingGlassIcon } from '@icons';
+import { MagnifyingGlassIcon } from '@icons';
+import { TABLE_KEYS } from '@/app/constants/app-texts';
 
 interface Tablev3Props<T> {
 	rows: T[];
@@ -82,11 +83,13 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 			}));
 
 			if (tableRef.current) {
-				const items = tableRef.current.querySelectorAll('.item');
+				const items = tableRef.current.querySelectorAll(
+					TABLE_KEYS.ITEM_CLASS,
+				);
 
 				for (const item of items) {
 					const rect = item.getBoundingClientRect();
-					const id = item.getAttribute('data-id');
+					const id = item.getAttribute(TABLE_KEYS.ITEM_ROW_ID);
 
 					const selectionBoxLeft = Math.min(
 						selectionBox.startX,

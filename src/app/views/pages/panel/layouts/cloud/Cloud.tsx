@@ -12,6 +12,7 @@ import { CloudSelectedDetails } from './components/CloudSelectedDetails';
 import { ListResourceWithSearch } from '@standalones/ListResourceWithSearch';
 import EmptyLayout from '../EmptyLayout';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { cloudEmptyScreen } from '@/app/constants/app-texts';
 
 const CloudApplicationPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -26,14 +27,6 @@ const CloudApplicationPanel: FC = () => {
 			setNewApp(null);
 		};
 	}, [control]);
-
-	const cloudEmptyScreen = {
-		type: 'cloud',
-		title: 'There’s no data to display here',
-		subtitle: 'Start by adding a new cloud resource',
-		btnText: 'Add Cloud',
-		event: refetch,
-	};
 
 	const onDelete = () => {
 		setAppSelected(null);
@@ -54,6 +47,7 @@ const CloudApplicationPanel: FC = () => {
 			<EmptyLayout
 				className="mobile cloud"
 				fallback={cloudEmptyScreen}
+				event={refresh}
 				showScreen={showScreen}
 				isLoading={isLoading}
 				dataAvalaible={Boolean(data.length)}>

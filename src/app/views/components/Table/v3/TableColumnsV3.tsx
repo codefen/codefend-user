@@ -1,5 +1,6 @@
 import { useCallback, type FC } from 'react';
 import { Sort } from '@interfaces/table.ts';
+import { TABLE_KEYS } from '@/app/constants/app-texts';
 
 interface TableColumnsProps {
 	columns: any[];
@@ -26,7 +27,7 @@ const TableColumnsV3: FC<TableColumnsProps> = ({
 		}
 	}, []);
 	const onclcik = (column: string) => {
-		if (column === 'action') return;
+		if (column === TABLE_KEYS.ACTION) return;
 		handleSort(column, sortedColumn, sort);
 	};
 

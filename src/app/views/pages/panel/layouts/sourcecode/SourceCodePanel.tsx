@@ -13,7 +13,10 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import './sourcecode.scss';
-import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
+import {
+	RESOURCE_CLASS,
+	sourceEmptyScreen,
+} from '@/app/constants/app-texts.ts';
 
 const SourceCodePanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
@@ -26,13 +29,6 @@ const SourceCodePanel: FC = () => {
 		refetch();
 	}, [control]);
 
-	const socialEmptyScreen = {
-		type: RESOURCE_CLASS.SOURCE,
-		title: "There's no data to display here",
-		subtitle: 'Start by adding a new source code resource',
-		btnText: 'Add source code',
-		event: refetch,
-	};
 	return (
 		<>
 			<OrderV2 />
@@ -40,7 +36,8 @@ const SourceCodePanel: FC = () => {
 			<ModalReport />
 			<EmptyLayout
 				className="source-code"
-				fallback={socialEmptyScreen}
+				fallback={sourceEmptyScreen}
+				event={refresh}
 				showScreen={showScreen}
 				isLoading={isLoading}
 				dataAvalaible={Boolean(data.length)}>
