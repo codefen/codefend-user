@@ -81,12 +81,12 @@ const swap = <T>(arr: T[], i: number, j: number): void => {
 };
 
 export const flatten = (resource: any, arr: any[]) => {
-	arr.push(resource);
-	if (resource.childs) {
+	if (resource?.childs) {
 		for (const child of resource.childs) {
 			flatten(child, arr);
 		}
 	}
+	arr.push(resource);
 };
 
 export const flattenRows = (rows: any[]): any[] => {

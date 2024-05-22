@@ -1,5 +1,5 @@
 import { TABLE_KEYS } from '@/app/constants/app-texts';
-import {  type ChangeEvent, type FC } from 'react';
+import { type ChangeEvent, type FC } from 'react';
 import TableCellV3 from './TableCellV3';
 
 interface LabelRowProps {
@@ -16,20 +16,20 @@ const TableLabelRow: FC<LabelRowProps> = ({
 	row,
 	nextRow,
 	columns,
-	selectedItems,
 	handleChecked,
+	selectedItems,
 }) => {
+	const ID = row[TABLE_KEYS.ID];
 	return (
-		<label
-			className={`item label ${itemDisable}`}
-			data-id={row[TABLE_KEYS.ID]}>
+		<label className={`item label ${itemDisable}`} data-id={ID}>
 			<div className="item-cell" style={{ '--cell-expand': '2.5%' } as any}>
 				<input
+					id={`t-row-${ID}`}
 					type="checkbox"
-					name="t-rows"
-					value={row[TABLE_KEYS.ID]}
+					name="t-row"
+					value={ID}
 					className="codefend-checkbox"
-					checked={selectedItems.includes(row[TABLE_KEYS.ID])}
+					checked={selectedItems.includes(ID)}
 					onChange={handleChecked}
 				/>
 			</div>

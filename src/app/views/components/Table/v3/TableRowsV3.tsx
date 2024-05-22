@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC } from 'react';
+import { useCallback, type ChangeEvent, type FC } from 'react';
 import { type ColumnTableV3 } from '@interfaces/table.ts';
 import { flattenRows } from '@utils/sort.service';
 import useTableStoreV3 from './tablev3.store';
@@ -23,15 +23,27 @@ const TableRowsV3: FC<TableRowsProps> = ({
 	isNeedMultipleCheck,
 }) => {
 	const flattenedRows = flattenRows(rows);
-	const { selectedItems, setSelectedItems, removeItem } = useTableStoreV3();
+	const {
+		selectedItems,
+		setSelectedItems,
+		removeItem,
+		selectingActive,
+		setActiveSelecting,
+	} = useTableStoreV3();
 	const handleClick = (e: any, item: any) => {};
 	const handleChecked = (e: ChangeEvent<HTMLInputElement>) => {
+		e.stopPropagation();
 		const { value, checked } = e.target;
-		const isIncluded = selectedItems.includes(value);
-		if (checked && !isIncluded) {
+		if (checked) {
 			setSelectedItems(value);
-		} else if (!checked && isIncluded) {
-			removeItem(value);
+		} else if (!checked) {
+			console.log({ selectingActive });
+			if (!selectingActive) {
+				removeItem(value);
+			} else {
+				console.log('entre?');
+				setActiveSelecting(false);
+			}
 		}
 	};
 

@@ -11,7 +11,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean)=>{
 	});
 	const [isSelecting, setIsSelecting] = useState(false);
 	const tableRef = useRef<HTMLDivElement>(null);
-    const { setSelectedItems, selectedItems, cleanSelected, removeItem } =
+    const { setSelectedItems, selectedItems, removeItem,setActiveSelecting } =
 		useTableStoreV3();
 	const prevRef = useRef<any>([]);
 
@@ -33,6 +33,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean)=>{
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
 	) => {
 		if (isSelecting) {
+			setActiveSelecting(true);
 			setSelectionBox((prevBox) => ({
 				...prevBox,
 				endX: e.clientX,
@@ -86,7 +87,9 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean)=>{
 	};
 
 	const handleMouseUp = () => {
-		setIsSelecting(false);
+		if(isSelecting){
+			setIsSelecting(false);
+		}
 	};
 
     return {tableRef,isSelecting,selectionBox, handleMouseUp,handleMouseMove,handleMouseDown} as const;

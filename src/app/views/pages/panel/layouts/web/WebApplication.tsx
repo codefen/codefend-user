@@ -18,6 +18,7 @@ import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import useTableStoreV3 from '@table/v3/tablev3.store.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
+import WebApplicationPentest from './components/WebApplicationPentest.tsx';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -53,24 +54,22 @@ const WebApplicationView: React.FC = () => {
 					/>
 				</section>
 				<section className="right" ref={flashlight.rightPaneRef}>
+					<Show when={isAdmin() || isNormalUser()}>
+						<WebApplicationPentest
+							webResources={webResources}
+							isLoading={isLoading}
+						/>
+					</Show>
 					<ResourceByLocation
 						isLoading={isLoading}
 						resource={webResources}
 						title="Web servers by location"
 						type={RESOURCE_CLASS.WEB}
 					/>
-					<Show when={isAdmin() || isNormalUser()}>
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							click={() => updateState('open', true)}
-							className="primary-full"
-							isDisabled={selectedItems.length === 0}
-							disabledLoader
-						/>
-					</Show>
+
 					<WebApplicationStatics webResources={webResources} />
 
-					<WebApplicationCredentials />
+					{/*<WebApplicationCredentials />*/}
 				</section>
 			</EmptyLayout>
 		</>
