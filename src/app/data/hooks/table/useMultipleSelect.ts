@@ -1,14 +1,13 @@
 import { TABLE_KEYS } from "@/app/constants/app-texts";
 import useTableStoreV3 from "@table/v3/tablev3.store";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export const useMultipleSelect = (isNeedMultipleCheck: boolean)=>{
-	const [isCtrlPressed, setIsCtrlPressed] = useState(false);
 	const [selectionBox, setSelectionBox] = useState({
 		startX: 0,
 		startY: 0,
-		endX: 0,
-		endY: 0,
+		endX:   0,
+		endY:   0,
 	});
 	const [isSelecting, setIsSelecting] = useState(false);
 	const tableRef = useRef<HTMLDivElement>(null);
@@ -21,7 +20,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean)=>{
 	) => {
 		if (!isNeedMultipleCheck && !isSelecting) return;
 		setIsSelecting(true);
-		prevRef.current = isCtrlPressed ? selectedItems : [];
+		prevRef.current = selectedItems;
 		setSelectionBox({
 			startX: e.clientX,
 			startY: e.clientY,
@@ -89,28 +88,6 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean)=>{
 	const handleMouseUp = () => {
 		setIsSelecting(false);
 	};
-
-	useEffect(() => {
-		const handleKeyDown = (event:any) => {
-			if (event.ctrlKey) {
-				setIsCtrlPressed(true);
-			}
-		};
-
-		const handleKeyUp = (event:any) => {
-		if (!event.ctrlKey) {
-			setIsCtrlPressed(false);
-		}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		window.addEventListener('keyup', handleKeyUp);
-
-		return () => {
-		window.removeEventListener('keydown', handleKeyDown);
-		window.removeEventListener('keyup', handleKeyUp);
-		};
-	}, []);
 
     return {tableRef,isSelecting,selectionBox, handleMouseUp,handleMouseMove,handleMouseDown} as const;
 }
