@@ -18,7 +18,6 @@ export interface RegisterParams {
 	reseller_name: string;
 	reseller_id: string;
 	idiom: string;
-	phase: string;
 }
 
 export interface LoginResponse {

@@ -4,12 +4,13 @@ import { useParams, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { PrimaryButton } from '../../../components';
 import { type RegisterFinishParams } from '../../../../data';
-import { useRegisterAction } from '#commonUserHooks/useRegisterAction';
+import { useRegisterAction } from '@userHooks/auth/useRegisterAction';
 import { Link } from 'react-router-dom';
 import { PasswordRequirements } from './PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
+import { TermsOfUse } from './TermsOfUse';
 
 const FinishSignUpLayout: FC = () => {
 	const { signUpFinish } = useRegisterAction();
@@ -78,9 +79,9 @@ const FinishSignUpLayout: FC = () => {
 				<input
 					type="text"
 					name="ref"
-					value={userState.ref}
+					value={userState.username}
 					onChange={handleChange}
-					placeholder="Reference Number"
+					placeholder="Username"
 					required
 				/>
 			</div>
@@ -106,24 +107,7 @@ const FinishSignUpLayout: FC = () => {
 				/>
 			</div>
 			<PasswordRequirements password={userState.password} />
-			<div className="margin-top">
-				<span className="text-sm text-alt3">
-					I have read and accept the{' '}
-					<Link
-						className="codefend-text-red"
-						to="/help/security-and-privacy-policy"
-						target="_blank">
-						<u>Privacy Policy</u>
-					</Link>{' '}
-					and{' '}
-					<Link
-						className="codefend-text-red"
-						to="/help/terms-and-condition"
-						target="_blank">
-						<u>Terms of Use.</u>
-					</Link>
-				</span>
-			</div>
+			<TermsOfUse />
 			<div className="margin-top">
 				<PrimaryButton
 					text="Proceed"

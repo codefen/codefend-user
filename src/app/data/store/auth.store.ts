@@ -2,9 +2,7 @@ import { type StateCreator, create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import {
 	type User,
-	decodePayload,
 } from '..';
-import { AxiosHttpService } from '../services/axiosHTTP.service';
 import { EMPTY_USER } from '@/app/constants/empty';
 
 export interface AuthState {
@@ -12,7 +10,6 @@ export interface AuthState {
 	isAuth: boolean;
 	accessToken: string;
 
-	login: (loginParams: any) => Promise<any>;
 	logout: () => void;
 	updateAuth: () => void;
 	updateToken: (updatedToken: string) => void;
@@ -40,38 +37,6 @@ const useAuthStore = create<AuthState>()(
 			userData: EMPTY_USER,
 			isAuth: false,
 			accessToken: '',
-			login: (loginParams: any) => {
-				const fetchcer = AxiosHttpService.getInstance();
-				return fetchcer
-					.post<any>({
-						body: {
-							provided_password: loginParams.password,
-							provided_email: loginParams.email,
-							model: 'users/access',
-						},
-					})
-					.then(({ data }: any) => {
-						if (data.response !== 'success')
-							throw new Error(data.info);
-						if (!data.user)
-							throw new Error('An unexpected error has ocurred');
-
-						const token = data.session as string;
-						const decodedToken = decodePayload(token || "");
-						const user ={
-							...data.user,
-							exp: decodedToken?.exp || 0,
-						};
-						set((prev: AuthState) => ({
-							...prev,
-							userData: user,
-							accessToken: token,
-							isAuth: true,
-						}));
-						return { user, error: false };
-					})
-					.catch((e) => ({ error: true, info: e.message }));
-			},
 			logout: () => set({ userData: EMPTY_USER, isAuth: false, accessToken: '' }),
 			updateAuth: () => {
 				const state = _get() as AuthState;

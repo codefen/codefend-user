@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PrimaryButton } from '../../../components';
-import { usePasswordRecovery } from '#commonUserHooks/usePasswordRecovery';
+import { usePasswordRecovery } from '@userHooks/auth/usePasswordRecovery';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { PasswordRequirements } from './PasswordRequirements';

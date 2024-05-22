@@ -1,7 +1,7 @@
 import { useEffect, type FC } from 'react';
 import { Form, Link, useParams } from 'react-router-dom';
 import { PrimaryButton } from '../../../components';
-import { useSignupInvitation } from '#commonUserHooks/useSignupInvitation';
+import { useSignupInvitation } from '@userHooks/auth/useSignupInvitation';
 
 export const InvitationSignup: FC = () => {
 	const { ref } = useParams();
