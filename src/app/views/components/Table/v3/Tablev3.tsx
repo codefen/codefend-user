@@ -1,4 +1,4 @@
-import { useRef, useState, type FC } from 'react';
+import { useState, type FC } from 'react';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
 import TableColumnsV3 from './TableColumnsV3';
@@ -6,11 +6,10 @@ import TableRowsV3 from './TableRowsV3';
 import Show from '@defaults/Show';
 import EmptyCard from '@defaults/EmptyCard';
 import { PageLoader } from '@defaults/loaders/Loader';
-import './tablev3.scss';
-import useTableStoreV3 from './tablev3.store';
 import { ModalInput } from '@defaults/ModalInput';
 import { MagnifyingGlassIcon } from '@icons';
-import { TABLE_KEYS } from '@/app/constants/app-texts';
+import { useMultipleSelect } from '@hooks/table/useMultipleSelect';
+import './tablev3.scss';
 
 interface Tablev3Props<T> {
 	rows: T[];
@@ -23,6 +22,7 @@ interface Tablev3Props<T> {
 	urlNav?: string;
 	isActiveDisable?: boolean;
 	isNeedMultipleCheck?: boolean;
+	isNeedSearchBar?: boolean;
 }
 
 const Tablev3: FC<Tablev3Props<any>> = ({
@@ -35,21 +35,19 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 	showRows,
 	isActiveDisable = false,
 	isNeedMultipleCheck = false,
+	isNeedSearchBar = false,
 }) => {
 	const [sort, setSort] = useState<Sort>(initialSort);
 	const [sortedColumn, setDataSort] = useState<string>(columns[0].key);
 	const [term, setTerm] = useState<string>('');
-	const [selectionBox, setSelectionBox] = useState({
-		startX: 0,
-		startY: 0,
-		endX: 0,
-		endY: 0,
-	});
-	const [isSelecting, setIsSelecting] = useState(false);
-	const tableRef = useRef<HTMLDivElement>(null);
-	const { setSelectedItems, selectedItems, cleanSelected, removeItem } =
-		useTableStoreV3();
-	const prevRef = useRef<any>([]);
+	const {
+		tableRef,
+		isSelecting,
+		selectionBox,
+		handleMouseUp,
+		handleMouseMove,
+		handleMouseDown,
+	} = useMultipleSelect(isNeedMultipleCheck);
 	const preProcessedRows = usePreProcessedRows(
 		rows,
 		initialOrder,
@@ -58,89 +56,18 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 		term,
 	);
 
-	const handleMouseDown = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-	) => {
-		if (!isNeedMultipleCheck && !isSelecting) return;
-		setIsSelecting(true);
-		prevRef.current = selectedItems;
-		setSelectionBox({
-			startX: e.clientX,
-			startY: e.clientY,
-			endX: e.clientX,
-			endY: e.clientY,
-		});
-	};
-
-	const handleMouseMove = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-	) => {
-		if (isSelecting) {
-			setSelectionBox((prevBox) => ({
-				...prevBox,
-				endX: e.clientX,
-				endY: e.clientY,
-			}));
-
-			if (tableRef.current) {
-				const items = tableRef.current.querySelectorAll(
-					TABLE_KEYS.ITEM_CLASS,
-				);
-
-				for (const item of items) {
-					const rect = item.getBoundingClientRect();
-					const id = item.getAttribute(TABLE_KEYS.ITEM_ROW_ID);
-
-					const selectionBoxLeft = Math.min(
-						selectionBox.startX,
-						selectionBox.endX,
-					);
-					const selectionBoxRight = Math.max(
-						selectionBox.startX,
-						selectionBox.endX,
-					);
-					const selectionBoxTop = Math.min(
-						selectionBox.startY,
-						selectionBox.endY,
-					);
-					const selectionBoxBottom = Math.max(
-						selectionBox.startY,
-						selectionBox.endY,
-					);
-
-					const isInSelectionBox =
-						rect.right >= selectionBoxLeft &&
-						rect.left <= selectionBoxRight &&
-						rect.bottom >= selectionBoxTop &&
-						rect.top <= selectionBoxBottom;
-
-					if (isInSelectionBox && !selectedItems.includes(id)) {
-						setSelectedItems(id);
-					} else if (
-						!isInSelectionBox &&
-						!prevRef.current.includes(id) &&
-						selectedItems.includes(id)
-					) {
-						removeItem(id || '');
-					}
-				}
-			}
-		}
-	};
-
-	const handleMouseUp = () => {
-		setIsSelecting(false);
-	};
-
 	return (
 		<div className="table-group">
-			<div className="table-utils table-search-bar">
-				<ModalInput
-					icon={<MagnifyingGlassIcon />}
-					setValue={(val: string) => setTerm(val)}
-					placeholder="Search resource. . ."
-				/>
-			</div>
+			<Show when={isNeedSearchBar}>
+				<div className="table-utils table-search-bar">
+					<ModalInput
+						icon={<MagnifyingGlassIcon />}
+						setValue={(val: string) => setTerm(val)}
+						placeholder="Search resource. . ."
+					/>
+				</div>
+			</Show>
+
 			<div
 				className={`table ${className} ${isSelecting && 'table-item-no-selected'}`}
 				ref={tableRef}

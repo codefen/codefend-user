@@ -255,6 +255,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 						showRows={!isLoading}
 						initialOrder="resource_domain"
 						isNeedMultipleCheck
+						isNeedSearchBar
 					/>
 				</div>
 			</div>
