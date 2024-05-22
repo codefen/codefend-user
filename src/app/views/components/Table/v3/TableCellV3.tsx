@@ -1,6 +1,5 @@
 import type { ColumnTableV3 } from '@interfaces/table';
 import { PureComponent, useMemo, type FC, type ReactNode } from 'react';
-import useTableStoreV3 from './tablev3.store';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 
 interface RowProps {
@@ -9,7 +8,7 @@ interface RowProps {
 	columns: ColumnTableV3[];
 }
 
-const RowV3: FC<RowProps> = ({ row, columns, nextRow }) => {
+const TableCellV3: FC<RowProps> = ({ row, columns, nextRow }) => {
 	const renderContent = useMemo(() => {
 		return columns.map((column, i) => (
 			<div
@@ -29,4 +28,4 @@ const RowV3: FC<RowProps> = ({ row, columns, nextRow }) => {
 	return renderContent;
 };
 
-export default RowV3;
+export default TableCellV3;

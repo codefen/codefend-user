@@ -53,7 +53,8 @@ export enum TABLE_KEYS {
     FULL_WITH_NEXT="full-c",
     ACTION="action",
     ITEM_CLASS=".item",
-    ITEM_ROW_ID="data-id"
+    ITEM_ROW_ID="data-id",
+    ITEMS="selected"
 }
 
 export const webEmptyScreen = {
