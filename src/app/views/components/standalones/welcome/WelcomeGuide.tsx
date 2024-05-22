@@ -229,9 +229,9 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 						coords={getButtonCoordinates('sidebar_issues')}
 						arrow={{ position: Position.LEFT, coordY: '5%' }}
 						icon={<BugIcon />}
-						text="Onces you request a pentest, the hacker will report all the issues here in a list, you can click on them to see more info."
+						text="From this section you can visualize all the reported security issues and obtain customer support in order to solve them."
 						title="issues"
-						highlight="See issues at real time!"
+						highlight="See the vulnerabilities and detected issues"
 					/>
 				</Show>
 
