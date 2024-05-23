@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { OrderSection } from '../../../../../data';
+import { OrderSection } from '../../../../data';
 import { StepItem } from './StepItem';
 
 interface ActiveProgressiveStepsProps {

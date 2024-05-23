@@ -44,6 +44,7 @@ export enum MODAL_KEY_OPEN {
     NETWORK_CREDS="lan",
     REVOKE_USER="revoke",
     ADD_COLLABORATOR="add-collaborator",
+    WEB_WELCOME="open-ww"
 }
 
 export enum TABLE_KEYS {

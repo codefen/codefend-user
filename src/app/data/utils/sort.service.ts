@@ -46,9 +46,9 @@ export const quickSort = <T>(
 	}
 	for (const item of arr) {
 		if (item?.childs && item?.childs.length > 1) {
-			item.childs = quickSort(item.childs, sortedData, sort);
+		  item.childs = quickSort(item.childs, sortedData, sort);
 		}
-	}
+	  }
 	return arr;
 };
 

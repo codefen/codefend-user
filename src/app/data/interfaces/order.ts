@@ -1,4 +1,5 @@
 import type { CloudResourceResume, LanResourceResume, MobileResourceResume, SocialResourceResume, SourceResourceResume, WebResourceResume } from "./resources-resumes";
+import type { AuditCompanyData } from "./util";
 
 export enum OrderSection {
     SCOPE=1,
@@ -83,9 +84,8 @@ export interface ResumeAllResources {
     network: LanResourceResume[];
 }
 
-export interface FullOrder {
-    id: string;
-    company_id: string;
+export interface FullOrder extends AuditCompanyData {
+
     company_name: string;
     user_id: string;
     user_email: string;
@@ -128,14 +128,15 @@ export interface FullOrder {
     reference_number: string;
     reseller_id: string;
     reseller_name: string;
+
     user_ua: string;
     user_ra: string;
     user_hci: string;
     user_hxff: string;
+
     user_pais: string;
     user_pais_code: string;
     user_pais_provincia: string;
     user_pais_ciudad: string;
-    eliminado: string;
-    creacion: string;
+
 }

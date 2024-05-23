@@ -8,7 +8,7 @@ import { PageLoader } from '../..';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
 import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
-import { ActiveProgressiveSteps } from './components/ActiveProgressiveSteps';
+import { ActiveProgressiveSteps } from '../../standalones/progressive-steps/ActiveProgressiveSteps';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 import { OrderSection, useOrderStore, useOrders } from '../../../../data';
 import { AnyPaymentMetod } from './layouts/AnyPaymentMetod';

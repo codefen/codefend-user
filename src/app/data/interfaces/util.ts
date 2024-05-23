@@ -12,7 +12,7 @@ export type ID = {id: string}
 export type CompanyID = {company_id: string}
 
 export interface AuditData extends ID{
-    eliminado: string;
+    eliminado: string | boolean;
     creacion: string;
 }
 
@@ -26,6 +26,14 @@ export interface CompanyData {
     company_web: string;
     company_size: string;
     company_area: string;
+}
+
+export interface OwnerData {
+    owner_fname: string;
+	owner_lname: string;
+	owner_role: string;
+	owner_email: string;
+	owner_phone: string;
 }
 
 export interface LocationData {

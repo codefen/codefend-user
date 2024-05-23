@@ -1,6 +1,6 @@
-import type { AuditData, LocationData } from "./util";
+import type { AuditData, LocationData, OwnerData } from "./util";
 
-export interface Company extends AuditData, LocationData{
+export interface Company extends AuditData, LocationData, OwnerData{
     name: string;
     class: string;
     sub_class: string;
@@ -12,11 +12,7 @@ export interface Company extends AuditData, LocationData{
     admin_user_id: string;
     admin_user_name: string;
     admin_user_email: string;
-    owner_fname: string;
-    owner_lname: string;
-    owner_role: string;
-    owner_email: string;
-    owner_phone: string;
+
     profile_media: string;
     orders_size: string;
     reseller_id: string;

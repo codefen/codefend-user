@@ -1,4 +1,4 @@
-import type { ID, Monitoring, ResourceID } from '.';
+import type { AuditCompanyData, ID, Monitoring, ResourceID } from '.';
 import type { ResourceCredential } from './creds';
 
 export interface Company extends ID, Monitoring {
@@ -21,35 +21,8 @@ export interface Company extends ID, Monitoring {
 	orderSize: string;
 }
 
-/* "id": "5874",
-            "company_id": "128",
-            "resource_domain": "www.test.com",
-            "resource_domain_dad": "",
-            "servers": "52.6.51.18",
-            "main_server": "52.6.51.18",
-            "server_pais": "United States",
-            "server_pais_code": "US",
-            "server_pais_provincia": "Virginia",
-            "server_pais_ciudad": "Ashburn",
-            "creacion": "2024-04-19 00:50:10",
-            "childs": [
-                {
-                    "id": "5877",
-                    "company_id": "128",
-                    "resource_domain": "wa.www.test.com",
-                    "resource_domain_dad": "5874",
-                    "servers": "",
-                    "main_server": "",
-                    "server_pais": "",
-                    "server_pais_code": "",
-                    "server_pais_provincia": "",
-                    "server_pais_ciudad": "",
-                    "creacion": "2024-04-19 00:50:26"
-                },*/
+export interface Resouce extends AuditCompanyData {
 
-export interface Resouce  {
-	id: string;
-	company_id: string;
 	resource_domain: string;
 	resource_domain_dad: string;
 	servers: string;
@@ -61,8 +34,6 @@ export interface Resouce  {
 	final_issues?: string;
 	under_scan: string;
 
-	creacion: string;
-	eliminado: string;
 }
 
 export interface Webresource extends Resouce {
@@ -413,8 +384,8 @@ export interface VdbProps {
 	request: VdbRequestSearch;
 	result?: ResultsVdbSearch[];
 }
-export interface ResultsVdbSearchV2 {
-	id: string;
+
+export interface ResultsVdbSearchV2 extends ID{
 	entryID: string;
 	title: string;
 	vulnerability: string;

@@ -1,27 +1,19 @@
-export interface Provider {
-	id: string;
-	company_id: string;
+import type { AuditCompanyData, ContactData, LocationData } from "./util";
+
+export interface Provider extends AuditCompanyData,LocationData,ContactData {
 	company_access_ids: string;
-	fname: string;
-	lname: string;
+	
 	username: string;
 	role: string;
 	headline: string;
 	id_verified: string | boolean;
 	access_role: string;
-	email: string;
-	phone: string;
 	password: string;
 	profile_media: string;
 	mfa_llave: string;
-	pais: string;
-	pais_code: string;
-	pais_provincia: string;
-	pais_ciudad: string;
+
     reseller_id: string;
 	reseller_name: string;
-	eliminado: boolean;
-	creacion: string;
 	user_id: string;
 	show_email_and_phone: string;
 	business_phone: string;

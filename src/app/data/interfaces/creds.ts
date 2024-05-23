@@ -1,6 +1,7 @@
-export interface ResourceCredential {
-    id:string;
-    company_id: string;
+import type { AuditCompanyData } from "./util";
+
+export interface ResourceCredential extends AuditCompanyData{
+
     resource_class: string;
     resource_id: string;
     email: string;
@@ -11,6 +12,5 @@ export interface ResourceCredential {
     publisher_id: string;
     publisher_username: string;
     publisher_email: string;
-    eliminado: string;
-    creacion: string;
+
 }
