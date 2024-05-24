@@ -28,7 +28,6 @@ const WebApplicationView: React.FC = () => {
 	const { updateState } = useOrderStore((state) => state);
 	const flashlight = useFlashlight();
 	const { isAdmin, isNormalUser } = useUserRole();
-	const { selectedItems } = useTableStoreV3();
 
 	useEffect(() => {
 		refetch();

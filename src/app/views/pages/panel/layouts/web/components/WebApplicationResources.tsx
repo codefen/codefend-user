@@ -107,6 +107,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 	const { setCrendentialType, setResourceId } = useCredentialStore();
 	const { setIsOpen, setModalId } = useModalStore();
 	const { handleDelete } = useDeleteWebResource();
+	const { removeItem } = useTableStoreV3();
 
 	const createIssue = (id: string) => {
 		navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -200,9 +201,10 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 					confirmText="Delete"
 					close={() => setShowModal(false)}
 					action={() =>
-						handleDelete(refresh, selectedResource.id).then(() =>
-							setShowModal(false),
-						)
+						handleDelete(() => {
+							refresh();
+							removeItem(selectedResource.id);
+						}, selectedResource.id).then(() => setShowModal(false))
 					}
 				/>
 			</ModalTitleWrapper>
