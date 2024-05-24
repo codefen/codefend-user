@@ -56,8 +56,12 @@ const FinishSignUpLayout: FC = () => {
 			password: userState.password,
 			lead_reference_number: userState.ref,
 		};
-		signUpFinish(requestParams).then((res) => {
-			if (res == true) navigate('/auth/signin');
+		signUpFinish(requestParams).then((user: any) => {
+			if (user) {
+				if (user?.accessRole == 'user') navigate('/');
+				if (user?.accessRole == 'admin') navigate('/admin');
+				if (user?.accessRole == 'provider') navigate('/provider/profile');
+			}
 		});
 	};
 

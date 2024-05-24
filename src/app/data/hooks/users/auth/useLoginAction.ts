@@ -47,7 +47,7 @@ export const useLoginAction = () => {
 				});
 				toast.success(AUTH_TEXT.LOGIN_SUCCESS);
 				axiosHttp.updateUrlInstance();
-				return data.user;
+				return user;
 			})
 			.catch((e: any) => {
 				toast.error(e.message);
