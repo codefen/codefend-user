@@ -1,21 +1,19 @@
-import { useState } from 'react';
-
 import { ModalWrapper } from '..';
 import { GlobeWebIcon, PrimaryButton } from '../..';
 
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import WebDomainForm from '../../forms/WebDomainForm';
-import './web-welcome-guide.scss';
+import '@styles/welcome-guides.scss';
 
 const WebWelcomeModal = () => {
-	const { isOpen, modalId, setIsOpen } = useModalStore();
-	const [isNextStep, updateNextStep] = useState(false);
+	const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
+	const close = () => {
+		setIsOpen(false);
+		setModalId('');
+	};
 
-	const close = () => setIsOpen(false);
-
-	if (isOpen || modalId == MODAL_KEY_OPEN.WEB_WELCOME) {
-		//if (true) {
+	if (isOpen && modalId == MODAL_KEY_OPEN.WEB_WELCOME) {
 		return (
 			<ModalWrapper action={close}>
 				<div className="welcome-container">
@@ -29,11 +27,6 @@ const WebWelcomeModal = () => {
 							<h2>
 								<span>Welcome to</span>codefend
 							</h2>
-							{/*
-                            <ActiveProgressiveSteps
-								orderStepActive={orderStepActive}
-							/>
-                            */}
 						</div>
 					</header>
 
@@ -60,12 +53,12 @@ const WebWelcomeModal = () => {
 								</div>
 							</div>
 
-							<WebDomainForm>
+							<WebDomainForm onDone={close}>
 								{(isLoading) => (
 									<div className="button-wrapper next-btns">
 										<PrimaryButton
 											text="Cancel"
-											click={() => {}}
+											click={close}
 											className="full"
 											buttonStyle="black"
 											disabledLoader
@@ -74,6 +67,7 @@ const WebWelcomeModal = () => {
 											text="Add web resource"
 											className="full"
 											buttonStyle="red"
+											type="submit"
 											isDisabled={isLoading}
 										/>
 									</div>
@@ -85,7 +79,7 @@ const WebWelcomeModal = () => {
 			</ModalWrapper>
 		);
 	} else {
-		return <></>;
+		return null;
 	}
 };
 

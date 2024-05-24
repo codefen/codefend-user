@@ -1,4 +1,4 @@
-import type { AuditCompanyData, ID, Monitoring, ResourceID } from '.';
+import type { AuditCompanyData, AuditData, ID, LocationData, Monitoring, OwnerData, ResourceID } from '.';
 import type { ResourceCredential } from './creds';
 
 export interface Company extends ID, Monitoring {
@@ -273,29 +273,20 @@ export interface SocialProps {
 	issues_condicion: IssuesCondition;
 }
 
-export interface CompanyInfo extends ID {
+export interface CompanyInfo extends AuditData, OwnerData, LocationData {
 	name: string;
 	web: string;
 	mercado: string;
 	size: string;
 	pais: string;
-	pais_code: string;
-	pais_provincia: string;
-	pais_ciudad: string;
+
 	address: string;
-	owner_fname: string;
-	owner_lname: string;
-	owner_role: string;
-	owner_email: string;
-	owner_phone: string;
+
 	profile_media: string;
 	orders_size: string;
-	eliminado: string;
-	creacion: string;
 }
 
-export interface Ticket extends ID{
-	company_id: string;
+export interface Ticket extends AuditCompanyData{
 	dad_id: string;
 	user_id: string;
 	user_email: string;
@@ -303,8 +294,6 @@ export interface Ticket extends ID{
 	cs_header: string;
 	cs_body: string;
 	condicion: string;
-	eliminado: string;
-	creacion: string;
 }
 
 export interface TicketWithChild extends Ticket {

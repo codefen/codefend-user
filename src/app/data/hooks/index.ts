@@ -8,6 +8,5 @@ export { default as useDoughnutChart } from './common/useChart';
 export { default as useChatbox } from './common/useChatbox';
 export { default as useGetAllCompanies } from './users/admins/useGetAllCompanies';
 export { default as useModal } from './common/useModal';
-export * from "./panel/userWelcomeUser";
 export * from "./common/useShowScreen";
 export * from "./common/useMessageState"

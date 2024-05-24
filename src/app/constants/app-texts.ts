@@ -22,6 +22,7 @@ export enum RESOURCE_CLASS_ALIAS {
 
 export enum MODAL_KEY_OPEN {
     LOGOUT="logout",
+
     ADD_NETWORK="add_access_point",
     ADD_SUB_NETWORK="add_network_device",
     ADD_MEMBER="add_member",
@@ -29,6 +30,7 @@ export enum MODAL_KEY_OPEN {
     ADD_TICKET="add_ticket",
     ADD_DOMAIN="add_domain",
     ADD_SUB_DOMAIN="add_subdomain",
+
     DELETE_NETWORK="delete_resource",
     DELETE_TICKET="delete_ticket",
     DELETE_SOURCE="delete_resource",
@@ -44,7 +46,14 @@ export enum MODAL_KEY_OPEN {
     NETWORK_CREDS="lan",
     REVOKE_USER="revoke",
     ADD_COLLABORATOR="add-collaborator",
-    WEB_WELCOME="open-ww"
+
+    WEB_WELCOME="open-ww",
+
+    USER_WELCOME="open-w",
+    USER_GUIDE="open-g",
+
+    USER_SELECT_RESOURCE="open-lfr"
+    
 }
 
 export enum TABLE_KEYS {

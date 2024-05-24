@@ -1,39 +1,34 @@
 import type { FC, ReactNode } from 'react';
-import './resourcefigure.scss';
 import Show from '@defaults/Show';
 
 interface ResourceFigureProps {
 	icon: ReactNode;
 	title: string;
-	count?: number;
 	click?: () => void;
 	isActive?: boolean;
+	isDisabled?: boolean;
 }
 
-export const ResourceFigure: FC<ResourceFigureProps> = ({
-	count,
+const ResourceFigures: FC<ResourceFigureProps> = ({
 	icon,
 	title,
 	click,
 	isActive,
+	isDisabled,
 }) => {
 	const handleClick = (e: any) => {
-		if (click && isActive) click();
+		if (click && !isDisabled) click();
 	};
 	return (
 		<figure
-			className={`report-type-card ${!isActive && 'report-type-disable'}`}
+			className={`welcome-resource ${!isDisabled && isActive ? 'resource-selected' : ''} ${isDisabled ? 'full-disable' : ''}`}
 			onClick={handleClick}>
 			{icon}
-
 			<figcaption className={'caption-card'}>
 				<h4>{title}</h4>
-				<Show when={count !== undefined}>
-					<h5>
-						total issues <span>{count}</span>
-					</h5>
-				</Show>
 			</figcaption>
 		</figure>
 	);
 };
+
+export default ResourceFigures;

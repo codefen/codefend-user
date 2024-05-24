@@ -19,6 +19,7 @@ import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import useTableStoreV3 from '@table/v3/tablev3.store.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
 import WebApplicationPentest from './components/WebApplicationPentest.tsx';
+import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
 
 const WebApplicationView: React.FC = () => {
 	//Custom Hook for Web panel view
@@ -38,6 +39,7 @@ const WebApplicationView: React.FC = () => {
 			<OrderV2 />
 			<ModalReport />
 			<CredentialsModal />
+			<WebWelcomeModal />
 			<EmptyLayout
 				className="webapp"
 				fallback={webEmptyScreen}

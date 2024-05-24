@@ -12,7 +12,6 @@ import { useFlashlight } from '../../FlashLightContext.tsx';
 import './dashboard.scss';
 import { PrimaryButton } from '@buttons/index.ts';
 import { useNavigate } from 'react-router';
-import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
 
 const Dashboard: React.FC = () => {
 	const flashlight = useFlashlight();
@@ -22,7 +21,6 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
-			<WebWelcomeModal />
 			<div className="brightness variant-1"></div>
 			<div className="brightness variant-2"></div>
 

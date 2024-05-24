@@ -10,7 +10,7 @@ import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager.tsx';
 import '/public/flags/flags.css';
 import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
-import { useUserHavePollActive } from '@hooks/quality-survey/useUserHavePollActive.ts';
+import { useUserCommunicated } from '@hooks/useUserCommunicated.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
@@ -30,7 +30,7 @@ export const PanelPage: FC = () => {
 	const { isAuth, logout, getUserdata } = useUserData();
 	const { updateAuth } = useAuthStore((state) => state);
 	const { getProviderCompanyAccess } = useProviderCompanies();
-	useUserHavePollActive();
+	useUserCommunicated();
 	if (!isAuth()) logout();
 
 	useEffect(() => {
