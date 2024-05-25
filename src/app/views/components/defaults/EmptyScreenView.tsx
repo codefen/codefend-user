@@ -7,6 +7,7 @@ import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm'
 import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import WebDomainForm from '../forms/WebDomainForm';
+import { GlobeWebIcon } from '@icons';
 
 interface EmptyScreenProps {
 	title?: string;
@@ -42,11 +43,25 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 			<div className="empty-screen empty-card">
 				<div className="empty-container">
 					<div className="empty-card-wrapper">
-						<div className="header">
-							<span className="first-text">{title}</span>
-							<span className="second-text">{info}</span>
-						</div>
+
 						<Show when={type === RESOURCE_CLASS.WEB}>
+							<div className="header">
+								<div className='image'>
+									<GlobeWebIcon />
+								</div>
+								<div className='text'>
+									<div className="title">Add a new web resource</div>
+									<p>
+										From this section you can add a new web resource like websites and web applications.
+										<br/> <br/> 
+                                        <span className="codefend-text-red">
+                                            Launch a pentest: 
+                                        </span>
+										&nbsp;Once you have loaded the desired resources you can request a web application penetration test to check their security.
+                                    </p>
+									
+								</div>
+							</div>
 							<WebDomainForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton

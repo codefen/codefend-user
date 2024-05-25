@@ -69,9 +69,9 @@ export enum TABLE_KEYS {
 
 export const webEmptyScreen = {
     type: RESOURCE_CLASS.WEB,
-    title: 'There’s no data to display here',
-    subtitle: 'Start by adding a new web resource',
-    btnText: 'Add domain',
+    title: 'Add a new web resource',
+    subtitle: 'From this section you can add a new web resource like websites and web applications. Once you have loaded the desired resources you can request a web application penetration test to check their security.',
+    btnText: 'Add web resource',
 };
 
 export const mobileEmptyScreen = {
