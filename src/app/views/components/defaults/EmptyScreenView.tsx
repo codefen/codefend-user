@@ -7,7 +7,14 @@ import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm'
 import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import WebDomainForm from '../forms/WebDomainForm';
-import { GlobeWebIcon } from '@icons';
+import { 
+	GlobeWebIcon,
+	CLoudIcon,
+	MobileIcon,
+	PeopleGroupIcon,
+	SourceCodeIcon,
+	LanIcon,
+} from '@icons';
 
 interface EmptyScreenProps {
 	title?: string;
@@ -43,7 +50,6 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 			<div className="empty-screen empty-card">
 				<div className="empty-container">
 					<div className="empty-card-wrapper">
-
 						<Show when={type === RESOURCE_CLASS.WEB}>
 							<div className="header">
 								<div className='image'>
@@ -72,6 +78,15 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 							</WebDomainForm>
 						</Show>
 						<Show when={type === RESOURCE_CLASS.NETWORK}>
+							<div className="header">
+								<div className='image'>
+									<LanIcon />
+								</div>
+								<div className='text'>
+									<span className="title">{title}</span>
+									<p>{info}</p>
+								</div>
+							</div>
 							<NetworkDadForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -82,6 +97,15 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 							</NetworkDadForm>
 						</Show>
 						<Show when={type === RESOURCE_CLASS.MOBILE}>
+							<div className="header">
+								<div className='image'>
+									<MobileIcon />
+								</div>
+								<div className='text'>
+									<span className="title">{title}</span>
+									<p>{info}</p>
+								</div>
+							</div>							
 							<MobileResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -92,6 +116,15 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 							</MobileResourceForm>
 						</Show>
 						<Show when={type === RESOURCE_CLASS.CLOUD}>
+							<div className="header">
+								<div className='image'>
+									<CLoudIcon />
+								</div>
+								<div className='text'>
+									<span className="title">{title}</span>
+									<p>{info}</p>
+								</div>
+							</div>
 							<CloudResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -102,6 +135,15 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 							</CloudResourceForm>
 						</Show>
 						<Show when={type === RESOURCE_CLASS.SOCIAL}>
+							<div className="header">
+								<div className='image'>
+									<PeopleGroupIcon />
+								</div>
+								<div className='text'>
+									<span className="title">{title}</span>
+									<p>{info}</p>
+								</div>
+							</div>							
 							<SocialResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
@@ -112,6 +154,15 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
 							</SocialResourceForm>
 						</Show>
 						<Show when={type === RESOURCE_CLASS.SOURCE}>
+							<div className="header">
+								<div className='image'>
+									<SourceCodeIcon />
+								</div>
+								<div className='text'>
+									<span className="title">{title}</span>
+									<p>{info}</p>
+								</div>
+							</div>									
 							<SourceResourceForm onDone={event}>
 								{(isLoading) => (
 									<EmptyScreenButton
