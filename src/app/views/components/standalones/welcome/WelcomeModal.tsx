@@ -7,15 +7,11 @@ import { useUserRole } from '#commonUserHooks/useUserRole';
 const Logo = lazy(() => import('../../defaults/Logo'));
 
 interface WelcomeModalProps {
-	closeModal: () => void;
-	startGuide: () => void;
-	startLoadResource: () => void;
+	close: () => void;
+	startNext: () => void;
 }
 
-export const WelcomeModal: FC<WelcomeModalProps> = ({
-	closeModal,
-	startLoadResource,
-}) => {
+export const WelcomeModal: FC<WelcomeModalProps> = ({ close, startNext }) => {
 	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
 	return (
 		<ModalWrapper action={() => {}} type="max-w">
@@ -68,22 +64,12 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
 				</div>
 
 				<div className="welcome-btns">
-					<Show when={isAdmin() || isNormalUser()}>
-						<PrimaryButton
-							buttonStyle="red"
-							text="Start tour"
-							disabledLoader
-							click={startLoadResource}
-						/>
-					</Show>
-					<Show when={isProvider() || isReseller()}>
-						<PrimaryButton
-							buttonStyle="red"
-							text="Close"
-							disabledLoader
-							click={closeModal}
-						/>
-					</Show>
+					<PrimaryButton
+						buttonStyle="red"
+						text="Start tour"
+						disabledLoader
+						click={startNext}
+					/>
 				</div>
 			</div>
 		</ModalWrapper>

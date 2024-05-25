@@ -16,26 +16,33 @@ import {
 } from '@/app/constants/app-texts';
 import { useNavigate } from 'react-router';
 import useModalStore from '@stores/modal.store';
+import { useSolvedComunique } from '@hooks/useSolvedComunique';
 
 interface WelcomeLoadResourceProps {
-	close: ()=>void;
+	close: () => void;
 }
+const getPath = (alias: string): string => {
+	if (alias == RESOURCE_CLASS_ALIAS.WEB) return 'web';
+	if (alias == RESOURCE_CLASS_ALIAS.MOBILE) return 'mobile';
+	if (alias == RESOURCE_CLASS_ALIAS.CLOUD) return 'cloud';
+	if (alias == RESOURCE_CLASS_ALIAS.SOURCE) return 'source';
+	if (alias == RESOURCE_CLASS_ALIAS.SOCIAL) return 'social';
+	return 'network';
+};
 
-const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({close}) => {
+const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
 	const [selectedAlias, setSelected] = useState('');
 	const navigate = useNavigate();
-	const { setModalId, setIsOpen } = useModalStore();
+	//const { setModalId, setIsOpen } = useModalStore();
+	const { solvedComunique } = useSolvedComunique();
 
 	const navigationTo = () => {
-		if (selectedAlias === RESOURCE_CLASS_ALIAS.WEB) {
-			close();
-			setModalId(MODAL_KEY_OPEN.WEB_WELCOME);
-			setIsOpen(true);
-			navigate('/web');
-		}
+		close();
+		solvedComunique();
+		navigate(getPath(selectedAlias));
 	};
 	return (
-		<ModalWrapper action={()=>{}} type="load-resource">
+		<ModalWrapper action={() => {}} type="load-resource">
 			<div className="welcome-container">
 				<header className="welcome-header">
 					<div className="welcome-header-title">
@@ -115,10 +122,10 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({close}) => {
 							/>
 						</div>
 						<PrimaryButton
-							text="Load resource"
+							text="Add first resource"
 							className="load-resource-btn"
 							buttonStyle="red"
-							isDisabled={selectedAlias === ""}
+							isDisabled={selectedAlias === ''}
 							click={navigationTo}
 							disabledLoader
 						/>

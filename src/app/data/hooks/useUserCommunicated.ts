@@ -8,7 +8,7 @@ import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { useQualitySurveyStart } from './quality-survey/useQualitySurveyStart';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import useModalStore from '@stores/modal.store';
-import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import { COMUNIQUE_KEYS, MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 const fetcher = ([model, { company, user, logout }]: any) => {
 	if (companyIdIsNull(company)) return Promise.reject(false);
@@ -29,13 +29,14 @@ const fetcher = ([model, { company, user, logout }]: any) => {
 
 const handleWelcomeNotification = (
 	notifications: any[],
-	openGuide: boolean,
+	isOpen: boolean,
 	setOpenModal: Function,
 ) => {
 	const welcomeNotify = notifications.find(
 		(item: any) => item.model === 'user_welcome',
 	);
-	if (!openGuide && welcomeNotify) {
+	if (!isOpen && welcomeNotify) {
+		localStorage.setItem(COMUNIQUE_KEYS.ID, welcomeNotify.id);
 		setOpenModal();
 		return true;
 	}
@@ -54,6 +55,7 @@ const handleOrderFinishedNotification = (
 		(item: any) => item.model === 'order_finished',
 	);
 	if (!isOpen && orderFinishedNotify) {
+		localStorage.setItem(COMUNIQUE_KEYS.ID, orderFinishedNotify.id);
 		startPoll(
 			orderFinishedNotify.order_id,
 			orderFinishedNotify.order_reference_number,
@@ -105,7 +107,7 @@ export const useUserCommunicated = () => {
 			const finished = !open
 				? handleOrderFinishedNotification(
 						notifications,
-						isOpen,
+						isOpen || anyModalIsOpen,
 						startPoll,
 						updateIsOpen,
 						updateOrderId,
