@@ -328,3 +328,15 @@
 		}
 	}
 }
+
+
+[data-theme='dark'] {
+
+	.item {
+		&.label:has(input:checked) {
+			background-color: #ff28280f;
+			// color: white;
+		}
+	}
+
+}
