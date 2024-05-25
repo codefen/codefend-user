@@ -16,6 +16,7 @@ import './navbar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
+import useModalStore from '@stores/modal.store.ts';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
@@ -31,6 +32,7 @@ const Navbar: FC = () => {
 	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
+	const { setIsOpen, setModalId } = useModalStore();
 	const [baseApiName, setBaseApiName] = useState('');
 	const { showModal, showModalStr, setShowModal, setShowModalStr } =
 		useModal();
@@ -58,6 +60,10 @@ const Navbar: FC = () => {
 	const rootAction = () => {
 		navigate('/');
 	};
+	const openGuide = () => {
+		setModalId(MODAL_KEY_OPEN.USER_WELCOME);
+		setIsOpen(true);
+	};
 	return (
 		<>
 			<Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>
@@ -83,7 +89,7 @@ const Navbar: FC = () => {
 
 			<nav className="navbar">
 				<div className="left">
-					<div className="navbar-logo">
+					<div className="navbar-logo" onClick={openGuide}>
 						<span className={`${open && 'rotate-360'}`}>
 							<Logo theme="aim" onClick={() => handleChange()} />
 						</span>
