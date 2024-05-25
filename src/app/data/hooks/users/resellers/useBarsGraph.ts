@@ -7,6 +7,7 @@ interface GraphData {
 }
 
 export const useBarsGraph = () => {
+	//Grafico en Svg
 	const svgRef = useRef<SVGSVGElement>(null);
 
 	const generateData = (): GraphData[] => {
@@ -18,6 +19,7 @@ export const useBarsGraph = () => {
 		return data;
 	};
 
+	//Creare grafico svg con d3
 	const drawChart = (data: GraphData[]) => {
 		//Margin that the graphic occupies with respect to the svg space
 		const margin = { top: 10, right: 35, bottom: 0, left: 10 };
@@ -40,7 +42,7 @@ export const useBarsGraph = () => {
 			.scaleLinear()
 			.domain([0, maxResellers])
 			.nice()
-			//Defines the size in X of the graph (svg size - graph margin = graph size)
+			//Define el tamaño en X del grafico (svg size - graph margin = graph size)
 			.range([height - margin.bottom, margin.top]);
 
 		const xAxis = (g: d3.Selection<SVGGElement, unknown, null, undefined>) =>

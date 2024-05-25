@@ -51,6 +51,7 @@ export enum MODAL_KEY_OPEN {
 
     USER_WELCOME="open-w",
     USER_GUIDE="open-g",
+    USER_NEXUS_WELCOME="open-n",
 
     USER_SELECT_RESOURCE="open-lfr"
     
@@ -65,6 +66,10 @@ export enum TABLE_KEYS {
     ITEM_CLASS=".item",
     ITEM_ROW_ID="data-id",
     ITEMS="selected"
+}
+
+export enum COMUNIQUE_KEYS {
+    ID="comunique_active_id"
 }
 
 export const webEmptyScreen = {
