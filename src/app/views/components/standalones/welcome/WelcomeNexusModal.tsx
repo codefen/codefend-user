@@ -39,6 +39,7 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({
 							</span>{' '}
 							to analyze the security of your infrastructure
 							<br />
+							<br />
 							We combine the powerfull of this bost network of
 							professionals with{' '}
 							<span className="weight-text">
@@ -46,6 +47,7 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({
 							</span>{' '}
 							that will facilitate your organization to improve your
 							security posture and obtain multiple certifications!
+							<br />
 							<br />
 							<span className="codefend-text-red">
 								Additionally it presents vulnerability communication on
