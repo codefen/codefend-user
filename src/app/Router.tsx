@@ -27,6 +27,7 @@ import {
 	OrdersReviewProviders,
 	ResellerCompaniesLayout,
 	ResellerOrdersLayout,
+	SnsPanel,
 } from './views/pages';
 import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from '@modals/reports/PageReport.tsx';
@@ -44,6 +45,7 @@ import {
 	IssuesPanel,
 	IssuesUpdate,
 } from './views/pages/panel/layouts/issues';
+import InxPanel from './views/pages/panel/layouts/inx/InxPanel';
 
 export const AppRouter: React.FC = () => {
 	const {
@@ -206,18 +208,20 @@ export const AppRouter: React.FC = () => {
 							</>
 						)}
 
-						{/*haveAccessToModules && (
+						{!isReseller() && (
 							<>
-								<Route path="enp">
+								<Route path="inx" element={<InxPanel />} />
+								<Route path="sns" element={<SnsPanel />} />
+								{/*<Route path="enp">
 									<Route index element={<EnpPanel />} />
 									<Route path="enp/:id" element={<EnpSingle />} />
 								</Route>
 
-								<Route path="inx" element={<InxPanel />} />
+								
 								<Route path="sns" element={<SnsPanel />} />
-								<Route path="vdb" element={<VdbPanel />} />
+								<Route path="vdb" element={<VdbPanel />} />*/}
 							</>
-						)*/}
+						)}
 						{haveAccessToSupport && (
 							<>
 								<Route path="cs" element={<SupportPanel />} />

@@ -49,13 +49,15 @@ const TableRowsV3: FC<TableRowsProps> = ({
 		let rows: JSX.Element[] = [];
 		const rowCount = r.length;
 		for (let i = 0; i < rowCount; i++) {
-			const itemDisable = ` ${isActiveDisable && r[i][TABLE_KEYS.COUNT_ISSUE] && r[i][TABLE_KEYS.COUNT_ISSUE] <= 0 ? 'item-disabled' : ''}`;
+			const row = r[i] as any;
+			const itemDisable = ` ${isActiveDisable && row[TABLE_KEYS.COUNT_ISSUE] && row[TABLE_KEYS.COUNT_ISSUE] <= 0 ? 'item-disabled' : ''}`;
 			if (urlNav) {
 				rows[i] = (
 					<TableAnchorRow
+						key={`rac-${row[TABLE_KEYS.ID]}`}
 						columns={columns}
 						itemDisable={itemDisable}
-						row={r[i]}
+						row={row}
 						nextRow={r?.[i + 1]}
 						urlNav={urlNav}
 					/>
@@ -63,9 +65,10 @@ const TableRowsV3: FC<TableRowsProps> = ({
 			} else if (isNeedMultipleCheck) {
 				rows[i] = (
 					<TableLabelRow
+						key={`rLc-${row[TABLE_KEYS.ID]}`}
 						columns={columns}
 						itemDisable={itemDisable}
-						row={r[i]}
+						row={row}
 						nextRow={r?.[i + 1]}
 						selectedItems={selectedItems}
 						handleChecked={handleChecked}
@@ -74,9 +77,10 @@ const TableRowsV3: FC<TableRowsProps> = ({
 			} else {
 				rows[i] = (
 					<TableSimpleRow
+						key={`rsc-${row[TABLE_KEYS.ID]}`}
 						columns={columns}
 						itemDisable={itemDisable}
-						row={r[i]}
+						row={row}
 						nextRow={r?.[i + 1]}
 					/>
 				);

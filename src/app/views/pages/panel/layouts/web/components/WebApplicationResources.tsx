@@ -49,14 +49,14 @@ const webColumns: ColumnTableV3[] = [
 		header: 'ID',
 		key: 'id',
 		styles: 'item-cell-1',
-		weight: '5%',
+		weight: '6%',
 		render: (ID: any) => ID,
 	},
 	{
 		header: 'domain',
 		key: TABLE_KEYS.FULL_WITH_NEXT,
 		styles: 'item-cell-2',
-		weight: '53.5%',
+		weight: '48%',
 		render: (row: any, next?: any) =>
 			!row?.resource_domain_dad ? (
 				row.resource_domain
@@ -71,14 +71,14 @@ const webColumns: ColumnTableV3[] = [
 		header: 'server ip',
 		key: 'main_server',
 		styles: 'item-cell-3',
-		weight: '10.5%',
+		weight: '12%',
 		render: (ip: any) => ip,
 	},
 	{
 		header: 'area',
 		key: TABLE_KEYS.FULL_ROW,
 		styles: 'item-cell-4',
-		weight: '13%',
+		weight: '16%',
 		render: (row: any) => (
 			<LocationItem
 				country={row?.server_pais || ''}

@@ -8,10 +8,11 @@ main.issues-list {
 	.left {
 		width: 65%;
 		.left-wrapper {
-			height: 83.333333%;
 			border: 1px solid var(--tertiary-color-100);
 			display: flex;
 			flex-flow: column nowrap;
+			height: 100%;
+			max-height: calc(100dvh - 75px);
 
 			.modal {
 				min-height: calc(100dvh - 170px);

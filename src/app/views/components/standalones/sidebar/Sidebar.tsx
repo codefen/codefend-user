@@ -254,6 +254,22 @@ const Sidebar: FC = () => {
 			root: false,
 			haveAccess: isNotProviderAndReseller,
 		},
+		{
+			title: 'inx',
+			id: 'sidebar_inx',
+			icon: <InxIcon />,
+			to: '/inx',
+			root: false,
+			haveAccess: !isReseller(),
+		},
+		{
+			title: 'Sns',
+			id: 'sidebar_sns',
+			icon: <SnbIcon />,
+			to: '/sns',
+			root: false,
+			haveAccess: !isReseller(),
+		},
 	];
 	const getItems = useCallback((menu: any[]) => {
 		const items: JSX.Element[] = [];
