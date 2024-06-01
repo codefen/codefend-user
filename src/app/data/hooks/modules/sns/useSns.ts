@@ -34,7 +34,7 @@ export const useSns = ()=>{
     const query = new URLSearchParams(useLocation().search);
 	const [searchData, setSearchData] = useState(query.get('search') || '');
     const [searchClass, setSearchClass] = useState<string>(
-		query.get('class') ?? '',
+		query.get('class') || 'email',
 	);
     const intelDataRef = useRef<any[]>([]);
 

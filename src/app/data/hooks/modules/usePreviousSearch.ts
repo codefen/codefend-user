@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import {
 	type PreviusSearch,
 	mapPreviusSearch,
-} from '../../..';
+} from '../..';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
@@ -29,7 +29,7 @@ export interface PreviousSearch {
 	creacion: string;
 }
 
-export const useInxPreviousSearch = () => {
+export const usePreviousSearch = (mod: string) => {
 	const { getCompany, logout } = useUserData();
 	const [fetcher, _, isLoading] = useFetcher();
 	const dataRef = useRef<PreviousSearch[]>([]);
@@ -37,13 +37,11 @@ export const useInxPreviousSearch = () => {
 	const fetchInitialSearch = async (companyID: string) => {
 		fetcher('post', {
 			body: {
-				model: 'modules/inx',
+				model: `modules/${mod}`,
 				ac: 'view_previous',
 				company_id: companyID,
 			},
-		})
-			.then(({ data }: any) => {
-				data = JSON.parse(String(data).trim());
+		}).then(({ data }: any) => {
 				if(verifySession(data, logout)) return;
 
 				if (apiErrorValidation(data?.error, data?.response)){
@@ -52,7 +50,7 @@ export const useInxPreviousSearch = () => {
 					);
 				}
 				
-				dataRef.current = data.previous_searches ? data.previous_searches.map(
+				dataRef.current = data?.previous_searches ? data?.previous_searches.map(
 					(searches: any) => mapPreviusSearch(searches) as PreviusSearch,
 				) : [];
 			})

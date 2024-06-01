@@ -62,13 +62,6 @@ export const InxPreviousSearches: FC<InxPreviousSearchesProps> = ({
 						</>
 					</SimpleSection>
 				</div>
-				<PrimaryButton
-					text="REQUEST PROFESSIONAL ASSISTANCE"
-					click={() => {
-						alert('Processing your order');
-					}}
-					className="primary-full"
-				/>
 			</div>
 		</>
 	);

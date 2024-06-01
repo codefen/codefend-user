@@ -1,14 +1,14 @@
 import { type FC, useEffect } from 'react';
 import { InxSearchAndData } from './components/InxSearchAndData.tsx';
 import { InxPreviousSearches } from './components/InxPreviousSearches.tsx';
-import { useInxPreviousSearch } from '@moduleHooks/inx/useInxPreviousSearch.ts';
+import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import './inx.scss';
 
 export const InxPanel: FC = () => {
 	const [showScreen, control, refresh] = useShowScreen();
-	const { previousSearches, isLoading, refetch } = useInxPreviousSearch();
+	const { previousSearches, isLoading, refetch } = usePreviousSearch('inx');
 	const flashlight = useFlashlight();
 
 	useEffect(() => {

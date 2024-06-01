@@ -6,7 +6,7 @@ import { useSns } from '@moduleHooks/sns/useSns.ts';
 import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 
-const SnsSearchAndData: FC = () => {
+const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
 	const {
 		searchClass,
 		searchData,
@@ -29,7 +29,7 @@ const SnsSearchAndData: FC = () => {
 
 	const procSearch = (e?: React.FormEvent): any => {
 		if (e) e.preventDefault();
-
+		refetch();
 		handleSearch();
 	};
 	const selectBarOptions = {
