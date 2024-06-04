@@ -95,6 +95,8 @@ export enum WEB_PANEL_TEXT {
     INVALID_DOMAIN="Ivalid domain, please add valid domain",
     INVALID_SUB_DOMAIN="Invalid sub domain, please add valid sub domain",
 
+    SAVING_DOMAIN="The domain is being saved...",
+    SAVING_SUB_DOMAIN="Subdomain is being saved...",
     ADD_DOMAIN="Successfully added domain...",
     ADD_SUB_DOMAIN="Successfully added sub domain...",
     DELETED_WEB="Successfully deleted web resources..."

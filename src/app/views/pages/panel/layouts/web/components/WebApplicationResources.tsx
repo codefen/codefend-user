@@ -12,7 +12,6 @@ import {
 	BugIcon,
 	DocumentIcon,
 	CredentialIcon,
-	MagnifyingGlassIcon,
 } from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
@@ -22,7 +21,6 @@ import { useUserRole } from '#commonUserHooks/useUserRole';
 import Show from '@defaults/Show';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
-import { ModalInput } from '@defaults/ModalInput.tsx';
 import {
 	MODAL_KEY_OPEN,
 	RESOURCE_CLASS,
@@ -184,10 +182,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 		<>
 			<AddDomainModal
 				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_DOMAIN}
-				onDone={() => {
-					setShowModal(!showModal);
-					refresh();
-				}}
+				onDone={() => refresh()}
 				close={() => setShowModal(false)}
 			/>
 			<ModalTitleWrapper
@@ -211,10 +206,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 
 			<AddSubDomainModal
 				isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
-				onDone={() => {
-					setShowModal(false);
-					refresh();
-				}}
+				onDone={() => refresh()}
 				close={() => setShowModal(false)}
 				webResources={webResources}
 			/>
