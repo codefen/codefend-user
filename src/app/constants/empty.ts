@@ -183,3 +183,17 @@ export const EMPTY_ISSUEUPDATE = {
 	creacion: '',
 	childs: []
   };
+
+  export const EMPTY_CS_TICKET = {
+	id: '', 
+	company_id: '',
+	issue_id: '',
+	user_id: '',
+	user_username: '',
+	user_company: '',
+	cs_header: '',
+	cs_body: '',
+	eliminado: '',
+	creacion: '',
+	childs: []
+  }

@@ -10,6 +10,7 @@ import { MessageList } from '../../../../../components/standalones/MessageList';
 import { useSWRMessage } from '@panelHooks/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
+import { EMPTY_CS_TICKET } from '@/app/constants/empty';
 
 export const SupportChatDisplay: FC = () => {
 	const { getCompany } = useUserData();
@@ -38,7 +39,7 @@ export const SupportChatDisplay: FC = () => {
 		}
 	};
 
-	const { childs, ...ticketDad } = data;
+	const { childs, ...ticketDad } = data ? data : EMPTY_CS_TICKET;
 	const alltickets = [ticketDad, ...childs];
 
 	return (

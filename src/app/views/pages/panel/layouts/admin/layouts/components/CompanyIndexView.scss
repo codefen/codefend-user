@@ -45,7 +45,7 @@
 			&.selected {
 				border: 1px solid rgba(255, 27, 27, 0.55);
 				box-shadow: 4px 3px 8px 1px rgb(255 146 146 / 10%);
-				background: #ffe4e40d;
+				background: rgb(255 228 228 / 25%);
 			}
 
 			.company-card {
@@ -83,6 +83,9 @@
 					.company-name {
 						font-weight: 700;
 						font-size: 18px;
+						text-overflow: ellipsis;
+						overflow-wrap: anywhere;
+						overflow: hidden;
 					}
 
 					.company-id {

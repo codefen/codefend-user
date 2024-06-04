@@ -22,7 +22,6 @@ import WebApplicationPentest from './components/WebApplicationPentest.tsx';
 import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
 
 const WebApplicationView: React.FC = () => {
-	//Custom Hook for Web panel view
 	const [showScreen, control, refresh] = useShowScreen();
 	const { webResources, isLoading, refetch } = useGetWebResources();
 	const { updateState } = useOrderStore((state) => state);
