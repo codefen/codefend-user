@@ -3,7 +3,7 @@ import { PrimaryButton } from '../../../components';
 import { usePasswordRecovery } from '@userHooks/auth/usePasswordRecovery';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { PasswordRequirements } from './PasswordRequirements';
+import { PasswordRequirements } from '../../../components/auth/PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 

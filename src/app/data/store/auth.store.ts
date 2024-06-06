@@ -5,6 +5,14 @@ import {
 } from '..';
 import { EMPTY_USER } from '@/app/constants/empty';
 
+/**
+ * AuthStore Save:
+ * - User Data
+ * - User is currently authenticated
+ * - User access token
+ * 
+ * Any Actions
+ */
 export interface AuthState {
 	userData: User;
 	isAuth: boolean;

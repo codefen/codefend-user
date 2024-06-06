@@ -5,11 +5,11 @@ import { toast } from 'react-toastify';
 import { PrimaryButton } from '../../../components';
 import { type RegisterFinishParams } from '../../../../data';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { PasswordRequirements } from './PasswordRequirements';
+import { PasswordRequirements } from '../../../components/auth/PasswordRequirements';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
-import { TermsOfUse } from './TermsOfUse';
+import { TermsOfUse } from '../../../components/auth/TermsOfUse';
 import { AuthInput } from '@defaults/AuthInput';
 
 const FinishSignUpLayout: FC = () => {

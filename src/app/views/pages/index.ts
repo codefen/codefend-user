@@ -1,6 +1,14 @@
 import { lazy } from 'react';
 
-export * from './auth';
+export const AuthPage = lazy(() => import('./auth/AuthPage'));
+export const SignInLayout = lazy(() => import('./auth/layouts/Signin'));
+export const SignUpLayout = lazy(() => import('./auth/layouts/Signup'));
+export const ConfirmationSignUp = lazy(
+	() => import('./auth/layouts/ConfirmationSignUp'),
+);
+export const FinishSignUpLayout = lazy(
+	() => import('./auth/layouts/FinishsignUp'),
+);
 
 export const Dashboard = lazy(() => import('./panel/layouts/dashboard/Dashboard.tsx'))
 export const WebApplication = lazy(() => import('./panel/layouts/web/WebApplication.tsx'))
