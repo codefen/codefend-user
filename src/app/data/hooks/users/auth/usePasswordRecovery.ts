@@ -32,6 +32,7 @@ export const usePasswordRecovery = ()=>{
 
     return {
         sendEmailForRecovery,
-        passwordRecover
+        passwordRecover,
+        isLoading
     }
 }

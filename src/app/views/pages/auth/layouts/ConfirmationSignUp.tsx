@@ -1,77 +1,26 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import { PrimaryButton } from '../../../components';
-import { useNavigate } from 'react-router';
-import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
+import ConfirmationForm from '@/app/views/components/forms/ConfirmationForm';
 
-const ConfirmationSignUp: FC = () => {
-	const navigate = useNavigate();
-	const { updateReferenceNumber, refetch } = useRecomendedUsername();
-	const [finishsignup, setFinishSignup] = useState({
-		referenceNumber: '',
-		isLoading: false,
-	});
-
-	const handleCompleteSignup = async (e: any) => {
-		e.preventDefault();
-		updateReferenceNumber(finishsignup.referenceNumber);
-		refetch();
-
-		navigate(`/auth/signup/${finishsignup.referenceNumber}`);
-	};
-
-	return (
-		<form onSubmit={handleCompleteSignup} className="signup-confirm">
-			<div className="check-mail">
-				<div className="check-mail_img">
-					<img
-						src="/codefend/check_email.png"
-						alt="mail-image"
-						decoding="async"
-						loading="lazy"
-					/>
-				</div>
-				<div className="check-mail_text">
-					<span>we have sent you an email with a code!</span>
-					<p>
-						please check your inbox, copy the verification code and paste
-						it in the field below to confirm your email
-					</p>
-				</div>
-			</div>
-			<div className="confirm-input">
-				<label htmlFor="otp">Reference Number</label>
-				<input
-					id="otp"
-					type="text"
-					onChange={(e) => {
-						setFinishSignup((current) => ({
-							...current,
-							referenceNumber: e.target.value,
-						}));
-					}}
-					name="otp"
-					placeholder="Enter Reference Number here"
-					required
-				/>
-			</div>
+const ConfirmationSignUp: FC = () => (
+	<ConfirmationForm>
+		{(isLoading: boolean) => (
 			<div className="confirm-button">
 				<PrimaryButton
 					text="Assistance"
 					click={() => {}}
-					isDisabled={finishsignup.isLoading}
 					buttonStyle="black"
 					disabledLoader
 				/>
 				<PrimaryButton
 					text="Proceed"
 					type="submit"
-					isDisabled={finishsignup.isLoading}
-					click={() => {}}
+					isDisabled={isLoading}
 					buttonStyle="red"
 				/>
 			</div>
-		</form>
-	);
-};
+		)}
+	</ConfirmationForm>
+);
 
 export default ConfirmationSignUp;
