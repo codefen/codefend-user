@@ -57,6 +57,11 @@ export const PanelPage: FC = () => {
 		};
 	}, []);
 
+	//REMPLAZAR (EN EL PRIMER SHOW) CUANDO SE TERMINE DE PROBAR
+	//true -> isAuth()
+	//REMPLAZAR EN (EL SEGUNDO SHOW)
+	//true -> matches
+
 	return (
 		<Show
 			when={isAuth()}

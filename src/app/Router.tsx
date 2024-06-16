@@ -71,6 +71,10 @@ export const AppRouter: React.FC = () => {
 	}) => {
 		return access ? element : <Navigate to="/" replace />;
 	};
+
+	//REMPLAZAR PARA QUE FUNCIONE CORRECTAMENTE LA SEGURIDAD
+	//false -> !getAccessToken().trim() || !isCurrentAuthValid()
+	//EN EL INICIO DE LAS RUTAS PRIVADAS
 	return (
 		<>
 			<ToastContainer
