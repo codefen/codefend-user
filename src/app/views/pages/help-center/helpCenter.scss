@@ -7,7 +7,7 @@
 }
 
 .logo {
-	font-size: 3rem;
+	font-size: 2.5rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -16,7 +16,7 @@
 	cursor: pointer;
 
 	img {
-		width: 80px;
+		width: 55px;
 	}
 	span {
 		font-weight: 700;
@@ -28,9 +28,7 @@
 	display: flex;
 	flex: 1 1;
 	flex-direction: column;
-	margin-inline: auto;
-	max-width: 746px;
-	width: calc(100dvw - 534px);
+	width: 100%;
 
 	h2 {
 		padding-block-start: 4rem;
@@ -153,5 +151,29 @@
 		100% {
 			transform: rotate(360deg);
 		}
+	}
+}
+
+@media only screen and (min-width: 440px) {
+	.help-wrapper {
+		width: 96%;
+		min-width: 440px;
+		margin-inline: auto;
+	}
+	.logo {
+		font-size: 3rem;
+
+		img {
+			width: 80px;
+		}
+	}
+}
+
+@media only screen and (min-width: 640px) {
+	.help-wrapper {
+		width: calc(100dvw - 534px);
+		max-width: 746px;
+		min-width: 600px;
+		margin-inline: auto;
 	}
 }
