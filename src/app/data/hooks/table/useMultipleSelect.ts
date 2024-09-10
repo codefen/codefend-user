@@ -43,6 +43,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
     endY: 0,
   });
   const [isSelecting, setIsSelecting] = useState(false);
+  const [isMoving, setIsMoving] = useState(false);
   const tableRef = useRef<HTMLDivElement>(null);
   const { setSelectedItems, selectedItems, removeItem } = useTableStoreV3();
   const prevSelectedItems = useRef<any>([]);
@@ -73,6 +74,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
     if (isSelecting) {
+      setIsMoving(true)
       setSelectionBox(prevBox => ({
         ...prevBox,
         endX: e.clientX,
@@ -97,7 +99,10 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
   };
 
   const onPointerStop = useCallback((e: PointerEvent<HTMLDivElement>) => {
-    setIsSelecting(false);
+    if(e.isPrimary){
+      setIsSelecting(false);
+      setIsMoving(false);
+    }
     tableItems.current = [];
   }, []);
 
@@ -114,6 +119,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
   return {
     tableRef,
     isSelecting,
+    isMoving,
     selectionBoxStyle,
     onPointerStop,
     onPointerMove,

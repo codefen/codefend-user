@@ -86,6 +86,14 @@
     }
   }
 
+  &.table-item-no-ev {
+    .item,
+    .columns-name,
+    .rows {
+      pointer-events: none;
+    }
+  }
+
   & .selecting-box {
     position: absolute;
     background-color: #ffd5d54d;

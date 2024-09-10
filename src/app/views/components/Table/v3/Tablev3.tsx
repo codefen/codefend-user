@@ -41,12 +41,20 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   const [sort, setSort] = useState<Sort>(initialSort);
   const [sortedColumn, setDataSort] = useState<string>(columns[0].key);
   const [term, setTerm] = useState<string>('');
-  const { tableRef, isSelecting, selectionBoxStyle, onPointerStop, onPointerMove, onPointerDown } =
-    useMultipleSelect(isNeedMultipleCheck);
+  const {
+    tableRef,
+    isSelecting,
+    isMoving,
+    selectionBoxStyle,
+    onPointerStop,
+    onPointerMove,
+    onPointerDown,
+  } = useMultipleSelect(isNeedMultipleCheck);
   const preProcessedRows = usePreProcessedRows(rows, initialOrder, sortedColumn, sort, term);
   const tableClassName = useMemo(
-    () => `table ${className} ${isSelecting ? 'table-item-no-selected' : ''}`,
-    [className, isSelecting]
+    () =>
+      `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''}`,
+    [className, isSelecting, isMoving]
   );
 
   return (
@@ -68,7 +76,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerStop}
         onPointerCancel={onPointerStop}>
-        {isSelecting && <div className="selecting-box" style={selectionBoxStyle} />}
+        {isMoving && <div className="selecting-box" style={selectionBoxStyle} />}
         <TableColumnsV3
           columns={columns}
           sortedColumn={sortedColumn}
