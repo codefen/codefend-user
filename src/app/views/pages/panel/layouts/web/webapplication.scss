@@ -33,11 +33,11 @@ main.webapp {
       .pentest-info-container {
         display: flex;
         width: 100%;
-        max-width: 94%;
         align-items: center;
         margin-inline: auto;
         justify-content: flex-start;
-        padding-block: 2rem;
+        margin-block-end: 1rem;
+        border-bottom: 1px solid var(--primary-color-300);
         column-gap: 16px;
 
         img {
