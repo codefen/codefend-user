@@ -23,7 +23,11 @@ export const ResourceFigure: FC<ResourceFigureProps> = ({
   return (
     <figure
       className={`report-type-card ${!isActive && 'report-type-disable'}`}
-      onClick={handleClick}>
+      onClick={handleClick}
+      aria-hidden={isActive ? 'false' : 'true'}
+      title={
+        isActive ? 'Figure of a resource' : 'No vulnerabilities associated with these resources'
+      }>
       {icon}
 
       <figcaption className={'caption-card'}>
