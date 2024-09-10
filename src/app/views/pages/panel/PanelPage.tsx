@@ -62,7 +62,11 @@ export const PanelPage = () => {
         }
         if (e.key === 'Escape') {
           setKeyPress('Escape');
+          e.preventDefault();
         }
+
+        e.stopImmediatePropagation();
+        e.stopPropagation();
       })
     );
     if (getUserdata().access_role === 'provider') {

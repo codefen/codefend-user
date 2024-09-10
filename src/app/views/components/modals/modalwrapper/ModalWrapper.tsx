@@ -42,11 +42,11 @@ const ModalWrapper: FC<ModalWrapper> = ({
   }
 
   return ReactDOM.createPortal(
-    <div onDoubleClick={closeEvent} className="modal-wrapper">
+    <div onDoubleClick={closeEvent} className="modal-wrapper" role="dialog" aria-modal="true">
       <article
         className={`modal ${!isErrorBox ? type : ''}`}
         onDoubleClick={e => {
-          e.preventDefault();
+          e.nativeEvent.stopImmediatePropagation();
           e.stopPropagation();
         }}>
         <Show when={Boolean(showCloseBtn)}>

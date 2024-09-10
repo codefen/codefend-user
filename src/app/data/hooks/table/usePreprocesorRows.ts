@@ -5,29 +5,25 @@ import { useMemo } from 'react';
 const filterRows = (rows: any[], term: string, initialOrder: string): any[] => {
   term = term.toLowerCase();
 
-  return rows
-    .map(row => {
-      const rowMatches: boolean = String(row[initialOrder] || '')
-        .toLowerCase()
-        .includes(term);
+  return rows.filter(row => {
+    const rowMatches: boolean = String(row[initialOrder] || '')
+      .toLowerCase()
+      .includes(term);
 
-      const matchingChildren =
-        row.childs?.filter((child: any) =>
-          String(child[initialOrder] || '')
-            .toLowerCase()
-            .includes(term)
-        ) || [];
+    const matchingChildren =
+      row.childs?.filter((child: any) =>
+        String(child[initialOrder] || '')
+          .toLowerCase()
+          .includes(term)
+      ) || [];
 
-      if (rowMatches || matchingChildren.length > 0) {
-        return {
-          ...row,
-          childs: matchingChildren.length > 0 ? matchingChildren : row.childs,
-        };
-      }
+    if (rowMatches || matchingChildren.length > 0) {
+      row.childs = matchingChildren.length > 0 ? matchingChildren : row.childs;
+      return true;
+    }
 
-      return null;
-    })
-    .filter(Boolean);
+    return false;
+  });
 };
 
 const usePreProcessedRows = (
@@ -40,7 +36,7 @@ const usePreProcessedRows = (
   return useMemo(() => {
     const filteredRows = !term.trim() ? rows : filterRows(rows, term, initialOrder);
     return quickSort(filteredRows, sortedColumn, sort);
-  }, [rows, sortedColumn, sort, term]);
+  }, [rows, sortedColumn, sort, term, initialOrder]);
 };
 
 export default usePreProcessedRows;

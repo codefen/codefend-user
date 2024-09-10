@@ -48,6 +48,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     () => `table ${className} ${isSelecting ? 'table-item-no-selected' : ''}`,
     [className, isSelecting]
   );
+
   return (
     <div className="table-group">
       <Show when={isNeedSearchBar}>
@@ -97,9 +98,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 };
 
 const areEqual = (prevProps: Tablev3Props<any>, nextProps: Tablev3Props<any>) => {
-  const { initialOrder, initialSort, ...prev } = prevProps;
-  const { initialOrder: nextO, initialSort: nextS, ...next } = nextProps;
-  return isShallowEqual(prev, next, { rows: isShallowEqual });
+  return isShallowEqual(prevProps, nextProps, { rows: isShallowEqual });
 };
 
 export default memo(Tablev3, areEqual);
