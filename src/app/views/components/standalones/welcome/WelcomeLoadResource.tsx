@@ -80,7 +80,7 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
                 title="Mobile application"
                 click={() => setSelected(RESOURCE_CLASS_ALIAS.MOBILE)}
                 isActive={selectedAlias === RESOURCE_CLASS_ALIAS.MOBILE}
-                isDisabled={true}
+                isDisabled={false}
               />
 
               <ResourceFigures
@@ -88,7 +88,7 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
                 title="Cloud resources"
                 click={() => setSelected(RESOURCE_CLASS_ALIAS.CLOUD)}
                 isActive={selectedAlias === RESOURCE_CLASS_ALIAS.CLOUD}
-                isDisabled={true}
+                isDisabled={false}
               />
 
               <ResourceFigures
@@ -96,7 +96,7 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
                 title="Network resources"
                 click={() => setSelected(RESOURCE_CLASS_ALIAS.NETWORK)}
                 isActive={selectedAlias === RESOURCE_CLASS_ALIAS.NETWORK}
-                isDisabled={true}
+                isDisabled={false}
               />
 
               <ResourceFigures
@@ -104,7 +104,7 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
                 title="Code & Smart contracts"
                 click={() => setSelected(RESOURCE_CLASS_ALIAS.SOURCE)}
                 isActive={selectedAlias === RESOURCE_CLASS_ALIAS.SOURCE}
-                isDisabled={true}
+                isDisabled={false}
               />
 
               <ResourceFigures
@@ -112,7 +112,7 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
                 title="Social resources"
                 click={() => setSelected(RESOURCE_CLASS_ALIAS.SOCIAL)}
                 isActive={selectedAlias === RESOURCE_CLASS_ALIAS.SOCIAL}
-                isDisabled={true}
+                isDisabled={false}
               />
             </div>
 

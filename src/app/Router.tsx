@@ -120,7 +120,7 @@ export const AppRouter: React.FC = () => {
               <Route path="mobile" element={<MobileApplication />} />
               <Route path="cloud" element={<CloudApplicationPanel />} />
               <Route path="source" element={<SourceCodePanel />} />
-              <Route path="lan" element={<LanPage />} />
+              <Route path="network" element={<LanPage />} />
               <Route path="social" element={<SocialEngineeringPanel />} />
               <Route path="issues/*" element={<IssuePage />}>
                 <Route index element={<IssuesPanel />} />

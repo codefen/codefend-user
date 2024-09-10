@@ -161,7 +161,7 @@ const Sidebar: FC = () => {
       title: 'Network',
       id: 'sidebar_net',
       icon: <LanIcon />,
-      to: '/lan',
+      to: '/network',
       root: false,
       haveAccess: isNotProviderAndReseller || isProviderWithAccess,
     },
