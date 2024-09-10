@@ -1,5 +1,3 @@
-import type { PropsWithChildren } from "react";
-
 export interface FetchPattern<D> {
 	error: null | Error;
 	data: D | null;

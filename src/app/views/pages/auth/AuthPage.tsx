@@ -14,9 +14,6 @@ const AuthPage: FC = () => {
 	const location = useLocation();
 	const { isAuth } = useAuthStore((state) => state);
 
-	const test = location.pathname;
-	console.log({ test})
-
 	return !isAuth ? (
 		<>
 			<ParticlesScriptLoader />

@@ -1,18 +1,11 @@
-import { type StateCreator, create } from 'zustand';
+import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import {
 	type User,
 } from '..';
 import { EMPTY_USER } from '@/app/constants/empty';
+import type { StateInitializer } from '@interfaces/store';
 
-/**
- * AuthStore Save:
- * - User Data
- * - User is currently authenticated
- * - User access token
- * 
- * Any Actions
- */
 export interface AuthState {
 	userData: User;
 	isAuth: boolean;
@@ -32,12 +25,8 @@ export interface AuthState {
  * @param store        Store that will be wrapped
  * @param persistence  Name / Identifier of the store in persistence
  */
-const stateInitV2 = (store: any, persistence: any) =>
-	devtools(persist(store, persistence)) as StateCreator<
-		AuthState,
-		[],
-		[['zustand/persist', string]]
-	>;
+const stateInitV2: StateInitializer<AuthState> = (store, persistence) =>
+	devtools(persist(store, persistence));
 
 const useAuthStore = create<AuthState>()(
 	stateInitV2(

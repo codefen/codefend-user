@@ -1,7 +1,8 @@
-import { type StateCreator, create } from "zustand";
+import {  create } from "zustand";
 import { type ID, type Monitoring, equalsObj } from "..";
-import { type PersistOptions, devtools, persist } from "zustand/middleware";
+import {  devtools, persist } from "zustand/middleware";
 import { EMPTY_COMPANY } from "@/app/constants/empty";
+import type { StateInitializer } from '@interfaces/store';
 
 export interface AdminCompany extends ID, Monitoring {
     name: string;
@@ -40,15 +41,11 @@ export interface AdminCompanyState {
 const equals = (first:any,second:any)=>equalsObj(first, second);
 
 const emptyCompany = EMPTY_COMPANY;
-const userData = localStorage.getItem('authStore') ? JSON.parse(localStorage.getItem('authStore') as string).state?.userData || {} : {};
+// const userData = localStorage.getItem('authStore') ? JSON.parse(localStorage.getItem('authStore') as string).state?.userData || {} : {};
 
-const id = JSON.parse(localStorage.getItem('authStore') || "{}").state?.userData?.company_id || ""
-const stateInitV2 = (store: StateCreator<AdminCompanyState>, persistence: PersistOptions<any,string>) =>
-	devtools(persist(store, persistence)) as StateCreator<
-    AdminCompanyState,
-		[],
-		[['zustand/persist', string]]
-	>;
+// const id = JSON.parse(localStorage.getItem('authStore') || "{}").state?.userData?.company_id || ""
+const stateInitV2: StateInitializer<AdminCompanyState> = (store, persistence) =>
+	devtools(persist(store, persistence));
     
 const useAdminCompanyStore = create<AdminCompanyState>()(stateInitV2((set, get)=>({
     companies: [],
