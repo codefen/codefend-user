@@ -1,6 +1,13 @@
 import DOMPurify from 'isomorphic-dompurify';
 import { Sort, type Resouce, type Webresource } from '..';
-import type { ListenerCallbackType, ListenerOptionsType, ListenerTarget, ListerType, UnsubscribeCallback } from '@interfaces/helper';
+import type {
+	ListenerCallbackType,
+	ListenerOptionsType,
+	ListenerTarget,
+	ListerType,
+	UnsubscribeCallback,
+} from '@interfaces/helper';
+import { unstable_batchedUpdates } from 'react-dom';
 
 /** Gets token in localStorage */
 export const getToken = () => {
@@ -37,11 +44,13 @@ export const getFullCompanyFromUser = () => {
 
 /** GET base api url in localStorage */
 export const getCustomBaseAPi = () => {
-		const storeJson = localStorage.getItem('authStore') ?? '';
-		const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
-		
-		return store?.state?.userData?.accessRole === "admin" ? localStorage.getItem('baseApi') || '' : "";
-	};
+	const storeJson = localStorage.getItem('authStore') ?? '';
+	const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+
+	return store?.state?.userData?.accessRole === 'admin'
+		? localStorage.getItem('baseApi') || ''
+		: '';
+};
 
 /** SET baseApi in localStorage */
 export const setCustomBaseAPi = (baseApi: string) =>
@@ -61,14 +70,13 @@ export const formatDate = (stringDate: string): string => {
 	const parsedDate = new Date(stringDate);
 
 	if (isNaN(parsedDate.getTime())) return stringDate;
-	
 
 	const year = parsedDate.getFullYear();
 	const month = extractDateItem(parsedDate.getMonth() + 1);
 	const day = extractDateItem(parsedDate.getDate());
-  
+
 	return `${year}-${month}-${day}`;
-  };
+};
 
 export const getCurrentDate = () => {
 	const formattedDate = new Date();
@@ -115,7 +123,7 @@ export const generateIDArray = (N: number): string[] => {
  * Clear a string of characters: "opiniones", "&nbsp;", "&Acirc;", "reseñas"
  * Used to clean reviews
  */
-export const cleanReview = (source: string, ignoreText?:boolean): string => {
+export const cleanReview = (source: string, ignoreText?: boolean): string => {
 	let update = !ignoreText ? source.replace(/\bopiniones\b/gi, '') : source;
 	update = update.replace(/&nbsp;/g, '');
 	update = update.replace(/&Acirc;/g, '');
@@ -409,7 +417,12 @@ export const compareValues = (
 };
 
 export const getValueFromObject = (value: any): any => {
-	return value.props?.riskScore || value.props?.country || value.props?.name || value;
+	return (
+		value.props?.riskScore ||
+		value.props?.country ||
+		value.props?.name ||
+		value
+	);
 };
 
 export const quickSort = (
@@ -417,7 +430,6 @@ export const quickSort = (
 	dataSort: string,
 	sortDirection: string,
 ): any[] => {
-
 	if (arr.length <= 1) {
 		return arr;
 	}
@@ -481,16 +493,16 @@ const swap = (arr: any[], i: number, j: number): void => {
 	arr[j] = temp;
 };
 
-export const formatWalletID = (walletID: string)=> {
-    if (typeof walletID !== 'string') {
-        return '';
-    }
+export const formatWalletID = (walletID: string) => {
+	if (typeof walletID !== 'string') {
+		return '';
+	}
 
-    const firstFour = walletID.slice(0, 4);
-    const lastThree = walletID.slice(-3);
+	const firstFour = walletID.slice(0, 4);
+	const lastThree = walletID.slice(-3);
 
-    return `${firstFour}*****${lastThree}`;
-}
+	return `${firstFour}*****${lastThree}`;
+};
 
 export const findWebResourceByID = (
 	getResources: Webresource[],
@@ -513,28 +525,36 @@ export const findWebResourceByID = (
 	return null;
 };
 
-export const formatNumber = (price: string): string=> {
-    const number = parseFloat(price);
-    if (isNaN(number)) {
-        throw new Error("Invalid input. Please provide a valid number as string.");
-    }
-    const parts = number.toString().split('').reverse().join('').match(/\d{1,3}/g);
+export const formatNumber = (price: string): string => {
+	const number = parseFloat(price);
+	if (isNaN(number)) {
+		throw new Error(
+			'Invalid input. Please provide a valid number as string.',
+		);
+	}
+	const parts = number
+		.toString()
+		.split('')
+		.reverse()
+		.join('')
+		.match(/\d{1,3}/g);
 
 	// Join the sections with commas
 	const formattedNumber = parts?.join(',').split('').reverse().join('');
 
 	return formattedNumber || '';
-}
+};
 
-export const calculateDaysDifference = (targetDate: string | Date): number =>{
-    const date = typeof targetDate === 'string' ? new Date(targetDate) : targetDate;
-    const currentDate = new Date();
-    const differenceInMS = date.getTime() - currentDate.getTime();
-    
-    // Convert the difference in milliseconds to days
-    const differenceInDays = Math.ceil(differenceInMS / (1000 * 60 * 60 * 24));
-    return differenceInDays;
-}
+export const calculateDaysDifference = (targetDate: string | Date): number => {
+	const date =
+		typeof targetDate === 'string' ? new Date(targetDate) : targetDate;
+	const currentDate = new Date();
+	const differenceInMS = date.getTime() - currentDate.getTime();
+
+	// Convert the difference in milliseconds to days
+	const differenceInDays = Math.ceil(differenceInMS / (1000 * 60 * 60 * 24));
+	return differenceInDays;
+};
 export const formatReverseDate = (stringDate: string): string => {
 	const date = new Date(stringDate);
 
@@ -545,21 +565,63 @@ export const formatReverseDate = (stringDate: string): string => {
 	return `${day}-${month}-${year}`;
 };
 export const getDomainCounts = (members: any) => {
-	const domainCounts = members.reduce((acc:any, member:any) => {
-	  const [, domain] = member.member_email.split('@');
-	  acc[domain] = (acc[domain] || 0) + 1;
-	  return acc;
+	const domainCounts = members.reduce((acc: any, member: any) => {
+		const [, domain] = member.member_email.split('@');
+		acc[domain] = (acc[domain] || 0) + 1;
+		return acc;
 	}, {});
-  
-	return Object.entries(domainCounts).map(([domain, quantity]) => ({ domain, quantity }));
-  };
 
-  export function addEventListener(target:ListenerTarget, type:ListerType, listener:ListenerCallbackType, options?:ListenerOptionsType): UnsubscribeCallback {
+	return Object.entries(domainCounts).map(([domain, quantity]) => ({
+		domain,
+		quantity,
+	}));
+};
+
+export function addEventListener<K extends keyof WindowEventMap>(
+	target: Window & typeof globalThis,
+	type: K,
+	listener: (this: Window, ev: WindowEventMap[K]) => any,
+	options?: ListenerOptionsType,
+  ): UnsubscribeCallback;
+  export function addEventListener(
+	target: Window & typeof globalThis,
+	type: string,
+	listener: (this: Window, ev: Event) => any,
+	options?: ListenerOptionsType,
+  ): UnsubscribeCallback;
+  // Document
+  export function addEventListener<K extends keyof DocumentEventMap>(
+	target: Document,
+	type: K,
+	listener: (this: Document, ev: DocumentEventMap[K]) => any,
+	options?: ListenerOptionsType,
+  ): UnsubscribeCallback;
+  export function addEventListener(
+	target: Document,
+	type: string,
+	listener: (this: Document, ev: Event) => any,
+	options?: ListenerOptionsType,
+  ): UnsubscribeCallback;
+export function addEventListener(
+	target: ListenerTarget,
+	type: ListerType,
+	listener: ListenerCallbackType,
+	options?: ListenerOptionsType,
+): UnsubscribeCallback {
 	if (!target) {
-	  return () => {};
+		return () => {};
 	}
 	target?.addEventListener?.(type, listener, options);
 	return () => {
-	  target?.removeEventListener?.(type, listener, options);
+		target?.removeEventListener?.(type, listener, options);
 	};
-  }
+}
+
+export const withBatchedUpdates = <
+	TFunction extends ((event: any) => void) | (() => void),
+>(
+	func: Parameters<TFunction>['length'] extends 0 | 1 ? TFunction : never,
+) =>
+	((event) => {
+		unstable_batchedUpdates(func as TFunction, event);
+	}) as TFunction;

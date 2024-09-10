@@ -1,6 +1,7 @@
 import React, { useEffect, type ReactNode } from 'react';
 import './modal.scss';
 import { CloseIcon, Show } from '../..';
+import useKeyEventPress from '@stores/keyEvents';
 
 interface ModalWrapper {
 	children: ReactNode;
@@ -17,24 +18,21 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 	action,
 	showCloseBtn,
 }) => {
-	useEffect(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === 'Escape') {
-				e.preventDefault();
-				e.stopPropagation();
-				action && action();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, []);
-
-	const closeEvent = (e: any) => {
-		e.preventDefault();
-		e.stopPropagation();
+	const { setKeyPress, keyPress } = useKeyEventPress();
+	const closeEvent = (e?: any) => {
+		if (e) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
 		action && action();
 	};
+	useEffect(() => {
+		if (keyPress === 'Escape') {
+			closeEvent();
+			setKeyPress('NONE');
+		}
+	}, [keyPress]);
+
 	return (
 		<div onDoubleClick={closeEvent} className="modal-wrapper">
 			<article

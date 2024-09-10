@@ -14,8 +14,9 @@ import { useUserCommunicated } from '@hooks/useUserCommunicated.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
-import { addEventListener } from '@utils/helper.ts';
+import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
+import useKeyEventPress from '@stores/keyEvents.ts';
 
 export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
@@ -28,6 +29,7 @@ export const PanelPage = () => {
 	const location = useLocation();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
+	const { setKeyPress } = useKeyEventPress();
 	const matches = useMediaQuery('(min-width: 1175px)');
 	const { isAuth, logout, getUserdata, updateAuth } = useUserData();
 	const { getProviderCompanyAccess } = useProviderCompanies();
@@ -53,17 +55,19 @@ export const PanelPage = () => {
 			setShowModal(true);
 			setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
 		});
-		const keydownUnsub = addEventListener(window, EVENTS.KEYDOWN, (e) => {
-			if (
-				e instanceof KeyboardEvent &&
-				e.ctrlKey &&
-				e.altKey &&
-				e.key === 'ñ'
-			) {
-				setShowModal(true);
-				setShowModalStr(MODAL_KEY_OPEN.NETWORK_SETTING);
-			}
-		});
+		const keydownUnsub = addEventListener(
+			window,
+			EVENTS.KEYDOWN,
+			withBatchedUpdates((e) => {
+				if (e.ctrlKey && e.altKey && e.key === 'ñ') {
+					setShowModal(true);
+					setShowModalStr(MODAL_KEY_OPEN.NETWORK_SETTING);
+				}
+				if (e.key === 'Escape') {
+					setKeyPress('Escape');
+				}
+			}),
+		);
 		if (getUserdata().access_role === 'provider') {
 			getProviderCompanyAccess();
 		}
@@ -74,7 +78,6 @@ export const PanelPage = () => {
 		};
 	}, []);
 
-	console.log({ auth: isAuth });
 	// Si la autenticacion fallo redirige al login
 	if (!isAuth) {
 		logout();
