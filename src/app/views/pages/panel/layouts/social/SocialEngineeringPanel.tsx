@@ -13,7 +13,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
-import { RESOURCE_CLASS, sourceEmptyScreen } from '@/app/constants/app-texts.ts';
+import { socialEmptyScreen } from '@/app/constants/app-texts.ts';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -55,42 +55,40 @@ const SocialEngineeringView = () => {
   }, [members, socialFilters.department]);
 
   return (
-    <>
+    <EmptyLayout
+      className="social"
+      fallback={socialEmptyScreen}
+      event={refresh}
+      showScreen={showScreen}
+      isLoading={isLoading}
+      dataAvalaible={Boolean(members.length)}>
       <OrderV2 />
       <CredentialsModal />
       <ModalReport />
-      <EmptyLayout
-        className="social"
-        fallback={sourceEmptyScreen}
-        event={refresh}
-        showScreen={showScreen}
-        isLoading={isLoading}
-        dataAvalaible={Boolean(members.length)}>
-        <div className="brightness variant-1"></div>
-        <div className="brightness variant-2"></div>
-        <section className="left">
-          <SocialEngineering refetch={refresh} isLoading={isLoading} socials={filteredData} />
-        </section>
-        <section className="right" ref={flashlight.rightPaneRef}>
-          <Show when={members && Boolean(members.length)}>
-            <SocialEngineeringMembers
-              isLoading={isLoading}
-              members={members || []}
-              handleDepartmentFilter={handleDepartmentFIlter}
-            />
-          </Show>
-          <Show when={isAdmin() || isNormalUser()}>
-            <PrimaryButton
-              text="START A PENTEST ON DEMAND"
-              className="primary-full"
-              click={() => updateState('open', open)}
-              disabledLoader
-              isDisabled={scope.totalResources <= 0}
-            />
-          </Show>
-        </section>
-      </EmptyLayout>
-    </>
+      <div className="brightness variant-1"></div>
+      <div className="brightness variant-2"></div>
+      <section className="left">
+        <SocialEngineering refetch={refresh} isLoading={isLoading} socials={filteredData} />
+      </section>
+      <section className="right" ref={flashlight.rightPaneRef}>
+        <Show when={members && Boolean(members.length)}>
+          <SocialEngineeringMembers
+            isLoading={isLoading}
+            members={members || []}
+            handleDepartmentFilter={handleDepartmentFIlter}
+          />
+        </Show>
+        <Show when={isAdmin() || isNormalUser()}>
+          <PrimaryButton
+            text="START A PENTEST ON DEMAND"
+            className="primary-full"
+            click={() => updateState('open', open)}
+            disabledLoader
+            isDisabled={scope.totalResources <= 0}
+          />
+        </Show>
+      </section>
+    </EmptyLayout>
   );
 };
 
