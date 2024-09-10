@@ -1,4 +1,5 @@
-import React, { useEffect, type ReactNode } from 'react';
+import { useEffect, type FC, type ReactNode } from 'react';
+import ReactDOM from 'react-dom';
 import './modal.scss';
 import { CloseIcon, Show } from '../..';
 import useKeyEventPress from '@stores/keyEvents';
@@ -11,7 +12,7 @@ interface ModalWrapper {
 	showCloseBtn?: boolean;
 }
 
-const ModalWrapper: React.FC<ModalWrapper> = ({
+const ModalWrapper: FC<ModalWrapper> = ({
 	isErrorBox = false,
 	type,
 	children,
@@ -33,7 +34,7 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 		}
 	}, [keyPress]);
 
-	return (
+	return ReactDOM.createPortal(
 		<div onDoubleClick={closeEvent} className="modal-wrapper">
 			<article
 				className={`modal ${!isErrorBox ? type : ''}`}
@@ -48,7 +49,8 @@ const ModalWrapper: React.FC<ModalWrapper> = ({
 				</Show>
 				{children}
 			</article>
-		</div>
+		</div>,
+		document.getElementById('root-modal')!,
 	);
 };
 

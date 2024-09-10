@@ -12,9 +12,9 @@ interface WelcomeModalProps {
 }
 
 export const WelcomeModal: FC<WelcomeModalProps> = ({ close, startNext }) => {
-	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
+	const { isAdmin, isNormalUser } = useUserRole();
 	return (
-		<ModalWrapper action={() => {}} type="max-w">
+		<ModalWrapper action={() => {}} type="med-max-w">
 			<div className="welcome-modal-container">
 				<header className="welcome-modal-header">
 					<h2>welcome to codefend</h2>
@@ -22,12 +22,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ close, startNext }) => {
 
 				<div className="welcome-content">
 					<Logo theme="aimColor" />
-					{/* <img
-							src="/codefend/pentest-header-vector.svg"
-							alt="codefend-icon"
-							aria-label="codefend-icon"
-							decoding="async"
-						/> */}
+
 					<div className="welcome-info">
 						<h3>Hello and welcome to Codefend</h3>
 						<p className="main-paragraph">
@@ -39,7 +34,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ close, startNext }) => {
 								services!
 							</b>
 						</p>
-						<ul className="list">
+						{/* <ul className="list">
 							<li>
 								<Link
 									to="https://www.codefend.com/services"
@@ -52,7 +47,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ close, startNext }) => {
 									2 - Learn how to use the interface
 								</Link>
 							</li>
-						</ul>
+						</ul>*/}
 						<Show when={isAdmin() || isNormalUser()}>
 							<p className="take-guide">
 								<b>Let's take a 2 minutes tour</b> across the
@@ -64,6 +59,12 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ close, startNext }) => {
 				</div>
 
 				<div className="welcome-btns">
+					<PrimaryButton
+						buttonStyle="black"
+						text="close"
+						disabledLoader
+						click={close}
+					/>
 					<PrimaryButton
 						buttonStyle="red"
 						text="Start tour"

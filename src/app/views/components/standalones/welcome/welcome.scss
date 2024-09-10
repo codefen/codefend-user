@@ -10,11 +10,11 @@
 }
 
 .welcome-modal-container {
+	--header-title-color: var(--primary-color);
 	display: flex;
 	flex-direction: column;
 	min-height: fit-content;
 	max-height: fit-content;
-	// max-width: 700px;
 
 	.welcome-modal-header {
 		display: flex;
@@ -31,7 +31,7 @@
 		);
 
 		h2 {
-			color: var(--primary-color);
+			color: var(--header-title-color);
 			font-weight: 500;
 			// font-size: 1.75rem;
 			// text-align: right;
@@ -46,7 +46,7 @@
 	.welcome-content {
 		display: flex;
 		width: 100%;
-		align-items: flex-start;
+		align-items: center;
 		padding: 30px;
 		gap: 30px;
 
@@ -56,6 +56,9 @@
 			// height: 110px;
 			// margin-inline: 1.25rem;
 			align-self: flex-start;
+		}
+		#brand {
+			min-width: 90px;
 		}
 
 		.welcome-info {
@@ -71,15 +74,21 @@
 				color: var(--tertiary-color-600);
 				margin-bottom: 5px;
 			}
+			p {
+				line-height: 1.35rem;
+				&.main-paragraph,
+				&.take-guide {
+					line-height: 1.5rem;
+				}
+			}
 
 			.main-paragraph {
 				color: var(--tertiary-color-400);
-				line-height: 1.5rem;
 			}
 
 			.take-guide {
 				color: var(--tertiary-color-700);
-				line-height: 1.5rem;
+				margin-block-start: 1.5rem;
 			}
 
 			ul {
@@ -107,10 +116,11 @@
 		padding-inline: 1rem;
 		padding-block-end: 1rem;
 		justify-content: flex-end;
-		// background: linear-gradient(
-		// 	0deg,
-		// 	var(--secondary-color-50) 55%,
-		// 	transparent 55%
-		// );
+	}
+}
+
+[data-theme='dark'] {
+	.welcome-modal-container {
+		--header-title-color: var(--tertiary-color-100);
 	}
 }

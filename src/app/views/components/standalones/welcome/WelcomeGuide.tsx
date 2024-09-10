@@ -78,7 +78,7 @@ export const WelcomeGuide: FC<WelcomeGuideProps> = ({
 	defaultOpenValue,
 	closeGuide,
 }) => {
-	const { isAdmin, isProvider, isNormalUser, getRole } = useUserRole();
+	const { isAdmin, isNormalUser, getRole } = useUserRole();
 	const [currentStep, setNextStep] = useState(defineInitialTour(getRole()));
 	if (defaultOpenValue && currentStep === WelcomeSteps.NOTHING) {
 		closeGuide();

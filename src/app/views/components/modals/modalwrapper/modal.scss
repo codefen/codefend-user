@@ -39,6 +39,10 @@
 			min-width: 350px;
 		}
 	}
+	&.med-max-w {
+		width: 100%;
+		max-width: 748px;
+	}
 	&.max-w {
 		width: 100%;
 		max-width: 860px;

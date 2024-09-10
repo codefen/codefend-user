@@ -1,4 +1,5 @@
 import { useState, type FC } from 'react';
+import { useNavigate } from 'react-router';
 import { ModalWrapper, PrimaryButton } from '../..';
 import {
 	CLoudIcon,
@@ -10,13 +11,9 @@ import {
 } from '@icons';
 import ResourceFigures from './ResourceFigures';
 import '@styles/welcome-guides.scss';
-import {
-	MODAL_KEY_OPEN,
-	RESOURCE_CLASS_ALIAS,
-} from '@/app/constants/app-texts';
-import { useNavigate } from 'react-router';
-import useModalStore from '@stores/modal.store';
+import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
 import { useSolvedComunique } from '@hooks/useSolvedComunique';
+import './welcome.scss';
 
 interface WelcomeLoadResourceProps {
 	close: () => void;
@@ -42,7 +39,7 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
 		navigate(getPath(selectedAlias));
 	};
 	return (
-		<ModalWrapper action={() => {}} type="load-resource">
+		<ModalWrapper action={close} type="load-resource">
 			<div className="welcome-container">
 				<header className="welcome-header">
 					<div className="welcome-header-title">
@@ -121,14 +118,23 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
 								isDisabled={true}
 							/>
 						</div>
-						<PrimaryButton
-							text="Add first resource"
-							className="load-resource-btn"
-							buttonStyle="red"
-							isDisabled={selectedAlias === ''}
-							click={navigationTo}
-							disabledLoader
-						/>
+
+						<div className="welcome-btns">
+							<PrimaryButton
+								buttonStyle="black"
+								text="Close"
+								disabledLoader
+								click={close}
+							/>
+							<PrimaryButton
+								text="Add first resource"
+								className="load-resource-btn"
+								buttonStyle="red"
+								disabledLoader
+								isDisabled={selectedAlias === ''}
+								click={navigationTo}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

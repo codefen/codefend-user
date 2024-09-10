@@ -17,7 +17,7 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({
 }) => {
 	const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
 	return (
-		<ModalWrapper action={() => {}} type="max-w">
+		<ModalWrapper action={() => {}} type="med-max-w">
 			<div className="welcome-modal-container">
 				<header className="welcome-modal-header">
 					<h2>welcome to codefend</h2>
@@ -64,20 +64,18 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({
 				</div>
 
 				<div className="welcome-btns">
+					<PrimaryButton
+						buttonStyle="black"
+						text="Close"
+						disabledLoader
+						click={close}
+					/>
 					<Show when={isAdmin() || isNormalUser()}>
 						<PrimaryButton
 							buttonStyle="red"
 							text="Start tour"
 							disabledLoader
 							click={startNext}
-						/>
-					</Show>
-					<Show when={isProvider() || isReseller()}>
-						<PrimaryButton
-							buttonStyle="red"
-							text="Close"
-							disabledLoader
-							click={close}
 						/>
 					</Show>
 				</div>
