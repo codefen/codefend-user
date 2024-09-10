@@ -11,7 +11,6 @@ const SignInLayout: FC = () => {
 					<PrimaryButton
 						text="Proceed"
 						isDisabled={isLoading}
-						click={() => {}}
 						type="submit"
 						className="signin-btn"
 					/>

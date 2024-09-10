@@ -1,7 +1,6 @@
 import { Suspense, type FC, type ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { Loader } from '@defaults/loaders/Loader.tsx';
 import {
 	AuthPage,
@@ -47,6 +46,13 @@ import {
 } from './views/pages/panel/layouts/issues';
 import InxPanel from './views/pages/panel/layouts/inx/InxPanel';
 
+const GuardRoute: FC<{ access: boolean; element: ReactNode }> = ({
+	access,
+	element,
+}) => {
+	return access ? element : <Navigate to="/" replace />;
+};
+
 export const AppRouter: React.FC = () => {
 	const {
 		isAdmin,
@@ -65,158 +71,128 @@ export const AppRouter: React.FC = () => {
 	const isProviderWithAccess =
 		isProvider() && companies.length > 0 && companies[0] !== null;
 
-	const GuardRoute: FC<{ access: boolean; element: ReactNode }> = ({
-		access,
-		element,
-	}) => {
-		return access ? element : <Navigate to="/" replace />;
-	};
-
 	//REMPLAZAR PARA QUE FUNCIONE CORRECTAMENTE LA SEGURIDAD
-	//false -> !getAccessToken().trim() || !isCurrentAuthValid()
+	//false -> !getAccessToken() || !isCurrentAuthValid()
 	//EN EL INICIO DE LAS RUTAS PRIVADAS
 	return (
-		<>
-			<ToastContainer
-				position="top-right"
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="light"
-			/>
-
-			<Suspense fallback={<Loader />}>
-				<Routes>
+		<Suspense fallback={<Loader />}>
+			<Routes>
+				<Route path="/*" element={<PanelPage />}>
+					{/* Root page */}
+					<Route
+						index
+						element={
+							!getAccessToken() || !isCurrentAuthValid() ? (
+								<Navigate to="/auth/signin" replace />
+							) : isAdmin() ? (
+								<AdminCompany />
+							) : isProvider() ? (
+								<Navigate to="/provider/profile" />
+							) : isReseller() ? (
+								<Navigate to="/reseller/leads" />
+							) : (
+								<Dashboard />
+							)
+						}
+					/>
 					{/* Private Routes */}
-					<Route path="/*" element={<PanelPage />}>
-						<Route
-							index
-							element={
-								!getAccessToken().trim() || !isCurrentAuthValid() ? (
-									<Navigate to="/auth/signin" replace />
-								) : isAdmin() ? (
-									<AdminCompany />
-								) : isProvider() ? (
-									<Navigate to="/provider/profile" />
-								) : isReseller() ? (
-									<Navigate to="/reseller/leads" />
-								) : (
-									<Dashboard />
-								)
-							}
-						/>
+					{(isAdmin() || isProviderWithAccess) && (
+						<Route path="admin/*" element={<AdminPage />}>
+							<Route index element={<Navigate to="company" replace />} />
+							<Route path="company" element={<AdminCompany />} />
+						</Route>
+					)}
 
-						{(isAdmin() || isProviderWithAccess) && (
-							<Route path="admin/*" element={<AdminPage />}>
+					{isProvider() && (
+						<Route path="provider/*" element={<ProviderPage />}>
+							<Route index element={<Navigate to="profile" />} />
+							<Route
+								path="profile/"
+								element={<ProfileProviderLayout />}
+							/>
+							<Route
+								path="profile/:view"
+								element={<ProfileProviderLayout />}
+							/>
+
+							<Route path="orders" element={<OrdersReviewProviders />} />
+							<Route
+								path="orders/:view"
+								element={<OrdersReviewProviders />}
+							/>
+						</Route>
+					)}
+					{isReseller() && (
+						<>
+							<Route
+								index
+								path="reseller/leads"
+								element={<ResellerLeadsLayout />}
+							/>
+							<Route
+								path="reseller/users"
+								element={<ResellerUsersLayout />}
+							/>
+							<Route
+								path="reseller/companies"
+								element={<ResellerCompaniesLayout />}
+							/>
+							<Route
+								path="reseller/orders"
+								element={<ResellerOrdersLayout />}
+							/>
+						</>
+					)}
+					<Route
+						path="dashboard"
+						element={
+							<GuardRoute
+								element={<Dashboard />}
+								access={haveAccessToResources}
+							/>
+						}
+					/>
+					{(haveAccessToResources || isProviderWithAccess) && (
+						<>
+							<Route path="web" element={<WebApplication />} />
+							<Route path="mobile" element={<MobileApplication />} />
+							<Route path="cloud" element={<CloudApplicationPanel />} />
+							<Route path="source" element={<SourceCodePanel />} />
+							<Route path="lan" element={<LanPage />} />
+							<Route
+								path="social"
+								element={<SocialEngineeringPanel />}
+							/>
+							<Route path="issues/*" element={<IssuePage />}>
+								<Route index element={<IssuesPanel />} />
+
 								<Route
-									index
-									element={<Navigate to="company" replace />}
+									path="create"
+									element={
+										<GuardRoute
+											element={<IssuesCreation />}
+											access={haveAccessToCreateIssue}
+										/>
+									}
 								/>
-								<Route path="company" element={<AdminCompany />} />
+								<Route
+									path="create/:type/:resourceId"
+									element={<IssuesCreation />}
+								/>
+								<Route
+									path="create/:type"
+									element={<IssuesCreation />}
+								/>
+								<Route path=":id" element={<IssuesUpdate />} />
 							</Route>
-						)}
+						</>
+					)}
 
-						{isProvider() && (
-							<Route path="provider/*" element={<ProviderPage />}>
-								<Route index element={<Navigate to="profile" />} />
-								<Route
-									path="profile/"
-									element={<ProfileProviderLayout />}
-								/>
-								<Route
-									path="profile/:view"
-									element={<ProfileProviderLayout />}
-								/>
-
-								<Route
-									path="orders"
-									element={<OrdersReviewProviders />}
-								/>
-								<Route
-									path="orders/:view"
-									element={<OrdersReviewProviders />}
-								/>
-							</Route>
-						)}
-						{isReseller() && (
-							<>
-								<Route
-									index
-									path="reseller/leads"
-									element={<ResellerLeadsLayout />}
-								/>
-								<Route
-									path="reseller/users"
-									element={<ResellerUsersLayout />}
-								/>
-								<Route
-									path="reseller/companies"
-									element={<ResellerCompaniesLayout />}
-								/>
-								<Route
-									path="reseller/orders"
-									element={<ResellerOrdersLayout />}
-								/>
-							</>
-						)}
-						<Route
-							path="dashboard"
-							element={
-								<GuardRoute
-									element={<Dashboard />}
-									access={haveAccessToResources}
-								/>
-							}
-						/>
-						{(haveAccessToResources || isProviderWithAccess) && (
-							<>
-								<Route path="web" element={<WebApplication />} />
-								<Route path="mobile" element={<MobileApplication />} />
-								<Route
-									path="cloud"
-									element={<CloudApplicationPanel />}
-								/>
-								<Route path="source" element={<SourceCodePanel />} />
-								<Route path="lan" element={<LanPage />} />
-								<Route
-									path="social"
-									element={<SocialEngineeringPanel />}
-								/>
-								<Route path="issues/*" element={<IssuePage />}>
-									<Route index element={<IssuesPanel />} />
-
-									<Route
-										path="create"
-										element={
-											<GuardRoute
-												element={<IssuesCreation />}
-												access={haveAccessToCreateIssue}
-											/>
-										}
-									/>
-									<Route
-										path="create/:type/:resourceId"
-										element={<IssuesCreation />}
-									/>
-									<Route
-										path="create/:type"
-										element={<IssuesCreation />}
-									/>
-									<Route path=":id" element={<IssuesUpdate />} />
-								</Route>
-							</>
-						)}
-
-						{!isReseller() && (
-							<>
-								<Route path="inx" element={<InxPanel />} />
-								<Route path="sns" element={<SnsPanel />} />
-								{/*<Route path="enp">
+					{!isReseller() && (
+						<>
+							<Route path="inx" element={<InxPanel />} />
+							<Route path="sns" element={<SnsPanel />} />
+							{/*<Route path="enp">
 									<Route index element={<EnpPanel />} />
 									<Route path="enp/:id" element={<EnpSingle />} />
 								</Route>
@@ -224,57 +200,50 @@ export const AppRouter: React.FC = () => {
 								
 								<Route path="sns" element={<SnsPanel />} />
 								<Route path="vdb" element={<VdbPanel />} />*/}
-							</>
-						)}
-						{haveAccessToSupport && (
-							<>
-								<Route path="cs" element={<SupportPanel />} />
-								<Route path="cs/:dad" element={<SupportPanel />} />
-								<Route
-									path="preferences"
-									element={<PreferencePanel />}
-								/>
-							</>
-						)}
-					</Route>
-					{allRolesLoggedIn && (
-						<Route path="report/*" element={<PageReport />}>
-							<Route index element={<PageReport />}></Route>
-						</Route>
+						</>
 					)}
-
-					{/* Public Routes */}
-					<Route path="/help/*" element={<HelpCenter />}>
-						<Route
-							path="terms-and-condition"
-							element={<TermsAndCondition />}
-						/>
-						<Route
-							path="security-and-privacy-policy"
-							element={<SecurityAndPrivacyPolicy />}
-						/>
-						<Route path="*" element={<HelpNotfound />} />
+					{haveAccessToSupport && (
+						<>
+							<Route path="cs" element={<SupportPanel />} />
+							<Route path="cs/:dad" element={<SupportPanel />} />
+							<Route path="preferences" element={<PreferencePanel />} />
+						</>
+					)}
+				</Route>
+				{allRolesLoggedIn && (
+					<Route path="report/*" element={<PageReport />}>
+						<Route index element={<PageReport />}></Route>
 					</Route>
-					<Route path="/auth/*" element={<AuthPage />}>
-						<Route index element={<Navigate to="signin" replace />} />
-						<Route path="signin" element={<SignInLayout />} />
-						<Route path="signup" element={<SignUpLayout />} />
-						<Route
-							path="signup/invitation"
-							element={<InvitationSignup />}
-						/>
-						<Route
-							path="signup/invitation/:ref"
-							element={<InvitationSignup />}
-						/>
-						<Route path="confirmation" element={<ConfirmationSignUp />} />
-						<Route path="recovery" element={<PasswordRecovery />} />
-						<Route path="recovery/:ref" element={<PasswordRecovery />} />
+				)}
 
-						<Route path="signup/:ref" element={<FinishSignUpLayout />} />
-					</Route>
-				</Routes>
-			</Suspense>
-		</>
+				{/* Public Routes */}
+				<Route path="/help/*" element={<HelpCenter />}>
+					<Route
+						path="terms-and-condition"
+						element={<TermsAndCondition />}
+					/>
+					<Route
+						path="security-and-privacy-policy"
+						element={<SecurityAndPrivacyPolicy />}
+					/>
+					<Route path="*" element={<HelpNotfound />} />
+				</Route>
+				<Route path="/auth/*" element={<AuthPage />}>
+					<Route index element={<Navigate to="signin" replace />} />
+					<Route path="signin" element={<SignInLayout />} />
+					<Route path="signup" element={<SignUpLayout />} />
+					<Route path="signup/invitation" element={<InvitationSignup />} />
+					<Route
+						path="signup/invitation/:ref"
+						element={<InvitationSignup />}
+					/>
+					<Route path="confirmation" element={<ConfirmationSignUp />} />
+					<Route path="recovery" element={<PasswordRecovery />} />
+					<Route path="recovery/:ref" element={<PasswordRecovery />} />
+
+					<Route path="signup/:ref" element={<FinishSignUpLayout />} />
+				</Route>
+			</Routes>
+		</Suspense>
 	);
 };

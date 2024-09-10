@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import {
-	type User,
-} from '..';
+import { type User } from '..';
 import { EMPTY_USER } from '@/app/constants/empty';
 import type { StateInitializer } from '@interfaces/store';
 
@@ -34,16 +32,19 @@ const useAuthStore = create<AuthState>()(
 			userData: EMPTY_USER,
 			isAuth: false,
 			accessToken: '',
-			logout: () => set({ userData: EMPTY_USER, isAuth: false, accessToken: '' }),
+			logout: () =>
+				set({ userData: EMPTY_USER, isAuth: false, accessToken: '' }),
 			updateAuth: () => {
 				const state = _get() as AuthState;
 				const currentTimestamp = Math.floor(Date.now() / 1000);
-				
-				const updatedAuth = state.userData &&
+
+				const updatedAuth =
+					state.userData &&
 					Object.keys(state.userData).length > 0 &&
 					(state.accessToken?.trim() ?? '') !== '' &&
 					!(currentTimestamp >= state.userData.exp!);
 
+				console.log({ updatedAuth });
 				set((current: AuthState) => ({ ...current, isAuth: updatedAuth }));
 			},
 			updateToken: (updatedToken: string) =>

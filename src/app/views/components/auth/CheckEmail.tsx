@@ -4,8 +4,7 @@ interface CheckEmailProps {
 	text: string;
 	subText: string;
 }
-//
-//
+
 const CheckEmail: FC<CheckEmailProps> = ({ text, subText }) => (
 	<div className="check-mail">
 		<div className="check-mail_img">

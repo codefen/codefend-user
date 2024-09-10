@@ -1,23 +1,36 @@
-import { useAuthStore, type AuthState, useAdminCompanyStore } from "../../..";
+import { useAuthStore, type AuthState, useAdminCompanyStore } from '../../..';
 
+export const useUserData = () => {
+	const {
+		accessToken,
+		isAuth,
+		logout: logoutFn,
+		userData,
+		updateUser,
+		updateToken,
+		updateAuth,
+	} = useAuthStore((state: AuthState) => state);
+	const { companySelected, reset } = useAdminCompanyStore((state) => state);
 
-export const useUserData = ()=>{
-    const authStore = useAuthStore((state: AuthState) => state);
-    const {companySelected, reset} = useAdminCompanyStore((state)=> state);
-    
-    const getUserdata = () => authStore.userData;
+	const getUserdata = () => userData;
 
-    const getAccessToken = () =>
-    authStore.accessToken ? authStore.accessToken : '';
+	const getAccessToken = () => (accessToken ? accessToken : '');
 
-    const getCompany = () => companySelected?.id || getUserdata().company_id;
+	const getCompany = () => companySelected?.id || getUserdata().company_id;
 
-    const isAuth = () => authStore.isAuth || !authStore.accessToken;
-
-	const logout = ()=>{
+	const logout = () => {
 		reset();
-		authStore.logout();
-	}
+		logoutFn();
+	};
 
-    return {getUserdata, getAccessToken, getCompany, isAuth, logout, updateUserData: authStore.updateUser, updateToken: authStore.updateToken,};
-}
+	return {
+		getUserdata,
+		getAccessToken,
+		getCompany,
+		isAuth,
+		logout,
+		updateUserData: updateUser,
+		updateToken: updateToken,
+		updateAuth,
+	};
+};

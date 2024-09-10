@@ -1,12 +1,4 @@
-import {
-	type FC,
-	Suspense,
-	useEffect,
-	useState,
-	lazy,
-	useMemo,
-	useCallback,
-} from 'react';
+import { Suspense, useEffect, lazy, useMemo, useCallback } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
 import useAuthStore from '@stores/auth.store.ts';
@@ -32,13 +24,12 @@ export const MobileFallback = lazy(
 	() => import('@defaults/mobile-fallback/MobileFallback.tsx'),
 );
 
-export const PanelPage: FC = () => {
+export const PanelPage = () => {
 	const location = useLocation();
 	const { showModal, setShowModal, setShowModalStr, showModalStr } =
 		useModal();
 	const matches = useMediaQuery('(min-width: 1175px)');
-	const { isAuth, logout, getUserdata } = useUserData();
-	const { updateAuth } = useAuthStore((state) => state);
+	const { isAuth, logout, getUserdata, updateAuth } = useUserData();
 	const { getProviderCompanyAccess } = useProviderCompanies();
 	useUserCommunicated();
 
@@ -57,11 +48,6 @@ export const PanelPage: FC = () => {
 	}, [setShowModal]);
 
 	useEffect(() => {
-		if (!isAuth()) {
-			logout();
-			return;
-		}
-
 		updateAuth();
 		const errorUnsub = addEventListener(window, EVENTS.ERROR_STATE, () => {
 			setShowModal(true);
@@ -88,8 +74,10 @@ export const PanelPage: FC = () => {
 		};
 	}, []);
 
+	console.log({ auth: isAuth });
 	// Si la autenticacion fallo redirige al login
-	if (!isAuth()) {
+	if (!isAuth) {
+		logout();
 		return (
 			<Navigate to="/auth/signin" state={{ redirect: location.pathname }} />
 		);

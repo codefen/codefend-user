@@ -5,7 +5,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 
 const AdminPage: FC = () => {
 	const { logout, getUserdata, isAuth } = useUserData();
-	const isNotAuthenticated = !getUserdata() || !isAuth();
+	const isNotAuthenticated = !getUserdata() || !isAuth;
 	if (isNotAuthenticated) {
 		logout();
 	}

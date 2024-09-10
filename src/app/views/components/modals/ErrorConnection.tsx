@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { ModalWrapper } from '.';
 import { LanIcon, PrimaryButton, Show } from '..';
 import {
@@ -11,7 +10,7 @@ interface ErrorConnectionProps {
 	open: boolean;
 }
 
-const ErrorConnection: FC<ErrorConnectionProps> = (props) => {
+const ErrorConnection = (props: ErrorConnectionProps) => {
 	const { setNetworkSettingState } = useNetworkSettingState(
 		(state: NetworkSettingState) => state,
 	);
