@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { memo, useMemo, useState, type FC } from 'react';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
 import TableColumnsV3 from './TableColumnsV3';
@@ -10,6 +10,7 @@ import { ModalInput } from '@defaults/ModalInput';
 import { MagnifyingGlassIcon } from '@icons';
 import { useMultipleSelect } from '@hooks/table/useMultipleSelect';
 import './tablev3.scss';
+import { isShallowEqual } from '@utils/helper';
 
 interface Tablev3Props<T> {
   rows: T[];
@@ -40,10 +41,13 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   const [sort, setSort] = useState<Sort>(initialSort);
   const [sortedColumn, setDataSort] = useState<string>(columns[0].key);
   const [term, setTerm] = useState<string>('');
-  const { tableRef, isSelecting, selectionBox, handleMouseUp, handleMouseMove, handleMouseDown } =
+  const { tableRef, isSelecting, selectionBoxStyle, onPointerStop, onPointerMove, onPointerDown } =
     useMultipleSelect(isNeedMultipleCheck);
   const preProcessedRows = usePreProcessedRows(rows, initialOrder, sortedColumn, sort, term);
-
+  const tableClassName = useMemo(
+    () => `table ${className} ${isSelecting ? 'table-item-no-selected' : ''}`,
+    [className, isSelecting]
+  );
   return (
     <div className="table-group">
       <Show when={isNeedSearchBar}>
@@ -57,24 +61,13 @@ const Tablev3: FC<Tablev3Props<any>> = ({
       </Show>
 
       <div
-        className={`table ${className} ${isSelecting && 'table-item-no-selected'}`}
+        className={tableClassName}
         ref={tableRef}
-        onMouseMove={handleMouseMove}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}>
-        {isSelecting && (
-          <div
-            style={{
-              position: 'absolute',
-              left: Math.min(selectionBox.startX, selectionBox.endX),
-              top: Math.min(selectionBox.startY, selectionBox.endY),
-              width: Math.abs(selectionBox.endX - selectionBox.startX),
-              height: Math.abs(selectionBox.endY - selectionBox.startY),
-              backgroundColor: '#ffd5d54d',
-              border: '1px solid #ffa0a0',
-            }}
-          />
-        )}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerStop}
+        onPointerCancel={onPointerStop}>
+        {isSelecting && <div className="selecting-box" style={selectionBoxStyle} />}
         <TableColumnsV3
           columns={columns}
           sortedColumn={sortedColumn}
@@ -103,4 +96,10 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   );
 };
 
-export default Tablev3;
+const areEqual = (prevProps: Tablev3Props<any>, nextProps: Tablev3Props<any>) => {
+  const { initialOrder, initialSort, ...prev } = prevProps;
+  const { initialOrder: nextO, initialSort: nextS, ...next } = nextProps;
+  return isShallowEqual(prev, next, { rows: isShallowEqual });
+};
+
+export default memo(Tablev3, areEqual);

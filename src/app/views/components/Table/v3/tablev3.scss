@@ -86,6 +86,12 @@
     }
   }
 
+  & .selecting-box {
+    position: absolute;
+    background-color: #ffd5d54d;
+    border: 1px solid #ffa0a0;
+  }
+
   &.small {
     .columns-name,
     .item {
