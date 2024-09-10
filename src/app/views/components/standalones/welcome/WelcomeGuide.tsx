@@ -1,11 +1,12 @@
 import { useEffect, useState, type FC } from 'react';
 import { HelperBox } from '../helper-box/HelperBox.tsx';
 import { type HelperBoxCords } from '@interfaces/helperbox.ts';
-import Show from '@defaults/Show.tsx';
 
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import './welcome.scss';
 import { onboardingSteps } from '@/app/constants/welcome-steps.tsx';
+import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
+import { EVENTS } from '@/app/constants/events.ts';
 
 enum WelcomeSteps {
   ADMIN,
@@ -61,12 +62,10 @@ const getButtonCoordinates = (buttonId: string): HelperBoxCords[] => {
   return [{}, {}];
 };
 
-const defineInitialTour = (role: string) => {
+const getInitialBox = (role: string) => {
   if (role === 'admin') {
     return WelcomeSteps.ADMIN;
-  } else if (role == 'provider') {
-    return WelcomeSteps.NOTHING;
-  } else if (role === 'reseller') {
+  } else if (role == 'provider' || role === 'reseller') {
     return WelcomeSteps.NOTHING;
   }
   return WelcomeSteps.DASHBOARD;
@@ -74,36 +73,45 @@ const defineInitialTour = (role: string) => {
 
 const WelcomeGuide: FC<WelcomeGuideProps> = ({ close, startNext }) => {
   const { getRole } = useUserRole();
-  const [currentStep, setNextStep] = useState(defineInitialTour(getRole()));
-
+  const [currentStep, setNextStep] = useState(getInitialBox(getRole()));
+  const [coords, setCoords] = useState<HelperBoxCords[][] | null>(null);
   useEffect(() => {
-    if (currentStep === WelcomeSteps.NOTHING) {
-      startNext();
-    }
+    const calcCoords = () => {
+      const newCoords = onboardingSteps.map(onboardingStep =>
+        getButtonCoordinates(onboardingStep.buttonId)
+      );
+      setCoords(newCoords);
+    };
+    const resizeUnsub = addEventListener(window, EVENTS.RESIZE, withBatchedUpdates(calcCoords));
+    if (!coords) calcCoords();
+    if (currentStep === WelcomeSteps.NOTHING) startNext();
+
+    return () => resizeUnsub();
   }, [currentStep]);
 
   if (currentStep === WelcomeSteps.NOTHING) {
     return null;
   }
+
   return (
     <div className="guide-container">
-      {onboardingSteps.map(onboardingStep => {
-        const coords = getButtonCoordinates(onboardingStep.buttonId);
+      {onboardingSteps.map((onboardingStep, i) => {
+        if (currentStep !== onboardingStep.step || !onboardingStep.roles.includes(getRole())) {
+          return null;
+        }
+        const coordsI = coords?.[i] || getButtonCoordinates(onboardingStep.buttonId);
         return (
-          <Show
+          <HelperBox
             key={onboardingStep.id}
-            when={currentStep === onboardingStep.step && onboardingStep.roles.includes(getRole())}>
-            <HelperBox
-              close={close}
-              next={() => setNextStep(onboardingStep.next)}
-              coords={coords[0]}
-              arrow={{ position: onboardingStep.arrowPosition, coordY: `${coords[1].top || 0}px` }}
-              icon={onboardingStep.icon}
-              title={onboardingStep.title}
-              highlight={onboardingStep.highlight}
-              text={onboardingStep.text}
-            />
-          </Show>
+            close={close}
+            next={() => setNextStep(onboardingStep.next)}
+            coords={coordsI[0]}
+            arrow={{ position: onboardingStep.arrowPosition, coordY: `${coordsI[1].top || 0}px` }}
+            icon={onboardingStep.icon}
+            title={onboardingStep.title}
+            highlight={onboardingStep.highlight}
+            text={onboardingStep.text}
+          />
         );
       })}
     </div>
