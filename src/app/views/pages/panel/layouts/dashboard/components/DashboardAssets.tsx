@@ -1,4 +1,4 @@
-import { type FC, Fragment, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CircleIcon, SimpleSection } from '../../../../../components';
 import { generateIDArray } from '../../../../../../data';
@@ -33,28 +33,23 @@ export const DashboardAssets: FC<{ resources: ResourceCount }> = ({
 	return (
 		<div className="card stats">
 			<SimpleSection
-				header="Atack surface surveillance"
+				header="Attack surface surveillance"
 				icon={<CircleIcon />}>
 				<div className="content">
 					{Object.keys(resources).map(
-						(resource: string | number, i: number) => {
-							return (
-								<Fragment key={resourceKeys[i]}>
-									<StatAsset
-										valueTitle={
-											mapAssetsNames[
-												resource as keyof typeof mapAssetsNames
-											]
-										}
-										value={
-											resources[resource as keyof typeof resources]
-										}
-										isActive={isActivePath(resource as string)}
-										onClick={() => navigate(`/${resource}`)}
-									/>
-								</Fragment>
-							);
-						},
+						(resource: string | number, i: number) => (
+							<StatAsset
+								key={resourceKeys[i]}
+								valueTitle={
+									mapAssetsNames[
+										resource as keyof typeof mapAssetsNames
+									]
+								}
+								value={resources[resource as keyof typeof resources]}
+								isActive={isActivePath(resource as string)}
+								onClick={() => navigate(`/${resource}`)}
+							/>
+						),
 					)}
 				</div>
 			</SimpleSection>
