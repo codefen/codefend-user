@@ -1,27 +1,16 @@
-import { type FC, Fragment, useState } from 'react';
-import {
-  useHighlightLinesWithUrl,
-  useIntelSearch,
-  useInitialSearch,
-  useInxReadFile,
-} from '../../../../../../data';
-import {
-  EmptyCard,
-  ModalTitleWrapper,
-  PageLoader,
-  PageLoaderOverlay,
-  Show,
-} from '../../../../../components';
+import { type FC, useState } from 'react';
 import { InxPreviewIntelData } from './InxPreviewIntelData';
 import { InxSearchBar } from './InxSearchBar';
 import { useUserData } from '#commonUserHooks/useUserData';
+import InxFullPreviewModal from '@modals/InxFullPreview/InxFullPreviewModal';
+import { useInitialSearch, useIntelSearch, useInxReadFile } from '@moduleHooks/inx';
+import { EmptyCard, PageLoader, PageLoaderOverlay, Show } from '@defaults/index';
 
 interface InxSearchAndDataProps {
   refetch: () => void;
 }
 
 export const InxSearchAndData: FC<InxSearchAndDataProps> = props => {
-  const { highlightWithUrl } = useHighlightLinesWithUrl();
   const { getCompany } = useUserData();
   const companyID = getCompany();
   const [viewPreviewModal, setViewPreviewModal] = useState(true);
@@ -71,67 +60,41 @@ export const InxSearchAndData: FC<InxSearchAndDataProps> = props => {
   };
 
   const closePreviewModal = () => setViewPreviewModal(false);
-
+  const hasEntries = Boolean(intelData.length);
   return (
     <div className="left-wrapper">
-      <ModalTitleWrapper
+      <InxFullPreviewModal
         close={closePreviewModal}
-        headerTitle="Full preview data"
-        isActive={selectedResult.current !== null && viewPreviewModal}>
-        <div className="full-preview-container">
-          <div className="full-preview-header">
-            <h2 className="full-preview-title">
-              {fileName.current || ''}, {fileType.current || ''}
-            </h2>
-          </div>
-
-          <div className="full-preview-content">
-            <h3 className="preview-content-title">Main results</h3>
-
-            <div
-              className="preview-content"
-              dangerouslySetInnerHTML={{
-                __html: highlightWithUrl(selectedResult.current || '', getData().search),
-              }}></div>
-
-            <hr className="preview-dash "></hr>
-
-            <h3 className="preview-content-title">Full list</h3>
-            <div
-              className="preview-content"
-              dangerouslySetInnerHTML={{
-                __html: selectedResult.current
-                  ? selectedResult.current.replace(/(\r\n|\n|\r)/g, '<br>')
-                  : '',
-              }}></div>
-          </div>
-        </div>
-      </ModalTitleWrapper>
+        open={viewPreviewModal}
+        results={selectedResult.current}
+        fileName={fileName.current}
+        fileType={fileType.current}
+        search={getData().search}
+      />
 
       <InxSearchBar searchFn={procSearch} initSearch={''} />
 
       <Show when={!isLoading} fallback={<PageLoader />}>
         <>
-          {Boolean(intelData.length) && (
+          {hasEntries && (
             <div className="intel-result-data">
               <span className="result-text">Search Results:</span> {getData().count}
             </div>
           )}
           <div className="intel-results-container">
-            <Show when={Boolean(intelData.length)} fallback={<EmptyCard />}>
+            <Show when={hasEntries} fallback={<EmptyCard />}>
               <>
                 {intelData.map((intel: any, i: number) => (
-                  <Fragment key={`intel-${i}`}>
-                    <InxPreviewIntelData
-                      intel={intel}
-                      readFile={procReadFile}
-                      moreResults={procIntelSearch}
-                      companyID={companyID}
-                      index={i}
-                      maxPage={getData().count}
-                      page={getData().offSet}
-                    />
-                  </Fragment>
+                  <InxPreviewIntelData
+                    key={`intel-${i}`}
+                    intel={intel}
+                    readFile={procReadFile}
+                    moreResults={procIntelSearch}
+                    companyID={companyID}
+                    index={i}
+                    maxPage={getData().count}
+                    page={getData().offSet}
+                  />
                 ))}
               </>
             </Show>

@@ -67,7 +67,7 @@ export const ProvidedTestingCredentials: FC<ProvidedTestingCredentialsProps> = (
             ))}
           </Show>
           <Show when={!isLoading && credentials.length === 0}>
-            <EmptyCard />
+            <EmptyCard info="This resource does not have credentials assigned yet" />
           </Show>
         </div>
       </div>

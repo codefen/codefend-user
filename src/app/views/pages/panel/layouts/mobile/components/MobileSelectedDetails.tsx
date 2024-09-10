@@ -26,46 +26,46 @@ export const MobileSelectedDetails: React.FC = props => {
     if (appSelected) onRefetch();
   }, [appSelected]);
 
-  if (!isLoading) {
-    return (
-      <>
-        <CredentialsModal onComplete={onRefetch} />
-        <div>
-          <AppCardInfo
-            type={RESOURCE_CLASS.MOBILE}
-            selectedApp={appSelected}
-            issueCount={data?.issues ? data.issues.length : 0}
-          />
-        </div>
-        <div className="selected-content">
-          <div className="selected-content-credentials">
-            <ProvidedTestingCredentials
-              credentials={data?.creds || []}
-              isLoading={isLoading}
-              resourceId={appSelected?.id || ''}
-              type={RESOURCE_CLASS.MOBILE}
-            />
-          </div>
-          <div className="selected-content-tables">
-            <Show when={isAdmin() || isNormalUser()}>
-              <PrimaryButton
-                text="START A PENTEST ON DEMAND"
-                click={() => updateState('open', true)}
-                className="primary-full"
-              />
-            </Show>
-
-            <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} />
-            <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
-          </div>
-        </div>
-
-        <section className="card table">
-          <IssuesPanelMobileAndCloud isLoading={isLoading} issues={data?.issues || []} />
-        </section>
-      </>
-    );
-  } else {
+  if (isLoading) {
     return <PageLoader />;
   }
+
+  return (
+    <>
+      <div>
+        <AppCardInfo
+          type={RESOURCE_CLASS.MOBILE}
+          selectedApp={appSelected}
+          issueCount={data?.issues ? data.issues.length : 0}
+        />
+      </div>
+      <div className="selected-content">
+        <div className="selected-content-credentials">
+          <CredentialsModal onComplete={onRefetch} />
+          <ProvidedTestingCredentials
+            credentials={data?.creds || []}
+            isLoading={isLoading}
+            resourceId={appSelected?.id || ''}
+            type={RESOURCE_CLASS.MOBILE}
+          />
+        </div>
+        <div className="selected-content-tables">
+          <Show when={isAdmin() || isNormalUser()}>
+            <PrimaryButton
+              text="START A PENTEST ON DEMAND"
+              click={() => updateState('open', true)}
+              className="primary-full"
+            />
+          </Show>
+
+          <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} />
+          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
+        </div>
+      </div>
+
+      <section className="card table">
+        <IssuesPanelMobileAndCloud isLoading={isLoading} issues={data?.issues || []} />
+      </section>
+    </>
+  );
 };

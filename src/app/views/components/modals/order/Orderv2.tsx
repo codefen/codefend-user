@@ -54,31 +54,31 @@ export const OrderV2 = () => {
     resetActiveOrder();
   };
 
-  if (open) {
-    return (
-      <ModalWrapper action={close}>
-        <div className="order-container">
-          <header className="order-header">
-            <div className="order-header-title">
-              <img
-                src="/codefend/pentest-header-vector.svg"
-                alt="codefend-icon"
-                aria-label="codefend-icon"
-              />
-              <h2>
-                <span>Execute a </span>new pentest
-              </h2>
-              <ActiveProgressiveSteps orderStepActive={orderStepActive} />
-            </div>
-          </header>
-
-          <div className="orders-content">
-            <ActiveStep />
-          </div>
-        </div>
-      </ModalWrapper>
-    );
-  } else {
-    return <></>;
+  if (!open) {
+    return null;
   }
+
+  return (
+    <ModalWrapper action={close}>
+      <div className="order-container">
+        <header className="order-header">
+          <div className="order-header-title">
+            <img
+              src="/codefend/pentest-header-vector.svg"
+              alt="codefend-icon"
+              aria-label="codefend-icon"
+            />
+            <h2>
+              <span>Execute a </span>new pentest
+            </h2>
+            <ActiveProgressiveSteps orderStepActive={orderStepActive} />
+          </div>
+        </header>
+
+        <div className="orders-content">
+          <ActiveStep />
+        </div>
+      </div>
+    </ModalWrapper>
+  );
 };

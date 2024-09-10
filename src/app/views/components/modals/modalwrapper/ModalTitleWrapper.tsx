@@ -1,5 +1,5 @@
 import { type FC, type ReactNode } from 'react';
-import { ModalWrapper, Show, StatIcon } from '../..';
+import { ModalWrapper, StatIcon } from '../..';
 
 interface ModalTitleWrapperProps {
   children: ReactNode;
@@ -16,21 +16,22 @@ const ModalTitleWrapper: FC<ModalTitleWrapperProps> = ({
   isActive,
   close,
 }) => {
+  if (!isActive) {
+    return null;
+  }
   return (
-    <Show when={isActive}>
-      <ModalWrapper action={close} showCloseBtn type={`${type} title-wrapper`}>
-        <>
-          <div className="header">
-            <div className="icon">
-              <StatIcon />
-            </div>
-            {headerTitle}
+    <ModalWrapper action={close} showCloseBtn type={`${type} title-wrapper`}>
+      <>
+        <div className="header">
+          <div className="icon">
+            <StatIcon />
           </div>
-          {children}
-          <div className="modal-helper-box text-format"></div>
-        </>
-      </ModalWrapper>
-    </Show>
+          {headerTitle}
+        </div>
+        {children}
+        <div className="modal-helper-box text-format"></div>
+      </>
+    </ModalWrapper>
   );
 };
 
