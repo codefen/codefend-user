@@ -11,6 +11,7 @@ interface ModalWrapper {
   type?: string;
   showCloseBtn?: boolean;
 }
+const root = document.getElementById('root-modal');
 
 const ModalWrapper: FC<ModalWrapper> = ({
   isErrorBox = false,
@@ -27,12 +28,18 @@ const ModalWrapper: FC<ModalWrapper> = ({
     }
     action && action();
   };
+
   useEffect(() => {
     if (keyPress === 'Escape') {
       closeEvent();
       setKeyPress('NONE');
     }
   }, [keyPress]);
+
+  if (!root) {
+    console.error('Modal root element not found');
+    return null;
+  }
 
   return ReactDOM.createPortal(
     <div onDoubleClick={closeEvent} className="modal-wrapper">
@@ -50,7 +57,7 @@ const ModalWrapper: FC<ModalWrapper> = ({
         {children}
       </article>
     </div>,
-    document.getElementById('root-modal')!
+    root
   );
 };
 
