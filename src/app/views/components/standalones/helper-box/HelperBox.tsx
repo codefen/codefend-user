@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { CloseIcon, Show, SimpleRightArrowIcon } from '../..';
+import { CloseIcon, Show } from '../..';
 import { Position, type HelperBoxProps, type CoordsCssVariable } from '../../../../data';
 import './helperbox.scss';
 
@@ -24,10 +24,10 @@ export const HelperBox: FC<HelperBoxProps> = ({
   const defaultArrowColor = color || arrowColors[position];
 
   const boxStyles: CoordsCssVariable = {
-    '--coord-top': `${buttonCoords?.top + 'px' || '0%'}`, // Usamos las coordenadas dinámicas
-    '--coord-bottom': `${buttonCoords?.bottom || '0%'}`, // Usamos las coordenadas dinámicas
-    '--coord-left': `${buttonCoords?.left + 'px' || '0%'}`, // Usamos las coordenadas dinámicas
-    '--coord-right': `${buttonCoords?.right || '0%'}`, // Usamos las coordenadas dinámicas
+    '--coord-top': `${buttonCoords?.top + 'px' || '0%'}`,
+    '--coord-bottom': `${buttonCoords?.bottom || '0%'}`,
+    '--coord-left': `${buttonCoords?.left + 'px' || '0%'}`,
+    '--coord-right': `${buttonCoords?.right || '0%'}`,
     '--arrow-X': `${coordX}`,
     '--arrow-Y': `${coordY}`,
     '--arrow-color': `${defaultArrowColor}`,

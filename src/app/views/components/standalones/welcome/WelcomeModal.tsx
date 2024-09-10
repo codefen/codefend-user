@@ -14,7 +14,7 @@ interface WelcomeModalProps {
 export const WelcomeModal: FC<WelcomeModalProps> = ({ close, startNext }) => {
   const { isAdmin, isNormalUser } = useUserRole();
   return (
-    <ModalWrapper action={() => {}} type="med-max-w">
+    <ModalWrapper action={close} type="med-max-w">
       <div className="welcome-modal-container">
         <header className="welcome-modal-header">
           <h2>welcome to codefend</h2>

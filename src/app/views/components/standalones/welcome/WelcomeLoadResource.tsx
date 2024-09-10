@@ -31,11 +31,9 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = ({ close }) => {
   const [selectedAlias, setSelected] = useState('');
   const navigate = useNavigate();
   //const { setModalId, setIsOpen } = useModalStore();
-  const { solvedComunique } = useSolvedComunique();
 
   const navigationTo = () => {
     close();
-    solvedComunique();
     navigate(getPath(selectedAlias));
   };
   return (

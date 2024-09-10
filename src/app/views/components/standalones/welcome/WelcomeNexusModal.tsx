@@ -1,7 +1,6 @@
 import { type FC, lazy } from 'react';
-import { ModalWrapper, PrimaryButton, Show } from '../../';
+import { ModalWrapper, PrimaryButton } from '../../';
 import './welcome.scss';
-import { Link } from 'react-router-dom';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
@@ -12,9 +11,8 @@ interface WelcomeNexusModalProps {
 }
 
 export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({ close, startNext }) => {
-  const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
   return (
-    <ModalWrapper action={() => {}} type="med-max-w">
+    <ModalWrapper action={close} type="med-max-w">
       <div className="welcome-modal-container">
         <header className="welcome-modal-header">
           <h2>welcome to codefend</h2>
@@ -54,9 +52,7 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({ close, startNext
 
         <div className="welcome-btns">
           <PrimaryButton buttonStyle="black" text="Close" disabledLoader click={close} />
-          <Show when={isAdmin() || isNormalUser()}>
-            <PrimaryButton buttonStyle="red" text="Start tour" disabledLoader click={startNext} />
-          </Show>
+          <PrimaryButton buttonStyle="red" text="Okey" disabledLoader click={startNext} />
         </div>
       </div>
     </ModalWrapper>
