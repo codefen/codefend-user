@@ -75,41 +75,41 @@ export enum COMUNIQUE_KEYS {
 export const webEmptyScreen = {
     type: RESOURCE_CLASS.WEB,
     title: 'Add a new web resource',
-    subtitle: 'From this section you can add a new web resource like websites and web applications. Once you have loaded the desired resources you can request a web application penetration test to check their security.',
+    subtitle: "In this section, you can add new web resources such as websites and web applications. Once you've added the desired resources, you can request a web application penetration test to assess their security.",
     btnText: 'Add web resource',
 };
 
 export const mobileEmptyScreen = {
     type: RESOURCE_CLASS.MOBILE,
     title: 'There’s no data to display here',
-    subtitle: 'Start by adding a new mobile application',
-    btnText: 'Add mobile',
+    subtitle: 'Begin by adding a new mobile application',
+    btnText: 'Add mobile application',
 };
 
 export const cloudEmptyScreen = {
     type: 'cloud',
     title: 'There’s no data to display here',
-    subtitle: 'Start by adding a new cloud resource',
-    btnText: 'Add cloud',
+    subtitle: 'Begin by adding a new cloud resource.',
+    btnText: 'Add cloud resource',
 };
 
 export const socialEmptyScreen = {
     type: RESOURCE_CLASS.SOCIAL,
-    title: 'Social Engineering',
-    subtitle: 'Start by adding a new person',
+    title: 'Social Engineering Resources',
+    subtitle: 'Begin by adding a new individual.',
     btnText: 'Add social resource',
 };
 
 export const sourceEmptyScreen = {
     type: RESOURCE_CLASS.SOURCE,
     title: "There's no data to display here",
-    subtitle: 'Start by adding a new source code resource',
+    subtitle: 'Begin by adding a new source code resource',
     btnText: 'Add source code',
 };
 
 export const networkEmptyScreen = {
     type: 'network',
     title: "There's no data to display here",
-    subtitle: 'Start by adding a new network structure',
+    subtitle: 'Begin by adding a new network structure',
     btnText: 'Add network resource',
 };
