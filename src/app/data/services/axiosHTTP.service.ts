@@ -33,7 +33,7 @@ export class AxiosHttpService extends HttpService {
 		params,
 		requestId="uniqueRequest",
 		requireSession=true,
-		timeout=30000
+		timeout=40000
 	}: HttpRequestOptions): Promise<T> {
 		const abortController = this.getAbortController(requestId);
 		const requestConfig: AxiosRequestConfig = {
@@ -62,7 +62,7 @@ export class AxiosHttpService extends HttpService {
 		path = '',
 		insecure,
 		requireJson = false,
-		timeout=12000,
+		timeout=40000,
 		requestId = 'uniqueRequest',
 		requireSession=true
 	}: HttpRequestOptions): Promise<T> {
