@@ -17,7 +17,7 @@ export const FrequencyOrderModal: FC = () => {
     if (referenceNumber && frequencyW !== OrderFrequency.UNKNOWN) {
       updateState('frequency', frequencyW);
       sendMemberShip(frequencyW, referenceNumber, orderId);
-      updateState('orderStepActive', OrderSection.TEAM_SIZE);
+      updateState('orderStepActive', OrderSection.ENVIRONMENT);
     }
   };
 

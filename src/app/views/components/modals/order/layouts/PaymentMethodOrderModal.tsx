@@ -19,7 +19,7 @@ export const PaymentMethodOrderModal: FC = () => {
     if (paymentMethodW !== OrderPaymentMethod.UNKNOWN) {
       updateState('paymentMethod', paymentMethodW);
       sendOrderFinancial(referenceNumber, paymentMethodW, orderId);
-      updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
+      updateState('orderStepActive', OrderSection.WAIT_CHECK);
     }
   };
 

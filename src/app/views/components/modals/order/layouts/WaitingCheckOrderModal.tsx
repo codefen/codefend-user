@@ -20,12 +20,11 @@ export const WaitingCheckOrderModal = () => {
         }
         title="Await for confirmation">
         <p>
-          <span className="bolder block">The chosen payment method requires confirmation.</span>
-          Please allow our team a maximum of 24 hours to verify your payment.
-          <span className="codefend-text-red underline-high">
-            You will receive an email once the payment is confirmed and your team will start
-            immediately.
+          <span className="bolder block">
+            Your penetration testing request has been successfully submitted.
           </span>
+          A codefend representative will contact you via email within the next 24-48 hours to
+          discuss details and next steps.
         </p>
       </OrderAlertMessage>
       <RememberCard>
