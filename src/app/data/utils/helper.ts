@@ -1,5 +1,6 @@
 import DOMPurify from 'isomorphic-dompurify';
 import { Sort, type Resouce, type Webresource } from '..';
+import type { ListenerCallbackType, ListenerOptionsType, ListenerTarget, ListerType, UnsubscribeCallback } from '@interfaces/helper';
 
 /** Gets token in localStorage */
 export const getToken = () => {
@@ -552,3 +553,13 @@ export const getDomainCounts = (members: any) => {
   
 	return Object.entries(domainCounts).map(([domain, quantity]) => ({ domain, quantity }));
   };
+
+  export function addEventListener(target:ListenerTarget, type:ListerType, listener:ListenerCallbackType, options?:ListenerOptionsType): UnsubscribeCallback {
+	if (!target) {
+	  return () => {};
+	}
+	target?.addEventListener?.(type, listener, options);
+	return () => {
+	  target?.removeEventListener?.(type, listener, options);
+	};
+  }

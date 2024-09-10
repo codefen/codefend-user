@@ -1,0 +1,21 @@
+export enum EVENTS {
+    COPY = "copy",
+    PASTE = "paste",
+    CUT = "cut",
+    KEYDOWN = "keydown",
+    KEYUP = "keyup",
+    MOUSE_MOVE = "mousemove",
+    RESIZE = "resize",
+    UNLOAD = "unload",
+    FOCUS = "focus",
+    BLUR = "blur",
+    DRAG_OVER = "dragover",
+    DROP = "drop",
+    POINTER_MOVE = "pointermove",
+    POINTER_DOWN = "pointerdown",
+    POINTER_UP = "pointerup",
+    STATE_CHANGE = "statechange",
+    WHEEL = "wheel",
+    // custom events
+    ERROR_STATE="SVESM",
+  }

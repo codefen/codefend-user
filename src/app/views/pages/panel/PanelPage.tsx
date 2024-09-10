@@ -1,4 +1,12 @@
-import { type FC, Suspense, useEffect, useState, lazy } from 'react';
+import {
+	type FC,
+	Suspense,
+	useEffect,
+	useState,
+	lazy,
+	useMemo,
+	useCallback,
+} from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
 import useAuthStore from '@stores/auth.store.ts';
@@ -14,6 +22,8 @@ import { useUserCommunicated } from '@hooks/useUserCommunicated.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
+import { addEventListener } from '@utils/helper.ts';
+import { EVENTS } from '@/app/constants/events.ts';
 
 export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
@@ -31,82 +41,87 @@ export const PanelPage: FC = () => {
 	const { updateAuth } = useAuthStore((state) => state);
 	const { getProviderCompanyAccess } = useProviderCompanies();
 	useUserCommunicated();
-	if (!isAuth()) logout();
+
+	const isNetworkSettingModalOpen = useMemo(
+		() => showModal && showModalStr === MODAL_KEY_OPEN.NETWORK_SETTING,
+		[showModal, showModalStr],
+	);
+
+	const isErrorConnectionModalOpen = useMemo(
+		() => showModal && showModalStr === MODAL_KEY_OPEN.ERROR_CONNECTION,
+		[showModal, showModalStr],
+	);
+	const closeErrorConnectionModal = useCallback(() => {
+		setShowModal(false);
+		localStorage.removeItem(MODAL_KEY_OPEN.ERROR_CONNECTION);
+	}, [setShowModal]);
 
 	useEffect(() => {
+		if (!isAuth()) {
+			logout();
+			return;
+		}
+
 		updateAuth();
-		const handleChange = () => {
+		const errorUnsub = addEventListener(window, EVENTS.ERROR_STATE, () => {
 			setShowModal(true);
 			setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
-		};
-		const handleKeyDown = (e: any) => {
-			if (e.ctrlKey && e.altKey && e.key === 'ñ') {
+		});
+		const keydownUnsub = addEventListener(window, EVENTS.KEYDOWN, (e) => {
+			if (
+				e instanceof KeyboardEvent &&
+				e.ctrlKey &&
+				e.altKey &&
+				e.key === 'ñ'
+			) {
 				setShowModal(true);
 				setShowModalStr(MODAL_KEY_OPEN.NETWORK_SETTING);
 			}
-		};
-		window.addEventListener(MODAL_KEY_OPEN.ERROR_STATE, handleChange);
-		window.addEventListener('keydown', handleKeyDown);
+		});
 		if (getUserdata().access_role === 'provider') {
 			getProviderCompanyAccess();
 		}
 		return () => {
-			window.removeEventListener(MODAL_KEY_OPEN.ERROR_STATE, handleChange);
-			window.removeEventListener('keydown', handleKeyDown);
+			errorUnsub();
+			keydownUnsub();
 			localStorage.removeItem(MODAL_KEY_OPEN.ERROR_CONNECTION);
 		};
 	}, []);
 
-	//REMPLAZAR (EN EL PRIMER SHOW) CUANDO SE TERMINE DE PROBAR
-	//true -> isAuth()
-	//REMPLAZAR EN (EL SEGUNDO SHOW)
-	//true -> matches
+	// Si la autenticacion fallo redirige al login
+	if (!isAuth()) {
+		return (
+			<Navigate to="/auth/signin" state={{ redirect: location.pathname }} />
+		);
+	}
+	// Si la resolucion esta por debajo de 1175px, muestra alerta de mobile version
+	if (!matches) {
+		return <MobileFallback />;
+	}
 
 	return (
-		<Show
-			when={isAuth()}
-			fallback={
-				<Navigate
-					to="/auth/signin"
-					state={{ redirect: location.pathname }}
+		<FlashLightProvider>
+			<>
+				<NetworkSettingModal
+					isOpen={isNetworkSettingModalOpen}
+					close={() => setShowModal(false)}
 				/>
-			}>
-			<Show when={matches} fallback={<MobileFallback />}>
-				<FlashLightProvider>
-					<>
-						<NetworkSettingModal
-							isOpen={
-								showModal &&
-								showModalStr === MODAL_KEY_OPEN.NETWORK_SETTING
-							}
-							close={() => setShowModal(false)}
-						/>
-						<WelcomeGroupTour />
-						<QualityFeedbackManager />
+				<WelcomeGroupTour />
+				<QualityFeedbackManager />
 
-						<ErrorConection
-							closeModal={() => {
-								setShowModal(false);
-								localStorage.removeItem(
-									MODAL_KEY_OPEN.ERROR_CONNECTION,
-								);
-							}}
-							open={
-								showModal &&
-								showModalStr === MODAL_KEY_OPEN.ERROR_CONNECTION
-							}
-						/>
+				<ErrorConection
+					closeModal={closeErrorConnectionModal}
+					open={isErrorConnectionModalOpen}
+				/>
 
-						<Navbar />
-						<Sidebar />
+				<Navbar />
+				<Sidebar />
 
-						<Suspense fallback={<Loader />}>
-							<Outlet />
-						</Suspense>
-					</>
-				</FlashLightProvider>
-			</Show>
-		</Show>
+				<Suspense fallback={<Loader />}>
+					<Outlet />
+				</Suspense>
+			</>
+		</FlashLightProvider>
 	);
 };
 
