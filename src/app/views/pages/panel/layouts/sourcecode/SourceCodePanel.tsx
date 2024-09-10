@@ -13,58 +13,51 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import './sourcecode.scss';
-import {
-	RESOURCE_CLASS,
-	sourceEmptyScreen,
-} from '@/app/constants/app-texts.ts';
+import { RESOURCE_CLASS, sourceEmptyScreen } from '@/app/constants/app-texts.ts';
 
 const SourceCodePanel: FC = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const { data, isLoading, refetch } = useSourceCode();
-	const { isAdmin, isNormalUser } = useUserRole();
-	const { updateState, scope } = useOrderStore((state) => state);
-	const flashlight = useFlashlight();
+  const [showScreen, control, refresh] = useShowScreen();
+  const { data, isLoading, refetch } = useSourceCode();
+  const { isAdmin, isNormalUser } = useUserRole();
+  const { updateState, scope } = useOrderStore(state => state);
+  const flashlight = useFlashlight();
 
-	useEffect(() => {
-		refetch();
-	}, [control]);
+  useEffect(() => {
+    refetch();
+  }, [control]);
 
-	return (
-		<>
-			<OrderV2 />
-			<CredentialsModal />
-			<ModalReport />
-			<EmptyLayout
-				className="source-code"
-				fallback={sourceEmptyScreen}
-				event={refresh}
-				showScreen={showScreen}
-				isLoading={isLoading}
-				dataAvalaible={Boolean(data.length)}>
-				<section className="left">
-					<SourceCodeResources
-						isLoading={isLoading}
-						sourceCode={data}
-						refetch={refresh}
-					/>
-				</section>
-				<section className="right" ref={flashlight.rightPaneRef}>
-					<SourceCodeChart isLoading={isLoading} sourceCode={data} />
-					{isAdmin() || isNormalUser() ? (
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							className="primary-full"
-							click={() => updateState('open', open)}
-							disabledLoader
-							isDisabled={scope.totalResources <= 0}
-						/>
-					) : null}
+  return (
+    <>
+      <OrderV2 />
+      <CredentialsModal />
+      <ModalReport />
+      <EmptyLayout
+        className="source-code"
+        fallback={sourceEmptyScreen}
+        event={refresh}
+        showScreen={showScreen}
+        isLoading={isLoading}
+        dataAvalaible={Boolean(data.length)}>
+        <section className="left">
+          <SourceCodeResources isLoading={isLoading} sourceCode={data} refetch={refresh} />
+        </section>
+        <section className="right" ref={flashlight.rightPaneRef}>
+          <SourceCodeChart isLoading={isLoading} sourceCode={data} />
+          {isAdmin() || isNormalUser() ? (
+            <PrimaryButton
+              text="START A PENTEST ON DEMAND"
+              className="primary-full"
+              click={() => updateState('open', open)}
+              disabledLoader
+              isDisabled={scope.totalResources <= 0}
+            />
+          ) : null}
 
-					<SourceCodeCollab />
-				</section>
-			</EmptyLayout>
-		</>
-	);
+          <SourceCodeCollab />
+        </section>
+      </EmptyLayout>
+    </>
+  );
 };
 
 export default SourceCodePanel;

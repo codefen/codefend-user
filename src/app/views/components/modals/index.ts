@@ -4,6 +4,6 @@ export { default as ModalTitleWrapper } from './modalwrapper/ModalTitleWrapper.t
 export { default as ModalWrapper } from './modalwrapper/ModalWrapper';
 export * from './adding-modals/AddTicketModal.tsx';
 export * from './network-modal/NetworkSettingModal.tsx';
-export * from "./DeleteMobileCloudModal"
+export * from './DeleteMobileCloudModal';
 
-export * from "./order/Orderv2.tsx"
+export * from './order/Orderv2.tsx';

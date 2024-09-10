@@ -5,21 +5,16 @@ import { TermsOfUse } from '../../../components/auth/TermsOfUse.tsx';
 import FinishSignupForm from '@/app/views/components/forms/FinishSignupForm.tsx';
 
 const FinishSignUpLayout: FC = () => (
-	<FinishSignupForm>
-		{(isLoading: boolean) => (
-			<>
-				<TermsOfUse />
-				<div className="margin-top">
-					<PrimaryButton
-						text="Proceed"
-						type="submit"
-						isDisabled={isLoading}
-						className="center"
-					/>
-				</div>
-			</>
-		)}
-	</FinishSignupForm>
+  <FinishSignupForm>
+    {(isLoading: boolean) => (
+      <>
+        <TermsOfUse />
+        <div className="margin-top">
+          <PrimaryButton text="Proceed" type="submit" isDisabled={isLoading} className="center" />
+        </div>
+      </>
+    )}
+  </FinishSignupForm>
 );
 
 export default FinishSignUpLayout;

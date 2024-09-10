@@ -15,60 +15,56 @@ import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { cloudEmptyScreen } from '@/app/constants/app-texts';
 
 const CloudApplicationPanel: FC = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const { isLoading, data, refetch, updateData } = useCloud();
-	const { setShowModal, showModal } = useModal();
-	const { appSelected, setAppSelected, newApp, setNewApp } = useSelectedApp();
+  const [showScreen, control, refresh] = useShowScreen();
+  const { isLoading, data, refetch, updateData } = useCloud();
+  const { setShowModal, showModal } = useModal();
+  const { appSelected, setAppSelected, newApp, setNewApp } = useSelectedApp();
 
-	useEffect(() => {
-		refetch();
-		return () => {
-			setAppSelected(null);
-			setNewApp(null);
-		};
-	}, [control]);
+  useEffect(() => {
+    refetch();
+    return () => {
+      setAppSelected(null);
+      setNewApp(null);
+    };
+  }, [control]);
 
-	const onDelete = () => {
-		setAppSelected(null);
-		refresh();
-	};
-	const onAdd = () => updateData(newApp);
+  const onDelete = () => {
+    setAppSelected(null);
+    refresh();
+  };
+  const onAdd = () => updateData(newApp);
 
-	return (
-		<>
-			<AddCloudModal
-				isOpen={showModal}
-				close={() => setShowModal(false)}
-				onDone={onAdd}
-			/>
-			<DeleteMobileCloudModal onDone={onDelete} />
-			<OrderV2 />
-			<ModalReport />
-			<EmptyLayout
-				className="mobile cloud"
-				fallback={cloudEmptyScreen}
-				event={refresh}
-				showScreen={showScreen}
-				isLoading={isLoading}
-				dataAvalaible={Boolean(data.length)}>
-				<div className="brightness variant-1"></div>
-				<div className="brightness variant-2"></div>
-				<div className="brightness variant-3"></div>
-				<section className="left">
-					<ListResourceWithSearch
-						openModal={() => setShowModal(!showModal)}
-						type="Cloud"
-						resources={data}
-					/>
-				</section>
-				<section className="right">
-					<Show when={Boolean(appSelected)}>
-						<CloudSelectedDetails />
-					</Show>
-				</section>
-			</EmptyLayout>
-		</>
-	);
+  return (
+    <>
+      <AddCloudModal isOpen={showModal} close={() => setShowModal(false)} onDone={onAdd} />
+      <DeleteMobileCloudModal onDone={onDelete} />
+      <OrderV2 />
+      <ModalReport />
+      <EmptyLayout
+        className="mobile cloud"
+        fallback={cloudEmptyScreen}
+        event={refresh}
+        showScreen={showScreen}
+        isLoading={isLoading}
+        dataAvalaible={Boolean(data.length)}>
+        <div className="brightness variant-1"></div>
+        <div className="brightness variant-2"></div>
+        <div className="brightness variant-3"></div>
+        <section className="left">
+          <ListResourceWithSearch
+            openModal={() => setShowModal(!showModal)}
+            type="Cloud"
+            resources={data}
+          />
+        </section>
+        <section className="right">
+          <Show when={Boolean(appSelected)}>
+            <CloudSelectedDetails />
+          </Show>
+        </section>
+      </EmptyLayout>
+    </>
+  );
 };
 
 export default CloudApplicationPanel;

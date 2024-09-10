@@ -1,11 +1,11 @@
 export type ListenerTarget =
-| Document
-| (Window & typeof globalThis)
-| FontFaceSet
-| HTMLElement
-| undefined
-| null
-| false;
+  | Document
+  | (Window & typeof globalThis)
+  | FontFaceSet
+  | HTMLElement
+  | undefined
+  | null
+  | false;
 
 export type ListerType = keyof WindowEventMap | keyof DocumentEventMap | string;
 export type UnsubscribeCallback = () => void;

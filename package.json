@@ -7,8 +7,12 @@
 	"scripts": {
 		"start": "tsc && vite",
 		"dev": "vite",
-		"lint": "eslint \"src/**/*.{ts,tsx,json}\" \"./*.{js,cjs,ts,json}\" --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-		"format": "prettier \"src/**/*.{ts,tsx,json}\" \"./*.{js,cjs,ts,json}\" --write",
+		"lint": "eslint",
+		"lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 --fix",
+		"format": "prettier --check \"**/*.{js,jsx,ts,tsx}\" --ignore-path .prettierignore .",
+		"format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\" --ignore-path .prettierignore .",
+		"checking": "pnpm lint:fix && pnpm format:fix && pnpm types:check",
+		"types:check": "tsc --noEmit --pretty",
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"tauri": "WEBKIT_DISABLE_COMPOSITING_MODE=1 tauri"

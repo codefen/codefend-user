@@ -6,33 +6,31 @@ import ParticlesScriptLoader from '../../components/auth/ParticlesScriptLoader';
 import './auth.scss';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 
-const BrandAndAppVersion = lazy(
-	() => import('../../components/auth/BrandAndAppVersion.tsx'),
-);
+const BrandAndAppVersion = lazy(() => import('../../components/auth/BrandAndAppVersion.tsx'));
 
 const AuthPage: FC = () => {
-	const location = useLocation();
-	const { isAuth } = useAuthStore((state) => state);
+  const location = useLocation();
+  const { isAuth } = useAuthStore(state => state);
 
-	return !isAuth ? (
-		<>
-			<ParticlesScriptLoader />
-			<section className="access">
-				<div className="forms">
-					<AuthNavigation location={location.pathname} />
-					<Suspense fallback={<PageLoader />}>
-						<Outlet />
-					</Suspense>
-				</div>
+  return !isAuth ? (
+    <>
+      <ParticlesScriptLoader />
+      <section className="access">
+        <div className="forms">
+          <AuthNavigation location={location.pathname} />
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
+        </div>
 
-				<BrandAndAppVersion />
+        <BrandAndAppVersion />
 
-				<div className="bkg"></div>
-			</section>
-		</>
-	) : (
-		<Navigate to={'/'} />
-	);
+        <div className="bkg"></div>
+      </section>
+    </>
+  ) : (
+    <Navigate to={'/'} />
+  );
 };
 
 export default AuthPage;

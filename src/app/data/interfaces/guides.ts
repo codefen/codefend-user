@@ -1,5 +1,3 @@
 export interface WebGuide {}
 
-export enum WebWelcomeSteps {
-    
-}
+export enum WebWelcomeSteps {}

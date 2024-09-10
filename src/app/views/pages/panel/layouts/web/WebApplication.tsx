@@ -22,58 +22,55 @@ import WebApplicationPentest from './components/WebApplicationPentest.tsx';
 import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
 
 const WebApplicationView: React.FC = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const { webResources, isLoading, refetch } = useGetWebResources();
-	const { updateState } = useOrderStore((state) => state);
-	const flashlight = useFlashlight();
-	const { isAdmin, isNormalUser } = useUserRole();
+  const [showScreen, control, refresh] = useShowScreen();
+  const { webResources, isLoading, refetch } = useGetWebResources();
+  const { updateState } = useOrderStore(state => state);
+  const flashlight = useFlashlight();
+  const { isAdmin, isNormalUser } = useUserRole();
 
-	useEffect(() => {
-		refetch();
-	}, [control]);
+  useEffect(() => {
+    refetch();
+  }, [control]);
 
-	return (
-		<>
-			<OrderV2 />
-			<ModalReport />
-			<CredentialsModal />
-			<WebWelcomeModal />
-			<EmptyLayout
-				className="webapp"
-				fallback={webEmptyScreen}
-				event={refresh}
-				showScreen={showScreen}
-				isLoading={isLoading}
-				dataAvalaible={Boolean(webResources.length)}>
-				<div className="brightness variant-1"></div>
-				<section className="left">
-					<WebApplicationResources
-						isLoading={isLoading}
-						refresh={refresh}
-						webResources={webResources}
-					/>
-				</section>
-				<section className="right" ref={flashlight.rightPaneRef}>
-					<Show when={isAdmin() || isNormalUser()}>
-						<WebApplicationPentest
-							webResources={webResources}
-							isLoading={isLoading}
-						/>
-					</Show>
-					<ResourceByLocation
-						isLoading={isLoading}
-						resource={webResources}
-						title="Web servers by location"
-						type={RESOURCE_CLASS.WEB}
-					/>
+  return (
+    <>
+      <OrderV2 />
+      <ModalReport />
+      <CredentialsModal />
+      <WebWelcomeModal />
+      <EmptyLayout
+        className="webapp"
+        fallback={webEmptyScreen}
+        event={refresh}
+        showScreen={showScreen}
+        isLoading={isLoading}
+        dataAvalaible={Boolean(webResources.length)}>
+        <div className="brightness variant-1"></div>
+        <section className="left">
+          <WebApplicationResources
+            isLoading={isLoading}
+            refresh={refresh}
+            webResources={webResources}
+          />
+        </section>
+        <section className="right" ref={flashlight.rightPaneRef}>
+          <Show when={isAdmin() || isNormalUser()}>
+            <WebApplicationPentest webResources={webResources} isLoading={isLoading} />
+          </Show>
+          <ResourceByLocation
+            isLoading={isLoading}
+            resource={webResources}
+            title="Web servers by location"
+            type={RESOURCE_CLASS.WEB}
+          />
 
-					<WebApplicationStatics webResources={webResources} />
+          <WebApplicationStatics webResources={webResources} />
 
-					{/*<WebApplicationCredentials />*/}
-				</section>
-			</EmptyLayout>
-		</>
-	);
+          {/*<WebApplicationCredentials />*/}
+        </section>
+      </EmptyLayout>
+    </>
+  );
 };
 
 export default WebApplicationView;

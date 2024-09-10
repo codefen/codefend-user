@@ -12,69 +12,65 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 interface NavbarSubMenuProps {
-	subMenuRef: any;
-	isOpen: boolean;
-	closeMenu: () => void;
-	userFullname: string;
-	userProfile?: string;
+  subMenuRef: any;
+  isOpen: boolean;
+  closeMenu: () => void;
+  userFullname: string;
+  userProfile?: string;
 }
 
-export const NavbarSubMenu: FC<NavbarSubMenuProps> = (props) => {
-	const navigate = useNavigate();
-	const { isOpen, setNetworkSettingState } = useNetworkSettingState(
-		(state: NetworkSettingState) => state,
-	);
-	const { logout } = useUserData();
-	const { showModal, showModalStr, setShowModal, setShowModalStr } =
-		useModal();
+export const NavbarSubMenu: FC<NavbarSubMenuProps> = props => {
+  const navigate = useNavigate();
+  const { isOpen, setNetworkSettingState } = useNetworkSettingState(
+    (state: NetworkSettingState) => state
+  );
+  const { logout } = useUserData();
+  const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
 
-	return (
-		<>
-			<Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>
-				<ModalWrapper action={() => setShowModal(!showModal)}>
-					<ConfirmModal
-						header="ARE YOU SURE YOU WANT TO LOGOUT?"
-						cancelText="Cancel"
-						confirmText="Logout"
-						close={() => setShowModal(!showModal)}
-						action={() => {
-							logout();
-							navigate('/auth/signin');
-						}}
-					/>
-				</ModalWrapper>
-			</Show>
+  return (
+    <>
+      <Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>
+        <ModalWrapper action={() => setShowModal(!showModal)}>
+          <ConfirmModal
+            header="ARE YOU SURE YOU WANT TO LOGOUT?"
+            cancelText="Cancel"
+            confirmText="Logout"
+            close={() => setShowModal(!showModal)}
+            action={() => {
+              logout();
+              navigate('/auth/signin');
+            }}
+          />
+        </ModalWrapper>
+      </Show>
 
-			<div
-				className={`menu ${props.isOpen ? 'active' : ''}`}
-				ref={props.subMenuRef}
-				id="menu-navbar"
-				onClick={(e) => {
-					e.preventDefault();
-					e.stopPropagation();
-				}}>
-				<div className="user">
-					{/* <div className="profile"></div> */}
-					<span
-						className="username"
-						title={props.userFullname}
-						aria-label={props.userFullname}>
-						{props.userFullname}
-					</span>
-				</div>
-				<div className="options">
-					<div
-						className="option"
-						onClick={(e: React.FormEvent) => {
-							props.closeMenu();
-							setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
-							setShowModal(true);
-						}}>
-						<LogoutIcon width={1.25} height={1.25} />
-						<span className="text-options">Logout</span>
-					</div>
-				</div>
-			</div>
-		</>
-	);
+      <div
+        className={`menu ${props.isOpen ? 'active' : ''}`}
+        ref={props.subMenuRef}
+        id="menu-navbar"
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}>
+        <div className="user">
+          {/* <div className="profile"></div> */}
+          <span className="username" title={props.userFullname} aria-label={props.userFullname}>
+            {props.userFullname}
+          </span>
+        </div>
+        <div className="options">
+          <div
+            className="option"
+            onClick={(e: React.FormEvent) => {
+              props.closeMenu();
+              setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
+              setShowModal(true);
+            }}>
+            <LogoutIcon width={1.25} height={1.25} />
+            <span className="text-options">Logout</span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };

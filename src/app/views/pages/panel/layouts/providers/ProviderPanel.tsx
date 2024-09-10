@@ -9,22 +9,22 @@ import './provider.scss';
 import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
 
 const ProviderPage = () => {
-	const [showScreen] = useShowScreen();
-	return (
-		<main className={`provider ${showScreen ? 'actived' : ''}`}>
-			<section className="left">
-				<ProviderHeader />
-				<div className="provider-content">
-					<ProviderSidebar />
-					<div className="provider-main-content">
-						<Suspense>
-							<Outlet />
-						</Suspense>
-					</div>
-				</div>
-			</section>
-		</main>
-	);
+  const [showScreen] = useShowScreen();
+  return (
+    <main className={`provider ${showScreen ? 'actived' : ''}`}>
+      <section className="left">
+        <ProviderHeader />
+        <div className="provider-content">
+          <ProviderSidebar />
+          <div className="provider-main-content">
+            <Suspense>
+              <Outlet />
+            </Suspense>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 };
 
 export default ProviderPage;

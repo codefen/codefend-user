@@ -1,13 +1,13 @@
 import { toast } from 'react-toastify';
 import {
-	type ResumeAllResources,
-	OrderFrequency,
-	type OrderStore,
-	OrderTeamSize,
-	ScopeOption,
-	useOrderStore,
-	CryptoPayment,
-	getDomainCounts,
+  type ResumeAllResources,
+  OrderFrequency,
+  type OrderStore,
+  OrderTeamSize,
+  ScopeOption,
+  useOrderStore,
+  CryptoPayment,
+  getDomainCounts,
 } from '..';
 import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
@@ -18,713 +18,670 @@ import { ORDER_PHASES_TEXT } from '@/app/constants/app-toast-texts';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const useOrders = () => {
-	const { getCompany } = useUserData();
-	const [fetcher, _, isLoading] = useFetcher();
-	const { setScopeAllTotalResources, updateState } = useOrderStore(
-		(state) => state,
-	);
+  const { getCompany } = useUserData();
+  const [fetcher, _, isLoading] = useFetcher();
+  const { setScopeAllTotalResources, updateState } = useOrderStore(state => state);
 
-	const fetchGetTotal = (companyID: string) => {
-		fetcher('post', {
-			body: {
-				model: 'resources/index',
-				size: 'full',
-				childs: 'yes',
-				company_id: companyID,
-			},
-		}).then(({ data }: any) => {
-			const resumeResources: ResumeAllResources = {
-				web: data.resources_web
-					? data.resources_web.map((resource: any) => ({
-							id: resource.id,
-							resource_domain: resource.resource_domain,
-							server: resource.main_server,
-							childs: resource.childs
-								? resource.childs.map((childRes: any) => ({
-										id: childRes.id,
-										resource_domain: childRes.resource_domain,
-										server: childRes.main_server,
-									}))
-								: [],
-						}))
-					: [],
-				mobile: data.resources_mobile
-					? data.resources_mobile.map((resource: any) => ({
-							id: resource.id,
-							app_name: resource.app_name,
-							app_link: resource.app_link,
-						}))
-					: [],
-				social: data.resources_social
-					? ({
-							social_resources: getDomainCounts(data.resources_social),
-						} as SocialResourceResume)
-					: ({ social_resources: [] } as SocialResourceResume),
-				cloud: data.resources_cloud
-					? data.resources_cloud.map((resource: any) => ({
-							id: resource.id,
-							cloud_name: resource.cloud_name,
-							cloud_provider: resource.cloud_provider,
-						}))
-					: [],
-				source: data.resources_source
-					? data.resources_source.map((resource: any) => ({
-							id: resource.id,
-							name: resource.name,
-							access_link: resource.access_link,
-						}))
-					: [],
-				network: data.resources_lan
-					? data.resources_lan.map((resource: any) => ({
-							id: resource.id,
-							device_ex_address: resource.device_ex_address,
-							device_in_address: resource.device_in_address,
-							childs: resource.childs
-								? resource.childs.map((childRes: any) => ({
-										id: childRes.id,
-										device_ex_address: childRes.device_ex_address,
-										device_in_address: childRes.device_in_address,
-									}))
-								: [],
-						}))
-					: [],
-			};
+  const fetchGetTotal = (companyID: string) => {
+    fetcher('post', {
+      body: {
+        model: 'resources/index',
+        size: 'full',
+        childs: 'yes',
+        company_id: companyID,
+      },
+    }).then(({ data }: any) => {
+      const resumeResources: ResumeAllResources = {
+        web: data.resources_web
+          ? data.resources_web.map((resource: any) => ({
+              id: resource.id,
+              resource_domain: resource.resource_domain,
+              server: resource.main_server,
+              childs: resource.childs
+                ? resource.childs.map((childRes: any) => ({
+                    id: childRes.id,
+                    resource_domain: childRes.resource_domain,
+                    server: childRes.main_server,
+                  }))
+                : [],
+            }))
+          : [],
+        mobile: data.resources_mobile
+          ? data.resources_mobile.map((resource: any) => ({
+              id: resource.id,
+              app_name: resource.app_name,
+              app_link: resource.app_link,
+            }))
+          : [],
+        social: data.resources_social
+          ? ({
+              social_resources: getDomainCounts(data.resources_social),
+            } as SocialResourceResume)
+          : ({ social_resources: [] } as SocialResourceResume),
+        cloud: data.resources_cloud
+          ? data.resources_cloud.map((resource: any) => ({
+              id: resource.id,
+              cloud_name: resource.cloud_name,
+              cloud_provider: resource.cloud_provider,
+            }))
+          : [],
+        source: data.resources_source
+          ? data.resources_source.map((resource: any) => ({
+              id: resource.id,
+              name: resource.name,
+              access_link: resource.access_link,
+            }))
+          : [],
+        network: data.resources_lan
+          ? data.resources_lan.map((resource: any) => ({
+              id: resource.id,
+              device_ex_address: resource.device_ex_address,
+              device_in_address: resource.device_in_address,
+              childs: resource.childs
+                ? resource.childs.map((childRes: any) => ({
+                    id: childRes.id,
+                    device_ex_address: childRes.device_ex_address,
+                    device_in_address: childRes.device_in_address,
+                  }))
+                : [],
+            }))
+          : [],
+      };
 
-			const countAllTotalResource =
-				resumeResources.web.length +
-				resumeResources.mobile.length +
-				resumeResources.cloud.length +
-				resumeResources.source.length +
-				resumeResources.network.length +
-				resumeResources.social.social_resources.length;
+      const countAllTotalResource =
+        resumeResources.web.length +
+        resumeResources.mobile.length +
+        resumeResources.cloud.length +
+        resumeResources.source.length +
+        resumeResources.network.length +
+        resumeResources.social.social_resources.length;
 
-			setScopeAllTotalResources(countAllTotalResource);
-			updateState('resumeResources', resumeResources);
-		});
-	};
+      setScopeAllTotalResources(countAllTotalResource);
+      updateState('resumeResources', resumeResources);
+    });
+  };
 
-	const refetchTotal = () => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return;
-		fetchGetTotal(companyID);
-	};
+  const refetchTotal = () => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return;
+    fetchGetTotal(companyID);
+  };
 
-	return { refetchTotal };
+  return { refetchTotal };
 };
 
 export const useOrderScope = () => {
-	const [fetcher, _, isLoading] = useFetcher();
-	const { getCompany } = useUserData();
-	const { resumeResources, updateState } = useOrderStore((state) => state);
+  const [fetcher, _, isLoading] = useFetcher();
+  const { getCompany } = useUserData();
+  const { resumeResources, updateState } = useOrderStore(state => state);
 
-	const fetchScope = (companyID: string, resourceScope: string) => {
-		let resource: any = {};
+  const fetchScope = (companyID: string, resourceScope: string) => {
+    let resource: any = {};
 
-		if (resourceScope === 'full') {
-			resource = resumeResources;
-		} else if (resourceScope === RESOURCE_CLASS.WEB) {
-			resource = { web: resumeResources.web };
-		} else if (resourceScope === RESOURCE_CLASS.MOBILE) {
-			resource = { mobile: resumeResources.mobile };
-		} else if (resourceScope === RESOURCE_CLASS.CLOUD) {
-			resource = { cloud: resumeResources.cloud };
-		} else if (resourceScope === RESOURCE_CLASS.SOURCE) {
-			resource = { source: resumeResources.source };
-		} else if (resourceScope === RESOURCE_CLASS.SOCIAL) {
-			resource = { social: resumeResources.social };
-		} else if (resourceScope === RESOURCE_CLASS.NETWORK) {
-			resource = { lan: resumeResources.network };
-		}
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'scope',
-				company_id: companyID,
-				resources_class: resourceScope.trim(),
-				resources_scope: JSON.stringify(resource),
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				updateState('orderId', data.order.id);
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+    if (resourceScope === 'full') {
+      resource = resumeResources;
+    } else if (resourceScope === RESOURCE_CLASS.WEB) {
+      resource = { web: resumeResources.web };
+    } else if (resourceScope === RESOURCE_CLASS.MOBILE) {
+      resource = { mobile: resumeResources.mobile };
+    } else if (resourceScope === RESOURCE_CLASS.CLOUD) {
+      resource = { cloud: resumeResources.cloud };
+    } else if (resourceScope === RESOURCE_CLASS.SOURCE) {
+      resource = { source: resumeResources.source };
+    } else if (resourceScope === RESOURCE_CLASS.SOCIAL) {
+      resource = { social: resumeResources.social };
+    } else if (resourceScope === RESOURCE_CLASS.NETWORK) {
+      resource = { lan: resumeResources.network };
+    }
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'scope',
+        company_id: companyID,
+        resources_class: resourceScope.trim(),
+        resources_scope: JSON.stringify(resource),
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        updateState('orderId', data.order.id);
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	const sendScopeOrders = (resourceScope: string) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetchScope(companyID, resourceScope);
-	};
+  const sendScopeOrders = (resourceScope: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetchScope(companyID, resourceScope);
+  };
 
-	return { sendScopeOrders };
+  return { sendScopeOrders };
 };
 
 export const useOrderMembership = () => {
-	const { getCompany } = useUserData();
-	const [fetcher, _] = useFetcher();
+  const { getCompany } = useUserData();
+  const [fetcher, _] = useFetcher();
 
-	const fetchmemberShip = (
-		companyID: string,
-		referenceNumber: string,
-		memberShip: string,
-		orderId: string,
-	) => {
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'membership',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				membership: memberShip,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+  const fetchmemberShip = (
+    companyID: string,
+    referenceNumber: string,
+    memberShip: string,
+    orderId: string
+  ) => {
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'membership',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        membership: memberShip,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	const sendMemberShip = (
-		memberShip: string,
-		referenceNumber: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetchmemberShip(companyID, referenceNumber, memberShip, orderId);
-	};
+  const sendMemberShip = (memberShip: string, referenceNumber: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetchmemberShip(companyID, referenceNumber, memberShip, orderId);
+  };
 
-	return { sendMemberShip };
+  return { sendMemberShip };
 };
 
 export const useOrderPlan = () => {
-	const { getCompany } = useUserData();
-	const [fetcher, _] = useFetcher();
+  const { getCompany } = useUserData();
+  const [fetcher, _] = useFetcher();
 
-	const fetchPlan = (
-		companyID: string,
-		referenceNumber: string,
-		chosenPlan: string,
-		chosenPrice: string,
-		orderId: string,
-	) => {
-		fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'plan',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				chosen_plan: chosenPlan,
-				chosen_plan_price: chosenPrice,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+  const fetchPlan = (
+    companyID: string,
+    referenceNumber: string,
+    chosenPlan: string,
+    chosenPrice: string,
+    orderId: string
+  ) => {
+    fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'plan',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        chosen_plan: chosenPlan,
+        chosen_plan_price: chosenPrice,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	const sendPlanTeamSize = (
-		chosenPlan: string,
-		chosenPrice: string,
-		referenceNumber: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetchPlan(
-			companyID,
-			referenceNumber,
-			chosenPlan,
-			chosenPrice,
-			orderId,
-		);
-	};
+  const sendPlanTeamSize = (
+    chosenPlan: string,
+    chosenPrice: string,
+    referenceNumber: string,
+    orderId: string
+  ) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetchPlan(companyID, referenceNumber, chosenPlan, chosenPrice, orderId);
+  };
 
-	const getCurrentPrices = (referenceNumber: string, orderId: string) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
+  const getCurrentPrices = (referenceNumber: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
 
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'plan',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				order_id: orderId,
-				show: 'prices',
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'plan',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        order_id: orderId,
+        show: 'prices',
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	return { sendPlanTeamSize, getCurrentPrices };
+  return { sendPlanTeamSize, getCurrentPrices };
 };
 
 export const useOrderConfirm = () => {
-	const { getCompany } = useUserData();
-	const {
-		resourceType,
-		scope,
-		frequency,
-		teamSize,
-		updateState,
-		referenceNumber,
-		orderId,
-	} = useOrderStore((state: OrderStore) => state);
-	const [fetcher, _] = useFetcher();
-	const resourcesText =
-		scope.scopeOption === ScopeOption.ALL
-			? 'All company '
-			: `Only ${resourceType.valueOf()} `;
+  const { getCompany } = useUserData();
+  const { resourceType, scope, frequency, teamSize, updateState, referenceNumber, orderId } =
+    useOrderStore((state: OrderStore) => state);
+  const [fetcher, _] = useFetcher();
+  const resourcesText =
+    scope.scopeOption === ScopeOption.ALL ? 'All company ' : `Only ${resourceType.valueOf()} `;
 
-	const frequencyTitle =
-		frequency === OrderFrequency.ONCE
-			? 'One unique scan:'
-			: 'Permanent surveillance:';
+  const frequencyTitle =
+    frequency === OrderFrequency.ONCE ? 'One unique scan:' : 'Permanent surveillance:';
 
-	const frequencyText =
-		frequency === OrderFrequency.ONCE
-			? `Codefend will perform a 4 weeks IT secuirty assessment on the selected scope, one report, no subscription.`
-			: `Codefend will perform out a maximum of 12 IT secuirty assessment per year.`;
+  const frequencyText =
+    frequency === OrderFrequency.ONCE
+      ? `Codefend will perform a 4 weeks IT secuirty assessment on the selected scope, one report, no subscription.`
+      : `Codefend will perform out a maximum of 12 IT secuirty assessment per year.`;
 
-	let teamSizeText = '';
-	if (teamSize === OrderTeamSize.SMALL) teamSizeText = 'Small team';
-	if (teamSize === OrderTeamSize.MID) teamSizeText = 'Medium team';
-	if (teamSize === OrderTeamSize.FULL) teamSizeText = 'Full team';
+  let teamSizeText = '';
+  if (teamSize === OrderTeamSize.SMALL) teamSizeText = 'Small team';
+  if (teamSize === OrderTeamSize.MID) teamSizeText = 'Medium team';
+  if (teamSize === OrderTeamSize.FULL) teamSizeText = 'Full team';
 
-	const fetchConfirm = (companyID: string, referenceNumber: string) => {
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'confirm',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
+  const fetchConfirm = (companyID: string, referenceNumber: string) => {
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'confirm',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
 
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	const sendConfirmOrder = () => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetchConfirm(companyID, referenceNumber);
-	};
+  const sendConfirmOrder = () => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetchConfirm(companyID, referenceNumber);
+  };
 
-	return {
-		sendConfirmOrder,
-		teamSizeText,
-		frequencyText,
-		frequencyTitle,
-		resourcesText,
-		updateState,
-	};
+  return {
+    sendConfirmOrder,
+    teamSizeText,
+    frequencyText,
+    frequencyTitle,
+    resourcesText,
+    updateState,
+  };
 };
 
 export const useOrderProvider = () => {
-	const { getCompany } = useUserData();
-	const [fetcher, _] = useFetcher();
+  const { getCompany } = useUserData();
+  const [fetcher, _] = useFetcher();
 
-	const fetchProviders = (
-		companyID: string,
-		referenceNumber: string,
-		providerID: string,
-		orderId: string,
-	) => {
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'providers',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				provider_class: 'user',
-				provider_id: providerID,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+  const fetchProviders = (
+    companyID: string,
+    referenceNumber: string,
+    providerID: string,
+    orderId: string
+  ) => {
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'providers',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        provider_class: 'user',
+        provider_id: providerID,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	const sendOrderProvider = (
-		referenceNumber: string,
-		providerID: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetchProviders(companyID, referenceNumber, providerID, orderId);
-	};
+  const sendOrderProvider = (referenceNumber: string, providerID: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetchProviders(companyID, referenceNumber, providerID, orderId);
+  };
 
-	const getCurrentProviders = (referenceNumber: string, orderId: string) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'providers',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+  const getCurrentProviders = (referenceNumber: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'providers',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	return { sendOrderProvider, getCurrentProviders };
+  return { sendOrderProvider, getCurrentProviders };
 };
 
 export const useOrderOffensive = () => {
-	const { getCompany } = useUserData();
-	const [fetcher, _] = useFetcher();
+  const { getCompany } = useUserData();
+  const [fetcher, _] = useFetcher();
 
-	const fetchOffensive = (
-		companyID: string,
-		referenceNumber: string,
-		offensiveness: string,
-		orderId: string,
-	) => {
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'offensiveness',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				offensiveness: offensiveness,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(
-						String(data.info).startsWith('Order->offensiveness can only')
-							? ORDER_PHASES_TEXT.FULL_FOR_ADVERSARY
-							: ORDER_PHASES_TEXT.ORDER_NEST_ERROR
-					);
-				}
-				return data;
-			})
-			.catch((error: Error) => {
-				toast.error(error.message);
-				return { error: true };
-			});
-	};
+  const fetchOffensive = (
+    companyID: string,
+    referenceNumber: string,
+    offensiveness: string,
+    orderId: string
+  ) => {
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'offensiveness',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        offensiveness: offensiveness,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(
+            String(data.info).startsWith('Order->offensiveness can only')
+              ? ORDER_PHASES_TEXT.FULL_FOR_ADVERSARY
+              : ORDER_PHASES_TEXT.ORDER_NEST_ERROR
+          );
+        }
+        return data;
+      })
+      .catch((error: Error) => {
+        toast.error(error.message);
+        return { error: true };
+      });
+  };
 
-	const sendOrderProvider = (
-		referenceNumber: string,
-		offensiveness: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
+  const sendOrderProvider = (referenceNumber: string, offensiveness: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
 
-		return fetchOffensive(companyID, referenceNumber, offensiveness, orderId);
-	};
+    return fetchOffensive(companyID, referenceNumber, offensiveness, orderId);
+  };
 
-	return { sendOrderProvider };
+  return { sendOrderProvider };
 };
 
 export const userOrderProviderInfo = () => {
-	const { getCompany } = useUserData();
-	const [fetcher, _] = useFetcher();
-	const fetchProviderInfo = (
-		companyID: string,
-		referenceNumber: string,
-		providerInfo: string,
-		orderId: string,
-	) => {
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'provider_info',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				provider_info: providerInfo,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+  const { getCompany } = useUserData();
+  const [fetcher, _] = useFetcher();
+  const fetchProviderInfo = (
+    companyID: string,
+    referenceNumber: string,
+    providerInfo: string,
+    orderId: string
+  ) => {
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'provider_info',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        provider_info: providerInfo,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	const sendOrderProviderInfo = (
-		referenceNumber: string,
-		info: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetchProviderInfo(companyID, referenceNumber, info, orderId);
-	};
+  const sendOrderProviderInfo = (referenceNumber: string, info: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetchProviderInfo(companyID, referenceNumber, info, orderId);
+  };
 
-	return { sendOrderProviderInfo };
+  return { sendOrderProviderInfo };
 };
 
 export const userOrderFinancialResource = () => {
-	const { getCompany } = useUserData();
-	const [fetcher, _] = useFetcher();
-	const fetchFinancial = (
-		companyID: string,
-		referenceNumber: string,
-		financial: string,
-		orderId: string,
-	) => {
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'financial',
-				company_id: companyID,
-				reference_number: referenceNumber,
-				financial_resource: financial,
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				return data;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+  const { getCompany } = useUserData();
+  const [fetcher, _] = useFetcher();
+  const fetchFinancial = (
+    companyID: string,
+    referenceNumber: string,
+    financial: string,
+    orderId: string
+  ) => {
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'financial',
+        company_id: companyID,
+        reference_number: referenceNumber,
+        financial_resource: financial,
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        return data;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	const sendOrderFinancial = (
-		referenceNumber: string,
-		financial: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetchFinancial(companyID, referenceNumber, financial, orderId);
-	};
+  const sendOrderFinancial = (referenceNumber: string, financial: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetchFinancial(companyID, referenceNumber, financial, orderId);
+  };
 
-	return { sendOrderFinancial };
+  return { sendOrderFinancial };
 };
 
 export interface OrderCryptoFinancial {
-	walletID: string;
-	currencyActive: CryptoPayment;
+  walletID: string;
+  currencyActive: CryptoPayment;
 }
 
 export const useOrderCryptoFinancial = () => {
-	const [fetcher] = useFetcher();
-	const { getCompany } = useUserData();
-	const [walletActive, setWallet] = useState<OrderCryptoFinancial>({
-		walletID: '. . .',
-		currencyActive: CryptoPayment.BITCOIN,
-	});
-	const qrCode = useRef<string>();
+  const [fetcher] = useFetcher();
+  const { getCompany } = useUserData();
+  const [walletActive, setWallet] = useState<OrderCryptoFinancial>({
+    walletID: '. . .',
+    currencyActive: CryptoPayment.BITCOIN,
+  });
+  const qrCode = useRef<string>();
 
-	const getCryptoFinancialInfo = (
-		referenceNumber: string,
-		crypto?: CryptoPayment,
-		orderId?: string,
-	) => {
-		qrCode.current = undefined;
-		setWallet({
-			walletID: '...',
-			currencyActive: crypto || CryptoPayment.BITCOIN,
-		});
+  const getCryptoFinancialInfo = (
+    referenceNumber: string,
+    crypto?: CryptoPayment,
+    orderId?: string
+  ) => {
+    qrCode.current = undefined;
+    setWallet({
+      walletID: '...',
+      currencyActive: crypto || CryptoPayment.BITCOIN,
+    });
 
-		fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'financial_cc',
-				company_id: getCompany(),
-				reference_number: referenceNumber,
-				cc_blockchain: crypto || 'BTC',
-				order_id: orderId,
-			},
-		})
-			.then(({ data }: any) => {
-				if (Number(data.error) === 1) {
-					throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-				}
-				setWallet({
-					walletID: data.cc.cc_address,
-					currencyActive: crypto || CryptoPayment.BITCOIN,
-				});
-				qrCode.current = data.cc.cc_address_qr;
-			})
-			.catch((error: Error) => toast.error(error.message));
-	};
+    fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'financial_cc',
+        company_id: getCompany(),
+        reference_number: referenceNumber,
+        cc_blockchain: crypto || 'BTC',
+        order_id: orderId,
+      },
+    })
+      .then(({ data }: any) => {
+        if (Number(data.error) === 1) {
+          throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+        }
+        setWallet({
+          walletID: data.cc.cc_address,
+          currencyActive: crypto || CryptoPayment.BITCOIN,
+        });
+        qrCode.current = data.cc.cc_address_qr;
+      })
+      .catch((error: Error) => toast.error(error.message));
+  };
 
-	return {
-		getCryptoFinancialInfo,
-		walletActive,
-		qrCode,
-	};
+  return {
+    getCryptoFinancialInfo,
+    walletActive,
+    qrCode,
+  };
 };
 
 export const useOrderSaveCryptoPayment = () => {
-	const [fetcher] = useFetcher();
-	const { getCompany } = useUserData();
-	const [copied, setCopied] = useState(false);
-	const [transactionID, setTransactionID] = useState('');
-	const [trySend, setTrySend] = useState(false);
+  const [fetcher] = useFetcher();
+  const { getCompany } = useUserData();
+  const [copied, setCopied] = useState(false);
+  const [transactionID, setTransactionID] = useState('');
+  const [trySend, setTrySend] = useState(false);
 
-	const copyTextToClipboard = (cryptoAddress: string) => {
-		navigator.clipboard.writeText(cryptoAddress).then(() => {
-			setCopied(true);
-			setTimeout(() => setCopied(false), 2000);
-		});
-	};
+  const copyTextToClipboard = (cryptoAddress: string) => {
+    navigator.clipboard.writeText(cryptoAddress).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
-	const saveCryptoPayment = (
-		referenceNumber: string,
-		crypto: string,
-		address: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'financial_cc',
-				company_id: getCompany(),
-				reference_number: referenceNumber,
-				cc_blockchain: crypto,
-				cc_from_address: address,
-				cc_xfer_id: transactionID,
-				order_id: orderId,
-			},
-		}).then(({ data }: any) => {
-			if (Number(data.error) === 1) {
-				throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
-			}
-			return data;
-		});
-	};
+  const saveCryptoPayment = (
+    referenceNumber: string,
+    crypto: string,
+    address: string,
+    orderId: string
+  ) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'financial_cc',
+        company_id: getCompany(),
+        reference_number: referenceNumber,
+        cc_blockchain: crypto,
+        cc_from_address: address,
+        cc_xfer_id: transactionID,
+        order_id: orderId,
+      },
+    }).then(({ data }: any) => {
+      if (Number(data.error) === 1) {
+        throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
+      }
+      return data;
+    });
+  };
 
-	return {
-		transactionID,
-		trySend,
-		copied,
-		setTrySend,
-		setTransactionID,
-		copyTextToClipboard,
-		saveCryptoPayment,
-	};
+  return {
+    transactionID,
+    trySend,
+    copied,
+    setTrySend,
+    setTransactionID,
+    copyTextToClipboard,
+    saveCryptoPayment,
+  };
 };
 
 export const useOrderSaveBank = () => {
-	const [fetcher] = useFetcher();
-	const { getCompany } = useUserData();
-	const [transactionID, setTransactionID] = useState('');
-	const saveBankPayment = (
-		referenceNumber: string,
-		address: string,
-		orderId: string,
-	) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'bank',
-				company_id: getCompany(),
-				reference_number: referenceNumber,
-				bank_xfer_id: address,
-				order_id: orderId,
-			},
-		}).then(({ data }: any) => {
-			return data;
-		});
-	};
+  const [fetcher] = useFetcher();
+  const { getCompany } = useUserData();
+  const [transactionID, setTransactionID] = useState('');
+  const saveBankPayment = (referenceNumber: string, address: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'bank',
+        company_id: getCompany(),
+        reference_number: referenceNumber,
+        bank_xfer_id: address,
+        order_id: orderId,
+      },
+    }).then(({ data }: any) => {
+      return data;
+    });
+  };
 
-	return [transactionID, { setTransactionID, saveBankPayment }] as const;
+  return [transactionID, { setTransactionID, saveBankPayment }] as const;
 };
 export const userOrderCardPayment = () => {
-	const [fetcher, isLoading, _] = useFetcher();
-	const { getCompany } = useUserData();
-	const [cardInfo, setCardInfo] = useState({
-		cardOwner: '',
-		cardNumber: '',
-		cardDueDate: '',
-		cardDueYear: '',
-		cardCVC: '',
-	});
+  const [fetcher, isLoading, _] = useFetcher();
+  const { getCompany } = useUserData();
+  const [cardInfo, setCardInfo] = useState({
+    cardOwner: '',
+    cardNumber: '',
+    cardDueDate: '',
+    cardDueYear: '',
+    cardCVC: '',
+  });
 
-	const sendPayment = (referenceNumber: string, orderId: string) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'card',
-				company_id: getCompany(),
-				reference_number: referenceNumber,
-				order_id: orderId,
-			},
-		}).then(({ data }: any) => {
-			return data;
-		});
-	};
+  const sendPayment = (referenceNumber: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'card',
+        company_id: getCompany(),
+        reference_number: referenceNumber,
+        order_id: orderId,
+      },
+    }).then(({ data }: any) => {
+      return data;
+    });
+  };
 
-	return [cardInfo, { setCardInfo, sendPayment, isLoading }] as const;
+  return [cardInfo, { setCardInfo, sendPayment, isLoading }] as const;
 };
 
 export const userOrderFnished = () => {
-	const [fetcher] = useFetcher();
-	const { getCompany } = useUserData();
-	const finishOrder = (referenceNumber: string, orderId: string) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return Promise.resolve(false);
-		return fetcher('post', {
-			body: {
-				model: 'orders/add',
-				phase: 'finished',
-				company_id: getCompany(),
-				reference_number: referenceNumber,
-				order_id: orderId,
-			},
-		}).then(({ data }: any) => {
-			return data;
-		});
-	};
+  const [fetcher] = useFetcher();
+  const { getCompany } = useUserData();
+  const finishOrder = (referenceNumber: string, orderId: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return Promise.resolve(false);
+    return fetcher('post', {
+      body: {
+        model: 'orders/add',
+        phase: 'finished',
+        company_id: getCompany(),
+        reference_number: referenceNumber,
+        order_id: orderId,
+      },
+    }).then(({ data }: any) => {
+      return data;
+    });
+  };
 
-	return finishOrder;
+  return finishOrder;
 };

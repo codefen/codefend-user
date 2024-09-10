@@ -1,23 +1,23 @@
 .icon-text-pair {
-	width: 100%;
-	padding-block: 0.25rem;
-	padding-inline: 0.5rem;
+  width: 100%;
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
 
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	font-size: 1rem;
-	line-height: 2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  font-size: 1rem;
+  line-height: 2rem;
 
-	overflow: hidden;
-	line-clamp: 1;
-	-webkit-line-clamp: 1;
-	text-overflow: ellipsis;
+  overflow: hidden;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
 
-	svg {
-		display: inline-flex;
-		width: fit-content;
-		align-items: center;
-		margin-inline-end: 0.35rem;
-		overflow: visible;
-	}
+  svg {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    margin-inline-end: 0.35rem;
+    overflow: visible;
+  }
 }

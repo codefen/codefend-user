@@ -4,16 +4,16 @@ import './scanButtons.scss';
 import { ButtonLoader } from '../..';
 
 interface RefreshButtonProps {
-	action: () => void;
+  action: () => void;
 }
 
-export const RefreshButton: FC<RefreshButtonProps> = (props) => {
-	return (
-		<button className="btn scan-btn" onClick={props.action}>
-			<div className="scan-container">
-				<ButtonLoader />
-				<p>REFRESH</p>
-			</div>
-		</button>
-	);
+export const RefreshButton: FC<RefreshButtonProps> = props => {
+  return (
+    <button className="btn scan-btn" onClick={props.action}>
+      <div className="scan-container">
+        <ButtonLoader />
+        <p>REFRESH</p>
+      </div>
+    </button>
+  );
 };

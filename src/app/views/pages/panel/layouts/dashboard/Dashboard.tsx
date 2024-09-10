@@ -14,46 +14,35 @@ import { PrimaryButton } from '@buttons/index.ts';
 import { useNavigate } from 'react-router';
 
 const Dashboard: React.FC = () => {
-	const flashlight = useFlashlight();
-	const [showScreen] = useShowScreen();
-	const { isLoading, data } = useDashboard();
-	const navigate = useNavigate();
+  const flashlight = useFlashlight();
+  const [showScreen] = useShowScreen();
+  const { isLoading, data } = useDashboard();
+  const navigate = useNavigate();
 
-	return (
-		<main className={`dashboard ${showScreen ? 'actived' : ''}`}>
-			<div className="brightness variant-1"></div>
-			<div className="brightness variant-2"></div>
+  return (
+    <main className={`dashboard ${showScreen ? 'actived' : ''}`}>
+      <div className="brightness variant-1"></div>
+      <div className="brightness variant-2"></div>
 
-			<section className="left">
-				<DashboardVulnerabilities
-					isLoading={isLoading}
-					topVulnerabilities={data?.issues || []}
-				/>
-				<DashboardAssets resources={data?.resources || {}} />
-				<DashboardCollaborators
-					isLoading={isLoading}
-					members={data?.members || []}
-				/>
-			</section>
+      <section className="left">
+        <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
+        <DashboardAssets resources={data?.resources || {}} />
+        <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
+      </section>
 
-			<section className="right" ref={flashlight.rightPaneRef}>
-				<VulnerabilitiesStatus
-					vulnerabilityByShare={data?.issues_condicion || {}}
-				/>
-				<PrimaryButton
-					text="Go to vulnerabilities"
-					buttonStyle="red"
-					className="full"
-					click={() => navigate('/issues')}
-					disabledLoader
-				/>
-				<VulnerabilityRisk
-					vulnerabilityByRisk={data?.issues_share || {}}
-					isLoading={isLoading}
-				/>
-			</section>
-		</main>
-	);
+      <section className="right" ref={flashlight.rightPaneRef}>
+        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
+        <PrimaryButton
+          text="Go to vulnerabilities"
+          buttonStyle="red"
+          className="full"
+          click={() => navigate('/issues')}
+          disabledLoader
+        />
+        <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
+      </section>
+    </main>
+  );
 };
 
 export default Dashboard;

@@ -13,52 +13,42 @@ import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 import { EMPTY_CS_TICKET } from '@/app/constants/empty';
 
 export const SupportChatDisplay: FC = () => {
-	const { getCompany } = useUserData();
-	const { dad } = useParams();
-	const selectedTicketID = useContext(SelectedTicket);
-	const { data, isLoading, mutate } = useSWRMessage(
-		dad || selectedTicketID || '0',
-		getCompany(),
-	);
+  const { getCompany } = useUserData();
+  const { dad } = useParams();
+  const selectedTicketID = useContext(SelectedTicket);
+  const { data, isLoading, mutate } = useSWRMessage(dad || selectedTicketID || '0', getCompany());
 
-	const onDone = (newMessage?: any) => {
-		const viewMessage = localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE)
-			? JSON.parse(localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE) as string)
-			: { view: true };
+  const onDone = (newMessage?: any) => {
+    const viewMessage = localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE)
+      ? JSON.parse(localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE) as string)
+      : { view: true };
 
-		if (newMessage) {
-			mutate({ ...data, childs: [...data.childs, newMessage] });
-		}
+    if (newMessage) {
+      mutate({ ...data, childs: [...data.childs, newMessage] });
+    }
 
-		if (viewMessage.view) {
-			toast.success(CHATBOX_TEXT.WAIT_FOR_RESPONSE);
-			localStorage.setItem(
-				CHATBOX_TEXT.VIEW_MESSAGE,
-				JSON.stringify({ view: false }),
-			);
-		}
-	};
+    if (viewMessage.view) {
+      toast.success(CHATBOX_TEXT.WAIT_FOR_RESPONSE);
+      localStorage.setItem(CHATBOX_TEXT.VIEW_MESSAGE, JSON.stringify({ view: false }));
+    }
+  };
 
-	const { childs, ...ticketDad } = data ? data : EMPTY_CS_TICKET;
-	const alltickets = [ticketDad, ...childs];
+  const { childs, ...ticketDad } = data ? data : EMPTY_CS_TICKET;
+  const alltickets = [ticketDad, ...childs];
 
-	return (
-		<>
-			<div className="card messages">
-				<SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
-					<div className="content">
-						<Show when={!isLoading} fallback={<PageLoader />}>
-							<MessageList tickets={alltickets} />
-						</Show>
-					</div>
-				</SimpleSection>
+  return (
+    <>
+      <div className="card messages">
+        <SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
+          <div className="content">
+            <Show when={!isLoading} fallback={<PageLoader />}>
+              <MessageList tickets={alltickets} />
+            </Show>
+          </div>
+        </SimpleSection>
 
-				<ChatBox
-					type={ChatBoxType.SUPPORT}
-					onDone={onDone}
-					selectedID={selectedTicketID}
-				/>
-			</div>
-		</>
-	);
+        <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicketID} />
+      </div>
+    </>
+  );
 };

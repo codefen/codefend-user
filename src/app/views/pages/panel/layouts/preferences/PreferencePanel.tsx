@@ -14,38 +14,35 @@ import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 
 const PreferencePanel = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const { orders, company, members, isLoading, refetch } = usePreferences();
-	const { isFinishQualityPoll } = useQualitySurveyStore();
-	useEffect(() => {
-		refetch();
-	}, [isFinishQualityPoll, control]);
+  const [showScreen, control, refresh] = useShowScreen();
+  const { orders, company, members, isLoading, refetch } = usePreferences();
+  const { isFinishQualityPoll } = useQualitySurveyStore();
+  useEffect(() => {
+    refetch();
+  }, [isFinishQualityPoll, control]);
 
-	return (
-		<>
-			<ProviderScope />
-			<AddCollaboratorModal />
-			<Show when={showScreen} fallback={<PageLoader />}>
-				<main className={`preferences ${showScreen ? 'actived' : ''}`}>
-					<section className="left">
-						<SettingCollaboratorAndTeam
-							isLoading={isLoading}
-							members={members || []}
-							refetch={refresh}
-						/>
-						<SettingOrderAndBilling
-							isLoading={isLoading}
-							orders={orders || []}
-						/>
-					</section>
-					<section className="right">
-						<SettingCompanyInformation companyInfo={company} />
-						<SettingPersonalDetails />
-					</section>
-				</main>
-			</Show>
-		</>
-	);
+  return (
+    <>
+      <ProviderScope />
+      <AddCollaboratorModal />
+      <Show when={showScreen} fallback={<PageLoader />}>
+        <main className={`preferences ${showScreen ? 'actived' : ''}`}>
+          <section className="left">
+            <SettingCollaboratorAndTeam
+              isLoading={isLoading}
+              members={members || []}
+              refetch={refresh}
+            />
+            <SettingOrderAndBilling isLoading={isLoading} orders={orders || []} />
+          </section>
+          <section className="right">
+            <SettingCompanyInformation companyInfo={company} />
+            <SettingPersonalDetails />
+          </section>
+        </main>
+      </Show>
+    </>
+  );
 };
 
 export default PreferencePanel;

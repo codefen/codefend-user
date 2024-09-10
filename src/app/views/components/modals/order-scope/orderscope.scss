@@ -1,49 +1,49 @@
 .order-scope-container {
-	min-width: 600px;
-	h2 {
-		padding: 0px 0px 15px 0px;
-	}
+  min-width: 600px;
+  h2 {
+    padding: 0px 0px 15px 0px;
+  }
 
-	.table {
-		.rows {
-			overflow-y: auto;
-			height: auto;
-			max-height: 245px;
-			margin-block-end: 1.5rem;
-			min-height: 245px;
-			min-width: 685px;
-			max-width: 685px;
-		}
-	}
+  .table {
+    .rows {
+      overflow-y: auto;
+      height: auto;
+      max-height: 245px;
+      margin-block-end: 1.5rem;
+      min-height: 245px;
+      min-width: 685px;
+      max-width: 685px;
+    }
+  }
 }
 
 .order-scope-sidebar {
-	display: flex;
-	gap: 20px;
-	padding: 10px;
+  display: flex;
+  gap: 20px;
+  padding: 10px;
 
-	.scope-sb-e {
-		font-size: 1.125rem;
-		cursor: pointer;
-		user-select: none;
+  .scope-sb-e {
+    font-size: 1.125rem;
+    cursor: pointer;
+    user-select: none;
 
-		&.scope-sb-active {
-			border-bottom: 1px solid var(--secondary-color-100);
-			font-weight: 700;
-		}
+    &.scope-sb-active {
+      border-bottom: 1px solid var(--secondary-color-100);
+      font-weight: 700;
+    }
 
-		&.scope-sb-disable {
-			cursor: default;
-			color: var(--tertiary-color-300);
-			opacity: 0.5;
-		}
-	}
+    &.scope-sb-disable {
+      cursor: default;
+      color: var(--tertiary-color-300);
+      opacity: 0.5;
+    }
+  }
 }
 
 .scope-content {
-	padding-inline: 1rem;
-	display: flex;
-	flex-direction: column;
+  padding-inline: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 // .close-btn {
@@ -52,50 +52,50 @@
 // }
 
 .scope-confirm-btn {
-	width: 100%;
-	display: flex;
-	margin-inline-start: auto;
-	justify-content: flex-end;
-	gap: 15px;
-	// background: var(--primary-color);
-	// background: linear-gradient(
-	// 	180deg,
-	// 	var(--primary-color) 47%,
-	// 	rgba(255, 57, 57, 1) 48%
-	// );
+  width: 100%;
+  display: flex;
+  margin-inline-start: auto;
+  justify-content: flex-end;
+  gap: 15px;
+  // background: var(--primary-color);
+  // background: linear-gradient(
+  // 	180deg,
+  // 	var(--primary-color) 47%,
+  // 	rgba(255, 57, 57, 1) 48%
+  // );
 
-	// .scope-btn {
-	// 	margin-inline-end: 1.25rem;
-	// 	margin-block-end: 1rem;
-	// }
+  // .scope-btn {
+  // 	margin-inline-end: 1.25rem;
+  // 	margin-block-end: 1rem;
+  // }
 }
 
 [data-theme='dark'] {
-	// .scope-confirm-btn {
-	// 	background: var(--primary-color-100);
-	// 	background: linear-gradient(
-	// 		180deg,
-	// 		var(--primary-color-100) 47%,
-	// 		var(--secondary-color-400) 48%
-	// 	);
-	// }
+  // .scope-confirm-btn {
+  // 	background: var(--primary-color-100);
+  // 	background: linear-gradient(
+  // 		180deg,
+  // 		var(--primary-color-100) 47%,
+  // 		var(--secondary-color-400) 48%
+  // 	);
+  // }
 
-	.order-scope-container {
-		h2 {
-			color: var(--tertiary-color-300);
-		}
-	}
-	.order-scope-sidebar {
-		.scope-sb-e {
-			color: var(--tertiary-color-300);
+  .order-scope-container {
+    h2 {
+      color: var(--tertiary-color-300);
+    }
+  }
+  .order-scope-sidebar {
+    .scope-sb-e {
+      color: var(--tertiary-color-300);
 
-			&.scope-sb-active {
-				color: var(--tertiary-color-50);
-			}
+      &.scope-sb-active {
+        color: var(--tertiary-color-50);
+      }
 
-			&.scope-sb-disable {
-				color: var(--tertiary-color-500);
-			}
-		}
-	}
+      &.scope-sb-disable {
+        color: var(--tertiary-color-500);
+      }
+    }
+  }
 }

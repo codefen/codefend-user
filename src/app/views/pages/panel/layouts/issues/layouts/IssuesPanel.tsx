@@ -12,105 +12,86 @@ import { IssueResources } from '../components/IssueResources.tsx';
 import { useFlashlight } from '../../../FlashLightContext.tsx';
 import { SelectAnyResourceModal } from '@modals/select-resources/SelectAnyResourceModal.tsx';
 import useModalStore from '@stores/modal.store.ts';
-import {
-	EMPTY_ISSUECLASS,
-	EMPTY_ISSUECONDITION,
-	EMPTY_SHARE,
-} from '@/app/constants/empty.ts';
+import { EMPTY_ISSUECLASS, EMPTY_ISSUECONDITION, EMPTY_SHARE } from '@/app/constants/empty.ts';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 
 const IssuesPanel: FC = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const [filters, setFilters] = useState<string[]>([]);
-	const { issues, others, isLoading, refetchAll } = useIssues();
-	const { setIsOpen, setModalId } = useModalStore();
-	const flashlight = useFlashlight();
+  const [showScreen, control, refresh] = useShowScreen();
+  const [filters, setFilters] = useState<string[]>([]);
+  const { issues, others, isLoading, refetchAll } = useIssues();
+  const { setIsOpen, setModalId } = useModalStore();
+  const flashlight = useFlashlight();
 
-	useEffect(() => {
-		refetchAll();
-	}, [control]);
+  useEffect(() => {
+    refetchAll();
+  }, [control]);
 
-	const handleIssuesFilter = useMemo(() => {
-		const isFiltered = filters.length !== 0;
-		if (!isFiltered) return { filteredData: [], isFiltered };
+  const handleIssuesFilter = useMemo(() => {
+    const isFiltered = filters.length !== 0;
+    if (!isFiltered) return { filteredData: [], isFiltered };
 
-		const filteredData = issues.filter((issue: Issues) =>
-			filters.includes(issue.resourceClass),
-		);
+    const filteredData = issues.filter((issue: Issues) => filters.includes(issue.resourceClass));
 
-		return { filteredData, isFiltered };
-	}, [filters, issues]);
+    return { filteredData, isFiltered };
+  }, [filters, issues]);
 
-	const handleFilters = (issueClass: string) => {
-		if (filters.includes(issueClass)) {
-			const updated = filters.filter((filter) => filter !== issueClass);
-			setFilters(updated);
-		} else {
-			setFilters([...filters, issueClass]);
-		}
-	};
+  const handleFilters = (issueClass: string) => {
+    if (filters.includes(issueClass)) {
+      const updated = filters.filter(filter => filter !== issueClass);
+      setFilters(updated);
+    } else {
+      setFilters([...filters, issueClass]);
+    }
+  };
 
-	const handleAddFinding = () => {
-		setIsOpen(true);
-		setModalId(MODAL_KEY_OPEN.SELECT_FINDING);
-	};
+  const handleAddFinding = () => {
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.SELECT_FINDING);
+  };
 
-	return (
-		<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
-			<SelectAnyResourceModal
-				issues={
-					handleIssuesFilter.isFiltered
-						? handleIssuesFilter.filteredData
-						: issues
-				}
-			/>
-			<ModalReport />
-			<div className="brightness variant-1"></div>
-			<section className="left">
-				<IssueResources
-					isLoading={isLoading}
-					issues={
-						handleIssuesFilter.isFiltered
-							? handleIssuesFilter.filteredData
-							: issues
-					}
-					refresh={refresh}
-					addFinding={handleAddFinding}
-				/>
-			</section>
-			<section className="right" ref={flashlight.rightPaneRef}>
-				<IssueReport
-					handleFilter={handleFilters}
-					isLoading={isLoading}
-					issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
-				/>
-				<PrimaryButton
-					text="GENERATE REPORT"
-					click={(e) => {
-						setIsOpen(true);
-						setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
-					}}
-					className="primary-full margin-block"
-					isDisabled={
-						!Boolean(issues.length) &&
-						!Boolean(handleIssuesFilter.filteredData.length)
-					}
-					disabledLoader
-				/>
+  return (
+    <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+      <SelectAnyResourceModal
+        issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
+      />
+      <ModalReport />
+      <div className="brightness variant-1"></div>
+      <section className="left">
+        <IssueResources
+          isLoading={isLoading}
+          issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
+          refresh={refresh}
+          addFinding={handleAddFinding}
+        />
+      </section>
+      <section className="right" ref={flashlight.rightPaneRef}>
+        <IssueReport
+          handleFilter={handleFilters}
+          isLoading={isLoading}
+          issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+        />
+        <PrimaryButton
+          text="GENERATE REPORT"
+          click={e => {
+            setIsOpen(true);
+            setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
+          }}
+          className="primary-full margin-block"
+          isDisabled={!Boolean(issues.length) && !Boolean(handleIssuesFilter.filteredData.length)}
+          disabledLoader
+        />
 
-				<VulnerabilityRisk
-					isLoading={isLoading}
-					vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
-				/>
-				<VulnerabilitiesStatus
-					vulnerabilityByShare={
-						others?.issueCondition || EMPTY_ISSUECONDITION
-					}
-				/>
-			</section>
-		</main>
-	);
+        <VulnerabilityRisk
+          isLoading={isLoading}
+          vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+        />
+        <VulnerabilitiesStatus
+          vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+        />
+      </section>
+    </main>
+  );
 };
 
 export default IssuesPanel;

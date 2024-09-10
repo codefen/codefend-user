@@ -2,21 +2,14 @@ import type { FC, PropsWithChildren, ReactNode } from 'react';
 import './icontextpair.scss';
 
 interface IconTextPairsProps extends PropsWithChildren {
-	icon: ReactNode;
-	className?: string;
-	title?: string;
+  icon: ReactNode;
+  className?: string;
+  title?: string;
 }
 
-export const IconTextPairs: FC<IconTextPairsProps> = ({
-	icon,
-	children,
-	className,
-	title,
-}) => (
-	<div
-		className={`icon-text-pair ${className && className}`}
-		title={title && title}>
-		{icon}
-		{children}
-	</div>
+export const IconTextPairs: FC<IconTextPairsProps> = ({ icon, children, className, title }) => (
+  <div className={`icon-text-pair ${className && className}`} title={title && title}>
+    {icon}
+    {children}
+  </div>
 );

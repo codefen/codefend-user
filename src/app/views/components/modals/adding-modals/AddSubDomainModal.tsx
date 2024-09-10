@@ -6,35 +6,23 @@ import SubDomainForm from '../../forms/SubDomainForm';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 
 interface AddSubDomainModalProps extends ComponentEventWithOpen {
-	webResources: Webresource[];
+  webResources: Webresource[];
 }
 
-const AddSubDomainModal: FC<AddSubDomainModalProps> = ({
-	close,
-	onDone,
-	webResources,
-	isOpen,
-}) => (
-	<ModalTitleWrapper
-		isActive={isOpen}
-		close={() => close?.()}
-		type="med-w"
-		headerTitle="Add web sub-resource">
-		<div className="content subdomain-modal">
-			<SubDomainForm
-				close={close}
-				onDone={onDone}
-				webResources={webResources}>
-				{(isLoading) => (
-					<ModalButtons
-						close={close!}
-						isDisabled={isLoading}
-						confirmText="Add web resource"
-					/>
-				)}
-			</SubDomainForm>
-		</div>
-	</ModalTitleWrapper>
+const AddSubDomainModal: FC<AddSubDomainModalProps> = ({ close, onDone, webResources, isOpen }) => (
+  <ModalTitleWrapper
+    isActive={isOpen}
+    close={() => close?.()}
+    type="med-w"
+    headerTitle="Add web sub-resource">
+    <div className="content subdomain-modal">
+      <SubDomainForm close={close} onDone={onDone} webResources={webResources}>
+        {isLoading => (
+          <ModalButtons close={close!} isDisabled={isLoading} confirmText="Add web resource" />
+        )}
+      </SubDomainForm>
+    </div>
+  </ModalTitleWrapper>
 );
 
 export default AddSubDomainModal;

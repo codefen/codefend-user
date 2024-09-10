@@ -1,70 +1,70 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.sb {
-	.left {
-		border: 1px solid var(--primary-color-300);
-		// border-right: 1px solid var(--primary-color-300);
-		margin-bottom: -10px;
+  .left {
+    border: 1px solid var(--primary-color-300);
+    // border-right: 1px solid var(--primary-color-300);
+    margin-bottom: -10px;
 
-		.content {
-			flex-wrap: wrap;
-			gap: 20px;
-			// display: flex;
-			padding: 10px;
-			overflow-y: auto;
-			height: 100%;
-			max-height: 83dvh;
-		}
+    .content {
+      flex-wrap: wrap;
+      gap: 20px;
+      // display: flex;
+      padding: 10px;
+      overflow-y: auto;
+      height: 100%;
+      max-height: 83dvh;
+    }
 
-		.search-result {
-			flex: 1 1 230px;
-			border: 1px solid var(--primary-color-300);
+    .search-result {
+      flex: 1 1 230px;
+      border: 1px solid var(--primary-color-300);
 
-			.header {
-				padding: 10px 20px;
-				background-color: var(--primary-color-200);
-				.title {
-					color: var(--secondary-color-50);
-				}
-			}
+      .header {
+        padding: 10px 20px;
+        background-color: var(--primary-color-200);
+        .title {
+          color: var(--secondary-color-50);
+        }
+      }
 
-			.info {
-				color: var(--tertiary-color-400);
-				padding: 20px;
-				overflow-wrap: anywhere;
+      .info {
+        color: var(--tertiary-color-400);
+        padding: 20px;
+        overflow-wrap: anywhere;
 
-				.text {
-					width: 100%;
-					height: 100%;
-				}
-			}
-		}
-	}
+        .text {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
 
-	.right {
-	}
+  .right {
+  }
 
-	@include mixin.respond(small) {
-		display: flex;
-		flex-direction: column;
-		overflow: auto;
-		padding-inline-start: 10px;
-		height: 81dvh;
-		min-height: auto;
+  @include mixin.respond(small) {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding-inline-start: 10px;
+    height: 81dvh;
+    min-height: auto;
 
-		.left {
-			width: 100%;
-		}
-	}
+    .left {
+      width: 100%;
+    }
+  }
 }
 .my-masonry-grid {
-	display: -webkit-box; /* Not needed if autoprefixing */
-	display: -ms-flexbox; /* Not needed if autoprefixing */
-	display: flex;
-	margin-left: -30px; /* gutter size offset */
-	width: auto;
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -30px; /* gutter size offset */
+  width: auto;
 }
 .my-masonry-grid_column {
-	padding-left: 30px; /* gutter size */
-	background-clip: padding-box;
+  padding-left: 30px; /* gutter size */
+  background-clip: padding-box;
 }

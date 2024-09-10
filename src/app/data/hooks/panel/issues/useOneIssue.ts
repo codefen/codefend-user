@@ -11,46 +11,45 @@ import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
-	const {  updateUserData, updateToken } = useUserData();
-	const { getCompany,logout } = useUserData();
-	const navigate = useNavigate();
-	const [fetcher,_, isLoading] = useFetcher();
-	const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
+  const { updateUserData, updateToken } = useUserData();
+  const { getCompany, logout } = useUserData();
+  const navigate = useNavigate();
+  const [fetcher, _, isLoading] = useFetcher();
+  const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
 
-	const fetchOne = (companyID: string, selectedID: string) => {
-		fetcher("post",{
-			body: {
-				model: 'issues/view',
-				issue_id: selectedID,
-				company_id: companyID,
-			}
-		}).then(({data}: any) =>
-				{
-					if(verifySession(data, logout)) return;
-					if(apiErrorValidation(data?.error, data?.response)){
-						throw new Error(data.info || "");
-					}
-					issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
+  const fetchOne = (companyID: string, selectedID: string) => {
+    fetcher('post', {
+      body: {
+        model: 'issues/view',
+        issue_id: selectedID,
+        company_id: companyID,
+      },
+    })
+      .then(({ data }: any) => {
+        if (verifySession(data, logout)) return;
+        if (apiErrorValidation(data?.error, data?.response)) {
+          throw new Error(data.info || '');
+        }
+        issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
 
-					updateUserData(data.user);
-					updateToken(data.session);
-				}
-			)
-			.catch((error) => {
-				//"The issue you are trying to view does not exist"
-				if(String(error.message || "").startsWith("invalid or expired")){
-					return;
-				}
-				toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-				navigate("/issues");
-			});
-	};
+        updateUserData(data.user);
+        updateToken(data.session);
+      })
+      .catch(error => {
+        //"The issue you are trying to view does not exist"
+        if (String(error.message || '').startsWith('invalid or expired')) {
+          return;
+        }
+        toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        navigate('/issues');
+      });
+  };
 
-	const refetchOne = (selectedID: string) => {
-		const companyID = getCompany();
-		if (companyIdIsNull(companyID)) return;
-		fetchOne(companyID, selectedID);
-	};
+  const refetchOne = (selectedID: string) => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return;
+    fetchOne(companyID, selectedID);
+  };
 
-	return { getIssue: issue.current, isLoading, refetchOne };
+  return { getIssue: issue.current, isLoading, refetchOne };
 };

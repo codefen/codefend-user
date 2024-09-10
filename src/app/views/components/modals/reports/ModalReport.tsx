@@ -8,14 +8,14 @@ import './reports.scss';
 export interface WebReportModalProps {}
 
 export const ModalReport: FC<WebReportModalProps> = () => {
-	const { open, closeModal } = useReportStore((state) => state);
-	if (open) {
-		return (
-			<ModalWrapper action={closeModal} type="report" showCloseBtn>
-				<CustomReport isModal />
-			</ModalWrapper>
-		);
-	} else {
-		return <div></div>;
-	}
+  const { open, closeModal } = useReportStore(state => state);
+  if (open) {
+    return (
+      <ModalWrapper action={closeModal} type="report" showCloseBtn>
+        <CustomReport isModal />
+      </ModalWrapper>
+    );
+  } else {
+    return <div></div>;
+  }
 };

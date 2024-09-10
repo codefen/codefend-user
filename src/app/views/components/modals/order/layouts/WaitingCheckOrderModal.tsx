@@ -5,62 +5,47 @@ import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
 import { userOrderFnished } from '@hooks/useOrders.ts';
 
 export const WaitingCheckOrderModal = () => {
-	const { resetActiveOrder, referenceNumber, orderId } = useOrderStore(
-		(state) => state,
-	);
-	const finishOrder = userOrderFnished();
-	const orderFinished = () => {
-		finishOrder(referenceNumber, orderId);
-		resetActiveOrder();
-	};
+  const { resetActiveOrder, referenceNumber, orderId } = useOrderStore(state => state);
+  const finishOrder = userOrderFnished();
+  const orderFinished = () => {
+    finishOrder(referenceNumber, orderId);
+    resetActiveOrder();
+  };
 
-	return (
-		<>
-			<OrderAlertMessage
-				imageIcon={
-					<img
-						src="/util/orders-clock.png"
-						alt="Codefend logo"
-						decoding="async"
-						loading="lazy"
-					/>
-				}
-				title="Await for confirmation">
-				<p>
-					<span className="bolder block">
-						The chosen payment method requires confirmation.
-					</span>
-					Please allow our team a maximum of 24 hours to verify your
-					payment.
-					<span className="codefend-text-red underline-high">
-						You will receive an email once the payment is confirmed and
-						your team will start immediately.
-					</span>
-				</p>
-			</OrderAlertMessage>
-			<RememberCard>
-				bank and cryptocurrency payments are also efficient payment methods!
-			</RememberCard>
+  return (
+    <>
+      <OrderAlertMessage
+        imageIcon={
+          <img src="/util/orders-clock.png" alt="Codefend logo" decoding="async" loading="lazy" />
+        }
+        title="Await for confirmation">
+        <p>
+          <span className="bolder block">The chosen payment method requires confirmation.</span>
+          Please allow our team a maximum of 24 hours to verify your payment.
+          <span className="codefend-text-red underline-high">
+            You will receive an email once the payment is confirmed and your team will start
+            immediately.
+          </span>
+        </p>
+      </OrderAlertMessage>
+      <RememberCard>
+        bank and cryptocurrency payments are also efficient payment methods!
+      </RememberCard>
 
-			<div className="button-wrapper next-btns">
-				<div className="secondary-container">
-					<PrimaryButton
-						text=""
-						click={() => {}}
-						className="full order-default bg-transparent"
-						buttonStyle="black"
-						disabledLoader
-					/>
-				</div>
-				<div className="primary-container">
-					<PrimaryButton
-						text="close"
-						click={orderFinished}
-						className="full"
-						buttonStyle="red"
-					/>
-				</div>
-			</div>
-		</>
-	);
+      <div className="button-wrapper next-btns">
+        <div className="secondary-container">
+          <PrimaryButton
+            text=""
+            click={() => {}}
+            className="full order-default bg-transparent"
+            buttonStyle="black"
+            disabledLoader
+          />
+        </div>
+        <div className="primary-container">
+          <PrimaryButton text="close" click={orderFinished} className="full" buttonStyle="red" />
+        </div>
+      </div>
+    </>
+  );
 };

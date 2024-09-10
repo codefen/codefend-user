@@ -6,29 +6,26 @@ import './Sns.scss';
 import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
 
 const SnsPanel: FC = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const { previousSearches, isLoading, refetch } = usePreviousSearch('sns');
+  const [showScreen, control, refresh] = useShowScreen();
+  const { previousSearches, isLoading, refetch } = usePreviousSearch('sns');
 
-	useEffect(() => {
-		refetch();
-	}, [control]);
+  useEffect(() => {
+    refetch();
+  }, [control]);
 
-	return (
-		<>
-			<main className={`sb ${showScreen ? 'actived' : ''}`}>
-				<section className="left">
-					<SnsSearchAndData refetch={refresh} />
-				</section>
+  return (
+    <>
+      <main className={`sb ${showScreen ? 'actived' : ''}`}>
+        <section className="left">
+          <SnsSearchAndData refetch={refresh} />
+        </section>
 
-				<section className="right">
-					<SnPreviousSearches
-						isLoading={isLoading}
-						previousSearches={previousSearches || []}
-					/>
-				</section>
-			</main>
-		</>
-	);
+        <section className="right">
+          <SnPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
+        </section>
+      </main>
+    </>
+  );
 };
 
 export default SnsPanel;

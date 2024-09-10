@@ -13,95 +13,85 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
-import {
-	RESOURCE_CLASS,
-	sourceEmptyScreen,
-} from '@/app/constants/app-texts.ts';
+import { RESOURCE_CLASS, sourceEmptyScreen } from '@/app/constants/app-texts.ts';
 
 const SocialEngineeringView = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const { members, refetch, isLoading } = useSocial();
-	const { updateState, scope } = useOrderStore((state) => state);
-	const { isAdmin, isNormalUser } = useUserRole();
-	const flashlight = useFlashlight();
+  const [showScreen, control, refresh] = useShowScreen();
+  const { members, refetch, isLoading } = useSocial();
+  const { updateState, scope } = useOrderStore(state => state);
+  const { isAdmin, isNormalUser } = useUserRole();
+  const flashlight = useFlashlight();
 
-	const [socialFilters, setSocialFilters] = useState({
-		department: new Set<string>(),
-		attackVectors: new Set<string>(),
-	});
+  const [socialFilters, setSocialFilters] = useState({
+    department: new Set<string>(),
+    attackVectors: new Set<string>(),
+  });
 
-	useEffect(() => {
-		refetch();
-	}, [control]);
+  useEffect(() => {
+    refetch();
+  }, [control]);
 
-	const handleDepartmentFIlter = (role: string) => {
-		setSocialFilters((prevState) => {
-			const updatedDepartment = new Set(prevState.department);
+  const handleDepartmentFIlter = (role: string) => {
+    setSocialFilters(prevState => {
+      const updatedDepartment = new Set(prevState.department);
 
-			if (updatedDepartment.has(role)) {
-				updatedDepartment.delete(role);
-			} else {
-				updatedDepartment.add(role);
-			}
+      if (updatedDepartment.has(role)) {
+        updatedDepartment.delete(role);
+      } else {
+        updatedDepartment.add(role);
+      }
 
-			return { ...prevState, department: updatedDepartment };
-		});
-	};
+      return { ...prevState, department: updatedDepartment };
+    });
+  };
 
-	const filteredData = useMemo(() => {
-		const isFiltered =
-			socialFilters.department.size !== 0 ||
-			socialFilters.attackVectors.size !== 0;
+  const filteredData = useMemo(() => {
+    const isFiltered =
+      socialFilters.department.size !== 0 || socialFilters.attackVectors.size !== 0;
 
-		if (!isFiltered || !members) return members || [];
+    if (!isFiltered || !members) return members || [];
 
-		return members.filter((member: any) =>
-			socialFilters.department.has(member.member_role),
-		);
-	}, [members, socialFilters.department]);
+    return members.filter((member: any) => socialFilters.department.has(member.member_role));
+  }, [members, socialFilters.department]);
 
-	return (
-		<>
-			<OrderV2 />
-			<CredentialsModal />
-			<ModalReport />
-			<EmptyLayout
-				className="social"
-				fallback={sourceEmptyScreen}
-				event={refresh}
-				showScreen={showScreen}
-				isLoading={isLoading}
-				dataAvalaible={Boolean(members.length)}>
-				<div className="brightness variant-1"></div>
-				<div className="brightness variant-2"></div>
-				<section className="left">
-					<SocialEngineering
-						refetch={refresh}
-						isLoading={isLoading}
-						socials={filteredData}
-					/>
-				</section>
-				<section className="right" ref={flashlight.rightPaneRef}>
-					<Show when={members && Boolean(members.length)}>
-						<SocialEngineeringMembers
-							isLoading={isLoading}
-							members={members || []}
-							handleDepartmentFilter={handleDepartmentFIlter}
-						/>
-					</Show>
-					<Show when={isAdmin() || isNormalUser()}>
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							className="primary-full"
-							click={() => updateState('open', open)}
-							disabledLoader
-							isDisabled={scope.totalResources <= 0}
-						/>
-					</Show>
-				</section>
-			</EmptyLayout>
-		</>
-	);
+  return (
+    <>
+      <OrderV2 />
+      <CredentialsModal />
+      <ModalReport />
+      <EmptyLayout
+        className="social"
+        fallback={sourceEmptyScreen}
+        event={refresh}
+        showScreen={showScreen}
+        isLoading={isLoading}
+        dataAvalaible={Boolean(members.length)}>
+        <div className="brightness variant-1"></div>
+        <div className="brightness variant-2"></div>
+        <section className="left">
+          <SocialEngineering refetch={refresh} isLoading={isLoading} socials={filteredData} />
+        </section>
+        <section className="right" ref={flashlight.rightPaneRef}>
+          <Show when={members && Boolean(members.length)}>
+            <SocialEngineeringMembers
+              isLoading={isLoading}
+              members={members || []}
+              handleDepartmentFilter={handleDepartmentFIlter}
+            />
+          </Show>
+          <Show when={isAdmin() || isNormalUser()}>
+            <PrimaryButton
+              text="START A PENTEST ON DEMAND"
+              className="primary-full"
+              click={() => updateState('open', open)}
+              disabledLoader
+              isDisabled={scope.totalResources <= 0}
+            />
+          </Show>
+        </section>
+      </EmptyLayout>
+    </>
+  );
 };
 
 export default SocialEngineeringView;

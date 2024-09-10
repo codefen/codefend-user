@@ -6,28 +6,28 @@ import { APP_MESSAGE_TOAST, PREFERENCE_PANEL_TEXT } from '@/app/constants/app-to
 
 /* Custom Hook "usePreferences" to handle retrieving all user preferences*/
 export const useAddCollaborator = () => {
-	const { getCompany} = useUserData();
-	const [fetcher, _, isLoading] = useFetcher(true);
+  const { getCompany } = useUserData();
+  const [fetcher, _, isLoading] = useFetcher(true);
 
+  const sendAddCollaborator = (email: string) => {
+    return fetcher('post', {
+      body: {
+        model: 'users/invoke',
+        company_id: getCompany() || '',
+        invoke_user_email: email,
+      },
+    })
+      .then(({ data }: any) => {
+        if (apiErrorValidation(data?.error, data?.response)) {
+          throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        }
 
-	const sendAddCollaborator = (email: string) => {
-		return fetcher("post", {
-			body: {
-				model: 'users/invoke',
-				company_id: getCompany() || "",
-                invoke_user_email: email
-			}
-		}).then(({ data }: any) => {
-			if (apiErrorValidation(data?.error, data?.response)) {
-				throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-			}
+        toast.success(PREFERENCE_PANEL_TEXT.GUEST_COLABORATOR);
+      })
+      .catch((e: Error) => {
+        toast.error(e.message);
+      });
+  };
 
-            toast.success(PREFERENCE_PANEL_TEXT.GUEST_COLABORATOR);
-		}).catch((e: Error)=>{
-            toast.error(e.message);
-        });
-	};
-
-
-	return { sendAddCollaborator, isLoading };
+  return { sendAddCollaborator, isLoading };
 };

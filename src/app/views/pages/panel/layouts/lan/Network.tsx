@@ -15,55 +15,55 @@ import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
 
 const NetworkPage: FC = () => {
-	const [showScreen, control, refresh] = useShowScreen();
-	const { networks, loading, refetch } = useLan();
-	const { updateState, scope } = useOrderStore((state) => state);
-	const flashlight = useFlashlight();
-	const { isAdmin, isNormalUser } = useUserRole();
+  const [showScreen, control, refresh] = useShowScreen();
+  const { networks, loading, refetch } = useLan();
+  const { updateState, scope } = useOrderStore(state => state);
+  const flashlight = useFlashlight();
+  const { isAdmin, isNormalUser } = useUserRole();
 
-	useEffect(() => {
-		refetch();
-	}, [control]);
+  useEffect(() => {
+    refetch();
+  }, [control]);
 
-	return (
-		<>
-			<OrderV2 />
-			<CredentialsModal />
-			<ModalReport />
-			<EmptyLayout
-				className="lan"
-				fallback={networkEmptyScreen}
-				event={refresh}
-				showScreen={showScreen}
-				isLoading={loading}
-				dataAvalaible={Boolean(networks.length)}>
-				<div className="brightness variant-1"></div>
-				<div className="brightness variant-2"></div>
-				<section className="left">
-					<LanNetworkData
-						isLoading={loading}
-						refetchInternalNetwork={refresh}
-						internalNetwork={networks}
-					/>
-				</section>
+  return (
+    <>
+      <OrderV2 />
+      <CredentialsModal />
+      <ModalReport />
+      <EmptyLayout
+        className="lan"
+        fallback={networkEmptyScreen}
+        event={refresh}
+        showScreen={showScreen}
+        isLoading={loading}
+        dataAvalaible={Boolean(networks.length)}>
+        <div className="brightness variant-1"></div>
+        <div className="brightness variant-2"></div>
+        <section className="left">
+          <LanNetworkData
+            isLoading={loading}
+            refetchInternalNetwork={refresh}
+            internalNetwork={networks}
+          />
+        </section>
 
-				<Show when={isAdmin() || isNormalUser()}>
-					<section className="right" ref={flashlight.rightPaneRef}>
-						{/* <LanNetworksChart
+        <Show when={isAdmin() || isNormalUser()}>
+          <section className="right" ref={flashlight.rightPaneRef}>
+            {/* <LanNetworksChart
 						isLoading={loading}
 						internalNetwork={networks}
 					/>*/}
-						<PrimaryButton
-							text="START A PENTEST ON DEMAND"
-							click={() => updateState('open', true)}
-							className="primary-full"
-							disabledLoader
-							isDisabled={scope.totalResources <= 0}
-						/>
-					</section>
-				</Show>
-			</EmptyLayout>
-		</>
-	);
+            <PrimaryButton
+              text="START A PENTEST ON DEMAND"
+              click={() => updateState('open', true)}
+              className="primary-full"
+              disabledLoader
+              isDisabled={scope.totalResources <= 0}
+            />
+          </section>
+        </Show>
+      </EmptyLayout>
+    </>
+  );
 };
 export default NetworkPage;

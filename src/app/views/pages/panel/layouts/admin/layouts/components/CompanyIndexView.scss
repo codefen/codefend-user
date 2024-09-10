@@ -1,139 +1,139 @@
 @import '../../../../../../styles/settings/mixin';
 
 .CompanyIndexView {
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	margin-top: 1.5rem;
-	width: 100%;
-	overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+  width: 100%;
+  overflow: hidden;
 
-	.company-search {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		margin: 0 auto;
-	}
+  .company-search {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  }
 
-	.companies {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		margin-top: 1.5rem;
-		overflow: auto;
-		padding: 1rem;
-		padding-bottom: 10rem;
-		column-gap: 1.25rem;
-		row-gap: 2rem;
+  .companies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin-top: 1.5rem;
+    overflow: auto;
+    padding: 1rem;
+    padding-bottom: 10rem;
+    column-gap: 1.25rem;
+    row-gap: 2rem;
 
-		.company {
-			width: 100%;
-			cursor: pointer;
-			background: #ffe4e40d;
-			border: 1px solid rgb(222 222 222 / 70%);
-			box-shadow: 4px 2px 8px 0px rgb(170 170 170 / 10%);
-			border-radius: 0.4rem;
+    .company {
+      width: 100%;
+      cursor: pointer;
+      background: #ffe4e40d;
+      border: 1px solid rgb(222 222 222 / 70%);
+      box-shadow: 4px 2px 8px 0px rgb(170 170 170 / 10%);
+      border-radius: 0.4rem;
 
-			transition: all 150ms ease;
+      transition: all 150ms ease;
 
-			@include respond(medium) {
-				width: 70%;
-			}
-			@include respond(small) {
-				width: 100%;
-			}
+      @include respond(medium) {
+        width: 70%;
+      }
+      @include respond(small) {
+        width: 100%;
+      }
 
-			&.selected {
-				border: 1px solid rgba(255, 27, 27, 0.55);
-				box-shadow: 4px 3px 8px 1px rgb(255 146 146 / 10%);
-				background: rgb(255 228 228 / 25%);
-			}
+      &.selected {
+        border: 1px solid rgba(255, 27, 27, 0.55);
+        box-shadow: 4px 3px 8px 1px rgb(255 146 146 / 10%);
+        background: rgb(255 228 228 / 25%);
+      }
 
-			.company-card {
-				width: 100%;
-				max-width: 100%;
-				height: 12rem;
-				border-radius: 4px;
-				display: flex;
-				align-items: center;
-				color: var(--tertiary-color-500);
-				padding: 0.5rem;
-				column-gap: 1.5rem;
-				pointer-events: none;
+      .company-card {
+        width: 100%;
+        max-width: 100%;
+        height: 12rem;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        color: var(--tertiary-color-500);
+        padding: 0.5rem;
+        column-gap: 1.5rem;
+        pointer-events: none;
 
-				.img-wrapper {
-					width: 6.149rem;
-					aspect-ratio: 1/1;
-					border-radius: 100%;
-					background-color: rgba(128, 128, 128, 0.1);
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					clip-path: circle(50% at 50% 50%);
+        .img-wrapper {
+          width: 6.149rem;
+          aspect-ratio: 1/1;
+          border-radius: 100%;
+          background-color: rgba(128, 128, 128, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          clip-path: circle(50% at 50% 50%);
 
-					img {
-						width: 100%;
-						object-fit: cover;
-					}
-				}
+          img {
+            width: 100%;
+            object-fit: cover;
+          }
+        }
 
-				.company-detail {
-					flex: 1 1;
-					width: 100%;
+        .company-detail {
+          flex: 1 1;
+          width: 100%;
 
-					.company-name {
-						font-weight: 700;
-						font-size: 18px;
-						text-overflow: ellipsis;
-						overflow-wrap: anywhere;
-						overflow: hidden;
-					}
+          .company-name {
+            font-weight: 700;
+            font-size: 18px;
+            text-overflow: ellipsis;
+            overflow-wrap: anywhere;
+            overflow: hidden;
+          }
 
-					.company-id {
-						margin-block-start: 0.5rem;
-						display: flex;
-						flex-direction: column;
-						width: 140px;
-					}
+          .company-id {
+            margin-block-start: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            width: 140px;
+          }
 
-					.company-web {
-						font-size: 0.97rem;
-						display: -webkit-box;
-						-webkit-box-orient: vertical;
-						overflow: hidden;
-						-webkit-line-clamp: 2;
-						white-space: normal;
-						overflow-wrap: break-word;
-					}
+          .company-web {
+            font-size: 0.97rem;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            -webkit-line-clamp: 2;
+            white-space: normal;
+            overflow-wrap: break-word;
+          }
 
-					.link {
-						color: var(--secondary-color-100);
-						z-index: 100;
-						pointer-events: auto;
-						text-decoration-line: underline;
-						visibility: hidden;
+          .link {
+            color: var(--secondary-color-100);
+            z-index: 100;
+            pointer-events: auto;
+            text-decoration-line: underline;
+            visibility: hidden;
 
-						&.view {
-							visibility: visible;
-						}
-					}
-				}
-			}
-		}
-	}
+            &.view {
+              visibility: visible;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 body[data-theme='dark'] {
-	.CompanyIndexView {
-		.company {
-			background: var(--primary-color-100);
-			box-shadow: 4px 2px 8px 0px rgb(22 30 40 / 57%);
-			border-color: rgb(12 18 24 / 40%);
+  .CompanyIndexView {
+    .company {
+      background: var(--primary-color-100);
+      box-shadow: 4px 2px 8px 0px rgb(22 30 40 / 57%);
+      border-color: rgb(12 18 24 / 40%);
 
-			&.selected {
-				border: 1px solid rgb(213 43 43 / 67%);
-				box-shadow: 4px 2px 8px 0px rgb(177 25 25 / 21%);
-				background: #141c27;
-			}
-		}
-	}
+      &.selected {
+        border: 1px solid rgb(213 43 43 / 67%);
+        box-shadow: 4px 2px 8px 0px rgb(177 25 25 / 21%);
+        background: #141c27;
+      }
+    }
+  }
 }

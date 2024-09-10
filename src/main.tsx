@@ -13,31 +13,29 @@ import { RUNNING_DESKTOP } from './app/data';
 
 // Tauri
 const startInstall = () => {
-	installUpdate().then(relaunch);
+  installUpdate().then(relaunch);
 };
 
 const checkTauriUpdates = async () => {
-	if (RUNNING_DESKTOP()) {
-		try {
-			listen('tauri://update-available', (res) =>
-				console.log('New version available: ', res),
-			);
+  if (RUNNING_DESKTOP()) {
+    try {
+      listen('tauri://update-available', res => console.log('New version available: ', res));
 
-			const { shouldUpdate } = await checkUpdate();
+      const { shouldUpdate } = await checkUpdate();
 
-			console.log(shouldUpdate);
-			if (shouldUpdate) {
-				await installUpdate();
-				await relaunch();
-			}
-		} catch (e) {
-			alert(e);
-		}
-	}
+      console.log(shouldUpdate);
+      if (shouldUpdate) {
+        await installUpdate();
+        await relaunch();
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
 };
 
 (async () => {
-	await checkTauriUpdates();
+  await checkTauriUpdates();
 })();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<App />);

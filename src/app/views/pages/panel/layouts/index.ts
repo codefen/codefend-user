@@ -8,5 +8,4 @@ export * from './web/components/WebApplicationCredentials';
 export * from './web/components/WebApplicationResources';
 export * from './web/components/WebApplicationStatics';
 
-
-export {default as dashboard} from './dashboard/Dashboard'
+export { default as dashboard } from './dashboard/Dashboard';
