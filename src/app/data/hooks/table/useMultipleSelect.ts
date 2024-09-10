@@ -51,9 +51,11 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
 
   const onPointerDown = useCallback(
     withBatchedUpdates((e: React.PointerEvent<HTMLDivElement>) => {
+      // isPrimary es true solo para el primer click detectado
       if (!isNeedMultipleCheck && !e.isPrimary) return;
 
       setIsSelecting(true);
+      // Se guarda los elementos previamente seleccionados
       prevSelectedItems.current = selectedItems;
       setSelectionBox({
         startX: e.clientX,
@@ -63,6 +65,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
       });
       if (tableRef.current) {
         const items = tableRef.current.querySelectorAll(TABLE_KEYS.ITEM_CLASS);
+        // Cuando se activa el pointer down se cachea ID y el react 
         tableItems.current = Array.from(items).map(item => ({
           rect: item.getBoundingClientRect(),
           id: item.getAttribute(TABLE_KEYS.ITEM_ROW_ID) || '',
@@ -86,12 +89,14 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
         const isInSelectionBox = isRectIntersecting(rect, selectionBoxRect);
 
         if (isInSelectionBox && !selectedItems.includes(id)) {
+          // Si esta, dentro del select-box y no estaba seleccionado. Lo selecciona
           setSelectedItems(id);
         } else if (
           !isInSelectionBox &&
           !prevSelectedItems.current.includes(id) &&
           selectedItems.includes(id)
         ) {
+          // Si esta, fuera del select-box Y no estaba previamente seleccionado. Lo remueve
           removeItem(id || '');
         }
       }
