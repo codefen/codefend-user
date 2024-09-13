@@ -43,7 +43,6 @@ const useAuthStore = create<AuthState>()(
           (state.accessToken?.trim() ?? '') !== '' &&
           !(currentTimestamp >= state.userData.exp!);
 
-        console.log({ updatedAuth });
         set((current: AuthState) => ({ ...current, isAuth: updatedAuth }));
       },
       updateToken: (updatedToken: string) =>
