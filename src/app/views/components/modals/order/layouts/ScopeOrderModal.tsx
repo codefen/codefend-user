@@ -91,7 +91,8 @@ export const ScopeOrderModal: FC = () => {
               <p>
                 {' '}
                 Analyze all company resources{' '}
-                <span className="alt-color order-dash-space">
+                <span
+                  className={`alt-color order-dash-space ${scope.totalAllResources === -1 ? ' blur-while-load' : ''}`}>
                   {' '}
                   - {scope.totalAllResources} resources:
                 </span>

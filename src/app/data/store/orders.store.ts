@@ -45,7 +45,7 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
   resourceType: ResourcesTypes.WEB,
   acceptCondition: false,
   scope: {
-    totalAllResources: 18,
+    totalAllResources: -1,
     totalResources: 0,
     scopeOption: ScopeOption.UNKNOWN,
   },

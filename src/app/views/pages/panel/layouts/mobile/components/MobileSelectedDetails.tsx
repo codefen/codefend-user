@@ -20,7 +20,7 @@ export const MobileSelectedDetails: React.FC = props => {
   const { isAdmin, isNormalUser } = useUserRole();
   const { data, isLoading, refetch } = useGetOneMobile();
   const { appSelected } = useSelectedApp();
-  const { updateState } = useOrderStore(state => state);
+  const { updateState, setScopeTotalResources } = useOrderStore(state => state);
   const onRefetch = () => refetch(appSelected?.id);
   useEffect(() => {
     if (appSelected) onRefetch();
@@ -29,6 +29,11 @@ export const MobileSelectedDetails: React.FC = props => {
   if (isLoading) {
     return <PageLoader />;
   }
+
+  const onOpenOrder = () => {
+    updateState('open', true);
+    setScopeTotalResources(1);
+  };
 
   return (
     <>
@@ -53,7 +58,7 @@ export const MobileSelectedDetails: React.FC = props => {
           <Show when={isAdmin() || isNormalUser()}>
             <PrimaryButton
               text="START A PENTEST ON DEMAND"
-              click={() => updateState('open', true)}
+              click={onOpenOrder}
               className="primary-full"
             />
           </Show>

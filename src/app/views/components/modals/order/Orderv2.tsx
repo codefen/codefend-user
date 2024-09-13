@@ -18,14 +18,20 @@ import { PaymentErrorOrderModal } from './layouts/PaymentErrorOrderModal';
 
 export const OrderV2 = () => {
   const [isNextStep, updateNextStep] = useState(false);
-  const { orderStepActive, resetActiveOrder, open } = useOrderStore(state => state);
+  const { orderStepActive, resetActiveOrder, open, setScopeAllTotalResources } = useOrderStore(
+    state => state
+  );
 
   const { refetchTotal } = useOrders();
 
   useEffect(() => {
-    refetchTotal();
-    updateNextStep(false);
-  }, []);
+    if (open) {
+      refetchTotal();
+      updateNextStep(false);
+    } else {
+      setScopeAllTotalResources(-1);
+    }
+  }, [open]);
 
   const ActiveStep = () => {
     if (isNextStep) return <PageLoader />;

@@ -39,6 +39,10 @@
     }
   }
 
+  .blur-while-load {
+    filter: blur(6px);
+  }
+
   .order-plan-loader-title {
     width: 100%;
     text-align: center;
