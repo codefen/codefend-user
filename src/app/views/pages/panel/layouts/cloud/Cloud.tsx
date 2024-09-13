@@ -59,7 +59,7 @@ const CloudApplicationPanel: FC = () => {
         </section>
         <section className="right">
           <Show when={Boolean(appSelected)}>
-            <CloudSelectedDetails />
+            <CloudSelectedDetails listSize={data?.length || 0} />
           </Show>
         </section>
       </EmptyLayout>

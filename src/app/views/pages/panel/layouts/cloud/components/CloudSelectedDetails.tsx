@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { IssuesPanelMobileAndCloud } from '@standalones/IssuesPanelMobileAndCloud.tsx';
 import { AppCardInfo } from '@standalones/AppCardInfo.tsx';
@@ -8,15 +8,15 @@ import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 import { useOrderStore } from '@stores/orders.store.ts';
 
-import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
-import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import OpenOrderButton from '@standalones/OpenOrderButton';
+import { ResourcesTypes } from '@interfaces/order';
 
-export const CloudSelectedDetails: FC = () => {
+export const CloudSelectedDetails = ({ listSize }: { listSize: number }) => {
   const { isAdmin, isNormalUser } = useUserRole();
   const { appSelected } = useSelectedApp();
   const { data, isLoading, refetch } = useGetOneCloud();
@@ -48,13 +48,12 @@ export const CloudSelectedDetails: FC = () => {
             />
           </div>
           <div className="selected-content-tables">
-            <Show when={isAdmin() || isNormalUser()}>
-              <PrimaryButton
-                text="START A PENTEST ON DEMAND"
-                click={() => updateState('open', true)}
-                className="primary-full"
-              />
-            </Show>
+            <OpenOrderButton
+              className="primary-full"
+              type={ResourcesTypes.CLOUD}
+              resourceCount={listSize}
+              isLoading={isLoading}
+            />
             <VulnerabilityRisk
               isLoading={isLoading}
               vulnerabilityByRisk={data?.issues_share || {}}

@@ -1,25 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useOrderStore } from '@stores/orders.store.ts';
 import SocialEngineering from './components/SocialEngineering.tsx';
 import SocialEngineeringMembers from './components/SocialEngineeringMembers.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
-import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
 import Show from '@defaults/Show.tsx';
-import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import { socialEmptyScreen } from '@/app/constants/app-texts.ts';
+import { ResourcesTypes } from '@interfaces/order.ts';
+import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { members, refetch, isLoading } = useSocial();
-  const { updateState, scope } = useOrderStore(state => state);
-  const { isAdmin, isNormalUser } = useUserRole();
   const flashlight = useFlashlight();
 
   const [socialFilters, setSocialFilters] = useState({
@@ -78,15 +75,13 @@ const SocialEngineeringView = () => {
             handleDepartmentFilter={handleDepartmentFIlter}
           />
         </Show>
-        <Show when={isAdmin() || isNormalUser()}>
-          <PrimaryButton
-            text="START A PENTEST ON DEMAND"
-            className="primary-full"
-            click={() => updateState('open', open)}
-            disabledLoader
-            isDisabled={scope.totalResources <= 0}
-          />
-        </Show>
+
+        <OpenOrderButton
+          className="primary-full"
+          type={ResourcesTypes.SOCIAL}
+          resourceCount={members?.length || 0}
+          isLoading={isLoading}
+        />
       </section>
     </EmptyLayout>
   );

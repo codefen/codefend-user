@@ -50,7 +50,7 @@ const MobileApplicationPanel: React.FC = () => {
       showScreen={showScreen}
       isLoading={isLoading}
       dataAvalaible={Boolean(data.length)}>
-      <AddMobileModal isOpen={showModal}  close={() => setShowModal(false)} />
+      <AddMobileModal isOpen={showModal} close={() => setShowModal(false)} />
       <DeleteMobileCloudModal onDone={onDelete} />
       <OrderV2 />
       <ModalReport />
@@ -62,7 +62,7 @@ const MobileApplicationPanel: React.FC = () => {
       </section>
       <section className="right">
         <Show when={Boolean(appSelected)}>
-          <MobileSelectedDetails />
+          <MobileSelectedDetails listSize={data?.length || 0} />
         </Show>
       </section>
     </EmptyLayout>

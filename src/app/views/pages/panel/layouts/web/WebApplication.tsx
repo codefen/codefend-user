@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { WebApplicationResources } from './components/WebApplicationResources.tsx';
 import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
-import { WebApplicationCredentials } from './components/WebApplicationCredentials.tsx';
 import { useOrderStore } from '@stores/orders.store';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
-import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { useFlashlight } from '../../FlashLightContext.tsx';
@@ -13,19 +11,17 @@ import '@table/table.scss';
 import './webapplication.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import Show from '@defaults/Show.tsx';
 import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
-import WebApplicationPentest from './components/WebApplicationPentest.tsx';
 import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
+import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
+import { ResourcesTypes } from '@interfaces/order.ts';
 
 const WebApplicationView: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { webResources, isLoading, refetch } = useGetWebResources();
-  const { updateState } = useOrderStore(state => state);
   const flashlight = useFlashlight();
-  const { isAdmin, isNormalUser } = useUserRole();
 
   useEffect(() => {
     refetch();
@@ -52,16 +48,18 @@ const WebApplicationView: React.FC = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
-        <Show when={isAdmin() || isNormalUser()}>
-          <WebApplicationPentest webResources={webResources} isLoading={isLoading} />
-        </Show>
         <ResourceByLocation
           isLoading={isLoading}
           resource={webResources}
           title="Web servers by location"
           type={RESOURCE_CLASS.WEB}
         />
-
+        <OpenOrderButton
+          className="pentest-btn"
+          type={ResourcesTypes.WEB}
+          resourceCount={webResources.length}
+          isLoading={isLoading}
+        />
         <WebApplicationStatics webResources={webResources} />
 
         {/*<WebApplicationCredentials />*/}

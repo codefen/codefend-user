@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { ResourcesTypes, useOrderStore, type Device } from '../../..';
+import { type Device } from '../../..';
 import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -15,7 +15,6 @@ export interface LanProps {
 export const useLan = () => {
   const { getCompany, logout } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
-  const { setScopeTotalResources, updateState } = useOrderStore(state => state);
   const dataRef = useRef<Device[]>([]);
 
   /* Fetch LAN  Apps */
@@ -31,10 +30,7 @@ export const useLan = () => {
         if (verifySession(data, logout)) return;
 
         dataRef.current = data.disponibles ? data.disponibles : [];
-
-        setScopeTotalResources(dataRef.current.length);
       })
-      .finally(() => updateState('resourceType', ResourcesTypes.NETWORK));
   };
 
   /* Refetch Function. */
