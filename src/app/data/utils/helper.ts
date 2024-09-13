@@ -573,6 +573,18 @@ export function addEventListener(
   listener: (this: Document, ev: Event) => any,
   options?: ListenerOptionsType
 ): UnsubscribeCallback;
+export function addEventListener<K extends keyof HTMLElementEventMap>(
+  target:
+    | Document
+    | (Window & typeof globalThis)
+    | HTMLElement
+    | undefined
+    | null
+    | false,
+  type: K,
+  listener: (this: HTMLDivElement, ev: HTMLElementEventMap[K]) => any,
+  options?: boolean | AddEventListenerOptions,
+): UnsubscribeCallback;
 export function addEventListener(
   target: ListenerTarget,
   type: ListerType,

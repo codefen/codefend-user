@@ -13,14 +13,29 @@
   }
 }
 section.access {
+  --brand-view: none;
+  --bkg-view: none;
+  --form-inline-padding: 20px;
+  --form-block-padding: 1.5rem 27px;
+  --form-w: 100%;
+  --form-max-w: 100%;
+  --form-h: 100dvh;
+  --form-position: relative;
+  --form-radius: 0px;
+  --section-text-color: #222222;
+  --brand-r: inherit;
+  --brand-t: 5dvw;
+  --brand-l: 50%;
+  --brand-translate: -50% 0%;
+
   min-width: 100dvw;
   min-height: 100dvh;
   position: relative;
   z-index: 1;
-  color: #222222;
+  color: var(--section-text-color);
 
   .bkg {
-    display: none;
+    display: var(--bkg-view);
     background-repeat: no-repeat;
     background-image: url('/codefend/access-bkg.png');
     background-size: auto 100vh;
@@ -33,15 +48,15 @@ section.access {
   }
 
   .brand {
-    display: none;
+    display: var(--brand-view);
     position: absolute;
     width: 570px;
     z-index: 10;
     max-width: 35vw;
-    top: 5dvw;
-    left: 50%;
-    right: inherit;
-    translate: -50% 0%;
+    top: var(--brand-t);
+    left: var(--brand-l);
+    right: var(--brand-r);
+    translate: var(--brand-translate);
 
     span {
       position: absolute;
@@ -54,21 +69,19 @@ section.access {
   }
 
   .forms {
-    width: 100%;
-    height: 100dvh;
-    max-width: 100%;
-    position: relative;
+    width: var(--form-w);
+    height: var(--form-h);
+    max-width: var(--form-max-w);
+    position: var(--form-position);
+    border-radius: var(--form-radius);
 
     box-shadow: 0px 0px 30px #00000060;
     display: flex;
     flex-direction: column;
 
     flex-grow: 1;
-    padding-block-start: 1.5rem;
-    padding-block-end: 27px;
-
-    padding-inline: 20px;
-
+    padding-block: var(--form-block-padding);
+    padding-inline: var(--form-inline-padding);
     background-color: var(--primary-color);
     overflow: auto;
 
@@ -234,56 +247,43 @@ form.signup-confirm {
   margin-block-start: 1.5rem;
 }
 
-[data-theme='dark'] {
-  section.access {
-    color: var(--tertiary-color);
-  }
-}
-
 @media only screen and (min-width: 600px) {
   #particles-js {
     display: block;
   }
   section.access {
+    --bkg-view: block;
+    --form-position: absolute;
+    --form-block-padding: 27px;
+    --form-w: 60dvw;
+    --form-h: auto;
+    --form-max-w: 650px;
+    --form-radius: 10px;
+    --brand-r: 60vw;
+    --brand-t: 27vh;
+    --brand-l: inherit;
+    --brand-translate: 0% 0%;
+
     .forms {
-      position: absolute;
-      width: 60dvw;
-      height: auto;
-      max-width: 650px;
       top: 5vh;
       bottom: 5vh;
       right: 5vw;
-      border-radius: 10px;
       z-index: 10;
-      padding-block: 27px;
-    }
-    .bkg {
-      display: block;
-    }
-
-    .brand {
-      right: 60vw;
-      top: 27vh;
-      left: inherit;
-      translate: 0% 0%;
     }
   }
 }
 
 @media only screen and (min-width: 740px) {
   section.access {
-    .forms {
-      width: 45dvw;
-      padding-inline: 35px;
-    }
+    --brand-view: block;
+    --form-inline-padding: 35px;
+    --form-w: 45dvw;
   }
 }
 
 @media only screen and (min-width: 980px) {
   section.access {
-    .forms {
-      padding-inline: 65px;
-    }
+    --form-inline-padding: 65px;
 
     form.signup-confirm {
       .check-mail {
@@ -292,5 +292,11 @@ form.signup-confirm {
         }
       }
     }
+  }
+}
+
+[data-theme='dark'] {
+  section.access {
+    --section-text-color: var(--tertiary-color);
   }
 }

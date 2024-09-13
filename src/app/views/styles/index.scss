@@ -547,6 +547,10 @@ main {
 //////////////////////////////////////////////////////////////////
 .tox-tinymce {
   border-radius: 0%;
+  & .tox-edit-area,
+  & .tox-edit-area iframe {
+    max-height: calc(100dvh - 160px);
+  }
 }
 .tox-sidebar-wrap {
   // max-height: calc(100vh - 260px);

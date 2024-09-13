@@ -3,6 +3,8 @@ import { Outlet } from 'react-router';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import Show from '@defaults/Show.tsx';
 import './issues.scss';
+import { addEventListener } from '@utils/helper';
+import { EVENTS } from '@/app/constants/events';
 
 const IssuePage: FC = () => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -11,14 +13,16 @@ const IssuePage: FC = () => {
     const tinyMCE = document.createElement('script');
     tinyMCE.src = '/editor-lib/visual/mce/tinymce.min.js';
     tinyMCE.async = true;
-    const onScriptLoad = () => setScriptLoaded(true);
+    tinyMCE.defer = true;
 
     // Añado el evento y agrego el evento de onload
-    tinyMCE.addEventListener('load', onScriptLoad);
     document.head.appendChild(tinyMCE);
+    const loadUnSub = addEventListener(tinyMCE, EVENTS.LOAD, () => {
+      setScriptLoaded(true);
+    });
 
     return () => {
-      tinyMCE.removeEventListener('load', onScriptLoad);
+      loadUnSub();
       document.head.removeChild(tinyMCE);
     };
   }, []);
