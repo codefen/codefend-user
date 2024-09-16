@@ -36,7 +36,7 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
       handleSubmit(e);
     }
   };
-
+  const isDisabled = !message.trim() || isAdding || props.selectedID == '';
   return (
     <div className={`sender ${props.selectedID == '' ? 'sender-disable' : ''}`}>
       <div className="header">
@@ -48,11 +48,11 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
         </div>
         <PrimaryButton
           text={<SendIcon />}
-          isDisabled={!message.trim() || isAdding || props.selectedID == ''}
+          isDisabled={isDisabled}
           disabledLoader
           hideContent={isAdding}
           click={handleSubmit}
-          className="send-extra-styles log-inputs no-border-height"
+          className={`send-extra-styles log-inputs no-border-height ${isDisabled ? 'no-pointers' : ''}`}
           buttonStyle="send"
         />
       </div>
