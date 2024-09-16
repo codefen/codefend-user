@@ -28,7 +28,7 @@ const CompanyIndexView: FC = () => {
 
   return (
     <div className="CompanyIndexView">
-      {Boolean(companies.length) && (
+      {Boolean(companies?.length) && (
         <div className="companies">
           {companies.map((company: AdminCompany) => (
             <div

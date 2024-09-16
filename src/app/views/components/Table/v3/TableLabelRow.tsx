@@ -1,5 +1,5 @@
 import { TABLE_KEYS } from '@/app/constants/app-texts';
-import { type ChangeEvent, type FC } from 'react';
+import { memo, type ChangeEvent, type FC } from 'react';
 import TableCellV3 from './TableCellV3';
 
 interface LabelRowProps {
@@ -11,7 +11,7 @@ interface LabelRowProps {
   handleChecked: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TableLabelRow: FC<LabelRowProps> = ({
+const TableLabelRowComponent: FC<LabelRowProps> = ({
   itemDisable,
   row,
   nextRow,
@@ -38,4 +38,4 @@ const TableLabelRow: FC<LabelRowProps> = ({
   );
 };
 
-export default TableLabelRow;
+export default memo(TableLabelRowComponent);

@@ -49,7 +49,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
       if (urlNav) {
         rows[i] = (
           <TableAnchorRow
-            key={`rac-${row[TABLE_KEYS.ID]}`}
+            key={row[TABLE_KEYS.ID] + i}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -60,7 +60,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
       } else if (isNeedMultipleCheck) {
         rows[i] = (
           <TableLabelRow
-            key={`rLc-${row[TABLE_KEYS.ID]}`}
+            key={row[TABLE_KEYS.ID] + i}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -72,7 +72,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
       } else {
         rows[i] = (
           <TableSimpleRow
-            key={`rsc-${row[TABLE_KEYS.ID]}`}
+            key={row[TABLE_KEYS.ID] + i}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
