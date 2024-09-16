@@ -122,7 +122,7 @@ export const PaymentMethodOrderModal: FC = () => {
         </div>
         <div className="primary-container">
           <PrimaryButton
-            text="Payment"
+            text="Send request"
             click={nextStep}
             className="full"
             buttonStyle="red"
