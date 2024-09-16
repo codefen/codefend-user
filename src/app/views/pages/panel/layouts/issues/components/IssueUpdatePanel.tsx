@@ -63,107 +63,111 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
       navigate('/issues');
     }
   };
+  if (isLoading) return <PageLoader />;
 
   return (
-    <Show when={!isLoading} fallback={<PageLoader />}>
-      <>
-        <div className="header">
-          <div className="back" onClick={handleBack}>
-            <LeftArrowIcon isButton />
-          </div>
-          <Show when={!isEditable} fallback={<div className="name">{updatedIssue.issueName}</div>}>
-            <input
-              type="text"
-              className="grow"
-              value={updatedIssue.issueName}
-              name="issueName"
-              onChange={handleChange}
-            />
-          </Show>
-          {isAdmin() || isProvider() ? (
-            <div className="work-buttons">
-              <div
-                className={`edit action-btn  ${!isEditable ? 'on' : 'off'}`}
-                onClick={() => setEditable(!isEditable)}>
-                <PencilIcon isButton />
-              </div>
-              <div
-                className={`save action-btn ${!isEditable ? 'on' : 'off'}`}
-                onClick={() => handleIssueUpdate()}>
-                <SaveIcon isButton />
-              </div>
-            </div>
-          ) : null}
+    <>
+      <div className="header">
+        <div className="back" onClick={handleBack}>
+          <LeftArrowIcon isButton />
         </div>
-        <div className="info">
-          <div>
-            Published: <span>{formatDate(issueData.creacion)}</span>
-          </div>
-          {updatedIssue.resourceID && updatedIssue.resourceID !== 0 ? (
-            <div className="info-resourcer-id">
-              Resource ID: <span>@{issueData.resource_id}</span>
-            </div>
-          ) : null}
-
-          <div>
-            Author: <span>@{issueData.researcher_username}</span>
-          </div>
-          <div>
-            Resource: <span>{issueData.resource_class}</span>
-          </div>
-          <div>
-            Risk:{' '}
-            <select
-              onChange={(e: any) =>
-                dispatch(state => ({
-                  ...state,
-                  score: e.target.value,
-                }))
-              }
-              className="py-3 focus:outline-none log-inputs"
-              defaultValue={updatedIssue.score}
-              name="score"
-              disabled={isEditable}>
-              <option value="5">critical</option>
-              <option value="4">elevated</option>
-              <option value="3">medium</option>
-              <option value="2">low</option>
-              <option value="1">intel</option>
-              <option value="" hidden>
-                Unknown
-              </option>
-            </select>
-          </div>
-          <div>
-            Status:
-            <select
-              onChange={(e: any) =>
-                dispatch(state => ({
-                  ...state,
-                  status: e.target.value,
-                }))
-              }
-              className={`log-inputs`}
-              defaultValue={issueData.condicion}
-              name="status"
-              disabled={isEditable}>
-              <option value="open">open</option>
-              <option value="fixed">fixed</option>
-              <option value="verified">verified</option>
-              <option value="" hidden>
-                Unknown
-              </option>
-            </select>
-          </div>
-        </div>
-        <div className="">
-          <AppEditor isEditable={!isEditable} initialValue={issueData.issue} isCreation={false} />
-        </div>
-        <Show when={isAddingIssue}>
-          <PageLoaderOverlay />
+        <Show when={!isEditable} fallback={<div className="name">{updatedIssue.issueName}</div>}>
+          <input
+            type="text"
+            className="grow"
+            value={updatedIssue.issueName}
+            name="issueName"
+            onChange={handleChange}
+          />
         </Show>
-      </>
-    </Show>
+        {isAdmin() || isProvider() ? (
+          <div className="work-buttons">
+            <div
+              className={`edit action-btn  ${!isEditable ? 'on' : 'off'}`}
+              onClick={() => setEditable(!isEditable)}>
+              <PencilIcon isButton />
+            </div>
+            <div
+              className={`save action-btn ${!isEditable ? 'on' : 'off'}`}
+              onClick={() => handleIssueUpdate()}>
+              <SaveIcon isButton />
+            </div>
+          </div>
+        ) : null}
+      </div>
+      <div className="info">
+        <div>
+          Published: <span>{formatDate(issueData.creacion)}</span>
+        </div>
+        {updatedIssue.resourceID && updatedIssue.resourceID !== 0 ? (
+          <div className="info-resourcer-id">
+            Resource ID: <span>@{issueData.resource_id}</span>
+          </div>
+        ) : null}
+
+        <div>
+          Author: <span>@{issueData.researcher_username}</span>
+        </div>
+        <div>
+          Resource: <span>{issueData.resource_class}</span>
+        </div>
+        <div>
+          Risk:{' '}
+          <select
+            onChange={(e: any) =>
+              dispatch(state => ({
+                ...state,
+                score: e.target.value,
+              }))
+            }
+            className="py-3 focus:outline-none log-inputs"
+            defaultValue={updatedIssue.score}
+            name="score"
+            disabled={isEditable}>
+            <option value="5">critical</option>
+            <option value="4">elevated</option>
+            <option value="3">medium</option>
+            <option value="2">low</option>
+            <option value="1">intel</option>
+            <option value="" hidden>
+              Unknown
+            </option>
+          </select>
+        </div>
+        <div>
+          Status:
+          <select
+            onChange={(e: any) =>
+              dispatch(state => ({
+                ...state,
+                status: e.target.value,
+              }))
+            }
+            className={`log-inputs`}
+            defaultValue={issueData.condicion}
+            name="status"
+            disabled={isEditable}>
+            <option value="open">open</option>
+            <option value="fixed">fixed</option>
+            <option value="verified">verified</option>
+            <option value="" hidden>
+              Unknown
+            </option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <AppEditor
+          isEditable={!isEditable}
+          isLoaded={isLoaded}
+          initialValue={issueData.issue}
+          isCreation={false}
+        />
+      </div>
+      <Show when={isAddingIssue}>
+        <PageLoaderOverlay />
+      </Show>
+    </>
   );
 };
 

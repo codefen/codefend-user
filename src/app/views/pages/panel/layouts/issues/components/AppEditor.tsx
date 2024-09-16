@@ -9,26 +9,31 @@ interface AppEditorProps {
   initialValue: string;
   isEditable: boolean;
   isCreation?: boolean;
+  isLoaded?: boolean;
 }
+const EMPTY_TEXT = '<p>Please add issues here...</p>';
+const startTiny = (initialValue: string) => {
+  try {
+    const content = getTinyEditorContent('issue');
+    setTinyEditorContent('issue', content ? content : initialValue);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation }) => {
+const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation, isLoaded }) => {
   const [first, setFirst] = useState(true);
-  const EMPTY_TEXT = '<p>Please add issues here...</p>';
 
   useEffect(() => {
-    const defaultValue = !Boolean(initialValue.trim().length) ? EMPTY_TEXT : initialValue;
+    const defaultValue = !Boolean(initialValue) ? EMPTY_TEXT : initialValue;
     addTinyMce(defaultValue);
     setFirst(false);
+    startTiny(initialValue);
   }, [initialValue]);
 
   useEffect(() => {
-    try {
-      if (!first) {
-        const editor = getTinyEditorContent ? getTinyEditorContent('issue') : '';
-        setTinyEditorContent('issue', !editor || editor == '' ? initialValue : editor);
-      }
-    } catch (e: any) {
-      console.error(e);
+    if (!first) {
+      startTiny(initialValue);
     }
 
     if (!isCreation) {
@@ -36,13 +41,9 @@ const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation })
     } else {
       setMode('issue', 'design');
     }
-  }, [isEditable]);
+  }, [isEditable, isLoaded]);
 
-  return (
-    <>
-      <textarea name="name" id="issue" rows={4} cols={40}></textarea>
-    </>
-  );
+  return <textarea name="name" id="issue" rows={4} cols={40}></textarea>;
 };
 
 export default AppEditor;

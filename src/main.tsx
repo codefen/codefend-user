@@ -23,7 +23,6 @@ const checkTauriUpdates = async () => {
 
       const { shouldUpdate } = await checkUpdate();
 
-      console.log(shouldUpdate);
       if (shouldUpdate) {
         await installUpdate();
         await relaunch();
