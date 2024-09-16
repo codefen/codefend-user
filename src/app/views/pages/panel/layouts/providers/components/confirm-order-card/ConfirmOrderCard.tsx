@@ -84,14 +84,14 @@ export const ConfirmOrderCard: FC<ConfirmOrderCardProps> = ({
         isSelected={Boolean(isSelected)}
         companyName={companyName}
         offensive={offensive}
-        price={price}
+        price={price || '0'}
         provider={provider}
         sizeOrder={sizeOrder}
         state="New"
         type={type}>
         <div className="provider-order-main-content flex-col">
           <div className="order-price-dist">
-            <span className="price">${formatNumber(price)}</span>
+            <span className="price">${formatNumber(price || '0')}</span>
             <span className="distributor">distributor: {distributor}</span>
           </div>
           <div className="flex-row buttons">
