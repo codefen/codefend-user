@@ -52,7 +52,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
   const onPointerDown = useCallback(
     withBatchedUpdates((e: React.PointerEvent<HTMLDivElement>) => {
       // isPrimary es true solo para el primer click detectado
-      if (!isNeedMultipleCheck && !e.isPrimary) return;
+      if (!isNeedMultipleCheck || !e.isPrimary) return;
 
       setIsSelecting(true);
       // Se guarda los elementos previamente seleccionados
