@@ -1,8 +1,6 @@
 import { type FC, useEffect, useMemo, useState } from 'react';
 import { useIssues } from '@panelHooks/issues/useIssues.ts';
 import { type Issues } from '@interfaces/panel.ts';
-import { useIssueReport } from '@panelHooks/issues/useIssueReports.ts';
-import { useReportStore } from '@stores/report.store.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
