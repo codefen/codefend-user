@@ -66,7 +66,7 @@ export const AppRouter = () => {
           element: (
             <ProtectedRoute isAllowed={true}>
               {isAdmin() ? (
-                <AdminPage />
+                <AdminCompany />
               ) : isProvider() ? (
                 <Navigate to="/provider/profile" replace />
               ) : isReseller() ? (
