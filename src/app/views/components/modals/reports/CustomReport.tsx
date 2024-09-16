@@ -27,6 +27,7 @@ import useTimeout from '#commonHooks/useTimeout';
 import { NetworkResourceScope } from './components/NetworkResourceScope';
 import { SourceScope } from './components/SourceScope';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 interface CustomReportProps {
   isModal?: boolean;
@@ -36,6 +37,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { open, resourceType } = useReportStore((state: any) => state);
   const { fetchReport, resources, issues, share, resourceDomainText } = useIssueReport();
+  const { getCompanyName } = useUserData();
   const { oneExecute } = useTimeout(() => window.print(), 2000);
 
   useEffect(() => {
@@ -110,10 +112,10 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
             <>
               Our Red Team performed a security assessment of the internal corporate network of{' '}
               {resourceDomainText}. <br></br>The penetration test simulated an attack from an
-              external threat actor attempting to gain access to systems within Fractal corporate
-              network. The purpose of this assessment was to discover and identify vulnerabilities
-              in {resourceDomainText}
-              infrastructure and suggest methods to remediate the vulnerabilities.
+              external threat actor attempting to gain access to systems within {getCompanyName()}.
+              The purpose of this assessment was to discover and identify vulnerabilities in{' '}
+              {resourceDomainText} infrastructure and suggest methods to remediate the
+              vulnerabilities.{' '}
               <em>
                 A total of "issues_share" vulnerabilities have been identified within the scope of
                 the engagement

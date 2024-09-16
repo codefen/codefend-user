@@ -17,6 +17,7 @@ export const useUserData = () => {
   const getAccessToken = () => (accessToken ? accessToken : '');
 
   const getCompany = () => companySelected?.id || getUserdata().company_id;
+  const getCompanyName = () => companySelected.name;
 
   const logout = () => {
     reset();
@@ -27,6 +28,7 @@ export const useUserData = () => {
     getUserdata,
     getAccessToken,
     getCompany,
+    getCompanyName,
     isAuth,
     logout,
     updateUserData: updateUser,
