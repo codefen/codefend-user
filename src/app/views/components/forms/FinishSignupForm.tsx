@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
 import { AuthInput } from '@defaults/AuthInput';
-import { useEffect, useState, type FC, type FormEvent } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
@@ -72,6 +72,7 @@ const FinishSignupForm: FC<{
           onChange={e => handleChange('username', e.target.value)}
           type="text"
           placeholder="Username"
+          autoComplete="off"
           required
         />
       </div>
@@ -79,12 +80,14 @@ const FinishSignupForm: FC<{
         setVal={val => handleChange('password', val)}
         type="password"
         placeholder="Password"
+        autoComplete="off"
         required
       />
       <AuthInput
         setVal={val => handleChange('confirmPassword', val)}
         type="password"
         placeholder="Confirm Password"
+        autoComplete="off"
         required
       />
       <PasswordRequirements password={userState.password} />

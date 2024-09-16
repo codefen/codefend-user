@@ -64,7 +64,27 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
     updateViewConfirm(false);
   };
   return (
-    <>
+    <OrderCardTemplate
+      id={id}
+      handleActivate={handleActivate}
+      isSelected={Boolean(isSelected)}
+      offensive={offensive}
+      companyName={companyName}
+      price={price}
+      provider={provider}
+      sizeOrder={sizeOrder}
+      state="Current"
+      type={type}
+      viewPrice
+      viewScope={
+        <IconTextPairs icon={<BugIcon className="codefend-text-red" />} className="icon-text">
+          <span className="text-bold">Resources:</span>
+          <span className="text-light border">{resources}</span>
+          <span className="codefend-text-red all-scope" onClick={handleOpenScope}>
+            view scope
+          </span>
+        </IconTextPairs>
+      }>
       <Show when={showModal}>
         <ModalWrapper action={() => setShowModal(false)}>
           <ConfirmModal
@@ -79,45 +99,23 @@ export const CurrentOrderCard: FC<ConfirmOrderCardProps> = ({
           />
         </ModalWrapper>
       </Show>
-      <OrderCardTemplate
-        id={id}
-        handleActivate={handleActivate}
-        isSelected={Boolean(isSelected)}
-        offensive={offensive}
-        companyName={companyName}
-        price={price}
-        provider={provider}
-        sizeOrder={sizeOrder}
-        state="Current"
-        type={type}
-        viewPrice
-        viewScope={
-          <IconTextPairs icon={<BugIcon className="codefend-text-red" />} className="icon-text">
-            <span className="text-bold">Resources:</span>
-            <span className="text-light border">{resources}</span>
-            <span className="codefend-text-red all-scope" onClick={handleOpenScope}>
-              view scope
-            </span>
-          </IconTextPairs>
-        }>
-        <div className="provider-order-main-content flex-col">
-          <div className="order-price-dist expand">
-            <span className="current-extend">
-              {calculateDaysDifference(finishDate)} Days left -{formatReverseDate(finishDate)}
-            </span>
+      <div className="provider-order-main-content flex-col">
+        <div className="order-price-dist expand">
+          <span className="current-extend">
+            {calculateDaysDifference(finishDate)} Days left -{formatReverseDate(finishDate)}
+          </span>
 
-            <span className="current-extend m-t-auto">Distributor: {distributor}</span>
-          </div>
-          <div className="flex-row buttons move-to-right">
-            <PrimaryButton
-              click={() => setShowModal(true)}
-              text="Finish order"
-              buttonStyle="red"
-              className="btn-order-card"
-            />
-          </div>
+          <span className="current-extend m-t-auto">Distributor: {distributor}</span>
         </div>
-      </OrderCardTemplate>
-    </>
+        <div className="flex-row buttons move-to-right">
+          <PrimaryButton
+            click={() => setShowModal(true)}
+            text="Finish order"
+            buttonStyle="red"
+            className="btn-order-card"
+          />
+        </div>
+      </div>
+    </OrderCardTemplate>
   );
 };

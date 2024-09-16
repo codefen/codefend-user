@@ -43,11 +43,7 @@ export const NewOrderProvider = () => {
             offensive={order.offensiveness as 'careful' | 'offensive' | 'adversary'}
             price={order.funds_provider}
             type={order.resources_class}
-            provider={
-              getUserdata().id == order.provider_id
-                ? getUserdata().username || 'unknown'
-                : 'unknown'
-            }
+            provider={order?.user_email ? order.user_email : 'unknown'}
             distributor={order.reseller_name || ''}
             scope={order.resources_class === 'full' ? 1 : 0}
             sizeOrder={order.chosen_plan as 'small' | 'medium' | 'full'}

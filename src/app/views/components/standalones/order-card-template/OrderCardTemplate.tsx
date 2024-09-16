@@ -55,8 +55,8 @@ export const OrderCardTemplate: FC<OrderCardTemplateProps> = ({
             <span className="text-light">{teamSize} allocation</span>
           </IconTextPairs>
           <IconTextPairs icon={<BugIcon className="codefend-text-red" />} className="icon-text">
-            <span className="text-bold">Profesional:</span>{' '}
-            <span className="text-light">@{provider}</span>
+            <span className="text-bold">Customer email:</span>{' '}
+            <span className="text-light">{provider}</span>
           </IconTextPairs>
           {viewScope}
           <Show when={Boolean(viewPrice)}>

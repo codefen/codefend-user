@@ -35,8 +35,13 @@ const SigninForm: FC<{
         autoComplete="email"
         required
       />
-      <AuthInput ref={password} type="password" placeholder="Password" required />
-
+      <AuthInput
+        ref={password}
+        type="password"
+        placeholder="Password"
+        autoComplete="off"
+        required
+      />
       {children(isLoading)}
     </form>
   );

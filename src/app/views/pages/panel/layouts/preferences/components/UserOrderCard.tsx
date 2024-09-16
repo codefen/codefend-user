@@ -63,43 +63,41 @@ export const UserOrderCard: FC<ConfirmOrderCardProps> = ({
   };
 
   return (
-    <>
-      <OrderCardTemplate
-        id={id}
-        handleActivate={handleActivate}
-        isSelected={Boolean(isSelected)}
-        offensive={offensive}
-        price={price}
-        provider={provider}
-        sizeOrder={sizeOrder}
-        state="Order"
-        type={type}
-        viewPrice
-        viewScope={
-          <IconTextPairs icon={<BugIcon className="codefend-text-red" />} className="icon-text">
-            <span className="text-bold">Resources:</span>
-            <span className="text-light border">{resources}</span>
-            <span className="codefend-text-red all-scope" onClick={handleOpenScope}>
-              view scope
-            </span>
-          </IconTextPairs>
-        }>
-        <div className="provider-order-main-content flex-col">
-          <div className="order-price-dist expand">
-            <span className="current-extend">Financial state: {conditionFinancial}</span>
+    <OrderCardTemplate
+      id={id}
+      handleActivate={handleActivate}
+      isSelected={Boolean(isSelected)}
+      offensive={offensive}
+      price={price}
+      provider={provider}
+      sizeOrder={sizeOrder}
+      state="Order"
+      type={type}
+      viewPrice
+      viewScope={
+        <IconTextPairs icon={<BugIcon className="codefend-text-red" />} className="icon-text">
+          <span className="text-bold">Resources:</span>
+          <span className="text-light border">{resources}</span>
+          <span className="codefend-text-red all-scope" onClick={handleOpenScope}>
+            view scope
+          </span>
+        </IconTextPairs>
+      }>
+      <div className="provider-order-main-content flex-col">
+        <div className="order-price-dist expand">
+          <span className="current-extend">Financial state: {conditionFinancial}</span>
 
-            <span className="current-extend">Provider state: {conditionProvider}</span>
-          </div>
-          <Show when={conditionProvider === 'finished' && conditionReview === 'unreviewed'}>
-            <PrimaryButton
-              text="Start the survey"
-              buttonStyle="red"
-              click={handleOpenPoll}
-              disabledLoader
-            />
-          </Show>
+          <span className="current-extend">Provider state: {conditionProvider}</span>
         </div>
-      </OrderCardTemplate>
-    </>
+        <Show when={conditionProvider === 'finished' && conditionReview === 'unreviewed'}>
+          <PrimaryButton
+            text="Start the survey"
+            buttonStyle="red"
+            click={handleOpenPoll}
+            disabledLoader
+          />
+        </Show>
+      </div>
+    </OrderCardTemplate>
   );
 };
