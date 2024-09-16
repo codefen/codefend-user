@@ -12,7 +12,7 @@ export const useDefineUserReseller = () => {
     const country = defaultCountries.find(country => country.name == e.target.value);
     if (topCountriesOnList.includes(country?.name || '')) {
       setResellers([]);
-      setReseller({ id: '77', name: 'Holool Albilad LLC' });
+      setReseller({ id: '1', name: 'Codefend' });
     } else {
       setReseller({ id: '', name: '' });
       findResellers(country ? country.alpha2Code : '');

@@ -2026,8 +2026,6 @@ const mapCountry = (country: any) => ({
 });
 
 const preceesArray = () =>
-  [
-    ...topCountriesOnList,
-    ...defaultCountries.filter((conuntry: any) => !topCountriesOnList.includes(conuntry.name)),
-  ].map(mapCountry);
+  defaultCountries.map(mapCountry);
+
 export const countries = new Set(preceesArray());

@@ -31,7 +31,7 @@ export const useRegisPhaseOne = () => {
       company_area: companyCountry,
       reseller_name: resellerNme,
       reseller_id: resellerId,
-      idiom: idiom.current?.value || '',
+      idiom: idiom.current?.value || 'en',
     };
     return fetcher('post', {
       body: {

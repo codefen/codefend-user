@@ -23,7 +23,6 @@ export const SignupForm: FC<{
     companyWeb,
     companyRole,
     companySize,
-    idiom,
   } = useRegisPhaseOne();
   const { updateResellerArea, updateReseller, resellers, companyCountry, reseller } =
     useDefineUserReseller();
@@ -90,22 +89,18 @@ export const SignupForm: FC<{
 
       <SelectField
         options={[
-          {
-            value: '',
-            label: topCountriesOnList.includes(companyCountry) ? 'Holool Albilad LLC' : 'Reseller',
-            hidden: true,
-          },
+          { value: '', label: 'Select your reseller', hidden: true },
           ...resellers.map(reseller => ({
             value: reseller.id,
             label: reseller.name,
           })),
         ]}
         onChange={updateReseller}
-        value={topCountriesOnList.includes(companyCountry) ? '' : reseller.id}
-        disabled={topCountriesOnList.includes(companyCountry)}
+        value={reseller.id}
         required
       />
 
+      {/* 
       <SelectField
         ref={idiom}
         options={[
@@ -116,6 +111,7 @@ export const SignupForm: FC<{
         defaultValue=""
         required
       />
+      */}
 
       <TermsOfUse />
       {children(isLoading)}
