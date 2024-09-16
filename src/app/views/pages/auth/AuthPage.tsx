@@ -12,7 +12,11 @@ const AuthPage: FC = () => {
   const location = useLocation();
   const { isAuth } = useAuthStore(state => state);
 
-  return !isAuth ? (
+  if (isAuth) {
+    return <Navigate to={'/'} />;
+  }
+
+  return (
     <>
       <ParticlesScriptLoader />
       <section className="access">
@@ -28,8 +32,6 @@ const AuthPage: FC = () => {
         <div className="bkg"></div>
       </section>
     </>
-  ) : (
-    <Navigate to={'/'} />
   );
 };
 
