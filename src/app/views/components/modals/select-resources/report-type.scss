@@ -59,6 +59,10 @@
 
   .app-card-container {
     .list {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden auto;
+      row-gap: 0.938rem;
       max-width: 90%;
       margin-inline: auto;
       max-height: 21rem;
