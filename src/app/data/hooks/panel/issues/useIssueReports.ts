@@ -25,6 +25,7 @@ export const useIssueReport = () => {
         resource_class: resourceType,
       },
     }).then(({ data }: any) => {
+      console.log({ data });
       issues.current = data.issues ? data.issues.map((issue: any) => mapReportIssues(issue)) : [];
 
       setShare(mapIssueShareV2(data));

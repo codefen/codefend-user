@@ -93,7 +93,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
     return (
       <div className={`issues-report ${!isModal ? 'tab' : ''}`}>
         {!isModal ? (
-          <ReportFrontpage resourceDomainText={resourceDomainText} />
+          <ReportFrontpage resourceDomainText={getCompanyName()} />
         ) : (
           <a className="download-pdf-btn" title="download pdf" href="/report" target="_blank">
             <DownloadIcon />
@@ -103,21 +103,20 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
           isIntro
           title={
             <>
-              {resourceDomainText} <span>Executive summary</span>
+              {getCompanyName()} <span>Executive summary</span>
             </>
           }
           isTitle
           icon={<ExecutiveSummaryIcon />}
           text={
             <>
-              Our Red Team performed a security assessment of the internal corporate network of{' '}
-              {resourceDomainText}. <br></br>The penetration test simulated an attack from an
-              external threat actor attempting to gain access to systems within {getCompanyName()}.
-              The purpose of this assessment was to discover and identify vulnerabilities in{' '}
-              {resourceDomainText} infrastructure and suggest methods to remediate the
-              vulnerabilities.{' '}
+              Codefend performed a security assessment of the infrastructure {getCompanyName()}.{' '}
+              <br></br>The penetration test simulated an attack from an external threat actor
+              attempting to gain access to systems within {getCompanyName()}. The purpose of this
+              assessment was to discover and identify vulnerabilities in {getCompanyName()}{' '}
+              infrastructure and suggest methods to remediate the vulnerabilities.{' '}
               <em>
-                A total of "issues_share" vulnerabilities have been identified within the scope of
+                A total of {share.total} vulnerabilities have been identified within the scope of
                 the engagement
               </em>
               which are broken down by severity in the table below.
