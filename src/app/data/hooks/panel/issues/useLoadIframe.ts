@@ -1,4 +1,4 @@
-import { useTheme } from '@/app/views/ThemeContext';
+import { useTheme } from '@/app/views/context/ThemeContext';
 import { useEffect, useRef, useState } from 'react';
 
 const MAX_ATTEMPTS = 10; // Número máximo de intentos para cargar el iframe

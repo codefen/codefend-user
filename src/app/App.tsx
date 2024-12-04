@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Loader } from './views/components';
-import { ThemeProvider } from './views/ThemeContext';
+import { ThemeProvider } from './views/context/ThemeContext';
 import { ErrorBoundary } from './views/components/defaults/ErrorBoundry';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

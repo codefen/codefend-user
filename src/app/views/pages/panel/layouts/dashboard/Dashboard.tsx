@@ -8,7 +8,7 @@ import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
-import { useFlashlight } from '../../FlashLightContext.tsx';
+import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import './dashboard.scss';
 import { PrimaryButton } from '@buttons/index.ts';
 import { useNavigate } from 'react-router';

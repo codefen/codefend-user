@@ -1,4 +1,4 @@
-import { useTheme } from '@/app/views/ThemeContext';
+import { useTheme } from '@/app/views/context/ThemeContext';
 import { useRef } from 'react';
 
 const getMouseCoordinates = (e: MouseEvent) => {

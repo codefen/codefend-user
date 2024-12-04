@@ -3,7 +3,7 @@ import { InxSearchAndData } from './components/InxSearchAndData.tsx';
 import { InxPreviousSearches } from './components/InxPreviousSearches.tsx';
 import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import { useFlashlight } from '../../FlashLightContext.tsx';
+import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import './inx.scss';
 
 export const InxPanel: FC = () => {

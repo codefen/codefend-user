@@ -2093,6 +2093,9 @@ body.tox-dialog__disable-scroll {
 	appearance: textarea;
 	white-space: pre-wrap;
 }
+.tox .tox-textarea-wrap, .tox .tox-textarea-wrap textarea.tox-textarea {
+	height: 100%;
+}
 .tox-fullscreen {
 	border: 0;
 	height: 100%;

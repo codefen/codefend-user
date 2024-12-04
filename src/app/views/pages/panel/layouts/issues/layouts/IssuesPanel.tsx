@@ -7,7 +7,7 @@ import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { IssueReport } from '../components/IssueReport.tsx';
 import { IssueResources } from '../components/IssueResources.tsx';
-import { useFlashlight } from '../../../FlashLightContext.tsx';
+import { useFlashlight } from '../../../../../context/FlashLightContext.tsx';
 import { SelectAnyResourceModal } from '@modals/select-resources/SelectAnyResourceModal.tsx';
 import useModalStore from '@stores/modal.store.ts';
 import { EMPTY_ISSUECLASS, EMPTY_ISSUECONDITION, EMPTY_SHARE } from '@/app/constants/empty.ts';

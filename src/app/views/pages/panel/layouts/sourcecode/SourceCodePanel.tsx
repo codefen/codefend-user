@@ -5,7 +5,7 @@ import { SourceCodeResources } from './components/SourceCodeResources.tsx';
 import { SourceCodeChart } from './components/SourceCodeChart.tsx';
 import { SourceCodeCollab } from './components/SourceCodeCollab.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
-import { useFlashlight } from '../../FlashLightContext.tsx';
+import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';

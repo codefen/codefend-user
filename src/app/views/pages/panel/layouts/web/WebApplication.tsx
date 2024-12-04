@@ -6,7 +6,7 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import { useFlashlight } from '../../FlashLightContext.tsx';
+import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import '@table/table.scss';
 import './webapplication.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';

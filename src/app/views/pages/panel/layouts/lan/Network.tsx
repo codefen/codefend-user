@@ -1,7 +1,7 @@
 import { type FC, useEffect } from 'react';
 import { useLan } from '@resourcesHooks/netowrk/useLan.ts';
 import { LanNetworkData } from './components/NetworkData.tsx';
-import { useFlashlight } from '../../FlashLightContext.tsx';
+import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
