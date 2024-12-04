@@ -25,6 +25,7 @@ export interface AdminCompany extends ID, Monitoring {
   profile_media: string;
 
   mercado?: string;
+  reseller_name?: string;
 }
 
 export interface AdminCompanyState {

@@ -13,6 +13,8 @@ export const ReportFrontpage: FC<ReportFrontpageProps> = props => {
   const { companySelected } = useAdminCompanyStore();
   const { getUserdata } = useUserData();
 
+  console.log({ companySelected });
+
   return (
     <div className="portada">
       <div className="codefend-header">
@@ -33,7 +35,11 @@ export const ReportFrontpage: FC<ReportFrontpageProps> = props => {
               ? getUserdata().company_name
               : companySelected.name}
           </span>{' '}
-          and conducted by Codefend.
+          and conducted by Codefend
+          {companySelected?.reseller_name
+            ? ` in collaboration with ${companySelected.reseller_name}`
+            : ''}
+          .
         </p>
       </div>
     </div>
