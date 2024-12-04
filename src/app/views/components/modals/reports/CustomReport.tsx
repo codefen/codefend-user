@@ -130,10 +130,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
         <ReportSectionTemplate
           title="scope & assets & attack surface"
           icon={<GlobeWebIcon />}
-          text="Security assessments were conducted within the following
-					located resources. Several of these resources were
-					automatically detected and added by our staff and software
-					and may not contain regular content."
+          text="Security assessments have been conducted on the following resources. Some of these resources may have been automatically detected and added by our team members."
           isTextBreak
           mainContent={<ActiveScope />}
         />
@@ -141,12 +138,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
         <ReportSectionTemplate
           title="Vulnerabilities found in the structure"
           icon={<BugIcon />}
-          text="The highest severity vulnerabilities give potential
-							attackers the opportunity to completely take over user
-							accounts from the client with the corresponding risks. In
-							order to ensure data confidentiality, integrity, and
-							availability, security remediations should be implemented
-							as described in the security assessment findings."
+          text="These are the vulnerabilities we have identified so far during this period."
           mainContent={
             <TableWithoutActions
               isLoading={isLoading}
