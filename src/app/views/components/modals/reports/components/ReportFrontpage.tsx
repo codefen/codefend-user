@@ -33,7 +33,8 @@ export const ReportFrontpage: FC<ReportFrontpageProps> = props => {
               : companySelected.name}
           </span>{' '}
           and conducted by Codefend
-          {companySelected?.reseller_name
+          {companySelected?.reseller_name &&
+          companySelected?.reseller_name?.toLocaleLowerCase?.() !== 'codefend'
             ? ` in collaboration with ${companySelected.reseller_name}`
             : ''}
           .
