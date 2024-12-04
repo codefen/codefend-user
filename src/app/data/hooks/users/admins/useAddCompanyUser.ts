@@ -1,7 +1,7 @@
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 
 export const useAddCompanyUser = () => {
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
 
   const fetchAdd = (body: any) => {
     fetcher('post', {

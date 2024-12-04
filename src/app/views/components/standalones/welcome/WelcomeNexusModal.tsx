@@ -1,7 +1,6 @@
 import { type FC, lazy } from 'react';
 import { ModalWrapper, PrimaryButton } from '../../';
 import './welcome.scss';
-import { useUserRole } from '#commonUserHooks/useUserRole';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 

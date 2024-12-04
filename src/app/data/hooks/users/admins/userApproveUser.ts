@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export const userApproveUser = () => {
   const [pendingUsers, setPendingUsers] = useState([]);
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const { getAccessToken } = useUserData();
 
   const fetchApprove = (body: any) => {

@@ -1,3 +1,5 @@
+import type { CSSProperties, ReactNode } from "react";
+
 export interface HelperBoxCords {
   right?: number;
   left?: number;
@@ -5,7 +7,7 @@ export interface HelperBoxCords {
   bottom?: number;
 }
 
-export interface CoordsCssVariable extends React.CSSProperties {
+export interface CoordsCssVariable extends CSSProperties {
   ['--coord-top']: string;
   ['--coord-bottom']: string;
   ['--coord-left']: string;
@@ -30,7 +32,7 @@ export interface ArrowPosition {
 }
 
 export interface HelperBoxProps {
-  icon?: JSX.Element;
+  icon?: ReactNode;
   title: string;
   text: string;
   highlight: string;

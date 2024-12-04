@@ -13,7 +13,7 @@ export const useInitialVdb = () => {
   const { search } = useParams();
   const [searchData, setSearchData] = useState('');
   const vdbResults = useRef<ResultsVdbSearchV2[]>([]);
-  const [fetcher, cancelRequest, isLoading] = useFetcher();
+  const [fetcher, _, isLoading] = useFetcher();
 
   const fetchInitialVdb = async (companyID: string, search: string) => {
     return fetcher('post', {

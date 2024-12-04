@@ -1,4 +1,4 @@
-import { PureComponent, type FC } from 'react';
+import { PureComponent } from 'react';
 
 interface EmptyCardProps {
   title?: string;

@@ -19,7 +19,7 @@ import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const useOrders = () => {
   const { getCompany } = useUserData();
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const { setScopeAllTotalResources, updateState } = useOrderStore(state => state);
 
   const fetchGetTotal = (companyID: string) => {
@@ -111,7 +111,7 @@ export const useOrders = () => {
 };
 
 export const useOrderScope = () => {
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const { resumeResources, updateState } = useOrderStore(state => state);
 

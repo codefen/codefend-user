@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router';
 import { create } from 'zustand';
 
 interface IState {

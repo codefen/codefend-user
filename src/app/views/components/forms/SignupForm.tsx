@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router';
 import { companySizesList } from '@mocks/defaultData.ts';
-import { countries, topCountriesOnList } from '@/app/constants/countries';
+import { countries } from '@/app/constants/countries';
 import { AuthInput } from '@defaults/AuthInput';
 import { useRegisPhaseOne } from '@userHooks/auth/useRegisPhaseOne';
 import { useDefineUserReseller } from '@userHooks/auth/useDefineUserReseller';
 import { TermsOfUse } from '../auth/TermsOfUse.tsx';
 import SelectField from '../auth/AuthSelectedField.tsx';
-import type { FC } from 'react';
+import type { FC, FormEvent, ReactNode } from 'react';
 
 export const SignupForm: FC<{
-  children: (isLoading: boolean) => React.ReactNode;
+  children: (isLoading: boolean) => ReactNode;
 }> = ({ children }) => {
   const navigate = useNavigate();
   const {
@@ -27,7 +27,7 @@ export const SignupForm: FC<{
   const { updateResellerArea, updateReseller, resellers, companyCountry, reseller } =
     useDefineUserReseller();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     signUpUser(companyCountry, reseller.name, reseller.id).then((isSuccess): any => {
       if (isSuccess) navigate('/auth/confirmation');

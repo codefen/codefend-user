@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { WebApplicationResources } from './components/WebApplicationResources.tsx';
 import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
-import { useOrderStore } from '@stores/orders.store';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
@@ -9,7 +8,6 @@ import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import '@table/table.scss';
 import './webapplication.scss';
-import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
@@ -18,7 +16,7 @@ import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
 import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
 import { ResourcesTypes } from '@interfaces/order.ts';
 
-const WebApplicationView: React.FC = () => {
+const WebApplicationView = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { webResources, isLoading, refetch } = useGetWebResources();
   const flashlight = useFlashlight();

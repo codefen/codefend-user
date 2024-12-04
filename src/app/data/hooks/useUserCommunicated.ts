@@ -6,7 +6,6 @@ import { AxiosHttpService } from '@services/axiosHTTP.service';
 import useSWR from 'swr';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { useQualitySurveyStart } from './quality-survey/useQualitySurveyStart';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
 import useModalStore from '@stores/modal.store';
 import { COMUNIQUE_KEYS, MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
@@ -88,16 +87,16 @@ export const useUserCommunicated = () => {
         setModalId(MODAL_KEY_OPEN.USER_WELCOME);
         setIsOpen(true);
       });
-      const finished = !open
-        ? handleOrderFinishedNotification(
-            notifications,
-            isOpen || anyModalIsOpen,
-            startPoll,
-            updateIsOpen,
-            updateOrderId,
-            updateReferenceNumber
-          )
-        : false;
+      if(!open){
+        handleOrderFinishedNotification(
+          notifications,
+          isOpen || anyModalIsOpen,
+          startPoll,
+          updateIsOpen,
+          updateOrderId,
+          updateReferenceNumber
+        );
+      }
     }
   }, [data, isLoading, isValidating]);
 };

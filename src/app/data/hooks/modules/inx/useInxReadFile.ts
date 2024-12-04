@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
-import { FetchHttpService } from '@services/fetchHTTP.service';
 import { useFetcher } from '#commonHooks/useFetcher';
 
 export const useInxReadFile = () => {
   const [fullDataLoading, setFullDataLoading] = useState<boolean>(false);
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const selectedResult = useRef<any>(null);
   const fileName = useRef<string>('');
   const fileType = useRef<string>('');

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, type FormEvent } from 'react';
 import { GlobeWebIcon } from '@icons';
 import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
 import { ModalInput } from '@defaults/ModalInput';
@@ -8,7 +8,7 @@ export const SourceResourceForm: FC<ComponentEventWithChildren> = ({ close, onDo
   const { isLoading, addSourceCode, repositoryName, repositoryUrl, sourceCode, visibility } =
     useAddSourceCode();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
 

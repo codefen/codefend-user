@@ -3,8 +3,6 @@ import { Doughnut } from 'react-chartjs-2';
 import {
   MetricsService,
   ChartValueType,
-  type SourceCode,
-  generateIDArray,
   isEmptyData,
   languageTypes,
   useDoughnutChart,

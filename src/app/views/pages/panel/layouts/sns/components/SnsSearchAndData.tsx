@@ -1,4 +1,4 @@
-import { type FC, useEffect, type ChangeEvent } from 'react';
+import { type FC, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import { SearchBar } from '../../../../../../views/components';
 import { ScanSearchIcon } from '@icons';
 import Masonry from 'react-masonry-css';
@@ -27,7 +27,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     if (searchClass && searchData) procSearch(undefined!);
   }, []);
 
-  const procSearch = (e?: React.FormEvent): any => {
+  const procSearch = (e?: FormEvent): any => {
     if (e) e.preventDefault();
     refetch();
     handleSearch();

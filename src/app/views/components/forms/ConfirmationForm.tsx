@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
-import { useState, type FC } from 'react';
+import { useState, type FC, type ReactNode } from 'react';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 import CheckEmail from '../auth/CheckEmail';
 import InputFieldWithLabel from '../auth/InputFieldWithLabel';
 
 const ConfirmationForm: FC<{
-  children: (isLoading: boolean) => React.ReactNode;
+  children: (isLoading: boolean) => ReactNode;
 }> = ({ children }) => {
   const navigate = useNavigate();
   const { updateReferenceNumber, refetch } = useRecomendedUsername();

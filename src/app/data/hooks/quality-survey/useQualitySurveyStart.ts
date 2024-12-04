@@ -1,7 +1,6 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
-import { QualitySurveyPhase } from '@interfaces/quality-feedback';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 
 export const useQualitySurveyStart = () => {

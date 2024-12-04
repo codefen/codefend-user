@@ -1,4 +1,4 @@
-import { type FC, useCallback, useState } from 'react';
+import { type ChangeEvent, type FC, useCallback, useState } from 'react';
 import { PrimaryButton } from '../../..';
 import {
   OrderSection,
@@ -20,7 +20,7 @@ What's the main concern about security?
 
 Is there any other additional information for our professionals?`;
 
-  const change = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const change = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setAditionalInfo(e.target.value);
   }, []);
   const continueToPayment = () => {

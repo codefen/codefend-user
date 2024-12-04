@@ -5,7 +5,7 @@ import { companyIdIsNull } from '@/app/constants/validations';
 
 export const useEnpGetVulns = () => {
   const { getCompany } = useUserData();
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const dataRef = useRef<any[]>([]);
   const selectedEndpointRef = useRef<any>();
   const [vulnFilter, setVulnFilter] = useState({

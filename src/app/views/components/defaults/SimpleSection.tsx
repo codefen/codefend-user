@@ -3,7 +3,7 @@ import { type FC, type ReactNode } from 'react';
 interface SimpleSectionProps {
   header: string;
   icon: ReactNode;
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 export const SimpleSection: FC<SimpleSectionProps> = ({ header, icon, children }) => {

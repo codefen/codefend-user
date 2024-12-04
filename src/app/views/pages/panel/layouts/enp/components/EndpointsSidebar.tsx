@@ -138,7 +138,7 @@ export const EndpointsSidebar: FC<Props> = ({ endpoints, isLoading }) => {
     setEndpointApps(filteredApps);
   };
 
-  const OSIcon: React.FC<IOSIconProps> = ({ osName }) => {
+  const OSIcon = ({ osName }: IOSIconProps) => {
     const lowerCaseOSName = osName.toLowerCase();
     if (lowerCaseOSName.includes('windows')) {
       return <WindowsIcon styles="enp-os-icon" />;

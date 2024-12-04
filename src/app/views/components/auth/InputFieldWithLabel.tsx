@@ -10,7 +10,7 @@ interface InputFieldWithLabelProps {
   required?: boolean;
 }
 
-const InputFieldWithLabel: React.FC<InputFieldWithLabelProps> = ({
+const InputFieldWithLabel = ({
   label,
   type = 'text',
   value,
@@ -18,7 +18,7 @@ const InputFieldWithLabel: React.FC<InputFieldWithLabelProps> = ({
   name,
   placeholder,
   required,
-}) => (
+}: InputFieldWithLabelProps) => (
   <div className="confirm-input">
     <label htmlFor={name}>{label}</label>
     <input

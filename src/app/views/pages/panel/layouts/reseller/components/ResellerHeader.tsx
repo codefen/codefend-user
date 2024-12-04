@@ -1,5 +1,4 @@
 import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
-import useAdminCompanyStore from '@stores/adminCompany.store';
 import { useResellerDashboardHeader } from '@userHooks/resellers/useResellerDashboardHeader';
 import { formatNumber } from '@utils/helper';
 import { useEffect, type FC } from 'react';
@@ -14,15 +13,15 @@ export interface ResellerHeaderProps {
 }
 
 export const ResellerHeader: FC<ResellerHeaderProps> = ({
-  distributionPercentage = '35%',
-  totalSales = 1287,
-  totalInvoiced = 1650500,
+  //distributionPercentage = '35%',
+  //totalSales = 1287,
+  //totalInvoiced = 1650500,
   currency = 'usdc',
-  currentBalance = 54000,
-  totalProfits = 577675,
+  //currentBalance = 54000,
+  //totalProfits = 577675,
 }) => {
-  const { companySelected } = useAdminCompanyStore(state => state);
-  const [reseller_header, company, { getResellerHeader, isLoading }] = useResellerDashboardHeader();
+  //const __A = useAdminCompanyStore(state => state);
+  const [reseller_header, company, { getResellerHeader }] = useResellerDashboardHeader();
 
   useEffect(() => {
     if (!reseller_header.id || !company.id) {

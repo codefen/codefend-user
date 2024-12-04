@@ -42,7 +42,7 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
     [ButtonStyles.DEFAULT]: '',
   };
 
-  const handleClick = (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleClick = (e: FormEvent<HTMLButtonElement>) => {
     if (!isDisabled) click?.(e);
   };
 

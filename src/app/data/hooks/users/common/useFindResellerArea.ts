@@ -2,7 +2,7 @@ import { useFetcher } from '#commonHooks/useFetcher';
 import { useState } from 'react';
 
 export const useFindResellerArea = () => {
-  const [fetcher, _, isLoading] = useFetcher(true);
+  const [fetcher] = useFetcher(true);
   const [resellers, setResellers] = useState<{ id: string; name: string }[]>([]);
 
   const findResellers = (alpha2: string) => {

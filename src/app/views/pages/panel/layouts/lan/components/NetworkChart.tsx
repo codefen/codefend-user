@@ -20,7 +20,7 @@ interface LanNetworksChartProps {
   internalNetwork: Device[];
 }
 
-export const LanNetworksChart: React.FC<LanNetworksChartProps> = props => {
+export const LanNetworksChart = (props: LanNetworksChartProps) => {
   const { chartOptions, chartData, otherMetrics, total } = useDoughnutChart({
     data: props.internalNetwork,
     type: ChartValueType.NETWORK_OS,

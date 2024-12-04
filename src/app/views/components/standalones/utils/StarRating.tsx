@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { HalfStarIcon, StarIcon } from '../..';
+import { StarIcon } from '../..';
 import './util.scss';
 
 interface StartRatingProps {
@@ -17,8 +17,8 @@ const calculateStars = (rating: number) => {
 export const StarRating: FC<StartRatingProps> = ({ rating = 0 }) => {
   const { fullStars, hasPartialStar, partialStarPercentage } = calculateStars(rating);
   const stars = [];
-  const ratingRounded = Math.floor(rating);
-  const ratingDecimal = rating - ratingRounded;
+  //const ratingRounded = Math.floor(rating);
+  //const ratingDecimal = rating - ratingRounded;
 
   for (let i = 0; i < fullStars; i++) {
     stars.push(<StarIcon key={`star_${i}`} />);

@@ -1,4 +1,4 @@
-import { useRef, type FC } from 'react';
+import { type FC } from 'react';
 import { ScopeOption, type OrderOffensive, type OrderTeamSize } from '../../../../../../data';
 import { BugIcon } from '@icons';
 import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';

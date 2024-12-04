@@ -1,20 +1,19 @@
-import { type FC, useCallback, useState } from 'react';
+import { type FC, type FormEvent, type MouseEvent, useCallback, useState } from 'react';
 import { PrimaryButton } from '..';
 
 interface ConfirmModalProps {
   close: () => void;
-  action: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  action: (e?: MouseEvent<HTMLDivElement, MouseEvent>) => void;
   header: string;
   confirmText: string;
   cancelText: string;
 }
 
-// million-ignore
 const ConfirmModal: FC<ConfirmModalProps> = props => {
   const [isConfirm, setConfirm] = useState<boolean>(false);
 
   const handleSubmit = useCallback(
-    (e: React.MouseEvent | React.FormEvent<HTMLButtonElement>) => {
+    (e: MouseEvent | FormEvent<HTMLButtonElement>) => {
       e.preventDefault();
       setConfirm(true);
       props.action();

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { ModalWrapper } from '..';
 import { ScopeOrderModal } from './layouts/ScopeOrderModal';
 import { FrequencyOrderModal } from './layouts/FrequencyOrderModal';
-import { TeamSizeOrderModal } from './layouts/TeamSizeOrderModal';
 import { PageLoader } from '../..';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
@@ -11,10 +10,8 @@ import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
 import { ActiveProgressiveSteps } from '../../standalones/progressive-steps/ActiveProgressiveSteps';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 import { OrderSection, useOrderStore, useOrders } from '../../../../data';
-import { AnyPaymentMetod } from './layouts/AnyPaymentMetod';
 import './order.scss';
 import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';
-import { PaymentErrorOrderModal } from './layouts/PaymentErrorOrderModal';
 
 export const OrderV2 = () => {
   const [isNextStep, updateNextStep] = useState(false);

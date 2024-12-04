@@ -5,7 +5,7 @@ import { companyIdIsNull } from '@/app/constants/validations';
 
 export const useTicketDelete = () => {
   const { getCompany } = useUserData();
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const fetchDelete = useCallback(async (ticketID: string, companyID: string) => {
     return fetcher('post', {
       body: {

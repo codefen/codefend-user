@@ -1,6 +1,6 @@
 import { AuthInput } from '@defaults/AuthInput';
 import { useSignupInvitation } from '@userHooks/auth/useSignupInvitation';
-import { useEffect, type FC } from 'react';
+import { useEffect, type FC, type FormEvent, type ReactNode } from 'react';
 import { useParams } from 'react-router';
 import SelectField from '../auth/AuthSelectedField.tsx';
 
@@ -24,11 +24,11 @@ const idiomOptions = [
 ];
 
 const InvitationSignupForm: FC<{
-  children: (isLoading: boolean) => React.ReactNode;
+  children: (isLoading: boolean) => ReactNode;
 }> = ({ children }) => {
   const { ref } = useParams();
   const { setForm, sendSignUp, isLoading } = useSignupInvitation();
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     sendSignUp();
   };

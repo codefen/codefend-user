@@ -10,7 +10,7 @@ import {
 import { useEnpGetVulns } from '@moduleHooks/enp/useEnpGetVulns';
 
 export const EndpointInfo: FC = () => {
-  const { endpointAppStore, setEndpointAppStore } = useEndpointAppStore();
+  const { endpointAppStore } = useEndpointAppStore();
   const {
     vuln,
     selectedEndpoint,

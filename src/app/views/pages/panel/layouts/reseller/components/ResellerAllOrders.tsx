@@ -1,16 +1,10 @@
 import { SimpleSection } from '@defaults/SimpleSection';
 import { CheckCircleIcon, GlobeWebIcon, XCircleIcon } from '@icons';
-import {
-  resellerCompanyColumns,
-  resellerOrdersColumn,
-  resellerUserActiveColumns,
-} from '@mocks/defaultData';
+import { resellerOrdersColumn } from '@mocks/defaultData';
 import { LocationItem } from '@standalones/index';
 import { TableV2 } from '@table/tablev2';
 import type { FC } from 'react';
-import type { Company } from '@interfaces/company';
 import type { FullOrder } from '@interfaces/order';
-import { formatDate } from '@utils/helper';
 
 interface ResellerAllOrdersProps {
   orders: FullOrder[];

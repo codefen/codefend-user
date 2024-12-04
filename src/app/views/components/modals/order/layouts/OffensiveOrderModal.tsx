@@ -1,17 +1,14 @@
 import { type FC, useState } from 'react';
-import { PrimaryButton, Show } from '../../..';
+import { PrimaryButton } from '../../..';
 import {
   useOrderStore,
   OrderSection,
   OrderOffensive,
   useOrderOffensive,
-  OrderTeamSize,
 } from '../../../../../data';
 
 export const OffensiveOrderModal: FC = () => {
-  const { offensiveOrder, updateState, referenceNumber, orderId, teamSize } = useOrderStore(
-    state => state
-  );
+  const { offensiveOrder, updateState, referenceNumber, orderId } = useOrderStore(state => state);
 
   const [offensiveOrderW, setOffensiveOrder] = useState<OrderOffensive>(offensiveOrder);
   const { sendOrderProvider } = useOrderOffensive();

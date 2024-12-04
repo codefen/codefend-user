@@ -1,10 +1,10 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 export interface ReportSectionTemplateProps {
-  title: string | JSX.Element;
-  text: string | JSX.Element;
-  icon: JSX.Element;
-  mainContent: JSX.Element;
+  title: string | ReactNode;
+  text: string | ReactNode;
+  icon: ReactNode | string;
+  mainContent: ReactNode | string;
   isTitle?: boolean;
   isTextBreak?: boolean;
   isIntro?: boolean;

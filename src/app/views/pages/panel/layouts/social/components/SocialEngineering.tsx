@@ -36,7 +36,7 @@ interface SocialProps {
 const SocialEngineering: FC<SocialProps> = props => {
   const navigate = useNavigate();
   const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
-  const [handleDeleteResource, { setSelectedId, isLoading }] = useAddSocial(() => {
+  const [handleDeleteResource, { setSelectedId, isLoading: __ }] = useAddSocial(() => {
     setShowModal(false);
     props.refetch();
   });

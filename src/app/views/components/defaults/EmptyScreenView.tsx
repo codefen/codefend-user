@@ -1,4 +1,4 @@
-import { PureComponent, type FC, type ReactNode } from 'react';
+import { PureComponent, type ReactNode } from 'react';
 import { PrimaryButton, Show } from '..';
 import { NetworkDadForm } from '@/app/views/components/forms/NetworkDadForm';
 import MobileResourceForm from '@/app/views/components/forms/MobileResourceForm';

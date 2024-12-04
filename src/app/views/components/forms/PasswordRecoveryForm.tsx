@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router';
-import { useEffect, useState, type FC } from 'react';
+import { useEffect, useState, type FC, type ReactNode } from 'react';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
@@ -9,7 +9,7 @@ import CheckEmail from '../auth/CheckEmail';
 import InputFieldWithLabel from '../auth/InputFieldWithLabel';
 
 const PasswordRecoveryForm: FC<{
-  children: (isLoading: boolean) => React.ReactNode;
+  children: (isLoading: boolean) => ReactNode;
   activePhase: 'email' | 'code';
   setPhase: (updated: 'email' | 'code') => void;
 }> = ({ children, activePhase, setPhase }) => {

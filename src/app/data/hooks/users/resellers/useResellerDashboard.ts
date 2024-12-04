@@ -6,7 +6,7 @@ import { companyIdIsNull } from '@/app/constants/validations';
 export const useResellerDashboard = () => {
   const [fetcher, _, isLoading] = useFetcher();
   const { getCompany } = useUserData();
-  const [reseller, setResellerProfile] = useState();
+  const [reseller, __] = useState();
 
   const getResellerProfile = () => {
     const companyID = getCompany();

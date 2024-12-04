@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import {
   CryptoPayment,
   OrderSection,

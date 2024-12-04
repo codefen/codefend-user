@@ -1,13 +1,7 @@
 import { type FC, type ChangeEvent, useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams, type NavigateFunction } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { type SaveIssue, useSaveIssue } from '../../../../../../data';
-import {
-  LeftArrowIcon,
-  PageLoader,
-  PageLoaderOverlay,
-  SaveIcon,
-  Show,
-} from '../../../../../components';
+import { LeftArrowIcon, PageLoaderOverlay, SaveIcon, Show } from '../../../../../components';
 import AppEditor from './AppEditor';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe';
 import useTimeout from '#commonHooks/useTimeout';

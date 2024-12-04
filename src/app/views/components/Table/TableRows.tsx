@@ -1,8 +1,6 @@
-import { useMemo, type ReactNode, Fragment, type FC } from 'react';
-import { flattenRowsData, formatDate, quickSort } from '@utils/helper.ts';
-import Show from '@defaults/Show.tsx';
+import { useMemo, type FC, type ReactNode } from 'react';
+import { flattenRowsData, quickSort } from '@utils/helper.ts';
 import { Sort, type ColumnTable, type TableAction, type TableItem } from '@interfaces/table.ts';
-import ActionColumn from './TableActionColumn';
 import Row from './Row';
 
 interface TableRowsProps {
@@ -50,7 +48,7 @@ const TableRows: FC<TableRowsProps> = ({
     handleSelected(e, key, rowId, issueCount);
 
   const getRows = (r: Record<string, TableItem>[]) => {
-    let rows: JSX.Element[] = [];
+    let rows: ReactNode[] = [];
     const rowCount = r.length;
     for (let i = 0; i < rowCount; i++) {
       rows[i] = (

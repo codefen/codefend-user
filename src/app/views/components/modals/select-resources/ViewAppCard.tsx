@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FC } from 'react';
+import { useEffect, useRef, useState, type FC, type FormEvent } from 'react';
 import { useGetResources } from '@resourcesHooks/useGetResources';
 import { AppCard } from '../..';
 import type { ScopeAlias } from '@interfaces/util';
@@ -52,7 +52,7 @@ export const ViewAppCard: FC<ViewAppCardProps> = ({
               <div
                 key={`${resource.id}-${i}`}
                 className={`app-info ${activeFilter && Number(resource?.final_issues) <= 0 ? 'app-card-disabled' : ''}`}
-                onClick={(e: React.FormEvent) => {
+                onClick={(e: FormEvent) => {
                   e.preventDefault();
                   getReport(resource.id, type, resource?.final_issues);
                 }}>

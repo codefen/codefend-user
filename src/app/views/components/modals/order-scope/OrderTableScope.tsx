@@ -28,7 +28,7 @@ const getLinkByScopeAlias = (resource: any, scopeAlias: ScopeAlias) => {
 
 export const OrderScopeTable: FC<OrderCloudScopeProps> = ({ title, scopeALias, resourceScope }) => {
   const getDataScopeResourceTable = useGetScopeTables();
-  const [copyToClipboard, {}] = useCopyToClipboard();
+  const [copyToClipboard] = useCopyToClipboard();
   const dataTable = getDataScopeResourceTable(scopeALias, resourceScope);
 
   const copyElement = (id: any) => {

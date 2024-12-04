@@ -4,8 +4,7 @@ import { QualitySurveyPhase } from '@interfaces/quality-feedback';
 import { useQualityMessage } from '@hooks/quality-survey/useQualityMessage';
 
 export const QualityFeedbackMessage = () => {
-  const { isOpen, provider, updatePhase, updateIsOpen, message, updateMessage } =
-    useQualitySurveyStore();
+  const { isOpen, provider, updatePhase, message, updateMessage } = useQualitySurveyStore();
   const sendMessage = useQualityMessage();
 
   const placeHolderText = `Please kindly provide a brief description of your experience with ${provider.name}. This information is very important for the professional reputation and will be visible to others customers.`;

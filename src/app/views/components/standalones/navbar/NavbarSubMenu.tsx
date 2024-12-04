@@ -21,9 +21,7 @@ interface NavbarSubMenuProps {
 
 export const NavbarSubMenu: FC<NavbarSubMenuProps> = props => {
   const navigate = useNavigate();
-  const { isOpen, setNetworkSettingState } = useNetworkSettingState(
-    (state: NetworkSettingState) => state
-  );
+  const __netoworkState = useNetworkSettingState((state: NetworkSettingState) => state);
   const { logout } = useUserData();
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
 
@@ -61,7 +59,7 @@ export const NavbarSubMenu: FC<NavbarSubMenuProps> = props => {
         <div className="options">
           <div
             className="option"
-            onClick={(e: React.FormEvent) => {
+            onClick={() => {
               props.closeMenu();
               setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
               setShowModal(true);

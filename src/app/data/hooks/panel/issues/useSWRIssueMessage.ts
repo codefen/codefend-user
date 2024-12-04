@@ -1,6 +1,5 @@
 import useSWR from 'swr';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
-import { EMPTY_ISSUE_TICKET } from '@/app/constants/empty';
 
 const fetcher = (id: string) =>
   AxiosHttpService.getInstance()

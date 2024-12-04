@@ -1,13 +1,8 @@
-import { useEffect, useState, type FC } from 'react';
-import { ChartIcon, DocumentIcon, DocumentTextIcon, ImportantIcon, PreferenceIcon } from '@icons';
-import Show from '@defaults/Show.tsx';
-import EmptyCard from '@defaults/EmptyCard.tsx';
+import { type FC } from 'react';
+import { ChartIcon, DocumentTextIcon, ImportantIcon } from '@icons';
 import { SimpleSection } from '@defaults/SimpleSection';
 import type { CompanyOrders } from '@interfaces/preferences';
-import { UserOrderCard } from './UserOrderCard';
-import { useUserData } from '#commonUserHooks/useUserData';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
-import { PageLoader } from '@defaults/index';
 import { TableV2 } from '@table/tablev2';
 import { defaultOrderColumns } from '@mocks/defaultData';
 import type { TableItem } from '@interfaces/table';

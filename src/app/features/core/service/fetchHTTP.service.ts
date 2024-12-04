@@ -1,6 +1,6 @@
 import { HttpService } from './abstractHttp.service.ts';
 import { handleFetchError, handleResponse } from '../../../data/utils/api.utils.ts';
-import type { HttpRequestOptions, HttpServiceInterface } from './http.service';
+import type { HttpRequestOptions } from './http.service';
 
 /**
  * Implementacion de HttpService utilizando Vanilla Fetch, para realizar las solicitudes HTTP

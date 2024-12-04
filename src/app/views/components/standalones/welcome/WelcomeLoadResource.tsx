@@ -12,7 +12,6 @@ import {
 import ResourceFigures from './ResourceFigures';
 import '@styles/welcome-guides.scss';
 import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
-import { useSolvedComunique } from '@hooks/useSolvedComunique';
 import './welcome.scss';
 
 interface WelcomeLoadResourceProps {

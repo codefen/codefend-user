@@ -2,7 +2,6 @@ import { type FC } from 'react';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import Show from '@defaults/Show.tsx';
 import { SimpleSection } from '@defaults/SimpleSection.tsx';
-import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { PreviousMessageIcon } from '@icons';
 
 interface SnPreviousSearchesProps {

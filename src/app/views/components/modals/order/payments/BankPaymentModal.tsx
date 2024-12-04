@@ -5,7 +5,7 @@ export const BankPaymentModal = () => {
   const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(state => state);
   const [transactionID, { setTransactionID, saveBankPayment }] = useOrderSaveBank();
 
-  const BankInfo: React.FC<any> = props => {
+  const BankInfo = (props: any) => {
     return (
       <p>
         <span className="codefend-text-red underline-high space">{props.keyV}</span> {props.value}

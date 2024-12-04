@@ -1,9 +1,6 @@
-import { useState, type FC, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useState, useEffect } from 'react';
 import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard.tsx';
-import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 import { useProviderOrders } from '@userHooks/providers/useProviderOrders.ts';
-import { useUserData } from '#commonUserHooks/useUserData.ts';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { ProviderOrderRefuseModal } from '../../components/refuse-modal/ProviderOrderRefuseModal.tsx';
@@ -11,7 +8,6 @@ import { useProviderRefuseStore } from '@stores/providerOrder.store.ts';
 import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';
 
 export const NewOrderProvider = () => {
-  const { getUserdata } = useUserData();
   const [orders, { setOrders, getProviderOrders }] = useProviderOrders();
   const { refuseState, setRefuseState, orderId } = useProviderRefuseStore();
   const [active, setActiveCard] = useState<string>('');

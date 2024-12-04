@@ -7,7 +7,7 @@ import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import './inx.scss';
 
 export const InxPanel: FC = () => {
-  const [showScreen, control, refresh] = useShowScreen();
+  const [showScreen, control, _refresh] = useShowScreen();
   const { previousSearches, isLoading, refetch } = usePreviousSearch('inx');
   const flashlight = useFlashlight();
 

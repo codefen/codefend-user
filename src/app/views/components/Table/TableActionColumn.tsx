@@ -1,5 +1,5 @@
 import type { TableAction, TableItem } from '@interfaces/table';
-import type { FC } from 'react';
+import type { FC, FormEvent } from 'react';
 
 interface ActionColumnProps {
   row: Record<string, TableItem>;
@@ -13,7 +13,7 @@ const ActionColumn: FC<ActionColumnProps> = ({ row, actions }) => (
         <span
           key={iconIndex}
           className={i?.style}
-          onClick={(e: React.FormEvent) => {
+          onClick={(e: FormEvent) => {
             e.preventDefault();
             e.stopPropagation();
             i.action(row['ID'].value as string);

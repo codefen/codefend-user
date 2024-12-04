@@ -13,11 +13,11 @@ interface Endpoint {
   id: string;
 }
 
-export const EnpPanel: FC = props => {
+export const EnpPanel: FC = () => {
   const [showScreen, setShowScreen] = useState<boolean>(false);
   const { id: scanID } = useParams();
   const { getEndpoints, refetch, isLoading } = useEnp(Number(scanID));
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const [refresh, _setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     refetch();

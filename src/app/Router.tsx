@@ -50,7 +50,7 @@ const GuardRoute: FC<{ access: boolean; element: ReactNode }> = ({ access, eleme
   return access ? element : <Navigate to="/" replace />;
 };
 
-export const AppRouter: React.FC = () => {
+export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser, getAccessToken, isCurrentAuthValid } =
     useUserRole();
   const { companies } = useAdminCompanyStore();

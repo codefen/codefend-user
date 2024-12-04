@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, type MouseEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { type Ticket, supportTicket, useModal } from '../../../../../../data';
 import { ConfirmModal, ModalTitleWrapper, AddTicketModal } from '../../../../../components';
@@ -20,7 +20,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = props => {
   const [selectedID, setSelectedTicketIdToDelete] = useState<string>('');
   const { deletTicket } = useTicketDelete();
 
-  const handleDelete = (e: React.MouseEvent<HTMLDivElement, MouseEvent> | undefined) => {
+  const handleDelete = (e: MouseEvent<HTMLDivElement, MouseEvent> | undefined) => {
     if (e) e.preventDefault();
 
     deletTicket(selectedID)?.then(() => {

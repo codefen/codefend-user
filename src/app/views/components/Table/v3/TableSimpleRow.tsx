@@ -1,4 +1,4 @@
-import { useMemo, type FC } from 'react';
+import { type FC } from 'react';
 import TableCellV3 from './TableCellV3';
 
 interface LabelRowProps {

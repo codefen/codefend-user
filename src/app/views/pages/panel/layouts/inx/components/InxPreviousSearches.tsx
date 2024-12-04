@@ -1,11 +1,5 @@
 import { type FC } from 'react';
-import {
-  PageLoader,
-  PreviousMessageIcon,
-  PrimaryButton,
-  Show,
-  SimpleSection,
-} from '../../../../../components';
+import { PageLoader, PreviousMessageIcon, SimpleSection } from '../../../../../components';
 import { type PreviousSearch, generateIDArray } from '../../../../../../data';
 
 interface InxPreviousSearchesProps {

@@ -1,5 +1,5 @@
 import { GlobeWebIcon } from '@icons';
-import { forwardRef, type FC, type ForwardedRef, type PropsWithRef, type ReactNode } from 'react';
+import { forwardRef, type ForwardedRef, type ReactNode } from 'react';
 
 type HTMLInputTypeAttribute =
   | 'checkbox'

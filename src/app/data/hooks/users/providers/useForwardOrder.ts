@@ -1,7 +1,6 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
-import { useRef } from 'react';
 
 export const useForwardOrder = () => {
   const { getCompany } = useUserData();

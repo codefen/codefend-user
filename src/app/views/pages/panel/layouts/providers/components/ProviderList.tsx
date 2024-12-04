@@ -3,7 +3,7 @@ import { ProviderCard } from './provider-card/ProviderCard.tsx';
 import { useProviderIndex } from '@userHooks/providers/useProviderIndex.ts';
 
 export const ProviderList = () => {
-  const [getProviders, { providers, isLoading }] = useProviderIndex();
+  const [getProviders, { providers }] = useProviderIndex();
   const [active, setActiveCard] = useState<string>('');
   const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
   useEffect(() => {

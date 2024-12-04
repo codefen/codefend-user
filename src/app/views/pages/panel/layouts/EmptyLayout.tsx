@@ -1,11 +1,11 @@
 import Show from '@defaults/Show';
 import { EmptyScreenView, PageLoader } from '@defaults/index';
 import type { EmptyFallbackData } from '@interfaces/util';
-import { PureComponent } from 'react';
+import { PureComponent, type ReactNode } from 'react';
 
 interface EmptyLayoutProps {
   className: string;
-  children: React.ReactNode;
+  children: ReactNode;
   isLoading: boolean;
   showScreen: boolean;
   dataAvalaible: boolean;

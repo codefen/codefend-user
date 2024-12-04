@@ -7,7 +7,7 @@ import { APP_MESSAGE_TOAST, ISSUE_PANEL_TEXT } from '@/app/constants/app-toast-t
 /* Custom Hook "useDeleteIssue" to handle the "deletion" of an issue */
 export const useDeleteIssue = () => {
   const { getCompany } = useUserData();
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
 
   //Fetch func
   const fetchDelete = (issueId: string, companyID: string) => {

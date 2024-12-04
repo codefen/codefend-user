@@ -6,10 +6,8 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ProvidedTestingCredentials } from '@standalones/credential-card/ProvidedTestingCredentials';
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
-import { useOrderStore } from '@stores/orders.store.ts';
 
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import { useUserRole } from '#commonUserHooks/useUserRole';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
@@ -17,10 +15,10 @@ import OpenOrderButton from '@standalones/OpenOrderButton';
 import { ResourcesTypes } from '@interfaces/order';
 
 export const CloudSelectedDetails = ({ listSize }: { listSize: number }) => {
-  const { isAdmin, isNormalUser } = useUserRole();
+  //const _userRoles = useUserRole();
   const { appSelected } = useSelectedApp();
   const { data, isLoading, refetch } = useGetOneCloud();
-  const { updateState } = useOrderStore(state => state);
+  //const _orderSavedData = useOrderStore(state => state);
 
   const onRefetch = () => refetch(appSelected?.id);
   useEffect(() => {

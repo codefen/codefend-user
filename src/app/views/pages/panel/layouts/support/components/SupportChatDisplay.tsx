@@ -1,5 +1,5 @@
-import { type FC, useContext, useEffect, useRef } from 'react';
-import { ChatBoxType, type Ticket } from '../../../../../../data';
+import { type FC, useContext } from 'react';
+import { ChatBoxType } from '../../../../../../data';
 import { ChatBox, PageLoader, SimpleSection } from '../../../../../components';
 import SelectedTicket from '../supportProvider';
 import Show from '@defaults/Show.tsx';

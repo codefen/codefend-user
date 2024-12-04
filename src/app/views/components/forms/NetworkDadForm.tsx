@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, type FormEvent } from 'react';
 
 import { useAddLan } from '@resourcesHooks/netowrk/useAddLan.ts';
 import { ModalTextArea } from '@defaults/ModalTextArea';
@@ -11,7 +11,7 @@ export const NetworkDadForm: FC<ComponentEventWithChildren> = ({ onDone, close, 
     close ? close : () => {}
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
 

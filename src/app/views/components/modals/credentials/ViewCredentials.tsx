@@ -1,8 +1,8 @@
 import type { ResourceCredential } from '@interfaces/creds';
 import { useViewCredentials } from '@resourcesHooks/useViewCredentials';
 import { TestingCredentialCard } from '@standalones/credential-card/TestingCredentialCard';
-import { useEffect, useState, type FC } from 'react';
-import { EmptyCard, ModalWrapper, PrimaryButton, Show } from '../..';
+import { useEffect, type FC } from 'react';
+import { EmptyCard, PrimaryButton, Show } from '../..';
 import './viewcredential.scss';
 import { ViewMoreInfoModal } from './ViewMoreInfoModal';
 import useCredentialStore from '@stores/credential.store';
@@ -14,7 +14,7 @@ interface AddCredentialsProps {
 }
 
 export const ViewCredentials: FC<AddCredentialsProps> = ({ type, resourceId, close }) => {
-  const [credentials, { getCredentials, isLoading }] = useViewCredentials();
+  const [credentials, { getCredentials }] = useViewCredentials();
   const { viewMore, setViewMore } = useCredentialStore();
   useEffect(() => {
     getCredentials(type, resourceId);

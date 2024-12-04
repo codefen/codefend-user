@@ -50,7 +50,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
   const tableItems = useRef<{ rect: DOMRect; id: string }[]>([]);
 
   const onPointerDown = useCallback(
-    withBatchedUpdates((e: React.PointerEvent<HTMLDivElement>) => {
+    withBatchedUpdates((e: PointerEvent<HTMLDivElement>) => {
       // isPrimary es true solo para el primer click detectado
       if (!isNeedMultipleCheck || !e.isPrimary) return;
 

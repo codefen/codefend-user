@@ -1,6 +1,6 @@
 import Show from '@defaults/Show';
 import { BugIcon } from '@icons';
-import { ScopeOption, type OrderOffensive, type OrderTeamSize } from '@interfaces/order.ts';
+import { type OrderOffensive, type OrderTeamSize } from '@interfaces/order.ts';
 import { IconTextPairs } from '@standalones/index';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 

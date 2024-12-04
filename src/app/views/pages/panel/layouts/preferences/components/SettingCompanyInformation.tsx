@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type CompanyInfo, usePreferences, formatDate } from '../../../../../../data';
+import { type CompanyInfo, formatDate } from '../../../../../../data';
 
 interface CompanyDataProps {
   companyInfo: CompanyInfo;

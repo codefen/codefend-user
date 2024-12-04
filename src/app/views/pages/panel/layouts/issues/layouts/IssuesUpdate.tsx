@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useOneIssue } from '@panelHooks/issues/useOneIssue.ts';
 import { IssueChatDisplay } from '../components/IssueChatDisplay.tsx';
@@ -9,7 +9,7 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 
 const IssueUpdate: FC = () => {
   const { getIssue, isLoading, refetchOne } = useOneIssue();
-  const [showScreen, control, refresh] = useShowScreen();
+  const [showScreen, control, _refresh] = useShowScreen();
   const { id } = useParams();
 
   useEffect(() => {

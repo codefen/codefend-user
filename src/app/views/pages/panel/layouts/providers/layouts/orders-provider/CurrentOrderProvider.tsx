@@ -3,13 +3,11 @@ import Show from '@defaults/Show';
 import { useCurrentOrders } from '@userHooks/providers/useCurrentOrders';
 import { useEffect, useState } from 'react';
 import { CurrentOrderCard } from '../../components/current-order-card/CurrentOrderCard';
-import { useUserData } from '#commonUserHooks/useUserData';
 import { ProviderScope } from '@modals/order-scope/OrderScope';
-import ConfirmModal from '@modals/ConfirmModal';
 
 export const CurrentOrderProvider = () => {
   const [currentOrders, { setCurrentOrders, getConfirmOrders }] = useCurrentOrders();
-  const { getUserdata } = useUserData();
+  //const { getUserdata } = useUserData();
   const [active, setActiveCard] = useState<string>('');
   const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
   const removeOrder = (id: string) => {

@@ -5,18 +5,15 @@ import {
   AdminCompanyIcon,
   CLoudIcon,
   ChartIcon,
-  EnpIcon,
   GlobeWebIcon,
   InxIcon,
   MobileIcon,
   PeopleGroupIcon,
   SnbIcon,
-  VdbIcon,
   SourceCodeIcon,
   ProfileIcon,
   PreferenceIcon,
   MessageIcon,
-  ProviderOrdersIcon,
   LanIcon,
   WorksIcon,
   LeadIcon,
@@ -264,7 +261,7 @@ const Sidebar: FC = () => {
     },
   ];
   const getItems = useCallback((menu: any[]) => {
-    const items: JSX.Element[] = [];
+    const items: ReactNode[] = [];
     const count = menu.length;
     for (let i = 0; i < count; i++) {
       const { id, haveAccess, title, icon, to, root } = menu[i];

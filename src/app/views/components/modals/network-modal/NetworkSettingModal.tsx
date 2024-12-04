@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, type FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import { EditIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
@@ -35,7 +35,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
     logout();
     window.location.reload();
   };
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setCanEdit(false);

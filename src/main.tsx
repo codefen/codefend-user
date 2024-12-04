@@ -12,7 +12,7 @@ import { App } from './app/App';
 import { RUNNING_DESKTOP } from './app/data';
 
 // Tauri
-const startInstall = () => {
+const _startInstall = () => {
   installUpdate().then(relaunch);
 };
 

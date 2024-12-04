@@ -3,7 +3,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { COMUNIQUE_KEYS } from '@/app/constants/app-texts';
 
 export const useSolvedComunique = () => {
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const solvedComunique = () => {
     const id = localStorage.getItem(COMUNIQUE_KEYS.ID) || '';

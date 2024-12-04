@@ -1,8 +1,8 @@
-import { forwardRef } from 'react';
+import { forwardRef, type ChangeEvent } from 'react';
 
 interface SelectFieldProps {
   options: any[];
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
   value?: string;
   defaultValue?: string;
   disabled?: boolean;

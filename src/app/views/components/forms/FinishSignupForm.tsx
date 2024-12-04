@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
 import { AuthInput } from '@defaults/AuthInput';
-import { useEffect, useState, type FC } from 'react';
+import { useEffect, useState, type FC, type FormEvent, type ReactNode } from 'react';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
@@ -10,7 +10,7 @@ import type { RegisterFinishParams } from '@interfaces/auth';
 import { PasswordRequirements } from '../auth/PasswordRequirements';
 
 const FinishSignupForm: FC<{
-  children: (isLoading: boolean) => React.ReactNode;
+  children: (isLoading: boolean) => ReactNode;
 }> = ({ children }) => {
   const { signUpFinish, isLoading } = useRegisterPhaseTwo();
   const { ref } = useParams();
@@ -39,7 +39,7 @@ const FinishSignupForm: FC<{
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!passwordValidation(userState.password)) {
       toast.error(AUTH_TEXT.INVALID_PASSWORD);

@@ -5,7 +5,7 @@ import { mapIntelData } from '@utils/mapper';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 
 export const useIntelSearch = () => {
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher] = useFetcher();
   const intelData = useRef<any[]>([]);
   const setIntelData = (updatedIntelData: any) => {
     intelData.current = updatedIntelData;

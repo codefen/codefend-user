@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect, useRef } from 'react';
+import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { type Issues, Sort } from '../../../../../../data';
 import { issueColumns, issuesColumnsWithoutAction } from '@mocks/defaultData.ts';

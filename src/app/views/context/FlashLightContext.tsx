@@ -1,9 +1,15 @@
 import { useFlashLightManager } from '@hooks/useFlashLightManager';
-import React, { type PropsWithChildren, createContext, useContext, useEffect } from 'react';
+import {
+  type PropsWithChildren,
+  type RefObject,
+  createContext,
+  useContext,
+  useEffect,
+} from 'react';
 
 export type FlashLight = {
   isActive: boolean;
-  rightPaneRef: React.RefObject<HTMLDivElement> | null;
+  rightPaneRef: RefObject<HTMLDivElement> | null;
 };
 
 const FlashLightContext = createContext({} as FlashLight);

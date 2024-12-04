@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from 'react-router';
 import { AuthInput } from '@defaults/AuthInput';
-import { useRef, type FC, type FormEvent } from 'react';
+import { useRef, type FC, type FormEvent, type ReactNode } from 'react';
 import { useLoginAction } from '@userHooks/auth/useLoginAction.ts';
 
 const SigninForm: FC<{
-  children: (isLoading: boolean) => React.ReactNode;
+  children: (isLoading: boolean) => ReactNode;
 }> = ({ children }) => {
   const { signInUser, isLoading } = useLoginAction();
   const navigate = useNavigate();

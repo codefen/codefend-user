@@ -7,7 +7,7 @@ const useLoadIframe = (keyDownExc: () => any, extraExc?: () => void) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { theme } = useTheme();
   const attemptsRef = useRef(0);
-  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const contentWindowRef = useRef<WindowProxy | null>(null);
 
   const handleKeyDown = (event: any) => {

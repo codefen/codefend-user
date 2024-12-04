@@ -1,8 +1,8 @@
 import { PencilIcon } from '@icons';
-import { forwardRef, type FC, type ForwardedRef } from 'react';
+import { forwardRef, type ForwardedRef, type ReactNode } from 'react';
 
 interface ModalTextAreaProps {
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   placeholder?: string;
   defaultValue?: string;
   required?: boolean;

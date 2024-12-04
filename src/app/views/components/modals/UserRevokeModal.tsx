@@ -1,7 +1,5 @@
-import { type FC, useCallback } from 'react';
-import { useRemoveAppStore, type RemoveAppStore } from '@stores/mobileCloudRemove.store';
+import { type FC } from 'react';
 import { ConfirmModal, ModalTitleWrapper } from '.';
-import { useUserData } from '#commonUserHooks/useUserData';
 import { useUserRevoke } from '#commonUserHooks/useUserRevoke';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';

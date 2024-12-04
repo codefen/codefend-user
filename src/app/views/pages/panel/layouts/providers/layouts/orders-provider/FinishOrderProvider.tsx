@@ -3,12 +3,11 @@ import Show from '@defaults/Show.tsx';
 import { useProviderOrderFinished } from '@userHooks/providers/useProviderOrderFinished';
 import { useEffect, useState } from 'react';
 import { FinishOrderCard } from '../../components/finished-order-card/FinishedOrderCard';
-import { useUserData } from '#commonUserHooks/useUserData';
 import { ProviderScope } from '@modals/order-scope/OrderScope';
 
 export const FinishOrderProvider = () => {
-  const [finishedOrders, { getFinishedOrders, isLoading }] = useProviderOrderFinished();
-  const { getUserdata } = useUserData();
+  const [finishedOrders, { getFinishedOrders }] = useProviderOrderFinished();
+  //const { getUserdata } = useUserData();
   const [active, setActiveCard] = useState<string>('');
   const handleActive = (id: string) => setActiveCard(active !== id ? id : '');
 

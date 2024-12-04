@@ -1,7 +1,7 @@
 import Show from '@defaults/Show';
 import type { ColumnTable, TableItem } from '@interfaces/table';
 import { formatDate } from '@utils/helper';
-import { Fragment, PureComponent, type FC, type ReactNode } from 'react';
+import { Fragment, PureComponent, type ReactNode } from 'react';
 import ActionColumn from './TableActionColumn';
 
 interface RowProps {
@@ -50,7 +50,7 @@ class Row extends PureComponent<RowProps> {
                 <div className={row[column.name as keyof typeof row]?.style}>
                   <div className="publish">
                     {!column.name.startsWith('publish')
-                      ? (row[column.name as keyof typeof row]?.value as React.ReactNode)
+                      ? (row[column.name as keyof typeof row]?.value as ReactNode)
                       : formatDate(String(row[column.name as keyof typeof row]?.value))}
                   </div>
                 </div>

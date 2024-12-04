@@ -1,4 +1,4 @@
-import { Position, type HelperBoxCords } from '@interfaces/helperbox.ts';
+import { Position } from '@interfaces/helperbox.ts';
 import {
   AdminCompanyIcon,
   BugIcon,
@@ -12,6 +12,7 @@ import {
   MessageIcon,
   PreferenceIcon,
 } from '@icons';
+import type { ReactNode } from 'react';
 
 enum WelcomeSteps {
   ADMIN,
@@ -43,7 +44,7 @@ interface OnboardingStep {
   title: string;
   text: string;
   highlight: string;
-  icon: JSX.Element;
+  icon: ReactNode;
   arrowPosition: Position;
   roles: Array<string>;
   isLastStep?: boolean;

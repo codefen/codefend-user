@@ -1,5 +1,5 @@
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
-import { useState, type FC } from 'react';
+import { useState } from 'react';
 import { ModalButtons, PencilIcon } from '..';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 

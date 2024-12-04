@@ -1,4 +1,4 @@
-import { type ChangeEvent, Fragment, useCallback, type FC } from 'react';
+import { type ChangeEvent, Fragment, useCallback, type FC, type KeyboardEvent, type FormEvent, type ReactNode } from 'react';
 import { PrimaryButton, Show } from '..';
 import { generateIDArray } from '../../../data';
 
@@ -15,7 +15,7 @@ interface SearchBarProps {
   inputValue: string;
   handleSubmit: () => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  searchIcon: JSX.Element;
+  searchIcon: ReactNode;
 
   isActiveSelect?: boolean;
   selectOptions?: SearchBarSelect;
@@ -23,7 +23,7 @@ interface SearchBarProps {
 
 export const SearchBar: FC<SearchBarProps> = props => {
   const handleKeyPress = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         e.preventDefault();
         props.handleSubmit();
@@ -44,7 +44,7 @@ export const SearchBar: FC<SearchBarProps> = props => {
     <div className="search-bar">
       <div className="search-bar-wrapper">
         <form
-          onSubmit={(e: React.FormEvent) => {
+          onSubmit={(e: FormEvent) => {
             e.preventDefault();
             props.handleSubmit();
           }}

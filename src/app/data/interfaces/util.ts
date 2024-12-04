@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface FetchPattern<D> {
   error: null | Error;
   data: D | null;
@@ -60,7 +62,7 @@ export interface ComponentEventWithOpen extends ComponentEvent {
 export interface ComponentEventWithChildren {
   onDone?: () => void;
   close?: () => void;
-  children: (isLoading: boolean) => React.ReactNode;
+  children: (isLoading: boolean) => ReactNode;
 }
 
 export interface EmptyFallbackData {

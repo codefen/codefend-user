@@ -120,7 +120,7 @@ const Navbar: FC = () => {
             <div
               className="action logout"
               title="Logout"
-              onClick={(e: React.FormEvent) => {
+              onClick={() => {
                 setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
                 setShowModal(true);
               }}>

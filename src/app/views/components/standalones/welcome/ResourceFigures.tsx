@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from 'react';
-import Show from '@defaults/Show';
 
 interface ResourceFigureProps {
   icon: ReactNode;

@@ -77,7 +77,6 @@ const useAdminCompanyStore = create<AdminCompanyState>()(
       updateSearch: (updated: string) =>
         set((prev: AdminCompanyState) => ({ ...prev, searchQuery: updated })),
       updateCompanies: (updated: AdminCompany[]) => {
-        const state = get();
         set((prev: AdminCompanyState) => ({ ...prev, companies: updated }));
       },
     }),

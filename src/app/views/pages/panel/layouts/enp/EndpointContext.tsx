@@ -1,8 +1,8 @@
-import { type FC, createContext, useContext, useState, type ReactNode } from 'react';
+import { type FC, createContext, useContext, useState, type ReactNode, type SetStateAction, type Dispatch } from 'react';
 
 type EndpointAppContextType = {
   endpointAppStore: any;
-  setEndpointAppStore: React.Dispatch<React.SetStateAction<any>>;
+  setEndpointAppStore: Dispatch<SetStateAction<any>>;
   isModalOpen: boolean;
   openModal: () => void;
   closeModal: () => void;

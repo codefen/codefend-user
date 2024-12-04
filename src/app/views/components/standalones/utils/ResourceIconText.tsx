@@ -1,11 +1,10 @@
-import type { FC, PropsWithChildren, ReactNode } from 'react';
+import type { FC } from 'react';
 import {
   BugIcon,
   CLoudIcon,
   GlobeWebIcon,
   LanIcon,
   MobileIcon,
-  NetworkIcon,
   PeopleGroupIcon,
   SourceCodeIcon,
 } from '../..';

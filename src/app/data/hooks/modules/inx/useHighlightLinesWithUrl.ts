@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 
 export const useHighlightLinesWithUrl = () => {
   const highlightWithUrl = (inputText: string, urlToFilter: string, contextLines: number = 3) => {

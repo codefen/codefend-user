@@ -1,4 +1,4 @@
-import { useCallback, type ChangeEvent, type FC } from 'react';
+import { type ChangeEvent, type FC, type ReactNode } from 'react';
 import { type ColumnTableV3 } from '@interfaces/table.ts';
 import { flattenRows } from '@utils/sort.service';
 import useTableStoreV3 from './tablev3.store';
@@ -25,7 +25,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
   const flattenedRows = flattenRows(rows);
   const { selectedItems, setSelectedItems, removeItem, selectingActive, setActiveSelecting } =
     useTableStoreV3();
-  const handleClick = (e: any, item: any) => {};
+  //const handleClick = (e: any, item: any) => {};
   const handleChecked = (e: ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     const { value, checked } = e.target;
@@ -41,7 +41,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
   };
 
   const getRows = (r: any[]) => {
-    let rows: JSX.Element[] = [];
+    let rows: ReactNode[] = [];
     const rowCount = r.length;
     for (let i = 0; i < rowCount; i++) {
       const row = r[i] as any;

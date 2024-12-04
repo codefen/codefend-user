@@ -1,7 +1,3 @@
-import React, { useState } from 'react';
-import { defaultPersonalDetails } from '@mocks/defaultData.ts';
-import Show from '@defaults/Show.tsx';
-import useGetAllCompanies from '@userHooks/admins/useGetAllCompanies.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { formatDate } from '@utils/helper';
 

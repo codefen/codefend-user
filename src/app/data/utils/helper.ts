@@ -287,7 +287,7 @@ export const isScanComplianceValid = (scan: any) => {
   try {
     JSON.parse(scan.report_data);
     return true;
-  } catch (err) {
+  } catch {
     return false;
   }
 };
@@ -314,7 +314,7 @@ export const processCompliance = (scan: any) => {
     }
 
     return 1;
-  } catch (err) {
+  } catch {
     return 0;
   }
 };

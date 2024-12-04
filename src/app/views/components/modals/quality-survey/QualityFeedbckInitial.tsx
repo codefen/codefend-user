@@ -2,8 +2,6 @@ import type { FC, PropsWithChildren } from 'react';
 import { ModalWrapper } from '..';
 import Show from '@defaults/Show';
 import './qualitysurvey.scss';
-import { ProfileMedia } from '@standalones/utils/ProfileMedia';
-import { StarRating } from '@standalones/utils/StarRating';
 import { PrimaryButton } from '../..';
 import { ModalGradientHeader } from './QualityFeedbackHeader';
 

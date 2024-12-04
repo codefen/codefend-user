@@ -1,8 +1,6 @@
 import { Suspense, useEffect, lazy, useMemo, useCallback } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
-import useAuthStore from '@stores/auth.store.ts';
-import Show from '@defaults/Show.tsx';
 import { Loader } from '@defaults/loaders/Loader.tsx';
 import { FlashLightProvider } from '../../context/FlashLightContext.tsx';
 import { WelcomeGroupTour } from '@standalones/welcome/WelcomeGroupTour.tsx';
