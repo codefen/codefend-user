@@ -29,8 +29,8 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = props => {
   };
   const { newIssue, isAddingIssue, dispatch, save } = useSaveIssue();
   const [isEditable, setEditable] = useState(false);
-  const [isLoaded] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
-  const { oneExecute, clear } = useTimeout(() => setEditable(true), 300);
+  const [isLoaded, loadIframe] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
+  const { oneExecute, clear } = useTimeout(() => setEditable(true), 350);
 
   useEffect(() => {
     const isValidID = !isNaN(Number(resourceId)) && Number(resourceId) !== 0;
@@ -49,17 +49,22 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = props => {
         : '',
       resourceID: isValidID ? Number(resourceId) : 0,
     }));
-    if (isLoaded) oneExecute();
-    return () => {
-      clear();
-      dispatch(() => ({
-        issueName: '',
-        score: '',
-        issueClass: '',
-        resourceID: 0,
-      }));
-    };
+    if (isLoaded) {
+      oneExecute();
+      return clear;
+    }
+    let cleanup: () => void = () => {};
+
+    loadIframe()
+      .then(cleanupFn => {
+        cleanup = cleanupFn;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    return cleanup;
   }, [isLoaded]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
