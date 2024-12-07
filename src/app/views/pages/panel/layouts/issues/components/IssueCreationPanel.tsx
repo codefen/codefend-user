@@ -30,7 +30,7 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = props => {
   const { newIssue, isAddingIssue, dispatch, save } = useSaveIssue();
   const [isEditable, setEditable] = useState(false);
   const [isLoaded] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
-  const { oneExecute, clear } = useTimeout(() => setEditable(true), 75);
+  const { oneExecute, clear } = useTimeout(() => setEditable(true), 300);
 
   useEffect(() => {
     const isValidID = !isNaN(Number(resourceId)) && Number(resourceId) !== 0;

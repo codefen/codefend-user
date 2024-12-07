@@ -29,7 +29,7 @@ const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation, i
     addTinyMce(defaultValue);
     setFirst(false);
     startTiny(initialValue);
-  }, [initialValue]);
+  }, [initialValue, isLoaded]);
 
   useEffect(() => {
     if (!first) {
