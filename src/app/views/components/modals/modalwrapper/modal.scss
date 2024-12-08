@@ -9,7 +9,7 @@
   align-items: flex-start;
   justify-content: center;
   z-index: 100;
-  background-color: rgba(242, 243, 243, 0.9);
+  background-color: #f2f3f3e6;
 }
 
 .modal-wrapper .modal {
@@ -17,12 +17,11 @@
   display: flex;
   flex-direction: column;
   margin-block: auto;
-
   opacity: 0;
   animation: modalAnimation 0.2s ease-in 0.05s forwards;
   min-width: 330px;
   background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.17);
+  box-shadow: 0 2px 6px #0000002b;
   border-image-slice: 1;
   border-radius: 3px;
   overflow: hidden;
@@ -31,6 +30,7 @@
   &.report {
     margin-top: 20px;
   }
+
   &.med-w {
     width: 100%;
     max-width: 560px;
@@ -39,10 +39,12 @@
       min-width: 350px;
     }
   }
+
   &.med-max-w {
     width: 100%;
     max-width: 748px;
   }
+
   &.max-w {
     width: 100%;
     max-width: 860px;
@@ -59,18 +61,18 @@
     z-index: 100;
 
     svg {
-      // filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.75));
       color: black;
       width: inherit !important;
       height: inherit !important;
     }
+
     &:hover {
       svg {
-        // filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.75));
         color: red;
       }
     }
   }
+
   &.title-wrapper {
     .modal-close-btn {
       top: 5px;
@@ -83,7 +85,6 @@
     gap: 10px;
     height: 60px;
     padding: 0 20px;
-    // background-color: #00000030;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-400);
     font-family: Roboto;
@@ -280,7 +281,7 @@
 }
 
 .error-wrapper {
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 25px #0000001a;
   width: 40.3rem;
   overflow: hidden;
   background-color: var(--primary-color);
@@ -335,7 +336,7 @@
   li {
     line-height: 1.5rem;
     font-size: 14px;
-    color: rgb(55 54 54);
+    color: #373636;
   }
 
   .action-list {
@@ -362,7 +363,7 @@
     border-block: 1px solid #b0b0b096;
     padding-block: 0.75rem;
     padding-inline: 2.75rem;
-    font-family: 'Questrial';
+    font-family: Questrial;
   }
 }
 
@@ -384,19 +385,20 @@
 
 [data-theme='dark'] {
   .modal-wrapper {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: #00000066;
     backdrop-filter: blur(5px) saturate(0.5) contrast(1);
 
     .modal {
-      background: rgba(13, 15, 18, 0.8);
-      // backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+      background: #0d0f12cc;
       border: 1px solid #ffffff10;
-      box-shadow: 0 2px 60px 20px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 2px 60px 20px #000000b3;
     }
   }
+
   .header {
     color: var(--tertiary-color-100);
   }
+
   .content {
     color: var(--tertiary-color-100);
   }
@@ -425,6 +427,7 @@
       color: var(--tertiary-color-400);
     }
   }
+
   .modal-wrapper .modal .modal-close-btn {
     svg {
       color: var(--tertiary-color-50);
@@ -441,15 +444,18 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
+
 @keyframes modalAnimation {
   from {
     opacity: 0;
     transform: translateY(5%);
   }
+
   to {
     opacity: 1;
     transform: translateY(0%);

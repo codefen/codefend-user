@@ -18,7 +18,7 @@
     height: 2.5rem;
     display: flex;
     align-items: center;
-    font-family: 'Roboto';
+    font-family: Roboto;
     font-weight: bold;
     font-size: 13px;
     line-height: 13px;
@@ -68,6 +68,7 @@
       align-items: center;
       justify-content: center;
       padding: 1.25rem;
+
       p {
         color: var(--tertiary-color-400);
 
@@ -75,6 +76,7 @@
           line-height: 1.5;
         }
       }
+
       a.email-collab {
         text-decoration-line: underline;
         cursor: pointer;
@@ -110,7 +112,6 @@
 
       .table {
         flex-grow: 0.7;
-        // max-width: 70%;
 
         .rows .item {
           &:hover {
@@ -118,6 +119,7 @@
           }
         }
       }
+
       @include mixin.respond(large) {
         flex-direction: column;
       }
@@ -147,12 +149,12 @@
       .filter {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         border-bottom-width: 1px;
         border-bottom-style: solid;
         border-bottom-color: var(--primary-color-300);
         width: 100%;
         justify-content: space-between;
+
         .value {
           display: flex;
           align-items: center;
@@ -160,7 +162,7 @@
           column-gap: 0.438rem;
 
           .icon-color {
-            color: rgb(96 165 250 / 1);
+            color: #60a5fa;
           }
         }
 
@@ -255,6 +257,7 @@
       .send-extra-styles {
         height: 100%;
         min-height: unset;
+
         &:hover {
           scale: 1;
           transform: scale(1);
@@ -267,6 +270,7 @@
 
         .send-extra-styles {
           cursor: default !important;
+
           &:hover,
           svg &:hover {
             cursor: default !important;
@@ -275,10 +279,6 @@
       }
     }
   }
-
-  // + .card {
-  // 	margin-block-start: 14px;
-  // }
 }
 
 @media only screen and (max-width: 1325px) {
@@ -316,7 +316,7 @@
   padding: 2rem;
 
   &-border {
-    border: 1px solid oklch(0.82 0 0);
+    border: 1px solid oklch(82% 0 0);
 
     &.active {
       border: 1px solid var(--secondary-color-100);
@@ -341,7 +341,7 @@
       min-width: 6.149rem;
       height: 100%;
       min-height: 100%;
-      background-color: rgba(128, 128, 128, 0.05);
+      background-color: #8080800d;
       transition: all 600ms linear;
 
       img {
@@ -373,7 +373,7 @@
         h3 {
           font-weight: 700;
           text-transform: uppercase;
-          border: 0px;
+          border: 0;
 
           .view-count-issues {
             display: inline-flex;
@@ -515,22 +515,20 @@
       .header {
         width: 100%;
         display: flex;
-        // flex-direction: column;
         align-items: flex-start;
-        // column-gap: 40px;
 
         .image {
-          // width: 150px;
           margin-right: 20px;
+
           svg {
             color: var(--secondary-color-50);
             height: 60px;
             width: 60px;
           }
         }
+
         .title {
           width: 100%;
-          // text-align: center;
           line-height: 2rem;
           color: var(--secondary-color-50);
           font-weight: 800;
@@ -541,12 +539,12 @@
         p {
           width: 100%;
           display: inline-block;
-          // text-align: center;
           line-height: 1.75rem;
           color: var(--tertiary-color-600);
           font-size: 1.15rem;
         }
       }
+
       .form {
         padding-left: 40px;
 
@@ -641,8 +639,6 @@
   flex-direction: column;
 
   .message-card-title {
-    padding-block-start: 1rem;
-    padding-inline-end: 0.75rem;
     padding-inline: 1rem;
   }
 
@@ -664,11 +660,10 @@
 
   .message-card-content {
     border-radius: 100%;
-    // width: 100%;
     min-width: 2.185rem;
 
     img {
-      width: 2.5rem /* */;
+      width: 2.5rem;
       aspect-ratio: 1/1;
     }
   }
@@ -697,6 +692,7 @@
           color: var(--tertiary-color-50);
         }
       }
+
       .reviews {
         div {
           position: relative;
@@ -709,20 +705,21 @@
           }
         }
       }
+
       &-img {
         width: 6.149rem;
       }
     }
 
     .app-delete-btn {
-      border-radius: 5% 30% 0% 100%/0% 40% 100% 100%;
+      border-radius: 5% 30% 0% 100% / 0% 40% 100% 100%;
       background-color: var(--primary-color-100);
 
       border-top-color: var(--primary-color-100);
       border-right-color: var(--primary-color-100);
       border-width: 1px;
-      border-bottom: 0px;
-      border-left: 0px;
+      border-bottom: 0;
+      border-left: 0;
 
       &:hover {
         background-color: var(--primary-color-200);
@@ -737,9 +734,11 @@
       }
     }
   }
+
   .app-card-wrapper {
     background: var(--primary-color-300);
     border-radius: 0.625rem;
+
     .app-details {
       span,
       .reviews {
@@ -758,8 +757,9 @@
 
   .card {
     border: 1px solid transparent;
-    background: rgba(18, 26, 35, 0.3);
+    background: #121a234d;
     backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+
     .header {
       border: none;
       transition:
@@ -770,17 +770,15 @@
 
     &.stats {
       .content {
-        column-gap: 0px;
+        column-gap: 0;
         justify-content: flex-start;
-        padding: 0px;
+        padding: 0;
       }
     }
+
     &.messages {
       .content {
         .messages-wrapper {
-          span {
-          }
-
           .tt {
             border-bottom: 1px solid var(--primary-color-300);
           }

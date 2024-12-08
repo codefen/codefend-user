@@ -1,8 +1,6 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { relaunch } from '@tauri-apps/api/process';
-import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
-import { listen } from '@tauri-apps/api/event';
+import { relaunch } from '@tauri-apps/plugin-process';
+import { check } from '@tauri-apps/plugin-updater';
 
 import './app/views/styles/index.scss';
 import './app/views/styles/card.scss';
@@ -11,21 +9,15 @@ import './app/views/styles/forms.scss';
 import { App } from './app/App';
 import { RUNNING_DESKTOP } from './app/data';
 
-// Tauri
-const _startInstall = () => {
-  installUpdate().then(relaunch);
-};
-
 const checkTauriUpdates = async () => {
   if (RUNNING_DESKTOP()) {
     try {
-      listen('tauri://update-available', res => console.log('New version available: ', res));
-
-      const { shouldUpdate } = await checkUpdate();
-
-      if (shouldUpdate) {
-        await installUpdate();
-        await relaunch();
+      const update = await check();
+      if (update && update.available) {
+        if (window.confirm(`Nueva versión disponible: ${update?.version}. ¿Deseas actualizar?`)) {
+          await update.downloadAndInstall();
+          await relaunch();
+        }
       }
     } catch (e) {
       alert(e);

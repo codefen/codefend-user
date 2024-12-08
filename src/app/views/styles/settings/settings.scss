@@ -1,8 +1,8 @@
 @forward 'colors';
-@forward 'normalize.scss';
+@forward 'normalize';
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: Roboto;
   font-style: normal;
   font-weight: 400;
   src:
@@ -11,7 +11,7 @@
 }
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: Roboto;
   font-style: bold;
   font-weight: 700;
   src:
@@ -36,9 +36,11 @@
 ::-moz-scrollbar {
   width: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--primary-color-500);
 }
+
 ::-moz-scrollbar-track {
   background: var(--primary-color-500);
 }
@@ -46,6 +48,7 @@
 ::-webkit-scrollbar-thumb {
   background: #ff6c6c;
 }
+
 ::-moz-scrollbar-thumb {
   background: #ff6c6c;
 }
@@ -53,6 +56,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #e75e5e;
 }
+
 ::-moz-scrollbar-thumb:hover {
   background: #e75e5e;
 }
@@ -63,7 +67,6 @@
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
-
   scrollbar-width: thin;
   scrollbar-color: var(--secondary-color-50) var(--primary-color-500);
 }
@@ -73,36 +76,14 @@ body {
   transition-duration: 500ms;
   transition-timing-function: linear;
   background: #ffffffd9;
-  /*
-	background: linear-gradient(
-		150deg,
-		rgba(253, 253, 253, 1) 11%,
-		rgba(255, 255, 255, 1) 48%,
-		rgba(250, 250, 250, 1) 89%
-	);*/
   color: var(--tertiary-color-500);
 }
 
 body[data-theme='dark'] {
-  background: rgb(29, 39, 50);
-  background: -moz-linear-gradient(
-    150deg,
-    rgba(25, 34, 44, 0.9878326330532213) 10%,
-    rgba(31, 41, 54, 1) 52%,
-    rgba(31, 41, 52, 1) 91%
-  );
-  background: -webkit-linear-gradient(
-    150deg,
-    rgba(25, 34, 44, 0.9878326330532213) 10%,
-    rgba(31, 41, 54, 1) 52%,
-    rgba(31, 41, 52, 1) 91%
-  );
-  background: linear-gradient(
-    150deg,
-    rgba(25, 34, 44, 0.9878326330532213) 10%,
-    rgba(31, 41, 54, 1) 52%,
-    rgba(31, 41, 52, 1) 91%
-  );
+  background: #1d2732;
+  background: -moz-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
+  background: -webkit-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
+  background: linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
   color: var(--tertiary-color-200);
 }
 
@@ -129,7 +110,6 @@ select {
 }
 
 a {
-  text-decoration: none;
   color: inherit;
   text-decoration: inherit;
   outline: none;
@@ -149,10 +129,12 @@ a {
       color: var(--tertiary-color-200) !important;
       background-color: var(--primary-color-100) !important;
     }
+
     &:active {
       outline: none;
     }
   }
+
   &:focus {
     outline: none;
   }
@@ -161,7 +143,7 @@ a {
 .codefend-checkbox {
   color: inherit !important;
   padding: 0;
-  --primary-hover-color: hsl(0, 71%, 46%);
+  --primary-hover-color: #c92222;
   --checkbox-diameter: 17.5px;
   --checkbox-border-radius: 5px;
   --checkbox-border-color: var(--tertiary-color-50);
@@ -172,7 +154,7 @@ a {
 
 [data-theme='dark'] {
   .codefend-radio {
-    --radio-bg: linear-gradient(to right bottom, hsl(0deg 80.21% 70.33%), hsl(0deg 67.13% 37.05%));
-    --radio-bg-before: linear-gradient(to right bottom, rgb(32 44 56), rgb(47 70 96));
+    --radio-bg: linear-gradient(to right bottom, #f07878, #9e1f1f);
+    --radio-bg-before: linear-gradient(to right bottom, #202c38, #2f4660);
   }
 }

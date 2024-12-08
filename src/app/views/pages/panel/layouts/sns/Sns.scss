@@ -3,13 +3,11 @@
 main.sb {
   .left {
     border: 1px solid var(--primary-color-300);
-    // border-right: 1px solid var(--primary-color-300);
     margin-bottom: -10px;
 
     .content {
       flex-wrap: wrap;
       gap: 20px;
-      // display: flex;
       padding: 10px;
       overflow-y: auto;
       height: 100%;
@@ -23,6 +21,7 @@ main.sb {
       .header {
         padding: 10px 20px;
         background-color: var(--primary-color-200);
+
         .title {
           color: var(--secondary-color-50);
         }
@@ -41,9 +40,6 @@ main.sb {
     }
   }
 
-  .right {
-  }
-
   @include mixin.respond(small) {
     display: flex;
     flex-direction: column;
@@ -57,13 +53,13 @@ main.sb {
     }
   }
 }
+
 .my-masonry-grid {
-  display: -webkit-box; /* Not needed if autoprefixing */
-  display: -ms-flexbox; /* Not needed if autoprefixing */
   display: flex;
-  margin-left: -30px; /* gutter size offset */
+  margin-left: -30px;
   width: auto;
 }
+
 .my-masonry-grid_column {
   padding-left: 30px; /* gutter size */
   background-clip: padding-box;

@@ -1,74 +1,85 @@
 {
-	"build": {
-		"beforeDevCommand": "pnpm dev",
-		"beforeBuildCommand": "pnpm build",
-		"devPath": "http://localhost:3000",
-		"distDir": "../dist",
-		"withGlobalTauri": true
-	},
-	"package": {
-		"productName": "codefend",
-		"version": "0.9.0"
-	},
-	"tauri": {
-		"allowlist": {
-			"all": false,
-			"shell": {
-				"all": false,
-				"open": true
-			}
-		},
-		"bundle": {
-			"active": true,
-			"targets": "all",
-			"identifier": "App.Name",
-			"publisher": "Unknown Publisher",
-			"copyright": "Copyright Notice",
-			"icon": [
-				"icons/32x32.png",
-				"icons/128x128.png",
-				"icons/128x128@2x.png",
-				"icons/icon.icns",
-				"icons/icon.ico"
-			],
-			"resources": [],
-			"externalBin": [],
-			"category": "DeveloperTool",
-			"shortDescription": "",
-			"longDescription": "",
-			"deb": {
-				"depends": []
-			},
-			"macOS": {
-				"frameworks": [],
-				"minimumSystemVersion": "",
-				"exceptionDomain": "",
-				"signingIdentity": null,
-				"entitlements": null
-			},
-			"windows": {
-				"certificateThumbprint": null,
-				"digestAlgorithm": "sha256",
-				"timestampUrl": ""
-			}
-		},
-		"updater": {
-			"active": true,
-			"endpoints": ["https://web.codefend.com/releases"],
-			"dialog": true,
-			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQxRjUyOTM4QzkzMzgzN0YKUldSL2d6UEpPQ24xMGJkVGw4TnprTTY0SWtPR3pvM0QzK2VRQ2lySEJ3c2sxVTlETFB3YmhXRHkK"
-		},
-		"security": {
-			"csp": null
-		},
+	"$schema": "https://schema.tauri.app/config/2",
+	"productName": "codefend-panel",
+	"version": "24.3.0",
+	"identifier": "com.codefend.panel",
+	"app": {
+		"withGlobalTauri": true,
 		"windows": [
 			{
 				"fullscreen": false,
-				"resizable": true,
-				"title": "Codefend",
+				"height": 600,
 				"width": 800,
-				"height": 600
+				"resizable": true,
+				"title": "Codefend Panel",
+				"visible": true,
+				"center": true,
+				"label": "main",
+				"dragDropEnabled": false
 			}
-		]
+		],
+		"security": {
+			"csp": null
+		}
+	},
+	"build": {
+		"beforeDevCommand": "pnpm dev",
+		"devUrl": "http://localhost:5173",
+		"beforeBuildCommand": "pnpm build",
+		"frontendDist": "../dist"
+	},
+	"bundle": {
+		"active": true,
+		"targets": "all",
+		"publisher": "Codefend",
+		"copyright": "Copyright Notice",
+		"category": "DeveloperTool",
+		"icon": [
+			"icons/32x32.png",
+			"icons/128x128.png",
+			"icons/128x128@2x.png",
+			"icons/icon.icns",
+			"icons/icon.ico"
+		],
+		"resources": [],
+		"externalBin": [],
+		"shortDescription": "Codefend Panel",
+		"longDescription": "Codefend Security Platform Panel Desktop App",
+		"createUpdaterArtifacts": "v1Compatible",
+		"macOS": {
+			"entitlements": null,
+			"exceptionDomain": "",
+			"frameworks": [],
+			"providerShortName": null,
+			"signingIdentity": null
+		},
+		"windows": {
+			"certificateThumbprint": null,
+			"digestAlgorithm": "sha256",
+			"timestampUrl": "",
+			"nsis": {
+				"installerIcon": "icons/icon.ico",
+				"displayLanguageSelector": true
+			}
+		},
+		"linux": {
+			"deb": {
+				"depends": []
+			},
+			"appimage": {
+				"bundleMediaFramework": true
+			}
+		}
+	},
+	"plugins": {
+		"updater": {
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQxRjUyOTM4QzkzMzgzN0YKUldSL2d6UEpPQ24xMGJkVGw4TnprTTY0SWtPR3pvM0QzK2VRQ2lySEJ3c2sxVTlETFB3YmhXRHkK",
+			"endpoints": [
+				"https://github.com/codefen/codefend-user/releases/latest.json"
+			],
+			"windows": {
+				"installMode": "passive"
+			}
+		}
 	}
 }

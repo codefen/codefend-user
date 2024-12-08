@@ -1,8 +1,5 @@
 @use '../../../styles/settings/mixin' as mixin;
-.sidebar ~ main {
-  // background: rgba(18, 26, 35, 0.3);
-  // backdrop-filter: blur(9px) saturate(0.8) contrast(1);
-}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -13,7 +10,6 @@
   z-index: 4;
   border: 1px solid var(--primary-color-300);
   background-color: var(--primary-color-100);
-  // color: var(--primary-color-100);
   border-radius: 0.55rem;
   width: 51px;
   height: calc(90dvh - 12px);
@@ -96,7 +92,7 @@
   }
 
   &.is-open {
-    box-shadow: 2px 4px 13px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 4px 13px #00000033;
   }
 
   &.is-open:hover {
@@ -110,9 +106,9 @@
       }
 
       &:hover {
-        background-color: rgb(247 103 103 / 92%);
+        background-color: #f76767eb;
         color: #f9f9f9e6;
-        border-bottom-color: rgb(247 103 103 / 92%);
+        border-bottom-color: #f76767eb;
       }
     }
   }
@@ -123,37 +119,33 @@
   border-right: 1px solid;
   border-image: linear-gradient(
     210deg,
-    rgba(255, 255, 255, 0) 15%,
-    rgb(32 57 104) 36%,
-    rgb(64 83 143) 46%,
-    rgb(32 67 124) 54%,
-    rgb(46 75 88) 64%,
-    rgba(255, 255, 255, 0) 85%
+    #ffffff00 15%,
+    #203968 36%,
+    #40538f 46%,
+    #20437c 54%,
+    #2e4b58 64%,
+    #ffffff00 85%
   );
   border-image-slice: 1;
   background-size: 14px 14px;
   backdrop-filter: blur(5px) saturate(0.8) contrast(1);
-  box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 2px 5px 1px #0000004d;
 
   &.is-open {
-    background: rgba(18, 26, 35, 0.3);
+    background: #121a234d;
     backdrop-filter: blur(9px) saturate(0.8) contrast(1);
-    box-shadow: 2px 3px 28px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 3px 28px 15px #00000066;
     background-image: linear-gradient(#444df710 0.4px, transparent 0.4px),
       linear-gradient(to right, #444df710 0.4px, #e5e5f700 0.4px);
     background-size: 2px 2px;
 
     a {
       ::after {
-        text-shadow: 1px 2px 7px rgba(0, 0, 0, 1);
+        text-shadow: 1px 2px 7px #000000;
       }
+
       &:hover {
-        background: linear-gradient(
-          90deg,
-          rgba(21, 32, 46, 0.85) 5%,
-          rgba(18, 26, 32, 0.9) 25%,
-          rgba(18, 26, 32, 0.5) 30%
-        );
+        background: linear-gradient(90deg, #15202ed9 5%, #121a20e6 25%, #121a2080 30%);
         color: #f76767db;
       }
     }
@@ -162,7 +154,7 @@
   &:not(:hover) {
     background: var(--primary-color-500);
     backdrop-filter: blur(5px) saturate(0.8) contrast(1);
-    box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 2px 5px 1px #0000004d;
     background-image: none;
     background-size: 14px 14px;
   }

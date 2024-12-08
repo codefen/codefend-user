@@ -8,13 +8,16 @@
 
     transition: all 0.5s ease;
   }
+
   .table-search-bar {
     animation: enter 0.4s ease-in-out forwards;
+
     .form-input input {
       border-radius: 8px;
       height: 48px;
     }
   }
+
   .table-selected-actions {
     .selected-action-content {
       animation: enter 0.4s ease-in-out forwards;
@@ -28,14 +31,17 @@
       height: 42px;
       position: relative;
     }
+
     .selected-count {
       margin-inline-start: 2.75rem;
     }
+
     .selected-warning {
       margin-inline-start: auto;
       color: #000;
       letter-spacing: 0.2px;
     }
+
     .un-selected {
       position: absolute;
       cursor: pointer;
@@ -65,9 +71,10 @@
     opacity: 0;
     transform: translateY(-5px);
   }
+
   to {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 }
 
@@ -119,26 +126,24 @@
     transition-property: border-image, border;
     transition-duration: 325ms;
     transition-timing-function: linear;
-
     max-width: calc(var(--row-size-x) - var(--row-calc-x));
-
     border-image: -moz-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.3) 15%,
+      #ffffff4d 15%,
       var(--primary-color-300) 36%,
       var(--primary-color-400) 46%,
       var(--primary-color-400) 54%,
       var(--primary-color-300) 64%,
-      rgba(255, 255, 255, 0.3) 85%
+      #ffffff4d 85%
     );
     border-image: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.3) 15%,
+      #ffffff4d 15%,
       var(--primary-color-300) 36%,
       var(--primary-color-400) 46%,
       var(--primary-color-400) 54%,
       var(--primary-color-300) 64%,
-      rgba(255, 255, 255, 0.3) 85%
+      #ffffff4d 85%
     );
     border-image-slice: 1;
     border-block-end: 1px solid;
@@ -151,7 +156,7 @@
       transition-duration: 300ms;
 
       &:hover {
-        color: rgba(239, 68, 68, 1);
+        color: #ef4444;
       }
 
       &:hover .sort.active {
@@ -176,7 +181,6 @@
     padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-400);
-
     font-family: Questrial;
     font-size: 14px;
 
@@ -194,6 +198,7 @@
     &:nth-of-type(odd) {
       background-color: #00000004;
     }
+
     &:last-child {
       border-bottom: none;
     }
@@ -201,6 +206,7 @@
     &:hover {
       background-color: var(--primary-color-100);
     }
+
     &.item-disabled {
       opacity: 0.45;
       user-select: none;
@@ -214,6 +220,7 @@
         margin-inline-end: 7px;
       }
     }
+
     &.label:has(input:checked) {
       background-color: #ffe6e6d6;
     }
@@ -231,26 +238,28 @@
     .sub-resource-domain {
       padding-inline-start: 24px;
     }
+
     .sub-domain-icon-v {
       width: 2px;
       background-color: var(--secondary-color-50);
       position: absolute;
-      left: 0px;
+      left: 0;
       height: calc(100% + 2px);
-      top: 0px;
-      bottom: 0px;
+      top: 0;
+      bottom: 0;
 
       &.sub-is-last {
         height: 50%;
       }
     }
+
     .sub-domain-icon-h {
       width: 20px;
       height: 2px;
       background-color: var(--secondary-color-50);
       position: absolute;
       top: 49%;
-      left: 0px;
+      left: 0;
     }
   }
 
@@ -290,10 +299,12 @@
         cursor: pointer;
         color: var(--secondary-color-100);
       }
+
       &.order-poll-disabled {
         cursor: default;
         color: var(--tertiary-color-200);
         opacity: 0.5;
+
         &:hover,
         &:hover svg,
         &:hover path {
@@ -317,6 +328,7 @@
         &:hover,
         &:focus {
           color: var(--tertiary-color-200);
+
           svg,
           svg path {
             color: var(--tertiary-color-200);
@@ -347,7 +359,6 @@
   .item {
     &.label:has(input:checked) {
       background-color: #ff28280f;
-      // color: white;
     }
   }
 }

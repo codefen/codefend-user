@@ -6,7 +6,7 @@
   height: 100%;
   display: flex;
   z-index: 100;
-  background-color: rgb(120 121 127 / 30%);
+  background-color: #78797f4d;
 }
 
 .welcome-modal-container {
@@ -23,23 +23,11 @@
     padding: 20px;
     width: 100%;
     column-gap: 10px;
-    background: linear-gradient(
-      90deg,
-      rgba(190, 27, 27, 1) 33%,
-      rgb(240 44 44) 93%,
-      rgb(255 58 58) 100%
-    );
+    background: linear-gradient(90deg, #be1b1b 33%, #f02c2c 93%, #ff3a3a 100%);
 
     h2 {
       color: var(--header-title-color);
       font-weight: 500;
-      // font-size: 1.75rem;
-      // text-align: right;
-      // width: 100%;
-      // display: flex;
-      // align-items: center;
-      // justify-content: flex-end;
-      // padding-inline-end: 4rem;
     }
   }
 
@@ -53,10 +41,9 @@
     img {
       width: 90px;
       display: flex;
-      // height: 110px;
-      // margin-inline: 1.25rem;
       align-self: flex-start;
     }
+
     #brand {
       min-width: 90px;
     }
@@ -64,18 +51,17 @@
     .welcome-info {
       display: flex;
       flex-direction: column;
-      // max-width: 411px;
 
       h3 {
-        // font-size: 1.15rem;
-        // font-weight: 700;
         font-family: Roboto;
         text-transform: uppercase;
         color: var(--tertiary-color-600);
         margin-bottom: 5px;
       }
+
       p {
         line-height: 1.35rem;
+
         &.main-paragraph,
         &.take-guide {
           line-height: 1.5rem;

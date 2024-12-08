@@ -6,5 +6,8 @@ declare module '/editor-lib' {
 declare global {
   interface Window {
     tinyMCE: any;
+    __TAURI__: any;
   }
 }
+
+export {};

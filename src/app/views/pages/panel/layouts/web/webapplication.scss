@@ -1,9 +1,10 @@
 main.webapp {
-  padding-inline-end: 0px;
+  padding-inline-end: 0;
 
   .left {
     overflow-y: hidden;
     padding-inline-start: 0;
+
     .table.table-web {
       .rows {
         max-height: calc(100vh - 220px);
@@ -14,10 +15,12 @@ main.webapp {
         padding-inline-start: 1%;
       }
     }
+
     .empty-card {
       min-width: 725px;
     }
   }
+
   .right {
     .table {
       .item {
@@ -53,13 +56,14 @@ main.webapp {
           flex-direction: column;
           row-gap: 8px;
 
-          p {
+          & p {
             display: flex;
             flex-direction: column;
             line-height: 23px;
           }
         }
       }
+
       button.btn.pentest-btn {
         max-width: 94%;
         margin-inline: auto;
@@ -77,9 +81,10 @@ main.webapp {
     right: 22dvw;
     filter: blur(125px) brightness(0.34) opacity(0.65);
   }
+
   main.webapp {
     .right {
-      box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+      box-shadow: #000000 -20px 0 120px -55px;
     }
   }
 }

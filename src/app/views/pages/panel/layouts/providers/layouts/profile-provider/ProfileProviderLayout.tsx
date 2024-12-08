@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { cleanHTML, useProviderProfile } from '../../../../../../../data';
 import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
-import './aboutprovider.scss';
 
 const ProfileProviderLayout = () => {
   const { view } = useParams();

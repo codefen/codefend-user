@@ -27,26 +27,25 @@
     transition-property: border-image, border;
     transition-duration: 325ms;
     transition-timing-function: linear;
-
     max-width: calc(var(--row-size-x) - var(--row-calc-x));
 
     border-image: -moz-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.3) 15%,
+      #ffffff4d 15%,
       var(--primary-color-300) 36%,
       var(--primary-color-400) 46%,
       var(--primary-color-400) 54%,
       var(--primary-color-300) 64%,
-      rgba(255, 255, 255, 0.3) 85%
+      #ffffff4d 85%
     );
     border-image: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.3) 15%,
+      #ffffff4d 15%,
       var(--primary-color-300) 36%,
       var(--primary-color-400) 46%,
       var(--primary-color-400) 54%,
       var(--primary-color-300) 64%,
-      rgba(255, 255, 255, 0.3) 85%
+      #ffffff4d 85%
     );
     border-image-slice: 1;
     border-block: 1px solid;
@@ -59,7 +58,7 @@
       transition-duration: 300ms;
 
       &:hover {
-        color: rgba(239, 68, 68, 1);
+        color: #ef4444;
       }
 
       &:hover .sort.active {
@@ -77,6 +76,7 @@
         padding-inline-start: 5px;
         font-size: 15px;
       }
+
       .sort.active {
         visibility: hidden;
       }
@@ -89,8 +89,6 @@
 
   .rows {
     overflow-y: auto;
-    // max-height: var(--row-size);
-    // max-width: var(--row-size-x);
 
     a {
       outline: none;
@@ -104,7 +102,6 @@
     padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-400);
-
     font-family: Questrial;
     font-size: 14px;
 
@@ -128,6 +125,7 @@
     &:nth-of-type(odd) {
       background-color: #00000004;
     }
+
     &:last-child {
       border-bottom: none;
     }
@@ -140,10 +138,10 @@
         width: 2px;
         background-color: var(--secondary-color-50);
         position: absolute;
-        left: 0px;
+        left: 0;
         height: calc(100% + 2px);
-        top: 0px;
-        bottom: 0px;
+        top: 0;
+        bottom: 0;
 
         &.sub-is-last {
           height: 50%;
@@ -156,7 +154,7 @@
         background-color: var(--secondary-color-50);
         position: absolute;
         top: 49%;
-        left: 0px;
+        left: 0;
       }
 
       .sub-resource-domain {
@@ -175,6 +173,7 @@
     &:hover {
       background-color: var(--primary-color-100);
     }
+
     &.item-disabled {
       opacity: 0.45;
       user-select: none;
@@ -291,18 +290,21 @@
     &.with-icon {
       .publish {
         padding-inline: 9px;
+
         svg {
           width: 1.5rem;
           height: 1.5rem;
 
           &.open {
-            color: oklch(0.7 0.19 23.4);
+            color: oklch(70% 0.19 23.4);
           }
+
           &.verified {
-            color: oklch(0.65 0.14 246.14);
+            color: oklch(65% 0.14 246.14);
           }
+
           &.fixed {
-            color: oklch(0.73 0.21 144.11);
+            color: oklch(73% 0.21 144.11);
           }
         }
       }
@@ -386,16 +388,11 @@
       white-space: nowrap;
     }
   }
+
   .action {
     column-gap: 16px;
     justify-content: center;
     color: var(--tertiary-color-200);
-  }
-  .action {
-    justify-content: center;
-    // max-width: none;
-    // width: 100%;
-    column-gap: 2px;
 
     span {
       height: 100%;
@@ -429,10 +426,12 @@
         cursor: pointer;
         color: var(--secondary-color-100);
       }
+
       &.order-poll-disabled {
         cursor: default;
         color: var(--tertiary-color-200);
         opacity: 0.5;
+
         &:hover,
         &:hover svg,
         &:hover path {
@@ -456,6 +455,7 @@
         &:hover,
         &:focus {
           color: var(--tertiary-color-200);
+
           svg,
           svg path {
             color: var(--tertiary-color-200);
@@ -480,12 +480,15 @@
       cursor: pointer;
     }
   }
+
   .score-value {
     margin-block-start: 0.5rem;
   }
+
   .dash-between-val-ball {
     margin-inline-end: 0.25rem;
   }
+
   .score-ball {
     width: 0.5rem;
     aspect-ratio: 1/1;
@@ -493,6 +496,7 @@
     margin-block-start: 0.5rem;
     margin-inline: 0.12rem;
   }
+
   .confirmed {
     color: #65d52e;
   }
@@ -512,31 +516,31 @@
 
       border-image: -moz-linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0) 15%,
-        rgba(118, 54, 66, 1) 36%,
-        rgba(192, 69, 82, 1) 46%,
-        rgba(176, 66, 79, 1) 54%,
-        rgba(118, 54, 66, 1) 64%,
-        rgba(255, 255, 255, 0) 85%
+        #ffffff00 15%,
+        #763642 36%,
+        #c04552 46%,
+        #b0424f 54%,
+        #763642 64%,
+        #ffffff00 85%
       );
 
       border-image: -webkit-linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0) 15%,
-        rgba(118, 54, 66, 1) 36%,
-        rgba(192, 69, 82, 1) 46%,
-        rgba(176, 66, 79, 1) 54%,
-        rgba(118, 54, 66, 1) 64%,
-        rgba(255, 255, 255, 0) 85%
+        #ffffff00 15%,
+        #763642 36%,
+        #c04552 46%,
+        #b0424f 54%,
+        #763642 64%,
+        #ffffff00 85%
       );
       border-image: linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0) 15%,
-        rgba(118, 54, 66, 1) 36%,
-        rgba(192, 69, 82, 1) 46%,
-        rgba(176, 66, 79, 1) 54%,
-        rgba(118, 54, 66, 1) 64%,
-        rgba(255, 255, 255, 0) 85%
+        #ffffff00 15%,
+        #763642 36%,
+        #c04552 46%,
+        #b0424f 54%,
+        #763642 64%,
+        #ffffff00 85%
       );
       border-image-slice: 1;
       border-block: 1px solid;
@@ -554,25 +558,10 @@
 
       &.left-marked {
         border-left: 6px solid var(--secondary-color-50);
-        background: rgb(24, 33, 43);
-        background: -moz-linear-gradient(
-          90deg,
-          rgba(24, 33, 43, 1) 18%,
-          rgba(22, 30, 40, 1) 42%,
-          rgba(19, 27, 36, 1) 67%
-        );
-        background: -webkit-linear-gradient(
-          90deg,
-          rgba(24, 33, 43, 1) 18%,
-          rgba(22, 30, 40, 1) 42%,
-          rgba(19, 27, 36, 1) 67%
-        );
-        background: linear-gradient(
-          90deg,
-          rgba(24, 33, 43, 1) 18%,
-          rgba(22, 30, 40, 1) 42%,
-          rgba(19, 27, 36, 1) 67%
-        );
+        background: #18212b;
+        background: -moz-linear-gradient(90deg, #18212b 18%, #161e28 42%, #131b24 67%);
+        background: -webkit-linear-gradient(90deg, #18212b 18%, #161e28 42%, #131b24 67%);
+        background: linear-gradient(90deg, #18212b 18%, #161e28 42%, #131b24 67%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#18212b", endColorstr="#131b24", GradientType=1);
       }
     }
@@ -597,8 +586,6 @@
 }
 
 .internal-tables div {
-  // font-family: Roboto;
-  // font-size: 12px;
   background-color: var(--primary-color-50);
   border-bottom: 1px solid var(--primary-color-300);
   color: var(--tertiary-color-200);
@@ -609,7 +596,7 @@
 }
 
 .disable-border div {
-  border-bottom: 0px solid var(--primary-color-300);
+  border-bottom: 0 solid var(--primary-color-300);
 }
 
 .internal-tables-active {

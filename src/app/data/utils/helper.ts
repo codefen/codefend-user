@@ -13,7 +13,7 @@ import { unstable_batchedUpdates } from 'react-dom';
 export const getToken = () => {
   const storeJson = localStorage.getItem('authStore') ?? '';
   const store = storeJson ? JSON.parse(storeJson) : {};
-  return store ? store.state.accessToken : '';
+  return store ? store?.state?.accessToken : '';
 };
 /** Gets company id in localStorage */
 export const getFullCompanyFromUser = () => {
@@ -45,7 +45,7 @@ export const getFullCompanyFromUser = () => {
 /** GET base api url in localStorage */
 export const getCustomBaseAPi = () => {
   const storeJson = localStorage.getItem('authStore') ?? '';
-  const store = storeJson !== undefined ? JSON.parse(storeJson) : {};
+  const store = storeJson ? JSON.parse(storeJson) : {};
 
   return store?.state?.userData?.accessRole === 'admin'
     ? localStorage.getItem('baseApi') || ''
@@ -61,6 +61,7 @@ export const deleteCustomBaseAPi = () => window.localStorage.removeItem('baseApi
 
 /** check if it is running on tauri on web  */
 export const RUNNING_DESKTOP = (): boolean => {
+  console.log({ hasTauri: window.__TAURI__ });
   return window.__TAURI__ !== undefined;
 };
 
@@ -574,16 +575,10 @@ export function addEventListener(
   options?: ListenerOptionsType
 ): UnsubscribeCallback;
 export function addEventListener<K extends keyof HTMLElementEventMap>(
-  target:
-    | Document
-    | (Window & typeof globalThis)
-    | HTMLElement
-    | undefined
-    | null
-    | false,
+  target: Document | (Window & typeof globalThis) | HTMLElement | undefined | null | false,
   type: K,
   listener: (this: HTMLDivElement, ev: HTMLElementEventMap[K]) => any,
-  options?: boolean | AddEventListenerOptions,
+  options?: boolean | AddEventListenerOptions
 ): UnsubscribeCallback;
 export function addEventListener(
   target: ListenerTarget,
@@ -615,10 +610,7 @@ export const defaultIsShallowComparatorFallback = (a: any, b: any): boolean => {
   return a === b;
 };
 
-export const isShallowEqual = <
-  T extends Record<string, any>,
-  K extends readonly unknown[],
->(
+export const isShallowEqual = <T extends Record<string, any>, K extends readonly unknown[]>(
   objA: T,
   objB: T,
   comparators?:
@@ -627,12 +619,12 @@ export const isShallowEqual = <
         ? K extends readonly (keyof T)[]
           ? K
           : {
-              _error: "keys are either missing or include keys not in compared obj";
+              _error: 'keys are either missing or include keys not in compared obj';
             }
         : {
-            _error: "keys are either missing or include keys not in compared obj";
+            _error: 'keys are either missing or include keys not in compared obj';
           }),
-  debug = false,
+  debug = false
 ) => {
   const aKeys = Object.keys(objA);
   const bKeys = Object.keys(objB);
@@ -640,9 +632,9 @@ export const isShallowEqual = <
     if (debug) {
       console.warn(
         `%cisShallowEqual: objects don't have same properties ->`,
-        "color: #8B4000",
+        'color: #8B4000',
         objA,
-        objB,
+        objB
       );
     }
     return false;
@@ -651,15 +643,14 @@ export const isShallowEqual = <
   if (comparators && Array.isArray(comparators)) {
     for (const key of comparators) {
       const ret =
-        objA[key] === objB[key] ||
-        defaultIsShallowComparatorFallback(objA[key], objB[key]);
+        objA[key] === objB[key] || defaultIsShallowComparatorFallback(objA[key], objB[key]);
       if (!ret) {
         if (debug) {
           console.warn(
             `%cisShallowEqual: ${key} not equal ->`,
-            "color: #8B4000",
+            'color: #8B4000',
             objA[key],
-            objB[key],
+            objB[key]
           );
         }
         return false;
@@ -668,31 +659,22 @@ export const isShallowEqual = <
     return true;
   }
 
-  return aKeys.every((key) => {
-    const comparator = (
-      comparators as { [key in keyof T]?: (a: T[key], b: T[key]) => boolean }
-    )?.[key as keyof T];
+  return aKeys.every(key => {
+    const comparator = (comparators as { [key in keyof T]?: (a: T[key], b: T[key]) => boolean })?.[
+      key as keyof T
+    ];
     const ret = comparator
       ? comparator(objA[key], objB[key])
-      : objA[key] === objB[key] ||
-        defaultIsShallowComparatorFallback(objA[key], objB[key]);
+      : objA[key] === objB[key] || defaultIsShallowComparatorFallback(objA[key], objB[key]);
 
     if (!ret && debug) {
-      console.warn(
-        `%cisShallowEqual: ${key} not equal ->`,
-        "color: #8B4000",
-        objA[key],
-        objB[key],
-      );
+      console.warn(`%cisShallowEqual: ${key} not equal ->`, 'color: #8B4000', objA[key], objB[key]);
     }
     return ret;
   });
 };
 
-export const debounce = <T extends any[]>(
-  fn: (...args: T) => void,
-  timeout: number,
-) => {
+export const debounce = <T extends any[]>(fn: (...args: T) => void, timeout: number) => {
   let handle = 0;
   let lastArgs: T | null = null;
   const ret = (...args: T) => {

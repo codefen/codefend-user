@@ -1,14 +1,9 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.social {
-  // min-height: auto;
-  // max-height: none;
-  // padding-block-end: 0;
-  // padding-inline-end: 0;
-  // overflow-y: hidden;
-
   .left {
     width: 70%;
+
     .table {
       .item {
         height: 43px;
@@ -27,6 +22,7 @@ main.social {
           }
         }
       }
+
       .phone {
         min-width: 16%;
         max-width: 16%;
@@ -37,6 +33,7 @@ main.social {
         min-width: 19%;
         max-width: 19%;
         margin-inline-end: 1%;
+
         .publish {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -48,11 +45,13 @@ main.social {
           -webkit-box-align: center;
         }
       }
+
       .email {
         min-width: 24.5%;
         max-width: 24.5%;
         margin-inline-end: 1%;
       }
+
       .role {
         min-width: 15%;
         max-width: 15%;
@@ -71,6 +70,7 @@ main.social {
     .filter {
       width: 100%;
       justify-content: space-between;
+
       .label {
         display: flex;
         justify-content: flex-start;
@@ -105,6 +105,7 @@ main.social {
     left: 5dvw;
     filter: blur(120px) brightness(0.5) opacity(0.4);
   }
+
   .variant-2 {
     width: 23rem;
     top: -10dvh;
@@ -114,10 +115,11 @@ main.social {
 
   main.social {
     .right {
-      box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+      box-shadow: #000000 -20px 0 120px -55px;
       display: flex;
       flex-direction: column;
       row-gap: 2rem;
+
       .card {
         .header {
           background-color: var(--primary-color-600);

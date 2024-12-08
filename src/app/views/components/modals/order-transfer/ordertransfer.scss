@@ -18,20 +18,22 @@
       font-weight: 400;
       white-space: break-spaces;
       color: var(--option-header-title);
-
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       text-overflow: ellipsis;
     }
+
     h2 {
       text-align: center;
       width: 100%;
     }
+
     b {
       margin-inline-end: 5px;
     }
+
     span {
       color: var(--option-header-span);
     }
@@ -39,12 +41,11 @@
 }
 
 .step-content {
+  --show-border-color: var(--tertiary-color-50);
   flex: 1;
-  padding: 20px 0px;
+  padding: 20px 0;
   overflow-y: auto;
   max-height: calc(100vh - 50vh);
-
-  --show-border-color: var(--tertiary-color-50);
 
   .more-results {
     max-height: 370px;
@@ -63,6 +64,7 @@
   .order-poiinter {
     cursor: pointer;
   }
+
   .order-snapshot {
     display: flex;
     flex-flow: column nowrap;
@@ -93,6 +95,7 @@
       }
     }
   }
+
   .option {
     display: flex;
     align-items: center;
@@ -158,9 +161,11 @@
       filter: grayscale(0);
       opacity: 1;
     }
+
     h5 {
       color: var(--secondary-color-200);
     }
+
     .price-value {
       color: var(--secondary-color-200);
       font-family: Roboto;

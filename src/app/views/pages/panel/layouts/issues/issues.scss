@@ -2,15 +2,25 @@
 
 main.issue-detail {
   width: 100%;
-  padding-inline-end: 0px;
+  padding-inline-end: 0;
   padding-inline-start: 75px;
 
   .left {
-    gap: 0px;
+    gap: 0;
+    flex: 0 1 900px;
+
     > div {
       border-left: 1px solid var(--primary-color-300);
       border-right: 1px solid var(--primary-color-300);
     }
+
+    textarea {
+      background-color: transparent;
+      outline: none;
+      border: 0;
+      cursor: default;
+    }
+
     .header {
       display: flex;
       align-items: stretch;
@@ -18,9 +28,8 @@ main.issue-detail {
       border-bottom: 1px solid var(--primary-color-300);
       background-color: var(--primary-color);
       font-family: Roboto;
-      // color: var(--tertiary-color-200);
       height: 50px;
-      padding: 0px;
+      padding: 0;
 
       > div {
         // border-right: 1px solid var(--primary-color-300);
@@ -32,7 +41,6 @@ main.issue-detail {
       .back {
         transition: all 0.2s;
         border-right: 1px solid var(--primary-color-300);
-        // border-top: 1px solid var(--primary-color-300);
         cursor: pointer;
 
         &:hover {
@@ -44,7 +52,6 @@ main.issue-detail {
         height: 100%;
         flex: 1;
         width: 90%;
-        height: 100%;
         border: none;
 
         &.grow {
@@ -61,13 +68,12 @@ main.issue-detail {
         font-weight: 700;
         font-size: 14px;
         border-right: none;
-
         flex: 1 1;
       }
 
       .work-buttons {
         display: flex;
-        padding: 0px !important;
+        padding: 0 !important;
       }
 
       .action-btn {
@@ -97,6 +103,7 @@ main.issue-detail {
 
         &:hover {
           background-color: var(--primary-color-200);
+
           svg {
             transform: scale(1.1);
             transition: all 0.1s;
@@ -106,10 +113,10 @@ main.issue-detail {
 
       .save {
         cursor: pointer;
-        border-right: 0px;
+        border-right: 0;
         transition: all 0.2s;
         color: var(--secondary-color-300);
-        max-width: 0px;
+        max-width: 0;
         overflow: hidden;
 
         &.on {
@@ -126,6 +133,7 @@ main.issue-detail {
         &:hover {
           color: var(--secondary-color-50);
           background-color: var(--primary-color-500);
+
           svg {
             transition: all 0.1s;
             transform: scale(1.1);
@@ -137,7 +145,6 @@ main.issue-detail {
     .info {
       display: flex;
       align-items: stretch;
-      // column-gap: 10px;
       font-family: Roboto;
       text-transform: uppercase;
       font-size: 11px;
@@ -152,6 +159,7 @@ main.issue-detail {
         background: none;
         padding-left: 5px;
       }
+
       input[type='number'] {
         margin: 0;
         width: 53%;
@@ -168,10 +176,10 @@ main.issue-detail {
           color: var(--tertiary-color-300);
           font-weight: bold;
           outline: none;
-          // height: 100%;
           border: 0;
           font-size: 11px;
         }
+
         &:focus {
           border: none !important;
           color: var(--secondary-color-50);
@@ -188,7 +196,6 @@ main.issue-detail {
         align-items: center;
         padding-left: 20px;
         padding-right: 20px;
-        // padding-inline-end: 0;
 
         &.select-resource {
           width: fit-content;
@@ -197,7 +204,6 @@ main.issue-detail {
 
         p,
         label {
-          // padding-inline: 15px;
           white-space: nowrap;
         }
       }
@@ -223,8 +229,6 @@ main.issue-detail {
       }
 
       select:disabled {
-        -webkit-appearance: none;
-        -moz-appearance: none;
         appearance: none;
         cursor: default;
       }
@@ -233,6 +237,7 @@ main.issue-detail {
 
   .right {
     height: 100%;
+    flex: 0 1 30%;
 
     @include mixin.respond(small) {
       width: 100%;
@@ -246,26 +251,15 @@ main.issue-detail {
     min-height: auto;
     height: 81dvh;
   }
+
   @include mixin.respond(wide) {
     .left {
       flex: 0 1 900px;
     }
+
     .right {
       flex: 0 1 30%;
     }
-  }
-  .left {
-    flex: 0 1 900px;
-
-    textarea {
-      background-color: transparent;
-      outline: none;
-      border: 0px;
-      cursor: default;
-    }
-  }
-  .right {
-    flex: 0 1 30%;
   }
 }
 
@@ -292,6 +286,7 @@ main.issues-list {
         max-height: 2.2rem;
         align-items: flex-start;
       }
+
       .date {
         min-width: 13%;
         max-width: 13%;
@@ -300,33 +295,38 @@ main.issues-list {
       .username {
         display: none;
       }
+
       .vul-class {
         min-width: 8%;
-        max-width: 8%; //27 y 4
+        max-width: 8%;
         margin-inline-end: 1%;
       }
 
       .vul-risk {
         min-width: 9%;
-        max-width: 9%; //37 y 3
+        max-width: 9%;
         margin-inline-end: 1%;
       }
+
       .vul-score {
         min-width: 13%;
-        max-width: 13%; //49.5 y 1
+        max-width: 13%;
         margin-inline-end: 1%;
+
         .score-value {
           margin-block-start: 0.25rem;
         }
       }
+
       .vul-title {
         min-width: 46%;
         max-width: 46%;
         margin-inline-end: 1%;
       }
+
       .vul-condition {
         min-width: 10%;
-        max-width: 10%; //58.5 y 2
+        max-width: 10%;
       }
 
       .id.action {
@@ -351,27 +351,32 @@ main.issues-list {
           min-width: 10.5%;
           max-width: 10.5%;
         }
+
         .username {
           display: block;
           min-width: 10%;
           max-width: 10%;
           margin-inline-end: 1%;
         }
+
         .vul-risk {
           min-width: 8%;
           max-width: 8%;
           margin-inline-end: 1%;
         }
+
         .vul-score {
           min-width: 9%;
           max-width: 9%;
           margin-inline-end: 1%;
         }
+
         .vul-title {
           min-width: 45%;
           max-width: 45%;
           margin-inline-end: 1%;
         }
+
         .vul-condition {
           min-width: 6.5%;
           max-width: 6.5%;
@@ -392,8 +397,10 @@ main.issues-list {
     .card {
       &.risk-chart {
         margin-block-end: 1.25rem;
+
         .content {
           flex-direction: column;
+
           @include mixin.minScreen(1825px) {
             & {
               flex-direction: row;
@@ -407,6 +414,7 @@ main.issues-list {
   @include mixin.respond(small) {
     height: 81dvh;
     min-height: auto;
+
     .left {
       width: 100%;
 
@@ -414,6 +422,7 @@ main.issues-list {
         overflow-x: auto;
       }
     }
+
     .right {
       width: 100%;
     }
@@ -426,7 +435,7 @@ main.issues-list {
     top: -22dvh;
     right: 17dvw;
     filter: blur(130px) brightness(0.45) opacity(0.4);
-    background: rgba(255, 255, 255, 0.7607843137);
+    background: #ffffffc2;
     z-index: 5;
   }
 
@@ -442,19 +451,19 @@ main.issues-list {
       .header {
         .edit {
           &.on {
-            // background: none !important;
             color: var(--secondary-color-200);
           }
         }
+
         .save {
           &.on {
-            // background: none !important;
             color: var(--secondary-color-50);
           }
         }
       }
+
       .info {
-        background: rgba(18, 26, 35, 0.3);
+        background: #121a234d;
       }
     }
   }

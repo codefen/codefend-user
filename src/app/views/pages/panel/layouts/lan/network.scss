@@ -26,6 +26,7 @@ main.lan {
         min-width: 22%;
         margin-inline-end: 1%;
       }
+
       .full-name {
         max-width: 26.5%;
         min-width: 26.5%;
@@ -54,13 +55,6 @@ main.lan {
       }
     }
   }
-
-  .card {
-    &.table {
-      .rows {
-      }
-    }
-  }
 }
 
 [data-theme='dark'] {
@@ -73,14 +67,14 @@ main.lan {
 
   .variant-2 {
     width: 15rem;
-    bottom: 0dvh;
+    bottom: 0;
     right: 4dvw;
     filter: blur(150px) brightness(0.45) opacity(0.55);
   }
 
   main.lan {
     .right {
-      box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+      box-shadow: #000000 -20px 0 120px -55px;
     }
   }
 }

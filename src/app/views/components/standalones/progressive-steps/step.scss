@@ -1,12 +1,13 @@
 .steps {
+  --default-color: #00000020;
+  --completed-color: #000000;
+  --current-color: #000000d2;
+
   flex: 1.2;
   justify-content: space-between;
   align-items: center;
   display: flex;
-  padding: 15px 15px;
-  --default-color: #00000020;
-  --completed-color: #000000;
-  --current-color: #000000d2;
+  padding: 15px;
 
   .step {
     position: relative;
@@ -20,17 +21,16 @@
       display: inline-block;
       width: 11px;
       height: 11px;
-
       background-color: var(--default-color);
-
       border-radius: 30px;
       margin: auto;
-
       top: 0.125em;
     }
+
     img {
       display: none;
     }
+
     &.completed {
       .step-dot {
         background-color: var(--completed-color);
@@ -43,9 +43,7 @@
         height: 25px;
         background-color: var(--current-color);
       }
-      img {
-        // display: inline;
-      }
+
       &::before {
         content: attr(data-text);
         position: absolute;
@@ -53,9 +51,7 @@
         top: 50%;
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
-
         padding-block-start: 2px;
-
         color: #fff;
         font-weight: 700;
         font-size: 1.075rem;

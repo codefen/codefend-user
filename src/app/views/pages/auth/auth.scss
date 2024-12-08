@@ -6,12 +6,14 @@
   height: 100vh;
   position: absolute;
   z-index: 1;
-  background: rgb(150, 12, 12);
-  background: linear-gradient(294deg, rgb(150, 12, 12) 70%, rgb(208, 5, 5) 90%);
+  background: #960c0c;
+  background: linear-gradient(294deg, #960c0c 70%, #d00505 90%);
+
   canvas {
     width: 70vw !important;
   }
 }
+
 section.access {
   --brand-view: none;
   --bkg-view: none;
@@ -21,7 +23,7 @@ section.access {
   --form-max-w: 100%;
   --form-h: 100dvh;
   --form-position: relative;
-  --form-radius: 0px;
+  --form-radius: 0;
   --section-text-color: #222222;
   --brand-r: inherit;
   --brand-t: 5dvw;
@@ -75,7 +77,7 @@ section.access {
     position: var(--form-position);
     border-radius: var(--form-radius);
 
-    box-shadow: 0px 0px 30px #00000060;
+    box-shadow: 0 0 30px #00000060;
     display: flex;
     flex-direction: column;
 
@@ -97,7 +99,6 @@ section.access {
         padding-block: 3px;
         padding-inline: 10px;
         border-bottom: 3px solid #e3e3e3;
-        // opacity: .8;
 
         &.active {
           opacity: 1;
@@ -170,6 +171,7 @@ section.access {
           column-gap: 0.5rem;
         }
       }
+
       .low-space {
         margin-block-start: 1rem;
       }
@@ -251,6 +253,7 @@ form.signup-confirm {
   #particles-js {
     display: block;
   }
+
   section.access {
     --bkg-view: block;
     --form-position: absolute;

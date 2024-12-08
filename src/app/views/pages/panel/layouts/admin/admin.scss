@@ -2,8 +2,9 @@
 
 main.company {
   overflow: hidden;
-  padding-inline-end: 0px;
-  padding-block-end: 0px;
+  padding-inline-end: 0;
+  padding-block-end: 0;
+
   .left {
     flex: 1 1 68%;
     padding-inline-end: 0.5rem;
@@ -14,6 +15,7 @@ main.company {
 
       &.internal-tables {
         border-bottom: 1px solid var(--primary-color-300);
+
         div:last-child {
           border-bottom: 1px solid var(--primary-color-300);
         }
@@ -31,11 +33,13 @@ main.company {
           &.current-company {
             padding-inline-end: 0.85rem;
           }
+
           &.dash-company-btn {
             display: inline;
             cursor: default;
             user-select: none;
           }
+
           &.company-btn {
             cursor: pointer;
             padding-inline: 0.85rem;
@@ -128,6 +132,7 @@ main.company {
           }
         }
       }
+
       .company-columns {
         display: flex;
         padding: 0.75rem;
@@ -140,9 +145,11 @@ main.company {
           &.l {
             width: 8.333333%;
           }
+
           &.xl {
             width: 16.666667%;
           }
+
           &.xll {
             width: 50%;
           }
@@ -216,6 +223,7 @@ main.company {
   @media only screen and (min-width: 320px) {
     max-width: 320px;
   }
+
   @media only screen and (min-width: 640px) {
     max-width: 640px;
   }
@@ -231,13 +239,16 @@ main.company {
       .company-header {
         color: var(--tertiary-color-50);
       }
+
       .header-bar-options {
         padding-left: 2rem;
+
         p {
           color: var(--tertiary-color-100);
         }
       }
     }
+
     .right {
       .company-details-container {
         .title {
@@ -245,6 +256,7 @@ main.company {
           text-align: left;
           color: var(--tertiary-color-100);
         }
+
         .internal-tables div {
           color: var(--tertiary-color-400);
         }

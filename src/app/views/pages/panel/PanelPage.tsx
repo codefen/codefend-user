@@ -30,15 +30,14 @@ export const PanelPage = () => {
   const { getProviderCompanyAccess } = useProviderCompanies();
   useUserCommunicated();
 
-  const isNetworkSettingModalOpen = useMemo(
-    () => showModal && showModalStr === MODAL_KEY_OPEN.NETWORK_SETTING,
+  const modals = useMemo(
+    () => ({
+      isNetworkSettingModalOpen: showModal && showModalStr === MODAL_KEY_OPEN.NETWORK_SETTING,
+      isErrorConnectionModalOpen: showModal && showModalStr === MODAL_KEY_OPEN.ERROR_CONNECTION,
+    }),
     [showModal, showModalStr]
   );
 
-  const isErrorConnectionModalOpen = useMemo(
-    () => showModal && showModalStr === MODAL_KEY_OPEN.ERROR_CONNECTION,
-    [showModal, showModalStr]
-  );
   const closeErrorConnectionModal = useCallback(() => {
     setShowModal(false);
     localStorage.removeItem(MODAL_KEY_OPEN.ERROR_CONNECTION);
@@ -90,11 +89,17 @@ export const PanelPage = () => {
   return (
     <FlashLightProvider>
       <>
-        <NetworkSettingModal isOpen={isNetworkSettingModalOpen} close={() => setShowModal(false)} />
+        <NetworkSettingModal
+          isOpen={modals.isNetworkSettingModalOpen}
+          close={() => setShowModal(false)}
+        />
         <WelcomeGroupTour />
         <QualityFeedbackManager />
 
-        <ErrorConection closeModal={closeErrorConnectionModal} open={isErrorConnectionModalOpen} />
+        <ErrorConection
+          closeModal={closeErrorConnectionModal}
+          open={modals.isErrorConnectionModalOpen}
+        />
 
         <Navbar />
         <Sidebar />

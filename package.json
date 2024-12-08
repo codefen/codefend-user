@@ -1,7 +1,7 @@
 {
 	"name": "codefend-panel",
 	"private": true,
-	"version": "0.0.1",
+	"version": "24.3.0",
 	"description": "Security Platform Panel",
 	"type": "module",
 	"scripts": {
@@ -9,38 +9,46 @@
 		"dev": "vite",
 		"lint": "eslint --report-unused-disable-directives --max-warnings 0",
 		"lint:fix": "eslint . --report-unused-disable-directives --max-warnings 0 --fix",
+		"lint:css": "stylelint '**/*.{css,scss,module.css,module.scss}'",
 		"format": "prettier --check \"**/*.{js,jsx,ts,tsx}\" --ignore-path .prettierignore .",
 		"format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\" --ignore-path .prettierignore .",
 		"checking": "pnpm lint:fix && pnpm format:fix && pnpm types:check",
 		"types:check": "tsc --noEmit --pretty",
 		"build": "tsc && vite build",
 		"preview": "vite preview",
-		"tauri": "WEBKIT_DISABLE_COMPOSITING_MODE=1 tauri"
+		"tauri": "tauri"
 	},
 	"dependencies": {
-		"@stripe/react-stripe-js": "^2.7.0",
-		"@stripe/stripe-js": "^3.3.0",
-		"@tauri-apps/api": "1.5.3",
-		"@tauri-apps/cli": "1.5.11",
+		"@stripe/react-stripe-js": "2.7.0",
+		"@stripe/stripe-js": "3.3.0",
+		"@tauri-apps/api": "2.1.1",
+		"@tauri-apps/plugin-notification": "2.0.0",
+		"@tauri-apps/plugin-process": "2.0.0",
+		"@tauri-apps/plugin-shell": "2",
+		"@tauri-apps/plugin-updater": "2.0.0",
+		"@tauri-apps/plugin-upload": "2.2.1",
 		"axios": "1.6.8",
 		"chart.js": "4.4.2",
 		"d3": "7.9.0",
-		"isomorphic-dompurify": "^2.7.0",
+		"isomorphic-dompurify": "2.18.0",
 		"react": "18.3.1",
 		"react-chartjs-2": "5.2.0",
 		"react-dom": "18.3.1",
 		"react-masonry-css": "1.0.16",
-		"react-router": "6.21.2",
-		"react-router-dom": "6.21.2",
+		"react-router": "6.28.0",
+		"react-router-dom": "6.28.0",
 		"react-toastify": "10.0.5",
 		"swr": "^2.2.5",
 		"usehooks-ts": "3.1.0",
-		"zustand": "4.5.2"
+		"zustand": "4.5.5"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "19.6.0",
+		"@commitlint/config-conventional": "19.6.0",
 		"@eslint/compat": "1.2.3",
 		"@eslint/eslintrc": "3.2.0",
 		"@eslint/js": "9.16.0",
+		"@tauri-apps/cli": "2.1.0",
 		"@types/d3": "7.4.3",
 		"@types/eslint__js": "8.42.3",
 		"@types/node": "20.12.7",
@@ -56,19 +64,45 @@
 		"eslint-plugin-react-refresh": "0.4.16",
 		"eslint-plugin-unicorn": "56.0.1",
 		"globals": "15.13.0",
+		"husky": "9.1.7",
 		"lightningcss": "1.24.1",
 		"lint-staged": "15.2.2",
+		"postcss": "8.4.49",
+		"postcss-import": "16.1.0",
+		"postcss-lit": "1.1.1",
 		"prettier": "3.2.5",
 		"sass": "1.75.0",
+		"stylelint": "16.11.0",
+		"stylelint-config-standard": "36.0.1",
+		"stylelint-config-standard-scss": "14.0.0",
 		"typescript": "5.4.5",
 		"typescript-eslint": "8.17.0",
 		"unplugin-lightningcss": "0.2.1",
-		"vite": "5.2.8"
+		"vite": "5.4.11"
 	},
 	"main": "vite.config.ts",
 	"keywords": [],
 	"author": "Codefend",
 	"resolutions": {
 		"minimist": "1.2.6"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/codefen/codefend-user.git"
+	},
+	"bugs": {
+		"url": "https://github.com/codefen/codefend-user/issues"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	}
 }

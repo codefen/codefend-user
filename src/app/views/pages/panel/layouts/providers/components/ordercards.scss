@@ -1,3 +1,18 @@
+.text-bold {
+  font-weight: 500;
+  color: var(--text-dark-color);
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 .confirm-order-card {
   --bg-confirm-order: var(--primary-color-100);
   --bg-active-confirm-order: #fff6f6;
@@ -7,22 +22,7 @@
   --text-dark-color: #181818;
   --text-light-color: var(--tertiary-color-400);
   --text-red: var(--secondary-color-100);
-}
 
-.text-bold {
-  font-weight: 500;
-  color: var(--text-dark-color);
-}
-.flex-col {
-  display: flex;
-  flex-direction: column;
-}
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.confirm-order-card {
   width: 100%;
   min-width: 630px;
   max-width: 900px;
@@ -30,7 +30,6 @@
   background-color: var(--bg-confirm-order);
   border: 1px solid var(--border-confirm-order);
   border-radius: 4px;
-
   display: flex;
   flex-direction: row;
   padding: 1rem;
@@ -55,6 +54,7 @@
         color: var(--text-dark-color);
         padding-inline-start: 0.5rem;
       }
+
       .normal {
         font-weight: 500;
         color: var(--text-light-color);
@@ -77,6 +77,7 @@
       padding-inline-start: 10px;
     }
   }
+
   .order-important-info {
     margin-block-start: 0.5rem;
     padding-inline-start: 5px;
@@ -99,6 +100,7 @@
       flex-direction: column;
       margin-inline-start: auto;
       margin-inline-end: 2rem;
+
       &.expand {
         flex: 1;
       }
@@ -111,6 +113,7 @@
         width: fit-content;
         margin-inline-start: auto;
       }
+
       .distributor {
         font-size: 1.15rem;
         color: var(--text-dark-color);

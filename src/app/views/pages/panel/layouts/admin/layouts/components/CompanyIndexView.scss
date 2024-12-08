@@ -30,7 +30,7 @@
       cursor: pointer;
       background: #ffe4e40d;
       border: 1px solid rgb(222 222 222 / 70%);
-      box-shadow: 4px 2px 8px 0px rgb(170 170 170 / 10%);
+      box-shadow: 4px 2px 8px 0 rgb(170 170 170 / 10%);
       border-radius: 0.4rem;
 
       transition: all 150ms ease;
@@ -38,14 +38,15 @@
       @include respond(medium) {
         width: 70%;
       }
+
       @include respond(small) {
         width: 100%;
       }
 
       &.selected {
-        border: 1px solid rgba(255, 27, 27, 0.55);
+        border: 1px solid #ff1b1b8c;
         box-shadow: 4px 3px 8px 1px rgb(255 146 146 / 10%);
-        background: rgb(255 228 228 / 25%);
+        background: #ffe4e440;
       }
 
       .company-card {
@@ -64,7 +65,7 @@
           width: 6.149rem;
           aspect-ratio: 1/1;
           border-radius: 100%;
-          background-color: rgba(128, 128, 128, 0.1);
+          background-color: #80808003;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -126,12 +127,12 @@ body[data-theme='dark'] {
   .CompanyIndexView {
     .company {
       background: var(--primary-color-100);
-      box-shadow: 4px 2px 8px 0px rgb(22 30 40 / 57%);
-      border-color: rgb(12 18 24 / 40%);
+      box-shadow: 4px 2px 8px 0 #161e2891;
+      border-color: #0c121866;
 
       &.selected {
-        border: 1px solid rgb(213 43 43 / 67%);
-        box-shadow: 4px 2px 8px 0px rgb(177 25 25 / 21%);
+        border: 1px solid #d52b2bab;
+        box-shadow: 4px 2px 8px 0 #b1191936;
         background: #141c27;
       }
     }

@@ -14,19 +14,29 @@ for (const x in raw) {
   alias[x.replace('/*', '')] = raw[x].map(p => path.resolve(__dirname, p.replace('/*', '')));
 }
 
+const PORT = process.env.VITE_PORT;
+const HOST = process.env.TAURI_HOST;
+const PLATFORM = process.env.TAURI_PLATFORM;
+const IS_DEBUG = process.env.TAURI_DEBUG;
+
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
-  build: {
-    cssMinify: 'lightningcss' as 'lightningcss',
-  },
   resolve: {
     alias,
   },
   plugins: [react(), LightningCSS()],
   clearScreen: false,
   server: {
-    port: 3000,
-    strictPort: false,
+    strictPort: true,
+    host: HOST || false,
+    port: Number(PORT),
+    hmr: HOST
+    ? {
+        protocol: "ws",
+        host: HOST,
+        port: Number(PORT),
+      }
+    : undefined,
     watch: {
       ignored: ['**/src-tauri/**'],
     },
@@ -37,5 +47,12 @@ export default defineConfig(() => ({
         './src/app/views/components/defaults/Show.tsx',
       ],
     },
+  },
+  envPrefix: ['VITE_', 'TAURI_'],
+  build: {
+    cssMinify: !IS_DEBUG ? 'lightningcss' as 'lightningcss' : "esbuild" as "esbuild",
+    target: PLATFORM == 'windows' ? 'chrome105' : 'safari13',
+    sourcemap: !!IS_DEBUG,
+    minify: !IS_DEBUG ? 'esbuild' as "esbuild" : false,
   },
 }));

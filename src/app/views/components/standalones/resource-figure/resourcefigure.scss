@@ -2,9 +2,9 @@
   --color-title: var(--tertiary-color-500);
   --color-resource: var(--tertiary-color-450);
   --color-resource-hover: var(--tertiary-color-500);
+
   width: 135px;
   height: 95px;
-
   display: flex;
   flex-direction: column;
   padding: 0.25rem;
@@ -36,6 +36,7 @@
       font-size: 1.35rem;
       transition: color 190ms ease;
     }
+
     h5 {
       transition: color 190ms ease;
       font-size: 1rem;
@@ -58,6 +59,7 @@
       h4 {
         color: var(--secondary-color-100);
       }
+
       h5 {
         color: var(--color-resource-hover);
       }
@@ -67,13 +69,16 @@
   &.report-type-disable {
     opacity: 0.35;
     cursor: default;
+
     .caption-card {
       h4 {
         color: var(--tertiary-color-200);
       }
+
       h5 {
         color: var(--tertiary-color-200);
       }
+
       span {
         color: var(--tertiary-color-200) !important;
       }
@@ -85,10 +90,12 @@
       svg {
         color: inherit;
       }
+
       .caption-card {
         h4 {
           color: var(--tertiary-color-200);
         }
+
         h5 {
           color: var(--tertiary-color-200);
         }

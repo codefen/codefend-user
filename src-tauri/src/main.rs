@@ -1,29 +1,22 @@
+// Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 // IMPORTS
-use std::process::Command;
-use std::io;
-use tauri::Builder;
-use std::fs::{self};
-use mac_address::get_mac_address;
-use serde_json::{json, Value};
+//use std::process::Command;
+//use std::io;
+//use tauri::Builder;
+//use std::fs::{self};
+//use mac_address::get_mac_address;
+//use serde_json::{json, Value};
 
 
 // GLOBAL VARIABLES
-
-#[tauri::command]
 fn main() {
-    Builder::default()
-    .invoke_handler(
-        tauri::generate_handler![scan_local],
-    )
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+    codefend_panel_lib::run()
 }
 
-
 // Windows command
-#[cfg(target_os = "windows")]
+/*#[cfg(target_os = "windows")]
 #[tauri::command]
 async fn scan_local(session_id: String) -> Result<String, String> {
     use std::process::Command;
@@ -98,7 +91,7 @@ async fn scan_local(session_id: String) -> Result<String, String> {
     }
 
     Ok(r#"{"success": "Scan completed successfully"}"#.to_string())
-}
+}*/
 
 // Check admin privileges
 #[cfg(target_os = "windows")]

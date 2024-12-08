@@ -18,7 +18,7 @@ main.admin-user {
         padding: 0.75rem;
         padding-inline-start: 2rem;
 
-        p {
+        & p {
           text-align: left;
           font-weight: 700;
         }
@@ -29,7 +29,7 @@ main.admin-user {
         padding: 0.75rem;
         padding-inline-start: 2rem;
 
-        p {
+        & p {
           font-size: 1rem /* 16px */;
           line-height: 1.5rem /* 24px */;
 
@@ -75,7 +75,7 @@ main.admin-user {
           button {
             font-weight: 700;
             padding: 0.25rem;
-            color: rgb(31 41 55 / 1);
+            color: #1f2937;
 
             &.btn-left {
               border-top-left-radius: 0.25rem /* 4px */;

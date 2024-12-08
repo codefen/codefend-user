@@ -2,26 +2,32 @@
 
 main.sb {
   overflow: hidden;
+
   .left {
     .vdb-app-info {
       margin-inline: 0.75rem;
+
       .table {
         .rows {
           min-height: calc(99dvh - 173px);
           max-height: calc(99dvh - 173px);
+
           .item {
             height: calc((1.4rem * 2) + 5px);
             max-height: calc((1.4rem * 2) + 5px);
             line-height: 1.4rem !important;
           }
         }
+
         .cve {
           text-align: center;
           max-width: 135px;
+
           div {
             justify-content: center;
           }
         }
+
         .vul-title {
           text-align: center;
           width: auto;
@@ -45,9 +51,11 @@ main.sb {
           text-align: left;
           max-width: 95px;
         }
+
         .id {
           max-width: 85px;
         }
+
         .publish {
           justify-content: left;
         }
@@ -59,7 +67,6 @@ main.sb {
     .previous-search-container {
       display: flex;
       flex-direction: column;
-
       height: 100%;
 
       .previous-search-wrapper {
@@ -77,6 +84,7 @@ main.sb {
             display: flex;
             flex-flow: row nowrap;
             column-gap: 0.875rem;
+
             p {
               text-align: left;
               font-weight: 700;
@@ -107,14 +115,15 @@ main.sb {
                   width: 50%;
                 }
               }
+
               .content-main {
                 display: flex;
                 padding-inline: 0.75rem;
                 padding-block: 0.25rem;
 
                 p {
-                  font-size: 1rem /* 16px */;
-                  line-height: 1.5rem /* 24px */;
+                  font-size: 1rem;
+                  line-height: 1.5rem;
                   width: 50%;
                 }
               }

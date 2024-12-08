@@ -4,7 +4,7 @@ main.dashboard {
   .left {
     .card {
       .content {
-        padding: 0px;
+        padding: 0;
       }
     }
 
@@ -13,6 +13,7 @@ main.dashboard {
         min-width: 48%;
         max-width: 48%;
       }
+
       .vul-class,
       .username,
       .vul-score,
@@ -48,6 +49,7 @@ main.dashboard {
       right: 31dvw;
       filter: blur(100px) brightness(0.5) opacity(0.45);
     }
+
     .variant-2 {
       width: 16rem;
       top: 20dvh;

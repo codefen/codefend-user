@@ -63,6 +63,7 @@
         }
       }
     }
+
     &_extra {
       display: flex;
       justify-content: space-between;
@@ -79,12 +80,12 @@
           height: 23px;
         }
       }
+
       &_reset {
         width: fit-content;
         text-decoration-line: underline;
         text-align: right;
         margin-inline-end: 0.5rem;
-
         cursor: pointer;
       }
     }

@@ -75,20 +75,18 @@ main.enp {
 
   .modal-os-container {
     position: fixed;
-    inset: 0px;
+    inset: 0;
     z-index: 50;
-
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #00000080;
 
     .modal-os-wrapper {
       position: relative;
       width: 100%;
       height: 100%;
       max-width: 28rem;
-
       padding: 1rem;
 
       @media only screen and (min-width: 768px) {
@@ -100,9 +98,8 @@ main.enp {
         border-radius: 0.25rem;
         box-shadow:
           0 0 0 0 #0000,
-          0 1px 3px 0 rgb(0 0 0 / 0.1),
-          0 1px 2px -1px rgb(0 0 0 / 0.1);
-
+          0 1px 3px 0 #0000001a,
+          0 1px 2px -1px #0000001a;
         background: var(--primary-color-200);
 
         .modal-os-header {
@@ -110,7 +107,6 @@ main.enp {
           justify-content: space-between;
           align-items: center;
           padding: 1.25rem;
-
           border-bottom-width: 1px;
           border-top-left-radius: 0.25rem;
           border-top-right-radius: 0.25rem;
@@ -146,13 +142,11 @@ main.enp {
 
                 &.isSelectIcon {
                   border-color: var(--secondary-color-50);
-
                   color: var(--secondary-color-100);
                 }
 
                 &.other {
                   border-color: var(--tertiary-color-200);
-
                   color: var(--tertiary-color-500);
                 }
               }
@@ -176,9 +170,7 @@ main.enp {
               overflow: hidden;
               transition-duration: 300ms;
               transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-
               border: 1px solid var(--primary-color-600);
-
               background: var(--primary-color-200);
               color: var(--tertiary-color-500);
 
@@ -209,6 +201,7 @@ main.enp {
     .second-graph {
       width: 50%;
     }
+
     .three-graph {
       width: 33.333333%;
     }
@@ -222,7 +215,7 @@ main.enp {
         visibility 0.2s linear,
         opacity 0.3s linear;
       width: 300px;
-      background: rgb(19, 27, 36, 0.7);
+      background: #131b24b3;
       color: #fff;
       text-align: center;
       border-radius: 2px;
@@ -276,31 +269,12 @@ main.enp {
     align-items: center;
     height: 1.5rem;
     margin-left: 1rem;
-    background-color: rgb(241 245 249);
+    background-color: #f1f5f9;
     font-family: monospace;
     font-size: 0.875rem;
     line-height: 1.25rem;
     padding: 0.25rem;
-    color: rgb(156 163 175);
-    border-bottom-right-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    cursor: default;
-  }
-
-  .enp-chart-text {
-    display: flex;
-    align-items: center;
-    height: 1.5rem;
-    margin-left: 1rem;
-    background-color: rgb(241 245 249);
-    font-family: monospace;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    padding: 0.25rem;
-    color: rgb(156 163 175);
+    color: #9ca3af;
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
     border-left-width: 1px;
@@ -314,11 +288,11 @@ main.enp {
   }
 
   .enp-compliance-failed {
-    color: rgb(189, 44, 44);
+    color: #bd2c2c;
   }
 
   .enp-compliance-success {
-    color: rgb(110, 229, 231);
+    color: #6ee5e7;
   }
 
   .enp-table-header {
@@ -328,7 +302,6 @@ main.enp {
     border-right-width: 1px;
     border-top-width: 1px;
     border-color: var(--primary-color-300);
-
     flex: 1 1;
 
     &:hover {
@@ -389,7 +362,6 @@ main.enp {
     border-bottom-width: 1px;
     border-color: var(--primary-color-300);
     margin-block-end: 1.25rem;
-
     flex: 1 1;
 
     &:hover {
@@ -399,18 +371,15 @@ main.enp {
     .enp-content-row {
       display: flex;
       align-items: center;
-
       padding: 1rem;
       padding-inline-start: 1.5rem;
       border-left-width: 1px;
       border-right-width: 1px;
       border-top-width: 1px;
       border-color: var(--primary-color-300);
-
       font-size: 0.875rem /* 14px */;
       line-height: 1.25rem /* 20px */;
       color: var(--tertiary-color-300);
-
       transition-property: background-color;
       transition-duration: 300ms;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -427,22 +396,16 @@ main.enp {
           width: 8.333333%;
         }
 
-        //h-8 text-xs rounded w-auto
         .enp-btn {
           width: auto;
           border-radius: 0.25rem;
-
           font-size: 0.75rem /* 12px */;
           line-height: 1rem /* 16px */;
-
           height: 2rem;
           padding-right: 1rem;
           padding-left: 1rem;
-
           border-width: 1px;
-
           cursor: pointer;
-
           transition-property: background-color, color;
           transition-duration: 300ms;
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -452,19 +415,19 @@ main.enp {
           }
 
           &.enp-scan-btn {
-            background-color: rgba(236, 253, 245, 1);
-            color: rgb(110 231 183 / 1);
-            border-color: rgb(110 231 183 / 1);
+            background-color: #ecfdf5;
+            color: #6ee7b7;
+            border-color: #6ee7b7;
           }
 
           &.enp-report-btn {
-            background-color: rgba(254, 242, 242, 1);
-            color: rgb(252 165 165 / 1);
-            border-color: rgb(252 165 165 / 1);
+            background-color: #fef2f2;
+            color: #fca5a5;
+            border-color: #fca5a5;
 
             &:hover {
-              background-color: rgb(236, 199, 199);
-              color: rgb(245, 138, 138);
+              background-color: #ecc7c7;
+              color: #f58a8a;
             }
           }
         }
@@ -501,16 +464,13 @@ main.enp {
       .empty-message {
         display: flex;
         align-items: center;
-
         padding: 1rem;
         padding-inline-start: 1.5rem;
         border-left-width: 1px;
         border-right-width: 1px;
         border-top-width: 1px;
-
         font-size: 0.875rem /* 14px */;
         line-height: 1.25rem /* 20px */;
-
         transition-property: background-color;
         transition-duration: 300ms;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -547,17 +507,13 @@ main.enp {
         'Courier New', monospace;
       font-size: 0.875rem;
       line-height: 1.25rem;
-
       border-bottom-right-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
       border-bottom-width: 1px;
       border-left-width: 1px;
       border-right-width: 1px;
-
       cursor: default;
-
       padding: 0.25rem;
-
       background-color: var(--primary-color-500);
       color: var(--tertiary-color-300);
       border-color: var(--primary-color-600);
@@ -586,11 +542,9 @@ main.enp {
 
   .enp-empty-contaianer {
     flex: 1 1;
-
     margin-block-end: 1.25rem;
-
     border-bottom-width: 1px;
-    border-color: rgb(226 232 240 / 1);
+    border-color: #e2e8f0;
     border-bottom-right-radius: 0.25rem /* 4px */;
     border-bottom-left-radius: 0.25rem /* 4px */;
 
@@ -603,14 +557,12 @@ main.enp {
       align-items: center;
       padding: 1rem;
       padding-inline-start: 1.5rem;
-
       border-left-width: 1px;
       border-right-width: 1px;
       border-top-width: 1px;
-
       font-size: 0.875rem /* 14px */;
       line-height: 1.25rem /* 20px */;
-      color: rgb(148 163 184 / 1);
+      color: #94a3b8;
       transition: 300ms;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -688,7 +640,6 @@ main.enp {
       border-bottom-width: 1px;
       border-color: var(--primary-color-300);
       margin-block-end: 1.25rem;
-
       flex: 1 1;
 
       &:hover {
@@ -699,19 +650,19 @@ main.enp {
         .enp-content-item {
           .enp-btn {
             &.enp-scan-btn {
-              background-color: rgba(236, 253, 245, 1);
-              color: rgb(110 231 183 / 1);
-              border-color: rgb(110 231 183 / 1);
+              background-color: #ecfdf5;
+              color: #6ee7b7;
+              border-color: #6ee7b7;
             }
 
             &.enp-report-btn {
-              background-color: rgb(233, 196, 196);
-              color: rgb(199 64 64);
-              border-color: rgb(191 76 76);
+              background-color: #e9c4c4;
+              color: #c74040;
+              border-color: #bf4c4c;
 
               &:hover {
-                background-color: rgb(224, 173, 173);
-                color: rgb(189, 44, 44);
+                background-color: #e0adad;
+                color: #bd2c2c;
               }
             }
           }

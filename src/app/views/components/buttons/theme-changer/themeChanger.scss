@@ -2,7 +2,6 @@
   cursor: pointer;
   user-select: none;
   color: var(--tertiary-color-400);
-  //transition: all 400ms ease;
 
   background: var(--tertiary-color-50);
   padding-block: 10px;
@@ -14,6 +13,7 @@
     background: var(--tertiary-color-100);
   }
 }
+
 .theme-content {
   display: flex;
   flex: 1 1;
@@ -38,9 +38,10 @@
     opacity: 0;
     filter: blur(12px);
   }
+
   from {
     transform: scale(1);
     opacity: 1;
-    filter: blur(0px);
+    filter: blur(0);
   }
 }

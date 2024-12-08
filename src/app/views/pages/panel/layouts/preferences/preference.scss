@@ -1,5 +1,6 @@
 main.preferences {
-  padding-inline-end: 0px;
+  padding-inline-end: 0;
+
   .left {
     overflow-y: hidden;
 
@@ -11,6 +12,7 @@ main.preferences {
       }
     }
   }
+
   .right {
     .table-company-data {
       width: 100%;
@@ -89,7 +91,6 @@ main.preferences {
         .update-btn {
           border-left-width: 1.5px;
           border-right-width: 1.5px;
-
           padding-inline: 1.5rem;
           text-decoration-line: underline;
           cursor: pointer;
@@ -159,7 +160,6 @@ main.preferences {
 }
 
 .orders-preference-card {
-  // overflow: hidden;
   .order-preference-content {
     max-height: calc(100vh - 17.5rem);
     overflow-y: auto;
@@ -169,34 +169,42 @@ main.preferences {
         max-width: 6.5%;
         min-width: 6.5%;
       }
+
       .size {
         max-width: 9%;
         min-width: 9%;
       }
+
       .offensivness {
         max-width: 12.5%;
         min-width: 12.5%;
       }
+
       .type {
         max-width: 10%;
         min-width: 10%;
       }
+
       .username {
         max-width: 18%;
         min-width: 18%;
       }
+
       .funds {
         max-width: 11%;
         min-width: 11%;
       }
+
       .state {
         max-width: 12.5%;
         min-width: 12.5%;
       }
+
       .date {
         max-width: 12.5%;
         min-width: 12.5%;
       }
+
       .id.action {
         max-width: 8%;
         min-width: 8%;
@@ -207,6 +215,7 @@ main.preferences {
       }
     }
   }
+
   .confirm-order-card {
     margin-inline-end: auto;
     margin-inline-start: 1rem;
@@ -218,11 +227,13 @@ main.preferences {
     .columns--name {
       padding-inline-end: 32px;
     }
+
     .id {
       max-width: 6.5%;
       min-width: 6.5%;
       flex: 1 1 6.5% !important;
     }
+
     .area,
     .company {
       flex: 1 1 11% !important;
@@ -237,24 +248,28 @@ main.preferences {
       min-width: 18%;
       margin-inline-end: 1%;
     }
+
     .email {
       flex: 1 1 20.5% !important;
       max-width: 20.5%;
       min-width: 20.5%;
       margin-inline-end: 1%;
     }
+
     .phone {
       flex: 1 1 12.5% !important;
       max-width: 12.5%;
       min-width: 12.5%;
       margin-inline-end: 1%;
     }
+
     .role {
       flex: 1 1 9% !important;
       max-width: 9%;
       min-width: 9%;
       margin-inline-end: 1%;
     }
+
     .id.action {
       max-width: 5.5%;
       min-width: 5.5%;

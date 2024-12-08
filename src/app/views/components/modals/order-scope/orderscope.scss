@@ -1,7 +1,8 @@
 .order-scope-container {
   min-width: 600px;
+
   h2 {
-    padding: 0px 0px 15px 0px;
+    padding: 0 15px;
   }
 
   .table {
@@ -57,17 +58,6 @@
   margin-inline-start: auto;
   justify-content: flex-end;
   gap: 15px;
-  // background: var(--primary-color);
-  // background: linear-gradient(
-  // 	180deg,
-  // 	var(--primary-color) 47%,
-  // 	rgba(255, 57, 57, 1) 48%
-  // );
-
-  // .scope-btn {
-  // 	margin-inline-end: 1.25rem;
-  // 	margin-block-end: 1rem;
-  // }
 }
 
 [data-theme='dark'] {
@@ -85,6 +75,7 @@
       color: var(--tertiary-color-300);
     }
   }
+
   .order-scope-sidebar {
     .scope-sb-e {
       color: var(--tertiary-color-300);

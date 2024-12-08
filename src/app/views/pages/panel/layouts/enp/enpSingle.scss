@@ -2,7 +2,6 @@
 
 main.single-enp {
   .left {
-    // width: 33.333333%;
     flex: 1 1 30%;
 
     .enp-sidebar {
@@ -11,7 +10,6 @@ main.single-enp {
       .sidebar-loader {
         width: 100%;
         height: 100%;
-
         display: flex;
         align-items: center;
         justify-content: center;
@@ -29,12 +27,9 @@ main.single-enp {
           display: flex;
           align-items: center;
           justify-content: space-between;
-
           border-style: solid;
           border-bottom-width: 1px;
-
           padding-block-end: 1.5rem;
-
           border-color: var(--primary-color-300);
 
           .header-os-container {
@@ -45,7 +40,6 @@ main.single-enp {
             .os-img-wrapper {
               display: inline-flex;
               width: auto;
-              //width: 4rem;
               height: auto;
 
               .os-img {
@@ -54,7 +48,6 @@ main.single-enp {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-
                 border-style: solid;
                 border-width: 1px;
                 border-color: var(--primary-color-300);
@@ -70,7 +63,6 @@ main.single-enp {
 
               .header-os-name {
                 font-size: 1.25rem /* 20px */;
-                line-height: 1.75rem /* 28px */;
                 font-weight: 700;
                 line-height: 1;
                 color: var(--tertiary-color-500);
@@ -78,11 +70,9 @@ main.single-enp {
 
               .header-os-release {
                 font-size: 1rem /* 16px */;
-                line-height: 1.5rem /* 24px */;
                 color: var(--tertiary-color-300);
                 margin-block-start: 0.25rem;
                 line-height: 1;
-
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -90,11 +80,9 @@ main.single-enp {
 
               .header-os-date {
                 font-size: 0.875rem /* 14px */;
-                line-height: 1.25rem /* 20px */;
                 color: var(--tertiary-color-200);
                 line-height: 1;
                 margin-block-start: 0.25rem;
-
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -113,15 +101,13 @@ main.single-enp {
             display: flex;
             align-items: center;
             padding: 0.5rem;
-
             border-style: solid;
             border-block-end-width: 1px;
             border-inline-end-width: 1px;
-
             border-color: var(--primary-color-300);
 
             &.right-no {
-              border-inline-end-width: 0px;
+              border-inline-end-width: 0;
             }
 
             .results-founds-wrapper {
@@ -130,28 +116,22 @@ main.single-enp {
               min-width: 0%;
 
               .results-found-count {
-                font-size: 1rem /* 16px */;
-                line-height: 1.5rem /* 24px */;
+                font-size: 1rem;
                 font-weight: 700;
                 line-height: 1;
                 margin-block-start: 0.25rem;
-
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-
                 color: var(--secondary-color-50);
               }
 
               .result-found-type {
                 margin-inline-start: 0.5rem;
                 margin-block-start: 0.25rem;
-
-                font-size: 1rem /* 16px */;
-                line-height: 1.5rem /* 24px */;
+                font-size: 1rem;
                 line-height: 1;
                 color: var(--secondary-color-50);
-
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -167,7 +147,6 @@ main.single-enp {
         margin: 1rem;
         margin-inline-end: 1.5rem;
         cursor: pointer;
-
         transition-property: border;
         transition-duration: 300ms;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -178,8 +157,8 @@ main.single-enp {
 
         input {
           padding: 0.75rem;
-          font-size: 0.875rem /* 14px */;
-          line-height: 1.25rem /* 20px */;
+          font-size: 0.875rem;
+          line-height: 1.25rem;
         }
       }
 
@@ -191,18 +170,14 @@ main.single-enp {
         .main-content-empty {
           display: flex;
           flex-direction: column;
-
           padding: 1rem;
           margin: 1rem;
           margin-block-end: 0;
           margin-block-start: 2rem;
-
           border-style: solid;
           border-width: 1px;
           border-color: var(--primary-color-300);
-
           cursor: default;
-
           transition-property: border;
           transition-duration: 300ms;
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -224,11 +199,9 @@ main.single-enp {
                 position: relative;
                 width: 9px;
                 aspect-ratio: 1 / 1;
-
                 display: flex;
                 align-items: center;
                 justify-content: center;
-
                 background-color: transparent;
               }
             }
@@ -245,10 +218,9 @@ main.single-enp {
                 min-width: 0%;
 
                 .empty-message {
-                  font-size: 0.875rem /* 14px */;
-                  line-height: 1.25rem /* 20px */;
+                  font-size: 0.875rem;
+                  line-height: 1.25rem;
                   color: var(--tertiary-color-200);
-
                   display: flex;
                 }
               }
@@ -261,12 +233,9 @@ main.single-enp {
           flex-direction: column;
           padding: 1rem;
           margin: 1rem;
-
           border-width: 1px;
           border-style: solid;
-
           cursor: pointer;
-
           transition-property: border;
           transition-duration: 300ms;
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -304,30 +273,23 @@ main.single-enp {
                 .app-img {
                   width: 3.5rem;
                   height: 3.5rem;
-
                   display: inline-flex;
                   border-radius: 0.375rem;
-
                   border-width: 1px;
                   border-style: solid;
                   border-color: var(--primary-color-300);
-
                   opacity: 0.75;
-
                   object-fit: cover;
                   object-position: center;
-
                   padding: 6px;
 
                   &.no-img-url {
                     border-style: dotted;
                     border-width: 2px;
-
                     align-items: center;
                     justify-content: center;
                     text-align: center;
                     font-weight: 600;
-
                     color: var(--tertiary-color-50);
                   }
                 }
@@ -347,15 +309,11 @@ main.single-enp {
 
                 .app-info-org {
                   font-size: 0.875rem /* 14px */;
-                  line-height: 1.25rem /* 20px */;
                   line-height: 1;
-
                   color: var(--tertiary-color-300);
-
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
-
                   margin-block-start: 0.25rem;
                 }
 
@@ -367,9 +325,7 @@ main.single-enp {
                     font-size: 0.875rem;
                     line-height: 1;
                     color: var(--tertiary-color-300);
-
                     margin-block-start: 0.25rem;
-
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -378,14 +334,11 @@ main.single-enp {
                   .warning-icons {
                     font-size: 0.75rem /* 12px */;
                     line-height: 1;
-
                     margin-block-start: 0.25rem;
                     margin-inline-start: 0.25rem;
-
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-
                     color: var(--secondary-color-50);
                   }
                 }
@@ -416,13 +369,13 @@ main.single-enp {
       position: relative;
       width: 2rem;
       height: 2rem;
-      color: rgb(75 85 99 / 1);
+      color: #4b5563;
     }
   }
 
   .right {
-    // width: 66%;
     flex: 1 1 70%;
+
     .selected-app-container {
       display: flex;
       flex-direction: column;
@@ -432,7 +385,6 @@ main.single-enp {
         display: flex;
         align-items: center;
         justify-content: space-between;
-
         border-width: 1px;
         border-style: solid;
         border-color: var(--primary-color-300);
@@ -443,14 +395,10 @@ main.single-enp {
           height: 100%;
           display: flex;
           align-items: flex-start;
-
           padding-block: 15px;
           padding-inline: 0.5rem;
-
-          //border-right-width: 1px;
           border-style: solid;
           border-color: var(--primary-color-300);
-
           transition-property: border;
           transition-duration: 300ms;
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -462,23 +410,18 @@ main.single-enp {
 
           .img-app-container {
             display: inline-flex;
-
             width: 38%;
             aspect-ratio: 1/1;
 
             .img-app {
               width: 5rem;
               height: 5rem;
-
               display: inline-flex;
-
               margin: 1rem;
               margin-inline-start: 0.5rem;
-
               border-radius: 0.375rem;
               border-style: solid;
               border-color: var(--primary-color-300);
-
               opacity: 0.75;
               object-fit: cover;
               object-position: center;
@@ -487,7 +430,6 @@ main.single-enp {
                 background: transparent;
                 border-width: 2px;
                 border-style: dotted;
-
                 align-items: center;
                 justify-content: center;
                 text-align: center;
@@ -507,16 +449,13 @@ main.single-enp {
             display: flex;
             flex-direction: column;
             margin-inline-start: 0.25rem;
-
             width: 62%;
 
             .app-name {
               font-size: 1.125rem /* 18px */;
               font-weight: 700;
               line-height: 1;
-
               margin-block-start: 1.5rem;
-
               color: var(--tertiary-color-100);
             }
 
@@ -524,9 +463,7 @@ main.single-enp {
               font-size: 0.875rem /* 14px */;
               line-height: 1;
               color: var(--tertiary-color-50);
-
               margin-block-start: 0.25rem;
-
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
@@ -536,9 +473,7 @@ main.single-enp {
               font-size: 0.875rem /* 14px */;
               line-height: 1;
               color: var(--tertiary-color-50);
-
               margin-block-start: 0.25rem;
-
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
@@ -548,13 +483,10 @@ main.single-enp {
 
         .right-info {
           height: 9rem;
-
           display: flex;
           flex-direction: column;
           align-items: center;
-
           width: 66.666667%;
-
           border-style: solid;
           border-inline-start-width: 1px;
           border-color: var(--primary-color-300);
@@ -562,6 +494,7 @@ main.single-enp {
           &:hover {
             color: default;
           }
+
           .right-top-info {
             display: flex;
             flex: 1 1;
@@ -572,14 +505,11 @@ main.single-enp {
 
             .vul-reported {
               width: 36%;
-
               display: flex;
               align-items: center;
-
               border-style: solid;
               border-inline-end-width: 1px;
               border-color: var(--primary-color-300);
-
               transition-property: background-color;
               transition-duration: 300ms;
               transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -597,9 +527,7 @@ main.single-enp {
               .vul-title {
                 font-size: 0.875rem /* 14px */;
                 line-height: 1;
-
                 margin-block-start: 0.25rem;
-
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -612,27 +540,24 @@ main.single-enp {
                 .vul-len-text {
                   font-size: 0.875rem /* 14px */;
                   line-height: 1;
-
                   margin-block-start: 0.25rem;
                   margin-inline-start: 0.25rem;
-
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
                 }
               }
+
               .waiting-container {
                 display: flex;
                 position: relative;
 
                 .ask-icon {
                   font-size: 0.875rem /* 14px */;
-                  line-height: 1.25rem /* 20px */;
                   color: var(--tertiary-color-50);
                   line-height: 1;
                   margin-block-start: 0.25rem;
                   margin-inline-start: 0.25rem;
-
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
@@ -642,12 +567,9 @@ main.single-enp {
               .not-found-text {
                 background-color: var(--tertiary-color-500);
                 color: var(--primary-color-100);
-
                 font-size: 0.875rem /* 14px */;
                 line-height: 1.25rem /* 20px */;
-
                 padding-inline: 0.25rem;
-
                 border-radius: 0.375rem;
                 position: absolute;
                 left: 50%;
@@ -658,7 +580,6 @@ main.single-enp {
                 transform: translateX(-50%) translateY(100%);
                 margin: 0.5rem;
                 margin-inline: auto;
-
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -676,7 +597,6 @@ main.single-enp {
               border-style: solid;
               border-inline-end-width: 1px;
               border-color: var(--primary-color-300);
-
               transition-property: background-color;
               transition-duration: 300ms;
               transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -694,7 +614,6 @@ main.single-enp {
                   line-height: 1;
                   margin-block-start: 0.25rem;
                   margin-inline-start: 0.25rem;
-
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
@@ -704,38 +623,36 @@ main.single-enp {
 
             .version-installed {
               width: 33.333333%;
-
               display: flex;
               align-items: center;
-
               border-style: solid;
               border-inline-end-width: 1px;
               border-color: var(--primary-color-300);
               padding-inline-start: 5px;
-
               transition-property: background-color;
               transition-duration: 300ms;
               transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
               &.green-version {
-                background-color: rgb(240 253 244 / 1);
+                background-color: #f0fdf4;
 
                 &:hover {
-                  background-color: rgb(217, 253, 228);
+                  background-color: #d9fde4;
                 }
               }
 
               &.red-version {
-                background-color: rgb(254 242 242 /1);
+                background-color: #fef2f2;
 
                 &:hover {
-                  background-color: rgb(250, 222, 222);
+                  background-color: #fadede;
                 }
               }
 
               &.empty-version {
                 border-color: var(--primary-color-300);
                 background-color: var(--primary-color-400);
+
                 &:hover {
                   background-color: var(--primary-color-500);
                 }
@@ -744,11 +661,11 @@ main.single-enp {
               .version-installed-wrapper {
                 display: flex;
                 margin-inline-start: 0.25rem;
+
                 .version-installed-text {
                   font-size: 0.875rem /* 14px */;
                   line-height: 1;
                   margin-block-start: 0.25rem;
-
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
@@ -758,11 +675,11 @@ main.single-enp {
                   }
 
                   &.text-green {
-                    color: rgb(34 197 94 / 1);
+                    color: #22c55e;
                   }
 
                   &.text-red {
-                    color: rgb(220 38 38 / 1);
+                    color: #dc2626;
                   }
                 }
               }
@@ -774,7 +691,6 @@ main.single-enp {
             flex-wrap: wrap;
             flex: 1 1;
             width: 100%;
-
             transition-property: background-color;
             transition-duration: 300ms;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -822,37 +738,33 @@ main.single-enp {
           .table-header-icon {
             font-size: 0.875rem /* 14px */;
             line-height: 1;
-
             color: var(--secondary-color-100);
             margin-block-start: 0.25rem;
-
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
+
           .table-header-app-name {
             font-size: 0.875rem /* 14px */;
             line-height: 1;
             font-weight: 700;
-
             color: var(--secondary-color-100);
             margin-block-start: 0.25rem;
             margin-inline-start: 0.5rem;
-
             text-transform: uppercase;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
+
           .table-header-title {
             font-size: 0.875rem /* 14px */;
             line-height: 1;
             font-weight: 700;
-
             color: var(--tertiary-color-300);
             margin-block-start: 0.25rem;
             margin-inline-start: 0.5rem;
-
             text-transform: uppercase;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -868,7 +780,6 @@ main.single-enp {
 
           .table-app-column {
             width: 8.333333%;
-
             transition-property: color;
             transition-duration: 300ms;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -880,6 +791,7 @@ main.single-enp {
             &.xl {
               width: 16.666667%;
             }
+
             &.xll {
               width: 41.666667%;
             }
@@ -905,10 +817,8 @@ main.single-enp {
             display: flex;
             align-items: center;
             height: 2.5rem;
-
             padding-block: 1.5rem;
             padding-inline: 1rem;
-
             border-block-end-width: 1px;
             border-style: solid;
             border-color: var(--primary-color-300);
@@ -933,6 +843,7 @@ main.single-enp {
               &.xl {
                 width: 16.666667%;
               }
+
               &.xll {
                 width: 41.666667%;
               }
@@ -985,17 +896,15 @@ main.single-enp {
             .question-mark {
               padding-inline-start: 0.5rem;
               width: 8.333333%;
-              color: rgb(156 163 175 / 1);
+              color: #9ca3af;
             }
 
             .question-circle {
               font-size: 0.875rem /* 14px */;
               line-height: 1;
-              color: rgb(156 163 175 / 1);
-
+              color: #9ca3af;
               margin-block-start: 0.25rem;
               margin-inline-start: 0.75rem;
-
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
@@ -1007,21 +916,17 @@ main.single-enp {
               transform: translateX(-50%) translateY(100%);
               opacity: 0;
               max-width: 12rem;
-
               padding-inline: 0.25rem;
               margin: 0.5rem;
               margin-inline: auto;
               background-color: var(--primary-color-500);
-
               font-size: 0.75rem /* 12px */;
               line-height: 1rem /* 16px */;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
               color: var(--tertiary-color-500);
-
               border-radius: 0.375rem;
-
               transition-property: opacity;
               transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
               transition-duration: 150ms;
@@ -1042,7 +947,6 @@ main.single-enp {
             padding-block: 1.5rem;
             border-block-end-width: 1px;
             border-color: var(--primary-color-400);
-
             transition-property: background-color;
             transition-duration: 300ms;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1087,9 +991,11 @@ main.single-enp {
                 .header-os-name {
                   color: var(--tertiary-color-100);
                 }
+
                 .header-os-release {
                   color: var(--tertiary-color-200);
                 }
+
                 .header-os-date {
                   color: var(--tertiary-color-300);
                 }
@@ -1097,6 +1003,7 @@ main.single-enp {
             }
           }
         }
+
         .sidebar-main-content {
           .main-content-container {
             .card-application {
@@ -1118,13 +1025,10 @@ main.single-enp {
         .selected-info-app {
           .right-info {
             height: 9rem;
-
             display: flex;
             flex-direction: column;
             align-items: center;
-
             width: 66.666667%;
-
             border-style: solid;
             border-inline-start-width: 1px;
             border-color: var(--primary-color-300);
@@ -1132,29 +1036,31 @@ main.single-enp {
             &:hover {
               color: default;
             }
+
             .right-top-info {
               .version-installed {
                 border-color: var(--primary-color-300);
 
                 &.green-version {
-                  background-color: rgb(240 253 244 / 1);
+                  background-color: #f0fdf4;
 
                   &:hover {
-                    background-color: rgb(217, 253, 228);
+                    background-color: #d9fde4;
                   }
                 }
 
                 &.red-version {
-                  background-color: rgb(253 219 219);
+                  background-color: #fddbdb;
 
                   &:hover {
-                    background-color: rgb(233 178 178);
+                    background-color: #e9b2b2;
                   }
                 }
 
                 &.empty-version {
                   border-color: var(--primary-color-300);
                   background-color: var(--primary-color-400);
+
                   &:hover {
                     background-color: var(--primary-color-500);
                   }
@@ -1163,11 +1069,11 @@ main.single-enp {
                 .version-installed-wrapper {
                   .version-installed-text {
                     &.text-green {
-                      color: rgb(34 197 94 / 1);
+                      color: #22c55e;
                     }
 
                     &.text-red {
-                      color: rgb(220 38 38 / 1);
+                      color: #dc2626;
                     }
                   }
                 }

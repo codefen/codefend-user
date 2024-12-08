@@ -23,6 +23,7 @@
 
     .provider-name {
       padding-block-end: 0.65rem;
+
       h3 {
         font-size: 1.125rem;
         color: var(--tertiary-color-500);
@@ -44,6 +45,7 @@
           text-overflow: ellipsis;
           white-space: nowrap;
         }
+
         b {
           padding-inline-end: 3px;
           max-width: 170px;

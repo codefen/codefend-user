@@ -1,7 +1,8 @@
 @use '../../../../styles/settings/mixin' as mixin;
 
 main.support {
-  padding-inline-end: 0px;
+  padding-inline-end: 0;
+
   .left {
     width: 65%;
 
@@ -9,6 +10,7 @@ main.support {
       .rows {
         max-height: calc(100dvh - 150px);
       }
+
       .id {
         min-width: 6.5%;
         max-width: 6.5%;
@@ -19,18 +21,22 @@ main.support {
         max-width: 42%;
         margin-inline-end: 1%;
       }
+
       .username {
         min-width: 19%;
         max-width: 19%;
       }
+
       .date {
         min-width: 12%;
         max-width: 12%;
       }
+
       .status {
         min-width: 12%;
         max-width: 12%;
         text-align: center;
+
         .publish {
           justify-content: center;
         }
@@ -39,12 +45,14 @@ main.support {
       .id.action {
         min-width: 7.5%;
         max-width: 7.5%;
+
         .publish {
           justify-content: center;
         }
       }
     }
   }
+
   .right {
     padding-block-start: 53px;
   }
@@ -76,6 +84,7 @@ main.support {
     left: 5dvw;
     filter: blur(120px) brightness(0.5) opacity(0.4);
   }
+
   .variant-2 {
     width: 23rem;
     top: -10dvh;
@@ -85,7 +94,7 @@ main.support {
 
   main.support {
     .right {
-      box-shadow: rgb(0, 0, 0) -20px 0px 120px -55px;
+      box-shadow: #000000 -20px 0 120px -55px;
     }
   }
 }

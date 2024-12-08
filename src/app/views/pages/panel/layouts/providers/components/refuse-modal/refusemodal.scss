@@ -14,6 +14,7 @@ div.content.refuse {
       &.first-label {
         margin-block-start: 2rem;
       }
+
       &.second-label {
         margin-block-end: 2rem;
       }
@@ -27,6 +28,7 @@ div.content.refuse {
         margin-inline-start: 30px;
       }
     }
+
     .form-input {
       margin-top: 0 !important;
     }
@@ -34,10 +36,12 @@ div.content.refuse {
     .pencil-icon {
       margin-inline-start: 35px;
     }
+
     textarea {
       line-height: 25px;
     }
   }
+
   .form-buttons,
   textarea,
   h2,

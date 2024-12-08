@@ -17,10 +17,6 @@
     color: var(--tertiary-color-300);
     background-color: var(--tertiary-color-50);
 
-    &:hover {
-      // background-color: var(--tertiary-color-100);
-    }
-
     @include mixin.respond(small) {
       height: 65px;
     }
@@ -29,7 +25,6 @@
   &.btn-gray {
     background-color: var(--primary-color-300);
     color: var(--tertiary-color-500);
-
     transition: scale 200ms ease;
 
     &:hover {
@@ -57,7 +52,6 @@
   &.btn-cancel {
     padding-inline: 1rem;
     margin-inline-end: 0.5rem;
-
     width: 50%;
 
     &:hover {
@@ -87,7 +81,7 @@
     }
 
     &.bottom {
-      margin-block-start: 0px;
+      margin-block-start: 0;
       margin-block-end: 1rem;
     }
   }
@@ -95,6 +89,7 @@
   &.btn-send-email {
     width: 48%;
   }
+
   &.btn-error-con {
     width: 48%;
   }
@@ -105,8 +100,8 @@
     &.btn-red {
       background: #d73636;
     }
+
     &.btn-black {
-      //background-color: #1b2531;
       background-color: #121c27a6;
     }
   }

@@ -1,5 +1,5 @@
 .stat {
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -10,7 +10,6 @@
   border-right-width: 1px;
   border-right-style: solid;
   border-right-color: var(--primary-color-300);
-
   flex: 1 1;
   min-height: 5.938rem;
   max-height: 5.938rem;
@@ -19,12 +18,13 @@
   &.default {
     cursor: default;
   }
+
   &:hover {
     .value,
     p {
       animation: agrandar-y-volver 0.1s;
       color: var(--secondary-color-200) !important;
-      text-shadow: 0px 0px 4px rgb(217 26 26 / 20%);
+      text-shadow: 0 0 4px #d91a1a33;
     }
   }
 
@@ -38,7 +38,7 @@
 
   p {
     font-size: clamp(11px, 10dvw, 12.5px);
-    font-family: 'Questrial';
+    font-family: Questrial;
     color: var(--tertiary-color-450);
     font-weight: bold;
     margin: 0;
@@ -53,6 +53,7 @@
     .value {
       color: var(--tertiary-color-300);
     }
+
     p {
       color: var(--secondary-color-100);
     }
@@ -69,12 +70,12 @@
     border-left: 1px solid !important;
     border-image: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0) 15%,
-      rgb(17, 21, 28) 36%,
-      rgb(17, 25, 53) 46%,
-      rgb(13, 30, 61) 54%,
-      rgb(18, 22, 31) 64%,
-      rgba(255, 255, 255, 0) 85%
+      #ffffff00 15%,
+      #11151c 36%,
+      #111935 46%,
+      #0d1e3d 54%,
+      #12161f 64%,
+      #ffffff00 85%
     );
     border-image-slice: 24;
     outline: none;
@@ -89,17 +90,21 @@
         color: var(--secondary-color-200);
       }
     }
+
     &:first-child {
       border-top-left-radius: 0.313rem;
       border-bottom-left-radius: 0.313rem;
     }
+
     &:last-child {
       border-top-right-radius: 0.313rem;
       border-bottom-right-radius: 0.313rem;
     }
+
     .value {
       color: var(--tertiary-color-400);
     }
+
     p {
       color: var(--tertiary-color-500);
     }

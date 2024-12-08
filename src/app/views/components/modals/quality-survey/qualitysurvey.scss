@@ -3,8 +3,7 @@
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  padding-block: 0.5rem;
-  background: linear-gradient(90deg, #b72020 0%, rgb(255, 86, 86) 100%);
+  background: linear-gradient(90deg, #b72020 0%, #ff5656 100%);
   color: #fff;
   padding-inline-start: 1.5rem;
   column-gap: 1.5rem;
@@ -32,6 +31,7 @@
     h3 {
       margin-block-end: 0.85rem;
     }
+
     p {
       padding-inline: 3rem;
       color: var(--tertiary-color-300);
@@ -64,14 +64,14 @@
 }
 
 .quality-provider-info {
+  --name-color: var(--tertiary-color-500);
+  --light-color: var(--tertiary-color-300);
   position: relative;
   display: flex;
   justify-content: space-around;
   border-block: 3px solid var(--primary-color-400);
   margin-inline: 3rem;
   padding-block: 1.5rem;
-  --name-color: var(--tertiary-color-500);
-  --light-color: var(--tertiary-color-300);
 
   .provider-info-content {
     display: flex;
@@ -94,15 +94,18 @@
         padding-block-start: 2px;
         padding-inline: 5px;
       }
+
       .provider-score {
         padding-block-start: 2px;
         color: var(--light-color);
         padding-inline-end: 5px;
       }
+
       .provider-score + .provider-score {
-        padding-inline-end: 0px;
+        padding-inline-end: 0;
       }
     }
+
     .provider-desc {
       color: var(--light-color);
       line-height: 2rem;
@@ -135,12 +138,6 @@
   display: flex;
   margin-inline-start: auto;
   justify-content: flex-end;
-  // background: var(--primary-color);
-  // background: linear-gradient(
-  // 	180deg,
-  // 	var(--primary-color) 47%,
-  // 	rgba(255, 57, 57, 1) 48%
-  // );
 
   .quality-btn {
     margin-inline-end: 1.5rem;
@@ -172,6 +169,7 @@
       --radio-bg-before: var(--primary-color-600);
       background: var(--radio-bg-before);
     }
+
     input[type='radio']:checked + .codefend-radio {
       background: var(--primary-color);
     }
@@ -194,10 +192,12 @@
       color: var(--tertiary-color-50);
     }
   }
+
   .quality-provider-info {
     --name-color: var(--tertiary-color-100);
     --light-color: var(--tertiary-color-400);
   }
+
   .quality-btn-container {
     // background: var(--primary-color-100);
     // background: linear-gradient(
@@ -211,14 +211,17 @@
     label {
       color: var(--tertiary-color-200);
     }
+
     .codefend-radio {
       --radio-bg-before: var(--primary-color-400);
     }
   }
+
   .quality-feedback-option {
     h3 {
       color: var(--tertiary-color-50);
     }
+
     p {
       color: var(--tertiary-color-300);
     }

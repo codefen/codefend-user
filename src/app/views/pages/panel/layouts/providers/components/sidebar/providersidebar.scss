@@ -19,9 +19,6 @@
       &:first-child {
         border-top: 1px solid var(--provider-border-color);
       }
-      // &:last-child {
-      // 	border-block-end: 1px solid var(--provider-border-color);
-      // }
 
       &.current {
         color: var(--secondary-color-100);

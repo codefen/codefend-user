@@ -18,6 +18,7 @@
   img {
     width: 55px;
   }
+
   span {
     font-weight: 700;
     user-select: none;
@@ -41,7 +42,7 @@
 
 .help-article-card {
   background-color: var(--primary-color);
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 0 #0000001a;
   border-radius: 0.5rem;
   padding: 2rem;
   display: flex;
@@ -54,11 +55,13 @@
     font-size: 1.115rem;
     padding-block-end: 1rem;
   }
+
   h3 {
     font-size: 1.75rem;
     padding-block-end: 1rem;
     padding-block-start: 2rem;
   }
+
   p {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -84,7 +87,7 @@
     height: 150px;
     background: transparent;
     border-radius: 50%;
-    box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.55);
+    box-shadow: 25px 25px 75px #0000008c;
     border: 1px solid #333;
     display: flex;
     align-items: center;
@@ -102,8 +105,8 @@
     border: 1px dashed #444;
     border-radius: 50%;
     box-shadow:
-      inset -5px -5px 25px rgba(0, 0, 0, 0.25),
-      inset 5px 5px 35px rgba(0, 0, 0, 0.25);
+      inset -5px -5px 25px #00000040,
+      inset 5px 5px 35px #00000040;
   }
 
   .loader-radar::after {
@@ -114,8 +117,8 @@
     border-radius: 50%;
     border: 1px dashed #444;
     box-shadow:
-      inset -5px -5px 25px rgba(0, 0, 0, 0.25),
-      inset 5px 5px 35px rgba(0, 0, 0, 0.25);
+      inset -5px -5px 25px #00000040,
+      inset 5px 5px 35px #00000040;
   }
 
   .loader-radar span {
@@ -160,6 +163,7 @@
     min-width: 440px;
     margin-inline: auto;
   }
+
   .logo {
     font-size: 3rem;
 
