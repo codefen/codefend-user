@@ -22,7 +22,7 @@ export const decodePayload: (token: string) => any = (token: string) => {
     const decodedPayload = JSON.parse(base64UrlDecode(payloadBase64));
 
     return decodedPayload;
-  } catch{
+  } catch {
     return null;
   }
 };

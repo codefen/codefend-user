@@ -9,10 +9,10 @@ const useLoadIframe = (keyDownExc: () => void, extraExc?: () => void) => {
     return new Promise<() => void>((resolve, reject) => {
       const observer = new MutationObserver(() => {
         const iframe = document.getElementById('issue_ifr') as HTMLIFrameElement | null;
-        
+
         if (iframe) {
           observer.disconnect();
-          
+
           const contentWindow = iframe.contentWindow;
           if (!contentWindow) {
             reject(new Error('No se pudo acceder al contentWindow'));
@@ -28,7 +28,7 @@ const useLoadIframe = (keyDownExc: () => void, extraExc?: () => void) => {
           const body = contentWindow.document.body;
           if (body) body.setAttribute('data-theme', theme);
           contentWindow.addEventListener('keydown', keydownHandler);
-          
+
           extraExc?.();
           setIsLoaded(true);
 
@@ -38,9 +38,9 @@ const useLoadIframe = (keyDownExc: () => void, extraExc?: () => void) => {
         }
       });
 
-      observer.observe(document.body, { 
-        childList: true, 
-        subtree: true 
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
       });
 
       setTimeout(() => {

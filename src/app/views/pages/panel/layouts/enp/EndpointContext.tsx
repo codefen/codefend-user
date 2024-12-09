@@ -1,4 +1,12 @@
-import { type FC, createContext, useContext, useState, type ReactNode, type SetStateAction, type Dispatch } from 'react';
+import {
+  type FC,
+  createContext,
+  useContext,
+  useState,
+  type ReactNode,
+  type SetStateAction,
+  type Dispatch,
+} from 'react';
 
 type EndpointAppContextType = {
   endpointAppStore: any;

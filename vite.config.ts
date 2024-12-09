@@ -31,12 +31,12 @@ export default defineConfig(() => ({
     host: HOST || false,
     port: Number(PORT),
     hmr: HOST
-    ? {
-        protocol: "ws",
-        host: HOST,
-        port: Number(PORT),
-      }
-    : undefined,
+      ? {
+          protocol: 'ws',
+          host: HOST,
+          port: Number(PORT),
+        }
+      : undefined,
     watch: {
       ignored: ['**/src-tauri/**'],
     },
@@ -50,9 +50,9 @@ export default defineConfig(() => ({
   },
   envPrefix: ['VITE_', 'TAURI_'],
   build: {
-    cssMinify: !IS_DEBUG ? 'lightningcss' as 'lightningcss' : "esbuild" as "esbuild",
+    cssMinify: !IS_DEBUG ? ('lightningcss' as 'lightningcss') : ('esbuild' as 'esbuild'),
     target: PLATFORM == 'windows' ? 'chrome105' : 'safari13',
     sourcemap: !!IS_DEBUG,
-    minify: !IS_DEBUG ? 'esbuild' as "esbuild" : false,
+    minify: !IS_DEBUG ? ('esbuild' as 'esbuild') : false,
   },
 }));

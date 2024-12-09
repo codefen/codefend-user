@@ -65,7 +65,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
       });
       if (tableRef.current) {
         const items = tableRef.current.querySelectorAll(TABLE_KEYS.ITEM_CLASS);
-        // Cuando se activa el pointer down se cachea ID y el react 
+        // Cuando se activa el pointer down se cachea ID y el react
         tableItems.current = Array.from(items).map(item => ({
           rect: item.getBoundingClientRect(),
           id: item.getAttribute(TABLE_KEYS.ITEM_ROW_ID) || '',
@@ -77,7 +77,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
     if (isSelecting) {
-      setIsMoving(true)
+      setIsMoving(true);
       setSelectionBox(prevBox => ({
         ...prevBox,
         endX: e.clientX,
@@ -104,7 +104,7 @@ export const useMultipleSelect = (isNeedMultipleCheck: boolean) => {
   };
 
   const onPointerStop = useCallback((e: PointerEvent<HTMLDivElement>) => {
-    if(e.isPrimary){
+    if (e.isPrimary) {
       setIsSelecting(false);
       setIsMoving(false);
     }

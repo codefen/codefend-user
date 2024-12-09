@@ -10,7 +10,7 @@ export const useSocial = () => {
   const { data, mutate, isLoading, isValidating } = useSWR(
     swrKeYRef.current,
     (key: any) => disponibleFetcher(key),
-    defaultConfig,
+    defaultConfig
   );
 
   return {

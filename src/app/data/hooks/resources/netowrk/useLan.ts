@@ -25,12 +25,11 @@ export const useLan = () => {
         ac: 'view_all',
         company_id: companyID,
       },
-    })
-      .then(({ data }: any) => {
-        if (verifySession(data, logout)) return;
+    }).then(({ data }: any) => {
+      if (verifySession(data, logout)) return;
 
-        dataRef.current = data.disponibles ? data.disponibles : [];
-      })
+      dataRef.current = data.disponibles ? data.disponibles : [];
+    });
   };
 
   /* Refetch Function. */

@@ -29,7 +29,7 @@ npx --no lint-staged || { echo -e "$(tput setaf 1)❌There is a bug in Eslint or
   fs.writeFileSync(preCommitPath, preCommitHook);
 
   // Create pre-push hook - Prepush omitted because it is not needed
-/*  const prePushPath = path.join(huskyDir, 'pre-push');
+  /*  const prePushPath = path.join(huskyDir, 'pre-push');
   const prePushHook = `set +e
 npx tsc || { echo -e "$(tput setaf 1)❌Type checking failed. Push aborted.$(tput sgr0)"; exit 1; }
 npx vitest run --passWithNoTests || { echo -e "$(tput setaf 1)❌Tests failed. Push aborted.$(tput sgr0)"; exit 1; }`;

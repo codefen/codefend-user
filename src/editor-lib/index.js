@@ -79,11 +79,11 @@ const addTinyMce = initialValue => {
   try {
     tinyMCE.init(OPTIONS);
     const is = setTinyEditorContent('issue', initialValue);
-    if(!is) flushID = setTimeout(() => setTinyEditorContent('issue', initialValue), 500);
+    if (!is) flushID = setTimeout(() => setTinyEditorContent('issue', initialValue), 500);
   } catch (e) {
     console.error(e);
   } finally {
-    if(flushID !== 0) clearTimeout(flushID);
+    if (flushID !== 0) clearTimeout(flushID);
   }
 };
 
@@ -95,7 +95,7 @@ export const getTinyEditorContent = id => {
 export const setMode = (id, mode) => {
   const editorHeader = document.querySelector('.tox-editor-header');
   if (editorHeader != null) {
-    if(mode === 'design') editorHeader.classList.add('editable');
+    if (mode === 'design') editorHeader.classList.add('editable');
     else editorHeader.classList.remove('editable');
   }
   tinyMCE.get(id).mode.set(mode);

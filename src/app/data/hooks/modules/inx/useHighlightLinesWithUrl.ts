@@ -1,4 +1,3 @@
-
 export const useHighlightLinesWithUrl = () => {
   const highlightWithUrl = (inputText: string, urlToFilter: string, contextLines: number = 3) => {
     const textToSplit = inputText || '';

@@ -2,7 +2,7 @@ import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import type { FullOrder } from '@/app/data';
-import {  useState } from 'react';
+import { useState } from 'react';
 
 export const useCurrentOrders = () => {
   const { getCompany } = useUserData();

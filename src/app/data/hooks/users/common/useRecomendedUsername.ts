@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import {  genericFetcher } from '@services/swr';
+import { genericFetcher } from '@services/swr';
 import useSWR from 'swr';
 
 export const useRecomendedUsername = (ref?: string) => {

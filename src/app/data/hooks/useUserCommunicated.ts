@@ -87,7 +87,7 @@ export const useUserCommunicated = () => {
         setModalId(MODAL_KEY_OPEN.USER_WELCOME);
         setIsOpen(true);
       });
-      if(!open){
+      if (!open) {
         handleOrderFinishedNotification(
           notifications,
           isOpen || anyModalIsOpen,

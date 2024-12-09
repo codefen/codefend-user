@@ -8,8 +8,8 @@ import unicornRecommended from 'eslint-plugin-unicorn';
 import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';
 import parser from '@typescript-eslint/parser';
 import prettierRecommended from 'eslint-config-prettier';
-import reactRefresh from "eslint-plugin-react-refresh";
-import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from 'eslint-plugin-react-refresh';
+import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,21 +32,20 @@ const IGNORES_PATHS = [
   'public',
   'node_modules',
   'dist/*',
-  "src-tauri/*",
-  "public/editor-lib",
-  "public/particles",
-  "public/flags",
-  "*.min.js",
-  "*.json",
-  "pnpm-lock.yaml"
+  'src-tauri/*',
+  'public/editor-lib',
+  'public/particles',
+  'public/flags',
+  '*.min.js',
+  '*.json',
+  'pnpm-lock.yaml',
 ];
-
 
 const baseConfig = {
   plugins: {
     '@typescript-eslint': fixupPluginRules(typescriptEslintPlugin),
-    "react-refresh": fixupPluginRules(reactRefresh),
-    "react-hooks": fixupPluginRules(reactHooks),
+    'react-refresh': fixupPluginRules(reactRefresh),
+    'react-hooks': fixupPluginRules(reactHooks),
   },
   languageOptions: {
     globals: {
@@ -63,7 +62,7 @@ const baseConfig = {
     ...prettierRecommended.rules,
     'unicorn/prevent-abbreviations': 'off',
     'unicorn/prefer-top-level-await': 'off',
-    'no-console': "off",
+    'no-console': 'off',
   },
 };
 
@@ -113,6 +112,5 @@ const config = [
     },
   },
 ];
-
 
 export default config;

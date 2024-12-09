@@ -1,4 +1,12 @@
-import { type ChangeEvent, Fragment, useCallback, type FC, type KeyboardEvent, type FormEvent, type ReactNode } from 'react';
+import {
+  type ChangeEvent,
+  Fragment,
+  useCallback,
+  type FC,
+  type KeyboardEvent,
+  type FormEvent,
+  type ReactNode,
+} from 'react';
 import { PrimaryButton, Show } from '..';
 import { generateIDArray } from '../../../data';
 

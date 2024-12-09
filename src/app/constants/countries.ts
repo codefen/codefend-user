@@ -2025,7 +2025,6 @@ const mapCountry = (country: any) => ({
   value: typeof country === 'string' ? country : country.name,
 });
 
-const preceesArray = () =>
-  defaultCountries.map(mapCountry);
+const preceesArray = () => defaultCountries.map(mapCountry);
 
 export const countries = new Set(preceesArray());

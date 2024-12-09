@@ -16,7 +16,7 @@ const InxFullPreviewModal = ({
   close,
   fileName = '',
   fileType = '',
-  search=""
+  search = '',
 }: InxFullPreviewModalProps) => {
   const { highlightWithUrl } = useHighlightLinesWithUrl();
 

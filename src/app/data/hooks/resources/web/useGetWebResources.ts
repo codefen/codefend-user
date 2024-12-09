@@ -21,16 +21,15 @@ export const useGetWebResources = () => {
         childs: childs ? childs : 'yes',
         resource_address_domain: 'clarin.com',
       },
-    })
-      .then(({ data }) => {
-        if (verifySession(data, logout)) return;
-        if (apiErrorValidation(data?.error, data?.response)) {
-          throw new Error('An error has occurred on the server');
-        }
+    }).then(({ data }) => {
+      if (verifySession(data, logout)) return;
+      if (apiErrorValidation(data?.error, data?.response)) {
+        throw new Error('An error has occurred on the server');
+      }
 
-        const resources = data?.resources ? data.resources : [];
-        setWebResources(resources);
-      });
+      const resources = data?.resources ? data.resources : [];
+      setWebResources(resources);
+    });
   };
 
   return { webResources, isLoading, refetch };

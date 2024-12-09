@@ -7,7 +7,7 @@ export enum EVENTS {
   MOUSE_MOVE = 'mousemove',
   RESIZE = 'resize',
   UNLOAD = 'unload',
-  LOAD = "load",
+  LOAD = 'load',
   FOCUS = 'focus',
   BLUR = 'blur',
   DRAG_OVER = 'dragover',

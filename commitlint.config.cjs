@@ -19,11 +19,10 @@ Default requirements:
 - Message must be less than 100 characters.
 */
 module.exports = {
-    extends: ['@commitlint/config-conventional'],
-    'type-enum': [
-      2,
-      'always',
-      ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'perf', 'build', 'ci', 'chore'],
-    ],
-  };
-  
+  extends: ['@commitlint/config-conventional'],
+  'type-enum': [
+    2,
+    'always',
+    ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'perf', 'build', 'ci', 'chore'],
+  ],
+};
