@@ -90,10 +90,11 @@ async fn scan_local(session_id: String) -> Result<String, String> {
     }
 
     Ok(r#"{"success": "Scan completed successfully"}"#.to_string())
-}*/
+}
 
 // Check admin privileges
 #[cfg(target_os = "windows")]
 fn admin_privileges() -> bool {
     is_elevated::is_elevated()
 }
+*/
