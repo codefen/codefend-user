@@ -46,7 +46,6 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: src-tauri
           cache-on-failure: true
           
       - name: Build Tauri App
@@ -63,26 +62,10 @@ jobs:
             pnpm tauri signer sign --private-key tauri_private_key -f $_.FullName
           }
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.target }}-windows-artifacts
-          path: |
-            src-tauri\target\${{ matrix.target }}\release\bundle\**\*.{exe,msi}
-          retention-days: 5
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            src-tauri\target\${{ matrix.target }}\release\bundle\**\*.{exe,msi}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-${{ matrix.target }}-artifacts
           path: |
             src-tauri\target\${{ matrix.target }}\release\bundle\**\*.{exe,msi}
+          retention-days: 3

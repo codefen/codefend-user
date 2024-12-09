@@ -4,6 +4,31 @@ on:
   workflow_call:
 
 jobs:
+  createRelease:
+    if: "startsWith(github.ref, 'refs/tags/') && github.event.repository.fork == false"
+    runs-on: ubuntu-latest
+    outputs:
+      RELEASE_UPLOAD_ID: ${{ steps.create_release.outputs.id }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Query version number
+        id: get_version
+        shell: bash
+        run: |
+          echo "using version tag ${GITHUB_REF:10}"
+          echo ::set-output name=version::"${GITHUB_REF:10}"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: '${{ steps.get_version.outputs.VERSION }}'
+          release_name: 'WA+ ${{ steps.get_version.outputs.VERSION }}'
+          body: 'See the assets to download this version and install.'
+
   build_linux:
     uses: ./.github/workflows/PublishLinuxOS.yml
     secrets: inherit
@@ -19,7 +44,7 @@ jobs:
   release_github:
     name: Release Github
     runs-on: ubuntu-latest
-    needs: [build_linux, build_macos, build_windows]
+    needs: [createRelease, build_linux, build_macos, build_windows]
 
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +72,7 @@ jobs:
       - name: Generate latest.json
         id: generate-latest
         run: |
-          VERSION="v$(date +%Y.%m.%d.%H%M)" # Generar versión dinámica
+          VERSION="v${{ needs.createRelease.outputs.RELEASE_UPLOAD_ID }}" # Generar versión dinámica
           echo "{
             \"version\": \"$VERSION\",
             \"notes\": \"Release notes for $VERSION\",
@@ -68,7 +93,6 @@ jobs:
             }
           }" > ./latest.json
 
-      # 4. Publicar una release en GitHub
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
