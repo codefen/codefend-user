@@ -1,5 +1,5 @@
 
-name: 'Instalable to Prod'
+name: 'Publish App'
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    uses: ./.github/workflows/future/ValidateClient.yml
+    uses: ./.github/workflows/ValidateClient.yml
     secrets: inherit
 
   release:
