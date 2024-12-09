@@ -9,7 +9,6 @@
 //use mac_address::get_mac_address;
 //use serde_json::{json, Value};
 
-
 // GLOBAL VARIABLES
 fn main() {
     codefend_panel_lib::run()

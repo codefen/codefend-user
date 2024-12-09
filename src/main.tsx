@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { relaunch } from '@tauri-apps/plugin-process';
 import { check } from '@tauri-apps/plugin-updater';
+import { ask, message } from '@tauri-apps/plugin-dialog';
 
 import './app/views/styles/index.scss';
 import './app/views/styles/card.scss';
@@ -14,13 +15,26 @@ const checkTauriUpdates = async () => {
     try {
       const update = await check();
       if (update && update.available) {
-        if (window.confirm(`Nueva versión disponible: ${update?.version}. ¿Deseas actualizar?`)) {
+        const yes = await ask(
+          `Update to ${update.version} is available!\n\nRelease notes: ${update.body}`,
+          {
+            title: 'Update Available',
+            kind: 'info',
+            okLabel: 'Update',
+            cancelLabel: 'Cancel',
+          }
+        );
+        if (yes) {
           await update.downloadAndInstall();
           await relaunch();
         }
       }
-    } catch (e) {
-      alert(e);
+    } catch {
+      await message('Failed to check for updates.\nPlease try again later.', {
+        title: 'Error',
+        kind: 'error',
+        okLabel: 'OK',
+      });
     }
   }
 };

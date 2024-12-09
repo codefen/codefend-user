@@ -1,0 +1,107 @@
+name: 'publish'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - production
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest'
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04'
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Tauri Signing Key
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+        run: |
+          # Para sistemas Unix (Linux/macOS)
+          if [[ "${{ matrix.platform }}" != "windows-latest" ]]; then
+            echo "$TAURI_PRIVATE_KEY" > tauri_private_key
+            chmod 600 tauri_private_key
+          else
+            echo "$TAURI_PRIVATE_KEY" | Out-File -FilePath tauri_private_key -Encoding utf8
+          fi
+
+      - name: Set app version
+        id: set-version
+        run: |
+          if [ "${{ matrix.platform }}" = "windows-latest" ]; then
+            $version = (Get-Content releases.json | ConvertFrom-Json).version
+            echo "APP_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          else
+            echo "APP_VERSION=$(jq -r '.version' releases.json)" >> $GITHUB_ENV
+          fi
+
+      - name: Install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup/ Install pnpm 9.7.0 manually
+        run: npm install -g pnpm@9.7.0
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+          cache-on-failure: true
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      - name: Sign Tauri Binaries
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+        run: |
+          # Para sistemas Unix (Linux/macOS)
+          if [[ "${{ matrix.platform }}" != "windows-latest" ]]; then
+            # Encuentra y firma binarios
+            find src-tauri/target/release/bundle -type f \( -name "*.app" -o -name "*.dmg" -o -name "*.deb" -o -name "*.AppImage" \) -print0 | while read -d $'\0' file; do
+              pnpm tauri signer sign --private-key tauri_private_key -f "$file"
+            done
+          else
+            Get-ChildItem -Path "src-tauri\target\release\bundle" -Recurse -Include "*.exe", "*.msi" | ForEach-Object {
+              pnpm tauri signer sign --private-key tauri_private_key -f $_.FullName
+            }
+          fi
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+        with:
+          tagName: app-v__VERSION__
+          releaseName: 'App v__VERSION__'
+          releaseBody: 'See the assets to download this version and install.'
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+          signingArgs: "--sign"
