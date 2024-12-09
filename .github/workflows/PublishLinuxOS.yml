@@ -1,0 +1,92 @@
+name: Linux Build and Release
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            platform: linux/amd64
+          - target: i686-unknown-linux-gnu
+            platform: linux/amd64
+          - target: aarch64-unknown-linux-gnu
+            platform: linux/arm64
+          - target: armv7-unknown-linux-gnueabihf
+            platform: linux/arm/v7
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm
+        run: npm install -g pnpm@9.7.0
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          sudo apt-get install -y gcc-multilib
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+          cache-on-failure: true
+          
+      - name: Build for ${{ matrix.target }}
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+        run: |
+          pnpm tauri build --target ${{ matrix.target }}
+
+      - name: Sign Tauri Binaries
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+        run: |
+          find src-tauri/target/${{ matrix.target }}/release/bundle -type f \( -name "*.AppImage" -o -name "*.deb" \) -print0 | while read -d $'\0' file; do
+            pnpm tauri signer sign --private-key tauri_private_key -f "$file"
+          done
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}-artifacts
+          path: |
+            src-tauri/target/${{ matrix.target }}/release/bundle/**/*.{AppImage,deb}
+          retention-days: 5
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            src-tauri/target/${{ matrix.target }}/release/bundle/**/*.{AppImage,deb}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.target }}-artifacts
+          path: |
+            src-tauri/target/${{ matrix.target }}/release/bundle/**/*.{AppImage,deb}

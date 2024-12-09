@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: ["production"]
+  workflow_dispatch:
+
+concurrency:
+  group: cci-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    uses: ./.github/workflows/ValidateClient.yml
+    secrets: inherit
+
+  release:
+    needs: [test]
+    if: "startsWith(github.ref, 'refs/tags/') && github.event.repository.fork == false"
+    permissions:
+      contents: write
+    uses: ./.github/workflows/Release.yml
+    secrets: inherit

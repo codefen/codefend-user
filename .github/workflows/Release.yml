@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  workflow_call:
+
+jobs:
+  build_linux:
+    uses: ./.github/workflows/PublishLinuxOS.yml
+    secrets: inherit
+
+  build_macos:
+    uses: ./.github/workflows/PublishMacOs.yml
+    secrets: inherit
+
+  build_windows:
+    uses: ./.github/workflows/PublishWindowOS.yml
+    secrets: inherit
+
+  release_github:
+    name: Release Github
+    runs-on: ubuntu-latest
+    needs: [build_linux, build_macos, build_windows]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 2. Descarga los artefactos de cada build
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-*-artifacts
+          path: ./artifacts/linux
+
+      - name: Download macOS Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: macos-*-artifacts
+          path: ./artifacts/macos
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-*-build
+          path: ./artifacts/windows
+
+      # 3. Generar el archivo latest.json
+      - name: Generate latest.json
+        id: generate-latest
+        run: |
+          VERSION="v$(date +%Y.%m.%d.%H%M)" # Generar versión dinámica
+          echo "{
+            \"version\": \"$VERSION\",
+            \"notes\": \"Release notes for $VERSION\",
+            \"pub_date\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\",
+            \"platforms\": {
+              \"linux-x86_64\": {
+                \"url\": \"https://github.com/codefen/codefend-user/releases/download/$VERSION/linux-x86_64.AppImage\",
+                \"signature\": \"$(cat ./artifacts/linux/x86_64/build.sig)\"
+              },
+              \"macos-universal\": {
+                \"url\": \"https://github.com/codefen/codefend-user/releases/download/$VERSION/macos-universal.dmg\",
+                \"signature\": \"$(cat ./artifacts/macos/universal/build.sig)\"
+              },
+              \"windows-x64\": {
+                \"url\": \"https://github.com/codefen/codefend-user/releases/download/$VERSION/windows-x64.exe\",
+                \"signature\": \"$(cat ./artifacts/windows/x64/build.sig)\"
+              }
+            }
+          }" > ./latest.json
+
+      # 4. Publicar una release en GitHub
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./artifacts/linux/**/*.{AppImage,deb}
+            ./artifacts/macos/**/*.dmg
+            ./artifacts/windows/**/*.exe
+            ./latest.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

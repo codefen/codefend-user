@@ -3,7 +3,6 @@ dist
 .env.online
 .env.dev
 package-lock.json
-/pnpm-lock.yaml
 yarn.lock
 ~
 releases
@@ -35,6 +34,4 @@ dist-ssr
 *.sln
 *.sw?
 
-# Ex
-
-pnpm-lock.yaml
+.husky
