@@ -91,15 +91,12 @@ jobs:
       - name: Get Release Version
         id: get-version
         run: |
-          VERSION=$(jq -r '.version' package.json)
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Setup Tauri Signing Key
-        env:
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-        run: |
-          echo "$TAURI_PRIVATE_KEY" > tauri_private_key
-          chmod 600 tauri_private_key
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            $VERSION = (Get-Content package.json | ConvertFrom-Json).version
+            echo "VERSION=$VERSION" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          else
+            VERSION=$(jq -r '.version' package.json)
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -141,6 +138,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         run: |
           pnpm tauri build ${{ matrix.args }}
