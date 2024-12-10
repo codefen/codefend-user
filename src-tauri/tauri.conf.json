@@ -73,7 +73,7 @@
 	},
 	"plugins": {
 		"updater": {
-			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQ0Q0FEMDVERUQzOUU5NkMKUldSczZUbnRYZERLMUpSNTJWOC9sYllXZWZ4RDJ1Zi8wUEgybEE2elA0Wld5UlMvM3RwRlBvVjcK",
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk4QTM3ODU1NUY5MzNBOUYKUldTZk9wTmZWWGlqbUtZQVJZVnNyNTBXYm01dDFRbXJManFPeVh2cGdMZkJCYTZGZHdBM3piVFQK",
 			"endpoints": [
 				"https://github.com/codefen/codefend-user/releases/latest.json"
 			],
