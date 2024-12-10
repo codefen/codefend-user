@@ -16,10 +16,12 @@ import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
 import useKeyEventPress from '@stores/keyEvents.ts';
 
-export const Navbar = lazy(() => import('@standalones/navbar/Navbar.tsx'));
-export const Sidebar = lazy(() => import('@standalones/sidebar/Sidebar.tsx'));
-export const ErrorConection = lazy(() => import('@modals/ErrorConnection.tsx'));
-export const MobileFallback = lazy(() => import('@defaults/mobile-fallback/MobileFallback.tsx'));
+export const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar.tsx'));
+export const Sidebar = lazy(() => import('../../components/standalones/sidebar/Sidebar.tsx'));
+export const ErrorConection = lazy(() => import('../../components/modals/ErrorConnection.tsx'));
+export const MobileFallback = lazy(
+  () => import('../../components/defaults/mobile-fallback/MobileFallback.tsx')
+);
 
 export const PanelPage = () => {
   const location = useLocation();

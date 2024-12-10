@@ -1,4 +1,4 @@
-interface Logo {
+interface LogoPath {
   path: string;
 }
 
@@ -6,7 +6,8 @@ interface LogoProps {
   theme: string;
   onClick?: () => void;
 }
-const themeToImage: Record<string, Logo> = {
+
+const themeToImage: Record<string, LogoPath> = {
   light: {
     path: '/codefend/logo-light.svg',
   },

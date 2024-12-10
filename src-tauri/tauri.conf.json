@@ -45,7 +45,7 @@
 		"externalBin": [],
 		"shortDescription": "Codefend Panel",
 		"longDescription": "Codefend Security Platform Panel Desktop App",
-		"createUpdaterArtifacts": "v1Compatible",
+		"createUpdaterArtifacts": true,
 		"macOS": {
 			"entitlements": null,
 			"exceptionDomain": "",
