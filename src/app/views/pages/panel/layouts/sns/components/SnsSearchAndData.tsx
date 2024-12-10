@@ -1,5 +1,5 @@
 import { type FC, useEffect, type ChangeEvent, type FormEvent } from 'react';
-import { SearchBar } from '../../../../../../views/components';
+import { SearchBar } from '@standalones/SearchBar';
 import { ScanSearchIcon } from '@icons';
 import Masonry from 'react-masonry-css';
 import { useSns } from '@moduleHooks/sns/useSns.ts';

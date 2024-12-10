@@ -6,7 +6,7 @@ import Show from '@defaults/Show.tsx';
 import { useCloud } from '@resourcesHooks/cloud/useCloud.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import { AddCloudModal } from '../../../../components/modals/adding-modals/AddCloudModal';
+import { AddCloudModal } from '@modals/adding-modals/AddCloudModal';
 import './cloud.scss';
 import { CloudSelectedDetails } from './components/CloudSelectedDetails';
 import { ListResourceWithSearch } from '@standalones/ListResourceWithSearch';

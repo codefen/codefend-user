@@ -1,4 +1,4 @@
-import type { User } from '../../../';
+import type { User } from '@interfaces/user';
 import { type Fetcher } from '#commonHooks/useFetcher.ts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 

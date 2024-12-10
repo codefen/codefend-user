@@ -1,7 +1,7 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useEffect } from 'react';
 import { ResellerHeader } from '../components/ResellerHeader';
-import { ResourceByLocation } from '../../../../../components/standalones/ResourceByLocation';
+import { ResourceByLocation } from '@standalones/ResourceByLocation';
 import { useResellerUsers } from '@userHooks/resellers/useResellerUsers';
 import '../reseller.scss';
 import type { ResellerUser } from '@interfaces/user';

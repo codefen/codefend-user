@@ -7,7 +7,7 @@ import {
   GlobeWebIcon,
   DownloadIcon,
 } from '../..';
-import { TableWithoutActions } from '../../table/TableWithoutActions';
+import { TableWithoutActions } from '@table/TableWithoutActions';
 import {
   type ReportIssues,
   addPrintAttributesFromBody,

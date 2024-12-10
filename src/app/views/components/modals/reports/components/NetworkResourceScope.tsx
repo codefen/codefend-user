@@ -1,6 +1,7 @@
 import { type FC, type ReactNode } from 'react';
-import { TableWithoutActions } from '../../..';
-import { type ResourceScope, lanResourcesTableWithoutAction } from '../../../../../data';
+import { TableWithoutActions } from '@table/TableWithoutActions';
+import { type ResourceScope } from '@interfaces/reports';
+import { lanResourcesTableWithoutAction } from '@mocks/defaultData';
 
 export const NetworkResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoading }) => {
   const scopeDataTable = resources

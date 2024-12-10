@@ -1,12 +1,15 @@
 import { type FC, useContext } from 'react';
-import { ChatBoxType } from '../../../../../../data';
-import { ChatBox, PageLoader, SimpleSection } from '../../../../../components';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
+
+import { ChatBoxType } from '@interfaces/panel';
+import { ChatBox } from '@standalones/ChatBox';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
 import SelectedTicket from '../supportProvider';
 import Show from '@defaults/Show.tsx';
 import { MessageIcon } from '@icons';
-import { toast } from 'react-toastify';
-import { useParams } from 'react-router';
-import { MessageList } from '../../../../../components/standalones/MessageList';
+import { MessageList } from '@standalones/MessageList';
 import { useSWRMessage } from '@panelHooks/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';

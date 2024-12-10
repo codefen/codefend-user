@@ -1,6 +1,7 @@
 import { type FC, type ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { SearchBar, SearchIcon } from '../../../../../components';
+import { SearchBar } from '@standalones/SearchBar';
+import { SearchIcon } from '@icons';
 import { toast } from 'react-toastify';
 import { DASHBOARD_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 

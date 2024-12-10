@@ -1,5 +1,7 @@
 import { type FC, useState } from 'react';
-import { OrderSection, ScopeOption, useOrderScope, useOrderStore } from '../../../../../data';
+import { useOrderScope } from '@hooks/useOrders';
+import { ScopeOption, OrderSection } from '@interfaces/order';
+import { useOrderStore } from '@stores/orders.store';
 import useTimeout from '#commonHooks/useTimeout.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 

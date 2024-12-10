@@ -1,5 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
-import { ExternalScanButton, RequestScanButton } from '../../../../../components';
+import { RequestScanButton } from '@buttons/scan/RequestScanButton';
+import { ExternalScanButton } from '@buttons/scan/ExternalScan';
 import { useEndpointAppStore } from '../EndpointContext';
 
 interface ScanButtonProps {

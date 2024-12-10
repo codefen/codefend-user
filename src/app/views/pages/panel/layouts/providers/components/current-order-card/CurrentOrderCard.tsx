@@ -1,23 +1,16 @@
 import { type FC } from 'react';
-import {
-  ScopeOption,
-  calculateDaysDifference,
-  formatReverseDate,
-  useModal,
-  type OrderOffensive,
-  type OrderTeamSize,
-} from '../../../../../../../data';
-import {
-  ConfirmModal,
-  IconTextPairs,
-  ModalWrapper,
-  PrimaryButton,
-  Show,
-} from '../../../../../../components';
+import useModal from '@hooks/common/useModal';
+import { type OrderOffensive, type OrderTeamSize, ScopeOption } from '@interfaces/order';
+import { formatReverseDate, calculateDaysDifference } from '@utils/helper';
+import ConfirmModal from '@modals/ConfirmModal';
+import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
+import Show from '@defaults/Show';
+import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
 import { useProviderOrderFinish } from '@userHooks/providers/useProviderOrderFinish';
-import { OrderCardTemplate } from '../../../../../../components/standalones/order-card-template/OrderCardTemplate';
+import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
 import useOrderScopeStore from '@stores/orderScope.store';
 
 export interface ConfirmOrderCardProps {

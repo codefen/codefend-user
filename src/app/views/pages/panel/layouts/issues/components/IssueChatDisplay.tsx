@@ -1,7 +1,11 @@
 import { type FC } from 'react';
 import { useLocation } from 'react-router';
 import { ChatBoxType } from '../../../../../../data';
-import { MessageIcon, PageLoader, ChatBox, Show, SimpleSection } from '../../../../../components';
+import { ChatBox } from '@standalones/ChatBox';
+import { MessageIcon } from '@icons';
+import { PageLoader } from '@defaults/loaders/Loader';
+import { SimpleSection } from '@defaults/SimpleSection';
+import Show from '@defaults/Show';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useSWRIssueMessage } from '@panelHooks/issues/useSWRIssueMessage';

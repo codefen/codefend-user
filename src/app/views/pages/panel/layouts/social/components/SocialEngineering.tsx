@@ -1,26 +1,18 @@
-import {
-  BugIcon,
-  ConfirmModal,
-  CredentialIcon,
-  DocumentIcon,
-  ModalTitleWrapper,
-  PeopleGroupIcon,
-  Show,
-  TableV2,
-  TrashIcon,
-} from '../../../../../../views/components';
-
-import {
-  type MemberV2,
-  type TableItem,
-  memberColumnWithActions,
-  roleMap,
-  useModal,
-  useReportStore,
-} from '../../../../../../data';
-import AddSocialResourceModal from '../../../../../components/modals/adding-modals/AddSocialResourceModal';
-import { useNavigate } from 'react-router';
 import { type FC } from 'react';
+import { useNavigate } from 'react-router';
+
+import ConfirmModal from '@modals/ConfirmModal';
+import { TrashIcon, BugIcon, CredentialIcon, DocumentIcon, PeopleGroupIcon } from '@icons';
+import Show from '@defaults/Show';
+import { TableV2 } from '@table/tablev2';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+
+import type { MemberV2 } from '@interfaces/panel';
+import type { TableItem } from '@interfaces/table';
+import { roleMap, memberColumnWithActions } from '@mocks/defaultData';
+import useModal from '@hooks/common/useModal';
+import { useReportStore } from '@stores/report.store';
+import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';

@@ -1,5 +1,7 @@
-import { PrimaryButton } from '../../..';
-import { OrderSection, OrderTeamSize, useOrderSaveBank, useOrderStore } from '../../../../../data';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
+import { OrderSection, OrderTeamSize } from '@interfaces/order';
+import { useOrderStore } from '@stores/orders.store';
+import { useOrderSaveBank } from '@hooks/useOrders';
 
 export const BankPaymentModal = () => {
   const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(state => state);

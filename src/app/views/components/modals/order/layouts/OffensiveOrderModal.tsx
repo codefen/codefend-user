@@ -1,11 +1,8 @@
 import { type FC, useState } from 'react';
-import { PrimaryButton } from '../../..';
-import {
-  useOrderStore,
-  OrderSection,
-  OrderOffensive,
-  useOrderOffensive,
-} from '../../../../../data';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
+import { OrderSection, OrderOffensive } from '@interfaces/order';
+import { useOrderOffensive } from '@hooks/useOrders';
+import { useOrderStore } from '@stores/orders.store';
 
 export const OffensiveOrderModal: FC = () => {
   const { offensiveOrder, updateState, referenceNumber, orderId } = useOrderStore(state => state);

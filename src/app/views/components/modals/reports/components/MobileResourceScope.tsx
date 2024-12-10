@@ -1,8 +1,10 @@
-import React from 'react';
-import type { ResourceScopeApp, MobileApp, CloudApp } from '../../../../../data';
-import { AppCard, EmptyCard } from '../../..';
+import type { FC } from 'react';
+import type { MobileApp, CloudApp } from '@interfaces/panel';
+import type { ResourceScopeApp } from '@interfaces/reports';
+import EmptyCard from '@defaults/EmptyCard';
+import { AppCard } from '@standalones/AppCard';
 
-export const MobileResourceScope: React.FC<ResourceScopeApp<MobileApp | CloudApp>> = ({
+export const MobileResourceScope: FC<ResourceScopeApp<MobileApp | CloudApp>> = ({
   isLoading,
   resources,
   type,

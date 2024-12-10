@@ -1,7 +1,10 @@
 import { type FC } from 'react';
-import { BugIcon, RiskScore, SimpleSection } from '../../../../../components';
-import { topVulnerabilitiesColumn, Sort, type TableItem } from '../../../../../../data';
-import { TableV2 } from '../../../../../components/table/tablev2';
+import { RiskScore } from '@standalones/utils/RiskScore';
+import { SimpleSection } from '@defaults/SimpleSection';
+import { BugIcon } from '@icons';
+import { topVulnerabilitiesColumn } from '@mocks/defaultData';
+import { type TableItem, Sort } from '@interfaces/table';
+import { TableV2 } from '@table/tablev2';
 import { useNavigate } from 'react-router';
 import type { Issue } from '@interfaces/dashboard';
 import { ResourceIconText } from '@standalones/utils/ResourceIconText';

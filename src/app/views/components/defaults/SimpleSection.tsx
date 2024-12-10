@@ -19,5 +19,3 @@ export const SimpleSection: FC<SimpleSectionProps> = ({ header, icon, children }
     </>
   );
 };
-
-export default SimpleSection;

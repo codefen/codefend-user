@@ -1,11 +1,6 @@
 import { useCallback, useRef } from 'react';
-import {
-  type IssuesUtils,
-  type Issues,
-  mapIssues,
-  mapIssuesCondition,
-  mapIssueShare,
-} from '../../../';
+import { type IssuesUtils, type Issues } from '@interfaces/panel';
+import { mapIssues, mapIssuesCondition, mapIssueShare } from '@utils/mapper';
 import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';

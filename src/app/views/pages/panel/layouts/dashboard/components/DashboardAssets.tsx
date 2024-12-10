@@ -1,7 +1,8 @@
 import { type FC, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CircleIcon, SimpleSection } from '../../../../../components';
-import { generateIDArray } from '../../../../../../data';
+import { SimpleSection } from '@defaults/SimpleSection';
+import { CircleIcon } from '@icons';
+import { generateIDArray } from '@utils/helper';
 import { StatAsset } from '@standalones/stat-asset/StatAsset';
 import type { ResourceCount } from '@interfaces/dashboard';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';

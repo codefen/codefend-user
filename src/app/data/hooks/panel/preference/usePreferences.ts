@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { type Member } from '../../..';
+import { type Member } from '@interfaces/panel';
 import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';

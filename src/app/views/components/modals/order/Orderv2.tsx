@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 
-import { ModalWrapper } from '..';
+import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
 import { ScopeOrderModal } from './layouts/ScopeOrderModal';
 import { FrequencyOrderModal } from './layouts/FrequencyOrderModal';
-import { PageLoader } from '../..';
+import { PageLoader } from '@defaults/loaders/Loader';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
 import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
-import { ActiveProgressiveSteps } from '../../standalones/progressive-steps/ActiveProgressiveSteps';
+import { ActiveProgressiveSteps } from '@standalones/progressive-steps/ActiveProgressiveSteps';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
-import { OrderSection, useOrderStore, useOrders } from '../../../../data';
+import { OrderSection } from '@interfaces/order';
+import { useOrders } from '@hooks/useOrders';
+import { useOrderStore } from '@stores/orders.store';
 import './order.scss';
 import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';
 

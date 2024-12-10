@@ -1,5 +1,5 @@
 import { HttpService } from './abstractHttp.service.ts';
-import { handleFetchError, handleResponse } from '../../../data/utils/api.utils.ts';
+import { handleFetchError, handleResponse } from '@utils/api.utils.ts';
 import type { HttpRequestOptions } from './http.service';
 
 /**

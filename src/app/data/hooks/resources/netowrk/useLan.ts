@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { type Device } from '../../..';
+import { type Device } from '@interfaces/panel';
 import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';

@@ -1,6 +1,4 @@
-// default data for UI purpose
-
-import type { ColumnTable } from '../../data';
+import type { ColumnTable } from '@interfaces/table';
 
 export const osTypes = ['windows', 'linux', 'android', 'ios', 'unknown'];
 

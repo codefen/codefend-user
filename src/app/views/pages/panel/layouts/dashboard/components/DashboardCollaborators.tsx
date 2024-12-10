@@ -1,8 +1,10 @@
 import { type FC } from 'react';
 
-import { PeopleGroupIcon, SimpleSection } from '../../../../../components';
-import { memberColumn, type TableItem } from '../../../../../../data';
-import { TableV2 } from '../../../../../components/table/tablev2';
+import { SimpleSection } from '@defaults/SimpleSection';
+import { PeopleGroupIcon } from '@icons';
+import { type TableItem } from '@interfaces/table';
+import { memberColumn } from '@mocks/defaultData';
+import { TableV2 } from '@table/tablev2';
 import type { CompanyMember } from '@interfaces/dashboard';
 
 interface DashboardCollaboratorsProps {

@@ -1,4 +1,5 @@
-import { useAuthStore, type AuthState, useAdminCompanyStore } from '../../..';
+import useAdminCompanyStore from '@stores/adminCompany.store';
+import { useAuthStore, type AuthState } from '@stores/auth.store';
 
 export const useUserData = () => {
   const {

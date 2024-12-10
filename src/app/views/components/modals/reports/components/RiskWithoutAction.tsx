@@ -1,6 +1,10 @@
 import { type FC } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import { EmptyCard, BugIcon, Show, SimpleSection, TableWithoutActions } from '../../..';
+import { TableWithoutActions } from '@table/TableWithoutActions';
+import { SimpleSection } from '@defaults/SimpleSection';
+import Show from '@defaults/Show';
+import EmptyCard from '@defaults/EmptyCard';
+import { BugIcon } from '@icons';
 import {
   type IssuesShare,
   type TableItem,

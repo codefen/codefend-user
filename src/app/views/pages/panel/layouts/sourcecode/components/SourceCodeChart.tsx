@@ -1,14 +1,11 @@
 import { type FC, useMemo } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import {
-  MetricsService,
-  ChartValueType,
-  isEmptyData,
-  languageTypes,
-  useDoughnutChart,
-  sourceCodeChartColumns,
-  type TableItem,
-} from '../../../../../../data';
+import { ChartValueType } from '@interfaces/panel';
+import useDoughnutChart from '@hooks/common/useChart';
+import { MetricsService } from '@utils/metric.service';
+import { sourceCodeChartColumns, languageTypes } from '@mocks/defaultData';
+import { isEmptyData } from '@utils/helper';
+import type { TableItem } from '@interfaces/table';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import Show from '@defaults/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';

@@ -1,12 +1,11 @@
 import { type FC, useEffect, useState } from 'react';
-import { PageLoader, PrimaryButton, Show } from '../../..';
-import {
-  OrderSection,
-  OrderTeamSize,
-  formatNumber,
-  useOrderPlan,
-  useOrderStore,
-} from '../../../../../data';
+import { PageLoader } from '@defaults/loaders/Loader';
+import Show from '@defaults/Show';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
+import { formatNumber } from '@utils/helper';
+import { OrderTeamSize, OrderSection } from '@interfaces/order';
+import { useOrderStore } from '@stores/orders.store';
+import { useOrderPlan } from '@hooks/useOrders';
 
 interface PricePlans {
   small: string;

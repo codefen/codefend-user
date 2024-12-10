@@ -1,8 +1,7 @@
-import React from 'react';
-import { useAdminCompanyStore } from '../../../../../../../data';
-import { Show } from '../../../../../../../views/components';
+import useAdminCompanyStore from '@stores/adminCompany.store';
+import Show from '@defaults/Show';
 
-const AdminCompanyDetails: React.FC = () => {
+const AdminCompanyDetails = () => {
   const { companySelected } = useAdminCompanyStore(state => state);
 
   return (

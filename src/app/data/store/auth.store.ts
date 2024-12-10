@@ -26,7 +26,7 @@ export interface AuthState {
 const stateInitV2: StateInitializer<AuthState> = (store, persistence) =>
   devtools(persist(store, persistence));
 
-const useAuthStore = create<AuthState>()(
+export const useAuthStore = create<AuthState>()(
   stateInitV2(
     (set: any, _get: any) => ({
       userData: EMPTY_USER,

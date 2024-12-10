@@ -9,7 +9,7 @@ import {
 } from '../../../../../../data';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
-import SimpleSection from '@defaults/SimpleSection.tsx';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
 import Show from '@defaults/Show.tsx';
 import { ChartIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.ts';

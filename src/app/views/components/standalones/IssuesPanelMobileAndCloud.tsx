@@ -1,5 +1,8 @@
 import { useMemo, type FC } from 'react';
-import { BugIcon, RiskScore, SimpleSection, TableV2 } from '..';
+import { RiskScore } from '@standalones/utils/RiskScore';
+import { BugIcon } from '@icons';
+import { SimpleSection } from '@defaults/SimpleSection';
+import { TableV2 } from '@table/tablev2';
 import { useNavigate } from 'react-router';
 import { type Issues, cloudAndMobileColumns, Sort } from '../../../data';
 

@@ -1,14 +1,10 @@
 import { type FC } from 'react';
-import {
-  ScopeOption,
-  formatReverseDate,
-  type OrderOffensive,
-  type OrderTeamSize,
-} from '../../../../../../../data';
-import { IconTextPairs } from '../../../../../../components';
+import { ScopeOption, type OrderOffensive, type OrderTeamSize } from '@interfaces/order';
+import { formatReverseDate } from '@utils/helper';
+import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
-import { OrderCardTemplate } from '../../../../../../components/standalones/order-card-template/OrderCardTemplate';
+import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
 import useOrderScopeStore from '@stores/orderScope.store';
 
 export interface ConfirmOrderCardProps {

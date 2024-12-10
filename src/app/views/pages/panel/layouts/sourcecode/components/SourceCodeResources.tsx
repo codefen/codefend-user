@@ -1,16 +1,14 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
-import {
-  sourceCodeColumns,
-  useModal,
-  type TableItem,
-  useReportStore,
-} from '../../../../../../data';
+import { sourceCodeColumns } from '@mocks/defaultData';
+import useModal from '@hooks/common/useModal';
+import { useReportStore } from '@stores/report.store';
+import type { TableItem } from '@interfaces/table';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { TrashIcon, BugIcon, SourceCodeIcon, CredentialIcon, DocumentIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
-import { AddRepositoryModal } from '../../../../../components/modals/adding-modals/AddRepositoryModal';
+import { AddRepositoryModal } from '@modals/adding-modals/AddRepositoryModal';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';

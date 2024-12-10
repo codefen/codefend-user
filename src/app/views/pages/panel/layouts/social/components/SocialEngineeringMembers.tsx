@@ -1,7 +1,9 @@
 import { type FC } from 'react';
 import { SimpleSection } from '@defaults/SimpleSection.tsx';
 import { PeopleGroupIcon, ChartIcon } from '@icons';
-import { type MemberV2, MetricsService, roleMap } from '../../../../../../data';
+import { MetricsService } from '@utils/metric.service';
+import type { MemberV2 } from '@interfaces/panel';
+import { roleMap } from '@mocks/defaultData';
 
 interface SocialEngineeringMembersProps {
   isLoading: boolean;

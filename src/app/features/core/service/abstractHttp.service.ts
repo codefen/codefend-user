@@ -1,6 +1,6 @@
 import { getCustomBaseAPi, getToken } from '@utils/helper.ts';
 import type { HttpRequestOptions, HttpServiceInterface } from './http.service.ts';
-import { baseUrl } from '../../../data/utils/config.ts';
+import { baseUrl } from '@utils/config.ts';
 
 export type RequestIdType = string | 'uniqueRequest';
 

@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
-import { type ResultsVdbSearchV2, mapVdbResultV2 } from '../../..';
+import { type ResultsVdbSearchV2 } from '@interfaces/panel';
+import { mapVdbResultV2 } from '@utils/mapper';
 import { type ChangeEvent, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { useFetcher } from '#commonHooks/useFetcher.ts';

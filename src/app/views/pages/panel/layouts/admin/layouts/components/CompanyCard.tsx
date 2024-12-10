@@ -1,6 +1,7 @@
 import { type FC } from 'react';
-import { CompanyIcon, Show } from '../../../../../../components';
-import { type AdminCompany } from '../../../../../../../data';
+import { type AdminCompany } from '@stores/adminCompany.store';
+import { CompanyIcon } from '@icons';
+import Show from '@defaults/Show';
 
 interface CompanyCard {
   isSelected: boolean;

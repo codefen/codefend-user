@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PrimaryButton } from '../../../components';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { SignupForm } from '@/app/views/components/forms/SignupForm.tsx';
 
 const SignUpLayout = () => (

@@ -1,6 +1,6 @@
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import useModalStore from '@stores/modal.store.ts';
-import { ModalTitleWrapper } from '../../index.ts';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import CollaboratorForm from '@/app/views/components/forms/CollaboratorForm.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 

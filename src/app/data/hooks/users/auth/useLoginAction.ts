@@ -1,5 +1,7 @@
 import { toast } from 'react-toastify';
-import { useAdminCompanyStore, useAuthStore, type AuthState, decodePayload } from '../../../';
+import { decodePayload } from '@services/decodedToken';
+import useAdminCompanyStore from '@stores/adminCompany.store';
+import { useAuthStore, type AuthState } from '@stores/auth.store';
 import { EMPTY_COMPANY } from '@/app/constants/empty';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';

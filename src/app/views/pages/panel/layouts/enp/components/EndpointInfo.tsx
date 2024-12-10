@@ -1,5 +1,6 @@
 import { type FC, useEffect } from 'react';
-import { BugIcon, CircleAskIcon, Show } from '../../../../../components';
+import { BugIcon, CircleAskIcon } from '@icons';
+import Show from '@defaults/Show.tsx';
 import { useEndpointAppStore } from '../EndpointContext.tsx';
 import {
   extractCWEID,

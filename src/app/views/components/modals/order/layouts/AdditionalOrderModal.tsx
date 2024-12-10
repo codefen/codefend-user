@@ -1,11 +1,8 @@
 import { type ChangeEvent, type FC, useCallback, useState } from 'react';
-import { PrimaryButton } from '../../..';
-import {
-  OrderSection,
-  OrderTeamSize,
-  useOrderStore,
-  userOrderProviderInfo,
-} from '../../../../../data';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
+import { useOrderStore } from '@stores/orders.store';
+import { OrderSection, OrderTeamSize } from '@interfaces/order';
+import { userOrderProviderInfo } from '@hooks/useOrders';
 
 export const AdditionalOrderModal: FC = () => {
   const [aditionalInfoW, setAditionalInfo] = useState('');

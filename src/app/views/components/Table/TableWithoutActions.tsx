@@ -1,7 +1,7 @@
 import React, { Fragment, type ReactNode } from 'react';
 import { EmptyCard, PageLoader } from '..';
-import { formatDate } from '../../../data';
-import type { ColumnTable, TableItem } from '../../../data';
+import { formatDate } from '@utils/helper';
+import type { ColumnTable, TableItem } from '@interfaces/table';
 
 export interface TableWithoutActionsProps {
   columns: ColumnTable[];

@@ -1,8 +1,8 @@
+import { useEffect } from 'react';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { ResellerHeader } from '../components/ResellerHeader';
 import { NewLeadsData } from '../components/NewLeadsData';
-import { ResourceByLocation } from '../../../../../components/standalones/ResourceByLocation';
-import { useEffect } from 'react';
+import { ResourceByLocation } from '@standalones/ResourceByLocation';
 import { useResellerLeads } from '@userHooks/resellers/useResellerLeads';
 import '../reseller.scss';
 import type { Lead } from '@interfaces/lead';

@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Link } from 'react-router-dom';
-import { PrimaryButton } from '../../../components';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import InvitationSignupForm from '@/app/views/components/forms/InvitationSignupForm';
 
 export const InvitationSignup: FC = () => (

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import { mapIssueShareV2, mapMobileApp, mapCloudApp, mapReportIssues } from '../../..';
-import { useReportStore } from '../../../';
+import { mapIssueShareV2, mapMobileApp, mapCloudApp, mapReportIssues } from '@utils/mapper';
+import { useReportStore } from '@stores/report.store';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { companyIdIsNull } from '@/app/constants/validations';

@@ -1,13 +1,12 @@
 import { type FC, useEffect, useState } from 'react';
-import { AppleIcon, LinuxIcon, WindowsIcon } from '../../../../../components';
-import { getCustomBaseAPi } from '@utils/helper.ts';
-
-import { useEndpointAppStore } from '../EndpointContext.tsx';
 import { toast } from 'react-toastify';
+import { AppleIcon, LinuxIcon, WindowsIcon } from '@icons';
 
-import { baseUrl } from '../../../../../../data/utils/config.ts';
+import { getCustomBaseAPi } from '@utils/helper.ts';
+import { baseUrl } from '@utils/config.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts.ts';
+import { useEndpointAppStore } from '../EndpointContext.tsx';
 
 type OsOptions = {
   [key: string]: string;

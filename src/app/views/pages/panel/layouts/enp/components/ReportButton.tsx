@@ -1,5 +1,6 @@
 import { type FC } from 'react';
-import { RefreshButton, GenerateReportButton } from '../../../../../components';
+import { RefreshButton } from '@buttons/scan/RefreshButton';
+import { GenerateReportButton } from '@buttons/scan/GenerateReportButton';
 
 interface ReportButtonProps {
   onClick: () => void;

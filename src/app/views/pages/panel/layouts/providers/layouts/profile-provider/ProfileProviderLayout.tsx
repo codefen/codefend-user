@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { cleanHTML, useProviderProfile } from '../../../../../../../data';
+import { cleanHTML } from '@utils/helper.ts';
+import { useProviderProfile } from '@hooks/users/providers/useProviders.ts';
 import { useProviderSidebar } from '@userHooks/providers/useProviderSidebar.ts';
 
 const ProfileProviderLayout = () => {

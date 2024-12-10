@@ -3,7 +3,8 @@ import { StarRating } from '@standalones/utils/StarRating.tsx';
 import { IconTextPairs } from '@standalones/textpair/IconTextPairs.tsx';
 import { CircleAskIcon, LocationIcon, VerificationIcon } from '@icons';
 
-import { formatToMonthYear, useProviderProfile } from '../../../../../../data';
+import { formatToMonthYear } from '@utils/helper.ts';
+import { useProviderProfile } from '@hooks/users/providers/useProviders.ts';
 import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
 
 export const ProviderHeader: FC = () => {

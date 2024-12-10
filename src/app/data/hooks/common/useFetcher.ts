@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { AxiosHttpService } from '../../services/axiosHTTP.service';
-import type { HttpRequestOptions } from '../../services/http.service';
+import { AxiosHttpService } from '@services/axiosHTTP.service';
+import type { HttpRequestOptions } from '@services/http.service';
 import type { AxiosHeaders } from 'axios';
 
 export type Fetcher = <T>(

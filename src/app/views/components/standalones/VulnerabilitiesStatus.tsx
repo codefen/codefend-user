@@ -1,5 +1,6 @@
 import React from 'react';
-import { ChartIcon, SimpleSection } from '..';
+import { SimpleSection } from '@defaults/SimpleSection';
+import { ChartIcon } from '@icons';
 
 import type { IssuesCondition } from '../../../data';
 import { StatAsset } from './stat-asset/StatAsset';

@@ -1,13 +1,13 @@
 import { type FC } from 'react';
-import { type ResultsVdbSearchV2, useInitialVdb, vdbColumns } from '../../../../../../data';
-import {
-  ScanSearchIcon,
-  PageLoader,
-  SearchBar,
-  Show,
-  TableV2,
-  RiskScore,
-} from '../../../../../components';
+import { type ResultsVdbSearchV2 } from '@interfaces/panel';
+import { useInitialVdb } from '@moduleHooks/vdb/useVdb';
+import { vdbColumns } from '@mocks/defaultData';
+import { SearchBar } from '@standalones/SearchBar';
+import { RiskScore } from '@standalones/utils/RiskScore';
+import { TableV2 } from '@table/tablev2';
+import Show from '@defaults/Show';
+import { ScanSearchIcon } from '@icons';
+import { PageLoader } from '@defaults/loaders/Loader';
 
 export const VdbSearchData: FC = () => {
   const { vdbResults, refetch, isLoading, searchData, handleChange } = useInitialVdb();

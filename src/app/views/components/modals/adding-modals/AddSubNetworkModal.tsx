@@ -1,5 +1,6 @@
-import { type FC } from 'react';
-import { type ComponentEventWithOpen, type Device } from '../../../../data';
+import type { FC } from 'react';
+import type { Device } from '@interfaces/panel';
+import type { ComponentEventWithOpen } from '@interfaces/util';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import SubNetworkForm from '@/app/views/components/forms/SubNetworkForm';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';

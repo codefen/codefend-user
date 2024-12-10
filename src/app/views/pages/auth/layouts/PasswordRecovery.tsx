@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PrimaryButton } from '../../../components';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import PasswordRecoveryForm from '@/app/views/components/forms/PasswordRecoveryForm.tsx';
 
 export const PasswordRecovery = () => {

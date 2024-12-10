@@ -11,7 +11,7 @@ import {
   ArcElement,
 } from 'chart.js/auto';
 import { MetricsService, ChartValueType } from '../..';
-import { useTheme } from '../../../views/context/ThemeContext';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 interface DoughnutCharProps {
   data: any;
