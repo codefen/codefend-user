@@ -5,7 +5,12 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
-
+  workflow_call:
+    secrets:
+      TAURI_PRIVATE_KEY:
+        required: true
+      TAURI_KEY_PASSWORD:
+        required: true
 jobs:
   test:
     uses: ./.github/workflows/ValidateClient.yml
@@ -19,52 +24,41 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+    outputs:
+      release_id: ${{ steps.create-release.outputs.release_id }}
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libgtk-3-dev \
-            libwebkit2gtk-4.1-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            patchelf \
-            libsoup-3.0-dev \
-            libjavascriptcoregtk-4.1-dev \
-            pkg-config
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Setup/ Install pnpm 9.7.0 manually
-        run: npm install -g pnpm@9.7.0
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Install Rust stable
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli
-
-      - name: Set PKG_CONFIG_PATH
+      - name: Get Release Version
+        id: get-version
+        shell: bash
         run: |
-          export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:$PKG_CONFIG_PATH
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           
-#      - name: Semantic Release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: npx semantic-release
+      - name: create release
+        id: create-release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data } = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `app-v${{ steps.get-version.outputs.VERSION }}`,
+              name: `Codefend v${{ steps.get-version.outputs.VERSION }}`,
+              body: 'Release build for Codefend v${{ steps.get-version.outputs.VERSION }}',
+              draft: true,
+              prerelease: false
+            })
+            core.setOutput('release_id', data.id);
 
   build-and-publish:
     needs: [release]
@@ -76,13 +70,32 @@ jobs:
       matrix:
         include:
           - platform: 'macos-latest'
-            args: '--target aarch64-apple-darwin'
+            args: "--target aarch64-apple-darwin"
+            symbol: 🍏
           - platform: 'macos-latest'
-            args: '--target x86_64-apple-darwin'
-          - platform: 'ubuntu-22.04'
-            args: ''
+            args: "--target x86_64-apple-darwin"
+            symbol: 🍎
+          - platform: 'ubuntu-latest'
+            args: "--target x86_64-unknown-linux-gnu"
+            symbol: 🐧
+            install: |
+              sudo apt-get update
+              sudo apt-get install -y \
+                libgtk-3-dev \
+                libwebkit2gtk-4.1-dev \
+                libappindicator3-dev \
+                librsvg2-dev \
+                patchelf \
+                libsoup-3.0-dev \
+                libjavascriptcoregtk-4.1-dev \
+                pkg-config
           - platform: 'windows-latest'
-            args: ''
+            args: "--target x86_64-pc-windows-msvc"
+            symbol: ✈️
+            install: |
+              echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Append
+              vcpkg install openssl:x64-windows-static-md
+              choco install wget -y
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -103,46 +116,157 @@ jobs:
       - name: Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04'
+      - name: Install frontend dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libgtk-3-dev \
-            libwebkit2gtk-4.1-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            patchelf \
-            libsoup-3.0-dev \
-            libjavascriptcoregtk-4.1-dev \
-            pkg-config
-
-      - name: Install Rust stable
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm install --frozen-lockfile --ignore-scripts
+        
+      - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          components: rustfmt, clippy
+          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin,wasm32-unknown-unknown' || 'wasm32-unknown-unknown' }}
 
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
+      - name: 🌍 Export GitHub Actions cache environment variables windows
+        if: contains(matrix.platform, 'windows')
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
-          workspaces: src-tauri
-          cache-on-failure: true
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: Install frontend dependencies
-        run: pnpm install
-          
-      - name: Upload Artifacts
-        uses: tauri-apps/tauri-action@v0
+      - name: 🛠️ Setup | Install dependencies
+        if: matrix.install != ''
+        run: ${{ matrix.install }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+
+      - name: Create env file
+        run: |
+          echo "VITE_PORT=5173" >> .env
+          echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
+          echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
+          
+      - name: Build frontend
+        run: pnpm build
+        
+      - name: 📥 Cached install leptosfmt (macos only)
+        if: contains(matrix.platform, 'macos')
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
         with:
-          tagName: app-${{ steps.get-version.outputs.VERSION }}
-          releaseName: 'App v__VERSION__'
-          releaseBody: 'See the assets to download this version and install.'
-          releaseDraft: true
-          prerelease: false
-          includeUpdaterJson: true
+          tool: leptosfmt@0.1.32
+          locked: true
+
+      - name: 📐 Run leptosfmt and fail if any warnings (macos only)
+        if: contains(matrix.platform, 'macos')
+        run: |
+          leptosfmt --check src
+
+      - name: 📐 Run rustfmt and fail if any warnings (macos only)
+        if: contains(matrix.platform, 'macos')
+        working-directory: ./src-tauri
+        run: |
+          cargo fmt -- --check
+
+      - name: 📎 Run clippy and fail if any warnings (macos only)
+        if: contains(matrix.platform, 'macos')
+        working-directory: ./src-tauri
+        run: |
+          cargo clippy -- -D warnings
+
+      - name: ✅ Run tests
+        working-directory: ./src-tauri
+        run: |
+          cargo test --all
+
+      - name: 📥 Cached install cargo-auditable
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
+        with:
+          tool: cargo-auditable@0.6.6
+          locked: true
+
+      - name: 📥 Cached install tauri-cli
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
+        with:
+          tool: tauri-cli@2.1.0
+          locked: true
+
+      - name: 🔑 Import windows signing certificate
+        if: contains(matrix.platform, 'windows')
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
+          certutil -decode certificate/tempCert.txt certificate/certificate.pfx
+          Remove-Item -path certificate -include tempCert.txt
+          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
+
+      - name: Setup Rust target for x86_64
+        if: contains(matrix.platform, 'macos') && matrix.args == '--target x86_64-apple-darwin'
+        run: rustup target add x86_64-apple-darwin
+
+      - name: 🔨 Build using tauri action (publish artifacts on release)
+        uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
+        env:
+          RUSTFLAGS: "-D warnings"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          releaseId: ${{ needs.release.outputs.release_id }}
+          tauriScript: cargo --locked auditable tauri
           args: ${{ matrix.args }}
+
+      - name: Debug release_id
+        run: |
+          echo "Release ID: ${{ needs.release.outputs.release_id }}"
+
+      - name: publish release
+        id: publish-release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ needs.release.outputs.release_id }},
+              draft: false,
+              prerelease: false
+            })
+
+      - name: 🛡️ Attest build provenance (publish release only)
+        uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
+        with:
+          subject-path: |
+            target/release/bundle/nsis/*
+            target/**/release/bundle/macos/*.tar.gz*
+            target/**/release/bundle/dmg/*.dmg
+            target/release/bundle/deb/*.deb
+            target/release/bundle/rpm/*.rpm
+          push-to-registry: false
+          show-summary: true
+        env:
+          CARGO_HOME: /home/runner/.cargo
+          CARGO_INCREMENTAL: 0
+          CARGO_TERM_COLOR: always
+          
+      - name: 📜 Create SBOM
+        uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
+        with:
+          format: "spdx-json"
+          output-file: "sbom.spdx.json"
+          artifact-name: "${{ matrix.platform }}${{ matrix.args }}.sbom.spdx.json"
+
+      - name: 🛡️ Attest SBOM
+        uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
+        with:
+          subject-path: >-
+            ${{ 
+              contains(matrix.platform, 'ubuntu') && 'target/x86_64-unknown-linux-gnu/release/codefend-panel' ||
+              contains(matrix.platform, 'windows') && 'target/x86_64-pc-windows-msvc/release/codefend-panel.exe' ||
+              (contains(matrix.platform, 'macos') && contains(matrix.args, 'x86_64')) && 'target/x86_64-apple-darwin/release/codefend-panel' ||
+              (contains(matrix.platform, 'macos') && contains(matrix.args, 'aarch64')) && 'target/aarch64-apple-darwin/release/codefend-panel'
+            }}
+          sbom-path: "sbom.spdx.json"

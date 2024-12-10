@@ -14,3 +14,5 @@ public/editor-lib
 public/particles
 public/flags
 *.min.js
+dist/
+public/

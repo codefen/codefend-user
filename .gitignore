@@ -5,8 +5,6 @@ dist
 yarn.lock
 ~
 releases
-src-tauri/Cargo.lock
-src-tauri/Cargo.lock
 
 # Logs
 logs
