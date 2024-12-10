@@ -1,5 +1,5 @@
 import { TABLE_KEYS } from '@/app/constants/app-texts';
-import useTableStoreV3 from '@table/v3/tablev3.store';
+import { useTableStoreV3 } from '@table/v3/tablev3.store';
 import { useCallback, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { withBatchedUpdates } from '../..';
 

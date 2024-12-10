@@ -18,7 +18,7 @@ import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import TextChild from '@standalones/utils/TextChild';
-import useTableStoreV3 from '@table/v3/tablev3.store';
+import { useTableStoreV3 } from '@table/v3/tablev3.store';
 
 interface WebResourcesProps {
   refresh: () => void;

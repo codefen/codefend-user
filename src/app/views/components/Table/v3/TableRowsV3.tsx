@@ -1,7 +1,7 @@
 import { type ChangeEvent, type FC, type ReactNode } from 'react';
 import { type ColumnTableV3 } from '@interfaces/table.ts';
 import { flattenRows } from '@utils/sort.service';
-import useTableStoreV3 from './tablev3.store';
+import { useTableStoreV3 } from './tablev3.store';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import TableLabelRow from './TableLabelRow';
 import TableAnchorRow from './TableAnchorRow';

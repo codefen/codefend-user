@@ -12,7 +12,7 @@ export interface TableV3Store {
   setActiveSelecting: (bool: boolean) => void;
 }
 
-const useTableStoreV3 = create<TableV3Store>(set => ({
+export const useTableStoreV3 = create<TableV3Store>(set => ({
   selectedItems: [],
   selectingActive: false,
   lastSelecting: '',
@@ -29,5 +29,3 @@ const useTableStoreV3 = create<TableV3Store>(set => ({
   setActiveSelecting: bool => set((state: TableV3Store) => ({ ...state, selectingActive: bool })),
   setLastSelecting: data => set({ lastSelecting: data }),
 }));
-
-export default useTableStoreV3;

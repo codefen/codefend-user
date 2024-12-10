@@ -48,7 +48,7 @@
 			"@icons": ["./src/app/views/components/icons/index.tsx"],
 			"@standalones/*": ["./src/app/views/components/standalones/*"],
 			"@defaults/*": ["./src/app/views/components/defaults/*"],
-			"@table/*": ["./src/app/views/components/table/*"],
+			"@table/*": ["./src/app/views/components/Table/*"],
 
 			"@styles/*": ["./src/app/views/styles/*"],
 
