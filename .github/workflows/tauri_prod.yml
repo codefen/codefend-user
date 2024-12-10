@@ -90,13 +90,10 @@ jobs:
 
       - name: Get Release Version
         id: get-version
+        shell: bash
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            $VERSION = (Get-Content package.json | ConvertFrom-Json).version
-            echo "VERSION=$VERSION" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          else
-            VERSION=$(jq -r '.version' package.json)
-            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -142,16 +139,19 @@ jobs:
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         run: |
           pnpm tauri build ${{ matrix.args }}
-          
-          # Firma de binarios
-          if [[ "${{ matrix.platform }}" != "windows-latest" ]]; then
+
+      - name: Sign Binaries
+        shell: bash
+        run: |
+          if [ "${{ matrix.platform }}" != "windows-latest" ]; then
             find src-tauri/target/release/bundle -type f \( -name "*.app" -o -name "*.dmg" -o -name "*.deb" -o -name "*.AppImage" \) -print0 | while read -d $'\0' file; do
-              pnpm tauri signer sign --private-key tauri_private_key -f "$file"
+              pnpm tauri signer sign --private-key "$TAURI_PRIVATE_KEY" -f "$file" || echo "Warning: Could not sign $file"
             done
           else
-            Get-ChildItem -Path "src-tauri\target\release\bundle" -Recurse -Include "*.exe", "*.msi" | ForEach-Object {
-              pnpm tauri signer sign --private-key tauri_private_key -f $_.FullName
-            }
+            # Usar PowerShell para Windows
+            pwsh -Command "Get-ChildItem -Path 'src-tauri\target\release\bundle' -Recurse -Include '*.exe', '*.msi' | ForEach-Object { 
+              pnpm tauri signer sign --private-key '$env:TAURI_PRIVATE_KEY' -f $_.FullName
+            }"
           fi
 
       - name: Upload Artifacts
