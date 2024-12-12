@@ -232,6 +232,11 @@ jobs:
 
       - name: 🛡️ Attest build provenance (publish release only)
         uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
+        env:
+          CARGO_HOME: /home/runner/.cargo
+          CARGO_INCREMENTAL: 0
+          CARGO_TERM_COLOR: always
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           subject-path: |
             src-tauri/target/release/bundle/nsis/*
@@ -241,11 +246,7 @@ jobs:
             src-tauri/target/release/bundle/rpm/*.rpm
           push-to-registry: false
           show-summary: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          CARGO_HOME: /home/runner/.cargo
-          CARGO_INCREMENTAL: 0
-          CARGO_TERM_COLOR: always
+          github-token: ${{ env.GITHUB_TOKEN }}
           
       - name: 📜 Create SBOM
         uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
