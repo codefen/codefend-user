@@ -7,10 +7,16 @@
   ],
   "permissions": [
     "core:default",
+    "fs:default",
+    "os:default",
+    "core:window:default",
     "shell:allow-open",
     "updater:default",
     "updater:allow-check",
     "updater:allow-download-and-install",
-    "dialog:default"
+    "process:default",
+    "process:allow-restart",
+    "dialog:default",
+    "cli:default"
   ]
 }

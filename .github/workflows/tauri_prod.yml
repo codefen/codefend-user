@@ -17,6 +17,7 @@ jobs:
     secrets: inherit
 
   release:
+    name: Create Release
     needs: [test]
     if: "github.event.repository.fork == false"
     runs-on: ubuntu-latest
@@ -61,12 +62,14 @@ jobs:
             core.setOutput('release_id', data.id);
 
   build-and-publish:
+    name: Build and Publish
     needs: [release]
     if: "github.event.repository.fork == false"
     permissions:
       contents: write
       id-token: write
       security-events: write
+      attestations: write
     strategy:
       fail-fast: false
       matrix:
@@ -132,11 +135,6 @@ jobs:
           components: rustfmt, clippy
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin,wasm32-unknown-unknown' || 'wasm32-unknown-unknown' }}
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.config.platform }}-cargo-${{ hashFiles('src-tauri/Cargo.lock') }}
-          workspaces: src-tauri -> target
-
       - name: 🌍 Export GitHub Actions cache environment variables windows
         if: contains(matrix.platform, 'windows')
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
@@ -144,6 +142,18 @@ jobs:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: 🔑 Import windows signing certificate
+        if: contains(matrix.platform, 'windows')
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
+          certutil -decode certificate/tempCert.txt certificate/certificate.pfx
+          Remove-Item -path certificate -include tempCert.txt
+          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
 
       - name: 🛠️ Setup | Install dependencies
         if: matrix.install != ''
@@ -196,18 +206,6 @@ jobs:
           tool: tauri-cli@2.1.0
           locked: true
 
-      - name: 🔑 Import windows signing certificate
-        if: contains(matrix.platform, 'windows')
-        env:
-          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
-        run: |
-          New-Item -ItemType directory -Path certificate
-          Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
-          certutil -decode certificate/tempCert.txt certificate/certificate.pfx
-          Remove-Item -path certificate -include tempCert.txt
-          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
-
       - name: Setup Rust target for x86_64
         if: contains(matrix.platform, 'macos') && contains(matrix.args, 'x86_64')
         run: rustup target add x86_64-apple-darwin
@@ -246,11 +244,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           subject-path: |
-            src-tauri/target/release/bundle/nsis/*
-            src-tauri/target/**/release/bundle/macos/*.tar.gz*
-            src-tauri/target/**/release/bundle/dmg/*.dmg
-            src-tauri/target/release/bundle/deb/*.deb
-            src-tauri/target/release/bundle/rpm/*.rpm
+            ${{ github.workspace }}/src-tauri/target/release/bundle/nsis/*
+            ${{ github.workspace }}/src-tauri/target/**/release/bundle/macos/*.tar.gz*
+            ${{ github.workspace }}/src-tauri/target/**/release/bundle/dmg/*.dmg
+            ${{ github.workspace }}/src-tauri/target/release/bundle/deb/*.deb
+            ${{ github.workspace }}/src-tauri/target/release/bundle/rpm/*.rpm
           push-to-registry: false
           show-summary: true
           github-token: ${{ env.GITHUB_TOKEN }}

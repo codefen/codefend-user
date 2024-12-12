@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schema.tauri.app/config/2",
 	"productName": "codefend-panel",
-	"version": "24.3.0",
+	"version": "../package.json",
 	"identifier": "com.codefend.panel",
 	"app": {
 		"withGlobalTauri": true,
@@ -47,6 +47,7 @@
 		"longDescription": "Codefend Security Platform Panel Desktop App",
 		"createUpdaterArtifacts": true,
 		"macOS": {
+			"minimumSystemVersion": "12.0",
 			"entitlements": null,
 			"exceptionDomain": "",
 			"frameworks": [],
@@ -54,6 +55,9 @@
 			"signingIdentity": null
 		},
 		"windows": {
+			"webviewInstallMode": {
+				"type": "embedBootstrapper"
+			},
 			"certificateThumbprint": null,
 			"digestAlgorithm": "sha256",
 			"timestampUrl": "",
