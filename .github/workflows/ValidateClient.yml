@@ -33,7 +33,7 @@ jobs:
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --frozen-lockfile --ignore-scripts
 
-     - name: Install rust stable
+      - name: Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
