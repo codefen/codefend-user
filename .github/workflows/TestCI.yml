@@ -26,7 +26,37 @@ jobs:
       - name: Install frontend dependencies
         run: |
           pnpm config set store-dir ~/.pnpm-store
-          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm install --prefer-frozen-lockfile --ignore-scripts
+
+      - name: Run Format
+        run: pnpm format
+
+      - name: Run Linter
+        run: pnpm lint
+
+      - name: Run CSS Linter
+        run: pnpm lint:css
+
+  build:
+    needs: [linting]
+    name: Build with 20.x
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20.x
+
+      - name: Setup/ Install pnpm 9.7.0 manually
+        run: npm install -g pnpm@9.7.0
+
+      - name: Install frontend dependencies
+        run: |
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm install --prefer-frozen-lockfile --ignore-scripts
 
       - name: Install rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -46,44 +76,13 @@ jobs:
             libjavascriptcoregtk-4.1-dev \
             pkg-config
 
-      - name: Run Format
-        run: pnpm format
-
-      - name: Run Linter
-        run: pnpm lint
-
-      - name: Run CSS Linter
-        run: pnpm lint:css
+      - name: Run build client
+        run: pnpm build
 
       - name: Run Cargo Tests
         working-directory: ./src-tauri
         run: |
           cargo test --all
-
-  build:
-    needs: [linting]
-    strategy:
-      matrix:
-        node-version: [20.x]
-    name: Build with ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Setup/ Install pnpm 9.7.0 manually
-        run: npm install -g pnpm@9.7.0
-
-      - name: Install dependencies
-        run: pnpm i --prefer-frozen-lockfile --ignore-scripts
-
-      - name: Run build client
-        run: pnpm build
 
       - name: Run prune
         run: pnpm prune --prod --ignore-scripts
