@@ -46,7 +46,7 @@ pub fn run() {
 
                 win_builder.build().unwrap();
 
-                app.handle().emit("window-ready", {}).unwrap();
+                app.handle().emit("window-ready", ()).unwrap();
 
                 Ok(())
             }
