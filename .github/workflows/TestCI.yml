@@ -9,21 +9,16 @@ on:
 
 jobs:
   linting:
-    strategy:
-      matrix:
-        node-version: [20.x]
-    name: Run Linting with ${{ matrix.node-version }}
+    name: Run Linting with 20.x
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v4.0.3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20.x
 
       - name: Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
@@ -37,6 +32,19 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libsoup-3.0-dev \
+            libjavascriptcoregtk-4.1-dev \
+            pkg-config
 
       - name: Run Format
         run: pnpm format
