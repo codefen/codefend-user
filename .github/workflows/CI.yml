@@ -1,0 +1,11 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  stratRelease:
+    name: Release Codefend App
+    uses: ./.github/workflows/Release.yml
+    secrets: inherit

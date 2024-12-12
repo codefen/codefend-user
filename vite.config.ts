@@ -9,15 +9,16 @@ import tsconfig from './tsconfig.json';
 
 const raw = tsconfig.compilerOptions.paths;
 const alias = {};
+const {
+  VITE_PORT: PORT,
+  TAURI_HOST: HOST,
+  TAURI_PLATFORM: PLATFORM = '',
+  TAURI_DEBUG: IS_DEBUG,
+} = process.env;
 
 for (const x in raw) {
   alias[x.replace('/*', '')] = raw[x].map(p => path.resolve(__dirname, p.replace('/*', '')));
 }
-
-const PORT = process.env.VITE_PORT;
-const HOST = process.env.TAURI_HOST;
-const PLATFORM = process.env.TAURI_PLATFORM || '';
-const IS_DEBUG = process.env.TAURI_DEBUG;
 
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
