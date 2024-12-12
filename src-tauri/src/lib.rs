@@ -38,9 +38,8 @@ pub fn run() {
                     .resizable(true)
                     .maximized(true);
 
-                #[cfg(target_os = "macos")]
-                let win_builder = win_builder
-                    .decorations(true);
+                #[cfg(not(target_os = "macos"))]
+                let win_builder = win_builder.decorations(false).transparent(true);
 
                 #[cfg(not(target_os = "macos"))]
                 let win_builder = win_builder.decorations(false).transparent(true);
