@@ -223,27 +223,27 @@ jobs:
             "platforms": {
               "darwin-aarch64": {
                 "signature": "$(Get-Content codefend-panel-aarch64.app.tar.gz.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-aarch64.app.tar.gz"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel-aarch64.app.tar.gz"
               },
               "darwin-x86_64": {
                 "signature": "$(Get-Content codefend-panel-x86_64.app.tar.gz.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-x86_64.app.tar.gz"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel-x86_64.app.tar.gz"
               },
               "linux-x86_64": {
                 "signature": "$(Get-Content codefend-panel_amd64.AppImage.tar.gz.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_amd64.AppImage.tar.gz"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel_${{ needs.release.outputs.package_version }}_amd64.AppImage.tar.gz"
               },
               "windows-x86_64": {
                 "signature": "$(Get-Content codefend-panel-x64-setup.msi.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_x64-setup.msi.zip"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel_${{ needs.release.outputs.package_version }}_x64-setup.msi.zip"
               }
             }
           }
           "@
-                Set-Content -Path "update.json" -Value $updateManifest
-              else
-                echo "Generating update manifest for non-Windows..."
-                cat > update.json << EOF
+            Set-Content -Path "update.json" -Value $updateManifest
+          else
+            echo "Generating update manifest for Linux or Mac..."
+            cat > update.json << EOF
           {
             "version": "${{ needs.release.outputs.package_version }}",
             "notes": "Codefend Panel ${{ needs.release.outputs.package_version }} release",
@@ -251,24 +251,24 @@ jobs:
             "platforms": {
               "darwin-aarch64": {
                 "signature": "$(cat codefend-panel-aarch64.app.tar.gz.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-aarch64.app.tar.gz"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel-aarch64.app.tar.gz"
               },
               "darwin-x86_64": {
                 "signature": "$(cat codefend-panel-x86_64.app.tar.gz.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-x86_64.app.tar.gz"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel-x86_64.app.tar.gz"
               },
               "linux-x86_64": {
                 "signature": "$(cat codefend-panel_amd64.AppImage.tar.gz.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_amd64.AppImage.tar.gz"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel_${{ needs.release.outputs.package_version }}_amd64.AppImage.tar.gz"
               },
               "windows-x86_64": {
                 "signature": "$(cat codefend-panel-x64-setup.msi.sig)",
-                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_x64-setup.msi.zip"
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.release.outputs.package_version }}/codefend-panel_${{ needs.release.outputs.package_version }}_x64-setup.msi.zip"
               }
             }
           }
           EOF
-              fi
+          fi
 
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
@@ -354,7 +354,7 @@ jobs:
           RELEASE_URL=$(curl -H "Authorization: token $GITHUB_TOKEN" \
           "https://api.github.com/repos/${{ github.repository }}/releases/${{ needs.release.outputs.release_id }}" \
           | jq -r '.upload_url' | cut -d'{' -f1)
-          
+
           cat > latest.json <<EOF
           {
             "version": "${VERSION}",
