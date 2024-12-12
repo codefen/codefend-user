@@ -2,12 +2,21 @@ name: MacOS Build and Release
 
 on:
   workflow_call:
-  workflow_dispatch:
+    inputs:
+      release_id:
+        required: true
+        type: string
+      package_version:
+        required: true
+        type: string
 
 jobs:
   build:
-    name: Build
-    runs-on: macos-latest
+    name: BuildMacOS
+    if: "github.event.repository.fork == false"
+    permissions:
+      contents: write
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -17,6 +26,7 @@ jobs:
           - target: aarch64-apple-darwin
             arch: arm64
 
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,45 +36,69 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install pnpm
+      - name: Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Setup Rust
+      - name: Install frontend dependencies
+        run: |
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm install --frozen-lockfile --ignore-scripts
+
+     - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          components: rustfmt, clippy
+          targets: 'aarch64-apple-darwin,x86_64-apple-darwin,wasm32-unknown-unknown'
 
-      - name: Install frontend dependencies
-        run: pnpm install
-
-      - name: Install macOS dependencies
+      - name: Create env file
         run: |
-          brew install make
-          brew install create-dmg
+          echo "VITE_PORT=5173" >> .env
+          echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
+          echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
 
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
+      - name: Build frontend
+        run: pnpm build
+
+      - name: 📥 Cached install leptosfmt
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
         with:
-          cache-on-failure: true
+          tool: leptosfmt@0.1.32
+          locked: true
 
-      - name: Build Tauri App
-        env:
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+      - name: 📐 Run leptosfmt and fail if any warnings
         run: |
-          pnpm tauri build --target ${{ matrix.target }}
+          leptosfmt --check src
 
-      - name: Sign Tauri Binaries
-        env:
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+      - name: 📐 Run rustfmt and fail if any warnings
+        working-directory: ./src-tauri
         run: |
-          find src-tauri/target/${{ matrix.target }}/release/bundle -type f \( -name "*.app" -o -name "*.dmg" \) -print0 | while read -d $'\0' file; do
-            pnpm tauri signer sign --private-key tauri_private_key -f "$file"
-          done
+          cargo fmt -- --check
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+      - name: 📎 Run clippy and fail if any warnings
+        working-directory: ./src-tauri
+        run: |
+          cargo clippy -- -D warnings
+
+      - name: 📥 Cached install cargo-auditable
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
         with:
-          name: macos-${{ matrix.target }}-artifacts
-          path: |
-            src-tauri/target/${{ matrix.target }}/release/bundle/**/*.{app,dmg}
-          retention-days: 3
+          tool: cargo-auditable@0.6.6
+          locked: true
+
+      - name: 📥 Cached install tauri-cli
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
+        with:
+          tool: tauri-cli@2.1.0
+          locked: true
+
+      - name: 🔨 Build using tauri action (publish artifacts on release)
+        uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
+        env:
+          RUSTFLAGS: "-D warnings"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          releaseId: ${{ inputs.release_id }}
+          tauriScript: cargo --locked auditable tauri
+          args: '--target ${{ matrix.target }}'

@@ -2,25 +2,39 @@ name: Linux Build and Release
 
 on:
   workflow_call:
-  workflow_dispatch:
+    inputs:
+      release_id:
+        required: true
+        type: string
+      package_version:
+        required: true
+        type: string
 
 jobs:
   build:
-    name: Build
-    runs-on: ubuntu-latest
+    name: BuildLinux
+    if: "github.event.repository.fork == false"
+    permissions:
+      contents: write
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
         include:
           - target: x86_64-unknown-linux-gnu
             platform: linux/amd64
+            symbol: 🐧
           - target: i686-unknown-linux-gnu
             platform: linux/amd64
+            symbol: 🐧
           - target: aarch64-unknown-linux-gnu
             platform: linux/arm64
+            symbol: 🐧
           - target: armv7-unknown-linux-gnueabihf
             platform: linux/arm/v7
+            symbol: 🐧
 
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,46 +44,61 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install pnpm
+      - name: Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
-
+      - name: Install frontend dependencies
+        run: |
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm install --frozen-lockfile --ignore-scripts
+          
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
-          sudo apt-get install -y gcc-multilib
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libsoup-3.0-dev \
+            libjavascriptcoregtk-4.1-dev \
+            pkg-config
 
-      - name: Install frontend dependencies
-        run: pnpm install
-
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
+     - name: 🦀 Install rust stable
+        uses: dtolnay/rust-toolchain@stable
         with:
-          cache-on-failure: true
+          targets: wasm32-unknown-unknown
+
+      - name: Create env file
+        run: |
+          echo "VITE_PORT=5173" >> .env
+          echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
+          echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
           
-      - name: Build for ${{ matrix.target }}
-        env:
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-        run: |
-          pnpm tauri build --target ${{ matrix.target }}
+      - name: Build frontend
+        run: pnpm build
 
-      - name: Sign Tauri Binaries
-        env:
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-        run: |
-          find src-tauri/target/${{ matrix.target }}/release/bundle -type f \( -name "*.AppImage" -o -name "*.deb" \) -print0 | while read -d $'\0' file; do
-            pnpm tauri signer sign --private-key tauri_private_key -f "$file"
-          done
-
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+      - name: 📥 Cached install cargo-auditable
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
         with:
-          name: linux-${{ matrix.target }}-artifacts
-          path: |
-            src-tauri/target/${{ matrix.target }}/release/bundle/**/*.{AppImage,deb}
-          retention-days: 3
+          tool: cargo-auditable@0.6.6
+          locked: true
+
+      - name: 📥 Cached install tauri-cli
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
+        with:
+          tool: tauri-cli@2.1.0
+          locked: true
+
+      - name: 🔨 Build using tauri action (publish artifacts on release)
+        uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
+        env:
+          RUSTFLAGS: "-D warnings"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          releaseId: ${{ inputs.release_id }}
+          tauriScript: cargo --locked auditable tauri
+          args: '--target ${{ matrix.args }}'

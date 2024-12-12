@@ -52,7 +52,7 @@ jobs:
             const { data } = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: `app-v${{ steps.get-version.outputs.VERSION }}`,
+              tag_name: `codefend-v${{ steps.get-version.outputs.VERSION }}`,
               name: `Codefend v${{ steps.get-version.outputs.VERSION }}`,
               body: 'Release build for Codefend v${{ steps.get-version.outputs.VERSION }}',
               draft: true,
@@ -126,7 +126,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin,wasm32-unknown-unknown' || 'wasm32-unknown-unknown' }}
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin,wasm32-unknown-unknown' || 'wasm32-unknown-unknown' }}
 
       - name: 🌍 Export GitHub Actions cache environment variables windows
         if: contains(matrix.platform, 'windows')
@@ -174,11 +174,6 @@ jobs:
         working-directory: ./src-tauri
         run: |
           cargo clippy -- -D warnings
-
-      - name: ✅ Run tests
-        working-directory: ./src-tauri
-        run: |
-          cargo test --all
 
       - name: 📥 Cached install cargo-auditable
         uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1

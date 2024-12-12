@@ -28,8 +28,15 @@ jobs:
       - name: Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Install dependencies
-        run: pnpm i --ignore-scripts
+      - name: Install frontend dependencies
+        run: |
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm install --frozen-lockfile --ignore-scripts
+
+     - name: Install rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
 
       - name: Run Format
         run: pnpm format
@@ -39,6 +46,11 @@ jobs:
 
       - name: Run CSS Linter
         run: pnpm lint:css
+
+      - name: Run Cargo Tests
+        working-directory: ./src-tauri
+        run: |
+          cargo test --all
 
   build:
     needs: [linting]
