@@ -65,6 +65,7 @@ jobs:
     if: "github.event.repository.fork == false"
     permissions:
       contents: write
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -204,7 +205,7 @@ jobs:
           Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
 
       - name: Setup Rust target for x86_64
-        if: contains(matrix.platform, 'macos') && matrix.args == '--target x86_64-apple-darwin'
+        if: contains(matrix.platform, 'macos') && contains(matrix.args, 'x86_64')
         run: rustup target add x86_64-apple-darwin
 
       - name: 🔨 Build using tauri action (publish artifacts on release)
@@ -218,10 +219,6 @@ jobs:
           releaseId: ${{ needs.release.outputs.release_id }}
           tauriScript: cargo --locked auditable tauri
           args: ${{ matrix.args }}
-
-      - name: Debug release_id
-        run: |
-          echo "Release ID: ${{ needs.release.outputs.release_id }}"
 
       - name: publish release
         id: publish-release
@@ -240,13 +237,14 @@ jobs:
         uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
         with:
           subject-path: |
-            target/release/bundle/nsis/*
-            target/**/release/bundle/macos/*.tar.gz*
-            target/**/release/bundle/dmg/*.dmg
-            target/release/bundle/deb/*.deb
-            target/release/bundle/rpm/*.rpm
+            src-tauri/target/release/bundle/nsis/*
+            src-tauri/target/**/release/bundle/macos/*.tar.gz*
+            src-tauri/target/**/release/bundle/dmg/*.dmg
+            src-tauri/target/release/bundle/deb/*.deb
+            src-tauri/target/release/bundle/rpm/*.rpm
           push-to-registry: false
           show-summary: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           CARGO_HOME: /home/runner/.cargo
           CARGO_INCREMENTAL: 0
@@ -264,9 +262,9 @@ jobs:
         with:
           subject-path: >-
             ${{ 
-              contains(matrix.platform, 'ubuntu') && 'target/x86_64-unknown-linux-gnu/release/codefend-panel' ||
-              contains(matrix.platform, 'windows') && 'target/x86_64-pc-windows-msvc/release/codefend-panel.exe' ||
-              (contains(matrix.platform, 'macos') && contains(matrix.args, 'x86_64')) && 'target/x86_64-apple-darwin/release/codefend-panel' ||
-              (contains(matrix.platform, 'macos') && contains(matrix.args, 'aarch64')) && 'target/aarch64-apple-darwin/release/codefend-panel'
+              contains(matrix.platform, 'ubuntu') && 'src-tauri/target/x86_64-unknown-linux-gnu/release/codefend-panel' ||
+              contains(matrix.platform, 'windows') && 'src-tauri/target/x86_64-pc-windows-msvc/release/codefend-panel.exe' ||
+              (contains(matrix.platform, 'macos') && contains(matrix.args, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/codefend-panel' ||
+              (contains(matrix.platform, 'macos') && contains(matrix.args, 'aarch64')) && 'src-tauri/target/aarch64-apple-darwin/release/codefend-panel'
             }}
           sbom-path: "sbom.spdx.json"
