@@ -13,7 +13,7 @@ on:
         required: true
 jobs:
   test:
-    uses: ./.github/workflows/ValidateClient.yml
+    uses: ./.github/workflows/TestCI.yml
     secrets: inherit
 
   release:

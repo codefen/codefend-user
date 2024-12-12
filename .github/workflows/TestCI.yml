@@ -1,4 +1,4 @@
-name: ValidateClient
+name: TestCI
 
 defaults:
   run: {shell: bash}

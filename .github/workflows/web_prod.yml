@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    uses: ./.github/workflows/ValidateClient.yml
+    uses: ./.github/workflows/TestCI.yml
     secrets: inherit
 
   publish_webapp:
