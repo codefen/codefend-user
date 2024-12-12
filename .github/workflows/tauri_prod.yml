@@ -27,6 +27,7 @@ jobs:
       pull-requests: write
     outputs:
       release_id: ${{ steps.create-release.outputs.release_id }}
+      package_version: ${{ steps.get-version.outputs.VERSION }}
 
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +45,7 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          core.setOutput('package_version', $VERSION)
           
       - name: create release
         id: create-release
@@ -59,7 +61,7 @@ jobs:
               draft: true,
               prerelease: false
             })
-            core.setOutput('release_id', data.id);
+            core.setOutput('release_id', data.id)
 
   build-and-publish:
     name: Build and Publish
@@ -210,6 +212,34 @@ jobs:
         if: contains(matrix.platform, 'macos') && contains(matrix.args, 'x86_64')
         run: rustup target add x86_64-apple-darwin
 
+      - name: Generate update manifest
+        run: |
+          cat > update.json << EOF
+          {
+            "version": "${{ needs.release.outputs.package_version }}",
+            "notes": "Codefend Panel ${{ needs.release.outputs.package_version }} release",
+            "pub_date": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "platforms": {
+              "darwin-aarch64": {
+                "signature": "$(cat codefend-panel-aarch64.app.tar.gz.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-aarch64.app.tar.gz"
+              },
+              "darwin-x86_64": {
+                "signature": "$(cat codefend-panel-x86_64.app.tar.gz.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-x86_64.app.tar.gz"
+              },
+              "linux-x86_64": {
+                "signature": "$(cat codefend-panel_amd64.AppImage.tar.gz.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_amd64.AppImage.tar.gz"
+              },
+              "windows-x86_64": {
+                "signature": "$(cat codefend-panel-x64-setup.msi.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_x64-setup.msi.zip"
+              }
+            }
+          }
+          EOF
+
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
         env:
@@ -244,11 +274,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           subject-path: |
-            ${{ github.workspace }}/src-tauri/target/release/bundle/nsis/*
-            ${{ github.workspace }}/src-tauri/target/**/release/bundle/macos/*.tar.gz*
-            ${{ github.workspace }}/src-tauri/target/**/release/bundle/dmg/*.dmg
-            ${{ github.workspace }}/src-tauri/target/release/bundle/deb/*.deb
-            ${{ github.workspace }}/src-tauri/target/release/bundle/rpm/*.rpm
+            src-tauri/target/release/bundle/nsis/*
+            src-tauri/target/**/release/bundle/macos/*.tar.gz*
+            src-tauri/target/**/release/bundle/dmg/*.dmg
+            src-tauri/target/release/bundle/deb/*.deb
+            src-tauri/target/release/bundle/rpm/*.rpm
           push-to-registry: false
           show-summary: true
           github-token: ${{ env.GITHUB_TOKEN }}

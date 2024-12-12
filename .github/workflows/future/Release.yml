@@ -20,7 +20,7 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          core.setOutput('package_version', $VERSION);
+          core.setOutput('package_version', $VERSION)
 
       - name: create release
         id: create-release
