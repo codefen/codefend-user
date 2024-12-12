@@ -66,6 +66,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      security-events: write
     strategy:
       fail-fast: false
       matrix:
@@ -90,6 +91,7 @@ jobs:
                 libsoup-3.0-dev \
                 libjavascriptcoregtk-4.1-dev \
                 pkg-config
+
           - platform: 'windows-latest'
             args: "--target x86_64-pc-windows-msvc"
             symbol: ✈️
