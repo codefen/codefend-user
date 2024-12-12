@@ -213,7 +213,37 @@ jobs:
 
       - name: Generate update manifest
         run: |
-          cat > update.json << EOF
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            echo "Generating update manifest for Windows..."
+            $updateManifest = @"
+          {
+            "version": "${{ needs.release.outputs.package_version }}",
+            "notes": "Codefend Panel ${{ needs.release.outputs.package_version }} release",
+            "pub_date": "$(Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")",
+            "platforms": {
+              "darwin-aarch64": {
+                "signature": "$(Get-Content codefend-panel-aarch64.app.tar.gz.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-aarch64.app.tar.gz"
+              },
+              "darwin-x86_64": {
+                "signature": "$(Get-Content codefend-panel-x86_64.app.tar.gz.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel-x86_64.app.tar.gz"
+              },
+              "linux-x86_64": {
+                "signature": "$(Get-Content codefend-panel_amd64.AppImage.tar.gz.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_amd64.AppImage.tar.gz"
+              },
+              "windows-x86_64": {
+                "signature": "$(Get-Content codefend-panel-x64-setup.msi.sig)",
+                "url": "https://github.com/${{ github.repository }}/releases/download/latest/codefend-panel_24.3.0_x64-setup.msi.zip"
+              }
+            }
+          }
+          "@
+                Set-Content -Path "update.json" -Value $updateManifest
+              else
+                echo "Generating update manifest for non-Windows..."
+                cat > update.json << EOF
           {
             "version": "${{ needs.release.outputs.package_version }}",
             "notes": "Codefend Panel ${{ needs.release.outputs.package_version }} release",
@@ -238,6 +268,7 @@ jobs:
             }
           }
           EOF
+              fi
 
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
@@ -300,3 +331,62 @@ jobs:
               (contains(matrix.platform, 'macos') && contains(matrix.args, 'aarch64')) && 'src-tauri/target/aarch64-apple-darwin/release/codefend-panel'
             }}
           sbom-path: "sbom.spdx.json"
+
+  load-latest-release:
+    needs: [build-and-publish, release]
+    name: Load latest release
+    if: "github.event.repository.fork == false"
+    permissions:
+      contents: write
+      id-token: write
+      security-events: write
+      attestations: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate latest.json
+        id: generate-latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ needs.release.outputs.package_version }}"
+          RELEASE_URL=$(curl -H "Authorization: token $GITHUB_TOKEN" \
+          "https://api.github.com/repos/${{ github.repository }}/releases/${{ needs.release.outputs.release_id }}" \
+          | jq -r '.upload_url' | cut -d'{' -f1)
+          
+          cat > latest.json <<EOF
+          {
+            "version": "${VERSION}",
+            "notes": "Codefend Panel ${VERSION} release",
+            "pub_date": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "platforms": {
+              "linux-x86_64": {
+                "signature": "$(cat codefend-panel_amd64.AppImage.sig)",
+                "url": "${RELEASE_URL}codefend-panel_24.3.0_amd64.AppImage.tar.gz"
+              },
+              "windows-x86_64": {
+                "signature": "$(cat codefend-panel-x64-setup.msi.sig)",
+                "url": "${RELEASE_URL}codefend-panel_24.3.0_x64-setup.msi.zip"
+              },
+              "darwin-x86_64": {
+                "signature": "$(cat codefend-panel.dmg.sig)",
+                "url": "${RELEASE_URL}codefend-panel_24.3.0_x64.dmg.tar.gz"
+              },
+              "darwin-aarch64": {
+                "signature": "$(cat codefend-panel-aarch64.dmg.sig)",
+                "url": "${RELEASE_URL}codefend-panel_24.3.0_aarch64.dmg.tar.gz"
+              }
+            }
+          }
+          EOF
+
+      - name: Upload latest.json to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.generate-latest.outputs.RELEASE_URL }}
+          asset_path: ./latest.json
+          asset_name: latest.json
+          asset_content_type: application/json
