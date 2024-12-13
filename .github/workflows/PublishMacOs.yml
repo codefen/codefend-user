@@ -123,15 +123,31 @@ jobs:
           args: '--verbose --target ${{ matrix.target }}'
 
       - name: Upload Release Assets
-        uses: actions/upload-release-assets@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/github-script@v7
         with:
-          upload_url: ${{ inputs.release_upload_url }}
-          asset_paths: |
-            src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app
-            src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app.tar.gz
-            src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app.tar.gz.sig
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const artifacts = [
+              'src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app',
+              'src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app.tar.gz',
+              'src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app.tar.gz.sig'
+            ];
+
+            const releaseId = ${{ inputs.release_id }};
+            for (const artifact of artifacts) {
+              if (fs.existsSync(artifact)) {
+                await github.rest.repos.uploadReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: releaseId,
+                  name: path.basename(artifact),
+                  data: fs.readFileSync(artifact)
+                });
+              }
+            }
 
       - name: Extract Signatures and Set Outputs - MacOs
         id: extract-signatures
