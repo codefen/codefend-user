@@ -135,15 +135,14 @@ jobs:
               'src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz',
               'src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz.sig'
             ];
-
-            const releaseId = ${{ inputs.release_id }};
+            const target = '${{ matrix.target }}';
             for (const artifact of artifacts) {
               if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {
                 await github.rest.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  release_id: releaseId,
-                  name: path.basename(artifact),
+                  release_id: ${{ inputs.release_id }},
+                  name: `${target}-${path.basename(artifact)}`,
                   data: fs.readFileSync(artifact)
                 });
               }
