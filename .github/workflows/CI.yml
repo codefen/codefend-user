@@ -5,7 +5,13 @@ on:
     branches: ["main"]
 
 jobs:
+  test:
+    uses: ./.github/workflows/TestCI.yml
+    secrets: inherit
+
   stratRelease:
+    if: "github.event.repository.fork == false"
+    needs: [test]
     name: Release Codefend App
     uses: ./.github/workflows/Release.yml
     secrets: inherit
