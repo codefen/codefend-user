@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { toast } from 'react-toastify';
-import { maPreviousSearch } from '../..';
+import { maPreviousSearch } from '@utils/mapper';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
