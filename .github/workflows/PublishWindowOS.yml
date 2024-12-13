@@ -85,7 +85,7 @@ jobs:
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: wasm32-unknown-unknown
+          targets: ${{ matrix.target }}
 
       - name: Create env file
         run: |
@@ -111,7 +111,7 @@ jobs:
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
         env:
-          RUSTFLAGS: "-D warnings"
+          RUSTFLAGS: "-C target-feature=+crt-static"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
@@ -130,9 +130,9 @@ jobs:
             const path = require('path');
             $package_version = "${{ inputs.package_version }}"
             const artifacts = [
-              'src-tauri/target/release/bundle/msi/codefend-panel_${package_version}_x64_en-US.msi.sig',
-              'src-tauri/target/release/bundle/nsis/codefend-panel_${package_version}_x64-setup.exe',
-              'src-tauri/target/release/bundle/nsis/codefend-panel_${package_version}_x64-setup.exe.sig'
+              'src-tauri\target\release\bundle\msi\codefend-panel_${package_version}_x64_en-US.msi.zip',
+              'src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.exe',
+              'src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.nsis.zip'
             ];
 
             for (const artifact of artifacts) {
