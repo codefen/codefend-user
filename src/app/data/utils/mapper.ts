@@ -11,7 +11,6 @@ import type {
   MobileProps,
   MobileUnique,
   OneIssue,
-  PreviousSearch,
   ReportIssues,
   ResultsVdbSearchV2,
   SourceCode,
@@ -21,6 +20,7 @@ import type {
 } from '..';
 
 import { cleanReview, formatDate, mapEpochToDate } from '..';
+import type { PreviousSearch } from '@moduleHooks/usePreviousSearch';
 
 /** Map company api data => @interface Company   */
 export const mapCompany = (source: any): Company => {

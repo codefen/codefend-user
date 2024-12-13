@@ -2,7 +2,8 @@ import { type FC } from 'react';
 import { SimpleSection } from '@defaults/SimpleSection';
 import { PageLoader } from '@defaults/loaders/Loader';
 import { PreviousMessageIcon } from '@icons';
-import { type PreviousSearch, generateIDArray } from '../../../../../../data';
+import { generateIDArray } from '@utils/helper';
+import type { PreviousSearch } from '@moduleHooks/usePreviousSearch';
 
 interface InxPreviousSearchesProps {
   isLoading: boolean;
