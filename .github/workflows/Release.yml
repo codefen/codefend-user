@@ -149,22 +149,10 @@ jobs:
           git config user.email github-actions@github.com
           git fetch origin
           git push origin --delete update-latest-json || true
-          git branch -D update-latest-json || true
           git checkout -b update-latest-json
           git add latest.json
           git commit -m "Update latest.json"
           git push -u origin update-latest-json --force
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
-          branch: update-latest-json
-          title: Update latest.json
-          body: Automated update by GitHub Actions
-          commit-message: Update latest.json
-          delete-branch: true
 
       - name: publish release
         id: publish-release
