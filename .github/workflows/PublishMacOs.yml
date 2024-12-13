@@ -131,9 +131,9 @@ jobs:
             const path = require('path');
             
             const artifacts = [
-              'src-tauri/target/${{ matix.target }}/release/bundle/macos/codefend-panel.app',
-              'src-tauri/target/${{ matix.target }}/release/bundle/macos/codefend-panel.app.tar.gz',
-              'src-tauri/target/${{ matix.target }}/release/bundle/macos/codefend-panel.app.tar.gz.sig'
+              'src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app',
+              'src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz',
+              'src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz.sig'
             ];
 
             const releaseId = ${{ inputs.release_id }};
