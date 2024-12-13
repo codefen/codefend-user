@@ -1,63 +1,104 @@
-import { defaultOrderBilling, formatDate } from '../../../../../../data';
-import { EmptyCard, PageLoader, PreferenceIcon } from '../../../../../components';
-
-import React, { useState } from 'react';
+import { type FC } from 'react';
+import { ChartIcon, DocumentTextIcon, ImportantIcon } from '@icons';
+import { SimpleSection } from '@defaults/SimpleSection';
+import type { CompanyOrders } from '@interfaces/preferences';
+import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
+import { TableV2 } from '@table/tablev2';
+import { defaultOrderColumns } from '@mocks/defaultData';
+import type { TableItem } from '@interfaces/table';
+import { useQualitySurveyStart } from '@hooks/quality-survey/useQualitySurveyStart';
+import useOrderScopeStore from '@stores/orderScope.store';
 
 interface BillingDataProps {
-	isLoading: boolean;
-	orders: any[];
+  isLoading: boolean;
+  orders: CompanyOrders[];
 }
 
-const SettingOrderAndBilling: React.FC<BillingDataProps> = (props) => {
-	const [orderBilling, setOrderBilling] = useState(defaultOrderBilling);
+const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => {
+  const { updateIsOpen, updateOrderId, updateReferenceNumber } = useQualitySurveyStore();
+  const { updateOpen, updateScope, updateViewConfirm, updateViewTransfer } = useOrderScopeStore();
+  const startPoll = useQualitySurveyStart();
 
-	return (
-		<>
-			<div className="card table">
-				<div className="header">
-					<div className="title">
-						<div className="icon">
-							<PreferenceIcon/>
-						</div>
-						<span>ORDERS & BILLING DETAILS</span>
-					</div>
-				</div>
+  const handleOpenPoll = (id: string, referenceNumber: string) => {
+    updateIsOpen(true);
+    updateOrderId(id);
+    updateReferenceNumber(referenceNumber);
+    startPoll(id, referenceNumber);
+  };
+  const handleOpenScope = (scope: any) => {
+    updateOpen(true);
+    updateScope(scope);
+    updateViewConfirm(false);
+    updateViewTransfer(false);
+  };
 
-				<div className="columns-name">
-					<div className="date">date</div>
-					<div className="full-name">order</div>
-					<div className="duration">duration</div>
-					<div className="price">price</div>
-					<div className="price">discount</div>
-					<div className="price">final price</div>
-					<div className="status">status</div>
-				</div>
+  const dataTable = orders.map(
+    (order: CompanyOrders) =>
+      ({
+        ID: { value: '', style: 'id' },
+        Identifier: { value: Number(order.id), style: 'id' },
+        size: { value: order.chosen_plan, style: 'size' },
+        offensivness: { value: order.offensiveness, style: 'offensivness' },
+        type: { value: order.resources_class, style: 'type' },
+        provider: {
+          value: `@${order.provider_username}`,
+          style: 'username',
+        },
+        funds: { value: order.funds_full, style: 'funds' },
+        state: { value: order.condicion_provider, style: 'state' },
+        publishedFinish: {
+          value: order?.fecha_cierre_real || '--/--/--',
+          style: 'date',
+        },
+        action: {
+          value: (
+            <>
+              <span
+                title={
+                  order.condicion_provider === 'finished' && order.condicion_review === 'unreviewed'
+                    ? 'Start quality poll'
+                    : 'The poll is now completed'
+                }
+                className={`${order.condicion_provider === 'finished' && order.condicion_review === 'unreviewed' ? 'order-poll-active' : 'order-poll-disabled'}`}
+                onClick={() => {
+                  if (
+                    order.condicion_provider === 'finished' &&
+                    order.condicion_review === 'unreviewed'
+                  ) {
+                    handleOpenPoll(order.id, order.reference_number);
+                  }
+                }}>
+                <ImportantIcon />
+              </span>
+              <span
+                onClick={() => {
+                  handleOpenScope(JSON.parse(order.resources_scope.trim() || '{}'));
+                }}>
+                <DocumentTextIcon />
+              </span>
+            </>
+          ),
+          style: 'id action',
+        },
+      }) as Record<string, TableItem>
+  );
 
-				<div className="rows">
-					{!props.isLoading
-						? props.orders.map((order: any) => (
-								<div key={order.order_id} className="item">
-									<div className="date">
-										{formatDate(order?.creacion ?? new Date())}
-									</div>
-									<div className="full-name">{order.order_desc}</div>
-									<div className="duration">{order.order_plazo}</div>
-									<div className="price">${order.order_price}</div>
-									<div className="price">
-										{order.order_price_disc}%
-									</div>
-									<div className="price">
-										${order.order_price_final}
-									</div>
-									<div className="status">{order.order_paid}</div>
-								</div>
-							))
-						: null}
-				</div>
-			</div>
-			{!props.isLoading && props.orders.length === 0 && <EmptyCard />}
-		</>
-	);
+  return (
+    <>
+      <div className="card orders-preference-card">
+        <SimpleSection header="ORDERS & BILLING DETAILS" icon={<ChartIcon />}>
+          <div className="order-preference-content">
+            <TableV2
+              columns={defaultOrderColumns}
+              rowsData={dataTable}
+              showRows={!isLoading}
+              showEmpty={!isLoading && !Boolean(orders.length)}
+            />
+          </div>
+        </SimpleSection>
+      </div>
+    </>
+  );
 };
 
 export default SettingOrderAndBilling;

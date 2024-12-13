@@ -2,12 +2,9 @@ node_modules
 dist
 .env.online
 .env.dev
-package-lock.json
 yarn.lock
 ~
 releases
-src-tauri/Cargo.lock
-src-tauri/Cargo.lock
 
 # Logs
 logs
@@ -34,6 +31,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Ex
-.env
+.husky
 
+.env

@@ -1,50 +1,72 @@
-import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
-import { ModalTitleWrapper, PageLoader, Show } from '../../../../components';
-import { useMobile, useModal } from '../../../../../data';
+import React, { useEffect } from 'react';
+import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import { OrderV2 } from '@modals/order/Orderv2.tsx';
+import Show from '@defaults/Show.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { useMobile } from '@resourcesHooks/mobile/useMobile.ts';
+import useModal from '#commonHooks/useModal.ts';
 
+import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
+import { ListResourceWithSearch } from '@standalones/ListResourceWithSearch';
+import { MobileSelectedDetails } from './components/MobileSelectedDetails';
+import EmptyLayout from '../EmptyLayout';
+import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import './mobileApplicationPanel.scss';
-import { useNavigate } from 'react-router';
-import { MobileApplication } from './components/MobileApplication';
-import { useUpdateEffect } from 'usehooks-ts';
-import AddMobileModal from '../../../../components/modals/AddMobileModal';
+import { mobileEmptyScreen } from '@/app/constants/app-texts';
 
 const MobileApplicationPanel: React.FC = () => {
-	const { showModal, setShowModal } = useModal();
-	const [showScreen, setShowScreen] = useState<boolean>(false);
-	const [control, refresh] = useState<boolean>(false);
-	const { getMobileInfo, refetch, isLoading } = useMobile();
+  const [showScreen, control, refresh] = useShowScreen();
+  const { showModal, setShowModal } = useModal();
+  const { data, refetch, isLoading, updateData } = useMobile();
+  const { appSelected, setAppSelected, newApp, setNewApp } = useSelectedApp();
 
-	useEffect(() => {
-		refetch();
-		setShowModal(false);
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [control]);
+  useEffect(() => {
+    refetch();
+    return () => {
+      setAppSelected(null);
+      setNewApp(null);
+    };
+  }, [control]);
 
-	return (
-		<>
-			<ModalTitleWrapper
-				isActive={showModal}
-				headerTitle="Add mobile app"
-				close={() => setShowModal(false)}>
-				<AddMobileModal
-					onDone={() => refresh(!control)}
-					close={() => setShowModal(false)}
-				/>
-			</ModalTitleWrapper>
+  useEffect(() => {
+    if (newApp) {
+      updateData(newApp);
+      setNewApp(null);
+    }
+  }, [newApp]);
 
-			<main className={`mobile ${showScreen ? 'actived' : ''}`}>
-				<Show when={!isLoading}>
-					<MobileApplication
-						openModal={() => setShowModal(true)}
-						refresh={() => refresh(!control)}
-						mobileInfo={getMobileInfo()}
-						isLoading={isLoading}
-					/>
-				</Show>
-			</main>
-		</>
-	);
+  const handleShow = () => setShowModal(true);
+
+  const onDelete = () => {
+    setAppSelected(null);
+    refresh();
+  };
+  return (
+    <EmptyLayout
+      className="mobile"
+      fallback={mobileEmptyScreen}
+      event={refresh}
+      showScreen={showScreen}
+      isLoading={isLoading}
+      dataAvalaible={Boolean(data.length)}>
+      <AddMobileModal isOpen={showModal} close={() => setShowModal(false)} />
+      <DeleteMobileCloudModal onDone={onDelete} />
+      <OrderV2 />
+      <ModalReport />
+      <div className="brightness variant-1"></div>
+      <div className="brightness variant-2"></div>
+      <div className="brightness variant-3"></div>
+      <section className="left">
+        <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
+      </section>
+      <section className="right">
+        <Show when={Boolean(appSelected)}>
+          <MobileSelectedDetails listSize={data?.length || 0} />
+        </Show>
+      </section>
+    </EmptyLayout>
+  );
 };
 
 export default MobileApplicationPanel;

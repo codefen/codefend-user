@@ -1,56 +1,51 @@
-import React, { useMemo } from 'react';
+import { useEffect, type FC } from 'react';
 import { AppCard } from './AppCard';
-import { CloudApp, MobileApp } from '../../../data';
-import { PrimaryButton } from '..';
+import { useReportStore } from '../../../data';
+import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface AppCardInfoProps {
-	type?: string;
-	selectedApp: MobileApp | CloudApp;
+  type: string;
+  selectedApp: any;
+  issueCount: number;
 }
 
-export const AppCardInfo: React.FC<AppCardInfoProps> = ({
-	type,
-	selectedApp,
-}) => {
-	const isMobileType = useMemo(() => type === 'mobile', [type]);
-	const buttonText = useMemo(
-		() => (isMobileType ? ' Request pentest' : ' Request automated scan'),
-		[isMobileType],
-	);
+export const AppCardInfo: FC<AppCardInfoProps> = ({ type, selectedApp, issueCount }) => {
+  const isMobileType = type === RESOURCE_CLASS.MOBILE;
+  const { setIsOpen, setData, setIsMobileType } = useRemoveAppStore(state => state);
+  const { openModal, setResourceID, setResourceType } = useReportStore(state => state);
 
-	return (
-		<div
-			className={`app-card-wrapper app-card-border ${
-				!isMobileType ? 'notMobile' : ''
-			}`}>
-			<div className={`${isMobileType ? 'app-card-isMobile' : ''}`}>
-				<AppCard
-					showDetails={true}
-					isMobile={isMobileType}
-					id={selectedApp.id}
-					appMedia={selectedApp.appMedia}
-					appDesc={selectedApp.appDesc}
-					name={selectedApp.appName}
-					appReviews={
-						'appReviews' in selectedApp ? selectedApp.appReviews : ''
-					}
-					appRank={'appRank' in selectedApp ? selectedApp.appRank : ''}
-					appDeveloper={
-						'appDeveloper' in selectedApp ? selectedApp.appDeveloper : ''
-					}
-					cloudProvider={
-						'cloudProvider' in selectedApp
-							? selectedApp.cloudProvider
-							: ''
-					}
-				/>
-			</div>
-			<PrimaryButton
-				text={buttonText}
-				click={(e) => {
-					alert('Procesing your order');
-				}}
-			/>
-		</div>
-	);
+  useEffect(() => {
+    setData(selectedApp.id, selectedApp?.appName || selectedApp?.cloud_name);
+    setIsOpen(false);
+    setIsMobileType(isMobileType);
+    setResourceID(selectedApp.id);
+    setResourceType(type);
+  }, [selectedApp]);
+
+  const openReport = () => {
+    if (issueCount >= 1) openModal();
+  };
+  return (
+    <div className={`app-card-wrapper app-card-border ${!isMobileType ? 'notMobile' : ''}`}>
+      <div className={`${isMobileType ? 'app-card-isMobile' : ''}`}>
+        <AppCard
+          showDetails
+          openReport={openReport}
+          id={selectedApp.id}
+          type={type}
+          issueCount={issueCount}
+          appMedia={isMobileType ? selectedApp?.app_media : ''}
+          appDesc={selectedApp?.app_desc || selectedApp?.cloud_desc}
+          name={selectedApp?.app_name || selectedApp?.cloud_name}
+          appReviews={selectedApp?.app_reviews || undefined}
+          appRank={selectedApp?.app_rank || undefined}
+          appDeveloper={selectedApp?.app_developer || undefined}
+          cloudProvider={
+            selectedApp?.cloud_provider ? selectedApp.cloud_provider.toLowerCase() : undefined
+          }
+        />
+      </div>
+    </div>
+  );
 };

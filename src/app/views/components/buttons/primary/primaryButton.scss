@@ -1,24 +1,108 @@
+@use '../../../styles/settings/mixin' as mixin;
+
 .btn {
-	&.btn-primary {
-		background-color: var(--btn-color-main);
+  &.btn-red {
+    background: var(--secondary-color-50);
 
-		&:hover {
-			background-color: #cb2222;
-		}
-	}
+    &:hover {
+      background: var(--secondary-color-100) !important;
+    }
+  }
 
-	&.btn-add {
-		width: 50%;
+  &.btn-dark-red {
+    background: var(--secondary-color-400);
+  }
 
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		column-gap: 0.5rem;
+  &.btn-black {
+    color: var(--tertiary-color-300);
+    background-color: var(--tertiary-color-50);
 
-		padding-inline: 1.75rem;
+    @include mixin.respond(small) {
+      height: 65px;
+    }
+  }
 
-		&:hover {
-			scale: 1.05;
-		}
-	}
+  &.btn-gray {
+    background-color: var(--primary-color-300);
+    color: var(--tertiary-color-500);
+    transition: scale 200ms ease;
+
+    &:hover {
+      scale: 1.04;
+    }
+
+    &.error-tertiary-btn {
+      min-width: 175px;
+      max-width: 175px;
+      font-size: 1.15rem;
+    }
+  }
+
+  &.send-btn {
+    justify-content: center;
+    align-items: center;
+
+    &.send-extra-styles {
+      position: relative;
+      width: 3.5rem;
+      height: 100%;
+    }
+  }
+
+  &.btn-cancel {
+    padding-inline: 1rem;
+    margin-inline-end: 0.5rem;
+    width: 50%;
+
+    &:hover {
+      scale: 1.05;
+    }
+  }
+
+  &.btn-add {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 0.5rem;
+    padding-inline: 1.75rem;
+    text-wrap: nowrap;
+
+    &:hover {
+      scale: 1.02;
+    }
+  }
+
+  &.primary-full {
+    width: 100%;
+
+    &.both {
+      margin-block-end: 1rem;
+    }
+
+    &.bottom {
+      margin-block-start: 0;
+      margin-block-end: 1rem;
+    }
+  }
+
+  &.btn-send-email {
+    width: 48%;
+  }
+
+  &.btn-error-con {
+    width: 48%;
+  }
+}
+
+[data-theme='dark'] {
+  button.btn {
+    &.btn-red {
+      background: #d73636;
+    }
+
+    &.btn-black {
+      background-color: #121c27a6;
+    }
+  }
 }

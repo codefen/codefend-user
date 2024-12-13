@@ -1,145 +1,167 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import {
-	LeftArrow,
-	PageLoaderOverlay,
-	PencilIcon,
-	SaveIcon,
-	Show,
-} from '../../../../../components';
-import { useNavigate } from 'react-router';
-import { AppEditor } from './AppEditor';
-import { Issues, SaveIssue, useSaveIssue } from '../../../../../../data';
+import { type FC, type ChangeEvent, useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { type SaveIssue, useSaveIssue } from '../../../../../../data';
+import { LeftArrowIcon, PageLoaderOverlay, SaveIcon, Show } from '../../../../../components';
+import AppEditor from './AppEditor';
+import useLoadIframe from '@panelHooks/issues/useLoadIframe';
+import useTimeout from '#commonHooks/useTimeout';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 interface IssueCreationPanelProps {
-	issues: Issues[];
-	isLoading: boolean;
+  isLoading: boolean;
 }
 
-const IssueCreationPanel: React.FC<IssueCreationPanelProps> = (props) => {
-	const { newIssue, dispatch, save } = useSaveIssue();
-	const [isEditable, setEditable] = useState(false);
-	const navigate = useNavigate();
+const IssueCreationPanel: FC<IssueCreationPanelProps> = props => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { type, resourceId } = useParams();
 
-	const handleIssueUpdate = () => {
-		if (!isEditable) return;
-		save().then((response: any) => {
-			if (response !== undefined && response.id !== undefined) {
-				navigate(`/issues/update/${response.id}`);
-			}
-		});
-	};
+  const handleIssueUpdate = (isEditable: boolean, callBack: () => Promise<any>) => {
+    if (!isEditable) return;
 
-	/*const handleKeyDown = useCallback(
-		(event: any) => {
-			if (event.ctrlKey && (event.key === 's' || event.keyCode === 83)) {
-				event.preventDefault();
-				handleIssueUpdate();
-			}
-		},
-		[handleIssueUpdate],
-	);
-	useEffect(() => {
-		const iframe = document.getElementById('issue_ifr') as HTMLIFrameElement;
-		if (!iframe) return;
-		const contentWindow = iframe.contentWindow;
-		contentWindow!.addEventListener('keydown', handleKeyDown);
+    callBack().then((response: any) => {
+      if (response !== undefined && response.id !== undefined) {
+        navigate(`/issues/${response.id}`, {
+          state: location.state,
+        });
+      }
+    });
+  };
+  const { newIssue, isAddingIssue, dispatch, save } = useSaveIssue();
+  const [isEditable, setEditable] = useState(false);
+  const [isLoaded, loadIframe] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
+  const { oneExecute, clear } = useTimeout(() => setEditable(true), 350);
 
-		return () => {
-			contentWindow!.removeEventListener('keydown', handleKeyDown);
-		};
-	}, []);*/
+  useEffect(() => {
+    const isValidID = !isNaN(Number(resourceId)) && Number(resourceId) !== 0;
+    dispatch(state => ({
+      ...state,
+      issueClass: [
+        RESOURCE_CLASS.WEB,
+        RESOURCE_CLASS.MOBILE,
+        RESOURCE_CLASS.CLOUD,
+        'lan',
+        RESOURCE_CLASS.SOURCE,
+        RESOURCE_CLASS.SOCIAL,
+        RESOURCE_CLASS.RESEARCH,
+      ].includes(type || '')
+        ? (type as string)
+        : '',
+      resourceID: isValidID ? Number(resourceId) : 0,
+    }));
+    if (isLoaded) {
+      oneExecute();
+      return clear;
+    }
+    let cleanup: () => void = () => {};
 
-	const handleChange = (
-		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-	) => {
-		const { name, value } = e.target;
-		dispatch((state: SaveIssue) => ({
-			...state,
-			[name]: value,
-		}));
-	};
-	return (
-		<>
-			<div className="header">
-				<div className="back" onClick={() => navigate('/issues')}>
-					<LeftArrow />
-				</div>
-				<input
-					className="w-[90%] h-full flex-1"
-					placeholder="Add Issue title here..."
-					name="issueName"
-					value={newIssue.issueName}
-					onChange={handleChange}
-				/>
+    loadIframe()
+      .then(cleanupFn => {
+        cleanup = cleanupFn;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    return cleanup;
+  }, [isLoaded]);
 
-				<div className="flex !p-0">
-					<div
-						className={`edit edit_btn  ${isEditable ? 'on' : 'off'}`}
-						onClick={() => setEditable(!isEditable)}>
-						<PencilIcon isButton />
-					</div>
-					<div
-						className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
-						onClick={() => handleIssueUpdate()}>
-						<SaveIcon isButton />
-					</div>
-				</div>
-			</div>
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
 
-			<div className="info">
-				<div className="flex items-center">
-					<p>Class:</p>
-					<select
-						onChange={handleChange}
-						className="  py-3 bg-white focus:outline-none"
-						value={newIssue.issueClass}
-						name="issueClass"
-						required>
-						<option value="" disabled>
-							Select Class
-						</option>
-						<option value="web">web</option>
-						<option value="mobile">mobile</option>
-						<option value="cloud">cloud</option>
-						<option value="lan">internal network</option>
-						<option value="source">source code</option>
-						<option value="social">social & osint</option>
-						<option value="research">research</option>
-					</select>
-				</div>
+    dispatch((state: SaveIssue) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+  const shouldDisableClass = type !== '' && newIssue.issueClass !== '';
+  return (
+    <>
+      <div className="header">
+        <div
+          className="back"
+          onClick={() => {
+            type ? navigate(-1) : navigate('/issues');
+          }}>
+          <LeftArrowIcon isButton />
+        </div>
+        <input
+          className="add-issues"
+          placeholder="Add Issue title here..."
+          name="issueName"
+          value={newIssue.issueName}
+          onChange={handleChange}
+          autoFocus
+        />
 
-				<div className="flex items-center">
-					<p>Risk score:</p>
-					<select
-						onChange={handleChange}
-						className=" py-3 bg-whitefocus:outline-none "
-						value={newIssue.score}
-						name="score"
-						required>
-						<option value="" disabled>
-							Select Score
-						</option>
-						<option value="5">critical</option>
-						<option value="4">elevated</option>
-						<option value="3">medium</option>
-						<option value="2">low</option>
-						<option value="1">intel</option>
-					</select>
-				</div>
-			</div>
+        <div className="work-buttons">
+          <div
+            className={`save action-btn ${isEditable ? 'on' : 'off'}`}
+            onClick={() => handleIssueUpdate(isEditable, save)}>
+            <SaveIcon isButton />
+          </div>
+        </div>
+      </div>
 
-			<div className="">
-				<AppEditor
-					initialValue={''}
-					isEditable={isEditable}
-					isIssueCreation
-				/>
-			</div>
-			<Show when={newIssue.isAddingIssue}>
-				<PageLoaderOverlay />
-			</Show>
-		</>
-	);
+      <div className="info">
+        {newIssue.resourceID && newIssue.resourceID !== 0 ? (
+          <div className="info-resourcer-id">
+            Resource ID: <span>{newIssue.resourceID}</span>
+          </div>
+        ) : null}
+        <div className="issue-detail-select">
+          Class:
+          <select
+            onChange={handleChange}
+            className={`log-inputs ${shouldDisableClass && 'opacity-50'}`}
+            value={newIssue.issueClass}
+            name="issueClass"
+            required
+            disabled={shouldDisableClass}>
+            <option value="" disabled hidden>
+              Select Class
+            </option>
+            <option value={RESOURCE_CLASS.WEB}>web</option>
+            <option value={RESOURCE_CLASS.MOBILE}>mobile</option>
+            <option value={RESOURCE_CLASS.CLOUD}>cloud</option>
+            <option value={RESOURCE_CLASS.SOCIAL}>social & osint</option>
+            <option value={RESOURCE_CLASS.SOURCE}>source code</option>
+            <option value="lan">network</option>
+            <option value={RESOURCE_CLASS.RESEARCH}>research</option>
+          </select>
+        </div>
+
+        <div className="issue-detail-select">
+          Risk score:
+          <select
+            onChange={handleChange}
+            className="py-3  focus:outline-none log-inputs"
+            defaultValue={newIssue?.score || ''}
+            name="score"
+            required>
+            <option value="" disabled hidden>
+              Select Score
+            </option>
+            <option value="5">critical</option>
+            <option value="4">elevated</option>
+            <option value="3">medium</option>
+            <option value="2">low</option>
+            <option value="1">intel</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <AppEditor
+          initialValue={'<p>Please add issues here...</p>'}
+          isEditable={isEditable}
+          isCreation={true}
+        />
+      </div>
+      <Show when={isAddingIssue}>
+        <PageLoaderOverlay />
+      </Show>
+    </>
+  );
 };
 
 export default IssueCreationPanel;

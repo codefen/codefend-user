@@ -1,49 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { WebApplicationResources } from './components/WebApplicationResources';
-import { WebApplicationLocation } from './components/WebApplicationLocation';
-import { WebApplicationStatics } from './components/WebApplicationStatics';
-import { WebApplicationCredentials } from './components/WebApplicationCredentials';
-import { useWebapplication } from '../../../../../data';
-import '../../../../styles/flag.scss';
-import '../../../../components/Table/table.scss';
+import { useEffect } from 'react';
+import { WebApplicationResources } from './components/WebApplicationResources.tsx';
+import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
+import { OrderV2 } from '@modals/order/Orderv2.tsx';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
+import '@table/table.scss';
 import './webapplication.scss';
+import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
+import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
+import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
+import EmptyLayout from '../EmptyLayout.tsx';
+import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
+import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
+import { ResourcesTypes } from '@interfaces/order.ts';
 
 const WebApplicationView = () => {
-	//Custom Hook for Web panel view
-	const { webResources, isLoading, refetch } = useWebapplication();
-	const [showScreen, setShowScreen] = useState(false);
-	const [refresh, setRefresh] = useState(false);
+  const [showScreen, control, refresh] = useShowScreen();
+  const { webResources, isLoading, refetch } = useGetWebResources();
+  const flashlight = useFlashlight();
 
-	useEffect(() => {
-		refetch();
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [refresh]);
+  useEffect(() => {
+    refetch();
+  }, [control]);
 
-	return (
-		<main className={`webapp ${showScreen ? 'actived' : ''}`}>
-			<section className="left">
-				<WebApplicationResources
-					isLoading={isLoading}
-					refresh={() => setRefresh(!refresh)}
-					webResources={webResources.resources}
-				/>
-			</section>
-			<section className="right">
-				<WebApplicationLocation
-					isLoading={isLoading}
-					webResources={webResources.resources}
-				/>
+  return (
+    <EmptyLayout
+      className="webapp"
+      fallback={webEmptyScreen}
+      event={refresh}
+      showScreen={showScreen}
+      isLoading={isLoading}
+      dataAvalaible={Boolean(webResources.length)}>
+      <OrderV2 />
+      <ModalReport />
+      <CredentialsModal />
+      <WebWelcomeModal />
+      <div className="brightness variant-1"></div>
+      <section className="left">
+        <WebApplicationResources
+          isLoading={isLoading}
+          refresh={refresh}
+          webResources={webResources}
+        />
+      </section>
+      <section className="right" ref={flashlight.rightPaneRef}>
+        <ResourceByLocation
+          isLoading={isLoading}
+          resource={webResources}
+          title="Web servers by location"
+          type={RESOURCE_CLASS.WEB}
+        />
+        <OpenOrderButton
+          className="pentest-btn"
+          type={ResourcesTypes.WEB}
+          resourceCount={webResources.length}
+          isLoading={isLoading}
+        />
+        <WebApplicationStatics webResources={webResources} />
 
-				<WebApplicationStatics
-					webResources={webResources.resources}
-					isLoading={isLoading}
-				/>
-
-				<WebApplicationCredentials />
-			</section>
-		</main>
-	);
+        {/*<WebApplicationCredentials />*/}
+      </section>
+    </EmptyLayout>
+  );
 };
 
 export default WebApplicationView;

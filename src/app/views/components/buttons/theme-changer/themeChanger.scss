@@ -1,0 +1,47 @@
+.theme {
+  cursor: pointer;
+  user-select: none;
+  color: var(--tertiary-color-400);
+
+  background: var(--tertiary-color-50);
+  padding-block: 10px;
+  padding-inline: 8px;
+  border-radius: 100%;
+  outline: none;
+
+  &:hover {
+    background: var(--tertiary-color-100);
+  }
+}
+
+.theme-content {
+  display: flex;
+  flex: 1 1;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+[data-theme='dark'] {
+  .theme {
+    background: var(--primary-color);
+
+    &:hover {
+      background: var(--primary-color-100);
+    }
+  }
+}
+
+@keyframes enter {
+  to {
+    transform: scale(0);
+    opacity: 0;
+    filter: blur(12px);
+  }
+
+  from {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}

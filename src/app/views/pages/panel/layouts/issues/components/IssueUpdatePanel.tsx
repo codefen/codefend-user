@@ -1,157 +1,106 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-	LeftArrow,
-	PageLoader,
-	PageLoaderOverlay,
-	PencilIcon,
-	SaveIcon,
-	Show,
-} from '../../../../../components';
+import { type FC, useCallback, useEffect, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router';
-import { AppEditor } from './AppEditor';
-import {
-	CompleteIssue,
-	OneIssue,
-	UpdateIssue,
-	useUpdateIssue,
-} from '../../../../../../data';
+import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
+import { type UpdateIssue, useUpdateIssue } from '@panelHooks/issues/useUpdateIssue.ts';
+import AppEditor from './AppEditor.tsx';
+import Show from '@defaults/Show.tsx';
+import type { IssueUpdateData } from '@interfaces/issues.ts';
+import useTimeout from '#commonHooks/useTimeout.ts';
+import IssueHeader from './IssueHeader.tsx';
+import IssueInfo from './IssueInfo.tsx';
+import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
 
 interface IssueUpdatePanelProps {
-	completeIssue: OneIssue;
-	isLoading: boolean;
+  issueData: IssueUpdateData;
+  isLoading: boolean;
 }
 
-const IssueUpdatePanel: React.FC<IssueUpdatePanelProps> = ({
-	completeIssue,
-	isLoading,
-}) => {
-	const safelyIssue = (): any => {
-		const result =
-			completeIssue.issue !== undefined && completeIssue.issue !== null
-				? completeIssue.issue
-				: { id: '', riskScore: '0', content: '', cs: [], name: '' };
-		return result;
-	};
+const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) => {
+  const navigate = useNavigate();
+  const [isEditable, setEditable] = useState(false);
+  const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
+  const { oneExecute, clear } = useTimeout(() => setEditable(true), 375);
 
-	const navigate = useNavigate();
-	const { updatedIssue, dispatch, update } = useUpdateIssue();
-	const [issueNameUpdate, setIssueNameUpdate] = useState(safelyIssue().name);
-	const [isEditable, setEditable] = useState(false);
+  const handleIssueUpdate = useCallback(() => {
+    update()
+      .then((response: any) => {
+        setEditable(false);
+      })
+      .finally(() => {
+        navigate(`/issues`);
+      });
+  }, [update]);
+  const [isLoaded, loadIframe] = useLoadIframe(handleIssueUpdate);
 
-	const handleIssueUpdate = useCallback(() => {
-		update()
-			.then((response: any) => {
-				console.log({ v2: response });
-				setEditable(false);
-			})
-			.finally(() => {
-				navigate(`/issues`);
-			});
-	}, [safelyIssue, update]);
+  useEffect(() => {
+    dispatch((state: UpdateIssue) => ({
+      ...state,
+      id: issueData.id,
+      issueName: issueData.name || '',
+      score: issueData.risk_score || '',
+      resourceID: Number(issueData.resource_id || 1),
+      status: issueData.condicion,
+    }));
+    if (isLoaded) {
+      oneExecute();
+      return clear;
+    }
+    let cleanup: () => void = () => {};
 
-	const handleKeyDown = (event: any) => {
-		if (event.ctrlKey && (event.key === 's' || event.keyCode === 83)) {
-			event.preventDefault();
-			handleIssueUpdate();
-		}
-	};
-	useEffect(() => {
-		const iframe = document.getElementById('issue_ifr') as HTMLIFrameElement;
-		if (!iframe) return;
+    loadIframe()
+      .then(cleanupFn => {
+        cleanup = cleanupFn;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    return cleanup;
+  }, [issueData, isLoaded]);
 
-		const contentWindow = iframe.contentWindow;
-		contentWindow!.addEventListener('keydown', handleKeyDown);
-		setEditable(!isEditable);
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name == 'resourceID' && (!value || isNaN(Number(value)))) return;
 
-		return () => {
-			contentWindow!.removeEventListener('keydown', handleKeyDown);
-		};
-	}, []);
+    dispatch(state => ({
+      ...state,
+      [name]: name == 'resourceID' ? value.replace(/[^0-9]/g, '') : value,
+    }));
+  };
 
-	useEffect(
-		() =>
-			dispatch((state: UpdateIssue) => ({
-				...state,
-				id: safelyIssue().id,
-				issueName: safelyIssue().name,
-				score: safelyIssue().riskScore,
-			})),
-		[safelyIssue()],
-	);
+  if (isLoading) return <PageLoader />;
 
-	return (
-		<Show when={!isLoading} fallback={<PageLoader />}>
-			<>
-				<div className="header">
-					<div className="back" onClick={() => navigate('/issues')}>
-						<LeftArrow />
-					</div>
-					<Show
-						when={isEditable}
-						fallback={
-							<div className="name flex-1">{updatedIssue.issueName}</div>
-						}>
-						<input
-							type="text"
-							className="flex-1"
-							value={updatedIssue.issueName}
-							onChange={(e) =>
-								dispatch((state: UpdateIssue) => ({
-									...state,
-									issueName: e.target.value,
-								}))
-							}
-						/>
-					</Show>
-					<div className="flex !p-0">
-						<div
-							className={`edit edit_btn  ${isEditable ? 'on' : 'off'}`}
-							onClick={() => setEditable(!isEditable)}>
-							<PencilIcon isButton />
-						</div>
-						<div
-							className={`save edit_btn ${isEditable ? 'on' : 'off'}`}
-							onClick={() => handleIssueUpdate()}>
-							<SaveIcon isButton />
-						</div>
-					</div>
-				</div>
-				<div className="info">
-					<div>
-						Id: <span>{safelyIssue().id}</span>
-					</div>
-					<div>
-						Class: <span>{safelyIssue().resourceClass}</span>
-					</div>
-					<div>
-						Resource id: <span>{safelyIssue().researcherID}</span>
-					</div>
-					<div>
-						Published: <span>{safelyIssue().createdAt}</span>
-					</div>
-					<div>
-						Author: <span>{safelyIssue().researcherUsername}</span>
-					</div>
-					<div>
-						Risk score: <span>{safelyIssue().riskScore}</span>
-					</div>
-					<div>
-						status: <span>{safelyIssue().condition}</span>
-					</div>
-				</div>
-				<div className="">
-					<AppEditor
-						isEditable={isEditable}
-						initialValue={safelyIssue().content ?? ''}
-						isIssueCreation={updatedIssue.isAddingIssue}
-					/>
-				</div>
-				<Show when={updatedIssue.isAddingIssue}>
-					<PageLoaderOverlay />
-				</Show>
-			</>
-		</Show>
-	);
+  return (
+    <>
+      <IssueHeader
+        isEditable={isEditable}
+        updatedIssue={updatedIssue}
+        isLoaded={!isLoading}
+        changeEditable={() => setEditable(prev => !prev)}
+        handleChange={handleChange}
+        handleSend={handleIssueUpdate}
+      />
+      <IssueInfo
+        issueData={issueData}
+        isEditable={isEditable}
+        isLoaded={!isLoading}
+        isChild={!!updatedIssue.resourceID && updatedIssue.resourceID !== 0}
+        defaultScore={updatedIssue.score}
+        changeScore={score => dispatch(state => ({ ...state, score }))}
+        changeStatus={status => dispatch(state => ({ ...state, status }))}
+      />
+      <div>
+        <AppEditor
+          isEditable={!isEditable}
+          isLoaded={!isLoading}
+          initialValue={issueData.issue}
+          isCreation={false}
+        />
+      </div>
+      <Show when={isAddingIssue}>
+        <PageLoaderOverlay />
+      </Show>
+    </>
+  );
 };
 
 export default IssueUpdatePanel;

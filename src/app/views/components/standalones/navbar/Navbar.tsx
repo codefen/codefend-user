@@ -1,102 +1,136 @@
-import React, { lazy, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../../../../data/redux/slices/auth.slice';
-import { User, clearAuth, useAuthState, useModal } from '../../../../data';
-import {
-	ConfirmModal,
-	LogoutIcon,
-	ModalWrapper,
-	NetworkIcon,
-	Show,
-} from '../..';
+import { type FC, lazy, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { ThemeChangerButton } from '@buttons/theme-changer/ThemeChangerButton.tsx';
+import ConfirmModal from '@modals/ConfirmModal.tsx';
+import { Breadcrumb } from '@standalones/utils/Breadcrumb.tsx';
+import { LogoutIcon, NetworkIcon } from '@icons';
+import Show from '@defaults/Show.tsx';
+import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
+import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
+import { NavbarSubMenu } from './NavbarSubMenu.tsx';
+import { usePanelStore } from '../../../../data';
+import useModal from '#commonHooks/useModal.ts';
+import type { NetworkSettingState } from '@stores/apiLink.store.ts';
+import useNetworkSettingState from '@stores/apiLink.store.ts';
 import './navbar.scss';
-import { NetworkSetingModal } from '../../modals/NetworkSetingModal';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
+import useModalStore from '@stores/modal.store.ts';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
-const Navbar: React.FC = () => {
-	const { showModal, showModalStr, setShowModal, setShowModalStr } =
-		useModal();
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+const Navbar: FC = () => {
+  const navigate = useNavigate();
+  const { logout, getUserdata } = useUserData();
+  const userData = getUserdata();
+  const { isAdmin } = useUserRole();
+  const { open, handleChange } = usePanelStore();
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const userRef = useRef<HTMLDivElement>(null);
+  const { isOpen, setNetworkSettingState } = useNetworkSettingState(
+    (state: NetworkSettingState) => state
+  );
+  const { setIsOpen, setModalId } = useModalStore();
+  const [baseApiName, setBaseApiName] = useState('');
+  const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
 
-	const handleLogout = () => {
-		dispatch(logout());
-		navigate('/auth/signin');
-		clearAuth();
-	};
+  useEffect(() => {
+    const handleClickOutsideMenu = (event: any) => {
+      if (
+        dropdownRef.current &&
+        userRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !userRef.current.contains(event.target)
+      ) {
+        setMenuOpen(false);
+      }
+    };
 
-	return (
-		<>
-			<nav className="navbar">
-				<Show when={showModal && showModalStr === 'logout'}>
-					<ModalWrapper action={() => setShowModal(!showModal)}>
-						<div
-							className="modal-wrapper-title internal-tables disable-border"
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-							}}>
-							<ConfirmModal
-								header="ARE YOU SURE YOU WANT TO LOGOUT?"
-								cancelText="Cancel"
-								confirmText="Logout"
-								close={() => setShowModal(!showModal)}
-								action={() => handleLogout()}
-							/>
-						</div>
-					</ModalWrapper>
-				</Show>
-				<Show when={showModal && showModalStr === 'network_setting'}>
-					<ModalWrapper action={() => setShowModal(!showModal)}>
-						<div
-							className="modal-wrapper-title internal-tables disable-border"
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-							}}>
-							<div className="w-full mt-4">
-								<div className="w-full px-8 disable-border">
-									<NetworkSetingModal
-										close={() => setShowModal(!showModal)}
-									/>
-								</div>
-							</div>
-						</div>
-					</ModalWrapper>
-				</Show>
-				<div className="navbar-logo">
-					<Link to="/">
-						<span className="navbar-logo-container">
-							<Logo theme="aim" />
-						</span>
-					</Link>
-				</div>
+    // Detect if they clicked outside the dropdown
+    document.addEventListener('mousedown', handleClickOutsideMenu);
+    setBaseApiName('kundalini');
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideMenu);
+    };
+  }, []);
 
-				<div title="Logout" className="gap-x-6 flex items-center">
-					<div
-						title="Network Setting"
-						onClick={() => {
-							setShowModal(!showModal);
-							setShowModalStr('network_setting');
-						}}>
-						<NetworkIcon width={1.35} height={1.35} />
-					</div>
+  const rootAction = () => {
+    navigate('/');
+  };
+  const openGuide = () => {
+    setModalId(MODAL_KEY_OPEN.USER_WELCOME);
+    setIsOpen(true);
+  };
+  return (
+    <>
+      <Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>
+        <ModalWrapper action={() => setShowModal(!showModal)}>
+          <ConfirmModal
+            header="ARE YOU SURE YOU WANT TO LOGOUT?"
+            cancelText="Cancel"
+            confirmText="Logout"
+            close={() => setShowModal(!showModal)}
+            action={() => {
+              logout();
+              navigate('/auth/signin');
+            }}
+          />
+        </ModalWrapper>
+      </Show>
+      {isAdmin() && (
+        <NetworkSettingModal close={() => setNetworkSettingState(!isOpen)} isOpen={isOpen} />
+      )}
 
-					<span
-						className="navbar-logout-icon"
-						onClick={(e: React.FormEvent) => {
-							e.preventDefault();
-							setShowModalStr('logout');
-							setShowModal(!showModal);
-						}}>
-						<LogoutIcon />
-					</span>
-				</div>
-			</nav>
-		</>
-	);
+      <nav className="navbar">
+        <div className="left">
+          <div className="navbar-logo" onClick={openGuide}>
+            <span className={`${open && 'rotate-360'}`}>
+              <Logo theme="aim" onClick={() => handleChange()} />
+            </span>
+          </div>
+          <Breadcrumb root="Codefend" rootAction={rootAction} />
+          <div className="actions"></div>
+        </div>
+
+        <div className="right">
+          <div className="actions">
+            {isAdmin() && (
+              <div
+                className="action"
+                title="Network settings"
+                onClick={() => {
+                  setNetworkSettingState(true);
+                }}>
+                <NetworkIcon width={1.1} height={1.1} />
+                <span>{baseApiName}</span>
+              </div>
+            )}
+            <div className="user action" ref={userRef}>
+              <span className="email">{userData.email || 'not-found'}</span>
+              <NavbarSubMenu
+                isOpen={isMenuOpen}
+                subMenuRef={dropdownRef}
+                userFullname={userData.fname + ' ' + userData.lname}
+                closeMenu={() => setMenuOpen(false)}
+              />
+            </div>
+            <ThemeChangerButton />
+            <div
+              className="action logout"
+              title="Logout"
+              onClick={() => {
+                setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
+                setShowModal(true);
+              }}>
+              <LogoutIcon width={1.1} height={1.1} />
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
 };
 
 export default Navbar;

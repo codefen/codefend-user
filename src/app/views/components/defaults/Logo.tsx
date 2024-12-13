@@ -1,42 +1,31 @@
-import React from 'react';
-
-interface Logo {
-	path: string;
-	styles: React.CSSProperties;
+interface LogoPath {
+  path: string;
 }
 
 interface LogoProps {
-	theme: string;
+  theme: string;
+  onClick?: () => void;
 }
 
-const Logo = ({ theme }: LogoProps) => {
-	const themeToImage: Record<string, Logo> = {
-		light: {
-			path: '/codefend/logo-light.svg',
-			styles: { width: '120px', height: '30px' },
-		},
-		dark: {
-			path: '/codefend/logo-dark.svg',
-			styles: { width: '120px', height: '30px' },
-		},
-		shadow: { path: '/codefend/logo-shadow.png', styles: {} },
-		aim: { path: '/codefend/aim-light.svg', styles: { height: '30px' } },
-	};
+const themeToImage: Record<string, LogoPath> = {
+  light: {
+    path: '/codefend/logo-light.svg',
+  },
+  dark: {
+    path: '/codefend/logo-dark.svg',
+  },
+  shadow: { path: '/codefend/logo-shadow.png' },
+  inshadow: { path: '/codefend/logo-inshadow.png' },
+  aim: { path: '/codefend/aim-light.svg' },
+  aimColor: { path: '/codefend/fav.png' },
+};
 
-	const selectedLogo = themeToImage[theme] as Logo;
-
-	return (
-		<>
-			<div id="brand" className="brand-img">
-				<img
-					src={selectedLogo.path}
-					style={selectedLogo.styles}
-					alt="Codefend Logo"
-					loading="lazy"
-				/>
-			</div>
-		</>
-	);
+const Logo = ({ theme, onClick }: LogoProps) => {
+  return (
+    <div id="brand" className="brand-img" onClick={onClick}>
+      <img src={themeToImage[theme].path} alt="Codefend Logo" decoding="async" loading="lazy" />
+    </div>
+  );
 };
 
 export default Logo;

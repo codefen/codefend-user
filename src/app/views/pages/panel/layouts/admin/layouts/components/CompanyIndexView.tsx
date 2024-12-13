@@ -1,78 +1,47 @@
-import { defaultCompanyCardData } from '../../../../../../../data';
-import React, { useEffect } from 'react';
-import CompanyCard from './CompanyCard';
+import { type FC, useEffect } from 'react';
+import CompanyCard from './CompanyCard.tsx';
+import useAdminCompanyStore from '@stores/adminCompany.store.ts';
+import { type AdminCompany } from '@stores/adminCompany.store.ts';
 import './CompanyIndexView.scss';
-import { RigthArrowIcon } from '../../../../../../components';
-import { useCompanyContext } from '../CompanyContext';
+import { useGetCompany } from '@userHooks/admins/useGetCompany';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
-const CompanyIndexView: React.FC = () => {
-	const { actions, state } = useCompanyContext();
-	const { searchQuery, companies } = state;
-	const { handleChange, handleClick, isSelectedCompany } = actions;
+const CompanyIndexView: FC = () => {
+  const { isAdmin } = useUserRole();
+  const { getCompany } = useGetCompany();
+  const { companies, companySelected, isSelectedCompany, updateCompanies } = useAdminCompanyStore(
+    state => state
+  );
 
-	const companiesToRender = () => {
-		if (searchQuery.trim() === '' || searchQuery.trim().length < 2)
-			return companies;
-		const _companies = companies;
-		const query = searchQuery;
-		console.log('hereeeee');
-		return _companies.filter((company: any) =>
-			company.name.toLowerCase().includes(query.toLowerCase()),
-		);
-	};
+  const { selectCompany } = useAdminCompanyStore(state => state);
 
-	useEffect(() => {
-		companiesToRender();
-	});
+  useEffect(() => {
+    if (isAdmin()) {
+      getCompany().then(({ data }: any) => {
+        updateCompanies(data.companies);
+      });
+    }
+    if (isAdmin() && !companySelected) {
+      selectCompany(companies[0] || undefined);
+    }
+  }, []);
 
-	return (
-		<>
-			<div className="CompanyIndexView">
-				{Boolean(companies.length) && (
-					<div className="company-search relative">
-						<input
-							type="text"
-							name='searchQuery'
-							value={searchQuery}
-							onChange={(e) => handleChange(e)}
-							placeholder="Search Company"
-							className="text w-full"
-							required
-						/>
-						<div
-							className="h-full absolute codefend-text-red flex items-center justify-center right-5"
-							style={{ color: 'black' }}>
-							<RigthArrowIcon width={2} height={2} />
-						</div>
-					</div>
-				)}
-				<div className="companies">
-					{companiesToRender().map((company: any) => (
-						<div
-							/* onClick={() => {
-								setCompanyState((prevState) => {
-									if (isSelectedCompany(company)) {
-										return { ...prevState, companyStore: null };
-									} else {
-										return { ...prevState, companyStore: company };
-									}
-								});
-							}} */
-							onClick={() => handleClick(company)}
-							key={company.id}
-							className={`company ${
-								isSelectedCompany(company) ? 'selected' : ''
-							}`}>
-							<CompanyCard
-								{...company}
-								isSelected={isSelectedCompany(company)}
-							/>
-						</div>
-					))}
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <div className="CompanyIndexView">
+      {Boolean(companies?.length) && (
+        <div className="companies">
+          {companies.map((company: AdminCompany) => (
+            <div
+              key={company.id}
+              onClick={() => selectCompany(company)}
+              className={`company ${isSelectedCompany(company) ? 'selected' : ''}`}>
+              <CompanyCard company={company} isSelected={isSelectedCompany(company)} />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default CompanyIndexView;

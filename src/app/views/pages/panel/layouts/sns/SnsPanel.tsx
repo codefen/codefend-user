@@ -1,38 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import Masonry from 'react-masonry-css';
-import SnPreviousSearches from './components/SnPreviousSearches';
-import SnsSearchAndData from './components/SnsSearchAndData';
-import './Sns.scss'
+import { useEffect, type FC } from 'react';
+import SnPreviousSearches from './components/SnPreviousSearches.tsx';
+import SnsSearchAndData from './components/SnsSearchAndData.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import './Sns.scss';
+import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
 
-interface Props {}
+const SnsPanel: FC = () => {
+  const [showScreen, control, refresh] = useShowScreen();
+  const { previousSearches, isLoading, refetch } = usePreviousSearch('sns');
 
-const SnsPanel: React.FC<Props> = (props: any) => {
-	const [showScreen, setShowScreen] = useState(false);
+  useEffect(() => {
+    refetch();
+  }, [control]);
 
-	useEffect(() => {
-		setTimeout(() => {
-			setShowScreen(true);
-		}, 50);
-	});
+  return (
+    <>
+      <main className={`sb ${showScreen ? 'actived' : ''}`}>
+        <section className="left">
+          <SnsSearchAndData refetch={refresh} />
+        </section>
 
-	return (
-		<>
-			<main className={`sb ${showScreen ? 'actived' : ''}`}>
-				<section className="left">
-					<SnsSearchAndData />
-					<Masonry
-						breakpointCols={3}
-						className="my-masonry-grid"
-						columnClassName="my-masonry-grid_column">
-					</Masonry>
-				</section>
-
-				<section className="right">
-					<SnPreviousSearches />
-				</section>
-			</main>
-		</>
-	);
+        <section className="right">
+          <SnPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
+        </section>
+      </main>
+    </>
+  );
 };
 
 export default SnsPanel;

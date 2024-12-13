@@ -1,47 +1,42 @@
-import { useCallback, useState } from 'react';
-import { AllIssues, FetchPattern, mapAllIssues, useAuthState } from '../../../';
-import { IssueService } from '../../../services/panel/issues.service';
-import { toast } from 'react-toastify';
+import { useCallback, useRef } from 'react';
+import { type IssuesUtils, type Issues } from '@interfaces/panel';
+import { mapIssues, mapIssuesCondition, mapIssueShare } from '@utils/mapper';
+import { companyIdIsNull, verifySession } from '@/app/constants/validations';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
 
+/* Custom Hook "useOneIssue" to handle retrieval of all issues*/
 export const useIssues = () => {
-	const { getUserdata } = useAuthState();
-	const [{ data, error, isLoading }, dispatch] = useState<
-		FetchPattern<AllIssues>
-	>({
-		data: null,
-		error: null,
-		isLoading: false,
-	});
+  const { logout } = useUserData();
+  const { getCompany } = useUserData();
+  const [fetcher, _, isLoading] = useFetcher();
+  const dataRef = useRef<Issues[]>([]);
+  const otherInfo = useRef<IssuesUtils>();
 
-	const fetchAll = useCallback((companyID: string) => {
-		dispatch((state: any) => ({
-			...state,
-			isLoading: true,
-		}));
-		IssueService.getAll(companyID)
-			.then((response: any) =>
-				dispatch({
-					data: mapAllIssues(response),
-					error: null,
-					isLoading: false,
-				}),
-			)
-			.catch((error) => dispatch({ data: null, error, isLoading: false }));
-	}, []);
+  //Fetch to recover the issues
+  const fetchAll = useCallback((companyID: string) => {
+    fetcher('post', {
+      body: {
+        model: 'issues/index',
+        company_id: companyID,
+      },
+    }).then(({ data }: any) => {
+      if (verifySession(data, logout)) return;
+      dataRef.current = data.issues ? data.issues.map((issue: any) => mapIssues(issue)) : [];
+      otherInfo.current = {
+        issueClass: data.issues_class,
+        issueShare: mapIssueShare(data),
+        issueCondition: mapIssuesCondition(data),
+      };
+    });
+  }, []);
 
-	const refetchAll = () => {
-		const companyID = getUserdata()?.companyID;
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
-		fetchAll(companyID);
-	};
+  //Refetch func, calls that calls fetcher
+  const refetchAll = () => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return;
+    fetchAll(companyID);
+  };
 
-	const getIssues = (): AllIssues => {
-		const issuesData = isLoading ? ({} as AllIssues) : data;
-		return issuesData ?? ({} as AllIssues);
-	};
-
-	return { getIssues, isLoading, refetchAll };
+  return { issues: dataRef.current, others: otherInfo.current, isLoading, refetchAll };
 };

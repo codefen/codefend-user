@@ -1,25 +1,38 @@
 main.cloud {
-	column-gap: 0.938rem;
-	.left {
-		overflow-y: auto;
-		overflow-x: hidden;
-		margin-bottom: -10px;
-		margin-top: -10px;
-		padding-top: 10px;
-		padding-right: 13px;
+  .left {
+    .card {
+      &.cloud-apps {
+        flex: 1 1;
+        min-height: 5%;
+      }
+    }
+  }
+}
 
-		display: flex;
-		flex-direction: column;
-		// justify-content: flex-end;
-		align-items: flex-end;
+[data-theme='dark'] {
+  .variant-1 {
+    width: 17rem;
+    top: 36dvh;
+    left: 9dvw;
+    filter: blur(150px) brightness(0.4) opacity(0.65);
+    z-index: 5;
+  }
 
-		.list {
-			display: flex;
-			flex-direction: column;
-			row-gap: 0.938rem;
-			width: 100%;
-		}
-	}
-	.right {
-	}
+  .variant-2 {
+    width: 20rem;
+    top: 18dvh;
+    left: 7dvw;
+    filter: blur(130px) brightness(0.35);
+    z-index: 15;
+    background: #ffffff8f;
+    height: 19rem;
+  }
+
+  .variant-3 {
+    width: 19rem;
+    top: 20dvh;
+    right: 26dvw;
+    filter: blur(140px) brightness(0.3);
+    z-index: 20;
+  }
 }

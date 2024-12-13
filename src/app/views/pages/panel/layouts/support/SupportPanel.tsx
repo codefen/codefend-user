@@ -1,52 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { SupportChatDisplay } from './components/SupportChatDisplay';
 import { SupportTicketList } from './components/SupportTicketList';
-import { SupportProps, useAllTicket } from '../../../../../data';
-import { Show } from '../../../../components';
+import { useAllTicket } from '@panelHooks/support/useAllTickets.ts';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import Show from '@defaults/Show.tsx';
+import SelectedTicket from './supportProvider.ts';
 import './support.scss';
-import SelectedTicket from './supportProvider';
 
-const SupportPanel: React.FC = () => {
-	const [showScreen, setShowScreen] = useState(false);
-	const [control, refresh] = useState(false);
-	const [selectedTicket, setSelectedTicket] = useState<string>('');
-	const { getTikets, isLoading, refetch } = useAllTicket();
+const SupportPanel: FC = () => {
+  const [showScreen, control, refresh] = useShowScreen();
+  const [selectedTicket, setSelectedTicket] = useState<string>('');
+  const { getTikets, isLoading, refetch } = useAllTicket();
 
-	useEffect(() => {
-		if (!isLoading && Boolean(getTikets().length)) {
-			setSelectedTicket(getTikets()[0].id);
-		}
-	}, [getTikets(), isLoading]);
+  useEffect(() => {
+    refetch();
+    setSelectedTicket('');
+    return () => {
+      localStorage.removeItem('viewMessage');
+    };
+  }, [control]);
 
-	useEffect(() => {
-		refetch();
-		const timeoutId = setTimeout(() => setShowScreen(true), 50);
-		return () => clearTimeout(timeoutId);
-	}, [control]);
+  if (selectedTicket == '' && !isLoading && Boolean(getTikets().length)) {
+    setSelectedTicket(getTikets()[0].id);
+  }
 
-	return (
-		<SelectedTicket.Provider value={selectedTicket}>
-			<main className={`support ${showScreen ? 'actived' : ''}`}>
-				<section className="left">
-					<SupportTicketList
-						setSelectedTicket={(ticketID: string) =>
-							setSelectedTicket(ticketID)
-						}
-						isLoading={isLoading}
-						tickets={getTikets() ?? []}
-						refresh={() => {
-							refresh(!control);
-						}}
-					/>
-				</section>
-				<section className="right">
-					<Show when={selectedTicket !== null}>
-						<SupportChatDisplay />
-					</Show>
-				</section>
-			</main>
-		</SelectedTicket.Provider>
-	);
+  return (
+    <SelectedTicket.Provider value={selectedTicket}>
+      <main className={`support ${showScreen ? 'actived' : ''}`}>
+        <section className="left">
+          <SupportTicketList
+            setSelectedTicket={(ticketID: string) => setSelectedTicket(ticketID)}
+            isLoading={isLoading}
+            tickets={getTikets()}
+            refresh={refresh}
+          />
+        </section>
+        <section className="right">
+          <Show when={selectedTicket !== null}>
+            <SupportChatDisplay />
+          </Show>
+        </section>
+      </main>
+    </SelectedTicket.Provider>
+  );
 };
 
 export default SupportPanel;

@@ -1,49 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { useOneIssue } from '../../../../../../data';
-import { IssueChatDisplay } from '../components/IssueChatDisplay';
+import { type FC, useEffect } from 'react';
 import { useParams } from 'react-router';
-import IssueUpdatePanel from '../components/IssueUpdatePanel';
-import { PageLoader, Show } from '../../../../../components';
+import { useOneIssue } from '@panelHooks/issues/useOneIssue.ts';
+import { IssueChatDisplay } from '../components/IssueChatDisplay.tsx';
+import IssueUpdatePanel from '../components/IssueUpdatePanel.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 
-const IssueUpdate: React.FC<{}> = () => {
-	const { getIssues, isLoading, refetchOne } = useOneIssue();
-	const [showScreen, setShowScreen] = useState(false);
-	const [control, refresh] = useState(false);
-	const { id } = useParams();
+const IssueUpdate: FC = () => {
+  const { getIssue, isLoading, refetchOne } = useOneIssue();
+  const [showScreen, control, _refresh] = useShowScreen();
+  const { id } = useParams();
 
-	useEffect(() => {
-		refetchOne(id as string);
-		setShowScreen(false);
-		const timeoutId = setTimeout(() => {
-			setShowScreen(true);
-		}, 75);
+  useEffect(() => {
+    refetchOne(id as string);
+    return () => {
+      localStorage.removeItem('viewMessage');
+    };
+  }, [control]);
 
-		return () => clearTimeout(timeoutId);
-	}, [control]);
-
-	return (
-		<>
-			<main className={`issue-detail w-full ${showScreen ? 'actived' : ''}`}>
-				<Show when={showScreen} fallback={<PageLoader />}>
-					<>
-						<section className="issue">
-							<IssueUpdatePanel
-								completeIssue={getIssues()}
-								isLoading={isLoading}
-							/>
-						</section>
-						<section className="h-full flex-grow">
-							<IssueChatDisplay
-								isLoading={isLoading}
-								selectedIssue={getIssues().issue}
-								refetch={() => refresh(!control)}
-							/>
-						</section>
-					</>
-				</Show>
-			</main>
-		</>
-	);
+  return (
+    <main className={`issue-detail ${showScreen ? 'actived' : ''}`}>
+      <Show when={showScreen} fallback={<PageLoader />}>
+        <>
+          <section className="left">
+            <IssueUpdatePanel issueData={getIssue} isLoading={isLoading} />
+          </section>
+          <section className="right">
+            <IssueChatDisplay id={id || '0'} />
+          </section>
+        </>
+      </Show>
+    </main>
+  );
 };
 
 export default IssueUpdate;

@@ -1,36 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { type FC } from 'react';
 import IssueCreationPanel from '../components/IssueCreationPanel';
 import { IssueChatDisplay } from '../components/IssueChatDisplay';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 
-const IssuesCreation: React.FC<{}> = () => {
-	const [showScreen, setShowScreen] = useState(false);
-	const [reShow, setReshow] = useState(false);
+const IssuesCreation: FC = () => {
+  const [showScreen] = useShowScreen();
 
-	useEffect(() => {
-		setShowScreen(false);
-		const timeoutId = setTimeout(() => {
-			setShowScreen(true);
-		}, 50);
-
-		return () => clearTimeout(timeoutId);
-	}, [reShow]);
-
-	return (
-		<>
-			<main className={`issue-detail w-full ${showScreen ? 'actived' : ''}`}>
-				<section className="issue">
-					<IssueCreationPanel isLoading={false} issues={[]} />
-				</section>
-				<section className="h-full flex-grow">
-					<IssueChatDisplay
-						isLoading={false}
-						selectedIssue={null}
-						refetch={() => {}}
-					/>
-				</section>
-			</main>
-		</>
-	);
+  return (
+    <main className={`issue-detail ${showScreen ? 'actived' : ''}`}>
+      <section className="left">
+        <IssueCreationPanel isLoading={showScreen} />
+      </section>
+      <section className="right">
+        <IssueChatDisplay id="0" />
+      </section>
+    </main>
+  );
 };
 
 export default IssuesCreation;

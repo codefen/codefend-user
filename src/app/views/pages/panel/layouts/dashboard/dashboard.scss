@@ -1,10 +1,60 @@
-main.dashboard {
-	overflow: hidden;
+@use '../../../../styles/settings/mixin' as mixin;
 
-	.colaborators {
-		> .colaborators-container {
-			max-height: 100dvh;
-			overflow: hidden;
-		}
-	}
+main.dashboard {
+  .left {
+    .card {
+      .content {
+        padding: 0;
+      }
+    }
+
+    .table {
+      .vul-title {
+        min-width: 48%;
+        max-width: 48%;
+      }
+
+      .vul-class,
+      .username,
+      .vul-score,
+      .date {
+        min-width: 13%;
+        max-width: 13%;
+      }
+    }
+  }
+
+  @include mixin.respond(large) {
+    .right {
+      .card {
+        &.risk-chart {
+          .content {
+            .chart {
+              flex: 1 1 100%;
+              min-width: 105px;
+              max-width: 0%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+[data-theme='dark'] {
+  main.dashboard {
+    .variant-1 {
+      width: 16rem;
+      top: 4dvh;
+      right: 31dvw;
+      filter: blur(100px) brightness(0.5) opacity(0.45);
+    }
+
+    .variant-2 {
+      width: 16rem;
+      top: 20dvh;
+      right: 2dvw;
+      filter: blur(115px) brightness(0.5);
+    }
+  }
 }

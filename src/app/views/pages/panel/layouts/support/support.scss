@@ -1,9 +1,100 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
 main.support {
-	.left {
-		width: 65%;
-	}
-	.right {
-		width: 35%;
-		display: flex;
-	}
+  padding-inline-end: 0;
+
+  .left {
+    width: 65%;
+
+    .table {
+      .rows {
+        max-height: calc(100dvh - 150px);
+      }
+
+      .id {
+        min-width: 6.5%;
+        max-width: 6.5%;
+      }
+
+      .vul-title {
+        min-width: 42%;
+        max-width: 42%;
+        margin-inline-end: 1%;
+      }
+
+      .username {
+        min-width: 19%;
+        max-width: 19%;
+      }
+
+      .date {
+        min-width: 12%;
+        max-width: 12%;
+      }
+
+      .status {
+        min-width: 12%;
+        max-width: 12%;
+        text-align: center;
+
+        .publish {
+          justify-content: center;
+        }
+      }
+
+      .id.action {
+        min-width: 7.5%;
+        max-width: 7.5%;
+
+        .publish {
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  .right {
+    padding-block-start: 53px;
+  }
+
+  @include mixin.respond(small) {
+    display: flex;
+    flex-direction: column;
+    padding-inline-start: 10px;
+    height: 81dvh;
+    min-height: auto;
+
+    .left {
+      width: 100%;
+      padding-block-start: 10px;
+    }
+
+    .right {
+      width: 95%;
+      padding-inline-end: 10px;
+      height: 81dvh;
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .variant-1 {
+    width: 23rem;
+    bottom: 30dvh;
+    left: 5dvw;
+    filter: blur(120px) brightness(0.5) opacity(0.4);
+  }
+
+  .variant-2 {
+    width: 23rem;
+    top: -10dvh;
+    right: 4dvw;
+    filter: blur(120px) brightness(0.5) opacity(0.38);
+  }
+
+  main.support {
+    .right {
+      box-shadow: #000000 -20px 0 120px -55px;
+    }
+  }
 }

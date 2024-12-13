@@ -1,87 +1,57 @@
-import React, { Fragment, useContext, useEffect, useMemo } from 'react';
-import {
-	ChatBoxType,
-	SupportProps,
-	generateIDArray,
-	useOneTicket,
-} from '../../../../../../data';
-import {
-	ChatBox,
-	MessageCard,
-	MessageIcon,
-	PageLoader,
-	Show,
-	SimpleSection,
-} from '../../../../../components';
+import { type FC, useContext } from 'react';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
+
+import { ChatBoxType } from '@interfaces/panel';
+import { ChatBox } from '@standalones/ChatBox';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
 import SelectedTicket from '../supportProvider';
+import Show from '@defaults/Show.tsx';
+import { MessageIcon } from '@icons';
+import { MessageList } from '@standalones/MessageList';
+import { useSWRMessage } from '@panelHooks/useSWRTickets';
+import { useUserData } from '#commonUserHooks/useUserData';
+import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
+import { EMPTY_CS_TICKET } from '@/app/constants/empty';
 
-interface SupportChatDisplayProps {}
+export const SupportChatDisplay: FC = () => {
+  const { getCompany } = useUserData();
+  const { dad } = useParams();
+  const selectedTicketID = useContext(SelectedTicket);
+  const { data, isLoading, mutate } = useSWRMessage(dad || selectedTicketID || '0', getCompany());
 
-export const SupportChatDisplay: React.FC<SupportChatDisplayProps> = () => {
-	const { getOneTicket, isLoading, refetch } = useOneTicket();
-	const selectedTicketID = useContext(SelectedTicket);
+  const onDone = (newMessage?: any) => {
+    const viewMessage = localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE)
+      ? JSON.parse(localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE) as string)
+      : { view: true };
 
-	useEffect(() => {
-		if (selectedTicketID.trim().length !== 0) {
-			refetch(selectedTicketID);
-		}
-	}, [selectedTicketID]);
+    if (newMessage) {
+      mutate({ ...data, childs: [...data.childs, newMessage] });
+    }
 
-	const ticketSelected = () =>
-		getOneTicket() !== undefined
-			? getOneTicket()
-			: ({ csHeader: '' } as SupportProps);
+    if (viewMessage.view) {
+      toast.success(CHATBOX_TEXT.WAIT_FOR_RESPONSE);
+      localStorage.setItem(CHATBOX_TEXT.VIEW_MESSAGE, JSON.stringify({ view: false }));
+    }
+  };
 
-	const childTicket = (): SupportProps[] => getOneTicket()?.childs ?? [];
+  const { childs, ...ticketDad } = data ? data : EMPTY_CS_TICKET;
+  const alltickets = [ticketDad, ...childs];
 
-	const ticketKeys = useMemo(() => {
-		return childTicket() ? generateIDArray(childTicket().length) : [];
-	}, [childTicket]);
+  return (
+    <>
+      <div className="card messages">
+        <SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
+          <div className="content">
+            <Show when={!isLoading} fallback={<PageLoader />}>
+              <MessageList tickets={alltickets} />
+            </Show>
+          </div>
+        </SimpleSection>
 
-	return (
-		<>
-			<div className="card messages">
-				<SimpleSection
-					header={ticketSelected().csHeader}
-					icon={<MessageIcon />}>
-					<div className="content">
-						<Show when={!isLoading} fallback={<PageLoader />}>
-							<>
-								<div
-									className={`messages-wrapper ${
-										childTicket().length > 3 && 'item'
-									}`}>
-									<MessageCard
-										selectedID={ticketSelected().userID ?? ''}
-										body={ticketSelected()?.csBody ?? ''}
-										username={ticketSelected()?.userUsername! ?? ''}
-										createdAt={ticketSelected()?.createdAt! ?? ''}
-									/>
-
-									{childTicket().map(
-										(ticket: SupportProps, i: number) => (
-											<Fragment key={ticketKeys[i]}>
-												<MessageCard
-													selectedID={ticket.userID ?? ''}
-													body={ticket.csBody ?? ''}
-													username={ticket.userUsername ?? ''}
-													createdAt={ticket.createdAt ?? ''}
-												/>
-											</Fragment>
-										),
-									)}
-								</div>
-							</>
-						</Show>
-					</div>
-				</SimpleSection>
-
-				<ChatBox
-					type={ChatBoxType.SUPPORT}
-					onDone={() => refetch(selectedTicketID)}
-					selectedID={selectedTicketID}
-				/>
-			</div>
-		</>
-	);
+        <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicketID} />
+      </div>
+    </>
+  );
 };

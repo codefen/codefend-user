@@ -71,16 +71,23 @@ pub fn parse_wing_output(output: &str) -> Value {
 }
 
 pub fn parse_hklm_output(output: &str) -> Value {
-    let mut software_list = Vec::new();
-    let name_range = 0..67;
-    let version_range = 79..94;
-    let vendor_range = 94..103;
+    let mut lines = output.lines();
+    let header_line = lines.nth(1).unwrap();
+    let column_ranges = find_column_ranges(header_line);
 
-    for line in output.lines().skip(2) {
-        if line.len() >= vendor_range.end {
-            let name = &line[name_range.clone()].trim();
-            let version = &line[version_range.clone()].trim();
-            let vendor = &line[vendor_range.clone()].trim();
+    let (name_range, version_range, vendor_range) = match column_ranges.as_slice() {
+        [name, _, version, vendor, ..] => (name.clone(), version.clone(), vendor.clone()),
+        _ => panic!("Unexpected column structure"),
+    };
+
+    let mut software_list = Vec::new();
+
+
+    for line in output.lines().skip(3) {
+        if line.len() >= vendor_range.1 {
+            let name = &line[name_range.0..name_range.1].trim();
+            let version = &line[version_range.0..version_range.1].trim();
+            let vendor = &line[vendor_range.0..vendor_range.1].trim();
             if !name.is_empty() && !name.starts_with("---") {
                 let software = json!({
                     "Name": name,
@@ -93,6 +100,7 @@ pub fn parse_hklm_output(output: &str) -> Value {
             }
         }
     }
+    
 
     json!(software_list)
 }
@@ -133,4 +141,22 @@ pub fn process_file(folder_path: &PathBuf, file_name: &str) -> Result<String, St
 
     let (output, _, _) = WINDOWS_1252.decode(&buffer);
     Ok(output.to_string())
+}
+
+fn find_column_ranges(header_line: &str) -> Vec<(usize, usize)> {
+    let mut ranges = Vec::new();
+    let mut start = 0;
+
+    for word in header_line.split_whitespace() {
+        let word_start = header_line[start..].find(word).unwrap() + start;
+        let word_end = word_start + word.len();
+        let next_word_start = header_line[word_end..]
+            .find(|c: char| !c.is_whitespace())
+            .map_or(header_line.len(), |idx| word_end + idx);
+        
+        ranges.push((start, next_word_start));
+        start = next_word_start;
+    }
+
+    ranges
 }

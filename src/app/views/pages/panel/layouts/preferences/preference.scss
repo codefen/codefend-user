@@ -1,0 +1,282 @@
+main.preferences {
+  padding-inline-end: 0;
+
+  .left {
+    overflow-y: hidden;
+
+    .modal.revoke-modal {
+      max-width: 500px;
+
+      .content form {
+        width: 65%;
+      }
+    }
+  }
+
+  .right {
+    .table-company-data {
+      width: 100%;
+
+      .company-data-header {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        padding-inline: 1.25rem;
+        padding-block: 0.75rem;
+        column-gap: 1.5rem;
+
+        p {
+          text-align: left;
+          font-weight: 700;
+        }
+
+        .update-btn {
+          border-left-width: 1.5px;
+          border-right-width: 1.5px;
+
+          padding-inline: 1.5rem;
+          text-decoration-line: underline;
+          cursor: pointer;
+        }
+      }
+
+      .company-data-main {
+        display: flex;
+        padding-block: 0.5rem;
+        border-bottom: 1px solid var(--primary-color-600);
+
+        .company-data-main-wrapper {
+          width: 100%;
+
+          .company-table-content {
+            display: flex;
+            padding-inline: 2.75rem;
+            padding-block: 0.25rem;
+
+            .company-data-content {
+              display: flex;
+              width: 100%;
+              align-items: center;
+
+              p {
+                width: 50%;
+                font-size: 1rem /* 16px */;
+                line-height: 1.5rem /* 24px */;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .table-personal-data {
+      width: 100%;
+      margin-block-start: 1.5rem;
+
+      .personal-data-header {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        padding-inline: 1.25rem;
+        padding-block: 0.75rem;
+        column-gap: 1.5rem;
+
+        p {
+          font-weight: 700;
+          text-align: left;
+        }
+
+        .update-btn {
+          border-left-width: 1.5px;
+          border-right-width: 1.5px;
+          padding-inline: 1.5rem;
+          text-decoration-line: underline;
+          cursor: pointer;
+        }
+      }
+
+      .personal-data-content {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        padding-inline: 2rem;
+        padding-block: 0.5rem;
+        column-gap: 1.75rem;
+
+        .personal-data-container {
+          margin-block-end: 5rem;
+
+          &.personal-header {
+            display: flex;
+
+            .img-fallback {
+              width: 4rem;
+              aspect-ratio: 1/1;
+            }
+
+            .img-container {
+              width: 4rem;
+              aspect-ratio: 1/1;
+              border-radius: 100%;
+
+              img {
+                overflow: hidden;
+                border-radius: 100%;
+              }
+            }
+          }
+        }
+
+        .personal-main {
+          width: 100%;
+
+          .personal-main-content {
+            display: flex;
+            padding-inline: 0.5rem;
+            padding-block: 0.25rem;
+
+            .main-content-wrapper {
+              display: flex;
+              align-items: center;
+              width: 100%;
+
+              .content-detail {
+                width: 40%;
+              }
+
+              .content-value {
+                width: 50%;
+                font-size: 1rem /* 16px */;
+                line-height: 1.5rem /* 24px */;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.orders-preference-card {
+  .order-preference-content {
+    max-height: calc(100vh - 17.5rem);
+    overflow-y: auto;
+
+    .table {
+      .id {
+        max-width: 6.5%;
+        min-width: 6.5%;
+      }
+
+      .size {
+        max-width: 9%;
+        min-width: 9%;
+      }
+
+      .offensivness {
+        max-width: 12.5%;
+        min-width: 12.5%;
+      }
+
+      .type {
+        max-width: 10%;
+        min-width: 10%;
+      }
+
+      .username {
+        max-width: 18%;
+        min-width: 18%;
+      }
+
+      .funds {
+        max-width: 11%;
+        min-width: 11%;
+      }
+
+      .state {
+        max-width: 12.5%;
+        min-width: 12.5%;
+      }
+
+      .date {
+        max-width: 12.5%;
+        min-width: 12.5%;
+      }
+
+      .id.action {
+        max-width: 8%;
+        min-width: 8%;
+
+        .publish {
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  .confirm-order-card {
+    margin-inline-end: auto;
+    margin-inline-start: 1rem;
+  }
+}
+
+.member-tables {
+  .table {
+    .columns--name {
+      padding-inline-end: 32px;
+    }
+
+    .id {
+      max-width: 6.5%;
+      min-width: 6.5%;
+      flex: 1 1 6.5% !important;
+    }
+
+    .area,
+    .company {
+      flex: 1 1 11% !important;
+      max-width: 11%;
+      min-width: 11%;
+      margin-inline-end: 1%;
+    }
+
+    .full-name {
+      flex: 1 1 18% !important;
+      max-width: 18%;
+      min-width: 18%;
+      margin-inline-end: 1%;
+    }
+
+    .email {
+      flex: 1 1 20.5% !important;
+      max-width: 20.5%;
+      min-width: 20.5%;
+      margin-inline-end: 1%;
+    }
+
+    .phone {
+      flex: 1 1 12.5% !important;
+      max-width: 12.5%;
+      min-width: 12.5%;
+      margin-inline-end: 1%;
+    }
+
+    .role {
+      flex: 1 1 9% !important;
+      max-width: 9%;
+      min-width: 9%;
+      margin-inline-end: 1%;
+    }
+
+    .id.action {
+      max-width: 5.5%;
+      min-width: 5.5%;
+
+      .publish {
+        justify-content: center;
+      }
+    }
+  }
+}

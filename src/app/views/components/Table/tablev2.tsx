@@ -1,193 +1,77 @@
-import React, { Fragment, useMemo, useState } from 'react';
-import { generateIDArray } from '../../../data';
-import { EmptyCard, PageLoader, Show } from '..';
+import { useState, type FC } from 'react';
+import { RUNNING_DESKTOP, calculateRowCalcX, calculateRowSizeX } from '@utils/helper.ts';
+import Show from '@defaults/Show.tsx';
+import EmptyCard from '@defaults/EmptyCard.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { type TableProps, Sort } from '@interfaces/table.ts';
 import './table.scss';
+import TableColumns from './TableColumns';
+import TableRows from './TableRows';
 
-export enum Sort {
-	asc = 'asc',
-	desc = 'desc',
-}
-
-interface TableProps {
-	rowsData: Record<string, TableItem>[];
-	columns: ColumnTable[];
-	showRows: boolean;
-	showEmpty: boolean;
-	tableAction?: TableAction;
-	sizeY: number;
-	isSmall?: boolean;
-	selectItem?: (item: any) => void;
-	sort?: Sort;
-}
-
-export interface ColumnTable {
-	name: string;
-	value: string;
-	style: string;
-}
-
-export interface TableItem {
-	value: string | JSX.Element;
-	style: string;
-}
-
-export interface TableAction {
-	icon: JSX.Element;
-	style: string;
-	action: (id: string) => void;
-}
-
-export const TableV2: React.FC<TableProps> = ({
-	rowsData,
-	columns,
-	showRows,
-	tableAction,
-	sizeY = 100,
-	showEmpty,
-	isSmall = false,
-	selectItem,
-	sort = Sort.desc,
+export const TableV2: FC<TableProps> = ({
+  rowsData,
+  columns,
+  showRows,
+  tableAction,
+  showEmpty,
+  isSmall = false,
+  selectItem,
+  sort = Sort.desc,
+  sizeX = 100,
+  urlNav,
 }) => {
-	const [sortDirection, setSortDirection] = useState<Sort>(sort);
-	const [dataSort, setDataSort] = useState<string>(columns[0].name);
-	const [selectedField, setSelectedField] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<Sort>(sort);
+  const [dataSort, setDataSort] = useState<string>(columns[0]?.name || '');
+  const [selectedField, setSelectedField] = useState('');
+  const handleSelected = (e: any, key: string, ID: string, issueCount?: string | number) => {
+    e.preventDefault();
+    if (selectItem !== undefined) {
+      selectItem(issueCount ? { issueCount, ID } : ID);
+      return;
+    }
 
-	const rows = useMemo(() => {
-		return [...rowsData].sort((a: any, b: any) => {
-			const aValue = a[dataSort].value;
-			const bValue = b[dataSort].value;
+    if (key === selectedField) {
+      setSelectedField('');
+    } else {
+      setSelectedField(key);
+    }
+  };
 
-			if (sortDirection === Sort.asc) {
-				return aValue > bValue ? 1 : -1;
-			} else {
-				return aValue < bValue ? 1 : -1;
-			}
-		});
-	}, [rowsData, dataSort, sortDirection]);
+  const urlForRowItem = RUNNING_DESKTOP() ? '' : urlNav || '';
 
-	const columnsID = useMemo(() => generateIDArray(columns.length), [columns]);
-	const rowsID = useMemo(() => generateIDArray(rows.length), [rows.length]);
+  return (
+    <div
+      className={`table ${isSmall && 'small'} ${!tableAction && 'table-with-out-action'}`}
+      style={
+        {
+          '--row-size-x': calculateRowSizeX(sizeX),
+          '--row-calc-x': calculateRowCalcX(sizeX),
+        } as any
+      }>
+      <TableColumns
+        columns={columns}
+        dataSort={dataSort}
+        sortDirection={sortDirection}
+        updateSortData={(updated: any) => setDataSort(updated)}
+        updateDirection={(updated: any) => setSortDirection(updated)}
+      />
 
-	const handleSort = (columnName: string) => {
-		if (columnName === dataSort) {
-			setSortDirection((prevDirection) =>
-				prevDirection === Sort.asc ? Sort.desc : Sort.asc,
-			);
-		} else {
-			setDataSort(columnName);
-			setSortDirection(Sort.asc);
-		}
-	};
-
-	const columnForRows = useMemo(() => {
-		let result =
-			tableAction !== undefined
-				? columns.filter((column) => column.name !== 'action')
-				: columns;
-		return result ?? [];
-	}, [columns]);
-
-	const handleSelected = (e: any, key: string, ID: string) => {
-		e.preventDefault();
-		if (selectItem !== undefined) {
-			selectItem(ID);
-		}
-
-		if (key === selectedField) setSelectedField('');
-		else setSelectedField(key);
-	};
-
-	return (
-		<>
-			<div className={`table ${isSmall && 'small'}`}>
-				<div className="columns-name">
-					{columns.map((column: ColumnTable, i: number) => (
-						<div
-							className={column.style}
-							key={columnsID[i]}
-							onClick={() => handleSort(column.name)}>
-							{column.value}
-							<Show
-								when={
-									dataSort === column.name &&
-									sortDirection === Sort.asc
-								}>
-								<span className="sort">{'↑'}</span>
-							</Show>
-							<Show
-								when={
-									dataSort === column.name &&
-									sortDirection === Sort.desc
-								}>
-								<span className="sort">{'↓'}</span>
-							</Show>
-						</div>
-					))}
-				</div>
-
-				<Show
-					when={showRows !== undefined && showRows}
-					fallback={<PageLoader />}>
-					<div
-						className="rows"
-						style={{ '--row-size': sizeY + 'dvh' } as any}>
-						{rows.map(
-							(row: Record<string, TableItem>, rowIndex: number) => (
-								<Fragment key={rowsID[rowIndex]}>
-									<div
-										className={`item ${
-											selectedField === rowsID[rowIndex]
-												? 'left-marked'
-												: ''
-										}`}
-										onClick={(e: any) => {
-											handleSelected(
-												e,
-												rowsID[rowIndex],
-												row['ID'].value as string,
-											);
-										}}>
-										{columnForRows.map(
-											(column: ColumnTable, i: number) => (
-												<div
-													key={i}
-													className={
-														row[column.name as keyof typeof row]
-															.style
-													}>
-													<div>
-														{
-															row[
-																column.name as keyof typeof row
-															].value
-														}
-													</div>
-												</div>
-											),
-										)}
-										<Show when={tableAction !== undefined}>
-											<div
-												className={tableAction?.style}
-												onClick={(e: React.FormEvent) => {
-													e.preventDefault();
-													e.stopPropagation();
-													tableAction?.action(
-														row['ID'].value as string,
-													);
-												}}>
-												{tableAction?.icon}
-											</div>
-										</Show>
-									</div>
-								</Fragment>
-							),
-						)}
-					</div>
-				</Show>
-				<Show when={showEmpty}>
-					<EmptyCard />
-				</Show>
-			</div>
-		</>
-	);
+      <Show when={showRows} fallback={<PageLoader />}>
+        <TableRows
+          rowsData={rowsData}
+          columns={columns}
+          sortDirection={sortDirection}
+          dataSort={dataSort}
+          tableAction={tableAction}
+          urlNav={urlForRowItem}
+          handleSelected={handleSelected}
+          isActiveAction={!!tableAction}
+          selectedField={selectedField}
+        />
+      </Show>
+      <Show when={showEmpty}>
+        <EmptyCard />
+      </Show>
+    </div>
+  );
 };

@@ -1,48 +1,44 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import { type FC } from 'react';
 
-import {
-	PageLoader,
-	PeopleGroup,
-	Show,
-	SimpleSection,
-	Table,
-} from '../../../../../components';
-import { CompanyMember, collaboratorsColumns } from '../../../../../../data';
-import { TableItem, TableV2 } from '../../../../../components/Table/tablev2';
+import { SimpleSection } from '@defaults/SimpleSection';
+import { PeopleGroupIcon } from '@icons';
+import { type TableItem } from '@interfaces/table';
+import { memberColumn } from '@mocks/defaultData';
+import { TableV2 } from '@table/tablev2';
+import type { CompanyMember } from '@interfaces/dashboard';
 
-const DashboardCollaborators: React.FC<{
-	members: CompanyMember[];
-	isLoading: boolean;
-}> = ({ members, isLoading }) => {
-	const dataTable = members.map(
-		(member: CompanyMember) =>
-			({
-				ID: { value: member.id, style: 'id' },
-				fullName: {
-					value: member.name + ' ' + member.lastName,
-					style: 'full-name',
-				},
-				email: { value: member.email, style: 'email' },
-				phone: { value: member.phone, style: 'phone' },
-				role: { value: member.companyRole, style: 'role' },
-			}) as Record<string, TableItem>,
-	);
+interface DashboardCollaboratorsProps {
+  members: CompanyMember[];
+  isLoading: boolean;
+}
 
-	return (
-		<div className="card colaborators flex-grow">
-			<SimpleSection
-				header="Collaborators and team members"
-				icon={<PeopleGroup />}>
-				<TableV2
-					rowsData={dataTable}
-					showRows={!isLoading}
-					showEmpty={!isLoading && dataTable.length === 0}
-					columns={collaboratorsColumns}
-					sizeY={20}
-				/>
-			</SimpleSection>
-		</div>
-	);
+const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLoading }) => {
+  const dataTable = members.map(
+    (member: CompanyMember) =>
+      ({
+        ID: { value: member.id, style: 'id' },
+        fullName: {
+          value: `${member.fname} ${member.lname}`,
+          style: 'full-name',
+        },
+        email: { value: member.email, style: 'email' },
+        phone: { value: member.phone, style: 'phone' },
+        role: { value: member.role, style: 'role' },
+      }) as Record<string, TableItem>
+  );
+
+  return (
+    <div className="collaborators card">
+      <SimpleSection header="Team members" icon={<PeopleGroupIcon />}>
+        <TableV2
+          rowsData={dataTable}
+          showRows={!isLoading}
+          showEmpty={!isLoading && dataTable.length === 0}
+          columns={memberColumn}
+        />
+      </SimpleSection>
+    </div>
+  );
 };
 
 export default DashboardCollaborators;

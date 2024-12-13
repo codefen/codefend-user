@@ -1,0 +1,34 @@
+.provider-sidebar {
+  border-inline-end: 1px solid var(--provider-border-color);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    margin-block-start: 3.5rem;
+    margin-block-end: 0;
+
+    li {
+      padding-inline: 2rem;
+      padding-block: 1rem;
+      border-bottom: 1px solid var(--provider-border-color);
+      cursor: pointer;
+      user-select: none;
+
+      &:first-child {
+        border-top: 1px solid var(--provider-border-color);
+      }
+
+      &.current {
+        color: var(--secondary-color-100);
+      }
+
+      &.disabled {
+        opacity: 0.6;
+        cursor: default;
+        user-select: none;
+      }
+    }
+  }
+}

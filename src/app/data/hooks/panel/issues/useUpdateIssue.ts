@@ -1,87 +1,80 @@
-import { useCallback, useState } from 'react';
-import { IssueService, useAuthState } from '../../../';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { getTinyEditorContent } from '../../../../../editor-lib';
+import { useFetcher } from '#commonHooks/useFetcher.ts';
+import { useUserData } from '#commonUserHooks/useUserData';
+import { IssuesStatus } from '@interfaces/issues';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { APP_MESSAGE_TOAST, ISSUE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export interface UpdateIssue {
-	id: string;
-	issueName: string;
-	score: string;
-
-	isAddingIssue: boolean;
+  id: string;
+  issueName: string;
+  score: string;
+  resourceID: number | undefined;
+  status: IssuesStatus;
 }
 
 const validateNewIssue = (validate: boolean, message: string) => {
-	if (validate) {
-		toast.error(message);
-		return false;
-	}
-	return true;
+  if (validate) {
+    toast.error(message);
+    return false;
+  }
+  return true;
 };
 
+/* Custom Hook "useUpdateIssue" to handle updating an issue*/
 export const useUpdateIssue = () => {
-	const { getUserdata } = useAuthState();
-	const [updatedIssue, dispatch] = useState<UpdateIssue>({
-		id: '',
-		issueName: '',
-		score: '',
+  const { getCompany } = useUserData();
+  const [fetcher, _, isLoading] = useFetcher();
+  const [updatedIssue, dispatch] = useState<UpdateIssue>({
+    id: '',
+    issueName: '',
+    score: '',
+    resourceID: 1,
+    status: IssuesStatus.OPEN,
+  });
 
-		isAddingIssue: false,
-	});
+  const fetchSave = (companyID: string) => {
+    const _editorContent = getTinyEditorContent('issue');
+    if (
+      !validateNewIssue(
+        !_editorContent.trim(),
+        'Invalid content, please add content using the editor'
+      )
+    ) {
+      return;
+    }
 
-	const fetchSave = (companyID: string) => {
-		const _editorContent = getTinyEditorContent('issue');
-		if (
-			!validateNewIssue(
-				!_editorContent.trim(),
-				'Invalid content, please add content using the editor',
-			)
-		) {
-			return;
-		}
+    return fetcher('post', {
+      body: {
+        model: 'issues/mod',
+        company_id: companyID,
+        id: updatedIssue.id,
+        main_desc: _editorContent,
+        name: updatedIssue.issueName,
+        resource_id: updatedIssue.resourceID || 1,
+        risk_score: updatedIssue.score,
+        condicion: updatedIssue.status,
+      },
+    })
+      .then(({ data }: any) => {
+        if (data.isAnError || apiErrorValidation(data?.error, data?.response))
+          throw new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 
-		dispatch((state: UpdateIssue) => ({
-			...state,
-			isAddingIssue: true,
-		}));
-		const params = {
-			id: updatedIssue.id,
-			main_desc: _editorContent,
-			name: updatedIssue.issueName,
-			risk_score: updatedIssue.score,
-		};
+        toast.success(ISSUE_PANEL_TEXT.UPDATED_ISSUE);
+        return { updatedIssue };
+      })
+      .catch((e: Error) => {
+        toast.error(e.message);
+      });
+  };
 
-		return IssueService.modify(params, companyID)
-			.then((response: any) => {
-				console.log({ response });
-				if (response.response === 'error' || response.isAnError)
-					throw new Error(
-						response.message ?? 'An unexpected error has occurred',
-					);
+  const update = async () => {
+    const companyID = getCompany();
+    if (companyIdIsNull(companyID)) return;
+    return fetchSave(companyID);
+  };
 
-				toast.success('Successfully Added Issue...');
-				return { updatedIssue };
-			})
-			.catch((error: Error) => {
-				toast.error(error.message);
-			})
-			.finally(() =>
-				dispatch((state: UpdateIssue) => ({
-					...state,
-					isAddingIssue: false,
-				})),
-			);
-	};
-
-	const update = async () => {
-		const companyID = getUserdata()?.companyID;
-		if (!companyID) {
-			toast.error('User information was not found');
-			return;
-		}
-
-		return fetchSave(companyID);
-	};
-
-	return { updatedIssue, dispatch, update };
+  return { updatedIssue, isAddingIssue: isLoading, dispatch, update };
 };

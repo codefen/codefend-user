@@ -1,47 +1,48 @@
-import { useEffect, useState } from 'react';
-import { usePreferences } from '../../../../../data';
-import { PageLoader, Show } from '../../../../../views/components';
-import SettingCollaboratorAndTeam from './components/SettingCollaboratorAndTeam';
-import SettingCompanyInformation from './components/SettingCompanyInformation';
-import SettingOrderAndBilling from './components/SettingOrderAndBilling';
-import '../../../../styles/flag.scss';
-import SettingPersonalDetails from './components/SettingPersonaDetails';
+import { usePreferences } from '@panelHooks/preference/usePreferences.ts';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import Show from '@defaults/Show.tsx';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import SettingCollaboratorAndTeam from './components/SettingCollaboratorAndTeam.tsx';
+import SettingCompanyInformation from './components/SettingCompanyInformation.tsx';
+import SettingOrderAndBilling from './components/SettingOrderAndBilling.tsx';
+import SettingPersonalDetails from './components/SettingPersonaDetails.tsx';
+
+import './preference.scss';
+import { useEffect } from 'react';
+import { useQualitySurveyStore } from '@stores/qualitySurvey.store.ts';
+import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';
+import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 
 const PreferencePanel = () => {
-	const [showScreen, setShowScreen] = useState(false);
-	const { loading, company, members, orders } = usePreferences();
-	
-	
-	useEffect(() => {
-		setTimeout(() => {
-			setShowScreen(true);
-		}, 50);
-	});
+  const [showScreen, control, refresh] = useShowScreen();
+  const { orders, company, members, isLoading, refetch } = usePreferences();
+  const { isFinishQualityPoll } = useQualitySurveyStore();
+  useEffect(() => {
+    refetch();
+  }, [isFinishQualityPoll, control]);
 
-	return (
-		<>
-			<Show when={showScreen} fallback={<PageLoader />}>
-				<main className={`preferences ${showScreen ? 'actived' : ''}`}>
-					<section className="left">
-						<SettingOrderAndBilling
-							isLoading={loading}
-							orders={orders ?? []}
-						/>
-						<SettingCollaboratorAndTeam
-							isLoading={loading}
-							members={members ?? []}
-						/>
-					</section>
-					<section className="right">
-						<SettingCompanyInformation
-							companyInfo={company}
-						/>
-						 <SettingPersonalDetails /> 
-					</section>
-				</main>
-			</Show>
-		</>
-	);
+  return (
+    <>
+      <ProviderScope />
+      <AddCollaboratorModal />
+      <Show when={showScreen} fallback={<PageLoader />}>
+        <main className={`preferences ${showScreen ? 'actived' : ''}`}>
+          <section className="left">
+            <SettingCollaboratorAndTeam
+              isLoading={isLoading}
+              members={members || []}
+              refetch={refresh}
+            />
+            <SettingOrderAndBilling isLoading={isLoading} orders={orders || []} />
+          </section>
+          <section className="right">
+            <SettingCompanyInformation companyInfo={company} />
+            <SettingPersonalDetails />
+          </section>
+        </main>
+      </Show>
+    </>
+  );
 };
 
 export default PreferencePanel;

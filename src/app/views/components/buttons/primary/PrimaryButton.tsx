@@ -1,31 +1,63 @@
-import React from 'react';
+import type { FC, FormEvent, ReactNode } from 'react';
 import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
 import './primaryButton.scss';
 
-interface PrimaryButtonProps {
-	click?: (e: React.FormEvent<HTMLButtonElement>) => void;
-	isDisabled?: boolean;
-	text: string | JSX.Element;
-	className?: string;
-	type?: string;
-	disabledLoader?: boolean;
+enum ButtonStyles {
+  RED = 'red',
+  BLACK = 'black',
+  DARK_RED = 'dark-red',
+  GRAY = 'gray',
+  SEND = 'send',
+  DEFAULT = 'default',
 }
 
-export const PrimaryButton = (props: PrimaryButtonProps) => {
-	const primaryStyles = props.className ? props.className : '';
-	const type = props.type === 'submit' ? props.type : 'button';
-	const loader = props.disabledLoader ? false : true;
-	return (
-		<button
-			type={type}
-			onClick={props.click}
-			disabled={props.isDisabled}
-			className={`log-inputs btn btn-primary ${primaryStyles}`}>
-			<Show when={props.isDisabled! && loader}>
-				<ButtonLoader />
-			</Show>
-			{props.text}
-		</button>
-	);
+interface PrimaryButtonProps {
+  click?: (e: FormEvent<HTMLButtonElement>) => void;
+  isDisabled?: boolean;
+  text: ReactNode;
+  className?: string;
+  type?: 'submit' | 'reset' | 'button';
+  disabledLoader?: boolean;
+  buttonStyle?: 'red' | 'black' | 'gray' | 'default' | 'send' | 'dark-red' | ButtonStyles;
+  hideContent?: boolean;
+}
+
+export const PrimaryButton: FC<PrimaryButtonProps> = ({
+  click,
+  text,
+  className = '',
+  isDisabled,
+  disabledLoader,
+  type = 'button',
+  buttonStyle = 'red',
+  hideContent = false,
+}) => {
+  const buttonStyles = {
+    [ButtonStyles.RED]: 'btn-red',
+    [ButtonStyles.BLACK]: 'btn-black',
+    [ButtonStyles.GRAY]: 'btn-gray',
+    [ButtonStyles.SEND]: 'btn-red send-btn',
+    [ButtonStyles.DARK_RED]: 'btn-dark-red',
+    [ButtonStyles.DEFAULT]: '',
+  };
+
+  const handleClick = (e: FormEvent<HTMLButtonElement>) => {
+    if (!isDisabled) click?.(e);
+  };
+
+  return (
+    <button
+      type={type}
+      onClick={handleClick}
+      disabled={isDisabled}
+      className={`btn ${buttonStyles[buttonStyle]} ${className}`}>
+      <Show when={Boolean(isDisabled) && !disabledLoader}>
+        <ButtonLoader />
+      </Show>
+      <Show when={!hideContent} fallback={<ButtonLoader left="33%" />}>
+        {text}
+      </Show>
+    </button>
+  );
 };

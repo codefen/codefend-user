@@ -1,2 +1,2 @@
-export { default as Lan } from './Lan';
+export { default as Lan } from './Network';
 export * from './components';

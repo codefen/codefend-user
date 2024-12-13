@@ -1,2 +1,1 @@
-export * from './LanNetworkData';
-export * from './LanNetworksChart';
+export * from './NetworkData';

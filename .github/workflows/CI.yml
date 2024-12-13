@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: ["prod"]
+
+jobs:
+  test:
+    uses: ./.github/workflows/TestCI.yml
+    secrets: inherit
+
+  stratRelease:
+    if: "github.event.repository.fork == false"
+    needs: [test]
+    name: Release Codefend App
+    uses: ./.github/workflows/Release.yml
+    secrets: inherit
+
+  startPublishWebApp:
+    if: "github.event.repository.fork == false"
+    needs: [test]
+    name: Publish Web App
+    uses: ./.github/workflows/PublishWebApp.yml
+    secrets: inherit

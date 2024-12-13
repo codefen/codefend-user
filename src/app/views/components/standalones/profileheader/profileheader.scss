@@ -1,0 +1,42 @@
+.provider-profile-media {
+  position: absolute;
+  width: 140px;
+  aspect-ratio: 1/1;
+  top: 12rem;
+  left: 2.5rem;
+  background: #fff;
+  border-radius: 100%;
+  padding: 4px;
+
+  .provider-profilemedia {
+    position: relative;
+    width: 140px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+    clip-path: circle(50% at 50% 50%);
+  }
+}
+
+.provider-main-info {
+  padding-inline-start: 14rem;
+  border-inline-end: 1px solid var(--provider-border-color);
+  padding-block-start: 1rem;
+  max-width: 25%;
+  min-width: 350px;
+  flex: 1 1;
+
+  h3 {
+    color: var(--tertiary-color-600);
+    line-height: 2.5rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+
+  span {
+    color: var(--tertiary-color-300);
+  }
+}

@@ -1,73 +1,65 @@
-import React, { useCallback, useContext } from 'react';
-import {
-	AppCardInfo,
-	ProvidedTestingCredentials,
-	VulnerabilityRisk,
-	VulnerabilitiesStatus,
-	IssuesPanelMobileAndCloud,
-	PageLoader,
-	Show,
-} from '../../../../../components';
-import {
-	Issues,
-	IssuesCondition,
-	IssuesShare,
-	MobileApp,
-	useMobileOne,
-} from '../../../../../../data';
-import SelectedMobile from '../selectedContext';
+import { useEffect } from 'react';
+import { IssuesPanelMobileAndCloud } from '@standalones/IssuesPanelMobileAndCloud.tsx';
+import { AppCardInfo } from '@standalones/AppCardInfo.tsx';
+import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
+import { ProvidedTestingCredentials } from '@standalones/credential-card/ProvidedTestingCredentials';
+import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
+import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 
-export const MobileSelectedDetails = () => {
-	const selectedMobileApp = useContext(SelectedMobile);
-	const getSelected = selectedMobileApp
-		? selectedMobileApp
-		: ({} as MobileApp);
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
+import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { ResourcesTypes } from '@interfaces/order';
+import OpenOrderButton from '@standalones/OpenOrderButton';
 
-	const getSelectedMobileAppId = useCallback(
-		() => (selectedMobileApp ? selectedMobileApp.id : ''),
-		[],
-	);
-	const { isLoding, getMobile, refetch } = useMobileOne(
-		getSelectedMobileAppId(),
-	);
+export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
+  const { data, isLoading, refetch } = useGetOneMobile();
+  const { appSelected } = useSelectedApp();
+  const onRefetch = () => refetch(appSelected?.id);
+  useEffect(() => {
+    if (appSelected) onRefetch();
+  }, [appSelected]);
 
-	return (
-		<Show when={!isLoding} fallback={<PageLoader />}>
-			<>
-				<div>
-					<AppCardInfo type="mobile" selectedApp={getSelected} />
-				</div>
-				<div className="provided-testing-container">
-					<div className="wrapper">
-						<ProvidedTestingCredentials
-							credentials={getMobile().creds ?? []}
-							isLoading={isLoding}
-						/>
-					</div>
-					<div className="dashboard-charts">
-						<VulnerabilityRisk
-							isLoading={isLoding}
-							vulnerabilityByRisk={
-								getMobile().issueShare
-									? getMobile().issueShare
-									: ({} as IssuesShare)
-							}
-						/>
-						<VulnerabilitiesStatus
-							vulnerabilityByShare={
-								getMobile().issueCondition ?? ({} as IssuesCondition)
-							}
-						/>
-					</div>
-				</div>
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
-				<section className="card table">
-					<IssuesPanelMobileAndCloud
-						isLoading={isLoding}
-						issues={getMobile().issues ?? ([] as Issues[])}
-					/>
-				</section>
-			</>
-		</Show>
-	);
+  return (
+    <>
+      <div>
+        <AppCardInfo
+          type={RESOURCE_CLASS.MOBILE}
+          selectedApp={appSelected}
+          issueCount={data?.issues ? data.issues.length : 0}
+        />
+      </div>
+      <div className="selected-content">
+        <div className="selected-content-credentials">
+          <CredentialsModal onComplete={onRefetch} />
+          <ProvidedTestingCredentials
+            credentials={data?.creds || []}
+            isLoading={isLoading}
+            resourceId={appSelected?.id || ''}
+            type={RESOURCE_CLASS.MOBILE}
+          />
+        </div>
+        <div className="selected-content-tables">
+          <OpenOrderButton
+            className="primary-full"
+            type={ResourcesTypes.MOBILE}
+            resourceCount={listSize}
+            isLoading={isLoading}
+          />
+
+          <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} />
+          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
+        </div>
+      </div>
+
+      <section className="card table">
+        <IssuesPanelMobileAndCloud isLoading={isLoading} issues={data?.issues || []} />
+      </section>
+    </>
+  );
 };

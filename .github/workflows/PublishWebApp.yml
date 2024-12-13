@@ -1,0 +1,46 @@
+
+name: 'Publish Web App'
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  publish_webapp:
+    if: "github.event.repository.fork == false"
+    name: Publish Web App
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+    
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20.x
+
+      - name: Setup/ Install pnpm 9.7.0 manually
+        run: npm install -g pnpm@9.7.0
+
+      - name: Install frontend dependencies
+        run: |
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm install --prefer-frozen-lockfile --ignore-scripts
+      
+      - name: Run build client
+        run: pnpm build
+
+      - name: Run prune
+        run: pnpm prune --prod --ignore-scripts
+
+      - name: Publish to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ./
+          protocol: ftp
+          dangerous-clean-slate: true

@@ -1,26 +1,41 @@
-import { PageLoader, Show } from '../../../../components';
-import React, { Suspense } from 'react';
-import { Outlet, useLocation } from 'react-router';
-import { useScript } from 'usehooks-ts';
+import { type FC, Suspense, useEffect, useState } from 'react';
+import { Outlet } from 'react-router';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
 import './issues.scss';
+import { addEventListener } from '@utils/helper';
+import { EVENTS } from '@/app/constants/events';
 
-const IssuePage: React.FC<{}> = () => {
-	const status = useScript('/src/editor-lib/visual/mce/tinymce.min.js', {
-		removeOnUnmount: true,
-	});
-	const path = useLocation().pathname;
-	const isNeedWaitScript =
-		path.startsWith('/issues/create') || path.startsWith('/issues/update');
+const IssuePage: FC = () => {
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
-	return (
-		<>
-			<Suspense fallback={<PageLoader />}>
-				<Show when={isNeedWaitScript ? status === 'ready' : true}>
-					<Outlet />
-				</Show>
-			</Suspense>
-		</>
-	);
+  useEffect(() => {
+    const tinyMCE = document.createElement('script');
+    tinyMCE.src = '/editor-lib/visual/mce/tinymce.min.js';
+    tinyMCE.async = true;
+    tinyMCE.defer = true;
+
+    // Añado el evento y agrego el evento de onload
+    document.head.appendChild(tinyMCE);
+    const loadUnSub = addEventListener(tinyMCE, EVENTS.LOAD, () => {
+      setScriptLoaded(true);
+    });
+
+    return () => {
+      loadUnSub();
+      document.head.removeChild(tinyMCE);
+    };
+  }, []);
+
+  return (
+    <>
+      <Show when={scriptLoaded} fallback={<PageLoader />}>
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
+      </Show>
+    </>
+  );
 };
 
 export default IssuePage;

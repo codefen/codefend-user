@@ -1,52 +1,43 @@
-import {
-	PageLoader,
-	PreviousMessage,
-	PrimaryButton,
-	Show,
-	SimpleSection,
-} from '../../../../../../views/components';
-import React from 'react';
+import { type FC } from 'react';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { PreviousMessageIcon } from '@icons';
 
-const SnPreviousSearches: React.FC<{ isLoading?: boolean }> = (props) => {
-	return (
-		<>
-			<div className="previous-search">
-				<div className="card table sns">
-					<SimpleSection
-						header="Previous Searches"
-						icon={<PreviousMessage />}>
-						<>
-							<div className="columns-name">
-								<div className="column">username</div>
-								<div className="column">search</div>
-							</div>
+interface SnPreviousSearchesProps {
+  isLoading: boolean;
+  previousSearches: any[];
+}
 
-							<div className="rows internal-tables ">
-								<Show when={!props.isLoading} fallback={<PageLoader />}>
-									<>
-										<div className="flex px-3 py-1 text-format">
-											<section className="flex w-full items-center">
-												<p className="w-2/4">nacho</p>
-												<p className="text-base w-2/4">
-													codefend.com
-												</p>
-											</section>
-										</div>
-									</>
-								</Show>
-							</div>
-						</>
-					</SimpleSection>
-				</div>
+const SnPreviousSearches: FC<SnPreviousSearchesProps> = ({ isLoading, previousSearches }) => {
+  const safelyPreviousSearches = () => (Array.isArray(previousSearches) ? previousSearches : []);
+  return (
+    <div className="previous-search">
+      <div className="card table inx">
+        <SimpleSection header="Previous Searches" icon={<PreviousMessageIcon />}>
+          <>
+            <div className="columns-name">
+              <div className="column">username</div>
+              <div className="column">search</div>
+            </div>
 
-				<PrimaryButton
-					text="REQUEST PROFESSIONAL ASSISTANCE"
-					className="w-full mt-4"
-					click={() => alert('Processing your order')}
-				/>
-			</div>
-		</>
-	);
+            <div className="rows internal-tables ">
+              <Show when={!isLoading} fallback={<PageLoader />}>
+                {safelyPreviousSearches().map((searchData, i) => (
+                  <div className="item-wrapper" key={`sd-${i}`}>
+                    <section className="search-item">
+                      <p className="name">{searchData.info.split('class:')[1] || '--'}</p>
+                      <p className="result">{searchData.info.split('queries:')[1] || '--'}</p>
+                    </section>
+                  </div>
+                ))}
+              </Show>
+            </div>
+          </>
+        </SimpleSection>
+      </div>
+    </div>
+  );
 };
 
 export default SnPreviousSearches;

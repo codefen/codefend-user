@@ -1,0 +1,148 @@
+name: LinuxBuildAndRelease
+
+on:
+  workflow_call:
+    inputs:
+      release_id:
+        required: true
+        type: string
+      package_version:
+        required: true
+        type: string
+    outputs:
+      linux_x86_64_sig:
+        description: "Signature for Linux x86_64 build"
+        value: ${{ jobs.linuxBuilding.outputs.linux_x86_64_sig }}
+
+jobs:
+  linuxBuilding:
+    if: "github.event.repository.fork == false"
+    name: BuildLinux
+    permissions:
+      contents: write
+      id-token: write
+      security-events: write
+      attestations: write
+    outputs:
+      linux_x86_64_sig: ${{ steps.extract-signatures.outputs.linux_x86_64_sig }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            platform: linux/amd64
+            symbol: 🐧
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup/ Install pnpm 9.7.0 manually
+        run: npm install -g pnpm@9.7.0
+
+      - name: Install frontend dependencies
+        run: |
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm install --frozen-lockfile --ignore-scripts
+          
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libsoup-3.0-dev \
+            libjavascriptcoregtk-4.1-dev \
+            pkg-config
+
+      - name: 🦀 Install rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Create env file
+        run: |
+          echo "VITE_PORT=5173" >> .env
+          echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
+          echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
+          
+      - name: Build frontend
+        run: pnpm build
+
+      - name: 📥 Cached install cargo-auditable
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
+        with:
+          tool: cargo-auditable@0.6.6
+          locked: true
+
+      - name: 📥 Cached install tauri-cli
+        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
+        with:
+          tool: tauri-cli@2.1.0
+          locked: true
+
+      - name: 🔨 Build using tauri action (publish artifacts on release)
+        uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
+        env:
+          RUSTFLAGS: "-D warnings"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          releaseId: ${{ inputs.release_id }}
+          tauriScript: cargo --locked auditable tauri
+          args: '--target ${{ matrix.target }}'
+
+      - name: Extract Signatures and Set Outputs
+        id: extract-signatures
+        run: |
+          package_version="${{ inputs.package_version }}"
+
+          read_signature() {
+            local file="$1"
+            if [[ ! -f "$file" ]]; then
+              echo "Error: File $file not found" >&2
+              exit 1
+            fi
+            tr -d '\n' < "$file" | xargs
+          }
+
+          linux_x86_64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage.sig")
+
+          echo "Signatures extracted successfully."
+          echo "linux_x86_64_sig=$linux_x86_64_sig" >> $GITHUB_OUTPUT
+
+      - name: 🛡️ Attest build provenance (publish release only)
+        uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
+        env:
+          CARGO_HOME: /home/runner/.cargo
+          CARGO_INCREMENTAL: 0
+          CARGO_TERM_COLOR: always
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          subject-path: src-tauri/target/${{ matrix.target }}/release/bundle/*
+          push-to-registry: false
+          show-summary: true
+          github-token: ${{ env.GITHUB_TOKEN }}
+  
+      - name: 📜 Create SBOM
+        uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
+        with:
+          format: "spdx-json"
+          output-file: "sbom.spdx.json"
+          artifact-name: "linux_${{ matrix.target }}.sbom.spdx.json"
+  
+      - name: 🛡️ Attest SBOM
+        uses: actions/attest-sbom@v2
+        with:
+          subject-path: 'src-tauri/target/${{ matrix.target }}/release/codefend-panel'
+          sbom-path: "sbom.spdx.json"

@@ -1,42 +1,64 @@
-import React, { useCallback, useEffect } from 'react';
+import { useEffect, type FC, type ReactNode } from 'react';
+import ReactDOM from 'react-dom';
 import './modal.scss';
+import { CloseIcon, Show } from '../..';
+import useKeyEventPress from '@stores/keyEvents';
 
 interface ModalWrapper {
-	children: JSX.Element;
-	isErrorBox?: boolean;
-	action?: () => void;
+  children: ReactNode;
+  isErrorBox?: boolean;
+  action?: () => void;
+  type?: string;
+  showCloseBtn?: boolean;
 }
+const root = document.getElementById('root-modal');
 
-const ModalWrapper: React.FC<ModalWrapper> = ({
-	isErrorBox = false,
-	children,
-	action,
+const ModalWrapper: FC<ModalWrapper> = ({
+  isErrorBox = false,
+  type,
+  children,
+  action,
+  showCloseBtn,
 }) => {
-	useEffect(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key.toLowerCase() === 'escape') {
-				e.preventDefault();
-				e.stopPropagation();
-				action && action();
-			}
-		};
+  const { setKeyPress, keyPress } = useKeyEventPress();
+  const closeEvent = (e?: any) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    action && action();
+  };
 
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, []);
-	return (
-		<div
-			onDoubleClick={(e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				action && action();
-			}}
-			className="modal-wrapper">
-			<div className={`wrapper-content ${!isErrorBox ? 'max-w' : ''}`}>
-				<div>{children}</div>
-			</div>
-		</div>
-	);
+  useEffect(() => {
+    if (keyPress === 'Escape') {
+      closeEvent();
+      setKeyPress('NONE');
+    }
+  }, [keyPress]);
+
+  if (!root) {
+    console.error('Modal root element not found');
+    return null;
+  }
+
+  return ReactDOM.createPortal(
+    <div onDoubleClick={closeEvent} className="modal-wrapper" role="dialog" aria-modal="true">
+      <article
+        className={`modal ${!isErrorBox ? type : ''}`}
+        onDoubleClick={e => {
+          e.nativeEvent.stopImmediatePropagation();
+          e.stopPropagation();
+        }}>
+        <Show when={Boolean(showCloseBtn)}>
+          <span className="modal-close-btn" onClick={closeEvent}>
+            <CloseIcon isButton />
+          </span>
+        </Show>
+        {children}
+      </article>
+    </div>,
+    root
+  );
 };
 
 export default ModalWrapper;

@@ -1,54 +1,49 @@
-import React, { useEffect, useMemo } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import addTinyMce, {
-	getTinyEditorContent,
-	setMode,
-} from '../../../../../../../editor-lib/';
-import { CompleteIssue, Issues } from '../../../../../../data';
+  setMode,
+  setTinyEditorContent,
+  getTinyEditorContent,
+} from '../../../../../../../editor-lib';
 
 interface AppEditorProps {
-	onUpdateIssue?: any;
-	initialValue: string;
-	isEditable: boolean;
-	isIssueCreation?: any;
+  initialValue: string;
+  isEditable: boolean;
+  isCreation?: boolean;
+  isLoaded?: boolean;
 }
-export const AppEditor: React.FC<AppEditorProps> = ({
-	initialValue,
-	onUpdateIssue,
-	isEditable,
-}) => {
-	const emptyUpdateIssueText = useMemo(
-		() => '<p>Please add issues here...</p>',
-		[],
-	);
-
-	const setEditorMode = () => {
-		if (isEditable) {
-			setMode('issue', 'design');
-		} else {
-			setMode('issue', 'readonly');
-		}
-	};
-
-	useEffect(() => {
-		const checkTinyMCE = () => {
-			const defaultValue = !initialValue.trim()
-				? emptyUpdateIssueText
-				: initialValue;
-
-			const timeoutid = addTinyMce(defaultValue);
-			clearTimeout(timeoutid);
-		};
-
-		checkTinyMCE();
-	}, []);
-
-	useEffect(() => {
-		setEditorMode();
-	}, [isEditable]);
-
-	return (
-		<>
-			<textarea name="name" id="issue" rows={4} cols={40}></textarea>
-		</>
-	);
+const EMPTY_TEXT = '<p>Please add issues here...</p>';
+const startTiny = (initialValue: string) => {
+  try {
+    const content = getTinyEditorContent('issue');
+    setTinyEditorContent('issue', content ? content : initialValue);
+  } catch (e) {
+    console.error(e);
+  }
 };
+
+const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation, isLoaded }) => {
+  const [first, setFirst] = useState(true);
+
+  useEffect(() => {
+    const defaultValue = !Boolean(initialValue) ? EMPTY_TEXT : initialValue;
+    addTinyMce(defaultValue);
+    setFirst(false);
+    startTiny(initialValue);
+  }, [initialValue, isLoaded]);
+
+  useEffect(() => {
+    if (!first) {
+      startTiny(initialValue);
+    }
+
+    if (!isCreation) {
+      setMode('issue', isEditable ? 'design' : 'readonly');
+    } else {
+      setMode('issue', 'design');
+    }
+  }, [isEditable, isLoaded]);
+
+  return <textarea name="name" id="issue" rows={4} cols={40}></textarea>;
+};
+
+export default AppEditor;

@@ -1,51 +1,38 @@
-import React, { Suspense, lazy } from 'react';
-import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
-
+import { type FC, Suspense, lazy } from 'react';
+import { Outlet, useLocation, Navigate } from 'react-router';
+import useAuthStore from '@stores/auth.store.ts';
+import AuthNavigation from '../../components/auth/AuthNavigation';
+import ParticlesScriptLoader from '../../components/auth/ParticlesScriptLoader';
 import './auth.scss';
-import { AuthServices } from '../../../data/services';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
 
-const Logo = lazy(() => import('../../components/defaults/Logo'));
+const BrandAndAppVersion = lazy(() => import('../../components/auth/BrandAndAppVersion.tsx'));
 
-const AuthPage: React.FC = () => {
-	const location = useLocation();
-	const isNotAuthenticated = AuthServices.verifyAuth();
-	if (isNotAuthenticated) AuthServices.logout2();
+const AuthPage: FC = () => {
+  const location = useLocation();
+  const { isAuth } = useAuthStore(state => state);
+  console.log('Auto update lista!');
+  if (isAuth) {
+    return <Navigate to={'/'} />;
+  }
 
-	return isNotAuthenticated ? (
-		<>
-			<div className="codefend-img-bg">
-				<Logo theme={'shadow'} />
-			</div>
-			<section className="access flex">
-				<div className="container">
-					<div className="brand"></div>
-					<div className="forms">
-						<div className="nav">
-							<span
-								className={
-									location.pathname === '/auth/signin' ? 'active' : ''
-								}>
-								<Link to="/auth/signin">access</Link>
-							</span>
-							<span
-								className={
-									location.pathname.startsWith('/auth/signup') || location.pathname === "/auth/confirmation"
-										? 'active'
-										: ''
-								}>
-								<Link to="/auth/signup">new user</Link>
-							</span>
-						</div>
-						<Suspense fallback={<div>Loading...</div>}>
-							<Outlet />
-						</Suspense>
-					</div>
-				</div>
-			</section>
-		</>
-	) : (
-		<Navigate to="/" />
-	);
+  return (
+    <>
+      <ParticlesScriptLoader />
+      <section className="access">
+        <div className="forms">
+          <AuthNavigation location={location.pathname} />
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
+        </div>
+
+        <BrandAndAppVersion />
+
+        <div className="bkg"></div>
+      </section>
+    </>
+  );
 };
 
 export default AuthPage;

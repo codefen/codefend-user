@@ -1,92 +1,87 @@
-import React, { Fragment, useMemo } from 'react';
-import {
-	MetricsService,
-	ChartValueType,
-	SourceCode,
-	generateIDArray,
-	isEmptyData,
-	languageTypes,
-	useDoughnutChart,
-	sourceCodeChartColumns,
-} from '../../../../../../data';
-import {
-	ChartIcon,
-	EmptyCard,
-	PageLoader,
-	Show,
-	SimpleSection,
-	TableV2,
-} from '../../../../../components';
+import { type FC, useMemo } from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import { ChartValueType } from '@interfaces/panel';
+import useDoughnutChart from '@hooks/common/useChart';
+import { MetricsService } from '@utils/metric.service';
+import { sourceCodeChartColumns, languageTypes } from '@mocks/defaultData';
+import { isEmptyData } from '@utils/helper';
+import type { TableItem } from '@interfaces/table';
+import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import Show from '@defaults/Show.tsx';
+import EmptyCard from '@defaults/EmptyCard.tsx';
+import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { ChartIcon } from '@icons';
+import { TableV2 } from '@table/tablev2.tsx';
 
 interface Props {
-	isLoading: boolean;
-	sourceCode: SourceCode[];
+  isLoading: boolean;
+  sourceCode: any[];
 }
 
-export const SourceCodeChart: React.FC<Props> = (props) => {
-	const { chartData, otherMetrics, total, chartOptions } = useDoughnutChart({
-		data: props.sourceCode,
-		type: ChartValueType.SOURCE_CODE,
-	});
+export const SourceCodeChart: FC<Props> = props => {
+  const fixedSourceCode = props.sourceCode.map(sourceCode => ({
+    ...sourceCode,
+    source_code: String(sourceCode.source_code).replace(' ', '').toLowerCase(),
+  }));
+  const { chartData, otherMetrics, total, chartOptions } = useDoughnutChart({
+    data: fixedSourceCode,
+    type: ChartValueType.SOURCE_CODE,
+  });
 
-	const dataEmptyState = useMemo(() => {
-		return isEmptyData(otherMetrics);
-	}, [otherMetrics]);
+  const dataEmptyState = useMemo(() => {
+    return isEmptyData(otherMetrics);
+  }, [otherMetrics]);
 
-	const sourceKeys = useMemo(() => {
-		return props.isLoading ? [] : generateIDArray(props.sourceCode.length);
-	}, [props.sourceCode]);
+  const { renderPercentage } = MetricsService;
 
-	const { renderPercentage } = MetricsService;
+  const dataTable = Object.keys(otherMetrics).map(
+    (sourceCode: any) =>
+      ({
+        ID: { value: '', style: '' },
+        code: {
+          value: languageTypes.has(sourceCode.toLowerCase().trim()) ? sourceCode : 'Unknown',
+          style: 'os',
+        },
+        count: {
+          value: otherMetrics[sourceCode as keyof typeof otherMetrics],
+          style: 'count',
+        },
+        percent: {
+          value: renderPercentage(
+            String(otherMetrics[sourceCode as keyof typeof otherMetrics]),
+            String(total)
+          ),
+          style: 'percent',
+        },
+      }) as Record<string, TableItem>
+  );
 
-	const dataTable = Object.keys(otherMetrics).map((network: any) => ({
-		code: {
-			value: languageTypes.has(network.toLowerCase()) ? network : 'Unknown',
-			style: 'os',
-		},
-		count: {
-			value: otherMetrics[network as keyof typeof otherMetrics],
-			style: 'count',
-		},
-		percent: {
-			value: renderPercentage(
-				String(otherMetrics[network as keyof typeof otherMetrics]),
-				String(total),
-			),
-			style: 'percent',
-		},
-	}));
-
-	return (
-		<div className="card risk-chart">
-			<Show when={!props.isLoading} fallback={<PageLoader />}>
-				<SimpleSection
-					header="source code by programming language"
-					icon={<ChartIcon />}>
-					<Show
-						when={!dataEmptyState}
-						fallback={
-							<div className="content">
-								<EmptyCard />
-							</div>
-						}>
-						<div className="content">
-							<div className="chart">
-								<Doughnut data={chartData} options={chartOptions} />
-							</div>
-							<TableV2
-								columns={sourceCodeChartColumns}
-								rowsData={dataTable}
-								showRows={dataTable.length !== 0}
-								showEmpty={dataTable.length === 0}
-								sizeY={25}
-								isSmall
-							/>
-						</div>
-					</Show>
-				</SimpleSection>
-			</Show>
-		</div>
-	);
+  return (
+    <div className="card risk-chart">
+      <Show when={!props.isLoading} fallback={<PageLoader />}>
+        <SimpleSection header="source code by programming language" icon={<ChartIcon />}>
+          <Show
+            when={!dataEmptyState}
+            fallback={
+              <div className="content">
+                <EmptyCard />
+              </div>
+            }>
+            <div className="content">
+              <div className="chart">
+                <Doughnut data={chartData} options={chartOptions} />
+              </div>
+              <TableV2
+                columns={sourceCodeChartColumns}
+                rowsData={dataTable}
+                showRows={dataTable.length !== 0}
+                showEmpty={dataTable.length === 0}
+                isSmall
+              />
+            </div>
+          </Show>
+        </SimpleSection>
+      </Show>
+    </div>
+  );
 };

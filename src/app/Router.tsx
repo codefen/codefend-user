@@ -1,140 +1,190 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, type FC, type ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { Loader } from '@defaults/loaders/Loader.tsx';
+import {
+  AuthPage,
+  SignInLayout,
+  SignUpLayout,
+  ConfirmationSignUp,
+  FinishSignUpLayout,
+  Dashboard,
+  WebApplication,
+  MobileApplication,
+  CloudApplicationPanel,
+  SourceCodePanel,
+  SocialEngineeringPanel,
+  SupportPanel,
+  PreferencePanel,
+  AdminPage,
+  AdminCompany,
+  ResellerLeadsLayout,
+  ResellerUsersLayout,
+  LanPage,
+  ProviderPage,
+  ProfileProviderLayout,
+  OrdersReviewProviders,
+  ResellerCompaniesLayout,
+  ResellerOrdersLayout,
+  SnsPanel,
+} from './views/pages';
 import { PanelPage } from './views/pages/panel/PanelPage';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import FinishSignUpLayout from './views/pages/auth/layouts/FinishsignUp';
-import { Loader } from './views/components';
+import { PageReport } from '@modals/reports/PageReport.tsx';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
+import useAdminCompanyStore from '@stores/adminCompany.store';
+import { PasswordRecovery } from './views/pages/auth/layouts/PasswordRecovery';
+import { TermsAndCondition } from './views/pages/help-center/TermsAndCondition';
+import { HelpCenter } from './views/pages/help-center/HelpCenter';
+import { SecurityAndPrivacyPolicy } from './views/pages/help-center/SecurityAndPrivacyPolicy';
+import { HelpNotfound } from './views/pages/help-center/HelpNotfound';
+import { InvitationSignup } from './views/pages/auth/layouts/InvitationSignup';
+import {
+  IssuePage,
+  IssuesCreation,
+  IssuesPanel,
+  IssuesUpdate,
+} from './views/pages/panel/layouts/issues';
+import InxPanel from './views/pages/panel/layouts/inx/InxPanel';
 
-const AuthPage = lazy(() => import('./views/pages/auth/AuthPage'));
-const SignInLayout = lazy(() => import('./views/pages/auth/layouts/Signin'));
-const SignUpLayout = lazy(() => import('./views/pages/auth/layouts/Signup'));
-const ConfirmationSignUp = lazy(
-	() => import('./views/pages/auth/layouts/ConfirmationSignUp'),
-);
+const GuardRoute: FC<{ access: boolean; element: ReactNode }> = ({ access, element }) => {
+  return access ? element : <Navigate to="/" replace />;
+};
 
-const Dashboard = lazy(
-	() => import('./views/pages/panel/layouts/dashboard/Dashboard'),
-);
-const WebApplication = lazy(
-	() => import('./views/pages/panel/layouts/web/WebApplication'),
-);
-const MobileApplication = lazy(
-	() => import('./views/pages/panel/layouts/mobile/MobileApplicationPanel'),
-);
-const CloudApplicationPanel = lazy(
-	() => import('./views/pages/panel/layouts/cloud/Cloud'),
-);
-const LanApplicationPanel = lazy(
-	() => import('./views/pages/panel/layouts/lan/Lan'),
-);
+export const AppRouter = () => {
+  const { isAdmin, isProvider, isReseller, isNormalUser, getAccessToken, isCurrentAuthValid } =
+    useUserRole();
+  const { companies } = useAdminCompanyStore();
+  const haveAccessToResources = !isProvider() && !isReseller();
+  const haveAccessToSupport = !isProvider() && !isReseller();
+  const haveAccessToCreateIssue = isProvider() || isAdmin();
+  const allRolesLoggedIn = isProvider() || isReseller() || isAdmin() || isNormalUser();
+  const isProviderWithAccess = isProvider() && companies.length > 0 && companies[0] !== null;
 
-const EnpPanel = lazy(() => import('./views/pages/panel/layouts/enp/EnpPanel'));
+  //REMPLAZAR PARA QUE FUNCIONE CORRECTAMENTE LA SEGURIDAD
+  //false -> !getAccessToken() || !isCurrentAuthValid()
+  //EN EL INICIO DE LAS RUTAS PRIVADAS
+  return (
+    <Suspense fallback={<Loader />}>
+      <Routes>
+        <Route path="/*" element={<PanelPage />}>
+          {/* Root page */}
+          <Route
+            index
+            element={
+              !getAccessToken() || !isCurrentAuthValid() ? (
+                <Navigate to="/auth/signin" replace />
+              ) : isAdmin() ? (
+                <AdminCompany />
+              ) : isProvider() ? (
+                <Navigate to="/provider/profile" />
+              ) : isReseller() ? (
+                <Navigate to="/reseller/leads" />
+              ) : (
+                <Dashboard />
+              )
+            }
+          />
+          {/* Private Routes */}
+          {(isAdmin() || isProviderWithAccess) && (
+            <Route path="admin/*" element={<AdminPage />}>
+              <Route index element={<Navigate to="company" replace />} />
+              <Route path="company" element={<AdminCompany />} />
+            </Route>
+          )}
 
-const SourceCodePanel = lazy(
-	() => import('./views/pages/panel/layouts/sourcecode/SourceCodePanel'),
-);
+          {isProvider() && (
+            <Route path="provider/*" element={<ProviderPage />}>
+              <Route index element={<Navigate to="profile" />} />
+              <Route path="profile/" element={<ProfileProviderLayout />} />
+              <Route path="profile/:view" element={<ProfileProviderLayout />} />
 
-const SocialEngineeringPanel = lazy(
-	() => import('./views/pages/panel/layouts/social/SocialEngineeringPanel'),
-);
+              <Route path="orders" element={<OrdersReviewProviders />} />
+              <Route path="orders/:view" element={<OrdersReviewProviders />} />
+            </Route>
+          )}
+          {isReseller() && (
+            <>
+              <Route index path="reseller/leads" element={<ResellerLeadsLayout />} />
+              <Route path="reseller/users" element={<ResellerUsersLayout />} />
+              <Route path="reseller/companies" element={<ResellerCompaniesLayout />} />
+              <Route path="reseller/orders" element={<ResellerOrdersLayout />} />
+            </>
+          )}
+          <Route
+            path="dashboard"
+            element={<GuardRoute element={<Dashboard />} access={haveAccessToResources} />}
+          />
+          {(haveAccessToResources || isProviderWithAccess) && (
+            <>
+              <Route path="web" element={<WebApplication />} />
+              <Route path="mobile" element={<MobileApplication />} />
+              <Route path="cloud" element={<CloudApplicationPanel />} />
+              <Route path="source" element={<SourceCodePanel />} />
+              <Route path="network" element={<LanPage />} />
+              <Route path="social" element={<SocialEngineeringPanel />} />
+              <Route path="issues/*" element={<IssuePage />}>
+                <Route index element={<IssuesPanel />} />
 
-const SupportPanel = lazy(
-	() => import('./views/pages/panel/layouts/support/SupportPanel'),
-);
+                <Route
+                  path="create"
+                  element={
+                    <GuardRoute element={<IssuesCreation />} access={haveAccessToCreateIssue} />
+                  }
+                />
+                <Route path="create/:type/:resourceId" element={<IssuesCreation />} />
+                <Route path="create/:type" element={<IssuesCreation />} />
+                <Route path=":id" element={<IssuesUpdate />} />
+              </Route>
+            </>
+          )}
 
-const PreferencePanel = lazy(
-	() => import('./views/pages/panel/layouts/preferences/PreferencePanel'),
-);
+          {!isReseller() && (
+            <>
+              <Route path="inx" element={<InxPanel />} />
+              <Route path="sns" element={<SnsPanel />} />
+              {/*<Route path="enp">
+									<Route index element={<EnpPanel />} />
+									<Route path="enp/:id" element={<EnpSingle />} />
+								</Route>
 
-const InxPanel = lazy(() => import('./views/pages/panel/layouts/inx/InxPanel'));
+								
+								<Route path="sns" element={<SnsPanel />} />
+								<Route path="vdb" element={<VdbPanel />} />*/}
+            </>
+          )}
+          {haveAccessToSupport && (
+            <>
+              <Route path="cs" element={<SupportPanel />} />
+              <Route path="cs/:dad" element={<SupportPanel />} />
+              <Route path="preferences" element={<PreferencePanel />} />
+            </>
+          )}
+        </Route>
+        {allRolesLoggedIn && (
+          <Route path="report/*" element={<PageReport />}>
+            <Route index element={<PageReport />}></Route>
+          </Route>
+        )}
 
-const SnsPanel = lazy(() => import('./views/pages/panel/layouts/sns/SnsPanel'));
+        {/* Public Routes */}
+        <Route path="/help/*" element={<HelpCenter />}>
+          <Route path="terms-and-condition" element={<TermsAndCondition />} />
+          <Route path="security-and-privacy-policy" element={<SecurityAndPrivacyPolicy />} />
+          <Route path="*" element={<HelpNotfound />} />
+        </Route>
+        <Route path="/auth/*" element={<AuthPage />}>
+          <Route index element={<Navigate to="signin" replace />} />
+          <Route path="signin" element={<SignInLayout />} />
+          <Route path="signup" element={<SignUpLayout />} />
+          <Route path="signup/invitation" element={<InvitationSignup />} />
+          <Route path="signup/invitation/:ref" element={<InvitationSignup />} />
+          <Route path="confirmation" element={<ConfirmationSignUp />} />
+          <Route path="recovery" element={<PasswordRecovery />} />
+          <Route path="recovery/:ref" element={<PasswordRecovery />} />
 
-const VdbPanel = lazy(() => import('./views/pages/panel/layouts/vdb/VdbPanel'));
-const AdminUser = lazy(
-	() => import('./views/pages/panel/layouts/admin/layouts/AdminUser'),
-);
-const AdminPage = lazy(
-	() => import('./views/pages/panel/layouts/admin/AdminPage'),
-);
-
-const AdminCompany = lazy(
-	() => import('./views/pages/panel/layouts/admin/layouts/AdminCompany'),
-);
-
-const IssuePage = lazy(
-	() => import('./views/pages/panel/layouts/issues/IssuePage'),
-);
-const IssuesCreation = lazy(
-	() => import('./views/pages/panel/layouts/issues/layouts/IssuesCreation'),
-);
-const IssuesPanel = lazy(
-	() => import('./views/pages/panel/layouts/issues/layouts/IssuesPanel'),
-);
-const IssuesUpdate = lazy(
-	() => import('./views/pages/panel/layouts/issues/layouts/IssuesUpdate'),
-);
-
-export const AppRouter: React.FC = () => {
-	return (
-		<>
-			<ToastContainer
-				position="top-right"
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="light"
-			/>
-
-			<Suspense fallback={<Loader />}>
-				<Routes>
-					{/* Private Routes */}
-					<Route path="/*" element={<PanelPage />}>
-						<Route index element={<Dashboard />} />
-						<Route path="dashboard" element={<Dashboard />} />
-						<Route path="web" element={<WebApplication />} />
-						<Route path="mobile" element={<MobileApplication />} />
-						<Route path="cloud" element={<CloudApplicationPanel />} />
-						<Route path="lan" element={<LanApplicationPanel />} />
-						<Route path="source" element={<SourceCodePanel />} />
-
-						<Route path="social" element={<SocialEngineeringPanel />} />
-						<Route path="enp" element={<EnpPanel />} />
-						<Route path="support" element={<SupportPanel />} />
-						<Route path="preferences" element={<PreferencePanel />} />
-						<Route path="inx" element={<InxPanel />} />
-						<Route path="sns" element={<SnsPanel />} />
-						<Route path="vdb" element={<VdbPanel />} />
-
-						<Route path="issues/*" element={<IssuePage />}>
-							<Route index element={<IssuesPanel />} />
-							<Route path="create" element={<IssuesCreation />} />
-							<Route path="update/:id" element={<IssuesUpdate />} />
-						</Route>
-					</Route>
-					{/* Private Routes + only admin access */}
-					<Route path="admin/*" element={<AdminPage />}>
-						<Route index element={<Navigate to="user" replace />} />
-						<Route path="user" element={<AdminUser />} />
-						<Route path="company" element={<AdminCompany />} />
-					</Route>
-					{/* Public Routes */}
-					<Route path="/auth/*" element={<AuthPage />}>
-						<Route index element={<Navigate to="signin" replace />} />
-						<Route path="signin" element={<SignInLayout />} />
-						<Route path="signup" element={<SignUpLayout />} />
-						<Route path="confirmation" element={<ConfirmationSignUp />} />
-
-						<Route path="signup/:ref" element={<FinishSignUpLayout />} />
-					</Route>
-				</Routes>
-			</Suspense>
-		</>
-	);
+          <Route path="signup/:ref" element={<FinishSignUpLayout />} />
+        </Route>
+      </Routes>
+    </Suspense>
+  );
 };

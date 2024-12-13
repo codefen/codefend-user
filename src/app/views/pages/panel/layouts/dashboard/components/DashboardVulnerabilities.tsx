@@ -1,68 +1,62 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import {
-	BugIcon,
-	EmptyCard,
-	PageLoader,
-	RiskScore,
-	Show,
-	SimpleSection,
-	Sort,
-	Table,
-} from '../../../../../components';
-import { Issues, topVulnerabilitiesColumn } from '../../../../../../data';
-import { TableItem, TableV2 } from '../../../../../components/Table/tablev2';
+import { type FC } from 'react';
+import { RiskScore } from '@standalones/utils/RiskScore';
+import { SimpleSection } from '@defaults/SimpleSection';
+import { BugIcon } from '@icons';
+import { topVulnerabilitiesColumn } from '@mocks/defaultData';
+import { type TableItem, Sort } from '@interfaces/table';
+import { TableV2 } from '@table/tablev2';
+import { useNavigate } from 'react-router';
+import type { Issue } from '@interfaces/dashboard';
+import { ResourceIconText } from '@standalones/utils/ResourceIconText';
 
-interface TopVulnerability {
-	published: string;
-	author: string;
-	type: string;
-	risk: string;
-	score: string;
-	issueTitle: string;
-	status: string;
+interface DashboardVulnerabilitiesProps {
+  topVulnerabilities: Issue[];
+  isLoading: boolean;
 }
 
-const DashboardVulnerabilities: React.FC<{
-	topVulnerabilities: Issues[];
-	isLoading: boolean;
-}> = ({ topVulnerabilities, isLoading }) => {
-	const dataTable = topVulnerabilities.map(
-		(issue: Issues) =>
-			({
-				published: { value: issue.createdAt, style: 'date' },
-				author: {
-					value: '@' + issue.researcherUsername,
-					style: 'username',
-				},
-				issueTitle: { value: issue.name, style: 'vul-title' },
-				risk: { value: issue.riskLevel, style: 'vul-risk' },
-				type: { value: issue.resourceClass, style: 'vul-class' },
-				score: {
-					value: <RiskScore riskScore={issue.riskScore} />,
-					style: 'vul-score flex no-border-bottom',
-				},
-				status: { value: issue.condition, style: 'vul-condition' },
-			}) as Record<string, TableItem>,
-	);
+const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
+  topVulnerabilities,
+  isLoading,
+}) => {
+  const navigate = useNavigate();
+  const dataTable = topVulnerabilities.map(
+    (issue: Issue) =>
+      ({
+        ID: { value: issue.id, style: '' },
+        issueTitle: {
+          value: <ResourceIconText name={issue.name} resourceClass={issue.resource_class} />,
+          style: 'vul-title resource-icon',
+        },
+        type: { value: issue.resource_class, style: 'vul-class' },
+        author: {
+          value: `@${issue.researcher_username}`,
+          style: 'username',
+        },
+        score: {
+          value: <RiskScore riskScore={issue.risk_score} />,
+          style: 'vul-score flex no-border-bottom',
+        },
+        published: { value: issue.creacion, style: 'date' },
+      }) as Record<string, TableItem>
+  );
 
-	return (
-		<div className="card">
-			<div>
-				<SimpleSection
-					header="Top priority vulnerabilities"
-					icon={<BugIcon />}>
-					<TableV2
-						rowsData={dataTable.reverse()}
-						columns={topVulnerabilitiesColumn}
-						showRows={!isLoading}
-						showEmpty={!isLoading && topVulnerabilities.length === 0}
-						sizeY={35}
-						sort={Sort.asc}
-					/>
-				</SimpleSection>
-			</div>
-		</div>
-	);
+  return (
+    <div className="card">
+      <div className="over">
+        <SimpleSection header="Most relevant issues" icon={<BugIcon />}>
+          <TableV2
+            rowsData={dataTable.reverse()}
+            columns={topVulnerabilitiesColumn}
+            showRows={!isLoading}
+            showEmpty={!isLoading && topVulnerabilities.length === 0}
+            selectItem={(id: any) => navigate(`/issues/${id}`)}
+            sort={Sort.asc}
+            urlNav="issues/update/"
+          />
+        </SimpleSection>
+      </div>
+    </div>
+  );
 };
 
 export default DashboardVulnerabilities;

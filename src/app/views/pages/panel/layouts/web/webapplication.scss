@@ -1,11 +1,90 @@
 main.webapp {
-	.card.table {
-		.item {
-			.location {
-				.flag {
-					margin-inline-end: 0.75rem;
-				}
-			}
-		}
-	}
+  padding-inline-end: 0;
+
+  .left {
+    overflow-y: hidden;
+    padding-inline-start: 0;
+
+    .table.table-web {
+      .rows {
+        max-height: calc(100vh - 220px);
+      }
+
+      .column.item-cell.item-cell-1 {
+        --cell-expand: 8.5% !important;
+        padding-inline-start: 1%;
+      }
+    }
+
+    .empty-card {
+      min-width: 725px;
+    }
+  }
+
+  .right {
+    .table {
+      .item {
+        .location {
+          .flag {
+            margin-inline-end: 0.75rem;
+          }
+        }
+      }
+    }
+
+    .card.launch-pentest-card {
+      .pentest-info-container {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        margin-inline: auto;
+        justify-content: flex-start;
+        margin-block-end: 1rem;
+        border-bottom: 1px solid var(--primary-color-300);
+        column-gap: 16px;
+
+        img {
+          width: 6rem;
+          height: 6rem;
+          object-fit: cover;
+          object-position: center;
+          max-width: 100%;
+        }
+
+        .main-info-container {
+          display: flex;
+          flex-direction: column;
+          row-gap: 8px;
+
+          & p {
+            display: flex;
+            flex-direction: column;
+            line-height: 23px;
+          }
+        }
+      }
+
+      button.btn.pentest-btn {
+        max-width: 94%;
+        margin-inline: auto;
+        width: 100%;
+        margin-block-end: 0.85rem;
+      }
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .variant-1 {
+    width: 21rem;
+    top: 4dvh;
+    right: 22dvw;
+    filter: blur(125px) brightness(0.34) opacity(0.65);
+  }
+
+  main.webapp {
+    .right {
+      box-shadow: #000000 -20px 0 120px -55px;
+    }
+  }
 }

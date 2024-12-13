@@ -1,93 +1,95 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Issues, useIssues } from '../../../../../../data';
-import {
-	PrimaryButton,
-	VulnerabilitiesStatus,
-	VulnerabilityRisk,
-} from '../../../../../components';
-import { IssueReport } from '../components/IssueReport';
-import { IssueResources } from '../components/IssueResources';
+import { type FC, useEffect, useMemo, useState } from 'react';
+import { useIssues } from '@panelHooks/issues/useIssues.ts';
+import { type Issues } from '@interfaces/panel.ts';
+import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
+import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
+import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
+import { IssueReport } from '../components/IssueReport.tsx';
+import { IssueResources } from '../components/IssueResources.tsx';
+import { useFlashlight } from '../../../../../context/FlashLightContext.tsx';
+import { SelectAnyResourceModal } from '@modals/select-resources/SelectAnyResourceModal.tsx';
+import useModalStore from '@stores/modal.store.ts';
+import { EMPTY_ISSUECLASS, EMPTY_ISSUECONDITION, EMPTY_SHARE } from '@/app/constants/empty.ts';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 
-const IssuesPanel: React.FC = () => {
-	const [showScreen, setShowScreen] = useState(false);
-	const [control, refresh] = useState(false);
-	const [filters, setFilters] = useState<Set<string>>(new Set([]));
-	const { getIssues, isLoading, refetchAll } = useIssues();
+const IssuesPanel: FC = () => {
+  const [showScreen, control, refresh] = useShowScreen();
+  const [filters, setFilters] = useState<string[]>([]);
+  const { issues, others, isLoading, refetchAll } = useIssues();
+  const { setIsOpen, setModalId } = useModalStore();
+  const flashlight = useFlashlight();
 
-	useEffect(() => {
-		refetchAll();
-		setShowScreen(false);
-		const timeoutId = setTimeout(() => {
-			setShowScreen(true);
-		}, 75);
+  useEffect(() => {
+    refetchAll();
+  }, [control]);
 
-		return () => clearTimeout(timeoutId);
-	}, [control]);
+  const handleIssuesFilter = useMemo(() => {
+    const isFiltered = filters.length !== 0;
+    if (!isFiltered) return { filteredData: [], isFiltered };
 
-	/* 	
-	//Run the effect to refresh when changing the route 
-	// (It would be used to navigate VulnerabilityStatus)
-	const location = useLocation();
-	useUpdateEffect(() => {
-		refresh(!control);
-	}, [location]);
-	*/
-	const handleIssuesFilter = useMemo(() => {
-		const isFiltered = filters.size !== 0;
-		if (!isFiltered) return { isFiltered };
+    const filteredData = issues.filter((issue: Issues) => filters.includes(issue.resourceClass));
 
-		const filteredData = getIssues()?.issues.filter((issue: Issues) =>
-			filters.has(issue.resourceClass),
-		);
+    return { filteredData, isFiltered };
+  }, [filters, issues]);
 
-		return { filteredData, isFiltered };
-	}, [filters, getIssues()]);
+  const handleFilters = (issueClass: string) => {
+    if (filters.includes(issueClass)) {
+      const updated = filters.filter(filter => filter !== issueClass);
+      setFilters(updated);
+    } else {
+      setFilters([...filters, issueClass]);
+    }
+  };
 
-	const handleFilters = (issueClass: string) => {
-		if (filters.has(issueClass)) {
-			const updated = new Set(filters);
-			updated.delete(issueClass);
-			setFilters(updated);
-		} else {
-			setFilters((state) => new Set([...state, issueClass]));
-		}
-	};
-	return (
-		<>
-			<main className={`issues-list ${showScreen ? 'actived' : ''}`}>
-				<section className="left">
-					<IssueResources
-						isLoading={isLoading}
-						issues={
-							handleIssuesFilter.isFiltered
-								? handleIssuesFilter.filteredData
-								: getIssues()?.issues ?? []
-						}
-						refresh={() => refresh(!control)}
-					/>
-				</section>
-				<section className="right">
-					<VulnerabilityRisk
-						isLoading={isLoading}
-						vulnerabilityByRisk={getIssues()?.issueShare ?? {}}
-					/>
-					<VulnerabilitiesStatus
-						vulnerabilityByShare={getIssues()?.issueCondition ?? {}}
-					/>
-					<PrimaryButton
-						text="GENERATE REPORT"
-						click={(e) => alert('Generating report')}
-						className="w-full mt-4 mb-4"
-					/>
-					<IssueReport
-						handleFilter={handleFilters}
-						isLoading={isLoading}
-						issuesClasses={getIssues()?.issueClass ?? {}}
-					/>
-				</section>
-			</main>
-		</>
-	);
+  const handleAddFinding = () => {
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.SELECT_FINDING);
+  };
+
+  return (
+    <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+      <SelectAnyResourceModal
+        issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
+      />
+      <ModalReport />
+      <div className="brightness variant-1"></div>
+      <section className="left">
+        <IssueResources
+          isLoading={isLoading}
+          issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
+          refresh={refresh}
+          addFinding={handleAddFinding}
+        />
+      </section>
+      <section className="right" ref={flashlight.rightPaneRef}>
+        <IssueReport
+          handleFilter={handleFilters}
+          isLoading={isLoading}
+          issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+        />
+        <PrimaryButton
+          text="GENERATE REPORT"
+          click={e => {
+            setIsOpen(true);
+            setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
+          }}
+          className="primary-full margin-block"
+          isDisabled={!Boolean(issues.length) && !Boolean(handleIssuesFilter.filteredData.length)}
+          disabledLoader
+        />
+
+        <VulnerabilityRisk
+          isLoading={isLoading}
+          vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+        />
+        <VulnerabilitiesStatus
+          vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+        />
+      </section>
+    </main>
+  );
 };
 
 export default IssuesPanel;

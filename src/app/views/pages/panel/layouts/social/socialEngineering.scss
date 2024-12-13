@@ -1,0 +1,130 @@
+@use '../../../../styles/settings/mixin' as mixin;
+
+main.social {
+  .left {
+    width: 70%;
+
+    .table {
+      .item {
+        height: 43px;
+      }
+
+      .id {
+        min-width: 6%;
+        max-width: 6%;
+
+        &.action {
+          min-width: 16.5%;
+          max-width: 16.5%;
+
+          .publish {
+            justify-content: center;
+          }
+        }
+      }
+
+      .phone {
+        min-width: 16%;
+        max-width: 16%;
+        margin-inline-end: 1%;
+      }
+
+      .full-name {
+        min-width: 19%;
+        max-width: 19%;
+        margin-inline-end: 1%;
+
+        .publish {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: normal;
+          -webkit-line-clamp: 2;
+          display: -webkit-box;
+          line-height: 1.25em;
+          max-height: 2.5em;
+          -webkit-box-align: center;
+        }
+      }
+
+      .email {
+        min-width: 24.5%;
+        max-width: 24.5%;
+        margin-inline-end: 1%;
+      }
+
+      .role {
+        min-width: 15%;
+        max-width: 15%;
+        margin-inline-end: 1%;
+      }
+    }
+  }
+
+  .right {
+    // padding-inline: 10px;
+    // width: 30%;
+    // display: flex;
+    // flex-direction: column;
+    // row-gap: 2rem;
+
+    .filter {
+      width: 100%;
+      justify-content: space-between;
+
+      .label {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: 0.75rem;
+        padding-block: 0.75rem;
+      }
+    }
+  }
+
+  @include mixin.respond(small) {
+    display: block;
+    overflow: auto;
+    padding-inline-start: 10px;
+    height: 81dvh;
+    min-height: auto;
+
+    .left {
+      width: 100%;
+    }
+
+    .right {
+      width: 100%;
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .variant-1 {
+    width: 23rem;
+    bottom: 30dvh;
+    left: 5dvw;
+    filter: blur(120px) brightness(0.5) opacity(0.4);
+  }
+
+  .variant-2 {
+    width: 23rem;
+    top: -10dvh;
+    right: 4dvw;
+    filter: blur(120px) brightness(0.5) opacity(0.38);
+  }
+
+  main.social {
+    .right {
+      box-shadow: #000000 -20px 0 120px -55px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 2rem;
+
+      .card {
+        .header {
+          background-color: var(--primary-color-600);
+        }
+      }
+    }
+  }
+}

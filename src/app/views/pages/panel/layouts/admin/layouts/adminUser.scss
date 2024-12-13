@@ -1,0 +1,104 @@
+main.admin-user {
+  padding: 2rem;
+  padding-block-start: 3rem;
+
+  .left {
+    width: 66.666667%;
+    padding-inline-end: 0.5rem;
+
+    .left-section-title {
+      padding-block-end: 20px;
+      height: 4rem;
+    }
+
+    .user-approved-theader {
+      width: 100%;
+
+      .approved.theader-title {
+        padding: 0.75rem;
+        padding-inline-start: 2rem;
+
+        & p {
+          text-align: left;
+          font-weight: 700;
+        }
+      }
+
+      .approved-theader-columns {
+        display: flex;
+        padding: 0.75rem;
+        padding-inline-start: 2rem;
+
+        & p {
+          font-size: 1rem /* 16px */;
+          line-height: 1.5rem /* 24px */;
+
+          &.l {
+            width: 8.333333%;
+          }
+
+          &.xl {
+            width: 16.666667%;
+          }
+        }
+      }
+    }
+
+    .user-approved-tbody {
+      width: 100%;
+
+      .approved-tbody-item {
+        display: flex;
+        padding-inline-start: 2rem;
+
+        p {
+          font-size: 1rem /* 16px */;
+          line-height: 1.5rem /* 24px */;
+          padding-block: 0.75rem;
+
+          &.l {
+            width: 8.333333%;
+          }
+
+          &.xl {
+            width: 16.666667%;
+          }
+        }
+
+        .approved-body-buttons {
+          display: inline-flex;
+          font-size: 1rem /* 16px */;
+          line-height: 1.5rem /* 24px */;
+          width: 8.333333%;
+          padding-block: 0.75rem;
+
+          button {
+            font-weight: 700;
+            padding: 0.25rem;
+            color: #1f2937;
+
+            &.btn-left {
+              border-top-left-radius: 0.25rem /* 4px */;
+              border-bottom-left-radius: 0.25rem /* 4px */;
+            }
+
+            &.btn-right {
+              border-top-right-radius: 0.25rem /* 4px */;
+              border-bottom-right-radius: 0.25rem /* 4px */;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .right {
+    width: 33.333333%;
+    padding-inline-start: 0.5rem;
+
+    .right-section-title {
+      padding-block-end: 2.25rem;
+      height: 4rem;
+    }
+  }
+}
