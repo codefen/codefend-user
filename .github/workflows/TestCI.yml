@@ -53,16 +53,16 @@ jobs:
       - name: Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Setup/ Install cspell global dependencies
-        run: pnpm i -g -E cspell @cspell/dict-es-es @cspell/dict-npm @cspell/dict-typescript @cspell/dict-software-terms @cspell/dict-node @cspell/dict-en_us
-
-      - name: Setup/ Install cspell-cli
-        run: pnpm i -g git+https://github.com/streetsidesoftware/cspell-cli
-
       - name: Install frontend dependencies
         run: |
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --prefer-frozen-lockfile --ignore-scripts
+
+      - name: Setup/ Install cspell global dependencies
+        run: npm i -g cspell @cspell/dict-es-es @cspell/dict-npm @cspell/dict-typescript @cspell/dict-software-terms @cspell/dict-node @cspell/dict-en_us
+
+      - name: Setup/ Install cspell-cli
+        run: npm i -g git+https://github.com/streetsidesoftware/cspell-cli
 
       - name: Spellcheck
         run: cspell "**/*.{tsx,ts,js,yml}" --gitignore
