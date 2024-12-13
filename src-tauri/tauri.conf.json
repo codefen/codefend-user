@@ -55,16 +55,13 @@
 			"signingIdentity": null
 		},
 		"windows": {
-			"webviewInstallMode": {
-				"type": "embedBootstrapper"
+			"webviewInstallMode": { 
+				"type": "offlineInstaller",
+				"silent": true 
 			},
 			"certificateThumbprint": null,
 			"digestAlgorithm": "sha256",
-			"timestampUrl": "",
-			"nsis": {
-				"installerIcon": "icons/icon.ico",
-				"displayLanguageSelector": true
-			}
+			"timestampUrl": ""
 		},
 		"linux": {
 			"deb": {
