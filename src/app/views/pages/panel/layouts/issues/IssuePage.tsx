@@ -16,10 +16,11 @@ const IssuePage: FC = () => {
     tinyMCE.defer = true;
 
     // Añado el evento y agrego el evento de onload
-    document.head.appendChild(tinyMCE);
+
     const loadUnSub = addEventListener(tinyMCE, EVENTS.LOAD, () => {
       setScriptLoaded(true);
     });
+    document.head.appendChild(tinyMCE);
 
     return () => {
       loadUnSub();
@@ -28,13 +29,11 @@ const IssuePage: FC = () => {
   }, []);
 
   return (
-    <>
-      <Show when={scriptLoaded} fallback={<PageLoader />}>
-        <Suspense fallback={<PageLoader />}>
-          <Outlet />
-        </Suspense>
-      </Show>
-    </>
+    <Show when={scriptLoaded} fallback={<PageLoader />}>
+      <Suspense fallback={<PageLoader />}>
+        <Outlet />
+      </Suspense>
+    </Show>
   );
 };
 

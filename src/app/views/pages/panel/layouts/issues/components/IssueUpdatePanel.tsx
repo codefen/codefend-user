@@ -19,7 +19,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
   const navigate = useNavigate();
   const [isEditable, setEditable] = useState(false);
   const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
-  const { oneExecute, clear } = useTimeout(() => setEditable(true), 375);
+  const { oneExecute, clear } = useTimeout(() => setEditable(true), 380);
 
   const handleIssueUpdate = useCallback(() => {
     update()
@@ -73,11 +73,13 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
     <>
       <IssueHeader
         isEditable={isEditable}
-        updatedIssue={updatedIssue}
-        isLoaded={!isLoading}
+        issue={updatedIssue}
+        isLoaded={!isLoading && isLoaded}
         changeEditable={() => setEditable(prev => !prev)}
         handleChange={handleChange}
         handleSend={handleIssueUpdate}
+        isSave={false}
+        showPencil={true}
       />
       <IssueInfo
         issueData={issueData}

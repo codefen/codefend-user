@@ -1,11 +1,13 @@
 import { type FC, type ChangeEvent, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { type SaveIssue, useSaveIssue } from '../../../../../../data';
-import { LeftArrowIcon, PageLoaderOverlay, SaveIcon, Show } from '../../../../../components';
+import { type SaveIssue, useSaveIssue } from '@panelHooks/issues/useSaveIssue.ts';
+import Show from '@defaults/Show.tsx';
+import { PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
 import AppEditor from './AppEditor';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe';
 import useTimeout from '#commonHooks/useTimeout';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import IssueHeader from './IssueHeader.tsx';
 
 interface IssueCreationPanelProps {
   isLoading: boolean;
@@ -28,9 +30,9 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = props => {
     });
   };
   const { newIssue, isAddingIssue, dispatch, save } = useSaveIssue();
-  const [isEditable, setEditable] = useState(false);
+  const [isEditable, setEditable] = useState(true);
   const [isLoaded, loadIframe] = useLoadIframe(() => handleIssueUpdate(isEditable, save));
-  const { oneExecute, clear } = useTimeout(() => setEditable(true), 350);
+  const { oneExecute, clear } = useTimeout(() => setEditable(false), 350);
 
   useEffect(() => {
     const isValidID = !isNaN(Number(resourceId)) && Number(resourceId) !== 0;
@@ -76,32 +78,15 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = props => {
   const shouldDisableClass = type !== '' && newIssue.issueClass !== '';
   return (
     <>
-      <div className="header">
-        <div
-          className="back"
-          onClick={() => {
-            type ? navigate(-1) : navigate('/issues');
-          }}>
-          <LeftArrowIcon isButton />
-        </div>
-        <input
-          className="add-issues"
-          placeholder="Add Issue title here..."
-          name="issueName"
-          value={newIssue.issueName}
-          onChange={handleChange}
-          autoFocus
-        />
-
-        <div className="work-buttons">
-          <div
-            className={`save action-btn ${isEditable ? 'on' : 'off'}`}
-            onClick={() => handleIssueUpdate(isEditable, save)}>
-            <SaveIcon isButton />
-          </div>
-        </div>
-      </div>
-
+      <IssueHeader
+        handleSend={() => handleIssueUpdate(isEditable, save)}
+        handleChange={handleChange}
+        isLoaded={isLoaded}
+        issue={newIssue}
+        isEditable={isEditable}
+        type={type}
+        isSave={true}
+      />
       <div className="info">
         {newIssue.resourceID && newIssue.resourceID !== 0 ? (
           <div className="info-resourcer-id">
