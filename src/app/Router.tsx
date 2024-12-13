@@ -60,9 +60,7 @@ export const AppRouter = () => {
   const allRolesLoggedIn = isProvider() || isReseller() || isAdmin() || isNormalUser();
   const isProviderWithAccess = isProvider() && companies.length > 0 && companies[0] !== null;
 
-  //REMPLAZAR PARA QUE FUNCIONE CORRECTAMENTE LA SEGURIDAD
   //false -> !getAccessToken() || !isCurrentAuthValid()
-  //EN EL INICIO DE LAS RUTAS PRIVADAS
   return (
     <Suspense fallback={<Loader />}>
       <Routes>

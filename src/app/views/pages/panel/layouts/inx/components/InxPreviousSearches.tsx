@@ -16,7 +16,7 @@ export const InxPreviousSearches: FC<InxPreviousSearchesProps> = ({
   const safelyPreviousSearches = () =>
     Array.isArray(previousSearches) ? previousSearches.reverse() : [];
 
-  const previusKeys = generateIDArray(safelyPreviousSearches().length);
+  const previousKeys = generateIDArray(safelyPreviousSearches().length);
 
   return (
     <>
@@ -32,7 +32,7 @@ export const InxPreviousSearches: FC<InxPreviousSearchesProps> = ({
               <div className="rows internal-tables ">
                 {!isLoading ? (
                   safelyPreviousSearches().map((searchData: PreviousSearch, i: number) => (
-                    <div className="item-wrapper" key={previusKeys[i]}>
+                    <div className="item-wrapper" key={previousKeys[i]}>
                       <section className="search-item">
                         <p className="name">{searchData.username}</p>
                         <p className="result">{searchData.info.split('queries:')[1] ?? '--'}</p>

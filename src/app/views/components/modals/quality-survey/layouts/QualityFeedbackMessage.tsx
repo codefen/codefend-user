@@ -27,7 +27,7 @@ export const QualityFeedbackMessage = () => {
       reviews="186"
       score="4.55"
       specialist="web"
-      title="Would you like to add a profesional recommendation for Edd?"
+      title="Would you like to add a professional recommendation for Edd?"
       question="">
       <div className="quality-poll">
         <textarea

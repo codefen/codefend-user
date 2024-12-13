@@ -2,7 +2,7 @@ import { type FC, useState, useEffect } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 
 import { formatDateTimeFormat, useIntelPreview } from '../../../../../../data';
-import { InxPreviusContentData } from './InxPreviusContentData';
+import { InxPreviousContentData } from './InxPreviousContentData';
 
 interface InxPreviewIntelDataProps {
   intel: any;
@@ -68,7 +68,7 @@ export const InxPreviewIntelData: FC<InxPreviewIntelDataProps> = ({
       </header>
 
       <section className="intel-data-content">
-        <InxPreviusContentData
+        <InxPreviousContentData
           loading={isLoadingPreview}
           preview={intelPreview}
           storageID={intel.storageid}

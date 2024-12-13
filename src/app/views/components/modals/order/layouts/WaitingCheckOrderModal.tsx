@@ -2,11 +2,11 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { RememberCard } from '../components/remember/RememberCard.tsx';
 import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
-import { userOrderFnished } from '@hooks/useOrders.ts';
+import { userOrderFinished } from '@hooks/useOrders.ts';
 
 export const WaitingCheckOrderModal = () => {
   const { resetActiveOrder, referenceNumber, orderId } = useOrderStore(state => state);
-  const finishOrder = userOrderFnished();
+  const finishOrder = userOrderFinished();
   const orderFinished = () => {
     finishOrder(referenceNumber, orderId);
     resetActiveOrder();

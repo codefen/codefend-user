@@ -303,7 +303,7 @@ export interface TicketWithChild extends Ticket {
   childs: Ticket[];
 }
 
-export interface PreviusSearch extends ResourceID, Monitoring {
+export interface PreviousSearch extends ResourceID, Monitoring {
   userID: string;
   username: string;
   model: string;

@@ -664,7 +664,7 @@ export const userOrderCardPayment = () => {
   return [cardInfo, { setCardInfo, sendPayment, isLoading }] as const;
 };
 
-export const userOrderFnished = () => {
+export const userOrderFinished = () => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const finishOrder = (referenceNumber: string, orderId: string) => {

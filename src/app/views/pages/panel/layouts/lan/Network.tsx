@@ -1,5 +1,5 @@
 import { type FC, useEffect } from 'react';
-import { useLan } from '@resourcesHooks/netowrk/useLan.ts';
+import { useLan } from '@resourcesHooks/network/useLan.ts';
 import { LanNetworkData } from './components/NetworkData.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
@@ -31,7 +31,7 @@ const NetworkPage: FC = () => {
       event={refresh}
       showScreen={showScreen}
       isLoading={loading}
-      dataAvalaible={Boolean(networks.length)}>
+      dataAvailable={Boolean(networks.length)}>
       <OrderV2 />
       <CredentialsModal />
       <ModalReport />

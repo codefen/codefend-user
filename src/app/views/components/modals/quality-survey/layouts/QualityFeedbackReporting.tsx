@@ -51,7 +51,7 @@ export const QualityFeedbackReporting = () => {
             required
           />
           <div className="codefend-radio"></div>
-          2: Somewhat clear but lackingg in detail.
+          2: Somewhat clear but lacking in detail.
         </label>
         <label>
           <input

@@ -23,7 +23,7 @@ export const ViewCredentials: FC<AddCredentialsProps> = ({ type, resourceId, clo
   return (
     <div className="view-credential">
       <ViewMoreInfoModal
-        crendential={credentials.find(cred => cred.id == viewMore.id)}
+        credential={credentials.find(cred => cred.id == viewMore.id)}
         close={() => setViewMore({ id: '', open: false })}
         isOpen={viewMore.open}
       />

@@ -63,7 +63,7 @@ export const QualityFeedbackComunication = () => {
             required
           />
           <div className="codefend-radio"></div>
-          3: Adequote timing and comunication.
+          3: Adequate timing and comunication.
         </label>
         <label>
           <input

@@ -4,21 +4,9 @@ import axios from 'axios';
 import { handleFetchError } from '@utils/api.utils.ts';
 import { HttpService } from './abstractHttp.service.ts';
 
-/**
- * Implementacion de HttpService utilizando Axios, para realizar las solicitudes HTTP
- *
- * @see {HttpService}
- */
 export class AxiosHttpService extends HttpService {
-  /**
-   * Instancia singleton de AxiosHttpService
-   */
   private static instance: AxiosHttpService;
 
-  /**
-   * Recupera el instancia singleton de AxiosHttpService
-   * @returns AxiosHttpService
-   */
   public static getInstance(): AxiosHttpService {
     if (!AxiosHttpService.instance) {
       AxiosHttpService.instance = new AxiosHttpService();

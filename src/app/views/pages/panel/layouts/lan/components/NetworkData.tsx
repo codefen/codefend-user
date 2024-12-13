@@ -1,7 +1,7 @@
 import { type FC, type ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { useDeleteLan } from '@resourcesHooks/netowrk/useDeleteLan.ts';
+import { useDeleteLan } from '@resourcesHooks/network/useDeleteLan';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useModalStore from '@stores/modal.store.ts';
 import useCredentialStore from '@stores/credential.store.ts';
@@ -33,7 +33,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
-  const { setCrendentialType, setResourceId } = useCredentialStore();
+  const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
   const { isAdmin, isNormalUser, isProvider } = useUserRole();
   const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } = useDeleteLan(
@@ -84,7 +84,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
             title="Add credentials"
             onClick={() => {
               setResourceId(network.id);
-              setCrendentialType('lan');
+              setCredentialType('lan');
               setIsOpen(true);
               setModalId(MODAL_KEY_OPEN.NETWORK_CREDS);
             }}>
@@ -165,7 +165,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
                           title="Add credentials"
                           onClick={() => {
                             setResourceId(netChild.id);
-                            setCrendentialType('lan');
+                            setCredentialType('lan');
                             setIsOpen(true);
                             setModalId('lan');
                           }}>

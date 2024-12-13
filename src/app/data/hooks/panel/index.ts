@@ -4,7 +4,7 @@ export * from '../resources/cloud/useCloud.ts';
 export * from '../resources/cloud/useAddCloud.ts';
 export * from './dashboard/useDashboard.ts';
 export * from '../modules/enp/useEnp.ts';
-export * from '../resources/netowrk/useLan.ts';
+export * from '../resources/network/useLan.ts';
 export * from '../resources/mobile/useMobile.ts';
 export * from './preference/usePreferences.ts';
 export * from '../resources/social/useSocial.ts';

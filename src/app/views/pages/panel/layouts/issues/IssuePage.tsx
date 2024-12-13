@@ -15,8 +15,6 @@ const IssuePage: FC = () => {
     tinyMCE.async = true;
     tinyMCE.defer = true;
 
-    // Añado el evento y agrego el evento de onload
-
     const loadUnSub = addEventListener(tinyMCE, EVENTS.LOAD, () => {
       setScriptLoaded(true);
     });

@@ -86,7 +86,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     (state: ReportStoreState) => state
   );
   const { showModal, setShowModal, showModalStr, setShowModalStr } = useModal();
-  const { setCrendentialType, setResourceId } = useCredentialStore();
+  const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
@@ -114,7 +114,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   };
   const addCreds = (id: string) => {
     setResourceId(id);
-    setCrendentialType(RESOURCE_CLASS.WEB);
+    setCredentialType(RESOURCE_CLASS.WEB);
     setIsOpen(true);
     setModalId(RESOURCE_CLASS.WEB);
   };

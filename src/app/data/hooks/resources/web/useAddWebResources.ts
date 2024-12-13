@@ -13,7 +13,7 @@ const verifyDomainName = (domainName: string) => {
   return false;
 };
 
-export const useAddWebResourcce = (onDone: () => void, onClose: () => void) => {
+export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
   const { getCompany } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
   const domainName = useRef<HTMLInputElement>(null);

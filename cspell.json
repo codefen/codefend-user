@@ -1,0 +1,204 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "dictionaries": ["typescript", "node", "npm", "es-es", "softwareTerms", "en_us", "es_es"],
+    "allowCompoundWords": true,
+    "caseSensitive": false,
+    "minWordLength": 3,
+    "ignoreRegExpList": [
+      "key=\\{`[a-z]+-\\$\\{.*?\\}`\\}",
+      "^([./])",
+      "^(https?:\\/\\/|www\\.)",
+      "@.*",
+      "#.*",
+      "pk_live_[a-zA-Z0-9]+",
+      "src=\"[^\"]+\"",
+      "id=\"[^\"]+\"",
+      "path:\\s*'[^']+'"
+    ],
+    "ignorePaths": [
+      "node_modules/**",
+      "dist/**",
+      ".vscode",
+      "public",
+      ".husky",
+      "**/coverage/**",
+      "src/app/constants/countries.ts",
+      "**/*.d.ts",
+      "src/editor-lib/*",
+      "**/*.min.js",
+      "**/*.log",
+      ".env*",
+      "*.lock",
+      "pnpm-lock.yaml",
+      "yarn.lock",
+      "package-lock.json",
+      "setup-husky.js"
+    ],
+    "words": [
+      "cspell", "eslint", "config", "jsx", "webpack", "tsx", "btn",  "middleware", 
+      "frontend", 
+      "backend",
+      "nodejs",
+      "reactjs",
+      "usehooks",
+      "hmr",
+      "standalones",
+      "Orderv",
+      "creds",
+      "vdb",
+      "inx",
+      "tickets",
+      "tikets",
+      "condicion",
+      "delet",
+      "childs",
+      "actived",
+      "creacion",
+      "chartjs",
+      "fecha",
+      "cierre",
+      "calculada",
+      "pais_ciudad",
+      "unreviewed",
+      "mce",
+      "offensivness",
+      "resourcer",
+      "storageid",
+      "enp",
+      "lenth",
+      "CWEID",
+      "vulns",
+      "encabezado",
+      "fav",
+      "ccpa",
+      "unknow",
+      "snb",
+      "epm",
+      "kundalini",
+      "lvl",
+      "overral",
+      "edd",
+      "qrcode",
+      "momero",
+      "merch",
+      "etherium",
+      "aditional",
+      "taable",
+      "Appr",
+      "classes",
+      "MONERO",
+      "CHFGUS44021",
+      "reseñas",
+      "disponibles",
+      "otp",
+      "boundry",
+      "Toastify",
+      "tauri",
+      "Acirc",
+      "inshadow"
+    ],
+    "patterns": [
+      {
+        "name": "camelCase",
+        "pattern": "[a-z][a-zA-Z0-9]*"
+      },
+      {
+        "name": "kebabCase",
+        "pattern": "[a-z]+(?:-[a-z]+)*"
+      },
+      {
+        "name": "snakeCase",
+        "pattern": "[a-z]+(?:_[a-z]+)*"
+      },
+      {
+        "name": "ignoreKeyNames",
+        "ignoreRegExpList": [
+          "key=\\{`[a-z]+-\\$\\{.*?\\}`\\}"
+        ]
+      }
+    ],
+    "overrides": [
+      {
+        "filename": "**/*.json",
+        "dictionaries": ["json"]
+      }
+    ],
+    "languageSettings": [
+      {
+        "languageId": "typescript",
+        "dictionaries": [
+          "typescript", 
+          "es-es", 
+          "english-comments",
+          "softwareTerms"
+        ],
+        "includeRegExpList": [
+          "/\\/\\/.*$/", 
+          "/\\/\\*[\\s\\S]*?\\*\\//"
+        ]
+      },
+      {
+        "languageId": "plaintext",
+        "dictionaries": ["es-es", "english-comments"]
+      },
+      {
+        "languageId": "markdown",
+        "dictionaries": ["es-es", "english"]
+      }
+    ],
+    "dictionaryDefinitions": [
+      {
+        "name": "en_us",
+        "path": "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/main/dictionaries/en_US/en_US.trie",
+        "description": "Allow English"
+      },
+      {
+        "name": "es-es",
+        "path": "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/main/dictionaries/es_ES/Spanish.trie",
+        "description": "Spanish Dictionary (Spain)",
+        "dictionaryInformation": {
+            "locale": "es-ES",
+            "alphabet": "a-zA-ZóíjáéñúüÓÍÁÉÑÚÜ",
+            "suggestionEditCosts": [
+                {
+                    "map": "eéèëêEÉ|aáàAÁ|iíìïîIÍ|oóòöôOÓ|uüúùûUÚÜ",
+                    "replace": 1
+                },
+                {
+                    "map": "(ás)(az)|(cc)(x)|(és)(ez)|(güe)(hue)|(güi)(hui)",
+                    "replace": 75
+                },
+                {
+                    "map": "(ís)(iz)|(ío)(ido)|(ke)(que)|(ki)(qui)",
+                    "replace": 75
+                },
+                {
+                    "map": "(ll)(y)|(mb)(nv)|(seci)(cesi)|(vámonos)(vayámonos)",
+                    "replace": 75
+                }
+            ]
+        }
+      },
+      {
+        "name": "node",
+        "path": "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/main/dictionaries/node/dict/node.txt",
+        "description": "Common Node.js terms"
+      },
+      {
+        "name": "npm",
+        "path": "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/main/dictionaries/npm/dict/npm.txt",
+        "description": "Common NPM terms"
+      },
+      {
+        "name": "softwareTerms",
+        "path": "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/main/dictionaries/software-terms/dict/softwareTerms.txt",
+        "description": "Common software and programming terms"
+      },
+      {
+        "name": "typescript",
+        "path": "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/main/dictionaries/typescript/dict/typescript.txt",
+        "description": "Common Typescript terms"
+      }
+    ]
+  }

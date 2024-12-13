@@ -158,7 +158,7 @@ export const EnpPanel: FC = () => {
             </div>
           </Show>
           <Show when={scansFiltered.length === 0}>
-            <div className="enp-empty-contaianer">
+            <div className="enp-empty-container">
               <div className="enp-empty-message-content">
                 No scans found yet, you can perform your first one by clicking on request scan.
               </div>

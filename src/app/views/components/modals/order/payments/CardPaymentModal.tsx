@@ -78,7 +78,7 @@ export const CardPaymentModal = () => {
         <h3>Please complete with your payment information</h3>
       </div>
       <EmbeddedCheckoutProvider stripe={stripePromise} options={optionsRef.current}>
-        <EmbeddedCheckout className="stripe-container" id="stripe-ex-contentr" />
+        <EmbeddedCheckout className="stripe-container" id="stripe-ex-content-checkout" />
       </EmbeddedCheckoutProvider>
       <PrimaryButton
         text="Back"

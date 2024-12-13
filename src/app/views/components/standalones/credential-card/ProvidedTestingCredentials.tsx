@@ -23,12 +23,12 @@ export const ProvidedTestingCredentials: FC<ProvidedTestingCredentialsProps> = (
   type,
   //refetch,
 }) => {
-  const { setCrendentialType, setResourceId, setViewMore, viewMore } = useCredentialStore();
+  const { setCredentialType, setResourceId, setViewMore, viewMore } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
   const handleOpen = () => {
     setIsOpen(true);
     setResourceId(resourceId);
-    setCrendentialType(type);
+    setCredentialType(type);
     setModalId(type);
   };
   const userCred = (cred: any) => (!cred.username ? cred.email || '---' : cred.username);
@@ -36,7 +36,7 @@ export const ProvidedTestingCredentials: FC<ProvidedTestingCredentialsProps> = (
   return (
     <>
       <ViewMoreInfoModal
-        crendential={credentials.find((cred: any) => cred.id == viewMore.id)}
+        credential={credentials.find((cred: any) => cred.id == viewMore.id)}
         close={() => setViewMore({ id: '', open: false })}
         isOpen={viewMore.open}
       />

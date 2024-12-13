@@ -2,11 +2,6 @@ import { HttpService } from './abstractHttp.service.ts';
 import { handleFetchError, handleResponse } from '@utils/api.utils.ts';
 import type { HttpRequestOptions } from './http.service';
 
-/**
- * Implementacion de HttpService utilizando Vanilla Fetch, para realizar las solicitudes HTTP
- *
- * @see {HttpService}
- */
 export class FetchHttpService extends HttpService {
   /**
    * Instancia singleton de AxiosHttpService

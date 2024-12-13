@@ -1,6 +1,6 @@
 import { type FC, type FormEvent } from 'react';
 
-import { useAddLan } from '@resourcesHooks/netowrk/useAddLan.ts';
+import { useAddLan } from '@resourcesHooks/network/useAddLan';
 import { ModalTextArea } from '@defaults/ModalTextArea';
 import { ModalInput } from '@defaults/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';

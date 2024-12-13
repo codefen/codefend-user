@@ -63,7 +63,7 @@ export const QualityFeedbackTechSupport = () => {
             required
           />
           <div className="codefend-radio"></div>
-          3: Adequote assistance and support.
+          3: Adequate assistance and support.
         </label>
         <label>
           <input

@@ -1,12 +1,12 @@
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
-import { useQualityOveralPhase } from '@hooks/quality-survey/useQualityOveralPhase';
+import { useQualityOverallPhase } from '@hooks/quality-survey/useQualityOverallPhase';
 
 export const QualityFeedbackOverall = () => {
   const { isOpen, provider, updatePhase, updateIsOpen, updatePollVal, pollVal } =
     useQualitySurveyStore();
-  const sendOverallPhase = useQualityOveralPhase();
+  const sendOverallPhase = useQualityOverallPhase();
 
   return (
     <QualityFeedback
@@ -27,7 +27,7 @@ export const QualityFeedbackOverall = () => {
       score="4.55"
       specialist="web"
       title="Overall score:"
-      question="How would you rate your overall satisfaction with the service provided by our profesional?">
+      question="How would you rate your overall satisfaction with the service provided by our professional?">
       <div className="quality-poll">
         <label>
           <input

@@ -7,7 +7,7 @@ export type RequestIdType = string | 'uniqueRequest';
 export abstract class HttpService implements HttpServiceInterface {
   /**
    * Map que almacena los AbortController para cada solicitud HTTP.
-   * Esto permite cancelar las solicitudes en curso. Al desmontar un componente por ejemlo
+   * Esto permite cancelar las solicitudes en curso. Al desmontar un componente por ejemplo
    */
   protected abortControllers: Map<string, AbortController>;
   protected baseUrl: string;
@@ -60,12 +60,6 @@ export abstract class HttpService implements HttpServiceInterface {
     return this.abortControllers.get(requestId)!;
   }
 
-  /**
-   * Actualiza la URL base y el token de sesión.
-   *
-   * Necesario debido a que un usuario "Admin" puede cambiar el servidor / api de consumo
-   * Al hacerlo se deslogea el usuario. Por eso tambien se actualiza el token
-   */
   public updateUrlInstance(): void {
     this.session = getToken();
     const customAPi = getCustomBaseAPi();
@@ -73,8 +67,6 @@ export abstract class HttpService implements HttpServiceInterface {
   }
 
   /**
-   * Cancela una solicitud HTTP en curso.
-   *
    * @param requestId - Identificador único de la solicitud a cancelar.
    */
   public cancelRequest(requestId: RequestIdType): void {
@@ -94,8 +86,6 @@ export abstract class HttpService implements HttpServiceInterface {
   }
 
   /**
-   * Construye la URL completa a partir de la URL base y la ruta proporcionada.
-   *
    * @param path - Ruta a agregar a la URL base.
    * @returns La URL completa.
    */

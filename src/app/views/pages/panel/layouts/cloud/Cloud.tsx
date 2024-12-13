@@ -46,7 +46,7 @@ const CloudApplicationPanel: FC = () => {
         event={refresh}
         showScreen={showScreen}
         isLoading={isLoading}
-        dataAvalaible={Boolean(data.length)}>
+        dataAvailable={Boolean(data.length)}>
         <div className="brightness variant-1"></div>
         <div className="brightness variant-2"></div>
         <div className="brightness variant-3"></div>

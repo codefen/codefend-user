@@ -45,7 +45,7 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.ADDITIONAL_INFO) return <AdditionalOrderModal />;
     if (orderStepActive === OrderSection.PAYMENT) return <PaymentMethodOrderModal />;
 
-    // if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD) return <AnyPaymentMetod />;
+    // if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD) return <AnyPaymentMethod />;
     // if (orderStepActive === OrderSection.PAYMENT_ERROR) return <PaymentErrorOrderModal />;
 
     return orderStepActive === OrderSection.WELCOME ? (

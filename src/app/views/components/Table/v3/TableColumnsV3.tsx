@@ -26,7 +26,7 @@ const TableColumnsV3: FC<TableColumnsProps> = ({
       setSort(Sort.asc);
     }
   }, []);
-  const onclcik = (column: string) => {
+  const onClickColumn = (column: string) => {
     if (column === TABLE_KEYS.ACTION) return;
     handleSort(column, sortedColumn, sort);
   };
@@ -38,7 +38,7 @@ const TableColumnsV3: FC<TableColumnsProps> = ({
           className={`column item-cell ${column.styles}`}
           key={`cv3-${i}`}
           style={{ '--cell-expand': column.weight } as any}
-          onClick={() => onclcik(column.key)}>
+          onClick={() => onClickColumn(column.key)}>
           {column.header}
           {sortedColumn === column.key && (
             <span className="sort">{sort === Sort.asc ? '↑' : '↓'}</span>

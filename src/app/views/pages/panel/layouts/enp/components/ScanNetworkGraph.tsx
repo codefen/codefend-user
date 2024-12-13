@@ -322,7 +322,7 @@ export const ScanNetworkGraph: FC<ScanNetworkGraphProps> = ({ data, filteredData
 
   return (
     <>
-      <section className="irst-graph">
+      <section className="first-graph">
         <Show when={dataLoaded}>
           <>
             <div className="enp-doughnut-chart">

@@ -8,7 +8,7 @@ interface EmptyLayoutProps {
   children: ReactNode;
   isLoading: boolean;
   showScreen: boolean;
-  dataAvalaible: boolean;
+  dataAvailable: boolean;
 
   fallback: EmptyFallbackData;
   event: () => void;
@@ -16,15 +16,15 @@ interface EmptyLayoutProps {
 
 class EmptyLayout extends PureComponent<EmptyLayoutProps> {
   override render() {
-    const { children, className, showScreen, dataAvalaible, isLoading, fallback, event } =
+    const { children, className, showScreen, dataAvailable, isLoading, fallback, event } =
       this.props;
     return (
       <main className={`${className} ${showScreen ? 'actived' : ''}`}>
-        <Show when={!isLoading && dataAvalaible}>{children}</Show>
+        <Show when={!isLoading && dataAvailable}>{children}</Show>
         <Show when={isLoading}>
           <PageLoader />
         </Show>
-        <Show when={!isLoading && !dataAvalaible}>
+        <Show when={!isLoading && !dataAvailable}>
           <EmptyScreenView
             type={fallback.type}
             title={fallback.title}
