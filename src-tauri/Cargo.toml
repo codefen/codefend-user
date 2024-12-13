@@ -6,6 +6,7 @@ authors = ["Codefend"]
 repository = "https://github.com/codefen/codefend-user"
 default-run = "codefend-panel"
 edition = "2021"
+rust-version = "1.80.0"
 
 [lib]
 # The `_lib` suffix may seem redundant but it is necessary
@@ -13,9 +14,6 @@ edition = "2021"
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
 name = "codefend_panel_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
-
-[package.metadata.windows]
-resource = "app_manifest.xml"
 
 [build-dependencies]
 tauri-build = { version = "2.0.3", features = [] }
@@ -29,6 +27,12 @@ tauri-plugin-process = "2.0.0"
 tauri-plugin-notification = "2.0.0-rc.1"
 tauri-plugin-upload = "2.0.0"
 tauri-plugin-shell = "2"
+tauri-plugin-dialog = "2.0.3"
+tauri-plugin-log = "2.2.0"
+tauri-plugin-fs = "2.2.0"
+tauri-plugin-os = "2.2.0"
+tauri-plugin-window-state = "2.0.1"
+tauri-plugin-http = "2.0.1"
 reqwest = { version = "0.12.8", features = ["blocking"] }
 chrono = "0.4"
 is_elevated = "0.1"
@@ -41,10 +45,6 @@ regex = "1.5"
 mac_address = "1.1.5"
 whoami = "1.5.0"
 os_info = "3.7.0"
-tauri-plugin-dialog = "2.0.3"
-tauri-plugin-log = "2.2.0"
-tauri-plugin-fs = "2.2.0"
-tauri-plugin-os = "2.2.0"
 
 # winsafe = { git = "https://github.com/rodrigocfd/winsafe", features = ["kernel"] }
 [target."cfg(target_os = \"macos\")".dependencies]
@@ -53,8 +53,7 @@ objc = "0.2.7"
 rand = "0.8"
 
 [target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
-tauri-plugin-cli = "2"
-tauri-plugin-updater = "2"
+tauri-plugin-updater = "2.0.2"
 
 [features]
 # by default Tauri runs in production mode

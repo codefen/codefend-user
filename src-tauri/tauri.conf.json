@@ -30,7 +30,7 @@
 	},
 	"bundle": {
 		"active": true,
-		"targets": "all",
+		"targets": ["deb", "appimage", "nsis", "app", "dmg"],
 		"publisher": "Codefend",
 		"copyright": "Copyright Notice",
 		"category": "DeveloperTool",
@@ -47,7 +47,7 @@
 		"longDescription": "Codefend Security Platform Panel Desktop App",
 		"createUpdaterArtifacts": true,
 		"macOS": {
-			"minimumSystemVersion": "12.0",
+			"minimumSystemVersion": "11",
 			"entitlements": null,
 			"exceptionDomain": "",
 			"frameworks": [],
