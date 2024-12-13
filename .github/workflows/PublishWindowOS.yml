@@ -121,6 +121,18 @@ jobs:
           args: '--verbose'
           includeAll: true
 
+      - name: Upload Release Assets
+        uses: actions/upload-release-assets@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ inputs.release_upload_url }}
+          asset_paths: |
+            src-tauri/target/release/bundle/msi/codefend-panel_24.3.0_x64_en-US.msi
+            src-tauri/target/release/bundle/msi/codefend-panel_24.3.0_x64_en-US.msi.sig
+            src-tauri/target/release/bundle/nsis/codefend-panel_24.3.0_x64-setup.exe
+            src-tauri/target/release/bundle/nsis/codefend-panel_24.3.0_x64-setup.exe.sig
+
       - name: Extract Signatures and Set Outputs
         id: extract-signatures
         run: |
