@@ -82,7 +82,7 @@
 		"updater": {
 			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk4QTM3ODU1NUY5MzNBOUYKUldTZk9wTmZWWGlqbUtZQVJZVnNyNTBXYm01dDFRbXJManFPeVh2cGdMZkJCYTZGZHdBM3piVFQK",
 			"endpoints": [
-				"https://github.com/codefen/codefend-user/releases/latest/download/latest.json"
+				"https://raw.githubusercontent.com/codefen/codefend-user/production/latest.json"
 			],
 			"windows": {
 				"installMode": "passive"

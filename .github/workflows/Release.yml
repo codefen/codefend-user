@@ -14,7 +14,7 @@ jobs:
       issues: write
       pull-requests: write
     outputs:
-      release_id: ${{ steps.create-release.outputs.id }}
+      release_id: ${{ steps.create-release.outputs.release_id }}
       package_version: ${{ steps.get-version.outputs.VERSION }}
       release_upload_url: ${{ steps.create-release.outputs.release_upload_url }}
 
