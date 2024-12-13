@@ -37,9 +37,6 @@ jobs:
       - name: Run build client
         run: pnpm build
 
-      - name: Run prune
-        run: pnpm prune --prod --ignore-scripts
-
       - name: Publish to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
