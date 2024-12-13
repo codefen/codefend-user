@@ -9,6 +9,9 @@ on:
       package_version:
         required: true
         type: string
+      release_upload_url:
+        required: true
+        type: string
     outputs:
       macos_x86_64_sig:
         description: "Signature for Macos x86_64 build"
@@ -118,6 +121,17 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           tauriScript: cargo --locked auditable tauri
           args: '--verbose --target ${{ matrix.target }}'
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-assets@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ inputs.release_upload_url }}
+          asset_paths: |
+            src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app
+            src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app.tar.gz
+            src-tauri/target/x86_64-apple-darwin/release/bundle/macos/codefend-panel.app.tar.gz.sig
 
       - name: Extract Signatures and Set Outputs - MacOs
         id: extract-signatures
