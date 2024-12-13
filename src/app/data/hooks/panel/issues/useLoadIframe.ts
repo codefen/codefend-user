@@ -46,7 +46,7 @@ const useLoadIframe = (keyDownExc: () => void, extraExc?: () => void) => {
       setTimeout(() => {
         observer.disconnect();
         reject(new Error('Timeout al buscar iframe'));
-      }, 5000);
+      }, 6000);
     });
   }, [theme, keyDownExc, extraExc]);
 

@@ -22,14 +22,12 @@ const IssueUpdate: FC = () => {
   return (
     <main className={`issue-detail ${showScreen ? 'actived' : ''}`}>
       <Show when={showScreen} fallback={<PageLoader />}>
-        <>
-          <section className="left">
-            <IssueUpdatePanel issueData={getIssue} isLoading={isLoading} />
-          </section>
-          <section className="right">
-            <IssueChatDisplay id={id || '0'} />
-          </section>
-        </>
+        <section className="left">
+          <IssueUpdatePanel issueData={getIssue} isLoading={isLoading} />
+        </section>
+        <section className="right">
+          <IssueChatDisplay id={id || '0'} />
+        </section>
       </Show>
     </main>
   );
