@@ -9,6 +9,9 @@ on:
       package_version:
         required: true
         type: string
+      release_upload_url:
+        required: true
+        type: string
     outputs:
       windows_x86_64_sig:
         description: "Signature for Windows x86_64 build"
@@ -116,6 +119,7 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           tauriScript: cargo --locked auditable tauri
           args: '--verbose'
+          includeAll: true
 
       - name: Extract Signatures and Set Outputs
         id: extract-signatures
