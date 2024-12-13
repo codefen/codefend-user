@@ -118,7 +118,7 @@ jobs:
             tr -d '\n' < "$file" | xargs
           }
 
-          linux_x86_64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage.sig")
+          linux_x86_64_sig=$(read_signature "src-tauri/target/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage.sig")
 
           echo "Signatures extracted successfully."
           echo "linux_x86_64_sig=$linux_x86_64_sig" >> $GITHUB_OUTPUT
@@ -131,7 +131,7 @@ jobs:
           CARGO_TERM_COLOR: always
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          subject-path: src-tauri/target/${{ matrix.target }}/release/bundle/*
+          subject-path: src-tauri/target/release/bundle/*
           push-to-registry: false
           show-summary: true
           github-token: ${{ env.GITHUB_TOKEN }}
@@ -146,5 +146,5 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@v2
         with:
-          subject-path: 'src-tauri/target/${{ matrix.target }}/release/codefend-panel'
+          subject-path: 'src-tauri/target/release/codefend-panel'
           sbom-path: "sbom.spdx.json"

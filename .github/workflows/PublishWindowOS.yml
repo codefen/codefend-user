@@ -134,7 +134,7 @@ jobs:
             return $signature.Trim()
           }
 
-          $windows_x86_64_sig = Read-Signature "src-tauri\target\${{ matrix.target }}\release\bundle\msi\codefend-panel_${package_version}_x64_en-US.msi.sig"
+          $windows_x86_64_sig = Read-Signature "src-tauri\target\release\bundle\msi\codefend-panel_${package_version}_x64_en-US.msi.sig"
           
           Write-Host "Signatures extracted successfully."
           Write-Host "::set-output name=windows_x86_64_sig::$windows_x86_64_sig"
@@ -147,7 +147,7 @@ jobs:
           CARGO_TERM_COLOR: always
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          subject-path: src-tauri/target/${{ matrix.target }}/release/bundle/*
+          subject-path: src-tauri/target/release/bundle/*
           push-to-registry: false
           show-summary: true
           github-token: ${{ env.GITHUB_TOKEN }}
@@ -162,5 +162,5 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: 'src-tauri/target/${{ matrix.target }}/release/codefend-panel.exe'
+          subject-path: 'src-tauri/target/release/codefend-panel.exe'
           sbom-path: "sbom.spdx.json"
