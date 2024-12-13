@@ -26,7 +26,7 @@ const SocialAttackVectors: FC<SocialAttackVectorsProps> = props => {
   return (
     <>
       <div className="card filtered">
-        <SimpleSection header="Attak vectors" icon={<ChartIcon />}>
+        <SimpleSection header="Attack vectors" icon={<ChartIcon />}>
           <div className="content filters">
             {Object.keys(attackVectorState).map((attack: string) => (
               <div className="filter" key={attack}>

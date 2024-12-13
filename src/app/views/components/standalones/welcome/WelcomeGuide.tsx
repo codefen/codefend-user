@@ -82,11 +82,15 @@ const WelcomeGuide: FC<WelcomeGuideProps> = ({ close, startNext }) => {
       );
       setCoords(newCoords);
     };
-    const resizeUnsub = addEventListener(window, EVENTS.RESIZE, withBatchedUpdates(calcCoords));
+    const resizeUnsubscribe = addEventListener(
+      window,
+      EVENTS.RESIZE,
+      withBatchedUpdates(calcCoords)
+    );
     if (!coords) calcCoords();
     if (currentStep === WelcomeSteps.NOTHING) startNext();
 
-    return () => resizeUnsub();
+    return () => resizeUnsubscribe();
   }, [currentStep]);
 
   if (currentStep === WelcomeSteps.NOTHING) {

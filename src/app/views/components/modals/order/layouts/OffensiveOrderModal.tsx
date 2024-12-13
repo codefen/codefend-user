@@ -35,7 +35,7 @@ export const OffensiveOrderModal: FC = () => {
           <img
             src="/codefend/pentest-careful.png"
             alt="careful-pentest-icon"
-            className="step-image enviroment"
+            className="step-image environment"
             decoding="async"
             loading="lazy"
           />
@@ -60,7 +60,7 @@ export const OffensiveOrderModal: FC = () => {
           <img
             src="/codefend/pentest-offensive.png"
             alt="offensive-pentest-icon"
-            className="step-image enviroment"
+            className="step-image environment"
             decoding="async"
             loading="lazy"
           />
@@ -85,7 +85,7 @@ export const OffensiveOrderModal: FC = () => {
           <img
             src="/codefend/pentest-adversary.png"
             alt="adversary-pentest-icon"
-            className="step-image enviroment"
+            className="step-image environment"
             decoding="async"
             loading="lazy"
           />
@@ -98,7 +98,7 @@ export const OffensiveOrderModal: FC = () => {
               </p>
             </div>
             <span className="one-pentest">
-              Codefend's professionals will use all possible tecniques to simulate a real attack.
+              Codefend's professionals will use all possible techniques to simulate a real attack.
             </span>
           </div>
         </div>

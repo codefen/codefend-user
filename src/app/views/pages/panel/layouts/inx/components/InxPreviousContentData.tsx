@@ -1,14 +1,15 @@
-import { cleanHTML } from '../../../../../../data';
-import { PageLoader, Show } from '../../../../../components';
+import { cleanHTML } from '@utils/helper';
+import { PageLoader } from '@defaults/loaders/Loader';
+import Show from '@defaults/Show';
 import { type FC } from 'react';
 
-interface InxPreviusContentDataProps {
+interface InxPreviousContentDataProps {
   preview: any;
   storageID: any;
   loading: boolean;
 }
 
-export const InxPreviusContentData: FC<InxPreviusContentDataProps> = ({
+export const InxPreviousContentData: FC<InxPreviousContentDataProps> = ({
   preview,
   storageID,
   loading,
@@ -25,7 +26,7 @@ export const InxPreviusContentData: FC<InxPreviusContentDataProps> = ({
         const [domain, owner, email] = parts;
         return `<p><strong>${domain}</strong>: ${owner} - ${email}</p>`;
       } else {
-        return `<p>${line}</p>`; // Tratar líneas sin tabuladores de otra manera
+        return `<p>${line}</p>`;
       }
     })
 

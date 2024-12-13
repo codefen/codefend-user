@@ -97,7 +97,7 @@ export const PaymentMethodOrderModal: FC = () => {
           <div className="codefend-radio"></div>
           <label htmlFor="bank-transfer" className="order-snapshot">
             <div className="top">
-              <p className="codefend-color">Bank trasfer / bank wire:</p>
+              <p className="codefend-color">Bank transfer / bank wire:</p>
             </div>
             <span className="one-pentest">
               Ideal for substantial orders! Verification is required, and confirmation may take up

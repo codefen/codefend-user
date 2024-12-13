@@ -9,17 +9,17 @@ const ConfirmationForm: FC<{
 }> = ({ children }) => {
   const navigate = useNavigate();
   const { updateReferenceNumber, refetch } = useRecomendedUsername();
-  const [finishsignup, setFinishSignup] = useState({
+  const [finishSignup, setFinishSignup] = useState({
     referenceNumber: '',
     isLoading: false,
   });
 
   const handleCompleteSignup = async (e: any) => {
     e.preventDefault();
-    updateReferenceNumber(finishsignup.referenceNumber);
+    updateReferenceNumber(finishSignup.referenceNumber);
     refetch();
 
-    navigate(`/auth/signup/${finishsignup.referenceNumber}`);
+    navigate(`/auth/signup/${finishSignup.referenceNumber}`);
   };
 
   return (
@@ -31,7 +31,7 @@ const ConfirmationForm: FC<{
       />
       <InputFieldWithLabel
         label="Reference Number"
-        value={finishsignup.referenceNumber}
+        value={finishSignup.referenceNumber}
         onChange={e => {
           setFinishSignup(current => ({
             ...current,
@@ -43,7 +43,7 @@ const ConfirmationForm: FC<{
         required
       />
 
-      {children(finishsignup.isLoading)}
+      {children(finishSignup.isLoading)}
     </form>
   );
 };

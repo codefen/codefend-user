@@ -4,7 +4,7 @@ import { ModalButtons, ModalTitleWrapper } from '../..';
 import { NetworkDadForm } from '@/app/views/components/forms/NetworkDadForm';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 
-export const AcessPointModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) => (
+export const AccessPointModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) => (
   <ModalTitleWrapper
     headerTitle="Add access point"
     type="med-w"
@@ -24,4 +24,4 @@ export const AcessPointModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onD
   </ModalTitleWrapper>
 );
 
-export default AcessPointModal;
+export default AccessPointModal;

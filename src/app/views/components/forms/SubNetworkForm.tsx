@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { type ComponentEventWithChildren, type Device } from '../../../data';
 import { GlobeWebIcon } from '@icons';
-import { useAddLanV2 } from '@resourcesHooks/netowrk/useAddLanV2';
+import { useAddLanV2 } from '@resourcesHooks/network/useAddLanV2';
 import { ModalInput } from '@defaults/ModalInput';
 import { ModalTextArea } from '@defaults/ModalTextArea';
 

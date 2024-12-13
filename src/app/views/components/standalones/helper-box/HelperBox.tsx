@@ -8,7 +8,7 @@ export const HelperBox: FC<HelperBoxProps> = ({
   title,
   text,
   highlight,
-  coords: buttonCoords, // Renombramos coords a buttonCoords
+  coords: buttonCoords,
   arrow,
   close,
   next,

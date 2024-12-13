@@ -24,7 +24,7 @@ const TableColumns: FC<TableColumnsProps> = ({
       updateDirection(Sort.asc);
     }
   };
-  const onclcik = (column: string) => {
+  const onClickColumn = (column: string) => {
     if (column === 'action') return;
     handleSort(column, dataSort, sortDirection);
   };
@@ -36,7 +36,7 @@ const TableColumns: FC<TableColumnsProps> = ({
         <div
           className={`column ${column?.style}`}
           key={`c-${i}`}
-          onClick={() => onclcik(column.name)}>
+          onClick={() => onClickColumn(column.name)}>
           {column.value}
           {dataSort === column.name && <span className="sort">{isAsc ? '↑' : '↓'}</span>}
         </div>

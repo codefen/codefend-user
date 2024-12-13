@@ -2,11 +2,11 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { RememberCard } from '../components/remember/RememberCard.tsx';
 import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
-import { userOrderFnished } from '@hooks/useOrders.ts';
+import { userOrderFinished } from '@hooks/useOrders.ts';
 
 export const WelcomeOrderModal = () => {
   const { resetActiveOrder, referenceNumber, orderId } = useOrderStore(state => state);
-  const finishOrder = userOrderFnished();
+  const finishOrder = userOrderFinished();
 
   const orderFinished = () => {
     finishOrder(referenceNumber, orderId);
@@ -25,7 +25,7 @@ export const WelcomeOrderModal = () => {
         imageIcon={<img src="/codefend/fav.png" alt="Codefend logo" />}
         title="Welcome">
         <p>
-          <span className="block bolder">Your payment has been sucessfully processed!</span>
+          <span className="block bolder">Your payment has been successfully processed!</span>
           The selected team has been notified and will start the test as soon as possible.{' '}
           <span className="codefend-text-red underline-high">
             A confirmation email has been sent!

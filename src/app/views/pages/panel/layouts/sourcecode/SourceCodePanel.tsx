@@ -30,7 +30,7 @@ const SourceCodePanel: FC = () => {
       event={refresh}
       showScreen={showScreen}
       isLoading={isLoading}
-      dataAvalaible={Boolean(data.length)}>
+      dataAvailable={Boolean(data.length)}>
       <OrderV2 />
       <CredentialsModal />
       <ModalReport />

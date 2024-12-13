@@ -11,7 +11,7 @@ import type {
   MobileProps,
   MobileUnique,
   OneIssue,
-  PreviusSearch,
+  PreviousSearch,
   ReportIssues,
   ResultsVdbSearchV2,
   SourceCode,
@@ -164,7 +164,7 @@ export const mapMobileApp = (source: any): MobileApp => {
   };
 };
 
-/** Map avalaible mobile apps from api => @interface MobileProps */
+/** Map available mobile apps from api => @interface MobileProps */
 export const mapMobileProps = (source: any): MobileProps => {
   return {
     error: source.error,
@@ -264,25 +264,14 @@ export const mapOneIssue = (source: any): OneIssue => {
   };
 };
 
-export const mapPreviusSearch = (source: any): PreviusSearch => {
+export const maPreviousSearch = (source: any): PreviousSearch => {
   return {
     id: source.id,
-    companyID: source.company_id,
-    userID: source.user_id,
+    company_id: source.company_id,
     username: source.username,
     model: source.model,
     info: source.informacion,
-    addressRA: source.address_ra,
-    addressHCI: source.address_hci,
-    addressHXFF: source.address_hxff,
-    userCountry: source.user_pais,
-    userCountryCode: source.user_pais_code,
-    userCountryProvince: source.user_pais_provincia,
-    userCountryCity: source.user_pais_ciudad,
-    userUA: source.user_ua,
-    condition: source.condicion,
-    isDisabled: source.eliminado == '1',
-    createdAt: source.creacion,
+    ...source,
   };
 };
 

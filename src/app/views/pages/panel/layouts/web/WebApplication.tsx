@@ -32,7 +32,7 @@ const WebApplicationView = () => {
       event={refresh}
       showScreen={showScreen}
       isLoading={isLoading}
-      dataAvalaible={Boolean(webResources.length)}>
+      dataAvailable={Boolean(webResources.length)}>
       <OrderV2 />
       <ModalReport />
       <CredentialsModal />

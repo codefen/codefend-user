@@ -58,7 +58,7 @@ const SocialEngineeringView = () => {
       event={refresh}
       showScreen={showScreen}
       isLoading={isLoading}
-      dataAvalaible={Boolean(members.length)}>
+      dataAvailable={Boolean(members.length)}>
       <OrderV2 />
       <CredentialsModal />
       <ModalReport />

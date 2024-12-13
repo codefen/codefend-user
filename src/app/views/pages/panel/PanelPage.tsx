@@ -18,7 +18,7 @@ import useKeyEventPress from '@stores/keyEvents.ts';
 
 export const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/standalones/sidebar/Sidebar.tsx'));
-export const ErrorConection = lazy(() => import('../../components/modals/ErrorConnection.tsx'));
+export const ErrorConnection = lazy(() => import('../../components/modals/ErrorConnection.tsx'));
 export const MobileFallback = lazy(
   () => import('../../components/defaults/mobile-fallback/MobileFallback.tsx')
 );
@@ -47,11 +47,11 @@ export const PanelPage = () => {
 
   useEffect(() => {
     updateAuth();
-    const errorUnsub = addEventListener(window, EVENTS.ERROR_STATE, () => {
+    const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, () => {
       setShowModal(true);
       setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
     });
-    const keydownUnsub = addEventListener(
+    const keydownUnsubscribe = addEventListener(
       window,
       EVENTS.KEYDOWN,
       withBatchedUpdates(e => {
@@ -72,18 +72,18 @@ export const PanelPage = () => {
       getProviderCompanyAccess();
     }
     return () => {
-      errorUnsub();
-      keydownUnsub();
+      errorUnsubscribe();
+      keydownUnsubscribe();
       localStorage.removeItem(MODAL_KEY_OPEN.ERROR_CONNECTION);
     };
   }, []);
 
-  // Si la autenticacion fallo redirige al login
+  // Si la autenticación falló, redirige al login.
   if (!isAuth) {
     logout();
     return <Navigate to="/auth/signin" state={{ redirect: location.pathname }} />;
   }
-  // Si la resolucion esta por debajo de 1175px, muestra alerta de mobile version
+  // Si la resolución está por debajo de 1175px, muestra una alerta de versión móvil.
   if (!matches) {
     return <MobileFallback />;
   }
@@ -98,7 +98,7 @@ export const PanelPage = () => {
         <WelcomeGroupTour />
         <QualityFeedbackManager />
 
-        <ErrorConection
+        <ErrorConnection
           closeModal={closeErrorConnectionModal}
           open={modals.isErrorConnectionModalOpen}
         />

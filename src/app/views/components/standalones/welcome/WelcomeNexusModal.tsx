@@ -28,13 +28,13 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({ close, startNext
           <div className="welcome-info">
             <p>
               <span className="weight-text">
-                Nexus is bost netwrok of verified information security professionals available on
+                Nexus is best network of verified information security professionals available on
                 demand
               </span>{' '}
               to analyze the security of your infrastructure
               <br />
               <br />
-              We combine the powerfull of this bost network of professionals with{' '}
+              We combine the powerfull of this best network of professionals with{' '}
               <span className="weight-text">online printable reports,</span> that will facilitate
               your organization to improve your security posture and obtain multiple certifications!
               <br />
@@ -42,7 +42,7 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({ close, startNext
               <span className="codefend-text-red">
                 Additionally it presents vulnerability communication on promise,
               </span>{' '}
-              idvidual entries per issue, with direct customer support. In top of that{' '}
+              individual entries per issue, with direct customer support. In top of that{' '}
               <span className="weight-text">all reported issues are verified</span> or discarded by
               our internal team of experts.
             </p>
@@ -51,7 +51,7 @@ export const WelcomeNexusModal: FC<WelcomeNexusModalProps> = ({ close, startNext
 
         <div className="welcome-btns">
           <PrimaryButton buttonStyle="black" text="Close" disabledLoader click={close} />
-          <PrimaryButton buttonStyle="red" text="Okey" disabledLoader click={startNext} />
+          <PrimaryButton buttonStyle="red" text="Ok" disabledLoader click={startNext} />
         </div>
       </div>
     </ModalWrapper>

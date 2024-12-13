@@ -3,7 +3,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 
-export const useQualityOveralPhase = () => {
+export const useQualityOverallPhase = () => {
   const { getCompany } = useUserData();
   const [fetcher] = useFetcher();
   const { orderId, referenceNumber } = useQualitySurveyStore();

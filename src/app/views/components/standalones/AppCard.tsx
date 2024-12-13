@@ -66,7 +66,6 @@ export const AppCard: FC<MobileAppCardProps> = ({
 
   const handleDeleteResource = () => setIsOpen(true);
 
-  // Función de utilidad para generar clases condicionales
   const generateCardClasses = () => {
     let classes = 'app-card';
     if (!isDetails) {
@@ -80,7 +79,6 @@ export const AppCard: FC<MobileAppCardProps> = ({
     return classes;
   };
 
-  // Función para renderizar la imagen basada en las condiciones
   const MemoizedRenderImage = () => {
     return !isImage || !isMobileType ? (
       <img

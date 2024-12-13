@@ -1,6 +1,6 @@
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
-import { QualityFeedbckInitial } from './QualityFeedbckInitial';
+import { QualityFeedbackInitial } from './QualityFeedbackInitial';
 import { QualityFeedbackOverall } from './layouts/QualityFeedbackOverall';
 import { QualityFeedbackTechCapabilities } from './layouts/QualityFeedbackTechCapabilities';
 import './qualitysurvey.scss';
@@ -16,7 +16,7 @@ export const QualityFeedbackManager = () => {
 
   if (activePhase === QualitySurveyPhase.INIT) {
     return (
-      <QualityFeedbckInitial
+      <QualityFeedbackInitial
         isActive={isOpen}
         name={provider.fname + ' ' + provider.lname}
         onClose={() => updateIsOpen(false)}

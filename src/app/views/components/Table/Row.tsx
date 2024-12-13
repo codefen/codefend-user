@@ -15,7 +15,7 @@ interface RowProps {
   tableAction?: any;
 }
 
-const rowsID2 = (i: number, ID: string) => `rowi-${i}-${ID}`;
+const rowsID2 = (i: number, ID: string) => `row-i-${i}-${ID}`;
 
 class Row extends PureComponent<RowProps> {
   override render() {

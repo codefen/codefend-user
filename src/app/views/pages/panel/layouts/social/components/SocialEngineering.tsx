@@ -34,7 +34,7 @@ const SocialEngineering: FC<SocialProps> = props => {
   });
 
   const { isAdmin, isNormalUser, isProvider } = useUserRole();
-  const { setCrendentialType, setResourceId } = useCredentialStore();
+  const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
   const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
   const safelyPreviousSearches = () => props.socials.slice().reverse();
@@ -96,7 +96,7 @@ const SocialEngineering: FC<SocialProps> = props => {
                 title="Add credentials"
                 onClick={() => {
                   setResourceId(member.id);
-                  setCrendentialType(RESOURCE_CLASS.SOCIAL);
+                  setCredentialType(RESOURCE_CLASS.SOCIAL);
                   setIsOpen(true);
                   setModalId(RESOURCE_CLASS.SOCIAL);
                 }}>

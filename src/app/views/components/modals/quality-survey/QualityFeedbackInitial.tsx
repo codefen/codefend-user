@@ -12,7 +12,7 @@ interface QualityFeedbackProps extends PropsWithChildren {
   name: string;
 }
 
-export const QualityFeedbckInitial: FC<QualityFeedbackProps> = ({
+export const QualityFeedbackInitial: FC<QualityFeedbackProps> = ({
   isActive,
   onClose,
   onNext,

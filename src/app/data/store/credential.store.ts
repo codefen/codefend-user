@@ -16,7 +16,7 @@ export interface CredentialStore {
   activePage: CredentialPage;
   viewMore: ViewMore;
   credential: any;
-  setCrendentialType: (type: string) => void;
+  setCredentialType: (type: string) => void;
   setResourceId: (resourceId: string) => void;
   setActivePage: (page: CredentialPage) => void;
   setViewMore: (open: ViewMore) => void;
@@ -30,7 +30,7 @@ const useCredentialStore: UseBoundStore<StoreApi<CredentialStore>> = create<Cred
     activePage: CredentialPage.ADD,
     viewMore: { open: false, id: '' },
     credential: null,
-    setCrendentialType: type => set({ type }),
+    setCredentialType: type => set({ type }),
     setResourceId: resourceId => set({ resourceId }),
     setActivePage: page => set({ activePage: page }),
     setViewMore: open => set({ viewMore: open }),

@@ -17,7 +17,8 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"prepare": "node setup-husky.js",
-		"tauri": "tauri"
+		"tauri": "tauri",
+		"spellcheck": " git diff --name-only | npx cspell --file-list stdin"
 	},
 	"dependencies": {
 		"@stripe/react-stripe-js": "2.7.0",

@@ -14,7 +14,7 @@ const AuthPage: FC = () => {
   if (isAuth) {
     return <Navigate to={'/'} />;
   }
-  console.log('Nueva update');
+  console.log('New update');
   return (
     <>
       <ParticlesScriptLoader />

@@ -28,7 +28,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = props => {
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
   const [selectedSourceCodeIdToDelete, setSelectedSourceCodeIdToDelete] = useState<string>('');
   const { isAdmin, isProvider, isNormalUser } = useUserRole();
-  const { setCrendentialType, setResourceId } = useCredentialStore();
+  const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
   const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
   const generateReport = (resourceID: string, count: any) => {
@@ -84,7 +84,7 @@ export const SourceCodeResources: FC<SourceCodeProps> = props => {
                 title="Add credentials"
                 onClick={() => {
                   setResourceId(repository.id);
-                  setCrendentialType(RESOURCE_CLASS.SOURCE);
+                  setCredentialType(RESOURCE_CLASS.SOURCE);
                   setIsOpen(true);
                   setModalId(RESOURCE_CLASS.SOURCE);
                 }}>

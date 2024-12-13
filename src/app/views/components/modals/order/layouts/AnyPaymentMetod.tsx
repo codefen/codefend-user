@@ -4,7 +4,7 @@ import { CryptoPaymentModal } from '../payments/CryptoPaymentModal.tsx';
 import { BankPaymentModal } from '../payments/BankPaymentModal.tsx';
 import { CardPaymentModal } from '../payments/CardPaymentModal.tsx';
 
-export const AnyPaymentMetod = () => {
+export const AnyPaymentMethod = () => {
   const { paymentMethod } = useOrderStore(state => state);
 
   if (paymentMethod === OrderPaymentMethod.BANK_TRANSFER) return <BankPaymentModal />;

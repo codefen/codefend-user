@@ -49,7 +49,7 @@ const MobileApplicationPanel: React.FC = () => {
       event={refresh}
       showScreen={showScreen}
       isLoading={isLoading}
-      dataAvalaible={Boolean(data.length)}>
+      dataAvailable={Boolean(data.length)}>
       <AddMobileModal isOpen={showModal} close={() => setShowModal(false)} />
       <DeleteMobileCloudModal onDone={onDelete} />
       <OrderV2 />

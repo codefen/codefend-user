@@ -5,11 +5,11 @@ import { OrderSection, OrderTeamSize } from '@interfaces/order';
 import { userOrderProviderInfo } from '@hooks/useOrders';
 
 export const AdditionalOrderModal: FC = () => {
-  const [aditionalInfoW, setAditionalInfo] = useState('');
+  const [aditionalInfoW, setAdditionalInfo] = useState('');
   const { updateState, referenceNumber, orderId, teamSize } = useOrderStore(state => state);
   const { sendOrderProviderInfo } = userOrderProviderInfo();
 
-  const placeHolderText = `What is the main reason to conduct this excersive?
+  const placeHolderText = `What is the main reason to conduct this exercise?
 
 Is there any particular resource that requires additional attention?
 
@@ -18,7 +18,7 @@ What's the main concern about security?
 Is there any other additional information for our professionals?`;
 
   const change = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
-    setAditionalInfo(e.target.value);
+    setAdditionalInfo(e.target.value);
   }, []);
   const continueToPayment = () => {
     updateState('aditionalInfo', aditionalInfoW);

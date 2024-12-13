@@ -11,7 +11,7 @@ export const SourceCodeCollab: FC = () => {
             <div className="info">
               <p className="collab-info">
                 In order to review the source code in your company private repositories we will need
-                contributor access. Plase add the following user: &nbsp;
+                contributor access. Please add the following user: &nbsp;
                 <a className="codefend-text-red email-collab">sourcecode@codefend.com</a>
               </p>
             </div>
