@@ -11,11 +11,10 @@ const BrandAndAppVersion = lazy(() => import('../../components/auth/BrandAndAppV
 const AuthPage: FC = () => {
   const location = useLocation();
   const { isAuth } = useAuthStore(state => state);
-  console.log('Auto update lista!');
   if (isAuth) {
     return <Navigate to={'/'} />;
   }
-
+  console.log('Nueva update');
   return (
     <>
       <ParticlesScriptLoader />
