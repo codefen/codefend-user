@@ -50,24 +50,6 @@ jobs:
             core.setOutput('release_id', data.id);
             core.setOutput('release_upload_url', data.upload_url);
 
-#  build_linux:
-#    needs: [createRelease]
-#    uses: ./.github/workflows/PublishLinuxOS.yml
-#    with:
-#      release_id: ${{ needs.createRelease.outputs.release_id }}
-#      package_version: ${{ needs.createRelease.outputs.package_version }}
-#    secrets: inherit
-
-#  build_macos:
-#    needs: [createRelease]
-#    uses: ./.github/workflows/PublishMacOs.yml
-#    with:
-#      release_id: ${{ needs.createRelease.outputs.release_id }}
-#      package_version: ${{ needs.createRelease.outputs.package_version }}
-#      release_upload_url: ${{ needs.createRelease.outputs.release_upload_url }}
-#    secrets: inherit
-
-
   build_windows:
     needs: [createRelease]
     uses: ./.github/workflows/PublishWindowOS.yml
@@ -78,7 +60,7 @@ jobs:
     secrets: inherit
 
   release_github:
-    needs: [createRelease, build_linux, build_macos, build_windows]
+    needs: [createRelease, build_windows]
     name: Release Github
     permissions:
       contents: write
