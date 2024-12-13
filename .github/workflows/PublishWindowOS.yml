@@ -117,7 +117,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
           releaseId: ${{ inputs.release_id }}
-          tauriScript: cargo --locked auditable tauri
+          tauriScript: pnpm tauri build
           args: '--verbose'
           includeAll: true
 
@@ -189,6 +189,7 @@ jobs:
           format: "spdx-json"
           output-file: "sbom.spdx.json"
           artifact-name: "windows_${{ matrix.target }}.sbom.spdx.json"
+          additional-args: "--name codefend-panel_windows --version ${{ inputs.package_version }}" 
   
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2

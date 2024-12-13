@@ -191,6 +191,7 @@ jobs:
           format: "spdx-json"
           output-file: "sbom.spdx.json"
           artifact-name: "macos_${{ matrix.target }}.sbom.spdx.json"
+          additional-args: "--name codefend-panel_macos_${{ matrix.target }} --version ${{ inputs.package_version }}" 
   
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2

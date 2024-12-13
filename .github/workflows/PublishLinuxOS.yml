@@ -142,6 +142,7 @@ jobs:
           format: "spdx-json"
           output-file: "sbom.spdx.json"
           artifact-name: "linux_${{ matrix.target }}.sbom.spdx.json"
+          additional-args: "--name codefend-panel_linux --version ${{ inputs.package_version }}" 
   
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@v2
