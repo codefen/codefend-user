@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["production"]
+    branches: ["prod"]
 
 jobs:
   test:
