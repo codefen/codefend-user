@@ -6,74 +6,78 @@ defaults:
 on:
   workflow_call:
   workflow_dispatch:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   linting:
     name: Run Linting with 20.x
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
+      - name: 🛠️ Setup/ Use Node.js 20.x
         uses: actions/setup-node@v4.0.3
         with:
           node-version: 20.x
 
-      - name: Setup/ Install pnpm 9.7.0 manually
+      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Install frontend dependencies
+      - name: 🛠️ Setup/ Install frontend dependencies
         run: |
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --prefer-frozen-lockfile --ignore-scripts
 
-      - name: Run Format
+      - name: 📐 Run Format
         run: pnpm format
 
-      - name: Run Linter
+      - name: 📐 Run Linter
         run: pnpm lint
 
-      - name: Run CSS Linter
+      - name: 📐 Run CSS Linter
         run: pnpm lint:css
 
   build:
     needs: [linting]
     name: Build with 20.x
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
+      - name: 🛠️ Setup/ Use Node.js 20.x
         uses: actions/setup-node@v4.0.3
         with:
           node-version: 20.x
 
-      - name: Setup/ Install pnpm 9.7.0 manually
+      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Install frontend dependencies
+      - name: 🛠️ Setup/ Install frontend dependencies
         run: |
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --prefer-frozen-lockfile --ignore-scripts
 
-      - name: Setup/ Install cspell global dependencies
+      - name: 🛠️ Setup/ Install cspell global dependencies
         run: npm i -g cspell @cspell/dict-es-es @cspell/dict-npm @cspell/dict-typescript @cspell/dict-software-terms @cspell/dict-node @cspell/dict-en_us
 
-      - name: Setup/ Install cspell-cli
+      - name: 🛠️ Setup/ Install cspell-cli
         run: npm i -g git+https://github.com/streetsidesoftware/cspell-cli
 
-      - name: Spellcheck
+      - name: 📝 Spellcheck
         run: cspell "**/*.{tsx,ts,js,yml}" --gitignore
 
         
-      - name: Install rust stable
+      - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
 
-      - name: Install system dependencies
+      - name: 🔧 Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -86,13 +90,13 @@ jobs:
             libjavascriptcoregtk-4.1-dev \
             pkg-config
 
-      - name: Run build client
+      - name: 🔨 Run build client
         run: pnpm build
 
-      - name: Run Cargo Tests
+      - name: ✅ Run Cargo Tests
         working-directory: ./src-tauri
         run: |
           cargo test --all
 
-      - name: Run prune
+      - name: 🛡️ Run prune
         run: pnpm prune --prod --ignore-scripts

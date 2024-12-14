@@ -16,6 +16,8 @@ on:
       windows_x86_64_sig:
         description: "Signature for Windows x86_64 build"
         value: ${{ jobs.windowsBuilding.outputs.windows_x86_64_sig }}
+  workflow_dispatch:
+
 
 jobs:
   windowsBuilding:
@@ -38,20 +40,20 @@ jobs:
 
     runs-on: windows-latest
     steps:
-      - name: Checkout code
+      - name: 🔄 Checkout code
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Setup Node
+      - name: 🛠️ Setup/ Node 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Setup/ Install pnpm 9.7.0 manually
+      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Install frontend dependencies
+      - name: 🛠️ Setup/ Install frontend dependencies
         run: |
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --frozen-lockfile --ignore-scripts
@@ -63,18 +65,7 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: 🔑 Import windows signing certificate
-        env:
-          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
-        run: |
-          New-Item -ItemType directory -Path certificate
-          Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
-          certutil -decode certificate/tempCert.txt certificate/certificate.pfx
-          Remove-Item -path certificate -include tempCert.txt
-          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
-
-      - name: Install system dependencies
+      - name: 🔧 Install system dependencies
         run: |
           echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Append
           vcpkg install openssl:x64-windows-static-md
@@ -87,13 +78,13 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
-      - name: Create env file
+      - name: ✏️ Create env file
         run: |
           echo "VITE_PORT=5173" >> .env
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
           echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
 
-      - name: Build frontend
+      - name: 🔨 Build frontend
         run: pnpm build
 
       - name: 📥 Cached install tauri-cli
@@ -102,12 +93,21 @@ jobs:
           tool: tauri-cli@2.1.0
           locked: true
 
+      - name: 🔑 Import windows signing certificate
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
+          certutil -decode certificate/tempCert.txt certificate/certificate.pfx
+          Remove-Item -path certificate -include tempCert.txt
+          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
+
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
         env:
           RUSTFLAGS: "-C target-feature=+crt-static"
-          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
@@ -115,7 +115,7 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
 
-      - name: Extract Signatures and Set Outputs
+      - name: 📝 Extract Signatures and Set Outputs
         id: extract-signatures
         run: |
           $package_version = "${{ inputs.package_version }}"

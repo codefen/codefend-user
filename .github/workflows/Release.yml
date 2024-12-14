@@ -8,7 +8,7 @@ jobs:
   createRelease:
     if: "github.event.repository.fork == false"
     name: Create Codefend App Release
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: write
       issues: write
@@ -19,21 +19,22 @@ jobs:
       release_upload_url: ${{ steps.create-release.outputs.release_upload_url }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: 🛠️ Setup/ Node.js use 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Get Release Version
+      - name: 🏷️ Get Release Version
         id: get-version
         shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           
-      - name: create release
+      - name: 🚀 Create release
         id: create-release
         uses: actions/github-script@v6
         with:
@@ -43,7 +44,7 @@ jobs:
               repo: context.repo.repo,
               tag_name: `codefend-v${{ steps.get-version.outputs.VERSION }}`,
               name: `Codefend v${{ steps.get-version.outputs.VERSION }}`,
-              body: 'Release build for Codefend v${{ steps.get-version.outputs.VERSION }}',
+              body: "What's new? 🎉📣",
               draft: true,
               prerelease: false
             });
@@ -87,18 +88,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: 🛠️ Setup/ Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Use Linux Signature
-        run: |
-          echo "Linux signature: ${{ needs.build_linux.outputs.linux_x86_64_sig }}"
-
-      - name: Create Update Manifest Script
+      - name: 📜 Create Update Manifest Script
         run: |
           package_version="${{ needs.createRelease.outputs.package_version }}"
           pub_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -141,7 +139,7 @@ jobs:
           echo "Update manifest generated successfully:"
           cat latest.json
 
-      - name: Commit and Push to a new branch
+      - name: 📤 Commit and Push to a new branch
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -154,7 +152,7 @@ jobs:
           git commit -m "Update latest.json"
           git push -u origin update-latest-json --force
 
-      - name: publish release
+      - name: 🛒 Publish release
         id: publish-release
         uses: actions/github-script@v6
         with:
