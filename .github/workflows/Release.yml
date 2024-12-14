@@ -50,6 +50,24 @@ jobs:
             core.setOutput('release_id', data.id);
             core.setOutput('release_upload_url', data.upload_url);
 
+  build_linux:
+    needs: [createRelease]
+    uses: ./.github/workflows/PublishLinuxOS.yml
+    with:
+      release_id: ${{ needs.createRelease.outputs.release_id }}
+      package_version: ${{ needs.createRelease.outputs.package_version }}
+    secrets: inherit
+
+  build_macos:
+    needs: [createRelease]
+    uses: ./.github/workflows/PublishMacOs.yml
+    with:
+      release_id: ${{ needs.createRelease.outputs.release_id }}
+      package_version: ${{ needs.createRelease.outputs.package_version }}
+      release_upload_url: ${{ needs.createRelease.outputs.release_upload_url }}
+    secrets: inherit
+
+
   build_windows:
     needs: [createRelease]
     uses: ./.github/workflows/PublishWindowOS.yml
@@ -60,7 +78,7 @@ jobs:
     secrets: inherit
 
   release_github:
-    needs: [createRelease, build_windows]
+    needs: [createRelease, build_linux, build_macos, build_windows]
     name: Release Github
     permissions:
       contents: write
@@ -100,6 +118,18 @@ jobs:
             "notes": "Codefend Panel ${package_version} release",
             "pub_date": "${pub_date}",
             "platforms": {
+              "darwin-aarch64": {
+                "signature": "${{ needs.build_macos.outputs.macos_aarch64_sig }}",
+                "url": "https://github.com/codefen/codefend-user/releases/download/v${package_version}/codefend-panel_${package_version}_aarch64.app.tar.gz"
+              },
+              "darwin-x86_64": {
+                "signature": "${{ needs.build_macos.outputs.macos_x86_64_sig }}",
+                "url": "https://github.com/codefen/codefend-user/releases/download/v${package_version}/codefend-panel_${package_version}_x64.app.tar.gz"
+              },
+              "linux-x86_64": {
+                "signature": "${{ needs.build_linux.outputs.linux_x86_64_sig }}",
+                "url": "https://github.com/codefen/codefend-user/releases/download/v${package_version}/codefend-panel_${package_version}_amd64.deb"
+              },
               "windows-x86_64": {
                 "signature": "${{ needs.build_windows.outputs.windows_x86_64_sig }}",
                 "url": "https://github.com/codefen/codefend-user/releases/download/v${package_version}/codefend-panel_${package_version}_x64-setup.exe"
