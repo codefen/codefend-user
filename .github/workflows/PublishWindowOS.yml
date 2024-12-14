@@ -85,7 +85,7 @@ jobs:
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: wasm32-unknown-unknown
+          targets: ${{ matrix.target }}
 
       - name: Create env file
         run: |
@@ -96,12 +96,6 @@ jobs:
       - name: Build frontend
         run: pnpm build
 
-      - name: 📥 Cached install cargo-auditable
-        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
-        with:
-          tool: cargo-auditable@0.6.6
-          locked: true
-
       - name: 📥 Cached install tauri-cli
         uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
         with:
@@ -111,42 +105,15 @@ jobs:
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
         env:
-          RUSTFLAGS: "-D warnings"
+          RUSTFLAGS: "-C target-feature=+crt-static"
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
           releaseId: ${{ inputs.release_id }}
-          tauriScript: cargo --locked auditable tauri
           args: '--verbose'
-          includeAll: true
-
-      - name: Upload Release Assets
-        uses: actions/github-script@v7.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-            const artifacts = [
-              'src-tauri/target/release/bundle/msi/codefend-panel_24.3.0_x64_en-US.msi.sig',
-              'src-tauri/target/release/bundle/nsis/codefend-panel_24.3.0_x64-setup.exe',
-              'src-tauri/target/release/bundle/nsis/codefend-panel_24.3.0_x64-setup.exe.sig'
-            ];
-
-            for (const artifact of artifacts) {
-              if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {
-                await github.rest.repos.uploadReleaseAsset({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  release_id: ${{ inputs.release_id }},
-                  name: path.basename(artifact),
-                  data: fs.readFileSync(artifact)
-                });
-              }
-            }
 
       - name: Extract Signatures and Set Outputs
         id: extract-signatures
@@ -168,7 +135,7 @@ jobs:
           $windows_x86_64_sig = Read-Signature "src-tauri\target\release\bundle\msi\codefend-panel_${package_version}_x64_en-US.msi.sig"
           
           Write-Host "Signatures extracted successfully."
-          Write-Host "::set-output name=windows_x86_64_sig::$windows_x86_64_sig"
+          echo "windows_x86_64_sig=$windows_x86_64_sig" >> $GITHUB_OUTPUT
 
       - name: 🛡️ Attest build provenance (publish release only)
         uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0

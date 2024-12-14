@@ -1652,6 +1652,123 @@
                   "identifier": {
                     "anyOf": [
                       {
+                        "description": "This permission set configures what kind of\nfetch operations are available from the http plugin.\n\nThis enables all fetch operations but does not\nallow explicitly any origins to be fetched. This needs to\nbe manually configured before usage.\n\n#### Granted Permissions\n\nAll fetch operations are enabled.\n\n",
+                        "type": "string",
+                        "const": "http:default"
+                      },
+                      {
+                        "description": "Enables the fetch command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:allow-fetch"
+                      },
+                      {
+                        "description": "Enables the fetch_cancel command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:allow-fetch-cancel"
+                      },
+                      {
+                        "description": "Enables the fetch_read_body command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:allow-fetch-read-body"
+                      },
+                      {
+                        "description": "Enables the fetch_send command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:allow-fetch-send"
+                      },
+                      {
+                        "description": "Denies the fetch command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:deny-fetch"
+                      },
+                      {
+                        "description": "Denies the fetch_cancel command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:deny-fetch-cancel"
+                      },
+                      {
+                        "description": "Denies the fetch_read_body command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:deny-fetch-read-body"
+                      },
+                      {
+                        "description": "Denies the fetch_send command without any pre-configured scope.",
+                        "type": "string",
+                        "const": "http:deny-fetch-send"
+                      }
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "allow": {
+                    "items": {
+                      "title": "HttpScopeEntry",
+                      "description": "HTTP scope entry.",
+                      "anyOf": [
+                        {
+                          "description": "A URL that can be accessed by the webview when using the HTTP APIs. Wildcards can be used following the URL pattern standard.\n\nSee [the URL Pattern spec](https://urlpattern.spec.whatwg.org/) for more information.\n\nExamples:\n\n- \"https://*\" : allows all HTTPS origin on port 443\n\n- \"https://*:*\" : allows all HTTPS origin on any port\n\n- \"https://*.github.com/tauri-apps/tauri\": allows any subdomain of \"github.com\" with the \"tauri-apps/api\" path\n\n- \"https://myapi.service.com/users/*\": allows access to any URLs that begins with \"https://myapi.service.com/users/\"",
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "url"
+                          ],
+                          "properties": {
+                            "url": {
+                              "description": "A URL that can be accessed by the webview when using the HTTP APIs. Wildcards can be used following the URL pattern standard.\n\nSee [the URL Pattern spec](https://urlpattern.spec.whatwg.org/) for more information.\n\nExamples:\n\n- \"https://*\" : allows all HTTPS origin on port 443\n\n- \"https://*:*\" : allows all HTTPS origin on any port\n\n- \"https://*.github.com/tauri-apps/tauri\": allows any subdomain of \"github.com\" with the \"tauri-apps/api\" path\n\n- \"https://myapi.service.com/users/*\": allows access to any URLs that begins with \"https://myapi.service.com/users/\"",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "deny": {
+                    "items": {
+                      "title": "HttpScopeEntry",
+                      "description": "HTTP scope entry.",
+                      "anyOf": [
+                        {
+                          "description": "A URL that can be accessed by the webview when using the HTTP APIs. Wildcards can be used following the URL pattern standard.\n\nSee [the URL Pattern spec](https://urlpattern.spec.whatwg.org/) for more information.\n\nExamples:\n\n- \"https://*\" : allows all HTTPS origin on port 443\n\n- \"https://*:*\" : allows all HTTPS origin on any port\n\n- \"https://*.github.com/tauri-apps/tauri\": allows any subdomain of \"github.com\" with the \"tauri-apps/api\" path\n\n- \"https://myapi.service.com/users/*\": allows access to any URLs that begins with \"https://myapi.service.com/users/\"",
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "url"
+                          ],
+                          "properties": {
+                            "url": {
+                              "description": "A URL that can be accessed by the webview when using the HTTP APIs. Wildcards can be used following the URL pattern standard.\n\nSee [the URL Pattern spec](https://urlpattern.spec.whatwg.org/) for more information.\n\nExamples:\n\n- \"https://*\" : allows all HTTPS origin on port 443\n\n- \"https://*:*\" : allows all HTTPS origin on any port\n\n- \"https://*.github.com/tauri-apps/tauri\": allows any subdomain of \"github.com\" with the \"tauri-apps/api\" path\n\n- \"https://myapi.service.com/users/*\": allows access to any URLs that begins with \"https://myapi.service.com/users/\"",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "properties": {
+                "identifier": {
+                  "description": "Identifier of the permission or permission set.",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Identifier"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "identifier": {
+                    "anyOf": [
+                      {
                         "description": "This permission set configures which\nshell functionality is exposed by default.\n\n#### Granted Permissions\n\nIt allows to use the `open` functionality without any specific\nscope pre-configured. It will allow opening `http(s)://`,\n`tel:` and `mailto:` links.\n",
                         "type": "string",
                         "const": "shell:default"
@@ -1887,21 +2004,6 @@
     "Identifier": {
       "description": "Permission identifier",
       "oneOf": [
-        {
-          "description": "Allows reading the CLI matches",
-          "type": "string",
-          "const": "cli:default"
-        },
-        {
-          "description": "Enables the cli_matches command without any pre-configured scope.",
-          "type": "string",
-          "const": "cli:allow-cli-matches"
-        },
-        {
-          "description": "Denies the cli_matches command without any pre-configured scope.",
-          "type": "string",
-          "const": "cli:deny-cli-matches"
-        },
         {
           "description": "Default core plugins set which includes:\n- 'core:path:default'\n- 'core:event:default'\n- 'core:window:default'\n- 'core:webview:default'\n- 'core:app:default'\n- 'core:image:default'\n- 'core:resources:default'\n- 'core:menu:default'\n- 'core:tray:default'\n",
           "type": "string",
@@ -4878,6 +4980,51 @@
           "const": "fs:write-files"
         },
         {
+          "description": "This permission set configures what kind of\nfetch operations are available from the http plugin.\n\nThis enables all fetch operations but does not\nallow explicitly any origins to be fetched. This needs to\nbe manually configured before usage.\n\n#### Granted Permissions\n\nAll fetch operations are enabled.\n\n",
+          "type": "string",
+          "const": "http:default"
+        },
+        {
+          "description": "Enables the fetch command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:allow-fetch"
+        },
+        {
+          "description": "Enables the fetch_cancel command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:allow-fetch-cancel"
+        },
+        {
+          "description": "Enables the fetch_read_body command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:allow-fetch-read-body"
+        },
+        {
+          "description": "Enables the fetch_send command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:allow-fetch-send"
+        },
+        {
+          "description": "Denies the fetch command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:deny-fetch"
+        },
+        {
+          "description": "Denies the fetch_cancel command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:deny-fetch-cancel"
+        },
+        {
+          "description": "Denies the fetch_read_body command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:deny-fetch-read-body"
+        },
+        {
+          "description": "Denies the fetch_send command without any pre-configured scope.",
+          "type": "string",
+          "const": "http:deny-fetch-send"
+        },
+        {
           "description": "Allows the log command",
           "type": "string",
           "const": "log:default"
@@ -5291,6 +5438,41 @@
           "description": "Denies the upload command without any pre-configured scope.",
           "type": "string",
           "const": "upload:deny-upload"
+        },
+        {
+          "description": "This permission set configures what kind of\noperations are available from the window state plugin.\n\n#### Granted Permissions\n\nAll operations are enabled by default.\n\n",
+          "type": "string",
+          "const": "window-state:default"
+        },
+        {
+          "description": "Enables the filename command without any pre-configured scope.",
+          "type": "string",
+          "const": "window-state:allow-filename"
+        },
+        {
+          "description": "Enables the restore_state command without any pre-configured scope.",
+          "type": "string",
+          "const": "window-state:allow-restore-state"
+        },
+        {
+          "description": "Enables the save_window_state command without any pre-configured scope.",
+          "type": "string",
+          "const": "window-state:allow-save-window-state"
+        },
+        {
+          "description": "Denies the filename command without any pre-configured scope.",
+          "type": "string",
+          "const": "window-state:deny-filename"
+        },
+        {
+          "description": "Denies the restore_state command without any pre-configured scope.",
+          "type": "string",
+          "const": "window-state:deny-restore-state"
+        },
+        {
+          "description": "Denies the save_window_state command without any pre-configured scope.",
+          "type": "string",
+          "const": "window-state:deny-save-window-state"
         }
       ]
     },
