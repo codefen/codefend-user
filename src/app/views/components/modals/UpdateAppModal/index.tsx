@@ -17,7 +17,7 @@ export const UpdateAppModal = () => {
       <div className={scss['update-app-modal-container']}>
         {!updateState?.update && (
           <h4 className="text-small title-format">
-            Update to v${updateState?.update?.version} is available!
+            Update to v{updateState?.update?.version} is available!
           </h4>
         )}
         <div className="form-buttons">

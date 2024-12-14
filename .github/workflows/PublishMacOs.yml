@@ -19,6 +19,8 @@ on:
       macos_aarch64_sig:
         description: "Signature for Macos aarch64 build"
         value: ${{ jobs.macosBuilding.outputs.macos_aarch64_sig }}
+  workflow_dispatch:
+
 
 jobs:
   macosBuilding:
@@ -45,20 +47,20 @@ jobs:
 
     runs-on: macos-latest
     steps:
-      - name: Checkout code
+      - name: 🔄 Checkout code
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Setup Node
+      - name: 🛠️ Setup/ Node USE 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Setup/ Install pnpm 9.7.0 manually
+      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Install frontend dependencies
+      - name: 🛠️ Setup/ Install frontend dependencies
         run: |
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --frozen-lockfile --ignore-scripts
@@ -69,13 +71,13 @@ jobs:
           components: rustfmt, clippy
           targets: 'aarch64-apple-darwin,x86_64-apple-darwin,wasm32-unknown-unknown'
 
-      - name: Create env file
+      - name: ✏️ Create env file
         run: |
           echo "VITE_PORT=5173" >> .env
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
           echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
 
-      - name: Build frontend
+      - name: 🔨 Build frontend
         run: pnpm build
 
       - name: 📥 Cached install leptosfmt
@@ -115,7 +117,7 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose --target ${{ matrix.target }}'
 
-      - name: Upload Release Assets
+      - name: 📤 Upload Release Assets
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -138,7 +140,7 @@ jobs:
               }
             }
 
-      - name: Extract Signatures and Set Outputs - MacOs
+      - name: 📝 Extract Signatures and Set Outputs
         id: extract-signatures
         run: |
           package_version="${{ inputs.package_version }}"

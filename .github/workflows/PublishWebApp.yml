@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout código
+      - name: 🔄 Checkout code
         uses: actions/checkout@v3
     
       - name: Use Node.js 20.x
@@ -20,24 +20,32 @@ jobs:
         with:
           node-version: 20.x
 
-      - name: Setup/ Install pnpm 9.7.0 manually
+      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
         run: npm install -g pnpm@9.7.0
 
-      - name: Install frontend dependencies
+      - name: 📤 Notify deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: release
+
+      - name: 🛠️ Setup/ Install frontend dependencies
         run: |
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --prefer-frozen-lockfile --ignore-scripts
 
-      - name: Create env file
+      - name: ✏️ Create env file
         run: |
           echo "VITE_PORT=5173" >> .env
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
           echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
           
-      - name: Run build client
+      - name: 🔨 Run build client
         run: pnpm build
 
-      - name: Publish to FTP
+      - name: 🚀 Publish to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -47,3 +55,13 @@ jobs:
           server-dir: ./
           protocol: ftp
           dangerous-clean-slate: true
+
+      - name: 📤 Notify deployment status
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          env: ${{ steps.deployment.outputs.env }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
