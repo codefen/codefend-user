@@ -1,6 +1,6 @@
 [package]
 name = "codefend-panel"
-version = "24.3.0"
+version = "24.3.1"
 description = "Security Platform Panel"
 authors = ["Codefend"]
 repository = "https://github.com/codefen/codefend-user"
@@ -46,6 +46,7 @@ mac_address = "1.1.5"
 whoami = "1.5.0"
 os_info = "3.7.0"
 tauri-plugin-devtools = "2.0.0"
+tauri-plugin-store = "2.2.0"
 
 # winsafe = { git = "https://github.com/rodrigocfd/winsafe", features = ["kernel"] }
 [target."cfg(target_os = \"macos\")".dependencies]

@@ -1,7 +1,7 @@
 {
 	"name": "codefend-panel",
 	"private": true,
-	"version": "24.3.0",
+	"version": "24.3.1",
 	"description": "Security Platform Panel",
 	"type": "module",
 	"scripts": {
