@@ -27,7 +27,7 @@ jobs:
       security-events: write
       attestations: write
     outputs:
-      windows_x86_64_sig: ${{ steps.extractwindowsx86_64-sig.outputs.windows_x86_64_sig }}
+      windows_x86_64_sig: ${{ steps.extract-signatures.outputs.windows_x86_64_sig }}
     strategy:
       fail-fast: false
       matrix:
