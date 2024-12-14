@@ -119,7 +119,6 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
           releaseId: ${{ inputs.release_id }}
-          tauriScript: cargo --locked auditable tauri
           args: '--verbose'
 
       - name: Upload Release Assets
