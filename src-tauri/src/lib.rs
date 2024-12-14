@@ -5,15 +5,9 @@ extern crate cocoa;
 #[cfg(target_os = "macos")]
 extern crate objc;
 
-use tauri::{
-    WebviewWindowBuilder, 
-    WebviewUrl,
-    Manager,
-    Emitter
-};
+use tauri::{Emitter, Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_log::Target;
 use tauri_plugin_log::TargetKind;
-use log::LevelFilter;
 
 #[tauri::command]
 fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
@@ -25,9 +19,7 @@ fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
             .maximized(true);
 
         #[cfg(not(target_os = "macos"))]
-        let win_builder = win_builder
-            .decorations(false)
-            .transparent(true);
+        let win_builder = win_builder.decorations(false).transparent(true);
 
         win_builder.build().unwrap();
     }
@@ -61,7 +53,7 @@ pub fn run() {
                                 Target::new(TargetKind::Stdout),
                                 Target::new(TargetKind::Webview),
                             ])
-                            .level(LevelFilter::Info)
+                            .level(log::LevelFilter::Info)
                             .build(),
                     )?;
                 }
