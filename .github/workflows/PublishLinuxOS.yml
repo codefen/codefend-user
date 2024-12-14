@@ -105,8 +105,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const artifacts = [
-              'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage',
-              'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage.sig',
+              'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage'
             ];
             for (const artifact of artifacts) {
               if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {

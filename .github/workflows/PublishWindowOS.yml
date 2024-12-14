@@ -132,7 +132,7 @@ jobs:
             return $signature.Trim()
           }
 
-          $windows_x86_64_sig = Read-Signature "src-tauri\target\release\bundle\msi\codefend-panel_${package_version}_x64_en-US.msi.sig"
+          $windows_x86_64_sig = Read-Signature "src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.exe.sig"
           
           Write-Host "Signatures extracted successfully."
           echo "windows_x86_64_sig=$windows_x86_64_sig" >> $GITHUB_OUTPUT
