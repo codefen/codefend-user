@@ -10,6 +10,7 @@ interface ModalWrapper {
   action?: () => void;
   type?: string;
   showCloseBtn?: boolean;
+  className?: string;
 }
 const root = document.getElementById('root-modal');
 
@@ -19,6 +20,7 @@ const ModalWrapper: FC<ModalWrapper> = ({
   children,
   action,
   showCloseBtn,
+  className = '',
 }) => {
   const { setKeyPress, keyPress } = useKeyEventPress();
   const closeEvent = (e?: any) => {
@@ -42,7 +44,11 @@ const ModalWrapper: FC<ModalWrapper> = ({
   }
 
   return ReactDOM.createPortal(
-    <div onDoubleClick={closeEvent} className="modal-wrapper" role="dialog" aria-modal="true">
+    <div
+      onDoubleClick={closeEvent}
+      className={`modal-wrapper ${className}`}
+      role="dialog"
+      aria-modal="true">
       <article
         className={`modal ${!isErrorBox ? type : ''}`}
         onDoubleClick={e => {

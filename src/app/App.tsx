@@ -11,6 +11,7 @@ import { useSessionStorage } from 'usehooks-ts';
 import { RUNNING_DESKTOP, type UpdateAppState } from './data';
 import { check } from '@tauri-apps/plugin-updater';
 import { UpdateAppModal } from '@modals/UpdateAppModal';
+import { UpdatingModal } from '@modals/UpdatingModal';
 
 export const App = () => {
   const [updateState, setHasUpdate] = useSessionStorage<UpdateAppState>('updateState', {
@@ -25,13 +26,14 @@ export const App = () => {
         }
       });
     }
-  });
+  }, [updateState]);
 
   return (
     <ErrorBoundary>
       <ThemeProvider>
         <BrowserRouter>
           <UpdateAppModal />
+          <UpdatingModal />
           <ToastContainer
             position="top-right"
             autoClose={5000}
