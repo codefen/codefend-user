@@ -1,5 +1,5 @@
 
-name: 'Publish Web App'
+name: 'Deploy'
 
 on:
   workflow_call:
@@ -8,7 +8,6 @@ on:
 jobs:
   publish_webapp:
     if: "github.event.repository.fork == false"
-    name: Publish Web App
     runs-on: ubuntu-latest
     
     steps:

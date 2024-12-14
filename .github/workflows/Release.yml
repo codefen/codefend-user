@@ -7,7 +7,7 @@ on:
 jobs:
   createRelease:
     if: "github.event.repository.fork == false"
-    name: Create Codefend App Release
+    name: 🎇 Create Codefend App Release
     runs-on: macos-latest
     permissions:
       contents: write
@@ -80,7 +80,7 @@ jobs:
 
   release_github:
     needs: [createRelease, build_linux, build_macos, build_windows]
-    name: Release Github
+    name: 🎆 Release Github
     permissions:
       contents: write
       pull-requests: write
