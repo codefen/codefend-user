@@ -19,14 +19,14 @@ export const App = () => {
   });
 
   useLayoutEffect(() => {
-    if (RUNNING_DESKTOP() && !updateState.rejectUpdate) {
+    if (RUNNING_DESKTOP() && (!updateState.rejectUpdate || updateState.acceptUpdate)) {
       check().then(update => {
         if (!!update && update.available) {
           setHasUpdate(prev => ({ ...prev, hasUpdate: true, update }));
         }
       });
     }
-  }, [updateState]);
+  }, []);
 
   return (
     <ErrorBoundary>
