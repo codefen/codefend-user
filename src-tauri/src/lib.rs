@@ -28,9 +28,6 @@ fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    #[cfg(debug_assertions)]
-    let devtools = tauri_plugin_devtools::init();
-
     let builder = tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
@@ -41,7 +38,6 @@ pub fn run() {
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_window_state::Builder::default().build())
-        .plugin(devtools)
         .plugin(tauri_plugin_process::init());
 
     builder
