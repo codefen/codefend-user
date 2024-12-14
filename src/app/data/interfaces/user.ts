@@ -1,3 +1,4 @@
+import type { Update } from '@tauri-apps/plugin-updater';
 import type { AuditCompanyData, ContactData, LocationData } from '.';
 
 export interface User extends AuditCompanyData, LocationData, ContactData {
@@ -27,4 +28,11 @@ export interface ResellerUser extends ContactData, LocationData, AuditCompanyDat
   profile_media?: string;
   reseller_id?: string;
   reseller_name?: string;
+}
+
+export interface UpdateAppState {
+  hasUpdate: boolean;
+  acceptUpdate?: boolean;
+  rejectUpdate?: boolean;
+  update?: Update;
 }
