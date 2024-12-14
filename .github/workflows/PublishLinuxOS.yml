@@ -97,6 +97,30 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
 
+      - name: Upload Release Assets
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            $package_version = "${{ inputs.package_version }}"
+            const artifacts = [
+              `src-tauri/target/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage`,
+              `src-tauri/target/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage.sig`,
+            ];
+            for (const artifact of artifacts) {
+              if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {
+                await github.rest.repos.uploadReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: ${{ inputs.release_id }},
+                  name: `linux-${path.basename(artifact)}`,
+                  data: fs.readFileSync(artifact)
+                });
+              }
+            }
+
       - name: Extract Signatures and Set Outputs
         id: extract-signatures
         run: |
