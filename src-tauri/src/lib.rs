@@ -5,9 +5,12 @@ extern crate cocoa;
 #[cfg(target_os = "macos")]
 extern crate objc;
 
-use tauri::{Emitter, Manager, WebviewUrl, WebviewWindowBuilder};
+use tauri::{
+    Emitter, LogicalSize, Manager, PhysicalPosition, Position, WebviewUrl, WebviewWindowBuilder,
+};
 use tauri_plugin_log::Target;
 use tauri_plugin_log::TargetKind;
+use tauri_plugin_window_state::StateFlags;
 
 #[tauri::command]
 fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
@@ -21,7 +24,20 @@ fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
         #[cfg(not(target_os = "macos"))]
         let win_builder = win_builder.decorations(false).transparent(true);
 
-        win_builder.build().unwrap();
+        let window = win_builder.build().unwrap();
+        window.set_min_size(Some(LogicalSize::new(800.0, 600.0)))?;
+        if let Ok(Some(monitor)) = window.current_monitor() {
+            let monitor_size = monitor.size();
+            let window_size = window.outer_size()?;
+
+            let center_x = (monitor_size.width as f64 - window_size.width as f64) / 2.0;
+            let center_y = (monitor_size.height as f64 - window_size.height as f64) / 2.0;
+
+            window.set_position(Position::Physical(PhysicalPosition::new(
+                center_x as i32,
+                center_y as i32,
+            )))?;
+        }
     }
     Ok(())
 }
@@ -37,7 +53,12 @@ pub fn run() {
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_http::init())
-        .plugin(tauri_plugin_window_state::Builder::default().build())
+        .plugin(
+            tauri_plugin_window_state::Builder::default()
+                .with_state_flags(StateFlags::all())
+                .build(),
+        )
+        .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_process::init());
 
     builder
@@ -51,7 +72,6 @@ pub fn run() {
                             .targets([
                                 Target::new(TargetKind::LogDir { file_name: None }),
                                 Target::new(TargetKind::Stdout),
-                                Target::new(TargetKind::Webview),
                             ])
                             .level(log::LevelFilter::Info)
                             .build(),

@@ -1,7 +1,8 @@
 import { useSessionStorage } from 'usehooks-ts';
-import ModalTitleWrapper from './modalwrapper/ModalTitleWrapper';
+import ModalTitleWrapper from '../modalwrapper/ModalTitleWrapper';
 import type { UpdateAppState } from '@interfaces/user';
 import { PrimaryButton } from '@buttons/index';
+import scss from './updateapp.module.scss';
 
 export const UpdateAppModal = () => {
   const [updateState, setHasUpdate] = useSessionStorage<UpdateAppState>('updateState', {
@@ -11,15 +12,13 @@ export const UpdateAppModal = () => {
   return (
     <ModalTitleWrapper
       close={() => setHasUpdate({ hasUpdate: false })}
-      isActive={updateState.hasUpdate}
+      isActive={updateState?.hasUpdate}
       headerTitle="Update Available">
-      <div className="p-4">
-        {updateState.update && (
-          <header>
-            <h4 className="text-small title-format">
-              Update to ${updateState.update.version} is available!
-            </h4>
-          </header>
+      <div className={scss['update-app-modal-container']}>
+        {!updateState?.update && (
+          <h4 className="text-small title-format">
+            Update to v${updateState?.update?.version} is available!
+          </h4>
         )}
         <div className="form-buttons">
           <PrimaryButton

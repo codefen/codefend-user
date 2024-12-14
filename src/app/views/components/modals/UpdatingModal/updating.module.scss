@@ -1,5 +1,5 @@
 .updating-modal-overlay {
-  background-color: rgb(0 0 0 / 20%);
+  background-color: #00000033;
 }
 
 .updating-modal-container {
@@ -8,11 +8,14 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: rgb(0 0 0 / 70%) !important;
+  background-color: #000000bf !important;
   border-radius: 5px !important;
-  backdrop-filter: blur(3.5px);
+  backdrop-filter: blur(4px);
   overflow: hidden;
   max-width: 45rem;
+
+  --primary-text-color: var(--primary-color-300);
+  --secondary-text-color: var(--tertiary-color-50);
 }
 
 .updating-top-modal {
@@ -26,7 +29,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  border-block: 1px solid var(--secondary-color-150);
+  border-block: 1px solid var(--secondary-color-100);
   padding-inline: 1.5rem;
   max-height: 150px;
 }
@@ -37,24 +40,26 @@
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: var(--primary-color-300);
+  color: var(--primary-text-color);
 }
 
 .updating-mid-modal p {
   font-size: 0.825rem;
   font-weight: 400;
-  color: var(--tertiary-color-50);
+  color: var(--secondary-text-color);
 }
 
 .updating-mid-modal div {
   padding-block: 2rem;
+  height: 100cqh;
+  max-height: 150px;
 }
 
 .updating-mid-modal .updating-modal-vl {
   height: 100cqh;
   padding-block: 0;
   width: 1px;
-  background-color: var(--secondary-color-150);
+  background-color: var(--secondary-color-100);
   max-height: 150px;
 }
 
@@ -68,7 +73,7 @@
 .updating-bot-modal {
   display: flex;
   flex-direction: column;
-  row-gap: 0.55rem;
+  row-gap: 0.75rem;
   padding: 1.5rem;
   width: 100%;
 }
@@ -79,18 +84,32 @@
   align-items: center;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--primary-color-300);
+  color: var(--primary-text-color);
   letter-spacing: 0.05em;
 }
 
 .updating-bot-progress-bar {
-  height: 0.25rem;
+  height: 0.35rem;
   width: 100%;
   background-color: #ffffff1a;
+  border-radius: 0.5rem;
 }
 
 .updating-bot-progress-stick {
   height: 100%;
   background-color: var(--secondary-color-100);
   transition: all 0.3s ease-in-out;
+  border-radius: 0.5rem;
+}
+
+body[data-theme='dark'] {
+  .updating-modal-container {
+    --primary-text-color: var(--tertiary-color-50);
+    --secondary-text-color: var(--tertiary-color-500);
+  }
+
+  .updating-modal-overlay {
+    background-color: #0000000d;
+    backdrop-filter: blur(3px) saturate(0.8) contrast(1);
+  }
 }
