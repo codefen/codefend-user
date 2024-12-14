@@ -21,16 +21,14 @@ const ModalTitleWrapper: FC<ModalTitleWrapperProps> = ({
   }
   return (
     <ModalWrapper action={close} showCloseBtn type={`${type} title-wrapper`}>
-      <>
-        <div className="header">
-          <div className="icon">
-            <StatIcon />
-          </div>
-          {headerTitle}
+      <div className="header">
+        <div className="icon">
+          <StatIcon />
         </div>
-        {children}
-        <div className="modal-helper-box text-format"></div>
-      </>
+        {headerTitle}
+      </div>
+      {children}
+      <div className="modal-helper-box text-format"></div>
     </ModalWrapper>
   );
 };

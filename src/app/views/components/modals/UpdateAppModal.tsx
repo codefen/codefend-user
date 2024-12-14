@@ -13,7 +13,7 @@ export const UpdateAppModal = () => {
       close={() => setHasUpdate({ hasUpdate: false })}
       isActive={updateState.hasUpdate}
       headerTitle="Update Available">
-      <div>
+      <div className="p-4">
         {updateState.update && (
           <header>
             <h4 className="text-small title-format">
