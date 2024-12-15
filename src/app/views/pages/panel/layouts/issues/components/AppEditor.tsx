@@ -1,9 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
-import addTinyMce, {
-  setMode,
-  setTinyEditorContent,
-  getTinyEditorContent,
-} from '../../../../../../../editor-lib';
+import { setMode, safeInitTinyMCE } from '../../../../../../../editor-lib';
+import { PrimaryButton } from '@buttons/index';
 
 interface AppEditorProps {
   initialValue: string;
@@ -12,36 +9,58 @@ interface AppEditorProps {
   isLoaded?: boolean;
 }
 const EMPTY_TEXT = '<p>Please add issues here...</p>';
-const startTiny = (initialValue: string) => {
-  try {
-    const content = getTinyEditorContent('issue');
-    setTinyEditorContent('issue', content ? content : initialValue);
-  } catch (e) {
-    console.error(e);
-  }
-};
 
 const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation, isLoaded }) => {
-  const [first, setFirst] = useState(true);
+  const [editorError, setEditorError] = useState<string | null>(null);
+  const [editorInitialized, setEditorInitialized] = useState(false);
 
   useEffect(() => {
     const defaultValue = !Boolean(initialValue) ? EMPTY_TEXT : initialValue;
-    addTinyMce(defaultValue);
-    setFirst(false);
-    startTiny(initialValue);
+
+    safeInitTinyMCE(
+      defaultValue,
+      () => {
+        // Successful initialization
+        setEditorInitialized(true);
+        setEditorError(null);
+      },
+      error => {
+        console.error('TinyMCE initialization failed:', error);
+        setEditorError('Could not load text editor');
+        setEditorInitialized(false);
+      }
+    );
   }, [initialValue, isLoaded]);
 
+  // Mode update effect
   useEffect(() => {
-    if (!first) {
-      startTiny(initialValue);
-    }
+    if (!editorInitialized) return;
 
-    if (!isCreation) {
-      setMode('issue', isEditable ? 'design' : 'readonly');
-    } else {
-      setMode('issue', 'design');
+    try {
+      // Only attempt to change mode if editor is initialized
+      if (!isCreation) {
+        setMode('issue', isEditable ? 'design' : 'readonly');
+      } else {
+        setMode('issue', 'design');
+      }
+    } catch (error) {
+      console.error('Error updating editor mode:', error);
+      setEditorError('Failed to update editor settings');
     }
-  }, [isEditable, isLoaded]);
+  }, [editorInitialized, isEditable, isCreation]);
+
+  if (editorError) {
+    return (
+      <div className="error-container">
+        <p>{editorError}</p>
+        <PrimaryButton
+          buttonStyle="gray"
+          text="Reload Editor"
+          click={() => window.location.reload()}
+        />
+      </div>
+    );
+  }
 
   return <textarea name="name" id="issue" rows={4} cols={40}></textarea>;
 };

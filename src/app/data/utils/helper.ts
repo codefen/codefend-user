@@ -61,7 +61,6 @@ export const deleteCustomBaseAPi = () => window.localStorage.removeItem('baseApi
 
 /** check if it is running on tauri on web  */
 export const RUNNING_DESKTOP = (): boolean => {
-  console.log({ hasTauri: window.__TAURI__ });
   return window.__TAURI__ !== undefined;
 };
 

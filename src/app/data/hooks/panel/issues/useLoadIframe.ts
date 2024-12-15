@@ -26,7 +26,7 @@ const useLoadIframe = (keyDownExc: () => void, extraExc?: () => void) => {
             }
           };
           const body = contentWindow.document.body;
-          if (body) body.setAttribute('data-theme', theme);
+          body?.setAttribute?.('data-theme', theme);
           contentWindow.addEventListener('keydown', keydownHandler);
 
           extraExc?.();
@@ -46,7 +46,7 @@ const useLoadIframe = (keyDownExc: () => void, extraExc?: () => void) => {
       setTimeout(() => {
         observer.disconnect();
         reject(new Error('Timeout al buscar iframe'));
-      }, 6000);
+      }, 8000);
     });
   }, [theme, keyDownExc, extraExc]);
 
