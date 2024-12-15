@@ -1,15 +1,12 @@
-import type { UpdateAppState } from '@interfaces/user';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
-import { useSessionStorage } from 'usehooks-ts';
 import scss from './updating.module.scss';
 import { useEffect, useState } from 'react';
 import { RUNNING_DESKTOP } from '@utils/helper';
 import { relaunch } from '@tauri-apps/plugin-process';
+import { useUploadingStore } from '@stores/updating.store';
 
 export const UpdatingModal = () => {
-  const [updateState, setUpdateState] = useSessionStorage<UpdateAppState>('updateState', {
-    hasUpdate: false,
-  });
+  const { setHas, setAccept, setReject, ...updateState } = useUploadingStore();
   const [progress, setProgress] = useState(0);
   const [totalSize, setTotalSize] = useState(0);
   const [downloaded, setDownloaded] = useState(0);
@@ -26,20 +23,28 @@ export const UpdatingModal = () => {
           setProgress(progressPercentage);
           break;
         case 'Finished':
-          setUpdateState(prev => ({ ...prev, hasUpdate: false, acceptUpdate: false }));
+          setHas(true);
+          setAccept(false);
+          setReject(false);
           break;
       }
     });
   };
 
   useEffect(() => {
-    if (RUNNING_DESKTOP() && updateState?.update && updateState.acceptUpdate) {
+    if (RUNNING_DESKTOP() && updateState.accept) {
+      alert(
+        `Update in progress ${updateState.update?.rid}-${updateState.update?.version}-${updateState.update?.currentVersion}`
+      );
       startUpdate().then(() => {
-        relaunch();
+        relaunch().then(() => {
+          console.log('relaunch...');
+        });
       });
     }
-  }, [updateState]);
-  if (!updateState.acceptUpdate) return null;
+  }, [updateState.update, updateState.accept]);
+  if (!updateState.accept) return null;
+
   return (
     <ModalWrapper
       showCloseBtn={false}

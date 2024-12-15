@@ -10,7 +10,6 @@ export const apiErrorValidation = (error?: any, response?: any) =>
 
 export const companyIdIsNull = (companyID?: any) => {
   if (!companyID) {
-    toast.error(APP_MESSAGE_TOAST.USER_INFO_NOT_FOUND);
     return true;
   }
   return false;

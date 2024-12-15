@@ -80,7 +80,6 @@ pub fn run() {
                 create_main_window(app.handle().clone())?;
 
                 app.handle().emit("window-ready", ()).unwrap();
-
                 Ok(())
             }
         })
