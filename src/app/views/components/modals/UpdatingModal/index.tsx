@@ -18,11 +18,14 @@ export const UpdatingModal = () => {
           setTotalSize(event.data?.contentLength ?? 0);
           break;
         case 'Progress':
-          setDownloaded(prev => prev + event.data.chunkLength);
-          const progressPercentage = Math.round((downloaded / totalSize) * 100);
+          const newDownloaded = downloaded + event.data.chunkLength;
+          setDownloaded(newDownloaded);
+          const progressPercentage =
+            totalSize > 0 ? Math.round((newDownloaded / totalSize) * 100) : 0;
           setProgress(progressPercentage);
           break;
         case 'Finished':
+          setProgress(100);
           setHas(true);
           setAccept(false);
           setReject(false);
