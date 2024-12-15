@@ -1,4 +1,4 @@
-import { type FC, useCallback, useEffect, useState, type ChangeEvent } from 'react';
+import { type FC, useEffect, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
 import { type UpdateIssue, useUpdateIssue } from '@panelHooks/issues/useUpdateIssue.ts';
@@ -21,7 +21,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
   const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
   const { oneExecute, clear } = useTimeout(() => setEditable(true), 380);
 
-  const handleIssueUpdate = useCallback(() => {
+  const handleIssueUpdate = () => {
     update()
       .then((response: any) => {
         setEditable(false);
@@ -29,7 +29,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
       .finally(() => {
         navigate(`/issues`);
       });
-  }, [update]);
+  };
   const [isLoaded, loadIframe] = useLoadIframe(handleIssueUpdate);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
       <IssueInfo
         issueData={issueData}
         isEditable={isEditable}
-        isLoaded={!isLoading}
+        isLoaded={!isLoading && isLoaded}
         isChild={!!updatedIssue.resourceID && updatedIssue.resourceID !== 0}
         defaultScore={updatedIssue.score}
         changeScore={score => dispatch(state => ({ ...state, score }))}
@@ -93,7 +93,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
       <div>
         <AppEditor
           isEditable={!isEditable}
-          isLoaded={!isLoading}
+          isLoaded={!isLoading && isLoaded}
           initialValue={issueData.issue}
           isCreation={false}
         />

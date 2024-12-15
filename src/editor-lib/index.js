@@ -60,45 +60,193 @@ const OPTIONS = {
 };
 
 export const setTinyEditorContent = (id, value) => {
-  if (!id && !value) return;
+  if (!id || !value) {
+    console.warn('setTinyEditorContent: ID o valor inválido');
+    return false;
+  }
 
-  const editor = tinyMCE.get(id);
-  if (editor) {
+  const editor = tinyMCE?.get?.(id);
+  if (!editor) {
+    console.error(`Editor con ID ${id} no encontrado`);
+    return false;
+  }
+  try {
     editor.setContent(value);
     return true;
+  } catch (error) {
+    console.error('Error al establecer contenido del editor:', error);
+    return false;
   }
-  return false;
 };
 
 const addTinyMce = initialValue => {
-  if (tinyMCE.EditorManager.activeEditor) {
+  if (typeof tinyMCE === 'undefined') {
+    console.error('TinyMCE no está cargado');
+    return;
+  }
+
+  if (tinyMCE?.EditorManager?.activeEditor) {
     tinyMCE.remove();
   }
 
-  let flushID = 0;
+  let retryTimeout = null;
+
   try {
     tinyMCE.init(OPTIONS);
-    const is = setTinyEditorContent('issue', initialValue);
-    if (!is) flushID = setTimeout(() => setTinyEditorContent('issue', initialValue), 500);
-  } catch (e) {
-    console.error(e);
+    // Intentar establecer contenido
+    const contentSet = setTinyEditorContent('issue', initialValue);
+    if (!contentSet) {
+      retryTimeout = setTimeout(() => {
+        setTinyEditorContent('issue', initialValue);
+      }, 500);
+    }
+  } catch (error) {
+    console.error('Error al inicializar TinyMCE:', error);
   } finally {
-    if (flushID !== 0) clearTimeout(flushID);
+    if (retryTimeout) {
+      clearTimeout(retryTimeout);
+    }
   }
 };
 
 export const getTinyEditorContent = id => {
-  if (!id) return '';
-  return tinyMCE.get(id).getContent();
+  if (!id) {
+    console.warn('getTinyEditorContent: ID inválido');
+    return '';
+  }
+
+  const editor = tinyMCE?.get?.(id);
+  if (!editor) {
+    console.error(`Editor con ID ${id} no encontrado`);
+    return '';
+  }
+
+  try {
+    return editor.getContent();
+  } catch (error) {
+    console.error('Error al obtener contenido del editor:', error);
+    return '';
+  }
 };
 
 export const setMode = (id, mode) => {
-  const editorHeader = document.querySelector('.tox-editor-header');
-  if (editorHeader != null) {
-    if (mode === 'design') editorHeader.classList.add('editable');
-    else editorHeader.classList.remove('editable');
+  if (!id || !mode) {
+    console.warn('setMode: ID o modo inválido');
+    return;
   }
-  tinyMCE.get(id).mode.set(mode);
+
+  const editorHeader = document.querySelector('.tox-editor-header');
+  const editor = tinyMCE?.get?.(id);
+
+  if (!editorHeader) {
+    console.warn('Encabezado del editor no encontrado');
+    return;
+  }
+
+  if (!editor) {
+    console.error(`Editor con ID ${id} no encontrado`);
+    return;
+  }
+
+  try {
+    // Manipular clases del encabezado
+    if (mode === 'design') {
+      editorHeader.classList.add('editable');
+    } else {
+      editorHeader.classList.remove('editable');
+    }
+
+    // Establecer modo del editor
+    editor.mode.set(mode);
+  } catch (error) {
+    console.error('Error al cambiar el modo del editor:', error);
+  }
+};
+
+export const safeInitTinyMCE = (defaultValue, onSuccess, onError) => {
+  // Ensure we're in a browser environment
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    onError && onError(new Error('Not in browser environment'));
+    return;
+  }
+
+  // Ensure TinyMCE is available
+  if (typeof tinyMCE === 'undefined') {
+    onError && onError(new Error('TinyMCE not loaded'));
+    return;
+  }
+
+  // Wait for DOM to be fully ready
+  const initEditor = () => {
+    try {
+      // Remove any existing editors
+      if (tinyMCE.EditorManager.activeEditor) {
+        try {
+          tinyMCE.remove();
+        } catch (removeError) {
+          console.warn('Error removing existing editor:', removeError);
+        }
+      }
+
+      // Ensure the textarea exists
+      const textareaElement = document.getElementById('issue');
+      if (!textareaElement) {
+        throw new Error('Textarea element not found');
+      }
+
+      // Retry mechanism with exponential backoff
+      const maxRetries = 3;
+      let attempts = 0;
+
+      const attemptInit = () => {
+        attempts++;
+
+        try {
+          // Initialize TinyMCE
+          tinyMCE.init({
+            ...OPTIONS, // Your existing OPTIONS
+            selector: '#issue',
+            setup: editor => {
+              editor.on('init', () => {
+                // Set initial content
+                editor.setContent(defaultValue);
+                onSuccess && onSuccess();
+              });
+
+              editor.on('error', e => {
+                console.error('TinyMCE initialization error:', e);
+                if (attempts < maxRetries) {
+                  setTimeout(attemptInit, attempts * 500);
+                } else {
+                  onError && onError(new Error('Failed to initialize TinyMCE'));
+                }
+              });
+            },
+          });
+        } catch (initError) {
+          console.error('TinyMCE init attempt failed:', initError);
+          if (attempts < maxRetries) {
+            setTimeout(attemptInit, attempts * 500);
+          } else {
+            onError && onError(initError);
+          }
+        }
+      };
+
+      // Start first attempt
+      attemptInit();
+    } catch (error) {
+      onError && onError(error);
+    }
+  };
+
+  // Ensure DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEditor);
+  } else {
+    // Use nextTick to avoid potential race conditions
+    setTimeout(initEditor, 0);
+  }
 };
 
 export default addTinyMce;
