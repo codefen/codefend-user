@@ -1,4 +1,4 @@
-import { Suspense, useLayoutEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Loader } from './views/components';
@@ -7,25 +7,27 @@ import { ErrorBoundary } from './views/components/defaults/ErrorBoundry';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppRouter } from './router/Routes';
-import { useSessionStorage } from 'usehooks-ts';
-import { RUNNING_DESKTOP, type UpdateAppState } from './data';
+import { RUNNING_DESKTOP } from './data';
 import { check } from '@tauri-apps/plugin-updater';
 import { UpdateAppModal } from '@modals/UpdateAppModal';
 import { UpdatingModal } from '@modals/UpdatingModal';
+import { useUploadingStore } from '@stores/updating.store';
 
 export const App = () => {
-  const [updateState, setHasUpdate] = useSessionStorage<UpdateAppState>('updateState', {
-    hasUpdate: false,
-  });
+  const { setHas, setUpdate, ...updateState } = useUploadingStore();
 
-  useLayoutEffect(() => {
-    if (RUNNING_DESKTOP() && (!updateState.rejectUpdate || updateState.acceptUpdate)) {
-      check().then(update => {
-        if (!!update && update.available) {
-          setHasUpdate(prev => ({ ...prev, hasUpdate: true, update }));
-        }
-      });
+  useEffect(() => {
+    if (RUNNING_DESKTOP()) {
+      if (!updateState.reject && !updateState.accept && !updateState.has) {
+        check().then(update => {
+          if (!!update && update.available) {
+            setHas(true);
+            setUpdate(update);
+          }
+        });
+      }
     }
+    return () => {};
   }, []);
 
   return (

@@ -1,23 +1,20 @@
-import { useSessionStorage } from 'usehooks-ts';
 import ModalTitleWrapper from '../modalwrapper/ModalTitleWrapper';
-import type { UpdateAppState } from '@interfaces/user';
 import { PrimaryButton } from '@buttons/index';
 import scss from './updateapp.module.scss';
+import { useUploadingStore } from '@stores/updating.store';
 
 export const UpdateAppModal = () => {
-  const [updateState, setHasUpdate] = useSessionStorage<UpdateAppState>('updateState', {
-    hasUpdate: false,
-  });
+  const { setHas, setAccept, setReject, ...updateState } = useUploadingStore();
 
   return (
     <ModalTitleWrapper
-      close={() => setHasUpdate({ hasUpdate: false })}
-      isActive={updateState?.hasUpdate}
+      close={() => setHas(false)}
+      isActive={updateState?.has}
       headerTitle="Update Available">
       <div className={scss['update-app-modal-container']}>
-        {!updateState?.update && (
+        {updateState?.update && (
           <h4 className="text-small title-format">
-            Update to v{updateState?.update?.version} is available!
+            Update to v{updateState.update.version} is available!
           </h4>
         )}
         <div className="form-buttons">
@@ -25,16 +22,20 @@ export const UpdateAppModal = () => {
             buttonStyle="black"
             text="Cancel"
             className="btn-cancel codefend_secondary_ac"
-            isDisabled={updateState.acceptUpdate}
+            isDisabled={updateState.accept}
             disabledLoader
-            click={() => setHasUpdate({ hasUpdate: false, rejectUpdate: true })}
+            click={() => {
+              setReject(true);
+            }}
           />
           <PrimaryButton
             buttonStyle="red"
             text="Update"
             className="btn-add codefend_main_ac limit-height"
-            isDisabled={updateState.acceptUpdate}
-            click={() => setHasUpdate({ hasUpdate: false, acceptUpdate: true })}
+            isDisabled={updateState.accept}
+            click={() => {
+              setAccept(true);
+            }}
           />
         </div>
       </div>

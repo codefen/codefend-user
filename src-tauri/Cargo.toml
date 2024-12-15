@@ -1,6 +1,6 @@
 [package]
 name = "codefend-panel"
-version = "24.3.0"
+version = "24.2.2"
 description = "Security Platform Panel"
 authors = ["Codefend"]
 repository = "https://github.com/codefen/codefend-user"

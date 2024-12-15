@@ -19,4 +19,6 @@ export enum EVENTS {
   WHEEL = 'wheel',
   // custom events
   ERROR_STATE = 'SVESM',
+  STATE_CHANGE_EVENT = 'state_change_event',
+  STATE_SYNC_EVENT = 'state_sync_event',
 }
