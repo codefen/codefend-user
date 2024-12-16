@@ -1,23 +1,23 @@
 {
-  "version": "24.3.0",
-  "notes": "Codefend Panel 24.3.0 release",
-  "pub_date": "2024-12-13T08:44:42Z",
+  "version": "24.3.2",
+  "notes": "Codefend Panel 24.3.2 release",
+  "pub_date": "2024-12-16T23:41:55Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZk9wTmZWWGlqbU4wUkp5aTJCQkJTRlVRTE9pZWxEQmhXbWtrM1Nydk5tYTlETHA4dDRXdDc2ZklSZkZOMm9GUmt2bnZtU0Y0bkR6bitYQnpiZWxqUkMvZWJNcDEzVkFJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0MDc4OTM5CWZpbGU6Y29kZWZlbmQtcGFuZWwuYXBwLnRhci5nego5dnV4cFlrOWR4VXdTa0Y0STE1NG54V2pHeWtLWm9hTlFEL1ZSNk9FdEZ6N0FraTF0b1FhQUZKMU5tZTBsS0lMVHNheS9vOE1sbjZZTFJkNHgzUENCQT09Cg==",
-      "url": "https://github.com/codefen/codefend-user/releases/download/v24.3.0/codefend-panel_24.3.0_aarch64.dmg"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZk9wTmZWWGlqbUoyWHNKRXZKc1RFTDhVSTJLU0tFVDVXT0RJdUpzZ0Y0d0hzUnljYUYvdEVSdjM5TmZKYlh4cWZsOXMvdHRGSng5SVBFRmt5MEd6QzVMdlV2d3h6OGdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0MzkyMTA4CWZpbGU6Y29kZWZlbmQtcGFuZWwuYXBwLnRhci5negpYeEhvNGpyZFlMVWtnSnFXbmZraXNrQlVCWXZVdUZtVUVoaGRNOEpSa3JvNUN1UytxR0pkM3BpdEdHTi9MWjUvNFhueG55Y2djSERwaWFmQUc2cDFCdz09Cg==",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v24.3.2/mac_aarch64-apple-darwin-codefend-panel.app.tar.gz"
     },
     "darwin-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZk9wTmZWWGlqbUh6cktwbyt2OXpsOXpjQ1dlN2cwRVFWOHRFamlxS0dTTWthczc4TWtLTnM4S01RbXkyWXlwRTluZGZmK3c2Z0p4NnNrbFdwOGtVZ2kzZ3NpTGoxUEFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0MDc4OTY4CWZpbGU6Y29kZWZlbmQtcGFuZWwuYXBwLnRhci5negpBVC9adDBjZW5rYkRjRmlrS2FFMm5LT25NSndZbGFrM3V5amJMcmF0ZWlLMHJuUk5ET2Q0cExkb3ZQZmVtN0ZtZ1h2UVplcFNRM2NnRWMrUHlFbEZBUT09Cg==",
-      "url": "https://github.com/codefen/codefend-user/releases/download/v24.3.0/codefend-panel_24.3.0_x64.dmg"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZk9wTmZWWGlqbUx5bDhud1ErYUJuRDdKV3ZiNnZVUElVQis3NStyR1U2aUJtellnY0pXOEtqNk5wVDBjdEFTcjAvcS9vSUV6RVl6a2hJWWJhWDgrYmhLYWVvbzNFQ0FZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0MzkxOTQ2CWZpbGU6Y29kZWZlbmQtcGFuZWwuYXBwLnRhci5negpjQjkweEwxSEx0MUlReHI2VHdSMjY1cnoxWHF1R3FBVGdibEs4bnVYcHdDV1VDRWNob1ZGaXB3N0dSU09IMEF1czl1b25jb2s1ZmpPanRrN0NtZDREUT09Cg==",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v24.3.2/mac_x86_64-apple-darwin-codefend-panel.app.tar.gz"
     },
     "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZk9wTmZWWGlqbU5GQ2dvVUs1S21XOUc4UENtNGdnRG8wMWxKb2NMZU9qczJTMkh2TG1TdkNoMFY1UjBxV0ZiUElndm9reFBMYU9qZFEyeS9TNU1rczJ6WHVvZ0ZwaGd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0MDc5MTY2CWZpbGU6Y29kZWZlbmQtcGFuZWxfMjQuMy4wX2FtZDY0LkFwcEltYWdlCk56Tm5tNFZIcFBYMlp4eHFuZExsc00yemwwUFFYWkxvOHlzRm14NUFPTWh2OHZ0djJ6Rk1GS1h0NGVWSEpyQXFZa3pNZUxadUsrNmJleHVkTFNzUkFBPT0K",
-      "url": "https://github.com/codefen/codefend-user/releases/download/v24.3.0/codefend-panel_24.3.0_amd64.deb"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZk9wTmZWWGlqbUdzZFgxVGdjbnpsVDg0SVRCa21oOUU1U1V2TFRoWmIybjViWE1tTEVmZVlWVm9qUUFSOUN3UWx4Q0R1TTJDczFSLzJ6SUZsek1nY1M2WWJ6L2htaFFnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0MzkyMTc4CWZpbGU6Y29kZWZlbmQtcGFuZWxfMjQuMy4yX2FtZDY0LkFwcEltYWdlCnliak5tUmh6QTFDZWNVcDh2WEE3TWZYbjJzSWxpaENSZTlHUmxkUnVRaEg2eEp1TGRnNlNIb3FaZXB1UkNUUStUUFB1V1hRUHZCTkYwblFzT3N6ZkFnPT0K",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v24.3.2/linux-codefend-panel_24.3.2_amd64.AppImage"
     },
     "windows-x86_64": {
-      "signature": "",
-      "url": "https://github.com/codefen/codefend-user/releases/download/v24.3.0/codefend-panel_24.3.0_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZk9wTmZWWGlqbUx0SWowbXJydXdlNWI4VW9KVnRYQzdwUEVUNHZtenBuVjNaYi9RNS91czRydDZIazl4OHB2d2JsNDJ1TDZQNXMzYWxDKzRkcDFaWnN1clhHMnZFZkFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM0MzkyNDg1CWZpbGU6Y29kZWZlbmQtcGFuZWxfMjQuMy4yX3g2NC1zZXR1cC5leGUKWFFrRjBOK1dOekxNbS9Edk5HVGZEam95ZXJXMWNTVWpQd01QaHZSdS9YQnBHdW95MHJ6KzJsd1A2TXAxbVZtQ25ZSisxRmUrbjR5ZUxVcnhITEdFQ0E9PQo=",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v24.3.2/codefend-panel_24.3.2_x64-setup.exe"
     }
   }
 }
