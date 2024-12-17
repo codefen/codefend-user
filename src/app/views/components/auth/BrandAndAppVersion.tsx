@@ -4,7 +4,7 @@ const Logo = lazy(() => import('../defaults/Logo'));
 
 const BrandAndAppVersion: FC = () => (
   <div className="brand">
-    <span>v24.3.2</span>
+    <span>v24.3.3</span>
     <Logo theme={'shadow'} />
   </div>
 );

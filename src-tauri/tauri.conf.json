@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schema.tauri.app/config/2",
-	"productName": "codefend-panel",
+	"productName": "Codefend Offensive",
 	"version": "../package.json",
 	"identifier": "com.codefend.panel",
 	"app": {

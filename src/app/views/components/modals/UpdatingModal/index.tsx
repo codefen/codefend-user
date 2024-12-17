@@ -15,14 +15,12 @@ export const UpdatingModal = () => {
     return updateState.update?.downloadAndInstall(event => {
       switch (event.event) {
         case 'Started':
-          setTotalSize(event.data?.contentLength ?? 0);
+          const size = event.data?.contentLength ?? 0;
+          setTotalSize(size);
           break;
         case 'Progress':
-          const newDownloaded = downloaded + event.data.chunkLength;
-          setDownloaded(newDownloaded);
-          const progressPercentage =
-            totalSize > 0 ? Math.round((newDownloaded / totalSize) * 100) : 0;
-          setProgress(progressPercentage);
+          const chunkLength = event.data?.chunkLength ?? 0;
+          setDownloaded(prev => prev + chunkLength);
           break;
         case 'Finished':
           setProgress(100);
@@ -35,10 +33,7 @@ export const UpdatingModal = () => {
   };
 
   useEffect(() => {
-    if (RUNNING_DESKTOP() && updateState.accept) {
-      alert(
-        `Update in progress ${updateState.update?.rid}-${updateState.update?.version}-${updateState.update?.currentVersion}`
-      );
+    if (RUNNING_DESKTOP() && updateState.accept && progress === 0) {
       startUpdate().then(() => {
         relaunch().then(() => {
           console.log('relaunch...');
@@ -46,7 +41,13 @@ export const UpdatingModal = () => {
       });
     }
   }, [updateState.update, updateState.accept]);
-  if (!updateState.accept) return null;
+
+  useEffect(() => {
+    const progressPercentage = totalSize > 0 ? Math.round((downloaded / totalSize) * 100) : 0;
+    setProgress(progressPercentage);
+  }, [downloaded, totalSize]);
+
+  if (updateState.accept) return null;
 
   return (
     <ModalWrapper
