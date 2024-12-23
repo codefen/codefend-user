@@ -124,12 +124,14 @@ jobs:
 
       - name: 🛡️ Generate Build Provenance
         uses: philips-labs/slsa-provenance-action@v0.9.0
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          COSIGN_EXPERIMENTAL: 1
+          COSIGN_SKIP_REKOR: true
         with:
           command: generate
           subcommand: github-release
-          arguments: --artifact-path src-tauri/target/${{ matrix.target }}/release/bundle --output-path 'provenance.json' --tag-name ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          arguments: --artifact-path src-tauri/target/${{ matrix.target }}/release/bundle --output-path 'provenance.json' --tag-name ${{ github.ref_name }} --force
 
       - name: 📤 Upload Release Assets
         uses: actions/github-script@v7
