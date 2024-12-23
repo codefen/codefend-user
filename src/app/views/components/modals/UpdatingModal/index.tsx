@@ -47,7 +47,7 @@ export const UpdatingModal = () => {
     setProgress(progressPercentage);
   }, [downloaded, totalSize]);
 
-  if (updateState.accept) return null;
+  if (!updateState.accept || !RUNNING_DESKTOP()) return null;
 
   return (
     <ModalWrapper

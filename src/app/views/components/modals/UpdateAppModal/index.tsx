@@ -2,6 +2,7 @@ import ModalTitleWrapper from '../modalwrapper/ModalTitleWrapper';
 import { PrimaryButton } from '@buttons/index';
 import scss from './updateapp.module.scss';
 import { useUploadingStore } from '@stores/updating.store';
+import { RUNNING_DESKTOP } from '@utils/helper';
 
 export const UpdateAppModal = () => {
   const { setHas, setAccept, setReject, ...updateState } = useUploadingStore();
@@ -9,7 +10,7 @@ export const UpdateAppModal = () => {
   return (
     <ModalTitleWrapper
       close={() => setHas(false)}
-      isActive={updateState?.has}
+      isActive={updateState?.has && !updateState.reject && RUNNING_DESKTOP()}
       headerTitle="Update Available">
       <div className={scss['update-app-modal-container']}>
         {updateState?.update && (
