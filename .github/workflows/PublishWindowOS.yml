@@ -132,7 +132,7 @@ jobs:
             return $signature.Trim()
           }
 
-          $windows_x86_64_sig = Read-Signature "src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.exe.sig"
+          $windows_x86_64_sig = Read-Signature "src-tauri\target\release\bundle\nsis\Codefend Security Panel_${package_version}_x64-setup.exe.sig"
           
           Write-Host "Signatures extracted successfully."
           Write-Host "::set-output name=windows_x86_64_sig::$windows_x86_64_sig"
@@ -160,5 +160,5 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: 'src-tauri/target/release/codefend-panel.exe'
+          subject-path: 'src-tauri/target/release/Codefend Security Panel.exe'
           sbom-path: "sbom.spdx.json"
