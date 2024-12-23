@@ -117,6 +117,17 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose --target ${{ matrix.target }}'
 
+      - name: 📜 Generate SBOM
+        run: |
+          brew install syft
+          syft packages src-tauri/target/${{ matrix.target }}/release/bundle -o spdx-json > sbom.spdx.json
+
+      - name: 🛡️ Generate Build Provenance
+        uses: slsa-framework/slsa-github-generator@v1.9.0
+        with:
+          base64-subjects-as-input: ${{ steps.hash.outputs.hashes }}
+          provenance-name: "provenance.intoto.jsonl"
+
       - name: 📤 Upload Release Assets
         uses: actions/github-script@v7
         with:
@@ -163,33 +174,13 @@ jobs:
           fi
 
           echo "Signatures extracted successfully."
-
-      - name: 🛡️ Attest build provenance (publish release only)
-        uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
-        env:
-          CARGO_HOME: /home/runner/.cargo
-          CARGO_INCREMENTAL: 0
-          CARGO_TERM_COLOR: always
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          subject-path: src-tauri/target/**/release/bundle/macos/*.tar.gz*
-          push-to-registry: false
-          show-summary: true
-          github-token: ${{ env.GITHUB_TOKEN }}
-  
-      - name: 📜 Create SBOM
-        uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
-        with:
-          format: "spdx-json"
-          output-file: "sbom.spdx.json"
-          artifact-name: "macos_${{ matrix.target }}.sbom.spdx.json"
   
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
           subject-path: >-
             ${{ 
-              (contains(matrix.target, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/Codefend Security Panel' ||
-              (contains(matrix.target, 'aarch64')) && 'src-tauri/target/aarch64-apple-darwin/release/Codefend Security Panel'
+              (contains(matrix.target, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/Codefend.Security.Panel' ||
+              (contains(matrix.target, 'aarch64')) && 'src-tauri/target/aarch64-apple-darwin/release/Codefend.Security.Panel' 
             }}
           sbom-path: "sbom.spdx.json"
