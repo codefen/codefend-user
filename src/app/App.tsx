@@ -18,7 +18,6 @@ export const App = () => {
 
   useEffect(() => {
     if (RUNNING_DESKTOP()) {
-      console.log('Checkea esto ?');
       if (!updateState.reject && !updateState.accept && !updateState.has) {
         check().then(update => {
           if (!!update && update.available) {
