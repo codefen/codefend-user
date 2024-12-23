@@ -157,26 +157,21 @@ jobs:
         run: |
           cosign sign-blob --yes sbom.spdx.json > sbom.spdx.json.sig
 
-      - name: Generate provenance for Release
-        uses: philips-labs/slsa-provenance-action@v0.7.2
+      - name: 🛡️ Generate Build Provenance
+        uses: philips-labs/slsa-provenance-action@v0.9.0
         with:
           command: generate
           subcommand: github-release
-          arguments: --artifact-path release-assets --output-path 'provenance.json' --tag-name ${{ github.ref_name }}
+          arguments: --artifact-path src-tauri/target/release/bundle --output-path 'provenance.json' --tag-name ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: 📤 Upload SBOM and Provenance
         uses: actions/upload-artifact@v3
         with:
-          name: security-artifacts
+          name: linux-security-artifacts
           path: |
             sbom.spdx.json
             sbom.spdx.json.sig
-            provenance.intoto.jsonl
-  
-      - name: 🛡️ Attest SBOM
-        uses: actions/attest-sbom@v2
-        with:
-          subject-path: 'src-tauri/target/release/Codefend.Security.Panel'
-          sbom-path: "sbom.spdx.json"
+            provenance.json
+
