@@ -104,6 +104,17 @@ jobs:
           Remove-Item -path certificate -include tempCert.txt
           Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
 
+          # Importar al almacén de certificados
+          $pfxPassword = ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText
+          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password $pfxPassword
+          
+          # Verificar la importación
+          $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -like "*Codefend*" }
+          if (-not $cert) {
+            Write-Error "Certificate not found after import"
+            exit 1
+          }
+
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
         env:
@@ -111,9 +122,38 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          WINDOWS_SIGN_TOOL: "true"
         with:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
+
+      - name: 🔏 Sign Windows Executable
+        run: |
+          $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -like "*Codefend*" }
+          $exePath = "src-tauri\target\release\bundle\nsis\Codefend Security Panel_${{ inputs.package_version }}_x64-setup.exe"
+          
+          & "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64\signtool.exe" sign `
+            /tr http://timestamp.sectigo.com `
+            /td sha256 `
+            /fd sha256 `
+            /sha1 $cert.Thumbprint `
+            /v `
+            "$exePath"
+          
+          & "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64\signtool.exe" verify /pa "$exePath"
+
+      - name: 📜 Generate SBOM
+        uses: microsoft/sbom-tool@v1.5.1
+        with:
+          path: src-tauri/target/release/bundle
+          format: "spdx-json"
+          output-file: "sbom.spdx.json"
+
+      - name: 🛡️ Generate Build Provenance
+        uses: slsa-framework/slsa-github-generator@v1.9.0
+        with:
+          base64-subjects-as-input: ${{ steps.hash.outputs.hashes }}
+          provenance-name: "provenance.intoto.jsonl"
 
       - name: 📝 Extract Signatures and Set Outputs
         id: extract-signatures
@@ -137,28 +177,10 @@ jobs:
           Write-Host "Signatures extracted successfully."
           Write-Host "::set-output name=windows_x86_64_sig::$windows_x86_64_sig"
 
-      - name: 🛡️ Attest build provenance (publish release only)
-        uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
-        env:
-          CARGO_HOME: /home/runner/.cargo
-          CARGO_INCREMENTAL: 0
-          CARGO_TERM_COLOR: always
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📤 Upload Security Artifacts
+        uses: actions/upload-artifact@v3
         with:
-          subject-path: src-tauri/target/release/bundle/*
-          push-to-registry: false
-          show-summary: true
-          github-token: ${{ env.GITHUB_TOKEN }}
-  
-      - name: 📜 Create SBOM
-        uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
-        with:
-          format: "spdx-json"
-          output-file: "sbom.spdx.json"
-          artifact-name: "windows_${{ matrix.target }}.sbom.spdx.json"
-  
-      - name: 🛡️ Attest SBOM
-        uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
-        with:
-          subject-path: 'src-tauri/target/release/Codefend Security Panel.exe'
-          sbom-path: "sbom.spdx.json"
+          name: windows-security-artifacts
+          path: |
+            sbom.spdx.json
+            provenance.intoto.jsonl
