@@ -125,7 +125,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const artifacts = [
-              'src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz'
+              'src-tauri/target/${{ matrix.target }}/release/bundle/macos/Codefend Security Panel.app.tar.gz'
             ];
             const target = '${{ matrix.target }}';
             for (const artifact of artifacts) {
@@ -155,10 +155,10 @@ jobs:
           }
 
           if [[ "${{ contains(matrix.target, 'x86_64') }}" == "true" ]]; then
-            macos_x86_64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz.sig")
+            macos_x86_64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/macos/Codefend Security Panel.app.tar.gz.sig")
             echo "macos_x86_64_sig=$macos_x86_64_sig" >> $GITHUB_OUTPUT
           else
-            macos_aarch64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz.sig")
+            macos_aarch64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/macos/Codefend Security Panel.app.tar.gz.sig")
             echo "macos_aarch64_sig=$macos_aarch64_sig" >> $GITHUB_OUTPUT
           fi
 
@@ -189,7 +189,7 @@ jobs:
         with:
           subject-path: >-
             ${{ 
-              (contains(matrix.target, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/codefend-panel' ||
-              (contains(matrix.target, 'aarch64')) && 'src-tauri/target/aarch64-apple-darwin/release/codefend-panel'
+              (contains(matrix.target, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/Codefend Security Panel' ||
+              (contains(matrix.target, 'aarch64')) && 'src-tauri/target/aarch64-apple-darwin/release/Codefend Security Panel'
             }}
           sbom-path: "sbom.spdx.json"

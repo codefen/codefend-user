@@ -118,19 +118,19 @@ jobs:
             "platforms": {
               "darwin-aarch64": {
                 "signature": "${{ needs.build_macos.outputs.macos_aarch64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/mac_aarch64-apple-darwin-codefend-panel.app.tar.gz"
+                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/mac_aarch64-apple-darwin-Codefend Security Panel.app.tar.gz"
               },
               "darwin-x86_64": {
                 "signature": "${{ needs.build_macos.outputs.macos_x86_64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/mac_x86_64-apple-darwin-codefend-panel.app.tar.gz"
+                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/mac_x86_64-apple-darwin-Codefend Security Panel.app.tar.gz"
               },
               "linux-x86_64": {
                 "signature": "${{ needs.build_linux.outputs.linux_x86_64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/linux-codefend-panel_${package_version}_amd64.AppImage"
+                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/linux-Codefend Security Panel_${package_version}_amd64.AppImage"
               },
               "windows-x86_64": {
                 "signature": "${{ needs.build_windows.outputs.windows_x86_64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/codefend-panel_${package_version}_x64-setup.exe"
+                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/Codefend Security Panel_${package_version}_x64-setup.exe"
               }
             }
           }

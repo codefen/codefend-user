@@ -107,7 +107,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const artifacts = [
-              'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage'
+              'src-tauri/target/release/bundle/appimage/Codefend Security Panel_${{ inputs.package_version }}_amd64.AppImage'
             ];
             for (const artifact of artifacts) {
               if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {
@@ -135,7 +135,7 @@ jobs:
             tr -d '\n' < "$file" | xargs
           }
 
-          linux_x86_64_sig=$(read_signature "src-tauri/target/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage.sig")
+          linux_x86_64_sig=$(read_signature "src-tauri/target/release/bundle/appimage/Codefend Security Panel_${package_version}_amd64.AppImage.sig")
 
           echo "Signatures extracted successfully."
           echo "linux_x86_64_sig=$linux_x86_64_sig" >> $GITHUB_OUTPUT
@@ -163,5 +163,5 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@v2
         with:
-          subject-path: 'src-tauri/target/release/codefend-panel'
+          subject-path: 'src-tauri/target/release/Codefend Security Panel'
           sbom-path: "sbom.spdx.json"
