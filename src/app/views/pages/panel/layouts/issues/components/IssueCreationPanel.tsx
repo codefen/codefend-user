@@ -19,8 +19,6 @@ const IssueCreationPanel: FC<IssueCreationPanelProps> = props => {
   const { type, resourceId } = useParams();
 
   const handleIssueUpdate = (isEditable: boolean, callBack: () => Promise<any>) => {
-    if (!isEditable) return;
-
     callBack().then((response: any) => {
       if (response !== undefined && response.id !== undefined) {
         navigate(`/issues/${response.id}`, {

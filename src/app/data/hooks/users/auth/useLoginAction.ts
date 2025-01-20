@@ -23,6 +23,7 @@ export const useLoginAction = () => {
       },
     })
       .then(({ data }: any) => {
+        console.log({ data });
         if (apiErrorValidation(data?.error, data?.response) || !data.user) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
