@@ -47,10 +47,12 @@ export const useSns = () => {
         class: searchClass,
       },
     }).then(({ data }: any) => {
-      const arrayOfObjects = Object.entries(data.response.results).map(([key, value]) => {
-        const name = key.split('_').slice(1, -2).join('_');
-        return { name, value: value as PersonInfo[] };
-      });
+      const arrayOfObjects = !!data?.response?.results
+        ? Object.entries(data.response.results).map(([key, value]) => {
+            const name = key.split('_').slice(1, -2).join('_');
+            return { name, value: value as PersonInfo[] };
+          })
+        : [];
       intelDataRef.current = arrayOfObjects;
 
       if (arrayOfObjects.length === 0 || data.response.size == 0) {
