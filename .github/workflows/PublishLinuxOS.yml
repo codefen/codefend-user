@@ -107,7 +107,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const artifacts = [
-              'src-tauri/target/release/bundle/appimage/Codefend Security Panel_${{ inputs.package_version }}_amd64.AppImage'
+              'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage'
             ];
             for (const artifact of artifacts) {
               if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {
@@ -135,45 +135,33 @@ jobs:
             tr -d '\n' < "$file" | xargs
           }
 
-          linux_x86_64_sig=$(read_signature "src-tauri/target/release/bundle/appimage/Codefend Security Panel_${package_version}_amd64.AppImage.sig")
+          linux_x86_64_sig=$(read_signature "src-tauri/target/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage.sig")
 
           echo "Signatures extracted successfully."
           echo "linux_x86_64_sig=$linux_x86_64_sig" >> $GITHUB_OUTPUT
 
-      - name: 📜 Generate SBOM
-        uses: anchore/sbom-action@v0.17.9
+      - name: 🛡️ Attest build provenance (publish release only)
+        uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
+        env:
+          CARGO_HOME: /home/runner/.cargo
+          CARGO_INCREMENTAL: 0
+          CARGO_TERM_COLOR: always
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path: src-tauri/target/release/bundle
+          subject-path: src-tauri/target/release/bundle/*
+          push-to-registry: false
+          show-summary: true
+          github-token: ${{ env.GITHUB_TOKEN }}
+  
+      - name: 📜 Create SBOM
+        uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
+        with:
           format: "spdx-json"
           output-file: "sbom.spdx.json"
           artifact-name: "linux_${{ matrix.target }}.sbom.spdx.json"
-
-      - name: 🔒 Sign SBOM
-        uses: sigstore/cosign-installer@v3.7.0
-        
-      - name: 🔏 Sign SBOM with Cosign
-        env:
-          COSIGN_EXPERIMENTAL: 1
-        run: |
-          cosign sign-blob --yes sbom.spdx.json > sbom.spdx.json.sig
-
-      - name: 🛡️ Generate Build Provenance
-        uses: philips-labs/slsa-provenance-action@v0.9.0
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          COSIGN_EXPERIMENTAL: 1
-          COSIGN_SKIP_REKOR: true
+  
+      - name: 🛡️ Attest SBOM
+        uses: actions/attest-sbom@v2
         with:
-          command: generate
-          subcommand: github-release
-          arguments: --artifact-path src-tauri/target/release/bundle --output-path 'provenance.json' --tag-name ${{ github.ref_name }} --force
-
-      - name: 📤 Upload SBOM and Provenance
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux-security-artifacts
-          path: |
-            sbom.spdx.json
-            sbom.spdx.json.sig
-            provenance.json
-
+          subject-path: 'src-tauri/target/release/codefend-panel'
+          sbom-path: "sbom.spdx.json"
