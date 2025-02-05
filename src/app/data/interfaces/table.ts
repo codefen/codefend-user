@@ -42,6 +42,7 @@ export interface TableAction {
 export interface ColumnTableV3 {
   header: string;
   key: string;
+  type?: string;
   styles: string;
   weight: string;
   render: (data: any, next?: any) => ReactNode;

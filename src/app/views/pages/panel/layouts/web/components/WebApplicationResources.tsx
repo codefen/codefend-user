@@ -42,9 +42,10 @@ const webColumns: ColumnTableV3[] = [
   },
   {
     header: 'domain',
-    key: TABLE_KEYS.FULL_WITH_NEXT,
-    styles: 'item-cell-2',
-    weight: '48%',
+    key: 'resource_domain',
+    type: TABLE_KEYS.FULL_WITH_NEXT,
+    styles: 'item-cell-2 item-domain-cell',
+    weight: '45%',
     render: (row: any, next?: any) =>
       !row?.resource_domain_dad ? (
         row.resource_domain
@@ -64,7 +65,8 @@ const webColumns: ColumnTableV3[] = [
   },
   {
     header: 'area',
-    key: TABLE_KEYS.FULL_ROW,
+    key: 'server_pais',
+    type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
     weight: '16%',
     render: (row: any) => (
@@ -123,9 +125,10 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     ...webColumns,
     {
       header: '',
-      key: 'full-2',
+      key: TABLE_KEYS.ACTION,
+      type: TABLE_KEYS.FULL_ROW,
       styles: 'item-cell-5 action',
-      weight: '15.5%',
+      weight: '18.5%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
           <span

@@ -14,10 +14,14 @@ const TableCellV3: FC<RowProps> = ({ row, columns, nextRow }) => {
       <div
         key={`ric-${i}`}
         className={`item-cell ${column.styles}`}
-        style={{ '--cell-expand': column.weight } as CSSProperties}>
+        style={
+          {
+            '--cell-expand': column.weight,
+          } as CSSProperties
+        }>
         {column.render(
-          !column.key.startsWith(TABLE_KEYS.FULL_ROW) ? row[column.key] : row,
-          column.key === TABLE_KEYS.FULL_WITH_NEXT ? nextRow : null
+          !column?.type?.startsWith(TABLE_KEYS.FULL_ROW) ? row[column.key] : row,
+          column?.type === TABLE_KEYS.FULL_WITH_NEXT ? nextRow : null
         )}
       </div>
     ));

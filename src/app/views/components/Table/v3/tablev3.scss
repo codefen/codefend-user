@@ -227,13 +227,14 @@
   }
 
   .item-cell {
-    --cell-expand: auto;
     position: relative;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    flex: 0 0 var(--cell-expand);
+    width: var(--cell-expand);
     max-width: var(--cell-expand);
-    min-width: var(--cell-expand);
+    padding-inline: 6px;
 
     .sub-resource-domain {
       padding-inline-start: 24px;
@@ -260,6 +261,17 @@
       position: absolute;
       top: 49%;
       left: 0;
+    }
+
+    &.item-cell-1 {
+      --cell-expand-1: calc(var(--cell-expand) + 2.5%);
+      flex: 0 0 var(--cell-expand-1);
+      width: var(--cell-expand-1);
+      max-width: var(--cell-expand-1);
+    }
+
+    .publish {
+      overflow: visible;
     }
   }
 
@@ -351,6 +363,34 @@
     .issue-printer {
       padding-inline-start: 8px;
       cursor: pointer;
+    }
+  }
+}
+
+@media only screen and (max-width: 1490px) {
+  .table:has(.item-domain-cell) {
+    .item,
+    .columns-name {
+      .item-cell {
+        --cell-expand-correction: calc(var(--cell-original-expand) + 4%);
+        flex: 0 0 var(--cell-expand-correction);
+        width: var(--cell-expand-correction);
+        max-width: var(--cell-expand-correction);
+      }
+
+      .item-cell-1 {
+        --cell-expand-1: calc(var(--cell-expand-correction) + 2.5%);
+        flex: 0 0 var(--cell-expand-1);
+        width: var(--cell-expand-1);
+        max-width: var(--cell-expand-1);
+      }
+
+      .item-cell.item-domain-cell {
+        --cell-expand-domain: calc(var(--cell-expand) - var(--cell-count) * 4%);
+        flex: 0 0 var(--cell-expand-domain);
+        width: var(--cell-expand-domain);
+        max-width: var(--cell-expand-domain);
+      }
     }
   }
 }
