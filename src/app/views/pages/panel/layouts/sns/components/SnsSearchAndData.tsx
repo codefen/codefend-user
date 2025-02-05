@@ -1,10 +1,12 @@
-import { type FC, useEffect, type ChangeEvent, type FormEvent } from 'react';
+import { type FC, useEffect, type ChangeEvent, type FormEvent, useState } from 'react';
 import { SearchBar } from '@standalones/SearchBar';
 import { ScanSearchIcon } from '@icons';
 import Masonry from 'react-masonry-css';
 import { useSns } from '@moduleHooks/sns/useSns.ts';
 import Show from '@defaults/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import useModal from '#commonHooks/useModal';
+import { SnsLeakedDataModal } from '@/app/views/pages/panel/layouts/sns/components/SnsLeakedDataModal';
 
 const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
   const {
@@ -17,7 +19,9 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     getUserdata,
     handleSearch,
   } = useSns();
-
+  const [leaked, setLeaked] = useState<any>(null);
+  const [leakedType, setLeakedType] = useState<'crack' | 'geo'>('crack');
+  const { showModal, setShowModal } = useModal();
   useEffect(() => {
     if (!getUserdata()) return;
     if (searchData) {
@@ -38,6 +42,17 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     value: searchClass,
     change: (e: any) => setSearchClass(e.target.value),
     defaultSelectOption: 'email',
+  };
+
+  const closeCrackModal = () => {
+    setLeaked(null);
+    setShowModal(false);
+  };
+
+  const openLeakedModal = (leaked: any, type: 'crack' | 'geo') => {
+    setLeaked(leaked);
+    setLeakedType(type);
+    setShowModal(true);
   };
 
   return (
@@ -81,6 +96,28 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
                           {`${subIntelVal}: ${subIntel[subIntelVal]}`}
                         </div>
                       ))}
+                      {subIntel.hash && (
+                        <div>
+                          <button
+                            onClick={() => {
+                              openLeakedModal(intel, 'crack');
+                            }}
+                            className="codefend-text-red no-outline bolder no-border">
+                            click to crack
+                          </button>
+                        </div>
+                      )}
+                      {subIntel.regip && (
+                        <div>
+                          <button
+                            onClick={() => {
+                              openLeakedModal(intel, 'geo');
+                            }}
+                            className="codefend-text-red no-outline bolder no-border">
+                            click to geolocate
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -89,6 +126,13 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
           </Masonry>
         </div>
       </Show>
+      <SnsLeakedDataModal
+        type={leakedType}
+        isActive={showModal}
+        close={closeCrackModal}
+        leaked={leaked}
+        searchClass={searchClass}
+      />
     </>
   );
 };

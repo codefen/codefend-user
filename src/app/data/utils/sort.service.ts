@@ -112,14 +112,10 @@ const partition2 = <T>(
   swapInPlace(arr, pivotIndex, right);
 
   let storeIndex = left;
-  // Itera cacheando el acceso al campo para cada elemento
-  console.log('makeCompareFn', { data: arr[0], dataSort });
   const compareFn = makeCompareFn(mult, arr[0][dataSort]);
   for (let i = left; i < right; i++) {
     // Extrae el valor actual y aplica la comparación inline
     const currentValue = arr[i][dataSort];
-    // Realiza la comparación sin llamar a una función extra:
-    // Si currentValue es menor (según el orden) que pivotValue, (devuelve -1 * mult < 0)
     const cmp = compareFn(currentValue, pivotValue);
     if (cmp < 0) {
       swapInPlace(arr, i, storeIndex);
