@@ -3,6 +3,7 @@ import { LocationItem, TableWithoutActions } from '../../..';
 import { type ResourceScope, webResourcesWithoutActions } from '../../../../../data';
 
 export const WebResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoading }) => {
+  console.log({ resourcesInWeb: resources });
   const scopeDataTable = resources
     ? resources.map((mainNetwork: any, i: number) => ({
         ID: { value: '', style: '' },
@@ -28,7 +29,7 @@ export const WebResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoadin
         childs: {
           value: (
             <>
-              {mainNetwork.childs.map((subNetwork: any, i: number) => (
+              {mainNetwork?.childs?.map?.((subNetwork: any, i: number) => (
                 <div key={'child-' + subNetwork.id} className="item">
                   <div className="id">{subNetwork.id}</div>
                   <div className="domain-name lined">

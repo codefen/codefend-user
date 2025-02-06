@@ -61,7 +61,7 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
 
   const ActiveScope = () => {
     if (resourceType === RESOURCE_CLASS.WEB) {
-      return <WebResourceScope resources={resources} isLoading={isLoading} />;
+      return <WebResourceScope resources={resources || []} isLoading={isLoading} />;
     } else if (resourceType === RESOURCE_CLASS.MOBILE || resourceType === RESOURCE_CLASS.CLOUD) {
       return (
         <MobileResourceScope type={resourceType} resources={resources} isLoading={isLoading} />

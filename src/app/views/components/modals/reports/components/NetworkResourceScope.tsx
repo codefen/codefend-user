@@ -18,8 +18,8 @@ export const NetworkResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLo
           value: (props: any) =>
             (
               <>
-                {network.childs
-                  ? network.childs.map((netChild: any, i: number) => (
+                {network?.childs
+                  ? network?.childs?.map?.((netChild: any, i: number) => (
                       <a
                         key={`child-${i}-${netChild.id}`}
                         className={`item item-with-out-action ${

@@ -6,7 +6,6 @@ import {
   CLoudIcon,
   ChartIcon,
   GlobeWebIcon,
-  InxIcon,
   MobileIcon,
   PeopleGroupIcon,
   SnbIcon,
@@ -204,22 +203,6 @@ const Sidebar: FC = () => {
 			haveAccess: isNotProviderAndReseller,
 		},
 		{
-			title: 'Inx',
-			id: 'sidebar_inx',
-			icon: <InxIcon />,
-			to: '/inx',
-			root: false,
-			haveAccess: isNotProviderAndReseller,
-		},
-		{
-			title: 'Sns',
-			id: 'sidebar_sns',
-			icon: <SnbIcon />,
-			to: '/sns',
-			root: false,
-			haveAccess: isNotProviderAndReseller,
-		},
-		{
 			title: 'Vdb',
 			id: 'sidebar_vdb',
 			icon: <VdbIcon />,
@@ -243,14 +226,14 @@ const Sidebar: FC = () => {
       root: false,
       haveAccess: isNotProviderAndReseller,
     },
-    {
+    /*{
       title: 'inx',
       id: 'sidebar_inx',
       icon: <InxIcon />,
       to: '/inx',
       root: false,
       haveAccess: !isReseller(),
-    },
+    },*/
     {
       title: 'Sns',
       id: 'sidebar_sns',

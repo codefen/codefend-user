@@ -20,7 +20,6 @@ const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation, i
     safeInitTinyMCE(
       defaultValue,
       () => {
-        // Successful initialization
         setEditorInitialized(true);
         setEditorError(null);
       },

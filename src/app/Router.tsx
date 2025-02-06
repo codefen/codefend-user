@@ -44,7 +44,6 @@ import {
   IssuesPanel,
   IssuesUpdate,
 } from './views/pages/panel/layouts/issues';
-import InxPanel from './views/pages/panel/layouts/inx/InxPanel';
 
 const GuardRoute: FC<{ access: boolean; element: ReactNode }> = ({ access, element }) => {
   return access ? element : <Navigate to="/" replace />;
@@ -138,16 +137,15 @@ export const AppRouter = () => {
 
           {!isReseller() && (
             <>
-              <Route path="inx" element={<InxPanel />} />
               <Route path="sns" element={<SnsPanel />} />
-              {/*<Route path="enp">
+              {/*
+                <Route path="enp">
 									<Route index element={<EnpPanel />} />
 									<Route path="enp/:id" element={<EnpSingle />} />
 								</Route>
-
-								
-								<Route path="sns" element={<SnsPanel />} />
-								<Route path="vdb" element={<VdbPanel />} />*/}
+                <Route path="inx" element={<InxPanel />} />
+								<Route path="vdb" element={<VdbPanel />} />
+              */}
             </>
           )}
           {haveAccessToSupport && (

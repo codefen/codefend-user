@@ -9,11 +9,6 @@ main.webapp {
       .rows {
         max-height: calc(100vh - 220px);
       }
-
-      .column.item-cell.item-cell-1 {
-        --cell-expand: 8.5% !important;
-        padding-inline-start: 1%;
-      }
     }
 
     .empty-card {

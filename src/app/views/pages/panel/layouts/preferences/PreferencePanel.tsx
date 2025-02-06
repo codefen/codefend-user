@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store.ts';
 import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
+import { ChangePasswordModal } from '@/app/views/pages/panel/layouts/preferences/components/ChangePasswordModal.tsx';
 
 const PreferencePanel = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -25,6 +26,7 @@ const PreferencePanel = () => {
     <>
       <ProviderScope />
       <AddCollaboratorModal />
+      <ChangePasswordModal />
       <Show when={showScreen} fallback={<PageLoader />}>
         <main className={`preferences ${showScreen ? 'actived' : ''}`}>
           <section className="left">
