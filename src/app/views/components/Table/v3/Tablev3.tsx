@@ -56,7 +56,6 @@ const Tablev3: FC<Tablev3Props<any>> = ({
       `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''}`,
     [className, isSelecting, isMoving]
   );
-  console.log({ leng: columns.length - 1 });
   return (
     <div className="table-group">
       <Show when={isNeedSearchBar}>

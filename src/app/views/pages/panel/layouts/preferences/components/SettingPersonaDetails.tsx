@@ -17,7 +17,6 @@ const SettingPersonalDetails = () => {
   };
 
   const handleChangePassword = () => {
-    console.log('change password');
     setIsOpen(true);
     setModalId('changepassword');
   };
