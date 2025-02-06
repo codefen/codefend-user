@@ -9,7 +9,6 @@ export interface WebReportModalProps {}
 
 export const ModalReport: FC<WebReportModalProps> = () => {
   const { open, closeModal } = useReportStore(state => state);
-  console.log({ open });
   if (open) {
     return (
       <ModalWrapper action={closeModal} type="report" showCloseBtn>

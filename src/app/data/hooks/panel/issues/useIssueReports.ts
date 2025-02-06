@@ -28,7 +28,6 @@ export const useIssueReport = () => {
       issues.current = data.issues ? data.issues.map((issue: any) => mapReportIssues(issue)) : [];
 
       setShare(mapIssueShareV2(data));
-      console.log({ resource: data.resource });
       if (resourceType === RESOURCE_CLASS.WEB) {
         resources.current = [data.resource];
       } else if (resourceType === RESOURCE_CLASS.MOBILE) {
