@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ChartIcon, DocumentTextIcon, ImportantIcon } from '@icons';
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import type { CompanyOrders } from '@interfaces/preferences';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { TableV2 } from '@table/tablev2';

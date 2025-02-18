@@ -1,8 +1,8 @@
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { GlobeWebIcon } from '@icons';
 import type { Lead } from '@interfaces/lead';
 import { useState, type FC } from 'react';
-import { StatAsset } from '@standalones/stat-asset/StatAsset';
+import { StatAsset } from '@/app/components/stat-asset/StatAsset';
 
 interface NewLeadsDataProps {
   leads: Lead[];

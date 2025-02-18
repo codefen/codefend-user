@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { CircleIcon } from '@icons';
 import { Sort } from '@interfaces/table.ts';
 import { locationTableColumn } from '@mocks/defaultData.ts';

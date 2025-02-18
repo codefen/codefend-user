@@ -1,4 +1,5 @@
 import { type FC, type ReactNode } from 'react';
+import css from './simplesection.module.scss';
 
 interface SimpleSectionProps {
   header: string;
@@ -9,9 +10,9 @@ interface SimpleSectionProps {
 export const SimpleSection: FC<SimpleSectionProps> = ({ header, icon, children }) => {
   return (
     <>
-      <div className="header">
-        <div className="title">
-          <div className="icon">{icon}</div>
+      <div className={css['header']}>
+        <div className={css['title']}>
+          <div className={css['icon']}>{icon}</div>
           <span>{header}</span>
         </div>
       </div>

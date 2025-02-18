@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 import { ChartIcon } from '@icons';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { defaultSocialAttackVectors } from '@mocks/defaultData.ts';
 
 interface SocialAttackVectorsProps {

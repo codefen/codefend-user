@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { ChatBoxType } from '@interfaces/panel';
 import { ChatBox } from '@standalones/ChatBox';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import SelectedTicket from '../supportProvider';
 import Show from '@defaults/Show.tsx';
 import { MessageIcon } from '@icons';

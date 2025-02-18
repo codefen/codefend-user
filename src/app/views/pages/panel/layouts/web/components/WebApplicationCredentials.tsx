@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChartIcon } from '@icons';
-import { StatAsset } from '@standalones/stat-asset/StatAsset.tsx';
+import { StatAsset } from '@/app/components/stat-asset/StatAsset';
 
 export const WebApplicationCredentials: React.FC = () => {
   return (

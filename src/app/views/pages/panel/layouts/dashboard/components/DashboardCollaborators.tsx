@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { PeopleGroupIcon } from '@icons';
 import { type TableItem } from '@interfaces/table';
 import { memberColumn } from '@mocks/defaultData';

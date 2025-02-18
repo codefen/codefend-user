@@ -45,6 +45,8 @@ import { HelpNotfound } from '../views/pages/help-center/HelpNotfound';
 import { InvitationSignup } from '../views/pages/auth/layouts/InvitationSignup';
 import { PageReport } from '@modals/reports/PageReport.tsx';
 import ProtectedRoute from './ProtectedRoute';
+import { GreyPanel } from '@/app/views/pages/greyPanel/GreyPanel';
+import { SignupPage } from '@/app/views/pages/greyPanel/signup/SignupPage';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -174,6 +176,14 @@ export const AppRouter = () => {
               { path: 'preferences', element: <PreferencePanel /> },
             ]
           : []),
+      ],
+    },
+    {
+      path: 'v2/*',
+      element: <GreyPanel />,
+      children: [
+        { path: 'signup', element: <SignupPage /> },
+        // Puedes agregar más rutas v2 aquí según necesites
       ],
     },
     // Report route

@@ -2,7 +2,7 @@ import { type FC, Fragment, useMemo } from 'react';
 import { generateIDArray } from '@utils/helper.ts';
 import { type IssueClass } from '@interfaces/panel.ts';
 import { ChartIcon } from '@icons';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import Show from '@defaults/Show.tsx';
 
 interface Props {

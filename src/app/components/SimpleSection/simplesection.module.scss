@@ -1,0 +1,42 @@
+.header {
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 13px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--primary-color-300);
+  background-position: var(--primary-color-200);
+  color: var(--tertiary-color-200);
+  padding-inline: 0.5rem;
+  transition:
+    color,
+    background 275ms linear;
+
+  .title {
+    display: flex;
+    align-items: center;
+    padding-right: 0.813rem;
+
+    .icon {
+      color: var(--secondary-color-50);
+      margin-right: 13px;
+      font-size: 13px;
+    }
+
+    span {
+      color: var(--tertiary-color-300);
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .header {
+    border: none;
+    transition:
+      color,
+      background 275ms linear;
+  }
+}

@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import Show from '@defaults/Show.tsx';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { PreviousMessageIcon } from '@icons';
 
 interface SnPreviousSearchesProps {

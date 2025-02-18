@@ -1,0 +1,28 @@
+.leftTop {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+  align-items: flex-start;
+  column-gap: 2rem;
+}
+
+.leftTopContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  h1 {
+    margin-block-end: 1.5rem;
+  }
+
+  p {
+    max-width: 85%;
+    line-height: 2rem;
+  }
+
+  button {
+    margin-block-start: 2rem;
+  }
+}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { ChartIcon } from '@icons';
 
 import type { IssuesCondition } from '../../../data';
-import { StatAsset } from './stat-asset/StatAsset';
+import { StatAsset } from '../../../components/stat-asset/StatAsset';
 
 export const VulnerabilitiesStatus: React.FC<{
   vulnerabilityByShare: IssuesCondition;

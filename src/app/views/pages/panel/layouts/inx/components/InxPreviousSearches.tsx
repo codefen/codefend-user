@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { PageLoader } from '@defaults/loaders/Loader';
 import { PreviousMessageIcon } from '@icons';
 import { generateIDArray } from '@utils/helper';

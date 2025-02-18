@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { RiskScore } from '@standalones/utils/RiskScore';
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { BugIcon } from '@icons';
 import { topVulnerabilitiesColumn } from '@mocks/defaultData';
 import { type TableItem, Sort } from '@interfaces/table';

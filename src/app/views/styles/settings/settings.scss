@@ -81,9 +81,9 @@ body {
 
 body[data-theme='dark'] {
   background: #1d2732;
-  background: -moz-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
-  background: -webkit-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
-  background: linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
+  background: -moz-linear-gradient(180deg, rgb(31 32 32 / 100%) 0%, rgb(30 31 30 / 100%) 100%);
+  background: -webkit-linear-gradient(180deg, rgb(31 32 32 / 100%) 0%, rgb(30 31 30 / 100%) 100%);
+  background: linear-gradient(180deg, rgb(31 32 32 / 100%) 0%, rgb(30 31 30 / 100%) 100%);
   color: var(--tertiary-color-200);
 }
 

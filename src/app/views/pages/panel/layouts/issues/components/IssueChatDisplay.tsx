@@ -4,7 +4,7 @@ import { ChatBoxType } from '../../../../../../data';
 import { ChatBox } from '@standalones/ChatBox';
 import { MessageIcon } from '@icons';
 import { PageLoader } from '@defaults/loaders/Loader';
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import Show from '@defaults/Show';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';

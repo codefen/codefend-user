@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  padding-block: 3.5rem;
+  padding-block: 3.75rem;
   border-right-width: 1px;
   border-right-style: solid;
   border-right-color: var(--primary-color-300);
@@ -66,23 +66,8 @@
 
 [data-theme='dark'] {
   .stat {
-    border-right: 1px solid !important;
-    border-left: 1px solid !important;
-    border-image: linear-gradient(
-      180deg,
-      #ffffff00 15%,
-      #11151c 36%,
-      #111935 46%,
-      #0d1e3d 54%,
-      #12161f 64%,
-      #ffffff00 85%
-    );
-    border-image-slice: 24;
     outline: none;
     background-color: var(--primary-color-300);
-
-    background-image: linear-gradient(#444df70b 0.4px, transparent 0.4px),
-      linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
 
     &.stat-active {
       .value,

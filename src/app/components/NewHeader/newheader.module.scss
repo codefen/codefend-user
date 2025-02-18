@@ -1,0 +1,88 @@
+.headerContainer {
+  position: relative;
+  container-type: inline-size;
+  --header-default-color: var(--tertiary-color-50);
+}
+
+.headerContainer::after {
+  content: '.';
+  position: relative;
+  color: transparent;
+  background: linear-gradient(90deg, rgb(254 78 78) 0%, rgb(203 34 34) 55%);
+  height: 4px;
+  width: 100cqw;
+  display: block;
+  user-select: none;
+}
+
+.header {
+  display: flex;
+  height: 45px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-color-500);
+}
+
+.headerLeft {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    --left-item-background: var(--primary-color-400);
+    --left-item-color: var(--header-default-color);
+    background-color: var(--left-item-background);
+    color: var(--left-item-color);
+    min-width: 55px;
+    border-color: var(--primary-color-250);
+    border-style: solid;
+    border-right-width: 2px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all ease 0.2s;
+
+    &:hover {
+      --left-item-background: var(--primary-color-600);
+      --left-item-color: var(--tertiary-color-100);
+    }
+  }
+}
+
+.headerRight {
+  height: 100%;
+  --right-item-color: var(--header-default-color);
+  --right-item-background: var(--primary-color-300);
+
+  display: flex;
+
+  .rightItem {
+    color: var(--right-item-color);
+    border-color: var(--primary-color-250);
+    background-color: var(--right-item-background);
+    border-style: solid;
+    border-left-width: 2px;
+    min-width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-inline: 1rem;
+    transition: all ease 0.2s;
+
+    &:hover {
+      --right-item-color: var(--tertiary-color-100);
+      --right-item-background: var(--primary-color-200);
+    }
+  }
+
+  .rightItemLogout {
+    --right-item-color: var(--secondary-color-300);
+
+    &:hover {
+      --right-item-color: var(--secondary-color-200);
+    }
+  }
+}

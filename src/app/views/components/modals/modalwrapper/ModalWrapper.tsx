@@ -49,7 +49,7 @@ const ModalWrapper: FC<ModalWrapper> = ({
       className={`modal-wrapper ${className}`}
       role="dialog"
       aria-modal="true">
-      <article
+      <div
         className={`modal ${!isErrorBox ? type : ''}`}
         onDoubleClick={e => {
           e.nativeEvent.stopImmediatePropagation();
@@ -61,7 +61,7 @@ const ModalWrapper: FC<ModalWrapper> = ({
           </span>
         </Show>
         {children}
-      </article>
+      </div>
     </div>,
     root
   );

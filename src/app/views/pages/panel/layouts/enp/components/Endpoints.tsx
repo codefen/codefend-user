@@ -2,7 +2,7 @@ import { generateIDArray } from '@utils/helper';
 import useModal from '@hooks/common/useModal';
 import ConfirmModal from '@modals/ConfirmModal';
 import Show from '@defaults/Show';
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { PageLoader } from '@defaults/loaders/Loader';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import { EnpIcon, TrashIcon } from '@icons';

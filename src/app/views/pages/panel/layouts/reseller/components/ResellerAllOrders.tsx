@@ -1,4 +1,4 @@
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { CheckCircleIcon, GlobeWebIcon, XCircleIcon } from '@icons';
 import { resellerOrdersColumn } from '@mocks/defaultData';
 import { LocationItem } from '@standalones/index';

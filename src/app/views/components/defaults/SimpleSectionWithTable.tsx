@@ -1,4 +1,4 @@
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { GlobeWebIcon } from '@icons';
 import { TableV2 } from '@table/tablev2';
 import type { FC, ReactNode } from 'react';

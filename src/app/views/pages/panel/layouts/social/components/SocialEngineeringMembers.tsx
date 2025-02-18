@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { PeopleGroupIcon, ChartIcon } from '@icons';
 import { MetricsService } from '@utils/metric.service';
 import type { MemberV2 } from '@interfaces/panel';
