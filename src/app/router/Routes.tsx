@@ -15,7 +15,6 @@ import {
   SocialEngineeringPanel,
   SupportPanel,
   PreferencePanel,
-  AdminCompany,
   ResellerLeadsLayout,
   ResellerUsersLayout,
   LanPage,
@@ -44,6 +43,7 @@ import { GreyPanel } from '@/app/views/pages/greyPanel/GreyPanel';
 import { SignupPage } from '@/app/views/pages/greyPanel/signup/SignupPage';
 import { DashboardPage } from '@/app/views/pages/greyPanel/Dashboard/DashboardPage';
 import { SigninPage } from '@/app/views/pages/greyPanel/signin/SigninPage';
+import AdminCompany from '@/app/views/pages/greyPanel/AdminCompany/AdminCompany';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();

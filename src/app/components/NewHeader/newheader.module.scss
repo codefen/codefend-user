@@ -17,7 +17,7 @@
 
 .header {
   display: flex;
-  height: 45px;
+  height: var(--navbar-height);
   align-items: center;
   justify-content: space-between;
   background-color: var(--primary-color-500);
@@ -32,6 +32,7 @@
   a {
     --left-item-background: var(--primary-color-400);
     --left-item-color: var(--header-default-color);
+    --item-filter-color: brightness(0.9);
     background-color: var(--left-item-background);
     color: var(--left-item-color);
     min-width: 55px;
@@ -44,9 +45,16 @@
     align-items: center;
     transition: all ease 0.2s;
 
+    .codefendIcon {
+      filter: var(--item-filter-color);
+      transition: all ease 0.3s;
+    }
+
     &:hover {
       --left-item-background: var(--primary-color-600);
       --left-item-color: var(--secondary-color-50);
+      --item-filter-color: invert(0%) sepia(100%) saturate(1000%) hue-rotate(-50deg) brightness(0.9)
+        contrast(13);
     }
 
     &.active {
@@ -87,6 +95,49 @@
 
     &:hover {
       --right-item-color: var(--secondary-color-200);
+    }
+  }
+}
+
+:global([data-theme='light']) {
+  .headerContainer {
+    --header-default-color: var(--tertiary-color-500);
+  }
+
+  .headerLeft {
+    a {
+      --item-filter-color: invert(100%) brightness(0.9) contrast(1.4);
+      border-color: var(--tertiary-color-100);
+
+      &:hover {
+        --left-item-color: var(--secondary-color-200);
+        --item-filter-color: sepia(100%) saturate(900%) hue-rotate(-232deg) invert(150%)
+          brightness(1.2) contrast(2);
+
+        .codefendIcon {
+          mix-blend-mode: multiply;
+        }
+      }
+    }
+  }
+
+  .headerRight {
+    .rightItem {
+      border-color: var(--primary-color-600);
+
+      &:hover {
+        border-color: var(--tertiary-color-50);
+        --right-item-color: var(--tertiary-color-500);
+        --right-item-background: var(--tertiary-color-50);
+      }
+    }
+
+    .rightItemLogout {
+      --right-item-color: var(--secondary-color-150);
+
+      &:hover {
+        --right-item-color: var(--secondary-color-300);
+      }
     }
   }
 }

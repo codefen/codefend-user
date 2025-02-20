@@ -32,10 +32,15 @@ export const SignupPage = () => {
         <DashboardAssets resources={recoursesEmpty} />
       </section>
       <section className="right">
-        <RightItemButton title="Add team members" description="Send us the first invitation" />
+        <RightItemButton
+          title="Add team members"
+          description="Send us the first invitation"
+          img="/codefend/add-collab.png"
+        />
         <RightItemButton
           title="Add scope / attack surface"
           description="You can help us expand the scope."
+          img="/codefend/add-scope.png"
         />
       </section>
     </main>

@@ -8,7 +8,7 @@ main.support {
 
     .table {
       .rows {
-        max-height: calc(100dvh - 150px);
+        max-height: calc(var(--main-container-size) - 150px);
       }
 
       .id {
@@ -54,7 +54,8 @@ main.support {
   }
 
   .right {
-    padding-block-start: 53px;
+    overflow-y: hidden;
+    max-height: var(--main-container-size);
   }
 
   @include mixin.respond(small) {

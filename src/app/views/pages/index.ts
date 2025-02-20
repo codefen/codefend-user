@@ -28,7 +28,6 @@ export const SnsPanel = lazy(() => import('./panel/layouts/sns/SnsPanel.tsx'));
 export const VdbPanel = lazy(() => import('./panel/layouts/vdb/VdbPanel.tsx'));
 export const AdminUser = lazy(() => import('./panel/layouts/admin/layouts/AdminUser.tsx'));
 export const AdminPage = lazy(() => import('./panel/layouts/admin/AdminPage.tsx'));
-export const AdminCompany = lazy(() => import('./panel/layouts/admin/layouts/AdminCompany.tsx'));
 
 export const ResellerLeadsLayout = lazy(
   () => import('./panel/layouts/reseller/layouts/ResellerLeadsLayout.tsx')

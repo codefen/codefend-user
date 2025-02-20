@@ -1,9 +1,9 @@
 import { type FC } from 'react';
-import { AdminCompanyPanel } from './components/AdminCompanyPanel';
-import AdminCompanyDetails from './components/AdminCompanyDetails';
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import '../admin.scss';
+import './admin.scss';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { AdminCompanyPanel } from '@/app/components/AdminCompanyPanel/AdminCompanyPanel';
+import AdminCompanyDetails from '@/app/components/AdminCompanyDetails/AdminCompanyDetails';
 
 const AdminCompany: FC = () => {
   const [showScreen] = useShowScreen();

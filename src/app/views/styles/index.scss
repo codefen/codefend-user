@@ -25,7 +25,7 @@
   font-family: 'ITC Avant Garde', Questrial;
   text-transform: uppercase;
   font-weight: bold;
-  color: var(--tertiary-color-700);
+  color: var(--tertiary-color-50);
 }
 
 .red-border {
@@ -89,14 +89,6 @@
   border: none;
 }
 
-[data-theme='light'] {
-  .brightness {
-    opacity: 0;
-    visibility: hidden;
-    display: none;
-  }
-}
-
 #flashlight {
   width: 100%;
   height: 100%;
@@ -158,7 +150,7 @@
 main {
   width: 100%;
   height: 100dvh;
-  max-height: calc(100dvh - var(--navbar-height));
+  max-height: var(--main-container-size);
 
   display: flex;
   justify-content: space-between;
@@ -167,8 +159,6 @@ main {
   opacity: 0;
   padding-inline-start: 14px;
   padding-block-start: 3dvw;
-
-  margin-block-start: var(--navbar-height);
 
   transition-delay: 70ms;
   transition-property: padding, opacity, background, color;
@@ -209,11 +199,11 @@ main {
     padding-block-start: 0;
 
     .left {
-      padding-block-start: 45px;
+      padding-block-start: var(--main-container-margin-top);
     }
 
     .right {
-      padding-block-start: 45px;
+      padding-block-start: var(--main-container-margin-top);
     }
   }
 
@@ -780,6 +770,21 @@ main.cloud {
     transition-property: opacity, visible;
     transition-duration: 400ms;
     transition-timing-function: linear;
+  }
+}
+
+//////////////////////////////////////////////////////////////////
+// LIGHT MODE
+//////////////////////////////////////////////////////////////////
+[data-theme='light'] {
+  .title-format {
+    color: var(--tertiary-color-700);
+  }
+
+  .brightness {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
   }
 }
 

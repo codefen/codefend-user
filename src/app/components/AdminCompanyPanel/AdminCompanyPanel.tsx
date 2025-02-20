@@ -1,5 +1,5 @@
+import CompanyIndexView from '@/app/components/CompanyIndexView/CompanyIndexView';
 import { type FC } from 'react';
-import CompanyIndexView from './CompanyIndexView';
 
 export const AdminCompanyPanel: FC = () => {
   return (

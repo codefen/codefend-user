@@ -1,5 +1,5 @@
 import { type FC, useEffect } from 'react';
-import CompanyCard from './CompanyCard.tsx';
+import CompanyCard from '../CompanyCard/CompanyCard.tsx';
 import useAdminCompanyStore from '@stores/adminCompany.store.ts';
 import { type AdminCompany } from '@stores/adminCompany.store.ts';
 import './CompanyIndexView.scss';

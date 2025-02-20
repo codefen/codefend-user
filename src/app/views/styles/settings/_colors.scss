@@ -3,7 +3,10 @@
   --sidebar-width: 64px;
   --text-large: 18px;
   --text-small: 12px;
-  --nav-height: 50px;
+  --navbar-height: 50px;
+  --main-container-margin-top: calc(var(--navbar-height) * 0.8);
+  --main-container-size: calc(100dvh - var(--navbar-height));
+  --main-container-real-size: calc(var(--main-container-size) - var(--main-container-margin-top));
   --padding-general: 0 3dvw;
   --padding-top-sections-c: 50px;
   --right-pane-shadow: 0 0 30px 0 rgb(83 83 83 / 10%);

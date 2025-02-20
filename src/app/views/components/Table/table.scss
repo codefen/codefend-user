@@ -586,9 +586,9 @@
 }
 
 .internal-tables div {
-  background-color: var(--primary-color-50);
-  border-bottom: 1px solid var(--primary-color-300);
-  color: var(--tertiary-color-200);
+  background-color: var(--primary-color-600);
+  border-bottom: 1px solid var(--primary-color-100);
+  color: var(--tertiary-color-50);
 
   &:last-child {
     border-bottom: none;
@@ -600,10 +600,6 @@
 }
 
 .internal-tables-active {
-  &:hover {
-    background-color: var(--primary-color-50);
-  }
-
   .select {
     font-size: 0.875rem /* 14px */;
     line-height: 1.25rem /* 20px */;
@@ -668,5 +664,13 @@
         }
       }
     }
+  }
+}
+
+[data-theme='light'] {
+  .internal-tables div {
+    background-color: var(--primary-color-300);
+    border-bottom: 1px solid var(--primary-color-600);
+    color: var(--tertiary-color-450);
   }
 }

@@ -4,6 +4,7 @@ import {
   AdminCompanyIcon,
   BugIcon,
   ChartIcon,
+  CodefendIcon,
   LogoutIcon,
   MessageIcon,
   MoonIcon,
@@ -55,7 +56,7 @@ export const NewHeader = () => {
       {
         title: 'Resources',
         id: 'sidebar_resources',
-        icon: <ChartIcon />,
+        icon: <CodefendIcon className={css['codefendIcon']} />,
         to: '/resources',
         haveAccess: true,
       },

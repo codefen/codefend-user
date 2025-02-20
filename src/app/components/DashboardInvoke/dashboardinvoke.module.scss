@@ -12,6 +12,13 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  --text-color: var(--tertiary-color-50);
+
+  h1,
+  p,
+  button {
+    color: var(--text-color);
+  }
 
   h1 {
     margin-block-end: 1.5rem;
@@ -24,5 +31,11 @@
 
   button {
     margin-block-start: 2rem;
+  }
+}
+
+:global([data-theme='light']) {
+  .leftTopContent {
+    --text-color: var(--tertiary-color-500);
   }
 }
