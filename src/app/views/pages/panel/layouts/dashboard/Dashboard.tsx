@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardAssets from '../../../../../components/DashboardAssets/DashboardAssets.tsx';
-import DashboardCollaborators from './components/DashboardCollaborators.tsx';
+import DashboardCollaborators from '../../../../../components/DashboardCollaborators/DashboardCollaborators.tsx';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
 import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';

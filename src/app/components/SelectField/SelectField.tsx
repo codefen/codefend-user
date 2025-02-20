@@ -7,16 +7,18 @@ interface SelectFieldProps {
   defaultValue?: string;
   disabled?: boolean;
   required?: boolean;
+  name?: string;
 }
 
-const AuthSelectedField = forwardRef<HTMLSelectElement, SelectFieldProps>(function SelectField(
-  { options, defaultValue = '', onChange, value, disabled, required },
+const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function SelectField(
+  { options, defaultValue = '', onChange, value, disabled, required, name = 'select' },
   ref
 ) {
   return (
     <div className="input-group">
       <select
         ref={ref}
+        name={name}
         defaultValue={defaultValue}
         onChange={onChange}
         value={value}
@@ -24,7 +26,7 @@ const AuthSelectedField = forwardRef<HTMLSelectElement, SelectFieldProps>(functi
         className="log-inputs log-text"
         required={required}>
         {options.map((option, index) => (
-          <option key={index} value={option.value} hidden={option?.hidden}>
+          <option key={`${name}-${index}`} value={option.value} hidden={option?.hidden}>
             {option.label}
           </option>
         ))}
@@ -33,4 +35,4 @@ const AuthSelectedField = forwardRef<HTMLSelectElement, SelectFieldProps>(functi
   );
 });
 
-export default AuthSelectedField;
+export default SelectField;

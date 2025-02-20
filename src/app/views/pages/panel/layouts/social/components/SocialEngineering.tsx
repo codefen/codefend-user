@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router';
 
 import ConfirmModal from '@modals/ConfirmModal';
 import { TrashIcon, BugIcon, CredentialIcon, DocumentIcon, PeopleGroupIcon } from '@icons';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { TableV2 } from '@table/tablev2';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper';
 
 import type { MemberV2 } from '@interfaces/panel';
 import type { TableItem } from '@interfaces/table';

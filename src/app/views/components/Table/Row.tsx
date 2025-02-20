@@ -1,4 +1,4 @@
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import type { ColumnTable, TableItem } from '@interfaces/table';
 import { formatDate } from '@utils/helper';
 import { Fragment, PureComponent, type ReactNode } from 'react';

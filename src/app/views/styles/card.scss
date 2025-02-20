@@ -3,22 +3,18 @@
 .card {
   overflow: hidden;
   flex: 0 0 auto;
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--primary-color-300);
   transition:
     color,
     background,
     border 500ms linear;
   width: 100%;
-  background-color: var(--primary-color);
   border-radius: 3px;
 
   .header {
     height: 2.5rem;
     display: flex;
     align-items: center;
-    font-family: Roboto;
+    font-family: 'ITC Avant Garde', Questrial;
     font-weight: bold;
     font-size: 13px;
     line-height: 13px;
@@ -748,7 +744,6 @@
   }
 
   .left .card {
-    border: 1px solid #00000025;
     transition:
       color,
       background,
@@ -756,10 +751,6 @@
   }
 
   .card {
-    border: 1px solid transparent;
-    background: #121a234d;
-    backdrop-filter: blur(9px) saturate(0.8) contrast(1);
-
     .header {
       border: none;
       transition:

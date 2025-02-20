@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import { ModalWrapper } from '..';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { ProfileMedia } from '@standalones/utils/ProfileMedia';
 import { StarRating } from '@standalones/utils/StarRating';
 import { PrimaryButton } from '../..';

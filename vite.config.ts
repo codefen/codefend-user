@@ -36,9 +36,9 @@ export default defineConfig(() => ({
     },
     warmup: {
       clientFiles: [
-        './src/app/views/components/modals/modalwrapper/ModalWrapper.tsx',
+        './src/app/components/modalwrapper/ModalWrapper.tsx',
         './src/app/views/components/Table/tablev2.tsx',
-        './src/app/views/components/defaults/Show.tsx',
+        './src/app/components/Show/Show.tsx',
       ],
     },
   },

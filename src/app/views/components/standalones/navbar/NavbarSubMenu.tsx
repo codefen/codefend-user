@@ -2,9 +2,9 @@ import { type FC } from 'react';
 import { useNavigate } from 'react-router';
 import { LogoutIcon } from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import useModal from '#commonHooks/useModal.ts';
 import type { NetworkSettingState } from '@stores/apiLink.store.ts';
 import useNetworkSettingState from '@stores/apiLink.store.ts';

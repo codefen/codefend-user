@@ -1,8 +1,10 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import { useFlashlight } from '@/app/views/context/FlashLightContext';
-import css from './signup.module.scss';
 import DashboardAssets from '@/app/components/DashboardAssets/DashboardAssets';
 import { DashboardInvoke } from '@/app/components/DashboardInvoke/DashboardInvoke';
+import { RightItemButton } from '@/app/components/RightItemButton/RightItemButton';
+import { SignupForm } from '@/app/components/SignupForm/SignupForm';
+import useAuthStore from '@stores/auth.store';
+import { Navigate } from 'react-router';
 
 const recoursesEmpty = {
   cloud: '0',
@@ -14,30 +16,27 @@ const recoursesEmpty = {
 };
 
 export const SignupPage = () => {
-  const _f = useFlashlight();
   const [showScreen] = useShowScreen();
+  const { isAuth } = useAuthStore(state => state);
+  if (isAuth) {
+    return <Navigate to={'/'} />;
+  }
 
   return (
     <main className={`${showScreen ? 'actived' : ''}`}>
+      <div className="brightness variant-1"></div>
+      <div className="brightness variant-2"></div>
+      <SignupForm />
       <section className="left">
         <DashboardInvoke />
         <DashboardAssets resources={recoursesEmpty} />
       </section>
       <section className="right">
-        <button className={css['rightItem']}>
-          <div className={css['rightImgMock']}></div>
-          <div className={css['rightItemContent']}>
-            <b>Add team members</b>
-            <span>Send us the first invitation</span>
-          </div>
-        </button>
-        <button className={css['rightItem']}>
-          <div className={css['rightImgMock']}></div>
-          <div className={css['rightItemContent']}>
-            <b>Add scope / attack surface</b>
-            <span>You can help us expand the scope.</span>
-          </div>
-        </button>
+        <RightItemButton title="Add team members" description="Send us the first invitation" />
+        <RightItemButton
+          title="Add scope / attack surface"
+          description="You can help us expand the scope."
+        />
       </section>
     </main>
   );

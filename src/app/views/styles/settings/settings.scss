@@ -2,21 +2,39 @@
 @forward 'normalize';
 
 @font-face {
-  font-family: Roboto;
+  font-family: 'ITC Avant Garde';
+  font-weight: 300;
   font-style: normal;
-  font-weight: 400;
   src:
-    local('Roboto-Regular'),
-    url('/fonts/Roboto-Regular.ttf') format('truetype');
+    local('ITC Avant Garde'),
+    url('/fonts/ITCAvantGardeGothicExtraLight.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: Roboto;
-  font-style: bold;
-  font-weight: 700;
+  font-family: 'ITC Avant Garde';
+  font-weight: 400;
+  font-style: normal;
   src:
-    local('Roboto-Bold'),
-    url('/fonts/Roboto-Bold.ttf') format('truetype');
+    local('ITC Avant Garde'),
+    url('/fonts/ITCAvantGardeGothicNormal.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'ITC Avant Garde';
+  font-weight: 500;
+  font-style: normal;
+  src:
+    local('ITC Avant Garde'),
+    url('/fonts/ITCAvantGardeGothicMedium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'ITC Avant Garde';
+  font-weight: 700;
+  font-style: normal;
+  src:
+    local('ITC Avant Garde'),
+    url('/fonts/ITCAvantGardeGothicBold.ttf') format('truetype');
 }
 
 @font-face {
@@ -24,7 +42,7 @@
   font-style: normal;
   font-weight: 400;
   src:
-    local('Questrial-Regular'),
+    local('Questrial'),
     url('/fonts/Questrial-Regular.ttf') format('truetype');
 }
 
@@ -77,6 +95,7 @@ body {
   transition-timing-function: linear;
   background: #ffffffd9;
   color: var(--tertiary-color-500);
+  font-family: 'ITC Avant Garde', Questrial;
 }
 
 body[data-theme='dark'] {

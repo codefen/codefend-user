@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { useState, type FC, type ReactNode } from 'react';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
-import CheckEmail from '../auth/CheckEmail';
+import CheckEmail from '../../../components/CheckEmail/CheckEmail';
 import InputFieldWithLabel from '../auth/InputFieldWithLabel';
 
 const ConfirmationForm: FC<{

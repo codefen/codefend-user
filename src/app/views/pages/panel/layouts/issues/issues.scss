@@ -27,7 +27,7 @@ main.issue-detail {
       border-top: 1px solid var(--primary-color-300);
       border-bottom: 1px solid var(--primary-color-300);
       background-color: var(--primary-color);
-      font-family: Roboto;
+      font-family: 'ITC Avant Garde', Questrial;
       height: 50px;
       padding: 0;
 
@@ -145,7 +145,7 @@ main.issue-detail {
     .info {
       display: flex;
       align-items: stretch;
-      font-family: Roboto;
+      font-family: 'ITC Avant Garde', Questrial;
       text-transform: uppercase;
       font-size: 11px;
       height: 40px;
@@ -165,7 +165,7 @@ main.issue-detail {
         width: 53%;
         padding-inline: 1rem;
         background: none;
-        font-family: Roboto;
+        font-family: 'ITC Avant Garde', Questrial;
         text-transform: uppercase;
         font-size: 13px;
         font-weight: bold;

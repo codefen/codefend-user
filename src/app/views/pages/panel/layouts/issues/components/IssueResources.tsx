@@ -5,14 +5,14 @@ import { issueColumns, issuesColumnsWithoutAction } from '@mocks/defaultData.ts'
 import { useDeleteIssue } from '@panelHooks/issues/useDeleteIssues.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { useNewWindows } from '#commonHooks/useNewWindows.ts';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { RiskScore } from '@standalones/utils/RiskScore.tsx';
 import { TrashIcon, BugIcon, MagnifyingGlassIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';
 import '@table/table.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { ResourceIconText } from '@standalones/utils/ResourceIconText';
 import { ModalInput } from '@defaults/ModalInput';
 

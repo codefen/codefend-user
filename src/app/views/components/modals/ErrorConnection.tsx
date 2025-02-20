@@ -1,5 +1,4 @@
-import { ModalWrapper } from '.';
-import { LanIcon, PrimaryButton, Show } from '..';
+import { LanIcon, ModalWrapper, PrimaryButton, Show } from '..';
 import { type NetworkSettingState, useNetworkSettingState } from '../../../data';
 
 interface ErrorConnectionProps {

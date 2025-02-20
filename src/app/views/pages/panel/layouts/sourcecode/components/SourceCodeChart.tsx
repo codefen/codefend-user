@@ -7,7 +7,7 @@ import { sourceCodeChartColumns, languageTypes } from '@mocks/defaultData';
 import { isEmptyData } from '@utils/helper';
 import type { TableItem } from '@interfaces/table';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { ChartIcon } from '@icons';

@@ -14,10 +14,13 @@ main.company {
       width: 100%;
 
       &.internal-tables {
+        border: none !important;
+        background: transparent;
         border-bottom: 1px solid var(--primary-color-300);
 
-        div:last-child {
-          border-bottom: 1px solid var(--primary-color-300);
+        div,
+        &:hover {
+          background: transparent;
         }
       }
 

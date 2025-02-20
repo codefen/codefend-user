@@ -1,8 +1,8 @@
 import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 import { CloudResourceForm } from '@/app/views/components/forms/CloudResourceForm';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper';
 
 export const AddCloudModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) => (
   <ModalTitleWrapper headerTitle="Add Cloud" close={() => close?.()} isActive={isOpen} type="med-w">

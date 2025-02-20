@@ -4,7 +4,7 @@ import { useOneIssue } from '@panelHooks/issues/useOneIssue.ts';
 import { IssueChatDisplay } from '../components/IssueChatDisplay.tsx';
 import IssueUpdatePanel from '../components/IssueUpdatePanel.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 
 const IssueUpdate: FC = () => {

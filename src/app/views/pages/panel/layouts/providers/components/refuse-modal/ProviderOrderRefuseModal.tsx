@@ -1,6 +1,6 @@
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import { OrderRejectionForm } from '@modals/OrderRejectionForm';
 import './refusemodal.scss';

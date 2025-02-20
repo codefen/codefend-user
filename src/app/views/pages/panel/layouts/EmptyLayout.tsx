@@ -1,4 +1,4 @@
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { EmptyScreenView, PageLoader } from '@defaults/index';
 import type { EmptyFallbackData } from '@interfaces/util';
 import { PureComponent, type ReactNode } from 'react';

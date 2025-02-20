@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
 import { type UpdateIssue, useUpdateIssue } from '@panelHooks/issues/useUpdateIssue.ts';
 import AppEditor from './AppEditor.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show.tsx';
 import type { IssueUpdateData } from '@interfaces/issues.ts';
 import useTimeout from '#commonHooks/useTimeout.ts';
 import IssueHeader from './IssueHeader.tsx';

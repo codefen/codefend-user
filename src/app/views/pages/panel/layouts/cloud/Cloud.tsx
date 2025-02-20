@@ -2,7 +2,7 @@ import { type FC, useEffect } from 'react';
 import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
 import { OrderV2 } from '@modals/order/Orderv2';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import { useCloud } from '@resourcesHooks/cloud/useCloud.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';

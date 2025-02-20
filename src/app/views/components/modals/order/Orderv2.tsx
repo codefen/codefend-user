@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 import { ScopeOrderModal } from './layouts/ScopeOrderModal';
 import { FrequencyOrderModal } from './layouts/FrequencyOrderModal';
 import { PageLoader } from '@defaults/loaders/Loader';

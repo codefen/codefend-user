@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard.tsx';
 import { useProviderOrders } from '@userHooks/providers/useProviderOrders.ts';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { ProviderOrderRefuseModal } from '../../components/refuse-modal/ProviderOrderRefuseModal.tsx';
 import { useProviderRefuseStore } from '@stores/providerOrder.store.ts';

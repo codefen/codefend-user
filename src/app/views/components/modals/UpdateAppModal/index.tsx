@@ -1,8 +1,8 @@
-import ModalTitleWrapper from '../modalwrapper/ModalTitleWrapper';
 import { PrimaryButton } from '@buttons/index';
 import scss from './updateapp.module.scss';
 import { useUploadingStore } from '@stores/updating.store';
 import { RUNNING_DESKTOP } from '@utils/helper';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper';
 
 export const UpdateAppModal = () => {
   const { setHas, setAccept, setReject, ...updateState } = useUploadingStore();

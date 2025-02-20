@@ -1,5 +1,5 @@
 import { useEffect, useRef, type FC } from 'react';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { MessageCard } from '@standalones/utils/MessageCard';
 
 export interface MessageListProps {

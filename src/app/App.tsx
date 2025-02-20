@@ -12,10 +12,11 @@ import { check } from '@tauri-apps/plugin-updater';
 import { UpdateAppModal } from '@modals/UpdateAppModal';
 import { UpdatingModal } from '@modals/UpdatingModal';
 import { useUploadingStore } from '@stores/updating.store';
+import { useUserLocation } from '@hooks/useUserLocation';
 
 export const App = () => {
   const { setHas, setUpdate, ...updateState } = useUploadingStore();
-
+  useUserLocation();
   useEffect(() => {
     if (RUNNING_DESKTOP()) {
       if (!updateState.reject && !updateState.accept && !updateState.has) {

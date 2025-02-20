@@ -7,7 +7,7 @@ import { ChatBox } from '@standalones/ChatBox';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import SelectedTicket from '../supportProvider';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import { MessageIcon } from '@icons';
 import { MessageList } from '@standalones/MessageList';
 import { useSWRMessage } from '@panelHooks/useSWRTickets';

@@ -1,4 +1,4 @@
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper';
 import { useHighlightLinesWithUrl } from '@moduleHooks/inx';
 
 interface InxFullPreviewModalProps {

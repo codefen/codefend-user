@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from 'react';
 import type { Issues } from '@interfaces/index';
 import type { ScopeAlias } from '@interfaces/util.ts';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper';
 import {
   BugIcon,
   CLoudIcon,

@@ -8,17 +8,17 @@ import useModal from '#commonHooks/useModal.ts';
 import { LocationItem } from '@standalones/utils/LocationItem.tsx';
 import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import TextChild from '@standalones/utils/TextChild';
 import { useTableStoreV3 } from '@table/v3/tablev3.store';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper.tsx';
 
 interface WebResourcesProps {
   refresh: () => void;

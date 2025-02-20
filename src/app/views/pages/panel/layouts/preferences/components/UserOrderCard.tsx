@@ -4,7 +4,7 @@ import { BugIcon } from '@icons';
 import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
 import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
 import { PrimaryButton } from '@buttons/index';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import '../../providers/components/ordercards.scss';
 import { useQualitySurveyStart } from '@hooks/quality-survey/useQualitySurveyStart';

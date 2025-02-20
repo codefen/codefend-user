@@ -1,6 +1,6 @@
 import { useState, type FC } from 'react';
 import { RUNNING_DESKTOP, calculateRowCalcX, calculateRowSizeX } from '@utils/helper.ts';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import { type TableProps, Sort } from '@interfaces/table.ts';

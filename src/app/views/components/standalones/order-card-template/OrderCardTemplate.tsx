@@ -1,4 +1,4 @@
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { BugIcon } from '@icons';
 import { type OrderOffensive, type OrderTeamSize } from '@interfaces/order.ts';
 import { IconTextPairs } from '@standalones/index';

@@ -2,7 +2,7 @@ import { type FC, useEffect, useRef, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
 import * as d3 from 'd3';
 import { formatDate } from '@utils/helper';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 
 const RADIUS = 10;
 

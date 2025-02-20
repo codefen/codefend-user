@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import css from './checkemail.module.scss';
 
 interface CheckEmailProps {
   text: string;
@@ -6,11 +7,11 @@ interface CheckEmailProps {
 }
 
 const CheckEmail: FC<CheckEmailProps> = ({ text, subText }) => (
-  <div className="check-mail">
-    <div className="check-mail_img">
-      <img src="/codefend/check_email.png" alt="mail-image" decoding="async" loading="lazy" />
+  <div className={css['check-mail']}>
+    <div className={css['check-mail_img']}>
+      <img src="/codefend/icon-mail.png" alt="mail-image" decoding="async" loading="lazy" />
     </div>
-    <div className="check-mail_text">
+    <div className={css['check-mail_text']}>
       <span>{text}</span>
       <p>{subText}</p>
     </div>

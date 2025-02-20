@@ -1,12 +1,12 @@
 import { StatIcon } from '@icons';
-import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import useModalStore from '@stores/modal.store';
 import useCredentialStore, { CredentialPage } from '@stores/credential.store';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { AddCredentials } from './AddCredentials';
 import { ViewCredentials } from './ViewCredentials';
 import type { FC } from 'react';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 
 interface CredentialsModalProps {
   onComplete?: () => void;

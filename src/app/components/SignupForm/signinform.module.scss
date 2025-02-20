@@ -1,5 +1,36 @@
-.signinform {
+:global(.modal-wrapper) {
+  .signinform {
+    display: flex;
+    flex-direction: column;
+    max-width: 650px;
+  }
+}
+
+:global([data-theme='dark'] .modal-wrapper) .signinform {
+  border: none;
+}
+
+.signupContent {
   display: flex;
   flex-direction: column;
-  min-width: 500px;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem;
+
+  p {
+    color: var(--tertiary-color-50);
+    line-height: 1.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 1rem;
+
+    .sendButton {
+      margin-inline-start: auto;
+      min-width: 200px;
+    }
+  }
 }

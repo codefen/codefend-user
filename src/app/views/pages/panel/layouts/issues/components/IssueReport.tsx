@@ -3,7 +3,7 @@ import { generateIDArray } from '@utils/helper.ts';
 import { type IssueClass } from '@interfaces/panel.ts';
 import { ChartIcon } from '@icons';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 
 interface Props {
   isLoading: boolean;

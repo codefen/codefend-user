@@ -1,5 +1,5 @@
 .stat {
-  font-family: Roboto, sans-serif;
+  font-family: 'ITC Avant Garde', Questrial;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@
 
   p {
     font-size: clamp(11px, 10dvw, 12.5px);
-    font-family: Questrial;
+    font-family: 'ITC Avant Garde', Questrial;
     color: var(--tertiary-color-450);
     font-weight: bold;
     margin: 0;

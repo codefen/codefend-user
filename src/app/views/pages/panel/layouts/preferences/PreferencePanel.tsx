@@ -1,6 +1,6 @@
 import { usePreferences } from '@panelHooks/preference/usePreferences.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show.tsx';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import SettingCollaboratorAndTeam from './components/SettingCollaboratorAndTeam.tsx';
 import SettingCompanyInformation from './components/SettingCompanyInformation.tsx';

@@ -3,7 +3,7 @@ import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
 import TableColumnsV3 from './TableColumnsV3';
 import TableRowsV3 from './TableRowsV3';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import EmptyCard from '@defaults/EmptyCard';
 import { PageLoader } from '@defaults/loaders/Loader';
 import { ModalInput } from '@defaults/ModalInput';

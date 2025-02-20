@@ -4,8 +4,8 @@ import { ThemeChangerButton } from '@buttons/theme-changer/ThemeChangerButton.ts
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { Breadcrumb } from '@standalones/utils/Breadcrumb.tsx';
 import { LogoutIcon, NetworkIcon } from '@icons';
-import Show from '@defaults/Show.tsx';
-import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
+import Show from '@/app/components/Show/Show.tsx';
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 import { NavbarSubMenu } from './NavbarSubMenu.tsx';
 import { usePanelStore } from '../../../../data';

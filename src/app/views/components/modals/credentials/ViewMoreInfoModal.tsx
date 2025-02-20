@@ -1,6 +1,6 @@
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import type { ResourceCredential } from '@interfaces/creds';
-import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 import type { FC } from 'react';
 
 interface ViewMoreInfoModalProps {

@@ -1,4 +1,4 @@
-import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 import scss from './updating.module.scss';
 import { useEffect, useState } from 'react';
 import { RUNNING_DESKTOP } from '@utils/helper';

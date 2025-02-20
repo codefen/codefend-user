@@ -1,7 +1,7 @@
 import { type FC, Suspense, useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import './issues.scss';
 import { addEventListener } from '@utils/helper';
 import { EVENTS } from '@/app/constants/events';

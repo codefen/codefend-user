@@ -1,8 +1,9 @@
 import { useEffect, type FC, type ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import './modal.scss';
-import { CloseIcon, Show } from '../..';
 import useKeyEventPress from '@stores/keyEvents';
+import Show from '../Show/Show';
+import { CloseIcon } from '@icons';
 
 interface ModalWrapper {
   children: ReactNode;

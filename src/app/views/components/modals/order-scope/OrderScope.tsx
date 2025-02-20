@@ -1,4 +1,4 @@
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { useEffect, useRef, useState, type FC } from 'react';
 import { PrimaryButton } from '@buttons/index';
 import './orderscope.scss';

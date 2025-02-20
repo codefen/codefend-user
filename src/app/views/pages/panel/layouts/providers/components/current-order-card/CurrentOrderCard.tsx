@@ -3,15 +3,15 @@ import useModal from '@hooks/common/useModal';
 import { type OrderOffensive, type OrderTeamSize, ScopeOption } from '@interfaces/order';
 import { formatReverseDate, calculateDaysDifference } from '@utils/helper';
 import ConfirmModal from '@modals/ConfirmModal';
-import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
 import { useProviderOrderFinish } from '@userHooks/providers/useProviderOrderFinish';
 import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
 import useOrderScopeStore from '@stores/orderScope.store';
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 
 export interface ConfirmOrderCardProps {
   sizeOrder: OrderTeamSize | 'small' | 'medium' | 'full';

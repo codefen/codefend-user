@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import './resourcefigure.scss';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 
 interface ResourceFigureProps {
   icon: ReactNode;

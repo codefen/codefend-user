@@ -6,10 +6,8 @@ import useAdminCompanyStore from '@stores/adminCompany.store';
 import {
   AuthPage,
   SignInLayout,
-  SignUpLayout,
   ConfirmationSignUp,
   FinishSignUpLayout,
-  Dashboard,
   WebApplication,
   MobileApplication,
   CloudApplicationPanel,
@@ -17,7 +15,6 @@ import {
   SocialEngineeringPanel,
   SupportPanel,
   PreferencePanel,
-  AdminPage,
   AdminCompany,
   ResellerLeadsLayout,
   ResellerUsersLayout,
@@ -29,14 +26,12 @@ import {
   ResellerOrdersLayout,
   SnsPanel,
 } from '../views/pages';
-import { PanelPage } from '../views/pages/panel/PanelPage';
 import {
   IssuePage,
   IssuesCreation,
   IssuesPanel,
   IssuesUpdate,
 } from '../views/pages/panel/layouts/issues';
-import InxPanel from '../views/pages/panel/layouts/inx/InxPanel';
 import { PasswordRecovery } from '../views/pages/auth/layouts/PasswordRecovery';
 import { TermsAndCondition } from '../views/pages/help-center/TermsAndCondition';
 import { HelpCenter } from '../views/pages/help-center/HelpCenter';
@@ -47,6 +42,8 @@ import { PageReport } from '@modals/reports/PageReport.tsx';
 import ProtectedRoute from './ProtectedRoute';
 import { GreyPanel } from '@/app/views/pages/greyPanel/GreyPanel';
 import { SignupPage } from '@/app/views/pages/greyPanel/signup/SignupPage';
+import { DashboardPage } from '@/app/views/pages/greyPanel/Dashboard/DashboardPage';
+import { SigninPage } from '@/app/views/pages/greyPanel/signin/SigninPage';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -61,7 +58,7 @@ export const AppRouter = () => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <PanelPage />,
+      element: <GreyPanel />,
       children: [
         {
           index: true,
@@ -74,23 +71,19 @@ export const AppRouter = () => {
               ) : isReseller() ? (
                 <Navigate to="/reseller/leads" replace />
               ) : (
-                <Dashboard />
+                <DashboardPage />
               )}
             </ProtectedRoute>
           ),
         },
         // Admin routes
         {
-          path: 'admin/*',
+          path: 'companies',
           element: (
             <ProtectedRoute isAllowed={isAdmin() || isProviderWithAccess}>
-              <AdminPage />
+              <AdminCompany />
             </ProtectedRoute>
           ),
-          children: [
-            { index: true, element: <Navigate to="company" replace /> },
-            { path: 'company', element: <AdminCompany /> },
-          ],
         },
         // Provider routes
         {
@@ -128,7 +121,7 @@ export const AppRouter = () => {
           path: 'dashboard',
           element: (
             <ProtectedRoute isAllowed={haveAccessToResources}>
-              <Dashboard />
+              <DashboardPage />
             </ProtectedRoute>
           ),
         },
@@ -164,7 +157,7 @@ export const AppRouter = () => {
         // Non-reseller routes
         ...(!isReseller()
           ? [
-              { path: 'inx', element: <InxPanel /> },
+              /*{ path: 'inx', element: <InxPanel /> },*/
               { path: 'sns', element: <SnsPanel /> },
             ]
           : []),
@@ -176,14 +169,9 @@ export const AppRouter = () => {
               { path: 'preferences', element: <PreferencePanel /> },
             ]
           : []),
-      ],
-    },
-    {
-      path: 'v2/*',
-      element: <GreyPanel />,
-      children: [
+        // Auth routes
         { path: 'signup', element: <SignupPage /> },
-        // Puedes agregar más rutas v2 aquí según necesites
+        { path: 'signin', element: <SigninPage /> },
       ],
     },
     // Report route
@@ -211,7 +199,6 @@ export const AppRouter = () => {
       children: [
         { index: true, element: <Navigate to="signin" replace /> },
         { path: 'signin', element: <SignInLayout /> },
-        { path: 'signup', element: <SignUpLayout /> },
         { path: 'signup/invitation', element: <InvitationSignup /> },
         { path: 'signup/invitation/:ref', element: <InvitationSignup /> },
         { path: 'confirmation', element: <ConfirmationSignUp /> },

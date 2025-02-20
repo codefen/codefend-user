@@ -5,7 +5,7 @@ import { vdbColumns } from '@mocks/defaultData';
 import { SearchBar } from '@standalones/SearchBar';
 import { RiskScore } from '@standalones/utils/RiskScore';
 import { TableV2 } from '@table/tablev2';
-import Show from '@defaults/Show';
+import Show from '@/app/components/Show/Show';
 import { ScanSearchIcon } from '@icons';
 import { PageLoader } from '@defaults/loaders/Loader';
 

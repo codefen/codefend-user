@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import type { ComponentEventWithOpen } from '@interfaces/util.ts';
 import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper';
 
 export const AddSocialResourceModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) => (
   <ModalTitleWrapper

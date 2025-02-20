@@ -3,7 +3,7 @@ import { SearchBar } from '@standalones/SearchBar';
 import { ScanSearchIcon } from '@icons';
 import Masonry from 'react-masonry-css';
 import { useSns } from '@moduleHooks/sns/useSns.ts';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import useModal from '#commonHooks/useModal';
 import { SnsLeakedDataModal } from '@/app/views/pages/panel/layouts/sns/components/SnsLeakedDataModal';

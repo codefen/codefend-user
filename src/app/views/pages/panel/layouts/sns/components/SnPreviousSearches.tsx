@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { PreviousMessageIcon } from '@icons';
 

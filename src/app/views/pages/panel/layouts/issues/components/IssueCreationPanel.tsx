@@ -1,7 +1,7 @@
 import { type FC, type ChangeEvent, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { type SaveIssue, useSaveIssue } from '@panelHooks/issues/useSaveIssue.ts';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show.tsx';
 import { PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
 import AppEditor from './AppEditor';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe';

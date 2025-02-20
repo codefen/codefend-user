@@ -1,5 +1,6 @@
+import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
+import { StatIcon } from '@icons';
 import { type FC, type ReactNode } from 'react';
-import { ModalWrapper, StatIcon } from '../..';
 
 interface ModalTitleWrapperProps {
   children: ReactNode;

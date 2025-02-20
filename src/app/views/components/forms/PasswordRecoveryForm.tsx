@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { PasswordRequirements } from '../auth/PasswordRequirements';
 import { usePasswordRecovery } from '@userHooks/auth/usePasswordRecovery';
-import CheckEmail from '../auth/CheckEmail';
+import CheckEmail from '../../../components/CheckEmail/CheckEmail';
 import InputFieldWithLabel from '../auth/InputFieldWithLabel';
 
 const PasswordRecoveryForm: FC<{

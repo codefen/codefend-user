@@ -46,7 +46,11 @@
 
     &:hover {
       --left-item-background: var(--primary-color-600);
-      --left-item-color: var(--tertiary-color-100);
+      --left-item-color: var(--secondary-color-50);
+    }
+
+    &.active {
+      --left-item-color: var(--secondary-color-200);
     }
   }
 }

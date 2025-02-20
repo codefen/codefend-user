@@ -4,7 +4,7 @@ import { type Ticket } from '@interfaces/panel';
 import { supportTicket } from '@mocks/defaultData';
 import useModal from '@hooks/common/useModal';
 import { AddTicketModal } from '@modals/adding-modals/AddTicketModal';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
+import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { TrashIcon, MessageIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.tsx';

@@ -10,7 +10,7 @@ import {
 import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import EmptyCard from '@defaults/EmptyCard.tsx';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/components/Show/Show';
 import { ChartIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.ts';
 import { Doughnut } from 'react-chartjs-2';
