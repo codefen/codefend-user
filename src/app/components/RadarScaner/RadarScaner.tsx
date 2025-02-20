@@ -1,15 +1,82 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import css from './radarscanner.module.scss';
 
 interface RadarPoint {
   x: number;
   y: number;
+  originalX: number;
+  originalY: number;
   opacity: number;
+  detected: boolean;
+  rotation: number;
 }
+
+const SIZE = 225;
+
+const generateDistributedPoints = (
+  count: number,
+  centerX: number,
+  centerY: number
+): RadarPoint[] => {
+  const points: RadarPoint[] = [];
+  //const angleStep = (2 * Math.PI) / count;
+  //const minRadius = SIZE * 0.15; // Radio mínimo para evitar el centro
+  //const maxRadius = SIZE * 0.385; // Radio máximo para evitar los bordes
+  const minDistance = SIZE * 0.2; // Distancia mínima entre puntos
+  const maxAttempts = 50; // Número máximo de intentos para colocar un punto
+
+  const generatePoint = (): { x: number; y: number } => {
+    const angle = Math.random() * 2 * Math.PI;
+    const minRadius = SIZE * 0.2;
+    const maxRadius = SIZE * 0.4;
+    const radius = minRadius + Math.random() * (maxRadius - minRadius);
+    return {
+      x: centerX + radius * Math.cos(angle),
+      y: centerY + radius * Math.sin(angle),
+    };
+  };
+
+  const isValidPoint = (x: number, y: number): boolean => {
+    return points.every(point => {
+      const dx = point.x - x;
+      const dy = point.y - y;
+      return Math.sqrt(dx * dx + dy * dy) >= minDistance;
+    });
+  };
+
+  for (let i = 0; i < count; i++) {
+    let attempts = 0;
+    let point: { x: number; y: number } | null = null;
+
+    while (attempts < maxAttempts && !point) {
+      const candidate = generatePoint();
+      if (isValidPoint(candidate.x, candidate.y)) {
+        point = candidate;
+      }
+      attempts++;
+    }
+
+    if (point) {
+      points.push({
+        x: point.x,
+        y: point.y,
+        originalX: point.x,
+        originalY: point.y,
+        opacity: 0,
+        detected: false,
+        rotation: Math.random() * 360,
+      });
+    } else {
+      console.warn(`No se pudo colocar el punto ${i + 1} después de ${maxAttempts} intentos`);
+    }
+  }
+
+  return points;
+};
 
 export function RadarScanner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const points = useRef<RadarPoint[]>([]);
+  const [points, setPoints] = useState<RadarPoint[]>([]);
   const angle = useRef(0);
 
   useEffect(() => {
@@ -19,19 +86,12 @@ export function RadarScanner() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const size = 225;
-    canvas.width = size;
-    canvas.height = size;
-    const centerX = size / 2;
-    const centerY = size / 2;
+    canvas.width = SIZE;
+    canvas.height = SIZE;
+    const centerX = SIZE / 2;
+    const centerY = SIZE / 2;
 
-    points.current = Array(3)
-      .fill(0)
-      .map(() => ({
-        x: Math.random() * (size - 100) + 50,
-        y: Math.random() * (size - 100) + 50,
-        opacity: 0,
-      }));
+    setPoints(generateDistributedPoints(3, centerX, centerY));
 
     const drawGrid = () => {
       const gridSize = 20; // Tamaño de cada cuadro de la grilla
@@ -42,24 +102,24 @@ export function RadarScanner() {
       ctx.strokeStyle = `rgba(255, 48, 48, ${gridOpacity})`;
 
       // Dibujamos las líneas verticales
-      for (let x = 0; x <= size; x += gridSize) {
+      for (let x = 0; x <= SIZE; x += gridSize) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
-        ctx.lineTo(x, size);
+        ctx.lineTo(x, SIZE);
         ctx.stroke();
       }
 
       // Dibujamos las líneas horizontales
-      for (let y = 0; y <= size; y += gridSize) {
+      for (let y = 0; y <= SIZE; y += gridSize) {
         ctx.beginPath();
         ctx.moveTo(0, y);
-        ctx.lineTo(size, y);
+        ctx.lineTo(SIZE, y);
         ctx.stroke();
       }
     };
 
     const drawCrosshair = () => {
-      const verticalGradient = ctx.createLinearGradient(centerX, 0, centerX, size);
+      const verticalGradient = ctx.createLinearGradient(centerX, 0, centerX, SIZE);
       verticalGradient.addColorStop(0, 'rgba(255, 48, 48, 0)');
       verticalGradient.addColorStop(0.4, 'rgba(255, 48, 48, 0.4)');
       verticalGradient.addColorStop(0.5, 'rgba(255, 48, 48, 0.8)');
@@ -68,12 +128,12 @@ export function RadarScanner() {
 
       ctx.beginPath();
       ctx.moveTo(centerX, 0);
-      ctx.lineTo(centerX, size);
+      ctx.lineTo(centerX, SIZE);
       ctx.strokeStyle = verticalGradient;
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      const horizontalGradient = ctx.createLinearGradient(0, centerY, size, centerY);
+      const horizontalGradient = ctx.createLinearGradient(0, centerY, SIZE, centerY);
       horizontalGradient.addColorStop(0, 'rgba(255, 48, 48, 0)');
       horizontalGradient.addColorStop(0.4, 'rgba(255, 48, 48, 0.4)');
       horizontalGradient.addColorStop(0.5, 'rgba(255, 48, 48, 0.8)');
@@ -82,7 +142,7 @@ export function RadarScanner() {
 
       ctx.beginPath();
       ctx.moveTo(0, centerY);
-      ctx.lineTo(size, centerY);
+      ctx.lineTo(SIZE, centerY);
       ctx.strokeStyle = horizontalGradient;
       ctx.lineWidth = 1;
       ctx.stroke();
@@ -117,19 +177,19 @@ export function RadarScanner() {
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.arc(0, 0, size / 2, -coneAngle, coneAngle);
+      ctx.arc(0, 0, SIZE / 2, -coneAngle, coneAngle);
       ctx.lineTo(0, 0);
       ctx.fillStyle = coneGradient;
       ctx.fill();
 
-      const depthGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, size / 2);
+      const depthGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, SIZE / 2);
       depthGradient.addColorStop(0, 'rgba(255, 48, 48, 0.8)');
       depthGradient.addColorStop(0.2, 'rgba(255, 48, 48, 0.6)');
       depthGradient.addColorStop(1, 'rgba(255, 48, 48, 0)');
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.arc(0, 0, size / 2, -coneAngle, coneAngle);
+      ctx.arc(0, 0, SIZE / 2, -coneAngle, coneAngle);
       ctx.lineTo(0, 0);
       ctx.fillStyle = depthGradient;
       ctx.fill();
@@ -149,10 +209,10 @@ export function RadarScanner() {
     const drawRings = () => {
       // Enhanced radar circles
       const RINGS = [
-        { radius: size * 0.11, opacity: 0.6 }, // Círculo interno
-        { radius: size * 0.22, opacity: 0.5 }, // Segundo círculo
-        { radius: size * 0.31, opacity: 0.4 }, // Tercer círculo
-        { radius: size * 0.42, opacity: 0.15 }, // Círculo externo (muy separado)
+        { radius: SIZE * 0.11, opacity: 0.6 }, // Círculo interno
+        { radius: SIZE * 0.22, opacity: 0.5 }, // Segundo círculo
+        { radius: SIZE * 0.31, opacity: 0.4 }, // Tercer círculo
+        { radius: SIZE * 0.42, opacity: 0.15 }, // Círculo externo (muy separado)
       ];
 
       RINGS.forEach(({ radius, opacity }) => {
@@ -184,23 +244,23 @@ export function RadarScanner() {
     };
 
     const drawRadar = () => {
-      ctx.clearRect(0, 0, size, size);
+      ctx.clearRect(0, 0, SIZE, SIZE);
 
       // Capa externa muy sutil
       const outerGlow = ctx.createRadialGradient(
         centerX,
         centerY,
-        size * 0.35,
+        SIZE * 0.35,
         centerX,
         centerY,
-        size / 2
+        SIZE / 2
       );
       outerGlow.addColorStop(0, 'rgba(255, 60, 35, 0.06)');
       outerGlow.addColorStop(0.7, 'rgba(255, 60, 35, 0.02)');
       outerGlow.addColorStop(1, 'rgba(255, 60, 35, 0.01)');
 
       ctx.fillStyle = outerGlow;
-      ctx.fillRect(0, 0, size, size);
+      ctx.fillRect(0, 0, SIZE, SIZE);
 
       // Capa interna más intensa y grande
       const innerGlow = ctx.createRadialGradient(
@@ -209,7 +269,7 @@ export function RadarScanner() {
         0,
         centerX,
         centerY,
-        size * 0.35
+        SIZE * 0.35
       );
       innerGlow.addColorStop(0, 'rgba(255, 60, 35, 0.5)'); // Más intenso en el centro
       innerGlow.addColorStop(0.5, 'rgba(255, 60, 35, 0.3)'); // Mantiene la intensidad
@@ -217,7 +277,7 @@ export function RadarScanner() {
       innerGlow.addColorStop(1, 'rgba(255, 60, 35, 0.06)');
 
       ctx.fillStyle = innerGlow;
-      ctx.fillRect(0, 0, size, size);
+      ctx.fillRect(0, 0, SIZE, SIZE);
 
       // Se pinta primero la grilla para que este por debajo del resto
       drawGrid();
@@ -226,47 +286,53 @@ export function RadarScanner() {
       drawCrosshair();
       drawScanningCone();
 
-      // Enhanced point rendering
-      points.current.forEach((point, index) => {
-        const dx = point.x - centerX;
-        const dy = point.y - centerY;
-        const pointAngle = Math.atan2(dy, dx);
+      // Genera la posicion, rotacion de los bichos y activa la deteccion si el cono pasar por encima
+      setPoints(prevPoints =>
+        prevPoints.map(point => {
+          const dx = point.x - centerX;
+          const dy = point.y - centerY;
+          const pointAngle = Math.atan2(dy, dx);
 
-        let normalizedScanAngle = angle.current % (Math.PI * 2);
-        if (normalizedScanAngle < 0) normalizedScanAngle += Math.PI * 2;
+          let normalizedScanAngle = angle.current % (Math.PI * 2);
+          if (normalizedScanAngle < 0) normalizedScanAngle += Math.PI * 2;
 
-        let normalizedPointAngle = pointAngle;
-        if (normalizedPointAngle < 0) normalizedPointAngle += Math.PI * 2;
+          let normalizedPointAngle = pointAngle;
+          if (normalizedPointAngle < 0) normalizedPointAngle += Math.PI * 2;
 
-        const diff = Math.abs(normalizedScanAngle - normalizedPointAngle);
-        if (diff < 0.2 || diff > Math.PI * 2 - 0.2) {
-          points.current[index].opacity = 1;
-        }
+          const diff = Math.abs(normalizedScanAngle - normalizedPointAngle);
 
-        if (point.opacity > 0) {
-          // Enhanced point glow
-          const pointGlow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, 20);
-          pointGlow.addColorStop(0, `rgba(255, 48, 48, ${point.opacity * 0.8})`);
-          pointGlow.addColorStop(1, 'rgba(255, 48, 48, 0)');
+          if (diff < 0.2 || diff > Math.PI * 2 - 0.2) {
+            // Añade un pequeño movimiento cuando el radar pasa por encima
+            const moveRange = 2; // Rango de movimiento
+            const newX = point.originalX + (Math.random() - 0.5) * moveRange;
+            const newY = point.originalY + (Math.random() - 0.5) * moveRange;
+            return {
+              ...point,
+              x: newX,
+              y: newY,
+              opacity: 1,
+              detected: true,
+              rotation: point.rotation + (Math.random() - 0.5) * 20,
+            };
+          }
 
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 20, 0, Math.PI * 2);
-          ctx.fillStyle = pointGlow;
-          ctx.fill();
+          if (point.opacity > 0) {
+            // Volver gradualmente a la posición original
+            const returnSpeed = 0.05; // Velocidad de retorno lenta (para un movimiento más suave)
+            const newX = point.x + (point.originalX - point.x) * returnSpeed;
+            const newY = point.y + (point.originalY - point.y) * returnSpeed;
+            return {
+              ...point,
+              x: newX,
+              y: newY,
+              opacity: point.opacity * 0.995,
+              detected: point.opacity > 0.1,
+            };
+          }
 
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 48, 48, ${point.opacity * 0.9})`;
-          ctx.fill();
-
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 48, 48, ${point.opacity})`;
-          ctx.fill();
-
-          points.current[index].opacity *= 0.997;
-        }
-      });
+          return point;
+        })
+      );
 
       angle.current += 0.01;
       return requestAnimationFrame(drawRadar);
@@ -289,6 +355,65 @@ export function RadarScanner() {
           filter: 'blur(0.5px)',
         }}
       />
+      <div className={css['radar-bichardos-container']}>
+        {points.map((point, index) => (
+          <div
+            key={index}
+            className={`${css['radar-bichardo-content']} ${point.detected ? css['animate-detected'] : ''}`}
+            style={{
+              left: point.x - 16,
+              top: point.y - 16,
+              opacity: point.opacity,
+              transform: `
+                  scale(${point.detected ? 1.05 : 1})
+                  rotate(${point.rotation}deg)
+                `,
+            }}>
+            <div className={`${css['radar-bichardo']}`}>
+              <div
+                className={`
+                    ${css['radar-bichardo-common']} ${css['radar-bichardo-blur']}
+                    ${point.detected ? css['animate-glow'] : ''}
+                  `}
+              />
+              {/* Efecto de detección */}
+              {point.detected && (
+                <>
+                  {/* Anillo de detección */}
+                  <div
+                    className={`${css['radar-bichardo-common']} ${css['radar-bichardo-blur']} ${css['animate-ping']}`}
+                  />
+                  {/* Brillo central */}
+                  <div
+                    className={`${css['radar-bichardo-common']} ${css['radar-bichardo-blur']} ${css['animate-pulse']}`}
+                  />
+
+                  {/* Destellos */}
+                  <div className={css['radar-bichardo-common']}>
+                    <div
+                      className={`${css['radar-details']} ${css['radar-bichardo-blur']} ${css['animate-flash']}`}
+                    />
+                    <div
+                      className={`${css['radar-details']} ${css['radar-bichardo-blur']} ${css['animate-flash-delayed']}`}
+                    />
+                  </div>
+                </>
+              )}
+
+              <img
+                src={index % 2 === 0 ? '/codefend/Bichardo-3.png' : '/codefend/Bichardo-1.png'}
+                alt="Bug"
+                className={css['bichardo']}
+                width={36}
+                height={36}
+                style={{
+                  filter: point.detected ? 'brightness(1.2)' : 'brightness(1)',
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

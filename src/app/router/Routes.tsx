@@ -128,17 +128,66 @@ export const AppRouter = () => {
         // Resource routes
         ...(haveAccessToResources || isProviderWithAccess
           ? [
-              { path: 'web', element: <WebApplication /> },
-              { path: 'mobile', element: <MobileApplication /> },
-              { path: 'cloud', element: <CloudApplicationPanel /> },
-              { path: 'source', element: <SourceCodePanel /> },
-              { path: 'network', element: <LanPage /> },
-              { path: 'social', element: <SocialEngineeringPanel /> },
+              {
+                path: 'web',
+                element: (
+                  <ProtectedRoute isAllowed={haveAccessToResources || isProviderWithAccess}>
+                    <WebApplication />
+                  </ProtectedRoute>
+                ),
+              },
+              {
+                path: 'mobile',
+                element: (
+                  <ProtectedRoute isAllowed={haveAccessToResources || isProviderWithAccess}>
+                    <MobileApplication />
+                  </ProtectedRoute>
+                ),
+              },
+              {
+                path: 'cloud',
+                element: (
+                  <ProtectedRoute isAllowed={haveAccessToResources || isProviderWithAccess}>
+                    <CloudApplicationPanel />
+                  </ProtectedRoute>
+                ),
+              },
+              {
+                path: 'source',
+                element: (
+                  <ProtectedRoute isAllowed={haveAccessToResources || isProviderWithAccess}>
+                    <SourceCodePanel />
+                  </ProtectedRoute>
+                ),
+              },
+              {
+                path: 'network',
+                element: (
+                  <ProtectedRoute isAllowed={haveAccessToResources || isProviderWithAccess}>
+                    <LanPage />
+                  </ProtectedRoute>
+                ),
+              },
+              {
+                path: 'social',
+                element: (
+                  <ProtectedRoute isAllowed={haveAccessToResources || isProviderWithAccess}>
+                    <SocialEngineeringPanel />
+                  </ProtectedRoute>
+                ),
+              },
               {
                 path: 'issues/*',
                 element: <IssuePage />,
                 children: [
-                  { index: true, element: <IssuesPanel /> },
+                  {
+                    index: true,
+                    element: (
+                      <ProtectedRoute isAllowed={allRolesLoggedIn}>
+                        <IssuesPanel />
+                      </ProtectedRoute>
+                    ),
+                  },
                   {
                     path: 'create',
                     element: (
@@ -147,9 +196,30 @@ export const AppRouter = () => {
                       </ProtectedRoute>
                     ),
                   },
-                  { path: 'create/:type/:resourceId', element: <IssuesCreation /> },
-                  { path: 'create/:type', element: <IssuesCreation /> },
-                  { path: ':id', element: <IssuesUpdate /> },
+                  {
+                    path: 'create/:type/:resourceId',
+                    element: (
+                      <ProtectedRoute isAllowed={haveAccessToCreateIssue}>
+                        <IssuesCreation />
+                      </ProtectedRoute>
+                    ),
+                  },
+                  {
+                    path: 'create/:type',
+                    element: (
+                      <ProtectedRoute isAllowed={haveAccessToCreateIssue}>
+                        <IssuesCreation />
+                      </ProtectedRoute>
+                    ),
+                  },
+                  {
+                    path: ':id',
+                    element: (
+                      <ProtectedRoute isAllowed={allRolesLoggedIn}>
+                        <IssuesUpdate />
+                      </ProtectedRoute>
+                    ),
+                  },
                 ],
               },
             ]
