@@ -1,15 +1,22 @@
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import css from './newheader.module.scss';
 import {
   AdminCompanyIcon,
   BugIcon,
   ChartIcon,
+  CLoudIcon,
   CodefendIcon,
+  GlobeWebIcon,
+  LanIcon,
   LogoutIcon,
   MessageIcon,
+  MobileIcon,
   MoonIcon,
   NetworkIcon,
+  PeopleGroupIcon,
   PreferenceIcon,
+  SnbIcon,
+  SourceCodeIcon,
   SunIcon,
 } from '@icons';
 import { useMemo, useState } from 'react';
@@ -35,14 +42,29 @@ export const NewHeader = () => {
   const { getUserdata, logout } = useUserData();
   const userData = getUserdata();
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
-  const { companies } = useAdminCompanyStore();
+  const { companies, companySelected } = useAdminCompanyStore();
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
+  const location = useLocation();
   const { isAuth } = useAuthStore(state => state);
-
+  const isProviderWithAccess =
+    isProvider() &&
+    companies.length > 0 &&
+    companies[0] !== null &&
+    companySelected?.id !== getUserdata().company_id;
   const isNotProviderAndReseller = !isProvider() && !isReseller();
   const navigate = useNavigate();
-  const menuItems = useMemo(
-    () => [
+  const menuItems = useMemo(() => {
+    const currentPath = location.pathname;
+    const isResourcePage =
+      currentPath.startsWith('/scope') ||
+      currentPath.startsWith('/web') ||
+      currentPath.startsWith('/cloud') ||
+      currentPath.startsWith('/mobile') ||
+      currentPath.startsWith('/network') ||
+      currentPath.startsWith('/social') ||
+      currentPath.startsWith('/source');
+
+    return [
       {
         title: 'Admin Companies',
         id: 'sidebar_admin',
@@ -60,12 +82,72 @@ export const NewHeader = () => {
         root: !isProvider() && !isReseller() && !isAdmin() && isNormalUser(),
       },
       {
-        title: 'Resources',
+        title: 'Scope',
         id: 'sidebar_resources',
         icon: <CodefendIcon className={css['codefendIcon']} />,
-        to: isAuth ? '/resources' : '',
+        to: isAuth ? '/scope' : '',
         haveAccess: true,
       },
+      isResourcePage
+        ? {
+            title: 'Web',
+            id: 'sidebar_web',
+            icon: <GlobeWebIcon />,
+            to: '/web',
+            root: false,
+            haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+          }
+        : null,
+      isResourcePage
+        ? {
+            title: 'Mobile',
+            id: 'sidebar_mobile',
+            icon: <MobileIcon />,
+            to: '/mobile',
+            root: false,
+            haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+          }
+        : null,
+      isResourcePage
+        ? {
+            title: 'Cloud',
+            id: 'sidebar_cloud',
+            icon: <CLoudIcon />,
+            to: '/cloud',
+            root: false,
+            haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+          }
+        : null,
+      isResourcePage
+        ? {
+            title: 'Social Engineering',
+            id: 'sidebar_social',
+            icon: <PeopleGroupIcon />,
+            to: '/social',
+            root: false,
+            haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+          }
+        : null,
+      isResourcePage
+        ? {
+            title: 'Network',
+            id: 'sidebar_net',
+            icon: <LanIcon />,
+            to: '/network',
+            root: false,
+            haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+          }
+        : null,
+      isResourcePage
+        ? {
+            title: 'Source Code',
+            id: 'sidebar_source',
+            icon: <SourceCodeIcon />,
+            to: '/source',
+            root: false,
+            haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+          }
+        : null,
       {
         title: 'Issues',
         id: 'sidebar_issues',
@@ -87,9 +169,16 @@ export const NewHeader = () => {
         to: isAuth ? '/preferences' : '',
         haveAccess: true,
       },
-    ],
-    [isAuth, isAdmin, isProvider, isNotProviderAndReseller, isReseller, isNormalUser, companies]
-  );
+      {
+        title: 'SNS',
+        iD: 'sidebar_sns',
+        icon: <SnbIcon />,
+        to: '/sns',
+        root: false,
+        haveAccess: !isReseller(),
+      },
+    ].filter(i => i !== null);
+  }, [isAuth, isAdmin, isProvider, isNotProviderAndReseller, isReseller, isNormalUser, companies]);
   return (
     <div className={css['headerContainer']}>
       <Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>

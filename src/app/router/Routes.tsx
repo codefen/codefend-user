@@ -44,6 +44,7 @@ import { SignupPage } from '@/app/views/pages/greyPanel/signup/SignupPage';
 import { DashboardPage } from '@/app/views/pages/greyPanel/Dashboard/DashboardPage';
 import { SigninPage } from '@/app/views/pages/greyPanel/signin/SigninPage';
 import AdminCompany from '@/app/views/pages/greyPanel/AdminCompany/AdminCompany';
+import { ScopePage } from '@/app/views/pages/greyPanel/Scope/ScopePage';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -128,6 +129,14 @@ export const AppRouter = () => {
         // Resource routes
         ...(haveAccessToResources || isProviderWithAccess
           ? [
+              {
+                path: 'scope',
+                element: (
+                  <ProtectedRoute isAllowed={haveAccessToResources || isProviderWithAccess}>
+                    <ScopePage />
+                  </ProtectedRoute>
+                ),
+              },
               {
                 path: 'web',
                 element: (

@@ -2,7 +2,7 @@ import { type FC, type ReactNode } from 'react';
 import css from './simplesection.module.scss';
 
 interface SimpleSectionProps {
-  header: string;
+  header?: string;
   icon: ReactNode;
   children: ReactNode;
 }
@@ -10,12 +10,14 @@ interface SimpleSectionProps {
 export const SimpleSection: FC<SimpleSectionProps> = ({ header, icon, children }) => {
   return (
     <>
-      <div className={css['header']}>
-        <div className={css['title']}>
-          <div className={css['icon']}>{icon}</div>
-          <span>{header}</span>
+      {header ? (
+        <div className={css['header']}>
+          <div className={css['title']}>
+            <div className={css['icon']}>{icon}</div>
+            <span>{header}</span>
+          </div>
         </div>
-      </div>
+      ) : null}
       {children}
     </>
   );

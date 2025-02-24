@@ -8,7 +8,10 @@ import type { ResourceCount } from '@interfaces/dashboard';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import css from './dashboardasset.module.scss';
 
-export const DashboardAssets: FC<{ resources: ResourceCount }> = ({ resources }) => {
+export const DashboardAssets: FC<{ resources: ResourceCount; hasTitle?: boolean }> = ({
+  resources,
+  hasTitle = true,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const resourceKeys = useMemo(
@@ -31,7 +34,9 @@ export const DashboardAssets: FC<{ resources: ResourceCount }> = ({ resources })
   };
   return (
     <div className={`${css['stats']} ${css['card']}`}>
-      <SimpleSection header="Attack surface surveillance" icon={<CircleIcon />}>
+      <SimpleSection
+        header={hasTitle ? 'Attack surface surveillance' : ''}
+        icon={hasTitle ? <CircleIcon /> : undefined}>
         <div className={css['content']}>
           {Object.keys(resources).map((resource: string | number, i: number) => (
             <StatAsset

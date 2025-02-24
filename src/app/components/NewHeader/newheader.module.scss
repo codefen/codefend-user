@@ -28,6 +28,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all ease 0.2s;
 
   a {
     --left-item-background: var(--primary-color-400);
@@ -59,6 +60,8 @@
 
     &.active {
       --left-item-color: var(--secondary-color-200);
+      --item-filter-color: invert(0%) sepia(100%) saturate(1000%) hue-rotate(-50deg) brightness(0.9)
+        contrast(13);
     }
   }
 }
@@ -117,6 +120,11 @@
         .codefendIcon {
           mix-blend-mode: multiply;
         }
+      }
+
+      &.active {
+        --item-filter-color: sepia(100%) saturate(900%) hue-rotate(-232deg) invert(150%)
+          brightness(1.2) contrast(2);
       }
     }
   }

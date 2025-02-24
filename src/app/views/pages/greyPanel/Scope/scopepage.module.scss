@@ -1,0 +1,20 @@
+.radarScopeContainer {
+  width: 100%;
+  display: flex;
+  margin-top: 8rem;
+  gap: 3rem;
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  p {
+    margin-top: 1rem;
+    line-height: 2rem;
+    max-width: 740px;
+  }
+
+  button {
+    margin-top: 2.25rem;
+  }
+}
