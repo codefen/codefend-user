@@ -19,7 +19,7 @@ import {
   SourceCodeIcon,
   SunIcon,
 } from '@icons';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Show from '@/app/components/Show/Show';
 import { useTheme } from '@/app/views/context/ThemeContext';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -37,7 +37,6 @@ const verifyPath = (verifyPath: string, isRoot: boolean) => {
 };
 
 export const NewHeader = () => {
-  const [baseApiName, _setBaseApiName] = useState('kundalini');
   const { theme, changeTheme } = useTheme();
   const { getUserdata, logout } = useUserData();
   const userData = getUserdata();
@@ -215,7 +214,6 @@ export const NewHeader = () => {
         <div className={css['headerRight']}>
           <button className={css['rightItem']}>
             <NetworkIcon width={1.1} height={1.1} />
-            <span>{baseApiName}</span>
           </button>
           <div className={css['rightItem']}>
             <span className="email">{userData.email || 'not-found'}</span>

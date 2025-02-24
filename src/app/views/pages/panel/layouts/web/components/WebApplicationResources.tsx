@@ -6,7 +6,14 @@ import type { Webresource } from '@interfaces/panel.ts';
 import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { LocationItem } from '@standalones/utils/LocationItem.tsx';
-import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
+import {
+  TrashIcon,
+  GlobeWebIcon,
+  BugIcon,
+  DocumentIcon,
+  CredentialIcon,
+  CodefendIcon,
+} from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
@@ -19,6 +26,10 @@ import Tablev3 from '@table/v3/Tablev3';
 import TextChild from '@standalones/utils/TextChild';
 import { useTableStoreV3 } from '@table/v3/tablev3.store';
 import ModalTitleWrapper from '@/app/components/modalwrapper/ModalTitleWrapper.tsx';
+import { useFetcher } from '#commonHooks/useFetcher';
+import { useUserData } from '#commonUserHooks/useUserData';
+import { companyIdIsNull } from '@/app/constants/validations';
+import { toast } from 'react-toastify';
 
 interface WebResourcesProps {
   refresh: () => void;
@@ -82,6 +93,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 }) => {
   const navigate = useNavigate();
   const { isAdmin, isProvider, isNormalUser } = useUserRole();
+  const { getCompany } = useUserData();
   const userHaveAccess = isAdmin() || isProvider();
   const [selectedResource, setSelectedResource] = useState<SelectedResource>({} as any);
   const { openModal, setResourceID, setResourceType } = useReportStore(
@@ -92,6 +104,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { setIsOpen, setModalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
+  const [fetcher] = useFetcher();
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -119,6 +132,31 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setCredentialType(RESOURCE_CLASS.WEB);
     setIsOpen(true);
     setModalId(RESOURCE_CLASS.WEB);
+  };
+
+  const startAutoScan = (row: any) => {
+    setSelectedResource({
+      id: row.id,
+      domain: row.resource_domain,
+      serverIp: row.main_server,
+    });
+    setShowModal(true);
+    setShowModalStr(MODAL_KEY_OPEN.START_AUTO_SCAN);
+  };
+
+  const autoScan = () => {
+    const companyID = getCompany();
+    setShowModal(false);
+    if (companyIdIsNull(companyID)) return;
+    fetcher('post', {
+      body: {
+        model: 'modules/paranoid',
+        resource_id: selectedResource.id,
+        company_id: companyID,
+      },
+      requireSession: true,
+    });
+    toast.info('The scan has started. Please wait a few minutes, and you will see the results.');
   };
 
   const webColumnsWith = [
@@ -153,6 +191,9 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
           <span title="Add credentials" onClick={() => addCreds(row.id)}>
             <CredentialIcon key={`credi-${row.id}`} />
           </span>
+          <span title="Scan domain" onClick={() => startAutoScan(row)}>
+            <CodefendIcon key="scan-domain" />
+          </span>
         </div>
       ),
     },
@@ -160,6 +201,19 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 
   return (
     <>
+      <ModalTitleWrapper
+        isActive={showModal && showModalStr === MODAL_KEY_OPEN.START_AUTO_SCAN}
+        close={() => setShowModal(false)}
+        type="med-w"
+        headerTitle="Confirm Scan">
+        <ConfirmModal
+          confirmText="Confirm"
+          cancelText="Cancel"
+          header="Estas seguro que quieres iniciar un analicis automatico?"
+          action={autoScan}
+          close={() => setShowModal(false)}
+        />
+      </ModalTitleWrapper>
       <AddDomainModal
         isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_DOMAIN}
         onDone={() => refresh()}

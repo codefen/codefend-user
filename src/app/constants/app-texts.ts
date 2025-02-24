@@ -31,6 +31,8 @@ export enum MODAL_KEY_OPEN {
   ADD_DOMAIN = 'add_domain',
   ADD_SUB_DOMAIN = 'add_subdomain',
 
+  START_AUTO_SCAN = '',
+
   DELETE_NETWORK = 'delete_resource',
   DELETE_TICKET = 'delete_ticket',
   DELETE_SOURCE = 'delete_resource',
