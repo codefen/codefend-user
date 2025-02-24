@@ -32,6 +32,22 @@ main.sb {
         padding: 20px;
         overflow-wrap: anywhere;
 
+        .containersubintel {
+          div {
+            white-space: break-spaces;
+            text-wrap: auto;
+          }
+        }
+
+        .containersubintel:first-child {
+          padding-bottom: 1rem;
+        }
+
+        .containersubintel + .containersubintel {
+          padding-block: 1rem;
+          border-top: 1px solid;
+        }
+
         .text {
           width: 100%;
           height: 100%;

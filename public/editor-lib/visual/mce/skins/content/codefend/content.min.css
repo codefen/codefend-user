@@ -198,6 +198,7 @@ code {
 	color: #990808;
 	background-color: var(--code-bkg);
 	padding: 20px;
+	overflow-wrap: anywhere;
 }
 
 .tabla-header-issue {

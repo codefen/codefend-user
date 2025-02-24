@@ -17,6 +17,7 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
   const { getCompany } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
   const domainName = useRef<HTMLInputElement>(null);
+  const subdomain_scan = useRef<HTMLInputElement>(null);
 
   const handleAddResource = () => {
     if (verifyDomainName(domainName.current?.value || '')) return;
@@ -27,15 +28,16 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
     const toastId = toast.loading(WEB_PANEL_TEXT.SAVING_DOMAIN, {
       closeOnClick: true,
     });
-
     onClose();
     fetcher<any>('post', {
       body: {
         model: 'resources/web/add',
         company_id: companyID,
         resource_address_domain: domainName.current?.value || '',
+        subdomain_scan: subdomain_scan.current?.checked ? 'yes' : 'no',
       },
       timeout: 180000,
+      insecure: true,
     })
       .then(({ data }) => {
         toast.dismiss(toastId);
@@ -48,5 +50,5 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
       .catch((error: any) => toast.error(error.message));
   };
 
-  return { handleAddResource, isLoading, domainName };
+  return { handleAddResource, isLoading, domainName, subdomain_scan };
 };

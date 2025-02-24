@@ -4,7 +4,7 @@ import type { ComponentEventWithChildren } from '@interfaces/util';
 import { ModalInput } from '@defaults/ModalInput';
 
 const WebDomainForm: FC<ComponentEventWithChildren> = ({ onDone, close, children }) => {
-  const { handleAddResource, isLoading, domainName } = useAddWebResource(
+  const { handleAddResource, isLoading, domainName, subdomain_scan } = useAddWebResource(
     onDone ? onDone : () => {},
     close ? close : () => {}
   );
@@ -17,6 +17,16 @@ const WebDomainForm: FC<ComponentEventWithChildren> = ({ onDone, close, children
   return (
     <form className="form" onSubmit={handleSubmit}>
       <ModalInput ref={domainName} placeholder="domain name" required />
+      <div className="checkbox-container">
+        <input
+          ref={subdomain_scan}
+          type="checkbox"
+          id="subdomain_scan"
+          name="subdomain_scan"
+          className="codefend-checkbox"
+        />
+        <label htmlFor="subdomain_scan">Automatic subdomain detection</label>
+      </div>
       {children(isLoading)}
     </form>
   );

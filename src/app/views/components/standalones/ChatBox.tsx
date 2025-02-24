@@ -58,9 +58,17 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
       </div>
 
       <div className="chatbox-container ">
-        <div className="text-format chatbox-img  no-border-bottom">
-          <img src="/codefend/user-icon-gray.svg" alt="user-picture" />
-        </div>
+        {props.type === ChatBoxType.ISSUE ? (
+          <div className="chatbox-actions">
+            <span className="chatbox-button" role="button">
+              request info
+            </span>
+          </div>
+        ) : (
+          <div className="text-format chatbox-img  no-border-bottom">
+            <img src="/codefend/user-icon-gray.svg" alt="user-picture" />
+          </div>
+        )}
         <div className="no-border-bottom chatbox-content">
           <textarea
             onKeyDown={handleEnter}

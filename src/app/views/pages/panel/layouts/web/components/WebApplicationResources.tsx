@@ -108,8 +108,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const deleteWebResource = (row: any) => {
     setSelectedResource({
       id: row.id,
-      domain: row.resourceDomain,
-      serverIp: row.mainServer,
+      domain: row.resource_domain,
+      serverIp: row.main_server,
     });
     setShowModal(true);
     setShowModalStr(MODAL_KEY_OPEN.DELETE_WEB);

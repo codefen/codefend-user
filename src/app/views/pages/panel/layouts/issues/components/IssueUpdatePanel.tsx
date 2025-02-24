@@ -9,6 +9,7 @@ import useTimeout from '#commonHooks/useTimeout.ts';
 import IssueHeader from './IssueHeader.tsx';
 import IssueInfo from './IssueInfo.tsx';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
+import { useTheme } from '@/app/views/context/ThemeContext.tsx';
 
 interface IssueUpdatePanelProps {
   issueData: IssueUpdateData;
@@ -20,6 +21,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
   const [isEditable, setEditable] = useState(false);
   const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
   const { oneExecute, clear } = useTimeout(() => setEditable(true), 380);
+  const { theme } = useTheme();
 
   const handleIssueUpdate = () => {
     update()
@@ -56,6 +58,28 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
       });
     return cleanup;
   }, [issueData, isLoaded]);
+
+  useEffect(() => {
+    const iframe = document.getElementById('issue_ifr') as HTMLIFrameElement | null;
+    if (!iframe) return;
+
+    const updateIframeTheme = () => {
+      const doc = iframe.contentDocument;
+      if (doc) {
+        doc.documentElement.setAttribute('data-theme', theme);
+        doc.body.setAttribute('data-theme', theme);
+      }
+    };
+
+    // Si el documento ya está listo, actualizamos inmediatamente
+    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+      updateIframeTheme();
+      return () => {};
+    } else {
+      iframe.addEventListener('load', updateIframeTheme);
+      return () => iframe.removeEventListener('load', updateIframeTheme);
+    }
+  }, [isLoaded, theme, isEditable, isLoading]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

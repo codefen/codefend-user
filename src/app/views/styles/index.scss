@@ -72,6 +72,14 @@
   border: 1px solid var(--secondary-color-50);
 }
 
+.checkbox-container {
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
 .flex {
   display: flex;
 }
@@ -200,6 +208,7 @@ main {
 
     .left {
       padding-block-start: var(--main-container-margin-top);
+      padding-block-end: 30px;
     }
 
     .right {
@@ -224,6 +233,18 @@ main {
         opacity: 0.5;
         cursor: default;
       }
+    }
+  }
+}
+
+///////////////////////////////////////////////////////////////////
+// DASHBOARD
+//////////////////////////////////////////////////////////////////
+
+main.dashboard {
+  .table {
+    .issue-name-cell {
+      gap: 1rem;
     }
   }
 }

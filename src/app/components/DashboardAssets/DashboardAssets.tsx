@@ -44,7 +44,7 @@ export const DashboardAssets: FC<{ resources: ResourceCount; hasTitle?: boolean 
               valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
               value={resources[resource as keyof typeof resources]}
               isActive={isActivePath(resource as string)}
-              onClick={() => navigate(`/${resource}`)}
+              onClick={() => navigate(`/${resource === 'lan' ? 'network' : resource}`)}
             />
           ))}
         </div>

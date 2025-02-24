@@ -46,6 +46,7 @@ export const useSns = () => {
         keyword: searchData,
         class: searchClass,
       },
+      insecure: true,
     }).then(({ data }: any) => {
       const arrayOfObjects = !!data?.response?.results
         ? Object.entries(data.response.results).map(([key, value]) => {
