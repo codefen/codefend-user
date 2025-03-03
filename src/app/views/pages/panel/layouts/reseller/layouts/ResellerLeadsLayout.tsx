@@ -8,7 +8,7 @@ import '../reseller.scss';
 import type { Lead } from '@interfaces/lead';
 import { LocationItem } from '@standalones/utils/LocationItem';
 import { defaultListLeadsColumns } from '@mocks/defaultData';
-import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
+import { SimpleSectionWithTable } from '@/app/components/SimpleSectionWithTable/SimpleSectionWithTable';
 import { CheckCircleIcon, XCircleIcon } from '@icons';
 
 const ResellerLeadsLayout = () => {

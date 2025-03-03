@@ -19,7 +19,7 @@ import {
   SourceCodeIcon,
   SunIcon,
 } from '@icons';
-import { useMemo } from 'react';
+import { useMemo, type ReactElement } from 'react';
 import Show from '@/app/components/Show/Show';
 import { useTheme } from '@/app/views/context/ThemeContext';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -29,6 +29,15 @@ import { ConfirmModal, ModalWrapper } from '@modals/index';
 import useModal from '#commonHooks/useModal';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import useAuthStore from '@stores/auth.store';
+
+interface MenuItemType {
+  title: string;
+  id: string;
+  icon: ReactElement;
+  to: string;
+  root?: boolean;
+  haveAccess: boolean;
+}
 
 const verifyPath = (verifyPath: string, isRoot: boolean) => {
   const currentPath = window.location.pathname;
@@ -63,7 +72,7 @@ export const NewHeader = () => {
       currentPath.startsWith('/social') ||
       currentPath.startsWith('/source');
 
-    return [
+    const items = [
       {
         title: 'Admin Companies',
         id: 'sidebar_admin',
@@ -170,13 +179,14 @@ export const NewHeader = () => {
       },
       {
         title: 'SNS',
-        iD: 'sidebar_sns',
+        id: 'sidebar_sns',
         icon: <SnbIcon />,
         to: '/sns',
         root: false,
         haveAccess: !isReseller(),
       },
-    ].filter(i => i !== null);
+    ].filter((i): i is MenuItemType => i !== null);
+    return items;
   }, [isAuth, isAdmin, isProvider, isNotProviderAndReseller, isReseller, isNormalUser, companies]);
   return (
     <div className={css['headerContainer']}>

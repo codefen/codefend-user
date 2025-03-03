@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import css from './radarscanner.module.scss';
+import { Show } from '@defaults/index';
 
 interface RadarPoint {
   x: number;
@@ -13,47 +14,66 @@ interface RadarPoint {
 
 const SIZE = 225;
 
-const generateDistributedPoints = (
-  count: number,
+const generatePoissonPoint = (
   centerX: number,
-  centerY: number
-): RadarPoint[] => {
-  const points: RadarPoint[] = [];
-  //const angleStep = (2 * Math.PI) / count;
-  //const minRadius = SIZE * 0.15; // Radio mínimo para evitar el centro
-  //const maxRadius = SIZE * 0.385; // Radio máximo para evitar los bordes
-  const minDistance = SIZE * 0.2; // Distancia mínima entre puntos
-  const maxAttempts = 50; // Número máximo de intentos para colocar un punto
+  centerY: number,
+  maxRadius: number,
+  minRadius: number
+): { x: number; y: number } => {
+  // Comenzar con una posición aleatoria en un anillo
+  const angle = Math.random() * Math.PI * 2,
+    radius = minRadius + Math.random() * (maxRadius - minRadius);
+  return { x: centerX + radius * Math.cos(angle), y: centerY + radius * Math.sin(angle) };
+};
 
-  const generatePoint = (): { x: number; y: number } => {
-    const angle = Math.random() * 2 * Math.PI;
-    const minRadius = SIZE * 0.2;
-    const maxRadius = SIZE * 0.4;
-    const radius = minRadius + Math.random() * (maxRadius - minRadius);
-    return {
-      x: centerX + radius * Math.cos(angle),
-      y: centerY + radius * Math.sin(angle),
-    };
-  };
+const generateDistributedPoints = (count: number, centerX: number, centerY: number) => {
+  const points: RadarPoint[] = [];
+  const minRadius = SIZE * 0.2;
+  const maxRadius = SIZE * 0.4;
+  const maxAttempts = 100; // Número máximo de intentos para colocar un punto
+  const minDistance = SIZE * 0.2; // Distancia mínima entre puntos
 
   const isValidPoint = (x: number, y: number): boolean => {
+    const minDistanceSquared = minDistance * minDistance;
     return points.every(point => {
       const dx = point.x - x;
       const dy = point.y - y;
-      return Math.sqrt(dx * dx + dy * dy) >= minDistance;
+      return dx * dx + dy * dy >= minDistanceSquared;
     });
   };
 
+  // Estrategia de retroceso adaptativo
+  let globalAttempts = 0;
+  const maxGlobalAttempts = count * maxAttempts * 2;
+
   for (let i = 0; i < count; i++) {
-    let attempts = 0;
-    let point: { x: number; y: number } | null = null;
+    let attempts = 0,
+      point;
 
     while (attempts < maxAttempts && !point) {
-      const candidate = generatePoint();
+      const candidate = generatePoissonPoint(centerX, centerY, maxRadius, minRadius);
       if (isValidPoint(candidate.x, candidate.y)) {
         point = candidate;
       }
       attempts++;
+      globalAttempts++;
+
+      // Si estamos teniendo problemas para colocar puntos, reducir temporalmente
+      // la distancia mínima para los últimos intentos
+      if (attempts > maxAttempts * 0.8 && i > count * 0.5) {
+        const relaxedDistance = minDistance * 0.85;
+        const relaxedDistanceSquared = relaxedDistance * relaxedDistance;
+
+        if (
+          points.every(p => {
+            const dx = p.x - candidate.x;
+            const dy = p.y - candidate.y;
+            return dx * dx + dy * dy >= relaxedDistanceSquared;
+          })
+        ) {
+          point = candidate;
+        }
+      }
     }
 
     if (point) {
@@ -67,16 +87,26 @@ const generateDistributedPoints = (
         rotation: Math.random() * 360,
       });
     } else {
-      console.warn(`No se pudo colocar el punto ${i + 1} después de ${maxAttempts} intentos`);
+      // En lugar de mostrar una advertencia, intentemos con otro punto
+      i--; // Reintentamos este índice
+
+      // Pero no lo hacemos indefinidamente para evitar bucles infinitos
+      if (globalAttempts > maxGlobalAttempts * 0.9) {
+        console.warn(
+          `No se pudieron colocar todos los puntos. Generados: ${points.length} de ${count}`
+        );
+        break;
+      }
     }
   }
 
   return points;
 };
 
-export function RadarScanner() {
+export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [points, setPoints] = useState<RadarPoint[]>([]);
+  const pointsRef = useRef<RadarPoint[]>([]);
+  const [renderPoints, setRenderedPoints] = useState<RadarPoint[]>([]);
   const angle = useRef(0);
 
   useEffect(() => {
@@ -91,7 +121,8 @@ export function RadarScanner() {
     const centerX = SIZE / 2;
     const centerY = SIZE / 2;
 
-    setPoints(generateDistributedPoints(3, centerX, centerY));
+    pointsRef.current = generateDistributedPoints(3, centerX, centerY);
+    setRenderedPoints(pointsRef.current);
 
     const drawGrid = () => {
       const gridSize = 20; // Tamaño de cada cuadro de la grilla
@@ -243,6 +274,34 @@ export function RadarScanner() {
       });
     };
 
+    const drawPoints = (points: RadarPoint[]) => {
+      points.forEach(point => {
+        if (point.opacity > 0) {
+          // Efecto de brillo exterior
+          const pointGlow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, 20);
+          pointGlow.addColorStop(0, `rgba(255, 48, 48, ${point.opacity * 0.8})`);
+          pointGlow.addColorStop(1, 'rgba(255, 48, 48, 0)');
+
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 20, 0, Math.PI * 2);
+          ctx.fillStyle = pointGlow;
+          ctx.fill();
+
+          // Punto medio
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 48, 48, ${point.opacity * 0.9})`;
+          ctx.fill();
+
+          // Punto central más brillante
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 48, 48, ${point.opacity})`;
+          ctx.fill();
+        }
+      });
+    };
+
     const drawRadar = () => {
       ctx.clearRect(0, 0, SIZE, SIZE);
 
@@ -281,60 +340,59 @@ export function RadarScanner() {
 
       // Se pinta primero la grilla para que este por debajo del resto
       drawGrid();
-      // Se dibujan los componentes del radar
       drawRings();
+      if (notBichardos) drawPoints(pointsRef.current);
       drawCrosshair();
       drawScanningCone();
 
-      // Genera la posicion, rotacion de los bichos y activa la deteccion si el cono pasar por encima
-      setPoints(prevPoints =>
-        prevPoints.map(point => {
-          const dx = point.x - centerX;
-          const dy = point.y - centerY;
-          const pointAngle = Math.atan2(dy, dx);
+      // Actualizar puntos
+      pointsRef.current = pointsRef.current.map(point => {
+        const dx = point.x - centerX;
+        const dy = point.y - centerY;
+        const pointAngle = Math.atan2(dy, dx);
+        let normalizedScanAngle = angle.current % (Math.PI * 2);
+        if (normalizedScanAngle < 0) normalizedScanAngle += Math.PI * 2;
 
-          let normalizedScanAngle = angle.current % (Math.PI * 2);
-          if (normalizedScanAngle < 0) normalizedScanAngle += Math.PI * 2;
+        let normalizedPointAngle = pointAngle;
+        if (normalizedPointAngle < 0) normalizedPointAngle += Math.PI * 2;
 
-          let normalizedPointAngle = pointAngle;
-          if (normalizedPointAngle < 0) normalizedPointAngle += Math.PI * 2;
+        const diff = Math.abs(normalizedScanAngle - normalizedPointAngle);
+        if (diff < 0.2 || diff > Math.PI * 2 - 0.2) {
+          const moveRange = !notBichardos ? 2 : 0; // Rango de movimiento
+          const newX = point.originalX + (Math.random() - 0.5) * moveRange;
+          const newY = point.originalY + (Math.random() - 0.5) * moveRange;
+          return {
+            ...point,
+            x: newX,
+            y: newY,
+            opacity: 1,
+            detected: true,
+            rotation: point.rotation + (Math.random() - 0.5) * 20,
+          };
+        }
 
-          const diff = Math.abs(normalizedScanAngle - normalizedPointAngle);
+        if (point.opacity > 0) {
+          const returnSpeed = !notBichardos ? 0.05 : 0;
+          // Slow return speed (for smoother movement)
+          const newX = point.x + (point.originalX - point.x) * returnSpeed;
+          const newY = point.y + (point.originalY - point.y) * returnSpeed;
+          const newOpacity = Math.max(point.opacity * 0.98, 0.1);
+          return {
+            ...point,
+            x: newX,
+            y: newY,
+            opacity: newOpacity,
+            detected: newOpacity > 0.5,
+          };
+        }
 
-          if (diff < 0.2 || diff > Math.PI * 2 - 0.2) {
-            // Añade un pequeño movimiento cuando el radar pasa por encima
-            const moveRange = 2; // Rango de movimiento
-            const newX = point.originalX + (Math.random() - 0.5) * moveRange;
-            const newY = point.originalY + (Math.random() - 0.5) * moveRange;
-            return {
-              ...point,
-              x: newX,
-              y: newY,
-              opacity: 1,
-              detected: true,
-              rotation: point.rotation + (Math.random() - 0.5) * 20,
-            };
-          }
+        return point;
+      });
 
-          if (point.opacity > 0) {
-            // Volver gradualmente a la posición original
-            const returnSpeed = 0.05; // Velocidad de retorno lenta (para un movimiento más suave)
-            const newX = point.x + (point.originalX - point.x) * returnSpeed;
-            const newY = point.y + (point.originalY - point.y) * returnSpeed;
-            return {
-              ...point,
-              x: newX,
-              y: newY,
-              opacity: point.opacity * 0.995,
-              detected: point.opacity > 0.1,
-            };
-          }
+      // Actualizar el estado renderizado solo si es necesario
+      setRenderedPoints([...pointsRef.current]);
 
-          return point;
-        })
-      );
-
-      angle.current += 0.01;
+      angle.current += 0.0085;
       return requestAnimationFrame(drawRadar);
     };
 
@@ -355,65 +413,41 @@ export function RadarScanner() {
           filter: 'blur(0.5px)',
         }}
       />
-      <div className={css['radar-bichardos-container']}>
-        {points.map((point, index) => (
-          <div
-            key={index}
-            className={`${css['radar-bichardo-content']} ${point.detected ? css['animate-detected'] : ''}`}
-            style={{
-              left: point.x - 16,
-              top: point.y - 16,
-              opacity: point.opacity,
-              transform: `
-                  scale(${point.detected ? 1.05 : 1})
-                  rotate(${point.rotation}deg)
-                `,
-            }}>
-            <div className={`${css['radar-bichardo']}`}>
-              <div
-                className={`
-                    ${css['radar-bichardo-common']} ${css['radar-bichardo-blur']}
-                    ${point.detected ? css['animate-glow'] : ''}
-                  `}
-              />
-              {/* Efecto de detección */}
-              {point.detected && (
-                <>
-                  {/* Anillo de detección */}
-                  <div
-                    className={`${css['radar-bichardo-common']} ${css['radar-bichardo-blur']} ${css['animate-ping']}`}
-                  />
-                  {/* Brillo central */}
-                  <div
-                    className={`${css['radar-bichardo-common']} ${css['radar-bichardo-blur']} ${css['animate-pulse']}`}
-                  />
-
-                  {/* Destellos */}
-                  <div className={css['radar-bichardo-common']}>
-                    <div
-                      className={`${css['radar-details']} ${css['radar-bichardo-blur']} ${css['animate-flash']}`}
-                    />
-                    <div
-                      className={`${css['radar-details']} ${css['radar-bichardo-blur']} ${css['animate-flash-delayed']}`}
-                    />
-                  </div>
-                </>
-              )}
-
-              <img
-                src={index % 2 === 0 ? '/codefend/Bichardo-3.png' : '/codefend/Bichardo-1.png'}
-                alt="Bug"
-                className={css['bichardo']}
-                width={36}
-                height={36}
-                style={{
-                  filter: point.detected ? 'brightness(1.2)' : 'brightness(1)',
-                }}
-              />
+      <Show when={!notBichardos}>
+        <div className={css['radar-bichardos-container']}>
+          {renderPoints.map((point, index) => (
+            <div
+              key={index}
+              className={`${css['radar-bichardo-content']} ${point.detected ? css['animate-detected'] : ''}`}
+              style={{
+                left: `${(point.x / SIZE) * 100}%`,
+                top: `${(point.y / SIZE) * 100}%`,
+                opacity: point.opacity,
+                transform: `translate(-50%, -50%) scale(${point.detected ? 1.05 : 1}) rotate(${point.rotation}deg)`,
+              }}>
+              <div className={`${css['radar-bichardo']}`}>
+                <div
+                  className={`${css['radar-bichardo-glow']} ${point.detected ? css['animate-detected'] : ''}`}
+                  style={{
+                    opacity: point.opacity * 0.7,
+                  }}
+                />
+                <img
+                  src={index % 2 === 0 ? '/codefend/Bichardo-3.png' : '/codefend/Bichardo-1.png'}
+                  alt="Bug"
+                  className={css['bichardo']}
+                  width={36}
+                  height={36}
+                  style={{
+                    filter: `brightness(${1 + point.opacity * 0.3})`,
+                    transform: `scale(${1 + point.opacity * 0.1})`,
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Show>
     </div>
   );
 }

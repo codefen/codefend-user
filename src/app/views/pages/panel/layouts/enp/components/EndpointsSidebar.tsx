@@ -1,5 +1,5 @@
 import { type FC, useEffect, useState } from 'react';
-import { ButtonLoader, PageLoader } from '@defaults/loaders/Loader.tsx';
+import { ButtonLoader, PageLoader } from '@/app/components/loaders/Loader';
 import Show from '@/app/components/Show/Show';
 import { WindowsIcon, WarningIcon, LinuxIcon, CheckIcon, AppleIcon, BugIcon } from '@icons';
 import { useEndpointAppStore } from '../EndpointContext';

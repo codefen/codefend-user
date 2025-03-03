@@ -1,5 +1,5 @@
 import { type FC, useEffect, useState } from 'react';
-import { PageLoader } from '@defaults/loaders/Loader';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import Show from '@/app/components/Show/Show';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { formatNumber } from '@utils/helper';

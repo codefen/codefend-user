@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import Show from '@/app/components/Show/Show';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import { PreviousMessageIcon } from '@icons';

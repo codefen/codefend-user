@@ -3,7 +3,7 @@ import { type FC } from 'react';
 import { TestingCredentialCard } from './TestingCredentialCard';
 import { ChartIcon } from '@icons';
 import Show from '@/app/components/Show/Show';
-import EmptyCard from '@defaults/EmptyCard';
+import EmptyCard from '@/app/components/EmptyCard/EmptyCard';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
 import { ViewMoreInfoModal } from '@modals/credentials/ViewMoreInfoModal';

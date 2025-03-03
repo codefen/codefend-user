@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import { ChatBoxType } from '../../../../../../data';
 import { ChatBox } from '@standalones/ChatBox';
 import { MessageIcon } from '@icons';
-import { PageLoader } from '@defaults/loaders/Loader';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import Show from '@/app/components/Show/Show';
 import { toast } from 'react-toastify';

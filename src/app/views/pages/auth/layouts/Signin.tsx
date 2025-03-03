@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { Link } from 'react-router-dom';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import SigninForm from '@/app/views/components/forms/SigninForm';
+import SigninForm from '@/app/components/forms/SigninForm';
 
 const SignInLayout: FC = () => {
   return (

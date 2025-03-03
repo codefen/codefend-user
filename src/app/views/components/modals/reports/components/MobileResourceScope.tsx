@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { MobileApp, CloudApp } from '@interfaces/panel';
 import type { ResourceScopeApp } from '@interfaces/reports';
-import EmptyCard from '@defaults/EmptyCard';
+import EmptyCard from '@/app/components/EmptyCard/EmptyCard';
 import { AppCard } from '@standalones/AppCard';
 
 export const MobileResourceScope: FC<ResourceScopeApp<MobileApp | CloudApp>> = ({

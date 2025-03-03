@@ -1,4 +1,4 @@
-import EmptyCard from '@defaults/EmptyCard.tsx';
+import EmptyCard from '@/app/components/EmptyCard/EmptyCard';
 import Show from '@/app/components/Show/Show';
 import { useProviderOrderFinished } from '@userHooks/providers/useProviderOrderFinished';
 import { useEffect, useState } from 'react';

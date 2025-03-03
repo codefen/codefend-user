@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { Loader } from './views/components';
 import { ThemeProvider } from './views/context/ThemeContext';
-import { ErrorBoundary } from './views/components/defaults/ErrorBoundry';
+import { ErrorBoundary } from './components/ErrorBoundry/ErrorBoundry';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppRouter } from './router/Routes';

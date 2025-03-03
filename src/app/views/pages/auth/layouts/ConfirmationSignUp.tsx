@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import ConfirmationForm from '@/app/views/components/forms/ConfirmationForm';
+import ConfirmationForm from '@/app/components/forms/ConfirmationForm';
 
 const ConfirmationSignUp: FC = () => (
   <ConfirmationForm>

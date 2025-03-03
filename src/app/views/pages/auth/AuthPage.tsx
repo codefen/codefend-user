@@ -4,7 +4,7 @@ import useAuthStore from '@stores/auth.store.ts';
 import AuthNavigation from '../../components/auth/AuthNavigation';
 import ParticlesScriptLoader from '../../components/auth/ParticlesScriptLoader';
 import './auth.scss';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { PageLoader } from '@/app/components/loaders/Loader.tsx';
 
 const BrandAndAppVersion = lazy(() => import('../../components/auth/BrandAndAppVersion.tsx'));
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard.tsx';
 import { useProviderOrders } from '@userHooks/providers/useProviderOrders.ts';
 import Show from '@/app/components/Show/Show.tsx';
-import EmptyCard from '@defaults/EmptyCard.tsx';
+import EmptyCard from '@/app/components/EmptyCard/EmptyCard.tsx';
 import { ProviderOrderRefuseModal } from '../../components/refuse-modal/ProviderOrderRefuseModal.tsx';
 import { useProviderRefuseStore } from '@stores/providerOrder.store.ts';
 import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';

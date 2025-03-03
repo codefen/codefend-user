@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 
 import { ModalButtons, ModalTitleWrapper } from '../..';
-import { NetworkDadForm } from '@/app/views/components/forms/NetworkDadForm';
+import { NetworkDadForm } from '@/app/components/forms/NetworkDadForm';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 
 export const AccessPointModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) => (

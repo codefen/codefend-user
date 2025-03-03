@@ -4,8 +4,8 @@ import { countries } from '@/app/constants/countries';
 import { AuthInput } from '@defaults/AuthInput';
 import { useRegisPhaseOne } from '@userHooks/auth/useRegisPhaseOne';
 import { useDefineUserReseller } from '@userHooks/auth/useDefineUserReseller';
-import { TermsOfUse } from '../auth/TermsOfUse.tsx';
-import SelectField from '../../../components/SelectField/SelectField.tsx';
+import { TermsOfUse } from '../../views/components/auth/TermsOfUse.tsx';
+import SelectField from '../SelectField/SelectField.tsx';
 import type { FC, FormEvent, ReactNode } from 'react';
 
 export const SignupForm: FC<{

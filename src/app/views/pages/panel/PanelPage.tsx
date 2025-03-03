@@ -1,7 +1,7 @@
 import { Suspense, useEffect, lazy, useMemo, useCallback } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/components/loaders/Loader.tsx';
 import { FlashLightProvider } from '../../context/FlashLightContext.tsx';
 import { WelcomeGroupTour } from '@standalones/welcome/WelcomeGroupTour.tsx';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
@@ -20,7 +20,7 @@ export const Navbar = lazy(() => import('../../components/standalones/navbar/Nav
 export const Sidebar = lazy(() => import('../../components/standalones/sidebar/Sidebar.tsx'));
 export const ErrorConnection = lazy(() => import('../../components/modals/ErrorConnection.tsx'));
 export const MobileFallback = lazy(
-  () => import('../../components/defaults/mobile-fallback/MobileFallback.tsx')
+  () => import('../../../components/mobile-fallback/MobileFallback.tsx')
 );
 
 export const PanelPage = () => {

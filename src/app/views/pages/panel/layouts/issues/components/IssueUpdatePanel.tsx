@@ -1,6 +1,6 @@
 import { type FC, useEffect, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router';
-import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
+import { PageLoader, PageLoaderOverlay } from '@/app/components/loaders/Loader.tsx';
 import { type UpdateIssue, useUpdateIssue } from '@panelHooks/issues/useUpdateIssue.ts';
 import AppEditor from './AppEditor.tsx';
 import Show from '@/app/components/Show/Show.tsx';

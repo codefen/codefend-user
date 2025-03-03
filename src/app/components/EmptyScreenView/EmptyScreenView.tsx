@@ -1,12 +1,12 @@
 import { PureComponent, type ReactNode } from 'react';
-import { PrimaryButton, Show } from '..';
-import { NetworkDadForm } from '@/app/views/components/forms/NetworkDadForm';
-import MobileResourceForm from '@/app/views/components/forms/MobileResourceForm';
-import { CloudResourceForm } from '@/app/views/components/forms/CloudResourceForm';
-import SocialResourceForm from '@/app/views/components/forms/SocialResourceForm';
-import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
+import { PrimaryButton, Show } from '../../views/components';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
-import WebDomainForm from '../forms/WebDomainForm';
+import { NetworkDadForm } from '@/app/components/forms/NetworkDadForm';
+import MobileResourceForm from '@/app/components/forms/MobileResourceForm';
+import { CloudResourceForm } from '@/app/components/forms/CloudResourceForm';
+import SocialResourceForm from '@/app/components/forms/SocialResourceForm';
+import { SourceResourceForm } from '@/app/components/forms/SourceResourceForm';
+import WebDomainForm from '@/app/components/forms/WebDomainForm';
 import {
   GlobeWebIcon,
   CLoudIcon,
@@ -31,7 +31,7 @@ class EmptyScreenButton extends PureComponent<{
   override render(): ReactNode {
     const { isDisabled, buttonText } = this.props;
     return (
-      <div className="button">
+      <div className="button mt-8">
         <PrimaryButton buttonStyle="red" type="submit" text={buttonText} isDisabled={isDisabled} />
       </div>
     );

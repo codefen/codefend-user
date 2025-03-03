@@ -12,7 +12,7 @@ import { useUserLocationStore } from '@stores/useLocation.store';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { defaultCountries } from '@/app/constants/countries';
 import CheckEmail from '@/app/components/CheckEmail/CheckEmail';
-import { PasswordRequirements } from '@/app/views/components/auth/PasswordRequirements';
+import { PasswordRequirements } from '@/app/components/PasswordRequirements/PasswordRequirements';
 import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';

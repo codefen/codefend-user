@@ -80,6 +80,11 @@
   gap: 1rem;
 }
 
+.checkbox-limited-container {
+  width: 85%;
+  margin-inline: auto;
+}
+
 .flex {
   display: flex;
 }
@@ -95,6 +100,14 @@
 
 .no-border {
   border: none;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
 }
 
 #flashlight {
@@ -187,7 +200,7 @@ main {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 30px;
   }
 
   .right {
@@ -242,6 +255,10 @@ main {
 //////////////////////////////////////////////////////////////////
 
 main.dashboard {
+  .left {
+    row-gap: 55px;
+  }
+
   .table {
     .issue-name-cell {
       gap: 1rem;

@@ -2,7 +2,7 @@ import { type FC, type ChangeEvent, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { type SaveIssue, useSaveIssue } from '@panelHooks/issues/useSaveIssue.ts';
 import Show from '@/app/components/Show/Show.tsx';
-import { PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
+import { PageLoaderOverlay } from '@/app/components/loaders/Loader.tsx';
 import AppEditor from './AppEditor';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe';
 import useTimeout from '#commonHooks/useTimeout';

@@ -3,10 +3,10 @@ import { useEffect, useState, type FC, type ReactNode } from 'react';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
-import { PasswordRequirements } from '../auth/PasswordRequirements';
+import { PasswordRequirements } from '../PasswordRequirements/PasswordRequirements';
 import { usePasswordRecovery } from '@userHooks/auth/usePasswordRecovery';
-import CheckEmail from '../../../components/CheckEmail/CheckEmail';
-import InputFieldWithLabel from '../auth/InputFieldWithLabel';
+import CheckEmail from '../CheckEmail/CheckEmail';
+import InputFieldWithLabel from '../../views/components/auth/InputFieldWithLabel';
 
 const PasswordRecoveryForm: FC<{
   children: (isLoading: boolean) => ReactNode;

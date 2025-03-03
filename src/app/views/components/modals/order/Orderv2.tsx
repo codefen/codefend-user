@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ModalWrapper from '@/app/components/modalwrapper/ModalWrapper';
 import { ScopeOrderModal } from './layouts/ScopeOrderModal';
 import { FrequencyOrderModal } from './layouts/FrequencyOrderModal';
-import { PageLoader } from '@defaults/loaders/Loader';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
 import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';

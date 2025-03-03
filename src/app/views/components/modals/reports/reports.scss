@@ -422,75 +422,6 @@ body[print-report] {
   }
 }
 
-@media only print {
-  * {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-
-  @page {
-    size: a4 portrait;
-    margin: 1cm;
-  }
-
-  *,
-  ::before,
-  ::after {
-    scrollbar-width: 0;
-    scrollbar-color: none;
-  }
-
-  ::-webkit-scrollbar {
-    width: 0;
-  }
-
-  ::-moz-scrollbar {
-    width: 0;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: none;
-  }
-
-  ::-moz-scrollbar-track {
-    background: none;
-  }
-
-  body[print-report] {
-    overflow: scroll;
-    font-size: 16px;
-
-    #root {
-      display: block;
-    }
-  }
-
-  .table .columns-name {
-    background-color: #00000015;
-  }
-
-  button {
-    display: none;
-  }
-
-  [class^='sub-domain-icon'],
-  hr,
-  .codefend-header {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-    background-color: var(--secondary-color-50);
-  }
-
-  .issues-report {
-    margin-inline: 0;
-    height: auto;
-
-    .issue-header {
-      page-break-before: always;
-    }
-  }
-}
-
 // estilos iguales al editor tiny
 .issues-report .issue-main-content {
   *,
@@ -642,5 +573,156 @@ body[print-report] {
     box-shadow: inherit;
     flex: 1 1 35%;
     padding-left: 40px;
+  }
+}
+
+@media only print {
+  * {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  @page {
+    size: a4 portrait;
+    margin: 1cm;
+  }
+
+  *,
+  ::before,
+  ::after {
+    scrollbar-width: 0;
+    scrollbar-color: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+
+  ::-moz-scrollbar {
+    width: 0;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  ::-moz-scrollbar-track {
+    background: none;
+  }
+
+  body[print-report] {
+    overflow: scroll;
+    font-size: 16px;
+    background: #ffffffd9;
+    color: #222222;
+
+    #root {
+      display: block;
+    }
+  }
+
+  button {
+    display: none;
+  }
+
+  [class^='sub-domain-icon'],
+  hr,
+  .codefend-header {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    background-color: #fe4e4e;
+  }
+
+  .issues-report {
+    margin-inline: 0;
+    height: auto;
+
+    .issue-header {
+      page-break-before: always;
+
+      .issue-header-info {
+        color: #cb2222;
+      }
+    }
+
+    .portada {
+      .codefend-header {
+        color: #fafafa;
+        background: #e84f4f;
+      }
+    }
+
+    .intro {
+      .title {
+        h1 {
+          color: #222222;
+        }
+      }
+    }
+
+    .title-main {
+      border-color: #e84f4f;
+    }
+
+    .title-main h2,
+    .title-main h3 {
+      color: #942222;
+    }
+
+    .issue-main-content {
+      h3 {
+        color: #1a1a1a;
+        border-color: #ff3939;
+      }
+
+      .tabla-header-issue {
+        table {
+          color: #3d3d3d;
+        }
+      }
+    }
+
+    .table {
+      .columns-name {
+        color: #3d3d3d;
+        background-color: rgb(0 0 0 / 8.24%);
+        border-bottom: 1px solid #e5e5e5;
+        border-image: linear-gradient(
+          90deg,
+          rgb(255 255 255 / 30.2%) 15%,
+          #e5e5e5 36%,
+          #f3f3f3 46%,
+          #f3f3f3 54%,
+          #e5e5e5 64%,
+          rgb(255 255 255 / 30.2%) 85%
+        );
+        border-image-slice: 1;
+        border-block-end: 1px solid;
+        border-top: none;
+        border-block: 1px solid;
+        user-select: none;
+        border-radius: 0;
+      }
+
+      .rows {
+        .item {
+          border: 0;
+          color: #222222;
+        }
+
+        .item:nth-of-type(odd) {
+          color: #222222;
+        }
+      }
+
+      .item {
+        border-bottom: 1px solid #e5e5e5;
+
+        &.left-marked {
+          border: 0;
+          background: rgb(0 0 0 / 3.53%) !important;
+        }
+      }
+    }
   }
 }

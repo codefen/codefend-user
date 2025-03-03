@@ -7,7 +7,7 @@ import { RiskScore } from '@standalones/utils/RiskScore';
 import { TableV2 } from '@table/tablev2';
 import Show from '@/app/components/Show/Show';
 import { ScanSearchIcon } from '@icons';
-import { PageLoader } from '@defaults/loaders/Loader';
+import { PageLoader } from '@/app/components/loaders/Loader';
 
 export const VdbSearchData: FC = () => {
   const { vdbResults, refetch, isLoading, searchData, handleChange } = useInitialVdb();

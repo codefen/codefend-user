@@ -1,5 +1,5 @@
 import { cleanHTML } from '@utils/helper';
-import { PageLoader } from '@defaults/loaders/Loader';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import Show from '@/app/components/Show/Show';
 import { type FC } from 'react';
 

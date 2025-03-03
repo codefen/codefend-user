@@ -1,7 +1,7 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation } from '@/app/constants/validations';
-import { PasswordRequirements } from '@/app/views/components/auth/PasswordRequirements';
+import { PasswordRequirements } from '@/app/components/PasswordRequirements/PasswordRequirements';
 import { ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { useState, type FormEvent } from 'react';

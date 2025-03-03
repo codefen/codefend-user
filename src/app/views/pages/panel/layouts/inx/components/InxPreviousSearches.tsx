@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
-import { PageLoader } from '@defaults/loaders/Loader';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import { PreviousMessageIcon } from '@icons';
 import { generateIDArray } from '@utils/helper';
 import type { PreviousSearch } from '@moduleHooks/usePreviousSearch';

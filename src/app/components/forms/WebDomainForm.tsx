@@ -17,7 +17,7 @@ const WebDomainForm: FC<ComponentEventWithChildren> = ({ onDone, close, children
   return (
     <form className="form" onSubmit={handleSubmit}>
       <ModalInput ref={domainName} placeholder="domain name" required />
-      <div className="checkbox-container">
+      <div className="checkbox-container checkbox-limited-container">
         <input
           ref={subdomain_scan}
           type="checkbox"

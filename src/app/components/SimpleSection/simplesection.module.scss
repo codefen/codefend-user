@@ -40,3 +40,9 @@
       background 275ms linear;
   }
 }
+
+@media only print {
+  .header .title span {
+    color: #666;
+  }
+}

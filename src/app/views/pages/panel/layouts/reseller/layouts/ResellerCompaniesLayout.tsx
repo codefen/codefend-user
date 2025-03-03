@@ -4,7 +4,7 @@ import { ResellerHeader } from '../components/ResellerHeader';
 import '../reseller.scss';
 import { useResellerCompanies } from '@userHooks/resellers/useResellerCompanies';
 import { ResourceByLocation } from '@standalones/ResourceByLocation';
-import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
+import { SimpleSectionWithTable } from '@/app/components/SimpleSectionWithTable/SimpleSectionWithTable';
 import { LocationItem } from '@standalones/utils/LocationItem';
 import type { Company } from '@interfaces/company';
 import { resellerCompanyColumns } from '@mocks/defaultData';

@@ -1,7 +1,7 @@
 import { NewHeader } from '@/app/components/NewHeader/NewHeader';
 import { FlashLightProvider } from '@/app/views/context/FlashLightContext';
 import { Loader } from '@defaults/index';
-import MobileFallback from '@defaults/mobile-fallback/MobileFallback';
+import MobileFallback from '@/app/components/mobile-fallback/MobileFallback';
 import useKeyEventPress from '@stores/keyEvents';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';

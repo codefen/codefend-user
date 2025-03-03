@@ -1,7 +1,7 @@
 export { default as Logo } from '../defaults/Logo.tsx';
 export { default as Navbar } from './navbar/Navbar.tsx';
 export { default as Sidebar } from './sidebar/Sidebar.tsx';
-export * from '../defaults/loaders/Loader';
+export * from '../../../components/loaders/Loader.tsx';
 export * from './utils/MessageCard.tsx';
 export * from './AppCard.tsx';
 export * from './AppCardInfo.tsx';

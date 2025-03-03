@@ -2,7 +2,7 @@ import { type FC } from 'react';
 
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { TermsOfUse } from '@/app/views/components/auth/TermsOfUse.tsx';
-import FinishSignupForm from '@/app/views/components/forms/FinishSignupForm.tsx';
+import FinishSignupForm from '@/app/components/forms/FinishSignupForm';
 
 const FinishSignUpLayout: FC = () => (
   <FinishSignupForm>

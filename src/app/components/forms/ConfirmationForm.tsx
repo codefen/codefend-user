@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router';
 import { useState, type FC, type ReactNode } from 'react';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
-import CheckEmail from '../../../components/CheckEmail/CheckEmail';
-import InputFieldWithLabel from '../auth/InputFieldWithLabel';
+import CheckEmail from '../CheckEmail/CheckEmail';
+import InputFieldWithLabel from '../../views/components/auth/InputFieldWithLabel';
 
 const ConfirmationForm: FC<{
   children: (isLoading: boolean) => ReactNode;

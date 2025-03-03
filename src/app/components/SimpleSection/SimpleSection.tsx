@@ -11,7 +11,7 @@ export const SimpleSection: FC<SimpleSectionProps> = ({ header, icon, children }
   return (
     <>
       {header ? (
-        <div className={css['header']}>
+        <div className={`${css['header']} simple-section-header`}>
           <div className={css['title']}>
             <div className={css['icon']}>{icon}</div>
             <span>{header}</span>

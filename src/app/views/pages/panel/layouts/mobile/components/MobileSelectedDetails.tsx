@@ -6,7 +6,7 @@ import { ProvidedTestingCredentials } from '@standalones/credential-card/Provide
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';

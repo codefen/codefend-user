@@ -1,4 +1,4 @@
-import EmptyCard from '@defaults/EmptyCard';
+import EmptyCard from '@/app/components/EmptyCard/EmptyCard';
 import Show from '@/app/components/Show/Show';
 import { useCurrentOrders } from '@userHooks/providers/useCurrentOrders';
 import { useEffect, useState } from 'react';

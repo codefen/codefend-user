@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { useRoutes, Navigate, Outlet } from 'react-router-dom';
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/components/loaders/Loader';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import {
@@ -8,7 +8,6 @@ import {
   SignInLayout,
   ConfirmationSignUp,
   FinishSignUpLayout,
-  WebApplication,
   MobileApplication,
   CloudApplicationPanel,
   SourceCodePanel,
@@ -24,6 +23,7 @@ import {
   ResellerCompaniesLayout,
   ResellerOrdersLayout,
   SnsPanel,
+  WebApplication,
 } from '../views/pages';
 import {
   IssuePage,

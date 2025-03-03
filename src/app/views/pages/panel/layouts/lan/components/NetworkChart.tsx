@@ -7,8 +7,8 @@ import {
   useDoughnutChart,
   osPercentCountColumns,
 } from '../../../../../../data';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import EmptyCard from '@defaults/EmptyCard.tsx';
+import { PageLoader } from '@/app/components/loaders/Loader';
+import EmptyCard from '@/app/components/EmptyCard/EmptyCard';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import Show from '@/app/components/Show/Show';
 import { ChartIcon } from '@icons';

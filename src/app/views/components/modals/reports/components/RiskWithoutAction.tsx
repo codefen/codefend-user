@@ -3,7 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { TableWithoutActions } from '@table/TableWithoutActions';
 import { SimpleSection } from '@/app/components/SimpleSection/SimpleSection';
 import Show from '@/app/components/Show/Show';
-import EmptyCard from '@defaults/EmptyCard';
+import EmptyCard from '@/app/components/EmptyCard/EmptyCard';
 import { BugIcon } from '@icons';
 import {
   type IssuesShare,

@@ -7,7 +7,7 @@ import { ProvidedTestingCredentials } from '@standalones/credential-card/Provide
 import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
 import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
 
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { PageLoader } from '@/app/components/loaders/Loader';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';

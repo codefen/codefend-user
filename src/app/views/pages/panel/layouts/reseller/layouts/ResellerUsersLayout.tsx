@@ -6,7 +6,7 @@ import { useResellerUsers } from '@userHooks/resellers/useResellerUsers';
 import '../reseller.scss';
 import type { ResellerUser } from '@interfaces/user';
 import { LocationItem } from '@standalones/utils/LocationItem';
-import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
+import { SimpleSectionWithTable } from '@/app/components/SimpleSectionWithTable/SimpleSectionWithTable';
 import { resellerUserActiveColumns } from '@mocks/defaultData';
 
 const ResellerUsersLayout = () => {
