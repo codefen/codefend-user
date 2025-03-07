@@ -55,16 +55,17 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
   const [domains, setDomains] = useState<any[]>([]);
   const [fetcher, _, isLoading] = useFetcher();
   const { getCompany, logout } = useUserData();
-  const { saveInitialDomain, setDomainId } = useWelcomeStore();
+  const { saveInitialDomain, setDomainId, initialDomain: initDomain } = useWelcomeStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    setInitialDomain(prev => (!prev ? initDomain : prev));
     const companyID = getCompany();
     fetcher('post', {
       requireSession: true,
       body: {
         company_id: companyID,
-        resource_address_domain: initialDomain,
+        resource_address_domain: initialDomain || initDomain,
         model: 'resources/web/preview',
         subdomain_scan: 'yes',
       },
