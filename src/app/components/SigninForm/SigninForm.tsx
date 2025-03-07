@@ -2,7 +2,7 @@ import { ModalWrapper } from '@modals/index';
 import css from './signinform.module.scss';
 import { AuthInput } from '@/app/components/AuthInput/AuthInput';
 import { useLoginAction } from '@userHooks/auth/useLoginAction';
-import { useLocation, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { type FormEvent } from 'react';
 
 export const SigninForm = () => {
@@ -27,9 +27,18 @@ export const SigninForm = () => {
       }
     });
   };
+  const isSigninActive = location.pathname === '/signin';
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signinContent']}>
+        <div className={css['change-page-contaienr']}>
+          <Link to="/signin" className={isSigninActive ? css['active-link'] : ''}>
+            Signin
+          </Link>
+          <Link to="/signup" className={!isSigninActive ? css['active-link'] : ''}>
+            Signup
+          </Link>
+        </div>
         <img src="/codefend/brand-iso.png" width={350} height={60} />
         <p>Bienvenido de nuevo! Inicia sesion</p>
         <form onSubmit={handleSubmit}>

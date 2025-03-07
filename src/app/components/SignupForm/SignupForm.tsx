@@ -17,7 +17,7 @@ import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constant
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { useNavigate, useSearchParams } from 'react-router';
+import { Link, useNavigate, useSearchParams } from 'react-router';
 import { PageOrbitLoader } from '@defaults/index';
 
 export const SignupForm = () => {
@@ -122,10 +122,18 @@ export const SignupForm = () => {
       }
     });
   };
-
+  const isSigninActive = location.pathname === '/signin';
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>
+        <div className={css['change-page-contaienr']}>
+          <Link to="/signin" className={isSigninActive ? css['active-link'] : ''}>
+            Signin
+          </Link>
+          <Link to="/signup" className={!isSigninActive ? css['active-link'] : ''}>
+            Signup
+          </Link>
+        </div>
         <img src="/codefend/brand-iso.png" width={350} height={60} />
         <p>{STEPSDATA[activeStep].p}</p>
         <ProgressBar activeStep={activeStep} />
