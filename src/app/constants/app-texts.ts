@@ -55,6 +55,10 @@ export enum MODAL_KEY_OPEN {
   USER_GUIDE = 'open-g',
   USER_NEXUS_WELCOME = 'open-n',
 
+  USER_WELCOME_DOMAIN = 'owund',
+  USER_WELCOME_SCAN = 'ouwss',
+  USER_WELCOME_FINISH = 'ouwfsf',
+
   USER_SELECT_RESOURCE = 'open-lfr',
 }
 

@@ -1,6 +1,7 @@
 import { useCallback, type FC } from 'react';
 import { Sort } from '@interfaces/table.ts';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
+import { Show } from '@defaults/index';
 
 interface TableColumnsProps {
   columns: any[];
@@ -9,6 +10,7 @@ interface TableColumnsProps {
   isNeedMultipleCheck: boolean;
   setSortColumn: (updated: string) => void;
   setSort: (updated: Sort) => void;
+  isNeedSort: boolean;
 }
 
 const TableColumnsV3: FC<TableColumnsProps> = ({
@@ -17,6 +19,7 @@ const TableColumnsV3: FC<TableColumnsProps> = ({
   columns,
   setSort,
   setSortColumn,
+  isNeedSort,
 }) => {
   const handleSort = useCallback((cn: string, cds: string, cs: Sort) => {
     if (cn === cds) {
@@ -27,7 +30,7 @@ const TableColumnsV3: FC<TableColumnsProps> = ({
     }
   }, []);
   const onClickColumn = (column: string) => {
-    if (column === TABLE_KEYS.ACTION) return;
+    if (column === TABLE_KEYS.ACTION || !isNeedSort) return;
     handleSort(column, sortedColumn, sort);
   };
 
@@ -35,14 +38,16 @@ const TableColumnsV3: FC<TableColumnsProps> = ({
     <div className="columns-name">
       {columns.map((column: any, i: number) => (
         <div
-          className={`column item-cell ${column.styles}`}
+          className={`column item-cell ${column.styles} ${!isNeedSort && 'not-sort'}`}
           key={`cv3-${i}`}
           style={{ '--cell-expand': column.weight } as any}
           onClick={() => onClickColumn(column.key)}>
           {column.header}
-          {sortedColumn === column.key && (
-            <span className="sort">{sort === Sort.asc ? '↑' : '↓'}</span>
-          )}
+          <Show when={isNeedSort}>
+            {sortedColumn === column.key && (
+              <span className="sort">{sort === Sort.asc ? '↑' : '↓'}</span>
+            )}
+          </Show>
         </div>
       ))}
     </div>

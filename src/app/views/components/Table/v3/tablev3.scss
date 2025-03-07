@@ -372,7 +372,7 @@
     .item,
     .columns-name {
       .item-cell {
-        --cell-expand-correction: calc(var(--cell-original-expand) + 4%);
+        --cell-expand-correction: calc(var(--cell-expand) + 4%);
         flex: 0 0 var(--cell-expand-correction);
         width: var(--cell-expand-correction);
         max-width: var(--cell-expand-correction);

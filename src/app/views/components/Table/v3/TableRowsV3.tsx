@@ -13,6 +13,7 @@ interface TableRowsProps {
   urlNav?: string;
   isActiveDisable: boolean;
   isNeedMultipleCheck: boolean;
+  limit: number;
 }
 
 const TableRowsV3: FC<TableRowsProps> = ({
@@ -21,8 +22,9 @@ const TableRowsV3: FC<TableRowsProps> = ({
   urlNav,
   isActiveDisable,
   isNeedMultipleCheck,
+  limit,
 }) => {
-  const flattenedRows = flattenRows(rows);
+  const flattenedRows = flattenRows(rows, limit);
   const { selectedItems, setSelectedItems, removeItem, selectingActive, setActiveSelecting } =
     useTableStoreV3();
   //const handleClick = (e: any, item: any) => {};
@@ -47,9 +49,10 @@ const TableRowsV3: FC<TableRowsProps> = ({
       const row = r[i] as any;
       const itemDisable = ` ${isActiveDisable && row[TABLE_KEYS.COUNT_ISSUE] && row[TABLE_KEYS.COUNT_ISSUE] <= 0 ? 'item-disabled' : ''}`;
       if (urlNav) {
+        const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableAnchorRow
-            key={row[TABLE_KEYS.ID] + i}
+            key={key ? key + i : crypto.randomUUID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -58,9 +61,10 @@ const TableRowsV3: FC<TableRowsProps> = ({
           />
         );
       } else if (isNeedMultipleCheck) {
+        const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableLabelRow
-            key={row[TABLE_KEYS.ID] + i}
+            key={key ? key + i : crypto.randomUUID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -70,9 +74,10 @@ const TableRowsV3: FC<TableRowsProps> = ({
           />
         );
       } else {
+        const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableSimpleRow
-            key={row[TABLE_KEYS.ID] + i}
+            key={key ? key + i : crypto.randomUUID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}

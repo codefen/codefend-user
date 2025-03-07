@@ -26,9 +26,10 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import { ConfirmModal, ModalWrapper } from '@modals/index';
-import useModal from '#commonHooks/useModal';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import useAuthStore from '@stores/auth.store';
+import { useWelcomeStore } from '@stores/useWelcomeStore';
+import useModalStore from '@stores/modal.store';
 
 interface MenuItemType {
   title: string;
@@ -51,9 +52,10 @@ export const NewHeader = () => {
   const userData = getUserdata();
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
   const { companies, companySelected } = useAdminCompanyStore();
-  const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
+  const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
   const location = useLocation();
   const { isAuth } = useAuthStore(state => state);
+  const { scanStep, isScanRunning } = useWelcomeStore();
   const isProviderWithAccess =
     isProvider() &&
     companies.length > 0 &&
@@ -190,15 +192,15 @@ export const NewHeader = () => {
   }, [isAuth, isAdmin, isProvider, isNotProviderAndReseller, isReseller, isNormalUser, companies]);
   return (
     <div className={css['headerContainer']}>
-      <Show when={showModal && showModalStr === MODAL_KEY_OPEN.LOGOUT}>
-        <ModalWrapper action={() => setShowModal(!showModal)}>
+      <Show when={isOpen && modalId === MODAL_KEY_OPEN.LOGOUT}>
+        <ModalWrapper action={() => setIsOpen(false)}>
           <ConfirmModal
             header="ARE YOU SURE YOU WANT TO LOGOUT?"
             cancelText="Cancel"
             confirmText="Logout"
-            close={() => setShowModal(!showModal)}
+            close={() => setIsOpen(false)}
             action={() => {
-              setShowModal(false);
+              setIsOpen(false);
               logout();
               navigate('/auth/signin');
             }}
@@ -222,6 +224,23 @@ export const NewHeader = () => {
           )}
         </nav>
         <div className={css['headerRight']}>
+          <Show when={isScanRunning && modalId !== MODAL_KEY_OPEN.USER_WELCOME_FINISH}>
+            <button
+              className={css['rightItem']}
+              onClick={() => {
+                setIsOpen(true);
+                setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+              }}>
+              <img
+                src="/codefend/loader_full_size.png"
+                alt="loader"
+                className={css['loader-animate-spin']}
+                width={20}
+                height={20}
+              />
+              <span className={css['step-text']}>{scanStep}/3</span>
+            </button>
+          </Show>
           <button className={css['rightItem']}>
             <NetworkIcon width={1.1} height={1.1} />
           </button>
@@ -236,8 +255,8 @@ export const NewHeader = () => {
           <button
             className={`${css['rightItem']} ${css['rightItemLogout']}`}
             onClick={() => {
-              setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
-              setShowModal(true);
+              setModalId(MODAL_KEY_OPEN.LOGOUT);
+              setIsOpen(true);
             }}>
             <LogoutIcon width={1.1} height={1.1} />
           </button>

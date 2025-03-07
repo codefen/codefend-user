@@ -1,0 +1,50 @@
+.welcome-modal-container {
+  padding-inline: 2rem;
+  padding-block: 1rem;
+  max-width: 600px;
+}
+
+.welcome-text {
+  line-height: 2rem;
+}
+
+.input-container {
+  margin-block: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+
+.limit-container {
+  max-height: 345px;
+  height: 345px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 0%));
+  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 0%));
+}
+
+.btn-add {
+  margin-inline-start: auto;
+}
+
+.welcome-modal-container .input-container .btn-search {
+  position: absolute;
+  right: 0%;
+  bottom: 0%;
+  height: 43px;
+  width: 55px;
+  border-radius: 0;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  transform: scale(1) !important;
+
+  &:hover {
+    background-color: var(--secondary-color-100);
+  }
+}
+
+:global(body[data-theme='dark'] .modal).welcome-modal-container {
+  background: #000;
+}

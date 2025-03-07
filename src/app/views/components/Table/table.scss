@@ -56,6 +56,10 @@
       transition-property: color;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 300ms;
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
 
       &:hover {
         color: #ef4444;
@@ -63,6 +67,13 @@
 
       &:hover .sort.active {
         visibility: visible;
+      }
+    }
+
+    .column.not-sort {
+      &:hover {
+        color: inherit !important;
+        cursor: default;
       }
     }
 

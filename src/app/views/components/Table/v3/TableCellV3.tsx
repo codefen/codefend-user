@@ -16,7 +16,7 @@ const TableCellV3: FC<RowProps> = ({ row, columns, nextRow }) => {
         className={`item-cell ${column.styles}`}
         style={
           {
-            '--cell-expand': column.weight,
+            '--cell-expand': `${parseFloat(column.weight) + 0.1}%`,
           } as CSSProperties
         }>
         {column.render(

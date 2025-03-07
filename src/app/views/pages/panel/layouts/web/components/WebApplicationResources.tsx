@@ -283,6 +283,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
             showRows={!isLoading}
             initialOrder="resource_domain"
             isNeedSearchBar
+            limit={0}
+            isNeedSort
           />
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import { create } from 'zustand';
 
 export interface ModalStore {
@@ -8,8 +9,8 @@ export interface ModalStore {
 }
 
 const useModalStore = create<ModalStore>(set => ({
-  isOpen: false,
-  modalId: '',
+  isOpen: true,
+  modalId: MODAL_KEY_OPEN.USER_WELCOME_FINISH,
   setModalId: state => set({ modalId: state }),
   setIsOpen: state => set({ isOpen: state }),
 }));

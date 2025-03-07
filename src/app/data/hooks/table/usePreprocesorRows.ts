@@ -31,11 +31,13 @@ const usePreProcessedRows = (
   initialOrder: string,
   sortedColumn: string,
   sort: Sort,
-  term: string
+  term: string,
+  isNeedSort: boolean
 ) => {
   return useMemo(() => {
     const filteredRows = !term.trim() ? rows : filterRows(rows, term, initialOrder);
-    return quickSort(filteredRows, sortedColumn, sort);
+    const sorted = isNeedSort ? quickSort(filteredRows, sortedColumn, sort) : filteredRows;
+    return sorted;
   }, [rows, sortedColumn, sort, term, initialOrder]);
 };
 

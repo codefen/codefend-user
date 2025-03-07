@@ -37,7 +37,6 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
         subdomain_scan: subdomain_scan.current?.checked ? 'yes' : 'no',
       },
       timeout: 180000,
-      insecure: true,
     })
       .then(({ data }) => {
         toast.dismiss(toastId);
