@@ -17,7 +17,7 @@ import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constant
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { Link, useNavigate, useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { PageOrbitLoader } from '@defaults/index';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 
@@ -31,7 +31,6 @@ export const SignupForm = () => {
   const [username, setRecommendedUsername] = useState('');
   const [specialLoading, setLoading] = useState(false);
   const { signUpFinish, isLoading: loadingFinish } = useRegisterPhaseTwo();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { saveInitialDomain } = useWelcomeStore();
 
@@ -124,7 +123,8 @@ export const SignupForm = () => {
         //if (user?.accessRole == 'user') navigate('/');
         //if (user?.accessRole == 'admin') navigate('/admin');
         //if (user?.accessRole == 'provider') navigate('/provider/profile');
-        navigate('/');
+        //navigate('/');
+        window.location.href = '/';
       }
     });
   };

@@ -23,7 +23,8 @@ export const SigninForm = () => {
         //if (user?.accessRole == 'user') navigate('/');
         //if (user?.accessRole == 'admin') navigate('/admin');
         //if (user?.accessRole == 'provider') navigate('/provider/profile');
-        navigate('/');
+        //navigate('/');
+        window.location.href = '/';
       }
     });
   };
