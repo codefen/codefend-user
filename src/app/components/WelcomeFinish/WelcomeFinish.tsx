@@ -34,7 +34,7 @@ export const WelcomeFinish = ({ close, solved }: { close: () => void; solved: ()
         />
         <div className={css['finish-text']}>
           <p>
-            <b>Current phase 1/2:</b>
+            <b>Current phase 1/3:</b>
           </p>
           <p>Running dynamic tests on the scope for vulnerability detection...</p>
         </div>

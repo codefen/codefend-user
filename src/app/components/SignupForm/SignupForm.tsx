@@ -72,7 +72,10 @@ export const SignupForm = () => {
     form.append('model', 'users/new');
     const formObject = Object.fromEntries(form.entries());
     fetcher('post', { body: formObject, requireSession: false }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+      if (apiErrorValidation(data?.error, data?.response)) {
+        toast.error(data?.info || 'An unexpected error has occurred');
+        throw new Error('');
+      }
       setActiveStep(SignUpSteps.STEP_THREE);
     });
   };
