@@ -3,11 +3,12 @@ import { useWelcomeStore } from '@stores/useWelcomeStore';
 import css from './welcomefinish.module.scss';
 
 export const WelcomeFinish = ({ close, solved }: { close: () => void; solved: () => void }) => {
-  const { initialDomain, isFirstClose, setFirstClose } = useWelcomeStore();
+  const { initialDomain, isFirstClose, setFirstClose, setScanRunning } = useWelcomeStore();
 
   const closeModal = () => {
     if (isFirstClose) {
       setFirstClose(false);
+      setScanRunning(true);
       solved();
     } else {
       close();

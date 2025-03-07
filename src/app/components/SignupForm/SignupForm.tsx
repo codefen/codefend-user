@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { PageOrbitLoader } from '@defaults/index';
+import { useWelcomeStore } from '@stores/useWelcomeStore';
 
 export const SignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -32,6 +33,7 @@ export const SignupForm = () => {
   const { signUpFinish, isLoading: loadingFinish } = useRegisterPhaseTwo();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { saveInitialDomain } = useWelcomeStore();
 
   useEffect(() => {
     const code = searchParams.get('code');
@@ -60,6 +62,7 @@ export const SignupForm = () => {
     if (data) {
       Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
     }
+    saveInitialDomain((form.get('company_web') as string) || '');
     form.append('company_area', defaultCountries.filter(i => i.alpha2Code === country)[0].name);
     form.append('idiom', 'en');
     form.append('reseller_id', '1');

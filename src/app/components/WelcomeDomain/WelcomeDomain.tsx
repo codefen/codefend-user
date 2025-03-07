@@ -60,31 +60,6 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
 
   useEffect(() => {
     const companyID = getCompany();
-    const fetchInitialDomain = () => {
-      fetcher('post', {
-        requireSession: true,
-        body: {
-          company_id: companyID,
-          model: 'resources/web/index',
-        },
-      }).then(({ data }: any) => {
-        if (verifySession(data, logout)) return;
-        if (apiErrorValidation(data?.error, data?.response)) {
-          throw new Error('An error has occurred on the server');
-        }
-
-        const resources = data?.resources ? data.resources[0].resource_domain : '';
-        setInitialDomain(resources);
-      });
-    };
-
-    if (!initialDomain) {
-      fetchInitialDomain();
-    }
-  }, []);
-
-  useEffect(() => {
-    const companyID = getCompany();
     fetcher('post', {
       requireSession: true,
       body: {
