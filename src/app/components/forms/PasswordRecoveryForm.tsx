@@ -90,7 +90,6 @@ const PasswordRecoveryForm: FC<{
             subText="If the email is registered, we will send you a verification code so you can change your password"
           />
           <InputFieldWithLabel
-            label="Email"
             type="email"
             value={passwordRecovery.email}
             onChange={handleInputChange('email')}

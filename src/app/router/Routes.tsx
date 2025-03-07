@@ -31,7 +31,7 @@ import {
   IssuesPanel,
   IssuesUpdate,
 } from '../views/pages/panel/layouts/issues';
-import { PasswordRecovery } from '../views/pages/auth/layouts/PasswordRecovery';
+import { PasswordRecovery } from '../views/pages/greyPanel/recovery/PasswordRecovery';
 import { TermsAndCondition } from '../views/pages/help-center/TermsAndCondition';
 import { HelpCenter } from '../views/pages/help-center/HelpCenter';
 import { SecurityAndPrivacyPolicy } from '../views/pages/help-center/SecurityAndPrivacyPolicy';
@@ -251,6 +251,8 @@ export const AppRouter = () => {
         // Auth routes
         { path: 'signup', element: <SignupPage /> },
         { path: 'signin', element: <SigninPage /> },
+        { path: 'recovery', element: <PasswordRecovery /> },
+        { path: 'recovery/:ref', element: <PasswordRecovery /> },
       ],
     },
     // Report route

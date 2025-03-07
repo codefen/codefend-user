@@ -27,16 +27,20 @@ export const SigninForm = () => {
       }
     });
   };
-  const isSigninActive = location.pathname === '/signin';
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signinContent']}>
         <div className={css['change-page-contaienr']}>
-          <Link to="/signin" className={isSigninActive ? css['active-link'] : ''}>
+          <Link to="/signin" className={location.pathname === '/signin' ? css['active-link'] : ''}>
             Signin
           </Link>
-          <Link to="/signup" className={!isSigninActive ? css['active-link'] : ''}>
+          <Link to="/signup" className={location.pathname === '/signup' ? css['active-link'] : ''}>
             Signup
+          </Link>
+          <Link
+            to="/recovery"
+            className={location.pathname.startsWith('/recovery') ? css['active-link'] : ''}>
+            Password recovery
           </Link>
         </div>
         <img src="/codefend/brand-iso.png" width={350} height={60} />

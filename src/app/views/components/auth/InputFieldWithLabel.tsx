@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react';
 
 interface InputFieldWithLabelProps {
-  label: string;
+  label?: string;
   type?: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -11,7 +11,7 @@ interface InputFieldWithLabelProps {
 }
 
 const InputFieldWithLabel = ({
-  label,
+  label = '',
   type = 'text',
   value,
   onChange,
@@ -20,7 +20,7 @@ const InputFieldWithLabel = ({
   required,
 }: InputFieldWithLabelProps) => (
   <div className="confirm-input">
-    <label htmlFor={name}>{label}</label>
+    {label ? <label htmlFor={name}>{label}</label> : null}
     <input
       id={name}
       type={type}

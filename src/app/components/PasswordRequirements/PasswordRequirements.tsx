@@ -1,11 +1,5 @@
 import type { FC } from 'react';
-import {
-  hasLowerCase,
-  hasMinChars,
-  hasSpecialChar,
-  hasStrNumber,
-  hasUpperCase,
-} from '@/app/constants/validations';
+import { hasLowerCase, hasMinChars, hasStrNumber, hasUpperCase } from '@/app/constants/validations';
 import css from './passwrodrequitenments.module.scss';
 
 interface PasswordRequirementsProps {
@@ -40,6 +34,7 @@ export const PasswordRequirements: FC<PasswordRequirementsProps> = ({ password }
           At least 1 number
         </small>
       </span>
+      {/*
       <span className={css['password-req-item']}>
         <span>*</span>{' '}
         <small>
@@ -47,13 +42,13 @@ export const PasswordRequirements: FC<PasswordRequirementsProps> = ({ password }
             className={`${css['dashed-item']} ${hasSpecialChar(password) ? css['strike'] : css['no-strike']}`}></div>
           At least one special character
         </small>
-      </span>
+      </span> */}
       <span className={css['password-req-item']}>
         <span>*</span>{' '}
         <small>
           {' '}
           <div
-            className={`${css['dashed-item']} ${hasMinChars(password, 16) ? css['strike'] : css['no-strike']}`}></div>
+            className={`${css['dashed-item']} ${hasMinChars(password, 12) ? css['strike'] : css['no-strike']}`}></div>
           At least 16 characters
         </small>
       </span>
