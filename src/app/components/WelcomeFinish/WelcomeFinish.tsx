@@ -6,7 +6,7 @@ export const WelcomeFinish = ({ close, solved }: { close: () => void; solved: ()
   const { initialDomain, isFirstClose, setFirstClose } = useWelcomeStore();
 
   const closeModal = () => {
-    if (!isFirstClose) {
+    if (isFirstClose) {
       setFirstClose(false);
       solved();
     } else {
