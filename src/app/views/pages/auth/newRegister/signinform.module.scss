@@ -1,0 +1,57 @@
+:global(.modal-wrapper) {
+  .signinform {
+    display: flex;
+    flex-direction: column;
+    max-width: 650px;
+  }
+}
+
+:global([data-theme='dark'] .modal-wrapper) .signinform {
+  border: none;
+}
+
+.signupContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem;
+
+  p {
+    color: var(--tertiary-color-50);
+    line-height: 1.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 1rem;
+
+    .sendButton {
+      margin-inline-start: auto;
+      min-width: 200px;
+    }
+  }
+}
+
+.change-page-contaienr {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+
+  a {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  a + a {
+    margin-inline-start: 1rem;
+  }
+
+  a.active-link {
+    color: var(--secondary-color-50);
+    border-bottom: 1px solid var(--secondary-color-50);
+  }
+}

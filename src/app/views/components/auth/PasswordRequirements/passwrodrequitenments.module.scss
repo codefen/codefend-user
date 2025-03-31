@@ -1,0 +1,81 @@
+.password-req-container {
+  --text-colors: #575757;
+  --text-color-dash: #353535;
+  --dash-red-color: #ff0000;
+  color: var(--text-colors);
+  margin-block-start: 6px;
+
+  .password-req-title {
+    margin-block-start: 1.25rem;
+    line-height: 25px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+  }
+
+  .password-req-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5px;
+    align-items: flex-start;
+    justify-content: center;
+
+    .password-req-item {
+      display: inline-flex;
+      align-items: center;
+      column-gap: 0.65rem;
+      position: relative;
+
+      small {
+        position: relative;
+      }
+    }
+  }
+
+  .dashed-item {
+    position: absolute;
+    background-color: var(--dash-red-color);
+    height: 2px;
+    width: 0%;
+    top: 44%;
+    animation: strike 0.35s ease-in-out forwards;
+
+    &.strike {
+      animation: strike 0.35s ease-in-out forwards;
+    }
+
+    &.no-strike {
+      animation: no-strike 0.35s ease-in-out forwards;
+    }
+  }
+}
+
+@keyframes strike {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+    color: var(--text-color-dash);
+  }
+}
+
+@keyframes no-strike {
+  from {
+    width: 100%;
+    color: var(--text-color-dash);
+  }
+
+  to {
+    width: 0%;
+    color: var(--text-colors);
+  }
+}
+
+body[data-theme='dark'] {
+  .password-req-container {
+    --text-colors: #dddddd;
+    --text-color-dash: #e1e1e1;
+    --dash-red-color: #e31616;
+  }
+}

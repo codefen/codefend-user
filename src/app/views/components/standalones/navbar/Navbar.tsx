@@ -17,6 +17,8 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import useModalStore from '@stores/modal.store.ts';
+import { useWelcomeStore } from '@stores/useWelcomeStore.ts';
+import css from './newheader.module.scss';
 
 const Logo = lazy(() => import('../../defaults/Logo'));
 
@@ -29,12 +31,13 @@ const Navbar: FC = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
-  const { isOpen, setNetworkSettingState } = useNetworkSettingState(
+  const { isOpen: isOpenNetwork, setNetworkSettingState } = useNetworkSettingState(
     (state: NetworkSettingState) => state
   );
-  const { setIsOpen, setModalId } = useModalStore();
   const [baseApiName, setBaseApiName] = useState('');
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
+  const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
+  const { scanStep, isScanRunning } = useWelcomeStore();
 
   useEffect(() => {
     const handleClickOutsideMenu = (event: any) => {
@@ -80,7 +83,10 @@ const Navbar: FC = () => {
         </ModalWrapper>
       </Show>
       {isAdmin() && (
-        <NetworkSettingModal close={() => setNetworkSettingState(!isOpen)} isOpen={isOpen} />
+        <NetworkSettingModal
+          close={() => setNetworkSettingState(!isOpenNetwork)}
+          isOpen={isOpenNetwork}
+        />
       )}
 
       <nav className="navbar">

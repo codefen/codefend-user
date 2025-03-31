@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardAssets from './components/DashboardAssets.tsx';
 import DashboardCollaborators from './components/DashboardCollaborators.tsx';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
@@ -12,12 +11,19 @@ import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import './dashboard.scss';
 import { PrimaryButton } from '@buttons/index.ts';
 import { useNavigate } from 'react-router';
+import DashboardAssets from './components/DashboardAssets/DashboardAssets.tsx';
+import useModalStore from '@stores/modal.store.ts';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 const Dashboard: React.FC = () => {
-  const flashlight = useFlashlight();
   const [showScreen] = useShowScreen();
   const { isLoading, data } = useDashboard();
+  const { setModalId, setIsOpen } = useModalStore();
   const navigate = useNavigate();
+  const handleAddCollaborator = () => {
+    setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);
+    setIsOpen(true);
+  };
 
   return (
     <main className={`dashboard ${showScreen ? 'actived' : ''}`}>
@@ -30,7 +36,7 @@ const Dashboard: React.FC = () => {
         <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
       </section>
 
-      <section className="right" ref={flashlight.rightPaneRef}>
+      <section className="right">
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
         <PrimaryButton
           text="Go to vulnerabilities"

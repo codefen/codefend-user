@@ -7,7 +7,7 @@ import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import type { RegisterFinishParams } from '@interfaces/auth';
-import { PasswordRequirements } from '../auth/PasswordRequirements';
+import { PasswordRequirements } from '../auth/PasswordRequirements/PasswordRequirements';
 
 const FinishSignupForm: FC<{
   children: (isLoading: boolean) => ReactNode;

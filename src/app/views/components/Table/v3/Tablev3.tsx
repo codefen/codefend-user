@@ -3,14 +3,13 @@ import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
 import TableColumnsV3 from './TableColumnsV3';
 import TableRowsV3 from './TableRowsV3';
-import Show from '@defaults/Show';
-import EmptyCard from '@defaults/EmptyCard';
-import { PageLoader } from '@defaults/loaders/Loader';
 import { ModalInput } from '@defaults/ModalInput';
 import { MagnifyingGlassIcon } from '@icons';
 import { useMultipleSelect } from '@hooks/table/useMultipleSelect';
 import './tablev3.scss';
 import { isShallowEqual } from '@utils/helper';
+import Show from '@defaults/Show';
+import { EmptyCard, PageLoader } from '@defaults/index';
 
 interface Tablev3Props<T> {
   rows: T[];
@@ -24,6 +23,8 @@ interface Tablev3Props<T> {
   isActiveDisable?: boolean;
   isNeedMultipleCheck?: boolean;
   isNeedSearchBar?: boolean;
+  isNeedSort?: boolean;
+  limit?: number;
 }
 
 const Tablev3: FC<Tablev3Props<any>> = ({
@@ -37,6 +38,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   isActiveDisable = false,
   isNeedMultipleCheck = false,
   isNeedSearchBar = false,
+  limit = 0,
+  isNeedSort = true,
 }) => {
   const [sort, setSort] = useState<Sort>(initialSort);
   const [sortedColumn, setDataSort] = useState<string>(columns[0].key);
@@ -50,13 +53,19 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     onPointerMove,
     onPointerDown,
   } = useMultipleSelect(isNeedMultipleCheck);
-  const preProcessedRows = usePreProcessedRows(rows, initialOrder, sortedColumn, sort, term);
+  const preProcessedRows = usePreProcessedRows(
+    rows,
+    initialOrder,
+    sortedColumn,
+    sort,
+    term,
+    isNeedSort
+  );
   const tableClassName = useMemo(
     () =>
       `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''}`,
     [className, isSelecting, isMoving]
   );
-  console.log({ leng: columns.length - 1 });
   return (
     <div className="table-group">
       <Show when={isNeedSearchBar}>
@@ -85,6 +94,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
           setSort={setSort}
           setSortColumn={setDataSort}
           isNeedMultipleCheck={isNeedMultipleCheck}
+          isNeedSort={isNeedSort}
         />
 
         <Show when={showRows} fallback={<PageLoader />}>
@@ -95,6 +105,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
               urlNav={urlNav}
               isActiveDisable={isActiveDisable}
               isNeedMultipleCheck={isNeedMultipleCheck}
+              limit={limit}
             />
           </div>
         </Show>

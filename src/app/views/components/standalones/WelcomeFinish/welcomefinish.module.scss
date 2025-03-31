@@ -1,0 +1,42 @@
+.welcome-modal-container {
+  padding-inline: 2rem;
+  padding-block: 1rem;
+  max-width: 600px;
+}
+
+.welcome-text {
+  line-height: 2rem;
+}
+
+.welcome-modal-container .btn-close {
+  margin-inline-start: auto;
+  padding-inline: 30px;
+}
+
+.welcome-loader {
+  margin-inline: auto;
+}
+
+.finish-text {
+  margin-block: 1rem;
+  line-height: 1.7rem;
+}
+
+.loader-animate-spin {
+  animation: spin 3.5s linear infinite;
+  margin-inline: auto;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:global(body[data-theme='dark'] .modal).welcome-modal-container {
+  background: #000;
+}

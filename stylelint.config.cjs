@@ -32,5 +32,6 @@ module.exports = {
     'declaration-empty-line-before': null,
     'declaration-block-no-redundant-longhand-properties': null,
     'color-hex-length': null,
+    'selector-pseudo-class-no-unknown': null,
   },
 };

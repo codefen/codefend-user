@@ -1,13 +1,17 @@
 import { type FC, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { SimpleSection } from '@defaults/SimpleSection';
 import { CircleIcon } from '@icons';
 import { generateIDArray } from '@utils/helper';
-import { StatAsset } from '@standalones/stat-asset/StatAsset';
 import type { ResourceCount } from '@interfaces/dashboard';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import css from './dashboardasset.module.scss';
+import { SimpleSection } from '@/app/views/pages/auth/newRegister/SimpleSection/SimpleSection';
+import { StatAsset } from '@/app/views/pages/auth/newRegister/stat-asset/StatAsset';
 
-export const DashboardAssets: FC<{ resources: ResourceCount }> = ({ resources }) => {
+export const DashboardAssets: FC<{ resources: ResourceCount; hasTitle?: boolean }> = ({
+  resources,
+  hasTitle = true,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const resourceKeys = useMemo(
@@ -29,16 +33,18 @@ export const DashboardAssets: FC<{ resources: ResourceCount }> = ({ resources })
     [RESOURCE_CLASS.SOCIAL]: 'SOCIAL ENGINEERING',
   };
   return (
-    <div className="card stats">
-      <SimpleSection header="Attack surface surveillance" icon={<CircleIcon />}>
-        <div className="content">
+    <div className={`${css['stats']} ${css['card']}`}>
+      <SimpleSection
+        header={hasTitle ? 'Attack surface surveillance' : ''}
+        icon={hasTitle ? <CircleIcon /> : undefined}>
+        <div className={css['content']}>
           {Object.keys(resources).map((resource: string | number, i: number) => (
             <StatAsset
               key={resourceKeys[i]}
               valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
               value={resources[resource as keyof typeof resources]}
               isActive={isActivePath(resource as string)}
-              onClick={() => navigate(`/${resource}`)}
+              onClick={() => navigate(`/${resource === 'lan' ? 'network' : resource}`)}
             />
           ))}
         </div>

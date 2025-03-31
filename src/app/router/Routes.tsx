@@ -45,6 +45,7 @@ import { HelpNotfound } from '../views/pages/help-center/HelpNotfound';
 import { InvitationSignup } from '../views/pages/auth/layouts/InvitationSignup';
 import { PageReport } from '@modals/reports/PageReport.tsx';
 import ProtectedRoute from './ProtectedRoute';
+import { NewRegisterPage } from '../views/pages/auth/newRegister/NewRegister';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -196,12 +197,15 @@ export const AppRouter = () => {
       ],
     },
     {
+      path: 'auth/signup',
+      element: <NewRegisterPage />,
+    },
+    {
       path: 'auth/*',
       element: <AuthPage />,
       children: [
         { index: true, element: <Navigate to="signin" replace /> },
         { path: 'signin', element: <SignInLayout /> },
-        { path: 'signup', element: <SignUpLayout /> },
         { path: 'signup/invitation', element: <InvitationSignup /> },
         { path: 'signup/invitation/:ref', element: <InvitationSignup /> },
         { path: 'confirmation', element: <ConfirmationSignUp /> },

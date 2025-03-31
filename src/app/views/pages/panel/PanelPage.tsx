@@ -15,6 +15,7 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
 import useKeyEventPress from '@stores/keyEvents.ts';
+import { useVerifyScan } from '@stores/useVerifyScan.ts';
 
 export const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/standalones/sidebar/Sidebar.tsx'));
@@ -25,12 +26,13 @@ export const MobileFallback = lazy(
 
 export const PanelPage = () => {
   const location = useLocation();
-  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
   const { setKeyPress } = useKeyEventPress();
   const matches = useMediaQuery('(min-width: 1175px)');
-  const { isAuth, logout, getUserdata, updateAuth } = useUserData();
+  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
+  const { isAuth, getUserdata, updateAuth, logout } = useUserData();
   const { getProviderCompanyAccess } = useProviderCompanies();
   useUserCommunicated();
+  useVerifyScan();
 
   const modals = useMemo(
     () => ({
@@ -68,7 +70,7 @@ export const PanelPage = () => {
         e.stopPropagation();
       })
     );
-    if (getUserdata().access_role === 'provider') {
+    if (getUserdata()?.access_role === 'provider') {
       getProviderCompanyAccess();
     }
     return () => {

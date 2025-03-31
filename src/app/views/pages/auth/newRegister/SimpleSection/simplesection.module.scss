@@ -1,0 +1,48 @@
+.header {
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  font-family: 'ITC Avant Garde', Questrial;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 13px;
+  text-transform: uppercase;
+  background-position: var(--primary-color-200);
+  color: var(--tertiary-color-200);
+  padding-inline: 0.5rem;
+  transition:
+    color,
+    background 275ms linear;
+  padding-block-end: 1rem;
+
+  .title {
+    display: flex;
+    align-items: center;
+    padding-right: 0.813rem;
+
+    .icon {
+      color: var(--secondary-color-50);
+      margin-right: 13px;
+      font-size: 13px;
+    }
+
+    span {
+      color: var(--tertiary-color-300);
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .header {
+    border: none;
+    transition:
+      color,
+      background 275ms linear;
+  }
+}
+
+@media only print {
+  .header .title span {
+    color: #666;
+  }
+}
