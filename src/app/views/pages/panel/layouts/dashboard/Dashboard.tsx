@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router';
 import DashboardAssets from './components/DashboardAssets/DashboardAssets.tsx';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import { DashboardInvoke } from '@/app/views/pages/auth/newRegister/DashboardInvoke/DashboardInvoke.tsx';
+import { PageLoader } from '@defaults/index.ts';
 
 const Dashboard: React.FC = () => {
   const [showScreen] = useShowScreen();
@@ -31,7 +33,13 @@ const Dashboard: React.FC = () => {
       <div className="brightness variant-2"></div>
 
       <section className="left">
-        <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
+        {data?.issues && data.issues.length > 0 ? (
+          <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
+        ) : !isLoading ? (
+          <DashboardInvoke />
+        ) : (
+          <PageLoader />
+        )}
         <DashboardAssets resources={data?.resources || {}} />
         <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
       </section>

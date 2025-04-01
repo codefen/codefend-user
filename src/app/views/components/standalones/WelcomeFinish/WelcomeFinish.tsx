@@ -3,9 +3,15 @@ import { useWelcomeStore } from '@stores/useWelcomeStore';
 import css from './welcomefinish.module.scss';
 import { useEffect } from 'react';
 
+const scanStepnumber = {
+  nonScan: 0,
+  scanner: 1,
+  parser: 2,
+  finished: 3,
+};
+
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
-  const { initialDomain, isFirstClose, setFirstClose, setScanRunning, setScanStep } =
-    useWelcomeStore();
+  const { initialDomain, scanStep, setFirstClose, setScanRunning, setScanStep } = useWelcomeStore();
 
   const closeModal = () => {
     setFirstClose(false);
@@ -33,7 +39,12 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         />
         <div className={css['finish-text']}>
           <p>
-            <b>Current phase 1/3:</b>
+            <b>
+              Current phase {scanStepnumber[scanStep]}/{Object.keys(scanStepnumber).length - 1}:
+            </b>
+          </p>
+          <p>
+            <b>Issues Found: 0</b>
           </p>
           <p>Running dynamic tests on the scope for vulnerability detection...</p>
         </div>

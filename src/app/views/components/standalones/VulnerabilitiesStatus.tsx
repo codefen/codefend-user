@@ -3,7 +3,7 @@ import { SimpleSection } from '@defaults/SimpleSection';
 import { ChartIcon } from '@icons';
 
 import type { IssuesCondition } from '../../../data';
-import { StatAsset } from './stat-asset/StatAsset';
+import { StatAsset } from '@/app/views/pages/auth/newRegister/stat-asset/StatAsset';
 
 export const VulnerabilitiesStatus: React.FC<{
   vulnerabilityByShare: IssuesCondition;

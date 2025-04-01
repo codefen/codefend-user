@@ -5,18 +5,35 @@ import { WelcomeDomain } from '@standalones/WelcomeDomain/WelcomeDomain';
 import WelcomeScan from '@standalones/WelcomeScan/WelcomeScan';
 import { WelcomeFinish } from '@standalones/WelcomeFinish/WelcomeFinish';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
+import { useFetcher } from '#commonHooks/useFetcher';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 export const WelcomeGroupTour = () => {
   const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
   const { solvedComunique } = useSolvedComunique();
-  const { setScanRunning, setScanStep } = useWelcomeStore();
+  const { getCompany } = useUserData();
+  const { setScanRunning, setScanStep, domainId, setNeuroScanId } = useWelcomeStore();
+  const [fetcher] = useFetcher();
 
   const startWaitStep = () => {
-    setIsOpen(true);
-    setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+    const companyID = getCompany();
     solvedComunique();
-    setScanRunning(true);
-    setScanStep('scanner');
+
+    fetcher('post', {
+      body: {
+        model: 'modules/neuroscan/launch',
+        resource_id: domainId,
+        company_id: companyID,
+      },
+      requireSession: true,
+      timeout: 15000,
+    }).then(({ data }: any) => {
+      setScanRunning(true);
+      setNeuroScanId(data?.neuroscan?.id);
+      setScanStep('scanner');
+      setIsOpen(true);
+      setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+    });
   };
   const startScan = () => {
     setIsOpen(true);

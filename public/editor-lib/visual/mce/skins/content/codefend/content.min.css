@@ -140,7 +140,8 @@ body {
 	margin: 0 20px 0 20px;
 	color: var(--text-color-alt3);
 	overflow-x: hidden;
-	font-size: 14px;
+    font-size: 16px;
+    letter-spacing: .7px;
 }
 h3 {
 	color: var(--text-color);
@@ -198,6 +199,7 @@ code {
 	color: #990808;
 	background-color: var(--code-bkg);
 	padding: 20px;
+	overflow-wrap: anywhere;
 }
 
 .tabla-header-issue {

@@ -24,12 +24,11 @@ import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-
 import Tablev3 from '@table/v3/Tablev3';
 import TextChild from '@standalones/utils/TextChild';
 import { useTableStoreV3 } from '@table/v3/tablev3.store';
-import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
-import { toast } from 'react-toastify';
 import Show from '@defaults/Show';
 import { ModalTitleWrapper } from '@modals/index';
+import { useAutoScan } from '@hooks/useAutoScan';
 
 interface WebResourcesProps {
   refresh: () => void;
@@ -104,7 +103,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { setIsOpen, setModalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
-  const [fetcher] = useFetcher();
+  const { autoScan } = useAutoScan();
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -144,19 +143,11 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setShowModalStr(MODAL_KEY_OPEN.START_AUTO_SCAN);
   };
 
-  const autoScan = () => {
+  const punchToScan = async () => {
     const companyID = getCompany();
     setShowModal(false);
     if (companyIdIsNull(companyID)) return;
-    fetcher('post', {
-      body: {
-        model: 'modules/neuroscan',
-        resource_id: selectedResource.id,
-        company_id: companyID,
-      },
-      requireSession: true,
-    });
-    toast.info('The scan has started. Please wait a few minutes, and you will see the results.');
+    autoScan(selectedResource.id);
   };
 
   const webColumnsWith = [
@@ -210,7 +201,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
           confirmText="Confirm"
           cancelText="Cancel"
           header="Estas seguro que quieres iniciar un analicis automatico?"
-          action={autoScan}
+          action={punchToScan}
           close={() => setShowModal(false)}
         />
       </ModalTitleWrapper>

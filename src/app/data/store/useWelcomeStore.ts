@@ -10,11 +10,13 @@ export interface WelcomeStore {
   isFirstClose: boolean;
   scanStep: ScanStepType;
   isScanRunning: boolean;
+  neuroScanId: string;
   setDomainId: (initialDomain: string) => void;
   saveInitialDomain: (initialDomain: string) => void;
   setFirstClose: (isFirstClose: boolean) => void;
   setScanRunning: (isScanRunning: boolean) => void;
   setScanStep: (scanStep: ScanStepType) => void;
+  setNeuroScanId: (neuroScanId: string) => void;
 }
 
 const stateInitV2: StateInitializer<WelcomeStore> = (store, persistence) =>
@@ -28,11 +30,13 @@ export const useWelcomeStore = create<WelcomeStore>()(
       scanStep: 'nonScan',
       isScanRunning: false,
       domainId: '',
+      neuroScanId: '',
       saveInitialDomain: (initialDomain: string) => set({ initialDomain }),
       setDomainId: (domainId: string) => set({ domainId }),
       setFirstClose: (isFirstClose: boolean) => set({ isFirstClose }),
       setScanRunning: (isScanRunning: boolean) => set({ isScanRunning }),
       setScanStep: (scanStep: ScanStepType) => set({ scanStep }),
+      setNeuroScanId: (neuroScanId: string) => set({ neuroScanId }),
     }),
     {
       name: 'welcomeUserStore',

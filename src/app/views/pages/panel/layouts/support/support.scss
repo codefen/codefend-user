@@ -1,5 +1,3 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
 main.support {
   padding-inline-end: 0;
 
@@ -57,7 +55,7 @@ main.support {
     padding-block-start: 53px;
   }
 
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
     padding-inline-start: 10px;

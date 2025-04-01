@@ -3,10 +3,9 @@ import { SearchBar } from '@standalones/SearchBar';
 import { ScanSearchIcon } from '@icons';
 import Masonry from 'react-masonry-css';
 import { useSns } from '@moduleHooks/sns/useSns.ts';
-import Show from '@defaults/Show.tsx';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
 import useModal from '#commonHooks/useModal';
 import { SnsLeakedDataModal } from '@/app/views/pages/panel/layouts/sns/components/SnsLeakedDataModal';
+import { PageLoader, Show } from '@defaults/index';
 
 const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
   const {
@@ -37,7 +36,15 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     handleSearch();
   };
   const selectBarOptions = {
-    options: { email: 'email', password: 'password', name: 'full name' },
+    options: {
+      _domain: 'domain',
+      email: 'email',
+      username: 'username',
+      password: 'password',
+      name: 'full name',
+      hash: 'hash',
+      lastip: 'lastip',
+    },
     placeHolder: '',
     value: searchClass,
     change: (e: any) => setSearchClass(e.target.value),
@@ -78,17 +85,16 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
             {intelData.map((intel, index) => (
               <div key={index} className="search-result">
                 <div className="header">
-                  <div className="title">{intel?.name}</div>
+                  <div className="title">{intel?.name.replace(/_\d+[MK]$/, '')}</div>
                 </div>
                 <div className="info">
                   {intel?.value.map((subIntel: any, subIndex: number) => (
                     <div
                       key={subIndex}
-                      className="text"
+                      className="text containersubintel"
                       style={{
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        maxWidth: '260px',
                         overflow: 'hidden',
                       }}>
                       {Object.keys(subIntel).map((subIntelVal, subIntelValIndex) => (

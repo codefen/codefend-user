@@ -9,6 +9,7 @@ import useTimeout from '#commonHooks/useTimeout.ts';
 import IssueHeader from './IssueHeader.tsx';
 import IssueInfo from './IssueInfo.tsx';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
+import { useTheme } from '@/app/views/context/ThemeContext.tsx';
 
 interface IssueUpdatePanelProps {
   issueData: IssueUpdateData;
@@ -20,6 +21,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
   const [isEditable, setEditable] = useState(false);
   const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
   const { oneExecute, clear } = useTimeout(() => setEditable(true), 380);
+  const { theme } = useTheme();
 
   const handleIssueUpdate = () => {
     update()

@@ -29,6 +29,18 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
     }
   };
 
+  const requestInfo = (e: React.FormEvent | KeyboardEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (props.type === ChatBoxType.ISSUE && !isAdding) {
+      handleIssueSubmit(
+        props.selectedID,
+        props.onDone,
+        'Could you please provide more information about this issue?'
+      );
+    }
+  };
+
   const handleEnter = (e: any) => {
     if (!Boolean(e.target.value.trim())) return;
 
@@ -58,9 +70,21 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
       </div>
 
       <div className="chatbox-container ">
-        <div className="text-format chatbox-img  no-border-bottom">
-          <img src="/codefend/user-icon-gray.svg" alt="user-picture" />
-        </div>
+        {props.type === ChatBoxType.ISSUE ? (
+          <div className="chatbox-actions">
+            <span
+              className={`chatbox-button ${isAdding ? 'disabled-btn' : ''}`}
+              role="button"
+              onClick={requestInfo}
+              aria-disabled={isAdding}>
+              request info
+            </span>
+          </div>
+        ) : (
+          <div className="text-format chatbox-img  no-border-bottom">
+            <img src="/codefend/user-icon-gray.svg" alt="user-picture" />
+          </div>
+        )}
         <div className="no-border-bottom chatbox-content">
           <textarea
             onKeyDown={handleEnter}

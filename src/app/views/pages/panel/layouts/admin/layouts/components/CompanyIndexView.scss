@@ -35,11 +35,11 @@
 
       transition: all 150ms ease;
 
-      @include respond(medium) {
+      @media only screen and (max-width: 900px) {
         width: 70%;
       }
 
-      @include respond(small) {
+      @media only screen and (max-width: 600px) {
         width: 100%;
       }
 

@@ -1,5 +1,3 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
 main.issue-detail {
   width: 100%;
   padding-inline-end: 0;
@@ -239,12 +237,12 @@ main.issue-detail {
     height: 100%;
     flex: 0 1 30%;
 
-    @include mixin.respond(small) {
+    @media only screen and (max-width: 600px) {
       width: 100%;
     }
   }
 
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
     padding-inline-start: 10px;
@@ -252,7 +250,7 @@ main.issue-detail {
     height: 81dvh;
   }
 
-  @include mixin.respond(wide) {
+  @media only screen and (min-width: 1690px) {
     .left {
       flex: 0 1 900px;
     }
@@ -401,7 +399,7 @@ main.issues-list {
         .content {
           flex-direction: column;
 
-          @include mixin.minScreen(1825px) {
+          @media only screen and (min-width: 1825px) {
             & {
               flex-direction: row;
             }
@@ -411,7 +409,7 @@ main.issues-list {
     }
   }
 
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     height: 81dvh;
     min-height: auto;
 
