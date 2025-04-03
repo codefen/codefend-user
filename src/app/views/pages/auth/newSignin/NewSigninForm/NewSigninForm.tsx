@@ -32,14 +32,18 @@ export const NewSigninForm = () => {
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signinContent']}>
         <div className={css['change-page-contaienr']}>
-          <Link to="/signin" className={location.pathname === '/signin' ? css['active-link'] : ''}>
+          <Link
+            to="/auth/signin"
+            className={location.pathname === '/auth/signin' ? css['active-link'] : ''}>
             Signin
           </Link>
-          <Link to="/signup" className={location.pathname === '/signup' ? css['active-link'] : ''}>
+          <Link
+            to="/auth/signup"
+            className={location.pathname === '/auth/signup' ? css['active-link'] : ''}>
             Signup
           </Link>
           <Link
-            to="/recovery"
+            to="/auth/recovery"
             className={location.pathname.startsWith('/recovery') ? css['active-link'] : ''}>
             Password recovery
           </Link>
