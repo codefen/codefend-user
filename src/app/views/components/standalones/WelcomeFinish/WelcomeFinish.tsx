@@ -4,7 +4,7 @@ import css from './welcomefinish.module.scss';
 import { scanStepnumber, scanStepText } from '@/app/constants/welcome-steps';
 import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 import { AlertIcons, CircleTicket, FileSearchIcon } from '@icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const {
@@ -18,17 +18,20 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   } = useWelcomeStore();
   const [progress, setProgress] = useState(0);
   const [estimatedTime, setEstimatedTime] = useState<number | null>(null);
+  const progressRef = useRef(0);
 
   useEffect(() => {
     let progressInterval: any;
     if (scanStep === 'scanner') {
-      let searchProgress = 0;
+      if (progressRef.current === 0) {
+        progressRef.current = progress; // Mantiene el progreso previo si no estaba en 0
+      }
 
       progressInterval = setInterval(() => {
-        // Incremento gradual que se desacelera a medida que se acerca al 30%
-        const increment = 0.5 * (1 - searchProgress / 20);
-        searchProgress = Math.min(searchProgress + increment, 20);
-        setProgress(searchProgress);
+        // Incremento gradual que se desacelera a medida que se acerca al 20%
+        const increment = 0.5 * (1 - progressRef.current / 20);
+        progressRef.current = Math.min(progressRef.current + increment, 20);
+        setProgress(progressRef.current);
       }, 1000);
     } else if (scanStep === 'parser') {
       // En la fase de parseo, comenzamos en 30% y avanzamos hasta 90% basado en el progreso del parseo
@@ -76,6 +79,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const closeModal = () => {
     setFirstClose(false);
     setScanRunning(true);
+    console.log('Entro al error closeModal');
     setScanStep('nonScan');
     solved();
   };

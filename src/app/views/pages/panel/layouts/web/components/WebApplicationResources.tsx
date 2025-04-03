@@ -145,11 +145,12 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     const companyID = getCompany();
     setIsOpen(false);
     if (companyIdIsNull(companyID)) return;
+    console.log('resource id in punchToScan: ', { selectedResource });
     autoScan(selectedResource.id).then(result => {
       setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
       if (result?.error == 1) {
         setIsOpen(false);
-      } else {
+      } else if (!!result) {
         setIsOpen(true);
       }
     });

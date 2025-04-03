@@ -13,14 +13,18 @@ export const useAutoScan = () => {
     saveInitialDomain,
     setIssueFound,
     setIssuesParsed,
+    setDomainId,
   } = useWelcomeStore();
 
   const autoScan = async (resourceId: string) => {
+    console.log('resource id in autoScan: ', { resourceId });
     setNeuroScanId('');
     saveInitialDomain('');
-    setScanStep('nonScan');
     setIssueFound(0);
     setIssuesParsed(0);
+    setScanStep('nonScan');
+    setDomainId(resourceId);
+
     const formData = new FormData();
     formData.append('model', 'modules/neuroscan/launch');
     formData.append('resource_id', resourceId);

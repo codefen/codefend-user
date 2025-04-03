@@ -75,7 +75,9 @@ export const useVerifyScan = () => {
       setScanStep(currentPhase);
     }
     // Verifique si terminar el scan
+    console.log('Entro al error primero', { isScanRunning, currentPhase, hasError });
     if ((isScanRunning && currentPhase === 'finished') || hasError) {
+      console.log('Entro al error primero');
       setScanRunning(false);
       setScanStep('nonScan');
       if (!hasError) {

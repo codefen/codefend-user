@@ -91,11 +91,11 @@ const Navbar: FC = () => {
 
       <nav className="navbar">
         <div className="left">
-          <div className="navbar-logo" onClick={openGuide}>
+          {/*          <div className="navbar-logo" onClick={openGuide}>
             <span className={`${open && 'rotate-360'}`}>
               <Logo theme="aim" onClick={() => handleChange()} />
             </span>
-          </div>
+          </div> */}
           <Breadcrumb root="Codefend" rootAction={rootAction} />
           <div className="actions"></div>
         </div>
