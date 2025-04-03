@@ -18,9 +18,9 @@ const AdminCompany: FC = () => {
         <section className="left">
           <AdminCompanyPanel />
         </section>
-        <section className="right">
+        {/*        <section className="right">
           <AdminCompanyDetails />
-        </section>
+        </section> */}
       </main>
     </>
   );

@@ -161,59 +161,7 @@ main.preferences {
 
 .orders-preference-card {
   .order-preference-content {
-    max-height: calc(100vh - 17.5rem);
     overflow-y: auto;
-
-    .table {
-      .id {
-        max-width: 6.5%;
-        min-width: 6.5%;
-      }
-
-      .size {
-        max-width: 9%;
-        min-width: 9%;
-      }
-
-      .offensivness {
-        max-width: 12.5%;
-        min-width: 12.5%;
-      }
-
-      .type {
-        max-width: 10%;
-        min-width: 10%;
-      }
-
-      .username {
-        max-width: 18%;
-        min-width: 18%;
-      }
-
-      .funds {
-        max-width: 11%;
-        min-width: 11%;
-      }
-
-      .state {
-        max-width: 12.5%;
-        min-width: 12.5%;
-      }
-
-      .date {
-        max-width: 12.5%;
-        min-width: 12.5%;
-      }
-
-      .id.action {
-        max-width: 8%;
-        min-width: 8%;
-
-        .publish {
-          justify-content: center;
-        }
-      }
-    }
   }
 
   .confirm-order-card {

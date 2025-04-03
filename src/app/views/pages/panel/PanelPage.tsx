@@ -15,7 +15,7 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
 import useKeyEventPress from '@stores/keyEvents.ts';
-import { useVerifyScan } from '@stores/useVerifyScan.ts';
+import { useVerifyScan } from '@hooks/useVerifyScan.ts';
 
 export const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/standalones/sidebar/Sidebar.tsx'));

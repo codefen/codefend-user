@@ -43,6 +43,51 @@ export const GlobeWebIcon: FC<IconProps> = ({ name }) => (
   </svg>
 );
 
+export const AlertIcons = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    fill="#EAC452">
+    <path d="m40-120 440-760 440 760H40Zm138-80h604L480-720 178-200Zm302-40q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Zm40-100Z" />
+  </svg>
+);
+
+export const CircleTicket = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+    <path d="m9 11 3 3L22 4"></path>
+  </svg>
+);
+
+export const FileSearchIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round">
+    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+    <path d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"></path>
+    <path d="m9 18-1.5-1.5"></path>
+    <circle cx="5" cy="14" r="3"></circle>
+  </svg>
+);
+
 export const MobileIcon = () => (
   <svg
     strokeWidth={0}

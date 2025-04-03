@@ -4,7 +4,6 @@ import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
 import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
-import useModal from '#commonHooks/useModal.ts';
 import { LocationItem } from '@standalones/utils/LocationItem.tsx';
 import {
   TrashIcon,
@@ -98,9 +97,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { openModal, setResourceID, setResourceType } = useReportStore(
     (state: ReportStoreState) => state
   );
-  const { showModal, setShowModal, showModalStr, setShowModalStr } = useModal();
   const { setCredentialType, setResourceId } = useCredentialStore();
-  const { setIsOpen, setModalId } = useModalStore();
+  const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
   const { autoScan } = useAutoScan();
@@ -123,8 +121,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
       domain: row.resource_domain,
       serverIp: row.main_server,
     });
-    setShowModal(true);
-    setShowModalStr(MODAL_KEY_OPEN.DELETE_WEB);
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.DELETE_WEB);
   };
   const addCreds = (id: string) => {
     setResourceId(id);
@@ -139,15 +137,22 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
       domain: row.resource_domain,
       serverIp: row.main_server,
     });
-    setShowModal(true);
-    setShowModalStr(MODAL_KEY_OPEN.START_AUTO_SCAN);
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.START_AUTO_SCAN);
   };
 
   const punchToScan = async () => {
     const companyID = getCompany();
-    setShowModal(false);
+    setIsOpen(false);
     if (companyIdIsNull(companyID)) return;
-    autoScan(selectedResource.id);
+    autoScan(selectedResource.id).then(result => {
+      setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+      if (result?.error == 1) {
+        setIsOpen(false);
+      } else {
+        setIsOpen(true);
+      }
+    });
   };
 
   const webColumnsWith = [
@@ -193,8 +198,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   return (
     <>
       <ModalTitleWrapper
-        isActive={showModal && showModalStr === MODAL_KEY_OPEN.START_AUTO_SCAN}
-        close={() => setShowModal(false)}
+        isActive={isOpen && modalId === MODAL_KEY_OPEN.START_AUTO_SCAN}
+        close={() => setIsOpen(false)}
         type="med-w"
         headerTitle="Confirm Scan">
         <ConfirmModal
@@ -202,37 +207,37 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
           cancelText="Cancel"
           header="Estas seguro que quieres iniciar un analicis automatico?"
           action={punchToScan}
-          close={() => setShowModal(false)}
+          close={() => setIsOpen(false)}
         />
       </ModalTitleWrapper>
       <AddDomainModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_DOMAIN}
+        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
         onDone={() => refresh()}
-        close={() => setShowModal(false)}
+        close={() => setIsOpen(false)}
       />
       <ModalTitleWrapper
-        isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_WEB}
-        close={() => setShowModal(false)}
+        isActive={isOpen && modalId === MODAL_KEY_OPEN.DELETE_WEB}
+        close={() => setIsOpen(false)}
         type="med-w"
         headerTitle="Delete web resource">
         <ConfirmModal
           header={`Are you sure to remove\n ${selectedResource.domain} - ${selectedResource.serverIp}`}
           cancelText="Cancel"
           confirmText="Delete"
-          close={() => setShowModal(false)}
+          close={() => setIsOpen(false)}
           action={() =>
             handleDelete(() => {
               refresh();
               removeItem(selectedResource.id);
-            }, selectedResource.id).then(() => setShowModal(false))
+            }, selectedResource.id).then(() => setIsOpen(false))
           }
         />
       </ModalTitleWrapper>
 
       <AddSubDomainModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
+        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
         onDone={() => refresh()}
-        close={() => setShowModal(false)}
+        close={() => setIsOpen(false)}
         webResources={webResources}
       />
       <div className="card">
@@ -250,8 +255,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
                 onClick={() => {
                   if (isLoading) return;
 
-                  setShowModal(true);
-                  setShowModalStr(MODAL_KEY_OPEN.ADD_DOMAIN);
+                  setIsOpen(true);
+                  setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
                 }}>
                 Add domain
               </div>
@@ -259,8 +264,8 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
                 onClick={() => {
                   if (isLoading) return;
 
-                  setShowModal(true);
-                  setShowModalStr(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
+                  setIsOpen(true);
+                  setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
                 }}>
                 Add subdomain
               </div>

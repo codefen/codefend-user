@@ -25,6 +25,7 @@ interface Tablev3Props<T> {
   isNeedSearchBar?: boolean;
   isNeedSort?: boolean;
   limit?: number;
+  action?: (val?: any) => void;
 }
 
 const Tablev3: FC<Tablev3Props<any>> = ({
@@ -40,10 +41,15 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   isNeedSearchBar = false,
   limit = 0,
   isNeedSort = true,
+  action,
 }) => {
+  // Estado para manejar el ordenamiento
   const [sort, setSort] = useState<Sort>(initialSort);
+  // Estado para indicar en base a que columna ordena
   const [sortedColumn, setDataSort] = useState<string>(columns[0].key);
+  // Termino de busqueda (Solo cuando el buscador este activo)
   const [term, setTerm] = useState<string>('');
+  // Valores para manejar el selector multiple
   const {
     tableRef,
     isSelecting,
@@ -53,14 +59,17 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     onPointerMove,
     onPointerDown,
   } = useMultipleSelect(isNeedMultipleCheck);
+  // hook para preprocesar datos, ordenar / filtrar
   const preProcessedRows = usePreProcessedRows(
     rows,
     initialOrder,
     sortedColumn,
     sort,
     term,
-    isNeedSort
+    isNeedSort,
+    columns
   );
+  // Memorizo las clases de la tabla
   const tableClassName = useMemo(
     () =>
       `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''}`,
@@ -106,6 +115,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
               isActiveDisable={isActiveDisable}
               isNeedMultipleCheck={isNeedMultipleCheck}
               limit={limit}
+              action={action}
             />
           </div>
         </Show>

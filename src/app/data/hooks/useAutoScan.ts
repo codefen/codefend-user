@@ -5,11 +5,22 @@ import { toast } from 'react-toastify';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();
-
-  // Asumiendo que tienes un contexto global para estos estados
-  const { setScanRunning, setScanStep, setNeuroScanId } = useWelcomeStore();
+  // Setear datos para el scanner
+  const {
+    setScanRunning,
+    setScanStep,
+    setNeuroScanId,
+    saveInitialDomain,
+    setIssueFound,
+    setIssuesParsed,
+  } = useWelcomeStore();
 
   const autoScan = async (resourceId: string) => {
+    setNeuroScanId('');
+    saveInitialDomain('');
+    setScanStep('nonScan');
+    setIssueFound(0);
+    setIssuesParsed(0);
     const formData = new FormData();
     formData.append('model', 'modules/neuroscan/launch');
     formData.append('resource_id', resourceId);
@@ -17,11 +28,12 @@ export const useAutoScan = () => {
     const result = await streamFetch(formData);
 
     if (result) {
-      setScanRunning(true);
       if (result.neuroscan?.id) {
         setNeuroScanId(result.neuroscan.id);
+        saveInitialDomain(result.neuroscan?.resource_address || '');
+        setScanStep('scanner');
+        setScanRunning(true);
       }
-      setScanStep('scanner');
       toast.info(
         result.info ||
           'The scan has started. Please wait a few minutes, and you will see the results.'

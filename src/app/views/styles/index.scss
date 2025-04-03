@@ -303,7 +303,6 @@ main.preferences {
   .left {
     .table {
       .rows {
-        max-height: calc(50vh - 126px);
         overflow-y: auto;
       }
     }

@@ -6,10 +6,16 @@ interface LabelRowProps {
   row: any;
   nextRow?: any;
   columns: any;
+  action?: (val?: any) => void;
 }
 
-const TableSimpleRow: FC<LabelRowProps> = ({ itemDisable, row, nextRow, columns }) => {
-  const handleClick = (e: any, item: any) => {};
+const TableSimpleRow: FC<LabelRowProps> = ({ itemDisable, row, nextRow, columns, action }) => {
+  const handleClick = (e: any, item: any) => {
+    e.preventDefault();
+    if (action) {
+      action(item);
+    }
+  };
 
   return (
     <div className={`item ${itemDisable}`} onClick={e => handleClick(e, row)}>

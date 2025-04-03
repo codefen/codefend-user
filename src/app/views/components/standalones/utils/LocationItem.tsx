@@ -7,10 +7,12 @@ interface LocationItemProps {
 }
 
 export const LocationItem: FC<LocationItemProps> = ({ countryCode, country }) => {
+  const hasCountryCode = countryCode !== '';
+  const countryView = hasCountryCode ? ` ${country}` : country;
   return (
     <>
-      <span className={`flag flag-${countryCode.toLowerCase()}`}></span>
-      <pre>{' ' + country}</pre>
+      {hasCountryCode ? <span className={`flag flag-${countryCode.toLowerCase()}`}></span> : null}
+      <pre>{countryView}</pre>
     </>
   );
 };

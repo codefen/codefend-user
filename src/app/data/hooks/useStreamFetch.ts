@@ -22,6 +22,7 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
 
   const streamFetch = useCallback(
     async (formData: FormData, timeout = 30000): Promise<T | null> => {
+      // Datos base como sesion, base url, company id
       const customAPi = baseUrl;
       const companyID = getCompany();
       const sessionValue = getToken();
@@ -30,7 +31,9 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
       setIsLoading(true);
       setError(null);
 
+      // AbortController para cerrar la conexion
       const controller = new AbortController();
+      // Cierre de conexion luego de 30s por defecto
       const timeoutId = setTimeout(() => controller.abort(), timeout);
 
       try {
@@ -40,32 +43,39 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
           signal: controller.signal,
         });
 
+        // Termina la ejecucion si no hay body
         if (!response.body) {
           throw new Error('No response body');
         }
 
+        // Se crea un "reader" a partir del body para streamear la respuesta
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
+        // Variable para ir construyendo la respuesta del stream
         let receivedText = '';
 
+        // Se ejecuta en bucle hasta que se verifique si:
+        // 1-Valide que la respuesta es un JSON valido, 2-El timeout cierre la conexion y no pueda seguir
         while (true) {
           const { value, done } = await reader.read();
           if (done) break;
-
+          // Construye la respuesta segun va recibiendo texto
           receivedText += decoder.decode(value, { stream: true });
 
           try {
+            // Intenta parsear el JSON si falla quiere decir que la respuesta todabian o es un texto valido
             const jsonData = JSON.parse(receivedText) as T;
+            // Si pasa la linea cierra el JSON es valido y cierra la conexion
             clearTimeout(timeoutId);
             reader.cancel();
             setData(jsonData);
             setIsLoading(false);
             return jsonData;
           } catch (e) {
-            // Sigue intentando con más datos
+            // Si el JSON es invalido entra al catch y vuelve a intentarlo
           }
         }
-
+        // Si llega a este punto quiere decir que la conexion se cerro, pero no encontro ningun JSON valido
         throw new Error('No se pudo obtener un JSON válido de la respuesta');
       } catch (error: any) {
         clearTimeout(timeoutId);
