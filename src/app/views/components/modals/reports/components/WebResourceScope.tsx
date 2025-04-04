@@ -1,6 +1,7 @@
 import { type FC } from 'react';
-import { LocationItem, TableWithoutActions } from '../../..';
 import { type ResourceScope, webResourcesWithoutActions } from '../../../../../data';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import { TableWithoutActions } from '@table/TableWithoutActions';
 
 export const WebResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoading }) => {
   console.log({ resourcesInWeb: resources });

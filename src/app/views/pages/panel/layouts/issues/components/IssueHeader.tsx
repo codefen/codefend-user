@@ -1,5 +1,5 @@
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { LeftArrowIcon, PencilIcon, SaveIcon } from '@icons';
 import type { SaveIssue, UpdateIssue } from '@panelHooks/issues';
 import type { ChangeEvent } from 'react';

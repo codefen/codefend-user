@@ -1,5 +1,5 @@
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { StatAsset } from '@/app/views/pages/auth/newRegister/stat-asset/StatAsset';
-import { SimpleSection } from '@defaults/SimpleSection';
 import { GlobeWebIcon } from '@icons';
 import type { Lead } from '@interfaces/lead';
 import { useState, type FC } from 'react';

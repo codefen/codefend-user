@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 import WebDomainForm from '@/app/views/components/forms/WebDomainForm';

@@ -1,9 +1,9 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import useAuthStore from '@stores/auth.store';
 import { Navigate } from 'react-router';
-import DashboardAssets from '../../panel/layouts/dashboard/components/DashboardAssets/DashboardAssets';
-import { DashboardInvoke } from '@/app/views/pages/auth/newRegister/DashboardInvoke/DashboardInvoke';
-import { RightItemButton } from '@/app/views/pages/auth/newRegister/RightItemButton/RightItemButton';
+import DashboardAssets from '../../../components/DashboardAssets/DashboardAssets';
+import { DashboardInvoke } from '@/app/views/components/DashboardInvoke/DashboardInvoke';
+import { RightItemButton } from '@/app/views/components/RightItemButton/RightItemButton';
 import { NewSigninForm } from '@/app/views/pages/auth/newSignin/NewSigninForm/NewSigninForm';
 
 const recoursesEmpty = {

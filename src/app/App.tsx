@@ -1,9 +1,8 @@
 import { Suspense, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { Loader } from './views/components';
 import { ThemeProvider } from './views/context/ThemeContext';
-import { ErrorBoundary } from './views/components/defaults/ErrorBoundry';
+import { ErrorBoundary } from './views/components/ErrorBoundry/ErrorBoundry';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppRouter } from './router/Routes';
@@ -12,6 +11,7 @@ import { check } from '@tauri-apps/plugin-updater';
 import { UpdateAppModal } from '@modals/UpdateAppModal';
 import { UpdatingModal } from '@modals/UpdatingModal';
 import { useUploadingStore } from '@stores/updating.store';
+import { Loader } from '@/app/views/components/loaders/Loader';
 
 export const App = () => {
   const { setHas, setUpdate, ...updateState } = useUploadingStore();

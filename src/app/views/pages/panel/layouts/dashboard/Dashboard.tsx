@@ -5,17 +5,17 @@ import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx'
 
 import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
-import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
+import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus.tsx';
+import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import './dashboard.scss';
 import { PrimaryButton } from '@buttons/index.ts';
 import { useNavigate } from 'react-router';
-import DashboardAssets from './components/DashboardAssets/DashboardAssets.tsx';
+import DashboardAssets from '../../../../components/DashboardAssets/DashboardAssets.tsx';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
-import { DashboardInvoke } from '@/app/views/pages/auth/newRegister/DashboardInvoke/DashboardInvoke.tsx';
-import { PageLoader } from '@defaults/index.ts';
+import { DashboardInvoke } from '@/app/views/components/DashboardInvoke/DashboardInvoke.tsx';
+import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 
 const Dashboard: React.FC = () => {
   const [showScreen] = useShowScreen();

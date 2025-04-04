@@ -1,6 +1,6 @@
 import { type FC, type FormEvent } from 'react';
 import { useAddMobileResource } from '@resourcesHooks/mobile/useAddMobileResource';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 
 const MobileResourceForm: FC<ComponentEventWithChildren> = ({ close, onDone, children }) => {

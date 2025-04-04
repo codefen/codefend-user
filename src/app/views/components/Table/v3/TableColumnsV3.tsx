@@ -1,7 +1,7 @@
 import { useCallback, type FC } from 'react';
 import { Sort } from '@interfaces/table.ts';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
-import { Show } from '@defaults/index';
+import Show from '@/app/views/components/Show/Show';
 
 interface TableColumnsProps {
   columns: any[];

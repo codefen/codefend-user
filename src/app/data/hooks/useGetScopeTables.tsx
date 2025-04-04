@@ -1,5 +1,5 @@
 import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import type { TableItem } from '@interfaces/table';
 import { memberColumnWithIssue, memberColumnWithoutContact, roleMap } from '@mocks/defaultData';
 import {

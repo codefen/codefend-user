@@ -4,9 +4,9 @@ import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { usePasswordRecovery } from '@userHooks/auth/usePasswordRecovery';
-import CheckEmail from '../auth/CheckEmail';
-import InputFieldWithLabel from '../auth/InputFieldWithLabel';
-import { PasswordRequirements } from '../auth/PasswordRequirements/PasswordRequirements';
+import InputFieldWithLabel from '../InputFieldWithLabel/InputFieldWithLabel';
+import { PasswordRequirements } from '../PasswordRequirements/PasswordRequirements';
+import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 
 const PasswordRecoveryForm: FC<{
   children: (isLoading: boolean) => ReactNode;

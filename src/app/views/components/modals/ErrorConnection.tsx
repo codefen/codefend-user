@@ -1,6 +1,8 @@
+import Show from '@/app/views/components/Show/Show';
 import { ModalWrapper } from '.';
-import { LanIcon, PrimaryButton, Show } from '..';
 import { type NetworkSettingState, useNetworkSettingState } from '../../../data';
+import { PrimaryButton } from '@buttons/index';
+import { LanIcon } from '@icons';
 
 interface ErrorConnectionProps {
   closeModal: () => void;

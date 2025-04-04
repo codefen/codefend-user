@@ -10,7 +10,7 @@ import { AddRepositoryModal } from '@modals/adding-modals/AddRepositoryModal';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { useDeleteSourceCode } from '@resourcesHooks/sourcecode/useDeleteSourceCode';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';

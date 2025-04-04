@@ -27,7 +27,7 @@ const companiesColumn: ColumnTableV3[] = [
   {
     header: 'Plan',
     key: 'plan',
-    styles: 'item-cell-4',
+    styles: 'item-cell-3',
     weight: '6%',
     render: (val: any) => val,
   },
@@ -41,35 +41,35 @@ const companiesColumn: ColumnTableV3[] = [
   {
     header: 'Scans',
     key: 'disponibles_neuroscan',
-    styles: 'item-cell-4',
+    styles: 'item-cell-5',
     weight: '5%',
     render: (val: any) => val,
   },
   {
     header: 'Country',
     key: 'mercado',
-    styles: 'item-cell-3',
+    styles: 'item-cell-6',
     weight: '9%',
     render: (val: any) => val,
   },
   {
     header: 'Website',
     key: 'web',
-    styles: 'item-cell-4',
+    styles: 'item-cell-7',
     weight: '14%',
     render: (val: any) => val,
   },
   {
     header: 'Owner',
     key: 'owner_email',
-    styles: 'item-cell-4',
+    styles: 'item-cell-8',
     weight: '27%',
     render: (val: any) => val,
   },
   {
     header: 'Published',
     key: 'creacion',
-    styles: 'item-cell-4',
+    styles: 'item-cell-9',
     weight: '13%',
     render: (val: any) => (val ? val.split(' ')[0] : '--/--/--'),
   },
@@ -105,6 +105,8 @@ const CompanyIndexView: FC = () => {
         initialOrder="name"
         initialSort={Sort.desc}
         action={company => selectCompany(company)}
+        selected={companySelected}
+        selectedKey="id"
       />
     </div>
   );

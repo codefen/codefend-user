@@ -1,7 +1,7 @@
 import { Suspense, type FC, type ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/views/components/loaders/Loader';
 import {
   AuthPage,
   SignInLayout,

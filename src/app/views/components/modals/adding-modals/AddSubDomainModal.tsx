@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 import { type Webresource } from '@interfaces/panel.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import SubDomainForm from '@/app/views/components/forms/SubDomainForm.tsx';

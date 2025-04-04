@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import '../buttons.scss';
 import './scanButtons.scss';
-import { ButtonLoader } from '../..';
+import { ButtonLoader } from '@/app/views/components/loaders/Loader';
 
 interface RefreshButtonProps {
   action: () => void;

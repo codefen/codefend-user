@@ -2,11 +2,11 @@ import { useRef, type FC } from 'react';
 import type { Member } from '@interfaces/panel';
 import { ExitIcon, PeopleGroupIcon } from '@icons';
 import useModalStore from '@stores/modal.store';
-import { LocationItem } from '@standalones/index';
 import { UserRevokeModal } from '@modals/UserRevokeModal';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import type { ColumnTableV3 } from '@interfaces/table';
 import Tablev3 from '@table/v3/Tablev3';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
 
 interface CollaboratorDataProps {
   isLoading: boolean;

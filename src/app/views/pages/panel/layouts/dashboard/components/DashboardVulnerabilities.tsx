@@ -1,12 +1,12 @@
 import { type FC } from 'react';
-import { RiskScore } from '@standalones/utils/RiskScore';
-import { SimpleSection } from '@defaults/SimpleSection';
 import { BugIcon } from '@icons';
 import { type ColumnTableV3 } from '@interfaces/table';
 import type { Issue } from '@interfaces/dashboard';
-import { ResourceIconText } from '@standalones/utils/ResourceIconText';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
+import { ResourceIconText } from '@/app/views/components/utils/ResourceIconText';
+import { RiskScore } from '@/app/views/components/utils/RiskScore';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface DashboardVulnerabilitiesProps {
   topVulnerabilities: Issue[];

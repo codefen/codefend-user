@@ -1,12 +1,4 @@
 import { type FC, useEffect, useState } from 'react';
-import {
-  BugIcon,
-  ExecutiveSummaryIcon,
-  PageLoader,
-  RiskScore,
-  GlobeWebIcon,
-  DownloadIcon,
-} from '../..';
 import { TableWithoutActions } from '@table/TableWithoutActions';
 import {
   type ReportIssues,
@@ -28,6 +20,9 @@ import { NetworkResourceScope } from './components/NetworkResourceScope';
 import { SourceScope } from './components/SourceScope';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { RiskScore } from '@/app/views/components/utils/RiskScore';
+import { BugIcon, DownloadIcon, ExecutiveSummaryIcon, GlobeWebIcon } from '@icons';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
 
 interface CustomReportProps {
   isModal?: boolean;

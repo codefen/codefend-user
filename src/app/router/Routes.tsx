@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { useRoutes, Navigate, Outlet } from 'react-router-dom';
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/views/components/loaders/Loader';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import {

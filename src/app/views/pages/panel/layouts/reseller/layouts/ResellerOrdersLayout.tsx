@@ -2,7 +2,7 @@ import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useEffect } from 'react';
 import { ResellerHeader } from '../components/ResellerHeader';
 import '../reseller.scss';
-import { ResourceByLocation } from '@standalones/ResourceByLocation';
+import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation';
 import { useResellerOrders } from '@userHooks/resellers/useResellerOrders';
 import { ResellerAllOrders } from '../components/ResellerAllOrders';
 

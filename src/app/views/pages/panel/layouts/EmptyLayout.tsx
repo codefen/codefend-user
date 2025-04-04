@@ -1,5 +1,6 @@
-import Show from '@defaults/Show';
-import { EmptyScreenView, PageLoader } from '@defaults/index';
+import EmptyScreenView from '@/app/views/components/EmptyScreenView/EmptyScreenView';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import Show from '@/app/views/components/Show/Show';
 import type { EmptyFallbackData } from '@interfaces/util';
 import { PureComponent, type ReactNode } from 'react';
 

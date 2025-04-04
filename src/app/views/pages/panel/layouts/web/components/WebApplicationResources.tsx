@@ -4,7 +4,6 @@ import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
 import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
-import { LocationItem } from '@standalones/utils/LocationItem.tsx';
 import {
   TrashIcon,
   GlobeWebIcon,
@@ -21,13 +20,14 @@ import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
-import TextChild from '@standalones/utils/TextChild';
 import { useTableStoreV3 } from '@table/v3/tablev3.store';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { ModalTitleWrapper } from '@modals/index';
 import { useAutoScan } from '@hooks/useAutoScan';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import TextChild from '@/app/views/components/utils/TextChild';
 
 interface WebResourcesProps {
   refresh: () => void;

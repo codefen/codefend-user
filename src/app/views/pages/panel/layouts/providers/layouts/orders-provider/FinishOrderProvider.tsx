@@ -1,5 +1,5 @@
-import EmptyCard from '@defaults/EmptyCard.tsx';
-import Show from '@defaults/Show.tsx';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
+import Show from '@/app/views/components/Show/Show';
 import { useProviderOrderFinished } from '@userHooks/providers/useProviderOrderFinished';
 import { useEffect, useState } from 'react';
 import { FinishOrderCard } from '../../components/finished-order-card/FinishedOrderCard';

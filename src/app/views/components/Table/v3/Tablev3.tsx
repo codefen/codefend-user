@@ -3,13 +3,14 @@ import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
 import TableColumnsV3 from './TableColumnsV3';
 import TableRowsV3 from './TableRowsV3';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import { MagnifyingGlassIcon } from '@icons';
 import { useMultipleSelect } from '@hooks/table/useMultipleSelect';
 import './tablev3.scss';
 import { isShallowEqual } from '@utils/helper';
-import Show from '@defaults/Show';
-import { EmptyCard, PageLoader } from '@defaults/index';
+import Show from '@/app/views/components/Show/Show';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 
 interface Tablev3Props<T> {
   rows: T[];
@@ -26,6 +27,8 @@ interface Tablev3Props<T> {
   isNeedSort?: boolean;
   limit?: number;
   action?: (val?: any) => void;
+  selected?: any;
+  selectedKey?: string;
 }
 
 const Tablev3: FC<Tablev3Props<any>> = ({
@@ -42,6 +45,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   limit = 0,
   isNeedSort = true,
   action,
+  selected,
+  selectedKey,
 }) => {
   // Estado para manejar el ordenamiento
   const [sort, setSort] = useState<Sort>(initialSort);
@@ -116,6 +121,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
               isNeedMultipleCheck={isNeedMultipleCheck}
               limit={limit}
               action={action}
+              selected={selected}
+              selectedKey={selectedKey}
             />
           </div>
         </Show>

@@ -1,7 +1,7 @@
 import { type FC, type FormEvent } from 'react';
 import { useAddWebResource } from '@resourcesHooks/web/useAddWebResources';
 import type { ComponentEventWithChildren } from '@interfaces/util';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 
 const WebDomainForm: FC<ComponentEventWithChildren> = ({ onDone, close, children }) => {
   const { handleAddResource, isLoading, domainName, subdomain_scan } = useAddWebResource(

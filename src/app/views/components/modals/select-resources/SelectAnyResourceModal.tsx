@@ -2,6 +2,15 @@ import { useEffect, useState, type FC } from 'react';
 import type { Issues } from '@interfaces/index';
 import type { ScopeAlias } from '@interfaces/util.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import useModalStore from '@stores/modal.store';
+import { ResourceFigure } from '@/app/views/components/resource-figure/ResourceFigure';
+import { ViewResourcesTable } from './ViewResourcesTable';
+import { useReportStore } from '@stores/report.store';
+import { ViewAppCard } from './ViewAppCard';
+import { useNavigate } from 'react-router';
+import './report-type.scss';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
+import Show from '@/app/views/components/Show/Show';
 import {
   BugIcon,
   CLoudIcon,
@@ -9,17 +18,8 @@ import {
   LanIcon,
   MobileIcon,
   PeopleGroupIcon,
-  Show,
   SourceCodeIcon,
-} from '../..';
-import useModalStore from '@stores/modal.store';
-import { ResourceFigure } from '@standalones/resource-figure/ResourceFigure';
-import { ViewResourcesTable } from './ViewResourcesTable';
-import { useReportStore } from '@stores/report.store';
-import { ViewAppCard } from './ViewAppCard';
-import { useNavigate } from 'react-router';
-import './report-type.scss';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
+} from '@icons';
 
 interface SelectAnyResourceModalProps {
   issues: Issues[];

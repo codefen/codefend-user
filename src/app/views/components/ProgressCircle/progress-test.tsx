@@ -9,7 +9,7 @@ interface AnimatedProgressCircleProps {
 export default function AnimatedProgressCircle({
   progress,
   size = 128,
-  strokeWidth = 10,
+  strokeWidth = 12,
 }: AnimatedProgressCircleProps) {
   const [offset, setOffset] = useState(0);
   const center = size / 2;

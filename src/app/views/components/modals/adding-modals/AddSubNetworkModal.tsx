@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import type { Device } from '@interfaces/panel';
 import type { ComponentEventWithOpen } from '@interfaces/util';
-import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import SubNetworkForm from '@/app/views/components/forms/SubNetworkForm';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 
 interface AddSubNetworkModalProps extends ComponentEventWithOpen {
   internalNetwork: Device[];

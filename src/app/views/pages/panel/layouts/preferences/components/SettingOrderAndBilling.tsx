@@ -1,6 +1,5 @@
 import { type FC } from 'react';
 import { ChartIcon, DocumentTextIcon, ImportantIcon } from '@icons';
-import { SimpleSection } from '@defaults/SimpleSection';
 import type { CompanyOrders } from '@interfaces/preferences';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { TableV2 } from '@table/tablev2';
@@ -10,6 +9,7 @@ import { useQualitySurveyStart } from '@hooks/quality-survey/useQualitySurveySta
 import useOrderScopeStore from '@stores/orderScope.store';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface BillingDataProps {
   isLoading: boolean;

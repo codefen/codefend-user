@@ -1,7 +1,8 @@
 import type { FC, FormEvent, ReactNode } from 'react';
-import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
 import './primaryButton.scss';
+import Show from '@/app/views/components/Show/Show';
+import { ButtonLoader } from '@/app/views/components/loaders/Loader';
 
 enum ButtonStyles {
   RED = 'red',

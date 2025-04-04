@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import { ModalWrapper } from '..';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import './qualitysurvey.scss';
 import { PrimaryButton } from '../..';
 import { ModalGradientHeader } from './QualityFeedbackHeader';

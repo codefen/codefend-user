@@ -224,6 +224,11 @@
     &.label:has(input:checked) {
       background-color: #ffe6e6d6;
     }
+
+    &.selected-item {
+      background: #ffeded;
+      color: #000;
+    }
   }
 
   .item-cell {

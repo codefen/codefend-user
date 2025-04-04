@@ -9,16 +9,17 @@ import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { Link, useSearchParams } from 'react-router';
-import { PageOrbitLoader, Show } from '@defaults/index';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
 import { useUserLocationStore } from '@stores/useLocation.store';
-import { ProgressBar } from './ProgressBar/ProgressBar';
+import { ProgressBar } from '../../../components/ProgressBar/ProgressBar';
 import { AuthInput } from './AuthInput/AuthInput';
 import SelectField from './SelectField';
-import PhoneInput from './PhoneInput/PhoneInput';
-import CheckEmail from './CheckEmail/CheckEmail';
-import { PasswordRequirements } from '@/app/views/components/auth/PasswordRequirements/PasswordRequirements';
+import CheckEmail from '../../../components/CheckEmail/CheckEmail';
+import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
+import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
+import Show from '@/app/views/components/Show/Show';
+import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);

@@ -1,8 +1,8 @@
-import { AuthInput } from '@defaults/AuthInput';
 import { useSignupInvitation } from '@userHooks/auth/useSignupInvitation';
 import { useEffect, type FC, type FormEvent, type ReactNode } from 'react';
 import { useParams } from 'react-router';
-import SelectField from '../auth/AuthSelectedField.tsx';
+import SelectField from '../AuthSelectedField/AuthSelectedField.tsx';
+import { AuthInput } from '@/app/views/components/defaults/AuthInput.tsx';
 
 const roleOptions = [
   { value: '', label: 'role', hidden: true },

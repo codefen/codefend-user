@@ -1,8 +1,8 @@
 import { type FC } from 'react';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import Show from '@defaults/Show.tsx';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import Show from '@/app/views/components/Show/Show';
 import { PreviousMessageIcon } from '@icons';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface SnPreviousSearchesProps {
   isLoading: boolean;

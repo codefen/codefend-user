@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
-import { IssuesPanelMobileAndCloud } from '@standalones/IssuesPanelMobileAndCloud.tsx';
-import { AppCardInfo } from '@standalones/AppCardInfo.tsx';
+import { IssuesPanelMobileAndCloud } from '@/app/views/components/IssuesPanelMobileAndCloud/IssuesPanelMobileAndCloud';
+import { AppCardInfo } from '@/app/views/components/AppCardInfo/AppCardInfo';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ProvidedTestingCredentials } from '@standalones/credential-card/ProvidedTestingCredentials';
-import { VulnerabilityRisk } from '@standalones/VulnerabilityRisk.tsx';
-import { VulnerabilitiesStatus } from '@standalones/VulnerabilitiesStatus.tsx';
+import { ProvidedTestingCredentials } from '@/app/views/components/credential-card/ProvidedTestingCredentials';
+import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
+import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { ResourcesTypes } from '@interfaces/order';
-import OpenOrderButton from '@standalones/OpenOrderButton';
+import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
 
 export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
   const { data, isLoading, refetch } = useGetOneMobile();

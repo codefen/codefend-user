@@ -1,7 +1,8 @@
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
 import { useState } from 'react';
-import { ModalButtons, PencilIcon } from '..';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
+import { PencilIcon } from '@icons';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 
 export const OrderRejectionForm = () => {
   const { setIsRefusing, setRefuseState, allClose, orderId } = useProviderRefuseStore();

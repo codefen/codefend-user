@@ -3,7 +3,7 @@ import { GlobeWebIcon } from '@icons';
 import { type Webresource } from '@interfaces/panel.ts';
 import { useAddSubResource } from '@resourcesHooks/web/useAddSubResources.ts';
 import type { ComponentEventWithChildren } from '@interfaces/util';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 
 interface SubDomainFormProps extends ComponentEventWithChildren {
   webResources: Webresource[];

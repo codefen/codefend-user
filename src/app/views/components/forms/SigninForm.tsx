@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router';
-import { AuthInput } from '@defaults/AuthInput';
+import { AuthInput } from '@/app/views/components/defaults/AuthInput.tsx';
 import { useRef, type FC, type FormEvent, type ReactNode } from 'react';
 import { useLoginAction } from '@userHooks/auth/useLoginAction.ts';
 

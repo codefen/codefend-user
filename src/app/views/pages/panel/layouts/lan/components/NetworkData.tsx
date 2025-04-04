@@ -14,7 +14,7 @@ import ConfirmModal from '@modals/ConfirmModal.tsx';
 import AddAccessPointModal from '@modals/adding-modals/AddAccessPointModal.tsx';
 import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal';
 import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, TrashIcon } from '@icons';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 

@@ -1,11 +1,12 @@
 import { type FC, useEffect, type ChangeEvent, type FormEvent, useState } from 'react';
-import { SearchBar } from '@standalones/SearchBar';
+import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { ScanSearchIcon } from '@icons';
 import Masonry from 'react-masonry-css';
 import { useSns } from '@moduleHooks/sns/useSns.ts';
 import useModal from '#commonHooks/useModal';
 import { SnsLeakedDataModal } from '@/app/views/pages/panel/layouts/sns/components/SnsLeakedDataModal';
-import { PageLoader, Show } from '@defaults/index';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import Show from '@/app/views/components/Show/Show';
 
 const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
   const {

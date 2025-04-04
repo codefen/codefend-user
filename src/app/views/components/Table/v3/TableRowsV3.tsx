@@ -15,6 +15,8 @@ interface TableRowsProps {
   isNeedMultipleCheck: boolean;
   limit: number;
   action?: (val?: any) => void;
+  selected?: any;
+  selectedKey?: string;
 }
 
 const TableRowsV3: FC<TableRowsProps> = ({
@@ -25,6 +27,8 @@ const TableRowsV3: FC<TableRowsProps> = ({
   isNeedMultipleCheck,
   limit,
   action,
+  selected,
+  selectedKey,
 }) => {
   // Se aplica un flat al array para que todos los objetos esten en la misma jeraquita / Necesario por los childs
   const flattenedRows = flattenRows(rows, limit);
@@ -91,6 +95,8 @@ const TableRowsV3: FC<TableRowsProps> = ({
             row={row}
             nextRow={r?.[i + 1]}
             action={action}
+            selected={selected}
+            selectedKey={selectedKey}
           />
         );
       }

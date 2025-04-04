@@ -1,10 +1,10 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import useAuthStore from '@stores/auth.store';
 import { Navigate } from 'react-router';
-import { DashboardInvoke } from './DashboardInvoke/DashboardInvoke';
-import { RightItemButton } from './RightItemButton/RightItemButton';
+import { DashboardInvoke } from '../../../components/DashboardInvoke/DashboardInvoke';
+import { RightItemButton } from '../../../components/RightItemButton/RightItemButton';
 import { NewSignupForm } from './NewSignupForm';
-import DashboardAssets from '../../panel/layouts/dashboard/components/DashboardAssets/DashboardAssets';
+import DashboardAssets from '../../../components/DashboardAssets/DashboardAssets';
 
 const recoursesEmpty = {
   cloud: '0',

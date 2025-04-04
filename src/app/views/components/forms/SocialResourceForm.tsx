@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { useAddSocial } from '@resourcesHooks/social/useAddSocial';
 import { GlobeWebIcon } from '@icons';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 
 export const SocialResourceForm: FC<ComponentEventWithChildren> = ({ close, onDone, children }) => {

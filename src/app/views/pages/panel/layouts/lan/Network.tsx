@@ -5,14 +5,14 @@ import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/views/components/Show/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
 import { ResourcesTypes } from '@interfaces/order.ts';
-import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
+import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
