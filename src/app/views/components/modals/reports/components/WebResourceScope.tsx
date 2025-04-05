@@ -4,7 +4,6 @@ import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import { TableWithoutActions } from '@table/TableWithoutActions';
 
 export const WebResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoading }) => {
-  console.log({ resourcesInWeb: resources });
   const scopeDataTable = resources
     ? resources.map((mainNetwork: any, i: number) => ({
         ID: { value: '', style: '' },
