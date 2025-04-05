@@ -7,7 +7,7 @@ import './qualitysurvey.scss';
 import { QualityFeedbackReporting } from './layouts/QualityFeedbackReporting';
 import { QualityFeedbackTechSupport } from './layouts/QualityFeedbackTechSupport';
 import { QualityFeedbackFinding } from './layouts/QualityFeedbackFinding';
-import { QualityFeedbackComunication } from './layouts/QualityFeedbackComunication';
+import { QualityFeedbackCommunication } from './layouts/QualityFeedbackCommunication';
 import { QualityFeedbackMessage } from './layouts/QualityFeedbackMessage';
 import { QualityFeedbackRevokeAccess } from './layouts/QualityFeedbackRevokeAccess';
 
@@ -40,7 +40,7 @@ export const QualityFeedbackManager = () => {
     return <QualityFeedbackFinding />;
   }
   if (activePhase === QualitySurveyPhase.COMMUNICATION) {
-    return <QualityFeedbackComunication />;
+    return <QualityFeedbackCommunication />;
   }
   if (activePhase === QualitySurveyPhase.MESSAGE) {
     return <QualityFeedbackMessage />;

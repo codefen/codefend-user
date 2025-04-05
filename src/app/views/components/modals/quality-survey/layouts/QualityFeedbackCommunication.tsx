@@ -3,7 +3,7 @@ import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
 import { useQualityCommunication } from '@hooks/quality-survey/useQualityCommunication';
 
-export const QualityFeedbackComunication = () => {
+export const QualityFeedbackCommunication = () => {
   const { isOpen, provider, updatePhase, updateIsOpen, updatePollVal, pollVal } =
     useQualitySurveyStore();
   const sendCommunication = useQualityCommunication();
@@ -63,7 +63,7 @@ export const QualityFeedbackComunication = () => {
             required
           />
           <div className="codefend-radio"></div>
-          3: Adequate timing and comunication.
+          3: Adequate timing and communication.
         </label>
         <label>
           <input
