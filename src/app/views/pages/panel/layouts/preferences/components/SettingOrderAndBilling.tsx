@@ -16,7 +16,7 @@ interface BillingDataProps {
   orders: CompanyOrders[];
 }
 
-const rawOrderCollumns: ColumnTableV3[] = [
+const rawOrderColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
@@ -92,8 +92,8 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => 
     updateViewTransfer(false);
   };
 
-  const orderCollumns = [
-    ...rawOrderCollumns,
+  const orderColumns = [
+    ...rawOrderColumns,
     {
       header: '',
       key: TABLE_KEYS.ACTION,
@@ -136,7 +136,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => 
         <SimpleSection header="ORDERS & BILLING DETAILS" icon={<ChartIcon />}>
           <div className="order-preference-content">
             <Tablev3
-              columns={orderCollumns}
+              columns={orderColumns}
               rows={orders}
               showRows={!isLoading}
               initialOrder="id"

@@ -132,7 +132,7 @@ export const NewSignupForm = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>
-        <div className={css['change-page-contaienr']}>
+        <div className={css['change-page-container']}>
           <Link
             to="/auth/signin"
             className={location.pathname === '/auth/signin' ? css['active-link'] : ''}>

@@ -96,7 +96,11 @@
       "Toastify",
       "tauri",
       "Acirc",
-      "inshadow"
+      "inshadow",
+      "Bichardos",
+      "bichardos",
+      "neuroscan",
+      "myweb"
     ],
     "patterns": [
       {
