@@ -9,6 +9,7 @@ export enum APP_MESSAGE_TOAST {
   SERVER_UPDATED = 'Server updated successfully.',
   COPY_TEXT = 'Text successfully copied to clipboard.',
   FAILURE_COPY = 'Failed to copy text to clipboard.',
+  START_SCAN = 'Starting new scan',
 }
 
 export enum CHATBOX_TEXT {
@@ -99,6 +100,7 @@ export enum WEB_PANEL_TEXT {
   ADD_DOMAIN = 'Domain successfully added.',
   ADD_SUB_DOMAIN = 'Subdomain successfully added.',
   DELETED_WEB = 'Web resources successfully deleted.',
+  VERIFY_DOMAIN = 'Verifying the domain',
 }
 
 export enum AUTH_TEXT {

@@ -5,7 +5,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, isNotEmpty } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
-const verifyDomainName = (domainName: string) => {
+export const verifyDomainName = (domainName: string) => {
   if (!isNotEmpty(domainName)) {
     toast.error(WEB_PANEL_TEXT.INVALID_DOMAIN);
     return true;

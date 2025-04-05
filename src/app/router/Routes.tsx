@@ -47,6 +47,9 @@ import { PageReport } from '@modals/reports/PageReport.tsx';
 import ProtectedRoute from './ProtectedRoute';
 import { NewRegisterPage } from '../views/pages/auth/newRegister/NewRegister';
 import { NewSigninPage } from '@/app/views/pages/auth/newSignin/NewSigninPage';
+import { path } from 'd3';
+import { elements } from 'chart.js';
+import { ScansPage } from '@/app/views/pages/panel/layouts/scans/ScansPage';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -158,6 +161,10 @@ export const AppRouter = () => {
                   { path: 'create/:type', element: <IssuesCreation /> },
                   { path: ':id', element: <IssuesUpdate /> },
                 ],
+              },
+              {
+                path: 'scans',
+                element: <ScansPage />,
               },
             ]
           : []),

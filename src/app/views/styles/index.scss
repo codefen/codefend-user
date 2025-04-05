@@ -690,6 +690,20 @@ main.cloud {
   }
 }
 
+@keyframes scanMove {
+  0% {
+    transform: translateY(-25px);
+  }
+
+  50% {
+    transform: translateY(25px);
+  }
+
+  100% {
+    transform: translateY(-25px);
+  }
+}
+
 @keyframes pulse {
   50% {
     opacity: 0.5;

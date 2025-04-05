@@ -17,6 +17,7 @@ import {
   WorksIcon,
   LeadIcon,
   UsersIcon,
+  ScanIcon,
 } from '@icons';
 
 import './sidebar.scss';
@@ -241,6 +242,14 @@ const Sidebar: FC = () => {
       to: '/sns',
       root: false,
       haveAccess: !isReseller(),
+    },
+    {
+      title: 'Automated Scans',
+      id: 'sidebar_scans',
+      to: '/scans',
+      root: false,
+      icon: <ScanIcon size="1em" />,
+      haveAccess: isNotProviderAndReseller || isProviderWithAccess,
     },
   ];
   const getItems = useCallback((menu: any[]) => {

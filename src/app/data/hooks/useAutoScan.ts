@@ -16,8 +16,7 @@ export const useAutoScan = () => {
     setDomainId,
   } = useWelcomeStore();
 
-  const autoScan = async (resourceId: string) => {
-    console.log('resource id in autoScan: ', { resourceId });
+  const autoScan = async (resourceId: string, openModel: boolean = true) => {
     setNeuroScanId('');
     saveInitialDomain('');
     setIssueFound(0);
@@ -36,7 +35,7 @@ export const useAutoScan = () => {
         setNeuroScanId(result.neuroscan.id);
         saveInitialDomain(result.neuroscan?.resource_address || '');
         setScanStep('scanner');
-        setScanRunning(true);
+        setScanRunning(openModel);
       }
       toast.info(
         result.info ||
