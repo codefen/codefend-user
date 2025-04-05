@@ -206,7 +206,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
         <ConfirmModal
           confirmText="Confirm"
           cancelText="Cancel"
-          header="Estas seguro que quieres iniciar un analicis automatico?"
+          header="Are you sure you want to start an automatic analysis?"
           action={punchToScan}
           close={() => setIsOpen(false)}
         />

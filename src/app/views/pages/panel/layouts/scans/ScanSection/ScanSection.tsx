@@ -69,7 +69,7 @@ export const ScanSection = () => {
   const { getCompany } = useUserData();
   const { scans } = useVerifyScanList();
 
-  const dff = (id: any) => {
+  const killScan = (id: any) => {
     fetcher('post', {
       body: {
         model: 'modules/neuroscan/kill',
@@ -90,7 +90,7 @@ export const ScanSection = () => {
       weight: '6%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
-          <span title="Delete" onClick={() => dff(row.id)}>
+          <span title="Delete" onClick={() => killScan(row.id)}>
             <TrashIcon />
           </span>
         </div>

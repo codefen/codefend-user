@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { hasLowerCase, hasMinChars, hasStrNumber, hasUpperCase } from '@/app/constants/validations';
-import css from './passwrodrequitenments.module.scss';
+import css from './passwordRequirements.module.scss';
 
 interface PasswordRequirementsProps {
   password: string;

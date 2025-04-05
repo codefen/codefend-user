@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import css from './prgressCircle.module.scss';
+import css from './progressCircle.module.scss';
 
 interface ProgressCircle {
   progress: number;

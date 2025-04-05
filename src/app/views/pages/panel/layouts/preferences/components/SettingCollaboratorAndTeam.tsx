@@ -14,7 +14,7 @@ interface CollaboratorDataProps {
   refetch: () => void;
 }
 
-const rawCollaboratorCollumns: ColumnTableV3[] = [
+const rawCollaboratorColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
@@ -80,8 +80,8 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({ members, isLoad
     setIsOpen(true);
   };
 
-  const collaboratorCollumns = [
-    ...rawCollaboratorCollumns,
+  const collaboratorColumns = [
+    ...rawCollaboratorColumns,
     {
       header: '',
       key: TABLE_KEYS.ACTION,
@@ -123,7 +123,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({ members, isLoad
           </div>
         </div>
         <Tablev3
-          columns={collaboratorCollumns}
+          columns={collaboratorColumns}
           rows={members}
           showRows={!isLoading}
           initialOrder="id"
