@@ -64,7 +64,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     onPointerMove,
     onPointerDown,
   } = useMultipleSelect(isNeedMultipleCheck);
-  // hook para preprocesar datos, ordenar / filtrar
+  // hook for preprocessing data, sorting / filtering
   const preProcessedRows = usePreProcessedRows(
     rows,
     initialOrder,
@@ -74,7 +74,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     isNeedSort,
     columns
   );
-  // Memorizo las clases de la tabla
+  // I memorize the classes of the table
   const tableClassName = useMemo(
     () =>
       `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''}`,
