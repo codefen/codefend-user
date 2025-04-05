@@ -1,5 +1,5 @@
-import EmptyCard from '@defaults/EmptyCard';
-import Show from '@defaults/Show';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
+import Show from '@/app/views/components/Show/Show';
 import { useCurrentOrders } from '@userHooks/providers/useCurrentOrders';
 import { useEffect, useState } from 'react';
 import { CurrentOrderCard } from '../../components/current-order-card/CurrentOrderCard';

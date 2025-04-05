@@ -6,13 +6,13 @@ import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/views/components/Show/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import { socialEmptyScreen } from '@/app/constants/app-texts.ts';
 import { ResourcesTypes } from '@interfaces/order.ts';
-import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
+import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();

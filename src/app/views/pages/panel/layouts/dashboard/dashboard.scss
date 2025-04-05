@@ -1,5 +1,3 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
 main.dashboard {
   .left {
     .card {
@@ -24,7 +22,7 @@ main.dashboard {
     }
   }
 
-  @include mixin.respond(large) {
+  @media only screen and (max-width: 1480px) {
     .right {
       .card {
         &.risk-chart {

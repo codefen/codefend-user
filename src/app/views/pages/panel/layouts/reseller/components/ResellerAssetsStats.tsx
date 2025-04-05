@@ -1,4 +1,4 @@
-import { StatAsset } from '@standalones/stat-asset/StatAsset';
+import { StatAsset } from '@/app/views/pages/auth/newRegister/stat-asset/StatAsset';
 import { useState, type ReactNode, type FC } from 'react';
 
 export interface Asset {

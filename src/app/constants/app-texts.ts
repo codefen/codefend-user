@@ -31,6 +31,8 @@ export enum MODAL_KEY_OPEN {
   ADD_DOMAIN = 'add_domain',
   ADD_SUB_DOMAIN = 'add_subdomain',
 
+  START_AUTO_SCAN = 'confirm_autoscan_web',
+
   DELETE_NETWORK = 'delete_resource',
   DELETE_TICKET = 'delete_ticket',
   DELETE_SOURCE = 'delete_resource',
@@ -52,6 +54,10 @@ export enum MODAL_KEY_OPEN {
   USER_WELCOME = 'open-w',
   USER_GUIDE = 'open-g',
   USER_NEXUS_WELCOME = 'open-n',
+
+  USER_WELCOME_DOMAIN = 'owund',
+  USER_WELCOME_SCAN = 'ouwss',
+  USER_WELCOME_FINISH = 'ouwfsf',
 
   USER_SELECT_RESOURCE = 'open-lfr',
 }

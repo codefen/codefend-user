@@ -1,8 +1,8 @@
 import { useRef, type FC } from 'react';
 import { GlobeWebIcon } from '@icons';
 import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud.ts';
-import { ModalTextArea } from '@defaults/ModalTextArea';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 

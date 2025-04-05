@@ -1,9 +1,9 @@
 import { Suspense, useEffect, lazy, useMemo, useCallback } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/views/components/loaders/Loader.tsx';
 import { FlashLightProvider } from '../../context/FlashLightContext.tsx';
-import { WelcomeGroupTour } from '@standalones/welcome/WelcomeGroupTour.tsx';
+import { WelcomeGroupTour } from '@/app/views/components/welcome/WelcomeGroupTour.tsx';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager.tsx';
 import '/public/flags/flags.css';
@@ -15,22 +15,24 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
 import useKeyEventPress from '@stores/keyEvents.ts';
+import { useVerifyScan } from '@hooks/useVerifyScan.ts';
 
-export const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar.tsx'));
-export const Sidebar = lazy(() => import('../../components/standalones/sidebar/Sidebar.tsx'));
+export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
+export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
 export const ErrorConnection = lazy(() => import('../../components/modals/ErrorConnection.tsx'));
 export const MobileFallback = lazy(
-  () => import('../../components/defaults/mobile-fallback/MobileFallback.tsx')
+  () => import('../../components/mobile-fallback/MobileFallback.tsx')
 );
 
 export const PanelPage = () => {
   const location = useLocation();
-  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
   const { setKeyPress } = useKeyEventPress();
   const matches = useMediaQuery('(min-width: 1175px)');
-  const { isAuth, logout, getUserdata, updateAuth } = useUserData();
+  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
+  const { isAuth, getUserdata, updateAuth, logout } = useUserData();
   const { getProviderCompanyAccess } = useProviderCompanies();
   useUserCommunicated();
+  useVerifyScan();
 
   const modals = useMemo(
     () => ({
@@ -68,7 +70,7 @@ export const PanelPage = () => {
         e.stopPropagation();
       })
     );
-    if (getUserdata().access_role === 'provider') {
+    if (getUserdata()?.access_role === 'provider') {
       getProviderCompanyAccess();
     }
     return () => {

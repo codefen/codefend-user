@@ -5,7 +5,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, isNotEmpty } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
-const verifyDomainName = (domainName: string) => {
+export const verifyDomainName = (domainName: string) => {
   if (!isNotEmpty(domainName)) {
     toast.error(WEB_PANEL_TEXT.INVALID_DOMAIN);
     return true;
@@ -17,6 +17,7 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
   const { getCompany } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
   const domainName = useRef<HTMLInputElement>(null);
+  const subdomain_scan = useRef<HTMLInputElement>(null);
 
   const handleAddResource = () => {
     if (verifyDomainName(domainName.current?.value || '')) return;
@@ -34,6 +35,7 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
         model: 'resources/web/add',
         company_id: companyID,
         resource_address_domain: domainName.current?.value || '',
+        subdomain_scan: subdomain_scan.current?.checked ? 'yes' : 'no',
       },
       timeout: 180000,
     })
@@ -48,5 +50,5 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
       .catch((error: any) => toast.error(error.message));
   };
 
-  return { handleAddResource, isLoading, domainName };
+  return { handleAddResource, isLoading, domainName, subdomain_scan };
 };

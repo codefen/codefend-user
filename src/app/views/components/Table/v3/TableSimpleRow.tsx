@@ -6,13 +6,31 @@ interface LabelRowProps {
   row: any;
   nextRow?: any;
   columns: any;
+  action?: (val?: any) => void;
+  selected?: any;
+  selectedKey?: string;
 }
 
-const TableSimpleRow: FC<LabelRowProps> = ({ itemDisable, row, nextRow, columns }) => {
-  const handleClick = (e: any, item: any) => {};
+const TableSimpleRow: FC<LabelRowProps> = ({
+  itemDisable,
+  row,
+  nextRow,
+  columns,
+  action,
+  selected,
+  selectedKey,
+}) => {
+  const handleClick = (e: any, item: any) => {
+    e.preventDefault();
+    if (action) {
+      action(item);
+    }
+  };
 
   return (
-    <div className={`item ${itemDisable}`} onClick={e => handleClick(e, row)}>
+    <div
+      className={`item ${itemDisable} ${!!selected && selected?.[selectedKey as keyof typeof selected] === row?.[selectedKey as keyof typeof row] ? 'selected-item' : ''}`}
+      onClick={e => handleClick(e, row)}>
       <TableCellV3 row={row} nextRow={nextRow} columns={columns} />
     </div>
   );

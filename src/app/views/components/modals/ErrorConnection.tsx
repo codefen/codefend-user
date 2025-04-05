@@ -1,6 +1,8 @@
+import Show from '@/app/views/components/Show/Show';
 import { ModalWrapper } from '.';
-import { LanIcon, PrimaryButton, Show } from '..';
 import { type NetworkSettingState, useNetworkSettingState } from '../../../data';
+import { PrimaryButton } from '@buttons/index';
+import { LanIcon } from '@icons';
 
 interface ErrorConnectionProps {
   closeModal: () => void;
@@ -40,7 +42,7 @@ const ErrorConnection = (props: ErrorConnectionProps) => {
             <p>
               Should the issue persist and you require assistance, please contact{' '}
               <a className="codefend-text-red" href="mailto:offline@codefend.com" target="_blank">
-                <strong>offline@codefend.com.</strong>
+                <strong>offline@codefend.com</strong>
               </a>
             </p>
           </div>
@@ -49,10 +51,10 @@ const ErrorConnection = (props: ErrorConnectionProps) => {
           </p>
           <div className="error-buttons ">
             <PrimaryButton
-              text="Go to Network Settings"
+              text="Try refresh"
               click={(e: any) => {
                 props.closeModal();
-                setNetworkSettingState(true);
+                window.location.reload();
               }}
               className="btn-cancel codefend_secondary_ac btn-error-con"
               buttonStyle="black"

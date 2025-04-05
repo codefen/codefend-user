@@ -1,0 +1,25 @@
+.welcome-modal-container {
+  padding-inline: 2rem;
+  padding-block: 1rem;
+  max-width: 600px;
+
+  .scan-img {
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    margin-inline: auto;
+    margin-block-start: 1rem;
+  }
+}
+
+.welcome-text {
+  line-height: 2rem;
+}
+
+.welcome-modal-container .btn-add {
+  margin-inline-start: auto;
+  padding-inline: 30px;
+}
+
+:global(body[data-theme='dark'] .modal).welcome-modal-container {
+  background-color: #000;
+}

@@ -1,8 +1,9 @@
 import { useEffect, type FC, type ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import './modal.scss';
-import { CloseIcon, Show } from '../..';
 import useKeyEventPress from '@stores/keyEvents';
+import Show from '@/app/views/components/Show/Show';
+import { CloseIcon } from '@icons';
 
 interface ModalWrapper {
   children: ReactNode;
@@ -49,7 +50,7 @@ const ModalWrapper: FC<ModalWrapper> = ({
       className={`modal-wrapper ${className}`}
       role="dialog"
       aria-modal="true">
-      <article
+      <div
         className={`modal ${!isErrorBox ? type : ''}`}
         onDoubleClick={e => {
           e.nativeEvent.stopImmediatePropagation();
@@ -61,7 +62,7 @@ const ModalWrapper: FC<ModalWrapper> = ({
           </span>
         </Show>
         {children}
-      </article>
+      </div>
     </div>,
     root
   );

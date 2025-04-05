@@ -1,4 +1,4 @@
-import { SimpleSection } from '@defaults/SimpleSection';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { ChartIcon } from '@icons';
 import { useBarsGraph } from '@userHooks/resellers/useBarsGraph';
 import { useEffect } from 'react';

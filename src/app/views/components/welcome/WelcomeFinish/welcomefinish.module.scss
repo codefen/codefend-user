@@ -1,0 +1,84 @@
+.welcome-modal-container {
+  padding-inline: 2rem;
+  padding-block: 1rem;
+  max-width: 600px;
+}
+
+.welcome-text {
+  line-height: 2rem;
+}
+
+.welcome-modal-container .btn-close {
+  margin-inline-start: auto;
+  padding-inline: 30px;
+}
+
+.welcome-loader {
+  margin-inline: auto;
+}
+
+.text-box {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.finish-text {
+  margin-block: 1rem;
+  line-height: 1.7rem;
+  font-size: 1.35rem;
+  color: var(--tertiary-color-500);
+
+  b {
+    justify-content: flex-start;
+  }
+}
+
+.finish-issues-found {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.svg-green svg {
+  color: rgb(33 193 92);
+}
+
+.finish-vuln-box {
+  background: var(--primary-color-100);
+  border-radius: 0.25rem;
+  padding: 1rem;
+  text-align: center;
+  line-height: 2.5rem;
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  span {
+    font-size: 1.75rem;
+    font-weight: bold;
+  }
+}
+
+.loader-animate-spin {
+  animation: spin 3.5s linear infinite;
+  margin-inline: auto;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:global(body[data-theme='dark'] .modal).welcome-modal-container {
+  background: #000;
+}

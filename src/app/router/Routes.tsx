@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { useRoutes, Navigate, Outlet } from 'react-router-dom';
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/views/components/loaders/Loader';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import {
@@ -45,6 +45,11 @@ import { HelpNotfound } from '../views/pages/help-center/HelpNotfound';
 import { InvitationSignup } from '../views/pages/auth/layouts/InvitationSignup';
 import { PageReport } from '@modals/reports/PageReport.tsx';
 import ProtectedRoute from './ProtectedRoute';
+import { NewRegisterPage } from '../views/pages/auth/newRegister/NewRegister';
+import { NewSigninPage } from '@/app/views/pages/auth/newSignin/NewSigninPage';
+import { path } from 'd3';
+import { elements } from 'chart.js';
+import { ScansPage } from '@/app/views/pages/panel/layouts/scans/ScansPage';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -157,6 +162,10 @@ export const AppRouter = () => {
                   { path: ':id', element: <IssuesUpdate /> },
                 ],
               },
+              {
+                path: 'scans',
+                element: <ScansPage />,
+              },
             ]
           : []),
         // Non-reseller routes
@@ -196,12 +205,18 @@ export const AppRouter = () => {
       ],
     },
     {
+      path: 'auth/signup',
+      element: <NewRegisterPage />,
+    },
+    {
+      path: 'auth/signin',
+      element: <NewSigninPage />,
+    },
+    {
       path: 'auth/*',
       element: <AuthPage />,
       children: [
         { index: true, element: <Navigate to="signin" replace /> },
-        { path: 'signin', element: <SignInLayout /> },
-        { path: 'signup', element: <SignUpLayout /> },
         { path: 'signup/invitation', element: <InvitationSignup /> },
         { path: 'signup/invitation/:ref', element: <InvitationSignup /> },
         { path: 'confirmation', element: <ConfirmationSignUp /> },

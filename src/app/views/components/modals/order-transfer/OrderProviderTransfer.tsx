@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useFinishForwardOrder } from '@userHooks/providers/useFinishForwardOrder';
 import { PROVIDER_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import './ordertransfer.scss';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 

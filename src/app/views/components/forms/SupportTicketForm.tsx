@@ -1,8 +1,8 @@
 import { type FC, type FormEvent } from 'react';
 import { useAddTicket } from '@panelHooks/support/useAddTicket.ts';
 import type { ComponentEventWithChildren } from '@interfaces/util.ts';
-import { ModalInput } from '@defaults/ModalInput.tsx';
-import { ModalTextArea } from '@defaults/ModalTextArea.tsx';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
 
 const SupportTicketForm: FC<ComponentEventWithChildren> = ({ onDone, close, children }) => {
   const { isAddingTicket, addTicket, title, shortDescription } = useAddTicket();

@@ -7,13 +7,13 @@ import {
   useDoughnutChart,
   osPercentCountColumns,
 } from '../../../../../../data';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import EmptyCard from '@defaults/EmptyCard.tsx';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
-import Show from '@defaults/Show.tsx';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
+import Show from '@/app/views/components/Show/Show';
 import { ChartIcon } from '@icons';
 import { TableV2 } from '@table/tablev2.ts';
 import { Doughnut } from 'react-chartjs-2';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface LanNetworksChartProps {
   isLoading: boolean;

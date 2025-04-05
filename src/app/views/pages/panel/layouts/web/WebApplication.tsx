@@ -9,11 +9,11 @@ import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import '@table/table.scss';
 import './webapplication.scss';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ResourceByLocation } from '@standalones/ResourceByLocation.tsx';
+import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
 import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
-import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
+import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import { ResourcesTypes } from '@interfaces/order.ts';
 
 const WebApplicationView = () => {

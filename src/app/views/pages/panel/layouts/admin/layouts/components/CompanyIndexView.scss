@@ -1,12 +1,15 @@
-@import '../../../../../../styles/settings/mixin';
-
 .CompanyIndexView {
   height: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 1.5rem;
+  margin-top: -1rem;
   width: 100%;
   overflow: hidden;
+
+  .table-group {
+    overflow: auto;
+    margin-inline: 3rem;
+  }
 
   .company-search {
     width: 100%;
@@ -35,11 +38,11 @@
 
       transition: all 150ms ease;
 
-      @include respond(medium) {
+      @media only screen and (max-width: 900px) {
         width: 70%;
       }
 
-      @include respond(small) {
+      @media only screen and (max-width: 600px) {
         width: 100%;
       }
 

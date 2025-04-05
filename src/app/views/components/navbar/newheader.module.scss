@@ -1,0 +1,176 @@
+.headerContainer {
+  position: relative;
+  container-type: inline-size;
+  --header-default-color: var(--tertiary-color-50);
+}
+
+.headerContainer::after {
+  content: '.';
+  position: relative;
+  color: transparent;
+  background: linear-gradient(90deg, rgb(254 78 78) 0%, rgb(203 34 34) 55%);
+  height: 4px;
+  width: 100cqw;
+  display: block;
+  user-select: none;
+}
+
+.header {
+  display: flex;
+  height: var(--navbar-height);
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-color-500);
+}
+
+.headerLeft {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all ease 0.2s;
+
+  a {
+    --left-item-background: var(--primary-color-400);
+    --left-item-color: var(--header-default-color);
+    --item-filter-color: brightness(0.9);
+    background-color: var(--left-item-background);
+    color: var(--left-item-color);
+    min-width: 55px;
+    border-color: var(--primary-color-250);
+    border-style: solid;
+    border-right-width: 2px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all ease 0.2s;
+
+    .codefendIcon {
+      filter: var(--item-filter-color);
+      transition: all ease 0.3s;
+    }
+
+    &:hover {
+      --left-item-background: var(--primary-color-600);
+      --left-item-color: var(--secondary-color-50);
+      --item-filter-color: invert(0%) sepia(100%) saturate(1000%) hue-rotate(-50deg) brightness(0.9)
+        contrast(13);
+    }
+
+    &.active {
+      --left-item-color: var(--secondary-color-200);
+      --item-filter-color: invert(0%) sepia(100%) saturate(1000%) hue-rotate(-50deg) brightness(0.9)
+        contrast(13);
+    }
+  }
+}
+
+.headerRight {
+  height: 100%;
+  --right-item-color: var(--header-default-color);
+  --right-item-background: var(--primary-color-300);
+
+  display: flex;
+
+  .rightItem {
+    color: var(--right-item-color);
+    border-color: var(--primary-color-250);
+    background-color: var(--right-item-background);
+    border-style: solid;
+    border-left-width: 2px;
+    min-width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-inline: 1rem;
+    transition: all ease 0.2s;
+    position: relative;
+
+    &:hover {
+      --right-item-color: var(--tertiary-color-100);
+      --right-item-background: var(--primary-color-200);
+    }
+  }
+
+  .rightItemLogout {
+    --right-item-color: var(--secondary-color-300);
+
+    &:hover {
+      --right-item-color: var(--secondary-color-200);
+    }
+  }
+}
+
+.loader-animate-spin {
+  animation: spin 4.5s linear infinite;
+  margin-inline: auto;
+}
+
+.step-text {
+  position: absolute;
+  font-size: 0.65rem;
+  font-weight: 500;
+  bottom: 20%;
+  right: 15%;
+  color: var(--tertiary-color-400);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:global([data-theme='light']) {
+  .headerContainer {
+    --header-default-color: var(--tertiary-color-500);
+  }
+
+  .headerLeft {
+    a {
+      --item-filter-color: invert(100%) brightness(0.9) contrast(1.4);
+      border-color: var(--tertiary-color-100);
+
+      &:hover {
+        --left-item-color: var(--secondary-color-200);
+        --item-filter-color: sepia(100%) saturate(900%) hue-rotate(-232deg) invert(150%)
+          brightness(1.2) contrast(2);
+
+        .codefendIcon {
+          mix-blend-mode: multiply;
+        }
+      }
+
+      &.active {
+        --item-filter-color: sepia(100%) saturate(900%) hue-rotate(-232deg) invert(150%)
+          brightness(1.2) contrast(2);
+      }
+    }
+  }
+
+  .headerRight {
+    .rightItem {
+      border-color: var(--primary-color-600);
+
+      &:hover {
+        border-color: var(--tertiary-color-50);
+        --right-item-color: var(--tertiary-color-500);
+        --right-item-background: var(--tertiary-color-50);
+      }
+    }
+
+    .rightItemLogout {
+      --right-item-color: var(--secondary-color-150);
+
+      &:hover {
+        --right-item-color: var(--secondary-color-300);
+      }
+    }
+  }
+}

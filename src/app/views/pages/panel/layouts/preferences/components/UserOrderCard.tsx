@@ -1,10 +1,10 @@
 import { type FC } from 'react';
 import { ScopeOption, type OrderOffensive, type OrderTeamSize } from '../../../../../../data';
 import { BugIcon } from '@icons';
-import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
-import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
+import { OrderCardTemplate } from '@/app/views/components/order-card-template/OrderCardTemplate';
+import { IconTextPairs } from '@/app/views/components/textpair/IconTextPairs';
 import { PrimaryButton } from '@buttons/index';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import '../../providers/components/ordercards.scss';
 import { useQualitySurveyStart } from '@hooks/quality-survey/useQualitySurveyStart';

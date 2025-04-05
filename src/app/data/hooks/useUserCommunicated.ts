@@ -84,7 +84,7 @@ export const useUserCommunicated = () => {
       data.length > 0 ? data.filter((item: any) => item.solved === 'unsolved') : [];
     if (notifications.length > 0) {
       const open = handleWelcomeNotification(notifications, anyModalIsOpen, () => {
-        setModalId(MODAL_KEY_OPEN.USER_WELCOME);
+        setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
         setIsOpen(true);
       });
       if (!open) {

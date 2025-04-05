@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { ResellerHeader } from '../components/ResellerHeader';
 import '../reseller.scss';
 import { useResellerCompanies } from '@userHooks/resellers/useResellerCompanies';
-import { ResourceByLocation } from '@standalones/ResourceByLocation';
-import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
-import { LocationItem } from '@standalones/utils/LocationItem';
+import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation';
+import { SimpleSectionWithTable } from '@/app/views/components/SimpleSectionWithTable/SimpleSectionWithTable';
 import type { Company } from '@interfaces/company';
 import { resellerCompanyColumns } from '@mocks/defaultData';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
 
 const ResellerCompaniesLayout = () => {
   const [showScreen] = useShowScreen();

@@ -11,7 +11,7 @@ import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import './sourcecode.scss';
 import { sourceEmptyScreen } from '@/app/constants/app-texts.ts';
-import OpenOrderButton from '@standalones/OpenOrderButton.tsx';
+import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import { ResourcesTypes } from '@interfaces/order.ts';
 
 const SourceCodePanel: FC = () => {

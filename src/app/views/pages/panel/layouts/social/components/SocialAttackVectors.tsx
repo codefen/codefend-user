@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 import { ChartIcon } from '@icons';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
 import { defaultSocialAttackVectors } from '@mocks/defaultData.ts';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface SocialAttackVectorsProps {
   defaultSocialAttackVectors?: Record<string, 'enabled' | 'disabled'>;

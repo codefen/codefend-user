@@ -1,7 +1,8 @@
 import { type FC } from 'react';
-import { MoonIcon, Show, SunIcon } from '../..';
 import { useTheme } from '../../../context/ThemeContext';
 import './themeChanger.scss';
+import Show from '@/app/views/components/Show/Show';
+import { MoonIcon, SunIcon } from '@icons';
 
 export const ThemeChangerButton: FC<{ activeText?: boolean }> = ({ activeText }: any) => {
   const { theme, changeTheme } = useTheme();

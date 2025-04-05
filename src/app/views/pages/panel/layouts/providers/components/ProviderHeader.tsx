@@ -1,11 +1,11 @@
 import { useEffect, type FC } from 'react';
-import { StarRating } from '@standalones/utils/StarRating.tsx';
-import { IconTextPairs } from '@standalones/textpair/IconTextPairs.tsx';
+import { IconTextPairs } from '@/app/views/components/textpair/IconTextPairs';
 import { CircleAskIcon, LocationIcon, VerificationIcon } from '@icons';
 
 import { formatToMonthYear } from '@utils/helper.ts';
 import { useProviderProfile } from '@hooks/users/providers/useProviders.ts';
-import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
+import { ProfileHeader } from '@/app/views/components/profileheader/ProfileHeader';
+import { StarRating } from '@/app/views/components/utils/StarRating';
 
 export const ProviderHeader: FC = () => {
   const { providerProfile, refetch, setProvider } = useProviderProfile();

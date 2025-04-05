@@ -7,7 +7,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 export interface ReportFrontpageProps {
   resourceDomainText: string;
 }
-const Logo = lazy(() => import('../../../defaults/Logo'));
+const Logo = lazy(() => import('../../../Logo/Logo'));
 
 export const ReportFrontpage: FC<ReportFrontpageProps> = props => {
   const { companySelected } = useAdminCompanyStore();

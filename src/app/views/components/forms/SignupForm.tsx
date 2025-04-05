@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router';
 import { companySizesList } from '@mocks/defaultData.ts';
 import { countries } from '@/app/constants/countries';
-import { AuthInput } from '@defaults/AuthInput';
 import { useRegisPhaseOne } from '@userHooks/auth/useRegisPhaseOne';
 import { useDefineUserReseller } from '@userHooks/auth/useDefineUserReseller';
-import { TermsOfUse } from '../auth/TermsOfUse.tsx';
-import SelectField from '../auth/AuthSelectedField.tsx';
+import { TermsOfUse } from '../TermsOfUse/TermsOfUse.tsx';
+import SelectField from '../AuthSelectedField/AuthSelectedField.tsx';
 import type { FC, FormEvent, ReactNode } from 'react';
+import { AuthInput } from '@/app/views/components/defaults/AuthInput.tsx';
 
 export const SignupForm: FC<{
   children: (isLoading: boolean) => ReactNode;

@@ -1,4 +1,22 @@
-export const defaultCountries = [
+export type Countries =
+  | {
+      name: string;
+      alpha2Code: string;
+      alpha3Code: string;
+      numericCode: string;
+      flag: string;
+      callingCodes: string[];
+    }
+  | {
+      name: string;
+      alpha2Code: string;
+      alpha3Code: string;
+      numericCode: null;
+      flag: string;
+      callingCodes: string[];
+    };
+
+export const defaultCountries: Countries[] = [
   {
     name: 'Afghanistan',
     alpha2Code: 'AF',

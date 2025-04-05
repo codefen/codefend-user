@@ -1,5 +1,5 @@
 import useAdminCompanyStore from '@stores/adminCompany.store';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 
 const AdminCompanyDetails = () => {
   const { companySelected } = useAdminCompanyStore(state => state);

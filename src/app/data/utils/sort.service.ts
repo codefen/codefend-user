@@ -188,10 +188,10 @@ export const flatten = (resource: any, arr: any[]) => {
   }
 };
 
-export const flattenRows = (rows: any[]): any[] => {
+export const flattenRows = (rows: any[], limit: number): any[] => {
   const flattened: any[] = [];
   for (const resource of rows) {
     flatten(resource, flattened);
   }
-  return flattened;
+  return limit !== 0 ? flattened.slice(0, limit) : flattened;
 };

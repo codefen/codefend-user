@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router';
-import { AuthInput } from '@defaults/AuthInput';
 import { useEffect, useState, type FC, type FormEvent, type ReactNode } from 'react';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
@@ -7,7 +6,8 @@ import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { useRecomendedUsername } from '#commonUserHooks/useRecomendedUsername';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import type { RegisterFinishParams } from '@interfaces/auth';
-import { PasswordRequirements } from '../auth/PasswordRequirements';
+import { PasswordRequirements } from '../PasswordRequirements/PasswordRequirements';
+import { AuthInput } from '@/app/views/components/defaults/AuthInput';
 
 const FinishSignupForm: FC<{
   children: (isLoading: boolean) => ReactNode;

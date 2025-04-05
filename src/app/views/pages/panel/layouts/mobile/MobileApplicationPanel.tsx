@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/views/components/Show/Show';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useMobile } from '@resourcesHooks/mobile/useMobile.ts';
 import useModal from '#commonHooks/useModal.ts';
 
 import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
-import { ListResourceWithSearch } from '@standalones/ListResourceWithSearch';
+import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithSearch/ListResourceWithSearch';
 import { MobileSelectedDetails } from './components/MobileSelectedDetails';
 import EmptyLayout from '../EmptyLayout';
 import { useSelectedApp } from '@resourcesHooks/useSelectedApp';

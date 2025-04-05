@@ -2,8 +2,8 @@ import { type FC } from 'react';
 import { type ComponentEventWithChildren, type Device } from '../../../data';
 import { GlobeWebIcon } from '@icons';
 import { useAddLanV2 } from '@resourcesHooks/network/useAddLanV2';
-import { ModalInput } from '@defaults/ModalInput';
-import { ModalTextArea } from '@defaults/ModalTextArea';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
 
 interface SubNetworkFormProps extends ComponentEventWithChildren {
   internalNetwork: Device[];

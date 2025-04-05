@@ -1,14 +1,15 @@
 import { type FC, useEffect, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router';
-import { PageLoader, PageLoaderOverlay } from '@defaults/loaders/Loader.tsx';
+import { PageLoader, PageLoaderOverlay } from '@/app/views/components/loaders/Loader.tsx';
 import { type UpdateIssue, useUpdateIssue } from '@panelHooks/issues/useUpdateIssue.ts';
 import AppEditor from './AppEditor.tsx';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/views/components/Show/Show.tsx';
 import type { IssueUpdateData } from '@interfaces/issues.ts';
 import useTimeout from '#commonHooks/useTimeout.ts';
 import IssueHeader from './IssueHeader.tsx';
 import IssueInfo from './IssueInfo.tsx';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
+import { useTheme } from '@/app/views/context/ThemeContext.tsx';
 
 interface IssueUpdatePanelProps {
   issueData: IssueUpdateData;
@@ -20,6 +21,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
   const [isEditable, setEditable] = useState(false);
   const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
   const { oneExecute, clear } = useTimeout(() => setEditable(true), 380);
+  const { theme } = useTheme();
 
   const handleIssueUpdate = () => {
     update()

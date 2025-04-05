@@ -2,7 +2,7 @@ import { StatIcon } from '@icons';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import useModalStore from '@stores/modal.store';
 import useCredentialStore, { CredentialPage } from '@stores/credential.store';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { AddCredentials } from './AddCredentials';
 import { ViewCredentials } from './ViewCredentials';
 import type { FC } from 'react';

@@ -13,6 +13,10 @@ interface TableRowsProps {
   urlNav?: string;
   isActiveDisable: boolean;
   isNeedMultipleCheck: boolean;
+  limit: number;
+  action?: (val?: any) => void;
+  selected?: any;
+  selectedKey?: string;
 }
 
 const TableRowsV3: FC<TableRowsProps> = ({
@@ -21,11 +25,17 @@ const TableRowsV3: FC<TableRowsProps> = ({
   urlNav,
   isActiveDisable,
   isNeedMultipleCheck,
+  limit,
+  action,
+  selected,
+  selectedKey,
 }) => {
-  const flattenedRows = flattenRows(rows);
+  // Se aplica un flat al array para que todos los objetos esten en la misma jeraquita / Necesario por los childs
+  const flattenedRows = flattenRows(rows, limit);
+  // Util para el multi select store
   const { selectedItems, setSelectedItems, removeItem, selectingActive, setActiveSelecting } =
     useTableStoreV3();
-  //const handleClick = (e: any, item: any) => {};
+  // Maneja el checked de una fila
   const handleChecked = (e: ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     const { value, checked } = e.target;
@@ -40,16 +50,19 @@ const TableRowsV3: FC<TableRowsProps> = ({
     }
   };
 
+  // Define cual tupo de row debe de renderizar
   const getRows = (r: any[]) => {
     let rows: ReactNode[] = [];
     const rowCount = r.length;
     for (let i = 0; i < rowCount; i++) {
       const row = r[i] as any;
       const itemDisable = ` ${isActiveDisable && row[TABLE_KEYS.COUNT_ISSUE] && row[TABLE_KEYS.COUNT_ISSUE] <= 0 ? 'item-disabled' : ''}`;
+      // Cuando la ROW es una URL
       if (urlNav) {
+        const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableAnchorRow
-            key={row[TABLE_KEYS.ID] + i}
+            key={key ? key + i : crypto.randomUUID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -57,10 +70,12 @@ const TableRowsV3: FC<TableRowsProps> = ({
             urlNav={urlNav}
           />
         );
+        // Cuando la ROW tiene que tener el multiple select activo
       } else if (isNeedMultipleCheck) {
+        const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableLabelRow
-            key={row[TABLE_KEYS.ID] + i}
+            key={key ? key + i : crypto.randomUUID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -69,14 +84,19 @@ const TableRowsV3: FC<TableRowsProps> = ({
             handleChecked={handleChecked}
           />
         );
+        // Cuando la ROW es una row normal cae aca
       } else {
+        const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableSimpleRow
-            key={row[TABLE_KEYS.ID] + i}
+            key={key ? key + i : crypto.randomUUID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
             nextRow={r?.[i + 1]}
+            action={action}
+            selected={selected}
+            selectedKey={selectedKey}
           />
         );
       }

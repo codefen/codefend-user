@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 import { SearchIcon } from '@icons';
-import { SearchBar } from '@standalones/SearchBar.tsx';
+import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 
 interface InxSearchBarProps {
   initSearch: string;
