@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import css from './phoneinput.module.scss';
 import { defaultCountries, type Countries } from '@/app/constants/countries';
 import { SelectDropdown } from '../SelectDropdown/SelectDropdown';
@@ -21,6 +21,10 @@ export default function PhoneInput({
     defaultCountries?.filter?.(i => i?.alpha2Code === defaultCountry)[0]
   );
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setSelectedCountry(defaultCountries?.filter?.(i => i?.alpha2Code === defaultCountry)[0]);
+  }, [defaultCountry]);
 
   const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^\d]/g, '');
