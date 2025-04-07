@@ -20,22 +20,22 @@ const rawOrderColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1 id',
-    weight: '9%',
+    styles: 'item-cell-1',
+    weight: '7%',
     render: value => value,
   },
   {
     header: 'Size',
     key: 'chosen_plan',
     styles: 'item-cell-2',
-    weight: '10%',
+    weight: '9%',
     render: value => value,
   },
   {
     header: 'Offensiveness',
     key: 'offensiveness',
     styles: 'item-cell-3',
-    weight: '11%',
+    weight: '13%',
     render: value => value,
   },
   {
@@ -49,7 +49,7 @@ const rawOrderColumns: ColumnTableV3[] = [
     header: 'Provider',
     key: 'provider_username',
     styles: 'item-cell-5',
-    weight: '14%',
+    weight: '15%',
     render: value => `@${value}`,
   },
   {
@@ -63,15 +63,15 @@ const rawOrderColumns: ColumnTableV3[] = [
     header: 'State',
     key: 'condicion_provider',
     styles: 'item-cell-7',
-    weight: '11%',
+    weight: '12%',
     render: value => value,
   },
   {
-    header: 'Published Finish',
+    header: 'Closing date',
     key: 'fecha_cierre_real',
     styles: 'item-cell-8',
-    weight: '18%',
-    render: value => value || '--/--/--',
+    weight: '15%',
+    render: value => (value ? value.split(' ')[0] : '--/--/--'),
   },
 ];
 const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => {
@@ -99,7 +99,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => 
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
       styles: 'item-cell-9 action',
-      weight: '7%',
+      weight: '9%',
       render: (order: any) => (
         <div className="publish" key={`actr-${order.id}`}>
           <span

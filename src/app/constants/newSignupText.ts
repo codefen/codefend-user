@@ -20,6 +20,6 @@ export const STEPSDATA: Record<SignUpSteps, any> = {
   },
   [SignUpSteps.STEP_FOUR]: {
     p: "We will try to hack you as soon as possible. We conduct all kinds of tests on your company's attack surface, from conventional pentesting to data leak detection, advanced social engineering techniques, and more.",
-    label: 'Verify your email address',
+    label: 'Add your password',
   },
 };

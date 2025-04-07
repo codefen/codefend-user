@@ -18,7 +18,7 @@ export default function PhoneInput({
   const [phoneNumber, setPhoneNumber] = useState('');
   const [fullPhoneNumber, setFullPhoneNumber] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<Countries>(
-    defaultCountries.filter(i => i.alpha2Code === defaultCountry)[0]
+    defaultCountries?.filter?.(i => i?.alpha2Code === defaultCountry)[0]
   );
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,8 +42,8 @@ export default function PhoneInput({
             className={css['selected-country']}
             ref={triggerRef}
             onClick={() => setIsOpen(!isOpen)}>
-            <span className={`flag flag-${selectedCountry.alpha2Code.toLowerCase()}`}></span>
-            <span className={css['countryCode']}>+{selectedCountry.callingCodes[0]}</span>
+            <span className={`flag flag-${selectedCountry?.alpha2Code?.toLowerCase?.()}`}></span>
+            <span className={css['countryCode']}>+{selectedCountry?.callingCodes?.[0]}</span>
             <span className={`${css['arrow']} ${isOpen ? css['open'] : ''}`}>▼</span>
           </div>
         </div>
@@ -57,10 +57,12 @@ export default function PhoneInput({
       <SelectDropdown isOpen={isOpen} onClose={() => setIsOpen(false)} triggerRef={triggerRef}>
         <div className={css['country-list']}>
           {defaultCountries.map(country => (
-            <button key={country.alpha2Code} onClick={() => handleCountrySelect(country)}>
-              <span className={`flag flag-${country.alpha2Code.toLowerCase()}`}></span>
-              <span className={css['country-name']}>{country.name}</span>
-              <span className="text-gray-400 ml-auto">+{country.callingCodes[0]}</span>
+            <button
+              key={`${country?.alpha2Code}${country?.name}`}
+              onClick={() => handleCountrySelect(country)}>
+              <span className={`flag flag-${country?.alpha2Code?.toLowerCase?.()}`}></span>
+              <span className={css['country-name']}>{country?.name}</span>
+              <span className="text-gray-400 ml-auto">+{country?.callingCodes?.[0]}</span>
             </button>
           ))}
         </div>

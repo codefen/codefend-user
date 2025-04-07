@@ -32,6 +32,7 @@ export enum MODAL_KEY_OPEN {
   ADD_SUB_DOMAIN = 'add_subdomain',
 
   START_AUTO_SCAN = 'confirm_autoscan_web',
+  START_KILL_SCAN = 'confirm_kill_autoscan',
 
   DELETE_NETWORK = 'delete_resource',
   DELETE_TICKET = 'delete_ticket',

@@ -52,7 +52,13 @@ interface OnboardingStep {
 
 const generateUniqueId = () => crypto.randomUUID().substring(0, 10);
 
-export type ScanStepType = 'nonScan' | 'scanner' | 'parser' | 'finished' | 'killed';
+export enum ScanStepType {
+  NonScan = 'nonScan',
+  Scanner = 'scanner',
+  Parser = 'parser',
+  Finished = 'finished',
+  Killed = 'killed',
+}
 
 // Asigna el numero del paso en el que se encuentra el scanner
 // Es decir scanner se encuentra en la fase "Scanner" le digo al usuario que el scanner esta en fase "1"

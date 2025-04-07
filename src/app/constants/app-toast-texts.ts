@@ -10,6 +10,7 @@ export enum APP_MESSAGE_TOAST {
   COPY_TEXT = 'Text successfully copied to clipboard.',
   FAILURE_COPY = 'Failed to copy text to clipboard.',
   START_SCAN = 'Starting new scan',
+  SCAN_INFO = 'The scan has started. Please wait a few minutes, and you will see the results.',
 }
 
 export enum CHATBOX_TEXT {
@@ -128,4 +129,9 @@ export enum PROVIDER_PANEL_TEXT {
 export enum ORDER_PHASES_TEXT {
   ORDER_NEST_ERROR = 'An error occurred while processing the order.',
   FULL_FOR_ADVERSARY = 'You can only designate an adversary if the plan is full.',
+}
+
+export enum SCAN_PAGE_TEXT {
+  SCAN_KILLED_SUCCESS = 'The process has been completed successfully',
+  SCAN_KILL_NO_SELECTED = 'No process has been selected to kill',
 }
