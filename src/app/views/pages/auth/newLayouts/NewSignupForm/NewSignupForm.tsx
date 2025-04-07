@@ -12,14 +12,15 @@ import { Link, useLocation, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
 import { useUserLocationStore } from '@stores/useLocation.store';
-import { ProgressBar } from '../../../components/ProgressBar/ProgressBar';
-import { AuthInput } from './AuthInput/AuthInput';
-import SelectField from './SelectField';
-import CheckEmail from '../../../components/CheckEmail/CheckEmail';
+import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
+import { AuthInput } from '../../newRegister/AuthInput/AuthInput';
+import SelectField from '../../../../components/SelectField/SelectField';
+import CheckEmail from '../../../../components/CheckEmail/CheckEmail';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
 import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
+import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -133,23 +134,7 @@ export const NewSignupForm = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>
-        <div className={css['change-page-container']}>
-          <Link
-            to="/auth/signin"
-            className={location.pathname === '/auth/signin' ? css['active-link'] : ''}>
-            Signin
-          </Link>
-          <Link
-            to="/auth/signup"
-            className={location.pathname === '/auth/signup' ? css['active-link'] : ''}>
-            Signup
-          </Link>
-          <Link
-            to="/auth/recovery"
-            className={location.pathname.startsWith('/auth/recovery') ? css['active-link'] : ''}>
-            Password recovery
-          </Link>
-        </div>
+        <ChangeAuthPages pathname={location.pathname} />
         <img src="/codefend/brand-iso.png" width={350} height={60} />
         <p>{STEPSDATA[activeStep].p}</p>
         <ProgressBar activeStep={activeStep} />

@@ -1,10 +1,10 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import useAuthStore from '@stores/auth.store';
-import { Navigate } from 'react-router';
-import { DashboardInvoke } from '../../../components/DashboardInvoke/DashboardInvoke';
-import { RightItemButton } from '../../../components/RightItemButton/RightItemButton';
-import { NewSignupForm } from './NewSignupForm';
-import DashboardAssets from '../../../components/DashboardAssets/DashboardAssets';
+import { Navigate, Outlet } from 'react-router';
+import { Suspense } from 'react';
+import { DashboardInvoke } from '@/app/views/components/DashboardInvoke/DashboardInvoke';
+import DashboardAssets from '@/app/views/components/DashboardAssets/DashboardAssets';
+import { RightItemButton } from '@/app/views/components/RightItemButton/RightItemButton';
 
 const recoursesEmpty = {
   cloud: '0',
@@ -15,7 +15,7 @@ const recoursesEmpty = {
   web: '0',
 };
 
-export const NewRegisterPage = () => {
+export const NewAuthPage = () => {
   const [showScreen] = useShowScreen();
   const { isAuth } = useAuthStore(state => state);
   if (isAuth) {
@@ -26,10 +26,12 @@ export const NewRegisterPage = () => {
     <main className={`${showScreen ? 'actived' : ''}`}>
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
-      <NewSignupForm />
+      <Suspense>
+        <Outlet />
+      </Suspense>
       <section className="left">
         <DashboardInvoke />
-        <DashboardAssets resources={recoursesEmpty} />
+        <DashboardAssets resources={recoursesEmpty} disabled={true} />
       </section>
       <section className="right">
         <RightItemButton

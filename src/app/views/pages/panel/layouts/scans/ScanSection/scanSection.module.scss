@@ -9,7 +9,6 @@
   :global(.publish span.disabled-this:hover),
   :global(.publish span.disabled-this:hover svg),
   :global(.publish span.disabled-this:hover svg path) {
-    opacity: 0.7;
     cursor: default !important;
     color: var(--tertiary-color-50) !important;
   }

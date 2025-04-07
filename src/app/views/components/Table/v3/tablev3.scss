@@ -405,5 +405,10 @@
     &.label:has(input:checked) {
       background-color: #ff28280f;
     }
+
+    &.selected-item {
+      background: var(--primary-color-300);
+      color: var(--tertiary-color-50);
+    }
   }
 }

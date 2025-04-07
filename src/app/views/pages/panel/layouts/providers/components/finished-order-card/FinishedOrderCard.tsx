@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { ScopeOption, type OrderOffensive, type OrderTeamSize } from '@interfaces/order';
 import { formatReverseDate } from '@utils/helper';
-import { IconTextPairs } from '@/app/views/components/textpair/IconTextPairs';
+import { IconTextPairs } from '@/app/views/components/utils/IconTextPairs';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
 import { OrderCardTemplate } from '@/app/views/components/order-card-template/OrderCardTemplate';

@@ -31,7 +31,7 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Resource ID',
     key: 'resource_id',
     styles: 'item-cell-2',
-    weight: '3.5%',
+    weight: '3%',
     render: val => val,
   },
 
@@ -53,7 +53,7 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Email',
     key: 'user_email',
     styles: 'item-cell-2',
-    weight: '7%',
+    weight: '7.5%',
     render: val => val,
   },
   {
@@ -68,14 +68,14 @@ const scansColumns: ColumnTableV3[] = [
     key: 'issues_found',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
-    weight: '7%',
+    weight: '6%',
     render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
   },
   {
     header: 'Proccess-UUID',
     key: 'process_uuid',
     styles: 'item-cell-5',
-    weight: '11%',
+    weight: '12%',
     render: val => val,
   },
   {
@@ -89,7 +89,7 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Version',
     key: 'scanner_version',
     styles: 'item-cell-7',
-    weight: '5%',
+    weight: '4%',
     render: val => val,
   },
   {
@@ -117,21 +117,21 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Demora',
     key: 'demora',
     styles: 'item-cell-11',
-    weight: '5%',
+    weight: '5.5%',
     render: val => (val ? val : '---'),
   },
   {
     header: 'Demora Scan',
     key: 'demora_scanner',
     styles: 'item-cell-12',
-    weight: '5%',
+    weight: '5.5%',
     render: val => (val ? val : '---'),
   },
   {
     header: 'Demora Parser',
     key: 'demora_parser',
     styles: 'item-cell-13',
-    weight: '5%',
+    weight: '5.5%',
     render: val => (val ? val : '---'),
   },
   {
@@ -180,7 +180,7 @@ export const ScanSection = () => {
   };
 
   const startKillScan = (row: any) => {
-    if (row?.phase === ScanStepType.Killed) {
+    if (row?.phase === ScanStepType.Killed || row?.phase === ScanStepType.Finished) {
       return;
     }
     setIsOpen(true);
@@ -195,7 +195,7 @@ export const ScanSection = () => {
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
       styles: `item-cell-16 action ${css['disabled-btn']}`,
-      weight: '2.5%',
+      weight: '2%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
           <span

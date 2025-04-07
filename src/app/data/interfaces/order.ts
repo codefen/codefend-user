@@ -47,9 +47,9 @@ export enum OrderTeamSize {
 }
 
 export enum ScopeOption {
-  ALL,
-  TYPE,
-  UNKNOWN,
+  ALL = 0,
+  TYPE = 1,
+  UNKNOWN = 3,
 }
 
 export enum CryptoPayment {

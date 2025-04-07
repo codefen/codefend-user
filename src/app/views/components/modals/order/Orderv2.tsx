@@ -14,6 +14,8 @@ import { useOrders } from '@hooks/useOrders';
 import { useOrderStore } from '@stores/orders.store';
 import './order.scss';
 import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';
+import { TeamSizeOrderModal } from '@modals/order/layouts/TeamSizeOrderModal';
+import { AnyPaymentMethod } from '@modals/order/layouts/AnyPaymentMetod';
 
 export const OrderV2 = () => {
   const [isNextStep, updateNextStep] = useState(false);
@@ -36,7 +38,7 @@ export const OrderV2 = () => {
     if (isNextStep) return <PageLoader />;
     if (orderStepActive === OrderSection.SCOPE) return <ScopeOrderModal />;
     if (orderStepActive === OrderSection.FREQUENCY) return <FrequencyOrderModal />;
-    // if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
+    if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
     //if (orderStepActive === OrderSection.ORDER_REVIEW)
     //	return <OrderReviewModal updateNextStep={updateNextStep} />;
     //if (orderStepActive === OrderSection.SELECT_LEAD)
@@ -45,7 +47,7 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.ADDITIONAL_INFO) return <AdditionalOrderModal />;
     if (orderStepActive === OrderSection.PAYMENT) return <PaymentMethodOrderModal />;
 
-    // if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD) return <AnyPaymentMethod />;
+    if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD) return <AnyPaymentMethod />;
     // if (orderStepActive === OrderSection.PAYMENT_ERROR) return <PaymentErrorOrderModal />;
 
     return orderStepActive === OrderSection.WELCOME ? (

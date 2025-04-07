@@ -8,6 +8,7 @@ import {
   useOrderStore,
   CryptoPayment,
   getDomainCounts,
+  ResourcesTypes,
 } from '..';
 import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
@@ -20,7 +21,8 @@ import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 export const useOrders = () => {
   const { getCompany } = useUserData();
   const [fetcher] = useFetcher();
-  const { setScopeAllTotalResources, updateState } = useOrderStore(state => state);
+  const { setScopeAllTotalResources, updateState, setScopeTotalResources, resourceType } =
+    useOrderStore(state => state);
 
   const fetchGetTotal = (companyID: string) => {
     fetcher('post', {
@@ -87,17 +89,22 @@ export const useOrders = () => {
             }))
           : [],
       };
+      const resourcesLength = {
+        [ResourcesTypes.WEB]: resumeResources.web.length,
+        [ResourcesTypes.MOBILE]: resumeResources.mobile.length,
+        [ResourcesTypes.CLOUD]: resumeResources.cloud.length,
+        [ResourcesTypes.CODE]: resumeResources.source.length,
+        [ResourcesTypes.NETWORK]: resumeResources.network.length,
+        [ResourcesTypes.SOCIAL]: resumeResources.social.social_resources.length,
+      };
+      const countAllTotalResource = Object.values(resourcesLength).reduce(
+        (acc, val) => acc + val,
+        0
+      );
 
-      const countAllTotalResource =
-        resumeResources.web.length +
-        resumeResources.mobile.length +
-        resumeResources.cloud.length +
-        resumeResources.source.length +
-        resumeResources.network.length +
-        resumeResources.social.social_resources.length;
-
-      setScopeAllTotalResources(countAllTotalResource);
       updateState('resumeResources', resumeResources);
+      setScopeAllTotalResources(countAllTotalResource);
+      setScopeTotalResources(resourcesLength[resourceType]);
     });
   };
 

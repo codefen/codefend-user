@@ -2,7 +2,7 @@ import React from 'react';
 import { ChartIcon } from '@icons';
 import type { Webresource } from '@interfaces/panel.ts';
 import { MetricsService } from '@utils/metric.service.ts';
-import { StatAsset } from '@/app/views/pages/auth/newRegister/stat-asset/StatAsset';
+import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 
 interface WebResourceStaticProps {
   webResources: Webresource[];

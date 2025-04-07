@@ -1,0 +1,20 @@
+.change-page-container {
+  position: absolute;
+  top: 4%;
+  left: 5%;
+
+  a {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  a + a {
+    margin-inline-start: 1rem;
+  }
+
+  a.active-link {
+    color: var(--secondary-color-50);
+    border-bottom: 1px solid var(--secondary-color-50);
+  }
+}

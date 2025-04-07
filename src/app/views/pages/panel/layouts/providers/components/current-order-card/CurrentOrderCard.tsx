@@ -6,7 +6,7 @@ import ConfirmModal from '@modals/ConfirmModal';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import Show from '@/app/views/components/Show/Show';
-import { IconTextPairs } from '@/app/views/components/textpair/IconTextPairs';
+import { IconTextPairs } from '@/app/views/components/utils/IconTextPairs';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
 import { useProviderOrderFinish } from '@userHooks/providers/useProviderOrderFinish';

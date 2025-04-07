@@ -28,6 +28,12 @@
   }
 
   p {
+    color: var(--tertiary-color-500);
+  }
+}
+
+:global([data-theme='dark']) {
+  .check-mail_text p {
     color: #afafaf;
   }
 }

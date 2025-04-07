@@ -13,6 +13,7 @@ import useModalStore from '@stores/modal.store.ts';
 import { EMPTY_ISSUECLASS, EMPTY_ISSUECONDITION, EMPTY_SHARE } from '@/app/constants/empty.ts';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
+import { OrderV2 } from '@modals/index.ts';
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -50,6 +51,7 @@ const IssuesPanel: FC = () => {
 
   return (
     <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+      <OrderV2 />
       <SelectAnyResourceModal
         issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
       />

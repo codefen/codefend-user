@@ -10,6 +10,8 @@ import { SearchIcon } from '@icons';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import { toast } from 'react-toastify';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 
 const columns = [
   {
@@ -20,11 +22,11 @@ const columns = [
     weight: '43%',
     render: (row: any, next?: any) =>
       !row?.address_domain ? (
-        row.resource_domain
+        row?.resource_domain
       ) : (
         <TextChild
-          subNetwork={row.address_domain}
-          isLast={!next || (next && !next.address_domain)}
+          subNetwork={row?.address_domain}
+          isLast={!next || (next && !next?.address_domain)}
         />
       ),
   },
@@ -69,12 +71,14 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
         model: 'resources/web/preview',
         subdomain_scan: 'yes',
       },
+      timeout: 180000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {
-        throw new Error('An error has occurred on the server');
+        toast.error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+      } else {
+        setDomains(data?.resource ? [data.resource] : []);
       }
-      setDomains([data.resource]);
     });
   }, [initialDomain]);
 
@@ -99,11 +103,12 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {
-        throw new Error('An error has occurred on the server');
+        toast.error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+      } else {
+        saveInitialDomain(initialDomain);
+        setDomainId(data?.resource?.id);
+        close();
       }
-      saveInitialDomain(initialDomain);
-      setDomainId(data.resource.id);
-      close();
     });
   };
 

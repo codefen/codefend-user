@@ -1,5 +1,5 @@
 import { useEffect, type FC } from 'react';
-import { IconTextPairs } from '@/app/views/components/textpair/IconTextPairs';
+import { IconTextPairs } from '@/app/views/components/utils/IconTextPairs';
 import { CircleAskIcon, LocationIcon, VerificationIcon } from '@icons';
 
 import { formatToMonthYear } from '@utils/helper.ts';

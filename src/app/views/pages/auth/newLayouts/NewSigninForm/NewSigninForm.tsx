@@ -4,6 +4,7 @@ import { useLoginAction } from '@userHooks/auth/useLoginAction';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { type FormEvent } from 'react';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
+import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 
 export const NewSigninForm = () => {
   const { signInUser, isLoading } = useLoginAction();
@@ -31,23 +32,7 @@ export const NewSigninForm = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signinContent']}>
-        <div className={css['change-page-container']}>
-          <Link
-            to="/auth/signin"
-            className={location.pathname === '/auth/signin' ? css['active-link'] : ''}>
-            Signin
-          </Link>
-          <Link
-            to="/auth/signup"
-            className={location.pathname === '/auth/signup' ? css['active-link'] : ''}>
-            Signup
-          </Link>
-          <Link
-            to="/auth/recovery"
-            className={location.pathname.startsWith('/recovery') ? css['active-link'] : ''}>
-            Password recovery
-          </Link>
-        </div>
+        <ChangeAuthPages pathname={location.pathname} />
         <img src="/codefend/brand-iso.png" width={350} height={60} />
         <p>Bienvenido de nuevo! Inicia sesion</p>
         <form onSubmit={handleSubmit}>

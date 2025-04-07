@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren, ReactNode } from 'react';
-import './icontextpair.scss';
+import './util.scss';
 
 interface IconTextPairsProps extends PropsWithChildren {
   icon: ReactNode;

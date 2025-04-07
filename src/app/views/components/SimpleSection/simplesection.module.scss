@@ -8,7 +8,6 @@
   line-height: 13px;
   text-transform: uppercase;
   border-bottom: 1px solid var(--primary-color-300);
-  background-position: var(--primary-color-200);
   color: var(--tertiary-color-200);
   transition: all 275ms linear;
   background-color: #f8f8f8;
@@ -31,17 +30,18 @@
   }
 }
 
-[data-theme='dark'] {
+@media only print {
+  .header .title span {
+    color: #666;
+  }
+}
+
+:global([data-theme='dark']) {
   .header {
     border: none;
     transition:
       color,
       background 275ms linear;
-  }
-}
-
-@media only print {
-  .header .title span {
-    color: #666;
+    background: var(--primary-color-200);
   }
 }
