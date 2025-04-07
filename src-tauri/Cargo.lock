@@ -764,7 +764,7 @@ dependencies = [
 
 [[package]]
 name = "codefend-panel"
-version = "24.3.3"
+version = "25.0.2"
 dependencies = [
  "base64 0.22.1",
  "chrono",
