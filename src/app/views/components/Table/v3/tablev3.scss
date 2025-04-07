@@ -294,7 +294,7 @@
       transition: color 200ms ease;
       cursor: pointer;
 
-      &:hover {
+      &:not(.disabled-this):hover {
         color: var(--secondary-color-100);
 
         svg path {

@@ -24,28 +24,36 @@ const scansColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-1.1',
-    weight: '4%',
+    weight: '3%',
     render: val => val,
   },
   {
-    header: 'R-ID',
+    header: 'Resource ID',
     key: 'resource_id',
     styles: 'item-cell-2',
-    weight: '4%',
+    weight: '3.5%',
+    render: val => val,
+  },
+
+  {
+    header: 'Domain',
+    key: 'resource_address',
+    styles: 'item-cell-2',
+    weight: '7%',
     render: val => val,
   },
   {
     header: 'USER-ID',
     key: 'user_id',
     styles: 'item-cell-2',
-    weight: '3.5%',
+    weight: '3%',
     render: val => val,
   },
   {
-    header: 'Domain',
-    key: 'resource_address',
+    header: 'Email',
+    key: 'user_email',
     styles: 'item-cell-2',
-    weight: '8%',
+    weight: '7%',
     render: val => val,
   },
   {
@@ -64,10 +72,10 @@ const scansColumns: ColumnTableV3[] = [
     render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
   },
   {
-    header: 'PRC-UUID',
+    header: 'Proccess-UUID',
     key: 'process_uuid',
     styles: 'item-cell-5',
-    weight: '16%',
+    weight: '11%',
     render: val => val,
   },
   {
@@ -81,49 +89,63 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Version',
     key: 'scanner_version',
     styles: 'item-cell-7',
-    weight: '6%',
+    weight: '5%',
     render: val => val,
   },
   {
     header: 'LLM',
     key: 'llm_provider',
     styles: 'item-cell-8',
-    weight: '5%',
+    weight: '4%',
     render: val => val,
   },
   {
-    header: 'LLM-BAI',
+    header: 'LLM-Balance-Inicial',
     key: 'llm_balance_inicial',
     styles: 'item-cell-9',
     weight: '5%',
     render: val => val,
   },
   {
-    header: 'LLM-BAF',
+    header: 'LLM-Balance-Final',
     key: 'llm_balance_final',
     styles: 'item-cell-10',
     weight: '5%',
     render: val => val,
   },
   {
-    header: 'Bog Down',
+    header: 'Demora',
     key: 'demora',
+    styles: 'item-cell-11',
+    weight: '5%',
+    render: val => (val ? val : '---'),
+  },
+  {
+    header: 'Demora Scan',
+    key: 'demora_scanner',
     styles: 'item-cell-12',
-    weight: '7%',
+    weight: '5%',
+    render: val => (val ? val : '---'),
+  },
+  {
+    header: 'Demora Parser',
+    key: 'demora_parser',
+    styles: 'item-cell-13',
+    weight: '5%',
     render: val => (val ? val : '---'),
   },
   {
     header: 'Started',
     key: 'creacion',
-    styles: 'item-cell-11',
-    weight: '8.5%',
+    styles: 'item-cell-14',
+    weight: '6%',
     render: val => (val ? val : ''),
   },
   {
     header: 'Finished',
     key: 'finalizacion',
-    styles: 'item-cell-13',
-    weight: '8.5%',
+    styles: 'item-cell-15',
+    weight: '6%',
     render: val => (val ? val : '--/--/--'),
   },
 ];
@@ -172,14 +194,20 @@ export const ScanSection = () => {
       header: '',
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-14 action',
+      styles: `item-cell-16 action ${css['disabled-btn']}`,
       weight: '2.5%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
           <span
             title="Kill process"
-            aria-disabled={row?.phase === ScanStepType.Killed}
-            className={row?.phase === ScanStepType.Killed ? 'disabled-btn' : ''}
+            aria-disabled={
+              row?.phase === ScanStepType.Killed || row?.phase === ScanStepType.Finished
+            }
+            className={
+              row?.phase === ScanStepType.Killed || row?.phase === ScanStepType.Finished
+                ? 'disabled-this'
+                : ''
+            }
             onClick={() => startKillScan(row)}>
             <XCircleIcon />
           </span>
@@ -206,10 +234,6 @@ export const ScanSection = () => {
     })
       .then(({ data }) => {
         toast.dismiss(toastId);
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-          throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-        }
-
         const resourceId = data?.resource?.id;
         if (resourceId) {
           autoScan(resourceId, false).then(result => {
@@ -217,6 +241,8 @@ export const ScanSection = () => {
               toast.success(APP_MESSAGE_TOAST.START_SCAN);
             }
           });
+        } else {
+          throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
       })
       .catch((error: any) => {
