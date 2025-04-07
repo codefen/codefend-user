@@ -6,22 +6,22 @@ import useTimeout from '#commonHooks/useTimeout.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 
 export const ScopeOrderModal: FC = () => {
-  const { scope, resourceType, resetActiveOrder, updateState, setScopeOption } = useOrderStore(
-    state => state
-  );
+  const { scope, resourceType, resetActiveOrder, updateState, setScopeOption, acceptCondition } =
+    useOrderStore(state => state);
 
   const [scopeOptionW, setScopeOptionW] = useState<ScopeOption>(scope.scopeOption);
-  const [acceptConditions, setAcceptCondition] = useState<boolean>(false);
+  const [acceptConditions, setAcceptCondition] = useState<boolean>(acceptCondition);
   const [tryClick, setTryClick] = useState<boolean>(false);
   const { sendScopeOrders } = useOrderScope();
   const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
   const nextStep = () => {
     if (acceptConditions && scopeOptionW !== ScopeOption.UNKNOWN) {
       setScopeOption(scopeOptionW);
+      updateState('acceptCondition', acceptConditions);
 
       const sendScope = scopeOptionW === ScopeOption.TYPE ? resourceType : 'full';
       sendScopeOrders(sendScope).then((res: any) => {
-        updateState('referenceNumber', res.order.reference_number);
+        updateState('referenceNumber', res?.order.reference_number);
       });
       updateState('orderStepActive', OrderSection.FREQUENCY);
     } else if (!acceptConditions) {
@@ -65,7 +65,8 @@ export const ScopeOrderModal: FC = () => {
               <p>
                 {' '}
                 Analyze all {resourceType.valueOf()} resources
-                <span className="alt-color order-dash-space">
+                <span
+                  className={`alt-color order-dash-space ${scope.totalResources === 0 ? 'blur-while-load' : ''} `}>
                   - {scope.totalResources} resources:
                 </span>
               </p>
@@ -96,7 +97,7 @@ export const ScopeOrderModal: FC = () => {
                 <span
                   className={`alt-color order-dash-space ${scope.totalAllResources === -1 ? ' blur-while-load' : ''}`}>
                   {' '}
-                  - {scope.totalAllResources} resources:
+                  - {scope.totalAllResources} resources
                 </span>
               </p>
             </div>

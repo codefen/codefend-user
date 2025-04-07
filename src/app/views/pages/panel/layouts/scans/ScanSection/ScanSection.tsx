@@ -31,7 +31,7 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Resource ID',
     key: 'resource_id',
     styles: 'item-cell-2',
-    weight: '3.5%',
+    weight: '3%',
     render: val => val,
   },
 
@@ -53,7 +53,7 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Email',
     key: 'user_email',
     styles: 'item-cell-2',
-    weight: '7%',
+    weight: '7.5%',
     render: val => val,
   },
   {
@@ -68,14 +68,14 @@ const scansColumns: ColumnTableV3[] = [
     key: 'issues_found',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
-    weight: '7%',
+    weight: '6%',
     render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
   },
   {
     header: 'Proccess-UUID',
     key: 'process_uuid',
     styles: 'item-cell-5',
-    weight: '11%',
+    weight: '12%',
     render: val => val,
   },
   {

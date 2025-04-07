@@ -1,15 +1,14 @@
-import { create } from 'zustand';
+import type { ResumeAllResources, ScopeOptions } from '@interfaces/order';
 import {
-  OrderOffensive,
-  type ResumeAllResources,
-  OrderFrequency,
   OrderPaymentMethod,
   OrderSection,
+  OrderOffensive,
   OrderTeamSize,
   ResourcesTypes,
+  OrderFrequency,
   ScopeOption,
-  type ScopeOptions,
-} from '..';
+} from '@interfaces/order';
+import { create } from 'zustand';
 
 export interface OrderStore {
   open: boolean;
@@ -35,7 +34,7 @@ export interface OrderStore {
   setScopeAllTotalResources: (resources: number) => void;
   setScopeOption: (option: ScopeOption) => void;
 
-  updateState: (key: string, updated: any) => void;
+  updateState: <K extends keyof OrderStore>(key: K, updated: OrderStore[K]) => void;
   resetActiveOrder: () => void;
 }
 
@@ -75,10 +74,10 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
       scope: { ...current.scope, scopeOption: option },
     })),
 
-  updateState: (key: string, updated: any) =>
-    set((current: OrderStore) => ({
+  updateState: <K extends keyof OrderStore>(key: K, updated: OrderStore[K]) =>
+    set(current => ({
       ...current,
-      [key as keyof typeof current]: updated,
+      [key]: updated,
     })),
 
   resetActiveOrder: () =>
