@@ -141,7 +141,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setModalId(MODAL_KEY_OPEN.START_AUTO_SCAN);
   };
 
-  const punchToScan = async () => {
+  /*  const punchToScan = async () => {
     const companyID = getCompany();
     setIsOpen(false);
     if (companyIdIsNull(companyID)) return;
@@ -155,7 +155,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
       }
     });
   };
-
+ */
   const webColumnsWith = [
     ...webColumns,
     {

@@ -6,12 +6,13 @@ import type { ResourceCount } from '@interfaces/dashboard';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import css from './dashboardasset.module.scss';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { StatAsset } from '@/app/views/pages/auth/newRegister/stat-asset/StatAsset';
+import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 
-export const DashboardAssets: FC<{ resources: ResourceCount; hasTitle?: boolean }> = ({
-  resources,
-  hasTitle = true,
-}) => {
+export const DashboardAssets: FC<{
+  resources: ResourceCount;
+  hasTitle?: boolean;
+  disabled?: boolean;
+}> = ({ resources, hasTitle = true, disabled = false }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const resourceKeys = useMemo(
@@ -20,6 +21,9 @@ export const DashboardAssets: FC<{ resources: ResourceCount; hasTitle?: boolean 
   );
 
   const isActivePath = (current: string) => {
+    if (disabled) {
+      return false;
+    }
     if (current === RESOURCE_CLASS.WEB) return location.pathname === '/dashboard';
     return current === location.pathname;
   };
@@ -31,6 +35,10 @@ export const DashboardAssets: FC<{ resources: ResourceCount; hasTitle?: boolean 
     [RESOURCE_CLASS.CLOUD]: 'CLOUD ASSETS',
     [RESOURCE_CLASS.SOURCE]: 'SOURCE CODE',
     [RESOURCE_CLASS.SOCIAL]: 'SOCIAL ENGINEERING',
+  };
+  const navigateTo = (resource: string | number) => {
+    if (disabled) return;
+    navigate(`/${resource === 'lan' ? 'network' : resource}`);
   };
   return (
     <div className={`${css['stats']} ${css['card']}`}>
@@ -44,7 +52,7 @@ export const DashboardAssets: FC<{ resources: ResourceCount; hasTitle?: boolean 
               valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
               value={resources[resource as keyof typeof resources]}
               isActive={isActivePath(resource as string)}
-              onClick={() => navigate(`/${resource === 'lan' ? 'network' : resource}`)}
+              onClick={() => navigateTo(resource)}
             />
           ))}
         </div>

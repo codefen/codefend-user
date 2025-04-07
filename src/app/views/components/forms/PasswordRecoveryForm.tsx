@@ -7,6 +7,7 @@ import { usePasswordRecovery } from '@userHooks/auth/usePasswordRecovery';
 import InputFieldWithLabel from '../InputFieldWithLabel/InputFieldWithLabel';
 import { PasswordRequirements } from '../PasswordRequirements/PasswordRequirements';
 import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
+import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 
 const PasswordRecoveryForm: FC<{
   children: (isLoading: boolean) => ReactNode;
@@ -89,11 +90,10 @@ const PasswordRecoveryForm: FC<{
             text="Enter your email to identify the account"
             subText="If the email is registered, we will send you a verification code so you can change your password"
           />
-          <InputFieldWithLabel
-            label="Email"
+          <AuthInput
             type="email"
-            value={passwordRecovery.email}
-            onChange={handleInputChange('email')}
+            defaultValue={passwordRecovery.email}
+            setVal={handleInputChange('email')}
             name="email"
             placeholder="Enter email"
             required
@@ -101,29 +101,26 @@ const PasswordRecoveryForm: FC<{
         </>
       ) : (
         <>
-          <InputFieldWithLabel
-            label="Reference number"
+          <AuthInput
             type="text"
-            value={passwordRecovery.referenceNumber}
-            onChange={handleInputChange('referenceNumber')}
+            defaultValue={passwordRecovery.referenceNumber}
+            setVal={handleInputChange('referenceNumber')}
             name="referenceNumber"
             placeholder="Enter reference number"
             required
           />
-          <InputFieldWithLabel
-            label="New password"
+          <AuthInput
             type="password"
-            value={passwordRecovery.newPassword}
-            onChange={handleInputChange('newPassword')}
+            defaultValue={passwordRecovery.newPassword}
+            setVal={handleInputChange('newPassword')}
             name="newPassword"
             placeholder="Enter new password"
             required
           />
-          <InputFieldWithLabel
-            label="Repeat new password"
+          <AuthInput
             type="password"
-            value={passwordRecovery.repeatedPassword}
-            onChange={handleInputChange('repeatedPassword')}
+            defaultValue={passwordRecovery.repeatedPassword}
+            setVal={handleInputChange('repeatedPassword')}
             name="repeatedPassword"
             placeholder="Enter new password"
             required

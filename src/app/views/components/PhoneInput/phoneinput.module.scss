@@ -9,6 +9,10 @@
   overflow: hidden;
   background-color: var(--primary-color);
   color: var(--tertiary-color-500);
+
+  input {
+    border-width: 0;
+  }
 }
 
 .countrySelector {

@@ -37,7 +37,7 @@ import {
   IssuesUpdate,
 } from '../views/pages/panel/layouts/issues';
 import InxPanel from '../views/pages/panel/layouts/inx/InxPanel';
-import { PasswordRecovery } from '../views/pages/auth/layouts/PasswordRecovery';
+import { PasswordRecovery } from '../views/pages/auth/newLayouts/NewPasswordRecovery/PasswordRecoveryPage';
 import { TermsAndCondition } from '../views/pages/help-center/TermsAndCondition';
 import { HelpCenter } from '../views/pages/help-center/HelpCenter';
 import { SecurityAndPrivacyPolicy } from '../views/pages/help-center/SecurityAndPrivacyPolicy';
@@ -45,11 +45,10 @@ import { HelpNotfound } from '../views/pages/help-center/HelpNotfound';
 import { InvitationSignup } from '../views/pages/auth/layouts/InvitationSignup';
 import { PageReport } from '@modals/reports/PageReport.tsx';
 import ProtectedRoute from './ProtectedRoute';
-import { NewRegisterPage } from '../views/pages/auth/newRegister/NewRegister';
-import { NewSigninPage } from '@/app/views/pages/auth/newSignin/NewSigninPage';
-import { path } from 'd3';
-import { elements } from 'chart.js';
 import { ScansPage } from '@/app/views/pages/panel/layouts/scans/ScansPage';
+import { NewAuthPage } from '@/app/views/pages/auth/NewAuthPage';
+import { NewSignupForm } from '@/app/views/pages/auth/newLayouts/NewSignupForm/NewSignupForm';
+import { NewSigninForm } from '@/app/views/pages/auth/newLayouts/NewSigninForm/NewSigninForm';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -205,18 +204,12 @@ export const AppRouter = () => {
       ],
     },
     {
-      path: 'auth/signup',
-      element: <NewRegisterPage />,
-    },
-    {
-      path: 'auth/signin',
-      element: <NewSigninPage />,
-    },
-    {
       path: 'auth/*',
-      element: <AuthPage />,
+      element: <NewAuthPage />,
       children: [
         { index: true, element: <Navigate to="signin" replace /> },
+        { path: 'signup', element: <NewSignupForm /> },
+        { path: 'signin', element: <NewSigninForm /> },
         { path: 'signup/invitation', element: <InvitationSignup /> },
         { path: 'signup/invitation/:ref', element: <InvitationSignup /> },
         { path: 'confirmation', element: <ConfirmationSignUp /> },

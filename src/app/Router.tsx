@@ -32,7 +32,7 @@ import { PanelPage } from './views/pages/panel/PanelPage';
 import { PageReport } from '@modals/reports/PageReport.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
-import { PasswordRecovery } from './views/pages/auth/layouts/PasswordRecovery';
+import { PasswordRecovery } from './views/pages/auth/newLayouts/NewPasswordRecovery/PasswordRecoveryPage';
 import { TermsAndCondition } from './views/pages/help-center/TermsAndCondition';
 import { HelpCenter } from './views/pages/help-center/HelpCenter';
 import { SecurityAndPrivacyPolicy } from './views/pages/help-center/SecurityAndPrivacyPolicy';

@@ -3,22 +3,20 @@
     display: flex;
     flex-direction: column;
     max-width: 650px;
+    min-width: 500px;
   }
 }
 
-:global([data-theme='dark'] .modal-wrapper) .signinform {
-  border: none;
-}
-
 .signinContent {
+  --text-color: var(--tertiary-color-500);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.25rem;
+  padding: 2.5rem;
 
   p {
-    color: var(--tertiary-color-50);
+    color: var(--text-color);
     line-height: 1.5rem;
     width: 100%;
     margin-block-end: 2rem;
@@ -38,23 +36,12 @@
   }
 }
 
-.change-page-container {
-  position: absolute;
-  top: 3%;
-  left: 5%;
-
-  a {
-    background: transparent;
-    box-shadow: none;
+:global([data-theme='dark'] .modal-wrapper) {
+  .signinform {
     border: none;
   }
 
-  a + a {
-    margin-inline-start: 1rem;
-  }
-
-  a.active-link {
-    color: var(--secondary-color-50);
-    border-bottom: 1px solid var(--secondary-color-50);
+  .signinContent {
+    --text-color: var(--tertiary-color-50);
   }
 }

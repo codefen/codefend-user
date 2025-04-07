@@ -2,7 +2,7 @@ import React from 'react';
 import { ChartIcon } from '@icons';
 
 import type { IssuesCondition } from '../../../data';
-import { StatAsset } from '@/app/views/pages/auth/newRegister/stat-asset/StatAsset';
+import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 export const VulnerabilitiesStatus: React.FC<{

@@ -1,5 +1,5 @@
 import Show from '@/app/views/components/Show/Show';
-import { IconTextPairs } from '@/app/views/components/textpair/IconTextPairs';
+import { IconTextPairs } from '@/app/views/components/utils/IconTextPairs';
 import { BugIcon } from '@icons';
 import { type OrderOffensive, type OrderTeamSize } from '@interfaces/order.ts';
 import type { FC, PropsWithChildren, ReactNode } from 'react';

@@ -1,7 +1,7 @@
 import { useSignupInvitation } from '@userHooks/auth/useSignupInvitation';
 import { useEffect, type FC, type FormEvent, type ReactNode } from 'react';
 import { useParams } from 'react-router';
-import SelectField from '../AuthSelectedField/AuthSelectedField.tsx';
+import AuthSelectedField from '../AuthSelectedField/AuthSelectedField.tsx';
 import { AuthInput } from '@/app/views/components/defaults/AuthInput.tsx';
 
 const roleOptions = [
@@ -87,8 +87,8 @@ const InvitationSignupForm: FC<{
         required
       />
       <AuthInput type="tel" setVal={handleChange('phone')} placeholder="Phone number" required />
-      <SelectField options={roleOptions} onChange={handleChangeSelect('role')} required />
-      <SelectField options={idiomOptions} onChange={handleChangeSelect('idiom')} required />
+      <AuthSelectedField options={roleOptions} onChange={handleChangeSelect('role')} required />
+      <AuthSelectedField options={idiomOptions} onChange={handleChangeSelect('idiom')} required />
       <AuthInput
         type="password"
         setVal={handleChange('password')}
