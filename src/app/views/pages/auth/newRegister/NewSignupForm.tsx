@@ -8,7 +8,7 @@ import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constant
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { Link, useSearchParams } from 'react-router';
+import { Link, useLocation, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
 import { useUserLocationStore } from '@stores/useLocation.store';
@@ -33,6 +33,7 @@ export const NewSignupForm = () => {
   const { signUpFinish, isLoading: loadingFinish } = useRegisterPhaseTwo();
   const [searchParams] = useSearchParams();
   const { saveInitialDomain } = useWelcomeStore();
+  const location = useLocation();
 
   useEffect(() => {
     const code = searchParams.get('code');
