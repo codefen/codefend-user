@@ -7,7 +7,7 @@ import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useAutoScan } from '@hooks/useAutoScan';
 import { useVerifyScanList } from '@hooks/useVerifyScanList';
-import { KnifeIcon, ScanSearchIcon, StatIcon, TrashIcon } from '@icons';
+import { KnifeIcon, ScanSearchIcon, StatIcon, TrashIcon, XCircleIcon } from '@icons';
 import type { ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import type { useWelcomeStore } from '@stores/useWelcomeStore';
@@ -23,44 +23,107 @@ const scansColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1',
-    weight: '6%',
+    styles: 'item-cell-1.1',
+    weight: '4%',
+    render: val => val,
+  },
+  {
+    header: 'R-ID',
+    key: 'resource_id',
+    styles: 'item-cell-2',
+    weight: '4%',
+    render: val => val,
+  },
+  {
+    header: 'USER-ID',
+    key: 'user_id',
+    styles: 'item-cell-2',
+    weight: '3.5%',
     render: val => val,
   },
   {
     header: 'Domain',
     key: 'resource_address',
     styles: 'item-cell-2',
-    weight: '26%',
+    weight: '8%',
     render: val => val,
   },
   {
     header: 'Phase',
     key: 'phase',
     styles: 'item-cell-3',
-    weight: '15.75%',
+    weight: '5%',
     render: val => val,
   },
   {
-    header: 'Found / Parsed',
+    header: 'Found/Parsed',
     key: 'issues_found',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
-    weight: '15.75%',
+    weight: '7%',
     render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
   },
   {
-    header: 'Created at',
+    header: 'PRC-UUID',
+    key: 'process_uuid',
+    styles: 'item-cell-5',
+    weight: '16%',
+    render: val => val,
+  },
+  {
+    header: 'Scan PID',
+    key: 'scanner_pid',
+    styles: 'item-cell-6',
+    weight: '5%',
+    render: val => val,
+  },
+  {
+    header: 'Version',
+    key: 'scanner_version',
+    styles: 'item-cell-7',
+    weight: '6%',
+    render: val => val,
+  },
+  {
+    header: 'LLM',
+    key: 'llm_provider',
+    styles: 'item-cell-8',
+    weight: '5%',
+    render: val => val,
+  },
+  {
+    header: 'LLM-BAI',
+    key: 'llm_balance_inicial',
+    styles: 'item-cell-9',
+    weight: '5%',
+    render: val => val,
+  },
+  {
+    header: 'LLM-BAF',
+    key: 'llm_balance_final',
+    styles: 'item-cell-10',
+    weight: '5%',
+    render: val => val,
+  },
+  {
+    header: 'Bog Down',
+    key: 'demora',
+    styles: 'item-cell-12',
+    weight: '7%',
+    render: val => (val ? val : '---'),
+  },
+  {
+    header: 'Started',
     key: 'creacion',
-    styles: 'item-cell-4',
-    weight: '15.75%',
+    styles: 'item-cell-11',
+    weight: '8.5%',
     render: val => (val ? val : ''),
   },
   {
-    header: 'Finalize',
+    header: 'Finished',
     key: 'finalizacion',
-    styles: 'item-cell-5',
-    weight: '15.75%',
+    styles: 'item-cell-13',
+    weight: '8.5%',
     render: val => (val ? val : '--/--/--'),
   },
 ];
@@ -109,8 +172,8 @@ export const ScanSection = () => {
       header: '',
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-5 action',
-      weight: '6%',
+      styles: 'item-cell-14 action',
+      weight: '2.5%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
           <span
@@ -118,7 +181,7 @@ export const ScanSection = () => {
             aria-disabled={row?.phase === ScanStepType.Killed}
             className={row?.phase === ScanStepType.Killed ? 'disabled-btn' : ''}
             onClick={() => startKillScan(row)}>
-            <KnifeIcon />
+            <XCircleIcon />
           </span>
         </div>
       ),
