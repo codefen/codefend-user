@@ -1,5 +1,6 @@
 import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
+import { ScanStepType } from '@/app/constants/welcome-steps';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import useModalStore from '@stores/modal.store';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
@@ -60,7 +61,7 @@ export const useVerifyScan = () => {
       'modules/neuroscan/view',
       { company: getCompany(), resource_id: domainId, isScanRunning, neuroscan_id: neuroScanId },
     ];
-    const currentPhase = data?.neuroscan?.phase;
+    const currentPhase = data?.neuroscan?.phase as ScanStepType;
     const currentIssueFound = data?.neuroscan?.issues_found;
     const currentIssueParsed = data?.neuroscan?.issues_parsed;
     const hasError = data?.error === '1' || currentPhase === 'killed';
@@ -76,10 +77,10 @@ export const useVerifyScan = () => {
     }
     // Verifique si terminar el scan
     console.log('Entro al error primero', { isScanRunning, currentPhase, hasError });
-    if ((isScanRunning && currentPhase === 'finished') || hasError) {
+    if ((isScanRunning && currentPhase === ScanStepType.Finished) || hasError) {
       console.log('Entro al error primero');
       setScanRunning(false);
-      setScanStep('nonScan');
+      setScanStep(ScanStepType.NonScan);
       if (!hasError) {
         navigate('/issues');
       }

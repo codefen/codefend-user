@@ -278,6 +278,11 @@ main.issues-list {
     .table {
       --item-cell-extra: 4.3333%;
 
+      .rows {
+        overflow: auto;
+        max-height: calc(100dvh - 190px);
+      }
+
       .username {
         display: none;
       }

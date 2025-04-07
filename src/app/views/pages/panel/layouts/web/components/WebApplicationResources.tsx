@@ -188,9 +188,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
           <span title="Add credentials" onClick={() => addCreds(row.id)}>
             <CredentialIcon key={`credi-${row.id}`} />
           </span>
-          <span title="Scan domain" onClick={() => startAutoScan(row)}>
-            <CodefendIcon key="scan-domain" />
-          </span>
         </div>
       ),
     },
@@ -198,19 +195,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 
   return (
     <>
-      <ModalTitleWrapper
-        isActive={isOpen && modalId === MODAL_KEY_OPEN.START_AUTO_SCAN}
-        close={() => setIsOpen(false)}
-        type="med-w"
-        headerTitle="Confirm Scan">
-        <ConfirmModal
-          confirmText="Confirm"
-          cancelText="Cancel"
-          header="Are you sure you want to start an automatic analysis?"
-          action={punchToScan}
-          close={() => setIsOpen(false)}
-        />
-      </ModalTitleWrapper>
       <AddDomainModal
         isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
         onDone={() => refresh()}

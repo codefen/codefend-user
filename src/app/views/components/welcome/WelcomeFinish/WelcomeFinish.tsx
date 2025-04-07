@@ -1,7 +1,7 @@
 import { ModalWrapper } from '@modals/index';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import css from './welcomefinish.module.scss';
-import { scanStepnumber, scanStepText } from '@/app/constants/welcome-steps';
+import { scanStepnumber, scanStepText, ScanStepType } from '@/app/constants/welcome-steps';
 import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 import { AlertIcons, CircleTicket, FileSearchIcon } from '@icons';
 import { useEffect, useRef, useState } from 'react';
@@ -80,7 +80,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     setFirstClose(false);
     setScanRunning(true);
     console.log('Entro al error closeModal');
-    setScanStep('nonScan');
+    setScanStep(ScanStepType.NonScan);
     solved();
   };
 

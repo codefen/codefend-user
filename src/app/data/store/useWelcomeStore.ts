@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { StateInitializer } from '@interfaces/store';
-import type { ScanStepType } from '@/app/constants/welcome-steps';
+import { ScanStepType } from '@/app/constants/welcome-steps';
 
 export interface WelcomeStore {
   initialDomain: string;
@@ -32,7 +32,7 @@ export const useWelcomeStore = create<WelcomeStore>()(
     (set: any, _get: any) => ({
       initialDomain: '',
       isFirstClose: true,
-      scanStep: 'nonScan',
+      scanStep: ScanStepType.NonScan,
       isScanRunning: false,
       domainId: '',
       neuroScanId: '',

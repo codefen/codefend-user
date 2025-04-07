@@ -13,7 +13,6 @@ interface CollaboratorDataProps {
   members: Member[];
   refetch: () => void;
 }
-
 const rawCollaboratorColumns: ColumnTableV3[] = [
   {
     header: 'ID',
@@ -24,10 +23,10 @@ const rawCollaboratorColumns: ColumnTableV3[] = [
   },
   {
     header: 'Area',
-    key: 'pais',
+    key: 'item-cell-1',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-2 area',
-    weight: '19%',
+    styles: 'item-cell-2',
+    weight: '14%',
     render: member => (
       <LocationItem country={member?.pais || 'unknown'} countryCode={member?.pais_code || ''} />
     ),
@@ -35,37 +34,37 @@ const rawCollaboratorColumns: ColumnTableV3[] = [
   {
     header: 'Company',
     key: 'company_name',
-    styles: 'item-cell-3 company',
-    weight: '15%',
+    styles: 'item-cell-2',
+    weight: '13%',
     render: value => value,
   },
   {
     header: 'Full Name',
-    key: 'fullName',
+    key: 'item-cell-3',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-3 full-name',
+    styles: 'item-cell-3',
     weight: '15%',
     render: member => `${member.fname} ${member.lname}`,
   },
   {
     header: 'Email',
     key: 'email',
-    styles: 'item-cell-4 email',
-    weight: '20%',
+    styles: 'item-cell-4',
+    weight: '24%',
     render: value => value,
   },
   {
     header: 'Phone',
     key: 'phone',
-    styles: 'item-cell-5 phone',
-    weight: '10%',
+    styles: 'item-cell-5',
+    weight: '16%',
     render: value => value,
   },
   {
     header: 'Role',
     key: 'role',
-    styles: 'item-cell-6 role',
-    weight: '10%',
+    styles: 'item-cell-6',
+    weight: '7%',
     render: value => value,
   },
 ];
@@ -87,7 +86,7 @@ const SettingCollaboratorAndTeam: FC<CollaboratorDataProps> = ({ members, isLoad
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
       styles: 'item-cell-7 action',
-      weight: '10%',
+      weight: '5%',
       render: (member: any) => (
         <span
           title="Remove from the company"

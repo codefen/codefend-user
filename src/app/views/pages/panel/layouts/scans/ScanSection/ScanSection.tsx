@@ -1,13 +1,13 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { TABLE_KEYS } from '@/app/constants/app-texts';
-import { APP_MESSAGE_TOAST, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
+import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
+import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useAutoScan } from '@hooks/useAutoScan';
 import { useVerifyScanList } from '@hooks/useVerifyScanList';
-import { ScanSearchIcon, StatIcon, TrashIcon } from '@icons';
+import { KnifeIcon, ScanSearchIcon, StatIcon, TrashIcon } from '@icons';
 import type { ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import type { useWelcomeStore } from '@stores/useWelcomeStore';
@@ -15,6 +15,9 @@ import Tablev3 from '@table/v3/Tablev3';
 import { useState, type ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import css from './scanSection.module.scss';
+import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
+import useModalStore from '@stores/modal.store';
+import { ScanStepType } from '@/app/constants/welcome-steps';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -68,16 +71,36 @@ export const ScanSection = () => {
   const { autoScan } = useAutoScan();
   const { getCompany } = useUserData();
   const { scans } = useVerifyScanList();
+  const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
+  const [selectScan, setSelectScan] = useState<any>(null);
 
-  const killScan = (id: any) => {
+  const killScan = () => {
+    const neuroscan_id = selectScan.id;
+    if (!neuroscan_id) {
+      setIsOpen(false);
+      toast.error(SCAN_PAGE_TEXT.SCAN_KILL_NO_SELECTED);
+      return;
+    }
     fetcher('post', {
       body: {
         model: 'modules/neuroscan/kill',
-        neuroscan_id: id,
+        neuroscan_id,
         company_id: getCompany(),
       },
       requireSession: true,
+    }).then(() => {
+      toast.success(SCAN_PAGE_TEXT.SCAN_KILLED_SUCCESS);
+      setIsOpen(false);
     });
+  };
+
+  const startKillScan = (row: any) => {
+    if (row?.phase === ScanStepType.Killed) {
+      return;
+    }
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.START_KILL_SCAN);
+    setSelectScan(row);
   };
 
   const scansColumnAction = [
@@ -90,8 +113,12 @@ export const ScanSection = () => {
       weight: '6%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
-          <span title="Delete" onClick={() => killScan(row.id)}>
-            <TrashIcon />
+          <span
+            title="Kill process"
+            aria-disabled={row?.phase === ScanStepType.Killed}
+            className={row?.phase === ScanStepType.Killed ? 'disabled-btn' : ''}
+            onClick={() => startKillScan(row)}>
+            <KnifeIcon />
           </span>
         </div>
       ),
@@ -121,9 +148,13 @@ export const ScanSection = () => {
         }
 
         const resourceId = data?.resource?.id;
-        autoScan(resourceId, false).then(() => {
-          toast.success(APP_MESSAGE_TOAST.START_SCAN);
-        });
+        if (resourceId) {
+          autoScan(resourceId, false).then(result => {
+            if (result?.neuroscan?.id) {
+              toast.success(APP_MESSAGE_TOAST.START_SCAN);
+            }
+          });
+        }
       })
       .catch((error: any) => {
         toast.error(error?.info || error?.message || '');
@@ -132,6 +163,19 @@ export const ScanSection = () => {
 
   return (
     <div className={css['scan-section-container']}>
+      <ModalTitleWrapper
+        isActive={isOpen && modalId === MODAL_KEY_OPEN.START_KILL_SCAN}
+        close={() => setIsOpen(false)}
+        type="med-w"
+        headerTitle="Confirm Kill Scan">
+        <ConfirmModal
+          confirmText="Confirm"
+          cancelText="Cancel"
+          header="Are you sure you want to kill this automatic analysis process?"
+          action={killScan}
+          close={() => setIsOpen(false)}
+        />
+      </ModalTitleWrapper>
       <div>
         <SearchBar
           handleChange={(e: ChangeEvent<HTMLInputElement>) => setDomainScanned(e.target.value)}

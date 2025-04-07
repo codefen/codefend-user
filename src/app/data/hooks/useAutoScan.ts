@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { useStreamFetch } from './useStreamFetch';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { toast } from 'react-toastify';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { ScanStepType } from '@/app/constants/welcome-steps';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();
@@ -21,7 +23,7 @@ export const useAutoScan = () => {
     saveInitialDomain('');
     setIssueFound(0);
     setIssuesParsed(0);
-    setScanStep('nonScan');
+    setScanStep(ScanStepType.NonScan);
     setDomainId(resourceId);
 
     const formData = new FormData();
@@ -34,13 +36,10 @@ export const useAutoScan = () => {
       if (result.neuroscan?.id) {
         setNeuroScanId(result.neuroscan.id);
         saveInitialDomain(result.neuroscan?.resource_address || '');
-        setScanStep('scanner');
+        setScanStep(ScanStepType.Scanner);
         setScanRunning(openModel);
       }
-      toast.info(
-        result.info ||
-          'The scan has started. Please wait a few minutes, and you will see the results.'
-      );
+      toast.info(result.info || APP_MESSAGE_TOAST.SCAN_INFO);
     }
 
     return result;

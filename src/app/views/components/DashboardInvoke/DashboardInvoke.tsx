@@ -12,7 +12,7 @@ export const DashboardInvoke = () => {
           professionals identify one, you and your team will be notified via email.{' '}
           <b>If you wish, you can request ethical hackers to expedite the process.</b>
         </p>
-        <button className="btn">invoke hackers</button>
+        {/*<button className="btn">invoke hackers</button> */}
       </div>
     </div>
   );

@@ -42,7 +42,10 @@
 }
 
 .country-list {
-  background-color: #1a1a1a;
+  --country-list-bg: var(--primary-color-50);
+  --country-text-color: var(--tertiary-color-400);
+  --country-hover-item: var(--primary-color-400);
+  background-color: var(--country-list-bg);
   border-radius: 6px;
   overflow-y: auto;
   max-height: 200px;
@@ -58,7 +61,7 @@
     width: 100%;
 
     &:hover {
-      background-color: #333;
+      background-color: var(--country-hover-item);
     }
 
     span {
@@ -69,11 +72,17 @@
 
 .country-name {
   flex: 1 1 100%;
-  color: var(--tertiary-color-50);
+  color: var(--country-text-color);
   text-align: left;
 }
 
 :global([data-theme='dark']) {
+  .country-list {
+    --country-list-bg: #1a1a1a;
+    --country-text-color: var(--tertiary-color-50);
+    --country-hover-item: #333;
+  }
+
   .phoneInputContent {
     background-color: rgb(29 38 49 / 12.5%);
     color: var(--tertiary-color-100);
