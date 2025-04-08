@@ -24,6 +24,7 @@ export interface CompanyUser extends OwnerData, AuditData, LocationData {
   size: string;
   sub_class: string;
   web: string;
+  address: string;
 }
 
 export type GlobalStore = {
