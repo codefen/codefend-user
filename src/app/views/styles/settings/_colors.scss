@@ -72,13 +72,3 @@ body[data-theme='dark'] {
   --tertiary-color-700: #666;
   --tertiary-color-800: #131313;
 }
-
-@keyframes agrandar-y-volver {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(1.1);
-  }
-}
