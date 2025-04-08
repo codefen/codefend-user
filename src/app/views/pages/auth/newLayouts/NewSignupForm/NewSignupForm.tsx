@@ -70,7 +70,10 @@ export const NewSignupForm = () => {
       Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
     }
     saveInitialDomain((form.get('company_web') as string) || '');
-    form.append('company_area', defaultCountries.filter(i => i.alpha2Code === country.get)[0].name);
+    form.append(
+      'company_area',
+      defaultCountries?.filter(i => i?.alpha2Code === country?.get)?.[0]?.name
+    );
     form.append('idiom', 'en');
     form.append('reseller_id', '1');
     form.append('reseller_name', 'codefend');

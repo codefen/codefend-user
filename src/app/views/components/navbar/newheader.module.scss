@@ -117,16 +117,6 @@
   color: var(--tertiary-color-400);
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 :global([data-theme='light']) {
   .headerContainer {
     --header-default-color: var(--tertiary-color-500);
