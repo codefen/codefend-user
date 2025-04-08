@@ -1,8 +1,9 @@
 import { type FC } from 'react';
 import { type CompanyInfo, formatDate } from '../../../../../../data';
+import type { CompanyUser } from '@/app/views/context/AppContextProvider';
 
 interface CompanyDataProps {
-  companyInfo: CompanyInfo;
+  companyInfo: CompanyUser;
 }
 
 const SettingCompanyInformation: FC<CompanyDataProps> = ({ companyInfo }) => {
