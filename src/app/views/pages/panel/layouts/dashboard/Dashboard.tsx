@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import DashboardCollaborators from './components/DashboardCollaborators.tsx';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
@@ -12,20 +12,21 @@ import './dashboard.scss';
 import { PrimaryButton } from '@buttons/index.ts';
 import { useNavigate } from 'react-router';
 import DashboardAssets from '../../../../components/DashboardAssets/DashboardAssets.tsx';
-import useModalStore from '@stores/modal.store.ts';
-import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import { DashboardInvoke } from '@/app/views/components/DashboardInvoke/DashboardInvoke.tsx';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 
 const Dashboard: React.FC = () => {
   const [showScreen] = useShowScreen();
   const { isLoading, data } = useDashboard();
-  const { setModalId, setIsOpen } = useModalStore();
   const navigate = useNavigate();
-  const handleAddCollaborator = () => {
-    setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);
-    setIsOpen(true);
-  };
+  const company = useGlobalFastField('company');
+
+  useEffect(() => {
+    if (data?.company) {
+      company.set(data.company);
+    }
+  }, [data?.company]);
 
   return (
     <main className={`dashboard ${showScreen ? 'actived' : ''}`}>

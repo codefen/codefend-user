@@ -7,18 +7,14 @@ import Show from '@/app/views/components/Show/Show.tsx';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 import { NavbarSubMenu } from './NavbarSubMenu.tsx';
-import { usePanelStore } from '../../../data/index.ts';
 import useModal from '#commonHooks/useModal.ts';
-import type { NetworkSettingState } from '@stores/apiLink.store.ts';
-import useNetworkSettingState from '@stores/apiLink.store.ts';
 import './navbar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import useModalStore from '@stores/modal.store.ts';
-import { useWelcomeStore } from '@stores/useWelcomeStore.ts';
-import css from './newheader.module.scss';
 import { Breadcrumb } from '@/app/views/components/utils/Breadcrumb.tsx';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
@@ -27,17 +23,13 @@ const Navbar: FC = () => {
   const { logout, getUserdata } = useUserData();
   const userData = getUserdata();
   const { isAdmin } = useUserRole();
-  const { open, handleChange } = usePanelStore();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
-  const { isOpen: isOpenNetwork, setNetworkSettingState } = useNetworkSettingState(
-    (state: NetworkSettingState) => state
-  );
+  const isOpenNetworkSetting = useGlobalFastField('isOpenNetworkSetting');
   const [baseApiName, setBaseApiName] = useState('');
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
   const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
-  const { scanStep, isScanRunning } = useWelcomeStore();
 
   useEffect(() => {
     const handleClickOutsideMenu = (event: any) => {
@@ -84,8 +76,8 @@ const Navbar: FC = () => {
       </Show>
       {isAdmin() && (
         <NetworkSettingModal
-          close={() => setNetworkSettingState(!isOpenNetwork)}
-          isOpen={isOpenNetwork}
+          close={() => isOpenNetworkSetting.set(!isOpenNetworkSetting.get)}
+          isOpen={isOpenNetworkSetting.get}
         />
       )}
 
@@ -106,9 +98,7 @@ const Navbar: FC = () => {
               <div
                 className="action"
                 title="Network settings"
-                onClick={() => {
-                  setNetworkSettingState(true);
-                }}>
+                onClick={() => isOpenNetworkSetting.set(true)}>
                 <NetworkIcon width={1.1} height={1.1} />
                 <span>{baseApiName}</span>
               </div>

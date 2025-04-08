@@ -48,8 +48,7 @@ export const SnsLeakedDataModal = ({
     const fetchCrackData = async () =>
       await fetcher('post', {
         body: {
-          model: 'modules/sns',
-          ac: LEAKED_TYPES[type].ac,
+          model: `modules/sns/${LEAKED_TYPES[type].ac}`,
           class: LEAKED_TYPES[type]?.class || searchClass,
           keyword: leaked.value[0][LEAKED_TYPES[type].value],
           company_id: companyID,

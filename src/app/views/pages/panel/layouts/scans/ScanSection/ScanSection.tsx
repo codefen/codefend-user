@@ -18,6 +18,7 @@ import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -158,6 +159,7 @@ export const ScanSection = () => {
   const { scans } = useVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
+  const company = useGlobalFastField('company');
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;
@@ -236,6 +238,7 @@ export const ScanSection = () => {
         toast.dismiss(toastId);
         const resourceId = data?.resource?.id;
         if (resourceId) {
+          if (data?.company) company.set(data.company);
           autoScan(resourceId, false).then(result => {
             if (result?.neuroscan?.id) {
               toast.success(APP_MESSAGE_TOAST.START_SCAN);

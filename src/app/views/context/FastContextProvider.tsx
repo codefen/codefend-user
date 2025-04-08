@@ -1,4 +1,12 @@
-import React, { useRef, createContext, useContext, useCallback, useSyncExternalStore } from 'react';
+import {
+  useRef,
+  createContext,
+  useContext,
+  useCallback,
+  useSyncExternalStore,
+  type ReactNode,
+  useMemo,
+} from 'react';
 
 export default function createFastContext<FastContext>(initialState: FastContext) {
   function useFastContextData(): {
@@ -33,7 +41,7 @@ export default function createFastContext<FastContext>(initialState: FastContext
 
   const FastContext = createContext<UseFastContextDataReturnType | null>(null);
 
-  function FastContextProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+  function FastContextProvider({ children }: Readonly<{ children: ReactNode }>) {
     return <FastContext.Provider value={useFastContextData()}>{children}</FastContext.Provider>;
   }
 
@@ -54,27 +62,53 @@ export default function createFastContext<FastContext>(initialState: FastContext
     return [state, fastContext.set];
   }
 
-  function useFastContextFields<SelectorOutput>(fieldNames: string[]): {
-    [key: string]: { get: SelectorOutput; set: (value: any) => void };
+  function useFastContextFields<K extends keyof FastContext>(
+    fieldNames: K[]
+  ): {
+    [Key in K]: {
+      get: FastContext[Key];
+      set: (value: FastContext[Key]) => void;
+    };
   } {
-    const gettersAndSetters: {
-      [key: string]: { get: SelectorOutput; set: (value: any) => void };
-    } = {};
+    // Creamos un array para almacenar los resultados de forma segura
+    const result = {} as {
+      [Key in K]: {
+        get: FastContext[Key];
+        set: (value: FastContext[Key]) => void;
+      };
+    };
+
     for (const fieldName of fieldNames) {
-      const [getter, setter] = useFastContext(
-        fc => (fc as Record<string, SelectorOutput>)[fieldName]
-      );
-      gettersAndSetters[fieldName] = {
+      const [getter, setter] = useFastContext(fc => fc[fieldName]);
+
+      result[fieldName] = {
         get: getter,
-        set: (value: any) => setter({ [fieldName]: value } as Partial<FastContext>),
+        set: (value: FastContext[typeof fieldName]) => {
+          const update = { [fieldName]: value } as unknown as Partial<FastContext>;
+          setter(update);
+        },
       };
     }
 
-    return gettersAndSetters;
+    return result;
+  }
+
+  function useFastField<K extends keyof FastContext>(
+    key: K
+  ): {
+    get: FastContext[K];
+    set: (value: FastContext[K]) => void;
+  } {
+    const [getter, setter] = useFastContext(fc => fc[key]);
+    return {
+      get: getter,
+      set: (value: FastContext[K]) => setter({ [key]: value } as unknown as Partial<FastContext>),
+    };
   }
 
   return {
     FastContextProvider,
     useFastContextFields,
+    useFastField,
   };
 }

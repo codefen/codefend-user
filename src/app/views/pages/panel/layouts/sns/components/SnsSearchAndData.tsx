@@ -33,8 +33,10 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
 
   const procSearch = (e?: FormEvent): any => {
     if (e) e.preventDefault();
-    refetch();
-    handleSearch();
+
+    handleSearch()?.then(() => {
+      refetch();
+    });
   };
   const selectBarOptions = {
     options: {

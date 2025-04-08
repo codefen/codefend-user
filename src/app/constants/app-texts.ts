@@ -3,6 +3,7 @@ export enum RESOURCE_CLASS {
   WEB = 'web',
   CLOUD = 'cloud',
   NETWORK = 'network',
+  LAN_NET = 'lan',
   SOURCE = 'source',
   SOCIAL = 'social',
   RESEARCH = 'research',
@@ -61,6 +62,8 @@ export enum MODAL_KEY_OPEN {
   USER_WELCOME_FINISH = 'ouwfsf',
 
   USER_SELECT_RESOURCE = 'open-lfr',
+
+  PAYWALL = 'paywall-key',
 }
 
 export enum TABLE_KEYS {

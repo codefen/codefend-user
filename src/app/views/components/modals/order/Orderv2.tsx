@@ -16,6 +16,7 @@ import './order.scss';
 import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';
 import { TeamSizeOrderModal } from '@modals/order/layouts/TeamSizeOrderModal';
 import { AnyPaymentMethod } from '@modals/order/layouts/AnyPaymentMetod';
+import { PaywallOrderModal } from '@modals/order/layouts/PaywallOrderModal';
 
 export const OrderV2 = () => {
   const [isNextStep, updateNextStep] = useState(false);
@@ -36,6 +37,7 @@ export const OrderV2 = () => {
 
   const ActiveStep = () => {
     if (isNextStep) return <PageLoader />;
+    if (orderStepActive === OrderSection.PAYWALL) return <PaywallOrderModal />;
     if (orderStepActive === OrderSection.SCOPE) return <ScopeOrderModal />;
     if (orderStepActive === OrderSection.FREQUENCY) return <FrequencyOrderModal />;
     if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
@@ -78,7 +80,9 @@ export const OrderV2 = () => {
             <h2>
               <span>Execute a </span>new pentest
             </h2>
-            <ActiveProgressiveSteps orderStepActive={orderStepActive} />
+            {orderStepActive !== OrderSection.PAYWALL ? (
+              <ActiveProgressiveSteps orderStepActive={orderStepActive} />
+            ) : null}
           </div>
         </header>
 

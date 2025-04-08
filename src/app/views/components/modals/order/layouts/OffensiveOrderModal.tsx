@@ -6,7 +6,6 @@ import { useOrderStore } from '@stores/orders.store';
 
 export const OffensiveOrderModal: FC = () => {
   const { offensiveOrder, updateState, referenceNumber, orderId } = useOrderStore(state => state);
-
   const [offensiveOrderW, setOffensiveOrder] = useState<OrderOffensive>(offensiveOrder);
   const { sendOrderProvider } = useOrderOffensive();
 

@@ -48,7 +48,7 @@ export const useVerifyScan = () => {
 
   const { data } = useSWR(swrKeYRef.current, (key: any) => fetcher(key), {
     keepPreviousData: true,
-    refreshInterval: 10000,
+    refreshInterval: 4000,
     revalidateOnReconnect: false,
     revalidateOnFocus: true,
     revalidateOnMount: true,
@@ -76,9 +76,7 @@ export const useVerifyScan = () => {
       setScanStep(currentPhase);
     }
     // Verifique si terminar el scan
-    console.log('Entro al error primero', { isScanRunning, currentPhase, hasError });
     if ((isScanRunning && currentPhase === ScanStepType.Finished) || hasError) {
-      console.log('Entro al error primero');
       setScanRunning(false);
       setScanStep(ScanStepType.NonScan);
       if (!hasError) {

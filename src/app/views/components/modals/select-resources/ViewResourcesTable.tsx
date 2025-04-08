@@ -6,9 +6,9 @@ import type { ScopeAlias } from '@interfaces/util';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
 
 export interface OrderCloudScopeProps {
-  type: string;
+  type: RESOURCE_CLASS;
   scopeALias: ScopeAlias;
-  handleSelect: (id: string, type: string, count: number) => void;
+  handleSelect: (id: string, type: RESOURCE_CLASS, count: number) => void;
   activeFilter: boolean;
   modalId: string;
 }

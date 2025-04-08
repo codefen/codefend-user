@@ -7,7 +7,6 @@ import useModalStore from '@stores/modal.store.ts';
 import useCredentialStore from '@stores/credential.store.ts';
 import type { Device } from '@interfaces/panel.ts';
 import useModal from '#commonHooks/useModal.ts';
-import { useReportStore } from '@stores/report.store.ts';
 import type { ColumnTableV3 } from '@interfaces/table.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
@@ -15,8 +14,9 @@ import AddAccessPointModal from '@modals/adding-modals/AddAccessPointModal.tsx';
 import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal';
 import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, TrashIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show';
-import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface LanNetworkDataProps {
   isLoading: boolean;
@@ -70,15 +70,19 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
     refetchInternalNetwork,
     () => setShowModal(false)
   );
-  const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
+  const { resourceType, openModal, resourceID } = useGlobalFastFields([
+    'resourceType',
+    'openModal',
+    'resourceID',
+  ]);
   const handleDelete = () => {
     refetch(selectedLanIdToDelete);
   };
-  const generateReport = (resourceID: string, count: any) => {
+  const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
-      openModal();
-      setResourceID(resourceID);
-      setResourceType('lan');
+      openModal.set(true);
+      resourceID.set(resourceUpID);
+      resourceType.set(RESOURCE_CLASS.LAN_NET);
     }
   };
   const tableData2 = [

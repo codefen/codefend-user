@@ -11,13 +11,13 @@ import type { MemberV2 } from '@interfaces/panel';
 import type { TableItem } from '@interfaces/table';
 import { roleMap, memberColumnWithActions } from '@mocks/defaultData';
 import useModal from '@hooks/common/useModal';
-import { useReportStore } from '@stores/report.store';
 import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface SocialProps {
   refetch: () => void;
@@ -36,14 +36,18 @@ const SocialEngineering: FC<SocialProps> = props => {
   const { isAdmin, isNormalUser, isProvider } = useUserRole();
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
-  const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
+  const { resourceType, openModal, resourceID } = useGlobalFastFields([
+    'resourceType',
+    'openModal',
+    'resourceID',
+  ]);
   const safelyPreviousSearches = () => props.socials.slice().reverse();
 
-  const generateReport = (resourceID: string, count: any) => {
+  const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
-      openModal();
-      setResourceID(resourceID);
-      setResourceType(RESOURCE_CLASS.SOCIAL);
+      openModal.set(true);
+      resourceID.set(resourceUpID);
+      resourceType.set(RESOURCE_CLASS.SOCIAL);
     }
   };
   const dataTable = safelyPreviousSearches().map(

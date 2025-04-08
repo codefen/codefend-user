@@ -1,6 +1,5 @@
 import Show from '@/app/views/components/Show/Show';
 import { ModalWrapper } from '.';
-import { type NetworkSettingState, useNetworkSettingState } from '../../../data';
 import { PrimaryButton } from '@buttons/index';
 import { LanIcon } from '@icons';
 
@@ -10,7 +9,6 @@ interface ErrorConnectionProps {
 }
 
 const ErrorConnection = (props: ErrorConnectionProps) => {
-  const { setNetworkSettingState } = useNetworkSettingState((state: NetworkSettingState) => state);
   return (
     <Show when={props.open}>
       <ModalWrapper isErrorBox={true} action={props.closeModal}>

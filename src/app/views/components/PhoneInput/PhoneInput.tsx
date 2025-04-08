@@ -14,6 +14,7 @@ export default function PhoneInput({
   placeholder = 'Enter phone number',
   defaultCountry,
 }: PhoneInputProps) {
+  console.log('default: ', { defaultCountry });
   const triggerRef = useRef<HTMLDivElement>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [fullPhoneNumber, setFullPhoneNumber] = useState('');

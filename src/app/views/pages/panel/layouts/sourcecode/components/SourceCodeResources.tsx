@@ -1,7 +1,6 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import useModal from '@hooks/common/useModal';
-import { useReportStore } from '@stores/report.store';
 import type { ColumnTableV3 } from '@interfaces/table';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { TrashIcon, BugIcon, SourceCodeIcon, CredentialIcon, DocumentIcon } from '@icons';
@@ -14,6 +13,7 @@ import Show from '@/app/views/components/Show/Show';
 import { useDeleteSourceCode } from '@resourcesHooks/sourcecode/useDeleteSourceCode';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface SourceCodeProps {
   isLoading: boolean;
@@ -67,12 +67,16 @@ export const SourceCodeResources: FC<SourceCodeProps> = props => {
   const { isAdmin, isProvider, isNormalUser } = useUserRole();
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
-  const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
-  const generateReport = (resourceID: string, count: any) => {
+  const { resourceType, openModal, resourceID } = useGlobalFastFields([
+    'resourceType',
+    'openModal',
+    'resourceID',
+  ]);
+  const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
-      openModal();
-      setResourceID(resourceID);
-      setResourceType(RESOURCE_CLASS.SOURCE);
+      openModal.set(true);
+      resourceID.set(resourceUpID);
+      resourceType.set(RESOURCE_CLASS.SOURCE);
     }
   };
   const sourceCodeColumnsWithActions = [
