@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface PersonInfo {
   name: string;
@@ -35,13 +36,13 @@ export const useSns = () => {
   const [searchData, setSearchData] = useState(query.get('search') || '');
   const [searchClass, setSearchClass] = useState<string>(query.get('class') || 'email');
   const intelDataRef = useRef<any[]>([]);
+  const company = useGlobalFastField('company');
 
   const fetchSearch = (companyID: string) => {
     intelDataRef.current = [];
-    fetcher('post', {
+    return fetcher('post', {
       body: {
-        model: 'modules/sns',
-        ac: 'search',
+        model: 'modules/sns/search',
         company_id: companyID,
         keyword: searchData,
         class: searchClass,
@@ -54,7 +55,7 @@ export const useSns = () => {
           })
         : [];
       intelDataRef.current = arrayOfObjects;
-
+      if (data?.company) company.set(data.company);
       if (arrayOfObjects.length === 0 || data.response.size == 0) {
         toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
       }
@@ -64,7 +65,7 @@ export const useSns = () => {
   const handleSearch = () => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return;
-    fetchSearch(companyID);
+    return fetchSearch(companyID);
   };
 
   return {

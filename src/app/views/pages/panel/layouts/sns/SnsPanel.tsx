@@ -4,10 +4,12 @@ import SnsSearchAndData from './components/SnsSearchAndData.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import './Sns.scss';
 import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { previousSearches, isLoading, refetch } = usePreviousSearch('sns');
+  const company = useGlobalFastField('company');
 
   useEffect(() => {
     refetch();
@@ -21,6 +23,11 @@ const SnsPanel: FC = () => {
         </section>
 
         <section className="right">
+          <div>
+            <span style={{ fontSize: '1.5rem' }}>
+              Remaining searches: {company.get.disponibles_sns}
+            </span>
+          </div>
           <SnPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
         </section>
       </main>

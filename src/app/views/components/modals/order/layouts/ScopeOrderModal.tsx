@@ -6,21 +6,17 @@ import useTimeout from '#commonHooks/useTimeout.ts';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 
 export const ScopeOrderModal: FC = () => {
-  const { scope, resourceType, resetActiveOrder, updateState, setScopeOption, acceptCondition } =
-    useOrderStore(state => state);
-
-  const [scopeOptionW, setScopeOptionW] = useState<ScopeOption>(scope.scopeOption);
+  const { scope, resourceType, resetActiveOrder, updateState, acceptCondition } = useOrderStore(
+    state => state
+  );
   const [acceptConditions, setAcceptCondition] = useState<boolean>(acceptCondition);
   const [tryClick, setTryClick] = useState<boolean>(false);
   const { sendScopeOrders } = useOrderScope();
   const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
   const nextStep = () => {
-    if (acceptConditions && scopeOptionW !== ScopeOption.UNKNOWN) {
-      setScopeOption(scopeOptionW);
+    if (acceptConditions) {
       updateState('acceptCondition', acceptConditions);
-
-      const sendScope = scopeOptionW === ScopeOption.TYPE ? resourceType : 'full';
-      sendScopeOrders(sendScope).then((res: any) => {
+      sendScopeOrders(resourceType).then((res: any) => {
         updateState('referenceNumber', res?.order.reference_number);
       });
       updateState('orderStepActive', OrderSection.FREQUENCY);
@@ -48,18 +44,18 @@ export const ScopeOrderModal: FC = () => {
         <h3>Start a new pentest! Please select the assets that you would like to scope:</h3>
       </div>
       <div className="step-content">
-        <div
-          className={`option ${scopeOptionW === ScopeOption.TYPE && 'select-option'}`}
-          onClick={() => setScopeOptionW(ScopeOption.TYPE)}>
-          <input
+        <div className={`option`}>
+          {/*          <input
             id="scope-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
             checked={scopeOptionW === ScopeOption.TYPE}
             onChange={() => {}}
-          />
-          <div className="codefend-radio"></div>
+          /> 
+           <div className="codefend-radio"></div>
+          */}
+
           <label htmlFor="scope-resources" className="order-snapshot">
             <div className="top">
               <p>
@@ -77,7 +73,7 @@ export const ScopeOrderModal: FC = () => {
             </span>
           </label>
         </div>
-        <div
+        {/*        <div
           className={`option ${scopeOptionW === ScopeOption.ALL && 'select-option'}`}
           onClick={() => setScopeOptionW(ScopeOption.ALL)}>
           <input
@@ -105,7 +101,7 @@ export const ScopeOrderModal: FC = () => {
               A holistic assessment of all your company's resources.
             </span>
           </label>
-        </div>
+        </div> */}
       </div>
       <div className="scope-confirm">
         <input
@@ -141,7 +137,6 @@ export const ScopeOrderModal: FC = () => {
             click={nextStep}
             className="full"
             buttonStyle="red"
-            isDisabled={scopeOptionW === ScopeOption.UNKNOWN}
             disabledLoader
           />
         </div>

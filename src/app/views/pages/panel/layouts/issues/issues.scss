@@ -327,6 +327,22 @@ main.issues-list {
         gap: 5px;
       }
 
+      .columns-name {
+        .item-cell-4 {
+          --cell-issue-expand-4-colls: calc(var(--cell-issue-expand) - 0.25%);
+          flex: 0 0 var(--cell-issue-expand-4-colls);
+          width: var(--cell-issue-expand-4-colls);
+          max-width: var(--cell-issue-expand-4-colls);
+        }
+
+        .item-cell-2 {
+          --cell-issue-expand-2-colls: calc(var(--cell-issue-expand-2) - 0.5%);
+          flex: 0 0 var(--cell-issue-expand-2-colls);
+          width: var(--cell-issue-expand-2-colls);
+          max-width: var(--cell-issue-expand-2-colls);
+        }
+      }
+
       @media only screen and (min-width: 1640px) {
         --item-cell-extra: 0%;
 
@@ -343,11 +359,29 @@ main.issues-list {
           width: var(--cell-expand);
           max-width: var(--cell-expand);
         }
+
+        .columns-name {
+          .item-cell-2 {
+            --cell-issue-expand-2-colls: calc(var(--cell-expand) - 0.5%);
+            flex: 0 0 var(--cell-issue-expand-2-colls);
+            width: var(--cell-issue-expand-2-colls);
+            max-width: var(--cell-issue-expand-2-colls);
+          }
+
+          .item-cell-4 {
+            --cell-issue-expand-4-colls: calc(var(--cell-expand) - 0.25%);
+            flex: 0 0 var(--cell-issue-expand-4-colls);
+            width: var(--cell-issue-expand-4-colls);
+            max-width: var(--cell-issue-expand-4-colls);
+          }
+        }
       }
     }
   }
 
   .right {
+    padding-block-end: 2rem;
+
     .card {
       &.risk-chart {
         margin-block-end: 1.25rem;

@@ -5,9 +5,9 @@ import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/cons
 import { AppCard } from '@/app/views/components/AppCard/AppCard';
 
 export interface ViewAppCardProps {
-  type: string;
+  type: RESOURCE_CLASS;
   scopeALias: ScopeAlias;
-  getReport: (id: string, type: string, count: number) => void;
+  getReport: (id: string, type: RESOURCE_CLASS, count: number) => void;
   activeFilter: boolean;
   modalId: string;
 }

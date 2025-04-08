@@ -26,6 +26,7 @@ const fetcher = ([model, { company, logout }]: any) => {
             issues_share: data.issues_share,
             members: data.members ? data.members : [],
             resources: data.resources,
+            company: data?.company ?? null,
           }
         : EMPTY_DASHBOARD_PROPS;
     });

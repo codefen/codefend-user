@@ -1,17 +1,17 @@
 import { type FC } from 'react';
 import { ModalWrapper } from '..';
 
-import { useReportStore } from '../../../../data';
 import { CustomReport } from './CustomReport';
 import './reports.scss';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export interface WebReportModalProps {}
 
 export const ModalReport: FC<WebReportModalProps> = () => {
-  const { open, closeModal } = useReportStore(state => state);
-  if (open) {
+  const openModal = useGlobalFastField('openModal');
+  if (openModal.get) {
     return (
-      <ModalWrapper action={closeModal} type="report" showCloseBtn>
+      <ModalWrapper action={() => openModal.set(false)} type="report" showCloseBtn>
         <CustomReport isModal />
       </ModalWrapper>
     );

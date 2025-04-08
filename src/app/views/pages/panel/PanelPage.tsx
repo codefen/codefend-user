@@ -16,6 +16,8 @@ import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
 import useKeyEventPress from '@stores/keyEvents.ts';
 import { useVerifyScan } from '@hooks/useVerifyScan.ts';
+import { PaywallModal } from '@modals/paywall/PaywallModal.tsx';
+import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource.tsx';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -99,6 +101,8 @@ export const PanelPage = () => {
         />
         <WelcomeGroupTour />
         <QualityFeedbackManager />
+        <PaywallModal />
+        <WelcomeLoadResource />
 
         <ErrorConnection
           closeModal={closeErrorConnectionModal}

@@ -5,6 +5,7 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export interface PreviousSearch {
   id: string;
@@ -30,12 +31,12 @@ export const usePreviousSearch = (mod: string) => {
   const { getCompany, logout } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
   const dataRef = useRef<PreviousSearch[]>([]);
+  const company = useGlobalFastField('company');
 
   const fetchInitialSearch = async (companyID: string) => {
     fetcher('post', {
       body: {
-        model: `modules/${mod}`,
-        ac: 'view_previous',
+        model: `modules/${mod}/view_previous`,
         company_id: companyID,
       },
     })
@@ -45,7 +46,7 @@ export const usePreviousSearch = (mod: string) => {
         if (apiErrorValidation(data?.error, data?.response)) {
           throw new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
-
+        if (data?.company) company.set(data.company);
         dataRef.current = data?.previous_searches
           ? data?.previous_searches.map(
               (searches: any) => maPreviousSearch(searches) as PreviousSearch

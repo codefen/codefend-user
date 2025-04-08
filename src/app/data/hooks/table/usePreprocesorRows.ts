@@ -10,30 +10,36 @@ const filterRows = (
 ): any[] => {
   term = term.toLowerCase();
   const visibleKeys = new Set(columns.map(col => col.key));
-  return rows.filter(row => {
-    const rowValues = Object.entries(row)
-      .filter(([key]) => visibleKeys.has(key)) // Solo considerar claves visibles
-      .map(([, val]) => String(val || '').toLowerCase());
 
-    const rowMatches = rowValues.some(value => value.includes(term));
-    console.log('rowMatches: ', { rowMatches, val: row[initialOrder], row });
-    const matchingChildren =
-      row.childs?.filter((child: any) =>
-        Object.entries(child)
-          .filter(([key]) => visibleKeys.has(key))
-          .some(([, val]) =>
-            String(val || '')
-              .toLowerCase()
-              .includes(term)
-          )
-      ) || [];
-    if (rowMatches || matchingChildren.length > 0) {
-      row.childs = matchingChildren.length > 0 ? matchingChildren : row.childs;
-      return true;
-    }
+  return rows
+    .map(row => {
+      const rowValues = Object.entries(row)
+        .filter(([key]) => visibleKeys.has(key))
+        .map(([, val]) => String(val || '').toLowerCase());
 
-    return false;
-  });
+      const rowMatches = rowValues.some(value => value.includes(term));
+
+      const matchingChildren =
+        row.childs?.filter((child: any) =>
+          Object.entries(child)
+            .filter(([key]) => visibleKeys.has(key))
+            .some(([, val]) =>
+              String(val || '')
+                .toLowerCase()
+                .includes(term)
+            )
+        ) || [];
+
+      if (rowMatches || matchingChildren.length > 0) {
+        return {
+          ...row,
+          childs: matchingChildren.length > 0 ? matchingChildren : row.childs,
+        };
+      }
+
+      return null;
+    })
+    .filter(Boolean);
 };
 
 const usePreProcessedRows = (

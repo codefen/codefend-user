@@ -9,6 +9,7 @@ import type {
 import type { AuditCompanyData } from './util';
 
 export enum OrderSection {
+  PAYWALL = 0,
   SCOPE = 1,
   FREQUENCY = 2,
   TEAM_SIZE = 3,

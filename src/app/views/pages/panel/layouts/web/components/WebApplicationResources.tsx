@@ -3,15 +3,7 @@ import { useNavigate } from 'react-router';
 import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
-import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
-import {
-  TrashIcon,
-  GlobeWebIcon,
-  BugIcon,
-  DocumentIcon,
-  CredentialIcon,
-  CodefendIcon,
-} from '@icons';
+import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
@@ -28,6 +20,7 @@ import { ModalTitleWrapper } from '@modals/index';
 import { useAutoScan } from '@hooks/useAutoScan';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface WebResourcesProps {
   refresh: () => void;
@@ -94,9 +87,11 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { getCompany } = useUserData();
   const userHaveAccess = isAdmin() || isProvider();
   const [selectedResource, setSelectedResource] = useState<SelectedResource>({} as any);
-  const { openModal, setResourceID, setResourceType } = useReportStore(
-    (state: ReportStoreState) => state
-  );
+  const { resourceType, openModal, resourceID } = useGlobalFastFields([
+    'resourceType',
+    'openModal',
+    'resourceID',
+  ]);
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
@@ -110,9 +105,9 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   };
   const generateWebReport = (id: string, final_issues: any) => {
     if (Number(final_issues) >= 1) {
-      openModal();
-      setResourceID(id);
-      setResourceType(RESOURCE_CLASS.WEB);
+      openModal.set(true);
+      resourceID.set(id);
+      resourceType.set(RESOURCE_CLASS.WEB);
     }
   };
   const deleteWebResource = (row: any) => {

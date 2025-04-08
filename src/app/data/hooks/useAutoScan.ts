@@ -4,9 +4,11 @@ import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { ScanStepType } from '@/app/constants/welcome-steps';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();
+  const company = useGlobalFastField('company');
   // Setear datos para el scanner
   const {
     setScanRunning,

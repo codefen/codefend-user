@@ -53,12 +53,24 @@ export const EMPTY_COMPANY = {
 export const EMPTY_COMPANY_CUSTOM = {
   id: '',
   name: 'unknow',
+  class: '',
+  sub_class: '',
+  disponibles_issues_view: '',
+  disponibles_neuroscan: '',
+  disponibles_sns: '',
+  plan: '',
+  reseller_id: '',
+  reseller_name: '',
+  reseller_revenue_share: '',
   web: '',
   size: '',
   pais_code: '',
   pais: '',
   pais_provincia: '',
   pais_ciudad: '',
+  admin_user_email: '',
+  admin_user_id: '',
+  admin_user_username: '',
   owner_fname: '',
   owner_lname: '',
   owner_role: '',
@@ -152,6 +164,7 @@ export const EMPTY_DASHBOARD_PROPS = {
     source: '',
     web: '',
   },
+  company: {},
 };
 
 export const EMPTY_TICKET_WITHCHILD = {

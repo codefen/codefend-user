@@ -20,6 +20,7 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
   const { setViewMore } = useCredentialStore();
 
   useEffect(() => {
+    console.log('Entro al useEffect?', { appSelected, r: resources[0] });
     if (!appSelected) {
       setAppSelected(resources[0]);
     }

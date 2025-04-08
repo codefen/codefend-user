@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from './views/context/ThemeContext';
@@ -6,54 +6,40 @@ import { ErrorBoundary } from './views/components/ErrorBoundry/ErrorBoundry';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppRouter } from './router/Routes';
-import { RUNNING_DESKTOP } from './data';
-import { check } from '@tauri-apps/plugin-updater';
 import { UpdateAppModal } from '@modals/UpdateAppModal';
 import { UpdatingModal } from '@modals/UpdatingModal';
-import { useUploadingStore } from '@stores/updating.store';
 import { Loader } from '@/app/views/components/loaders/Loader';
-import { useUserLocation } from '@hooks/useUserLocation';
+import { GlobalStoreProvider } from '@/app/views/context/AppContextProvider';
+import { AppWrapper } from '@/app/views/AppWrapper';
 
 export const App = () => {
-  const { setHas, setUpdate, ...updateState } = useUploadingStore();
-  useUserLocation();
-  useEffect(() => {
-    if (RUNNING_DESKTOP()) {
-      if (!updateState.reject && !updateState.accept && !updateState.has) {
-        check().then(update => {
-          if (!!update && update.available) {
-            setHas(true);
-            setUpdate(update);
-          }
-        });
-      }
-    }
-    return () => {};
-  }, []);
-
   return (
-    <ErrorBoundary>
-      <ThemeProvider>
-        <BrowserRouter>
-          <UpdateAppModal />
-          <UpdatingModal />
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <Suspense fallback={<Loader />}>
-            <AppRouter />
-          </Suspense>
-        </BrowserRouter>
-      </ThemeProvider>
-    </ErrorBoundary>
+    <GlobalStoreProvider>
+      <ErrorBoundary>
+        <AppWrapper>
+          <ThemeProvider>
+            <BrowserRouter>
+              <UpdateAppModal />
+              <UpdatingModal />
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
+              <Suspense fallback={<Loader />}>
+                <AppRouter />
+              </Suspense>
+            </BrowserRouter>
+          </ThemeProvider>
+        </AppWrapper>
+      </ErrorBoundary>
+    </GlobalStoreProvider>
   );
 };

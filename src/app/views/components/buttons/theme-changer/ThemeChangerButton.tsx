@@ -8,7 +8,12 @@ export const ThemeChangerButton: FC<{ activeText?: boolean }> = ({ activeText }:
   const { theme, changeTheme } = useTheme();
 
   return (
-    <div title="Change theme" onClick={() => changeTheme()} className="action">
+    <div
+      title="Change theme"
+      onClick={() => {
+        changeTheme();
+      }}
+      className="action">
       <Show when={theme === 'dark'} fallback={<SunIcon width={1.75} height={1.75} />}>
         <MoonIcon width={1.75} height={1.75} />
       </Show>

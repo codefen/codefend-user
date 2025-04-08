@@ -1,5 +1,5 @@
 import { ModalWrapper } from '@modals/index';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import css from './signinform.module.scss';
 import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
@@ -8,10 +8,9 @@ import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constant
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { Link, useLocation, useSearchParams } from 'react-router';
+import { useLocation, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
-import { useUserLocationStore } from '@stores/useLocation.store';
 import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
 import { AuthInput } from '../../newRegister/AuthInput/AuthInput';
 import SelectField from '../../../../components/SelectField/SelectField';
@@ -21,11 +20,11 @@ import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
   const [fetcher, _, isLoading] = useFetcher();
-  const { country } = useUserLocationStore();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [lead_reference_number, setLeadReferenceNumber] = useState('');
@@ -35,6 +34,10 @@ export const NewSignupForm = () => {
   const [searchParams] = useSearchParams();
   const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
+  const country = useGlobalFastField('country');
+  const fnameRef = useRef<string>('');
+  const lnameRef = useRef<string>('');
+  const emailRef = useRef<string>('');
 
   useEffect(() => {
     const code = searchParams.get('code');
@@ -48,6 +51,9 @@ export const NewSignupForm = () => {
     }
   }, []);
 
+  const goBackValidateMe = (goTo: SignUpSteps) => {
+    setActiveStep(goTo);
+  };
   const nextFirstStep = (e: FormEvent) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
@@ -64,7 +70,7 @@ export const NewSignupForm = () => {
       Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
     }
     saveInitialDomain((form.get('company_web') as string) || '');
-    form.append('company_area', defaultCountries.filter(i => i.alpha2Code === country)[0].name);
+    form.append('company_area', defaultCountries.filter(i => i.alpha2Code === country.get)[0].name);
     form.append('idiom', 'en');
     form.append('reseller_id', '1');
     form.append('reseller_name', 'codefend');
@@ -130,7 +136,6 @@ export const NewSignupForm = () => {
       }
     });
   };
-  console.log({ pa: location.pathname });
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>
@@ -159,7 +164,7 @@ export const NewSignupForm = () => {
               placeholder="Email"
               required
             />
-            <PhoneInput name="lead_phone" defaultCountry={country} />
+            <PhoneInput name="lead_phone" defaultCountry={country.get} />
             <button type="submit" className={`btn ${css['sendButton']}`}>
               continue
             </button>
@@ -199,9 +204,17 @@ export const NewSignupForm = () => {
               defaultValue=""
               required
             />
-            <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
-              validate me!
-            </button>
+            <div className={`form-buttons ${css['form-btns']}`}>
+              <button
+                type="button"
+                className={`btn btn-gray`}
+                onClick={() => goBackValidateMe(SignUpSteps.STEP_ONE)}>
+                go back
+              </button>
+              <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
+                validate me!
+              </button>
+            </div>
           </form>
         </Show>
         <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
@@ -214,6 +227,17 @@ export const NewSignupForm = () => {
             <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
               send code
             </button>
+            <div className={`form-buttons ${css['form-btns']}`}>
+              <button
+                type="button"
+                className={`btn btn-gray`}
+                onClick={() => goBackValidateMe(SignUpSteps.STEP_TWO)}>
+                go back
+              </button>
+              <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
+                send code
+              </button>
+            </div>
           </form>
         </Show>
         <Show when={activeStep === SignUpSteps.STEP_FOUR && !specialLoading}>

@@ -29,8 +29,11 @@
     row-gap: 1rem;
 
     .sendButton {
-      margin-inline-start: auto;
       min-width: 200px;
     }
   }
+}
+
+.form-btns {
+  justify-content: flex-end;
 }

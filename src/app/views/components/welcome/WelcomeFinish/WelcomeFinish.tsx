@@ -29,15 +29,15 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
 
       progressInterval = setInterval(() => {
         // Incremento gradual que se desacelera a medida que se acerca al 20%
-        const increment = 0.5 * (1 - progressRef.current / 20);
-        progressRef.current = Math.min(progressRef.current + increment, 20);
+        const increment = 0.5 * (1 - progressRef.current / 25);
+        progressRef.current = Math.min(progressRef.current + increment, 25);
         setProgress(progressRef.current);
-      }, 1000);
+      }, 2300);
     } else if (scanStep === 'parser') {
       // En la fase de parseo, comenzamos en 30% y avanzamos hasta 90% basado en el progreso del parseo
       // Calculamos el progreso basado en vulnerabilidades parseadas vs encontradas
-      const baseProgress = 20;
-      const maxParsingProgress = 98;
+      const baseProgress = 25;
+      const maxParsingProgress = 99;
       const parsingProgressRange = maxParsingProgress - baseProgress;
 
       // Calculamos el progreso actual del parseo
@@ -79,7 +79,6 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const closeModal = () => {
     setFirstClose(false);
     setScanRunning(true);
-    console.log('Entro al error closeModal');
     setScanStep(ScanStepType.NonScan);
     solved();
   };

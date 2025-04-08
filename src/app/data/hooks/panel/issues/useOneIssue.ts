@@ -10,6 +10,8 @@ import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import useModalStore from '@stores/modal.store';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
@@ -19,6 +21,7 @@ export const useOneIssue = () => {
   const [fetcher, _, isLoading] = useFetcher();
   const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
   const { updateState } = useOrderStore();
+  const company = useGlobalFastField('company');
 
   const fetchOne = (companyID: string, selectedID: string) => {
     fetcher('post', {
@@ -34,7 +37,7 @@ export const useOneIssue = () => {
           throw new Error(data.info || '');
         }
         issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
-
+        if (data?.company) company.set(data.company);
         updateUserData(data.user);
         updateToken(data.session);
       })
@@ -44,11 +47,9 @@ export const useOneIssue = () => {
           return;
         }
         toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-        console.log('Entro aca:');
         if (error?.message?.includes?.('maximum of 3')) {
-          console.log('Entro al if');
           updateState('open', true);
-          updateState('orderStepActive', OrderSection.SCOPE);
+          updateState('orderStepActive', OrderSection.PAYWALL);
           updateState('resourceType', ResourcesTypes.WEB);
         }
         navigate('/issues');
