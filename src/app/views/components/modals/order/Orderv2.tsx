@@ -17,6 +17,8 @@ import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';
 import { TeamSizeOrderModal } from '@modals/order/layouts/TeamSizeOrderModal';
 import { AnyPaymentMethod } from '@modals/order/layouts/AnyPaymentMetod';
 import { PaywallOrderModal } from '@modals/order/layouts/PaywallOrderModal';
+import { SmallPlanOrderModal } from '@modals/order/layouts/SmallPlanOrderModal';
+import { ArabicOrderModal } from '@modals/order/layouts/ArabicOrderModal';
 
 export const OrderV2 = () => {
   const [isNextStep, updateNextStep] = useState(false);
@@ -34,10 +36,15 @@ export const OrderV2 = () => {
       setScopeAllTotalResources(-1);
     }
   }, [open]);
-
+  const close = () => {
+    resetActiveOrder();
+  };
   const ActiveStep = () => {
     if (isNextStep) return <PageLoader />;
-    if (orderStepActive === OrderSection.PAYWALL) return <PaywallOrderModal />;
+    if (orderStepActive === OrderSection.PAYWALL) return <PaywallOrderModal close={close} />;
+    if (orderStepActive === OrderSection.SMALL_PLANS) return <SmallPlanOrderModal />;
+    if (orderStepActive === OrderSection.ARABIC_PLAN) return <ArabicOrderModal />;
+    SmallPlanOrderModal;
     if (orderStepActive === OrderSection.SCOPE) return <ScopeOrderModal />;
     if (orderStepActive === OrderSection.FREQUENCY) return <FrequencyOrderModal />;
     if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
@@ -57,10 +64,6 @@ export const OrderV2 = () => {
     ) : (
       <WaitingCheckOrderModal />
     );
-  };
-
-  const close = () => {
-    resetActiveOrder();
   };
 
   if (!open) {

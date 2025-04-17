@@ -17,9 +17,9 @@ export const useIssues = () => {
   const fetchAll = useCallback((companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'issues/index',
         company_id: companyID,
       },
+      path: 'issues/index',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       dataRef.current = data.issues ? data.issues.map((issue: any) => mapIssues(issue)) : [];

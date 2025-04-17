@@ -1,6 +1,5 @@
 import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
-import { ModalWrapper, PrimaryButton } from '..';
 import {
   CLoudIcon,
   GlobeWebIcon,
@@ -9,12 +8,14 @@ import {
   PeopleGroupIcon,
   SourceCodeIcon,
 } from '@icons';
-import ResourceFigures from '../ResourceFigures/ResourceFigures';
-import '@styles/welcome-guides.scss';
+import ResourceFigures from '../../ResourceFigures/ResourceFigures';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
-import './welcome.scss';
 import useModalStore from '@stores/modal.store';
 import Show from '@/app/views/components/Show/Show';
+import { ModalWrapper } from '@modals/index';
+import { PrimaryButton } from '@buttons/index';
+import '../welcome.scss';
+import css from './welcomeload.module.scss';
 
 interface WelcomeLoadResourceProps {}
 const getPath = (alias: string): string => {
@@ -40,7 +41,7 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = () => {
   };
   return (
     <Show when={modalId === MODAL_KEY_OPEN.USER_SELECT_RESOURCE && isOpen}>
-      <ModalWrapper action={close} type="load-resource">
+      <ModalWrapper action={close} type={css['load-resource']}>
         <div className="welcome-container">
           <header className="welcome-header">
             <div className="welcome-header-title">
@@ -52,11 +53,6 @@ const WelcomeLoadResource: FC<WelcomeLoadResourceProps> = () => {
               <h2>
                 <span>Welcome to</span>codefend
               </h2>
-              {/*
-                            <ActiveProgressiveSteps
-								orderStepActive={orderStepActive}
-							/>
-                            */}
             </div>
           </header>
 

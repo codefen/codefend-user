@@ -7,14 +7,18 @@ import {
   ResourcesTypes,
   OrderFrequency,
   ScopeOption,
+  UserPlanSelected,
+  UserSmallPlanSelected,
 } from '@interfaces/order';
 import { create } from 'zustand';
+
+export enum UserTrails {}
 
 export interface OrderStore {
   open: boolean;
 
   orderStepActive: OrderSection;
-
+  paywallSelected: UserPlanSelected;
   resourceType: ResourcesTypes;
   resumeResources: ResumeAllResources;
 
@@ -26,6 +30,7 @@ export interface OrderStore {
   offensiveOrder: OrderOffensive;
   aditionalInfo: string;
   paymentMethod: OrderPaymentMethod;
+  userSmallPlanSelected: UserSmallPlanSelected;
 
   referenceNumber: string;
   orderId: string;
@@ -57,6 +62,8 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
   paymentMethod: OrderPaymentMethod.UNKNOWN,
   referenceNumber: '',
   orderId: '',
+  paywallSelected: UserPlanSelected.NOTHING,
+  userSmallPlanSelected: UserSmallPlanSelected.NOTHING,
 
   setScopeTotalResources: (resources: number) =>
     set((current: OrderStore) => ({

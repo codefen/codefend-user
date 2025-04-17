@@ -9,11 +9,11 @@ const useFetchEndpoints = (companyID: string, scanID: number) => {
   const fetchEnd = async (companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'modules/epm/devices',
         ac: 'get',
         scan_id: scanID,
         company_id: companyID,
       },
+      path: 'modules/epm/devices',
     }).then(({ data }: any) => {
       dataRef.current = data;
     });

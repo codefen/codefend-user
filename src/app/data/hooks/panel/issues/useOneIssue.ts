@@ -26,10 +26,10 @@ export const useOneIssue = () => {
   const fetchOne = (companyID: string, selectedID: string) => {
     fetcher('post', {
       body: {
-        model: 'issues/view',
         issue_id: selectedID,
         company_id: companyID,
       },
+      path: 'issues/view',
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;

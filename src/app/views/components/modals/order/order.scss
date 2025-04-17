@@ -743,6 +743,115 @@
       }
     }
   }
+
+  .paywall-container {
+    .padding {
+      padding: 1rem;
+      line-height: 1.45rem;
+    }
+
+    .primary-container.paywall {
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    .basic-selected {
+      background-color: var(--bg-price);
+    }
+
+    .step-content-gird {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+      padding-inline: 1rem;
+    }
+
+    .pricing-card {
+      position: relative;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
+      background-color: var(--primary-color-500);
+
+      &.selected-card {
+        outline: 2px solid var(--bg-price);
+        background-color: var(--primary-color-600);
+      }
+    }
+
+    .pricing-card-header {
+      position: absolute;
+      top: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .pricing-circle {
+        background-color: var(--bg-price);
+        color: #0f1822;
+        border-radius: 100%;
+        width: 5.5rem;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .text-xs {
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
+
+        .text-xl {
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+        }
+
+        .text-teen {
+          font-size: 10px;
+        }
+      }
+    }
+
+    .pricing-list-items {
+      padding-top: 7.5rem;
+      padding-bottom: 2rem;
+      padding-inline: 1rem;
+
+      h4 {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+      }
+
+      ul {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-inline: 0;
+
+        li {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.5rem;
+
+          svg {
+            width: 24px;
+            height: 24px;
+            color: #8ae356;
+          }
+        }
+      }
+    }
+  }
 }
 
 .img-red-neuronal {

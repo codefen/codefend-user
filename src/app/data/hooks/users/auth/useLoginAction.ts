@@ -19,8 +19,8 @@ export const useLoginAction = () => {
       body: {
         provided_password: password,
         provided_email: email,
-        model: 'users/access',
       },
+      path: '/users/access',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response) || !data.user) {

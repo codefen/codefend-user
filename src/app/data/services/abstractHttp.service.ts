@@ -52,6 +52,11 @@ export abstract class HttpService implements HttpServiceInterface {
   }
 
   protected getURL(path: string) {
-    return path ? `${this.baseUrl}${path}` : this.baseUrl;
+    if (path) {
+      const base = this.baseUrl.replace(/\/index\.php$/, '');
+      return `${base}${path.startsWith('/') ? path : '/' + path}`;
+    } else {
+      return this.baseUrl;
+    }
   }
 }

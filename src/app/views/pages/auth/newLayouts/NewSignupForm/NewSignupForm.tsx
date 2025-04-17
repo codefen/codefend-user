@@ -35,9 +35,7 @@ export const NewSignupForm = () => {
   const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
   const country = useGlobalFastField('country');
-  const fnameRef = useRef<string>('');
-  const lnameRef = useRef<string>('');
-  const emailRef = useRef<string>('');
+  const lead = useGlobalFastField('lead');
 
   useEffect(() => {
     const code = searchParams.get('code');
@@ -58,6 +56,16 @@ export const NewSignupForm = () => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const formObject = Object.fromEntries(form.entries());
+    const fullNumberRaw = formObject?.['lead_phone'] as string;
+    const [areaCode, number] = fullNumberRaw.split(/\*+/);
+    lead.set({
+      ...lead.get,
+      lead_fname: formObject?.['lead_fname'] as string,
+      lead_lname: formObject?.['lead_lname'] as string,
+      lead_email: formObject?.['lead_email'] as string,
+      lead_phone: number,
+    });
+    formObject['lead_phone'] = `${areaCode}${number}`;
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
     setActiveStep(SignUpSteps.STEP_TWO);
   };
@@ -70,13 +78,21 @@ export const NewSignupForm = () => {
       Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
     }
     saveInitialDomain((form.get('company_web') as string) || '');
+    lead.set({
+      ...lead.get,
+      company_name: form?.get('company_name') as string,
+      company_web: form?.get('company_web') as string,
+      company_size: form?.get('company_size') as string,
+      idiom: form?.get('idiom') as string,
+    });
     form.append(
       'company_area',
       defaultCountries?.filter(i => i?.alpha2Code === country?.get)?.[0]?.name
     );
-    form.append('idiom', 'en');
+
     form.append('reseller_id', '1');
     form.append('reseller_name', 'codefend');
+
     // Endpoint reference
     form.append('phase', '1');
     form.append('model', 'users/new');
@@ -152,12 +168,14 @@ export const NewSignupForm = () => {
               placeholder="First name"
               name="lead_fname"
               autoComplete="given-name"
+              defaultValue={lead.get.lead_fname}
               required
             />
             <AuthInput
               placeholder="Last name"
               name="lead_lname"
               autoComplete="family-name"
+              defaultValue={lead.get.lead_lname}
               required
             />
             <AuthInput
@@ -165,9 +183,15 @@ export const NewSignupForm = () => {
               name="lead_email"
               autoComplete="email"
               placeholder="Email"
+              defaultValue={lead.get.lead_email}
               required
             />
-            <PhoneInput name="lead_phone" defaultCountry={country.get} />
+            <PhoneInput
+              name="lead_phone"
+              defaultPhone={lead.get.lead_phone}
+              defaultCountry={country.get}
+              changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
+            />
             <button type="submit" className={`btn ${css['sendButton']}`}>
               continue
             </button>
@@ -175,8 +199,18 @@ export const NewSignupForm = () => {
         </Show>
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
           <form onSubmit={nextSecondStep}>
-            <AuthInput placeholder="Company Name" name="company_name" required />
-            <AuthInput placeholder="Company website (Ej. myweb.com)" name="company_web" required />
+            <AuthInput
+              placeholder="Company Name"
+              name="company_name"
+              defaultValue={lead.get.company_name}
+              required
+            />
+            <AuthInput
+              placeholder="Company website (Ej. myweb.com)"
+              name="company_web"
+              defaultValue={lead.get.company_web}
+              required
+            />
             <SelectField
               name="company_size"
               options={[
@@ -186,25 +220,18 @@ export const NewSignupForm = () => {
                   label: company.label,
                 })),
               ]}
-              defaultValue=""
+              defaultValue={lead.get.company_size}
               required
             />
             <SelectField
-              name="lead_role"
+              name="idiom"
               options={[
-                { value: '', label: 'role', hidden: true },
-                { value: 'admin', label: 'administrative' },
-                { value: 'human', label: 'human resources' },
-                { value: 'info', label: 'information tech' },
-                { value: 'ads', label: 'marketing' },
-                { value: 'sales', label: 'sales' },
-                { value: 'finance', label: 'finance' },
-                { value: 'cs', label: 'customer service' },
-                { value: 'prod', label: 'production & ops' },
-                { value: 'plan', label: 'strategy & planning' },
-                { value: 'law', label: 'legal affairs' },
+                { value: '', label: 'Idiom', hidden: true },
+                { value: 'en', label: 'English' },
+                { value: 'es', label: 'Español' },
+                { value: 'ar', label: 'العربية' },
               ]}
-              defaultValue=""
+              defaultValue={lead.get.idiom}
               required
             />
             <div className={`form-buttons ${css['form-btns']}`}>
@@ -227,9 +254,6 @@ export const NewSignupForm = () => {
               subText="Please check your inbox, copy the verification code and paste it in the field below to confirm your email."
             />
             <AuthInput placeholder="Unique code" name="lead_reference_number" required />
-            <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
-              send code
-            </button>
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"

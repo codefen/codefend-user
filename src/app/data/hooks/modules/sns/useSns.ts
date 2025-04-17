@@ -42,11 +42,11 @@ export const useSns = () => {
     intelDataRef.current = [];
     return fetcher('post', {
       body: {
-        model: 'modules/sns/search',
         company_id: companyID,
         keyword: searchData,
         class: searchClass,
       },
+      path: 'modules/sns/search',
     }).then(({ data }: any) => {
       const arrayOfObjects = !!data?.response?.results
         ? Object.entries(data.response.results).map(([key, value]) => {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { OrderSection } from '@interfaces/order';
+import { OrderSection, UserPlanSelected } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
@@ -14,7 +14,7 @@ let stripePromise = loadStripe(
 export const CardPaymentModal = () => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
-  const { updateState, referenceNumber, orderId } = useOrderStore(state => state);
+  const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
   const merchId = useRef('null');
   const optionsRef = useRef({});
   const fetchClientSecret = useCallback(() => {
@@ -69,7 +69,12 @@ export const CardPaymentModal = () => {
   }, []);
 
   const backStep = () => {
-    updateState('orderStepActive', OrderSection.PAYMENT);
+    const backStep =
+      paywallSelected === UserPlanSelected.SMALL_P ||
+      paywallSelected === UserPlanSelected.CONTINIOUS
+        ? OrderSection.SMALL_PLANS
+        : OrderSection.PAYMENT;
+    updateState('orderStepActive', backStep);
   };
 
   return (

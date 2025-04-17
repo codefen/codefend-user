@@ -48,7 +48,6 @@ export const useUpdateIssue = () => {
 
     return fetcher('post', {
       body: {
-        model: 'issues/mod',
         company_id: companyID,
         id: updatedIssue.id,
         main_desc: _editorContent,
@@ -57,6 +56,7 @@ export const useUpdateIssue = () => {
         risk_score: updatedIssue.score,
         condicion: updatedIssue.status,
       },
+      path: 'issues/mod',
     })
       .then(({ data }: any) => {
         if (data.isAnError || apiErrorValidation(data?.error, data?.response))

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+export type KeyPress = 'Escape' | 'NONE';
 export interface FetchPattern<D> {
   error: null | Error;
   data: D | null;

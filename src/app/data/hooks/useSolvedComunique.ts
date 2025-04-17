@@ -10,10 +10,10 @@ export const useSolvedComunique = () => {
 
     fetcher('post', {
       body: {
-        model: 'users/communiques/solved',
         id: id,
         company_id: getCompany(),
       },
+      path: '/users/communiques/solved',
     });
   };
 

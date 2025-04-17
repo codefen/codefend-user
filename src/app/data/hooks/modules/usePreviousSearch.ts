@@ -36,9 +36,9 @@ export const usePreviousSearch = (mod: string) => {
   const fetchInitialSearch = async (companyID: string) => {
     fetcher('post', {
       body: {
-        model: `modules/${mod}/view_previous`,
         company_id: companyID,
       },
+      path: `modules/${mod}/view_previous`,
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;

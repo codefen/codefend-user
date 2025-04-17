@@ -2,7 +2,7 @@ import { useEffect, type PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
 import { ResourcesTypes } from '@interfaces/order';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
-import type { AuditData, LocationData, OwnerData } from '@interfaces/util';
+import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
 import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
 
 export interface CompanyUser extends OwnerData, AuditData, LocationData {
@@ -27,6 +27,17 @@ export interface CompanyUser extends OwnerData, AuditData, LocationData {
   address: string;
 }
 
+export interface UserLead {
+  lead_fname: string;
+  lead_lname: string;
+  lead_email: string;
+  lead_phone: string;
+  company_name: string;
+  company_web: string;
+  company_size: string;
+  idiom: string;
+}
+
 export type GlobalStore = {
   isOpenNetworkSetting: boolean;
   country: string;
@@ -36,6 +47,8 @@ export type GlobalStore = {
   resourceType: RESOURCE_CLASS;
   resourceID: string;
   company: CompanyUser;
+  keyPress: KeyPress;
+  lead: UserLead;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -50,6 +63,8 @@ export const initialGlobalState: GlobalStore = {
   resourceType: persistedState?.resourceType ?? RESOURCE_CLASS.WEB,
   resourceID: persistedState?.resourceID ?? '',
   company: persistedState?.company ?? EMPTY_COMPANY_CUSTOM,
+  keyPress: persistedState?.keyPress ?? '',
+  lead: persistedState?.lead ?? {},
 };
 
 const {
