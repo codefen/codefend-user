@@ -22,7 +22,6 @@ export const useRegisPhaseOne = () => {
     const requestParams: RegisterParams = {
       lead_fname: givenName.current?.value || '',
       lead_lname: familyName.current?.value || '',
-      lead_role: companyRole.current?.value || '',
       lead_email: email.current?.value || '',
       lead_phone: phone.current?.value || '',
       company_name: company.current?.value || '',

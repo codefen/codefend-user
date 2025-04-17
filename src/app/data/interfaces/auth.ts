@@ -8,7 +8,6 @@ export interface LoginParams {
 export interface RegisterParams {
   lead_fname: string;
   lead_lname?: string;
-  lead_role: string | number;
   lead_email: string;
   lead_phone?: string;
   company_name: string;

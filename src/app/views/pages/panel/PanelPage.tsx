@@ -14,10 +14,10 @@ import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.t
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
-import useKeyEventPress from '@stores/keyEvents.ts';
 import { useVerifyScan } from '@hooks/useVerifyScan.ts';
 import { PaywallModal } from '@modals/paywall/PaywallModal.tsx';
-import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource.tsx';
+import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource/WelcomeLoadResource.tsx';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -28,7 +28,7 @@ export const MobileFallback = lazy(
 
 export const PanelPage = () => {
   const location = useLocation();
-  const { setKeyPress } = useKeyEventPress();
+  const keyPress = useGlobalFastField('keyPress');
   const matches = useMediaQuery('(min-width: 1175px)');
   const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
   const { isAuth, getUserdata, updateAuth, logout } = useUserData();
@@ -64,7 +64,7 @@ export const PanelPage = () => {
           setShowModalStr(MODAL_KEY_OPEN.NETWORK_SETTING);
         }
         if (e.key === 'Escape') {
-          setKeyPress('Escape');
+          keyPress.set('Escape');
           e.preventDefault();
         }
 

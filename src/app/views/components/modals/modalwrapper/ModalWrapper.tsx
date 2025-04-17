@@ -1,9 +1,9 @@
 import { useEffect, type FC, type ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import './modal.scss';
-import useKeyEventPress from '@stores/keyEvents';
 import Show from '@/app/views/components/Show/Show';
 import { CloseIcon } from '@icons';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface ModalWrapper {
   children: ReactNode;
@@ -23,7 +23,7 @@ const ModalWrapper: FC<ModalWrapper> = ({
   showCloseBtn,
   className = '',
 }) => {
-  const { setKeyPress, keyPress } = useKeyEventPress();
+  const keyPress = useGlobalFastField('keyPress');
   const closeEvent = (e?: any) => {
     if (e) {
       e.preventDefault();
@@ -33,11 +33,11 @@ const ModalWrapper: FC<ModalWrapper> = ({
   };
 
   useEffect(() => {
-    if (keyPress === 'Escape') {
+    if (keyPress.get === 'Escape') {
       closeEvent();
-      setKeyPress('NONE');
+      keyPress.set('NONE');
     }
-  }, [keyPress]);
+  }, [keyPress.get]);
 
   if (!root) {
     console.error('Modal root element not found');

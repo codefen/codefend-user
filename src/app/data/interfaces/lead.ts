@@ -5,7 +5,6 @@ export interface Lead extends CompanyData, AuditData {
   username: string;
   password: string;
   lead_lname: string;
-  lead_role: string;
   lead_email: string;
   lead_phone: string;
   reseller_id: string;

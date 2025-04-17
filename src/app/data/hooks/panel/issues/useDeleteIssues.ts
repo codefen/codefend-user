@@ -13,10 +13,10 @@ export const useDeleteIssue = () => {
   const fetchDelete = (issueId: string, companyID: string) => {
     return fetcher('post', {
       body: {
-        model: 'issues/del',
         company_id: companyID,
         id: issueId,
       },
+      path: 'issues/del',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response))

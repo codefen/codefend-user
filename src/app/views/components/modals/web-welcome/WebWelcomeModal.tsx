@@ -4,7 +4,6 @@ import { GlobeWebIcon, PrimaryButton } from '../..';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import WebDomainForm from '../../forms/WebDomainForm';
-import '@styles/welcome-guides.scss';
 
 const WebWelcomeModal = () => {
   const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();

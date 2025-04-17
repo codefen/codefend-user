@@ -12,11 +12,11 @@ export const useIntelPreview = () => {
   const fetchPreview = async (params: any, companyID: string) => {
     return fetcher('post', {
       body: {
-        model: 'modules/inx',
         ac: 'preview',
         company_id: companyID,
         ...params,
       },
+      path: 'modules/inx',
       requestId: `p-${params.sid}-${params.bid}`,
     }).then(({ data }: any) => {
       if (!data || apiErrorValidation(data?.error, data?.response)) return false;

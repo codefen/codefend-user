@@ -19,11 +19,11 @@ export const useIssueReport = () => {
   const getReport = (companyID: string, issueID: string, resourceType: string) => {
     return fetcher('post', {
       body: {
-        model: 'issues/inform',
         company_id: companyID,
         resource_id: issueID,
         resource_class: resourceType,
       },
+      path: 'issues/inform',
     }).then(({ data }: any) => {
       issues.current = data.issues ? data.issues.map((issue: any) => mapReportIssues(issue)) : [];
 

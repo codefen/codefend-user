@@ -13,10 +13,10 @@ export const useEnpGetScans = () => {
   const fetchEnd = async (companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'modules/epm/devices',
         ac: 'get_scans',
         company_id: companyID,
       },
+      path: 'modules/epm/devices',
     }).then(({ data }: any) => {
       dataRef.current = data.data;
 
