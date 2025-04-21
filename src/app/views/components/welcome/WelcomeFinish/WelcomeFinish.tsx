@@ -93,7 +93,9 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           <b>You can now close this modal.</b>
         </p>
 
-        <ProgressCircle progress={progress} />
+        <div>
+          <ProgressCircle progress={progress} />
+        </div>
 
         <div className={css['finish-text']}>
           <p>

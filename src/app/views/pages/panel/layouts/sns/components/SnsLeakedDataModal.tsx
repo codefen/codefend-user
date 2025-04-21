@@ -48,26 +48,18 @@ export const SnsLeakedDataModal = ({
     const fetchCrackData = async () =>
       await fetcher('post', {
         body: {
-          model: `modules/sns/${LEAKED_TYPES[type].ac}`,
           class: LEAKED_TYPES[type]?.class || searchClass,
           keyword: leaked.value[0][LEAKED_TYPES[type].value],
           company_id: companyID,
         },
+        path: `modules/sns/${LEAKED_TYPES[type].ac}`,
         requireSession: true,
-      }).then(({ data }: any) => {
-        return type === 'crack'
-          ? {
-              keyword: data.keyword,
-              took: data.response.took,
-              results: data.response.results,
-            }
-          : {
-              keyword: data.keyword,
-              took: data.response.took,
-              size: data.response.size,
-              results: data.response.results,
-            };
-      });
+      }).then(({ data }: any) => ({
+        keyword: data.keyword,
+        took: data.response?.took,
+        size: type !== 'crack' ? data.response?.size : undefined,
+        results: data.response?.results,
+      }));
 
     fetchCrackData().then(res => setData(res));
   }, [isActive]);
@@ -109,7 +101,7 @@ export const SnsLeakedDataModal = ({
                   ? Object.entries(data.results).map(([key, value]: any) => (
                       <div className="item-subgrid" key={key}>
                         <h5>{key}</h5>
-                        <SnsDisplayLekeadData type={type} value={value} />
+                        <SnsDisplayLeakedData type={type} value={value} />
                       </div>
                     ))
                   : 'No results'}
@@ -122,7 +114,7 @@ export const SnsLeakedDataModal = ({
   );
 };
 
-export const SnsDisplayLekeadData = ({ type, value }: { type: string; value: any }) => {
+export const SnsDisplayLeakedData = ({ type, value }: { type: string; value: any }) => {
   if (type === 'crack') {
     return value.map((item: any) => (
       <div key={item?.hash} className="item-subgrid-table">

@@ -19,10 +19,9 @@ export const useGetWebResources = () => {
     fetcher<any>('post', {
       body: {
         company_id: companyID,
-        model: 'resources/web/index',
         childs: childs ? childs : 'yes',
-        resource_address_domain: 'clarin.com',
       },
+      path: 'resources/web/index',
     }).then(({ data }) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {

@@ -11,7 +11,7 @@ import './cloud.scss';
 import { CloudSelectedDetails } from './components/CloudSelectedDetails';
 import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithSearch/ListResourceWithSearch';
 import EmptyLayout from '../EmptyLayout';
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { cloudEmptyScreen } from '@/app/constants/app-texts';
 
 const CloudApplicationPanel: FC = () => {

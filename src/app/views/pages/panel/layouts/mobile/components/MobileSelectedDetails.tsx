@@ -8,7 +8,7 @@ import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesSta
 
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { ResourcesTypes } from '@interfaces/order';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';

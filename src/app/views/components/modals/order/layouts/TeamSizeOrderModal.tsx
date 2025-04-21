@@ -5,7 +5,7 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { formatNumber } from '@utils/helper';
 import { OrderTeamSize, OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
-import { useOrderPlan } from '@hooks/useOrders';
+import { useOrderPlan } from '@hooks/orders/useOrders';
 
 interface PricePlans {
   small: string;

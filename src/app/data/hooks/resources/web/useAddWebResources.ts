@@ -32,11 +32,11 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
     onClose();
     fetcher<any>('post', {
       body: {
-        model: 'resources/web/add',
         company_id: companyID,
         resource_address_domain: domainName.current?.value || '',
         subdomain_scan: subdomain_scan.current?.checked ? 'yes' : 'no',
       },
+      path: 'resources/web/add',
       timeout: 180000,
     })
       .then(({ data }) => {

@@ -11,10 +11,10 @@ export const useProviderOrderScope = () => {
   const getProviderOrder = (orderId: string) => {
     fetcher('post', {
       body: {
-        model: 'providers/orders/view',
         company_id: getCompany(),
         order_id: orderId,
       },
+      path: 'providers/orders/view',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

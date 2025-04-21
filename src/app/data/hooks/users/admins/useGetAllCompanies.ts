@@ -15,9 +15,9 @@ const useGetAllCompanies = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'companies/dashboard',
         company_id: companyID,
       },
+      path: 'companies/dashboard',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

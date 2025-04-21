@@ -12,11 +12,11 @@ export const useViewCredentials = () => {
   const getCredentials = (type: string, id: string) => {
     fetcher('post', {
       body: {
-        model: 'creds/index',
         company_id: getCompany(),
         resource_class: type,
         resource_id: id,
       },
+      path: 'creds/index',
     }).then(({ data }: any) => {
       if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
 

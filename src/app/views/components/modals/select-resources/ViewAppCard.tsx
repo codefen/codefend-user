@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FC, type FormEvent } from 'react';
-import { useGetResources } from '@resourcesHooks/useGetResources';
+import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import type { ScopeAlias } from '@interfaces/util';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
 import { AppCard } from '@/app/views/components/AppCard/AppCard';

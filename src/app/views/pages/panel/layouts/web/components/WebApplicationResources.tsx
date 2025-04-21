@@ -17,10 +17,10 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
 import Show from '@/app/views/components/Show/Show';
 import { ModalTitleWrapper } from '@modals/index';
-import { useAutoScan } from '@hooks/useAutoScan';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useAutoScan } from '@panelHooks/useAutoScan';
 
 interface WebResourcesProps {
   refresh: () => void;

@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from 'react';
 import { formatWalletID } from '@utils/helper';
 import { OrderSection, OrderTeamSize, CryptoPayment } from '@interfaces/order';
-import { useOrderSaveCryptoPayment, useOrderCryptoFinancial } from '@hooks/useOrders';
+import { useOrderSaveCryptoPayment, useOrderCryptoFinancial } from '@hooks/orders/useOrders';
 import { useOrderStore } from '@stores/orders.store';
 import { CopiedIcon, CopyIcon } from '@icons';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';

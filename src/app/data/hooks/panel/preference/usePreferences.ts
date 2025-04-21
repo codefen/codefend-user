@@ -21,9 +21,9 @@ export const usePreferences = () => {
   const fetchAll = useCallback((companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'companies/preferences',
         company_id: companyID,
       },
+      path: 'companies/preferences',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {

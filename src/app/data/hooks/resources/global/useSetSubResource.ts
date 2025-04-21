@@ -13,10 +13,10 @@ export const useSetResource = (type: string, successText: string) => {
     if (companyIdIsNull(companyID)) return Promise.reject(false);
     return fetcher<any>('post', {
       body: {
-        model: `resources/${type}`,
         company_id: companyID,
         ...params,
       },
+      path: `resources/${type}`,
       timeout: 180000,
     })
       .then(({ data }) => {

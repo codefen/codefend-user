@@ -2,7 +2,7 @@ import { type FC, useState } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { OrderFrequency, OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
-import { useOrderMembership } from '@hooks/useOrders';
+import { useOrderMembership } from '@hooks/orders/useOrders';
 
 export const FrequencyOrderModal: FC = () => {
   const { frequency, updateState, referenceNumber, orderId } = useOrderStore(state => state);

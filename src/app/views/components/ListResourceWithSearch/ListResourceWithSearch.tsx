@@ -1,4 +1,4 @@
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { AppCard } from '@/app/views/components/AppCard/AppCard';
 import useCredentialStore from '@stores/credential.store';
 import { useEffect, useMemo, useState, type FC } from 'react';

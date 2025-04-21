@@ -14,9 +14,9 @@ export const useProviderCompanies = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'providers/companies/access',
         company_id: companyID,
       },
+      path: 'providers/companies/access',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

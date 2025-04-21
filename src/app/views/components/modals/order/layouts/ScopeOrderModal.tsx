@@ -1,5 +1,5 @@
 import { type FC, useState } from 'react';
-import { useOrderScope } from '@hooks/useOrders';
+import { useOrderScope } from '@hooks/orders/useOrders';
 import { ScopeOption, OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import useTimeout from '#commonHooks/useTimeout.ts';

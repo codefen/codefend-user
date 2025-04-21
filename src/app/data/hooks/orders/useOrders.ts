@@ -9,7 +9,7 @@ import {
   CryptoPayment,
   getDomainCounts,
   ResourcesTypes,
-} from '..';
+} from '../..';
 import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import type { SocialResourceResume } from '@interfaces/resources-resumes';

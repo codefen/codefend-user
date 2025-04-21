@@ -21,10 +21,10 @@ export const WelcomeScan = ({
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'modules/neuroscan',
         resource_id: domainId,
         company_id: companyID,
       },
+      path: 'modules/neuroscan',
       requireSession: true,
     });
 
@@ -41,7 +41,7 @@ export const WelcomeScan = ({
             Please confirm if you want to proceed with an automated analysis of mercadolibre.com.
           </b>
         </p>
-        <img src="/codefend/scanner_eye_fullsize.png" alt="Eye" className={css['scan-img']} />
+        <img src="/codefend/codefend-eye2.png" alt="Eye" className={css['scan-img']} />
         <button className={`btn ${css['btn-add']}`} type="button" onClick={startScan}>
           Start scan
         </button>

@@ -55,7 +55,8 @@ export const NewSignupForm = () => {
   const nextFirstStep = (e: FormEvent) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
-    const formObject = Object.fromEntries(form.entries());
+    const formObject = Object.fromEntries(form.entries()); // Se extraen los datos del formulario
+    // Se extrae el numero de telefono de forma correcta, debido a que el input esta en dos partes
     const fullNumberRaw = formObject?.['lead_phone'] as string;
     const [areaCode, number] = fullNumberRaw.split(/\*+/);
     lead.set({
@@ -67,6 +68,7 @@ export const NewSignupForm = () => {
     });
     formObject['lead_phone'] = `${areaCode}${number}`;
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
+    // Nuevo paso
     setActiveStep(SignUpSteps.STEP_TWO);
   };
 
@@ -162,6 +164,7 @@ export const NewSignupForm = () => {
         <img src="/codefend/brand-iso.png" width={350} height={60} />
         <p>{STEPSDATA[activeStep].p}</p>
         <ProgressBar activeStep={activeStep} />
+        {/* Primer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
           <form onSubmit={nextFirstStep}>
             <AuthInput
@@ -197,6 +200,8 @@ export const NewSignupForm = () => {
             </button>
           </form>
         </Show>
+
+        {/* Segundo paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
           <form onSubmit={nextSecondStep}>
             <AuthInput
@@ -247,6 +252,8 @@ export const NewSignupForm = () => {
             </div>
           </form>
         </Show>
+
+        {/* Tercer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextThreeStep}>
             <CheckEmail
@@ -267,6 +274,8 @@ export const NewSignupForm = () => {
             </div>
           </form>
         </Show>
+
+        {/* Cuarto paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_FOUR && !specialLoading}>
           <form onSubmit={nextFourStep}>
             <AuthInput
@@ -290,6 +299,8 @@ export const NewSignupForm = () => {
             </button>
           </form>
         </Show>
+
+        {/* Loader */}
         <Show when={specialLoading && !!searchParams.get('code')}>
           <div>
             <PageOrbitLoader />
