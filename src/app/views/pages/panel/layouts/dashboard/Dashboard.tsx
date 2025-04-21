@@ -18,6 +18,7 @@ import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource.tsx';
 import { PeopleGroupIcon } from '@icons';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
+import { DashboardScanStart } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardScanStart/DashboardScanStart.tsx';
 
 const Dashboard: React.FC = () => {
   const [showScreen] = useShowScreen();
@@ -64,6 +65,7 @@ const Dashboard: React.FC = () => {
           disabledLoader
         />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
+        <DashboardScanStart />
       </section>
     </main>
   );
