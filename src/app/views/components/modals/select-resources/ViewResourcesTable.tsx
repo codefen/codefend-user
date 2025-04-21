@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FC } from 'react';
-import { useGetScopeTables } from '@hooks/useGetScopeTables';
+import { useGetScopeTables } from '@resourcesHooks/useGetScopeTables';
 import { TableV2 } from '@table/tablev2';
-import { useGetResources } from '@resourcesHooks/useGetResources';
+import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import type { ScopeAlias } from '@interfaces/util';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
 

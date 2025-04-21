@@ -18,9 +18,9 @@ export const useResellerUsers = () => {
 
     fetcher('post', {
       body: {
-        model: 'resellers/dashboard/users',
         company_id: getCompany(),
       },
+      path: 'resellers/dashboard/users',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {

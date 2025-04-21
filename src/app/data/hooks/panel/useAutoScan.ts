@@ -1,10 +1,10 @@
 import { useContext } from 'react';
-import { useStreamFetch } from './useStreamFetch';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useStreamFetch } from '#commonHooks/useStreamFetch';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();

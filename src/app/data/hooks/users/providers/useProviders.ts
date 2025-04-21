@@ -18,8 +18,8 @@ export const useProviderProfile = () => {
       body: {
         company_id: companyID,
         provider_id: getUserdata().id,
-        model: 'providers/profiles/view',
       },
+      path: 'providers/profiles/view',
     })
       ?.then(({ data }) => {
         if (verifySession(data, logout)) return;

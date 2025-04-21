@@ -16,9 +16,9 @@ export const useProviderOrderFinished = () => {
     if (companyIdIsNull(companyID)) return;
     return fetcher('post', {
       body: {
-        model: 'providers/orders/index/finished',
         company_id: getCompany(),
       },
+      path: 'providers/orders/index/finished',
     })
       .then(({ data }: any) => {
         if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

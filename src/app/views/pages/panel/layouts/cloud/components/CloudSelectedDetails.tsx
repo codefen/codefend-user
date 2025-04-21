@@ -8,7 +8,7 @@ import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/Vuln
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 
 import { PageLoader } from '@/app/views/components/loaders/Loader';
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';

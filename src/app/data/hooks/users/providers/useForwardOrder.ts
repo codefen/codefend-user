@@ -11,10 +11,10 @@ export const useForwardOrder = () => {
     if (companyIdIsNull(companyID)) return Promise.reject({ res: false, providers: [] });
     return fetcher('post', {
       body: {
-        model: 'providers/orders/forward',
         company_id: companyID,
         order_id,
       },
+      path: 'providers/orders/forward',
     })
       .then(({ data }: any) => {
         if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

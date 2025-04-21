@@ -23,7 +23,6 @@ export const useSignupInvitation = () => {
   const sendSignUp = () => {
     fetcher('post', {
       body: {
-        model: 'users/invoke/finish',
         invoke_user_email: form.invokeEmail,
         invoke_user_hash: form.invokeHash,
         user_fname: form.name,
@@ -34,6 +33,7 @@ export const useSignupInvitation = () => {
         user_password: form.password,
         user_idiom: form.idiom,
       },
+      path: 'users/invoke/finish',
     })
       .then(({ data }: any) => {
         if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

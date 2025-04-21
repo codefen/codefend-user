@@ -17,9 +17,9 @@ export const useProviderOrders = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher<any>('post', {
       body: {
-        model: 'providers/orders/index/unconfirmed',
         company_id: companyID,
       },
+      path: 'providers/orders/index/unconfirmed',
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;

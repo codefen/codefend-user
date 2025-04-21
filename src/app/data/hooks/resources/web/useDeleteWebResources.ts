@@ -13,10 +13,10 @@ export const useDeleteWebResource = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher<any>('post', {
       body: {
-        model: 'resources/web/del',
         resource_id: id,
         company_id: companyID,
       },
+      path: 'resources/web/del',
     })
       .then(({ data }) => {
         if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

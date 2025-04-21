@@ -13,10 +13,10 @@ export const useProviderConfirm = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'providers/orders/confirm',
         company_id: companyID,
         order_id: orderId,
       },
+      path: 'providers/orders/confirm',
       requestId: 'confirmOrder',
     })
       .then(({ data }: any) => {

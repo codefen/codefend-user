@@ -12,12 +12,12 @@ export const useCurrentOrders = () => {
   const getConfirmOrders = () => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return;
-    fetcher('post', {
+    fetcher<any>('post', {
       body: {
-        model: 'providers/orders/index/confirmed',
         company_id: companyID,
       },
-    }).then(({ data }: any) => {
+      path: 'providers/orders/index/confirmed',
+    }).then(({ data }) => {
       if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
         throw new Error('An error has occurred on the server');
       }

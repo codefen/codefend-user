@@ -1,4 +1,4 @@
-import { useAddResourceCredentials } from '@resourcesHooks/useAddResourceCredentials';
+import { useAddResourceCredentials } from '@resourcesHooks/global/useAddResourceCredentials';
 import type { FC } from 'react';
 import { GlobeWebIcon } from '@icons';
 import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';

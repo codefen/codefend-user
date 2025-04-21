@@ -1,7 +1,7 @@
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
 
-const ALLOWED_PATHS = ['/auth/signup'];
+const ALLOWED_PATHS = ['/auth/signup', '/auth/signin'];
 
 export function useUserLocation() {
   const stored = useGlobalFastFields(['city', 'country', 'region']);

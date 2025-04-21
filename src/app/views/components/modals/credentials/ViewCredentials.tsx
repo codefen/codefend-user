@@ -1,5 +1,5 @@
 import type { ResourceCredential } from '@interfaces/creds';
-import { useViewCredentials } from '@resourcesHooks/useViewCredentials';
+import { useViewCredentials } from '@resourcesHooks/global/useViewCredentials';
 import { TestingCredentialCard } from '@/app/views/components/credential-card/TestingCredentialCard';
 import { useEffect, type FC } from 'react';
 import './viewcredential.scss';

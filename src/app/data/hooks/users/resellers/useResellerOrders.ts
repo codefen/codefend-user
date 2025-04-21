@@ -15,9 +15,9 @@ export const useResellerOrders = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'resellers/dashboard/orders',
         company_id: getCompany(),
       },
+      path: 'resellers/dashboard/orders',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {

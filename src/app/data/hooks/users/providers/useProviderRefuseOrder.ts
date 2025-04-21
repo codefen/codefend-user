@@ -15,12 +15,12 @@ export const useProviderRefuseOrder = () => {
     if (companyIdIsNull(companyID)) return Promise.reject();
     return fetcher('post', {
       body: {
-        model: 'providers/orders/cancel',
         company_id: companyID,
         order_id: orderId,
         canceled_reason: selectedReason,
         canceled_reason_desc: reason,
       },
+      path: 'providers/orders/cancel',
       requestId: 'refuseOrder',
     })
       .then(({ data }: any) => {

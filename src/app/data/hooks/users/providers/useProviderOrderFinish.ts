@@ -13,10 +13,10 @@ export const useProviderOrderFinish = () => {
     if (companyIdIsNull(companyID)) return;
     return fetcher('post', {
       body: {
-        model: 'providers/orders/finish',
         company_id: companyID,
         order_id: orderId,
       },
+      path: 'providers/orders/finish',
     })
       .then(({ data }: any) => {
         if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {

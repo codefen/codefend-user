@@ -1,4 +1,4 @@
-import { useFlashLightManager } from '@hooks/useFlashLightManager';
+import { useFlashLightManager } from '@panelHooks/useFlashLightManager';
 import {
   type PropsWithChildren,
   type RefObject,

@@ -11,7 +11,7 @@ import AddMobileModal from '../../../../components/modals/adding-modals/AddMobil
 import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithSearch/ListResourceWithSearch';
 import { MobileSelectedDetails } from './components/MobileSelectedDetails';
 import EmptyLayout from '../EmptyLayout';
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import './mobileApplicationPanel.scss';
 import { mobileEmptyScreen } from '@/app/constants/app-texts';
 

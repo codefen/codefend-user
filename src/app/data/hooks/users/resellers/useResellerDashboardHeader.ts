@@ -13,9 +13,9 @@ export const useResellerDashboardHeader = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'resellers/dashboard/header',
         company_id: getCompany(),
       },
+      path: 'resellers/dashboard/header',
     }).then(({ data }: any) => {
       if (apiErrorValidation(data?.error, data?.response)) {
         throw new Error('An error has occurred on the server');

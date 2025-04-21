@@ -4,10 +4,8 @@ export const useGetCompany = () => {
   const [fetcher, _, isLoading] = useFetcher();
 
   const getCompany = () => {
-    return fetcher('post', {
-      body: {
-        model: 'companies/index',
-      },
+    return fetcher('get', {
+      path: 'companies/index',
     });
   };
 

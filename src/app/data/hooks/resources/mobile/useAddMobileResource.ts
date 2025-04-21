@@ -8,7 +8,7 @@ import {
   companyIdIsNull,
   iosUriValidation,
 } from '@/app/constants/validations';
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { APP_MESSAGE_TOAST, MOBILE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
 export const useAddMobileResource = () => {
@@ -46,12 +46,12 @@ export const useAddMobileResource = () => {
 
     fetcher<any>('post', {
       body: {
-        model: 'resources/mobile',
         ac: 'add',
         app_android_link: androidAddress.current?.value || '',
         app_apple_link: iosAddress.current?.value || '',
         company_id: companyID,
       },
+      path: 'resources/mobile',
     })
       .then(({ data }: any) => {
         if (

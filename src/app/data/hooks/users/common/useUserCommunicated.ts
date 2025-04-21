@@ -5,7 +5,7 @@ import { apiErrorValidation } from '@/app/constants/validations';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import useSWR from 'swr';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
-import { useQualitySurveyStart } from './quality-survey/useQualitySurveyStart';
+import { useQualitySurveyStart } from '../../quality-survey/useQualitySurveyStart';
 import useModalStore from '@stores/modal.store';
 import { COMUNIQUE_KEYS, MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 

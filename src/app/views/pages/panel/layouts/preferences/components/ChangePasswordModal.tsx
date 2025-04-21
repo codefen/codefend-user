@@ -31,11 +31,11 @@ export const ChangePasswordModal = () => {
     fetcher('post', {
       requireSession: true,
       body: {
-        model: 'users/password/mod',
         company_id: getCompany() || '',
         previous_password: data.get('currentPassword'),
         new_password: data.get('newPassword'),
       },
+      path: 'users/password/mod',
     }).then(({ data }: any) => {
       if (apiErrorValidation(data?.error, data?.response)) {
         toast.error('The new password or the old password is invalid');

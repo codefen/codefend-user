@@ -3,15 +3,7 @@ import '../buttons.scss';
 import './primaryButton.scss';
 import Show from '@/app/views/components/Show/Show';
 import { ButtonLoader } from '@/app/views/components/loaders/Loader';
-
-enum ButtonStyles {
-  RED = 'red',
-  BLACK = 'black',
-  DARK_RED = 'dark-red',
-  GRAY = 'gray',
-  SEND = 'send',
-  DEFAULT = 'default',
-}
+import { AppConstants, ButtonStyles } from '@/app/constants/app-contanst';
 
 interface PrimaryButtonProps {
   click?: (e: FormEvent<HTMLButtonElement>) => void;
@@ -34,15 +26,6 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
   buttonStyle = 'red',
   hideContent = false,
 }) => {
-  const buttonStyles = {
-    [ButtonStyles.RED]: 'btn-red',
-    [ButtonStyles.BLACK]: 'btn-black',
-    [ButtonStyles.GRAY]: 'btn-gray',
-    [ButtonStyles.SEND]: 'btn-red send-btn',
-    [ButtonStyles.DARK_RED]: 'btn-dark-red',
-    [ButtonStyles.DEFAULT]: '',
-  };
-
   const handleClick = (e: FormEvent<HTMLButtonElement>) => {
     if (!isDisabled) click?.(e);
   };
@@ -52,7 +35,7 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
       type={type}
       onClick={handleClick}
       disabled={isDisabled}
-      className={`btn ${buttonStyles[buttonStyle]} ${className}`}>
+      className={`btn ${AppConstants.BUTTON_STYLES[buttonStyle]} ${className}`}>
       <Show when={Boolean(isDisabled) && !disabledLoader}>
         <ButtonLoader />
       </Show>

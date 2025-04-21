@@ -21,10 +21,10 @@ export const WelcomeScan = ({
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'modules/neuroscan',
         resource_id: domainId,
         company_id: companyID,
       },
+      path: 'modules/neuroscan',
       requireSession: true,
     });
 

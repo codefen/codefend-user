@@ -14,11 +14,11 @@ export const useUserRevoke = () => {
 
     return fetcher<any>('post', {
       body: {
-        model: 'users/revoke',
         company_id: companyID,
         revoke_id: userID,
       },
-    }).then(({ data }: any) => {
+      path: 'users/revoke',
+    }).then(({ data }) => {
       if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
         throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
       }

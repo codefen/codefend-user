@@ -10,7 +10,7 @@ import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
 import { ActiveProgressiveSteps } from '@/app/views/components/progressive-steps/ActiveProgressiveSteps';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 import { OrderSection } from '@interfaces/order';
-import { useOrders } from '@hooks/useOrders';
+import { useOrders } from '@hooks/orders/useOrders';
 import { useOrderStore } from '@stores/orders.store';
 import './order.scss';
 import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';

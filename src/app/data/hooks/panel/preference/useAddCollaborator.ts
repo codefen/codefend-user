@@ -12,10 +12,10 @@ export const useAddCollaborator = () => {
   const sendAddCollaborator = (email: string) => {
     return fetcher('post', {
       body: {
-        model: 'users/invoke',
         company_id: getCompany() || '',
         invoke_user_email: email,
       },
+      path: 'users/invoke',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response)) {

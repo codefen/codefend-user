@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { OrderSection, OrderOffensive } from '@interfaces/order';
-import { useOrderOffensive } from '@hooks/useOrders';
+import { useOrderOffensive } from '@hooks/orders/useOrders';
 import { useOrderStore } from '@stores/orders.store';
 
 export const OffensiveOrderModal: FC = () => {

@@ -24,7 +24,6 @@ export const useAddResourceCredentials = () => {
   ) => {
     return fetcher('post', {
       body: {
-        model: 'creds/add',
         company_id: getCompany(),
         resource_class: type,
         resource_id: id,
@@ -34,6 +33,7 @@ export const useAddResourceCredentials = () => {
         access_level: accessLevel,
         info: grades,
       },
+      path: 'creds/add',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response)) throw new Error('');

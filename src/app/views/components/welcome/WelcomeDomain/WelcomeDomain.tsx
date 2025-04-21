@@ -68,9 +68,9 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
       body: {
         company_id: companyID,
         resource_address_domain: initialDomain || initDomain,
-        model: 'resources/web/preview',
         subdomain_scan: 'yes',
       },
+      path: 'resources/web/preview',
       timeout: 180000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
@@ -94,11 +94,11 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'resources/web/add',
         company_id: companyID,
         resource_address_domain: initialDomain,
         subdomain_scan: 'yes',
       },
+      path: 'resources/web/add',
       timeout: 180000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;

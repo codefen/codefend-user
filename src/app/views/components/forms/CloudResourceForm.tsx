@@ -4,7 +4,7 @@ import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud.ts';
 import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
+import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 
 export const CloudResourceForm: FC<ComponentEventWithChildren> = ({ close, onDone, children }) => {
   const provider = useRef<HTMLSelectElement>(null);

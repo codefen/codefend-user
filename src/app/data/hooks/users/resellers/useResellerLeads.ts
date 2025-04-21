@@ -17,9 +17,9 @@ export const useResellerLeads = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'resellers/dashboard/leads',
         company_id: getCompany(),
       },
+      path: 'resellers/dashboard/leads',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {

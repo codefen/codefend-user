@@ -5,8 +5,7 @@ import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constan
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { useAutoScan } from '@hooks/useAutoScan';
-import { useVerifyScanList } from '@hooks/useVerifyScanList';
+import { useVerifyScanList } from '#commonHooks/useVerifyScanList';
 import { KnifeIcon, ScanSearchIcon, StatIcon, TrashIcon, XCircleIcon } from '@icons';
 import type { ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
@@ -19,6 +18,7 @@ import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useAutoScan } from '@panelHooks/useAutoScan';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -170,10 +170,10 @@ export const ScanSection = () => {
     }
     fetcher('post', {
       body: {
-        model: 'modules/neuroscan/kill',
         neuroscan_id,
         company_id: getCompany(),
       },
+      path: 'modules/neuroscan/kill',
       requireSession: true,
     }).then(() => {
       toast.success(SCAN_PAGE_TEXT.SCAN_KILLED_SUCCESS);
@@ -227,11 +227,11 @@ export const ScanSection = () => {
     });
     fetcher<any>('post', {
       body: {
-        model: 'resources/web/add',
         company_id: companyID,
         resource_address_domain: domainScanned || '',
         subdomain_scan: 'no',
       },
+      path: 'resources/web/add',
       timeout: 180000,
     })
       .then(({ data }) => {
