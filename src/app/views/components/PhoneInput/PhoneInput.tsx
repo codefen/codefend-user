@@ -18,7 +18,6 @@ export default function PhoneInput({
   defaultCountry,
   changeCountryCode,
 }: PhoneInputProps) {
-  console.log('default: ', { defaultCountry });
   const triggerRef = useRef<HTMLDivElement>(null);
   const [phoneNumber, setPhoneNumber] = useState(defaultPhone);
   const [fullPhoneNumber, setFullPhoneNumber] = useState('');

@@ -10,7 +10,8 @@ export type Theme = {
 function getInitialTheme(): 'dark' | 'light' {
   const storedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  return storedTheme || (prefersDarkMode ? 'dark' : 'light');
+  // return storedTheme || (prefersDarkMode ? 'dark' : 'light');
+  return 'light';
 }
 
 const initialThemeState = {

@@ -12,6 +12,7 @@ import TextChild from '@/app/views/components/utils/TextChild';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { PrimaryButton } from '@buttons/index';
 
 const columns = [
   {
@@ -52,7 +53,13 @@ const columns = [
   },
 ];
 
-export const WelcomeDomain = ({ close }: { close: () => void }) => {
+export const WelcomeDomain = ({
+  close,
+  startScan,
+}: {
+  close: () => void;
+  startScan: () => void;
+}) => {
   const [initialDomain, setInitialDomain] = useState('');
   const [domains, setDomains] = useState<any[]>([]);
   const [fetcher, _, isLoading] = useFetcher();
@@ -107,7 +114,7 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
       } else {
         saveInitialDomain(initialDomain);
         setDomainId(data?.resource?.id);
-        close();
+        startScan();
       }
     });
   };
@@ -152,9 +159,12 @@ export const WelcomeDomain = ({ close }: { close: () => void }) => {
             isNeedSort={false}
           />
         </div>
-        <button className={`btn ${css['btn-add']}`} type="button" onClick={nextStep}>
-          Continue
-        </button>
+        <div className={css['btn-container']}>
+          <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
+          <button className={`btn ${css['btn-add']}`} type="button" onClick={nextStep}>
+            Continue
+          </button>
+        </div>
       </div>
     </ModalWrapper>
   );

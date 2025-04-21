@@ -8,6 +8,8 @@ import css from './dashboardasset.module.scss';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 
+const hiddenResources = [RESOURCE_CLASS.CLOUD, RESOURCE_CLASS.SOURCE];
+
 export const DashboardAssets: FC<{
   resources: ResourceCount;
   hasTitle?: boolean;
@@ -32,8 +34,6 @@ export const DashboardAssets: FC<{
     [RESOURCE_CLASS.WEB]: 'WEB & EXTERNAL',
     [RESOURCE_CLASS.MOBILE]: 'MOBILE APPS',
     ['lan']: 'NETWORK',
-    [RESOURCE_CLASS.CLOUD]: 'CLOUD ASSETS',
-    [RESOURCE_CLASS.SOURCE]: 'SOURCE CODE',
     [RESOURCE_CLASS.SOCIAL]: 'SOCIAL ENGINEERING',
   };
   const navigateTo = (resource: string | number) => {
@@ -42,11 +42,10 @@ export const DashboardAssets: FC<{
   };
   return (
     <div className={`${css['stats']} ${css['card']}`}>
-      <SimpleSection
-        header={hasTitle ? 'Attack surface surveillance' : ''}
-        icon={hasTitle ? <CircleIcon /> : undefined}>
-        <div className={css['content']}>
-          {Object.keys(resources).map((resource: string | number, i: number) => (
+      <div className={'grid-2x2'}>
+        {Object.keys(resources)
+          .filter(resource => !hiddenResources.includes(resource as RESOURCE_CLASS))
+          .map((resource: string | number, i: number) => (
             <StatAsset
               key={resourceKeys[i]}
               valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
@@ -55,8 +54,7 @@ export const DashboardAssets: FC<{
               onClick={() => navigateTo(resource)}
             />
           ))}
-        </div>
-      </SimpleSection>
+      </div>
     </div>
   );
 };

@@ -15,6 +15,9 @@ import DashboardAssets from '../../../../components/DashboardAssets/DashboardAss
 import { DashboardInvoke } from '@/app/views/components/DashboardInvoke/DashboardInvoke.tsx';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource.tsx';
+import { PeopleGroupIcon } from '@icons';
+import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 
 const Dashboard: React.FC = () => {
   const [showScreen] = useShowScreen();
@@ -41,8 +44,14 @@ const Dashboard: React.FC = () => {
         ) : (
           <PageLoader />
         )}
-        <DashboardAssets resources={data?.resources || {}} />
-        <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
+        <section className="box-assets">
+          <DashboardAssets resources={data?.resources || {}} />
+          <DashboardAddResource />
+        </section>
+        <section className="box-assets">
+          <DashboardAddCollaborators />
+          <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
+        </section>
       </section>
 
       <section className="right">

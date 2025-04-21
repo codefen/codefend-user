@@ -8,6 +8,7 @@ import { RUNNING_DESKTOP } from '@utils/helper';
 import { useEffect, type PropsWithChildren } from 'react';
 import { BrowserRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AppWrapper = ({ children }: PropsWithChildren) => {
   const { setHas, setUpdate, ...updateState } = useUploadingStore();
