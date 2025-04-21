@@ -4,6 +4,7 @@ import { companyIdIsNull } from '@/app/constants/validations';
 import { ModalWrapper } from '@modals/index';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import css from './welcomescan.module.scss';
+import { PrimaryButton } from '@buttons/index';
 
 export const WelcomeScan = ({
   close,
@@ -14,7 +15,7 @@ export const WelcomeScan = ({
 }) => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
-  const { domainId } = useWelcomeStore();
+  const { domainId, initialDomain } = useWelcomeStore();
 
   const startScan = () => {
     const companyID = getCompany();
@@ -24,7 +25,7 @@ export const WelcomeScan = ({
         resource_id: domainId,
         company_id: companyID,
       },
-      path: 'modules/neuroscan',
+      path: 'modules/neuroscan/launch',
       requireSession: true,
     });
 
@@ -38,13 +39,16 @@ export const WelcomeScan = ({
         <p className={css['welcome-text']}>
           We're going to run an automated analysis on the selected domain.
           <b>
-            Please confirm if you want to proceed with an automated analysis of mercadolibre.com.
+            Please confirm if you want to proceed with an automated analysis of {initialDomain}.
           </b>
         </p>
         <img src="/codefend/codefend-eye2.png" alt="Eye" className={css['scan-img']} />
-        <button className={`btn ${css['btn-add']}`} type="button" onClick={startScan}>
-          Start scan
-        </button>
+        <div className={css['btn-container']}>
+          <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
+          <button className={`btn ${css['btn-add']}`} type="button" onClick={startScan}>
+            Start IA based analysis on {initialDomain}
+          </button>
+        </div>
       </div>
     </ModalWrapper>
   );

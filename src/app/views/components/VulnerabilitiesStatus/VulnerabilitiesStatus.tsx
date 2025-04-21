@@ -4,6 +4,7 @@ import { ChartIcon } from '@icons';
 import type { IssuesCondition } from '../../../data';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { useWelcomeStore } from '@stores/useWelcomeStore';
 
 export const VulnerabilitiesStatus: React.FC<{
   vulnerabilityByShare: IssuesCondition;
@@ -15,6 +16,7 @@ export const VulnerabilitiesStatus: React.FC<{
       open: props.vulnerabilityByShare.open ?? 0,
     };
   };
+  const { issueScanFound } = useWelcomeStore();
   return (
     <div className="card stats">
       <SimpleSection header="Issue by status" icon={<ChartIcon />}>

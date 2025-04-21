@@ -7,7 +7,9 @@ export const ChangeAuthPages = ({ pathname }: { pathname: string }) => {
       <Link to="/auth/signin" className={pathname === '/auth/signin' ? css['active-link'] : ''}>
         Signin
       </Link>
-      <Link to="/auth/signup" className={pathname === '/auth/signup' ? css['active-link'] : ''}>
+      <Link
+        to="/auth/signup"
+        className={pathname.startsWith('/auth/signup') ? css['active-link'] : ''}>
         Signup
       </Link>
       <Link

@@ -4,11 +4,16 @@ import css from './signinform.module.scss';
 import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { defaultCountries } from '@/app/constants/countries';
-import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
+import {
+  apiErrorValidation,
+  isEquals,
+  passwordRegexVal,
+  passwordValidation,
+} from '@/app/constants/validations';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { useLocation, useSearchParams } from 'react-router';
+import { useLocation, useParams, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
 import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
@@ -36,18 +41,28 @@ export const NewSignupForm = () => {
   const location = useLocation();
   const country = useGlobalFastField('country');
   const lead = useGlobalFastField('lead');
+  const { ref } = useParams();
 
   useEffect(() => {
-    const code = searchParams.get('code');
+    const code = searchParams.get('code') || ref;
     if (code) {
       setLoading(true);
       getRecommendedUsername(code)
         .then(() => {
           setActiveStep(SignUpSteps.STEP_FOUR);
+          lead.set({});
         })
         .finally(() => setLoading(false));
     }
   }, []);
+
+  useEffect(() => {
+    console.log('password: ', {
+      password,
+      isValid: passwordValidation(password),
+      regex: passwordRegexVal.test(password),
+    });
+  }, [password]);
 
   const goBackValidateMe = (goTo: SignUpSteps) => {
     setActiveStep(goTo);
@@ -129,6 +144,7 @@ export const NewSignupForm = () => {
     const referenceNumber = form.get?.('lead_reference_number') as unknown as string;
     getRecommendedUsername(referenceNumber).then(() => {
       setActiveStep(SignUpSteps.STEP_FOUR);
+      lead.set({});
     });
   };
 

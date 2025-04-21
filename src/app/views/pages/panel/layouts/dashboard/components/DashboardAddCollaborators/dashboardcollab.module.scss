@@ -1,0 +1,22 @@
+.box-collab-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 1rem;
+  padding-inline: 1.75rem;
+
+  h2 {
+    display: flex;
+    gap: 0.5rem;
+
+    svg {
+      columns: red;
+    }
+  }
+
+  ul {
+    li.link {
+      color: var(--primary-color);
+    }
+  }
+}

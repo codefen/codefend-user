@@ -162,7 +162,7 @@ const Sidebar: FC = () => {
       root: false,
       haveAccess: isNotProviderAndReseller || isProviderWithAccess,
     },
-    {
+    /*    {
       title: 'Cloud',
       id: 'sidebar_cloud',
       icon: <CLoudIcon />,
@@ -177,7 +177,7 @@ const Sidebar: FC = () => {
       to: '/source',
       root: false,
       haveAccess: isNotProviderAndReseller || isProviderWithAccess,
-    },
+    }, */
     {
       title: 'Social Engineering',
       id: 'sidebar_social',

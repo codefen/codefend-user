@@ -30,7 +30,7 @@ export const WelcomeGroupTour = () => {
   };
 
   if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_DOMAIN) {
-    return <WelcomeDomain close={startScan} />;
+    return <WelcomeDomain close={close} startScan={startScan} />;
   } else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_SCAN) {
     return <WelcomeScan goToWaitStep={startWaitStep} close={close} />;
   } else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH) {

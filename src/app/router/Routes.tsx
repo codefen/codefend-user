@@ -4,11 +4,7 @@ import { Loader } from '@/app/views/components/loaders/Loader';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import {
-  AuthPage,
-  SignInLayout,
-  SignUpLayout,
   ConfirmationSignUp,
-  FinishSignUpLayout,
   Dashboard,
   WebApplication,
   MobileApplication,
@@ -139,8 +135,8 @@ export const AppRouter = () => {
           ? [
               { path: 'web', element: <WebApplication /> },
               { path: 'mobile', element: <MobileApplication /> },
-              { path: 'cloud', element: <CloudApplicationPanel /> },
-              { path: 'source', element: <SourceCodePanel /> },
+              /*{ path: 'cloud', element: <CloudApplicationPanel /> },*/
+              /*{ path: 'source', element: <SourceCodePanel /> },*/
               { path: 'network', element: <LanPage /> },
               { path: 'social', element: <SocialEngineeringPanel /> },
               {
@@ -209,13 +205,13 @@ export const AppRouter = () => {
       children: [
         { index: true, element: <Navigate to="signin" replace /> },
         { path: 'signup', element: <NewSignupForm /> },
+        { path: 'signup/:ref', element: <NewSignupForm /> },
         { path: 'signin', element: <NewSigninForm /> },
         { path: 'signup/invitation', element: <InvitationSignup /> },
         { path: 'signup/invitation/:ref', element: <InvitationSignup /> },
         { path: 'confirmation', element: <ConfirmationSignUp /> },
         { path: 'recovery', element: <PasswordRecovery /> },
         { path: 'recovery/:ref', element: <PasswordRecovery /> },
-        { path: 'signup/:ref', element: <FinishSignUpLayout /> },
       ],
     },
   ]);

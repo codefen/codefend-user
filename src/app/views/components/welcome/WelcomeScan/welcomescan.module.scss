@@ -16,10 +16,15 @@
 }
 
 .welcome-modal-container .btn-add {
-  margin-inline-start: auto;
   padding-inline: 30px;
 }
 
 :global(body[data-theme='dark'] .modal).welcome-modal-container {
   background-color: #000;
+}
+
+.btn-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
 }

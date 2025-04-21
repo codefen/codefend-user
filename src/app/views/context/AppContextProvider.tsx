@@ -28,14 +28,14 @@ export interface CompanyUser extends OwnerData, AuditData, LocationData {
 }
 
 export interface UserLead {
-  lead_fname: string;
-  lead_lname: string;
-  lead_email: string;
-  lead_phone: string;
-  company_name: string;
-  company_web: string;
-  company_size: string;
-  idiom: string;
+  lead_fname?: string;
+  lead_lname?: string;
+  lead_email?: string;
+  lead_phone?: string;
+  company_name?: string;
+  company_web?: string;
+  company_size?: string;
+  idiom?: string;
 }
 
 export type GlobalStore = {
