@@ -38,7 +38,13 @@ const Dashboard: React.FC = () => {
       <div className="brightness variant-2"></div>
 
       <section className="left">
-        {data?.issues && data.issues.length > 0 ? <DashboardInvoke /> : <PageLoader />}
+        {data?.issues && data.issues.length > 0 ? (
+          <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
+        ) : !isLoading ? (
+          <DashboardInvoke />
+        ) : (
+          <PageLoader />
+        )}
         <section className="box-assets">
           <DashboardAssets resources={data?.resources || {}} />
           <DashboardAddResource />
