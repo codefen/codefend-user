@@ -71,7 +71,7 @@ export const CardPaymentModal = () => {
   const backStep = () => {
     const backStep =
       paywallSelected === UserPlanSelected.SMALL_P ||
-      paywallSelected === UserPlanSelected.CONTINIOUS
+      paywallSelected === UserPlanSelected.NORMAL_ORDER
         ? OrderSection.SMALL_PLANS
         : OrderSection.PAYMENT;
     updateState('orderStepActive', backStep);

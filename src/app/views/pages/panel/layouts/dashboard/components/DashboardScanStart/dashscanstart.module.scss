@@ -1,14 +1,29 @@
+.scan-start {
+  p {
+    margin-block: 1rem;
+  }
+
+  button {
+    margin-top: 1rem;
+  }
+}
+
 .scan-start-progress {
   width: 100%;
-  background-color: var(--secondary-color-50);
+  background-color: var(--secondary-color);
   overflow: hidden;
   height: 18px;
-  margin-top: 16px;
+  margin-top: 2rem;
   position: relative;
 }
 
 .scan-start-progress-bar {
-  background: #f92222;
+  background: var(--secondary-color-150);
   position: absolute;
   height: 18px;
+}
+
+.scan-start-actions {
+  display: flex;
+  gap: 1rem;
 }

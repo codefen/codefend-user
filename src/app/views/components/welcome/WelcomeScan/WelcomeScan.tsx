@@ -13,22 +13,12 @@ export const WelcomeScan = ({
   close: () => void;
   goToWaitStep: () => void;
 }) => {
-  const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
-  const { domainId, initialDomain } = useWelcomeStore();
+  const { initialDomain } = useWelcomeStore();
 
   const startScan = () => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return;
-    fetcher('post', {
-      body: {
-        resource_id: domainId,
-        company_id: companyID,
-      },
-      path: 'modules/neuroscan/launch',
-      requireSession: true,
-    });
-
     goToWaitStep();
   };
 

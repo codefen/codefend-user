@@ -10,9 +10,11 @@ import type { AuditCompanyData } from './util';
 
 export enum OrderSection {
   PAYWALL = 0,
-  SMALL_PLANS = 1.5,
-  ARABIC_PLAN = 1.75,
   SCOPE = 1,
+  ALL_PLANS = 1.1,
+  RECOMMENDED_PLAN = 1.2,
+  SMALL_PLANS = 1.3,
+  ARABIC_PLAN = 1.4,
   FREQUENCY = 2,
   TEAM_SIZE = 3,
   //ORDER_REVIEW=4,
@@ -74,7 +76,7 @@ export interface ScopeOptions {
 export enum UserPlanSelected {
   NOTHING = '',
   ON_DEMAND = 'ondemand',
-  CONTINIOUS = 'contin',
+  NORMAL_ORDER = 'normalorder',
   SMALL_P = 'smallplan',
 }
 export enum UserSmallPlanSelected {

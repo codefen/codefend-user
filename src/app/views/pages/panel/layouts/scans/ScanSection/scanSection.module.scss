@@ -13,3 +13,25 @@
     color: var(--tertiary-color-50) !important;
   }
 }
+
+.scan-search-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  :global(.search-bar) {
+    width: 100%;
+  }
+
+  .scan-search-box-info {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-direction: column;
+    margin-bottom: 10px;
+    height: 43px;
+    font-size: 1.25rem;
+  }
+}

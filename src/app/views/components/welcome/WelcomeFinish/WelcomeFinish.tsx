@@ -6,6 +6,7 @@ import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCi
 import { AlertIcons, CircleTicket, FileSearchIcon } from '@icons';
 import { useEffect, useRef, useState } from 'react';
 import { useScanProgress } from '@hooks/useScanProgress';
+import { PrimaryButton } from '@buttons/index';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const {
@@ -63,9 +64,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           </div>
         </div>
 
-        <button disabled className={`btn ${css['btn-close']}`} onClick={closeModal}>
-          Close
-        </button>
+        <PrimaryButton text="Dashboard" buttonStyle="gray" click={closeModal} />
       </div>
     </ModalWrapper>
   );

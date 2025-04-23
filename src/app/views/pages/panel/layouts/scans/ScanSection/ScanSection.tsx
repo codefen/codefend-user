@@ -268,7 +268,7 @@ export const ScanSection = () => {
           close={() => setIsOpen(false)}
         />
       </ModalTitleWrapper>
-      <div>
+      <div className={css['scan-search-box']}>
         <SearchBar
           handleChange={(e: ChangeEvent<HTMLInputElement>) => setDomainScanned(e.target.value)}
           placeHolder="Search"
@@ -276,6 +276,10 @@ export const ScanSection = () => {
           handleSubmit={startAndAddedDomain}
           searchIcon={<ScanSearchIcon isButton />}
         />
+        <div className={css['scan-search-box-info']}>
+          <span>Disponibles</span>
+          <span>{company.get.disponibles_neuroscan}</span>
+        </div>
       </div>
       <div className="card">
         <SimpleSection header="Company Scanners" icon={<StatIcon />}>
