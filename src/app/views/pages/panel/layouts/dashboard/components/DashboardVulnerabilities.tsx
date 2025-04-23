@@ -59,14 +59,12 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
   return (
     <div className="card">
       <div className="over">
-        <SimpleSection header="Most relevant issues" icon={<BugIcon />}>
-          <Tablev3
-            columns={vulnera}
-            rows={topVulnerabilities}
-            showRows={!isLoading}
-            urlNav="issues/"
-          />
-        </SimpleSection>
+        <Tablev3
+          columns={vulnera}
+          rows={topVulnerabilities}
+          showRows={!isLoading}
+          urlNav="issues/"
+        />
       </div>
     </div>
   );

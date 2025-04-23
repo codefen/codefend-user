@@ -1,5 +1,5 @@
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
-import { type MemberV2, type User, type Webresource } from '..';
+import { type CompanyMetrics, type MemberV2, type User, type Webresource } from '..';
 
 /** Compute InternalNetwork OS And Count */
 const computeInternalNetworkOSAndCount = (internalNetwork: any) => {
@@ -171,6 +171,33 @@ export const getCompanyMetric = (resources: Webresource[], type: string) => {
   return '';
 };
 
+export const getCompanyAllMetrics = (resources: Webresource[]): CompanyMetrics => {
+  if (!resources || !Array.isArray(resources)) {
+    return {
+      domainCount: 0,
+      subDomainCount: 0,
+      uniqueIpCount: 0,
+    };
+  }
+
+  const domainCount = resources.length;
+
+  const allSubDomains = resources.flatMap(resource => resource.childs ?? []);
+  const subDomainCount = allSubDomains.length;
+
+  const allResources = [...resources, ...allSubDomains];
+
+  const uniqueIps = allResources.filter(
+    (resource, index, arr) => arr.findIndex(r => r.main_server === resource.main_server) === index
+  );
+
+  return {
+    domainCount,
+    subDomainCount,
+    uniqueIpCount: uniqueIps.length,
+  };
+};
+
 export const MetricsService = {
   isUserChat,
   computeMemberRolesCount,
@@ -179,4 +206,5 @@ export const MetricsService = {
   renderPercentage,
   getCompanyMetric,
   getCountryMetrics,
+  getCompanyAllMetrics,
 };

@@ -219,7 +219,6 @@ export const useOrderPlan = () => {
   ) => {
     fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'plan',
         company_id: companyID,
         reference_number: referenceNumber,
@@ -227,6 +226,7 @@ export const useOrderPlan = () => {
         chosen_plan_price: chosenPrice,
         order_id: orderId,
       },
+      path: 'orders/add',
     })
       .then(({ data }: any) => {
         if (Number(data.error) === 1) {
@@ -403,13 +403,13 @@ export const useOrderOffensive = () => {
   ) => {
     return fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'offensiveness',
         company_id: companyID,
         reference_number: referenceNumber,
         offensiveness: offensiveness,
         order_id: orderId,
       },
+      path: 'orders/add',
     })
       .then(({ data }: any) => {
         if (Number(data.error) === 1) {
@@ -448,13 +448,13 @@ export const userOrderProviderInfo = () => {
   ) => {
     return fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'provider_info',
         company_id: companyID,
         reference_number: referenceNumber,
         provider_info: providerInfo,
         order_id: orderId,
       },
+      path: 'orders/add',
     })
       .then(({ data }: any) => {
         if (Number(data.error) === 1) {

@@ -49,6 +49,12 @@ export type GlobalStore = {
   company: CompanyUser;
   keyPress: KeyPress;
   lead: UserLead;
+  scanProgress: number;
+  domainCount: number;
+  subDomainCount: number;
+  uniqueIpCount: number;
+  planPreference: 'small' | 'medium' | 'advanced';
+  isDefaultPlan: boolean;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -65,6 +71,12 @@ export const initialGlobalState: GlobalStore = {
   company: persistedState?.company ?? EMPTY_COMPANY_CUSTOM,
   keyPress: persistedState?.keyPress ?? '',
   lead: persistedState?.lead ?? {},
+  scanProgress: persistedState?.scanProgress ?? 0,
+  domainCount: persistedState?.domainCount ?? 0,
+  subDomainCount: persistedState?.subDomainCount ?? 0,
+  uniqueIpCount: persistedState?.uniqueIpCount ?? 0,
+  planPreference: persistedState?.planPreference ?? 'medium',
+  isDefaultPlan: persistedState?.isDefaultPlan ?? false,
 };
 
 const {

@@ -45,6 +45,9 @@ import { ScansPage } from '@/app/views/pages/panel/layouts/scans/ScansPage';
 import { NewAuthPage } from '@/app/views/pages/auth/NewAuthPage';
 import { NewSignupForm } from '@/app/views/pages/auth/newLayouts/NewSignupForm/NewSignupForm';
 import { NewSigninForm } from '@/app/views/pages/auth/newLayouts/NewSigninForm/NewSigninForm';
+import { TalkToHackerPage } from '@/app/views/pages/panel/layouts/talk-to-hacker/TalkToHackerPage';
+import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/TeamMembersPage';
+import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -127,6 +130,30 @@ export const AppRouter = () => {
           element: (
             <ProtectedRoute isAllowed={haveAccessToResources}>
               <Dashboard />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'user-profile',
+          element: (
+            <ProtectedRoute isAllowed={haveAccessToResources}>
+              <UserProfilePage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'team-members',
+          element: (
+            <ProtectedRoute isAllowed={haveAccessToResources}>
+              <TeamMembersPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'talk-to-hacker',
+          element: (
+            <ProtectedRoute isAllowed={haveAccessToResources}>
+              <TalkToHackerPage />
             </ProtectedRoute>
           ),
         },

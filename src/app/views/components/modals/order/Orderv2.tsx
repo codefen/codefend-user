@@ -19,6 +19,27 @@ import { AnyPaymentMethod } from '@modals/order/layouts/AnyPaymentMetod';
 import { PaywallOrderModal } from '@modals/order/layouts/PaywallOrderModal';
 import { SmallPlanOrderModal } from '@modals/order/layouts/SmallPlanOrderModal';
 import { ArabicOrderModal } from '@modals/order/layouts/ArabicOrderModal';
+import { WebScopeModal } from '@modals/order/layouts/WebScopeModal';
+import { RecommendedPlanOrderModal } from '@modals/order/layouts/RecommendedPlanOrderModal';
+import { AllPlansOrderModal } from '@modals/order/layouts/AllPlansOrderModal';
+
+export const orderSectionMap: Record<OrderSection, number> = {
+  [OrderSection.PAYWALL]: 700,
+  [OrderSection.SCOPE]: 700,
+  [OrderSection.ALL_PLANS]: 1030,
+  [OrderSection.RECOMMENDED_PLAN]: 700,
+  [OrderSection.SMALL_PLANS]: 700,
+  [OrderSection.ARABIC_PLAN]: 700,
+  [OrderSection.FREQUENCY]: 700,
+  [OrderSection.TEAM_SIZE]: 700,
+  [OrderSection.ENVIRONMENT]: 700,
+  [OrderSection.ADDITIONAL_INFO]: 700,
+  [OrderSection.PAYMENT]: 700,
+  [OrderSection.ANY_PAYMENT_METHOD]: 700,
+  [OrderSection.PAYMENT_ERROR]: 700,
+  [OrderSection.WELCOME]: 700,
+  [OrderSection.WAIT_CHECK]: 700,
+};
 
 export const OrderV2 = () => {
   const [isNextStep, updateNextStep] = useState(false);
@@ -44,10 +65,11 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.PAYWALL) return <PaywallOrderModal close={close} />;
     if (orderStepActive === OrderSection.SMALL_PLANS) return <SmallPlanOrderModal />;
     if (orderStepActive === OrderSection.ARABIC_PLAN) return <ArabicOrderModal />;
-    SmallPlanOrderModal;
-    if (orderStepActive === OrderSection.SCOPE) return <ScopeOrderModal />;
+    if (orderStepActive === OrderSection.SCOPE) return <WebScopeModal />;
     if (orderStepActive === OrderSection.FREQUENCY) return <FrequencyOrderModal />;
     if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
+    if (orderStepActive === OrderSection.ALL_PLANS) return <AllPlansOrderModal />;
+    if (orderStepActive === OrderSection.RECOMMENDED_PLAN) return <RecommendedPlanOrderModal />;
     //if (orderStepActive === OrderSection.ORDER_REVIEW)
     //	return <OrderReviewModal updateNextStep={updateNextStep} />;
     //if (orderStepActive === OrderSection.SELECT_LEAD)
@@ -72,22 +94,24 @@ export const OrderV2 = () => {
 
   return (
     <ModalWrapper action={close}>
-      <div className="order-container">
-        <header className="order-header">
-          <div className="order-header-title">
-            <img
-              src="/codefend/pentest-header-vector.svg"
-              alt="codefend-icon"
-              aria-label="codefend-icon"
-            />
-            <h2>
-              <span>Execute a </span>new pentest
-            </h2>
-            {orderStepActive !== OrderSection.PAYWALL ? (
+      <div
+        className="order-container"
+        style={{ '--order-modal-width': `${orderSectionMap[orderStepActive]}px` } as any}>
+        {orderStepActive !== OrderSection.PAYWALL ? (
+          <header className="order-header">
+            <div className="order-header-title">
+              <img
+                src="/codefend/pentest-header-vector.svg"
+                alt="codefend-icon"
+                aria-label="codefend-icon"
+              />
+              <h2>
+                <span>Execute a </span>new pentest
+              </h2>
               <ActiveProgressiveSteps orderStepActive={orderStepActive} />
-            ) : null}
-          </div>
-        </header>
+            </div>
+          </header>
+        ) : null}
 
         <div className="orders-content">
           <ActiveStep />

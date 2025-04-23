@@ -83,7 +83,7 @@
       color: var(--primary-color);
     }
 
-    &::after {
+    /*    &::after {
       content: attr(data-text);
       font-size: 0.95rem;
       display: block;
@@ -100,7 +100,7 @@
       transition:
         transform 275ms ease 90ms,
         opacity 125ms ease-in 0ms;
-    }
+    } */
   }
 
   // &.is-open {

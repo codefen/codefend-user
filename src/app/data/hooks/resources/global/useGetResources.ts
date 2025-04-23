@@ -13,10 +13,9 @@ export const useGetResources = () => {
     return fetcher<any>('post', {
       body: {
         company_id: companyID,
-        model: `resources/${path}`,
-        ac: 'view_all',
         childs: 'yes',
       },
+      path: `resources/${path}/index`,
     })
       .then(({ data }) => {
         if (apiErrorValidation(data?.error, data?.response)) throw new Error('');

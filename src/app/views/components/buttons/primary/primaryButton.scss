@@ -20,6 +20,12 @@
     }
   }
 
+  &.btn-dark-black {
+    background-color: var(--tertiary-color-500);
+    color: var(--primary-color-50);
+    transition: scale 200ms ease;
+  }
+
   &.btn-gray {
     background-color: var(--primary-color-300);
     color: var(--tertiary-color-500);

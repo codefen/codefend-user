@@ -24,6 +24,7 @@ export const usePreferences = () => {
         company_id: companyID,
       },
       path: 'companies/preferences',
+      insecure: true,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (apiErrorValidation(data?.error, data?.response)) {

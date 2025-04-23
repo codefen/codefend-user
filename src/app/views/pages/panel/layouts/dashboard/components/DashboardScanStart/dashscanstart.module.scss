@@ -1,24 +1,29 @@
 .scan-start {
-  background-color: var(--primary-color);
-  border-radius: var(--brd-radius);
-  padding: 1rem 1rem 2rem;
-
-  h2 {
-    line-height: 1.9;
+  p {
+    margin-block: 1rem;
   }
 
-  .scan-start-progress {
-    margin-top: 2.5rem !important;
-    width: 100%;
-    background-color: var(--secondary-color-50);
-    overflow: hidden;
-    height: 18px;
-    position: relative;
-
-    .scan-start-progress-bar {
-      background: #f92222;
-      position: absolute;
-      height: 18px;
-    }
+  button {
+    margin-top: 1rem;
   }
+}
+
+.scan-start-progress {
+  width: 100%;
+  background-color: var(--secondary-color);
+  overflow: hidden;
+  height: 18px;
+  margin-top: 2rem;
+  position: relative;
+}
+
+.scan-start-progress-bar {
+  background: var(--secondary-color-150);
+  position: absolute;
+  height: 18px;
+}
+
+.scan-start-actions {
+  display: flex;
+  gap: 1rem;
 }

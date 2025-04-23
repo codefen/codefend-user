@@ -12,8 +12,7 @@ const fetcher = ([model, { company, logout }]: any) => {
   axiosHttp.updateUrlInstance();
   return axiosHttp
     .post<any>({
-      body: { company_id: company, model, developer: 'increible' },
-      insecure: true,
+      body: { company_id: company, model },
     })
     .then(({ data }) => {
       if (verifySession(data, logout)) return;
