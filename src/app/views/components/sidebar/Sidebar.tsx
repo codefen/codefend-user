@@ -41,7 +41,7 @@ const verifyPath = (verifyPath: string, isRoot: boolean) => {
 
 class SidebarItem extends PureComponent<SidebarItemProps> {
   override render() {
-    const { id, title, to, isActive } = this.props;
+    const { id, title, to, icon, isActive } = this.props;
     return (
       <Link
         title={title}
@@ -281,20 +281,41 @@ const Sidebar: FC = () => {
 
   const getItems = useCallback((menu: any[]) => {
     const items: ReactNode[] = [];
-    const count = menu.length;
-    for (let i = 0; i < count; i++) {
-      const { id, haveAccess, title, icon, to, root } = menu[i];
-      if (haveAccess) {
-        items.push(
-          <SidebarItem
-            key={`sb-${id}`}
-            id={id}
-            title={title}
-            // icon={icon}
-            to={to}
-            isActive={verifyPath(to, root)}
-          />
-        );
+
+    for (const entry of menu) {
+      if (entry.type === 'group') {
+        const groupChildren = entry.children.filter((child: any) => child.haveAccess);
+        if (groupChildren.length > 0) {
+          items.push(
+            <div key={`group-${entry.id}`} className="sidebar-group">
+              <div className="sidebar-group-title">{entry.title}</div>
+              {groupChildren.map(({ id, title, icon, to, root }: any) => (
+                <SidebarItem
+                  key={`sb-${id}`}
+                  id={id}
+                  title={title}
+                  icon={icon}
+                  to={to}
+                  isActive={verifyPath(to, root)}
+                />
+              ))}
+            </div>
+          );
+        }
+      } else {
+        const { id, haveAccess, title, icon, to, root } = entry;
+        if (haveAccess) {
+          items.push(
+            <SidebarItem
+              key={`sb-${id}`}
+              id={id}
+              title={title}
+              icon={icon}
+              to={to}
+              isActive={verifyPath(to, root)}
+            />
+          );
+        }
       }
     }
 
