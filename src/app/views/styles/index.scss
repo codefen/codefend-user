@@ -170,21 +170,21 @@
 ///////////////////////////////////////////////////////////////////
 // DEFAULT SIZE PANEL
 //////////////////////////////////////////////////////////////////
-.sidebar.is-open + main {
-  // opacity: 0.8;
+// .sidebar.is-open + main {
+//   // opacity: 0.8;
 
-  .left .app-card-content-img {
-    opacity: 0.4;
-  }
-}
+//   .left .app-card-content-img {
+//     opacity: 0.4;
+//   }
+// }
 
-.sidebar + main {
-  transition: 100ms ease 0ms !important;
+// .sidebar + main {
+//   transition: 100ms ease 0ms !important;
 
-  .left .app-card-content-img {
-    transition: 100ms ease 0ms !important;
-  }
-}
+//   .left .app-card-content-img {
+//     transition: 100ms ease 0ms !important;
+//   }
+// }
 
 main {
   width: 100%;
@@ -224,11 +224,11 @@ main {
   }
 
   .right {
-    flex: 1 1 30%;
-
+    flex: 1 1 43%;
     padding: 0 12px;
     height: 100%;
-    box-shadow: var(--right-pane-shadow);
+
+    // box-shadow: var(--right-pane-shadow);
     display: flex;
     flex-direction: column;
     row-gap: 20px;
@@ -240,11 +240,12 @@ main {
     padding-block-start: 0;
 
     .left {
-      padding-block-start: 65px;
+      // padding-block-start: 65px;
+      padding-block-start: 30px;
     }
 
     .right {
-      padding-block-start: 65px;
+      padding-block-start: 30px;
     }
   }
 

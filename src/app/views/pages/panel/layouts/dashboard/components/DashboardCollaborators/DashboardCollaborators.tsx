@@ -8,6 +8,7 @@ import Tablev3 from '@table/v3/Tablev3';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import css from './dashcollaborators.module.scss';
 
 interface DashboardCollaboratorsProps {
   members: CompanyMember[];
@@ -45,7 +46,7 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLo
   }, [members, company.get.owner_email]);
 
   return (
-    <div className="collaborators">
+    <div className={css['collaborators']}>
       <Tablev3 rows={membersMapped} columns={membersColumns} showRows={!isLoading} />
     </div>
   );

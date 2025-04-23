@@ -45,7 +45,7 @@ const useDoughnutChart = (value: DoughnutCharProps) => {
             theme === 'light' ? '#e25365' : '#671830', //elevated
             theme === 'light' ? '#e97e8b' : '#961933', //medium
             theme === 'light' ? '#f1a7b1' : '#C9183B', //low
-            theme === 'light' ? '#f8d7db' : '#CF1118', //intel
+            theme === 'light' ? '#dbdbdb' : '#CF1118', //intel
           ],
           borderWidth: 0,
         },

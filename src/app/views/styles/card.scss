@@ -10,7 +10,7 @@
     border 500ms linear;
   width: 100%;
   background-color: var(--primary-color);
-  border-radius: 3px;
+  border-radius: var(--brd-radius);
 
   .header {
     height: 2.5rem;
@@ -90,6 +90,9 @@
   }
 
   &.risk-chart {
+    border: inherit;
+    border-radius: var(--brd-radius);
+
     .content {
       display: flex;
       align-items: center;
@@ -100,7 +103,7 @@
       .chart {
         flex-grow: 0.3;
         max-width: 15%;
-        min-width: 170px;
+        min-width: 200px;
 
         canvas {
           width: 100% !important;
@@ -125,10 +128,14 @@
   }
 
   &.stats {
+    background-color: inherit;
+    border: inherit;
+
     .content {
       display: flex;
       justify-content: space-around;
       align-items: center;
+      column-gap: 1rem;
 
       .content-stat {
         width: 100%;
