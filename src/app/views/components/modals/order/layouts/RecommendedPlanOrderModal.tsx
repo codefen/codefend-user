@@ -1,5 +1,6 @@
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
+import { useOrderPlan } from '@hooks/index';
 import { OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
@@ -47,12 +48,14 @@ const PLAN_PREFERENCE_MAP = {
 };
 
 export const RecommendedPlanOrderModal = () => {
-  const { updateState } = useOrderStore(state => state);
+  const { updateState, referenceNumber, orderId } = useOrderStore(state => state);
   const { planPreference, isDefaultPlan } = useGlobalFastFields([
     'planPreference',
     'isDefaultPlan',
   ]);
   const [plan, setPlan] = useState<any>(PLAN_PREFERENCE_MAP[planPreference.get]);
+  const { sendPlanTeamSize } = useOrderPlan();
+  //const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(state => state);
 
   useEffect(() => {
     setPlan(PLAN_PREFERENCE_MAP[planPreference.get]);
@@ -60,6 +63,11 @@ export const RecommendedPlanOrderModal = () => {
 
   const seeOtherPlans = () => {
     updateState('orderStepActive', OrderSection.ALL_PLANS);
+  };
+
+  const continueWithPlan = () => {
+    updateState('orderStepActive', OrderSection.ENVIRONMENT);
+    sendPlanTeamSize(planPreference.get, plan.price, referenceNumber, orderId);
   };
 
   return (
@@ -100,7 +108,13 @@ export const RecommendedPlanOrderModal = () => {
           />
         </div>
         <div className="primary-container">
-          <PrimaryButton text="Continue" className="full" buttonStyle="red" disabledLoader />
+          <PrimaryButton
+            text="Continue"
+            click={continueWithPlan}
+            className="full"
+            buttonStyle="red"
+            disabledLoader
+          />
         </div>
       </div>
     </div>

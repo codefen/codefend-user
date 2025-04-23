@@ -61,7 +61,7 @@ const rawOrderColumns: ColumnTableV3[] = [
   },
   {
     header: 'State',
-    key: 'condicion_provider',
+    key: 'condicion_financial',
     styles: 'item-cell-7',
     weight: '12%',
     render: value => value,
