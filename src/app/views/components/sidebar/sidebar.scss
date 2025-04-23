@@ -52,8 +52,9 @@
     color: var(--tertiary-color-450);
     border-bottom: 1px solid var(--primary-color-300);
     width: 100%;
-    padding-inline: 18px;
-    column-gap: 2rem;
+    padding-left: 3rem;
+
+    // column-gap: 2rem;
     text-align: center;
     transition:
       color 100ms ease,

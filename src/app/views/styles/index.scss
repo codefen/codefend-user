@@ -199,22 +199,23 @@ main {
   .left {
     flex: 1 1 70%;
     overflow-x: auto;
-    padding: 0 5px;
+
+    // padding: 0 5px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    row-gap: 30px;
+    row-gap: 1rem;
   }
 
   .right {
-    flex: 1 1 43%;
+    flex: 1 1 41%;
     padding: 0 12px;
     height: 100%;
 
     // box-shadow: var(--right-pane-shadow);
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 1rem;
     overflow-y: auto;
   }
 
@@ -1613,14 +1614,14 @@ main.cloud {
 
 @media only screen and (min-width: 1200px) {
   main {
-    padding-inline-start: calc(var(--sidebar-width) + 20px);
+    padding-inline-start: calc(var(--sidebar-width) + 1rem);
 
     .left {
-      padding: 0 14px;
+      padding: 0;
     }
 
     .right {
-      padding: 0 14px 0 20px;
+      padding: 0 14px 0 0.5rem;
     }
   }
 }

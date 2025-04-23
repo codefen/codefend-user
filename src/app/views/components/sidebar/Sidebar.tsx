@@ -263,7 +263,7 @@ const Sidebar: FC = () => {
             key={`sb-${id}`}
             id={id}
             title={title}
-            icon={icon}
+            // icon={icon}
             to={to}
             isActive={verifyPath(to, root)}
           />
