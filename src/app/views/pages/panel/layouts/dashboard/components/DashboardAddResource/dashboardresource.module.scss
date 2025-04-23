@@ -1,0 +1,22 @@
+.box-assets-right {
+  background-color: var(--primary-color);
+  border-radius: var(--brd-radius);
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2em;
+
+  .info-resource {
+    flex: 1;
+
+    p {
+      margin-top: 2rem;
+    }
+  }
+
+  button {
+    max-width: 13em;
+    max-height: 50px;
+  }
+}

@@ -1,11 +1,14 @@
 .leftTop {
+  background-color: var(--primary-color);
+  padding: 3rem;
   display: flex;
   flex-direction: row;
-
   justify-content: space-between;
-  align-items: flex-start;
-  column-gap: 2rem;
-  margin-top: 3rem;
+  align-items: center;
+  column-gap: 4rem;
+
+  // margin-top: 3rem;
+  border-radius: var(--brd-radius);
 }
 
 .leftTopContent {
@@ -31,6 +34,17 @@
 
   button {
     margin-block-start: 2rem;
+  }
+}
+
+@media screen and (max-width: 1450px) {
+  .leftTop {
+    flex-direction: column;
+
+    .leftTopContent {
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 

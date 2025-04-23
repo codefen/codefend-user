@@ -272,14 +272,7 @@ const Sidebar: FC = () => {
     }
     return items;
   }, []);
-  return (
-    <aside
-      className={`sidebar ${isSidebarOpen ? 'is-open' : ''}`}
-      onMouseEnter={e => handleOpenSidebar('enter')}
-      onMouseLeave={e => handleOpenSidebar('leave')}>
-      {getItems(menuItems)}
-    </aside>
-  );
+  return <aside className={`sidebar`}>{getItems(menuItems)}</aside>;
 };
 
 export default Sidebar;

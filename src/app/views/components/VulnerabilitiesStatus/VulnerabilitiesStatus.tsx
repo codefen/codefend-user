@@ -19,30 +19,30 @@ export const VulnerabilitiesStatus: React.FC<{
   const { issueScanFound } = useWelcomeStore();
   return (
     <div className="card stats">
-      <SimpleSection header="Issue by status" icon={<ChartIcon />}>
-        <div className="content">
-          <StatAsset
-            value={
-              <>
-                <span className="codefend-text-red-200">{renderMetrics().open}</span>
-                {`/${renderMetrics().total}`}
-              </>
-            }
-            valueTitle="Open issues"
-            isActive
-          />
-          <StatAsset
-            value={
-              <>
-                <span>{renderMetrics().fixed}</span>
-                {`/${renderMetrics().total}`}
-              </>
-            }
-            valueTitle="Fixed issues"
-          />
-          <StatAsset value={renderMetrics().total} valueTitle="Total issues" />
-        </div>
-      </SimpleSection>
+      {/* <SimpleSection header="Issue by status" icon={<ChartIcon />}> */}
+      <div className="content">
+        <StatAsset
+          value={
+            <>
+              <span className="codefend-text-red-200">{renderMetrics().open}</span>
+              {`/${renderMetrics().total}`}
+            </>
+          }
+          valueTitle="Open issues"
+          isActive
+        />
+        <StatAsset
+          value={
+            <>
+              <span>{renderMetrics().fixed}</span>
+              {`/${renderMetrics().total}`}
+            </>
+          }
+          valueTitle="Fixed issues"
+        />
+        <StatAsset value={renderMetrics().total} valueTitle="Total issues" />
+      </div>
+      {/* </SimpleSection> */}
     </div>
   );
 };

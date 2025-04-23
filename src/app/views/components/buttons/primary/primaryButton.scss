@@ -12,8 +12,8 @@
   }
 
   &.btn-black {
-    color: var(--tertiary-color-300);
-    background-color: var(--tertiary-color-50);
+    color: var(--primary-color);
+    background-color: var(--tertiary-color-500);
 
     @media only screen and (max-width: 600px) {
       height: 65px;

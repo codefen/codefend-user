@@ -7,9 +7,12 @@ export const DashboardScanStart = () => {
   const { progress } = useScanProgress();
 
   return (
-    <div className="scan-start">
+    <div className={css['scan-start']}>
       <h2>Escaneo en curso</h2>
-      <p>Los escaners automaticos estan analizando uno de sus recursos web: {initialDomain}</p>
+      <p>
+        Los escaners automaticos estan analizando uno de sus recursos web:{' '}
+        <strong>{initialDomain}</strong>{' '}
+      </p>
       <div className={css['scan-start-progress']}>
         <div className={css['scan-start-progress-bar']} style={{ width: `${progress}%` }}></div>
       </div>

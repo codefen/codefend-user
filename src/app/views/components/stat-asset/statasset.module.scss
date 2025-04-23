@@ -1,15 +1,19 @@
 .stat {
-  font-family: 'ITC Avant Garde', Questrial;
+  background-color: var(--primary-color-50);
+  border-radius: var(--brd-radius);
+
+  // font-family: 'ITC Avant Garde', Questrial;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  padding-block: 3.75rem;
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--primary-color-300);
+  padding-block: 4.6rem;
+
+  // border-width: 1px;
+  // border-style: solid;
+  // border-color: var(--primary-color-300);
 
   flex: 1 1;
   min-height: 5.938rem;
@@ -31,17 +35,17 @@
 
   .value {
     font-weight: 700;
-    font-size: 32px;
+    font-size: 2.6rem;
     line-height: 32px;
     text-align: center;
     color: var(--tertiary-color-50);
   }
 
   p {
-    font-size: clamp(11px, 10dvw, 12.5px);
-    font-family: 'ITC Avant Garde', Questrial;
-    color: var(--tertiary-color-450);
+    font-size: clamp(11px, 10dvw, 14px);
+    font-family: Roboto;
     font-weight: bold;
+    color: var(--tertiary-color-450);
     margin: 0;
     text-wrap: wrap;
     -webkit-line-clamp: 2;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import DashboardCollaborators from './components/DashboardCollaborators.tsx';
+import DashboardCollaborators from './components/DashboardCollaborators/DashboardCollaborators.tsx';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
 import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';
@@ -15,7 +15,7 @@ import DashboardAssets from '../../../../components/DashboardAssets/DashboardAss
 import { DashboardInvoke } from '@/app/views/components/DashboardInvoke/DashboardInvoke.tsx';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
-import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource.tsx';
+import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource.tsx';
 import { PeopleGroupIcon } from '@icons';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardScanStart/DashboardScanStart.tsx';
@@ -57,13 +57,13 @@ const Dashboard: React.FC = () => {
 
       <section className="right">
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
-        <PrimaryButton
+        {/* <PrimaryButton
           text="Go to vulnerabilities"
           buttonStyle="red"
           className="full"
           click={() => navigate('/issues')}
           disabledLoader
-        />
+        /> */}
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
         <DashboardScanStart />
       </section>
