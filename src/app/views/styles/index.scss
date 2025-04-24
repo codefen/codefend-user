@@ -120,6 +120,11 @@
   list-style: none;
 }
 
+.text-right {
+  text-align: right;
+  justify-content: flex-end !important;
+}
+
 [data-theme='light'] {
   .brightness {
     opacity: 0;
