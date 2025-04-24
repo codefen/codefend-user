@@ -12,6 +12,12 @@
   display: block;
 }
 
+.border-stat {
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--primary-color-300);
+}
+
 .underline-high {
   text-decoration-line: underline;
 }
@@ -201,7 +207,7 @@
 main {
   width: 100%;
   height: 100dvh;
-  max-height: calc(100dvh - var(--navbar-height));
+  max-height: calc(100dvh - var(--nav-height));
 
   display: flex;
   justify-content: space-between;
@@ -211,7 +217,7 @@ main {
   padding-inline-start: calc(var(--sidebar-width) + 12px);
   padding-block-start: 3dvw;
 
-  margin-block-start: var(--navbar-height);
+  margin-block-start: var(--nav-height);
 
   transition-delay: 70ms;
   transition-property: padding, opacity, background, color;
