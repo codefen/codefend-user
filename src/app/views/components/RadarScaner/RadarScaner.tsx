@@ -315,7 +315,7 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
         SIZE / 2
       );
       outerGlow.addColorStop(0, 'rgba(255, 60, 35, 0.06)');
-      outerGlow.addColorStop(0.7, 'rgba(134, 104, 100, 0.02)');
+      outerGlow.addColorStop(0.7, 'rgba(255, 60, 35, 0.02)');
       outerGlow.addColorStop(1, 'rgba(255, 60, 35, 0.01)');
 
       ctx.fillStyle = outerGlow;

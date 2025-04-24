@@ -46,7 +46,7 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLo
   }, [members, company.get.owner_email]);
 
   return (
-    <div className={css['collaborators']}>
+    <div className="collaborators">
       <Tablev3 rows={membersMapped} columns={membersColumns} showRows={!isLoading} />
     </div>
   );

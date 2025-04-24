@@ -6,13 +6,21 @@ export interface StatAssetProps {
   valueTitle: string;
   isRed?: boolean;
   isActive?: boolean;
+  borderStyle?: boolean;
   onClick?: () => void;
 }
 
-export const StatAsset: FC<StatAssetProps> = ({ value, valueTitle, isRed, isActive, onClick }) => {
+export const StatAsset: FC<StatAssetProps> = ({
+  value,
+  valueTitle,
+  isRed,
+  isActive,
+  borderStyle,
+  onClick,
+}) => {
   return (
     <div
-      className={`${css['stat']} ${isActive && css['stat-active']} ${!onClick && css['default']}`}
+      className={`${css['stat']} ${isActive && css['stat-active']} ${!onClick && css['default']} ${borderStyle && 'border-stat'}`}
       onClick={onClick}>
       <div className={css['value']}>{value}</div>
       <p className={`${isRed && 'codefend-text-red-200'}`}>{valueTitle}</p>

@@ -97,6 +97,8 @@
   }
 
   .item {
+    display: flex;
+    align-items: center;
     height: 40px;
     padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
