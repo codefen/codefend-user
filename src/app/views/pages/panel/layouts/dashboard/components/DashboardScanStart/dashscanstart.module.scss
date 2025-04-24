@@ -1,4 +1,8 @@
 .scan-start {
+  background-color: var(--primary-color);
+  padding: 1.5rem 2rem;
+  border-radius: var(--brd-radius);
+
   p {
     margin-block: 1rem;
   }

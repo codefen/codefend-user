@@ -22,7 +22,8 @@
     font-family: Questrial;
     font-size: 14px;
     color: var(--tertiary-color-200);
-    padding: 0 20px;
+
+    // padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
     transition-property: border-image, border;
     transition-duration: 325ms;
@@ -96,14 +97,12 @@
   }
 
   .item {
-    display: flex;
-    align-items: center;
     height: 40px;
     padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
-    color: var(--tertiary-color-400);
+    color: var(--tertiary-color-300);
     font-family: Questrial;
-    font-size: 14px;
+    font-size: 15px;
 
     div {
       flex: 1;
@@ -122,9 +121,9 @@
       cursor: default !important;
     }
 
-    &:nth-of-type(odd) {
-      background-color: #00000004;
-    }
+    // &:nth-of-type(odd) {
+    //   background-color: #00000004;
+    // }
 
     &:last-child {
       border-bottom: none;

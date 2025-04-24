@@ -107,8 +107,9 @@
     height: 40px;
     align-items: center;
     font-family: 'ITC Avant Garde', Questrial;
-    font-size: 14px;
-    color: var(--tertiary-color-200);
+    font-size: 16px;
+    color: var(--tertiary-color-400);
+    font-weight: 700;
     padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
     transition-property: border-image, border;
@@ -165,8 +166,9 @@
   .item {
     display: flex;
     align-items: center;
-    height: 42px;
-    padding: 0 20px;
+    height: 3rem;
+
+    // padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-400);
     font-family: 'ITC Avant Garde', Questrial;
@@ -183,9 +185,9 @@
       cursor: default !important;
     }
 
-    &:nth-of-type(odd) {
-      background-color: #00000004;
-    }
+    // &:nth-of-type(odd) {
+    //   background-color: #00000004;
+    // }
 
     &:last-child {
       border-bottom: none;
