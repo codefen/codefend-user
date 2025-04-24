@@ -11,7 +11,7 @@ import type { ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import type { useWelcomeStore } from '@stores/useWelcomeStore';
 import Tablev3 from '@table/v3/Tablev3';
-import { useState, type ChangeEvent } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
@@ -156,10 +156,16 @@ export const ScanSection = () => {
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
   const { getCompany } = useUserData();
-  const { scans } = useVerifyScanList();
+  const { scans, companyUpdated } = useVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const company = useGlobalFastField('company');
+
+  useEffect(() => {
+    if (companyUpdated) {
+      company.set(companyUpdated);
+    }
+  }, [companyUpdated]);
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;
