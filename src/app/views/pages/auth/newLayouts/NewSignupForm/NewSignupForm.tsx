@@ -163,8 +163,8 @@ export const NewSignupForm = () => {
     form.append('lead_reference_number', lead_reference_number);
     form.append('username', username);
     const formObject = Object.fromEntries(form.entries());
-    signUpFinish(formObject).then((user: any) => {
-      if (user) {
+    signUpFinish(formObject).then((res: any) => {
+      if (res.pass) {
         //if (user?.accessRole == 'user') navigate('/');
         //if (user?.accessRole == 'admin') navigate('/admin');
         //if (user?.accessRole == 'provider') navigate('/provider/profile');
