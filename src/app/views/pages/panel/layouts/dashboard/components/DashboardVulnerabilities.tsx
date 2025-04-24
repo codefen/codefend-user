@@ -15,40 +15,40 @@ interface DashboardVulnerabilitiesProps {
 
 const vulnera: ColumnTableV3[] = [
   {
+    header: 'published',
+    key: 'creacion',
+    styles: 'item-cell-5',
+    weight: '17%',
+    render: (value: any) => value,
+  },
+  {
     header: 'issue title',
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-1 issue-name-cell',
-    weight: '47.5%',
+    weight: '50%',
     render: (row: any) => <ResourceIconText name={row.name} resourceClass={row.resource_class} />,
   },
+  // {
+  //   header: 'class',
+  //   key: 'resource_class',
+  //   styles: 'item-cell-2',
+  //   weight: '7%',
+  //   render: (value: any) => value,
+  // },
+  // {
+  //   header: 'author',
+  //   key: 'researcher_username',
+  //   styles: 'item-cell-3',
+  //   weight: '17%',
+  //   render: (name: any) => `@${name}`,
+  // },
   {
-    header: 'class',
-    key: 'resource_class',
-    styles: 'item-cell-2',
-    weight: '7%',
-    render: (value: any) => value,
-  },
-  {
-    header: 'author',
-    key: 'researcher_username',
-    styles: 'item-cell-3',
-    weight: '17%',
-    render: (name: any) => `@${name}`,
-  },
-  {
-    header: 'risk level',
+    header: 'score',
     key: 'risk_score',
     styles: 'item-cell-4',
-    weight: '11%',
+    weight: '27%',
     render: (risk_score: any) => <RiskScore riskScore={risk_score} />,
-  },
-  {
-    header: 'published',
-    key: 'creacion',
-    styles: 'item-cell-5',
-    weight: '17.5%',
-    render: (value: any) => value,
   },
 ];
 
@@ -59,6 +59,10 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
   return (
     <div className="card">
       <div className="over">
+        <div className="table-title">
+          <h2>Issues overview</h2>
+          <a href="/">see all overviews</a>
+        </div>
         <Tablev3
           columns={vulnera}
           rows={topVulnerabilities}

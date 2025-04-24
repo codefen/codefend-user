@@ -19,13 +19,12 @@ import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/
 import { PeopleGroupIcon } from '@icons';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardScanStart/DashboardScanStart.tsx';
-
 const Dashboard: React.FC = () => {
   const [showScreen] = useShowScreen();
   const { isLoading, data } = useDashboard();
   const navigate = useNavigate();
   const company = useGlobalFastField('company');
-
+  console.log(data?.issues_share);
   useEffect(() => {
     if (data?.company) {
       company.set(data.company);
