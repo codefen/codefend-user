@@ -100,7 +100,6 @@ const Navbar: FC = () => {
                 title="Network settings"
                 onClick={() => isOpenNetworkSetting.set(true)}>
                 <NetworkIcon width={1.1} height={1.1} />
-                <span>{baseApiName}</span>
               </div>
             )}
             <div className="user action" ref={userRef}>

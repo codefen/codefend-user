@@ -116,6 +116,13 @@
   font-weight: 700;
 }
 
+[dir='rtl'] {
+  .text-right {
+    text-align: left;
+    justify-content: flex-start !important;
+  }
+}
+
 .plain-list {
   list-style: none;
 }

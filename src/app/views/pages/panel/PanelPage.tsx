@@ -111,7 +111,7 @@ export const PanelPage = () => {
           open={modals.isErrorConnectionModalOpen}
         />
 
-        {/* <Navbar /> */}
+        <Navbar />
         <Sidebar />
 
         <Suspense fallback={<Loader />}>
