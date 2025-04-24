@@ -18,6 +18,7 @@ import { useVerifyScan } from '#commonHooks/useVerifyScan.ts';
 import { PaywallModal } from '@modals/paywall/PaywallModal.tsx';
 import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource/WelcomeLoadResource.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResourcesOrderModel.tsx';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -103,6 +104,7 @@ export const PanelPage = () => {
         <QualityFeedbackManager />
         <PaywallModal />
         <WelcomeLoadResource />
+        <AddNewResourceModal />
 
         <ErrorConnection
           closeModal={closeErrorConnectionModal}
