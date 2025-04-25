@@ -176,8 +176,8 @@ export const NewSignupForm = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>
+        <img src="/codefend/logo-color.png" width={220} />
         <ChangeAuthPages pathname={location.pathname} />
-        <img src="/codefend/brand-iso.png" width={350} height={60} />
         <p>{STEPSDATA[activeStep].p}</p>
         <ProgressBar activeStep={activeStep} />
         {/* Primer paso del formulario */}

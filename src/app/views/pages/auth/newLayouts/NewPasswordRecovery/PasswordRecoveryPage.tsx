@@ -1,3 +1,4 @@
+import { Link, type Location } from 'react-router';
 import { useState } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import PasswordRecoveryForm from '@/app/views/components/forms/PasswordRecoveryForm.tsx';
@@ -12,7 +13,12 @@ export const PasswordRecovery = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['passwordRecoveryForm']}>
       <div className={css['passwordRecoveryContent']}>
-        <ChangeAuthPages pathname={location.pathname} />
+        {/* <ChangeAuthPages pathname={location.pathname} /> */}
+        <div style={{ borderBottom: '2px solid #00000020', paddingBottom: '10px', alignSelf: "flex-start", width: "100%" }}>
+          <Link to="/auth/signin" style={{ alignSelf: "flex-start" }}>
+            &lt;  back
+          </Link>
+        </div>
         <PasswordRecoveryForm activePhase={activePhase} setPhase={updated => setPhase(updated)}>
           {(isLoading: boolean) => (
             <div className={css['confirm-button']}>
