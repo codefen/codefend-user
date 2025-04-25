@@ -1,6 +1,6 @@
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { PrimaryButton } from '@buttons/index';
-import type { ResourcesTypes } from '@interfaces/order';
+import { OrderSection, type ResourcesTypes } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 
 interface OpenOrderButtonProps {
@@ -8,6 +8,7 @@ interface OpenOrderButtonProps {
   isLoading?: boolean;
   type: ResourcesTypes;
   className?: string;
+  scope?: OrderSection;
 }
 
 const OpenOrderButton = ({
@@ -15,13 +16,14 @@ const OpenOrderButton = ({
   isLoading,
   type,
   className = '',
+  scope = OrderSection.SCOPE,
 }: OpenOrderButtonProps) => {
-  const { updateState, setScopeTotalResources } = useOrderStore(state => state);
+  const { updateState } = useOrderStore(state => state);
   const { isAdmin, isNormalUser } = useUserRole();
   const onOpen = () => {
     updateState('open', true);
     updateState('resourceType', type);
-    setScopeTotalResources(resourceCount);
+    updateState('orderStepActive', scope);
   };
   if (!isAdmin() && !isNormalUser()) return null;
 

@@ -18,8 +18,8 @@ export const CardPaymentModal = () => {
   const { getCompany } = useUserData();
   const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
   const merchId = useRef('null');
-  const companyId = useMemo(() => getCompany(), [getCompany]);
-  const fetchClientSecret = useCallback(() => {
+  const companyId = useMemo(() => getCompany(), [getCompany()]);
+  const fetchClientSecret = () => {
     return fetcher<any>('post', {
       body: {
         phase: 'financial_card_launch',
@@ -33,7 +33,7 @@ export const CardPaymentModal = () => {
       merchId.current = data.merch_cid;
       return data.merch_cs;
     });
-  }, [companyId, referenceNumber, orderId]);
+  };
 
   const options = useMemo(
     () => ({
@@ -61,11 +61,14 @@ export const CardPaymentModal = () => {
           });
       },
     }),
-    [fetchClientSecret, companyId, referenceNumber, orderId]
+    [fetchClientSecret, companyId, referenceNumber, orderId, merchId.current]
   );
 
   useEffect(() => {
     return () => {
+      if (merchId.current === 'null') {
+        merchId.current = 'null';
+      }
       let iframes = document.querySelectorAll('iframe');
       iframes.forEach(iframe => {
         if (iframe.parentNode) {

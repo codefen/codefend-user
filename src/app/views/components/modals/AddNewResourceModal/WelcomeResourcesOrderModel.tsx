@@ -47,7 +47,7 @@ export const AddNewResourceModal = () => {
             title="Recursos network"
             description="Direciones IP externas e internas de cualquier dispositivo."
             count={12}
-            icon={RESOURCE_CLASS.NETWORK}
+            icon={RESOURCE_CLASS.LAN_NET}
             callback={handleClose}
           />
           <ResourceNavigate
