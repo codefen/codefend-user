@@ -14,11 +14,10 @@ export const useDeleteLan = (onDone: () => void, close: () => void) => {
   const fetchDelete = useCallback((companyID: string, deletedId: string) => {
     fetcher('post', {
       body: {
-        model: 'resources/lan',
-        ac: 'del',
         id: deletedId,
         company_id: companyID,
       },
+      path: 'resources/lan/del',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response))

@@ -34,11 +34,10 @@ export const useRemoveAppStore = create<RemoveAppStore>((set, _get) => ({
     return fetchcer
       .post({
         body: {
-          model: `resources/${state.isMobileType ? RESOURCE_CLASS.MOBILE : RESOURCE_CLASS.CLOUD}`,
-          ac: 'del',
           company_id: companyID,
           id: state.id,
         },
+        path: `resources/${state.isMobileType ? RESOURCE_CLASS.MOBILE : RESOURCE_CLASS.CLOUD}/del`,
       })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response)) {

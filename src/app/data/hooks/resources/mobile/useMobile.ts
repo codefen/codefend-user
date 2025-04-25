@@ -1,20 +1,22 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { defaultConfig, disponibleFetcher } from '@services/swr';
 import useSWR from 'swr';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const useMobile = () => {
   const { getCompany, logout } = useUserData();
+  const company = useGlobalFastField('company');
 
-  const swrKeYRef = useRef<any>([
-    ['resources/mobile', 'view_all'],
-    { company: getCompany(), logout },
-  ]);
+  const swrKeYRef = useRef<any>([['resources/mobile/index'], { company: getCompany(), logout }]);
 
   const { data, mutate, isLoading, isValidating } = useSWR(
     swrKeYRef.current,
     (key: any) => disponibleFetcher(key),
-    defaultConfig
+    {
+      ...defaultConfig,
+      fallbackData: {},
+    }
   );
 
   const refetch = () =>
@@ -24,9 +26,11 @@ export const useMobile = () => {
     });
 
   const updateData = (newData: any) => {
-    let updatedData: any[] = [];
-    if (newData?.andoird) updatedData = [...data, newData.andoird];
-    if (newData?.apple) updatedData = [...updatedData, newData.apple];
+    let updatedData = {};
+    if (newData?.andoird)
+      updatedData = { disponibles: [...data?.disponibles, newData.andoird], company: company.get };
+    if (newData?.apple)
+      updatedData = { disponibles: [...data?.disponibles, newData.apple], company: company.get };
 
     mutate(updatedData, {
       revalidate: true,
@@ -34,8 +38,14 @@ export const useMobile = () => {
     });
   };
 
+  useEffect(() => {
+    if (data?.company) {
+      company.set(data.company);
+    }
+  }, [data?.company]);
+
   return {
-    data: data ? data : [],
+    data: data?.disponibles ? data?.disponibles : [],
     isLoading: isLoading || isValidating,
     refetch,
     updateData,

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useState, type FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { useDeleteLan } from '@resourcesHooks/network/useDeleteLan';
@@ -60,6 +60,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
   internalNetwork,
   refetchInternalNetwork,
 }) => {
+  const [lanText, setLanText] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
@@ -75,6 +76,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
     'openModal',
     'resourceID',
   ]);
+
   const handleDelete = () => {
     refetch(selectedLanIdToDelete);
   };
@@ -129,6 +131,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
                 setSelectedLanIdToDelete(row.id);
                 setShowModal(!showModal);
                 setShowModalStr(MODAL_KEY_OPEN.DELETE_NETWORK);
+                setLanText(
+                  `${row?.device_ex_address ? row?.device_ex_address + ' / ' : ''}${row?.device_in_address || ''}`
+                );
               }}>
               <TrashIcon />
             </span>
@@ -145,7 +150,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
         close={() => setShowModal(false)}
         isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_NETWORK}>
         <ConfirmModal
-          header=""
+          header={`Are you sure you want to delete ${lanText}?`}
           cancelText="Cancel"
           confirmText="Delete"
           close={() => setShowModal(false)}

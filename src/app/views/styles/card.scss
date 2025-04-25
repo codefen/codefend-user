@@ -339,6 +339,15 @@
       }
     }
   }
+
+  &.new-design {
+    padding-block: 1rem;
+    padding-inline: 2rem;
+
+    button {
+      margin-block-start: 1rem;
+    }
+  }
 }
 
 @media only screen and (max-width: 1325px) {

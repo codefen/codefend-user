@@ -46,20 +46,19 @@ const WebApplicationView = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
-        <ResourceByLocation
-          isLoading={isLoading}
-          resource={webResources}
-          title="Web servers by location"
-          type={RESOURCE_CLASS.WEB}
-        />
+        <WebApplicationStatics webResources={webResources} />
         <OpenOrderButton
           className="pentest-btn"
           type={ResourcesTypes.WEB}
           resourceCount={webResources.length}
           isLoading={isLoading}
         />
-        <WebApplicationStatics webResources={webResources} />
-
+        <ResourceByLocation
+          isLoading={isLoading}
+          resource={webResources}
+          title="Web servers by location"
+          type={RESOURCE_CLASS.WEB}
+        />
         {/*<WebApplicationCredentials />*/}
       </section>
     </EmptyLayout>

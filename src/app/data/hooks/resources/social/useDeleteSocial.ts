@@ -13,11 +13,10 @@ export const useAddSocial = (onDone: () => void) => {
   const fetchDelete = (companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'resources/se',
-        ac: 'del',
         id: selectedId,
         company_id: companyID,
       },
+      path: 'resources/se/del',
     })
       .then(({ data }: any) => {
         if (data.error != '0' || data.response == 'error') {

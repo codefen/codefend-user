@@ -1,15 +1,10 @@
 import { ModalWrapper } from '@modals/index';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import css from './signinform.module.scss';
 import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { defaultCountries } from '@/app/constants/countries';
-import {
-  apiErrorValidation,
-  isEquals,
-  passwordRegexVal,
-  passwordValidation,
-} from '@/app/constants/validations';
+import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
@@ -55,14 +50,6 @@ export const NewSignupForm = () => {
         .finally(() => setLoading(false));
     }
   }, []);
-
-  useEffect(() => {
-    console.log('password: ', {
-      password,
-      isValid: passwordValidation(password),
-      regex: passwordRegexVal.test(password),
-    });
-  }, [password]);
 
   const goBackValidateMe = (goTo: SignUpSteps) => {
     setActiveStep(goTo);

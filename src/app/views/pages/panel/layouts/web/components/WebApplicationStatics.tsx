@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChartIcon } from '@icons';
 import type { Webresource } from '@interfaces/panel.ts';
-import { MetricsService } from '@utils/metric.service.ts';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { getCompanyAllMetrics } from '@utils/metric.service';
 
 interface WebResourceStaticProps {
   webResources: Webresource[];
 }
 export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webResources }) => {
-  const { getCompanyMetric } = MetricsService;
+  const globalStore = useGlobalFastFields([
+    'subDomainCount',
+    'uniqueIpCount',
+    'domainCount',
+    'planPreference',
+    'isDefaultPlan',
+  ]);
+
+  useEffect(() => {
+    const metrics = getCompanyAllMetrics(webResources);
+    globalStore.domainCount.set(metrics.domainCount);
+    globalStore.subDomainCount.set(metrics.subDomainCount);
+    globalStore.uniqueIpCount.set(metrics.uniqueIpCount);
+    globalStore.isDefaultPlan.set(true);
+
+    if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
+      globalStore.planPreference.set('small');
+    } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
+      globalStore.planPreference.set('medium');
+    } else {
+      globalStore.planPreference.set('advanced');
+    }
+  }, [webResources]);
 
   return (
     <div className="card stats">
@@ -22,9 +45,9 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webRes
         <div className="actions"></div>
       </div>
       <div className="content">
-        <StatAsset value={getCompanyMetric(webResources, 'domain')} valueTitle="Domains" />
-        <StatAsset value={getCompanyMetric(webResources, 'subDomain')} valueTitle="Subdomains" />
-        <StatAsset value={getCompanyMetric(webResources, 'uniqueIp')} valueTitle="Unique IPS" />
+        <StatAsset value={globalStore.domainCount.get} valueTitle="Domains" />
+        <StatAsset value={globalStore.subDomainCount.get} valueTitle="Subdomains" />
+        <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPS" />
       </div>
     </div>
   );
