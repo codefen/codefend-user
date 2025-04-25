@@ -17,6 +17,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { ORDER_PHASES_TEXT } from '@/app/constants/app-toast-texts';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const useOrders = () => {
   const { getCompany } = useUserData();
@@ -674,18 +675,23 @@ export const userOrderCardPayment = () => {
 export const userOrderFinished = () => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
+  const company = useGlobalFastField('company');
   const finishOrder = (referenceNumber: string, orderId: string) => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return Promise.resolve(false);
     return fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'finished',
         company_id: getCompany(),
         reference_number: referenceNumber,
         order_id: orderId,
       },
+      path: 'orders/add',
     }).then(({ data }: any) => {
+      console.log('data: ', data);
+      if (data?.company) {
+        company.set(data.company);
+      }
       return data;
     });
   };

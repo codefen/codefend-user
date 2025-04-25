@@ -25,11 +25,10 @@ export const useAddLanV2 = (onDone: () => void, close: () => void) => {
   const fetchSaveChild = useCallback((params: any, companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'resources/lan',
-        ac: 'add',
         company_id: companyID,
         ...params,
       },
+      path: 'resources/lan/add',
     }).then(({ data }: any) => {
       if (apiErrorValidation(data?.error, data?.response)) {
         let message = data.info.includes('device_in_address')

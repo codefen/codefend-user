@@ -46,12 +46,11 @@ export const useAddMobileResource = () => {
 
     fetcher<any>('post', {
       body: {
-        ac: 'add',
         app_android_link: androidAddress.current?.value || '',
         app_apple_link: iosAddress.current?.value || '',
         company_id: companyID,
       },
-      path: 'resources/mobile',
+      path: 'resources/mobile/add',
     })
       .then(({ data }: any) => {
         if (

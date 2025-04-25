@@ -66,8 +66,9 @@ export const RecommendedPlanOrderModal = () => {
   };
 
   const continueWithPlan = () => {
+    const selectedPlan = planPreference.get === 'advanced' ? 'full' : planPreference.get;
     updateState('orderStepActive', OrderSection.ENVIRONMENT);
-    sendPlanTeamSize(planPreference.get, plan.price, referenceNumber, orderId);
+    sendPlanTeamSize(selectedPlan, plan.price, referenceNumber, orderId);
   };
 
   return (

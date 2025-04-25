@@ -52,8 +52,6 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
   const fetchAdd = (companyID: string) => {
     fetcher<any>('post', {
       body: {
-        model: 'resources/se',
-        ac: 'add',
         company_id: companyID,
         member_fname: fName.current?.value || '',
         member_lname: lName.current?.value || '',
@@ -61,6 +59,7 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
         member_phone: phone.current?.value || '',
         member_role: role.current?.value || '',
       },
+      path: 'resources/se/add',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data.error, data.response)) {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { OrderSection, UserPlanSelected } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { loadStripe } from '@stripe/stripe-js';
@@ -19,6 +19,7 @@ export const CardPaymentModal = () => {
   const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
   const merchId = useRef('null');
   const companyId = useMemo(() => getCompany(), [getCompany()]);
+  const [isLoading, setIsLoading] = useState(false);
   const fetchClientSecret = () => {
     return fetcher<any>('post', {
       body: {
@@ -31,6 +32,7 @@ export const CardPaymentModal = () => {
       insecure: true,
     }).then(({ data }: any) => {
       merchId.current = data.merch_cid;
+      setIsLoading(true);
       return data.merch_cs;
     });
   };
@@ -58,6 +60,9 @@ export const CardPaymentModal = () => {
           })
           .catch(() => {
             updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
+          })
+          .finally(() => {
+            setIsLoading(false);
           });
       },
     }),
@@ -66,9 +71,6 @@ export const CardPaymentModal = () => {
 
   useEffect(() => {
     return () => {
-      if (merchId.current === 'null') {
-        merchId.current = 'null';
-      }
       let iframes = document.querySelectorAll('iframe');
       iframes.forEach(iframe => {
         if (iframe.parentNode) {
@@ -100,6 +102,7 @@ export const CardPaymentModal = () => {
         disabledLoader
         click={backStep}
         className="stripe-back-btn"
+        isDisabled={isLoading}
       />
     </>
   );
