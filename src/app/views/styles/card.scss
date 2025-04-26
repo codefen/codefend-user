@@ -25,7 +25,20 @@
       opacity: 1;
     }
   }
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    // padding: 5px 20px 15px;
 
+    a, span {
+      color: var(--secondary-color-100);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
   .header {
     height: 2.5rem;
     display: flex;

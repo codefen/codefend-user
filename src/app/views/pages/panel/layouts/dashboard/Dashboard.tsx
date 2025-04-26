@@ -45,10 +45,10 @@ const Dashboard: React.FC = () => {
           <PageLoader />
         )}
         <div className="content-box-assets">
-          <section className="box-assets ">
+          <section className="box-assets card">
             <DashboardAddResource data={data} />
           </section>
-          <section className="box-assets ">
+          <section className="box-assets card">
             <DashboardAddCollaborators isLoading={isLoading} data={data} />
           </section>
         </div>
