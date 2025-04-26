@@ -33,5 +33,7 @@ module.exports = {
     'declaration-block-no-redundant-longhand-properties': null,
     'color-hex-length': null,
     'selector-pseudo-class-no-unknown': null,
+    'rule-empty-line-before': null,
+    'scss/double-slash-comment-empty-line-before': null,
   },
 };
