@@ -1,0 +1,20 @@
+main.team-members {
+  .left {
+    .box-assets {
+      .team-members-table {
+        background-color: var(--primary-color);
+        border-radius: var(--br-radius);
+        overflow-x: auto;
+      }
+    }
+  }
+
+  // @media (max-width: 768px) {
+  //   .purchaseOrdersTable {
+  //     th, td {
+  //       padding: 0.75rem;
+  //       font-size: 0.75rem;
+  //     }
+  //   }
+  // }
+}

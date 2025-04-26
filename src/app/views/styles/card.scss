@@ -1,17 +1,44 @@
 .card {
   overflow: hidden;
   flex: 0 0 auto;
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--primary-color-300);
+
+  // border-width: 1px;
+  // border-style: solid;
+  // border-color: var(--primary-color-300);
   transition:
     color,
     background,
     border 500ms linear;
   width: 100%;
   background-color: var(--primary-color);
-  border-radius: 3px;
+  border-radius: var(--brd-radius);
+  animation: fadeIn 0.5s ease-in-out;
 
+  @keyframes fadeIn {
+    from {
+      margin-top: 10px;
+      opacity: 0;
+    }
+
+    to {
+      margin-top: 0;
+      opacity: 1;
+    }
+  }
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    // padding: 5px 20px 15px;
+
+    a, span {
+      color: var(--secondary-color-100);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
   .header {
     height: 2.5rem;
     display: flex;
@@ -90,6 +117,9 @@
   }
 
   &.risk-chart {
+    border: inherit;
+    border-radius: var(--brd-radius);
+
     .content {
       display: flex;
       align-items: center;
@@ -100,7 +130,7 @@
       .chart {
         flex-grow: 0.3;
         max-width: 15%;
-        min-width: 170px;
+        min-width: 200px;
 
         canvas {
           width: 100% !important;
@@ -125,10 +155,14 @@
   }
 
   &.stats {
+    background-color: inherit;
+    border: inherit;
+
     .content {
       display: flex;
       justify-content: space-around;
       align-items: center;
+      column-gap: var(--card-space);
 
       .content-stat {
         width: 100%;
@@ -329,6 +363,15 @@
           }
         }
       }
+    }
+  }
+
+  &.new-design {
+    padding-block: 1rem;
+    padding-inline: 2rem;
+
+    button {
+      margin-block-start: 1rem;
     }
   }
 }

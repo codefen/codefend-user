@@ -45,11 +45,10 @@ export const useAddSourceCode = () => {
   const fetchAdd = (params: any, companyID: string) => {
     return fetcher('post', {
       body: {
-        model: 'resources/source',
-        ac: 'add',
         company_id: companyID,
         ...params,
       },
+      path: 'resources/source/add',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response)) {

@@ -46,7 +46,9 @@ html,
   font-feature-settings: normal;
   font-variation-settings: normal;
   -webkit-tap-highlight-color: transparent;
-  font-size: 14px;
+
+  // font-size: 14px;
+  font-size: 16.5px;
 }
 
 body[data-theme='dark'] select option {
@@ -63,7 +65,6 @@ body {
   overflow: hidden;
   padding: 0;
   margin: 0;
-  line-height: inherit;
   height: fit-content;
   min-height: 100dvh;
   max-width: 100dvw;
@@ -335,19 +336,29 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: Questrial;
   text-wrap: balance;
+}
+
+h2 {
+  font-size: 1.3rem;
+}
+
+p,
+li {
+  line-height: 1.5;
 }
 
 body,
 input,
 pre,
 p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6,
 .modal_info,
 .codefend_main_ac,
 .codefend_secondary_ac,

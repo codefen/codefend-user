@@ -1548,3 +1548,26 @@ export const CodefendLogo = () => (
     />
   </svg>
 );
+
+export const CubeIcon: FC<IconProps> = ({ className }) => (
+  <svg
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    height="1.5rem"
+    width="1.5rem"
+    style={{ overflow: 'visible' } as any}
+    className={className}>
+    <path
+      fill="white"
+      stroke="black"
+      stroke-width="30"
+      d="M256 64L64 170.7v170.6L256 448l192-106.7V170.7L256 64z"
+    />
+    <path
+      fill="none"
+      stroke="black"
+      stroke-width="30"
+      d="M256 64v384M256 448L64 341.3M256 448l192-106.7"
+    />
+  </svg>
+);

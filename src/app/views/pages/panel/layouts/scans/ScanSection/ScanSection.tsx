@@ -11,7 +11,7 @@ import type { ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import type { useWelcomeStore } from '@stores/useWelcomeStore';
 import Tablev3 from '@table/v3/Tablev3';
-import { useState, type ChangeEvent } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
@@ -156,10 +156,16 @@ export const ScanSection = () => {
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
   const { getCompany } = useUserData();
-  const { scans } = useVerifyScanList();
+  const { scans, companyUpdated } = useVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const company = useGlobalFastField('company');
+
+  useEffect(() => {
+    if (companyUpdated) {
+      company.set(companyUpdated);
+    }
+  }, [companyUpdated]);
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;
@@ -268,7 +274,7 @@ export const ScanSection = () => {
           close={() => setIsOpen(false)}
         />
       </ModalTitleWrapper>
-      <div>
+      <div className={css['scan-search-box']}>
         <SearchBar
           handleChange={(e: ChangeEvent<HTMLInputElement>) => setDomainScanned(e.target.value)}
           placeHolder="Search"
@@ -276,6 +282,10 @@ export const ScanSection = () => {
           handleSubmit={startAndAddedDomain}
           searchIcon={<ScanSearchIcon isButton />}
         />
+        <div className={css['scan-search-box-info']}>
+          <span>Disponibles</span>
+          <span>{company.get.disponibles_neuroscan}</span>
+        </div>
       </div>
       <div className="card">
         <SimpleSection header="Company Scanners" icon={<StatIcon />}>

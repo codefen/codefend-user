@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { type ColumnTableV3, type Issues, Sort } from '../../../../../../data';
+import { type ColumnTableV3, type Issues, naturalTime, Sort } from '../../../../../../data';
 import { useDeleteIssue } from '@panelHooks/issues/useDeleteIssues.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { useNewWindows } from '#commonHooks/useNewWindows.ts';
@@ -44,7 +44,7 @@ const issueColumns: ColumnTableV3[] = [
     key: 'createdAt',
     styles: 'item-cell-3 date',
     weight: '11%',
-    render: value => (value ? value.split(' ')[0] : '--/--/--'),
+    render: value => (value ? naturalTime(value) : '--/--/--'),
   },
   {
     header: 'Author',
@@ -140,12 +140,12 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       </ModalTitleWrapper>
       <div className="card">
         <div className="header">
-          <div className="title">
+          {/* <div className="title">
             <div className="icon">
               <BugIcon />
             </div>
             <span>Issues</span>
-          </div>
+          </div> */}
           <Show when={isAdmin() || isProvider()}>
             <div className="actions">
               <div className="" onClick={() => props.addFinding()}>

@@ -60,6 +60,7 @@ export enum MODAL_KEY_OPEN {
   USER_WELCOME_DOMAIN = 'owund',
   USER_WELCOME_SCAN = 'ouwss',
   USER_WELCOME_FINISH = 'ouwfsf',
+  USER_ADD_NEW_RESOURCES = 'open-add-new-resources',
 
   USER_SELECT_RESOURCE = 'open-lfr',
 

@@ -13,8 +13,6 @@ import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { useTableStoreV3 } from '@table/v3/tablev3.store';
-import { useUserData } from '#commonUserHooks/useUserData';
-import { companyIdIsNull } from '@/app/constants/validations';
 import Show from '@/app/views/components/Show/Show';
 import { ModalTitleWrapper } from '@modals/index';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
@@ -84,7 +82,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
 }) => {
   const navigate = useNavigate();
   const { isAdmin, isProvider, isNormalUser } = useUserRole();
-  const { getCompany } = useUserData();
   const userHaveAccess = isAdmin() || isProvider();
   const [selectedResource, setSelectedResource] = useState<SelectedResource>({} as any);
   const { resourceType, openModal, resourceID } = useGlobalFastFields([
@@ -96,7 +93,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
-  const { autoScan } = useAutoScan();
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -126,31 +122,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setModalId(RESOURCE_CLASS.WEB);
   };
 
-  const startAutoScan = (row: any) => {
-    setSelectedResource({
-      id: row.id,
-      domain: row.resource_domain,
-      serverIp: row.main_server,
-    });
-    setIsOpen(true);
-    setModalId(MODAL_KEY_OPEN.START_AUTO_SCAN);
-  };
-
-  /*  const punchToScan = async () => {
-    const companyID = getCompany();
-    setIsOpen(false);
-    if (companyIdIsNull(companyID)) return;
-    console.log('resource id in punchToScan: ', { selectedResource });
-    autoScan(selectedResource.id).then(result => {
-      setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
-      if (result?.error == 1) {
-        setIsOpen(false);
-      } else if (!!result) {
-        setIsOpen(true);
-      }
-    });
-  };
- */
   const webColumnsWith = [
     ...webColumns,
     {

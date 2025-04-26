@@ -3,11 +3,11 @@
   align-items: center;
   column-gap: 1rem;
   margin-block-start: 1rem;
-  margin-block-end: 2rem;
+  margin-block-end: 1rem;
 }
 
 .check-mail_img {
-  width: 10rem;
+  width: 6rem;
 
   img {
     width: 70px;
@@ -18,17 +18,18 @@
 .check-mail_text {
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
+  row-gap: 0;
 
   span {
     font-weight: 700;
     font-size: 1.125rem;
     line-height: 1.75rem;
-    color: var(--tertiary-color-400);
+    color: var(--tertiary-color-600);
   }
 
   p {
-    color: var(--tertiary-color-500);
+    color: var(--tertiary-color-200);
+    font-size: 0.9rem;
   }
 }
 

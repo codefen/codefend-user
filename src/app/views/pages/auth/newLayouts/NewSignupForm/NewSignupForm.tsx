@@ -1,21 +1,16 @@
 import { ModalWrapper } from '@modals/index';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import css from './signinform.module.scss';
 import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { defaultCountries } from '@/app/constants/countries';
-import {
-  apiErrorValidation,
-  isEquals,
-  passwordRegexVal,
-  passwordValidation,
-} from '@/app/constants/validations';
+import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
+import { idiomOptions, SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
 import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
 import { AuthInput } from '../../newRegister/AuthInput/AuthInput';
 import SelectField from '../../../../components/SelectField/SelectField';
@@ -55,14 +50,6 @@ export const NewSignupForm = () => {
         .finally(() => setLoading(false));
     }
   }, []);
-
-  useEffect(() => {
-    console.log('password: ', {
-      password,
-      isValid: passwordValidation(password),
-      regex: passwordRegexVal.test(password),
-    });
-  }, [password]);
 
   const goBackValidateMe = (goTo: SignUpSteps) => {
     setActiveStep(goTo);
@@ -163,8 +150,8 @@ export const NewSignupForm = () => {
     form.append('lead_reference_number', lead_reference_number);
     form.append('username', username);
     const formObject = Object.fromEntries(form.entries());
-    signUpFinish(formObject).then((user: any) => {
-      if (user) {
+    signUpFinish(formObject).then((res: any) => {
+      if (res.pass) {
         //if (user?.accessRole == 'user') navigate('/');
         //if (user?.accessRole == 'admin') navigate('/admin');
         //if (user?.accessRole == 'provider') navigate('/provider/profile');
@@ -176,13 +163,16 @@ export const NewSignupForm = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>
+        <img src="/codefend/logo-color.png" width={220} />
         <ChangeAuthPages pathname={location.pathname} />
-        <img src="/codefend/brand-iso.png" width={350} height={60} />
-        <p>{STEPSDATA[activeStep].p}</p>
-        <ProgressBar activeStep={activeStep} />
+
+        <p style={{ marginBottom: '25px' }}>{STEPSDATA[activeStep].p}</p>
+
         {/* Primer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
           <form onSubmit={nextFirstStep}>
+            {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
+            <ProgressBar activeStep={activeStep} />
             <AuthInput
               placeholder="First name"
               name="lead_fname"
@@ -220,6 +210,7 @@ export const NewSignupForm = () => {
         {/* Segundo paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
           <form onSubmit={nextSecondStep}>
+            <ProgressBar activeStep={activeStep} />
             <AuthInput
               placeholder="Company Name"
               name="company_name"
@@ -246,12 +237,7 @@ export const NewSignupForm = () => {
             />
             <SelectField
               name="idiom"
-              options={[
-                { value: '', label: 'Idiom', hidden: true },
-                { value: 'en', label: 'English' },
-                { value: 'es', label: 'Español' },
-                { value: 'ar', label: 'العربية' },
-              ]}
+              options={idiomOptions}
               defaultValue={lead.get.idiom}
               required
             />
@@ -272,11 +258,12 @@ export const NewSignupForm = () => {
         {/* Tercer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextThreeStep}>
+            <ProgressBar activeStep={activeStep} />
             <CheckEmail
-              text="we have sent you an email with a code!"
+              text=""
               subText="Please check your inbox, copy the verification code and paste it in the field below to confirm your email."
             />
-            <AuthInput placeholder="Unique code" name="lead_reference_number" required />
+            <AuthInput placeholder="Insert Unique code" name="lead_reference_number" required />
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"
@@ -294,6 +281,7 @@ export const NewSignupForm = () => {
         {/* Cuarto paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_FOUR && !specialLoading}>
           <form onSubmit={nextFourStep}>
+            <ProgressBar activeStep={activeStep} />
             <AuthInput
               type="password"
               placeholder="Password"
@@ -311,7 +299,7 @@ export const NewSignupForm = () => {
             />
             <PasswordRequirements password={password} />
             <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
-              send code
+              continue
             </button>
           </form>
         </Show>

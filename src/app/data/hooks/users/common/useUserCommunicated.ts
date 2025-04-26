@@ -9,11 +9,12 @@ import { useQualitySurveyStart } from '../../quality-survey/useQualitySurveyStar
 import useModalStore from '@stores/modal.store';
 import { COMUNIQUE_KEYS, MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
-const fetcher = ([model, { company, user, logout }]: any) => {
+const fetcher = ([path, { company, user, logout }]: any) => {
   if (companyIdIsNull(company)) return Promise.reject(false);
   return AxiosHttpService.getInstance()
     .post<any>({
-      body: { company_id: company, user_id: user, model },
+      body: { company_id: company, user_id: user },
+      path,
     })
     .then(({ data }) => {
       if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response)) {
@@ -28,7 +29,7 @@ const handleWelcomeNotification = (
   isOpen: boolean,
   setOpenModal: Function
 ) => {
-  const welcomeNotify = notifications.find((item: any) => item.model === 'user_welcome');
+  const welcomeNotify = notifications?.find?.((item: any) => item?.model === 'user_welcome');
   if (!isOpen && welcomeNotify) {
     localStorage.setItem(COMUNIQUE_KEYS.ID, welcomeNotify.id);
     setOpenModal();
@@ -45,7 +46,9 @@ const handleOrderFinishedNotification = (
   updateOrderId: Function,
   updateReferenceNumber: Function
 ) => {
-  const orderFinishedNotify = notifications.find((item: any) => item.model === 'order_finished');
+  const orderFinishedNotify = notifications?.find?.(
+    (item: any) => item?.model === 'order_finished'
+  );
   if (!isOpen && orderFinishedNotify) {
     localStorage.setItem(COMUNIQUE_KEYS.ID, orderFinishedNotify.id);
     startPoll(orderFinishedNotify.order_id, orderFinishedNotify.order_reference_number).finally(
@@ -72,7 +75,7 @@ export const useUserCommunicated = () => {
   ]);
   const { data, isLoading, isValidating } = useSWR(swrKeYRef.current, (key: any) => fetcher(key), {
     keepPreviousData: false,
-    refreshInterval: 213000,
+    refreshInterval: 60000,
     revalidateOnReconnect: false,
     revalidateOnFocus: false,
     revalidateOnMount: true,

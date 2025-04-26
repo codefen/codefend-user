@@ -5,6 +5,12 @@ import { Suspense } from 'react';
 import { DashboardInvoke } from '@/app/views/components/DashboardInvoke/DashboardInvoke';
 import DashboardAssets from '@/app/views/components/DashboardAssets/DashboardAssets';
 import { RightItemButton } from '@/app/views/components/RightItemButton/RightItemButton';
+import { DashboardAddResource } from '../panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource';
+import { DashboardAddCollaborators } from '../panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators';
+import { VulnerabilitiesStatus } from '../../components/VulnerabilitiesStatus/VulnerabilitiesStatus';
+import { VulnerabilityRisk } from '../../components/VulnerabilityRisk/VulnerabilityRisk';
+import { DashboardScanStart } from '../panel/layouts/dashboard/components/DashboardScanStart/DashboardScanStart';
+import { Sidebar } from '../../components';
 
 const recoursesEmpty = {
   cloud: '0',
@@ -23,28 +29,30 @@ export const NewAuthPage = () => {
   }
 
   return (
-    <main className={`${showScreen ? 'actived' : ''}`}>
-      <div className="brightness variant-1"></div>
-      <div className="brightness variant-2"></div>
-      <Suspense>
-        <Outlet />
-      </Suspense>
-      <section className="left">
-        <DashboardInvoke />
-        <DashboardAssets resources={recoursesEmpty} disabled={true} />
-      </section>
-      <section className="right">
-        <RightItemButton
-          title="Add team members"
-          description="Send us the first invitation"
-          img="/codefend/add-collab.png"
-        />
-        <RightItemButton
-          title="Add scope / attack surface"
-          description="You can help us expand the scope."
-          img="/codefend/add-scope.png"
-        />
-      </section>
-    </main>
+    <>
+      <Sidebar />
+      <main className={`${showScreen ? 'actived' : ''}`}>
+        <div className="brightness variant-1"></div>
+        <div className="brightness variant-2"></div>
+        <Suspense>
+          <Outlet />
+        </Suspense>
+        <section className="left">
+          <DashboardInvoke />
+          <section className="box-assets">
+            <DashboardAddResource data={{}} />
+          </section>
+          <section className="box-assets">
+            <DashboardAddCollaborators isLoading={false} data={{} as any} />
+          </section>
+        </section>
+
+        <section className="right">
+          <VulnerabilitiesStatus vulnerabilityByShare={{} as any} />
+          <VulnerabilityRisk vulnerabilityByRisk={{} as any} isLoading={false} />
+          <DashboardScanStart />
+        </section>
+      </main>
+    </>
   );
 };

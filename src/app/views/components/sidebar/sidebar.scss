@@ -1,16 +1,25 @@
 .sidebar {
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  top: calc(var(--nav-height) + 18px);
-  left: 1vw;
+
+  // top: calc(var(--nav-height) + 18px);
+  // left: 1vw;
   position: fixed;
   z-index: 4;
-  border: 1px solid var(--primary-color-300);
-  background-color: var(--primary-color-100);
-  border-radius: 0.55rem;
-  width: 51px;
-  height: calc(90dvh - 12px);
+  margin-block-start: calc(18px + var(--nav-height));
+
+  // border: 1px solid var(--primary-color-300);
+  background-color: var(--primary-color);
+
+  // border-radius: 0.55rem;
+  width: var(--sidebar-width);
+
+  // height: calc(90dvh - 12px);
+  max-height: 100dvh;
+  min-height: 100%;
+  overflow-y: auto;
   transition:
     width 130ms ease-out,
     background 130ms linear,
@@ -19,21 +28,49 @@
     blur 130ms linear,
     backdrop-filter 130ms linear;
 
-  &:not(:hover) {
-    width: 51px !important;
+  animation: sideLeft 0.5s ease-in-out;
 
-    a {
-      &::after {
-        content: '' !important;
-        opacity: 0;
-        transform: translateX(-13%);
-      }
+  @keyframes sideLeft {
+    from {
+      opacity: 0;
+
+      // transform: translateY(13px);
+    }
+
+    to {
+      opacity: 1;
+
+      // transform: translateY(0);
     }
   }
 
+  // &:not(:hover) {
+  //   width: 51px !important;
+
+  //   a {
+  //     &::after {
+  //       content: '' !important;
+  //       opacity: 0;
+  //       transform: translateX(-13%);
+  //     }
+  //   }
+  // }
+
   :first-child {
-    border-top-left-radius: 0.54rem;
-    border-top-right-radius: 0.54rem;
+    // border-top-left-radius: 0.54rem;
+    // border-top-right-radius: 0.54rem;
+  }
+
+  .sidebar-group {
+    margin-bottom: 0.7dvh;
+  }
+
+  .sidebar-group-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding-inline: 20px;
+    line-height: 1.5;
+    margin-top: 1rem;
   }
 
   a {
@@ -41,18 +78,32 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 45px;
+    height: 5vh;
+    min-height: 30px;
+    max-height: 43px;
+    font-size: 1rem;
+
     outline: none;
-    color: var(--tertiary-color-450);
-    border-bottom: 1px solid var(--primary-color-300);
+    color: var(--tertiary-color-300);
+
+    // border-bottom: 1px solid var(--primary-color-300);
     width: 100%;
-    padding-inline: 18px;
-    column-gap: 1rem;
+    padding-inline: 20px;
+    padding-left: 25px;
+
+    // column-gap: 2rem;
     text-align: center;
     transition:
       color 100ms ease,
       background-color 100ms ease,
       border 150ms ease-out;
+
+    &:hover {
+      background-color: #e1e1e1eb;
+
+      // color: #f9f9f9e6;
+      border-bottom-color: #f76767eb;
+    }
 
     svg {
       pointer-events: none;
@@ -65,16 +116,17 @@
     }
 
     &.active {
-      background-color: var(--secondary-color-50);
+      background-color: #d14e4e;
       border-bottom-color: var(--secondary-color-50);
       color: var(--primary-color);
     }
 
-    &::after {
+    /*    &::after {
       content: attr(data-text);
       font-size: 0.95rem;
       display: block;
-      opacity: 0;
+
+      // opacity: 0;
       overflow: hidden;
       white-space: nowrap;
       font-weight: 600;
@@ -86,30 +138,24 @@
       transition:
         transform 275ms ease 90ms,
         opacity 125ms ease-in 0ms;
-    }
+    } */
   }
 
-  &.is-open {
-    box-shadow: 2px 4px 13px #00000033;
-  }
+  // &.is-open {
+  //   box-shadow: 2px 4px 13px #00000033;
+  // }
 
-  &.is-open:hover {
-    width: 280px;
+  // &.is-open:hover {
+  //   width: 280px;
 
-    a {
-      &::after {
-        content: attr(data-text);
-        opacity: 1;
-        transform: translateX(3%);
-      }
+  //   a {
+  //     &::after {
+  //       content: attr(data-text);
+  //       opacity: 1;
+  //       transform: translateX(3%);
+  //     }
 
-      &:hover {
-        background-color: #f76767eb;
-        color: #f9f9f9e6;
-        border-bottom-color: #f76767eb;
-      }
-    }
-  }
+  // }
 }
 
 [data-theme='dark'] .sidebar {

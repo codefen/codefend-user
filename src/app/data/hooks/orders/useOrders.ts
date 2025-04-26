@@ -17,6 +17,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { ORDER_PHASES_TEXT } from '@/app/constants/app-toast-texts';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const useOrders = () => {
   const { getCompany } = useUserData();
@@ -219,7 +220,6 @@ export const useOrderPlan = () => {
   ) => {
     fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'plan',
         company_id: companyID,
         reference_number: referenceNumber,
@@ -227,6 +227,7 @@ export const useOrderPlan = () => {
         chosen_plan_price: chosenPrice,
         order_id: orderId,
       },
+      path: 'orders/add',
     })
       .then(({ data }: any) => {
         if (Number(data.error) === 1) {
@@ -403,13 +404,13 @@ export const useOrderOffensive = () => {
   ) => {
     return fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'offensiveness',
         company_id: companyID,
         reference_number: referenceNumber,
         offensiveness: offensiveness,
         order_id: orderId,
       },
+      path: 'orders/add',
     })
       .then(({ data }: any) => {
         if (Number(data.error) === 1) {
@@ -448,13 +449,13 @@ export const userOrderProviderInfo = () => {
   ) => {
     return fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'provider_info',
         company_id: companyID,
         reference_number: referenceNumber,
         provider_info: providerInfo,
         order_id: orderId,
       },
+      path: 'orders/add',
     })
       .then(({ data }: any) => {
         if (Number(data.error) === 1) {
@@ -674,18 +675,23 @@ export const userOrderCardPayment = () => {
 export const userOrderFinished = () => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
+  const company = useGlobalFastField('company');
   const finishOrder = (referenceNumber: string, orderId: string) => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return Promise.resolve(false);
     return fetcher('post', {
       body: {
-        model: 'orders/add',
         phase: 'finished',
         company_id: getCompany(),
         reference_number: referenceNumber,
         order_id: orderId,
       },
+      path: 'orders/add',
     }).then(({ data }: any) => {
+      console.log('data: ', data);
+      if (data?.company) {
+        company.set(data.company);
+      }
       return data;
     });
   };

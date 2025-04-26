@@ -106,7 +106,7 @@ export const OffensiveOrderModal: FC = () => {
         <div className="secondary-container ">
           <PrimaryButton
             text="back"
-            click={() => updateState('orderStepActive', OrderSection.TEAM_SIZE)}
+            click={() => updateState('orderStepActive', OrderSection.RECOMMENDED_PLAN)}
             className="full"
             buttonStyle="black"
             disabledLoader

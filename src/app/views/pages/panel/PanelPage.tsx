@@ -15,9 +15,10 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
 import { useVerifyScan } from '#commonHooks/useVerifyScan.ts';
-import { PaywallModal } from '@modals/paywall/PaywallModal.tsx';
 import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource/WelcomeLoadResource.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResourcesOrderModel.tsx';
+import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -101,9 +102,9 @@ export const PanelPage = () => {
         />
         <WelcomeGroupTour />
         <QualityFeedbackManager />
-        <PaywallModal />
         <WelcomeLoadResource />
-
+        <AddNewResourceModal />
+        <AddCollaboratorModal />
         <ErrorConnection
           closeModal={closeErrorConnectionModal}
           open={modals.isErrorConnectionModalOpen}

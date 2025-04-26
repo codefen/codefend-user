@@ -12,7 +12,15 @@ interface PrimaryButtonProps {
   className?: string;
   type?: 'submit' | 'reset' | 'button';
   disabledLoader?: boolean;
-  buttonStyle?: 'red' | 'black' | 'gray' | 'default' | 'send' | 'dark-red' | ButtonStyles;
+  buttonStyle?:
+    | 'red'
+    | 'black'
+    | 'gray'
+    | 'default'
+    | 'send'
+    | 'dark-red'
+    | 'dark-black'
+    | ButtonStyles;
   hideContent?: boolean;
 }
 

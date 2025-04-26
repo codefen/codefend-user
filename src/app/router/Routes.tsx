@@ -45,6 +45,10 @@ import { ScansPage } from '@/app/views/pages/panel/layouts/scans/ScansPage';
 import { NewAuthPage } from '@/app/views/pages/auth/NewAuthPage';
 import { NewSignupForm } from '@/app/views/pages/auth/newLayouts/NewSignupForm/NewSignupForm';
 import { NewSigninForm } from '@/app/views/pages/auth/newLayouts/NewSigninForm/NewSigninForm';
+import { TalkToHackerPage } from '@/app/views/pages/panel/layouts/talk-to-hacker/TalkToHackerPage';
+import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/TeamMembersPage';
+import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
+import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -130,6 +134,30 @@ export const AppRouter = () => {
             </ProtectedRoute>
           ),
         },
+        {
+          path: 'user-profile',
+          element: (
+            <ProtectedRoute isAllowed={haveAccessToResources}>
+              <UserProfilePage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'team-members',
+          element: (
+            <ProtectedRoute isAllowed={haveAccessToResources}>
+              <TeamMembersPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'talk-to-hacker',
+          element: (
+            <ProtectedRoute isAllowed={haveAccessToResources}>
+              <TalkToHackerPage />
+            </ProtectedRoute>
+          ),
+        },
         // Resource routes
         ...(haveAccessToResources || isProviderWithAccess
           ? [
@@ -207,8 +235,8 @@ export const AppRouter = () => {
         { path: 'signup', element: <NewSignupForm /> },
         { path: 'signup/:ref', element: <NewSignupForm /> },
         { path: 'signin', element: <NewSigninForm /> },
-        { path: 'signup/invitation', element: <InvitationSignup /> },
-        { path: 'signup/invitation/:ref', element: <InvitationSignup /> },
+        { path: 'signup/invitation', element: <NewSignupInvitation /> },
+        { path: 'signup/invitation/:ref', element: <NewSignupInvitation /> },
         { path: 'confirmation', element: <ConfirmationSignUp /> },
         { path: 'recovery', element: <PasswordRecovery /> },
         { path: 'recovery/:ref', element: <PasswordRecovery /> },

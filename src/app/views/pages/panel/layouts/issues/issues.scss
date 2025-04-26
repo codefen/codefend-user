@@ -269,6 +269,10 @@ main.issues-list {
     .card {
       overflow-y: hidden;
 
+      .form-input {
+        margin-bottom: 1rem;
+      }
+
       &.form-input input {
         border: none;
         border-bottom: 1px solid var(--primary-color-300);

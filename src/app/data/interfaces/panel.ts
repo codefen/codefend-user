@@ -46,6 +46,11 @@ export interface Webresource extends Resouce {
   childs?: Resouce[];
 }
 
+export interface CompanyMetrics {
+  domainCount: number;
+  subDomainCount: number;
+  uniqueIpCount: number;
+}
 export interface CompanyResource {
   web: string | number;
   mobile: string | number;

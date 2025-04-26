@@ -83,11 +83,11 @@ const Navbar: FC = () => {
 
       <nav className="navbar">
         <div className="left">
-          {/*          <div className="navbar-logo" onClick={openGuide}>
-            <span className={`${open && 'rotate-360'}`}>
-              <Logo theme="aim" onClick={() => handleChange()} />
+          <div className="navbar-logo" onClick={openGuide}>
+            <span className="aim-logo">
+              <Logo theme="aimColor" />
             </span>
-          </div> */}
+          </div>
           <Breadcrumb root="Codefend" rootAction={rootAction} />
           <div className="actions"></div>
         </div>
@@ -100,7 +100,6 @@ const Navbar: FC = () => {
                 title="Network settings"
                 onClick={() => isOpenNetworkSetting.set(true)}>
                 <NetworkIcon width={1.1} height={1.1} />
-                <span>{baseApiName}</span>
               </div>
             )}
             <div className="user action" ref={userRef}>

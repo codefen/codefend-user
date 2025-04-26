@@ -11,11 +11,10 @@ export const useDeleteSourceCode = () => {
   const fetDeleteResources = (id: string, companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'resources/source',
-        ac: 'del',
         id: id,
         company_id: companyID,
       },
+      path: 'resources/source/del',
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data?.error, data?.response)) {

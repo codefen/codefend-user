@@ -3,18 +3,24 @@ import { PrimaryButton } from '@buttons/index';
 import { OrderSection, UserPlanSelected } from '@interfaces/order';
 import useModalStore from '@stores/modal.store';
 import { useOrderStore } from '@stores/orders.store';
+import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { useState } from 'react';
 
 export const PaywallOrderModal = ({ close }: any) => {
   const [checkedOption, setCheckedOption] = useState(UserPlanSelected.NOTHING);
   const { updateState } = useOrderStore(state => state);
+  const { initialDomain } = useWelcomeStore();
+  const { setIsOpen, setModalId } = useModalStore();
   const goTo = () => {
     if (checkedOption === UserPlanSelected.NOTHING) return;
     updateState('paywallSelected', checkedOption);
-    if (checkedOption === UserPlanSelected.CONTINIOUS) {
-      updateState('orderStepActive', OrderSection.ARABIC_PLAN);
-    } else if (checkedOption === UserPlanSelected.ON_DEMAND) {
+    if (checkedOption === UserPlanSelected.NORMAL_ORDER) {
       updateState('orderStepActive', OrderSection.SCOPE);
+    } else if (checkedOption === UserPlanSelected.ON_DEMAND) {
+      updateState('orderStepActive', OrderSection.PAYWALL);
+      updateState('open', false);
+      setIsOpen(true);
+      setModalId(MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES);
     } else {
       updateState('orderStepActive', OrderSection.SMALL_PLANS);
     }
@@ -22,35 +28,34 @@ export const PaywallOrderModal = ({ close }: any) => {
   return (
     <div className="paywall-container">
       <div className="step-header">
-        <h3>¡Has alcanzado un límite!</h3>
+        <h3>¡Has alcanzado un maximo!</h3>
       </div>
       <p className="padding">
-        Gracias por probar nuestros sistemas, vos o tu empresa han alcanzado un límite y la acción
-        que estás intentando realizar requiere la contratación de alguno de nuestros planes o
-        servicios. Tenemos distintas ofertas adaptadas a tus necesidades, por favor seleccioná una.
+        Gracias por probar nuestros sistemas, vos o tu empresa <b>han alcanzado un límite</b> y la
+        acción que estás intentando realizar requiere la contratación de alguno de nuestros planes o
+        servicios.
       </p>
       <div className="step-content">
         <div
-          className={`option ${checkedOption === UserPlanSelected.CONTINIOUS ? 'select-option' : ''}`}
-          onClick={() => setCheckedOption(UserPlanSelected.CONTINIOUS)}>
+          className={`option ${checkedOption === UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
+          onClick={() => setCheckedOption(UserPlanSelected.NORMAL_ORDER)}>
           <input
-            id="scope-resources"
+            id="normal-order"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption === UserPlanSelected.CONTINIOUS}
+            checked={checkedOption === UserPlanSelected.NORMAL_ORDER}
             onChange={() => {}}
           />
           <div className="codefend-radio"></div>
 
           <label htmlFor="scope-resources" className="order-snapshot">
             <div className="top">
-              <p>Pentest on demand realizado por hackers profesionales</p>
+              <p>Realizar un pentest manual sobre {initialDomain}</p>
             </div>
             <span className="one-pentest">
-              Conduzca un pentest y pruebas de intrusión sobre los activos y recursos de su
-              organización empleando hackers profesionales altamente cualificados para cada caso.
-              Desde $1,500 dolares para aplicaciones web y $4,500 para aplicaciones mobile.
+              Hackers profesionales conduciran extensas pruebas de penetracion durante
+              aproximadamente 3 semanas. Precios desde $1,500{' '}
             </span>
           </label>
         </div>
@@ -69,12 +74,11 @@ export const PaywallOrderModal = ({ close }: any) => {
 
           <label htmlFor="scope-resources" className="order-snapshot">
             <div className="top">
-              <p>Pentest continuo realizado por hackers profesionales</p>
+              <p>Necesito añadir o analizar otro recurso</p>
             </div>
             <span className="one-pentest">
-              Incluye los servicios previos: monitoreo y detección de amenazas automatizado,
-              búsqueda de dataleaks, más la continua revisión de activos realizada por un hacker
-              profesional. Desde $299 dólares al mes.
+              Vuelve a la pantalla de seleccion de recursos para que puedas añadir o seleccionar el
+              recurso que quieras analizar.
             </span>
           </label>
         </div>
@@ -93,12 +97,11 @@ export const PaywallOrderModal = ({ close }: any) => {
 
           <label htmlFor="scope-resources" className="order-snapshot">
             <div className="top">
-              <p>Planes pequeños</p>
+              <p>Ver planes más económicos y suscripciones mensuales</p>
             </div>
             <span className="one-pentest">
-              Suscripción mensual a servicios de monitoreo y detección de amenazas automatizado, y
-              búsqueda de dataleaks on demand. Ideal para pequeñas empresas que deseen realizar
-              pruebas periódicas sobre sus activos. Desde $29 dólares mensuales.
+              Codefend dispone de membresis a servicios automaticos desde $29 mensuales y
+              contrataciones de hackers desde $299 mensuales .
             </span>
           </label>
         </div>

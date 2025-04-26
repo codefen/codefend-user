@@ -14,7 +14,8 @@ export const DashboardAssets: FC<{
   resources: ResourceCount;
   hasTitle?: boolean;
   disabled?: boolean;
-}> = ({ resources, hasTitle = true, disabled = false }) => {
+  borderStyle?: boolean;
+}> = ({ resources, hasTitle = true, borderStyle = false, disabled = false }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const resourceKeys = useMemo(
@@ -51,6 +52,7 @@ export const DashboardAssets: FC<{
               valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
               value={resources[resource as keyof typeof resources]}
               isActive={isActivePath(resource as string)}
+              borderStyle={borderStyle}
               onClick={() => navigateTo(resource)}
             />
           ))}

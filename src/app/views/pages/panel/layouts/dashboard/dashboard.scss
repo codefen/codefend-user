@@ -1,5 +1,37 @@
 main.dashboard {
   .left {
+    .content-box-assets {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: center;
+
+      .box-assets {
+        flex: 1;
+      }
+    }
+
+    .over {
+      background-color: var(--primary-color);
+      padding: 1rem;
+      border-radius: var(--brd-radius);
+
+      .table-title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 5px 20px 15px;
+
+        a {
+          color: var(--secondary-color-100);
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
     .card {
       .content {
         padding: 0;

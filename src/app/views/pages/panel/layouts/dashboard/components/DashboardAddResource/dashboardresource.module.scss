@@ -1,0 +1,31 @@
+.box-assets-right {
+  background-color: var(--primary-color);
+  border-radius: var(--brd-radius);
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+  height: 100%;
+
+  .box-assets-info {
+    .info-resource {
+      // flex: 1;
+
+      p {
+        margin-top: 1rem;
+      }
+    }
+
+    button {
+      max-width: 13em;
+      max-height: 55px;
+      margin-top: 3rem;
+    }
+  }
+
+  @media screen and (max-width: 1350px) {
+    flex-direction: column;
+  }
+}

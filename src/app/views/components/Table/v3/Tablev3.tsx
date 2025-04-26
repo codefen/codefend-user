@@ -101,15 +101,17 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         onPointerUp={onPointerStop}
         onPointerCancel={onPointerStop}>
         {isMoving && <div className="selecting-box" style={selectionBoxStyle} />}
-        <TableColumnsV3
-          columns={columns}
-          sortedColumn={sortedColumn}
-          sort={sort}
-          setSort={setSort}
-          setSortColumn={setDataSort}
-          isNeedMultipleCheck={isNeedMultipleCheck}
-          isNeedSort={isNeedSort}
-        />
+        <Show when={Boolean(preProcessedRows.length)}>
+          <TableColumnsV3
+            columns={columns}
+            sortedColumn={sortedColumn}
+            sort={sort}
+            setSort={setSort}
+            setSortColumn={setDataSort}
+            isNeedMultipleCheck={isNeedMultipleCheck}
+            isNeedSort={isNeedSort}
+          />
+        </Show>
 
         <Show when={showRows} fallback={<PageLoader />}>
           <div className="rows">

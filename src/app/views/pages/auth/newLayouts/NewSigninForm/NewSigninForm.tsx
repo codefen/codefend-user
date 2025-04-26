@@ -32,9 +32,10 @@ export const NewSigninForm = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signinContent']}>
+        <img src="/codefend/logo-color.png" width={220} />
         <ChangeAuthPages pathname={location.pathname} />
-        <img src="/codefend/brand-iso.png" width={350} height={60} />
-        <p>Bienvenido de nuevo! Inicia sesion</p>
+
+        <p>Welcome back! Please sign in</p>
         <form onSubmit={handleSubmit}>
           <AuthInput placeholder="Email" type="email" name="email" autoComplete="email" required />
           <AuthInput
@@ -44,10 +45,22 @@ export const NewSigninForm = () => {
             autoComplete="off"
             required
           />
+
           <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
             continue
           </button>
         </form>
+        <Link
+          to="/auth/recovery"
+          className="password-recovery"
+          style={{
+            color: '#00000080',
+            fontSize: '0.9rem',
+            margin: '25px auto 0px auto',
+            textDecoration: 'underline',
+          }}>
+          Forgot password?
+        </Link>
       </div>
     </ModalWrapper>
   );

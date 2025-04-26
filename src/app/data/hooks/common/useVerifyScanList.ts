@@ -16,7 +16,7 @@ const fetcher = ([model, { company }]: any) => {
       insecure: true,
     })
     .then(({ data }) => {
-      return data?.neuroscans || [];
+      return { scans: data?.neuroscans || [], companyUpdated: data?.company || {} };
     });
 };
 
@@ -32,8 +32,8 @@ export const useVerifyScanList = () => {
     revalidateOnReconnect: false,
     revalidateOnFocus: true,
     revalidateOnMount: true,
-    fallbackData: [],
+    fallbackData: { scans: [], companyUpdated: {} },
   });
 
-  return { scans: data };
+  return data;
 };

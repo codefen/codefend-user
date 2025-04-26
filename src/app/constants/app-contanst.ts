@@ -5,6 +5,7 @@ export enum ButtonStyles {
   GRAY = 'gray',
   SEND = 'send',
   DEFAULT = 'default',
+  DARK_BLACK = 'dark-black',
 }
 
 export class AppConstants {
@@ -15,5 +16,6 @@ export class AppConstants {
     [ButtonStyles.SEND]: 'btn-red send-btn',
     [ButtonStyles.DARK_RED]: 'btn-dark-red',
     [ButtonStyles.DEFAULT]: '',
+    [ButtonStyles.DARK_BLACK]: 'btn-dark-black',
   };
 }

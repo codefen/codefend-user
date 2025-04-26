@@ -14,12 +14,13 @@ export const disponibleFetcher = ([[model, ac], { company, logout }]: any) => {
   if (companyIdIsNull(company)) return Promise.reject([]);
   return AxiosHttpService.getInstance()
     .post<any>({
-      body: { model: model, ac: ac, company_id: company },
+      body: { ac: ac, company_id: company },
+      path: model,
     })
     .then(({ data }) => {
       if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response))
         throw new Error('');
-      return data?.disponibles || [];
+      return { disponibles: data?.disponibles || [], company: data?.company || null };
     })
     .catch(() => [] as any);
 };
@@ -43,7 +44,8 @@ export const genericFetcher = ([model, params]: any) => {
 
   return AxiosHttpService.getInstance()
     .post<any>({
-      body: { model: model, ...params },
+      body: params,
+      path: model,
     })
     .then(({ data }) => {
       if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
