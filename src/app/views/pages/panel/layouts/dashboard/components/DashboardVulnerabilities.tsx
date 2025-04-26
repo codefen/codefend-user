@@ -61,7 +61,7 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
       <div className="over">
         <div className="table-title">
           <h2>Issues overview</h2>
-          <a href="/">see all overviews</a>
+          <a href="/">see all issues</a>
         </div>
         <Tablev3
           columns={vulnera}

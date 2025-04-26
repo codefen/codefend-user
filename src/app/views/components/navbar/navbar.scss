@@ -1,5 +1,6 @@
 .navbar {
   position: fixed;
+  max-width: var(--max-w-layout);
   width: 100%;
   display: flex;
   align-items: center;

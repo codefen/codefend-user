@@ -1,0 +1,60 @@
+main.user-profile {
+  max-width: 1300px;
+
+  .left {
+    .user-profile-top {
+      // flex: 1;
+      display: flex;
+      justify-content: center;
+
+      gap: 2rem;
+      padding: 3rem;
+      background-color: var(--primary-color);
+      border-radius: var(--brd-radius);
+
+      svg {
+        width: 11rem;
+        height: 11rem;
+        color: var(--secondary-color-200);
+      }
+
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .box-assets {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: start;
+      gap: 1rem;
+
+      .user-password,
+      .user-qr {
+        min-width: 200px;
+        flex: 1;
+        background-color: var(--primary-color);
+        padding: 1.3em 2em;
+        border-radius: var(--brd-radius);
+      }
+
+      .user-password {
+        position: relative;
+        margin-bottom: 15px;
+
+        p {
+          margin-block: 10px;
+        }
+      }
+
+      .qr-contain {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
+  }
+}

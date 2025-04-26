@@ -1,5 +1,16 @@
 main.dashboard {
   .left {
+    .content-box-assets {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: center;
+
+      .box-assets {
+        flex: 1;
+      }
+    }
+
     .over {
       background-color: var(--primary-color);
       padding: 1rem;

@@ -140,12 +140,12 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       </ModalTitleWrapper>
       <div className="card">
         <div className="header">
-          <div className="title">
+          {/* <div className="title">
             <div className="icon">
               <BugIcon />
             </div>
             <span>Issues</span>
-          </div>
+          </div> */}
           <Show when={isAdmin() || isProvider()}>
             <div className="actions">
               <div className="" onClick={() => props.addFinding()}>

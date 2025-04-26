@@ -3,8 +3,7 @@
   border-radius: var(--brd-radius);
   padding: 2em;
   display: flex;
-
-  // flex-direction: column;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   gap: 2em;
@@ -12,7 +11,7 @@
 
   .box-assets-info {
     .info-resource {
-      flex: 1;
+      // flex: 1;
 
       p {
         margin-top: 2rem;

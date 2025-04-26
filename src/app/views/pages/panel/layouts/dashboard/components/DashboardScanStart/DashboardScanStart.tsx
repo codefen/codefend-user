@@ -42,8 +42,9 @@ export const DashboardScanStart = () => {
     <div>
       <Show when={isScanRunning}>
         <div className={css['scan-start']}>
-          <h2>Escaneo en curso</h2>
-          <p>Los escaners automaticos estan analizando uno de sus recursos web: {initialDomain}</p>
+          <h2>Scan in Progress</h2>
+          <p>The automatic scanners are analyzing one of your web resources: {initialDomain}</p>
+
           <div className={css['scan-start-progress']}>
             <div className={css[`scan-start-progress-bar`]} style={{ width: `${progress}%` }}></div>
           </div>
@@ -56,8 +57,9 @@ export const DashboardScanStart = () => {
       </Show>
       <Show when={!isScanRunning}>
         <div className={css['scan-start']}>
-          <h2>Escaneo automaticos</h2>
-          <p>No hay escaneos en curso</p>
+          <h2>Scan in Progress</h2>
+          <p>The automatic scanners are analyzing one of your web resources: {initialDomain}</p>
+
           <Tablev3
             columns={scanColumns}
             rows={scanDashboardView}
