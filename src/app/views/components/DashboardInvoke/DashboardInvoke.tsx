@@ -4,7 +4,7 @@ import { PrimaryButton } from '@buttons/index.ts';
 
 export const DashboardInvoke = () => {
   return (
-    <div className={css['leftTop']}>
+    <div className={`${css['leftTop']} card`}>
       <RadarScanner />
       <div className={css['leftTopContent']}>
         <h1>Surface exploration in progress</h1>
