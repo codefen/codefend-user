@@ -39,7 +39,7 @@ export const DashboardScanStart = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className='card'>
       <Show when={isScanRunning}>
         <div className={css['scan-start']}>
           <h2>Escaneo en curso</h2>

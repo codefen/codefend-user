@@ -12,6 +12,18 @@
   width: 100%;
   background-color: var(--primary-color);
   border-radius: var(--brd-radius);
+  animation: fadeIn 0.5s ease-in-out;
+
+  @keyframes fadeIn {
+    from {
+      margin-top: 10px;
+      opacity: 0;
+    }
+    to {
+      margin-top: 0px;
+      opacity: 1;
+    }
+  }
 
   .header {
     height: 2.5rem;
@@ -136,7 +148,7 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      column-gap: 1rem;
+      column-gap: var(--card-space);
 
       .content-stat {
         width: 100%;
