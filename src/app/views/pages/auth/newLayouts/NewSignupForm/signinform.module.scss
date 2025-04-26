@@ -28,6 +28,10 @@
   align-items: flex-start;
   padding: 2.5rem;
   padding-top: 30px;
+  overflow-y: auto;
+  max-height: 90dvh;
+  box-sizing: content-box;
+  min-height: 100%;
 
   p {
     color: var(--text-color);
@@ -48,9 +52,12 @@
       margin-top: 10px;
       min-width: 30%;
     }
+    .form-btns {
+      justify-content: flex-end;
+      button {
+        margin-top: 10px !important;
+      }
+    }
   }
-}
 
-.form-btns {
-  justify-content: flex-end;
 }

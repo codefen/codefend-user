@@ -165,11 +165,14 @@ export const NewSignupForm = () => {
       <div className={css['signupContent']}>
         <img src="/codefend/logo-color.png" width={220} />
         <ChangeAuthPages pathname={location.pathname} />
-        <p>{STEPSDATA[activeStep].p}</p>
-        <ProgressBar activeStep={activeStep} />
+        
+        <p style={{ marginBottom: "25px" }}>{STEPSDATA[activeStep].p}</p>
+        
         {/* Primer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
           <form onSubmit={nextFirstStep}>
+            {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
+            <ProgressBar activeStep={activeStep} />
             <AuthInput
               placeholder="First name"
               name="lead_fname"
@@ -207,6 +210,7 @@ export const NewSignupForm = () => {
         {/* Segundo paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
           <form onSubmit={nextSecondStep}>
+            <ProgressBar activeStep={activeStep} />
             <AuthInput
               placeholder="Company Name"
               name="company_name"
@@ -259,11 +263,12 @@ export const NewSignupForm = () => {
         {/* Tercer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextThreeStep}>
+            <ProgressBar activeStep={activeStep} />
             <CheckEmail
-              text="we have sent you an email with a code!"
+              text=""
               subText="Please check your inbox, copy the verification code and paste it in the field below to confirm your email."
             />
-            <AuthInput placeholder="Unique code" name="lead_reference_number" required />
+            <AuthInput placeholder="Insert Unique code" name="lead_reference_number" required />
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"
@@ -281,6 +286,7 @@ export const NewSignupForm = () => {
         {/* Cuarto paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_FOUR && !specialLoading}>
           <form onSubmit={nextFourStep}>
+            <ProgressBar activeStep={activeStep} />
             <AuthInput
               type="password"
               placeholder="Password"
@@ -298,7 +304,7 @@ export const NewSignupForm = () => {
             />
             <PasswordRequirements password={password} />
             <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
-              send code
+              continue
             </button>
           </form>
         </Show>
