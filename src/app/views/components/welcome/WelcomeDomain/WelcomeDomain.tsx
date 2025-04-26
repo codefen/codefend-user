@@ -109,9 +109,7 @@ export const WelcomeDomain = ({
       timeout: 180000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
-        toast.error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-      } else {
+      if (data?.resource?.id) {
         saveInitialDomain(initialDomain);
         setDomainId(data?.resource?.id);
         startScan();
@@ -140,7 +138,7 @@ export const WelcomeDomain = ({
             name="initialScope"
             autoComplete="off"
             placeholder="Wite domain..."
-            defaultValue={initialDomain}
+            defaultValue={initialDomain || ''}
             ref={inputRef}
           />
           <button
