@@ -29,9 +29,6 @@ jobs:
           pnpm config set store-dir ~/.pnpm-store
           pnpm install --prefer-frozen-lockfile --ignore-scripts
 
-      - name: 📐 Run Format
-        run: pnpm format
-
       - name: 📐 Run Linter
         run: pnpm lint
 
