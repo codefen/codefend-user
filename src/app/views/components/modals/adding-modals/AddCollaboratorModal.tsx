@@ -13,7 +13,7 @@ export const AddCollaboratorModal = () => {
       isActive={isOpen && modalId === MODAL_KEY_OPEN.ADD_COLLABORATOR}
       headerTitle="Add collaborator">
       <div className="content">
-        <CollaboratorForm>
+        <CollaboratorForm onDone={() => setIsOpen(false)}>
           {isLoading => (
             <ModalButtons
               close={() => setIsOpen(false)}

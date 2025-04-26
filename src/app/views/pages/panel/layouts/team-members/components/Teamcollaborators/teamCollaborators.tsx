@@ -1,8 +1,11 @@
 import { PrimaryButton } from '@buttons/index';
 import css from './teamcollaborators.module.scss';
 import { PeopleGroupIcon } from '@/app/views/components';
+import useModalStore from '@stores/modal.store';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
 export const TeamCollaborators = () => {
+  const { setIsOpen, setModalId } = useModalStore();
   return (
     <div className={css['team-collaborators']}>
       <PeopleGroupIcon />
@@ -17,7 +20,10 @@ export const TeamCollaborators = () => {
         <PrimaryButton
           text="Add a collaborator to the company"
           buttonStyle="red"
-          // click={addResource}
+          click={() => {
+            setIsOpen(true);
+            setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);
+          }}
         />
       </div>
     </div>

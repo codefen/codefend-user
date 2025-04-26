@@ -23,3 +23,10 @@ export const STEPSDATA: Record<SignUpSteps, any> = {
     label: 'Add your password',
   },
 };
+
+export const idiomOptions = [
+  { value: '', label: 'Idiom', hidden: true },
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Español' },
+  { value: 'ar', label: 'العربية' },
+];

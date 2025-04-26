@@ -24,6 +24,7 @@ interface AuthInputProps {
   required?: boolean;
   setVal?: (data: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
+  disabled?: boolean;
 }
 
 export const AuthInput = forwardRef(function AuthInput(
@@ -35,6 +36,7 @@ export const AuthInput = forwardRef(function AuthInput(
     autoComplete = 'off',
     name,
     setVal,
+    disabled = false,
   }: AuthInputProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
@@ -49,6 +51,7 @@ export const AuthInput = forwardRef(function AuthInput(
         autoComplete={autoComplete}
         onChange={setVal}
         name={name}
+        disabled={disabled}
       />
     </div>
   );

@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
+import { idiomOptions, SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
 import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
 import { AuthInput } from '../../newRegister/AuthInput/AuthInput';
 import SelectField from '../../../../components/SelectField/SelectField';
@@ -237,12 +237,7 @@ export const NewSignupForm = () => {
             />
             <SelectField
               name="idiom"
-              options={[
-                { value: '', label: 'Idiom', hidden: true },
-                { value: 'en', label: 'English' },
-                { value: 'es', label: 'Español' },
-                { value: 'ar', label: 'العربية' },
-              ]}
+              options={idiomOptions}
               defaultValue={lead.get.idiom}
               required
             />

@@ -15,11 +15,12 @@ export const DashboardAddResource = ({ data }: any | []) => {
     <div className={css['box-assets-right']}>
       <div className={css['box-assets-info']}>
         <div className={css['info-resource']}>
-          
           <div className="title">
-          <h2>Resources</h2>
-          <span onClick={addResource}>go to resources</span>
-        </div>
+            <h2>Resources</h2>
+            <span className="link" onClick={addResource}>
+              go to resources
+            </span>
+          </div>
           <p>
             Add resources so we can size your attack surface and design a plan tailored to your
             needs

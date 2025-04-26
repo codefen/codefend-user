@@ -16,7 +16,9 @@ const CollaboratorForm: FC<ComponentEventWithChildren> = ({ onDone, close, child
       return;
     }
     sendAddCollaborator(email.current?.value || '')
-      .then(() => onDone?.())
+      .then(() => {
+        onDone?.();
+      })
       .finally(() => close?.());
   };
   return (

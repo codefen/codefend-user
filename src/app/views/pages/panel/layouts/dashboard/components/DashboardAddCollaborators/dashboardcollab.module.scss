@@ -27,8 +27,9 @@
       }
 
       &:last-child {
-        a {
+        .link {
           color: var(--secondary-color);
+          cursor: pointer;
 
           &:hover {
             text-decoration: underline;

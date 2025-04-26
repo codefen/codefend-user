@@ -50,6 +50,12 @@ input {
   &:-internal-autofill-selected {
     background-color: var(--primary-color) !important;
   }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.85;
+    background: #b6b6b645;
+  }
 }
 
 select {
