@@ -21,10 +21,9 @@ export const useLan = () => {
   const fetchAllLan = (companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'resources/lan',
-        ac: 'view_all',
         company_id: companyID,
       },
+      path: 'resources/lan/index',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
 

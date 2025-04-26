@@ -42,7 +42,7 @@ export const useAddWebResource = (onDone: () => void, onClose: () => void) => {
       .then(({ data }) => {
         toast.dismiss(toastId);
         if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-          throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         toast.success(WEB_PANEL_TEXT.ADD_DOMAIN);
         onDone();

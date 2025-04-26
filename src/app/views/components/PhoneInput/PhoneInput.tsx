@@ -12,34 +12,33 @@ interface PhoneInputProps {
 }
 
 export default function PhoneInput({
-  name,
+  name = '',
   placeholder = 'Enter phone number',
   defaultPhone = '',
-  defaultCountry,
+  defaultCountry = '',
   changeCountryCode,
 }: PhoneInputProps) {
   const triggerRef = useRef<HTMLDivElement>(null);
   const [phoneNumber, setPhoneNumber] = useState(defaultPhone);
   const [fullPhoneNumber, setFullPhoneNumber] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<Countries>(
-    defaultCountries?.filter?.(i => i?.alpha2Code === defaultCountry)[0]
+    defaultCountries?.filter?.(i => i?.alpha2Code === defaultCountry)?.[0]
   );
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    console.log({ defaultPhone, defaultCountry });
     const selectedCountryFull = defaultCountries?.filter?.(
       i => i?.alpha2Code === defaultCountry
-    )[0];
+    )?.[0];
     setSelectedCountry(selectedCountryFull);
     setPhoneNumber(defaultPhone);
-    setFullPhoneNumber(`+${selectedCountryFull.callingCodes[0]}***${defaultPhone}`);
+    setFullPhoneNumber(`+${selectedCountryFull?.callingCodes?.[0]}***${defaultPhone}`);
   }, [defaultCountry, defaultPhone]);
 
   const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^\d]/g, '');
     setPhoneNumber(value);
-    setFullPhoneNumber(`+${selectedCountry.callingCodes[0]}***${value}`);
+    setFullPhoneNumber(`+${selectedCountry?.callingCodes?.[0]}***${value}`);
   };
 
   const handleCountrySelect = (country: Countries) => {

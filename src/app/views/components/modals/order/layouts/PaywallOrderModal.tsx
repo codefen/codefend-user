@@ -10,13 +10,17 @@ export const PaywallOrderModal = ({ close }: any) => {
   const [checkedOption, setCheckedOption] = useState(UserPlanSelected.NOTHING);
   const { updateState } = useOrderStore(state => state);
   const { initialDomain } = useWelcomeStore();
+  const { setIsOpen, setModalId } = useModalStore();
   const goTo = () => {
     if (checkedOption === UserPlanSelected.NOTHING) return;
     updateState('paywallSelected', checkedOption);
     if (checkedOption === UserPlanSelected.NORMAL_ORDER) {
       updateState('orderStepActive', OrderSection.SCOPE);
     } else if (checkedOption === UserPlanSelected.ON_DEMAND) {
-      updateState('orderStepActive', OrderSection.SCOPE);
+      updateState('orderStepActive', OrderSection.PAYWALL);
+      updateState('open', false);
+      setIsOpen(true);
+      setModalId(MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES);
     } else {
       updateState('orderStepActive', OrderSection.SMALL_PLANS);
     }

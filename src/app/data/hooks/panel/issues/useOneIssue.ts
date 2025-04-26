@@ -30,11 +30,14 @@ export const useOneIssue = () => {
         company_id: companyID,
       },
       path: 'issues/view',
+      insecure: true,
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;
         if (apiErrorValidation(data?.error, data?.response)) {
-          throw new Error(data.info || '');
+          const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          customError.code = data?.error_info || 'generic';
+          throw customError;
         }
         issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
         if (data?.company) company.set(data.company);
@@ -46,12 +49,19 @@ export const useOneIssue = () => {
         if (String(error.message || '').startsWith('invalid or expired')) {
           return;
         }
-        toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-        if (error?.message?.includes?.('maximum of 3')) {
-          updateState('open', true);
-          updateState('orderStepActive', OrderSection.PAYWALL);
-          updateState('resourceType', ResourcesTypes.WEB);
+        switch (error.code) {
+          case 'issue_not_found':
+            toast.error('La incidencia no existe.');
+            break;
+          case 'issues_maximum_reached':
+            updateState('open', true);
+            updateState('orderStepActive', OrderSection.PAYWALL);
+            updateState('resourceType', ResourcesTypes.WEB);
+            break;
+          default:
+            toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
+
         navigate('/issues');
       });
   };

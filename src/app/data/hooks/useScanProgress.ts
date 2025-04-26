@@ -1,27 +1,25 @@
-import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useScanProgress = () => {
   const { scanStep, issueScanFound, issuesParsed } = useWelcomeStore();
 
   const [estimatedTime, setEstimatedTime] = useState<number | null>(null);
-  const progressRef = useRef(0);
   const scanProgress = useGlobalFastField('scanProgress');
+  const isProgressStarted = useGlobalFastField('isProgressStarted');
 
   useEffect(() => {
     let progressInterval: any;
     if (scanStep === 'scanner') {
-      if (progressRef.current === 0) {
-        progressRef.current = scanProgress.get; // Mantiene el progreso previo si no estaba en 0
+      if (!isProgressStarted.get) {
+        isProgressStarted.set(true);
+        scanProgress.set(0);
       }
-
       progressInterval = setInterval(() => {
         // Incremento gradual que se desacelera a medida que se acerca al 20%
-        const increment = 0.5 * (1 - progressRef.current / 25);
-        progressRef.current = Math.min(progressRef.current + increment, 25);
-        scanProgress.set(progressRef.current);
+        const increment = 0.5 * (1 - scanProgress.get / 25);
+        scanProgress.set(Math.min(scanProgress.get + increment, 25));
       }, 2300);
     } else if (scanStep === 'parser') {
       // En la fase de parseo, comenzamos en 30% y avanzamos hasta 90% basado en el progreso del parseo

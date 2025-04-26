@@ -12,11 +12,11 @@ export const ChangeAuthPages = ({ pathname }: { pathname: string }) => {
         className={pathname.startsWith('/auth/signup') ? css['active-link'] : ''}>
         Signup
       </Link>
-      <Link
+      {/* <Link
         to="/auth/recovery"
         className={pathname.startsWith('/auth/recovery') ? css['active-link'] : ''}>
         Password recovery
-      </Link>
+      </Link> */}
     </div>
   );
 };

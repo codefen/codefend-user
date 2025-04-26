@@ -7,6 +7,7 @@ import Tablev3 from '@table/v3/Tablev3';
 import { ResourceIconText } from '@/app/views/components/utils/ResourceIconText';
 import { RiskScore } from '@/app/views/components/utils/RiskScore';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { naturalTime } from '@utils/helper';
 
 interface DashboardVulnerabilitiesProps {
   topVulnerabilities: Issue[];
@@ -19,7 +20,7 @@ const vulnera: ColumnTableV3[] = [
     key: 'creacion',
     styles: 'item-cell-5',
     weight: '17%',
-    render: (value: any) => value,
+    render: (value: any) => naturalTime(value),
   },
   {
     header: 'issue title',

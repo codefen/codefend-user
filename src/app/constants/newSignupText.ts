@@ -11,7 +11,7 @@ export const STEPSDATA: Record<SignUpSteps, any> = {
     label: 'Personal details',
   },
   [SignUpSteps.STEP_TWO]: {
-    p: "We will attempt to hack you as soon as possible. We conduct all kinds of tests on your company's attack surface, from conventional pentesting to data leak detection, advanced social engineering techniques, and more.",
+    p: "We conduct all kinds of tests on your company's attack surface, from conventional pentesting to data leak detection, advanced social engineering techniques, and more.",
     label: 'Business details',
   },
   [SignUpSteps.STEP_THREE]: {
@@ -19,7 +19,7 @@ export const STEPSDATA: Record<SignUpSteps, any> = {
     label: 'Verify your email address',
   },
   [SignUpSteps.STEP_FOUR]: {
-    p: "We will try to hack you as soon as possible. We conduct all kinds of tests on your company's attack surface, from conventional pentesting to data leak detection, advanced social engineering techniques, and more.",
+    p: 'Done! We’ve reached the final step—now you just need to set your password to access the system and start your free trial. Your password must contain 1 number, 1 letter, 12 characters, and a symbol.',
     label: 'Add your password',
   },
 };

@@ -37,6 +37,8 @@ input {
   border-width: 1px;
   border-style: solid;
   border-color: var(--primary-color-300);
+  border-radius: 5px;
+  font-size: 15px;
 
   &:focus {
     outline: 0 solid;
@@ -58,6 +60,7 @@ select {
   background-color: var(--primary-color);
   color: var(--tertiary-color-500);
   border-width: 1px;
+  border-radius: 5px;
   border-style: solid;
   border-color: var(--primary-color-300);
 
