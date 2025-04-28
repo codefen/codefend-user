@@ -34,7 +34,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         <p className={css['welcome-text']}>
           <b>The domain {initialDomain} is being analyzed.</b> Detected vulnerabilities and
           potential threats will be displayed on the dashboard and communicated via email.{' '}
-          <b>You can now close this modal.</b>
+          <b>You can now close this window.</b>
         </p>
 
         <div>

@@ -19,6 +19,7 @@ import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResou
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResourcesOrderModel.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
+import { OrderV2 } from '@modals/index.ts';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -105,6 +106,7 @@ export const PanelPage = () => {
         <WelcomeLoadResource />
         <AddNewResourceModal />
         <AddCollaboratorModal />
+        <OrderV2 />
         <ErrorConnection
           closeModal={closeErrorConnectionModal}
           open={modals.isErrorConnectionModalOpen}

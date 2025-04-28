@@ -31,7 +31,6 @@ const SourceCodePanel: FC = () => {
       showScreen={showScreen}
       isLoading={isLoading}
       dataAvailable={Boolean(data.length)}>
-      <OrderV2 />
       <CredentialsModal />
       <ModalReport />
       <section className="left">

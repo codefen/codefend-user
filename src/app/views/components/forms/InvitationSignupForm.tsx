@@ -22,7 +22,6 @@ const InvitationSignupForm: FC<{
     const fullNumberRaw = formObject?.['lead_phone'] as string;
     const [areaCode, number] = fullNumberRaw.split(/\*+/);
     formObject['lead_phone'] = `${areaCode}${number}`;
-    console.log(formObject);
     sendSignUp(formObject);
   };
 

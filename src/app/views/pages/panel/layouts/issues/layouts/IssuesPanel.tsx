@@ -51,7 +51,6 @@ const IssuesPanel: FC = () => {
 
   return (
     <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
-      <OrderV2 />
       <SelectAnyResourceModal
         issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
       />

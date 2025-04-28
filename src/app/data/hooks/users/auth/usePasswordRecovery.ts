@@ -1,4 +1,5 @@
 import { useFetcher } from '#commonHooks/useFetcher';
+import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation } from '@/app/constants/validations';
 
 export const usePasswordRecovery = () => {
@@ -24,7 +25,7 @@ export const usePasswordRecovery = () => {
       path: 'users/password/recover/hash',
     }).then(({ data }: any) => {
       if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-        throw new Error('An error has occurred on the server');
+        throw new Error(data?.info || AUTH_TEXT.FAILURE_PASSWORD_UPDATED);
       }
       return data;
     });

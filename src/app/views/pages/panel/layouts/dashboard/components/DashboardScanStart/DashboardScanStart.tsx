@@ -1,5 +1,3 @@
-import { useScanProgress } from '@hooks/useScanProgress';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
 import css from './dashscanstart.module.scss';
 import { useScanDashboardView } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardScanStart/useScanDashboardView';
 import Show from '@/app/views/components/Show/Show';
@@ -8,6 +6,7 @@ import type { ColumnTableV3 } from '@interfaces/table';
 import { PrimaryButton } from '@buttons/index';
 import { useNavigate } from 'react-router';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 const scanColumns: ColumnTableV3[] = [
   {
@@ -33,7 +32,7 @@ const scanColumns: ColumnTableV3[] = [
   },
 ];
 export const DashboardScanStart = () => {
-  const { progress } = useScanProgress();
+  const progress = useGlobalFastField('scanProgress');
   const { scanDashboardView, isScanRunning, issueScanFound, issuesParsed, initialDomain } =
     useScanDashboardView();
   const navigate = useNavigate();
@@ -46,13 +45,15 @@ export const DashboardScanStart = () => {
           <p>The automatic scanners are analyzing one of your web resources: {initialDomain}</p>
 
           <div className={css['scan-start-progress']}>
-            <div className={css[`scan-start-progress-bar`]} style={{ width: `${progress}%` }}></div>
+            <div
+              className={css[`scan-start-progress-bar`]}
+              style={{ width: `${progress.get}%` }}></div>
           </div>
         </div>
         <div className={css['scan-start-actions']}>
           <StatAsset value={issueScanFound} valueTitle="Total Findings" />
           <StatAsset value={`${issuesParsed}/${issueScanFound}`} valueTitle="Analisis completado" />
-          <StatAsset value={`${Math.round(progress)}%`} valueTitle="Progress" />
+          <StatAsset value={`${Math.round(progress.get)}%`} valueTitle="Progress" />
         </div>
       </Show>
       <Show when={!isScanRunning}>

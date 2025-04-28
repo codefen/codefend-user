@@ -32,7 +32,6 @@ const NetworkPage: FC = () => {
       showScreen={showScreen}
       isLoading={loading}
       dataAvailable={Boolean(networks.length)}>
-      <OrderV2 />
       <CredentialsModal />
       <ModalReport />
       <div className="brightness variant-1"></div>

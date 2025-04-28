@@ -59,7 +59,6 @@ const SocialEngineeringView = () => {
       showScreen={showScreen}
       isLoading={isLoading}
       dataAvailable={Boolean(members.length)}>
-      <OrderV2 />
       <CredentialsModal />
       <ModalReport />
       <div className="brightness variant-1"></div>

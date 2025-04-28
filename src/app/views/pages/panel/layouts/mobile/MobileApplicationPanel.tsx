@@ -52,7 +52,6 @@ const MobileApplicationPanel: React.FC = () => {
       dataAvailable={Boolean(data.length)}>
       <AddMobileModal isOpen={showModal} close={() => setShowModal(false)} />
       <DeleteMobileCloudModal onDone={onDelete} />
-      <OrderV2 />
       <ModalReport />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
