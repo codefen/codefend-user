@@ -24,7 +24,7 @@
 .finish-text {
   margin-block: 15px;
   line-height: 1.7rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--tertiary-color-500);
 
   b {
@@ -36,7 +36,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
+  margin-bottom: 10px;
   gap: 20px;
 
   .finish-vuln-box {
@@ -48,10 +48,10 @@
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
-    padding-block: 4.6rem;
+    padding-block: 3.5rem;
     flex: 1 1;
-    min-height: 5.938rem;
-    max-height: 5.938rem;
+    min-height: 4rem;
+    max-height: 4rem;
     row-gap: 0.55rem;
     border-width: 1px;
     border-style: solid;
