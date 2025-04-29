@@ -6,7 +6,7 @@ import { ModalWrapper } from '@modals/index';
 import Tablev3 from '@table/v3/Tablev3';
 import { useEffect, useRef, useState } from 'react';
 import css from './welcomedomain.module.scss';
-import { SearchIcon } from '@icons';
+import { AimIcon } from '@icons';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
@@ -119,8 +119,8 @@ export const WelcomeDomain = ({
 
   return (
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
-      <div>
-        <img src="/codefend/brand-iso.png" width={350} height={60} />
+      <div className='welcome-content'>
+        <img className='logose' src="/codefend/logo-color.png" width={220} />
         <p className={css['welcome-text']}>
           <b>
             Your account has been created! Please verify your domain and its scope, then click
@@ -130,7 +130,7 @@ export const WelcomeDomain = ({
         </p>
         <div className={css['input-container']}>
           <label htmlFor="initialScope">
-            <b>confirm your initial scope</b>
+            <b>Confirm your initial scope</b>
           </label>
           <input
             type="text"
@@ -145,7 +145,7 @@ export const WelcomeDomain = ({
             type="button"
             className={`btn ${css['btn-search']}`}
             onClick={changeInitialDomain}>
-            <SearchIcon isButton />
+            <AimIcon />
           </button>
         </div>
         <div className={css['limit-container']}>
@@ -157,7 +157,7 @@ export const WelcomeDomain = ({
             isNeedSort={false}
           />
         </div>
-        <div className={css['btn-container']}>
+        <div className="btn-container">
           <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
           <button className={`btn ${css['btn-add']}`} type="button" onClick={nextStep}>
             Continue

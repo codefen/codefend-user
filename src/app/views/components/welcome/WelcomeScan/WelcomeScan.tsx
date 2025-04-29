@@ -23,20 +23,19 @@ export const WelcomeScan = ({
   };
 
   return (
-    <ModalWrapper showCloseBtn={true} action={close} type={css['welcome-modal-container']}>
-      <div>
-        <img src="/codefend/brand-iso.png" width={350} height={60} />
+    <ModalWrapper showCloseBtn={false} action={close} type={css['welcome-modal-container']}>
+      <div className='welcome-content ojo'>
+        <img className='logose' src="/codefend/logo-color.png" width={220} />
         <p className={css['welcome-text']}>
           We're going to run an automated analysis on the selected domain.
-          <b>
-            Please confirm if you want to proceed with an automated analysis of {initialDomain}.
+          <b> Please confirm if you want to proceed with an automated analysis of <span style={{color: "#ff3939"}}>{initialDomain}</span>.
           </b>
         </p>
         <img src="/codefend/codefend-eye2.png" alt="Eye" className={css['scan-img']} />
-        <div className={css['btn-container']}>
+        <div className="btn-container">
           <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
           <button className={`btn ${css['btn-add']}`} type="button" onClick={startScan}>
-            Start IA based analysis on {initialDomain}
+            Start IA based analysis
           </button>
         </div>
       </div>

@@ -29,10 +29,10 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
 
   return (
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
-      <div>
-        <img src="/codefend/brand-iso.png" width={350} height={60} />
+      <div className='welcome-content'>
+      <img className='logose' src="/codefend/logo-color.png" width={220} />
         <p className={css['welcome-text']}>
-          <b>The domain {initialDomain} is being analyzed.</b> Detected vulnerabilities and
+          <b>The domain <span style={{color: "#ff3939"}}>{initialDomain}</span>. is being analyzed.</b> Detected vulnerabilities and
           potential threats will be displayed on the dashboard and communicated via email.{' '}
           <b>You can now close this window.</b>
         </p>
@@ -41,28 +41,25 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           <ProgressCircle progress={progress} />
         </div>
 
+
+        <div className={css['finish-issues-found']}>
+          <div className={css['finish-vuln-box']}>
+            <div className={css['value']}>{issueScanFound}</div>
+            <span>Total finding</span>
+          </div>
+          <div className={css['finish-vuln-box']}>
+            <div className={css['value']}>{issuesParsed}</div>
+            <span>Analizing finding</span>
+          </div>
+        </div>
         <div className={css['finish-text']}>
           <p>
             <b className={`${css['text-box']} ${css['svg-green']}`}>
-              <CircleTicket /> Current phase: {scanStepnumber[scanStep]}/
+              Current phase: {scanStepnumber[scanStep]}/
               {Object.keys(scanStepnumber)?.length - 2} - {scanStepText[scanStep]}
             </b>
           </p>
-        </div>
-        <div className={css['finish-issues-found']}>
-          <div className={css['finish-vuln-box']}>
-            <h3>Vulnerabilities found</h3>
-            <span className={css['text-box']}>
-              <AlertIcons /> {issueScanFound}
-            </span>
-          </div>
-          <div className={css['finish-vuln-box']}>
-            <h3>Vulnerabilities analyzed</h3>
-            <span className={`${css['text-box']} ${css['svg-green']}`}>
-              <FileSearchIcon /> {issuesParsed}
-            </span>
-          </div>
-        </div>
+        </div>        
 
         <PrimaryButton text="Dashboard" buttonStyle="gray" click={closeModal} />
       </div>
