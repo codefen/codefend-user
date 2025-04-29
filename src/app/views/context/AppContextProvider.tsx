@@ -54,8 +54,10 @@ export type GlobalStore = {
   subDomainCount: number;
   uniqueIpCount: number;
   planPreference: 'small' | 'medium' | 'advanced';
+  mobilePlanPreference: 'small' | 'medium' | 'advanced';
   isDefaultPlan: boolean;
   isProgressStarted: boolean;
+  selectedApp: any;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -79,6 +81,8 @@ export const initialGlobalState: GlobalStore = {
   planPreference: persistedState?.planPreference ?? 'medium',
   isDefaultPlan: persistedState?.isDefaultPlan ?? false,
   isProgressStarted: persistedState?.isProgressStarted ?? false,
+  selectedApp: persistedState?.selectedApp ?? null,
+  mobilePlanPreference: persistedState?.mobilePlanPreference ?? 'medium',
 };
 
 const {

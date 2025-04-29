@@ -121,15 +121,15 @@ export const generateIDArray = (N: number): string[] => {
  * Used to clean reviews
  */
 export const cleanReview = (source: string, ignoreText?: boolean): string => {
-  let update = !ignoreText ? source.replace(/\bopiniones\b/gi, '') : source;
-  update = update.replace(/&nbsp;/g, '');
-  update = update.replace(/&Acirc;/g, '');
-  update = update.replace(/&plusmn;/g, '');
-  update = update.replace(/&Atilde;/g, '');
-  update = update.replace(/&amp;/g, '');
-  update = !ignoreText ? update.replace('reseas', '') : update;
+  let update = !ignoreText ? source?.replace(/\bopiniones\b/gi, '') : source;
+  update = update?.replace?.(/&nbsp;/g, '');
+  update = update?.replace?.(/&Acirc;/g, '');
+  update = update?.replace?.(/&plusmn;/g, '');
+  update = update?.replace?.(/&Atilde;/g, '');
+  update = update?.replace?.(/&amp;/g, '');
+  update = !ignoreText ? update?.replace?.('reseas', '') : update;
 
-  return update.trim();
+  return update?.trim?.();
 };
 
 /**

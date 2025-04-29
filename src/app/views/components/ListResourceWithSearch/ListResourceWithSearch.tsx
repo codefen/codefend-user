@@ -2,6 +2,7 @@ import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { AppCard } from '@/app/views/components/AppCard/AppCard';
 import useCredentialStore from '@stores/credential.store';
 import { useEffect, useMemo, useState, type FC } from 'react';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface LeftMobileCloudProps {
   resources: any[];
@@ -16,19 +17,21 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
 }) => {
   const { appSelected, setAppSelected, isSelected } = useSelectedApp();
   const [term, setTerm] = useState('');
-
+  const selectedAppStored = useGlobalFastField('selectedApp');
   const { setViewMore } = useCredentialStore();
 
   useEffect(() => {
-    console.log('Entro al useEffect?', { appSelected, r: resources[0] });
-    if (!appSelected) {
-      setAppSelected(resources[0]);
+    // if (!appSelected) {
+    if (!selectedAppStored.get) {
+      // setAppSelected(resources[0]);
+      selectedAppStored.set(resources[0]);
     }
   }, [resources]);
 
   const updateSelectedApp = (resource: any) => {
     if (!isSelected(resource.id)) {
-      setAppSelected(resource);
+      // setAppSelected(resource);
+      selectedAppStored.set(resource);
     }
     setViewMore({ id: '', open: false });
   };

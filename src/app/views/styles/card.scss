@@ -31,7 +31,8 @@
     gap: 1rem;
     // padding: 5px 20px 15px;
 
-    a, span {
+    a,
+    span {
       color: var(--secondary-color-100);
 
       &:hover {
@@ -374,6 +375,10 @@
       margin-block-start: 1rem;
     }
   }
+
+  &.cloud-apps {
+    background-color: transparent;
+  }
 }
 
 @media only screen and (max-width: 1325px) {
@@ -409,6 +414,7 @@
   border-radius: 0.625rem;
   transition: border 200ms ease-in;
   padding: 2rem;
+  background-color: var(--primary-color);
 
   &-border {
     border: 1px solid oklch(82% 0 0);
