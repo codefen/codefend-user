@@ -1,8 +1,4 @@
-.welcome-modal-container {
-  padding-inline: 2rem;
-  padding-block: 1rem;
-  max-width: 600px;
-}
+
 
 .welcome-text {
   line-height: 2rem;
@@ -26,9 +22,9 @@
 }
 
 .finish-text {
-  margin-block: 1rem;
+  margin-block: 15px;
   line-height: 1.7rem;
-  font-size: 1.35rem;
+  font-size: 1rem;
   color: var(--tertiary-color-500);
 
   b {
@@ -41,6 +37,48 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 2rem;
+  gap: 20px;
+
+  .finish-vuln-box {
+    background-color: var(--primary-color-50);
+    border-radius: var(--brd-radius);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    padding-block: 4.6rem;
+    flex: 1 1;
+    min-height: 5.938rem;
+    max-height: 5.938rem;
+    row-gap: 0.55rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--primary-color-300);
+    .value {
+      color: var(--tertiary-color-300);
+      font-family: Roboto;
+      font-weight: bold;
+      font-size: 2.4rem;
+      line-height: 32px;
+      text-align: center;
+      color: var(--tertiary-color-50);      
+    }
+    span {
+      font-size: clamp(11px, 10dvw, 14px);
+      font-family: Roboto;
+      font-weight: bold;
+      color: var(--tertiary-color-450);
+      margin: 0;
+      text-wrap: wrap;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
+      padding-inline: 0.625rem;
+      text-align: center;
+      line-height: 16px;
+    }
+  }
 }
 
 .svg-green svg {
