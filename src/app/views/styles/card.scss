@@ -13,6 +13,7 @@
   background-color: var(--primary-color);
   border-radius: var(--brd-radius);
   animation: fadeIn 0.5s ease-in-out;
+  height: fit-content;
 
   @keyframes fadeIn {
     from {
