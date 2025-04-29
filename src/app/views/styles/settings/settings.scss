@@ -40,12 +40,12 @@
 }
 
 ::-webkit-scrollbar-track {
-  // background: var(--primary-color-500);
+  background: var(--primary-color-500);
   opacity: 0.2;
 }
 
 ::-moz-scrollbar-track {
-  // background: var(--primary-color-500);
+  background: var(--primary-color-500);
   opacity: 0.2;
 }
 
@@ -76,8 +76,8 @@
   border-width: 0;
   border-style: solid;
 
-  // scrollbar-width: thin;
-  scrollbar-color: #ff00001c #d1d1d1;
+  scrollbar-width: thin;
+  // scrollbar-color: #ff00001c #d1d1d1;
 }
 
 body {
