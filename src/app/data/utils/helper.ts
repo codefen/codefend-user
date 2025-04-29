@@ -768,60 +768,54 @@ export function naturalTime(dateStr: string, locale: string = 'en'): string {
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
 
-  // Future dates
-  if (diffMs < 0) {
-    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-    const sec = Math.round(-diffMs / 1000);
-    if (sec < 60) return rtf.format(sec, 'second');
-    if (sec < 3600) return rtf.format(Math.round(sec / 60), 'minute');
-    if (sec < 86400) return rtf.format(Math.round(sec / 3600), 'hour');
-    if (sec < 604800) return rtf.format(Math.round(sec / 86400), 'day');
-
-    // For future dates more than a week away, show specific date
-    return date.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
-  // "just now"
-  if (diffMs < 10_000) {
-    return 'just now';
-  }
-
-  // Use RTF for very recent dates (up to 2 months)
-  const m = monthDiff(date, now);
-
-  // Only use relative time format for first 1-2 months
-  if (m === 1) {
-    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-    return rtf.format(-1, 'month');
-  }
-
-  // Use calendar-based years/months if possible for recent dates
-  const y = yearDiff(date, now);
-  if (y === 0 && m <= 2) {
-    // For up to 2 months, use relative format
-    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-    return rtf.format(-m, 'month');
-  }
-
-  // From 3 months onward, use a specific date format that varies by age
-  if (y === 0) {
-    // Same year, show month and day
-    return date.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
-  } else if (y <= 1) {
-    // Last year, show month, day and year
-    return date.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
-  // This code will only run if the conditions above don't catch all cases
-  // Handle days, weeks for completeness
   const sec = Math.round(diffMs / 1000);
+  const days = Math.floor(sec / 86400);
+  const months = monthDiff(date, now);
+  const years = yearDiff(date, now);
+
+  if (diffMs < 0) {
+    return '';
+  }
+
+  if (diffMs < 10_000) {
+    return 'Just now';
+  }
+
+  if (days < 1) {
+    return 'Today';
+  }
+
+  if (days < 7) {
+    return 'This week';
+  }
+
+  if (months === 0) {
+    return 'This month';
+  }
+
+  if (months === 1) {
+    return 'Last month';
+  }
+
+  if (months >= 2 && months <= 6) {
+    return `about ${months} Months ago`;
+  }
+
+  if (years === 0) {
+    return 'This year';
+  }
+
+  if (years === 1) {
+    return 'Last year';
+  }
+
   const units = [
     { limit: 60, divisor: 1, unit: 'second' },
     { limit: 3600, divisor: 60, unit: 'minute' },
     { limit: 86400, divisor: 3600, unit: 'hour' },
     { limit: 604800, divisor: 86400, unit: 'day' },
-    { limit: 2419200, divisor: 604800, unit: 'week' }, // ~4 weeks
-  ] as const;
+    { limit: 2419200, divisor: 604800, unit: 'week' },
+  ];
 
   for (const { limit, divisor, unit } of units) {
     if (sec < limit) {
@@ -831,6 +825,5 @@ export function naturalTime(dateStr: string, locale: string = 'en'): string {
     }
   }
 
-  // Fallback for any edge cases
   return date.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
 }
