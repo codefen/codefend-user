@@ -13,6 +13,8 @@ export enum OrderSection {
   SCOPE = 1,
   WEB_SCOPE = 1.11,
   MOBILE_SCOPE = 1.12,
+  NETWORK_SCOPE = 1.13,
+  SOCIAL_SCOPE = 1.14,
   ALL_PLANS = 1.1,
   RECOMMENDED_PLAN = 1.2,
   SMALL_PLANS = 1.3,

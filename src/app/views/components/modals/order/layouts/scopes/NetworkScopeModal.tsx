@@ -8,7 +8,7 @@ import { useOrderStore } from '@stores/orders.store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-export const MobileScopeModal = () => {
+export const NetworkScopeModal = () => {
   const { resourceType, updateState, acceptCondition } = useOrderStore(state => state);
   const [acceptConditions, setAcceptCondition] = useState<boolean>(acceptCondition);
   const [tryClick, setTryClick] = useState<boolean>(false);
@@ -20,7 +20,7 @@ export const MobileScopeModal = () => {
   const goToNavigate = () => {
     updateState('open', false);
     updateState('orderStepActive', OrderSection.PAYWALL);
-    navigate('/mobile');
+    navigate('/network');
   };
 
   const nextStep = () => {
@@ -39,10 +39,10 @@ export const MobileScopeModal = () => {
   return (
     <>
       <div>
-        <h3>Recursos mobile</h3>
+        <h3>Recursos Network</h3>
         <p>
-          Vamos a comenzar con un nuevo pentest para todos los dominios definidos en los recursos
-          web. Hemos detectado estos recursos:
+          Vamos a comenzar con un nuevo pentest para todos las ips internas y externas definidas en
+          los recursos de red. Hemos detectado estos recursos:
         </p>
       </div>
       <div className="step-content"></div>

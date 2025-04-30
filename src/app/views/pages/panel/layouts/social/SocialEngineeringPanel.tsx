@@ -11,7 +11,7 @@ import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import { socialEmptyScreen } from '@/app/constants/app-texts.ts';
-import { ResourcesTypes } from '@interfaces/order.ts';
+import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 
 const SocialEngineeringView = () => {
@@ -80,6 +80,7 @@ const SocialEngineeringView = () => {
           type={ResourcesTypes.SOCIAL}
           resourceCount={members?.length || 0}
           isLoading={isLoading}
+          scope={OrderSection.SOCIAL_SCOPE}
         />
       </section>
     </EmptyLayout>

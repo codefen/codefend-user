@@ -20,8 +20,9 @@ const orderText: Record<ResourcesTypes, (obj: any) => string> = {
     `Su aplicacion ${name} ${downloads ? 'posee mas de ' + downloads + ' descargas por lo que le recomendamos' : 'le recomendamos'} un plan ${plan}`,
   [ResourcesTypes.CLOUD]: () => '',
   [ResourcesTypes.CODE]: () => '',
-  [ResourcesTypes.NETWORK]: () => '',
-  [ResourcesTypes.SOCIAL]: () => '',
+  [ResourcesTypes.NETWORK]: ({ plan }) =>
+    `Para sus recursos de red le recomendamos un plan ${plan}`,
+  [ResourcesTypes.SOCIAL]: ({ plan }) => `Para los recursos sociales ${plan}`,
 };
 
 const OpenOrderButton = ({

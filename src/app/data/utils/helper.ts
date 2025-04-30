@@ -699,114 +699,56 @@ export const debounce = <T extends any[]>(fn: (...args: T) => void, timeout: num
   return ret;
 };
 
-export const calculateDateNow = () => {};
-
-/**
- * Converts "YYYY-MM-DD HH:mm:ss" string to a local Date object.
- *
- * @param {string} dateStr - Date string in "YYYY-MM-DD HH:mm:ss" format
- * @returns {Date} Local Date object
- */
-function parseDate(dateStr: string) {
-  const [date, time] = dateStr.split(' ');
-  const [year, month, day] = date.split('-').map(Number);
-  const [hours, minutes, seconds] = time.split(':').map(Number);
-  return new Date(year, month - 1, day, hours, minutes, seconds);
-}
-
-/**
- * Checks if two dates are on the same calendar day.
- *
- * @param {Date} dateA - First date
- * @param {Date} dateB - Second date
- * @returns {boolean} True if both dates are on the same day
- */
-function isSameDay(dateA: Date, dateB: Date) {
-  return (
-    dateA.getFullYear() === dateB.getFullYear() &&
-    dateA.getMonth() === dateB.getMonth() &&
-    dateA.getDate() === dateB.getDate()
-  );
-}
-
-/**
- * Calculates difference in years between two dates, considering calendar months
- */
-function yearDiff(dateA: Date, dateB: Date): number {
-  const years = dateB.getFullYear() - dateA.getFullYear();
-  const monthA = dateA.getMonth();
-  const monthB = dateB.getMonth();
-
-  // Adjust if we haven't reached the same month yet
-  if (monthB < monthA || (monthB === monthA && dateB.getDate() < dateA.getDate())) {
-    return years - 1;
-  }
-  return years;
-}
-
-/**
- * Calculates difference in months between two dates, considering calendar days
- */
-function monthDiff(dateA: Date, dateB: Date): number {
-  const years = dateB.getFullYear() - dateA.getFullYear();
-  const months = dateB.getMonth() - dateA.getMonth() + years * 12;
-
-  // Adjust if we haven't reached the same day of month yet
-  if (dateB.getDate() < dateA.getDate()) {
-    return months - 1;
-  }
-  return months;
-}
-
 /**
  * Returns a human-friendly relative time string in English.
  * @param dateStr "YYYY-MM-DD HH:mm:ss"
  * @param locale any BCP-47 locale (default "en")
  */
 export function naturalTime(dateStr: string, locale: string = 'en'): string {
-  const date = parseDate(dateStr);
+  const date = new Date(dateStr.replace(' ', 'T')); // Asegura compatibilidad con el formato "YYYY-MM-DD HH:mm:ss"
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHours = Math.floor(diffMin / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  const diffWeeks = Math.floor(diffDays / 7);
 
   const sec = Math.round(diffMs / 1000);
-  const days = Math.floor(sec / 86400);
-  const months = monthDiff(date, now);
-  const years = yearDiff(date, now);
+  // const days = Math.floor(sec / 86400);
+  // const months = monthDiff(date, now);
+  // const years = yearDiff(date, now);
 
   if (diffMs < 0) {
     return '';
   }
 
-  if (diffMs < 10_000) {
-    return 'Just now';
+  if (diffSec < 59) {
+    return 'now';
   }
 
-  if (days < 1) {
-    return 'Today';
+  if (diffMin < 60) {
+    return `${diffMin} minute${diffMin === 1 ? '' : 's'} ago`;
   }
 
-  if (days < 7) {
-    return 'This week';
+  if (diffHours < 24) {
+    return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
   }
 
-  if (months === 0) {
-    return 'This month';
+  if (diffDays === 1) {
+    return 'yesterday';
   }
 
-  if (months === 1) {
-    return 'Last month';
+  if (diffDays < 7) {
+    return `${diffDays} days ago`;
   }
 
-  if (months >= 2 && months <= 6) {
-    return `about ${months} Months ago`;
+  if (diffWeeks === 1) {
+    return 'last week';
   }
 
-  if (years === 0) {
-    return 'This year';
-  }
-
-  if (years === 1) {
-    return 'Last year';
+  if (diffWeeks < 4) {
+    return `${diffWeeks} weeks ago`;
   }
 
   const units = [
@@ -817,13 +759,9 @@ export function naturalTime(dateStr: string, locale: string = 'en'): string {
     { limit: 2419200, divisor: 604800, unit: 'week' },
   ];
 
-  for (const { limit, divisor, unit } of units) {
-    if (sec < limit) {
-      const val = Math.floor(sec / divisor);
-      const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-      return rtf.format(-val, unit as Intl.RelativeTimeFormatUnit);
-    }
-  }
-
-  return date.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
+  return date.toLocaleDateString(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
 }

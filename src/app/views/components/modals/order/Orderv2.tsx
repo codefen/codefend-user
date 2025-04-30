@@ -23,12 +23,16 @@ import { WebScopeModal } from '@modals/order/layouts/scopes/WebScopeModal';
 import { RecommendedPlanOrderModal } from '@modals/order/layouts/RecommendedPlanOrderModal';
 import { AllPlansOrderModal } from '@modals/order/layouts/AllPlansOrderModal';
 import { MobileScopeModal } from '@modals/order/layouts/scopes/MobileScopeModal';
+import { NetworkScopeModal } from '@modals/order/layouts/scopes/NetworkScopeModal';
+import { SocialScopeModal } from '@modals/order/layouts/scopes/SocialScopeModal';
 
 export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.PAYWALL]: 700,
   [OrderSection.SCOPE]: 700,
   [OrderSection.WEB_SCOPE]: 700,
   [OrderSection.MOBILE_SCOPE]: 700,
+  [OrderSection.NETWORK_SCOPE]: 700,
+  [OrderSection.SOCIAL_SCOPE]: 700,
   [OrderSection.ALL_PLANS]: 1030,
   [OrderSection.RECOMMENDED_PLAN]: 700,
   [OrderSection.SMALL_PLANS]: 700,
@@ -71,6 +75,8 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.SCOPE) return <WebScopeModal />;
     if (orderStepActive === OrderSection.WEB_SCOPE) return <WebScopeModal />;
     if (orderStepActive === OrderSection.MOBILE_SCOPE) return <MobileScopeModal />;
+    if (orderStepActive === OrderSection.NETWORK_SCOPE) return <NetworkScopeModal />;
+    if (orderStepActive === OrderSection.SOCIAL_SCOPE) return <SocialScopeModal />;
     if (orderStepActive === OrderSection.FREQUENCY) return <FrequencyOrderModal />;
     if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
     if (orderStepActive === OrderSection.ALL_PLANS) return <AllPlansOrderModal />;

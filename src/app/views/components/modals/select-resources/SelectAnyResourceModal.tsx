@@ -60,9 +60,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
   const [resourceCount, setResourceCount] = useState<Record<string, number>>({
     web: 0,
     mobile: 0,
-    cloud: 0,
+    //cloud: 0,
     social: 0,
-    source: 0,
+    //source: 0,
     lan: 0,
     research: 0,
   });
@@ -71,9 +71,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
       getIssueResourceCountV2(issues, [
         RESOURCE_CLASS.WEB,
         RESOURCE_CLASS.MOBILE,
-        RESOURCE_CLASS.CLOUD,
+        //RESOURCE_CLASS.CLOUD,
         RESOURCE_CLASS.SOCIAL,
-        RESOURCE_CLASS.SOURCE,
+        //RESOURCE_CLASS.SOURCE,
         'lan',
       ])
     );
