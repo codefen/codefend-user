@@ -4,18 +4,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4em;
-  padding: 3rem;
+  gap: 2rem; /* Espacio entre imagen y texto */
+  padding: 2rem;
 
   svg {
-    height: 10rem;
+    height: 13rem;
     width: 13rem;
     color: var(--secondary-color-200);
   }
 
   .header-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Alinea el texto verticalmente */
     gap: 1rem;
 
     button {
@@ -25,7 +25,7 @@
 
   @media (max-width: 640px) {
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Alineación centrada en dispositivos pequeños */
     text-align: center;
   }
 }

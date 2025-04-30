@@ -281,7 +281,7 @@ main {
   column-gap: var(--card-space);
 
   opacity: 0;
-  padding-inline-start: calc(var(--sidebar-width));
+  padding-inline-start: calc(var(--sidebar-width) + 12px);
 
   // padding-block-start: 3dvw;
 

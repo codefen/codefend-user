@@ -3,24 +3,24 @@ main.user-profile {
 
   .left {
     .user-profile-top {
-      // flex: 1;
-      display: flex;
-      justify-content: center;
-
-      gap: 2rem;
-      padding: 3rem;
+      display: flex; /* Alineación horizontal de imagen y texto */
+      justify-content: center; /* Centra todo horizontalmente */
+      align-items: center; /* Centra todo verticalmente */
+      gap: 2rem; /* Espacio entre la imagen y el texto */
+      padding: 2rem;
       background-color: var(--primary-color);
       border-radius: var(--brd-radius);
+      margin-bottom: 0.8rem;
 
       svg {
-        width: 11rem;
-        height: 11rem;
+        width: 13rem;
+        height: 13rem;
         color: var(--secondary-color-200);
       }
 
       @media screen and (max-width: 768px) {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* En pantallas pequeñas, la imagen y el texto se alinean verticalmente */
+        align-items: center; /* Centra el contenido verticalmente */
       }
     }
 
