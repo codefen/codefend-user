@@ -43,3 +43,23 @@
     align-items: flex-start !important;
   }
 }
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-button {
+  background-color: #ff1100;
+  color: white;
+  border: none;
+  padding: 0.6rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem bold;
+}
+
+.add-button:hover {
+  background-color: #b30c00;
+}
