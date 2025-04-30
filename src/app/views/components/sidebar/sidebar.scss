@@ -15,7 +15,7 @@
   background-color: var(--primary-color);
 
   // border-radius: 0.55rem;
-  width: var(--sidebar-width);
+  width: var(--sidebar-width) + 4px;
 
   // height: calc(90dvh - 12px);
   max-height: 100dvh;

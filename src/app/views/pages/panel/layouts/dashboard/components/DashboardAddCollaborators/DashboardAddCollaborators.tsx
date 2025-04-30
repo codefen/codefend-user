@@ -14,31 +14,30 @@ interface DashboardAddCollaboratorsProps {
 
 export const DashboardAddCollaborators = ({ isLoading, data }: DashboardAddCollaboratorsProps) => {
   const { setIsOpen, setModalId } = useModalStore();
+
   return (
-    <>
-      <div className={css['box-collab-left']}>
-        <div className={css['box-collab-info']}>
-          <h2>
-            <PeopleGroupIcon />
-            Collaborators
-          </h2>
-          <ul>
-            <li>- Añada colaboradores a su equipo</li>
-            <li>- Resuelve las vulnerabilidades de su equipo</li>
-            <li>- No hay un maximo de colaboradores</li>
-            <li className={css['link']}>
-              <span
-                onClick={() => {
-                  setIsOpen(true);
-                  setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);
-                }}>
-                - Añade un colaborador
-              </span>
-            </li>
-          </ul>
+    <div className={css['box-collab-left']}>
+      <div className={css['box-collab-info']}>
+        <div className={css['header-row']}>
+          <h2>Collaborators</h2>
+          <button
+            className={css['add-button']}
+            onClick={() => {
+              setIsOpen(true);
+              setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);
+            }}>
+            Añadir colaborador
+          </button>
         </div>
-        <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
+
+        <ul>
+          <li>- Añada colaboradores a su equipo</li>
+          <li>- Resuelve las vulnerabilidades de su equipo</li>
+          <li>- No hay un maximo de colaboradores</li>
+        </ul>
       </div>
-    </>
+
+      <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
+    </div>
   );
 };

@@ -18,7 +18,7 @@ export const DashboardAddResource = ({ data }: any | []) => {
           <div className="title">
             <h2>Resources</h2>
             <span className="link" onClick={addResource}>
-              go to resources
+              Go to resources
             </span>
           </div>
           <p>
