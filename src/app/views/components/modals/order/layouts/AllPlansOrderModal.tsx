@@ -1,11 +1,28 @@
+import { AppConstants } from '@/app/constants/app-contanst';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
+import { useEffect, useState } from 'react';
+
+const VISIBLE_PLANS = ['small', 'medium', 'advanced'];
 
 export const AllPlansOrderModal = () => {
   const store = useGlobalFastFields(['planPreference', 'isDefaultPlan']);
-  const { updateState } = useOrderStore(state => state);
+  const { updateState, resourceType } = useOrderStore(state => state);
+  const [plans, setPlans] = useState<any>(
+    Object.entries(AppConstants.PLAN_PREFERENCE_MAP[resourceType]).filter(([key, plan]) =>
+      VISIBLE_PLANS.includes(key)
+    )
+  );
+
+  useEffect(() => {
+    setPlans(
+      Object.entries(AppConstants.PLAN_PREFERENCE_MAP[resourceType]).filter(([key, plan]) =>
+        VISIBLE_PLANS.includes(key)
+      )
+    );
+  }, [resourceType]);
 
   const changed = (type: 'small' | 'medium' | 'advanced') => {
     store.planPreference.set(type);
@@ -34,7 +51,30 @@ export const AllPlansOrderModal = () => {
       </div>
 
       <div className="plans-container">
-        <label className="plan-card" data-plan="small" htmlFor="plan-1-small">
+        {plans.map(([key, plan]: any) => (
+          <label
+            key={`plan-key-${plan.type}`}
+            className="plan-card"
+            data-plan={plan.type}
+            htmlFor={`plan-input-${plan.type}`}>
+            <input
+              type="radio"
+              name="plan"
+              id={`plan-input-${plan.type}`}
+              defaultChecked={store.planPreference.get === plan.type}
+              onChange={() => changed(plan.type)}
+            />
+            <img
+              src={`/codefend/${plan.type}-plan.png`}
+              width={70}
+              height={70}
+              alt="recommended-plan"
+            />
+            <h4>{plan.title}</h4>
+            <p dangerouslySetInnerHTML={{ __html: plan.description }}></p>
+          </label>
+        ))}
+        {/* <label className="plan-card" data-plan="small" htmlFor="plan-1-small">
           <input
             type="radio"
             name="plan"
@@ -90,7 +130,7 @@ export const AllPlansOrderModal = () => {
             recomendado de 30 subdominios. Valor de los dominios: elevado. Neuroscan: 60 scaneos
             automatizados. Dataleaks search: 60 búsquedas. 360 horas de pentest manual.
           </p>
-        </label>
+        </label> */}
       </div>
 
       <div className="button-wrapper next-btns">

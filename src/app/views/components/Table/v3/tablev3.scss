@@ -1,11 +1,10 @@
 .table-group {
   .table-utils {
     width: 100%;
-    max-width: 95%;
+    max-width: 98%;
     margin-block: 1rem;
-    margin-inline: auto;
-    height: 48px;
-
+    // margin-inline: auto;
+    // height: 48px;
     transition: all 0.5s ease;
   }
 
@@ -67,11 +66,13 @@
 }
 
 .table {
-  width: 100%;
+  width: 98%;
   border-collapse: collapse;
   transition-property: border-image, border;
   transition-duration: 325ms;
   transition-timing-function: linear;
+  background-color: #ffffff;
+  border-radius: 8px;
 
   &.table-item-no-selected {
     .item,

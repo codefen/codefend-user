@@ -48,12 +48,12 @@
 }
 
 .limit-container {
-  max-height: 345px;
+  // max-height: 345px;
   height: auto;
-  overflow: hidden;
+  // overflow: hidden;
   position: relative;
-  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 0%));
-  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 0%));
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));
+  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));
 }
 
 .welcome-modal-container .input-container .btn-search {

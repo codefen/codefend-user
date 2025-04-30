@@ -9,24 +9,7 @@ import { getCompanyAllMetrics } from '@utils/metric.service';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 import { useNavigate } from 'react-router';
-
-const ErrorMessage = ({
-  tryClick,
-  acceptConditions,
-}: {
-  tryClick: boolean;
-  acceptConditions: boolean;
-}) => {
-  if (tryClick) {
-    return (
-      <span className={`block error-message ${!acceptConditions && 'vibrate'}`}>
-        {`⚠️`} You must accept the terms to continue
-      </span>
-    );
-  } else {
-    return null;
-  }
-};
+import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
 
 export const WebScopeModal: FC = () => {
   const { resourceType, updateState, acceptCondition } = useOrderStore(state => state);
@@ -117,7 +100,7 @@ export const WebScopeModal: FC = () => {
           </span>
           <span>and I’ve read and accept the disclaimer.</span>
         </label>
-        <ErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
+        <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>
 
       <div className="button-wrapper next-btns">

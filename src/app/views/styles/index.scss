@@ -34,7 +34,7 @@
 }
 
 .red-border {
-  border-left: 7px solid var(--secondary-color-50) !important;
+  border-left: 10px solid var(--secondary-color-50);
 }
 
 .sub-domain-icon-v {
@@ -104,19 +104,18 @@
   &.ojo {
     height: 100%;
     justify-content: flex-start;
-
   }
   .table {
-    overflow-y: scroll;
-    max-height: 330px;
-    padding-bottom: 100px;
-    min-height: 330px;
+    // overflow-y: scroll;
+    // max-height: 330px;
+    // padding-bottom: 100px;
+    // min-height: 330px;
     .columns-name {
-      padding: 0px !important;
+      padding: 0 !important;
       display: none;
     }
     .item {
-      padding: 0px;
+      padding: 0;
     }
     .item-domain-cell {
       min-width: 60%;
@@ -132,15 +131,15 @@
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
-    background-image: linear-gradient(to bottom, rgb(255, 255, 255), rgb(255 255 255 / 50%));
+    background-image: linear-gradient(to bottom, rgb(255 255 255), rgb(255 255 255 / 50%));
     position: sticky;
-    bottom: 0px;
+    bottom: 0;
     margin-left: -2.5rem;
     margin-right: -2.5rem;
     transform: translateY(2.5rem);
-    padding: 1rem 2.5rem 2.5rem 2.5rem;
+    padding: 1rem 2.5rem 2.5rem;
     margin-top: auto;
-  }  
+  }
 }
 
 .flex {
@@ -151,7 +150,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .flex-box {
@@ -282,7 +281,7 @@ main {
   column-gap: var(--card-space);
 
   opacity: 0;
-  padding-inline-start: calc(var(--sidebar-width) + 12px);
+  padding-inline-start: calc(var(--sidebar-width));
 
   // padding-block-start: 3dvw;
 
@@ -309,7 +308,7 @@ main {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    row-gap: var(--card-space);
+    // row-gap: var(--card-space);
 
     transition-delay: 40ms;
     transition-property: padding-block-start, opacity, background, color;

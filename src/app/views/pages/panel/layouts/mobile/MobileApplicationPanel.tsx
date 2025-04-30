@@ -14,17 +14,20 @@ import EmptyLayout from '../EmptyLayout';
 import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import './mobileApplicationPanel.scss';
 import { mobileEmptyScreen } from '@/app/constants/app-texts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 const MobileApplicationPanel: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { showModal, setShowModal } = useModal();
   const { data, refetch, isLoading, updateData } = useMobile();
   const { appSelected, setAppSelected, newApp, setNewApp } = useSelectedApp();
+  const selectedAppStored = useGlobalFastField('selectedApp');
 
   useEffect(() => {
     refetch();
     return () => {
-      setAppSelected(null);
+      // setAppSelected(null);
+      selectedAppStored.set(null);
       setNewApp(null);
     };
   }, [control]);
@@ -39,7 +42,8 @@ const MobileApplicationPanel: React.FC = () => {
   const handleShow = () => setShowModal(true);
 
   const onDelete = () => {
-    setAppSelected(null);
+    // setAppSelected(null);
+    selectedAppStored.set(null);
     refresh();
   };
   return (
@@ -60,7 +64,7 @@ const MobileApplicationPanel: React.FC = () => {
         <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
       </section>
       <section className="right">
-        <Show when={Boolean(appSelected)}>
+        <Show when={Boolean(selectedAppStored.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} />
         </Show>
       </section>

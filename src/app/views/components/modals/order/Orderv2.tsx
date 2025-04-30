@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
-import { ScopeOrderModal } from './layouts/ScopeOrderModal';
+import { ScopeOrderModal } from './layouts/scopes/OldScopeOrderModal';
 import { FrequencyOrderModal } from './layouts/FrequencyOrderModal';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
@@ -19,13 +19,20 @@ import { AnyPaymentMethod } from '@modals/order/layouts/AnyPaymentMetod';
 import { PaywallOrderModal } from '@modals/order/layouts/PaywallOrderModal';
 import { SmallPlanOrderModal } from '@modals/order/layouts/SmallPlanOrderModal';
 import { ArabicOrderModal } from '@modals/order/layouts/ArabicOrderModal';
-import { WebScopeModal } from '@modals/order/layouts/WebScopeModal';
+import { WebScopeModal } from '@modals/order/layouts/scopes/WebScopeModal';
 import { RecommendedPlanOrderModal } from '@modals/order/layouts/RecommendedPlanOrderModal';
 import { AllPlansOrderModal } from '@modals/order/layouts/AllPlansOrderModal';
+import { MobileScopeModal } from '@modals/order/layouts/scopes/MobileScopeModal';
+import { NetworkScopeModal } from '@modals/order/layouts/scopes/NetworkScopeModal';
+import { SocialScopeModal } from '@modals/order/layouts/scopes/SocialScopeModal';
 
 export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.PAYWALL]: 700,
   [OrderSection.SCOPE]: 700,
+  [OrderSection.WEB_SCOPE]: 700,
+  [OrderSection.MOBILE_SCOPE]: 700,
+  [OrderSection.NETWORK_SCOPE]: 700,
+  [OrderSection.SOCIAL_SCOPE]: 700,
   [OrderSection.ALL_PLANS]: 1030,
   [OrderSection.RECOMMENDED_PLAN]: 700,
   [OrderSection.SMALL_PLANS]: 700,
@@ -66,6 +73,10 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.SMALL_PLANS) return <SmallPlanOrderModal />;
     if (orderStepActive === OrderSection.ARABIC_PLAN) return <ArabicOrderModal />;
     if (orderStepActive === OrderSection.SCOPE) return <WebScopeModal />;
+    if (orderStepActive === OrderSection.WEB_SCOPE) return <WebScopeModal />;
+    if (orderStepActive === OrderSection.MOBILE_SCOPE) return <MobileScopeModal />;
+    if (orderStepActive === OrderSection.NETWORK_SCOPE) return <NetworkScopeModal />;
+    if (orderStepActive === OrderSection.SOCIAL_SCOPE) return <SocialScopeModal />;
     if (orderStepActive === OrderSection.FREQUENCY) return <FrequencyOrderModal />;
     if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
     if (orderStepActive === OrderSection.ALL_PLANS) return <AllPlansOrderModal />;

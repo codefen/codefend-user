@@ -36,51 +36,54 @@ const issueColumns: ColumnTableV3[] = [
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-2',
-    weight: '39.5%',
+    weight: '60%',
     render: issue => <ResourceIconText name={issue.name} resourceClass={issue.resourceClass} />,
   },
   {
     header: 'Published',
     key: 'createdAt',
     styles: 'item-cell-3 date',
-    weight: '11%',
+    weight: '15%',
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
-  {
-    header: 'Author',
-    key: 'researcherUsername',
-    styles: 'item-cell-4 username',
-    weight: '15%',
-    render: value => `@${value}`,
-  },
-  {
-    header: 'Type',
-    key: 'resourceClass',
-    styles: 'item-cell-5',
-    weight: '5%',
-    render: value => value,
-  },
-  {
-    header: 'Risk',
-    key: 'riskLevel',
-    styles: 'item-cell-6',
-    weight: '5%',
-    render: value => value,
-  },
+
+  //*SE OCULTARON COLUMNAS DE INFORMACIÓN *//
+
+  // {
+  //   header: 'Author',
+  //   key: 'researcherUsername',
+  //   styles: 'item-cell-4 username',
+  //   weight: '15%',
+  //   render: value => `@${value}`,
+  // },
+  // {
+  //   header: 'Type',
+  //   key: 'resourceClass',
+  //   styles: 'item-cell-5',
+  //   weight: '5%',
+  //   render: value => value,
+  // },
+  // {
+  //   header: 'Risk',
+  //   key: 'riskLevel',
+  //   styles: 'item-cell-6',
+  //   weight: '5%',
+  //   render: value => value,
+  // },
   {
     header: 'Score',
     key: 'riskScore',
     styles: 'item-cell-7',
-    weight: '9%',
+    weight: '15%',
     render: value => <RiskScore riskScore={value} />,
   },
-  {
-    header: 'Status',
-    key: 'condition',
-    styles: 'item-cell-8',
-    weight: '6%',
-    render: value => value,
-  },
+  // {
+  //   header: 'Status',
+  //   key: 'condition',
+  //   styles: 'item-cell-8',
+  //   weight: '6%',
+  //   render: value => value,
+  // },
 ];
 
 export const IssueResources: FC<IssueResourcesProps> = props => {
@@ -138,14 +141,22 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
           }}
         />
       </ModalTitleWrapper>
+      <div className="">
+        <ModalInput
+          icon={<MagnifyingGlassIcon />}
+          setValue={(val: string) => setTerm(val)}
+          placeholder="Search issue..."
+        />
+      </div>
+
       <div className="card">
-        <div className="header">
-          {/* <div className="title">
+        {/* <div className="header">
+          <div className="title">
             <div className="icon">
               <BugIcon />
             </div>
             <span>Issues</span>
-          </div> */}
+          </div>
           <Show when={isAdmin() || isProvider()}>
             <div className="actions">
               <div className="" onClick={() => props.addFinding()}>
@@ -153,15 +164,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
               </div>
             </div>
           </Show>
-        </div>
-
-        <div className="">
-          <ModalInput
-            icon={<MagnifyingGlassIcon />}
-            setValue={(val: string) => setTerm(val)}
-            placeholder="Search issue. . ."
-          />
-        </div>
+        </div> */}
 
         <Tablev3
           rows={dataTable}

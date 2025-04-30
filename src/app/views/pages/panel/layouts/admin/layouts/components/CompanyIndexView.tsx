@@ -8,6 +8,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { Sort, type ColumnTableV3 } from '@interfaces/table.ts';
 import TableCellV3 from '@table/v3/TableCellV3.tsx';
 import Tablev3 from '@table/v3/Tablev3.tsx';
+import { naturalTime } from '@utils/helper.ts';
 
 const companiesColumn: ColumnTableV3[] = [
   {
@@ -71,7 +72,7 @@ const companiesColumn: ColumnTableV3[] = [
     key: 'creacion',
     styles: 'item-cell-9',
     weight: '13%',
-    render: (val: any) => (val ? val.split(' ')[0] : '--/--/--'),
+    render: (val: any) => (val ? naturalTime(val) : '--/--/--'),
   },
 ];
 

@@ -43,9 +43,9 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
 
 
         <div className={css['finish-issues-found']}>
-          <div className={css['finish-vuln-box']}>
-            <div className={css['value']}>{issueScanFound}</div>
-            <span>Total finding</span>
+          <div className={css['finish-vuln-box']} >
+            <div className={css['value']} style={{ color: '#e84f4f' }}>{issueScanFound}</div>
+            <span style={{ color: '#e84f4f' }}>Total finding</span>
           </div>
           <div className={css['finish-vuln-box']}>
             <div className={css['value']}>{issuesParsed}</div>
