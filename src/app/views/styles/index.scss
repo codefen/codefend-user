@@ -318,21 +318,31 @@ main {
 
   .right {
     flex: 1 1 38%;
-
-    // padding: 0 12px;
-    // height: 100%;
-
-    // padding-block-start: 3dvw;
-    // box-shadow: var(--right-pane-shadow);
     display: flex;
     flex-direction: column;
-    row-gap: var(--card-space);
-    overflow-y: auto;
+    margin-bottom: 12px;
 
-    transition-delay: 90ms;
-    transition-property: padding-block-start, opacity, background, color;
-    transition-duration: 400ms;
-    transition-timing-function: cubic-bezier(0.47, 1.64, 0.41, 0.8);
+    .card {
+      margin-bottom: 12px;
+
+      &.stats {
+        .content {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          padding: 12px;
+        }
+      }
+
+      &.risk-chart {
+        .content {
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+    }
   }
 
   &.actived {
@@ -379,8 +389,6 @@ main {
 
 main.dashboard {
   .left {
-    // margin-block-end: 1.25rem;
-
     .card {
       .content {
         padding: 0;
@@ -399,6 +407,28 @@ main.dashboard {
       .date {
         min-width: 13%;
         max-width: 13%;
+      }
+    }
+  }
+
+  .right {
+    .card {
+      &.stats {
+        .content {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          padding: 12px;
+        }
+      }
+
+      &.risk-chart {
+        .content {
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
       }
     }
   }
@@ -1029,14 +1059,15 @@ main.cloud {
 // SEARCH BAR
 ///////////////////////////////////////////////////////////////////
 .search-bar-container {
-  margin: 0.625rem;
+  margin: 0;
+  margin-bottom: 12px;
+  margin-top: 12px;
 }
 
 .search-bar {
   display: flex;
   justify-content: flex-start;
   height: 43px;
-  margin-bottom: 10px;
 
   &-wrapper {
     width: 100%;
@@ -1053,8 +1084,7 @@ main.cloud {
       width: 100%;
       display: flex;
       height: 100%;
-
-      margin-block-end: 1rem;
+      gap: 1px;
 
       .search-input {
         display: flex;
@@ -1063,7 +1093,7 @@ main.cloud {
         height: 100%;
         background-color: var(--primary-color);
         color: var(--tertiary-color-500) !important;
-        border: 1px solid var(--primary-color-300);
+        border: none;
         font-size: 0.95rem;
         letter-spacing: 0.2px;
         cursor: text;
@@ -1071,104 +1101,25 @@ main.cloud {
 
       .search-select {
         flex: 1 1 15%;
-        border: 1px solid var(--primary-color-300);
+        border: none;
         height: 100%;
         display: flex;
-        font-size: 1rem /* 14px */;
-        line-height: 1.25rem /* 20px */;
-        padding: 0.625rem /* 10px */;
+        font-size: 1rem;
+        line-height: 1.25rem;
+        padding: 0.625rem;
+        background-color: var(--primary-color);
       }
 
       .search-button {
         flex: 1 1 7%;
         height: 100%;
-        border-start-start-radius: 0;
-        border-end-start-radius: 0;
+        border: none;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: none;
         padding: 0;
+        background-color: var(--primary-color);
       }
-    }
-  }
-}
-
-///////////////////////////////////////////////////////////////////
-// editor tiny
-//////////////////////////////////////////////////////////////////
-.tox-tinymce {
-  border-radius: 0;
-
-  & .tox-edit-area,
-  & .tox-edit-area iframe {
-    max-height: calc(100dvh - 160px);
-  }
-}
-
-.tox-editor-header {
-  display: none !important;
-
-  &.editable {
-    display: grid !important;
-  }
-}
-
-//////////////////////////////////////////////////////////////////
-// MASSONRY
-//////////////////////////////////////////////////////////////////
-.my-masonry-grid_column > div {
-  background: transparent;
-  margin-bottom: 30px;
-}
-
-//////////////////////////////////////////////////////////////////
-// Error Boundry
-//////////////////////////////////////////////////////////////////
-.error-boundry {
-  width: 100%;
-  min-height: 100dvh;
-  position: relative;
-  display: flex;
-  flex-flow: column nowrap;
-  flex: 1 1;
-  justify-content: center;
-  align-items: center;
-  row-gap: 10rem;
-  padding-block: 4rem;
-  z-index: 1;
-
-  header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 0.5rem;
-
-    .error-boundry-title {
-      width: fit-content;
-      font-size: 3.875rem;
-      line-height: 4.25rem;
-      font-weight: 700;
-      font-family: Questrial;
-      text-align: center;
-      text-wrap: balance;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      color: var(--tertiary-color-600);
-    }
-
-    .error-boundry-text {
-      width: fit-content;
-      font-size: 1.25rem;
-      line-height: 1.5rem;
-      font-weight: 400;
-      font-family: Questrial;
-      text-align: center;
-      text-wrap: balance;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      color: var(--tertiary-color-300);
     }
   }
 }

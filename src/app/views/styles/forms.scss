@@ -34,15 +34,13 @@ input {
   padding-inline: 15px;
   background-color: var(--primary-color);
   color: var(--tertiary-color-500);
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--primary-color-300);
-  border-radius: 5px;
+  border: none;
+  border-radius: 0;
   font-size: 15px;
 
   &:focus {
     outline: 0 solid;
-    border: 1px solid var(--secondary-color-50) !important;
+    border: none !important;
     caret-color: var(--secondary-color-50) !important;
     color: var(--tertiary-color-700);
   }
