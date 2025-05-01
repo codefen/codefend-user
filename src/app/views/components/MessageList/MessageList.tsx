@@ -30,7 +30,7 @@ export const MessageList: FC<MessageListProps> = ({ tickets }) => {
             createdAt={ticket.creacion || ''}
           />
         ))}
-        <div ref={messagesEndRef} />
+        <div className='ending' ref={messagesEndRef} />
       </Show>
     </div>
   );

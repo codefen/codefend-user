@@ -213,11 +213,12 @@
 
   &.messages {
     width: 100%;
-    overflow: hidden;
-    height: 92dvh;
+    overflow-y: hidden !important;
+    // height: 87dvh;
+    height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
-
+    position: relative;
     &.active {
       opacity: 0.7;
       z-index: 10;
@@ -229,13 +230,18 @@
       justify-content: space-around;
       align-items: center;
       overflow-y: auto;
-      height: 60dvh;
+      height: 100%;
+      max-height: 100%;
 
       .messages-wrapper {
         width: 100%;
-        height: 60dvh;
+        height: 100%;
         color: var(--tertiary-color-400);
         line-height: 20px;
+        padding-bottom: 220px;
+        // margin-top: 30px;
+        display: flex;
+        flex-direction: column;
 
         span {
           color: var(--tertiary-color-200);
@@ -244,36 +250,45 @@
         .tt {
           border-bottom: 1px solid var(--primary-color-300);
         }
+        .ending {
+          padding-bottom: 150px;
+        }
       }
     }
 
     .sender {
       flex: 1 1 30%;
       container-type: inline-size;
-
-      .header {
-        justify-content: space-between;
-        margin-inline-end: -1.5rem;
-        height: 2.75rem;
-
-        button {
-          height: 100%;
-        }
-      }
+      margin-top: auto;
+      margin-bottom: 0px;
+      max-height: 200px;
+      // display: none;
+      position: absolute;
+      bottom: 13px;
+      left: 13px;
+      right: 13px;
+      background-color: white;
 
       .chatbox-container {
         display: flex;
-        height: 9rem;
+        flex-direction: column;
+        // height: 9rem;
         column-gap: 2.25rem;
-        padding: 1.5rem;
+        // padding: 1.5rem;
+        padding: 10px 15px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
         position: relative;
-
+        border: 2px solid var(--primary-color-300);
         .chatbox-img {
           display: flex;
           height: 2.5rem;
           width: 2.5rem;
         }
-
+        .bottom {
+          display: flex;
+          justify-content: space-between;
+        }
         .chatbox-content {
           flex: 1 1;
 
@@ -293,19 +308,17 @@
 
         .chatbox-actions {
           display: flex;
-          gap: 1rem;
-          position: absolute;
-          top: 5%;
-          left: 6%;
+          align-items: center;
 
           .chatbox-button {
             border-radius: 0.75rem;
             background: var(--primary-color-100);
-            border: 1px solid var(--tertiary-color-200);
+            border: 1px solid var(--tertiary-color-100);
             color: var(--tertiary-color-400);
             font-size: 0.9rem;
-            padding-inline: 6px;
-            padding-block: 4px;
+            padding-inline: 10px;
+            padding-block: 6px;
+            height: 30px;
             user-select: none;
             cursor: pointer;
             transition: all ease 0.2s;
@@ -326,7 +339,7 @@
           }
         }
 
-        &:has(.chatbox-actions) {
+        &:has(.chatbox-actionsEEEE) {
           padding: 1.75rem;
           padding-inline: 1.115rem;
           padding-bottom: 1.25rem;
@@ -343,7 +356,7 @@
       }
 
       .send-extra-styles {
-        height: 100%;
+        height: 40px;
         min-height: unset;
 
         &:hover {
@@ -741,15 +754,17 @@
   flex-direction: column;
 
   .message-card-title {
-    padding-inline: 1rem;
+    // padding-inline: 1rem;
+    padding: 10px 20px 0px;
+    font-size: 15px;
   }
 
   .message-card-container {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    column-gap: 2rem;
-    padding: 1.5rem;
+    column-gap: 1rem;
+    padding: 5px 20px 20px 20px;
 
     p {
       max-width: 100%;
