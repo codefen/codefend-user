@@ -2,11 +2,11 @@ import { PrimaryButton } from '../../../../../components/buttons/primary/Primary
 export const UserPassword = () => {
   return (
     <div className="user-password">
-      <h3>Cambio de password</h3>
-      <p>Cambie la contraseña de su usuario. Su contraseña necesita un mínimo de 12 caracteres.</p>
+      <h3>Change password</h3>
+      <p>Change your user password. Your password must be at least 12 characters long.</p>
       <form onSubmit={() => {}} className="form-profile">
-        <input className="form-input" type="password" placeholder="Contraseña actual" />
-        <input className="form-input" type="password" placeholder="Nueva contraseña" />
+        <input className="form-input" type="password" placeholder="Current password" />
+        <input className="form-input" type="password" placeholder="New password" />
         <PrimaryButton className="form-button" text="change password" type="submit" />
       </form>
     </div>
