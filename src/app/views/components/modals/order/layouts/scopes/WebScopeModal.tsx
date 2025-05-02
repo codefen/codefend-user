@@ -67,10 +67,10 @@ export const WebScopeModal: FC = () => {
   return (
     <>
       <div>
-        <h3>Recursos web</h3>
+        <h3>Web resources</h3>
         <p>
-          Vamos a comenzar con un nuevo pentest para todos los dominios definidos en los recursos
-          web. Hemos detectado estos recursos:
+          We are about to start a new pentest for all domains defined in your web resources. We have
+          detected the following resources:
         </p>
       </div>
       <div className="step-content">
@@ -98,7 +98,7 @@ export const WebScopeModal: FC = () => {
           <span className="codefend-text-red underline-high disclaimers" title="Open disclaimers">
             I confirm I have authorization
           </span>
-          <span>and I’ve read and accept the disclaimer.</span>
+          <span>and I've read and accept the disclaimer.</span>
         </label>
         <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>
