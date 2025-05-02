@@ -3,6 +3,13 @@
   padding: 12px;
   border-radius: var(--brd-radius);
 
+  h2 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--tertiary-color-500);
+  }
+
   p {
     margin-bottom: 12px;
     font-size: 0.975rem;
