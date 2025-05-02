@@ -1,16 +1,28 @@
 main.user-profile {
-  max-width: 1300px;
+  display: flex;
+  justify-content: space-between;
+  column-gap: var(--card-space);
+  height: 100%;
+  width: 100%;
+  padding-inline-start: calc(var(--sidebar-width) + 12px);
+  opacity: 0;
 
   .left {
+    flex: 1 1 70%;
+    overflow-x: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
     .user-profile-top {
-      display: flex; /* Alineación horizontal de imagen y texto */
-      justify-content: center; /* Centra todo horizontalmente */
-      align-items: center; /* Centra todo verticalmente */
-      gap: 2rem; /* Espacio entre la imagen y el texto */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
       padding: 2rem;
       background-color: var(--primary-color);
       border-radius: var(--brd-radius);
-      margin-bottom: 0.8rem;
 
       svg {
         width: 13rem;
@@ -19,8 +31,8 @@ main.user-profile {
       }
 
       @media screen and (max-width: 768px) {
-        flex-direction: column; /* En pantallas pequeñas, la imagen y el texto se alinean verticalmente */
-        align-items: center; /* Centra el contenido verticalmente */
+        flex-direction: column;
+        align-items: center;
       }
     }
 
@@ -28,7 +40,7 @@ main.user-profile {
       display: flex;
       flex-wrap: wrap;
       align-items: start;
-      gap: 1rem;
+      gap: 12px;
 
       .user-password,
       .user-qr {
@@ -41,7 +53,6 @@ main.user-profile {
 
       .user-password {
         position: relative;
-        margin-bottom: 15px;
 
         p {
           margin-block: 10px;
@@ -55,6 +66,82 @@ main.user-profile {
         justify-content: center;
         gap: 1rem;
       }
+    }
+  }
+
+  .right {
+    flex: 1 1 38%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+    .card {
+      margin-bottom: 12px;
+
+      &.stats {
+        .content {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          padding: 0;
+        }
+      }
+
+      &.risk-chart {
+        .content {
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+    }
+  }
+
+  &.actived {
+    opacity: 1;
+
+    .left {
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+
+    .right {
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+    min-height: auto;
+    height: 81dvh;
+    padding: 0;
+
+    .left {
+      width: 100%;
+      overflow-x: auto;
+      padding-block-start: 10px;
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
+    }
+  }
+}
+
+[data-theme='dark'] {
+  main.user-profile {
+    .right {
+      padding-left: 14px;
+      background: #121a234d !important;
+      backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
+      box-shadow: #000 -20px 0 120px -55px;
+      border-image-slice: 1;
+      background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
+        linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
+      background-size: 8px 8px;
     }
   }
 }

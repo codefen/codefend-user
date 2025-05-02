@@ -1,8 +1,7 @@
 .stat {
   background-color: var(--primary-color-50);
   border-radius: var(--brd-radius);
-
-  // font-family: 'ITC Avant Garde', Questrial;
+  border: 1px solid var(--primary-color-300);
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -11,10 +10,7 @@
   text-transform: uppercase;
   padding-block: 4.6rem;
 
-  // border-width: 1px;
-  // border-style: solid;
-  // border-color: var(--primary-color-300);
-
+  // font-family: 'ITC Avant Garde', Questrial;
   flex: 1 1;
   min-height: 5.938rem;
   max-height: 5.938rem;
@@ -22,6 +18,8 @@
 
   &.default {
     cursor: default;
+    border: none;
+    background-color: var(--primary-color);
   }
 
   &:hover {
@@ -64,16 +62,18 @@
       color: var(--secondary-color-100);
     }
   }
-
-  &:last-child {
-    border-left: none;
-  }
 }
 
 [data-theme='dark'] {
   .stat {
     outline: none;
     background-color: var(--primary-color-300);
+    border: 1px solid var(--primary-color-400);
+
+    &.default {
+      border: none;
+      background-color: var(--primary-color);
+    }
 
     &.stat-active {
       .value,
