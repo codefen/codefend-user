@@ -266,6 +266,12 @@ main.issues-list {
     overflow: hidden;
     padding-inline-start: 0;
 
+    .form-input {
+      input {
+        border: none;
+      }
+    }
+
     .card {
       overflow-y: hidden;
 

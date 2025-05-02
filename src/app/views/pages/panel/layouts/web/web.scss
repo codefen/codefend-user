@@ -1,0 +1,25 @@
+.web-section {
+  .search-bar-container {
+    .form-input {
+      border: none;
+      border-radius: 0;
+      background-color: var(--primary-color);
+
+      input {
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        &:focus {
+          border: none;
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      .icon {
+        border-left: none;
+      }
+    }
+  }
+}

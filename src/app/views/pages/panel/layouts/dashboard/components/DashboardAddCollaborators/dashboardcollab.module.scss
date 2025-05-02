@@ -2,34 +2,64 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2rem 1.5rem;
+  gap: 12px;
+  padding: 12px;
   background-color: var(--primary-color);
   border-radius: var(--brd-radius);
 
   .box-collab-info {
-    h2 {
+    .title {
       display: flex;
-      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
 
-      svg {
-        color: red;
+      h2 {
+        display: flex;
+        gap: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--tertiary-color-500);
+
+        svg {
+          color: red;
+        }
+      }
+
+      .link {
+        color: var(--secondary-color);
+        cursor: pointer;
+        font-size: 0.95rem;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
+    p {
+      margin-top: 12px;
+      line-height: 1.5;
+      font-size: 0.975rem;
+      color: var(--tertiary-color-400);
+      max-width: 85%;
+      letter-spacing: 0.1px;
+    }
+
     ul {
-      // align-self: flex-end;
       list-style: none;
       padding-left: 0;
 
       li {
-        line-height: 1.8;
+        line-height: 1.5;
+        font-size: 0.95rem;
       }
 
       &:last-child {
         .link {
           color: var(--secondary-color);
           cursor: pointer;
+          font-size: 0.95rem;
 
           &:hover {
             text-decoration: underline;
@@ -48,16 +78,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 .add-button {
   background-color: #ff1100;
   color: white;
   border: none;
-  padding: 0.6rem 0.8rem;
-  border-radius: 5px;
+  padding: 8px 12px;
+  border-radius: var(--brd-radius);
   cursor: pointer;
-  font-size: 0.9rem bold;
+  font-size: 0.95rem;
 }
 
 .add-button:hover {

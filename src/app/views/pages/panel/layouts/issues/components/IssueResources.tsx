@@ -141,7 +141,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
           }}
         />
       </ModalTitleWrapper>
-      <div className="">
+      <div style={{ marginBottom: '12px' }}>
         <ModalInput
           icon={<MagnifyingGlassIcon />}
           setValue={(val: string) => setTerm(val)}
