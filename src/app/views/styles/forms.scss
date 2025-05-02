@@ -40,7 +40,6 @@ input {
 
   &:focus {
     outline: 0 solid;
-    border: none !important;
     caret-color: var(--secondary-color-50) !important;
     color: var(--tertiary-color-700);
   }
@@ -153,6 +152,23 @@ input[type='text'],
 input[type='password'],
 input[type='email'] {
   cursor: text;
+  border: 1px solid var(--primary-color-600);
+  border-radius: 6px;
+  background: var(--primary-color);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus {
+  border-color: #ff3939;
+  outline: none;
+  background: var(--primary-color);
+  color: var(--tertiary-color-700);
 }
 
 .pencil-icon {
