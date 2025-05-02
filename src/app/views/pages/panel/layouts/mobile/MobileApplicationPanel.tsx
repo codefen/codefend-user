@@ -60,13 +60,31 @@ const MobileApplicationPanel: React.FC = () => {
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
       <div className="brightness variant-3"></div>
+
       <section className="left">
+        <div className="custom-mobile-add-card custom-card p-4 mb-4">
+          <div className="custom-d-flex custom-align-items-center mb-2">
+            <h3 className="custom-title m-0">Recursos mobile</h3>
+          </div>
+          <p className="custom-text mb-3">
+            Administre las aplicaciones mobile usadas por su empresa que desee supervisar o correr
+            pruebas de penetración.
+          </p>
+          <br />
+          <button className="custom-btn custom-btn-primary" onClick={handleShow}>
+            Añadir aplicación
+          </button>
+        </div>
+
         <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
       </section>
+
+      {/* COLUMNA DERECHA */}
+
       <section className="right">
-        <Show when={Boolean(selectedAppStored.get)}>
+        {/* <Show when={Boolean(selectedAppStored.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} />
-        </Show>
+        </Show> */}
       </section>
     </EmptyLayout>
   );
