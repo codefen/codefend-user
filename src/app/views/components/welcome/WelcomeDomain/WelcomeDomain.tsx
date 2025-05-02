@@ -119,14 +119,11 @@ export const WelcomeDomain = ({
 
   return (
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
-      <div className='welcome-content'>
-        <img className='logose' src="/codefend/logo-color.png" width={220} />
+      <div className="welcome-content">
+        <img className="logose" src="/codefend/logo-color.png" width={220} />
         <p className={css['welcome-text']}>
-          <b>
-            Your account has been created! Please verify your domain and its scope, then click
-            'Continue' to add your first resource.
-          </b>{' '}
-          Next, we’ll run an automated analysis on your main domain.
+          <b>Welcome! Please verify your domain and click 'Continue' to add your first resource.</b>{' '}
+          We'll then run an automated analysis on your main domain.
         </p>
         <div className={css['input-container']}>
           <label htmlFor="initialScope">

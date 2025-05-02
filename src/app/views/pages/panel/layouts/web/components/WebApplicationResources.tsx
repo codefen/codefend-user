@@ -3,7 +3,14 @@ import { useNavigate } from 'react-router';
 import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
-import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
+import {
+  TrashIcon,
+  GlobeWebIcon,
+  BugIcon,
+  DocumentIcon,
+  CredentialIcon,
+  MagnifyingGlassIcon,
+} from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
@@ -19,6 +26,7 @@ import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useAutoScan } from '@panelHooks/useAutoScan';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 
 interface WebResourcesProps {
   refresh: () => void;
@@ -93,6 +101,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
+  const [term, setTerm] = useState('');
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -160,7 +169,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   ];
 
   return (
-    <>
+    <div className="web-section">
       <AddDomainModal
         isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
         onDone={() => refresh()}
@@ -222,19 +231,31 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
+      <div className="search-bar-container">
+        <ModalInput
+          icon={<MagnifyingGlassIcon />}
+          setValue={(val: string) => setTerm(val)}
+          placeholder="Search resource..."
+        />
+      </div>
+
+      <div className="card">
+        <div className="over">
           <Tablev3
             className="table-web"
             columns={webColumnsWith}
             rows={webResources}
             showRows={!isLoading}
             initialOrder="resource_domain"
-            isNeedSearchBar
+            isNeedSearchBar={false}
             limit={0}
             isNeedSort
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

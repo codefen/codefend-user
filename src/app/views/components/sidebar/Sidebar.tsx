@@ -268,7 +268,7 @@ const Sidebar: FC = () => {
           haveAccess: isNotProviderAndReseller,
         },*/
         {
-          title: 'Talk to a hacker',
+          title: 'Ask a hacker',
           id: 'sidebar_talk_to_hacker',
           icon: <></>,
           to: '/talk-to-hacker',

@@ -1,14 +1,23 @@
 .scan-start {
   background-color: var(--primary-color);
-  padding: 1.5rem 2rem;
+  padding: 12px;
   border-radius: var(--brd-radius);
 
+  h2 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--tertiary-color-500);
+  }
+
   p {
-    margin-block: 1rem;
+    margin-bottom: 12px;
+    font-size: 0.975rem;
+    line-height: 1.5;
   }
 
   button {
-    margin-top: 1rem;
+    margin-top: 12px;
   }
 }
 
@@ -17,7 +26,7 @@
   background-color: var(--secondary-color);
   overflow: hidden;
   height: 18px;
-  margin-top: 2rem;
+  margin-top: 12px;
   position: relative;
 }
 
@@ -29,5 +38,5 @@
 
 .scan-start-actions {
   display: flex;
-  gap: 1rem;
+  gap: 12px;
 }

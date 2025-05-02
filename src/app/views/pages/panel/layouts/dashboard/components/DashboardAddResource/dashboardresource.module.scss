@@ -1,12 +1,12 @@
 .box-assets-right {
   background-color: var(--primary-color);
   border-radius: var(--brd-radius);
-  padding: 2.5em;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   // justify-content: space-between;
   align-items: center;
-  gap: 2em;
+  gap: 12px;
   height: 100%;
 
   .box-assets-info {
@@ -14,14 +14,16 @@
       // flex: 1;
 
       p {
-        margin-top: 1rem;
+        margin-top: 12px;
+        font-size: 0.975rem;
+        line-height: 1.5;
       }
     }
 
     button {
       max-width: 13em;
       max-height: 55px;
-      margin-top: 3rem;
+      margin-top: 12px;
     }
   }
 

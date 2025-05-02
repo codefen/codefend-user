@@ -18,29 +18,21 @@ export const DashboardAddCollaborators = ({ isLoading, data }: DashboardAddColla
     <>
       <div className={css['box-collab-left']}>
         <div className={css['box-collab-info']}>
-          <div
-            className="title"
-            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2>
-              <PeopleGroupIcon />
-              Collaborators
-            </h2>
-            {/* Enlace "Añadir colaborador" alineado a la derecha */}
+          <div className="title">
+            <h2>Collaborators</h2>
             <span
-              className={css['link']}
+              className="link"
               onClick={() => {
                 setIsOpen(true);
                 setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);
-              }}
-              style={{ color: 'red', cursor: 'pointer', marginLeft: '20px' }}>
+              }}>
               Añadir colaborador
             </span>
           </div>
-          <ul>
-            <li>- Añada colaboradores a su equipo</li>
-            <li>- Resuelve las vulnerabilidades de su equipo</li>
-            <li>- No hay un máximo de colaboradores</li>
-          </ul>
+          <p>
+            Add collaborators to your company and resolve vulnerabilities as a team, there is no
+            limit to the number of collaborators.
+          </p>
         </div>
         <DashboardCollaborators isLoading={isLoading} members={data?.members || []} />
       </div>
