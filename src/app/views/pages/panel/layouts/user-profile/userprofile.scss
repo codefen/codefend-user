@@ -44,11 +44,13 @@ main.user-profile {
 
       .user-password,
       .user-qr {
-        min-width: 200px;
+        display: flex;
+        flex-direction: column; // Para que el contenido se acomode bien dentro
         flex: 1;
         background-color: var(--primary-color);
         padding: 1.3em 2em;
         border-radius: var(--brd-radius);
+        min-width: 200px;
       }
 
       .user-password {
@@ -58,14 +60,18 @@ main.user-profile {
           margin-block: 10px;
         }
       }
+    }
 
-      .qr-contain {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-      }
+    .qr-contain {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .qr-contain input {
+      margin-bottom: 1rem;
     }
   }
 
