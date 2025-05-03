@@ -70,7 +70,7 @@
 }
 
 .text-gray {
-  color: var(--tertiary-color-100) !important;
+  // color: var(--tertiary-color-100) !important;
 }
 
 .disable-border div {
@@ -547,6 +547,8 @@ main.cloud {
     }
   }
 
+  // IZQUIERDO //
+
   .right {
     flex: 1 1 69%;
     width: 69%;
@@ -682,6 +684,49 @@ main.cloud {
     .card.risk-chart .content {
       padding-inline-end: 10px;
     }
+  }
+
+  .custom-mobile-add-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1rem;
+    line-height: 2;
+  }
+
+  .custom-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .custom-text {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .custom-btn {
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .custom-btn-primary {
+    background-color: #242424;
+    color: #fff;
+  }
+
+  .custom-btn-primary:hover {
+    background-color: #ec2603;
+  }
+
+  .custom-d-flex {
+    display: flex;
+  }
+
+  .custom-align-items-center {
+    align-items: center;
   }
 }
 
