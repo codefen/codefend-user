@@ -17,17 +17,17 @@ export const useManageScanProgress = () => {
   const { latestScan } = useVerifyScanList();
 
   useEffect(() => {
+    console.log('currentScan from useManageScanProgress', currentScan.get);
+    console.log('isScanning from useManageScanProgress', isScanning.get);
     if (isScanning.get && !latestScan) {
       isScanning.set(false);
       scanProgress.set(0);
       currentScan.set(null);
       return;
     }
-    currentScan.set(latestScan);
-    console.log('latestScan', latestScan);
-    console.log('currentScan', currentScan.get);
-    console.log('isScanning', isScanning.get);
-    if (latestScan?.id !== currentScan.get?.id) {
+    const copy = currentScan.get;
+    currentScan.set(latestScan ? latestScan : copy);
+    if (latestScan?.id != copy?.id) {
       scanProgress.set(0);
       isScanning.set(true);
     }

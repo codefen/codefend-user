@@ -20,7 +20,6 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({ type, selectedApp, issueCoun
   ]);
 
   useEffect(() => {
-    console.log({ selectedApp });
     setData(selectedApp.id, selectedApp?.app_name || selectedApp?.cloud_name);
     setIsOpen(false);
     setIsMobileType(isMobileType);

@@ -207,15 +207,12 @@ export const ScanSection = () => {
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const company = useGlobalFastField('company');
-  const hasScanInProgress = useMemo(() => {
-    return scans.some((scan: any) => scan.phase === 'scanner' || scan.phase === 'parser');
-  }, [scans]);
 
   useEffect(() => {
     if (companyUpdated) {
       company.set(companyUpdated);
     }
-  }, [companyUpdated, hasScanInProgress]);
+  }, [companyUpdated]);
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;

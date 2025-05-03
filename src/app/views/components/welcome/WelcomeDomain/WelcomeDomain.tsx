@@ -90,7 +90,6 @@ export const WelcomeDomain = ({
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const domain = form.get('initialScope') as string;
-    console.log('domain', domain);
     setInitialDomain(prev => (!!domain && prev !== domain ? domain : prev));
   };
 

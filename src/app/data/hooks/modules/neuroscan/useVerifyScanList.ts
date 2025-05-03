@@ -76,6 +76,7 @@ export const useVerifyScanList = () => {
 
   // Si al primer fetch detectamos un scan en curso, activamos la bandera
   useEffect(() => {
+    console.log('latestScan from useVerifyScanList', latestScan);
     if (latestScan && !isScanning.get) {
       isScanning.set(true);
     }

@@ -21,7 +21,6 @@ const PasswordRecoveryForm: FC<{
   const [referenceNumber, setReferenceNumber] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   useEffect(() => {
-    console.log('ref', ref);
     setReferenceNumber(ref || '');
     if (ref) {
       setPhase('code');

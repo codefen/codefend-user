@@ -41,8 +41,11 @@ export const DashboardScanStart = () => {
   const currentScan = useGlobalFastField('currentScan');
 
   useEffect(() => {
-    console.log('scanDashboardView', scanDashboardView);
-  }, [scanDashboardView]);
+    console.log('currentScan DashboardScanStart', currentScan.get);
+    if (currentScan.get && !isScanning.get) {
+      isScanning.set(true);
+    }
+  }, [currentScan.get]);
 
   return (
     <div className="card">

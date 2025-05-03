@@ -14,8 +14,11 @@
     position: absolute;
     color: var(--secondary-color-50);
     width: 15px;
-    height: 15px;
     left: 13px;
+    top: 50%;
+    transform: translateY(-25%);
+    height: 100%;
+    z-index: 2;
 
     & + * {
       padding-left: 40px;
