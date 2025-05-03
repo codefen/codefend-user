@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  padding-block: 4.6rem;
+  padding-block: 4rem;
 
   // font-family: 'ITC Avant Garde', Questrial;
   flex: 1 1;
@@ -41,7 +41,8 @@
   }
 
   p {
-    font-size: clamp(11px, 10dvw, 14px);
+    font-size: 14px;
+    line-height: 15px;
     font-family: Roboto;
     font-weight: bold;
     color: var(--tertiary-color-450);

@@ -151,7 +151,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: 2rem;
+  gap: 10px;
 }
 
 .flex-box {
@@ -280,9 +280,9 @@ main {
   display: flex;
   justify-content: space-between;
   column-gap: var(--card-space);
-
+  padding-right: 10px;
   opacity: 0;
-  padding-inline-start: calc(var(--sidebar-width) + 12px);
+  padding-inline-start: calc(var(--sidebar-width) + 22px);
 
   // padding-block-start: 3dvw;
 
@@ -322,7 +322,8 @@ main {
     display: flex;
     flex-direction: column;
     margin-bottom: 12px;
-
+    max-width: 450px;
+    overflow-y: auto;
     .card {
       margin-bottom: 12px;
 

@@ -43,10 +43,9 @@ export const AllPlansOrderModal = () => {
       <div className="step-new-header">
         <h3>Professional hackers & Pentest on demand</h3>
         <p>
-          Planes pequeños exclusivos para aplicaciones web ofrecen una combinacion unica de{' '}
-          <b>scanners automaticos, asistencia tecnica</b> especializada y{' '}
-          <b>busqueda de dataleaks.</b> Todos brindan acceso limitado a la plataforma con creacion
-          de informes y visualizacion de issues.
+          Exclusive small plans for web applications offer a unique combination of{' '}
+          <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>.
+          All provide limited access to the platform with report creation and issue visualization.
         </p>
       </div>
 
@@ -71,7 +70,51 @@ export const AllPlansOrderModal = () => {
               alt="recommended-plan"
             />
             <h4>{plan.title}</h4>
-            <p dangerouslySetInnerHTML={{ __html: plan.description }}></p>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: plan.description
+                  .replace('Máximo recomendado de 2 dominios.', 'Maximum recommended: 2 domains.')
+                  .replace(
+                    'Máximo recomendado de 6 subdominios.',
+                    'Maximum recommended: 6 subdomains.'
+                  )
+                  .replace('Valor de los dominios: normal.', 'Domain value: normal.')
+                  .replace('Neuroscan: 5 scaneos automatizados.', 'Neuroscan: 5 automated scans.')
+                  .replace('Dataleaks search: 10 búsquedas.', 'Dataleaks search: 10 searches.')
+                  .replace('40 horas de pentest manual.', '40 hours of manual pentest.')
+                  .replace(
+                    'Recommended for small sized businesses.',
+                    'Recommended for small sized businesses.'
+                  )
+                  .replace('Máximo recomendado de 5 dominios.', 'Maximum recommended: 5 domains.')
+                  .replace(
+                    'Máximo recomendado de 15 subdominios.',
+                    'Maximum recommended: 15 subdomains.'
+                  )
+                  .replace('Neuroscan: 15 scaneos automatizados.', 'Neuroscan: 15 automated scans.')
+                  .replace('Dataleaks search: 30 búsquedas.', 'Dataleaks search: 30 searches.')
+                  .replace('120 horas de pentest manual.', '120 hours of manual pentest.')
+                  .replace(
+                    'Recommended for mid sized businesses.',
+                    'Recommended for mid sized businesses.'
+                  )
+                  .replace(
+                    'Máximo recomendado de 10 a 15 dominios.',
+                    'Maximum recommended: 10 to 15 domains.'
+                  )
+                  .replace(
+                    'Máximo recomendado de 30 subdominios.',
+                    'Maximum recommended: 30 subdomains.'
+                  )
+                  .replace('Valor de los dominios: elevado.', 'Domain value: high.')
+                  .replace('Neuroscan: 60 scaneos automatizados.', 'Neuroscan: 60 automated scans.')
+                  .replace('Dataleaks search: 60 búsquedas.', 'Dataleaks search: 60 searches.')
+                  .replace('360 horas de pentest manual.', '360 hours of manual pentest.')
+                  .replace(
+                    'Recommended for stablished businesses.',
+                    'Recommended for stablished businesses.'
+                  ),
+              }}></p>
           </label>
         ))}
         {/* <label className="plan-card" data-plan="small" htmlFor="plan-1-small">
@@ -138,7 +181,7 @@ export const AllPlansOrderModal = () => {
           <PrimaryButton
             text="close assistant"
             className="full"
-            buttonStyle="black"
+            buttonStyle="gray"
             disabledLoader
             click={closeModal}
           />
