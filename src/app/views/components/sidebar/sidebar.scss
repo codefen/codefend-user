@@ -7,7 +7,7 @@
   left: 10px;
   // top: calc(var(--nav-height) + 18px);
   // left: 1vw;
-  position: fixed;
+  position: absolute;
   z-index: 4;
   margin-block-start: calc(18px + var(--nav-height));
 
