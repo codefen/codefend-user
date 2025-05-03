@@ -14,12 +14,13 @@ import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.t
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
-import { useVerifyScan } from '#commonHooks/useVerifyScan.ts';
+import { useVerifyScan } from '@moduleHooks/neuroscan/useVerifyScan.ts';
 import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource/WelcomeLoadResource.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResourcesOrderModel.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 import { OrderV2 } from '@modals/index.ts';
+import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress.ts';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -36,7 +37,8 @@ export const PanelPage = () => {
   const { isAuth, getUserdata, updateAuth, logout } = useUserData();
   const { getProviderCompanyAccess } = useProviderCompanies();
   useUserCommunicated();
-  useVerifyScan();
+  //useVerifyScan();
+  useManageScanProgress();
 
   const modals = useMemo(
     () => ({

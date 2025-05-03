@@ -7,6 +7,7 @@ import { PrimaryButton } from '@buttons/index';
 import { useNavigate } from 'react-router';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useEffect } from 'react';
 
 const scanColumns: ColumnTableV3[] = [
   {
@@ -31,35 +32,50 @@ const scanColumns: ColumnTableV3[] = [
     weight: '25%',
   },
 ];
+
 export const DashboardScanStart = () => {
-  const progress = useGlobalFastField('scanProgress');
-  const { scanDashboardView, isScanRunning, issueScanFound, issuesParsed, initialDomain } =
-    useScanDashboardView();
+  const { scanDashboardView } = useScanDashboardView();
   const navigate = useNavigate();
+  const isScanning = useGlobalFastField('isScanning');
+  const scanProgress = useGlobalFastField('scanProgress');
+  const currentScan = useGlobalFastField('currentScan');
+
+  useEffect(() => {
+    console.log('scanDashboardView', scanDashboardView);
+  }, [scanDashboardView]);
 
   return (
     <div className="card">
-      <Show when={isScanRunning}>
+      <Show when={isScanning.get}>
         <div className={css['scan-start']}>
           <h2>Scan in Progress</h2>
-          <p>The automatic scanners are analyzing one of your web resources: {initialDomain}</p>
+          <p>
+            The automatic scanners are analyzing one of your web resources:{' '}
+            {currentScan.get?.resource_address}
+          </p>
 
           <div className={css['scan-start-progress']}>
             <div
               className={css[`scan-start-progress-bar`]}
-              style={{ width: `${progress.get}%` }}></div>
+              style={{ width: `${scanProgress.get}%` }}></div>
           </div>
         </div>
         <div className={css['scan-start-actions']}>
-          <StatAsset value={issueScanFound} valueTitle="Total Findings" />
-          <StatAsset value={`${issuesParsed}/${issueScanFound}`} valueTitle="Analisis completado" />
-          <StatAsset value={`${Math.round(progress.get)}%`} valueTitle="Progress" />
+          <StatAsset value={currentScan.get?.issues_found} valueTitle="Total Findings" />
+          <StatAsset
+            value={`${currentScan.get?.issues_found}/${currentScan.get?.issues_parsed}`}
+            valueTitle="Analisis completado"
+          />
+          <StatAsset value={`${Math.round(scanProgress.get)}%`} valueTitle="Progress" />
         </div>
       </Show>
-      <Show when={!isScanRunning}>
+      <Show when={!isScanning.get}>
         <div className={css['scan-start']}>
           <h2>Scan in Progress</h2>
-          <p>The automatic scanners are analyzing one of your web resources: {initialDomain}</p>
+          <p>
+            The automatic scanners are analyzing one of your web resources:{' '}
+            {currentScan.get?.resource_address}
+          </p>
 
           <Tablev3
             columns={scanColumns}

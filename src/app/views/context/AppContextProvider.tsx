@@ -58,6 +58,8 @@ export type GlobalStore = {
   isDefaultPlan: boolean;
   isProgressStarted: boolean;
   selectedApp: any;
+  currentScan: any;
+  isScanning: boolean;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -74,15 +76,18 @@ export const initialGlobalState: GlobalStore = {
   company: persistedState?.company ?? EMPTY_COMPANY_CUSTOM,
   keyPress: persistedState?.keyPress ?? '',
   lead: persistedState?.lead ?? {},
-  scanProgress: persistedState?.scanProgress ?? 0,
   domainCount: persistedState?.domainCount ?? 0,
   subDomainCount: persistedState?.subDomainCount ?? 0,
   uniqueIpCount: persistedState?.uniqueIpCount ?? 0,
   planPreference: persistedState?.planPreference ?? 'medium',
   isDefaultPlan: persistedState?.isDefaultPlan ?? false,
-  isProgressStarted: persistedState?.isProgressStarted ?? false,
   selectedApp: persistedState?.selectedApp ?? null,
   mobilePlanPreference: persistedState?.mobilePlanPreference ?? 'medium',
+
+  scanProgress: persistedState?.scanProgress ?? 0,
+  isProgressStarted: persistedState?.isProgressStarted ?? false,
+  currentScan: persistedState?.currentScan ?? null,
+  isScanning: persistedState?.isScanning ?? false,
 };
 
 const {

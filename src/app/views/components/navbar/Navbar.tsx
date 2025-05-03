@@ -109,6 +109,11 @@ const Navbar: FC = () => {
 
         <div className="right">
           <div className="actions">
+            {/*          <div className="navbar-logo" onClick={openGuide}>
+            <span className={`${open && 'rotate-360'}`}>
+              <Logo theme="aim" onClick={() => handleChange()} />
+            </span>
+          </div> */}
             {isAdmin() && (
               <>
                 <div className="action" onClick={openOnBoard}>

@@ -3,12 +3,12 @@ import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { ScanStepType } from '@/app/constants/welcome-steps';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useStreamFetch } from '#commonHooks/useStreamFetch';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();
-  const company = useGlobalFastField('company');
+  const globalStore = useGlobalFastFields(['company', 'isScanning', 'currentScan', 'scanProgress']);
   // Setear datos para el scanner
   const {
     setScanRunning,
@@ -40,6 +40,12 @@ export const useAutoScan = () => {
         saveInitialDomain(result.neuroscan?.resource_address || '');
         setScanStep(ScanStepType.Scanner);
         setScanRunning(openModel);
+        globalStore.isScanning.set(true);
+        globalStore.currentScan.set(result.neuroscan);
+        globalStore.scanProgress.set(0);
+      }
+      if (result.company) {
+        globalStore.company.set(result.company);
       }
       toast.info(result.info || APP_MESSAGE_TOAST.SCAN_INFO);
     }

@@ -2,16 +2,15 @@ import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
-import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
+import { companyIdIsNull } from '@/app/constants/validations';
 import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { useVerifyScanList } from '#commonHooks/useVerifyScanList';
-import { KnifeIcon, ScanSearchIcon, StatIcon, TrashIcon, XCircleIcon } from '@icons';
+import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
+import { ScanSearchIcon, StatIcon, XCircleIcon } from '@icons';
 import type { ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
-import type { useWelcomeStore } from '@stores/useWelcomeStore';
 import Tablev3 from '@table/v3/Tablev3';
-import { useEffect, useState, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
@@ -202,16 +201,21 @@ export const ScanSection = () => {
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
   const { getCompany } = useUserData();
-  const { scans, companyUpdated } = useVerifyScanList();
+  const {
+    data: { scans, companyUpdated },
+  } = useVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const company = useGlobalFastField('company');
+  const hasScanInProgress = useMemo(() => {
+    return scans.some((scan: any) => scan.phase === 'scanner' || scan.phase === 'parser');
+  }, [scans]);
 
   useEffect(() => {
     if (companyUpdated) {
       company.set(companyUpdated);
     }
-  }, [companyUpdated]);
+  }, [companyUpdated, hasScanInProgress]);
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;
