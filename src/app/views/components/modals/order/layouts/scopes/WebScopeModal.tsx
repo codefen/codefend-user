@@ -8,6 +8,7 @@ import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { getCompanyAllMetrics } from '@utils/metric.service';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { GlobeWebIcon } from '@icons';
 import { useNavigate } from 'react-router';
 import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
 
@@ -66,14 +67,14 @@ export const WebScopeModal: FC = () => {
 
   return (
     <>
-      <div>
-        <h3>Web resources</h3>
+      <div className='step-new-content'>
+        <h4 style={{marginBottom: '0px' , paddingBottom: '0px'}}> <GlobeWebIcon /> Web resources</h4>
         <p>
           We are about to start a new pentest for all domains defined in your web resources. We have
           detected the following resources:
         </p>
       </div>
-      <div className="step-content">
+      <div className="step-content scope">
         <div className={`option no-border`}>
           <StatAsset
             isRed

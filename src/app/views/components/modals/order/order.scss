@@ -69,8 +69,9 @@
       display: flex;
       column-gap: 12px;
       align-items: center;
-      padding: 15px 35px 20px;
+      padding: 15px 35px 10px;
       width: 100%;
+      border-bottom: 1px solid #00000010;
 
       img {
         height: 28px;
@@ -210,8 +211,25 @@
     .step-content {
       flex: 1;
       padding: 20px 0;
+      margin-bottom: 10px;
       overflow-y: auto;
       max-height: calc(100vh - 50vh);
+
+      &.scope {
+        [class^="_stat"] {
+          border: 1px solid var(--primary-color-300) !important;
+          &:first-child {
+            [class^="_value"]  {
+              color: var(--secondary-color-200) !important;
+            }
+          }
+        }
+        .option {
+          padding-block: 0px;
+          column-gap: 15px;
+          
+        }
+      }
 
       &.more-results {
         max-height: 370px;
@@ -685,7 +703,9 @@
         }
       }
     }
-
+    .step-contenido {
+      padding: 20px;
+    }
     .scope-confirm {
       position: relative;
       display: flex;
@@ -694,6 +714,7 @@
       padding: 20px 4.5rem;
       border-bottom: 1px solid #00000010;
       border-top: 1px solid #00000010;
+      margin-bottom: 15px;
 
       .disclaimers {
         padding-inline-end: 5px;
@@ -745,11 +766,19 @@
     }
 
     .step-new-content {
-      padding-block: 2rem;
+      padding-block: 1rem;
       padding-inline: 3rem;
       display: flex;
       flex-direction: column;
-
+      
+      h4 {
+        color: var(--tertiary-color-500);
+        font-size: 1.35rem;
+        line-height: 2.75rem;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
       .step-new-header {
         margin-block-end: 1rem;
 
@@ -759,6 +788,7 @@
           line-height: 2.75rem;
           display: flex;
           gap: 1rem;
+          align-items: center;
         }
 
         p {

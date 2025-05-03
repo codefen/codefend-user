@@ -5,6 +5,7 @@ import { useOrderPlan } from '@hooks/index';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
+import { GlobeWebIcon } from '@icons';
 
 export const RecommendedPlanOrderModal = () => {
   const { updateState, referenceNumber, orderId, resourceType } = useOrderStore(state => state);
