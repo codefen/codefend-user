@@ -48,16 +48,16 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
           />
         </div> */}
         <div className="selected-content-tables">
-          {/* <OpenOrderButton
+          {/* <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} /> */}
+          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
+
+          <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.MOBILE}
             resourceCount={listSize}
             isLoading={isLoading}
             scope={OrderSection.MOBILE_SCOPE}
-          /> */}
-
-          {/* <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} /> */}
-          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
+          />
         </div>
       </div>
 

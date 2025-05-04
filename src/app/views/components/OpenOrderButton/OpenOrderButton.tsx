@@ -14,15 +14,18 @@ interface OpenOrderButtonProps {
 }
 
 const orderText: Record<ResourcesTypes, (obj: any) => string> = {
-  [ResourcesTypes.WEB]: ({ total, plan }: any) =>
-    `Su Scope web posee mas de ${total} recursos, por lo que recomandamos un ${plan}`,
-  [ResourcesTypes.MOBILE]: ({ plan, name, downloads }) =>
-    `Su aplicacion ${name} ${downloads ? 'posee mas de ' + downloads + ' descargas por lo que le recomendamos' : 'le recomendamos'} un plan ${plan}`,
-  [ResourcesTypes.CLOUD]: () => '',
-  [ResourcesTypes.CODE]: () => '',
-  [ResourcesTypes.NETWORK]: ({ plan }) =>
-    `Para sus recursos de red le recomendamos un plan ${plan}`,
-  [ResourcesTypes.SOCIAL]: ({ plan }) => `Para los recursos sociales ${plan}`,
+  [ResourcesTypes.WEB]: () =>
+    `En base a la información obtenida de esta aplicación recomendamos un plan intermedio`,
+  [ResourcesTypes.MOBILE]: () =>
+    `En base a la información obtenida de esta aplicación recomendamos un plan intermedio`,
+  [ResourcesTypes.CLOUD]: () =>
+    `En base a la información obtenida de esta aplicación recomendamos un plan intermedio`,
+  [ResourcesTypes.CODE]: () =>
+    `En base a la información obtenida de esta aplicación recomendamos un plan intermedio`,
+  [ResourcesTypes.NETWORK]: () =>
+    `En base a la información obtenida de esta aplicación recomendamos un plan intermedio`,
+  [ResourcesTypes.SOCIAL]: () =>
+    `En base a la información obtenida de esta aplicación recomendamos un plan intermedio`,
 };
 
 const OpenOrderButton = ({
@@ -67,7 +70,7 @@ const OpenOrderButton = ({
       </div>
       <p>{plan}</p>
       <PrimaryButton
-        text="REQUEST PENTEST ON DEMAND"
+        text="COMENZAR PRUEBAS DEDICADAS"
         click={onOpen}
         className={className}
         isDisabled={resourceCount === 0 || isLoading}

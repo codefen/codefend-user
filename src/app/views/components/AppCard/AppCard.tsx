@@ -167,10 +167,10 @@ export const AppCard: FC<MobileAppCardProps> = ({
                     <div className="reviews">
                       <span>{appRank && appRank !== 'unavailable' ? appRank : ''}</span>
                       {appReviews && appReviews !== 'unavailable' ? <span>•</span> : null}
-                      <span>
+                      {/* <span>
                         {' '}
                         {appReviews && appReviews !== 'unavailable' ? `${appReviews} reviews` : ''}
-                      </span>
+                      </span> */}
                       {isMobileType && appRank !== 'unavailable' ? (
                         <StarRating rating={Number(appRank?.replace(',', '.')) || 0} />
                       ) : null}
