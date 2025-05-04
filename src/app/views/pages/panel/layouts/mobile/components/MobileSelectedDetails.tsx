@@ -38,7 +38,7 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
         />
       </div>
       <div className="selected-content">
-        <div className="selected-content-credentials">
+        {/* <div className="selected-content-credentials">
           <CredentialsModal onComplete={onRefetch} />
           <ProvidedTestingCredentials
             credentials={data?.creds || []}
@@ -46,8 +46,11 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
             resourceId={selectedAppStored.get?.id || ''}
             type={RESOURCE_CLASS.MOBILE}
           />
-        </div>
+        </div> */}
         <div className="selected-content-tables">
+          {/* <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} /> */}
+          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
+
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.MOBILE}
@@ -55,9 +58,6 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
             isLoading={isLoading}
             scope={OrderSection.MOBILE_SCOPE}
           />
-
-          <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} />
-          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
         </div>
       </div>
 

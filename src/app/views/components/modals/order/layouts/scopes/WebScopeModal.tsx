@@ -74,6 +74,7 @@ export const WebScopeModal: FC = () => {
             We are about to start a new pentest for all domains defined in your web resources. We have
             detected the following resources:
           </p>
+
         </div>
 
         <div className="">

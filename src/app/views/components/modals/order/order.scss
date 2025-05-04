@@ -254,16 +254,16 @@
       }
 
       &.scope {
-        [class^="_stat"] {
+        [class^='_stat'] {
           border: 1px solid var(--primary-color-300) !important;
           &:first-child {
-            [class^="_value"]  {
+            [class^='_value'] {
               color: var(--secondary-color-200) !important;
             }
           }
         }
         .option {
-          padding-block: 0px;
+          padding-block: 0;
           column-gap: 15px;
         }
       }
@@ -815,7 +815,7 @@
       padding-inline: 3rem;
       display: flex;
       flex-direction: column;
-      
+
       h4 {
         color: var(--tertiary-color-500);
         font-size: 1.35rem;
