@@ -13,7 +13,7 @@ export const WaitingCheckOrderModal = () => {
   };
 
   return (
-    <>
+    <div className='step-content'>
       <OrderAlertMessage
         imageIcon={
           <img src="/util/orders-clock.png" alt="Codefend logo" decoding="async" loading="lazy" />
@@ -45,6 +45,6 @@ export const WaitingCheckOrderModal = () => {
           <PrimaryButton text="close" click={orderFinished} className="full" buttonStyle="red" />
         </div>
       </div>
-    </>
+    </div>
   );
 };
