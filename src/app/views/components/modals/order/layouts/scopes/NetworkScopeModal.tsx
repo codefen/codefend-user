@@ -2,6 +2,7 @@ import useTimeout from '#commonHooks/useTimeout';
 import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
 import { PrimaryButton } from '@buttons/index';
 import { useOrderScope } from '@hooks/index';
+import { LanIcon } from '@icons';
 import { OrderSection } from '@interfaces/order';
 import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { useOrderStore } from '@stores/orders.store';
@@ -37,12 +38,15 @@ export const NetworkScopeModal = () => {
   };
 
   return (
-    <>
-      <div>
-        <h3>Recursos Network</h3>
+    <div className="step-content scope">
+      <div className="step-header">
+        <h3 style={{ marginBottom: '0px', paddingBottom: '0px' }}>
+          <LanIcon />
+          Network resources
+        </h3>
         <p>
-          Vamos a comenzar con un nuevo pentest para todos las ips internas y externas definidas en
-          los recursos de red. Hemos detectado estos recursos:
+          We are about to start a new pentest for all ips defined in your network resources. We have
+          detected the following resources:
         </p>
       </div>
       <div className="step-content"></div>
@@ -64,6 +68,7 @@ export const NetworkScopeModal = () => {
         </label>
         <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>
+
       <div className="button-wrapper next-btns">
         <div className="secondary-container">
           <PrimaryButton
@@ -84,6 +89,6 @@ export const NetworkScopeModal = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

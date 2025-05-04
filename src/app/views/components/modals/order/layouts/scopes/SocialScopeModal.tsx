@@ -2,6 +2,7 @@ import useTimeout from '#commonHooks/useTimeout';
 import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
 import { PrimaryButton } from '@buttons/index';
 import { useOrderScope } from '@hooks/index';
+import { PeopleGroupIcon } from '@icons';
 import { OrderSection } from '@interfaces/order';
 import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { useOrderStore } from '@stores/orders.store';
@@ -37,12 +38,15 @@ export const SocialScopeModal = () => {
   };
 
   return (
-    <>
-      <div>
-        <h3>Social engineering</h3>
+    <div className="step-content scope">
+      <div className="step-header">
+        <h3 style={{ marginBottom: '0px', paddingBottom: '0px' }}>
+          <PeopleGroupIcon />
+          Network resources
+        </h3>
         <p>
-          Vamos a comenzar con un nuevo pentest para todos los dominios definidos en los recursos
-          web. Hemos detectado estos recursos:
+          We are about to start a new pentest for all ips defined in your network resources. We have
+          detected the following resources:
         </p>
       </div>
       <div className="step-content"></div>
@@ -84,6 +88,6 @@ export const SocialScopeModal = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

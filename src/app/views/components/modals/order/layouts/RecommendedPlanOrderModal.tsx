@@ -34,20 +34,29 @@ export const RecommendedPlanOrderModal = () => {
     sendPlanTeamSize(selectedPlan, plan.price, referenceNumber, orderId);
   };
 
+  const goBack = () => {
+    const resource = {
+      [ResourcesTypes.WEB]: OrderSection.WEB_SCOPE,
+      [ResourcesTypes.MOBILE]: OrderSection.MOBILE_SCOPE,
+      [ResourcesTypes.NETWORK]: OrderSection.NETWORK_SCOPE,
+      [ResourcesTypes.SOCIAL]: OrderSection.SOCIAL_SCOPE,
+      [ResourcesTypes.CLOUD]: OrderSection.SCOPE,
+      [ResourcesTypes.CODE]: OrderSection.SCOPE,
+    };
+    updateState('orderStepActive', resource[resourceType] as OrderSection);
+  };
+
   return (
     <div className="step-content plan">
       <div className="step-header">
-        <h3><GlobeWebIcon /> 
-          {isDefaultPlan.get ? 'Recommended plan' : 'Selected plan'}:{' '}
-          {plan.promise === 'analisis unico avanzado'
-            ? 'advanced one-time analysis'
-            : plan.promise === 'analisis unico intermedio'
-              ? 'intermediate one-time analysis'
-              : plan.promise === 'analisis unico pequeño'
-                ? 'basic one-time analysis'
-                : plan.promise}
+        <h3>
+          <GlobeWebIcon />
+          {isDefaultPlan.get ? 'Recommended plan' : 'Selected plan'}: {plan.promise}
         </h3>
-        <p>We have analyzed your resources and this is the plan we recommend:</p>
+        <p>
+          We have analyzed your resources and this is the plan we{' '}
+          {isDefaultPlan.get ? 'recommended' : 'selected'}:
+        </p>
       </div>
 
       <div className="flex-box">
@@ -65,19 +74,22 @@ export const RecommendedPlanOrderModal = () => {
             <li
               key={index}
               dangerouslySetInnerHTML={{
-                __html: item
+                __html: item,
               }}
             />
           ))}
         </ul>
       </div>
-      <p className='ending'>Do you think this plan is right for you or do you want to <a onClick={seeOtherPlans}>select another one</a>?</p>
+      <p className="ending">
+        Do you think this plan is right for you or do you want to{' '}
+        <a onClick={seeOtherPlans}>select another one</a>?
+      </p>
 
       <div className="button-wrapper next-btns">
         <div className="secondary-container">
-        <PrimaryButton
+          <PrimaryButton
             text="Back"
-            click={() => updateState('orderStepActive', OrderSection.SCOPE)}
+            click={goBack}
             className="full"
             buttonStyle="black"
             disabledLoader

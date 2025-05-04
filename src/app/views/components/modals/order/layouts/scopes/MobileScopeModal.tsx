@@ -2,6 +2,7 @@ import useTimeout from '#commonHooks/useTimeout';
 import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
 import { PrimaryButton } from '@buttons/index';
 import { useOrderScope } from '@hooks/index';
+import { MobileIcon } from '@icons';
 import { OrderSection } from '@interfaces/order';
 import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { useOrderStore } from '@stores/orders.store';
@@ -37,12 +38,15 @@ export const MobileScopeModal = () => {
   };
 
   return (
-    <>
-      <div>
-        <h3>Recursos mobile</h3>
+    <div className="step-content scope">
+      <div className="step-header">
+        <h3 style={{ marginBottom: '0px', paddingBottom: '0px' }}>
+          <MobileIcon />
+          Mobile resources
+        </h3>
         <p>
-          Vamos a comenzar con un nuevo pentest para todos los dominios definidos en los recursos
-          web. Hemos detectado estos recursos:
+          We are about to start a new pentest for all domains defined in your web resources. We have
+          detected the following resources:
         </p>
       </div>
       <div className="step-content"></div>
@@ -64,6 +68,7 @@ export const MobileScopeModal = () => {
         </label>
         <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>
+
       <div className="button-wrapper next-btns">
         <div className="secondary-container">
           <PrimaryButton
@@ -84,6 +89,6 @@ export const MobileScopeModal = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

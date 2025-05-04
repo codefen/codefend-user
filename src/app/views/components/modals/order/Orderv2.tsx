@@ -72,11 +72,13 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.PAYWALL) return <PaywallOrderModal close={close} />;
     if (orderStepActive === OrderSection.SMALL_PLANS) return <SmallPlanOrderModal />;
     if (orderStepActive === OrderSection.ARABIC_PLAN) return <ArabicOrderModal />;
+
     if (orderStepActive === OrderSection.SCOPE) return <WebScopeModal />;
     if (orderStepActive === OrderSection.WEB_SCOPE) return <WebScopeModal />;
     if (orderStepActive === OrderSection.MOBILE_SCOPE) return <MobileScopeModal />;
     if (orderStepActive === OrderSection.NETWORK_SCOPE) return <NetworkScopeModal />;
     if (orderStepActive === OrderSection.SOCIAL_SCOPE) return <SocialScopeModal />;
+
     if (orderStepActive === OrderSection.FREQUENCY) return <FrequencyOrderModal />;
     if (orderStepActive === OrderSection.TEAM_SIZE) return <TeamSizeOrderModal />;
     if (orderStepActive === OrderSection.ALL_PLANS) return <AllPlansOrderModal />;

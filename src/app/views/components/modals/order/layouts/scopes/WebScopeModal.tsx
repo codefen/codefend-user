@@ -66,32 +66,32 @@ export const WebScopeModal: FC = () => {
   }, []);
 
   return (
-    <div className='step-content scope'>
-      
-        <div className="step-header">
-          <h3 style={{marginBottom: '0px' , paddingBottom: '0px'}}> <GlobeWebIcon />Web resources</h3>
-          <p>
-            We are about to start a new pentest for all domains defined in your web resources. We have
-            detected the following resources:
-          </p>
+    <div className="step-content scope">
+      <div className="step-header">
+        <h3 style={{ marginBottom: '0px', paddingBottom: '0px' }}>
+          {' '}
+          <GlobeWebIcon />
+          Web resources
+        </h3>
+        <p>
+          We are about to start a new pentest for all domains defined in your web resources. We have
+          detected the following resources:
+        </p>
+      </div>
 
+      <div className="">
+        <div className={`option no-border`}>
+          <StatAsset
+            isRed
+            isActive
+            value={globalStore.domainCount.get}
+            valueTitle="Top Level Domains"
+          />
+          <StatAsset value={globalStore.subDomainCount.get} valueTitle="Total Subdomains" />
+          <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPs" />
         </div>
+      </div>
 
-        <div className="">
-          <div className={`option no-border`}>
-            <StatAsset
-              isRed
-              isActive
-              value={globalStore.domainCount.get}
-              valueTitle="Top Level Domains"
-            />
-            <StatAsset value={globalStore.subDomainCount.get} valueTitle="Total Subdomains" />
-            <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPs" />
-          </div>
-        </div>
-            
-    
-     
       <div className="scope-confirm">
         <input
           id="confirmation"

@@ -3,7 +3,7 @@ import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { AimIcon } from '@icons';
 
 interface OpenOrderButtonProps {
@@ -14,10 +14,11 @@ interface OpenOrderButtonProps {
   scope?: OrderSection;
 }
 
-const orderText: Record<ResourcesTypes, (obj: any) => JSX.Element> = {
+const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.WEB]: ({ total, plan }: any) => (
     <>
-      Your web scope has more than <strong>{total}</strong> resources, so we recommend a <b>{plan} plan</b>.
+      Your web scope has more than <strong>{total}</strong> resources, so we recommend a{' '}
+      <b>{plan} plan</b>.
     </>
   ),
   [ResourcesTypes.MOBILE]: ({ plan, name, downloads }: any) => (
@@ -59,8 +60,6 @@ const orderText: Record<ResourcesTypes, (obj: any) => JSX.Element> = {
 //   [ResourcesTypes.SOCIAL]: ({ plan }) => `For social resources, ${plan}`,
 // };
 
-
-
 const OpenOrderButton = ({
   resourceCount = 0,
   isLoading,
@@ -70,7 +69,7 @@ const OpenOrderButton = ({
 }: OpenOrderButtonProps) => {
   const { updateState } = useOrderStore(state => state);
   const { isAdmin, isNormalUser } = useUserRole();
-  const [plan, setPlan] = useState<string>('');
+  const [plan, setPlan] = useState<ReactNode | null>(null);
   const globalStore = useGlobalFastFields([
     'subDomainCount',
     'uniqueIpCount',
@@ -98,24 +97,22 @@ const OpenOrderButton = ({
 
   return (
     <div className="card title">
-       <div className="header">
-          <AimIcon />
-          <span>Analyze your web software</span>
+      <div className="header">
+        <AimIcon />
+        <span>Analyze your web software</span>
+      </div>
+      <div className="content">
+        <p>{plan}</p>
+        <div className="actions">
+          <PrimaryButton
+            text="Request a pentest now"
+            click={onOpen}
+            className={className}
+            isDisabled={resourceCount === 0 || isLoading}
+            disabledLoader
+          />
         </div>
-        <div className="content">
-          <p>
-          {plan}
-          </p>
-          <div className="actions">
-            <PrimaryButton
-              text="Request a pentest now"
-              click={onOpen}
-              className={className}
-              isDisabled={resourceCount === 0 || isLoading}
-              disabledLoader
-            />
-          </div>
-        </div>
+      </div>
     </div>
   );
 };
