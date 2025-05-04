@@ -282,7 +282,7 @@ main {
   column-gap: var(--card-space);
   padding-right: 10px;
   opacity: 0;
-  padding-inline-start: calc(var(--sidebar-width) + 22px);
+  padding-inline-start: calc(var(--sidebar-width) + var(--card-space));
 
   // padding-block-start: 3dvw;
 
