@@ -35,7 +35,7 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webRes
 
   return (
     <div className="card stats">
-      <div className="header">
+      {/* <div className="header">
         <div className="title">
           <div className="icon">
             <ChartIcon />
@@ -43,7 +43,7 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webRes
           <span>Domain & server statics</span>
         </div>
         <div className="actions"></div>
-      </div>
+      </div> */}
       <div className="content">
         <StatAsset value={globalStore.domainCount.get} valueTitle="Domains" />
         <StatAsset value={globalStore.subDomainCount.get} valueTitle="Subdomains" />
