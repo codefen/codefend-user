@@ -82,9 +82,9 @@ const MobileApplicationPanel: React.FC = () => {
       {/* COLUMNA DERECHA */}
 
       <section className="right">
-        {/* <Show when={Boolean(selectedAppStored.get)}>
+        <Show when={Boolean(selectedAppStored.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} />
-        </Show> */}
+        </Show>
       </section>
     </EmptyLayout>
   );
