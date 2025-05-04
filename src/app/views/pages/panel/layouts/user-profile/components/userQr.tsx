@@ -1,10 +1,13 @@
-import { PrimaryButton } from '../../../../../components/buttons/primary/PrimaryButton';
+import { PrimaryButton } from '@buttons/index';
+
 export const UserQr = () => {
   return (
     <div className="card">
       <div className="over">
-        <div className="table-title">
-          <h2>Two-factor authentication</h2>
+        <div className="header">
+          <div className="table-title">
+            <h2>Two-factor authentication</h2>
+          </div>
         </div>
         <p>
           Enable two-factor authentication to add an extra layer of protection to your account.

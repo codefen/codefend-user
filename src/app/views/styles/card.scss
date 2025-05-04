@@ -82,6 +82,12 @@
       padding: 12px;
       font-size: 0.975rem;
 
+      h2 {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
       a {
         color: var(--secondary-color-100);
         font-size: 0.975rem;

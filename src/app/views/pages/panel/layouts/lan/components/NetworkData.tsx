@@ -177,14 +177,17 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
         internalNetwork={internalNetwork ?? []}
       />
       <div className="card table">
-        <div className="header">
-          <div className="title">
-            <div className="icon">
-              <LanIcon />
+        <div className="over">
+          <div className="header">
+            <div className="table-title">
+              <h2>
+                <div className="icon">
+                  <LanIcon />
+                </div>
+                Network structure
+              </h2>
             </div>
-            <span>Network structure</span>
-          </div>
-          <div className="actions">
+            {/* <div className="actions">
             <div
               onClick={() => {
                 setShowModal(!showModal);
@@ -199,15 +202,16 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
               }}>
               Add network device
             </div>
+          </div> */}
           </div>
-        </div>
 
-        <Tablev3
-          columns={tableData2}
-          rows={internalNetwork}
-          showRows={!isLoading}
-          initialOrder="id"
-        />
+          <Tablev3
+            columns={tableData2}
+            rows={internalNetwork}
+            showRows={!isLoading}
+            initialOrder="id"
+          />
+        </div>
       </div>
     </>
   );

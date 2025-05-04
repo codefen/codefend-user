@@ -1,8 +1,8 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { UserProfileTop } from './components/userProfileTop';
 import './userprofile.scss';
-import { UserPassword } from './components/userPassword';
-import { UserQr } from './components/userQr';
+import { UserPassword } from './components/UserPassword';
+import { UserQr } from './components/UserQr';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
 import { DashboardScanStart } from '../dashboard/components/DashboardScanStart/DashboardScanStart';

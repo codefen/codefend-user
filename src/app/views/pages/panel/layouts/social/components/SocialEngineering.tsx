@@ -139,29 +139,33 @@ const SocialEngineering: FC<SocialProps> = props => {
       </ModalTitleWrapper>
 
       <div className="card table">
-        <div className="header">
-          <div className="title">
-            <div className="icon">
-              <PeopleGroupIcon />
+        <div className="over">
+          <div className="header">
+            <div className="table-title">
+              <h2>
+                <div className="icon">
+                  <PeopleGroupIcon />
+                </div>
+                Social Engineering
+              </h2>
             </div>
-            <span>Social Engineering</span>
+            {/* <div className="actions">
+              <div
+                onClick={() => {
+                  setShowModal(!showModal);
+                  setShowModalStr(MODAL_KEY_OPEN.ADD_MEMBER);
+                }}>
+                Add profile
+              </div>
+            </div> */}
           </div>
-          <div className="actions">
-            <div
-              onClick={() => {
-                setShowModal(!showModal);
-                setShowModalStr(MODAL_KEY_OPEN.ADD_MEMBER);
-              }}>
-              Add profile
-            </div>
-          </div>
+          <TableV2
+            columns={memberColumnWithActions}
+            rowsData={dataTable}
+            showRows={!props.isLoading}
+            showEmpty={!props.isLoading && !Boolean(dataTable.length)}
+          />
         </div>
-        <TableV2
-          columns={memberColumnWithActions}
-          rowsData={dataTable}
-          showRows={!props.isLoading}
-          showEmpty={!props.isLoading && !Boolean(dataTable.length)}
-        />
       </div>
     </>
   );

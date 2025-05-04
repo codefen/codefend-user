@@ -200,9 +200,9 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
         close={() => setIsOpen(false)}
         webResources={webResources}
       />
-      <div className="card">
+      {/* <div className="card">
         <div className="over">
-          {/* <div className="header">
+          <div className="header">
             <div className="title">
               <div className="icon">
                 <GlobeWebIcon />
@@ -230,9 +230,9 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
                 Add subdomain
               </div>
             </div>
-          </div> */}
+          </div> 
         </div>
-      </div>
+      </div>*/}
 
       <div className="search-bar-container">
         <ModalInput
