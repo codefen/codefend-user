@@ -7,7 +7,7 @@ import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
 import { ScanSearchIcon, StatIcon, XCircleIcon } from '@icons';
-import type { ColumnTableV3 } from '@interfaces/table';
+import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
 import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
@@ -337,7 +337,13 @@ export const ScanSection = () => {
       <div className="card">
         <SimpleSection header="Company Scanners" icon={<StatIcon />}>
           <div className="content">
-            <Tablev3 rows={scans} columns={scansColumnAction} showRows={true} />
+            <Tablev3
+              rows={scans}
+              columns={scansColumnAction}
+              showRows={true}
+              initialSort={Sort.desc}
+              initialOrder="creacion"
+            />
           </div>
         </SimpleSection>
       </div>

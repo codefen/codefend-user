@@ -39,8 +39,8 @@ export const AllPlansOrderModal = () => {
   };
 
   return (
-    <div className="step-new-content">
-      <div className="step-new-header">
+    <div className="step-content plan">
+      <div className="step-header">
         <h3>Professional hackers & Pentest on demand</h3>
         <p>
           Exclusive small plans for web applications offer a unique combination of{' '}
@@ -49,11 +49,11 @@ export const AllPlansOrderModal = () => {
         </p>
       </div>
 
-      <div className="plans-container">
+      <div className="plans-container ">
         {plans.map(([key, plan]: any) => (
           <label
             key={`plan-key-${plan.type}`}
-            className="plan-card"
+            className="plan-card flex-box"
             data-plan={plan.type}
             htmlFor={`plan-input-${plan.type}`}>
             <input
@@ -63,58 +63,26 @@ export const AllPlansOrderModal = () => {
               defaultChecked={store.planPreference.get === plan.type}
               onChange={() => changed(plan.type)}
             />
-            <img
-              src={`/codefend/${plan.type}-plan.png`}
-              width={70}
-              height={70}
-              alt="recommended-plan"
-            />
-            <h4>{plan.title}</h4>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: plan.description
-                  .replace('Máximo recomendado de 2 dominios.', 'Maximum recommended: 2 domains.')
-                  .replace(
-                    'Máximo recomendado de 6 subdominios.',
-                    'Maximum recommended: 6 subdomains.'
-                  )
-                  .replace('Valor de los dominios: normal.', 'Domain value: normal.')
-                  .replace('Neuroscan: 5 scaneos automatizados.', 'Neuroscan: 5 automated scans.')
-                  .replace('Dataleaks search: 10 búsquedas.', 'Dataleaks search: 10 searches.')
-                  .replace('40 horas de pentest manual.', '40 hours of manual pentest.')
-                  .replace(
-                    'Recommended for small sized businesses.',
-                    'Recommended for small sized businesses.'
-                  )
-                  .replace('Máximo recomendado de 5 dominios.', 'Maximum recommended: 5 domains.')
-                  .replace(
-                    'Máximo recomendado de 15 subdominios.',
-                    'Maximum recommended: 15 subdomains.'
-                  )
-                  .replace('Neuroscan: 15 scaneos automatizados.', 'Neuroscan: 15 automated scans.')
-                  .replace('Dataleaks search: 30 búsquedas.', 'Dataleaks search: 30 searches.')
-                  .replace('120 horas de pentest manual.', '120 hours of manual pentest.')
-                  .replace(
-                    'Recommended for mid sized businesses.',
-                    'Recommended for mid sized businesses.'
-                  )
-                  .replace(
-                    'Máximo recomendado de 10 a 15 dominios.',
-                    'Maximum recommended: 10 to 15 domains.'
-                  )
-                  .replace(
-                    'Máximo recomendado de 30 subdominios.',
-                    'Maximum recommended: 30 subdomains.'
-                  )
-                  .replace('Valor de los dominios: elevado.', 'Domain value: high.')
-                  .replace('Neuroscan: 60 scaneos automatizados.', 'Neuroscan: 60 automated scans.')
-                  .replace('Dataleaks search: 60 búsquedas.', 'Dataleaks search: 60 searches.')
-                  .replace('360 horas de pentest manual.', '360 hours of manual pentest.')
-                  .replace(
-                    'Recommended for stablished businesses.',
-                    'Recommended for stablished businesses.'
-                  ),
-              }}></p>
+            <div className="flex-box-column">
+              <img
+                src={`/codefend/${plan.type}-plan.png`}
+                width={70}
+                height={70}
+                alt="recommended-plan"
+              />
+              <h4>{plan.price}</h4>
+            </div>
+            <ul className="plan-list">
+              {Array.isArray(plan.list) &&
+                plan.list.map((item: string, index: number) => (
+                  <li
+                    key={index}
+                    dangerouslySetInnerHTML={{
+                      __html: item
+                    }}
+                  />
+                ))}
+            </ul>      
           </label>
         ))}
         {/* <label className="plan-card" data-plan="small" htmlFor="plan-1-small">
@@ -178,17 +146,17 @@ export const AllPlansOrderModal = () => {
 
       <div className="button-wrapper next-btns">
         <div className="secondary-container">
-          <PrimaryButton
-            text="close assistant"
+        <PrimaryButton
+            text="Back"
+            click={() => updateState('orderStepActive', OrderSection.RECOMMENDED_PLAN)}
             className="full"
-            buttonStyle="gray"
+            buttonStyle="black"
             disabledLoader
-            click={closeModal}
           />
         </div>
         <div className="primary-container">
           <PrimaryButton
-            text="proceed"
+            text="Proceed"
             className="full"
             buttonStyle="red"
             disabledLoader

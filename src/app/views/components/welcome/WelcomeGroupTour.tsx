@@ -10,7 +10,7 @@ import { useAutoScan } from '@panelHooks/useAutoScan';
 export const WelcomeGroupTour = () => {
   const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
   const { solvedComunique } = useSolvedComunique();
-  const { domainId } = useWelcomeStore();
+  const { domainId, saveInitialDomain } = useWelcomeStore();
   const { autoScan } = useAutoScan();
 
   const startWaitStep = () => {
@@ -27,6 +27,7 @@ export const WelcomeGroupTour = () => {
   const close = () => {
     setIsOpen(false);
     setModalId('');
+    saveInitialDomain('');
   };
 
   if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_DOMAIN) {

@@ -6,30 +6,31 @@ import { useEffect, useMemo, useRef } from 'react';
 import useSWR from 'swr';
 
 export const useManageScanProgress = () => {
-  const { isScanning, company, currentScan, scanProgress } = useGlobalFastFields([
-    'scanProgress',
-    'isScanning',
-    'currentScan',
-    'company',
-  ]);
+  const { currentScan, scanProgress } = useGlobalFastFields(['scanProgress', 'currentScan']);
   const prevPhaseRef = useRef<string | null>(null);
   const intervalRef = useRef<any>();
-  const { latestScan } = useVerifyScanList();
+  const { latestScan, isScanActive, isScanning } = useVerifyScanList();
 
   useEffect(() => {
-    console.log('currentScan from useManageScanProgress', currentScan.get);
-    console.log('isScanning from useManageScanProgress', isScanning.get);
-    if (isScanning.get && !latestScan) {
-      isScanning.set(false);
-      scanProgress.set(0);
-      currentScan.set(null);
-      return;
-    }
-    const copy = currentScan.get;
-    currentScan.set(latestScan ? latestScan : copy);
-    if (latestScan?.id != copy?.id) {
-      scanProgress.set(0);
-      isScanning.set(true);
+    if (!latestScan) return;
+
+    const isActive = isScanActive(latestScan);
+    const current = currentScan.get;
+
+    const sameScan = current?.id === latestScan.id;
+    currentScan.set(latestScan);
+
+    // Si está activo, actualizo todo
+    if (isActive) {
+      if (!sameScan) {
+        scanProgress.set(0);
+      }
+      // isScanning.set(true);
+    } else {
+      if (sameScan && isScanning.get) {
+        // isScanning.set(false);
+        scanProgress.set(100);
+      }
     }
   }, [latestScan, isScanning.get, currentScan.get, scanProgress.get]);
 
@@ -37,41 +38,25 @@ export const useManageScanProgress = () => {
 
   useEffect(() => {
     const scan = currentScan.get;
-    if (!scan) {
-      return;
-    }
+    if (!scan || scan.phase !== 'scanner' || !isScanning.get) return;
+    let currentProgress = scanProgress.get;
+    intervalRef.current = setInterval(() => {
+      currentProgress = Math.min(currentProgress + 0.5 * (1 - currentProgress / 25), 25);
+      scanProgress.set(currentProgress);
+    }, 2300);
 
-    const { phase, issues_found, issues_parsed } = scan;
-    // issuesParsed = número de issues procesadas. Asumo que lo obtienes de algún lado,
-    // por ejemplo scan.issues_parsed o de otro globalFastField
-    const issuesParsed = issues_parsed ?? 0;
+    return () => clearInterval(intervalRef.current);
+  }, [currentScan.get?.id, currentScan.get?.phase]);
 
-    // Si cambió de fase, reiniciamos el intervalo y el ref
-    if (prevPhaseRef.current !== scan.phase) {
-      clearInterval(intervalRef.current);
-      prevPhaseRef.current = scan.phase;
-    }
+  // —— ACTUALIZA PROGRESO EN FASE "parser" ——
+  useEffect(() => {
+    const scan = currentScan.get;
+    if (!scan || scan.phase !== 'parser' || !isScanning.get) return;
 
-    if (phase === 'scanner') {
-      // initialize
-      intervalRef.current = setInterval(() => {
-        scanProgress.set(Math.min(scanProgress.get + 0.5 * (1 - scanProgress.get / 25), 25));
-      }, 2300);
-    } else if (phase === 'parser') {
-      // fase de parser: cálculo inmediato
-      const base = 25;
-      const max = 99;
-      const ratio = issues_found > 0 ? issuesParsed / issues_found : 0;
-      scanProgress.set(base + ratio * (max - base));
-
-      // aquí podrías calcular estimatedTime si lo guardas en otro fastField,
-      // igual que hacías antes. O bien dejarlo en local state.
-    } else {
-      scanProgress.set(100);
-    }
-
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  }, [currentScan.get]);
+    const { issues_found, issues_parsed } = scan;
+    const base = 25;
+    const max = 99;
+    const ratio = issues_found > 0 ? issues_parsed / issues_found : 0;
+    scanProgress.set(base + ratio * (max - base));
+  }, [currentScan.get?.issues_found, currentScan.get?.issues_parsed, currentScan.get?.phase]);
 };

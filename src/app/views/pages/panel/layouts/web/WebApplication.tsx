@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { WebApplicationResources } from './components/WebApplicationResources.tsx';
 import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
+import { WebApplicationTitle } from './components/WebApplicationTitle.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
-import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import '@table/table.scss';
@@ -45,6 +45,7 @@ const WebApplicationView = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <WebApplicationTitle webResources={webResources} isLoading={isLoading} refresh={refresh} />
         <WebApplicationStatics webResources={webResources} />
         <OpenOrderButton
           className="pentest-btn"

@@ -282,7 +282,7 @@ main {
   column-gap: var(--card-space);
 
   opacity: 0;
-  padding-inline-start: calc(var(--sidebar-width) + 12px);
+  padding-inline-start: calc(var(--sidebar-width) + var(--card-space) * 2);
 
   // padding-block-start: 3dvw;
 
@@ -1108,7 +1108,7 @@ main.cloud {
 .search-bar-container {
   margin: 0;
   margin-bottom: 12px;
-  margin-top: 12px;
+  // margin-top: 12px;
 }
 
 .search-bar {

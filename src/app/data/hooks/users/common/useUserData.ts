@@ -23,6 +23,7 @@ export const useUserData = () => {
   const logout = () => {
     reset();
     logoutFn();
+    localStorage.clear();
   };
 
   return {
