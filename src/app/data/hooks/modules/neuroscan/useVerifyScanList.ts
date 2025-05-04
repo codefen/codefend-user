@@ -17,7 +17,6 @@ const fetcher = ([model, { company }]: any) => {
     .post<any>({
       body: { company_id: company, model },
       requireSession: true,
-      insecure: true,
     })
     .then(({ data }) => ({
       scans: data?.neuroscans || [],
@@ -33,9 +32,8 @@ const getInProgress = (scans: any[]) =>
   scans.filter(s => s.phase === 'scanner' || s.phase === 'parser');
 
 const getLatestScan = (scans: any[]) => {
-  const ips = getInProgress(scans);
-  if (ips.length === 0) return null;
-  return ips.reduce((a, b) =>
+  if (scans.length === 0) return null;
+  return scans.reduce((a, b) =>
     new Date(a.creacion).getTime() > new Date(b.creacion).getTime() ? a : b
   );
 };
@@ -43,24 +41,18 @@ const getLatestScan = (scans: any[]) => {
 export const useVerifyScanList = () => {
   // Recupera el company id del local storage
   const { getCompany } = useUserData();
-  const companyId = getCompany();
   const isScanning = useGlobalFastField('isScanning');
-
-  // 2) Flag local para saber si ya hicimos la 1ª petición
+  const companyId = getCompany();
+  const scanningValue = isScanning.get;
   const [initialFetchDone, setInitialFetchDone] = useState(false);
-
-  // 3) Clave SWR: existe siempre que haya companyId,
-  //    pero SWR sólo la usará si `shouldFetch===true`
   const baseKey = ['modules/neuroscan/index', { company: companyId }];
-  const shouldFetch = Boolean(companyId) && (!initialFetchDone || isScanning.get);
-  const swrKey = shouldFetch ? baseKey : null;
+  //const shouldFetch = Boolean(companyId) && (!initialFetchDone || isScanning.get);
+  const swrKey = baseKey;
 
   const { data } = useSWR<ScanManager>(swrKey, fetcher, {
-    // Polling sólo si isScanning === true
-    refreshInterval: isScanning.get ? 3000 : 0,
-    // Revalidate al focus/reconnect sólo si está scanneando
-    revalidateOnFocus: isScanning.get,
-    revalidateOnReconnect: isScanning.get,
+    refreshInterval: 3000,
+    revalidateOnFocus: scanningValue,
+    revalidateOnReconnect: scanningValue,
     // Queremos la 1ª llamada sí o sí
     revalidateOnMount: true,
     keepPreviousData: true,
@@ -76,11 +68,21 @@ export const useVerifyScanList = () => {
 
   // Si al primer fetch detectamos un scan en curso, activamos la bandera
   useEffect(() => {
-    console.log('latestScan from useVerifyScanList', latestScan);
-    if (latestScan && !isScanning.get) {
+    if (!latestScan) {
+      if (scanningValue) isScanning.set(false);
+      return;
+    }
+
+    const isActive = latestScan.phase === 'scanner' || latestScan.phase === 'parser';
+
+    if (scanningValue && !isActive) {
+      isScanning.set(false);
+    } else if (!scanningValue && isActive) {
       isScanning.set(true);
     }
-  }, [latestScan, isScanning.get]);
+  }, [latestScan, scanningValue]);
 
-  return { data: data!, latestScan };
+  const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
+
+  return { data: data!, latestScan, isScanActive, isScanning };
 };

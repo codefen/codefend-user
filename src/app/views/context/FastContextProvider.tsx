@@ -84,8 +84,19 @@ export default function createFastContext<FastContext>(initialState: FastContext
       result[fieldName] = {
         get: getter,
         set: (value: FastContext[typeof fieldName]) => {
-          const update = { [fieldName]: value } as unknown as Partial<FastContext>;
-          setter(update);
+          const isPrimitive =
+            typeof value === 'string' ||
+            typeof value === 'number' ||
+            typeof value === 'boolean' ||
+            value === null ||
+            value === undefined;
+          if ((isPrimitive && value != getter) || !isPrimitive) {
+            // console.log(
+            //   `setting from useFastContextFields for ${fieldName.toString()} to ${value}`
+            // );
+            const update = { [fieldName]: value } as unknown as Partial<FastContext>;
+            setter(update);
+          }
         },
       };
     }
@@ -102,7 +113,19 @@ export default function createFastContext<FastContext>(initialState: FastContext
     const [getter, setter] = useFastContext(fc => fc[key]);
     return {
       get: getter,
-      set: (value: FastContext[K]) => setter({ [key]: value } as unknown as Partial<FastContext>),
+      set: (value: FastContext[K]) => {
+        const isPrimitive =
+          typeof value === 'string' ||
+          typeof value === 'number' ||
+          typeof value === 'boolean' ||
+          value === null ||
+          value === undefined;
+        if ((isPrimitive && value != getter) || !isPrimitive) {
+          // console.log(`setting from useFastField for ${key.toString()} to ${value}`);
+          const update = { [key]: value } as unknown as Partial<FastContext>;
+          setter(update);
+        }
+      },
     };
   }
 

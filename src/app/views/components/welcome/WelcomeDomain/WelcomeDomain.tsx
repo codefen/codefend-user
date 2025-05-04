@@ -82,6 +82,8 @@ export const WelcomeDomain = ({
       if (verifySession(data, logout)) return;
       if (!apiErrorValidation(data?.error, data?.response)) {
         setDomains(data?.resource ? [data.resource] : []);
+      } else if (data?.error_info === 'unrecheable_domain') {
+        toast.error(data?.info);
       }
     });
   }, [initialDomain]);

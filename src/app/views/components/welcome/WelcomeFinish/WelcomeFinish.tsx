@@ -5,12 +5,17 @@ import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCi
 import { useScanProgress } from '@moduleHooks/neuroscan/useScanProgress';
 import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useNavigate } from 'react-router';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const globalStore = useGlobalFastFields(['scanProgress', 'isScanning', 'currentScan']);
+  const navigate = useNavigate();
 
   const closeModal = () => {
     solved();
+    if (!globalStore.isScanning.get) {
+      navigate('/issues');
+    }
   };
   const scanStep = (globalStore.currentScan.get?.phase as ScanStepType) || 'nonScan';
 
@@ -31,7 +36,13 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         </p>
 
         <div>
-          <ProgressCircle progress={globalStore.scanProgress.get} />
+          {globalStore.isScanning.get ? (
+            <ProgressCircle progress={globalStore.scanProgress.get} />
+          ) : (
+            <div>
+              <p>Termino capo, andate</p>
+            </div>
+          )}
         </div>
 
         <div className={css['finish-issues-found']}>
@@ -55,7 +66,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           </p>
         </div>
 
-        <PrimaryButton text="Dashboard" buttonStyle="gray" click={closeModal} />
+        <PrimaryButton
+          text={globalStore.isScanning.get ? 'Dashboard' : 'Go to issues'}
+          buttonStyle="gray"
+          click={closeModal}
+        />
       </div>
     </ModalWrapper>
   );

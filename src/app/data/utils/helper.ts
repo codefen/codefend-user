@@ -603,7 +603,7 @@ export const withBatchedUpdates = <TFunction extends ((event: any) => void) | ((
 
 export const defaultIsShallowComparatorFallback = (a: any, b: any): boolean => {
   // consider two empty arrays equal
-  if (Array.isArray(a) && Array.isArray(b) && a.length === 0 && b.length === 0) {
+  if (Array?.isArray?.(a) && Array?.isArray?.(b) && a?.length === 0 && b?.length === 0) {
     return true;
   }
   return a === b;
@@ -625,9 +625,9 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
           }),
   debug = false
 ) => {
-  const aKeys = Object.keys(objA);
-  const bKeys = Object.keys(objB);
-  if (aKeys.length !== bKeys.length) {
+  const aKeys = Object?.keys?.(objA);
+  const bKeys = Object?.keys?.(objB);
+  if (aKeys?.length !== bKeys?.length) {
     if (debug) {
       console.warn(
         `%cisShallowEqual: objects don't have same properties ->`,
@@ -639,17 +639,17 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
     return false;
   }
 
-  if (comparators && Array.isArray(comparators)) {
+  if (comparators && Array?.isArray?.(comparators)) {
     for (const key of comparators) {
       const ret =
-        objA[key] === objB[key] || defaultIsShallowComparatorFallback(objA[key], objB[key]);
+        objA?.[key] === objB?.[key] || defaultIsShallowComparatorFallback(objA?.[key], objB?.[key]);
       if (!ret) {
         if (debug) {
           console.warn(
             `%cisShallowEqual: ${key} not equal ->`,
             'color: #8B4000',
-            objA[key],
-            objB[key]
+            objA?.[key],
+            objB?.[key]
           );
         }
         return false;
@@ -658,7 +658,7 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
     return true;
   }
 
-  return aKeys.every(key => {
+  return aKeys?.every(key => {
     const comparator = (comparators as { [key in keyof T]?: (a: T[key], b: T[key]) => boolean })?.[
       key as keyof T
     ];
