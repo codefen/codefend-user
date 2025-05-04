@@ -4,7 +4,7 @@ main.user-profile {
   column-gap: var(--card-space);
   height: 100%;
   width: 100%;
-  padding-inline-start: calc(var(--sidebar-width) + 12px);
+  padding-inline-start: calc(var(--sidebar-width) + var(--card-space));
   opacity: 0;
 
   .left {
