@@ -251,7 +251,7 @@
           border-bottom: 1px solid var(--primary-color-300);
         }
         .ending {
-          padding-bottom: 150px;
+          padding-bottom: 200px;
         }
       }
     }
@@ -427,11 +427,11 @@
   padding-inline-start: 1.25rem;
   padding-block-end: 1.25rem;
   pointer-events: none;
-  font-size: 0.75rem;
+  font-size: 1rem;
   line-height: 1rem;
-  border-radius: 0.625rem;
+  border-radius: 0.5rem;
   transition: border 200ms ease-in;
-  padding: 2rem;
+  padding: 1rem;
   background-color: var(--primary-color);
 
   &-border {
@@ -456,7 +456,7 @@
     column-gap: 1.25rem;
 
     &-img {
-      width: 6.149rem;
+      width: 7rem;
       min-width: 6.149rem;
       height: 100%;
       min-height: 100%;
@@ -522,13 +522,13 @@
         display: flex;
         flex-direction: column;
         margin-block-start: 1.25rem;
-        row-gap: 0.25rem;
+        row-gap: 1.5rem;
 
         &-description {
           max-height: 3rem;
           overflow: hidden;
           font-size: 14px;
-          line-height: 1.5rem;
+          line-height: 1rem;
           margin: 0;
           text-wrap: pretty;
 
@@ -551,7 +551,7 @@
         .reviews {
           display: flex;
           align-items: center;
-          column-gap: 0.25rem;
+          column-gap: 0.5rem;
         }
       }
     }

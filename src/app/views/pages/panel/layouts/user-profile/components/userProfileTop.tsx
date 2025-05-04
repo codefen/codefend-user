@@ -8,8 +8,8 @@ export const UserProfileTop = () => {
         <h2>User profile</h2>
         <br />
         <p>
-          Añada colaboradores y miembros de su empresa para resolver las vulnerabilidades
-          localizadas con mayor facilidad. <strong>No hay un máximo de colaboradores!</strong>
+          Add collaborators and company members to help resolve detected vulnerabilities more
+          easily. <strong>There is no limit to the number of collaborators!</strong>
         </p>
       </div>
     </div>

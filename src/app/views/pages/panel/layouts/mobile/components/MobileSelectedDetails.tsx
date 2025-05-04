@@ -34,7 +34,6 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
         <AppCardInfo
           type={RESOURCE_CLASS.MOBILE}
           selectedApp={selectedAppStored.get}
-          // selectedApp={appSelected}
           issueCount={data?.issues ? data.issues.length : 0}
         />
       </div>
@@ -45,7 +44,6 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
             credentials={data?.creds || []}
             isLoading={isLoading}
             resourceId={selectedAppStored.get?.id || ''}
-            // resourceId={appSelected?.id || ''}
             type={RESOURCE_CLASS.MOBILE}
           />
         </div> */}

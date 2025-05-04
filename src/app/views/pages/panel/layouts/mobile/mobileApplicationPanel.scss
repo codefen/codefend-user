@@ -25,3 +25,13 @@
     z-index: 20;
   }
 }
+
+.mobile .left {
+  height: 1000px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.mobile .left::-webkit-scrollbar {
+  display: none;
+}

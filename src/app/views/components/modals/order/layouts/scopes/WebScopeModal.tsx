@@ -8,6 +8,7 @@ import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { getCompanyAllMetrics } from '@utils/metric.service';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { GlobeWebIcon } from '@icons';
 import { useNavigate } from 'react-router';
 import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
 
@@ -66,14 +67,17 @@ export const WebScopeModal: FC = () => {
 
   return (
     <>
-      <div>
-        <h3>Recursos web</h3>
+      <div className="step-new-content">
+        <h4 style={{ marginBottom: '0px', paddingBottom: '0px' }}>
+          {' '}
+          <GlobeWebIcon /> Web resources
+        </h4>
         <p>
-          Vamos a comenzar con un nuevo pentest para todos los dominios definidos en los recursos
-          web. Hemos detectado estos recursos:
+          We are about to start a new pentest for all domains defined in your web resources. We have
+          detected the following resources:
         </p>
       </div>
-      <div className="step-content">
+      <div className="step-content scope">
         <div className={`option no-border`}>
           <StatAsset
             isRed
@@ -98,7 +102,7 @@ export const WebScopeModal: FC = () => {
           <span className="codefend-text-red underline-high disclaimers" title="Open disclaimers">
             I confirm I have authorization
           </span>
-          <span>and I’ve read and accept the disclaimer.</span>
+          <span>and I've read and accept the disclaimer.</span>
         </label>
         <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>

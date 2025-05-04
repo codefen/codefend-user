@@ -151,7 +151,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: 2rem;
+  gap: 10px;
 }
 
 .flex-box {
@@ -280,9 +280,9 @@ main {
   display: flex;
   justify-content: space-between;
   column-gap: var(--card-space);
-
+  padding-right: 10px;
   opacity: 0;
-  padding-inline-start: calc(var(--sidebar-width) + 12px);
+  padding-inline-start: calc(var(--sidebar-width) + var(--card-space));
 
   // padding-block-start: 3dvw;
 
@@ -322,7 +322,8 @@ main {
     display: flex;
     flex-direction: column;
     margin-bottom: 12px;
-
+    max-width: 450px;
+    overflow-y: auto;
     .card {
       margin-bottom: 12px;
 
@@ -498,7 +499,6 @@ main.cloud {
   .left {
     flex: 1 1 31%;
     width: 31%;
-
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -521,7 +521,7 @@ main.cloud {
       padding-inline-start: 1rem;
       padding-inline-end: 1.35rem;
       padding-block: 1.25rem;
-      font-size: 14px;
+      font-size: 18px;
       flex: 1 1 5%;
     }
 
@@ -728,6 +728,49 @@ main.cloud {
   .custom-align-items-center {
     align-items: center;
   }
+}
+
+.custom-mobile-add-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 0;
+}
+
+.custom-d-flex {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.custom-title {
+  font-size: 1.25rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.custom-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.custom-btn {
+  background-color: #363636;
+  color: #fff;
+  border: none;
+  padding: 15px 20px;
+  font-size: 1rem;
+  font-weight: 100;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.custom-btn-primary:hover {
+  background-color: #ff0000;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
 }
 
 ///////////////////////

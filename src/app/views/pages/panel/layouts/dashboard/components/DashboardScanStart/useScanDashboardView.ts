@@ -1,21 +1,24 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { useEffect, useState } from 'react';
+
+const getInProgress = (scans: any[]) =>
+  scans.filter(s => s.phase === 'scanner' || s.phase === 'parser');
+
+const getLatestScan = (scans: any[]) => {
+  const ips = getInProgress(scans);
+  if (ips.length === 0) return null;
+  return ips.reduce((a, b) =>
+    new Date(a.creacion).getTime() > new Date(b.creacion).getTime() ? a : b
+  );
+};
 
 export const useScanDashboardView = () => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const [scanDashboardView, setScanDashboardView] = useState<any>([]);
-  const [isScanning, setIsScanRunning] = useState<boolean>(false);
-  const {
-    initialDomain,
-    issueScanFound,
-    issuesParsed,
-    setIssueFound,
-    setIssuesParsed,
-    isScanRunning,
-  } = useWelcomeStore();
+  const isScanning = useGlobalFastField('isScanning');
 
   useEffect(() => {
     fetcher<any>('post', {
@@ -27,25 +30,15 @@ export const useScanDashboardView = () => {
     }).then(({ data }) => {
       const scans = data.neuroscans;
       const latestScans = scans.sort((a: any, b: any) => b.id - a.id).slice(0, 3);
-      const currentScan = scans.find(
-        (scan: any) => scan.phase === 'scanner' || scan.phase === 'parser'
-      );
-      setIsScanRunning(
-        scans.some((scan: any) => scan.phase === 'scanner' || scan.phase === 'parser')
-      );
+      const currentLastScan = getLatestScan(latestScans || []);
       setScanDashboardView(latestScans || []);
-      if (currentScan) {
-        setIssueFound(currentScan.issues_parsed);
-        setIssuesParsed(currentScan.issues_found);
+      if (currentLastScan && !isScanning.get) {
+        isScanning.set(true);
       }
     });
   }, []);
 
   return {
     scanDashboardView,
-    isScanRunning: isScanning || isScanRunning,
-    initialDomain,
-    issueScanFound,
-    issuesParsed,
   };
 };

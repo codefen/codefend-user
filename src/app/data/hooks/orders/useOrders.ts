@@ -688,7 +688,6 @@ export const userOrderFinished = () => {
       },
       path: 'orders/add',
     }).then(({ data }: any) => {
-      console.log('data: ', data);
       if (data?.company) {
         company.set(data.company);
       }
