@@ -35,9 +35,9 @@ export const RecommendedPlanOrderModal = () => {
   };
 
   return (
-    <div className="step-new-content">
-      <div className="step-new-header">
-        <h3>
+    <div className="step-content plan">
+      <div className="step-header">
+        <h3><GlobeWebIcon /> 
           {isDefaultPlan.get ? 'Recommended plan' : 'Selected plan'}:{' '}
           {plan.promise === 'analisis unico avanzado'
             ? 'advanced one-time analysis'
@@ -58,91 +58,29 @@ export const RecommendedPlanOrderModal = () => {
             height={90}
             alt="recommended-plan"
           />
-          <span className="codefend-text-red title-format">{plan.price}</span>
+          <span className="codefend-text-red title-format price">{plan.price}</span>
         </div>
-        <ul className="plain-list">
+        <ul className="plan-list">
           {plan.list.map((item: string, index: number) => (
             <li
               key={index}
               dangerouslySetInnerHTML={{
                 __html: item
-                  .replace(
-                    'Maximo recomendado de <b>2 dominios.</b>',
-                    'Maximum recommended: <b>2 domains.</b>'
-                  )
-                  .replace(
-                    'Maximo recomendado de <b>6 subdominios.</b>',
-                    'Maximum recommended: <b>6 subdomains.</b>'
-                  )
-                  .replace('Valor de los dominios: <b>normal.</b>', 'Domain value: <b>normal.</b>')
-                  .replace(
-                    'Neuroscan: <b>5 scaneos automatizados.</b>',
-                    'Neuroscan: <b>5 automated scans.</b>'
-                  )
-                  .replace(
-                    'Dataleaks search: <b>10 búsquedas.</b>',
-                    'Dataleaks search: <b>10 searches.</b>'
-                  )
-                  .replace(
-                    '<b>40 horas</b> de pentest manual.',
-                    '<b>40 hours</b> of manual pentest.'
-                  )
-                  .replace(
-                    'Maximo recomendado de <b>10 a 15 dominios.</b>',
-                    'Maximum recommended: <b>10 to 15 domains.</b>'
-                  )
-                  .replace(
-                    'Maximo recomendado de <b>30 subdominios.</b>',
-                    'Maximum recommended: <b>30 subdomains.</b>'
-                  )
-                  .replace('Valor de los dominios: <b>elevado.</b>', 'Domain value: <b>high.</b>')
-                  .replace(
-                    'Neuroscan: <b>60 escaneos automatizados.</b>',
-                    'Neuroscan: <b>60 automated scans.</b>'
-                  )
-                  .replace(
-                    'Dataleaks search: <b>60 busquedas.</b>',
-                    'Dataleaks search: <b>60 searches.</b>'
-                  )
-                  .replace(
-                    '<b>360 horas</b> de pentest manual.',
-                    '<b>360 hours</b> of manual pentest.'
-                  )
-                  .replace(
-                    'Maximo recomendado de <b>5 dominios.</b>',
-                    'Maximum recommended: <b>5 domains.</b>'
-                  )
-                  .replace(
-                    'Maximo recomendado de <b>15 subdominios.</b>',
-                    'Maximum recommended: <b>15 subdomains.</b>'
-                  )
-                  .replace(
-                    'Neuroscan: <b>10 escaneos automatizados.</b>',
-                    'Neuroscan: <b>10 automated scans.</b>'
-                  )
-                  .replace(
-                    'Dataleaks search: <b>20 busquedas.</b>',
-                    'Dataleaks search: <b>20 searches.</b>'
-                  )
-                  .replace(
-                    '<b>120 horas</b> de pentest manual.',
-                    '<b>120 hours</b> of manual pentest.'
-                  ),
               }}
             />
           ))}
         </ul>
       </div>
-      <p>Do you think this plan is right for you or do you want to select another one?</p>
+      <p className='ending'>Do you think this plan is right for you or do you want to <a onClick={seeOtherPlans}>select another one</a>?</p>
 
       <div className="button-wrapper next-btns">
         <div className="secondary-container">
-          <PrimaryButton
-            text="See other plans"
+        <PrimaryButton
+            text="Back"
+            click={() => updateState('orderStepActive', OrderSection.SCOPE)}
             className="full"
             buttonStyle="black"
             disabledLoader
-            click={seeOtherPlans}
           />
         </div>
         <div className="primary-container">

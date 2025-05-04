@@ -33,7 +33,7 @@ export const BankPaymentModal = () => {
   };
 
   return (
-    <>
+    <div className='step-content'>
       <div className="step-header">
         <h3>Please proceed with the transaction and complete with the details:</h3>
       </div>
@@ -100,6 +100,6 @@ export const BankPaymentModal = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

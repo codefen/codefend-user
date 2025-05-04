@@ -63,7 +63,7 @@ export const CryptoPaymentModal = () => {
     ? `data:image/png;base64, ${qrCode.current}`
     : '/codefend/QR.svg';
   return (
-    <>
+    <div className='step-content'>
       <div className="step-header">
         <h3>Select your desired cryptocurrency:</h3>
       </div>
@@ -160,6 +160,6 @@ export const CryptoPaymentModal = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

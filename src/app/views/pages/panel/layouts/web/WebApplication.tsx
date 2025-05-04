@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { WebApplicationResources } from './components/WebApplicationResources.tsx';
 import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
+import { WebApplicationTitle } from './components/WebApplicationTitle.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
@@ -44,6 +45,8 @@ const WebApplicationView = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        
+        <WebApplicationTitle />
         <WebApplicationStatics webResources={webResources} />
         <OpenOrderButton
           className="pentest-btn"

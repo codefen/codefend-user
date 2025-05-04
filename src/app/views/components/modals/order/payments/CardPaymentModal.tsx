@@ -89,21 +89,31 @@ export const CardPaymentModal = () => {
   }, [paywallSelected]);
 
   return (
-    <>
+    <div className='step-content'>
       <div className="step-header">
         <h3>Please complete with your payment information</h3>
       </div>
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
         <EmbeddedCheckout className="stripe-container" id="stripe-ex-content-checkout" />
       </EmbeddedCheckoutProvider>
-      <PrimaryButton
+      
+      {/* <PrimaryButton
         text="Back"
         buttonStyle="black"
         disabledLoader
         click={backStep}
         className="stripe-back-btn"
         isDisabled={isLoading}
-      />
-    </>
+      /> */}
+        <div className="button-wrapper next-btns">
+          <PrimaryButton
+            text="back"
+            click={backStep}
+            className="stripe-back-btn"
+            buttonStyle="black"
+            disabledLoader
+          />
+      </div>
+    </div>
   );
 };

@@ -4,6 +4,7 @@ import { PrimaryButton } from '@buttons/index';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
+import { AimIcon } from '@icons';
 
 interface OpenOrderButtonProps {
   resourceCount?: number;
@@ -13,17 +14,52 @@ interface OpenOrderButtonProps {
   scope?: OrderSection;
 }
 
-const orderText: Record<ResourcesTypes, (obj: any) => string> = {
-  [ResourcesTypes.WEB]: ({ total, plan }: any) =>
-    `Su Scope web posee mas de ${total} recursos, por lo que recomandamos un ${plan}`,
-  [ResourcesTypes.MOBILE]: ({ plan, name, downloads }) =>
-    `Su aplicacion ${name} ${downloads ? 'posee mas de ' + downloads + ' descargas por lo que le recomendamos' : 'le recomendamos'} un plan ${plan}`,
-  [ResourcesTypes.CLOUD]: () => '',
-  [ResourcesTypes.CODE]: () => '',
-  [ResourcesTypes.NETWORK]: ({ plan }) =>
-    `Para sus recursos de red le recomendamos un plan ${plan}`,
-  [ResourcesTypes.SOCIAL]: ({ plan }) => `Para los recursos sociales ${plan}`,
+const orderText: Record<ResourcesTypes, (obj: any) => JSX.Element> = {
+  [ResourcesTypes.WEB]: ({ total, plan }: any) => (
+    <>
+      Your web scope has more than <strong>{total}</strong> resources, so we recommend a <b>{plan} plan</b>.
+    </>
+  ),
+  [ResourcesTypes.MOBILE]: ({ plan, name, downloads }: any) => (
+    <>
+      Your application <strong>{name}</strong>{' '}
+      {downloads ? (
+        <>
+          has more than <strong>{downloads}</strong> downloads, so we recommend
+        </>
+      ) : (
+        'we recommend'
+      )}{' '}
+      a <strong>{plan}</strong> plan
+    </>
+  ),
+  [ResourcesTypes.CLOUD]: () => <></>,
+  [ResourcesTypes.CODE]: () => <></>,
+  [ResourcesTypes.NETWORK]: ({ plan }: any) => (
+    <>
+      For your network resources, we recommend a <strong>{plan}</strong> plan
+    </>
+  ),
+  [ResourcesTypes.SOCIAL]: ({ plan }: any) => (
+    <>
+      For social resources, <strong>{plan}</strong>
+    </>
+  ),
 };
+
+// const orderText: Record<ResourcesTypes, (obj: any) => string> = {
+//   [ResourcesTypes.WEB]: ({ total, plan }: any) =>
+//     `Your web scope has more than ${total} resources, so we recommend a ${plan} plan`,
+//   [ResourcesTypes.MOBILE]: ({ plan, name, downloads }) =>
+//     `Your application ${name} ${downloads ? 'has more than ' + downloads + ' downloads, so we recommend' : 'we recommend'} a ${plan} plan`,
+//   [ResourcesTypes.CLOUD]: () => '',
+//   [ResourcesTypes.CODE]: () => '',
+//   [ResourcesTypes.NETWORK]: ({ plan }) =>
+//     `For your network resources, we recommend a ${plan} plan`,
+//   [ResourcesTypes.SOCIAL]: ({ plan }) => `For social resources, ${plan}`,
+// };
+
+
 
 const OpenOrderButton = ({
   resourceCount = 0,
@@ -61,18 +97,25 @@ const OpenOrderButton = ({
   }, [globalStore.domainCount.get, globalStore.subDomainCount.get, globalStore.selectedApp.get]);
 
   return (
-    <div className="card new-design">
-      <div className="table-title">
-        <h2>Comenzar un pentest</h2>
-      </div>
-      <p>{plan}</p>
-      <PrimaryButton
-        text="REQUEST PENTEST ON DEMAND"
-        click={onOpen}
-        className={className}
-        isDisabled={resourceCount === 0 || isLoading}
-        disabledLoader
-      />
+    <div className="card title">
+       <div className="header">
+          <AimIcon />
+          <span>Analyze your web software</span>
+        </div>
+        <div className="content">
+          <p>
+          {plan}
+          </p>
+          <div className="actions">
+            <PrimaryButton
+              text="Request a pentest now"
+              click={onOpen}
+              className={className}
+              isDisabled={resourceCount === 0 || isLoading}
+              disabledLoader
+            />
+          </div>
+        </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import type { Lead } from '@interfaces/lead.ts';
 import type { ResellerUser } from '@interfaces/user.ts';
 import type { Webresource } from '@interfaces/panel.ts';
 import type { FullOrder } from '@interfaces/order';
-import { CircleIcon } from '@icons';
+import { CircleIcon, GlobeWebIcon } from '@icons';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 
@@ -39,7 +39,25 @@ export const ResourceByLocation: FC<ResourceByLocationProps> = ({
 
   return (
     <div className="card location-card">
-      <SimpleSection header={title} icon={<CircleIcon />}>
+      <div className="header">
+                {/* <GlobeWebIcon /> */}
+                <span>Server geolocation</span>
+              </div>
+      <div className="content">
+      <TableV2
+          columns={locationTableColumn}
+          rowsData={dataTable}
+          showEmpty={!isLoading && !Boolean(dataTable.length)}
+          showRows={!isLoading}
+          sort={Sort.asc}
+        />
+        </div>
+
+
+
+
+
+      {/* <SimpleSection header={title} icon={<CircleIcon />}>
         <TableV2
           columns={locationTableColumn}
           rowsData={dataTable}
@@ -47,7 +65,7 @@ export const ResourceByLocation: FC<ResourceByLocationProps> = ({
           showRows={!isLoading}
           sort={Sort.asc}
         />
-      </SimpleSection>
+      </SimpleSection> */}
     </div>
   );
 };

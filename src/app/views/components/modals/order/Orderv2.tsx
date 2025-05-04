@@ -107,7 +107,7 @@ export const OrderV2 = () => {
     <ModalWrapper action={close}>
       <div
         className="order-container"
-        style={{ '--order-modal-width': `${orderSectionMap[orderStepActive]}px` } as any}>
+        style={{ '--order-modal-width22': `${orderSectionMap[orderStepActive]}px` } as any}>
         {orderStepActive !== OrderSection.PAYWALL ? (
           <header className="order-header">
             <div className="order-header-title">
