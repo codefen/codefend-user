@@ -71,14 +71,15 @@ export const SupportTicketList: FC<SupportTicketListProps> = props => {
         />
       </ModalTitleWrapper>
       <div className="card">
-        <div className="header">
-          <div className="title">
-            <div className="icon">
-              <MessageIcon />
-            </div>
-            <span>Support Tickets</span>
-          </div>
-          <div className="actions">
+        <div className="over">
+          <div className="table-title">
+            <h2 className="title">
+              <div className="icon">
+                <MessageIcon />
+              </div>
+              Support Tickets
+            </h2>
+            {/* <div className="actions">
             <div
               onClick={() => {
                 setShowModal(!showModal);
@@ -86,28 +87,29 @@ export const SupportTicketList: FC<SupportTicketListProps> = props => {
               }}>
               Add Entry
             </div>
+          </div> */}
           </div>
-        </div>
-        <TableV2
-          columns={supportTicket}
-          rowsData={dataTable}
-          showRows={!props.isLoading}
-          showEmpty={!props.isLoading && dataTable.length === 0}
-          tableAction={{
-            icon: [
-              {
-                action: (id: string) => {
-                  setSelectedTicketIdToDelete(id);
-                  setShowModal(!showModal);
-                  setShowModalStr(MODAL_KEY_OPEN.DELETE_TICKET);
+          <TableV2
+            columns={supportTicket}
+            rowsData={dataTable}
+            showRows={!props.isLoading}
+            showEmpty={!props.isLoading && dataTable.length === 0}
+            tableAction={{
+              icon: [
+                {
+                  action: (id: string) => {
+                    setSelectedTicketIdToDelete(id);
+                    setShowModal(!showModal);
+                    setShowModalStr(MODAL_KEY_OPEN.DELETE_TICKET);
+                  },
+                  render: <TrashIcon />,
+                  style: '',
                 },
-                render: <TrashIcon />,
-                style: '',
-              },
-            ],
-          }}
-          selectItem={(id: String) => props.setSelectedTicket(id)}
-        />
+              ],
+            }}
+            selectItem={(id: String) => props.setSelectedTicket(id)}
+          />
+        </div>
       </div>
     </>
   );

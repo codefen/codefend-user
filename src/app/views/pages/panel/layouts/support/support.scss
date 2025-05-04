@@ -51,10 +51,6 @@ main.support {
     }
   }
 
-  .right {
-    padding-block-start: 53px;
-  }
-
   @media only screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;

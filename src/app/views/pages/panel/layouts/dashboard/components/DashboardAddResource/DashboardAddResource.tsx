@@ -1,5 +1,3 @@
-import { PrimaryButton } from '@buttons/index';
-import css from './dashboardresource.module.scss';
 import DashboardAssets from '../../../../../../components/DashboardAssets/DashboardAssets';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
@@ -10,25 +8,20 @@ export const DashboardAddResource = ({ data }: any | []) => {
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES);
   };
-
   return (
-    <div className={css['box-assets-right']}>
-      <div className={css['box-assets-info']}>
-        <div className={css['info-resource']}>
-          <div className="title">
-            <h2>Resources</h2>
-            <span className="link" onClick={addResource}>
-              Go to resources
-            </span>
-          </div>
-          <p>
-            Add resources so we can size your attack surface and design a plan tailored to your
-            needs
-          </p>
+    <div className="card">
+      <div className="over">
+        <div className="table-title">
+          <h2>Resources</h2>
+          <a className="link" onClick={addResource}>
+            Go to resources
+          </a>
         </div>
-        {/* <PrimaryButton text="go to resources" buttonStyle="red" click={addResource} /> */}
+        <p>
+          Add resources so we can size your attack surface and design a plan tailored to your needs
+        </p>
+        <DashboardAssets resources={data?.resources || {}} borderStyle={true} />
       </div>
-      <DashboardAssets resources={data?.resources || {}} borderStyle={true} />
     </div>
   );
 };

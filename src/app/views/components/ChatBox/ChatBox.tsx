@@ -70,7 +70,6 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
       </div> */}
 
       <div className="chatbox-container ">
-       
         <div className="no-border-bottom chatbox-content">
           <textarea
             onKeyDown={handleEnter}
@@ -97,26 +96,29 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
             <img src="/codefend/user-icon-gray.svg" alt="user-picture" />
           </div>
         )}         */}
-         <div className="bottom">
-         <div className="chatbox-actions">
-            <span
-              className={`chatbox-button ${isAdding ? 'disabled-btn' : ''}`}
-              role="button"
-              onClick={requestInfo}
-              aria-disabled={isAdding}>
-              Request info
-            </span>
-          </div>        
+        <div className="bottom">
+          <div className="chatbox-actions">
+            {props.type === ChatBoxType.ISSUE ? (
+              <span
+                className={`chatbox-button ${isAdding ? 'disabled-btn' : ''}`}
+                role="button"
+                onClick={requestInfo}
+                aria-disabled={isAdding}>
+                Request info
+              </span>
+            ) : null}
+          </div>
+
           <PrimaryButton
-          text="Send"
-          isDisabled={isDisabled}
-          disabledLoader
-          hideContent={isAdding}
-          click={handleSubmit}
-          className={`send-extra-styles log-inputs ${isDisabled ? 'no-pointers' : ''}`}
-          buttonStyle="send"
-        />
-         </div>
+            text="Send"
+            isDisabled={isDisabled}
+            disabledLoader
+            hideContent={isAdding}
+            click={handleSubmit}
+            className={`send-extra-styles log-inputs ${isDisabled ? 'no-pointers' : ''}`}
+            buttonStyle="send"
+          />
+        </div>
       </div>
     </div>
   );

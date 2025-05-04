@@ -13,28 +13,6 @@ main.dashboard {
     }
 
     .over {
-      background-color: var(--primary-color);
-      padding: 12px;
-      border-radius: var(--brd-radius);
-      margin-bottom: 12px;
-
-      .table-title {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px;
-        font-size: 0.975rem;
-
-        a {
-          color: var(--secondary-color-100);
-          font-size: 0.975rem;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-
       .item-cell-1 {
         font-size: 0.95rem;
       }
