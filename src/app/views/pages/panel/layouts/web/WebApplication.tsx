@@ -45,8 +45,7 @@ const WebApplicationView = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
-        
-        <WebApplicationTitle />
+        <WebApplicationTitle webResources={webResources} isLoading={isLoading} refresh={refresh} />
         <WebApplicationStatics webResources={webResources} />
         <OpenOrderButton
           className="pentest-btn"

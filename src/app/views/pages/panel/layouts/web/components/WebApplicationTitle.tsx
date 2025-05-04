@@ -30,7 +30,7 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
 
   return (
     <>
-    <AddDomainModal
+      <AddDomainModal
         isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
         onDone={() => refresh()}
         close={() => setIsOpen(false)}
@@ -49,7 +49,8 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
         </div>
         <div className="content">
           <p>
-            Scope management for web resources. Add and remove domains and subdomains of your company that you want to monitor or run penetration tests on.
+            Scope management for web resources. Add and remove domains and subdomains of your
+            company that you want to monitor or run penetration tests on.
           </p>
           <div className="actions">
             <PrimaryButton
@@ -60,9 +61,9 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
                 setIsOpen(true);
                 setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
               }}
-              className={"btn-black"}
+              className={'btn-black'}
               disabledLoader
-            />          
+            />
             <PrimaryButton
               text="Add subdomain"
               click={() => {
@@ -71,7 +72,7 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
                 setIsOpen(true);
                 setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
               }}
-              className={"btn-black"}
+              className={'btn-black'}
               disabledLoader
             />
           </div>
