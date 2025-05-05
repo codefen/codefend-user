@@ -61,9 +61,10 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
         </div>
       </div>
 
-      <section className="card table">
+      {/* <section className="card table">
+      
         <IssuesPanelMobileAndCloud isLoading={isLoading} issues={data?.issues || []} />
-      </section>
+      </section> */}
     </>
   );
 };

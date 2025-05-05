@@ -45,46 +45,44 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
   );
   return (
     <div className="card cloud-apps">
-      <div className="over">
-        <div className="header">
+      {/* <div className="header">
           <div className="title">
             <span>{type} Applications</span>
           </div>
           <div className="actions">
             <div onClick={openModal}>Add {type} app</div>
           </div>
-        </div>
-        <input
-          type="text"
-          className="log-inputs search-app"
-          placeholder="search"
-          onChange={(e: any) => setTerm(e.target.value)}
-        />
-        <div className="list">
-          {resourceFiltered.map((resource, i) => (
-            <div
-              key={`${resource.id}-${i}`}
-              className="app-info"
-              onClick={() => updateSelectedApp(resource)}>
-              <AppCard
-                isActive={isSelected(resource.id)}
-                id={resource.id}
-                type={type.toLowerCase()}
-                name={resource?.app_name || resource?.cloud_name}
-                appMedia={type == 'Mobile' ? resource?.app_media : ''}
-                appDesc={resource?.app_desc || resource?.cloud_desc}
-                appReviews={resource?.app_reviews || undefined}
-                appRank={resource?.app_rank || undefined}
-                appDeveloper={resource?.app_developer || undefined}
-                cloudProvider={
-                  resource?.cloud_provider ? resource.cloud_provider.toLowerCase() : undefined
-                }
-                issueCount={resource.final_issue}
-                activeViewCount
-              />
-            </div>
-          ))}
-        </div>
+        </div> */}
+      <input
+        type="text"
+        className="log-inputs search-app"
+        placeholder="search"
+        onChange={(e: any) => setTerm(e.target.value)}
+      />
+      <div className="list">
+        {resourceFiltered.map((resource, i) => (
+          <div
+            key={`${resource.id}-${i}`}
+            className="app-info"
+            onClick={() => updateSelectedApp(resource)}>
+            <AppCard
+              isActive={isSelected(resource.id)}
+              id={resource.id}
+              type={type.toLowerCase()}
+              name={resource?.app_name || resource?.cloud_name}
+              appMedia={type == 'Mobile' ? resource?.app_media : ''}
+              appDesc={resource?.app_desc || resource?.cloud_desc}
+              appReviews={resource?.app_reviews || undefined}
+              appRank={resource?.app_rank || undefined}
+              appDeveloper={resource?.app_developer || undefined}
+              cloudProvider={
+                resource?.cloud_provider ? resource.cloud_provider.toLowerCase() : undefined
+              }
+              issueCount={resource.final_issue}
+              activeViewCount
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

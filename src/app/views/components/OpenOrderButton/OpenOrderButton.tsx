@@ -21,19 +21,13 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
       <b>{plan} plan</b>.
     </>
   ),
-  [ResourcesTypes.MOBILE]: ({ plan, name, downloads }: any) => (
+  [ResourcesTypes.MOBILE]: () => (
     <>
-      Your application <strong>{name}</strong>{' '}
-      {downloads ? (
-        <>
-          has more than <strong>{downloads}</strong> downloads, so we recommend
-        </>
-      ) : (
-        'we recommend'
-      )}{' '}
-      a <strong>{plan}</strong> plan
+      No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
+      <strong>medium plan.</strong>
     </>
   ),
+
   [ResourcesTypes.CLOUD]: () => <></>,
   [ResourcesTypes.CODE]: () => <></>,
   [ResourcesTypes.NETWORK]: ({ plan }: any) => (
@@ -105,7 +99,9 @@ const OpenOrderButton = ({
         <p>{plan}</p>
         <div className="actions">
           <PrimaryButton
-            text="Request a pentest now"
+            text={
+              type === ResourcesTypes.MOBILE ? 'Start dedicated testing' : 'Request a pentest now'
+            }
             click={onOpen}
             className={className}
             isDisabled={resourceCount === 0 || isLoading}
