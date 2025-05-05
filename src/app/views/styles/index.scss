@@ -497,7 +497,7 @@ main.cloud {
   overflow: hidden;
 
   .left {
-    flex: 1 1 31%;
+    flex: 1 1 40%;
     width: 31%;
 
     display: flex;
@@ -517,7 +517,7 @@ main.cloud {
     .search-app {
       width: 100%;
       margin-block-end: 0.75rem;
-      margin-block-start: 0.5rem;
+      margin-block-start: 0.2rem;
       border-radius: 3px;
       padding-inline-start: 1rem;
       padding-inline-end: 1.35rem;
@@ -551,7 +551,7 @@ main.cloud {
   // IZQUIERDO //
 
   .right {
-    flex: 1 1 69%;
+    flex: 1 1 60%;
     width: 69%;
     scrollbar-width: none;
     overflow-y: auto;
@@ -600,11 +600,13 @@ main.cloud {
         }
       }
 
+      // ACA TAMBIEN //
+
       .selected-content-tables {
         display: flex;
         flex-direction: column;
         align-self: stretch;
-        flex: 0.5 0.5 96.5%;
+        // flex: 0.5 0.5 96.5%;
         width: 49%;
         // gap: 1rem;
 
@@ -652,7 +654,7 @@ main.cloud {
 
     .app-card {
       .actions {
-        display: flex;
+        display: start;
         align-items: center;
         border-left: 1px solid var(--tertiary-color-700);
         color: var(--secondary-color-50);
