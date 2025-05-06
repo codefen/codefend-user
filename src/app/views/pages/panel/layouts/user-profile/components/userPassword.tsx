@@ -1,3 +1,4 @@
+import { ChangePasswordForm } from '@/app/views/components/forms/ChangePasswordForm';
 import { PrimaryButton } from '@buttons/index';
 
 export const UserPassword = () => {
@@ -10,11 +11,18 @@ export const UserPassword = () => {
           </div>
         </div>
         <p>Change your user password. Your password must be at least 12 characters long.</p>
-        <form onSubmit={() => {}} className="form-profile">
-          <input className="form-input" type="password" placeholder="Current password" />
-          <input className="form-input" type="password" placeholder="New password" />
-          <PrimaryButton className="form-button" text="change password" type="submit" />
-        </form>
+        <ChangePasswordForm onDone={() => {}}>
+          {isLoading => (
+            <PrimaryButton
+              className="form-button mt-4"
+              disabledLoader
+              isDisabled={isLoading}
+              text="Change Password"
+              type="submit"
+              buttonStyle="red"
+            />
+          )}
+        </ChangePasswordForm>
       </div>
     </div>
   );

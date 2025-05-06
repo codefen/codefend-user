@@ -1,3 +1,4 @@
+import { EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
 import useAdminCompanyStore from '@stores/adminCompany.store';
 import { useAuthStore, type AuthState } from '@stores/auth.store';
 
@@ -24,6 +25,8 @@ export const useUserData = () => {
     reset();
     logoutFn();
     localStorage.clear();
+    localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
+    window.location.reload();
   };
 
   return {

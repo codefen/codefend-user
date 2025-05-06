@@ -1,6 +1,4 @@
 main.support {
-  padding-inline-end: 0;
-
   .left {
     width: 65%;
 
@@ -48,6 +46,12 @@ main.support {
           justify-content: center;
         }
       }
+    }
+  }
+
+  .right {
+    .card .table .rows {
+      max-height: 60dvh;
     }
   }
 

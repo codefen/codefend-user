@@ -21,10 +21,10 @@ export const useAllTicket = () => {
   const fetchAll = async (companyID: string) => {
     fetcher<ApiResponse>('post', {
       body: {
-        model: 'cs/index',
         ac: 'view_all',
         company_id: companyID,
       },
+      path: 'cs/index',
     }).then(({ data }) => {
       if (apiErrorValidation(data?.error, data?.response)) {
         return;
