@@ -498,7 +498,6 @@
 
   &-border {
     // border: 1px solid oklch(82% 0 0);
-
     &.active {
       border: 1px solid var(--secondary-color-100);
     }
@@ -556,19 +555,19 @@
           text-transform: uppercase;
           border: 0;
 
-          .view-count-issues {
-            display: inline-flex;
-            margin-inline-start: 0.5rem;
-            column-gap: 0.25rem;
-            align-items: center;
+          // .view-count-issues {
+          //   display: inline-flex;
+          //   margin-inline-start: 0.5rem;
+          //   column-gap: 0.25rem;
+          //   align-items: center;
 
-            .inline-flex {
-              display: inline-flex;
-              column-gap: 0.25rem;
-              align-items: center;
-              font-size: 1.015rem;
-            }
-          }
+          //   .inline-flex {
+          //     display: inline-flex;
+          //     column-gap: 0.25rem;
+          //     align-items: center;
+          //     font-size: 1.015rem;
+          //   }
+          // }
         }
 
         .card-resume {
