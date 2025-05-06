@@ -150,7 +150,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               }
             />
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<CLoudIcon />}
               title={RESOURCE_CLASS.CLOUD}
               count={resourceCount[RESOURCE_CLASS.CLOUD]}
@@ -158,9 +158,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={
                 resourceCount[RESOURCE_CLASS.CLOUD] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
-            />
+            /> */}
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<SourceCodeIcon />}
               title={RESOURCE_CLASS.SOURCE}
               count={resourceCount[RESOURCE_CLASS.SOURCE]}
@@ -168,7 +168,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={
                 resourceCount[RESOURCE_CLASS.SOURCE] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
-            />
+            /> */}
 
             <ResourceFigure
               icon={<PeopleGroupIcon />}
@@ -188,7 +188,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={resourceCount['lan'] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING}
             />
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<BugIcon />}
               title={RESOURCE_CLASS.RESEARCH}
               count={resourceCount[RESOURCE_CLASS.RESEARCH]}
@@ -197,7 +197,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
                 modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
               click={handleResearch}
-            />
+            /> */}
           </div>
         </Show>
         <Show

@@ -352,6 +352,7 @@ main {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
     margin-bottom: 12px;
     container-type: size;
     container-name: right-main;

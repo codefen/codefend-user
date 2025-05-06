@@ -10,8 +10,7 @@ export const RiskScore: FC<RiskScoreProps> = ({ riskScore }) => {
   const limitedCount = Math.max(0, 5 - parsedRiskScore);
 
   return (
-    <div
-      style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
+    <div>
       <span className="score-value" title={riskScore}>
         {riskScore ? riskScore : 0}
       </span>
