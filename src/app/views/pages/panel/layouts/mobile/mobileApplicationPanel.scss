@@ -26,12 +26,48 @@
   }
 }
 
+.mobile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .mobile .left {
-  height: 1000px;
+  width: 50%;
+  min-width: 320px;
+  height: 738px;
   overflow-y: scroll;
   scrollbar-width: none;
 }
 
+.mobile .right {
+  width: 30%;
+  min-width: 280px;
+  height: 100%;
+  overflow-y: auto;
+}
+
 .mobile .left::-webkit-scrollbar {
   display: none;
+}
+
+.mobile-icon-title {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  font-size: 1.2em;
+  vertical-align: middle;
+  color: #ff3939;
+}
+
+main.mobile .custom-title {
+  font-size: 1.2rem;
+}
+
+.custom-text.mb-3 {
+  font-size: 0.9rem;
+}
+
+.custom-mobile-add-card.custom-card.p-4.mb-4 > *:not(:last-child) {
+  margin-bottom: 0.7rem;
 }
