@@ -15,6 +15,7 @@ import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import './mobileApplicationPanel.scss';
 import { mobileEmptyScreen } from '@/app/constants/app-texts';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { MobileIcon } from '@/app/views/components/icons';
 
 const MobileApplicationPanel: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -64,15 +65,19 @@ const MobileApplicationPanel: React.FC = () => {
       <section className="left">
         <div className="custom-mobile-add-card custom-card p-4 mb-4">
           <div className="custom-d-flex custom-align-items-center mb-2">
-            <h3 className="custom-title m-0">Recursos mobile</h3>
+            <h3 className="custom-title m-0">
+              <span className="mobile-icon-title">
+                <MobileIcon />
+              </span>
+              Mobile resources
+            </h3>
           </div>
           <p className="custom-text mb-3">
-            Administre las aplicaciones mobile usadas por su empresa que desee supervisar o correr
-            pruebas de penetración.
+            Manage the mobile applications used by your company that you want to monitor or perform
+            penetration testing on.
           </p>
-          <br />
           <button className="custom-btn custom-btn-primary" onClick={handleShow}>
-            Añadir aplicación
+            Add application
           </button>
         </div>
 

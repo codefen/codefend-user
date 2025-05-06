@@ -611,7 +611,6 @@
 
         .reviews {
           display: flex;
-          align-items: center;
           column-gap: 0.5rem;
         }
       }
@@ -751,6 +750,7 @@
   justify-content: space-between;
   padding-inline-end: 1.25rem;
   border-radius: 0.313rem;
+  width: 100%;
 
   &.notMobile {
     column-gap: 7rem;
