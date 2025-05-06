@@ -16,7 +16,7 @@ const InxPanel = () => {
   }, [control]);
 
   return (
-    <main className={`inx-list ${showScreen ? 'actived' : ''}`}>
+    <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
       <section className="left">
         <InxSearchAndData refetch={refetch} />
       </section>

@@ -110,6 +110,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   currentScan: null,
   isScanning: false,
   selectedTicket: null,
+  session: '',
 };
 
 export const EMPTY_PROVIDER = {

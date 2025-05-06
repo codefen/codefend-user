@@ -23,8 +23,12 @@ export const useLoginAction = () => {
       path: '/users/access',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response) || !data.user) {
-          throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        if (apiErrorValidation(data?.error, data?.response)) {
+          const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          customError.code = data?.error_info || 'generic';
+          customError.email = email;
+          customError.password = password;
+          throw customError;
         }
         const token = data.session as string;
         const decodedToken = decodePayload(token || '');
@@ -45,8 +49,13 @@ export const useLoginAction = () => {
         return user;
       })
       .catch((e: any) => {
+        if (e.code === 'mfa_code_undefined') {
+          // No mostrar toast, solo indicar que falta MFA
+          return { mfaRequired: true, email: e.email, password: e.password };
+        }
+
         toast.error(e.message);
-        return false;
+        return { error: 'invalid_username_or_password' };
       });
   };
 

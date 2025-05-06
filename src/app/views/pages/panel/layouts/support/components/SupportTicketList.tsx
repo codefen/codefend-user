@@ -110,7 +110,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = ({ refresh, tickets
                 <div className="icon">
                   <MessageIcon />
                 </div>
-                Ask a Tickets
+                Tickets
               </h2>
             </div>
           </div>

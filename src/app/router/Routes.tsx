@@ -151,7 +151,7 @@ export const AppRouter = () => {
           ),
         },
         {
-          path: 'talk-to-hacker',
+          path: 'ask-a-hacker',
           element: (
             <ProtectedRoute isAllowed={haveAccessToResources}>
               <SupportPanel />

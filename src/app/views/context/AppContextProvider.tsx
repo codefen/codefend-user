@@ -61,6 +61,7 @@ export type GlobalStore = {
   currentScan: any;
   isScanning: boolean;
   selectedTicket: any;
+  session: string;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -90,31 +91,7 @@ export const initialGlobalState: GlobalStore = {
   currentScan: persistedState?.currentScan ?? null,
   isScanning: persistedState?.isScanning ?? false,
   selectedTicket: persistedState?.selectedTicket ?? null,
-};
-
-export const emptyGlobalState: GlobalStore = {
-  isOpenNetworkSetting: false,
-  openModal: false,
-  country: '',
-  city: '',
-  region: '',
-  resourceType: RESOURCE_CLASS.WEB,
-  resourceID: '',
-  company: EMPTY_COMPANY_CUSTOM,
-  keyPress: '' as KeyPress,
-  lead: {},
-  domainCount: 0,
-  subDomainCount: 0,
-  uniqueIpCount: 0,
-  planPreference: 'medium',
-  isDefaultPlan: false,
-  selectedApp: null,
-  mobilePlanPreference: 'medium',
-  scanProgress: 0,
-  isProgressStarted: false,
-  currentScan: null,
-  isScanning: false,
-  selectedTicket: null,
+  session: persistedState?.session ?? '',
 };
 
 const {

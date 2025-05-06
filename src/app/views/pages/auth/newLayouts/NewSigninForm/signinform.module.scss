@@ -60,3 +60,7 @@
     --text-color: var(--tertiary-color-50);
   }
 }
+
+.hide-for-mfa {
+  display: none !important;
+}

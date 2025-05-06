@@ -50,7 +50,7 @@ const MobileApplicationPanel: React.FC = () => {
   };
   return (
     <EmptyLayout
-      className="mobile"
+      className={`mobile ${!Boolean(data.length) && 'empty-active'}`}
       fallback={mobileEmptyScreen}
       event={refresh}
       showScreen={showScreen}

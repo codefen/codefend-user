@@ -1,4 +1,4 @@
-main.inx-list {
+main.issues-list {
   padding-inline-end: 0;
   overflow: hidden;
 
@@ -299,7 +299,7 @@ main.inx-list {
 }
 
 [data-theme='dark'] {
-  main.inx-list {
+  main.issues-list {
     .left {
       > div {
         border: 1px solid var(--primary-color-400);

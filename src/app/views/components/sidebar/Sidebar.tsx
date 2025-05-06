@@ -271,7 +271,7 @@ const Sidebar: FC = () => {
           title: 'Ask a hacker',
           id: 'sidebar_talk_to_hacker',
           icon: <></>,
-          to: '/talk-to-hacker',
+          to: '/ask-a-hacker',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },

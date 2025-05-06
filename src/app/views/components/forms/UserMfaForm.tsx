@@ -52,7 +52,7 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
         if (apiErrorValidation(data?.error, data?.response)) {
           throw new Error(data.info);
         }
-
+        toast.success('MFA enabled successfully');
         if (onDone) onDone();
       })
       .catch((error: any) => {
