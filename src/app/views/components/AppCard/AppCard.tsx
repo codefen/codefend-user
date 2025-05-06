@@ -110,15 +110,6 @@ export const AppCard: FC<MobileAppCardProps> = ({
           <div className="app-card-title">
             <h3 className={`${isDetails ? 'detail' : 'card-resume'}`}>
               {isMainGoogleNetwork ? 'main google network' : cleanReview(name, true)}
-              <Show when={Boolean(activeViewCount)}>
-                <div className="view-count-issues">
-                  -{' '}
-                  <span className="codefend-text-red inline-flex">
-                    <BugIcon />
-                    {issueCount}
-                  </span>
-                </div>
-              </Show>
             </h3>
             <Show when={isDetails && !isMobileType}>
               <span className="second-text detail">resource id: {id}</span>

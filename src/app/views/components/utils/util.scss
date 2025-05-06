@@ -1,10 +1,6 @@
 #star-icon {
   color: #ff9100;
   width: 18px;
-
-  &.half-icon {
-    clip-path: inset(0 var(--half-percentage) 0 0);
-  }
 }
 
 .profile-media-container {

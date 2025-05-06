@@ -498,7 +498,6 @@
 
   &-border {
     // border: 1px solid oklch(82% 0 0);
-
     &.active {
       border: 1px solid var(--secondary-color-100);
     }
@@ -556,19 +555,19 @@
           text-transform: uppercase;
           border: 0;
 
-          .view-count-issues {
-            display: inline-flex;
-            margin-inline-start: 0.5rem;
-            column-gap: 0.25rem;
-            align-items: center;
+          // .view-count-issues {
+          //   display: inline-flex;
+          //   margin-inline-start: 0.5rem;
+          //   column-gap: 0.25rem;
+          //   align-items: center;
 
-            .inline-flex {
-              display: inline-flex;
-              column-gap: 0.25rem;
-              align-items: center;
-              font-size: 1.015rem;
-            }
-          }
+          //   .inline-flex {
+          //     display: inline-flex;
+          //     column-gap: 0.25rem;
+          //     align-items: center;
+          //     font-size: 1.015rem;
+          //   }
+          // }
         }
 
         .card-resume {
@@ -577,6 +576,8 @@
 
         .detail {
           color: var(--tertiary-color-500);
+          text-transform: capitalize;
+          margin-bottom: 0.1rem;
         }
       }
 
@@ -612,7 +613,6 @@
 
         .reviews {
           display: flex;
-          align-items: center;
           column-gap: 0.5rem;
         }
       }
@@ -750,8 +750,9 @@
 .app-card-wrapper {
   display: flex;
   justify-content: space-between;
-  padding-inline-end: 1.25rem;
+  // padding-inline-end: 1.25rem;
   border-radius: 0.313rem;
+  width: 100%;
 
   &.notMobile {
     column-gap: 7rem;

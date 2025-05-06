@@ -49,7 +49,7 @@ export const MobileScopeModal = () => {
           detected the following resources:
         </p>
       </div>
-      <div className="step-content"></div>
+      {/* <div className="step-content"></div> */}
 
       <div className="scope-confirm">
         <input
