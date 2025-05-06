@@ -8,7 +8,7 @@ import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { useOrderStore } from '@stores/orders.store';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { AppCard } from '@/app/views/components/AppCard/AppCard';
 import './MobileScopeModal.scss';
 
@@ -23,27 +23,17 @@ export const MobileScopeModal = () => {
   const { getAnyResource } = useGetResources();
   const navigate = useNavigate();
   const selectedAppStored = useGlobalFastField('selectedApp');
+  const globalStore = useGlobalFastFields(['selectedApp', 'planPreference', 'isDefaultPlan']);
 
   useEffect(() => {
-    const fetchSelectedApp = async () => {
-      try {
-        if (selectedAppStored.get) {
-          setSelectedApp(selectedAppStored.get);
-        } else {
-          // Si no hay app seleccionada en el store, intentar cargar la primera disponible
-          const resources = await getAnyResource('mobile');
-          if (resources && resources.length > 0) {
-            setSelectedApp(resources[0]);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching mobile app:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchSelectedApp();
+    const app = globalStore.selectedApp.get;
+    if (app.app_rank <= 2 && app.app_rank <= 6) {
+      globalStore.planPreference.set('small');
+    } else if (app.app_rank <= 5 && app.app_rank <= 15) {
+      globalStore.planPreference.set('medium');
+    } else {
+      globalStore.planPreference.set('advanced');
+    }
   }, [selectedAppStored.get]);
 
   const goToNavigate = () => {

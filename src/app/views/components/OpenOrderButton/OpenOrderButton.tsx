@@ -54,6 +54,15 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
 //   [ResourcesTypes.SOCIAL]: ({ plan }) => `For social resources, ${plan}`,
 // };
 
+export const titleMap = {
+  [ResourcesTypes.WEB]: 'Analyze your web software',
+  [ResourcesTypes.MOBILE]: 'Start dedicated testing',
+  [ResourcesTypes.CLOUD]: 'Analyze your cloud software',
+  [ResourcesTypes.CODE]: 'Analyze your code',
+  [ResourcesTypes.NETWORK]: 'Analyze your network',
+  [ResourcesTypes.SOCIAL]: 'Analyze your social assets',
+};
+
 const OpenOrderButton = ({
   resourceCount = 0,
   isLoading,
@@ -93,7 +102,7 @@ const OpenOrderButton = ({
     <div className="card title">
       <div className="header">
         <AimIcon />
-        <span>Analyze your web software</span>
+        <span>{titleMap[type]}</span>
       </div>
       <div className="content">
         <p>{plan}</p>

@@ -87,8 +87,7 @@ export class AppConstants {
         price: '$1,500',
         promise: 'basic one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX users.</b>',
-          'Recommended maximum of <b>XXXX ratings.</b>',
+          'Recommended maximum of <b>1,500 downloads.</b>',
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
@@ -103,8 +102,7 @@ export class AppConstants {
         price: '$4,500',
         promise: 'intermediate one-time analysis',
         list: [
-          'Recommended maximum of <b>5,000 users.</b>',
-          'Recommended maximum of <b>1,000 ratings.</b>',
+          'Recommended maximum of <b>15,000 downloads.</b>',
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
@@ -119,8 +117,7 @@ export class AppConstants {
         price: '$13,500',
         promise: 'advanced one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX users.</b>',
-          'Recommended maximum of <b>XXXX ratings.</b>',
+          'Recommended minimum of <b>15,000 downloads.</b>',
           'Application value: <b>high.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
@@ -139,8 +136,7 @@ export class AppConstants {
         price: '$1,500',
         promise: 'basic one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX.</b>',
-          'Application value: <b>normal.</b>',
+          'Recommended maximum of <b>20 ip addresses.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
           '<b>40 hours</b> of manual pentest.',
@@ -154,8 +150,7 @@ export class AppConstants {
         price: '$4,500',
         promise: 'intermediate one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX.</b>',
-          'Application value: <b>normal.</b>',
+          'Recommended maximum of <b>200 ip addresses.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
           '<b>120 hours</b> of manual pentest.',
@@ -169,8 +164,7 @@ export class AppConstants {
         price: '$13,500',
         promise: 'advanced one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX.</b>',
-          'Application value: <b>high.</b>',
+          'Recommended maximum of <b>1000 ip addresses.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
           '<b>360 hours</b> of manual pentest.',
@@ -188,8 +182,7 @@ export class AppConstants {
         price: '$1,500',
         promise: 'basic one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX.</b>',
-          'Application value: <b>normal.</b>',
+          'Recommended maximum of <b>20 employees.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
           '<b>40 hours</b> of manual pentest.',
@@ -203,8 +196,7 @@ export class AppConstants {
         price: '$4,500',
         promise: 'intermediate one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX.</b>',
-          'Application value: <b>normal.</b>',
+          'Recommended maximum of <b>100 employees.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
           '<b>120 hours</b> of manual pentest.',
@@ -218,8 +210,7 @@ export class AppConstants {
         price: '$13,500',
         promise: 'advanced one-time analysis',
         list: [
-          'Recommended maximum of <b>XXXX.</b>',
-          'Application value: <b>high.</b>',
+          'Recommended maximum of <b>1000 employees.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
           '<b>360 hours</b> of manual pentest.',
