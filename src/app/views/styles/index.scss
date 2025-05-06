@@ -210,6 +210,7 @@
 .link {
   cursor: pointer;
 }
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -531,6 +532,9 @@ main.cloud {
   width: 60%;
   min-width: 1160px;
 
+  &.empty-active {
+    width: 100%;
+  }
   .left {
     flex: 1 1 43%;
     width: 43%;
