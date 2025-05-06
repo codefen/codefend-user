@@ -14,20 +14,25 @@ export const useLoginAction = () => {
   const { selectCompany } = useAdminCompanyStore(state => state);
   const axiosHttp = AxiosHttpService.getInstance();
 
-  const signInUser = (email: string, password: string): Promise<any> => {
+  const signInUser = (email: string, password: string, mfa: string): Promise<any> => {
+    const body: any = {
+      provided_password: password,
+      provided_email: email,
+    };
+    if (mfa) {
+      body['provided_mfa_code'] = mfa;
+    }
     return fetcher('post', {
-      body: {
-        provided_password: password,
-        provided_email: email,
-      },
+      body,
       path: '/users/access',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data?.error, data?.response) || Boolean(data?.error_info)) {
           const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
           customError.code = data?.error_info || 'generic';
           customError.email = email;
           customError.password = password;
+          console.log('customError', { customError });
           throw customError;
         }
         const token = data.session as string;
@@ -49,6 +54,7 @@ export const useLoginAction = () => {
         return user;
       })
       .catch((e: any) => {
+        console.log('e', e);
         if (e.code === 'mfa_code_undefined') {
           // No mostrar toast, solo indicar que falta MFA
           return { mfaRequired: true, email: e.email, password: e.password };

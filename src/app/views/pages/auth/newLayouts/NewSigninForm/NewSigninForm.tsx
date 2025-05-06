@@ -12,11 +12,6 @@ export const NewSigninForm = () => {
   const location = useLocation();
 
   const [mfaStep, setMfaStep] = useState(false);
-  const [formValues, setFormValues] = useState<{ email: string; password: string }>({
-    email: '',
-    password: '',
-  });
-  const [mfaCode, setMfaCode] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -30,8 +25,9 @@ export const NewSigninForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const email = form.get('email') as unknown as string;
     const password = form.get('password') as unknown as string;
-    setFormValues({ email, password });
-    signInUser(email || '', password || '').then((result: any) => {
+    const mfa = form.get('mfa') as unknown as string;
+    signInUser(email || '', password || '', mfa).then((result: any) => {
+      console.log('mfaRequired', result);
       if (result?.mfaRequired) {
         setMfaStep(true);
         return;
@@ -58,24 +54,22 @@ export const NewSigninForm = () => {
 
         <p>Welcome back! Please sign in</p>
         <form onSubmit={handleSubmit}>
-          <div className={mfaStep ? css['hide-for-mfa'] : ''}>
-            <AuthInput
-              placeholder="Email"
-              type="email"
-              name="email"
-              autoComplete="email"
-              required
-              defaultValue={formValues.email}
-            />
-            <AuthInput
-              placeholder="Password"
-              type="password"
-              name="password"
-              autoComplete="off"
-              required
-              defaultValue={formValues.password}
-            />
-          </div>
+          <AuthInput
+            className={mfaStep ? css['hide-for-mfa'] : ''}
+            placeholder="Email"
+            type="email"
+            name="email"
+            autoComplete="email"
+            required
+          />
+          <AuthInput
+            className={mfaStep ? css['hide-for-mfa'] : ''}
+            placeholder="Password"
+            type="password"
+            name="password"
+            autoComplete="off"
+            required
+          />
           {mfaStep && (
             <AuthInput
               placeholder="MFA Code"
@@ -83,8 +77,6 @@ export const NewSigninForm = () => {
               name="mfa"
               autoComplete="one-time-code"
               required
-              value={mfaCode}
-              setVal={(value: any) => setMfaCode(value)}
             />
           )}
           <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>

@@ -27,6 +27,7 @@ interface AuthInputProps {
   disabled?: boolean;
   id?: string;
   value?: string;
+  className?: string;
 }
 
 export const AuthInput = forwardRef(function AuthInput(
@@ -41,11 +42,12 @@ export const AuthInput = forwardRef(function AuthInput(
     disabled = false,
     id,
     value,
+    className,
   }: AuthInputProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
   return (
-    <div className="input-group">
+    <div className={`input-group ${className}`}>
       <input
         ref={ref}
         type={type}
