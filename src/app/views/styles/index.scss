@@ -708,13 +708,11 @@ main.cloud {
 
     .app-card {
       .actions {
-        display: start;
+        display: flex;
         align-items: center;
-        border-left: 1px solid var(--tertiary-color-700);
         color: var(--secondary-color-50);
 
         div {
-          border-right: 1px solid var(--tertiary-color-700);
           padding: 0 11px;
           letter-spacing: 1px;
           font-size: 13.5px;
