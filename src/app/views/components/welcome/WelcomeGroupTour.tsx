@@ -28,6 +28,7 @@ export const WelcomeGroupTour = () => {
     setIsOpen(false);
     setModalId('');
     saveInitialDomain('');
+    solvedComunique();
   };
 
   if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_DOMAIN) {

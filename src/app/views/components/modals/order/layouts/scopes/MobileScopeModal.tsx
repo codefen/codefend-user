@@ -16,23 +16,32 @@ export const MobileScopeModal = () => {
   const { resourceType, updateState, acceptCondition } = useOrderStore(state => state);
   const [acceptConditions, setAcceptCondition] = useState<boolean>(acceptCondition);
   const [tryClick, setTryClick] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedApp, setSelectedApp] = useState<any>(null);
   const { sendScopeOrders } = useOrderScope();
   const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
-  const { getAnyResource } = useGetResources();
   const navigate = useNavigate();
   const selectedAppStored = useGlobalFastField('selectedApp');
   const globalStore = useGlobalFastFields(['selectedApp', 'planPreference', 'isDefaultPlan']);
 
   useEffect(() => {
-    const app = globalStore.selectedApp.get;
-    if (app.app_rank <= 2 && app.app_rank <= 6) {
-      globalStore.planPreference.set('small');
-    } else if (app.app_rank <= 5 && app.app_rank <= 15) {
-      globalStore.planPreference.set('medium');
-    } else {
+    const downloads = globalStore.selectedApp.get?.app_android_downloads;
+    const cleaned = downloads?.replace?.(/&[A-Za-z]+;/g, '').replace(/[^\dKMkm.]/g, '');
+    const match = cleaned?.match?.(/^([\d.]+)([KMkm])?$/);
+
+    const number = parseFloat(match?.[1]);
+    const unit = match?.[2]?.toUpperCase?.();
+
+    if (unit === 'K') {
+      if (number >= 15000) {
+        globalStore.planPreference.set('advanced');
+      } else if (number >= 5000) {
+        globalStore.planPreference.set('medium');
+      } else {
+        globalStore.planPreference.set('small');
+      }
+    } else if (unit === 'M') {
       globalStore.planPreference.set('advanced');
+    } else {
+      globalStore.planPreference.set('medium');
     }
   }, [selectedAppStored.get]);
 
@@ -68,30 +77,24 @@ export const MobileScopeModal = () => {
         </p>
       </div>
       <div className="step-content">
-        {isLoading ? (
-          <p>Loading application details...</p>
-        ) : selectedApp ? (
-          <div
-            className="app-card-container"
-            style={{
-              width: '83%',
-              margin: '0 auto',
-            }}>
-            <AppCard
-              id={selectedApp.id}
-              type="mobile"
-              name={selectedApp.app_name || selectedApp.name || ''}
-              appDesc={selectedApp.app_desc || selectedApp.description || ''}
-              appMedia={selectedApp.app_media || ''}
-              appReviews={selectedApp.app_reviews}
-              appRank={selectedApp.app_rank}
-              appDeveloper={selectedApp.app_developer}
-              issueCount={selectedApp.final_issues || 0}
-            />
-          </div>
-        ) : (
-          <p>No application selected or found.</p>
-        )}
+        <div
+          className="app-card-container"
+          style={{
+            width: '83%',
+            margin: '0 auto',
+          }}>
+          <AppCard
+            id={selectedAppStored.get?.id}
+            type="mobile"
+            name={selectedAppStored.get?.app_name || selectedAppStored.get?.name || ''}
+            appDesc={selectedAppStored.get?.app_desc || selectedAppStored.get?.description || ''}
+            appMedia={selectedAppStored.get?.app_media || ''}
+            appReviews={selectedAppStored.get?.app_reviews}
+            appRank={selectedAppStored.get?.app_rank}
+            appDeveloper={selectedAppStored.get?.app_developer}
+            issueCount={selectedAppStored.get?.final_issues || 0}
+          />
+        </div>
       </div>
 
       <div className="scope-confirm">
