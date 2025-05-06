@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
         ) : (
           <PageLoader />
         )}
-        <div className="content-box-assets" style={{ marginTop: '1rem' }}>
+        <div className="content-box-assets">
           <div className="box-assets card" style={{ flex: '0.7' }}>
             <DashboardAddResource data={data} />
           </div>

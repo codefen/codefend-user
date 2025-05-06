@@ -2,9 +2,9 @@ import { useEffect, type FC } from 'react';
 import SnPreviousSearches from './components/SnPreviousSearches.tsx';
 import SnsSearchAndData from './components/SnsSearchAndData.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import './Sns.scss';
 import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import './Sns.scss';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();

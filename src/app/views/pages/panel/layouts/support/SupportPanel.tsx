@@ -4,44 +4,70 @@ import { SupportTicketList } from './components/SupportTicketList';
 import { useAllTicket } from '@panelHooks/support/useAllTickets.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import Show from '@/app/views/components/Show/Show.tsx';
-import SelectedTicket from './supportProvider.ts';
 import './support.scss';
+import { useParams } from 'react-router';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import { AddNewTicketBox } from '@/app/views/pages/panel/layouts/support/components/AddNewTicketBox';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
-  const [selectedTicket, setSelectedTicket] = useState<string>('');
   const { getTikets, isLoading, refetch } = useAllTicket();
+  const { dad } = useParams();
+  const selectedTicket = useGlobalFastField('selectedTicket');
 
   useEffect(() => {
     refetch();
-    setSelectedTicket('');
-    return () => {
-      localStorage.removeItem('viewMessage');
-    };
   }, [control]);
 
-  if (selectedTicket == '' && !isLoading && Boolean(getTikets().length)) {
-    setSelectedTicket(getTikets()[0].id);
-  }
+  useEffect(() => {
+    const tickets = getTikets();
 
+    if (dad) {
+      const ticket = tickets.find(ticket => ticket.id === dad);
+      if (ticket) {
+        selectedTicket.set(ticket);
+      } else {
+        if (tickets.length > 0) {
+          selectedTicket.set(tickets[0]);
+        } else {
+          selectedTicket.set(null);
+        }
+      }
+    } else {
+      const current = selectedTicket.get;
+      if (!current) {
+        if (tickets.length > 0) {
+          selectedTicket.set(tickets[0]);
+        } else {
+          selectedTicket.set(null);
+        }
+      } else {
+        // Verificar que el actual todavía esté en la lista
+        const stillExists = tickets.some(ticket => ticket.id === current.id);
+        if (!stillExists) {
+          if (tickets.length > 0) {
+            selectedTicket.set(tickets[0]);
+          } else {
+            selectedTicket.set(null);
+          }
+        }
+      }
+    }
+  }, [dad, getTikets()]);
   return (
-    <SelectedTicket.Provider value={selectedTicket}>
+    <>
       <main className={`support ${showScreen ? 'actived' : ''}`}>
         <section className="left">
-          <SupportTicketList
-            setSelectedTicket={(ticketID: string) => setSelectedTicket(ticketID)}
-            isLoading={isLoading}
-            tickets={getTikets()}
-            refresh={refresh}
-          />
-        </section>
-        <section className="right">
-          <Show when={selectedTicket !== null}>
-            <SupportChatDisplay />
+          <Show when={selectedTicket.get !== null}>
+            <SupportChatDisplay selectedTicket={selectedTicket.get} />
           </Show>
         </section>
+        <section className="right">
+          <AddNewTicketBox />
+          <SupportTicketList isLoading={isLoading} tickets={getTikets()} refresh={refresh} />
+        </section>
       </main>
-    </SelectedTicket.Provider>
+    </>
   );
 };
 

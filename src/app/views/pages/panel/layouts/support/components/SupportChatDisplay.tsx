@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { ChatBoxType } from '@interfaces/panel';
 import { ChatBox } from '@/app/views/components/ChatBox/ChatBox';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
-import SelectedTicket from '../supportProvider';
 import Show from '@/app/views/components/Show/Show';
 import { MessageIcon } from '@icons';
 import { MessageList } from '@/app/views/components/MessageList/MessageList';
@@ -14,12 +13,11 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 import { EMPTY_CS_TICKET } from '@/app/constants/empty';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
-export const SupportChatDisplay: FC = () => {
+export const SupportChatDisplay: FC<{ selectedTicket: any }> = ({ selectedTicket }) => {
   const { getCompany } = useUserData();
-  const { dad } = useParams();
-  const selectedTicketID = useContext(SelectedTicket);
-  const { data, isLoading, mutate } = useSWRMessage(dad || selectedTicketID || '0', getCompany());
+  const { data, isLoading, mutate } = useSWRMessage(selectedTicket?.id || '0', getCompany());
 
   const onDone = (newMessage?: any) => {
     const viewMessage = localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE)
@@ -50,7 +48,7 @@ export const SupportChatDisplay: FC = () => {
           </div>
         </SimpleSection>
 
-        <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicketID} />
+        <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicket?.id} />
       </div>
     </>
   );

@@ -60,6 +60,8 @@ export type GlobalStore = {
   selectedApp: any;
   currentScan: any;
   isScanning: boolean;
+  selectedTicket: any;
+  session: string;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -88,6 +90,8 @@ export const initialGlobalState: GlobalStore = {
   isProgressStarted: persistedState?.isProgressStarted ?? false,
   currentScan: persistedState?.currentScan ?? null,
   isScanning: persistedState?.isScanning ?? false,
+  selectedTicket: persistedState?.selectedTicket ?? null,
+  session: persistedState?.session ?? '',
 };
 
 const {

@@ -1,3 +1,4 @@
+import { UserMfaForm } from '@/app/views/components/forms/UserMfaForm';
 import { PrimaryButton } from '@buttons/index';
 
 export const UserQr = () => {
@@ -18,12 +19,17 @@ export const UserQr = () => {
           .
         </p>
         <div className="qr-contain">
-          <img src="/images/qr-demo.png" alt="QR Code for 2FA" />
-          <form onSubmit={() => {}}>
-            <p>Enter the indicated number:</p>
-            <input className="input-primary" type="text" />
-            <PrimaryButton className="form-button" text="validate and confirm two-factor" />
-          </form>
+          <UserMfaForm>
+            {isLoading => (
+              <PrimaryButton
+                className="form-button"
+                disabledLoader
+                isDisabled={isLoading}
+                text="validate and confirm two-factor"
+                type="submit"
+              />
+            )}
+          </UserMfaForm>
         </div>
       </div>
     </div>

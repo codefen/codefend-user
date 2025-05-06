@@ -1,5 +1,7 @@
 import { IssuesStatus } from '@interfaces/issues';
-import type { User } from '../data';
+import type { KeyPress, User } from '../data';
+import type { GlobalStore } from '@/app/views/context/AppContextProvider';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 
 export const EMPTY_USER: User = {
   id: '',
@@ -50,6 +52,7 @@ export const EMPTY_COMPANY = {
   isDisabled: false,
   createdAt: '',
 };
+
 export const EMPTY_COMPANY_CUSTOM = {
   id: '',
   name: 'unknow',
@@ -81,6 +84,33 @@ export const EMPTY_COMPANY_CUSTOM = {
   mercado: '',
   eliminado: '0',
   creacion: '',
+  address: '',
+};
+
+export const EMPTY_GLOBAL_STATE: GlobalStore = {
+  isOpenNetworkSetting: false,
+  openModal: false,
+  country: '',
+  city: '',
+  region: '',
+  resourceType: RESOURCE_CLASS.WEB,
+  resourceID: '',
+  company: EMPTY_COMPANY_CUSTOM,
+  keyPress: '' as KeyPress,
+  lead: {},
+  domainCount: 0,
+  subDomainCount: 0,
+  uniqueIpCount: 0,
+  planPreference: 'medium',
+  isDefaultPlan: false,
+  selectedApp: null,
+  mobilePlanPreference: 'medium',
+  scanProgress: 0,
+  isProgressStarted: false,
+  currentScan: null,
+  isScanning: false,
+  selectedTicket: null,
+  session: '',
 };
 
 export const EMPTY_PROVIDER = {

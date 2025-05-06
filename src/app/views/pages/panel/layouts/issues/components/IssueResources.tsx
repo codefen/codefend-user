@@ -28,7 +28,7 @@ const issueColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-1',
-    weight: '5.5%',
+    weight: '7.5%',
     render: value => value,
   },
   {
@@ -36,14 +36,14 @@ const issueColumns: ColumnTableV3[] = [
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-2',
-    weight: '60%',
+    weight: '59%',
     render: issue => <ResourceIconText name={issue.name} resourceClass={issue.resourceClass} />,
   },
   {
     header: 'Published',
     key: 'createdAt',
     styles: 'item-cell-3 date',
-    weight: '15%',
+    weight: '14%',
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
 
@@ -74,7 +74,7 @@ const issueColumns: ColumnTableV3[] = [
     header: 'Score',
     key: 'riskScore',
     styles: 'item-cell-7',
-    weight: '15%',
+    weight: '14%',
     render: value => <RiskScore riskScore={value} />,
   },
   // {
@@ -106,7 +106,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
       styles: 'item-cell-9 action',
-      weight: '4%',
+      weight: '4.5%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
           <span
@@ -141,7 +141,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
           }}
         />
       </ModalTitleWrapper>
-      <div style={{ marginBottom: '12px' }}>
+      <div>
         <ModalInput
           icon={<MagnifyingGlassIcon />}
           setValue={(val: string) => setTerm(val)}

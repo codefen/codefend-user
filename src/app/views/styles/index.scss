@@ -69,9 +69,9 @@
   color: var(--primary-color-200) !important;
 }
 
-// .text-gray {
-//   // color: var(--tertiary-color-100) !important;
-// }
+.blur-overlay {
+  filter: blur(2rem) drop-shadow(0 0 18px #00000073);
+}
 
 .disable-border div {
   border-bottom: 0 solid var(--primary-color-300);
@@ -211,6 +211,10 @@
   cursor: pointer;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
 [dir='rtl'] {
   .text-right {
     text-align: left;
@@ -298,7 +302,8 @@ main {
   height: 100dvh;
 
   // max-height: calc(100dvh - var(--nav-height));
-  max-height: calc(100dvh - 10px);
+  // max-height: calc(100dvh - 10px);
+  max-height: var(--max-height-layout);
 
   display: flex;
   justify-content: space-between;
@@ -325,7 +330,10 @@ main {
 
   .left {
     flex: 1 1 70%;
-    overflow-x: auto;
+    overflow-y: auto;
+    gap: 12px;
+    container-type: size;
+    container-name: left-main;
 
     // padding-block-start: 3dvw;
     // padding: 0 5px;
@@ -344,7 +352,11 @@ main {
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin-bottom: 12px;
+    container-type: size;
+    container-name: right-main;
 
     .card {
       margin-bottom: 12px;
@@ -518,24 +530,31 @@ main.cloud {
   height: 100dvh;
   overflow: hidden;
   width: 60%;
+  min-width: 1160px;
 
+  &.empty-active {
+    width: 100%;
+  }
   .left {
-    flex: 1 1 45%;
-    width: 12%;
+    flex: 1 1 43%;
+    width: 43%;
 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    max-height: 100dvh;
+    overflow: hidden;
+
+    .list {
+      overflow: auto;
+      max-height: calc(100cqh - calc(100cqh * 0.35));
+    }
 
     .card {
       max-width: 100%;
       width: 100%;
       margin-inline: 0;
-      box-sizing: border-box;
-      padding: 0.8rem 0.2rem;
-      gap: 1rem;
+      gap: var(--card-space);
     }
 
     .search-app {
@@ -605,15 +624,12 @@ main.cloud {
   // IZQUIERDO //
 
   .right {
-    flex: 1 1 60%;
-    width: 69%;
+    flex: 1 1 57%;
+    width: 57%;
     scrollbar-width: none;
     overflow-y: auto;
     overflow-x: hidden;
     padding-inline-end: 10px;
-    min-height: 100dvh;
-    max-height: 0%;
-    height: auto;
     scrollbar-gutter: stable;
 
     &::-moz-scrollbar {

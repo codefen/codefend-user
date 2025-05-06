@@ -290,7 +290,8 @@ main.issues-list {
 
       .rows {
         overflow: auto;
-        max-height: calc(100dvh - 190px);
+        // max-height: calc(100dvh - 190px);
+        max-height: calc(100cqh - 120px);
       }
 
       .username {
