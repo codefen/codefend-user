@@ -220,6 +220,27 @@
       padding: 20px 0;
       margin-bottom: 10px;
       overflow-y: auto;
+
+      .app-info {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        background-color: #fff;
+
+        p {
+          margin: 0;
+          color: #333;
+          font-size: 0.9rem;
+          line-height: 1.5;
+        }
+
+        .info-title {
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: #000;
+        }
+      }
       // max-height: calc(100vh - 50vh);
 
       &.plan {
