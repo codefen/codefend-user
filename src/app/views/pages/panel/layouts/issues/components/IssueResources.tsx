@@ -112,7 +112,8 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
           <span
             title="Remove issue"
             className={`trash`}
-            onClick={() => {
+            onClick={e => {
+              e.preventDefault();
               setSelectedId(row.id);
               setShowModal(!showModal);
             }}>
