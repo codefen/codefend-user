@@ -69,9 +69,9 @@
   color: var(--primary-color-200) !important;
 }
 
-// .text-gray {
-//   // color: var(--tertiary-color-100) !important;
-// }
+.blur-overlay {
+  filter: blur(2rem) drop-shadow(0 0 18px #00000073);
+}
 
 .disable-border div {
   border-bottom: 0 solid var(--primary-color-300);
@@ -301,7 +301,8 @@ main {
   height: 100dvh;
 
   // max-height: calc(100dvh - var(--nav-height));
-  max-height: calc(100dvh - 10px);
+  // max-height: calc(100dvh - 10px);
+  max-height: var(--max-height-layout);
 
   display: flex;
   justify-content: space-between;
@@ -330,6 +331,8 @@ main {
     flex: 1 1 70%;
     overflow-x: auto;
     gap: 12px;
+    container-type: size;
+    container-name: left-main;
 
     // padding-block-start: 3dvw;
     // padding: 0 5px;
@@ -349,6 +352,8 @@ main {
     display: flex;
     flex-direction: column;
     margin-bottom: 12px;
+    container-type: size;
+    container-name: right-main;
 
     .card {
       margin-bottom: 12px;

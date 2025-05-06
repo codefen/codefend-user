@@ -39,7 +39,6 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
     const form = event.currentTarget;
     const formData = new FormData(form);
     const code = formData.get('mfaCode') as string;
-    // Enviar el código y la llave al backend
     fetcher('post', {
       path: 'users/mfa',
       requireSession: true,
@@ -64,11 +63,17 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
 
   return (
     <form className={`form ${className}`} onSubmit={handleSubmit} autoComplete="off">
-      {qr && (
-        <div style={{ textAlign: 'center', marginBottom: 16 }}>
-          <img src={qr} alt="MFA QR Code" style={{ maxWidth: 160, margin: '0 auto' }} />
-        </div>
-      )}
+      <div style={{ textAlign: 'center', marginBottom: 16 }}>
+        <img
+          src={qr}
+          alt="MFA QR Code"
+          style={{ margin: '0 auto' }}
+          width={160}
+          height={160}
+          decoding="async"
+          className={!qr ? 'blur-overlay' : ''}
+        />
+      </div>
       <ModalInput icon={null} name="mfaCode" placeholder="Ingresa el código de tu app" required />
       {children(isLoading)}
     </form>

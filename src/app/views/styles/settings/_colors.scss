@@ -10,6 +10,7 @@
   --brd-radius: 6px;
   --max-w-layout: 2000px;
   --card-space: 12px;
+  --max-height-layout: min(calc(100dvh - 10px), 1016px);
 }
 
 body[data-theme='light'] {

@@ -1,5 +1,4 @@
-main.issues-list {
-  max-height: 100dvh;
+main.inx-list {
   padding-inline-end: 0;
   overflow: hidden;
 
@@ -300,7 +299,7 @@ main.issues-list {
 }
 
 [data-theme='dark'] {
-  main.issues-list {
+  main.inx-list {
     .left {
       > div {
         border: 1px solid var(--primary-color-400);

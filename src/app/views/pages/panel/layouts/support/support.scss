@@ -51,26 +51,8 @@ main.support {
 
   .right {
     .card .table .rows {
-      max-height: 60dvh;
-    }
-  }
-
-  @media only screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    padding-inline-start: 10px;
-    height: 81dvh;
-    min-height: auto;
-
-    .left {
-      width: 100%;
-      padding-block-start: 10px;
-    }
-
-    .right {
-      width: 95%;
-      padding-inline-end: 10px;
-      height: 81dvh;
+      // Resta un 42% del espacio disponible en el contenedor derecho y ocupa un 58% del alto
+      max-height: calc(100cqh - calc(100cqh * 0.45));
     }
   }
 }

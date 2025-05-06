@@ -102,7 +102,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = ({ refresh, tickets
           action={e => handleDelete(e)}
         />
       </ModalTitleWrapper>
-      <div className="card table">
+      <div className="card">
         <div className="over">
           <div className="header">
             <div className="table-title">

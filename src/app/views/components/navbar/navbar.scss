@@ -1,6 +1,10 @@
 .navbar {
+  width: 100%;
+  padding-inline-end: 0;
+  left: 0;
+
   position: absolute;
-  width: -webkit-fill-available;
+  // width: -webkit-fill-available;
   // left: 15px;
   // right: 15px;
   max-width: var(--max-w-layout);
@@ -8,10 +12,10 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  padding-inline-end: 20px;
+  // padding-inline-end: 20px;
   top: 7px;
-  left: 10px;
-  right: 10px;
+  // left: 10px;
+  // right: 10px;
   color: var(--primary-color-50);
   height: var(--nav-height);
   background: #ffffff;
@@ -100,7 +104,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: -20px;
+    // margin-right: -20px;
 
     .action {
       display: flex;

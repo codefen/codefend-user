@@ -154,7 +154,7 @@
       width: 100%;
       max-width: 100%;
       // background: var(--option-header-bg);
-      padding: 7px 68px 20px 68px;
+      padding: 7px 68px 20px;
       gap: 10px;
 
       .number {
@@ -221,7 +221,6 @@
       margin-bottom: 10px;
       overflow-y: auto;
       // max-height: calc(100vh - 50vh);
-      
 
       &.plan {
         .flex-box {
@@ -232,8 +231,8 @@
         }
         .plan-list {
           list-style: none;
-          margin: 10px 0px;
-          padding: 0px;
+          margin: 10px 0;
+          padding: 0;
         }
         .plan-list li {
           margin-block: 5px;
@@ -245,7 +244,7 @@
           }
         }
         .ending {
-          margin: 20px 0px;
+          margin: 20px 0;
           text-align: center;
           a {
             text-decoration: underline;
@@ -275,9 +274,8 @@
 
       &.message {
         .text {
-          padding: 0px 68px;;
+          padding: 0 68px;
         }
-        
       }
       textarea {
         display: flex;
@@ -452,10 +450,6 @@
               filter: drop-shadow(0 0 18px #00000073);
               width: 135px;
               margin-inline-start: 1rem;
-
-              &.overlay {
-                filter: blur(2rem) drop-shadow(0 0 18px #00000073);
-              }
             }
           }
 
@@ -775,7 +769,7 @@
     }
 
     .button-wrapper {
-      padding: 17px 68px 0 68px;
+      padding: 17px 68px 0;
 
       &.next-btns {
         display: flex;
@@ -902,12 +896,10 @@
           line-height: 1.5rem;
         }
 
-        
         &:has(input[type='radio']:checked) {
-          border: 1px solid rgba(254, 78, 78, 0.3333333333);
-    border: 1px solid rgba(254, 78, 78, 0.3333333333);
-    background-color: rgba(255, 19, 19, 0.0196078431);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1450980392);
+          border: 1px solid rgb(254 78 78 / 33.3%);
+          background-color: rgb(255 19 19 / 1.96%);
+          box-shadow: 0 0 8px rgb(0 0 0 / 14.5%);
 
           h4 {
             color: #ff6464;
