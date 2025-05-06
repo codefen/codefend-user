@@ -6,6 +6,7 @@ import Show from '@/app/views/components/Show/Show';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useMobile } from '@resourcesHooks/mobile/useMobile.ts';
 import useModal from '#commonHooks/useModal.ts';
+import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk.tsx';
 
 import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
 import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithSearch/ListResourceWithSearch';
@@ -89,6 +90,7 @@ const MobileApplicationPanel: React.FC = () => {
       <section className="right">
         <Show when={Boolean(selectedAppStored.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} />
+          <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
         </Show>
       </section>
     </EmptyLayout>

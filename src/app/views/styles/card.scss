@@ -576,6 +576,8 @@
 
         .detail {
           color: var(--tertiary-color-500);
+          text-transform: capitalize;
+          margin-bottom: 0.1rem;
         }
       }
 
@@ -748,7 +750,7 @@
 .app-card-wrapper {
   display: flex;
   justify-content: space-between;
-  padding-inline-end: 1.25rem;
+  // padding-inline-end: 1.25rem;
   border-radius: 0.313rem;
   width: 100%;
 
