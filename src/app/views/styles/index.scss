@@ -724,7 +724,7 @@ main.cloud {
 
     .app-card {
       .actions {
-        display: start;
+        display: flex;
         align-items: center;
         color: var(--secondary-color-50);
 

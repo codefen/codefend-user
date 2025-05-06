@@ -6,17 +6,45 @@ import { MobileIcon } from '@icons';
 import { OrderSection } from '@interfaces/order';
 import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { useOrderStore } from '@stores/orders.store';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { AppCard } from '@/app/views/components/AppCard/AppCard';
+import './MobileScopeModal.scss';
 
 export const MobileScopeModal = () => {
   const { resourceType, updateState, acceptCondition } = useOrderStore(state => state);
   const [acceptConditions, setAcceptCondition] = useState<boolean>(acceptCondition);
   const [tryClick, setTryClick] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [selectedApp, setSelectedApp] = useState<any>(null);
   const { sendScopeOrders } = useOrderScope();
   const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
   const { getAnyResource } = useGetResources();
   const navigate = useNavigate();
+  const selectedAppStored = useGlobalFastField('selectedApp');
+
+  useEffect(() => {
+    const fetchSelectedApp = async () => {
+      try {
+        if (selectedAppStored.get) {
+          setSelectedApp(selectedAppStored.get);
+        } else {
+          // Si no hay app seleccionada en el store, intentar cargar la primera disponible
+          const resources = await getAnyResource('mobile');
+          if (resources && resources.length > 0) {
+            setSelectedApp(resources[0]);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching mobile app:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSelectedApp();
+  }, [selectedAppStored.get]);
 
   const goToNavigate = () => {
     updateState('open', false);
@@ -49,7 +77,32 @@ export const MobileScopeModal = () => {
           detected the following resources:
         </p>
       </div>
-      {/* <div className="step-content"></div> */}
+      <div className="step-content">
+        {isLoading ? (
+          <p>Loading application details...</p>
+        ) : selectedApp ? (
+          <div
+            className="app-card-container"
+            style={{
+              width: '83%',
+              margin: '0 auto',
+            }}>
+            <AppCard
+              id={selectedApp.id}
+              type="mobile"
+              name={selectedApp.app_name || selectedApp.name || ''}
+              appDesc={selectedApp.app_desc || selectedApp.description || ''}
+              appMedia={selectedApp.app_media || ''}
+              appReviews={selectedApp.app_reviews}
+              appRank={selectedApp.app_rank}
+              appDeveloper={selectedApp.app_developer}
+              issueCount={selectedApp.final_issues || 0}
+            />
+          </div>
+        ) : (
+          <p>No application selected or found.</p>
+        )}
+      </div>
 
       <div className="scope-confirm">
         <input
