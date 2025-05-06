@@ -54,7 +54,7 @@ export const MobileScopeModal = () => {
   const nextStep = () => {
     if (acceptConditions) {
       updateState('acceptCondition', acceptConditions);
-      sendScopeOrders(resourceType).then((res: any) => {
+      sendScopeOrders(resourceType, selectedAppStored.get?.id).then((res: any) => {
         updateState('referenceNumber', res?.order.reference_number);
       });
       updateState('orderStepActive', OrderSection.RECOMMENDED_PLAN);
