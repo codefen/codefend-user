@@ -60,7 +60,7 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
           />
         </div>
       </div>
-
+      <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
       {/* <section className="card table">
       
         <IssuesPanelMobileAndCloud isLoading={isLoading} issues={data?.issues || []} />

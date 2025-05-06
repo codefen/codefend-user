@@ -1,12 +1,8 @@
 .navbar {
-  width: 100%;
-  padding-inline-end: 0;
-  left: 0;
-
   position: absolute;
-  // width: -webkit-fill-available;
-  // left: 15px;
-  // right: 15px;
+  width: -webkit-fill-available;
+  left: var(--absolute-bars-left);
+  right: 15px;
   max-width: var(--max-w-layout);
   display: flex;
   align-items: center;

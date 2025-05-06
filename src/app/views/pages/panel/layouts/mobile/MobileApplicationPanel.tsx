@@ -90,7 +90,6 @@ const MobileApplicationPanel: React.FC = () => {
       <section className="right">
         <Show when={Boolean(selectedAppStored.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} />
-          <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
         </Show>
       </section>
     </EmptyLayout>
