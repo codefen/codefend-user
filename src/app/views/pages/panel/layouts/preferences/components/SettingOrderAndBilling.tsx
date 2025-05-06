@@ -133,18 +133,16 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => 
   return (
     <>
       <div className="card">
-        <SimpleSection header="ORDERS & BILLING DETAILS" icon={<ChartIcon />}>
-          <div className="order-preference-content">
-            <Tablev3
-              columns={orderColumns}
-              rows={orders}
-              showRows={!isLoading}
-              initialOrder="id"
-              limit={0}
-              isNeedSort
-            />
-          </div>
-        </SimpleSection>
+        <div className="order-preference-content">
+          <Tablev3
+            columns={orderColumns}
+            rows={orders}
+            showRows={!isLoading}
+            initialOrder="id"
+            limit={0}
+            isNeedSort
+          />
+        </div>
       </div>
     </>
   );

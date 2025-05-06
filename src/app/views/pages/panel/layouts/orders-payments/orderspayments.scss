@@ -1,0 +1,23 @@
+main.orders-payments {
+  .left {
+    .card {
+      .table-title {
+        gap: calc(var(--card-space) * 2);
+        height: 100%;
+      }
+      .table-title-info {
+        height: 100%;
+        align-self: flex-start;
+        margin-top: var(--card-space);
+        display: flex;
+        flex: 1 1 100%;
+        flex-direction: column;
+
+        p {
+          padding-inline: 0;
+          line-height: 2;
+        }
+      }
+    }
+  }
+}

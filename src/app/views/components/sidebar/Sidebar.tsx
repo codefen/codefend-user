@@ -158,6 +158,14 @@ const Sidebar: FC = () => {
           root: false,
           haveAccess: isNotProviderAndReseller,
         },
+        {
+          title: 'Orders and Payments',
+          id: 'sidebar_orders_payments',
+          icon: <></>,
+          to: '/orders-payments',
+          root: false,
+          haveAccess: isNotProviderAndReseller,
+        },
       ],
     },
     {

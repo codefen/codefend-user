@@ -49,6 +49,7 @@ import { TalkToHackerPage } from '@/app/views/pages/panel/layouts/talk-to-hacker
 import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/TeamMembersPage';
 import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
+import { OrdersPaymentsPage } from '@/app/views/pages/panel/layouts/orders-payments/OrdersPaymentsPage';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
@@ -155,6 +156,14 @@ export const AppRouter = () => {
           element: (
             <ProtectedRoute isAllowed={haveAccessToResources}>
               <SupportPanel />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'orders-payments',
+          element: (
+            <ProtectedRoute isAllowed={haveAccessToResources}>
+              <OrdersPaymentsPage />
             </ProtectedRoute>
           ),
         },
