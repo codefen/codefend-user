@@ -53,6 +53,21 @@ const parseDownloadCount = (downloads: any): number => {
   return 0;
 };
 
+// Función para obtener el texto de comparación según el número de descargas
+const getComparisonText = (count: number): { text: string; isMillions: boolean } => {
+  if (count < 1000) return { text: 'menos de 1.000', isMillions: false };
+  if (count < 10000) return { text: 'más de 1.000', isMillions: false };
+  if (count < 100000) return { text: 'más de 10.000', isMillions: false };
+  if (count < 500000) return { text: 'más de 100.000', isMillions: false };
+  if (count < 1000000) return { text: 'más de 500.000', isMillions: false };
+  if (count < 2000000) return { text: 'más de 1.000.000', isMillions: true };
+  if (count < 5000000) return { text: 'más de 1.000.000', isMillions: true };
+  if (count < 10000000) return { text: 'más de 5.000.000', isMillions: true };
+  if (count < 50000000) return { text: 'más de 10.000.000', isMillions: true };
+  if (count < 100000000) return { text: 'más de 50.000.000', isMillions: true };
+  return { text: 'más de 100.000.000', isMillions: true };
+};
+
 // Función para formatear el mensaje de descargas
 const getDownloadMessage = (downloads: any): string => {
   const count = parseDownloadCount(downloads);
@@ -61,7 +76,14 @@ const getDownloadMessage = (downloads: any): string => {
     return 'Esta aplicación no cuenta con información de descargas';
   }
 
-  return `Esta aplicación cuenta con ${formatNumber(count)} descargas`;
+  const { text: comparison, isMillions } = getComparisonText(count);
+
+  if (count < 1000000) {
+    return `Esta aplicación tiene ${comparison} mil descargas`;
+  } else {
+    const millonText = comparison.includes('1.000.000') ? 'millón' : 'millones';
+    return `Esta aplicación tiene ${comparison} ${millonText} de descargas`;
+  }
 };
 
 export const DownloadsCard: React.FC<DownloadsCardProps> = ({ className, appData }) => {
