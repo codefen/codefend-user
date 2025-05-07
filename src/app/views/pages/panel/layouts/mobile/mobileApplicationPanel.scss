@@ -30,6 +30,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 0;
 }
 
 .mobile .left {
@@ -37,17 +38,114 @@
   min-width: 320px;
   overflow-y: scroll;
   scrollbar-width: none;
+  padding-inline-end: 0 !important;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
+
+  .search-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    background: white;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .form-input {
+    margin-bottom: 0;
+    width: 100%;
+    position: relative;
+
+    input {
+      background: white;
+      border: none;
+      border-radius: 0;
+      padding-left: 40px;
+      height: 40px;
+      color: var(--tertiary-color-700);
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      box-shadow: none;
+
+      &::placeholder {
+        color: var(--tertiary-color-400);
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        border-color: var(--secondary-color-50);
+        box-shadow: none;
+      }
+    }
+
+    .icon {
+      color: var(--secondary-color-50);
+      left: 12px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+/* Asegurar que la tarjeta ocupe el espacio restante */
+.mobile .left .card.cloud-apps {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .mobile .right {
   width: 30%;
   min-width: 280px;
   height: 100%;
+  margin-left: 0;
   overflow-y: auto;
 }
 
 .mobile .left::-webkit-scrollbar {
   display: none;
+}
+
+// Estilos para la tarjeta de descargas
+.downloads-card {
+  background: white;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 12px 0 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 400;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
+
+  .downloads-content {
+    width: 100%;
+    text-align: left;
+
+    .downloads-text {
+      font-size: 13px;
+      color: #4b5563;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+  }
 }
 
 .mobile-icon-title {

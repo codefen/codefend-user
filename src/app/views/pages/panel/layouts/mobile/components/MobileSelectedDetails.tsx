@@ -13,6 +13,7 @@ import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { DownloadsCard } from './DownloadsCard';
 
 export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
   const { data, isLoading, refetch } = useGetOneMobile();
@@ -28,14 +29,29 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
     return <PageLoader />;
   }
 
+  // Obtener los datos de la aplicación desde el estado seleccionado
+  const appData = selectedAppStored.get || {};
+
+  // Obtener las descargas directamente del estado seleccionado
+  const downloadsData = {
+    total_downloads: selectedAppStored.get?.app_android_downloads || '0',
+  };
+
+  console.log('=== DATOS DE DESCARGAS ===');
+  console.log('Datos de descargas a mostrar:', downloadsData);
+  console.log('Datos del estado (selectedAppStored.get):', selectedAppStored.get);
+  console.log('==========================');
+
   return (
     <>
       <div>
         <AppCardInfo
           type={RESOURCE_CLASS.MOBILE}
           selectedApp={selectedAppStored.get}
-          issueCount={data?.issues ? data.issues.length : 0}
+          issueCount={appData.issues ? appData.issues.length : 0}
         />
+        {/* Mostrar siempre la tarjeta de descargas */}
+        <DownloadsCard appData={downloadsData} />
       </div>
       <div className="selected-content">
         {/* <div className="selected-content-credentials">

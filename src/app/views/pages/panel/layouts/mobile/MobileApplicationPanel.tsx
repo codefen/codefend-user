@@ -16,7 +16,8 @@ import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import './mobileApplicationPanel.scss';
 import { mobileEmptyScreen } from '@/app/constants/app-texts';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import { MobileIcon } from '@/app/views/components/icons';
+import { MobileApplicationTitle } from './components/MobileApplicationTitle';
+import { DownloadsCard } from './components/DownloadsCard';
 
 const MobileApplicationPanel: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -63,34 +64,17 @@ const MobileApplicationPanel: React.FC = () => {
       <div className="brightness variant-2"></div>
       <div className="brightness variant-3"></div>
 
-      <section className="left">
-        <div className="custom-mobile-add-card custom-card p-4 mb-4">
-          <div className="custom-d-flex custom-align-items-center mb-2">
-            <h3 className="custom-title m-0">
-              <span className="mobile-icon-title">
-                <MobileIcon />
-              </span>
-              Mobile resources
-            </h3>
-          </div>
-          <p className="custom-text mb-3">
-            Manage the mobile applications used by your company that you want to monitor or perform
-            penetration testing on.
-          </p>
-          <button className="custom-btn custom-btn-primary" onClick={handleShow}>
-            Add application
-          </button>
-        </div>
-
-        <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
-      </section>
-
-      {/* COLUMNA DERECHA */}
-
       <section className="right">
         <Show when={Boolean(selectedAppStored.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} />
         </Show>
+      </section>
+
+      {/* COLUMNA IZQUIERDA */}
+
+      <section className="left">
+        <MobileApplicationTitle onAddClick={handleShow} isLoading={isLoading} />
+        <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
       </section>
     </EmptyLayout>
   );
