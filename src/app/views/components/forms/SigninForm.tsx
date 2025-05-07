@@ -14,7 +14,7 @@ const SigninForm: FC<{
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    signInUser(email.current?.value || '', password.current?.value || '').then((user: any) => {
+    signInUser(email.current?.value || '', password.current?.value || '', '').then((user: any) => {
       const state = location.state;
       if (user && state && state?.redirect) {
         navigate(state.redirect);
