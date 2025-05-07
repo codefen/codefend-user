@@ -37,18 +37,22 @@ const Dashboard: React.FC = () => {
       <div className="brightness variant-2"></div>
 
       <section className="left">
-        {scanNumber.get > 0 && !isScanning.get ? (
+        {!isScanning.get &&
+        (Number(company.get?.disponibles_neuroscan) == 0 || scanNumber.get > 0) ? (
           <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
         ) : !isLoading ? (
-          <DashboardInvoke scanNumber={scanNumber.get} />
+          <DashboardInvoke
+            scanNumber={scanNumber.get}
+            disponibles={company.get?.disponibles_neuroscan || 0}
+          />
         ) : (
           <PageLoader />
         )}
-        <div className="content-box-assets">
-          <div className="box-assets card" style={{ flex: '0.7' }}>
+        <div className="content-box-assets left-asset">
+          <div className="box-assets" style={{ flex: '0.7' }}>
             <DashboardAddResource data={data} />
           </div>
-          <div className="box-assets card">
+          <div className="box-assets">
             <DashboardAddCollaborators isLoading={isLoading} data={data} />
           </div>
         </div>

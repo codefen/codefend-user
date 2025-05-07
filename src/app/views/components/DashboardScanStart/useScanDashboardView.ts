@@ -28,8 +28,8 @@ export const useScanDashboardView = () => {
       path: 'modules/neuroscan/index',
       requireSession: true,
     }).then(({ data }) => {
-      const scans = data.neuroscans;
-      const latestScans = scans.sort((a: any, b: any) => b.id - a.id).slice(0, 3);
+      const scans = data?.neuroscans;
+      const latestScans = scans?.sort?.((a: any, b: any) => b?.id - a?.id)?.slice?.(0, 3);
       const currentLastScan = getLatestScan(latestScans || []);
       setScanDashboardView(latestScans || []);
       if (currentLastScan && !isScanning.get) {

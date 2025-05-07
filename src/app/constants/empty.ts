@@ -195,7 +195,7 @@ export const EMPTY_DASHBOARD_PROPS = {
     source: '',
     web: '',
   },
-  company: {},
+  company: null,
 };
 
 export const EMPTY_TICKET_WITHCHILD = {

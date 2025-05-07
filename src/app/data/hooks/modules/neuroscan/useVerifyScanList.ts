@@ -68,16 +68,18 @@ export const useVerifyScanList = () => {
 
   // Si al primer fetch detectamos un scan en curso, activamos la bandera
   useEffect(() => {
+    const scanSize = data?.scans?.length;
+    console.log({ scanSize });
+    if (scanNumber.get != scanSize) {
+      scanNumber.set(scanSize || 0);
+    }
     if (!latestScan) {
       if (scanningValue) isScanning.set(false);
       return;
     }
 
     const isActive = latestScan.phase === 'scanner' || latestScan.phase === 'parser';
-    const scanSize = data?.scans?.length;
-    if (scanNumber.get != scanSize) {
-      scanNumber.set(scanSize || 0);
-    }
+
     if (scanningValue && !isActive) {
       isScanning.set(false);
     } else if (!scanningValue && isActive) {

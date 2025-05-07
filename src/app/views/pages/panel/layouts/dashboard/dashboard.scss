@@ -18,6 +18,11 @@ main.dashboard {
       justify-content: center;
       margin-bottom: 12px;
 
+      &.left-asset .card .over .grid-2x2 {
+        width: fit-content;
+        justify-self: center;
+      }
+
       .box-assets {
         flex: 1;
       }

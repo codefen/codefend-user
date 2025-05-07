@@ -5,22 +5,22 @@ import { PrimaryButton } from '@buttons/index.ts';
 import useModalStore from '@stores/modal.store';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 
-const getText = (scanNumber: number) => {
-  if (scanNumber === 0) {
+const getText = (scanNumber: number, disponibles: number) => {
+  if (scanNumber === 0 && Number(disponibles) > 0) {
     return 'Your protection starts here.';
   }
   return 'Surface exploration in progress';
 };
 
-const getButtonText = (scanNumber: number) => {
-  if (scanNumber === 0) {
+const getButtonText = (scanNumber: number, disponibles: number) => {
+  if (scanNumber === 0 && Number(disponibles) > 0) {
     return 'Start scan';
   }
   return 'Open scan progress';
 };
 
-const getDescription = (scanNumber: number) => {
-  if (scanNumber === 0) {
+const getDescription = (scanNumber: number, disponibles: number) => {
+  if (scanNumber === 0 && Number(disponibles) > 0) {
     return (
       <>
         Our AI-powered engine is ready to scan your resources and uncover hidden threats before they
@@ -38,7 +38,13 @@ const getDescription = (scanNumber: number) => {
   );
 };
 
-export const DashboardInvoke = ({ scanNumber }: { scanNumber: number }) => {
+export const DashboardInvoke = ({
+  scanNumber,
+  disponibles,
+}: {
+  scanNumber: number;
+  disponibles: any;
+}) => {
   const { setIsOpen, setModalId } = useModalStore();
   const { setScanStep, setIssueFound, setIssuesViewed, setScanRunning } = useWelcomeStore();
 
@@ -59,10 +65,10 @@ export const DashboardInvoke = ({ scanNumber }: { scanNumber: number }) => {
       <div className="over">
         <RadarScanner />
         <div className="header-content">
-          <h1>{getText(scanNumber)}</h1>
-          <p>{getDescription(scanNumber)}</p>
+          <h1>{getText(scanNumber, disponibles)}</h1>
+          <p>{getDescription(scanNumber, disponibles)}</p>
           <PrimaryButton
-            text={getButtonText(scanNumber)}
+            text={getButtonText(scanNumber, disponibles)}
             buttonStyle="black"
             className="btn-black"
             click={openOnBoard}
