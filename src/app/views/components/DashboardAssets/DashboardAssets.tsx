@@ -42,21 +42,19 @@ export const DashboardAssets: FC<{
     navigate(`/${resource === 'lan' ? 'network' : resource}`);
   };
   return (
-    <div className={`${css['stats']} ${css['card']}`}>
-      <div className={'grid-2x2'}>
-        {Object.keys(resources)
-          .filter(resource => !hiddenResources.includes(resource as RESOURCE_CLASS))
-          .map((resource: string | number, i: number) => (
-            <StatAsset
-              key={resourceKeys[i]}
-              valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
-              value={resources[resource as keyof typeof resources]}
-              isActive={isActivePath(resource as string)}
-              borderStyle={borderStyle}
-              onClick={() => navigateTo(resource)}
-            />
-          ))}
-      </div>
+    <div className="grid-2x2">
+      {Object.keys(resources)
+        .filter(resource => !hiddenResources.includes(resource as RESOURCE_CLASS))
+        .map((resource: string | number, i: number) => (
+          <StatAsset
+            key={resourceKeys[i]}
+            valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
+            value={resources[resource as keyof typeof resources]}
+            isActive={isActivePath(resource as string)}
+            borderStyle={borderStyle}
+            onClick={() => navigateTo(resource)}
+          />
+        ))}
     </div>
   );
 };

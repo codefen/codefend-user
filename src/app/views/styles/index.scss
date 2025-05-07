@@ -160,19 +160,26 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: 2rem;
+  gap: var(--card-space);
 }
 
 .flex-box {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--card-space);
+}
+
+.flex-box-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--card-space);
+  flex-wrap: wrap;
 }
 
 .flex-box-column {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--card-space);
   align-items: center;
 }
 

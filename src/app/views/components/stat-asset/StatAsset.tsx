@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from 'react';
-import css from './statasset.module.scss';
 
 export interface StatAssetProps {
   value: ReactNode;
@@ -20,9 +19,9 @@ export const StatAsset: FC<StatAssetProps> = ({
 }) => {
   return (
     <div
-      className={`${css['stat']} ${isActive && css['stat-active']} ${!onClick && css['default']} ${borderStyle && 'border-stat'}`}
+      className={`card stat ${isActive && 'stat-active'} ${!onClick && 'default'} ${borderStyle && 'border-stat'}`}
       onClick={onClick}>
-      <div className={css['value']}>{value}</div>
+      <div className={'value'}>{value}</div>
       <p className={`${isRed && 'codefend-text-red-200'}`}>{valueTitle}</p>
     </div>
   );

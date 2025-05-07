@@ -48,20 +48,20 @@
 
 @font-face {
   font-family: Satoshi;
-  font-style: bold;
-  font-weight: 700;
-  src:
-    local('Satoshi-Bold'),
-    url('/fonts/Satoshi-Bold.otf') format('truetype');
-}
-
-@font-face {
-  font-family: Satoshi;
   font-style: medium;
   font-weight: 500;
   src:
     local('Satoshi-Medium'),
     url('/fonts/Satoshi-Medium.otf') format('truetype');
+}
+
+@font-face {
+  font-family: Satoshi;
+  font-style: bold;
+  font-weight: 700;
+  src:
+    local('Satoshi-Bold'),
+    url('/fonts/Satoshi-Bold.otf') format('truetype');
 }
 
 /* scrollbar */

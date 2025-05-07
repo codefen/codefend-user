@@ -200,39 +200,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
         close={() => setIsOpen(false)}
         webResources={webResources}
       />
-      {/* <div className="card">
-        <div className="over">
-          <div className="header">
-            <div className="title">
-              <div className="icon">
-                <GlobeWebIcon />
-              </div>
-              <span>Domains and subdomains</span>
-            </div>
-
-            <div className="actions">
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setIsOpen(true);
-                  setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
-                }}>
-                Add domain
-              </div>
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setIsOpen(true);
-                  setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
-                }}>
-                Add subdomain
-              </div>
-            </div>
-          </div> 
-        </div>
-      </div>*/}
 
       <div className="search-bar-container">
         <ModalInput

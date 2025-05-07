@@ -23,13 +23,6 @@ export const TeamMembersPage = () => {
       </section>
       <section className="right">
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
-        {/* <PrimaryButton
-          text="Go to vulnerabilities"
-          buttonStyle="red"
-          className="full"
-          click={() => navigate('/issues')}
-          disabledLoader
-        /> */}
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
         <DashboardScanStart />
       </section>

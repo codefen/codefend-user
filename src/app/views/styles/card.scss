@@ -1,5 +1,5 @@
 .card {
-  overflow: hidden;
+  overflow: auto;
   flex: 0 0 auto;
 
   // border-width: 1px;
@@ -14,6 +14,11 @@
   border-radius: var(--brd-radius);
   animation: fadeIn 0.5s ease-in-out;
   height: fit-content;
+
+  .card {
+    background: inherit;
+    box-shadow: none;
+  }
 
   @keyframes fadeIn {
     from {
@@ -101,6 +106,36 @@
     p {
       padding-inline: 12px;
       margin-bottom: 1rem;
+    }
+  }
+
+  &.rectangle {
+    .over {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(var(--card-space) * 2);
+    }
+
+    svg,
+    img {
+      height: 13rem;
+      width: 13rem;
+      color: var(--secondary-color-200);
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      p {
+        padding-inline: 0;
+      }
+
+      button {
+        max-width: 300px;
+      }
     }
   }
 
@@ -208,6 +243,68 @@
 
       @media only screen and (max-width: 1480px) {
         flex-direction: column;
+      }
+    }
+  }
+
+  &.stat {
+    align-items: center;
+    text-transform: uppercase;
+    flex: 1 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    aspect-ratio: 1 / 1;
+    max-height: 9.5rem;
+    row-gap: 0.55rem;
+
+    &.default {
+      cursor: default;
+      border: none;
+      background-color: var(--primary-color);
+    }
+
+    &:hover {
+      .value,
+      p {
+        animation: agrandar-y-volver 0.1s;
+        color: var(--secondary-color-200) !important;
+        text-shadow: 0 0 4px #d91a1a33;
+      }
+    }
+
+    .value {
+      font-family: Roboto;
+      font-weight: bold;
+      font-size: 1.8rem;
+      line-height: 32px;
+      text-align: center;
+      color: var(--tertiary-color-50);
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 15px;
+      font-family: Roboto;
+      font-weight: bold;
+      color: var(--tertiary-color-450);
+      margin: 0;
+      text-wrap: wrap;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
+      padding-inline: 0.625rem;
+      text-align: center;
+    }
+
+    &.stat-active {
+      .value {
+        color: var(--tertiary-color-300);
+      }
+
+      p {
+        color: var(--secondary-color-100);
       }
     }
   }
@@ -950,6 +1047,42 @@
         color,
         background 275ms linear;
       background: #0d141b59;
+    }
+
+    &.stat {
+      outline: none;
+      background-color: var(--primary-color-300);
+      border: 1px solid var(--primary-color-400);
+
+      &.default {
+        border: none;
+        background-color: var(--primary-color);
+      }
+
+      &.stat-active {
+        .value,
+        p {
+          color: var(--secondary-color-200);
+        }
+      }
+
+      &:first-child {
+        border-top-left-radius: 0.313rem;
+        border-bottom-left-radius: 0.313rem;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0.313rem;
+        border-bottom-right-radius: 0.313rem;
+      }
+
+      .value {
+        color: var(--tertiary-color-400);
+      }
+
+      p {
+        color: var(--tertiary-color-500);
+      }
     }
 
     &.stats {
