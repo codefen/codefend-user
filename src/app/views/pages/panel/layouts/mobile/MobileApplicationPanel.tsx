@@ -17,6 +17,7 @@ import './mobileApplicationPanel.scss';
 import { mobileEmptyScreen } from '@/app/constants/app-texts';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { MobileApplicationTitle } from './components/MobileApplicationTitle';
+import { DownloadsCard } from './components/DownloadsCard';
 
 const MobileApplicationPanel: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -73,7 +74,6 @@ const MobileApplicationPanel: React.FC = () => {
 
       <section className="left">
         <MobileApplicationTitle onAddClick={handleShow} isLoading={isLoading} />
-
         <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
       </section>
     </EmptyLayout>

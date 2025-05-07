@@ -42,7 +42,6 @@
   margin-right: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   padding: 0;
   box-sizing: border-box;
 
@@ -58,24 +57,33 @@
 
   .form-input {
     margin-bottom: 0;
+    width: 100%;
+    position: relative;
 
     input {
       background: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 0;
       padding-left: 40px;
       height: 40px;
       color: var(--tertiary-color-700);
       font-size: 14px;
       width: 100%;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      box-shadow: none;
 
       &::placeholder {
         color: var(--tertiary-color-400);
       }
 
-      &:focus {
+      &:focus,
+      &:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 2px rgb(255 57 57 / 20%);
+        border-color: var(--secondary-color-50);
+        box-shadow: none;
       }
     }
 
@@ -109,6 +117,35 @@
 
 .mobile .left::-webkit-scrollbar {
   display: none;
+}
+
+// Estilos para la tarjeta de descargas
+.downloads-card {
+  background: white;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 12px 0 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 400;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
+
+  .downloads-content {
+    width: 100%;
+    text-align: left;
+
+    .downloads-text {
+      font-size: 13px;
+      color: #4b5563;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+  }
 }
 
 .mobile-icon-title {
