@@ -4,6 +4,8 @@ interface DownloadsCardProps {
   className?: string;
   appData?: {
     total_downloads?: string | number; // Puede ser string (ej: '10k', '5m', '100 M+') o number
+    app_android_downloads?: string | number;
+    app_ios_downloads?: string | number;
   };
 }
 
@@ -87,12 +89,26 @@ const getDownloadMessage = (downloads: any): string => {
 };
 
 export const DownloadsCard: React.FC<DownloadsCardProps> = ({ className, appData }) => {
-  const downloadCount = appData?.total_downloads;
+  // Obtener las descargas, intentando primero con total_downloads, luego con Android y finalmente con iOS
+  const downloadCount =
+    appData?.total_downloads || appData?.app_android_downloads || appData?.app_ios_downloads;
 
   // Obtener el mensaje de descargas
   const downloadMessage = useMemo(() => {
     return getDownloadMessage(downloadCount);
   }, [downloadCount]);
+
+  // Debug: Mostrar información sobre los datos de descargas
+  useEffect(() => {
+    console.log('=== DOWNLOADS CARD DEBUG ===');
+    console.log('Datos de entrada (appData):', appData);
+    console.log('Total downloads:', appData?.total_downloads);
+    console.log('Android downloads:', appData?.app_android_downloads);
+    console.log('iOS downloads:', appData?.app_ios_downloads);
+    console.log('Valor usado (downloadCount):', downloadCount);
+    console.log('Mensaje generado:', downloadMessage);
+    console.log('===========================');
+  }, [appData, downloadCount, downloadMessage]);
 
   // Debug: Mostrar información sobre los datos de descargas
   useEffect(() => {
