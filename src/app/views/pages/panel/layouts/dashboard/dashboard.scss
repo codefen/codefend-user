@@ -1,5 +1,16 @@
 main.dashboard {
   .left {
+    .card.rectangle {
+      .over {
+        padding: 3rem;
+        gap: calc(var(--card-space) * 4);
+        p {
+          max-width: min(660px, 85%);
+          line-height: 2rem;
+        }
+      }
+    }
+
     .content-box-assets {
       display: flex;
       flex-direction: row;

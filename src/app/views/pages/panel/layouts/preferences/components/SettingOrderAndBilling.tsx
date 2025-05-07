@@ -10,6 +10,7 @@ import useOrderScopeStore from '@stores/orderScope.store';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { naturalTime } from '@utils/helper';
 
 interface BillingDataProps {
   isLoading: boolean;
@@ -20,58 +21,58 @@ const rawOrderColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1',
-    weight: '7%',
+    styles: 'item-cell-preference-1',
+    weight: '14.8%',
     render: value => value,
   },
   {
-    header: 'Size',
-    key: 'chosen_plan',
-    styles: 'item-cell-2',
-    weight: '9%',
+    header: 'Price',
+    key: 'chosen_plan_price',
+    styles: 'item-cell-preference-2',
+    weight: '16.8%',
     render: value => value,
   },
-  {
-    header: 'Offensiveness',
-    key: 'offensiveness',
-    styles: 'item-cell-3',
-    weight: '13%',
-    render: value => value,
-  },
+  // {
+  //   header: 'Offensiveness',
+  //   key: 'offensiveness',
+  //   styles: 'item-cell-3',
+  //   weight: '13%',
+  //   render: value => value,
+  // },
   {
     header: 'Type',
     key: 'resources_class',
-    styles: 'item-cell-4',
-    weight: '9%',
+    styles: 'item-cell-preference-3',
+    weight: '16.8%',
     render: value => value,
   },
-  {
-    header: 'Provider',
-    key: 'provider_username',
-    styles: 'item-cell-5',
-    weight: '15%',
-    render: value => `@${value}`,
-  },
-  {
-    header: 'Funds',
-    key: 'funds_full',
-    styles: 'item-cell-6',
-    weight: '11%',
-    render: value => value,
-  },
+  // {
+  //   header: 'Provider',
+  //   key: 'provider_username',
+  //   styles: 'item-cell-5',
+  //   weight: '15%',
+  //   render: value => `@${value}`,
+  // },
+  // {
+  //   header: 'Funds',
+  //   key: 'funds_full',
+  //   styles: 'item-cell-6',
+  //   weight: '11%',
+  //   render: value => value,
+  // },
   {
     header: 'State',
     key: 'condicion_financial',
-    styles: 'item-cell-7',
-    weight: '12%',
+    styles: 'item-cell-preference-4',
+    weight: '19.8%',
     render: value => value,
   },
   {
     header: 'Closing date',
     key: 'fecha_cierre_real',
-    styles: 'item-cell-8',
-    weight: '15%',
-    render: value => (value ? value.split(' ')[0] : '--/--/--'),
+    styles: 'item-cell-preference-5',
+    weight: '22.8%',
+    render: value => (value ? naturalTime(value) : '--/--/--'),
   },
 ];
 const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => {
@@ -98,7 +99,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => 
       header: '',
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-9 action',
+      styles: 'item-cell-preference-6 action',
       weight: '9%',
       render: (order: any) => (
         <div className="publish" key={`actr-${order.id}`}>

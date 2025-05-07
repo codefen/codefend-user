@@ -110,11 +110,14 @@
   }
 
   &.rectangle {
+    display: flex;
+    overflow: hidden;
     .over {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: calc(var(--card-space) * 2);
+      margin: 0;
     }
 
     svg,

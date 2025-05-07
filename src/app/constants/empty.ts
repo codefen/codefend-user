@@ -111,6 +111,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   isScanning: false,
   selectedTicket: null,
   session: '',
+  scanNumber: 0,
 };
 
 export const EMPTY_PROVIDER = {

@@ -1,6 +1,5 @@
 import { useEffect, type PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
-import { ResourcesTypes } from '@interfaces/order';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
 import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
@@ -62,6 +61,7 @@ export type GlobalStore = {
   isScanning: boolean;
   selectedTicket: any;
   session: string;
+  scanNumber: number;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -92,6 +92,7 @@ export const initialGlobalState: GlobalStore = {
   isScanning: persistedState?.isScanning ?? false,
   selectedTicket: persistedState?.selectedTicket ?? null,
   session: persistedState?.session ?? '',
+  scanNumber: persistedState?.scanNumber ?? 0,
 };
 
 const {

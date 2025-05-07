@@ -1,6 +1,6 @@
 import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import useModalStore from '@stores/modal.store';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -41,7 +41,7 @@ const getLatestScan = (scans: any[]) => {
 export const useVerifyScanList = () => {
   // Recupera el company id del local storage
   const { getCompany } = useUserData();
-  const isScanning = useGlobalFastField('isScanning');
+  const { isScanning, scanNumber } = useGlobalFastFields(['isScanning', 'scanNumber']);
   const companyId = getCompany();
   const scanningValue = isScanning.get;
   const [initialFetchDone, setInitialFetchDone] = useState(false);
@@ -74,7 +74,10 @@ export const useVerifyScanList = () => {
     }
 
     const isActive = latestScan.phase === 'scanner' || latestScan.phase === 'parser';
-
+    const scanSize = data?.scans?.length;
+    if (scanNumber.get != scanSize) {
+      scanNumber.set(scanSize || 0);
+    }
     if (scanningValue && !isActive) {
       isScanning.set(false);
     } else if (!scanningValue && isActive) {

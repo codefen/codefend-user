@@ -5,12 +5,13 @@ import './orderspayments.scss';
 import { PrimaryButton } from '@buttons/index';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
-import { DashboardScanStart } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardScanStart/DashboardScanStart';
+import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart';
+import { useNewPreference } from '@panelHooks/preference/usePreferenceNew';
 
 export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
-  const { orders, company, members, isLoading, refetch } = usePreferences();
-  const { data } = useDashboard();
+  const { data: preference, isLoading: isLoadingPreference } = useNewPreference();
+  const { data: dashboardData, isLoading: isLoadingDashboard } = useDashboard();
 
   return (
     <main className={`orders-payments ${showScreen ? 'actived' : ''}`}>
@@ -31,11 +32,17 @@ export const OrdersPaymentsPage = () => {
             </div>
           </div>
         </div>
-        <SettingOrderAndBilling isLoading={isLoading} orders={orders || []} />
+        <SettingOrderAndBilling
+          isLoading={isLoadingPreference}
+          orders={preference.company_orders}
+        />
       </section>
       <section className="right">
-        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
-        <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
+        <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
+        <VulnerabilityRisk
+          vulnerabilityByRisk={dashboardData?.issues_share || {}}
+          isLoading={isLoadingDashboard}
+        />
         <DashboardScanStart />
       </section>
     </main>

@@ -5,7 +5,7 @@ import { UserPassword } from './components/UserPassword';
 import { UserQr } from './components/UserQr';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
-import { DashboardScanStart } from '../dashboard/components/DashboardScanStart/DashboardScanStart';
+import { DashboardScanStart } from '../../../../components/DashboardScanStart/DashboardScanStart';
 import { useDashboard } from '@panelHooks/index';
 
 export const UserProfilePage = () => {
