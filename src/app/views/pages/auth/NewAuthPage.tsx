@@ -45,7 +45,7 @@ export const NewAuthPage = () => {
           <Outlet />
         </Suspense>
         <section className="left">
-          <DashboardInvoke />
+          <DashboardInvoke scanNumber={0} disponibles={1} />
           <section className="box-assets">
             <DashboardAddResource data={{}} />
           </section>
