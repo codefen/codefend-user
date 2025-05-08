@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useState, type FC, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
@@ -102,6 +102,27 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
   const [term, setTerm] = useState('');
+  const [contextMenu, setContextMenu] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    row: any | null;
+  }>({ visible: false, x: 0, y: 0, row: null });
+  const contextMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(event.target as Node)) {
+        setContextMenu({ ...contextMenu, visible: false });
+      }
+    };
+    if (contextMenu.visible) {
+      document.addEventListener('mousedown', handleClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [contextMenu]);
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -140,28 +161,19 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
       styles: 'item-cell-5 action',
       weight: '18.5%',
       render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
+        <div
+          className="publish"
+          key={`actr-${row.id}`}
+          onContextMenu={e => {
+            e.preventDefault();
+            setContextMenu({ visible: true, x: e.clientX, y: e.clientY, row });
+          }}>
           <span
             className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
             title={`${isNormalUser() ? '' : 'Add Issue'}`}
             onClick={() => createIssue(row.id)}>
             <BugIcon isButton key={`bugi-${row.id}`} />
             <span className="codefend-text-red-200 issue-count">{row.final_issues}</span>
-          </span>
-          <span
-            title="View report"
-            className={`issue-printer ${Number(row.final_issues) == 0 ? 'off' : ''}`}
-            onClick={() => generateWebReport(row.id, row.final_issues)}>
-            <DocumentIcon isButton width={1.27} height={1.27} key={`doci-${row.id}`} />
-          </span>
-          <Show when={isNormalUser() || isAdmin()}>
-            <span title="Delete" onClick={() => deleteWebResource(row)}>
-              <TrashIcon />
-            </span>
-          </Show>
-
-          <span title="Add credentials" onClick={() => addCreds(row.id)}>
-            <CredentialIcon key={`credi-${row.id}`} />
           </span>
         </div>
       ),
@@ -223,6 +235,68 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
           />
         </div>
       </div>
+
+      {contextMenu.visible && (
+        <div
+          ref={contextMenuRef}
+          className="custom-context-menu"
+          style={{ position: 'fixed', top: contextMenu.y, left: contextMenu.x, zIndex: 9999 }}>
+          <div
+            className={`context-menu-item ${Number(contextMenu.row?.final_issues) === 0 ? 'off' : ''}`}
+            onClick={() => {
+              generateWebReport(contextMenu.row.id, contextMenu.row.final_issues);
+              setContextMenu({ ...contextMenu, visible: false });
+            }}>
+            <DocumentIcon isButton width={1.27} height={1.27} /> Ver reporte
+          </div>
+          <Show when={isNormalUser() || isAdmin()}>
+            <div
+              className="context-menu-item"
+              onClick={() => {
+                deleteWebResource(contextMenu.row);
+                setContextMenu({ ...contextMenu, visible: false });
+              }}>
+              <TrashIcon /> Eliminar
+            </div>
+          </Show>
+          <div
+            className="context-menu-item"
+            onClick={() => {
+              addCreds(contextMenu.row.id);
+              setContextMenu({ ...contextMenu, visible: false });
+            }}>
+            <CredentialIcon /> Credenciales
+          </div>
+        </div>
+      )}
+      {/* Estilos para el menú contextual */}
+      <style>{`
+        .custom-context-menu {
+          background: #fff;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+          min-width: 180px;
+          padding: 6px 0;
+        }
+        .context-menu-item {
+          padding: 8px 18px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 15px;
+          color: #222;
+          transition: background 0.2s;
+        }
+        .context-menu-item:hover {
+          background: #f5f5f5;
+        }
+        .context-menu-item.off {
+          color: #aaa;
+          pointer-events: none;
+        }
+      `}</style>
     </div>
   );
 };
