@@ -32,14 +32,19 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
   // Obtener los datos de la aplicación desde el estado seleccionado
   const appData = selectedAppStored.get || {};
 
-  // Obtener las descargas directamente del estado seleccionado
+  // Pasar todos los datos de descargas al componente
   const downloadsData = {
-    total_downloads: selectedAppStored.get?.app_android_downloads || '0',
+    total_downloads: selectedAppStored.get?.total_downloads,
+    app_android_downloads: selectedAppStored.get?.app_android_downloads,
+    app_ios_downloads: selectedAppStored.get?.app_ios_downloads,
   };
 
   console.log('=== DATOS DE DESCARGAS ===');
-  console.log('Datos de descargas a mostrar:', downloadsData);
+  console.log('Total downloads:', selectedAppStored.get?.total_downloads);
+  console.log('Descargas Android:', selectedAppStored.get?.app_android_downloads);
+  console.log('Descargas iOS:', selectedAppStored.get?.app_ios_downloads);
   console.log('Datos del estado (selectedAppStored.get):', selectedAppStored.get);
+  console.log('Datos enviados a DownloadsCard:', downloadsData);
   console.log('==========================');
 
   return (

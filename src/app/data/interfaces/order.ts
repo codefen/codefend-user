@@ -41,6 +41,17 @@ export enum ResourcesTypes {
   NETWORK = 'network',
 }
 
+export const RESOURCE_PATH_TO_TYPE = {
+  web: ResourcesTypes.WEB,
+  mobile: ResourcesTypes.MOBILE,
+  cloud: ResourcesTypes.CLOUD,
+  source: ResourcesTypes.CODE,
+  social: ResourcesTypes.SOCIAL,
+  se: ResourcesTypes.SOCIAL,
+  lan: ResourcesTypes.NETWORK,
+  network: ResourcesTypes.NETWORK,
+};
+
 export enum OrderOffensive {
   CAREFUL = 'careful',
   OFFENSIVE = 'offensive',
