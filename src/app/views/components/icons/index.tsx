@@ -1376,8 +1376,8 @@ export const ScopeIcon: FC<IconProps> = ({ isButton }) => (
   </svg>
 );
 
-export const CredentialIcon: FC<IconProps> = () => (
-  <svg height="1.5rem" width="1.5rem" viewBox="0 0 32 32" fill="currentColor">
+export const CredentialIcon: FC<IconProps> = ({ width = '1.5rem', height = '1.5rem' }) => (
+  <svg height={height} width={width} viewBox="0 0 32 32" fill="currentColor">
     <path d="m16 22a4 4 0 1 0 -4-4 4 4 0 0 0 4 4zm0-6a2 2 0 1 1 -2 2 2 2 0 0 1 2-2z" />
     <path d="m14 6h4v2h-4z" />
     <path d="m24 2h-16a2.002 2.002 0 0 0 -2 2v24a2.0023 2.0023 0 0 0 2 2h16a2.0027 2.0027 0 0 0 2-2v-24a2.0023 2.0023 0 0 0 -2-2zm-4 26h-8v-2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1zm2 0v-2a3 3 0 0 0 -3-3h-6a3 3 0 0 0 -3 3v2h-2v-24h16v24z" />
@@ -1619,6 +1619,36 @@ export const CubeIcon: FC<IconProps> = ({ className }) => (
       stroke="black"
       stroke-width="30"
       d="M256 64v384M256 448L64 341.3M256 448l192-106.7"
+    />
+  </svg>
+);
+
+export const ThreeDotsIcon: FC<IconProps> = ({
+  className = '',
+  width = '1.5rem',
+  height = '1.5rem',
+}) => (
+  <svg width={width} height={height} viewBox="0 0 24 24" fill="none" className={className}>
+    <path
+      d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

@@ -44,7 +44,7 @@ const webColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1',
+    styles: 'item-cell-web-1',
     weight: '6%',
     render: (ID: any) => ID,
   },
@@ -52,8 +52,8 @@ const webColumns: ColumnTableV3[] = [
     header: 'domain',
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
-    styles: 'item-cell-2 item-domain-cell',
-    weight: '45%',
+    styles: 'item-cell-web-2 ',
+    weight: '40%',
     render: (row: any, next?: any) =>
       !row?.resource_domain_dad ? (
         row.resource_domain
@@ -67,15 +67,15 @@ const webColumns: ColumnTableV3[] = [
   {
     header: 'server ip',
     key: 'main_server',
-    styles: 'item-cell-3',
-    weight: '12%',
+    styles: 'item-cell-web-3',
+    weight: '17%',
     render: (ip: any) => ip,
   },
   {
     header: 'area',
     key: 'server_pais',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-4',
+    styles: 'item-cell-web-4',
     weight: '16%',
     render: (row: any) => (
       <LocationItem country={row?.server_pais || ''} countryCode={row?.server_pais_code || ''} />
@@ -102,27 +102,27 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
   const [term, setTerm] = useState('');
-  const [contextMenu, setContextMenu] = useState<{
-    visible: boolean;
-    x: number;
-    y: number;
-    row: any | null;
-  }>({ visible: false, x: 0, y: 0, row: null });
-  const contextMenuRef = useRef<HTMLDivElement>(null);
+  // const [contextMenu, setContextMenu] = useState<{
+  //   visible: boolean;
+  //   x: number;
+  //   y: number;
+  //   row: any | null;
+  // }>({ visible: false, x: 0, y: 0, row: null });
+  // const contextMenuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      if (contextMenuRef.current && !contextMenuRef.current.contains(event.target as Node)) {
-        setContextMenu({ ...contextMenu, visible: false });
-      }
-    };
-    if (contextMenu.visible) {
-      document.addEventListener('mousedown', handleClick);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClick);
-    };
-  }, [contextMenu]);
+  // useEffect(() => {
+  //   const handleClick = (event: MouseEvent) => {
+  //     if (contextMenuRef.current && !contextMenuRef.current.contains(event.target as Node)) {
+  //       setContextMenu({ ...contextMenu, visible: false });
+  //     }
+  //   };
+  //   if (contextMenu.visible) {
+  //     document.addEventListener('mousedown', handleClick);
+  //   }
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClick);
+  //   };
+  // }, [contextMenu]);
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -152,31 +152,64 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setModalId(RESOURCE_CLASS.WEB);
   };
 
-  const webColumnsWith = [
-    ...webColumns,
+  // const webColumnsWith = [
+  //   ...webColumns,
+  //   {
+  //     header: '',
+  //     key: TABLE_KEYS.ACTION,
+  //     type: TABLE_KEYS.FULL_ROW,
+  //     styles: 'item-cell-web-5',
+  //     weight: '18.5%',
+  //     render: (row: any) => (
+  //       <div
+  //         className="publish"
+  //         key={`actr-${row.id}`}
+  //         onContextMenu={e => {
+  //           e.preventDefault();
+  //           setContextMenu({ visible: true, x: e.clientX, y: e.clientY, row });
+  //         }}>
+  //         <span
+  //           className={`issue-icon flex-box ${userHaveAccess ? '' : 'disable'}`}
+  //           title={`${isNormalUser() ? '' : 'Add Issue'}`}
+  //           onClick={() => createIssue(row.id)}>
+  //           <BugIcon isButton key={`bugi-${row.id}`} />
+  //           <span className="codefend-text-red-200 issue-count">{row.final_issues}</span>
+  //         </span>
+  //       </div>
+  //     ),
+  //   },
+  // ];
+
+  const contextMenuActions = [
     {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-5 action',
-      weight: '18.5%',
-      render: (row: any) => (
-        <div
-          className="publish"
-          key={`actr-${row.id}`}
-          onContextMenu={e => {
-            e.preventDefault();
-            setContextMenu({ visible: true, x: e.clientX, y: e.clientY, row });
-          }}>
-          <span
-            className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
-            title={`${isNormalUser() ? '' : 'Add Issue'}`}
-            onClick={() => createIssue(row.id)}>
-            <BugIcon isButton key={`bugi-${row.id}`} />
-            <span className="codefend-text-red-200 issue-count">{row.final_issues}</span>
-          </span>
-        </div>
-      ),
+      label: 'View report',
+      icon: <DocumentIcon isButton width={1.27} height={1.27} />,
+      onClick: (row: any) => {
+        generateWebReport(row.id, row.final_issues);
+      },
+    },
+    {
+      label: 'Credentials',
+      icon: <CredentialIcon width="1.3rem" height="1.3rem" />,
+      onClick: (row: any) => {
+        addCreds(row.id);
+      },
+    },
+    {
+      label: 'Delete',
+      disabled: isProvider(),
+      icon: <TrashIcon />,
+      onClick: (row: any) => {
+        deleteWebResource(row);
+      },
+    },
+    {
+      label: 'Add issue',
+      disabled: !userHaveAccess,
+      icon: <BugIcon isButton />,
+      onClick: (row: any) => {
+        createIssue(row.id);
+      },
     },
   ];
 
@@ -225,18 +258,20 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
         <div className="over">
           <Tablev3
             className="table-web"
-            columns={webColumnsWith}
+            columns={webColumns}
             rows={webResources}
             showRows={!isLoading}
             initialOrder="resource_domain"
             isNeedSearchBar={false}
             limit={0}
             isNeedSort
+            enableContextMenu
+            contextMenuActions={contextMenuActions}
           />
         </div>
       </div>
 
-      {contextMenu.visible && (
+      {/* {contextMenu.visible && (
         <div
           ref={contextMenuRef}
           className="custom-context-menu"
@@ -269,7 +304,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
           </div>
         </div>
       )}
-      {/* Estilos para el menú contextual */}
       <style>{`
         .custom-context-menu {
           background: #fff;
@@ -296,7 +330,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
           color: #aaa;
           pointer-events: none;
         }
-      `}</style>
+      `}</style> */}
     </div>
   );
 };

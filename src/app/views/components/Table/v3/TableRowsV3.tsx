@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, type ReactNode } from 'react';
+import { type ChangeEvent, type FC, type ReactNode, type MouseEvent } from 'react';
 import { type ColumnTableV3 } from '@interfaces/table.ts';
 import { flattenRows } from '@utils/sort.service';
 import { useTableStoreV3 } from './tablev3.store';
@@ -17,6 +17,9 @@ interface TableRowsProps {
   action?: (val?: any) => void;
   selected?: any;
   selectedKey?: string;
+  onContextMenu?: (event: MouseEvent, row: any) => void;
+  enableContextMenu?: boolean;
+  onThreeDotsClick?: (event: MouseEvent, row: any) => void;
 }
 
 const TableRowsV3: FC<TableRowsProps> = ({
@@ -29,6 +32,9 @@ const TableRowsV3: FC<TableRowsProps> = ({
   action,
   selected,
   selectedKey,
+  onContextMenu,
+  enableContextMenu,
+  onThreeDotsClick,
 }) => {
   // Se aplica un flat al array para que todos los objetos esten en la misma jeraquita / Necesario por los childs
   const flattenedRows = flattenRows(rows, limit);
@@ -68,6 +74,9 @@ const TableRowsV3: FC<TableRowsProps> = ({
             row={row}
             nextRow={r?.[i + 1]}
             urlNav={urlNav}
+            onContextMenu={onContextMenu}
+            enableContextMenu={enableContextMenu}
+            onThreeDotsClick={onThreeDotsClick}
           />
         );
         // Cuando la ROW tiene que tener el multiple select activo
@@ -82,6 +91,9 @@ const TableRowsV3: FC<TableRowsProps> = ({
             nextRow={r?.[i + 1]}
             selectedItems={selectedItems}
             handleChecked={handleChecked}
+            onContextMenu={onContextMenu}
+            enableContextMenu={enableContextMenu}
+            onThreeDotsClick={onThreeDotsClick}
           />
         );
         // Cuando la ROW es una row normal cae aca
@@ -97,6 +109,9 @@ const TableRowsV3: FC<TableRowsProps> = ({
             action={action}
             selected={selected}
             selectedKey={selectedKey}
+            onContextMenu={onContextMenu}
+            enableContextMenu={enableContextMenu}
+            onThreeDotsClick={onThreeDotsClick}
           />
         );
       }
