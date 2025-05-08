@@ -86,6 +86,7 @@
       gap: 12px;
       padding: 12px;
       font-size: 0.975rem;
+      margin-left: 12px;
 
       h2 {
         display: flex;
@@ -106,6 +107,7 @@
     p {
       padding-inline: 12px;
       margin-bottom: 1rem;
+      margin-left: 13px;
     }
   }
 
@@ -226,11 +228,11 @@
       .chart {
         flex-grow: 0.3;
         max-width: 15%;
-        min-width: 182px;
+        min-width: 180px;
 
         canvas {
-          width: 100% !important;
-          height: 100% !important;
+          width: 95% !important;
+          height: 95% !important;
         }
       }
 

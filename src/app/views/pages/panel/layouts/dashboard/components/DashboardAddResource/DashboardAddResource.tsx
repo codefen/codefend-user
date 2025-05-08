@@ -9,7 +9,7 @@ export const DashboardAddResource = ({ data }: any | []) => {
     setModalId(MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES);
   };
   return (
-    <div className="card dashboard-add-resource">
+    <div className="card">
       <div className="over">
         <div className="table-title">
           <h2>Resources</h2>
