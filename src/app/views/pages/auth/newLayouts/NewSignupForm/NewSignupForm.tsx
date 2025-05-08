@@ -20,7 +20,6 @@ import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -30,12 +29,10 @@ export const NewSignupForm = () => {
   const [lead_reference_number, setLeadReferenceNumber] = useState('');
   const [username, setRecommendedUsername] = useState('');
   const [specialLoading, setLoading] = useState(false);
-  const { signUpFinish, isLoading: loadingFinish } = useRegisterPhaseTwo();
+  const { signUpFinish, isLoading: loadingFinish, lead, country } = useRegisterPhaseTwo();
   const [searchParams] = useSearchParams();
   const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
-  const country = useGlobalFastField('country');
-  const lead = useGlobalFastField('lead');
   const { ref } = useParams();
 
   useEffect(() => {

@@ -10,18 +10,16 @@ import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import useModalStore from '@stores/modal.store';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
-  const { updateUserData, updateToken } = useUserData();
   const { getCompany, logout } = useUserData();
   const navigate = useNavigate();
   const [fetcher, _, isLoading] = useFetcher();
   const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
   const { updateState } = useOrderStore();
-  const company = useGlobalFastField('company');
+  const { company, session, user } = useGlobalFastFields(['company', 'session', 'user']);
 
   const fetchOne = (companyID: string, selectedID: string) => {
     fetcher('post', {
@@ -41,8 +39,8 @@ export const useOneIssue = () => {
         }
         issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
         if (data?.company) company.set(data.company);
-        updateUserData(data.user);
-        updateToken(data.session);
+        if (data?.user) user.set(data.user);
+        if (data?.session) session.set(data.session);
       })
       .catch(error => {
         //"The issue you are trying to view does not exist"

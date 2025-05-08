@@ -1,18 +1,15 @@
 import { toast } from 'react-toastify';
-import { decodePayload } from '@services/decodedToken';
-import useAdminCompanyStore from '@stores/adminCompany.store';
-import { useAuthStore, type AuthState } from '@stores/auth.store';
-import { EMPTY_COMPANY } from '@/app/constants/empty';
+import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { apiErrorValidation } from '@/app/constants/validations';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 export const useLoginAction = () => {
   const [fetcher, _, isLoading] = useFetcher();
-  const { updateUser, updateAuth, updateToken } = useAuthStore((state: AuthState) => state);
-  const { selectCompany } = useAdminCompanyStore(state => state);
   const axiosHttp = AxiosHttpService.getInstance();
+  const { session, user, company } = useGlobalFastFields(['session', 'user', 'company']);
 
   const signInUser = (email: string, password: string, mfa: string): Promise<any> => {
     const body: any = {
@@ -32,20 +29,12 @@ export const useLoginAction = () => {
           customError.code = data?.error_info || 'generic';
           customError.email = email;
           customError.password = password;
-          console.log('customError', { customError });
           throw customError;
         }
-        const token = data.session as string;
-        const decodedToken = decodePayload(token || '');
-        const user = {
-          ...data.user,
-          exp: decodedToken?.exp || 0,
-        };
-        updateUser(user);
-        updateToken(token);
-        updateAuth();
-        selectCompany({
-          ...EMPTY_COMPANY,
+        session.set(data.session as string);
+        user.set(data.user);
+        company.set({
+          ...EMPTY_COMPANY_CUSTOM,
           id: data.user.company_id || '',
           name: data.user.company_name || '',
         });
@@ -54,7 +43,6 @@ export const useLoginAction = () => {
         return user;
       })
       .catch((e: any) => {
-        console.log('e', e);
         if (e.code === 'mfa_code_undefined') {
           // No mostrar toast, solo indicar que falta MFA
           return { mfaRequired: true, email: e.email, password: e.password };

@@ -1,15 +1,15 @@
-import useAuthStore, { type AuthState } from '@stores/auth.store';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 export const useUserRole = () => {
-  const { userData, accessToken, isAuth } = useAuthStore((state: AuthState) => state);
-  const getRole = () => (userData ? userData.access_role : '');
-  const isNormalUser = () => getRole() === 'user';
-  const isAdmin = () => getRole() === 'admin';
-  const isProvider = () => getRole() === 'provider';
-  const isReseller = () => getRole() === 'reseller';
+  const { user, session } = useGlobalFastFields(['user', 'session']);
+  const getRole = () => user.get?.access_role || '';
+  const isNormalUser = () => user.get?.access_role === 'user';
+  const isAdmin = () => user.get?.access_role === 'admin';
+  const isProvider = () => user.get?.access_role === 'provider';
+  const isReseller = () => user.get?.access_role === 'reseller';
 
-  const isCurrentAuthValid = () => isAuth;
-  const getAccessToken = () => accessToken;
+  const isCurrentAuthValid = () => !!session.get;
+  const getAccessToken = () => session.get;
 
   return {
     getRole,

@@ -15,13 +15,6 @@ export const NewSigninForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // if (mfaStep) {
-    //   // Aquí deberías llamar a la función que verifica el MFA con el código, email y password
-    //   // Por ahora solo simulo el éxito y redirijo
-    //   // TODO: conectar con endpoint real de verificación MFA
-    //   window.location.href = '/';
-    //   return;
-    // }
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const email = form.get('email') as unknown as string;
     const password = form.get('password') as unknown as string;

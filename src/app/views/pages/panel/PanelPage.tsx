@@ -34,7 +34,7 @@ export const PanelPage = () => {
   const keyPress = useGlobalFastField('keyPress');
   const matches = useMediaQuery('(min-width: 1175px)');
   const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
-  const { isAuth, getUserdata, updateAuth, logout } = useUserData();
+  const { isAuth, getUserdata, logout } = useUserData();
   const { getProviderCompanyAccess } = useProviderCompanies();
   useUserCommunicated();
   //useVerifyScan();
@@ -54,7 +54,6 @@ export const PanelPage = () => {
   }, [setShowModal]);
 
   useEffect(() => {
-    updateAuth();
     const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, () => {
       setShowModal(true);
       setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
@@ -86,12 +85,19 @@ export const PanelPage = () => {
     };
   }, []);
 
-  // Si la autenticación falló, redirige al login.
+  // Handle authentication state changes
+  useEffect(() => {
+    if (!isAuth) {
+      logout();
+    }
+  }, [isAuth, logout]);
+
+  // If not authenticated, redirect to login
   if (!isAuth) {
-    logout();
     return <Navigate to="/auth/signin" state={{ redirect: location.pathname }} />;
   }
-  // Si la resolución está por debajo de 1175px, muestra una alerta de versión móvil.
+
+  // If screen width is below 1175px, show mobile fallback
   if (!matches) {
     return <MobileFallback />;
   }

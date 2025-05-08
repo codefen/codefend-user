@@ -71,7 +71,7 @@ export const useUserCommunicated = () => {
   const startPoll = useQualitySurveyStart();
   const swrKeYRef = useRef<any>([
     'users/communiques/index',
-    { company: getCompany(), user: getUserdata().id, logout },
+    { company: getCompany(), user: getUserdata()?.id, logout },
   ]);
   const { data, isLoading, isValidating } = useSWR(swrKeYRef.current, (key: any) => fetcher(key), {
     keepPreviousData: false,

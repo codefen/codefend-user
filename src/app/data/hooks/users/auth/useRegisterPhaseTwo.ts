@@ -3,24 +3,28 @@ import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
-import useAuthStore, { type AuthState } from '@stores/auth.store';
-import useAdminCompanyStore from '@stores/adminCompany.store';
 import { decodePayload } from '@services/decodedToken';
-import { EMPTY_COMPANY } from '@/app/constants/empty';
+import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 export const useRegisterPhaseTwo = () => {
   const [fetcher, _, isLoading] = useFetcher();
-  const { updateUser, updateAuth, updateToken } = useAuthStore((state: AuthState) => state);
-  const { selectCompany } = useAdminCompanyStore(state => state);
   const axiosHttp = AxiosHttpService.getInstance();
+  const { session, user, company, lead, country } = useGlobalFastFields([
+    'session',
+    'user',
+    'company',
+    'lead',
+    'country',
+  ]);
 
   const signUpFinish = async (params: any): Promise<{ pass: boolean; user: any }> => {
     return fetcher('post', {
       body: {
-        model: 'users/new',
         phase: 2,
         ...params,
       },
+      path: 'users/new',
       requestId: 'signUpFinishReq',
     })
       .then(({ data }: any) => {
@@ -31,18 +35,10 @@ export const useRegisterPhaseTwo = () => {
         ) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
-
-        const token = data.session as string;
-        const decodedToken = decodePayload(token || '');
-        const user = {
-          ...data.user,
-          exp: decodedToken?.exp || 0,
-        };
-        updateUser(user);
-        updateToken(token);
-        updateAuth();
-        selectCompany({
-          ...EMPTY_COMPANY,
+        session.set(data.session as string);
+        user.set(data.user);
+        company.set({
+          ...EMPTY_COMPANY_CUSTOM,
           id: data.user.company_id || '',
           name: data.user.company_name || '',
         });
@@ -56,5 +52,5 @@ export const useRegisterPhaseTwo = () => {
       });
   };
 
-  return { isLoading, signUpFinish };
+  return { isLoading, signUpFinish, lead, country };
 };

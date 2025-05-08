@@ -19,17 +19,7 @@ import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/Da
 
 const Dashboard: React.FC = () => {
   const [showScreen] = useShowScreen();
-  const { isLoading, data } = useDashboard();
-  const { company, scanNumber, isScanning } = useGlobalFastFields([
-    'company',
-    'scanNumber',
-    'isScanning',
-  ]);
-  useEffect(() => {
-    if (data?.company) {
-      company.set(data.company);
-    }
-  }, [data?.company]);
+  const { isLoading, data, scanNumber, isScanning, company } = useDashboard();
 
   return (
     <main className={`dashboard ${showScreen ? 'actived' : ''}`}>

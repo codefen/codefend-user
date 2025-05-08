@@ -85,6 +85,7 @@ export const EMPTY_COMPANY_CUSTOM = {
   eliminado: '0',
   creacion: '',
   address: '',
+  isDisabled: false,
 };
 
 export const EMPTY_GLOBAL_STATE: GlobalStore = {
@@ -112,6 +113,8 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   selectedTicket: null,
   session: '',
   scanNumber: 0,
+  user: EMPTY_USER,
+  companies: [],
 };
 
 export const EMPTY_PROVIDER = {

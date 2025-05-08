@@ -4,7 +4,8 @@ import { useUserData } from '@/app/data/hooks/users/common/useUserData';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import { LockClosedIcon } from '@icons';
 import { toast } from 'react-toastify';
-import { apiErrorValidation } from '@/app/constants/validations';
+import { apiErrorValidation, verifySession } from '@/app/constants/validations';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface UserMfaFormProps {
   onDone?: () => void;
@@ -16,7 +17,7 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
   const [fetcher, , isLoading] = useFetcher();
   const [qr, setQr] = useState<string>('');
   const [key, setKey] = useState<string>('');
-  const { getCompany } = useUserData();
+  const { getCompany, user, logout } = useUserData();
 
   useEffect(() => {
     fetcher('post', {
@@ -25,8 +26,11 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
       requireSession: true,
     })
       .then(({ data }: any) => {
+        if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response))
+          throw new Error('');
         setQr(data?.qr || '');
         setKey(data?.llave || '');
+        if (data?.user) user.set(data?.user);
       })
       .catch(() => {
         setQr('');

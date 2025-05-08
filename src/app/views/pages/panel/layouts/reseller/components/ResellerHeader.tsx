@@ -20,7 +20,6 @@ export const ResellerHeader: FC<ResellerHeaderProps> = ({
   //currentBalance = 54000,
   //totalProfits = 577675,
 }) => {
-  //const __A = useAdminCompanyStore(state => state);
   const [reseller_header, company, { getResellerHeader }] = useResellerDashboardHeader();
 
   useEffect(() => {

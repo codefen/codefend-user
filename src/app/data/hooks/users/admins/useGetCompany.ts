@@ -1,13 +1,39 @@
-import { useFetcher } from '#commonHooks/useFetcher';
+import { useUserData } from '#commonUserHooks/useUserData';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { defaultConfig, genericFetcher } from '@services/swr';
+import { useEffect } from 'react';
+import useSWR from 'swr';
 
 export const useGetCompany = () => {
-  const [fetcher, _, isLoading] = useFetcher();
+  const { logout } = useUserData();
+  const { company, user, companies, session } = useGlobalFastFields([
+    'user',
+    'company',
+    'companies',
+    'session',
+  ]);
+  const { data, isLoading, isValidating } = useSWR(
+    'companies/index',
+    () => genericFetcher(['companies/index', { logout }]),
+    {
+      ...defaultConfig,
+      fallbackData: { companies: [] },
+      revalidateOnFocus: true,
+      revalidateOnMount: true,
+    }
+  );
 
-  const getCompany = () => {
-    return fetcher('get', {
-      path: 'companies/index',
-    });
+  useEffect(() => {
+    if (data?.length !== companies.get?.length) {
+      companies.set(data);
+    }
+    if (data?.user) user.set(data?.user);
+    if (data?.session) session.set(data?.session);
+  }, [data]);
+
+  return {
+    data: data?.companies || [],
+    isLoading: isLoading || isValidating,
+    company,
   };
-
-  return { getCompany, loading: isLoading };
 };

@@ -40,13 +40,14 @@ const getLatestScan = (scans: any[]) => {
 
 export const useVerifyScanList = () => {
   // Recupera el company id del local storage
-  const { getCompany } = useUserData();
-  const { isScanning, scanNumber } = useGlobalFastFields(['isScanning', 'scanNumber']);
-  const companyId = getCompany();
+  const { isScanning, scanNumber, company } = useGlobalFastFields([
+    'isScanning',
+    'scanNumber',
+    'company',
+  ]);
   const scanningValue = isScanning.get;
   const [initialFetchDone, setInitialFetchDone] = useState(false);
-  const baseKey = ['modules/neuroscan/index', { company: companyId }];
-  //const shouldFetch = Boolean(companyId) && (!initialFetchDone || isScanning.get);
+  const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
   const swrKey = baseKey;
 
   const { data } = useSWR<ScanManager>(swrKey, fetcher, {
@@ -69,7 +70,6 @@ export const useVerifyScanList = () => {
   // Si al primer fetch detectamos un scan en curso, activamos la bandera
   useEffect(() => {
     const scanSize = data?.scans?.length;
-    console.log({ scanSize });
     if (scanNumber.get != scanSize) {
       scanNumber.set(scanSize || 0);
     }

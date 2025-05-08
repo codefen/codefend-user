@@ -1,10 +1,7 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import useAuthStore from '@stores/auth.store';
 import { Navigate, Outlet } from 'react-router';
 import { Suspense, useEffect } from 'react';
 import { DashboardInvoke } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardInvoke/DashboardInvoke';
-import DashboardAssets from '@/app/views/components/DashboardAssets/DashboardAssets';
-import { RightItemButton } from '@/app/views/components/RightItemButton/RightItemButton';
 import { DashboardAddResource } from '../panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource';
 import { DashboardAddCollaborators } from '../panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators';
 import { VulnerabilitiesStatus } from '../../components/VulnerabilitiesStatus/VulnerabilitiesStatus';
@@ -12,6 +9,7 @@ import { VulnerabilityRisk } from '../../components/VulnerabilityRisk/Vulnerabil
 import { DashboardScanStart } from '../../components/DashboardScanStart/DashboardScanStart';
 import { Sidebar } from '../../components';
 import { EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 const recoursesEmpty = {
   cloud: '0',
@@ -24,7 +22,7 @@ const recoursesEmpty = {
 
 export const NewAuthPage = () => {
   const [showScreen] = useShowScreen();
-  const { isAuth } = useAuthStore(state => state);
+  const { isAuth } = useUserData();
 
   useEffect(() => {
     if (!isAuth) {

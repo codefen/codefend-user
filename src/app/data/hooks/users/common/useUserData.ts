@@ -1,32 +1,19 @@
-import { EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
-import useAdminCompanyStore from '@stores/adminCompany.store';
-import { useAuthStore, type AuthState } from '@stores/auth.store';
+import { EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE, EMPTY_USER } from '@/app/constants/empty';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 export const useUserData = () => {
-  const {
-    accessToken,
-    isAuth,
-    logout: logoutFn,
-    userData,
-    updateUser,
-    updateToken,
-    updateAuth,
-  } = useAuthStore((state: AuthState) => state);
-  const { companySelected, reset } = useAdminCompanyStore(state => state);
-
-  const getUserdata = () => userData;
-
-  const getAccessToken = () => (accessToken ? accessToken : '');
-
-  const getCompany = () => companySelected?.id || getUserdata().company_id;
-  const getCompanyName = () => companySelected.name;
+  const { user, session, company } = useGlobalFastFields(['user', 'session', 'company']);
+  const getUserdata = () => user.get;
+  const getAccessToken = () => session.get || '';
+  const getCompany = () => company.get?.id || getUserdata()?.company_id;
+  const getCompanyName = () => company.get.name;
 
   const logout = () => {
-    reset();
-    logoutFn();
+    user.set(EMPTY_USER);
+    session.set('');
+    company.set(EMPTY_COMPANY_CUSTOM);
     localStorage.clear();
     localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
-    window.location.reload();
   };
 
   return {
@@ -34,10 +21,9 @@ export const useUserData = () => {
     getAccessToken,
     getCompany,
     getCompanyName,
-    isAuth,
+    isAuth: !!session.get,
     logout,
-    updateUserData: updateUser,
-    updateToken: updateToken,
-    updateAuth,
+    company,
+    user,
   };
 };

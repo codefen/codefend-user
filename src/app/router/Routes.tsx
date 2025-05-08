@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import { useRoutes, Navigate, Outlet } from 'react-router-dom';
 import { Loader } from '@/app/views/components/loaders/Loader';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
-import useAdminCompanyStore from '@stores/adminCompany.store';
 import {
   ConfirmationSignUp,
   Dashboard,
@@ -50,12 +49,14 @@ import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/Te
 import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
 import { OrdersPaymentsPage } from '@/app/views/pages/panel/layouts/orders-payments/OrdersPaymentsPage';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
-  const { companies } = useAdminCompanyStore();
+  const companies = useGlobalFastField('companies');
 
-  const isProviderWithAccess = isProvider() && companies.length > 0 && companies[0] !== null;
+  const isProviderWithAccess =
+    isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null;
   const haveAccessToResources = !isProvider() && !isReseller();
   const haveAccessToSupport = !isProvider() && !isReseller();
   const haveAccessToCreateIssue = isProvider() || isAdmin();

@@ -62,6 +62,8 @@ export type GlobalStore = {
   selectedTicket: any;
   session: string;
   scanNumber: number;
+  user: any;
+  companies: any[];
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -93,6 +95,8 @@ export const initialGlobalState: GlobalStore = {
   selectedTicket: persistedState?.selectedTicket ?? null,
   session: persistedState?.session ?? '',
   scanNumber: persistedState?.scanNumber ?? 0,
+  user: persistedState?.user ?? null,
+  companies: persistedState?.companies ?? [],
 };
 
 const {
