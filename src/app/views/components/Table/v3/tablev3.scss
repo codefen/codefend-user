@@ -8,8 +8,6 @@
     transition: all 0.5s ease;
   }
 
-  // Ajuste para score a la derecha
-
   .table-search-bar {
     animation: enter 0.4s ease-in-out forwards;
     margin-bottom: 1rem;
@@ -17,11 +15,7 @@
       border-radius: 8px;
       height: 48px;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   .table-selected-actions {
     .selected-action-content {
@@ -37,21 +31,15 @@
       position: relative;
     }
 
-    // Ajuste para score a la derecha
-
     .selected-count {
       margin-inline-start: 2.75rem;
     }
-
-    // Ajuste para score a la derecha
 
     .selected-warning {
       margin-inline-start: auto;
       color: #000;
       letter-spacing: 0.2px;
     }
-
-    // Ajuste para score a la derecha
 
     .un-selected {
       position: absolute;
@@ -70,22 +58,12 @@
         padding: 3px;
       }
 
-      // Ajuste para score a la derecha
-
       &:hover {
         background-color: #fbdddd;
       }
-
-      // Ajuste para score a la derecha
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 }
-
-// Ajuste para score a la derecha
 
 .table {
   width: 98%;
@@ -102,11 +80,7 @@
     .rows {
       user-select: none;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   &.table-item-no-ev {
     .item,
@@ -114,11 +88,7 @@
     .rows {
       pointer-events: none;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   & .selecting-box {
     position: absolute;
@@ -126,18 +96,12 @@
     border: 1px solid #ffa0a0;
   }
 
-  // Ajuste para score a la derecha
-
   &.small {
     .columns-name,
     .item {
       height: 30px;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   .columns-name {
     display: flex;
@@ -185,19 +149,11 @@
         color: #ef4444;
       }
 
-      // Ajuste para score a la derecha
-
       &:hover .sort.active {
         visibility: visible;
       }
-
-      // Ajuste para score a la derecha
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   .rows {
     overflow-y: auto;
@@ -206,11 +162,7 @@
     div {
       outline: none;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   .item {
     display: flex;
@@ -230,31 +182,21 @@
       align-items: center;
     }
 
-    // Ajuste para score a la derecha
-
     &.item-with-out-action {
       cursor: default !important;
     }
-
-    // Ajuste para score a la derecha
 
     // &:nth-of-type(odd) {
     //   background-color: #00000004;
     // }
 
-    // Ajuste para score a la derecha
-
     &:last-child {
       border-bottom: none;
     }
 
-    // Ajuste para score a la derecha
-
     &:hover {
       background-color: var(--primary-color-100);
     }
-
-    // Ajuste para score a la derecha
 
     &.item-disabled {
       opacity: 0.45;
@@ -262,35 +204,23 @@
       cursor: default;
     }
 
-    // Ajuste para score a la derecha
-
     &.label {
       .codefend-checkbox {
         min-width: var(--checkbox-diameter);
         min-height: var(--checkbox-diameter);
         margin-inline-end: 7px;
       }
-
-      // Ajuste para score a la derecha
     }
-
-    // Ajuste para score a la derecha
 
     &.label:has(input:checked) {
       background-color: #ffe6e6d6;
     }
 
-    // Ajuste para score a la derecha
-
     &.selected-item {
       background: #ffeded;
       color: #000;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   .item-cell {
     position: relative;
@@ -306,8 +236,6 @@
       padding-inline-start: 24px;
     }
 
-    // Ajuste para score a la derecha
-
     .sub-domain-icon-v {
       width: 2px;
       background-color: var(--secondary-color-50);
@@ -320,11 +248,7 @@
       &.sub-is-last {
         height: 50%;
       }
-
-      // Ajuste para score a la derecha
     }
-
-    // Ajuste para score a la derecha
 
     .sub-domain-icon-h {
       width: 20px;
@@ -335,8 +259,6 @@
       left: 0;
     }
 
-    // Ajuste para score a la derecha
-
     &.item-cell-1 {
       --cell-expand-1: calc(var(--cell-expand) + 2.5%);
       flex: 0 0 var(--cell-expand-1);
@@ -344,16 +266,10 @@
       max-width: var(--cell-expand-1);
     }
 
-    // Ajuste para score a la derecha
-
     .publish {
       overflow: visible;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 
   .action {
     justify-content: center;
@@ -375,11 +291,7 @@
         svg path {
           color: var(--secondary-color-100);
         }
-
-        // Ajuste para score a la derecha
       }
-
-      // Ajuste para score a la derecha
 
       &.off {
         opacity: 0.5;
@@ -389,18 +301,12 @@
         path {
           cursor: default !important;
         }
-
-        // Ajuste para score a la derecha
       }
-
-      // Ajuste para score a la derecha
 
       &.order-poll-active {
         cursor: pointer;
         color: var(--secondary-color-100);
       }
-
-      // Ajuste para score a la derecha
 
       &.order-poll-disabled {
         cursor: default;
@@ -412,14 +318,8 @@
         &:hover path {
           color: var(--tertiary-color-200);
         }
-
-        // Ajuste para score a la derecha
       }
-
-      // Ajuste para score a la derecha
     }
-
-    // Ajuste para score a la derecha
 
     .issue-icon {
       min-width: 65px;
@@ -433,8 +333,6 @@
           cursor: default;
         }
 
-        // Ajuste para score a la derecha
-
         &:hover,
         &:focus {
           color: var(--tertiary-color-200);
@@ -443,17 +341,9 @@
           svg path {
             color: var(--tertiary-color-200);
           }
-
-          // Ajuste para score a la derecha
         }
-
-        // Ajuste para score a la derecha
       }
-
-      // Ajuste para score a la derecha
     }
-
-    // Ajuste para score a la derecha
 
     .issue-count {
       font-size: 14px;
@@ -466,20 +356,12 @@
       text-align: left;
     }
 
-    // Ajuste para score a la derecha
-
     .issue-printer {
       padding-inline-start: 8px;
       cursor: pointer;
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 }
-
-// Ajuste para score a la derecha
 
 @media only screen and (max-width: 1490px) {
   .table:has(.item-domain-cell) {
@@ -492,8 +374,6 @@
         max-width: var(--cell-expand-correction);
       }
 
-      // Ajuste para score a la derecha
-
       .item-cell-1 {
         --cell-expand-1: calc(var(--cell-expand-correction) + 2.5%);
         flex: 0 0 var(--cell-expand-1);
@@ -501,25 +381,15 @@
         max-width: var(--cell-expand-1);
       }
 
-      // Ajuste para score a la derecha
-
       .item-cell.item-domain-cell {
         --cell-expand-domain: calc(var(--cell-expand) - var(--cell-count) * 4%);
         flex: 0 0 var(--cell-expand-domain);
         width: var(--cell-expand-domain);
         max-width: var(--cell-expand-domain);
       }
-
-      // Ajuste para score a la derecha
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 }
-
-// Ajuste para score a la derecha
 
 [data-theme='dark'] {
   .item {
@@ -527,17 +397,9 @@
       background-color: #ff28280f;
     }
 
-    // Ajuste para score a la derecha
-
     &.selected-item {
       background: var(--primary-color-300);
       color: var(--tertiary-color-50);
     }
-
-    // Ajuste para score a la derecha
   }
-
-  // Ajuste para score a la derecha
 }
-
-// Ajuste para score a la derecha
