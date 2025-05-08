@@ -3,7 +3,7 @@ import './util.scss';
 import { StarIcon } from '@icons';
 
 interface StarRatingProps {
-  rating: number;
+  rating?: number;
 }
 
 export const StarRating: FC<StarRatingProps> = ({ rating = 0 }) => {
