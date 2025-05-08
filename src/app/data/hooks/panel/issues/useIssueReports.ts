@@ -2,9 +2,11 @@ import { useRef, useState } from 'react';
 import { mapIssueShareV2, mapMobileApp, mapCloudApp, mapReportIssues } from '@utils/mapper';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useFetcher } from '#commonHooks/useFetcher';
-import { companyIdIsNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useOrderStore } from '@stores/orders.store';
+import { OrderSection, RESOURCE_PATH_TO_TYPE, ResourcesTypes } from '@interfaces/order';
 
 export const useIssueReport = () => {
   const resources = useRef<any>(null);
@@ -14,7 +16,12 @@ export const useIssueReport = () => {
   const [fetcher] = useFetcher();
 
   const { getCompany } = useUserData();
-  const { resourceID, resourceType } = useGlobalFastFields(['resourceID', 'resourceType']);
+  const { resourceID, resourceType, openModal } = useGlobalFastFields([
+    'resourceID',
+    'resourceType',
+    'openModal',
+  ]);
+  const { updateState } = useOrderStore();
 
   const getReport = (companyID: string, issueID: string, resourceType: string) => {
     return fetcher('post', {
@@ -25,6 +32,16 @@ export const useIssueReport = () => {
       },
       path: 'issues/inform',
     }).then(({ data }: any) => {
+      if (apiErrorValidation(data?.error)) {
+        openModal.set(false);
+        updateState('open', true);
+        updateState('orderStepActive', OrderSection.PAYWALL);
+        updateState(
+          'resourceType',
+          RESOURCE_PATH_TO_TYPE[resourceType as keyof typeof RESOURCE_PATH_TO_TYPE]
+        );
+        return;
+      }
       issues.current = data.issues ? data.issues.map((issue: any) => mapReportIssues(issue)) : [];
 
       setShare(mapIssueShareV2(data));
