@@ -3,6 +3,7 @@ import type { FC } from 'react';
 interface IconProps {
   half?: boolean;
   percentage?: string;
+  empty?: boolean;
   stroke?: number | string;
   isButton?: boolean;
   width?: number | string;
@@ -868,37 +869,65 @@ export const CircleAskIcon: FC<IconProps> = ({ styles }) => (
   </svg>
 );
 
-export const StarIcon: FC<IconProps> = ({ half, percentage }) => {
-  if (half) {
+export const StarIcon: FC<IconProps> = ({ half, percentage, empty }) => {
+  if (empty) {
     return (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        id="star-icon"
-        className="half-icon"
-        style={{ '--half-percentage': percentage } as any}>
-        <defs>
-          <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset={percentage} stopColor="#ff9100" />
-            <stop offset={percentage} stopColor="#e0e0e0" />
-          </linearGradient>
-        </defs>
+      <svg viewBox="0 0 24 24" fill="none" id="star-icon">
         <path
           fillRule="evenodd"
           d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
           clipRule="evenodd"
-          fill="url(#starGradient)"
+          fill="#e0e0e0"
         />
       </svg>
     );
   }
 
+  if (half) {
+    const percentageValue = Math.min(100, Math.max(0, parseFloat(percentage || '50')));
+
+    return (
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        {/* Fondo gris */}
+        <svg viewBox="0 0 24 24" fill="none" style={{ position: 'absolute', zIndex: 1 }}>
+          <path
+            fillRule="evenodd"
+            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+            clipRule="evenodd"
+            fill="#e0e0e0"
+          />
+        </svg>
+
+        {/* Parte naranja */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 2,
+            width: `${percentageValue}%`,
+            overflow: 'hidden',
+            display: 'inline-block',
+          }}>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              fillRule="evenodd"
+              d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+              clipRule="evenodd"
+              fill="#ff9100"
+            />
+          </svg>
+        </div>
+      </div>
+    );
+  }
+
+  // Estrella completa
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" id="star-icon">
+    <svg viewBox="0 0 24 24" fill="none" id="star-icon">
       <path
         fillRule="evenodd"
         d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
         clipRule="evenodd"
+        fill="#ff9100"
       />
     </svg>
   );
