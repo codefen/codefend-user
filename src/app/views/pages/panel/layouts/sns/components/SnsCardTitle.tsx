@@ -62,7 +62,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({ arrow = 'down', align = 'center' 
           marginRight: 0,
         }}>
         <div className="header">
-          <GlobeWebIcon style={{ marginRight: 8, verticalAlign: 'middle' }} />
+          <GlobeWebIcon />
           <span style={{ verticalAlign: 'middle' }}>Dataleaks search</span>
         </div>
         <div className="content">
