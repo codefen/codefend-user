@@ -82,13 +82,24 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
       <Show when={!isLoading} fallback={<PageLoader />}>
         <div className="content">
           <Masonry
-            breakpointCols={3}
+            breakpointCols={2}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column">
             {intelData.map((intel, index) => (
               <div key={index} className="search-result">
                 <div className="header">
-                  <div className="title">{intel?.name.replace(/_\d+[MK]$/, '')}</div>
+                  <div className="title">
+                    {intel?.name
+                      ? intel.name
+                          .replace(/_\d+[MK]$/, '')
+                          .charAt(0)
+                          .toUpperCase() +
+                        intel.name
+                          .replace(/_\d+[MK]$/, '')
+                          .slice(1)
+                          .toLowerCase()
+                      : ''}
+                  </div>
                 </div>
                 <div className="info">
                   {intel?.value.map((subIntel: any, subIndex: number) => (
@@ -101,8 +112,17 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
                         overflow: 'hidden',
                       }}>
                       {Object.keys(subIntel).map((subIntelVal, subIntelValIndex) => (
-                        <div key={subIntelValIndex}>
-                          {`${subIntelVal}: ${subIntel[subIntelVal]}`}
+                        <div key={subIntelValIndex} className="intel-row">
+                          <span
+                            className="intel-label"
+                            style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                            {subIntelVal.charAt(0).toUpperCase() +
+                              subIntelVal.slice(1).toLowerCase()}
+                            :{' '}
+                          </span>
+                          <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                            {subIntel[subIntelVal]}
+                          </span>
                         </div>
                       ))}
                       {subIntel.hash && (
@@ -111,7 +131,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
                             onClick={() => {
                               openLeakedModal(intel, 'crack');
                             }}
-                            className="codefend-text-red no-outline bolder no-border">
+                            className="crack-btn">
                             click to crack
                           </button>
                         </div>
