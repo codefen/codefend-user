@@ -100,7 +100,8 @@
     display: flex;
     align-items: center;
     height: 40px;
-    padding: 0 0 0 20px;
+    padding-inline: 20px;
+    // padding-inline-end: 40px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-300);
     font-family: Questrial;

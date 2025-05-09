@@ -43,7 +43,6 @@ export const useAutoScan = () => {
 
     if (result) {
       if (result?.neuroscan?.id) {
-        console.log('neuroscan', { neuroscan: result?.neuroscan });
         setNeuroScanId(result.neuroscan.id);
         saveInitialDomain(result.neuroscan?.resource_address || '');
         setScanStep(ScanStepType.Scanner);

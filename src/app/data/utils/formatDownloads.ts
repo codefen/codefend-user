@@ -71,7 +71,6 @@ const parseSuffixedNumber = (text: string): number | null => {
  */
 export const formatDownloads = (downloads: string | number | undefined): string => {
   // Debug
-  console.log('formatDownloads - input:', downloads);
 
   if (downloads === undefined || downloads === null || downloads === '') {
     return '0';
@@ -84,7 +83,6 @@ export const formatDownloads = (downloads: string | number | undefined): string 
 
   // Limpiar el texto
   const cleanedText = cleanText(downloads);
-  console.log('formatDownloads - cleaned:', cleanedText);
 
   // Intentar analizar como número con sufijo
   const parsedNumber = parseSuffixedNumber(cleanedText);

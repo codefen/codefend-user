@@ -73,7 +73,6 @@ export const useVerifyScanList = () => {
     if (scanNumber.get != scanSize) {
       scanNumber.set(scanSize || 0);
     }
-    console.log('scanRetries', { retries: scanRetries.get, isActive });
     if (!isActive && scanRetries.get > 0) {
       scanRetries.set(scanRetries.get - 1);
     }

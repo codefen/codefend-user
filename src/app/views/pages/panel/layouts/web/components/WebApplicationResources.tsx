@@ -1,4 +1,4 @@
-import { useState, type FC, useRef, useEffect } from 'react';
+import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
 import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
@@ -25,8 +25,6 @@ import { ModalTitleWrapper } from '@modals/index';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useAutoScan } from '@panelHooks/useAutoScan';
-import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 
 interface WebResourcesProps {
   refresh: () => void;
@@ -45,7 +43,7 @@ const webColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-web-1',
-    weight: '6%',
+    weight: '10%',
     render: (ID: any) => ID,
   },
   {
@@ -53,7 +51,7 @@ const webColumns: ColumnTableV3[] = [
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-web-2 ',
-    weight: '40%',
+    weight: '38%',
     render: (row: any, next?: any) =>
       !row?.resource_domain_dad ? (
         row.resource_domain
@@ -68,7 +66,7 @@ const webColumns: ColumnTableV3[] = [
     header: 'server ip',
     key: 'main_server',
     styles: 'item-cell-web-3',
-    weight: '17%',
+    weight: '19%',
     render: (ip: any) => ip,
   },
   {
@@ -76,10 +74,26 @@ const webColumns: ColumnTableV3[] = [
     key: 'server_pais',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-web-4',
-    weight: '16%',
+    weight: '22%',
     render: (row: any) => (
       <LocationItem country={row?.server_pais || ''} countryCode={row?.server_pais_code || ''} />
     ),
+  },
+  {
+    header: 'issues',
+    key: 'final_issues',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-web-5',
+    weight: '11%',
+    render: (row: any) =>
+      !row?.resource_domain_dad ? (
+        <>
+          <BugIcon />
+          {row?.final_issues || 0}
+        </>
+      ) : (
+        'inherit'
+      ),
   },
 ];
 
@@ -101,28 +115,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const { handleDelete } = useDeleteWebResource();
   const { removeItem } = useTableStoreV3();
-  const [term, setTerm] = useState('');
-  // const [contextMenu, setContextMenu] = useState<{
-  //   visible: boolean;
-  //   x: number;
-  //   y: number;
-  //   row: any | null;
-  // }>({ visible: false, x: 0, y: 0, row: null });
-  // const contextMenuRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   const handleClick = (event: MouseEvent) => {
-  //     if (contextMenuRef.current && !contextMenuRef.current.contains(event.target as Node)) {
-  //       setContextMenu({ ...contextMenu, visible: false });
-  //     }
-  //   };
-  //   if (contextMenu.visible) {
-  //     document.addEventListener('mousedown', handleClick);
-  //   }
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClick);
-  //   };
-  // }, [contextMenu]);
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -151,34 +143,6 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setIsOpen(true);
     setModalId(RESOURCE_CLASS.WEB);
   };
-
-  // const webColumnsWith = [
-  //   ...webColumns,
-  //   {
-  //     header: '',
-  //     key: TABLE_KEYS.ACTION,
-  //     type: TABLE_KEYS.FULL_ROW,
-  //     styles: 'item-cell-web-5',
-  //     weight: '18.5%',
-  //     render: (row: any) => (
-  //       <div
-  //         className="publish"
-  //         key={`actr-${row.id}`}
-  //         onContextMenu={e => {
-  //           e.preventDefault();
-  //           setContextMenu({ visible: true, x: e.clientX, y: e.clientY, row });
-  //         }}>
-  //         <span
-  //           className={`issue-icon flex-box ${userHaveAccess ? '' : 'disable'}`}
-  //           title={`${isNormalUser() ? '' : 'Add Issue'}`}
-  //           onClick={() => createIssue(row.id)}>
-  //           <BugIcon isButton key={`bugi-${row.id}`} />
-  //           <span className="codefend-text-red-200 issue-count">{row.final_issues}</span>
-  //         </span>
-  //       </div>
-  //     ),
-  //   },
-  // ];
 
   const contextMenuActions = [
     {
@@ -245,92 +209,18 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
         close={() => setIsOpen(false)}
         webResources={webResources}
       />
-
-      <div className="search-bar-container">
-        <ModalInput
-          icon={<MagnifyingGlassIcon />}
-          setValue={(val: string) => setTerm(val)}
-          placeholder="Search resource..."
-        />
-      </div>
-
-      <div className="card">
-        <div className="over">
-          <Tablev3
-            className="table-web"
-            columns={webColumns}
-            rows={webResources}
-            showRows={!isLoading}
-            initialOrder="resource_domain"
-            isNeedSearchBar={false}
-            limit={0}
-            isNeedSort
-            enableContextMenu
-            contextMenuActions={contextMenuActions}
-          />
-        </div>
-      </div>
-
-      {/* {contextMenu.visible && (
-        <div
-          ref={contextMenuRef}
-          className="custom-context-menu"
-          style={{ position: 'fixed', top: contextMenu.y, left: contextMenu.x, zIndex: 9999 }}>
-          <div
-            className={`context-menu-item ${Number(contextMenu.row?.final_issues) === 0 ? 'off' : ''}`}
-            onClick={() => {
-              generateWebReport(contextMenu.row.id, contextMenu.row.final_issues);
-              setContextMenu({ ...contextMenu, visible: false });
-            }}>
-            <DocumentIcon isButton width={1.27} height={1.27} /> Ver reporte
-          </div>
-          <Show when={isNormalUser() || isAdmin()}>
-            <div
-              className="context-menu-item"
-              onClick={() => {
-                deleteWebResource(contextMenu.row);
-                setContextMenu({ ...contextMenu, visible: false });
-              }}>
-              <TrashIcon /> Eliminar
-            </div>
-          </Show>
-          <div
-            className="context-menu-item"
-            onClick={() => {
-              addCreds(contextMenu.row.id);
-              setContextMenu({ ...contextMenu, visible: false });
-            }}>
-            <CredentialIcon /> Credenciales
-          </div>
-        </div>
-      )}
-      <style>{`
-        .custom-context-menu {
-          background: #fff;
-          border: 1px solid #ddd;
-          border-radius: 6px;
-          box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-          min-width: 180px;
-          padding: 6px 0;
-        }
-        .context-menu-item {
-          padding: 8px 18px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 15px;
-          color: #222;
-          transition: background 0.2s;
-        }
-        .context-menu-item:hover {
-          background: #f5f5f5;
-        }
-        .context-menu-item.off {
-          color: #aaa;
-          pointer-events: none;
-        }
-      `}</style> */}
+      <Tablev3
+        className="table-web"
+        columns={webColumns}
+        rows={webResources}
+        showRows={!isLoading}
+        initialOrder="resource_domain"
+        isNeedSearchBar={true}
+        limit={0}
+        isNeedSort
+        enableContextMenu
+        contextMenuActions={contextMenuActions}
+      />
     </div>
   );
 };

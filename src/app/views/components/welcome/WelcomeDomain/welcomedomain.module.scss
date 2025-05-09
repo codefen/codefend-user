@@ -60,6 +60,7 @@
 
 .limit-container {
   height: auto;
+  max-height: 285px;
   position: relative;
   mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));
   -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));

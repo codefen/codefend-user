@@ -11,26 +11,7 @@ export const useGetOneMobile = () => {
 
   const { data, mutate, isLoading, isValidating } = useSWR(
     swrKeYRef.current,
-    (key: any) => {
-      return genericFetcher(key)
-        .then(response => {
-          console.log('=== RESPUESTA DE LA API ===');
-          console.log('URL:', key);
-          console.log('Respuesta completa:', response);
-          if (response?.unico) {
-            console.log('Datos de la aplicación:', response.unico);
-            console.log('app_android_downloads:', response.unico.app_android_downloads);
-            console.log('downloads:', response.unico.downloads);
-            console.log('app_rank:', response.unico.app_rank);
-          }
-          console.log('==========================');
-          return response;
-        })
-        .catch(error => {
-          console.error('Error en la petición a la API:', error);
-          throw error;
-        });
-    },
+    (key: any) => genericFetcher(key),
     {
       fallback: {},
       revalidateOnMount: false,

@@ -113,8 +113,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   // I memorize the classes of the table
   const tableClassName = useMemo(
     () =>
-      `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''}`,
-    [className, isSelecting, isMoving]
+      `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''} ${enableContextMenu ? 'table-context-menu-enabled' : ''}`,
+    [className, isSelecting, isMoving, enableContextMenu]
   );
 
   // Manejador del click derecho

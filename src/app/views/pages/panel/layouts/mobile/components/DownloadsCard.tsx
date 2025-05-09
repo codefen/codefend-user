@@ -98,27 +98,6 @@ export const DownloadsCard: React.FC<DownloadsCardProps> = ({ className, appData
     return getDownloadMessage(downloadCount);
   }, [downloadCount]);
 
-  // Debug: Mostrar información sobre los datos de descargas
-  useEffect(() => {
-    console.log('=== DOWNLOADS CARD DEBUG ===');
-    console.log('Datos de entrada (appData):', appData);
-    console.log('Total downloads:', appData?.total_downloads);
-    console.log('Android downloads:', appData?.app_android_downloads);
-    console.log('iOS downloads:', appData?.app_ios_downloads);
-    console.log('Valor usado (downloadCount):', downloadCount);
-    console.log('Mensaje generado:', downloadMessage);
-    console.log('===========================');
-  }, [appData, downloadCount, downloadMessage]);
-
-  // Debug: Mostrar información sobre los datos de descargas
-  useEffect(() => {
-    console.log('=== DOWNLOADS CARD DEBUG ===');
-    console.log('Datos de entrada (downloadCount):', downloadCount);
-    console.log('Tipo de dato:', typeof downloadCount);
-    console.log('Mensaje generado:', downloadMessage);
-    console.log('===========================');
-  }, [downloadCount, downloadMessage]);
-
   return (
     <div className={`downloads-card ${className || ''}`}>
       <div className="downloads-content">

@@ -258,7 +258,7 @@ export const NewSignupForm = () => {
             <ProgressBar activeStep={activeStep} />
             <CheckEmail
               text=""
-              subText="Please check your inbox, copy the verification code and paste it in the field below to confirm your email."
+              subText={`Please check your inbox, we've sent a verification code to <b>${lead.get?.lead_email}</b>, copy the verification code and paste it into the field below to confirm your email.`}
             />
             <AuthInput placeholder="Insert Unique code" name="lead_reference_number" required />
             <div className={`form-buttons ${css['form-btns']}`}>
