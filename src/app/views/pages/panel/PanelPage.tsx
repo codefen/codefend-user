@@ -21,6 +21,7 @@ import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResource
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 import { OrderV2 } from '@modals/index.ts';
 import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress.ts';
+import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -58,6 +59,7 @@ export const PanelPage = () => {
       setShowModal(true);
       setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
     });
+    AxiosHttpService.getInstance().updateUrlInstance();
     const keydownUnsubscribe = addEventListener(
       window,
       EVENTS.KEYDOWN,

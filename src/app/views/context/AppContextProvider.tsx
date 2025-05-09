@@ -2,7 +2,7 @@ import { useEffect, type PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
-import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
+import { EMPTY_COMPANY_CUSTOM, MAX_SCAN_RETRIES } from '@/app/constants/empty';
 
 export interface CompanyUser extends OwnerData, AuditData, LocationData {
   admin_user_email: string;
@@ -64,6 +64,7 @@ export type GlobalStore = {
   scanNumber: number;
   user: any;
   companies: any[];
+  scanRetries: number;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -97,6 +98,7 @@ export const initialGlobalState: GlobalStore = {
   scanNumber: persistedState?.scanNumber ?? 0,
   user: persistedState?.user ?? null,
   companies: persistedState?.companies ?? [],
+  scanRetries: persistedState?.scanRetries ?? MAX_SCAN_RETRIES,
 };
 
 const {

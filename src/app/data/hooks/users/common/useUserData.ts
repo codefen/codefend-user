@@ -14,6 +14,7 @@ export const useUserData = () => {
     company.set(EMPTY_COMPANY_CUSTOM);
     localStorage.clear();
     localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
+    window.location.reload();
   };
 
   return {

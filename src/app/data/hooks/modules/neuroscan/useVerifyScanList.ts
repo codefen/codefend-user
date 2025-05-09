@@ -1,4 +1,5 @@
 import { useUserData } from '#commonUserHooks/useUserData';
+import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
@@ -39,11 +40,11 @@ const getLatestScan = (scans: any[]) => {
 };
 
 export const useVerifyScanList = () => {
-  // Recupera el company id del local storage
-  const { isScanning, scanNumber, company } = useGlobalFastFields([
+  const { isScanning, scanNumber, company, scanRetries } = useGlobalFastFields([
     'isScanning',
     'scanNumber',
     'company',
+    'scanRetries',
   ]);
   const scanningValue = isScanning.get;
   const [initialFetchDone, setInitialFetchDone] = useState(false);
@@ -51,10 +52,9 @@ export const useVerifyScanList = () => {
   const swrKey = baseKey;
 
   const { data } = useSWR<ScanManager>(swrKey, fetcher, {
-    refreshInterval: 3000,
-    revalidateOnFocus: scanningValue,
-    revalidateOnReconnect: scanningValue,
-    // Queremos la 1ª llamada sí o sí
+    refreshInterval: scanRetries.get > 0 || scanningValue ? 3000 : 0,
+    revalidateOnFocus: scanRetries.get > 0,
+    revalidateOnReconnect: scanRetries.get > 0,
     revalidateOnMount: true,
     keepPreviousData: true,
     fallbackData: { scans: [], companyUpdated: {} },
@@ -67,25 +67,27 @@ export const useVerifyScanList = () => {
 
   const latestScan = useMemo(() => getLatestScan(data?.scans || []), [data?.scans]);
 
-  // Si al primer fetch detectamos un scan en curso, activamos la bandera
   useEffect(() => {
     const scanSize = data?.scans?.length;
+    const isActive = latestScan?.phase == 'scanner' || latestScan?.phase == 'parser';
     if (scanNumber.get != scanSize) {
       scanNumber.set(scanSize || 0);
+    }
+    console.log('scanRetries', { retries: scanRetries.get, isActive });
+    if (!isActive && scanRetries.get > 0) {
+      scanRetries.set(scanRetries.get - 1);
     }
     if (!latestScan) {
       if (scanningValue) isScanning.set(false);
       return;
     }
-
-    const isActive = latestScan.phase === 'scanner' || latestScan.phase === 'parser';
-
     if (scanningValue && !isActive) {
       isScanning.set(false);
     } else if (!scanningValue && isActive) {
       isScanning.set(true);
+      scanRetries.set(MAX_SCAN_RETRIES);
     }
-  }, [latestScan, scanningValue]);
+  }, [data, latestScan, scanningValue]);
 
   const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
 

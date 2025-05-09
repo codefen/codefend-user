@@ -88,6 +88,8 @@ export const EMPTY_COMPANY_CUSTOM = {
   isDisabled: false,
 };
 
+export const MAX_SCAN_RETRIES = 6;
+
 export const EMPTY_GLOBAL_STATE: GlobalStore = {
   isOpenNetworkSetting: false,
   openModal: false,
@@ -115,6 +117,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   scanNumber: 0,
   user: EMPTY_USER,
   companies: [],
+  scanRetries: MAX_SCAN_RETRIES,
 };
 
 export const EMPTY_PROVIDER = {

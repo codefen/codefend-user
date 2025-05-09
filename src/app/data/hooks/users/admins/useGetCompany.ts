@@ -24,8 +24,8 @@ export const useGetCompany = () => {
   );
 
   useEffect(() => {
-    if (data?.length !== companies.get?.length) {
-      companies.set(data);
+    if (data?.companies && data?.companies?.length !== companies.get?.length) {
+      companies.set(data?.companies);
     }
     if (data?.user) user.set(data?.user);
     if (data?.session) session.set(data?.session);

@@ -5,10 +5,17 @@ import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useStreamFetch } from '#commonHooks/useStreamFetch';
+import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();
-  const globalStore = useGlobalFastFields(['company', 'isScanning', 'currentScan', 'scanProgress']);
+  const globalStore = useGlobalFastFields([
+    'company',
+    'isScanning',
+    'currentScan',
+    'scanProgress',
+    'scanRetries',
+  ]);
   // Setear datos para el scanner
   const {
     setScanRunning,
@@ -35,7 +42,8 @@ export const useAutoScan = () => {
     const result = await streamFetch(formData);
 
     if (result) {
-      if (result.neuroscan?.id) {
+      if (result?.neuroscan?.id) {
+        console.log('neuroscan', { neuroscan: result?.neuroscan });
         setNeuroScanId(result.neuroscan.id);
         saveInitialDomain(result.neuroscan?.resource_address || '');
         setScanStep(ScanStepType.Scanner);
@@ -43,6 +51,7 @@ export const useAutoScan = () => {
         globalStore.isScanning.set(true);
         globalStore.currentScan.set(result.neuroscan);
         globalStore.scanProgress.set(0);
+        globalStore.scanRetries.set(MAX_SCAN_RETRIES);
       }
       if (result.company) {
         globalStore.company.set(result.company);

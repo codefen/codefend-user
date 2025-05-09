@@ -11,9 +11,9 @@ import { unstable_batchedUpdates } from 'react-dom';
 
 /** Gets token in localStorage */
 export const getToken = () => {
-  const storeJson = localStorage.getItem('authStore') ?? '';
+  const storeJson = localStorage.getItem('globalStore') ?? '';
   const store = storeJson ? JSON.parse(storeJson) : {};
-  return store ? store?.state?.accessToken : '';
+  return store ? store?.session : '';
 };
 /** Gets company id in localStorage */
 export const getFullCompanyFromUser = () => {

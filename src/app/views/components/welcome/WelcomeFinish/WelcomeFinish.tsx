@@ -6,6 +6,7 @@ import { useScanProgress } from '@moduleHooks/neuroscan/useScanProgress';
 import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useNavigate } from 'react-router';
+import { CheckCircleIcon, CheckIcon, CheckSimpleIcon } from '@icons';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const globalStore = useGlobalFastFields(['scanProgress', 'isScanning', 'currentScan']);
@@ -39,22 +40,32 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           {globalStore.isScanning.get ? (
             <ProgressCircle progress={globalStore.scanProgress.get} />
           ) : (
-            <div>
-              <p>Termino capo, andate</p>
+            <div
+              className={`${css['completion-container']} ${!globalStore.isScanning.get ? css['active'] : ''}`}>
+              <div
+                className={`${css['check-circle']} ${!globalStore.isScanning.get ? css['active'] : ''}`}>
+                <div
+                  className={`${css['check-icon']} ${!globalStore.isScanning.get ? css['active'] : ''}`}>
+                  <CheckSimpleIcon />
+                </div>
+              </div>
             </div>
           )}
         </div>
 
         <div className={css['finish-issues-found']}>
           <div className={css['finish-vuln-box']}>
-            <div className={css['value']} style={{ color: '#e84f4f' }}>
+            <div className={`${css['value']} ${css['stat-complete']}`}>
               {globalStore.currentScan.get?.issues_found}
             </div>
             <span style={{ color: '#e84f4f' }}>Total finding</span>
           </div>
-          <div className={css['finish-vuln-box']}>
-            <div className={css['value']}>{globalStore.currentScan.get?.issues_parsed}</div>
-            <span>Analizing finding</span>
+          <div
+            className={`${css['finish-vuln-box']} ${!globalStore.isScanning.get ? css['vul-box-complete'] : ''}`}>
+            <div className={`${css['value']} ${css['stat-complete']}`}>
+              {globalStore.currentScan.get?.issues_parsed}
+            </div>
+            <span>{!globalStore.isScanning.get ? 'Analyzed finding' : 'Analizing finding'}</span>
           </div>
         </div>
         <div className={css['finish-text']}>
