@@ -35,7 +35,11 @@ main.dashboard {
 
       .item-cell-4 {
         text-align: right;
-        padding-right: 12px;
+        margin-left: auto;
+        width: unset !important;
+        max-width: unset !important;
+        flex: unset !important;
+        padding-right: 0;
       }
     }
 
@@ -46,6 +50,9 @@ main.dashboard {
     }
 
     .table {
+      .columns-name {
+        padding: 20px;
+      }
       .vul-title {
         min-width: 48%;
         max-width: 48%;
