@@ -32,7 +32,7 @@ export const useIssueReport = () => {
       },
       path: 'issues/inform',
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error)) {
+      if (apiErrorValidation(data)) {
         openModal.set(false);
         updateState('open', true);
         updateState('orderStepActive', OrderSection.PAYWALL);

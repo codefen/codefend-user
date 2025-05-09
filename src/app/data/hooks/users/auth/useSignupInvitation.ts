@@ -28,11 +28,13 @@ export const useSignupInvitation = () => {
         user_phone: formObject['user_phone'],
         user_password: formObject['user_password'],
         user_idiom: formObject['user_idiom'],
+        developer: 'increible',
       },
       path: 'users/invoke/finish',
+      insecure: true,
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         session.set(data.session as string);

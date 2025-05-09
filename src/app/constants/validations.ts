@@ -5,8 +5,12 @@ import { APP_MESSAGE_TOAST } from './app-toast-texts';
     VALIDACIONES GENERALES / TRANSVERSALES
 */
 //Cuando la api falla suele enviar "error" con valor 1 o "response" con el valor de "error"
-export const apiErrorValidation = (error?: any, response?: any) =>
-  error == '1' || response === 'error';
+export const apiErrorValidation = (data?: any) =>
+  data?.error == '1' ||
+  data?.response === 'error' ||
+  data?.isAnError ||
+  data?.isNetworkError ||
+  Boolean(data?.error_info);
 
 export const companyIdIsNull = (companyID?: any) => {
   if (!companyID) {

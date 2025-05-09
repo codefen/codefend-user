@@ -26,8 +26,7 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
       requireSession: true,
     })
       .then(({ data }: any) => {
-        if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response))
-          throw new Error('');
+        if (verifySession(data, logout) || apiErrorValidation(data)) throw new Error('');
         setQr(data?.qr || '');
         setKey(data?.llave || '');
         if (data?.user) user.set(data?.user);
@@ -53,7 +52,7 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
       },
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(data.info);
         }
         toast.success('MFA enabled successfully');

@@ -99,7 +99,7 @@ export const NewSignupForm = () => {
     form.append('model', 'users/new');
     const formObject = Object.fromEntries(form.entries());
     fetcher('post', { body: formObject, requireSession: false }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         toast.error(data?.info || 'An unexpected error has occurred');
         throw new Error('');
       }
@@ -115,7 +115,7 @@ export const NewSignupForm = () => {
     };
     return fetcher('post', { body, requireSession: false, requireJson: false }).then(
       ({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+        if (apiErrorValidation(data)) throw new Error('');
         setRecommendedUsername(data.recommended_username);
         setLeadReferenceNumber(String(code) || '');
       }

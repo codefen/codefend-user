@@ -36,7 +36,7 @@ export const NewAuthPage = () => {
   return (
     <>
       <Sidebar />
-      <main className={`${showScreen ? 'actived' : ''}`}>
+      <main className={`auth-pages ${showScreen ? 'actived' : ''}`}>
         <div className="brightness variant-1"></div>
         <div className="brightness variant-2"></div>
         <Suspense>

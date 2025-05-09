@@ -21,7 +21,7 @@ export const useProviderOrderFinished = () => {
       path: 'providers/orders/index/finished',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         finishedOrders.current = data.orders ? data.orders : [];

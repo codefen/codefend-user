@@ -19,7 +19,7 @@ export const useUserRevoke = () => {
       },
       path: 'users/revoke',
     }).then(({ data }) => {
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+      if (data.isAnError || apiErrorValidation(data)) {
         throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
       }
       toast.success(PREFERENCE_PANEL_TEXT.REVOKE_USER_ACCESS);

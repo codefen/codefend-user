@@ -1,9 +1,6 @@
-import { companyIdIsNull } from '@/app/constants/validations';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { AxiosHttpService } from '@services/axiosHTTP.service';
-import { useEffect, useMemo, useRef } from 'react';
-import useSWR from 'swr';
+import { useEffect, useRef } from 'react';
 
 export const useManageScanProgress = () => {
   const { currentScan, scanProgress } = useGlobalFastFields(['scanProgress', 'currentScan']);
@@ -18,23 +15,20 @@ export const useManageScanProgress = () => {
     const current = currentScan.get;
 
     const sameScan = current?.id === latestScan.id;
-    currentScan.set(latestScan);
 
     // Si está activo, actualizo todo
     if (isActive) {
       if (!sameScan) {
         scanProgress.set(0);
       }
-      // isScanning.set(true);
     } else {
       if (sameScan && isScanning.get) {
-        // isScanning.set(false);
         scanProgress.set(100);
       }
     }
   }, [latestScan, isScanning.get, currentScan.get, scanProgress.get]);
 
-  // —— LOGICA DE PROGRESO ——
+  // —— LOGICA DE PROGRESO EN FASE "scanner" ——
 
   useEffect(() => {
     const scan = currentScan.get;

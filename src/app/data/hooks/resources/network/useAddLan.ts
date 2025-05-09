@@ -21,7 +21,7 @@ export const useAddLan = (onDone: () => void, close: () => void) => {
       },
       path: 'resources/lan/add',
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         let message = data.info.includes('device_in_address')
           ? NETWORK_PANEL_TEXT.INVALID_LAN_IN_ADDRESS
           : data.info.includes('device_ex_address')

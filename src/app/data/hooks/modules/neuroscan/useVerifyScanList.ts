@@ -1,10 +1,8 @@
-import { useUserData } from '#commonUserHooks/useUserData';
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
-import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
-import useModalStore from '@stores/modal.store';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 interface ScanManager {
@@ -28,9 +26,6 @@ const fetcher = ([model, { company }]: any) => {
       companyUpdated: {},
     }));
 };
-
-const getInProgress = (scans: any[]) =>
-  scans.filter(s => s.phase === 'scanner' || s.phase === 'parser');
 
 const getLatestScan = (scans: any[]) => {
   if (scans.length === 0) return null;

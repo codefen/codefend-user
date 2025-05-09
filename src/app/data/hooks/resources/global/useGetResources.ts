@@ -18,7 +18,7 @@ export const useGetResources = () => {
       path: `resources/${path}/index`,
     })
       .then(({ data }) => {
-        if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+        if (apiErrorValidation(data)) throw new Error('');
 
         let resources = [];
         if (data.resources) resources = data.resources;

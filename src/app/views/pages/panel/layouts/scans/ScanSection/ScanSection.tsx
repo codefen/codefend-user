@@ -164,7 +164,7 @@ export const ScanSection = () => {
         if (resourceId) {
           if (data?.company) company.set(data.company);
           autoScan(resourceId, false).then(result => {
-            if (apiErrorValidation(result?.error)) {
+            if (apiErrorValidation(data)) {
               console.log('Tuve un error AAA');
               // updateState('open', true);
               // updateState('orderStepActive', OrderSection.PAYWALL);

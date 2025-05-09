@@ -35,14 +35,24 @@ input {
   width: 100%;
   padding-block: 0;
   padding-inline: 15px;
-  background-color: var(--primary-color);
+  cursor: text;
   color: var(--tertiary-color-500);
-  border: none;
-  border-radius: 0;
+  border: 1px solid var(--primary-color-600);
+  border-radius: var(--brd-radius);
   font-size: 15px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
 
-  &:focus {
-    outline: 0 solid;
+  &:not(:disabled) {
+    background-color: var(--primary-color);
+  }
+
+  &:focus:not(:disabled) {
+    outline: none;
+    border-color: #ff3939;
     caret-color: var(--secondary-color-50) !important;
     color: var(--tertiary-color-700);
   }
@@ -55,6 +65,7 @@ input {
     cursor: default;
     opacity: 0.85;
     background: #b6b6b645;
+    border: none;
   }
 }
 
@@ -151,28 +162,28 @@ select {
 // 	}
 // }
 
-input[type='text'],
-input[type='password'],
-input[type='email'] {
-  cursor: text;
-  border: 1px solid var(--primary-color-600);
-  border-radius: 6px;
-  background: var(--primary-color);
-  transition:
-    border-color 0.2s,
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 1;
-}
+// input[type='text'],
+// input[type='password'],
+// input[type='email'] {
+//   cursor: text;
+//   border: 1px solid var(--primary-color-600);
+//   border-radius: 6px;
+//   background: var(--primary-color);
+//   transition:
+//     border-color 0.2s,
+//     box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   position: relative;
+//   z-index: 1;
+// }
 
-input[type='text']:focus,
-input[type='password']:focus,
-input[type='email']:focus {
-  border-color: #ff3939;
-  outline: none;
-  background: var(--primary-color);
-  color: var(--tertiary-color-700);
-}
+// input[type='text']:focus,
+// input[type='password']:focus,
+// input[type='email']:focus {
+//   border-color: #ff3939;
+//   outline: none;
+//   background: var(--primary-color);
+//   color: var(--tertiary-color-700);
+// }
 
 .pencil-icon {
   position: absolute;

@@ -23,7 +23,7 @@ export const useProviderProfile = () => {
     })
       ?.then(({ data }) => {
         if (verifySession(data, logout)) return;
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         setProvider(data.provider);

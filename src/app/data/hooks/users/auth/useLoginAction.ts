@@ -24,20 +24,21 @@ export const useLoginAction = () => {
       path: '/users/access',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response) || Boolean(data?.error_info)) {
+        if (apiErrorValidation(data)) {
           const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
           customError.code = data?.error_info || 'generic';
           customError.email = email;
           customError.password = password;
           throw customError;
         }
-        session.set(data.session as string);
-        user.set(data.user);
-        company.set({
-          ...EMPTY_COMPANY_CUSTOM,
-          id: data.user.company_id || '',
-          name: data.user.company_name || '',
-        });
+        if (data.session) session.set(data.session as string);
+        if (data.user) user.set(data.user);
+        if (data.company)
+          company.set({
+            ...EMPTY_COMPANY_CUSTOM,
+            id: data.user.company_id || '',
+            name: data.user.company_name || '',
+          });
         toast.success(AUTH_TEXT.LOGIN_SUCCESS);
         axiosHttp.updateUrlInstance();
         return user;

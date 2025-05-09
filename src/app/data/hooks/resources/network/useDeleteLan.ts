@@ -20,8 +20,7 @@ export const useDeleteLan = (onDone: () => void, close: () => void) => {
       path: 'resources/lan/del',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response))
-          throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        if (apiErrorValidation(data)) throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         close();
         onDone();
         toast.success(NETWORK_PANEL_TEXT.DELETED_LAN);

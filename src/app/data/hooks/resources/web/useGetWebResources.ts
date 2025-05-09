@@ -24,7 +24,7 @@ export const useGetWebResources = () => {
       path: 'resources/web/index',
     }).then(({ data }) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
       if (data?.company) company.set(data.company);

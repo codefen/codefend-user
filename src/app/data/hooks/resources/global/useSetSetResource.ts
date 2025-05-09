@@ -20,7 +20,7 @@ export const useSetResource = (type: string, successText: string) => {
       timeout: 180000,
     })
       .then(({ data }) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         toast.success(successText);

@@ -27,7 +27,7 @@ export const usePreferences = () => {
       insecure: true,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('');
       }
       let members = data.company_members ? data.company_members : [];
