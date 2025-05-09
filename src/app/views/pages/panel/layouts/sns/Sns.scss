@@ -1,6 +1,24 @@
 main.sb {
   .search-bar-container {
     margin-bottom: 0 !important;
+    .search-bar {
+      .search-input {
+        width: 180px !important; /* o el valor que prefieras */
+        min-width: 0;
+        max-width: 650px;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+      .search-button {
+        font-weight: 500;
+        min-width: 56px;
+        width: 64px;
+        border-radius: 0 5px 5px 0;
+        background: linear-gradient(90deg, #ff6464 0%, #e53935 100%);
+        color: #fff;
+        border: none;
+      }
+    }
   }
 
   .crack-btn {
@@ -22,6 +40,11 @@ main.sb {
   }
 
   .left {
+    .card.title {
+      box-shadow: 0 15px 45px 0 rgb(221 221 221 / 25%);
+
+      /* Sombra grande, difuminada y suave solo para el card title de la izquierda */
+    }
     // Quitar gap solo en dataleaks/SNS
     gap: 0 !important;
     border: none;
@@ -105,12 +128,116 @@ main.sb {
   }
 
   .right {
-    .card.table {
-      width: 100%;
+    .card.table.inx {
+      width: 85%;
+      max-width: 540px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgb(65 65 65 / 6%);
+      padding: 0 0 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      .header,
+      .columns-name {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1rem;
+        background: linear-gradient(90deg, #ff6464 0%, #e53935 100%);
+        color: #fff;
+        padding: 0.8rem 1.4rem;
+        border-bottom: none;
+      }
+      .columns-name {
+        border-radius: 0;
+        background: #fafafa;
+        color: #666666;
+        font-size: 0.89rem;
+        font-weight: 600;
+        border-bottom: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .column {
+          padding: 0 0.2rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: left;
+          font-size: 0.89rem;
+          font-weight: 600;
+          color: #666666;
+        }
+        .column:nth-child(1) {
+          flex: 0 0 85px;
+          max-width: 90px;
+          min-width: 60px;
+        }
+        .column:nth-child(2),
+        .column:nth-child(3) {
+          flex: 1 1 33%;
+        }
+      }
+      .rows.internal-tables {
+        padding: 0.4rem 0.7rem 0.7rem;
+      }
+      .rows {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        .item-wrapper {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 0.4rem 0.7rem;
+          border-bottom: 1px solid #ececec;
+
+          .search-item {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-between;
+            .name {
+              font-size: 0.78rem;
+              color: #666666;
+              font-weight: 500;
+              padding: 0 0.2rem;
+              flex: 0 0 85px;
+              max-width: 90px;
+              min-width: 60px;
+              text-align: left;
+              word-break: break-all;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              border-bottom: none !important;
+            }
+            .result,
+            .keyword {
+              font-size: 0.78rem;
+              color: #666666;
+              font-weight: 500;
+              padding: 0 0.2rem;
+              flex: 1 1 33%;
+              text-align: left;
+              word-break: break-all;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              border-bottom: none !important;
+            }
+          }
+        }
+      }
     }
   }
+}
 
-  @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
+  main.sb {
     display: flex;
     flex-direction: column;
     overflow: auto;
@@ -119,6 +246,11 @@ main.sb {
     min-height: auto;
 
     .left {
+      .card.title {
+        box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%);
+
+        /* Sombra grande, difuminada y suave solo para el card title de la izquierda */
+      }
       // Quitar gap solo en dataleaks/SNS
       gap: 0 !important;
       width: 100%;
