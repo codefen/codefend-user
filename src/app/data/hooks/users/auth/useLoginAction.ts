@@ -31,14 +31,13 @@ export const useLoginAction = () => {
           customError.password = password;
           throw customError;
         }
-        if (data.session) session.set(data.session as string);
-        if (data.user) user.set(data.user);
-        if (data.company)
-          company.set({
-            ...EMPTY_COMPANY_CUSTOM,
-            id: data.user.company_id || '',
-            name: data.user.company_name || '',
-          });
+        session.set(data.session as string);
+        user.set(data.user);
+        company.set({
+          ...EMPTY_COMPANY_CUSTOM,
+          id: data.user.company_id || '',
+          name: data.user.company_name || '',
+        });
         toast.success(AUTH_TEXT.LOGIN_SUCCESS);
         axiosHttp.updateUrlInstance();
         return user;

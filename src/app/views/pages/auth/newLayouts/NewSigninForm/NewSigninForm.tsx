@@ -20,7 +20,6 @@ export const NewSigninForm = () => {
     const password = form.get('password') as unknown as string;
     const mfa = form.get('mfa') as unknown as string;
     signInUser(email || '', password || '', mfa).then((result: any) => {
-      console.log('mfaRequired', result);
       if (result?.mfaRequired) {
         setMfaStep(true);
         return;
