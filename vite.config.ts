@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import LightningCSS from 'unplugin-lightningcss/vite';
 import path from 'path';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -25,7 +24,7 @@ export default defineConfig(() => ({
   resolve: {
     alias,
   },
-  plugins: [react(), LightningCSS()],
+  plugins: [react()],
   clearScreen: false,
   server: {
     strictPort: true,
@@ -44,7 +43,7 @@ export default defineConfig(() => ({
   },
   envPrefix: ['VITE_', 'TAURI_'],
   build: {
-    cssMinify: !IS_DEBUG ? ('lightningcss' as 'lightningcss') : ('esbuild' as 'esbuild'),
+    cssMinify: !IS_DEBUG ? ('esbuild' as 'esbuild') : ('esbuild' as 'esbuild'),
     target: PLATFORM.startsWith('windows') ? 'chrome105' : 'safari13',
     sourcemap: !!IS_DEBUG,
     minify: !IS_DEBUG ? ('esbuild' as 'esbuild') : false,
