@@ -24,7 +24,7 @@ export const UserProfilePage = () => {
       <section className="right">
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
-        <DashboardScanStart />
+        {/* <DashboardScanStart /> */}
       </section>
     </main>
   );

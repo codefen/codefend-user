@@ -26,14 +26,21 @@ main.user-profile {
     .box-assets {
       display: flex;
       flex-wrap: wrap;
-      align-items: start;
+      align-items: stretch;
       gap: 12px;
+      width: 100%;
+      min-height: 340px;
 
       .card {
         display: flex;
         flex-direction: column;
-        flex: 1;
+        flex: 1 1 0;
         min-width: 200px;
+        padding: 0.5rem;
+        p {
+          font-family: Satoshi, sans-serif !important;
+          font-size: 0.9rem;
+        }
       }
     }
 
@@ -43,14 +50,19 @@ main.user-profile {
       align-items: center;
       justify-content: center;
       gap: 1rem;
+      margin-top: 1.6rem;
     }
 
     .qr-contain input {
       margin-bottom: 1rem;
+      margin-top: 1.5rem;
     }
   }
 
   .right {
+    height: 100%;
+    margin-left: 0;
+    overflow-y: auto;
     .card {
       margin-bottom: 12px;
 
@@ -76,13 +88,20 @@ main.user-profile {
 
   &.actived {
     opacity: 1;
+    width: 85%;
+    margin-left: 0;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
 
     .left {
+      flex: 3.5;
       padding-block-start: 0;
       margin-block-start: calc(18px + var(--nav-height));
     }
 
     .right {
+      flex: 2.5;
       padding-block-start: 0;
       margin-block-start: calc(18px + var(--nav-height));
     }
@@ -105,6 +124,16 @@ main.user-profile {
       padding-block-start: 20px;
     }
   }
+}
+
+.card.rectangle svg,
+.card.rectangle img {
+  max-width: 170px;
+  max-height: 170px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 [data-theme='dark'] {
