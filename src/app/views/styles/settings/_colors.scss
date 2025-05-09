@@ -1,6 +1,6 @@
 /* Color Scheme Light */
 :root {
-  --sidebar-width: 240px;
+  --sidebar-width: 200px;
   --text-large: 18px;
   --text-small: 12px;
   --nav-height: 50px;
@@ -8,8 +8,10 @@
   --padding-top-sections-c: 50px;
   --right-pane-shadow: 0 0 30px 0 rgb(83 83 83 / 10%);
   --brd-radius: 6px;
-  --max-w-layout: 1795px;
-  --card-space: 15px;
+  --max-w-layout: 2000px;
+  --card-space: 12px;
+  --max-height-layout: min(calc(100dvh - 10px), 1016px);
+  --absolute-bars-left: 10px;
 }
 
 body[data-theme='light'] {

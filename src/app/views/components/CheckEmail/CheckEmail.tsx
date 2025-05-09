@@ -13,7 +13,7 @@ const CheckEmail: FC<CheckEmailProps> = ({ text, subText }) => (
     </div>
     <div className={css['check-mail_text']}>
       <span>{text}</span>
-      <p>{subText}</p>
+      <p dangerouslySetInnerHTML={{ __html: subText }} />
     </div>
   </div>
 );

@@ -13,7 +13,7 @@ export interface OrderCloudScopeProps {
   modalId: string;
 }
 const getPath = (alias: string): string => {
-  if (alias == RESOURCE_CLASS_ALIAS.WEB) return 'web/index';
+  if (alias == RESOURCE_CLASS_ALIAS.WEB) return 'web';
   if (alias == RESOURCE_CLASS_ALIAS.MOBILE) return 'mobile';
   if (alias == RESOURCE_CLASS_ALIAS.CLOUD) return 'cloud';
   if (alias == RESOURCE_CLASS_ALIAS.SOURCE) return 'source';

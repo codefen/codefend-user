@@ -3,7 +3,7 @@ import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useDashboard } from '@panelHooks/index';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
-import { DashboardScanStart } from '../dashboard/components/DashboardScanStart/DashboardScanStart';
+import { DashboardScanStart } from '../../../../components/DashboardScanStart/DashboardScanStart';
 import { TeamCollaborators } from './components/Teamcollaborators/teamCollaborators';
 import { TeamMembersTable } from './components/teamMembersTable';
 
@@ -23,13 +23,6 @@ export const TeamMembersPage = () => {
       </section>
       <section className="right">
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
-        {/* <PrimaryButton
-          text="Go to vulnerabilities"
-          buttonStyle="red"
-          className="full"
-          click={() => navigate('/issues')}
-          disabledLoader
-        /> */}
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
         <DashboardScanStart />
       </section>

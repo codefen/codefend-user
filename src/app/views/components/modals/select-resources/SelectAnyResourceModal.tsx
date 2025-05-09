@@ -60,9 +60,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
   const [resourceCount, setResourceCount] = useState<Record<string, number>>({
     web: 0,
     mobile: 0,
-    cloud: 0,
+    //cloud: 0,
     social: 0,
-    source: 0,
+    //source: 0,
     lan: 0,
     research: 0,
   });
@@ -71,9 +71,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
       getIssueResourceCountV2(issues, [
         RESOURCE_CLASS.WEB,
         RESOURCE_CLASS.MOBILE,
-        RESOURCE_CLASS.CLOUD,
+        //RESOURCE_CLASS.CLOUD,
         RESOURCE_CLASS.SOCIAL,
-        RESOURCE_CLASS.SOURCE,
+        //RESOURCE_CLASS.SOURCE,
         'lan',
       ])
     );
@@ -150,7 +150,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               }
             />
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<CLoudIcon />}
               title={RESOURCE_CLASS.CLOUD}
               count={resourceCount[RESOURCE_CLASS.CLOUD]}
@@ -158,9 +158,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={
                 resourceCount[RESOURCE_CLASS.CLOUD] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
-            />
+            /> */}
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<SourceCodeIcon />}
               title={RESOURCE_CLASS.SOURCE}
               count={resourceCount[RESOURCE_CLASS.SOURCE]}
@@ -168,7 +168,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={
                 resourceCount[RESOURCE_CLASS.SOURCE] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
-            />
+            /> */}
 
             <ResourceFigure
               icon={<PeopleGroupIcon />}
@@ -188,7 +188,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={resourceCount['lan'] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING}
             />
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<BugIcon />}
               title={RESOURCE_CLASS.RESEARCH}
               count={resourceCount[RESOURCE_CLASS.RESEARCH]}
@@ -197,7 +197,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
                 modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
               click={handleResearch}
-            />
+            /> */}
           </div>
         </Show>
         <Show

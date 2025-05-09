@@ -18,7 +18,7 @@ export const useAddCollaborator = () => {
       path: 'users/invoke',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
 

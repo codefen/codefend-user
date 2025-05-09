@@ -10,56 +10,74 @@ import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
 import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
-import { ResourcesTypes } from '@interfaces/order';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { DownloadsCard } from './DownloadsCard';
 
 export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
   const { data, isLoading, refetch } = useGetOneMobile();
-  const { appSelected } = useSelectedApp();
-  const onRefetch = () => refetch(appSelected?.id);
+  const onRefetch = () => refetch(selectedAppStored.get?.id);
+  const selectedAppStored = useGlobalFastField('selectedApp');
   useEffect(() => {
-    if (appSelected) onRefetch();
-  }, [appSelected]);
+    // if (appSelected) onRefetch();
+    if (selectedAppStored.get) onRefetch();
+  }, [selectedAppStored.get]);
+  // }, [appSelected]);
 
   if (isLoading) {
     return <PageLoader />;
   }
+
+  // Obtener los datos de la aplicación desde el estado seleccionado
+  const appData = selectedAppStored.get || {};
+
+  // Pasar todos los datos de descargas al componente
+  const downloadsData = {
+    total_downloads: selectedAppStored.get?.total_downloads,
+    app_android_downloads: selectedAppStored.get?.app_android_downloads,
+    app_ios_downloads: selectedAppStored.get?.app_ios_downloads,
+  };
 
   return (
     <>
       <div>
         <AppCardInfo
           type={RESOURCE_CLASS.MOBILE}
-          selectedApp={appSelected}
-          issueCount={data?.issues ? data.issues.length : 0}
+          selectedApp={selectedAppStored.get}
+          issueCount={appData.issues ? appData.issues.length : 0}
         />
+        {/* Mostrar siempre la tarjeta de descargas */}
+        <DownloadsCard appData={downloadsData} />
       </div>
       <div className="selected-content">
-        <div className="selected-content-credentials">
+        {/* <div className="selected-content-credentials">
           <CredentialsModal onComplete={onRefetch} />
           <ProvidedTestingCredentials
             credentials={data?.creds || []}
             isLoading={isLoading}
-            resourceId={appSelected?.id || ''}
+            resourceId={selectedAppStored.get?.id || ''}
             type={RESOURCE_CLASS.MOBILE}
           />
-        </div>
+        </div> */}
         <div className="selected-content-tables">
+          {/* <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} /> */}
+          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
+
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.MOBILE}
             resourceCount={listSize}
             isLoading={isLoading}
+            scope={OrderSection.MOBILE_SCOPE}
           />
-
-          <VulnerabilityRisk isLoading={isLoading} vulnerabilityByRisk={data?.issueShare || {}} />
-          <VulnerabilitiesStatus vulnerabilityByShare={data?.issueCondition || {}} />
         </div>
       </div>
-
-      <section className="card table">
+      <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
+      {/* <section className="card table">
+      
         <IssuesPanelMobileAndCloud isLoading={isLoading} issues={data?.issues || []} />
-      </section>
+      </section> */}
     </>
   );
 };

@@ -18,8 +18,7 @@ export const disponibleFetcher = ([[model, ac], { company, logout }]: any) => {
       path: model,
     })
     .then(({ data }) => {
-      if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response))
-        throw new Error('');
+      if (verifySession(data, logout) || apiErrorValidation(data)) throw new Error('');
       return { disponibles: data?.disponibles || [], company: data?.company || null };
     })
     .catch(() => [] as any);
@@ -32,23 +31,22 @@ export const resourcesFetcher = ([[model, childs], { company, logout }]: any) =>
       body: { model: model, childs: childs, company_id: company },
     })
     .then(({ data }) => {
-      if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response))
-        throw new Error('');
+      if (verifySession(data, logout) || apiErrorValidation(data)) throw new Error('');
       return data?.resources || [];
     })
     .catch(() => [] as any);
 };
 
 export const genericFetcher = ([model, params]: any) => {
-  if (params?.company_id && companyIdIsNull(params?.company_id)) return Promise.reject({});
-
+  const { logout, ...body } = params;
+  if (body?.company_id && companyIdIsNull(body?.company_id)) return Promise.reject({});
   return AxiosHttpService.getInstance()
     .post<any>({
-      body: params,
+      body,
       path: model,
     })
     .then(({ data }) => {
-      if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+      if (verifySession(data, params?.logout) || apiErrorValidation(data)) throw new Error('');
       return data;
     })
     .catch(() => {});

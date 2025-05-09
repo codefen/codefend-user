@@ -11,7 +11,7 @@ import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
-import { ResourcesTypes } from '@interfaces/order.ts';
+import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 
 const NetworkPage: FC = () => {
@@ -32,7 +32,6 @@ const NetworkPage: FC = () => {
       showScreen={showScreen}
       isLoading={loading}
       dataAvailable={Boolean(networks.length)}>
-      <OrderV2 />
       <CredentialsModal />
       <ModalReport />
       <div className="brightness variant-1"></div>
@@ -52,6 +51,7 @@ const NetworkPage: FC = () => {
             type={ResourcesTypes.NETWORK}
             resourceCount={networks?.length || 0}
             isLoading={loading}
+            scope={OrderSection.NETWORK_SCOPE}
           />
         </section>
       </Show>

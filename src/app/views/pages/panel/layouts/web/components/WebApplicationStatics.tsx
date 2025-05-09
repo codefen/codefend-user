@@ -34,21 +34,10 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webRes
   }, [webResources]);
 
   return (
-    <div className="card stats">
-      <div className="header">
-        <div className="title">
-          <div className="icon">
-            <ChartIcon />
-          </div>
-          <span>Domain & server statics</span>
-        </div>
-        <div className="actions"></div>
-      </div>
-      <div className="content">
-        <StatAsset value={globalStore.domainCount.get} valueTitle="Domains" />
-        <StatAsset value={globalStore.subDomainCount.get} valueTitle="Subdomains" />
-        <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPS" />
-      </div>
+    <div className="flex-box">
+      <StatAsset value={globalStore.domainCount.get} valueTitle="Domains" />
+      <StatAsset value={globalStore.subDomainCount.get} valueTitle="Subdomains" />
+      <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPS" />
     </div>
   );
 };

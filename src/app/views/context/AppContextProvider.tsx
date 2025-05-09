@@ -1,9 +1,8 @@
 import { useEffect, type PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
-import { ResourcesTypes } from '@interfaces/order';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
-import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
+import { EMPTY_COMPANY_CUSTOM, MAX_SCAN_RETRIES } from '@/app/constants/empty';
 
 export interface CompanyUser extends OwnerData, AuditData, LocationData {
   admin_user_email: string;
@@ -54,8 +53,18 @@ export type GlobalStore = {
   subDomainCount: number;
   uniqueIpCount: number;
   planPreference: 'small' | 'medium' | 'advanced';
+  mobilePlanPreference: 'small' | 'medium' | 'advanced';
   isDefaultPlan: boolean;
   isProgressStarted: boolean;
+  selectedApp: any;
+  currentScan: any;
+  isScanning: boolean;
+  selectedTicket: any;
+  session: string;
+  scanNumber: number;
+  user: any;
+  companies: any[];
+  scanRetries: number;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -72,13 +81,24 @@ export const initialGlobalState: GlobalStore = {
   company: persistedState?.company ?? EMPTY_COMPANY_CUSTOM,
   keyPress: persistedState?.keyPress ?? '',
   lead: persistedState?.lead ?? {},
-  scanProgress: persistedState?.scanProgress ?? 0,
   domainCount: persistedState?.domainCount ?? 0,
   subDomainCount: persistedState?.subDomainCount ?? 0,
   uniqueIpCount: persistedState?.uniqueIpCount ?? 0,
   planPreference: persistedState?.planPreference ?? 'medium',
   isDefaultPlan: persistedState?.isDefaultPlan ?? false,
+  selectedApp: persistedState?.selectedApp ?? null,
+  mobilePlanPreference: persistedState?.mobilePlanPreference ?? 'medium',
+
+  scanProgress: persistedState?.scanProgress ?? 0,
   isProgressStarted: persistedState?.isProgressStarted ?? false,
+  currentScan: persistedState?.currentScan ?? null,
+  isScanning: persistedState?.isScanning ?? false,
+  selectedTicket: persistedState?.selectedTicket ?? null,
+  session: persistedState?.session ?? '',
+  scanNumber: persistedState?.scanNumber ?? 0,
+  user: persistedState?.user ?? null,
+  companies: persistedState?.companies ?? [],
+  scanRetries: persistedState?.scanRetries ?? MAX_SCAN_RETRIES,
 };
 
 const {

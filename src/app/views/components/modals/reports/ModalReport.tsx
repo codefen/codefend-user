@@ -16,6 +16,6 @@ export const ModalReport: FC<WebReportModalProps> = () => {
       </ModalWrapper>
     );
   } else {
-    return <div></div>;
+    return null;
   }
 };

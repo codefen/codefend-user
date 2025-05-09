@@ -14,11 +14,14 @@ import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.t
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
-import { useVerifyScan } from '#commonHooks/useVerifyScan.ts';
+import { useVerifyScan } from '@moduleHooks/neuroscan/useVerifyScan.ts';
 import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource/WelcomeLoadResource.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResourcesOrderModel.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
+import { OrderV2 } from '@modals/index.ts';
+import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress.ts';
+import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -32,10 +35,11 @@ export const PanelPage = () => {
   const keyPress = useGlobalFastField('keyPress');
   const matches = useMediaQuery('(min-width: 1175px)');
   const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
-  const { isAuth, getUserdata, updateAuth, logout } = useUserData();
+  const { isAuth, getUserdata, logout } = useUserData();
   const { getProviderCompanyAccess } = useProviderCompanies();
   useUserCommunicated();
-  useVerifyScan();
+  //useVerifyScan();
+  useManageScanProgress();
 
   const modals = useMemo(
     () => ({
@@ -51,11 +55,11 @@ export const PanelPage = () => {
   }, [setShowModal]);
 
   useEffect(() => {
-    updateAuth();
     const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, () => {
       setShowModal(true);
       setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
     });
+    AxiosHttpService.getInstance().updateUrlInstance();
     const keydownUnsubscribe = addEventListener(
       window,
       EVENTS.KEYDOWN,
@@ -83,12 +87,19 @@ export const PanelPage = () => {
     };
   }, []);
 
-  // Si la autenticación falló, redirige al login.
+  // Handle authentication state changes
+  useEffect(() => {
+    if (!isAuth) {
+      logout();
+    }
+  }, [isAuth, logout]);
+
+  // If not authenticated, redirect to login
   if (!isAuth) {
-    logout();
     return <Navigate to="/auth/signin" state={{ redirect: location.pathname }} />;
   }
-  // Si la resolución está por debajo de 1175px, muestra una alerta de versión móvil.
+
+  // If screen width is below 1175px, show mobile fallback
   if (!matches) {
     return <MobileFallback />;
   }
@@ -105,6 +116,7 @@ export const PanelPage = () => {
         <WelcomeLoadResource />
         <AddNewResourceModal />
         <AddCollaboratorModal />
+        <OrderV2 />
         <ErrorConnection
           closeModal={closeErrorConnectionModal}
           open={modals.isErrorConnectionModalOpen}

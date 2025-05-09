@@ -11,6 +11,10 @@ import type { AuditCompanyData } from './util';
 export enum OrderSection {
   PAYWALL = 0,
   SCOPE = 1,
+  WEB_SCOPE = 1.11,
+  MOBILE_SCOPE = 1.12,
+  NETWORK_SCOPE = 1.13,
+  SOCIAL_SCOPE = 1.14,
   ALL_PLANS = 1.1,
   RECOMMENDED_PLAN = 1.2,
   SMALL_PLANS = 1.3,
@@ -36,6 +40,17 @@ export enum ResourcesTypes {
   SOCIAL = 'social',
   NETWORK = 'network',
 }
+
+export const RESOURCE_PATH_TO_TYPE = {
+  web: ResourcesTypes.WEB,
+  mobile: ResourcesTypes.MOBILE,
+  cloud: ResourcesTypes.CLOUD,
+  source: ResourcesTypes.CODE,
+  social: ResourcesTypes.SOCIAL,
+  se: ResourcesTypes.SOCIAL,
+  lan: ResourcesTypes.NETWORK,
+  network: ResourcesTypes.NETWORK,
+};
 
 export enum OrderOffensive {
   CAREFUL = 'careful',

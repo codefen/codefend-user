@@ -3,7 +3,14 @@ import { useNavigate } from 'react-router';
 import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
-import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
+import {
+  TrashIcon,
+  GlobeWebIcon,
+  BugIcon,
+  DocumentIcon,
+  CredentialIcon,
+  MagnifyingGlassIcon,
+} from '@icons';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
@@ -18,7 +25,6 @@ import { ModalTitleWrapper } from '@modals/index';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useAutoScan } from '@panelHooks/useAutoScan';
 
 interface WebResourcesProps {
   refresh: () => void;
@@ -36,16 +42,16 @@ const webColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1',
-    weight: '6%',
+    styles: 'item-cell-web-1',
+    weight: '10%',
     render: (ID: any) => ID,
   },
   {
     header: 'domain',
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
-    styles: 'item-cell-2 item-domain-cell',
-    weight: '45%',
+    styles: 'item-cell-web-2 ',
+    weight: '38%',
     render: (row: any, next?: any) =>
       !row?.resource_domain_dad ? (
         row.resource_domain
@@ -59,19 +65,35 @@ const webColumns: ColumnTableV3[] = [
   {
     header: 'server ip',
     key: 'main_server',
-    styles: 'item-cell-3',
-    weight: '12%',
+    styles: 'item-cell-web-3',
+    weight: '19%',
     render: (ip: any) => ip,
   },
   {
     header: 'area',
     key: 'server_pais',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-4',
-    weight: '16%',
+    styles: 'item-cell-web-4',
+    weight: '22%',
     render: (row: any) => (
       <LocationItem country={row?.server_pais || ''} countryCode={row?.server_pais_code || ''} />
     ),
+  },
+  {
+    header: 'issues',
+    key: 'final_issues',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-web-5',
+    weight: '11%',
+    render: (row: any) =>
+      !row?.resource_domain_dad ? (
+        <>
+          <BugIcon />
+          {row?.final_issues || 0}
+        </>
+      ) : (
+        'inherit'
+      ),
   },
 ];
 
@@ -122,45 +144,41 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setModalId(RESOURCE_CLASS.WEB);
   };
 
-  const webColumnsWith = [
-    ...webColumns,
+  const contextMenuActions = [
     {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-5 action',
-      weight: '18.5%',
-      render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
-          <span
-            className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
-            title={`${isNormalUser() ? '' : 'Add Issue'}`}
-            onClick={() => createIssue(row.id)}>
-            <BugIcon isButton key={`bugi-${row.id}`} />
-            <span className="codefend-text-red-200 issue-count">{row.final_issues}</span>
-          </span>
-          <span
-            title="View report"
-            className={`issue-printer ${Number(row.final_issues) == 0 ? 'off' : ''}`}
-            onClick={() => generateWebReport(row.id, row.final_issues)}>
-            <DocumentIcon isButton width={1.27} height={1.27} key={`doci-${row.id}`} />
-          </span>
-          <Show when={isNormalUser() || isAdmin()}>
-            <span title="Delete" onClick={() => deleteWebResource(row)}>
-              <TrashIcon />
-            </span>
-          </Show>
-
-          <span title="Add credentials" onClick={() => addCreds(row.id)}>
-            <CredentialIcon key={`credi-${row.id}`} />
-          </span>
-        </div>
-      ),
+      label: 'View report',
+      icon: <DocumentIcon isButton width={1.27} height={1.27} />,
+      onClick: (row: any) => {
+        generateWebReport(row.id, row.final_issues);
+      },
+    },
+    {
+      label: 'Credentials',
+      icon: <CredentialIcon width="1.3rem" height="1.3rem" />,
+      onClick: (row: any) => {
+        addCreds(row.id);
+      },
+    },
+    {
+      label: 'Delete',
+      disabled: isProvider(),
+      icon: <TrashIcon />,
+      onClick: (row: any) => {
+        deleteWebResource(row);
+      },
+    },
+    {
+      label: 'Add issue',
+      disabled: !userHaveAccess,
+      icon: <BugIcon isButton />,
+      onClick: (row: any) => {
+        createIssue(row.id);
+      },
     },
   ];
 
   return (
-    <>
+    <div className="web-section">
       <AddDomainModal
         isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
         onDone={() => refresh()}
@@ -191,50 +209,18 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
         close={() => setIsOpen(false)}
         webResources={webResources}
       />
-      <div className="card">
-        <div className="over">
-          <div className="header">
-            <div className="title">
-              <div className="icon">
-                <GlobeWebIcon />
-              </div>
-              <span>Domains and subdomains</span>
-            </div>
-
-            <div className="actions">
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setIsOpen(true);
-                  setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
-                }}>
-                Add domain
-              </div>
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setIsOpen(true);
-                  setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
-                }}>
-                Add subdomain
-              </div>
-            </div>
-          </div>
-
-          <Tablev3
-            className="table-web"
-            columns={webColumnsWith}
-            rows={webResources}
-            showRows={!isLoading}
-            initialOrder="resource_domain"
-            isNeedSearchBar
-            limit={0}
-            isNeedSort
-          />
-        </div>
-      </div>
-    </>
+      <Tablev3
+        className="table-web"
+        columns={webColumns}
+        rows={webResources}
+        showRows={!isLoading}
+        initialOrder="resource_domain"
+        isNeedSearchBar={true}
+        limit={0}
+        isNeedSort
+        enableContextMenu
+        contextMenuActions={contextMenuActions}
+      />
+    </div>
   );
 };

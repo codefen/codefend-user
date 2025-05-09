@@ -8,25 +8,9 @@ import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { getCompanyAllMetrics } from '@utils/metric.service';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { GlobeWebIcon } from '@icons';
 import { useNavigate } from 'react-router';
-
-const ErrorMessage = ({
-  tryClick,
-  acceptConditions,
-}: {
-  tryClick: boolean;
-  acceptConditions: boolean;
-}) => {
-  if (tryClick) {
-    return (
-      <span className={`block error-message ${!acceptConditions && 'vibrate'}`}>
-        {`⚠️`} You must accept the terms to continue
-      </span>
-    );
-  } else {
-    return null;
-  }
-};
+import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
 
 export const WebScopeModal: FC = () => {
   const { resourceType, updateState, acceptCondition } = useOrderStore(state => state);
@@ -82,15 +66,20 @@ export const WebScopeModal: FC = () => {
   }, []);
 
   return (
-    <>
-      <div>
-        <h3>Recursos web</h3>
+    <div className="step-content scope">
+      <div className="step-header">
+        <h3 style={{ marginBottom: '0px', paddingBottom: '0px' }}>
+          {' '}
+          <GlobeWebIcon />
+          Web resources
+        </h3>
         <p>
-          Vamos a comenzar con un nuevo pentest para todos los dominios definidos en los recursos
-          web. Hemos detectado estos recursos:
+          We are about to start a new pentest for all domains defined in your web resources. We have
+          detected the following resources:
         </p>
       </div>
-      <div className="step-content">
+
+      <div className="">
         <div className={`option no-border`}>
           <StatAsset
             isRed
@@ -102,6 +91,7 @@ export const WebScopeModal: FC = () => {
           <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPs" />
         </div>
       </div>
+
       <div className="scope-confirm">
         <input
           id="confirmation"
@@ -115,9 +105,9 @@ export const WebScopeModal: FC = () => {
           <span className="codefend-text-red underline-high disclaimers" title="Open disclaimers">
             I confirm I have authorization
           </span>
-          <span>and I’ve read and accept the disclaimer.</span>
+          <span>and I've read and accept the disclaimer.</span>
         </label>
-        <ErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
+        <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>
 
       <div className="button-wrapper next-btns">
@@ -140,6 +130,6 @@ export const WebScopeModal: FC = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

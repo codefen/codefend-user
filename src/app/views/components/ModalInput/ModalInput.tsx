@@ -23,6 +23,7 @@ interface ModalInputProps {
   defaultValue?: string;
   required?: boolean;
   setValue?: (target: string) => void;
+  name?: string;
 }
 
 export const ModalInput = forwardRef(function ModalInput(
@@ -33,12 +34,13 @@ export const ModalInput = forwardRef(function ModalInput(
     setValue,
     defaultValue = '',
     required = false,
+    name,
   }: ModalInputProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
   return (
     <div className="form-input">
-      <span className="icon">{icon}</span>
+      {icon && <span className="icon">{icon}</span>}
 
       <input
         ref={ref}
@@ -47,6 +49,7 @@ export const ModalInput = forwardRef(function ModalInput(
         defaultValue={defaultValue}
         placeholder={placeholder}
         required={required}
+        name={name}
       />
     </div>
   );

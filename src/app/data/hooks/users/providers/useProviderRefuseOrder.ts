@@ -24,7 +24,7 @@ export const useProviderRefuseOrder = () => {
       requestId: 'refuseOrder',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(PROVIDER_PANEL_TEXT.FAILURE_REFUSE_ORDER);
         }
         toast.success(PROVIDER_PANEL_TEXT.REFUSED_ORDER);

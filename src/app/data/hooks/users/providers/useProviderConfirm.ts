@@ -20,7 +20,7 @@ export const useProviderConfirm = () => {
       requestId: 'confirmOrder',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(PROVIDER_PANEL_TEXT.FAILURE_ACCEPT_ORDER);
         }
         toast.success(PROVIDER_PANEL_TEXT.ACCEPTED_ORDER);

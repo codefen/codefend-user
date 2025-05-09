@@ -36,7 +36,7 @@ export const useAddResourceCredentials = () => {
       path: 'creds/add',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+        if (apiErrorValidation(data)) throw new Error('');
         return true;
       })
       .catch(() => {

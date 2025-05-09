@@ -53,11 +53,7 @@ export const useAddMobileResource = () => {
       path: 'resources/mobile/add',
     })
       .then(({ data }: any) => {
-        if (
-          data.android_error ||
-          data.apple_error ||
-          apiErrorValidation(data?.error, data?.response)
-        ) {
+        if (data.android_error || data.apple_error || apiErrorValidation(data)) {
           throw new Error(data?.android_info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         setNewApp({ android: data?.android, apple: data?.apple });

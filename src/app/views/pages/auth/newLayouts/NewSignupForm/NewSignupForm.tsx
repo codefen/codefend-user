@@ -20,7 +20,6 @@ import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -30,12 +29,10 @@ export const NewSignupForm = () => {
   const [lead_reference_number, setLeadReferenceNumber] = useState('');
   const [username, setRecommendedUsername] = useState('');
   const [specialLoading, setLoading] = useState(false);
-  const { signUpFinish, isLoading: loadingFinish } = useRegisterPhaseTwo();
+  const { signUpFinish, isLoading: loadingFinish, lead, country } = useRegisterPhaseTwo();
   const [searchParams] = useSearchParams();
   const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
-  const country = useGlobalFastField('country');
-  const lead = useGlobalFastField('lead');
   const { ref } = useParams();
 
   useEffect(() => {
@@ -102,7 +99,7 @@ export const NewSignupForm = () => {
     form.append('model', 'users/new');
     const formObject = Object.fromEntries(form.entries());
     fetcher('post', { body: formObject, requireSession: false }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         toast.error(data?.info || 'An unexpected error has occurred');
         throw new Error('');
       }
@@ -118,7 +115,7 @@ export const NewSignupForm = () => {
     };
     return fetcher('post', { body, requireSession: false, requireJson: false }).then(
       ({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+        if (apiErrorValidation(data)) throw new Error('');
         setRecommendedUsername(data.recommended_username);
         setLeadReferenceNumber(String(code) || '');
       }
@@ -261,7 +258,7 @@ export const NewSignupForm = () => {
             <ProgressBar activeStep={activeStep} />
             <CheckEmail
               text=""
-              subText="Please check your inbox, copy the verification code and paste it in the field below to confirm your email."
+              subText={`Please check your inbox, we've sent a verification code to <b>${lead.get?.lead_email}</b>, copy the verification code and paste it into the field below to confirm your email.`}
             />
             <AuthInput placeholder="Insert Unique code" name="lead_reference_number" required />
             <div className={`form-buttons ${css['form-btns']}`}>

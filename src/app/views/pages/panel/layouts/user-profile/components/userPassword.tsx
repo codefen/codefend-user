@@ -1,14 +1,29 @@
-import { PrimaryButton } from '../../../../../components/buttons/primary/PrimaryButton';
+import { ChangePasswordForm } from '@/app/views/components/forms/ChangePasswordForm';
+import { PrimaryButton } from '@buttons/index';
+
 export const UserPassword = () => {
   return (
-    <div className="user-password">
-      <h3>Cambio de password</h3>
-      <p>Cambie la contraseña de su usuario. Su contraseña necesita un mínimo de 12 caracteres.</p>
-      <form onSubmit={() => {}} className="form-profile">
-        <input className="form-input" type="password" placeholder="Contraseña actual" />
-        <input className="form-input" type="password" placeholder="Nueva contraseña" />
-        <PrimaryButton className="form-button" text="change password" type="submit" />
-      </form>
+    <div className="card">
+      <div className="over">
+        <div className="header">
+          <div className="table-title">
+            <h2>Change password</h2>
+          </div>
+        </div>
+        <p>Change your user password. Your password must be at least 12 characters long.</p>
+        <ChangePasswordForm onDone={() => {}}>
+          {isLoading => (
+            <PrimaryButton
+              className="form-button mt-4"
+              disabledLoader
+              isDisabled={isLoading}
+              text="Change Password"
+              type="submit"
+              buttonStyle="red"
+            />
+          )}
+        </ChangePasswordForm>
+      </div>
     </div>
   );
 };

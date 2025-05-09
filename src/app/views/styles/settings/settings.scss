@@ -28,6 +28,42 @@
     url('/fonts/Questrial-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: Satoshi;
+  font-style: light;
+  font-weight: 300;
+  src:
+    local('Satoshi-Light'),
+    url('/fonts/Satoshi-Light.otf') format('truetype');
+}
+
+@font-face {
+  font-family: Satoshi;
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local('Satoshi-Regular'),
+    url('/fonts/Satoshi-Regular.otf') format('truetype');
+}
+
+@font-face {
+  font-family: Satoshi;
+  font-style: medium;
+  font-weight: 500;
+  src:
+    local('Satoshi-Medium'),
+    url('/fonts/Satoshi-Medium.otf') format('truetype');
+}
+
+@font-face {
+  font-family: Satoshi;
+  font-style: bold;
+  font-weight: 700;
+  src:
+    local('Satoshi-Bold'),
+    url('/fonts/Satoshi-Bold.otf') format('truetype');
+}
+
 /* scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
@@ -40,12 +76,12 @@
 }
 
 ::-webkit-scrollbar-track {
-  // background: var(--primary-color-500);
+  background: var(--primary-color-500);
   opacity: 0.2;
 }
 
 ::-moz-scrollbar-track {
-  // background: var(--primary-color-500);
+  background: var(--primary-color-500);
   opacity: 0.2;
 }
 
@@ -76,8 +112,8 @@
   border-width: 0;
   border-style: solid;
 
-  // scrollbar-width: thin;
-  scrollbar-color: #ff00001c #d1d1d1;
+  scrollbar-width: thin;
+  // scrollbar-color: #ff00001c #d1d1d1;
 }
 
 body {
@@ -102,6 +138,7 @@ body[data-theme='dark'] {
   height: 100%;
   max-width: var(--max-w-layout);
   margin: 0 auto;
+  position: relative;
 }
 
 h2 {

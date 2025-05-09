@@ -5,13 +5,12 @@ import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constan
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { useVerifyScanList } from '#commonHooks/useVerifyScanList';
-import { KnifeIcon, ScanSearchIcon, StatIcon, TrashIcon, XCircleIcon } from '@icons';
-import type { ColumnTableV3 } from '@interfaces/table';
+import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
+import { ScanSearchIcon, StatIcon, XCircleIcon } from '@icons';
+import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
-import type { useWelcomeStore } from '@stores/useWelcomeStore';
 import Tablev3 from '@table/v3/Tablev3';
-import { useEffect, useState, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
@@ -19,147 +18,66 @@ import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { useAutoScan } from '@panelHooks/useAutoScan';
+import { naturalTime } from '@utils/helper';
+import { useOrderStore } from '@stores/orders.store';
 
 const scansColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1.1',
-    weight: '3%',
+    styles: 'item-cell-1',
+    weight: '6%',
     render: val => val,
   },
-  {
-    header: 'Resource ID',
-    key: 'resource_id',
-    styles: 'item-cell-2',
-    weight: '3%',
-    render: val => val,
-  },
-
   {
     header: 'Domain',
     key: 'resource_address',
     styles: 'item-cell-2',
-    weight: '7%',
-    render: val => val,
-  },
-  {
-    header: 'USER-ID',
-    key: 'user_id',
-    styles: 'item-cell-2',
-    weight: '3%',
-    render: val => val,
-  },
-  {
-    header: 'Email',
-    key: 'user_email',
-    styles: 'item-cell-2',
-    weight: '7.5%',
+    weight: '26%',
     render: val => val,
   },
   {
     header: 'Phase',
     key: 'phase',
     styles: 'item-cell-3',
-    weight: '5%',
+    weight: '15.75%',
     render: val => val,
   },
   {
-    header: 'Found/Parsed',
+    header: 'Found / Parsed',
     key: 'issues_found',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
-    weight: '6%',
+    weight: '15.75%',
     render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
   },
   {
-    header: 'Proccess-UUID',
-    key: 'process_uuid',
-    styles: 'item-cell-5',
-    weight: '12%',
-    render: val => val,
-  },
-  {
-    header: 'Scan PID',
-    key: 'scanner_pid',
-    styles: 'item-cell-6',
-    weight: '5%',
-    render: val => val,
-  },
-  {
-    header: 'Version',
-    key: 'scanner_version',
-    styles: 'item-cell-7',
-    weight: '4%',
-    render: val => val,
-  },
-  {
-    header: 'LLM',
-    key: 'llm_provider',
-    styles: 'item-cell-8',
-    weight: '4%',
-    render: val => val,
-  },
-  {
-    header: 'LLM-Balance-Inicial',
-    key: 'llm_balance_inicial',
-    styles: 'item-cell-9',
-    weight: '5%',
-    render: val => val,
-  },
-  {
-    header: 'LLM-Balance-Final',
-    key: 'llm_balance_final',
-    styles: 'item-cell-10',
-    weight: '5%',
-    render: val => val,
-  },
-  {
-    header: 'Demora',
-    key: 'demora',
-    styles: 'item-cell-11',
-    weight: '5.5%',
-    render: val => (val ? val : '---'),
-  },
-  {
-    header: 'Demora Scan',
-    key: 'demora_scanner',
-    styles: 'item-cell-12',
-    weight: '5.5%',
-    render: val => (val ? val : '---'),
-  },
-  {
-    header: 'Demora Parser',
-    key: 'demora_parser',
-    styles: 'item-cell-13',
-    weight: '5.5%',
-    render: val => (val ? val : '---'),
-  },
-  {
-    header: 'Started',
+    header: 'Created at',
     key: 'creacion',
-    styles: 'item-cell-14',
-    weight: '6%',
-    render: val => (val ? val : ''),
+    styles: 'item-cell-4',
+    weight: '15.75%',
+    render: val => (val ? naturalTime(val) : ''),
   },
   {
-    header: 'Finished',
+    header: 'Finalize',
     key: 'finalizacion',
-    styles: 'item-cell-15',
-    weight: '6%',
-    render: val => (val ? val : '--/--/--'),
+    styles: 'item-cell-5',
+    weight: '15.75%',
+    render: val => (val ? naturalTime(val) : '--/--/--'),
   },
 ];
-
 export const ScanSection = () => {
   const [domainScanned, setDomainScanned] = useState<string>('');
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
   const { getCompany } = useUserData();
-  const { scans, companyUpdated } = useVerifyScanList();
+  const {
+    data: { scans, companyUpdated },
+  } = useVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const company = useGlobalFastField('company');
+  // const { updateState } = useOrderStore();
 
   useEffect(() => {
     if (companyUpdated) {
@@ -234,7 +152,7 @@ export const ScanSection = () => {
     fetcher<any>('post', {
       body: {
         company_id: companyID,
-        resource_address_domain: domainScanned || '',
+        resource_address_domain: domainScanned?.trim?.() || '',
         subdomain_scan: 'no',
       },
       path: 'resources/web/add',
@@ -246,8 +164,18 @@ export const ScanSection = () => {
         if (resourceId) {
           if (data?.company) company.set(data.company);
           autoScan(resourceId, false).then(result => {
+            if (apiErrorValidation(data)) {
+              console.log('Tuve un error AAA');
+              // updateState('open', true);
+              // updateState('orderStepActive', OrderSection.PAYWALL);
+              // updateState('resourceType', ResourcesTypes.WEB);
+              return;
+            }
+
             if (result?.neuroscan?.id) {
               toast.success(APP_MESSAGE_TOAST.START_SCAN);
+              setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+              setIsOpen(true);
             }
           });
         } else {
@@ -290,7 +218,13 @@ export const ScanSection = () => {
       <div className="card">
         <SimpleSection header="Company Scanners" icon={<StatIcon />}>
           <div className="content">
-            <Tablev3 rows={scans} columns={scansColumnAction} showRows={true} />
+            <Tablev3
+              rows={scans}
+              columns={scansColumnAction}
+              showRows={true}
+              initialSort={Sort.desc}
+              initialOrder="creacion"
+            />
           </div>
         </SimpleSection>
       </div>

@@ -51,7 +51,7 @@ export const useAddSourceCode = () => {
       path: 'resources/source/add',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         toast.success(SOURCE_PANEL_TEXT.ADD_SOURCE);

@@ -6,8 +6,8 @@
     width: 100%;
     min-width: 300px;
     box-shadow: 0 6px 10px rgb(0 0 0 / 30%);
-    border-top: 2px solid #ffd2d2;
-    border-bottom: 3px solid var(--primary-color-600);
+    // border-top: 2px solid #ffd2d2;
+    // border-bottom: 3px solid var(--primary-color-600);
   }
   background-color: rgb(255 255 255 / 50%);
   backdrop-filter: blur(4px) saturate(0.5) contrast(1);
@@ -59,4 +59,8 @@
   .signinContent {
     --text-color: var(--tertiary-color-50);
   }
+}
+
+.hide-for-mfa {
+  display: none !important;
 }

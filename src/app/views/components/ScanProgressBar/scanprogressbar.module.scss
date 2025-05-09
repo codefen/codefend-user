@@ -1,0 +1,14 @@
+.scan-start-progress {
+  width: 100%;
+  background-color: var(--secondary-color);
+  overflow: hidden;
+  height: 18px;
+  margin-top: 12px;
+  position: relative;
+}
+
+.scan-start-progress-bar {
+  background: var(--secondary-color-150);
+  position: absolute;
+  height: 18px;
+}

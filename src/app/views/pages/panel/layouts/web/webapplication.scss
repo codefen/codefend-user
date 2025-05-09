@@ -1,6 +1,10 @@
 main.webapp {
-  padding-inline-end: 0;
+  // padding-inline-end: 0;
 
+  .empty-card-wrapper form .checkbox-container {
+    margin-inline-start: 2.5rem;
+    margin-bottom: 1rem;
+  }
   .left {
     overflow-y: hidden;
     padding-inline-start: 0;
@@ -14,6 +18,32 @@ main.webapp {
     .empty-card {
       min-width: 725px;
     }
+
+    // .search-bar-container {
+    //   margin: 0;
+
+    //   .form-input {
+    //     border: none;
+    //     border-radius: 0;
+    //     background-color: var(--primary-color);
+
+    //     input {
+    //       border: none;
+    //       border-radius: 0;
+    //       box-shadow: none;
+
+    //       &:focus {
+    //         border: none;
+    //         outline: none;
+    //         box-shadow: none;
+    //       }
+    //     }
+
+    //     .icon {
+    //       border-left: none;
+    //     }
+    //   }
+    // }
   }
 
   .right {

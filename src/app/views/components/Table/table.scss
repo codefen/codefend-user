@@ -100,7 +100,8 @@
     display: flex;
     align-items: center;
     height: 40px;
-    padding: 0 20px;
+    padding-inline: 20px;
+    // padding-inline-end: 40px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-300);
     font-family: Questrial;
@@ -115,7 +116,7 @@
 
     &.left-marked {
       border-left: 6px solid var(--secondary-color-50);
-      padding-left: 14px;
+      padding-left: 50px;
       background-color: var(--primary-color-200);
     }
 
@@ -491,7 +492,7 @@
   }
 
   .score-ball {
-    width: 0.5rem;
+    width: 0.6rem;
     aspect-ratio: 1/1;
     border-radius: 100%;
     margin-block-start: 0.5rem;
@@ -570,9 +571,9 @@
 }
 
 .internal-tables {
-  border-top: 1px solid var(--primary-color-300);
-  border-right: 1px solid var(--primary-color-300);
-  border-left: 1px solid var(--primary-color-300);
+  // border-top: 1px solid var(--primary-color-300);
+  // border-right: 1px solid var(--primary-color-300);
+  // border-left: 1px solid var(--primary-color-300);
   background-color: var(--primary-color-50);
 }
 

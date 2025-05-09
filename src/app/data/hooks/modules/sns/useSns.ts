@@ -3,9 +3,11 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { companyIdIsNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useOrderStore } from '@stores/orders.store';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
 
 interface PersonInfo {
   name: string;
@@ -30,13 +32,14 @@ interface PersonInfo {
 }
 
 export const useSns = () => {
-  const { getCompany, getUserdata } = useUserData();
+  const { getCompany, getUserdata, logout } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
   const query = new URLSearchParams(useLocation().search);
   const [searchData, setSearchData] = useState(query.get('search') || '');
   const [searchClass, setSearchClass] = useState<string>(query.get('class') || 'email');
   const intelDataRef = useRef<any[]>([]);
   const company = useGlobalFastField('company');
+  const { updateState } = useOrderStore();
 
   const fetchSearch = (companyID: string) => {
     intelDataRef.current = [];
@@ -47,19 +50,37 @@ export const useSns = () => {
         class: searchClass,
       },
       path: 'modules/sns/search',
-    }).then(({ data }: any) => {
-      const arrayOfObjects = !!data?.response?.results
-        ? Object.entries(data.response.results).map(([key, value]) => {
-            const name = key.split('_').slice(1, -2).join('_');
-            return { name, value: value as PersonInfo[] };
-          })
-        : [];
-      intelDataRef.current = arrayOfObjects;
-      if (data?.company) company.set(data.company);
-      if (arrayOfObjects.length === 0 || data.response.size == 0) {
-        toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
-      }
-    });
+    })
+      .then(({ data }: any) => {
+        if (verifySession(data, logout)) return;
+        if (apiErrorValidation(data)) {
+          const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          customError.code = data?.error_info || 'generic';
+          throw customError;
+        }
+        const arrayOfObjects = !!data?.response?.results
+          ? Object.entries(data.response.results).map(([key, value]) => {
+              const name = key.split('_').slice(1, -2).join('_');
+              return { name, value: value as PersonInfo[] };
+            })
+          : [];
+        intelDataRef.current = arrayOfObjects;
+        if (data?.company) company.set(data.company);
+        if (arrayOfObjects.length === 0 || data.response.size == 0) {
+          toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
+        }
+      })
+      .catch(error => {
+        switch (error.code) {
+          case 'leaksearch_maximum_reached':
+            updateState('open', true);
+            updateState('orderStepActive', OrderSection.PAYWALL);
+            updateState('resourceType', ResourcesTypes.WEB);
+            break;
+          default:
+            toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        }
+      });
   };
 
   const handleSearch = () => {

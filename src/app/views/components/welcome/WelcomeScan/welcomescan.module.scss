@@ -1,14 +1,17 @@
 .welcome-modal-container {
-  padding-inline: 2rem;
-  padding-block: 1rem;
-  max-width: 600px;
+
 
   .scan-img {
     width: 80%;
-    aspect-ratio: 1 / 1;
+    max-width: 200px;
     margin-inline: auto;
-    margin-block-start: 1rem;
+    margin-block-start: 2rem;
+    margin-block-end: 2rem;
+
+    margin-top: auto;
+    align-self: center;
   }
+
 }
 
 .welcome-text {

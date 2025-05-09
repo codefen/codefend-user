@@ -51,7 +51,7 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
   const isDisabled = !message.trim() || isAdding || props.selectedID == '';
   return (
     <div className={`sender ${props.selectedID == '' ? 'sender-disable' : ''}`}>
-      <div className="header">
+      {/* <div className="header">
         <div className="title">
           <div className="icon">
             <MessageIcon />
@@ -67,10 +67,21 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
           className={`send-extra-styles log-inputs no-border-height ${isDisabled ? 'no-pointers' : ''}`}
           buttonStyle="send"
         />
-      </div>
+      </div> */}
 
       <div className="chatbox-container ">
-        {props.type === ChatBoxType.ISSUE ? (
+        <div className="no-border-bottom chatbox-content">
+          <textarea
+            onKeyDown={handleEnter}
+            disabled={props.selectedID == '' || isAdding}
+            ref={textAreaRef}
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            placeholder="add a new comment here..."
+            name="textArea"
+            required></textarea>
+        </div>
+        {/* {props.type === ChatBoxType.ISSUE ? (
           <div className="chatbox-actions">
             <span
               className={`chatbox-button ${isAdding ? 'disabled-btn' : ''}`}
@@ -84,17 +95,29 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
           <div className="text-format chatbox-img  no-border-bottom">
             <img src="/codefend/user-icon-gray.svg" alt="user-picture" />
           </div>
-        )}
-        <div className="no-border-bottom chatbox-content">
-          <textarea
-            onKeyDown={handleEnter}
-            disabled={props.selectedID == '' || isAdding}
-            ref={textAreaRef}
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            placeholder="add a new comment here..."
-            name="textArea"
-            required></textarea>
+        )}         */}
+        <div className="bottom">
+          <div className="chatbox-actions">
+            {props.type === ChatBoxType.ISSUE ? (
+              <span
+                className={`chatbox-button ${isAdding ? 'disabled-btn' : ''}`}
+                role="button"
+                onClick={requestInfo}
+                aria-disabled={isAdding}>
+                Request info
+              </span>
+            ) : null}
+          </div>
+
+          <PrimaryButton
+            text="Send"
+            isDisabled={isDisabled}
+            disabledLoader
+            hideContent={isAdding}
+            click={handleSubmit}
+            className={`send-extra-styles log-inputs ${isDisabled ? 'no-pointers' : ''}`}
+            buttonStyle="send"
+          />
         </div>
       </div>
     </div>

@@ -4,14 +4,13 @@ import { TABLE_KEYS } from '@/app/constants/app-texts';
 import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { ModalWrapper } from '@modals/index';
 import Tablev3 from '@table/v3/Tablev3';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import css from './welcomedomain.module.scss';
-import { SearchIcon } from '@icons';
+import { AimIcon } from '@icons';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import { toast } from 'react-toastify';
-import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { PrimaryButton } from '@buttons/index';
 
 const columns = [
@@ -19,8 +18,8 @@ const columns = [
     header: 'domain',
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
-    styles: 'item-cell-2 item-domain-cell',
-    weight: '43%',
+    styles: 'item-cell-welcome-1',
+    weight: '42%',
     render: (row: any, next?: any) =>
       !row?.address_domain ? (
         row?.resource_domain
@@ -34,16 +33,16 @@ const columns = [
   {
     header: 'server ip',
     key: 'main_server',
-    styles: 'item-cell-3',
-    weight: '28%',
+    styles: 'item-cell-welcome-2',
+    weight: '26%',
     render: (ip: any) => (ip === 'unreachable' ? 'non available' : ip),
   },
   {
     header: 'area',
     key: 'main_server_area_name',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-4',
-    weight: '29%',
+    styles: 'item-cell-welcome-3',
+    weight: '32%',
     render: (row: any) => (
       <LocationItem
         country={row?.main_server_area_name || 'non available'}
@@ -68,7 +67,7 @@ export const WelcomeDomain = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setInitialDomain(prev => (!prev ? initDomain : prev));
+    setInitialDomain(prev => (!prev ? (!!initDomain ? initDomain : '') : prev));
     const companyID = getCompany();
     fetcher('post', {
       requireSession: true,
@@ -81,24 +80,28 @@ export const WelcomeDomain = ({
       timeout: 180000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
-        toast.error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-      } else {
+      if (!apiErrorValidation(data)) {
         setDomains(data?.resource ? [data.resource] : []);
+      } else if (data?.error_info === 'unrecheable_domain') {
+        toast.error(data?.info);
       }
     });
   }, [initialDomain]);
 
-  const changeInitialDomain = () => {
-    const input = inputRef.current;
-    if (!input) return;
-    const value = input.value;
-    setInitialDomain(prev => (!!value && prev !== value ? value : prev));
+  const changeInitialDomain = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget as HTMLFormElement);
+    const domain = form.get('initialScope') as string;
+    setInitialDomain(prev => (!!domain && prev !== domain ? domain : prev));
   };
 
   const nextStep = () => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return;
+    if (!initialDomain) {
+      toast.warning('Please enter a domain before continuing');
+      return;
+    }
     fetcher('post', {
       body: {
         company_id: companyID,
@@ -109,9 +112,7 @@ export const WelcomeDomain = ({
       timeout: 180000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
-        toast.error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-      } else {
+      if (data?.resource?.id) {
         saveInitialDomain(initialDomain);
         setDomainId(data?.resource?.id);
         startScan();
@@ -121,18 +122,15 @@ export const WelcomeDomain = ({
 
   return (
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
-      <div>
-        <img src="/codefend/brand-iso.png" width={350} height={60} />
+      <div className="welcome-content">
+        <img className="logose" src="/codefend/logo-color.png" width={220} />
         <p className={css['welcome-text']}>
-          <b>
-            Your account has been created! Please verify your domain and its scope, then click
-            'Continue' to add your first resource.
-          </b>{' '}
-          Next, we’ll run an automated analysis on your main domain.
+          <b>Welcome! Please verify your domain and click 'Continue' to add your first resource.</b>{' '}
+          We'll then run an automated analysis on your main domain.
         </p>
-        <div className={css['input-container']}>
+        <form className={css['input-container']} onSubmit={changeInitialDomain}>
           <label htmlFor="initialScope">
-            <b>confirm your initial scope</b>
+            <b>Confirm your initial scope</b>
           </label>
           <input
             type="text"
@@ -140,16 +138,13 @@ export const WelcomeDomain = ({
             name="initialScope"
             autoComplete="off"
             placeholder="Wite domain..."
-            defaultValue={initialDomain}
+            defaultValue={initialDomain || ''}
             ref={inputRef}
           />
-          <button
-            type="button"
-            className={`btn ${css['btn-search']}`}
-            onClick={changeInitialDomain}>
-            <SearchIcon isButton />
+          <button type="submit" className={`btn ${css['btn-search']}`}>
+            <AimIcon />
           </button>
-        </div>
+        </form>
         <div className={css['limit-container']}>
           <Tablev3
             columns={columns}
@@ -159,7 +154,7 @@ export const WelcomeDomain = ({
             isNeedSort={false}
           />
         </div>
-        <div className={css['btn-container']}>
+        <div className="btn-container">
           <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
           <button className={`btn ${css['btn-add']}`} type="button" onClick={nextStep}>
             Continue

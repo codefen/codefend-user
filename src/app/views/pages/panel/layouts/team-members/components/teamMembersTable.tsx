@@ -38,7 +38,7 @@ export const TeamMembersTable = ({ isLoading, members }: DashboardAddCollaborato
     );
   }, [members, company.get.owner_email]);
   return (
-    <div className="team-members-table">
+    <div className="card">
       <Tablev3 showRows={!isLoading} rows={membersMapped} columns={membersColumns} />
     </div>
   );

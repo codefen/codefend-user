@@ -15,6 +15,8 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { Breadcrumb } from '@/app/views/components/utils/Breadcrumb.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import { useWelcomeStore } from '@stores/useWelcomeStore.ts';
+import { ScanStepType } from '@/app/constants/welcome-steps.tsx';
 
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
@@ -29,8 +31,10 @@ const Navbar: FC = () => {
   const isOpenNetworkSetting = useGlobalFastField('isOpenNetworkSetting');
   const [baseApiName, setBaseApiName] = useState('');
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
-  const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
-
+  const { setIsOpen, setModalId } = useModalStore();
+  const { setScanStep, setIssueFound, setIssuesViewed, setScanRunning } = useWelcomeStore();
+  const isProgressStarted = useGlobalFastField('isProgressStarted');
+  const progress = useGlobalFastField('scanProgress');
   useEffect(() => {
     const handleClickOutsideMenu = (event: any) => {
       if (
@@ -57,6 +61,17 @@ const Navbar: FC = () => {
   const openGuide = () => {
     setModalId(MODAL_KEY_OPEN.USER_WELCOME);
     setIsOpen(true);
+  };
+
+  const openOnBoard = () => {
+    setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
+    setIsOpen(true);
+    setScanStep(ScanStepType.NonScan);
+    setIssueFound(0);
+    setIssuesViewed(0);
+    setScanRunning(false);
+    isProgressStarted.set(false);
+    progress.set(0);
   };
   return (
     <>
@@ -94,13 +109,23 @@ const Navbar: FC = () => {
 
         <div className="right">
           <div className="actions">
+            {/*          <div className="navbar-logo" onClick={openGuide}>
+            <span className={`${open && 'rotate-360'}`}>
+              <Logo theme="aim" onClick={() => handleChange()} />
+            </span>
+          </div> */}
             {isAdmin() && (
-              <div
-                className="action"
-                title="Network settings"
-                onClick={() => isOpenNetworkSetting.set(true)}>
-                <NetworkIcon width={1.1} height={1.1} />
-              </div>
+              <>
+                <div className="action" onClick={openOnBoard}>
+                  OnBoard
+                </div>
+                <div
+                  className="action"
+                  title="Network settings"
+                  onClick={() => isOpenNetworkSetting.set(true)}>
+                  <NetworkIcon width={1.1} height={1.1} />
+                </div>
+              </>
             )}
             <div className="user action" ref={userRef}>
               <span className="email">{userData.email || 'not-found'}</span>
@@ -111,7 +136,7 @@ const Navbar: FC = () => {
                 closeMenu={() => setMenuOpen(false)}
               />
             </div>
-            <ThemeChangerButton />
+            {/* <ThemeChangerButton /> */}
             <div
               className="action logout"
               title="Logout"

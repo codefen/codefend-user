@@ -34,7 +34,6 @@ export const AppCard: FC<MobileAppCardProps> = ({
   showDetails,
   cloudProvider,
   isMainGoogleNetwork,
-
   id,
   appMedia,
   appDesc,
@@ -103,27 +102,6 @@ export const AppCard: FC<MobileAppCardProps> = ({
     );
   };
 
-  const renderResourceDetail = () => {
-    if (isDetails) {
-      const activeReport = issueCount !== undefined && issueCount >= 1;
-      return (
-        <div className="actions">
-          <Show when={isAdmin() || isProvider()}>
-            <div onClick={handleClick}>Add issue</div>
-          </Show>
-          <Show when={isAdmin() || isNormalUser()}>
-            <div onClick={handleDeleteResource}>Delete resource</div>
-          </Show>
-          <div onClick={openReport} className={!activeReport ? 'disable-report-action' : ''}>
-            Report
-          </div>
-        </div>
-      );
-    } else {
-      return <></>;
-    }
-  };
-
   return (
     <div className={`${generateCardClasses()}`}>
       <div className="app-card-content">
@@ -132,51 +110,60 @@ export const AppCard: FC<MobileAppCardProps> = ({
           <div className="app-card-title">
             <h3 className={`${isDetails ? 'detail' : 'card-resume'}`}>
               {isMainGoogleNetwork ? 'main google network' : cleanReview(name, true)}
-              <Show when={Boolean(activeViewCount)}>
-                <div className="view-count-issues">
-                  -{' '}
-                  <span className="codefend-text-red inline-flex">
-                    <BugIcon />
-                    {issueCount}
-                  </span>
-                </div>
-              </Show>
             </h3>
             <Show when={isDetails && !isMobileType}>
               <span className="second-text detail">resource id: {id}</span>
             </Show>
-            {renderResourceDetail()}
           </div>
+
           <div className="app-details text-gray">
             <Show
               when={!isMainGoogleNetwork}
               fallback={<span>This is our main GCP network. Please handle with care.</span>}>
               <>
                 <p
-                  className={`app-details-description ${
-                    isMobileType ? 'isMobile' : 'notMobile'
-                  } ${isDetails && 'isDetail'}`}
+                  className={`app-details-description ${isMobileType ? 'isMobile' : 'notMobile'} ${
+                    isDetails && 'isDetail'
+                  }`}
                   dangerouslySetInnerHTML={{
                     __html: cleanHTML(appDesc ?? ''),
                   }}></p>
-                {isMobileType && (
-                  <>
-                    <span>
-                      {appDeveloper && appDeveloper !== 'unavailable' ? appDeveloper : ''}
-                    </span>
-                    <div className="reviews">
-                      <span>{appRank && appRank !== 'unavailable' ? appRank : ''}</span>
-                      {appReviews && appReviews !== 'unavailable' ? <span>•</span> : null}
-                      <span>
-                        {' '}
-                        {appReviews && appReviews !== 'unavailable' ? `${appReviews} reviews` : ''}
-                      </span>
-                      {isMobileType && appRank !== 'unavailable' ? (
-                        <StarRating rating={Number(appRank?.replace(',', '.')) || 0} />
-                      ) : null}
-                    </div>
-                  </>
+
+                {/* OCULTAR RANKING Y ESTRELLAS SOLO CUANDO ESTAMOS EN isDetails */}
+
+                {isMobileType && !isDetails && (
+                  <div className="reviews">
+                    {appRank && appRank !== 'unavailable' && <span>{appRank}</span>}
+                    {appReviews &&
+                      appReviews !== 'unavailable' &&
+                      appRank &&
+                      appRank !== 'unavailable' && <span>•</span>}
+                    {isMobileType && appRank && appRank !== 'unavailable' ? (
+                      <StarRating rating={Number(appRank?.replace(',', '.')) || 0} />
+                    ) : null}
+                  </div>
                 )}
+
+                <Show when={isDetails}>
+                  <div className="actions" style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    <Show when={isAdmin() || isProvider()}>
+                      <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+                        Add issue
+                      </div>
+                    </Show>
+                    <Show when={isAdmin() || isNormalUser()}>
+                      <div onClick={handleDeleteResource} style={{ cursor: 'pointer' }}>
+                        Delete
+                      </div>
+                    </Show>
+                    <div
+                      onClick={openReport}
+                      className={!issueCount || issueCount < 1 ? 'disable-report-action' : ''}
+                      style={{ cursor: 'pointer' }}>
+                      Credential
+                    </div>
+                  </div>
+                </Show>
               </>
             </Show>
           </div>

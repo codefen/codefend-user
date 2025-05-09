@@ -82,7 +82,7 @@ export const PaywallOrderModal = ({ close }: any) => {
             </span>
           </label>
         </div>
-        <div
+        {/*        <div
           className={`option ${checkedOption === UserPlanSelected.SMALL_P ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.SMALL_P)}>
           <input
@@ -104,7 +104,7 @@ export const PaywallOrderModal = ({ close }: any) => {
               contrataciones de hackers desde $299 mensuales .
             </span>
           </label>
-        </div>
+        </div> */}
       </div>
       <div className="primary-container paywall">
         <PrimaryButton

@@ -59,7 +59,7 @@ export const useUpdateIssue = () => {
       path: 'issues/mod',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response))
+        if (apiErrorValidation(data))
           throw new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 
         toast.success(ISSUE_PANEL_TEXT.UPDATED_ISSUE);

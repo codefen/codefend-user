@@ -13,7 +13,7 @@ export const NewSignupInvitation = () => {
         <InvitationSignupForm>
           {(isLoading: boolean) => (
             <>
-              <div className="extra-group">
+              {/* <div className="extra-group">
                 <span className="link link-color">
                   I have read and accept the{' '}
                   <Link to="/help/security-and-privacy-policy" target="_blank">
@@ -24,7 +24,7 @@ export const NewSignupInvitation = () => {
                     <u>Terms of Use.</u>
                   </Link>
                 </span>
-              </div>
+              </div> */}
               <div className="extra-group">
                 <PrimaryButton
                   text="Proceed"

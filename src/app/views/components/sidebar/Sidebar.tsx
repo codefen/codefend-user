@@ -22,8 +22,8 @@ import {
 
 import './sidebar.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
-import useAdminCompanyStore from '@stores/adminCompany.store';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface SidebarItemProps {
   id: string;
@@ -57,17 +57,17 @@ class SidebarItem extends PureComponent<SidebarItemProps> {
 
 const Sidebar: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { getUserdata } = useUserData();
+  const { getUserdata, company } = useUserData();
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
-  const { companies, companySelected } = useAdminCompanyStore();
+  const companies = useGlobalFastField('companies');
 
   const isNotProviderAndReseller = !isProvider() && !isReseller();
 
   const isProviderWithAccess =
     isProvider() &&
-    companies.length > 0 &&
-    companies[0] !== null &&
-    companySelected?.id !== getUserdata().company_id;
+    companies.get?.length > 0 &&
+    companies.get?.[0] !== null &&
+    company.get?.id !== getUserdata().company_id;
 
   const handleOpenSidebar = (action: 'enter' | 'leave') => {
     setIsSidebarOpen(action === 'enter' ? true : false);
@@ -100,7 +100,8 @@ const Sidebar: FC = () => {
           icon: <AdminCompanyIcon />,
           to: '/admin/company',
           root: isAdmin(),
-          haveAccess: isAdmin() || (isProvider() && companies.length > 0 && companies[0] !== null),
+          haveAccess:
+            isAdmin() || (isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null),
         },
         {
           title: 'Leads',
@@ -155,6 +156,14 @@ const Sidebar: FC = () => {
           id: 'sidebar_user_profile',
           icon: <></>,
           to: '/user-profile',
+          root: false,
+          haveAccess: isNotProviderAndReseller,
+        },
+        {
+          title: 'Orders and Payments',
+          id: 'sidebar_orders_payments',
+          icon: <></>,
+          to: '/orders-payments',
           root: false,
           haveAccess: isNotProviderAndReseller,
         },
@@ -268,10 +277,10 @@ const Sidebar: FC = () => {
           haveAccess: isNotProviderAndReseller,
         },*/
         {
-          title: 'Talk to a hacker',
+          title: 'Ask a hacker',
           id: 'sidebar_talk_to_hacker',
           icon: <></>,
-          to: '/talk-to-hacker',
+          to: '/ask-a-hacker',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },

@@ -1,10 +1,27 @@
 main.dashboard {
   .left {
+    .card.rectangle {
+      .over {
+        padding: 3rem;
+        gap: calc(var(--card-space) * 4);
+        p {
+          max-width: min(660px, 85%);
+          line-height: 2rem;
+        }
+      }
+    }
+
     .content-box-assets {
       display: flex;
       flex-direction: row;
-      gap: 1rem;
+      gap: 12px;
       justify-content: center;
+      margin-bottom: 12px;
+
+      &.left-asset .card .over .grid-2x2 {
+        width: fit-content;
+        justify-self: center;
+      }
 
       .box-assets {
         flex: 1;
@@ -12,36 +29,34 @@ main.dashboard {
     }
 
     .over {
-      background-color: var(--primary-color);
-      padding: 1rem;
-      border-radius: var(--brd-radius);
+      .item-cell-1 {
+        font-size: 0.95rem;
+      }
 
-      .table-title {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 5px 20px 15px;
-
-        a {
-          color: var(--secondary-color-100);
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
+      .item-cell-4 {
+        text-align: right;
+        margin-left: auto;
+        width: unset !important;
+        max-width: unset !important;
+        flex: unset !important;
+        padding-right: 0;
       }
     }
 
     .card {
       .content {
-        padding: 0;
+        padding: 12px;
       }
     }
 
     .table {
+      .columns-name {
+        padding: 20px;
+      }
       .vul-title {
         min-width: 48%;
         max-width: 48%;
+        font-size: 0.95rem;
       }
 
       .vul-class,
@@ -50,32 +65,90 @@ main.dashboard {
       .date {
         min-width: 13%;
         max-width: 13%;
+        font-size: 0.95rem;
       }
     }
 
     .box-assets {
       display: flex;
       flex-direction: row;
-      gap: 1rem;
+      gap: 12px;
 
       .box-assets-right {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        padding-block: 1rem;
-        padding-inline: 1.75rem;
+        gap: 12px;
+        padding: 12px;
 
         p {
           max-width: 85%;
-          line-height: 1.75rem;
-          font-size: 1.225rem;
+          line-height: 1.5;
+          font-size: 0.975rem;
           letter-spacing: 0.1px;
         }
 
         button {
           max-width: 40%;
-          margin-block-start: 3rem;
+          margin-top: 12px;
         }
+      }
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+    .card {
+      margin-bottom: 12px;
+
+      &.stats {
+        .content {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          padding: 0;
+        }
+      }
+
+      &.risk-chart {
+        .content {
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+    }
+  }
+
+  // Estilos estandarizados para títulos de módulos
+  .simple-section-header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    font-family: 'ITC Avant Garde', Questrial;
+    font-weight: 700;
+    font-size: 0.975rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--primary-color-300);
+    color: var(--tertiary-color-200);
+    background-color: var(--primary-color);
+    padding: 0 12px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .icon {
+        color: var(--secondary-color-50);
+        font-size: 0.975rem;
+      }
+
+      span {
+        color: var(--tertiary-color-300);
       }
     }
   }
@@ -87,8 +160,8 @@ main.dashboard {
           .content {
             .chart {
               flex: 1 1 100%;
-              min-width: 105px;
-              max-width: 0%;
+              min-width: 200px;
+              max-width: 30%;
             }
           }
         }
@@ -111,6 +184,11 @@ main.dashboard {
       top: 20dvh;
       right: 2dvw;
       filter: blur(115px) brightness(0.5);
+    }
+
+    .simple-section-header {
+      background-color: var(--primary-color-200);
+      border-bottom: none;
     }
   }
 }

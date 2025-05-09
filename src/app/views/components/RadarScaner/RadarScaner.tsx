@@ -12,7 +12,7 @@ interface RadarPoint {
   rotation: number;
 }
 
-const SIZE = 225;
+const SIZE = 200;
 
 const generatePoissonPoint = (
   centerX: number,

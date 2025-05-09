@@ -8,12 +8,12 @@ interface HookProps {
 }
 
 export const useAppCard = (props: HookProps) => {
-  const isDetails = useMemo(() => Boolean(props.showDetails), [props.showDetails]);
-  const isMobileType = useMemo(() => props.type === RESOURCE_CLASS.MOBILE, [props.type]);
+  const isDetails = useMemo(() => Boolean(props?.showDetails), [props?.showDetails]);
+  const isMobileType = useMemo(() => props?.type === RESOURCE_CLASS.MOBILE, [props?.type]);
 
   const isImage = useMemo(
-    () => props.appMedia.trim() && props.appMedia !== undefined,
-    [props.appMedia]
+    () => props?.appMedia?.trim?.() && props?.appMedia !== undefined,
+    [props?.appMedia]
   );
 
   return {

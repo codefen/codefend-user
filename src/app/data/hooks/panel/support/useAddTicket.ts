@@ -33,7 +33,7 @@ export const useAddTicket = () => {
         ...params,
       },
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         return;
       }
       toast.success(SUPPORT_PANEL_TEXT.ADD_TICKET);

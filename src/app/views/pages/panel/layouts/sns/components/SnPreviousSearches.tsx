@@ -14,11 +14,15 @@ const SnPreviousSearches: FC<SnPreviousSearchesProps> = ({ isLoading, previousSe
   return (
     <div className="previous-search">
       <div className="card table inx">
-        <SimpleSection header="Previous Searches" icon={<PreviousMessageIcon />}>
+        <SimpleSection
+          header={
+            <span style={{ fontSize: 20, color: '#444', fontWeight: 600 }}>Previous Searches</span>
+          }>
           <>
             <div className="columns-name">
-              <div className="column">username</div>
-              <div className="column">search</div>
+              <div className="column">Date</div>
+              <div className="column">Class</div>
+              <div className="column">Keyword</div>
             </div>
 
             <div className="rows internal-tables ">
@@ -26,8 +30,21 @@ const SnPreviousSearches: FC<SnPreviousSearchesProps> = ({ isLoading, previousSe
                 {safelyPreviousSearches().map((searchData, i) => (
                   <div className="item-wrapper" key={`sd-${i}`}>
                     <section className="search-item">
-                      <p className="name">{searchData.info.split('class:')[1] || '--'}</p>
-                      <p className="result">{searchData.info.split('queries:')[1] || '--'}</p>
+                      <div className="name">
+                        <span style={{ fontWeight: 600 }}>
+                          {searchData.date || searchData.created_at || '--'}
+                        </span>
+                      </div>
+                      <div className="result">
+                        {searchData.info && searchData.info.includes('class:')
+                          ? searchData.info.split('class:')[1].split(',')[0].trim()
+                          : '--'}
+                      </div>
+                      <div className="keyword">
+                        {searchData.info && searchData.info.includes('queries:')
+                          ? searchData.info.split('queries:')[1].split(',')[0].trim()
+                          : searchData.keyword || '--'}
+                      </div>
                     </section>
                   </div>
                 ))}
