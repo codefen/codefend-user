@@ -1,6 +1,26 @@
 main.team-members {
   .left {
+    gap: 12px;
+
     .box-assets {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 12px;
+      width: 100%;
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0;
+        min-width: 200px;
+        padding: 0.5rem;
+        p {
+          font-family: Satoshi, sans-serif !important;
+          font-size: 0.9rem;
+        }
+      }
+
       .team-members-table {
         background-color: var(--primary-color);
         border-radius: var(--br-radius);
@@ -9,12 +29,51 @@ main.team-members {
     }
   }
 
-  // @media (max-width: 768px) {
-  //   .purchaseOrdersTable {
-  //     th, td {
-  //       padding: 0.75rem;
-  //       font-size: 0.75rem;
-  //     }
-  //   }
-  // }
+  .right {
+    height: 100%;
+    margin-left: 0;
+    overflow-y: auto;
+    .card {
+      margin-bottom: 12px;
+    }
+  }
+
+  &.actived {
+    opacity: 1;
+    width: 85%;
+    margin-left: 0;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+
+    .left {
+      flex: 3.5;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+
+    .right {
+      flex: 2.5;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+    min-height: auto;
+    height: 81dvh;
+    padding: 0;
+
+    .left {
+      width: 100%;
+      overflow-x: auto;
+      padding-block-start: 10px;
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
+    }
+  }
 }
