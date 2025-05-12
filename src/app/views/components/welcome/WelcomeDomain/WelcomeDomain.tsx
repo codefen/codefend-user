@@ -155,7 +155,12 @@ export const WelcomeDomain = ({
           />
         </div>
         <div className="btn-container">
-          <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
+          <PrimaryButton
+            text="close assistant"
+            buttonStyle="gray"
+            click={close}
+            isDisabled={!Boolean(domains.length)}
+          />
           <button className={`btn ${css['btn-add']}`} type="button" onClick={nextStep}>
             Continue
           </button>

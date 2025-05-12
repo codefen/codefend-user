@@ -15,7 +15,7 @@ const fetcher = ([model, { company }]: any) => {
   return AxiosHttpService.getInstance()
     .post<any>({
       body: { company_id: company },
-      params: model,
+      path: model,
       requireSession: true,
     })
     .then(({ data }) => ({
