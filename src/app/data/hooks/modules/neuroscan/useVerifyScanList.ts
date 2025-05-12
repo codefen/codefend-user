@@ -11,7 +11,11 @@ interface ScanManager {
 }
 
 const fetcher = ([model, { company }]: any) => {
-  if (companyIdIsNull(company)) return Promise.reject(false);
+  if (companyIdIsNull(company))
+    return Promise.reject({
+      scans: [],
+      companyUpdated: null,
+    });
   return AxiosHttpService.getInstance()
     .post<any>({
       body: { company_id: company },
@@ -20,11 +24,11 @@ const fetcher = ([model, { company }]: any) => {
     })
     .then(({ data }) => ({
       scans: data?.neuroscans || [],
-      companyUpdated: data?.company || {},
+      companyUpdated: data?.company,
     }))
     .catch(err => ({
       scans: [],
-      companyUpdated: {},
+      companyUpdated: null,
     }));
 };
 
@@ -47,20 +51,27 @@ export const useVerifyScanList = () => {
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
-
-  const { data } = useSWR<ScanManager>(swrKey, fetcher, {
+  console.log('swrKey', swrKey, company.get?.id);
+  const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {
     refreshInterval: scanRetries.get > 0 || scanningValue ? 3000 : 0,
     revalidateOnFocus: true,
     revalidateOnReconnect: true,
     revalidateOnMount: true,
+    dedupingInterval: 0,
     keepPreviousData: true,
-    fallbackData: { scans: [], companyUpdated: {} },
+    fallbackData: { scans: [], companyUpdated: null },
     onSuccess: () => {
       if (!initialFetchDone) {
         setInitialFetchDone(true);
       }
     },
   });
+  console.log('data', data);
+  useEffect(() => {
+    if (company.get?.id) {
+      mutate();
+    }
+  }, [company.get?.id]);
 
   const latestScan = useMemo(() => getLatestScan(data?.scans || []), [data?.scans]);
 
@@ -88,6 +99,5 @@ export const useVerifyScanList = () => {
   }, [data, latestScan, scanningValue]);
 
   const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
-  console.log('data', data);
   return { data: data!, latestScan, isScanActive, isScanning };
 };
