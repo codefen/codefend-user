@@ -17,6 +17,7 @@ export interface TableProps {
   selectItem?: (item: any) => void;
   sort?: Sort;
   urlNav?: string;
+  emptyInfo?: string;
 }
 
 export interface ColumnTable {

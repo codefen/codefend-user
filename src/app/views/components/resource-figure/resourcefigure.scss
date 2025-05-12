@@ -1,13 +1,20 @@
 .report-type-card {
   --color-title: var(--tertiary-color-500);
+  margin-bottom: 18px;
   --color-resource: var(--tertiary-color-450);
   --color-resource-hover: var(--tertiary-color-500);
 
-  width: 135px;
-  height: 95px;
+  width: 210px;
+  height: 120px;
+  min-width: 210px;
+  min-height: 120px;
+  max-width: 210px;
+  max-height: 120px;
   display: flex;
   flex-direction: column;
-  padding: 0.25rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 18px;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
@@ -18,6 +25,12 @@
   svg {
     width: 36px;
     height: 36px;
+    margin-bottom: 12px;
+  }
+  &.mobile svg,
+  &.lan svg {
+    width: 28px !important;
+    height: 28px !important;
   }
 
   .caption-card {
@@ -41,6 +54,10 @@
       transition: color 190ms ease;
       font-size: 1rem;
       text-transform: lowercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
 
       span {
         color: var(--secondary-color-50);
@@ -69,6 +86,7 @@
   &.report-type-disable {
     opacity: 0.35;
     cursor: default;
+    border: 1.5px solid #bdbdbd;
 
     .caption-card {
       h4 {

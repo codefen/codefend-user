@@ -78,7 +78,7 @@
     background-color: var(--primary-color);
     padding: 12px;
     border-radius: var(--brd-radius);
-    margin-bottom: 12px;
+    margin-bottom: 50px;
 
     .table-title {
       display: flex;
@@ -231,7 +231,7 @@
         min-width: 180px;
 
         canvas {
-          width: 95% !important;
+          width: 96% !important;
           height: 95% !important;
         }
       }
