@@ -81,19 +81,16 @@ const webColumns: ColumnTableV3[] = [
   },
   {
     header: 'issues',
-    key: 'final_issues',
+    key: TABLE_KEYS.ACTION,
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-web-5',
     weight: '11%',
-    render: (row: any) =>
-      !row?.resource_domain_dad ? (
-        <>
-          <BugIcon />
-          {row?.final_issues || 0}
-        </>
-      ) : (
-        'inherit'
-      ),
+    render: (row: any) => (
+      <>
+        <BugIcon />
+        {row?.final_issues || 0}
+      </>
+    ),
   },
 ];
 
@@ -147,6 +144,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const contextMenuActions = [
     {
       label: 'View report',
+      disabled: (row: any) => Number(row?.final_issues) < 1,
       icon: <DocumentIcon isButton width={1.27} height={1.27} />,
       onClick: (row: any) => {
         generateWebReport(row.id, row.final_issues);

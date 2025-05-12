@@ -9,9 +9,11 @@ import { useNavigate } from 'react-router';
 import { CheckSimpleIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
+import { useWelcomeStore } from '@stores/useWelcomeStore';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const globalStore = useGlobalFastFields(['scanProgress', 'isScanning', 'currentScan']);
+  const { initialDomain } = useWelcomeStore();
   const navigate = useNavigate();
 
   const closeModal = () => {
@@ -22,13 +24,6 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   };
   const scanStep = (globalStore.currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
 
-  // console.log({
-  //   currentScan: globalStore.currentScan.get,
-  //   isScanning: globalStore.isScanning.get,
-  //   scanProgress: globalStore.scanProgress.get,
-  //   scanStep,
-  // });
-
   return (
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
       <div className="welcome-content">
@@ -36,11 +31,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         <Show when={scanStep != ScanStepType.NonScan} fallback={<PageLoader />}>
           <p className={css['welcome-text']}>
             <b>
-              The domain{' '}
-              <span style={{ color: '#ff3939' }}>
-                {globalStore.currentScan.get?.resource_address}
-              </span>
-              . is being analyzed.
+              The domain <span style={{ color: '#ff3939' }}>{initialDomain}</span>. is being
+              analyzed.
             </b>{' '}
             Detected vulnerabilities and potential threats will be displayed on the dashboard and
             communicated via email. <b>You can now close this window.</b>

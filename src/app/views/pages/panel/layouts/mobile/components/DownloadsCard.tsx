@@ -3,26 +3,28 @@ import React, { useEffect, useMemo } from 'react';
 interface DownloadsCardProps {
   className?: string;
   appData?: {
-    total_downloads?: string | number; // Puede ser string (ej: '10k', '5m', '100 M+') o number
+    total_downloads?: string | number;
     app_android_downloads?: string | number;
     app_ios_downloads?: string | number;
   };
 }
 
-// Función para formatear números con separadores de miles
-const formatNumber = (num: number): string => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-};
-
 // Función para convertir diferentes formatos de descargas a número
-const parseDownloadCount = (downloads: any): number => {
+const parseDownloadCount = (downloads: any): { count: number; unit: string } => {
   if (downloads === undefined || downloads === null) {
-    return 0;
+    return { count: 0, unit: '' };
   }
 
-  // Si ya es un número, devolverlo redondeado
+  // Si ya es un número, determinar la unidad
   if (typeof downloads === 'number') {
-    return Math.floor(downloads);
+    if (downloads >= 1000000000) {
+      return { count: downloads, unit: 'billion' };
+    } else if (downloads >= 1000000) {
+      return { count: downloads, unit: 'million' };
+    } else if (downloads >= 1000) {
+      return { count: downloads, unit: 'thousand' };
+    }
+    return { count: downloads, unit: '' };
   }
 
   // Si es string, intentar convertir a número
@@ -31,12 +33,12 @@ const parseDownloadCount = (downloads: any): number => {
     const cleaned = downloads
       .replace(/&Acirc;/g, '')
       .replace(/&nbsp;/g, '')
-      .replace(/[^\d.kKmM+]/g, '')
+      .replace(/[^\d.kKmMbB+]/g, '')
       .trim();
 
     // Extraer número y unidad
-    const match = cleaned.match(/^(\d+(?:\.\d+)?)([kKmM]?)\+?$/);
-    if (!match) return 0;
+    const match = cleaned.match(/^(\d+(?:\.\d+)?)([kKmMbB]?)\+?$/);
+    if (!match) return { count: 0, unit: '' };
 
     const [, numberStr, unit] = match;
     const number = parseFloat(numberStr);
@@ -44,48 +46,35 @@ const parseDownloadCount = (downloads: any): number => {
     // Convertir según la unidad
     switch (unit.toLowerCase()) {
       case 'k':
-        return Math.floor(number * 1000);
+        return { count: number * 1000, unit: 'thousand' };
       case 'm':
-        return Math.floor(number * 1000000);
+        return { count: number * 1000000, unit: 'million' };
+      case 'b':
+        return { count: number * 1000000000, unit: 'billion' };
       default:
-        return Math.floor(number);
+        return { count: number, unit: '' };
     }
   }
 
-  return 0;
-};
-
-// Función para obtener el texto de comparación según el número de descargas
-const getComparisonText = (count: number): { text: string; isMillions: boolean } => {
-  if (count < 1000) return { text: 'menos de 1.000', isMillions: false };
-  if (count < 10000) return { text: 'más de 1.000', isMillions: false };
-  if (count < 100000) return { text: 'más de 10.000', isMillions: false };
-  if (count < 500000) return { text: 'más de 100.000', isMillions: false };
-  if (count < 1000000) return { text: 'más de 500.000', isMillions: false };
-  if (count < 2000000) return { text: 'más de 1.000.000', isMillions: true };
-  if (count < 5000000) return { text: 'más de 1.000.000', isMillions: true };
-  if (count < 10000000) return { text: 'más de 5.000.000', isMillions: true };
-  if (count < 50000000) return { text: 'más de 10.000.000', isMillions: true };
-  if (count < 100000000) return { text: 'más de 50.000.000', isMillions: true };
-  return { text: 'más de 100.000.000', isMillions: true };
+  return { count: 0, unit: '' };
 };
 
 // Función para formatear el mensaje de descargas
 const getDownloadMessage = (downloads: any): string => {
-  const count = parseDownloadCount(downloads);
+  const { count, unit } = parseDownloadCount(downloads);
 
   if (count === 0) {
-    return 'Esta aplicación no cuenta con información de descargas';
+    return 'This application has no download information';
   }
 
-  const { text: comparison, isMillions } = getComparisonText(count);
+  const formattedCount = Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(count);
+  const unitText = unit ? ` ${unit}` : '';
+  const pluralSuffix = count !== 1 ? 's' : '';
 
-  if (count < 1000000) {
-    return `Esta aplicación tiene ${comparison} mil descargas`;
-  } else {
-    const millonText = comparison.includes('1.000.000') ? 'millón' : 'millones';
-    return `Esta aplicación tiene ${comparison} ${millonText} de descargas`;
-  }
+  return `This application has more than ${formattedCount}${unitText} download${pluralSuffix}`;
 };
 
 export const DownloadsCard: React.FC<DownloadsCardProps> = ({ className, appData }) => {

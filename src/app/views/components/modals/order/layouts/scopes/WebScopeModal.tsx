@@ -63,7 +63,7 @@ export const WebScopeModal: FC = () => {
         globalStore.planPreference.set('advanced');
       }
     });
-  }, []);
+  }, [globalStore.planPreference.get]);
 
   return (
     <div className="step-content scope">

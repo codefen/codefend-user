@@ -24,13 +24,13 @@ export const MobileScopeModal = () => {
 
   useEffect(() => {
     const downloads = globalStore.selectedApp.get?.app_android_downloads;
-    const cleaned = downloads?.replace?.(/&[A-Za-z]+;/g, '').replace(/[^\dKMkm.]/g, '');
-    const match = cleaned?.match?.(/^([\d.]+)([KMkm])?$/);
+    const cleaned = downloads?.replace?.(/&[A-Za-z]+;/g, '').replace(/[^\dKMkmBb.]/g, '');
+    const match = cleaned?.match?.(/^([\d.]+)([KMkmBb])?$/);
 
-    const number = parseFloat(match?.[1]);
+    let number = parseFloat(match?.[1]);
     const unit = match?.[2]?.toUpperCase?.();
-
     if (unit === 'K') {
+      number = number * 1000;
       if (number >= 15000) {
         globalStore.planPreference.set('advanced');
       } else if (number >= 5000) {
@@ -39,6 +39,10 @@ export const MobileScopeModal = () => {
         globalStore.planPreference.set('small');
       }
     } else if (unit === 'M') {
+      number = number * 1000000;
+      globalStore.planPreference.set('advanced');
+    } else if (unit === 'B') {
+      number = number * 1000000000;
       globalStore.planPreference.set('advanced');
     } else {
       globalStore.planPreference.set('medium');
@@ -110,7 +114,7 @@ export const MobileScopeModal = () => {
           <span className="codefend-text-red underline-high disclaimers" title="Open disclaimers">
             I confirm I have authorization
           </span>
-          <span>and I’ve read and accept the disclaimer.</span>
+          <span>and I've read and accept the disclaimer.</span>
         </label>
         <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>

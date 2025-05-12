@@ -17,9 +17,10 @@ import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import { useAutoScan } from '@panelHooks/useAutoScan';
+import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
 import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -77,7 +78,7 @@ export const ScanSection = () => {
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const company = useGlobalFastField('company');
-  // const { updateState } = useOrderStore();
+  const { updateState } = useOrderStore();
 
   useEffect(() => {
     if (companyUpdated) {
@@ -165,10 +166,9 @@ export const ScanSection = () => {
           if (data?.company) company.set(data.company);
           autoScan(resourceId, false).then(result => {
             if (apiErrorValidation(data)) {
-              console.log('Tuve un error AAA');
-              // updateState('open', true);
-              // updateState('orderStepActive', OrderSection.PAYWALL);
-              // updateState('resourceType', ResourcesTypes.WEB);
+              updateState('open', true);
+              updateState('orderStepActive', OrderSection.PAYWALL);
+              updateState('resourceType', ResourcesTypes.WEB);
               return;
             }
 

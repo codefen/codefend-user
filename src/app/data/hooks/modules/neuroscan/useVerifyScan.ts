@@ -15,7 +15,6 @@ const fetcher = ([model, { company, resource_id, isScanRunning, neuroscan_id }]:
     .post<any>({
       body: { company_id: company, resource_id: resource_id, model, neuroscan_id },
       requireSession: true,
-      insecure: true,
     })
     .then(({ data }) => {
       return data;

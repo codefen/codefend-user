@@ -25,7 +25,7 @@ interface ContextMenuAction {
   label: string;
   icon?: ReactNode;
   onClick: (row: any) => void;
-  disabled?: boolean;
+  disabled?: boolean | ((row: any) => boolean);
   divider?: boolean;
 }
 
@@ -253,14 +253,18 @@ const Tablev3: FC<Tablev3Props<any>> = ({
               <div key={index}>
                 {action.divider && <div className="context-menu-divider" />}
                 <button
-                  className={`context-menu-item ${action.disabled ? 'disabled' : ''}`}
+                  className={`context-menu-item ${typeof action.disabled === 'function' ? (action.disabled(contextMenu.row) ? 'disabled' : '') : action.disabled ? 'disabled' : ''}`}
                   onClick={() => {
                     if (!action.disabled) {
                       action.onClick(contextMenu.row);
                       closeContextMenu();
                     }
                   }}
-                  disabled={action.disabled}>
+                  disabled={
+                    typeof action.disabled === 'function'
+                      ? action.disabled(contextMenu.row)
+                      : action.disabled
+                  }>
                   {action.icon && <span className="context-menu-icon">{action.icon}</span>}
                   <span className="context-menu-label">{action.label}</span>
                 </button>

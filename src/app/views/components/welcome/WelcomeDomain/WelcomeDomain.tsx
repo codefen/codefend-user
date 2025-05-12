@@ -121,7 +121,7 @@ export const WelcomeDomain = ({
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
+    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']} action={close}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={220} />
         <p className={css['welcome-text']}>
@@ -156,7 +156,11 @@ export const WelcomeDomain = ({
         </div>
         <div className="btn-container">
           <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
-          <button className={`btn ${css['btn-add']}`} type="button" onClick={nextStep}>
+          <button
+            className={`btn ${css['btn-add']}`}
+            type="button"
+            onClick={nextStep}
+            disabled={!Boolean(domains.length)}>
             Continue
           </button>
         </div>

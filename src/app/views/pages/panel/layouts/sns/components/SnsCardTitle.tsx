@@ -12,7 +12,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({ arrow = 'down', align = 'center' 
   const isDown = arrow === 'down';
   const alignItems = align === 'left' ? 'flex-start' : 'center';
   return (
-    <div>
+    <>
       {/* Flecha animada de puntitos */}
       {arrow !== 'none' && (
         <div
@@ -56,11 +56,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({ arrow = 'down', align = 'center' 
       <div
         className="card title"
         style={{
-          marginBottom: '1.2rem',
           width: align === 'left' ? '80%' : '100%',
-          maxWidth: 540,
-          marginLeft: 0,
-          marginRight: 0,
         }}>
         <div className="header">
           <GlobeWebIcon />
@@ -73,7 +69,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({ arrow = 'down', align = 'center' 
           </p>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

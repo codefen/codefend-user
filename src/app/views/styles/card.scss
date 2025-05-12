@@ -246,7 +246,7 @@
         }
       }
 
-      @media only screen and (max-width: 1480px) {
+      @container right-main (max-width: 493px) {
         flex-direction: column;
       }
     }

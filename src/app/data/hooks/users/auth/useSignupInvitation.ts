@@ -28,10 +28,8 @@ export const useSignupInvitation = () => {
         user_phone: formObject['user_phone'],
         user_password: formObject['user_password'],
         user_idiom: formObject['user_idiom'],
-        developer: 'increible',
       },
       path: 'users/invoke/finish',
-      insecure: true,
     })
       .then(({ data }: any) => {
         if (apiErrorValidation(data)) {

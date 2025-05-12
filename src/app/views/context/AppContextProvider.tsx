@@ -58,6 +58,7 @@ export type GlobalStore = {
   isProgressStarted: boolean;
   selectedApp: any;
   currentScan: any;
+  activeScan: any;
   isScanning: boolean;
   selectedTicket: any;
   session: string;
@@ -99,6 +100,7 @@ export const initialGlobalState: GlobalStore = {
   user: persistedState?.user ?? null,
   companies: persistedState?.companies ?? [],
   scanRetries: persistedState?.scanRetries ?? MAX_SCAN_RETRIES,
+  activeScan: persistedState?.activeScan ?? null,
 };
 
 const {

@@ -29,7 +29,6 @@ export const CardPaymentModal = () => {
         order_id: orderId,
       },
       path: 'orders/add',
-      insecure: true,
     }).then(({ data }: any) => {
       merchId.current = data.merch_cid;
       setIsLoading(true);
@@ -51,7 +50,6 @@ export const CardPaymentModal = () => {
           },
           path: 'orders/add',
           timeout: 1000000,
-          insecure: true,
         })
           .then(({ data }: any) => {
             if (data.status === 'complete') {
@@ -89,14 +87,14 @@ export const CardPaymentModal = () => {
   }, [paywallSelected]);
 
   return (
-    <div className='step-content'>
+    <div className="step-content">
       <div className="step-header">
         <h3>Please complete with your payment information</h3>
       </div>
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
         <EmbeddedCheckout className="stripe-container" id="stripe-ex-content-checkout" />
       </EmbeddedCheckoutProvider>
-      
+
       {/* <PrimaryButton
         text="Back"
         buttonStyle="black"
@@ -105,14 +103,14 @@ export const CardPaymentModal = () => {
         className="stripe-back-btn"
         isDisabled={isLoading}
       /> */}
-        <div className="button-wrapper next-btns">
-          <PrimaryButton
-            text="back"
-            click={backStep}
-            className="stripe-back-btn"
-            buttonStyle="black"
-            disabledLoader
-          />
+      <div className="button-wrapper next-btns">
+        <PrimaryButton
+          text="back"
+          click={backStep}
+          className="stripe-back-btn"
+          buttonStyle="black"
+          disabledLoader
+        />
       </div>
     </div>
   );

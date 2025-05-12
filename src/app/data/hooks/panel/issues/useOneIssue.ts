@@ -28,7 +28,6 @@ export const useOneIssue = () => {
         company_id: companyID,
       },
       path: 'issues/view',
-      insecure: true,
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;

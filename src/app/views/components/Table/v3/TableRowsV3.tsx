@@ -6,6 +6,7 @@ import { TABLE_KEYS } from '@/app/constants/app-texts';
 import TableLabelRow from './TableLabelRow';
 import TableAnchorRow from './TableAnchorRow';
 import TableSimpleRow from './TableSimpleRow';
+import { generateID } from '@utils/helper';
 
 interface TableRowsProps {
   rows: any[];
@@ -68,7 +69,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
         const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableAnchorRow
-            key={key ? key + i : crypto.randomUUID()}
+            key={key ? key + i : generateID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -101,7 +102,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
         const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableSimpleRow
-            key={key ? key + i : crypto.randomUUID()}
+            key={key ? key + i : generateID()}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
