@@ -122,7 +122,7 @@ export const ScanSection = () => {
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
       styles: `item-cell-16 action ${css['disabled-btn']}`,
-      weight: '2%',
+      weight: '4%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
           <span
@@ -210,9 +210,9 @@ export const ScanSection = () => {
           handleSubmit={startAndAddedDomain}
           searchIcon={<ScanSearchIcon isButton />}
         />
-        <div className={css['scan-search-box-info']}>
-          <span>Disponibles</span>
-          <span>{company.get.disponibles_neuroscan}</span>
+        <div className={css['scan-available-badge']}>
+          <span className={css['badge-label']}>Available</span>
+          <span className={css['badge-count']}>{company.get.disponibles_neuroscan}</span>
         </div>
       </div>
       <div className="card">
