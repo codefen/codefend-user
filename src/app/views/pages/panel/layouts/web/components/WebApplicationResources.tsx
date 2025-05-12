@@ -144,6 +144,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   const contextMenuActions = [
     {
       label: 'View report',
+      disabled: (row: any) => Number(row?.final_issues) < 1,
       icon: <DocumentIcon isButton width={1.27} height={1.27} />,
       onClick: (row: any) => {
         generateWebReport(row.id, row.final_issues);

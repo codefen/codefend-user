@@ -33,21 +33,31 @@ export const previousSearchesColumns: ColumnTableV3[] = [
 ];
 
 function parseHistory(data: any[]) {
-  return data.map(item => {
-    const text = item.info || item.informacion || '';
+  return data
+    .map(item => {
+      const text = item.info || item.informacion || '';
+      const queryMatch = text.match(/queries:\s*([^,]+)/i);
+      const classMatch = text.match(/class:\s*([^\s,]+)/i);
 
-    // Extraer "queries:" y "class:" usando expresiones regulares
-    const queryMatch = text.match(/queries:\s*([^,]+)/);
-    const classMatch = text.match(/class:\s*([^\s,]+)/);
+      // Si no hay query ni class, omitir este item
+      if (!queryMatch && !classMatch) return null;
 
-    return {
-      query: queryMatch ? queryMatch[1].trim() : null,
-      class: classMatch ? classMatch[1].trim() : null,
-      creacion: item.creacion || null,
-      user_id: item.user_id || null,
-      id: item.id || null,
-    };
-  });
+      let query = queryMatch ? queryMatch[1].trim() : null;
+      let className = classMatch ? classMatch[1].trim() : null;
+
+      // Limpiar guión bajo inicial de la clase
+      if (className && className.startsWith('_')) {
+        className = className.slice(1);
+      }
+      return {
+        query,
+        class: className,
+        creacion: item?.creacion || null,
+        user_id: item?.user_id || null,
+        id: item?.id || null,
+      };
+    })
+    .filter(Boolean);
 }
 
 const SnPreviousSearches: FC<SnPreviousSearchesProps> = ({ isLoading, previousSearches }) => {
