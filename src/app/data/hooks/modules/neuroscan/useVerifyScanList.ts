@@ -46,7 +46,7 @@ export const useVerifyScanList = () => {
   const scanningValue = isScanning.get;
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
-  const swrKey = baseKey;
+  const swrKey = company.get?.id ? baseKey : null;
 
   const { data } = useSWR<ScanManager>(swrKey, fetcher, {
     refreshInterval: scanRetries.get > 0 || scanningValue ? 3000 : 0,
