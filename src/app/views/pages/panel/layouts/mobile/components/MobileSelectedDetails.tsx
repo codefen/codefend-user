@@ -32,7 +32,6 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
     const unit = match?.[2]?.toUpperCase?.();
     if (unit === 'K') {
       number = number * 1000;
-      console.log('unit K', unit);
       if (number >= 15000) {
         planPreference.set('advanced');
       } else if (number >= 5000) {
@@ -41,13 +40,10 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
         planPreference.set('small');
       }
     } else if (unit === 'M') {
-      console.log('unit M');
       planPreference.set('advanced');
     } else if (unit === 'B') {
-      console.log('unit B');
       planPreference.set('advanced');
     } else {
-      console.log('default');
       planPreference.set('medium');
     }
   }, [selectedAppStored.get, planPreference.get]);

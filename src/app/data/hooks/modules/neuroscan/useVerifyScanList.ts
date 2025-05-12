@@ -51,7 +51,6 @@ export const useVerifyScanList = () => {
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
-  console.log('swrKey', swrKey, company.get?.id);
   const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {
     refreshInterval: scanRetries.get > 0 || scanningValue ? 3000 : 0,
     revalidateOnFocus: true,
@@ -66,7 +65,6 @@ export const useVerifyScanList = () => {
       }
     },
   });
-  console.log('data', data);
   useEffect(() => {
     if (company.get?.id) {
       mutate();
