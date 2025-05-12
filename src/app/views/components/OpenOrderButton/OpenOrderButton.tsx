@@ -12,7 +12,7 @@ interface OpenOrderButtonProps {
   type: ResourcesTypes;
   className?: string;
   scope?: OrderSection;
-  plan?: 'medium' | 'small' | 'advanced';
+  plan?: 'medium' | 'small' | 'advanced' | null;
 }
 
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
@@ -70,7 +70,7 @@ const OpenOrderButton = ({
   type,
   className = '',
   scope = OrderSection.SCOPE,
-  plan = 'medium',
+  plan = null,
 }: OpenOrderButtonProps) => {
   const { updateState } = useOrderStore(state => state);
   const { isAdmin, isNormalUser } = useUserRole();

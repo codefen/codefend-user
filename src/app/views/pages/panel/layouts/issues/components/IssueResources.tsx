@@ -151,28 +151,13 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       </div>
 
       <div className="card">
-        {/* <div className="header">
-          <div className="title">
-            <div className="icon">
-              <BugIcon />
-            </div>
-            <span>Issues</span>
-          </div>
-          <Show when={isAdmin() || isProvider()}>
-            <div className="actions">
-              <div className="" onClick={() => props.addFinding()}>
-                Add finding
-              </div>
-            </div>
-          </Show>
-        </div> */}
-
         <Tablev3
           rows={dataTable}
           columns={isAdmin() || isProvider() ? issuesColumnsWithActions : issueColumns}
           showRows={!props.isLoading}
           initialSort={Sort.asc}
           urlNav={`${baseUrl}/issues/`}
+          emptyInfo="The company has no associated vulnerabilities yet, wait for one of our hackers to report a vulnerability or perform an automated scan with AI to find vulnerabilities automatically!"
         />
       </div>
     </>

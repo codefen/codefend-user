@@ -2,28 +2,76 @@ import { type FC } from 'react';
 import { useNavigate } from 'react-router';
 
 import ConfirmModal from '@modals/ConfirmModal';
-import { TrashIcon, BugIcon, CredentialIcon, DocumentIcon, PeopleGroupIcon } from '@icons';
-import Show from '@/app/views/components/Show/Show';
-import { TableV2 } from '@table/tablev2';
+import { TrashIcon, BugIcon, DocumentIcon, PeopleGroupIcon } from '@icons';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 
 import type { MemberV2 } from '@interfaces/panel';
-import type { TableItem } from '@interfaces/table';
-import { roleMap, memberColumnWithActions } from '@mocks/defaultData';
+import type { ColumnTableV3, TableItem } from '@interfaces/table';
+import { roleMap } from '@mocks/defaultData';
 import useModal from '@hooks/common/useModal';
 import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal';
 import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import useCredentialStore from '@stores/credential.store';
-import useModalStore from '@stores/modal.store';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import Tablev3 from '@table/v3/Tablev3';
 
 interface SocialProps {
   refetch: () => void;
   isLoading: boolean;
   socials: MemberV2[];
 }
+
+export const socialColumns: ColumnTableV3[] = [
+  {
+    header: 'id',
+    key: 'id',
+    styles: 'item-cell-social-1',
+    weight: '9%',
+    render: (id: any) => id,
+  },
+  {
+    header: 'name',
+    key: 'name',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-social-2 ',
+    weight: '20%',
+    render: (row: any) => `${row.member_fname} ${row.member_lname}`,
+  },
+  {
+    header: 'email',
+    key: 'member_email',
+    styles: 'item-cell-social-3',
+    weight: '27%',
+    render: (email: any) => email,
+  },
+  {
+    header: 'phone',
+    key: 'member_phone',
+    styles: 'item-cell-social-4',
+    weight: '15%',
+    render: (phone: any) => phone,
+  },
+  {
+    header: 'role',
+    key: 'member_role',
+    styles: 'item-cell-social-5',
+    weight: '18%',
+    render: (role: any) => roleMap[role as keyof typeof roleMap],
+  },
+  {
+    header: 'issues',
+    key: 'final_issues',
+    styles: 'item-cell-social-6',
+    weight: '12%',
+    render: (final_issues: any) => (
+      <>
+        <BugIcon />
+        {final_issues || 0}
+      </>
+    ),
+  },
+];
 
 const SocialEngineering: FC<SocialProps> = props => {
   const navigate = useNavigate();
@@ -32,16 +80,12 @@ const SocialEngineering: FC<SocialProps> = props => {
     setShowModal(false);
     props.refetch();
   });
-
   const { isAdmin, isNormalUser, isProvider } = useUserRole();
-  const { setCredentialType, setResourceId } = useCredentialStore();
-  const { setIsOpen, setModalId } = useModalStore();
   const { resourceType, openModal, resourceID } = useGlobalFastFields([
     'resourceType',
     'openModal',
     'resourceID',
   ]);
-  const safelyPreviousSearches = () => props.socials.slice().reverse();
 
   const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
@@ -50,68 +94,45 @@ const SocialEngineering: FC<SocialProps> = props => {
       resourceType.set(RESOURCE_CLASS.SOCIAL);
     }
   };
-  const dataTable = safelyPreviousSearches().map(
-    (member: MemberV2) =>
-      ({
-        ID: { value: member.id, style: 'id' },
-        fullName: {
-          value: `${member.member_fname} ${member.member_lname}`,
-          style: 'full-name',
-        },
-        email: { value: member.member_email, style: 'email' },
-        phone: { value: member.member_phone, style: 'phone' },
-        role: {
-          value: roleMap[member.member_role as keyof typeof roleMap],
-          style: 'role',
-        },
-        action: {
-          value: (
-            <>
-              <span
-                className={`issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
-                title={`${isNormalUser() ? '' : 'Add Issue'}`}
-                onClick={() =>
-                  navigate(isProvider() || isAdmin() ? `/issues/create/social/${member.id}` : '', {
-                    state: { redirect: '/social' },
-                  })
-                }>
-                <BugIcon isButton />
-                <span className="codefend-text-red-200 issue-count">{member.final_issues}</span>
-              </span>
-              <span
-                title="View report"
-                className={`issue-printer ${Number(member.final_issues) == 0 ? 'off' : ''}`}
-                onClick={() => generateReport(member.id, member.final_issues)}>
-                <DocumentIcon isButton width={1.27} height={1.27} />
-              </span>
-              <Show when={isNormalUser() || isAdmin()}>
-                <span
-                  title="Delete"
-                  onClick={() => {
-                    setShowModalStr(MODAL_KEY_OPEN.DELETE_MEMBER);
-                    setShowModal(true);
-                    setSelectedId(member.id);
-                  }}>
-                  <TrashIcon />
-                </span>
-              </Show>
 
-              <span
-                title="Add credentials"
-                onClick={() => {
-                  setResourceId(member.id);
-                  setCredentialType(RESOURCE_CLASS.SOCIAL);
-                  setIsOpen(true);
-                  setModalId(RESOURCE_CLASS.SOCIAL);
-                }}>
-                <CredentialIcon />
-              </span>
-            </>
-          ),
-          style: 'id action',
-        },
-      }) as Record<string, TableItem>
-  );
+  const createIssue = (id: string) => {
+    navigate(isProvider() || isAdmin() ? `/issues/create/social/${id}` : '', {
+      state: { redirect: '/social' },
+    });
+  };
+
+  const deleteSocial = (id: string) => {
+    setShowModalStr(MODAL_KEY_OPEN.DELETE_MEMBER);
+    setShowModal(true);
+    setSelectedId(id);
+  };
+
+  const contextMenuActions = [
+    {
+      label: 'View report',
+      disabled: (row: any) => Number(row?.final_issues) < 1,
+      icon: <DocumentIcon isButton width={1.27} height={1.27} />,
+      onClick: (row: any) => {
+        generateReport(row.id, row.final_issues);
+      },
+    },
+    {
+      label: 'Delete',
+      disabled: isProvider(),
+      icon: <TrashIcon />,
+      onClick: (row: any) => {
+        deleteSocial(row?.id);
+      },
+    },
+    {
+      label: 'Add issue',
+      disabled: !(isProvider() || isAdmin()),
+      icon: <BugIcon isButton />,
+      onClick: (row: any) => {
+        createIssue(row.id);
+      },
+    },
+  ];
 
   return (
     <>
@@ -138,7 +159,7 @@ const SocialEngineering: FC<SocialProps> = props => {
         />
       </ModalTitleWrapper>
 
-      <div className="card table">
+      <div className="card">
         <div className="over">
           <div className="header">
             <div className="table-title">
@@ -159,11 +180,12 @@ const SocialEngineering: FC<SocialProps> = props => {
               </div>
             </div> */}
           </div>
-          <TableV2
-            columns={memberColumnWithActions}
-            rowsData={dataTable}
+          <Tablev3
+            columns={socialColumns}
+            rows={props.socials}
             showRows={!props.isLoading}
-            showEmpty={!props.isLoading && !Boolean(dataTable.length)}
+            contextMenuActions={contextMenuActions}
+            enableContextMenu={true}
           />
         </div>
       </div>

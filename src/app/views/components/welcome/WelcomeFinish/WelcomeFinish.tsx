@@ -31,8 +31,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         <Show when={scanStep != ScanStepType.NonScan} fallback={<PageLoader />}>
           <p className={css['welcome-text']}>
             <b>
-              The domain <span style={{ color: '#ff3939' }}>{initialDomain}</span>. is being
-              analyzed.
+              The domain{' '}
+              <span style={{ color: '#ff3939' }}>
+                {globalStore.currentScan.get?.resource_address}
+              </span>
+              . is being analyzed.
             </b>{' '}
             Detected vulnerabilities and potential threats will be displayed on the dashboard and
             communicated via email. <b>You can now close this window.</b>

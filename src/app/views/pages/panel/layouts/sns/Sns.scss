@@ -147,6 +147,10 @@ main.sb {
       .header {
         padding-inline: 25px;
       }
+
+      .table .rows {
+        max-height: 52cqh;
+      }
     }
   }
 }
