@@ -12,18 +12,45 @@ import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { DownloadsCard } from './DownloadsCard';
 
 export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
   const { data, isLoading, refetch } = useGetOneMobile();
   const onRefetch = () => refetch(selectedAppStored.get?.id);
-  const selectedAppStored = useGlobalFastField('selectedApp');
+  const { selectedApp: selectedAppStored, planPreference } = useGlobalFastFields([
+    'selectedApp',
+    'planPreference',
+  ]);
   useEffect(() => {
-    // if (appSelected) onRefetch();
     if (selectedAppStored.get) onRefetch();
-  }, [selectedAppStored.get]);
-  // }, [appSelected]);
+    const downloads = selectedAppStored.get?.app_android_downloads;
+    const cleaned = downloads?.replace?.(/&[A-Za-z]+;/g, '').replace(/[^\dKMkmBb.]/g, '');
+    const match = cleaned?.match?.(/^([\d.]+)([KMkmBb])?$/);
+
+    let number = parseFloat(match?.[1]);
+    const unit = match?.[2]?.toUpperCase?.();
+    if (unit === 'K') {
+      number = number * 1000;
+      console.log('unit K', unit);
+      if (number >= 15000) {
+        planPreference.set('advanced');
+      } else if (number >= 5000) {
+        planPreference.set('medium');
+      } else {
+        planPreference.set('small');
+      }
+    } else if (unit === 'M') {
+      console.log('unit M');
+      planPreference.set('advanced');
+    } else if (unit === 'B') {
+      console.log('unit B');
+      planPreference.set('advanced');
+    } else {
+      console.log('default');
+      planPreference.set('medium');
+    }
+  }, [selectedAppStored.get, planPreference.get]);
 
   if (isLoading) {
     return <PageLoader />;
@@ -70,6 +97,7 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
             resourceCount={listSize}
             isLoading={isLoading}
             scope={OrderSection.MOBILE_SCOPE}
+            plan={planPreference.get}
           />
         </div>
       </div>

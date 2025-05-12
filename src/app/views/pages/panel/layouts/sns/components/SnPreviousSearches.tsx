@@ -1,58 +1,72 @@
-import { type FC } from 'react';
-import { PageLoader } from '@/app/views/components/loaders/Loader';
-import Show from '@/app/views/components/Show/Show';
-import { PreviousMessageIcon } from '@icons';
-import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { useEffect, useState, type FC } from 'react';
+import { Sort, type ColumnTableV3 } from '@interfaces/table';
+import { naturalTime } from '@utils/helper';
+import Tablev3 from '@table/v3/Tablev3';
 
 interface SnPreviousSearchesProps {
   isLoading: boolean;
   previousSearches: any[];
 }
 
+export const previousSearchesColumns: ColumnTableV3[] = [
+  {
+    header: 'date',
+    key: 'creacion',
+    styles: 'item-cell-sns-1',
+    weight: '34%',
+    render: val => (val ? naturalTime(val) : '--/--/--'),
+  },
+  {
+    header: 'class',
+    key: 'class',
+    styles: 'item-cell-sns-2',
+    weight: '27%',
+    render: val => val || '',
+  },
+  {
+    header: 'keywords',
+    key: 'query',
+    styles: 'item-cell-sns-3',
+    weight: '39%',
+    render: val => val || '',
+  },
+];
+
+function parseHistory(data: any[]) {
+  return data.map(item => {
+    const text = item.info || item.informacion || '';
+
+    // Extraer "queries:" y "class:" usando expresiones regulares
+    const queryMatch = text.match(/queries:\s*([^,]+)/);
+    const classMatch = text.match(/class:\s*([^\s,]+)/);
+
+    return {
+      query: queryMatch ? queryMatch[1].trim() : null,
+      class: classMatch ? classMatch[1].trim() : null,
+      creacion: item.creacion || null,
+      user_id: item.user_id || null,
+      id: item.id || null,
+    };
+  });
+}
+
 const SnPreviousSearches: FC<SnPreviousSearchesProps> = ({ isLoading, previousSearches }) => {
   const safelyPreviousSearches = () => (Array.isArray(previousSearches) ? previousSearches : []);
-  return (
-    <div className="previous-search">
-      <div className="card table inx">
-        <SimpleSection
-          header={
-            <span style={{ fontSize: 20, color: '#444', fontWeight: 600 }}>Previous Searches</span>
-          }>
-          <>
-            <div className="columns-name">
-              <div className="column">Date</div>
-              <div className="column">Class</div>
-              <div className="column">Keyword</div>
-            </div>
+  const [parsedPreviousSearches, setParsedPreviousSearches] = useState<any[]>([]);
 
-            <div className="rows internal-tables ">
-              <Show when={!isLoading} fallback={<PageLoader />}>
-                {safelyPreviousSearches().map((searchData, i) => (
-                  <div className="item-wrapper" key={`sd-${i}`}>
-                    <section className="search-item">
-                      <div className="name">
-                        <span style={{ fontWeight: 600 }}>
-                          {searchData.date || searchData.created_at || '--'}
-                        </span>
-                      </div>
-                      <div className="result">
-                        {searchData.info && searchData.info.includes('class:')
-                          ? searchData.info.split('class:')[1].split(',')[0].trim()
-                          : '--'}
-                      </div>
-                      <div className="keyword">
-                        {searchData.info && searchData.info.includes('queries:')
-                          ? searchData.info.split('queries:')[1].split(',')[0].trim()
-                          : searchData.keyword || '--'}
-                      </div>
-                    </section>
-                  </div>
-                ))}
-              </Show>
-            </div>
-          </>
-        </SimpleSection>
-      </div>
+  useEffect(() => {
+    setParsedPreviousSearches(parseHistory(previousSearches));
+  }, [previousSearches]);
+  return (
+    <div className="card title previous-searches">
+      <div className="header">Previous Searches</div>
+      <Tablev3
+        columns={previousSearchesColumns}
+        rows={parsedPreviousSearches}
+        showRows={true}
+        initialSort={Sort.desc}
+        initialOrder="creacion"
+      />
     </div>
   );
 };

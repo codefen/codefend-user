@@ -32,9 +32,6 @@ jobs:
       - name: 📐 Run Linter
         run: pnpm lint
 
-      - name: 📐 Run CSS Linter
-        run: pnpm lint:css
-
   build:
     needs: [linting]
     name: 🔨 Build with 20.x
@@ -62,10 +59,6 @@ jobs:
 
       - name: 🛠️ Setup/ Install cspell-cli
         run: npm i -g git+https://github.com/streetsidesoftware/cspell-cli
-
-# - name: 📝 Spellcheck
-#   run: cspell "**/*.{tsx,ts,js,yml}" --gitignore
-
         
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable

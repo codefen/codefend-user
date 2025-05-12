@@ -2,10 +2,8 @@ import { useEffect, useState, type FC, type FormEvent, type ReactNode } from 're
 import { useFetcher } from '@/app/data/hooks/common/useFetcher';
 import { useUserData } from '@/app/data/hooks/users/common/useUserData';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
-import { LockClosedIcon } from '@icons';
 import { toast } from 'react-toastify';
 import { apiErrorValidation, verifySession } from '@/app/constants/validations';
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface UserMfaFormProps {
   onDone?: () => void;

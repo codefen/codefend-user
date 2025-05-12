@@ -48,7 +48,7 @@ export const useAutoScan = () => {
         setScanStep(ScanStepType.Scanner);
         setScanRunning(openModel);
         globalStore.isScanning.set(true);
-        globalStore.currentScan.set(result.neuroscan);
+        globalStore.currentScan.set(null);
         globalStore.scanProgress.set(0);
         globalStore.scanRetries.set(MAX_SCAN_RETRIES);
       }

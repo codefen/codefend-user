@@ -14,7 +14,8 @@ const fetcher = ([model, { company }]: any) => {
   if (companyIdIsNull(company)) return Promise.reject(false);
   return AxiosHttpService.getInstance()
     .post<any>({
-      body: { company_id: company, model },
+      body: { company_id: company },
+      params: model,
       requireSession: true,
     })
     .then(({ data }) => ({
@@ -35,11 +36,12 @@ const getLatestScan = (scans: any[]) => {
 };
 
 export const useVerifyScanList = () => {
-  const { isScanning, scanNumber, company, scanRetries } = useGlobalFastFields([
+  const { isScanning, scanNumber, company, scanRetries, currentScan } = useGlobalFastFields([
     'isScanning',
     'scanNumber',
     'company',
     'scanRetries',
+    'currentScan',
   ]);
   const scanningValue = isScanning.get;
   const [initialFetchDone, setInitialFetchDone] = useState(false);
@@ -48,8 +50,8 @@ export const useVerifyScanList = () => {
 
   const { data } = useSWR<ScanManager>(swrKey, fetcher, {
     refreshInterval: scanRetries.get > 0 || scanningValue ? 3000 : 0,
-    revalidateOnFocus: scanRetries.get > 0,
-    revalidateOnReconnect: scanRetries.get > 0,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
     revalidateOnMount: true,
     keepPreviousData: true,
     fallbackData: { scans: [], companyUpdated: {} },
@@ -73,6 +75,7 @@ export const useVerifyScanList = () => {
     }
     if (!latestScan) {
       if (scanningValue) isScanning.set(false);
+      currentScan.set(null);
       return;
     }
     if (scanningValue && !isActive) {
@@ -81,9 +84,10 @@ export const useVerifyScanList = () => {
       isScanning.set(true);
       scanRetries.set(MAX_SCAN_RETRIES);
     }
+    currentScan.set(latestScan);
   }, [data, latestScan, scanningValue]);
 
   const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
-
+  console.log('data', data);
   return { data: data!, latestScan, isScanActive, isScanning };
 };

@@ -90,8 +90,9 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
                 justifyContent: 'center',
                 height: '60vh',
               }}>
-              {/* @ts-ignore */}
-              <SnsCardTitle />
+              <div>
+                <SnsCardTitle />
+              </div>
             </div>
           ) : (
             <Masonry

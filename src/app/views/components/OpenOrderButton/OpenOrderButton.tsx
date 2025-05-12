@@ -12,6 +12,7 @@ interface OpenOrderButtonProps {
   type: ResourcesTypes;
   className?: string;
   scope?: OrderSection;
+  plan?: 'medium' | 'small' | 'advanced';
 }
 
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
@@ -21,10 +22,10 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
       <b>{plan} plan</b>.
     </>
   ),
-  [ResourcesTypes.MOBILE]: () => (
+  [ResourcesTypes.MOBILE]: ({ plan }: any) => (
     <>
       No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
-      <strong>medium plan.</strong>
+      <strong>{plan} plan.</strong>
     </>
   ),
 
@@ -69,16 +70,16 @@ const OpenOrderButton = ({
   type,
   className = '',
   scope = OrderSection.SCOPE,
+  plan = 'medium',
 }: OpenOrderButtonProps) => {
   const { updateState } = useOrderStore(state => state);
   const { isAdmin, isNormalUser } = useUserRole();
-  const [plan, setPlan] = useState<ReactNode | null>(null);
+  const [planText, setPlanText] = useState<ReactNode | null>(null);
   const globalStore = useGlobalFastFields([
     'subDomainCount',
     'uniqueIpCount',
     'domainCount',
     'planPreference',
-    'mobilePlanPreference',
     'selectedApp',
   ]);
   const onOpen = () => {
@@ -91,11 +92,12 @@ const OpenOrderButton = ({
     const total = globalStore.domainCount.get + globalStore.subDomainCount.get;
     const name = globalStore.selectedApp.get?.app_name;
     const downloads = globalStore.selectedApp.get?.app_android_downloads;
-    let plan = globalStore.planPreference.get;
-    if (type === ResourcesTypes.MOBILE) {
-      plan = globalStore.mobilePlanPreference.get;
+    let planStore = globalStore.planPreference.get;
+    if (plan) {
+      planStore = plan;
     }
-    setPlan(orderText[type]({ total, plan, name, downloads }));
+
+    setPlanText(orderText[type]({ total, plan: planStore, name, downloads }));
   }, [globalStore.domainCount.get, globalStore.subDomainCount.get, globalStore.selectedApp.get]);
 
   return (
@@ -105,7 +107,7 @@ const OpenOrderButton = ({
         <span>{titleMap[type]}</span>
       </div>
       <div className="content">
-        <p>{plan}</p>
+        <p>{planText}</p>
         <div className="actions">
           <PrimaryButton
             text={

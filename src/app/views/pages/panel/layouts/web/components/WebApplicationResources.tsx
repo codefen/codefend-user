@@ -81,19 +81,16 @@ const webColumns: ColumnTableV3[] = [
   },
   {
     header: 'issues',
-    key: 'final_issues',
+    key: TABLE_KEYS.ACTION,
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-web-5',
     weight: '11%',
-    render: (row: any) =>
-      !row?.resource_domain_dad ? (
-        <>
-          <BugIcon />
-          {row?.final_issues || 0}
-        </>
-      ) : (
-        'inherit'
-      ),
+    render: (row: any) => (
+      <>
+        <BugIcon />
+        {row?.final_issues || 0}
+      </>
+    ),
   },
 ];
 

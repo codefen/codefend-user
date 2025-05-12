@@ -44,7 +44,11 @@ export const NewSigninForm = () => {
         <img src="/codefend/logo-color.png" width={220} />
         <ChangeAuthPages pathname={location.pathname} />
 
-        <p>Welcome back! Please sign in</p>
+        <p>
+          {mfaStep
+            ? 'This account has two-factor authentication enabled, please complete the verification process.'
+            : 'Welcome back! Please sign in'}
+        </p>
         <form onSubmit={handleSubmit}>
           <AuthInput
             className={mfaStep ? css['hide-for-mfa'] : ''}

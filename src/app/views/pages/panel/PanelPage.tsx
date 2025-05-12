@@ -6,7 +6,6 @@ import { FlashLightProvider } from '../../context/FlashLightContext.tsx';
 import { WelcomeGroupTour } from '@/app/views/components/welcome/WelcomeGroupTour.tsx';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager.tsx';
-import '/public/flags/flags.css';
 import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
 import { useUserCommunicated } from '#commonUserHooks/useUserCommunicated.ts';
 import useModal from '#commonHooks/useModal.ts';
