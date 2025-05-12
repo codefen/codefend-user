@@ -48,6 +48,7 @@ interface Tablev3Props<T> {
   selectedKey?: string;
   enableContextMenu?: boolean;
   contextMenuActions?: ContextMenuAction[];
+  emptyInfo?: string;
 }
 
 const Tablev3: FC<Tablev3Props<any>> = ({
@@ -68,6 +69,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   selectedKey,
   enableContextMenu = false,
   contextMenuActions = [],
+  emptyInfo = '',
 }) => {
   // Estado para manejar el ordenamiento
   const [sort, setSort] = useState<Sort>(initialSort);
@@ -236,7 +238,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
           </div>
         </Show>
         <Show when={showRows && !Boolean(preProcessedRows.length)}>
-          <EmptyCard />
+          <EmptyCard info={emptyInfo} />
         </Show>
 
         {/* Context Menu */}
