@@ -9,9 +9,11 @@ import { useNavigate } from 'react-router';
 import { CheckSimpleIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
+import { useWelcomeStore } from '@stores/useWelcomeStore';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const globalStore = useGlobalFastFields(['scanProgress', 'isScanning', 'currentScan']);
+  const { initialDomain } = useWelcomeStore();
   const navigate = useNavigate();
 
   const closeModal = () => {
@@ -21,13 +23,6 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     }
   };
   const scanStep = (globalStore.currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
-
-  // console.log({
-  //   currentScan: globalStore.currentScan.get,
-  //   isScanning: globalStore.isScanning.get,
-  //   scanProgress: globalStore.scanProgress.get,
-  //   scanStep,
-  // });
 
   return (
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>

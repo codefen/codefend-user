@@ -53,7 +53,7 @@ export const useSns = () => {
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
           customError.code = data?.error_info || 'generic';
           throw customError;
@@ -72,7 +72,7 @@ export const useSns = () => {
       })
       .catch(error => {
         switch (error.code) {
-          case 'leaksearch_maximum_reached':
+          case 'paid_user_leaksearch_maximum_reached':
             updateState('open', true);
             updateState('orderStepActive', OrderSection.PAYWALL);
             updateState('resourceType', ResourcesTypes.WEB);

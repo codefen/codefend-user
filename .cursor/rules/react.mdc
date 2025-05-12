@@ -18,7 +18,7 @@ alwaysApply: false
     - Use lowercase with dashes for directory names (e.g., `components/auth-wizard`).
 
     ### Optimization and Best Practices
-    - Minimize the use of `'use client'`, `useEffect`, and `setState`.
+    - Minimize the use of `useEffect`, and `setState`.
     - Implement dynamic imports for code splitting and optimization.
     - Use responsive design with a mobile-first approach.
     - Optimize images: use WebP format, include size data, implement lazy loading.
@@ -51,5 +51,16 @@ alwaysApply: false
     3. **Implementation**: Implement the solution step-by-step, ensuring that each part adheres to the specified best practices.
     4. **Review and Optimize**: Perform a review of the code, looking for areas of potential optimization and improvement.
     5. **Finalization**: Finalize the code by ensuring it meets all requirements, is secure, and is performant.
+
+    ### Project Context
+
+    - React 18 + TypeScript
+    - Styling: SCSS Structured
+    - Data Fetching: SWR, custom fetch hooks, axios adapters
+    - State Management: React Context (principal), Zustand (legado)
+    - Target: WebApp + Desktop App via Tauri
+    - File structure: Feature-first
+    - Custom tooling: ESLint + Prettier + Husky + Lint-staged
+    - CI/CD: GitHub Actions (pendiente integración completa)
 
     

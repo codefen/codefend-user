@@ -18,7 +18,7 @@ export const useCurrentOrders = () => {
       },
       path: 'providers/orders/index/confirmed',
     }).then(({ data }) => {
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
       setCurrentOrders(data.orders ? data.orders : []);

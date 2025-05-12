@@ -222,6 +222,10 @@
   margin-top: 1rem;
 }
 
+.mt-card-space {
+  margin-top: var(--card-space);
+}
+
 [dir='rtl'] {
   .text-right {
     text-align: left;

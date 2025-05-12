@@ -1,11 +1,10 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import { UserProfileTop } from './components/userProfileTop';
+import { UserProfileTop } from './component/UserProfileTop';
 import './userprofile.scss';
-import { UserPassword } from './components/UserPassword';
-import { UserQr } from './components/UserQr';
+import { UserPassword } from './component/UserPassword';
+import { UserQr } from './component/UserQr';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
-import { DashboardScanStart } from '../../../../components/DashboardScanStart/DashboardScanStart';
 import { useDashboard } from '@panelHooks/index';
 
 export const UserProfilePage = () => {

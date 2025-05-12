@@ -19,7 +19,7 @@ export const useDeleteWebResource = () => {
       path: 'resources/web/del',
     })
       .then(({ data }) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
 

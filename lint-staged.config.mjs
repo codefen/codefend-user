@@ -10,11 +10,8 @@ const buildPrettierCommand = filenames =>
     .map(f => `"${path.relative(process.cwd(), f)}"`)
     .join(' ')} --ignore-path .prettierignore`;
 
-const buildStylelintCommand = filenames =>
-  `stylelint --fix ${filenames.map(f => `"${path.relative(process.cwd(), f)}"`).join(' ')}`;
-
 const config = {
   './src/**/*.{js,ts,tsx}': [buildPrettierCommand, buildEslintCommand],
-  './src/**/*.{css,scss}': [buildPrettierCommand, buildStylelintCommand],
+  './src/**/*.{css,scss}': [buildPrettierCommand],
 };
 export default config;

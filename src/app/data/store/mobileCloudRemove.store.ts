@@ -40,7 +40,7 @@ export const useRemoveAppStore = create<RemoveAppStore>((set, _get) => ({
         path: `resources/${state.isMobileType ? RESOURCE_CLASS.MOBILE : RESOURCE_CLASS.CLOUD}/del`,
       })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         toast.success(

@@ -16,7 +16,7 @@ export const useSolvedComunique = () => {
       },
       path: '/users/communiques/solved',
     }).then(({ data }: any) => {
-      if (!apiErrorValidation(data?.error, data?.response)) {
+      if (!apiErrorValidation(data)) {
         localStorage.removeItem(COMUNIQUE_KEYS.ID);
       }
     });

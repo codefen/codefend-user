@@ -17,7 +17,7 @@ export const useForwardOrder = () => {
       path: 'providers/orders/forward',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error('An error has occurred on the server');
         }
         return { res: true, providers: data.providers };

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { GlobeWebIcon } from '@icons';
+import './SnsCardTitle.scss';
 
 interface SnsCardTitleProps {
   arrow?: 'down' | 'up' | 'none';
@@ -11,7 +12,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({ arrow = 'down', align = 'center' 
   const isDown = arrow === 'down';
   const alignItems = align === 'left' ? 'flex-start' : 'center';
   return (
-    <div>
+    <>
       {/* Flecha animada de puntitos */}
       {arrow !== 'none' && (
         <div
@@ -55,14 +56,10 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({ arrow = 'down', align = 'center' 
       <div
         className="card title"
         style={{
-          marginBottom: '1.2rem',
           width: align === 'left' ? '80%' : '100%',
-          maxWidth: 540,
-          marginLeft: 0,
-          marginRight: 0,
         }}>
         <div className="header">
-          <GlobeWebIcon style={{ marginRight: 8, verticalAlign: 'middle' }} />
+          <GlobeWebIcon />
           <span style={{ verticalAlign: 'middle' }}>Dataleaks search</span>
         </div>
         <div className="content">
@@ -72,46 +69,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({ arrow = 'down', align = 'center' 
           </p>
         </div>
       </div>
-      <style>{`
-        .bouncing-dots-arrow {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          position: relative;
-        }
-        .bouncing-dots-arrow .dot {
-          width: 10px;
-          height: 10px;
-          background: #ec2603;
-          border-radius: 50%;
-          margin: 4px 0;
-          animation: dot-bounce 1.2s infinite;
-        }
-        @keyframes dot-bounce {
-          0%, 80%, 100% { transform: translateY(0); }
-          40% { transform: translateY(18px); }
-        }
-        .bouncing-dots-arrow .arrow-head {
-          width: 0;
-          height: 0;
-          border-left: 12px solid transparent;
-          border-right: 12px solid transparent;
-          border-bottom: 20px solid #ec2603;
-          background: none;
-          filter: none;
-          margin-bottom: 2px;
-          animation: dot-bounce 1.2s infinite;
-        }
-        .bouncing-dots-arrow[style*="rotate(180deg)"] .arrow-head {
-          border-bottom: none;
-          border-top: 20px solid #ec2603;
-          border-left: 12px solid transparent;
-          border-right: 12px solid transparent;
-          margin-bottom: 0;
-          margin-top: 2px;
-        }
-      `}</style>
-    </div>
+    </>
   );
 };
 

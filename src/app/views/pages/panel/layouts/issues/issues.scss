@@ -27,6 +27,7 @@ main.issue-detail {
       background-color: var(--primary-color);
       font-family: Roboto;
       height: 50px;
+      min-height: 50px;
       padding: 0;
 
       > div {
@@ -147,6 +148,7 @@ main.issue-detail {
       text-transform: uppercase;
       font-size: 11px;
       height: 40px;
+      min-height: 40px;
       border-bottom: 1px solid var(--primary-color-300);
       padding: 0 15px;
 

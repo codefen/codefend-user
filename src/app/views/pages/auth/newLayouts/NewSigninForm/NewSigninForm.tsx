@@ -20,7 +20,6 @@ export const NewSigninForm = () => {
     const password = form.get('password') as unknown as string;
     const mfa = form.get('mfa') as unknown as string;
     signInUser(email || '', password || '', mfa).then((result: any) => {
-      console.log('mfaRequired', result);
       if (result?.mfaRequired) {
         setMfaStep(true);
         return;
@@ -45,7 +44,11 @@ export const NewSigninForm = () => {
         <img src="/codefend/logo-color.png" width={220} />
         <ChangeAuthPages pathname={location.pathname} />
 
-        <p>Welcome back! Please sign in</p>
+        <p>
+          {mfaStep
+            ? 'This account has two-factor authentication enabled, please complete the verification process.'
+            : 'Welcome back! Please sign in'}
+        </p>
         <form onSubmit={handleSubmit}>
           <AuthInput
             className={mfaStep ? css['hide-for-mfa'] : ''}

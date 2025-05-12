@@ -20,7 +20,7 @@ export const useQualitySurveyStart = () => {
         reference_number: referenceNumber,
       },
     }).then(({ data }: any) => {
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
 

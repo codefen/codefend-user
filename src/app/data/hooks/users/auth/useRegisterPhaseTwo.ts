@@ -28,11 +28,7 @@ export const useRegisterPhaseTwo = () => {
       requestId: 'signUpFinishReq',
     })
       .then(({ data }: any) => {
-        if (
-          data.error == 1 ||
-          data.email_error === '1' ||
-          apiErrorValidation(data?.error, data?.response)
-        ) {
+        if (data.email_error === '1' || apiErrorValidation(data)) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         session.set(data.session as string);

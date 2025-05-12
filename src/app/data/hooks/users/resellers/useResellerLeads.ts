@@ -20,7 +20,7 @@ export const useResellerLeads = () => {
       path: 'resellers/dashboard/leads',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
       leads.current = data.leads;

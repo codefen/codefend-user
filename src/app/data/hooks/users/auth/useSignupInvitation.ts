@@ -32,7 +32,7 @@ export const useSignupInvitation = () => {
       path: 'users/invoke/finish',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         session.set(data.session as string);

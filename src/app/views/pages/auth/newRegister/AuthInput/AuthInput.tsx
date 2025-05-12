@@ -49,10 +49,10 @@ export const AuthInput = forwardRef(function AuthInput(
   return (
     <div className={`input-group ${className}`}>
       <input
+        data-default={defaultValue}
         ref={ref}
         type={type}
-        defaultValue={defaultValue}
-        value={value}
+        {...(value !== undefined ? { value } : { defaultValue })}
         placeholder={placeholder}
         required={required}
         autoComplete={autoComplete}

@@ -9,11 +9,14 @@ export const NewSignupInvitation = () => {
     <ModalWrapper showCloseBtn={false} type={css['newsignup']}>
       <div className={css['newsignupContent']}>
         <img src="/codefend/logo-color.png" width={220} />
-        <p style={{ marginBottom: '25px' }}>Bienvenido a Codefend</p>
+        <p style={{ marginBottom: '25px' }}>
+          Welcome to Codefend, you are being invited to join a company. Please provide your details
+          to continue.
+        </p>
         <InvitationSignupForm>
           {(isLoading: boolean) => (
             <>
-              <div className="extra-group">
+              {/* <div className="extra-group">
                 <span className="link link-color">
                   I have read and accept the{' '}
                   <Link to="/help/security-and-privacy-policy" target="_blank">
@@ -24,7 +27,7 @@ export const NewSignupInvitation = () => {
                     <u>Terms of Use.</u>
                   </Link>
                 </span>
-              </div>
+              </div> */}
               <div className="extra-group">
                 <PrimaryButton
                   text="Proceed"

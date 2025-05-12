@@ -24,7 +24,7 @@ export const useLoginAction = () => {
       path: '/users/access',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response) || Boolean(data?.error_info)) {
+        if (apiErrorValidation(data)) {
           const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
           customError.code = data?.error_info || 'generic';
           customError.email = email;

@@ -118,6 +118,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   user: EMPTY_USER,
   companies: [],
   scanRetries: MAX_SCAN_RETRIES,
+  activeScan: null,
 };
 
 export const EMPTY_PROVIDER = {

@@ -18,8 +18,8 @@ const columns = [
     header: 'domain',
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
-    styles: 'item-cell-2 item-domain-cell',
-    weight: '43%',
+    styles: 'item-cell-welcome-1',
+    weight: '42%',
     render: (row: any, next?: any) =>
       !row?.address_domain ? (
         row?.resource_domain
@@ -33,16 +33,16 @@ const columns = [
   {
     header: 'server ip',
     key: 'main_server',
-    styles: 'item-cell-3',
-    weight: '28%',
+    styles: 'item-cell-welcome-2',
+    weight: '26%',
     render: (ip: any) => (ip === 'unreachable' ? 'non available' : ip),
   },
   {
     header: 'area',
     key: 'main_server_area_name',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-4',
-    weight: '29%',
+    styles: 'item-cell-welcome-3',
+    weight: '32%',
     render: (row: any) => (
       <LocationItem
         country={row?.main_server_area_name || 'non available'}
@@ -80,7 +80,7 @@ export const WelcomeDomain = ({
       timeout: 180000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (!apiErrorValidation(data?.error, data?.response)) {
+      if (!apiErrorValidation(data)) {
         setDomains(data?.resource ? [data.resource] : []);
       } else if (data?.error_info === 'unrecheable_domain') {
         toast.error(data?.info);
@@ -121,7 +121,7 @@ export const WelcomeDomain = ({
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
+    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']} action={close}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={220} />
         <p className={css['welcome-text']}>
@@ -156,7 +156,11 @@ export const WelcomeDomain = ({
         </div>
         <div className="btn-container">
           <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
-          <button className={`btn ${css['btn-add']}`} type="button" onClick={nextStep}>
+          <button
+            className={`btn ${css['btn-add']}`}
+            type="button"
+            onClick={nextStep}
+            disabled={!Boolean(domains.length)}>
             Continue
           </button>
         </div>

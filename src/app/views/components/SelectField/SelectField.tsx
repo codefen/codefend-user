@@ -1,4 +1,4 @@
-import { forwardRef, type ChangeEvent } from 'react';
+import { forwardRef, type ChangeEvent, type ReactNode } from 'react';
 
 interface SelectFieldProps {
   options: any[];
@@ -8,14 +8,28 @@ interface SelectFieldProps {
   disabled?: boolean;
   required?: boolean;
   name?: string;
+  icon?: ReactNode | string | null;
+  className?: string;
 }
 
 const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function SelectField(
-  { options, defaultValue = '', onChange, value, disabled, required, name = 'select' },
+  {
+    options,
+    defaultValue = '',
+    onChange,
+    value,
+    disabled,
+    required,
+    name = 'select',
+    icon = null,
+    className = '',
+  },
   ref
 ) {
   return (
-    <div className="input-group">
+    <div className={`input-group ${className}`}>
+      {icon ? <span className="icon">{icon}</span> : null}
+
       <select
         ref={ref}
         name={name}

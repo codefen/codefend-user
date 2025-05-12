@@ -13,6 +13,7 @@ import {
   PreferenceIcon,
 } from '@icons';
 import type { ReactNode } from 'react';
+import { generateID } from '@utils/helper';
 
 enum WelcomeSteps {
   ADMIN,
@@ -50,7 +51,7 @@ interface OnboardingStep {
   isLastStep?: boolean;
 }
 
-const generateUniqueId = () => crypto.randomUUID().substring(0, 10);
+const generateUniqueId = () => generateID().substring(0, 10);
 
 export enum ScanStepType {
   NonScan = 'nonScan',

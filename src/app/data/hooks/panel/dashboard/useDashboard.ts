@@ -17,8 +17,7 @@ const fetcher = ([model, { company, logout }]: any) => {
       path: model,
     })
     .then(({ data }) => {
-      if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response))
-        return EMPTY_DASHBOARD_PROPS;
+      if (verifySession(data, logout) || apiErrorValidation(data)) return EMPTY_DASHBOARD_PROPS;
 
       return data
         ? {

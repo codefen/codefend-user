@@ -19,7 +19,7 @@ export const useIntelPreview = () => {
       path: 'modules/inx',
       requestId: `p-${params.sid}-${params.bid}`,
     }).then(({ data }: any) => {
-      if (!data || apiErrorValidation(data?.error, data?.response)) return false;
+      if (apiErrorValidation(data)) return false;
 
       const intelPreviewData = intelPreview.current;
       intelPreviewData.push({

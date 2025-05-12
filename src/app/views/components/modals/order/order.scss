@@ -274,8 +274,8 @@
       }
 
       &.scope {
-        [class^='_stat'] {
-          border: 1px solid var(--primary-color-300) !important;
+        .card.stat.default {
+          border: 1px solid var(--primary-color-300);
           &:first-child {
             [class^='_value'] {
               color: var(--secondary-color-200) !important;

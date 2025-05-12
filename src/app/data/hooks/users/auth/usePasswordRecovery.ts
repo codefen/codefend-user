@@ -24,7 +24,7 @@ export const usePasswordRecovery = () => {
       },
       path: 'users/password/recover/hash',
     }).then(({ data }: any) => {
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+      if (data.isAnError || apiErrorValidation(data)) {
         throw new Error(data?.info || AUTH_TEXT.FAILURE_PASSWORD_UPDATED);
       }
       return data;

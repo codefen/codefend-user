@@ -19,6 +19,7 @@ export const TableV2: FC<TableProps> = ({
   sort = Sort.desc,
   sizeX = 100,
   urlNav,
+  emptyInfo = '',
 }) => {
   const [sortDirection, setSortDirection] = useState<Sort>(sort);
   const [dataSort, setDataSort] = useState<string>(columns[0]?.name || '');
@@ -70,7 +71,7 @@ export const TableV2: FC<TableProps> = ({
         />
       </Show>
       <Show when={showEmpty}>
-        <EmptyCard />
+        <EmptyCard info={emptyInfo} />
       </Show>
     </div>
   );

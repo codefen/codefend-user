@@ -2,10 +2,8 @@ import { useEffect, useState, type FC, type FormEvent, type ReactNode } from 're
 import { useFetcher } from '@/app/data/hooks/common/useFetcher';
 import { useUserData } from '@/app/data/hooks/users/common/useUserData';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
-import { LockClosedIcon } from '@icons';
 import { toast } from 'react-toastify';
 import { apiErrorValidation, verifySession } from '@/app/constants/validations';
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface UserMfaFormProps {
   onDone?: () => void;
@@ -26,8 +24,7 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
       requireSession: true,
     })
       .then(({ data }: any) => {
-        if (verifySession(data, logout) || apiErrorValidation(data?.error, data?.response))
-          throw new Error('');
+        if (verifySession(data, logout) || apiErrorValidation(data)) throw new Error('');
         setQr(data?.qr || '');
         setKey(data?.llave || '');
         if (data?.user) user.set(data?.user);
@@ -53,7 +50,7 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
       },
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(data.info);
         }
         toast.success('MFA enabled successfully');

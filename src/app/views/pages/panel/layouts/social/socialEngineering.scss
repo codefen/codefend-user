@@ -3,6 +3,9 @@ main.social {
     width: 70%;
 
     .table {
+      min-width: 700px;
+      overflow-x: auto;
+
       .item {
         height: 43px;
       }

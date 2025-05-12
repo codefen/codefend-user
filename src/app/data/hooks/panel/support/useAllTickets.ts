@@ -26,7 +26,7 @@ export const useAllTicket = () => {
       },
       path: 'cs/index',
     }).then(({ data }) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         return;
       }
       dataRef.current = data.disponibles || [];
