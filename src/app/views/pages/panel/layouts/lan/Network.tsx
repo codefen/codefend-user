@@ -13,6 +13,11 @@ import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
+import { GlobeWebIcon } from '@icons';
+import { PrimaryButton } from '@buttons/index';
+import AddNetworkBlock from '@/app/views/pages/panel/layouts/lan/components/AddNetworkBlock.tsx';
+import { AddAccessPointModal } from '@modals/index.ts';
+import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -34,6 +39,8 @@ const NetworkPage: FC = () => {
       dataAvailable={Boolean(networks.length)}>
       <CredentialsModal />
       <ModalReport />
+      <AddAccessPointModal onDone={() => refresh()} />
+      <AddSubNetworkModal onDone={() => refresh()} internalNetwork={networks ?? []} />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
       <section className="left">
@@ -46,6 +53,7 @@ const NetworkPage: FC = () => {
 
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
+          <AddNetworkBlock />
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}
