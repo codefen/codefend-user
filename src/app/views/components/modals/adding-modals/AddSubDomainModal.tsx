@@ -11,7 +11,7 @@ interface AddSubDomainModalProps extends ComponentEventWithOpen {
 
 const AddSubDomainModal: FC<AddSubDomainModalProps> = ({ close, onDone, webResources, isOpen }) => (
   <ModalTitleWrapper
-    isActive={isOpen}
+    isActive={isOpen ?? false}
     close={() => close?.()}
     type="med-w"
     headerTitle="Add web sub-resource">

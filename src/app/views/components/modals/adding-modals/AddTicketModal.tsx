@@ -8,7 +8,7 @@ export const AddTicketModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDo
   <ModalTitleWrapper
     headerTitle="Add ticket"
     close={() => close?.()}
-    isActive={isOpen}
+    isActive={isOpen ?? false}
     type="med-w">
     <div className="content">
       <SupportTicketForm close={close} onDone={onDone}>

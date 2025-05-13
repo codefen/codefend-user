@@ -7,7 +7,7 @@ import WebDomainForm from '@/app/views/components/forms/WebDomainForm';
 
 const AddDomainModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) => (
   <ModalTitleWrapper
-    isActive={isOpen}
+    isActive={isOpen ?? false}
     close={() => close?.()}
     type="med-w"
     headerTitle="Add web resource">
