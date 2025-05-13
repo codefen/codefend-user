@@ -25,7 +25,7 @@ const SocialAttackVectors: FC<SocialAttackVectorsProps> = props => {
 
   return (
     <>
-      <div className="card filtered">
+      {/* <div className="card filtered">
         <SimpleSection header="Attack vectors" icon={<ChartIcon />}>
           <div className="content filters">
             {Object.keys(attackVectorState).map((attack: string) => (
@@ -48,7 +48,7 @@ const SocialAttackVectors: FC<SocialAttackVectorsProps> = props => {
             ))}
           </div>
         </SimpleSection>
-      </div>
+      </div> */}
     </>
   );
 };

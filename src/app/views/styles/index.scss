@@ -1895,3 +1895,31 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   width: 100%;
   margin-inline: 0;
 }
+
+.content.filters {
+  background-color: white; /* Fondo blanco */
+  padding: 20px; /* Espaciado interno */
+
+  border-radius: 4px; /* Bordes redondeados */
+  margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.check {
+  border-bottom: 1px solid #cccccc71; /* Borde inferior gris claro */
+}
+
+.check .label {
+  display: flex; /* Usar flexbox para alinear el checkbox y el texto */
+  align-items: center; /* Centrar verticalmente */
+}
+
+.check input[type='checkbox'] {
+  margin-right: 10px; /* Espaciado a la derecha del checkbox */
+  cursor: pointer; /* Cambiar cursor al pasar sobre el checkbox */
+}
+
+.sub-title {
+  font-size: 1.1rem;
+  color: #222222;
+  margin-bottom: 5px;
+}
