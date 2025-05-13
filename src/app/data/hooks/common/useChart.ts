@@ -38,7 +38,7 @@ const useDoughnutChart = (value: DoughnutCharProps) => {
     const allZeros = Object.values(otherMetrics).every(value => value == 0);
     if (allZeros) {
       return {
-        labels: ['Sin datos'],
+        labels: ['No data'],
         datasets: [
           {
             data: [1],

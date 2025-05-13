@@ -76,17 +76,16 @@
 
   & .over {
     background-color: var(--primary-color);
-    padding: 12px;
+    padding: var(--card-space);
     border-radius: var(--brd-radius);
     margin-bottom: 50px;
 
     .table-title {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px;
+      gap: var(--card-space);
+      padding: var(--card-space);
       font-size: 0.975rem;
-      margin-left: 12px;
 
       h2 {
         display: flex;
@@ -105,9 +104,12 @@
     }
 
     p {
-      padding-inline: 12px;
-      margin-bottom: 1rem;
-      margin-left: 13px;
+      padding-inline: var(--card-space);
+      margin-block-end: var(--card-space);
+    }
+
+    form {
+      padding-inline: calc(var(--card-space) * 1.1);
     }
   }
 
@@ -136,6 +138,10 @@
 
       p {
         padding-inline: 0;
+        font-size: 0.9rem;
+        font-family: 'Questrial';
+        margin-inline-start: 0;
+        margin-block-end: 0;
       }
 
       button {
