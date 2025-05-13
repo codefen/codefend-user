@@ -31,7 +31,7 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webRes
     } else {
       globalStore.planPreference.set('advanced');
     }
-  }, [webResources]);
+  }, [webResources, globalStore.planPreference]);
 
   return (
     <div className="flex-box">

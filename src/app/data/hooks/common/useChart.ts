@@ -34,6 +34,22 @@ const useDoughnutChart = (value: DoughnutCharProps) => {
     ChartJS.register(Title, Tooltip, Legend, Colors, ArcElement);
   }, []);
   const chartData = useMemo(() => {
+    // Si todos los valores son "0"
+    const allZeros = Object.values(otherMetrics).every(value => value == 0);
+    if (allZeros) {
+      return {
+        labels: ['No data'],
+        datasets: [
+          {
+            data: [1],
+            backgroundColor: [theme === 'light' ? '#dbdbdb' : '#3a3a3a'],
+            borderWidth: 0,
+          },
+        ],
+      } as ChartData<'doughnut'>;
+    }
+
+    // Comportamiento normal cuando hay datos
     const labels = Object.keys(otherMetrics).map((key: any) => (!key ? 'Unknown' : key));
     return {
       labels,
@@ -51,7 +67,7 @@ const useDoughnutChart = (value: DoughnutCharProps) => {
         },
       ],
     } as ChartData<'doughnut'>;
-  }, [otherMetrics]);
+  }, [otherMetrics, theme]);
 
   const chartOptions: ChartOptions<'doughnut'> = useMemo(
     () => ({

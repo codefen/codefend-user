@@ -25,7 +25,7 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.MOBILE]: ({ plan }: any) => (
     <>
       No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
-      <strong>{plan} plan.</strong>
+      <b>{plan} plan.</b>
     </>
   ),
 
