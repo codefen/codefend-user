@@ -15,6 +15,9 @@ import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import { GlobeWebIcon } from '@icons';
 import { PrimaryButton } from '@buttons/index';
+import AddNetworkBlock from '@/app/views/pages/panel/layouts/lan/components/AddNetworkBlock.tsx';
+import { AddAccessPointModal } from '@modals/index.ts';
+import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -36,6 +39,8 @@ const NetworkPage: FC = () => {
       dataAvailable={Boolean(networks.length)}>
       <CredentialsModal />
       <ModalReport />
+      <AddAccessPointModal onDone={() => refresh()} />
+      <AddSubNetworkModal onDone={() => refresh()} internalNetwork={networks ?? []} />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
       <section className="left">
@@ -48,26 +53,7 @@ const NetworkPage: FC = () => {
 
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
-          <div className="card title">
-            <div className="header">
-              <GlobeWebIcon />
-              <span>Network Infrastructure</span>
-            </div>
-            <div className="content">
-              <p>
-                Evaluate the security of your organization's network infrastructure by simulating
-                real-world attack scenarios and identifying vulnerabilities in your network setup.
-              </p>
-              <div className="actions">
-                <PrimaryButton
-                  text="Add Network Component"
-                  className="btn-black"
-                  disabledLoader={true}
-                />
-              </div>
-            </div>
-          </div>
-
+          <AddNetworkBlock />
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}

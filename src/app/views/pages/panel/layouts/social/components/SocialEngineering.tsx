@@ -126,7 +126,7 @@ const SocialEngineering: FC<SocialProps> = props => {
     },
     {
       label: 'Add issue',
-      disabled: !(isProvider() || isAdmin()),
+      disabled: isNormalUser(),
       icon: <BugIcon isButton />,
       onClick: (row: any) => {
         createIssue(row.id);
@@ -136,14 +136,6 @@ const SocialEngineering: FC<SocialProps> = props => {
 
   return (
     <>
-      <AddSocialResourceModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_MEMBER}
-        onDone={() => {
-          setShowModal(false);
-          props.refetch();
-        }}
-        close={() => setShowModal(false)}
-      />
       <ModalTitleWrapper
         isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_MEMBER}
         close={() => setShowModal(false)}
@@ -170,15 +162,6 @@ const SocialEngineering: FC<SocialProps> = props => {
                 Social Engineering
               </h2>
             </div>
-            {/* <div className="actions">
-              <div
-                onClick={() => {
-                  setShowModal(!showModal);
-                  setShowModalStr(MODAL_KEY_OPEN.ADD_MEMBER);
-                }}>
-                Add profile
-              </div>
-            </div> */}
           </div>
           <Tablev3
             columns={socialColumns}
