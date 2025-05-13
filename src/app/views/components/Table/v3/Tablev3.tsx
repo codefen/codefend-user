@@ -189,7 +189,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   return (
     <div className="table-group">
       <Show when={isNeedSearchBar}>
-        <div className="table-utils table-search-bar">
+        <div className="table-search-bar">
           <ModalInput
             icon={<MagnifyingGlassIcon />}
             setValue={(val: string) => setTerm(val)}
