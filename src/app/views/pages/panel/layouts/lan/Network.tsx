@@ -13,6 +13,8 @@ import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
+import { GlobeWebIcon } from '@icons';
+import { PrimaryButton } from '@buttons/index';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -46,6 +48,26 @@ const NetworkPage: FC = () => {
 
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
+          <div className="card title">
+            <div className="header">
+              <GlobeWebIcon />
+              <span>Network Infrastructure</span>
+            </div>
+            <div className="content">
+              <p>
+                Evaluate the security of your organization's network infrastructure by simulating
+                real-world attack scenarios and identifying vulnerabilities in your network setup.
+              </p>
+              <div className="actions">
+                <PrimaryButton
+                  text="Add Network Component"
+                  className="btn-black"
+                  disabledLoader={true}
+                />
+              </div>
+            </div>
+          </div>
+
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}

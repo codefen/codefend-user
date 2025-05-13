@@ -111,12 +111,12 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
               textAlign: 'center',
               alignItems: 'center',
             }}>
-            No se encontraron resultados para tu búsqueda
+            No results were found for your search.
           </div>
           <div
             className="no-results-subtext"
             style={{ color: '#999', fontSize: '1.1rem', textAlign: 'center' }}>
-            Intenta con otros términos de búsqueda
+            Please try searching with different terms.
           </div>
         </div>
       </div>
