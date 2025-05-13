@@ -98,7 +98,12 @@ const OpenOrderButton = ({
     }
 
     setPlanText(orderText[type]({ total, plan: planStore, name, downloads }));
-  }, [globalStore.domainCount.get, globalStore.subDomainCount.get, globalStore.selectedApp.get]);
+  }, [
+    globalStore.domainCount.get,
+    globalStore.subDomainCount.get,
+    globalStore.selectedApp.get,
+    globalStore.planPreference.get,
+  ]);
 
   return (
     <div className="card title">
