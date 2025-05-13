@@ -224,20 +224,37 @@
       justify-content: space-evenly;
       padding: 1.485rem;
       gap: 1dvw;
+      flex-direction: column;
+      --chart-max-width: 150px;
+
+      --chart-flex: auto;
+      --table-flex: auto;
 
       .chart {
-        flex-grow: 0.3;
-        max-width: 15%;
-        min-width: 180px;
+        // flex-grow: 0.3;
+        // max-width: 15%;
+        // min-width: 180px;
+        max-width: var(--chart-max-width);
+        flex: var(--chart-flex);
 
-        canvas {
-          width: 95% !important;
-          height: 95% !important;
-        }
+        // canvas {
+        //   width: 95% !important;
+        //   height: 95% !important;
+        // }
       }
 
       .table {
-        flex-grow: 0.7;
+        flex: var(--table-flex);
+
+        &:has(.empty-card) {
+          .columns-name {
+            display: none;
+          }
+
+          .empty-wrapper img {
+            display: none;
+          }
+        }
 
         .rows .item {
           &:hover {
@@ -246,8 +263,17 @@
         }
       }
 
-      @container right-main (max-width: 493px) {
-        flex-direction: column;
+      @container right-main (min-width: 502px) {
+        flex-direction: row;
+        --chart-max-width: 180px;
+        --chart-flex: 1 1 50%;
+        --table-flex: 1 1 50%;
+      }
+
+      @container right-main (min-width: 600px) {
+        --chart-max-width: 200px;
+        --chart-flex: 1 1 60%;
+        --table-flex: 1 1 40%;
       }
     }
   }
@@ -737,8 +763,8 @@
   .empty-container {
     display: flex;
     align-items: center;
-    width: 600px;
-    height: 6.56rem;
+    // width: 600px;
+    // height: 6.56rem;
     margin-block: 1.8rem;
   }
 
@@ -750,14 +776,16 @@
     padding: 0 1.75rem;
 
     .empty-content {
-      display: flex;
-      flex-direction: column;
-      row-gap: 0.5rem;
-
       .first-text {
         color: var(--secondary-color-200);
-        font-weight: 800;
+        font-family: 'Satoshi';
+        font-weight: 700;
+        text-rendering: optimizelegibility;
+        line-height: 1.5em;
+        letter-spacing: 0.25px;
         margin: 0;
+        margin-bottom: 0.75em; // Si el navegador no soporta lh, se usa em
+        margin-bottom: 0.5lh;
       }
 
       .second-text {
@@ -765,6 +793,7 @@
         display: inline-block;
         font-size: 0.91rem;
         line-height: 20px;
+        max-width: 460px;
 
         a {
           margin-inline-start: 5px;
@@ -787,6 +816,9 @@
   justify-content: center;
 
   .empty-container {
+    width: 600px;
+    height: 6.56rem;
+
     .empty-card-wrapper {
       display: flex;
       align-items: center;
