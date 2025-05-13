@@ -9,7 +9,7 @@ export const AddRepositoryModal: FC<ComponentEventWithOpen> = ({ isOpen, close, 
     headerTitle="Add repository"
     type="med-w"
     close={() => close?.()}
-    isActive={isOpen}>
+    isActive={isOpen ?? false}>
     <div className="content">
       <SourceResourceForm close={close} onDone={onDone}>
         {isLoading => (
