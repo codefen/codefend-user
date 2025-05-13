@@ -27,6 +27,12 @@ interface MobileAppCardProps {
   activeViewCount?: boolean;
 }
 
+function decodeHtml(html: string) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = html;
+  return txt.value;
+}
+
 export const AppCard: FC<MobileAppCardProps> = ({
   isActive,
   type,
@@ -108,9 +114,11 @@ export const AppCard: FC<MobileAppCardProps> = ({
         <div className="app-card-content-img">{<MemoizedRenderImage />}</div>
         <div className="app-card-content-body">
           <div className="app-card-title">
-            <h3 className={`${isDetails ? 'detail' : 'card-resume'}`}>
-              {isMainGoogleNetwork ? 'main google network' : cleanReview(name, true)}
-            </h3>
+            <h3
+              className={`${isDetails ? 'detail' : 'card-resume'}`}
+              dangerouslySetInnerHTML={{
+                __html: isMainGoogleNetwork ? 'main google network' : decodeHtml(name),
+              }}></h3>
             <Show when={isDetails && !isMobileType}>
               <span className="second-text detail">resource id: {id}</span>
             </Show>
