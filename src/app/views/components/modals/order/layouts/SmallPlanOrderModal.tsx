@@ -94,14 +94,14 @@ export const SmallPlanOrderModal = () => {
         </div>
         <div
           className={`pricing-card ${checkedOption === UserSmallPlanSelected.ADVANCED ? 'selected-card' : ''}`}
+          onClick={() => setCheckedOption(UserSmallPlanSelected.ADVANCED)}
           style={{
             backgroundColor: 'white',
             border:
               checkedOption === UserSmallPlanSelected.ADVANCED
                 ? '2px solid var(--secondary-color-50)'
                 : '1px solid var(--primary-color-300)',
-          }}
-          onClick={() => setCheckedOption(UserSmallPlanSelected.ADVANCED)}>
+          }}>
           {/* Price Badge */}
           {/* <div className="pricing-card-header">
             <div className="pricing-circle">
@@ -213,7 +213,7 @@ export const SmallPlanOrderModal = () => {
               </li>
               <li className="price">
                 <span>
-                  Price: <strong>$9 per month</strong>
+                  Price: <strong>$89 per month</strong>
                 </span>
               </li>
             </ul>
@@ -294,8 +294,16 @@ export const SmallPlanOrderModal = () => {
       </div>
       <div className="primary-container paywall">
         <PrimaryButton
-          text="Dame todo tu guita ACA!"
-          className="full"
+          text="Close Asistant"
+          className="flex-2"
+          click={goTo}
+          buttonStyle="gray"
+          disabledLoader
+          isDisabled={checkedOption === UserSmallPlanSelected.NOTHING}
+        />
+        <PrimaryButton
+          text="Proceed"
+          className="flex-1"
           click={goTo}
           buttonStyle="red"
           disabledLoader
