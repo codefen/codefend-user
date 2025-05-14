@@ -74,7 +74,7 @@
 }
 
 .paywall-container {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
 }
 
 .disable-border div {
@@ -1092,7 +1092,7 @@ main.cloud {
           }
 
           &.resource-selected {
-            background: #fff6f6;
+            background: #ffffff;
             border-color: var(--secondary-color-50);
 
             svg {
@@ -1930,12 +1930,19 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 
 ///////MODALES NUEVOS DISEÑOS 2025 /////////////
 
-.paywall-container {
-  background-color: #ffffff; /* Fondo blanco para claridad */
-  border: 1px solid #e0e0e0; /* Borde sutil */
-  padding: 20px; /* Espaciado interno */
-  font-family: 'Questrial', sans-serif; /* Fuente legible */
-  color: #333; /* Color del texto */
+.pricing-image {
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+
+.pricing-card.selected-card .pricing-image,
+.pricing-image:hover {
+  filter: grayscale(0%);
+}
+
+.pricing-card.selected-card .pricing-image,
+.pricing-image:hover {
+  filter: grayscale(0%);
 }
 
 .step-header-maximo {
@@ -1988,4 +1995,24 @@ h3 {
 
 .select-option-maximo {
   background-color: #e0f7fa; /* Fondo destacado para opción seleccionada */
+}
+
+///////// PLAN 3 ///////////////
+
+.step-header-maximo-plan3 {
+  display: flex;
+  align-items: left;
+  justify-content: left; /* Centrar horizontalmente */
+  gap: 5px; /* Espacio reducido entre la imagen y el título */
+
+  h3 {
+    font-size: 1.5rem;
+    color: #3a3a3a;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .small-plan-modal .modal-wrapper .modal {
+    display: none !important;
+  }
 }

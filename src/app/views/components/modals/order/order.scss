@@ -9,7 +9,7 @@
   --option-header-bg: #ffffff;
   --option-header-title: var(--tertiary-color-600);
   --option-header-span: var(--primary-color-200);
-  --order-modal-width: 700px;
+  --order-modal-width: 900px;
 
   width: var(--order-modal-width);
   max-height: 90vh;
@@ -859,7 +859,7 @@
 
     ul {
       li {
-        margin-block: 0.75rem;
+        margin-block: 0.1rem;
         opacity: 0.7;
       }
 
@@ -969,7 +969,7 @@
     .step-content-gird {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
+      gap: 2rem;
       padding-inline: 1rem;
     }
 
@@ -981,7 +981,10 @@
       transition-property: all;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 300ms;
-      background-color: var(--primary-color-500);
+      background-color: #ffffff;
+      border: 1px solid var(--primary-color-300);
+      width: 260px;
+      height: 360px;
 
       &.selected-card {
         outline: 2px solid var(--bg-price);
@@ -1022,20 +1025,20 @@
     }
 
     .pricing-list-items {
-      padding-top: 7.5rem;
+      padding-top: 1rem;
       padding-bottom: 2rem;
       padding-inline: 1rem;
 
       h4 {
-        text-align: center;
+        text-align: left;
         font-weight: bold;
         font-size: 1.125rem;
-        line-height: 1.75rem;
+        line-height: 1rem;
       }
 
       ul {
         font-size: 0.875rem;
-        line-height: 1.25rem;
+        line-height: 1rem;
         margin-bottom: 2rem;
         display: flex;
         flex-direction: column;
