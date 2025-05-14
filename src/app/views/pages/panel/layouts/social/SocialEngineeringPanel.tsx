@@ -10,9 +10,12 @@ import Show from '@/app/views/components/Show/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
-import { socialEmptyScreen } from '@/app/constants/app-texts.ts';
+import { MODAL_KEY_OPEN, socialEmptyScreen } from '@/app/constants/app-texts.ts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
+import AddSocialBlock from '@/app/views/pages/panel/layouts/social/components/AddSocialBlock.tsx';
+import useModalStore from '@stores/modal.store.ts';
+import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal.tsx';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -61,12 +64,14 @@ const SocialEngineeringView = () => {
       dataAvailable={Boolean(members.length)}>
       <CredentialsModal />
       <ModalReport />
+      <AddSocialResourceModal onDone={() => refresh()} />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
       <section className="left">
         <SocialEngineering refetch={refresh} isLoading={isLoading} socials={filteredData} />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <AddSocialBlock isLoading={isLoading} />
         <Show when={members && Boolean(members.length)}>
           <SocialEngineeringMembers
             isLoading={isLoading}

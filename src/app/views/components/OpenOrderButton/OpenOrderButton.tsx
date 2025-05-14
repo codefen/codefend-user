@@ -25,7 +25,7 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.MOBILE]: ({ plan }: any) => (
     <>
       No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
-      <strong>{plan} plan.</strong>
+      <b>{plan} plan.</b>
     </>
   ),
 
@@ -98,7 +98,12 @@ const OpenOrderButton = ({
     }
 
     setPlanText(orderText[type]({ total, plan: planStore, name, downloads }));
-  }, [globalStore.domainCount.get, globalStore.subDomainCount.get, globalStore.selectedApp.get]);
+  }, [
+    globalStore.domainCount.get,
+    globalStore.subDomainCount.get,
+    globalStore.selectedApp.get,
+    globalStore.planPreference.get,
+  ]);
 
   return (
     <div className="card title">

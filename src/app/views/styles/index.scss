@@ -73,6 +73,10 @@
   filter: blur(2rem) drop-shadow(0 0 18px #00000073);
 }
 
+.paywall-container {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
 .disable-border div {
   border-bottom: 0 solid var(--primary-color-300);
 }
@@ -1894,4 +1898,94 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 .app-card-isMobile {
   width: 100%;
   margin-inline: 0;
+}
+
+.content.filters {
+  background-color: white; /* Fondo blanco */
+  padding: 20px; /* Espaciado interno */
+
+  border-radius: 4px; /* Bordes redondeados */
+  margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.check {
+  border-bottom: 1px solid #cccccc71; /* Borde inferior gris claro */
+}
+
+.check .label {
+  display: flex; /* Usar flexbox para alinear el checkbox y el texto */
+  align-items: center; /* Centrar verticalmente */
+}
+
+.check input[type='checkbox'] {
+  margin-right: 10px; /* Espaciado a la derecha del checkbox */
+  cursor: pointer; /* Cambiar cursor al pasar sobre el checkbox */
+}
+
+.sub-title {
+  font-size: 1.1rem;
+  color: #222222;
+  margin-bottom: 5px;
+}
+
+///////MODALES NUEVOS DISEÑOS 2025 /////////////
+
+.paywall-container {
+  background-color: #ffffff; /* Fondo blanco para claridad */
+  border: 1px solid #e0e0e0; /* Borde sutil */
+  padding: 20px; /* Espaciado interno */
+  font-family: 'Questrial', sans-serif; /* Fuente legible */
+  color: #333; /* Color del texto */
+}
+
+.step-header-maximo {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrar horizontalmente */
+  gap: 5px; /* Espacio reducido entre la imagen y el título */
+}
+
+.step-header-maximo img {
+  margin: 0; /* Eliminar margen para centrar mejor */
+}
+h3 {
+  font-size: 1.6rem;
+  color: #000;
+  text-align: center;
+  padding: 1rem;
+}
+
+.step-content {
+  margin-top: 10px; /* Espaciado superior para separación */
+}
+
+.option-maximo {
+  // padding-left: 5px; /* Ajustar el espaciado izquierdo para las opciones */
+  border: none; /* Eliminar todos los bordes */
+  border-bottom: 1px solid #ccc; /* Solo borde inferior para separación */
+  display: flex;
+  align-items: center;
+  column-gap: 2.5rem;
+  padding-block: 17px;
+  padding-inline: 2.5rem;
+  border-top: 1px solid var(--show-border-color);
+  border-bottom: 1px solid #00000000;
+  transition: all 0.13s ease-in;
+  line-height: 1.8;
+
+  .one-pentest {
+    font-size: 0.9rem; /* Tamaño de fuente reducido */
+  }
+
+  margin-bottom: 0; /* Eliminar espaciado inferior para evitar problemas visuales */
+  cursor: pointer; /* Cambiar cursor al pasar sobre la opción */
+  transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+.option-maximo:hover {
+  background-color: #f0f0f0; /* Fondo al pasar el mouse */
+}
+
+.select-option-maximo {
+  background-color: #e0f7fa; /* Fondo destacado para opción seleccionada */
 }

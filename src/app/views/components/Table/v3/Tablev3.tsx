@@ -189,7 +189,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   return (
     <div className="table-group">
       <Show when={isNeedSearchBar}>
-        <div className="table-utils table-search-bar">
+        <div className="table-search-bar">
           <ModalInput
             icon={<MagnifyingGlassIcon />}
             setValue={(val: string) => setTerm(val)}
@@ -257,7 +257,15 @@ const Tablev3: FC<Tablev3Props<any>> = ({
                 <button
                   className={`context-menu-item ${typeof action.disabled === 'function' ? (action.disabled(contextMenu.row) ? 'disabled' : '') : action.disabled ? 'disabled' : ''}`}
                   onClick={() => {
-                    if (!action.disabled) {
+                    if (
+                      typeof action.disabled === 'function'
+                        ? action.disabled(contextMenu.row)
+                          ? false
+                          : true
+                        : action.disabled
+                          ? false
+                          : true
+                    ) {
                       action.onClick(contextMenu.row);
                       closeContextMenu();
                     }

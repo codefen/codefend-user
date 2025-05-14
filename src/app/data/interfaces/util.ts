@@ -57,7 +57,7 @@ export interface ComponentEvent {
 }
 
 export interface ComponentEventWithOpen extends ComponentEvent {
-  isOpen: boolean;
+  isOpen?: boolean;
 }
 
 export interface ComponentEventWithChildren {

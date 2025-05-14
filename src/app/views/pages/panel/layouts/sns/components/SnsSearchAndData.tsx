@@ -93,7 +93,9 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
           className="container-no-results"
           style={{
             background: 'white',
+
             padding: '5rem',
+
             borderRadius: '4px',
             width: '80%',
             boxShadow: '0 4px 30px rgba(189, 189, 189, 0.12)',
@@ -110,14 +112,10 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
               marginBottom: '2rem',
               textAlign: 'center',
               alignItems: 'center',
-            }}>
-            No se encontraron resultados para tu búsqueda
-          </div>
+            }}></div>
           <div
             className="no-results-subtext"
-            style={{ color: '#999', fontSize: '1.1rem', textAlign: 'center' }}>
-            Intenta con otros términos de búsqueda
-          </div>
+            style={{ color: '#999', fontSize: '1.1rem', textAlign: 'center' }}></div>
         </div>
       </div>
     );

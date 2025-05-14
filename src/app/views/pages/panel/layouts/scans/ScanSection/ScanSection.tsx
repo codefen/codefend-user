@@ -163,9 +163,10 @@ export const ScanSection = () => {
         toast.dismiss(toastId);
         const resourceId = data?.resource?.id;
         if (resourceId) {
-          if (data?.company) company.set(data.company);
+          // if (data?.company) company.set(data.company);
           autoScan(resourceId, false).then(result => {
-            if (apiErrorValidation(data)) {
+            console.log('result', result);
+            if (apiErrorValidation(result)) {
               updateState('open', true);
               updateState('orderStepActive', OrderSection.PAYWALL);
               updateState('resourceType', ResourcesTypes.WEB);

@@ -81,14 +81,13 @@ const webColumns: ColumnTableV3[] = [
   },
   {
     header: 'issues',
-    key: TABLE_KEYS.ACTION,
-    type: TABLE_KEYS.FULL_ROW,
+    key: 'final_issues',
     styles: 'item-cell-web-5',
     weight: '11%',
-    render: (row: any) => (
+    render: (final_issues: any) => (
       <>
         <BugIcon />
-        {row?.final_issues || 0}
+        {final_issues || 0}
       </>
     ),
   },
@@ -147,7 +146,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
       disabled: (row: any) => Number(row?.final_issues) < 1,
       icon: <DocumentIcon isButton width={1.27} height={1.27} />,
       onClick: (row: any) => {
-        generateWebReport(row.id, row.final_issues);
+        generateWebReport(row?.id, row?.final_issues);
       },
     },
     {

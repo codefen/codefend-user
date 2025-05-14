@@ -15,6 +15,7 @@ export const useAutoScan = () => {
     'currentScan',
     'scanProgress',
     'scanRetries',
+    'user',
   ]);
   // Setear datos para el scanner
   const {
@@ -38,9 +39,11 @@ export const useAutoScan = () => {
     const formData = new FormData();
     formData.append('model', 'modules/neuroscan/launch');
     formData.append('resource_id', resourceId);
+    const userIdiom = globalStore.user.get?.idiom;
+    formData.append('idiom', userIdiom || 'en');
 
     const result = await streamFetch(formData);
-
+    console.log('result', result);
     if (result) {
       if (result?.neuroscan?.id) {
         setNeuroScanId(result.neuroscan.id);

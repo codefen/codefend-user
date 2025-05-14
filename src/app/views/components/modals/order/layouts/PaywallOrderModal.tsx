@@ -27,17 +27,21 @@ export const PaywallOrderModal = ({ close }: any) => {
   };
   return (
     <div className="paywall-container">
-      <div className="step-header">
-        <h3>¡Has alcanzado un maximo!</h3>
+      <div className="step-header-maximo">
+        <img
+          src="public/codefend/pentest-header-vector.svg"
+          alt="Descripción de la imagen"
+          style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
+        />
+        <h3>You've reached a maximum!</h3>
       </div>
       <p className="padding">
-        Gracias por probar nuestros sistemas, vos o tu empresa <b>han alcanzado un límite</b> y la
-        acción que estás intentando realizar requiere la contratación de alguno de nuestros planes o
-        servicios.
+        Thank you for trying our systems. You or your company have reached a limit, and the action
+        you're trying to perform requires subscribing to one of our plans or services.
       </p>
       <div className="step-content">
         <div
-          className={`option ${checkedOption === UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
+          className={`option-maximo ${checkedOption === UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.NORMAL_ORDER)}>
           <input
             id="normal-order"
@@ -47,7 +51,13 @@ export const PaywallOrderModal = ({ close }: any) => {
             checked={checkedOption === UserPlanSelected.NORMAL_ORDER}
             onChange={() => {}}
           />
-          <div className="codefend-radio"></div>
+          <img
+            src="public/codefend/pentest-header-vector.svg"
+            alt="Normal Order Icon"
+            style={{ width: '50px', height: '50px' }}
+          />
+
+          {/* <div className="codefend-radio"></div> */}
 
           <label htmlFor="scope-resources" className="order-snapshot">
             <div className="top">
@@ -59,8 +69,9 @@ export const PaywallOrderModal = ({ close }: any) => {
             </span>
           </label>
         </div>
+
         <div
-          className={`option ${checkedOption === UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}
+          className={`option-maximo ${checkedOption === UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.ON_DEMAND)}>
           <input
             id="scope-resources"
@@ -70,7 +81,13 @@ export const PaywallOrderModal = ({ close }: any) => {
             checked={checkedOption === UserPlanSelected.ON_DEMAND}
             onChange={() => {}}
           />
-          <div className="codefend-radio"></div>
+          <img
+            src="public/codefend/pentest-header-vector.svg"
+            alt="Normal Order Icon"
+            style={{ width: '50px', height: '50px' }}
+          />
+
+          {/* <div className="codefend-radio"></div> */}
 
           <label htmlFor="scope-resources" className="order-snapshot">
             <div className="top">
@@ -82,8 +99,8 @@ export const PaywallOrderModal = ({ close }: any) => {
             </span>
           </label>
         </div>
-        {/*        <div
-          className={`option ${checkedOption === UserPlanSelected.SMALL_P ? 'select-option' : ''}`}
+        <div
+          className={`option-maximo ${checkedOption === UserPlanSelected.SMALL_P ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.SMALL_P)}>
           <input
             id="scope-resources"
@@ -93,7 +110,12 @@ export const PaywallOrderModal = ({ close }: any) => {
             checked={checkedOption === UserPlanSelected.SMALL_P}
             onChange={() => {}}
           />
-          <div className="codefend-radio"></div>
+          <img
+            src="public/codefend/pentest-header-vector.svg"
+            alt="Normal Order Icon"
+            style={{ width: '50px', height: '50px' }}
+          />
+          {/* <div className="codefend-radio"></div> */}
 
           <label htmlFor="scope-resources" className="order-snapshot">
             <div className="top">
@@ -104,7 +126,7 @@ export const PaywallOrderModal = ({ close }: any) => {
               contrataciones de hackers desde $299 mensuales .
             </span>
           </label>
-        </div> */}
+        </div>
       </div>
       <div className="primary-container paywall">
         <PrimaryButton

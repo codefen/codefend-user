@@ -69,16 +69,18 @@ const IssuesPanel: FC = () => {
           isLoading={isLoading}
           issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
         />
-        <PrimaryButton
-          text="GENERATE REPORT"
-          click={e => {
-            setIsOpen(true);
-            setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
-          }}
-          className="primary-full margin-block"
-          isDisabled={!Boolean(issues.length) && !Boolean(handleIssuesFilter.filteredData.length)}
-          disabledLoader
-        />
+        <div className="card">
+          <PrimaryButton
+            text="GENERATE REPORT"
+            click={e => {
+              setIsOpen(true);
+              setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
+            }}
+            className="primary-full margin-block"
+            isDisabled={!Boolean(issues.length) && !Boolean(handleIssuesFilter.filteredData.length)}
+            disabledLoader
+          />
+        </div>
 
         <VulnerabilityRisk
           isLoading={isLoading}

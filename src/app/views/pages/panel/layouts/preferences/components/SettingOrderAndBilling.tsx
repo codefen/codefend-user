@@ -87,6 +87,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => 
     startPoll(id, referenceNumber);
   };
   const handleOpenScope = (scope: any) => {
+    console.log('scope', scope);
     updateOpen(true);
     updateScope(scope);
     updateViewConfirm(false);
@@ -122,6 +123,7 @@ const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => 
           </span>
           <span
             onClick={() => {
+              console.log('order', order);
               handleOpenScope(JSON.parse(order.resources_scope.trim() || '{}'));
             }}>
             <DocumentTextIcon />

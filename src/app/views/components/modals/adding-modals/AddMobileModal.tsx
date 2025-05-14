@@ -8,7 +8,7 @@ const AddMobileModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) =
   <ModalTitleWrapper
     headerTitle="Add mobile app"
     close={() => close?.()}
-    isActive={isOpen}
+    isActive={isOpen ?? false}
     type="med-w">
     <div className="content">
       <MobileResourceForm close={close} onDone={onDone}>

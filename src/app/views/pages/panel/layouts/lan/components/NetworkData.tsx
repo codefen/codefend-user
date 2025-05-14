@@ -10,11 +10,8 @@ import useModal from '#commonHooks/useModal.ts';
 import type { ColumnTableV3 } from '@interfaces/table.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import AddAccessPointModal from '@modals/adding-modals/AddAccessPointModal.tsx';
-import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal';
 import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, TrashIcon } from '@icons';
-import Show from '@/app/views/components/Show/Show';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
@@ -149,22 +146,6 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
         />
       </ModalTitleWrapper>
 
-      <AddAccessPointModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_NETWORK}
-        onDone={() => {
-          setShowModal(false);
-          refetchInternalNetwork();
-        }}
-        close={() => setShowModal(false)}
-      />
-      <AddSubNetworkModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_NETWORK}
-        onDone={() => {
-          refetchInternalNetwork();
-        }}
-        close={() => setShowModal(false)}
-        internalNetwork={internalNetwork ?? []}
-      />
       <div className="card table">
         <div className="over">
           <div className="header">
@@ -176,22 +157,6 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
                 Network structure
               </h2>
             </div>
-            {/* <div className="actions">
-            <div
-              onClick={() => {
-                setShowModal(!showModal);
-                setShowModalStr(MODAL_KEY_OPEN.ADD_NETWORK);
-              }}>
-              Add access point
-            </div>
-            <div
-              onClick={() => {
-                setShowModal(!showModal);
-                setShowModalStr(MODAL_KEY_OPEN.ADD_SUB_NETWORK);
-              }}>
-              Add network device
-            </div>
-          </div> */}
           </div>
 
           <Tablev3

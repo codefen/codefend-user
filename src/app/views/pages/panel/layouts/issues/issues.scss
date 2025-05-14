@@ -395,21 +395,19 @@ main.issues-list {
   .right {
     padding-block-end: 2rem;
 
-    .card {
-      &.risk-chart {
-        margin-block-end: 1.25rem;
+    // .card {
+    //   &.risk-chart {
+    //     .content {
+    //       flex-direction: column;
 
-        .content {
-          flex-direction: column;
-
-          @media only screen and (min-width: 1825px) {
-            & {
-              flex-direction: row;
-            }
-          }
-        }
-      }
-    }
+    //       @media only screen and (min-width: 1825px) {
+    //         & {
+    //           flex-direction: row;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   @media only screen and (max-width: 600px) {
