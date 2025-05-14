@@ -7,6 +7,7 @@ import {
   useEffect,
   type MouseEvent,
   type ReactNode,
+  useRef,
 } from 'react';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
@@ -71,6 +72,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   contextMenuActions = [],
   emptyInfo = '',
 }) => {
+  const rowRef = useRef<HTMLDivElement | null>(null);
+  const [hasScroll, setHasScroll] = useState(false);
   // Estado para manejar el ordenamiento
   const [sort, setSort] = useState<Sort>(initialSort);
   // Estado para indicar en base a que columna ordena
@@ -163,11 +166,24 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('scroll', handleScroll, true);
+    const el = rowRef.current as HTMLDivElement;
+    let resizeObserver: ResizeObserver | null = null;
+    if (el) {
+      const checkScroll = () => setHasScroll(el.scrollHeight > el.clientHeight);
+      checkScroll(); // inicial
+      // Si el contenido puede cambiar dinámicamente, escucha resize/mutaciones:
+      resizeObserver = new ResizeObserver(checkScroll);
+      resizeObserver.observe(el);
+    }
+
     return () => {
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('scroll', handleScroll, true);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
-  }, [handleClickOutside, handleScroll]);
+  }, [handleClickOutside, handleScroll, rows.length, rowRef.current]);
 
   // Manejador del click en el botón de tres puntos
   const handleThreeDotsClick = useCallback(
@@ -220,7 +236,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
 
         <Show when={showRows} fallback={<PageLoader />}>
-          <div className="rows">
+          <div className={`rows ${hasScroll ? 'rows-with-scroll' : ''}`} ref={rowRef}>
             <TableRowsV3
               columns={columns}
               rows={preProcessedRows}

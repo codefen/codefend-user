@@ -9,7 +9,6 @@
   --option-header-bg: #ffffff;
   --option-header-title: var(--tertiary-color-600);
   --option-header-span: var(--primary-color-200);
-  --order-modal-width: 900px;
 
   width: var(--order-modal-width);
   max-height: 90vh;
@@ -31,6 +30,13 @@
       scale: 1;
       transform: scale(1);
     }
+  }
+
+  .primary-container {
+    max-width: 45%;
+    margin-inline: 0;
+    margin-inline-start: auto !important;
+    justify-content: flex-end;
   }
 
   .blur-while-load {
@@ -804,6 +810,8 @@
 
       .primary-container {
         min-width: 33%;
+        max-width: none;
+        margin-inline: 0 !important;
       }
 
       &.form-buttons {

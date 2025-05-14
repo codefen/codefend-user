@@ -40,15 +40,16 @@ export const PaywallOrderModal = ({ close }: any) => {
         you're trying to perform requires subscribing to one of our plans or services.
       </p>
       <div className="step-content">
-        <div
-          className={`option-maximo ${checkedOption === UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
+        <label
+          htmlFor="one-resources"
+          className={`option-maximo ${checkedOption == UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.NORMAL_ORDER)}>
           <input
-            id="normal-order"
+            id="one-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption === UserPlanSelected.NORMAL_ORDER}
+            checked={checkedOption == UserPlanSelected.NORMAL_ORDER}
             onChange={() => {}}
           />
           <img
@@ -59,26 +60,27 @@ export const PaywallOrderModal = ({ close }: any) => {
 
           {/* <div className="codefend-radio"></div> */}
 
-          <label htmlFor="scope-resources" className="order-snapshot">
+          <div className="order-snapshot">
             <div className="top">
-              <p>Realizar un pentest manual sobre {initialDomain}</p>
+              <p>Perform a manual pentest on {initialDomain}</p>
             </div>
             <span className="one-pentest">
-              Hackers profesionales conduciran extensas pruebas de penetracion durante
-              aproximadamente 3 semanas. Precios desde $1,500{' '}
+              Professional hackers will conduct extensive penetration testing for approximately 3
+              weeks. Prices starting from $1,500{' '}
             </span>
-          </label>
-        </div>
+          </div>
+        </label>
 
-        <div
-          className={`option-maximo ${checkedOption === UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}
+        <label
+          htmlFor="two-resources"
+          className={`option-maximo ${checkedOption == UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.ON_DEMAND)}>
           <input
-            id="scope-resources"
+            id="two-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption === UserPlanSelected.ON_DEMAND}
+            checked={checkedOption == UserPlanSelected.ON_DEMAND}
             onChange={() => {}}
           />
           <img
@@ -89,21 +91,22 @@ export const PaywallOrderModal = ({ close }: any) => {
 
           {/* <div className="codefend-radio"></div> */}
 
-          <label htmlFor="scope-resources" className="order-snapshot">
+          <div className="order-snapshot">
             <div className="top">
-              <p>Necesito añadir o analizar otro recurso</p>
+              <p>I need to add or analyze another resource</p>
             </div>
             <span className="one-pentest">
-              Vuelve a la pantalla de seleccion de recursos para que puedas añadir o seleccionar el
-              recurso que quieras analizar.
+              Return to the resource selection screen so you can add or select the resource you want
+              to analyze.
             </span>
-          </label>
-        </div>
-        <div
+          </div>
+        </label>
+        <label
+          htmlFor="three-resources"
           className={`option-maximo ${checkedOption === UserPlanSelected.SMALL_P ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.SMALL_P)}>
           <input
-            id="scope-resources"
+            id="three-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
@@ -117,16 +120,16 @@ export const PaywallOrderModal = ({ close }: any) => {
           />
           {/* <div className="codefend-radio"></div> */}
 
-          <label htmlFor="scope-resources" className="order-snapshot">
+          <div className="order-snapshot">
             <div className="top">
-              <p>Ver planes más económicos y suscripciones mensuales</p>
+              <p>View more affordable plans and monthly subscriptions</p>
             </div>
             <span className="one-pentest">
-              Codefend dispone de membresis a servicios automaticos desde $29 mensuales y
-              contrataciones de hackers desde $299 mensuales .
+              Codefend offers automatic service memberships starting at $29 monthly and hacker
+              contracts from $299 monthly.
             </span>
-          </label>
-        </div>
+          </div>
+        </label>
       </div>
       <div className="primary-container paywall">
         <PrimaryButton

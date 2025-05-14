@@ -35,7 +35,7 @@ export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.SOCIAL_SCOPE]: 700,
   [OrderSection.ALL_PLANS]: 1030,
   [OrderSection.RECOMMENDED_PLAN]: 700,
-  [OrderSection.SMALL_PLANS]: 700,
+  [OrderSection.SMALL_PLANS]: 900,
   [OrderSection.ARABIC_PLAN]: 700,
   [OrderSection.FREQUENCY]: 700,
   [OrderSection.TEAM_SIZE]: 700,
@@ -109,7 +109,7 @@ export const OrderV2 = () => {
     <ModalWrapper action={close}>
       <div
         className="order-container"
-        style={{ '--order-modal-width22': `${orderSectionMap[orderStepActive]}px` } as any}>
+        style={{ '--order-modal-width': `${orderSectionMap[orderStepActive]}px` } as any}>
         {orderStepActive !== OrderSection.PAYWALL ? (
           <header className="order-header">
             <div className="order-header-title">
