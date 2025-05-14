@@ -63,14 +63,16 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               <div className={`${css['value']} ${css['stat-complete']}`}>
                 {globalStore.currentScan.get?.issues_found}
               </div>
-              <span style={{ color: '#e84f4f' }}>Total finding</span>
+              <span style={{ color: '#e84f4f' }}>Total findings</span>
             </div>
             <div
               className={`${css['finish-vuln-box']} ${!globalStore.isScanning.get ? css['vul-box-complete'] : ''}`}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
                 {globalStore.currentScan.get?.issues_parsed}
               </div>
-              <span>{!globalStore.isScanning.get ? 'Analyzed finding' : 'Analizing finding'}</span>
+              <span>
+                {!globalStore.isScanning.get ? 'Analyzed findings' : 'Analizing findings'}
+              </span>
             </div>
           </div>
           <div className={css['finish-text']}>

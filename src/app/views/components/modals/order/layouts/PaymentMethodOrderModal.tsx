@@ -30,7 +30,7 @@ export const PaymentMethodOrderModal: FC = () => {
         </h3>
       </div>
       <div className="methods">
-        {/* <div
+        <div
           className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}
           onClick={() => setPaymentMethod(OrderPaymentMethod.CARD)}>
           <input
@@ -80,7 +80,7 @@ export const PaymentMethodOrderModal: FC = () => {
               Solana, Monero, and stablecoins like USDC and USDT.
             </span>
           </label>
-        </div> */}
+        </div>
 
         <div
           className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}

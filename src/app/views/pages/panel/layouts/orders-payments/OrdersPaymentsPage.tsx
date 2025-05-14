@@ -7,6 +7,7 @@ import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesSta
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart';
 import { useNewPreference } from '@panelHooks/preference/usePreferenceNew';
+import { ProviderScope } from '@modals/order-scope/OrderScope';
 
 export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
@@ -15,11 +16,12 @@ export const OrdersPaymentsPage = () => {
 
   return (
     <main className={`orders-payments ${showScreen ? 'actived' : ''}`}>
+      <ProviderScope />
       <section className="left">
         <div className="card rectangle">
           <div className="over">
             <img
-              src={'/codefend/coin-payments.png'}
+              src="/codefend/coin-payments.png"
               alt="orders-payments"
               width={200}
               height={200}

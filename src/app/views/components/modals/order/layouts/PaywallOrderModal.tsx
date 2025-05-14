@@ -36,7 +36,7 @@ export const PaywallOrderModal = ({ close }: any) => {
         servicios.
       </p>
       <div className="step-content">
-        {/* <div
+        <div
           className={`option ${checkedOption === UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.NORMAL_ORDER)}>
           <input
@@ -58,7 +58,7 @@ export const PaywallOrderModal = ({ close }: any) => {
               aproximadamente 3 semanas. Precios desde $1,500{' '}
             </span>
           </label>
-        </div> */}
+        </div>
 
         <div
           className={`option ${checkedOption === UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}

@@ -5,7 +5,7 @@ import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { defaultCountries } from '@/app/constants/countries';
 import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
-import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
+import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
@@ -115,7 +115,10 @@ export const NewSignupForm = () => {
     };
     return fetcher('post', { body, requireSession: false, requireJson: false }).then(
       ({ data }: any) => {
-        if (apiErrorValidation(data)) throw new Error('');
+        if (apiErrorValidation(data)) {
+          toast.error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          throw new Error('');
+        }
         setRecommendedUsername(data.recommended_username);
         setLeadReferenceNumber(String(code) || '');
       }
