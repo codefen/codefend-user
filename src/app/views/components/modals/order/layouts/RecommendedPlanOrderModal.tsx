@@ -6,6 +6,7 @@ import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
 import { GlobeWebIcon } from '@icons';
+import { ResourcePlanImage } from '@modals/order/components/ResourcePlanImage';
 
 export const RecommendedPlanOrderModal = () => {
   const { updateState, referenceNumber, orderId, resourceType } = useOrderStore(state => state);
@@ -61,12 +62,7 @@ export const RecommendedPlanOrderModal = () => {
 
       <div className="flex-box">
         <div className="flex-box-column">
-          <img
-            src={`/codefend/${plan.type}-plan.png`}
-            width={90}
-            height={90}
-            alt="recommended-plan"
-          />
+          <ResourcePlanImage plan={plan.type} resourceType={resourceType} />
           <span className="codefend-text-red title-format price">{plan.price}</span>
         </div>
         <ul className="plan-list">

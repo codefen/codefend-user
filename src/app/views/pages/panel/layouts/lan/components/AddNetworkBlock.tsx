@@ -1,6 +1,6 @@
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import { PrimaryButton } from '@buttons/index';
-import { NetworkIcon } from '@icons';
+import { LanIcon } from '@icons';
 import useModalStore from '@stores/modal.store';
 
 export default function AddNetworkBlock() {
@@ -8,7 +8,7 @@ export default function AddNetworkBlock() {
   return (
     <div className="card title">
       <div className="header">
-        <NetworkIcon />
+        <LanIcon />
         <span>Network Infrastructure</span>
       </div>
       <div className="content">

@@ -25,7 +25,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const scanStep = (globalStore.currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
+    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']} action={solved}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={220} />
         <Show when={scanStep != ScanStepType.NonScan} fallback={<PageLoader />}>

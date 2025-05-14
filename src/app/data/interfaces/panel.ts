@@ -51,6 +51,13 @@ export interface CompanyMetrics {
   subDomainCount: number;
   uniqueIpCount: number;
 }
+
+export interface NetworkMetrics {
+  externalIpCount: number;
+  internalIpCount: number;
+  subNetworkCount: number;
+  totalIpCount: number;
+}
 export interface CompanyResource {
   web: string | number;
   mobile: string | number;

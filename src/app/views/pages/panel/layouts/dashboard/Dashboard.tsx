@@ -28,11 +28,12 @@ const Dashboard: React.FC = () => {
 
       <section className="left">
         {!isScanning.get &&
-        (Number(company.get?.disponibles_neuroscan) == 0 || scanNumber.get > 0) ? (
+        Number(company.get?.disponibles_neuroscan) == 0 &&
+        data?.issues?.length > 0 ? (
           <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
         ) : !isLoading ? (
           <DashboardInvoke
-            scanNumber={scanNumber.get}
+            scanNumber={data?.issues?.length || 0}
             disponibles={company.get?.disponibles_neuroscan || 0}
           />
         ) : (

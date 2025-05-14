@@ -119,6 +119,9 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   companies: [],
   scanRetries: MAX_SCAN_RETRIES,
   activeScan: null,
+  internalIpCount: 0,
+  externalIpCount: 0,
+  subNetworkCount: 0,
 };
 
 export const EMPTY_PROVIDER = {

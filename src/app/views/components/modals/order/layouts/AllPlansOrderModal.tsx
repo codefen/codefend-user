@@ -2,6 +2,7 @@ import { AppConstants } from '@/app/constants/app-contanst';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection } from '@interfaces/order';
+import { ResourcePlanImage } from '@modals/order/components/ResourcePlanImage';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
 
@@ -64,12 +65,7 @@ export const AllPlansOrderModal = () => {
               onChange={() => changed(plan.type)}
             />
             <div className="flex-box-column">
-              <img
-                src={`/codefend/${plan.type}-plan.png`}
-                width={70}
-                height={70}
-                alt="recommended-plan"
-              />
+              <ResourcePlanImage plan={plan.type} resourceType={resourceType} />
               <h4>{plan.price}</h4>
             </div>
             <ul className="plan-list">

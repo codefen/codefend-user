@@ -24,14 +24,14 @@ const columns: ColumnTableV3[] = [
   {
     header: 'title',
     key: 'cs_header',
-    styles: 'item-cell-1',
+    styles: 'item-cell-support-1',
     weight: '70%',
     render: (data: any) => data,
   },
   {
     header: 'status',
     key: 'condicion',
-    styles: 'item-cell-2',
+    styles: 'item-cell-support-2',
     weight: '20%',
     render: (data: any) => (
       <span className={`${data === 'open' ? 'codefend-text-red' : ''}`}>{data}</span>
@@ -67,7 +67,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = ({ refresh, tickets
       header: '',
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-3',
+      styles: 'item-cell-support-3',
       weight: '10%',
       render: (data: any) => (
         <div className="publish">

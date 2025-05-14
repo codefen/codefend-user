@@ -414,7 +414,7 @@ main {
     display: flex;
     flex-direction: column;
     flex: 1 1 90%;
-    row-gap: 0.938rem;
+    row-gap: var(--card-space);
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -641,7 +641,7 @@ main.cloud {
     scrollbar-width: none;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-inline-end: 10px;
+    padding-inline-end: var(--card-space);
     scrollbar-gutter: stable;
 
     &::-moz-scrollbar {
@@ -967,7 +967,7 @@ main.cloud {
       flex: 1;
       padding: 20px 0;
       overflow-y: auto;
-      max-height: calc(100vh - 50vh);
+      // max-height: calc(100vh - 50vh);
 
       h4 {
         font-weight: 700;

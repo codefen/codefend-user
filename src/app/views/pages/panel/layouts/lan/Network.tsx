@@ -18,6 +18,7 @@ import { PrimaryButton } from '@buttons/index';
 import AddNetworkBlock from '@/app/views/pages/panel/layouts/lan/components/AddNetworkBlock.tsx';
 import { AddAccessPointModal } from '@modals/index.ts';
 import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx';
+import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -54,6 +55,7 @@ const NetworkPage: FC = () => {
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
           <AddNetworkBlock />
+          <NetworkStatics networkResources={networks} />
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}

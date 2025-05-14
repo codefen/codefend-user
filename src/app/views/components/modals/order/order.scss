@@ -33,6 +33,26 @@
     }
   }
 
+  .plan-images {
+    position: relative;
+
+    .plan-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border: 3px solid white;
+      background-color: var(--secondary-color-200);
+      border-radius: 100%;
+      padding: 4px;
+
+      svg {
+        color: white;
+        width: 1.3em;
+        height: 1.3em;
+      }
+    }
+  }
+
   .blur-while-load {
     filter: blur(6px);
   }
@@ -897,6 +917,7 @@
 
         img {
           filter: grayscale(1);
+          transition: all 0.11s ease-in;
 
           &.smoth {
             filter: grayscale(1) saturate(0.2);
@@ -910,25 +931,36 @@
 
         h4 {
           font-size: 1.25rem;
+          transition: all 0.11s ease-in;
         }
 
         p {
           letter-spacing: 0.2px;
           line-height: 1.5rem;
         }
+        .plan-icon {
+          filter: grayscale(1);
+        }
 
         &:has(input[type='radio']:checked) {
           border: 1px solid rgb(254 78 78 / 33.3%);
           background-color: rgb(255 19 19 / 1.96%);
           box-shadow: 0 0 8px rgb(0 0 0 / 14.5%);
+          transition: all 0.11s ease-in;
 
           h4 {
+            transition: all 0.11s ease-in;
             color: #ff6464;
           }
 
           img {
             filter: none;
             opacity: 1;
+          }
+
+          .plan-icon {
+            transition: all 0.11s ease-in;
+            filter: none;
           }
         }
         &:hover {
@@ -937,11 +969,17 @@
 
           h4 {
             color: #ff6464;
+            transition: all 0.11s ease-in;
           }
 
           img {
+            transition: all 0.11s ease-in;
             filter: none;
             opacity: 1;
+          }
+          .plan-icon {
+            transition: all 0.11s ease-in;
+            filter: none;
           }
         }
       }

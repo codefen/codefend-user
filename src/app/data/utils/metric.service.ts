@@ -1,5 +1,11 @@
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
-import { type CompanyMetrics, type MemberV2, type User, type Webresource } from '..';
+import {
+  type CompanyMetrics,
+  type MemberV2,
+  type NetworkMetrics,
+  type User,
+  type Webresource,
+} from '..';
 
 /** Compute InternalNetwork OS And Count */
 const computeInternalNetworkOSAndCount = (internalNetwork: any) => {
@@ -198,6 +204,42 @@ export const getCompanyAllMetrics = (resources: Webresource[]): CompanyMetrics =
   };
 };
 
+export const getNetworkMetrics = (resources: any[]): NetworkMetrics => {
+  if (!resources || !Array.isArray(resources)) {
+    return {
+      subNetworkCount: 0,
+      internalIpCount: 0,
+      externalIpCount: 0,
+      totalIpCount: 0,
+    };
+  }
+
+  // Reunimos todos los recursos y subredes
+  const allSubNetworks = resources.flatMap(resource => resource.childs ?? []);
+  const allResources = [...resources, ...allSubNetworks];
+
+  // IPs únicas (se puede adaptar a case-insensitive o sin espacios si hiciera falta)
+  const uniqueInternalIps = allResources.filter(
+    (res, index, arr) =>
+      res.device_in_address &&
+      arr.findIndex(r => r.device_in_address === res.device_in_address) === index
+  );
+
+  const uniqueExternalIps = allResources.filter(
+    (res, index, arr) =>
+      res.device_ex_address &&
+      arr.findIndex(r => r.device_ex_address === res.device_ex_address) === index
+  );
+  const in_ip_count = uniqueInternalIps.length;
+  const ex_ip_count = uniqueExternalIps.length;
+  return {
+    subNetworkCount: allSubNetworks.length,
+    internalIpCount: in_ip_count,
+    externalIpCount: ex_ip_count,
+    totalIpCount: in_ip_count + ex_ip_count,
+  };
+};
+
 export const MetricsService = {
   isUserChat,
   computeMemberRolesCount,
@@ -207,4 +249,5 @@ export const MetricsService = {
   getCompanyMetric,
   getCountryMetrics,
   getCompanyAllMetrics,
+  getNetworkMetrics,
 };

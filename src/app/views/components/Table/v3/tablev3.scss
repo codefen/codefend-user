@@ -108,7 +108,7 @@
     display: flex;
     height: 40px;
     align-items: center;
-    font-family: 'ITC Avant Garde', Questrial;
+    font-family: Questrial;
     font-size: 16px;
     color: var(--tertiary-color-400);
     font-weight: 700;
@@ -174,15 +174,15 @@
     // padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-400);
-    font-family: 'ITC Avant Garde', Questrial;
+    font-family: Questrial;
     font-size: 14px;
 
-    div {
-      flex: 1;
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
+    // div {
+    //   flex: 1;
+    //   height: 100%;
+    //   display: flex;
+    //   align-items: center;
+    // }
 
     &.item-with-out-action {
       cursor: default !important;

@@ -52,6 +52,9 @@ export type GlobalStore = {
   domainCount: number;
   subDomainCount: number;
   uniqueIpCount: number;
+  internalIpCount: number;
+  externalIpCount: number;
+  subNetworkCount: number;
   planPreference: 'small' | 'medium' | 'advanced';
   mobilePlanPreference: 'small' | 'medium' | 'advanced';
   isDefaultPlan: boolean;
@@ -101,6 +104,9 @@ export const initialGlobalState: GlobalStore = {
   companies: persistedState?.companies ?? [],
   scanRetries: persistedState?.scanRetries ?? MAX_SCAN_RETRIES,
   activeScan: persistedState?.activeScan ?? null,
+  internalIpCount: persistedState?.internalIpCount ?? 0,
+  externalIpCount: persistedState?.externalIpCount ?? 0,
+  subNetworkCount: persistedState?.subNetworkCount ?? 0,
 };
 
 const {
