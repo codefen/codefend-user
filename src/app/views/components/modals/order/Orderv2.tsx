@@ -110,7 +110,8 @@ export const OrderV2 = () => {
       <div
         className="order-container"
         style={{ '--order-modal-width': `${orderSectionMap[orderStepActive]}px` } as any}>
-        {orderStepActive !== OrderSection.PAYWALL ? (
+        {orderStepActive !== OrderSection.PAYWALL &&
+        orderStepActive !== OrderSection.SMALL_PLANS ? (
           <header className="order-header">
             <div className="order-header-title">
               <img

@@ -24,6 +24,7 @@ export const ActiveProgressiveSteps: FC<ActiveProgressiveStepsProps> = ({ orderS
           OrderSection.MOBILE_SCOPE,
           OrderSection.NETWORK_SCOPE,
           OrderSection.SOCIAL_SCOPE,
+          OrderSection.SMALL_PLANS,
         ])}
       />
       <StepItem
