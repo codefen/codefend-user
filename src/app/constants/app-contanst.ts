@@ -10,10 +10,10 @@ export enum ButtonStyles {
   DARK_BLACK = 'dark-black',
 }
 
-const PLAN_IMAGE = {
-  small: 'public/codefend/plan small segunda opcion.svg',
-  medium: 'public/codefend/Plan medio segunda opcion.svg',
-  advanced: 'public/codefend/Plan premium.svg',
+export const PLAN_IMAGE = {
+  small: '/codefend/plan small segunda opcion.svg',
+  medium: '/codefend/Plan medio segunda opcion.svg',
+  advanced: '/codefend/Plan premium.svg',
 };
 
 export class AppConstants {

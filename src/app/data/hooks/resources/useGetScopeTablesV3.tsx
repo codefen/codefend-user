@@ -3,6 +3,8 @@ import type { ColumnTableV3 } from '@interfaces/table';
 import { memberColumnWithIssue, memberColumnWithoutContact, roleMap } from '@mocks/defaultData';
 import {
   cloudScopeColumnsV3,
+  memberScopeColumnsWithIssueV3,
+  memberScopeColumnsWithoutContactV3,
   mobileScopeColumnsV3,
   networkScopeColumnsV3,
   networkScopeWithIssueColumnsV3,
@@ -39,10 +41,7 @@ export const useGetScopeTablesV3 = (useInIssueReport?: boolean, useResumeSocial?
         })),
       }));
 
-      columns = (useInIssueReport ? webScopeColumnsWithCountV3 : webScopeColumnsV3).map(col => ({
-        ...col,
-        render: (data: any) => col.render(data, useInIssueReport),
-      }));
+      columns = useInIssueReport ? webScopeColumnsWithCountV3 : webScopeColumnsV3;
     }
 
     if (scopeALias === RESOURCE_CLASS_ALIAS.MOBILE) {
@@ -87,15 +86,9 @@ export const useGetScopeTablesV3 = (useInIssueReport?: boolean, useResumeSocial?
         ...(useInIssueReport && { issue: res.final_issues }),
       }));
 
-      columns = (useInIssueReport ? memberColumnWithIssue : memberColumnWithoutContact).map(
-        col => ({
-          header: col.name,
-          key: col.value,
-          styles: col.style,
-          weight: '1',
-          render: (data: any) => <div className={col.style}>{data}</div>,
-        })
-      );
+      columns = useInIssueReport
+        ? memberScopeColumnsWithIssueV3
+        : memberScopeColumnsWithoutContactV3;
     }
 
     if (scopeALias === RESOURCE_CLASS_ALIAS.SOURCE) {
@@ -125,12 +118,7 @@ export const useGetScopeTablesV3 = (useInIssueReport?: boolean, useResumeSocial?
         })),
       }));
 
-      columns = (useInIssueReport ? networkScopeWithIssueColumnsV3 : networkScopeColumnsV3).map(
-        col => ({
-          ...col,
-          render: (data: any) => col.render(data, useInIssueReport),
-        })
-      );
+      columns = useInIssueReport ? networkScopeWithIssueColumnsV3 : networkScopeColumnsV3;
     }
 
     return { rows, columns };

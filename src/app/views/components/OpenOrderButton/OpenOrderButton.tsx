@@ -33,12 +33,12 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.CODE]: () => <></>,
   [ResourcesTypes.NETWORK]: ({ plan }: any) => (
     <>
-      For your network resources, we recommend a <strong>{plan}</strong> plan
+      For your network resources, we recommend a <b>{plan} plan.</b>
     </>
   ),
   [ResourcesTypes.SOCIAL]: ({ plan }: any) => (
     <>
-      For social resources, <strong>{plan}</strong>
+      For social resources, <b>{plan} plan.</b>
     </>
   ),
 };
