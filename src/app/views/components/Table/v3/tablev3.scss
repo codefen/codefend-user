@@ -251,6 +251,9 @@
     }
   }
 
+  &:has(.rows-with-scroll) .item {
+    padding-inline-end: 6px;
+  }
   .item-cell {
     position: relative;
     overflow: hidden;
@@ -398,6 +401,10 @@
     .item,
     .columns-name {
       padding-inline-end: 40px;
+    }
+
+    &:has(.rows-with-scroll) .item {
+      padding-inline-end: 26px;
     }
   }
 }

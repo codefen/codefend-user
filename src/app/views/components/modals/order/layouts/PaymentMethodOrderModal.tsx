@@ -24,10 +24,7 @@ export const PaymentMethodOrderModal: FC = () => {
   return (
     <div className="step-content payment">
       <div className="step-header">
-        <h3>
-          <GlobeWebIcon />
-          <b>Great!</b> Please select your payment method:
-        </h3>
+        <h3>Great! Please select your payment method:</h3>
       </div>
       <div className="methods">
         <div

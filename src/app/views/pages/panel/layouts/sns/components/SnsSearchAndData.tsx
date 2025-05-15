@@ -70,7 +70,9 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: '60cqh',
+            height: '60vh',
+            flexDirection: 'column',
+            gap: '1rem',
           }}>
           <div>
             <SnsCardTitle arrow="down" />
@@ -85,39 +87,12 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '60cqh',
+          height: '60vh',
           flexDirection: 'column',
           gap: '1rem',
         }}>
-        <div
-          className="container-no-results"
-          style={{
-            background: 'white',
-            padding: '3rem',
-            borderRadius: '4px',
-            width: '80%',
-            boxShadow: '0 4px 30px rgba(189, 189, 189, 0.12)',
-          }}>
-          <div className="no-results-icon">
-            <i className="fas fa-search" style={{ fontSize: '2rem', color: '#666' }}></i>
-          </div>
-          <div
-            className="no-results-text"
-            style={{
-              color: '#282828',
-              fontWeight: '600',
-              fontSize: '1.3rem',
-              marginBottom: '2rem',
-              textAlign: 'center',
-              alignItems: 'center',
-            }}>
-            No results were found for your search.
-          </div>
-          <div
-            className="no-results-subtext"
-            style={{ color: '#999', fontSize: '1.1rem', textAlign: 'center' }}>
-            Please try searching with different terms.
-          </div>
+        <div className="no-results-text" style={{}}>
+          <p>No results found. Please try a different search.</p>
         </div>
       </div>
     );

@@ -27,85 +27,109 @@ export const PaywallOrderModal = ({ close }: any) => {
   };
   return (
     <div className="paywall-container">
-      <div className="step-header">
-        <h3>¡Has alcanzado un maximo!</h3>
+      <div className="step-header-maximo">
+        <img
+          src="public/codefend/pentest-header-vector.svg"
+          alt="Descripción de la imagen"
+          style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
+        />
+        <h3>You've reached a maximum!</h3>
       </div>
       <p className="padding">
-        Gracias por probar nuestros sistemas, vos o tu empresa <b>han alcanzado un límite</b> y la
-        acción que estás intentando realizar requiere la contratación de alguno de nuestros planes o
-        servicios.
+        Thank you for trying our systems. You or your company have reached a limit, and the action
+        you're trying to perform requires subscribing to one of our plans or services.
       </p>
       <div className="step-content">
-        <div
-          className={`option ${checkedOption === UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
+        <label
+          htmlFor="one-resources"
+          className={`option-maximo ${checkedOption == UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.NORMAL_ORDER)}>
           <input
-            id="normal-order"
+            id="one-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption === UserPlanSelected.NORMAL_ORDER}
+            checked={checkedOption == UserPlanSelected.NORMAL_ORDER}
             onChange={() => {}}
           />
-          <div className="codefend-radio"></div>
+          <img
+            src="public/codefend/pentest-header-vector.svg"
+            alt="Normal Order Icon"
+            style={{ width: '50px', height: '50px' }}
+          />
 
-          <label htmlFor="scope-resources" className="order-snapshot">
+          {/* <div className="codefend-radio"></div> */}
+
+          <div className="order-snapshot">
             <div className="top">
-              <p>Realizar un pentest manual sobre {initialDomain}</p>
+              <p>Perform a manual pentest on {initialDomain}</p>
             </div>
             <span className="one-pentest">
-              Hackers profesionales conduciran extensas pruebas de penetracion durante
-              aproximadamente 3 semanas. Precios desde $1,500{' '}
+              Professional hackers will conduct extensive penetration testing for approximately 3
+              weeks. Prices starting from $1,500{' '}
             </span>
-          </label>
-        </div>
+          </div>
+        </label>
 
-        <div
-          className={`option ${checkedOption === UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}
+        <label
+          htmlFor="two-resources"
+          className={`option-maximo ${checkedOption == UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.ON_DEMAND)}>
           <input
-            id="scope-resources"
+            id="two-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption === UserPlanSelected.ON_DEMAND}
+            checked={checkedOption == UserPlanSelected.ON_DEMAND}
             onChange={() => {}}
           />
-          <div className="codefend-radio"></div>
+          <img
+            src="public/codefend/pentest-header-vector.svg"
+            alt="Normal Order Icon"
+            style={{ width: '50px', height: '50px' }}
+          />
 
-          <label htmlFor="scope-resources" className="order-snapshot">
+          {/* <div className="codefend-radio"></div> */}
+
+          <div className="order-snapshot">
             <div className="top">
-              <p>Necesito añadir o analizar otro recurso</p>
+              <p>I need to add or analyze another resource</p>
             </div>
             <span className="one-pentest">
-              Vuelve a la pantalla de seleccion de recursos para que puedas añadir o seleccionar el
-              recurso que quieras analizar.
+              Return to the resource selection screen so you can add or select the resource you want
+              to analyze.
             </span>
-          </label>
-        </div>
-        {/*        <div
-          className={`option ${checkedOption === UserPlanSelected.SMALL_P ? 'select-option' : ''}`}
+          </div>
+        </label>
+        <label
+          htmlFor="three-resources"
+          className={`option-maximo ${checkedOption === UserPlanSelected.SMALL_P ? 'select-option' : ''}`}
           onClick={() => setCheckedOption(UserPlanSelected.SMALL_P)}>
           <input
-            id="scope-resources"
+            id="three-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
             checked={checkedOption === UserPlanSelected.SMALL_P}
             onChange={() => {}}
           />
-          <div className="codefend-radio"></div>
+          <img
+            src="public/codefend/pentest-header-vector.svg"
+            alt="Normal Order Icon"
+            style={{ width: '50px', height: '50px' }}
+          />
+          {/* <div className="codefend-radio"></div> */}
 
-          <label htmlFor="scope-resources" className="order-snapshot">
+          <div className="order-snapshot">
             <div className="top">
-              <p>Ver planes más económicos y suscripciones mensuales</p>
+              <p>View more affordable plans and monthly subscriptions</p>
             </div>
             <span className="one-pentest">
-              Codefend dispone de membresis a servicios automaticos desde $29 mensuales y
-              contrataciones de hackers desde $299 mensuales .
+              Codefend offers automatic service memberships starting at $29 monthly and hacker
+              contracts from $299 monthly.
             </span>
-          </label>
-        </div> */}
+          </div>
+        </label>
       </div>
       <div className="primary-container paywall">
         <PrimaryButton
