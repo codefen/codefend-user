@@ -19,7 +19,12 @@ export const SmallPlanOrderModal = () => {
   return (
     <div className="paywall-container">
       <div className="step-header-maximo-plan3">
-        <img src="" alt="" />
+        <img
+          src="public/codefend/estrellitas.png"
+          className="small-image"
+          alt="Description of image"
+          style={{ width: '50px', height: 'auto', margin: '0.5rem', display: 'block' }}
+        />
         <h3>Automated Plan for Small Businesses</h3>
       </div>
       <p className="padding">
@@ -295,7 +300,7 @@ export const SmallPlanOrderModal = () => {
       <div className="primary-container paywall">
         <PrimaryButton
           text="Close Asistant"
-          className="flex-2"
+          className="flex-1"
           click={goTo}
           buttonStyle="gray"
           disabledLoader

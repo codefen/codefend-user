@@ -155,7 +155,7 @@
     .step-header {
       font-size: 14px;
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       flex-direction: column;
       width: 100%;
       max-width: 100%;
@@ -178,7 +178,7 @@
       }
 
       h3 {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         font-weight: bold;
         white-space: break-spaces;
         color: var(--option-header-title);
@@ -223,7 +223,7 @@
 
     .step-content {
       flex: 1;
-      padding: 20px 0;
+      padding: 0px 0;
       margin-bottom: 10px;
       overflow-y: auto;
 
@@ -313,7 +313,7 @@
         resize: none;
         outline: none;
         background: transparent;
-        line-height: 1.5rem;
+        // line-height: 1.5rem;
         width: 100%;
 
         &::placeholder {
@@ -978,7 +978,7 @@
     .step-content-gird {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 2rem;
+      // gap: 2rem;
       padding-inline: 1rem;
     }
 

@@ -170,7 +170,14 @@
 .flex-box {
   display: flex;
   align-items: center;
-  gap: var(--card-space);
+  gap: 1rem;
+}
+
+.flex-box-row {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-left: 7rem;
 }
 
 .flex-box-wrap {
@@ -2001,9 +2008,17 @@ h3 {
 
 .step-header-maximo-plan3 {
   display: flex;
-  align-items: left;
-  justify-content: left; /* Centrar horizontalmente */
-  gap: 5px; /* Espacio reducido entre la imagen y el título */
+  align-items: center; /* Changed from left to center */
+  justify-content: flex-start; /* Changed from left to flex-start */
+
+  .small-image {
+    width: 50px;
+    height: auto;
+    margin: 0.5rem; /* Adjusted margin for better alignment */
+    display: block;
+    margin-left: 150px !important;
+    margin-top: 15px !important;
+  }
 
   h3 {
     font-size: 1.5rem;

@@ -50,7 +50,7 @@ export const RecommendedPlanOrderModal = () => {
     <div className="step-content plan">
       <div className="step-header">
         <h3>
-          <GlobeWebIcon />
+          {/* <GlobeWebIcon /> */}
           {isDefaultPlan.get ? 'Recommended plan' : 'Selected plan'}: {plan.promise}
         </h3>
         <p>
@@ -59,11 +59,11 @@ export const RecommendedPlanOrderModal = () => {
         </p>
       </div>
 
-      <div className="flex-box">
+      <div className="flex-box-row">
         <div className="flex-box-column">
           <img
-            src={`/codefend/${plan.type}-plan.png`}
-            width={90}
+            src={'public/codefend/Plan premium opcion 2.svg'}
+            style={{ marginRight: '10px' }}
             height={90}
             alt="recommended-plan"
           />
