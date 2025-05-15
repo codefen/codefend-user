@@ -34,7 +34,7 @@ export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.NETWORK_SCOPE]: 700,
   [OrderSection.SOCIAL_SCOPE]: 700,
   [OrderSection.ALL_PLANS]: 1030,
-  // [OrderSection.RECOMMENDED_PLAN]: 700,
+  [OrderSection.RECOMMENDED_PLAN]: 700,
   [OrderSection.SMALL_PLANS]: 900,
   [OrderSection.ARABIC_PLAN]: 700,
   [OrderSection.FREQUENCY]: 700,

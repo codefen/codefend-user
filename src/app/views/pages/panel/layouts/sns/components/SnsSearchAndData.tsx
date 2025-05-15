@@ -11,7 +11,6 @@ import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/componen
 import { IntelCard } from '@/app/views/pages/panel/layouts/sns/components/IntelCard';
 import { useLeakedData } from '@moduleHooks/sns/useLeakedData';
 import type { SearchOptions } from '@interfaces/snsTypes';
-import type { p } from 'node_modules/react-router/dist/development/route-data-DuV3tXo2.d.mts';
 
 const SEARCH_OPTIONS: SearchOptions = {
   _domain: 'domain',
