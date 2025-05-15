@@ -76,7 +76,7 @@ const IssuesPanel: FC = () => {
               setIsOpen(true);
               setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
             }}
-            className="primary-full margin-block"
+            className="full margin-block"
             isDisabled={!Boolean(issues.length) && !Boolean(handleIssuesFilter.filteredData.length)}
             disabledLoader
           />

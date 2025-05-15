@@ -67,6 +67,7 @@
 }
 
 .table {
+  width: 100%;
   border-collapse: collapse;
   transition-property: border-image, border;
   transition-duration: 325ms;
@@ -139,6 +140,17 @@
     border-block-end: 1px solid;
     border-top: none;
 
+    div {
+      flex: 1;
+      cursor: pointer;
+      letter-spacing: 0.4px;
+      word-spacing: 1px;
+      .sort {
+        padding-inline-start: 5px;
+        font-size: 15px;
+      }
+    }
+
     .column {
       color: inherit;
       transition-property: color;
@@ -170,18 +182,18 @@
     align-items: center;
     height: 3rem;
 
-    // padding: 0 20px;
+    padding-inline: 20px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-400);
     font-family: Questrial;
     font-size: 14px;
 
-    // div {
-    //   flex: 1;
-    //   height: 100%;
-    //   display: flex;
-    //   align-items: center;
-    // }
+    div {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
 
     &.item-with-out-action {
       cursor: default !important;
@@ -405,6 +417,28 @@
     &:has(.rows-with-scroll) .item {
       padding-inline-end: 26px;
     }
+  }
+
+  .score-value {
+    margin-block-start: 0.5rem;
+  }
+  .dash-between-val-ball {
+    margin-inline-end: 0.25rem;
+  }
+  .score-ball {
+    width: 0.6rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    margin-block-start: 0.5rem;
+    margin-inline: 0.12rem;
+  }
+
+  .confirmed {
+    color: #65d52e;
+  }
+
+  .unconfirmed {
+    color: var(--secondary-color-150);
   }
 }
 
