@@ -114,10 +114,10 @@ main.dashboard {
 
       &.risk-chart {
         .content {
-          padding: 12px;
+          padding: var(--card-space);
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: var(--card-space);
         }
       }
     }

@@ -44,12 +44,12 @@ const ResellerCompaniesLayout = () => {
       <section className="left">
         <ResellerHeader />
         <div className="reseller-tables table-companies">
-          <SimpleSectionWithTable
+          {/* <SimpleSectionWithTable
             title="Listing all companies"
             columns={resellerCompanyColumns}
             rows={rows}
             isLoading={isLoading}
-          />
+          /> */}
         </div>
       </section>
       <section className="right">

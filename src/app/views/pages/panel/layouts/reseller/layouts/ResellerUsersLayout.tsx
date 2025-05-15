@@ -42,12 +42,12 @@ const ResellerUsersLayout = () => {
       <section className="left">
         <ResellerHeader />
         <div className="reseller-tables table-users">
-          <SimpleSectionWithTable
+          {/* <SimpleSectionWithTable
             title="Listing all users created"
             columns={resellerUserActiveColumns}
             rows={rows}
             isLoading={isLoading}
-          />
+          /> */}
         </div>
       </section>
       <section className="right">

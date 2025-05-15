@@ -1,6 +1,4 @@
 import type { FC } from 'react';
-import { TableV2 } from '../..';
-import { useGetScopeTables } from '@resourcesHooks/useGetScopeTables';
 import { useCopyToClipboard } from '#commonHooks/useCopyToClipboard';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
