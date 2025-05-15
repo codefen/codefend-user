@@ -593,6 +593,9 @@
   &.cloud-apps {
     background-color: transparent;
   }
+  &.only-button {
+    overflow: hidden;
+  }
 
   &.remaining-searches {
     background: #a7a7a7;

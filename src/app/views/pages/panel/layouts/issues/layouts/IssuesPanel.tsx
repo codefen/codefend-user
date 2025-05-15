@@ -69,7 +69,7 @@ const IssuesPanel: FC = () => {
           isLoading={isLoading}
           issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
         />
-        <div className="card">
+        <div className="card only-button">
           <PrimaryButton
             text="GENERATE REPORT"
             click={e => {
