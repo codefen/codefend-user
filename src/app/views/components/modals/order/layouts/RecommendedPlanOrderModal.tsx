@@ -51,7 +51,7 @@ export const RecommendedPlanOrderModal = () => {
     <div className="step-content plan">
       <div className="step-header">
         <h3>
-          <GlobeWebIcon />
+          {/* <GlobeWebIcon /> */}
           {isDefaultPlan.get ? 'Recommended plan' : 'Selected plan'}: {plan.promise}
         </h3>
         <p>
@@ -60,7 +60,7 @@ export const RecommendedPlanOrderModal = () => {
         </p>
       </div>
 
-      <div className="flex-box">
+      <div className="flex-box-row">
         <div className="flex-box-column">
           <ResourcePlanImage plan={plan.type} resourceType={resourceType} />
           <span className="codefend-text-red title-format price">{plan.price}</span>
