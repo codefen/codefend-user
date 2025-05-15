@@ -2,14 +2,23 @@ import { type FC } from 'react';
 import { type ResourceScope, webResourcesWithoutActions } from '../../../../../data';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import { TableWithoutActions } from '@table/TableWithoutActions';
+import { flattenRows } from '@utils/sort.service';
+import TextChild from '@/app/views/components/utils/TextChild';
 
 export const WebResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoading }) => {
   const scopeDataTable = resources
-    ? resources.map((mainNetwork: any, i: number) => ({
+    ? flattenRows(resources, 0).map((mainNetwork: any, i: number) => ({
         ID: { value: '', style: '' },
         Identifier: { value: mainNetwork.id, style: 'id' },
         domainName: {
-          value: mainNetwork.resource_domain,
+          value: !mainNetwork?.resource_domain_dad ? (
+            mainNetwork.resource_domain
+          ) : (
+            <TextChild
+              subNetwork={mainNetwork.resource_domain}
+              isLast={!mainNetwork.resource_domain_dad}
+            />
+          ),
           style: 'domain-name',
         },
         mainServer: {
@@ -25,32 +34,6 @@ export const WebResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoadin
             />
           ),
           style: 'location',
-        },
-        childs: {
-          value: (
-            <>
-              {mainNetwork?.childs?.map?.((subNetwork: any, i: number) => (
-                <div key={'child-' + subNetwork.id} className="item">
-                  <div className="id">{subNetwork.id}</div>
-                  <div className="domain-name lined">
-                    <span className="sub-domain-icon-v"></span>
-                    <span className="sub-domain-icon-h"></span>
-                    <span className="sub-resource-domain">{subNetwork.resource_domain}</span>
-                  </div>
-
-                  <div className="server-ip">{subNetwork.main_server}</div>
-                  <div className="location">
-                    <LocationItem
-                      key={subNetwork.id + i + '-lc'}
-                      country={subNetwork.server_pais}
-                      countryCode={subNetwork.server_pais_code}
-                    />
-                  </div>
-                </div>
-              ))}
-            </>
-          ),
-          style: '',
         },
       }))
     : [];

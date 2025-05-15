@@ -442,6 +442,12 @@
   }
 
   &.without-actions {
+    .item:last-child:has(.item-cell-web-1) {
+      .sub-domain-icon-v {
+        height: 50%;
+      }
+    }
+
     .item-cell-report-1 {
       --cell-expand: 53%;
       white-space: pre-line;

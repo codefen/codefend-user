@@ -1,7 +1,15 @@
 import { useNavigate } from 'react-router';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
-import { TrashIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
+import {
+  TrashIcon,
+  BugIcon,
+  DocumentIcon,
+  CredentialIcon,
+  PlusIcon,
+  CubeIcon,
+  CodefendIcon,
+} from '@icons';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
@@ -10,6 +18,12 @@ import Tablev3 from '@table/v3/Tablev3';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
+import { toast } from 'react-toastify';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { useOrderStore } from '@stores/orders.store';
+import { apiErrorValidation } from '@/app/constants/validations';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
 
 interface WebResourcesProps {
   webResources: Webresource[];
@@ -73,16 +87,15 @@ const webColumns: ColumnTableV3[] = [
 
 export const WebApplicationResources = ({ isLoading, webResources }: WebResourcesProps) => {
   const navigate = useNavigate();
-  const { isAdmin, isProvider } = useUserRole();
+  const { isAdmin, isProvider, idiom } = useUserRole();
   const userHaveAccess = isAdmin() || isProvider();
-  const { resourceType, openModal, resourceID, webResourceSelected } = useGlobalFastFields([
-    'resourceType',
-    'openModal',
-    'resourceID',
-    'webResourceSelected',
-  ]);
+  const { resourceType, openModal, resourceID, webResourceSelected, company } = useGlobalFastFields(
+    ['resourceType', 'openModal', 'resourceID', 'webResourceSelected', 'company']
+  );
   const { setCredentialType, setResourceId } = useCredentialStore();
-  const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
+  const { setIsOpen, setModalId } = useModalStore();
+  const { autoScan } = useAutoScan();
+  const { updateState } = useOrderStore();
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -118,10 +131,28 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
       },
     },
     {
-      label: 'Credentials',
-      icon: <CredentialIcon width="1.3rem" height="1.3rem" />,
+      label: 'Launch AI Scan',
+      icon: (
+        <img
+          src="public/codefend/pentest-header-vector.svg"
+          alt="Normal Order Icon"
+          style={{ width: '1.3em', height: '1.3em' }}
+        />
+      ),
       onClick: (row: any) => {
-        addCreds(row.id);
+        autoScan(row.id, true, idiom).then(result => {
+          if (apiErrorValidation(result)) {
+            updateState('open', true);
+            updateState('orderStepActive', OrderSection.PAYWALL);
+            updateState('resourceType', ResourcesTypes.WEB);
+            return;
+          }
+          if (result?.neuroscan?.id) {
+            toast.success(APP_MESSAGE_TOAST.START_SCAN);
+            setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+            setIsOpen(true);
+          }
+        });
       },
     },
     {
@@ -143,12 +174,19 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
     },
     {
       label: 'Add subdomain',
-      icon: '+',
+      icon: <PlusIcon />,
       disabled: (row: any) => !!row?.resource_domain_dad,
       onClick: (row: any) => {
         webResourceSelected.set(row);
         setIsOpen(true);
         setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
+      },
+    },
+    {
+      label: 'Credentials',
+      icon: <CredentialIcon width="1.3rem" height="1.3rem" />,
+      onClick: (row: any) => {
+        addCreds(row.id);
       },
     },
   ];
