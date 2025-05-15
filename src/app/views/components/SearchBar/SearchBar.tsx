@@ -50,12 +50,6 @@ export const SearchBar: FC<SearchBarProps> = props => {
 
   const inputClass = !props.isActiveSelect ? 'only-btn' : 'with-select';
 
-  console.log({
-    options,
-    optionsKeys,
-    optionUUID,
-  });
-
   return (
     <div className="search-bar">
       <div className="search-bar-wrapper">

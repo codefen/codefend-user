@@ -20,15 +20,16 @@ export const NetworkStatics: React.FC<WebResourceStaticProps> = ({ networkResour
     globalStore.externalIpCount.set(metrics.externalIpCount);
     globalStore.internalIpCount.set(metrics.internalIpCount);
     globalStore.subNetworkCount.set(metrics.subNetworkCount);
-    globalStore.isDefaultPlan.set(true);
-    if (metrics.totalIpCount <= 20) {
-      globalStore.planPreference.set('small');
-    } else if (metrics.totalIpCount <= 200) {
-      globalStore.planPreference.set('medium');
-    } else {
-      globalStore.planPreference.set('advanced');
+    if (globalStore.isDefaultPlan.get) {
+      if (metrics.totalIpCount <= 20) {
+        globalStore.planPreference.set('small');
+      } else if (metrics.totalIpCount <= 200) {
+        globalStore.planPreference.set('medium');
+      } else {
+        globalStore.planPreference.set('advanced');
+      }
     }
-  }, [networkResources, globalStore.planPreference.get]);
+  }, [networkResources, globalStore.planPreference.get, globalStore.isDefaultPlan.get]);
 
   return (
     <div className="flex-box">

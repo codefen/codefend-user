@@ -22,15 +22,16 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webRes
     globalStore.domainCount.set(metrics.domainCount);
     globalStore.subDomainCount.set(metrics.subDomainCount);
     globalStore.uniqueIpCount.set(metrics.uniqueIpCount);
-    globalStore.isDefaultPlan.set(true);
-    if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
-      globalStore.planPreference.set('small');
-    } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
-      globalStore.planPreference.set('medium');
-    } else {
-      globalStore.planPreference.set('advanced');
+    if (globalStore.isDefaultPlan.get) {
+      if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
+        globalStore.planPreference.set('small');
+      } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
+        globalStore.planPreference.set('medium');
+      } else {
+        globalStore.planPreference.set('advanced');
+      }
     }
-  }, [webResources, globalStore.planPreference.get]);
+  }, [webResources, globalStore.planPreference.get, globalStore.isDefaultPlan.get]);
 
   return (
     <div className="flex-box">

@@ -52,7 +52,6 @@ export const ResourceByLocation: FC<ResourceByLocationProps> = ({
   const [metrics, setMetrics] = useState<any[]>([]);
   useEffect(() => {
     const metrics = MetricsService.getCountryMetrics(resource, type);
-    console.log(metrics);
     setMetrics(metrics);
   }, [resource, type]);
 

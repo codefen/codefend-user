@@ -25,6 +25,7 @@ import { AllPlansOrderModal } from '@modals/order/layouts/AllPlansOrderModal';
 import { MobileScopeModal } from '@modals/order/layouts/scopes/MobileScopeModal';
 import { NetworkScopeModal } from '@modals/order/layouts/scopes/NetworkScopeModal';
 import { SocialScopeModal } from '@modals/order/layouts/scopes/SocialScopeModal';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.PAYWALL]: 700,
@@ -53,6 +54,7 @@ export const OrderV2 = () => {
   const { orderStepActive, resetActiveOrder, open, setScopeAllTotalResources } = useOrderStore(
     state => state
   );
+  const isDefaultPlan = useGlobalFastField('isDefaultPlan');
 
   const { refetchTotal } = useOrders();
 
@@ -66,6 +68,7 @@ export const OrderV2 = () => {
   }, [open]);
   const close = () => {
     resetActiveOrder();
+    isDefaultPlan.set(true);
   };
   const ActiveStep = () => {
     if (isNextStep) return <PageLoader />;
