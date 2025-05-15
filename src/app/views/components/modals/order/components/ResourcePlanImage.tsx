@@ -9,7 +9,6 @@ export const ResourcePlanImage = ({
   plan: string;
   resourceType: string;
 }) => {
-  console.log('resourceType', resourceType);
   return (
     <div className="plan-images">
       <img

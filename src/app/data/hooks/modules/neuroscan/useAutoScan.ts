@@ -43,7 +43,6 @@ export const useAutoScan = () => {
     formData.append('idiom', userIdiom || 'en');
 
     const result = await streamFetch(formData);
-    console.log('result', result);
     if (result) {
       if (result?.neuroscan?.id) {
         setNeuroScanId(result.neuroscan.id);

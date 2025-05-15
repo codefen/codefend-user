@@ -18,10 +18,11 @@ import { DownloadsCard } from './DownloadsCard';
 export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
   const { data, isLoading, refetch } = useGetOneMobile();
   const onRefetch = () => refetch(selectedAppStored.get?.id);
-  const { selectedApp: selectedAppStored, planPreference } = useGlobalFastFields([
-    'selectedApp',
-    'planPreference',
-  ]);
+  const {
+    selectedApp: selectedAppStored,
+    planPreference,
+    isDefaultPlan,
+  } = useGlobalFastFields(['selectedApp', 'planPreference', 'isDefaultPlan']);
   useEffect(() => {
     if (selectedAppStored.get) onRefetch();
     const downloads = selectedAppStored.get?.app_android_downloads;
@@ -30,23 +31,25 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
 
     let number = parseFloat(match?.[1]);
     const unit = match?.[2]?.toUpperCase?.();
-    if (unit === 'K') {
-      number = number * 1000;
-      if (number >= 15000) {
+    if (isDefaultPlan.get) {
+      if (unit === 'K') {
+        number = number * 1000;
+        if (number >= 15000) {
+          planPreference.set('advanced');
+        } else if (number >= 5000) {
+          planPreference.set('medium');
+        } else {
+          planPreference.set('small');
+        }
+      } else if (unit === 'M') {
         planPreference.set('advanced');
-      } else if (number >= 5000) {
-        planPreference.set('medium');
+      } else if (unit === 'B') {
+        planPreference.set('advanced');
       } else {
-        planPreference.set('small');
+        planPreference.set('medium');
       }
-    } else if (unit === 'M') {
-      planPreference.set('advanced');
-    } else if (unit === 'B') {
-      planPreference.set('advanced');
-    } else {
-      planPreference.set('medium');
     }
-  }, [selectedAppStored.get, planPreference.get]);
+  }, [selectedAppStored.get, planPreference.get, isDefaultPlan.get]);
 
   if (isLoading) {
     return <PageLoader />;

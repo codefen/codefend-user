@@ -170,7 +170,7 @@
 .flex-box {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--card-space);
 }
 
 .flex-box-row {
@@ -1937,7 +1937,7 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   padding: 20px; /* Espaciado interno */
 
   border-radius: 4px; /* Bordes redondeados */
-  margin-bottom: 20px; /* Espaciado inferior */
+  margin-bottom: var(--card-space); /* Espaciado inferior */
 }
 
 .check {
