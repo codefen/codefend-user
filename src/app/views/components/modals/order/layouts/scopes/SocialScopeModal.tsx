@@ -42,7 +42,7 @@ export const SocialScopeModal = () => {
       <div className="step-header">
         <h3 style={{ marginBottom: '0px', paddingBottom: '0px' }}>
           <PeopleGroupIcon />
-          Network resources
+          Social resources
         </h3>
         <p>
           We are about to start a new pentest for all ips defined in your network resources. We have

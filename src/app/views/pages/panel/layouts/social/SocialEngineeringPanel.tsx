@@ -16,11 +16,13 @@ import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderBut
 import AddSocialBlock from '@/app/views/pages/panel/layouts/social/components/AddSocialBlock.tsx';
 import useModalStore from '@stores/modal.store.ts';
 import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal.tsx';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { members, refetch, isLoading } = useSocial();
   const flashlight = useFlashlight();
+  const globalStore = useGlobalFastFields(['isDefaultPlan', 'planPreference']);
 
   const [socialFilters, setSocialFilters] = useState({
     department: new Set<string>(),
@@ -30,6 +32,19 @@ const SocialEngineeringView = () => {
   useEffect(() => {
     refetch();
   }, [control]);
+
+  useEffect(() => {
+    const employees = members.length;
+    if (globalStore.isDefaultPlan.get) {
+      if (employees <= 20) {
+        globalStore.planPreference.set('small');
+      } else if (employees <= 100) {
+        globalStore.planPreference.set('medium');
+      } else {
+        globalStore.planPreference.set('advanced');
+      }
+    }
+  }, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
 
   const handleDepartmentFIlter = (role: string) => {
     setSocialFilters(prevState => {

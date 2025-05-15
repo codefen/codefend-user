@@ -7,10 +7,6 @@ import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/Vuln
 import './dashboard.scss';
 import { DashboardInvoke } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardInvoke/DashboardInvoke.tsx';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
-import {
-  useGlobalFastField,
-  useGlobalFastFields,
-} from '@/app/views/context/AppContextProvider.tsx';
 import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource.tsx';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart.tsx';
