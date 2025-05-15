@@ -170,7 +170,7 @@
 .flex-box {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--card-space);
 }
 
 .flex-box-row {
@@ -2055,4 +2055,114 @@ h3 {
   .small-plan-modal .modal-wrapper .modal {
     display: none !important;
   }
+}
+
+///////// TODOS LOS PLANES / ALLPLANSORDERMODAL/ ///////
+
+.plans-cards-wrapper {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.plan-card-auto {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: none;
+  padding: 1.2rem 1rem 1rem 1rem;
+  min-width: 340px;
+  max-width: 250px;
+  flex: 1 1 250px;
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    border 0.2s;
+  border: 1.5px solid #e0e0e0; /* gris suave */
+}
+
+/* Solo en hover o seleccionada, fondo blanco y borde rojo, y aparece el box-shadow */
+.plan-card-auto:hover,
+.plan-card-auto.selected {
+  /* box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%); */
+  border: 2px solid #ff7878;
+  background: #fff;
+
+  background: #fbe0e021;
+}
+
+/* Colorea la imagen en hover o seleccionada */
+.plan-card-auto:hover .plan-image,
+.plan-card-auto.selected .plan-image,
+.plan-card-auto:hover .plan-image {
+  filter: brightness(0) saturate(100%) invert(28%) sepia(96%) saturate(7472%) hue-rotate(359deg)
+    brightness(94%) contrast(110%);
+}
+
+.plan-images img {
+  width: 80px !important;
+  height: 80px !important;
+  max-width: 80px;
+  max-height: 80px;
+  margin-bottom: 0;
+  transition: filter 0.2s;
+}
+
+.plan-images {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-right: 0;
+}
+
+/* Elimina cualquier borde rojo interno del contenido de la card */
+.plan-card-content,
+.plan-card-content * {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Si quieres que el fondo de la tarjeta avanzada sea igual que las otras cuando NO está seleccionada ni en hover, no agregues ninguna regla especial para ella. Si antes había una, elimínala. */
+
+.plan-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.plan-price {
+  font-size: 2rem;
+  color: #ec2603;
+  margin: 1rem 0 0.5rem 0;
+}
+.plan-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.plan-list li {
+  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.plan-list {
+  font-size: 0.96rem;
+}
+
+.plan-card-content {
+  font-size: 0.97rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.plan-list {
+  text-align: left;
+}
+
+.step-header h3,
+.step-header p {
+  font-size: 1.1rem;
 }
