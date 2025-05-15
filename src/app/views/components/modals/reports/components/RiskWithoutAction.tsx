@@ -68,6 +68,7 @@ export const RiskWithoutAction: FC<VulnerabilityRiskProps> = ({
                 resources={tableRows}
                 id={5}
                 isLoading={isLoading}
+                type="risk"
               />
             </>
           </Show>

@@ -62,6 +62,7 @@ export const WebResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLoadin
       isLoading={isLoading}
       id={2}
       needMarker
+      type="web"
     />
   );
 };
