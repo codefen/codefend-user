@@ -34,7 +34,7 @@ export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.MOBILE_SCOPE]: 700,
   [OrderSection.NETWORK_SCOPE]: 700,
   [OrderSection.SOCIAL_SCOPE]: 700,
-  [OrderSection.ALL_PLANS]: 1030,
+  [OrderSection.ALL_PLANS]: 1100,
   [OrderSection.RECOMMENDED_PLAN]: 700,
   [OrderSection.SMALL_PLANS]: 900,
   [OrderSection.ARABIC_PLAN]: 700,
@@ -114,7 +114,8 @@ export const OrderV2 = () => {
         className="order-container"
         style={{ '--order-modal-width': `${orderSectionMap[orderStepActive]}px` } as any}>
         {orderStepActive !== OrderSection.PAYWALL &&
-        orderStepActive !== OrderSection.SMALL_PLANS ? (
+        orderStepActive !== OrderSection.SMALL_PLANS &&
+        orderStepActive !== OrderSection.ALL_PLANS ? (
           <header className="order-header">
             <div className="order-header-title">
               <img

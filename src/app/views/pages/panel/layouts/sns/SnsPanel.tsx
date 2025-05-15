@@ -24,7 +24,11 @@ const SnsPanel: FC = () => {
         </section>
 
         <section className="right">
-          <SnsCardTitle arrow="none" />
+          <SnsCardTitle
+            arrow="none"
+            title="Dataleaks search"
+            description="Protect your brand.Check our data breach databases to find out if your users or business information has been exposed."
+          />
           <div className="card remaining-searches">
             Remaining searches: {company.get.disponibles_sns}
           </div>
