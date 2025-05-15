@@ -15,7 +15,7 @@ export const WelcomeGroupTour = () => {
 
   const startWaitStep = () => {
     solvedComunique();
-    autoScan(domainId);
+    autoScan(domainId, true, '');
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
   };

@@ -28,7 +28,7 @@ export const useAutoScan = () => {
     setDomainId,
   } = useWelcomeStore();
 
-  const autoScan = async (resourceId: string, openModel: boolean = true) => {
+  const autoScan = async (resourceId: string, openModel: boolean = true, idiom: string) => {
     setNeuroScanId('');
     saveInitialDomain('');
     setIssueFound(0);
@@ -39,7 +39,7 @@ export const useAutoScan = () => {
     const formData = new FormData();
     formData.append('model', 'modules/neuroscan/launch');
     formData.append('resource_id', resourceId);
-    const userIdiom = globalStore.user.get?.idiom;
+    const userIdiom = idiom || globalStore.user.get?.idiom;
     formData.append('idiom', userIdiom || 'en');
 
     const result = await streamFetch(formData);

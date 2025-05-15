@@ -825,6 +825,31 @@ main.cloud {
   }
 }
 
+main.sb,
+main.scans {
+  .search-bar-container {
+    margin-bottom: 0 !important;
+    .search-bar {
+      .search-input {
+        width: 180px !important; /* o el valor que prefieras */
+        min-width: 0;
+        max-width: 650px;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+      .search-button {
+        font-weight: 500;
+        min-width: 56px;
+        width: 64px;
+        border-radius: 0 5px 5px 0;
+        background: linear-gradient(90deg, #ff6464 0%, #e53935 100%);
+        color: #fff;
+        border: none;
+      }
+    }
+  }
+}
+
 ///////////////////////
 // WELCOME CONTAINER
 //////////////////////////////////

@@ -3,10 +3,9 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
-import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { ScanSearchIcon, StatIcon, XCircleIcon } from '@icons';
+import { StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
@@ -21,6 +20,8 @@ import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
 import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
+import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
+import { IDIOM_SEARCHBAR_OPTION, idiomOptions } from '@/app/constants/newSignupText';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -79,6 +80,7 @@ export const ScanSection = () => {
   const [selectScan, setSelectScan] = useState<any>(null);
   const company = useGlobalFastField('company');
   const { updateState } = useOrderStore();
+  const [idiom, setIdiom] = useState<string>('en');
 
   useEffect(() => {
     if (companyUpdated) {
@@ -164,8 +166,7 @@ export const ScanSection = () => {
         const resourceId = data?.resource?.id;
         if (resourceId) {
           // if (data?.company) company.set(data.company);
-          autoScan(resourceId, false).then(result => {
-            console.log('result', result);
+          autoScan(resourceId, false, idiom).then(result => {
             if (apiErrorValidation(result)) {
               updateState('open', true);
               updateState('orderStepActive', OrderSection.PAYWALL);
@@ -188,6 +189,14 @@ export const ScanSection = () => {
       });
   };
 
+  const selectBarOptions = {
+    options: IDIOM_SEARCHBAR_OPTION,
+    placeHolder: '',
+    value: idiom,
+    change: (e: ChangeEvent<HTMLSelectElement>) => setIdiom(e.target.value),
+    defaultSelectOption: 'en',
+  };
+
   return (
     <div className={css['scan-section-container']}>
       <ModalTitleWrapper
@@ -203,19 +212,14 @@ export const ScanSection = () => {
           close={() => setIsOpen(false)}
         />
       </ModalTitleWrapper>
-      <div className={css['scan-search-box']}>
-        <SearchBar
-          handleChange={(e: ChangeEvent<HTMLInputElement>) => setDomainScanned(e.target.value)}
-          placeHolder="Search"
-          inputValue={domainScanned}
-          handleSubmit={startAndAddedDomain}
-          searchIcon={<ScanSearchIcon isButton />}
-        />
-        <div className={css['scan-available-badge']}>
-          <span className={css['badge-label']}>Available</span>
-          <span className={css['badge-count']}>{company.get.disponibles_neuroscan}</span>
-        </div>
-      </div>
+      <SearchBarContainer
+        placeholder="Write a domain to scan"
+        searchText="Start Scan"
+        selectBarOptions={selectBarOptions}
+        handleSubmit={startAndAddedDomain}
+        searchData={domainScanned}
+        setSearchData={setDomainScanned}
+      />
       <div className="card">
         <SimpleSection header="Company Scanners" icon={<StatIcon />}>
           <div className="content">

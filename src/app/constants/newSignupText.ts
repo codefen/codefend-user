@@ -30,3 +30,9 @@ export const idiomOptions = [
   { value: 'es', label: 'Español' },
   { value: 'ar', label: 'العربية' },
 ];
+
+export const IDIOM_SEARCHBAR_OPTION = {
+  en: 'English',
+  es: 'Español',
+  ar: 'العربية',
+};
