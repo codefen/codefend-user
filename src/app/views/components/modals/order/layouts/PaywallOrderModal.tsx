@@ -29,9 +29,15 @@ export const PaywallOrderModal = ({ close }: any) => {
     <div className="paywall-container">
       <div className="step-header-maximo">
         <img
-          src="public/codefend/pentest-header-vector.svg"
+          src="public/codefend/globo.png"
           alt="Descripción de la imagen"
-          style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
+          style={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            marginRight: '5px',
+            width: '50px',
+            height: '50px',
+          }}
         />
         <h3>You've reached a maximum!</h3>
       </div>
@@ -84,7 +90,7 @@ export const PaywallOrderModal = ({ close }: any) => {
             onChange={() => {}}
           />
           <img
-            src="public/codefend/pentest-header-vector.svg"
+            src="public/codefend/cubo.svg"
             alt="Normal Order Icon"
             style={{ width: '50px', height: '50px' }}
           />
@@ -114,7 +120,7 @@ export const PaywallOrderModal = ({ close }: any) => {
             onChange={() => {}}
           />
           <img
-            src="public/codefend/pentest-header-vector.svg"
+            src="public\codefend\precio.svg"
             alt="Normal Order Icon"
             style={{ width: '50px', height: '50px' }}
           />

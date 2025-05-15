@@ -1,6 +1,6 @@
-import { PLAN_IMAGE } from '@/app/constants/app-contanst';
 import { ResourceIcon } from '@/app/views/components/ResourceIcon/ResourceIcon';
 import { ResourcesTypes } from '@interfaces/order';
+import { PLAN_IMAGE } from '@/app/constants/app-contanst';
 
 export const ResourcePlanImage = ({
   plan,
