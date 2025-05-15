@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
 import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';
@@ -17,9 +15,9 @@ import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart.tsx';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const [showScreen] = useShowScreen();
-  const { isLoading, data, scanNumber, isScanning, company } = useDashboard();
+  const { isLoading, data, isScanning, company } = useDashboard();
 
   return (
     <main className={`dashboard ${showScreen ? 'actived' : ''}`}>
@@ -28,14 +26,10 @@ const Dashboard: React.FC = () => {
 
       <section className="left">
         {!isScanning.get &&
-        Number(company.get?.disponibles_neuroscan) == 0 &&
-        data?.issues?.length > 0 ? (
+        (Number(company.get?.disponibles_neuroscan) <= 0 || data?.issues?.length > 0) ? (
           <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
         ) : !isLoading ? (
-          <DashboardInvoke
-            scanNumber={data?.issues?.length || 0}
-            disponibles={company.get?.disponibles_neuroscan || 0}
-          />
+          <DashboardInvoke isScanning={isScanning.get} />
         ) : (
           <PageLoader />
         )}
