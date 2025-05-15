@@ -20,6 +20,7 @@ import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal
 import { OrderV2 } from '@modals/index.ts';
 import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress.ts';
 import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -115,6 +116,7 @@ export const PanelPage = () => {
         <AddNewResourceModal />
         <AddCollaboratorModal />
         <OrderV2 />
+        <ModalReport />
         <ErrorConnection
           closeModal={closeErrorConnectionModal}
           open={modals.isErrorConnectionModalOpen}

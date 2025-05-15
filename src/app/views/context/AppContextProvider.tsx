@@ -3,6 +3,7 @@ import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
 import { EMPTY_COMPANY_CUSTOM, MAX_SCAN_RETRIES } from '@/app/constants/empty';
+import { APP_EVENT_TYPE } from '@interfaces/index';
 
 export interface CompanyUser extends OwnerData, AuditData, LocationData {
   admin_user_email: string;
@@ -69,6 +70,8 @@ export type GlobalStore = {
   user: any;
   companies: any[];
   scanRetries: number;
+  webResourceSelected: any;
+  appEvent: APP_EVENT_TYPE;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -107,6 +110,8 @@ export const initialGlobalState: GlobalStore = {
   internalIpCount: persistedState?.internalIpCount ?? 0,
   externalIpCount: persistedState?.externalIpCount ?? 0,
   subNetworkCount: persistedState?.subNetworkCount ?? 0,
+  webResourceSelected: persistedState?.webResourceSelected ?? null,
+  appEvent: persistedState?.appEvent ?? APP_EVENT_TYPE.NOTIFICATION,
 };
 
 const {

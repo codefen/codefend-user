@@ -39,7 +39,6 @@ const NetworkPage: FC = () => {
       isLoading={loading}
       dataAvailable={Boolean(networks.length)}>
       <CredentialsModal />
-      <ModalReport />
       <AddAccessPointModal onDone={() => refresh()} />
       <AddSubNetworkModal onDone={() => refresh()} internalNetwork={networks ?? []} />
       <div className="brightness variant-1"></div>

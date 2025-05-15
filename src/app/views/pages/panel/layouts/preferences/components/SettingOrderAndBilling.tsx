@@ -1,5 +1,4 @@
-import { type FC } from 'react';
-import { ChartIcon, DocumentTextIcon, ImportantIcon } from '@icons';
+import { DocumentTextIcon, ImportantIcon } from '@icons';
 import type { CompanyOrders } from '@interfaces/preferences';
 import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import type { ColumnTableV3, TableItem } from '@interfaces/table';
@@ -29,13 +28,6 @@ const rawOrderColumns: ColumnTableV3[] = [
     weight: '16.8%',
     render: value => value,
   },
-  // {
-  //   header: 'Offensiveness',
-  //   key: 'offensiveness',
-  //   styles: 'item-cell-3',
-  //   weight: '13%',
-  //   render: value => value,
-  // },
   {
     header: 'Type',
     key: 'resources_class',
@@ -43,20 +35,6 @@ const rawOrderColumns: ColumnTableV3[] = [
     weight: '16.8%',
     render: value => value,
   },
-  // {
-  //   header: 'Provider',
-  //   key: 'provider_username',
-  //   styles: 'item-cell-5',
-  //   weight: '15%',
-  //   render: value => `@${value}`,
-  // },
-  // {
-  //   header: 'Funds',
-  //   key: 'funds_full',
-  //   styles: 'item-cell-6',
-  //   weight: '11%',
-  //   render: value => value,
-  // },
   {
     header: 'State',
     key: 'condicion_financial',
@@ -72,7 +50,7 @@ const rawOrderColumns: ColumnTableV3[] = [
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
 ];
-const SettingOrderAndBilling: FC<BillingDataProps> = ({ orders, isLoading }) => {
+const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
   const { updateIsOpen, updateOrderId, updateReferenceNumber } = useQualitySurveyStore();
   const { updateOpen, updateScope, updateViewConfirm, updateViewTransfer } = useOrderScopeStore();
   const startPoll = useQualitySurveyStart();

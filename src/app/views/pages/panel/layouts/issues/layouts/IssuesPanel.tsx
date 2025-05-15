@@ -53,7 +53,6 @@ const IssuesPanel: FC = () => {
       <SelectAnyResourceModal
         issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
       />
-      <ModalReport />
       <div className="brightness variant-1"></div>
       <section className="left">
         <IssueResources

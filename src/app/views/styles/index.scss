@@ -354,7 +354,7 @@ main {
   .left {
     flex: 1 1 70%;
     overflow-y: auto;
-    gap: 12px;
+    gap: var(--card-space);
     container-type: size;
     container-name: left-main;
 

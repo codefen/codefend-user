@@ -1,41 +1,19 @@
-import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
-import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
-import {
-  TrashIcon,
-  GlobeWebIcon,
-  BugIcon,
-  DocumentIcon,
-  CredentialIcon,
-  MagnifyingGlassIcon,
-} from '@icons';
-import ConfirmModal from '@modals/ConfirmModal.tsx';
-import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
-import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
+import { TrashIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
-import { useTableStoreV3 } from '@table/v3/tablev3.store';
-import Show from '@/app/views/components/Show/Show';
-import { ModalTitleWrapper } from '@modals/index';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface WebResourcesProps {
-  refresh: () => void;
   webResources: Webresource[];
   isLoading: boolean;
-}
-
-interface SelectedResource {
-  id: string;
-  domain: string;
-  serverIp: string;
 }
 
 const webColumns: ColumnTableV3[] = [
@@ -93,24 +71,18 @@ const webColumns: ColumnTableV3[] = [
   },
 ];
 
-export const WebApplicationResources: FC<WebResourcesProps> = ({
-  isLoading,
-  refresh,
-  webResources,
-}) => {
+export const WebApplicationResources = ({ isLoading, webResources }: WebResourcesProps) => {
   const navigate = useNavigate();
-  const { isAdmin, isProvider, isNormalUser } = useUserRole();
+  const { isAdmin, isProvider } = useUserRole();
   const userHaveAccess = isAdmin() || isProvider();
-  const [selectedResource, setSelectedResource] = useState<SelectedResource>({} as any);
-  const { resourceType, openModal, resourceID } = useGlobalFastFields([
+  const { resourceType, openModal, resourceID, webResourceSelected } = useGlobalFastFields([
     'resourceType',
     'openModal',
     'resourceID',
+    'webResourceSelected',
   ]);
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
-  const { handleDelete } = useDeleteWebResource();
-  const { removeItem } = useTableStoreV3();
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -125,11 +97,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     }
   };
   const deleteWebResource = (row: any) => {
-    setSelectedResource({
-      id: row.id,
-      domain: row.resource_domain,
-      serverIp: row.main_server,
-    });
+    webResourceSelected.set(row);
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.DELETE_WEB);
   };
@@ -169,43 +137,24 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
       disabled: !userHaveAccess,
       icon: <BugIcon isButton />,
       onClick: (row: any) => {
+        webResourceSelected.set(row);
         createIssue(row.id);
+      },
+    },
+    {
+      label: 'Add subdomain',
+      icon: '+',
+      disabled: (row: any) => !!row?.resource_domain_dad,
+      onClick: (row: any) => {
+        webResourceSelected.set(row);
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
       },
     },
   ];
 
   return (
     <div className="web-section">
-      <AddDomainModal
-        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setIsOpen(false)}
-      />
-      <ModalTitleWrapper
-        isActive={isOpen && modalId === MODAL_KEY_OPEN.DELETE_WEB}
-        close={() => setIsOpen(false)}
-        type="med-w"
-        headerTitle="Delete web resource">
-        <ConfirmModal
-          header={`Are you sure to remove\n ${selectedResource.domain} - ${selectedResource.serverIp}`}
-          cancelText="Cancel"
-          confirmText="Delete"
-          close={() => setIsOpen(false)}
-          action={() =>
-            handleDelete(() => {
-              refresh();
-              removeItem(selectedResource.id);
-            }, selectedResource.id).then(() => setIsOpen(false))
-          }
-        />
-      </ModalTitleWrapper>
-
-      <AddSubDomainModal
-        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setIsOpen(false)}
-        webResources={webResources}
-      />
       <Tablev3
         className="table-web"
         columns={webColumns}

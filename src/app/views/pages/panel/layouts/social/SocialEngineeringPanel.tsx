@@ -78,7 +78,6 @@ const SocialEngineeringView = () => {
       isLoading={isLoading}
       dataAvailable={Boolean(members.length)}>
       <CredentialsModal />
-      <ModalReport />
       <AddSocialResourceModal onDone={() => refresh()} />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>

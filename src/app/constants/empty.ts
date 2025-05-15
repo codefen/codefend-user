@@ -1,7 +1,8 @@
 import { IssuesStatus } from '@interfaces/issues';
-import type { KeyPress, User } from '../data';
-import type { GlobalStore } from '@/app/views/context/AppContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import type { GlobalStore } from '@/app/views/context/AppContextProvider';
+import type { KeyPress } from '@interfaces/util';
+import { APP_EVENT_TYPE, type User } from '@interfaces/index';
 
 export const EMPTY_USER: User = {
   id: '',
@@ -122,6 +123,8 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   internalIpCount: 0,
   externalIpCount: 0,
   subNetworkCount: 0,
+  webResourceSelected: null,
+  appEvent: APP_EVENT_TYPE.NOTIFICATION,
 };
 
 export const EMPTY_PROVIDER = {

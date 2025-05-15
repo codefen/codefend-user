@@ -3,7 +3,7 @@ import { PeopleGroupIcon } from '@/app/views/components';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 
-export const TeamCollaborators = () => {
+export const TeamMemberPageHeader = () => {
   const { setIsOpen, setModalId } = useModalStore();
   return (
     <div className="card rectangle">
