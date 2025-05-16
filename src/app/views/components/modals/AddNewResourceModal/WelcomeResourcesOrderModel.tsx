@@ -18,42 +18,41 @@ export const AddNewResourceModal = () => {
     <Show when={isOpen && modalId === MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES}>
       <ModalWrapper action={handleClose} showCloseBtn type={css['add-new-resource-modal']}>
         <h1>
-          <img src="/codefend/cube.png" width="64" height="64" alt="cube icon" /> Menu de seleccion
-          de recursos
+          <img src="/codefend/cube.png" width="64" height="64" alt="cube icon" /> Resource selection
+          menu
         </h1>
         <p className={css['main-text']}>
-          Por favor seleccione a continuacion la clase de recurso que desearia visualizar, añadir o
-          conducir pruebas:
+          Please select below the type of resource you wish to view, add, or pentest:
         </p>
         <div className={css['resources-container']}>
           <ResourceNavigate
             to="/web"
-            title="Recursos web"
-            description="Administra recursos web, como websites, webapps o apps."
+            title="Web resources"
+            description="Manage web resources, such as websites, webapps or apps."
             count={12}
             icon={RESOURCE_CLASS.WEB}
             callback={handleClose}
           />
           <ResourceNavigate
             to="/mobile"
-            title="Recursos mobile"
-            description="Administra tus aplicaciones moviles que quieras pentestear"
+            title="Mobile resources"
+            description="Manage your mobile applications you want to pentest."
             count={12}
             icon={RESOURCE_CLASS.MOBILE}
             callback={handleClose}
           />
           <ResourceNavigate
             to="/network"
-            title="Recursos network"
-            description="Direciones IP externas e internas de cualquier dispositivo."
+            title="Network resources"
+            description="External and internal IP addresses of any device."
             count={12}
             icon={RESOURCE_CLASS.LAN_NET}
             callback={handleClose}
           />
           <ResourceNavigate
             to="/social"
-            title="Recursos sociales"
-            description="Administra tu personal para conducir ataques sociales."
+            title="Social resources"
+            description="Manage your staff to conduct social engineering attacks."
             count={12}
             icon={RESOURCE_CLASS.SOCIAL}
             callback={handleClose}

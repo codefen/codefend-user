@@ -54,14 +54,14 @@ const scansColumns: ColumnTableV3[] = [
     render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
   },
   {
-    header: 'Created at',
+    header: 'Start',
     key: 'creacion',
     styles: 'item-cell-4',
     weight: '15.75%',
     render: val => (val ? naturalTime(val) : ''),
   },
   {
-    header: 'Finalize',
+    header: 'Finish',
     key: 'finalizacion',
     styles: 'item-cell-5',
     weight: '15.75%',
