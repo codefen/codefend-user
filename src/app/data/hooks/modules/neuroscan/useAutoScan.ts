@@ -1,11 +1,11 @@
-import { useContext } from 'react';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { ScanStepType } from '@/app/constants/welcome-steps';
-import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useStreamFetch } from '#commonHooks/useStreamFetch';
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();
@@ -16,6 +16,7 @@ export const useAutoScan = () => {
     'scanProgress',
     'scanRetries',
     'user',
+    'appEvent',
   ]);
   // Setear datos para el scanner
   const {
@@ -53,6 +54,7 @@ export const useAutoScan = () => {
         globalStore.currentScan.set(null);
         globalStore.scanProgress.set(0);
         globalStore.scanRetries.set(MAX_SCAN_RETRIES);
+        globalStore.appEvent.set(APP_EVENT_TYPE.LAUNCH_SCAN);
       }
       if (result.company) {
         globalStore.company.set(result.company);

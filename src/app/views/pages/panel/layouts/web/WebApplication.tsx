@@ -31,7 +31,12 @@ const WebApplicationView = () => {
   }, [control]);
 
   useEffect(() => {
-    if (appEvent.get != APP_EVENT_TYPE.NOTIFICATION) {
+    if (
+      appEvent.get != APP_EVENT_TYPE.NOTIFICATION &&
+      appEvent.get != APP_EVENT_TYPE.SCAN_FINISHED &&
+      appEvent.get != APP_EVENT_TYPE.SCAN_LAUNCHED &&
+      appEvent.get != APP_EVENT_TYPE.LAUNCH_SCAN
+    ) {
       refresh();
       appEvent.set(APP_EVENT_TYPE.NOTIFICATION);
     }

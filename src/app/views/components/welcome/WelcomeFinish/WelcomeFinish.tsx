@@ -10,9 +10,15 @@ import { CheckSimpleIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
-  const globalStore = useGlobalFastFields(['scanProgress', 'isScanning', 'currentScan']);
+  const globalStore = useGlobalFastFields([
+    'scanProgress',
+    'isScanning',
+    'currentScan',
+    'appEvent',
+  ]);
   const { initialDomain } = useWelcomeStore();
   const navigate = useNavigate();
 
@@ -28,7 +34,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']} action={solved}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={220} />
-        <Show when={scanStep != ScanStepType.NonScan} fallback={<PageLoader />}>
+        <Show
+          when={
+            globalStore.isScanning.get || globalStore.appEvent.get != APP_EVENT_TYPE.LAUNCH_SCAN
+          }
+          fallback={<PageLoader />}>
           <p className={css['welcome-text']}>
             <b>
               The domain{' '}

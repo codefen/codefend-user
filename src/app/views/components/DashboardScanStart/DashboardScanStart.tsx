@@ -44,12 +44,6 @@ export const DashboardScanStart = () => {
     'scanNumber',
   ]);
 
-  useEffect(() => {
-    if (currentScan.get && !isScanning.get) {
-      isScanning.set(true);
-    }
-  }, [currentScan.get]);
-
   return (
     <Show when={scanNumber.get > 0}>
       <div className="card stats">

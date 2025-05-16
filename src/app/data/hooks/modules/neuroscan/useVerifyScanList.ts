@@ -1,8 +1,9 @@
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import useSWR from 'swr';
 
 interface ScanManager {
@@ -40,19 +41,22 @@ const getLatestScan = (scans: any[]) => {
 };
 
 export const useVerifyScanList = () => {
-  const { isScanning, scanNumber, company, scanRetries, currentScan } = useGlobalFastFields([
-    'isScanning',
-    'scanNumber',
-    'company',
-    'scanRetries',
-    'currentScan',
-  ]);
+  const { isScanning, scanNumber, company, scanRetries, currentScan, appEvent } =
+    useGlobalFastFields([
+      'isScanning',
+      'scanNumber',
+      'company',
+      'scanRetries',
+      'currentScan',
+      'appEvent',
+    ]);
   const scanningValue = isScanning.get;
   const [initialFetchDone, setInitialFetchDone] = useState(false);
+  const retryTimeoutRef = useRef<any>(null);
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
   const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {
-    refreshInterval: scanRetries.get > 0 || scanningValue ? 3000 : 0,
+    refreshInterval: scanRetries.get > 0 || scanningValue ? 2000 : 0,
     revalidateOnFocus: true,
     revalidateOnReconnect: true,
     revalidateOnMount: true,
@@ -65,6 +69,16 @@ export const useVerifyScanList = () => {
       }
     },
   });
+
+  // Limpiar el timeout cuando el componente se desmonte
+  useEffect(() => {
+    return () => {
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (company.get?.id) {
       mutate();
@@ -73,29 +87,89 @@ export const useVerifyScanList = () => {
 
   const latestScan = useMemo(() => getLatestScan(data?.scans || []), [data?.scans]);
 
+  // Efecto para manejar los reintentos
+  useEffect(() => {
+    const handleRetry = () => {
+      if (scanRetries.get > 0) {
+        scanRetries.set(scanRetries.get - 1);
+        // Programar el siguiente reintento
+        retryTimeoutRef.current = setTimeout(handleRetry, 2000);
+      }
+    };
+
+    const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
+    const isScanFinished = appEvent.get === APP_EVENT_TYPE.SCAN_FINISHED;
+
+    // Limpiar el timeout anterior si existe
+    if (retryTimeoutRef.current) {
+      clearTimeout(retryTimeoutRef.current);
+      retryTimeoutRef.current = null;
+    }
+
+    // Iniciar el sistema de reintentos solo si estamos en estados específicos
+    if ((isScanFinished || isLaunchingScan) && scanRetries.get > 0) {
+      retryTimeoutRef.current = setTimeout(handleRetry, 2000);
+    }
+
+    return () => {
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+      }
+    };
+  }, [appEvent.get, scanRetries.get]);
+
   useEffect(() => {
     const scanSize = data?.scans?.length;
     const isActive = latestScan?.phase == 'scanner' || latestScan?.phase == 'parser';
+    const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
+    const isScanLaunched = appEvent.get === APP_EVENT_TYPE.SCAN_LAUNCHED;
+    const isScanFinished = appEvent.get === APP_EVENT_TYPE.SCAN_FINISHED;
+    const isEventOther =
+      appEvent.get !== APP_EVENT_TYPE.LAUNCH_SCAN &&
+      appEvent.get !== APP_EVENT_TYPE.SCAN_FINISHED &&
+      appEvent.get !== APP_EVENT_TYPE.SCAN_LAUNCHED;
+    // Update scan number if changed
     if (scanNumber.get != scanSize) {
       scanNumber.set(scanSize || 0);
     }
-    if (!isActive && scanRetries.get > 0) {
-      scanRetries.set(scanRetries.get - 1);
+
+    // Si hay un escaneo activo, actualizar el estado
+    if (isActive) {
+      // Limpiar el sistema de reintentos si hay un escaneo activo
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+        retryTimeoutRef.current = null;
+      }
+
+      if (isLaunchingScan) {
+        // Si estamos lanzando y detectamos un escaneo activo, cambiar a SCAN_LAUNCHED
+        appEvent.set(APP_EVENT_TYPE.SCAN_LAUNCHED);
+      }
+      // Si hay un escaneo activo, mantener isScanning en true
+      if (!scanningValue) {
+        isScanning.set(true);
+      }
+      // Resetear retries cuando hay un escaneo activo
+      if (scanRetries.get !== MAX_SCAN_RETRIES) {
+        scanRetries.set(MAX_SCAN_RETRIES);
+      }
+    } else {
+      // Si no hay escaneo activo
+      if (isScanLaunched) {
+        // Si estábamos en SCAN_LAUNCHED y ya no hay escaneo activo, cambiar a FINISHED
+        appEvent.set(APP_EVENT_TYPE.SCAN_FINISHED);
+        isScanning.set(false);
+      } else if (isScanFinished || isLaunchingScan || isEventOther) {
+        if (scanningValue) {
+          isScanning.set(false);
+        }
+      }
     }
-    if (!latestScan) {
-      if (scanningValue) isScanning.set(false);
-      currentScan.set(null);
-      return;
-    }
-    if (scanningValue && !isActive) {
-      isScanning.set(false);
-    } else if (!scanningValue && isActive) {
-      isScanning.set(true);
-      scanRetries.set(MAX_SCAN_RETRIES);
-    }
+
+    // Actualizar el escaneo actual
     currentScan.set(latestScan);
-  }, [data, latestScan, scanningValue]);
+  }, [data, latestScan, scanningValue, appEvent.get, scanRetries.get]);
 
   const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
-  return { data: data!, latestScan, isScanActive, isScanning };
+  return { data: data!, latestScan, isScanActive, isScanning, appEvent };
 };

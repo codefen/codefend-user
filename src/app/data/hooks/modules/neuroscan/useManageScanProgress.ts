@@ -1,12 +1,12 @@
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
 import { useEffect, useRef } from 'react';
 
 export const useManageScanProgress = () => {
   const { currentScan, scanProgress } = useGlobalFastFields(['scanProgress', 'currentScan']);
-  const prevPhaseRef = useRef<string | null>(null);
   const intervalRef = useRef<any>();
-  const { latestScan, isScanActive, isScanning } = useVerifyScanList();
+  const { latestScan, isScanActive, isScanning, appEvent } = useVerifyScanList();
 
   useEffect(() => {
     if (!latestScan) return;
@@ -22,11 +22,11 @@ export const useManageScanProgress = () => {
         scanProgress.set(0);
       }
     } else {
-      if (sameScan && isScanning.get) {
+      if (sameScan && appEvent.get === APP_EVENT_TYPE.SCAN_FINISHED) {
         scanProgress.set(100);
       }
     }
-  }, [latestScan, isScanning.get, currentScan.get, scanProgress.get]);
+  }, [latestScan, isScanning.get, currentScan.get, scanProgress.get, appEvent.get]);
 
   // —— LOGICA DE PROGRESO EN FASE "scanner" ——
 
