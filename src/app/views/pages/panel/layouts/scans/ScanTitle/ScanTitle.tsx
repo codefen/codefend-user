@@ -8,7 +8,9 @@ export const ScanTitle = () => {
         <span>Automatic scans</span>
       </div>
       <div className="content">
-        <p>Performs automatic scans with artificial intelligence</p>
+        <p>
+          Perform automated security testing on your web applications using our AI-powered scanners.
+        </p>
       </div>
     </div>
   );
