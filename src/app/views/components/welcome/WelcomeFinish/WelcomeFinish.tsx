@@ -80,7 +80,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               <div className={`${css['value']} ${css['stat-complete']}`}>
                 {globalStore.currentScan.get?.issues_parsed}
               </div>
-              <span>{!globalStore.isScanning.get ? 'Analyzed findings' : 'Analyzed findings'}</span>
+              <span>Analyzed findings</span>
             </div>
           </div>
           <div className={css['finish-text']}>
