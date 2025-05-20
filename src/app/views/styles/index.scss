@@ -837,11 +837,14 @@ main.scans {
         margin-right: 10px;
         border-radius: 5px;
       }
+      .search-select {
+        margin-right: 10px;
+      }
       .search-button {
         font-weight: 500;
         min-width: 56px;
         width: 64px;
-        border-radius: 0 5px 5px 0;
+        border-radius: 5px;
         background: linear-gradient(90deg, #ff6464 0%, #e53935 100%);
         color: #fff;
         border: none;
@@ -1300,6 +1303,7 @@ main.scans {
       .rows {
         .item {
           justify-content: center;
+          padding-block: 0.2rem;
         }
       }
     }

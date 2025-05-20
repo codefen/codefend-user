@@ -18,7 +18,7 @@ interface OpenOrderButtonProps {
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.WEB]: ({ total, plan }: any) => (
     <>
-      Your web scope has more than <strong>{total}</strong> resources, so we recommend a{' '}
+      Your web scope has a total of <strong>{total}</strong> resources, Codefend recommends a{' '}
       <b>{plan} plan</b>.
     </>
   ),
@@ -56,7 +56,7 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
 // };
 
 export const titleMap = {
-  [ResourcesTypes.WEB]: 'Analyze your web software',
+  [ResourcesTypes.WEB]: 'Start a web application pentest',
   [ResourcesTypes.MOBILE]: 'Start dedicated testing',
   [ResourcesTypes.CLOUD]: 'Analyze your cloud software',
   [ResourcesTypes.CODE]: 'Analyze your code',

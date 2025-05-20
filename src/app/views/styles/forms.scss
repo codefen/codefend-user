@@ -76,10 +76,8 @@ select {
   padding-inline: 15px;
   background-color: var(--primary-color);
   color: var(--tertiary-color-500);
-  border-width: 1px;
+  border: none;
   border-radius: 5px;
-  border-style: solid;
-  border-color: var(--primary-color-300);
 
   &:focus {
     outline: 0 solid;
@@ -532,4 +530,9 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px #fff inset;
   -webkit-text-fill-color: inherit;
+}
+
+.empty-screen .empty-container .empty-card-wrapper input {
+  border: none !important;
+  box-shadow: none !important;
 }
