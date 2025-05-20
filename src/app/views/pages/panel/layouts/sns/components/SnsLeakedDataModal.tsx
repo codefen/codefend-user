@@ -61,7 +61,9 @@ export const SnsLeakedDataModal = ({
       }).then(({ data }: any) => {
         if (apiErrorValidation(data)) {
           closeModal();
-          limitReached();
+          if (data?.error_info === 'paid_user_leaksearch_maximum_reached') {
+            limitReached();
+          }
           return null;
         }
         updateCompany(data?.company);
