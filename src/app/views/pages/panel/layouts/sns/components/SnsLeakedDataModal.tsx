@@ -53,7 +53,7 @@ export const SnsLeakedDataModal = ({
       await fetcher('post', {
         body: {
           class: LEAKED_TYPES[type]?.class || searchClass,
-          keyword: leaked.value[0][LEAKED_TYPES[type].value],
+          keyword: leaked[LEAKED_TYPES[type].value],
           company_id: companyID,
         },
         path: `modules/sns/${LEAKED_TYPES[type].ac}`,
@@ -91,7 +91,7 @@ export const SnsLeakedDataModal = ({
       headerTitle={LEAKED_TYPES[type].title}
       type="crack-modal">
       <div className="crack-modal-content">
-        <h3>{leaked?.name}</h3>
+        <h3>{leaked?.db}</h3>
         {data && (
           <div className="custom-table">
             <div className="columns">
