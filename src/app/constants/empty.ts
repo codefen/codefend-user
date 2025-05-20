@@ -124,7 +124,8 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   externalIpCount: 0,
   subNetworkCount: 0,
   webResourceSelected: null,
-  appEvent: APP_EVENT_TYPE.NOTIFICATION,
+  appEvent: APP_EVENT_TYPE.USER_LOGGED_OUT,
+  isInitialFetchDone: true,
 };
 
 export const EMPTY_PROVIDER = {

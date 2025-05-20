@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useFetcher } from './useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { useFetcher } from '#commonHooks/useFetcher';
 
 export const useMessageState = () => {
   const [message, setMessage] = useState<string>('');

@@ -1,4 +1,3 @@
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { AppCard } from '@/app/views/components/AppCard/AppCard';
 import useCredentialStore from '@stores/credential.store';
 import { useEffect, useMemo, useState, type FC } from 'react';
@@ -12,27 +11,19 @@ interface LeftMobileCloudProps {
   type: string;
 }
 
-export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
-  resources,
-  openModal,
-  type,
-}) => {
-  const { appSelected, setAppSelected, isSelected } = useSelectedApp();
+export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({ resources, type }) => {
   const [term, setTerm] = useState('');
   const selectedAppStored = useGlobalFastField('selectedApp');
   const { setViewMore } = useCredentialStore();
 
   useEffect(() => {
-    // if (!appSelected) {
     if (!selectedAppStored.get) {
-      // setAppSelected(resources[0]);
       selectedAppStored.set(resources[0]);
     }
   }, [resources]);
 
   const updateSelectedApp = (resource: any) => {
-    if (!isSelected(resource.id)) {
-      // setAppSelected(resource);
+    if (resource.id != selectedAppStored.get?.id) {
       selectedAppStored.set(resource);
     }
     setViewMore({ id: '', open: false });
@@ -62,7 +53,7 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
               className="app-info"
               onClick={() => updateSelectedApp(resource)}>
               <AppCard
-                isActive={isSelected(resource.id)}
+                isActive={resource.id == selectedAppStored.get?.id}
                 id={resource.id}
                 type={type.toLowerCase()}
                 name={resource?.app_name || resource?.cloud_name}

@@ -22,7 +22,6 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
 
   const streamFetch = useCallback(
     async (formData: FormData, timeout = 30000): Promise<T | null> => {
-      // Datos base como sesion, base url, company id
       const customAPi = baseUrl;
       const companyID = getCompany();
       const sessionValue = getToken();
@@ -33,14 +32,13 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
 
       // AbortController para cerrar la conexion
       const controller = new AbortController();
-      // Cierre de conexion luego de 30s por defecto
       const timeoutId = setTimeout(() => controller.abort(), timeout);
 
       try {
         const response = await fetch(customAPi, {
           method: 'POST',
           body: formData,
-          signal: controller.signal,
+          signal: controller.signal, //Esta señal se usa para abortar la conexion
         });
 
         // Termina la ejecucion si no hay body
@@ -51,15 +49,16 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
         // Se crea un "reader" a partir del body para streamear la respuesta
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
-        // Variable para ir construyendo la respuesta del stream
+        // Construye la respuesta del stream
         let receivedText = '';
 
         // Se ejecuta en bucle hasta que se verifique si:
         // 1-Valide que la respuesta es un JSON valido, 2-El timeout cierre la conexion y no pueda seguir
         while (true) {
           const { value, done } = await reader.read();
+          // Si se termino el stream, sale del bucle
           if (done) break;
-          // Construye la respuesta segun va recibiendo texto
+          // Construye segun va recibiendo
           receivedText += decoder.decode(value, { stream: true });
 
           try {
@@ -71,11 +70,11 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
             setData(jsonData);
             setIsLoading(false);
             return jsonData;
-          } catch (e) {
-            // Si el JSON es invalido entra al catch y vuelve a intentarlo
-          }
+          } catch (e) {}
+          // Si el JSON es invalido, vuelve a intentarlo
         }
-        // Si llega a este punto quiere decir que la conexion se cerro, pero no encontro ningun JSON valido
+
+        // No encontro ningun JSON valido
         throw new Error('No se pudo obtener un JSON válido de la respuesta');
       } catch (error: any) {
         clearTimeout(timeoutId);

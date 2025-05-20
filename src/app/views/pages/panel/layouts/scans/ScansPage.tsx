@@ -7,13 +7,13 @@ import { toast } from 'react-toastify';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();
-  const globalStore = useGlobalFastFields(['scanRetries', 'isScanning', 'company']);
+  const globalStore = useGlobalFastFields(['isInitialFetchDone', 'isScanning', 'company']);
 
   useEffect(() => {
-    if (!globalStore.isScanning) {
-      globalStore.scanRetries.set(1);
+    if (!globalStore.isScanning.get) {
+      globalStore.isInitialFetchDone.set(true);
     }
-  }, [globalStore.scanRetries, globalStore.isScanning]);
+  }, [globalStore.isInitialFetchDone.get, globalStore.isScanning]);
 
   return (
     <main className={`scans ${showScreen ? 'actived' : ''}`}>

@@ -2,7 +2,7 @@ import { useEffect, type PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
-import { EMPTY_COMPANY_CUSTOM, MAX_SCAN_RETRIES } from '@/app/constants/empty';
+import { EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE, MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { APP_EVENT_TYPE } from '@interfaces/index';
 
 export interface CompanyUser extends OwnerData, AuditData, LocationData {
@@ -72,6 +72,7 @@ export type GlobalStore = {
   scanRetries: number;
   webResourceSelected: any;
   appEvent: APP_EVENT_TYPE;
+  isInitialFetchDone: boolean;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -92,14 +93,14 @@ export const initialGlobalState: GlobalStore = {
   subDomainCount: persistedState?.subDomainCount ?? 0,
   uniqueIpCount: persistedState?.uniqueIpCount ?? 0,
   planPreference: persistedState?.planPreference ?? 'medium',
-  isDefaultPlan: persistedState?.isDefaultPlan ?? false,
+  isDefaultPlan: persistedState?.isDefaultPlan,
   selectedApp: persistedState?.selectedApp ?? null,
   mobilePlanPreference: persistedState?.mobilePlanPreference ?? 'medium',
 
   scanProgress: persistedState?.scanProgress ?? 0,
-  isProgressStarted: persistedState?.isProgressStarted ?? false,
+  isProgressStarted: persistedState?.isProgressStarted,
   currentScan: persistedState?.currentScan ?? null,
-  isScanning: persistedState?.isScanning ?? false,
+  isScanning: persistedState?.isScanning,
   selectedTicket: persistedState?.selectedTicket ?? null,
   session: persistedState?.session ?? '',
   scanNumber: persistedState?.scanNumber ?? 0,
@@ -112,6 +113,7 @@ export const initialGlobalState: GlobalStore = {
   subNetworkCount: persistedState?.subNetworkCount ?? 0,
   webResourceSelected: persistedState?.webResourceSelected ?? null,
   appEvent: persistedState?.appEvent ?? APP_EVENT_TYPE.NOTIFICATION,
+  isInitialFetchDone: persistedState?.isInitialFetchDone,
 };
 
 const {
@@ -133,7 +135,11 @@ const GlobalStorePersistor = () => {
   );
 
   useEffect(() => {
-    localStorage.setItem('globalStore', JSON.stringify(currentValues));
+    if (!currentValues.session && currentValues.appEvent !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
+    } else {
+      localStorage.setItem('globalStore', JSON.stringify(currentValues));
+    }
   }, [JSON.stringify(currentValues)]);
 
   return null;

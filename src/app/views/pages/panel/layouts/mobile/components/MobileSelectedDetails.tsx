@@ -8,11 +8,10 @@ import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesSta
 
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
-import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { DownloadsCard } from './DownloadsCard';
 
 export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {

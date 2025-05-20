@@ -2,7 +2,7 @@ import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
 import { useUserRevoke } from '#commonUserHooks/useUserRevoke';
-import { useSolvedComunique } from '#commonHooks/useSolvedComunique';
+import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
 
 export const QualityFeedbackRevokeAccess = () => {
   const {

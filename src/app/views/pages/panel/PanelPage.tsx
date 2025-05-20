@@ -54,7 +54,8 @@ export const PanelPage = () => {
   }, [setShowModal]);
 
   useEffect(() => {
-    const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, () => {
+    const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, e => {
+      console.log('errorUnsubscribe', e);
       setShowModal(true);
       setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
     });

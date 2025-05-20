@@ -1,12 +1,13 @@
 import { type FC } from 'react';
-import { cleanHTML, cleanReview, defaultMobileCloudResourceAsset, useAppCard } from '../../../data';
 import { useLocation, useNavigate } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
-import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
 import Show from '@/app/views/components/Show/Show';
-import { BugIcon } from '@icons';
 import { StarRating } from '@/app/views/components/utils/StarRating';
+import useModalStore from '@stores/modal.store';
+import { useAppCard } from '@resourcesHooks/useAppCard';
+import { defaultMobileCloudResourceAsset } from '@mocks/defaultData';
+import { cleanHTML } from '@utils/helper';
 
 interface MobileAppCardProps {
   isActive?: boolean;
@@ -59,7 +60,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
     appMedia,
   });
 
-  const { setIsOpen } = useRemoveAppStore(state => state);
+  const { setModalId, setIsOpen } = useModalStore();
 
   const handleClick = () => {
     if (isAdmin() || isProvider())
@@ -71,7 +72,10 @@ export const AppCard: FC<MobileAppCardProps> = ({
       );
   };
 
-  const handleDeleteResource = () => setIsOpen(true);
+  const handleDeleteResource = () => {
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.DELETE_APP);
+  };
 
   const generateCardClasses = () => {
     let classes = 'app-card';

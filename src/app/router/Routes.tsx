@@ -7,8 +7,6 @@ import {
   Dashboard,
   WebApplication,
   MobileApplication,
-  CloudApplicationPanel,
-  SourceCodePanel,
   SocialEngineeringPanel,
   SupportPanel,
   PreferencePanel,
@@ -37,14 +35,12 @@ import { TermsAndCondition } from '../views/pages/help-center/TermsAndCondition'
 import { HelpCenter } from '../views/pages/help-center/HelpCenter';
 import { SecurityAndPrivacyPolicy } from '../views/pages/help-center/SecurityAndPrivacyPolicy';
 import { HelpNotfound } from '../views/pages/help-center/HelpNotfound';
-import { InvitationSignup } from '../views/pages/auth/layouts/InvitationSignup';
 import { PageReport } from '@modals/reports/PageReport.tsx';
 import ProtectedRoute from './ProtectedRoute';
 import { ScansPage } from '@/app/views/pages/panel/layouts/scans/ScansPage';
 import { NewAuthPage } from '@/app/views/pages/auth/NewAuthPage';
 import { NewSignupForm } from '@/app/views/pages/auth/newLayouts/NewSignupForm/NewSignupForm';
 import { NewSigninForm } from '@/app/views/pages/auth/newLayouts/NewSigninForm/NewSigninForm';
-import { TalkToHackerPage } from '@/app/views/pages/panel/layouts/talk-to-hacker/TalkToHackerPage';
 import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/TeamMembersPage';
 import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';

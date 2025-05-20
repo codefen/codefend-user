@@ -5,6 +5,10 @@ export enum Sort {
   desc = 'desc',
 }
 
+//======================================================
+// Tipos para la tabla v2 o anteriores
+//======================================================
+
 export interface TableProps {
   rowsData: Record<string, TableItem>[];
   columns: ColumnTable[];
@@ -48,3 +52,8 @@ export interface ColumnTableV3 {
   weight: string;
   render: (data: any, next?: any) => ReactNode;
 }
+
+//TODO: Traer los tipos de la tabla v3
+//======================================================
+// Tipos para la tabla v3
+//======================================================
