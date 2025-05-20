@@ -65,7 +65,7 @@ export const DashboardScanStart = () => {
                 <StatAsset value={currentScan.get?.issues_found} valueTitle="Total Findings" />
                 <StatAsset
                   value={`${currentScan.get?.issues_found}/${currentScan.get?.issues_parsed}`}
-                  valueTitle="Analisis completado"
+                  valueTitle="Analyzed findings"
                 />
                 <StatAsset value={`${Math.round(scanProgress.get)}%`} valueTitle="Progress" />
               </div>
