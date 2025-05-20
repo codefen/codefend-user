@@ -106,7 +106,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   subDomainCount: 0,
   uniqueIpCount: 0,
   planPreference: 'medium',
-  isDefaultPlan: false,
+  isDefaultPlan: true,
   selectedApp: null,
   mobilePlanPreference: 'medium',
   scanProgress: 0,

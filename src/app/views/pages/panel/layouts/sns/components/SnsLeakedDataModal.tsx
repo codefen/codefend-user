@@ -1,6 +1,6 @@
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { companyIdIsNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { ModalTitleWrapper } from '@modals/index';
 import { useEffect, useState } from 'react';
 
@@ -31,12 +31,16 @@ export const SnsLeakedDataModal = ({
   leaked,
   type = 'crack',
   searchClass,
+  limitReached,
+  updateCompany,
 }: {
   isActive: boolean;
   close: () => void;
   leaked: any;
   type: keyof typeof LEAKED_TYPES;
   searchClass: string;
+  limitReached: () => void;
+  updateCompany: (company: any) => void;
 }) => {
   const [fetcher] = useFetcher();
   const [data, setData] = useState<any>(null);
@@ -54,12 +58,21 @@ export const SnsLeakedDataModal = ({
         },
         path: `modules/sns/${LEAKED_TYPES[type].ac}`,
         requireSession: true,
-      }).then(({ data }: any) => ({
-        keyword: data.keyword,
-        took: data.response?.took,
-        size: type !== 'crack' ? data.response?.size : undefined,
-        results: data.response?.results,
-      }));
+      }).then(({ data }: any) => {
+        if (apiErrorValidation(data)) {
+          closeModal();
+          limitReached();
+          return null;
+        }
+        updateCompany(data?.company);
+        const leak = {
+          keyword: data.keyword,
+          took: data.response?.took,
+          size: type !== 'crack' ? data.response?.size : undefined,
+          results: data.response?.results,
+        };
+        return leak;
+      });
 
     fetchCrackData().then(res => setData(res));
   }, [isActive]);

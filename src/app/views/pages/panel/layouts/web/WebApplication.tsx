@@ -17,8 +17,6 @@ import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import './webapplication.scss';
 import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
-import { toast } from 'react-toastify';
-import { WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts.ts';
 
 const WebApplicationView = () => {
   const [showScreen, control, refresh] = useShowScreen();

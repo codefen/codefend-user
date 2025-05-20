@@ -32,6 +32,8 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     setSearchData,
     getUserdata,
     handleSearch,
+    limitReached,
+    updateCompany,
   } = useSns();
   const [hasSearched, setHasSearched] = useState(false);
   const { leaked, leakedType, showModal, handleOpenLeakedModal, handleCloseLeakedModal } =
@@ -130,6 +132,8 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
         close={handleCloseLeakedModal}
         leaked={leaked}
         searchClass={searchClass}
+        limitReached={limitReached}
+        updateCompany={updateCompany}
       />
     </>
   );
