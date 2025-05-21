@@ -7,6 +7,7 @@ import type { Webresource } from '@interfaces/panel.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { PrimaryButton } from '@buttons/index';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface WebResourcesProps {
   refresh: () => void;
@@ -25,23 +26,10 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
   refresh,
   webResources,
 }) => {
-  const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
-  const [selectedResource, setSelectedResource] = useState<SelectedResource>({} as any);
-
+  const { setIsOpen, setModalId } = useModalStore();
+  const webResourceSelected = useGlobalFastField('webResourceSelected');
   return (
     <>
-      <AddDomainModal
-        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setIsOpen(false)}
-      />
-
-      <AddSubDomainModal
-        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setIsOpen(false)}
-        webResources={webResources}
-      />
       <div className="card title">
         <div className="header">
           <GlobeWebIcon />
@@ -57,7 +45,6 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
               text="Add domain"
               click={() => {
                 if (isLoading) return;
-
                 setIsOpen(true);
                 setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
               }}
@@ -67,8 +54,8 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
             <PrimaryButton
               text="Add subdomain"
               click={() => {
+                webResourceSelected.set(null);
                 if (isLoading) return;
-
                 setIsOpen(true);
                 setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
               }}

@@ -1,59 +1,49 @@
-import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
-import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
 import type { Webresource } from '@interfaces/panel.ts';
 import {
   TrashIcon,
-  GlobeWebIcon,
   BugIcon,
   DocumentIcon,
   CredentialIcon,
-  MagnifyingGlassIcon,
+  PlusIcon,
+  CubeIcon,
+  CodefendIcon,
 } from '@icons';
-import ConfirmModal from '@modals/ConfirmModal.tsx';
-import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
-import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
-import { useTableStoreV3 } from '@table/v3/tablev3.store';
-import Show from '@/app/views/components/Show/Show';
-import { ModalTitleWrapper } from '@modals/index';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useAutoScan } from '@panelHooks/useAutoScan';
-import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
+import { toast } from 'react-toastify';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { useOrderStore } from '@stores/orders.store';
+import { apiErrorValidation } from '@/app/constants/validations';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
 
 interface WebResourcesProps {
-  refresh: () => void;
   webResources: Webresource[];
   isLoading: boolean;
-}
-
-interface SelectedResource {
-  id: string;
-  domain: string;
-  serverIp: string;
 }
 
 const webColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1',
-    weight: '6%',
+    styles: 'item-cell-web-1',
+    weight: '10%',
     render: (ID: any) => ID,
   },
   {
     header: 'domain',
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
-    styles: 'item-cell-2 item-domain-cell',
-    weight: '45%',
+    styles: 'item-cell-web-2 ',
+    weight: '38%',
     render: (row: any, next?: any) =>
       !row?.resource_domain_dad ? (
         row.resource_domain
@@ -67,41 +57,45 @@ const webColumns: ColumnTableV3[] = [
   {
     header: 'server ip',
     key: 'main_server',
-    styles: 'item-cell-3',
-    weight: '12%',
+    styles: 'item-cell-web-3',
+    weight: '19%',
     render: (ip: any) => ip,
   },
   {
     header: 'area',
     key: 'server_pais',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-4',
-    weight: '16%',
+    styles: 'item-cell-web-4',
+    weight: '22%',
     render: (row: any) => (
       <LocationItem country={row?.server_pais || ''} countryCode={row?.server_pais_code || ''} />
     ),
   },
+  {
+    header: 'issues',
+    key: 'final_issues',
+    styles: 'item-cell-web-5',
+    weight: '11%',
+    render: (final_issues: any) => (
+      <>
+        <BugIcon />
+        {final_issues || 0}
+      </>
+    ),
+  },
 ];
 
-export const WebApplicationResources: FC<WebResourcesProps> = ({
-  isLoading,
-  refresh,
-  webResources,
-}) => {
+export const WebApplicationResources = ({ isLoading, webResources }: WebResourcesProps) => {
   const navigate = useNavigate();
-  const { isAdmin, isProvider, isNormalUser } = useUserRole();
+  const { isAdmin, isProvider, idiom } = useUserRole();
   const userHaveAccess = isAdmin() || isProvider();
-  const [selectedResource, setSelectedResource] = useState<SelectedResource>({} as any);
-  const { resourceType, openModal, resourceID } = useGlobalFastFields([
-    'resourceType',
-    'openModal',
-    'resourceID',
-  ]);
+  const { resourceType, openModal, resourceID, webResourceSelected, company } = useGlobalFastFields(
+    ['resourceType', 'openModal', 'resourceID', 'webResourceSelected', 'company']
+  );
   const { setCredentialType, setResourceId } = useCredentialStore();
-  const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
-  const { handleDelete } = useDeleteWebResource();
-  const { removeItem } = useTableStoreV3();
-  const [term, setTerm] = useState('');
+  const { setIsOpen, setModalId } = useModalStore();
+  const { autoScan } = useAutoScan();
+  const { updateState } = useOrderStore();
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -116,11 +110,7 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     }
   };
   const deleteWebResource = (row: any) => {
-    setSelectedResource({
-      id: row.id,
-      domain: row.resource_domain,
-      serverIp: row.main_server,
-    });
+    webResourceSelected.set(row);
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.DELETE_WEB);
   };
@@ -131,131 +121,90 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setModalId(RESOURCE_CLASS.WEB);
   };
 
-  const webColumnsWith = [
-    ...webColumns,
+  const contextMenuActions = [
     {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-5 action',
-      weight: '18.5%',
-      render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
-          <span
-            className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
-            title={`${isNormalUser() ? '' : 'Add Issue'}`}
-            onClick={() => createIssue(row.id)}>
-            <BugIcon isButton key={`bugi-${row.id}`} />
-            <span className="codefend-text-red-200 issue-count">{row.final_issues}</span>
-          </span>
-          <span
-            title="View report"
-            className={`issue-printer ${Number(row.final_issues) == 0 ? 'off' : ''}`}
-            onClick={() => generateWebReport(row.id, row.final_issues)}>
-            <DocumentIcon isButton width={1.27} height={1.27} key={`doci-${row.id}`} />
-          </span>
-          <Show when={isNormalUser() || isAdmin()}>
-            <span title="Delete" onClick={() => deleteWebResource(row)}>
-              <TrashIcon />
-            </span>
-          </Show>
-
-          <span title="Add credentials" onClick={() => addCreds(row.id)}>
-            <CredentialIcon key={`credi-${row.id}`} />
-          </span>
-        </div>
+      label: 'View report',
+      disabled: (row: any) => Number(row?.final_issues) < 1,
+      icon: <DocumentIcon isButton width={1.27} height={1.27} />,
+      onClick: (row: any) => {
+        generateWebReport(row?.id, row?.final_issues);
+      },
+    },
+    {
+      label: 'Launch AI Scan',
+      icon: (
+        <img
+          src="public/codefend/pentest-header-vector.svg"
+          alt="Normal Order Icon"
+          style={{ width: '1.3em', height: '1.3em' }}
+        />
       ),
+      onClick: (row: any) => {
+        autoScan(row.id, true, idiom).then(result => {
+          if (apiErrorValidation(result)) {
+            updateState('open', true);
+            updateState('orderStepActive', OrderSection.PAYWALL);
+            updateState('resourceType', ResourcesTypes.WEB);
+            return;
+          }
+          if (result?.neuroscan?.id) {
+            toast.success(APP_MESSAGE_TOAST.START_SCAN);
+            setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+            setIsOpen(true);
+          }
+        });
+      },
+    },
+    {
+      label: 'Delete',
+      disabled: isProvider(),
+      icon: <TrashIcon />,
+      onClick: (row: any) => {
+        deleteWebResource(row);
+      },
+    },
+    {
+      label: 'Add issue',
+      disabled: !userHaveAccess,
+      icon: <BugIcon isButton />,
+      onClick: (row: any) => {
+        webResourceSelected.set(row);
+        createIssue(row.id);
+      },
+    },
+    {
+      label: 'Add subdomain',
+      icon: <PlusIcon />,
+      disabled: (row: any) => !!row?.resource_domain_dad,
+      onClick: (row: any) => {
+        webResourceSelected.set(row);
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
+      },
+    },
+    {
+      label: 'Credentials',
+      icon: <CredentialIcon width="1.3rem" height="1.3rem" />,
+      onClick: (row: any) => {
+        addCreds(row.id);
+      },
     },
   ];
 
   return (
     <div className="web-section">
-      <AddDomainModal
-        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setIsOpen(false)}
+      <Tablev3
+        className="table-web"
+        columns={webColumns}
+        rows={webResources}
+        showRows={!isLoading}
+        initialOrder="resource_domain"
+        isNeedSearchBar={true}
+        limit={0}
+        isNeedSort
+        enableContextMenu
+        contextMenuActions={contextMenuActions}
       />
-      <ModalTitleWrapper
-        isActive={isOpen && modalId === MODAL_KEY_OPEN.DELETE_WEB}
-        close={() => setIsOpen(false)}
-        type="med-w"
-        headerTitle="Delete web resource">
-        <ConfirmModal
-          header={`Are you sure to remove\n ${selectedResource.domain} - ${selectedResource.serverIp}`}
-          cancelText="Cancel"
-          confirmText="Delete"
-          close={() => setIsOpen(false)}
-          action={() =>
-            handleDelete(() => {
-              refresh();
-              removeItem(selectedResource.id);
-            }, selectedResource.id).then(() => setIsOpen(false))
-          }
-        />
-      </ModalTitleWrapper>
-
-      <AddSubDomainModal
-        isOpen={isOpen && modalId === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setIsOpen(false)}
-        webResources={webResources}
-      />
-      {/* <div className="card">
-        <div className="over">
-          <div className="header">
-            <div className="title">
-              <div className="icon">
-                <GlobeWebIcon />
-              </div>
-              <span>Domains and subdomains</span>
-            </div>
-
-            <div className="actions">
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setIsOpen(true);
-                  setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
-                }}>
-                Add domain
-              </div>
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setIsOpen(true);
-                  setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
-                }}>
-                Add subdomain
-              </div>
-            </div>
-          </div> 
-        </div>
-      </div>*/}
-
-      <div className="search-bar-container">
-        <ModalInput
-          icon={<MagnifyingGlassIcon />}
-          setValue={(val: string) => setTerm(val)}
-          placeholder="Search resource..."
-        />
-      </div>
-
-      <div className="card">
-        <div className="over">
-          <Tablev3
-            className="table-web"
-            columns={webColumnsWith}
-            rows={webResources}
-            showRows={!isLoading}
-            initialOrder="resource_domain"
-            isNeedSearchBar={false}
-            limit={0}
-            isNeedSort
-          />
-        </div>
-      </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { useNewWindows } from '#commonHooks/useNewWindows.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { TrashIcon, BugIcon, MagnifyingGlassIcon } from '@icons';
-import '@table/table.scss';
+// import '@table/table.scss';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import Show from '@/app/views/components/Show/Show';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
@@ -27,7 +27,7 @@ const issueColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1',
+    styles: 'item-cell-issue-1',
     weight: '7.5%',
     render: value => value,
   },
@@ -35,14 +35,14 @@ const issueColumns: ColumnTableV3[] = [
     header: 'Issue Title',
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-2',
+    styles: 'item-cell-issue-2',
     weight: '59%',
     render: issue => <ResourceIconText name={issue.name} resourceClass={issue.resourceClass} />,
   },
   {
     header: 'Published',
     key: 'createdAt',
-    styles: 'item-cell-3 date',
+    styles: 'item-cell-issue-3',
     weight: '14%',
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
@@ -73,7 +73,7 @@ const issueColumns: ColumnTableV3[] = [
   {
     header: 'Score',
     key: 'riskScore',
-    styles: 'item-cell-7',
+    styles: 'item-cell-issue-4',
     weight: '14%',
     render: value => <RiskScore riskScore={value} />,
   },
@@ -105,7 +105,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       header: '',
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-9 action',
+      styles: 'item-cell-issue-5 item-action',
       weight: '4.5%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>
@@ -151,28 +151,13 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       </div>
 
       <div className="card">
-        {/* <div className="header">
-          <div className="title">
-            <div className="icon">
-              <BugIcon />
-            </div>
-            <span>Issues</span>
-          </div>
-          <Show when={isAdmin() || isProvider()}>
-            <div className="actions">
-              <div className="" onClick={() => props.addFinding()}>
-                Add finding
-              </div>
-            </div>
-          </Show>
-        </div> */}
-
         <Tablev3
           rows={dataTable}
           columns={isAdmin() || isProvider() ? issuesColumnsWithActions : issueColumns}
           showRows={!props.isLoading}
           initialSort={Sort.asc}
           urlNav={`${baseUrl}/issues/`}
+          emptyInfo="The company has no associated vulnerabilities yet, wait for one of our hackers to report a vulnerability or perform an automated scan with AI to find vulnerabilities automatically!"
         />
       </div>
     </>

@@ -24,7 +24,8 @@ interface SearchBarProps {
   inputValue: string;
   handleSubmit: () => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  searchIcon: ReactNode;
+  searchIcon?: ReactNode;
+  searchText?: string;
 
   isActiveSelect?: boolean;
   selectOptions?: SearchBarSelect;
@@ -82,7 +83,7 @@ export const SearchBar: FC<SearchBarProps> = props => {
             </select>
           </Show>
           <PrimaryButton
-            text={props.searchIcon}
+            text={props?.searchIcon ? props?.searchIcon : props?.searchText || 'Search'}
             click={() => {}}
             type="submit"
             className="search-button no-border-height"

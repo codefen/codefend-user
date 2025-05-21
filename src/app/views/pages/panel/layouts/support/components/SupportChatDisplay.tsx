@@ -8,7 +8,7 @@ import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import { MessageIcon } from '@icons';
 import { MessageList } from '@/app/views/components/MessageList/MessageList';
-import { useSWRMessage } from '@panelHooks/useSWRTickets';
+import { useSWRMessage } from '@panelHooks/chats/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 import { EMPTY_CS_TICKET } from '@/app/constants/empty';

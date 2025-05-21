@@ -136,7 +136,7 @@ const Navbar: FC = () => {
                 closeMenu={() => setMenuOpen(false)}
               />
             </div>
-            <ThemeChangerButton />
+            {/* <ThemeChangerButton /> */}
             <div
               className="action logout"
               title="Logout"

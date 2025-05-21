@@ -21,7 +21,8 @@
     align-items: center;
     font-family: Questrial;
     font-size: 14px;
-    color: var(--tertiary-color-200);
+    font-weight: 700;
+    color: var(--tertiary-color-400);
 
     // padding: 0 20px;
     border-bottom: 1px solid var(--primary-color-300);
@@ -100,7 +101,8 @@
     display: flex;
     align-items: center;
     height: 40px;
-    padding: 0 0 0 20px;
+    padding-inline: 20px;
+    // padding-inline-end: 40px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-300);
     font-family: Questrial;
@@ -570,9 +572,9 @@
 }
 
 .internal-tables {
-  border-top: 1px solid var(--primary-color-300);
-  border-right: 1px solid var(--primary-color-300);
-  border-left: 1px solid var(--primary-color-300);
+  // border-top: 1px solid var(--primary-color-300);
+  // border-right: 1px solid var(--primary-color-300);
+  // border-left: 1px solid var(--primary-color-300);
   background-color: var(--primary-color-50);
 }
 

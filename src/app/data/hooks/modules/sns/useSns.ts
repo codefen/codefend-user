@@ -43,17 +43,21 @@ export const useSns = () => {
 
   const fetchSearch = (companyID: string) => {
     intelDataRef.current = [];
+    let searchDataParsed = searchData;
+    if (searchClass === 'email') {
+      searchDataParsed = searchDataParsed.trim();
+    }
     return fetcher('post', {
       body: {
         company_id: companyID,
-        keyword: searchData,
+        keyword: searchDataParsed,
         class: searchClass,
       },
       path: 'modules/sns/search',
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;
-        if (apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
           customError.code = data?.error_info || 'generic';
           throw customError;
@@ -65,22 +69,29 @@ export const useSns = () => {
             })
           : [];
         intelDataRef.current = arrayOfObjects;
-        if (data?.company) company.set(data.company);
+        updateCompany(data.company);
         if (arrayOfObjects.length === 0 || data.response.size == 0) {
           toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
         }
       })
       .catch(error => {
         switch (error.code) {
-          case 'leaksearch_maximum_reached':
-            updateState('open', true);
-            updateState('orderStepActive', OrderSection.PAYWALL);
-            updateState('resourceType', ResourcesTypes.WEB);
+          case 'paid_user_leaksearch_maximum_reached':
+            limitReached();
             break;
           default:
             toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
       });
+  };
+
+  const limitReached = () => {
+    updateState('open', true);
+    updateState('orderStepActive', OrderSection.PAYWALL);
+    updateState('resourceType', ResourcesTypes.WEB);
+  };
+  const updateCompany = (companyUpdated: any) => {
+    if (companyUpdated) company.set(companyUpdated);
   };
 
   const handleSearch = () => {
@@ -98,5 +109,8 @@ export const useSns = () => {
     getUserdata,
     setSearchData,
     setSearchClass,
+    limitReached,
+    company,
+    updateCompany,
   } as const;
 };

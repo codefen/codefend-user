@@ -48,12 +48,13 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
       },
       path: 'users/password/mod',
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         toast.error('The new password or the old password is invalid');
         return;
       }
       toast.success('Password updated successfully');
       form.reset();
+      setPasswordValue('');
       if (onDone) onDone();
     });
   };

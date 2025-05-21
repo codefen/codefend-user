@@ -1,5 +1,6 @@
 import { useEffect, type FC } from 'react';
 import SnPreviousSearches from './components/SnPreviousSearches.tsx';
+import SnsCardTitle from './components/SnsCardTitle';
 import SnsSearchAndData from './components/SnsSearchAndData.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
@@ -23,10 +24,13 @@ const SnsPanel: FC = () => {
         </section>
 
         <section className="right">
-          <div>
-            <span style={{ fontSize: '1.5rem' }}>
-              Remaining searches: {company.get.disponibles_sns}
-            </span>
+          <SnsCardTitle
+            arrow="none"
+            title="Dataleaks search"
+            description="Protect your brand.Check our data breach databases to find out if your users or business information has been exposed."
+          />
+          <div className="card remaining-searches">
+            Remaining searches: {company.get.disponibles_sns}
           </div>
           <SnPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
         </section>

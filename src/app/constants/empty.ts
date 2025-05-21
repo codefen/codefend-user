@@ -1,7 +1,8 @@
 import { IssuesStatus } from '@interfaces/issues';
-import type { KeyPress, User } from '../data';
-import type { GlobalStore } from '@/app/views/context/AppContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import type { GlobalStore } from '@/app/views/context/AppContextProvider';
+import type { KeyPress } from '@interfaces/util';
+import { APP_EVENT_TYPE, type User } from '@interfaces/index';
 
 export const EMPTY_USER: User = {
   id: '',
@@ -85,7 +86,10 @@ export const EMPTY_COMPANY_CUSTOM = {
   eliminado: '0',
   creacion: '',
   address: '',
+  isDisabled: false,
 };
+
+export const MAX_SCAN_RETRIES = 6;
 
 export const EMPTY_GLOBAL_STATE: GlobalStore = {
   isOpenNetworkSetting: false,
@@ -102,7 +106,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   subDomainCount: 0,
   uniqueIpCount: 0,
   planPreference: 'medium',
-  isDefaultPlan: false,
+  isDefaultPlan: true,
   selectedApp: null,
   mobilePlanPreference: 'medium',
   scanProgress: 0,
@@ -111,6 +115,17 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   isScanning: false,
   selectedTicket: null,
   session: '',
+  scanNumber: 0,
+  user: EMPTY_USER,
+  companies: [],
+  scanRetries: MAX_SCAN_RETRIES,
+  activeScan: null,
+  internalIpCount: 0,
+  externalIpCount: 0,
+  subNetworkCount: 0,
+  webResourceSelected: null,
+  appEvent: APP_EVENT_TYPE.USER_LOGGED_OUT,
+  isInitialFetchDone: true,
 };
 
 export const EMPTY_PROVIDER = {
@@ -194,7 +209,7 @@ export const EMPTY_DASHBOARD_PROPS = {
     source: '',
     web: '',
   },
-  company: {},
+  company: null,
 };
 
 export const EMPTY_TICKET_WITHCHILD = {

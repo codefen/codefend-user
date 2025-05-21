@@ -20,7 +20,7 @@ const useGetAllCompanies = () => {
       path: 'companies/dashboard',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
       setCompanyInfo(data);

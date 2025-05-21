@@ -4,6 +4,7 @@ import { type Webresource } from '@interfaces/panel.ts';
 import { useAddSubResource } from '@resourcesHooks/web/useAddSubResources.ts';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface SubDomainFormProps extends ComponentEventWithChildren {
   webResources: Webresource[];
@@ -14,11 +15,11 @@ const SubDomainForm: FC<SubDomainFormProps> = ({ close, onDone, children, webRes
     onDone ? onDone : () => {},
     close ? close : () => {}
   );
+  const webResourceSelected = useGlobalFastField('webResourceSelected');
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
     handleAddSubResource();
   };
 
@@ -35,6 +36,7 @@ const SubDomainForm: FC<SubDomainFormProps> = ({ close, onDone, children, webRes
           className="log-inputs modal_info"
           name="Main resource"
           id="select-subdomain-resources"
+          defaultValue={webResourceSelected.get?.id || ''}
           required>
           <option value="" disabled hidden>
             main resource

@@ -22,7 +22,7 @@ export const useAddIssueMessage = (
         issue_id: selectedID,
       },
     }).then(({ data }) => {
-      if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+      if (apiErrorValidation(data)) throw new Error('');
       setMessage('');
       onDone(data?.issues_cs);
     });

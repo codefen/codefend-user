@@ -1,7 +1,7 @@
 .scan-section-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--card-space);
 }
 
 .disabled-btn {
@@ -16,22 +16,51 @@
 
 .scan-search-box {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
+  gap: 1rem;
 
   :global(.search-bar) {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
+    height: 43px;
   }
 
-  .scan-search-box-info {
-    padding: 0.5rem;
-    border-radius: 0.25rem;
+  .scan-available-badge {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    flex-direction: column;
-    margin-bottom: 10px;
     height: 43px;
-    font-size: 1.25rem;
+    background: #505050;
+    border-radius: 4px;
+    padding: 0 22px;
+    gap: 10px;
+    min-width: 120px;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+    font-weight: 400;
+    user-select: none;
+    color: #fff;
+
+    .badge-label {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-right: 8px;
+      font-weight: 400;
+    }
+    .badge-count {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-left: 2px;
+      background: none;
+      border-radius: 0;
+      padding: 0;
+      min-width: 0;
+      text-align: left;
+      display: inline-block;
+    }
+  }
+  .scan-search-box-info {
+    display: none;
   }
 }

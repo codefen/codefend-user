@@ -123,7 +123,7 @@ export const useOrderScope = () => {
   const { getCompany } = useUserData();
   const { resumeResources, updateState } = useOrderStore(state => state);
 
-  const fetchScope = (companyID: string, resourceScope: string) => {
+  const fetchScope = (companyID: string, resourceScope: string, appId?: string) => {
     let resource: any = {};
 
     if (resourceScope === 'full') {
@@ -131,7 +131,7 @@ export const useOrderScope = () => {
     } else if (resourceScope === RESOURCE_CLASS.WEB) {
       resource = { web: resumeResources.web };
     } else if (resourceScope === RESOURCE_CLASS.MOBILE) {
-      resource = { mobile: resumeResources.mobile };
+      resource = { mobile: resumeResources.mobile.find((app: any) => app.id === appId) };
     } else if (resourceScope === RESOURCE_CLASS.CLOUD) {
       resource = { cloud: resumeResources.cloud };
     } else if (resourceScope === RESOURCE_CLASS.SOURCE) {
@@ -160,10 +160,10 @@ export const useOrderScope = () => {
       .catch((error: Error) => toast.error(error.message));
   };
 
-  const sendScopeOrders = (resourceScope: string) => {
+  const sendScopeOrders = (resourceScope: string, appId?: string) => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return Promise.resolve(false);
-    return fetchScope(companyID, resourceScope);
+    return fetchScope(companyID, resourceScope, appId);
   };
 
   return { sendScopeOrders };

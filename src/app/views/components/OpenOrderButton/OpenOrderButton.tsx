@@ -12,19 +12,20 @@ interface OpenOrderButtonProps {
   type: ResourcesTypes;
   className?: string;
   scope?: OrderSection;
+  plan?: 'medium' | 'small' | 'advanced' | null;
 }
 
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.WEB]: ({ total, plan }: any) => (
     <>
-      Your web scope has more than <strong>{total}</strong> resources, so we recommend a{' '}
+      Your web scope has a total of <strong>{total}</strong> resources, Codefend recommends a{' '}
       <b>{plan} plan</b>.
     </>
   ),
-  [ResourcesTypes.MOBILE]: () => (
+  [ResourcesTypes.MOBILE]: ({ plan }: any) => (
     <>
       No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
-      <strong>medium plan.</strong>
+      <b>{plan} plan.</b>
     </>
   ),
 
@@ -32,12 +33,12 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.CODE]: () => <></>,
   [ResourcesTypes.NETWORK]: ({ plan }: any) => (
     <>
-      For your network resources, we recommend a <strong>{plan}</strong> plan
+      For your network resources, we recommend a <b>{plan} plan.</b>
     </>
   ),
   [ResourcesTypes.SOCIAL]: ({ plan }: any) => (
     <>
-      For social resources, <strong>{plan}</strong>
+      For social resources, <b>{plan} plan.</b>
     </>
   ),
 };
@@ -55,7 +56,7 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
 // };
 
 export const titleMap = {
-  [ResourcesTypes.WEB]: 'Analyze your web software',
+  [ResourcesTypes.WEB]: 'Start a web application pentest',
   [ResourcesTypes.MOBILE]: 'Start dedicated testing',
   [ResourcesTypes.CLOUD]: 'Analyze your cloud software',
   [ResourcesTypes.CODE]: 'Analyze your code',
@@ -69,16 +70,16 @@ const OpenOrderButton = ({
   type,
   className = '',
   scope = OrderSection.SCOPE,
+  plan = null,
 }: OpenOrderButtonProps) => {
   const { updateState } = useOrderStore(state => state);
   const { isAdmin, isNormalUser } = useUserRole();
-  const [plan, setPlan] = useState<ReactNode | null>(null);
+  const [planText, setPlanText] = useState<ReactNode | null>(null);
   const globalStore = useGlobalFastFields([
     'subDomainCount',
     'uniqueIpCount',
     'domainCount',
     'planPreference',
-    'mobilePlanPreference',
     'selectedApp',
   ]);
   const onOpen = () => {
@@ -91,12 +92,18 @@ const OpenOrderButton = ({
     const total = globalStore.domainCount.get + globalStore.subDomainCount.get;
     const name = globalStore.selectedApp.get?.app_name;
     const downloads = globalStore.selectedApp.get?.app_android_downloads;
-    let plan = globalStore.planPreference.get;
-    if (type === ResourcesTypes.MOBILE) {
-      plan = globalStore.mobilePlanPreference.get;
+    let planStore = globalStore.planPreference.get;
+    if (plan) {
+      planStore = plan;
     }
-    setPlan(orderText[type]({ total, plan, name, downloads }));
-  }, [globalStore.domainCount.get, globalStore.subDomainCount.get, globalStore.selectedApp.get]);
+
+    setPlanText(orderText[type]({ total, plan: planStore, name, downloads }));
+  }, [
+    globalStore.domainCount.get,
+    globalStore.subDomainCount.get,
+    globalStore.selectedApp.get,
+    globalStore.planPreference.get,
+  ]);
 
   return (
     <div className="card title">
@@ -105,7 +112,7 @@ const OpenOrderButton = ({
         <span>{titleMap[type]}</span>
       </div>
       <div className="content">
-        <p>{plan}</p>
+        <p>{planText}</p>
         <div className="actions">
           <PrimaryButton
             text={

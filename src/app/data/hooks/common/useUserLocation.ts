@@ -1,7 +1,7 @@
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
 
-const ALLOWED_PATHS = ['/auth/signup', '/auth/signin'];
+const ALLOWED_PATHS = ['/auth/signup', '/auth/signin', '/auth/signup/invitation'];
 
 export function useUserLocation() {
   const stored = useGlobalFastFields(['city', 'country', 'region']);
@@ -9,7 +9,8 @@ export function useUserLocation() {
   useEffect(() => {
     // Validamos si estamos en una ruta habilitada
     const currentPath = window?.location?.pathname;
-    const isAllowedPath = ALLOWED_PATHS.includes(currentPath);
+    const isAllowedPath =
+      ALLOWED_PATHS.includes(currentPath) || currentPath.startsWith('/auth/signup/invitation');
     if (!isAllowedPath) return;
     fetch('https://ipinfo.io/json?token=6378a34c5dd63c')
       .then(response => response.json())

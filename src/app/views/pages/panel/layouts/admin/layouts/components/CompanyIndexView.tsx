@@ -1,14 +1,14 @@
 import { type FC, useEffect } from 'react';
 import CompanyCard from './CompanyCard.tsx';
-import useAdminCompanyStore from '@stores/adminCompany.store.ts';
-import { type AdminCompany } from '@stores/adminCompany.store.ts';
 import './CompanyIndexView.scss';
 import { useGetCompany } from '@userHooks/admins/useGetCompany';
-import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { Sort, type ColumnTableV3 } from '@interfaces/table.ts';
-import TableCellV3 from '@table/v3/TableCellV3.tsx';
 import Tablev3 from '@table/v3/Tablev3.tsx';
 import { naturalTime } from '@utils/helper.ts';
+import {
+  useGlobalFastField,
+  useGlobalFastFields,
+} from '@/app/views/context/AppContextProvider.tsx';
 
 const companiesColumn: ColumnTableV3[] = [
   {
@@ -77,36 +77,19 @@ const companiesColumn: ColumnTableV3[] = [
 ];
 
 const CompanyIndexView: FC = () => {
-  const { isAdmin } = useUserRole();
-  const { getCompany } = useGetCompany();
-  const { companies, companySelected, isSelectedCompany, updateCompanies } = useAdminCompanyStore(
-    state => state
-  );
-
-  const { selectCompany } = useAdminCompanyStore(state => state);
-
-  useEffect(() => {
-    if (isAdmin()) {
-      getCompany().then(({ data }: any) => {
-        updateCompanies(data.companies);
-      });
-    }
-    if (isAdmin() && !companySelected) {
-      selectCompany(companies[0] || undefined);
-    }
-  }, []);
+  const { data, company } = useGetCompany();
 
   return (
     <div className="CompanyIndexView">
       <Tablev3
         columns={companiesColumn}
-        rows={companies}
-        showRows={Boolean(companies?.length)}
+        rows={data}
+        showRows={Boolean(data?.length)}
         isNeedSearchBar
         initialOrder="name"
         initialSort={Sort.desc}
-        action={company => selectCompany(company)}
-        selected={companySelected}
+        action={clickedCompany => company.set(clickedCompany)}
+        selected={company.get}
         selectedKey="id"
       />
     </div>

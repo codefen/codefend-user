@@ -4,26 +4,41 @@ import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
 import { WebApplicationTitle } from './components/WebApplicationTitle.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
-import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
-import '@table/table.scss';
-import './webapplication.scss';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
-import WebWelcomeModal from '@modals/web-welcome/WebWelcomeModal.tsx';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import { ResourcesTypes } from '@interfaces/order.ts';
+import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
+import { DeleteWebResourceModal } from '@modals/delete-modals/DeleteWebResourceModal.tsx';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
+import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
+import './webapplication.scss';
+import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
 
 const WebApplicationView = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { webResources, isLoading, refetch } = useGetWebResources();
   const flashlight = useFlashlight();
+  const appEvent = useGlobalFastField('appEvent');
 
   useEffect(() => {
     refetch();
   }, [control]);
+
+  useEffect(() => {
+    if (
+      appEvent.get != APP_EVENT_TYPE.NOTIFICATION &&
+      appEvent.get != APP_EVENT_TYPE.SCAN_FINISHED &&
+      appEvent.get != APP_EVENT_TYPE.SCAN_LAUNCHED &&
+      appEvent.get != APP_EVENT_TYPE.LAUNCH_SCAN
+    ) {
+      refresh();
+      appEvent.set(APP_EVENT_TYPE.NOTIFICATION);
+    }
+  }, [appEvent.get]);
 
   return (
     <EmptyLayout
@@ -33,17 +48,19 @@ const WebApplicationView = () => {
       showScreen={showScreen}
       isLoading={isLoading}
       dataAvailable={Boolean(webResources.length)}>
-      <ModalReport />
+      {/* *****MODALES WEB PAGE ***** */}
       <CredentialsModal />
-      <WebWelcomeModal />
+      <DeleteWebResourceModal />
+      <AddDomainModal />
+      <AddSubDomainModal webResources={webResources} />
       <div className="brightness variant-1"></div>
+
+      {/* *****SECTION LEFT WEB PAGE ***** */}
       <section className="left">
-        <WebApplicationResources
-          isLoading={isLoading}
-          refresh={refresh}
-          webResources={webResources}
-        />
+        <WebApplicationResources isLoading={isLoading} webResources={webResources} />
       </section>
+
+      {/* *****SECTION RIGHT WEB PAGE ***** */}
       <section className="right" ref={flashlight.rightPaneRef}>
         <WebApplicationTitle webResources={webResources} isLoading={isLoading} refresh={refresh} />
         <WebApplicationStatics webResources={webResources} />
@@ -59,7 +76,6 @@ const WebApplicationView = () => {
           title="Web servers by location"
           type={RESOURCE_CLASS.WEB}
         />
-        {/*<WebApplicationCredentials />*/}
       </section>
     </EmptyLayout>
   );

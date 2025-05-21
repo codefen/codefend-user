@@ -22,33 +22,22 @@ export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webRes
     globalStore.domainCount.set(metrics.domainCount);
     globalStore.subDomainCount.set(metrics.subDomainCount);
     globalStore.uniqueIpCount.set(metrics.uniqueIpCount);
-    globalStore.isDefaultPlan.set(true);
-
-    if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
-      globalStore.planPreference.set('small');
-    } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
-      globalStore.planPreference.set('medium');
-    } else {
-      globalStore.planPreference.set('advanced');
+    if (globalStore.isDefaultPlan.get) {
+      if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
+        globalStore.planPreference.set('small');
+      } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
+        globalStore.planPreference.set('medium');
+      } else {
+        globalStore.planPreference.set('advanced');
+      }
     }
-  }, [webResources]);
+  }, [webResources, globalStore.planPreference.get, globalStore.isDefaultPlan.get]);
 
   return (
-    <div className="card stats">
-      {/* <div className="header">
-        <div className="title">
-          <div className="icon">
-            <ChartIcon />
-          </div>
-          <span>Domain & server statics</span>
-        </div>
-        <div className="actions"></div>
-      </div> */}
-      <div className="content">
-        <StatAsset value={globalStore.domainCount.get} valueTitle="Domains" />
-        <StatAsset value={globalStore.subDomainCount.get} valueTitle="Subdomains" />
-        <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPS" />
-      </div>
+    <div className="flex-box">
+      <StatAsset value={globalStore.domainCount.get} valueTitle="Domains" />
+      <StatAsset value={globalStore.subDomainCount.get} valueTitle="Subdomains" />
+      <StatAsset value={globalStore.uniqueIpCount.get} valueTitle="Unique IPS" />
     </div>
   );
 };

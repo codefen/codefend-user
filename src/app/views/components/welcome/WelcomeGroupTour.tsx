@@ -1,11 +1,11 @@
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
-import { useSolvedComunique } from '#commonHooks/useSolvedComunique';
+import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
 import { WelcomeDomain } from '@/app/views/components/welcome/WelcomeDomain/WelcomeDomain';
 import WelcomeScan from '@/app/views/components/welcome/WelcomeScan/WelcomeScan';
 import { WelcomeFinish } from '@/app/views/components/welcome/WelcomeFinish/WelcomeFinish';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { useAutoScan } from '@panelHooks/useAutoScan';
+import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
 
 export const WelcomeGroupTour = () => {
   const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
@@ -15,7 +15,7 @@ export const WelcomeGroupTour = () => {
 
   const startWaitStep = () => {
     solvedComunique();
-    autoScan(domainId);
+    autoScan(domainId, true, '');
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
   };

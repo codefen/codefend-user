@@ -1,5 +1,27 @@
 main.orders-payments {
   .left {
+    gap: 12px;
+
+    .box-assets {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 12px;
+      width: 100%;
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0;
+        min-width: 200px;
+        padding: 0.5rem;
+        p {
+          font-family: Satoshi, sans-serif !important;
+          font-size: 0.9rem;
+        }
+      }
+    }
+
     .card {
       .table-title {
         gap: calc(var(--card-space) * 2);
@@ -12,12 +34,59 @@ main.orders-payments {
         display: flex;
         flex: 1 1 100%;
         flex-direction: column;
-
         p {
           padding-inline: 0;
           line-height: 2;
         }
       }
+    }
+  }
+
+  .right {
+    height: 100%;
+    margin-left: 0;
+    overflow-y: auto;
+    .card {
+      margin-bottom: 12px;
+    }
+  }
+
+  &.actived {
+    opacity: 1;
+    width: 96%;
+    margin-left: 0;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+
+    .left {
+      flex: 3.5;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+
+    .right {
+      flex: 2.5;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+    min-height: auto;
+    height: 81dvh;
+    padding: 0;
+
+    .left {
+      width: 100%;
+      overflow-x: auto;
+      padding-block-start: 10px;
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
     }
   }
 }

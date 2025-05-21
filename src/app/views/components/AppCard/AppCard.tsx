@@ -1,12 +1,13 @@
 import { type FC } from 'react';
-import { cleanHTML, cleanReview, defaultMobileCloudResourceAsset, useAppCard } from '../../../data';
 import { useLocation, useNavigate } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
-import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
 import Show from '@/app/views/components/Show/Show';
-import { BugIcon } from '@icons';
 import { StarRating } from '@/app/views/components/utils/StarRating';
+import useModalStore from '@stores/modal.store';
+import { useAppCard } from '@resourcesHooks/useAppCard';
+import { defaultMobileCloudResourceAsset } from '@mocks/defaultData';
+import { cleanHTML } from '@utils/helper';
 
 interface MobileAppCardProps {
   isActive?: boolean;
@@ -25,6 +26,12 @@ interface MobileAppCardProps {
   openReport?: () => void;
   issueCount?: number;
   activeViewCount?: boolean;
+}
+
+function decodeHtml(html: string) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = html;
+  return txt.value;
 }
 
 export const AppCard: FC<MobileAppCardProps> = ({
@@ -53,7 +60,7 @@ export const AppCard: FC<MobileAppCardProps> = ({
     appMedia,
   });
 
-  const { setIsOpen } = useRemoveAppStore(state => state);
+  const { setModalId, setIsOpen } = useModalStore();
 
   const handleClick = () => {
     if (isAdmin() || isProvider())
@@ -65,7 +72,10 @@ export const AppCard: FC<MobileAppCardProps> = ({
       );
   };
 
-  const handleDeleteResource = () => setIsOpen(true);
+  const handleDeleteResource = () => {
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.DELETE_APP);
+  };
 
   const generateCardClasses = () => {
     let classes = 'app-card';
@@ -108,9 +118,11 @@ export const AppCard: FC<MobileAppCardProps> = ({
         <div className="app-card-content-img">{<MemoizedRenderImage />}</div>
         <div className="app-card-content-body">
           <div className="app-card-title">
-            <h3 className={`${isDetails ? 'detail' : 'card-resume'}`}>
-              {isMainGoogleNetwork ? 'main google network' : cleanReview(name, true)}
-            </h3>
+            <h3
+              className={`${isDetails ? 'detail' : 'card-resume'}`}
+              dangerouslySetInnerHTML={{
+                __html: isMainGoogleNetwork ? 'main google network' : decodeHtml(name),
+              }}></h3>
             <Show when={isDetails && !isMobileType}>
               <span className="second-text detail">resource id: {id}</span>
             </Show>

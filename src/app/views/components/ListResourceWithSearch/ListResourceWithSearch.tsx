@@ -1,8 +1,9 @@
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { AppCard } from '@/app/views/components/AppCard/AppCard';
 import useCredentialStore from '@stores/credential.store';
 import { useEffect, useMemo, useState, type FC } from 'react';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { MagnifyingGlassIcon } from '@icons';
 
 interface LeftMobileCloudProps {
   resources: any[];
@@ -10,27 +11,19 @@ interface LeftMobileCloudProps {
   type: string;
 }
 
-export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
-  resources,
-  openModal,
-  type,
-}) => {
-  const { appSelected, setAppSelected, isSelected } = useSelectedApp();
+export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({ resources, type }) => {
   const [term, setTerm] = useState('');
   const selectedAppStored = useGlobalFastField('selectedApp');
   const { setViewMore } = useCredentialStore();
 
   useEffect(() => {
-    // if (!appSelected) {
     if (!selectedAppStored.get) {
-      // setAppSelected(resources[0]);
       selectedAppStored.set(resources[0]);
     }
   }, [resources]);
 
   const updateSelectedApp = (resource: any) => {
-    if (!isSelected(resource.id)) {
-      // setAppSelected(resource);
+    if (resource.id != selectedAppStored.get?.id) {
       selectedAppStored.set(resource);
     }
     setViewMore({ id: '', open: false });
@@ -44,46 +37,41 @@ export const ListResourceWithSearch: FC<LeftMobileCloudProps> = ({
     [term]
   );
   return (
-    <div className="card cloud-apps">
-      {/* <div className="header">
-          <div className="title">
-            <span>{type} Applications</span>
-          </div>
-          <div className="actions">
-            <div onClick={openModal}>Add {type} app</div>
-          </div>
-        </div> */}
-      <input
-        type="text"
-        className="log-inputs search-app"
-        placeholder="search"
-        onChange={(e: any) => setTerm(e.target.value)}
-      />
-      <div className="list">
-        {resourceFiltered.map((resource, i) => (
-          <div
-            key={`${resource.id}-${i}`}
-            className="app-info"
-            onClick={() => updateSelectedApp(resource)}>
-            <AppCard
-              isActive={isSelected(resource.id)}
-              id={resource.id}
-              type={type.toLowerCase()}
-              name={resource?.app_name || resource?.cloud_name}
-              appMedia={type == 'Mobile' ? resource?.app_media : ''}
-              appDesc={resource?.app_desc || resource?.cloud_desc}
-              appReviews={resource?.app_reviews || undefined}
-              appRank={resource?.app_rank || undefined}
-              appDeveloper={resource?.app_developer || undefined}
-              cloudProvider={
-                resource?.cloud_provider ? resource.cloud_provider.toLowerCase() : undefined
-              }
-              issueCount={resource.final_issue}
-              activeViewCount
-            />
-          </div>
-        ))}
+    <>
+      <div className="search-container">
+        <ModalInput
+          icon={<MagnifyingGlassIcon />}
+          setValue={(val: string) => setTerm(val)}
+          placeholder="Search..."
+        />
       </div>
-    </div>
+      <div className="card cloud-apps">
+        <div className="list">
+          {resourceFiltered.map((resource, i) => (
+            <div
+              key={`${resource.id}-${i}`}
+              className="app-info"
+              onClick={() => updateSelectedApp(resource)}>
+              <AppCard
+                isActive={resource.id == selectedAppStored.get?.id}
+                id={resource.id}
+                type={type.toLowerCase()}
+                name={resource?.app_name || resource?.cloud_name}
+                appMedia={type == 'Mobile' ? resource?.app_media : ''}
+                appDesc={resource?.app_desc || resource?.cloud_desc}
+                appReviews={resource?.app_reviews || undefined}
+                appRank={resource?.app_rank || undefined}
+                appDeveloper={resource?.app_developer || undefined}
+                cloudProvider={
+                  resource?.cloud_provider ? resource.cloud_provider.toLowerCase() : undefined
+                }
+                issueCount={resource.final_issue}
+                activeViewCount
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };

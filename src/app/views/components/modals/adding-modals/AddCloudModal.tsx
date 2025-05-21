@@ -5,7 +5,11 @@ import type { ComponentEventWithOpen } from '@interfaces/util';
 import { CloudResourceForm } from '@/app/views/components/forms/CloudResourceForm';
 
 export const AddCloudModal: FC<ComponentEventWithOpen> = ({ isOpen, close, onDone }) => (
-  <ModalTitleWrapper headerTitle="Add Cloud" close={() => close?.()} isActive={isOpen} type="med-w">
+  <ModalTitleWrapper
+    headerTitle="Add Cloud"
+    close={() => close?.()}
+    isActive={isOpen ?? false}
+    type="med-w">
     <div className="content">
       <CloudResourceForm close={close} onDone={onDone}>
         {isLoading => (

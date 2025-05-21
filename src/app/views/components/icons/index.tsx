@@ -3,6 +3,7 @@ import type { FC } from 'react';
 interface IconProps {
   half?: boolean;
   percentage?: string;
+  empty?: boolean;
   stroke?: number | string;
   isButton?: boolean;
   width?: number | string;
@@ -804,6 +805,22 @@ export const CheckIcon = () => (
   </svg>
 );
 
+export const CheckSimpleIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="40"
+    height="40"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-check text-white">
+    <path d="M20 6 9 17l-5-5"></path>
+  </svg>
+);
+
 export const WindowsIcon: FC<IconProps> = ({ styles }) => (
   <svg
     stroke="currentColor"
@@ -868,37 +885,65 @@ export const CircleAskIcon: FC<IconProps> = ({ styles }) => (
   </svg>
 );
 
-export const StarIcon: FC<IconProps> = ({ half, percentage }) => {
-  if (half) {
+export const StarIcon: FC<IconProps> = ({ half, percentage, empty }) => {
+  if (empty) {
     return (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        id="star-icon"
-        className="half-icon"
-        style={{ '--half-percentage': percentage } as any}>
-        <defs>
-          <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset={percentage} stopColor="#ff9100" />
-            <stop offset={percentage} stopColor="#e0e0e0" />
-          </linearGradient>
-        </defs>
+      <svg viewBox="0 0 24 24" fill="none" id="star-icon">
         <path
           fillRule="evenodd"
           d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
           clipRule="evenodd"
-          fill="url(#starGradient)"
+          fill="#e0e0e0"
         />
       </svg>
     );
   }
 
+  if (half) {
+    const percentageValue = Math.min(100, Math.max(0, parseFloat(percentage || '50')));
+
+    return (
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        {/* Fondo gris */}
+        <svg viewBox="0 0 24 24" fill="none" style={{ position: 'absolute', zIndex: 1 }}>
+          <path
+            fillRule="evenodd"
+            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+            clipRule="evenodd"
+            fill="#e0e0e0"
+          />
+        </svg>
+
+        {/* Parte naranja */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 2,
+            width: `${percentageValue}%`,
+            overflow: 'hidden',
+            display: 'inline-block',
+          }}>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              fillRule="evenodd"
+              d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+              clipRule="evenodd"
+              fill="#ff9100"
+            />
+          </svg>
+        </div>
+      </div>
+    );
+  }
+
+  // Estrella completa
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" id="star-icon">
+    <svg viewBox="0 0 24 24" fill="none" id="star-icon">
       <path
         fillRule="evenodd"
         d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
         clipRule="evenodd"
+        fill="#ff9100"
       />
     </svg>
   );
@@ -1347,8 +1392,8 @@ export const ScopeIcon: FC<IconProps> = ({ isButton }) => (
   </svg>
 );
 
-export const CredentialIcon: FC<IconProps> = () => (
-  <svg height="1.5rem" width="1.5rem" viewBox="0 0 32 32" fill="currentColor">
+export const CredentialIcon: FC<IconProps> = ({ width = '1.5rem', height = '1.5rem' }) => (
+  <svg height={height} width={width} viewBox="0 0 32 32" fill="currentColor">
     <path d="m16 22a4 4 0 1 0 -4-4 4 4 0 0 0 4 4zm0-6a2 2 0 1 1 -2 2 2 2 0 0 1 2-2z" />
     <path d="m14 6h4v2h-4z" />
     <path d="m24 2h-16a2.002 2.002 0 0 0 -2 2v24a2.0023 2.0023 0 0 0 2 2h16a2.0027 2.0027 0 0 0 2-2v-24a2.0023 2.0023 0 0 0 -2-2zm-4 26h-8v-2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1zm2 0v-2a3 3 0 0 0 -3-3h-6a3 3 0 0 0 -3 3v2h-2v-24h16v24z" />
@@ -1590,6 +1635,52 @@ export const CubeIcon: FC<IconProps> = ({ className }) => (
       stroke="black"
       stroke-width="30"
       d="M256 64v384M256 448L64 341.3M256 448l192-106.7"
+    />
+  </svg>
+);
+
+export const ThreeDotsIcon: FC<IconProps> = ({
+  className = '',
+  width = '1.5rem',
+  height = '1.5rem',
+}) => (
+  <svg width={width} height={height} viewBox="0 0 24 24" fill="none" className={className}>
+    <path
+      d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const PlusIcon: FC<IconProps> = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    width="1.3rem"
+    height="1.3rem"
+    className={className}>
+    <path
+      fillRule="evenodd"
+      d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+      clipRule="evenodd"
     />
   </svg>
 );

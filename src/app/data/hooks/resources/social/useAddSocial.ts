@@ -41,28 +41,23 @@ const validations = (fName: string, lName: string, mail: string, phone: string, 
 
 export const useAddSocial = (onDone: () => void, close: () => void) => {
   const { getCompany } = useUserData();
-  const fName = useRef<HTMLInputElement>(null);
-  const lName = useRef<HTMLInputElement>(null);
-  const mail = useRef<HTMLInputElement>(null);
-  const phone = useRef<HTMLInputElement>(null);
-  const role = useRef<HTMLSelectElement>(null);
 
   const [fetcher, _, isLoading] = useFetcher();
 
-  const fetchAdd = (companyID: string) => {
+  const fetchAdd = (companyID: string, form: FormData) => {
     fetcher<any>('post', {
       body: {
         company_id: companyID,
-        member_fname: fName.current?.value || '',
-        member_lname: lName.current?.value || '',
-        member_email: mail.current?.value || '',
-        member_phone: phone.current?.value || '',
-        member_role: role.current?.value || '',
+        member_fname: (form.get('member_fname') as string) || '',
+        member_lname: (form.get('member_lname') as string) || '',
+        member_email: (form.get('member_email') as string) || '',
+        member_phone: (form.get('member_phone') as string) || '',
+        member_role: (form.get('member_role') as string) || '',
       },
       path: 'resources/se/add',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data.error, data.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         onDone();
@@ -71,29 +66,25 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
       .catch((e: Error) => toast.error(e.message));
   };
 
-  const handleAddSocialResource = () => {
+  const handleAddSocialResource = (form: FormData) => {
     const companyID = getCompany();
     if (
       companyIdIsNull(companyID) ||
       validations(
-        fName.current?.value || '',
-        lName.current?.value || '',
-        mail.current?.value || '',
-        phone.current?.value || '',
-        role.current?.value || ''
+        (form.get('member_fname') as string) || '',
+        (form.get('member_lname') as string) || '',
+        (form.get('member_email') as string) || '',
+        (form.get('member_phone') as string) || '',
+        (form.get('member_role') as string) || ''
       )
-    )
+    ) {
       return;
-    fetchAdd(companyID);
+    }
+    fetchAdd(companyID, form);
   };
 
   return {
     isAddingMember: isLoading,
     handleAddSocialResource,
-    fName,
-    lName,
-    mail,
-    phone,
-    role,
   };
 };

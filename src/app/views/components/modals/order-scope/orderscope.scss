@@ -11,9 +11,13 @@
       height: auto;
       max-height: 245px;
       margin-block-end: 1.5rem;
+      max-width: 685px;
       min-height: 245px;
       min-width: 685px;
-      max-width: 685px;
+
+      &:not(:has(.item)) {
+        min-height: auto;
+      }
     }
   }
 }
@@ -45,6 +49,7 @@
   padding-inline: 1rem;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 // .close-btn {

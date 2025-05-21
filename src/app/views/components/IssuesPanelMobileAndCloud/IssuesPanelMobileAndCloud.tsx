@@ -1,16 +1,71 @@
 import { useMemo, type FC } from 'react';
 import { BugIcon } from '@icons';
-import { TableV2 } from '@table/tablev2';
+import Tablev3 from '@table/v3/Tablev3';
 import { useNavigate } from 'react-router';
-import { type Issues, cloudAndMobileColumns, Sort } from '../../../data';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { RiskScore } from '@/app/views/components/utils/RiskScore';
+import { Sort, type ColumnTableV3 } from '@interfaces/table';
+import type { Issues } from '@interfaces/index';
+import { TABLE_KEYS } from '@/app/constants/app-texts';
 
 interface Props {
   isLoading: boolean;
   issues: any | any[];
   refetch?: () => void;
 }
+
+const columns: ColumnTableV3[] = [
+  {
+    header: 'Published',
+    key: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issues-1',
+    weight: '15%',
+    render: issue =>
+      issue?.createdAt || issue?.creacion ? issue?.createdAt || issue?.creacion : '--/--/--',
+  },
+  {
+    header: 'Author',
+    key: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issues-2',
+    weight: '15%',
+    render: issue =>
+      issue?.researcherUsername || issue?.researcher_username
+        ? issue?.researcherUsername || issue?.researcher_username
+        : '',
+  },
+  {
+    header: 'Type',
+    key: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issues-3',
+    weight: '15%',
+    render: issue =>
+      issue?.resourceClass || issue?.resource_class
+        ? issue?.resourceClass || issue?.resource_class
+        : '',
+  },
+  {
+    header: 'Risk',
+    key: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issues-4',
+    weight: '15%',
+    render: issue =>
+      issue?.riskLevel || issue?.risk_level ? issue?.riskLevel || issue?.risk_level : '',
+  },
+  {
+    header: 'Score',
+    key: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issues-5',
+    weight: '15%',
+    render: issue => <RiskScore riskScore={issue?.riskScore || issue?.risk_score} />,
+  },
+  {
+    header: 'Issue Title',
+    key: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issues-6',
+    weight: '25%',
+    render: issue => issue?.name,
+  },
+];
 
 export const IssuesPanelMobileAndCloud: FC<Props> = props => {
   const navigate = useNavigate();
@@ -21,34 +76,18 @@ export const IssuesPanelMobileAndCloud: FC<Props> = props => {
     return props.issues;
   }, [props.issues]);
 
-  const dataTable = formatIssues.map((issue: any) => ({
-    ID: { value: Number(issue.id), style: '' },
-    published: { value: issue?.createdAt || issue?.creacion, style: 'date' },
-    author: {
-      value: issue?.researcherUsername || issue?.researcher_username,
-      style: 'username',
-    },
-    type: {
-      value: issue?.resourceClass || issue?.resource_class,
-      style: 'vul-class',
-    },
-    risk: { value: issue?.riskLevel || issue?.risk_level, style: 'vul-risk' },
-    score: {
-      value: <RiskScore riskScore={issue?.riskScore || issue?.risk_score} />,
-      style: 'vul-score',
-    },
-    issueTitle: { value: issue?.name, style: 'vul-title' },
-  }));
   return (
     <SimpleSection header="Resource related vulnerabilities & records" icon={<BugIcon />}>
-      <TableV2
-        rowsData={dataTable}
-        columns={cloudAndMobileColumns}
+      <Tablev3
+        rows={formatIssues}
+        columns={columns}
         showRows={!props.isLoading}
-        showEmpty={!props.isLoading && formatIssues.length === 0}
-        selectItem={(id: any) => navigate(`/issues/${id}`)}
+        initialSort={Sort.desc}
         urlNav="issues/update/"
-        sort={Sort.desc}
+        isNeedSearchBar={true}
+        isNeedSort={true}
+        action={row => navigate(`/issues/${row.ID.value}`)}
+        emptyInfo="No issues found"
       />
     </SimpleSection>
   );

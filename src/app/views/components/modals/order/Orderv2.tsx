@@ -25,6 +25,7 @@ import { AllPlansOrderModal } from '@modals/order/layouts/AllPlansOrderModal';
 import { MobileScopeModal } from '@modals/order/layouts/scopes/MobileScopeModal';
 import { NetworkScopeModal } from '@modals/order/layouts/scopes/NetworkScopeModal';
 import { SocialScopeModal } from '@modals/order/layouts/scopes/SocialScopeModal';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.PAYWALL]: 700,
@@ -33,9 +34,9 @@ export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.MOBILE_SCOPE]: 700,
   [OrderSection.NETWORK_SCOPE]: 700,
   [OrderSection.SOCIAL_SCOPE]: 700,
-  [OrderSection.ALL_PLANS]: 1030,
+  [OrderSection.ALL_PLANS]: 1100,
   [OrderSection.RECOMMENDED_PLAN]: 700,
-  [OrderSection.SMALL_PLANS]: 700,
+  [OrderSection.SMALL_PLANS]: 900,
   [OrderSection.ARABIC_PLAN]: 700,
   [OrderSection.FREQUENCY]: 700,
   [OrderSection.TEAM_SIZE]: 700,
@@ -53,6 +54,7 @@ export const OrderV2 = () => {
   const { orderStepActive, resetActiveOrder, open, setScopeAllTotalResources } = useOrderStore(
     state => state
   );
+  const isDefaultPlan = useGlobalFastField('isDefaultPlan');
 
   const { refetchTotal } = useOrders();
 
@@ -66,6 +68,7 @@ export const OrderV2 = () => {
   }, [open]);
   const close = () => {
     resetActiveOrder();
+    isDefaultPlan.set(true);
   };
   const ActiveStep = () => {
     if (isNextStep) return <PageLoader />;
@@ -109,8 +112,10 @@ export const OrderV2 = () => {
     <ModalWrapper action={close}>
       <div
         className="order-container"
-        style={{ '--order-modal-width22': `${orderSectionMap[orderStepActive]}px` } as any}>
-        {orderStepActive !== OrderSection.PAYWALL ? (
+        style={{ '--order-modal-width': `${orderSectionMap[orderStepActive]}px` } as any}>
+        {orderStepActive !== OrderSection.PAYWALL &&
+        orderStepActive !== OrderSection.SMALL_PLANS &&
+        orderStepActive !== OrderSection.ALL_PLANS ? (
           <header className="order-header">
             <div className="order-header-title">
               <img

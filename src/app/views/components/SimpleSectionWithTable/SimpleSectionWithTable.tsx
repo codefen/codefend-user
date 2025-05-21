@@ -1,15 +1,15 @@
 import { GlobeWebIcon } from '@icons';
-import { TableV2 } from '@table/tablev2';
 import type { FC, ReactNode } from 'react';
-import { Sort, type ColumnTable, type TableItem } from '@interfaces/table';
+import { Sort, type ColumnTable, type ColumnTableV3, type TableItem } from '@interfaces/table';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import Tablev3 from '@table/v3/Tablev3';
 
 interface SimpleSectionWithTableProps {
   title: string;
   icon?: ReactNode;
   cardType?: string;
-  columns: ColumnTable[];
-  rows: Record<string, TableItem>[];
+  columns: ColumnTableV3[];
+  rows: any[];
   isLoading?: boolean;
 }
 
@@ -25,13 +25,7 @@ export const SimpleSectionWithTable: FC<SimpleSectionWithTableProps> = ({
   return (
     <div className={`card ${cardType && cardType}`}>
       <SimpleSection header={title} icon={selectIcon}>
-        <TableV2
-          columns={columns}
-          rowsData={rows}
-          showRows={!isLoading}
-          showEmpty={!isLoading && !Boolean(rows.length)}
-          sort={Sort.asc}
-        />
+        <Tablev3 columns={columns} rows={rows} showRows={!isLoading} initialSort={Sort.asc} />
       </SimpleSection>
     </div>
   );

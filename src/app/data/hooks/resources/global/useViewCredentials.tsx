@@ -18,7 +18,7 @@ export const useViewCredentials = () => {
       },
       path: 'creds/index',
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) throw new Error('');
+      if (apiErrorValidation(data)) throw new Error('');
 
       setCredentials(data.disponibles ? data.disponibles : []);
     });

@@ -48,22 +48,16 @@ export const WebScopeModal: FC = () => {
   };
 
   useEffect(() => {
-    getAnyResource('web').then(res => {
-      const metrics = getCompanyAllMetrics(res);
-      globalStore.domainCount.set(metrics.domainCount);
-      globalStore.subDomainCount.set(metrics.subDomainCount);
-      globalStore.uniqueIpCount.set(metrics.uniqueIpCount);
-      globalStore.isDefaultPlan.set(true);
+    globalStore.isDefaultPlan.set(true);
 
-      if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
-        globalStore.planPreference.set('small');
-      } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
-        globalStore.planPreference.set('medium');
-      } else {
-        globalStore.planPreference.set('advanced');
-      }
-    });
-  }, []);
+    if (globalStore.domainCount.get <= 2 && globalStore.subDomainCount.get <= 6) {
+      globalStore.planPreference.set('small');
+    } else if (globalStore.domainCount.get <= 5 && globalStore.subDomainCount.get <= 15) {
+      globalStore.planPreference.set('medium');
+    } else {
+      globalStore.planPreference.set('advanced');
+    }
+  }, [globalStore.planPreference.get]);
 
   return (
     <div className="step-content scope">

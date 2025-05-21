@@ -20,7 +20,7 @@ export const useOneTicket = () => {
         id: ticketID,
       },
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         dataRef.current = EMPTY_TICKET_WITHCHILD;
         throw new Error(data?.info || '');
       } else {

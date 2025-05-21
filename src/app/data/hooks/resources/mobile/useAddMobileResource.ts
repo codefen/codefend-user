@@ -8,15 +8,16 @@ import {
   companyIdIsNull,
   iosUriValidation,
 } from '@/app/constants/validations';
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { APP_MESSAGE_TOAST, MOBILE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 export const useAddMobileResource = () => {
-  const { setNewApp } = useSelectedApp();
   const [fetcher, _, isLoading] = useFetcher();
   const androidAddress = useRef<HTMLInputElement>(null);
   const iosAddress = useRef<HTMLInputElement>(null);
   const { getCompany } = useUserData();
+  const { selectedApp, appEvent } = useGlobalFastFields(['selectedApp', 'appEvent']);
 
   const isNotValidData = () => {
     if (androidUriValidation(androidAddress.current?.value || '')) {
@@ -53,14 +54,15 @@ export const useAddMobileResource = () => {
       path: 'resources/mobile/add',
     })
       .then(({ data }: any) => {
-        if (
-          data.android_error ||
-          data.apple_error ||
-          apiErrorValidation(data?.error, data?.response)
-        ) {
+        if (data.android_error || data.apple_error || apiErrorValidation(data)) {
           throw new Error(data?.android_info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
-        setNewApp({ android: data?.android, apple: data?.apple });
+        if (data?.android) {
+          selectedApp.set(data?.android);
+        } else if (data?.apple) {
+          selectedApp.set(data?.apple);
+        }
+        appEvent.set(APP_EVENT_TYPE.MOBILE_RESOURCE_CREATED);
         toast.success(MOBILE_PANEL_TEXT.ADD_MOBILE);
         onClose();
         onDone();

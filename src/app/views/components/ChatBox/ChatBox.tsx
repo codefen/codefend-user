@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
-import { MessageIcon, PrimaryButton, SendIcon } from '..';
-import { useChatbox, ChatBoxType } from '../../../data';
 import { toast } from 'react-toastify';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
+import useChatbox from '@panelHooks/chats/useChatbox';
+import { ChatBoxType } from '@interfaces/panel';
+import { PrimaryButton } from '@buttons/index';
 
 interface ChatBoxProps {
   type: ChatBoxType;

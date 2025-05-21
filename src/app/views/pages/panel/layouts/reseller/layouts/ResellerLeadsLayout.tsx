@@ -47,12 +47,12 @@ const ResellerLeadsLayout = () => {
       <section className="left">
         <ResellerHeader />
         <div className="reseller-tables">
-          <SimpleSectionWithTable
+          {/* <SimpleSectionWithTable
             title="Listing all leads"
             columns={defaultListLeadsColumns}
             rows={rows}
             isLoading={isLoading}
-          />
+          /> */}
         </div>
       </section>
       <section className="right">

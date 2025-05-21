@@ -4,7 +4,7 @@ import Show from '@/app/views/components/Show/Show';
 import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { type TableProps, Sort } from '@interfaces/table.ts';
-import './table.scss';
+// import './table.scss';
 import TableColumns from './TableColumns';
 import TableRows from './TableRows';
 
@@ -19,6 +19,7 @@ export const TableV2: FC<TableProps> = ({
   sort = Sort.desc,
   sizeX = 100,
   urlNav,
+  emptyInfo = '',
 }) => {
   const [sortDirection, setSortDirection] = useState<Sort>(sort);
   const [dataSort, setDataSort] = useState<string>(columns[0]?.name || '');
@@ -70,7 +71,7 @@ export const TableV2: FC<TableProps> = ({
         />
       </Show>
       <Show when={showEmpty}>
-        <EmptyCard />
+        <EmptyCard info={emptyInfo} />
       </Show>
     </div>
   );

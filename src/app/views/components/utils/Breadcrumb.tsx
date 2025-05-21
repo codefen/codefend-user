@@ -1,7 +1,6 @@
 import { type FC, Fragment } from 'react';
 import { useLocation } from 'react-router';
 import { useUserData } from '#commonUserHooks/useUserData';
-import useAdminCompanyStore from '@stores/adminCompany.store';
 import Show from '@/app/views/components/Show/Show';
 
 interface Props {
@@ -11,9 +10,8 @@ interface Props {
 }
 
 export const Breadcrumb: FC<Props> = props => {
-  const { getUserdata } = useUserData();
+  const { getUserdata, company } = useUserData();
   const location = useLocation();
-  const { companySelected } = useAdminCompanyStore(state => state);
 
   const defaultSegment = location.pathname.split('/').filter(segment => segment !== '');
 
@@ -23,12 +21,11 @@ export const Breadcrumb: FC<Props> = props => {
       <Show
         when={
           getUserdata().access_role !== 'provider' ||
-          (getUserdata().access_role === 'provider' &&
-            companySelected?.id !== getUserdata().company_id)
+          (getUserdata().access_role === 'provider' && company.get?.id !== getUserdata().company_id)
         }>
         <span className="go-home" onClick={props.rootAction}>
-          {companySelected && companySelected?.name && companySelected?.name !== 'unknow'
-            ? companySelected.name
+          {company.get?.name && company.get?.name !== 'unknow'
+            ? company.get.name
             : getUserdata().company_name}
         </span>
         <span className="sep">//</span>

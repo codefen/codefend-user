@@ -1,51 +1,44 @@
 import React, { useEffect } from 'react';
 import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
-import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import Show from '@/app/views/components/Show/Show';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useMobile } from '@resourcesHooks/mobile/useMobile.ts';
 import useModal from '#commonHooks/useModal.ts';
-import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk.tsx';
 
-import AddMobileModal from '../../../../components/modals/adding-modals/AddMobileModal';
 import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithSearch/ListResourceWithSearch';
 import { MobileSelectedDetails } from './components/MobileSelectedDetails';
 import EmptyLayout from '../EmptyLayout';
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import './mobileApplicationPanel.scss';
 import { mobileEmptyScreen } from '@/app/constants/app-texts';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import { MobileIcon } from '@/app/views/components/icons';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { MobileApplicationTitle } from './components/MobileApplicationTitle';
+import AddMobileModal from '@modals/adding-modals/AddMobileModal';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 const MobileApplicationPanel: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { showModal, setShowModal } = useModal();
   const { data, refetch, isLoading, updateData } = useMobile();
-  const { appSelected, setAppSelected, newApp, setNewApp } = useSelectedApp();
-  const selectedAppStored = useGlobalFastField('selectedApp');
+  const { selectedApp, appEvent } = useGlobalFastFields(['selectedApp', 'appEvent']);
 
   useEffect(() => {
     refetch();
     return () => {
-      // setAppSelected(null);
-      selectedAppStored.set(null);
-      setNewApp(null);
+      selectedApp.set(null);
     };
   }, [control]);
 
   useEffect(() => {
-    if (newApp) {
-      updateData(newApp);
-      setNewApp(null);
+    if (selectedApp.get && appEvent.get === APP_EVENT_TYPE.MOBILE_RESOURCE_CREATED) {
+      updateData(selectedApp.get);
+      appEvent.set(APP_EVENT_TYPE.NOTIFICATION);
     }
-  }, [newApp]);
+  }, [appEvent.get]);
 
   const handleShow = () => setShowModal(true);
 
   const onDelete = () => {
-    // setAppSelected(null);
-    selectedAppStored.set(null);
+    selectedApp.set(null);
     refresh();
   };
   return (
@@ -57,40 +50,22 @@ const MobileApplicationPanel: React.FC = () => {
       isLoading={isLoading}
       dataAvailable={Boolean(data.length)}>
       <AddMobileModal isOpen={showModal} close={() => setShowModal(false)} />
-      <DeleteMobileCloudModal onDone={onDelete} />
-      <ModalReport />
+      <DeleteMobileCloudModal onDone={onDelete} app={selectedApp.get} />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
       <div className="brightness variant-3"></div>
 
-      <section className="left">
-        <div className="custom-mobile-add-card custom-card p-4 mb-4">
-          <div className="custom-d-flex custom-align-items-center mb-2">
-            <h3 className="custom-title m-0">
-              <span className="mobile-icon-title">
-                <MobileIcon />
-              </span>
-              Mobile resources
-            </h3>
-          </div>
-          <p className="custom-text mb-3">
-            Manage the mobile applications used by your company that you want to monitor or perform
-            penetration testing on.
-          </p>
-          <button className="custom-btn custom-btn-primary" onClick={handleShow}>
-            Add application
-          </button>
-        </div>
-
-        <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
-      </section>
-
-      {/* COLUMNA DERECHA */}
-
       <section className="right">
-        <Show when={Boolean(selectedAppStored.get)}>
+        <Show when={Boolean(selectedApp.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} />
         </Show>
+      </section>
+
+      {/* COLUMNA IZQUIERDA */}
+
+      <section className="left">
+        <MobileApplicationTitle onAddClick={handleShow} isLoading={isLoading} />
+        <ListResourceWithSearch openModal={handleShow} type="Mobile" resources={data || []} />
       </section>
     </EmptyLayout>
   );

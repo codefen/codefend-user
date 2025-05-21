@@ -3,7 +3,6 @@ import { type ResultsVdbSearchV2 } from '@interfaces/panel';
 import { useInitialVdb } from '@moduleHooks/vdb/useVdb';
 import { vdbColumns } from '@mocks/defaultData';
 import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
-import { TableV2 } from '@table/tablev2';
 import Show from '@/app/views/components/Show/Show';
 import { ScanSearchIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
@@ -38,12 +37,12 @@ export const VdbSearchData: FC = () => {
       </div>
       <Show when={!isLoading} fallback={<PageLoader />}>
         <div className="vdb-app-info">
-          <TableV2
+          {/* <TableV2
             rowsData={dataTable}
             columns={vdbColumns}
             showRows={!isLoading}
             showEmpty={!Boolean(vdbResults.current.length)}
-          />
+          /> */}
         </div>
       </Show>
     </>

@@ -17,7 +17,7 @@ export const useResellerDashboardHeader = () => {
       },
       path: 'resellers/dashboard/header',
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
       setResellerHeader(data.reseller_header);

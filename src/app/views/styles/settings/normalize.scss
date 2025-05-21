@@ -312,7 +312,7 @@ p {
   margin-inline-start: 0;
   margin-inline-end: 0;
   text-wrap: pretty;
-  color: var();
+  color: inherit;
 }
 
 blockquote,
@@ -337,17 +337,13 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Questrial;
+  font-family: 'Satoshi';
   text-wrap: balance;
-}
-
-h2 {
-  font-size: 1.3rem;
 }
 
 p,
 li {
-  line-height: 1.5;
+  line-height: 1.8;
 }
 
 body,

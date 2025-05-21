@@ -1,11 +1,10 @@
 import { type FC } from 'react';
-import { type AdminCompany } from '@stores/adminCompany.store';
 import { CompanyIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show';
 
 interface CompanyCard {
   isSelected: boolean;
-  company: AdminCompany;
+  company: any;
 }
 
 const CompanyCard: FC<CompanyCard> = ({ company, isSelected }) => {

@@ -1,11 +1,39 @@
 main.sb {
-  .left {
+  max-width: 1800px;
+
+  .crack-btn {
+    background: #e53935;
+    color: #fff;
+    padding: 8px 18px;
     border: none;
-    margin-bottom: -10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-family: Satoshi, sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 16px;
+    box-shadow: none;
+    outline: none;
+    &:hover {
+      background: #ab2321;
+    }
+  }
+
+  .left {
+    flex: 1 1 65%;
+    .card.title {
+      box-shadow: 0 15px 45px 0 rgb(221 221 221 / 25%);
+
+      /* Sombra grande, difuminada y suave solo para el card title de la izquierda */
+    }
+    // Quitar gap solo en dataleaks/SNS
+    gap: 0 !important;
+    border: none;
 
     .content {
       flex-wrap: wrap;
-      gap: 20px;
+
+      /* gap: 20px; */
       padding: 10px;
       overflow-y: auto;
       height: 100%;
@@ -13,19 +41,43 @@ main.sb {
     }
 
     .search-result {
+      margin-bottom: 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgb(65 65 65 / 4.1%);
+      background: var(--primary-color-50);
+      // padding: 0 0 12px 0;
+
       flex: 1 1 230px;
-      border: 1px solid var(--primary-color-300);
 
       .header {
+        // border-bottom: 2px solid var(--primary-color-300);
+
         padding: 10px 20px;
-        background-color: var(--primary-color-200);
+        background-color: rgb(245 245 245 / 19.2%);
+        backdrop-filter: blur(8px);
 
         .title {
+          font-family: Satoshi, sans-serif;
+          font-size: 1rem;
+          font-weight: 500;
+          text-decoration: underline;
+          letter-spacing: 0.01em;
+
+          text-underline-offset: 4px;
+          text-transform: none;
+
           color: var(--secondary-color-50);
         }
       }
 
       .info {
+        .intel-row {
+          border-bottom: 1px solid #ececec;
+        }
+        font-family: Satoshi, sans-serif;
+        font-size: 0.8rem;
+        text-align: left;
+
         color: var(--tertiary-color-400);
         padding: 20px;
         overflow-wrap: anywhere;
@@ -38,7 +90,7 @@ main.sb {
         }
 
         .containersubintel:first-child {
-          padding-bottom: 1rem;
+          /* padding-bottom: 1rem; */
         }
 
         .containersubintel + .containersubintel {
@@ -47,6 +99,8 @@ main.sb {
         }
 
         .text {
+          line-height: 2.5;
+
           width: 100%;
           height: 100%;
         }
@@ -55,12 +109,24 @@ main.sb {
   }
 
   .right {
-    .card.table {
-      width: 100%;
+    flex: 1 1 35%;
+
+    .card.title.previous-searches {
+      padding-inline: 0;
+
+      .header {
+        padding-inline: 25px;
+      }
+
+      .table .rows {
+        max-height: 52cqh;
+      }
     }
   }
+}
 
-  @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
+  main.sb {
     display: flex;
     flex-direction: column;
     overflow: auto;
@@ -69,6 +135,13 @@ main.sb {
     min-height: auto;
 
     .left {
+      .card.title {
+        box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%);
+
+        /* Sombra grande, difuminada y suave solo para el card title de la izquierda */
+      }
+      // Quitar gap solo en dataleaks/SNS
+      gap: 0 !important;
       width: 100%;
     }
   }
@@ -76,12 +149,12 @@ main.sb {
 
 .my-masonry-grid {
   display: flex;
-  margin-left: -30px;
+  margin-left: -22px;
   width: auto;
 }
 
 .my-masonry-grid_column {
-  padding-left: 30px; /* gutter size */
+  padding-left: 12px; /* gutter size */
   background-clip: padding-box;
 }
 
@@ -92,7 +165,6 @@ main.sb {
     min-width: 700px;
 
     h3 {
-      margin-bottom: 1rem;
       white-space: break-spaces;
       overflow: hidden;
       text-overflow: ellipsis;

@@ -26,13 +26,13 @@ class EmptyCard extends PureComponent<EmptyCardProps> {
               <p className="second-text">
                 {info ||
                   'If you just placed an order please allow our team to work for a few hours before getting the first results. '}
-                <a
+                {/* <a
                   className="codefend-text-red"
                   href="mailto:cs@codefend.com"
                   rel="noopener noreferrer"
                   target="_blank">
                   Send email.
-                </a>
+                </a> */}
               </p>
             </div>
           </div>

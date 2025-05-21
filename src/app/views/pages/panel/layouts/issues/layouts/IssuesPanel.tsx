@@ -13,7 +13,6 @@ import useModalStore from '@stores/modal.store.ts';
 import { EMPTY_ISSUECLASS, EMPTY_ISSUECONDITION, EMPTY_SHARE } from '@/app/constants/empty.ts';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
-import { OrderV2 } from '@modals/index.ts';
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -54,7 +53,6 @@ const IssuesPanel: FC = () => {
       <SelectAnyResourceModal
         issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
       />
-      <ModalReport />
       <div className="brightness variant-1"></div>
       <section className="left">
         <IssueResources
@@ -70,16 +68,18 @@ const IssuesPanel: FC = () => {
           isLoading={isLoading}
           issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
         />
-        <PrimaryButton
-          text="GENERATE REPORT"
-          click={e => {
-            setIsOpen(true);
-            setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
-          }}
-          className="primary-full margin-block"
-          isDisabled={!Boolean(issues.length) && !Boolean(handleIssuesFilter.filteredData.length)}
-          disabledLoader
-        />
+        <div className="card only-button">
+          <PrimaryButton
+            text="GENERATE REPORT"
+            click={e => {
+              setIsOpen(true);
+              setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
+            }}
+            className="full margin-block"
+            isDisabled={!Boolean(issues.length) && !Boolean(handleIssuesFilter.filteredData.length)}
+            disabledLoader
+          />
+        </div>
 
         <VulnerabilityRisk
           isLoading={isLoading}

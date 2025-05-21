@@ -1,43 +1,39 @@
-import { EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
-import useAdminCompanyStore from '@stores/adminCompany.store';
-import { useAuthStore, type AuthState } from '@stores/auth.store';
+import { EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE, EMPTY_USER } from '@/app/constants/empty';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useCallback, useMemo } from 'react';
 
 export const useUserData = () => {
-  const {
-    accessToken,
-    isAuth,
-    logout: logoutFn,
-    userData,
-    updateUser,
-    updateToken,
-    updateAuth,
-  } = useAuthStore((state: AuthState) => state);
-  const { companySelected, reset } = useAdminCompanyStore(state => state);
+  const { user, session, company } = useGlobalFastFields(['user', 'session', 'company']);
+  const getUserdata = useCallback(() => user.get, [user]);
 
-  const getUserdata = () => userData;
+  const getAccessToken = useCallback(() => session.get || '', [session.get]);
 
-  const getAccessToken = () => (accessToken ? accessToken : '');
+  const getCompany = useCallback(
+    () => company.get?.id || user.get?.company_id,
+    [company.get?.id, user.get?.company_id]
+  );
 
-  const getCompany = () => companySelected?.id || getUserdata().company_id;
-  const getCompanyName = () => companySelected.name;
+  const getCompanyName = useCallback(() => company.get?.name, [company.get?.name]);
 
-  const logout = () => {
-    reset();
-    logoutFn();
-    localStorage.clear();
-    localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
-    window.location.reload();
-  };
+  const logout = useCallback(() => {
+    session.set('');
+  }, [session]);
 
-  return {
-    getUserdata,
-    getAccessToken,
-    getCompany,
-    getCompanyName,
-    isAuth,
-    logout,
-    updateUserData: updateUser,
-    updateToken: updateToken,
-    updateAuth,
-  };
+  // 3) Calcular si está autenticado:
+  //    solo depende de si session.get existe o no.
+  const isAuth = useMemo(() => Boolean(session.get), [session.get]);
+
+  return useMemo(
+    () => ({
+      getUserdata,
+      getAccessToken,
+      getCompany,
+      getCompanyName,
+      isAuth,
+      logout,
+      company,
+      user,
+    }),
+    [getUserdata, getCompany, getCompanyName, isAuth, logout, company.get, user.get]
+  );
 };

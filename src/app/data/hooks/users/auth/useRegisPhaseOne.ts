@@ -40,7 +40,7 @@ export const useRegisPhaseOne = () => {
       },
     })
       .then(({ data }: any) => {
-        if (data.email_error === '1' || apiErrorValidation(data?.error, data?.response)) {
+        if (data.email_error === '1' || apiErrorValidation(data)) {
           if (data.email_error === '1') {
             throw new Error(data.email_info);
           }

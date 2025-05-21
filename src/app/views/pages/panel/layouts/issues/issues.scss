@@ -27,6 +27,7 @@ main.issue-detail {
       background-color: var(--primary-color);
       font-family: Roboto;
       height: 50px;
+      min-height: 50px;
       padding: 0;
 
       > div {
@@ -147,6 +148,7 @@ main.issue-detail {
       text-transform: uppercase;
       font-size: 11px;
       height: 40px;
+      min-height: 40px;
       border-bottom: 1px solid var(--primary-color-300);
       padding: 0 15px;
 
@@ -286,35 +288,22 @@ main.issues-list {
     }
 
     .table {
-      --item-cell-extra: 4.3333%;
+      --item-cell-extra: calc(13% / calc(var(--cell-count) - 1));
 
       .rows {
         overflow: auto;
-        // max-height: calc(100dvh - 190px);
         max-height: calc(100cqh - 120px);
       }
 
-      .username {
+      .item-cell-issue-3 {
         display: none;
       }
 
-      .date {
-        display: none;
-      }
-
-      &:has(.item-cell-9) {
-        --item-cell-extra: 3.714%;
-      }
-
-      .item-cell-1,
-      .item-cell-2,
-      .item-cell-3,
-      .item-cell-4,
-      .item-cell-5,
-      .item-cell-6,
-      .item-cell-7,
-      .item-cell-8,
-      .item-cell-9 {
+      .item-cell-issue-1,
+      .item-cell-issue-2,
+      .item-cell-issue-3,
+      .item-cell-issue-4,
+      .item-cell-issue-5 {
         --cell-issue-expand: calc(var(--cell-expand) + var(--item-cell-extra));
       }
 
@@ -324,66 +313,38 @@ main.issues-list {
         max-width: var(--cell-issue-expand);
       }
 
-      .item-cell-1 {
-        flex: 0 0 var(--cell-expand);
-        width: var(--cell-expand);
-        max-width: var(--cell-expand);
-      }
-
-      .item-cell-2 {
-        --cell-issue-expand-2: calc(var(--cell-issue-expand) + var(--item-cell-extra));
-        flex: 0 0 var(--cell-issue-expand-2);
-        width: var(--cell-issue-expand-2);
-        max-width: var(--cell-issue-expand-2);
-        gap: 5px;
-      }
-
-      .columns-name {
-        .item-cell-4 {
-          --cell-issue-expand-4-colls: calc(var(--cell-issue-expand) - 0.25%);
-          flex: 0 0 var(--cell-issue-expand-4-colls);
-          width: var(--cell-issue-expand-4-colls);
-          max-width: var(--cell-issue-expand-4-colls);
+      &:not(:has(.item-action)) {
+        .item-cell-issue-1,
+        .item-cell-issue-2,
+        .item-cell-issue-3,
+        .item-cell-issue-4,
+        .item-cell-issue-5 {
+          --item-cell-extra-not-action: calc(
+            calc(2% / var(--cell-count)) + var(--cell-issue-expand)
+          );
         }
 
-        .item-cell-2 {
-          --cell-issue-expand-2-colls: calc(var(--cell-issue-expand-2) - 0.5%);
-          flex: 0 0 var(--cell-issue-expand-2-colls);
-          width: var(--cell-issue-expand-2-colls);
-          max-width: var(--cell-issue-expand-2-colls);
+        .item-cell {
+          flex: 0 0 var(--item-cell-extra-not-action);
+          width: var(--item-cell-extra-not-action);
+          max-width: var(--item-cell-extra-not-action);
         }
       }
 
       @media only screen and (min-width: 1640px) {
         --item-cell-extra: 0%;
 
-        .username {
+        .item-cell-issue-3 {
           display: flex;
         }
 
-        .date {
-          display: flex;
-        }
-
-        .item-cell {
-          flex: 0 0 var(--cell-expand);
-          width: var(--cell-expand);
-          max-width: var(--cell-expand);
-        }
-
-        .columns-name {
-          .item-cell-2 {
-            --cell-issue-expand-2-colls: calc(var(--cell-expand) - 0.5%);
-            flex: 0 0 var(--cell-issue-expand-2-colls);
-            width: var(--cell-issue-expand-2-colls);
-            max-width: var(--cell-issue-expand-2-colls);
-          }
-
-          .item-cell-4 {
-            --cell-issue-expand-4-colls: calc(var(--cell-expand) - 0.25%);
-            flex: 0 0 var(--cell-issue-expand-4-colls);
-            width: var(--cell-issue-expand-4-colls);
-            max-width: var(--cell-issue-expand-4-colls);
+        &:not(:has(.item-action)) {
+          .item-cell-issue-1,
+          .item-cell-issue-2,
+          .item-cell-issue-3,
+          .item-cell-issue-4,
+          .item-cell-issue-5 {
+            --item-cell-extra-not-action: calc(calc(2% / var(--cell-count)) + var(--cell-expand));
           }
         }
       }
@@ -393,21 +354,19 @@ main.issues-list {
   .right {
     padding-block-end: 2rem;
 
-    .card {
-      &.risk-chart {
-        margin-block-end: 1.25rem;
+    // .card {
+    //   &.risk-chart {
+    //     .content {
+    //       flex-direction: column;
 
-        .content {
-          flex-direction: column;
-
-          @media only screen and (min-width: 1825px) {
-            & {
-              flex-direction: row;
-            }
-          }
-        }
-      }
-    }
+    //       @media only screen and (min-width: 1825px) {
+    //         & {
+    //           flex-direction: row;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   @media only screen and (max-width: 600px) {
