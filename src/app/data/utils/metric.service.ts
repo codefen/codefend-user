@@ -211,6 +211,9 @@ export const getNetworkMetrics = (resources: any[]): NetworkMetrics => {
       internalIpCount: 0,
       externalIpCount: 0,
       totalIpCount: 0,
+      totalInternalIps: 0,
+      totalExternalIps: 0,
+      totalNotUniqueIpCount: 0,
     };
   }
 
@@ -230,13 +233,21 @@ export const getNetworkMetrics = (resources: any[]): NetworkMetrics => {
       res.device_ex_address &&
       arr.findIndex(r => r.device_ex_address === res.device_ex_address) === index
   );
+
+  // Contar todas las IPs (incluyendo duplicados)
+  const totalInternalIps = allResources.filter(res => res.device_in_address).length;
+  const totalExternalIps = allResources.filter(res => res.device_ex_address).length;
+
   const in_ip_count = uniqueInternalIps.length;
   const ex_ip_count = uniqueExternalIps.length;
   return {
-    subNetworkCount: allSubNetworks.length,
     internalIpCount: in_ip_count,
     externalIpCount: ex_ip_count,
+    subNetworkCount: allSubNetworks.length,
     totalIpCount: in_ip_count + ex_ip_count,
+    totalInternalIps,
+    totalExternalIps,
+    totalNotUniqueIpCount: totalInternalIps + totalExternalIps,
   };
 };
 

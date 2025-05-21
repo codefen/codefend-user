@@ -32,6 +32,11 @@
     }
   }
 
+  button.btn-gray:disabled:hover,
+  button.btn-gray:disabled:focus {
+    background-color: var(--primary-color-300) !important;
+  }
+
   .plan-images {
     position: relative;
 

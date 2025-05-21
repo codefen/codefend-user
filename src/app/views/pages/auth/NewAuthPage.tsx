@@ -8,8 +8,10 @@ import { VulnerabilitiesStatus } from '../../components/VulnerabilitiesStatus/Vu
 import { VulnerabilityRisk } from '../../components/VulnerabilityRisk/VulnerabilityRisk';
 import { DashboardScanStart } from '../../components/DashboardScanStart/DashboardScanStart';
 import { Sidebar } from '../../components';
-import { EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
+import { EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 const recoursesEmpty = {
   cloud: '0',
@@ -23,12 +25,6 @@ const recoursesEmpty = {
 export const NewAuthPage = () => {
   const [showScreen] = useShowScreen();
   const { isAuth } = useUserData();
-
-  useEffect(() => {
-    if (!isAuth) {
-      localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
-    }
-  }, [isAuth]);
 
   if (isAuth) {
     return <Navigate to={'/'} />;

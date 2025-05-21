@@ -6,7 +6,6 @@ import { PrimaryButton } from '@buttons/index';
 import { useOrderScope } from '@hooks/index';
 import { LanIcon } from '@icons';
 import { OrderSection } from '@interfaces/order';
-import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -17,12 +16,11 @@ export const NetworkScopeModal = () => {
   const [tryClick, setTryClick] = useState<boolean>(false);
   const { sendScopeOrders } = useOrderScope();
   const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
-  const { getAnyResource } = useGetResources();
   const navigate = useNavigate();
   const globalStore = useGlobalFastFields([
     'externalIpCount',
     'internalIpCount',
-    'subNetworkCount',
+    'totalNotUniqueIpCount',
     'planPreference',
     'isDefaultPlan',
   ]);
@@ -47,18 +45,15 @@ export const NetworkScopeModal = () => {
   };
 
   useEffect(() => {
-    const metrics = {
-      totalIpCount: globalStore.externalIpCount.get + globalStore.internalIpCount.get,
-    };
     globalStore.isDefaultPlan.set(true);
-    if (metrics.totalIpCount <= 20) {
+    if (globalStore.totalNotUniqueIpCount.get <= 20) {
       globalStore.planPreference.set('small');
-    } else if (metrics.totalIpCount <= 200) {
+    } else if (globalStore.totalNotUniqueIpCount.get <= 200) {
       globalStore.planPreference.set('medium');
     } else {
       globalStore.planPreference.set('advanced');
     }
-  }, [globalStore.planPreference.get]);
+  }, [globalStore.planPreference.get, globalStore.totalNotUniqueIpCount.get]);
 
   return (
     <div className="step-content scope">
@@ -76,7 +71,7 @@ export const NetworkScopeModal = () => {
         <div className={`option no-border`}>
           <StatAsset value={globalStore.externalIpCount.get} valueTitle="External IPs" />
           <StatAsset value={globalStore.internalIpCount.get} valueTitle="Internal IPs" />
-          <StatAsset value={globalStore.subNetworkCount.get} valueTitle="Sub networks" />
+          <StatAsset value={globalStore.totalNotUniqueIpCount.get} valueTitle="Total IPs" />
         </div>
       </div>
 

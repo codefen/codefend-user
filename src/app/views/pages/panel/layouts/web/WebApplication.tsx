@@ -12,17 +12,28 @@ import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderBut
 import { ResourcesTypes } from '@interfaces/order.ts';
 import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
 import { DeleteWebResourceModal } from '@modals/delete-modals/DeleteWebResourceModal.tsx';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import {
+  useGlobalFastField,
+  useGlobalFastFields,
+} from '@/app/views/context/AppContextProvider.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
-import './webapplication.scss';
 import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
+import { getCompanyAllMetrics } from '@utils/metric.service.ts';
+import './webapplication.scss';
 
 const WebApplicationView = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { webResources, isLoading, refetch } = useGetWebResources();
   const flashlight = useFlashlight();
   const appEvent = useGlobalFastField('appEvent');
+  const globalStore = useGlobalFastFields([
+    'subDomainCount',
+    'uniqueIpCount',
+    'domainCount',
+    'planPreference',
+    'isDefaultPlan',
+  ]);
 
   useEffect(() => {
     refetch();
@@ -39,6 +50,22 @@ const WebApplicationView = () => {
       appEvent.set(APP_EVENT_TYPE.NOTIFICATION);
     }
   }, [appEvent.get]);
+
+  useEffect(() => {
+    const metrics = getCompanyAllMetrics(webResources);
+    globalStore.domainCount.set(metrics.domainCount);
+    globalStore.subDomainCount.set(metrics.subDomainCount);
+    globalStore.uniqueIpCount.set(metrics.uniqueIpCount);
+    if (globalStore.isDefaultPlan.get) {
+      if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
+        globalStore.planPreference.set('small');
+      } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
+        globalStore.planPreference.set('medium');
+      } else {
+        globalStore.planPreference.set('advanced');
+      }
+    }
+  }, [webResources, globalStore.planPreference.get, globalStore.isDefaultPlan.get]);
 
   return (
     <EmptyLayout
@@ -63,7 +90,11 @@ const WebApplicationView = () => {
       {/* *****SECTION RIGHT WEB PAGE ***** */}
       <section className="right" ref={flashlight.rightPaneRef}>
         <WebApplicationTitle webResources={webResources} isLoading={isLoading} refresh={refresh} />
-        <WebApplicationStatics webResources={webResources} />
+        <WebApplicationStatics
+          domainCount={globalStore.domainCount.get}
+          subDomainCount={globalStore.subDomainCount.get}
+          uniqueIpCount={globalStore.uniqueIpCount.get}
+        />
         <OpenOrderButton
           className="pentest-btn"
           type={ResourcesTypes.WEB}

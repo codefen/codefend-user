@@ -13,6 +13,7 @@ export default function createFastContext<FastContext>(initialState: FastContext
     get: () => Readonly<FastContext>;
     set: (value: Partial<FastContext>) => void;
     subscribe: (callback: () => void) => () => void;
+    reset: () => void;
   } {
     const store = useRef(initialState);
 
@@ -25,6 +26,11 @@ export default function createFastContext<FastContext>(initialState: FastContext
       subscribers.current.forEach(callback => callback());
     }, []);
 
+    const reset = useCallback(() => {
+      store.current = { ...initialState };
+      subscribers.current.forEach(callback => callback());
+    }, []);
+
     const subscribe = useCallback((callback: () => void) => {
       subscribers.current.add(callback);
       return () => subscribers.current.delete(callback);
@@ -34,6 +40,7 @@ export default function createFastContext<FastContext>(initialState: FastContext
       get,
       set,
       subscribe,
+      reset,
     };
   }
 
@@ -129,9 +136,18 @@ export default function createFastContext<FastContext>(initialState: FastContext
     };
   }
 
+  function useResetStore() {
+    const fastContext = useContext(FastContext);
+    if (!fastContext) {
+      throw new Error('Store not found');
+    }
+    return fastContext.reset;
+  }
+
   return {
     FastContextProvider,
     useFastContextFields,
     useFastField,
+    useResetStore,
   };
 }

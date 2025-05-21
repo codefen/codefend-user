@@ -22,7 +22,6 @@ export const useProviderCompanies = () => {
       if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
-
       if (data.accessible_companies && data.accessible_companies.length > 0) {
         const accessible_companies = data.accessible_companies.filter(
           (comapny: any) => comapny !== null

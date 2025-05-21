@@ -1,4 +1,4 @@
-import { useEffect, type PropsWithChildren } from 'react';
+import { useEffect, useState, type PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
@@ -73,6 +73,7 @@ export type GlobalStore = {
   webResourceSelected: any;
   appEvent: APP_EVENT_TYPE;
   isInitialFetchDone: boolean;
+  totalNotUniqueIpCount: number;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -110,6 +111,7 @@ export const initialGlobalState: GlobalStore = {
   activeScan: persistedState?.activeScan ?? null,
   internalIpCount: persistedState?.internalIpCount ?? 0,
   externalIpCount: persistedState?.externalIpCount ?? 0,
+  totalNotUniqueIpCount: persistedState?.totalNotUniqueIpCount ?? 0,
   subNetworkCount: persistedState?.subNetworkCount ?? 0,
   webResourceSelected: persistedState?.webResourceSelected ?? null,
   appEvent: persistedState?.appEvent ?? APP_EVENT_TYPE.NOTIFICATION,
@@ -120,6 +122,7 @@ const {
   FastContextProvider: GlobalStoreContextProvider,
   useFastField: useGlobalFastField,
   useFastContextFields: useGlobalFastFields,
+  useResetStore: useResetGlobalStore,
 } = createFastContext<GlobalStore>(initialGlobalState);
 
 const GlobalStorePersistor = () => {
@@ -135,11 +138,7 @@ const GlobalStorePersistor = () => {
   );
 
   useEffect(() => {
-    if (!currentValues.session && currentValues.appEvent !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
-      localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
-    } else {
-      localStorage.setItem('globalStore', JSON.stringify(currentValues));
-    }
+    localStorage.setItem('globalStore', JSON.stringify(currentValues));
   }, [JSON.stringify(currentValues)]);
 
   return null;

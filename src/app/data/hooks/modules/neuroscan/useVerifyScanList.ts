@@ -49,6 +49,7 @@ export const useVerifyScanList = () => {
     currentScan,
     appEvent,
     isInitialFetchDone,
+    scanProgress,
   } = useGlobalFastFields([
     'isScanning',
     'scanNumber',
@@ -57,6 +58,7 @@ export const useVerifyScanList = () => {
     'currentScan',
     'appEvent',
     'isInitialFetchDone',
+    'scanProgress',
   ]);
   const scanningValue = isScanning.get;
   const retryTimeoutRef = useRef<any>(null);
@@ -86,49 +88,7 @@ export const useVerifyScanList = () => {
     },
   });
 
-  // Limpiar el timeout cuando el componente se desmonte
-  // useEffect(() => {
-  //   return () => {
-  //     console.log('scanRetries.get on return useEffect retryTimeoutRef', scanRetries.get);
-  //     if (retryTimeoutRef.current) {
-  //       clearTimeout(retryTimeoutRef.current);
-  //     }
-  //   };
-  // }, []);
-
   const latestScan = useMemo(() => getLatestScan(data?.scans || []), [data?.scans]);
-
-  // Efecto para manejar los reintentos
-  // useEffect(() => {
-  //   const handleRetry = () => {
-  //     if (scanRetries.get > 0) {
-  //       console.log('scanRetries.get on handleRetry', scanRetries.get);
-  //       scanRetries.set(scanRetries.get - 1);
-  //       // Programar el siguiente reintento
-  //       retryTimeoutRef.current = setTimeout(handleRetry, 2000);
-  //     }
-  //   };
-
-  //   const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
-  //   const isScanFinished = appEvent.get === APP_EVENT_TYPE.SCAN_FINISHED;
-
-  //   // Limpiar el timeout anterior si existe
-  //   if (retryTimeoutRef.current) {
-  //     clearTimeout(retryTimeoutRef.current);
-  //     retryTimeoutRef.current = null;
-  //   }
-
-  //   // Iniciar el sistema de reintentos solo si estamos en estados específicos
-  //   if ((isScanFinished || isLaunchingScan) && scanRetries.get > 0) {
-  //     retryTimeoutRef.current = setTimeout(handleRetry, 2000);
-  //   }
-
-  //   return () => {
-  //     if (retryTimeoutRef.current) {
-  //       clearTimeout(retryTimeoutRef.current);
-  //     }
-  //   };
-  // }, [appEvent.get, scanRetries.get]);
 
   useEffect(() => {
     const scanSize = data?.scans?.length;
@@ -183,5 +143,12 @@ export const useVerifyScanList = () => {
   }, [data, latestScan, scanningValue, appEvent.get, scanRetries.get]);
 
   const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
-  return { data: data!, latestScan, isScanActive, isScanning, appEvent };
+  return {
+    data: data!,
+    currentScan: currentScan.get,
+    isScanActive,
+    isScanning,
+    appEvent,
+    scanProgress,
+  };
 };

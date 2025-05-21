@@ -57,6 +57,9 @@ export interface NetworkMetrics {
   internalIpCount: number;
   subNetworkCount: number;
   totalIpCount: number;
+  totalInternalIps: number;
+  totalExternalIps: number;
+  totalNotUniqueIpCount: number;
 }
 export interface CompanyResource {
   web: string | number;
@@ -439,4 +442,8 @@ export enum APP_EVENT_TYPE {
   SCAN_FINISHED = 'SCAN_FINISHED',
   USER_LOGGED_OUT = 'USER_LOGGED_OUT',
   USER_LOGGED_IN = 'USER_LOGGED_IN',
+  LIMIT_REACHED_ISSUE = 'LIMIT_REACHED_ISSUE',
+  LIMIT_REACHED_NEUROSCAN = 'LIMIT_REACHED_NEUROSCAN',
+  LIMIT_REACHED_SNS = 'LIMIT_REACHED_SNS',
+  LIMIT_REACHED_REPORT = 'LIMIT_REACHED_REPORT',
 }

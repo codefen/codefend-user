@@ -90,9 +90,9 @@ export interface ScopeOptions {
 }
 export enum UserPlanSelected {
   NOTHING = '',
-  ON_DEMAND = 'ondemand',
-  NORMAL_ORDER = 'normalorder',
-  SMALL_P = 'smallplan',
+  LOAD_MORE_RESOURCES = 'ondemand',
+  MANUAL_PENTEST = 'normalorder',
+  AUTOMATED_TICKETS = 'smallplan',
 }
 export enum UserSmallPlanSelected {
   NOTHING = '',

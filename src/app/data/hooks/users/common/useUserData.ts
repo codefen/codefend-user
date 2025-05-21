@@ -1,9 +1,16 @@
-import { EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE, EMPTY_USER } from '@/app/constants/empty';
+import { EMPTY_GLOBAL_STATE, MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useCallback, useMemo } from 'react';
+import { useScanRetriesStore } from '@stores/scanRetries.store';
+import { useCallback } from 'react';
 
 export const useUserData = () => {
-  const { user, session, company } = useGlobalFastFields(['user', 'session', 'company']);
+  const { user, session, company, appEvent } = useGlobalFastFields([
+    'user',
+    'session',
+    'company',
+    'appEvent',
+  ]);
+  const { setScanRetries } = useScanRetriesStore();
   const getUserdata = useCallback(() => user.get, [user]);
 
   const getAccessToken = useCallback(() => session.get || '', [session.get]);
@@ -16,24 +23,25 @@ export const useUserData = () => {
   const getCompanyName = useCallback(() => company.get?.name, [company.get?.name]);
 
   const logout = useCallback(() => {
-    session.set('');
-  }, [session]);
+    setScanRetries(MAX_SCAN_RETRIES);
+    localStorage.removeItem('globalStore');
+    localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
+    localStorage.setItem('scanRetriesLocal', MAX_SCAN_RETRIES.toString());
+    window.location.reload();
+  }, [session.get, appEvent.get]);
 
   // 3) Calcular si está autenticado:
   //    solo depende de si session.get existe o no.
-  const isAuth = useMemo(() => Boolean(session.get), [session.get]);
+  const isAuth = Boolean(session.get);
 
-  return useMemo(
-    () => ({
-      getUserdata,
-      getAccessToken,
-      getCompany,
-      getCompanyName,
-      isAuth,
-      logout,
-      company,
-      user,
-    }),
-    [getUserdata, getCompany, getCompanyName, isAuth, logout, company.get, user.get]
-  );
+  return {
+    getUserdata,
+    getAccessToken,
+    getCompany,
+    getCompanyName,
+    isAuth,
+    logout,
+    company,
+    user,
+  };
 };
