@@ -10,6 +10,7 @@ import type { AuditCompanyData } from './util';
 
 export enum OrderSection {
   PAYWALL = 0,
+  PAYWALL_MAX_SCAN = 0.1,
   SCOPE = 1,
   WEB_SCOPE = 1.11,
   MOBILE_SCOPE = 1.12,

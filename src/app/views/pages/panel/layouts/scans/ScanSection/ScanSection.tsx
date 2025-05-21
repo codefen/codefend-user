@@ -15,13 +15,14 @@ import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
 import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
 import { IDIOM_SEARCHBAR_OPTION, idiomOptions } from '@/app/constants/newSignupText';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -72,13 +73,13 @@ export const ScanSection = () => {
   const [domainScanned, setDomainScanned] = useState<string>('');
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
-  const { getCompany } = useUserData();
+  const { getCompany, company } = useUserData();
   const {
     data: { scans, companyUpdated },
   } = useVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
-  const company = useGlobalFastField('company');
+  const { appEvent } = useGlobalFastFields(['appEvent']);
   const { updateState } = useOrderStore();
   const [idiom, setIdiom] = useState<string>('en');
 
@@ -98,7 +99,7 @@ export const ScanSection = () => {
     fetcher('post', {
       body: {
         neuroscan_id,
-        company_id: getCompany(),
+        company_id: company.get?.id,
       },
       path: 'modules/neuroscan/kill',
       requireSession: true,
@@ -147,7 +148,7 @@ export const ScanSection = () => {
 
   const startAndAddedDomain = () => {
     if (verifyDomainName(domainScanned || '')) return;
-    const companyID = getCompany();
+    const companyID = company.get?.id;
     if (companyIdIsNull(companyID)) return;
     const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
       closeOnClick: true,
@@ -169,8 +170,9 @@ export const ScanSection = () => {
           autoScan(resourceId, false, idiom).then(result => {
             if (apiErrorValidation(result)) {
               updateState('open', true);
-              updateState('orderStepActive', OrderSection.PAYWALL);
+              updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
               updateState('resourceType', ResourcesTypes.WEB);
+              appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
               return;
             }
 

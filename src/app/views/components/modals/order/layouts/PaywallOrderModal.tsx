@@ -1,14 +1,21 @@
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection, UserPlanSelected } from '@interfaces/order';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 import useModalStore from '@stores/modal.store';
 import { useOrderStore } from '@stores/orders.store';
-import { useCallback, useState, memo } from 'react';
+import { useCallback, useState, memo, useMemo } from 'react';
 
 export const PaywallOrderModal = memo(({ close }: any) => {
   const [checkedOption, setCheckedOption] = useState(UserPlanSelected.NOTHING);
   const { updateState } = useOrderStore(state => state);
   const { setIsOpen, setModalId } = useModalStore();
+  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const isIssueLimit = useMemo(
+    () => appEvent.get === APP_EVENT_TYPE.LIMIT_REACHED_ISSUE,
+    [appEvent.get]
+  );
 
   const handleOptionChange = useCallback((option: UserPlanSelected) => {
     setCheckedOption(option);
@@ -111,34 +118,36 @@ export const PaywallOrderModal = memo(({ close }: any) => {
             </span>
           </div>
         </label>
-        <label
-          htmlFor="three-resources"
-          className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_TICKETS ? 'select-option' : ''}`}
-          onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_TICKETS)}>
-          <input
-            id="three-resources"
-            name="scopeOption"
-            type="radio"
-            className="radio-option"
-            checked={checkedOption === UserPlanSelected.AUTOMATED_TICKETS}
-            onChange={() => {}}
-          />
-          <img
-            src="public\codefend\precio.svg"
-            alt="Normal Order Icon"
-            style={{ width: '50px', height: '50px' }}
-          />
+        {!isIssueLimit && (
+          <label
+            htmlFor="three-resources"
+            className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_TICKETS ? 'select-option' : ''}`}
+            onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_TICKETS)}>
+            <input
+              id="three-resources"
+              name="scopeOption"
+              type="radio"
+              className="radio-option"
+              checked={checkedOption === UserPlanSelected.AUTOMATED_TICKETS}
+              onChange={() => {}}
+            />
+            <img
+              src="public\codefend\precio.svg"
+              alt="Normal Order Icon"
+              style={{ width: '50px', height: '50px' }}
+            />
 
-          <div className="order-snapshot">
-            <div className="top">
-              <p>View more affordable plans and monthly subscriptions</p>
+            <div className="order-snapshot">
+              <div className="top">
+                <p>View more affordable plans and monthly subscriptions</p>
+              </div>
+              <span className="one-pentest">
+                Codefend offers automatic service memberships starting at $29 monthly and hacker
+                contracts from $299 monthly.
+              </span>
             </div>
-            <span className="one-pentest">
-              Codefend offers automatic service memberships starting at $29 monthly and hacker
-              contracts from $299 monthly.
-            </span>
-          </div>
-        </label>
+          </label>
+        )}
       </div>
       <div className="primary-container paywall">
         <PrimaryButton

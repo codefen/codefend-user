@@ -13,11 +13,12 @@ export const WelcomeGroupTour = () => {
   const { domainId, saveInitialDomain } = useWelcomeStore();
   const { autoScan } = useAutoScan();
 
-  const startWaitStep = () => {
+  const startWaitStep = (idiom: string) => {
     solvedComunique();
-    autoScan(domainId, true, '');
-    setIsOpen(true);
-    setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+    autoScan(domainId, true, idiom).then(() => {
+      setIsOpen(true);
+      setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+    });
   };
   const startScan = () => {
     setIsOpen(true);

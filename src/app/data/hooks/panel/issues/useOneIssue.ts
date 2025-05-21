@@ -11,6 +11,7 @@ import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
@@ -19,7 +20,12 @@ export const useOneIssue = () => {
   const [fetcher, _, isLoading] = useFetcher();
   const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
   const { updateState } = useOrderStore();
-  const { company, session, user } = useGlobalFastFields(['company', 'session', 'user']);
+  const { company, session, user, appEvent } = useGlobalFastFields([
+    'company',
+    'session',
+    'user',
+    'appEvent',
+  ]);
 
   const fetchOne = (companyID: string, selectedID: string) => {
     fetcher('post', {
@@ -54,6 +60,7 @@ export const useOneIssue = () => {
             updateState('open', true);
             updateState('orderStepActive', OrderSection.PAYWALL);
             updateState('resourceType', ResourcesTypes.WEB);
+            appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_ISSUE);
             break;
           default:
             toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
