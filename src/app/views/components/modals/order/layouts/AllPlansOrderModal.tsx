@@ -44,7 +44,14 @@ export const AllPlansOrderModal = () => {
       className="step-content plan"
       style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="step-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.7rem',
+            justifyContent: 'flex-start',
+            width: '100%',
+          }}>
           <img
             src="/codefend/estrellitas.png"
             alt="estrellas"
