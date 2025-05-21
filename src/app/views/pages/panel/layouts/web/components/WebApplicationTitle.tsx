@@ -33,7 +33,7 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({
       <div className="card title">
         <div className="header">
           <GlobeWebIcon />
-          <span>Start a web application pentest</span>
+          <span>Web software</span>
         </div>
         <div className="content">
           <p>

@@ -58,7 +58,7 @@ export const ResourceByLocation: FC<ResourceByLocationProps> = ({
   return (
     <div className="card location-card">
       <div className="header">
-        <span>Server geolocation</span>
+        <span>Server Geolocation</span>
       </div>
       <div className="content">
         <Tablev3
