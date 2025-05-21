@@ -44,8 +44,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               The domain{' '}
               <span style={{ color: '#ff3939' }}>
                 {globalStore.currentScan.get?.resource_address}
-              </span>
-              . is being analyzed.
+              </span>{' '}
+              is being analyzed.
             </b>{' '}
             Detected vulnerabilities and potential threats will be displayed on the dashboard and
             communicated via email. <b>You can now close this window.</b>
@@ -93,8 +93,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           </div>
 
           <PrimaryButton
-            text={globalStore.isScanning.get ? 'Dashboard' : 'Go to issues'}
-            buttonStyle="gray"
+            text={globalStore.isScanning.get ? 'Go to dashboard' : 'Go to issues'}
+            buttonStyle={globalStore.isScanning.get ? 'red' : 'gray'}
             click={closeModal}
           />
         </Show>

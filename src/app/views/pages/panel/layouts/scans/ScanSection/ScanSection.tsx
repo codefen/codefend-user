@@ -223,7 +223,7 @@ export const ScanSection = () => {
         setSearchData={setDomainScanned}
       />
       <div className="card">
-        <SimpleSection header="Company Scanners" icon={<StatIcon />}>
+        <SimpleSection header="AI based web security" icon={<StatIcon />}>
           <div className="content">
             <Tablev3
               rows={scans}
