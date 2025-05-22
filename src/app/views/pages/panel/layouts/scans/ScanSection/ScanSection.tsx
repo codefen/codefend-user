@@ -21,7 +21,7 @@ import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
-import { IDIOM_SEARCHBAR_OPTION, idiomOptions } from '@/app/constants/newSignupText';
+import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 const scansColumns: ColumnTableV3[] = [

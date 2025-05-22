@@ -93,7 +93,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           </div>
 
           <PrimaryButton
-            text={globalStore.isScanning.get ? 'Go to dashboard' : 'Go to issues'}
+            text={globalStore.isScanning.get ? 'Close assistant' : 'Go to issues'}
             buttonStyle={globalStore.isScanning.get ? 'red' : 'gray'}
             click={closeModal}
           />

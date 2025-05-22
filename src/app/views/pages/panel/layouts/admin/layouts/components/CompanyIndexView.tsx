@@ -78,6 +78,31 @@ const companiesColumn: ColumnTableV3[] = [
 
 const CompanyIndexView: FC = () => {
   const { data, company } = useGetCompany();
+  const {
+    selectedApp,
+    domainCount,
+    subNetworkCount,
+    externalIpCount,
+    internalIpCount,
+    totalNotUniqueIpCount,
+  } = useGlobalFastFields([
+    'selectedApp',
+    'domainCount',
+    'subNetworkCount',
+    'externalIpCount',
+    'internalIpCount',
+    'totalNotUniqueIpCount',
+  ]);
+
+  const action = (clickedCompany: any) => {
+    company.set(clickedCompany);
+    selectedApp.set(null);
+    domainCount.set(0);
+    subNetworkCount.set(0);
+    externalIpCount.set(0);
+    internalIpCount.set(0);
+    totalNotUniqueIpCount.set(0);
+  };
 
   return (
     <div className="CompanyIndexView">
@@ -88,7 +113,7 @@ const CompanyIndexView: FC = () => {
         isNeedSearchBar
         initialOrder="name"
         initialSort={Sort.desc}
-        action={clickedCompany => company.set(clickedCompany)}
+        action={action}
         selected={company.get}
         selectedKey="id"
       />

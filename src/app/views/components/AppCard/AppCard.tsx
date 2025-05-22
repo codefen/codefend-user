@@ -28,10 +28,22 @@ interface MobileAppCardProps {
   activeViewCount?: boolean;
 }
 
-function decodeHtml(html: string) {
+function decodeHtmlEntities(str: string) {
   const txt = document.createElement('textarea');
-  txt.innerHTML = html;
+  txt.innerHTML = str;
   return txt.value;
+}
+
+// Paso 2: Reconvertir los caracteres mal codificados
+function fixEncoding(str: string) {
+  try {
+    // Convierte el string mal decodificado a un buffer y luego a UTF-8
+    const decoder = new TextDecoder('utf-8');
+    const bytes = new Uint8Array([...str].map(c => c.charCodeAt(0)));
+    return decoder.decode(bytes);
+  } catch {
+    return str;
+  }
 }
 
 export const AppCard: FC<MobileAppCardProps> = ({
@@ -121,7 +133,9 @@ export const AppCard: FC<MobileAppCardProps> = ({
             <h3
               className={`${isDetails ? 'detail' : 'card-resume'}`}
               dangerouslySetInnerHTML={{
-                __html: isMainGoogleNetwork ? 'main google network' : decodeHtml(name),
+                __html: isMainGoogleNetwork
+                  ? 'main google network'
+                  : fixEncoding(decodeHtmlEntities(name)),
               }}></h3>
             <Show when={isDetails && !isMobileType}>
               <span className="second-text detail">resource id: {id}</span>

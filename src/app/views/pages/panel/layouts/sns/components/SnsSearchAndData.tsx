@@ -107,6 +107,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
         setSearchData={setSearchData}
         handleSubmit={handleSubmit}
         selectBarOptions={selectBarOptions}
+        isDisabled={!searchData}
       />
 
       <Show when={!isLoading} fallback={<PageLoader />}>

@@ -1,5 +1,5 @@
+import type { IntelData } from '@interfaces/snsTypes';
 import { type FC } from 'react';
-import type { IntelData } from '../../../../../../data/interfaces/snsTypes';
 
 interface IntelCardProps {
   intel: IntelData;
@@ -56,9 +56,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal }) => {
             )}
             {subIntel.regip && (
               <div>
-                <button
-                  onClick={() => onOpenLeakedModal(subIntel, 'geo')}
-                  className="codefend-text-red no-outline bolder no-border">
+                <button onClick={() => onOpenLeakedModal(subIntel, 'geo')} className="crack-btn">
                   click to geolocate
                 </button>
               </div>

@@ -23,7 +23,7 @@ import { getCompanyAllMetrics } from '@utils/metric.service.ts';
 import './webapplication.scss';
 
 const WebApplicationView = () => {
-  const [showScreen, control, refresh] = useShowScreen();
+  const [showScreen, _, refresh] = useShowScreen();
   const { webResources, isLoading, refetch } = useGetWebResources();
   const flashlight = useFlashlight();
   const appEvent = useGlobalFastField('appEvent');
@@ -34,10 +34,6 @@ const WebApplicationView = () => {
     'planPreference',
     'isDefaultPlan',
   ]);
-
-  useEffect(() => {
-    refetch();
-  }, [control]);
 
   useEffect(() => {
     if (
@@ -89,7 +85,7 @@ const WebApplicationView = () => {
 
       {/* *****SECTION RIGHT WEB PAGE ***** */}
       <section className="right" ref={flashlight.rightPaneRef}>
-        <WebApplicationTitle webResources={webResources} isLoading={isLoading} refresh={refresh} />
+        <WebApplicationTitle isLoading={isLoading} />
         <WebApplicationStatics
           domainCount={globalStore.domainCount.get}
           subDomainCount={globalStore.subDomainCount.get}

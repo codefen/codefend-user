@@ -1,9 +1,8 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { ScanSection } from '@/app/views/pages/panel/layouts/scans/ScanSection/ScanSection';
 import { ScanTitle } from '@/app/views/pages/panel/layouts/scans/ScanTitle/ScanTitle';
 import { useEffect } from 'react';
-import { toast } from 'react-toastify';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();

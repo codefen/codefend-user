@@ -10,8 +10,6 @@ import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface WebResourcesProps {
-  refresh: () => void;
-  webResources: Webresource[];
   isLoading: boolean;
 }
 
@@ -21,11 +19,7 @@ interface SelectedResource {
   serverIp: string;
 }
 
-export const WebApplicationTitle: FC<WebResourcesProps> = ({
-  isLoading,
-  refresh,
-  webResources,
-}) => {
+export const WebApplicationTitle: FC<WebResourcesProps> = ({ isLoading }) => {
   const { setIsOpen, setModalId } = useModalStore();
   const webResourceSelected = useGlobalFastField('webResourceSelected');
   return (

@@ -59,7 +59,6 @@ export const useAutoScan = () => {
       if (result.company) {
         globalStore.company.set(result.company);
       }
-      toast.info(result.info || APP_MESSAGE_TOAST.SCAN_INFO);
     }
 
     return result;
