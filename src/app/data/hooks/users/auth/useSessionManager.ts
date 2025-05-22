@@ -17,7 +17,7 @@ export const useSessionManager = () => {
 
   const handleSuccessfulLogin = (data: any) => {
     session.set(data.session as string);
-    user.set(data.user);
+    user.set(data?.user);
     company.set({
       ...EMPTY_COMPANY_CUSTOM,
       id: data.user.company_id || '',
