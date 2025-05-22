@@ -8,6 +8,7 @@ interface SearchBarContainerProps {
   searchData: string;
   setSearchData: (value: string) => void;
   handleSubmit: (e?: FormEvent) => void;
+  isDisabled?: boolean;
   selectBarOptions: {
     options: any;
     placeHolder: string;
@@ -25,6 +26,7 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
   placeholder = 'Search',
   icon = null,
   searchText = 'Search leaks',
+  isDisabled = false,
 }) => {
   return (
     <div className="search-bar-container">
@@ -37,6 +39,7 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
         searchIcon={icon}
         isActiveSelect
         selectOptions={selectBarOptions}
+        isDisabled={isDisabled}
       />
     </div>
   );

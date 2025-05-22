@@ -29,6 +29,7 @@ interface SearchBarProps {
 
   isActiveSelect?: boolean;
   selectOptions?: SearchBarSelect;
+  isDisabled?: boolean;
 }
 
 export const SearchBar: FC<SearchBarProps> = props => {
@@ -87,6 +88,8 @@ export const SearchBar: FC<SearchBarProps> = props => {
             click={() => {}}
             type="submit"
             className="search-button no-border-height"
+            isDisabled={props?.isDisabled}
+            disabledLoader
           />
         </form>
       </div>

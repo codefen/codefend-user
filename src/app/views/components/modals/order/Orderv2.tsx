@@ -26,9 +26,11 @@ import { MobileScopeModal } from '@modals/order/layouts/scopes/MobileScopeModal'
 import { NetworkScopeModal } from '@modals/order/layouts/scopes/NetworkScopeModal';
 import { SocialScopeModal } from '@modals/order/layouts/scopes/SocialScopeModal';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { PaywallMaxScanModal } from '@modals/order/layouts/PaywallMaxScanModal';
 
 export const orderSectionMap: Record<OrderSection, number> = {
   [OrderSection.PAYWALL]: 700,
+  [OrderSection.PAYWALL_MAX_SCAN]: 700,
   [OrderSection.SCOPE]: 700,
   [OrderSection.WEB_SCOPE]: 700,
   [OrderSection.MOBILE_SCOPE]: 700,
@@ -73,6 +75,8 @@ export const OrderV2 = () => {
   const ActiveStep = () => {
     if (isNextStep) return <PageLoader />;
     if (orderStepActive === OrderSection.PAYWALL) return <PaywallOrderModal close={close} />;
+    if (orderStepActive === OrderSection.PAYWALL_MAX_SCAN)
+      return <PaywallMaxScanModal close={close} />;
     if (orderStepActive === OrderSection.SMALL_PLANS) return <SmallPlanOrderModal />;
     if (orderStepActive === OrderSection.ARABIC_PLAN) return <ArabicOrderModal />;
 
@@ -115,7 +119,8 @@ export const OrderV2 = () => {
         style={{ '--order-modal-width': `${orderSectionMap[orderStepActive]}px` } as any}>
         {orderStepActive !== OrderSection.PAYWALL &&
         orderStepActive !== OrderSection.SMALL_PLANS &&
-        orderStepActive !== OrderSection.ALL_PLANS ? (
+        orderStepActive !== OrderSection.ALL_PLANS &&
+        orderStepActive !== OrderSection.PAYWALL_MAX_SCAN ? (
           <header className="order-header">
             <div className="order-header-title">
               <img

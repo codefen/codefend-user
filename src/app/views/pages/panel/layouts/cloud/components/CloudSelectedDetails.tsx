@@ -8,7 +8,6 @@ import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/Vuln
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 
 import { PageLoader } from '@/app/views/components/loaders/Loader';
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { useGetOneCloud } from '@resourcesHooks/cloud/useGetOneCloud';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
@@ -16,22 +15,24 @@ import { ResourcesTypes } from '@interfaces/order';
 
 export const CloudSelectedDetails = ({ listSize }: { listSize: number }) => {
   //const _userRoles = useUserRole();
-  const { appSelected } = useSelectedApp();
+  // const { appSelected } = useSelectedApp();
   const { data, isLoading, refetch } = useGetOneCloud();
   //const _orderSavedData = useOrderStore(state => state);
 
-  const onRefetch = () => refetch(appSelected?.id);
-  useEffect(() => {
-    if (appSelected) onRefetch();
-  }, [appSelected]);
+  // const onRefetch = () => refetch(appSelected?.id);
+  // useEffect(() => {
+  //   if (appSelected) onRefetch();
+  // }, [appSelected]);
 
   if (!isLoading) {
     return (
       <>
-        <CredentialsModal onComplete={onRefetch} />
+        {/* <CredentialsModal onComplete={onRefetch} /> */}
+        <CredentialsModal onComplete={() => {}} />
         <div>
           <AppCardInfo
-            selectedApp={appSelected || {}}
+            // selectedApp={appSelected || {}}
+            selectedApp={{}}
             type={RESOURCE_CLASS.CLOUD}
             issueCount={data?.issues ? data.issues.length : 0}
           />
@@ -41,7 +42,8 @@ export const CloudSelectedDetails = ({ listSize }: { listSize: number }) => {
             <ProvidedTestingCredentials
               credentials={data?.creds || []}
               isLoading={isLoading}
-              resourceId={appSelected?.id || ''}
+              resourceId={''}
+              // resourceId={appSelected?.id || ''}
               type={RESOURCE_CLASS.CLOUD}
             />
           </div>

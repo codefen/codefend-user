@@ -16,6 +16,11 @@ export const SmallPlanOrderModal = () => {
     }
   };
 
+  const close = () => {
+    updateState('orderStepActive', OrderSection.PAYWALL);
+    updateState('open', false);
+  };
+
   return (
     <div className="paywall-container">
       <div className="step-header-maximo-plan3">
@@ -170,7 +175,6 @@ export const SmallPlanOrderModal = () => {
                 ? '2px solid var(--secondary-color-50)'
                 : '1px solid var(--primary-color-300)',
           }}>
-          {/* Price Badge */}
           {/* <div className="pricing-card-header">
             <div className="pricing-circle">
               <span className="text-xs">$</span>
@@ -301,10 +305,9 @@ export const SmallPlanOrderModal = () => {
         <PrimaryButton
           text="Close Asistant"
           className="flex-1"
-          click={goTo}
+          click={close}
           buttonStyle="gray"
           disabledLoader
-          isDisabled={checkedOption === UserSmallPlanSelected.NOTHING}
         />
         <PrimaryButton
           text="Proceed"

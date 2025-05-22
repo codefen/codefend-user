@@ -54,6 +54,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
       }
       toast.success('Password updated successfully');
       form.reset();
+      setPasswordValue('');
       if (onDone) onDone();
     });
   };

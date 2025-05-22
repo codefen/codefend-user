@@ -51,9 +51,9 @@
     height: 2.5rem;
     display: flex;
     align-items: center;
-    font-family: Satoshi;
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-family: Questrial;
+    font-weight: normal;
+    font-size: 1.1rem;
     // line-height: 13px;
     // text-transform: uppercase;
     // border-bottom: 1px solid var(--primary-color-300);
@@ -78,7 +78,6 @@
     background-color: var(--primary-color);
     padding: var(--card-space);
     border-radius: var(--brd-radius);
-    margin-bottom: 50px;
 
     .table-title {
       display: flex;
@@ -106,6 +105,8 @@
     p {
       padding-inline: var(--card-space);
       margin-block-end: var(--card-space);
+      font-size: 16px;
+      font-family: Questrial;
     }
 
     form {
@@ -134,12 +135,12 @@
     .header-content {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.3rem;
 
       p {
         padding-inline: 0;
-        font-size: 0.9rem;
-        font-family: 'Questrial';
+        font-size: 16px;
+        font-family: Questrial;
         margin-inline-start: 0;
         margin-block-end: 0;
       }
@@ -155,6 +156,7 @@
 
     p {
       margin-bottom: 15px;
+      font-size: 15px;
     }
 
     .actions {
@@ -730,6 +732,7 @@
           color: var(--tertiary-color-500);
           text-transform: capitalize;
           margin-bottom: 0.1rem;
+          line-height: 1.5rem;
         }
       }
 

@@ -29,7 +29,6 @@ export const AddNewResourceModal = () => {
             to="/web"
             title="Web resources"
             description="Manage web resources, such as websites, webapps or apps."
-            count={12}
             icon={RESOURCE_CLASS.WEB}
             callback={handleClose}
           />
@@ -37,7 +36,6 @@ export const AddNewResourceModal = () => {
             to="/mobile"
             title="Mobile resources"
             description="Manage your mobile applications you want to pentest."
-            count={12}
             icon={RESOURCE_CLASS.MOBILE}
             callback={handleClose}
           />
@@ -45,7 +43,6 @@ export const AddNewResourceModal = () => {
             to="/network"
             title="Network resources"
             description="External and internal IP addresses of any device."
-            count={12}
             icon={RESOURCE_CLASS.LAN_NET}
             callback={handleClose}
           />
@@ -53,7 +50,6 @@ export const AddNewResourceModal = () => {
             to="/social"
             title="Social resources"
             description="Manage your staff to conduct social engineering attacks."
-            count={12}
             icon={RESOURCE_CLASS.SOCIAL}
             callback={handleClose}
           />

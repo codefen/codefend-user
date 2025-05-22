@@ -1,7 +1,5 @@
 import { type FC, useEffect } from 'react';
 import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
-import { OrderV2 } from '@modals/order/Orderv2';
-import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import Show from '@/app/views/components/Show/Show';
 import { useCloud } from '@resourcesHooks/cloud/useCloud.ts';
 import useModal from '#commonHooks/useModal.ts';
@@ -11,33 +9,38 @@ import './cloud.scss';
 import { CloudSelectedDetails } from './components/CloudSelectedDetails';
 import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithSearch/ListResourceWithSearch';
 import EmptyLayout from '../EmptyLayout';
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { cloudEmptyScreen } from '@/app/constants/app-texts';
 
+/**
+ * TODO:
+ * - Refactorizar el panel de cloud para que se ves como en mobile
+ * - Se elimino la forma de manejar los estados con zustand para adicion y eliminacion de apps, usar global fast field
+ *
+ */
 const CloudApplicationPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { isLoading, data, refetch, updateData } = useCloud();
   const { setShowModal, showModal } = useModal();
-  const { appSelected, setAppSelected, newApp, setNewApp } = useSelectedApp();
+  // const {  } = useSelectedApp();
 
   useEffect(() => {
     refetch();
-    return () => {
-      setAppSelected(null);
-      setNewApp(null);
-    };
+    // return () => {
+    //   setAppSelected(null);
+    //   setNewApp(null);
+    // };
   }, [control]);
 
   const onDelete = () => {
-    setAppSelected(null);
+    // setAppSelected(null);
     refresh();
   };
-  const onAdd = () => updateData(newApp);
+  const onAdd = () => updateData({});
 
   return (
     <>
       <AddCloudModal isOpen={showModal} close={() => setShowModal(false)} onDone={onAdd} />
-      <DeleteMobileCloudModal onDone={onDelete} />
+      <DeleteMobileCloudModal onDone={onDelete} app={{}} />
       <EmptyLayout
         className="mobile cloud"
         fallback={cloudEmptyScreen}
@@ -56,7 +59,8 @@ const CloudApplicationPanel: FC = () => {
           />
         </section>
         <section className="right">
-          <Show when={Boolean(appSelected)}>
+          {/* <Show when={Boolean(appSelected)}> */}
+          <Show when={true}>
             <CloudSelectedDetails listSize={data?.length || 0} />
           </Show>
         </section>

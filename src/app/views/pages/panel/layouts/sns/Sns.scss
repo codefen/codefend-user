@@ -21,6 +21,8 @@ main.sb {
 
   .left {
     flex: 1 1 65%;
+    overflow-x: hidden;
+
     .card.title {
       box-shadow: 0 15px 45px 0 rgb(221 221 221 / 25%);
 

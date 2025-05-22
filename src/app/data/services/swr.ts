@@ -40,6 +40,7 @@ export const resourcesFetcher = ([[model, childs], { company, logout }]: any) =>
 export const genericFetcher = ([model, params]: any) => {
   const { logout, ...body } = params;
   if (body?.company_id && companyIdIsNull(body?.company_id)) return Promise.reject({});
+
   return AxiosHttpService.getInstance()
     .post<any>({
       body,

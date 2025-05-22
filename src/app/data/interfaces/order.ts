@@ -10,6 +10,7 @@ import type { AuditCompanyData } from './util';
 
 export enum OrderSection {
   PAYWALL = 0,
+  PAYWALL_MAX_SCAN = 0.1,
   SCOPE = 1,
   WEB_SCOPE = 1.11,
   MOBILE_SCOPE = 1.12,
@@ -90,9 +91,9 @@ export interface ScopeOptions {
 }
 export enum UserPlanSelected {
   NOTHING = '',
-  ON_DEMAND = 'ondemand',
-  NORMAL_ORDER = 'normalorder',
-  SMALL_P = 'smallplan',
+  LOAD_MORE_RESOURCES = 'ondemand',
+  MANUAL_PENTEST = 'normalorder',
+  AUTOMATED_TICKETS = 'smallplan',
 }
 export enum UserSmallPlanSelected {
   NOTHING = '',

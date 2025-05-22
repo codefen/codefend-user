@@ -46,6 +46,38 @@ main.user-profile {
       justify-content: center;
       gap: 1rem;
       margin-top: 1.6rem;
+
+      .disabled-btn {
+        margin-top: auto;
+      }
+
+      .mfa-active-icon {
+        background-color: rgb(220, 252, 231);
+        padding: 0.5rem;
+        border-radius: 100%;
+        height: fit-content;
+        width: fit-content;
+        color: rgb(22 101 52 / 1);
+      }
+
+      .mfa-active {
+        display: flex;
+        background-color: rgb(240 253 244 / 1);
+        padding: 1rem;
+        border-radius: var(--brd-radius);
+        gap: var(--card-space);
+        border: 1px solid hsl(240 5.9% 90%);
+
+        h3 {
+          color: rgb(22 101 52 / 1);
+          font-size: 1.1rem;
+        }
+
+        p {
+          padding: 0;
+          color: rgb(21 128 61 / 1);
+        }
+      }
     }
 
     .qr-contain input {

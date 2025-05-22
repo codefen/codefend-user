@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
-import type { Webresource } from '@interfaces/panel.ts';
+import { APP_EVENT_TYPE, type Webresource } from '@interfaces/panel.ts';
 import {
   TrashIcon,
   BugIcon,
@@ -89,9 +89,15 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
   const navigate = useNavigate();
   const { isAdmin, isProvider, idiom } = useUserRole();
   const userHaveAccess = isAdmin() || isProvider();
-  const { resourceType, openModal, resourceID, webResourceSelected, company } = useGlobalFastFields(
-    ['resourceType', 'openModal', 'resourceID', 'webResourceSelected', 'company']
-  );
+  const { resourceType, openModal, resourceID, webResourceSelected, appEvent } =
+    useGlobalFastFields([
+      'resourceType',
+      'openModal',
+      'resourceID',
+      'webResourceSelected',
+      'company',
+      'appEvent',
+    ]);
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
   const { autoScan } = useAutoScan();
@@ -143,8 +149,9 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
         autoScan(row.id, true, idiom).then(result => {
           if (apiErrorValidation(result)) {
             updateState('open', true);
-            updateState('orderStepActive', OrderSection.PAYWALL);
+            updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
             updateState('resourceType', ResourcesTypes.WEB);
+            appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
             return;
           }
           if (result?.neuroscan?.id) {

@@ -19,16 +19,44 @@ import AddNetworkBlock from '@/app/views/pages/panel/layouts/lan/components/AddN
 import { AddAccessPointModal } from '@modals/index.ts';
 import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx';
 import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
+import { getNetworkMetrics } from '@utils/metric.service.ts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { networks, loading, refetch } = useLan();
   const flashlight = useFlashlight();
   const { isAdmin, isNormalUser } = useUserRole();
+  const globalStore = useGlobalFastFields([
+    'externalIpCount',
+    'internalIpCount',
+    'subNetworkCount',
+    'planPreference',
+    'isDefaultPlan',
+    'totalNotUniqueIpCount',
+  ]);
 
   useEffect(() => {
     refetch();
   }, [control]);
+
+  useEffect(() => {
+    const metrics = getNetworkMetrics(networks);
+    globalStore.externalIpCount.set(metrics.totalExternalIps);
+    globalStore.internalIpCount.set(metrics.totalInternalIps);
+    globalStore.subNetworkCount.set(metrics.subNetworkCount);
+    globalStore.totalNotUniqueIpCount.set(metrics.totalNotUniqueIpCount);
+
+    if (globalStore.isDefaultPlan.get) {
+      if (metrics.totalNotUniqueIpCount <= 20) {
+        globalStore.planPreference.set('small');
+      } else if (metrics.totalNotUniqueIpCount <= 200) {
+        globalStore.planPreference.set('medium');
+      } else {
+        globalStore.planPreference.set('advanced');
+      }
+    }
+  }, [networks, globalStore.planPreference.get, globalStore.isDefaultPlan.get]);
 
   return (
     <EmptyLayout
@@ -54,7 +82,11 @@ const NetworkPage: FC = () => {
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
           <AddNetworkBlock />
-          <NetworkStatics networkResources={networks} />
+          <NetworkStatics
+            externalIpCount={globalStore.externalIpCount.get}
+            internalIpCount={globalStore.internalIpCount.get}
+            totalNotUniqueIpCount={globalStore.totalNotUniqueIpCount.get}
+          />
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}

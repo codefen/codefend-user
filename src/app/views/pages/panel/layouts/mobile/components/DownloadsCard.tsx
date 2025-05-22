@@ -74,7 +74,7 @@ const getDownloadMessage = (downloads: any): string => {
   const unitText = unit ? ` ${unit}` : '';
   const pluralSuffix = count !== 1 ? 's' : '';
 
-  return `This application has more than ${formattedCount}${unitText} download${pluralSuffix}`;
+  return `This application has more than ${formattedCount} download${pluralSuffix}`;
 };
 
 export const DownloadsCard: React.FC<DownloadsCardProps> = ({ className, appData }) => {

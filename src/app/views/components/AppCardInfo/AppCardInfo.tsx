@@ -1,5 +1,4 @@
 import { useEffect, type FC } from 'react';
-import { useRemoveAppStore } from '@stores/mobileCloudRemove.store';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { AppCard } from '@/app/views/components/AppCard/AppCard';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
@@ -12,7 +11,6 @@ interface AppCardInfoProps {
 
 export const AppCardInfo: FC<AppCardInfoProps> = ({ type, selectedApp, issueCount }) => {
   const isMobileType = type === RESOURCE_CLASS.MOBILE;
-  const { setIsOpen, setData, setIsMobileType } = useRemoveAppStore(state => state);
   const { resourceID, resourceType, openModal } = useGlobalFastFields([
     'resourceID',
     'resourceType',
@@ -20,9 +18,6 @@ export const AppCardInfo: FC<AppCardInfoProps> = ({ type, selectedApp, issueCoun
   ]);
 
   useEffect(() => {
-    setData(selectedApp.id, selectedApp?.app_name || selectedApp?.cloud_name);
-    setIsOpen(false);
-    setIsMobileType(isMobileType);
     resourceID.set(selectedApp.id);
     resourceType.set(type as RESOURCE_CLASS);
   }, [selectedApp]);

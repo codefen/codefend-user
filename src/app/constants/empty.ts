@@ -106,7 +106,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   subDomainCount: 0,
   uniqueIpCount: 0,
   planPreference: 'medium',
-  isDefaultPlan: false,
+  isDefaultPlan: true,
   selectedApp: null,
   mobilePlanPreference: 'medium',
   scanProgress: 0,
@@ -120,11 +120,13 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   companies: [],
   scanRetries: MAX_SCAN_RETRIES,
   activeScan: null,
-  internalIpCount: 0,
   externalIpCount: 0,
+  internalIpCount: 0,
   subNetworkCount: 0,
+  totalNotUniqueIpCount: 0,
   webResourceSelected: null,
-  appEvent: APP_EVENT_TYPE.NOTIFICATION,
+  appEvent: APP_EVENT_TYPE.USER_LOGGED_OUT,
+  isInitialFetchDone: true,
 };
 
 export const EMPTY_PROVIDER = {

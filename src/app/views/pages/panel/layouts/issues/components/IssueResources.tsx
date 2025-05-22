@@ -153,7 +153,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       <div className="card">
         <Tablev3
           rows={dataTable}
-          columns={!isAdmin() || isProvider() ? issuesColumnsWithActions : issueColumns}
+          columns={isAdmin() || isProvider() ? issuesColumnsWithActions : issueColumns}
           showRows={!props.isLoading}
           initialSort={Sort.asc}
           urlNav={`${baseUrl}/issues/`}

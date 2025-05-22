@@ -1,15 +1,12 @@
 import { toast } from 'react-toastify';
-import { EMPTY_COMPANY_CUSTOM } from '@/app/constants/empty';
-import { AxiosHttpService } from '@services/axiosHTTP.service';
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { apiErrorValidation } from '@/app/constants/validations';
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useSessionManager } from './useSessionManager';
 
 export const useLoginAction = () => {
   const [fetcher, _, isLoading] = useFetcher();
-  const axiosHttp = AxiosHttpService.getInstance();
-  const { session, user, company } = useGlobalFastFields(['session', 'user', 'company']);
+  const { handleSuccessfulLogin } = useSessionManager();
 
   const signInUser = (email: string, password: string, mfa: string): Promise<any> => {
     const body: any = {
@@ -31,16 +28,7 @@ export const useLoginAction = () => {
           customError.password = password;
           throw customError;
         }
-        session.set(data.session as string);
-        user.set(data.user);
-        company.set({
-          ...EMPTY_COMPANY_CUSTOM,
-          id: data.user.company_id || '',
-          name: data.user.company_name || '',
-        });
-        toast.success(AUTH_TEXT.LOGIN_SUCCESS);
-        axiosHttp.updateUrlInstance();
-        return user;
+        return handleSuccessfulLogin(data);
       })
       .catch((e: any) => {
         if (e.code === 'mfa_code_undefined') {

@@ -1,22 +1,32 @@
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection, UserPlanSelected } from '@interfaces/order';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 import useModalStore from '@stores/modal.store';
 import { useOrderStore } from '@stores/orders.store';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { useState } from 'react';
+import { useCallback, useState, memo, useMemo } from 'react';
 
-export const PaywallOrderModal = ({ close }: any) => {
+export const PaywallOrderModal = memo(({ close }: any) => {
   const [checkedOption, setCheckedOption] = useState(UserPlanSelected.NOTHING);
   const { updateState } = useOrderStore(state => state);
-  const { initialDomain } = useWelcomeStore();
   const { setIsOpen, setModalId } = useModalStore();
-  const goTo = () => {
+  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const isIssueLimit = useMemo(
+    () => appEvent.get === APP_EVENT_TYPE.LIMIT_REACHED_ISSUE,
+    [appEvent.get]
+  );
+
+  const handleOptionChange = useCallback((option: UserPlanSelected) => {
+    setCheckedOption(option);
+  }, []);
+
+  const goTo = useCallback(() => {
     if (checkedOption === UserPlanSelected.NOTHING) return;
     updateState('paywallSelected', checkedOption);
-    if (checkedOption === UserPlanSelected.NORMAL_ORDER) {
+    if (checkedOption === UserPlanSelected.MANUAL_PENTEST) {
       updateState('orderStepActive', OrderSection.SCOPE);
-    } else if (checkedOption === UserPlanSelected.ON_DEMAND) {
+    } else if (checkedOption === UserPlanSelected.LOAD_MORE_RESOURCES) {
       updateState('orderStepActive', OrderSection.PAYWALL);
       updateState('open', false);
       setIsOpen(true);
@@ -24,7 +34,12 @@ export const PaywallOrderModal = ({ close }: any) => {
     } else {
       updateState('orderStepActive', OrderSection.SMALL_PLANS);
     }
-  };
+  }, [checkedOption, updateState, setIsOpen, setModalId]);
+
+  const handleClose = useCallback(() => {
+    close();
+  }, [close]);
+
   return (
     <div className="paywall-container">
       <div className="step-header-maximo">
@@ -48,14 +63,14 @@ export const PaywallOrderModal = ({ close }: any) => {
       <div className="step-content">
         <label
           htmlFor="one-resources"
-          className={`option-maximo ${checkedOption == UserPlanSelected.NORMAL_ORDER ? 'select-option' : ''}`}
-          onClick={() => setCheckedOption(UserPlanSelected.NORMAL_ORDER)}>
+          className={`option-maximo ${checkedOption == UserPlanSelected.MANUAL_PENTEST ? 'select-option' : ''}`}
+          onClick={() => handleOptionChange(UserPlanSelected.MANUAL_PENTEST)}>
           <input
             id="one-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption == UserPlanSelected.NORMAL_ORDER}
+            checked={checkedOption == UserPlanSelected.MANUAL_PENTEST}
             onChange={() => {}}
           />
           <img
@@ -64,11 +79,9 @@ export const PaywallOrderModal = ({ close }: any) => {
             style={{ width: '50px', height: '50px' }}
           />
 
-          {/* <div className="codefend-radio"></div> */}
-
           <div className="order-snapshot">
             <div className="top">
-              <p>Perform a manual pentest on {initialDomain}</p>
+              <p>Perform a manual pentest on </p>
             </div>
             <span className="one-pentest">
               Professional hackers will conduct extensive penetration testing for approximately 3
@@ -79,14 +92,14 @@ export const PaywallOrderModal = ({ close }: any) => {
 
         <label
           htmlFor="two-resources"
-          className={`option-maximo ${checkedOption == UserPlanSelected.ON_DEMAND ? 'select-option' : ''}`}
-          onClick={() => setCheckedOption(UserPlanSelected.ON_DEMAND)}>
+          className={`option-maximo ${checkedOption == UserPlanSelected.LOAD_MORE_RESOURCES ? 'select-option' : ''}`}
+          onClick={() => handleOptionChange(UserPlanSelected.LOAD_MORE_RESOURCES)}>
           <input
             id="two-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption == UserPlanSelected.ON_DEMAND}
+            checked={checkedOption == UserPlanSelected.LOAD_MORE_RESOURCES}
             onChange={() => {}}
           />
           <img
@@ -94,8 +107,6 @@ export const PaywallOrderModal = ({ close }: any) => {
             alt="Normal Order Icon"
             style={{ width: '50px', height: '50px' }}
           />
-
-          {/* <div className="codefend-radio"></div> */}
 
           <div className="order-snapshot">
             <div className="top">
@@ -107,40 +118,41 @@ export const PaywallOrderModal = ({ close }: any) => {
             </span>
           </div>
         </label>
-        <label
-          htmlFor="three-resources"
-          className={`option-maximo ${checkedOption === UserPlanSelected.SMALL_P ? 'select-option' : ''}`}
-          onClick={() => setCheckedOption(UserPlanSelected.SMALL_P)}>
-          <input
-            id="three-resources"
-            name="scopeOption"
-            type="radio"
-            className="radio-option"
-            checked={checkedOption === UserPlanSelected.SMALL_P}
-            onChange={() => {}}
-          />
-          <img
-            src="public\codefend\precio.svg"
-            alt="Normal Order Icon"
-            style={{ width: '50px', height: '50px' }}
-          />
-          {/* <div className="codefend-radio"></div> */}
+        {!isIssueLimit && (
+          <label
+            htmlFor="three-resources"
+            className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_TICKETS ? 'select-option' : ''}`}
+            onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_TICKETS)}>
+            <input
+              id="three-resources"
+              name="scopeOption"
+              type="radio"
+              className="radio-option"
+              checked={checkedOption === UserPlanSelected.AUTOMATED_TICKETS}
+              onChange={() => {}}
+            />
+            <img
+              src="public\codefend\precio.svg"
+              alt="Normal Order Icon"
+              style={{ width: '50px', height: '50px' }}
+            />
 
-          <div className="order-snapshot">
-            <div className="top">
-              <p>View more affordable plans and monthly subscriptions</p>
+            <div className="order-snapshot">
+              <div className="top">
+                <p>View more affordable plans and monthly subscriptions</p>
+              </div>
+              <span className="one-pentest">
+                Codefend offers automatic service memberships starting at $29 monthly and hacker
+                contracts from $299 monthly.
+              </span>
             </div>
-            <span className="one-pentest">
-              Codefend offers automatic service memberships starting at $29 monthly and hacker
-              contracts from $299 monthly.
-            </span>
-          </div>
-        </label>
+          </label>
+        )}
       </div>
       <div className="primary-container paywall">
         <PrimaryButton
           text="Cancel"
-          click={close}
+          click={handleClose}
           className="full"
           buttonStyle="gray"
           disabledLoader
@@ -156,4 +168,4 @@ export const PaywallOrderModal = ({ close }: any) => {
       </div>
     </div>
   );
-};
+});

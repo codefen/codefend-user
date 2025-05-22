@@ -41,17 +41,26 @@ const getLatestScan = (scans: any[]) => {
 };
 
 export const useVerifyScanList = () => {
-  const { isScanning, scanNumber, company, scanRetries, currentScan, appEvent } =
-    useGlobalFastFields([
-      'isScanning',
-      'scanNumber',
-      'company',
-      'scanRetries',
-      'currentScan',
-      'appEvent',
-    ]);
+  const {
+    isScanning,
+    scanNumber,
+    company,
+    scanRetries,
+    currentScan,
+    appEvent,
+    isInitialFetchDone,
+    scanProgress,
+  } = useGlobalFastFields([
+    'isScanning',
+    'scanNumber',
+    'company',
+    'scanRetries',
+    'currentScan',
+    'appEvent',
+    'isInitialFetchDone',
+    'scanProgress',
+  ]);
   const scanningValue = isScanning.get;
-  const [initialFetchDone, setInitialFetchDone] = useState(false);
   const retryTimeoutRef = useRef<any>(null);
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
@@ -63,60 +72,23 @@ export const useVerifyScanList = () => {
     dedupingInterval: 0,
     keepPreviousData: true,
     fallbackData: { scans: [], companyUpdated: null },
-    onSuccess: () => {
-      if (!initialFetchDone) {
-        setInitialFetchDone(true);
+    onSuccess: (newData: any) => {
+      if (isInitialFetchDone.get) {
+        console.log('initialFetchDone on onSuccess');
+        scanRetries.set(MAX_SCAN_RETRIES);
+        isInitialFetchDone.set(false);
+      }
+      const latest = getLatestScan(newData?.scans || []);
+      const isActive = latest?.phase == 'scanner' || latest?.phase == 'parser';
+      const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
+      if (!isActive && !isLaunchingScan && scanRetries.get > 0) {
+        console.log('scanRetries.get on onSuccess', scanRetries.get);
+        scanRetries.set(scanRetries.get - 1);
       }
     },
   });
 
-  // Limpiar el timeout cuando el componente se desmonte
-  useEffect(() => {
-    return () => {
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (company.get?.id) {
-      mutate();
-    }
-  }, [company.get?.id]);
-
   const latestScan = useMemo(() => getLatestScan(data?.scans || []), [data?.scans]);
-
-  // Efecto para manejar los reintentos
-  useEffect(() => {
-    const handleRetry = () => {
-      if (scanRetries.get > 0) {
-        scanRetries.set(scanRetries.get - 1);
-        // Programar el siguiente reintento
-        retryTimeoutRef.current = setTimeout(handleRetry, 2000);
-      }
-    };
-
-    const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
-    const isScanFinished = appEvent.get === APP_EVENT_TYPE.SCAN_FINISHED;
-
-    // Limpiar el timeout anterior si existe
-    if (retryTimeoutRef.current) {
-      clearTimeout(retryTimeoutRef.current);
-      retryTimeoutRef.current = null;
-    }
-
-    // Iniciar el sistema de reintentos solo si estamos en estados específicos
-    if ((isScanFinished || isLaunchingScan) && scanRetries.get > 0) {
-      retryTimeoutRef.current = setTimeout(handleRetry, 2000);
-    }
-
-    return () => {
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current);
-      }
-    };
-  }, [appEvent.get, scanRetries.get]);
 
   useEffect(() => {
     const scanSize = data?.scans?.length;
@@ -171,5 +143,12 @@ export const useVerifyScanList = () => {
   }, [data, latestScan, scanningValue, appEvent.get, scanRetries.get]);
 
   const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
-  return { data: data!, latestScan, isScanActive, isScanning, appEvent };
+  return {
+    data: data!,
+    currentScan: currentScan.get,
+    isScanActive,
+    isScanning,
+    appEvent,
+    scanProgress,
+  };
 };

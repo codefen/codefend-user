@@ -160,6 +160,7 @@ export const NewSignupForm = () => {
       }
     });
   };
+
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>
