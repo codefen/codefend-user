@@ -558,6 +558,7 @@ main.cloud {
   &.empty-active {
     width: 100%;
   }
+
   .left {
     flex: 1 1 43%;
     width: 43%;
@@ -832,9 +833,11 @@ main.scans {
   }
   .search-bar-container {
     margin-bottom: 0 !important;
+
     .search-bar {
       .search-input {
-        width: 180px !important; /* o el valor que prefieras */
+        width: 180px !important;
+        /* o el valor que prefieras */
         min-width: 0;
         max-width: 650px;
         margin-right: 10px;
@@ -1948,25 +1951,34 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 }
 
 .content.filters {
-  background-color: white; /* Fondo blanco */
-  padding: 20px; /* Espaciado interno */
+  background-color: white;
+  /* Fondo blanco */
+  padding: 20px;
+  /* Espaciado interno */
 
-  border-radius: 4px; /* Bordes redondeados */
-  margin-bottom: var(--card-space); /* Espaciado inferior */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  margin-bottom: var(--card-space);
+  /* Espaciado inferior */
 }
 
 .check {
-  border-bottom: 1px solid #cccccc71; /* Borde inferior gris claro */
+  border-bottom: 1px solid #cccccc71;
+  /* Borde inferior gris claro */
 }
 
 .check .label {
-  display: flex; /* Usar flexbox para alinear el checkbox y el texto */
-  align-items: center; /* Centrar verticalmente */
+  display: flex;
+  /* Usar flexbox para alinear el checkbox y el texto */
+  align-items: center;
+  /* Centrar verticalmente */
 }
 
 .check input[type='checkbox'] {
-  margin-right: 10px; /* Espaciado a la derecha del checkbox */
-  cursor: pointer; /* Cambiar cursor al pasar sobre el checkbox */
+  margin-right: 10px;
+  /* Espaciado a la derecha del checkbox */
+  cursor: pointer;
+  /* Cambiar cursor al pasar sobre el checkbox */
 }
 
 .sub-title {
@@ -1996,13 +2008,17 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   margin-top: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center; /* Centrar horizontalmente */
-  gap: 5px; /* Espacio reducido entre la imagen y el título */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  gap: 5px;
+  /* Espacio reducido entre la imagen y el título */
 }
 
 .step-header-maximo img {
-  margin: 0; /* Eliminar margen para centrar mejor */
+  margin: 0;
+  /* Eliminar margen para centrar mejor */
 }
+
 h3 {
   font-size: 1.6rem;
   color: #000;
@@ -2011,13 +2027,16 @@ h3 {
 }
 
 .step-content {
-  margin-top: 10px; /* Espaciado superior para separación */
+  margin-top: 10px;
+  /* Espaciado superior para separación */
 }
 
 .option-maximo {
   // padding-left: 5px; /* Ajustar el espaciado izquierdo para las opciones */
-  border: none; /* Eliminar todos los bordes */
-  border-bottom: 1px solid #ccc; /* Solo borde inferior para separación */
+  border: none;
+  /* Eliminar todos los bordes */
+  border-bottom: 1px solid #ccc;
+  /* Solo borde inferior para separación */
   display: flex;
   align-items: center;
   column-gap: 2.5rem;
@@ -2029,33 +2048,42 @@ h3 {
   line-height: 1.8;
 
   .one-pentest {
-    font-size: 0.9rem; /* Tamaño de fuente reducido */
+    font-size: 0.9rem;
+    /* Tamaño de fuente reducido */
   }
 
-  margin-bottom: 0; /* Eliminar espaciado inferior para evitar problemas visuales */
-  cursor: pointer; /* Cambiar cursor al pasar sobre la opción */
-  transition: background-color 0.3s; /* Transición suave para el fondo */
+  margin-bottom: 0;
+  /* Eliminar espaciado inferior para evitar problemas visuales */
+  cursor: pointer;
+  /* Cambiar cursor al pasar sobre la opción */
+  transition: background-color 0.3s;
+  /* Transición suave para el fondo */
 }
 
 .option-maximo:hover {
-  background-color: #f0f0f0; /* Fondo al pasar el mouse */
+  background-color: #f0f0f0;
+  /* Fondo al pasar el mouse */
 }
 
 .select-option-maximo {
-  background-color: #e0f7fa; /* Fondo destacado para opción seleccionada */
+  background-color: #e0f7fa;
+  /* Fondo destacado para opción seleccionada */
 }
 
 ///////// PLAN 3 ///////////////
 
 .step-header-maximo-plan3 {
   display: flex;
-  align-items: center; /* Changed from left to center */
-  justify-content: flex-start; /* Changed from left to flex-start */
+  align-items: center;
+  /* Changed from left to center */
+  justify-content: flex-start;
+  /* Changed from left to flex-start */
 
   .small-image {
     width: 50px;
     height: auto;
-    margin: 0.5rem; /* Adjusted margin for better alignment */
+    margin: 0.5rem;
+    /* Adjusted margin for better alignment */
     display: block;
     margin-left: 150px !important;
     margin-top: 15px !important;
@@ -2081,6 +2109,7 @@ h3 {
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .plan-card-auto {
   background: #fff;
   border-radius: 4px;
@@ -2093,7 +2122,8 @@ h3 {
   transition:
     box-shadow 0.2s,
     border 0.2s;
-  border: 1.5px solid #e0e0e0; /* gris suave */
+  border: 1.5px solid #e0e0e0;
+  /* gris suave */
 }
 
 /* Solo en hover o seleccionada, fondo blanco y borde rojo, y aparece el box-shadow */
@@ -2145,17 +2175,20 @@ h3 {
   flex-direction: column;
   align-items: center;
 }
+
 .plan-price {
   font-size: 2rem;
   color: #ec2603;
   margin: 1rem 0 0.5rem 0;
 }
+
 .plan-list {
   margin: 0;
   padding: 0;
   list-style: none;
   text-align: left;
 }
+
 .plan-list li {
   margin-bottom: 0.3rem;
   font-size: 0.85rem;
