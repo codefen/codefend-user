@@ -31,6 +31,7 @@ interface SidebarItemProps {
   to: string;
   icon?: ReactNode;
   isActive: boolean;
+  isAuth: boolean;
 }
 
 const verifyPath = (verifyPath: string, isRoot: boolean) => {
@@ -41,11 +42,11 @@ const verifyPath = (verifyPath: string, isRoot: boolean) => {
 
 class SidebarItem extends PureComponent<SidebarItemProps> {
   override render() {
-    const { id, title, to, icon, isActive } = this.props;
+    const { id, title, to, icon, isActive, isAuth } = this.props;
     return (
       <Link
         title={title}
-        to={to}
+        to={isAuth ? to : ''}
         id={id}
         className={`${isActive ? 'active' : ''}`}
         aria-label={title}>
@@ -57,7 +58,7 @@ class SidebarItem extends PureComponent<SidebarItemProps> {
 
 const Sidebar: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { getUserdata, company } = useUserData();
+  const { getUserdata, company, isAuth } = useUserData();
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
   const companies = useGlobalFastField('companies');
 
@@ -67,7 +68,7 @@ const Sidebar: FC = () => {
     isProvider() &&
     companies.get?.length > 0 &&
     companies.get?.[0] !== null &&
-    company.get?.id !== getUserdata().company_id;
+    company.get?.id !== getUserdata()?.company_id;
 
   const handleOpenSidebar = (action: 'enter' | 'leave') => {
     setIsSidebarOpen(action === 'enter' ? true : false);
@@ -306,6 +307,7 @@ const Sidebar: FC = () => {
                   icon={icon}
                   to={to}
                   isActive={verifyPath(to, root)}
+                  isAuth={isAuth}
                 />
               ))}
             </div>
@@ -322,6 +324,7 @@ const Sidebar: FC = () => {
               icon={icon}
               to={to}
               isActive={verifyPath(to, root)}
+              isAuth={isAuth}
             />
           );
         }
