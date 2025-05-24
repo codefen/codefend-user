@@ -4,17 +4,27 @@ import SnsCardTitle from './components/SnsCardTitle';
 import SnsSearchAndData from './components/SnsSearchAndData.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import {
+  useGlobalFastField,
+  useGlobalFastFields,
+} from '@/app/views/context/AppContextProvider.tsx';
 import './Sns.scss';
+import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { previousSearches, isLoading, refetch } = usePreviousSearch('sns');
-  const company = useGlobalFastField('company');
+  const { company, appEvent } = useGlobalFastFields(['company', 'appEvent']);
 
   useEffect(() => {
     refetch();
   }, [control]);
+
+  useEffect(() => {
+    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      appEvent.set(APP_EVENT_TYPE.DATALEAK_PAGE_CONDITION);
+    }
+  }, [appEvent.get]);
 
   return (
     <>

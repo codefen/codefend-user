@@ -78,6 +78,7 @@ export const useSns = () => {
       .catch(error => {
         switch (error.code) {
           case 'paid_user_leaksearch_maximum_reached':
+          case 'leaksearch_maximum_reached':
             limitReached();
             break;
           default:

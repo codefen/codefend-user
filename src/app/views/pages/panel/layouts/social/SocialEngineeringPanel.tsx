@@ -17,17 +17,24 @@ import AddSocialBlock from '@/app/views/pages/panel/layouts/social/components/Ad
 import useModalStore from '@stores/modal.store.ts';
 import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal.tsx';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
+import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { members, refetch, isLoading } = useSocial();
   const flashlight = useFlashlight();
-  const globalStore = useGlobalFastFields(['isDefaultPlan', 'planPreference']);
+  const globalStore = useGlobalFastFields(['isDefaultPlan', 'planPreference', 'appEvent']);
 
   const [socialFilters, setSocialFilters] = useState({
     department: new Set<string>(),
     attackVectors: new Set<string>(),
   });
+
+  useEffect(() => {
+    if (globalStore.appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      globalStore.appEvent.set(APP_EVENT_TYPE.SOCIAL_RESOURCE_PAGE_CONDITION);
+    }
+  }, [globalStore.appEvent.get]);
 
   useEffect(() => {
     refetch();

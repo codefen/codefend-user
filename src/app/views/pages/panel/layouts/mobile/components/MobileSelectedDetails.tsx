@@ -13,8 +13,15 @@ import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { DownloadsCard } from './DownloadsCard';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
-export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
+export const MobileSelectedDetails = ({
+  listSize,
+  appEvent,
+}: {
+  listSize: number;
+  appEvent: any;
+}) => {
   const { data, isLoading, refetch } = useGetOneMobile();
   const onRefetch = () => refetch(selectedAppStored.get?.id);
   const {

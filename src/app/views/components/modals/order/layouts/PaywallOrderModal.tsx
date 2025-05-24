@@ -3,9 +3,16 @@ import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection, UserPlanSelected } from '@interfaces/order';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { useInitialDomainStore } from '@stores/initialDomain.store';
 import useModalStore from '@stores/modal.store';
 import { useOrderStore } from '@stores/orders.store';
 import { useCallback, useState, memo, useMemo } from 'react';
+
+const firstOptionText = {
+  unique: (initialDomain: string) =>
+    `Perform a manual pentest on <b class="codefend-text-red">${initialDomain}</b>`,
+  notUnique: () => 'Perform a manual pentest',
+};
 
 export const PaywallOrderModal = memo(({ close }: any) => {
   const [checkedOption, setCheckedOption] = useState(UserPlanSelected.NOTHING);
@@ -16,6 +23,7 @@ export const PaywallOrderModal = memo(({ close }: any) => {
     () => appEvent.get === APP_EVENT_TYPE.LIMIT_REACHED_ISSUE,
     [appEvent.get]
   );
+  const { isUniqueDomain, initialDomain } = useInitialDomainStore();
 
   const handleOptionChange = useCallback((option: UserPlanSelected) => {
     setCheckedOption(option);
@@ -81,7 +89,10 @@ export const PaywallOrderModal = memo(({ close }: any) => {
 
           <div className="order-snapshot">
             <div className="top">
-              <p>Perform a manual pentest on </p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: firstOptionText[isUniqueDomain ? 'unique' : 'notUnique'](initialDomain),
+                }}></p>
             </div>
             <span className="one-pentest">
               Professional hackers will conduct extensive penetration testing for approximately 3

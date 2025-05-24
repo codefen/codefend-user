@@ -8,9 +8,8 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
 
-const AddDomainModal = () => {
+const AddDomainModal = ({ appEvent }: { appEvent: any }) => {
   const { setIsOpen, isOpen, modalId } = useModalStore();
-  const appEvent = useGlobalFastField('appEvent');
 
   const handleClose = () => {
     setIsOpen(false);

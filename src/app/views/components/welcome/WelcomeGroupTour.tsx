@@ -6,21 +6,22 @@ import WelcomeScan from '@/app/views/components/welcome/WelcomeScan/WelcomeScan'
 import { WelcomeFinish } from '@/app/views/components/welcome/WelcomeFinish/WelcomeFinish';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
+import { useInitialDomainStore } from '@stores/initialDomain.store';
 
 export const WelcomeGroupTour = () => {
   const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
   const { solvedComunique } = useSolvedComunique();
-  const { domainId, saveInitialDomain } = useWelcomeStore();
   const { autoScan } = useAutoScan();
+  const { resourceId } = useInitialDomainStore();
 
   const startWaitStep = (idiom: string) => {
     solvedComunique();
-    autoScan(domainId, true, idiom).then(() => {
+    autoScan(resourceId, true, idiom).then(() => {
       setIsOpen(true);
       setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
     });
   };
-  const startScan = () => {
+  const goToStartScanStep = () => {
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.USER_WELCOME_SCAN);
   };
@@ -28,12 +29,11 @@ export const WelcomeGroupTour = () => {
   const close = () => {
     setIsOpen(false);
     setModalId('');
-    saveInitialDomain('');
     solvedComunique();
   };
 
   if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_DOMAIN) {
-    return <WelcomeDomain close={close} startScan={startScan} />;
+    return <WelcomeDomain close={close} goToStartScanStep={goToStartScanStep} />;
   } else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_SCAN) {
     return <WelcomeScan goToWaitStep={startWaitStep} close={close} />;
   } else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH) {

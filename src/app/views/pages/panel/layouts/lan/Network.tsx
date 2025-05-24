@@ -21,6 +21,7 @@ import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx
 import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
 import { getNetworkMetrics } from '@utils/metric.service.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
+import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -34,10 +35,15 @@ const NetworkPage: FC = () => {
     'planPreference',
     'isDefaultPlan',
     'totalNotUniqueIpCount',
+    'appEvent',
+    'totalNetowrkElements',
   ]);
 
   useEffect(() => {
     refetch();
+    if (globalStore.appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      globalStore.appEvent.set(APP_EVENT_TYPE.NETWORK_RESOURCE_PAGE_CONDITION);
+    }
   }, [control]);
 
   useEffect(() => {
@@ -46,11 +52,11 @@ const NetworkPage: FC = () => {
     globalStore.internalIpCount.set(metrics.totalInternalIps);
     globalStore.subNetworkCount.set(metrics.subNetworkCount);
     globalStore.totalNotUniqueIpCount.set(metrics.totalNotUniqueIpCount);
-
+    globalStore.totalNetowrkElements.set(metrics.total);
     if (globalStore.isDefaultPlan.get) {
-      if (metrics.totalNotUniqueIpCount <= 20) {
+      if (metrics.total <= 20) {
         globalStore.planPreference.set('small');
-      } else if (metrics.totalNotUniqueIpCount <= 200) {
+      } else if (metrics.total <= 200) {
         globalStore.planPreference.set('medium');
       } else {
         globalStore.planPreference.set('advanced');

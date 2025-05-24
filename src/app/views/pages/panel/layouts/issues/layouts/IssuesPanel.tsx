@@ -1,6 +1,6 @@
 import { type FC, useEffect, useMemo, useState } from 'react';
 import { useIssues } from '@panelHooks/issues/useIssues.ts';
-import { type Issues } from '@interfaces/panel.ts';
+import { APP_EVENT_TYPE, type Issues } from '@interfaces/panel.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus.tsx';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk.tsx';
@@ -13,6 +13,7 @@ import useModalStore from '@stores/modal.store.ts';
 import { EMPTY_ISSUECLASS, EMPTY_ISSUECONDITION, EMPTY_SHARE } from '@/app/constants/empty.ts';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -20,9 +21,12 @@ const IssuesPanel: FC = () => {
   const { issues, others, isLoading, refetchAll } = useIssues();
   const { setIsOpen, setModalId } = useModalStore();
   const flashlight = useFlashlight();
-
+  const { appEvent } = useGlobalFastFields(['appEvent']);
   useEffect(() => {
     refetchAll();
+    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      appEvent.set(APP_EVENT_TYPE.VULNERABILITIES_PAGE_CONDITION);
+    }
   }, [control]);
 
   const handleIssuesFilter = useMemo(() => {

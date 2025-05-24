@@ -21,60 +21,27 @@ import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
 import { getCompanyAllMetrics } from '@utils/metric.service.ts';
 import './webapplication.scss';
+import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
+import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
 
 const WebApplicationView = () => {
-  const [showScreen, _, refresh] = useShowScreen();
-  const { webResources, isLoading, refetch } = useGetWebResources();
+  const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent } =
+    useGetWebResourcesv2();
+  const [showScreen] = useShowScreen();
   const flashlight = useFlashlight();
-  const appEvent = useGlobalFastField('appEvent');
-  const globalStore = useGlobalFastFields([
-    'subDomainCount',
-    'uniqueIpCount',
-    'domainCount',
-    'planPreference',
-    'isDefaultPlan',
-  ]);
-
-  useEffect(() => {
-    if (
-      appEvent.get != APP_EVENT_TYPE.NOTIFICATION &&
-      appEvent.get != APP_EVENT_TYPE.SCAN_FINISHED &&
-      appEvent.get != APP_EVENT_TYPE.SCAN_LAUNCHED &&
-      appEvent.get != APP_EVENT_TYPE.LAUNCH_SCAN
-    ) {
-      refresh();
-      appEvent.set(APP_EVENT_TYPE.NOTIFICATION);
-    }
-  }, [appEvent.get]);
-
-  useEffect(() => {
-    const metrics = getCompanyAllMetrics(webResources);
-    globalStore.domainCount.set(metrics.domainCount);
-    globalStore.subDomainCount.set(metrics.subDomainCount);
-    globalStore.uniqueIpCount.set(metrics.uniqueIpCount);
-    if (globalStore.isDefaultPlan.get) {
-      if (metrics.domainCount <= 2 && metrics.subDomainCount <= 6) {
-        globalStore.planPreference.set('small');
-      } else if (metrics.domainCount <= 5 && metrics.subDomainCount <= 15) {
-        globalStore.planPreference.set('medium');
-      } else {
-        globalStore.planPreference.set('advanced');
-      }
-    }
-  }, [webResources, globalStore.planPreference.get, globalStore.isDefaultPlan.get]);
 
   return (
     <EmptyLayout
       className="webapp"
       fallback={webEmptyScreen}
-      event={refresh}
+      event={refetch}
       showScreen={showScreen}
       isLoading={isLoading}
-      dataAvailable={Boolean(webResources.length)}>
+      dataAvailable={Boolean(webResources?.length)}>
       {/* *****MODALES WEB PAGE ***** */}
       <CredentialsModal />
       <DeleteWebResourceModal />
-      <AddDomainModal />
+      <AddDomainModal appEvent={appEvent} />
       <AddSubDomainModal webResources={webResources} />
       <div className="brightness variant-1"></div>
 
@@ -87,9 +54,9 @@ const WebApplicationView = () => {
       <section className="right" ref={flashlight.rightPaneRef}>
         <WebApplicationTitle isLoading={isLoading} />
         <WebApplicationStatics
-          domainCount={globalStore.domainCount.get}
-          subDomainCount={globalStore.subDomainCount.get}
-          uniqueIpCount={globalStore.uniqueIpCount.get}
+          domainCount={domainCount.get}
+          subDomainCount={subDomainCount.get}
+          uniqueIpCount={uniqueIpCount.get}
         />
         <OpenOrderButton
           className="pentest-btn"

@@ -73,11 +73,6 @@ export const useVerifyScanList = () => {
     keepPreviousData: true,
     fallbackData: { scans: [], companyUpdated: null },
     onSuccess: (newData: any) => {
-      if (isInitialFetchDone.get) {
-        console.log('initialFetchDone on onSuccess');
-        scanRetries.set(MAX_SCAN_RETRIES);
-        isInitialFetchDone.set(false);
-      }
       const latest = getLatestScan(newData?.scans || []);
       const isActive = latest?.phase == 'scanner' || latest?.phase == 'parser';
       const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;

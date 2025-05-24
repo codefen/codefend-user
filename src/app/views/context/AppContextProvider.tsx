@@ -74,6 +74,7 @@ export type GlobalStore = {
   appEvent: APP_EVENT_TYPE;
   isInitialFetchDone: boolean;
   totalNotUniqueIpCount: number;
+  totalNetowrkElements: number;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -116,6 +117,7 @@ export const initialGlobalState: GlobalStore = {
   webResourceSelected: persistedState?.webResourceSelected ?? null,
   appEvent: persistedState?.appEvent ?? APP_EVENT_TYPE.NOTIFICATION,
   isInitialFetchDone: persistedState?.isInitialFetchDone,
+  totalNetowrkElements: persistedState?.totalNetowrkElements ?? 0,
 };
 
 const {

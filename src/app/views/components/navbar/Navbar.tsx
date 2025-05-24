@@ -1,6 +1,5 @@
 import { type FC, lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ThemeChangerButton } from '@buttons/theme-changer/ThemeChangerButton.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { LogoutIcon, NetworkIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show.tsx';
@@ -15,8 +14,6 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { Breadcrumb } from '@/app/views/components/utils/Breadcrumb.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
-import { useWelcomeStore } from '@stores/useWelcomeStore.ts';
-import { ScanStepType } from '@/app/constants/welcome-steps.tsx';
 
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
@@ -32,7 +29,6 @@ const Navbar: FC = () => {
   const [baseApiName, setBaseApiName] = useState('');
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
   const { setIsOpen, setModalId } = useModalStore();
-  const { setScanStep, setIssueFound, setIssuesViewed, setScanRunning } = useWelcomeStore();
   const isProgressStarted = useGlobalFastField('isProgressStarted');
   const progress = useGlobalFastField('scanProgress');
   useEffect(() => {
@@ -66,10 +62,6 @@ const Navbar: FC = () => {
   const openOnBoard = () => {
     setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
     setIsOpen(true);
-    setScanStep(ScanStepType.NonScan);
-    setIssueFound(0);
-    setIssuesViewed(0);
-    setScanRunning(false);
     isProgressStarted.set(false);
     progress.set(0);
   };

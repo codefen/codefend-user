@@ -20,6 +20,7 @@ import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
+import { useInitialDomainStore } from '@stores/initialDomain.store';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -34,6 +35,7 @@ export const NewSignupForm = () => {
   const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
   const { ref } = useParams();
+  const { update } = useInitialDomainStore();
 
   useEffect(() => {
     const code = searchParams.get('code') || ref;
@@ -104,6 +106,7 @@ export const NewSignupForm = () => {
         throw new Error('');
       }
       setActiveStep(SignUpSteps.STEP_THREE);
+      update('initialDomain', form?.get('company_web') as string);
     });
   };
 

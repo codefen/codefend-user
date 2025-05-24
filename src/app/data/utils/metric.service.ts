@@ -214,6 +214,7 @@ export const getNetworkMetrics = (resources: any[]): NetworkMetrics => {
       totalInternalIps: 0,
       totalExternalIps: 0,
       totalNotUniqueIpCount: 0,
+      total: 0,
     };
   }
 
@@ -248,6 +249,7 @@ export const getNetworkMetrics = (resources: any[]): NetworkMetrics => {
     totalInternalIps,
     totalExternalIps,
     totalNotUniqueIpCount: totalInternalIps + totalExternalIps,
+    total: allResources.length,
   };
 };
 

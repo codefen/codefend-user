@@ -20,9 +20,10 @@ export const NetworkScopeModal = () => {
   const globalStore = useGlobalFastFields([
     'externalIpCount',
     'internalIpCount',
-    'totalNotUniqueIpCount',
+    'totalNetowrkElements',
     'planPreference',
     'isDefaultPlan',
+    'totalNotUniqueIpCount',
   ]);
 
   const goToNavigate = () => {
@@ -46,14 +47,14 @@ export const NetworkScopeModal = () => {
 
   useEffect(() => {
     globalStore.isDefaultPlan.set(true);
-    if (globalStore.totalNotUniqueIpCount.get <= 20) {
+    if (globalStore.totalNetowrkElements.get <= 20) {
       globalStore.planPreference.set('small');
-    } else if (globalStore.totalNotUniqueIpCount.get <= 200) {
+    } else if (globalStore.totalNetowrkElements.get <= 200) {
       globalStore.planPreference.set('medium');
     } else {
       globalStore.planPreference.set('advanced');
     }
-  }, [globalStore.planPreference.get, globalStore.totalNotUniqueIpCount.get]);
+  }, [globalStore.planPreference.get, globalStore.totalNetowrkElements.get]);
 
   return (
     <div className="step-content scope">

@@ -127,6 +127,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   webResourceSelected: null,
   appEvent: APP_EVENT_TYPE.USER_LOGGED_OUT,
   isInitialFetchDone: true,
+  totalNetowrkElements: 0,
 };
 
 export const EMPTY_PROVIDER = {

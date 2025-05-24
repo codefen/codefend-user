@@ -6,14 +6,24 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import Show from '@/app/views/components/Show/Show.tsx';
 import './support.scss';
 import { useParams } from 'react-router';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import {
+  useGlobalFastField,
+  useGlobalFastFields,
+} from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewTicketBox } from '@/app/views/pages/panel/layouts/support/components/AddNewTicketBox';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { getTikets, isLoading, refetch } = useAllTicket();
   const { dad } = useParams();
-  const selectedTicket = useGlobalFastField('selectedTicket');
+  const { selectedTicket, appEvent } = useGlobalFastFields(['selectedTicket', 'appEvent']);
+
+  useEffect(() => {
+    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      appEvent.set(APP_EVENT_TYPE.TICKETS_PAGE_CONDITION);
+    }
+  }, [appEvent.get]);
 
   useEffect(() => {
     refetch();

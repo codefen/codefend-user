@@ -10,10 +10,20 @@ import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource.tsx';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart.tsx';
+import { useEffect } from 'react';
+import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 
 const Dashboard = () => {
   const [showScreen] = useShowScreen();
   const { isLoading, data, isScanning, company } = useDashboard();
+  const { appEvent } = useGlobalFastFields(['appEvent']);
+
+  useEffect(() => {
+    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      appEvent.set(APP_EVENT_TYPE.DASHBOARD_PAGE_CONDITION);
+    }
+  }, []);
 
   return (
     <main className={`dashboard ${showScreen ? 'actived' : ''}`}>

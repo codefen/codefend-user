@@ -23,6 +23,9 @@ const MobileApplicationPanel: React.FC = () => {
 
   useEffect(() => {
     refetch();
+    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+      appEvent.set(APP_EVENT_TYPE.MOBILE_RESOURCE_PAGE_CONDITION);
+    }
     return () => {
       selectedApp.set(null);
     };
@@ -31,7 +34,6 @@ const MobileApplicationPanel: React.FC = () => {
   useEffect(() => {
     if (selectedApp.get && appEvent.get === APP_EVENT_TYPE.MOBILE_RESOURCE_CREATED) {
       updateData(selectedApp.get);
-      appEvent.set(APP_EVENT_TYPE.NOTIFICATION);
     }
   }, [appEvent.get]);
 
@@ -57,7 +59,7 @@ const MobileApplicationPanel: React.FC = () => {
 
       <section className="right">
         <Show when={Boolean(selectedApp.get)}>
-          <MobileSelectedDetails listSize={data?.length || 0} />
+          <MobileSelectedDetails listSize={data?.length || 0} appEvent={appEvent} />
         </Show>
       </section>
 
