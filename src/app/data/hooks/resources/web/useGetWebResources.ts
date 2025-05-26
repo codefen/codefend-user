@@ -14,7 +14,6 @@ export const useGetWebResources = () => {
 
   const refetch = (childs?: string) => {
     const companyID = getCompany();
-    console.log('companyID', companyID);
     if (companyIdIsNull(companyID)) return;
 
     fetcher<any>('post', {
@@ -28,7 +27,6 @@ export const useGetWebResources = () => {
       if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
-      console.log('data', data);
       if (data?.company) company.set(data.company);
       const resources = data?.resources ? data.resources : [];
       setWebResources(resources);

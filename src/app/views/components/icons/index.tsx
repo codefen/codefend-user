@@ -17,6 +17,41 @@ interface IconProps {
   name?: string;
 }
 
+export const RobotIcon: FC<IconProps> = ({ width = '24', height = '24' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ overflow: 'visible' }}>
+    <path d="M12 8V4H8"></path>
+    <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+    <path d="M2 14h2"></path>
+    <path d="M20 14h2"></path>
+    <path d="M15 13v2"></path>
+    <path d="M9 13v2"></path>
+  </svg>
+);
+
+export const ChatCircleIcon: FC<IconProps> = ({ width = '24', height = '24' }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round">
+    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+  </svg>
+);
+
 export const ChartIcon = () => (
   <svg
     strokeWidth={0}
@@ -815,8 +850,7 @@ export const CheckSimpleIcon = () => (
     stroke="currentColor"
     strokeWidth="3"
     strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lucide lucide-check text-white">
+    strokeLinejoin="round">
     <path d="M20 6 9 17l-5-5"></path>
   </svg>
 );

@@ -6,44 +6,19 @@ main.support {
       .rows {
         max-height: calc(100dvh - 150px);
       }
+    }
 
-      .id {
-        min-width: 6.5%;
-        max-width: 6.5%;
-      }
+    .card.messages.empty-state {
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin-block-start: 3rem;
+        gap: 1rem;
 
-      .vul-title {
-        min-width: 42%;
-        max-width: 42%;
-        margin-inline-end: 1%;
-      }
-
-      .username {
-        min-width: 19%;
-        max-width: 19%;
-      }
-
-      .date {
-        min-width: 12%;
-        max-width: 12%;
-      }
-
-      .status {
-        min-width: 12%;
-        max-width: 12%;
-        text-align: center;
-
-        .publish {
-          justify-content: center;
-        }
-      }
-
-      .id.action {
-        min-width: 7.5%;
-        max-width: 7.5%;
-
-        .publish {
-          justify-content: center;
+        svg {
+          color: #71717a;
         }
       }
     }
@@ -53,6 +28,17 @@ main.support {
     .card .table .rows {
       // Resta un 42% del espacio disponible en el contenedor derecho y ocupa un 58% del alto
       max-height: calc(100cqh - calc(100cqh * 0.45));
+    }
+
+    .card.tickets-list .empty-wrapper {
+      flex-direction: column;
+
+      .empty-wrapper-icon {
+        color: #71717a;
+        background: #f4f4f580;
+        border-radius: 100%;
+        padding: 0.75rem;
+      }
     }
   }
 }

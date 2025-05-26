@@ -12,6 +12,7 @@ import {
 } from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewTicketBox } from '@/app/views/pages/panel/layouts/support/components/AddNewTicketBox';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { SupperEmptyDisplay } from '@/app/views/pages/panel/layouts/support/components/SupperEmptyDisplay';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -68,7 +69,7 @@ const SupportPanel: FC = () => {
     <>
       <main className={`support ${showScreen ? 'actived' : ''}`}>
         <section className="left">
-          <Show when={selectedTicket.get !== null}>
+          <Show when={selectedTicket.get !== null} fallback={<SupperEmptyDisplay />}>
             <SupportChatDisplay selectedTicket={selectedTicket.get} />
           </Show>
         </section>

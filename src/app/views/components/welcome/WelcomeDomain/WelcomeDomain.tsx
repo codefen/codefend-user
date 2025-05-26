@@ -69,7 +69,6 @@ export const WelcomeDomain = ({
   const { update, initialDomain: initialDomainStored } = useInitialDomainStore();
 
   useEffect(() => {
-    console.log('initialDomainStored', initialDomainStored, initialDomain);
     setInitialDomain(prev => (!prev ? (!!initialDomainStored ? initialDomainStored : '') : prev));
   }, [initialDomain, initialDomainStored]);
 
@@ -169,7 +168,7 @@ export const WelcomeDomain = ({
             className={`btn ${css['btn-add']}`}
             type="button"
             onClick={nextStep}
-            disabled={!Boolean(domains.length)}>
+            disabled={!Boolean(domains.length) || isLoading}>
             Continue
           </button>
         </div>

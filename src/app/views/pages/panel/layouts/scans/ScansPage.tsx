@@ -7,16 +7,9 @@ import { useEffect } from 'react';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();
-  const globalStore = useGlobalFastFields([
-    'isInitialFetchDone',
-    'isScanning',
-    'company',
-    'scanRetries',
-    'appEvent',
-  ]);
+  const globalStore = useGlobalFastFields(['isScanning', 'company', 'scanRetries', 'appEvent']);
 
   useEffect(() => {
-    console.log('globalStore.appEvent.get', globalStore.appEvent.get);
     if (
       !globalStore.isScanning.get &&
       globalStore.appEvent.get !== APP_EVENT_TYPE.SCAN_PAGE_CONDITION &&

@@ -3,6 +3,10 @@
   padding-block: 0.75rem;
 }
 
+.modal-wrapper .modal-report-selector:has(.type-selector-container) {
+  height: 500px;
+}
+
 .report-type-modal {
   width: 1020px;
   height: 250px;

@@ -125,7 +125,8 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
         isOpen &&
         (modalId == MODAL_KEY_OPEN.SELECT_REPORT || modalId == MODAL_KEY_OPEN.SELECT_FINDING)
       }
-      close={handleClose}>
+      close={handleClose}
+      type="modal-report-selector">
       <div
         className={`report-type-modal ${activeView !== 'selector' && 'type-selector-container'}`}>
         <Show when={activeView === 'selector'}>

@@ -49,7 +49,9 @@ interface Tablev3Props<T> {
   selectedKey?: string;
   enableContextMenu?: boolean;
   contextMenuActions?: ContextMenuAction[];
-  emptyInfo?: string;
+  emptyInfo?: string | ReactNode;
+  emptyTitle?: string;
+  emptyIcon?: ReactNode;
 }
 
 const Tablev3: FC<Tablev3Props<any>> = ({
@@ -71,6 +73,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   enableContextMenu = false,
   contextMenuActions = [],
   emptyInfo = '',
+  emptyTitle = "There's no data to display here",
+  emptyIcon,
 }) => {
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [hasScroll, setHasScroll] = useState(false);
@@ -254,7 +258,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
           </div>
         </Show>
         <Show when={showRows && !Boolean(preProcessedRows.length)}>
-          <EmptyCard info={emptyInfo} />
+          <EmptyCard info={emptyInfo} title={emptyTitle} icon={emptyIcon} />
         </Show>
 
         {/* Context Menu */}

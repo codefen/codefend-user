@@ -31,9 +31,9 @@ const getDescription = (isScanning: boolean) => {
   }
   return (
     <>
-      Our AI is thoroughly analyzing your resources to detect hidden vulnerabilities and security
-      gaps. This process may take a little while — you can follow the scan’s progress in real time.
-      In the meantime, feel free to explore other features while we work in the background.
+      Our AI is carefully analyzing your resources to find hidden vulnerabilities and security gaps.
+      This might take a few moments. You can track the scan's progress in real time, and feel free
+      to explore other features while we work in the background.
     </>
   );
 };

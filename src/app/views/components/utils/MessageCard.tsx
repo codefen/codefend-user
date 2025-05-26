@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { MetricsService } from '@utils/metric.service.ts';
+import { cleanHTML } from '@utils/helper';
 
 interface Props {
   selectedID: string;
@@ -30,7 +31,7 @@ export const MessageCard: FC<Props> = props => {
             loading="lazy"
           />
         </div>
-        <p>{message}</p>
+        <p dangerouslySetInnerHTML={{ __html: cleanHTML(message) }} />
       </div>
     </div>
   );

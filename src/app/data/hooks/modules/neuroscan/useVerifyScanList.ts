@@ -41,25 +41,16 @@ const getLatestScan = (scans: any[]) => {
 };
 
 export const useVerifyScanList = () => {
-  const {
-    isScanning,
-    scanNumber,
-    company,
-    scanRetries,
-    currentScan,
-    appEvent,
-    isInitialFetchDone,
-    scanProgress,
-  } = useGlobalFastFields([
-    'isScanning',
-    'scanNumber',
-    'company',
-    'scanRetries',
-    'currentScan',
-    'appEvent',
-    'isInitialFetchDone',
-    'scanProgress',
-  ]);
+  const { isScanning, scanNumber, company, scanRetries, currentScan, appEvent, scanProgress } =
+    useGlobalFastFields([
+      'isScanning',
+      'scanNumber',
+      'company',
+      'scanRetries',
+      'currentScan',
+      'appEvent',
+      'scanProgress',
+    ]);
   const scanningValue = isScanning.get;
   const retryTimeoutRef = useRef<any>(null);
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
@@ -77,7 +68,6 @@ export const useVerifyScanList = () => {
       const isActive = latest?.phase == 'scanner' || latest?.phase == 'parser';
       const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
       if (!isActive && !isLaunchingScan && scanRetries.get > 0) {
-        console.log('scanRetries.get on onSuccess', scanRetries.get);
         scanRetries.set(scanRetries.get - 1);
       }
     },

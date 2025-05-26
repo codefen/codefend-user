@@ -62,7 +62,6 @@ export type GlobalStore = {
   isProgressStarted: boolean;
   selectedApp: any;
   currentScan: any;
-  activeScan: any;
   isScanning: boolean;
   selectedTicket: any;
   session: string;
@@ -72,7 +71,6 @@ export type GlobalStore = {
   scanRetries: number;
   webResourceSelected: any;
   appEvent: APP_EVENT_TYPE;
-  isInitialFetchDone: boolean;
   totalNotUniqueIpCount: number;
   totalNetowrkElements: number;
 };
@@ -109,14 +107,12 @@ export const initialGlobalState: GlobalStore = {
   user: persistedState?.user ?? null,
   companies: persistedState?.companies ?? [],
   scanRetries: persistedState?.scanRetries ?? MAX_SCAN_RETRIES,
-  activeScan: persistedState?.activeScan ?? null,
   internalIpCount: persistedState?.internalIpCount ?? 0,
   externalIpCount: persistedState?.externalIpCount ?? 0,
   totalNotUniqueIpCount: persistedState?.totalNotUniqueIpCount ?? 0,
   subNetworkCount: persistedState?.subNetworkCount ?? 0,
   webResourceSelected: persistedState?.webResourceSelected ?? null,
   appEvent: persistedState?.appEvent ?? APP_EVENT_TYPE.NOTIFICATION,
-  isInitialFetchDone: persistedState?.isInitialFetchDone,
   totalNetowrkElements: persistedState?.totalNetowrkElements ?? 0,
 };
 

@@ -53,7 +53,6 @@ export const useGetWebResourcesv2 = () => {
     if (data?.company) {
       company.set(data?.company);
     }
-    console.log('appEvent', appEvent.get);
     if (
       appEvent.get != APP_EVENT_TYPE.WEB_RESOURCE_PAGE_CONDITION &&
       appEvent.get != APP_EVENT_TYPE.NOTIFICATION &&

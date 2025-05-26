@@ -7,12 +7,12 @@ import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 export const useSessionManager = () => {
   const axiosHttp = AxiosHttpService.getInstance();
-  const { session, user, company, appEvent, isInitialFetchDone } = useGlobalFastFields([
+  const { session, user, company, appEvent, isDefaultPlan } = useGlobalFastFields([
     'session',
     'user',
     'company',
     'appEvent',
-    'isInitialFetchDone',
+    'isDefaultPlan',
   ]);
 
   const handleSuccessfulLogin = (data: any) => {
@@ -25,7 +25,7 @@ export const useSessionManager = () => {
     });
     toast.success(AUTH_TEXT.LOGIN_SUCCESS);
     appEvent.set(APP_EVENT_TYPE.USER_LOGGED_IN);
-    isInitialFetchDone.set(true);
+    isDefaultPlan.set(true);
     axiosHttp.updateUrlInstance();
     return data.user;
   };

@@ -119,14 +119,12 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   user: EMPTY_USER,
   companies: [],
   scanRetries: MAX_SCAN_RETRIES,
-  activeScan: null,
   externalIpCount: 0,
   internalIpCount: 0,
   subNetworkCount: 0,
   totalNotUniqueIpCount: 0,
   webResourceSelected: null,
   appEvent: APP_EVENT_TYPE.USER_LOGGED_OUT,
-  isInitialFetchDone: true,
   totalNetowrkElements: 0,
 };
 

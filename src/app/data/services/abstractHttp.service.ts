@@ -39,9 +39,7 @@ export abstract class HttpService implements HttpServiceInterface {
   }
 
   public cancelRequest(requestId: RequestIdType): void {
-    console.log('cancelRequest', requestId);
     if (this.abortControllers.has(requestId)) {
-      console.log('cancelRequest', this.abortControllers);
       const abortController = this.abortControllers.get(requestId);
       abortController?.abort();
       this.abortControllers.delete(requestId);

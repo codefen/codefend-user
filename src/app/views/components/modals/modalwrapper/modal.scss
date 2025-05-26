@@ -21,7 +21,7 @@
   background: #ffffff;
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.12);
   border-image-slice: 1;
-  border-radius: 5px;
+  border-radius: var(--brd-radius);
   overflow: hidden;
   color: var(--tertiary-color-600);
 

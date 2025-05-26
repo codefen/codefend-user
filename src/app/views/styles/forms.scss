@@ -533,7 +533,10 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: inherit;
 }
 
-.empty-screen .empty-container .empty-card-wrapper input {
-  border: none !important;
-  box-shadow: none !important;
+.empty-screen .empty-container .empty-card-wrapper {
+  input,
+  select {
+    border: none;
+    box-shadow: none;
+  }
 }
