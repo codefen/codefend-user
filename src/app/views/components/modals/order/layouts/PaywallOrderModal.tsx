@@ -44,6 +44,14 @@ export const PaywallOrderModal = memo(({ close }: any) => {
     }
   }, [checkedOption, updateState, setIsOpen, setModalId]);
 
+const goToLoadMoreResources = useCallback(() => {
+  updateState('paywallSelected', UserPlanSelected.LOAD_MORE_RESOURCES);
+  updateState('orderStepActive', OrderSection.PAYWALL);
+  updateState('open', false);
+  setIsOpen(true);
+  setModalId(MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES);
+}, [updateState, setIsOpen, setModalId]);
+
   const handleClose = useCallback(() => {
     close();
   }, [close]);
@@ -82,7 +90,7 @@ export const PaywallOrderModal = memo(({ close }: any) => {
             onChange={() => {}}
           />
           <img
-            src="public/codefend/pentest-header-vector.svg"
+            src="public/codefend/Plan premium.svg"
             alt="Normal Order Icon"
             style={{ width: '50px', height: '50px' }}
           />
@@ -101,34 +109,10 @@ export const PaywallOrderModal = memo(({ close }: any) => {
           </div>
         </label>
 
-        <label
-          htmlFor="two-resources"
-          className={`option-maximo ${checkedOption == UserPlanSelected.LOAD_MORE_RESOURCES ? 'select-option' : ''}`}
-          onClick={() => handleOptionChange(UserPlanSelected.LOAD_MORE_RESOURCES)}>
-          <input
-            id="two-resources"
-            name="scopeOption"
-            type="radio"
-            className="radio-option"
-            checked={checkedOption == UserPlanSelected.LOAD_MORE_RESOURCES}
-            onChange={() => {}}
-          />
-          <img
-            src="public/codefend/cubo.svg"
-            alt="Normal Order Icon"
-            style={{ width: '50px', height: '50px' }}
-          />
+       
 
-          <div className="order-snapshot">
-            <div className="top">
-              <p>I need to add or analyze another resource</p>
-            </div>
-            <span className="one-pentest">
-              Return to the resource selection screen so you can add or select the resource you want
-              to analyze.
-            </span>
-          </div>
-        </label>
+
+
         {!isIssueLimit && (
           <label
             htmlFor="three-resources"
@@ -143,7 +127,7 @@ export const PaywallOrderModal = memo(({ close }: any) => {
               onChange={() => {}}
             />
             <img
-              src="public\codefend\precio.svg"
+              src="public\codefend\estrellitas.png"
               alt="Normal Order Icon"
               style={{ width: '50px', height: '50px' }}
             />
@@ -159,7 +143,15 @@ export const PaywallOrderModal = memo(({ close }: any) => {
             </div>
           </label>
         )}
+
       </div>
+      <p
+  className="ending"
+  onClick={goToLoadMoreResources}
+  style={{ cursor: 'pointer', textDecoration: 'underline', paddingLeft: '2.5rem', marginBottom: '-20px' }}
+>
+  I need to add or analyze another resource
+</p>
       <div className="primary-container paywall">
         <PrimaryButton
           text="Cancel"

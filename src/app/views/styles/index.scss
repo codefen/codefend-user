@@ -2018,8 +2018,9 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   margin-top: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
   /* Centrar horizontalmente */
+  padding-left: 2.5rem;
   gap: 5px;
   /* Espacio reducido entre la imagen y el título */
 }
@@ -2052,11 +2053,13 @@ h3 {
   column-gap: 2.5rem;
   padding-block: 17px;
   padding-inline: 2.5rem;
-  border-top: 1px solid var(--show-border-color);
-  border-bottom: 1px solid #00000000;
+  // border-top: 1px solid var(--show-border-color);
+  // border-bottom: 1px solid #00000000;
   transition: all 0.13s ease-in;
   line-height: 1.8;
-
+&:first-child {
+  border-top: 1px solid #ccc;
+}
   .one-pentest {
     font-size: 0.9rem;
     /* Tamaño de fuente reducido */
@@ -2095,7 +2098,7 @@ h3 {
     margin: 0.5rem;
     /* Adjusted margin for better alignment */
     display: block;
-    margin-left: 150px !important;
+    margin-left: 2.5rem !important;
     margin-top: 15px !important;
   }
 

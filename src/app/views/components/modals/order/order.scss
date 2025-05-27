@@ -980,7 +980,8 @@
 
   .paywall-container {
     .padding {
-      padding: 1rem;
+      padding-top: 1rem;
+      padding-left: 2.5rem;
       line-height: 1.45rem;
     }
 
@@ -998,24 +999,28 @@
     }
 
     .step-content-gird {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      // gap: 2rem;
+      display: flex;
+      // grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
       padding-inline: 1rem;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
     }
 
     .pricing-card {
       position: relative;
       border-radius: 0.5rem;
-      overflow: hidden;
+      // overflow: hidden;
       cursor: pointer;
       transition-property: all;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 300ms;
       background-color: #ffffff;
       border: 1px solid var(--primary-color-300);
-      width: 260px;
-      height: 360px;
+      width: 33%;
+      // height: 360px;
+      margin-top: 20px;
+      
 
       &.selected-card {
         outline: 2px solid var(--bg-price);
@@ -1057,8 +1062,9 @@
 
     .pricing-list-items {
       padding-top: 1rem;
-      padding-bottom: 2rem;
+      // padding-bottom: 2rem;
       padding-inline: 1rem;
+      
 
       h4 {
         text-align: left;
@@ -1069,11 +1075,11 @@
 
       ul {
         font-size: 0.875rem;
-        line-height: 1rem;
+        line-height: 0.8rem;
         margin-bottom: 2rem;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.1rem;
         padding-inline: 0;
 
         li {
@@ -1085,6 +1091,12 @@
             width: 24px;
             height: 24px;
             color: #8ae356;
+          }
+          &.price {
+                font-family: "Satoshi";
+            // font-size: 1rem;
+            font-weight: 700;
+            color: black;
           }
         }
       }
