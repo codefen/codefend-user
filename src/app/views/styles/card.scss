@@ -385,6 +385,13 @@
           gap: var(--card-space);
           transition: all 0.2s ease-in-out;
           padding-inline: var(--card-space);
+          outline: none;
+
+          &:focus,
+          &:focus-within,
+          &:focus-visible {
+            outline: none;
+          }
 
           svg {
             transition: transform 0.3s ease;
