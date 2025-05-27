@@ -13,9 +13,15 @@ interface Props {
 export const MessageCard: FC<Props> = props => {
   const { getUserdata } = useUserData();
   const isAuthUserChat = MetricsService.isUserChat(props.selectedID, getUserdata());
-  const title = `${isAuthUserChat ? 'You' : 'The operator'} ${
-    props.username ? `@${props.username}` : ''
-  } wrote on ${props.createdAt}`;
+  const title = (
+    <>
+      {isAuthUserChat ? 'You' : 'The operator'}{' '}
+      {props.username && (
+        <span className={isAuthUserChat ? 'auth-user' : 'operator-user'}>@{props.username}</span>
+      )}{' '}
+      wrote on {props.createdAt}
+    </>
+  );
 
   const message = props.body ?? '';
 
@@ -23,14 +29,6 @@ export const MessageCard: FC<Props> = props => {
     <div className="message-card">
       <span className="message-card-title">{title}</span>
       <div className="message-card-container tt">
-        <div className="message-card-content">
-          <img
-            src={`/codefend/user-icon${!isAuthUserChat ? '-gray' : ''}.svg`}
-            alt="user-picture"
-            decoding="async"
-            loading="lazy"
-          />
-        </div>
         <p dangerouslySetInnerHTML={{ __html: cleanHTML(message) }} />
       </div>
     </div>
