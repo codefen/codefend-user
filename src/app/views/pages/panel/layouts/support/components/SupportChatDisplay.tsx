@@ -43,12 +43,14 @@ export const SupportChatDisplay: FC<{ selectedTicket: any }> = ({ selectedTicket
         <SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
           <div className="content">
             <Show when={!isLoading} fallback={<PageLoader />}>
-              <MessageList tickets={alltickets} />
+              <MessageList tickets={alltickets} condicion={selectedTicket?.condicion} />
             </Show>
           </div>
         </SimpleSection>
 
-        <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicket?.id} />
+        <Show when={selectedTicket?.condicion !== 'closed'}>
+          <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicket?.id} />
+        </Show>
       </div>
     </>
   );

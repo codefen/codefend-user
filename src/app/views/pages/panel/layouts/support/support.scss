@@ -22,6 +22,82 @@ main.support {
         }
       }
     }
+
+    // Estilos específicos para entradas de ask-a-hacker
+    .card.messages {
+      h3 {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        font-weight: 500;
+        color: var(--tertiary-color-600);
+        text-transform: none;
+        border: none;
+        margin-block: 0.5rem;
+        padding: 0;
+      }
+
+      p,
+      ul,
+      ol {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--tertiary-color-600);
+        margin-block: 0.35rem;
+      }
+
+      ul,
+      ol {
+        padding-inline-start: 1.25rem;
+
+        li {
+          margin-block: 0.25rem;
+        }
+      }
+
+      .content {
+        .messages-wrapper {
+          .ending {
+            padding-bottom: 200px;
+          }
+
+          &.closed-ticket {
+            .ending {
+              padding-bottom: 20px;
+            }
+          }
+        }
+      }
+
+      .message-card {
+        .message-card-title {
+          padding: 10px 20px 0;
+          font-size: 15px;
+          color: var(--tertiary-color-400);
+
+          .auth-user {
+            font-weight: 600;
+            color: var(--secondary-color-100);
+          }
+
+          .operator-user {
+            font-weight: 600;
+            color: var(--tertiary-color-600);
+          }
+        }
+
+        .message-card-container {
+          padding: 5px 20px 20px;
+
+          p {
+            max-width: 100%;
+            overflow: hidden;
+            text-wrap: pretty;
+            overflow-wrap: break-word;
+            max-height: none;
+          }
+        }
+      }
+    }
   }
 
   .right {
@@ -61,6 +137,32 @@ main.support {
   main.support {
     .right {
       box-shadow: #000000 -20px 0 120px -55px;
+    }
+
+    .card.messages {
+      h3 {
+        color: var(--tertiary-color-300);
+      }
+
+      p,
+      ul,
+      ol {
+        color: var(--tertiary-color-400);
+      }
+
+      .message-card {
+        .message-card-title {
+          color: var(--tertiary-color-300);
+
+          .auth-user {
+            color: var(--secondary-color-200);
+          }
+
+          .operator-user {
+            color: var(--tertiary-color-300);
+          }
+        }
+      }
     }
   }
 }
