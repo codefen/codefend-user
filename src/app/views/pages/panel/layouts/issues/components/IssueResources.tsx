@@ -15,6 +15,7 @@ import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { ResourceIconText } from '@/app/views/components/utils/ResourceIconText';
 import { RiskScore } from '@/app/views/components/utils/RiskScore';
+import { IssueAuthor } from '@/app/views/pages/panel/layouts/issues/components/IssueAuthor';
 
 interface IssueResourcesProps {
   isLoading: boolean;
@@ -28,7 +29,7 @@ const issueColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-issue-1',
-    weight: '7.5%',
+    weight: '6%',
     render: value => value,
   },
   {
@@ -36,26 +37,25 @@ const issueColumns: ColumnTableV3[] = [
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-2',
-    weight: '60%',
+    weight: '44%',
     render: issue => <ResourceIconText name={issue.name} resourceClass={issue.resourceClass} />,
+  },
+  {
+    header: 'Author',
+    key: 'researcherUsername',
+    styles: 'item-cell-issue-3',
+    weight: '14.5%',
+    render: value => <IssueAuthor value={value} />,
   },
   {
     header: 'Published',
     key: 'createdAt',
-    styles: 'item-cell-issue-3',
-    weight: '14%',
+    styles: 'item-cell-issue-4',
+    weight: '12%',
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
 
   //*SE OCULTARON COLUMNAS DE INFORMACIÓN *//
-
-  // {
-  //   header: 'Author',
-  //   key: 'researcherUsername',
-  //   styles: 'item-cell-4 username',
-  //   weight: '15%',
-  //   render: value => `@${value}`,
-  // },
   // {
   //   header: 'Type',
   //   key: 'resourceClass',
@@ -63,18 +63,18 @@ const issueColumns: ColumnTableV3[] = [
   //   weight: '5%',
   //   render: value => value,
   // },
-  // {
-    header: 'Risk',
-    key: 'riskLevel',
-    styles: 'item-cell-6',
-    weight: '5%',
+  {
+    header: 'Scan',
+    key: 'scanId',
+    styles: 'item-cell-issue-5',
+    weight: '7%',
     render: value => value,
   },
   {
     header: 'Score',
     key: 'riskScore',
-    styles: 'item-cell-issue-4',
-    weight: '14%',
+    styles: 'item-cell-issue-6',
+    weight: '12%',
     render: value => <RiskScore riskScore={value} />,
   },
   // {
@@ -105,7 +105,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
       header: '',
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-issue-5 item-action',
+      styles: 'item-cell-issue-7 item-action',
       weight: '4.5%',
       render: (row: any) => (
         <div className="publish" key={`actr-${row.id}`}>

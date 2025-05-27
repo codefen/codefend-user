@@ -287,15 +287,31 @@ main.issues-list {
       }
     }
 
+    .issue-author {
+      display: flex;
+      gap: var(--card-space);
+      align-items: center;
+      background: var(--primary-color-200);
+      width: fit-content;
+      height: fit-content;
+      padding-block: 6px;
+      padding-inline: 10px;
+      flex: none;
+
+      img {
+        width: 16px;
+      }
+    }
+
     .table {
-      --item-cell-extra: calc(14% / var(--cell-count));
+      --item-cell-extra: calc(12% / var(--cell-count));
 
       .rows {
         overflow: auto;
         max-height: calc(100cqh - 230px);
       }
 
-      .item-cell-issue-3 {
+      .item-cell-issue-4 {
         display: none;
       }
 
@@ -303,7 +319,9 @@ main.issues-list {
       .item-cell-issue-2,
       .item-cell-issue-3,
       .item-cell-issue-4,
-      .item-cell-issue-5 {
+      .item-cell-issue-5,
+      .item-cell-issue-6,
+      .item-cell-issue-7 {
         --cell-issue-expand: calc(var(--cell-expand) + var(--item-cell-extra));
       }
 
@@ -318,7 +336,9 @@ main.issues-list {
         .item-cell-issue-2,
         .item-cell-issue-3,
         .item-cell-issue-4,
-        .item-cell-issue-5 {
+        .item-cell-issue-5,
+        .item-cell-issue-6,
+        .item-cell-issue-7 {
           --item-cell-extra-not-action: calc(
             calc(4.5% / var(--cell-count)) + var(--cell-issue-expand)
           );
@@ -334,7 +354,7 @@ main.issues-list {
       @media only screen and (min-width: 1640px) {
         --item-cell-extra: 0%;
 
-        .item-cell-issue-3 {
+        .item-cell-issue-4 {
           display: flex;
         }
 
@@ -343,7 +363,9 @@ main.issues-list {
           .item-cell-issue-2,
           .item-cell-issue-3,
           .item-cell-issue-4,
-          .item-cell-issue-5 {
+          .item-cell-issue-5,
+          .item-cell-issue-6,
+          .item-cell-issue-7 {
             --item-cell-extra-not-action: calc(
               calc(4.5% / calc(var(--cell-count) + 1)) + var(--cell-expand)
             );
@@ -355,7 +377,7 @@ main.issues-list {
 
   .right {
     padding-block-end: 2rem;
-    flex: 1 1 40%;
+    flex: 1 1 35%;
 
     .card.filtered {
       h3 {
