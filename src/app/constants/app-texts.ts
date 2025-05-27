@@ -108,7 +108,7 @@ export const cloudEmptyScreen = {
 export const socialEmptyScreen = {
   type: RESOURCE_CLASS.SOCIAL,
   title: 'Social Engineering Resources',
-  subtitle: 'Begin by adding a new individual.',
+  subtitle: 'Begin by adding a new individual to get started.',
   btnText: 'Add social resource',
 };
 

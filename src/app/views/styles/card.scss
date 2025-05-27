@@ -888,20 +888,13 @@
       }
 
       .form {
-        padding-left: 40px;
-
         .form-input {
           margin-inline: auto;
-          width: 85%;
         }
 
-        .button {
-          width: 85%;
-          margin-inline: auto;
-
-          button {
-            width: 100%;
-          }
+        .button,
+        button {
+          width: 100%;
         }
       }
     }

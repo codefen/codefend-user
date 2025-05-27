@@ -2214,3 +2214,48 @@ h3 {
 .step-header p {
   font-size: 1.1rem;
 }
+
+main .empty-screen {
+  .clarification {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--tertiary-color-200);
+    position: absolute;
+    bottom: -1.85rem;
+  }
+  .empty-container {
+    height: 100%;
+    width: 500px;
+
+    .empty-card-wrapper {
+      row-gap: 2rem;
+      position: relative;
+
+      .header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .title {
+          color: var(--tertiary-color-400);
+          font-size: 1.5rem;
+          line-height: 2rem;
+          margin-bottom: 0.5rem;
+          text-align: center;
+        }
+      }
+
+      .card {
+        box-shadow:
+          0 0 #0000,
+          0 0 #0000,
+          0 1px 2px 0 rgb(0 0 0 / 0.05);
+        border: hsl(240 5.9% 90%);
+      }
+
+      .form {
+        padding-block: calc(var(--card-space) * 1.25);
+      }
+    }
+  }
+}
