@@ -16,7 +16,7 @@ const fetcher = ([model, { company, logout }]: any) => {
   axiosHttp.updateUrlInstance();
   return axiosHttp
     .post<any>({
-      body: { company_id: company },
+      body: { company_id: company, childs: 'yes' },
       path: model,
     })
     .then(({ data }) => {
