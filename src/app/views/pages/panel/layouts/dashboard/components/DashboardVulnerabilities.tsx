@@ -6,6 +6,7 @@ import Tablev3 from '@table/v3/Tablev3';
 import { ResourceIconText } from '@/app/views/components/utils/ResourceIconText';
 import { RiskScore } from '@/app/views/components/utils/RiskScore';
 import { naturalTime } from '@utils/helper';
+import { Link } from 'react-router';
 
 interface DashboardVulnerabilitiesProps {
   topVulnerabilities: Issue[];
@@ -45,7 +46,7 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
     <div className="over">
       <div className="table-title">
         <h2>Issues overview</h2>
-        <a href="/">see all issues</a>
+        <Link to="/issues">see all issues</Link>
       </div>
       <Tablev3 columns={vulnera} rows={topVulnerabilities} showRows={!isLoading} urlNav="issues/" />
     </div>
