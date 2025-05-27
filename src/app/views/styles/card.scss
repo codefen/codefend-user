@@ -371,6 +371,52 @@
       padding-block: 0;
       padding-inline: 1.25rem;
       color: var(--tertiary-color-200);
+      max-height: 340px;
+      overflow-y: auto;
+
+      .filter-group {
+        .filter-group-btn {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          padding: 0.5rem 0;
+          border: none;
+          background: none;
+          gap: var(--card-space);
+          transition: all 0.2s ease-in-out;
+          padding-inline: var(--card-space);
+
+          svg {
+            transition: transform 0.3s ease;
+            rotate: 90deg;
+          }
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+        }
+
+        .filter-group-content {
+          overflow: hidden;
+          transition: all 0.2s ease-in-out;
+          height: 0;
+          opacity: 0;
+        }
+
+        &.expanded {
+          .filter-group-btn {
+            svg {
+              transform: rotate(180deg);
+            }
+          }
+
+          .filter-group-content {
+            height: auto;
+            opacity: 1;
+            will-change: height, opacity;
+          }
+        }
+      }
 
       .filter {
         display: flex;
@@ -380,6 +426,24 @@
         border-bottom-color: var(--primary-color-300);
         width: 100%;
         justify-content: space-between;
+        cursor: pointer;
+        padding-inline: var(--card-space);
+
+        &:has(input:disabled) {
+          opacity: 0.9;
+          cursor: default;
+
+          input[type='checkbox'],
+          .value,
+          .check,
+          .label {
+            cursor: default;
+          }
+
+          &:hover {
+            color: var(--tertiary-color-200);
+          }
+        }
 
         .value {
           display: flex;
@@ -390,9 +454,13 @@
           .icon-color {
             color: #60a5fa;
           }
-        }
 
-        &:last-child {
+          span {
+            width: 22px;
+            text-align: end;
+          }
+        }
+        .check {
           border-bottom: none;
         }
 

@@ -1975,9 +1975,14 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 
 .check input[type='checkbox'] {
   margin-right: 10px;
-  /* Espaciado a la derecha del checkbox */
-  cursor: pointer;
-  /* Cambiar cursor al pasar sobre el checkbox */
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .sub-title {

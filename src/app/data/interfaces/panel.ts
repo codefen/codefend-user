@@ -95,6 +95,8 @@ export interface Issues extends ResourceID, Monitoring {
   condition: string;
   price: string;
   pricePaid: string;
+  scanId: string;
+  orderIdentifier: string;
 }
 export interface ReportIssues extends Issues {
   content: string;

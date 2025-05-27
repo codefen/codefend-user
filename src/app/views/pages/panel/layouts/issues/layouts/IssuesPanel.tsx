@@ -14,10 +14,23 @@ import { EMPTY_ISSUECLASS, EMPTY_ISSUECONDITION, EMPTY_SHARE } from '@/app/const
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
+import { IssuePanelHeader } from '@/app/views/pages/panel/layouts/issues/components/IssuePanelHeader.tsx';
+
+interface FilterState {
+  resourceClass: string[];
+  scanId: string[];
+  orderIdentifier: string[];
+  riskScore: string[];
+}
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
-  const [filters, setFilters] = useState<string[]>([]);
+  const [filters, setFilters] = useState<FilterState>({
+    resourceClass: [],
+    scanId: [],
+    orderIdentifier: [],
+    riskScore: [],
+  });
   const { issues, others, isLoading, refetchAll } = useIssues();
   const { setIsOpen, setModalId } = useModalStore();
   const flashlight = useFlashlight();
@@ -30,21 +43,38 @@ const IssuesPanel: FC = () => {
   }, [control]);
 
   const handleIssuesFilter = useMemo(() => {
-    const isFiltered = filters.length !== 0;
+    const isFiltered = Object.values(filters).some(arr => arr.length > 0);
     if (!isFiltered) return { filteredData: [], isFiltered };
 
-    const filteredData = issues.filter((issue: Issues) => filters.includes(issue.resourceClass));
+    const filteredData = issues.filter((issue: Issues) => {
+      const matchesResourceClass =
+        filters.resourceClass.length === 0 || filters.resourceClass.includes(issue.resourceClass);
+      const matchesscanId = filters.scanId.length === 0 || filters.scanId.includes(issue.scanId);
+      const matchesOrderIdentifier =
+        filters.orderIdentifier.length === 0 ||
+        filters.orderIdentifier.includes(issue.orderIdentifier);
+      const matchesRiskScore =
+        filters.riskScore.length === 0 || filters.riskScore.includes(issue.riskScore);
+
+      return matchesResourceClass && matchesscanId && matchesOrderIdentifier && matchesRiskScore;
+    });
 
     return { filteredData, isFiltered };
   }, [filters, issues]);
 
-  const handleFilters = (issueClass: string) => {
-    if (filters.includes(issueClass)) {
-      const updated = filters.filter(filter => filter !== issueClass);
-      setFilters(updated);
-    } else {
-      setFilters([...filters, issueClass]);
-    }
+  const handleFilters = (filterType: string, value: string) => {
+    const key = filterType as keyof FilterState;
+    setFilters(prev => {
+      const currentFilters = prev[key];
+      const updated = currentFilters.includes(value)
+        ? currentFilters.filter(filter => filter !== value)
+        : [...currentFilters, value];
+
+      return {
+        ...prev,
+        [key]: updated,
+      };
+    });
   };
 
   const handleAddFinding = () => {
@@ -59,6 +89,7 @@ const IssuesPanel: FC = () => {
       />
       <div className="brightness variant-1"></div>
       <section className="left">
+        <IssuePanelHeader />
         <IssueResources
           isLoading={isLoading}
           issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
@@ -71,6 +102,7 @@ const IssuesPanel: FC = () => {
           handleFilter={handleFilters}
           isLoading={isLoading}
           issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+          issues={issues}
         />
         <div className="card only-button">
           <PrimaryButton

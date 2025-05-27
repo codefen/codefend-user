@@ -36,7 +36,7 @@ const issueColumns: ColumnTableV3[] = [
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-2',
-    weight: '59%',
+    weight: '60%',
     render: issue => <ResourceIconText name={issue.name} resourceClass={issue.resourceClass} />,
   },
   {
@@ -64,12 +64,12 @@ const issueColumns: ColumnTableV3[] = [
   //   render: value => value,
   // },
   // {
-  //   header: 'Risk',
-  //   key: 'riskLevel',
-  //   styles: 'item-cell-6',
-  //   weight: '5%',
-  //   render: value => value,
-  // },
+    header: 'Risk',
+    key: 'riskLevel',
+    styles: 'item-cell-6',
+    weight: '5%',
+    render: value => value,
+  },
   {
     header: 'Score',
     key: 'riskScore',

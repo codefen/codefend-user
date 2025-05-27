@@ -10,7 +10,7 @@ export const ResourceIconText: FC<ResourceIconTextProps> = ({ resourceClass, nam
   return (
     <>
       <ResourceIcon resourceClass={resourceClass} />
-      {name}
+      {name && name?.length >= 60 ? name.slice(0, 60) + '...' : name}
     </>
   );
 };

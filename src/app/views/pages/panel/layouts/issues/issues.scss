@@ -288,11 +288,11 @@ main.issues-list {
     }
 
     .table {
-      --item-cell-extra: calc(13% / calc(var(--cell-count) - 1));
+      --item-cell-extra: calc(14% / var(--cell-count));
 
       .rows {
         overflow: auto;
-        max-height: calc(100cqh - 120px);
+        max-height: calc(100cqh - 230px);
       }
 
       .item-cell-issue-3 {
@@ -320,7 +320,7 @@ main.issues-list {
         .item-cell-issue-4,
         .item-cell-issue-5 {
           --item-cell-extra-not-action: calc(
-            calc(2% / var(--cell-count)) + var(--cell-issue-expand)
+            calc(4.5% / var(--cell-count)) + var(--cell-issue-expand)
           );
         }
 
@@ -344,7 +344,9 @@ main.issues-list {
           .item-cell-issue-3,
           .item-cell-issue-4,
           .item-cell-issue-5 {
-            --item-cell-extra-not-action: calc(calc(2% / var(--cell-count)) + var(--cell-expand));
+            --item-cell-extra-not-action: calc(
+              calc(4.5% / calc(var(--cell-count) + 1)) + var(--cell-expand)
+            );
           }
         }
       }
@@ -353,20 +355,16 @@ main.issues-list {
 
   .right {
     padding-block-end: 2rem;
+    flex: 1 1 40%;
 
-    // .card {
-    //   &.risk-chart {
-    //     .content {
-    //       flex-direction: column;
-
-    //       @media only screen and (min-width: 1825px) {
-    //         & {
-    //           flex-direction: row;
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+    .card.filtered {
+      h3 {
+        font-size: 1rem;
+        font-weight: 500;
+        font-family: 'Satoshi';
+        color: var(--tertiary-color-450);
+      }
+    }
   }
 
   @media only screen and (max-width: 600px) {

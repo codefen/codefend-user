@@ -305,7 +305,6 @@ input[type='radio']:checked + .codefend-radio {
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
-  cursor: pointer;
   position: relative;
 
   &::after {
@@ -322,7 +321,6 @@ input[type='radio']:checked + .codefend-radio {
     -webkit-transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
     -o-transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
     transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
-    cursor: pointer;
   }
 
   &::before {
@@ -347,7 +345,6 @@ input[type='radio']:checked + .codefend-radio {
     transition:
       all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),
       opacity 0.1s;
-    cursor: pointer;
   }
 
   &:hover {
@@ -369,13 +366,22 @@ input[type='radio']:checked + .codefend-radio {
     transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
   }
 
-  &:active:not(:checked)::after {
+  &:active:not(:disabled):not(:checked)::after {
     -webkit-transition: none;
     -o-transition: none;
     -webkit-box-shadow: none;
     box-shadow: none;
     transition: none;
     opacity: 1;
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &::after,
+    &::before {
+      cursor: pointer;
+    }
   }
 }
 
