@@ -15,6 +15,7 @@ import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 import { IssuePanelHeader } from '@/app/views/pages/panel/layouts/issues/components/IssuePanelHeader.tsx';
+import { ResourcesTypes } from '@interfaces/order';
 
 interface FilterState {
   resourceClass: string[];
@@ -70,6 +71,24 @@ const IssuesPanel: FC = () => {
         ? currentFilters.filter(filter => filter !== value)
         : [...currentFilters, value];
 
+      // If we're selecting a scan ID, ensure only web resource type is selected
+      if (filterType === 'scanId') {
+        return {
+          ...prev,
+          [key]: updated,
+          resourceClass: [ResourcesTypes.WEB],
+        };
+      }
+
+      // If we're selecting a non-web resource type, clear scan IDs
+      if (filterType === 'resourceClass' && value !== ResourcesTypes.WEB) {
+        return {
+          ...prev,
+          [key]: updated,
+          scanId: [],
+        };
+      }
+
       return {
         ...prev,
         [key]: updated,
@@ -103,6 +122,7 @@ const IssuesPanel: FC = () => {
           isLoading={isLoading}
           issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
           issues={issues}
+          currentFilters={filters}
         />
         <div className="card only-button">
           <PrimaryButton

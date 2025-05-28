@@ -13,7 +13,7 @@ interface FilterElement {
 
 interface FilterGroup {
   title: string;
-  type: string;
+  type: 'resourceClass' | 'scanId' | 'riskScore';
   elements: FilterElement[];
 }
 
@@ -22,9 +22,14 @@ interface Props {
   issuesClasses: IssueClass;
   handleFilter: (filterType: string, value: string) => void;
   issues: Issues[];
+  currentFilters: {
+    resourceClass: string[];
+    scanId: string[];
+    riskScore: string[];
+  };
 }
 
-const FILTER_RESOURCE_CLASS_GROUP = {
+const FILTER_RESOURCE_CLASS_GROUP: FilterGroup = {
   title: 'Resource Class',
   type: 'resourceClass',
   elements: [
@@ -51,7 +56,7 @@ const FILTER_RESOURCE_CLASS_GROUP = {
   ],
 };
 
-const FILTER_ISSUE_RISK_SCORE_GROUP = {
+const FILTER_ISSUE_RISK_SCORE_GROUP: FilterGroup = {
   title: 'Risk Score',
   type: 'riskScore',
   elements: [
@@ -85,7 +90,7 @@ const FILTER_ISSUE_RISK_SCORE_GROUP = {
 
 export const IssueReport: FC<Props> = props => {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
-    resourceClass: true, // Default expanded
+    resourceClass: true,
     riskScore: false,
     scanId: false,
   });
@@ -100,7 +105,7 @@ export const IssueReport: FC<Props> = props => {
   const filterGroups = useMemo(() => {
     // Calculate scan identifiers with a single reduce operation
     const scanIds = props.issues.reduce((acc, issue) => {
-      if (!issue.scanId) return acc;
+      if (!issue.scanId || issue.resourceClass !== ResourcesTypes.WEB) return acc;
 
       const existing = acc.find(item => item.value === issue.scanId);
       if (existing) {
@@ -168,6 +173,9 @@ export const IssueReport: FC<Props> = props => {
                       <input
                         type="checkbox"
                         disabled={element.total === 0}
+                        checked={props.currentFilters[group.type].includes(
+                          element.value.toString()
+                        )}
                         onChange={() => props.handleFilter(group.type, element.value.toString())}
                         className="codefend-checkbox"
                         id={`${group.type}-${element.value}`}
