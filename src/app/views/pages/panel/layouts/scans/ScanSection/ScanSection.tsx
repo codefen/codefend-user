@@ -5,7 +5,7 @@ import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constan
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { BugIcon, StatIcon, XCircleIcon } from '@icons';
+import { BugIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
@@ -135,6 +135,16 @@ export const ScanSection = () => {
       disabled: (row: any) =>
         row?.phase == ScanStepType.Killed || row?.phase == ScanStepType.Finished,
       onClick: (row: any) => startKillScan(row),
+    },
+    {
+      label: 'Open Scan progress',
+      icon: <ScanIcon />,
+      disabled: (row: any) =>
+        row?.phase != ScanStepType.Scanner && row?.phase != ScanStepType.Parser,
+      onClick: (row: any) => {
+        setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+        setIsOpen(true);
+      },
     },
   ];
 

@@ -1,18 +1,18 @@
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
 import { useEffect, useRef } from 'react';
 
 export const useManageScanProgress = () => {
   const intervalRef = useRef<any>();
-  const { currentScan, isScanning, appEvent, scanProgress } = useVerifyScanList();
+  const { currentScan, isScanning, autoScanState, scanProgress } = useVerifyScanList();
 
   useEffect(() => {
     if (!currentScan) return;
 
-    if (appEvent?.get === APP_EVENT_TYPE.SCAN_FINISHED) {
+    if (autoScanState?.get === AUTO_SCAN_STATE.SCAN_FINISHED) {
       scanProgress.set(100);
     }
-  }, [currentScan, isScanning?.get, scanProgress?.get, appEvent?.get]);
+  }, [currentScan, isScanning?.get, scanProgress?.get, autoScanState?.get]);
 
   // —— LOGICA DE PROGRESO EN FASE "scanner" ——
 

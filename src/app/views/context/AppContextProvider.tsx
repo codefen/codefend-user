@@ -3,7 +3,7 @@ import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
 import { EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE, MAX_SCAN_RETRIES } from '@/app/constants/empty';
-import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/index';
+import { APP_EVENT_TYPE, AUTO_SCAN_STATE, USER_LOGGING_STATE } from '@interfaces/index';
 
 export interface CompanyUser extends OwnerData, AuditData, LocationData {
   admin_user_email: string;
@@ -75,6 +75,7 @@ export type GlobalStore = {
   totalNetowrkElements: number;
   userLoggingState: USER_LOGGING_STATE;
   networkResourceSelected: any;
+  autoScanState: AUTO_SCAN_STATE;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -124,6 +125,7 @@ export const initialGlobalState: GlobalStore = {
   userLoggingState: persistedState?.userLoggingState ?? EMPTY_GLOBAL_STATE.userLoggingState,
   networkResourceSelected:
     persistedState?.networkResourceSelected ?? EMPTY_GLOBAL_STATE.networkResourceSelected,
+  autoScanState: persistedState?.autoScanState ?? EMPTY_GLOBAL_STATE.autoScanState,
 };
 
 const {

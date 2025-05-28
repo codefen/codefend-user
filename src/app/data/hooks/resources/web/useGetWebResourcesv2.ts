@@ -3,8 +3,8 @@ import { verifySession } from '@/app/constants/validations';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
-import { APP_EVENT_TYPE, type Webresource } from '@interfaces/panel';
-import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import useSWR from 'swr';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import { getCompanyAllMetrics } from '@utils/metric.service';
@@ -55,10 +55,7 @@ export const useGetWebResourcesv2 = () => {
     }
     if (
       appEvent.get != APP_EVENT_TYPE.WEB_RESOURCE_PAGE_CONDITION &&
-      appEvent.get != APP_EVENT_TYPE.NOTIFICATION &&
-      appEvent.get != APP_EVENT_TYPE.SCAN_FINISHED &&
-      appEvent.get != APP_EVENT_TYPE.SCAN_LAUNCHED &&
-      appEvent.get != APP_EVENT_TYPE.LAUNCH_SCAN
+      appEvent.get != APP_EVENT_TYPE.NOTIFICATION
     ) {
       refetch();
       appEvent.set(APP_EVENT_TYPE.WEB_RESOURCE_PAGE_CONDITION);

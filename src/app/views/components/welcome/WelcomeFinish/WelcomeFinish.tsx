@@ -10,14 +10,14 @@ import { CheckSimpleIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const globalStore = useGlobalFastFields([
     'scanProgress',
     'isScanning',
     'currentScan',
-    'appEvent',
+    'autoScanState',
   ]);
   const { initialDomain } = useWelcomeStore();
   const navigate = useNavigate();
@@ -36,7 +36,9 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         <img className="logose" src="/codefend/logo-color.png" width={220} />
         <Show
           when={
-            globalStore.isScanning.get || globalStore.appEvent.get != APP_EVENT_TYPE.LAUNCH_SCAN
+            globalStore.isScanning.get ||
+            globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_LAUNCHED ||
+            globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_FINISHED
           }
           fallback={<PageLoader />}>
           <p className={css['welcome-text']}>

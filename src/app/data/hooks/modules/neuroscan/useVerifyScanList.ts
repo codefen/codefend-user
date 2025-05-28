@@ -1,7 +1,7 @@
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { AUTO_SCAN_STATE } from '@interfaces/panel';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import useSWR from 'swr';
@@ -41,14 +41,14 @@ const getLatestScan = (scans: any[]) => {
 };
 
 export const useVerifyScanList = () => {
-  const { isScanning, scanNumber, company, scanRetries, currentScan, appEvent, scanProgress } =
+  const { isScanning, scanNumber, company, scanRetries, currentScan, autoScanState, scanProgress } =
     useGlobalFastFields([
       'isScanning',
       'scanNumber',
       'company',
       'scanRetries',
       'currentScan',
-      'appEvent',
+      'autoScanState',
       'scanProgress',
     ]);
   const scanningValue = isScanning.get;
@@ -66,7 +66,7 @@ export const useVerifyScanList = () => {
     onSuccess: (newData: any) => {
       const latest = getLatestScan(newData?.scans || []);
       const isActive = latest?.phase == 'scanner' || latest?.phase == 'parser';
-      const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
+      const isLaunchingScan = autoScanState.get === AUTO_SCAN_STATE.LAUNCH_SCAN;
       if (!isActive && !isLaunchingScan && scanRetries.get > 0) {
         scanRetries.set(scanRetries.get - 1);
       }
@@ -78,13 +78,13 @@ export const useVerifyScanList = () => {
   useEffect(() => {
     const scanSize = data?.scans?.length;
     const isActive = latestScan?.phase == 'scanner' || latestScan?.phase == 'parser';
-    const isLaunchingScan = appEvent.get === APP_EVENT_TYPE.LAUNCH_SCAN;
-    const isScanLaunched = appEvent.get === APP_EVENT_TYPE.SCAN_LAUNCHED;
-    const isScanFinished = appEvent.get === APP_EVENT_TYPE.SCAN_FINISHED;
+    const isLaunchingScan = autoScanState.get === AUTO_SCAN_STATE.LAUNCH_SCAN;
+    const isScanLaunched = autoScanState.get === AUTO_SCAN_STATE.SCAN_LAUNCHED;
+    const isScanFinished = autoScanState.get === AUTO_SCAN_STATE.SCAN_FINISHED;
     const isEventOther =
-      appEvent.get !== APP_EVENT_TYPE.LAUNCH_SCAN &&
-      appEvent.get !== APP_EVENT_TYPE.SCAN_FINISHED &&
-      appEvent.get !== APP_EVENT_TYPE.SCAN_LAUNCHED;
+      autoScanState.get !== AUTO_SCAN_STATE.LAUNCH_SCAN &&
+      autoScanState.get !== AUTO_SCAN_STATE.SCAN_FINISHED &&
+      autoScanState.get !== AUTO_SCAN_STATE.SCAN_LAUNCHED;
     // Update scan number if changed
     if (scanNumber.get != scanSize) {
       scanNumber.set(scanSize || 0);
@@ -100,7 +100,7 @@ export const useVerifyScanList = () => {
 
       if (isLaunchingScan) {
         // Si estamos lanzando y detectamos un escaneo activo, cambiar a SCAN_LAUNCHED
-        appEvent.set(APP_EVENT_TYPE.SCAN_LAUNCHED);
+        autoScanState.set(AUTO_SCAN_STATE.SCAN_LAUNCHED);
       }
       // Si hay un escaneo activo, mantener isScanning en true
       if (!scanningValue) {
@@ -114,7 +114,7 @@ export const useVerifyScanList = () => {
       // Si no hay escaneo activo
       if (isScanLaunched) {
         // Si estábamos en SCAN_LAUNCHED y ya no hay escaneo activo, cambiar a FINISHED
-        appEvent.set(APP_EVENT_TYPE.SCAN_FINISHED);
+        autoScanState.set(AUTO_SCAN_STATE.SCAN_FINISHED);
         isScanning.set(false);
       } else if (isScanFinished || isLaunchingScan || isEventOther) {
         if (scanningValue) {
@@ -125,7 +125,7 @@ export const useVerifyScanList = () => {
 
     // Actualizar el escaneo actual
     currentScan.set(latestScan);
-  }, [data, latestScan, scanningValue, appEvent.get, scanRetries.get]);
+  }, [data, latestScan, scanningValue, autoScanState.get, scanRetries.get]);
 
   const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
   return {
@@ -133,7 +133,7 @@ export const useVerifyScanList = () => {
     currentScan: currentScan.get,
     isScanActive,
     isScanning,
-    appEvent,
+    autoScanState,
     scanProgress,
   };
 };

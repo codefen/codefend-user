@@ -5,8 +5,7 @@ import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useStreamFetch } from '#commonHooks/useStreamFetch';
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
-import { useInitialDomainStore } from '@stores/initialDomain.store';
+import { AUTO_SCAN_STATE } from '@interfaces/panel';
 
 export const useAutoScan = () => {
   const { streamFetch, isLoading } = useStreamFetch();
@@ -17,7 +16,7 @@ export const useAutoScan = () => {
     'scanProgress',
     'scanRetries',
     'user',
-    'appEvent',
+    'autoScanState',
   ]);
   // Setear datos para el scanner
   const {
@@ -52,7 +51,7 @@ export const useAutoScan = () => {
         globalStore.currentScan.set(null);
         globalStore.scanProgress.set(0);
         globalStore.scanRetries.set(MAX_SCAN_RETRIES);
-        globalStore.appEvent.set(APP_EVENT_TYPE.LAUNCH_SCAN);
+        globalStore.autoScanState.set(AUTO_SCAN_STATE.LAUNCH_SCAN);
       }
       if (result.company) {
         globalStore.company.set(result.company);

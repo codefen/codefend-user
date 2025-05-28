@@ -63,9 +63,6 @@ export const useGetNetworkv2 = () => {
     if (
       appEvent.get != APP_EVENT_TYPE.NETWORK_RESOURCE_PAGE_CONDITION &&
       appEvent.get != APP_EVENT_TYPE.NOTIFICATION &&
-      appEvent.get != APP_EVENT_TYPE.SCAN_FINISHED &&
-      appEvent.get != APP_EVENT_TYPE.SCAN_LAUNCHED &&
-      appEvent.get != APP_EVENT_TYPE.LAUNCH_SCAN &&
       userLoggingState.get != USER_LOGGING_STATE.LOGGED_OUT
     ) {
       refetch();
