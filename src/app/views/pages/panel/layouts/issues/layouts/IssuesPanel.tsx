@@ -89,7 +89,6 @@ const IssuesPanel: FC = () => {
       />
       <div className="brightness variant-1"></div>
       <section className="left">
-        <IssuePanelHeader />
         <IssueResources
           isLoading={isLoading}
           issues={handleIssuesFilter.isFiltered ? handleIssuesFilter.filteredData : issues}
@@ -98,6 +97,7 @@ const IssuesPanel: FC = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <IssuePanelHeader openAddIssue={handleAddFinding} />
         <IssueReport
           handleFilter={handleFilters}
           isLoading={isLoading}
@@ -116,13 +116,13 @@ const IssuesPanel: FC = () => {
             disabledLoader
           />
         </div>
+        <VulnerabilitiesStatus
+          vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+        />
 
         <VulnerabilityRisk
           isLoading={isLoading}
           vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
-        />
-        <VulnerabilitiesStatus
-          vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
         />
       </section>
     </main>

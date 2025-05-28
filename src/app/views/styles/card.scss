@@ -62,7 +62,8 @@
     // background-color: #f8f8f8;
     // padding-inline: 1.25rem;
 
-    svg {
+    svg,
+    img {
       color: var(--secondary-color-50);
       margin-right: 7px;
       width: 23px;
@@ -365,14 +366,15 @@
   }
 
   &.filtered {
+    .header {
+      padding-inline: 20px;
+    }
     .filters {
       display: flex;
       flex-direction: column;
       padding-block: 0;
       padding-inline: 1.25rem;
       color: var(--tertiary-color-200);
-      max-height: 340px;
-      overflow-y: auto;
 
       .filter-group {
         .filter-group-btn {

@@ -1,6 +1,6 @@
 import { type FC, Fragment, useMemo, useState } from 'react';
 import { type IssueClass, type Issues } from '@interfaces/panel.ts';
-import { ChartIcon, ChevronIcon, StatIcon } from '@icons';
+import { ChartIcon, ChevronIcon, FilterIcon, StatIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { ResourcesTypes } from '@interfaces/order';
@@ -144,49 +144,51 @@ export const IssueReport: FC<Props> = props => {
 
   return (
     <div className="card filtered">
-      <SimpleSection header="Filter Issues" icon={<StatIcon />}>
-        <div className="content filters">
-          {filterGroups.map((group, groupIndex) => (
-            <div
-              key={groupIndex}
-              className={`filter-group ${expandedGroups[group.type] ? 'expanded' : ''}`}>
-              <button className="filter-group-btn" onClick={() => toggleGroup(group.type)}>
-                <ChevronIcon />
-                <h3>{group.title}</h3>
-              </button>
-              <div className="filter-group-content">
-                {group.elements.map((element, elementIndex) => (
-                  <label
-                    className="filter"
-                    key={`${groupIndex}-${elementIndex}`}
-                    htmlFor={`${group.type}-${element.value}`}>
-                    <div className="check">
-                      <div className="label">
-                        <input
-                          type="checkbox"
-                          disabled={element.total === 0}
-                          onChange={() => props.handleFilter(group.type, element.value.toString())}
-                          className="codefend-checkbox"
-                          id={`${group.type}-${element.value}`}
-                        />
-                        {element.label}
-                      </div>
+      <div className="header">
+        <FilterIcon />
+        <span>Filter Issues</span>
+      </div>
+      <div className="content filters">
+        {filterGroups.map((group, groupIndex) => (
+          <div
+            key={groupIndex}
+            className={`filter-group ${expandedGroups[group.type] ? 'expanded' : ''}`}>
+            <button className="filter-group-btn" onClick={() => toggleGroup(group.type)}>
+              <ChevronIcon />
+              <h3>{group.title}</h3>
+            </button>
+            <div className="filter-group-content">
+              {group.elements.map((element, elementIndex) => (
+                <label
+                  className="filter"
+                  key={`${groupIndex}-${elementIndex}`}
+                  htmlFor={`${group.type}-${element.value}`}>
+                  <div className="check">
+                    <div className="label">
+                      <input
+                        type="checkbox"
+                        disabled={element.total === 0}
+                        onChange={() => props.handleFilter(group.type, element.value.toString())}
+                        className="codefend-checkbox"
+                        id={`${group.type}-${element.value}`}
+                      />
+                      {element.label}
                     </div>
-                    <div className="value">
-                      <Show
-                        when={element.total === 0}
-                        fallback={<img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />}>
-                        <img src="/codefend/issues-bug-grey.svg" alt="bug-icon" />
-                      </Show>
-                      <span>{element.total}</span>
-                    </div>
-                  </label>
-                ))}
-              </div>
+                  </div>
+                  <div className="value">
+                    <Show
+                      when={element.total === 0}
+                      fallback={<img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />}>
+                      <img src="/codefend/issues-bug-grey.svg" alt="bug-icon" />
+                    </Show>
+                    <span>{element.total}</span>
+                  </div>
+                </label>
+              ))}
             </div>
-          ))}
-        </div>
-      </SimpleSection>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

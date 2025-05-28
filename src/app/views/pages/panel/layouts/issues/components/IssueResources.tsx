@@ -24,6 +24,8 @@ interface IssueResourcesProps {
   addFinding: () => void;
 }
 
+export const AI_RESEARCHER_ID = 186;
+
 const issueColumns: ColumnTableV3[] = [
   {
     header: 'ID',
@@ -43,9 +45,15 @@ const issueColumns: ColumnTableV3[] = [
   {
     header: 'Author',
     key: 'researcherUsername',
+    type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-3',
     weight: '14.5%',
-    render: value => <IssueAuthor value={value} />,
+    render: value => (
+      <IssueAuthor
+        isAI={value?.researcherID == AI_RESEARCHER_ID}
+        value={value?.researcherUsername || ''}
+      />
+    ),
   },
   {
     header: 'Published',

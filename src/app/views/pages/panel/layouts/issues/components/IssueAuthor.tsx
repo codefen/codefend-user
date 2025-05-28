@@ -1,10 +1,9 @@
-import { PeopleGroupIcon } from '@icons';
+import { PeopleGroupIcon, PeopleIcon, SparklesIcon } from '@icons';
 
-export const IssueAuthor = ({ value }: { value: string }) => {
-  const isAI = value === 'paranoidandroid';
+export const IssueAuthor = ({ isAI, value }: { isAI: boolean; value: string }) => {
   return (
     <div className="issue-author">
-      {isAI ? <img src={`/codefend/issues-bug-icon.svg`} alt="bug-icon" /> : <PeopleGroupIcon />}
+      {isAI ? <SparklesIcon /> : <PeopleIcon width="1rem" height="1rem" />}
       <span>{isAI ? 'ai' : value}</span>
     </div>
   );

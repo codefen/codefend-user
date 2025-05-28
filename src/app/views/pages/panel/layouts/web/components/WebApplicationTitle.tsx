@@ -23,42 +23,41 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({ isLoading }) => {
   const { setIsOpen, setModalId } = useModalStore();
   const webResourceSelected = useGlobalFastField('webResourceSelected');
   return (
-    <>
-      <div className="card title">
-        <div className="header">
-          <GlobeWebIcon />
-          <span>Web software</span>
-        </div>
-        <div className="content">
-          <p>
-            Scope management for web resources. Add and remove domains and subdomains of your
-            company that you want to monitor or run penetration tests on.
-          </p>
-          <div className="actions">
-            <PrimaryButton
-              text="Add domain"
-              click={() => {
-                if (isLoading) return;
-                setIsOpen(true);
-                setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
-              }}
-              className={'btn-black'}
-              disabledLoader
-            />
-            <PrimaryButton
-              text="Add subdomain"
-              click={() => {
-                webResourceSelected.set(null);
-                if (isLoading) return;
-                setIsOpen(true);
-                setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
-              }}
-              className={'btn-black'}
-              disabledLoader
-            />
-          </div>
+    <div className="card title">
+      <div className="header">
+        <GlobeWebIcon />
+        <span>Web software</span>
+      </div>
+
+      <div className="content">
+        <p>
+          Scope management for web resources. Add and remove domains and subdomains of your company
+          that you want to monitor or run penetration tests on.
+        </p>
+        <div className="actions">
+          <PrimaryButton
+            text="Add domain"
+            click={() => {
+              if (isLoading) return;
+              setIsOpen(true);
+              setModalId(MODAL_KEY_OPEN.ADD_DOMAIN);
+            }}
+            className={'btn-black'}
+            disabledLoader
+          />
+          <PrimaryButton
+            text="Add subdomain"
+            click={() => {
+              webResourceSelected.set(null);
+              if (isLoading) return;
+              setIsOpen(true);
+              setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
+            }}
+            className={'btn-black'}
+            disabledLoader
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 };

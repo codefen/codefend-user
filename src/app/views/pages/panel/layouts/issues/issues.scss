@@ -297,9 +297,14 @@ main.issues-list {
       padding-block: 6px;
       padding-inline: 10px;
       flex: none;
+      text-transform: capitalize;
 
       img {
         width: 16px;
+      }
+
+      svg {
+        color: var(--secondary-color-50);
       }
     }
 
@@ -308,7 +313,7 @@ main.issues-list {
 
       .rows {
         overflow: auto;
-        max-height: calc(100cqh - 230px);
+        max-height: calc(100cqh - 6rem);
       }
 
       .item-cell-issue-4 {
@@ -376,7 +381,6 @@ main.issues-list {
   }
 
   .right {
-    padding-block-end: 2rem;
     flex: 1 1 35%;
 
     .card.filtered {
@@ -386,6 +390,16 @@ main.issues-list {
         font-family: 'Satoshi';
         color: var(--tertiary-color-450);
       }
+    }
+
+    .card.title {
+      img {
+        width: 15px;
+      }
+    }
+
+    .card.risk-chart {
+      margin-block-end: 0rem;
     }
   }
 
