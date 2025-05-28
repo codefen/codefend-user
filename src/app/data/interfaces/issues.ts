@@ -41,3 +41,23 @@ export interface IssueUpdateData extends AuditData {
   condicion: IssuesStatus;
   cs: IssueCustomerSupport[];
 }
+
+// ============= TIPOS Y CONSTANTES =============
+export interface FilterState {
+  resourceClass: string[];
+  scanId: string[];
+  orderIdentifier: string[];
+  riskScore: string[];
+}
+
+export interface FilterElement {
+  label: string;
+  value: string;
+  total: number;
+}
+
+export interface FilterGroup {
+  title: string;
+  type: keyof FilterState;
+  elements: FilterElement[];
+}

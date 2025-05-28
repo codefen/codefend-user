@@ -1,151 +1,127 @@
-import { type FC, Fragment, useMemo, useState } from 'react';
+import { type FC, Fragment, useCallback, useMemo, useState } from 'react';
 import { type IssueClass, type Issues } from '@interfaces/panel.ts';
 import { ChartIcon, ChevronIcon, FilterIcon, StatIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { ResourcesTypes } from '@interfaces/order';
-
-interface FilterElement {
-  label: string;
-  value: string | ResourcesTypes;
-  total: number;
-}
-
-interface FilterGroup {
-  title: string;
-  type: 'resourceClass' | 'scanId' | 'riskScore';
-  elements: FilterElement[];
-}
+import type { FilterGroup, FilterState } from '@interfaces/issues';
 
 interface Props {
   isLoading: boolean;
   issuesClasses: IssueClass;
-  handleFilter: (filterType: string, value: string) => void;
+  handleFilter: (filterType: keyof FilterState, value: string) => void;
   issues: Issues[];
-  currentFilters: {
-    resourceClass: string[];
-    scanId: string[];
-    riskScore: string[];
-  };
+  currentFilters: FilterState;
 }
 
-const FILTER_RESOURCE_CLASS_GROUP: FilterGroup = {
+const FILTER_RESOURCE_CLASS_GROUP: Omit<FilterGroup, 'elements'> = {
   title: 'Resource Class',
   type: 'resourceClass',
-  elements: [
-    {
-      label: 'Web',
-      value: ResourcesTypes.WEB,
-      total: 0,
-    },
-    {
-      label: 'Mobile',
-      value: ResourcesTypes.MOBILE,
-      total: 0,
-    },
-    {
-      label: 'Network',
-      value: ResourcesTypes.NETWORK,
-      total: 0,
-    },
-    {
-      label: 'Social Engineering',
-      value: ResourcesTypes.SOCIAL,
-      total: 0,
-    },
-  ],
 };
 
-const FILTER_ISSUE_RISK_SCORE_GROUP: FilterGroup = {
+const FILTER_ISSUE_RISK_SCORE_GROUP: Omit<FilterGroup, 'elements'> = {
   title: 'Risk Score',
   type: 'riskScore',
-  elements: [
-    {
-      label: 'Intel',
-      value: '1',
-      total: 0,
-    },
-    {
-      label: 'Low',
-      value: '2',
-      total: 0,
-    },
-    {
-      label: 'Medium',
-      value: '3',
-      total: 0,
-    },
-    {
-      label: 'Elevated',
-      value: '4',
-      total: 0,
-    },
-    {
-      label: 'Critical',
-      value: '5',
-      total: 0,
-    },
-  ],
 };
 
-export const IssueReport: FC<Props> = props => {
+const RESOURCE_CLASS_ELEMENTS = [
+  { label: 'Web', value: ResourcesTypes.WEB },
+  { label: 'Mobile', value: ResourcesTypes.MOBILE },
+  { label: 'Network', value: ResourcesTypes.NETWORK },
+  { label: 'Social Engineering', value: ResourcesTypes.SOCIAL },
+];
+
+const RISK_SCORE_ELEMENTS = [
+  { label: 'Intel', value: '1' },
+  { label: 'Low', value: '2' },
+  { label: 'Medium', value: '3' },
+  { label: 'Elevated', value: '4' },
+  { label: 'Critical', value: '5' },
+];
+
+export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter }) => {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
     resourceClass: true,
     riskScore: false,
     scanId: false,
   });
 
-  const toggleGroup = (groupType: string) => {
+  const toggleGroup = useCallback((groupType: string) => {
     setExpandedGroups(prev => ({
       ...prev,
       [groupType]: !prev[groupType],
     }));
-  };
+  }, []);
+
+  const calculateTotals = useCallback((issues: Issues[]) => {
+    const totals = {
+      resourceClass: {} as Record<string, number>,
+      riskScore: {} as Record<string, number>,
+      scanId: {} as Record<string, number>,
+    };
+
+    issues.forEach(issue => {
+      // Resource class totals
+      totals.resourceClass[issue.resourceClass] =
+        (totals.resourceClass[issue.resourceClass] || 0) + 1;
+
+      // Risk score totals
+      totals.riskScore[issue.riskScore] = (totals.riskScore[issue.riskScore] || 0) + 1;
+
+      // Scan ID totals (solo para Web)
+      if (issue.scanId && issue.resourceClass === ResourcesTypes.WEB) {
+        totals.scanId[issue.scanId] = (totals.scanId[issue.scanId] || 0) + 1;
+      }
+    });
+
+    return totals;
+  }, []);
 
   const filterGroups = useMemo(() => {
-    // Calculate scan identifiers with a single reduce operation
-    const scanIds = props.issues.reduce((acc, issue) => {
-      if (!issue.scanId || issue.resourceClass !== ResourcesTypes.WEB) return acc;
+    if (issues.length === 0) return [];
 
-      const existing = acc.find(item => item.value === issue.scanId);
-      if (existing) {
-        existing.total++;
-      } else {
-        acc.push({
-          label: issue.scanId,
-          value: issue.scanId,
-          total: 1,
-        });
-      }
-      return acc;
-    }, [] as FilterElement[]);
+    const totals = calculateTotals(issues);
+    const groups: FilterGroup[] = [];
 
-    const resourceClassWithTotals = FILTER_RESOURCE_CLASS_GROUP.elements.map(element => ({
+    // Resource Class Group
+    const resourceClassElements = RESOURCE_CLASS_ELEMENTS.map(element => ({
       ...element,
-      total: props.issues.filter(issue => issue.resourceClass === element.value).length,
+      total: totals.resourceClass[element.value] || 0,
     }));
 
-    const riskScoreWithTotals = FILTER_ISSUE_RISK_SCORE_GROUP.elements.map(element => ({
-      ...element,
-      total: props.issues.filter(issue => issue.riskScore === element.value).length,
+    groups.push({
+      ...FILTER_RESOURCE_CLASS_GROUP,
+      elements: resourceClassElements,
+    });
+
+    // Scan ID Group (solo si hay scans de Web)
+    const scanIdElements = Object.entries(totals.scanId).map(([scanId, total]) => ({
+      label: scanId,
+      value: scanId,
+      total,
     }));
 
-    const groups: FilterGroup[] = [
-      { ...FILTER_RESOURCE_CLASS_GROUP, elements: resourceClassWithTotals },
-    ];
-
-    if (scanIds.length > 0) {
+    if (scanIdElements.length > 0) {
       groups.push({
         title: 'Scan Identifier',
-        type: 'scanId',
-        elements: scanIds,
+        type: 'scanId' as keyof FilterState,
+        elements: scanIdElements,
       });
     }
 
-    groups.push({ ...FILTER_ISSUE_RISK_SCORE_GROUP, elements: riskScoreWithTotals });
+    // Risk Score Group
+    const riskScoreElements = RISK_SCORE_ELEMENTS.map(element => ({
+      ...element,
+      total: totals.riskScore[element.value] || 0,
+    }));
+
+    groups.push({
+      ...FILTER_ISSUE_RISK_SCORE_GROUP,
+      elements: riskScoreElements,
+    });
 
     return groups.filter(group => group.elements.some(element => element.total > 0));
-  }, [props.issues]);
+  }, [issues, calculateTotals]);
 
   return (
     <div className="card filtered">
@@ -173,10 +149,8 @@ export const IssueReport: FC<Props> = props => {
                       <input
                         type="checkbox"
                         disabled={element.total === 0}
-                        checked={props.currentFilters[group.type].includes(
-                          element.value.toString()
-                        )}
-                        onChange={() => props.handleFilter(group.type, element.value.toString())}
+                        checked={currentFilters[group.type].includes(element.value.toString())}
+                        onChange={() => handleFilter(group.type, element.value.toString())}
                         className="codefend-checkbox"
                         id={`${group.type}-${element.value}`}
                       />

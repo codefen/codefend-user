@@ -5,7 +5,7 @@ import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constan
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { StatIcon, XCircleIcon } from '@icons';
+import { BugIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
@@ -23,6 +23,7 @@ import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
 import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { useNavigate } from 'react-router';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -36,7 +37,7 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Domain',
     key: 'resource_address',
     styles: 'item-cell-2',
-    weight: '26%',
+    weight: '28%',
     render: val => val,
   },
   {
@@ -58,14 +59,14 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Start',
     key: 'creacion',
     styles: 'item-cell-4',
-    weight: '15.75%',
+    weight: '16.75%',
     render: val => (val ? naturalTime(val) : ''),
   },
   {
     header: 'Finish',
     key: 'finalizacion',
     styles: 'item-cell-5',
-    weight: '15.75%',
+    weight: '16.75%',
     render: val => (val ? naturalTime(val) : '--/--/--'),
   },
 ];
@@ -82,6 +83,7 @@ export const ScanSection = () => {
   const { appEvent } = useGlobalFastFields(['appEvent']);
   const { updateState } = useOrderStore();
   const [idiom, setIdiom] = useState<string>('en');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (companyUpdated) {
@@ -118,31 +120,21 @@ export const ScanSection = () => {
     setSelectScan(row);
   };
 
-  const scansColumnAction = [
-    ...scansColumns,
+  const scanActions = [
     {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: `item-cell-16 action ${css['disabled-btn']}`,
-      weight: '4%',
-      render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
-          <span
-            title="Kill process"
-            aria-disabled={
-              row?.phase === ScanStepType.Killed || row?.phase === ScanStepType.Finished
-            }
-            className={
-              row?.phase === ScanStepType.Killed || row?.phase === ScanStepType.Finished
-                ? 'disabled-this'
-                : ''
-            }
-            onClick={() => startKillScan(row)}>
-            <XCircleIcon />
-          </span>
-        </div>
-      ),
+      label: 'View issues',
+      icon: <BugIcon />,
+      disabled: (row: any) => !row?.finalizacion,
+      onClick: (row: any) => {
+        navigate(`/issues?scan_id=${row.id}`);
+      },
+    },
+    {
+      label: 'Stop Scan',
+      icon: <XCircleIcon width="1.3rem" height="1.3rem" />,
+      disabled: (row: any) =>
+        row?.phase == ScanStepType.Killed || row?.phase == ScanStepType.Finished,
+      onClick: (row: any) => startKillScan(row),
     },
   ];
 
@@ -227,10 +219,13 @@ export const ScanSection = () => {
           <div className="content">
             <Tablev3
               rows={scans}
-              columns={scansColumnAction}
+              columns={scansColumns}
               showRows={true}
               initialSort={Sort.desc}
               initialOrder="creacion"
+              isNeedSort
+              enableContextMenu
+              contextMenuActions={scanActions}
             />
           </div>
         </SimpleSection>

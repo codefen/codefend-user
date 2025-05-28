@@ -1530,12 +1530,16 @@ export const ExitIcon: FC<IconProps> = ({ isVisible }) => (
   </svg>
 );
 
-export const XCircleIcon: FC<IconProps> = ({ isVisible }) => (
+export const XCircleIcon: FC<IconProps> = ({
+  isVisible,
+  width = '1.75rem',
+  height = '1.75rem',
+}) => (
   <svg
     fill="none"
     viewBox="0 0 24 24"
-    height="1.75rem"
-    width="1.75rem"
+    height={height}
+    width={width}
     strokeWidth={1.5}
     stroke="currentColor"
     style={{
