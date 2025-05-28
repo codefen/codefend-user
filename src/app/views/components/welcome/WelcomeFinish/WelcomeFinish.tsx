@@ -10,9 +10,15 @@ import { CheckSimpleIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
+import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
-  const globalStore = useGlobalFastFields(['scanProgress', 'isScanning', 'currentScan']);
+  const globalStore = useGlobalFastFields([
+    'scanProgress',
+    'isScanning',
+    'currentScan',
+    'autoScanState',
+  ]);
   const { initialDomain } = useWelcomeStore();
   const navigate = useNavigate();
 
@@ -25,17 +31,23 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const scanStep = (globalStore.currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']}>
+    <ModalWrapper showCloseBtn={true} type={css['welcome-modal-container']} action={solved}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={220} />
-        <Show when={scanStep != ScanStepType.NonScan} fallback={<PageLoader />}>
+        <Show
+          when={
+            globalStore.isScanning.get ||
+            globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_LAUNCHED ||
+            globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_FINISHED
+          }
+          fallback={<PageLoader />}>
           <p className={css['welcome-text']}>
             <b>
               The domain{' '}
               <span style={{ color: '#ff3939' }}>
                 {globalStore.currentScan.get?.resource_address}
-              </span>
-              . is being analyzed.
+              </span>{' '}
+              is being analyzed.
             </b>{' '}
             Detected vulnerabilities and potential threats will be displayed on the dashboard and
             communicated via email. <b>You can now close this window.</b>
@@ -63,14 +75,14 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               <div className={`${css['value']} ${css['stat-complete']}`}>
                 {globalStore.currentScan.get?.issues_found}
               </div>
-              <span style={{ color: '#e84f4f' }}>Total finding</span>
+              <span style={{ color: '#e84f4f' }}>Total findings</span>
             </div>
             <div
               className={`${css['finish-vuln-box']} ${!globalStore.isScanning.get ? css['vul-box-complete'] : ''}`}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
                 {globalStore.currentScan.get?.issues_parsed}
               </div>
-              <span>{!globalStore.isScanning.get ? 'Analyzed finding' : 'Analizing finding'}</span>
+              <span>Analyzed findings</span>
             </div>
           </div>
           <div className={css['finish-text']}>
@@ -83,8 +95,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           </div>
 
           <PrimaryButton
-            text={globalStore.isScanning.get ? 'Dashboard' : 'Go to issues'}
-            buttonStyle="gray"
+            text={globalStore.isScanning.get ? 'Close assistant' : 'Go to issues'}
+            buttonStyle={globalStore.isScanning.get ? 'red' : 'gray'}
             click={closeModal}
           />
         </Show>

@@ -1,9 +1,9 @@
+import type { IntelData } from '@interfaces/snsTypes';
 import { type FC } from 'react';
-import type { IntelData } from '../../../../../../data/interfaces/snsTypes';
 
 interface IntelCardProps {
   intel: IntelData;
-  onOpenLeakedModal: (leaked: IntelData, type: 'crack' | 'geo') => void;
+  onOpenLeakedModal: (leaked: any, type: 'crack' | 'geo') => void;
 }
 
 export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal }) => {
@@ -49,16 +49,14 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal }) => {
             ))}
             {subIntel.hash && (
               <div>
-                <button onClick={() => onOpenLeakedModal(intel, 'crack')} className="crack-btn">
+                <button onClick={() => onOpenLeakedModal(subIntel, 'crack')} className="crack-btn">
                   click to crack
                 </button>
               </div>
             )}
             {subIntel.regip && (
               <div>
-                <button
-                  onClick={() => onOpenLeakedModal(intel, 'geo')}
-                  className="codefend-text-red no-outline bolder no-border">
+                <button onClick={() => onOpenLeakedModal(subIntel, 'geo')} className="crack-btn">
                   click to geolocate
                 </button>
               </div>

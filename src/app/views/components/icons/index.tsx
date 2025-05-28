@@ -17,6 +17,41 @@ interface IconProps {
   name?: string;
 }
 
+export const RobotIcon: FC<IconProps> = ({ width = '24', height = '24' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ overflow: 'visible' }}>
+    <path d="M12 8V4H8"></path>
+    <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+    <path d="M2 14h2"></path>
+    <path d="M20 14h2"></path>
+    <path d="M15 13v2"></path>
+    <path d="M9 13v2"></path>
+  </svg>
+);
+
+export const ChatCircleIcon: FC<IconProps> = ({ width = '24', height = '24' }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round">
+    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+  </svg>
+);
+
 export const ChartIcon = () => (
   <svg
     strokeWidth={0}
@@ -815,8 +850,7 @@ export const CheckSimpleIcon = () => (
     stroke="currentColor"
     strokeWidth="3"
     strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lucide lucide-check text-white">
+    strokeLinejoin="round">
     <path d="M20 6 9 17l-5-5"></path>
   </svg>
 );
@@ -1496,12 +1530,16 @@ export const ExitIcon: FC<IconProps> = ({ isVisible }) => (
   </svg>
 );
 
-export const XCircleIcon: FC<IconProps> = ({ isVisible }) => (
+export const XCircleIcon: FC<IconProps> = ({
+  isVisible,
+  width = '1.75rem',
+  height = '1.75rem',
+}) => (
   <svg
     fill="none"
     viewBox="0 0 24 24"
-    height="1.75rem"
-    width="1.75rem"
+    height={height}
+    width={width}
     strokeWidth={1.5}
     stroke="currentColor"
     style={{
@@ -1665,6 +1703,73 @@ export const ThreeDotsIcon: FC<IconProps> = ({
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const PlusIcon: FC<IconProps> = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    width="1.3rem"
+    height="1.3rem"
+    className={className}>
+    <path
+      fillRule="evenodd"
+      d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
+
+export const FilterIcon: FC<IconProps> = ({ className, width = '1.5rem', height = '1.5rem' }) => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+    />
+  </svg>
+);
+
+export const PeopleIcon: FC<IconProps> = ({ className, width = '1.5rem', height = '1.5rem' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path
+      fillRule="evenodd"
+      d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
+
+export const SparklesIcon: FC<IconProps> = ({ className, width = '1.5rem', height = '1.5rem' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path
+      fillRule="evenodd"
+      d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5ZM16.5 15a.75.75 0 0 1 .712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 0 1 0 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 0 1-1.422 0l-.395-1.183a1.5 1.5 0 0 0-.948-.948l-1.183-.395a.75.75 0 0 1 0-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0 1 16.5 15Z"
+      clipRule="evenodd"
     />
   </svg>
 );

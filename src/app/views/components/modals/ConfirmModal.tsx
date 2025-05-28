@@ -15,16 +15,18 @@ const ConfirmModal: FC<ConfirmModalProps> = props => {
   const handleSubmit = useCallback(
     (e: MouseEvent | FormEvent<HTMLButtonElement>) => {
       e.preventDefault();
+      e.stopPropagation();
       setConfirm(true);
       props.action();
     },
-    [props.action]
+    [props.action, setConfirm]
   );
   const handleClose = useCallback(
     (e: any) => {
+      e.preventDefault();
       props.close();
     },
-    [props.close]
+    [props.close, setConfirm]
   );
 
   return (

@@ -40,6 +40,7 @@ export enum MODAL_KEY_OPEN {
   DELETE_SOURCE = 'delete_resource',
   DELETE_MEMBER = 'delete',
   DELETE_WEB = 'delete_web',
+  DELETE_APP = 'delete_app',
 
   NETWORK_SETTING = 'network',
   ERROR_CONNECTION = 'error',
@@ -107,7 +108,7 @@ export const cloudEmptyScreen = {
 export const socialEmptyScreen = {
   type: RESOURCE_CLASS.SOCIAL,
   title: 'Social Engineering Resources',
-  subtitle: 'Begin by adding a new individual.',
+  subtitle: 'Begin by adding a new individual to get started.',
   btnText: 'Add social resource',
 };
 

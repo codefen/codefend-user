@@ -13,21 +13,19 @@ import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
-import { GlobeWebIcon } from '@icons';
-import { PrimaryButton } from '@buttons/index';
 import AddNetworkBlock from '@/app/views/pages/panel/layouts/lan/components/AddNetworkBlock.tsx';
 import { AddAccessPointModal } from '@modals/index.ts';
 import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx';
+import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
+import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
+import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
 
 const NetworkPage: FC = () => {
-  const [showScreen, control, refresh] = useShowScreen();
-  const { networks, loading, refetch } = useLan();
+  const [showScreen, _, refresh] = useShowScreen();
+  const { networks, isLoading, externalIpCount, internalIpCount, totalNotUniqueIpCount, appEvent } =
+    useGetNetworkv2();
   const flashlight = useFlashlight();
   const { isAdmin, isNormalUser } = useUserRole();
-
-  useEffect(() => {
-    refetch();
-  }, [control]);
 
   return (
     <EmptyLayout
@@ -35,17 +33,17 @@ const NetworkPage: FC = () => {
       fallback={networkEmptyScreen}
       event={refresh}
       showScreen={showScreen}
-      isLoading={loading}
+      isLoading={isLoading}
       dataAvailable={Boolean(networks.length)}>
+      <DeleteNetworkModal />
       <CredentialsModal />
-      <ModalReport />
-      <AddAccessPointModal onDone={() => refresh()} />
-      <AddSubNetworkModal onDone={() => refresh()} internalNetwork={networks ?? []} />
+      <AddAccessPointModal appEvent={appEvent} />
+      <AddSubNetworkModal appEvent={appEvent} internalNetwork={networks ?? []} />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
       <section className="left">
         <LanNetworkData
-          isLoading={loading}
+          isLoading={isLoading}
           refetchInternalNetwork={refresh}
           internalNetwork={networks}
         />
@@ -54,11 +52,16 @@ const NetworkPage: FC = () => {
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
           <AddNetworkBlock />
+          <NetworkStatics
+            externalIpCount={externalIpCount.get}
+            internalIpCount={internalIpCount.get}
+            totalNotUniqueIpCount={totalNotUniqueIpCount.get}
+          />
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}
             resourceCount={networks?.length || 0}
-            isLoading={loading}
+            isLoading={isLoading}
             scope={OrderSection.NETWORK_SCOPE}
           />
         </section>

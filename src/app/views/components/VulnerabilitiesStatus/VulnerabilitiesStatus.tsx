@@ -1,12 +1,9 @@
-import React from 'react';
-import { ChartIcon } from '@icons';
+import { type FC } from 'react';
 
 import type { IssuesCondition } from '../../../data';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
-import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
 
-export const VulnerabilitiesStatus: React.FC<{
+export const VulnerabilitiesStatus: FC<{
   vulnerabilityByShare: IssuesCondition;
 }> = props => {
   const renderMetrics = () => {
@@ -16,7 +13,6 @@ export const VulnerabilitiesStatus: React.FC<{
       open: props.vulnerabilityByShare.open ?? 0,
     };
   };
-  const { issueScanFound } = useWelcomeStore();
   return (
     <div className="flex-box">
       <StatAsset

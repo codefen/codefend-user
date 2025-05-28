@@ -7,6 +7,7 @@ import {
   useEffect,
   type MouseEvent,
   type ReactNode,
+  useRef,
 } from 'react';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
@@ -48,7 +49,9 @@ interface Tablev3Props<T> {
   selectedKey?: string;
   enableContextMenu?: boolean;
   contextMenuActions?: ContextMenuAction[];
-  emptyInfo?: string;
+  emptyInfo?: string | ReactNode;
+  emptyTitle?: string;
+  emptyIcon?: ReactNode;
 }
 
 const Tablev3: FC<Tablev3Props<any>> = ({
@@ -70,7 +73,11 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   enableContextMenu = false,
   contextMenuActions = [],
   emptyInfo = '',
+  emptyTitle = "There's no data to display here",
+  emptyIcon,
 }) => {
+  const rowRef = useRef<HTMLDivElement | null>(null);
+  const [hasScroll, setHasScroll] = useState(false);
   // Estado para manejar el ordenamiento
   const [sort, setSort] = useState<Sort>(initialSort);
   // Estado para indicar en base a que columna ordena
@@ -163,11 +170,24 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('scroll', handleScroll, true);
+    const el = rowRef.current as HTMLDivElement;
+    let resizeObserver: ResizeObserver | null = null;
+    if (el) {
+      const checkScroll = () => setHasScroll(el.scrollHeight > el.clientHeight);
+      checkScroll(); // inicial
+      // Si el contenido puede cambiar dinámicamente, escucha resize/mutaciones:
+      resizeObserver = new ResizeObserver(checkScroll);
+      resizeObserver.observe(el);
+    }
+
     return () => {
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('scroll', handleScroll, true);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
-  }, [handleClickOutside, handleScroll]);
+  }, [handleClickOutside, handleScroll, rows.length, rowRef.current]);
 
   // Manejador del click en el botón de tres puntos
   const handleThreeDotsClick = useCallback(
@@ -220,7 +240,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
 
         <Show when={showRows} fallback={<PageLoader />}>
-          <div className="rows">
+          <div className={`rows ${hasScroll ? 'rows-with-scroll' : ''}`} ref={rowRef}>
             <TableRowsV3
               columns={columns}
               rows={preProcessedRows}
@@ -238,7 +258,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
           </div>
         </Show>
         <Show when={showRows && !Boolean(preProcessedRows.length)}>
-          <EmptyCard info={emptyInfo} />
+          <EmptyCard info={emptyInfo} title={emptyTitle} icon={emptyIcon} />
         </Show>
 
         {/* Context Menu */}

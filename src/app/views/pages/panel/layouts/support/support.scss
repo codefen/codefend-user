@@ -6,44 +6,95 @@ main.support {
       .rows {
         max-height: calc(100dvh - 150px);
       }
+    }
 
-      .id {
-        min-width: 6.5%;
-        max-width: 6.5%;
+    .card.messages.empty-state {
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin-block-start: 3rem;
+        gap: 1rem;
+
+        svg {
+          color: #71717a;
+        }
+      }
+    }
+
+    // Estilos específicos para entradas de ask-a-hacker
+    .card.messages {
+      h3 {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        font-weight: 500;
+        color: var(--tertiary-color-600);
+        text-transform: none;
+        border: none;
+        margin-block: 0.5rem;
+        padding: 0;
       }
 
-      .vul-title {
-        min-width: 42%;
-        max-width: 42%;
-        margin-inline-end: 1%;
+      p,
+      ul,
+      ol {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--tertiary-color-600);
+        margin-block: 0.35rem;
       }
 
-      .username {
-        min-width: 19%;
-        max-width: 19%;
-      }
+      ul,
+      ol {
+        padding-inline-start: 1.25rem;
 
-      .date {
-        min-width: 12%;
-        max-width: 12%;
-      }
-
-      .status {
-        min-width: 12%;
-        max-width: 12%;
-        text-align: center;
-
-        .publish {
-          justify-content: center;
+        li {
+          margin-block: 0.25rem;
         }
       }
 
-      .id.action {
-        min-width: 7.5%;
-        max-width: 7.5%;
+      .content {
+        .messages-wrapper {
+          .ending {
+            padding-bottom: 200px;
+          }
 
-        .publish {
-          justify-content: center;
+          &.closed-ticket {
+            .ending {
+              padding-bottom: 20px;
+            }
+          }
+        }
+      }
+
+      .message-card {
+        .message-card-title {
+          padding: 10px 20px 0;
+          font-size: 15px;
+          color: var(--tertiary-color-400);
+
+          .auth-user {
+            font-weight: 600;
+            color: var(--secondary-color-100);
+          }
+
+          .operator-user {
+            font-weight: 600;
+            color: var(--tertiary-color-600);
+          }
+        }
+
+        .message-card-container {
+          padding: 5px 20px 20px;
+
+          p {
+            max-width: 100%;
+            overflow: hidden;
+            text-wrap: pretty;
+            overflow-wrap: break-word;
+            max-height: none;
+          }
         }
       }
     }
@@ -53,6 +104,17 @@ main.support {
     .card .table .rows {
       // Resta un 42% del espacio disponible en el contenedor derecho y ocupa un 58% del alto
       max-height: calc(100cqh - calc(100cqh * 0.45));
+    }
+
+    .card.tickets-list .empty-wrapper {
+      flex-direction: column;
+
+      .empty-wrapper-icon {
+        color: #71717a;
+        background: #f4f4f580;
+        border-radius: 100%;
+        padding: 0.75rem;
+      }
     }
   }
 }
@@ -75,6 +137,32 @@ main.support {
   main.support {
     .right {
       box-shadow: #000000 -20px 0 120px -55px;
+    }
+
+    .card.messages {
+      h3 {
+        color: var(--tertiary-color-300);
+      }
+
+      p,
+      ul,
+      ol {
+        color: var(--tertiary-color-400);
+      }
+
+      .message-card {
+        .message-card-title {
+          color: var(--tertiary-color-300);
+
+          .auth-user {
+            color: var(--secondary-color-200);
+          }
+
+          .operator-user {
+            color: var(--tertiary-color-300);
+          }
+        }
+      }
     }
   }
 }

@@ -25,7 +25,7 @@ export const membersColumns: ColumnTableV3[] = [
     render: value => (value ? 'Founder' : 'Collaborator'),
   },
 ];
-export const TeamMembersTable = ({ isLoading, members }: DashboardAddCollaboratorsProps) => {
+export const TeamMembersTableCard = ({ isLoading, members }: DashboardAddCollaboratorsProps) => {
   const [membersMapped, setMembersMapped] = useState<any[]>([]);
   const company = useGlobalFastField('company');
 

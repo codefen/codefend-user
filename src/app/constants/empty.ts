@@ -1,7 +1,8 @@
 import { IssuesStatus } from '@interfaces/issues';
-import type { KeyPress, User } from '../data';
-import type { GlobalStore } from '@/app/views/context/AppContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import type { GlobalStore } from '@/app/views/context/AppContextProvider';
+import type { KeyPress } from '@interfaces/util';
+import { APP_EVENT_TYPE, AUTO_SCAN_STATE, USER_LOGGING_STATE, type User } from '@interfaces/index';
 
 export const EMPTY_USER: User = {
   id: '',
@@ -105,7 +106,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   subDomainCount: 0,
   uniqueIpCount: 0,
   planPreference: 'medium',
-  isDefaultPlan: false,
+  isDefaultPlan: true,
   selectedApp: null,
   mobilePlanPreference: 'medium',
   scanProgress: 0,
@@ -118,7 +119,16 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   user: EMPTY_USER,
   companies: [],
   scanRetries: MAX_SCAN_RETRIES,
-  activeScan: null,
+  externalIpCount: 0,
+  internalIpCount: 0,
+  subNetworkCount: 0,
+  totalNotUniqueIpCount: 0,
+  webResourceSelected: null,
+  appEvent: APP_EVENT_TYPE.NOTIFICATION,
+  totalNetowrkElements: 0,
+  userLoggingState: USER_LOGGING_STATE.OFFLINE,
+  networkResourceSelected: null,
+  autoScanState: AUTO_SCAN_STATE.NON_SCANNING,
 };
 
 export const EMPTY_PROVIDER = {

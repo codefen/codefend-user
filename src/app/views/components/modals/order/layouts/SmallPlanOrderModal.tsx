@@ -16,100 +16,151 @@ export const SmallPlanOrderModal = () => {
     }
   };
 
+  const close = () => {
+    updateState('orderStepActive', OrderSection.PAYWALL);
+    updateState('open', false);
+  };
+
   return (
     <div className="paywall-container">
-      <div className="step-header">
-        <h3>Planes pequeños!</h3>
+      <div className="step-header-maximo-plan3">
+        <img
+          src="public/codefend/estrellitas.png"
+          className="small-image"
+          alt="Description of image"
+          style={{ width: '50px', height: 'auto', margin: '0.5rem', display: 'block' }}
+        />
+        <h3>Automated Plan for Small Businesses</h3>
       </div>
       <p className="padding">
-        Nuestros planes pequeños exclusivos para aplicaciones web ofrecen una combinación única de
-        scanners automáticos, aplicando AI para el procesamiento de datos, asistencia técnica
-        especializada por pentesters profesionales y búsqueda de dataleaks. Todos brindan acceso
-        ilimitado a la plataforma con creación de informes y visualización de issues ilimitados.
+        Exclusive small plans for web applications offer a unique combination of{' '}
+        <strong>automated scanners</strong>, specialized technical support, and{' '}
+        <strong>data leak detection</strong>. All provide unlimited access to the platform with
+        report creation and issue visualization.
       </p>
       <div className="step-content-gird">
         <div
           className={`pricing-card ${checkedOption === UserSmallPlanSelected.BASIC ? 'selected-card' : ''}`}
           onClick={() => setCheckedOption(UserSmallPlanSelected.BASIC)}
-          style={{ '--bg-price': 'rgb(250 204 21 / 1)' } as any}>
+          style={{
+            backgroundColor: 'white',
+            border:
+              checkedOption === UserSmallPlanSelected.BASIC
+                ? '2px solid var(--secondary-color-50)'
+                : '1px solid var(--primary-color-300)',
+          }}>
           {/* Price Badge */}
-          <div className="pricing-card-header">
+          {/* <div className="pricing-card-header">
             <div className="pricing-circle">
               <span className="text-xs">$</span>
               <span className="text-xl">29</span>
               <span className="text-teen">/mes</span>
             </div>
-          </div>
+          </div> */}
           <div className="pricing-list-items">
-            <h4>Web android basic</h4>
+            <img
+              src="public/codefend/IA ICON.png"
+              alt="Description of image"
+              className="pricing-image small-image"
+              style={{ width: '100px', height: 'auto', margin: '0.5rem', display: 'block' }}
+            />
+
+            <h4>Basic Machine</h4>
 
             <ul>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Visualización de issues: ilimitada</span>
+                <span>Issue visualization: Unlimited</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Generación de informes: ilimitada</span>
+                <span>Report generation: Unlimited</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Ask a hacker 🛈: 5 al mes</span>
+                <span>
+                  Ask a hacker: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Neuroscans 🛈: 5 al mes</span>
+                <span>
+                  Neuroscans: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Data leaks lookups 🛈: 5 al mes</span>
+                <span>
+                  Data leaks lookups: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Dominios máximos 🛈: 3</span>
+                <span>
+                  Max domains: <strong>5 per month</strong>
+                </span>
+              </li>
+              <li className="price">
+                <span>
+                  Price: <strong>$29 per month</strong>
+                </span>
               </li>
             </ul>
           </div>
         </div>
         <div
           className={`pricing-card ${checkedOption === UserSmallPlanSelected.ADVANCED ? 'selected-card' : ''}`}
-          style={{ '--bg-price': 'rgb(52 211 153 / 1)' } as any}
-          onClick={() => setCheckedOption(UserSmallPlanSelected.ADVANCED)}>
+          onClick={() => setCheckedOption(UserSmallPlanSelected.ADVANCED)}
+          style={{
+            backgroundColor: 'white',
+            border:
+              checkedOption === UserSmallPlanSelected.ADVANCED
+                ? '2px solid var(--secondary-color-50)'
+                : '1px solid var(--primary-color-300)',
+          }}>
           {/* Price Badge */}
-          <div className="pricing-card-header">
+          {/* <div className="pricing-card-header">
             <div className="pricing-circle">
               <span className="text-xs">$</span>
               <span className="text-xl">29</span>
               <span className="text-teen">/mes</span>
             </div>
-          </div>
+          </div> */}
           <div className="pricing-list-items">
-            <h4>Web android basic</h4>
+            <img
+              src="public/codefend/IA ICON.png"
+              alt="Description of image"
+              className="pricing-image small-image"
+              style={{ width: '100px', height: 'auto', margin: '0.5rem', display: 'block' }}
+            />
+
+            <h4>Medium Machine</h4>
 
             <ul>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Visualización de issues: ilimitada</span>
+                <span>Issue visualization: Unlimited</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Generación de informes: ilimitada</span>
+                <span>Report generation: Unlimited</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Ask a hacker 🛈: 5 al mes</span>
+                <span>
+                  Ask a hacker: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Neuroscans 🛈: 5 al mes</span>
+                <span>
+                  Neuroscans: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Data leaks lookups 🛈: 5 al mes</span>
+                <span>
+                  Data leaks lookups: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Dominios máximos 🛈: 3</span>
+                <span>
+                  Max domains: <strong>3</strong>
+                </span>
+              </li>
+              <li className="price">
+                <span>
+                  Price: <strong>$59 per month</strong>
+                </span>
               </li>
             </ul>
           </div>
@@ -117,42 +168,62 @@ export const SmallPlanOrderModal = () => {
         <div
           className={`pricing-card ${checkedOption === UserSmallPlanSelected.MEDIUM ? 'selected-card' : ''}`}
           onClick={() => setCheckedOption(UserSmallPlanSelected.MEDIUM)}
-          style={{ '--bg-price': 'rgb(251 146 60 / 1)' } as any}>
-          {/* Price Badge */}
-          <div className="pricing-card-header">
+          style={{
+            backgroundColor: 'white',
+            border:
+              checkedOption === UserSmallPlanSelected.MEDIUM
+                ? '2px solid var(--secondary-color-50)'
+                : '1px solid var(--primary-color-300)',
+          }}>
+          {/* <div className="pricing-card-header">
             <div className="pricing-circle">
               <span className="text-xs">$</span>
               <span className="text-xl">29</span>
               <span className="text-teen">/mes</span>
             </div>
-          </div>
+          </div> */}
+
           <div className="pricing-list-items">
-            <h4>Web android basic</h4>
+            <img
+              src="public/codefend/IA ICON.png"
+              alt="Description of image"
+              className="pricing-image small-image"
+              style={{ width: '100px', height: 'auto', margin: '0.5rem', display: 'block' }}
+            />
+
+            <h4>Advanced Machine</h4>
 
             <ul>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Visualización de issues: ilimitada</span>
+                <span>Issue visualization: Unlimited</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Generación de informes: ilimitada</span>
+                <span>Report generation: Unlimited</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Ask a hacker 🛈: 5 al mes</span>
+                <span>
+                  Ask a hacker: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Neuroscans 🛈: 5 al mes</span>
+                <span>
+                  Neuroscans: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Data leaks lookups 🛈: 5 al mes</span>
+                <span>
+                  Data leaks lookups: <strong>5 per month</strong>
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckIcon />
-                <span>Dominios máximos 🛈: 3</span>
+                <span>
+                  Max domains: <strong>5 per month</strong>
+                </span>
+              </li>
+              <li className="price">
+                <span>
+                  Price: <strong>$89 per month</strong>
+                </span>
               </li>
             </ul>
           </div>
@@ -232,8 +303,15 @@ export const SmallPlanOrderModal = () => {
       </div>
       <div className="primary-container paywall">
         <PrimaryButton
-          text="Dame todo tu guita ACA!"
-          className="full"
+          text="Close Asistant"
+          className="flex-1"
+          click={close}
+          buttonStyle="gray"
+          disabledLoader
+        />
+        <PrimaryButton
+          text="Proceed"
+          className="flex-1"
           click={goTo}
           buttonStyle="red"
           disabledLoader

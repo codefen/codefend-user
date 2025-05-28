@@ -3,10 +3,9 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
-import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { ScanSearchIcon, StatIcon, XCircleIcon } from '@icons';
+import { BugIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
@@ -16,11 +15,15 @@ import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
 import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
+import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
+import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { useNavigate } from 'react-router';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -34,7 +37,7 @@ const scansColumns: ColumnTableV3[] = [
     header: 'Domain',
     key: 'resource_address',
     styles: 'item-cell-2',
-    weight: '26%',
+    weight: '28%',
     render: val => val,
   },
   {
@@ -53,17 +56,17 @@ const scansColumns: ColumnTableV3[] = [
     render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
   },
   {
-    header: 'Created at',
+    header: 'Start',
     key: 'creacion',
     styles: 'item-cell-4',
-    weight: '15.75%',
+    weight: '16.75%',
     render: val => (val ? naturalTime(val) : ''),
   },
   {
-    header: 'Finalize',
+    header: 'Finish',
     key: 'finalizacion',
     styles: 'item-cell-5',
-    weight: '15.75%',
+    weight: '16.75%',
     render: val => (val ? naturalTime(val) : '--/--/--'),
   },
 ];
@@ -71,14 +74,16 @@ export const ScanSection = () => {
   const [domainScanned, setDomainScanned] = useState<string>('');
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
-  const { getCompany } = useUserData();
+  const { getCompany, company } = useUserData();
   const {
     data: { scans, companyUpdated },
   } = useVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
-  const company = useGlobalFastField('company');
+  const { appEvent } = useGlobalFastFields(['appEvent']);
   const { updateState } = useOrderStore();
+  const [idiom, setIdiom] = useState<string>('en');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (companyUpdated) {
@@ -96,7 +101,7 @@ export const ScanSection = () => {
     fetcher('post', {
       body: {
         neuroscan_id,
-        company_id: getCompany(),
+        company_id: company.get?.id,
       },
       path: 'modules/neuroscan/kill',
       requireSession: true,
@@ -115,37 +120,37 @@ export const ScanSection = () => {
     setSelectScan(row);
   };
 
-  const scansColumnAction = [
-    ...scansColumns,
+  const scanActions = [
     {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: `item-cell-16 action ${css['disabled-btn']}`,
-      weight: '4%',
-      render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
-          <span
-            title="Kill process"
-            aria-disabled={
-              row?.phase === ScanStepType.Killed || row?.phase === ScanStepType.Finished
-            }
-            className={
-              row?.phase === ScanStepType.Killed || row?.phase === ScanStepType.Finished
-                ? 'disabled-this'
-                : ''
-            }
-            onClick={() => startKillScan(row)}>
-            <XCircleIcon />
-          </span>
-        </div>
-      ),
+      label: 'View issues',
+      icon: <BugIcon />,
+      disabled: (row: any) => !row?.finalizacion,
+      onClick: (row: any) => {
+        navigate(`/issues?scan_id=${row.id}`);
+      },
+    },
+    {
+      label: 'Stop Scan',
+      icon: <XCircleIcon width="1.3rem" height="1.3rem" />,
+      disabled: (row: any) =>
+        row?.phase == ScanStepType.Killed || row?.phase == ScanStepType.Finished,
+      onClick: (row: any) => startKillScan(row),
+    },
+    {
+      label: 'Open Scan progress',
+      icon: <ScanIcon />,
+      disabled: (row: any) =>
+        row?.phase != ScanStepType.Scanner && row?.phase != ScanStepType.Parser,
+      onClick: (row: any) => {
+        setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+        setIsOpen(true);
+      },
     },
   ];
 
   const startAndAddedDomain = () => {
     if (verifyDomainName(domainScanned || '')) return;
-    const companyID = getCompany();
+    const companyID = company.get?.id;
     if (companyIdIsNull(companyID)) return;
     const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
       closeOnClick: true,
@@ -164,12 +169,12 @@ export const ScanSection = () => {
         const resourceId = data?.resource?.id;
         if (resourceId) {
           // if (data?.company) company.set(data.company);
-          autoScan(resourceId, false).then(result => {
-            console.log('result', result);
+          autoScan(resourceId, false, idiom).then(result => {
             if (apiErrorValidation(result)) {
               updateState('open', true);
-              updateState('orderStepActive', OrderSection.PAYWALL);
+              updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
               updateState('resourceType', ResourcesTypes.WEB);
+              appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
               return;
             }
 
@@ -188,6 +193,14 @@ export const ScanSection = () => {
       });
   };
 
+  const selectBarOptions = {
+    options: IDIOM_SEARCHBAR_OPTION,
+    placeHolder: '',
+    value: idiom,
+    change: (e: ChangeEvent<HTMLSelectElement>) => setIdiom(e.target.value),
+    defaultSelectOption: 'en',
+  };
+
   return (
     <div className={css['scan-section-container']}>
       <ModalTitleWrapper
@@ -203,28 +216,26 @@ export const ScanSection = () => {
           close={() => setIsOpen(false)}
         />
       </ModalTitleWrapper>
-      <div className={css['scan-search-box']}>
-        <SearchBar
-          handleChange={(e: ChangeEvent<HTMLInputElement>) => setDomainScanned(e.target.value)}
-          placeHolder="Search"
-          inputValue={domainScanned}
-          handleSubmit={startAndAddedDomain}
-          searchIcon={<ScanSearchIcon isButton />}
-        />
-        <div className={css['scan-available-badge']}>
-          <span className={css['badge-label']}>Available</span>
-          <span className={css['badge-count']}>{company.get.disponibles_neuroscan}</span>
-        </div>
-      </div>
+      <SearchBarContainer
+        placeholder="Write a domain to scan"
+        searchText="Start Scan"
+        selectBarOptions={selectBarOptions}
+        handleSubmit={startAndAddedDomain}
+        searchData={domainScanned}
+        setSearchData={setDomainScanned}
+      />
       <div className="card">
-        <SimpleSection header="Company Scanners" icon={<StatIcon />}>
+        <SimpleSection header="AI based web security" icon={<StatIcon />}>
           <div className="content">
             <Tablev3
               rows={scans}
-              columns={scansColumnAction}
+              columns={scansColumns}
               showRows={true}
               initialSort={Sort.desc}
               initialOrder="creacion"
+              isNeedSort
+              enableContextMenu
+              contextMenuActions={scanActions}
             />
           </div>
         </SimpleSection>

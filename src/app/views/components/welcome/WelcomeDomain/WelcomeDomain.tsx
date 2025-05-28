@@ -12,6 +12,8 @@ import TextChild from '@/app/views/components/utils/TextChild';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import { toast } from 'react-toastify';
 import { PrimaryButton } from '@buttons/index';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useInitialDomainStore } from '@stores/initialDomain.store';
 
 const columns = [
   {
@@ -54,30 +56,38 @@ const columns = [
 
 export const WelcomeDomain = ({
   close,
-  startScan,
+  goToStartScanStep,
 }: {
   close: () => void;
-  startScan: () => void;
+  goToStartScanStep: () => void;
 }) => {
   const [initialDomain, setInitialDomain] = useState('');
   const [domains, setDomains] = useState<any[]>([]);
-  const [fetcher, _, isLoading] = useFetcher();
+  const [fetcher, cancel, isLoading] = useFetcher();
   const { getCompany, logout } = useUserData();
-  const { saveInitialDomain, setDomainId, initialDomain: initDomain } = useWelcomeStore();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const domainCount = useGlobalFastField('domainCount');
+  const { update, initialDomain: initialDomainStored } = useInitialDomainStore();
 
   useEffect(() => {
-    setInitialDomain(prev => (!prev ? (!!initDomain ? initDomain : '') : prev));
+    setInitialDomain(prev => (!prev ? (!!initialDomainStored ? initialDomainStored : '') : prev));
+  }, [initialDomain, initialDomainStored]);
+
+  const changeInitialDomain = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget as HTMLFormElement);
+    const domain = form.get('initialScope') as string;
+    setInitialDomain(domain);
     const companyID = getCompany();
     fetcher('post', {
       requireSession: true,
       body: {
         company_id: companyID,
-        resource_address_domain: initialDomain || initDomain,
+        resource_address_domain: domain,
         subdomain_scan: 'yes',
       },
       path: 'resources/web/preview',
-      timeout: 180000,
+      timeout: 230000,
+      requestId: 'welcome-domain-preview',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (!apiErrorValidation(data)) {
@@ -86,13 +96,6 @@ export const WelcomeDomain = ({
         toast.error(data?.info);
       }
     });
-  }, [initialDomain]);
-
-  const changeInitialDomain = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = new FormData(e.currentTarget as HTMLFormElement);
-    const domain = form.get('initialScope') as string;
-    setInitialDomain(prev => (!!domain && prev !== domain ? domain : prev));
   };
 
   const nextStep = () => {
@@ -109,13 +112,19 @@ export const WelcomeDomain = ({
         subdomain_scan: 'yes',
       },
       path: 'resources/web/add',
-      timeout: 180000,
+      timeout: 230000,
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
       if (data?.resource?.id) {
-        saveInitialDomain(initialDomain);
-        setDomainId(data?.resource?.id);
-        startScan();
+        if (domainCount.get === 0) {
+          domainCount.set(1);
+          update('isUniqueDomain', true);
+        } else if (domainCount.get >= 1 && !data?.info.includes('is already')) {
+          update('isUniqueDomain', false);
+        }
+        update('resourceId', data?.resource?.id);
+        update('initialDomain', initialDomain);
+        goToStartScanStep();
       }
     });
   };
@@ -138,10 +147,9 @@ export const WelcomeDomain = ({
             name="initialScope"
             autoComplete="off"
             placeholder="Wite domain..."
-            defaultValue={initialDomain || ''}
-            ref={inputRef}
+            defaultValue={initialDomain || initialDomainStored || ''}
           />
-          <button type="submit" className={`btn ${css['btn-search']}`}>
+          <button type="submit" className={`btn ${css['btn-search']}`} disabled={isLoading}>
             <AimIcon />
           </button>
         </form>
@@ -155,12 +163,12 @@ export const WelcomeDomain = ({
           />
         </div>
         <div className="btn-container">
-          <PrimaryButton text="close assistant" buttonStyle="gray" click={close} />
+          <PrimaryButton text="Close assistant" buttonStyle="gray" click={close} />
           <button
             className={`btn ${css['btn-add']}`}
             type="button"
             onClick={nextStep}
-            disabled={!Boolean(domains.length)}>
+            disabled={!Boolean(domains.length) || isLoading}>
             Continue
           </button>
         </div>

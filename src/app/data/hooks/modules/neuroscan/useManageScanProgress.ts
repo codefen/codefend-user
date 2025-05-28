@@ -1,37 +1,23 @@
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
 import { useEffect, useRef } from 'react';
 
 export const useManageScanProgress = () => {
-  const { currentScan, scanProgress } = useGlobalFastFields(['scanProgress', 'currentScan']);
-  const prevPhaseRef = useRef<string | null>(null);
   const intervalRef = useRef<any>();
-  const { latestScan, isScanActive, isScanning } = useVerifyScanList();
+  const { currentScan, isScanning, autoScanState, scanProgress } = useVerifyScanList();
 
   useEffect(() => {
-    if (!latestScan) return;
+    if (!currentScan) return;
 
-    const isActive = isScanActive(latestScan);
-    const current = currentScan.get;
-
-    const sameScan = current?.id === latestScan.id;
-
-    // Si está activo, actualizo todo
-    if (isActive) {
-      if (!sameScan) {
-        scanProgress.set(0);
-      }
-    } else {
-      if (sameScan && isScanning.get) {
-        scanProgress.set(100);
-      }
+    if (autoScanState?.get === AUTO_SCAN_STATE.SCAN_FINISHED) {
+      scanProgress.set(100);
     }
-  }, [latestScan, isScanning.get, currentScan.get, scanProgress.get]);
+  }, [currentScan, isScanning?.get, scanProgress?.get, autoScanState?.get]);
 
   // —— LOGICA DE PROGRESO EN FASE "scanner" ——
 
   useEffect(() => {
-    const scan = currentScan.get;
+    const scan = currentScan;
     if (!scan || scan.phase !== 'scanner' || !isScanning.get) return;
     let currentProgress = scanProgress.get;
     intervalRef.current = setInterval(() => {
@@ -40,11 +26,11 @@ export const useManageScanProgress = () => {
     }, 2300);
 
     return () => clearInterval(intervalRef.current);
-  }, [currentScan.get?.id, currentScan.get?.phase]);
+  }, [currentScan?.id, currentScan?.phase]);
 
   // —— ACTUALIZA PROGRESO EN FASE "parser" ——
   useEffect(() => {
-    const scan = currentScan.get;
+    const scan = currentScan;
     if (!scan || scan.phase !== 'parser' || !isScanning.get) return;
 
     const { issues_found, issues_parsed } = scan;
@@ -52,5 +38,5 @@ export const useManageScanProgress = () => {
     const max = 99;
     const ratio = issues_found > 0 ? issues_parsed / issues_found : 0;
     scanProgress.set(base + ratio * (max - base));
-  }, [currentScan.get?.issues_found, currentScan.get?.issues_parsed, currentScan.get?.phase]);
+  }, [currentScan?.issues_found, currentScan?.issues_parsed, currentScan?.phase]);
 };

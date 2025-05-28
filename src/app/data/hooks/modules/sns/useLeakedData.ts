@@ -7,7 +7,7 @@ export const useLeakedData = () => {
   const [leakedType, setLeakedType] = useState<LeakedType>('crack');
   const { showModal, setShowModal } = useModal();
 
-  const handleOpenLeakedModal = (leaked: IntelData, type: LeakedType) => {
+  const handleOpenLeakedModal = (leaked: any, type: LeakedType) => {
     setLeaked(leaked);
     setLeakedType(type);
     setShowModal(true);

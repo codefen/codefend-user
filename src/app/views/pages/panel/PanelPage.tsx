@@ -20,6 +20,8 @@ import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal
 import { OrderV2 } from '@modals/index.ts';
 import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress.ts';
 import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import { ScanWraper } from '@/app/views/pages/panel/ScanWraper.tsx';
 
 export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
 export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
@@ -35,9 +37,6 @@ export const PanelPage = () => {
   const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
   const { isAuth, getUserdata, logout } = useUserData();
   const { getProviderCompanyAccess } = useProviderCompanies();
-  useUserCommunicated();
-  //useVerifyScan();
-  useManageScanProgress();
 
   const modals = useMemo(
     () => ({
@@ -53,7 +52,7 @@ export const PanelPage = () => {
   }, [setShowModal]);
 
   useEffect(() => {
-    const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, () => {
+    const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, e => {
       setShowModal(true);
       setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
     });
@@ -85,13 +84,6 @@ export const PanelPage = () => {
     };
   }, []);
 
-  // Handle authentication state changes
-  useEffect(() => {
-    if (!isAuth) {
-      logout();
-    }
-  }, [isAuth, logout]);
-
   // If not authenticated, redirect to login
   if (!isAuth) {
     return <Navigate to="/auth/signin" state={{ redirect: location.pathname }} />;
@@ -115,6 +107,7 @@ export const PanelPage = () => {
         <AddNewResourceModal />
         <AddCollaboratorModal />
         <OrderV2 />
+        <ModalReport />
         <ErrorConnection
           closeModal={closeErrorConnectionModal}
           open={modals.isErrorConnectionModalOpen}
@@ -126,6 +119,7 @@ export const PanelPage = () => {
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
+        <ScanWraper />
       </>
     </FlashLightProvider>
   );

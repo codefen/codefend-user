@@ -2,6 +2,7 @@ import { AppConstants } from '@/app/constants/app-contanst';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection } from '@interfaces/order';
+import { ResourcePlanImage } from '@modals/order/components/ResourcePlanImage';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
 
@@ -39,50 +40,62 @@ export const AllPlansOrderModal = () => {
   };
 
   return (
-    <div className="step-content plan">
+    <div
+      className="step-content plan"
+      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="step-header">
-        <h3>Professional hackers & Pentest on demand</h3>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.7rem',
+            justifyContent: 'flex-start',
+            width: '100%',
+          }}>
+          <img
+            src="/codefend/estrellitas.png"
+            alt="estrellas"
+            style={{ height: '35px', width: 'auto', display: 'block' }}
+          />
+          <h3 style={{ margin: 0 }}>Professional hackers & Pentest on demand</h3>
+        </div>
         <p
           dangerouslySetInnerHTML={{
             __html: AppConstants.PLAN_PREFERENCE_MAP[resourceType].planTitle,
           }}
         />
       </div>
-
-      <div className="plans-container ">
+      <div
+        className="plans-cards-wrapper"
+        style={{ flex: '1 1 auto', overflowY: 'auto', minHeight: 0 }}>
         {plans.map(([key, plan]: any) => (
           <label
             key={`plan-key-${plan.type}`}
-            className="plan-card flex-box"
+            className={`plan-card-auto${store.planPreference.get === plan.type ? ' selected' : ''}`}
             data-plan={plan.type}
             htmlFor={`plan-input-${plan.type}`}>
             <input
               type="radio"
               name="plan"
               id={`plan-input-${plan.type}`}
-              defaultChecked={store.planPreference.get === plan.type}
+              checked={store.planPreference.get === plan.type}
               onChange={() => changed(plan.type)}
+              style={{ display: 'none' }}
             />
-            <div className="flex-box-column">
-              <img
-                src={`/codefend/${plan.type}-plan.png`}
-                width={70}
-                height={70}
-                alt="recommended-plan"
-              />
-              <h4>{plan.price}</h4>
+            <div className="plan-card-content">
+              <ResourcePlanImage plan={plan.type} resourceType={resourceType} />
+              <ul className="plan-list">
+                {Array.isArray(plan.list) &&
+                  plan.list.map((item: string, index: number) => (
+                    <li
+                      key={index}
+                      dangerouslySetInnerHTML={{
+                        __html: item,
+                      }}
+                    />
+                  ))}
+              </ul>
             </div>
-            <ul className="plan-list">
-              {Array.isArray(plan.list) &&
-                plan.list.map((item: string, index: number) => (
-                  <li
-                    key={index}
-                    dangerouslySetInnerHTML={{
-                      __html: item,
-                    }}
-                  />
-                ))}
-            </ul>
           </label>
         ))}
       </div>

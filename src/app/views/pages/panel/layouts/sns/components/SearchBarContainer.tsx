@@ -1,13 +1,16 @@
-import { type FC, type ChangeEvent, type FormEvent } from 'react';
+import { type FC, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
-import type { SearchOptions } from '../../../../../../data/interfaces/snsTypes';
 
 interface SearchBarContainerProps {
+  placeholder?: string;
+  icon?: ReactNode;
+  searchText?: string;
   searchData: string;
   setSearchData: (value: string) => void;
   handleSubmit: (e?: FormEvent) => void;
+  isDisabled?: boolean;
   selectBarOptions: {
-    options: SearchOptions;
+    options: any;
     placeHolder: string;
     value: string;
     change: (e: ChangeEvent<HTMLSelectElement>) => void;
@@ -20,17 +23,23 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
   setSearchData,
   handleSubmit,
   selectBarOptions,
+  placeholder = 'Search',
+  icon = null,
+  searchText = 'Search leaks',
+  isDisabled = false,
 }) => {
   return (
     <div className="search-bar-container">
       <SearchBar
         handleChange={(e: ChangeEvent<HTMLInputElement>) => setSearchData(e.target.value)}
-        placeHolder="Search"
+        placeHolder={placeholder}
         inputValue={searchData}
         handleSubmit={handleSubmit}
-        searchIcon="Search leaks"
+        searchText={searchText}
+        searchIcon={icon}
         isActiveSelect
         selectOptions={selectBarOptions}
+        isDisabled={isDisabled}
       />
     </div>
   );

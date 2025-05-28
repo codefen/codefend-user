@@ -10,6 +10,7 @@ export interface TableWithoutActionsProps {
   resources: Record<string, TableItem>[];
   id: number;
   needMarker?: boolean;
+  type?: string;
 }
 
 export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
@@ -18,11 +19,12 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
   isLoading,
   id,
   needMarker,
+  type = 'report',
 }) => {
   const ColumnActive: React.FC<any> = props => {
     if (props.column.name != 'childs') {
       return (
-        <div className={`${props.row[props.column.name as keyof typeof props.row]?.style}`}>
+        <div className={`item-cell item-cell-${props.type}-${props.num}`}>
           {props.column.name !== 'published'
             ? props.row[props.column.name as keyof typeof props.row]?.value
             : formatDate(String(props.row[props.column.name as keyof typeof props.row]?.value))}
@@ -35,10 +37,10 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
 
   const rows = resources ? resources : [];
   return (
-    <div className="table">
+    <div className="table without-actions">
       <div className="columns-name">
         {columns.map((column: ColumnTable, i: number) => (
-          <div key={i + id + '-cl'} className={`column ${column?.style}`}>
+          <div key={i + id + '-cl'} className={`column item-cell item-cell-${type}-${i + 1}`}>
             {column.value}
           </div>
         ))}
@@ -49,7 +51,13 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
             <Fragment key={i + id + '-row'}>
               <div className={`item ${needMarker && 'left-marked'}`}>
                 {columns.map((column: ColumnTable, i: number) => (
-                  <ColumnActive key={i + id + '-i'} column={column} row={row} />
+                  <ColumnActive
+                    key={i + id + '-i'}
+                    column={column}
+                    row={row}
+                    num={i + 1}
+                    type={type}
+                  />
                 ))}
               </div>
               {row['childs']?.value as ReactNode}

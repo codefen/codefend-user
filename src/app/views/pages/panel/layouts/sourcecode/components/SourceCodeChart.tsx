@@ -10,7 +10,6 @@ import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 import { ChartIcon } from '@icons';
-import { TableV2 } from '@table/tablev2.tsx';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface Props {
@@ -71,13 +70,13 @@ export const SourceCodeChart: FC<Props> = props => {
               <div className="chart">
                 <Doughnut data={chartData} options={chartOptions} />
               </div>
-              <TableV2
+              {/* <TableV2
                 columns={sourceCodeChartColumns}
                 rowsData={dataTable}
                 showRows={dataTable.length !== 0}
                 showEmpty={dataTable.length === 0}
                 isSmall
-              />
+              /> */}
             </div>
           </Show>
         </SimpleSection>

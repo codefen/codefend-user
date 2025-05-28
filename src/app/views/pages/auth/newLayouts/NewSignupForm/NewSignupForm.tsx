@@ -5,7 +5,7 @@ import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { defaultCountries } from '@/app/constants/countries';
 import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
-import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
+import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from 'react-toastify';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
@@ -20,6 +20,7 @@ import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
+import { useInitialDomainStore } from '@stores/initialDomain.store';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -34,6 +35,7 @@ export const NewSignupForm = () => {
   const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
   const { ref } = useParams();
+  const { update } = useInitialDomainStore();
 
   useEffect(() => {
     const code = searchParams.get('code') || ref;
@@ -104,6 +106,7 @@ export const NewSignupForm = () => {
         throw new Error('');
       }
       setActiveStep(SignUpSteps.STEP_THREE);
+      update('initialDomain', form?.get('company_web') as string);
     });
   };
 
@@ -115,7 +118,10 @@ export const NewSignupForm = () => {
     };
     return fetcher('post', { body, requireSession: false, requireJson: false }).then(
       ({ data }: any) => {
-        if (apiErrorValidation(data)) throw new Error('');
+        if (apiErrorValidation(data)) {
+          toast.error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          throw new Error('');
+        }
         setRecommendedUsername(data.recommended_username);
         setLeadReferenceNumber(String(code) || '');
       }
@@ -157,6 +163,7 @@ export const NewSignupForm = () => {
       }
     });
   };
+
   return (
     <ModalWrapper showCloseBtn={false} type={css['signinform']}>
       <div className={css['signupContent']}>

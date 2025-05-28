@@ -19,5 +19,6 @@ export const useUserRole = () => {
     isNormalUser,
     getAccessToken,
     isCurrentAuthValid,
+    idiom: user.get?.idiom || 'en',
   };
 };

@@ -26,11 +26,7 @@ export const useMobile = () => {
     });
 
   const updateData = (newData: any) => {
-    let updatedData = {};
-    if (newData?.andoird)
-      updatedData = { disponibles: [...data?.disponibles, newData.andoird], company: company.get };
-    if (newData?.apple)
-      updatedData = { disponibles: [...data?.disponibles, newData.apple], company: company.get };
+    let updatedData = { disponibles: [...data?.disponibles, newData], company: company.get };
 
     mutate(updatedData, {
       revalidate: true,

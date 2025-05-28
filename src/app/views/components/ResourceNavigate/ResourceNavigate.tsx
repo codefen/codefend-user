@@ -6,7 +6,7 @@ interface ResourceNavigateProps {
   to: string;
   title: string;
   description: string;
-  count: number;
+  count?: number;
   icon: string;
   callback?: () => void;
 }
@@ -15,7 +15,7 @@ export const ResourceNavigate = ({
   to,
   title,
   description,
-  count,
+  count = -1,
   icon,
   callback,
 }: ResourceNavigateProps) => {
@@ -24,7 +24,7 @@ export const ResourceNavigate = ({
       <ResourceIconText resourceClass={icon} />
       <div className={css['resource-navigate-content']}>
         <h2>
-          {title} <span>/ {count} resources</span>
+          {title} {count >= 0 ? <span>/ {count} resources</span> : null}
         </h2>
         <p>{description}</p>
       </div>

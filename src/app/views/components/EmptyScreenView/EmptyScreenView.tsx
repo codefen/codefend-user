@@ -52,20 +52,26 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
                   <GlobeWebIcon />
                 </div>
                 <div className="text">
-                  <div className="title">Add a new web resource</div>
+                  <h2 className="title">Add a new web resource</h2>
                   <p>
                     From this section you can add a new web resource like websites and web
                     applications.
-                    <br /> <br />
+                    {/* <br /> <br />
                     <span className="codefend-text-red">Launch a pentest:</span>
                     &nbsp;Once you have loaded the desired resources you can request a web
-                    application penetration test to check their security.
+                    application penetration test to check their security. */}
                   </p>
                 </div>
               </div>
-              <WebDomainForm onDone={event}>
-                {isLoading => <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />}
-              </WebDomainForm>
+              <div className="card">
+                <div className="over">
+                  <WebDomainForm onDone={event}>
+                    {isLoading => (
+                      <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />
+                    )}
+                  </WebDomainForm>
+                </div>
+              </div>
             </Show>
             <Show when={type === RESOURCE_CLASS.NETWORK}>
               <div className="header">
@@ -73,13 +79,19 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
                   <LanIcon />
                 </div>
                 <div className="text">
-                  <span className="title">{title}</span>
+                  <h2 className="title">{title}</h2>
                   <p>{info}</p>
                 </div>
               </div>
-              <NetworkDadForm onDone={event}>
-                {isLoading => <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />}
-              </NetworkDadForm>
+              <div className="card">
+                <div className="over">
+                  <NetworkDadForm onDone={event}>
+                    {isLoading => (
+                      <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />
+                    )}
+                  </NetworkDadForm>
+                </div>
+              </div>
             </Show>
             <Show when={type === RESOURCE_CLASS.MOBILE}>
               <div className="header">
@@ -87,13 +99,19 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
                   <MobileIcon />
                 </div>
                 <div className="text">
-                  <span className="title">{title}</span>
+                  <h2 className="title">{title}</h2>
                   <p>{info}</p>
                 </div>
               </div>
-              <MobileResourceForm onDone={event}>
-                {isLoading => <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />}
-              </MobileResourceForm>
+              <div className="card">
+                <div className="over">
+                  <MobileResourceForm onDone={event}>
+                    {isLoading => (
+                      <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />
+                    )}
+                  </MobileResourceForm>
+                </div>
+              </div>
             </Show>
             <Show when={type === RESOURCE_CLASS.CLOUD}>
               <div className="header">
@@ -101,13 +119,19 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
                   <CLoudIcon />
                 </div>
                 <div className="text">
-                  <span className="title">{title}</span>
+                  <h2 className="title">{title}</h2>
                   <p>{info}</p>
                 </div>
               </div>
-              <CloudResourceForm onDone={event}>
-                {isLoading => <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />}
-              </CloudResourceForm>
+              <div className="card">
+                <div className="over">
+                  <CloudResourceForm onDone={event}>
+                    {isLoading => (
+                      <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />
+                    )}
+                  </CloudResourceForm>
+                </div>
+              </div>
             </Show>
             <Show when={type === RESOURCE_CLASS.SOCIAL}>
               <div className="header">
@@ -115,13 +139,19 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
                   <PeopleGroupIcon />
                 </div>
                 <div className="text">
-                  <span className="title">{title}</span>
+                  <h2 className="title">{title}</h2>
                   <p>{info}</p>
                 </div>
               </div>
-              <SocialResourceForm onDone={event}>
-                {isLoading => <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />}
-              </SocialResourceForm>
+              <div className="card">
+                <div className="over">
+                  <SocialResourceForm onDone={event}>
+                    {isLoading => (
+                      <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />
+                    )}
+                  </SocialResourceForm>
+                </div>
+              </div>
             </Show>
             <Show when={type === RESOURCE_CLASS.SOURCE}>
               <div className="header">
@@ -137,6 +167,9 @@ class EmptyScreenView extends PureComponent<EmptyScreenProps> {
                 {isLoading => <EmptyScreenButton isDisabled={isLoading} buttonText={buttonText} />}
               </SourceResourceForm>
             </Show>
+            <span className="clarification">
+              You can always edit or remove resources later from your dashboard.
+            </span>
           </div>
         </div>
       </div>

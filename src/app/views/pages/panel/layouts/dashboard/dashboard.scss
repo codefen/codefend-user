@@ -30,7 +30,7 @@ main.dashboard {
 
     .over {
       .item-cell-1 {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
       }
 
       .item-cell-4 {
@@ -114,10 +114,10 @@ main.dashboard {
 
       &.risk-chart {
         .content {
-          padding: 12px;
+          padding: var(--card-space);
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: var(--card-space);
         }
       }
     }
@@ -128,7 +128,7 @@ main.dashboard {
     height: 40px;
     display: flex;
     align-items: center;
-    font-family: 'ITC Avant Garde', Questrial;
+    font-family: Questrial;
     font-weight: 700;
     font-size: 0.975rem;
     text-transform: uppercase;

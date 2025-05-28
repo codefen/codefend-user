@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import { TableV2 } from '../..';
-import { useGetScopeTables } from '@resourcesHooks/useGetScopeTables';
 import { useCopyToClipboard } from '#commonHooks/useCopyToClipboard';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import type { ScopeAlias } from '@interfaces/util';
 import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
+import { useGetScopeTablesV3 } from '@resourcesHooks/useGetScopeTablesV3';
+import Tablev3 from '@table/v3/Tablev3';
 
 export interface OrderCloudScopeProps {
   title: string;
@@ -27,7 +27,7 @@ const getLinkByScopeAlias = (resource: any, scopeAlias: ScopeAlias) => {
 };
 
 export const OrderScopeTable: FC<OrderCloudScopeProps> = ({ title, scopeALias, resourceScope }) => {
-  const getDataScopeResourceTable = useGetScopeTables();
+  const getDataScopeResourceTable = useGetScopeTablesV3();
   const [copyToClipboard] = useCopyToClipboard();
   const dataTable = getDataScopeResourceTable(scopeALias, resourceScope);
 
@@ -52,13 +52,11 @@ export const OrderScopeTable: FC<OrderCloudScopeProps> = ({ title, scopeALias, r
   return (
     <>
       <h2>{title}</h2>
-      <TableV2
+      <Tablev3
         columns={dataTable.columns}
-        rowsData={dataTable.rows as any}
+        rows={dataTable.rows as any}
         showRows={true}
-        showEmpty={!Boolean(dataTable.rows.length)}
-        sizeY={15}
-        selectItem={copyElement}
+        action={(row: any) => copyElement(row.id)}
       />
     </>
   );

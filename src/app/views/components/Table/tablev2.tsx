@@ -4,7 +4,7 @@ import Show from '@/app/views/components/Show/Show';
 import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { type TableProps, Sort } from '@interfaces/table.ts';
-import './table.scss';
+// import './table.scss';
 import TableColumns from './TableColumns';
 import TableRows from './TableRows';
 

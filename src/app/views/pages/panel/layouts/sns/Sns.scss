@@ -1,28 +1,6 @@
 main.sb {
   max-width: 1800px;
 
-  .search-bar-container {
-    margin-bottom: 0 !important;
-    .search-bar {
-      .search-input {
-        width: 180px !important; /* o el valor que prefieras */
-        min-width: 0;
-        max-width: 650px;
-        margin-right: 10px;
-        border-radius: 5px;
-      }
-      .search-button {
-        font-weight: 500;
-        min-width: 56px;
-        width: 64px;
-        border-radius: 0 5px 5px 0;
-        background: linear-gradient(90deg, #ff6464 0%, #e53935 100%);
-        color: #fff;
-        border: none;
-      }
-    }
-  }
-
   .crack-btn {
     background: #e53935;
     color: #fff;
@@ -43,6 +21,8 @@ main.sb {
 
   .left {
     flex: 1 1 65%;
+    overflow-x: hidden;
+
     .card.title {
       box-shadow: 0 15px 45px 0 rgb(221 221 221 / 25%);
 
@@ -132,15 +112,7 @@ main.sb {
 
   .right {
     flex: 1 1 35%;
-    .card.remaining-searches {
-      background: #a7a7a7;
-      font-weight: 400;
-      font-size: 1rem;
-      color: #fff;
-      border-radius: 6px;
-      padding: 1rem;
-      letter-spacing: 0.01em;
-    }
+
     .card.title.previous-searches {
       padding-inline: 0;
 

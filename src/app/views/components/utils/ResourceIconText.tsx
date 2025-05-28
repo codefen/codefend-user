@@ -10,7 +10,7 @@ export const ResourceIconText: FC<ResourceIconTextProps> = ({ resourceClass, nam
   return (
     <>
       <ResourceIcon resourceClass={resourceClass} />
-      {name}
+      <span className="ellipsis-text">{name}</span>
     </>
   );
 };

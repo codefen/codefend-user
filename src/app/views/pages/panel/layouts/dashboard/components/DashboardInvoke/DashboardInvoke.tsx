@@ -5,22 +5,22 @@ import { PrimaryButton } from '@buttons/index.ts';
 import useModalStore from '@stores/modal.store';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 
-const getText = (scanNumber: number, disponibles: number) => {
-  if (scanNumber === 0 && Number(disponibles) > 0) {
+const getText = (isScanning: boolean) => {
+  if (!isScanning) {
     return 'Your protection starts here.';
   }
   return 'Surface exploration in progress';
 };
 
-const getButtonText = (scanNumber: number, disponibles: number) => {
-  if (scanNumber === 0 && Number(disponibles) > 0) {
+const getButtonText = (isScanning: boolean) => {
+  if (!isScanning) {
     return 'Start scan';
   }
   return 'Open scan progress';
 };
 
-const getDescription = (scanNumber: number, disponibles: number) => {
-  if (scanNumber === 0 && Number(disponibles) > 0) {
+const getDescription = (isScanning: boolean) => {
+  if (!isScanning) {
     return (
       <>
         Our AI-powered engine is ready to scan your resources and uncover hidden threats before they
@@ -31,44 +31,39 @@ const getDescription = (scanNumber: number, disponibles: number) => {
   }
   return (
     <>
-      Our AI is thoroughly analyzing your resources to detect hidden vulnerabilities and security
-      gaps. This process may take a little while — you can follow the scan’s progress in real time.
-      In the meantime, feel free to explore other features while we work in the background.
+      Our AI is carefully analyzing your resources to find hidden vulnerabilities and security gaps.
+      This might take a few moments. You can track the scan's progress in real time, and feel free
+      to explore other features while we work in the background.
     </>
   );
 };
 
-export const DashboardInvoke = ({
-  scanNumber,
-  disponibles,
-}: {
-  scanNumber: number;
-  disponibles: any;
-}) => {
+export const DashboardInvoke = ({ isScanning }: { isScanning: boolean }) => {
   const { setIsOpen, setModalId } = useModalStore();
   const { setScanStep, setIssueFound, setIssuesViewed, setScanRunning } = useWelcomeStore();
 
   const openOnBoard = () => {
-    if (scanNumber === 0) {
+    if (!isScanning) {
       setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
       setScanStep(ScanStepType.NonScan);
       setIssueFound(0);
       setIssuesViewed(0);
       setScanRunning(false);
+      setIsOpen(true);
     } else {
       setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+      setIsOpen(true);
     }
-    setIsOpen(true);
   };
   return (
     <div className="card rectangle">
       <div className="over">
         <RadarScanner />
         <div className="header-content">
-          <h1>{getText(scanNumber, disponibles)}</h1>
-          <p>{getDescription(scanNumber, disponibles)}</p>
+          <h1>{getText(isScanning)}</h1>
+          <p>{getDescription(isScanning)}</p>
           <PrimaryButton
-            text={getButtonText(scanNumber, disponibles)}
+            text={getButtonText(isScanning)}
             buttonStyle="black"
             className="btn-black"
             click={openOnBoard}

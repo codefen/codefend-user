@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
 import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';
@@ -9,17 +7,23 @@ import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/Vuln
 import './dashboard.scss';
 import { DashboardInvoke } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardInvoke/DashboardInvoke.tsx';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
-import {
-  useGlobalFastField,
-  useGlobalFastFields,
-} from '@/app/views/context/AppContextProvider.tsx';
 import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource.tsx';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart.tsx';
+import { useEffect } from 'react';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const [showScreen] = useShowScreen();
-  const { isLoading, data, scanNumber, isScanning, company } = useDashboard();
+  const { isLoading, data, isScanning, company } = useDashboard();
+  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
+
+  useEffect(() => {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      appEvent.set(APP_EVENT_TYPE.DASHBOARD_PAGE_CONDITION);
+    }
+  }, []);
 
   return (
     <main className={`dashboard ${showScreen ? 'actived' : ''}`}>
@@ -28,13 +32,10 @@ const Dashboard: React.FC = () => {
 
       <section className="left">
         {!isScanning.get &&
-        (Number(company.get?.disponibles_neuroscan) == 0 || scanNumber.get > 0) ? (
+        (Number(company.get?.disponibles_neuroscan) <= 0 || data?.issues?.length > 0) ? (
           <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
         ) : !isLoading ? (
-          <DashboardInvoke
-            scanNumber={scanNumber.get}
-            disponibles={company.get?.disponibles_neuroscan || 0}
-          />
+          <DashboardInvoke isScanning={isScanning.get} />
         ) : (
           <PageLoader />
         )}

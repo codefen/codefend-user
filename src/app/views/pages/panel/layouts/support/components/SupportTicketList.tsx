@@ -4,7 +4,7 @@ import { type Ticket } from '@interfaces/panel';
 import { AddTicketModal } from '@modals/adding-modals/AddTicketModal';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import { TrashIcon, MessageIcon } from '@icons';
+import { TrashIcon, MessageIcon, RobotIcon, ChatCircleIcon } from '@icons';
 import { useTicketDelete } from '@panelHooks/support/useTicketDelete.ts';
 import { SUPPORT_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
@@ -24,14 +24,14 @@ const columns: ColumnTableV3[] = [
   {
     header: 'title',
     key: 'cs_header',
-    styles: 'item-cell-1',
+    styles: 'item-cell-support-1',
     weight: '70%',
     render: (data: any) => data,
   },
   {
     header: 'status',
     key: 'condicion',
-    styles: 'item-cell-2',
+    styles: 'item-cell-support-2',
     weight: '20%',
     render: (data: any) => (
       <span className={`${data === 'open' ? 'codefend-text-red' : ''}`}>{data}</span>
@@ -67,7 +67,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = ({ refresh, tickets
       header: '',
       key: TABLE_KEYS.ACTION,
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-3',
+      styles: 'item-cell-support-3',
       weight: '10%',
       render: (data: any) => (
         <div className="publish">
@@ -102,7 +102,7 @@ export const SupportTicketList: FC<SupportTicketListProps> = ({ refresh, tickets
           action={e => handleDelete(e)}
         />
       </ModalTitleWrapper>
-      <div className="card">
+      <div className="card tickets-list">
         <div className="over">
           <div className="header">
             <div className="table-title">
@@ -121,6 +121,9 @@ export const SupportTicketList: FC<SupportTicketListProps> = ({ refresh, tickets
             action={ticket => selectedTicket.set(ticket)}
             selected={selectedTicket.get}
             selectedKey="id"
+            emptyTitle="There are no conversations yet"
+            emptyInfo="Ask your first question to get started."
+            emptyIcon={<ChatCircleIcon width="40" height="40" />}
           />
         </div>
       </div>

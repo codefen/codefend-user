@@ -8,7 +8,7 @@ import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import { MessageIcon } from '@icons';
 import { MessageList } from '@/app/views/components/MessageList/MessageList';
-import { useSWRMessage } from '@panelHooks/useSWRTickets';
+import { useSWRMessage } from '@panelHooks/chats/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 import { EMPTY_CS_TICKET } from '@/app/constants/empty';
@@ -43,12 +43,14 @@ export const SupportChatDisplay: FC<{ selectedTicket: any }> = ({ selectedTicket
         <SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
           <div className="content">
             <Show when={!isLoading} fallback={<PageLoader />}>
-              <MessageList tickets={alltickets} />
+              <MessageList tickets={alltickets} condicion={selectedTicket?.condicion} />
             </Show>
           </div>
         </SimpleSection>
 
-        <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicket?.id} />
+        <Show when={selectedTicket?.condicion !== 'closed'}>
+          <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicket?.id} />
+        </Show>
       </div>
     </>
   );

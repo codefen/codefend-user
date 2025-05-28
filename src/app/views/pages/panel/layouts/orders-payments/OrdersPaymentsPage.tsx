@@ -1,37 +1,34 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import SettingOrderAndBilling from '@/app/views/pages/panel/layouts/preferences/components/SettingOrderAndBilling';
 import { useDashboard, usePreferences } from '@panelHooks/index';
-import './orderspayments.scss';
-import { PrimaryButton } from '@buttons/index';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart';
 import { useNewPreference } from '@panelHooks/preference/usePreferenceNew';
+import { ProviderScope } from '@modals/order-scope/OrderScope';
+import { OrdersAndPaymentHeaderPage } from '@/app/views/pages/panel/layouts/orders-payments/components/OrdersAndPaymentHeaderPage';
+import './orderspayments.scss';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useEffect } from 'react';
 
 export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
   const { data: preference, isLoading: isLoadingPreference } = useNewPreference();
   const { data: dashboardData, isLoading: isLoadingDashboard } = useDashboard();
+  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
+
+  useEffect(() => {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      appEvent.set(APP_EVENT_TYPE.PAYMENT_PAGE_CONDITION);
+    }
+  }, []);
 
   return (
     <main className={`orders-payments ${showScreen ? 'actived' : ''}`}>
+      <ProviderScope />
       <section className="left">
-        <div className="card rectangle">
-          <div className="over">
-            <img
-              src={'/codefend/coin-payments.png'}
-              alt="orders-payments"
-              width={200}
-              height={200}
-              decoding="async"
-            />
-            <div className="header-content">
-              <h2>Orders and payments</h2>
-              <p>View and manage your purchase orders. Buy new plans for your company.</p>
-              <PrimaryButton text="Make a new purchase" buttonStyle="red" />
-            </div>
-          </div>
-        </div>
+        <OrdersAndPaymentHeaderPage />
         <SettingOrderAndBilling
           isLoading={isLoadingPreference}
           orders={preference.company_orders}

@@ -44,12 +44,6 @@ export const DashboardScanStart = () => {
     'scanNumber',
   ]);
 
-  useEffect(() => {
-    if (currentScan.get && !isScanning.get) {
-      isScanning.set(true);
-    }
-  }, [currentScan.get]);
-
   return (
     <Show when={scanNumber.get > 0}>
       <div className="card stats">
@@ -70,8 +64,8 @@ export const DashboardScanStart = () => {
               <div className="content">
                 <StatAsset value={currentScan.get?.issues_found} valueTitle="Total Findings" />
                 <StatAsset
-                  value={`${currentScan.get?.issues_found}/${currentScan.get?.issues_parsed}`}
-                  valueTitle="Analisis completado"
+                  value={`${currentScan.get?.issues_parsed}/${currentScan.get?.issues_found}`}
+                  valueTitle="Analyzed findings"
                 />
                 <StatAsset value={`${Math.round(scanProgress.get)}%`} valueTitle="Progress" />
               </div>

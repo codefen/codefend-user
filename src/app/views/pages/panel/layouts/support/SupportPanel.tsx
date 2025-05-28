@@ -6,17 +6,29 @@ import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import Show from '@/app/views/components/Show/Show.tsx';
 import './support.scss';
 import { useParams } from 'react-router';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import {
+  useGlobalFastField,
+  useGlobalFastFields,
+} from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewTicketBox } from '@/app/views/pages/panel/layouts/support/components/AddNewTicketBox';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
+import { SupperEmptyDisplay } from '@/app/views/pages/panel/layouts/support/components/SupperEmptyDisplay';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { getTikets, isLoading, refetch } = useAllTicket();
   const { dad } = useParams();
-  const selectedTicket = useGlobalFastField('selectedTicket');
+  const { selectedTicket, appEvent, userLoggingState } = useGlobalFastFields([
+    'selectedTicket',
+    'appEvent',
+    'userLoggingState',
+  ]);
 
   useEffect(() => {
-    refetch();
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      refetch();
+      appEvent.set(APP_EVENT_TYPE.TICKETS_PAGE_CONDITION);
+    }
   }, [control]);
 
   useEffect(() => {
@@ -58,7 +70,7 @@ const SupportPanel: FC = () => {
     <>
       <main className={`support ${showScreen ? 'actived' : ''}`}>
         <section className="left">
-          <Show when={selectedTicket.get !== null}>
+          <Show when={selectedTicket.get !== null} fallback={<SupperEmptyDisplay />}>
             <SupportChatDisplay selectedTicket={selectedTicket.get} />
           </Show>
         </section>

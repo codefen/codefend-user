@@ -73,6 +73,16 @@
   filter: blur(2rem) drop-shadow(0 0 18px #00000073);
 }
 
+.paywall-container {
+  // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.ellipsis-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .disable-border div {
   border-bottom: 0 solid var(--primary-color-300);
 }
@@ -167,6 +177,13 @@
   display: flex;
   align-items: center;
   gap: var(--card-space);
+}
+
+.flex-box-row {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-left: 7rem;
 }
 
 .flex-box-wrap {
@@ -343,7 +360,7 @@ main {
   .left {
     flex: 1 1 70%;
     overflow-y: auto;
-    gap: 12px;
+    gap: var(--card-space);
     container-type: size;
     container-name: left-main;
 
@@ -414,7 +431,7 @@ main {
     display: flex;
     flex-direction: column;
     flex: 1 1 90%;
-    row-gap: 0.938rem;
+    row-gap: var(--card-space);
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -547,6 +564,7 @@ main.cloud {
   &.empty-active {
     width: 100%;
   }
+
   .left {
     flex: 1 1 43%;
     width: 43%;
@@ -641,7 +659,7 @@ main.cloud {
     scrollbar-width: none;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-inline-end: 10px;
+    padding-inline-end: var(--card-space);
     scrollbar-gutter: stable;
 
     &::-moz-scrollbar {
@@ -814,6 +832,47 @@ main.cloud {
   }
 }
 
+main.sb,
+main.scans {
+  .left {
+    overflow-x: hidden;
+  }
+  .search-bar-container {
+    margin-bottom: 0 !important;
+
+    .search-bar {
+      .search-input {
+        width: 180px !important;
+        /* o el valor que prefieras */
+        min-width: 0;
+        max-width: 650px;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+      .search-select {
+        margin-right: 10px;
+      }
+      .search-button {
+        font-weight: 500;
+        min-width: 100px;
+        border-radius: 5px;
+        background-image: linear-gradient(90deg, #ff6464 0%, #e53935 100%);
+        color: #fff;
+        border: none;
+        overflow: hidden;
+        transition-duration: 300ms;
+        transition-property: all;
+
+        &:hover {
+          background: linear-gradient(90deg, #ff6464 0%, #e53935 100%) 0% 100% / 150% 1% !important;
+          box-shadow: rgba(229, 57, 53, 0.2) 0px 2px 10px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
+
 ///////////////////////
 // WELCOME CONTAINER
 //////////////////////////////////
@@ -967,7 +1026,7 @@ main.cloud {
       flex: 1;
       padding: 20px 0;
       overflow-y: auto;
-      max-height: calc(100vh - 50vh);
+      // max-height: calc(100vh - 50vh);
 
       h4 {
         font-weight: 700;
@@ -1088,7 +1147,7 @@ main.cloud {
           }
 
           &.resource-selected {
-            background: #fff6f6;
+            background: #ffffff;
             border-color: var(--secondary-color-50);
 
             svg {
@@ -1897,29 +1956,320 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 }
 
 .content.filters {
-  background-color: white; /* Fondo blanco */
-  padding: 20px; /* Espaciado interno */
+  background-color: white;
+  /* Fondo blanco */
+  padding: 20px;
+  /* Espaciado interno */
 
-  border-radius: 4px; /* Bordes redondeados */
-  margin-bottom: 20px; /* Espaciado inferior */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  margin-bottom: var(--card-space);
+  /* Espaciado inferior */
 }
 
 .check {
-  border-bottom: 1px solid #cccccc71; /* Borde inferior gris claro */
+  border-bottom: 1px solid #cccccc71;
+  /* Borde inferior gris claro */
 }
 
 .check .label {
-  display: flex; /* Usar flexbox para alinear el checkbox y el texto */
-  align-items: center; /* Centrar verticalmente */
+  display: flex;
+  /* Usar flexbox para alinear el checkbox y el texto */
+  align-items: center;
+  /* Centrar verticalmente */
 }
 
 .check input[type='checkbox'] {
-  margin-right: 10px; /* Espaciado a la derecha del checkbox */
-  cursor: pointer; /* Cambiar cursor al pasar sobre el checkbox */
+  margin-right: 10px;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .sub-title {
   font-size: 1.1rem;
   color: #222222;
   margin-bottom: 5px;
+}
+
+///////MODALES NUEVOS DISEÑOS 2025 /////////////
+
+.pricing-image {
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+
+.pricing-card.selected-card .pricing-image,
+.pricing-image:hover {
+  filter: grayscale(0%);
+}
+
+.pricing-card.selected-card .pricing-image,
+.pricing-image:hover {
+  filter: grayscale(0%);
+}
+
+.step-header-maximo {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  /* Centrar horizontalmente */
+  padding-left: 2.5rem;
+  gap: 5px;
+  /* Espacio reducido entre la imagen y el título */
+}
+
+.step-header-maximo img {
+  margin: 0;
+  /* Eliminar margen para centrar mejor */
+}
+
+h3 {
+  font-size: 1.6rem;
+  color: #000;
+  // text-align: center;
+  // padding: 1rem;
+}
+
+.step-content {
+  margin-top: 10px;
+  /* Espaciado superior para separación */
+}
+
+.option-maximo {
+  // padding-left: 5px; /* Ajustar el espaciado izquierdo para las opciones */
+  border: none;
+  /* Eliminar todos los bordes */
+  border-bottom: 1px solid #ccc;
+  /* Solo borde inferior para separación */
+  display: flex;
+  align-items: center;
+  column-gap: 2.5rem;
+  padding-block: 17px;
+  padding-inline: 2.5rem;
+  // border-top: 1px solid var(--show-border-color);
+  // border-bottom: 1px solid #00000000;
+  transition: all 0.13s ease-in;
+  line-height: 1.8;
+&:first-child {
+  border-top: 1px solid #ccc;
+}
+  .one-pentest {
+    font-size: 0.9rem;
+    /* Tamaño de fuente reducido */
+  }
+
+  margin-bottom: 0;
+  /* Eliminar espaciado inferior para evitar problemas visuales */
+  cursor: pointer;
+  /* Cambiar cursor al pasar sobre la opción */
+  transition: background-color 0.3s;
+  /* Transición suave para el fondo */
+}
+
+.option-maximo:hover {
+  background-color: #f0f0f0;
+  /* Fondo al pasar el mouse */
+}
+
+.select-option-maximo {
+  background-color: #e0f7fa;
+  /* Fondo destacado para opción seleccionada */
+}
+
+///////// PLAN 3 ///////////////
+
+.step-header-maximo-plan3 {
+  display: flex;
+  align-items: center;
+  /* Changed from left to center */
+  justify-content: flex-start;
+  /* Changed from left to flex-start */
+
+  .small-image {
+    width: 50px;
+    height: auto;
+    margin: 0.5rem;
+    /* Adjusted margin for better alignment */
+    display: block;
+    margin-left: 2.5rem !important;
+    margin-top: 15px !important;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    color: #3a3a3a;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .small-plan-modal .modal-wrapper .modal {
+    display: none !important;
+  }
+}
+
+///////// TODOS LOS PLANES / ALLPLANSORDERMODAL/ ///////
+
+.plans-cards-wrapper {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.plan-card-auto {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: none;
+  padding: 1.2rem 1rem 1rem 1rem;
+  min-width: 340px;
+  max-width: 250px;
+  flex: 1 1 250px;
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    border 0.2s;
+  border: 1.5px solid #e0e0e0;
+  /* gris suave */
+}
+
+/* Solo en hover o seleccionada, fondo blanco y borde rojo, y aparece el box-shadow */
+.plan-card-auto:hover,
+.plan-card-auto.selected {
+  /* box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%); */
+  border-color: #ff7878;
+  background: #fff;
+
+  background: #fbe0e021;
+}
+
+/* Colorea la imagen en hover o seleccionada */
+.plan-card-auto:hover .plan-image,
+.plan-card-auto.selected .plan-image,
+.plan-card-auto:hover .plan-image {
+  filter: brightness(0) saturate(100%) invert(28%) sepia(96%) saturate(7472%) hue-rotate(359deg)
+    brightness(94%) contrast(110%);
+}
+
+.plan-images img {
+  width: 80px !important;
+  height: 80px !important;
+  max-width: 80px;
+  max-height: 80px;
+  margin-bottom: 0;
+  transition: filter 0.2s;
+}
+
+.plan-images {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-right: 0;
+}
+
+/* Elimina cualquier borde rojo interno del contenido de la card */
+.plan-card-content,
+.plan-card-content * {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Si quieres que el fondo de la tarjeta avanzada sea igual que las otras cuando NO está seleccionada ni en hover, no agregues ninguna regla especial para ella. Si antes había una, elimínala. */
+
+.plan-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.plan-price {
+  font-size: 2rem;
+  color: #ec2603;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.plan-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.plan-list li {
+  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.plan-list {
+  font-size: 0.96rem;
+}
+
+.plan-card-content {
+  font-size: 0.97rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.plan-list {
+  text-align: left;
+}
+
+.step-header h3,
+.step-header p {
+  font-size: 1.1rem;
+}
+
+main .empty-screen {
+  .clarification {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--tertiary-color-200);
+    position: absolute;
+    bottom: -1.85rem;
+  }
+  .empty-container {
+    height: 100%;
+    width: 500px;
+
+    .empty-card-wrapper {
+      row-gap: 2rem;
+      position: relative;
+
+      .header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .title {
+          color: var(--tertiary-color-400);
+          font-size: 1.5rem;
+          line-height: 2rem;
+          margin-bottom: 0.5rem;
+          text-align: center;
+        }
+      }
+
+      .card {
+        box-shadow:
+          0 0 #0000,
+          0 0 #0000,
+          0 1px 2px 0 rgb(0 0 0 / 0.05);
+        border: hsl(240 5.9% 90%);
+      }
+
+      .form {
+        padding-block: calc(var(--card-space) * 1.25);
+      }
+    }
+  }
 }

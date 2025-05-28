@@ -1,14 +1,8 @@
 import { useEffect, useState, type FC } from 'react';
-
-import { PeopleGroupIcon } from '@icons';
 import { type ColumnTableV3 } from '@interfaces/table';
 import type { CompanyMember } from '@interfaces/dashboard';
-import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
-import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { useUserData } from '#commonUserHooks/useUserData';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import css from './dashcollaborators.module.scss';
 
 interface DashboardCollaboratorsProps {
   members: CompanyMember[];

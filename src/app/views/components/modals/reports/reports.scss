@@ -555,17 +555,17 @@ body[print-report] {
   }
 
   p {
-    color: var(--text-color-alt3);
+    color: #444444;
     margin-bottom: 20px;
   }
 
   hr {
-    border: 1px solid var(--primary-color-100);
+    border: 1px solid var(--primary-color-300);
     margin: 20px 0;
   }
 
   b {
-    color: var(--primary-color-100);
+    color: var(--tertiary-color-400);
   }
 
   p a {
@@ -590,7 +590,7 @@ body[print-report] {
     overflow: auto;
     font-size: 90%;
     color: #990808;
-    background-color: var(--code-bkg);
+    background-color: #ffe6ee;
     padding: 20px;
     overflow-wrap: anywhere;
   }

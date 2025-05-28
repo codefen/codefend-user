@@ -32,7 +32,6 @@ const SourceCodePanel: FC = () => {
       isLoading={isLoading}
       dataAvailable={Boolean(data.length)}>
       <CredentialsModal />
-      <ModalReport />
       <section className="left">
         <SourceCodeResources isLoading={isLoading} sourceCode={data} refetch={refresh} />
       </section>

@@ -4,14 +4,17 @@ import type { ComponentEventWithChildren } from '@interfaces/util';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 
 const WebDomainForm: FC<ComponentEventWithChildren> = ({ onDone, close, children }) => {
-  const { handleAddResource, isLoading, domainName, subdomain_scan } = useAddWebResource(
-    onDone ? onDone : () => {},
-    close ? close : () => {}
-  );
+  const { handleAddResource, isLoading, domainName, subdomain_scan } = useAddWebResource();
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    handleAddResource();
+    handleAddResource().then(isSuccess => {
+      console.log('isSuccess', isSuccess);
+      if (isSuccess) {
+        onDone?.();
+      }
+      close?.();
+    });
     return;
   };
   return (

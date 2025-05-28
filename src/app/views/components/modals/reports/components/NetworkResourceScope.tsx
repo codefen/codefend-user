@@ -61,6 +61,7 @@ export const NetworkResourceScope: FC<ResourceScope<any[]>> = ({ resources, isLo
       isLoading={isLoading}
       id={3}
       needMarker
+      type="network"
     />
   );
 };

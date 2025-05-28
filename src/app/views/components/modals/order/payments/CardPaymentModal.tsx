@@ -80,7 +80,7 @@ export const CardPaymentModal = () => {
 
   const backStep = useCallback(() => {
     const backStepValue =
-      paywallSelected === UserPlanSelected.SMALL_P
+      paywallSelected === UserPlanSelected.AUTOMATED_TICKETS
         ? OrderSection.SMALL_PLANS
         : OrderSection.PAYMENT;
     updateState('orderStepActive', backStepValue);

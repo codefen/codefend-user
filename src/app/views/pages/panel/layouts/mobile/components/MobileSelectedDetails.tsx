@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IssuesPanelMobileAndCloud } from '@/app/views/components/IssuesPanelMobileAndCloud/IssuesPanelMobileAndCloud';
 import { AppCardInfo } from '@/app/views/components/AppCardInfo/AppCardInfo';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
@@ -8,20 +8,30 @@ import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesSta
 
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { useGetOneMobile } from '@resourcesHooks/mobile/useGetOneMobile';
-import { useSelectedApp } from '@resourcesHooks/global/useSelectedApp';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton';
-import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { DownloadsCard } from './DownloadsCard';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
-export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
+export const MobileSelectedDetails = ({
+  listSize,
+  appEvent,
+}: {
+  listSize: number;
+  appEvent: any;
+}) => {
   const { data, isLoading, refetch } = useGetOneMobile();
   const onRefetch = () => refetch(selectedAppStored.get?.id);
-  const { selectedApp: selectedAppStored, planPreference } = useGlobalFastFields([
-    'selectedApp',
-    'planPreference',
-  ]);
+  const {
+    selectedApp: selectedAppStored,
+    planPreference,
+    isDefaultPlan,
+  } = useGlobalFastFields(['selectedApp', 'planPreference', 'isDefaultPlan']);
+  const [planPreferenceSaved, setPlanPreferenceSaved] = useState<
+    'small' | 'medium' | 'advanced' | null
+  >(null);
   useEffect(() => {
     if (selectedAppStored.get) onRefetch();
     const downloads = selectedAppStored.get?.app_android_downloads;
@@ -30,23 +40,28 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
 
     let number = parseFloat(match?.[1]);
     const unit = match?.[2]?.toUpperCase?.();
-    if (unit === 'K') {
-      number = number * 1000;
-      if (number >= 15000) {
-        planPreference.set('advanced');
-      } else if (number >= 5000) {
-        planPreference.set('medium');
+    if (isDefaultPlan.get) {
+      let startedPlan = planPreference.get;
+      if (unit === 'K') {
+        number = number * 1000;
+        if (number >= 15000) {
+          startedPlan = 'advanced';
+        } else if (number >= 5000) {
+          startedPlan = 'medium';
+        } else {
+          startedPlan = 'small';
+        }
+      } else if (unit === 'M') {
+        startedPlan = 'advanced';
+      } else if (unit === 'B') {
+        startedPlan = 'advanced';
       } else {
-        planPreference.set('small');
+        startedPlan = 'medium';
       }
-    } else if (unit === 'M') {
-      planPreference.set('advanced');
-    } else if (unit === 'B') {
-      planPreference.set('advanced');
-    } else {
-      planPreference.set('medium');
+      setPlanPreferenceSaved(startedPlan);
+      planPreference.set(startedPlan);
     }
-  }, [selectedAppStored.get, planPreference.get]);
+  }, [selectedAppStored.get, planPreference.get, isDefaultPlan.get]);
 
   if (isLoading) {
     return <PageLoader />;
@@ -93,7 +108,7 @@ export const MobileSelectedDetails = ({ listSize }: { listSize: number }) => {
             resourceCount={listSize}
             isLoading={isLoading}
             scope={OrderSection.MOBILE_SCOPE}
-            plan={planPreference.get}
+            plan={planPreferenceSaved}
           />
         </div>
       </div>

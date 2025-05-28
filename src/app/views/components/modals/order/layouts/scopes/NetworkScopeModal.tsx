@@ -1,12 +1,13 @@
 import useTimeout from '#commonHooks/useTimeout';
 import { OrderErrorMessage } from '@/app/views/components/OrderErrorMessage/OrderErrorMessage';
+import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { useOrderScope } from '@hooks/index';
 import { LanIcon } from '@icons';
 import { OrderSection } from '@interfaces/order';
-import { useGetResources } from '@resourcesHooks/global/useGetResources';
 import { useOrderStore } from '@stores/orders.store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 export const NetworkScopeModal = () => {
@@ -15,8 +16,15 @@ export const NetworkScopeModal = () => {
   const [tryClick, setTryClick] = useState<boolean>(false);
   const { sendScopeOrders } = useOrderScope();
   const { oneExecute } = useTimeout(() => setTryClick(false), 2600);
-  const { getAnyResource } = useGetResources();
   const navigate = useNavigate();
+  const globalStore = useGlobalFastFields([
+    'externalIpCount',
+    'internalIpCount',
+    'totalNetowrkElements',
+    'planPreference',
+    'isDefaultPlan',
+    'totalNotUniqueIpCount',
+  ]);
 
   const goToNavigate = () => {
     updateState('open', false);
@@ -37,6 +45,17 @@ export const NetworkScopeModal = () => {
     }
   };
 
+  useEffect(() => {
+    globalStore.isDefaultPlan.set(true);
+    if (globalStore.totalNetowrkElements.get <= 20) {
+      globalStore.planPreference.set('small');
+    } else if (globalStore.totalNetowrkElements.get <= 200) {
+      globalStore.planPreference.set('medium');
+    } else {
+      globalStore.planPreference.set('advanced');
+    }
+  }, [globalStore.planPreference.get, globalStore.totalNetowrkElements.get]);
+
   return (
     <div className="step-content scope">
       <div className="step-header">
@@ -49,7 +68,13 @@ export const NetworkScopeModal = () => {
           detected the following resources:
         </p>
       </div>
-      <div className="step-content"></div>
+      <div className="">
+        <div className={`option no-border`}>
+          <StatAsset value={globalStore.externalIpCount.get} valueTitle="External IPs" />
+          <StatAsset value={globalStore.internalIpCount.get} valueTitle="Internal IPs" />
+          <StatAsset value={globalStore.totalNotUniqueIpCount.get} valueTitle="Total IPs" />
+        </div>
+      </div>
 
       <div className="scope-confirm">
         <input
