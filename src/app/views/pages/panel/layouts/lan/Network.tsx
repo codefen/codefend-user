@@ -13,57 +13,19 @@ import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
-import { GlobeWebIcon } from '@icons';
-import { PrimaryButton } from '@buttons/index';
 import AddNetworkBlock from '@/app/views/pages/panel/layouts/lan/components/AddNetworkBlock.tsx';
 import { AddAccessPointModal } from '@modals/index.ts';
 import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx';
 import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
-import { getNetworkMetrics } from '@utils/metric.service.ts';
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
-import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
+import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
+import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
 
 const NetworkPage: FC = () => {
-  const [showScreen, control, refresh] = useShowScreen();
-  const { networks, loading, refetch } = useLan();
+  const [showScreen, _, refresh] = useShowScreen();
+  const { networks, isLoading, externalIpCount, internalIpCount, totalNotUniqueIpCount, appEvent } =
+    useGetNetworkv2();
   const flashlight = useFlashlight();
   const { isAdmin, isNormalUser } = useUserRole();
-  const globalStore = useGlobalFastFields([
-    'externalIpCount',
-    'internalIpCount',
-    'subNetworkCount',
-    'planPreference',
-    'isDefaultPlan',
-    'totalNotUniqueIpCount',
-    'appEvent',
-    'totalNetowrkElements',
-    'userLoggingState',
-  ]);
-
-  useEffect(() => {
-    if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
-      refetch();
-      globalStore.appEvent.set(APP_EVENT_TYPE.NETWORK_RESOURCE_PAGE_CONDITION);
-    }
-  }, [control]);
-
-  useEffect(() => {
-    const metrics = getNetworkMetrics(networks);
-    globalStore.externalIpCount.set(metrics.totalExternalIps);
-    globalStore.internalIpCount.set(metrics.totalInternalIps);
-    globalStore.subNetworkCount.set(metrics.subNetworkCount);
-    globalStore.totalNotUniqueIpCount.set(metrics.totalNotUniqueIpCount);
-    globalStore.totalNetowrkElements.set(metrics.total);
-    if (globalStore.isDefaultPlan.get) {
-      if (metrics.total <= 20) {
-        globalStore.planPreference.set('small');
-      } else if (metrics.total <= 200) {
-        globalStore.planPreference.set('medium');
-      } else {
-        globalStore.planPreference.set('advanced');
-      }
-    }
-  }, [networks, globalStore.planPreference.get, globalStore.isDefaultPlan.get]);
 
   return (
     <EmptyLayout
@@ -71,16 +33,17 @@ const NetworkPage: FC = () => {
       fallback={networkEmptyScreen}
       event={refresh}
       showScreen={showScreen}
-      isLoading={loading}
+      isLoading={isLoading}
       dataAvailable={Boolean(networks.length)}>
+      <DeleteNetworkModal />
       <CredentialsModal />
-      <AddAccessPointModal onDone={() => refresh()} />
-      <AddSubNetworkModal onDone={() => refresh()} internalNetwork={networks ?? []} />
+      <AddAccessPointModal appEvent={appEvent} />
+      <AddSubNetworkModal appEvent={appEvent} internalNetwork={networks ?? []} />
       <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
       <section className="left">
         <LanNetworkData
-          isLoading={loading}
+          isLoading={isLoading}
           refetchInternalNetwork={refresh}
           internalNetwork={networks}
         />
@@ -90,15 +53,15 @@ const NetworkPage: FC = () => {
         <section className="right" ref={flashlight.rightPaneRef}>
           <AddNetworkBlock />
           <NetworkStatics
-            externalIpCount={globalStore.externalIpCount.get}
-            internalIpCount={globalStore.internalIpCount.get}
-            totalNotUniqueIpCount={globalStore.totalNotUniqueIpCount.get}
+            externalIpCount={externalIpCount.get}
+            internalIpCount={internalIpCount.get}
+            totalNotUniqueIpCount={totalNotUniqueIpCount.get}
           />
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}
             resourceCount={networks?.length || 0}
-            isLoading={loading}
+            isLoading={isLoading}
             scope={OrderSection.NETWORK_SCOPE}
           />
         </section>

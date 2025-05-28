@@ -7,13 +7,14 @@ import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import Show from '@/app/views/components/Show/Show';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
-export const AccessPointModal: FC<ComponentEventWithOpen> = ({ onDone }) => {
+export const AccessPointModal: FC<{ appEvent: any }> = ({ appEvent }) => {
   const { isOpen, modalId, setIsOpen } = useModalStore();
   const closeModal = () => setIsOpen(false);
 
   const handleDone = () => {
-    onDone?.();
+    appEvent.set(APP_EVENT_TYPE.NETWORK_RESOURCE_CREATED);
     closeModal();
   };
 

@@ -74,6 +74,7 @@ export type GlobalStore = {
   totalNotUniqueIpCount: number;
   totalNetowrkElements: number;
   userLoggingState: USER_LOGGING_STATE;
+  networkResourceSelected: any;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -121,6 +122,8 @@ export const initialGlobalState: GlobalStore = {
   totalNetowrkElements:
     persistedState?.totalNetowrkElements ?? EMPTY_GLOBAL_STATE.totalNetowrkElements,
   userLoggingState: persistedState?.userLoggingState ?? EMPTY_GLOBAL_STATE.userLoggingState,
+  networkResourceSelected:
+    persistedState?.networkResourceSelected ?? EMPTY_GLOBAL_STATE.networkResourceSelected,
 };
 
 const {

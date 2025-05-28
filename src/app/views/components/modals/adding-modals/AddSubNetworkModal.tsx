@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { Device } from '@interfaces/panel';
+import { APP_EVENT_TYPE, type Device } from '@interfaces/panel';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 import SubNetworkForm from '@/app/views/components/forms/SubNetworkForm';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
@@ -10,14 +10,15 @@ import Show from '@/app/views/components/Show/Show';
 
 interface AddSubNetworkModalProps extends ComponentEventWithOpen {
   internalNetwork: Device[];
+  appEvent: any;
 }
 
-export const AddSubNetworkModal: FC<AddSubNetworkModalProps> = ({ onDone, internalNetwork }) => {
+export const AddSubNetworkModal: FC<AddSubNetworkModalProps> = ({ appEvent, internalNetwork }) => {
   const { isOpen, modalId, setIsOpen } = useModalStore();
   const closeModal = () => setIsOpen(false);
 
   const handleDone = () => {
-    onDone?.();
+    appEvent.set(APP_EVENT_TYPE.NETWORK_SUB_RESOURCE_CREATED);
     closeModal();
   };
 

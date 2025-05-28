@@ -1,16 +1,13 @@
 import { useState, type FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { useDeleteLan } from '@resourcesHooks/network/useDeleteLan';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useModalStore from '@stores/modal.store.ts';
 import useCredentialStore from '@stores/credential.store.ts';
 import type { Device } from '@interfaces/panel.ts';
 import useModal from '#commonHooks/useModal.ts';
 import type { ColumnTableV3 } from '@interfaces/table.tsx';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
-import ConfirmModal from '@modals/ConfirmModal.tsx';
-import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, TrashIcon } from '@icons';
+import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, PlusIcon, TrashIcon } from '@icons';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
@@ -62,31 +59,20 @@ const networkColumns: ColumnTableV3[] = [
   },
 ];
 
-export const LanNetworkData: FC<LanNetworkDataProps> = ({
-  isLoading,
-  internalNetwork,
-  refetchInternalNetwork,
-}) => {
-  const [lanText, setLanText] = useState('');
+export const LanNetworkData: FC<LanNetworkDataProps> = ({ isLoading, internalNetwork }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
-  const { isAdmin, isNormalUser, isProvider } = useUserRole();
-  const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } = useDeleteLan(
-    refetchInternalNetwork,
-    () => setShowModal(false)
-  );
-  const { resourceType, openModal, resourceID } = useGlobalFastFields([
+  const { isAdmin, isProvider } = useUserRole();
+
+  const { resourceType, openModal, resourceID, networkResourceSelected } = useGlobalFastFields([
     'resourceType',
     'openModal',
     'resourceID',
+    'networkResourceSelected',
   ]);
 
-  const handleDelete = () => {
-    refetch(selectedLanIdToDelete);
-  };
   const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
       openModal.set(true);
@@ -123,12 +109,9 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
       icon: <TrashIcon />,
       disabled: isProvider(),
       onClick: (row: any) => {
-        setSelectedLanIdToDelete(row.id);
-        setShowModal(!showModal);
-        setShowModalStr(MODAL_KEY_OPEN.DELETE_NETWORK);
-        setLanText(
-          `${row?.device_ex_address ? row?.device_ex_address + ' / ' : ''}${row?.device_in_address || ''}`
-        );
+        networkResourceSelected.set(row);
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.DELETE_NETWORK);
       },
     },
     {
@@ -137,48 +120,41 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({
       disabled: !(isProvider() || isAdmin()),
       onClick: (row: any) => addIssue(row.id),
     },
+    {
+      label: 'Add SubNetwork',
+      icon: <PlusIcon />,
+      disabled: (row: any) => !!row?.resource_lan_dad,
+      onClick: (row: any) => {
+        networkResourceSelected.set(row);
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.ADD_SUB_NETWORK);
+      },
+    },
   ];
 
   return (
-    <>
-      <ModalTitleWrapper
-        headerTitle="Delete LAN"
-        close={() => setShowModal(false)}
-        isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_NETWORK}>
-        <ConfirmModal
-          header={`Are you sure you want to delete ${lanText}?`}
-          cancelText="Cancel"
-          confirmText="Delete"
-          close={() => setShowModal(false)}
-          action={() => {
-            handleDelete();
-          }}
-        />
-      </ModalTitleWrapper>
-
-      <div className="card table">
-        <div className="over">
-          <div className="header">
-            <div className="table-title">
-              <h2>
-                <div className="icon">
-                  <LanIcon />
-                </div>
-                Network structure
-              </h2>
-            </div>
+    <div className="card table">
+      <div className="over">
+        <div className="header">
+          <div className="table-title">
+            <h2>
+              <div className="icon">
+                <LanIcon />
+              </div>
+              Network structure
+            </h2>
           </div>
-
-          <Tablev3
-            columns={networkColumns}
-            rows={internalNetwork}
-            showRows={!isLoading}
-            initialOrder="id"
-            contextMenuActions={contextMenuActions}
-            enableContextMenu={true}
-          />
         </div>
+
+        <Tablev3
+          columns={networkColumns}
+          rows={internalNetwork}
+          showRows={!isLoading}
+          initialOrder="id"
+          contextMenuActions={contextMenuActions}
+          enableContextMenu={true}
+        />
       </div>
-    </>
+    </div>
   );
 };

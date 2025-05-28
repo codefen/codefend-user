@@ -127,6 +127,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   appEvent: APP_EVENT_TYPE.NOTIFICATION,
   totalNetowrkElements: 0,
   userLoggingState: USER_LOGGING_STATE.OFFLINE,
+  networkResourceSelected: null,
 };
 
 export const EMPTY_PROVIDER = {
