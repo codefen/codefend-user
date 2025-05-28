@@ -24,10 +24,8 @@ export const useUserData = () => {
     localStorage.removeItem('globalStore');
     localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
     window.location.reload();
-  }, [session.get, appEvent.get]);
+  }, [session.get]);
 
-  // 3) Calcular si está autenticado:
-  //    solo depende de si session.get existe o no.
   const isAuth = Boolean(session.get);
 
   return {

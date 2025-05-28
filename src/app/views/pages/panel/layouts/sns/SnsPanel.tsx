@@ -9,22 +9,23 @@ import {
   useGlobalFastFields,
 } from '@/app/views/context/AppContextProvider.tsx';
 import './Sns.scss';
-import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { previousSearches, isLoading, refetch } = usePreviousSearch('sns');
-  const { company, appEvent } = useGlobalFastFields(['company', 'appEvent']);
+  const { company, appEvent, userLoggingState } = useGlobalFastFields([
+    'company',
+    'appEvent',
+    'userLoggingState',
+  ]);
 
   useEffect(() => {
-    refetch();
-  }, [control]);
-
-  useEffect(() => {
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      refetch();
       appEvent.set(APP_EVENT_TYPE.DATALEAK_PAGE_CONDITION);
     }
-  }, [appEvent.get]);
+  }, [control]);
 
   return (
     <>

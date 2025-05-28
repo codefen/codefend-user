@@ -21,7 +21,7 @@ import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx
 import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
 import { getNetworkMetrics } from '@utils/metric.service.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
-import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 
 const NetworkPage: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -37,11 +37,12 @@ const NetworkPage: FC = () => {
     'totalNotUniqueIpCount',
     'appEvent',
     'totalNetowrkElements',
+    'userLoggingState',
   ]);
 
   useEffect(() => {
-    refetch();
-    if (globalStore.appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      refetch();
       globalStore.appEvent.set(APP_EVENT_TYPE.NETWORK_RESOURCE_PAGE_CONDITION);
     }
   }, [control]);

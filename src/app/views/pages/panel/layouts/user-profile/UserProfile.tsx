@@ -6,20 +6,20 @@ import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesSta
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
 import { useDashboard } from '@panelHooks/index';
 import './userprofile.scss';
-import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useEffect } from 'react';
 
 export const UserProfilePage = () => {
   const { isLoading, data } = useDashboard();
   const [showScreen] = useShowScreen();
-  const appEvent = useGlobalFastField('appEvent');
+  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
 
   useEffect(() => {
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
       appEvent.set(APP_EVENT_TYPE.TEAM_PAGE_CONDITION);
     }
-  }, [appEvent.get]);
+  }, []);
 
   return (
     <main className={`user-profile ${showScreen ? 'actived' : ''}`}>

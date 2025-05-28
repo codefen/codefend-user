@@ -1,6 +1,6 @@
 import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
 import type { ColumnTableV3 } from '@interfaces/table';
-import { memberColumnWithIssue, memberColumnWithoutContact, roleMap } from '@mocks/defaultData';
+import { roleMap } from '@mocks/defaultData';
 import {
   cloudScopeColumnsV3,
   memberScopeColumnsWithIssueV3,
@@ -31,11 +31,13 @@ export const useGetScopeTablesV3 = (useInIssueReport?: boolean, useResumeSocial?
         id: res.id,
         identifier: res.id,
         domainName: res.resource_domain,
+        resource_domain_dad: res?.resource_domain_dad,
         server: res.server || res.main_server,
         ...(useInIssueReport && { issue: res.final_issues }),
         childs: res.childs?.map((resChild: any) => ({
           id: resChild.id,
           domainName: resChild.resource_domain,
+          resource_domain_dad: resChild?.resource_domain_dad,
           server: resChild.main_server,
           ...(useInIssueReport && { issue: resChild.final_issues }),
         })),

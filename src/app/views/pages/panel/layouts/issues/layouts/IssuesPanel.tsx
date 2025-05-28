@@ -1,6 +1,6 @@
 import { type FC, useEffect, useMemo, useState } from 'react';
 import { useIssues } from '@panelHooks/issues/useIssues.ts';
-import { APP_EVENT_TYPE, type Issues } from '@interfaces/panel.ts';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE, type Issues } from '@interfaces/panel.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus.tsx';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk.tsx';
@@ -35,10 +35,10 @@ const IssuesPanel: FC = () => {
   const { issues, others, isLoading, refetchAll } = useIssues();
   const { setIsOpen, setModalId } = useModalStore();
   const flashlight = useFlashlight();
-  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
   useEffect(() => {
-    refetchAll();
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      refetchAll();
       appEvent.set(APP_EVENT_TYPE.VULNERABILITIES_PAGE_CONDITION);
     }
   }, [control]);

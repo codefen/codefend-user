@@ -1,3 +1,5 @@
+import { TABLE_KEYS } from '@/app/constants/app-texts';
+import TextChild from '@/app/views/components/utils/TextChild';
 import type { ColumnTableV3 } from '@interfaces/table';
 
 export const cloudScopeColumnsV3: ColumnTableV3[] = [
@@ -59,9 +61,18 @@ export const webScopeColumnsV3: ColumnTableV3[] = [
   {
     header: 'Domain Name',
     key: 'domainName',
+    type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-custom-2',
     weight: '50%',
-    render: data => data,
+    render: (row: any, next?: any) =>
+      !row?.resource_domain_dad ? (
+        row.domainName
+      ) : (
+        <TextChild
+          subNetwork={row.domainName}
+          isLast={!next || (next && !next.resource_domain_dad)}
+        />
+      ),
   },
   {
     header: 'Server',

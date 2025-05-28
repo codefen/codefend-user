@@ -11,9 +11,10 @@ import type { ColumnTableV3 } from '@interfaces/table.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, TrashIcon } from '@icons';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import TextChild from '@/app/views/components/utils/TextChild';
 
 interface LanNetworkDataProps {
   isLoading: boolean;
@@ -32,9 +33,18 @@ const networkColumns: ColumnTableV3[] = [
   {
     header: 'external ip',
     key: 'device_ex_address',
+    type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-2',
     weight: '28%',
-    render: (ip: any) => ip,
+    render: (row: any, next?: any) =>
+      !row?.resource_lan_dad ? (
+        row.device_ex_address
+      ) : (
+        <TextChild
+          subNetwork={row.device_ex_address}
+          isLast={!next || (next && !next.resource_lan_dad)}
+        />
+      ),
   },
   {
     header: 'internal ip',

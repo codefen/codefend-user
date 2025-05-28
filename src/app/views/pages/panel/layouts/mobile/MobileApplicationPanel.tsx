@@ -13,17 +13,21 @@ import { mobileEmptyScreen } from '@/app/constants/app-texts';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { MobileApplicationTitle } from './components/MobileApplicationTitle';
 import AddMobileModal from '@modals/adding-modals/AddMobileModal';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 
 const MobileApplicationPanel: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { showModal, setShowModal } = useModal();
   const { data, refetch, isLoading, updateData } = useMobile();
-  const { selectedApp, appEvent } = useGlobalFastFields(['selectedApp', 'appEvent']);
+  const { selectedApp, appEvent, userLoggingState } = useGlobalFastFields([
+    'selectedApp',
+    'appEvent',
+    'userLoggingState',
+  ]);
 
   useEffect(() => {
-    refetch();
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      refetch();
       appEvent.set(APP_EVENT_TYPE.MOBILE_RESOURCE_PAGE_CONDITION);
     }
     return () => {

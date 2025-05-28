@@ -5,19 +5,19 @@ import { useShowScreen } from '#commonHooks/useShowScreen';
 import '../admin.scss';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 
 const AdminCompany: FC = () => {
   const [showScreen] = useShowScreen();
   const { logout, getUserdata, isAuth } = useUserData();
-  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
 
   useEffect(() => {
     const isNotAuthenticated = !getUserdata() || !isAuth;
     if (isNotAuthenticated) {
       logout();
     }
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
       appEvent.set(APP_EVENT_TYPE.ADMIN_PAGE_CONDITION);
     }
   }, [getUserdata(), isAuth]);

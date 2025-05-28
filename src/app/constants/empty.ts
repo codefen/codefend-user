@@ -2,7 +2,7 @@ import { IssuesStatus } from '@interfaces/issues';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { GlobalStore } from '@/app/views/context/AppContextProvider';
 import type { KeyPress } from '@interfaces/util';
-import { APP_EVENT_TYPE, type User } from '@interfaces/index';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE, type User } from '@interfaces/index';
 
 export const EMPTY_USER: User = {
   id: '',
@@ -124,8 +124,9 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   subNetworkCount: 0,
   totalNotUniqueIpCount: 0,
   webResourceSelected: null,
-  appEvent: APP_EVENT_TYPE.USER_LOGGED_OUT,
+  appEvent: APP_EVENT_TYPE.NOTIFICATION,
   totalNetowrkElements: 0,
+  userLoggingState: USER_LOGGING_STATE.OFFLINE,
 };
 
 export const EMPTY_PROVIDER = {

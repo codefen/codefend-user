@@ -11,16 +11,16 @@ import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart.tsx';
 import { useEffect } from 'react';
-import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 
 const Dashboard = () => {
   const [showScreen] = useShowScreen();
   const { isLoading, data, isScanning, company } = useDashboard();
-  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
 
   useEffect(() => {
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
       appEvent.set(APP_EVENT_TYPE.DASHBOARD_PAGE_CONDITION);
     }
   }, []);

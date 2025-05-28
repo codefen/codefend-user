@@ -8,7 +8,7 @@ import { useNewPreference } from '@panelHooks/preference/usePreferenceNew';
 import { ProviderScope } from '@modals/order-scope/OrderScope';
 import { OrdersAndPaymentHeaderPage } from '@/app/views/pages/panel/layouts/orders-payments/components/OrdersAndPaymentHeaderPage';
 import './orderspayments.scss';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
 
@@ -16,13 +16,13 @@ export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
   const { data: preference, isLoading: isLoadingPreference } = useNewPreference();
   const { data: dashboardData, isLoading: isLoadingDashboard } = useDashboard();
-  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
 
   useEffect(() => {
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
       appEvent.set(APP_EVENT_TYPE.PAYMENT_PAGE_CONDITION);
     }
-  }, [appEvent.get]);
+  }, []);
 
   return (
     <main className={`orders-payments ${showScreen ? 'actived' : ''}`}>

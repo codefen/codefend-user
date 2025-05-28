@@ -11,23 +11,24 @@ import {
   useGlobalFastFields,
 } from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewTicketBox } from '@/app/views/pages/panel/layouts/support/components/AddNewTicketBox';
-import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { SupperEmptyDisplay } from '@/app/views/pages/panel/layouts/support/components/SupperEmptyDisplay';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { getTikets, isLoading, refetch } = useAllTicket();
   const { dad } = useParams();
-  const { selectedTicket, appEvent } = useGlobalFastFields(['selectedTicket', 'appEvent']);
+  const { selectedTicket, appEvent, userLoggingState } = useGlobalFastFields([
+    'selectedTicket',
+    'appEvent',
+    'userLoggingState',
+  ]);
 
   useEffect(() => {
-    if (appEvent.get !== APP_EVENT_TYPE.USER_LOGGED_OUT) {
+    if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+      refetch();
       appEvent.set(APP_EVENT_TYPE.TICKETS_PAGE_CONDITION);
     }
-  }, [appEvent.get]);
-
-  useEffect(() => {
-    refetch();
   }, [control]);
 
   useEffect(() => {
