@@ -874,6 +874,57 @@ main.scans {
 }
 
 ///////////////////////
+// NEW AUTH PAGE
+//////////////////////////////////
+
+.sidebar:has(+ main.auth-pages) {
+  margin-block-start: var(--card-space);
+}
+main.auth-pages {
+  section.left {
+    overflow: hidden;
+    margin-block-start: var(--card-space);
+  }
+  section.right {
+    margin-block-start: var(--card-space);
+  }
+}
+
+@media only screen and (max-width: 1140px) {
+  .sidebar:has(+ main.auth-pages) {
+    display: none;
+  }
+  main.auth-pages {
+    padding-inline-start: var(--card-space);
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  main.auth-pages {
+    section.left {
+      .radar-scanner {
+        display: none;
+      }
+    }
+    section.right {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  main.auth-pages {
+    .flex-box {
+      flex-direction: column;
+    }
+    section.left {
+      .card.stat.default {
+        width: 100%;
+      }
+    }
+  }
+}
+///////////////////////
 // WELCOME CONTAINER
 //////////////////////////////////
 
@@ -2057,9 +2108,9 @@ h3 {
   // border-bottom: 1px solid #00000000;
   transition: all 0.13s ease-in;
   line-height: 1.8;
-&:first-child {
-  border-top: 1px solid #ccc;
-}
+  &:first-child {
+    border-top: 1px solid #ccc;
+  }
   .one-pentest {
     font-size: 0.9rem;
     /* Tamaño de fuente reducido */

@@ -3,15 +3,16 @@ import { Navigate, Outlet } from 'react-router';
 import { Suspense, useEffect } from 'react';
 import { DashboardInvoke } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardInvoke/DashboardInvoke';
 import { DashboardAddResource } from '../panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource';
-import { DashboardAddCollaborators } from '../panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators';
-import { VulnerabilitiesStatus } from '../../components/VulnerabilitiesStatus/VulnerabilitiesStatus';
-import { VulnerabilityRisk } from '../../components/VulnerabilityRisk/VulnerabilityRisk';
-import { DashboardScanStart } from '../../components/DashboardScanStart/DashboardScanStart';
-import { Sidebar } from '../../components';
 import { EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
+import { Sidebar } from '@/app/views/components';
+import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators';
+import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
+import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
+import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart';
+import { useMediaQuery } from 'usehooks-ts';
 
 const recoursesEmpty = {
   cloud: '0',
@@ -25,6 +26,7 @@ const recoursesEmpty = {
 export const NewAuthPage = () => {
   const [showScreen] = useShowScreen();
   const { isAuth } = useUserData();
+  const matches = useMediaQuery('(max-width: 980px)');
 
   if (isAuth) {
     return <Navigate to={'/'} />;
@@ -39,6 +41,7 @@ export const NewAuthPage = () => {
           <Outlet />
         </Suspense>
         <section className="left">
+          {matches ? <VulnerabilitiesStatus vulnerabilityByShare={{} as any} /> : null}
           <DashboardInvoke isScanning={false} />
           <section className="box-assets">
             <DashboardAddResource data={{}} />
