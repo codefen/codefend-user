@@ -90,9 +90,9 @@ export const PanelPage = () => {
   }
 
   // If screen width is below 1175px, show mobile fallback
-  if (!matches) {
-    return <MobileFallback />;
-  }
+  // if (!matches) {
+  //   return <MobileFallback />;
+  // }
 
   return (
     <FlashLightProvider>
