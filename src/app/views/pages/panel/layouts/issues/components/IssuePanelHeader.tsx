@@ -17,7 +17,7 @@ export const IssuePanelHeader = ({ openAddIssue }: { openAddIssue: () => void })
           request help to resolve them, and generate reports.
         </p>
         <Show when={isAdmin() || isProvider()}>
-          <PrimaryButton text="Create Issue" click={openAddIssue} />
+          <PrimaryButton text="Add new issue" click={openAddIssue} className="btn btn-black" />
         </Show>
       </div>
     </div>
