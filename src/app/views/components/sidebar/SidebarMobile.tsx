@@ -68,6 +68,8 @@ export const SidebarMobile = ({
 
       return () => clearTimeout(exitTimer);
     }
+
+    return () => {};
   }, [isOpen, isAnimating]);
 
   if (!isOpen && !isAnimating) return null;
