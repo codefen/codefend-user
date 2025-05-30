@@ -11,7 +11,7 @@
   --option-header-span: var(--primary-color-200);
 
   width: var(--order-modal-width);
-  max-height: 112.5vh;
+  height: var(--order-modal-height);
   border-radius: 0.15rem;
   // background-color: var(--primary-color-100);
   z-index: 120;
@@ -37,25 +37,6 @@
     background-color: var(--primary-color-300) !important;
   }
 
-  .plan-images {
-    position: relative;
-
-    .plan-icon {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      border: 3px solid white;
-      background-color: var(--secondary-color-200);
-      border-radius: 100%;
-      padding: 4px;
-
-      svg {
-        color: white;
-        width: 1.3em;
-        height: 1.3em;
-      }
-    }
-  }
   .primary-container {
     max-width: 45%;
     margin-inline: 0;
@@ -254,7 +235,13 @@
       flex: 1;
       padding: 20px 0;
       overflow-y: auto;
-      max-height: calc(100vh - 37.5vh);
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+
+      .next-btns {
+        margin-top: auto;
+      }
 
       .app-info {
         border: 1px solid #e0e0e0;
@@ -282,7 +269,7 @@
           justify-self: center;
         }
         .price {
-          font-size: 26px;
+          // font-size: 26px;
         }
         .plan-list {
           list-style: none;
@@ -884,10 +871,6 @@
       }
     }
 
-    .next-btns {
-      // margin-top: auto;
-    }
-
     .plans-container {
       display: flex;
       // gap: 2rem;
@@ -979,6 +962,10 @@
   }
 
   .paywall-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
     .padding {
       padding-top: 1rem;
       padding-left: 2.5rem;
@@ -991,42 +978,60 @@
       display: flex;
       flex-direction: row;
       gap: 1rem;
-      margin-left: 36rem;
+      margin-top: auto;
     }
 
     .basic-selected {
       background-color: var(--bg-price);
     }
+  }
+  .step-content-gird {
+    display: flex;
+    gap: 1rem;
+    padding-inline: 1rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 
-    .step-content-gird {
-      display: flex;
-      // grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-      padding-inline: 1rem;
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
-    }
+  .plan-images {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-right: 0;
+    width: fit-content;
+    position: relative;
 
-    .pricing-card {
-      position: relative;
-      border-radius: 0.5rem;
-      // overflow: hidden;
-      cursor: pointer;
-      transition-property: all;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 300ms;
-      background-color: #ffffff;
-      border: 1px solid var(--primary-color-300);
-      width: 33%;
-      // height: 360px;
-      margin-top: 20px;
-      
+    .plan-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border: 3px solid white;
+      background-color: var(--secondary-color-200);
+      border-radius: 100%;
+      padding: 4px;
 
-      &.selected-card {
-        outline: 2px solid var(--bg-price);
-        background-color: var(--primary-color-600);
+      svg {
+        color: white;
+        width: 1.3em;
+        height: 1.3em;
       }
     }
+  }
+
+  .pricing-card {
+    position: relative;
+    border-radius: var(--brd-radius);
+    // overflow: hidden;
+    cursor: pointer;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    background-color: #ffffff;
+    border: 1px solid var(--primary-color-300);
+    width: 33%;
+    // height: 360px;
+    margin-top: 20px;
 
     .pricing-card-header {
       position: absolute;
@@ -1064,19 +1069,34 @@
       padding-top: 1rem;
       // padding-bottom: 2rem;
       padding-inline: 1rem;
-      
 
       h4 {
         text-align: left;
         font-weight: bold;
         font-size: 1.125rem;
         line-height: 1rem;
+        margin-block-start: 1rem;
+        margin-block-end: 0.5rem;
+      }
+
+      .plan-images {
+        filter: grayscale(1);
+        .plan-icon {
+          filter: grayscale(1);
+        }
+      }
+
+      .pricing-image {
+        width: 80px;
+        height: auto;
+        max-width: 80px;
+        margin-bottom: 0;
+        transition: filter 0.2s;
       }
 
       ul {
         font-size: 0.875rem;
         line-height: 0.8rem;
-        margin-bottom: 2rem;
         display: flex;
         flex-direction: column;
         gap: 0.1rem;
@@ -1093,11 +1113,33 @@
             color: #8ae356;
           }
           &.price {
-                font-family: "Satoshi";
-            // font-size: 1rem;
+            font-family: 'Satoshi';
             font-weight: 700;
             color: black;
+            margin-top: 1.75rem;
           }
+        }
+      }
+    }
+
+    &:hover,
+    &.selected {
+      border-color: #ff7878;
+      background: #fff;
+      background: #fbe0e021;
+
+      .pricing-list-items {
+        .plan-images {
+          filter: grayscale(0);
+
+          .plan-icon {
+            filter: grayscale(0);
+          }
+        }
+
+        .pricing-image {
+          filter: brightness(0) saturate(100%) invert(28%) sepia(96%) saturate(7472%)
+            hue-rotate(359deg) brightness(94%) contrast(110%);
         }
       }
     }

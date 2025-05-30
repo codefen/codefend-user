@@ -39,7 +39,9 @@ const Sidebar = () => {
     <aside
       className={`sidebar ${matches ? 'desktop-active' : 'mobile-active'} ${isOpen ? 'sidebar-open' : ''}`}>
       <SidebarOpenButton isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      <div className={`sidebar-blur ${isOpen ? 'blur-enter animate-overlay-in' : ''}`}></div>
+      <div
+        className={`sidebar-blur ${isOpen ? 'blur-enter animate-overlay-in' : ''}`}
+        onDoubleClick={closeSidebar}></div>
       {matches ? (
         <SidebarDesktop
           companies={companies}

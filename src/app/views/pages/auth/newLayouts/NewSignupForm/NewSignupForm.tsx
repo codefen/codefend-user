@@ -11,16 +11,16 @@ import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { idiomOptions, SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
-import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
-import { AuthInput } from '../../newRegister/AuthInput/AuthInput';
-import SelectField from '../../../../components/SelectField/SelectField';
-import CheckEmail from '../../../../components/CheckEmail/CheckEmail';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
 import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 import { useInitialDomainStore } from '@stores/initialDomain.store';
+import { ProgressBar } from '@/app/views/components/ProgressBar/ProgressBar';
+import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
+import SelectField from '@/app/views/components/SelectField/SelectField';
+import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -302,9 +302,18 @@ export const NewSignupForm = () => {
               required
             />
             <PasswordRequirements password={password} />
-            <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
-              continue
-            </button>
+
+            <div className={`form-buttons ${css['form-btns']}`}>
+              <button
+                type="button"
+                className={`btn btn-gray`}
+                onClick={() => goBackValidateMe(SignUpSteps.STEP_THREE)}>
+                go back
+              </button>
+              <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
+                continue
+              </button>
+            </div>
           </form>
         </Show>
 

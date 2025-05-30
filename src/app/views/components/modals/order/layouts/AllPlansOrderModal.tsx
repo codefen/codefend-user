@@ -2,6 +2,7 @@ import { AppConstants } from '@/app/constants/app-contanst';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { PrimaryButton } from '@buttons/index';
 import { OrderSection } from '@interfaces/order';
+import { PricingCard } from '@modals/order/components/PricingCard';
 import { ResourcePlanImage } from '@modals/order/components/ResourcePlanImage';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState } from 'react';
@@ -65,10 +66,8 @@ export const AllPlansOrderModal = () => {
           }}
         />
       </div>
-      <div
-        className="plans-cards-wrapper"
-        style={{ flex: '1 1 auto', overflowY: 'auto', minHeight: 0 }}>
-        {plans.map(([key, plan]: any) => (
+      <div className="step-content-gird">
+        {/* {plans.map(([key, plan]: any) => (
           <label
             key={`plan-key-${plan.type}`}
             className={`plan-card-auto${store.planPreference.get === plan.type ? ' selected' : ''}`}
@@ -97,6 +96,21 @@ export const AllPlansOrderModal = () => {
               </ul>
             </div>
           </label>
+        ))} */}
+        {plans.map(([_, plan]: any) => (
+          <PricingCard
+            key={plan.type}
+            title={plan.promise}
+            price={plan.price}
+            features={plan.list}
+            icon={<ResourcePlanImage plan={plan.type} resourceType={resourceType} />}
+            selectedPlan={store.planPreference.get}
+            planType={plan.type}
+            onSelect={selectedPlan => {
+              console.log('plan', selectedPlan);
+              changed(selectedPlan);
+            }}
+          />
         ))}
       </div>
 

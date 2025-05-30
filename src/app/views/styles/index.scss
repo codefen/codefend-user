@@ -2135,11 +2135,6 @@ h3 {
   // padding: 1rem;
 }
 
-.step-content {
-  margin-top: 10px;
-  /* Espaciado superior para separación */
-}
-
 .option-maximo {
   // padding-left: 5px; /* Ajustar el espaciado izquierdo para las opciones */
   border: none;
@@ -2240,7 +2235,6 @@ h3 {
 /* Solo en hover o seleccionada, fondo blanco y borde rojo, y aparece el box-shadow */
 .plan-card-auto:hover,
 .plan-card-auto.selected {
-  /* box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%); */
   border-color: #ff7878;
   background: #fff;
 

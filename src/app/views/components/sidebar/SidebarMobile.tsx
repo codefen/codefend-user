@@ -1,3 +1,4 @@
+import { useUserData } from '#commonUserHooks/useUserData';
 import { LogoutIcon } from '@icons';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -42,6 +43,7 @@ export const SidebarMobile = ({
   const [animationClass, setAnimationClass] = useState('');
   const [contentVisible, setContentVisible] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useUserData();
 
   useEffect(() => {
     if (isOpen) {
@@ -129,7 +131,7 @@ export const SidebarMobile = ({
               <span className="user-company">{companyName}</span>
             </div>
 
-            <button className="no-border no-outline sidebar-footer-logout">
+            <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
               <LogoutIcon width={1.1} height={1.1} />
               Logout
             </button>
