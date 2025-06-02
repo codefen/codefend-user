@@ -1,8 +1,10 @@
 import { PrimaryButton } from '@buttons/index';
 import { OrderPaymentMethod, OrderSection, UserSmallPlanSelected } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PricingCard } from '../components/PricingCard';
+import { useFetcher } from '#commonHooks/useFetcher';
+import { useUserData } from '#commonUserHooks/useUserData';
 
 const pricingPlans = [
   {
@@ -27,7 +29,7 @@ const pricingPlans = [
       'Neuroscans: <b>10 per month</b>',
       'Data leaks lookups: <b>10 per month</b>',
     ],
-    planType: UserSmallPlanSelected.ADVANCED,
+    planType: UserSmallPlanSelected.MEDIUM,
   },
   {
     title: 'Advanced Machine',
@@ -39,19 +41,48 @@ const pricingPlans = [
       'Neuroscans: <b>20 per month</b>',
       'Data leaks lookups: <b>20 per month</b>',
     ],
-    planType: UserSmallPlanSelected.MEDIUM,
+    planType: UserSmallPlanSelected.ADVANCED,
   },
 ];
 
 export const SmallPlanOrderModal = () => {
   const [checkedOption, setCheckedOption] = useState(UserSmallPlanSelected.NOTHING);
   const { updateState } = useOrderStore(state => state);
+  const [fetcher, _, isLoading] = useFetcher();
+  const { getCompany } = useUserData();
+  const [prices, setPrices] = useState<any>(null);
+
+  useEffect(() => {
+    if (!!prices) return;
+    fetcher<any>('post', {
+      path: 'orders/add/small',
+      body: {
+        phase: 'plan',
+        company_id: getCompany(),
+      },
+    }).then(({ data }) => {
+      setPrices(data?.plans_prices);
+    });
+  }, []);
 
   const goTo = () => {
     if (checkedOption !== UserSmallPlanSelected.NOTHING) {
-      updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
-      updateState('paymentMethod', OrderPaymentMethod.CARD);
-      updateState('userSmallPlanSelected', checkedOption);
+      fetcher<any>('post', {
+        path: 'orders/add/small',
+        body: {
+          phase: 'plan',
+          company_id: getCompany(),
+          chosen_plan: checkedOption,
+        },
+      }).then(({ data }) => {
+        console.log({ data });
+        updateState('orderId', data?.order?.id);
+        updateState('referenceNumber', data?.order?.reference_number);
+        updateState('acceptCondition', true);
+        updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
+        updateState('paymentMethod', OrderPaymentMethod.CARD);
+        updateState('userSmallPlanSelected', checkedOption);
+      });
     }
   };
 
@@ -90,7 +121,7 @@ export const SmallPlanOrderModal = () => {
           <PricingCard
             key={plan.planType}
             title={plan.title}
-            price={plan.price}
+            price={prices?.[plan.planType] || plan.price}
             features={plan.features}
             imageSrc="public/codefend/IA ICON.png"
             selectedPlan={checkedOption}
@@ -106,6 +137,7 @@ export const SmallPlanOrderModal = () => {
           click={close}
           buttonStyle="gray"
           disabledLoader
+          isDisabled={isLoading}
         />
         <PrimaryButton
           text="Proceed"
@@ -113,7 +145,7 @@ export const SmallPlanOrderModal = () => {
           click={goTo}
           buttonStyle="red"
           disabledLoader
-          isDisabled={checkedOption === UserSmallPlanSelected.NOTHING}
+          isDisabled={checkedOption === UserSmallPlanSelected.NOTHING || isLoading}
         />
       </div>
     </div>

@@ -10,7 +10,7 @@ import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
 import { ActiveProgressiveSteps } from '@/app/views/components/progressive-steps/ActiveProgressiveSteps';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 import { OrderSection } from '@interfaces/order';
-import { useOrders } from '@hooks/orders/useOrders';
+import { useOrders, userOrderFinished } from '@hooks/orders/useOrders';
 import { useOrderStore } from '@stores/orders.store';
 import './order.scss';
 import { WaitingCheckOrderModal } from './layouts/WaitingCheckOrderModal';
@@ -78,12 +78,19 @@ export const orderSectionHeight: Record<OrderSection, number> = {
 
 export const OrderV2 = () => {
   const [isNextStep, updateNextStep] = useState(false);
-  const { orderStepActive, resetActiveOrder, open, setScopeAllTotalResources } = useOrderStore(
-    state => state
-  );
+  const {
+    orderStepActive,
+    resetActiveOrder,
+    open,
+    setScopeAllTotalResources,
+    referenceNumber,
+    orderId,
+    paywallSelected,
+  } = useOrderStore(state => state);
   const isDefaultPlan = useGlobalFastField('isDefaultPlan');
-
+  const [callback, setCallback] = useState<any>(null);
   const { refetchTotal } = useOrders();
+  const finishOrder = userOrderFinished();
 
   useEffect(() => {
     if (open) {
@@ -94,8 +101,16 @@ export const OrderV2 = () => {
     }
   }, [open]);
   const close = () => {
-    resetActiveOrder();
-    isDefaultPlan.set(true);
+    if (orderStepActive === OrderSection.WELCOME) {
+      finishOrder(referenceNumber, orderId, paywallSelected).then(() => {
+        resetActiveOrder();
+        isDefaultPlan.set(true);
+      });
+    } else {
+      resetActiveOrder();
+      isDefaultPlan.set(true);
+      callback?.();
+    }
   };
   const ActiveStep = () => {
     if (isNextStep) return <PageLoader />;
@@ -123,11 +138,12 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.ADDITIONAL_INFO) return <AdditionalOrderModal />;
     if (orderStepActive === OrderSection.PAYMENT) return <PaymentMethodOrderModal />;
 
-    if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD) return <AnyPaymentMethod />;
+    if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD)
+      return <AnyPaymentMethod setCallback={cb => setCallback(cb)} />;
     // if (orderStepActive === OrderSection.PAYMENT_ERROR) return <PaymentErrorOrderModal />;
 
     return orderStepActive === OrderSection.WELCOME ? (
-      <WelcomeOrderModal />
+      <WelcomeOrderModal close={close} />
     ) : (
       <WaitingCheckOrderModal />
     );

@@ -57,18 +57,18 @@ export const PaywallMaxScanModal = memo(({ close }: any) => {
       <div className="step-content">
         <label
           htmlFor="three-resources"
-          className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_TICKETS ? 'select-option' : ''}`}
-          onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_TICKETS)}>
+          className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_PLAN ? 'select-option' : ''}`}
+          onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_PLAN)}>
           <input
             id="three-resources"
             name="scopeOption"
             type="radio"
             className="radio-option"
-            checked={checkedOption === UserPlanSelected.AUTOMATED_TICKETS}
+            checked={checkedOption === UserPlanSelected.AUTOMATED_PLAN}
             onChange={() => {}}
           />
           <img
-            src="public\codefend\precio.svg"
+            src="public\codefend\estrellitas.png"
             alt="Normal Order Icon"
             style={{ width: '50px', height: '50px' }}
           />

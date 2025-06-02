@@ -112,14 +112,14 @@ export const PaywallOrderModal = memo(({ close }: any) => {
         {!isIssueLimit && (
           <label
             htmlFor="three-resources"
-            className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_TICKETS ? 'select-option' : ''}`}
-            onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_TICKETS)}>
+            className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_PLAN ? 'select-option' : ''}`}
+            onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_PLAN)}>
             <input
               id="three-resources"
               name="scopeOption"
               type="radio"
               className="radio-option"
-              checked={checkedOption === UserPlanSelected.AUTOMATED_TICKETS}
+              checked={checkedOption === UserPlanSelected.AUTOMATED_PLAN}
               onChange={() => {}}
             />
             <img

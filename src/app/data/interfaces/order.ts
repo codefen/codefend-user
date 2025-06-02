@@ -93,13 +93,13 @@ export enum UserPlanSelected {
   NOTHING = '',
   LOAD_MORE_RESOURCES = 'ondemand',
   MANUAL_PENTEST = 'normalorder',
-  AUTOMATED_TICKETS = 'smallplan',
+  AUTOMATED_PLAN = 'automatedplan',
 }
 export enum UserSmallPlanSelected {
   NOTHING = '',
-  BASIC = 'ondemand',
-  MEDIUM = 'contin',
-  ADVANCED = 'smallplan',
+  BASIC = 'small',
+  MEDIUM = 'medium',
+  ADVANCED = 'full',
 }
 export enum OrderPaymentMethod {
   CRYPTO = 'cc',

@@ -1,18 +1,8 @@
 import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
-import { useOrderStore } from '@stores/orders.store.ts';
 import { RememberCard } from '../components/remember/RememberCard.tsx';
 import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
-import { userOrderFinished } from '@hooks/orders/useOrders.ts';
 
-export const WelcomeOrderModal = () => {
-  const { resetActiveOrder, referenceNumber, orderId } = useOrderStore(state => state);
-  const finishOrder = userOrderFinished();
-
-  const orderFinished = () => {
-    finishOrder(referenceNumber, orderId);
-    resetActiveOrder();
-  };
-
+export const WelcomeOrderModal = ({ close: orderFinished }: { close: () => void }) => {
   return (
     <>
       <img

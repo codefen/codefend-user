@@ -6,40 +6,64 @@ import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
+import Show from '@/app/views/components/Show/Show';
 
 // Llave de prueba = pk_test_51OJhuSAYz1YvxmilHmPHF8hzpPAEICOaObvc6jogRaqY79MSgigrWUPPpXcnWOCMh4hs4ElO3niT7m1loeSgN0oa00vVlSF8Ad
 // Llave de producción = pk_live_51OJhuSAYz1YvxmilzJk2qtYgC6lrwwjziEOc69rTgUI0guBwWsAlnHOViPvLlf6myPtxFrsr0l1JfmdTjDjV9iRt00zJeEpd45
-let stripePromise = loadStripe(
-  'pk_test_51OJhuSAYz1YvxmilHmPHF8hzpPAEICOaObvc6jogRaqY79MSgigrWUPPpXcnWOCMh4hs4ElO3niT7m1loeSgN0oa00vVlSF8Ad'
-);
+const STRIPE_PUBLISHABLE_KEY =
+  'pk_test_51OJhuSAYz1YvxmilHmPHF8hzpPAEICOaObvc6jogRaqY79MSgigrWUPPpXcnWOCMh4hs4ElO3niT7m1loeSgN0oa00vVlSF8Ad';
 
-export const CardPaymentModal = () => {
+export const CardPaymentModal = ({
+  setCallback,
+}: {
+  setCallback: (callback: (() => void) | null) => void;
+}) => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
   const merchId = useRef('null');
   const companyId = useMemo(() => getCompany(), [getCompany()]);
-  const [isLoading, setIsLoading] = useState(false);
-  const fetchClientSecret = () => {
-    return fetcher<any>('post', {
-      body: {
-        phase: 'financial_card_launch',
-        company_id: companyId,
-        reference_number: referenceNumber,
-        order_id: orderId,
-      },
-      path: 'orders/add',
-    }).then(({ data }: any) => {
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const isInitialized = useRef(false);
+  const [hideBackButton, setHideBackButton] = useState(false);
+
+  // Memoize the Stripe promise
+  const stripePromise = useMemo(() => loadStripe(STRIPE_PUBLISHABLE_KEY), []);
+
+  const fetchClientSecret = useCallback(async () => {
+    if (isInitialized.current) return;
+
+    try {
+      const { data } = await fetcher<any>('post', {
+        body: {
+          phase: 'financial_card_launch',
+          company_id: companyId,
+          reference_number: referenceNumber,
+          order_id: orderId,
+        },
+        path: `orders/add${paywallSelected === UserPlanSelected.AUTOMATED_PLAN ? '/small' : ''}`,
+        insecure: true,
+      });
+
       merchId.current = data.merch_cid;
-      setIsLoading(true);
-      return data.merch_cs;
-    });
-  };
+      setClientSecret(data.merch_cs);
+      isInitialized.current = true;
+    } catch (error) {
+      console.error('Error fetching client secret:', error);
+      updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
+    }
+  }, [companyId, referenceNumber, orderId, paywallSelected, fetcher, updateState]);
+
+  // Initialize Stripe when component mounts
+  useEffect(() => {
+    fetchClientSecret();
+  }, []); // Empty dependency array since we only want to run this once
 
   const options = useMemo(
     () => ({
-      fetchClientSecret,
+      clientSecret,
       onComplete: () => {
+        setHideBackButton(true);
         fetcher<any>('post', {
           body: {
             phase: 'financial_card_finish',
@@ -48,43 +72,60 @@ export const CardPaymentModal = () => {
             order_id: orderId,
             merch_cid: merchId.current,
           },
-          path: 'orders/add',
+          path: `orders/add${paywallSelected === UserPlanSelected.AUTOMATED_PLAN ? '/small' : ''}`,
           timeout: 1000000,
         })
           .then(({ data }: any) => {
             if (data.status === 'complete') {
               updateState('orderStepActive', OrderSection.WELCOME);
+              setCallback(null);
             }
           })
           .catch(() => {
             updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
           })
           .finally(() => {
-            setIsLoading(false);
+            setHideBackButton(false);
           });
       },
     }),
-    [fetchClientSecret, companyId, referenceNumber, orderId, merchId.current]
+    [clientSecret, companyId, referenceNumber, orderId, merchId.current, fetcher, updateState]
   );
 
-  useEffect(() => {
-    return () => {
-      let iframes = document.querySelectorAll('iframe');
-      iframes.forEach(iframe => {
-        if (iframe.parentNode) {
-          iframe.parentNode.removeChild(iframe);
-        }
-      });
-    };
+  const cleanupStripe = useCallback(() => {
+    merchId.current = 'null';
+    setClientSecret(null);
+    isInitialized.current = false;
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      if (iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
+      }
+    });
   }, []);
+
+  useEffect(() => {
+    setCallback(cleanupStripe);
+    return cleanupStripe;
+  }, [setCallback, cleanupStripe]);
 
   const backStep = useCallback(() => {
     const backStepValue =
-      paywallSelected === UserPlanSelected.AUTOMATED_TICKETS
+      paywallSelected === UserPlanSelected.AUTOMATED_PLAN
         ? OrderSection.SMALL_PLANS
         : OrderSection.PAYMENT;
     updateState('orderStepActive', backStepValue);
-  }, [paywallSelected]);
+  }, [paywallSelected, updateState]);
+
+  if (!clientSecret) {
+    return (
+      <div className="step-content">
+        <div className="step-header">
+          <h3>Loading payment information...</h3>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="step-content">
@@ -95,23 +136,17 @@ export const CardPaymentModal = () => {
         <EmbeddedCheckout className="stripe-container" id="stripe-ex-content-checkout" />
       </EmbeddedCheckoutProvider>
 
-      {/* <PrimaryButton
-        text="Back"
-        buttonStyle="black"
-        disabledLoader
-        click={backStep}
-        className="stripe-back-btn"
-        isDisabled={isLoading}
-      /> */}
-      <div className="button-wrapper next-btns">
-        <PrimaryButton
-          text="back"
-          click={backStep}
-          className="stripe-back-btn"
-          buttonStyle="black"
-          disabledLoader
-        />
-      </div>
+      <Show when={!hideBackButton}>
+        <div className="button-wrapper next-btns">
+          <PrimaryButton
+            text="back"
+            click={backStep}
+            className="stripe-back-btn"
+            buttonStyle="black"
+            disabledLoader
+          />
+        </div>
+      </Show>
     </div>
   );
 };

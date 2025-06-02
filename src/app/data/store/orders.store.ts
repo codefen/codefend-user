@@ -101,5 +101,6 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
       offensiveOrder: OrderOffensive.UNKNOWN,
       paymentMethod: OrderPaymentMethod.UNKNOWN,
       aditionalInfo: '',
+      userSmallPlanSelected: UserSmallPlanSelected.NOTHING,
     })),
 }));

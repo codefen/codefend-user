@@ -19,7 +19,7 @@ const Sidebar = () => {
   const { getUserdata, company, isAuth } = useUserData();
   const { isProvider } = useUserRole();
   const companies = useGlobalFastField('companies');
-  const matches = useMediaQuery('(min-width: 1180px)');
+  const matches = useMediaQuery('(min-width: 1230px)');
 
   const isProviderWithAccess =
     isProvider() &&
