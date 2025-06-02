@@ -32,7 +32,7 @@ export const useGetScopeTablesV3 = (useInIssueReport?: boolean, useResumeSocial?
         identifier: res.id,
         domainName: res.resource_domain,
         resource_domain_dad: res?.resource_domain_dad,
-        server: res.server || res.main_server,
+        server: res?.main_server,
         ...(useInIssueReport && { issue: res.final_issues }),
         childs: res.childs?.map((resChild: any) => ({
           id: resChild.id,
@@ -42,6 +42,8 @@ export const useGetScopeTablesV3 = (useInIssueReport?: boolean, useResumeSocial?
           ...(useInIssueReport && { issue: resChild.final_issues }),
         })),
       }));
+
+      console.log('rows', rows);
 
       columns = useInIssueReport ? webScopeColumnsWithCountV3 : webScopeColumnsV3;
     }

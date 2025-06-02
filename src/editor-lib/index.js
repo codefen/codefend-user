@@ -44,7 +44,7 @@ const OPTIONS = {
   content_css: 'codefend',
   image_caption: true,
   automatic_uploads: true,
-  height: 'calc(100dvh - 161px)',
+  height: 'calc(-92px + 100cqh)',
   templates: [
     {
       title: 'Issue A',
