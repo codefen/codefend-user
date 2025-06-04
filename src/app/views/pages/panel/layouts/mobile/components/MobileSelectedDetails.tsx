@@ -18,9 +18,11 @@ import { APP_EVENT_TYPE } from '@interfaces/panel';
 export const MobileSelectedDetails = ({
   listSize,
   appEvent,
+  orders,
 }: {
   listSize: number;
   appEvent: any;
+  orders: any;
 }) => {
   const { data, isLoading, refetch } = useGetOneMobile();
   const onRefetch = () => refetch(selectedAppStored.get?.id);
@@ -32,6 +34,8 @@ export const MobileSelectedDetails = ({
   const [planPreferenceSaved, setPlanPreferenceSaved] = useState<
     'small' | 'medium' | 'advanced' | null
   >(null);
+  const [hasOrderForThisApp, setHasOrderForThisApp] = useState(false);
+
   useEffect(() => {
     if (selectedAppStored.get) onRefetch();
     const downloads = selectedAppStored.get?.app_android_downloads;
@@ -61,6 +65,14 @@ export const MobileSelectedDetails = ({
       setPlanPreferenceSaved(startedPlan);
       planPreference.set(startedPlan);
     }
+    const hasOrderForThisApp = orders.some(
+      (order: any) =>
+        (Array.isArray(order.scope)
+          ? order.scope.some((scope: any) => scope.id === selectedAppStored.get?.id)
+          : order.scope?.id === selectedAppStored.get?.id) &&
+        order?.condicion_provider != 'finished'
+    );
+    setHasOrderForThisApp(hasOrderForThisApp);
   }, [selectedAppStored.get, planPreference.get, isDefaultPlan.get]);
 
   if (isLoading) {
@@ -109,6 +121,7 @@ export const MobileSelectedDetails = ({
             isLoading={isLoading}
             scope={OrderSection.MOBILE_SCOPE}
             plan={planPreferenceSaved}
+            hasActiveOrder={hasOrderForThisApp}
           />
         </div>
       </div>

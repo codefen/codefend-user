@@ -12,6 +12,7 @@ import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-
 import Tablev3 from '@table/v3/Tablev3';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import TextChild from '@/app/views/components/utils/TextChild';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
 
 interface LanNetworkDataProps {
   isLoading: boolean;
@@ -24,7 +25,7 @@ const networkColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-1',
-    weight: '9%',
+    weight: '8%',
     render: (ID: any) => ID,
   },
   {
@@ -32,7 +33,7 @@ const networkColumns: ColumnTableV3[] = [
     key: 'device_ex_address',
     type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-2',
-    weight: '28%',
+    weight: '24%',
     render: (row: any, next?: any) =>
       !row?.resource_lan_dad ? (
         row.device_ex_address
@@ -47,14 +48,27 @@ const networkColumns: ColumnTableV3[] = [
     header: 'internal ip',
     key: 'device_in_address',
     styles: 'item-cell-3',
-    weight: '28%',
+    weight: '24%',
     render: (ip: any) => ip,
+  },
+  {
+    header: 'area',
+    key: 'server_pais',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-4',
+    weight: '14%',
+    render: (row: any) => (
+      <LocationItem
+        country={row?.server_pais || 'unknown'}
+        countryCode={row?.server_pais_code || ''}
+      />
+    ),
   },
   {
     header: 'description',
     key: 'device_desc',
-    styles: 'item-cell-4',
-    weight: '35%',
+    styles: 'item-cell-5',
+    weight: '30%',
     render: (desc: any) => desc,
   },
 ];

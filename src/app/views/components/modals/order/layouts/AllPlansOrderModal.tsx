@@ -107,7 +107,6 @@ export const AllPlansOrderModal = () => {
             selectedPlan={store.planPreference.get}
             planType={plan.type}
             onSelect={selectedPlan => {
-              console.log('plan', selectedPlan);
               changed(selectedPlan);
             }}
           />

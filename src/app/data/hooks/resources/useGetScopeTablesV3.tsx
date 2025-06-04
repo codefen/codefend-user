@@ -43,8 +43,6 @@ export const useGetScopeTablesV3 = (useInIssueReport?: boolean, useResumeSocial?
         })),
       }));
 
-      console.log('rows', rows);
-
       columns = useInIssueReport ? webScopeColumnsWithCountV3 : webScopeColumnsV3;
     }
 

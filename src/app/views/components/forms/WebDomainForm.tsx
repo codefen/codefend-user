@@ -9,7 +9,6 @@ const WebDomainForm: FC<ComponentEventWithChildren> = ({ onDone, close, children
     e.preventDefault();
     e.stopPropagation();
     handleAddResource().then(isSuccess => {
-      console.log('isSuccess', isSuccess);
       if (isSuccess) {
         onDone?.();
       }

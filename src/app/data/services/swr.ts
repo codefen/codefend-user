@@ -19,7 +19,11 @@ export const disponibleFetcher = ([[model, ac], { company, logout }]: any) => {
     })
     .then(({ data }) => {
       if (verifySession(data, logout) || apiErrorValidation(data)) throw new Error('');
-      return { disponibles: data?.disponibles || [], company: data?.company || null };
+      return {
+        disponibles: data?.disponibles || [],
+        company: data?.company || null,
+        orders: data?.orders || [],
+      };
     })
     .catch(() => [] as any);
 };

@@ -75,7 +75,6 @@ export const SmallPlanOrderModal = () => {
           chosen_plan: checkedOption,
         },
       }).then(({ data }) => {
-        console.log({ data });
         updateState('orderId', data?.order?.id);
         updateState('referenceNumber', data?.order?.reference_number);
         updateState('acceptCondition', true);
