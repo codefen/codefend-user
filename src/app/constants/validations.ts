@@ -20,7 +20,7 @@ export const companyIdIsNull = (companyID?: any) => {
 };
 
 export const verifySession = (res: any, logout: any) => {
-  if (res.response === 'error' && String(res.info).startsWith('invalid or expired')) {
+  if (res?.error == 1 && String(res.info).startsWith('invalid or expired')) {
     toast.error(APP_MESSAGE_TOAST.SESSION_EXPIRED);
     logout();
     return true;

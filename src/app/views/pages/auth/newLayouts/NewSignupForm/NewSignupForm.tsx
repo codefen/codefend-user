@@ -58,16 +58,16 @@ export const NewSignupForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const formObject = Object.fromEntries(form.entries()); // Se extraen los datos del formulario
     // Se extrae el numero de telefono de forma correcta, debido a que el input esta en dos partes
-    const fullNumberRaw = formObject?.['lead_phone'] as string;
-    const [areaCode, number] = fullNumberRaw.split(/\*+/);
+    // const fullNumberRaw = formObject?.['lead_phone'] as string;
+    // const [areaCode, number] = fullNumberRaw.split(/\*+/);
     lead.set({
       ...lead.get,
       lead_fname: formObject?.['lead_fname'] as string,
       lead_lname: formObject?.['lead_lname'] as string,
       lead_email: formObject?.['lead_email'] as string,
-      lead_phone: number,
+      // lead_phone: number,
     });
-    formObject['lead_phone'] = `${areaCode}${number}`;
+    // formObject['lead_phone'] = `${areaCode}${number}`;
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
     // Nuevo paso
     setActiveStep(SignUpSteps.STEP_TWO);
@@ -81,6 +81,7 @@ export const NewSignupForm = () => {
       Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
     }
     saveInitialDomain((form.get('company_web') as string) || '');
+    form.append('idiom', 'en');
     lead.set({
       ...lead.get,
       company_name: form?.get('company_name') as string,
@@ -199,14 +200,14 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.lead_email}
               required
             />
-            <div style={{ display: 'none' }}>
+            {/* <div style={{ display: 'none' }}>
               <PhoneInput
                 name="lead_phone"
                 defaultPhone={lead.get.lead_phone}
                 defaultCountry={country.get}
                 changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
               />
-            </div>
+            </div> */}
             <button type="submit" className={`btn ${css['sendButton']}`}>
               continue
             </button>
@@ -229,7 +230,6 @@ export const NewSignupForm = () => {
                 if (companyNameInput && domain) {
                   // Extraer el nombre de la compañía del dominio
                   const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
-                  // Capitalizar la primera letra
                   const companyName = cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
                   companyNameInput.value = companyName;
                 }
@@ -254,14 +254,14 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.company_size}
               required
             />
-            <div style={{ display: 'none' }}>
+            {/* <div style={{ display: 'none' }}>
               <SelectField
                 name="idiom"
                 options={idiomOptions}
                 defaultValue={lead.get.idiom || 'en'}
                 required
               />
-            </div>
+            </div> */}
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"
