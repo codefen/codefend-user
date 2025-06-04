@@ -47,7 +47,7 @@ export const NewSigninForm = () => {
         <p>
           {mfaStep
             ? 'This account has two-factor authentication enabled, please complete the verification process.'
-            : 'Welcome back! Please sign in'}
+            : 'Welcome back'}
         </p>
         <form onSubmit={handleSubmit}>
           <AuthInput
@@ -89,7 +89,7 @@ export const NewSigninForm = () => {
               margin: '25px auto 0px auto',
               textDecoration: 'underline',
             }}>
-            Forgot password?
+            I don't remember my password
           </Link>
         )}
       </div>

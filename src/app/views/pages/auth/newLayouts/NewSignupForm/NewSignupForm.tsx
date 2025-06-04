@@ -199,12 +199,14 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.lead_email}
               required
             />
-            <PhoneInput
-              name="lead_phone"
-              defaultPhone={lead.get.lead_phone}
-              defaultCountry={country.get}
-              changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
-            />
+            <div style={{ display: 'none' }}>
+              <PhoneInput
+                name="lead_phone"
+                defaultPhone={lead.get.lead_phone}
+                defaultCountry={country.get}
+                changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
+              />
+            </div>
             <button type="submit" className={`btn ${css['sendButton']}`}>
               continue
             </button>
@@ -216,15 +218,28 @@ export const NewSignupForm = () => {
           <form onSubmit={nextSecondStep}>
             <ProgressBar activeStep={activeStep} />
             <AuthInput
-              placeholder="Company Name"
-              name="company_name"
-              defaultValue={lead.get.company_name}
+              placeholder="Business website"
+              name="company_web"
+              defaultValue={lead.get.company_web}
+              setVal={e => {
+                const domain = e.target.value.toLowerCase();
+                const companyNameInput = document.querySelector(
+                  'input[name="company_name"]'
+                ) as HTMLInputElement;
+                if (companyNameInput && domain) {
+                  // Extraer el nombre de la compañía del dominio
+                  const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
+                  // Capitalizar la primera letra
+                  const companyName = cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
+                  companyNameInput.value = companyName;
+                }
+              }}
               required
             />
             <AuthInput
-              placeholder="Company website (Ej. myweb.com)"
-              name="company_web"
-              defaultValue={lead.get.company_web}
+              placeholder="Business name"
+              name="company_name"
+              defaultValue={lead.get.company_name}
               required
             />
             <SelectField
@@ -239,18 +254,20 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.company_size}
               required
             />
-            <SelectField
-              name="idiom"
-              options={idiomOptions}
-              defaultValue={lead.get.idiom}
-              required
-            />
+            <div style={{ display: 'none' }}>
+              <SelectField
+                name="idiom"
+                options={idiomOptions}
+                defaultValue={lead.get.idiom || 'en'}
+                required
+              />
+            </div>
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"
                 className={`btn btn-gray`}
                 onClick={() => goBackValidateMe(SignUpSteps.STEP_ONE)}>
-                go back
+                back
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
                 validate me!
@@ -273,7 +290,7 @@ export const NewSignupForm = () => {
                 type="button"
                 className={`btn btn-gray`}
                 onClick={() => goBackValidateMe(SignUpSteps.STEP_TWO)}>
-                go back
+                back
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
                 send code
