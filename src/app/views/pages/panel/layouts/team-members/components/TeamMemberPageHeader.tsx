@@ -15,8 +15,9 @@ export const TeamMemberPageHeader = () => {
           </p>
 
           <PrimaryButton
-            text="Add a collaborator to the company"
+            text="Add collaborator"
             buttonStyle="red"
+            className="btn-add"
             click={() => {
               setIsOpen(true);
               setModalId(MODAL_KEY_OPEN.ADD_COLLABORATOR);

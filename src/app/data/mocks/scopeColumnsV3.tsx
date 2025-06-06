@@ -94,9 +94,18 @@ export const webScopeColumnsWithCountV3: ColumnTableV3[] = [
   {
     header: 'Domain Name',
     key: 'domainName',
+    type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-custom-2',
     weight: '45%',
-    render: data => data,
+    render: (row: any, next?: any) =>
+      !row?.resource_domain_dad ? (
+        row.domainName
+      ) : (
+        <TextChild
+          subNetwork={row.domainName}
+          isLast={!next || (next && !next.resource_domain_dad)}
+        />
+      ),
   },
   {
     header: 'Server',

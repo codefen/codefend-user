@@ -130,6 +130,21 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
         <span>Filter Issues</span>
       </div>
       <div className="content filters">
+        <style>
+          {`
+          .filter-group h3 {
+            font-size: 0.85rem;
+          }
+          
+          .filter-group .filter .label {
+            font-size: 0.87rem;
+          }
+
+          .filter-group .filter .value {
+            font-size: 0.87rem;
+          }
+        `}
+        </style>
         {filterGroups.map((group, groupIndex) => (
           <div
             key={groupIndex}

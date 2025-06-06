@@ -5,12 +5,12 @@ export const ChangeAuthPages = ({ pathname }: { pathname: string }) => {
   return (
     <div className={css['change-page-container']}>
       <Link to="/auth/signin" className={pathname === '/auth/signin' ? css['active-link'] : ''}>
-        Signin
+        Access
       </Link>
       <Link
         to="/auth/signup"
         className={pathname.startsWith('/auth/signup') ? css['active-link'] : ''}>
-        Signup
+        New user
       </Link>
       {/* <Link
         to="/auth/recovery"

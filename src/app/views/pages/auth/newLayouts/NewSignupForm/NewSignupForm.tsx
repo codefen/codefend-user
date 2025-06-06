@@ -11,16 +11,16 @@ import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { idiomOptions, SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
-import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
-import { AuthInput } from '../../newRegister/AuthInput/AuthInput';
-import SelectField from '../../../../components/SelectField/SelectField';
-import CheckEmail from '../../../../components/CheckEmail/CheckEmail';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
 import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 import { useInitialDomainStore } from '@stores/initialDomain.store';
+import { ProgressBar } from '@/app/views/components/ProgressBar/ProgressBar';
+import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
+import SelectField from '@/app/views/components/SelectField/SelectField';
+import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 
 export const NewSignupForm = () => {
   const [activeStep, setActiveStep] = useState(SignUpSteps.STEP_ONE);
@@ -58,16 +58,16 @@ export const NewSignupForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const formObject = Object.fromEntries(form.entries()); // Se extraen los datos del formulario
     // Se extrae el numero de telefono de forma correcta, debido a que el input esta en dos partes
-    const fullNumberRaw = formObject?.['lead_phone'] as string;
-    const [areaCode, number] = fullNumberRaw.split(/\*+/);
+    // const fullNumberRaw = formObject?.['lead_phone'] as string;
+    // const [areaCode, number] = fullNumberRaw.split(/\*+/);
     lead.set({
       ...lead.get,
       lead_fname: formObject?.['lead_fname'] as string,
       lead_lname: formObject?.['lead_lname'] as string,
       lead_email: formObject?.['lead_email'] as string,
-      lead_phone: number,
+      // lead_phone: number,
     });
-    formObject['lead_phone'] = `${areaCode}${number}`;
+    // formObject['lead_phone'] = `${areaCode}${number}`;
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
     // Nuevo paso
     setActiveStep(SignUpSteps.STEP_TWO);
@@ -81,6 +81,7 @@ export const NewSignupForm = () => {
       Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
     }
     saveInitialDomain((form.get('company_web') as string) || '');
+    form.append('idiom', 'en');
     lead.set({
       ...lead.get,
       company_name: form?.get('company_name') as string,
@@ -199,12 +200,14 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.lead_email}
               required
             />
-            <PhoneInput
-              name="lead_phone"
-              defaultPhone={lead.get.lead_phone}
-              defaultCountry={country.get}
-              changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
-            />
+            {/* <div style={{ display: 'none' }}>
+              <PhoneInput
+                name="lead_phone"
+                defaultPhone={lead.get.lead_phone}
+                defaultCountry={country.get}
+                changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
+              />
+            </div> */}
             <button type="submit" className={`btn ${css['sendButton']}`}>
               continue
             </button>
@@ -216,15 +219,27 @@ export const NewSignupForm = () => {
           <form onSubmit={nextSecondStep}>
             <ProgressBar activeStep={activeStep} />
             <AuthInput
-              placeholder="Company Name"
-              name="company_name"
-              defaultValue={lead.get.company_name}
+              placeholder="Business website"
+              name="company_web"
+              defaultValue={lead.get.company_web}
+              setVal={e => {
+                const domain = e.target.value.toLowerCase();
+                const companyNameInput = document.querySelector(
+                  'input[name="company_name"]'
+                ) as HTMLInputElement;
+                if (companyNameInput && domain) {
+                  // Extraer el nombre de la compañía del dominio
+                  const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
+                  const companyName = cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
+                  companyNameInput.value = companyName;
+                }
+              }}
               required
             />
             <AuthInput
-              placeholder="Company website (Ej. myweb.com)"
-              name="company_web"
-              defaultValue={lead.get.company_web}
+              placeholder="Business name"
+              name="company_name"
+              defaultValue={lead.get.company_name}
               required
             />
             <SelectField
@@ -239,18 +254,20 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.company_size}
               required
             />
-            <SelectField
-              name="idiom"
-              options={idiomOptions}
-              defaultValue={lead.get.idiom}
-              required
-            />
+            {/* <div style={{ display: 'none' }}>
+              <SelectField
+                name="idiom"
+                options={idiomOptions}
+                defaultValue={lead.get.idiom || 'en'}
+                required
+              />
+            </div> */}
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"
                 className={`btn btn-gray`}
                 onClick={() => goBackValidateMe(SignUpSteps.STEP_ONE)}>
-                go back
+                back
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
                 validate me!
@@ -273,7 +290,7 @@ export const NewSignupForm = () => {
                 type="button"
                 className={`btn btn-gray`}
                 onClick={() => goBackValidateMe(SignUpSteps.STEP_TWO)}>
-                go back
+                back
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
                 send code
@@ -302,9 +319,18 @@ export const NewSignupForm = () => {
               required
             />
             <PasswordRequirements password={password} />
-            <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
-              continue
-            </button>
+
+            <div className={`form-buttons ${css['form-btns']}`}>
+              <button
+                type="button"
+                className={`btn btn-gray`}
+                onClick={() => goBackValidateMe(SignUpSteps.STEP_THREE)}>
+                go back
+              </button>
+              <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
+                continue
+              </button>
+            </div>
           </form>
         </Show>
 

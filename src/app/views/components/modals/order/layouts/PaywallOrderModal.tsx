@@ -44,13 +44,13 @@ export const PaywallOrderModal = memo(({ close }: any) => {
     }
   }, [checkedOption, updateState, setIsOpen, setModalId]);
 
-const goToLoadMoreResources = useCallback(() => {
-  updateState('paywallSelected', UserPlanSelected.LOAD_MORE_RESOURCES);
-  updateState('orderStepActive', OrderSection.PAYWALL);
-  updateState('open', false);
-  setIsOpen(true);
-  setModalId(MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES);
-}, [updateState, setIsOpen, setModalId]);
+  const goToLoadMoreResources = useCallback(() => {
+    updateState('paywallSelected', UserPlanSelected.LOAD_MORE_RESOURCES);
+    updateState('orderStepActive', OrderSection.PAYWALL);
+    updateState('open', false);
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.USER_ADD_NEW_RESOURCES);
+  }, [updateState, setIsOpen, setModalId]);
 
   const handleClose = useCallback(() => {
     close();
@@ -109,21 +109,17 @@ const goToLoadMoreResources = useCallback(() => {
           </div>
         </label>
 
-       
-
-
-
         {!isIssueLimit && (
           <label
             htmlFor="three-resources"
-            className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_TICKETS ? 'select-option' : ''}`}
-            onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_TICKETS)}>
+            className={`option-maximo ${checkedOption === UserPlanSelected.AUTOMATED_PLAN ? 'select-option' : ''}`}
+            onClick={() => handleOptionChange(UserPlanSelected.AUTOMATED_PLAN)}>
             <input
               id="three-resources"
               name="scopeOption"
               type="radio"
               className="radio-option"
-              checked={checkedOption === UserPlanSelected.AUTOMATED_TICKETS}
+              checked={checkedOption === UserPlanSelected.AUTOMATED_PLAN}
               onChange={() => {}}
             />
             <img
@@ -143,15 +139,19 @@ const goToLoadMoreResources = useCallback(() => {
             </div>
           </label>
         )}
-
+        <p
+          className="ending"
+          onClick={goToLoadMoreResources}
+          style={{
+            cursor: 'pointer',
+            textDecoration: 'underline',
+            paddingLeft: '2.5rem',
+            marginTop: '1rem',
+          }}>
+          I need to add or analyze another resource
+        </p>
       </div>
-      <p
-  className="ending"
-  onClick={goToLoadMoreResources}
-  style={{ cursor: 'pointer', textDecoration: 'underline', paddingLeft: '2.5rem', marginBottom: '-20px' }}
->
-  I need to add or analyze another resource
-</p>
+
       <div className="primary-container paywall">
         <PrimaryButton
           text="Cancel"

@@ -5,6 +5,7 @@ import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState, type ReactNode } from 'react';
 import { AimIcon } from '@icons';
+import Show from '@/app/views/components/Show/Show';
 
 interface OpenOrderButtonProps {
   resourceCount?: number;
@@ -13,6 +14,7 @@ interface OpenOrderButtonProps {
   className?: string;
   scope?: OrderSection;
   plan?: 'medium' | 'small' | 'advanced' | null;
+  hasActiveOrder?: boolean;
 }
 
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
@@ -22,12 +24,18 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
       <b>{plan} plan</b>.
     </>
   ),
-  [ResourcesTypes.MOBILE]: ({ plan }: any) => (
-    <>
-      No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
-      <b>{plan} plan.</b>
-    </>
-  ),
+  [ResourcesTypes.MOBILE]: ({ plan, hasActiveOrder }: any) =>
+    !hasActiveOrder ? (
+      <>
+        No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
+        <b>{plan} plan.</b>
+      </>
+    ) : (
+      <>
+        A dedicated penetration test is currently underway for this resource. You’ll be notified as
+        soon as the results are available. Sit back, we’ve got this covered.
+      </>
+    ),
 
   [ResourcesTypes.CLOUD]: () => <></>,
   [ResourcesTypes.CODE]: () => <></>,
@@ -71,6 +79,7 @@ const OpenOrderButton = ({
   className = '',
   scope = OrderSection.SCOPE,
   plan = null,
+  hasActiveOrder = false,
 }: OpenOrderButtonProps) => {
   const { updateState } = useOrderStore(state => state);
   const { isAdmin, isNormalUser } = useUserRole();
@@ -97,32 +106,35 @@ const OpenOrderButton = ({
       planStore = plan;
     }
 
-    setPlanText(orderText[type]({ total, plan: planStore, name, downloads }));
+    setPlanText(orderText[type]({ total, plan: planStore, name, downloads, hasActiveOrder }));
   }, [
     globalStore.domainCount.get,
     globalStore.subDomainCount.get,
     globalStore.selectedApp.get,
     globalStore.planPreference.get,
+    hasActiveOrder,
   ]);
 
   return (
     <div className="card title">
       <div className="header">
         <AimIcon />
-        <span>{titleMap[type]}</span>
+        <span>{!hasActiveOrder ? titleMap[type] : 'Pentest in progress'}</span>
       </div>
       <div className="content">
         <p>{planText}</p>
         <div className="actions">
-          <PrimaryButton
-            text={
-              type === ResourcesTypes.MOBILE ? 'Start dedicated testing' : 'Request a pentest now'
-            }
-            click={onOpen}
-            className={className}
-            isDisabled={resourceCount === 0 || isLoading}
-            disabledLoader
-          />
+          <Show when={!hasActiveOrder}>
+            <PrimaryButton
+              text={
+                type === ResourcesTypes.MOBILE ? 'Start dedicated testing' : 'Request a pentest now'
+              }
+              click={onOpen}
+              className={className}
+              isDisabled={resourceCount === 0 || isLoading}
+              disabledLoader
+            />
+          </Show>
         </div>
       </div>
     </div>

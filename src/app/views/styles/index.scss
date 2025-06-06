@@ -48,6 +48,10 @@
   border: none !important;
 }
 
+.no-outline {
+  outline: none !important;
+}
+
 .sub-domain-icon-h {
   display: inline-block;
   width: 0.125rem /* 2px */;
@@ -443,6 +447,19 @@ main {
       &.app-card-disabled {
         opacity: 0.5;
         cursor: default;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1230px) {
+  main {
+    padding-inline-start: var(--card-space);
+
+    &.actived {
+      section.left,
+      section.right {
+        margin-block-start: calc(5px + var(--nav-height));
       }
     }
   }
@@ -873,6 +890,57 @@ main.scans {
   }
 }
 
+///////////////////////
+// NEW AUTH PAGE
+//////////////////////////////////
+
+.sidebar:has(+ main.auth-pages) {
+  margin-block-start: var(--card-space);
+}
+main.auth-pages {
+  section.left {
+    overflow: hidden;
+    margin-block-start: var(--card-space);
+  }
+  section.right {
+    margin-block-start: var(--card-space);
+  }
+}
+
+@media only screen and (max-width: 1140px) {
+  .sidebar:has(+ main.auth-pages) {
+    display: none;
+  }
+  main.auth-pages {
+    padding-inline-start: var(--card-space);
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  main.auth-pages {
+    section.left {
+      .radar-scanner {
+        display: none;
+      }
+    }
+    section.right {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  main.auth-pages {
+    .flex-box {
+      flex-direction: column;
+    }
+    section.left {
+      .card.stat.default {
+        width: 100%;
+      }
+    }
+  }
+}
 ///////////////////////
 // WELCOME CONTAINER
 //////////////////////////////////
@@ -1336,6 +1404,18 @@ main.scans {
   animation: vibrate 550ms linear both;
 }
 
+.animate-slide-in {
+  animation: sidebar-slide-in 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-slide-out {
+  animation: sidebar-slide-out 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-overlay-in {
+  animation: overlayAnimation 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
 @keyframes scanMove {
   0% {
     transform: translateY(-25px);
@@ -1695,6 +1775,24 @@ main.scans {
   }
 }
 
+@keyframes sidebar-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sidebar-slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 //////////////////////////////////////////////////////////////////
 // DARK MODE
 //////////////////////////////////////////////////////////////////
@@ -2037,11 +2135,6 @@ h3 {
   // padding: 1rem;
 }
 
-.step-content {
-  margin-top: 10px;
-  /* Espaciado superior para separación */
-}
-
 .option-maximo {
   // padding-left: 5px; /* Ajustar el espaciado izquierdo para las opciones */
   border: none;
@@ -2057,9 +2150,9 @@ h3 {
   // border-bottom: 1px solid #00000000;
   transition: all 0.13s ease-in;
   line-height: 1.8;
-&:first-child {
-  border-top: 1px solid #ccc;
-}
+  &:first-child {
+    border-top: 1px solid #ccc;
+  }
   .one-pentest {
     font-size: 0.9rem;
     /* Tamaño de fuente reducido */
@@ -2142,7 +2235,6 @@ h3 {
 /* Solo en hover o seleccionada, fondo blanco y borde rojo, y aparece el box-shadow */
 .plan-card-auto:hover,
 .plan-card-auto.selected {
-  /* box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%); */
   border-color: #ff7878;
   background: #fff;
 

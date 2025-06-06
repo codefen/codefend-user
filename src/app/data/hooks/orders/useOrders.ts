@@ -9,8 +9,9 @@ import {
   CryptoPayment,
   getDomainCounts,
   ResourcesTypes,
+  UserPlanSelected,
 } from '../..';
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import type { SocialResourceResume } from '@interfaces/resources-resumes';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -674,26 +675,31 @@ export const userOrderCardPayment = () => {
 
 export const userOrderFinished = () => {
   const [fetcher] = useFetcher();
-  const { getCompany } = useUserData();
   const company = useGlobalFastField('company');
-  const finishOrder = (referenceNumber: string, orderId: string) => {
-    const companyID = getCompany();
-    if (companyIdIsNull(companyID)) return Promise.resolve(false);
-    return fetcher('post', {
-      body: {
-        phase: 'finished',
-        company_id: getCompany(),
-        reference_number: referenceNumber,
-        order_id: orderId,
-      },
-      path: 'orders/add',
-    }).then(({ data }: any) => {
-      if (data?.company) {
-        company.set(data.company);
-      }
-      return data;
-    });
-  };
+
+  const finishOrder = useCallback(
+    (
+      referenceNumber: string,
+      orderId: string,
+      paywallSelected: UserPlanSelected = UserPlanSelected.MANUAL_PENTEST
+    ) => {
+      const companyID = company.get?.id;
+      if (companyIdIsNull(companyID)) return Promise.resolve(false);
+      return fetcher('post', {
+        body: {
+          phase: 'finished',
+          company_id: companyID,
+          reference_number: referenceNumber,
+          order_id: orderId,
+        },
+        path: `orders/add${paywallSelected === UserPlanSelected.AUTOMATED_PLAN ? '/small' : ''}`,
+      }).then(({ data }: any) => {
+        if (data?.company) company.set(data.company);
+        return data;
+      });
+    },
+    [company.get?.id]
+  );
 
   return finishOrder;
 };

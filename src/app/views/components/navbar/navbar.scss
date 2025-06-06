@@ -4,7 +4,7 @@
   left: var(--absolute-bars-left);
   right: 15px;
   max-width: var(--max-w-layout);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
@@ -274,6 +274,12 @@
         }
       }
     }
+  }
+}
+
+@media only screen and (min-width: 1230px) {
+  .navbar {
+    display: flex;
   }
 }
 

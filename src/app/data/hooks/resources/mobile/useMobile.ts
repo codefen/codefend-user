@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { defaultConfig, disponibleFetcher } from '@services/swr';
 import useSWR from 'swr';
@@ -40,8 +40,24 @@ export const useMobile = () => {
     }
   }, [data?.company]);
 
+  const orderMappped = useMemo(
+    () =>
+      data?.orders
+        ? data?.orders.map((order: any) => ({
+            id: order?.id,
+            scope: JSON.parse(order?.resources_scope?.replace?.(/&amp;/g, '&'))?.mobile,
+            fecha_cierre_real: order?.fecha_cierre_real,
+            condicion_finished: order?.condicion_finished,
+            condicion_provider: order?.condicion_provider,
+            condicion_financial: order?.condicion_financial,
+          }))
+        : [],
+    [data?.orders]
+  );
+
   return {
     data: data?.disponibles ? data?.disponibles : [],
+    orders: orderMappped,
     isLoading: isLoading || isValidating,
     refetch,
     updateData,

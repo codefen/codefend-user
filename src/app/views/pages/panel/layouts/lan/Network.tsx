@@ -21,9 +21,16 @@ import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
 
 const NetworkPage: FC = () => {
-  const [showScreen, _, refresh] = useShowScreen();
-  const { networks, isLoading, externalIpCount, internalIpCount, totalNotUniqueIpCount, appEvent } =
-    useGetNetworkv2();
+  const [showScreen] = useShowScreen();
+  const {
+    networks,
+    isLoading,
+    externalIpCount,
+    internalIpCount,
+    totalNotUniqueIpCount,
+    appEvent,
+    refetch,
+  } = useGetNetworkv2();
   const flashlight = useFlashlight();
   const { isAdmin, isNormalUser } = useUserRole();
 
@@ -31,7 +38,7 @@ const NetworkPage: FC = () => {
     <EmptyLayout
       className="lan"
       fallback={networkEmptyScreen}
-      event={refresh}
+      event={refetch}
       showScreen={showScreen}
       isLoading={isLoading}
       dataAvailable={Boolean(networks.length)}>
@@ -44,7 +51,7 @@ const NetworkPage: FC = () => {
       <section className="left">
         <LanNetworkData
           isLoading={isLoading}
-          refetchInternalNetwork={refresh}
+          refetchInternalNetwork={refetch}
           internalNetwork={networks}
         />
       </section>

@@ -18,7 +18,7 @@ import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 const MobileApplicationPanel: React.FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { showModal, setShowModal } = useModal();
-  const { data, refetch, isLoading, updateData } = useMobile();
+  const { data, refetch, isLoading, updateData, orders } = useMobile();
   const { selectedApp, appEvent, userLoggingState } = useGlobalFastFields([
     'selectedApp',
     'appEvent',
@@ -63,7 +63,7 @@ const MobileApplicationPanel: React.FC = () => {
 
       <section className="right">
         <Show when={Boolean(selectedApp.get)}>
-          <MobileSelectedDetails listSize={data?.length || 0} appEvent={appEvent} />
+          <MobileSelectedDetails listSize={data?.length || 0} appEvent={appEvent} orders={orders} />
         </Show>
       </section>
 

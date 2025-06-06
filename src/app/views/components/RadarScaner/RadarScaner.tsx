@@ -402,7 +402,7 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
   }, []);
 
   return (
-    <div className={css['radar-container']}>
+    <div className={`radar-scanner ${css['radar-container']}`}>
       <div className={css['radar-animation']} />
       <canvas
         ref={canvasRef}

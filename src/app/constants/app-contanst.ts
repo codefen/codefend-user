@@ -32,7 +32,7 @@ export class AppConstants {
         'Exclusive small plans for web applications offer a unique combination of <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>. All provide limited access to the platform with report creation and issue visualization.',
       small: {
         type: 'small',
-        price: '$1,500',
+        price: '1,500',
         promise: 'basic one-time analysis',
         list: [
           'Recommended maximum of <b>2 domains.</b>',
@@ -48,7 +48,7 @@ export class AppConstants {
       },
       medium: {
         type: 'medium',
-        price: '$4,500',
+        price: '4,500',
         promise: 'intermediate one-time analysis',
         list: [
           'Recommended maximum of <b>5 domains.</b>',
@@ -64,7 +64,7 @@ export class AppConstants {
       },
       advanced: {
         type: 'advanced',
-        price: '$13,500',
+        price: '13,500',
         promise: 'advanced one-time analysis',
         list: [
           'Recommended maximum of <b>10 to 15 domains.</b>',
@@ -84,7 +84,7 @@ export class AppConstants {
         'Exclusive small plans for XXXXXX offer a unique combination of <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>. All provide limited access to the platform with report creation and issue visualization.',
       small: {
         type: 'small',
-        price: '$1,500',
+        price: '1,500',
         promise: 'basic one-time analysis',
         list: [
           'Recommended maximum of <b>1,500 downloads.</b>',
@@ -99,7 +99,7 @@ export class AppConstants {
       },
       medium: {
         type: 'medium',
-        price: '$4,500',
+        price: '4,500',
         promise: 'intermediate one-time analysis',
         list: [
           'Recommended maximum of <b>15,000 downloads.</b>',
@@ -114,7 +114,7 @@ export class AppConstants {
       },
       advanced: {
         type: 'advanced',
-        price: '$13,500',
+        price: '13,500',
         promise: 'advanced one-time analysis',
         list: [
           'Recommended minimum of <b>15,000 downloads.</b>',
@@ -133,7 +133,7 @@ export class AppConstants {
         'Exclusive small plans for web applications offer a unique combination of <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>. All provide limited access to the platform with report creation and issue visualization.',
       small: {
         type: 'small',
-        price: '$1,500',
+        price: '1,500',
         promise: 'basic one-time analysis',
         list: [
           'Recommended maximum of <b>20 ip addresses.</b>',
@@ -147,7 +147,7 @@ export class AppConstants {
       },
       medium: {
         type: 'medium',
-        price: '$4,500',
+        price: '4,500',
         promise: 'intermediate one-time analysis',
         list: [
           'Recommended maximum of <b>200 ip addresses.</b>',
@@ -161,7 +161,7 @@ export class AppConstants {
       },
       advanced: {
         type: 'advanced',
-        price: '$13,500',
+        price: '13,500',
         promise: 'advanced one-time analysis',
         list: [
           'Recommended maximum of <b>1000 ip addresses.</b>',
@@ -179,7 +179,7 @@ export class AppConstants {
         'Exclusive small plans for web applications offer a unique combination of <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>. All provide limited access to the platform with report creation and issue visualization.',
       small: {
         type: 'small',
-        price: '$1,500',
+        price: '1,500',
         promise: 'basic one-time analysis',
         list: [
           'Recommended maximum of <b>20 employees.</b>',
@@ -193,7 +193,7 @@ export class AppConstants {
       },
       medium: {
         type: 'medium',
-        price: '$4,500',
+        price: '4,500',
         promise: 'intermediate one-time analysis',
         list: [
           'Recommended maximum of <b>100 employees.</b>',
@@ -207,7 +207,7 @@ export class AppConstants {
       },
       advanced: {
         type: 'advanced',
-        price: '$13,500',
+        price: '13,500',
         promise: 'advanced one-time analysis',
         list: [
           'Recommended maximum of <b>1000 employees.</b>',
@@ -225,7 +225,7 @@ export class AppConstants {
         'Exclusive small plans for web applications offer a unique combination of <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>. All provide limited access to the platform with report creation and issue visualization.',
       small: {
         type: 'small',
-        price: '$1,500',
+        price: '1,500',
         promise: 'basic one-time analysis',
         list: [
           'Recommended maximum of <b>XXXX.</b>',
@@ -240,7 +240,7 @@ export class AppConstants {
       },
       medium: {
         type: 'medium',
-        price: '$4,500',
+        price: '4,500',
         promise: 'intermediate one-time analysis',
         list: [
           'Recommended maximum of <b>XXXX.</b>',
@@ -255,7 +255,7 @@ export class AppConstants {
       },
       advanced: {
         type: 'advanced',
-        price: '$13,500',
+        price: '13,500',
         promise: 'advanced one-time analysis',
         list: [
           'Recommended maximum of <b>XXXX.</b>',
@@ -274,7 +274,7 @@ export class AppConstants {
         'Exclusive small plans for web applications offer a unique combination of <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>. All provide limited access to the platform with report creation and issue visualization.',
       small: {
         type: 'small',
-        price: '$1,500',
+        price: '1,500',
         promise: 'basic one-time analysis',
         list: [
           'Recommended maximum of <b>XXXX.</b>',
@@ -289,7 +289,7 @@ export class AppConstants {
       },
       medium: {
         type: 'medium',
-        price: '$4,500',
+        price: '4,500',
         promise: 'intermediate one-time analysis',
         list: [
           'Recommended maximum of <b>XXXX.</b>',
@@ -304,7 +304,7 @@ export class AppConstants {
       },
       advanced: {
         type: 'advanced',
-        price: '$13,500',
+        price: '13,500',
         promise: 'advanced one-time analysis',
         list: [
           'Recommended maximum of <b>XXXX.</b>',
