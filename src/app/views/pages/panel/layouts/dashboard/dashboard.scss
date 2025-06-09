@@ -11,23 +11,6 @@ main.dashboard {
       }
     }
 
-    .content-box-assets {
-      display: flex;
-      flex-direction: row;
-      gap: 12px;
-      justify-content: center;
-      margin-bottom: 12px;
-
-      &.left-asset .card .over .grid-2x2 {
-        width: fit-content;
-        justify-self: center;
-      }
-
-      .box-assets {
-        flex: 1;
-      }
-    }
-
     .over {
       .item-cell-1 {
         font-size: 0.9rem;
@@ -40,6 +23,36 @@ main.dashboard {
         max-width: unset !important;
         flex: unset !important;
         padding-right: 0;
+      }
+    }
+
+    .box-assets {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      width: 100%;
+      min-height: 340px;
+      height: fit-content;
+
+      > .card {
+        overflow: hidden;
+        min-width: 200px;
+        padding: 0.5rem;
+
+        height: 100%;
+
+        &:nth-child(1) {
+          flex: 1 1 45%;
+        }
+
+        &:nth-child(2) {
+          flex: 1 1 55%;
+        }
+
+        .over .grid-2x2 {
+          width: fit-content;
+          justify-self: center;
+        }
       }
     }
 
@@ -66,31 +79,6 @@ main.dashboard {
         min-width: 13%;
         max-width: 13%;
         font-size: 0.95rem;
-      }
-    }
-
-    .box-assets {
-      display: flex;
-      flex-direction: row;
-      gap: 12px;
-
-      .box-assets-right {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 12px;
-
-        p {
-          max-width: 85%;
-          line-height: 1.5;
-          font-size: 0.975rem;
-          letter-spacing: 0.1px;
-        }
-
-        button {
-          max-width: 40%;
-          margin-top: 12px;
-        }
       }
     }
   }
@@ -189,6 +177,25 @@ main.dashboard {
     .simple-section-header {
       background-color: var(--primary-color-200);
       border-bottom: none;
+    }
+  }
+}
+
+@container left-main (max-width: 640px) {
+  main.dashboard {
+    .left {
+      .box-assets {
+        flex-direction: column;
+        min-height: fit-content;
+
+        > .card {
+          &:nth-child(1),
+          &:nth-child(2) {
+            flex: none;
+            height: fit-content;
+          }
+        }
+      }
     }
   }
 }

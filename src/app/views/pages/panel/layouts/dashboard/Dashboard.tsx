@@ -39,13 +39,9 @@ const Dashboard = () => {
         ) : (
           <PageLoader />
         )}
-        <div className="content-box-assets left-asset">
-          <div className="box-assets" style={{ flex: '0.7' }}>
-            <DashboardAddResource data={data} />
-          </div>
-          <div className="box-assets">
-            <DashboardAddCollaborators isLoading={isLoading} data={data} />
-          </div>
+        <div className="box-assets">
+          <DashboardAddResource data={data} />
+          <DashboardAddCollaborators isLoading={isLoading} data={data} />
         </div>
       </section>
 
