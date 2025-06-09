@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "importHelpers": true,
+    "baseUrl": "./",
+
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "sourceMap": false,
+    "jsx": "react-jsx",
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+	"paths": {
+		"@userHooks/*": ["./src/app/data/hooks/users/*"],
+		"@moduleHooks/*": ["./src/app/data/hooks/modules/*"],
+		"@resourcesHooks/*": ["./src/app/data/hooks/resources/*"],
+		"@panelHooks/*": ["./src/app/data/hooks/panel/*"],
+		"@hooks/*": ["./src/app/data/hooks/*"],
+		"@interfaces/*": ["./src/app/data/interfaces/*"],
+		"@stores/*": ["./src/app/data/store/*"],
+		"@utils/*": ["./src/app/data/utils/*"],
+		"@mocks/*": ["./src/app/data/mocks/*"],
+		"@services/*": ["./src/app/data/services/*"],
+
+		"@buttons/*": ["./src/app/views/components/buttons/*"],
+		"@modals/*": ["./src/app/views/components/modals/*"],
+		"@icons": ["./src/app/views/components/icons/index.tsx"],
+		"@table/*": ["./src/app/views/components/Table/*"],
+
+		"@styles/*": ["./src/app/views/styles/*"],
+
+		"@/*": ["./src/*"]
+	}
+  },
+  "include": ["src"]
+}

@@ -4,10 +4,10 @@ import path from 'path';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
-import tsconfig from './tsconfig.json';
+import tsconfig from './tsconfig.app.json';
 
-const raw = tsconfig.compilerOptions.paths;
-const alias = {};
+const raw: any = tsconfig.compilerOptions.paths;
+const alias: any = {};
 const {
   VITE_PORT: PORT,
   TAURI_HOST: HOST,
