@@ -1,5 +1,8 @@
 main.user-profile {
   .left {
+    overflow-x: hidden;
+    overflow-y: auto;
+
     .user-profile-top {
       display: flex;
       justify-content: center;
@@ -23,20 +26,23 @@ main.user-profile {
 
     .box-assets {
       display: flex;
-      flex-wrap: wrap;
       align-items: stretch;
       gap: 12px;
       width: 100%;
       min-height: 340px;
+      height: fit-content;
 
       .card {
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 0;
+        overflow: hidden;
         min-width: 200px;
         padding: 0.5rem;
+        flex: 1 1 50%;
         height: 100%;
       }
+    }
+
+    .status-card-container {
+      display: none;
     }
 
     .qr-contain {
@@ -114,43 +120,36 @@ main.user-profile {
   }
 
   &.actived {
-    opacity: 1;
-    width: 96%;
-    margin-left: 0;
-    margin-right: auto;
-    display: flex;
-    flex-direction: row;
-
     .left {
-      flex: 3.5;
+      flex: 1 1 60%;
       padding-block-start: 0;
       margin-block-start: calc(18px + var(--nav-height));
     }
 
     .right {
-      flex: 2.5;
+      flex: 1 1 40%;
       padding-block-start: 0;
       margin-block-start: calc(18px + var(--nav-height));
     }
   }
 
-  @media only screen and (max-width: 600px) {
-    display: block;
-    min-height: auto;
-    height: 81dvh;
-    padding: 0;
+  // @media only screen and (max-width: 600px) {
+  //   display: block;
+  //   min-height: auto;
+  //   height: 81dvh;
+  //   padding: 0;
 
-    .left {
-      width: 100%;
-      overflow-x: auto;
-      padding-block-start: 10px;
-    }
+  //   .left {
+  //     width: 100%;
+  //     overflow-x: auto;
+  //     padding-block-start: 10px;
+  //   }
 
-    .right {
-      width: 100%;
-      padding-block-start: 20px;
-    }
-  }
+  //   .right {
+  //     width: 100%;
+  //     padding-block-start: 20px;
+  //   }
+  // }
 }
 
 .card.rectangle svg,
@@ -174,6 +173,35 @@ main.user-profile {
       background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
         linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
       background-size: 8px 8px;
+    }
+  }
+}
+@media only screen and (max-width: 1000px) {
+  main.user-profile {
+    .left {
+      .status-card-container {
+        display: flex;
+      }
+    }
+    .right {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 1230px) {
+  main.user-profile {
+    width: 96%;
+  }
+}
+
+@container left-main (max-width: 600px) {
+  main.user-profile {
+    .left {
+      .box-assets {
+        flex-direction: column;
+        min-height: fit-content;
+      }
     }
   }
 }
