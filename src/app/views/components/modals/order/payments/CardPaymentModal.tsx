@@ -42,7 +42,6 @@ export const CardPaymentModal = ({
           order_id: orderId,
         },
         path: `orders/add${paywallSelected === UserPlanSelected.AUTOMATED_PLAN ? '/small' : ''}`,
-        insecure: true,
       });
 
       merchId.current = data.merch_cid;
