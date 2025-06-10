@@ -466,79 +466,6 @@ main {
 }
 
 ///////////////////////////////////////////////////////////////////
-// DASHBOARD
-//////////////////////////////////////////////////////////////////
-
-main.dashboard {
-  .left {
-    .card {
-      .content {
-        padding: 0;
-      }
-    }
-
-    .table {
-      .vul-title {
-        min-width: 48%;
-        max-width: 48%;
-      }
-
-      .vul-class,
-      .username,
-      .vul-score,
-      .date {
-        min-width: 13%;
-        max-width: 13%;
-      }
-    }
-  }
-
-  .right {
-    .card {
-      &.stats {
-        .content {
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-          padding: 12px;
-        }
-      }
-
-      &.risk-chart {
-        .content {
-          padding: 12px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-      }
-    }
-  }
-
-  .table {
-    .issue-name-cell {
-      gap: 1rem;
-    }
-  }
-
-  @media only screen and (max-width: 1480px) {
-    .right {
-      .card {
-        &.risk-chart {
-          .content {
-            .chart {
-              flex: 1 1 100%;
-              min-width: 105px;
-              max-width: 0%;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-///////////////////////////////////////////////////////////////////
 // PREFERENCES PANEL
 //////////////////////////////////////////////////////////////////
 main.preferences {
@@ -1812,16 +1739,16 @@ main.auth-pages {
       filter: blur(115px) brightness(0.5);
     }
 
-    .right {
-      padding-left: 14px;
-      background: #121a234d !important;
-      backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
-      box-shadow: #000 -20px 0 120px -55px;
-      border-image-slice: 1;
-      background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
-        linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
-      background-size: 8px 8px;
-    }
+    // .right {
+    //   padding-left: 14px;
+    //   background: #121a234d !important;
+    //   backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
+    //   box-shadow: #000 -20px 0 120px -55px;
+    //   border-image-slice: 1;
+    //   background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
+    //     linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
+    //   background-size: 8px 8px;
+    // }
   }
 
   main.mobile,
@@ -1968,20 +1895,6 @@ main.auth-pages {
 //////////////////////////////////////////////////////////////////
 // RESPONSIVE
 //////////////////////////////////////////////////////////////////
-
-// @media only screen and (min-width: 1200px) {
-//   main {
-//     padding-inline-start: calc(var(--sidebar-width) + 1rem);
-
-//     .left {
-//       padding: 0;
-//     }
-
-//     .right {
-//       // padding: 0 0 0 0.5rem;
-//     }
-//   }
-// }
 
 main.mobile .left .app-card {
   border-radius: 7px;

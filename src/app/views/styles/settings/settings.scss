@@ -116,10 +116,10 @@ body {
 }
 
 body[data-theme='dark'] {
-  background: #1d2732;
-  background: -moz-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
-  background: -webkit-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
-  background: linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
+  background: radial-gradient(85% 158.68% at 12.45% 77.25%, #101415 41.43%, #2b2d2c 100%);
+  // background: -moz-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
+  // background: -webkit-linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
+  // background: linear-gradient(150deg, #19222cfc 10%, #1f2936 52%, #1f2934 91%);
   color: var(--tertiary-color-200);
 }
 

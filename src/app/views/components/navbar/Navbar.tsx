@@ -14,6 +14,7 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { Breadcrumb } from '@/app/views/components/utils/Breadcrumb.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import { ThemeChangerButton } from '@buttons/index.ts';
 
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
@@ -128,7 +129,7 @@ const Navbar: FC = () => {
                 closeMenu={() => setMenuOpen(false)}
               />
             </div>
-            {/* <ThemeChangerButton /> */}
+            <ThemeChangerButton />
             <div
               className="action logout"
               title="Logout"
