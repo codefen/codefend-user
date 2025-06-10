@@ -492,48 +492,9 @@
   }
 }
 [data-theme='dark'] .sidebar {
-  background: var(--primary-color-500);
-  border-right: 1px solid;
-  border-image: linear-gradient(
-    210deg,
-    #ffffff00 15%,
-    #203968 36%,
-    #40538f 46%,
-    #20437c 54%,
-    #2e4b58 64%,
-    #ffffff00 85%
-  );
-  border-image-slice: 1;
-  background-size: 14px 14px;
-  backdrop-filter: blur(5px) saturate(0.8) contrast(1);
-  box-shadow: 1px 2px 5px 1px #0000004d;
-
-  &.is-open {
-    background: #121a234d;
-    backdrop-filter: blur(9px) saturate(0.8) contrast(1);
-    box-shadow: 2px 3px 28px 15px #00000066;
-    background-image: linear-gradient(#444df710 0.4px, transparent 0.4px),
-      linear-gradient(to right, #444df710 0.4px, #e5e5f700 0.4px);
-    background-size: 2px 2px;
-
-    a {
-      ::after {
-        text-shadow: 1px 2px 7px #000000;
-      }
-
-      &:hover {
-        background: linear-gradient(90deg, #15202ed9 5%, #121a20e6 25%, #121a2080 30%);
-        color: #f76767db;
-      }
-    }
-  }
-
-  &:not(:hover) {
-    background: var(--primary-color-500);
-    backdrop-filter: blur(5px) saturate(0.8) contrast(1);
-    box-shadow: 1px 2px 5px 1px #0000004d;
-    background-image: none;
-    background-size: 14px 14px;
+  &.sidebar-desktop {
+    background: #101010b8;
+    box-shadow: 1px 1px 11px 3px #1d1d1d42;
   }
 
   a {
@@ -541,8 +502,13 @@
     color: var(--tertiary-color-300);
 
     &.active {
-      background-color: var(--primary-color-mask) !important;
-      color: var(--secondary-color-50) !important;
+      background-color: var(--primary-color-600);
+      color: var(--secondary-color-50);
+    }
+
+    &:hover {
+      background-color: var(--primary-color-600);
+      border-bottom-color: var(--secondary-color-50);
     }
   }
 }

@@ -1,28 +1,37 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "ES2022",
-    "lib": ["ES2023"],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "importHelpers": true,
+    "baseUrl": "./",
 
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
+    "isolatedModules": true,
     "noEmit": true,
+    "esModuleInterop": true,
+    "sourceMap": false,
+    "jsx": "react-jsx",
 
     "strict": true,
     "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
     "paths": {
+      "#commonUserHooks/*": ["./src/app/data/hooks/users/common/*"],
       "@userHooks/*": ["./src/app/data/hooks/users/*"],
       "@moduleHooks/*": ["./src/app/data/hooks/modules/*"],
       "@resourcesHooks/*": ["./src/app/data/hooks/resources/*"],
       "@panelHooks/*": ["./src/app/data/hooks/panel/*"],
+      "#commonHooks/*": ["./src/app/data/hooks/common/*"],
       "@hooks/*": ["./src/app/data/hooks/*"],
       "@interfaces/*": ["./src/app/data/interfaces/*"],
       "@stores/*": ["./src/app/data/store/*"],
@@ -36,9 +45,8 @@
       "@table/*": ["./src/app/views/components/Table/*"],
 
       "@styles/*": ["./src/app/views/styles/*"],
-
       "@/*": ["./src/*"]
 	  }
   },
-  "include": ["vite.config.ts"]
+  "include": ["src"]
 }

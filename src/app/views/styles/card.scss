@@ -76,9 +76,7 @@
   }
 
   & .over {
-    background-color: var(--primary-color);
     padding: var(--card-space);
-    border-radius: var(--brd-radius);
 
     .table-title {
       display: flex;
@@ -108,6 +106,8 @@
       margin-block-end: var(--card-space);
       font-size: 16px;
       font-family: Questrial;
+      margin-top: 0.5lh;
+      line-height: 1.5em;
     }
 
     form {
@@ -348,9 +348,6 @@
   }
 
   &.stats {
-    background-color: inherit;
-    border: inherit;
-
     .content {
       display: flex;
       justify-content: space-around;
@@ -1161,7 +1158,6 @@
   }
 
   .left .card {
-    border: 1px solid #00000025;
     transition:
       color,
       background,
@@ -1169,7 +1165,6 @@
   }
 
   .card {
-    border: 1px solid transparent;
     background: #121a234d;
     backdrop-filter: blur(9px) saturate(0.8) contrast(1);
 
@@ -1178,17 +1173,14 @@
       transition:
         color,
         background 275ms linear;
-      background: #0d141b59;
     }
 
     &.stat {
       outline: none;
       background-color: var(--primary-color-300);
-      border: 1px solid var(--primary-color-400);
 
       &.default {
         border: none;
-        background-color: var(--primary-color);
       }
 
       &.stat-active {

@@ -25,6 +25,7 @@ export const UserProfilePage = () => {
     <main className={`user-profile ${showScreen ? 'actived' : ''}`}>
       <section className="left">
         <UserProfilePageHeader />
+        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
         <div className="box-assets">
           <UserPassword />
           <UserQr />

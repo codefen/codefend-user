@@ -14,7 +14,7 @@ export const VulnerabilitiesStatus: FC<{
     };
   };
   return (
-    <div className="flex-box">
+    <div className="flex-box status-card-container">
       <StatAsset
         value={
           <>

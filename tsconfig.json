@@ -1,58 +1,7 @@
 {
-	"compilerOptions": {
-		"target": "ES2020",
-		"lib": ["ES2020", "DOM", "DOM.Iterable"],
-    	"module": "ESNext",
-		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": true,
-		"skipLibCheck": true,
-		"importHelpers": true,
-		"baseUrl": "./",
-
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"noImplicitReturns": true,
-		"sourceMap": false,
-		"declaration": false,
-		"jsx": "react-jsx",
-		"verbatimModuleSyntax": true,
-		"importsNotUsedAsValues": "remove",
-
-		"strict": true,
-		"alwaysStrict": true,
-		"forceConsistentCasingInFileNames": false,
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"noPropertyAccessFromIndexSignature": true,
-		"noImplicitOverride": true,
-		"noFallthroughCasesInSwitch": true,
-
-		"paths": {
-			"#commonUserHooks/*": ["./src/app/data/hooks/users/common/*"],
-			"@userHooks/*": ["./src/app/data/hooks/users/*"],
-			"@moduleHooks/*": ["./src/app/data/hooks/modules/*"],
-			"@resourcesHooks/*": ["./src/app/data/hooks/resources/*"],
-			"@panelHooks/*": ["./src/app/data/hooks/panel/*"],
-			"#commonHooks/*": ["./src/app/data/hooks/common/*"],
-			"@hooks/*": ["./src/app/data/hooks/*"],
-			"@interfaces/*": ["./src/app/data/interfaces/*"],
-			"@stores/*": ["./src/app/data/store/*"],
-			"@utils/*": ["./src/app/data/utils/*"],
-			"@mocks/*": ["./src/app/data/mocks/*"],
-			"@services/*": ["./src/app/data/services/*"],
-
-			"@buttons/*": ["./src/app/views/components/buttons/*"],
-			"@modals/*": ["./src/app/views/components/modals/*"],
-			"@icons": ["./src/app/views/components/icons/index.tsx"],
-			"@table/*": ["./src/app/views/components/Table/*"],
-
-			"@styles/*": ["./src/app/views/styles/*"],
-
-			"@/*": ["./src/*"]
-		}
-	},
-	"include": ["src"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

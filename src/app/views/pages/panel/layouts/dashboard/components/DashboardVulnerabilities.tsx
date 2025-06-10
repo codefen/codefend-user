@@ -42,7 +42,7 @@ const DashboardVulnerabilities: FC<DashboardVulnerabilitiesProps> = ({
   topVulnerabilities,
   isLoading,
 }) => (
-  <div className="card">
+  <div className="card" id="dashboard-vulnerabilities">
     <div className="over">
       <div className="table-title">
         <h2>Issues overview</h2>

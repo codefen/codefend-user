@@ -95,33 +95,33 @@ export const PanelPage = () => {
   // }
 
   return (
-    <FlashLightProvider>
-      <>
-        <NetworkSettingModal
-          isOpen={modals.isNetworkSettingModalOpen}
-          close={() => setShowModal(false)}
-        />
-        <WelcomeGroupTour />
-        <QualityFeedbackManager />
-        <WelcomeLoadResource />
-        <AddNewResourceModal />
-        <AddCollaboratorModal />
-        <OrderV2 />
-        <ModalReport />
-        <ErrorConnection
-          closeModal={closeErrorConnectionModal}
-          open={modals.isErrorConnectionModalOpen}
-        />
+    // <FlashLightProvider>
+    <>
+      <NetworkSettingModal
+        isOpen={modals.isNetworkSettingModalOpen}
+        close={() => setShowModal(false)}
+      />
+      <WelcomeGroupTour />
+      <QualityFeedbackManager />
+      <WelcomeLoadResource />
+      <AddNewResourceModal />
+      <AddCollaboratorModal />
+      <OrderV2 />
+      <ModalReport />
+      <ErrorConnection
+        closeModal={closeErrorConnectionModal}
+        open={modals.isErrorConnectionModalOpen}
+      />
 
-        <Navbar />
-        <Sidebar />
+      <Navbar />
+      <Sidebar />
 
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
-        <ScanWraper />
-      </>
-    </FlashLightProvider>
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
+      <ScanWraper />
+    </>
+    // </FlashLightProvider>
   );
 };
 
