@@ -46,7 +46,7 @@ const Navbar: FC = () => {
 
     // Detect if they clicked outside the dropdown
     document.addEventListener('mousedown', handleClickOutsideMenu);
-    setBaseApiName('kundalini');
+    setBaseApiName('');
     return () => {
       document.removeEventListener('mousedown', handleClickOutsideMenu);
     };

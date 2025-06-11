@@ -168,7 +168,6 @@ export const ScanSection = () => {
         toast.dismiss(toastId);
         const resourceId = data?.resource?.id;
         if (resourceId) {
-          // if (data?.company) company.set(data.company);
           autoScan(resourceId, false, idiom).then(result => {
             if (apiErrorValidation(result)) {
               updateState('open', true);
@@ -193,14 +192,6 @@ export const ScanSection = () => {
       });
   };
 
-  const selectBarOptions = {
-    options: IDIOM_SEARCHBAR_OPTION,
-    placeHolder: '',
-    value: idiom,
-    change: (e: ChangeEvent<HTMLSelectElement>) => setIdiom(e.target.value),
-    defaultSelectOption: 'en',
-  };
-
   return (
     <div className={css['scan-section-container']}>
       <ModalTitleWrapper
@@ -219,7 +210,6 @@ export const ScanSection = () => {
       <SearchBarContainer
         placeholder="Write a domain to scan"
         searchText="Start Scan"
-        selectBarOptions={selectBarOptions}
         handleSubmit={startAndAddedDomain}
         searchData={domainScanned}
         setSearchData={setDomainScanned}

@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "VITE_PORT=5173" >> .env
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
-          echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
+          echo "VITE_API_URI=https://api.codefend.com/index.php" >> .env
           
       - name: 🔨 Run build client
         run: pnpm build

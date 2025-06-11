@@ -9,6 +9,7 @@ import { useEffect, type PropsWithChildren } from 'react';
 import { BrowserRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '@/app/views/styles/toast.scss';
 
 export const AppWrapper = ({ children }: PropsWithChildren) => {
   const { setHas, setUpdate, ...updateState } = useUploadingStore();

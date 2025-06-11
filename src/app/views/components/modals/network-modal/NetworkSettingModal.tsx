@@ -92,10 +92,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
                       required
                     />
                     <datalist id="api-urls">
-                      <option value="https://kundalini.codefend.com/kundalini/index.php"></option>
-                      <option value="https://api.codefend.com/kundalini/index.php"></option>
-                      <option value="https://api-mena.codefend.com/kundalini/index.php"></option>
-                      <option value="https://kundalini-usa.codefend.com/kundalini/"></option>
+                      <option value="https://api.codefend.com/index.php"></option>
                     </datalist>
                     <button
                       onClick={() => setCanEdit(currentValue => !currentValue)}
