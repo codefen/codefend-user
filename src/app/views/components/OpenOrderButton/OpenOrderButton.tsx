@@ -118,7 +118,7 @@ const OpenOrderButton = ({
   return (
     <div className="card title">
       <div className="header">
-        <AimIcon />
+        {/* <AimIcon /> */}
         <span>{!hasActiveOrder ? titleMap[type] : 'Pentest in progress'}</span>
       </div>
       <div className="content">

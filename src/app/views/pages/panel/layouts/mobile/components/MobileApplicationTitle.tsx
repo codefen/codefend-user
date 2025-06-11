@@ -14,7 +14,7 @@ export const MobileApplicationTitle: React.FC<MobileApplicationTitleProps> = ({
   return (
     <div className="card title">
       <div className="header">
-        <MobileIcon />
+        {/* <MobileIcon /> */}
         <span>Mobile resources</span>
       </div>
       <div className="content">

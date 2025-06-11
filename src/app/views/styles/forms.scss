@@ -387,8 +387,9 @@ input[type='radio']:checked + .codefend-radio {
 
 [data-theme='dark'] {
   input {
-    background-color: #1d263120;
+    background-color: var(--primary-color);
     color: var(--tertiary-color-100);
+    border-color: rgba(41, 41, 41, 0.85);
 
     &:focus {
       color: var(--tertiary-color-200);

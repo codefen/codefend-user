@@ -149,7 +149,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({ isLoading, internalNet
   return (
     <div className="card table">
       <div className="over">
-        <div className="header">
+        {/* <div className="header">
           <div className="table-title">
             <h2>
               <div className="icon">
@@ -158,7 +158,7 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({ isLoading, internalNet
               Network structure
             </h2>
           </div>
-        </div>
+        </div> */}
 
         <Tablev3
           columns={networkColumns}

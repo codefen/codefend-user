@@ -24,8 +24,8 @@ export const AddNewTicketBox = () => {
                 setIsOpen(true);
                 setModalId(MODAL_KEY_OPEN.ADD_TICKET);
               }}
-              className={'btn-black'}
               disabledLoader
+              buttonStyle="black"
             />
           </div>
         </div>

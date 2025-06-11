@@ -57,9 +57,9 @@ const MobileApplicationPanel: React.FC = () => {
       dataAvailable={Boolean(data.length)}>
       <AddMobileModal isOpen={showModal} close={() => setShowModal(false)} />
       <DeleteMobileCloudModal onDone={onDelete} app={selectedApp.get} />
-      <div className="brightness variant-1"></div>
+      {/* <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div>
-      <div className="brightness variant-3"></div>
+      <div className="brightness variant-3"></div> */}
 
       <section className="right">
         <Show when={Boolean(selectedApp.get)}>

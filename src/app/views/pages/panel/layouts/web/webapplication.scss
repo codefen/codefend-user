@@ -9,6 +9,8 @@ main.webapp {
     padding-inline-start: 0;
 
     .table.table-web {
+      background-color: var(--primary-color);
+      border-radius: var(--brd-radius);
       .rows {
         max-height: calc(100cqh - 115px);
       }
@@ -107,8 +109,11 @@ main.webapp {
   }
 
   main.webapp {
-    .right {
-      box-shadow: #000000 -20px 0 120px -55px;
+    .left {
+      .table.table-web {
+        background: var(--primary-color);
+        backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+      }
     }
   }
 }

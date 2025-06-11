@@ -88,20 +88,18 @@ const SocialEngineeringView = () => {
       dataAvailable={Boolean(members.length)}>
       <CredentialsModal />
       <AddSocialResourceModal onDone={() => refresh()} />
-      <div className="brightness variant-1"></div>
-      <div className="brightness variant-2"></div>
       <section className="left">
         <SocialEngineering refetch={refresh} isLoading={isLoading} socials={filteredData} />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
         <AddSocialBlock isLoading={isLoading} />
-        <Show when={members && Boolean(members.length)}>
+        {/* <Show when={members && Boolean(members.length)}>
           <SocialEngineeringMembers
             isLoading={isLoading}
             members={members || []}
             handleDepartmentFilter={handleDepartmentFIlter}
           />
-        </Show>
+        </Show> */}
 
         <OpenOrderButton
           className="primary-full"

@@ -388,18 +388,32 @@
     backdrop-filter: blur(5px) saturate(0.5) contrast(1);
 
     .modal {
-      background: #0d0f12cc;
+      background: rgb(18 18 18 / 85%);
+      //background: #0d0f12cc;
       border: 1px solid #ffffff10;
       box-shadow: 0 2px 60px 20px #000000b3;
-    }
-  }
 
-  .header {
-    color: var(--tertiary-color-100);
+      .header {
+        color: var(--tertiary-color-200);
+      }
+
+      button.btn {
+        &.btn-black,
+        &.btn-dark-black {
+          background-color: var(--primary-color);
+        }
+      }
+    }
   }
 
   .content {
     color: var(--tertiary-color-100);
+
+    header {
+      .title-format {
+        color: var(--tertiary-color-400);
+      }
+    }
   }
 
   .error-wrapper {

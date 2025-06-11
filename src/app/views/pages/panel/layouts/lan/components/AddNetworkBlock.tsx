@@ -10,7 +10,7 @@ export default function AddNetworkBlock() {
   return (
     <div className="card title">
       <div className="header">
-        <LanIcon />
+        {/* <LanIcon /> */}
         <span>Network Infrastructure</span>
       </div>
       <div className="content">

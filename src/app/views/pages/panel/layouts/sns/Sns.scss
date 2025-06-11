@@ -229,3 +229,11 @@ main.sb {
     }
   }
 }
+
+[data-theme='dark'] main.sb {
+  .left {
+    .card.title {
+      box-shadow: 0 15px 45px 0 rgb(36 36 36 / 29%);
+    }
+  }
+}

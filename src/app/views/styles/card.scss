@@ -301,7 +301,6 @@
     &.default {
       cursor: default;
       border: none;
-      background-color: var(--primary-color);
     }
 
     &:hover {
@@ -432,6 +431,11 @@
         justify-content: space-between;
         cursor: pointer;
         padding-inline: var(--card-space);
+
+        .label,
+        .value {
+          font-size: 0.87rem;
+        }
 
         &:has(input:disabled) {
           opacity: 0.9;
@@ -1165,7 +1169,7 @@
   }
 
   .card {
-    background: #121a234d;
+    background: var(--primary-color);
     backdrop-filter: blur(9px) saturate(0.8) contrast(1);
 
     .header {
@@ -1173,11 +1177,21 @@
       transition:
         color,
         background 275ms linear;
+      color: var(--tertiary-color-100);
+    }
+
+    .content {
+      p {
+        color: var(--tertiary-color-400);
+      }
     }
 
     &.stat {
       outline: none;
-      background-color: var(--primary-color-300);
+
+      &.border-stat {
+        border: 1px solid rgb(36 35 35 / 81%);
+      }
 
       &.default {
         border: none;
@@ -1188,16 +1202,6 @@
         p {
           color: var(--secondary-color-200);
         }
-      }
-
-      &:first-child {
-        border-top-left-radius: 0.313rem;
-        border-bottom-left-radius: 0.313rem;
-      }
-
-      &:last-child {
-        border-top-right-radius: 0.313rem;
-        border-bottom-right-radius: 0.313rem;
       }
 
       .value {

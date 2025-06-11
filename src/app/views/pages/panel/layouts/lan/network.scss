@@ -69,10 +69,4 @@ main.lan {
     right: 4dvw;
     filter: blur(150px) brightness(0.45) opacity(0.55);
   }
-
-  main.lan {
-    .right {
-      box-shadow: #000000 -20px 0 120px -55px;
-    }
-  }
 }

@@ -7,11 +7,10 @@ export type Theme = {
   changeTheme: () => void;
 };
 
-function getInitialTheme(): 'dark' | 'light' {
+export function getInitialTheme(): 'dark' | 'light' {
   const storedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  // return storedTheme || (prefersDarkMode ? 'dark' : 'light');
-  return 'light';
+  return storedTheme || (prefersDarkMode ? 'dark' : 'light');
 }
 
 const initialThemeState = {
