@@ -84,7 +84,7 @@ const config = [
       parserOptions: {
         ...baseConfig.languageOptions.parserOptions,
         tsconfigRootDir: __dirname,
-        project: ['./tsconfig.json'],
+        project: ['./tsconfig.app.json'],
       },
     },
     rules: {
