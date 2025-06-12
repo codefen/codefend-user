@@ -393,6 +393,17 @@
       border: 1px solid #ffffff10;
       box-shadow: 0 2px 60px 20px #000000b3;
 
+      input,
+      select,
+      textarea {
+        background-color: rgb(35 35 35 / 28%);
+        border-color: #ffffff10;
+
+        &:focus {
+          border-color: var(--secondary-color-50);
+        }
+      }
+
       .header {
         color: var(--tertiary-color-200);
       }

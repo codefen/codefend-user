@@ -422,6 +422,64 @@ body[print-report] {
   }
 }
 
+[data-theme='dark'] {
+  .issues-report {
+    --line-color: #fe4e4e;
+    --text-color: #d2d2d2;
+    --text-color-alt: #f2f2f2;
+    --text-color-alt2: #fe4e4e;
+    --text-color-alt3: rgb(206 206 206 / 89%);
+    --code-bkg: #ffe6ee;
+
+    .card {
+      background: transparent;
+      backdrop-filter: none;
+    }
+
+    .title-main {
+      background-color: var(--primary-color-50);
+      border-color: var(--line-color);
+
+      h3 {
+        color: #d8656f;
+      }
+    }
+
+    .issue-main-content {
+      h3 {
+        color: var(--text-color);
+        border-color: var(--line-color);
+      }
+      p,
+      li {
+        color: var(--text-color-alt3);
+      }
+
+      hr {
+        border: 1px solid var(--text-color-alt);
+        margin: 20px 0px;
+      }
+
+      b {
+        color: var(--text-color-alt);
+      }
+
+      p a {
+        color: var(--secondary-color);
+      }
+
+      li a {
+        color: var(--secondary-color);
+      }
+
+      code {
+        color: #990808;
+        background-color: var(--code-bkg);
+      }
+    }
+  }
+}
+
 @media only print {
   * {
     -webkit-print-color-adjust: exact;

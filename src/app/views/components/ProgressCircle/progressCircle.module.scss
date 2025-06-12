@@ -38,3 +38,9 @@
     font-weight: bold;
   }
 }
+
+:global(body[data-theme='dark'] .modal) .progress-circle {
+  &.progress-gray {
+    color: var(--primary-color);
+  }
+}

@@ -2,7 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { OrderSection, UserPlanSelected } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { loadStripe } from '@stripe/stripe-js';
-import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
+import {
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout,
+  PaymentElement,
+} from '@stripe/react-stripe-js';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
@@ -63,9 +67,6 @@ export const CardPaymentModal = ({
   const options = useMemo(
     () => ({
       clientSecret,
-      appearance: {
-        theme: theme === 'dark' ? 'night' : 'stripe',
-      },
       onComplete: () => {
         setHideBackButton(true);
         fetcher<any>('post', {

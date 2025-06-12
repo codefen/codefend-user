@@ -67,14 +67,21 @@
 }
 
 :global(body[data-theme='dark'] .modal).welcome-modal-container {
-  background: #000;
-
   input {
-    background-color: rgb(29 38 49 / 12.5%);
+    background-color: inherit;
     color: var(--tertiary-color-100);
 
     &:focus {
       color: var(--tertiary-color-200);
+    }
+  }
+
+  .btn-search {
+    border-color: #ffffff10;
+    background-color: var(--primary-color-100);
+
+    svg {
+      fill: var(--secondary-color-50);
     }
   }
 }

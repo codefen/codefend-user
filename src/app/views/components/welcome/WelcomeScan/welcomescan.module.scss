@@ -1,6 +1,4 @@
 .welcome-modal-container {
-
-
   .scan-img {
     width: 80%;
     max-width: 200px;
@@ -11,7 +9,6 @@
     margin-top: auto;
     align-self: center;
   }
-
 }
 
 .welcome-text {
@@ -22,9 +19,9 @@
   padding-inline: 30px;
 }
 
-:global(body[data-theme='dark'] .modal).welcome-modal-container {
-  background-color: #000;
-}
+// :global(body[data-theme='dark'] .modal).welcome-modal-container {
+//   background-color: #000;
+// }
 
 .btn-container {
   display: flex;
