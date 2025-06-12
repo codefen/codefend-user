@@ -185,26 +185,19 @@ export const SidebarDesktop = ({
     },
     {
       type: 'group',
-      title: 'Vulnerabilities',
+      title: 'Risk control',
       id: 'sidebar_vulnerabilities',
       children: [
         {
-          title: 'Issues',
+          title: 'Detected issues',
           id: 'sidebar_issues',
           icon: <BugIcon />,
           to: '/issues',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
-      ],
-    },
-    {
-      type: 'group',
-      title: 'Toolset',
-      id: 'sidebar_toolset',
-      children: [
         {
-          title: 'Automated web scans',
+          title: 'Launch AI scan',
           id: 'sidebar_scans',
           to: '/scans',
           root: false,
@@ -219,6 +212,21 @@ export const SidebarDesktop = ({
           root: false,
           haveAccess: !isReseller(),
         },
+        {
+          title: 'Ask a hacker',
+          id: 'sidebar_talk_to_hacker',
+          icon: <></>,
+          to: '/ask-a-hacker',
+          root: false,
+          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+        },
+      ],
+    },
+    {
+      type: 'group',
+      title: 'Toolset',
+      id: 'sidebar_toolset',
+      children: [
         /*{
           title: 'EPM',
           id: 'sidebar_epm',
@@ -235,14 +243,6 @@ export const SidebarDesktop = ({
           root: false,
           haveAccess: isNotProviderAndReseller,
         },*/
-        {
-          title: 'Ask a hacker',
-          id: 'sidebar_talk_to_hacker',
-          icon: <></>,
-          to: '/ask-a-hacker',
-          root: false,
-          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
-        },
       ],
     },
   ];

@@ -9,7 +9,7 @@ interface SearchBarContainerProps {
   setSearchData: (value: string) => void;
   handleSubmit: (e?: FormEvent) => void;
   isDisabled?: boolean;
-  selectBarOptions: {
+  selectBarOptions?: {
     options: any;
     placeHolder: string;
     value: string;
@@ -37,7 +37,7 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
         handleSubmit={handleSubmit}
         searchText={searchText}
         searchIcon={icon}
-        isActiveSelect
+        isActiveSelect={!!selectBarOptions}
         selectOptions={selectBarOptions}
         isDisabled={isDisabled}
       />

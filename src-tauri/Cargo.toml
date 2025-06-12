@@ -1,11 +1,11 @@
 [package]
 name = "codefend-panel"
-version = "24.3.3"
+version = "25.0.2"
 description = "Security Platform Panel"
 authors = ["Codefend"]
 repository = "https://github.com/codefen/codefend-user"
 default-run = "codefend-panel"
-edition = "2021"
+edition = "2025"
 rust-version = "1.80.0"
 
 [lib]
