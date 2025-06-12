@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
 import { useLocation } from 'react-router';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 export type Theme = {
   theme: 'dark' | 'light';
@@ -25,11 +26,12 @@ const { FastContextProvider: ThemeContextProvider, useFastField } =
 export const useTheme = () => {
   const themeField = useFastField('theme');
   const { pathname } = useLocation();
+  const { isAdmin, isProvider } = useUserRole();
+  const hasUserAdmin = isAdmin() || isProvider();
 
   const toggleTheme = () => {
     themeField.set(themeField.get === 'dark' ? 'light' : 'dark');
-
-    if (pathname?.startsWith('/issues/')) {
+    if (pathname?.startsWith('/issues/') && hasUserAdmin) {
       window.location.reload();
     }
   };

@@ -18,35 +18,35 @@ const rawOrderColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-preference-1',
-    weight: '14.8%',
+    weight: '16.6%',
     render: value => value,
   },
   {
     header: 'Price',
     key: 'chosen_plan_price',
     styles: 'item-cell-preference-2',
-    weight: '16.8%',
+    weight: '18.6%',
     render: value => value,
   },
   {
     header: 'Type',
     key: 'resources_class',
     styles: 'item-cell-preference-3',
-    weight: '16.8%',
+    weight: '18.6%',
     render: value => value,
   },
   {
     header: 'State',
     key: 'condicion_financial',
     styles: 'item-cell-preference-4',
-    weight: '19.8%',
+    weight: '21.6%',
     render: value => value,
   },
   {
     header: 'Closing date',
     key: 'fecha_cierre_real',
     styles: 'item-cell-preference-5',
-    weight: '22.8%',
+    weight: '24.6%',
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
 ];
@@ -68,41 +68,26 @@ const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
     updateViewTransfer(false);
   };
 
-  const orderColumns = [
-    ...rawOrderColumns,
+  const orderMenuOptions = [
     {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-preference-6 action',
-      weight: '9%',
-      render: (order: any) => (
-        <div className="publish" key={`actr-${order.id}`}>
-          <span
-            title={
-              order.condicion_provider === 'finished' && order.condicion_review === 'unreviewed'
-                ? 'Start quality poll'
-                : 'The poll is now completed'
-            }
-            className={`${order.condicion_provider === 'finished' && order.condicion_review === 'unreviewed' ? 'order-poll-active' : 'order-poll-disabled'}`}
-            onClick={() => {
-              if (
-                order.condicion_provider === 'finished' &&
-                order.condicion_review === 'unreviewed'
-              ) {
-                handleOpenPoll(order.id, order.reference_number);
-              }
-            }}>
-            <ImportantIcon />
-          </span>
-          <span
-            onClick={() => {
-              handleOpenScope(JSON.parse(order.resources_scope.trim() || '{}'));
-            }}>
-            <DocumentTextIcon />
-          </span>
-        </div>
-      ),
+      label: 'Start poll',
+      disabled: (order: any) =>
+        !Boolean(
+          order?.condicion_provider === 'finished' && order?.condicion_review === 'unreviewed'
+        ),
+      icon: <ImportantIcon />,
+      onClick: (order: any) => {
+        if (order?.condicion_provider === 'finished' && order?.condicion_review === 'unreviewed') {
+          handleOpenPoll(order.id, order.reference_number);
+        }
+      },
+    },
+    {
+      label: 'Open order scope',
+      icon: <DocumentTextIcon />,
+      onClick: (order: any) => {
+        handleOpenScope(JSON.parse(order.resources_scope.trim() || '{}'));
+      },
     },
   ];
 
@@ -111,12 +96,14 @@ const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
       <div className="card">
         <div className="order-preference-content">
           <Tablev3
-            columns={orderColumns}
+            columns={rawOrderColumns}
             rows={orders}
             showRows={!isLoading}
             initialOrder="id"
             limit={0}
             isNeedSort
+            enableContextMenu
+            contextMenuActions={orderMenuOptions}
           />
         </div>
       </div>

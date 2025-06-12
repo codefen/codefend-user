@@ -301,10 +301,6 @@ main.issue-detail {
 [data-theme='dark'] {
   main.issues-list {
     .left {
-      > div {
-        border: 1px solid var(--primary-color-400);
-      }
-
       .modal {
         --preview-title: #ff5e5ef2;
         --preview-sub-title: var(--tertiary-color-100);

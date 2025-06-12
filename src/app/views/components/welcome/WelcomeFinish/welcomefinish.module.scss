@@ -53,7 +53,7 @@
     row-gap: 0.55rem;
     border-width: 1px;
     border-style: solid;
-    border-color: var(--primary-color-300);
+    border-color: var(--primary-color-100);
     transition: all 0.3s ease;
 
     .value {
@@ -113,10 +113,6 @@
   margin-inline: auto;
 }
 
-:global(body[data-theme='dark'] .modal).welcome-modal-container {
-  background: #000;
-}
-
 .completion-container {
   opacity: 0;
   transform: scale(0.5);
@@ -169,6 +165,23 @@
 .stat-complete {
   animation: statBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation-delay: 0.7s;
+}
+
+:global(body[data-theme='dark'] .modal).welcome-modal-container {
+  p {
+    color: var(--tertiary-color-400);
+  }
+  .check-circle {
+    background-color: #218044;
+  }
+  .finish-issues-found {
+    .vul-box-complete {
+      .value,
+      span {
+        color: #218044;
+      }
+    }
+  }
 }
 
 @keyframes fadeIn {

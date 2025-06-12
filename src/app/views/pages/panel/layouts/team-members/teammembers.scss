@@ -2,6 +2,10 @@ main.team-members {
   .left {
     gap: 12px;
 
+    .status-card-container {
+      display: none;
+    }
+
     .box-assets {
       display: flex;
       flex-wrap: wrap;
@@ -74,6 +78,31 @@ main.team-members {
     .right {
       width: 100%;
       padding-block-start: 20px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  main.team-members {
+    &.actived {
+      // padding-inline-start: var(--card-space);
+      gap: 0;
+      outline: 0;
+      margin: 0;
+      padding: 0;
+      margin-inline: auto;
+
+      .left {
+        flex: 1;
+
+        .status-card-container {
+          display: flex;
+        }
+      }
+    }
+
+    .right {
+      display: none;
     }
   }
 }

@@ -26,9 +26,8 @@ export const TeamMembersPage = () => {
         <div className="box-assets">
           <TeamMemberPageHeader />
         </div>
-        <div className="box-assets">
-          <TeamMembersTableCard isLoading={isLoading} members={data?.members || []} />
-        </div>
+        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
+        <TeamMembersTableCard isLoading={isLoading} members={data?.members || []} />
       </section>
       <section className="right">
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />

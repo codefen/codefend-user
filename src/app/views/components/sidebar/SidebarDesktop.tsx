@@ -222,29 +222,6 @@ export const SidebarDesktop = ({
         },
       ],
     },
-    {
-      type: 'group',
-      title: 'Toolset',
-      id: 'sidebar_toolset',
-      children: [
-        /*{
-          title: 'EPM',
-          id: 'sidebar_epm',
-          icon: <EnpIcon />,
-          to: '/enp',
-          root: false,
-          haveAccess: isNotProviderAndReseller,
-        },
-        {
-          title: 'Vdb',
-          id: 'sidebar_vdb',
-          icon: <VdbIcon />,
-          to: '/vdb',
-          root: false,
-          haveAccess: isNotProviderAndReseller,
-        },*/
-      ],
-    },
   ];
 
   const getItems = useCallback((menu: any[]) => {

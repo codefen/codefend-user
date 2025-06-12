@@ -96,7 +96,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
 
           <PrimaryButton
             text={globalStore.isScanning.get ? 'Close assistant' : 'Go to issues'}
-            buttonStyle={globalStore.isScanning.get ? 'red' : 'gray'}
+            buttonStyle={globalStore.isScanning.get ? 'red' : 'black'}
             click={closeModal}
           />
         </Show>
