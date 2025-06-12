@@ -89,7 +89,7 @@ html {
 *, ::before, ::after {
     box-sizing: border-box;
     scrollbar-width: thin;
-    scrollbar-color: var(--secondary-color-50) var(--primary-color-500);
+    scrollbar-color: var(--secondary-color-50) var(--primary-color);
 }
 table,
 table td {

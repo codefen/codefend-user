@@ -2243,7 +2243,7 @@ body.tox-dialog__disable-scroll {
 	border-color: rgba(254, 78, 78, 0.5);
 }
 .tox .tox-insert-table-picker__label {
-	color: rgba(34, 47, 62, 0.7);
+	color: var(--tertiary-color-50);
 	display: block;
 	font-size: 12.25px;
 	padding: 3.5px;
@@ -2780,6 +2780,7 @@ body.tox-dialog__disable-scroll {
 	margin-right: 3.5px;
 }
 .tox .tox-statusbar {
+	pointer-events: none;
 	align-items: center;
 	background-color: transparent;
 	border-top: 1px solid var(--tertiary-color-700);
@@ -2844,7 +2845,7 @@ body.tox-dialog__disable-scroll {
 	padding-left: 1ch;
 }
 .tox .tox-statusbar__resize-handle svg {
-	display: block;
+	display: none;
 	fill: rgba(34, 47, 62, 0.7);
 }
 .tox .tox-statusbar__resize-handle:focus svg {
@@ -3034,7 +3035,7 @@ body.tox-dialog__disable-scroll {
 	overflow: hidden;
 }
 .tox .tox-split-button:hover {
-	box-shadow: 0 0 0 1px #dee0e2 inset;
+	box-shadow: 0 0 0 1px #ffffff10 inset;
 }
 .tox .tox-split-button:focus {
 	background: rgba(59, 59, 59, .72);

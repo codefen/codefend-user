@@ -30,6 +30,7 @@ main.issue-detail {
       outline: none;
       border: 0;
       cursor: default;
+      resize: none;
     }
 
     .header {
@@ -463,18 +464,20 @@ main.issues-list {
     .left {
       --tiny-border-color: var(--primary-color-250);
       --tiny-bg-color: var(--primary-color);
-      --tiny-hover-bg-color: var(--primary-color-400);
+      --tiny-hover-bg-color: var(--primary-color-50);
 
       .header {
         .edit {
           &.on {
+            background: #191919b0;
             color: var(--secondary-color-200);
           }
         }
 
         .save {
           &.on {
-            color: var(--secondary-color-50);
+            background: #1212129c;
+            color: var(--secondary-color-200);
           }
         }
       }

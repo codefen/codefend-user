@@ -14,35 +14,37 @@ html {
 	--text-color-alt3: rgb(206, 206, 206);
 	--table-border-color: rgb(153, 153, 153);
 
-	--primary-color: #fff;
-	--primary-color-50: #fdfdfd;
-	/* --primary-color-100: #fafafa; */
-	--primary-color-200: #f7f7f7;
+	--primary-color: rgb(35 35 35 / 82%);
+	--primary-color-50: #191919;
+	--primary-color-100: #121212;
+	--primary-color-200: rgb(24 24 24 / 60%);
+	--primary-color-250: rgba(41, 41, 41, 0.85);
 	--primary-color-300: #e5e5e5;
 	--primary-color-400: #f3f3f3;
 	--primary-color-500: #efefef;
 
+	--secondary-color: #ff6471;
 	--secondary-color-50: #fe4e4e;
 	--secondary-color-100: #ff3939;
 	--secondary-color-200: #e84f4f;
 	--secondary-color-300: #cb2222;
 	--secondary-color-400: #942222;
 
-	--tertiary-color-50: #cfcfcf;
-	--tertiary-color-100: #afafaf;
-	--tertiary-color-200: #999999;
-	--tertiary-color-300: #666;
-	--tertiary-color-400: #333333;
+	--tertiary-color-50: #f7f7f7;
+	--tertiary-color-100: #e5e5e5;
+	--tertiary-color-200: #e0e0e0;
+	--tertiary-color-300: #efefef;
+	--tertiary-color-400: #cfcfcf;
 	--tertiary-color-450: #585858;
-	--tertiary-color-500: #222222;
-	--tertiary-color-600: #1a1a1a;
-	--tertiary-color-700: #000;
+	--tertiary-color-500: #afafaf;
+	--tertiary-color-600: #999999;
+	--tertiary-color-700: #666;
 }
 
 *, ::before, ::after {
     box-sizing: border-box;
     scrollbar-width: thin;
-    scrollbar-color: var(--secondary-color-50) var(--primary-color-500);
+    scrollbar-color: var(--secondary-color-50) var(--primary-color);
 }
 table,
 table td {
@@ -59,7 +61,7 @@ table tr:nth-of-type(odd) {
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--primary-color-500);
+	background: var(--primary-color);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -115,16 +117,16 @@ p {
 }
 
 hr {
-	border: 1px solid var(--primary-color-100);
+	border: 1px solid var(--text-color-alt);
 	margin: 20px 0px;
 }
 
 b {
-	color: var(--primary-color-100);
+	color: var(--text-color-alt);
 }
 
 p a {
-	color: var(--primary-color-100);
+	color: var(--secondary-color);
 }
 
 li {
@@ -132,7 +134,7 @@ li {
 }
 
 li a {
-	color: var(--primary-color-100);
+	color: var(--secondary-color);
 }
 
 figure.image img {
