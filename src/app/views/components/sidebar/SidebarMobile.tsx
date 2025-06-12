@@ -3,13 +3,12 @@ import { LogoutIcon } from '@icons';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-type MenuSection = 'Main' | 'Attack surface' | 'Risk control' | 'Toolset';
+type MenuSection = 'Main' | 'Attack surface' | 'Risk control';
 
 const sidebarData = {
   Main: ['Dashboard', 'Team members', 'Orders and payments', 'User profile'],
   'Attack surface': ['Web software', 'Mobile software', 'Network infrastructure', 'Social attacks'],
   'Risk control': ['Detected issues', 'Launch AI scan', 'Dataleaks explorer', 'Ask a hacker'],
-  Toolset: [],
 };
 
 const menuItemsPaths = {
