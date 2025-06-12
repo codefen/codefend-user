@@ -8,7 +8,7 @@ export default function AddSocialBlock({ isLoading }: { isLoading: boolean }) {
   return (
     <div className="card title">
       <div className="header">
-        <PeopleGroupIcon />
+        {/* <PeopleGroupIcon /> */}
         <span>Social Engineering</span>
       </div>
       <div className="content">

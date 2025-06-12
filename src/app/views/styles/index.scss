@@ -1738,17 +1738,6 @@ main.auth-pages {
       right: 2dvw;
       filter: blur(115px) brightness(0.5);
     }
-
-    // .right {
-    //   padding-left: 14px;
-    //   background: #121a234d !important;
-    //   backdrop-filter: blur(9px) saturate(0.8) contrast(1) !important;
-    //   box-shadow: #000 -20px 0 120px -55px;
-    //   border-image-slice: 1;
-    //   background-image: linear-gradient(#444df719 0.4px, transparent 0.4px),
-    //     linear-gradient(to right, #444df719 0.4px, #e5e5f700 0.4px);
-    //   background-size: 8px 8px;
-    // }
   }
 
   main.mobile,
@@ -1967,27 +1956,18 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 }
 
 .content.filters {
-  background-color: white;
-  /* Fondo blanco */
   padding: 20px;
-  /* Espaciado interno */
-
   border-radius: 4px;
-  /* Bordes redondeados */
   margin-bottom: var(--card-space);
-  /* Espaciado inferior */
 }
 
 .check {
   border-bottom: 1px solid #cccccc71;
-  /* Borde inferior gris claro */
 }
 
 .check .label {
   display: flex;
-  /* Usar flexbox para alinear el checkbox y el texto */
   align-items: center;
-  /* Centrar verticalmente */
 }
 
 .check input[type='checkbox'] {
@@ -2015,16 +1995,6 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   transition: filter 0.3s;
 }
 
-.pricing-card.selected-card .pricing-image,
-.pricing-image:hover {
-  filter: grayscale(0%);
-}
-
-.pricing-card.selected-card .pricing-image,
-.pricing-image:hover {
-  filter: grayscale(0%);
-}
-
 .step-header-maximo {
   margin-top: 1rem;
   display: flex;
@@ -2041,19 +2011,14 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   /* Eliminar margen para centrar mejor */
 }
 
-h3 {
-  font-size: 1.6rem;
-  color: #000;
-  // text-align: center;
-  // padding: 1rem;
-}
+// h3 {
+//   font-size: 1.6rem;
+//   color: #000;
+// }
 
 .option-maximo {
-  // padding-left: 5px; /* Ajustar el espaciado izquierdo para las opciones */
   border: none;
-  /* Eliminar todos los bordes */
   border-bottom: 1px solid #ccc;
-  /* Solo borde inferior para separación */
   display: flex;
   align-items: center;
   column-gap: 2.5rem;
@@ -2068,15 +2033,11 @@ h3 {
   }
   .one-pentest {
     font-size: 0.9rem;
-    /* Tamaño de fuente reducido */
   }
 
   margin-bottom: 0;
-  /* Eliminar espaciado inferior para evitar problemas visuales */
   cursor: pointer;
-  /* Cambiar cursor al pasar sobre la opción */
   transition: background-color 0.3s;
-  /* Transición suave para el fondo */
 }
 
 .option-maximo:hover {
@@ -2084,50 +2045,7 @@ h3 {
   /* Fondo al pasar el mouse */
 }
 
-.select-option-maximo {
-  background-color: #e0f7fa;
-  /* Fondo destacado para opción seleccionada */
-}
-
-///////// PLAN 3 ///////////////
-
-.step-header-maximo-plan3 {
-  display: flex;
-  align-items: center;
-  /* Changed from left to center */
-  justify-content: flex-start;
-  /* Changed from left to flex-start */
-
-  .small-image {
-    width: 50px;
-    height: auto;
-    margin: 0.5rem;
-    /* Adjusted margin for better alignment */
-    display: block;
-    margin-left: 2.5rem !important;
-    margin-top: 15px !important;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    color: #3a3a3a;
-    text-align: center;
-    padding: 1rem;
-  }
-
-  .small-plan-modal .modal-wrapper .modal {
-    display: none !important;
-  }
-}
-
 ///////// TODOS LOS PLANES / ALLPLANSORDERMODAL/ ///////
-
-.plans-cards-wrapper {
-  display: flex;
-  gap: 0.8rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
 
 .plan-card-auto {
   background: #fff;
@@ -2192,12 +2110,6 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.plan-price {
-  font-size: 2rem;
-  color: #ec2603;
-  margin: 1rem 0 0.5rem 0;
 }
 
 .plan-list {

@@ -21,6 +21,7 @@ import { isShallowEqual } from '@utils/helper';
 import Show from '@/app/views/components/Show/Show';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
+import { createPortal } from 'react-dom';
 
 interface ContextMenuAction {
   label: string;
@@ -53,6 +54,8 @@ interface Tablev3Props<T> {
   emptyTitle?: string;
   emptyIcon?: ReactNode;
 }
+
+const root = document.getElementById('root-modal');
 
 const Tablev3: FC<Tablev3Props<any>> = ({
   className = '',
@@ -263,44 +266,45 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 
         {/* Context Menu */}
         <Show when={contextMenu.visible}>
-          <div
-            className=" card table-context-menu"
-            style={{
-              position: 'fixed',
-              top: contextMenu.y,
-              left: contextMenu.x,
-              zIndex: 1000,
-            }}>
-            {contextMenuActions.map((action, index) => (
-              <div key={index}>
-                {action.divider && <div className="context-menu-divider" />}
-                <button
-                  className={`context-menu-item ${typeof action.disabled === 'function' ? (action.disabled(contextMenu.row) ? 'disabled' : '') : action.disabled ? 'disabled' : ''}`}
-                  onClick={() => {
-                    if (
+          {createPortal(
+            <div
+              className=" card table-context-menu"
+              style={{
+                top: contextMenu.y,
+                left: contextMenu.x,
+              }}>
+              {contextMenuActions.map((action, index) => (
+                <div key={index}>
+                  {action.divider && <div className="context-menu-divider" />}
+                  <button
+                    className={`context-menu-item ${typeof action.disabled === 'function' ? (action.disabled(contextMenu.row) ? 'disabled' : '') : action.disabled ? 'disabled' : ''}`}
+                    onClick={() => {
+                      if (
+                        typeof action.disabled === 'function'
+                          ? action.disabled(contextMenu.row)
+                            ? false
+                            : true
+                          : action.disabled
+                            ? false
+                            : true
+                      ) {
+                        action.onClick(contextMenu.row);
+                        closeContextMenu();
+                      }
+                    }}
+                    disabled={
                       typeof action.disabled === 'function'
                         ? action.disabled(contextMenu.row)
-                          ? false
-                          : true
                         : action.disabled
-                          ? false
-                          : true
-                    ) {
-                      action.onClick(contextMenu.row);
-                      closeContextMenu();
-                    }
-                  }}
-                  disabled={
-                    typeof action.disabled === 'function'
-                      ? action.disabled(contextMenu.row)
-                      : action.disabled
-                  }>
-                  {action.icon && <span className="context-menu-icon">{action.icon}</span>}
-                  <span className="context-menu-label">{action.label}</span>
-                </button>
-              </div>
-            ))}
-          </div>
+                    }>
+                    {action.icon && <span className="context-menu-icon">{action.icon}</span>}
+                    <span className="context-menu-label">{action.label}</span>
+                  </button>
+                </div>
+              ))}
+            </div>,
+            root as HTMLElement
+          )}
         </Show>
       </div>
     </div>

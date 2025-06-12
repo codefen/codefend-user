@@ -12,10 +12,6 @@ import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderBut
 import { ResourcesTypes } from '@interfaces/order.ts';
 import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
 import { DeleteWebResourceModal } from '@modals/delete-modals/DeleteWebResourceModal.tsx';
-import {
-  useGlobalFastField,
-  useGlobalFastFields,
-} from '@/app/views/context/AppContextProvider.tsx';
 import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
 import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
 import { APP_EVENT_TYPE } from '@interfaces/panel.ts';
@@ -43,7 +39,7 @@ const WebApplicationView = () => {
       <DeleteWebResourceModal />
       <AddDomainModal appEvent={appEvent} />
       <AddSubDomainModal webResources={webResources} />
-      <div className="brightness variant-1"></div>
+      {/* <div className="brightness variant-1"></div> */}
 
       {/* *****SECTION LEFT WEB PAGE ***** */}
       <section className="left">

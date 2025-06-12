@@ -1,17 +1,17 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
+import { useLocation } from 'react-router';
 
 export type Theme = {
   theme: 'dark' | 'light';
   changeTheme: () => void;
 };
 
-function getInitialTheme(): 'dark' | 'light' {
+export function getInitialTheme(): 'dark' | 'light' {
   const storedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  // return storedTheme || (prefersDarkMode ? 'dark' : 'light');
-  return 'light';
+  return storedTheme || (prefersDarkMode ? 'dark' : 'light');
 }
 
 const initialThemeState = {
@@ -24,8 +24,14 @@ const { FastContextProvider: ThemeContextProvider, useFastField } =
 
 export const useTheme = () => {
   const themeField = useFastField('theme');
+  const { pathname } = useLocation();
+
   const toggleTheme = () => {
     themeField.set(themeField.get === 'dark' ? 'light' : 'dark');
+
+    if (pathname?.startsWith('/issues/')) {
+      window.location.reload();
+    }
   };
 
   return {

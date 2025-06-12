@@ -153,7 +153,7 @@ const SocialEngineering: FC<SocialProps> = props => {
 
       <div className="card">
         <div className="over">
-          <div className="header">
+          {/* <div className="header">
             <div className="table-title">
               <h2>
                 <div className="icon">
@@ -162,7 +162,7 @@ const SocialEngineering: FC<SocialProps> = props => {
                 Social Engineering
               </h2>
             </div>
-          </div>
+          </div> */}
           <Tablev3
             columns={socialColumns}
             rows={props.socials}

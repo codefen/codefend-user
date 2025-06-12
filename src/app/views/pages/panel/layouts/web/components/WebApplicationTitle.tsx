@@ -25,7 +25,7 @@ export const WebApplicationTitle: FC<WebResourcesProps> = ({ isLoading }) => {
   return (
     <div className="card title">
       <div className="header">
-        <GlobeWebIcon />
+        {/* <GlobeWebIcon /> */}
         <span>Web software</span>
       </div>
 

@@ -92,13 +92,18 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
         changeScore={score => dispatch(state => ({ ...state, score }))}
         changeStatus={status => dispatch(state => ({ ...state, status }))}
       />
-      <div>
+      <div className="issues-report">
         <AppEditor
           isEditable={!isEditable}
           isLoaded={!isLoading && isLoaded}
           initialValue={issueData.issue}
           isCreation={false}
         />
+        {/* <div
+          className="issue-main-content"
+          dangerouslySetInnerHTML={{
+            __html: issueData.issue,
+          }}></div> */}
       </div>
       <Show when={isAddingIssue}>
         <PageLoaderOverlay />

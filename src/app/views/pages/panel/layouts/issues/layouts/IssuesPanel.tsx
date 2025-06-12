@@ -44,7 +44,7 @@ const IssuesPanel: FC = () => {
   return (
     <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
       <SelectAnyResourceModal issues={displayIssues} />
-      <div className="brightness variant-1"></div>
+      {/* <div className="brightness variant-1"></div> */}
       <section className="left">
         <IssueResources
           isLoading={isLoading}

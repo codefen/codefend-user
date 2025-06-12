@@ -46,8 +46,8 @@ const NetworkPage: FC = () => {
       <CredentialsModal />
       <AddAccessPointModal appEvent={appEvent} />
       <AddSubNetworkModal appEvent={appEvent} internalNetwork={networks ?? []} />
-      <div className="brightness variant-1"></div>
-      <div className="brightness variant-2"></div>
+      {/* <div className="brightness variant-1"></div>
+      <div className="brightness variant-2"></div> */}
       <section className="left">
         <LanNetworkData
           isLoading={isLoading}

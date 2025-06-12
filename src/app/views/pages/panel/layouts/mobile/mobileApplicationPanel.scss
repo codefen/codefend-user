@@ -1,32 +1,4 @@
-[data-theme='dark'] {
-  .variant-1 {
-    width: 17rem;
-    top: 36dvh;
-    left: 9dvw;
-    filter: blur(150px) brightness(0.4);
-    z-index: 5;
-  }
-
-  .variant-2 {
-    width: 20rem;
-    top: 18dvh;
-    left: 7dvw;
-    filter: blur(130px) brightness(0.35) opacity(0.65);
-    z-index: 15;
-    background: #ffffff8f;
-    height: 19rem;
-  }
-
-  .variant-3 {
-    width: 19rem;
-    top: 20dvh;
-    right: 26dvw;
-    filter: blur(140px) brightness(0.3);
-    z-index: 20;
-  }
-}
-
-.mobile {
+main.mobile {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -90,7 +62,6 @@
     max-width: 100%;
     padding: 0;
     margin: 0;
-    background: white;
     border-radius: 4px;
     box-sizing: border-box;
   }
@@ -184,7 +155,7 @@
 
 // Estilos para la tarjeta de descargas
 .downloads-card {
-  background: white;
+  background: var(--primary-color);
   border-radius: 4px;
   padding: 8px 12px;
   margin: 12px 0 0;
@@ -194,7 +165,7 @@
   width: 100%;
   box-sizing: border-box;
   font-size: 13px;
-  color: #4b5563;
+  color: var(--tertiary-color-50);
   font-weight: 400;
   box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
 
@@ -204,7 +175,6 @@
 
     .downloads-text {
       font-size: 13px;
-      color: #4b5563;
       font-weight: 400;
       line-height: 1.4;
     }
@@ -230,4 +200,44 @@ main.mobile .custom-title {
 
 .custom-mobile-add-card.custom-card.p-4.mb-4 > *:not(:last-child) {
   margin-bottom: 0.7rem;
+}
+
+[data-theme='dark'] {
+  main.mobile {
+    .left {
+      .form-input input:not(:disabled) {
+        background-color: var(--primary-color);
+      }
+
+      .card.cloud-apps {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .variant-1 {
+    width: 17rem;
+    top: 36dvh;
+    left: 9dvw;
+    filter: blur(150px) brightness(0.4);
+    z-index: 5;
+  }
+
+  .variant-2 {
+    width: 20rem;
+    top: 18dvh;
+    left: 7dvw;
+    filter: blur(130px) brightness(0.35) opacity(0.65);
+    z-index: 15;
+    background: #ffffff8f;
+    height: 19rem;
+  }
+
+  .variant-3 {
+    width: 19rem;
+    top: 20dvh;
+    right: 26dvw;
+    filter: blur(140px) brightness(0.3);
+    z-index: 20;
+  }
 }

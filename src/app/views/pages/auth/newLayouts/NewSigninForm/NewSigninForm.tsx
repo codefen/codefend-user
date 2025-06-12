@@ -19,7 +19,7 @@ export const NewSigninForm = () => {
     const email = form.get('email') as unknown as string;
     const password = form.get('password') as unknown as string;
     const mfa = form.get('mfa') as unknown as string;
-    signInUser(email || '', password || '', mfa).then((result: any) => {
+    signInUser(email || '', password || '', mfa || '').then((result: any) => {
       if (result?.mfaRequired) {
         setMfaStep(true);
         return;
@@ -30,7 +30,8 @@ export const NewSigninForm = () => {
       const state = location.state;
       if (result && !result.error) {
         if (state && state?.redirect) {
-          navigate(state.redirect);
+          // navigate(state.redirect);
+          window.location.href = state.redirect || '/';
         } else {
           window.location.href = '/';
         }

@@ -7,6 +7,7 @@ import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import Show from '@/app/views/components/Show/Show';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 // Llave de prueba = pk_test_51OJhuSAYz1YvxmilHmPHF8hzpPAEICOaObvc6jogRaqY79MSgigrWUPPpXcnWOCMh4hs4ElO3niT7m1loeSgN0oa00vVlSF8Ad
 // Llave de producción = pk_live_51OJhuSAYz1YvxmilzJk2qtYgC6lrwwjziEOc69rTgUI0guBwWsAlnHOViPvLlf6myPtxFrsr0l1JfmdTjDjV9iRt00zJeEpd45
@@ -26,6 +27,7 @@ export const CardPaymentModal = ({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const isInitialized = useRef(false);
   const [hideBackButton, setHideBackButton] = useState(false);
+  const { theme } = useTheme();
 
   // Memoize the Stripe promise
   const stripePromise = useMemo(() => loadStripe(STRIPE_PUBLISHABLE_KEY), []);
@@ -61,6 +63,9 @@ export const CardPaymentModal = ({
   const options = useMemo(
     () => ({
       clientSecret,
+      appearance: {
+        theme: theme === 'dark' ? 'night' : 'stripe',
+      },
       onComplete: () => {
         setHideBackButton(true);
         fetcher<any>('post', {
@@ -88,7 +93,16 @@ export const CardPaymentModal = ({
           });
       },
     }),
-    [clientSecret, companyId, referenceNumber, orderId, merchId.current, fetcher, updateState]
+    [
+      clientSecret,
+      companyId,
+      referenceNumber,
+      orderId,
+      merchId.current,
+      theme,
+      fetcher,
+      updateState,
+    ]
   );
 
   const cleanupStripe = useCallback(() => {
@@ -132,7 +146,11 @@ export const CardPaymentModal = ({
         <h3>Please complete with your payment information</h3>
       </div>
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <EmbeddedCheckout className="stripe-container" id="stripe-ex-content-checkout" />
+        <EmbeddedCheckout
+          className="stripe-container"
+          id="stripe-ex-content-checkout"
+          data-theme={theme === 'dark' ? 'night' : 'stripe'}
+        />
       </EmbeddedCheckoutProvider>
 
       <Show when={!hideBackButton}>

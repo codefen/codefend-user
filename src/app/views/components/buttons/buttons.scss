@@ -129,5 +129,10 @@ button.btn {
         font-weight: 700;
       }
     }
+
+    &.btn-dark-black,
+    &.btn-black {
+      background-color: var(--primary-color-100);
+    }
   }
 }

@@ -73,6 +73,11 @@
   transition-duration: 325ms;
   transition-timing-function: linear;
   border-radius: 8px;
+  --table-border-color: var(--primary-color-300);
+  --table-border-color-2: var(--primary-color-400);
+  --table-border-color-3: var(--primary-color-400);
+  --table-border-color-4: var(--primary-color-300);
+  --table-border-color-5: #ffffff4d;
 
   &.table-item-no-selected {
     .item,
@@ -119,21 +124,21 @@
     max-width: calc(var(--row-size-x) - var(--row-calc-x));
     border-image: -moz-linear-gradient(
       90deg,
-      #ffffff4d 15%,
-      var(--primary-color-300) 36%,
-      var(--primary-color-400) 46%,
-      var(--primary-color-400) 54%,
-      var(--primary-color-300) 64%,
-      #ffffff4d 85%
+      var(--table-border-color-5) 15%,
+      var(--table-border-color) 36%,
+      var(--table-border-color-2) 46%,
+      var(--table-border-color-3) 54%,
+      var(--table-border-color-4) 64%,
+      var(--table-border-color-5) 85%
     );
     border-image: linear-gradient(
       90deg,
-      #ffffff4d 15%,
-      var(--primary-color-300) 36%,
-      var(--primary-color-400) 46%,
-      var(--primary-color-400) 54%,
-      var(--primary-color-300) 64%,
-      #ffffff4d 85%
+      var(--table-border-color-5) 15%,
+      var(--table-border-color) 36%,
+      var(--table-border-color-2) 46%,
+      var(--table-border-color-3) 54%,
+      var(--table-border-color-4) 64%,
+      var(--table-border-color-5) 85%
     );
     border-image-slice: 1;
     border-block-end: 1px solid;
@@ -520,19 +525,6 @@
   }
 }
 
-[data-theme='dark'] {
-  .item {
-    &.label:has(input:checked) {
-      background-color: #ff28280f;
-    }
-
-    &.selected-item {
-      background: var(--primary-color-300);
-      color: var(--tertiary-color-50);
-    }
-  }
-}
-
 .table-context-menu {
   position: fixed;
   z-index: 1000;
@@ -540,6 +532,11 @@
   min-width: 180px;
   padding: 6px 0;
   width: fit-content;
+  --menu-color: #222;
+  --menu-hover-color: #222;
+  --menu-bg-color: rgb(225 225 225 / 92.2%);
+  --menu-active-color: #151515;
+  --menu-driver-bg-color: var(--primary-color-300);
 
   .context-menu-item {
     padding: 8px 18px;
@@ -550,18 +547,19 @@
     background: none;
     font-family: Satoshi;
     font-size: 15px;
-    color: #222;
+    color: var(--menu-color);
     cursor: pointer;
     transition: background 0.2s;
     width: 100%;
     text-align: left;
 
     &:hover:not(.disabled) {
-      background-color: rgb(225 225 225 / 92.2%);
+      color: var(--menu-hover-color);
+      background-color: var(--menu-bg-color);
     }
 
     &:active:not(.disabled) {
-      color: #151515;
+      color: var(--menu-active-color);
     }
 
     &.disabled {
@@ -582,7 +580,71 @@
 
   .context-menu-divider {
     height: 1px;
-    background-color: var(--primary-color-300);
+    background-color: var(--menu-driver-bg-color);
     margin: 4px 0;
+  }
+}
+
+.card.table-context-menu {
+  background-color: var(--primary-color) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15) !important;
+  backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+}
+
+[data-theme='dark'] {
+  .table-search-bar {
+    input:not(:disabled) {
+      background-color: var(--primary-color);
+    }
+  }
+
+  .card.table-context-menu {
+    --menu-color: oklch(0.95 0 0/0.9);
+    --menu-hover-color: rgb(240, 241, 241);
+    --menu-bg-color: rgba(59, 59, 59, 0.5);
+    --menu-active-color: #fff;
+    --menu-driver-bg-color: var(--primary-color-300);
+  }
+
+  .table {
+    --table-border-color: #37373778;
+    --table-border-color-2: #373737c9;
+    --table-border-color-3: #373737c9;
+    --table-border-color-4: #37373778;
+    --table-border-color-5: #24242400;
+
+    .columns-name {
+      transition-property: color, border-image, border;
+      transition-duration: 325ms;
+      transition-timing-function: linear;
+      color: var(--secondary-color);
+      border-image-slice: 1;
+      border-bottom: 1px solid;
+      border-radius: 20px;
+    }
+    .item {
+      border-bottom-color: #24242440;
+      color: var(--tertiary-color-50);
+      color: var(--tertiary-color-300);
+
+      .three-dots-button {
+        &:hover {
+          background-color: var(--primary-color-100);
+          color: oklch(0.95 0 0/0.9);
+        }
+      }
+
+      &.label:has(input:checked) {
+        background-color: var(--primary-color-50);
+      }
+
+      &.selected-item {
+        background: var(--primary-color-50);
+      }
+
+      &:hover {
+        background: var(--primary-color-200);
+      }
+    }
   }
 }

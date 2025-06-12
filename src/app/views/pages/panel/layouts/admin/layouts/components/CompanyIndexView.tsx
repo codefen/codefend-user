@@ -116,6 +116,7 @@ const CompanyIndexView: FC = () => {
         action={action}
         selected={company.get}
         selectedKey="id"
+        className="table-admin"
       />
     </div>
   );
