@@ -382,6 +382,7 @@
           transition: all 0.2s ease-in-out;
           padding-inline: var(--card-space);
           outline: none;
+          border-radius: var(--brd-radius);
 
           &:focus,
           &:focus-within,
@@ -1242,6 +1243,21 @@
 
         textarea {
           color: var(--tertiary-color-400);
+        }
+      }
+    }
+
+    &.filtered {
+      .filters {
+        .filter {
+          border-color: rgba(41, 41, 41, 0.85);
+        }
+      }
+      .filter-group {
+        .filter-group-btn {
+          &:hover {
+            background-color: rgba(59, 59, 59, 0.5);
+          }
         }
       }
     }
