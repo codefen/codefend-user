@@ -23,9 +23,9 @@
 		}
 	},
 	"build": {
-		"beforeDevCommand": "pnpm dev",
+		"beforeDevCommand": "bun dev",
 		"devUrl": "http://localhost:5173",
-		"beforeBuildCommand": "pnpm build",
+		"beforeBuildCommand": "bun run build",
 		"frontendDist": "../dist"
 	},
 	"bundle": {
