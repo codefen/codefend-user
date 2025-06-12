@@ -10,6 +10,7 @@ import IssueHeader from './IssueHeader.tsx';
 import IssueInfo from './IssueInfo.tsx';
 import useLoadIframe from '@panelHooks/issues/useLoadIframe.ts';
 import { useTheme } from '@/app/views/context/ThemeContext.tsx';
+import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 
 interface IssueUpdatePanelProps {
   issueData: IssueUpdateData;
@@ -21,7 +22,6 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
   const [isEditable, setEditable] = useState(false);
   const { updatedIssue, isAddingIssue, dispatch, update } = useUpdateIssue();
   const { oneExecute, clear } = useTimeout(() => setEditable(true), 380);
-  const { theme } = useTheme();
 
   const handleIssueUpdate = () => {
     update()
@@ -33,7 +33,7 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
       });
   };
   const [isLoaded, loadIframe] = useLoadIframe(handleIssueUpdate);
-
+  const { isAdmin, isProvider } = useUserRole();
   useEffect(() => {
     dispatch((state: UpdateIssue) => ({
       ...state,
@@ -69,6 +69,8 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
     }));
   };
 
+  const isViewAndEdit = isAdmin() || isProvider();
+
   if (isLoading) return <PageLoader />;
 
   return (
@@ -92,13 +94,22 @@ const IssueUpdatePanel: FC<IssueUpdatePanelProps> = ({ issueData, isLoading }) =
         changeScore={score => dispatch(state => ({ ...state, score }))}
         changeStatus={status => dispatch(state => ({ ...state, status }))}
       />
-      <div className="issues-report">
-        <AppEditor
-          isEditable={!isEditable}
-          isLoaded={!isLoading && isLoaded}
-          initialValue={issueData.issue}
-          isCreation={false}
-        />
+      <div className={`issues-report ${!isViewAndEdit ? 'view-only' : ''}`}>
+        {isViewAndEdit ? (
+          <AppEditor
+            isEditable={!isEditable}
+            isLoaded={!isLoading && isLoaded}
+            initialValue={issueData.issue}
+            isCreation={false}
+          />
+        ) : (
+          <div
+            className="issue-main-content"
+            dangerouslySetInnerHTML={{
+              __html: issueData.issue,
+            }}></div>
+        )}
+
         {/* <div
           className="issue-main-content"
           dangerouslySetInnerHTML={{

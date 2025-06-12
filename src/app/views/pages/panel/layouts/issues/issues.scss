@@ -247,6 +247,20 @@ main.issue-detail {
         cursor: default;
       }
     }
+
+    .issues-report {
+      border-bottom: 1px solid var(--tiny-border-color);
+
+      &.view-only {
+        background-color: var(--primary-color);
+        padding-inline: var(--card-space);
+        font-family: 'Satoshi';
+
+        b {
+          font-family: 'Satoshi';
+        }
+      }
+    }
   }
 
   .right {
