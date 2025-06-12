@@ -1,6 +1,7 @@
 import { type FC, useEffect, useState } from 'react';
 import { setMode, safeInitTinyMCE } from '../../../../../../../editor-lib';
 import { PrimaryButton } from '@buttons/index';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 interface AppEditorProps {
   initialValue: string;
@@ -13,6 +14,7 @@ const EMPTY_TEXT = '<p>Please add issues here...</p>';
 const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation, isLoaded }) => {
   const [editorError, setEditorError] = useState<string | null>(null);
   const [editorInitialized, setEditorInitialized] = useState(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const defaultValue = !Boolean(initialValue) ? EMPTY_TEXT : initialValue;
@@ -27,7 +29,8 @@ const AppEditor: FC<AppEditorProps> = ({ initialValue, isEditable, isCreation, i
         console.error('TinyMCE initialization failed:', error);
         setEditorError('Could not load text editor');
         setEditorInitialized(false);
-      }
+      },
+      theme === 'dark'
     );
   }, [initialValue, isLoaded]);
 

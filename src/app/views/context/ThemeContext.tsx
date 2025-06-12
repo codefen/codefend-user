@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import createFastContext from './FastContextProvider';
+import { useLocation } from 'react-router';
 
 export type Theme = {
   theme: 'dark' | 'light';
@@ -23,8 +24,14 @@ const { FastContextProvider: ThemeContextProvider, useFastField } =
 
 export const useTheme = () => {
   const themeField = useFastField('theme');
+  const { pathname } = useLocation();
+
   const toggleTheme = () => {
     themeField.set(themeField.get === 'dark' ? 'light' : 'dark');
+
+    if (pathname?.startsWith('/issues/')) {
+      window.location.reload();
+    }
   };
 
   return {

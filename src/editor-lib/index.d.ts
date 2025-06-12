@@ -48,7 +48,8 @@ export const setTinyEditorContent: (id: string, value: string) => void;
 export const safeInitTinyMCE: (
   defaultValue: string,
   onSuccess?: () => void,
-  onError?: (error: Error) => void
+  onError?: (error: Error) => void,
+  isDarkMode?: boolean
 ) => void;
 
 export const addTinyMce: (initialValue: string) => void;
