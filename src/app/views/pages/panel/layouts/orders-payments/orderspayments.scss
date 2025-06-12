@@ -22,6 +22,10 @@ main.orders-payments {
       }
     }
 
+    .status-card-container {
+      display: none;
+    }
+
     .card {
       .table-title {
         gap: calc(var(--card-space) * 2);
@@ -87,6 +91,31 @@ main.orders-payments {
     .right {
       width: 100%;
       padding-block-start: 20px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  main.orders-payments {
+    &.actived {
+      // padding-inline-start: var(--card-space);
+      gap: 0;
+      outline: 0;
+      margin: 0;
+      padding: 0;
+      margin-inline: auto;
+
+      .left {
+        flex: 1;
+
+        .status-card-container {
+          display: flex;
+        }
+      }
+    }
+
+    .right {
+      display: none;
     }
   }
 }

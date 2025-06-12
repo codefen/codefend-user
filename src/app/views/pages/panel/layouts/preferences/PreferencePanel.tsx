@@ -30,6 +30,7 @@ const PreferencePanel = () => {
       <Show when={showScreen} fallback={<PageLoader />}>
         <main className={`preferences ${showScreen ? 'actived' : ''}`}>
           <section className="left">
+            <SettingCompanyInformation companyInfo={company} />
             <SettingCollaboratorAndTeam
               isLoading={isLoading}
               members={members || []}

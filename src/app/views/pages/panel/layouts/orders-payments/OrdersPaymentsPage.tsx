@@ -29,6 +29,7 @@ export const OrdersPaymentsPage = () => {
       <ProviderScope />
       <section className="left">
         <OrdersAndPaymentHeaderPage />
+        <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
         <SettingOrderAndBilling
           isLoading={isLoadingPreference}
           orders={preference.company_orders}
