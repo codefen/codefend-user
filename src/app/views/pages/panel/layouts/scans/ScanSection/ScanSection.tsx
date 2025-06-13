@@ -11,7 +11,6 @@ import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
 import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
-import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
@@ -194,7 +193,7 @@ export const ScanSection = () => {
   const ultimo = scans.at(0);
 
   return (
-    <div className={css['scan-section-container']}>
+    <div className="scan-section-container">
       <ModalTitleWrapper
         isActive={isOpen && modalId === MODAL_KEY_OPEN.START_KILL_SCAN}
         close={() => setIsOpen(false)}
@@ -232,34 +231,34 @@ export const ScanSection = () => {
         </SimpleSection>
       </div>
 
-      <div className="card">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '12px' }}>
-          <h3 style={{ display: 'flex', alignItems: 'center', gap: '4px', textAlign: 'center' }}>
+      {/* <div className="card scan-cards">
+        <div className="scan-header">
+          <h3>
             <GlobeWebIcon />
             Scan Result #{ultimo?.id}
           </h3>
           <span>Type: {ultimo?.resource_class} - Total scans: 1</span>
         </div>
 
-        <div>
-          <div>
+        <div className="content">
+          <div className="scan-card-item">
             <h4>Total issues</h4>
             <span>10</span>
           </div>
-          <div>
+          <div className="scan-card-item">
             <h4>Scan status</h4>
             <span>Completed</span>
           </div>
-          <div>
+          <div className="scan-card-item">
             <h4>Total time scanned</h4>
             <span>50 min</span>
           </div>
-          <div>
+          <div className="scan-card-item">
             <h4>Scan periods</h4>
             <span>10/2/1 - 10/2/1</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -40,6 +40,7 @@ export enum ResourcesTypes {
   CODE = 'source',
   SOCIAL = 'social',
   NETWORK = 'network',
+  LEAKS = 'leaks',
 }
 
 export const RESOURCE_PATH_TO_TYPE = {

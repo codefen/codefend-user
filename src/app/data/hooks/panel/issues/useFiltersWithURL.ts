@@ -27,11 +27,23 @@ export const useFiltersWithURL = (issues: Issues[]) => {
       // If we're selecting a scan ID, ensure only web resource type is selected
       if (filterType === 'scanId') {
         if (isRemoving) {
-          // Remove scan_id from URL when unchecking
-          delete currentParams['scan_id'];
+          // Remove specific scan_id from URL when unchecking
+          const currentScanIds = currentParams['scan_id']
+            ? currentParams['scan_id'].split(',')
+            : [];
+          const newScanIds = currentScanIds.filter(id => id !== value);
+          if (newScanIds.length > 0) {
+            currentParams['scan_id'] = newScanIds.join(',');
+          } else {
+            delete currentParams['scan_id'];
+          }
         } else {
           // Add scan_id to URL when checking
-          currentParams['scan_id'] = value;
+          const currentScanIds = currentParams['scan_id']
+            ? currentParams['scan_id'].split(',')
+            : [];
+          currentScanIds.push(value);
+          currentParams['scan_id'] = currentScanIds.join(',');
         }
         setSearchParams(currentParams);
         return {
@@ -110,11 +122,12 @@ export const useFiltersWithURL = (issues: Issues[]) => {
       const newFilters = { ...prev };
 
       if (scanId) {
-        const hasMatchingIssue = issues.some(issue => issue.scanId === scanId);
-        if (hasMatchingIssue) {
-          newFilters.scanId = [scanId];
+        const scanIds = scanId.split(',');
+        const validScanIds = scanIds.filter(id => issues.some(issue => issue.scanId === id));
+        if (validScanIds.length > 0) {
+          newFilters.scanId = validScanIds;
         } else {
-          console.warn(`No issues found with scan_id: ${scanId}`);
+          console.warn(`No issues found with any of the scan_ids: ${scanId}`);
         }
       }
 

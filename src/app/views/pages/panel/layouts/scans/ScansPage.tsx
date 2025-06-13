@@ -4,6 +4,7 @@ import { ScanSection } from '@/app/views/pages/panel/layouts/scans/ScanSection/S
 import { ScanTitle } from '@/app/views/pages/panel/layouts/scans/ScanTitle/ScanTitle';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useEffect } from 'react';
+import './scanpage.scss';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();

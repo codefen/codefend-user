@@ -31,7 +31,7 @@ const issueColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-issue-1',
-    weight: '6%',
+    weight: '5.5%',
     render: value => value,
   },
   {
@@ -39,15 +39,22 @@ const issueColumns: ColumnTableV3[] = [
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-2',
-    weight: '44%',
+    weight: '38%',
     render: issue => <ResourceIconText name={issue.name} resourceClass={issue.resourceClass} />,
+  },
+  {
+    header: 'Domain',
+    key: 'resourceDomain',
+    styles: 'item-cell-issue-address',
+    weight: '11%',
+    render: value => value,
   },
   {
     header: 'Author',
     key: 'researcherUsername',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-3',
-    weight: '14.5%',
+    weight: '13%',
     render: value => (
       <IssueAuthor
         isAI={value?.researcherID == AI_RESEARCHER_ID}
@@ -62,36 +69,20 @@ const issueColumns: ColumnTableV3[] = [
     weight: '12%',
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
-
-  //*SE OCULTARON COLUMNAS DE INFORMACIÓN *//
-  // {
-  //   header: 'Type',
-  //   key: 'resourceClass',
-  //   styles: 'item-cell-5',
-  //   weight: '5%',
-  //   render: value => value,
-  // },
   {
     header: 'Scan',
     key: 'scanId',
     styles: 'item-cell-issue-5',
-    weight: '7%',
+    weight: '6%',
     render: value => value,
   },
   {
     header: 'Score',
     key: 'riskScore',
     styles: 'item-cell-issue-6',
-    weight: '12%',
+    weight: '10%',
     render: value => <RiskScore riskScore={value} />,
   },
-  // {
-  //   header: 'Status',
-  //   key: 'condition',
-  //   styles: 'item-cell-8',
-  //   weight: '6%',
-  //   render: value => value,
-  // },
 ];
 
 export const IssueResources: FC<IssueResourcesProps> = props => {

@@ -56,6 +56,7 @@ export const mapIssues = (source: any): Issues => {
     resourceID: source.resource_id,
     researcherID: source.researcher_id,
     researcherUsername: source.researcher_username,
+    resourceDomain: source.resource_domain,
     riskLevel: source.risk_level,
     riskScore: source.risk_score,
     name: source.name,

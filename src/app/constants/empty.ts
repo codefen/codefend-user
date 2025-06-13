@@ -153,6 +153,7 @@ export const EMPTY_SHARE = {
 export const EMPTY_ISSUECLASS = {
   total: '0',
   web: '0',
+  leaks: '0',
   mobile: '0',
   infra: '0',
   lan: '0',

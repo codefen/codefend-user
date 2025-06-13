@@ -7,6 +7,7 @@ export enum RESOURCE_CLASS {
   SOURCE = 'source',
   SOCIAL = 'social',
   RESEARCH = 'research',
+  LEAKS = 'leaks',
   UNKNOWN = 'unknown',
 }
 

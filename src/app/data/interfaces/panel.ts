@@ -162,6 +162,7 @@ export interface IssueClass {
   source: string;
   social: string;
   research: string;
+  leaks: string;
 }
 
 export interface IssuesUtils {
