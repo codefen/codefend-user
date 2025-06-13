@@ -9,7 +9,7 @@ export enum APP_MESSAGE_TOAST {
   SERVER_UPDATED = 'Server updated successfully.',
   COPY_TEXT = 'Text successfully copied to clipboard.',
   FAILURE_COPY = 'Failed to copy text to clipboard.',
-  START_SCAN = 'Starting new scan',
+  START_SCAN = 'New AI scan launched',
   SCAN_INFO = 'The scan has started. Please wait a few minutes, and you will see the results.',
 }
 

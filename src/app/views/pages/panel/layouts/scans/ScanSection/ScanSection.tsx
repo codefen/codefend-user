@@ -137,7 +137,7 @@ export const ScanSection = () => {
       onClick: (row: any) => startKillScan(row),
     },
     {
-      label: 'Open Scan progress',
+      label: 'View scan details',
       icon: <ScanIcon />,
       disabled: (row: any) =>
         row?.phase != ScanStepType.Scanner && row?.phase != ScanStepType.Parser,

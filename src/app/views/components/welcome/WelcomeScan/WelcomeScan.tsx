@@ -39,7 +39,8 @@ export const WelcomeScan = ({
           </b>
         </p>
         <img src="/codefend/codefend-eye2.png" alt="Eye" className={css['scan-img']} />
-        <p className={css['idiom-text']}>Select the language of the analysis</p>
+        {/* Idiom selector temporarily hidden */}
+        {/* <p className={css['idiom-text']}>Select the language of the analysis</p>
         <select
           className="search-select log-inputs"
           onChange={e => setIdiom(e.target.value)}
@@ -49,7 +50,7 @@ export const WelcomeScan = ({
               <option value={String(keyOption)}>{String(value)}</option>
             </Fragment>
           ))}
-        </select>
+        </select> */}
         <div className="btn-container">
           <PrimaryButton text="Close assistant" buttonStyle="gray" click={close} />
           <button className={`btn ${css['btn-add']}`} type="button" onClick={startScan}>
