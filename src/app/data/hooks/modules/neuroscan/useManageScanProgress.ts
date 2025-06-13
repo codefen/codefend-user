@@ -3,7 +3,7 @@ import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
 import { useEffect, useRef } from 'react';
 
 export const useManageScanProgress = () => {
-  const intervalRef = useRef<any>();
+  const intervalRef = useRef<any>(0);
   const { currentScan, isScanning, autoScanState, scanProgress } = useVerifyScanList();
 
   useEffect(() => {
@@ -33,10 +33,10 @@ export const useManageScanProgress = () => {
     const scan = currentScan;
     if (!scan || scan.phase !== 'parser' || !isScanning.get) return;
 
-    const { issues_found, issues_parsed } = scan;
+    const { found_issues, found_parsed_issues } = scan;
     const base = 25;
     const max = 99;
-    const ratio = issues_found > 0 ? issues_parsed / issues_found : 0;
+    const ratio = found_issues > 0 ? found_parsed_issues / found_issues : 0;
     scanProgress.set(base + ratio * (max - base));
-  }, [currentScan?.issues_found, currentScan?.issues_parsed, currentScan?.phase]);
+  }, [currentScan?.found_issues, currentScan?.found_parsed_issues, currentScan?.phase]);
 };

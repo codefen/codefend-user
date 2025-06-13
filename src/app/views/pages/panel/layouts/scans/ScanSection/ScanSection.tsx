@@ -49,11 +49,11 @@ const scansColumns: ColumnTableV3[] = [
   },
   {
     header: 'Found / Parsed',
-    key: 'issues_found',
+    key: 'found_issues',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
     weight: '15.75%',
-    render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
+    render: val => `${val?.found_issues} / ${val?.found_parsed_issues}`,
   },
   {
     header: 'Start',
@@ -238,9 +238,26 @@ export const ScanSection = () => {
             <GlobeWebIcon />
             Scan Result #{ultimo?.id}
           </h3>
-          <span>
-            Type: {ultimo?.resource_class} - Total issues: {ultimo?.issues_found}
-          </span>
+          <span>Type: {ultimo?.resource_class} - Total scans: 1</span>
+        </div>
+
+        <div>
+          <div>
+            <h4>Total issues</h4>
+            <span>10</span>
+          </div>
+          <div>
+            <h4>Scan status</h4>
+            <span>Completed</span>
+          </div>
+          <div>
+            <h4>Total time scanned</h4>
+            <span>50 min</span>
+          </div>
+          <div>
+            <h4>Scan periods</h4>
+            <span>10/2/1 - 10/2/1</span>
+          </div>
         </div>
       </div>
     </div>
