@@ -14,7 +14,7 @@ const sidebarData = {
 const menuItemsPaths = {
   Dashboard: '/dashboard',
   'Team members': '/team-members',
-  'Orders and payments': '/orders-and-payments',
+  'Orders and payments': '/orders-payments',
   'User profile': '/user-profile',
   'Web software': '/web-software',
   'Mobile software': '/mobile-software',

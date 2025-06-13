@@ -20,6 +20,7 @@ export class SidebarItem extends PureComponent<SidebarItemProps> {
         id={id}
         className={`${isActive ? 'active' : ''}`}
         aria-label={title}>
+        {icon ? icon : null}
         {title}
       </Link>
     );

@@ -1757,6 +1757,224 @@ export const PeopleIcon: FC<IconProps> = ({ className, width = '1.5rem', height 
   </svg>
 );
 
+export const PeopleIconOutline: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+    />
+  </svg>
+);
+
+export const UsersGroupOutline: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+    <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+    <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+    <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+    <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+    <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+  </svg>
+);
+
+export const CreditCardIcon: FC<IconProps> = ({ className, width = '1.2em', height = '1.2em' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" />
+    <path d="M3 10l18 0" />
+    <path d="M7 15l.01 0" />
+    <path d="M11 15l2 0" />
+  </svg>
+);
+
+export const GridOutlineIcon: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+    <path d="M3 10h18" />
+    <path d="M10 3v18" />
+  </svg>
+);
+
+export const SocialOutlineIcons: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M12 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <path d="M5 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <path d="M19 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <path d="M12 14m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+    <path d="M12 7l0 4" />
+    <path d="M6.7 17.8l2.8 -2" />
+    <path d="M17.3 17.8l-2.8 -2" />
+  </svg>
+);
+
+export const DataleakSearchIcon: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" />
+    <path d="M4 6v6c0 1.657 3.582 3 8 3m8 -3.5v-5.5" />
+    <path d="M4 12v6c0 1.657 3.582 3 8 3" />
+    <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+    <path d="M20.2 20.2l1.8 1.8" />
+  </svg>
+);
+
+export const AskQuestionOutlineIcon: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M8 9h8" />
+    <path d="M8 13h6" />
+    <path d="M14 18h-1l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5" />
+    <path d="M19 22v.01" />
+    <path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
+  </svg>
+);
+
+export const DeviceSearchIcon: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M11 17h-7a1 1 0 0 1 -1 -1v-12a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v8" />
+    <path d="M3 13h10" />
+    <path d="M8 21h4" />
+    <path d="M10 17l-.5 4" />
+    <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+    <path d="M20.2 20.2l1.8 1.8" />
+  </svg>
+);
+
+export const NetworkOutlineIcon: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <rect width="20" height="8" x="2" y="2" rx="2" ry="2"></rect>
+    <rect width="20" height="8" x="2" y="14" rx="2" ry="2"></rect>
+    <line x1="6" x2="6.01" y1="6" y2="6"></line>
+    <line x1="6" x2="6.01" y1="18" y2="18"></line>
+  </svg>
+);
+
 export const SparklesIcon: FC<IconProps> = ({ className, width = '1.5rem', height = '1.5rem' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
