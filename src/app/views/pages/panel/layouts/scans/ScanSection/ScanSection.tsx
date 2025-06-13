@@ -5,7 +5,7 @@ import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constan
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { BugIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
+import { BugIcon, GlobeWebIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
@@ -191,6 +191,7 @@ export const ScanSection = () => {
         toast.error(error?.info || error?.message || '');
       });
   };
+  const ultimo = scans.at(0);
 
   return (
     <div className={css['scan-section-container']}>
@@ -229,6 +230,18 @@ export const ScanSection = () => {
             />
           </div>
         </SimpleSection>
+      </div>
+
+      <div className="card">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '12px' }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '4px', textAlign: 'center' }}>
+            <GlobeWebIcon />
+            Scan Result #{ultimo?.id}
+          </h3>
+          <span>
+            Type: {ultimo?.resource_class} - Total issues: {ultimo?.issues_found}
+          </span>
+        </div>
       </div>
     </div>
   );

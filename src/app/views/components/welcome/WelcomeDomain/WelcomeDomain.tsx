@@ -70,6 +70,27 @@ export const WelcomeDomain = ({
 
   useEffect(() => {
     setInitialDomain(prev => (!prev ? (!!initialDomainStored ? initialDomainStored : '') : prev));
+    if (!initialDomain && initialDomainStored) {
+      const companyID = getCompany();
+      fetcher('post', {
+        requireSession: true,
+        body: {
+          company_id: companyID,
+          resource_address_domain: initialDomainStored,
+          subdomain_scan: 'yes',
+        },
+        path: 'resources/web/preview',
+        timeout: 230000,
+        requestId: 'welcome-domain-preview',
+      }).then(({ data }: any) => {
+        if (verifySession(data, logout)) return;
+        if (!apiErrorValidation(data)) {
+          setDomains(data?.resource ? [data.resource] : []);
+        } else if (data?.error_info === 'unrecheable_domain') {
+          toast.error(data?.info);
+        }
+      });
+    }
   }, [initialDomain, initialDomainStored]);
 
   const changeInitialDomain = (e: FormEvent<HTMLFormElement>) => {
