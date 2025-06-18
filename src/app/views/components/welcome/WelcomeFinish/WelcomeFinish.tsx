@@ -45,8 +45,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const scanStep = (currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
 
   return (
-    <ModalWrapper showCloseBtn={true} type={css['welcome-modal-container']} action={solved}>
-      <div className="welcome-content">
+    <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
+      <div className="welcome-content welcome-content-finish">
         <img className="logose" src="/codefend/logo-color.png" width={220} />
         <Show
           when={
@@ -64,16 +64,42 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
             Detected vulnerabilities and potential threats will be displayed on the dashboard and
             communicated via email. <b>You can now close this window.</b>
           </p> */}
+          <div className={`card card-process card-process-target`}>
+            <div className="over">
+              <div className="card-process-header">
+                <div className="card-process-header-title">
+                  <GlobeWebIcon />
+                  <h3>Target: {currentScan.get?.resource_address}</h3>
+                </div>
+                <div className="progress-container">
+                  <ProgressCircle
+                    size={40}
+                    strokeWidth={4}
+                    containerSize="6rem"
+                    fontSize="0.9rem"
+                    progress={globalStore.scanProgress.get}
+                  />
+                  <span>Overall Progress</span>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <p>Started: {formatTimeFormat(currentScan.get?.creacion)}</p>
+                  <p>User: {currentScan.get?.user_email}</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <div className={css['card-process-container']}>
-            <div className={`card ${css['card-process']}`}>
+          <div className={'card-process-container'}>
+            <div className={`card card-process`}>
               <div className="over">
-                <div className={css['card-process-header']}>
-                  <div className={css['card-process-header-title']}>
+                <div className={'card-process-header'}>
+                  <div className={'card-process-header-title'}>
                     <LanIcon />
                     <h3>New Subdomain Discovery</h3>
                   </div>
-                  <div className={css['process-badge']}>
+                  <div className={'process-badge'}>
                     {getStatusBadge(
                       '',
                       currentScan.get?.m_subdomains_finished,
@@ -82,9 +108,9 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                   </div>
                 </div>
 
-                <div className={css['card-process-content']}>
-                  <div className={css['card-process-content-info']}>
-                    <div className={css['card-process-content-info-container']}>
+                <div className={'card-process-content'}>
+                  <div className={'card-process-content-info'}>
+                    <div className={'card-process-content-info-container'}>
                       <div>
                         <span>Started:</span>
                         <b>{formatTimeFormat(currentScan.get?.m_subdomains_launched)}</b>
@@ -95,7 +121,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       </div>
                     </div>
                   </div>
-                  <div className={css['card-process-content-progress']}>
+                  <div className={'card-process-content-progress'}>
                     <ProgressCircle
                       size={60}
                       strokeWidth={6}
@@ -108,14 +134,14 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               </div>
             </div>
 
-            <div className={`card ${css['card-process']}`}>
+            <div className={`card card-process`}>
               <div className="over">
-                <div className={css['card-process-header']}>
-                  <div className={css['card-process-header-title']}>
+                <div className={'card-process-header'}>
+                  <div className={'card-process-header-title'}>
                     <GlobeWebIcon />
                     <h3>Automatatic Web Scanner</h3>
                   </div>
-                  <div className={css['process-badge']}>
+                  <div className={'process-badge'}>
                     {getStatusBadge(
                       currentScan.get?.m_nllm_phase,
                       currentScan.get?.m_nllm_finished,
@@ -124,16 +150,16 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                   </div>
                 </div>
 
-                <div className={css['card-process-content']}>
-                  <div className={css['card-process-content-info']}>
-                    <div className={css['card-process-content-info-container']}>
-                      <div className={css['card-process-content-info-container-column']}>
+                <div className={'card-process-content'}>
+                  <div className={'card-process-content-info'}>
+                    <div className={'card-process-content-info-container'}>
+                      <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Started:</span>
                           <b>{formatTimeFormat(currentScan.get?.m_nllm_launched)}</b>
                         </div>
                       </div>
-                      <div className={css['card-process-content-info-container-column']}>
+                      <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Issues found:</span>
                           <b>{currentScan.get?.m_nllm_issues_found}</b>
@@ -145,7 +171,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       </div>
                     </div>
                   </div>
-                  <div className={css['card-process-content-progress']}>
+                  <div className={'card-process-content-progress'}>
                     <ProgressCircle
                       size={60}
                       strokeWidth={6}
@@ -158,10 +184,10 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               </div>
             </div>
 
-            <div className={`card ${css['card-process']}`}>
+            <div className={`card card-process`}>
               <div className="over">
-                <div className={css['card-process-header']}>
-                  <div className={css['card-process-header-title']}>
+                <div className={'card-process-header'}>
+                  <div className={'card-process-header-title'}>
                     <img
                       src="public/codefend/gota.png"
                       alt="Globe Icon"
@@ -169,7 +195,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     />
                     <h3>Data Data Breach Hunter</h3>
                   </div>
-                  <div className={css['process-badge']}>
+                  <div className={'process-badge'}>
                     {getStatusBadge(
                       '',
                       currentScan.get?.m_subdomains_finished,
@@ -178,28 +204,28 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                   </div>
                 </div>
 
-                <div className={css['card-process-content']}>
-                  <div className={css['card-process-content-info']}>
-                    <div className={css['card-process-content-info-container']}>
-                      <div className={css['card-process-content-info-container-column']}>
+                <div className={'card-process-content'}>
+                  <div className={'card-process-content-info'}>
+                    <div className={'card-process-content-info-container'}>
+                      <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Started:</span>
                           <b>{formatTimeFormat(currentScan.get?.m_leaks_launched)}</b>
                         </div>
                       </div>
-                      <div className={css['card-process-content-info-container-column']}>
+                      <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Breaches found:</span>
                           <b>{currentScan.get?.m_leaks_found}</b>
                         </div>
                         <div>
-                          <span>Social leaks:</span>
+                          <span>User detected:</span>
                           <b>{currentScan.get?.m_leaks_social_found}</b>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className={css['card-process-content-progress']}>
+                  <div className={'card-process-content-progress'}>
                     <ProgressCircle
                       size={60}
                       strokeWidth={6}

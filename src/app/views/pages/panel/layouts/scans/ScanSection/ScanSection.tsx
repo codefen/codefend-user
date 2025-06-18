@@ -80,9 +80,9 @@ export const ScanSection = () => {
   } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
-  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const { appEvent, currentScan } = useGlobalFastFields(['appEvent', 'currentScan']);
   const { updateState } = useOrderStore();
-  const [idiom, setIdiom] = useState<string>('en');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -105,9 +105,12 @@ export const ScanSection = () => {
       },
       path: 'modules/neuroscan/kill',
       requireSession: true,
-    }).then(() => {
+    }).then(({ neuroscan }: any) => {
       toast.success(SCAN_PAGE_TEXT.SCAN_KILLED_SUCCESS);
       setIsOpen(false);
+      if (neuroscan?.id === currentScan.get?.id) {
+        currentScan.set(neuroscan);
+      }
     });
   };
 
@@ -152,24 +155,29 @@ export const ScanSection = () => {
     if (verifyDomainName(domainScanned || '')) return;
     const companyID = company.get?.id;
     if (companyIdIsNull(companyID)) return;
-    const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
-      closeOnClick: true,
-    });
-    autoScan(domainScanned?.trim?.() || '', false, '').then(result => {
-      if (apiErrorValidation(result)) {
-        updateState('open', true);
-        updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
-        updateState('resourceType', ResourcesTypes.WEB);
-        appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
-        return;
-      }
+    // const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
+    //   closeOnClick: true,
+    // });
+    setLoading(true);
+    autoScan(domainScanned?.trim?.() || '', false, '')
+      .then(result => {
+        if (apiErrorValidation(result)) {
+          updateState('open', true);
+          updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
+          updateState('resourceType', ResourcesTypes.WEB);
+          appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
+          return;
+        }
 
-      if (result?.neuroscan?.id) {
-        toast.success(APP_MESSAGE_TOAST.START_SCAN);
-        setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
-        setIsOpen(true);
-      }
-    });
+        if (result?.neuroscan?.id) {
+          toast.success(APP_MESSAGE_TOAST.START_SCAN);
+          setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+          setIsOpen(true);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   const ultimo = scans.at(0);
 
@@ -194,6 +202,7 @@ export const ScanSection = () => {
         handleSubmit={startAndAddedDomain}
         searchData={domainScanned}
         setSearchData={setDomainScanned}
+        isDisabled={loading}
       />
       <div className="card">
         <SimpleSection header="AI based web security" icon={<StatIcon />}>

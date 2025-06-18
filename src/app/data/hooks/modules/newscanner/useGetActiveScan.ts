@@ -164,6 +164,7 @@ export const useGetActiveScan = () => {
     ) {
       isScanning.set(false);
       autoScanState.set(AUTO_SCAN_STATE.SCAN_FINISHED);
+      scanRetries.set(2);
     }
     if (previousDataRef.current !== currentData) {
       currentScan.set(currentData || {});

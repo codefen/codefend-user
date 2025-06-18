@@ -68,6 +68,11 @@ export const useNewVerifyScanList = () => {
   const scanningValue = isScanning.get;
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
+
+  // Usar useRef para trackear el estado anterior y evitar bucles
+  const previousAutoScanState = useRef<string | null>(null);
+  const hasUpdatedAutoScanState = useRef(false);
+
   const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {
     refreshInterval: scanRetries.get > 0 ? 2000 : 0,
     revalidateOnFocus: true,
@@ -95,10 +100,12 @@ export const useNewVerifyScanList = () => {
   useEffect(() => {
     const scanSize = data?.scans?.length;
     const isActive = latestScan?.phase == 'launched';
+    const currentAutoScanState = autoScanState.get;
+
     const isNotLaunching =
-      autoScanState.get == AUTO_SCAN_STATE.NON_SCANNING ||
-      autoScanState.get == AUTO_SCAN_STATE.SCAN_FINISHED;
-    const isScanLaunched = autoScanState.get == AUTO_SCAN_STATE.SCAN_LAUNCHED;
+      currentAutoScanState == AUTO_SCAN_STATE.NON_SCANNING ||
+      currentAutoScanState == AUTO_SCAN_STATE.SCAN_FINISHED;
+    const isScanLaunched = currentAutoScanState == AUTO_SCAN_STATE.SCAN_LAUNCHED;
 
     // Update scan number if changed
     if (scanNumber.get != scanSize) {
@@ -116,9 +123,11 @@ export const useNewVerifyScanList = () => {
 
     // Si hay un escaneo activo, actualizar el estado
     if (isActive) {
-      if (isNotLaunching && !isScanLaunched) {
-        // Si estamos lanzando y detectamos un escaneo activo, cambiar a SCAN_LAUNCHED
+      if (isNotLaunching && !isScanLaunched && !hasUpdatedAutoScanState.current) {
+        // Si estamos lanzando y detectamos un escaneo activo, cambiar a LAUNCH_SCAN
+        // Solo actualizar si no hemos actualizado ya en este ciclo
         autoScanState.set(AUTO_SCAN_STATE.LAUNCH_SCAN);
+        hasUpdatedAutoScanState.current = true;
       }
       // Si hay un escaneo activo, mantener isScanning en true
       if (!scanningValue) {
@@ -134,9 +143,14 @@ export const useNewVerifyScanList = () => {
       subdomainProgress.set(0);
       scanProgress.set(0);
     }
-  }, [data, latestScan, scanningValue, autoScanState.get, scanRetries.get]);
 
-  const isScanActive = (scan: any) => scan?.phase === 'launched';
+    // Resetear el flag cuando el estado cambie
+    if (previousAutoScanState.current !== currentAutoScanState) {
+      previousAutoScanState.current = currentAutoScanState;
+      hasUpdatedAutoScanState.current = false;
+    }
+  }, [data, latestScan, scanningValue, scanRetries.get]);
+
   return {
     data: data!,
     currentScan: currentScan.get,
