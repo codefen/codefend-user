@@ -168,11 +168,12 @@
           color: #fff;
         }
         &[data-status='completed'] {
-          background-color: #eb5757;
+          background-color: #8cd46e;
           color: #fff;
         }
         &[data-status='parser'] {
-          background-color: rgb(249 115 22 / 1);
+          background-color: #eb5757;
+          // background-color: rgb(249 115 22 / 1);
           color: #fff;
         }
       }

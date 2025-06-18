@@ -112,10 +112,7 @@ export const useNewManageScanProgress = () => {
 
     const { m_nllm_issues_found: found = 0, m_nllm_issues_parsed: parsed = 0 } = scan;
 
-    console.log('found', found);
-    console.log('parsed', parsed);
     const progress = getParserProgress(Number(found), Number(parsed));
-    console.log('progress', progress);
     webScanProgress.set(progress);
     scanProgress.set(updateOverallProgress(progress, undefined, undefined));
   }, [

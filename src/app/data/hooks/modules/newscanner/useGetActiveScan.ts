@@ -157,14 +157,14 @@ export const useGetActiveScan = () => {
       if (!currentScanningValue) {
         isScanning.set(true);
       }
-    } else if (
-      !isActive &&
-      (currentAutoScanState === AUTO_SCAN_STATE.SCAN_LAUNCHED ||
-        currentAutoScanState === AUTO_SCAN_STATE.LAUNCH_SCAN)
-    ) {
+    } else if (!isActive && currentAutoScanState !== AUTO_SCAN_STATE.SCAN_FINISHED) {
       isScanning.set(false);
       autoScanState.set(AUTO_SCAN_STATE.SCAN_FINISHED);
       scanRetries.set(2);
+      webScanProgress.set(100);
+      leaksScanProgress.set(100);
+      subdomainProgress.set(100);
+      scanProgress.set(100);
     }
     if (previousDataRef.current !== currentData) {
       currentScan.set(currentData || {});

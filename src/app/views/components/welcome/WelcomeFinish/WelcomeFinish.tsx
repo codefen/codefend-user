@@ -1,17 +1,15 @@
 import { ModalWrapper } from '@modals/index';
-import css from './welcomefinish.module.scss';
-import { scanStepnumber, scanStepText, ScanStepType } from '@/app/constants/welcome-steps';
+import { ScanStepType } from '@/app/constants/welcome-steps';
 import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
-import { useScanProgress } from '@moduleHooks/neuroscan/useScanProgress';
 import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useNavigate } from 'react-router';
-import { CheckSimpleIcon, GlobeWebIcon, LanIcon } from '@icons';
+import { GlobeWebIcon, LanIcon, SparklesIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
-import { formatDate, formatTimeFormat } from '@utils/helper';
+import { formatTimeFormat } from '@utils/helper';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -96,49 +94,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               <div className="over">
                 <div className={'card-process-header'}>
                   <div className={'card-process-header-title'}>
-                    <LanIcon />
-                    <h3>New Subdomain Discovery</h3>
-                  </div>
-                  <div className={'process-badge'}>
-                    {getStatusBadge(
-                      '',
-                      currentScan.get?.m_subdomains_finished,
-                      currentScan.get?.m_subdomains_launched
-                    )}
-                  </div>
-                </div>
-
-                <div className={'card-process-content'}>
-                  <div className={'card-process-content-info'}>
-                    <div className={'card-process-content-info-container'}>
-                      <div>
-                        <span>Started:</span>
-                        <b>{formatTimeFormat(currentScan.get?.m_subdomains_launched)}</b>
-                      </div>
-                      <div>
-                        <span>Subdomains found:</span>
-                        <b>{currentScan.get?.m_subdomains_found}</b>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={'card-process-content-progress'}>
-                    <ProgressCircle
-                      size={60}
-                      strokeWidth={6}
-                      containerSize="8rem"
-                      fontSize="1.125rem"
-                      progress={globalStore.subdomainProgress.get}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className={`card card-process`}>
-              <div className="over">
-                <div className={'card-process-header'}>
-                  <div className={'card-process-header-title'}>
-                    <GlobeWebIcon />
+                    <SparklesIcon className="codefend-text-red" />
                     <h3>Automatatic Web Scanner</h3>
                   </div>
                   <div className={'process-badge'}>
@@ -178,6 +134,48 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       containerSize="8rem"
                       fontSize="1.125rem"
                       progress={globalStore.webScanProgress.get}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={`card card-process`}>
+              <div className="over">
+                <div className={'card-process-header'}>
+                  <div className={'card-process-header-title'}>
+                    <LanIcon className="codefend-text-red" />
+                    <h3>Subdomain Discovery</h3>
+                  </div>
+                  <div className={'process-badge'}>
+                    {getStatusBadge(
+                      '',
+                      currentScan.get?.m_subdomains_finished,
+                      currentScan.get?.m_subdomains_launched
+                    )}
+                  </div>
+                </div>
+
+                <div className={'card-process-content'}>
+                  <div className={'card-process-content-info'}>
+                    <div className={'card-process-content-info-container'}>
+                      <div>
+                        <span>Started:</span>
+                        <b>{formatTimeFormat(currentScan.get?.m_subdomains_launched)}</b>
+                      </div>
+                      <div>
+                        <span>Subdomains found:</span>
+                        <b>{currentScan.get?.m_subdomains_found}</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={'card-process-content-progress'}>
+                    <ProgressCircle
+                      size={60}
+                      strokeWidth={6}
+                      containerSize="8rem"
+                      fontSize="1.125rem"
+                      progress={globalStore.subdomainProgress.get}
                     />
                   </div>
                 </div>

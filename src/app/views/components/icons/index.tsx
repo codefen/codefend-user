@@ -170,12 +170,12 @@ export const CLoudIcon = () => (
   </svg>
 );
 
-export const LanIcon: FC<IconProps> = ({ width = '1em', height = '1em' }) => (
+export const LanIcon: FC<IconProps> = ({ width = '1em', height = '1em', className = '' }) => (
   <svg
     strokeWidth={0}
     height={height}
     width={width}
-    xmlns="http://www.w3.org/2000/svg"
+    className={className}
     viewBox="0 0 512 512"
     color="currentColor"
     fill="currentColor"
