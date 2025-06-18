@@ -16,11 +16,6 @@
   min-height: fit-content;
   max-height: fit-content;
 
-  img {
-    width: 200px;
-    margin-block-end: 0;
-  }
-
   .welcome-modal-header {
     display: flex;
     align-items: center;
@@ -113,6 +108,11 @@
 
 .welcome-content.welcome-content-finish {
   gap: 20px;
+
+  img {
+    width: 200px;
+    margin-block-end: 0;
+  }
 
   .card-process-container {
     display: flex;
