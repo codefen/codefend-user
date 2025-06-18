@@ -4,7 +4,10 @@ main.social {
 
     .table {
       min-width: 700px;
-      overflow-x: auto;
+      .rows {
+        overflow: auto;
+        max-height: calc(100cqh - 6rem);
+      }
 
       .item {
         height: 43px;

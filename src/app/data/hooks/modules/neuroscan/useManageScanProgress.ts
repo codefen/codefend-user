@@ -38,5 +38,5 @@ export const useManageScanProgress = () => {
     const max = 99;
     const ratio = found_issues > 0 ? found_parsed_issues / found_issues : 0;
     scanProgress.set(base + ratio * (max - base));
-  }, [currentScan?.found_issues, currentScan?.found_parsed_issues, currentScan?.phase]);
+  }, [currentScan?.m_nllm_issues_found, currentScan?.m_nllm_issues_parsed, currentScan?.phase]);
 };

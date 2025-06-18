@@ -110,6 +110,10 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   selectedApp: null,
   mobilePlanPreference: 'medium',
   scanProgress: 0,
+  subdomainProgress: 0,
+  webScanProgress: 0,
+  leaksScanProgress: 0,
+
   isProgressStarted: false,
   currentScan: null,
   isScanning: false,

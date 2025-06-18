@@ -6,29 +6,43 @@ import { useScanProgress } from '@moduleHooks/neuroscan/useScanProgress';
 import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useNavigate } from 'react-router';
-import { CheckSimpleIcon } from '@icons';
+import { CheckSimpleIcon, GlobeWebIcon, LanIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
+import { formatDate, formatTimeFormat } from '@utils/helper';
+
+function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
+  if (finished || phase === ScanStepType.Finished) {
+    return <div data-status="completed">Completed</div>;
+  }
+  if (phase === ScanStepType.Parser) {
+    return <div data-status="parser">Analyzing</div>;
+  }
+  return <div data-status="running">Running</div>;
+}
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
-  const globalStore = useGlobalFastFields([
+  const { isScanning, currentScan, ...globalStore } = useGlobalFastFields([
     'scanProgress',
     'isScanning',
     'currentScan',
     'autoScanState',
+    'webScanProgress',
+    'subdomainProgress',
+    'leaksScanProgress',
   ]);
   const { initialDomain } = useWelcomeStore();
   const navigate = useNavigate();
 
   const closeModal = () => {
     solved();
-    if (!globalStore.isScanning.get) {
+    if (!isScanning.get) {
       navigate('/issues');
     }
   };
-  const scanStep = (globalStore.currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
+  const scanStep = (currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
 
   return (
     <ModalWrapper showCloseBtn={true} type={css['welcome-modal-container']} action={solved}>
@@ -36,33 +50,177 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         <img className="logose" src="/codefend/logo-color.png" width={220} />
         <Show
           when={
-            globalStore.isScanning.get ||
+            isScanning.get ||
             globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_LAUNCHED ||
             globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_FINISHED
           }
           fallback={<PageLoader />}>
-          <p className={css['welcome-text']}>
+          {/* <p className={css['welcome-text']}>
             <b>
               The domain{' '}
-              <span style={{ color: '#ff3939' }}>
-                {globalStore.currentScan.get?.resource_address}
-              </span>{' '}
-              is being analyzed.
+              <span style={{ color: '#ff3939' }}>{currentScan.get?.resource_address}</span> is being
+              analyzed.
             </b>{' '}
             Detected vulnerabilities and potential threats will be displayed on the dashboard and
             communicated via email. <b>You can now close this window.</b>
-          </p>
+          </p> */}
 
-          <div>
-            {globalStore.isScanning.get ? (
+          <div className={css['card-process-container']}>
+            <div className={`card ${css['card-process']}`}>
+              <div className="over">
+                <div className={css['card-process-header']}>
+                  <div className={css['card-process-header-title']}>
+                    <LanIcon />
+                    <h3>New Subdomain Discovery</h3>
+                  </div>
+                  <div className={css['process-badge']}>
+                    {getStatusBadge(
+                      '',
+                      currentScan.get?.m_subdomains_finished,
+                      currentScan.get?.m_subdomains_launched
+                    )}
+                  </div>
+                </div>
+
+                <div className={css['card-process-content']}>
+                  <div className={css['card-process-content-info']}>
+                    <div className={css['card-process-content-info-container']}>
+                      <div>
+                        <span>Started:</span>
+                        <b>{formatTimeFormat(currentScan.get?.m_subdomains_launched)}</b>
+                      </div>
+                      <div>
+                        <span>Subdomains found:</span>
+                        <b>{currentScan.get?.m_subdomains_found}</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={css['card-process-content-progress']}>
+                    <ProgressCircle
+                      size={60}
+                      strokeWidth={6}
+                      containerSize="8rem"
+                      fontSize="1.125rem"
+                      progress={globalStore.subdomainProgress.get}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={`card ${css['card-process']}`}>
+              <div className="over">
+                <div className={css['card-process-header']}>
+                  <div className={css['card-process-header-title']}>
+                    <GlobeWebIcon />
+                    <h3>Automatatic Web Scanner</h3>
+                  </div>
+                  <div className={css['process-badge']}>
+                    {getStatusBadge(
+                      currentScan.get?.m_nllm_phase,
+                      currentScan.get?.m_nllm_finished,
+                      ''
+                    )}
+                  </div>
+                </div>
+
+                <div className={css['card-process-content']}>
+                  <div className={css['card-process-content-info']}>
+                    <div className={css['card-process-content-info-container']}>
+                      <div className={css['card-process-content-info-container-column']}>
+                        <div>
+                          <span>Started:</span>
+                          <b>{formatTimeFormat(currentScan.get?.m_nllm_launched)}</b>
+                        </div>
+                      </div>
+                      <div className={css['card-process-content-info-container-column']}>
+                        <div>
+                          <span>Issues found:</span>
+                          <b>{currentScan.get?.m_nllm_issues_found}</b>
+                        </div>
+                        <div>
+                          <span>Subdomains found:</span>
+                          <b>{currentScan.get?.m_nllm_issues_parsed}</b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={css['card-process-content-progress']}>
+                    <ProgressCircle
+                      size={60}
+                      strokeWidth={6}
+                      containerSize="8rem"
+                      fontSize="1.125rem"
+                      progress={globalStore.webScanProgress.get}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={`card ${css['card-process']}`}>
+              <div className="over">
+                <div className={css['card-process-header']}>
+                  <div className={css['card-process-header-title']}>
+                    <img
+                      src="public/codefend/gota.png"
+                      alt="Globe Icon"
+                      style={{ width: '0.9em' }}
+                    />
+                    <h3>Data Data Breach Hunter</h3>
+                  </div>
+                  <div className={css['process-badge']}>
+                    {getStatusBadge(
+                      '',
+                      currentScan.get?.m_subdomains_finished,
+                      currentScan.get?.m_subdomains_launched
+                    )}
+                  </div>
+                </div>
+
+                <div className={css['card-process-content']}>
+                  <div className={css['card-process-content-info']}>
+                    <div className={css['card-process-content-info-container']}>
+                      <div className={css['card-process-content-info-container-column']}>
+                        <div>
+                          <span>Started:</span>
+                          <b>{formatTimeFormat(currentScan.get?.m_leaks_launched)}</b>
+                        </div>
+                      </div>
+                      <div className={css['card-process-content-info-container-column']}>
+                        <div>
+                          <span>Breaches found:</span>
+                          <b>{currentScan.get?.m_leaks_found}</b>
+                        </div>
+                        <div>
+                          <span>Social leaks:</span>
+                          <b>{currentScan.get?.m_leaks_social_found}</b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={css['card-process-content-progress']}>
+                    <ProgressCircle
+                      size={60}
+                      strokeWidth={6}
+                      containerSize="8rem"
+                      fontSize="1.125rem"
+                      progress={globalStore.leaksScanProgress.get}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* <div>
+            {isScanning.get ? (
               <ProgressCircle progress={globalStore.scanProgress.get} />
             ) : (
               <div
-                className={`${css['completion-container']} ${!globalStore.isScanning.get ? css['active'] : ''}`}>
-                <div
-                  className={`${css['check-circle']} ${!globalStore.isScanning.get ? css['active'] : ''}`}>
-                  <div
-                    className={`${css['check-icon']} ${!globalStore.isScanning.get ? css['active'] : ''}`}>
+                className={`${css['completion-container']} ${!isScanning.get ? css['active'] : ''}`}>
+                <div className={`${css['check-circle']} ${!isScanning.get ? css['active'] : ''}`}>
+                  <div className={`${css['check-icon']} ${!isScanning.get ? css['active'] : ''}`}>
                     <CheckSimpleIcon />
                   </div>
                 </div>
@@ -73,14 +231,14 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           <div className={css['finish-issues-found']}>
             <div className={css['finish-vuln-box']}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
-                {globalStore.currentScan.get?.found_issues}
+                {globalStore.currentScan.get?.m_nllm_issues_found}
               </div>
               <span style={{ color: '#e84f4f' }}>Total findings</span>
             </div>
             <div
-              className={`${css['finish-vuln-box']} ${!globalStore.isScanning.get ? css['vul-box-complete'] : ''}`}>
+              className={`${css['finish-vuln-box']} ${!isScanning.get ? css['vul-box-complete'] : ''}`}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
-                {globalStore.currentScan.get?.found_parsed_issues}
+                {globalStore.currentScan.get?.m_nllm_issues_parsed}
               </div>
               <span>Analyzed findings</span>
             </div>
@@ -92,11 +250,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 - {scanStepText[scanStep]}
               </b>
             </p>
-          </div>
+          </div> */}
 
           <PrimaryButton
-            text={globalStore.isScanning.get ? 'Close assistant' : 'Go to issues'}
-            buttonStyle={globalStore.isScanning.get ? 'red' : 'black'}
+            text={isScanning.get ? 'Close assistant' : 'Go to issues'}
+            buttonStyle={isScanning.get ? 'red' : 'black'}
             click={closeModal}
           />
         </Show>

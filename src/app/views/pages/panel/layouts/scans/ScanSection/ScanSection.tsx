@@ -23,6 +23,7 @@ import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/componen
 import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
 import { useNavigate } from 'react-router';
+import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -52,7 +53,7 @@ const scansColumns: ColumnTableV3[] = [
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
     weight: '15.75%',
-    render: val => `${val?.found_issues} / ${val?.found_parsed_issues}`,
+    render: val => `${val?.m_nllm_issues_found} / ${val?.m_nllm_issues_parsed}`,
   },
   {
     header: 'Start',
@@ -76,7 +77,7 @@ export const ScanSection = () => {
   const { getCompany, company } = useUserData();
   const {
     data: { scans, companyUpdated },
-  } = useVerifyScanList();
+  } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const { appEvent } = useGlobalFastFields(['appEvent']);
@@ -139,7 +140,7 @@ export const ScanSection = () => {
       label: 'View scan details',
       icon: <ScanIcon />,
       disabled: (row: any) =>
-        row?.phase != ScanStepType.Scanner && row?.phase != ScanStepType.Parser,
+        row?.phase != ScanStepType.LAUNCHED && row?.phase != ScanStepType.Parser,
       onClick: (row: any) => {
         setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
         setIsOpen(true);
@@ -154,41 +155,21 @@ export const ScanSection = () => {
     const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
       closeOnClick: true,
     });
-    fetcher<any>('post', {
-      body: {
-        company_id: companyID,
-        resource_address_domain: domainScanned?.trim?.() || '',
-        subdomain_scan: 'no',
-      },
-      path: 'resources/web/add',
-      timeout: 180000,
-    })
-      .then(({ data }) => {
-        toast.dismiss(toastId);
-        const resourceId = data?.resource?.id;
-        if (resourceId) {
-          autoScan(resourceId, false, idiom).then(result => {
-            if (apiErrorValidation(result)) {
-              updateState('open', true);
-              updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
-              updateState('resourceType', ResourcesTypes.WEB);
-              appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
-              return;
-            }
+    autoScan(domainScanned?.trim?.() || '', false, '').then(result => {
+      if (apiErrorValidation(result)) {
+        updateState('open', true);
+        updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
+        updateState('resourceType', ResourcesTypes.WEB);
+        appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
+        return;
+      }
 
-            if (result?.neuroscan?.id) {
-              toast.success(APP_MESSAGE_TOAST.START_SCAN);
-              setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
-              setIsOpen(true);
-            }
-          });
-        } else {
-          throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
-        }
-      })
-      .catch((error: any) => {
-        toast.error(error?.info || error?.message || '');
-      });
+      if (result?.neuroscan?.id) {
+        toast.success(APP_MESSAGE_TOAST.START_SCAN);
+        setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+        setIsOpen(true);
+      }
+    });
   };
   const ultimo = scans.at(0);
 

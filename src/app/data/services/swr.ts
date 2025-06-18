@@ -14,7 +14,11 @@ export const disponibleFetcher = ([[model, ac], { company, logout }]: any) => {
   if (companyIdIsNull(company)) return Promise.reject([]);
   return AxiosHttpService.getInstance()
     .post<any>({
-      body: { ac: ac, company_id: company },
+      body: {
+        ac: ac,
+        company_id: company,
+        ds: 91239912932193,
+      },
       path: model,
     })
     .then(({ data }) => {

@@ -12,15 +12,15 @@ export const WelcomeGroupTour = () => {
   const { isOpen, modalId, setIsOpen, setModalId } = useModalStore();
   const { solvedComunique } = useSolvedComunique();
   const { autoScan } = useAutoScan();
-  const { resourceId } = useInitialDomainStore();
+  const { initialDomain } = useInitialDomainStore();
 
-  const startWaitStep = (idiom: string) => {
-    solvedComunique();
-    autoScan(resourceId, true, idiom).then(() => {
+  const startWaitStep = () => {
+    return Promise.allSettled([solvedComunique(), autoScan(initialDomain, true, '')]).then(() => {
       setIsOpen(true);
       setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
     });
   };
+
   const goToStartScanStep = () => {
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.USER_WELCOME_SCAN);
@@ -33,10 +33,12 @@ export const WelcomeGroupTour = () => {
   };
 
   if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_DOMAIN) {
-    return <WelcomeDomain close={close} goToStartScanStep={goToStartScanStep} />;
-  } else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_SCAN) {
-    return <WelcomeScan goToWaitStep={startWaitStep} close={close} />;
-  } else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH) {
+    return <WelcomeDomain close={close} goToStartScanStep={startWaitStep} />;
+  }
+  // else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_SCAN) {
+  //   return <WelcomeScan goToWaitStep={startWaitStep} close={close} />;
+  // }
+  else if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH) {
     return <WelcomeFinish solved={close} />;
   }
   return null;

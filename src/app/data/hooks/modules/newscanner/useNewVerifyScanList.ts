@@ -1,5 +1,6 @@
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
+import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { AUTO_SCAN_STATE } from '@interfaces/panel';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
@@ -40,23 +41,35 @@ const getLatestScan = (scans: any[]) => {
   );
 };
 
-export const useVerifyScanList = () => {
-  const { isScanning, scanNumber, company, scanRetries, currentScan, autoScanState, scanProgress } =
-    useGlobalFastFields([
-      'isScanning',
-      'scanNumber',
-      'company',
-      'scanRetries',
-      'currentScan',
-      'autoScanState',
-      'scanProgress',
-    ]);
+export const useNewVerifyScanList = () => {
+  const {
+    isScanning,
+    scanNumber,
+    company,
+    scanRetries,
+    currentScan,
+    autoScanState,
+    scanProgress,
+    webScanProgress,
+    leaksScanProgress,
+    subdomainProgress,
+  } = useGlobalFastFields([
+    'isScanning',
+    'scanNumber',
+    'company',
+    'scanRetries',
+    'currentScan',
+    'autoScanState',
+    'scanProgress',
+    'webScanProgress',
+    'leaksScanProgress',
+    'subdomainProgress',
+  ]);
   const scanningValue = isScanning.get;
-  const retryTimeoutRef = useRef<any>(null);
   const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
   const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {
-    refreshInterval: scanRetries.get > 0 || scanningValue ? 2000 : 0,
+    refreshInterval: scanRetries.get > 0 ? 2000 : 0,
     revalidateOnFocus: true,
     revalidateOnReconnect: true,
     revalidateOnMount: true,
@@ -66,9 +79,13 @@ export const useVerifyScanList = () => {
     onSuccess: (newData: any) => {
       const latest = getLatestScan(newData?.scans || []);
       const isActive = latest?.phase == 'launched';
-      const isLaunchingScan = autoScanState.get === AUTO_SCAN_STATE.LAUNCH_SCAN;
+      const isLaunchingScan =
+        autoScanState.get === AUTO_SCAN_STATE.LAUNCH_SCAN ||
+        autoScanState.get === AUTO_SCAN_STATE.SCAN_LAUNCHED;
       if (!isActive && !isLaunchingScan && scanRetries.get > 0) {
         scanRetries.set(scanRetries.get - 1);
+      } else if ((isActive || isLaunchingScan) && scanRetries.get > 0) {
+        scanRetries.set(0);
       }
     },
   });
@@ -78,62 +95,50 @@ export const useVerifyScanList = () => {
   useEffect(() => {
     const scanSize = data?.scans?.length;
     const isActive = latestScan?.phase == 'launched';
-    const isLaunchingScan = autoScanState.get === AUTO_SCAN_STATE.LAUNCH_SCAN;
-    const isScanLaunched = autoScanState.get === AUTO_SCAN_STATE.SCAN_LAUNCHED;
-    const isScanFinished = autoScanState.get === AUTO_SCAN_STATE.SCAN_FINISHED;
-    const isEventOther =
-      autoScanState.get !== AUTO_SCAN_STATE.LAUNCH_SCAN &&
-      autoScanState.get !== AUTO_SCAN_STATE.SCAN_FINISHED &&
-      autoScanState.get !== AUTO_SCAN_STATE.SCAN_LAUNCHED;
+    const isNotLaunching =
+      autoScanState.get == AUTO_SCAN_STATE.NON_SCANNING ||
+      autoScanState.get == AUTO_SCAN_STATE.SCAN_FINISHED;
+    const isScanLaunched = autoScanState.get == AUTO_SCAN_STATE.SCAN_LAUNCHED;
+
     // Update scan number if changed
     if (scanNumber.get != scanSize) {
       scanNumber.set(scanSize || 0);
     }
 
+    if (currentScan.get?.phase === ScanStepType.LAUNCHED) {
+      return;
+    }
+
+    // Comparar IDs para determinar si hay un nuevo escaneo
+    const currentScanId = currentScan.get?.id;
+    const latestScanId = latestScan?.id;
+    const isNewScan = latestScanId && currentScanId !== latestScanId;
+
     // Si hay un escaneo activo, actualizar el estado
     if (isActive) {
-      // Limpiar el sistema de reintentos si hay un escaneo activo
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current);
-        retryTimeoutRef.current = null;
-      }
-
-      if (isLaunchingScan) {
+      if (isNotLaunching && !isScanLaunched) {
         // Si estamos lanzando y detectamos un escaneo activo, cambiar a SCAN_LAUNCHED
-        autoScanState.set(AUTO_SCAN_STATE.SCAN_LAUNCHED);
+        autoScanState.set(AUTO_SCAN_STATE.LAUNCH_SCAN);
       }
       // Si hay un escaneo activo, mantener isScanning en true
       if (!scanningValue) {
         isScanning.set(true);
       }
-      // Resetear retries cuando hay un escaneo activo
-      if (scanRetries.get !== MAX_SCAN_RETRIES) {
-        scanRetries.set(MAX_SCAN_RETRIES);
-      }
-    } else {
-      // Si no hay escaneo activo
-      if (isScanLaunched) {
-        // Si estábamos en SCAN_LAUNCHED y ya no hay escaneo activo, cambiar a FINISHED
-        autoScanState.set(AUTO_SCAN_STATE.SCAN_FINISHED);
-        isScanning.set(false);
-      } else if (isScanFinished || isLaunchingScan || isEventOther) {
-        if (scanningValue) {
-          isScanning.set(false);
-        }
-      }
     }
 
-    // Actualizar el escaneo actual
-    currentScan.set(latestScan);
+    // Actualizar el escaneo actual si es diferente al actual o si no hay uno actual
+    if (isNewScan || !currentScan.get) {
+      currentScan.set(latestScan);
+      webScanProgress.set(0);
+      leaksScanProgress.set(0);
+      subdomainProgress.set(0);
+      scanProgress.set(0);
+    }
   }, [data, latestScan, scanningValue, autoScanState.get, scanRetries.get]);
 
   const isScanActive = (scan: any) => scan?.phase === 'launched';
   return {
     data: data!,
     currentScan: currentScan.get,
-    isScanActive,
-    isScanning,
-    autoScanState,
-    scanProgress,
   };
 };

@@ -87,7 +87,7 @@ const webColumns: ColumnTableV3[] = [
 
 export const WebApplicationResources = ({ isLoading, webResources }: WebResourcesProps) => {
   const navigate = useNavigate();
-  const { isAdmin, isProvider, idiom } = useUserRole();
+  const { isAdmin, isProvider } = useUserRole();
   const userHaveAccess = isAdmin() || isProvider();
   const { resourceType, openModal, resourceID, webResourceSelected, appEvent } =
     useGlobalFastFields([
@@ -146,7 +146,7 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
         />
       ),
       onClick: (row: any) => {
-        autoScan(row.id, true, idiom).then(result => {
+        autoScan(row.resource_domain, true, '').then(result => {
           if (apiErrorValidation(result)) {
             updateState('open', true);
             updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);

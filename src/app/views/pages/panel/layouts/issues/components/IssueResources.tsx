@@ -16,6 +16,7 @@ import Tablev3 from '@table/v3/Tablev3';
 import { ResourceIconText } from '@/app/views/components/utils/ResourceIconText';
 import { RiskScore } from '@/app/views/components/utils/RiskScore';
 import { IssueAuthor } from '@/app/views/pages/panel/layouts/issues/components/IssueAuthor';
+import { ResourceClassIssueIcon } from '@/app/views/pages/panel/layouts/issues/components/ResourceClassIssueIcon';
 
 interface IssueResourcesProps {
   isLoading: boolean;
@@ -31,17 +32,25 @@ const issueColumns: ColumnTableV3[] = [
     header: 'ID',
     key: 'id',
     styles: 'item-cell-issue-1',
-    weight: '5.5%',
+    weight: '5%',
     render: value => value,
+  },
+  {
+    header: 'Class',
+    key: 'resourceClass',
+    styles: 'item-cell-issue-8',
+    weight: '7.5%',
+    render: issue => <ResourceClassIssueIcon resourceClass={issue} />,
   },
   {
     header: 'Issue Title',
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-2',
-    weight: '38%',
-    render: issue => <ResourceIconText name={issue.name} resourceClass={issue.resourceClass} />,
+    weight: '34%',
+    render: issue => issue.name,
   },
+
   {
     header: 'Domain',
     key: 'resourceDomain',
@@ -54,12 +63,9 @@ const issueColumns: ColumnTableV3[] = [
     key: 'researcherUsername',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-3',
-    weight: '13%',
+    weight: '11%',
     render: value => (
-      <IssueAuthor
-        isAI={value?.researcherID == AI_RESEARCHER_ID}
-        value={value?.researcherUsername || ''}
-      />
+      <IssueAuthor isAI={value?.source == 'neuroscan'} value={value?.researcherUsername || ''} />
     ),
   },
   {
@@ -73,7 +79,7 @@ const issueColumns: ColumnTableV3[] = [
     header: 'Scan',
     key: 'scanId',
     styles: 'item-cell-issue-5',
-    weight: '6%',
+    weight: '5%',
     render: value => value,
   },
   {

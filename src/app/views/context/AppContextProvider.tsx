@@ -49,7 +49,12 @@ export type GlobalStore = {
   company: CompanyUser;
   keyPress: KeyPress;
   lead: UserLead;
+
   scanProgress: number;
+  subdomainProgress: number;
+  webScanProgress: number;
+  leaksScanProgress: number;
+
   domainCount: number;
   subDomainCount: number;
   uniqueIpCount: number;
@@ -103,6 +108,10 @@ export const initialGlobalState: GlobalStore = {
     persistedState?.mobilePlanPreference ?? EMPTY_GLOBAL_STATE.mobilePlanPreference,
 
   scanProgress: persistedState?.scanProgress ?? EMPTY_GLOBAL_STATE.scanProgress,
+  subdomainProgress: persistedState?.subdomainProgress ?? EMPTY_GLOBAL_STATE.subdomainProgress,
+  webScanProgress: persistedState?.webScanProgress ?? EMPTY_GLOBAL_STATE.webScanProgress,
+  leaksScanProgress: persistedState?.leaksScanProgress ?? EMPTY_GLOBAL_STATE.leaksScanProgress,
+
   isProgressStarted: persistedState?.isProgressStarted ?? EMPTY_GLOBAL_STATE.isProgressStarted,
   currentScan: persistedState?.currentScan ?? EMPTY_GLOBAL_STATE.currentScan,
   isScanning: persistedState?.isScanning ?? EMPTY_GLOBAL_STATE.isScanning,

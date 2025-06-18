@@ -167,6 +167,113 @@
   animation-delay: 0.7s;
 }
 
+.card-process-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card-process {
+  box-shadow:
+    0 0 #0000,
+    0 0 #0000,
+    0 1px 2px 0 rgb(0 0 0 / 0.05);
+  background-color: #f3f3f31f;
+  border-color: hsl(240deg 5.9% 90% / 42%);
+  border-width: 1px;
+  border-style: solid;
+  width: 580px;
+
+  .card-process-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+
+    .card-process-header-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      h3 {
+        font-weight: 600;
+      }
+    }
+
+    .process-badge > div {
+      border-radius: var(--brd-radius);
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow:
+        0 0 #0000,
+        0 0 #0000,
+        0 4px 6px -1px rgb(0 0 0 / 0.1),
+        0 2px 4px -2px rgb(0 0 0 / 0.1);
+      pointer-events: none;
+      cursor: default;
+
+      &[data-status='running'] {
+        background-color: rgb(59 130 246 / 1);
+        color: #fff;
+      }
+      &[data-status='completed'] {
+        background-color: #eb5757;
+        color: #fff;
+      }
+      &[data-status='parser'] {
+        background-color: rgb(249 115 22 / 1);
+        color: #fff;
+      }
+    }
+  }
+
+  .card-process-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .card-process-content-info {
+      flex: 1 1 100%;
+      height: 100%;
+      align-self: flex-start;
+
+      .card-process-content-info-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--tertiary-color-400);
+        padding: var(--card-space);
+        height: 100%;
+      }
+
+      b {
+        padding: 0;
+        display: block;
+        font-family: 'Satoshi';
+        margin-top: 0.35rem;
+      }
+
+      .card-process-content-info-container-column {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+    }
+
+    .card-process-content-progress {
+      margin-inline-start: 1rem;
+    }
+  }
+}
+
 :global(body[data-theme='dark'] .modal).welcome-modal-container {
   p {
     color: var(--tertiary-color-400);
