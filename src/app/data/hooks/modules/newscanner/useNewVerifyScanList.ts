@@ -101,47 +101,41 @@ export const useNewVerifyScanList = () => {
     const scanSize = data?.scans?.length;
     const isActive = latestScan?.phase == 'launched';
     const currentAutoScanState = autoScanState.get;
-
-    const isNotLaunching =
-      currentAutoScanState == AUTO_SCAN_STATE.NON_SCANNING ||
-      currentAutoScanState == AUTO_SCAN_STATE.SCAN_FINISHED;
-    const isScanLaunched = currentAutoScanState == AUTO_SCAN_STATE.SCAN_LAUNCHED;
+    const currentScanId = currentScan.get?.id;
+    const latestScanId = latestScan?.id;
+    const isNewScan = latestScanId && currentScanId !== latestScanId;
 
     // Update scan number if changed
     if (scanNumber.get != scanSize) {
       scanNumber.set(scanSize || 0);
     }
 
-    if (currentScan.get?.phase === ScanStepType.LAUNCHED) {
+    // Si el escaneo actual ya está en fase LAUNCHED, no hacer nada más
+    if (!isNewScan && currentScan.get?.phase === ScanStepType.LAUNCHED) {
       return;
-    }
-
-    // Comparar IDs para determinar si hay un nuevo escaneo
-    const currentScanId = currentScan.get?.id;
-    const latestScanId = latestScan?.id;
-    const isNewScan = latestScanId && currentScanId !== latestScanId;
-
-    // Si hay un escaneo activo, actualizar el estado
-    if (isActive) {
-      if (isNotLaunching && !isScanLaunched && !hasUpdatedAutoScanState.current) {
-        // Si estamos lanzando y detectamos un escaneo activo, cambiar a LAUNCH_SCAN
-        // Solo actualizar si no hemos actualizado ya en este ciclo
-        autoScanState.set(AUTO_SCAN_STATE.LAUNCH_SCAN);
-        hasUpdatedAutoScanState.current = true;
-      }
-      // Si hay un escaneo activo, mantener isScanning en true
-      if (!scanningValue) {
-        isScanning.set(true);
-      }
     }
 
     // Actualizar el escaneo actual si es diferente al actual o si no hay uno actual
     if (isNewScan || !currentScan.get) {
-      currentScan.set(latestScan);
+      // Reiniciar todos los progresos antes de actualizar el escaneo
       webScanProgress.set(0);
       leaksScanProgress.set(0);
       subdomainProgress.set(0);
       scanProgress.set(0);
+
+      // Actualizar el escaneo actual
+      currentScan.set(latestScan);
+
+      // Actualizar el estado de auto escaneo si es necesario
+      if (autoScanState.get !== AUTO_SCAN_STATE.LAUNCH_SCAN) {
+        autoScanState.set(AUTO_SCAN_STATE.LAUNCH_SCAN);
+        hasUpdatedAutoScanState.current = true;
+      }
+
+      // Activar el estado de escaneo si no está activo
+      if (!scanningValue) {
+        isScanning.set(true);
+      }
     }
 
     // Resetear el flag cuando el estado cambie

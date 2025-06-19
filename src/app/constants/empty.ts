@@ -133,6 +133,8 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   userLoggingState: USER_LOGGING_STATE.OFFLINE,
   networkResourceSelected: null,
   autoScanState: AUTO_SCAN_STATE.NON_SCANNING,
+  scaningProgress: new Map(),
+  lastScanId: '',
 };
 
 export const EMPTY_PROVIDER = {
