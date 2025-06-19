@@ -89,6 +89,7 @@ export interface Issues extends ResourceID, Monitoring {
   resourceID: string;
   researcherID: string;
   researcherUsername: string;
+  resourceDomain: string;
   riskLevel: string;
   riskScore: string;
   name: string;

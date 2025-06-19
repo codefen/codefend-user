@@ -108,7 +108,7 @@ export const useVerifyScanListv3 = () => {
       if (nowFinishedInApi && stillActiveInMap) return true;
       return false;
     });
-  }, [data?.scans, scaningProgress.get]);
+  }, [data?.scans]);
 
   useEffect(() => {
     const raw = data?.scans || [];
@@ -228,5 +228,5 @@ export const useVerifyScanListv3 = () => {
     // console.log('activeMap to save', activeMap, isAnyScanPending);
     scaningProgress.set(activeMap);
     isScanning.set(isAnyScanPending);
-  }, [allActiveScan.map(s => s.id).join('-')]);
+  }, [allActiveScan]);
 };

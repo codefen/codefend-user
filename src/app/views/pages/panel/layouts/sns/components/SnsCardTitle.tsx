@@ -67,7 +67,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({
         }}>
         <div className="header">
           <img
-            src="public/codefend/gota.png"
+            src="codefend/gota.png"
             alt="Globe Icon"
             style={{ width: '18px', height: '24px', marginRight: '8px' }}
           />

@@ -65,3 +65,37 @@
     }
   }
 }
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+
+  .password-input {
+    width: 100%;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: var(--tertiary-color-400);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: var(--tertiary-color-500);
+    }
+
+    &:focus {
+      outline: none;
+      color: var(--tertiary-color-500);
+    }
+  }
+}

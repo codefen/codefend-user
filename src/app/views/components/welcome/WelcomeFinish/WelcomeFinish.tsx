@@ -1,6 +1,5 @@
 import { ModalWrapper } from '@modals/index';
 import { ScanStepType } from '@/app/constants/welcome-steps';
-import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useNavigate } from 'react-router';
@@ -11,6 +10,7 @@ import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
 import { formatTimeFormat } from '@utils/helper';
 import { useEffect, useMemo, useState } from 'react';
+import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -52,7 +52,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
       navigate('/issues');
     }
   };
-  // const scanStep = (currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
+  // const scanStep = (currentScan?.phase as ScanStepType) || ScanStepType.NonScan;
 
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
@@ -157,13 +157,17 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-content'}>
                   <div className={'card-process-content-info'}>
                     <div className={'card-process-content-info-container'}>
-                      <div>
+                      <div className="info-item">
                         <span>Started:</span>
                         <b>{formatTimeFormat(currentScan?.m_subdomains_launched)}</b>
                       </div>
-                      <div>
+                      <div className="info-item">
                         <span>Subdomains found:</span>
                         <b>{currentScan?.m_subdomains_found}</b>
+                      </div>
+                      <div className="info-item">
+                        <span>Status:</span>
+                        <b>{currentScan?.m_subdomains_finished ? 'Completed' : 'Running'}</b>
                       </div>
                     </div>
                   </div>
@@ -184,12 +188,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               <div className="over">
                 <div className={'card-process-header'}>
                   <div className={'card-process-header-title'}>
-                    <img
-                      src="public/codefend/gota.png"
-                      alt="Globe Icon"
-                      style={{ width: '0.9em' }}
-                    />
-                    <h3>Data Data Breach Hunter</h3>
+                    <img src="codefend/gota.png" alt="Globe Icon" style={{ width: '0.9em' }} />
+                    <h3>Darkweb dataleaks analyzer</h3>
                   </div>
                   <div className={'process-badge'}>
                     {getStatusBadge(
@@ -253,14 +253,14 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           <div className={css['finish-issues-found']}>
             <div className={css['finish-vuln-box']}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
-                {globalStore.currentScan.get?.m_nllm_issues_found}
+                {globalStore.currentScan?.m_nllm_issues_found}
               </div>
               <span style={{ color: '#e84f4f' }}>Total findings</span>
             </div>
             <div
               className={`${css['finish-vuln-box']} ${!isScanning.get ? css['vul-box-complete'] : ''}`}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
-                {globalStore.currentScan.get?.m_nllm_issues_parsed}
+                {globalStore.currentScan?.m_nllm_issues_parsed}
               </div>
               <span>Analyzed findings</span>
             </div>

@@ -140,7 +140,7 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
       label: 'Launch AI Scan',
       icon: (
         <img
-          src="public/codefend/pentest-header-vector.svg"
+          src="codefend/pentest-header-vector.svg"
           alt="Normal Order Icon"
           style={{ width: '1.3em', height: '1.3em' }}
         />

@@ -1,3 +1,13 @@
+/**
+ * Componente principal para los filtros de issues
+ * Este componente maneja:
+ * - Filtros por Resource Class
+ * - Filtros por Scan Identifier (incluyendo resource_address)
+ * - Filtros por Risk Score
+ * - Cálculo de totales por cada filtro
+ * - Lógica de expansión/colapso de grupos de filtros
+ */
+
 import { type FC, Fragment, useCallback, useMemo, useState } from 'react';
 import { type IssueClass, type Issues } from '@interfaces/panel.ts';
 import { ChartIcon, ChevronIcon, FilterIcon, StatIcon } from '@icons';
@@ -99,11 +109,16 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
     });
 
     // Scan ID Group (solo si hay scans de Web)
-    const scanIdElements = Object.entries(totals.scanId).map(([scanId, total]) => ({
-      label: scanId,
-      value: scanId,
-      total,
-    }));
+    const scanIdElements = Object.entries(totals.scanId).map(([scanId, total]) => {
+      const match = issues.find(issue => issue.scanId === scanId);
+      const domain = match?.resourceDomain ?? 'Unknown';
+
+      return {
+        label: `${scanId}|${domain}`,
+        value: scanId,
+        total,
+      };
+    });
 
     if (scanIdElements.length > 0) {
       groups.push({
@@ -158,7 +173,14 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
                         className="codefend-checkbox"
                         id={`${group.type}-${element.value}`}
                       />
-                      {element.label}
+                      {element.label.split('|')[0]}{' '}
+                      {element.label.split('|')[1] ? (
+                        <span>
+                          <span>|</span> <span>{element.label.split('|')[1]}</span>
+                        </span>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </div>
                   <div className="value">

@@ -30,8 +30,23 @@
   }
 }
 
+.welcome-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+
+  .scanner-eye {
+    width: 65px;
+    height: auto;
+    margin-top: 0.5rem;
+  }
+}
+
 .welcome-text {
-  line-height: 2rem;
+  line-height: 1.6rem;
+  font-size: 0.95rem;
+  flex: 1;
 }
 
 .input-container {
