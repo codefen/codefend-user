@@ -1,3 +1,13 @@
+/**
+ * Componente principal para los filtros de issues
+ * Este componente maneja:
+ * - Filtros por Resource Class
+ * - Filtros por Scan Identifier (incluyendo resource_address)
+ * - Filtros por Risk Score
+ * - Cálculo de totales por cada filtro
+ * - Lógica de expansión/colapso de grupos de filtros
+ */
+
 import { type FC, Fragment, useCallback, useMemo, useState } from 'react';
 import { type IssueClass, type Issues } from '@interfaces/panel.ts';
 import { ChartIcon, ChevronIcon, FilterIcon, StatIcon } from '@icons';

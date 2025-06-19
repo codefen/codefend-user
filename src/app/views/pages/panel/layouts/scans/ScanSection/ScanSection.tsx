@@ -1,3 +1,16 @@
+/**
+ * Componente principal para la tabla de escaneos
+ * Este componente maneja:
+ * - Definición de columnas de la tabla de escaneos
+ * - Renderizado de información de escaneos incluyendo:
+ *   - ID del escaneo
+ *   - Dominio (resource_address)
+ *   - Fase del escaneo
+ *   - Issues encontrados/parseados
+ *   - Fechas de inicio/fin
+ * - Integración con el sistema de filtros
+ */
+
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
@@ -56,18 +69,18 @@ const scansColumns: ColumnTableV3[] = [
     render: val => `${val?.m_nllm_issues_found} / ${val?.m_nllm_issues_parsed}`,
   },
   {
+    header: 'Leaks',
+    key: 'm_leaks_found',
+    styles: 'item-cell-5',
+    weight: '16.75%',
+    render: val => `${val?.m_leaks_found}`,
+  },
+  {
     header: 'Start',
     key: 'creacion',
     styles: 'item-cell-4',
     weight: '16.75%',
     render: val => (val ? naturalTime(val) : ''),
-  },
-  {
-    header: 'Finish',
-    key: 'finalizacion',
-    styles: 'item-cell-5',
-    weight: '16.75%',
-    render: val => (val ? naturalTime(val) : '--/--/--'),
   },
 ];
 export const ScanSection = () => {
