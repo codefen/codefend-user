@@ -110,11 +110,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <b>{formatTimeFormat(currentScan?.m_nllm_launched)}</b>
                     </div>
                     <div className="info-item">
-                      <span>Issues found:</span>
+                      <span>Detected issues:</span>
                       <b>{currentScan?.m_nllm_issues_found}</b>
                     </div>
                     <div className="info-item">
-                      <span>Issues parsed:</span>
+                      <span>Analyzed issues:</span>
                       <b>{currentScan?.m_nllm_issues_parsed}</b>
                     </div>
                     <div className="info-item">
@@ -210,8 +210,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <b>{currentScan?.m_leaks_found}</b>
                     </div>
                     <div className="info-item">
-                      <span>Status:</span>
-                      <b>{currentScan?.m_leaks_finished ? 'Finished' : 'Operational'}</b>
+                      <span>Social leaks:</span>
+                      <b>{currentScan?.m_leaks_social_found || 0}</b>
                     </div>
                   </div>
                 </div>
