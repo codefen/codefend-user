@@ -73,7 +73,7 @@ const scansColumns: ColumnTableV3[] = [
     key: 'm_leaks_found',
     styles: 'item-cell-5',
     weight: '16.75%',
-    render: val => `${val?.m_leaks_found}`,
+    render: val => val,
   },
   {
     header: 'Start',
