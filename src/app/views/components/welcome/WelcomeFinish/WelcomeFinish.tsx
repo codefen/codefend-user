@@ -188,11 +188,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
               <div className="over">
                 <div className={'card-process-header'}>
                   <div className={'card-process-header-title'}>
-                    <img
-                      src="public/codefend/gota.png"
-                      alt="Globe Icon"
-                      style={{ width: '0.9em' }}
-                    />
+                    <img src="codefend/gota.png" alt="Globe Icon" style={{ width: '0.9em' }} />
                     <h3>Darkweb dataleaks analyzer</h3>
                   </div>
                   <div className={'process-badge'}>

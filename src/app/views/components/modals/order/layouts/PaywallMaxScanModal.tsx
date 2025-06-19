@@ -38,7 +38,7 @@ export const PaywallMaxScanModal = memo(({ close }: any) => {
     <div className="paywall-container">
       <div className="step-header-maximo">
         <img
-          src="public/codefend/globo.png"
+          src="/codefend/globo.png"
           alt="Descripción de la imagen"
           style={{
             display: 'inline-block',

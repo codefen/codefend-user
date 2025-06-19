@@ -12,7 +12,7 @@ export const ResourceClassIssueIcon = ({ resourceClass }: { resourceClass: strin
       case 'source_code':
         return <SourceCodeIcon />;
       case 'leaks':
-        return <img src="public/codefend/gota.png" alt="Globe Icon" style={{ width: '0.9em' }} />;
+        return <img src="codefend/gota.png" alt="Globe Icon" style={{ width: '0.9em' }} />;
       default:
         return <WebSolidIcon />;
     }

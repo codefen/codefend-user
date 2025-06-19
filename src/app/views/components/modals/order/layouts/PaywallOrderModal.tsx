@@ -60,7 +60,7 @@ export const PaywallOrderModal = memo(({ close }: any) => {
     <div className="paywall-container">
       <div className="step-header-maximo">
         <img
-          src="public/codefend/globo.png"
+          src="codefend/globo.png"
           alt="Descripción de la imagen"
           style={{
             display: 'inline-block',
@@ -90,7 +90,7 @@ export const PaywallOrderModal = memo(({ close }: any) => {
             onChange={() => {}}
           />
           <img
-            src="public/codefend/Plan premium.svg"
+            src="codefend/Plan premium.svg"
             alt="Normal Order Icon"
             style={{ width: '50px', height: '50px' }}
           />
