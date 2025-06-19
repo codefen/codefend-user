@@ -109,11 +109,16 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
     });
 
     // Scan ID Group (solo si hay scans de Web)
-    const scanIdElements = Object.entries(totals.scanId).map(([scanId, total]) => ({
-      label: scanId,
-      value: scanId,
-      total,
-    }));
+    const scanIdElements = Object.entries(totals.scanId).map(([scanId, total]) => {
+      const match = issues.find(issue => issue.scanId === scanId);
+      const domain = match?.resourceDomain ?? 'Unknown';
+
+      return {
+        label: `${scanId}|${domain}`,
+        value: scanId,
+        total,
+      };
+    });
 
     if (scanIdElements.length > 0) {
       groups.push({
@@ -168,7 +173,14 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
                         className="codefend-checkbox"
                         id={`${group.type}-${element.value}`}
                       />
-                      {element.label}
+                      {element.label.split('|')[0]}{' '}
+                      {element.label.split('|')[1] ? (
+                        <span>
+                          <span>|</span> <span>{element.label.split('|')[1]}</span>
+                        </span>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </div>
                   <div className="value">
