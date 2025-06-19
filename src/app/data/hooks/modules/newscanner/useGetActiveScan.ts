@@ -138,16 +138,27 @@ export const useGetActiveScan = () => {
     const currentScanningValue = scanningValue;
 
     // Early return si no hay cambios significativos
-    if (
-      previousDataRef.current === currentData &&
-      previousAutoScanStateRef.current === currentAutoScanState &&
-      previousScanningValueRef.current === currentScanningValue
-    ) {
-      return;
-    }
+    // if (
+    //   previousDataRef.current === currentData &&
+    //   previousAutoScanStateRef.current === currentAutoScanState &&
+    //   previousScanningValueRef.current === currentScanningValue
+    // ) {
+    //   return;
+    // }
     const isActive = isScanActive(currentData);
 
+    console.log('useGetActiveScan - preview', {
+      isActive,
+      currentAutoScanState,
+      autoScanState: autoScanState.get,
+      scanRetries: scanRetries.get,
+      currentScanningValue,
+      currentData,
+      previousDataRef: previousDataRef.current,
+      currentStored: currentScan.get,
+    });
     if (isActive) {
+      console.log('useGetActiveScan - isActive:true', isActive);
       // Actualizar estado de auto-scan si es necesario
       if (currentAutoScanState !== AUTO_SCAN_STATE.SCAN_LAUNCHED) {
         autoScanState.set(AUTO_SCAN_STATE.SCAN_LAUNCHED);
@@ -158,6 +169,7 @@ export const useGetActiveScan = () => {
         isScanning.set(true);
       }
     } else if (!isActive && currentAutoScanState !== AUTO_SCAN_STATE.SCAN_FINISHED) {
+      console.log('useGetActiveScan - isActive:false', isActive);
       isScanning.set(false);
       autoScanState.set(AUTO_SCAN_STATE.SCAN_FINISHED);
       scanRetries.set(2);
@@ -178,9 +190,9 @@ export const useGetActiveScan = () => {
     data?.scan,
     scanningValue,
     autoScanStateValue,
-    autoScanState.set,
-    isScanning.set,
-    currentScan.set,
+    autoScanState.get,
+    isScanning.get,
+    currentScan.get,
   ]);
 
   return {

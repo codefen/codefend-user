@@ -12,11 +12,12 @@ export const useAutoScan = () => {
   const globalStore = useGlobalFastFields([
     'company',
     'isScanning',
-    'currentScan',
     'scanProgress',
     'scanRetries',
     'user',
     'autoScanState',
+    'lastScanId',
+    'currentScan',
   ]);
   // Setear datos para el scanner
   const {
@@ -45,13 +46,15 @@ export const useAutoScan = () => {
     const result = await streamFetch(formData);
     if (result) {
       if (result?.neuroscan?.id) {
+        globalStore.lastScanId.set(result.neuroscan.id);
+        globalStore.currentScan.set(null);
         setNeuroScanId(result.neuroscan.id);
         saveInitialDomain(result.neuroscan?.resource_address || '');
-        globalStore.isScanning.set(true);
-        globalStore.currentScan.set(null);
-        globalStore.scanProgress.set(0);
-        globalStore.scanRetries.set(MAX_SCAN_RETRIES);
-        globalStore.autoScanState.set(AUTO_SCAN_STATE.LAUNCH_SCAN);
+        // globalStore.isScanning.set(true);
+        // globalStore.currentScan.set(null);
+        // globalStore.scanProgress.set(0);
+        // globalStore.scanRetries.set(MAX_SCAN_RETRIES);
+        // globalStore.autoScanState.set(AUTO_SCAN_STATE.LAUNCH_SCAN);
       }
       if (result.company) {
         globalStore.company.set(result.company);

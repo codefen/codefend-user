@@ -9,6 +9,7 @@ import Show from '@/app/views/components/Show/Show';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
 import { formatTimeFormat } from '@utils/helper';
+import { useEffect, useMemo, useState } from 'react';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -21,17 +22,28 @@ function getStatusBadge(phase: string = '', finished: string | null, launched: s
 }
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
-  const { isScanning, currentScan, ...globalStore } = useGlobalFastFields([
-    'scanProgress',
+  const { isScanning, ...globalStore } = useGlobalFastFields([
     'isScanning',
     'currentScan',
-    'autoScanState',
-    'webScanProgress',
-    'subdomainProgress',
-    'leaksScanProgress',
+    'scaningProgress',
+    'lastScanId',
   ]);
-  const { initialDomain } = useWelcomeStore();
   const navigate = useNavigate();
+  const [currentScan, setCurrentScan] = useState<any>({});
+
+  useEffect(() => {
+    const _scaningProgress: Map<string, any> = globalStore.scaningProgress.get;
+    const _lastScanId = globalStore.lastScanId.get;
+    const _currentScan = _scaningProgress?.get?.(_lastScanId) || null;
+    console.log('currentScan', { _currentScan, _scaningProgress, _lastScanId });
+    if (_currentScan) {
+      setCurrentScan(_currentScan);
+    }
+    if (_currentScan && _currentScan.status === AUTO_SCAN_STATE.SCAN_FINISHED) {
+      _scaningProgress.delete(_lastScanId);
+      globalStore.scaningProgress.set(_scaningProgress);
+    }
+  }, [globalStore.scaningProgress.get.get(globalStore.lastScanId.get)]);
 
   const closeModal = () => {
     solved();
@@ -39,7 +51,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
       navigate('/issues');
     }
   };
-  const scanStep = (currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
+  // const scanStep = (currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
 
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
@@ -47,43 +59,32 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         <img className="logose" src="/codefend/logo-color.png" width={220} />
         <Show
           when={
-            isScanning.get ||
-            globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_LAUNCHED ||
-            globalStore.autoScanState.get == AUTO_SCAN_STATE.SCAN_FINISHED
+            currentScan?.status === AUTO_SCAN_STATE.SCAN_LAUNCHED ||
+            currentScan?.status === AUTO_SCAN_STATE.SCAN_FINISHED
           }
           fallback={<PageLoader />}>
-          {/* <p className={css['welcome-text']}>
-            <b>
-              The domain{' '}
-              <span style={{ color: '#ff3939' }}>{currentScan.get?.resource_address}</span> is being
-              analyzed.
-            </b>{' '}
-            Detected vulnerabilities and potential threats will be displayed on the dashboard and
-            communicated via email. <b>You can now close this window.</b>
-          </p> */}
           <div className={`card card-process card-process-target`}>
             <div className="over">
               <div className="card-process-header">
                 <div className="card-process-header-title">
                   <GlobeWebIcon />
-                  <h3>Target: {currentScan.get?.resource_address}</h3>
+                  <h3>Target: {currentScan?.resource_address}</h3>
                 </div>
                 <div className="progress-container">
-                  <div className="progress-bar-container">
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ width: `${globalStore.scanProgress.get}%` }}
-                      />
-                    </div>
-                    <div className="progress-text">{Math.round(globalStore.scanProgress.get)}%</div>
-                  </div>
+                  <ProgressCircle
+                    size={40}
+                    strokeWidth={4}
+                    containerSize="6rem"
+                    fontSize="0.9rem"
+                    progress={globalStore.scanProgress.get}
+                  />
+                  <span>Overall Progress</span>
                 </div>
               </div>
               <div>
                 <div>
-                  <p>Started: {formatTimeFormat(currentScan.get?.creacion)}</p>
-                  <p>User: {currentScan.get?.user_email}</p>
+                  <p>Started: {formatTimeFormat(currentScan?.launched)}</p>
+                  <p>User: {currentScan?.user_email}</p>
                 </div>
               </div>
             </div>
@@ -98,39 +99,39 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     <h3>Automatatic Web Scanner</h3>
                   </div>
                   <div className={'process-badge'}>
-                    {getStatusBadge(
-                      currentScan.get?.m_nllm_phase,
-                      currentScan.get?.m_nllm_finished,
-                      ''
-                    )}
+                    {getStatusBadge(currentScan?.m_nllm_phase, currentScan?.m_nllm_finished, '')}
                   </div>
                 </div>
 
                 <div className={'card-process-content'}>
                   <div className={'card-process-content-info'}>
                     <div className={'card-process-content-info-container'}>
-                      <div className="info-item">
-                        <span>Started:</span>
-                        <b>{formatTimeFormat(currentScan.get?.m_nllm_launched)}</b>
+                      <div className={'card-process-content-info-container-column'}>
+                        <div>
+                          <span>Started:</span>
+                          <b>{formatTimeFormat(currentScan.get?.m_nllm_launched)}</b>
+                        </div>
                       </div>
-                      <div className="info-item">
-                        <span>Issues found:</span>
-                        <b>{currentScan.get?.m_nllm_issues_found}</b>
-                      </div>
-                      <div className="info-item">
-                        <span>Subdomains found:</span>
-                        <b>{currentScan.get?.m_nllm_issues_parsed}</b>
+                      <div className={'card-process-content-info-container-column'}>
+                        <div>
+                          <span>Issues found:</span>
+                          <b>{currentScan.get?.m_nllm_issues_found}</b>
+                        </div>
+                        <div>
+                          <span>Subdomains found:</span>
+                          <b>{currentScan.get?.m_nllm_issues_parsed}</b>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="progress-bar-container">
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ width: `${globalStore.webScanProgress.get}%` }}
-                      />
-                    </div>
-                    <div className="progress-text">{Math.round(globalStore.webScanProgress.get)}%</div>
+                  <div className={'card-process-content-progress'}>
+                    <ProgressCircle
+                      size={60}
+                      strokeWidth={6}
+                      containerSize="8rem"
+                      fontSize="1.125rem"
+                      progress={globalStore.webScanProgress.get}
+                    />
                   </div>
                 </div>
               </div>
@@ -146,8 +147,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                   <div className={'process-badge'}>
                     {getStatusBadge(
                       '',
-                      currentScan.get?.m_subdomains_finished,
-                      currentScan.get?.m_subdomains_launched
+                      currentScan?.m_subdomains_finished,
+                      currentScan?.m_subdomains_launched
                     )}
                   </div>
                 </div>
@@ -157,11 +158,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     <div className={'card-process-content-info-container'}>
                       <div className="info-item">
                         <span>Started:</span>
-                        <b>{formatTimeFormat(currentScan.get?.m_subdomains_launched)}</b>
+                        <b>{formatTimeFormat(currentScan?.m_subdomains_launched)}</b>
                       </div>
                       <div className="info-item">
                         <span>Subdomains found:</span>
-                        <b>{currentScan.get?.m_subdomains_found}</b>
+                        <b>{currentScan?.m_subdomains_found}</b>
                       </div>
                       <div className="info-item">
                         <span>Status:</span>
@@ -169,14 +170,14 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="progress-bar-container">
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ width: `${globalStore.subdomainProgress.get}%` }}
-                      />
-                    </div>
-                    <div className="progress-text">{Math.round(globalStore.subdomainProgress.get)}%</div>
+                  <div className={'card-process-content-progress'}>
+                    <ProgressCircle
+                      size={60}
+                      strokeWidth={6}
+                      containerSize="8rem"
+                      fontSize="1.125rem"
+                      progress={globalStore.subdomainProgress.get}
+                    />
                   </div>
                 </div>
               </div>
@@ -196,8 +197,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                   <div className={'process-badge'}>
                     {getStatusBadge(
                       '',
-                      currentScan.get?.m_subdomains_finished,
-                      currentScan.get?.m_subdomains_launched
+                      currentScan?.m_subdomains_finished,
+                      currentScan?.m_subdomains_launched
                     )}
                   </div>
                 </div>
@@ -205,28 +206,32 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-content'}>
                   <div className={'card-process-content-info'}>
                     <div className={'card-process-content-info-container'}>
-                      <div className="info-item">
-                        <span>Started:</span>
-                        <b>{formatTimeFormat(currentScan.get?.m_leaks_launched)}</b>
+                      <div className={'card-process-content-info-container-column'}>
+                        <div>
+                          <span>Started:</span>
+                          <b>{formatTimeFormat(currentScan.get?.m_leaks_launched)}</b>
+                        </div>
                       </div>
-                      <div className="info-item">
-                        <span>Breaches found:</span>
-                        <b>{currentScan.get?.m_leaks_found}</b>
-                      </div>
-                      <div className="info-item">
-                        <span>Users detected:</span>
-                        <b>{currentScan.get?.m_leaks_social_found}</b>
+                      <div className={'card-process-content-info-container-column'}>
+                        <div>
+                          <span>Breaches found:</span>
+                          <b>{currentScan.get?.m_leaks_found}</b>
+                        </div>
+                        <div>
+                          <span>User detected:</span>
+                          <b>{currentScan.get?.m_leaks_social_found}</b>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="progress-bar-container">
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ width: `${globalStore.leaksScanProgress.get}%` }}
-                      />
-                    </div>
-                    <div className="progress-text">{Math.round(globalStore.leaksScanProgress.get)}%</div>
+                  <div className={'card-process-content-progress'}>
+                    <ProgressCircle
+                      size={60}
+                      strokeWidth={6}
+                      containerSize="8rem"
+                      fontSize="1.125rem"
+                      progress={globalStore.leaksScanProgress.get}
+                    />
                   </div>
                 </div>
               </div>
@@ -273,8 +278,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           </div> */}
 
           <PrimaryButton
-            text={isScanning.get ? 'Close assistant' : 'Go to issues'}
-            buttonStyle={isScanning.get ? 'red' : 'black'}
+            text={currentScan?.phase === 'launched' ? 'Close assistant' : 'Go to issues'}
+            buttonStyle={currentScan?.phase === 'launched' ? 'red' : 'black'}
             click={closeModal}
           />
         </Show>

@@ -81,6 +81,8 @@ export type GlobalStore = {
   userLoggingState: USER_LOGGING_STATE;
   networkResourceSelected: any;
   autoScanState: AUTO_SCAN_STATE;
+  scaningProgress: any;
+  lastScanId: string;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -135,6 +137,8 @@ export const initialGlobalState: GlobalStore = {
   networkResourceSelected:
     persistedState?.networkResourceSelected ?? EMPTY_GLOBAL_STATE.networkResourceSelected,
   autoScanState: persistedState?.autoScanState ?? EMPTY_GLOBAL_STATE.autoScanState,
+  scaningProgress: persistedState?.scaningProgress ?? EMPTY_GLOBAL_STATE.scaningProgress,
+  lastScanId: persistedState?.lastScanId ?? EMPTY_GLOBAL_STATE.lastScanId,
 };
 
 const {
