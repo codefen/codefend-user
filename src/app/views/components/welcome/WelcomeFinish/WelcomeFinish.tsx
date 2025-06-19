@@ -10,6 +10,7 @@ import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
 import { formatTimeFormat } from '@utils/helper';
 import { useEffect, useMemo, useState } from 'react';
+import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -76,7 +77,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     strokeWidth={4}
                     containerSize="6rem"
                     fontSize="0.9rem"
-                    progress={globalStore.scanProgress.get}
+                    progress={currentScan?.scanProgress}
                   />
                   <span>Overall Progress</span>
                 </div>
@@ -130,7 +131,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       strokeWidth={6}
                       containerSize="8rem"
                       fontSize="1.125rem"
-                      progress={globalStore.webScanProgress.get}
+                      progress={currentScan?.webScanProgress}
                     />
                   </div>
                 </div>
@@ -176,7 +177,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       strokeWidth={6}
                       containerSize="8rem"
                       fontSize="1.125rem"
-                      progress={globalStore.subdomainProgress.get}
+                      progress={currentScan?.subdomainScanProgress}
                     />
                   </div>
                 </div>
@@ -230,7 +231,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       strokeWidth={6}
                       containerSize="8rem"
                       fontSize="1.125rem"
-                      progress={globalStore.leaksScanProgress.get}
+                      progress={currentScan?.leaksScanProgress}
                     />
                   </div>
                 </div>
