@@ -11,7 +11,7 @@ export const useIssues = () => {
   const { getCompany } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
   const dataRef = useRef<Issues[]>([]);
-  const otherInfo = useRef<IssuesUtils>();
+  const otherInfo = useRef<IssuesUtils>(null);
 
   //Fetch to recover the issues
   const fetchAll = useCallback((companyID: string) => {

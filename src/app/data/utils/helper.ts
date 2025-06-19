@@ -64,7 +64,7 @@ export const RUNNING_DESKTOP = (): boolean => {
   return window.__TAURI__ !== undefined;
 };
 
-/** Date formatter */
+// DATE FORMATTING
 export const formatDate = (stringDate: string): string => {
   const parsedDate = new Date(stringDate);
 
@@ -77,6 +77,7 @@ export const formatDate = (stringDate: string): string => {
   return `${year}-${month}-${day}`;
 };
 
+// DATE FORMATTING
 export const getCurrentDate = () => {
   const formattedDate = new Date();
   const month = formattedDate.getMonth() + 1;
@@ -179,6 +180,7 @@ export const equalsValues = (first: any, second: any) => {
   return first === second;
 };
 
+// DATE FORMATTING
 /**
  * Maps a date in epoch format to "yyyy-mm-dd"
  * @param epochDate
@@ -195,6 +197,7 @@ export const mapEpochToDate = (epochDate: number | string): string => {
   return `${year}-${month}-${day}`;
 };
 
+// DATE FORMATTING
 export const formatDateTimeFormat = (originalDate: string): string => {
   const date = new Date(originalDate);
 
@@ -206,6 +209,15 @@ export const formatDateTimeFormat = (originalDate: string): string => {
   const minutes = extractDateItem(date.getMinutes());
 
   return `${year}-${month}-${day} ${hours}:${minutes}`;
+};
+
+export const formatTimeFormat = (originalDate: string): string => {
+  const date = new Date(originalDate);
+  const hours = extractDateItem(date.getHours());
+  const minutes = extractDateItem(date.getMinutes());
+  const seconds = extractDateItem(date.getSeconds());
+
+  return `${hours}:${minutes}:${seconds}`;
 };
 
 export const extractDateItem = (item: any) => String(item).padStart(2, '0');
@@ -240,6 +252,7 @@ export const addPrintAttributesFromBody = (resources: any, resourceDomainText: s
   document.title = `${formatDate(createdAt)}-${removeSpecialCharacters(resourceDomainText)}`;
 };
 
+// DATE FORMATTING
 export const formatToMonthYear = (dateString: string) => {
   const months = [
     'January',
@@ -710,6 +723,7 @@ export const debounce = <T extends any[]>(fn: (...args: T) => void, timeout: num
   return ret;
 };
 
+// DATE FORMATTING
 /**
  * Returns a human-friendly relative time string in English.
  * @param dateStr "YYYY-MM-DD HH:mm:ss"

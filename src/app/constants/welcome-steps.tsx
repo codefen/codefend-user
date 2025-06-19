@@ -55,7 +55,7 @@ const generateUniqueId = () => generateID().substring(0, 10);
 
 export enum ScanStepType {
   NonScan = 'nonScan',
-  Scanner = 'scanner',
+  LAUNCHED = 'launched',
   Parser = 'parser',
   Finished = 'finished',
   Killed = 'killed',
@@ -65,7 +65,7 @@ export enum ScanStepType {
 // Es decir scanner se encuentra en la fase "Scanner" le digo al usuario que el scanner esta en fase "1"
 export const scanStepnumber: Record<ScanStepType, number> = {
   nonScan: 0,
-  scanner: 1,
+  launched: 1,
   parser: 2,
   finished: 3,
   killed: 3,
@@ -73,7 +73,7 @@ export const scanStepnumber: Record<ScanStepType, number> = {
 
 export const scanStepText: Record<ScanStepType, string> = {
   nonScan: 'Initializing Scanning.',
-  scanner: 'Searching for vulnerabilities.',
+  launched: 'Searching for vulnerabilities.',
   parser: 'Analyzing vulnerabilities.',
   finished: 'Finishing the scan.',
   killed: 'The scan has been forcibly stopped.',

@@ -65,7 +65,7 @@ export const useVerifyScanList = () => {
     fallbackData: { scans: [], companyUpdated: null },
     onSuccess: (newData: any) => {
       const latest = getLatestScan(newData?.scans || []);
-      const isActive = latest?.phase == 'scanner' || latest?.phase == 'parser';
+      const isActive = latest?.phase == 'launched';
       const isLaunchingScan = autoScanState.get === AUTO_SCAN_STATE.LAUNCH_SCAN;
       if (!isActive && !isLaunchingScan && scanRetries.get > 0) {
         scanRetries.set(scanRetries.get - 1);
@@ -77,7 +77,7 @@ export const useVerifyScanList = () => {
 
   useEffect(() => {
     const scanSize = data?.scans?.length;
-    const isActive = latestScan?.phase == 'scanner' || latestScan?.phase == 'parser';
+    const isActive = latestScan?.phase == 'launched';
     const isLaunchingScan = autoScanState.get === AUTO_SCAN_STATE.LAUNCH_SCAN;
     const isScanLaunched = autoScanState.get === AUTO_SCAN_STATE.SCAN_LAUNCHED;
     const isScanFinished = autoScanState.get === AUTO_SCAN_STATE.SCAN_FINISHED;
@@ -127,7 +127,7 @@ export const useVerifyScanList = () => {
     currentScan.set(latestScan);
   }, [data, latestScan, scanningValue, autoScanState.get, scanRetries.get]);
 
-  const isScanActive = (scan: any) => scan?.phase === 'scanner' || scan?.phase === 'parser';
+  const isScanActive = (scan: any) => scan?.phase === 'launched';
   return {
     data: data!,
     currentScan: currentScan.get,

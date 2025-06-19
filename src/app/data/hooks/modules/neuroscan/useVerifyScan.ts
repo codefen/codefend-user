@@ -61,8 +61,8 @@ export const useVerifyScan = () => {
       { company: getCompany(), resource_id: domainId, isScanRunning, neuroscan_id: neuroScanId },
     ];
     const currentPhase = data?.neuroscan?.phase as ScanStepType;
-    const currentIssueFound = data?.neuroscan?.issues_found;
-    const currentIssueParsed = data?.neuroscan?.issues_parsed;
+    const currentIssueFound = data?.neuroscan?.m_nllm_issues_found;
+    const currentIssueParsed = data?.neuroscan?.m_nllm_issues_parsed;
     const hasError = data?.error === '1' || currentPhase === 'killed';
     // Verifica que datos actualizar del store
     if (currentIssueFound && issueScanFound !== currentIssueFound) {

@@ -5,13 +5,12 @@ import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constan
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { BugIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
+import { BugIcon, GlobeWebIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
 import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
-import css from './scanSection.module.scss';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
@@ -24,6 +23,7 @@ import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/componen
 import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
 import { useNavigate } from 'react-router';
+import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -49,11 +49,11 @@ const scansColumns: ColumnTableV3[] = [
   },
   {
     header: 'Found / Parsed',
-    key: 'issues_found',
+    key: 'found_issues',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
     weight: '15.75%',
-    render: val => `${val?.issues_found} / ${val?.issues_parsed}`,
+    render: val => `${val?.m_nllm_issues_found} / ${val?.m_nllm_issues_parsed}`,
   },
   {
     header: 'Start',
@@ -77,12 +77,12 @@ export const ScanSection = () => {
   const { getCompany, company } = useUserData();
   const {
     data: { scans, companyUpdated },
-  } = useVerifyScanList();
+  } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
-  const { appEvent } = useGlobalFastFields(['appEvent']);
+  const { appEvent, currentScan } = useGlobalFastFields(['appEvent', 'currentScan']);
   const { updateState } = useOrderStore();
-  const [idiom, setIdiom] = useState<string>('en');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -105,9 +105,12 @@ export const ScanSection = () => {
       },
       path: 'modules/neuroscan/kill',
       requireSession: true,
-    }).then(() => {
+    }).then(({ neuroscan }: any) => {
       toast.success(SCAN_PAGE_TEXT.SCAN_KILLED_SUCCESS);
       setIsOpen(false);
+      if (neuroscan?.id === currentScan.get?.id) {
+        currentScan.set(neuroscan);
+      }
     });
   };
 
@@ -137,10 +140,10 @@ export const ScanSection = () => {
       onClick: (row: any) => startKillScan(row),
     },
     {
-      label: 'Open Scan progress',
+      label: 'View scan details',
       icon: <ScanIcon />,
       disabled: (row: any) =>
-        row?.phase != ScanStepType.Scanner && row?.phase != ScanStepType.Parser,
+        row?.phase != ScanStepType.LAUNCHED && row?.phase != ScanStepType.Parser,
       onClick: (row: any) => {
         setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
         setIsOpen(true);
@@ -152,48 +155,34 @@ export const ScanSection = () => {
     if (verifyDomainName(domainScanned || '')) return;
     const companyID = company.get?.id;
     if (companyIdIsNull(companyID)) return;
-    const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
-      closeOnClick: true,
-    });
-    fetcher<any>('post', {
-      body: {
-        company_id: companyID,
-        resource_address_domain: domainScanned?.trim?.() || '',
-        subdomain_scan: 'no',
-      },
-      path: 'resources/web/add',
-      timeout: 180000,
-    })
-      .then(({ data }) => {
-        toast.dismiss(toastId);
-        const resourceId = data?.resource?.id;
-        if (resourceId) {
-          autoScan(resourceId, false, idiom).then(result => {
-            if (apiErrorValidation(result)) {
-              updateState('open', true);
-              updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
-              updateState('resourceType', ResourcesTypes.WEB);
-              appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
-              return;
-            }
+    // const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
+    //   closeOnClick: true,
+    // });
+    setLoading(true);
+    autoScan(domainScanned?.trim?.() || '', false, '')
+      .then(result => {
+        if (apiErrorValidation(result)) {
+          updateState('open', true);
+          updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
+          updateState('resourceType', ResourcesTypes.WEB);
+          appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
+          return;
+        }
 
-            if (result?.neuroscan?.id) {
-              toast.success(APP_MESSAGE_TOAST.START_SCAN);
-              setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
-              setIsOpen(true);
-            }
-          });
-        } else {
-          throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        if (result?.neuroscan?.id) {
+          toast.success(APP_MESSAGE_TOAST.START_SCAN);
+          setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+          setIsOpen(true);
         }
       })
-      .catch((error: any) => {
-        toast.error(error?.info || error?.message || '');
+      .finally(() => {
+        setLoading(false);
       });
   };
+  const ultimo = scans.at(0);
 
   return (
-    <div className={css['scan-section-container']}>
+    <div className="scan-section-container">
       <ModalTitleWrapper
         isActive={isOpen && modalId === MODAL_KEY_OPEN.START_KILL_SCAN}
         close={() => setIsOpen(false)}
@@ -213,6 +202,7 @@ export const ScanSection = () => {
         handleSubmit={startAndAddedDomain}
         searchData={domainScanned}
         setSearchData={setDomainScanned}
+        isDisabled={loading}
       />
       <div className="card">
         <SimpleSection header="AI based web security" icon={<StatIcon />}>
@@ -230,6 +220,35 @@ export const ScanSection = () => {
           </div>
         </SimpleSection>
       </div>
+
+      {/* <div className="card scan-cards">
+        <div className="scan-header">
+          <h3>
+            <GlobeWebIcon />
+            Scan Result #{ultimo?.id}
+          </h3>
+          <span>Type: {ultimo?.resource_class} - Total scans: 1</span>
+        </div>
+
+        <div className="content">
+          <div className="scan-card-item">
+            <h4>Total issues</h4>
+            <span>10</span>
+          </div>
+          <div className="scan-card-item">
+            <h4>Scan status</h4>
+            <span>Completed</span>
+          </div>
+          <div className="scan-card-item">
+            <h4>Total time scanned</h4>
+            <span>50 min</span>
+          </div>
+          <div className="scan-card-item">
+            <h4>Scan periods</h4>
+            <span>10/2/1 - 10/2/1</span>
+          </div>
+        </div>
+      </div> */}
     </div>
   );
 };

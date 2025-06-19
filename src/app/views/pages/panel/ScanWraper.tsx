@@ -1,9 +1,11 @@
 import { useUserCommunicated } from '#commonUserHooks/useUserCommunicated';
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress';
+import { useNewManageScanProgress } from '@moduleHooks/newscanner/useNewManageScanProgress';
+import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
+import { useVerifyScanListv3 } from '@moduleHooks/newscanner/useVerifyScanListv3';
 
 export const ScanWraper = () => {
-  useManageScanProgress();
+  useVerifyScanListv3();
+  // useNewManageScanProgress();
   useUserCommunicated();
   return <></>;
 };

@@ -27,7 +27,7 @@ const scanColumns: ColumnTableV3[] = [
   },
   {
     header: 'total issues',
-    key: 'issues_parsed',
+    key: 'found_parsed_issues',
     render: (value: any) => value,
     styles: 'item-cell-3',
     weight: '25%',
@@ -62,9 +62,12 @@ export const DashboardScanStart = () => {
               <ScanProgressBar progress={scanProgress.get} />
 
               <div className="content">
-                <StatAsset value={currentScan.get?.issues_found} valueTitle="Total Findings" />
                 <StatAsset
-                  value={`${currentScan.get?.issues_parsed}/${currentScan.get?.issues_found}`}
+                  value={currentScan.get?.m_nllm_issues_found}
+                  valueTitle="Total Findings"
+                />
+                <StatAsset
+                  value={`${currentScan.get?.m_nllm_issues_parsed}/${currentScan.get?.m_nllm_issues_found}`}
                   valueTitle="Analyzed findings"
                 />
                 <StatAsset value={`${Math.round(scanProgress.get)}%`} valueTitle="Progress" />

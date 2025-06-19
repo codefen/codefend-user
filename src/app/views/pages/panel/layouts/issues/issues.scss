@@ -351,9 +351,11 @@ main.issues-list {
       .item-cell-issue-1,
       .item-cell-issue-2,
       .item-cell-issue-3,
+      .item-cell-issue-address,
       .item-cell-issue-4,
       .item-cell-issue-5,
       .item-cell-issue-6,
+      .item-cell-issue-8,
       .item-cell-issue-7 {
         --cell-issue-expand: calc(var(--cell-expand) + var(--item-cell-extra));
       }
@@ -368,9 +370,11 @@ main.issues-list {
         .item-cell-issue-1,
         .item-cell-issue-2,
         .item-cell-issue-3,
+        .item-cell-issue-address,
         .item-cell-issue-4,
         .item-cell-issue-5,
         .item-cell-issue-6,
+        .item-cell-issue-8,
         .item-cell-issue-7 {
           --item-cell-extra-not-action: calc(
             calc(4.5% / var(--cell-count)) + var(--cell-issue-expand)
@@ -395,9 +399,11 @@ main.issues-list {
           .item-cell-issue-1,
           .item-cell-issue-2,
           .item-cell-issue-3,
+          .item-cell-issue-address,
           .item-cell-issue-4,
           .item-cell-issue-5,
           .item-cell-issue-6,
+          .item-cell-issue-8,
           .item-cell-issue-7 {
             --item-cell-extra-not-action: calc(
               calc(4.5% / calc(var(--cell-count) + 1)) + var(--cell-expand)

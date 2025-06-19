@@ -49,7 +49,12 @@ export type GlobalStore = {
   company: CompanyUser;
   keyPress: KeyPress;
   lead: UserLead;
+
   scanProgress: number;
+  subdomainProgress: number;
+  webScanProgress: number;
+  leaksScanProgress: number;
+
   domainCount: number;
   subDomainCount: number;
   uniqueIpCount: number;
@@ -76,6 +81,8 @@ export type GlobalStore = {
   userLoggingState: USER_LOGGING_STATE;
   networkResourceSelected: any;
   autoScanState: AUTO_SCAN_STATE;
+  scaningProgress: any;
+  lastScanId: string;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -103,6 +110,10 @@ export const initialGlobalState: GlobalStore = {
     persistedState?.mobilePlanPreference ?? EMPTY_GLOBAL_STATE.mobilePlanPreference,
 
   scanProgress: persistedState?.scanProgress ?? EMPTY_GLOBAL_STATE.scanProgress,
+  subdomainProgress: persistedState?.subdomainProgress ?? EMPTY_GLOBAL_STATE.subdomainProgress,
+  webScanProgress: persistedState?.webScanProgress ?? EMPTY_GLOBAL_STATE.webScanProgress,
+  leaksScanProgress: persistedState?.leaksScanProgress ?? EMPTY_GLOBAL_STATE.leaksScanProgress,
+
   isProgressStarted: persistedState?.isProgressStarted ?? EMPTY_GLOBAL_STATE.isProgressStarted,
   currentScan: persistedState?.currentScan ?? EMPTY_GLOBAL_STATE.currentScan,
   isScanning: persistedState?.isScanning ?? EMPTY_GLOBAL_STATE.isScanning,
@@ -126,6 +137,8 @@ export const initialGlobalState: GlobalStore = {
   networkResourceSelected:
     persistedState?.networkResourceSelected ?? EMPTY_GLOBAL_STATE.networkResourceSelected,
   autoScanState: persistedState?.autoScanState ?? EMPTY_GLOBAL_STATE.autoScanState,
+  scaningProgress: persistedState?.scaningProgress ?? EMPTY_GLOBAL_STATE.scaningProgress,
+  lastScanId: persistedState?.lastScanId ?? EMPTY_GLOBAL_STATE.lastScanId,
 };
 
 const {

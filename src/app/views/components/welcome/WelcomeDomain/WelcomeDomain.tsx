@@ -59,7 +59,7 @@ export const WelcomeDomain = ({
   goToStartScanStep,
 }: {
   close: () => void;
-  goToStartScanStep: () => void;
+  goToStartScanStep: () => Promise<void>;
 }) => {
   const [initialDomain, setInitialDomain] = useState('');
   const [domains, setDomains] = useState<any[]>([]);
@@ -67,9 +67,30 @@ export const WelcomeDomain = ({
   const { getCompany, logout } = useUserData();
   const domainCount = useGlobalFastField('domainCount');
   const { update, initialDomain: initialDomainStored } = useInitialDomainStore();
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setInitialDomain(prev => (!prev ? (!!initialDomainStored ? initialDomainStored : '') : prev));
+    if (!initialDomain && initialDomainStored) {
+      const companyID = getCompany();
+      fetcher('post', {
+        requireSession: true,
+        body: {
+          company_id: companyID,
+          resource_address_domain: initialDomainStored,
+          subdomain_scan: 'yes',
+        },
+        path: 'resources/web/preview',
+        timeout: 230000,
+        requestId: 'welcome-domain-preview',
+      }).then(({ data }: any) => {
+        if (verifySession(data, logout)) return;
+        if (!apiErrorValidation(data)) {
+          setDomains(data?.resource ? [data.resource] : []);
+        } else if (data?.error_info === 'unrecheable_domain') {
+          toast.error(data?.info);
+        }
+      });
+    }
   }, [initialDomain, initialDomainStored]);
 
   const changeInitialDomain = (e: FormEvent<HTMLFormElement>) => {
@@ -99,33 +120,17 @@ export const WelcomeDomain = ({
   };
 
   const nextStep = () => {
+    setLoading(true);
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return;
     if (!initialDomain) {
       toast.warning('Please enter a domain before continuing');
       return;
     }
-    fetcher('post', {
-      body: {
-        company_id: companyID,
-        resource_address_domain: initialDomain,
-        subdomain_scan: 'yes',
-      },
-      path: 'resources/web/add',
-      timeout: 230000,
-    }).then(({ data }: any) => {
-      if (verifySession(data, logout)) return;
-      if (data?.resource?.id) {
-        if (domainCount.get === 0) {
-          domainCount.set(1);
-          update('isUniqueDomain', true);
-        } else if (domainCount.get >= 1 && !data?.info.includes('is already')) {
-          update('isUniqueDomain', false);
-        }
-        update('resourceId', data?.resource?.id);
-        update('initialDomain', initialDomain);
-        goToStartScanStep();
-      }
+    update('resourceId', '');
+    update('initialDomain', initialDomain);
+    goToStartScanStep().then(() => {
+      setLoading(false);
     });
   };
 
@@ -149,7 +154,10 @@ export const WelcomeDomain = ({
             placeholder="Wite domain..."
             defaultValue={initialDomain || initialDomainStored || ''}
           />
-          <button type="submit" className={`btn ${css['btn-search']}`} disabled={isLoading}>
+          <button
+            type="submit"
+            className={`btn ${css['btn-search']}`}
+            disabled={isLoading || loading}>
             <AimIcon />
           </button>
         </form>
@@ -168,7 +176,7 @@ export const WelcomeDomain = ({
             className={`btn ${css['btn-add']}`}
             type="button"
             onClick={nextStep}
-            disabled={!Boolean(domains.length) || isLoading}>
+            disabled={!Boolean(domains.length) || isLoading || loading}>
             Continue
           </button>
         </div>

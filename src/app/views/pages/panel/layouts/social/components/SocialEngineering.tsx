@@ -31,26 +31,18 @@ export const socialColumns: ColumnTableV3[] = [
     render: (id: any) => id,
   },
   {
-    header: 'name',
-    key: 'name',
-    type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-social-2 ',
-    weight: '20%',
-    render: (row: any) => `${row.member_fname} ${row.member_lname}`,
-  },
-  {
     header: 'email',
-    key: 'member_email',
+    key: 'email',
     styles: 'item-cell-social-3',
     weight: '27%',
     render: (email: any) => email,
   },
   {
-    header: 'phone',
-    key: 'member_phone',
-    styles: 'item-cell-social-4',
-    weight: '15%',
-    render: (phone: any) => phone,
+    header: 'name',
+    key: 'name',
+    styles: 'item-cell-social-2 ',
+    weight: '20%',
+    render: (name: any) => name,
   },
   {
     header: 'role',
@@ -60,16 +52,11 @@ export const socialColumns: ColumnTableV3[] = [
     render: (role: any) => roleMap[role as keyof typeof roleMap],
   },
   {
-    header: 'issues',
-    key: 'final_issues',
-    styles: 'item-cell-social-6',
-    weight: '12%',
-    render: (final_issues: any) => (
-      <>
-        <BugIcon />
-        {final_issues || 0}
-      </>
-    ),
+    header: 'Linkedin',
+    key: 'linkedin_url',
+    styles: 'item-cell-social-4',
+    weight: '27%',
+    render: (phone: any) => phone,
   },
 ];
 

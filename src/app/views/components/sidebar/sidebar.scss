@@ -103,6 +103,8 @@
       background-color 100ms ease,
       border 150ms ease-out;
     letter-spacing: 0.6px;
+    white-space: nowrap;
+    gap: 4px;
 
     &:hover {
       background-color: #e1e1e1eb;

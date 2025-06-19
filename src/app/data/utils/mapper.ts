@@ -56,6 +56,7 @@ export const mapIssues = (source: any): Issues => {
     resourceID: source.resource_id,
     researcherID: source.researcher_id,
     researcherUsername: source.researcher_username,
+    resourceDomain: source.resource_domain,
     riskLevel: source.risk_level,
     riskScore: source.risk_score,
     name: source.name,
@@ -64,8 +65,9 @@ export const mapIssues = (source: any): Issues => {
     pricePaid: source.price_paid,
     isDisabled: source.eliminado,
     createdAt: source.creacion,
-    scanId: source?.scan_id || null,
+    scanId: source?.neuroscan_id || null,
     orderIdentifier: source?.order_id || null,
+    source: source?.source || null,
   } as Issues;
 };
 

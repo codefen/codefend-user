@@ -110,6 +110,10 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   selectedApp: null,
   mobilePlanPreference: 'medium',
   scanProgress: 0,
+  subdomainProgress: 0,
+  webScanProgress: 0,
+  leaksScanProgress: 0,
+
   isProgressStarted: false,
   currentScan: null,
   isScanning: false,
@@ -129,6 +133,8 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   userLoggingState: USER_LOGGING_STATE.OFFLINE,
   networkResourceSelected: null,
   autoScanState: AUTO_SCAN_STATE.NON_SCANNING,
+  scaningProgress: new Map(),
+  lastScanId: '',
 };
 
 export const EMPTY_PROVIDER = {
@@ -153,6 +159,7 @@ export const EMPTY_SHARE = {
 export const EMPTY_ISSUECLASS = {
   total: '0',
   web: '0',
+  leaks: '0',
   mobile: '0',
   infra: '0',
   lan: '0',

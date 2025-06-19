@@ -5,8 +5,8 @@
 
 .progress-content {
   position: relative;
-  width: 15rem;
-  height: 15rem;
+  width: var(--container-size);
+  height: var(--container-size);
 }
 
 .progress-svg {
@@ -34,7 +34,7 @@
   justify-content: center;
 
   .progress-number {
-    font-size: 1.5rem;
+    font-size: var(--progress-font-size);
     font-weight: bold;
   }
 }

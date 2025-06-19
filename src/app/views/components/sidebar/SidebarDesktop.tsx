@@ -13,6 +13,16 @@ import {
   LeadIcon,
   UsersIcon,
   ScanIcon,
+  PeopleIcon,
+  PeopleIconOutline,
+  UsersGroupOutline,
+  CreditCardIcon,
+  GridOutlineIcon,
+  SocialOutlineIcons,
+  DataleakSearchIcon,
+  AskQuestionOutlineIcon,
+  DeviceSearchIcon,
+  NetworkOutlineIcon,
 } from '@icons';
 import { SidebarItem } from '@/app/views/components/sidebar/SidebarItem';
 import { useUserRole } from '#commonUserHooks/useUserRole';
@@ -97,7 +107,7 @@ export const SidebarDesktop = ({
         {
           title: 'Dashboard',
           id: 'sidebar_dashboard',
-          icon: <ChartIcon />,
+          icon: <GridOutlineIcon />,
           to: '/dashboard',
           root: !isProvider() && !isReseller() && !isAdmin() && isNormalUser(),
           haveAccess: isNotProviderAndReseller,
@@ -105,7 +115,7 @@ export const SidebarDesktop = ({
         {
           title: 'Team members',
           id: 'sidebar_team_members',
-          icon: <></>,
+          icon: <UsersGroupOutline />,
           to: '/team-members',
           root: false,
           haveAccess: isNotProviderAndReseller,
@@ -113,7 +123,7 @@ export const SidebarDesktop = ({
         {
           title: 'User profile',
           id: 'sidebar_user_profile',
-          icon: <></>,
+          icon: <PeopleIconOutline />,
           to: '/user-profile',
           root: false,
           haveAccess: isNotProviderAndReseller,
@@ -121,7 +131,7 @@ export const SidebarDesktop = ({
         {
           title: 'Orders and Payments',
           id: 'sidebar_orders_payments',
-          icon: <></>,
+          icon: <CreditCardIcon />,
           to: '/orders-payments',
           root: false,
           haveAccess: isNotProviderAndReseller,
@@ -152,7 +162,7 @@ export const SidebarDesktop = ({
         {
           title: 'Network infrastructure',
           id: 'sidebar_net',
-          icon: <LanIcon />,
+          icon: <NetworkOutlineIcon />,
           to: '/network',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
@@ -176,7 +186,7 @@ export const SidebarDesktop = ({
         {
           title: 'Social attacks',
           id: 'sidebar_social',
-          icon: <PeopleGroupIcon />,
+          icon: <SocialOutlineIcons />,
           to: '/social',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
@@ -201,13 +211,13 @@ export const SidebarDesktop = ({
           id: 'sidebar_scans',
           to: '/scans',
           root: false,
-          icon: <ScanIcon size="1em" />,
+          icon: <DeviceSearchIcon />,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {
           title: 'Dataleaks explorer',
           id: 'sidebar_sns',
-          icon: <SnbIcon />,
+          icon: <DataleakSearchIcon />,
           to: '/sns',
           root: false,
           haveAccess: !isReseller(),
@@ -215,7 +225,7 @@ export const SidebarDesktop = ({
         {
           title: 'Ask a hacker',
           id: 'sidebar_talk_to_hacker',
-          icon: <></>,
+          icon: <AskQuestionOutlineIcon />,
           to: '/ask-a-hacker',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,

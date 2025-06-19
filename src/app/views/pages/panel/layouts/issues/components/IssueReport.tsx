@@ -26,6 +26,7 @@ const FILTER_ISSUE_RISK_SCORE_GROUP: Omit<FilterGroup, 'elements'> = {
 
 const RESOURCE_CLASS_ELEMENTS = [
   { label: 'Web', value: ResourcesTypes.WEB },
+  { label: 'Leaks', value: ResourcesTypes.LEAKS },
   { label: 'Mobile', value: ResourcesTypes.MOBILE },
   { label: 'Network', value: ResourcesTypes.NETWORK },
   { label: 'Social Engineering', value: ResourcesTypes.SOCIAL },
@@ -69,7 +70,10 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
       totals.riskScore[issue.riskScore] = (totals.riskScore[issue.riskScore] || 0) + 1;
 
       // Scan ID totals (solo para Web)
-      if (issue.scanId && issue.resourceClass === ResourcesTypes.WEB) {
+      if (
+        (issue.scanId && issue.resourceClass === ResourcesTypes.WEB) ||
+        issue.resourceClass === ResourcesTypes.LEAKS
+      ) {
         totals.scanId[issue.scanId] = (totals.scanId[issue.scanId] || 0) + 1;
       }
     });

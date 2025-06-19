@@ -5,15 +5,24 @@ interface ProgressCircle {
   progress: number;
   size?: number;
   strokeWidth?: number;
+  containerSize?: string;
+  fontSize?: string;
 }
 
-export const ProgressCircle = ({ progress, size = 100, strokeWidth = 11 }: ProgressCircle) => {
+export const ProgressCircle = ({
+  progress,
+  size = 100,
+  strokeWidth = 11,
+  containerSize = '15rem',
+  fontSize = '1.5rem',
+}: ProgressCircle) => {
   const [offset, setOffset] = useState(0);
   const padding = strokeWidth + 8;
   const adjustedSize = size + padding * 2;
   const center = adjustedSize / 2;
   const radius = size / 2 - strokeWidth / 2;
   const circumference = 2 * Math.PI * radius;
+  const isComplete = progress >= 100;
 
   useEffect(() => {
     const progressOffset = circumference * (1 - progress / 100);
@@ -22,21 +31,23 @@ export const ProgressCircle = ({ progress, size = 100, strokeWidth = 11 }: Progr
 
   return (
     <div className={css['progress-container']}>
-      <div className={css['progress-content']}>
+      <div className={css['progress-content']} style={{ '--container-size': containerSize } as any}>
         <svg className={css['progress-svg']} viewBox={`0 0 ${adjustedSize} ${adjustedSize}`}>
           <defs>
             <linearGradient id="progressGradient" gradientTransform="rotate(90)">
               <stop offset="0%" stopColor="#ef4444" />
               <stop offset="50%" stopColor="#f87171" />
               <stop offset="100%" stopColor="#ef4444" />
-              <animateTransform
-                attributeName="gradientTransform"
-                type="rotate"
-                from="90 0.5 0.5"
-                to="450 0.5 0.5"
-                dur="3s"
-                repeatCount="indefinite"
-              />
+              {!isComplete && (
+                <animateTransform
+                  attributeName="gradientTransform"
+                  type="rotate"
+                  from="90 0.5 0.5"
+                  to="450 0.5 0.5"
+                  dur="3s"
+                  repeatCount="indefinite"
+                />
+              )}
             </linearGradient>
             <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="2" result="coloredBlur" />
@@ -73,28 +84,36 @@ export const ProgressCircle = ({ progress, size = 100, strokeWidth = 11 }: Progr
             }}
           />
           {/* Pequeños puntos que se mueven a lo largo del círculo */}
-          <circle r={strokeWidth / 4} fill="#f87171" filter="url(#glow)">
-            <animateMotion
-              path={`M ${center + radius} ${center} A ${radius} ${radius} 0 1 1 ${center - radius} ${center} A ${radius} ${radius} 0 1 1 ${center + radius} ${center}`}
-              dur="2s"
-              begin="0.5s"
-              repeatCount="indefinite"
-              rotate="auto"
-            />
-          </circle>
+          {!isComplete && (
+            <>
+              <circle r={strokeWidth / 4} fill="#f87171" filter="url(#glow)">
+                <animateMotion
+                  path={`M ${center + radius} ${center} A ${radius} ${radius} 0 1 1 ${center - radius} ${center} A ${radius} ${radius} 0 1 1 ${center + radius} ${center}`}
+                  dur="2s"
+                  begin="0.5s"
+                  repeatCount="indefinite"
+                  rotate="auto"
+                />
+              </circle>
 
-          <circle r={strokeWidth / 5} fill="#fecaca" filter="url(#glow)">
-            <animateMotion
-              path={`M ${center + radius} ${center} A ${radius} ${radius} 0 1 1 ${center - radius} ${center} A ${radius} ${radius} 0 1 1 ${center + radius} ${center}`}
-              dur="2s"
-              begin="1.25s"
-              repeatCount="indefinite"
-              rotate="auto"
-            />
-          </circle>
+              <circle r={strokeWidth / 5} fill="#fecaca" filter="url(#glow)">
+                <animateMotion
+                  path={`M ${center + radius} ${center} A ${radius} ${radius} 0 1 1 ${center - radius} ${center} A ${radius} ${radius} 0 1 1 ${center + radius} ${center}`}
+                  dur="2s"
+                  begin="1.25s"
+                  repeatCount="indefinite"
+                  rotate="auto"
+                />
+              </circle>
+            </>
+          )}
         </svg>
         <div className={css['progress-table']}>
-          <span className={css['progress-number']}>{Math.round(progress)}%</span>
+          <span
+            className={css['progress-number']}
+            style={{ '--progress-font-size': fontSize } as any}>
+            {Math.round(progress)}%
+          </span>
         </div>
       </div>
     </div>
