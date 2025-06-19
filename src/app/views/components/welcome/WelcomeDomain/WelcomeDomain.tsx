@@ -138,10 +138,13 @@ export const WelcomeDomain = ({
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']} action={close}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={220} />
-        <p className={css['welcome-text']}>
-          <b>Welcome! Please verify your domain and click 'Continue' to add your first resource.</b>{' '}
-          We'll then run an automated analysis on your main domain.
-        </p>
+        <div className={css['welcome-header']}>
+          <img src="/codefend/IA ICON.png" alt="AI Scanner" className={css['scanner-eye']} />
+          <p className={css['welcome-text']}>
+            <b>Great! Let's start by performing an automated analysis of your attack surface.</b>{' '}
+            We'll search for subdomains, analyze the main domain, look for data leaks and add resources.
+          </p>
+        </div>
         <form className={css['input-container']} onSubmit={changeInitialDomain}>
           <label htmlFor="initialScope">
             <b>Confirm your initial scope</b>

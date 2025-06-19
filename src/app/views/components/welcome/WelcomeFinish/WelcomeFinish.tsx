@@ -1,6 +1,5 @@
 import { ModalWrapper } from '@modals/index';
 import { ScanStepType } from '@/app/constants/welcome-steps';
-import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useNavigate } from 'react-router';
@@ -70,14 +69,15 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                   <h3>Target: {currentScan.get?.resource_address}</h3>
                 </div>
                 <div className="progress-container">
-                  <ProgressCircle
-                    size={40}
-                    strokeWidth={4}
-                    containerSize="6rem"
-                    fontSize="0.9rem"
-                    progress={globalStore.scanProgress.get}
-                  />
-                  <span>Overall Progress</span>
+                  <div className="progress-bar-container">
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ width: `${globalStore.scanProgress.get}%` }}
+                      />
+                    </div>
+                    <div className="progress-text">{Math.round(globalStore.scanProgress.get)}%</div>
+                  </div>
                 </div>
               </div>
               <div>
@@ -109,32 +109,28 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-content'}>
                   <div className={'card-process-content-info'}>
                     <div className={'card-process-content-info-container'}>
-                      <div className={'card-process-content-info-container-column'}>
-                        <div>
-                          <span>Started:</span>
-                          <b>{formatTimeFormat(currentScan.get?.m_nllm_launched)}</b>
-                        </div>
+                      <div className="info-item">
+                        <span>Started:</span>
+                        <b>{formatTimeFormat(currentScan.get?.m_nllm_launched)}</b>
                       </div>
-                      <div className={'card-process-content-info-container-column'}>
-                        <div>
-                          <span>Issues found:</span>
-                          <b>{currentScan.get?.m_nllm_issues_found}</b>
-                        </div>
-                        <div>
-                          <span>Subdomains found:</span>
-                          <b>{currentScan.get?.m_nllm_issues_parsed}</b>
-                        </div>
+                      <div className="info-item">
+                        <span>Issues found:</span>
+                        <b>{currentScan.get?.m_nllm_issues_found}</b>
+                      </div>
+                      <div className="info-item">
+                        <span>Subdomains found:</span>
+                        <b>{currentScan.get?.m_nllm_issues_parsed}</b>
                       </div>
                     </div>
                   </div>
-                  <div className={'card-process-content-progress'}>
-                    <ProgressCircle
-                      size={60}
-                      strokeWidth={6}
-                      containerSize="8rem"
-                      fontSize="1.125rem"
-                      progress={globalStore.webScanProgress.get}
-                    />
+                  <div className="progress-bar-container">
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ width: `${globalStore.webScanProgress.get}%` }}
+                      />
+                    </div>
+                    <div className="progress-text">{Math.round(globalStore.webScanProgress.get)}%</div>
                   </div>
                 </div>
               </div>
@@ -159,24 +155,28 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-content'}>
                   <div className={'card-process-content-info'}>
                     <div className={'card-process-content-info-container'}>
-                      <div>
+                      <div className="info-item">
                         <span>Started:</span>
                         <b>{formatTimeFormat(currentScan.get?.m_subdomains_launched)}</b>
                       </div>
-                      <div>
+                      <div className="info-item">
                         <span>Subdomains found:</span>
                         <b>{currentScan.get?.m_subdomains_found}</b>
                       </div>
+                      <div className="info-item">
+                        <span>Status:</span>
+                        <b>{currentScan.get?.m_subdomains_finished ? 'Completed' : 'Running'}</b>
+                      </div>
                     </div>
                   </div>
-                  <div className={'card-process-content-progress'}>
-                    <ProgressCircle
-                      size={60}
-                      strokeWidth={6}
-                      containerSize="8rem"
-                      fontSize="1.125rem"
-                      progress={globalStore.subdomainProgress.get}
-                    />
+                  <div className="progress-bar-container">
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ width: `${globalStore.subdomainProgress.get}%` }}
+                      />
+                    </div>
+                    <div className="progress-text">{Math.round(globalStore.subdomainProgress.get)}%</div>
                   </div>
                 </div>
               </div>
@@ -191,7 +191,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       alt="Globe Icon"
                       style={{ width: '0.9em' }}
                     />
-                    <h3>Data Data Breach Hunter</h3>
+                    <h3>Darkweb dataleaks analyzer</h3>
                   </div>
                   <div className={'process-badge'}>
                     {getStatusBadge(
@@ -205,32 +205,28 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-content'}>
                   <div className={'card-process-content-info'}>
                     <div className={'card-process-content-info-container'}>
-                      <div className={'card-process-content-info-container-column'}>
-                        <div>
-                          <span>Started:</span>
-                          <b>{formatTimeFormat(currentScan.get?.m_leaks_launched)}</b>
-                        </div>
+                      <div className="info-item">
+                        <span>Started:</span>
+                        <b>{formatTimeFormat(currentScan.get?.m_leaks_launched)}</b>
                       </div>
-                      <div className={'card-process-content-info-container-column'}>
-                        <div>
-                          <span>Breaches found:</span>
-                          <b>{currentScan.get?.m_leaks_found}</b>
-                        </div>
-                        <div>
-                          <span>User detected:</span>
-                          <b>{currentScan.get?.m_leaks_social_found}</b>
-                        </div>
+                      <div className="info-item">
+                        <span>Breaches found:</span>
+                        <b>{currentScan.get?.m_leaks_found}</b>
+                      </div>
+                      <div className="info-item">
+                        <span>Users detected:</span>
+                        <b>{currentScan.get?.m_leaks_social_found}</b>
                       </div>
                     </div>
                   </div>
-                  <div className={'card-process-content-progress'}>
-                    <ProgressCircle
-                      size={60}
-                      strokeWidth={6}
-                      containerSize="8rem"
-                      fontSize="1.125rem"
-                      progress={globalStore.leaksScanProgress.get}
-                    />
+                  <div className="progress-bar-container">
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ width: `${globalStore.leaksScanProgress.get}%` }}
+                      />
+                    </div>
+                    <div className="progress-text">{Math.round(globalStore.leaksScanProgress.get)}%</div>
                   </div>
                 </div>
               </div>

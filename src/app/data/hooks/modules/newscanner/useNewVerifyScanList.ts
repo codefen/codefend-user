@@ -1,3 +1,15 @@
+/**
+ * Hook principal para la gestión de datos de escaneos
+ * Este hook maneja:
+ * - Obtención de la lista de escaneos desde la API
+ * - Procesamiento de datos incluyendo:
+ *   - ID del escaneo
+ *   - Dominio (resource_address)
+ *   - Estado y progreso del escaneo
+ * - Integración con el sistema de filtros
+ * - Actualización en tiempo real del estado de escaneos
+ */
+
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { ScanStepType } from '@/app/constants/welcome-steps';

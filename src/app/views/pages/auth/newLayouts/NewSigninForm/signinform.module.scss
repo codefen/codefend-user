@@ -28,13 +28,9 @@
 
   p {
     color: var(--text-color);
-
-    // color: var(--tertiary-color-300);
     line-height: 1.5rem;
     width: 100%;
     margin-block-end: 1rem;
-
-    // text-align: center;
   }
 
   form {
@@ -44,9 +40,42 @@
     row-gap: 0.5rem;
 
     .sendButton {
-      // margin-inline-start: auto;
       margin-top: 10px;
       min-width: 30%;
+    }
+  }
+}
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+
+  .password-input {
+    width: 100%;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: var(--tertiary-color-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    z-index: 2;
+
+    &:hover {
+      color: var(--tertiary-color-600);
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 }
@@ -58,6 +87,16 @@
 
   .signinContent {
     --text-color: var(--tertiary-color-50);
+  }
+
+  .password-input-wrapper {
+    .toggle-password {
+      color: var(--tertiary-color-300);
+
+      &:hover {
+        color: var(--tertiary-color-100);
+      }
+    }
   }
 }
 
