@@ -109,18 +109,51 @@
 .welcome-content.welcome-content-finish {
   overflow-y: auto;
   max-height: 90dvh;
-  gap: 12px;
+  gap: 8px;
+  padding: 1.5rem;
 
   img {
-    width: 200px;
-    margin-block-end: 0;
+    width: 180px;
+    margin-block-end: 0.5rem;
   }
 
-  .card-process-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
+  .scan-header-info {
+    margin-bottom: 1rem;
+    
+    .scan-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      
+      .scan-basic-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        
+        .info-row {
+          display: flex;
+          gap: 2rem;
+          font-size: 0.85rem;
+          
+          span {
+            strong {
+              color: var(--codefend-color-red);
+              margin-right: 0.4rem;
+              font-weight: 500;
+            }
+          }
+        }
+        
+        .user-info {
+          font-size: 0.85rem;
+          strong {
+            color: var(--codefend-color-red);
+            margin-right: 0.4rem;
+            font-weight: 500;
+          }
+        }
+      }
+    }
   }
 
   .card.card-process {
@@ -153,6 +186,7 @@
           font-weight: 600;
           font-size: 1rem;
           margin-left: 0.75rem;
+          color: #1a1a1a;
         }
       }
 
@@ -174,8 +208,8 @@
           color: #12346b;
         }
         &[data-status='completed'] {
-          background-color: #d4fbc4;
-          color: #4a8b30;
+          background-color: #e8ffdf;
+          color: #4cb922;
         }
         &[data-status='parser'] {
           background-color: #eb5757;
@@ -244,11 +278,12 @@
             span {
               display: block;
               margin-bottom: 0.35rem;
-              color: var(--tertiary-color-400);
+              color: #8f9299;
               font-size: 0.875rem;
             }
 
             b {
+              color: #4a4b4f;
               display: block;
               font-family: 'Satoshi';
               font-size: 1rem;
@@ -349,26 +384,30 @@
   padding: 0.35rem 1rem;
   width: 100%;
 
-  .target-info-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    
-    li {
-      margin-bottom: 0.2rem;
-      font-size: 0.85rem;
-      line-height: 1.2;
+      .target-info-list {
+      padding: 0;
+      margin: 0;
       
-      &:last-child {
-        margin-bottom: 0;
+      .target-info-row {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 0.2rem;
       }
-      
-      strong {
-        margin-right: 0.5rem;
-        color: var(--codefend-color-red);
-        font-weight: 500;
+
+      .info-item {
+        font-size: 0.85rem;
+        line-height: 1.2;
+        
+        strong {
+          margin-right: 0.5rem;
+          color: var(--codefend-color-red);
+          font-weight: 500;
+        }
+
+        &.user-info {
+          margin-top: 0.2rem;
+        }
       }
-    }
   }
 
   .progress-mini {

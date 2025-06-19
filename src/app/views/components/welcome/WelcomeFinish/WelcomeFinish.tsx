@@ -15,7 +15,7 @@ import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCi
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
-    return <div data-status="completed">Completed</div>;
+    return <div data-status="completed">Finished</div>;
   }
   if (phase === ScanStepType.Parser) {
     return <div data-status="parser">Analyzing</div>;
@@ -65,23 +65,23 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
             currentScan?.status === AUTO_SCAN_STATE.SCAN_FINISHED
           }
           fallback={<PageLoader />}>
-          <div className={`card card-process card-process-target`}>
-            <div className="over">
-              <div className="target-info-container">
-                <ul className="target-info-list">
-                  <li><strong>Target:</strong> {currentScan?.resource_address}</li>
-                  <li><strong>Started:</strong> {formatTimeFormat(currentScan?.launched)}</li>
-                  <li><strong>User:</strong> {currentScan?.user_email}</li>
-                </ul>
-                <div className="progress-mini">
-                                    <ProgressCircle 
-                    progress={currentScan?.scanProgress} 
-                    size={75} 
-                    strokeWidth={6}
-                    containerSize="5.5rem"
-                    fontSize="1.1rem"
-                  />
+                    <div className="scan-header-info">
+            <div className="scan-header-row">
+              <div className="scan-basic-info">
+                <div className="info-row">
+                  <span><strong>Target:</strong> {currentScan?.resource_address}</span>
+                  <span><strong>Started:</strong> {formatTimeFormat(currentScan?.launched)}</span>
                 </div>
+                <span className="user-info"><strong>User:</strong> {currentScan?.user_email}</span>
+              </div>
+              <div className="progress-mini">
+                <ProgressCircle 
+                  progress={currentScan?.scanProgress} 
+                  size={65} 
+                  strokeWidth={5}
+                  containerSize="4.5rem"
+                  fontSize="1rem"
+                />
               </div>
             </div>
           </div>
@@ -119,13 +119,16 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
-                      <b>{currentScan?.m_nllm_finished ? 'Completed' : 'Running'}</b>
+                      <b>{currentScan?.m_nllm_finished ? 'Finished' : 'Running'}</b>
                     </div>
                   </div>
                 </div>
                 <div className={'card-process-content-progress'}>
                   <div className="progress-info">
-                    <ScanProgressBar progress={currentScan?.webScanProgress} />
+                    <ScanProgressBar 
+                      progress={currentScan?.webScanProgress}
+                      isCompleted={currentScan?.m_nllm_finished}
+                    />
                     <span>{Math.round(currentScan?.webScanProgress)}%</span>
                   </div>
                 </div>
@@ -162,13 +165,16 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
-                      <b>{currentScan?.m_subdomains_finished ? 'Completed' : 'Running'}</b>
+                      <b>{currentScan?.m_subdomains_finished ? 'Finished' : 'Running'}</b>
                     </div>
                   </div>
                 </div>
                 <div className={'card-process-content-progress'}>
                   <div className="progress-info">
-                    <ScanProgressBar progress={currentScan?.subdomainScanProgress} />
+                    <ScanProgressBar 
+                      progress={currentScan?.subdomainScanProgress}
+                      isCompleted={currentScan?.m_subdomains_finished}
+                    />
                     <span>{Math.round(currentScan?.subdomainScanProgress)}%</span>
                   </div>
                 </div>
@@ -205,13 +211,16 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
-                      <b>{currentScan?.m_leaks_finished ? 'Completed' : 'Running'}</b>
+                      <b>{currentScan?.m_leaks_finished ? 'Finished' : 'Running'}</b>
                     </div>
                   </div>
                 </div>
                 <div className={'card-process-content-progress'}>
                   <div className="progress-info">
-                    <ScanProgressBar progress={currentScan?.leaksScanProgress} />
+                    <ScanProgressBar 
+                      progress={currentScan?.leaksScanProgress}
+                      isCompleted={currentScan?.m_leaks_finished}
+                    />
                     <span>{Math.round(currentScan?.leaksScanProgress)}%</span>
                   </div>
                 </div>

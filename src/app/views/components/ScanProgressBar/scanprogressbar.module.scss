@@ -1,6 +1,6 @@
 .scan-start-progress {
   width: 100%;
-  background-color: var(--primary-color-600);
+  background-color: #e5e7eb;
   overflow: hidden;
   height: 8px;
   border-radius: 4px;
@@ -8,9 +8,13 @@
 }
 
 .scan-start-progress-bar {
-  background: linear-gradient(90deg, #be1b1b 33%, #f02c2c 93%, #ff3a3a 100%);
+  background: linear-gradient(90deg, #22c55e 33%, #16a34a 93%, #15803d 100%);
   position: absolute;
   height: 8px;
   transition: width 0.3s ease;
   border-radius: 4px;
+  
+  &.completed {
+    background: linear-gradient(90deg, #22c55e 33%, #16a34a 93%, #15803d 100%);
+  }
 }
