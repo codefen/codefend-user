@@ -67,22 +67,20 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           fallback={<PageLoader />}>
           <div className={`card card-process card-process-target`}>
             <div className="over">
-              <div className="card-process-header">
-                <div className="card-process-header-title">
-                  <GlobeWebIcon />
-                  <h3>Target: {currentScan?.resource_address}</h3>
-                </div>
-                <div className="progress-container">
-                  <div className="progress-info">
-                    <ProgressCircle progress={currentScan?.scanProgress} />
-                    <span>Overall Progress</span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <p>Started: {formatTimeFormat(currentScan?.launched)}</p>
-                  <p>User: {currentScan?.user_email}</p>
+              <div className="target-info-container">
+                <ul className="target-info-list">
+                  <li><strong>Target:</strong> {currentScan?.resource_address}</li>
+                  <li><strong>Started:</strong> {formatTimeFormat(currentScan?.launched)}</li>
+                  <li><strong>User:</strong> {currentScan?.user_email}</li>
+                </ul>
+                <div className="progress-mini">
+                                    <ProgressCircle 
+                    progress={currentScan?.scanProgress} 
+                    size={75} 
+                    strokeWidth={6}
+                    containerSize="5.5rem"
+                    fontSize="1.1rem"
+                  />
                 </div>
               </div>
             </div>
