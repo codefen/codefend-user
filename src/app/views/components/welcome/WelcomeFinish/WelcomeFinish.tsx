@@ -20,7 +20,7 @@ function getStatusBadge(phase: string = '', finished: string | null, launched: s
   if (phase === ScanStepType.Parser) {
     return <div data-status="parser">Analyzing</div>;
   }
-  return <div data-status="running">Running</div>;
+      return <div data-status="running">Operational</div>;
 }
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
@@ -119,7 +119,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
-                      <b>{currentScan?.m_nllm_finished ? 'Finished' : 'Running'}</b>
+                      <b>{currentScan?.m_nllm_finished ? 'Finished' : 'Operational'}</b>
                     </div>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
-                      <b>{currentScan?.m_subdomains_finished ? 'Finished' : 'Running'}</b>
+                      <b>{currentScan?.m_subdomains_finished ? 'Finished' : 'Operational'}</b>
                     </div>
                   </div>
                 </div>
@@ -211,7 +211,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
-                      <b>{currentScan?.m_leaks_finished ? 'Finished' : 'Running'}</b>
+                      <b>{currentScan?.m_leaks_finished ? 'Finished' : 'Operational'}</b>
                     </div>
                   </div>
                 </div>
