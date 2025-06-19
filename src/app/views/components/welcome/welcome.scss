@@ -109,7 +109,7 @@
 .welcome-content.welcome-content-finish {
   overflow-y: auto;
   max-height: 90dvh;
-  gap: 20px;
+  gap: 12px;
 
   img {
     width: 200px;
@@ -120,7 +120,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.25rem;
   }
 
   .card.card-process {
@@ -133,13 +133,13 @@
     border-width: 1px;
     border-style: solid;
     width: 580px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
 
     .card-process-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      padding: 0.15rem var(--card-space);
+      padding: 0.1rem var(--card-space);
       margin-bottom: 0;
       border-bottom: 1px solid #e0e0e0;
 
@@ -188,8 +188,20 @@
         justify-content: flex-start;
         font-size: 0.875rem;
         margin-block-start: -1rem;
-        > span {
-          margin-inline-start: -0.5rem;
+        width: 200px;
+        padding-right: 1rem;
+
+        .progress-info {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+
+          span {
+            font-size: 0.75rem;
+            color: var(--tertiary-color-400);
+          }
         }
       }
     }
@@ -245,30 +257,23 @@
         }
       }
 
-      .progress-bar-container {
+      .card-process-content-progress {
         width: 100%;
         padding: 0 var(--card-space);
         margin-top: 0.25rem;
 
-        .progress-bar {
+        .progress-info {
           width: 100%;
-          height: 4px;
-          background-color: #f3f3f3;
-          border-radius: 2px;
-          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
 
-          .progress-fill {
-            height: 100%;
-            background-color: #ff3939;
-            transition: width 0.3s ease;
+          span {
+            font-size: 0.75rem;
+            color: var(--tertiary-color-400);
+            align-self: flex-end;
           }
-        }
-
-        .progress-text {
-          text-align: right;
-          font-size: 0.75rem;
-          color: var(--tertiary-color-400);
-          margin-top: 0.15rem;
         }
       }
     }
@@ -290,6 +295,19 @@
           position: absolute;
           top: 8px;
           right: 12px;
+          width: 80px;
+
+          .progress-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+
+            span {
+              font-size: 0.75rem;
+              color: var(--tertiary-color-400);
+            }
+          }
         }
       }
     }
