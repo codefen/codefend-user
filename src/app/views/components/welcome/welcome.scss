@@ -107,6 +107,8 @@
 }
 
 .welcome-content.welcome-content-finish {
+  overflow-y: auto;
+  max-height: 90dvh;
   gap: 20px;
 
   img {

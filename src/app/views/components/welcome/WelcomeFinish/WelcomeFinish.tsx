@@ -52,7 +52,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
       navigate('/issues');
     }
   };
-  // const scanStep = (currentScan.get?.phase as ScanStepType) || ScanStepType.NonScan;
+  // const scanStep = (currentScan?.phase as ScanStepType) || ScanStepType.NonScan;
 
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
@@ -110,17 +110,17 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Started:</span>
-                          <b>{formatTimeFormat(currentScan.get?.m_nllm_launched)}</b>
+                          <b>{formatTimeFormat(currentScan?.m_nllm_launched)}</b>
                         </div>
                       </div>
                       <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Issues found:</span>
-                          <b>{currentScan.get?.m_nllm_issues_found}</b>
+                          <b>{currentScan?.m_nllm_issues_found}</b>
                         </div>
                         <div>
                           <span>Subdomains found:</span>
-                          <b>{currentScan.get?.m_nllm_issues_parsed}</b>
+                          <b>{currentScan?.m_nllm_issues_parsed}</b>
                         </div>
                       </div>
                     </div>
@@ -167,7 +167,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       </div>
                       <div className="info-item">
                         <span>Status:</span>
-                        <b>{currentScan.get?.m_subdomains_finished ? 'Completed' : 'Running'}</b>
+                        <b>{currentScan?.m_subdomains_finished ? 'Completed' : 'Running'}</b>
                       </div>
                     </div>
                   </div>
@@ -206,17 +206,17 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Started:</span>
-                          <b>{formatTimeFormat(currentScan.get?.m_leaks_launched)}</b>
+                          <b>{formatTimeFormat(currentScan?.m_leaks_launched)}</b>
                         </div>
                       </div>
                       <div className={'card-process-content-info-container-column'}>
                         <div>
                           <span>Breaches found:</span>
-                          <b>{currentScan.get?.m_leaks_found}</b>
+                          <b>{currentScan?.m_leaks_found}</b>
                         </div>
                         <div>
                           <span>User detected:</span>
-                          <b>{currentScan.get?.m_leaks_social_found}</b>
+                          <b>{currentScan?.m_leaks_social_found}</b>
                         </div>
                       </div>
                     </div>
@@ -253,14 +253,14 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           <div className={css['finish-issues-found']}>
             <div className={css['finish-vuln-box']}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
-                {globalStore.currentScan.get?.m_nllm_issues_found}
+                {globalStore.currentScan?.m_nllm_issues_found}
               </div>
               <span style={{ color: '#e84f4f' }}>Total findings</span>
             </div>
             <div
               className={`${css['finish-vuln-box']} ${!isScanning.get ? css['vul-box-complete'] : ''}`}>
               <div className={`${css['value']} ${css['stat-complete']}`}>
-                {globalStore.currentScan.get?.m_nllm_issues_parsed}
+                {globalStore.currentScan?.m_nllm_issues_parsed}
               </div>
               <span>Analyzed findings</span>
             </div>
