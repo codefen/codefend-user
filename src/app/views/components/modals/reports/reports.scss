@@ -600,9 +600,13 @@ body[print-report] {
       height: 33px;
     }
     hr {
-      border: 1px solid var(--secondary-color-200);
+      color: 1px solid var(--secondary-color-200);
+      background-color: var(--secondary-color-200);
+      height: 3px;
       width: 80%;
       margin: 0 auto;
+      opacity: 0.3;
+
     }
   }
 
