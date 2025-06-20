@@ -137,7 +137,7 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
       },
     },
     {
-      label: 'Launch AI Scan',
+      label: 'AI Scans',
       icon: (
         <img
           src="codefend/pentest-header-vector.svg"

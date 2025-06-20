@@ -15,6 +15,7 @@ body[print-report] {
   font-size: 15px;
   max-width: 940px;
   min-width: 940px;
+  min-height: calc(100vh - 170px);
   max-height: calc(100vh - 40px);
   overflow-y: auto;
   overflow-x: hidden;
@@ -562,6 +563,51 @@ body[print-report] {
   table,
   table td {
     border-color: var(--table-border-color);
+  }
+
+  .leaks_grid {
+    width: 100%;
+    font-size: .9rem;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--primary-color-300);
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    thead {
+      background-color: var(--primary-color-400);
+      color: var(--secondary-color-200);
+    }
+    td:first-child {
+      width: 15%;
+      padding-left: 2%;
+    }
+    td:nth-child(2) {
+      max-width: 680px;
+      overflow-x: auto;
+      &::-webkit-scrollbar {
+        height: 2px !important;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #ff6c6c;
+        border-radius: 2px;
+      }
+      &::-webkit-scrollbar-track {
+        background: var(--primary-color-500);
+      }
+    }
+    tr {
+      height: 33px;
+    }
+    hr {
+      color: 1px solid var(--secondary-color-200);
+      background-color: var(--secondary-color-200);
+      height: 3px;
+      width: 80%;
+      margin: 0 auto;
+      opacity: 0.3;
+
+    }
   }
 
   table tr {

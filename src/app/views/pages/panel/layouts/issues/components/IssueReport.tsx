@@ -94,29 +94,50 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
   const filterGroups = useMemo(() => {
     if (issues.length === 0) return [];
 
-    const totals = calculateTotals(issues);
     const groups: FilterGroup[] = [];
 
-    // Resource Class Group
-    const resourceClassElements = RESOURCE_CLASS_ELEMENTS.map(element => ({
-      ...element,
-      total: totals.resourceClass[element.value] || 0,
-    }));
+    // --- Totales dinámicos ---
 
-    groups.push({
-      ...FILTER_RESOURCE_CLASS_GROUP,
-      elements: resourceClassElements,
-    });
+    // Para "Resource Class", filtrar por los otros dos grupos
+    const issuesForResourceClass = issues.filter(
+      issue =>
+        (currentFilters.scanId.length === 0 || currentFilters.scanId.includes(issue.scanId)) &&
+        (currentFilters.riskScore.length === 0 ||
+          currentFilters.riskScore.includes(issue.riskScore))
+    );
 
-    // Scan ID Group (solo si hay scans de Web)
-    const scanIdElements = Object.entries(totals.scanId).map(([scanId, total]) => {
+    // Para "Scan Identifier", filtrar por los otros dos grupos
+    const issuesForScanId = issues.filter(
+      issue =>
+        (currentFilters.resourceClass.length === 0 ||
+          currentFilters.resourceClass.includes(issue.resourceClass)) &&
+        (currentFilters.riskScore.length === 0 ||
+          currentFilters.riskScore.includes(issue.riskScore))
+    );
+
+    // Para "Risk Score", filtrar por los otros dos grupos
+    const issuesForRiskScore = issues.filter(
+      issue =>
+        (currentFilters.resourceClass.length === 0 ||
+          currentFilters.resourceClass.includes(issue.resourceClass)) &&
+        (currentFilters.scanId.length === 0 || currentFilters.scanId.includes(issue.scanId))
+    );
+
+    // Calcular los contadores a partir de las listas filtradas
+    const resourceClassTotals = calculateTotals(issuesForResourceClass).resourceClass;
+    const dynamicScanIdTotals = calculateTotals(issuesForScanId).scanId;
+    const riskScoreTotals = calculateTotals(issuesForRiskScore).riskScore;
+
+    // --- Construcción de Grupos ---
+
+    // Grupo "Scan Identifier": La lista es estática, los contadores dinámicos
+    const allScanIds = calculateTotals(issues).scanId;
+    const scanIdElements = Object.keys(allScanIds).map(scanId => {
       const match = issues.find(issue => issue.scanId === scanId);
-      const domain = match?.resourceDomain ?? 'Unknown';
-
       return {
-        label: `${scanId}|${domain}`,
+        label: `${scanId}|${match?.resourceDomain ?? 'Unknown'}`,
         value: scanId,
-        total,
+        total: dynamicScanIdTotals[scanId] || 0, // Usar contador dinámico
       };
     });
 
@@ -128,10 +149,21 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
       });
     }
 
-    // Risk Score Group
+    // Grupo "Resource Class": Lista y contadores dinámicos
+    const resourceClassElements = RESOURCE_CLASS_ELEMENTS.map(element => ({
+      ...element,
+      total: resourceClassTotals[element.value] || 0,
+    }));
+
+    groups.push({
+      ...FILTER_RESOURCE_CLASS_GROUP,
+      elements: resourceClassElements,
+    });
+
+    // Grupo "Risk Score": Lista y contadores dinámicos
     const riskScoreElements = RISK_SCORE_ELEMENTS.map(element => ({
       ...element,
-      total: totals.riskScore[element.value] || 0,
+      total: riskScoreTotals[element.value] || 0,
     }));
 
     groups.push({
@@ -139,8 +171,8 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
       elements: riskScoreElements,
     });
 
-    return groups.filter(group => group.elements.some(element => element.total > 0));
-  }, [issues, calculateTotals]);
+    return groups;
+  }, [issues, currentFilters, calculateTotals]);
 
   return (
     <div className="card filtered">

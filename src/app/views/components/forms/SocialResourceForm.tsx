@@ -16,15 +16,20 @@ export const SocialResourceForm: FC<ComponentEventWithChildren> = ({ close, onDo
     e.stopPropagation();
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
-    handleAddSocialResource(formData);
+    handleAddSocialResource(formData).then((result: boolean) => {
+      if (result) {
+        form.reset();
+      }
+    });
   };
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <ModalInput name="member_fname" placeholder="name" />
-      <ModalInput name="member_lname" placeholder="last name" />
+      <ModalInput name="member_fname" placeholder="full name" />
+      {/* <ModalInput name="member_lname" placeholder="last name" /> */}
       <ModalInput name="member_email" placeholder="email address" />
-      <ModalInput name="member_phone" placeholder="phone number" />
+      <ModalInput name="linkedin_url" placeholder="linkedin url" />
+      {/* <ModalInput name="member_phone" placeholder="phone number" /> */}
       <SelectField
         className="form-input"
         name="member_role"
@@ -37,6 +42,7 @@ export const SocialResourceForm: FC<ComponentEventWithChildren> = ({ close, onDo
   );
 };
 
+// 'admin', 'human', 'info', 'ads', 'sales', 'finance', 'cs', 'prod', 'plan', 'law'
 const memberRoles = [
   {
     label: 'role',
@@ -77,7 +83,7 @@ const memberRoles = [
   },
   {
     label: 'legal affairs',
-    value: 'law',
+    value: 'finance',
   },
 ];
 

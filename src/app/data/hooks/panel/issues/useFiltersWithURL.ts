@@ -55,10 +55,6 @@ export const useFiltersWithURL = (issues: Issues[]) => {
       // If we're selecting a resource type
       if (filterType === 'resourceClass') {
         if (isRemoving) {
-          // If unchecking web resource type, also remove scan_id
-          if (value === ResourcesTypes.WEB) {
-            delete currentParams['scan_id'];
-          }
           // Update resourceClass in URL
           const newResourceClass = prev.resourceClass.filter(r => r !== value);
           if (newResourceClass.length > 0) {
@@ -67,10 +63,6 @@ export const useFiltersWithURL = (issues: Issues[]) => {
             delete currentParams['resourceClass'];
           }
         } else {
-          // If selecting a non-WEB resource type, remove scan_id
-          if (value !== ResourcesTypes.WEB) {
-            delete currentParams['scan_id'];
-          }
           // Add new resource type to URL
           const newResourceClass = [...prev.resourceClass, value];
           currentParams['resourceClass'] = newResourceClass.join(',');
@@ -79,8 +71,6 @@ export const useFiltersWithURL = (issues: Issues[]) => {
         return {
           ...prev,
           [filterType]: updated,
-          // If selecting non-WEB or unchecking WEB, clear scan IDs
-          scanId: value !== ResourcesTypes.WEB || isRemoving ? [] : prev.scanId,
         };
       }
 
@@ -133,10 +123,6 @@ export const useFiltersWithURL = (issues: Issues[]) => {
 
       if (resourceClass) {
         const resourceClasses = resourceClass.split(',');
-        // If there's a non-WEB resource type, remove scan_id
-        if (resourceClasses.some(r => r !== ResourcesTypes.WEB)) {
-          newFilters.scanId = [];
-        }
         newFilters.resourceClass = resourceClasses;
       }
 

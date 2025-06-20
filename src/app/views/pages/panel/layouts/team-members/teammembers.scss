@@ -66,13 +66,21 @@ main.team-members {
   @media only screen and (max-width: 600px) {
     display: block;
     min-height: auto;
-    height: 81dvh;
     padding: 0;
 
     .left {
       width: 100%;
       overflow-x: auto;
       padding-block-start: 10px;
+
+      .card.stat {
+        .value {
+          font-size: 1.35rem;
+        }
+        .value + p {
+          font-size: 13px;
+        }
+      }
     }
 
     .right {

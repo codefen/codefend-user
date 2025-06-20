@@ -29,7 +29,7 @@ export const WelcomeScan = ({
   return (
     <ModalWrapper showCloseBtn={false} action={close} type={css['welcome-modal-container']}>
       <div className="welcome-content ojo">
-        <img className="logose" src="/codefend/logo-color.png" width={220} />
+        <img className="logose" src="/codefend/logo-color.png" width={130} />
         <p className={css['welcome-text']}>
           We're going to run an automated analysis on the selected domain.
           <b>

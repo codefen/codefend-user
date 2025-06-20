@@ -7,7 +7,7 @@ interface Props {
   selectedID: string;
   body: string;
   username: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export const MessageCard: FC<Props> = props => {
@@ -19,7 +19,7 @@ export const MessageCard: FC<Props> = props => {
       {props.username && (
         <span className={isAuthUserChat ? 'auth-user' : 'operator-user'}>@{props.username}</span>
       )}{' '}
-      wrote on {props.createdAt}
+      {props?.createdAt ? `wrote on ${props.createdAt}` : ''}
     </>
   );
 

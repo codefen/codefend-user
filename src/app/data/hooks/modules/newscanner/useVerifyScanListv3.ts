@@ -6,8 +6,10 @@ import {
   computeOverallProgress,
   getParserProgress,
   LEAKS_ESTIMATED_DURATION,
+  SUBDOMAINS_ESTIMATED_DURATION,
 } from '@moduleHooks/newscanner/useNewManageScanProgress';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
+import useModalStore from '@stores/modal.store';
 import { all } from 'axios';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import useSWR from 'swr';
@@ -52,27 +54,19 @@ const getActiveScans = (scans: any[]) => {
 };
 
 export const useVerifyScanListv3 = () => {
-  const {
-    isScanning,
-    scanNumber,
-    company,
-    scanRetries,
-    currentScan,
-    autoScanState,
-    scanProgress,
-    scaningProgress,
-  } = useGlobalFastFields([
-    'isScanning',
-    'scanNumber',
-    'company',
-    'scanRetries',
-    'currentScan',
-    'autoScanState',
-    'scanProgress',
-    'scaningProgress',
-  ]);
+  const { isScanning, scanNumber, company, scaningProgress, lastScanId, scanVersion } =
+    useGlobalFastFields([
+      'isScanning',
+      'scanNumber',
+      'company',
+      'scaningProgress',
+      'lastScanId',
+      'scanVersion',
+    ]);
   const companyId = useMemo(() => company.get?.id, [company.get?.id]);
   const scanningValue = useMemo(() => isScanning.get, [isScanning.get]);
+  const { isOpen } = useModalStore();
+  const [allActiveScan, setAllActiveScan] = useState<any[]>([]);
 
   const swrKey = useMemo(() => {
     if (!companyId) return null;
@@ -92,29 +86,43 @@ export const useVerifyScanListv3 = () => {
       errorRetryCount: 3,
       errorRetryInterval: 1000,
       focusThrottleInterval: 5000,
+      onSuccess: (data: any) => {
+        const raw = data?.scans || [];
+        const currentMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
+        const filtered = raw.filter((scan: any) => {
+          const mapScan = currentMap.get(scan.id);
+          // Caso 1: el scan está lanzado (activo)
+          if (scan?.phase === 'launched') return true;
+          // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
+          const stillActiveInMap = mapScan?.phase === 'launched';
+          const nowFinishedInApi = scan?.phase === 'finished';
+          if (nowFinishedInApi && stillActiveInMap) return true;
+          return false;
+        });
+        setAllActiveScan(filtered);
+      },
     };
-  }, [scanningValue]);
+  }, [scanningValue, scaningProgress.get]);
   const { data } = useSWR<ScanManager>(swrKey, fetcher, swrConfig);
-  const allActiveScan = useMemo(() => {
-    const raw = data?.scans || [];
-    const currentMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
-    return raw.filter(scan => {
-      const mapScan = currentMap.get(scan.id);
-      // Caso 1: el scan está lanzado (activo)
-      if (scan?.phase === 'launched') return true;
-      // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
-      const stillActiveInMap = mapScan?.phase === 'launched';
-      const nowFinishedInApi = scan?.phase === 'finished';
-      if (nowFinishedInApi && stillActiveInMap) return true;
-      return false;
-    });
-  }, [data?.scans]);
+  // const allActiveScan = useMemo(() => {
+  //   const raw = data?.scans || [];
+  //   const currentMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
+  //   return raw.filter(scan => {
+  //     const mapScan = currentMap.get(scan.id);
+  //     // Caso 1: el scan está lanzado (activo)
+  //     if (scan?.phase === 'launched') return true;
+  //     // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
+  //     const stillActiveInMap = mapScan?.phase === 'launched';
+  //     const nowFinishedInApi = scan?.phase === 'finished';
+  //     if (nowFinishedInApi && stillActiveInMap) return true;
+  //     return false;
+  //   });
+  // }, [JSON.stringify(data?.scans || []), lastScanId?.get, scanningValue]);
 
   useEffect(() => {
     const raw = data?.scans || [];
     const activeMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
     const _scanSize = raw?.length;
-    console.log('activeMap', { activeMap, _scanSize });
     if (_scanSize === 0) {
       scanNumber.set(_scanSize);
     }
@@ -146,6 +154,7 @@ export const useVerifyScanListv3 = () => {
         m_subdomains_launched: scan?.m_subdomains_launched,
         m_subdomains_finished: scan?.m_subdomains_finished,
         m_subdomains_found: scan?.m_subdomains_found,
+        m_subdomains_found_servers: scan?.m_subdomains_found_servers,
         resource_address: scan?.resource_address,
         resource_class: scan?.resource_class,
         resource_id: scan?.resource_id,
@@ -190,9 +199,19 @@ export const useVerifyScanListv3 = () => {
       if (!m_leaks_finished) {
         const now = Date.now();
         const elapsedSec = Math.floor((now - m_leaks_launched) / 1000);
-        const progressRaw = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1);
-        const easedProgress = progressRaw < 1 ? progressRaw * 99 : 100;
-        leaksScanProgress = easedProgress;
+        const rawProgress = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
+
+        // Ralentizar después del 85%
+        let easedProgress;
+        if (rawProgress < 0.85) {
+          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
+        } else {
+          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
+          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
+          easedProgress = 83.3 + slowCurve * (98 - 83.3);
+        }
+
+        leaksScanProgress = Math.max(leaksScanProgress || 0, Math.min(easedProgress, 98));
       } else {
         leaksScanProgress = 100;
       }
@@ -200,9 +219,21 @@ export const useVerifyScanListv3 = () => {
       if (!m_subdomains_finished) {
         const now = Date.now();
         const elapsedSec = Math.floor((now - m_subdomains_launched) / 1000);
-        const progressRaw = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1);
-        const easedProgress = progressRaw < 1 ? progressRaw * 99 : 100;
-        subdomainScanProgress = easedProgress;
+        const rawProgress = Math.min(elapsedSec / SUBDOMAINS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
+
+        // Ralentizar después del 85%
+        let easedProgress;
+        if (rawProgress < 0.85) {
+          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
+        } else {
+          // Aplicamos una curva de easing más lenta a partir de 85%
+          // Se mueve desde 83.3% hasta 98% lentamente
+          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
+          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
+          easedProgress = 83.3 + slowCurve * (98 - 83.3);
+        }
+
+        subdomainScanProgress = Math.max(subdomainScanProgress || 0, Math.min(easedProgress, 98));
       } else {
         subdomainScanProgress = 100;
       }
@@ -224,9 +255,15 @@ export const useVerifyScanListv3 = () => {
         status:
           overallProgress === 100 ? AUTO_SCAN_STATE.SCAN_FINISHED : AUTO_SCAN_STATE.SCAN_LAUNCHED,
       });
+
+      if (!isOpen && value?.phase === 'finished') {
+        activeMap.delete(key);
+      }
     }
     // console.log('activeMap to save', activeMap, isAnyScanPending);
+    // console.log('activeMap to save', activeMap);
     scaningProgress.set(activeMap);
     isScanning.set(isAnyScanPending);
-  }, [allActiveScan]);
+    scanVersion.set(scanVersion.get + 1); // Forzar reactividad
+  }, [JSON.stringify(allActiveScan)]);
 };

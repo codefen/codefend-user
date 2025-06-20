@@ -14,8 +14,9 @@ import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSectio
 
 interface IssueChatDisplayProps {
   id: string;
+  iaFirstMessage: string;
 }
-export const IssueChatDisplay: FC<IssueChatDisplayProps> = ({ id }) => {
+export const IssueChatDisplay: FC<IssueChatDisplayProps> = ({ id, iaFirstMessage }) => {
   const location = useLocation();
   const { getCompany } = useUserData();
   const { data, isLoading, mutate } = useSWRIssueMessage(id, getCompany());
@@ -42,7 +43,7 @@ export const IssueChatDisplay: FC<IssueChatDisplayProps> = ({ id }) => {
         <>
           <div className="content">
             <Show when={!isLoading} fallback={<PageLoader />}>
-              <MessageList tickets={data} />
+              <MessageList tickets={data} iaFirstMessage={iaFirstMessage} />
             </Show>
           </div>
           <ChatBox type={ChatBoxType.ISSUE} selectedID={id} onDone={onDone} />
