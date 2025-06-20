@@ -8,7 +8,7 @@ type MenuSection = 'Main' | 'Attack surface' | 'Risk control';
 const sidebarData = {
   Main: ['Dashboard', 'Team members', 'Orders and payments', 'User profile'],
   'Attack surface': ['Web software', 'Mobile software', 'Network infrastructure', 'Social attacks'],
-  'Risk control': ['Detected issues', 'Launch AI scan', 'Dataleaks explorer', 'Ask a hacker'],
+  'Risk control': ['Detected issues', 'AI scans', 'Dataleaks explorer', 'Ask a hacker'],
 };
 
 const menuItemsPaths = {
@@ -20,7 +20,7 @@ const menuItemsPaths = {
   'Mobile software': '/mobile-software',
   'Network infrastructure': '/network-infrastructure',
   'Detected issues': '/issues',
-  'Launch AI scan': '/automated-web-scans',
+  'AI scans': '/automated-web-scans',
   'Dataleaks explorer': '/sns',
   'Ask a hacker': '/ask-a-hacker',
 };
