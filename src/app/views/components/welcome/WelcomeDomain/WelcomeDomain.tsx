@@ -137,7 +137,7 @@ export const WelcomeDomain = ({
   return (
     <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']} action={close}>
       <div className="welcome-content">
-        <img className="logose" src="/codefend/logo-color.png" width={220} />
+        <img className="logose" src="/codefend/logo-color.png" width={130}/>
         <div className={css['welcome-header']}>
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className={css['scanner-eye']} />
           <p className={css['welcome-text']}>

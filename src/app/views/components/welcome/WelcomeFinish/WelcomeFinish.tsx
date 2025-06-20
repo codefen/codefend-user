@@ -88,7 +88,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
             <div className="scan-header-row">
               <div className="scan-basic-info">
                   <p>
-                    AI based scan on <b>{currentScan?.resource_address}</b> started by {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}. <strong>Estimated time: 10 minutes.</strong>
+                    AI based scan on <b>{currentScan?.resource_address}</b> started by {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}. <br/><strong>Estimated time: 10 minutes.</strong>
                   </p>
               </div>
               <div className="progress-mini">
