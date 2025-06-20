@@ -98,7 +98,7 @@ export const useVerifyScanListv3 = () => {
       if (nowFinishedInApi && stillActiveInMap) return true;
       return false;
     });
-  }, [data?.scans]);
+  }, [data?.scans, lastScanId?.get, scanningValue]);
 
   useEffect(() => {
     const raw = data?.scans || [];
