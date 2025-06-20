@@ -77,7 +77,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
       <div className="welcome-content welcome-content-finish">
-        <img className="logose" src="/codefend/logo-color.png" width={220} />
+        <img className="logose" src="/codefend/logo-color.png" width={120} />
         <Show
           when={
             currentScan?.status === AUTO_SCAN_STATE.SCAN_LAUNCHED ||
@@ -87,17 +87,9 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           <div className="scan-header-info">
             <div className="scan-header-row">
               <div className="scan-basic-info">
-                <div className="info-row">
-                  <span>
-                    <strong>Target:</strong> {currentScan?.resource_address}
-                  </span>
-                  <span>
-                    <strong>Started:</strong> {formatTimeFormat(currentScan?.launched)}
-                  </span>
-                </div>
-                <span className="user-info">
-                  <strong>User:</strong> {currentScan?.user_email}
-                </span>
+                  <p>
+                    AI based scan on <b>{currentScan?.resource_address}</b> started by {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}. <strong>Estimated time: 10 minutes.</strong>
+                  </p>
               </div>
               <div className="progress-mini">
                 <ProgressCircle
@@ -142,10 +134,10 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <span>Analyzed issues:</span>
                       <b className={issuesParsedFlash}>{currentScan?.m_nllm_issues_parsed}</b>
                     </div>
-                    <div className="info-item">
+                    {/* <div className="info-item">
                       <span>Status:</span>
                       <b>{currentScan?.m_nllm_finished ? 'Finished' : 'Operational'}</b>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className={'card-process-content-progress'}>
