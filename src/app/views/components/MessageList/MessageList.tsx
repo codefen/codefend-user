@@ -5,9 +5,10 @@ import { MessageCard } from '@/app/views/components/utils/MessageCard';
 interface MessageListProps {
   tickets: any[];
   condicion?: string;
+  iaFirstMessage?: string;
 }
 
-export const MessageList: FC<MessageListProps> = ({ tickets, condicion }) => {
+export const MessageList: FC<MessageListProps> = ({ tickets, condicion, iaFirstMessage }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -16,11 +17,21 @@ export const MessageList: FC<MessageListProps> = ({ tickets, condicion }) => {
   };
 
   useEffect(() => {
+    console.log('iaFirstMessage', iaFirstMessage);
     scrollToBottom();
   }, [tickets]);
 
   return (
     <div className={`messages-wrapper ${condicion === 'closed' ? 'closed-ticket' : ''}`}>
+      <Show when={Boolean(iaFirstMessage)}>
+        <MessageCard
+          key={`tk-ia-ticket`}
+          selectedID={'1'}
+          body={iaFirstMessage || ''}
+          username={'Codefend'}
+        />
+        <div className="ending" ref={messagesEndRef} />
+      </Show>
       <Show when={tickets[0] && tickets[0]?.id !== ''}>
         {tickets.map((ticket: any, i: number) => (
           <MessageCard

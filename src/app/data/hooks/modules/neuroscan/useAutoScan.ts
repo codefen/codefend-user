@@ -42,6 +42,7 @@ export const useAutoScan = () => {
     const formData = new FormData();
     formData.append('model', 'modules/neuroscan/mainwire');
     formData.append('resource_domain', resourceAddress);
+    // formData.append('developer', 'increible');
     // const userIdiom = idiom || globalStore.user.get?.idiom;
     // formData.append('idiom', userIdiom || 'en');
 

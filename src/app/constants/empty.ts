@@ -186,6 +186,7 @@ export const EMPTY_ISSUEUPDATE = {
   cs: [],
   creacion: '',
   eliminado: '0',
+  ai_overview: '',
 };
 
 export const EMPTY_RESELLERHEADER = {

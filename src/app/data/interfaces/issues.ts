@@ -33,6 +33,7 @@ export interface Issue extends AuditCompanyData {
 export interface IssueUpdateData extends AuditData {
   researcher_username: string;
   resource_class: string;
+  ai_overview?: string;
   resource_id: string;
   risk_level: string;
   risk_score: string;
