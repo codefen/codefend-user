@@ -12,17 +12,15 @@
  */
 
 import { useFetcher } from '#commonHooks/useFetcher';
-import { useUserData } from '#commonUserHooks/useUserData';
 import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { useVerifyScanList } from '@moduleHooks/neuroscan/useVerifyScanList';
-import { BugIcon, GlobeWebIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
+import { BugIcon, ScanIcon, StatIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
-import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
@@ -33,7 +31,6 @@ import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
-import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
 import { useNavigate } from 'react-router';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
@@ -87,10 +84,8 @@ export const ScanSection = () => {
   const [domainScanned, setDomainScanned] = useState<string>('');
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
-  const { getCompany, company } = useUserData();
-  const {
-    data: { scans, companyUpdated },
-  } = useNewVerifyScanList();
+  // const { getCompany, company } = useUserData();
+  const { scans, updateCompany, companyId } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
   const { appEvent, currentScan, lastScanId } = useGlobalFastFields([
@@ -103,10 +98,8 @@ export const ScanSection = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (companyUpdated) {
-      company.set(companyUpdated);
-    }
-  }, [companyUpdated]);
+    updateCompany();
+  }, [scans]);
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;
@@ -118,7 +111,7 @@ export const ScanSection = () => {
     fetcher('post', {
       body: {
         neuroscan_id,
-        company_id: company.get?.id,
+        company_id: companyId,
       },
       path: 'modules/neuroscan/kill',
       requireSession: true,
@@ -172,8 +165,7 @@ export const ScanSection = () => {
 
   const startAndAddedDomain = () => {
     if (verifyDomainName(domainScanned || '')) return;
-    const companyID = company.get?.id;
-    if (companyIdIsNull(companyID)) return;
+    if (companyIdIsNull(companyId)) return;
     // const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
     //   closeOnClick: true,
     // });
@@ -198,7 +190,6 @@ export const ScanSection = () => {
         setLoading(false);
       });
   };
-  const ultimo = scans.at(0);
 
   return (
     <div className="scan-section-container">
