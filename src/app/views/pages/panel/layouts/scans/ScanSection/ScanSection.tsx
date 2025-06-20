@@ -140,7 +140,7 @@ export const ScanSection = () => {
     {
       label: 'View issues',
       icon: <BugIcon />,
-      disabled: (row: any) => !row?.finalizacion,
+      disabled: (row: any) => !row?.m_nllm_issues_found || row.m_nllm_issues_found === 0,
       onClick: (row: any) => {
         navigate(`/issues?scan_id=${row.id}`);
       },
