@@ -41,7 +41,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     const _scaningProgress: Map<string, any> = globalStore.scaningProgress.get;
     const _lastScanId = globalStore.lastScanId.get;
     const _currentScan = _scaningProgress?.get?.(_lastScanId) || null;
-    console.log('currentScan', { _currentScan, _scaningProgress, _lastScanId });
+    // console.log('currentScan', { _currentScan, _scaningProgress, _lastScanId });
 
     if (_currentScan) {
       return _currentScan;

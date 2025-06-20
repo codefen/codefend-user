@@ -17,7 +17,6 @@ export const MessageList: FC<MessageListProps> = ({ tickets, condicion, iaFirstM
   };
 
   useEffect(() => {
-    console.log('iaFirstMessage', iaFirstMessage);
     scrollToBottom();
   }, [tickets]);
 

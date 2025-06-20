@@ -261,7 +261,7 @@ export const useVerifyScanListv3 = () => {
       }
     }
     // console.log('activeMap to save', activeMap, isAnyScanPending);
-    console.log('activeMap to save', activeMap);
+    // console.log('activeMap to save', activeMap);
     scaningProgress.set(activeMap);
     isScanning.set(isAnyScanPending);
     scanVersion.set(scanVersion.get + 1); // Forzar reactividad

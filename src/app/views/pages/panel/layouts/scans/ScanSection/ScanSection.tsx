@@ -173,10 +173,14 @@ export const ScanSection = () => {
     autoScan(domainScanned?.trim?.() || '', false, '')
       .then(result => {
         if (apiErrorValidation(result)) {
-          updateState('open', true);
-          updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
-          updateState('resourceType', ResourcesTypes.WEB);
-          appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
+          if (result?.error_info === 'neuroscan_unreachable_domain') {
+            toast.error(result?.info);
+          } else {
+            updateState('open', true);
+            updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
+            updateState('resourceType', ResourcesTypes.WEB);
+            appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
+          }
           return;
         }
 
