@@ -63,6 +63,7 @@ export const useVerifyScanListv3 = () => {
   const companyId = useMemo(() => company.get?.id, [company.get?.id]);
   const scanningValue = useMemo(() => isScanning.get, [isScanning.get]);
   const { isOpen } = useModalStore();
+  const [allActiveScan, setAllActiveScan] = useState<any[]>([]);
 
   const swrKey = useMemo(() => {
     if (!companyId) return null;
@@ -82,23 +83,38 @@ export const useVerifyScanListv3 = () => {
       errorRetryCount: 3,
       errorRetryInterval: 1000,
       focusThrottleInterval: 5000,
+      onSuccess: (data: any) => {
+        const raw = data?.scans || [];
+        const currentMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
+        const filtered = raw.filter((scan: any) => {
+          const mapScan = currentMap.get(scan.id);
+          // Caso 1: el scan está lanzado (activo)
+          if (scan?.phase === 'launched') return true;
+          // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
+          const stillActiveInMap = mapScan?.phase === 'launched';
+          const nowFinishedInApi = scan?.phase === 'finished';
+          if (nowFinishedInApi && stillActiveInMap) return true;
+          return false;
+        });
+        setAllActiveScan(filtered);
+      },
     };
-  }, [scanningValue]);
+  }, [scanningValue, scaningProgress.get]);
   const { data } = useSWR<ScanManager>(swrKey, fetcher, swrConfig);
-  const allActiveScan = useMemo(() => {
-    const raw = data?.scans || [];
-    const currentMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
-    return raw.filter(scan => {
-      const mapScan = currentMap.get(scan.id);
-      // Caso 1: el scan está lanzado (activo)
-      if (scan?.phase === 'launched') return true;
-      // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
-      const stillActiveInMap = mapScan?.phase === 'launched';
-      const nowFinishedInApi = scan?.phase === 'finished';
-      if (nowFinishedInApi && stillActiveInMap) return true;
-      return false;
-    });
-  }, [data?.scans, lastScanId?.get, scanningValue]);
+  // const allActiveScan = useMemo(() => {
+  //   const raw = data?.scans || [];
+  //   const currentMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
+  //   return raw.filter(scan => {
+  //     const mapScan = currentMap.get(scan.id);
+  //     // Caso 1: el scan está lanzado (activo)
+  //     if (scan?.phase === 'launched') return true;
+  //     // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
+  //     const stillActiveInMap = mapScan?.phase === 'launched';
+  //     const nowFinishedInApi = scan?.phase === 'finished';
+  //     if (nowFinishedInApi && stillActiveInMap) return true;
+  //     return false;
+  //   });
+  // }, [JSON.stringify(data?.scans || []), lastScanId?.get, scanningValue]);
 
   useEffect(() => {
     const raw = data?.scans || [];
@@ -221,8 +237,8 @@ export const useVerifyScanListv3 = () => {
       }
     }
     // console.log('activeMap to save', activeMap, isAnyScanPending);
-
+    console.log('activeMap to save', activeMap);
     scaningProgress.set(activeMap);
     isScanning.set(isAnyScanPending);
-  }, [allActiveScan]);
+  }, [JSON.stringify(allActiveScan)]);
 };

@@ -55,7 +55,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     }
   }, [
     globalStore.lastScanId.get,
-    globalStore.scaningProgress.get?.get?.(globalStore.lastScanId.get),
+    JSON.stringify(globalStore.scaningProgress.get?.get?.(globalStore.lastScanId.get)),
     globalStore.currentScan.get,
   ]);
 
@@ -87,9 +87,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
           <div className="scan-header-info">
             <div className="scan-header-row">
               <div className="scan-basic-info">
-                  <p>
-                    AI based scan on <b>{currentScan?.resource_address}</b> started by {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}. <br/><strong>Estimated time: 10 minutes.</strong>
-                  </p>
+                <p>
+                  AI based scan on <b>{currentScan?.resource_address}</b> started by{' '}
+                  {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}. <br />
+                  <strong>Estimated time: 10 minutes.</strong>
+                </p>
               </div>
               <div className="progress-mini">
                 <ProgressCircle
