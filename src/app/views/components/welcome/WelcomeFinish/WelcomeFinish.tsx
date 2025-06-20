@@ -129,10 +129,10 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                         {currentScan?.m_nllm_issues_parsed}
                       </b>
                     </div>
-                    <div className="info-item">
+                    {/* <div className="info-item">
                       <span>Status:</span>
                       <b>{currentScan?.m_nllm_finished ? 'Finished' : 'Operational'}</b>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className={'card-process-content-progress'}>
