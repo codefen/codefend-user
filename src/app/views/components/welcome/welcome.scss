@@ -245,15 +245,17 @@
         font-family: satoshi;
         text-transform: uppercase;
         box-shadow: none;
-        font-weight: normal;
+        font-weight: 500;
+        width: 100px;
+        text-align: center;
 
         &[data-status='running'] {
           background-color: #d8e7ff;
           color: #12346b;
         }
         &[data-status='completed'] {
-          background-color: #e8ffdf;
-          color: #4cb922;
+          background-color: #dfffe7;
+          color: #438b26;
         }
         &[data-status='parser'] {
           background-color: #eb5757;
