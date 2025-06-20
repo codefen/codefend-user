@@ -293,10 +293,13 @@
             b {
               color: #4a4b4f;
               display: block;
-              display: block;
               font-family: 'Satoshi';
               font-size: 1rem;
               color: var(--tertiary-color-600);
+              
+              &.value-updated {
+                animation: value-flash 1s ease-out;
+              }
             }
           }
         }
@@ -361,6 +364,17 @@
   button.btn {
     margin-block-start: 0.25rem;
     width: 100%;
+  }
+}
+
+@keyframes value-flash {
+  0%, 50% {
+    color: #16a34a; /* Green flash color */
+    transform: scale(1.05);
+  }
+  100% {
+    color: var(--tertiary-color-600);
+    transform: scale(1);
   }
 }
 

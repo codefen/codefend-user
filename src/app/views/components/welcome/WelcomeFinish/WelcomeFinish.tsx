@@ -12,6 +12,7 @@ import { formatTimeFormat } from '@utils/helper';
 import { useEffect, useMemo, useState } from 'react';
 import { ScanProgressBar } from '@/app/views/components/ScanProgressBar/ScanProgressBar';
 import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
+import { useValueFlash } from '@/app/data/hooks/common/useValueFlash';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -54,6 +55,15 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     }
   };
   // const scanStep = (currentScan?.phase as ScanStepType) || ScanStepType.NonScan;
+
+  const issuesFoundFlash = useValueFlash(currentScan?.m_nllm_issues_found);
+  const issuesParsedFlash = useValueFlash(currentScan?.m_nllm_issues_parsed);
+  const subdomainsFoundFlash = useValueFlash(currentScan?.m_subdomains_found);
+  const serversDetectedFlash = useValueFlash(
+    currentScan?.m_subdomains_found_servers
+  );
+  const leaksFoundFlash = useValueFlash(currentScan?.m_leaks_found);
+  const socialLeaksFlash = useValueFlash(currentScan?.m_leaks_social_found);
 
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
@@ -117,11 +127,15 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Detected issues:</span>
-                      <b>{currentScan?.m_nllm_issues_found}</b>
+                      <b className={issuesFoundFlash}>
+                        {currentScan?.m_nllm_issues_found}
+                      </b>
                     </div>
                     <div className="info-item">
                       <span>Analyzed issues:</span>
-                      <b>{currentScan?.m_nllm_issues_parsed}</b>
+                      <b className={issuesParsedFlash}>
+                        {currentScan?.m_nllm_issues_parsed}
+                      </b>
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
@@ -167,11 +181,15 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Subdomains found:</span>
-                      <b>{currentScan?.m_subdomains_found}</b>
+                      <b className={subdomainsFoundFlash}>
+                        {currentScan?.m_subdomains_found}
+                      </b>
                     </div>
                     <div className="info-item">
                       <span>Detected servers:</span>
-                      <b>{currentScan?.m_subdomains_found_servers ?? 0}</b>
+                      <b className={serversDetectedFlash}>
+                        {currentScan?.m_subdomains_found_servers ?? 0}
+                      </b>
                     </div>
                   </div>
                 </div>
@@ -213,11 +231,13 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Leaks found:</span>
-                      <b>{currentScan?.m_leaks_found}</b>
+                      <b className={leaksFoundFlash}>{currentScan?.m_leaks_found}</b>
                     </div>
                     <div className="info-item">
                       <span>Social leaks:</span>
-                      <b>{currentScan?.m_leaks_social_found || 0}</b>
+                      <b className={socialLeaksFlash}>
+                        {currentScan?.m_leaks_social_found || 0}
+                      </b>
                     </div>
                   </div>
                 </div>
