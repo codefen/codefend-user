@@ -19,7 +19,7 @@ import type {
   WebReport,
 } from '..';
 
-import { cleanReview, formatDate, mapEpochToDate } from '..';
+import { AUTO_SCAN_STATE, cleanReview, formatDate, mapEpochToDate } from '..';
 import type { PreviousSearch } from '@moduleHooks/usePreviousSearch';
 
 /** Map company api data => @interface Company   */
@@ -334,3 +334,65 @@ export const mapWebReportResources = (source: any): WebReport => {
     issueShare: source.issues_share ? mapIssueShare(source) : ({} as IssuesShare),
   };
 };
+
+export const mapScanObjToScanFinishedObj = (scan: any): any => ({
+  scanProgress: 100,
+  webScanProgress: 100,
+  leaksScanProgress: 100,
+  subdomainScanProgress: 100,
+  status: AUTO_SCAN_STATE.SCAN_FINISHED,
+  phase: scan.phase,
+  m_nllm_issues_found: scan?.m_nllm_issues_found,
+  m_nllm_issues_parsed: scan?.m_nllm_issues_parsed,
+  m_nllm_phase: scan?.m_nllm_phase,
+  m_nllm_finished: scan?.m_nllm_finished,
+  m_nllm_launched: scan?.m_nllm_launched,
+  m_nllm_parser_finished: scan?.m_nllm_parser_finished,
+  m_nllm_scanner_finished: scan?.m_nllm_scanner_finished,
+  m_nllm_scanner_launched: scan?.m_nllm_scanner_launched,
+  m_leaks_launched: scan?.m_leaks_launched,
+  m_leaks_finished: scan?.m_leaks_finished,
+  m_leaks_phase: scan?.m_leaks_phase,
+  m_leaks_social_found: scan?.m_leaks_social_found,
+  m_leaks_found: scan?.m_leaks_found,
+  m_subdomains_launched: scan?.m_subdomains_launched,
+  m_subdomains_finished: scan?.m_subdomains_finished,
+  m_subdomains_found: scan?.m_subdomains_found,
+  m_subdomains_found_servers: scan?.m_subdomains_found_servers,
+  resource_address: scan?.resource_address,
+  resource_class: scan?.resource_class,
+  resource_id: scan?.resource_id,
+  user_email: scan?.user_email,
+  launched: scan?.launched,
+});
+
+export const mapScanObjToScanStartedScanObj = (scan: any): any => ({
+  scanProgress: 0,
+  webScanProgress: 0,
+  leaksScanProgress: 0,
+  subdomainScanProgress: 0,
+  status: AUTO_SCAN_STATE.SCAN_LAUNCHED,
+  phase: scan.phase,
+  m_nllm_issues_found: scan?.m_nllm_issues_found,
+  m_nllm_issues_parsed: scan?.m_nllm_issues_parsed,
+  m_nllm_phase: scan?.m_nllm_phase,
+  m_nllm_finished: scan?.m_nllm_finished,
+  m_nllm_launched: scan?.m_nllm_launched,
+  m_nllm_parser_finished: scan?.m_nllm_parser_finished,
+  m_nllm_scanner_finished: scan?.m_nllm_scanner_finished,
+  m_nllm_scanner_launched: scan?.m_nllm_scanner_launched,
+  m_leaks_launched: scan?.m_leaks_launched,
+  m_leaks_finished: scan?.m_leaks_finished,
+  m_leaks_phase: scan?.m_leaks_phase,
+  m_leaks_social_found: scan?.m_leaks_social_found,
+  m_leaks_found: scan?.m_leaks_found,
+  m_subdomains_launched: scan?.m_subdomains_launched,
+  m_subdomains_finished: scan?.m_subdomains_finished,
+  m_subdomains_found: scan?.m_subdomains_found,
+  m_subdomains_found_servers: scan?.m_subdomains_found_servers,
+  resource_address: scan?.resource_address,
+  resource_class: scan?.resource_class,
+  resource_id: scan?.resource_id,
+  user_email: scan?.user_email,
+  launched: scan?.launched,
+});

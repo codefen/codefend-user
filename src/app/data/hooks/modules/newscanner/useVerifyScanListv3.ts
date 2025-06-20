@@ -8,6 +8,7 @@ import {
   LEAKS_ESTIMATED_DURATION,
 } from '@moduleHooks/newscanner/useNewManageScanProgress';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
+import useModalStore from '@stores/modal.store';
 import { all } from 'axios';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import useSWR from 'swr';
@@ -52,27 +53,16 @@ const getActiveScans = (scans: any[]) => {
 };
 
 export const useVerifyScanListv3 = () => {
-  const {
-    isScanning,
-    scanNumber,
-    company,
-    scanRetries,
-    currentScan,
-    autoScanState,
-    scanProgress,
-    scaningProgress,
-  } = useGlobalFastFields([
+  const { isScanning, scanNumber, company, scaningProgress, lastScanId } = useGlobalFastFields([
     'isScanning',
     'scanNumber',
     'company',
-    'scanRetries',
-    'currentScan',
-    'autoScanState',
-    'scanProgress',
     'scaningProgress',
+    'lastScanId',
   ]);
   const companyId = useMemo(() => company.get?.id, [company.get?.id]);
   const scanningValue = useMemo(() => isScanning.get, [isScanning.get]);
+  const { isOpen } = useModalStore();
 
   const swrKey = useMemo(() => {
     if (!companyId) return null;
@@ -225,8 +215,13 @@ export const useVerifyScanListv3 = () => {
         status:
           overallProgress === 100 ? AUTO_SCAN_STATE.SCAN_FINISHED : AUTO_SCAN_STATE.SCAN_LAUNCHED,
       });
+
+      if (!isOpen && value?.phase === 'finished') {
+        activeMap.delete(key);
+      }
     }
     // console.log('activeMap to save', activeMap, isAnyScanPending);
+
     scaningProgress.set(activeMap);
     isScanning.set(isAnyScanPending);
   }, [allActiveScan]);

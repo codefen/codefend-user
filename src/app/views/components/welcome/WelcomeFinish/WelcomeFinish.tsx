@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ScanProgressBar } from '@/app/views/components/ScanProgressBar/ScanProgressBar';
 import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 import { useValueFlash } from '@/app/data/hooks/common/useValueFlash';
+import { mapScanObjToScanFinishedObj } from '@utils/mapper';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -21,7 +22,7 @@ function getStatusBadge(phase: string = '', finished: string | null, launched: s
   if (phase === ScanStepType.Parser) {
     return <div data-status="parser">Analyzing</div>;
   }
-      return <div data-status="running">Operational</div>;
+  return <div data-status="running">Operational</div>;
 }
 
 export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
@@ -41,16 +42,26 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     console.log('currentScan', { _currentScan, _scaningProgress, _lastScanId });
     if (_currentScan) {
       setCurrentScan(_currentScan);
+    } else if (
+      globalStore.currentScan.get &&
+      globalStore.currentScan.get?.phase === ScanStepType.Finished
+    ) {
+      // const scan = globalStore.currentScan.get;
+      setCurrentScan(mapScanObjToScanFinishedObj(globalStore.currentScan.get));
     }
     if (_currentScan && _currentScan.status === AUTO_SCAN_STATE.SCAN_FINISHED) {
       _scaningProgress.delete(_lastScanId);
       globalStore.scaningProgress.set(_scaningProgress);
     }
-  }, [globalStore.scaningProgress.get.get(globalStore.lastScanId.get)]);
+  }, [
+    globalStore.lastScanId.get,
+    globalStore.scaningProgress.get?.get?.(globalStore.lastScanId.get),
+    globalStore.currentScan.get,
+  ]);
 
   const closeModal = () => {
     solved();
-    if (!isScanning.get) {
+    if (!isScanning.get && !globalStore.currentScan.get) {
       navigate('/issues');
     }
   };
@@ -59,9 +70,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const issuesFoundFlash = useValueFlash(currentScan?.m_nllm_issues_found);
   const issuesParsedFlash = useValueFlash(currentScan?.m_nllm_issues_parsed);
   const subdomainsFoundFlash = useValueFlash(currentScan?.m_subdomains_found);
-  const serversDetectedFlash = useValueFlash(
-    currentScan?.m_subdomains_found_servers
-  );
+  const serversDetectedFlash = useValueFlash(currentScan?.m_subdomains_found_servers);
   const leaksFoundFlash = useValueFlash(currentScan?.m_leaks_found);
   const socialLeaksFlash = useValueFlash(currentScan?.m_leaks_social_found);
 
@@ -106,7 +115,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
             <div className="over">
               <div className={'card-process-header'}>
                 <div className={'card-process-header-title'}>
-                                      <SparklesIcon className="codefend-text-red" />
+                  <SparklesIcon className="codefend-text-red" />
                   <h3>AI based web scan</h3>
                 </div>
                 <div className={'process-badge'}>
@@ -127,15 +136,11 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Detected issues:</span>
-                      <b className={issuesFoundFlash}>
-                        {currentScan?.m_nllm_issues_found}
-                      </b>
+                      <b className={issuesFoundFlash}>{currentScan?.m_nllm_issues_found}</b>
                     </div>
                     <div className="info-item">
                       <span>Analyzed issues:</span>
-                      <b className={issuesParsedFlash}>
-                        {currentScan?.m_nllm_issues_parsed}
-                      </b>
+                      <b className={issuesParsedFlash}>{currentScan?.m_nllm_issues_parsed}</b>
                     </div>
                     <div className="info-item">
                       <span>Status:</span>
@@ -145,7 +150,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 </div>
                 <div className={'card-process-content-progress'}>
                   <div className="progress-info">
-                    <ScanProgressBar 
+                    <ScanProgressBar
                       progress={currentScan?.webScanProgress}
                       isCompleted={currentScan?.m_nllm_finished}
                     />
@@ -181,9 +186,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Subdomains found:</span>
-                      <b className={subdomainsFoundFlash}>
-                        {currentScan?.m_subdomains_found}
-                      </b>
+                      <b className={subdomainsFoundFlash}>{currentScan?.m_subdomains_found}</b>
                     </div>
                     <div className="info-item">
                       <span>Detected servers:</span>
@@ -195,7 +198,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 </div>
                 <div className={'card-process-content-progress'}>
                   <div className="progress-info">
-                    <ScanProgressBar 
+                    <ScanProgressBar
                       progress={currentScan?.subdomainScanProgress}
                       isCompleted={currentScan?.m_subdomains_finished}
                     />
@@ -210,15 +213,21 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
             <div className="over">
               <div className={'card-process-header'}>
                 <div className={'card-process-header-title'}>
-                                      <img src="/codefend/gota.png" alt="Drop Icon" className="codefend-text-red" style={{ width: '0.8em', height: 'auto', objectFit: 'contain', marginRight: '0.2em' }} />
+                  <img
+                    src="/codefend/gota.png"
+                    alt="Drop Icon"
+                    className="codefend-text-red"
+                    style={{
+                      width: '0.8em',
+                      height: 'auto',
+                      objectFit: 'contain',
+                      marginRight: '0.2em',
+                    }}
+                  />
                   <h3>Darkweb leaks research</h3>
                 </div>
                 <div className={'process-badge'}>
-                  {getStatusBadge(
-                    '',
-                    currentScan?.m_leaks_finished,
-                    currentScan?.m_leaks_launched
-                  )}
+                  {getStatusBadge('', currentScan?.m_leaks_finished, currentScan?.m_leaks_launched)}
                 </div>
               </div>
 
@@ -235,15 +244,13 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     </div>
                     <div className="info-item">
                       <span>Social leaks:</span>
-                      <b className={socialLeaksFlash}>
-                        {currentScan?.m_leaks_social_found || 0}
-                      </b>
+                      <b className={socialLeaksFlash}>{currentScan?.m_leaks_social_found || 0}</b>
                     </div>
                   </div>
                 </div>
                 <div className={'card-process-content-progress'}>
                   <div className="progress-info">
-                    <ScanProgressBar 
+                    <ScanProgressBar
                       progress={currentScan?.leaksScanProgress}
                       isCompleted={currentScan?.m_leaks_finished}
                     />

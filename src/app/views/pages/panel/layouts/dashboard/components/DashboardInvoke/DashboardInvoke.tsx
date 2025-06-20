@@ -36,7 +36,13 @@ const scanContent = {
   },
 };
 
-export const DashboardInvoke = ({ isScanning }: { isScanning: boolean }) => {
+export const DashboardInvoke = ({
+  isScanning,
+  openScan,
+}: {
+  isScanning: boolean;
+  openScan: () => void;
+}) => {
   const { setIsOpen, setModalId } = useModalStore();
   const { setScanStep, setIssueFound, setIssuesViewed, setScanRunning } = useWelcomeStore();
   const state = isScanning ? scanContent.scanning : scanContent.idle;
@@ -49,6 +55,7 @@ export const DashboardInvoke = ({ isScanning }: { isScanning: boolean }) => {
       setScanRunning(false);
       setIsOpen(true);
     } else {
+      openScan();
       setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
       setIsOpen(true);
     }

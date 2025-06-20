@@ -17,13 +17,27 @@ import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx'
 const Dashboard = () => {
   const [showScreen] = useShowScreen();
   const { isLoading, data, isScanning, company } = useDashboard();
-  const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
+  const { appEvent, userLoggingState, scaningProgress, currentScan, lastScanId } =
+    useGlobalFastFields([
+      'appEvent',
+      'userLoggingState',
+      'currentScan',
+      'scaningProgress',
+      'lastScanId',
+    ]);
 
   useEffect(() => {
     if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
       appEvent.set(APP_EVENT_TYPE.DASHBOARD_PAGE_CONDITION);
     }
   }, []);
+
+  const openScan = () => {
+    if (isScanning.get) {
+      currentScan.set(null);
+      lastScanId.set(Math.max(...(scaningProgress.get?.keys() || [])).toString());
+    }
+  };
 
   return (
     <main className={`dashboard ${showScreen ? 'actived' : ''}`}>
@@ -35,7 +49,7 @@ const Dashboard = () => {
         (Number(company.get?.disponibles_neuroscan) <= 0 || data?.issues?.length > 0) ? (
           <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
         ) : !isLoading ? (
-          <DashboardInvoke isScanning={isScanning.get} />
+          <DashboardInvoke isScanning={isScanning.get} openScan={openScan} />
         ) : (
           <PageLoader />
         )}

@@ -11,26 +11,27 @@ import {
 } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, SOCIAL_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 
-const validations = (fName: string, lName: string, mail: string, phone: string, role: string) => {
+// const validations = (fName: string, lName: string, mail: string, phone: string, role: string) => {
+const validations = (fName: string, mail: string, role: string, linkedin: string) => {
   if (nameValidation(fName)) {
     toast.error(SOCIAL_PANEL_TEXT.INVALID_NAME);
     return true;
   }
 
-  if (nameValidation(lName)) {
-    toast.error(SOCIAL_PANEL_TEXT.INVALID_FAMILY_NAME);
-    return true;
-  }
+  // if (nameValidation(lName)) {
+  //   toast.error(SOCIAL_PANEL_TEXT.INVALID_FAMILY_NAME);
+  //   return true;
+  // }
 
   if (mail.trim() !== '' && !emailRegexVal.test(mail)) {
     toast.error(SOCIAL_PANEL_TEXT.INVALID_EMAIL);
     return true;
   }
 
-  if (phoneNumberValidation(phone)) {
-    toast.error(SOCIAL_PANEL_TEXT.INVALID_PHONE);
-    return true;
-  }
+  // if (phoneNumberValidation(phone)) {
+  //   toast.error(SOCIAL_PANEL_TEXT.INVALID_PHONE);
+  //   return true;
+  // }
 
   if (!role) {
     toast.error(SOCIAL_PANEL_TEXT.INVALID_ROLE);
@@ -45,13 +46,15 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
   const [fetcher, _, isLoading] = useFetcher();
 
   const fetchAdd = (companyID: string, form: FormData) => {
-    fetcher<any>('post', {
+    return fetcher<any>('post', {
       body: {
         company_id: companyID,
         member_fname: (form.get('member_fname') as string) || '',
-        member_lname: (form.get('member_lname') as string) || '',
+        // member_lname: (form.get('member_lname') as string) || '',
+        member_lname: '',
+        member_phone: '',
         member_email: (form.get('member_email') as string) || '',
-        member_phone: (form.get('member_phone') as string) || '',
+        linkedin_url: (form.get('linkedin_url') as string) || '',
         member_role: (form.get('member_role') as string) || '',
       },
       path: 'resources/se/add',
@@ -66,21 +69,22 @@ export const useAddSocial = (onDone: () => void, close: () => void) => {
       .catch((e: Error) => toast.error(e.message));
   };
 
-  const handleAddSocialResource = (form: FormData) => {
+  const handleAddSocialResource = (form: FormData): Promise<boolean> => {
     const companyID = getCompany();
     if (
       companyIdIsNull(companyID) ||
       validations(
         (form.get('member_fname') as string) || '',
-        (form.get('member_lname') as string) || '',
+        // (form.get('member_lname') as string) || '',
         (form.get('member_email') as string) || '',
-        (form.get('member_phone') as string) || '',
-        (form.get('member_role') as string) || ''
+        // (form.get('member_phone') as string) || '',
+        (form.get('member_role') as string) || '',
+        (form.get('linkedin_url') as string) || ''
       )
     ) {
-      return;
+      return Promise.resolve(false);
     }
-    fetchAdd(companyID, form);
+    return fetchAdd(companyID, form).then(() => true);
   };
 
   return {

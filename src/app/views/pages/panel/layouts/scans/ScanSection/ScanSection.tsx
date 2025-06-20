@@ -93,7 +93,11 @@ export const ScanSection = () => {
   } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
-  const { appEvent, currentScan } = useGlobalFastFields(['appEvent', 'currentScan']);
+  const { appEvent, currentScan, lastScanId } = useGlobalFastFields([
+    'appEvent',
+    'currentScan',
+    'lastScanId',
+  ]);
   const { updateState } = useOrderStore();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -140,24 +144,26 @@ export const ScanSection = () => {
     {
       label: 'View issues',
       icon: <BugIcon />,
-      disabled: (row: any) => !row?.finalizacion,
+      disabled: (row: any) => row?.m_nllm_issues_parsed <= 0 && row?.m_leaks_found <= 0,
       onClick: (row: any) => {
         navigate(`/issues?scan_id=${row.id}`);
       },
     },
-    {
-      label: 'Stop Scan',
-      icon: <XCircleIcon width="1.3rem" height="1.3rem" />,
-      disabled: (row: any) =>
-        row?.phase == ScanStepType.Killed || row?.phase == ScanStepType.Finished,
-      onClick: (row: any) => startKillScan(row),
-    },
+    // {
+    //   label: 'Stop Scan',
+    //   icon: <XCircleIcon width="1.3rem" height="1.3rem" />,
+    //   disabled: (row: any) =>
+    //     row?.phase == ScanStepType.Killed || row?.phase == ScanStepType.Finished,
+    //   onClick: (row: any) => startKillScan(row),
+    // },
     {
       label: 'View scan details',
       icon: <ScanIcon />,
-      disabled: (row: any) =>
-        row?.phase != ScanStepType.LAUNCHED && row?.phase != ScanStepType.Parser,
+      // disabled: (row: any) =>
+      //   row?.phase != ScanStepType.LAUNCHED && row?.phase != ScanStepType.Parser,
       onClick: (row: any) => {
+        lastScanId.set(row.id);
+        currentScan.set(row?.phase === ScanStepType.Finished ? row : null);
         setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
         setIsOpen(true);
       },
