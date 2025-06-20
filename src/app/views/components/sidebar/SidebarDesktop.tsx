@@ -207,7 +207,7 @@ export const SidebarDesktop = ({
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {
-          title: 'Launch AI scan',
+          title: 'AI scans',
           id: 'sidebar_scans',
           to: '/scans',
           root: false,
