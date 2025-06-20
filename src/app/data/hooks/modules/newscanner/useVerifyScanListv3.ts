@@ -146,6 +146,7 @@ export const useVerifyScanListv3 = () => {
         m_subdomains_launched: scan?.m_subdomains_launched,
         m_subdomains_finished: scan?.m_subdomains_finished,
         m_subdomains_found: scan?.m_subdomains_found,
+        m_subdomains_found_servers: scan?.m_subdomains_found_servers,
         resource_address: scan?.resource_address,
         resource_class: scan?.resource_class,
         resource_id: scan?.resource_id,

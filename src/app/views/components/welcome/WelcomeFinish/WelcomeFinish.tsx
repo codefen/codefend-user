@@ -65,19 +65,25 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
             currentScan?.status === AUTO_SCAN_STATE.SCAN_FINISHED
           }
           fallback={<PageLoader />}>
-                    <div className="scan-header-info">
+          <div className="scan-header-info">
             <div className="scan-header-row">
               <div className="scan-basic-info">
                 <div className="info-row">
-                  <span><strong>Target:</strong> {currentScan?.resource_address}</span>
-                  <span><strong>Started:</strong> {formatTimeFormat(currentScan?.launched)}</span>
+                  <span>
+                    <strong>Target:</strong> {currentScan?.resource_address}
+                  </span>
+                  <span>
+                    <strong>Started:</strong> {formatTimeFormat(currentScan?.launched)}
+                  </span>
                 </div>
-                <span className="user-info"><strong>User:</strong> {currentScan?.user_email}</span>
+                <span className="user-info">
+                  <strong>User:</strong> {currentScan?.user_email}
+                </span>
               </div>
               <div className="progress-mini">
-                <ProgressCircle 
-                  progress={currentScan?.scanProgress} 
-                  size={65} 
+                <ProgressCircle
+                  progress={currentScan?.scanProgress}
+                  size={65}
                   strokeWidth={5}
                   containerSize="4.5rem"
                   fontSize="1rem"
@@ -164,8 +170,8 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <b>{currentScan?.m_subdomains_found}</b>
                     </div>
                     <div className="info-item">
-                      <span>Status:</span>
-                      <b>{currentScan?.m_subdomains_finished ? 'Finished' : 'Operational'}</b>
+                      <span>Detected servers:</span>
+                      <b>{currentScan?.m_subdomains_found_servers ?? 0}</b>
                     </div>
                   </div>
                 </div>
@@ -230,9 +236,10 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         </Show>
 
         <PrimaryButton
-          text={currentScan?.phase === 'launched' ? 'Close assistant' : 'Go to issues'}
-          buttonStyle={currentScan?.phase === 'launched' ? 'red' : 'black'}
+          text="Close scanner overview"
+          buttonStyle="black"
           click={closeModal}
+          className="btn"
         />
       </div>
     </ModalWrapper>
