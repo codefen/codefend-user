@@ -6,6 +6,7 @@ import {
   computeOverallProgress,
   getParserProgress,
   LEAKS_ESTIMATED_DURATION,
+  SUBDOMAINS_ESTIMATED_DURATION,
 } from '@moduleHooks/newscanner/useNewManageScanProgress';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import useModalStore from '@stores/modal.store';
@@ -53,13 +54,15 @@ const getActiveScans = (scans: any[]) => {
 };
 
 export const useVerifyScanListv3 = () => {
-  const { isScanning, scanNumber, company, scaningProgress, lastScanId } = useGlobalFastFields([
-    'isScanning',
-    'scanNumber',
-    'company',
-    'scaningProgress',
-    'lastScanId',
-  ]);
+  const { isScanning, scanNumber, company, scaningProgress, lastScanId, scanVersion } =
+    useGlobalFastFields([
+      'isScanning',
+      'scanNumber',
+      'company',
+      'scaningProgress',
+      'lastScanId',
+      'scanVersion',
+    ]);
   const companyId = useMemo(() => company.get?.id, [company.get?.id]);
   const scanningValue = useMemo(() => isScanning.get, [isScanning.get]);
   const { isOpen } = useModalStore();
@@ -120,7 +123,6 @@ export const useVerifyScanListv3 = () => {
     const raw = data?.scans || [];
     const activeMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
     const _scanSize = raw?.length;
-    console.log('activeMap', { activeMap, _scanSize });
     if (_scanSize === 0) {
       scanNumber.set(_scanSize);
     }
@@ -197,9 +199,19 @@ export const useVerifyScanListv3 = () => {
       if (!m_leaks_finished) {
         const now = Date.now();
         const elapsedSec = Math.floor((now - m_leaks_launched) / 1000);
-        const progressRaw = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1);
-        const easedProgress = progressRaw < 1 ? progressRaw * 99 : 100;
-        leaksScanProgress = easedProgress;
+        const rawProgress = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
+
+        // Ralentizar después del 85%
+        let easedProgress;
+        if (rawProgress < 0.85) {
+          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
+        } else {
+          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
+          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
+          easedProgress = 83.3 + slowCurve * (98 - 83.3);
+        }
+
+        leaksScanProgress = Math.max(leaksScanProgress || 0, Math.min(easedProgress, 98));
       } else {
         leaksScanProgress = 100;
       }
@@ -207,9 +219,21 @@ export const useVerifyScanListv3 = () => {
       if (!m_subdomains_finished) {
         const now = Date.now();
         const elapsedSec = Math.floor((now - m_subdomains_launched) / 1000);
-        const progressRaw = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1);
-        const easedProgress = progressRaw < 1 ? progressRaw * 99 : 100;
-        subdomainScanProgress = easedProgress;
+        const rawProgress = Math.min(elapsedSec / SUBDOMAINS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
+
+        // Ralentizar después del 85%
+        let easedProgress;
+        if (rawProgress < 0.85) {
+          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
+        } else {
+          // Aplicamos una curva de easing más lenta a partir de 85%
+          // Se mueve desde 83.3% hasta 98% lentamente
+          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
+          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
+          easedProgress = 83.3 + slowCurve * (98 - 83.3);
+        }
+
+        subdomainScanProgress = Math.max(subdomainScanProgress || 0, Math.min(easedProgress, 98));
       } else {
         subdomainScanProgress = 100;
       }
@@ -240,5 +264,6 @@ export const useVerifyScanListv3 = () => {
     console.log('activeMap to save', activeMap);
     scaningProgress.set(activeMap);
     isScanning.set(isAnyScanPending);
+    scanVersion.set(scanVersion.get + 1); // Forzar reactividad
   }, [JSON.stringify(allActiveScan)]);
 };

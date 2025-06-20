@@ -135,6 +135,7 @@ export const EMPTY_GLOBAL_STATE: GlobalStore = {
   autoScanState: AUTO_SCAN_STATE.NON_SCANNING,
   scaningProgress: new Map(),
   lastScanId: '',
+  scanVersion: 0,
 };
 
 export const EMPTY_PROVIDER = {

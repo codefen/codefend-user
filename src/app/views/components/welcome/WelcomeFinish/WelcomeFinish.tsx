@@ -31,33 +31,50 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
     'currentScan',
     'scaningProgress',
     'lastScanId',
+    'scanVersion',
   ]);
   const navigate = useNavigate();
   const [currentScan, setCurrentScan] = useState<any>({});
 
-  useEffect(() => {
+  // Usar useMemo para calcular el currentScan basado en los cambios del store
+  const computedCurrentScan = useMemo(() => {
     const _scaningProgress: Map<string, any> = globalStore.scaningProgress.get;
     const _lastScanId = globalStore.lastScanId.get;
     const _currentScan = _scaningProgress?.get?.(_lastScanId) || null;
     console.log('currentScan', { _currentScan, _scaningProgress, _lastScanId });
+
     if (_currentScan) {
-      setCurrentScan(_currentScan);
+      return _currentScan;
     } else if (
       globalStore.currentScan.get &&
       globalStore.currentScan.get?.phase === ScanStepType.Finished
     ) {
-      // const scan = globalStore.currentScan.get;
-      setCurrentScan(mapScanObjToScanFinishedObj(globalStore.currentScan.get));
+      return mapScanObjToScanFinishedObj(globalStore.currentScan.get);
     }
-    if (_currentScan && _currentScan.status === AUTO_SCAN_STATE.SCAN_FINISHED) {
+    return null;
+  }, [
+    globalStore.lastScanId.get,
+    globalStore.scaningProgress.get,
+    globalStore.currentScan.get,
+    globalStore.scanVersion.get,
+  ]);
+
+  // useEffect para manejar la limpieza cuando el scan termina
+  useEffect(() => {
+    if (computedCurrentScan && computedCurrentScan.status === AUTO_SCAN_STATE.SCAN_FINISHED) {
+      const _scaningProgress: Map<string, any> = globalStore.scaningProgress.get;
+      const _lastScanId = globalStore.lastScanId.get;
       _scaningProgress.delete(_lastScanId);
       globalStore.scaningProgress.set(_scaningProgress);
     }
-  }, [
-    globalStore.lastScanId.get,
-    JSON.stringify(globalStore.scaningProgress.get?.get?.(globalStore.lastScanId.get)),
-    globalStore.currentScan.get,
-  ]);
+  }, [computedCurrentScan?.status]);
+
+  // useEffect para actualizar el estado local
+  useEffect(() => {
+    if (computedCurrentScan) {
+      setCurrentScan(computedCurrentScan);
+    }
+  }, [computedCurrentScan]);
 
   const closeModal = () => {
     solved();

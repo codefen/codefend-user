@@ -83,6 +83,7 @@ export type GlobalStore = {
   autoScanState: AUTO_SCAN_STATE;
   scaningProgress: any;
   lastScanId: string;
+  scanVersion: number;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -139,6 +140,7 @@ export const initialGlobalState: GlobalStore = {
   autoScanState: persistedState?.autoScanState ?? EMPTY_GLOBAL_STATE.autoScanState,
   scaningProgress: persistedState?.scaningProgress ?? EMPTY_GLOBAL_STATE.scaningProgress,
   lastScanId: persistedState?.lastScanId ?? EMPTY_GLOBAL_STATE.lastScanId,
+  scanVersion: persistedState?.scanVersion ?? EMPTY_GLOBAL_STATE.scanVersion,
 };
 
 const {
