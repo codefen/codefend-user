@@ -95,6 +95,21 @@ main.orders-payments {
   }
 }
 
+@media only screen and (max-width: 600px) {
+  main.orders-payments {
+    .left {
+      .card.stat {
+        .value {
+          font-size: 1.35rem;
+        }
+        .value + p {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   main.orders-payments {
     &.actived {
