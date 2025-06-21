@@ -14,10 +14,24 @@ export const useFilteredSocialMembers = (
     }
 
     const filteredData = members.filter(member => {
-      return (
+      const domainMatch =
         filters.resource_domain.length === 0 ||
-        (member.resource_domain && filters.resource_domain.includes(member.resource_domain))
-      );
+        (member.resource_domain &&
+          filters.resource_domain.includes(member.resource_domain));
+
+      const propertiesMatch =
+        filters.properties.length === 0 ||
+        filters.properties.every(property => {
+          if (property === 'has_name') {
+            return !!member.name;
+          }
+          if (property === 'has_linkedin') {
+            return !!member.linkedin_url;
+          }
+          return true;
+        });
+
+      return domainMatch && propertiesMatch;
     });
 
     return { filteredData, isFiltered: true };

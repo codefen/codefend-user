@@ -3,12 +3,14 @@ import { useSearchParams } from 'react-router-dom';
 
 export interface SocialFilterState {
   resource_domain: string[];
+  properties: string[];
 }
 
 export const useSocialFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<SocialFilterState>({
     resource_domain: [],
+    properties: [],
   });
 
   const handleFilters = (filterType: keyof SocialFilterState, value: string) => {

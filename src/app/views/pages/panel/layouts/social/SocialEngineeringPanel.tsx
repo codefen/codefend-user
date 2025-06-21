@@ -21,6 +21,9 @@ import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 import { useSocialFilters } from '@/app/data/hooks/resources/social/useSocialFilters.ts';
 import { useFilteredSocialMembers } from '@/app/data/hooks/resources/social/useFilteredSocialMembers.ts';
 import { SocialEngineeringFilters } from './components/SocialEngineeringFilters.tsx';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
+import { MagnifyingGlassIcon } from '@icons';
+import type { MemberV2 } from '@interfaces/panel.ts';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -33,6 +36,7 @@ const SocialEngineeringView = () => {
     'userLoggingState',
   ]);
 
+  const [searchTerm, setSearchTerm] = useState('');
   const { filters, handleFilters } = useSocialFilters();
   const { filteredData, isFiltered } = useFilteredSocialMembers(members, filters);
 
@@ -56,7 +60,11 @@ const SocialEngineeringView = () => {
     }
   }, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
 
-  const displayMembers = isFiltered ? filteredData : members;
+  const displayMembers = (isFiltered ? filteredData : members).filter(
+    (member: MemberV2) =>
+      member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      member.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <EmptyLayout
@@ -69,6 +77,11 @@ const SocialEngineeringView = () => {
       <CredentialsModal />
       <AddSocialResourceModal onDone={() => refresh()} />
       <section className="left">
+        <ModalInput
+          icon={<MagnifyingGlassIcon />}
+          setValue={(val: string) => setSearchTerm(val)}
+          placeholder="Search member by name or email..."
+        />
         <SocialEngineering refetch={refresh} isLoading={isLoading} socials={displayMembers} />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
