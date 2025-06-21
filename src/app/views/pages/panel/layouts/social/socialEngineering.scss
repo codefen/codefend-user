@@ -68,3 +68,24 @@ main.social {
     filter: blur(120px) brightness(0.5) opacity(0.38);
   }
 }
+
+.email-grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.email-card {
+  background-color: var(--codefend-color-background);
+  border: 1px solid var(--codefend-color-borders);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease-in-out;
+  font-size: 0.875rem;
+}
+
+.email-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

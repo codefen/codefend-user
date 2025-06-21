@@ -18,6 +18,9 @@ import useModalStore from '@stores/modal.store.ts';
 import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal.tsx';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
+import { useSocialFilters } from '@/app/data/hooks/resources/social/useSocialFilters.ts';
+import { useFilteredSocialMembers } from '@/app/data/hooks/resources/social/useFilteredSocialMembers.ts';
+import { SocialEngineeringFilters } from './components/SocialEngineeringFilters.tsx';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -30,10 +33,8 @@ const SocialEngineeringView = () => {
     'userLoggingState',
   ]);
 
-  const [socialFilters, setSocialFilters] = useState({
-    department: new Set<string>(),
-    attackVectors: new Set<string>(),
-  });
+  const { filters, handleFilters } = useSocialFilters();
+  const { filteredData, isFiltered } = useFilteredSocialMembers(members, filters);
 
   useEffect(() => {
     if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -55,28 +56,7 @@ const SocialEngineeringView = () => {
     }
   }, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
 
-  const handleDepartmentFIlter = (role: string) => {
-    setSocialFilters(prevState => {
-      const updatedDepartment = new Set(prevState.department);
-
-      if (updatedDepartment.has(role)) {
-        updatedDepartment.delete(role);
-      } else {
-        updatedDepartment.add(role);
-      }
-
-      return { ...prevState, department: updatedDepartment };
-    });
-  };
-
-  const filteredData = useMemo(() => {
-    const isFiltered =
-      socialFilters.department.size !== 0 || socialFilters.attackVectors.size !== 0;
-
-    if (!isFiltered || !members) return members || [];
-
-    return members.filter((member: any) => socialFilters.department.has(member.member_role));
-  }, [members, socialFilters.department]);
+  const displayMembers = isFiltered ? filteredData : members;
 
   return (
     <EmptyLayout
@@ -89,17 +69,15 @@ const SocialEngineeringView = () => {
       <CredentialsModal />
       <AddSocialResourceModal onDone={() => refresh()} />
       <section className="left">
-        <SocialEngineering refetch={refresh} isLoading={isLoading} socials={filteredData} />
+        <SocialEngineering refetch={refresh} isLoading={isLoading} socials={displayMembers} />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
         <AddSocialBlock isLoading={isLoading} />
-        {/* <Show when={members && Boolean(members.length)}>
-          <SocialEngineeringMembers
-            isLoading={isLoading}
-            members={members || []}
-            handleDepartmentFilter={handleDepartmentFIlter}
-          />
-        </Show> */}
+        <SocialEngineeringFilters
+          members={members}
+          handleFilters={handleFilters}
+          currentFilters={filters}
+        />
 
         <OpenOrderButton
           className="primary-full"
