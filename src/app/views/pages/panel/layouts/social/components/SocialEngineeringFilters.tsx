@@ -5,12 +5,14 @@ import { ChevronIcon, FilterIcon } from '@icons';
 
 interface SocialEngineeringFiltersProps {
   members: MemberV2[];
+  domains: { resource_domain: string; count: number }[];
   handleFilters: (filterType: keyof SocialFilterState, value: string) => void;
   currentFilters: SocialFilterState;
 }
 
 export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> = ({
   members,
+  domains,
   handleFilters,
   currentFilters,
 }) => {
@@ -42,17 +44,8 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
   }, [members, currentFilters.properties]);
 
   const resourceDomains = useMemo(() => {
-    const domains = new Map<string, number>();
-    membersFilteredByProperties.forEach(member => {
-      if (member.resource_domain) {
-        domains.set(
-          member.resource_domain,
-          (domains.get(member.resource_domain) || 0) + 1,
-        );
-      }
-    });
-    return Array.from(domains.entries());
-  }, [membersFilteredByProperties]);
+    return domains.map(d => [d.resource_domain, d.count.toString()]);
+  }, [domains]);
 
   const availableData = useMemo(() => {
     const data = {
@@ -92,7 +85,7 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
                   <div className="label">
                     <input
                       type="checkbox"
-                      disabled={count === 0}
+                      disabled={Number(count) === 0}
                       checked={currentFilters.resource_domain.includes(domain)}
                       onChange={() => handleFilters('resource_domain', domain)}
                       className="codefend-checkbox"

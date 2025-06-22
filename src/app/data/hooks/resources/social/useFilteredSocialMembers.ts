@@ -4,7 +4,7 @@ import type { SocialFilterState } from './useSocialFilters';
 
 export const useFilteredSocialMembers = (
   members: MemberV2[],
-  filters: SocialFilterState
+  filters: SocialFilterState,
 ) => {
   return useMemo(() => {
     const isFiltered = Object.values(filters).some(arr => arr.length > 0);
@@ -14,11 +14,6 @@ export const useFilteredSocialMembers = (
     }
 
     const filteredData = members.filter(member => {
-      const domainMatch =
-        filters.resource_domain.length === 0 ||
-        (member.resource_domain &&
-          filters.resource_domain.includes(member.resource_domain));
-
       const propertiesMatch =
         filters.properties.length === 0 ||
         filters.properties.every(property => {
@@ -31,7 +26,7 @@ export const useFilteredSocialMembers = (
           return true;
         });
 
-      return domainMatch && propertiesMatch;
+      return propertiesMatch;
     });
 
     return { filteredData, isFiltered: true };

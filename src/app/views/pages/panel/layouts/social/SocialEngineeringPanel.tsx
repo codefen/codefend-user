@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import SocialEngineering from './components/SocialEngineering.tsx';
 import SocialEngineeringMembers from './components/SocialEngineeringMembers.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
@@ -27,7 +27,8 @@ import type { MemberV2 } from '@interfaces/panel.ts';
 
 const SocialEngineeringView = () => {
   const [showScreen, control, refresh] = useShowScreen();
-  const { members, refetch, isLoading } = useSocial();
+  const { filters, handleFilters } = useSocialFilters();
+  const { members, refetch, isLoading, loadMore, isReachingEnd, isLoadingMore, domains } = useSocial(filters);
   const flashlight = useFlashlight();
   const globalStore = useGlobalFastFields([
     'isDefaultPlan',
@@ -37,8 +38,30 @@ const SocialEngineeringView = () => {
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const { filters, handleFilters } = useSocialFilters();
   const { filteredData, isFiltered } = useFilteredSocialMembers(members, filters);
+
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (
+      listRef.current &&
+      listRef.current.scrollTop + listRef.current.clientHeight >= listRef.current.scrollHeight - 200 &&
+      !isLoadingMore &&
+      !isReachingEnd
+    ) {
+      loadMore();
+    }
+  };
+
+  useEffect(() => {
+    const listEl = listRef.current;
+    if (listEl) {
+      listEl.addEventListener('scroll', handleScroll);
+      return () => {
+        listEl.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [isLoadingMore, isReachingEnd]);
 
   useEffect(() => {
     if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -77,17 +100,29 @@ const SocialEngineeringView = () => {
       <CredentialsModal />
       <AddSocialResourceModal onDone={() => refresh()} />
       <section className="left">
-        <ModalInput
-          icon={<MagnifyingGlassIcon />}
-          setValue={(val: string) => setSearchTerm(val)}
-          placeholder="Search member by name or email..."
-        />
-        <SocialEngineering refetch={refresh} isLoading={isLoading} socials={displayMembers} />
+        <div className="search-container">
+          <ModalInput
+            icon={<MagnifyingGlassIcon />}
+            setValue={(val: string) => setSearchTerm(val)}
+            placeholder="Search member by name or email..."
+          />
+        </div>
+        <div className="members-list" ref={listRef}>
+          <SocialEngineering refetch={refresh} isLoading={isLoading} socials={displayMembers} />
+          {isLoadingMore && (
+            <div className="social-grid">
+              {[...Array(20)].map((_, i) => (
+                <div key={`placeholder-${i}`} className="social-card placeholder" />
+              ))}
+            </div>
+          )}
+        </div>
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
         <AddSocialBlock isLoading={isLoading} />
         <SocialEngineeringFilters
           members={members}
+          domains={domains}
           handleFilters={handleFilters}
           currentFilters={filters}
         />
