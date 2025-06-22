@@ -155,7 +155,7 @@ const SocialEngineeringView = () => {
 				<AddSocialBlock isLoading={isLoading} />
 				<SocialEngineeringFilters
 					members={members}
-					domains={domains}
+					domains={domains || []}
 					handleFilters={onFilterChange}
 					currentFilters={filters}
 				/>
