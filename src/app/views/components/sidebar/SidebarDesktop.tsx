@@ -24,6 +24,7 @@ import {
   DeviceSearchIcon,
   NetworkOutlineIcon,
 } from '@icons';
+import { LightningIcon } from '../icons/LightningIcon';
 import { SidebarItem } from '@/app/views/components/sidebar/SidebarItem';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
@@ -47,6 +48,14 @@ export const SidebarDesktop = ({
       title: 'Main',
       id: 'sidebar_mainitems',
       children: [
+        {
+          title: 'Administration',
+          id: 'sidebar_admin_section',
+          icon: <LightningIcon isVisible />,
+          to: '/admin/admin-section',
+          root: false,
+          haveAccess: isAdmin(),
+        },
         {
           title: 'My profile',
           id: 'sidebar_profile',
