@@ -208,3 +208,24 @@ main.user-profile {
     }
   }
 }
+
+main.user-profile .box-assets .card .over {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem;
+
+  p {
+    flex-grow: 1;
+  }
+
+  .form-button {
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .form-input {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
