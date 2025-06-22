@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export interface SocialFilterState {
@@ -9,9 +9,17 @@ export interface SocialFilterState {
 export const useSocialFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<SocialFilterState>({
-    resource_domain: [],
+    resource_domain: searchParams.get('resource_domain')?.split(',') || [],
     properties: [],
   });
+
+  useEffect(() => {
+    const domainsFromUrl = searchParams.get('resource_domain')?.split(',') || [];
+    setFilters(prev => ({
+      ...prev,
+      resource_domain: domainsFromUrl,
+    }));
+  }, [searchParams]);
 
   const handleFilters = (filterType: keyof SocialFilterState, value: string) => {
     setFilters(prev => {

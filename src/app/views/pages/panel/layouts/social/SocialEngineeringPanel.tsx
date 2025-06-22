@@ -44,6 +44,16 @@ const SocialEngineeringView = () => {
 		isSearchingBackend,
 	} = useSocial(filters, searchTerm);
 
+	const onFilterChange = (
+		filterType: keyof typeof filters,
+		value: string,
+	) => {
+		if (searchTerm) {
+			setSearchTerm('');
+		}
+		handleFilters(filterType, value);
+	};
+
 	const flashlight = useFlashlight();
 	const globalStore = useGlobalFastFields([
 		'isDefaultPlan',
@@ -91,11 +101,7 @@ const SocialEngineeringView = () => {
 
 	const isSearching = searchTerm.length > 0;
 
-	const displayMembers = searchTerm
-		? members
-		: isFiltered
-		? filteredData
-		: members;
+	const displayMembers = filteredData;
 
 	if (isLoading && members.length === 0) {
 		return <PageLoader />;
@@ -150,7 +156,7 @@ const SocialEngineeringView = () => {
 				<SocialEngineeringFilters
 					members={members}
 					domains={domains}
-					handleFilters={handleFilters}
+					handleFilters={onFilterChange}
 					currentFilters={filters}
 				/>
 

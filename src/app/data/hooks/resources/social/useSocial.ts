@@ -24,10 +24,10 @@ export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
 
       if (debouncedSearchTerm) {
         params.search = debouncedSearchTerm;
-      } else {
-        if (filters.resource_domain.length > 0) {
-          params.resource_domain = filters.resource_domain.join(',');
-        }
+      }
+      
+      if (filters.resource_domain.length > 0) {
+        params.resource_domain = filters.resource_domain.join(',');
       }
 
       return ['resources/se/index', params];
