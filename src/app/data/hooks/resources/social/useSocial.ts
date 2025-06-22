@@ -4,11 +4,13 @@ import { defaultConfig, genericFetcher } from '@services/swr';
 import useSWRInfinite from 'swr/infinite';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import type { SocialFilterState } from './useSocialFilters';
+import { useDebounce } from '../../common/useDebounce';
 
-export const useSocial = (filters: SocialFilterState) => {
+export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
   const { getCompany, logout } = useUserData();
   const company = useGlobalFastField('company');
   const companyID = getCompany();
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const getKey = useCallback(
     (pageIndex: number, previousPageData: any) => {
@@ -24,10 +26,13 @@ export const useSocial = (filters: SocialFilterState) => {
       if (filters.resource_domain.length > 0) {
         params.resource_domain = filters.resource_domain.join(',');
       }
+      if (debouncedSearchTerm) {
+        params.search = debouncedSearchTerm;
+      }
       return ['resources/se/index', params];
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [companyID, filters.resource_domain],
+    [companyID, filters.resource_domain, debouncedSearchTerm],
   );
 
   const { data, size, setSize, error, mutate, isLoading, isValidating } = useSWRInfinite(

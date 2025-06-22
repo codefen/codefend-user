@@ -29,6 +29,8 @@ import { useInView } from 'react-intersection-observer';
 const SocialEngineeringView = () => {
 	const [showScreen, control, refresh] = useShowScreen();
 	const { filters, handleFilters } = useSocialFilters();
+	const [searchTerm, setSearchTerm] = useState('');
+
 	const {
 		members = [],
 		refetch,
@@ -36,7 +38,8 @@ const SocialEngineeringView = () => {
 		loadMore,
 		isReachingEnd,
 		domains,
-	} = useSocial(filters);
+	} = useSocial(filters, searchTerm);
+
 	const flashlight = useFlashlight();
 	const globalStore = useGlobalFastFields([
 		'isDefaultPlan',
@@ -53,7 +56,6 @@ const SocialEngineeringView = () => {
 		}
 	}, [inView, isReachingEnd, loadMore]);
 
-	const [searchTerm, setSearchTerm] = useState('');
 	const { filteredData, isFiltered } = useFilteredSocialMembers(
 		members,
 		filters,
@@ -79,13 +81,7 @@ const SocialEngineeringView = () => {
 		}
 	}, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
 
-	const displayMembers = (isFiltered ? filteredData : members).filter(
-		(member: MemberV2) =>
-			(member.name &&
-				member.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-			(member.email &&
-				member.email.toLowerCase().includes(searchTerm.toLowerCase())),
-	);
+	const displayMembers = isFiltered ? filteredData : members;
 
 	return (
 		<EmptyLayout
