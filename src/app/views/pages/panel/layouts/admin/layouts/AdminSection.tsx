@@ -1,7 +1,8 @@
 import { type FC } from 'react';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import '../../user-profile/userprofile.scss';
-import './admin-section.scss';
+import { CreateCompany } from '../components/CreateCompany';
+import { DeleteNeuroscans } from '../components/DeleteNeuroscans';
 
 const AdminSection: FC = () => {
   const [showScreen] = useShowScreen();
@@ -18,16 +19,12 @@ const AdminSection: FC = () => {
           </div>
         </div>
         <div className="box-assets">
-          <div className="card custom-card">
-            {/* Contenido del primer recuadro */}
-          </div>
-          <div className="card custom-card">
-            {/* Contenido del segundo recuadro */}
-          </div>
+          <DeleteNeuroscans />
+          <CreateCompany />
         </div>
       </section>
       <section className="right">
-        <div className="card custom-card">
+        <div className="card">
           {/* Contenido de la sección derecha */}
         </div>
       </section>
