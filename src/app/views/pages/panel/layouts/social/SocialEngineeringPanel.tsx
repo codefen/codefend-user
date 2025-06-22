@@ -9,8 +9,9 @@ import './socialEngineering.scss';
 import Show from '@/app/views/components/Show/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import EmptyLayout from '../EmptyLayout.tsx';
-import { MODAL_KEY_OPEN, socialEmptyScreen } from '@/app/constants/app-texts.ts';
+import {
+	MODAL_KEY_OPEN,
+} from '@/app/constants/app-texts.ts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import AddSocialBlock from '@/app/views/pages/panel/layouts/social/components/AddSocialBlock.tsx';
@@ -25,8 +26,10 @@ import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
 import { MagnifyingGlassIcon } from '@icons';
 import type { MemberV2 } from '@interfaces/panel.ts';
 import { useInView } from 'react-intersection-observer';
+import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 
 const SocialEngineeringView = () => {
+	const { setModalId, setIsOpen } = useModalStore();
 	const [showScreen, control, refresh] = useShowScreen();
 	const { filters, handleFilters } = useSocialFilters();
 	const [searchTerm, setSearchTerm] = useState('');
@@ -38,6 +41,7 @@ const SocialEngineeringView = () => {
 		loadMore,
 		isReachingEnd,
 		domains,
+		isSearchingBackend,
 	} = useSocial(filters, searchTerm);
 
 	const flashlight = useFlashlight();
@@ -62,9 +66,13 @@ const SocialEngineeringView = () => {
 	);
 
 	useEffect(() => {
-		if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+		if (
+			globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT
+		) {
 			refetch();
-			globalStore.appEvent.set(APP_EVENT_TYPE.SOCIAL_RESOURCE_PAGE_CONDITION);
+			globalStore.appEvent.set(
+				APP_EVENT_TYPE.SOCIAL_RESOURCE_PAGE_CONDITION,
+			);
 		}
 	}, [control]);
 
@@ -81,16 +89,20 @@ const SocialEngineeringView = () => {
 		}
 	}, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
 
-	const displayMembers = isFiltered ? filteredData : members;
+	const isSearching = searchTerm.length > 0;
+
+	const displayMembers = searchTerm
+		? members
+		: isFiltered
+		? filteredData
+		: members;
+
+	if (isLoading && members.length === 0) {
+		return <PageLoader />;
+	}
 
 	return (
-		<EmptyLayout
-			className="social"
-			fallback={socialEmptyScreen}
-			event={refresh}
-			showScreen={showScreen}
-			isLoading={isLoading}
-			dataAvailable={Boolean(members.length)}>
+		<main className={`social ${showScreen ? 'actived' : ''}`}>
 			<CredentialsModal />
 			<AddSocialResourceModal onDone={() => refresh()} />
 			<section className="left">
@@ -100,9 +112,37 @@ const SocialEngineeringView = () => {
 						setValue={(val: string) => setSearchTerm(val)}
 						placeholder="Search member by name or email..."
 					/>
+					{isSearchingBackend && (
+						<div className="search-indicator">
+							Searching in database...
+						</div>
+					)}
 				</div>
 				<div className="members-list">
-					<SocialEngineering sentryRef={ref} paginatedMembers={displayMembers} />
+					{displayMembers.length > 0 ? (
+						<SocialEngineering
+							sentryRef={ref}
+							paginatedMembers={displayMembers}
+						/>
+					) : isSearching ? (
+						<div className="no-results-found">
+							<p>No members found for your search criteria.</p>
+						</div>
+					) : (
+						<div className="no-results-found">
+							<p>
+								No members found.{' '}
+								<button
+									className="link-button"
+									onClick={() => {
+										setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
+										setIsOpen(true);
+									}}>
+									Click here to add
+								</button>
+							</p>
+						</div>
+					)}
 				</div>
 			</section>
 			<section className="right" ref={flashlight.rightPaneRef}>
@@ -122,7 +162,7 @@ const SocialEngineeringView = () => {
 					scope={OrderSection.SOCIAL_SCOPE}
 				/>
 			</section>
-		</EmptyLayout>
+		</main>
 	);
 };
 

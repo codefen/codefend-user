@@ -14,24 +14,24 @@ export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
 
   const getKey = useCallback(
     (pageIndex: number, previousPageData: any) => {
-      // Si la página anterior no trajo resultados, o no hay companyID, no pedir más.
       if ((previousPageData && !previousPageData.disponibles) || !companyID) {
         return null;
       }
-       // Si la página anterior es la última página, no pedir más.
       if (previousPageData && pageIndex + 1 > previousPageData.ds_size) {
         return null;
       }
       const params: any = { company_id: companyID, ds: pageIndex + 1, logout };
-      if (filters.resource_domain.length > 0) {
-        params.resource_domain = filters.resource_domain.join(',');
-      }
+
       if (debouncedSearchTerm) {
         params.search = debouncedSearchTerm;
+      } else {
+        if (filters.resource_domain.length > 0) {
+          params.resource_domain = filters.resource_domain.join(',');
+        }
       }
+
       return ['resources/se/index', params];
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [companyID, filters.resource_domain, debouncedSearchTerm],
   );
 
@@ -44,9 +44,11 @@ export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
     }
   );
 
-  const members = data ? [].concat(...data.map(page => page.disponibles)) : [];
+  const members = data ? [].concat(...data.map(page => page.disponibles || [])) : [];
   const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
   const isReachingEnd = data && (data[data.length - 1]?.disponibles?.length < 250 || (data[0] && size >= data[0].ds_size));
+
+  const isSearchingBackend = !!debouncedSearchTerm && isLoading;
 
   useEffect(() => {
     if (data && data[0]?.company) {
@@ -71,6 +73,7 @@ export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
     loadMore,
     refetch,
     isLoadingMore,
+    isSearchingBackend,
     domains: data && data[0] ? data[0].emails_domains : []
   };
 };

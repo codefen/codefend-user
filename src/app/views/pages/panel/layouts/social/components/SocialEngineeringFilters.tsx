@@ -76,30 +76,34 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
             <h3>Domain</h3>
           </button>
           <div className="filter-group-content">
-            {resourceDomains.map(([domain, count]) => (
-              <label
-                className="filter"
-                key={domain}
-                htmlFor={`domain-${domain}`}>
-                <div className="check">
-                  <div className="label">
-                    <input
-                      type="checkbox"
-                      disabled={Number(count) === 0}
-                      checked={currentFilters.resource_domain.includes(domain)}
-                      onChange={() => handleFilters('resource_domain', domain)}
-                      className="codefend-checkbox"
-                      id={`domain-${domain}`}
-                    />
-                    {domain}
+            {resourceDomains.length === 0 ? (
+              <p className="no-results-found">no results found</p>
+            ) : (
+              resourceDomains.map(([domain, count]) => (
+                <label
+                  className="filter"
+                  key={domain}
+                  htmlFor={`domain-${domain}`}>
+                  <div className="check">
+                    <div className="label">
+                      <input
+                        type="checkbox"
+                        disabled={Number(count) === 0}
+                        checked={currentFilters.resource_domain.includes(domain)}
+                        onChange={() => handleFilters('resource_domain', domain)}
+                        className="codefend-checkbox"
+                        id={`domain-${domain}`}
+                      />
+                      {domain}
+                    </div>
                   </div>
-                </div>
-                <div className="value">
-                  <img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />
-                  <span>{count}</span>
-                </div>
-              </label>
-            ))}
+                  <div className="value">
+                    <img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />
+                    <span>{count}</span>
+                  </div>
+                </label>
+              ))
+            )}
           </div>
         </div>
 
