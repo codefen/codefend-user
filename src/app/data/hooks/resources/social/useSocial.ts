@@ -41,7 +41,7 @@ export const useSocial = (filters: SocialFilterState) => {
 
   const members = data ? [].concat(...data.map(page => page.disponibles)) : [];
   const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
-  const isReachingEnd = data && (data[data.length - 1]?.disponibles?.length < 1000 || (data[0] && size >= data[0].ds_size));
+  const isReachingEnd = data && (data[data.length - 1]?.disponibles?.length < 250 || (data[0] && size >= data[0].ds_size));
 
   useEffect(() => {
     if (data && data[0]?.company) {

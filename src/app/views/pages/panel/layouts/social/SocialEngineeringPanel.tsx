@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SocialEngineering from './components/SocialEngineering.tsx';
 import SocialEngineeringMembers from './components/SocialEngineeringMembers.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
@@ -24,119 +24,110 @@ import { SocialEngineeringFilters } from './components/SocialEngineeringFilters.
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
 import { MagnifyingGlassIcon } from '@icons';
 import type { MemberV2 } from '@interfaces/panel.ts';
+import { useInView } from 'react-intersection-observer';
 
 const SocialEngineeringView = () => {
-  const [showScreen, control, refresh] = useShowScreen();
-  const { filters, handleFilters } = useSocialFilters();
-  const { members, refetch, isLoading, loadMore, isReachingEnd, isLoadingMore, domains } = useSocial(filters);
-  const flashlight = useFlashlight();
-  const globalStore = useGlobalFastFields([
-    'isDefaultPlan',
-    'planPreference',
-    'appEvent',
-    'userLoggingState',
-  ]);
+	const [showScreen, control, refresh] = useShowScreen();
+	const { filters, handleFilters } = useSocialFilters();
+	const {
+		members = [],
+		refetch,
+		isLoading,
+		loadMore,
+		isReachingEnd,
+		domains,
+	} = useSocial(filters);
+	const flashlight = useFlashlight();
+	const globalStore = useGlobalFastFields([
+		'isDefaultPlan',
+		'planPreference',
+		'appEvent',
+		'userLoggingState',
+	]);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const { filteredData, isFiltered } = useFilteredSocialMembers(members, filters);
+	const { ref, inView } = useInView({ threshold: 0 });
 
-  const listRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (inView && !isReachingEnd) {
+			loadMore();
+		}
+	}, [inView, isReachingEnd, loadMore]);
 
-  const handleScroll = () => {
-    if (
-      listRef.current &&
-      listRef.current.scrollTop + listRef.current.clientHeight >= listRef.current.scrollHeight - 200 &&
-      !isLoadingMore &&
-      !isReachingEnd
-    ) {
-      loadMore();
-    }
-  };
+	const [searchTerm, setSearchTerm] = useState('');
+	const { filteredData, isFiltered } = useFilteredSocialMembers(
+		members,
+		filters,
+	);
 
-  useEffect(() => {
-    const listEl = listRef.current;
-    if (listEl) {
-      listEl.addEventListener('scroll', handleScroll);
-      return () => {
-        listEl.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [isLoadingMore, isReachingEnd]);
+	useEffect(() => {
+		if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
+			refetch();
+			globalStore.appEvent.set(APP_EVENT_TYPE.SOCIAL_RESOURCE_PAGE_CONDITION);
+		}
+	}, [control]);
 
-  useEffect(() => {
-    if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
-      refetch();
-      globalStore.appEvent.set(APP_EVENT_TYPE.SOCIAL_RESOURCE_PAGE_CONDITION);
-    }
-  }, [control]);
+	useEffect(() => {
+		const employees = members.length;
+		if (globalStore.isDefaultPlan.get) {
+			if (employees <= 20) {
+				globalStore.planPreference.set('small');
+			} else if (employees <= 100) {
+				globalStore.planPreference.set('medium');
+			} else {
+				globalStore.planPreference.set('advanced');
+			}
+		}
+	}, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
 
-  useEffect(() => {
-    const employees = members.length;
-    if (globalStore.isDefaultPlan.get) {
-      if (employees <= 20) {
-        globalStore.planPreference.set('small');
-      } else if (employees <= 100) {
-        globalStore.planPreference.set('medium');
-      } else {
-        globalStore.planPreference.set('advanced');
-      }
-    }
-  }, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
+	const displayMembers = (isFiltered ? filteredData : members).filter(
+		(member: MemberV2) =>
+			(member.name &&
+				member.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+			(member.email &&
+				member.email.toLowerCase().includes(searchTerm.toLowerCase())),
+	);
 
-  const displayMembers = (isFiltered ? filteredData : members).filter(
-    (member: MemberV2) =>
-      member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+	return (
+		<EmptyLayout
+			className="social"
+			fallback={socialEmptyScreen}
+			event={refresh}
+			showScreen={showScreen}
+			isLoading={isLoading}
+			dataAvailable={Boolean(members.length)}>
+			<CredentialsModal />
+			<AddSocialResourceModal onDone={() => refresh()} />
+			<section className="left">
+				<div className="search-container">
+					<ModalInput
+						icon={<MagnifyingGlassIcon />}
+						setValue={(val: string) => setSearchTerm(val)}
+						placeholder="Search member by name or email..."
+					/>
+				</div>
+				<div className="members-list">
+					<SocialEngineering sentryRef={ref} paginatedMembers={displayMembers} />
+				</div>
+			</section>
+			<section className="right" ref={flashlight.rightPaneRef}>
+				<AddSocialBlock isLoading={isLoading} />
+				<SocialEngineeringFilters
+					members={members}
+					domains={domains}
+					handleFilters={handleFilters}
+					currentFilters={filters}
+				/>
 
-  return (
-    <EmptyLayout
-      className="social"
-      fallback={socialEmptyScreen}
-      event={refresh}
-      showScreen={showScreen}
-      isLoading={isLoading}
-      dataAvailable={Boolean(members.length)}>
-      <CredentialsModal />
-      <AddSocialResourceModal onDone={() => refresh()} />
-      <section className="left">
-        <div className="search-container">
-          <ModalInput
-            icon={<MagnifyingGlassIcon />}
-            setValue={(val: string) => setSearchTerm(val)}
-            placeholder="Search member by name or email..."
-          />
-        </div>
-        <div className="members-list" ref={listRef}>
-          <SocialEngineering refetch={refresh} isLoading={isLoading} socials={displayMembers} />
-          {isLoadingMore && (
-            <div className="social-grid">
-              {[...Array(20)].map((_, i) => (
-                <div key={`placeholder-${i}`} className="social-card placeholder" />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-      <section className="right" ref={flashlight.rightPaneRef}>
-        <AddSocialBlock isLoading={isLoading} />
-        <SocialEngineeringFilters
-          members={members}
-          domains={domains}
-          handleFilters={handleFilters}
-          currentFilters={filters}
-        />
-
-        <OpenOrderButton
-          className="primary-full"
-          type={ResourcesTypes.SOCIAL}
-          resourceCount={members?.length || 0}
-          isLoading={isLoading}
-          scope={OrderSection.SOCIAL_SCOPE}
-        />
-      </section>
-    </EmptyLayout>
-  );
+				<OpenOrderButton
+					className="primary-full"
+					type={ResourcesTypes.SOCIAL}
+					resourceCount={members?.length || 0}
+					isLoading={isLoading}
+					scope={OrderSection.SOCIAL_SCOPE}
+				/>
+			</section>
+		</EmptyLayout>
+	);
 };
 
 export default SocialEngineeringView;
