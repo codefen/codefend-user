@@ -197,6 +197,10 @@ export const AppRouter = () => {
                 path: 'scans',
                 element: <ScansPage />,
               },
+              {
+                path: 'web-surveillance',
+                element: <ScansPage />,
+              },
             ]
           : []),
         // Non-reseller routes

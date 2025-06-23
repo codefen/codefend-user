@@ -224,6 +224,14 @@ export const SidebarDesktop = ({
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {
+          title: 'Web surveillance',
+          id: 'sidebar_web_surveillance',
+          to: '/web-surveillance',
+          root: false,
+          icon: <SnbIcon />,
+          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+        },
+        {
           title: 'Dataleaks explorer',
           id: 'sidebar_sns',
           icon: <DataleakSearchIcon />,
