@@ -25,8 +25,7 @@ export const ScansTrendChart = ({ data }: ScansTrendChartProps) => {
       const height = 300 - margin.top - margin.bottom;
 
       svg
-        .attr("width", dimensions.width)
-        .attr("height", height + margin.top + margin.bottom);
+        .attr('viewBox', `0 0 ${dimensions.width} 300`);
       
       const chart = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -161,7 +160,7 @@ export const ScansTrendChart = ({ data }: ScansTrendChartProps) => {
 
   return (
     <div className="card" ref={chartContainer}>
-        <svg className="d3-component" />
+        <svg className="d3-component" style={{ width: '100%', height: '300px' }} />
     </div>
   );
 };
