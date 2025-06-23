@@ -32,7 +32,7 @@ import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
 import { PrimaryButton } from '@/app/views/components/buttons/primary/PrimaryButton';
 import { ScansTrendChart } from '@/app/views/components/charts/ScansTrendChart';
@@ -82,6 +82,14 @@ const scansColumns: ColumnTableV3[] = [
     render: val => (val ? naturalTime(val) : ''),
   },
 ];
+
+interface SurveillanceRow {
+  domain: string;
+  lastScanDate?: string;
+  lastIssues: number;
+  lastLeaks: number;
+  totalScans: number;
+}
 
 const surveillanceColumns = (handleDomainClick: (domain: string) => void): ColumnTableV3[] => [
   {
@@ -147,10 +155,25 @@ export const ScanSection = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { domain: selectedDomain } = useParams<{ domain: string }>();
 
-  const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
+  const isWebSurveillance = location.pathname.startsWith('/web-surveillance');
 
-  const isWebSurveillance = location.pathname === '/web-surveillance';
+  const headerContent = useMemo(() => {
+    if (!isWebSurveillance) {
+      return "AI based web security";
+    }
+    if (selectedDomain) {
+      return (
+        <div className="breadcrumb-container">
+          <span className="breadcrumb-link" onClick={() => navigate('/web-surveillance')}>Surveillance index</span>
+          <span className="breadcrumb-separator"> / </span>
+          <span className="breadcrumb-active">{selectedDomain} surveillance</span>
+        </div>
+      );
+    }
+    return "Surveillance index";
+  }, [isWebSurveillance, selectedDomain]);
 
   const groupedScans = useMemo(() => {
     if (!isWebSurveillance) return [];
@@ -266,24 +289,23 @@ export const ScanSection = () => {
   };
 
   const handleDomainClick = (domain: string) => {
-    setSelectedDomain(domain);
+    navigate(`/web-surveillance/${domain}`);
   };
 
   const renderContent = () => {
     if (isWebSurveillance) {
       if (selectedDomain) {
         const filteredScans = scans.filter(
-          (scan: any) => scan.resource_address === selectedDomain
+          (s: any) => s.resource_address === selectedDomain
         );
+
+        if (filteredScans.length === 0) {
+          return <p>There are no such records in our databases.</p>;
+        }
+
         return (
           <>
             <ScansTrendChart data={filteredScans} />
-            <PrimaryButton 
-              text="< Back to summary"
-              click={() => setSelectedDomain(null)}
-              buttonStyle="black"
-              className="back-button"
-            />
             <Tablev3
               rows={filteredScans}
               columns={scansColumns}
@@ -350,7 +372,7 @@ export const ScanSection = () => {
       />
       <div className="card">
         <SimpleSection
-          header={isWebSurveillance ? "Web Surveillance" : "AI based web security"}
+          header={headerContent}
           icon={<StatIcon />}>
           <div className="content">
             {renderContent()}

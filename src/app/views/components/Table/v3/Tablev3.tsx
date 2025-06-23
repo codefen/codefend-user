@@ -22,6 +22,7 @@ import Show from '@/app/views/components/Show/Show';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 import { createPortal } from 'react-dom';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 
 interface ContextMenuAction {
   label: string;
@@ -53,6 +54,7 @@ interface Tablev3Props<T> {
   emptyInfo?: string | ReactNode;
   emptyTitle?: string;
   emptyIcon?: ReactNode;
+  onRowClick?: (row: T) => void;
 }
 
 const root = document.getElementById('root-modal');
@@ -78,6 +80,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   emptyInfo = '',
   emptyTitle = "There's no data to display here",
   emptyIcon,
+  onRowClick,
 }) => {
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [hasScroll, setHasScroll] = useState(false);
@@ -257,6 +260,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
               onContextMenu={handleContextMenu}
               enableContextMenu={enableContextMenu}
               onThreeDotsClick={handleThreeDotsClick}
+              onRowClick={onRowClick}
             />
           </div>
         </Show>

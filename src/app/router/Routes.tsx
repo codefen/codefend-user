@@ -198,7 +198,7 @@ export const AppRouter = () => {
                 element: <ScansPage />,
               },
               {
-                path: 'web-surveillance',
+                path: 'web-surveillance/:domain?',
                 element: <ScansPage />,
               },
             ]
