@@ -10,8 +10,17 @@ import './sidebar.scss';
 
 export const verifyPath = (verifyPath: string, isRoot: boolean) => {
   const currentPath = window.location.pathname;
-  if (currentPath === '/' && isRoot) return true;
-  return currentPath.startsWith(verifyPath);
+
+  if (isRoot) {
+    return currentPath === verifyPath;
+  }
+
+  // Dividimos las rutas en segmentos para una comparación más precisa
+  const currentPathSegments = currentPath.split('/').filter(Boolean);
+  const verifyPathSegments = verifyPath.split('/').filter(Boolean);
+
+  // Comparamos el primer segmento. Esto asegura que /web no coincida con /web-surveillance
+  return currentPathSegments[0] === verifyPathSegments[0];
 };
 
 const Sidebar = () => {

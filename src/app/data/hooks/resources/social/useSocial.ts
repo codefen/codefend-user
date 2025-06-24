@@ -1,36 +1,79 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { defaultConfig, disponibleFetcher } from '@services/swr';
-import useSWR from 'swr';
+import { defaultConfig, genericFetcher } from '@services/swr';
+import useSWRInfinite from 'swr/infinite';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import type { SocialFilterState } from './useSocialFilters';
+import { useDebounce } from '../../common/useDebounce';
 
-export const useSocial = () => {
+export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
   const { getCompany, logout } = useUserData();
   const company = useGlobalFastField('company');
-  const swrKeYRef = useRef<any>([['resources/se/index'], { company: getCompany(), logout }]);
+  const companyID = getCompany();
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const { data, mutate, isLoading, isValidating } = useSWR(
-    swrKeYRef.current,
-    (key: any) => disponibleFetcher(key),
+  const getKey = useCallback(
+    (pageIndex: number, previousPageData: any) => {
+      if ((previousPageData && !previousPageData.disponibles) || !companyID) {
+        return null;
+      }
+      if (previousPageData && pageIndex + 1 > previousPageData.ds_size) {
+        return null;
+      }
+      const params: any = { company_id: companyID, ds: pageIndex + 1, logout };
+
+      if (debouncedSearchTerm) {
+        params.search = debouncedSearchTerm;
+      }
+      
+      if (filters.resource_domain.length > 0) {
+        params.resource_domain = filters.resource_domain.join(',');
+      }
+
+      return ['resources/se/index', params];
+    },
+    [companyID, filters.resource_domain, debouncedSearchTerm],
+  );
+
+  const { data, size, setSize, error, mutate, isLoading, isValidating } = useSWRInfinite(
+    getKey,
+    genericFetcher,
     {
       ...defaultConfig,
-      fallbackData: {},
+      revalidateFirstPage: true,
     }
   );
 
+  const members = data ? [].concat(...data.map(page => page.disponibles || [])) : [];
+  const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
+  const isReachingEnd = data && (data[data.length - 1]?.disponibles?.length < 250 || (data[0] && size >= data[0].ds_size));
+
+  const isSearchingBackend = !!debouncedSearchTerm && isLoading;
+
   useEffect(() => {
-    if (data?.company) {
-      company.set(data.company);
+    if (data && data[0]?.company) {
+      company.set(data[0].company);
     }
-  }, [data?.company]);
+  }, [data, company]);
+
+  const loadMore = () => {
+    if (!isLoadingMore && !isReachingEnd) {
+      setSize(size + 1);
+    }
+  };
+
+  const refetch = () => {
+    mutate();
+  };
 
   return {
-    members: data?.disponibles ? data?.disponibles : [],
-    isLoading: isLoading || isValidating,
-    refetch: () =>
-      mutate(undefined, {
-        revalidate: true,
-        optimisticData: data,
-      }),
+    members,
+    isLoading: isLoading,
+    isReachingEnd,
+    loadMore,
+    refetch,
+    isLoadingMore,
+    isSearchingBackend,
+    domains: data && data[0] ? data[0].emails_domains : []
   };
 };

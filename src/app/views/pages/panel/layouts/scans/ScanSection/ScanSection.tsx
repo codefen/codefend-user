@@ -20,7 +20,7 @@ import { BugIcon, ScanIcon, StatIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
@@ -32,8 +32,10 @@ import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
+import { PrimaryButton } from '@/app/views/components/buttons/primary/PrimaryButton';
+import { ScansTrendChart } from '@/app/views/components/charts/ScansTrendChart';
 
 const scansColumns: ColumnTableV3[] = [
   {
@@ -80,11 +82,65 @@ const scansColumns: ColumnTableV3[] = [
     render: val => (val ? naturalTime(val) : ''),
   },
 ];
+
+interface SurveillanceRow {
+  domain: string;
+  lastScanDate?: string;
+  lastIssues: number;
+  lastLeaks: number;
+  totalScans: number;
+}
+
+const surveillanceColumns = (handleDomainClick: (domain: string) => void): ColumnTableV3[] => [
+  {
+    header: 'Domain',
+    key: 'domain',
+    weight: '25%',
+    styles: 'item-cell-1',
+    render: (val: string) => val,
+  },
+  {
+    header: 'Last scan date',
+    key: 'lastScanDate',
+    weight: '20%',
+    styles: 'item-cell-2',
+    render: (val: string) => (val ? new Date(val).toLocaleString() : 'N/A'),
+  },
+  {
+    header: 'Last issues found',
+    key: 'lastIssues',
+    weight: '15%',
+    styles: 'item-cell-3',
+    render: (val: number) => val,
+  },
+  {
+    header: 'Last leaks found',
+    key: 'lastLeaks',
+    weight: '15%',
+    styles: 'item-cell-4',
+    render: (val: number) => val,
+  },
+  {
+    header: 'Total Scans',
+    key: 'totalScans',
+    weight: '15%',
+    styles: 'item-cell-5',
+    render: (val: number) => val,
+  },
+  {
+    header: 'Actions',
+    key: 'actions',
+    weight: '10%',
+    styles: 'item-cell-5',
+    type: TABLE_KEYS.FULL_ROW,
+    render: (row: any) => <PrimaryButton text="View" click={() => handleDomainClick(row.domain)} />,
+  },
+];
+
 export const ScanSection = () => {
   const [domainScanned, setDomainScanned] = useState<string>('');
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
-  // const { getCompany, company } = useUserData();
   const { scans, updateCompany, companyId } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
@@ -96,6 +152,56 @@ export const ScanSection = () => {
   const { updateState } = useOrderStore();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { domain: selectedDomain } = useParams<{ domain: string }>();
+
+  const isWebSurveillance = location.pathname.startsWith('/web-surveillance');
+
+  const headerContent = useMemo(() => {
+    if (!isWebSurveillance) {
+      return 'AI based web security';
+    }
+    if (selectedDomain) {
+      return (
+        <div className="breadcrumb-container">
+          <span className="breadcrumb-link" onClick={() => navigate('/web-surveillance')}>
+            Surveillance index
+          </span>
+          <span className="breadcrumb-separator"> / </span>
+          <span className="breadcrumb-active">{selectedDomain} surveillance</span>
+        </div>
+      );
+    }
+    return 'Surveillance index';
+  }, [isWebSurveillance, selectedDomain]);
+
+  const groupedScans = useMemo(() => {
+    if (!isWebSurveillance) return [];
+
+    const groups: { [key: string]: any[] } = {};
+    scans.forEach((scan: any) => {
+      const domain = scan.resource_address;
+      if (!groups[domain]) {
+        groups[domain] = [];
+      }
+      groups[domain].push(scan);
+    });
+
+    return Object.entries(groups).map(([domain, domainScans]) => {
+      const finishedScans = domainScans.filter(s => s.phase === 'finished');
+      const latestFinishedScan = finishedScans.sort(
+        (a, b) => new Date(b.creacion).getTime() - new Date(a.creacion).getTime()
+      )[0];
+
+      return {
+        domain,
+        lastScanDate: latestFinishedScan?.creacion,
+        lastIssues: latestFinishedScan?.m_nllm_issues_parsed || 0,
+        lastLeaks: latestFinishedScan?.m_leaks_found || 0,
+        totalScans: domainScans.length,
+      };
+    });
+  }, [scans, isWebSurveillance]);
 
   useEffect(() => {
     updateCompany();
@@ -142,18 +248,9 @@ export const ScanSection = () => {
         navigate(`/issues?scan_id=${row.id}`);
       },
     },
-    // {
-    //   label: 'Stop Scan',
-    //   icon: <XCircleIcon width="1.3rem" height="1.3rem" />,
-    //   disabled: (row: any) =>
-    //     row?.phase == ScanStepType.Killed || row?.phase == ScanStepType.Finished,
-    //   onClick: (row: any) => startKillScan(row),
-    // },
     {
       label: 'View scan details',
       icon: <ScanIcon />,
-      // disabled: (row: any) =>
-      //   row?.phase != ScanStepType.LAUNCHED && row?.phase != ScanStepType.Parser,
       onClick: (row: any) => {
         lastScanId.set(row.id);
         currentScan.set(row?.phase === ScanStepType.Finished ? row : null);
@@ -166,9 +263,7 @@ export const ScanSection = () => {
   const startAndAddedDomain = () => {
     if (verifyDomainName(domainScanned || '')) return;
     if (companyIdIsNull(companyId)) return;
-    // const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
-    //   closeOnClick: true,
-    // });
+
     setLoading(true);
     autoScan(domainScanned?.trim?.() || '', false, '')
       .then(result => {
@@ -195,6 +290,63 @@ export const ScanSection = () => {
       });
   };
 
+  const handleDomainClick = (domain: string) => {
+    navigate(`/web-surveillance/${domain}`);
+  };
+
+  const renderContent = () => {
+    if (isWebSurveillance) {
+      if (selectedDomain) {
+        const filteredScans = scans.filter((s: any) => s.resource_address === selectedDomain);
+
+        if (filteredScans.length === 0) {
+          return <p>There are no such records in our databases.</p>;
+        }
+
+        return (
+          <>
+            <ScansTrendChart data={filteredScans} />
+            <Tablev3
+              rows={filteredScans}
+              columns={scansColumns}
+              showRows={true}
+              initialSort={Sort.desc}
+              initialOrder="creacion"
+              isNeedSort
+              enableContextMenu
+              contextMenuActions={scanActions}
+            />
+          </>
+        );
+      } else {
+        return (
+          <Tablev3
+            rows={groupedScans}
+            columns={surveillanceColumns(handleDomainClick)}
+            showRows={true}
+            initialSort={Sort.desc}
+            initialOrder="lastScanDate"
+            isNeedSort
+          />
+        );
+      }
+    }
+
+    // Default view for /scans
+    return (
+      <Tablev3
+        rows={scans}
+        columns={scansColumns}
+        showRows={true}
+        initialSort={Sort.desc}
+        initialOrder="creacion"
+        isNeedSort
+        enableContextMenu
+        contextMenuActions={scanActions}
+      />
+    );
+  };
+
   return (
     <div className="scan-section-container">
       <ModalTitleWrapper
@@ -219,19 +371,8 @@ export const ScanSection = () => {
         isDisabled={loading}
       />
       <div className="card">
-        <SimpleSection header="AI based web security" icon={<StatIcon />}>
-          <div className="content">
-            <Tablev3
-              rows={scans}
-              columns={scansColumns}
-              showRows={true}
-              initialSort={Sort.desc}
-              initialOrder="creacion"
-              isNeedSort
-              enableContextMenu
-              contextMenuActions={scanActions}
-            />
-          </div>
+        <SimpleSection header={headerContent} icon={<StatIcon />}>
+          <div className="content">{renderContent()}</div>
         </SimpleSection>
       </div>
 

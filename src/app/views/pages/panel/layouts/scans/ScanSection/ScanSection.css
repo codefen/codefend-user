@@ -1,0 +1,29 @@
+.scan-section .back-button {
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+
+.breadcrumb-container {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-color-secondary);
+}
+
+.breadcrumb-link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--text-color-primary);
+}
+
+.breadcrumb-link:hover {
+  color: var(--primary-color);
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+}
+
+.breadcrumb-active {
+  font-weight: bold;
+  color: var(--text-color-primary);
+} 
