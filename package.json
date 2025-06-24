@@ -28,6 +28,7 @@
 		"@tauri-apps/plugin-shell": "2.2.1",
 		"@tauri-apps/plugin-updater": "2.7.1",
 		"@tauri-apps/plugin-upload": "2.2.1",
+		"@types/react-window": "^1.8.8",
 		"axios": "1.9.0",
 		"chart.js": "4.4.9",
 		"d3": "7.9.0",
@@ -39,6 +40,8 @@
 		"react-router": "7.6.2",
 		"react-router-dom": "7.6.2",
 		"react-toastify": "11.0.5",
+		"react-virtualized-auto-sizer": "^1.0.26",
+		"react-window": "^1.8.11",
 		"swr": "2.3.3",
 		"usehooks-ts": "3.1.1",
 		"zustand": "5.0.5"

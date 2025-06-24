@@ -49,6 +49,11 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
       For social resources, <b>{plan} plan.</b>
     </>
   ),
+  [ResourcesTypes.LEAKS]: ({ plan }: any) => (
+    <>
+      For leaks resources, <b>{plan} plan.</b>
+    </>
+  ),
 };
 
 // const orderText: Record<ResourcesTypes, (obj: any) => string> = {
@@ -69,7 +74,8 @@ export const titleMap = {
   [ResourcesTypes.CLOUD]: 'Analyze your cloud software',
   [ResourcesTypes.CODE]: 'Analyze your code',
   [ResourcesTypes.NETWORK]: 'Analyze your network',
-  [ResourcesTypes.SOCIAL]: 'Analyze your social assets',
+  [ResourcesTypes.SOCIAL]: 'For social resources',
+  [ResourcesTypes.LEAKS]: 'For leaks resources',
 };
 
 const OpenOrderButton = ({

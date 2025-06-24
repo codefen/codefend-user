@@ -11,49 +11,23 @@ import {
 } from 'react';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import usePreProcessedRows from '@hooks/table/usePreprocesorRows';
+import { useVirtualizedSorting, useSortingPerformance } from '@hooks/table/useVirtualizedSorting';
+import { flattenRows } from '@utils/sort.service';
 import TableColumnsV3 from './TableColumnsV3';
 import TableRowsV3 from './TableRowsV3';
+import TableRowsV3VirtualizedDynamic from './TableRowsV3VirtualizedDynamic';
+import TableSkeleton from './TableSkeleton';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import { MagnifyingGlassIcon } from '@icons';
 import { useMultipleSelect } from '@hooks/table/useMultipleSelect';
+import { useVirtualizationConfig } from '@hooks/table/useVirtualizationConfig';
 import './tablev3.scss';
 import { isShallowEqual } from '@utils/helper';
 import Show from '@/app/views/components/Show/Show';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 import { createPortal } from 'react-dom';
-
-interface ContextMenuAction {
-  label: string;
-  icon?: ReactNode;
-  onClick: (row: any) => void;
-  disabled?: boolean | ((row: any) => boolean);
-  divider?: boolean;
-}
-
-interface Tablev3Props<T> {
-  rows: T[];
-  columns: ColumnTableV3[];
-  showRows: boolean;
-
-  className?: string;
-  initialSort?: Sort;
-  initialOrder?: string;
-  urlNav?: string;
-  isActiveDisable?: boolean;
-  isNeedMultipleCheck?: boolean;
-  isNeedSearchBar?: boolean;
-  isNeedSort?: boolean;
-  limit?: number;
-  action?: (val?: any) => void;
-  selected?: any;
-  selectedKey?: string;
-  enableContextMenu?: boolean;
-  contextMenuActions?: ContextMenuAction[];
-  emptyInfo?: string | ReactNode;
-  emptyTitle?: string;
-  emptyIcon?: ReactNode;
-}
+import type { Tablev3Props, ContextMenuState, MemoizedValues } from './types';
 
 const root = document.getElementById('root-modal');
 
@@ -78,29 +52,26 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   emptyInfo = '',
   emptyTitle = "There's no data to display here",
   emptyIcon,
+  enableVirtualization = false,
+  rowHeight = 60,
+  containerHeight: propContainerHeight,
+  virtualizationThreshold = 100,
+  enableSortingPerformance = false,
+  enableOptimisticSorting = true,
 }) => {
+  const tableContainerRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [hasScroll, setHasScroll] = useState(false);
-  // Estado para manejar el ordenamiento
   const [sort, setSort] = useState<Sort>(initialSort);
-  // Estado para indicar en base a que columna ordena
-  const [sortedColumn, setDataSort] = useState<string>(columns[0].key);
-  // Termino de busqueda (Solo cuando el buscador este activo)
+  const [sortedColumn, setDataSort] = useState<string>(columns[0]?.key || '');
   const [term, setTerm] = useState<string>('');
-  // Estado para el menú contextual
-  const [contextMenu, setContextMenu] = useState<{
-    visible: boolean;
-    x: number;
-    y: number;
-    row: any;
-  }>({
+  const [contextMenu, setContextMenu] = useState<ContextMenuState>({
     visible: false,
     x: 0,
     y: 0,
     row: null,
   });
 
-  // Valores para manejar el selector multiple
   const {
     tableRef,
     isSelecting,
@@ -111,7 +82,6 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     onPointerDown,
   } = useMultipleSelect(isNeedMultipleCheck);
 
-  // hook for preprocessing data, sorting / filtering
   const preProcessedRows = usePreProcessedRows(
     rows,
     initialOrder,
@@ -122,14 +92,97 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     columns
   );
 
-  // I memorize the classes of the table
+  const virtualizedSortingResult = useVirtualizedSorting({
+    rows,
+    sortedColumn,
+    sort,
+    isNeedSort,
+    limit,
+    columns,
+    term,
+    enableOptimisticSorting,
+  });
+
+  const { logPerformance } = useSortingPerformance(virtualizedSortingResult);
+
+  const finalRows = enableVirtualization ? virtualizedSortingResult.sortedRows : preProcessedRows;
+  const flattenedRows = enableVirtualization
+    ? virtualizedSortingResult.flattenedRows
+    : useMemo(() => {
+        try {
+          return flattenRows(preProcessedRows, limit);
+        } catch (error) {
+          console.error('Error flattening rows:', error);
+          return preProcessedRows;
+        }
+      }, [preProcessedRows, limit]);
+
+  const memoizedValues: MemoizedValues = useMemo(() => {
+    const flattenedLength = flattenedRows.length;
+    const hasFlattenedRows = virtualizedSortingResult.showSkeleton || Boolean(flattenedLength);
+    const columnsCount = columns.length;
+
+    return {
+      flattenedLength,
+      hasFlattenedRows,
+      columnsCount,
+      cellCount: columnsCount - 1,
+    };
+  }, [flattenedRows, columns, virtualizedSortingResult.showSkeleton]);
+
+  const virtualizationConfig = useVirtualizationConfig({
+    containerRef: tableContainerRef,
+    rowHeight,
+    minContainerHeight: 200,
+    maxContainerHeight: typeof propContainerHeight === 'number' ? propContainerHeight : 600,
+  });
+
+  const shouldUseVirtualization = useMemo(() => {
+    if (!enableVirtualization) return false;
+    if (propContainerHeight) {
+      return virtualizedSortingResult.totalRowCount >= virtualizationThreshold;
+    }
+    return virtualizationConfig.shouldUseVirtualization;
+  }, [
+    enableVirtualization,
+    virtualizedSortingResult.totalRowCount,
+    virtualizationThreshold,
+    propContainerHeight,
+    virtualizationConfig.shouldUseVirtualization,
+  ]);
+
+  useEffect(() => {
+    if (!propContainerHeight || typeof propContainerHeight === 'string') {
+      virtualizationConfig.updateVirtualizationConfig(virtualizedSortingResult.totalRowCount);
+    }
+  }, [virtualizedSortingResult.totalRowCount, propContainerHeight, virtualizationConfig]);
+
+  useEffect(() => {
+    if (enableSortingPerformance && shouldUseVirtualization) {
+      logPerformance();
+    }
+  }, [enableSortingPerformance, shouldUseVirtualization, logPerformance]);
+
+  const handleSortChange = useCallback((newSort: Sort, newColumn?: string) => {
+    if (newColumn) {
+      setSort(newSort);
+      setDataSort(newColumn);
+    } else {
+      setSort(newSort);
+    }
+  }, []);
+
+  const handleColumnChange = useCallback((newColumn: string) => {
+    setDataSort(newColumn);
+    setSort(Sort.asc);
+  }, []);
+
   const tableClassName = useMemo(
     () =>
-      `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''} ${enableContextMenu ? 'table-context-menu-enabled' : ''}`,
-    [className, isSelecting, isMoving, enableContextMenu]
+      `table ${className} ${isSelecting ? 'table-item-no-selected' : ''} ${isMoving ? ' table-item-no-ev' : ''} ${enableContextMenu ? 'table-context-menu-enabled' : ''} ${shouldUseVirtualization ? 'table-virtualized' : ''}`,
+    [className, isSelecting, isMoving, enableContextMenu, shouldUseVirtualization]
   );
 
-  // Manejador del click derecho
   const handleContextMenu = useCallback(
     (event: any, row: any) => {
       if (!enableContextMenu) return;
@@ -147,12 +200,10 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     [enableContextMenu, contextMenuActions]
   );
 
-  // Cerrar el menú contextual
   const closeContextMenu = useCallback(() => {
     setContextMenu(prev => ({ ...prev, visible: false }));
   }, []);
 
-  // Manejar click fuera del menú contextual
   const handleClickOutside = useCallback(
     (event: any) => {
       if (contextMenu.visible) {
@@ -162,37 +213,41 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     [contextMenu.visible, closeContextMenu]
   );
 
-  // Manejar scroll para cerrar el menú contextual
   const handleScroll = useCallback(() => {
     if (contextMenu.visible) {
       closeContextMenu();
     }
   }, [contextMenu.visible, closeContextMenu]);
 
-  // Efecto para manejar el click fuera del menú
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('scroll', handleScroll, true);
-    const el = rowRef.current as HTMLDivElement;
-    let resizeObserver: ResizeObserver | null = null;
-    if (el) {
-      const checkScroll = () => setHasScroll(el.scrollHeight > el.clientHeight);
-      checkScroll(); // inicial
-      // Si el contenido puede cambiar dinámicamente, escucha resize/mutaciones:
-      resizeObserver = new ResizeObserver(checkScroll);
-      resizeObserver.observe(el);
+
+    if (!shouldUseVirtualization) {
+      const el = rowRef.current as HTMLDivElement;
+      let resizeObserver: ResizeObserver | null = null;
+      if (el) {
+        const checkScroll = () => setHasScroll(el.scrollHeight > el.clientHeight);
+        checkScroll();
+        resizeObserver = new ResizeObserver(checkScroll);
+        resizeObserver.observe(el);
+      }
+
+      return () => {
+        document.removeEventListener('click', handleClickOutside);
+        document.removeEventListener('scroll', handleScroll, true);
+        if (resizeObserver) {
+          resizeObserver.disconnect();
+        }
+      };
     }
 
     return () => {
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('scroll', handleScroll, true);
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
     };
-  }, [handleClickOutside, handleScroll, rows.length, rowRef.current]);
+  }, [handleClickOutside, handleScroll, shouldUseVirtualization]);
 
-  // Manejador del click en el botón de tres puntos
   const handleThreeDotsClick = useCallback(
     (event: MouseEvent, row: any) => {
       event.preventDefault();
@@ -209,8 +264,15 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     [contextMenuActions]
   );
 
+  const getContainerHeight = useCallback(() => {
+    if (typeof propContainerHeight === 'string') {
+      return propContainerHeight;
+    }
+    return propContainerHeight ? `${propContainerHeight}px` : '100%';
+  }, [propContainerHeight]);
+
   return (
-    <div className="table-group">
+    <div className="table-group" ref={tableContainerRef}>
       <Show when={isNeedSearchBar}>
         <div className="table-search-bar">
           <ModalInput
@@ -223,52 +285,89 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 
       <div
         className={tableClassName}
-        style={{ '--cell-count': columns.length - 1 } as any}
+        style={{ '--cell-count': memoizedValues.cellCount } as any}
         ref={tableRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerStop}
         onPointerCancel={onPointerStop}>
         {isMoving && <div className="selecting-box" style={selectionBoxStyle} />}
-        <Show when={Boolean(preProcessedRows.length)}>
+        <Show when={memoizedValues.hasFlattenedRows}>
           <TableColumnsV3
             columns={columns}
             sortedColumn={sortedColumn}
             sort={sort}
-            setSort={setSort}
-            setSortColumn={setDataSort}
+            setSort={handleSortChange}
+            setSortColumn={handleColumnChange}
             isNeedMultipleCheck={isNeedMultipleCheck}
             isNeedSort={isNeedSort}
+            onSortStart={virtualizedSortingResult.activateSkeleton}
           />
         </Show>
 
         <Show when={showRows} fallback={<PageLoader />}>
-          <div className={`rows ${hasScroll ? 'rows-with-scroll' : ''}`} ref={rowRef}>
-            <TableRowsV3
-              columns={columns}
-              rows={preProcessedRows}
-              urlNav={urlNav}
-              isActiveDisable={isActiveDisable}
-              isNeedMultipleCheck={isNeedMultipleCheck}
-              limit={limit}
-              action={action}
-              selected={selected}
-              selectedKey={selectedKey}
-              onContextMenu={handleContextMenu}
-              enableContextMenu={enableContextMenu}
-              onThreeDotsClick={handleThreeDotsClick}
-            />
+          <div className="table-rows-container" style={{ position: 'relative' }}>
+            {virtualizedSortingResult.showSkeleton &&
+              rows.length > 0 &&
+              virtualizedSortingResult.totalRowCount > 500 && (
+                <TableSkeleton
+                  totalRowCount={virtualizedSortingResult.totalRowCount}
+                  rowsLength={rows.length}
+                  isNeedMultipleCheck={isNeedMultipleCheck}
+                  columns={columns}
+                />
+              )}
+
+            {shouldUseVirtualization ? (
+              <div className="rows-virtualized-dynamic">
+                <TableRowsV3VirtualizedDynamic
+                  columns={columns}
+                  rows={flattenedRows}
+                  urlNav={urlNav}
+                  isActiveDisable={isActiveDisable}
+                  isNeedMultipleCheck={isNeedMultipleCheck}
+                  limit={limit}
+                  action={action}
+                  selected={selected}
+                  selectedKey={selectedKey}
+                  onContextMenu={handleContextMenu}
+                  enableContextMenu={enableContextMenu}
+                  onThreeDotsClick={handleThreeDotsClick}
+                  rowHeight={rowHeight}
+                  containerHeight={getContainerHeight()}
+                />
+              </div>
+            ) : (
+              <div className={`rows ${hasScroll ? 'rows-with-scroll' : ''}`} ref={rowRef}>
+                <TableRowsV3
+                  columns={columns}
+                  rows={flattenedRows}
+                  urlNav={urlNav}
+                  isActiveDisable={isActiveDisable}
+                  isNeedMultipleCheck={isNeedMultipleCheck}
+                  limit={limit}
+                  action={action}
+                  selected={selected}
+                  selectedKey={selectedKey}
+                  onContextMenu={handleContextMenu}
+                  enableContextMenu={enableContextMenu}
+                  onThreeDotsClick={handleThreeDotsClick}
+                />
+              </div>
+            )}
           </div>
         </Show>
-        <Show when={showRows && !Boolean(preProcessedRows.length)}>
+        <Show
+          when={
+            showRows && !memoizedValues.hasFlattenedRows && !virtualizedSortingResult.showSkeleton
+          }>
           <EmptyCard info={emptyInfo} title={emptyTitle} icon={emptyIcon} />
         </Show>
 
-        {/* Context Menu */}
         <Show when={contextMenu.visible}>
           {createPortal(
             <div
-              className=" card table-context-menu"
+              className="card table-context-menu"
               style={{
                 top: contextMenu.y,
                 left: contextMenu.x,

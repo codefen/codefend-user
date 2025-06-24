@@ -26,7 +26,7 @@ import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
+import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';

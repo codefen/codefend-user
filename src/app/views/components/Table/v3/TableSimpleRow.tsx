@@ -1,21 +1,9 @@
 import { type FC, type MouseEvent } from 'react';
 import TableCellV3 from './TableCellV3';
 import { ThreeDotsIcon } from '@icons';
+import type { TableSimpleRowProps } from './types';
 
-interface LabelRowProps {
-  itemDisable: string;
-  row: any;
-  nextRow?: any;
-  columns: any;
-  action?: (val?: any) => void;
-  selected?: any;
-  selectedKey?: string;
-  onContextMenu?: (event: MouseEvent, row: any) => void;
-  enableContextMenu?: boolean;
-  onThreeDotsClick?: (event: MouseEvent, row: any) => void;
-}
-
-const TableSimpleRow: FC<LabelRowProps> = ({
+const TableSimpleRow: FC<TableSimpleRowProps> = ({
   itemDisable,
   row,
   nextRow,

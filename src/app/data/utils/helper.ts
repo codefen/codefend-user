@@ -414,8 +414,28 @@ export const highlightToBeforeAfterMatch = (title: string, appName: string) => {
 };
 
 export const flattenRowsData = (rowsData: any[]) => {
-  return Boolean(rowsData.length) ? [...rowsData].flatMap(data => data) : [];
+  if (!rowsData || rowsData.length === 0) {
+    return [];
+  }
+
+  const flattened: any[] = [];
+
+  const flatten = (resource: any) => {
+    flattened.push(resource);
+    if (resource?.childs && Array.isArray(resource.childs)) {
+      for (const child of resource.childs) {
+        flatten(child);
+      }
+    }
+  };
+
+  for (const resource of rowsData) {
+    flatten(resource);
+  }
+
+  return flattened;
 };
+
 export const compareValues = (a: any, b: any, sortDirection: string): number => {
   if (typeof a === 'object' && typeof b === 'object') {
     a = getValueFromObject(a);
@@ -460,6 +480,14 @@ export const quickSort = (arr: any[], dataSort: string, sortDirection: string): 
       stack.push(pivotIndex + 1, right);
     }
   }
+
+  // Ordenar recursivamente los childs si existen
+  for (const item of auxArr) {
+    if (item?.childs && Array.isArray(item.childs) && item.childs.length > 0) {
+      item.childs = quickSort(item.childs, dataSort, sortDirection);
+    }
+  }
+
   return auxArr;
 };
 

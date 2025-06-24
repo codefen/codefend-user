@@ -1,57 +1,65 @@
-import { useCallback, type FC } from 'react';
-import { Sort } from '@interfaces/table.ts';
+import { memo, useCallback, type FC, type ReactNode } from 'react';
+import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Show from '@/app/views/components/Show/Show';
+import type { TableColumnsV3Props } from './types';
 
-interface TableColumnsProps {
-  columns: any[];
-  sortedColumn: string;
-  sort: Sort;
-  isNeedMultipleCheck: boolean;
-  setSortColumn: (updated: string) => void;
-  setSort: (updated: Sort) => void;
-  isNeedSort: boolean;
-}
-
-const TableColumnsV3: FC<TableColumnsProps> = ({
+const TableColumnsV3: FC<TableColumnsV3Props> = ({
+  columns,
   sortedColumn,
   sort,
-  columns,
   setSort,
   setSortColumn,
-  isNeedSort,
+  isNeedMultipleCheck = false,
+  isNeedSort = true,
+  onSortStart,
 }) => {
-  const handleSort = useCallback((cn: string, cds: string, cs: Sort) => {
-    if (cn === cds) {
-      setSort(cs === Sort.asc ? Sort.desc : Sort.asc);
-    } else {
-      setSortColumn(cn);
-      setSort(Sort.asc);
-    }
-  }, []);
-  const onClickColumn = (column: string) => {
-    if (column === TABLE_KEYS.ACTION || !isNeedSort) return;
-    handleSort(column, sortedColumn, sort);
+  const handleSortClick = useCallback(
+    (column: string) => {
+      if (column === TABLE_KEYS.ACTION || !isNeedSort) return;
+
+      onSortStart?.();
+
+      if (sortedColumn === column) {
+        // Misma columna: cambiar dirección
+        const newSort = sort === Sort.asc ? Sort.desc : Sort.asc;
+        setSort(newSort);
+      } else {
+        // Nueva columna: cambiar columna y resetear a ascendente
+        setSortColumn(column);
+      }
+    },
+    [sortedColumn, sort, isNeedSort, setSort, setSortColumn, onSortStart]
+  );
+
+  const getSortIcon = (column: string) => {
+    if (column !== sortedColumn) return null;
+
+    return <span className="sort-icon">{sort === Sort.asc ? '↑' : '↓'}</span>;
   };
 
   return (
-    <div className="columns-name">
-      {columns.map((column: any, i: number) => (
+    <div className="table-header">
+      <Show when={isNeedMultipleCheck}>
+        <div className="column-header checkbox-header">
+          <input type="checkbox" />
+        </div>
+      </Show>
+
+      {columns.map((column, i) => (
         <div
-          className={`column item-cell ${column.styles} ${!isNeedSort && 'not-sort'}`}
           key={`cv3-${i}`}
+          className={`column-header item-cell ${column.styles} ${column.key === sortedColumn ? 'sorted' : ''}`}
           style={{ '--cell-expand': column.weight } as any}
-          onClick={() => onClickColumn(column.key)}>
-          {column.header}
-          <Show when={isNeedSort}>
-            {sortedColumn === column.key && (
-              <span className="sort">{sort === Sort.asc ? '↑' : '↓'}</span>
-            )}
-          </Show>
+          onClick={() => handleSortClick(column.key)}>
+          <div className="column-content">
+            {column.header}
+            {getSortIcon(column.key)}
+          </div>
         </div>
       ))}
     </div>
   );
 };
 
-export default TableColumnsV3;
+export default memo(TableColumnsV3);

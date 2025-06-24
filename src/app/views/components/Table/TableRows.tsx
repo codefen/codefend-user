@@ -37,10 +37,10 @@ const TableRows: FC<TableRowsProps> = ({
   urlNav,
   handleSelected,
 }) => {
-  const flattenedRows = useMemo(() => flattenRowsData(rowsData), [rowsData]);
+  // Aplicar sorting directamente sobre los datos originales para mantener la jerarquía
   const rows = useMemo(
-    () => quickSort(flattenedRows.slice(), dataSort, sortDirection),
-    [dataSort, sortDirection, flattenedRows]
+    () => quickSort(rowsData.slice(), dataSort, sortDirection),
+    [dataSort, sortDirection, rowsData]
   );
   const columnForRows = filterForRow(columns, isActiveAction);
 

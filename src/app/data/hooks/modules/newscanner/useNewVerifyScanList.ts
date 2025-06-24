@@ -10,13 +10,10 @@
  * - Actualización en tiempo real del estado de escaneos
  */
 
-import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
-import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { AUTO_SCAN_STATE } from '@interfaces/panel';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
-import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import useSWR from 'swr';
 
 interface ScanManager {
@@ -44,13 +41,6 @@ const fetcher = ([model, { company }]: any) => {
       scans: [],
       companyUpdated: null,
     }));
-};
-
-const getLatestScan = (scans: any[]) => {
-  if (scans.length === 0) return null;
-  return scans.reduce((a, b) =>
-    new Date(a.creacion).getTime() > new Date(b.creacion).getTime() ? a : b
-  );
 };
 
 export const useNewVerifyScanList = () => {
