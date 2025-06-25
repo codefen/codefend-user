@@ -15,12 +15,8 @@ export const verifyPath = (verifyPath: string, isRoot: boolean) => {
     return currentPath === verifyPath;
   }
 
-  // Dividimos las rutas en segmentos para una comparación más precisa
-  const currentPathSegments = currentPath.split('/').filter(Boolean);
-  const verifyPathSegments = verifyPath.split('/').filter(Boolean);
-
-  // Comparamos el primer segmento. Esto asegura que /web no coincida con /web-surveillance
-  return currentPathSegments[0] === verifyPathSegments[0];
+  // Para rutas no raíz, comparamos la ruta completa para evitar coincidencias parciales
+  return currentPath === verifyPath || currentPath.startsWith(verifyPath + '/');
 };
 
 const Sidebar = () => {

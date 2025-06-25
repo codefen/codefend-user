@@ -25,7 +25,7 @@ const DashboardSearchbar: FC = () => {
       toast.warn(DASHBOARD_PANEL_TEXT.EMPTY_CLASS_SEARCH);
       return;
     }
-    navigate('/sns?search=' + searchValue + '&class=' + searchClass);
+    navigate('/sns?keyword=' + encodeURIComponent(searchValue.trim()) + '&class=' + encodeURIComponent(searchClass));
   };
 
   return (
