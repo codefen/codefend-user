@@ -13,6 +13,7 @@ const SocialEngineering: FC<SocialEngineeringProps> = ({
 	sentryRef,
 }) => {
 	const isLoading = !paginatedMembers || paginatedMembers.length === 0;
+	const hasMore = paginatedMembers.length > 0 && paginatedMembers.length % 10 === 0; // Suponiendo que se cargan 10 elementos por página
 
 	return (
 		<div className="card">
@@ -51,6 +52,11 @@ const SocialEngineering: FC<SocialEngineeringProps> = ({
 							</div>
 						</div>
 					))}
+				{hasMore ? (
+					<div className="loading-message">More elements loading...</div>
+				) : (
+					<div className="loading-message">All elements are listed.</div>
+				)}
 			</div>
 		</div>
 	);
