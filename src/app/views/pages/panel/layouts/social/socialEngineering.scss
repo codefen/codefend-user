@@ -35,6 +35,11 @@ main.social {
         height: 43px;
       }
     }
+
+    .members-list {
+      overflow: auto;
+      max-height: calc(100cqh - 6rem);
+    }
   }
 
   .right {
