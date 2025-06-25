@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { useNavigate } from 'react-router';
 import '../socialEngineering.scss';
 import { LinkedinV2Icon } from '@/app/views/components/icons/LinkedinV2Icon';
 import type { MemberV2 } from '@interfaces/panel';
@@ -12,8 +13,19 @@ const SocialEngineering: FC<SocialEngineeringProps> = ({
 	paginatedMembers,
 	sentryRef,
 }) => {
+	const navigate = useNavigate();
 	const isLoading = !paginatedMembers || paginatedMembers.length === 0;
 	const hasMore = paginatedMembers.length > 0 && paginatedMembers.length % 10 === 0; // Suponiendo que se cargan 10 elementos por página
+
+	const handleMemberClick = (email: string, event: React.MouseEvent) => {
+		// Prevenir la navegación si se hace clic en el enlace de LinkedIn
+		if ((event.target as HTMLElement).closest('a')) {
+			return;
+		}
+		
+		// Navegar a SNS con los parámetros de búsqueda
+		navigate(`/sns?keyword=${encodeURIComponent(email)}&class=email`);
+	};
 
 	return (
 		<div className="card">
@@ -27,7 +39,9 @@ const SocialEngineering: FC<SocialEngineeringProps> = ({
 							}
 							className={`social-card ${
 								member.linkedin_url ? 'has-linkedin' : ''
-							}`}>
+							}`}
+							onClick={(e) => handleMemberClick(member.email, e)}
+							style={{ cursor: 'pointer' }}>
 							<div className="social-card-info">
 								<span>{member.id}</span>
 								<span className="separator">|</span>
