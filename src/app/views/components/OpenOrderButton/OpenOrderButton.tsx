@@ -6,6 +6,7 @@ import { useOrderStore } from '@stores/orders.store';
 import { useEffect, useState, type ReactNode } from 'react';
 import { AimIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show';
+import { PLAN_IMAGE } from '@/app/constants/app-contanst';
 
 interface OpenOrderButtonProps {
   resourceCount?: number;
@@ -120,11 +121,16 @@ const OpenOrderButton = ({
     globalStore.planPreference.get,
     hasActiveOrder,
   ]);
-
   return (
     <div className="card title">
       <div className="header">
-        {/* <AimIcon /> */}
+        <img
+          src={PLAN_IMAGE[globalStore.planPreference.get as keyof typeof PLAN_IMAGE]}
+          width={28}
+          height={28}
+          style={{ width: '28px' }}
+          alt="recommended-plan"
+        />
         <span>{!hasActiveOrder ? titleMap[type] : 'Pentest in progress'}</span>
       </div>
       <div className="content">

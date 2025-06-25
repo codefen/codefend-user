@@ -24,6 +24,12 @@ main.social {
       }
     }
 
+    .form-input {
+      input {
+        border: none;
+      }
+    }
+
     .table {
       min-width: 700px;
       .rows {

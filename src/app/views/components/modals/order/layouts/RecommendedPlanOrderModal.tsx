@@ -43,6 +43,7 @@ export const RecommendedPlanOrderModal = () => {
       [ResourcesTypes.SOCIAL]: OrderSection.SOCIAL_SCOPE,
       [ResourcesTypes.CLOUD]: OrderSection.SCOPE,
       [ResourcesTypes.CODE]: OrderSection.SCOPE,
+      [ResourcesTypes.LEAKS]: OrderSection.SCOPE,
     };
     updateState('orderStepActive', resource[resourceType] as OrderSection);
   };

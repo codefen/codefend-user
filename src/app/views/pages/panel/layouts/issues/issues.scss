@@ -9,6 +9,7 @@ main.issue-detail {
     --tiny-border-color: var(--primary-color-300);
     --tiny-bg-color: var(--primary-color);
     --tiny-hover-bg-color: var(--primary-color-400);
+    overflow: hidden;
 
     > div {
       border-left: 1px solid var(--tiny-border-color);

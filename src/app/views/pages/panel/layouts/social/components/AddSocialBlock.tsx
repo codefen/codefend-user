@@ -24,7 +24,6 @@ export default function AddSocialBlock({ isLoading }: { isLoading: boolean }) {
               setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
             }}
             className="btn-black"
-            isDisabled={isLoading}
             disabledLoader={true}
           />
         </div>

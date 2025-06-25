@@ -3,32 +3,12 @@ main.lan {
     flex: 1 1 68%;
     width: 68%;
 
-    .table {
-      .id {
-        max-width: 8%;
-        min-width: 8%;
-        margin-inline-end: 1%;
-
-        &.action {
-          max-width: 17.5%;
-          min-width: 17.5%;
-
-          .publish {
-            justify-content: center;
-          }
-        }
-      }
-
-      .ip {
-        max-width: 22%;
-        min-width: 22%;
-        margin-inline-end: 1%;
-      }
-
-      .full-name {
-        max-width: 26.5%;
-        min-width: 26.5%;
-        margin-inline-end: 1%;
+    .table.table-lan {
+      background-color: var(--primary-color);
+      border-radius: var(--brd-radius);
+      .rows {
+        overflow: auto;
+        max-height: calc(100cqh - 115px);
       }
     }
   }

@@ -140,7 +140,6 @@ const SocialEngineeringView = () => {
           className="primary-full"
           type={ResourcesTypes.SOCIAL}
           resourceCount={members?.length || 0}
-          isLoading={isLoading}
           scope={OrderSection.SOCIAL_SCOPE}
         />
       </section>
