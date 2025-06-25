@@ -1075,6 +1075,20 @@
       text-wrap: pretty;
       overflow-wrap: break-word;
       max-height: none;
+      font-size: 14px;
+      padding: 5px 0px;
+      line-height: 22px;
+    }
+
+    b {
+      font-weight: bold;
+      font-family: satoshi;
+    }
+
+    code {
+      font-size: 1em;
+      background: #eee;
+      font-family: satoshi;
     }
   }
 
@@ -1267,4 +1281,14 @@
       }
     }
   }
+}
+
+// Identificador: Estilos de los párrafos de los mensajes en el chat de soporte
+.message-card .message-card-container p {
+  max-width: 100%;
+  overflow: hidden;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+  max-height: none;
+  font-size: 14px;
 }
