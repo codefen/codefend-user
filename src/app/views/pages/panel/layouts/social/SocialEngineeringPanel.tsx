@@ -18,8 +18,8 @@ import { useFilteredSocialMembers } from '@/app/data/hooks/resources/social/useF
 import { SocialEngineeringFilters } from './components/SocialEngineeringFilters.tsx';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
 import { MagnifyingGlassIcon } from '@icons';
-import { useInView } from 'react-intersection-observer';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
+import { useIntersectionObserver } from 'usehooks-ts';
 
 const SocialEngineeringView = () => {
   const { setModalId, setIsOpen } = useModalStore();
@@ -52,7 +52,7 @@ const SocialEngineeringView = () => {
     'userLoggingState',
   ]);
 
-  const { ref, inView } = useInView({ threshold: 0 });
+  const { ref, isIntersecting: inView } = useIntersectionObserver({ threshold: 0.5 });
 
   useEffect(() => {
     if (inView && !isReachingEnd) {
