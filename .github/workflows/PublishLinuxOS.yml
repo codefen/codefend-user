@@ -253,10 +253,9 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: 'src-tauri/target/release/bundle/appimage/${{ steps.extract-signatures.outputs.linux_x86_64_name }}"
+          subject-path: "src-tauri/target/release/bundle/appimage/${{ steps.extract-signatures.outputs.linux_x86_64_name }}"
           sbom-path: "sbom.spdx.json"
 
-      # NUEVO: Verificación final de seguridad
       - name: 🔐 Final security verification
         run: |
           package_version="${{ inputs.package_version }}"
