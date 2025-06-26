@@ -186,14 +186,19 @@ jobs:
           output-file: "sbom.spdx.json"
           artifact-name: "macos_${{ matrix.target }}.sbom.spdx.json"
 
+      - name: 🧠 Set subject path
+        id: set-subject-path
+        run: |
+          if [[ "${{ matrix.target }}" == *"x86_64"* ]]; then
+            echo "subject_path=src-tauri/target/x86_64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_x86_64_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "subject_path=src-tauri/target/aarch64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_aarch64_name }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: >-
-            ${{ 
-              (contains(matrix.target, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_x86_64_name }}' ||
-              (contains(matrix.target, 'aarch64')) && 'src-tauri/target/x86_64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_aarch64_name }}'
-            }}
+          subject-path: ${{ steps.set-subject-path.outputs.subject_path }}
           sbom-path: "sbom.spdx.json"
 
       - name: 🧹 Secure cleanup
