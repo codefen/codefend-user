@@ -75,7 +75,7 @@ export const useVirtualizedSorting = ({
 }: UseVirtualizedSortingProps): VirtualizedSortingResult => {
   // Estado para controlar el skeleton
   const [showSkeleton, setShowSkeleton] = useState(false);
-  const skeletonTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const skeletonTimeoutRef = useRef<any>(null);
 
   // Validaciones tempranas para evitar procesamiento innecesario
   const shouldProcess = useMemo(() => {
