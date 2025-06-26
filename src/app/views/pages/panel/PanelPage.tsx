@@ -18,7 +18,6 @@ import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResourcesOrderModel.tsx';
 import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
 import { OrderV2 } from '@modals/index.ts';
-import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress.ts';
 import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
 import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import { ScanWraper } from '@/app/views/pages/panel/ScanWraper.tsx';
