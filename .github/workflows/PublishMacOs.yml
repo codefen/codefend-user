@@ -166,6 +166,15 @@ jobs:
 
           echo "✅ Signature extracted successfully."
 
+      - name: 🧠 Set subject path
+        id: set-subject-path
+        run: |
+          if [[ "${{ matrix.target }}" == *"x86_64"* ]]; then
+            echo "subject_path=src-tauri/target/x86_64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_x86_64_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "subject_path=src-tauri/target/aarch64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_aarch64_name }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: 🛡️ Attest build provenance (publish release only)
         uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
         env:
@@ -174,7 +183,7 @@ jobs:
           CARGO_TERM_COLOR: always
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          subject-path: src-tauri/target/**/release/bundle/macos/*.tar.gz*
+          subject-path: ${{ steps.set-subject-path.outputs.subject_path }}
           push-to-registry: false
           show-summary: true
           github-token: ${{ env.GITHUB_TOKEN }}
@@ -185,15 +194,6 @@ jobs:
           format: "spdx-json"
           output-file: "sbom.spdx.json"
           artifact-name: "macos_${{ matrix.target }}.sbom.spdx.json"
-
-      - name: 🧠 Set subject path
-        id: set-subject-path
-        run: |
-          if [[ "${{ matrix.target }}" == *"x86_64"* ]]; then
-            echo "subject_path=src-tauri/target/x86_64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_x86_64_name }}" >> $GITHUB_OUTPUT
-          else
-            echo "subject_path=src-tauri/target/aarch64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_aarch64_name }}" >> $GITHUB_OUTPUT
-          fi
 
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
