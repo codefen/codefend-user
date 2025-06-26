@@ -170,9 +170,9 @@ jobs:
         id: set-subject-path
         run: |
           if [[ "${{ matrix.target }}" == *"x86_64"* ]]; then
-            echo "subject_path=${{ steps.extract-signatures.outputs.macos_x86_64_sig }}" >> $GITHUB_OUTPUT
+            echo "subject_path=src-tauri/target/x86_64-apple-darwin/release/bundle/macos/${{ steps.extract-signatures.outputs.macos_x86_64_name }}" >> $GITHUB_OUTPUT
           else
-            echo "subject_path=${{ steps.extract-signatures.outputs.macos_aarch64_sig }}" >> $GITHUB_OUTPUT
+            echo "subject_path=src-tauri/target/aarch64-apple-darwin/release/bundle/macos/${{ steps.extract-signatures.outputs.macos_aarch64_name }}" >> $GITHUB_OUTPUT
           fi
 
       - name: 🛡️ Attest build provenance (publish release only)
