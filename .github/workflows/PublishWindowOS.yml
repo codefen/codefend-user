@@ -174,12 +174,17 @@ jobs:
       - name: 🔍 Verify executable signature
         run: |
           $package_version = "${{ inputs.package_version }}"
-          $exePath = "src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.exe"
-          
-          if (-not (Test-Path $exePath)) {
-            Write-Error "Executable not found: $exePath"
+          $exePath = Get-ChildItem "src-tauri\target\release\bundle\nsis" -Filter "*${{ inputs.package_version }}_x64-setup.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+
+          if (-not $exePath) {
+            Write-Error "No matching executable found"
             exit 1
           }
+          
+          # if (-not (Test-Path $exePath)) {
+          #   Write-Error "Executable not found: $exePath"
+          #   exit 1
+          # }
           
           # Verificar firma digital
           $signature = Get-AuthenticodeSignature -FilePath $exePath

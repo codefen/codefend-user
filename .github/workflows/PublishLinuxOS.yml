@@ -47,14 +47,21 @@ jobs:
         with:
           node-version: 20
 
-      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
-        run: npm install -g pnpm@9.7.0
+      - name: 🛠️ Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
-      - name: 📦 Install frontend dependencies
-        run: |
-          pnpm config set store-dir ~/.pnpm-store
-          pnpm install --frozen-lockfile --ignore-scripts
+      - name: 🛠️ Install dependencies
+        run: bun install
           
+      - name: 🌍 Export GitHub Actions cache environment variables
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
       - name: 🔧 Install system dependencies
         run: |
           sudo apt-get update
@@ -79,8 +86,8 @@ jobs:
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
           echo "VITE_API_URI=https://api.codefend.com/index.php" >> .env
           
-      - name: 🔨 Build frontend
-        run: pnpm build
+      - name: 🔨 Run build client
+        run: bun run build
 
       - name: 📥 Cached install tauri-cli
         uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
@@ -95,36 +102,69 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          TAURI_BUNDLE_IDENTIFIER: "com.codefend.app"
+          TAURI_BUNDLE_VERSION: ${{ inputs.package_version }}
         with:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
 
-      - name: 📤 Upload Release Assets
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-            const artifacts = [
-              'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage'
-            ];
-            for (const artifact of artifacts) {
-              if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {
-                await github.rest.repos.uploadReleaseAsset({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  release_id: ${{ inputs.release_id }},
-                  name: `linux-${path.basename(artifact)}`,
-                  data: fs.readFileSync(artifact)
-                });
-              }
-            }
+      - name: 🔍 Verify build artifacts
+        run: |
+          package_version="${{ inputs.package_version }}"
+          
+          echo "=== Build Artifacts Verification ==="
+          
+          # Verificar AppImage
+          appimage_path=$(find src-tauri/target/release/bundle/appimage -type f -name "*_${package_version}_amd64.AppImage" | head -n 1)
+
+          if [[ -z "$appimage_path" ]]; then
+            echo "❌ AppImage not found for version $package_version"
+            exit 1
+          fi
+          if [[ -f "$appimage_path" ]]; then
+            echo "✅ AppImage found: $appimage_path"
+            echo "   Size: $(du -h "$appimage_path" | cut -f1)"
+            echo "   Permissions: $(ls -la "$appimage_path" | cut -d' ' -f1)"
+          fi
+          
+          # Verificar firma
+          sig_path="${appimage_path}.sig"
+          if [[ -f "$sig_path" ]]; then
+            echo "✅ Signature found: $sig_path"
+            echo "   Content preview: $(head -c 100 "$sig_path")"
+          else
+            echo "❌ Signature not found: $sig_path"
+            exit 1
+          fi
+          
+          # Verificar DEB si existe
+          deb_path="src-tauri/target/release/bundle/deb/codefend-panel_${package_version}_amd64.deb"
+          if [[ -f "$deb_path" ]]; then
+            echo "✅ DEB package found: $deb_path"
+            echo "   Size: $(du -h "$deb_path" | cut -f1)"
+          fi
+          
+          # Verificar RPM si existe  
+          rpm_path="src-tauri/target/release/bundle/rpm/codefend-panel-${package_version}-1.x86_64.rpm"
+          if [[ -f "$rpm_path" ]]; then
+            echo "✅ RPM package found: $rpm_path"
+            echo "   Size: $(du -h "$rpm_path" | cut -f1)"
+          fi
+          
+          echo "===================================="
 
       - name: 📝 Extract Signatures and Set Outputs
         id: extract-signatures
         run: |
           package_version="${{ inputs.package_version }}"
+
+          # Buscar el archivo .sig correspondiente al AppImage generado
+          sig_file=$(find src-tauri/target/release/bundle/appimage -type f -name "*_${package_version}_amd64.AppImage.sig" | head -n 1)
+
+          if [[ -z "$sig_file" ]]; then
+            echo "❌ Signature file not found for version $package_version" >&2
+            exit 1
+          fi
 
           read_signature() {
             local file="$1"
@@ -132,26 +172,66 @@ jobs:
               echo "Error: File $file not found" >&2
               exit 1
             fi
-            tr -d '\n' < "$file" | xargs
+
+            # Leer y limpiar la firma
+            local sig_content=$(tr -d '\n' < "$file" | xargs)
+
+            if [[ -z "$sig_content" ]]; then
+              echo "Error: Signature file $file is empty" >&2
+              exit 1
+            fi
+
+            echo "$sig_content"
           }
 
-          linux_x86_64_sig=$(read_signature "src-tauri/target/release/bundle/appimage/codefend-panel_${package_version}_amd64.AppImage.sig")
+          linux_x86_64_sig=$(read_signature "$sig_file")
 
           echo "Signatures extracted successfully."
           echo "linux_x86_64_sig=$linux_x86_64_sig" >> $GITHUB_OUTPUT
 
-      - name: 🛡️ Attest build provenance (publish release only)
+          # Debug info
+          echo "=== Signature Info ==="
+          echo "Signature path: $sig_file"
+          echo "Signature length: ${#linux_x86_64_sig}"
+          echo "Signature preview: ${linux_x86_64_sig:0:50}..."
+          echo "======================"
+
+      # - name: 🛡️ Attest build provenance (publish release only)
+      #   uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
+      #   env:
+      #     CARGO_HOME: /home/runner/.cargo
+      #     CARGO_INCREMENTAL: 0
+      #     CARGO_TERM_COLOR: always
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     subject-path: src-tauri/target/release/bundle/*
+      #     push-to-registry: false
+      #     show-summary: true
+      #     github-token: ${{ env.GITHUB_TOKEN }}
+  
+      # - name: 📜 Create SBOM
+      #   uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
+      #   with:
+      #     format: "spdx-json"
+      #     output-file: "sbom.spdx.json"
+      #     artifact-name: "linux_${{ matrix.target }}.sbom.spdx.json"
+  
+      # - name: 🛡️ Attest SBOM
+      #   uses: actions/attest-sbom@v2
+      #   with:
+      #     subject-path: 'src-tauri/target/release/codefend-panel'
+      #     sbom-path: "sbom.spdx.json"
+
+      - name: 🛡️ Attest build provenance
         uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
-        env:
-          CARGO_HOME: /home/runner/.cargo
-          CARGO_INCREMENTAL: 0
-          CARGO_TERM_COLOR: always
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          subject-path: src-tauri/target/release/bundle/*
+          subject-path: |
+            src-tauri/target/release/bundle/appimage/*.AppImage
+            src-tauri/target/release/bundle/deb/*.deb
+            src-tauri/target/release/bundle/rpm/*.rpm
           push-to-registry: false
           show-summary: true
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
   
       - name: 📜 Create SBOM
         uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
@@ -161,7 +241,39 @@ jobs:
           artifact-name: "linux_${{ matrix.target }}.sbom.spdx.json"
   
       - name: 🛡️ Attest SBOM
-        uses: actions/attest-sbom@v2
+        uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: 'src-tauri/target/release/codefend-panel'
+          subject-path: 'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage'
           sbom-path: "sbom.spdx.json"
+
+      # NUEVO: Verificación final de seguridad
+      - name: 🔐 Final security verification
+        run: |
+          package_version="${{ inputs.package_version }}"
+          appimage_path=$(find src-tauri/target/release/bundle/appimage -type f -name "*_${package_version}_amd64.AppImage" | head -n 1)
+
+          if [[ -z "$appimage_path" ]]; then
+            echo "❌ AppImage not found for version $package_version"
+            exit 1
+          fi
+          if [[ -x "$appimage_path" ]]; then
+            echo "✅ AppImage is executable"
+          fi
+          
+          # Verificar que no contiene información sensible
+          if strings "$appimage_path" | grep -i "password\|secret\|key" | grep -v "password_hash\|public_key"; then
+            echo "⚠️  Warning: Potential sensitive information found in binary"
+          else
+            echo "✅ No obvious sensitive information found"
+          fi
+          
+          # Verificar firma Tauri
+          sig_path="${appimage_path}.sig"
+          if [[ -f "$sig_path" && -s "$sig_path" ]]; then
+            echo "✅ Tauri signature is present and non-empty"
+          else
+            echo "❌ Tauri signature is missing or empty"
+            exit 1
+          fi
+          
+          echo "=============================="
