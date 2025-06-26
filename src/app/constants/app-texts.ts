@@ -3,9 +3,11 @@ export enum RESOURCE_CLASS {
   WEB = 'web',
   CLOUD = 'cloud',
   NETWORK = 'network',
+  LAN_NET = 'lan',
   SOURCE = 'source',
   SOCIAL = 'social',
   RESEARCH = 'research',
+  LEAKS = 'leaks',
   UNKNOWN = 'unknown',
 }
 
@@ -31,11 +33,15 @@ export enum MODAL_KEY_OPEN {
   ADD_DOMAIN = 'add_domain',
   ADD_SUB_DOMAIN = 'add_subdomain',
 
+  START_AUTO_SCAN = 'confirm_autoscan_web',
+  START_KILL_SCAN = 'confirm_kill_autoscan',
+
   DELETE_NETWORK = 'delete_resource',
   DELETE_TICKET = 'delete_ticket',
   DELETE_SOURCE = 'delete_resource',
   DELETE_MEMBER = 'delete',
   DELETE_WEB = 'delete_web',
+  DELETE_APP = 'delete_app',
 
   NETWORK_SETTING = 'network',
   ERROR_CONNECTION = 'error',
@@ -53,7 +59,14 @@ export enum MODAL_KEY_OPEN {
   USER_GUIDE = 'open-g',
   USER_NEXUS_WELCOME = 'open-n',
 
+  USER_WELCOME_DOMAIN = 'owund',
+  USER_WELCOME_SCAN = 'ouwss',
+  USER_WELCOME_FINISH = 'ouwfsf',
+  USER_ADD_NEW_RESOURCES = 'open-add-new-resources',
+
   USER_SELECT_RESOURCE = 'open-lfr',
+
+  PAYWALL = 'paywall-key',
 }
 
 export enum TABLE_KEYS {
@@ -96,7 +109,7 @@ export const cloudEmptyScreen = {
 export const socialEmptyScreen = {
   type: RESOURCE_CLASS.SOCIAL,
   title: 'Social Engineering Resources',
-  subtitle: 'Begin by adding a new individual.',
+  subtitle: 'Begin by adding a new individual to get started.',
   btnText: 'Add social resource',
 };
 

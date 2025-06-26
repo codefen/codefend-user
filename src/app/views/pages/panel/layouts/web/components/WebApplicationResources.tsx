@@ -1,50 +1,49 @@
-import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
-import { useDeleteWebResource } from '@resourcesHooks/web/useDeleteWebResources.ts';
 import type { ColumnTableV3 } from '@interfaces/table.ts';
-import type { Webresource } from '@interfaces/panel.ts';
-import { useReportStore, type ReportStoreState } from '@stores/report.store.ts';
-import useModal from '#commonHooks/useModal.ts';
-import { LocationItem } from '@standalones/utils/LocationItem.tsx';
-import { TrashIcon, GlobeWebIcon, BugIcon, DocumentIcon, CredentialIcon } from '@icons';
-import ConfirmModal from '@modals/ConfirmModal.tsx';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
-import AddSubDomainModal from '@modals/adding-modals/AddSubDomainModal.tsx';
-import AddDomainModal from '@modals/adding-modals/AddDomainModal.tsx';
+import { APP_EVENT_TYPE, type Webresource } from '@interfaces/panel.ts';
+import {
+  TrashIcon,
+  BugIcon,
+  DocumentIcon,
+  CredentialIcon,
+  PlusIcon,
+  CubeIcon,
+  CodefendIcon,
+} from '@icons';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import Show from '@defaults/Show';
 import useCredentialStore from '@stores/credential.store.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
-import TextChild from '@standalones/utils/TextChild';
-import { useTableStoreV3 } from '@table/v3/tablev3.store';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import TextChild from '@/app/views/components/utils/TextChild';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
+import { toast } from 'react-toastify';
+import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { useOrderStore } from '@stores/orders.store';
+import { apiErrorValidation } from '@/app/constants/validations';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
 
 interface WebResourcesProps {
-  refresh: () => void;
   webResources: Webresource[];
   isLoading: boolean;
-}
-
-interface SelectedResource {
-  id: string;
-  domain: string;
-  serverIp: string;
 }
 
 const webColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
-    styles: 'item-cell-1',
-    weight: '6%',
+    styles: 'item-cell-web-1',
+    weight: '10%',
     render: (ID: any) => ID,
   },
   {
     header: 'domain',
-    key: TABLE_KEYS.FULL_WITH_NEXT,
-    styles: 'item-cell-2',
-    weight: '48%',
+    key: 'resource_domain',
+    type: TABLE_KEYS.FULL_WITH_NEXT,
+    styles: 'item-cell-web-2 ',
+    weight: '38%',
     render: (row: any, next?: any) =>
       !row?.resource_domain_dad ? (
         row.resource_domain
@@ -58,38 +57,51 @@ const webColumns: ColumnTableV3[] = [
   {
     header: 'server ip',
     key: 'main_server',
-    styles: 'item-cell-3',
-    weight: '12%',
+    styles: 'item-cell-web-3',
+    weight: '19%',
     render: (ip: any) => ip,
   },
   {
     header: 'area',
-    key: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-4',
-    weight: '16%',
+    key: 'server_pais',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-web-4',
+    weight: '22%',
     render: (row: any) => (
       <LocationItem country={row?.server_pais || ''} countryCode={row?.server_pais_code || ''} />
     ),
   },
+  {
+    header: 'issues',
+    key: 'final_issues',
+    styles: 'item-cell-web-5',
+    weight: '11%',
+    render: (final_issues: any) => (
+      <>
+        <BugIcon />
+        {final_issues || 0}
+      </>
+    ),
+  },
 ];
 
-export const WebApplicationResources: FC<WebResourcesProps> = ({
-  isLoading,
-  refresh,
-  webResources,
-}) => {
+export const WebApplicationResources = ({ isLoading, webResources }: WebResourcesProps) => {
   const navigate = useNavigate();
-  const { isAdmin, isProvider, isNormalUser } = useUserRole();
+  const { isAdmin, isProvider } = useUserRole();
   const userHaveAccess = isAdmin() || isProvider();
-  const [selectedResource, setSelectedResource] = useState<SelectedResource>({} as any);
-  const { openModal, setResourceID, setResourceType } = useReportStore(
-    (state: ReportStoreState) => state
-  );
-  const { showModal, setShowModal, showModalStr, setShowModalStr } = useModal();
+  const { resourceType, openModal, resourceID, webResourceSelected, appEvent } =
+    useGlobalFastFields([
+      'resourceType',
+      'openModal',
+      'resourceID',
+      'webResourceSelected',
+      'company',
+      'appEvent',
+    ]);
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
-  const { handleDelete } = useDeleteWebResource();
-  const { removeItem } = useTableStoreV3();
+  const { autoScan } = useAutoScan();
+  const { updateState } = useOrderStore();
 
   const createIssue = (id: string) => {
     navigate(userHaveAccess ? `/issues/create/web/${id}` : '', {
@@ -98,19 +110,15 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
   };
   const generateWebReport = (id: string, final_issues: any) => {
     if (Number(final_issues) >= 1) {
-      openModal();
-      setResourceID(id);
-      setResourceType(RESOURCE_CLASS.WEB);
+      openModal.set(true);
+      resourceID.set(id);
+      resourceType.set(RESOURCE_CLASS.WEB);
     }
   };
   const deleteWebResource = (row: any) => {
-    setSelectedResource({
-      id: row.id,
-      domain: row.resourceDomain,
-      serverIp: row.mainServer,
-    });
-    setShowModal(true);
-    setShowModalStr(MODAL_KEY_OPEN.DELETE_WEB);
+    webResourceSelected.set(row);
+    setIsOpen(true);
+    setModalId(MODAL_KEY_OPEN.DELETE_WEB);
   };
   const addCreds = (id: string) => {
     setResourceId(id);
@@ -119,116 +127,95 @@ export const WebApplicationResources: FC<WebResourcesProps> = ({
     setModalId(RESOURCE_CLASS.WEB);
   };
 
-  const webColumnsWith = [
-    ...webColumns,
+  const contextMenuActions = [
     {
-      header: '',
-      key: 'full-2',
-      styles: 'item-cell-5 action',
-      weight: '15.5%',
-      render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
-          <span
-            className={`issue-icon ${userHaveAccess ? '' : 'disable'}`}
-            title={`${isNormalUser() ? '' : 'Add Issue'}`}
-            onClick={() => createIssue(row.id)}>
-            <BugIcon isButton key={`bugi-${row.id}`} />
-            <span className="codefend-text-red-200 issue-count">{row.final_issues}</span>
-          </span>
-          <span
-            title="View report"
-            className={`issue-printer ${Number(row.final_issues) == 0 ? 'off' : ''}`}
-            onClick={() => generateWebReport(row.id, row.final_issues)}>
-            <DocumentIcon isButton width={1.27} height={1.27} key={`doci-${row.id}`} />
-          </span>
-          <Show when={isNormalUser() || isAdmin()}>
-            <span title="Delete" onClick={() => deleteWebResource(row)}>
-              <TrashIcon />
-            </span>
-          </Show>
-
-          <span title="Add credentials" onClick={() => addCreds(row.id)}>
-            <CredentialIcon key={`credi-${row.id}`} />
-          </span>
-        </div>
+      label: 'View report',
+      disabled: (row: any) => Number(row?.final_issues) < 1,
+      icon: <DocumentIcon isButton width={1.27} height={1.27} />,
+      onClick: (row: any) => {
+        generateWebReport(row?.id, row?.final_issues);
+      },
+    },
+    {
+      label: 'AI Scans',
+      icon: (
+        <img
+          src="codefend/pentest-header-vector.svg"
+          alt="Normal Order Icon"
+          style={{ width: '1.3em', height: '1.3em' }}
+        />
       ),
+      onClick: (row: any) => {
+        autoScan(row.resource_domain, true, '').then(result => {
+          if (apiErrorValidation(result)) {
+            updateState('open', true);
+            updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
+            updateState('resourceType', ResourcesTypes.WEB);
+            appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
+            return;
+          }
+          if (result?.neuroscan?.id) {
+            toast.success(APP_MESSAGE_TOAST.START_SCAN);
+            setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+            setIsOpen(true);
+          }
+        });
+      },
+    },
+    {
+      label: 'Delete',
+      disabled: isProvider(),
+      icon: <TrashIcon />,
+      onClick: (row: any) => {
+        deleteWebResource(row);
+      },
+    },
+    {
+      label: 'Add issue',
+      disabled: !userHaveAccess,
+      icon: <BugIcon isButton />,
+      onClick: (row: any) => {
+        webResourceSelected.set(row);
+        createIssue(row.id);
+      },
+    },
+    {
+      label: 'Add subdomain',
+      icon: <PlusIcon />,
+      disabled: (row: any) => !!row?.resource_domain_dad,
+      onClick: (row: any) => {
+        webResourceSelected.set(row);
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
+      },
+    },
+    {
+      label: 'Credentials',
+      icon: <CredentialIcon width="1.3rem" height="1.3rem" />,
+      onClick: (row: any) => {
+        addCreds(row.id);
+      },
     },
   ];
 
   return (
-    <>
-      <AddDomainModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setShowModal(false)}
+    <div className="web-section">
+      <Tablev3
+        className="table-web"
+        columns={webColumns}
+        rows={webResources}
+        showRows={!isLoading}
+        initialOrder="resource_domain"
+        isNeedSearchBar={true}
+        limit={0}
+        isNeedSort
+        enableContextMenu
+        contextMenuActions={contextMenuActions}
+        enableVirtualization={true}
+        rowHeight={49}
+        containerHeight={'calc(100cqh - 115px)'}
+        virtualizationThreshold={100}
       />
-      <ModalTitleWrapper
-        isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_WEB}
-        close={() => setShowModal(false)}
-        type="med-w"
-        headerTitle="Delete web resource">
-        <ConfirmModal
-          header={`Are you sure to remove\n ${selectedResource.domain} - ${selectedResource.serverIp}`}
-          cancelText="Cancel"
-          confirmText="Delete"
-          close={() => setShowModal(false)}
-          action={() =>
-            handleDelete(() => {
-              refresh();
-              removeItem(selectedResource.id);
-            }, selectedResource.id).then(() => setShowModal(false))
-          }
-        />
-      </ModalTitleWrapper>
-
-      <AddSubDomainModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_DOMAIN}
-        onDone={() => refresh()}
-        close={() => setShowModal(false)}
-        webResources={webResources}
-      />
-      <div className="card">
-        <div className="over">
-          <div className="header">
-            <div className="title">
-              <div className="icon">
-                <GlobeWebIcon />
-              </div>
-              <span>Domains and subdomains</span>
-            </div>
-
-            <div className="actions">
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setShowModal(true);
-                  setShowModalStr(MODAL_KEY_OPEN.ADD_DOMAIN);
-                }}>
-                Add domain
-              </div>
-              <div
-                onClick={() => {
-                  if (isLoading) return;
-
-                  setShowModal(true);
-                  setShowModalStr(MODAL_KEY_OPEN.ADD_SUB_DOMAIN);
-                }}>
-                Add subdomain
-              </div>
-            </div>
-          </div>
-
-          <Tablev3
-            className="table-web"
-            columns={webColumnsWith}
-            rows={webResources}
-            showRows={!isLoading}
-            initialOrder="resource_domain"
-            isNeedSearchBar
-          />
-        </div>
-      </div>
-    </>
+    </div>
   );
 };

@@ -1,0 +1,94 @@
+.phoneInputContainer {
+  width: 100%;
+}
+
+.phoneInputContent {
+  display: flex;
+  border: 1px solid var(--primary-color-300);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--primary-color);
+  color: var(--tertiary-color-500);
+
+  input {
+    border-width: 0;
+  }
+}
+
+.countrySelector {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  min-width: 95px;
+  border-right: 1px solid var(--primary-color-300);
+}
+
+.selected-country {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 8px;
+  height: 100%;
+}
+
+.arrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8em;
+  color: var(--tertiary-color-700);
+  transition: transform 0.2s ease;
+
+  &.open {
+    transform: translateY(-50%) rotate(180deg);
+  }
+}
+
+.country-list {
+  --country-list-bg: var(--primary-color-50);
+  --country-text-color: var(--tertiary-color-400);
+  --country-hover-item: var(--primary-color-400);
+  background-color: var(--country-list-bg);
+  border-radius: 6px;
+  overflow-y: auto;
+  max-height: 200px;
+
+  button {
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    transition: background-color 0.2s;
+    display: flex;
+    border: none;
+    width: 100%;
+
+    &:hover {
+      background-color: var(--country-hover-item);
+    }
+
+    span {
+      min-width: 16px;
+    }
+  }
+}
+
+.country-name {
+  flex: 1 1 100%;
+  color: var(--country-text-color);
+  text-align: left;
+}
+
+:global([data-theme='dark']) {
+  .country-list {
+    --country-list-bg: #1a1a1a;
+    --country-text-color: var(--tertiary-color-50);
+    --country-hover-item: #333;
+  }
+
+  .phoneInputContent {
+    background-color: rgb(29 38 49 / 12.5%);
+    color: var(--tertiary-color-100);
+  }
+}

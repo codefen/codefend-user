@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 import type { ComponentEventWithOpen } from '@interfaces/util';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import { SourceResourceForm } from '@/app/views/components/forms/SourceResourceForm';
@@ -9,7 +9,7 @@ export const AddRepositoryModal: FC<ComponentEventWithOpen> = ({ isOpen, close, 
     headerTitle="Add repository"
     type="med-w"
     close={() => close?.()}
-    isActive={isOpen}>
+    isActive={isOpen ?? false}>
     <div className="content">
       <SourceResourceForm close={close} onDone={onDone}>
         {isLoading => (

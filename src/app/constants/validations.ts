@@ -5,8 +5,12 @@ import { APP_MESSAGE_TOAST } from './app-toast-texts';
     VALIDACIONES GENERALES / TRANSVERSALES
 */
 //Cuando la api falla suele enviar "error" con valor 1 o "response" con el valor de "error"
-export const apiErrorValidation = (error?: any, response?: any) =>
-  error == '1' || response === 'error';
+export const apiErrorValidation = (data?: any) =>
+  data?.error == '1' ||
+  data?.response === 'error' ||
+  data?.isAnError ||
+  data?.isNetworkError ||
+  Boolean(data?.error_info);
 
 export const companyIdIsNull = (companyID?: any) => {
   if (!companyID) {
@@ -16,7 +20,7 @@ export const companyIdIsNull = (companyID?: any) => {
 };
 
 export const verifySession = (res: any, logout: any) => {
-  if (res.response === 'error' && String(res.info).startsWith('invalid or expired')) {
+  if (res?.error == 1 && String(res.info).startsWith('invalid or expired')) {
     toast.error(APP_MESSAGE_TOAST.SESSION_EXPIRED);
     logout();
     return true;
@@ -33,8 +37,7 @@ export const emailRegexVal =
 export const phoneNumberRegexVal =
   /^\+?((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){2,13}\d$/;
 
-export const passwordRegexVal =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{16,}$/;
+export const passwordRegexVal = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{12,}$/;
 
 export const upperCaseRegexVal = /[A-Z]/;
 export const lowerCaseRegexVal = /[a-z]/;

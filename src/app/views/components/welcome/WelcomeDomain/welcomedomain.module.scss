@@ -1,0 +1,102 @@
+.welcome-modal-container {
+  .btn-search {
+    background-color: inherit;
+    color: var(--tertiary-color-500);
+    border-left: 1px solid var(--primary-color-300);
+    border-radius: 0;
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    height: 41px;
+    width: 55px;
+    transform: scale(1) !important;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+    z-index: 2;
+
+    svg {
+      transform: scale(3.5);
+      fill: var(--secondary-color-150);
+      transition: all 0.2s ease-in-out;
+    }
+    &:hover {
+      background-color: var(--secondary-color-100);
+      svg {
+        fill: white;
+      }
+    }
+  }
+}
+
+.welcome-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+
+  .scanner-eye {
+    width: 65px;
+    height: auto;
+    margin-top: 0.5rem;
+  }
+}
+
+.welcome-text {
+  line-height: 1.6rem;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.input-container {
+  margin-block: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+
+  input {
+    width: 100%;
+    height: 43px;
+    padding: 0.75rem;
+    background-color: var(--primary-color);
+    color: var(--tertiary-color-500);
+    border: 1px solid var(--primary-color-300);
+    border-radius: 4px;
+    font-size: 15px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--secondary-color-50);
+    }
+  }
+}
+
+.limit-container {
+  height: auto;
+  max-height: 285px;
+  position: relative;
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));
+  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));
+}
+
+:global(body[data-theme='dark'] .modal).welcome-modal-container {
+  input {
+    background-color: inherit;
+    color: var(--tertiary-color-100);
+
+    &:focus {
+      color: var(--tertiary-color-200);
+    }
+  }
+
+  .btn-search {
+    border-color: #ffffff10;
+    background-color: var(--primary-color-100);
+
+    svg {
+      fill: var(--secondary-color-50);
+    }
+  }
+}

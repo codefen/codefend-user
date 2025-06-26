@@ -1,9 +1,8 @@
 import { type FC } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { TableWithoutActions } from '@table/TableWithoutActions';
-import { SimpleSection } from '@defaults/SimpleSection';
-import Show from '@defaults/Show';
-import EmptyCard from '@defaults/EmptyCard';
+import Show from '@/app/views/components/Show/Show';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 import { BugIcon } from '@icons';
 import {
   type IssuesShare,
@@ -14,6 +13,7 @@ import {
   vulnerabilityRiskColumns,
   isEmptyShares,
 } from '../../../../../data';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface VulnerabilityRiskProps {
   vulnerabilityByRisk: IssuesShare;
@@ -68,6 +68,7 @@ export const RiskWithoutAction: FC<VulnerabilityRiskProps> = ({
                 resources={tableRows}
                 id={5}
                 isLoading={isLoading}
+                type="risk"
               />
             </>
           </Show>

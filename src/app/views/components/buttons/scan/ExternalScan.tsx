@@ -1,7 +1,8 @@
 import { type FC } from 'react';
-import { ButtonLoader, Show } from '../..';
 import '../buttons.scss';
 import './scanButtons.scss';
+import Show from '@/app/views/components/Show/Show';
+import { ButtonLoader } from '@/app/views/components/loaders/Loader';
 
 interface RequestScanButtonProps {
   scanLoading: boolean;

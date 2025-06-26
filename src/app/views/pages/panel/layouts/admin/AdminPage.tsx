@@ -1,5 +1,5 @@
 import { type FC, Suspense } from 'react';
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/views/components/loaders/Loader';
 import { Outlet } from 'react-router';
 import { useUserData } from '#commonUserHooks/useUserData';
 

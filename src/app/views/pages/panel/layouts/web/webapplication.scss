@@ -1,24 +1,50 @@
 main.webapp {
-  padding-inline-end: 0;
+  // padding-inline-end: 0;
 
+  .empty-card-wrapper form .checkbox-container {
+    margin-bottom: 1rem;
+  }
   .left {
     overflow-y: hidden;
     padding-inline-start: 0;
 
     .table.table-web {
+      background-color: var(--primary-color);
+      border-radius: var(--brd-radius);
       .rows {
-        max-height: calc(100vh - 220px);
-      }
-
-      .column.item-cell.item-cell-1 {
-        --cell-expand: 8.5% !important;
-        padding-inline-start: 1%;
+        max-height: calc(100cqh - 115px);
       }
     }
 
     .empty-card {
       min-width: 725px;
     }
+
+    // .search-bar-container {
+    //   margin: 0;
+
+    //   .form-input {
+    //     border: none;
+    //     border-radius: 0;
+    //     background-color: var(--primary-color);
+
+    //     input {
+    //       border: none;
+    //       border-radius: 0;
+    //       box-shadow: none;
+
+    //       &:focus {
+    //         border: none;
+    //         outline: none;
+    //         box-shadow: none;
+    //       }
+    //     }
+
+    //     .icon {
+    //       border-left: none;
+    //     }
+    //   }
+    // }
   }
 
   .right {
@@ -83,8 +109,11 @@ main.webapp {
   }
 
   main.webapp {
-    .right {
-      box-shadow: #000000 -20px 0 120px -55px;
+    .left {
+      .table.table-web {
+        background: var(--primary-color);
+        backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+      }
     }
   }
 }

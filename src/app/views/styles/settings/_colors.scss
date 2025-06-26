@@ -1,18 +1,24 @@
 /* Color Scheme Light */
 :root {
-  --sidebar-width: 64px;
+  --sidebar-width: 200px;
   --text-large: 18px;
   --text-small: 12px;
   --nav-height: 50px;
   --padding-general: 0 3dvw;
   --padding-top-sections-c: 50px;
   --right-pane-shadow: 0 0 30px 0 rgb(83 83 83 / 10%);
+  --brd-radius: 6px;
+  --max-w-layout: 2000px;
+  --card-space: 12px;
+  --max-height-layout: min(calc(100dvh - 10px), 1016px);
+  --absolute-bars-left: 10px;
+  --codefend-color-red: #ff3939;
 }
 
 body[data-theme='light'] {
   --primary-color: #fff;
   --primary-color-50: #fdfdfd;
-  --primary-color-100: #fafafa;
+  --primary-color-100: #fcfafa;
   --primary-color-200: #f7f7f7;
   --primary-color-300: #e5e5e5;
   --primary-color-400: #f3f3f3;
@@ -42,11 +48,11 @@ body[data-theme='light'] {
 
 body[data-theme='dark'] {
   --primary-color-mask: #141e29de;
-  --primary-color: #202a35;
-  --primary-color-50: #1d2631;
-  --primary-color-100: #1c2531;
-  --primary-color-200: #19222c;
-  --primary-color-250: #171f29;
+  --primary-color: rgb(35 35 35 / 82%);
+  --primary-color-50: #191919;
+  --primary-color-100: #121212;
+  --primary-color-200: rgb(24 24 24 / 60%);
+  --primary-color-250: rgba(41, 41, 41, 0.85);
   --primary-color-300: #161e28;
   --primary-color-400: #131b24;
   --primary-color-500: #121a23;
@@ -71,14 +77,4 @@ body[data-theme='dark'] {
   --tertiary-color-600: #999999;
   --tertiary-color-700: #666;
   --tertiary-color-800: #131313;
-}
-
-@keyframes agrandar-y-volver {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(1.1);
-  }
 }

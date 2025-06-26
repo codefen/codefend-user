@@ -13,9 +13,9 @@ export const useResellerDashboard = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'resellers/dashboard',
         company_id: getCompany(),
       },
+      path: 'resellers/dashboard',
     }).then(({ data }: any) => {});
   };
 

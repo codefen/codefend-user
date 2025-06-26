@@ -2,6 +2,7 @@ import { useQualitySurveyStore } from '@stores/qualitySurvey.store';
 import { QualityFeedback } from '../QualityFeedback';
 import { QualitySurveyPhase } from '@interfaces/quality-feedback';
 import { useUserRevoke } from '#commonUserHooks/useUserRevoke';
+import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
 
 export const QualityFeedbackRevokeAccess = () => {
   const {
@@ -15,10 +16,12 @@ export const QualityFeedbackRevokeAccess = () => {
     pollVal,
   } = useQualitySurveyStore();
   const { revokeAccessUser } = useUserRevoke();
+  const { solvedComunique } = useSolvedComunique();
   const onNext = () => {
     updateIsOpen(false);
     updatePhase(QualitySurveyPhase.INIT);
     updateIsFinishQualityPoll(!isFinishQualityPoll);
+    solvedComunique();
     if (pollVal == '1') {
       revokeAccessUser(provider.id);
     }

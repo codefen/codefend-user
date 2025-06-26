@@ -13,13 +13,13 @@ export const useDeleteIssue = () => {
   const fetchDelete = (issueId: string, companyID: string) => {
     return fetcher('post', {
       body: {
-        model: 'issues/del',
         company_id: companyID,
         id: issueId,
       },
+      path: 'issues/del',
     })
       .then(({ data }: any) => {
-        if (apiErrorValidation(data?.error, data?.response))
+        if (apiErrorValidation(data))
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
 
         toast.success(ISSUE_PANEL_TEXT.DELETED_ISSUE);

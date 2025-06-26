@@ -1,4 +1,4 @@
-import { ProfileHeader } from '@standalones/profileheader/ProfileHeader';
+import { ProfileHeader } from '@/app/views/components/profileheader/ProfileHeader';
 import { useResellerDashboardHeader } from '@userHooks/resellers/useResellerDashboardHeader';
 import { formatNumber } from '@utils/helper';
 import { useEffect, type FC } from 'react';
@@ -20,7 +20,6 @@ export const ResellerHeader: FC<ResellerHeaderProps> = ({
   //currentBalance = 54000,
   //totalProfits = 577675,
 }) => {
-  //const __A = useAdminCompanyStore(state => state);
   const [reseller_header, company, { getResellerHeader }] = useResellerDashboardHeader();
 
   useEffect(() => {

@@ -1,4 +1,224 @@
+main.mobile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0;
+
+  &.actived {
+    opacity: 1;
+    width: 70%;
+    margin-left: 0;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+
+    .left {
+      flex: 2.5;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+
+    .right {
+      flex: 3;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+      padding-block-end: 3rem;
+    }
+
+    &.empty-active {
+      width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+    min-height: auto;
+    height: 81dvh;
+    padding: 0;
+
+    .left {
+      width: 100%;
+      overflow-x: auto;
+      padding-block-start: 10px;
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
+    }
+  }
+}
+
+.mobile .left {
+  width: 28%;
+  min-width: 320px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding-inline-end: 0 !important;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
+
+  .search-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .form-input {
+    margin-bottom: 0;
+    width: 100%;
+    position: relative;
+
+    input {
+      background: white;
+      border: none;
+      border-radius: 0;
+      padding-left: 40px;
+      height: 40px;
+      color: var(--tertiary-color-700);
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      box-shadow: none;
+
+      &::placeholder {
+        color: var(--tertiary-color-400);
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        border-color: var(--secondary-color-50);
+        box-shadow: none;
+      }
+    }
+
+    .icon {
+      color: var(--secondary-color-50);
+      left: 12px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+/* Asegurar que la tarjeta ocupe el espacio restante */
+.mobile .left .card.cloud-apps {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mobile .right {
+  width: 30%;
+  min-width: 220px;
+  height: 100%;
+  margin-left: 0;
+  overflow-y: auto;
+  .card {
+    margin-bottom: 12px;
+  }
+}
+
+.mobile .left .box-assets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-width: 200px;
+    padding: 0.5rem;
+    p {
+      font-family: Satoshi, sans-serif !important;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.mobile .left::-webkit-scrollbar {
+  display: none;
+}
+
+// Estilos para la tarjeta de descargas
+.downloads-card {
+  background: var(--primary-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 12px 0 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 13px;
+  color: var(--tertiary-color-50);
+  font-weight: 400;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
+
+  .downloads-content {
+    width: 100%;
+    text-align: left;
+
+    .downloads-text {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+  }
+}
+
+.mobile-icon-title {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  font-size: 1.2em;
+  vertical-align: middle;
+  color: #ff3939;
+}
+
+main.mobile .custom-title {
+  font-size: 1.2rem;
+}
+
+.custom-text.mb-3 {
+  font-size: 0.9rem;
+}
+
+.custom-mobile-add-card.custom-card.p-4.mb-4 > *:not(:last-child) {
+  margin-bottom: 0.7rem;
+}
+
 [data-theme='dark'] {
+  main.mobile {
+    .left {
+      .form-input input:not(:disabled) {
+        background-color: var(--primary-color);
+      }
+
+      .card.cloud-apps {
+        background-color: transparent;
+      }
+    }
+  }
+
   .variant-1 {
     width: 17rem;
     top: 36dvh;

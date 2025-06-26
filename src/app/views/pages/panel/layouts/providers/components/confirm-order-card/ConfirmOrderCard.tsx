@@ -10,7 +10,7 @@ import { useProviderConfirm } from '@userHooks/providers/useProviderConfirm.ts';
 import { useProviderRefuseOrder } from '@userHooks/providers/useProviderRefuseOrder';
 import { useProviderRefuseStore } from '@stores/providerOrder.store';
 import '../ordercards.scss';
-import { OrderCardTemplate } from '../../../../../../components/standalones/order-card-template/OrderCardTemplate';
+import { OrderCardTemplate } from '../../../../../../components/order-card-template/OrderCardTemplate';
 import useOrderScopeStore from '@stores/orderScope.store';
 
 export interface ConfirmOrderCardProps {

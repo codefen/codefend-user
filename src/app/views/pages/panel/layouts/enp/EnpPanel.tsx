@@ -17,9 +17,11 @@ import { useScanLocal } from '@moduleHooks/enp/useScanLocal.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useEnpGetScans } from '@moduleHooks/enp/useEnpGetScans.ts';
 
-import { ButtonLoader, MiniTriangleIcon, ShieldIcon, Show } from '../../../../components';
 import './endpoints.scss';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
+import Show from '@/app/views/components/Show/Show.tsx';
+import { MiniTriangleIcon, ShieldIcon } from '@icons';
+import { ButtonLoader } from '@/app/views/components/loaders/Loader.tsx';
 
 export const EnpPanel: FC = () => {
   const { getAccessToken } = useUserData();

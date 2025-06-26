@@ -1,12 +1,12 @@
 import { generateIDArray } from '@utils/helper';
 import useModal from '@hooks/common/useModal';
 import ConfirmModal from '@modals/ConfirmModal';
-import Show from '@defaults/Show';
-import { SimpleSection } from '@defaults/SimpleSection';
-import { PageLoader } from '@defaults/loaders/Loader';
+import Show from '@/app/views/components/Show/Show';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
 import { EnpIcon, TrashIcon } from '@icons';
 import { type FC, Fragment, useMemo, useState } from 'react';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface Endpoints {
   isLoading: boolean;

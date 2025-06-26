@@ -1,10 +1,26 @@
-import { type FC, useEffect, type ChangeEvent, type FormEvent } from 'react';
-import { SearchBar } from '@standalones/SearchBar';
-import { ScanSearchIcon } from '@icons';
+import { type FC, useEffect, type ChangeEvent, type FormEvent, useState } from 'react';
+import { SearchBar } from '@/app/views/components/SearchBar/SearchBar';
 import Masonry from 'react-masonry-css';
 import { useSns } from '@moduleHooks/sns/useSns.ts';
-import Show from '@defaults/Show.tsx';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import useModal from '#commonHooks/useModal';
+import { SnsLeakedDataModal } from '@/app/views/pages/panel/layouts/sns/components/SnsLeakedDataModal';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import SnsCardTitle from './SnsCardTitle';
+import Show from '@/app/views/components/Show/Show';
+import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
+import { IntelCard } from '@/app/views/pages/panel/layouts/sns/components/IntelCard';
+import { useLeakedData } from '@moduleHooks/sns/useLeakedData';
+import type { SearchOptions } from '@interfaces/snsTypes';
+
+const SEARCH_OPTIONS: SearchOptions = {
+  _domain: 'domain',
+  email: 'email',
+  username: 'username',
+  password: 'password',
+  name: 'full name',
+  hash: 'hash',
+  lastip: 'lastip',
+};
 
 const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
   const {
@@ -16,79 +32,110 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     setSearchData,
     getUserdata,
     handleSearch,
+    limitReached,
+    updateCompany,
   } = useSns();
+  const [hasSearched, setHasSearched] = useState(false);
+  const { leaked, leakedType, showModal, handleOpenLeakedModal, handleCloseLeakedModal } =
+    useLeakedData();
 
   useEffect(() => {
     if (!getUserdata()) return;
     if (searchData) {
       setSearchData(searchData);
-      procSearch();
+      handleSearch();
     }
-    if (searchClass && searchData) procSearch(undefined!);
+    if (searchClass && searchData) handleSearch();
   }, []);
 
-  const procSearch = (e?: FormEvent): any => {
+  const handleSubmit = (e?: FormEvent) => {
     if (e) e.preventDefault();
-    refetch();
-    handleSearch();
+    setHasSearched(true);
+    handleSearch()?.then(() => {
+      refetch();
+    });
   };
+
   const selectBarOptions = {
-    options: { email: 'email', password: 'password', name: 'full name' },
+    options: SEARCH_OPTIONS,
     placeHolder: '',
     value: searchClass,
-    change: (e: any) => setSearchClass(e.target.value),
+    change: (e: ChangeEvent<HTMLSelectElement>) => setSearchClass(e.target.value),
     defaultSelectOption: 'email',
+  };
+
+  const renderEmptyState = () => {
+    if (!hasSearched) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '60vh',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}>
+          <div>
+            <SnsCardTitle arrow="down" />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '60vh',
+          flexDirection: 'column',
+          gap: '1rem',
+        }}>
+        <div className="no-results-text" style={{}}>
+          <p>No results found. Please try a different search.</p>
+        </div>
+      </div>
+    );
   };
 
   return (
     <>
-      <div className="search-bar-container">
-        <SearchBar
-          handleChange={(e: ChangeEvent<HTMLInputElement>) => setSearchData(e.target.value)}
-          placeHolder="Search"
-          inputValue={searchData}
-          handleSubmit={procSearch}
-          searchIcon={<ScanSearchIcon isButton />}
-          isActiveSelect
-          selectOptions={selectBarOptions}
-        />
-      </div>
+      <SearchBarContainer
+        searchData={searchData}
+        setSearchData={setSearchData}
+        handleSubmit={handleSubmit}
+        selectBarOptions={selectBarOptions}
+        isDisabled={!searchData}
+      />
 
       <Show when={!isLoading} fallback={<PageLoader />}>
-        <div className="content">
-          <Masonry
-            breakpointCols={3}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column">
-            {intelData.map((intel, index) => (
-              <div key={index} className="search-result">
-                <div className="header">
-                  <div className="title">{intel?.name}</div>
-                </div>
-                <div className="info">
-                  {intel?.value.map((subIntel: any, subIndex: number) => (
-                    <div
-                      key={subIndex}
-                      className="text"
-                      style={{
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        maxWidth: '260px',
-                        overflow: 'hidden',
-                      }}>
-                      {Object.keys(subIntel).map((subIntelVal, subIntelValIndex) => (
-                        <div key={subIntelValIndex}>
-                          {`${subIntelVal}: ${subIntel[subIntelVal]}`}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </Masonry>
+        <div className="content" style={{ marginBottom: '1.2rem', height: '100%' }}>
+          {intelData.length === 0 ? (
+            renderEmptyState()
+          ) : (
+            <Masonry
+              breakpointCols={2}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column">
+              {intelData.map((intel, index) => (
+                <IntelCard key={index} intel={intel} onOpenLeakedModal={handleOpenLeakedModal} />
+              ))}
+            </Masonry>
+          )}
         </div>
       </Show>
+
+      <SnsLeakedDataModal
+        type={leakedType}
+        isActive={showModal}
+        close={handleCloseLeakedModal}
+        leaked={leaked}
+        searchClass={searchClass}
+        limitReached={limitReached}
+        updateCompany={updateCompany}
+      />
     </>
   );
 };

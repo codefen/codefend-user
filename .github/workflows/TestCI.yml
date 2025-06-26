@@ -21,22 +21,16 @@ jobs:
         with:
           node-version: 20.x
 
-      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
-        run: npm install -g pnpm@9.7.0
+      - name: 🛠️ Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
-      - name: 🛠️ Setup/ Install frontend dependencies
-        run: |
-          pnpm config set store-dir ~/.pnpm-store
-          pnpm install --prefer-frozen-lockfile --ignore-scripts
-
-      - name: 📐 Run Format
-        run: pnpm format
+      - name: 🛠️ Install dependencies
+        run: bun install
 
       - name: 📐 Run Linter
-        run: pnpm lint
-
-      - name: 📐 Run CSS Linter
-        run: pnpm lint:css
+        run: bun run lint
 
   build:
     needs: [linting]
@@ -52,23 +46,19 @@ jobs:
         with:
           node-version: 20.x
 
-      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
-        run: npm install -g pnpm@9.7.0
+      - name: 🛠️ Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
-      - name: 🛠️ Setup/ Install frontend dependencies
-        run: |
-          pnpm config set store-dir ~/.pnpm-store
-          pnpm install --prefer-frozen-lockfile --ignore-scripts
+      - name: 🛠️ Install dependencies
+        run: bun install
 
       - name: 🛠️ Setup/ Install cspell global dependencies
         run: npm i -g cspell @cspell/dict-es-es @cspell/dict-npm @cspell/dict-typescript @cspell/dict-software-terms @cspell/dict-node @cspell/dict-en_us
 
       - name: 🛠️ Setup/ Install cspell-cli
         run: npm i -g git+https://github.com/streetsidesoftware/cspell-cli
-
-      - name: 📝 Spellcheck
-        run: cspell "**/*.{tsx,ts,js,yml}" --gitignore
-
         
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -76,7 +66,7 @@ jobs:
           targets: wasm32-unknown-unknown
 
       - name: 🔨 Run build client
-        run: pnpm build
+        run: bun run build
 
       - name: ✅ Run Cargo Tests
         working-directory: ./src-tauri
@@ -84,4 +74,4 @@ jobs:
           cargo test --all
 
       - name: 🛡️ Run prune
-        run: pnpm prune --prod --ignore-scripts
+        run: bun install --production

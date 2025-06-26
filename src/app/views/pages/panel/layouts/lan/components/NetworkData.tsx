@@ -1,23 +1,18 @@
-import { type FC, type ReactNode } from 'react';
+import { useState, type FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { useDeleteLan } from '@resourcesHooks/network/useDeleteLan';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import useModalStore from '@stores/modal.store.ts';
 import useCredentialStore from '@stores/credential.store.ts';
 import type { Device } from '@interfaces/panel.ts';
 import useModal from '#commonHooks/useModal.ts';
-import { useReportStore } from '@stores/report.store.ts';
-import type { TableItem } from '@interfaces/table.tsx';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
-import ConfirmModal from '@modals/ConfirmModal.tsx';
-import AddAccessPointModal from '@modals/adding-modals/AddAccessPointModal.tsx';
-import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal';
-import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, TrashIcon } from '@icons';
-import { TableV2 } from '@table/tablev2.tsx';
-import { lanResourcesTable } from '@mocks/defaultData.ts';
-import Show from '@defaults/Show';
-import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import type { ColumnTableV3 } from '@interfaces/table.tsx';
+import { BugIcon, CredentialIcon, DocumentIcon, LanIcon, PlusIcon, TrashIcon } from '@icons';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
+import Tablev3 from '@table/v3/Tablev3';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import TextChild from '@/app/views/components/utils/TextChild';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
 
 interface LanNetworkDataProps {
   isLoading: boolean;
@@ -25,241 +20,147 @@ interface LanNetworkDataProps {
   refetchInternalNetwork: () => void;
 }
 
-export const LanNetworkData: FC<LanNetworkDataProps> = ({
-  isLoading,
-  internalNetwork,
-  refetchInternalNetwork,
-}) => {
+const networkColumns: ColumnTableV3[] = [
+  {
+    header: 'ID',
+    key: 'id',
+    styles: 'item-cell-1',
+    weight: '8%',
+    render: (ID: any) => ID,
+  },
+  {
+    header: 'external ip',
+    key: 'device_ex_address',
+    type: TABLE_KEYS.FULL_WITH_NEXT,
+    styles: 'item-cell-2',
+    weight: '18%',
+    render: (row: any, next?: any) =>
+      !row?.resource_lan_dad ? (
+        row.device_ex_address
+      ) : (
+        <TextChild
+          subNetwork={row.device_ex_address}
+          isLast={!next || (next && !next.resource_lan_dad)}
+        />
+      ),
+  },
+  {
+    header: 'internal ip',
+    key: 'device_in_address',
+    styles: 'item-cell-3',
+    weight: '18%',
+    render: (ip: any) => ip,
+  },
+  {
+    header: 'area',
+    key: 'server_pais',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-4',
+    weight: '19%',
+    render: (row: any) => (
+      <LocationItem
+        country={row?.server_pais || 'unknown'}
+        countryCode={row?.server_pais_code || ''}
+      />
+    ),
+  },
+  {
+    header: 'description',
+    key: 'device_desc',
+    styles: 'item-cell-5',
+    weight: '37%',
+    render: (desc: any) => desc,
+  },
+];
+
+export const LanNetworkData: FC<LanNetworkDataProps> = ({ isLoading, internalNetwork }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
-  const { isAdmin, isNormalUser, isProvider } = useUserRole();
-  const { selectedLanIdToDelete, setSelectedLanIdToDelete, refetch } = useDeleteLan(
-    refetchInternalNetwork,
-    () => setShowModal(false)
-  );
-  const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
-  const handleDelete = () => {
-    refetch(selectedLanIdToDelete);
-  };
-  const generateReport = (resourceID: string, count: any) => {
+  const { isAdmin, isProvider } = useUserRole();
+
+  const { resourceType, openModal, resourceID, networkResourceSelected } = useGlobalFastFields([
+    'resourceType',
+    'openModal',
+    'resourceID',
+    'networkResourceSelected',
+  ]);
+
+  const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
-      openModal();
-      setResourceID(resourceID);
-      setResourceType('lan');
+      openModal.set(true);
+      resourceID.set(resourceUpID);
+      resourceType.set(RESOURCE_CLASS.LAN_NET);
     }
   };
-  const tableData2: Record<string, TableItem>[] = internalNetwork.map(network => ({
-    ID: { value: '', style: '' },
-    Identifier: { value: Number(network.id), style: 'id' },
-    internalIp: { value: network.device_in_address, style: 'ip' },
-    externalIp: { value: network.device_ex_address, style: 'ip' },
-    description: {
-      value: `${network.device_desc}`,
-      style: 'full-name',
+
+  const addIssue = (id: string) => {
+    navigate(isProvider() || isAdmin() ? `/issues/create/lan/${id}` : '', {
+      state: { redirect: location.pathname },
+    });
+  };
+
+  const contextMenuActions = [
+    {
+      label: 'View report',
+      disabled: (row: any) => Number(row?.final_issues) < 1,
+      icon: <DocumentIcon isButton width={1.27} height={1.27} />,
+      onClick: (row: any) => generateReport(row.id, row.final_issues),
     },
-    action: {
-      value: (
-        <>
-          <span
-            className={`issue-icon issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
-            title={`${isNormalUser() ? '' : 'Add Issue'}`}
-            onClick={() =>
-              navigate(isProvider() || isAdmin() ? `/issues/create/lan/${network.id}` : '', {
-                state: { redirect: location.pathname },
-              })
-            }>
-            <BugIcon isButton />
-            <span className="codefend-text-red-200 issue-count">{network.final_issues}</span>
-          </span>
-          <span
-            title="View report"
-            className={`issue-printer ${Number(network.final_issues) == 0 ? 'off' : ''}`}
-            onClick={() => generateReport(network.id, network.final_issues)}>
-            <DocumentIcon isButton width={1.27} height={1.27} />
-          </span>
-          <span
-            title="Add credentials"
-            onClick={() => {
-              setResourceId(network.id);
-              setCredentialType('lan');
-              setIsOpen(true);
-              setModalId(MODAL_KEY_OPEN.NETWORK_CREDS);
-            }}>
-            <CredentialIcon />
-          </span>
-          <Show when={isAdmin() || isNormalUser()}>
-            <span
-              title="Delete"
-              onClick={() => {
-                setSelectedLanIdToDelete(network.id);
-                setShowModal(!showModal);
-                setShowModalStr(MODAL_KEY_OPEN.DELETE_NETWORK);
-              }}>
-              <TrashIcon />
-            </span>
-          </Show>
-        </>
-      ),
-      style: 'id action',
+    {
+      label: 'View credentials',
+      icon: <CredentialIcon />,
+      onClick: (row: any) => {
+        setResourceId(row.id);
+        setCredentialType('lan');
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.NETWORK_CREDS);
+      },
     },
-    childs: {
-      value: props =>
-        (
-          <>
-            {network.childs
-              ? network.childs.map((netChild, i) => (
-                  <a
-                    key={`child-${i}-${netChild.id}`}
-                    className={`item item-with-out-action ${
-                      props.selectedField === `child-${netChild.id}` ? 'left-marked' : ''
-                    }`}
-                    href={''}
-                    onClick={e => props.handleClick(e, `child-${netChild.id}`, '')}>
-                    <div className="id">
-                      <div className="publish">{netChild.id}</div>
-                    </div>
-                    <div className="ip">
-                      <div className="publish lined">
-                        <span
-                          className={`sub-domain-icon-v ${network.childs?.length === i + 1 && 'sub-is-last'}`}></span>
-                        <span className="sub-domain-icon-h"></span>
-                        {netChild.device_in_address}
-                      </div>
-                    </div>
-                    <div className="ip">
-                      <div className="publish">{netChild.device_ex_address}</div>
-                    </div>
-                    <div className="full-name">
-                      <div className="publish">{netChild.device_desc}</div>
-                    </div>
-                    <div className="id action">
-                      <div className="publish">
-                        <span
-                          className={`issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
-                          title={`${isNormalUser() ? '' : 'Add Issue'}`}
-                          onClick={() =>
-                            navigate(
-                              isProvider() || isAdmin() ? `/issues/create/lan/${netChild.id}` : '',
-                              {
-                                state: {
-                                  redirect: location.pathname,
-                                },
-                              }
-                            )
-                          }>
-                          <BugIcon isButton />
-                          <span className="codefend-text-red-200 issue-count">
-                            {netChild?.final_issues || 0}
-                          </span>
-                        </span>
-                        <span
-                          title="View report"
-                          className={`issue-printer ${Number(netChild.final_issues) == 0 ? 'off' : ''}`}
-                          onClick={() => generateReport(netChild.id, netChild.final_issues)}>
-                          <DocumentIcon isButton width={1.27} height={1.27} />
-                        </span>
-                        <span
-                          title="Add credentials"
-                          onClick={() => {
-                            setResourceId(netChild.id);
-                            setCredentialType('lan');
-                            setIsOpen(true);
-                            setModalId('lan');
-                          }}>
-                          <CredentialIcon />
-                        </span>
-                        <Show when={isAdmin() || isNormalUser()}>
-                          <span
-                            title="Delete"
-                            onClick={() => {
-                              setSelectedLanIdToDelete(netChild.id);
-                              setShowModal(!showModal);
-                              setShowModalStr(MODAL_KEY_OPEN.DELETE_NETWORK);
-                            }}>
-                            <TrashIcon />
-                          </span>
-                        </Show>
-                      </div>
-                    </div>
-                  </a>
-                ))
-              : null}
-          </>
-        ) as ReactNode,
-      style: '',
+    {
+      label: 'Delete',
+      icon: <TrashIcon />,
+      disabled: isProvider(),
+      onClick: (row: any) => {
+        networkResourceSelected.set(row);
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.DELETE_NETWORK);
+      },
     },
-  }));
+    {
+      label: 'Add issue',
+      icon: <BugIcon isButton />,
+      disabled: !(isProvider() || isAdmin()),
+      onClick: (row: any) => addIssue(row.id),
+    },
+    {
+      label: 'Add SubNetwork',
+      icon: <PlusIcon />,
+      disabled: (row: any) => !!row?.resource_lan_dad,
+      onClick: (row: any) => {
+        networkResourceSelected.set(row);
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.ADD_SUB_NETWORK);
+      },
+    },
+  ];
 
   return (
-    <>
-      <ModalTitleWrapper
-        headerTitle="Delete LAN"
-        close={() => setShowModal(false)}
-        // type="med-w"
-        isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_NETWORK}>
-        <ConfirmModal
-          header=""
-          cancelText="Cancel"
-          confirmText="Delete"
-          close={() => setShowModal(false)}
-          action={() => {
-            handleDelete();
-          }}
-        />
-      </ModalTitleWrapper>
-
-      <AddAccessPointModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_NETWORK}
-        onDone={() => {
-          setShowModal(false);
-          refetchInternalNetwork();
-        }}
-        close={() => setShowModal(false)}
+    <div className="card">
+      <Tablev3
+        className="table-lan"
+        columns={networkColumns}
+        rows={internalNetwork}
+        showRows={!isLoading}
+        initialOrder="id"
+        contextMenuActions={contextMenuActions}
+        enableContextMenu={true}
+        enableVirtualization={true}
+        rowHeight={49}
+        containerHeight={'calc(100cqh - 115px)'}
+        virtualizationThreshold={100}
       />
-      <AddSubNetworkModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_SUB_NETWORK}
-        onDone={() => {
-          refetchInternalNetwork();
-        }}
-        close={() => setShowModal(false)}
-        internalNetwork={internalNetwork ?? []}
-      />
-      <div className="card table">
-        <div className="header">
-          <div className="title">
-            <div className="icon">
-              <LanIcon />
-            </div>
-            <span>Network structure</span>
-          </div>
-          <div className="actions">
-            <div
-              onClick={() => {
-                setShowModal(!showModal);
-                setShowModalStr(MODAL_KEY_OPEN.ADD_NETWORK);
-              }}>
-              Add access point
-            </div>
-            <div
-              onClick={() => {
-                setShowModal(!showModal);
-                setShowModalStr(MODAL_KEY_OPEN.ADD_SUB_NETWORK);
-              }}>
-              Add network device
-            </div>
-          </div>
-        </div>
-
-        <TableV2
-          columns={lanResourcesTable}
-          rowsData={tableData2}
-          showRows={!isLoading}
-          showEmpty={!isLoading && internalNetwork.length === 0}
-        />
-      </div>
-    </>
+    </div>
   );
 };

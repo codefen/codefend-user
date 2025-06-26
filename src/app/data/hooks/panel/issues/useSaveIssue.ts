@@ -68,7 +68,6 @@ export const useSaveIssue = () => {
 
     return fetcher<any>('post', {
       body: {
-        model: 'issues/add',
         company_id: companyID,
         risk_score: newIssue.score,
         name: newIssue.issueName,
@@ -77,9 +76,10 @@ export const useSaveIssue = () => {
         main_desc: _editorContent,
         resource_id: newIssue.resourceID ? newIssue.resourceID : undefined,
       },
+      path: 'issues/add',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
 

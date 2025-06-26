@@ -1,0 +1,41 @@
+.card {
+  overflow: hidden;
+  flex: 0 0 auto;
+  transition:
+    color,
+    background,
+    border 500ms linear;
+  border-radius: 3px;
+}
+
+.stats {
+  .content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .content-stat {
+      width: 100%;
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .left .card {
+    transition:
+      color,
+      background,
+      border 500ms linear;
+  }
+
+  .card {
+    backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+
+    &.stats {
+      .content {
+        justify-content: flex-start;
+        padding: 0;
+      }
+    }
+  }
+}

@@ -11,9 +11,9 @@ import { unstable_batchedUpdates } from 'react-dom';
 
 /** Gets token in localStorage */
 export const getToken = () => {
-  const storeJson = localStorage.getItem('authStore') ?? '';
+  const storeJson = localStorage.getItem('globalStore') ?? '';
   const store = storeJson ? JSON.parse(storeJson) : {};
-  return store ? store?.state?.accessToken : '';
+  return store ? store?.session : '';
 };
 /** Gets company id in localStorage */
 export const getFullCompanyFromUser = () => {
@@ -64,7 +64,7 @@ export const RUNNING_DESKTOP = (): boolean => {
   return window.__TAURI__ !== undefined;
 };
 
-/** Date formatter */
+// DATE FORMATTING
 export const formatDate = (stringDate: string): string => {
   const parsedDate = new Date(stringDate);
 
@@ -77,6 +77,7 @@ export const formatDate = (stringDate: string): string => {
   return `${year}-${month}-${day}`;
 };
 
+// DATE FORMATTING
 export const getCurrentDate = () => {
   const formattedDate = new Date();
   const month = formattedDate.getMonth() + 1;
@@ -105,7 +106,18 @@ export const isEmptyShares = (data: any) => {
 };
 
 /* Random UUID generator function  */
-export const generateID = () => crypto.randomUUID();
+export const generateID = () => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  // Fallback implementation using Math.random()
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
 
 /**
  * Function generating a random "N" UUID array
@@ -121,15 +133,15 @@ export const generateIDArray = (N: number): string[] => {
  * Used to clean reviews
  */
 export const cleanReview = (source: string, ignoreText?: boolean): string => {
-  let update = !ignoreText ? source.replace(/\bopiniones\b/gi, '') : source;
-  update = update.replace(/&nbsp;/g, '');
-  update = update.replace(/&Acirc;/g, '');
-  update = update.replace(/&plusmn;/g, '');
-  update = update.replace(/&Atilde;/g, '');
-  update = update.replace(/&amp;/g, '');
-  update = !ignoreText ? update.replace('reseas', '') : update;
+  let update = !ignoreText ? source?.replace(/\bopiniones\b/gi, '') : source;
+  update = update?.replace?.(/&nbsp;/g, '');
+  update = update?.replace?.(/&Acirc;/g, '');
+  update = update?.replace?.(/&plusmn;/g, '');
+  update = update?.replace?.(/&Atilde;/g, '');
+  update = update?.replace?.(/&amp;/g, '');
+  update = !ignoreText ? update?.replace?.('reseas', '') : update;
 
-  return update.trim();
+  return update?.trim?.();
 };
 
 /**
@@ -168,6 +180,7 @@ export const equalsValues = (first: any, second: any) => {
   return first === second;
 };
 
+// DATE FORMATTING
 /**
  * Maps a date in epoch format to "yyyy-mm-dd"
  * @param epochDate
@@ -184,6 +197,7 @@ export const mapEpochToDate = (epochDate: number | string): string => {
   return `${year}-${month}-${day}`;
 };
 
+// DATE FORMATTING
 export const formatDateTimeFormat = (originalDate: string): string => {
   const date = new Date(originalDate);
 
@@ -195,6 +209,15 @@ export const formatDateTimeFormat = (originalDate: string): string => {
   const minutes = extractDateItem(date.getMinutes());
 
   return `${year}-${month}-${day} ${hours}:${minutes}`;
+};
+
+export const formatTimeFormat = (originalDate: string): string => {
+  const date = new Date(originalDate);
+  const hours = extractDateItem(date.getHours());
+  const minutes = extractDateItem(date.getMinutes());
+  const seconds = extractDateItem(date.getSeconds());
+
+  return `${hours}:${minutes}:${seconds}`;
 };
 
 export const extractDateItem = (item: any) => String(item).padStart(2, '0');
@@ -229,6 +252,7 @@ export const addPrintAttributesFromBody = (resources: any, resourceDomainText: s
   document.title = `${formatDate(createdAt)}-${removeSpecialCharacters(resourceDomainText)}`;
 };
 
+// DATE FORMATTING
 export const formatToMonthYear = (dateString: string) => {
   const months = [
     'January',
@@ -390,8 +414,28 @@ export const highlightToBeforeAfterMatch = (title: string, appName: string) => {
 };
 
 export const flattenRowsData = (rowsData: any[]) => {
-  return Boolean(rowsData.length) ? [...rowsData].flatMap(data => data) : [];
+  if (!rowsData || rowsData.length === 0) {
+    return [];
+  }
+
+  const flattened: any[] = [];
+
+  const flatten = (resource: any) => {
+    flattened.push(resource);
+    if (resource?.childs && Array.isArray(resource.childs)) {
+      for (const child of resource.childs) {
+        flatten(child);
+      }
+    }
+  };
+
+  for (const resource of rowsData) {
+    flatten(resource);
+  }
+
+  return flattened;
 };
+
 export const compareValues = (a: any, b: any, sortDirection: string): number => {
   if (typeof a === 'object' && typeof b === 'object') {
     a = getValueFromObject(a);
@@ -436,6 +480,14 @@ export const quickSort = (arr: any[], dataSort: string, sortDirection: string): 
       stack.push(pivotIndex + 1, right);
     }
   }
+
+  // Ordenar recursivamente los childs si existen
+  for (const item of auxArr) {
+    if (item?.childs && Array.isArray(item.childs) && item.childs.length > 0) {
+      item.childs = quickSort(item.childs, dataSort, sortDirection);
+    }
+  }
+
   return auxArr;
 };
 
@@ -603,7 +655,7 @@ export const withBatchedUpdates = <TFunction extends ((event: any) => void) | ((
 
 export const defaultIsShallowComparatorFallback = (a: any, b: any): boolean => {
   // consider two empty arrays equal
-  if (Array.isArray(a) && Array.isArray(b) && a.length === 0 && b.length === 0) {
+  if (Array?.isArray?.(a) && Array?.isArray?.(b) && a?.length === 0 && b?.length === 0) {
     return true;
   }
   return a === b;
@@ -625,9 +677,9 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
           }),
   debug = false
 ) => {
-  const aKeys = Object.keys(objA);
-  const bKeys = Object.keys(objB);
-  if (aKeys.length !== bKeys.length) {
+  const aKeys = Object?.keys?.(objA);
+  const bKeys = Object?.keys?.(objB);
+  if (aKeys?.length !== bKeys?.length) {
     if (debug) {
       console.warn(
         `%cisShallowEqual: objects don't have same properties ->`,
@@ -639,17 +691,17 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
     return false;
   }
 
-  if (comparators && Array.isArray(comparators)) {
+  if (comparators && Array?.isArray?.(comparators)) {
     for (const key of comparators) {
       const ret =
-        objA[key] === objB[key] || defaultIsShallowComparatorFallback(objA[key], objB[key]);
+        objA?.[key] === objB?.[key] || defaultIsShallowComparatorFallback(objA?.[key], objB?.[key]);
       if (!ret) {
         if (debug) {
           console.warn(
             `%cisShallowEqual: ${key} not equal ->`,
             'color: #8B4000',
-            objA[key],
-            objB[key]
+            objA?.[key],
+            objB?.[key]
           );
         }
         return false;
@@ -658,7 +710,7 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
     return true;
   }
 
-  return aKeys.every(key => {
+  return aKeys?.every(key => {
     const comparator = (comparators as { [key in keyof T]?: (a: T[key], b: T[key]) => boolean })?.[
       key as keyof T
     ];
@@ -698,3 +750,71 @@ export const debounce = <T extends any[]>(fn: (...args: T) => void, timeout: num
   };
   return ret;
 };
+
+// DATE FORMATTING
+/**
+ * Returns a human-friendly relative time string in English.
+ * @param dateStr "YYYY-MM-DD HH:mm:ss"
+ * @param locale any BCP-47 locale (default "en")
+ */
+export function naturalTime(dateStr: string, locale: string = 'en'): string {
+  const date = new Date(dateStr.replace(' ', 'T')); // Asegura compatibilidad con el formato "YYYY-MM-DD HH:mm:ss"
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHours = Math.floor(diffMin / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  const diffWeeks = Math.floor(diffDays / 7);
+
+  const sec = Math.round(diffMs / 1000);
+  // const days = Math.floor(sec / 86400);
+  // const months = monthDiff(date, now);
+  // const years = yearDiff(date, now);
+
+  if (diffMs < 0) {
+    return '';
+  }
+
+  if (diffSec < 59) {
+    return 'now';
+  }
+
+  if (diffMin < 60) {
+    return `${diffMin} minute${diffMin === 1 ? '' : 's'} ago`;
+  }
+
+  if (diffHours < 24) {
+    return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+  }
+
+  if (diffDays === 1) {
+    return 'yesterday';
+  }
+
+  if (diffDays < 7) {
+    return `${diffDays} days ago`;
+  }
+
+  if (diffWeeks === 1) {
+    return 'last week';
+  }
+
+  if (diffWeeks < 4) {
+    return `${diffWeeks} weeks ago`;
+  }
+
+  const units = [
+    { limit: 60, divisor: 1, unit: 'second' },
+    { limit: 3600, divisor: 60, unit: 'minute' },
+    { limit: 86400, divisor: 3600, unit: 'hour' },
+    { limit: 604800, divisor: 86400, unit: 'day' },
+    { limit: 2419200, divisor: 604800, unit: 'week' },
+  ];
+
+  return date.toLocaleDateString(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}

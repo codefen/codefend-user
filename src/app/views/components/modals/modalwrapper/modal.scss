@@ -1,5 +1,3 @@
-@use '../../../styles/settings/mixin' as mixin;
-
 .modal-wrapper {
   position: fixed;
   inset: 0;
@@ -9,7 +7,7 @@
   align-items: flex-start;
   justify-content: center;
   z-index: 100;
-  background-color: #f2f3f3e6;
+  background-color: rgb(242 243 243 / 75%);
 }
 
 .modal-wrapper .modal {
@@ -21,11 +19,12 @@
   animation: modalAnimation 0.2s ease-in 0.05s forwards;
   min-width: 330px;
   background: #ffffff;
-  box-shadow: 0 2px 6px #0000002b;
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.12);
   border-image-slice: 1;
-  border-radius: 3px;
+  border-radius: var(--brd-radius);
   overflow: hidden;
   color: var(--tertiary-color-600);
+  z-index: 120;
 
   &.report {
     margin-top: 20px;
@@ -35,7 +34,7 @@
     width: 100%;
     max-width: 560px;
 
-    @include mixin.respond(small) {
+    @media only screen and (max-width: 600px) {
       min-width: 350px;
     }
   }
@@ -97,7 +96,7 @@
       font-size: 20px !important;
     }
 
-    @include mixin.respond(small) {
+    @media only screen and (max-width: 600px) {
       justify-content: center;
     }
   }
@@ -112,7 +111,7 @@
     position: relative;
     z-index: 50;
 
-    @include mixin.respond(small) {
+    @media only screen and (max-width: 600px) {
       display: grid;
     }
 
@@ -252,7 +251,7 @@
 }
 
 .modal.subdomain-modal2 {
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     display: grid;
   }
 
@@ -290,7 +289,7 @@
   padding-block: 1.25rem;
   font-family: roboto;
 
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     width: 100%;
   }
 
@@ -389,18 +388,43 @@
     backdrop-filter: blur(5px) saturate(0.5) contrast(1);
 
     .modal {
-      background: #0d0f12cc;
+      background: rgb(18 18 18 / 85%);
+      //background: #0d0f12cc;
       border: 1px solid #ffffff10;
       box-shadow: 0 2px 60px 20px #000000b3;
-    }
-  }
 
-  .header {
-    color: var(--tertiary-color-100);
+      input,
+      select,
+      textarea {
+        background-color: rgb(35 35 35 / 28%);
+        border-color: #ffffff10;
+
+        &:focus {
+          border-color: var(--secondary-color-50);
+        }
+      }
+
+      .header {
+        color: var(--tertiary-color-200);
+      }
+
+      button.btn {
+        &.btn-black,
+        &.btn-dark-black {
+          background-color: var(--primary-color);
+        }
+      }
+    }
   }
 
   .content {
     color: var(--tertiary-color-100);
+
+    header {
+      .title-format {
+        color: var(--tertiary-color-400);
+      }
+    }
   }
 
   .error-wrapper {
@@ -436,28 +460,5 @@
         color: var(--secondary-color-50);
       }
     }
-  }
-}
-
-// Definir la animación para backdrop-filter
-@keyframes overlayAnimation {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes modalAnimation {
-  from {
-    opacity: 0;
-    transform: translateY(5%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0%);
   }
 }

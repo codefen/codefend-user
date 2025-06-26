@@ -3,6 +3,7 @@ import { ConfirmModal, ModalTitleWrapper } from '.';
 import { useUserRevoke } from '#commonUserHooks/useUserRevoke';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
 
 interface UserRevokeModalProps {
   userID: string;

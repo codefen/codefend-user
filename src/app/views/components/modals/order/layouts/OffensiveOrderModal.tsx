@@ -1,12 +1,12 @@
 import { type FC, useState } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { OrderSection, OrderOffensive } from '@interfaces/order';
-import { useOrderOffensive } from '@hooks/useOrders';
+import { useOrderOffensive } from '@hooks/orders/useOrders';
 import { useOrderStore } from '@stores/orders.store';
+import { GlobeWebIcon } from '@icons';
 
 export const OffensiveOrderModal: FC = () => {
   const { offensiveOrder, updateState, referenceNumber, orderId } = useOrderStore(state => state);
-
   const [offensiveOrderW, setOffensiveOrder] = useState<OrderOffensive>(offensiveOrder);
   const { sendOrderProvider } = useOrderOffensive();
 
@@ -22,11 +22,14 @@ export const OffensiveOrderModal: FC = () => {
   };
 
   return (
-    <>
+    <div className="step-content offensive">
       <div className="step-header">
-        <h3>Please tell us about the environment. Are the systems in active use?</h3>
+        <h3><GlobeWebIcon />Please tell us about the environment.</h3>
+        <p>
+          Are the systems in active use?
+        </p>
       </div>
-      <div className="step-content">
+      <div className="">
         <div
           className={`option order-pointer ${
             offensiveOrderW === OrderOffensive.CAREFUL ? `select-option` : ``
@@ -107,7 +110,7 @@ export const OffensiveOrderModal: FC = () => {
         <div className="secondary-container ">
           <PrimaryButton
             text="back"
-            click={() => updateState('orderStepActive', OrderSection.TEAM_SIZE)}
+            click={() => updateState('orderStepActive', OrderSection.RECOMMENDED_PLAN)}
             className="full"
             buttonStyle="black"
             disabledLoader
@@ -124,6 +127,6 @@ export const OffensiveOrderModal: FC = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

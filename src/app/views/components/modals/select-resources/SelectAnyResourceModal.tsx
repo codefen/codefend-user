@@ -2,6 +2,14 @@ import { useEffect, useState, type FC } from 'react';
 import type { Issues } from '@interfaces/index';
 import type { ScopeAlias } from '@interfaces/util.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import useModalStore from '@stores/modal.store';
+import { ResourceFigure } from '@/app/views/components/resource-figure/ResourceFigure';
+import { ViewResourcesTable } from './ViewResourcesTable';
+import { ViewAppCard } from './ViewAppCard';
+import { useNavigate } from 'react-router';
+import './report-type.scss';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
+import Show from '@/app/views/components/Show/Show';
 import {
   BugIcon,
   CLoudIcon,
@@ -9,17 +17,9 @@ import {
   LanIcon,
   MobileIcon,
   PeopleGroupIcon,
-  Show,
   SourceCodeIcon,
-} from '../..';
-import useModalStore from '@stores/modal.store';
-import { ResourceFigure } from '@standalones/resource-figure/ResourceFigure';
-import { ViewResourcesTable } from './ViewResourcesTable';
-import { useReportStore } from '@stores/report.store';
-import { ViewAppCard } from './ViewAppCard';
-import { useNavigate } from 'react-router';
-import './report-type.scss';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS, RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
+} from '@icons';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface SelectAnyResourceModalProps {
   issues: Issues[];
@@ -52,13 +52,17 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
   const { isOpen, modalId, setIsOpen } = useModalStore();
   const [activeView, setActiveView] = useState('selector');
   const [alias, setAlias] = useState<ScopeAlias>(RESOURCE_CLASS_ALIAS.WEB);
-  const { openModal, setResourceID, setResourceType } = useReportStore(state => state);
+  const { resourceID, resourceType, openModal } = useGlobalFastFields([
+    'openModal',
+    'resourceID',
+    'resourceType',
+  ]);
   const [resourceCount, setResourceCount] = useState<Record<string, number>>({
     web: 0,
     mobile: 0,
-    cloud: 0,
+    //cloud: 0,
     social: 0,
-    source: 0,
+    //source: 0,
     lan: 0,
     research: 0,
   });
@@ -67,9 +71,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
       getIssueResourceCountV2(issues, [
         RESOURCE_CLASS.WEB,
         RESOURCE_CLASS.MOBILE,
-        RESOURCE_CLASS.CLOUD,
+        //RESOURCE_CLASS.CLOUD,
         RESOURCE_CLASS.SOCIAL,
-        RESOURCE_CLASS.SOURCE,
+        //RESOURCE_CLASS.SOURCE,
         'lan',
       ])
     );
@@ -88,14 +92,14 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
     }
   };
 
-  const handleReportForTable = (id: string, type: string, count: number) => {
+  const handleReportForTable = (id: string, type: RESOURCE_CLASS, count: number) => {
     if (modalId == MODAL_KEY_OPEN.SELECT_REPORT) {
       if (count >= 1) {
         setIsOpen(false);
         setActiveView('selector');
-        openModal();
-        setResourceID(id);
-        setResourceType(type == RESOURCE_CLASS.NETWORK ? 'lan' : type);
+        openModal.set(true);
+        resourceID.set(id);
+        resourceType.set(type == RESOURCE_CLASS.NETWORK ? RESOURCE_CLASS.LAN_NET : type);
       }
     } else if (modalId == MODAL_KEY_OPEN.SELECT_FINDING) {
       setIsOpen(false);
@@ -121,7 +125,8 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
         isOpen &&
         (modalId == MODAL_KEY_OPEN.SELECT_REPORT || modalId == MODAL_KEY_OPEN.SELECT_FINDING)
       }
-      close={handleClose}>
+      close={handleClose}
+      type="modal-report-selector">
       <div
         className={`report-type-modal ${activeView !== 'selector' && 'type-selector-container'}`}>
         <Show when={activeView === 'selector'}>
@@ -146,7 +151,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               }
             />
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<CLoudIcon />}
               title={RESOURCE_CLASS.CLOUD}
               count={resourceCount[RESOURCE_CLASS.CLOUD]}
@@ -154,9 +159,9 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={
                 resourceCount[RESOURCE_CLASS.CLOUD] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
-            />
+            /> */}
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<SourceCodeIcon />}
               title={RESOURCE_CLASS.SOURCE}
               count={resourceCount[RESOURCE_CLASS.SOURCE]}
@@ -164,7 +169,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={
                 resourceCount[RESOURCE_CLASS.SOURCE] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
-            />
+            /> */}
 
             <ResourceFigure
               icon={<PeopleGroupIcon />}
@@ -184,7 +189,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               isActive={resourceCount['lan'] > 0 || modalId == MODAL_KEY_OPEN.SELECT_FINDING}
             />
 
-            <ResourceFigure
+            {/* <ResourceFigure
               icon={<BugIcon />}
               title={RESOURCE_CLASS.RESEARCH}
               count={resourceCount[RESOURCE_CLASS.RESEARCH]}
@@ -193,7 +198,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
                 modalId == MODAL_KEY_OPEN.SELECT_FINDING
               }
               click={handleResearch}
-            />
+            /> */}
           </div>
         </Show>
         <Show
@@ -204,7 +209,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
           }>
           <ViewResourcesTable
             scopeALias={alias}
-            type={activeView}
+            type={activeView as RESOURCE_CLASS}
             handleSelect={handleReportForTable}
             activeFilter={modalId !== MODAL_KEY_OPEN.SELECT_FINDING}
             modalId={modalId}
@@ -214,7 +219,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
           <ViewAppCard
             getReport={handleReportForTable}
             scopeALias={alias}
-            type={activeView}
+            type={activeView as RESOURCE_CLASS}
             activeFilter={modalId !== MODAL_KEY_OPEN.SELECT_FINDING}
             modalId={modalId}
           />

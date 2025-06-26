@@ -15,16 +15,16 @@ export const useProviderRefuseOrder = () => {
     if (companyIdIsNull(companyID)) return Promise.reject();
     return fetcher('post', {
       body: {
-        model: 'providers/orders/cancel',
         company_id: companyID,
         order_id: orderId,
         canceled_reason: selectedReason,
         canceled_reason_desc: reason,
       },
+      path: 'providers/orders/cancel',
       requestId: 'refuseOrder',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(PROVIDER_PANEL_TEXT.FAILURE_REFUSE_ORDER);
         }
         toast.success(PROVIDER_PANEL_TEXT.REFUSED_ORDER);

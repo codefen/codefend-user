@@ -1,6 +1,6 @@
 import { cleanHTML } from '@utils/helper';
-import { PageLoader } from '@defaults/loaders/Loader';
-import Show from '@defaults/Show';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import Show from '@/app/views/components/Show/Show';
 import { type FC } from 'react';
 
 interface InxPreviousContentDataProps {

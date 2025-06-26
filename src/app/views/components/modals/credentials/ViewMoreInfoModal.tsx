@@ -1,4 +1,4 @@
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import type { ResourceCredential } from '@interfaces/creds';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
 import type { FC } from 'react';

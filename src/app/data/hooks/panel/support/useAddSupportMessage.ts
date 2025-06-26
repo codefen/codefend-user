@@ -25,7 +25,7 @@ export const useAddSupportMessage = (
         dad_id: selectedID,
       },
     }).then(({ data }) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         return;
       }
       setMessage('');

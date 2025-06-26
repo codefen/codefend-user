@@ -3,28 +3,45 @@
   padding-block: 0.75rem;
 }
 
+.modal-wrapper .modal-report-selector:has(.type-selector-container) {
+  height: 500px;
+}
+
 .report-type-modal {
-  width: 700px;
-  height: 350px;
+  width: 1020px;
+  height: 250px;
 
   border-radius: 0.5rem;
 
   h3 {
     width: 100%;
-    text-align: left;
+    text-align: center;
+    font-weight: 550;
     padding-block-start: 1.5rem;
-    padding-inline-start: 3.75rem;
+    padding-inline-start: 0;
     font-size: 1.5rem;
   }
 
   .report-type-container {
+    .resource-figure svg {
+      margin-bottom: 3px;
+    }
+    .resource-figure.mobile svg,
+    .resource-figure.lan svg {
+      width: 2.2rem !important;
+      height: 2.2rem !important;
+    }
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     column-gap: 2rem;
-    row-gap: 1.5rem;
+    row-gap: 0;
     padding: 2.25rem;
     justify-content: flex-start;
     align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    scrollbar-width: thin;
   }
 }
 

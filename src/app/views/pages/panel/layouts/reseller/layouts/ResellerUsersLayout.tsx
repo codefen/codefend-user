@@ -1,13 +1,13 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useEffect } from 'react';
 import { ResellerHeader } from '../components/ResellerHeader';
-import { ResourceByLocation } from '@standalones/ResourceByLocation';
+import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation';
 import { useResellerUsers } from '@userHooks/resellers/useResellerUsers';
 import '../reseller.scss';
 import type { ResellerUser } from '@interfaces/user';
-import { LocationItem } from '@standalones/utils/LocationItem';
-import { SimpleSectionWithTable } from '@defaults/SimpleSectionWithTable';
+import { SimpleSectionWithTable } from '@/app/views/components/SimpleSectionWithTable/SimpleSectionWithTable';
 import { resellerUserActiveColumns } from '@mocks/defaultData';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
 
 const ResellerUsersLayout = () => {
   const [showScreen] = useShowScreen();
@@ -42,12 +42,12 @@ const ResellerUsersLayout = () => {
       <section className="left">
         <ResellerHeader />
         <div className="reseller-tables table-users">
-          <SimpleSectionWithTable
+          {/* <SimpleSectionWithTable
             title="Listing all users created"
             columns={resellerUserActiveColumns}
             rows={rows}
             isLoading={isLoading}
-          />
+          /> */}
         </div>
       </section>
       <section className="right">

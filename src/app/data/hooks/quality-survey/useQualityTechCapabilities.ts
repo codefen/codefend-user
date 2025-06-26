@@ -21,7 +21,7 @@ export const useQualityTechCapabilities = () => {
         issues_relevance: pollVal,
       },
     }).then(({ data }: any) => {
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
     });

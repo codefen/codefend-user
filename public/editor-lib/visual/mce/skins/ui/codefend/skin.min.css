@@ -2778,6 +2778,7 @@ body.tox-dialog__disable-scroll {
 	margin-right: 3.5px;
 }
 .tox .tox-statusbar {
+	pointer-events: none;
 	align-items: center;
 	background-color: transparent;
 	border-top: 1px solid var(--tertiary-color-700);
@@ -2842,7 +2843,7 @@ body.tox-dialog__disable-scroll {
 	padding-left: 1ch;
 }
 .tox .tox-statusbar__resize-handle svg {
-	display: block;
+	display: none;
 	fill: rgba(34, 47, 62, 0.7);
 }
 .tox .tox-statusbar__resize-handle:focus svg {

@@ -1,0 +1,38 @@
+/* Estilos personalizados para los toasts */
+.Toastify__toast {
+  font-family: 'Questrial', sans-serif !important;
+}
+
+.Toastify__toast-body {
+  font-family: 'Questrial', sans-serif !important;
+}
+
+/* Toast de éxito con fondo verde suave */
+.Toastify__toast--success {
+  background: #e8f5e9 !important; /* Verde muy suave, casi blanco */
+  color: #2e7d32 !important; /* Verde oscuro para el texto */
+}
+
+.Toastify__toast--success .Toastify__toast-body {
+  color: #2e7d32 !important;
+}
+
+/* Ícono de progreso para toasts de éxito */
+.Toastify__toast--success .Toastify__progress-bar {
+  background: #4caf50 !important;
+}
+
+/* Toast de error con fondo rojizo suave */
+.Toastify__toast--error {
+  background: #fef2f2 !important; /* Rojo muy suave, casi blanco */
+  color: #b91c1c !important; /* Rojo oscuro para el texto */
+}
+
+.Toastify__toast--error .Toastify__toast-body {
+  color: #b91c1c !important;
+}
+
+/* Ícono de progreso para toasts de error */
+.Toastify__toast--error .Toastify__progress-bar {
+  background: #ef4444 !important;
+} 

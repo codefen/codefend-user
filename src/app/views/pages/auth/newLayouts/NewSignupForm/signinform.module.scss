@@ -1,0 +1,101 @@
+:global(.modal-wrapper) {
+  .signinform {
+    display: flex;
+    flex-direction: column;
+    max-width: 450px;
+    width: 100%;
+    min-width: 300px;
+    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.12);
+    // border-top: 3px solid #ffd2d2;
+    // border-bottom: 3px solid var(--primary-color-600);
+  }
+  background-color: rgb(255 255 255 / 50%);
+  backdrop-filter: blur(4px) saturate(0.5) contrast(1);
+
+  .modal {
+    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.12);
+  }
+}
+
+:global([data-theme='dark'] .modal-wrapper) .signinform {
+  border: none;
+}
+
+.signupContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem;
+  padding-top: 30px;
+  overflow-y: auto;
+  max-height: 90dvh;
+  box-sizing: content-box;
+  min-height: 100%;
+
+  p {
+    color: var(--text-color);
+
+    // color: var(--tertiary-color-300);
+    line-height: 1.5rem;
+    width: 100%;
+    margin-block-end: 1rem;
+
+    // text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 0.5rem;
+
+    .sendButton {
+      // margin-inline-start: auto;
+      margin-top: 10px;
+      min-width: 30%;
+    }
+
+    .form-btns {
+      justify-content: flex-end;
+
+      button {
+        margin-top: 10px !important;
+      }
+    }
+  }
+}
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+
+  .password-input {
+    width: 100%;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: var(--tertiary-color-400);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: var(--tertiary-color-500);
+    }
+
+    &:focus {
+      outline: none;
+      color: var(--tertiary-color-500);
+    }
+  }
+}

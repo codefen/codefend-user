@@ -1,9 +1,9 @@
-import { useAddResourceCredentials } from '@resourcesHooks/useAddResourceCredentials';
+import { useAddResourceCredentials } from '@resourcesHooks/global/useAddResourceCredentials';
 import type { FC } from 'react';
 import { GlobeWebIcon } from '@icons';
-import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
-import { ModalTextArea } from '@defaults/ModalTextArea';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 
 interface AddCredentialsProps {
   type: string;

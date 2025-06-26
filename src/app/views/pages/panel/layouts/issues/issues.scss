@@ -1,17 +1,29 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
 main.issue-detail {
   width: 100%;
-  padding-inline-end: 0;
-  padding-inline-start: 75px;
+  // padding-inline-end: 0;
+  // padding-inline-start: 75px;
 
   .left {
     gap: 0;
     flex: 0 1 900px;
+    --tiny-border-color: var(--primary-color-300);
+    --tiny-bg-color: var(--primary-color);
+    --tiny-hover-bg-color: var(--primary-color-400);
+    overflow: hidden;
 
     > div {
-      border-left: 1px solid var(--primary-color-300);
-      border-right: 1px solid var(--primary-color-300);
+      border-left: 1px solid var(--tiny-border-color);
+      border-right: 1px solid var(--tiny-border-color);
+
+      &:last-child {
+        min-width: 0px;
+        min-width: 0px;
+        padding: 0;
+        max-width: none;
+        max-height: none;
+        height: auto;
+        margin-inline: 0px;
+      }
     }
 
     textarea {
@@ -19,16 +31,18 @@ main.issue-detail {
       outline: none;
       border: 0;
       cursor: default;
+      resize: none;
     }
 
     .header {
       display: flex;
       align-items: stretch;
-      border-top: 1px solid var(--primary-color-300);
-      border-bottom: 1px solid var(--primary-color-300);
-      background-color: var(--primary-color);
+      border-top: 1px solid var(--tiny-border-color);
+      border-bottom: 1px solid var(--tiny-border-color);
+      background-color: var(--tiny-bg-color);
       font-family: Roboto;
       height: 50px;
+      min-height: 50px;
       padding: 0;
 
       > div {
@@ -40,11 +54,11 @@ main.issue-detail {
 
       .back {
         transition: all 0.2s;
-        border-right: 1px solid var(--primary-color-300);
+        border-right: 1px solid var(--tiny-border-color);
         cursor: pointer;
 
         &:hover {
-          background-color: var(--primary-color-400);
+          background-color: var(--tiny-hover-bg-color);
         }
       }
 
@@ -149,7 +163,8 @@ main.issue-detail {
       text-transform: uppercase;
       font-size: 11px;
       height: 40px;
-      border-bottom: 1px solid var(--primary-color-300);
+      min-height: 40px;
+      border-bottom: 1px solid var(--tiny-border-color);
       padding: 0 15px;
 
       select {
@@ -233,18 +248,32 @@ main.issue-detail {
         cursor: default;
       }
     }
+
+    .issues-report {
+      border-bottom: 1px solid var(--tiny-border-color);
+
+      &.view-only {
+        background-color: var(--primary-color);
+        padding-inline: var(--card-space);
+        font-family: 'Satoshi';
+
+        b {
+          font-family: 'Satoshi';
+        }
+      }
+    }
   }
 
   .right {
-    height: 100%;
+    // height: 100%;
     flex: 0 1 30%;
 
-    @include mixin.respond(small) {
+    @media only screen and (max-width: 600px) {
       width: 100%;
     }
   }
 
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
     padding-inline-start: 10px;
@@ -252,7 +281,7 @@ main.issue-detail {
     height: 81dvh;
   }
 
-  @include mixin.respond(wide) {
+  @media only screen and (min-width: 1690px) {
     .left {
       flex: 0 1 900px;
     }
@@ -268,8 +297,18 @@ main.issues-list {
     overflow: hidden;
     padding-inline-start: 0;
 
+    .form-input {
+      input {
+        border: none;
+      }
+    }
+
     .card {
       overflow-y: hidden;
+
+      .form-input {
+        margin-bottom: 1rem;
+      }
 
       &.form-input input {
         border: none;
@@ -277,116 +316,99 @@ main.issues-list {
       }
     }
 
+    .issue-author {
+      display: flex;
+      gap: var(--card-space);
+      align-items: center;
+      background: var(--primary-color-200);
+      width: fit-content;
+      height: fit-content;
+      padding-block: 6px;
+      padding-inline: 10px;
+      flex: none;
+      text-transform: capitalize;
+
+      img {
+        width: 16px;
+      }
+
+      svg {
+        color: var(--secondary-color-50);
+      }
+    }
+
     .table {
+      --item-cell-extra: calc(12% / var(--cell-count));
+
       .rows {
-        max-height: calc(100vh - 186px);
+        overflow: auto;
+        max-height: calc(100cqh - 6rem);
       }
 
-      .item div {
-        max-height: 2.2rem;
-        align-items: flex-start;
-      }
-
-      .date {
-        min-width: 13%;
-        max-width: 13%;
-      }
-
-      .username {
+      .item-cell-issue-4 {
         display: none;
       }
 
-      .vul-class {
-        min-width: 8%;
-        max-width: 8%;
-        margin-inline-end: 1%;
+      .item-cell-issue-1,
+      .item-cell-issue-2,
+      .item-cell-issue-3,
+      .item-cell-issue-address,
+      .item-cell-issue-4,
+      .item-cell-issue-5,
+      .item-cell-issue-6,
+      .item-cell-issue-8,
+      .item-cell-issue-7 {
+        --cell-issue-expand: calc(var(--cell-expand) + var(--item-cell-extra));
       }
 
-      .vul-risk {
-        min-width: 9%;
-        max-width: 9%;
-        margin-inline-end: 1%;
+      .item-cell {
+        flex: 0 0 var(--cell-issue-expand);
+        width: var(--cell-issue-expand);
+        max-width: var(--cell-issue-expand);
       }
 
-      .vul-score {
-        min-width: 13%;
-        max-width: 13%;
-        margin-inline-end: 1%;
-
-        .score-value {
-          margin-block-start: 0.25rem;
+      &:not(:has(.item-action)) {
+        .item-cell-issue-1,
+        .item-cell-issue-2,
+        .item-cell-issue-3,
+        .item-cell-issue-address,
+        .item-cell-issue-4,
+        .item-cell-issue-5,
+        .item-cell-issue-6,
+        .item-cell-issue-8,
+        .item-cell-issue-7 {
+          --item-cell-extra-not-action: calc(
+            calc(4.5% / var(--cell-count)) + var(--cell-issue-expand)
+          );
         }
-      }
 
-      .vul-title {
-        min-width: 46%;
-        max-width: 46%;
-        margin-inline-end: 1%;
-      }
-
-      .vul-condition {
-        min-width: 10%;
-        max-width: 10%;
-      }
-
-      .id.action {
-        min-width: 7%;
-        max-width: 7%;
-
-        .publish {
-          justify-content: center;
-        }
-      }
-
-      &.table-with-out-action {
-        .vul-title {
-          min-width: 53%;
-          max-width: 53%;
-          margin-inline-end: 1%;
+        .item-cell {
+          flex: 0 0 var(--item-cell-extra-not-action);
+          width: var(--item-cell-extra-not-action);
+          max-width: var(--item-cell-extra-not-action);
         }
       }
 
-      @media only screen and (min-width: 1580px) {
-        .date {
-          min-width: 10.5%;
-          max-width: 10.5%;
+      @media only screen and (min-width: 1640px) {
+        --item-cell-extra: 0%;
+
+        .item-cell-issue-4 {
+          display: flex;
         }
 
-        .username {
-          display: block;
-          min-width: 10%;
-          max-width: 10%;
-          margin-inline-end: 1%;
-        }
-
-        .vul-risk {
-          min-width: 8%;
-          max-width: 8%;
-          margin-inline-end: 1%;
-        }
-
-        .vul-score {
-          min-width: 9%;
-          max-width: 9%;
-          margin-inline-end: 1%;
-        }
-
-        .vul-title {
-          min-width: 45%;
-          max-width: 45%;
-          margin-inline-end: 1%;
-        }
-
-        .vul-condition {
-          min-width: 6.5%;
-          max-width: 6.5%;
-          margin-inline-end: 1%;
-        }
-
-        &.table-with-out-action {
-          .vul-title {
-            min-width: 52%;
-            max-width: 52%;
+        &:not(:has(.item-action)) {
+          .item-cell-issue-1,
+          .item-cell-issue-2,
+          .item-cell-issue-3,
+          .item-cell-issue-address,
+          .item-cell-issue-4,
+          .item-cell-issue-5,
+          .item-cell-issue-6,
+          .item-cell-issue-8,
+          .item-cell-issue-7 {
+            --item-cell-extra-not-action: calc(
+              calc(4.5% / calc(var(--cell-count) + 1)) + var(--cell-expand)
+            );
           }
         }
       }
@@ -394,24 +416,29 @@ main.issues-list {
   }
 
   .right {
-    .card {
-      &.risk-chart {
-        margin-block-end: 1.25rem;
+    flex: 1 1 35%;
 
-        .content {
-          flex-direction: column;
-
-          @include mixin.minScreen(1825px) {
-            & {
-              flex-direction: row;
-            }
-          }
-        }
+    .card.filtered {
+      h3 {
+        font-size: 0.9rem;
+        font-weight: 500;
+        font-family: 'Satoshi';
+        color: var(--tertiary-color-450);
       }
+    }
+
+    .card.title {
+      img {
+        width: 15px;
+      }
+    }
+
+    .card.risk-chart {
+      margin-block-end: 0rem;
     }
   }
 
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     height: 81dvh;
     min-height: auto;
 
@@ -446,24 +473,38 @@ main.issues-list {
     filter: blur(7.5rem) brightness(0.5) opacity(0.4);
   }
 
+  main.issues-list {
+    .left {
+      .form-input input:not(:disabled) {
+        background-color: var(--primary-color);
+      }
+    }
+  }
+
   main.issue-detail {
     .left {
+      --tiny-border-color: var(--primary-color-250);
+      --tiny-bg-color: var(--primary-color);
+      --tiny-hover-bg-color: var(--primary-color-50);
+
       .header {
         .edit {
           &.on {
+            background: #191919b0;
             color: var(--secondary-color-200);
           }
         }
 
         .save {
           &.on {
-            color: var(--secondary-color-50);
+            background: #1212129c;
+            color: var(--secondary-color-200);
           }
         }
       }
 
       .info {
-        background: #121a234d;
+        background: rgb(43 43 43);
       }
     }
   }

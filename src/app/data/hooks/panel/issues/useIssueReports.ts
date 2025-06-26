@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react';
 import { mapIssueShareV2, mapMobileApp, mapCloudApp, mapReportIssues } from '@utils/mapper';
-import { useReportStore } from '@stores/report.store';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useFetcher } from '#commonHooks/useFetcher';
-import { companyIdIsNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useOrderStore } from '@stores/orders.store';
+import { OrderSection, RESOURCE_PATH_TO_TYPE, ResourcesTypes } from '@interfaces/order';
 
 export const useIssueReport = () => {
   const resources = useRef<any>(null);
@@ -14,21 +16,35 @@ export const useIssueReport = () => {
   const [fetcher] = useFetcher();
 
   const { getCompany } = useUserData();
-  const { resourceID, resourceType } = useReportStore(state => state);
+  const { resourceID, resourceType, openModal } = useGlobalFastFields([
+    'resourceID',
+    'resourceType',
+    'openModal',
+  ]);
+  const { updateState } = useOrderStore();
 
   const getReport = (companyID: string, issueID: string, resourceType: string) => {
     return fetcher('post', {
       body: {
-        model: 'issues/inform',
         company_id: companyID,
         resource_id: issueID,
         resource_class: resourceType,
       },
+      path: 'issues/inform',
     }).then(({ data }: any) => {
+      if (apiErrorValidation(data)) {
+        openModal.set(false);
+        updateState('open', true);
+        updateState('orderStepActive', OrderSection.PAYWALL);
+        updateState(
+          'resourceType',
+          RESOURCE_PATH_TO_TYPE[resourceType as keyof typeof RESOURCE_PATH_TO_TYPE]
+        );
+        return;
+      }
       issues.current = data.issues ? data.issues.map((issue: any) => mapReportIssues(issue)) : [];
 
       setShare(mapIssueShareV2(data));
-
       if (resourceType === RESOURCE_CLASS.WEB) {
         resources.current = [data.resource];
       } else if (resourceType === RESOURCE_CLASS.MOBILE) {
@@ -67,7 +83,7 @@ export const useIssueReport = () => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return Promise.resolve(false);
 
-    return getReport(companyID, resourceID, resourceType);
+    return getReport(companyID, resourceID.get, resourceType.get);
   };
 
   return {

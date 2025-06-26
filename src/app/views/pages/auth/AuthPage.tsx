@@ -1,16 +1,18 @@
 import { type FC, Suspense, lazy } from 'react';
 import { Outlet, useLocation, Navigate } from 'react-router';
-import useAuthStore from '@stores/auth.store.ts';
-import AuthNavigation from '../../components/auth/AuthNavigation';
-import ParticlesScriptLoader from '../../components/auth/ParticlesScriptLoader';
+import AuthNavigation from '../../components/AuthNavigation/AuthNavigation.tsx';
+import ParticlesScriptLoader from '../../components/ParticlesScriptLoader/ParticlesScriptLoader.tsx';
 import './auth.scss';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
+import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
+import { useUserData } from '#commonUserHooks/useUserData.ts';
 
-const BrandAndAppVersion = lazy(() => import('../../components/auth/BrandAndAppVersion.tsx'));
+const BrandAndAppVersion = lazy(
+  () => import('../../components/BrandAndAppVersion/BrandAndAppVersion.tsx')
+);
 
 const AuthPage: FC = () => {
   const location = useLocation();
-  const { isAuth } = useAuthStore(state => state);
+  const { isAuth } = useUserData();
   if (isAuth) {
     return <Navigate to={'/'} />;
   }

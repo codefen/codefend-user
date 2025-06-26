@@ -1,23 +1,5 @@
 import { type FC, useEffect, useState } from 'react';
-import {
-  BugIcon,
-  ExecutiveSummaryIcon,
-  PageLoader,
-  RiskScore,
-  GlobeWebIcon,
-  DownloadIcon,
-} from '../..';
 import { TableWithoutActions } from '@table/TableWithoutActions';
-import {
-  type ReportIssues,
-  addPrintAttributesFromBody,
-  formatDate,
-  issuesColumnsWithoutActionAuthor,
-  removePrintAttributesFromBody,
-  useIssueReport,
-  useReportStore,
-  type IssuesShare,
-} from '../../../../data';
 import { RiskWithoutAction } from './components/RiskWithoutAction';
 import { WebResourceScope } from './components/WebResourceScope';
 import { MobileResourceScope } from './components/MobileResourceScope';
@@ -28,6 +10,18 @@ import { NetworkResourceScope } from './components/NetworkResourceScope';
 import { SourceScope } from './components/SourceScope';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { RiskScore } from '@/app/views/components/utils/RiskScore';
+import { BugIcon, DownloadIcon, ExecutiveSummaryIcon, GlobeWebIcon } from '@icons';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import {
+  addPrintAttributesFromBody,
+  formatDate,
+  removePrintAttributesFromBody,
+} from '@utils/helper';
+import { useIssueReport } from '@panelHooks/issues';
+import type { IssuesShare, ReportIssues } from '@interfaces/index';
+import { issuesColumnsWithoutActionAuthor } from '@mocks/defaultData';
 
 interface CustomReportProps {
   isModal?: boolean;
@@ -35,7 +29,7 @@ interface CustomReportProps {
 
 export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const { open, resourceType } = useReportStore((state: any) => state);
+  const { resourceType, openModal } = useGlobalFastFields(['resourceType', 'openModal']);
   const { fetchReport, resources, issues, share, resourceDomainText } = useIssueReport();
   const { getCompanyName } = useUserData();
   const { oneExecute } = useTimeout(() => window.print(), 2000);
@@ -60,22 +54,25 @@ export const CustomReport: FC<CustomReportProps> = ({ isModal }) => {
   }, [resources]);
 
   const ActiveScope = () => {
-    if (resourceType === RESOURCE_CLASS.WEB) {
-      return <WebResourceScope resources={resources} isLoading={isLoading} />;
-    } else if (resourceType === RESOURCE_CLASS.MOBILE || resourceType === RESOURCE_CLASS.CLOUD) {
+    if (resourceType.get === RESOURCE_CLASS.WEB) {
+      return <WebResourceScope resources={resources || []} isLoading={isLoading} />;
+    } else if (
+      resourceType.get === RESOURCE_CLASS.MOBILE ||
+      resourceType.get === RESOURCE_CLASS.CLOUD
+    ) {
       return (
-        <MobileResourceScope type={resourceType} resources={resources} isLoading={isLoading} />
+        <MobileResourceScope type={resourceType.get} resources={resources} isLoading={isLoading} />
       );
-    } else if (resourceType == 'lan') {
+    } else if (resourceType.get == RESOURCE_CLASS.LAN_NET) {
       return <NetworkResourceScope resources={resources} isLoading={isLoading} />;
-    } else if (resourceType == RESOURCE_CLASS.SOURCE) {
+    } else if (resourceType.get == RESOURCE_CLASS.SOURCE) {
       return <SourceScope resources={resources} isLoading={isLoading} />;
     }
 
     return <></>;
   };
 
-  if ((open && !isLoading) || (!isModal && !isLoading)) {
+  if ((openModal.get && !isLoading) || (!isModal && !isLoading)) {
     const issuesTableRows = issues
       ? issues.map((issue: ReportIssues, i: number) => ({
           published: { value: issue.createdAt, style: 'date' },

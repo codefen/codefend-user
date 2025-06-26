@@ -1,0 +1,131 @@
+.report-type-card {
+  --color-title: var(--tertiary-color-500);
+  margin-bottom: 18px;
+  --color-resource: var(--tertiary-color-450);
+  --color-resource-hover: var(--tertiary-color-500);
+
+  width: 210px;
+  height: 120px;
+  min-width: 210px;
+  min-height: 120px;
+  max-width: 210px;
+  max-height: 120px;
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 18px;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 120ms ease;
+  padding-block-start: 0.5rem;
+  color: var(--color-title);
+
+  svg {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 12px;
+  }
+  &.mobile svg,
+  &.lan svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .caption-card {
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 0.35rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    row-gap: 0.25rem;
+    transition: all 200ms ease;
+    user-select: none;
+    color: var(--color-resource);
+
+    h4 {
+      font-size: 1.35rem;
+      transition: color 190ms ease;
+    }
+
+    h5 {
+      transition: color 190ms ease;
+      font-size: 1rem;
+      text-transform: lowercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+
+      span {
+        color: var(--secondary-color-50);
+      }
+    }
+  }
+
+  &:hover {
+    scale: 1.075;
+
+    svg {
+      color: var(--secondary-color-100);
+    }
+
+    .caption-card {
+      h4 {
+        color: var(--secondary-color-100);
+      }
+
+      h5 {
+        color: var(--color-resource-hover);
+      }
+    }
+  }
+
+  &.report-type-disable {
+    opacity: 0.35;
+    cursor: default;
+    border: 1.5px solid #bdbdbd;
+
+    .caption-card {
+      h4 {
+        color: var(--tertiary-color-200);
+      }
+
+      h5 {
+        color: var(--tertiary-color-200);
+      }
+
+      span {
+        color: var(--tertiary-color-200) !important;
+      }
+    }
+
+    &:hover {
+      scale: 1;
+
+      svg {
+        color: inherit;
+      }
+
+      .caption-card {
+        h4 {
+          color: var(--tertiary-color-200);
+        }
+
+        h5 {
+          color: var(--tertiary-color-200);
+        }
+      }
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .report-type-card {
+    --color-title: var(--tertiary-color-50);
+    --color-resource: var(--tertiary-color-400);
+    --color-resource-hover: var(--tertiary-color-200);
+  }
+}

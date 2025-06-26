@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import { StarRating } from '@standalones/utils/StarRating.tsx';
-import { ProfileMedia } from '@standalones/utils/ProfileMedia.tsx';
 import './providercard.scss';
+import { ProfileMedia } from '@/app/views/components/utils/ProfileMedia';
+import { StarRating } from '@/app/views/components/utils/StarRating';
 
 interface ProviderCardProps {
   img: string;

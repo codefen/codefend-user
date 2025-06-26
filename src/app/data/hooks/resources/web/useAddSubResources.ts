@@ -36,15 +36,15 @@ export const useAddSubResource = (onDone: () => void, onClose: () => void) => {
     onClose();
     fetcher<any>('post', {
       body: {
-        model: 'resources/web/add/child',
         company_id: companyID,
         resource_domain_dad: domainId,
         resource_address_domain: subDomain,
       },
+      path: 'resources/web/add/child',
     })
       .then(({ data }) => {
         toast.dismiss(toastId);
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
 

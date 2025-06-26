@@ -1,0 +1,44 @@
+.rightItem {
+  display: flex;
+  height: 145px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--primary-color-500);
+  align-items: center;
+  padding: 2rem;
+  column-gap: 1rem;
+  text-align: left;
+  transition: background-color ease 0.2s;
+
+  &:hover {
+    background-color: var(--primary-color-250);
+  }
+}
+
+.rightImgMock {
+  width: 50px;
+  aspect-ratio: 1/1;
+  background-color: rgb(48 48 48);
+}
+
+.rightItemContent {
+  display: flex;
+  flex-direction: column;
+  color: var(--tertiary-color-50);
+  row-gap: 1rem;
+}
+
+:global([data-theme='light']) {
+  .rightItem {
+    background-color: #f4f4f4;
+
+    &:hover {
+      background-color: var(--primary-color-600);
+    }
+  }
+
+  .rightItemContent {
+    color: var(--tertiary-color-300);
+  }
+}

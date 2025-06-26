@@ -3,23 +3,21 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import { ChatBoxType } from '@interfaces/panel';
-import { ChatBox } from '@standalones/ChatBox';
-import { PageLoader } from '@defaults/loaders/Loader.tsx';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
-import SelectedTicket from '../supportProvider';
-import Show from '@defaults/Show.tsx';
+import { ChatBox } from '@/app/views/components/ChatBox/ChatBox';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import Show from '@/app/views/components/Show/Show';
 import { MessageIcon } from '@icons';
-import { MessageList } from '@standalones/MessageList';
-import { useSWRMessage } from '@panelHooks/useSWRTickets';
+import { MessageList } from '@/app/views/components/MessageList/MessageList';
+import { useSWRMessage } from '@panelHooks/chats/useSWRTickets';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 import { EMPTY_CS_TICKET } from '@/app/constants/empty';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
-export const SupportChatDisplay: FC = () => {
+export const SupportChatDisplay: FC<{ selectedTicket: any }> = ({ selectedTicket }) => {
   const { getCompany } = useUserData();
-  const { dad } = useParams();
-  const selectedTicketID = useContext(SelectedTicket);
-  const { data, isLoading, mutate } = useSWRMessage(dad || selectedTicketID || '0', getCompany());
+  const { data, isLoading, mutate } = useSWRMessage(selectedTicket?.id || '0', getCompany());
 
   const onDone = (newMessage?: any) => {
     const viewMessage = localStorage.getItem(CHATBOX_TEXT.VIEW_MESSAGE)
@@ -45,12 +43,14 @@ export const SupportChatDisplay: FC = () => {
         <SimpleSection header={ticketDad.cs_header} icon={<MessageIcon />}>
           <div className="content">
             <Show when={!isLoading} fallback={<PageLoader />}>
-              <MessageList tickets={alltickets} />
+              <MessageList tickets={alltickets} condicion={selectedTicket?.condicion} />
             </Show>
           </div>
         </SimpleSection>
 
-        <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicketID} />
+        <Show when={selectedTicket?.condicion !== 'closed'}>
+          <ChatBox type={ChatBoxType.SUPPORT} onDone={onDone} selectedID={selectedTicket?.id} />
+        </Show>
       </div>
     </>
   );

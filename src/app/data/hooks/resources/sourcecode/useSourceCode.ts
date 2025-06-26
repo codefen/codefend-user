@@ -12,11 +12,14 @@ export const useSourceCode = () => {
   const { data, mutate, isLoading, isValidating } = useSWR(
     swrKeYRef.current,
     (key: any) => disponibleFetcher(key),
-    defaultConfig
+    {
+      ...defaultConfig,
+      fallbackData: {},
+    }
   );
 
   return {
-    data: data ? data : [],
+    data: data?.disponibles ? data?.disponibles : [],
     isLoading: isLoading || isValidating,
     refetch: () =>
       mutate(undefined, {

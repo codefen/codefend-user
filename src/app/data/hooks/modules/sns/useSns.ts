@@ -1,10 +1,14 @@
 import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { companyIdIsNull } from '@/app/constants/validations';
+import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useOrderStore } from '@stores/orders.store';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 interface PersonInfo {
   name: string;
@@ -29,42 +33,92 @@ interface PersonInfo {
 }
 
 export const useSns = () => {
-  const { getCompany, getUserdata } = useUserData();
+  const { getCompany, getUserdata, logout, company } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
-  const query = new URLSearchParams(useLocation().search);
-  const [searchData, setSearchData] = useState(query.get('search') || '');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const query = new URLSearchParams(location.search);
+  const [searchData, setSearchData] = useState(query.get('keyword') || query.get('search') || '');
   const [searchClass, setSearchClass] = useState<string>(query.get('class') || 'email');
   const intelDataRef = useRef<any[]>([]);
+  const appEvent = useGlobalFastField('appEvent');
+  const { updateState } = useOrderStore();
+
+  const updateUrlParams = (keyword: string, searchClass: string) => {
+    const newSearchParams = new URLSearchParams();
+    if (keyword.trim()) {
+      newSearchParams.set('keyword', keyword.trim());
+      newSearchParams.set('class', searchClass);
+    }
+    
+    const newUrl = `${location.pathname}${newSearchParams.toString() ? `?${newSearchParams.toString()}` : ''}`;
+    navigate(newUrl, { replace: true });
+  };
 
   const fetchSearch = (companyID: string) => {
     intelDataRef.current = [];
-    fetcher('post', {
+    let searchDataParsed = searchData;
+    if (searchClass === 'email') {
+      searchDataParsed = searchDataParsed.trim();
+    }
+
+    // Actualizar URL con los parámetros de búsqueda
+    updateUrlParams(searchDataParsed, searchClass);
+
+    return fetcher('post', {
       body: {
-        model: 'modules/sns',
-        ac: 'search',
         company_id: companyID,
-        keyword: searchData,
+        keyword: searchDataParsed,
         class: searchClass,
       },
-    }).then(({ data }: any) => {
-      const arrayOfObjects = !!data?.response?.results
-        ? Object.entries(data.response.results).map(([key, value]) => {
-            const name = key.split('_').slice(1, -2).join('_');
-            return { name, value: value as PersonInfo[] };
-          })
-        : [];
-      intelDataRef.current = arrayOfObjects;
+      path: 'modules/sns/search',
+    })
+      .then(({ data }: any) => {
+        if (verifySession(data, logout)) return;
+        if (apiErrorValidation(data)) {
+          const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          customError.code = data?.error_info || 'generic';
+          throw customError;
+        }
+        const arrayOfObjects = !!data?.response?.results
+          ? Object.entries(data.response.results).map(([key, value]) => {
+              const name = key.split('_').slice(1, -2).join('_');
+              return { name, value: value as PersonInfo[] };
+            })
+          : [];
+        intelDataRef.current = arrayOfObjects;
+        updateCompany(data.company);
+        if (arrayOfObjects.length === 0 || data.response.size == 0) {
+          toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
+        }
+      })
+      .catch(error => {
+        switch (error.code) {
+          case 'paid_user_leaksearch_maximum_reached':
+          case 'leaksearch_maximum_reached':
+            limitReached();
+            break;
+          default:
+            toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        }
+      });
+  };
 
-      if (arrayOfObjects.length === 0 || data.response.size == 0) {
-        toast.warning(APP_MESSAGE_TOAST.SEARCH_NOT_FOUND);
-      }
-    });
+  const limitReached = () => {
+    updateState('open', true);
+    updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
+    updateState('resourceType', ResourcesTypes.WEB);
+    appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_SNS);
+  };
+  
+  const updateCompany = (companyUpdated: any) => {
+    if (companyUpdated) company.set(companyUpdated);
   };
 
   const handleSearch = () => {
     const companyID = getCompany();
     if (companyIdIsNull(companyID)) return;
-    fetchSearch(companyID);
+    return fetchSearch(companyID);
   };
 
   return {
@@ -76,5 +130,8 @@ export const useSns = () => {
     getUserdata,
     setSearchData,
     setSearchClass,
+    limitReached,
+    company,
+    updateCompany,
   } as const;
 };

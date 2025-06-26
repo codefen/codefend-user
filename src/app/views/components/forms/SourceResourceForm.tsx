@@ -1,7 +1,7 @@
 import { type FC, type FormEvent } from 'react';
 import { GlobeWebIcon } from '@icons';
 import { useAddSourceCode } from '@resourcesHooks/sourcecode/useAddSourceCode';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 
 export const SourceResourceForm: FC<ComponentEventWithChildren> = ({ close, onDone, children }) => {

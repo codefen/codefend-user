@@ -1,166 +1,79 @@
 import { type FC } from 'react';
 import { useNavigate } from 'react-router';
-
-import ConfirmModal from '@modals/ConfirmModal';
-import { TrashIcon, BugIcon, CredentialIcon, DocumentIcon, PeopleGroupIcon } from '@icons';
-import Show from '@defaults/Show';
-import { TableV2 } from '@table/tablev2';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
-
+import '../socialEngineering.scss';
+import { LinkedinV2Icon } from '@/app/views/components/icons/LinkedinV2Icon';
 import type { MemberV2 } from '@interfaces/panel';
-import type { TableItem } from '@interfaces/table';
-import { roleMap, memberColumnWithActions } from '@mocks/defaultData';
-import useModal from '@hooks/common/useModal';
-import { useReportStore } from '@stores/report.store';
-import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal';
-import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
-import { useUserRole } from '#commonUserHooks/useUserRole';
-import useCredentialStore from '@stores/credential.store';
-import useModalStore from '@stores/modal.store';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
 
-interface SocialProps {
-  refetch: () => void;
-  isLoading: boolean;
-  socials: MemberV2[];
+interface SocialEngineeringProps {
+	paginatedMembers: MemberV2[];
+	sentryRef: (node?: Element | null | undefined) => void;
 }
 
-const SocialEngineering: FC<SocialProps> = props => {
-  const navigate = useNavigate();
-  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
-  const [handleDeleteResource, { setSelectedId, isLoading: __ }] = useAddSocial(() => {
-    setShowModal(false);
-    props.refetch();
-  });
+const SocialEngineering: FC<SocialEngineeringProps> = ({
+	paginatedMembers,
+	sentryRef,
+}) => {
+	const navigate = useNavigate();
+	const isLoading = !paginatedMembers || paginatedMembers.length === 0;
+	const hasMore = paginatedMembers.length > 0 && paginatedMembers.length % 10 === 0; // Suponiendo que se cargan 10 elementos por página
 
-  const { isAdmin, isNormalUser, isProvider } = useUserRole();
-  const { setCredentialType, setResourceId } = useCredentialStore();
-  const { setIsOpen, setModalId } = useModalStore();
-  const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
-  const safelyPreviousSearches = () => props.socials.slice().reverse();
+	const handleMemberClick = (email: string, event: React.MouseEvent) => {
+		// Prevenir la navegación si se hace clic en el enlace de LinkedIn
+		if ((event.target as HTMLElement).closest('a')) {
+			return;
+		}
+		
+		// Navegar a SNS con los parámetros de búsqueda
+		navigate(`/sns?keyword=${encodeURIComponent(email)}&class=email`);
+	};
 
-  const generateReport = (resourceID: string, count: any) => {
-    if (Number(count) >= 1) {
-      openModal();
-      setResourceID(resourceID);
-      setResourceType(RESOURCE_CLASS.SOCIAL);
-    }
-  };
-  const dataTable = safelyPreviousSearches().map(
-    (member: MemberV2) =>
-      ({
-        ID: { value: member.id, style: 'id' },
-        fullName: {
-          value: `${member.member_fname} ${member.member_lname}`,
-          style: 'full-name',
-        },
-        email: { value: member.member_email, style: 'email' },
-        phone: { value: member.member_phone, style: 'phone' },
-        role: {
-          value: roleMap[member.member_role as keyof typeof roleMap],
-          style: 'role',
-        },
-        action: {
-          value: (
-            <>
-              <span
-                className={`issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
-                title={`${isNormalUser() ? '' : 'Add Issue'}`}
-                onClick={() =>
-                  navigate(isProvider() || isAdmin() ? `/issues/create/social/${member.id}` : '', {
-                    state: { redirect: '/social' },
-                  })
-                }>
-                <BugIcon isButton />
-                <span className="codefend-text-red-200 issue-count">{member.final_issues}</span>
-              </span>
-              <span
-                title="View report"
-                className={`issue-printer ${Number(member.final_issues) == 0 ? 'off' : ''}`}
-                onClick={() => generateReport(member.id, member.final_issues)}>
-                <DocumentIcon isButton width={1.27} height={1.27} />
-              </span>
-              <Show when={isNormalUser() || isAdmin()}>
-                <span
-                  title="Delete"
-                  onClick={() => {
-                    setShowModalStr(MODAL_KEY_OPEN.DELETE_MEMBER);
-                    setShowModal(true);
-                    setSelectedId(member.id);
-                  }}>
-                  <TrashIcon />
-                </span>
-              </Show>
-
-              <span
-                title="Add credentials"
-                onClick={() => {
-                  setResourceId(member.id);
-                  setCredentialType(RESOURCE_CLASS.SOCIAL);
-                  setIsOpen(true);
-                  setModalId(RESOURCE_CLASS.SOCIAL);
-                }}>
-                <CredentialIcon />
-              </span>
-            </>
-          ),
-          style: 'id action',
-        },
-      }) as Record<string, TableItem>
-  );
-
-  return (
-    <>
-      <AddSocialResourceModal
-        isOpen={showModal && showModalStr === MODAL_KEY_OPEN.ADD_MEMBER}
-        onDone={() => {
-          setShowModal(false);
-          props.refetch();
-        }}
-        close={() => setShowModal(false)}
-      />
-      <ModalTitleWrapper
-        isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_MEMBER}
-        close={() => setShowModal(false)}
-        headerTitle="Delete social engineering">
-        <ConfirmModal
-          action={() => {
-            handleDeleteResource();
-          }}
-          header=""
-          cancelText="Cancel"
-          confirmText="Delete"
-          close={() => setShowModal(false)}
-        />
-      </ModalTitleWrapper>
-
-      <div className="card table">
-        <div className="header">
-          <div className="title">
-            <div className="icon">
-              <PeopleGroupIcon />
-            </div>
-            <span>Social Engineering</span>
-          </div>
-          <div className="actions">
-            <div
-              onClick={() => {
-                setShowModal(!showModal);
-                setShowModalStr(MODAL_KEY_OPEN.ADD_MEMBER);
-              }}>
-              Add profile
-            </div>
-          </div>
-        </div>
-        <TableV2
-          columns={memberColumnWithActions}
-          rowsData={dataTable}
-          showRows={!props.isLoading}
-          showEmpty={!props.isLoading && !Boolean(dataTable.length)}
-        />
-      </div>
-    </>
-  );
+	return (
+		<div className="card">
+			<div className="social-grid">
+				{!isLoading &&
+					paginatedMembers.map((member, index) => (
+						<div
+							key={member.id}
+							ref={
+								paginatedMembers.length === index + 1 ? sentryRef : undefined
+							}
+							className={`social-card ${
+								member.linkedin_url ? 'has-linkedin' : ''
+							}`}
+							onClick={(e) => handleMemberClick(member.email, e)}
+							style={{ cursor: 'pointer' }}>
+							<div className="social-card-info">
+								<span>{member.id}</span>
+								<span className="separator">|</span>
+								<span>{member.email}</span>
+								{member.name && (
+									<>
+										<span className="separator">|</span>
+										<span>{member.name}</span>
+									</>
+								)}
+								{member.linkedin_url && (
+									<>
+										<span className="separator">|</span>
+										<a
+											href={member.linkedin_url}
+											target="_blank"
+											rel="noopener noreferrer">
+											<LinkedinV2Icon />
+										</a>
+									</>
+								)}
+							</div>
+						</div>
+					))}
+				{hasMore ? (
+					<div className="loading-message">More elements loading...</div>
+				) : (
+					<div className="loading-message">All elements are listed.</div>
+				)}
+			</div>
+		</div>
+	);
 };
 
 export default SocialEngineering;

@@ -1,8 +1,8 @@
 {
 	"$schema": "https://schema.tauri.app/config/2",
-	"productName": "Codefend Security Panel",
+	"productName": "Codefend Security App",
 	"version": "../package.json",
-	"identifier": "com.codefend.panel",
+	"identifier": "com.codefend.app",
 	"app": {
 		"withGlobalTauri": true,
 		"windows": [
@@ -11,7 +11,7 @@
 				"height": 600,
 				"width": 800,
 				"resizable": true,
-				"title": "Codefend Panel",
+				"title": "Codefend App",
 				"visible": true,
 				"center": true,
 				"label": "main",
@@ -23,9 +23,9 @@
 		}
 	},
 	"build": {
-		"beforeDevCommand": "pnpm dev",
+		"beforeDevCommand": "bun dev",
 		"devUrl": "http://localhost:5173",
-		"beforeBuildCommand": "pnpm build",
+		"beforeBuildCommand": "bun run build",
 		"frontendDist": "../dist"
 	},
 	"bundle": {

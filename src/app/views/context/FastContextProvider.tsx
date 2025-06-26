@@ -1,10 +1,19 @@
-import React, { useRef, createContext, useContext, useCallback, useSyncExternalStore } from 'react';
+import {
+  useRef,
+  createContext,
+  useContext,
+  useCallback,
+  useSyncExternalStore,
+  type ReactNode,
+  useMemo,
+} from 'react';
 
 export default function createFastContext<FastContext>(initialState: FastContext) {
   function useFastContextData(): {
     get: () => Readonly<FastContext>;
     set: (value: Partial<FastContext>) => void;
     subscribe: (callback: () => void) => () => void;
+    reset: () => void;
   } {
     const store = useRef(initialState);
 
@@ -17,6 +26,11 @@ export default function createFastContext<FastContext>(initialState: FastContext
       subscribers.current.forEach(callback => callback());
     }, []);
 
+    const reset = useCallback(() => {
+      store.current = { ...initialState };
+      subscribers.current.forEach(callback => callback());
+    }, []);
+
     const subscribe = useCallback((callback: () => void) => {
       subscribers.current.add(callback);
       return () => subscribers.current.delete(callback);
@@ -26,6 +40,7 @@ export default function createFastContext<FastContext>(initialState: FastContext
       get,
       set,
       subscribe,
+      reset,
     };
   }
 
@@ -33,7 +48,7 @@ export default function createFastContext<FastContext>(initialState: FastContext
 
   const FastContext = createContext<UseFastContextDataReturnType | null>(null);
 
-  function FastContextProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+  function FastContextProvider({ children }: Readonly<{ children: ReactNode }>) {
     return <FastContext.Provider value={useFastContextData()}>{children}</FastContext.Provider>;
   }
 
@@ -54,27 +69,85 @@ export default function createFastContext<FastContext>(initialState: FastContext
     return [state, fastContext.set];
   }
 
-  function useFastContextFields<SelectorOutput>(fieldNames: string[]): {
-    [key: string]: { get: SelectorOutput; set: (value: any) => void };
+  function useFastContextFields<K extends keyof FastContext>(
+    fieldNames: K[]
+  ): {
+    [Key in K]: {
+      get: FastContext[Key];
+      set: (value: FastContext[Key]) => void;
+    };
   } {
-    const gettersAndSetters: {
-      [key: string]: { get: SelectorOutput; set: (value: any) => void };
-    } = {};
+    // Creamos un array para almacenar los resultados de forma segura
+    const result = {} as {
+      [Key in K]: {
+        get: FastContext[Key];
+        set: (value: FastContext[Key]) => void;
+      };
+    };
+
     for (const fieldName of fieldNames) {
-      const [getter, setter] = useFastContext(
-        fc => (fc as Record<string, SelectorOutput>)[fieldName]
-      );
-      gettersAndSetters[fieldName] = {
+      const [getter, setter] = useFastContext(fc => fc[fieldName]);
+
+      result[fieldName] = {
         get: getter,
-        set: (value: any) => setter({ [fieldName]: value } as Partial<FastContext>),
+        set: (value: FastContext[typeof fieldName]) => {
+          const isPrimitive =
+            typeof value === 'string' ||
+            typeof value === 'number' ||
+            typeof value === 'boolean' ||
+            value === null ||
+            value === undefined;
+          if ((isPrimitive && value != getter) || !isPrimitive) {
+            // console.log(
+            //   `setting from useFastContextFields for ${fieldName.toString()} to ${value}`
+            // );
+            const update = { [fieldName]: value } as unknown as Partial<FastContext>;
+            setter(update);
+          }
+        },
       };
     }
 
-    return gettersAndSetters;
+    return result;
+  }
+
+  function useFastField<K extends keyof FastContext>(
+    key: K
+  ): {
+    get: FastContext[K];
+    set: (value: FastContext[K]) => void;
+  } {
+    const [getter, setter] = useFastContext(fc => fc[key]);
+    return {
+      get: getter,
+      set: (value: FastContext[K]) => {
+        const isPrimitive =
+          typeof value === 'string' ||
+          typeof value === 'number' ||
+          typeof value === 'boolean' ||
+          value === null ||
+          value === undefined;
+        if ((isPrimitive && value != getter) || !isPrimitive) {
+          // console.log(`setting from useFastField for ${key.toString()} to ${value}`);
+          const update = { [key]: value } as unknown as Partial<FastContext>;
+          setter(update);
+        }
+      },
+    };
+  }
+
+  function useResetStore() {
+    const fastContext = useContext(FastContext);
+    if (!fastContext) {
+      throw new Error('Store not found');
+    }
+    return fastContext.reset;
   }
 
   return {
     FastContextProvider,
     useFastContextFields,
+    useFastField,
+    useResetStore,
   };
 }

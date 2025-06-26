@@ -1,17 +1,15 @@
 import { type FC, lazy } from 'react';
 import { getCurrentDate } from '@utils/helper';
-import useAdminCompanyStore from '@stores/adminCompany.store';
 import { AimIcon } from '@icons';
 import { useUserData } from '#commonUserHooks/useUserData';
 
 export interface ReportFrontpageProps {
   resourceDomainText: string;
 }
-const Logo = lazy(() => import('../../../defaults/Logo'));
+const Logo = lazy(() => import('../../../Logo/Logo'));
 
 export const ReportFrontpage: FC<ReportFrontpageProps> = props => {
-  const { companySelected } = useAdminCompanyStore();
-  const { getUserdata } = useUserData();
+  const { getUserdata, company } = useUserData();
 
   return (
     <div className="portada">
@@ -29,14 +27,12 @@ export const ReportFrontpage: FC<ReportFrontpageProps> = props => {
         <p>
           This penetration test on {props.resourceDomainText} was requested by{' '}
           <span>
-            {getUserdata().access_role == 'user'
-              ? getUserdata().company_name
-              : companySelected.name}
+            {getUserdata().access_role == 'user' ? getUserdata().company_name : company.get?.name}
           </span>{' '}
           and conducted by Codefend
-          {companySelected?.reseller_name &&
-          companySelected?.reseller_name?.toLocaleLowerCase?.() !== 'codefend'
-            ? ` in collaboration with ${companySelected.reseller_name}`
+          {company.get?.reseller_name &&
+          company.get?.reseller_name?.toLocaleLowerCase?.() !== 'codefend'
+            ? ` in collaboration with ${company.get.reseller_name}`
             : ''}
           .
         </p>

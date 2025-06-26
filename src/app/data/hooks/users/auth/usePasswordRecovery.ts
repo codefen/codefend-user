@@ -1,4 +1,5 @@
 import { useFetcher } from '#commonHooks/useFetcher';
+import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation } from '@/app/constants/validations';
 
 export const usePasswordRecovery = () => {
@@ -7,9 +8,9 @@ export const usePasswordRecovery = () => {
   const sendEmailForRecovery = (email: string) => {
     return fetcher('post', {
       body: {
-        model: 'users/password/recover',
         provided_email: email,
       },
+      path: 'users/password/recover',
     }).then(({ data }: any) => {
       return data;
     });
@@ -17,14 +18,14 @@ export const usePasswordRecovery = () => {
   const passwordRecover = (email: string, referenceNumber: string, newPassowrd: string) => {
     return fetcher('post', {
       body: {
-        model: 'users/password/recover/hash',
         provided_email: email,
         password_recover_hash: referenceNumber,
         new_password: newPassowrd,
       },
+      path: 'users/password/recover/hash',
     }).then(({ data }: any) => {
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
-        throw new Error('An error has occurred on the server');
+      if (data.isAnError || apiErrorValidation(data)) {
+        throw new Error(data?.info || AUTH_TEXT.FAILURE_PASSWORD_UPDATED);
       }
       return data;
     });

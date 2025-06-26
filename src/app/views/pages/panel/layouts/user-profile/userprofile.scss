@@ -1,0 +1,231 @@
+main.user-profile {
+  .left {
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .user-profile-top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem;
+      background-color: var(--primary-color);
+      border-radius: var(--brd-radius);
+
+      svg {
+        width: 13rem;
+        height: 13rem;
+        color: var(--secondary-color-200);
+      }
+
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .box-assets {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      width: 100%;
+      min-height: 340px;
+      height: fit-content;
+
+      .card {
+        overflow: hidden;
+        min-width: 200px;
+        padding: 0.5rem;
+        flex: 1 1 50%;
+        height: 100%;
+      }
+    }
+
+    .status-card-container {
+      display: none;
+    }
+
+    .qr-contain {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.6rem;
+
+      .disabled-btn {
+        margin-top: auto;
+      }
+
+      .mfa-active-icon {
+        background-color: rgb(220, 252, 231);
+        padding: 0.5rem;
+        border-radius: 100%;
+        height: fit-content;
+        width: fit-content;
+        color: rgb(22 101 52 / 1);
+      }
+
+      .mfa-active {
+        display: flex;
+        background-color: rgb(240 253 244 / 1);
+        padding: 1rem;
+        border-radius: var(--brd-radius);
+        gap: var(--card-space);
+        border: 1px solid hsl(240 5.9% 90%);
+
+        h3 {
+          color: rgb(22 101 52 / 1);
+          font-size: 1.1rem;
+        }
+
+        p {
+          padding: 0;
+          color: rgb(21 128 61 / 1);
+        }
+      }
+    }
+
+    .qr-contain input {
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  .right {
+    height: 100%;
+    margin-left: 0;
+    overflow-y: auto;
+    .card {
+      margin-bottom: 12px;
+
+      &.stats {
+        .content {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          padding: 0;
+        }
+      }
+
+      &.risk-chart {
+        .content {
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+    }
+  }
+
+  &.actived {
+    .left {
+      flex: 1 1 60%;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+
+    .right {
+      flex: 1 1 40%;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+  }
+
+  // @media only screen and (max-width: 600px) {
+  //   display: block;
+  //   min-height: auto;
+  //   height: 81dvh;
+  //   padding: 0;
+
+  //   .left {
+  //     width: 100%;
+  //     overflow-x: auto;
+  //     padding-block-start: 10px;
+  //   }
+
+  //   .right {
+  //     width: 100%;
+  //     padding-block-start: 20px;
+  //   }
+  // }
+}
+
+.card.rectangle svg,
+.card.rectangle img {
+  max-width: 170px;
+  max-height: 170px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+[data-theme='dark'] {
+}
+
+@media only screen and (max-width: 600px) {
+  main.user-profile {
+    .left {
+      .card.stat {
+        .value {
+          font-size: 1.35rem;
+        }
+        .value + p {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1000px) {
+  main.user-profile {
+    .left {
+      .status-card-container {
+        display: flex;
+      }
+    }
+    .right {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 1230px) {
+  main.user-profile {
+    width: 96%;
+  }
+}
+
+@container left-main (max-width: 600px) {
+  main.user-profile {
+    .left {
+      .box-assets {
+        flex-direction: column;
+        min-height: fit-content;
+      }
+    }
+  }
+}
+
+main.user-profile .box-assets .card .over {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem;
+
+  p {
+    flex-grow: 1;
+  }
+
+  .form-button {
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .form-input {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}

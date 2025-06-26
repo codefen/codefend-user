@@ -9,7 +9,17 @@ import type {
 import type { AuditCompanyData } from './util';
 
 export enum OrderSection {
+  PAYWALL = 0,
+  PAYWALL_MAX_SCAN = 0.1,
   SCOPE = 1,
+  WEB_SCOPE = 1.11,
+  MOBILE_SCOPE = 1.12,
+  NETWORK_SCOPE = 1.13,
+  SOCIAL_SCOPE = 1.14,
+  ALL_PLANS = 1.1,
+  RECOMMENDED_PLAN = 1.2,
+  SMALL_PLANS = 1.3,
+  ARABIC_PLAN = 1.4,
   FREQUENCY = 2,
   TEAM_SIZE = 3,
   //ORDER_REVIEW=4,
@@ -30,7 +40,19 @@ export enum ResourcesTypes {
   CODE = 'source',
   SOCIAL = 'social',
   NETWORK = 'network',
+  LEAKS = 'leaks',
 }
+
+export const RESOURCE_PATH_TO_TYPE = {
+  web: ResourcesTypes.WEB,
+  mobile: ResourcesTypes.MOBILE,
+  cloud: ResourcesTypes.CLOUD,
+  source: ResourcesTypes.CODE,
+  social: ResourcesTypes.SOCIAL,
+  se: ResourcesTypes.SOCIAL,
+  lan: ResourcesTypes.NETWORK,
+  network: ResourcesTypes.NETWORK,
+};
 
 export enum OrderOffensive {
   CAREFUL = 'careful',
@@ -47,9 +69,9 @@ export enum OrderTeamSize {
 }
 
 export enum ScopeOption {
-  ALL,
-  TYPE,
-  UNKNOWN,
+  ALL = 0,
+  TYPE = 1,
+  UNKNOWN = 3,
 }
 
 export enum CryptoPayment {
@@ -68,7 +90,18 @@ export interface ScopeOptions {
 
   scopeOption: ScopeOption;
 }
-
+export enum UserPlanSelected {
+  NOTHING = '',
+  LOAD_MORE_RESOURCES = 'ondemand',
+  MANUAL_PENTEST = 'normalorder',
+  AUTOMATED_PLAN = 'automatedplan',
+}
+export enum UserSmallPlanSelected {
+  NOTHING = '',
+  BASIC = 'small',
+  MEDIUM = 'medium',
+  ADVANCED = 'full',
+}
 export enum OrderPaymentMethod {
   CRYPTO = 'cc',
   CARD = 'card',
