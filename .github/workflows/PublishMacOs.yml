@@ -57,13 +57,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
-        run: npm install -g pnpm@9.7.0
+      - name: 🛠️ Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
-      - name: 🛠️ Setup/ Install frontend dependencies
-        run: |
-          pnpm config set store-dir ~/.pnpm-store
-          pnpm install --frozen-lockfile --ignore-scripts
+      - name: 🛠️ Install dependencies
+        run: bun install
 
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
