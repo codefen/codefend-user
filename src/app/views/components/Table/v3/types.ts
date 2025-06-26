@@ -1,4 +1,10 @@
-import { type ReactNode, type MouseEvent, type ChangeEvent, type CSSProperties } from 'react';
+import {
+  type ReactNode,
+  type MouseEvent,
+  type ChangeEvent,
+  type CSSProperties,
+  type RefObject,
+} from 'react';
 import { type ColumnTableV3, type Sort } from '@interfaces/table';
 
 // ============================================================================
@@ -136,7 +142,7 @@ export interface TableCellProps {
 // ============================================================================
 
 export interface UseVirtualizationConfigProps {
-  containerRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: RefObject<HTMLDivElement | null>;
   rowHeight: number;
   minContainerHeight?: number;
   maxContainerHeight?: number;

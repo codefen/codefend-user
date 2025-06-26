@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
+import { type FC } from 'react';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { getNetworkMetrics } from '@utils/metric.service';
 
 interface WebResourceStaticProps {
   externalIpCount: number;
   internalIpCount: number;
   totalNotUniqueIpCount: number;
 }
-export const NetworkStatics: React.FC<WebResourceStaticProps> = ({
+export const NetworkStatics: FC<WebResourceStaticProps> = ({
   externalIpCount,
   internalIpCount,
   totalNotUniqueIpCount,

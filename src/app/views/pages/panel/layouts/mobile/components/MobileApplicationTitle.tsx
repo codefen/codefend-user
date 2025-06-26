@@ -1,5 +1,4 @@
-import React from 'react';
-import { MobileIcon } from '@/app/views/components/icons';
+import { type FC } from 'react';
 import { PrimaryButton } from '@buttons/index';
 
 interface MobileApplicationTitleProps {
@@ -7,7 +6,7 @@ interface MobileApplicationTitleProps {
   isLoading: boolean;
 }
 
-export const MobileApplicationTitle: React.FC<MobileApplicationTitleProps> = ({
+export const MobileApplicationTitle: FC<MobileApplicationTitleProps> = ({
   onAddClick,
   isLoading,
 }) => {

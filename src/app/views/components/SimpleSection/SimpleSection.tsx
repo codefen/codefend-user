@@ -1,8 +1,8 @@
-import React, { type FC, type ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import css from './simplesection.module.scss';
 
 interface SimpleSectionProps {
-  header?: React.ReactNode;
+  header?: ReactNode;
   icon?: ReactNode;
   children: ReactNode;
 }
