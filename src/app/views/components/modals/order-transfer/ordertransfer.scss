@@ -41,11 +41,11 @@
 }
 
 .step-content {
-  --show-border-color: var(--tertiary-color-50);
+  --showtransfer-border-color: var(--tertiary-color-50);
   flex: 1;
   padding: 20px 0;
   overflow-y: auto;
-  max-height: calc(100vh - 50vh);
+  // max-height: calc(100vh - 50vh);
 
   .more-results {
     max-height: 370px;
@@ -102,7 +102,7 @@
     column-gap: 2.5rem;
     padding-block: 1.25rem;
     padding-inline: 4.5rem;
-    border-top: 1px solid var(--show-border-color);
+    border-top: 1px solid var(--showtransfer-border-color);
     border-bottom: 1px solid #00000000;
     transition: all 0.13s ease-in;
 
@@ -125,7 +125,7 @@
     }
 
     &:last-child {
-      border-bottom: 1px solid var(--show-border-color);
+      border-bottom: 1px solid var(--showtransfer-border-color);
     }
 
     .price-value {

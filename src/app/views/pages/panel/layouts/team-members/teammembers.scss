@@ -1,0 +1,116 @@
+main.team-members {
+  .left {
+    gap: 12px;
+
+    .status-card-container {
+      display: none;
+    }
+
+    .box-assets {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 12px;
+      width: 100%;
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0;
+        min-width: 200px;
+        padding: 0.5rem;
+        // p {
+        //   font-family: Satoshi, sans-serif !important;
+        //   font-size: 0.9rem;
+        // }
+      }
+
+      .team-members-table {
+        background-color: var(--primary-color);
+        border-radius: var(--br-radius);
+        overflow-x: auto;
+      }
+    }
+  }
+
+  .right {
+    height: 100%;
+    margin-left: 0;
+    overflow-y: auto;
+    .card {
+      margin-bottom: 12px;
+    }
+  }
+
+  &.actived {
+    opacity: 1;
+    width: 96%;
+    margin-left: 0;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+
+    .left {
+      flex: 3.5;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+
+    .right {
+      flex: 2.5;
+      padding-block-start: 0;
+      margin-block-start: calc(18px + var(--nav-height));
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+    min-height: auto;
+    padding: 0;
+
+    .left {
+      width: 100%;
+      overflow-x: auto;
+      padding-block-start: 10px;
+
+      .card.stat {
+        .value {
+          font-size: 1.35rem;
+        }
+        .value + p {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  main.team-members {
+    &.actived {
+      // padding-inline-start: var(--card-space);
+      gap: 0;
+      outline: 0;
+      margin: 0;
+      padding: 0;
+      margin-inline: auto;
+
+      .left {
+        flex: 1;
+
+        .status-card-container {
+          display: flex;
+        }
+      }
+    }
+
+    .right {
+      display: none;
+    }
+  }
+}

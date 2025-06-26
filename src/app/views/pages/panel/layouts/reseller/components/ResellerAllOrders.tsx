@@ -1,10 +1,8 @@
-import { SimpleSection } from '@defaults/SimpleSection';
 import { CheckCircleIcon, GlobeWebIcon, XCircleIcon } from '@icons';
-import { resellerOrdersColumn } from '@mocks/defaultData';
-import { LocationItem } from '@standalones/index';
-import { TableV2 } from '@table/tablev2';
 import type { FC } from 'react';
 import type { FullOrder } from '@interfaces/order';
+import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface ResellerAllOrdersProps {
   orders: FullOrder[];
@@ -59,12 +57,12 @@ export const ResellerAllOrders: FC<ResellerAllOrdersProps> = ({ orders, isLoadin
     <div className="card">
       <SimpleSection header="Listing all orders" icon={<GlobeWebIcon />}>
         <div className="">
-          <TableV2
+          {/* <TableV2
             columns={resellerOrdersColumn}
             rowsData={dataTable}
             showEmpty={!isLoading && !Boolean(dataTable.length)}
             showRows={!isLoading}
-          />
+          /> */}
         </div>
       </SimpleSection>
     </div>

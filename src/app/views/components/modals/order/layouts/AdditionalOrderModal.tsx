@@ -2,7 +2,8 @@ import { type ChangeEvent, type FC, useCallback, useState } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, OrderTeamSize } from '@interfaces/order';
-import { userOrderProviderInfo } from '@hooks/useOrders';
+import { userOrderProviderInfo } from '@hooks/orders/useOrders';
+import { GlobeWebIcon } from '@icons';
 
 export const AdditionalOrderModal: FC = () => {
   const [aditionalInfoW, setAdditionalInfo] = useState('');
@@ -34,11 +35,14 @@ Is there any other additional information for our professionals?`;
   };
 
   return (
-    <>
+    <div className="step-content message">
       <div className="step-header">
-        <h3>Optionally, would you like to add any notes for the ethical hacker?</h3>
+        <h3><GlobeWebIcon />Optionally</h3>
+        <p>
+          Would you like to add any notes for the ethical hacker?
+        </p>
       </div>
-      <div className="step-content space">
+      <div className="text">
         <textarea
           name="aditionalInfoW"
           id="aditional-info-order"
@@ -68,6 +72,6 @@ Is there any other additional information for our professionals?`;
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

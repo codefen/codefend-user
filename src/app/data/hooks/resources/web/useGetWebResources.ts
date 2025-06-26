@@ -4,11 +4,13 @@ import { useFetcher } from '#commonHooks/useFetcher.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import type { Webresource } from '@interfaces/panel';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const useGetWebResources = () => {
   const { getCompany, logout } = useUserData();
   const [fetcher, _, isLoading] = useFetcher(true);
   const [webResources, setWebResources] = useState<Webresource[]>([]);
+  const company = useGlobalFastField('company');
 
   const refetch = (childs?: string) => {
     const companyID = getCompany();
@@ -17,16 +19,15 @@ export const useGetWebResources = () => {
     fetcher<any>('post', {
       body: {
         company_id: companyID,
-        model: 'resources/web/index',
         childs: childs ? childs : 'yes',
-        resource_address_domain: 'clarin.com',
       },
+      path: 'resources/web/index',
     }).then(({ data }) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
-
+      if (data?.company) company.set(data.company);
       const resources = data?.resources ? data.resources : [];
       setWebResources(resources);
     });

@@ -50,13 +50,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: 🛠️ Setup/ Install pnpm 9.7.0 manually
-        run: npm install -g pnpm@9.7.0
+      - name: 🛠️ Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
-      - name: 🛠️ Setup/ Install frontend dependencies
-        run: |
-          pnpm config set store-dir ~/.pnpm-store
-          pnpm install --frozen-lockfile --ignore-scripts
+      - name: 🛠️ Install dependencies
+        run: bun install
 
       - name: 🌍 Export GitHub Actions cache environment variables windows
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
@@ -82,10 +82,10 @@ jobs:
         run: |
           echo "VITE_PORT=5173" >> .env
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
-          echo "VITE_API_URI=https://api.codefend.com/kundalini/index.php" >> .env
+          echo "VITE_API_URI=https://api.codefend.com/index.php" >> .env
 
-      - name: 🔨 Build frontend
-        run: pnpm build
+      - name: 🔨 Run build client
+        run: bun run build
 
       - name: 📥 Cached install tauri-cli
         uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
@@ -93,38 +93,104 @@ jobs:
           tool: tauri-cli@2.1.0
           locked: true
 
-      - name: 🔑 Import windows signing certificate
+      # - name: 🔑 Import windows signing certificate
+      #   env:
+      #     WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+      #     WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+      #   run: |
+      #     New-Item -ItemType directory -Path certificate
+      #     Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
+      #     certutil -decode certificate/tempCert.txt certificate/certificate.pfx
+      #     Remove-Item -path certificate -include tempCert.txt
+      #     Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
+
+      #     # Importar al almacén de certificados
+      #     $pfxPassword = ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText
+      #     Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password $pfxPassword
+          
+      #     # Verificar la importación
+      #     $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -like "*Codefend*" }
+      #     if (-not $cert) {
+      #       Write-Error "Certificate not found after import"
+      #       exit 1
+      #     }
+
+      - name: 🔑 Import Windows signing certificate
         env:
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
         run: |
-          New-Item -ItemType directory -Path certificate
-          Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
-          certutil -decode certificate/tempCert.txt certificate/certificate.pfx
-          Remove-Item -path certificate -include tempCert.txt
-          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
-
-          # Importar al almacén de certificados
-          $pfxPassword = ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText
-          Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password $pfxPassword
+          $certDir = New-Item -ItemType directory -Path "certificate" -Force
           
-          # Verificar la importación
-          $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -like "*Codefend*" }
-          if (-not $cert) {
-            Write-Error "Certificate not found after import"
-            exit 1
+          try {
+            # Decodificar certificado
+            Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
+            certutil -decode certificate/tempCert.txt certificate/certificate.pfx
+            
+            # Verificar que el archivo PFX se creó correctamente
+            if (-not (Test-Path certificate/certificate.pfx)) {
+              Write-Error "Failed to decode certificate"
+              exit 1
+            }
+            
+            # Importar certificado
+            $pfxPassword = ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText
+            $cert = Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password $pfxPassword
+            
+            # Verificar la importación
+            $importedCert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq $cert.Thumbprint }
+            if (-not $importedCert) {
+              Write-Error "Certificate not found after import"
+              exit 1
+            }
+            
+            Write-Host "Certificate imported successfully. Thumbprint: $($cert.Thumbprint)"
+            
+            # echo "CERT_THUMBPRINT=$($cert.Thumbprint)" >> $env:GITHUB_ENV
+            Write-Host "::set-output name=CERT_THUMBPRINT::$($cert.Thumbprint)"
+            
+          } finally {
+            if (Test-Path certificate/tempCert.txt) {
+              Remove-Item certificate/tempCert.txt -Force
+            }
+            if (Test-Path certificate/certificate.pfx) {
+              Remove-Item certificate/certificate.pfx -Force
+            }
           }
 
       - name: 🔨 Build using tauri action (publish artifacts on release)
-        uses: tauri-apps/tauri-action@2a8db2c169af2fdc695133781e27ecba52daea75 # v0.5.17
+        uses: tauri-apps/tauri-action@v0.5.20 # v0.5.17 - UPDATE to v0.5.20
         env:
           RUSTFLAGS: "-C target-feature=+crt-static"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          TAURI_BUNDLE_IDENTIFIER: "com.codefend.app"
+          TAURI_BUNDLE_VERSION: ${{ inputs.package_version }}
         with:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
+
+      - name: 🔍 Verify executable signature
+        run: |
+          $package_version = "${{ inputs.package_version }}"
+          $exePath = "src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.exe"
+          
+          if (-not (Test-Path $exePath)) {
+            Write-Error "Executable not found: $exePath"
+            exit 1
+          }
+          
+          # Verificar firma digital
+          $signature = Get-AuthenticodeSignature -FilePath $exePath
+          if ($signature.Status -ne "Valid") {
+            Write-Error "Executable is not properly signed. Status: $($signature.Status)"
+            exit 1
+          }
+          
+          Write-Host "Executable is properly signed"
+          Write-Host "Signer: $($signature.SignerCertificate.Subject)"
+          Write-Host "Timestamp: $($signature.TimeStamperCertificate.Subject)"
 
       - name: 📝 Extract Signatures and Set Outputs
         id: extract-signatures
@@ -148,18 +214,41 @@ jobs:
           Write-Host "Signatures extracted successfully."
           Write-Host "::set-output name=windows_x86_64_sig::$windows_x86_64_sig"
 
-      - name: 🛡️ Attest build provenance (publish release only)
-        uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
-        env:
-          CARGO_HOME: /home/runner/.cargo
-          CARGO_INCREMENTAL: 0
-          CARGO_TERM_COLOR: always
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: 🛡️ Attest build provenance (publish release only)
+      #   uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
+      #   env:
+      #     CARGO_HOME: /home/runner/.cargo
+      #     CARGO_INCREMENTAL: 0
+      #     CARGO_TERM_COLOR: always
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     subject-path: src-tauri/target/release/bundle/*
+      #     push-to-registry: false
+      #     show-summary: true
+      #     github-token: ${{ env.GITHUB_TOKEN }}
+  
+      # - name: 📜 Create SBOM
+      #   uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
+      #   with:
+      #     format: "spdx-json"
+      #     output-file: "sbom.spdx.json"
+      #     artifact-name: "windows_${{ matrix.target }}.sbom.spdx.json"
+  
+      # - name: 🛡️ Attest SBOM
+      #   uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
+      #   with:
+      #     subject-path: 'src-tauri/target/release/codefend-panel.exe'
+      #     sbom-path: "sbom.spdx.json"
+
+      - name: 🛡️ Attest build provenance
+        uses: actions/attest-build-provenance@v2.1.0
         with:
-          subject-path: src-tauri/target/release/bundle/*
+          subject-path: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.msi
           push-to-registry: false
           show-summary: true
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
   
       - name: 📜 Create SBOM
         uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
@@ -171,5 +260,22 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: 'src-tauri/target/release/codefend-panel.exe'
+          subject-path: 'src-tauri/target/release/bundle/nsis/codefend-panel_${{ inputs.package_version }}_x64-setup.exe'
           sbom-path: "sbom.spdx.json"
+
+      - name: 🧹 Secure cleanup
+        if: always()
+        run: |
+          # Remover certificado del almacén temporal si existe
+          if ($env:CERT_THUMBPRINT) {
+            $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq $env:CERT_THUMBPRINT }
+            if ($cert) {
+              Remove-Item $cert.PSPath -Force
+              Write-Host "Certificate removed from store"
+            }
+          }
+          
+          # Limpiar directorio de certificados
+          if (Test-Path certificate) {
+            Remove-Item certificate -Recurse -Force
+          }

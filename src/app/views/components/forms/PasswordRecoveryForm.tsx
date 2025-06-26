@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from 'react-router';
-import { useEffect, useState, type FC, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FC, type ReactNode } from 'react';
 import { isEquals, passwordValidation } from '@/app/constants/validations';
 import { toast } from 'react-toastify';
 import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
-import { PasswordRequirements } from '../auth/PasswordRequirements';
 import { usePasswordRecovery } from '@userHooks/auth/usePasswordRecovery';
-import CheckEmail from '../auth/CheckEmail';
-import InputFieldWithLabel from '../auth/InputFieldWithLabel';
+import InputFieldWithLabel from '../InputFieldWithLabel/InputFieldWithLabel';
+import { PasswordRequirements } from '../PasswordRequirements/PasswordRequirements';
+import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
+import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 
 const PasswordRecoveryForm: FC<{
   children: (isLoading: boolean) => ReactNode;
@@ -16,67 +17,65 @@ const PasswordRecoveryForm: FC<{
   const { ref } = useParams();
   const navigate = useNavigate();
   const { sendEmailForRecovery, passwordRecover, isLoading } = usePasswordRecovery();
-  const [passwordRecovery, setPasswordRecovery] = useState({
-    email: '',
-    referenceNumber: '',
-    newPassword: '',
-    repeatedPassword: '',
-  });
+  const [providedEmail, setProvidedEmail] = useState<string>('');
+  const [referenceNumber, setReferenceNumber] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
   useEffect(() => {
-    setPasswordRecovery((current: any) => ({
-      ...current,
-      referenceNumber: ref || '',
-    }));
+    setReferenceNumber(ref || '');
     if (ref) {
       setPhase('code');
     }
   }, [ref]);
 
+  useEffect(() => {
+    if (activePhase === 'email') {
+      setProvidedEmail('');
+      setReferenceNumber('');
+      setNewPassword('');
+    } else if (activePhase === 'code') {
+      setNewPassword('');
+    }
+  }, [activePhase]);
+
   const handleSendCode = async (e: any) => {
     e.preventDefault();
-    sendEmailForRecovery(passwordRecovery.email);
-    setPhase('code');
-    toast.success(AUTH_TEXT.SEND_RECOVERY_CODE);
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    const email = formData.get('provided_email') as string;
+    sendEmailForRecovery(email).then(() => {
+      setProvidedEmail(email);
+      setPhase('code');
+      toast.success(AUTH_TEXT.SEND_RECOVERY_CODE);
+      setReferenceNumber('');
+      form.reset();
+    });
   };
 
   const handlePasswordRecovery = (e: any) => {
     e.preventDefault();
-    if (!passwordValidation(passwordRecovery.newPassword)) {
+    const form = new FormData(e.currentTarget as HTMLFormElement);
+    if (!passwordValidation(form.get('new_password') as string)) {
       toast.error(AUTH_TEXT.INVALID_PASSWORD);
       return;
     }
-    if (!isEquals(passwordRecovery.newPassword, passwordRecovery.repeatedPassword)) {
+    if (!isEquals(form.get('new_password') as string, form.get('repeated_password') as string)) {
       toast.error(AUTH_TEXT.PASSWORD_NOT_MATCH);
       return;
     }
     passwordRecover(
-      passwordRecovery.email,
-      passwordRecovery.referenceNumber,
-      passwordRecovery.newPassword
+      providedEmail,
+      form.get('password_recover_hash') as string,
+      form.get('new_password') as string
     )
       .then(res => {
         if (res.error != '0') throw new Error(res.info);
-
         toast.success(AUTH_TEXT.PASSWORD_UPDATED);
         setPhase('email');
-        setPasswordRecovery({
-          email: '',
-          referenceNumber: '',
-          newPassword: '',
-          repeatedPassword: '',
-        });
         navigate('/auth/signin');
       })
       .catch(err => {
         toast.error(AUTH_TEXT.FAILURE_PASSWORD_UPDATED);
       });
-  };
-
-  const handleInputChange = (field: string) => (e: any) => {
-    setPasswordRecovery(current => ({
-      ...current,
-      [field]: e.target.value,
-    }));
   };
 
   return (
@@ -89,46 +88,48 @@ const PasswordRecoveryForm: FC<{
             text="Enter your email to identify the account"
             subText="If the email is registered, we will send you a verification code so you can change your password"
           />
-          <InputFieldWithLabel
-            label="Email"
+          <AuthInput
             type="email"
-            value={passwordRecovery.email}
-            onChange={handleInputChange('email')}
-            name="email"
+            name="provided_email"
+            id="email_provided_email"
             placeholder="Enter email"
             required
           />
         </>
       ) : (
         <>
-          <InputFieldWithLabel
-            label="Reference number"
+          <AuthInput
+            type="email"
+            value={providedEmail}
+            name="provided_email"
+            placeholder="Enter email"
+            id="code_provided_email"
+            required
+            disabled={providedEmail !== ''}
+          />
+          <AuthInput
             type="text"
-            value={passwordRecovery.referenceNumber}
-            onChange={handleInputChange('referenceNumber')}
-            name="referenceNumber"
+            defaultValue={referenceNumber}
+            name="password_recover_hash"
+            id="code_password_recover_hash"
             placeholder="Enter reference number"
             required
+            disabled={referenceNumber !== ''}
           />
-          <InputFieldWithLabel
-            label="New password"
+          <AuthInput
             type="password"
-            value={passwordRecovery.newPassword}
-            onChange={handleInputChange('newPassword')}
-            name="newPassword"
+            name="new_password"
             placeholder="Enter new password"
+            setVal={e => setNewPassword(e.target.value)}
             required
           />
-          <InputFieldWithLabel
-            label="Repeat new password"
+          <AuthInput
             type="password"
-            value={passwordRecovery.repeatedPassword}
-            onChange={handleInputChange('repeatedPassword')}
-            name="repeatedPassword"
-            placeholder="Enter new password"
+            name="repeated_password"
+            placeholder="Repeat new password"
             required
           />
-          <PasswordRequirements password={passwordRecovery.newPassword} />
+          <PasswordRequirements password={newPassword} />
         </>
       )}
       {children(isLoading)}

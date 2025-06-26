@@ -1,11 +1,13 @@
 import type { ResourceCredential } from '@interfaces/creds';
-import { useViewCredentials } from '@resourcesHooks/useViewCredentials';
-import { TestingCredentialCard } from '@standalones/credential-card/TestingCredentialCard';
+import { useViewCredentials } from '@resourcesHooks/global/useViewCredentials';
+import { TestingCredentialCard } from '@/app/views/components/credential-card/TestingCredentialCard';
 import { useEffect, type FC } from 'react';
-import { EmptyCard, PrimaryButton, Show } from '../..';
 import './viewcredential.scss';
 import { ViewMoreInfoModal } from './ViewMoreInfoModal';
 import useCredentialStore from '@stores/credential.store';
+import Show from '@/app/views/components/Show/Show';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
+import { PrimaryButton } from '@buttons/index';
 
 interface AddCredentialsProps {
   type: string;

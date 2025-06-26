@@ -33,6 +33,7 @@ export interface Issue extends AuditCompanyData {
 export interface IssueUpdateData extends AuditData {
   researcher_username: string;
   resource_class: string;
+  ai_overview?: string;
   resource_id: string;
   risk_level: string;
   risk_score: string;
@@ -40,4 +41,24 @@ export interface IssueUpdateData extends AuditData {
   issue: string;
   condicion: IssuesStatus;
   cs: IssueCustomerSupport[];
+}
+
+// ============= TIPOS Y CONSTANTES =============
+export interface FilterState {
+  resourceClass: string[];
+  scanId: string[];
+  orderIdentifier: string[];
+  riskScore: string[];
+}
+
+export interface FilterElement {
+  label: string;
+  value: string;
+  total: number;
+}
+
+export interface FilterGroup {
+  title: string;
+  type: keyof FilterState;
+  elements: FilterElement[];
 }

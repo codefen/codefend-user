@@ -15,12 +15,12 @@ export const useResellerCompanies = () => {
 
     fetcher('post', {
       body: {
-        model: 'resellers/dashboard/companies',
         company_id: getCompany(),
       },
+      path: 'resellers/dashboard/companies',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         throw new Error('An error has occurred on the server');
       }
       companies.current = data.companies;

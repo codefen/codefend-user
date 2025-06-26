@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ConfirmOrderCard } from '../../components/confirm-order-card/ConfirmOrderCard.tsx';
 import { useProviderOrders } from '@userHooks/providers/useProviderOrders.ts';
-import Show from '@defaults/Show.tsx';
-import EmptyCard from '@defaults/EmptyCard.tsx';
+import Show from '@/app/views/components/Show/Show.tsx';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard.tsx';
 import { ProviderOrderRefuseModal } from '../../components/refuse-modal/ProviderOrderRefuseModal.tsx';
 import { useProviderRefuseStore } from '@stores/providerOrder.store.ts';
 import { ProviderScope } from '@modals/order-scope/OrderScope.tsx';

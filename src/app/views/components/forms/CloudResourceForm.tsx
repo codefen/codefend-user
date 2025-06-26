@@ -1,17 +1,15 @@
 import { useRef, type FC } from 'react';
 import { GlobeWebIcon } from '@icons';
 import { useAddCloud } from '@resourcesHooks/cloud/useAddCloud.ts';
-import { ModalTextArea } from '@defaults/ModalTextArea';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
-import { useSelectedApp } from '@resourcesHooks/useSelectedApp';
 
 export const CloudResourceForm: FC<ComponentEventWithChildren> = ({ close, onDone, children }) => {
   const provider = useRef<HTMLSelectElement>(null);
   const appName = useRef<HTMLInputElement>(null);
   const description = useRef<HTMLTextAreaElement>(null);
 
-  const { setNewApp } = useSelectedApp();
   const { refetch, isAddingCloud, validations } = useAddCloud(
     onDone ? onDone : () => {},
     close ? close : () => {}
@@ -28,9 +26,7 @@ export const CloudResourceForm: FC<ComponentEventWithChildren> = ({ close, onDon
       appName.current?.value || '',
       provider.current?.value || '',
       description.current?.value || ''
-    ).then((data: any) => {
-      setNewApp(data.resources_cloud);
-    });
+    ).then((data: any) => {});
   };
 
   return (

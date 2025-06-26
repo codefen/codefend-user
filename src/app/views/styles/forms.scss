@@ -1,5 +1,3 @@
-@use 'settings/mixin' as mixin;
-
 .form {
   width: 100%;
   display: flex;
@@ -16,8 +14,11 @@
     position: absolute;
     color: var(--secondary-color-50);
     width: 15px;
-    height: 15px;
     left: 13px;
+    top: 50%;
+    transform: translateY(-25%);
+    height: 100%;
+    z-index: 2;
 
     & + * {
       padding-left: 40px;
@@ -34,21 +35,37 @@ input {
   width: 100%;
   padding-block: 0;
   padding-inline: 15px;
-  background-color: var(--primary-color);
+  cursor: text;
   color: var(--tertiary-color-500);
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--primary-color-300);
+  border: 1px solid var(--primary-color-600);
+  border-radius: var(--brd-radius);
+  font-size: 15px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
 
-  &:focus {
-    outline: 0 solid;
-    border: 1px solid var(--secondary-color-50) !important;
+  &:not(:disabled) {
+    background-color: var(--primary-color);
+  }
+
+  &:focus:not(:disabled) {
+    outline: none;
+    border-color: #ff3939;
     caret-color: var(--secondary-color-50) !important;
     color: var(--tertiary-color-700);
   }
 
   &:-internal-autofill-selected {
     background-color: var(--primary-color) !important;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.85;
+    background: #b6b6b645;
+    border: none;
   }
 }
 
@@ -59,14 +76,14 @@ select {
   padding-inline: 15px;
   background-color: var(--primary-color);
   color: var(--tertiary-color-500);
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--primary-color-300);
+  border: 1px solid var(--primary-color-600);
+  border-radius: 5px;
 
   &:focus {
     outline: 0 solid;
     caret-color: var(--secondary-color-50) !important;
     color: var(--tertiary-color-700);
+    border-color: #ff3939;
   }
 
   &:-internal-autofill-selected {
@@ -144,11 +161,28 @@ select {
 // 	}
 // }
 
-input[type='text'],
-input[type='password'],
-input[type='email'] {
-  cursor: text;
-}
+// input[type='text'],
+// input[type='password'],
+// input[type='email'] {
+//   cursor: text;
+//   border: 1px solid var(--primary-color-600);
+//   border-radius: 6px;
+//   background: var(--primary-color);
+//   transition:
+//     border-color 0.2s,
+//     box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   position: relative;
+//   z-index: 1;
+// }
+
+// input[type='text']:focus,
+// input[type='password']:focus,
+// input[type='email']:focus {
+//   border-color: #ff3939;
+//   outline: none;
+//   background: var(--primary-color);
+//   color: var(--tertiary-color-700);
+// }
 
 .pencil-icon {
   position: absolute;
@@ -271,7 +305,6 @@ input[type='radio']:checked + .codefend-radio {
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
-  cursor: pointer;
   position: relative;
 
   &::after {
@@ -288,7 +321,6 @@ input[type='radio']:checked + .codefend-radio {
     -webkit-transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
     -o-transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
     transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
-    cursor: pointer;
   }
 
   &::before {
@@ -313,7 +345,6 @@ input[type='radio']:checked + .codefend-radio {
     transition:
       all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),
       opacity 0.1s;
-    cursor: pointer;
   }
 
   &:hover {
@@ -335,7 +366,7 @@ input[type='radio']:checked + .codefend-radio {
     transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
   }
 
-  &:active:not(:checked)::after {
+  &:active:not(:disabled):not(:checked)::after {
     -webkit-transition: none;
     -o-transition: none;
     -webkit-box-shadow: none;
@@ -343,12 +374,22 @@ input[type='radio']:checked + .codefend-radio {
     transition: none;
     opacity: 1;
   }
+
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &::after,
+    &::before {
+      cursor: pointer;
+    }
+  }
 }
 
 [data-theme='dark'] {
   input {
-    background-color: #1d263120;
+    background-color: var(--primary-color);
     color: var(--tertiary-color-100);
+    border-color: rgba(41, 41, 41, 0.85);
 
     &:focus {
       color: var(--tertiary-color-200);
@@ -497,4 +538,7 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px #fff inset;
   -webkit-text-fill-color: inherit;
+}
+
+.empty-screen .empty-container .empty-card-wrapper {
 }

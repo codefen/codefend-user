@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router';
-import { AuthInput } from '@defaults/AuthInput';
+import { AuthInput } from '@/app/views/components/defaults/AuthInput.tsx';
 import { useRef, type FC, type FormEvent, type ReactNode } from 'react';
 import { useLoginAction } from '@userHooks/auth/useLoginAction.ts';
 
@@ -14,7 +14,7 @@ const SigninForm: FC<{
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    signInUser(email.current?.value || '', password.current?.value || '').then((user: any) => {
+    signInUser(email.current?.value || '', password.current?.value || '', '').then((user: any) => {
       const state = location.state;
       if (user && state && state?.redirect) {
         navigate(state.redirect);

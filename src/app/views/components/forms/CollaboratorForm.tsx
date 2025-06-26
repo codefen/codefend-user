@@ -1,7 +1,7 @@
 import { useRef, type FC } from 'react';
 import { useAddCollaborator } from '@panelHooks/preference/useAddCollaborator.ts';
 import { toast } from 'react-toastify';
-import { ModalInput } from '@defaults/ModalInput.tsx';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import { isNotEmpty } from '@/app/constants/validations.ts';
 import type { ComponentEventWithChildren } from '@interfaces/util.ts';
 import { PREFERENCE_PANEL_TEXT } from '@/app/constants/app-toast-texts';
@@ -16,7 +16,9 @@ const CollaboratorForm: FC<ComponentEventWithChildren> = ({ onDone, close, child
       return;
     }
     sendAddCollaborator(email.current?.value || '')
-      .then(() => onDone?.())
+      .then(() => {
+        onDone?.();
+      })
       .finally(() => close?.());
   };
   return (

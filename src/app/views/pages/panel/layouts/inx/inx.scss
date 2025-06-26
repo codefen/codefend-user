@@ -1,7 +1,4 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
-main.issues-list {
-  max-height: 100dvh;
+main.issue-detail {
   padding-inline-end: 0;
   overflow: hidden;
 
@@ -285,7 +282,7 @@ main.issues-list {
     }
   }
 
-  @include mixin.respond(small) {
+  @media only screen and (max-width: 600px) {
     display: block;
     min-height: auto;
     height: 85dvh;
@@ -304,10 +301,6 @@ main.issues-list {
 [data-theme='dark'] {
   main.issues-list {
     .left {
-      > div {
-        border: 1px solid var(--primary-color-400);
-      }
-
       .modal {
         --preview-title: #ff5e5ef2;
         --preview-sub-title: var(--tertiary-color-100);

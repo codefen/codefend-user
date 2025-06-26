@@ -1,8 +1,7 @@
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { useEffect, useRef, useState, type FC } from 'react';
 import { PrimaryButton } from '@buttons/index';
 import './orderscope.scss';
-import { EmptyCard, ModalTitleWrapper } from '../..';
 import { OrderScopeTable } from './OrderTableScope';
 import { OrderScopeBar } from './OrderScopeBar';
 import useOrderScopeStore from '@stores/orderScope.store';
@@ -10,6 +9,8 @@ import { OrderProviderTransfer } from '../order-transfer/OrderProviderTransfer';
 import { useForwardOrder } from '@userHooks/providers/useForwardOrder';
 import type { ScopeAlias } from '@interfaces/util';
 import { RESOURCE_CLASS_ALIAS } from '@/app/constants/app-texts';
+import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 
 const defineActiveAlias = (scopeV: any): ScopeAlias => {
   if (scopeV && typeof scopeV === 'object') {

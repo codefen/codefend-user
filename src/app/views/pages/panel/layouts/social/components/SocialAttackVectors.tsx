@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 import { ChartIcon } from '@icons';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
 import { defaultSocialAttackVectors } from '@mocks/defaultData.ts';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface SocialAttackVectorsProps {
   defaultSocialAttackVectors?: Record<string, 'enabled' | 'disabled'>;
@@ -25,7 +25,7 @@ const SocialAttackVectors: FC<SocialAttackVectorsProps> = props => {
 
   return (
     <>
-      <div className="card filtered">
+      {/* <div className="card filtered">
         <SimpleSection header="Attack vectors" icon={<ChartIcon />}>
           <div className="content filters">
             {Object.keys(attackVectorState).map((attack: string) => (
@@ -48,7 +48,7 @@ const SocialAttackVectors: FC<SocialAttackVectorsProps> = props => {
             ))}
           </div>
         </SimpleSection>
-      </div>
+      </div> */}
     </>
   );
 };

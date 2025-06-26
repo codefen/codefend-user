@@ -44,7 +44,7 @@ const OPTIONS = {
   content_css: 'codefend',
   image_caption: true,
   automatic_uploads: true,
-  height: 'calc(100dvh - 161px)',
+  height: 'calc(-92px + 100cqh)',
   templates: [
     {
       title: 'Issue A',
@@ -163,7 +163,7 @@ export const setMode = (id, mode) => {
   }
 };
 
-export const safeInitTinyMCE = (defaultValue, onSuccess, onError) => {
+export const safeInitTinyMCE = (defaultValue, onSuccess, onError, isDarkMode) => {
   // Ensure we're in a browser environment
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     onError && onError(new Error('Not in browser environment'));
@@ -205,6 +205,8 @@ export const safeInitTinyMCE = (defaultValue, onSuccess, onError) => {
           // Initialize TinyMCE
           tinyMCE.init({
             ...OPTIONS, // Your existing OPTIONS
+            content_css: isDarkMode ? 'codefend-dark' : 'codefend',
+            skin: isDarkMode ? 'codefend-dark' : 'codefend',
             selector: '#issue',
             setup: editor => {
               editor.on('init', () => {

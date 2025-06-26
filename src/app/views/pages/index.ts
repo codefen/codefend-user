@@ -1,10 +1,6 @@
 import { lazy } from 'react';
 
-export const AuthPage = lazy(() => import('./auth/AuthPage'));
-export const SignInLayout = lazy(() => import('./auth/layouts/Signin'));
-export const SignUpLayout = lazy(() => import('./auth/layouts/Signup'));
 export const ConfirmationSignUp = lazy(() => import('./auth/layouts/ConfirmationSignUp'));
-export const FinishSignUpLayout = lazy(() => import('./auth/layouts/FinishsignUp'));
 
 export const Dashboard = lazy(() => import('./panel/layouts/dashboard/Dashboard.tsx'));
 export const WebApplication = lazy(() => import('./panel/layouts/web/WebApplication.tsx'));
@@ -29,6 +25,9 @@ export const VdbPanel = lazy(() => import('./panel/layouts/vdb/VdbPanel.tsx'));
 export const AdminUser = lazy(() => import('./panel/layouts/admin/layouts/AdminUser.tsx'));
 export const AdminPage = lazy(() => import('./panel/layouts/admin/AdminPage.tsx'));
 export const AdminCompany = lazy(() => import('./panel/layouts/admin/layouts/AdminCompany.tsx'));
+export const AdminSection = lazy(
+  () => import('./panel/layouts/admin/layouts/AdminSection.tsx')
+);
 
 export const ResellerLeadsLayout = lazy(
   () => import('./panel/layouts/reseller/layouts/ResellerLeadsLayout.tsx')

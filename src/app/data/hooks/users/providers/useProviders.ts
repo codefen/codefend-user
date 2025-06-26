@@ -18,12 +18,12 @@ export const useProviderProfile = () => {
       body: {
         company_id: companyID,
         provider_id: getUserdata().id,
-        model: 'providers/profiles/view',
       },
+      path: 'providers/profiles/view',
     })
       ?.then(({ data }) => {
         if (verifySession(data, logout)) return;
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         setProvider(data.provider);

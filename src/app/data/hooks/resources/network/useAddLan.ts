@@ -16,13 +16,12 @@ export const useAddLan = (onDone: () => void, close: () => void) => {
   const fetchOne = useCallback((params: any, companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'resources/lan',
-        ac: 'add',
         company_id: companyID,
         ...params,
       },
+      path: 'resources/lan/add',
     }).then(({ data }: any) => {
-      if (apiErrorValidation(data?.error, data?.response)) {
+      if (apiErrorValidation(data)) {
         let message = data.info.includes('device_in_address')
           ? NETWORK_PANEL_TEXT.INVALID_LAN_IN_ADDRESS
           : data.info.includes('device_ex_address')

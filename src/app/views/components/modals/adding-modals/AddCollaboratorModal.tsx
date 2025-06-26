@@ -1,4 +1,4 @@
-import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 import useModalStore from '@stores/modal.store.ts';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import CollaboratorForm from '@/app/views/components/forms/CollaboratorForm.tsx';
@@ -13,7 +13,7 @@ export const AddCollaboratorModal = () => {
       isActive={isOpen && modalId === MODAL_KEY_OPEN.ADD_COLLABORATOR}
       headerTitle="Add collaborator">
       <div className="content">
-        <CollaboratorForm>
+        <CollaboratorForm onDone={() => setIsOpen(false)}>
           {isLoading => (
             <ModalButtons
               close={() => setIsOpen(false)}

@@ -1,8 +1,8 @@
 import { type FC, type FormEvent } from 'react';
 
 import { useAddLan } from '@resourcesHooks/network/useAddLan';
-import { ModalTextArea } from '@defaults/ModalTextArea';
-import { ModalInput } from '@defaults/ModalInput';
+import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 
 export const NetworkDadForm: FC<ComponentEventWithChildren> = ({ onDone, close, children }) => {

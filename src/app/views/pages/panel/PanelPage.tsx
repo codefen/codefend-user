@@ -1,36 +1,42 @@
 import { Suspense, useEffect, lazy, useMemo, useCallback } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
-import { Loader } from '@defaults/loaders/Loader.tsx';
+import { Loader } from '@/app/views/components/loaders/Loader.tsx';
 import { FlashLightProvider } from '../../context/FlashLightContext.tsx';
-import { WelcomeGroupTour } from '@standalones/welcome/WelcomeGroupTour.tsx';
+import { WelcomeGroupTour } from '@/app/views/components/welcome/WelcomeGroupTour.tsx';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { QualityFeedbackManager } from '@modals/quality-survey/QualityFeedbackManager.tsx';
-import '/public/flags/flags.css';
 import { useProviderCompanies } from '@userHooks/providers/useProviderCompanies.ts';
-import { useUserCommunicated } from '@hooks/useUserCommunicated.ts';
+import { useUserCommunicated } from '#commonUserHooks/useUserCommunicated.ts';
 import useModal from '#commonHooks/useModal.ts';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { addEventListener, withBatchedUpdates } from '@utils/helper.ts';
 import { EVENTS } from '@/app/constants/events.ts';
-import useKeyEventPress from '@stores/keyEvents.ts';
+import WelcomeLoadResource from '@/app/views/components/welcome/WelcomeLoadResource/WelcomeLoadResource.tsx';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
+import { AddNewResourceModal } from '@modals/AddNewResourceModal/WelcomeResourcesOrderModel.tsx';
+import { AddCollaboratorModal } from '@modals/adding-modals/AddCollaboratorModal.tsx';
+import { OrderV2 } from '@modals/index.ts';
+import { useManageScanProgress } from '@moduleHooks/neuroscan/useManageScanProgress.ts';
+import { AxiosHttpService } from '@services/axiosHTTP.service.ts';
+import { ModalReport } from '@modals/reports/ModalReport.tsx';
+import { ScanWraper } from '@/app/views/pages/panel/ScanWraper.tsx';
 
-export const Navbar = lazy(() => import('../../components/standalones/navbar/Navbar.tsx'));
-export const Sidebar = lazy(() => import('../../components/standalones/sidebar/Sidebar.tsx'));
+export const Navbar = lazy(() => import('../../components/navbar/Navbar.tsx'));
+export const Sidebar = lazy(() => import('../../components/sidebar/Sidebar.tsx'));
 export const ErrorConnection = lazy(() => import('../../components/modals/ErrorConnection.tsx'));
 export const MobileFallback = lazy(
-  () => import('../../components/defaults/mobile-fallback/MobileFallback.tsx')
+  () => import('../../components/mobile-fallback/MobileFallback.tsx')
 );
 
 export const PanelPage = () => {
   const location = useLocation();
-  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
-  const { setKeyPress } = useKeyEventPress();
+  const keyPress = useGlobalFastField('keyPress');
   const matches = useMediaQuery('(min-width: 1175px)');
-  const { isAuth, logout, getUserdata, updateAuth } = useUserData();
+  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
+  const { isAuth, getUserdata, logout } = useUserData();
   const { getProviderCompanyAccess } = useProviderCompanies();
-  useUserCommunicated();
 
   const modals = useMemo(
     () => ({
@@ -46,11 +52,11 @@ export const PanelPage = () => {
   }, [setShowModal]);
 
   useEffect(() => {
-    updateAuth();
-    const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, () => {
+    const errorUnsubscribe = addEventListener(window, EVENTS.ERROR_STATE, e => {
       setShowModal(true);
       setShowModalStr(MODAL_KEY_OPEN.ERROR_CONNECTION);
     });
+    AxiosHttpService.getInstance().updateUrlInstance();
     const keydownUnsubscribe = addEventListener(
       window,
       EVENTS.KEYDOWN,
@@ -60,7 +66,7 @@ export const PanelPage = () => {
           setShowModalStr(MODAL_KEY_OPEN.NETWORK_SETTING);
         }
         if (e.key === 'Escape') {
-          setKeyPress('Escape');
+          keyPress.set('Escape');
           e.preventDefault();
         }
 
@@ -68,7 +74,7 @@ export const PanelPage = () => {
         e.stopPropagation();
       })
     );
-    if (getUserdata().access_role === 'provider') {
+    if (getUserdata()?.access_role === 'provider') {
       getProviderCompanyAccess();
     }
     return () => {
@@ -78,39 +84,44 @@ export const PanelPage = () => {
     };
   }, []);
 
-  // Si la autenticación falló, redirige al login.
+  // If not authenticated, redirect to login
   if (!isAuth) {
-    logout();
     return <Navigate to="/auth/signin" state={{ redirect: location.pathname }} />;
   }
-  // Si la resolución está por debajo de 1175px, muestra una alerta de versión móvil.
-  if (!matches) {
-    return <MobileFallback />;
-  }
+
+  // If screen width is below 1175px, show mobile fallback
+  // if (!matches) {
+  //   return <MobileFallback />;
+  // }
 
   return (
-    <FlashLightProvider>
-      <>
-        <NetworkSettingModal
-          isOpen={modals.isNetworkSettingModalOpen}
-          close={() => setShowModal(false)}
-        />
-        <WelcomeGroupTour />
-        <QualityFeedbackManager />
+    // <FlashLightProvider>
+    <>
+      <NetworkSettingModal
+        isOpen={modals.isNetworkSettingModalOpen}
+        close={() => setShowModal(false)}
+      />
+      <WelcomeGroupTour />
+      <QualityFeedbackManager />
+      <WelcomeLoadResource />
+      <AddNewResourceModal />
+      <AddCollaboratorModal />
+      <OrderV2 />
+      <ModalReport />
+      <ErrorConnection
+        closeModal={closeErrorConnectionModal}
+        open={modals.isErrorConnectionModalOpen}
+      />
 
-        <ErrorConnection
-          closeModal={closeErrorConnectionModal}
-          open={modals.isErrorConnectionModalOpen}
-        />
+      <Navbar />
+      <Sidebar />
 
-        <Navbar />
-        <Sidebar />
-
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
-      </>
-    </FlashLightProvider>
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
+      <ScanWraper />
+    </>
+    // </FlashLightProvider>
   );
 };
 

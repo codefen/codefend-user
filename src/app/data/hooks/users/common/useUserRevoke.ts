@@ -14,12 +14,12 @@ export const useUserRevoke = () => {
 
     return fetcher<any>('post', {
       body: {
-        model: 'users/revoke',
         company_id: companyID,
         revoke_id: userID,
       },
-    }).then(({ data }: any) => {
-      if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+      path: 'users/revoke',
+    }).then(({ data }) => {
+      if (data.isAnError || apiErrorValidation(data)) {
         throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
       }
       toast.success(PREFERENCE_PANEL_TEXT.REVOKE_USER_ACCESS);

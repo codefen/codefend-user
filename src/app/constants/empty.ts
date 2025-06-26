@@ -1,5 +1,8 @@
 import { IssuesStatus } from '@interfaces/issues';
-import type { User } from '../data';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts';
+import type { GlobalStore } from '@/app/views/context/AppContextProvider';
+import type { KeyPress } from '@interfaces/util';
+import { APP_EVENT_TYPE, AUTO_SCAN_STATE, USER_LOGGING_STATE, type User } from '@interfaces/index';
 
 export const EMPTY_USER: User = {
   id: '',
@@ -50,15 +53,28 @@ export const EMPTY_COMPANY = {
   isDisabled: false,
   createdAt: '',
 };
+
 export const EMPTY_COMPANY_CUSTOM = {
   id: '',
   name: 'unknow',
+  class: '',
+  sub_class: '',
+  disponibles_issues_view: '',
+  disponibles_neuroscan: '',
+  disponibles_sns: '',
+  plan: '',
+  reseller_id: '',
+  reseller_name: '',
+  reseller_revenue_share: '',
   web: '',
   size: '',
   pais_code: '',
   pais: '',
   pais_provincia: '',
   pais_ciudad: '',
+  admin_user_email: '',
+  admin_user_id: '',
+  admin_user_username: '',
   owner_fname: '',
   owner_lname: '',
   owner_role: '',
@@ -69,6 +85,57 @@ export const EMPTY_COMPANY_CUSTOM = {
   mercado: '',
   eliminado: '0',
   creacion: '',
+  address: '',
+  isDisabled: false,
+};
+
+export const MAX_SCAN_RETRIES = 6;
+
+export const EMPTY_GLOBAL_STATE: GlobalStore = {
+  isOpenNetworkSetting: false,
+  openModal: false,
+  country: '',
+  city: '',
+  region: '',
+  resourceType: RESOURCE_CLASS.WEB,
+  resourceID: '',
+  company: EMPTY_COMPANY_CUSTOM,
+  keyPress: '' as KeyPress,
+  lead: {},
+  domainCount: 0,
+  subDomainCount: 0,
+  uniqueIpCount: 0,
+  planPreference: 'medium',
+  isDefaultPlan: true,
+  selectedApp: null,
+  mobilePlanPreference: 'medium',
+  scanProgress: 0,
+  subdomainProgress: 0,
+  webScanProgress: 0,
+  leaksScanProgress: 0,
+
+  isProgressStarted: false,
+  currentScan: null,
+  isScanning: false,
+  selectedTicket: null,
+  session: '',
+  scanNumber: 0,
+  user: EMPTY_USER,
+  companies: [],
+  scanRetries: MAX_SCAN_RETRIES,
+  externalIpCount: 0,
+  internalIpCount: 0,
+  subNetworkCount: 0,
+  totalNotUniqueIpCount: 0,
+  webResourceSelected: null,
+  appEvent: APP_EVENT_TYPE.NOTIFICATION,
+  totalNetowrkElements: 0,
+  userLoggingState: USER_LOGGING_STATE.OFFLINE,
+  networkResourceSelected: null,
+  autoScanState: AUTO_SCAN_STATE.NON_SCANNING,
+  scaningProgress: new Map(),
+  lastScanId: '',
+  scanVersion: 0,
 };
 
 export const EMPTY_PROVIDER = {
@@ -93,6 +160,7 @@ export const EMPTY_SHARE = {
 export const EMPTY_ISSUECLASS = {
   total: '0',
   web: '0',
+  leaks: '0',
   mobile: '0',
   infra: '0',
   lan: '0',
@@ -119,6 +187,7 @@ export const EMPTY_ISSUEUPDATE = {
   cs: [],
   creacion: '',
   eliminado: '0',
+  ai_overview: '',
 };
 
 export const EMPTY_RESELLERHEADER = {
@@ -152,6 +221,7 @@ export const EMPTY_DASHBOARD_PROPS = {
     source: '',
     web: '',
   },
+  company: null,
 };
 
 export const EMPTY_TICKET_WITHCHILD = {

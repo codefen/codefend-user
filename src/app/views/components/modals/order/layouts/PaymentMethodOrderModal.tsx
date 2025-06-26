@@ -2,7 +2,8 @@ import { type FC, useState } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { OrderPaymentMethod, OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
-import { userOrderFinancialResource } from '@hooks/useOrders';
+import { userOrderFinancialResource } from '@hooks/orders/useOrders';
+import { GlobeWebIcon } from '@icons';
 
 export const PaymentMethodOrderModal: FC = () => {
   const { paymentMethod, updateState, referenceNumber, orderId } = useOrderStore(state => state);
@@ -16,18 +17,16 @@ export const PaymentMethodOrderModal: FC = () => {
     if (paymentMethodW !== OrderPaymentMethod.UNKNOWN) {
       updateState('paymentMethod', paymentMethodW);
       sendOrderFinancial(referenceNumber, paymentMethodW, orderId);
-      updateState('orderStepActive', OrderSection.WAIT_CHECK);
+      updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
     }
   };
 
   return (
-    <>
+    <div className="step-content payment">
       <div className="step-header">
-        <h3>
-          <b>Great!</b> Please select your payment method:
-        </h3>
+        <h3>Great! Please select your payment method:</h3>
       </div>
-      <div className="step-content">
+      <div className="methods">
         <div
           className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}
           onClick={() => setPaymentMethod(OrderPaymentMethod.CARD)}>
@@ -128,6 +127,6 @@ export const PaymentMethodOrderModal: FC = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

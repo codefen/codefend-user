@@ -1,10 +1,10 @@
 import type { FC, PropsWithChildren } from 'react';
 import { ModalWrapper } from '..';
-import Show from '@defaults/Show';
-import { ProfileMedia } from '@standalones/utils/ProfileMedia';
-import { StarRating } from '@standalones/utils/StarRating';
+import Show from '@/app/views/components/Show/Show';
 import { PrimaryButton } from '../..';
 import { ModalGradientHeader } from './QualityFeedbackHeader';
+import { ProfileMedia } from '@/app/views/components/utils/ProfileMedia';
+import { StarRating } from '@/app/views/components/utils/StarRating';
 
 interface QualityFeedbackProps extends PropsWithChildren {
   isActive: boolean;

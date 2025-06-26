@@ -4,7 +4,9 @@ import { InxSearchBar } from './InxSearchBar';
 import { useUserData } from '#commonUserHooks/useUserData';
 import InxFullPreviewModal from '@modals/InxFullPreview/InxFullPreviewModal';
 import { useInitialSearch, useIntelSearch, useInxReadFile } from '@moduleHooks/inx';
-import { EmptyCard, PageLoader, PageLoaderOverlay, Show } from '@defaults/index';
+import Show from '@/app/views/components/Show/Show';
+import { PageLoader, PageLoaderOverlay } from '@/app/views/components/loaders/Loader';
+import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
 
 interface InxSearchAndDataProps {
   refetch: () => void;

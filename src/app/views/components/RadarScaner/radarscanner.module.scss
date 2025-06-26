@@ -1,0 +1,100 @@
+.radar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-animation {
+  position: absolute;
+  inset: 0;
+  border-radius: 100%;
+  background-color: rgb(68 59 59 / 16%);
+}
+
+.radar-canvas {
+  border-radius: 100%;
+}
+
+.radar-bichardos-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.radar-bichardo-content {
+  position: absolute;
+  transform-origin: center center;
+  transition: all ease 0.7s;
+
+  img {
+    width: inherit !important;
+    height: inherit !important;
+  }
+}
+
+.radar-bichardo {
+  width: 2.5rem;
+  height: 2.5rem;
+  position: relative;
+}
+
+.bichardo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.radar-bichardo-glow {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgb(255 48 48 / 40%) 0%, rgb(255 48 48 / 0%) 70%);
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.radar-details {
+  position: absolute;
+  inset: 0;
+}
+
+.radar-bichardo-common {
+  position: absolute;
+  inset: 0;
+  border-radius: 100%;
+}
+
+.radar-bichardo-blur {
+  filter: blur(0.25rem);
+}
+
+.animate-detected {
+  transition: all cubic-bezier(0.4, 0, 0.6, 1) 0.5s;
+}
+
+.animate-pulse {
+  animation: pulse-scale 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ping {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-flash {
+  background-color: rgb(239 73 73 / 20%);
+  animation: flash 1s ease-in-out infinite;
+}
+
+.animate-flash-delayed {
+  background-color: rgb(239 73 73 / 20%);
+  animation: flash 1s ease-in-out 0.5s infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}

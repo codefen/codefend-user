@@ -1,11 +1,13 @@
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { OrderSection, OrderTeamSize } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
-import { useOrderSaveBank } from '@hooks/useOrders';
+import { useOrderSaveBank } from '@hooks/orders/useOrders';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const BankPaymentModal = () => {
   const { teamSize, updateState, referenceNumber, orderId } = useOrderStore(state => state);
   const [transactionID, { setTransactionID, saveBankPayment }] = useOrderSaveBank();
+  const stored = useGlobalFastField('planPreference');
 
   const BankInfo = (props: any) => {
     return (
@@ -27,13 +29,13 @@ export const BankPaymentModal = () => {
   };
 
   const finalPrice = () => {
-    if (teamSize === OrderTeamSize.SMALL) return '$1,500';
-    if (teamSize === OrderTeamSize.MID) return '$4,500';
+    if (teamSize === OrderTeamSize.SMALL || stored.get === OrderTeamSize.SMALL) return '$1,500';
+    if (teamSize === OrderTeamSize.MID || stored.get === OrderTeamSize.MID) return '$4,500';
     return '$13,500';
   };
 
   return (
-    <>
+    <div className="step-content">
       <div className="step-header">
         <h3>Please proceed with the transaction and complete with the details:</h3>
       </div>
@@ -100,6 +102,6 @@ export const BankPaymentModal = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };

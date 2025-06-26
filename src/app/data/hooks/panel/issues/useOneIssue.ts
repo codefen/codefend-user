@@ -8,39 +8,64 @@ import { EMPTY_ISSUEUPDATE } from '@/app/constants/empty';
 import { verifySession } from '@/app/constants/validations';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { useOrderStore } from '@stores/orders.store';
+import { OrderSection, ResourcesTypes } from '@interfaces/order';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { APP_EVENT_TYPE } from '@interfaces/panel';
 
 /* Custom Hook "useOneIssue" to handle single issue retrieval*/
 export const useOneIssue = () => {
-  const { updateUserData, updateToken } = useUserData();
   const { getCompany, logout } = useUserData();
   const navigate = useNavigate();
   const [fetcher, _, isLoading] = useFetcher();
   const issue = useRef<IssueUpdateData>(EMPTY_ISSUEUPDATE);
+  const { updateState } = useOrderStore();
+  const { company, session, user, appEvent } = useGlobalFastFields([
+    'company',
+    'session',
+    'user',
+    'appEvent',
+  ]);
 
   const fetchOne = (companyID: string, selectedID: string) => {
     fetcher('post', {
       body: {
-        model: 'issues/view',
         issue_id: selectedID,
         company_id: companyID,
       },
+      path: 'issues/view',
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;
-        if (apiErrorValidation(data?.error, data?.response)) {
-          throw new Error(data.info || '');
+        if (apiErrorValidation(data)) {
+          const customError: any = new Error(data.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+          customError.code = data?.error_info || 'generic';
+          throw customError;
         }
         issue.current = data.issue ? data.issue : EMPTY_ISSUEUPDATE;
-
-        updateUserData(data.user);
-        updateToken(data.session);
+        if (data?.company) company.set(data.company);
+        if (data?.user) user.set(data.user);
+        if (data?.session) session.set(data.session);
       })
       .catch(error => {
         //"The issue you are trying to view does not exist"
         if (String(error.message || '').startsWith('invalid or expired')) {
           return;
         }
-        toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        switch (error.code) {
+          case 'issue_not_found':
+            toast.error('La incidencia no existe.');
+            break;
+          case 'issues_maximum_reached':
+            updateState('open', true);
+            updateState('orderStepActive', OrderSection.PAYWALL);
+            updateState('resourceType', ResourcesTypes.WEB);
+            appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_ISSUE);
+            break;
+          default:
+            toast.error(error.message || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        }
+
         navigate('/issues');
       });
   };

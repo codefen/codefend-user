@@ -1,0 +1,48 @@
+:global(.modal-wrapper) {
+  .newsignup {
+    display: flex;
+    flex-direction: column;
+    max-width: 450px;
+    width: 100%;
+    min-width: 300px;
+    box-shadow: 0 6px 10px rgb(0 0 0 / 30%);
+    // border-top: 2px solid #ffd2d2;
+    // border-bottom: 3px solid var(--primary-color-600);
+  }
+  background-color: rgb(255 255 255 / 50%);
+  backdrop-filter: blur(4px) saturate(0.5) contrast(1);
+
+  .modal {
+    box-shadow: 0 6px 10px rgb(0 0 0 / 100%);
+  }
+}
+
+.newsignupContent {
+  --text-color: var(--tertiary-color-500);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem;
+  padding-top: 30px;
+
+  p {
+    color: var(--text-color);
+    line-height: 1.5rem;
+    width: 100%;
+    margin-block-end: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 0.5rem;
+
+    .sendButton {
+      // margin-inline-start: auto;
+      margin-top: 10px;
+      min-width: 30%;
+    }
+  }
+}

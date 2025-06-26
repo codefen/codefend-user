@@ -1,16 +1,16 @@
 import { type FC } from 'react';
 import { useLocation } from 'react-router';
 import { ChatBoxType } from '../../../../../../data';
-import { ChatBox } from '@standalones/ChatBox';
+import { ChatBox } from '@/app/views/components/ChatBox/ChatBox';
 import { MessageIcon } from '@icons';
-import { PageLoader } from '@defaults/loaders/Loader';
-import { SimpleSection } from '@defaults/SimpleSection';
-import Show from '@defaults/Show';
+import { PageLoader } from '@/app/views/components/loaders/Loader';
+import Show from '@/app/views/components/Show/Show';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useSWRIssueMessage } from '@panelHooks/issues/useSWRIssueMessage';
-import { MessageList } from '@standalones/MessageList';
+import { MessageList } from '@/app/views/components/MessageList/MessageList';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 interface IssueChatDisplayProps {
   id: string;

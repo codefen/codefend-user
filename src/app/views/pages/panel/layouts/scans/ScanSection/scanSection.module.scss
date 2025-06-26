@@ -1,0 +1,60 @@
+.disabled-btn {
+  :global(.disabled-this),
+  :global(.publish span.disabled-this:hover),
+  :global(.publish span.disabled-this:hover svg),
+  :global(.publish span.disabled-this:hover svg path) {
+    cursor: default !important;
+    color: var(--tertiary-color-50) !important;
+  }
+}
+
+.scan-search-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  :global(.search-bar) {
+    flex: 1;
+    min-width: 0;
+    height: 43px;
+  }
+
+  .scan-available-badge {
+    display: flex;
+    align-items: center;
+    height: 43px;
+    background: #505050;
+    border-radius: 4px;
+    padding: 0 22px;
+    gap: 10px;
+    min-width: 120px;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+    font-weight: 400;
+    user-select: none;
+    color: #fff;
+
+    .badge-label {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-right: 8px;
+      font-weight: 400;
+    }
+    .badge-count {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-left: 2px;
+      background: none;
+      border-radius: 0;
+      padding: 0;
+      min-width: 0;
+      text-align: left;
+      display: inline-block;
+    }
+  }
+  .scan-search-box-info {
+    display: none;
+  }
+}

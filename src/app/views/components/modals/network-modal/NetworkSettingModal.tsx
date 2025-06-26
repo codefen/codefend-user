@@ -1,8 +1,7 @@
 import { type FC, type FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import { ModalButtons } from '@standalones/utils/ModalButtons.tsx';
 import { EditIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
-import Show from '@defaults/Show.tsx';
+import Show from '@/app/views/components/Show/Show';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import { deleteCustomBaseAPi, getCustomBaseAPi, setCustomBaseAPi } from '@utils/helper.ts';
 import { baseUrl } from '@utils/config.ts';
@@ -10,6 +9,7 @@ import './networkSetting.scss';
 import { PrimaryButton } from '../..';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
+import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 
 interface NetworkSettingModalProps {
   isOpen: boolean;
@@ -92,10 +92,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
                       required
                     />
                     <datalist id="api-urls">
-                      <option value="https://kundalini.codefend.com/kundalini/index.php"></option>
-                      <option value="https://api.codefend.com/kundalini/index.php"></option>
-                      <option value="https://api-mena.codefend.com/kundalini/index.php"></option>
-                      <option value="https://kundalini-usa.codefend.com/kundalini/"></option>
+                      <option value="https://api.codefend.com/index.php"></option>
                     </datalist>
                     <button
                       onClick={() => setCanEdit(currentValue => !currentValue)}

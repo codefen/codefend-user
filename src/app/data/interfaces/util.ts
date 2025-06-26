@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+export type KeyPress = 'Escape' | 'NONE';
 export interface FetchPattern<D> {
   error: null | Error;
   data: D | null;
@@ -56,7 +57,7 @@ export interface ComponentEvent {
 }
 
 export interface ComponentEventWithOpen extends ComponentEvent {
-  isOpen: boolean;
+  isOpen?: boolean;
 }
 
 export interface ComponentEventWithChildren {

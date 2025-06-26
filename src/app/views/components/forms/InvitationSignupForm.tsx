@@ -1,100 +1,73 @@
-import { AuthInput } from '@defaults/AuthInput';
 import { useSignupInvitation } from '@userHooks/auth/useSignupInvitation';
-import { useEffect, type FC, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useState, type FC, type FormEvent, type ReactNode } from 'react';
+import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput.tsx';
+import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput.tsx';
+import { idiomOptions } from '@/app/constants/newSignupText.ts';
+import SelectField from '@/app/views/components/SelectField/SelectField.tsx';
 import { useParams } from 'react-router';
-import SelectField from '../auth/AuthSelectedField.tsx';
-
-const roleOptions = [
-  { value: '', label: 'role', hidden: true },
-  { value: 'admin', label: 'administrative' },
-  { value: 'human', label: 'human resources' },
-  { value: 'info', label: 'information tech' },
-  { value: 'ads', label: 'marketing' },
-  { value: 'sales', label: 'sales' },
-  { value: 'finance', label: 'finance' },
-  { value: 'cs', label: 'customer service' },
-  { value: 'prod', label: 'production & ops' },
-  { value: 'plan', label: 'strategy & planning' },
-  { value: 'law', label: 'legal affairs' },
-];
-const idiomOptions = [
-  { value: '', label: 'Idiom', hidden: true },
-  { value: 'ar', label: 'Arabic' },
-  { value: 'en', label: 'English' },
-];
+import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
 
 const InvitationSignupForm: FC<{
   children: (isLoading: boolean) => ReactNode;
-}> = ({ children }) => {
-  const { ref } = useParams();
-  const { setForm, sendSignUp, isLoading } = useSignupInvitation();
+  className?: string;
+}> = ({ children, className = '' }) => {
+  const params = useParams();
+  const { sendSignUp, isLoading, country } = useSignupInvitation();
+  const [invitationCode, setInvitationCode] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    sendSignUp();
+    const form = new FormData(e.currentTarget as HTMLFormElement);
+    form.append('invoke_user_hash', invitationCode);
+
+    const formObject = Object.fromEntries(form.entries());
+    const fullNumberRaw = formObject?.['user_phone'] as string;
+    const [areaCode, number] = fullNumberRaw.split(/\*+/);
+    formObject['user_phone'] = `${areaCode}${number}`;
+    sendSignUp(formObject);
   };
 
   useEffect(() => {
-    setForm((current: any) => ({
-      ...current,
-      invokeHash: ref || '',
-    }));
-  }, [ref]);
-
-  const handleChange = (field: string) => (val: any) => {
-    setForm(current => ({
-      ...current,
-      [field]: val,
-    }));
-  };
-  const handleChangeSelect = (field: string) => (e: any) => {
-    setForm(current => ({
-      ...current,
-      [field]: e.target.value,
-    }));
-  };
-
+    setInvitationCode(params?.['ref'] ? params?.['ref'] : '');
+  }, [params]);
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={className} onSubmit={handleSubmit}>
       <AuthInput
-        setVal={handleChange('invokeHash')}
+        name="invoke_user_hash"
         placeholder="Invitation Code"
         autoComplete="off"
+        value={invitationCode}
+        setVal={() => {}}
+        disabled={invitationCode.length > 0}
         required
       />
       <AuthInput
         type="email"
-        setVal={handleChange('invokeEmail')}
+        name="invoke_user_email"
         autoComplete="email"
         placeholder="Email address"
         required
       />
-      <AuthInput
-        setVal={handleChange('name')}
-        placeholder="First name"
-        autoComplete="given-name"
-        required
+      <AuthInput name="user_fname" placeholder="First name" autoComplete="given-name" required />
+      <AuthInput name="user_lname" autoComplete="family-name" placeholder="Last name" required />
+      <AuthInput name="user_username" placeholder="Username" autoComplete="off" required />
+      <PhoneInput
+        name="user_phone"
+        defaultPhone={''}
+        defaultCountry={country.get}
+        changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
       />
-      <AuthInput
-        setVal={handleChange('lastname')}
-        autoComplete="family-name"
-        placeholder="Last name"
-        required
-      />
-      <AuthInput
-        setVal={handleChange('username')}
-        placeholder="Username"
-        autoComplete="off"
-        required
-      />
-      <AuthInput type="tel" setVal={handleChange('phone')} placeholder="Phone number" required />
-      <SelectField options={roleOptions} onChange={handleChangeSelect('role')} required />
-      <SelectField options={idiomOptions} onChange={handleChangeSelect('idiom')} required />
+      <SelectField name="user_idiom" options={idiomOptions} defaultValue={''} required />
       <AuthInput
         type="password"
-        setVal={handleChange('password')}
+        name="user_password"
         placeholder="Password"
         required
+        value={password}
+        setVal={e => setPassword(e.target.value)}
       />
+      <PasswordRequirements password={password} />
       {children(isLoading)}
     </form>
   );

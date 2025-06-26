@@ -2,7 +2,7 @@ import { PrimaryButton } from '@buttons/primary/PrimaryButton.tsx';
 import { useOrderStore } from '@stores/orders.store.ts';
 import { RememberCard } from '../components/remember/RememberCard.tsx';
 import { OrderAlertMessage } from '../components/OrderAlertMessage.tsx';
-import { userOrderFinished } from '@hooks/useOrders.ts';
+import { userOrderFinished } from '@hooks/orders/useOrders.ts';
 
 export const WaitingCheckOrderModal = () => {
   const { resetActiveOrder, referenceNumber, orderId } = useOrderStore(state => state);
@@ -13,7 +13,7 @@ export const WaitingCheckOrderModal = () => {
   };
 
   return (
-    <>
+    <div className='step-content'>
       <OrderAlertMessage
         imageIcon={
           <img src="/util/orders-clock.png" alt="Codefend logo" decoding="async" loading="lazy" />
@@ -45,6 +45,6 @@ export const WaitingCheckOrderModal = () => {
           <PrimaryButton text="close" click={orderFinished} className="full" buttonStyle="red" />
         </div>
       </div>
-    </>
+    </div>
   );
 };

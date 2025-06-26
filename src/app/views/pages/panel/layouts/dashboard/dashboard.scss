@@ -1,17 +1,75 @@
-@use '../../../../styles/settings/mixin' as mixin;
-
 main.dashboard {
   .left {
+    .card.rectangle {
+      .over {
+        padding: 3rem;
+        gap: calc(var(--card-space) * 4);
+        p {
+          max-width: min(660px, 85%);
+          line-height: 2rem;
+        }
+      }
+    }
+
+    .over {
+      .item-cell-1 {
+        font-size: 0.9rem;
+      }
+
+      .item-cell-4 {
+        text-align: right;
+        margin-left: auto;
+        width: unset !important;
+        max-width: unset !important;
+        flex: unset !important;
+        padding-right: 0;
+      }
+    }
+
+    .box-assets {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      width: 100%;
+      min-height: 340px;
+      height: fit-content;
+
+      > .card {
+        overflow: hidden;
+        min-width: 200px;
+        padding: 0.5rem;
+
+        height: 100%;
+
+        &:nth-child(1) {
+          flex: 1 1 45%;
+        }
+
+        &:nth-child(2) {
+          flex: 1 1 55%;
+        }
+
+        .over .grid-2x2 {
+          width: fit-content;
+          justify-self: center;
+        }
+      }
+    }
+
     .card {
       .content {
-        padding: 0;
+        padding: 12px;
       }
     }
 
     .table {
+      .columns-name {
+        padding: 20px;
+      }
       .vul-title {
         min-width: 48%;
         max-width: 48%;
+        font-size: 0.95rem;
       }
 
       .vul-class,
@@ -20,19 +78,78 @@ main.dashboard {
       .date {
         min-width: 13%;
         max-width: 13%;
+        font-size: 0.95rem;
       }
     }
   }
 
-  @include mixin.respond(large) {
+  .right {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+    .card {
+      margin-bottom: 12px;
+
+      &.stats {
+        .content {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          padding: 0;
+        }
+      }
+
+      &.risk-chart {
+        .content {
+          padding: var(--card-space);
+          display: flex;
+          align-items: center;
+          gap: var(--card-space);
+        }
+      }
+    }
+  }
+
+  // Estilos estandarizados para títulos de módulos
+  .simple-section-header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    font-family: Questrial;
+    font-weight: 700;
+    font-size: 0.975rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--primary-color-300);
+    color: var(--tertiary-color-200);
+    background-color: var(--primary-color);
+    padding: 0 12px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .icon {
+        color: var(--secondary-color-50);
+        font-size: 0.975rem;
+      }
+
+      span {
+        color: var(--tertiary-color-300);
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1480px) {
     .right {
       .card {
         &.risk-chart {
           .content {
             .chart {
               flex: 1 1 100%;
-              min-width: 105px;
-              max-width: 0%;
+              min-width: 200px;
+              max-width: 30%;
             }
           }
         }
@@ -55,6 +172,30 @@ main.dashboard {
       top: 20dvh;
       right: 2dvw;
       filter: blur(115px) brightness(0.5);
+    }
+
+    .simple-section-header {
+      background-color: var(--primary-color-200);
+      border-bottom: none;
+    }
+  }
+}
+
+@container left-main (max-width: 640px) {
+  main.dashboard {
+    .left {
+      .box-assets {
+        flex-direction: column;
+        min-height: fit-content;
+
+        > .card {
+          &:nth-child(1),
+          &:nth-child(2) {
+            flex: none;
+            height: fit-content;
+          }
+        }
+      }
     }
   }
 }

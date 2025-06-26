@@ -2,8 +2,9 @@ import { type FC } from 'react';
 import { type ComponentEventWithChildren, type Device } from '../../../data';
 import { GlobeWebIcon } from '@icons';
 import { useAddLanV2 } from '@resourcesHooks/network/useAddLanV2';
-import { ModalInput } from '@defaults/ModalInput';
-import { ModalTextArea } from '@defaults/ModalTextArea';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 interface SubNetworkFormProps extends ComponentEventWithChildren {
   internalNetwork: Device[];
@@ -14,7 +15,7 @@ const SubNetworkForm: FC<SubNetworkFormProps> = ({ close, onDone, children, inte
     onDone ? onDone : () => {},
     close ? close : () => {}
   );
-
+  const networkResourceSelected = useGlobalFastField('networkResourceSelected');
   const handleSubmit = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
@@ -29,8 +30,13 @@ const SubNetworkForm: FC<SubNetworkFormProps> = ({ close, onDone, children, inte
           <GlobeWebIcon />
         </span>
 
-        <select ref={mainDomainId} className="log-inputs modal_info" name="mainDomainId" required>
-          <option value="0" disabled hidden>
+        <select
+          ref={mainDomainId}
+          className="log-inputs modal_info"
+          name="mainDomainId"
+          required
+          defaultValue={networkResourceSelected.get?.id || ''}>
+          <option value="" disabled hidden>
             main resource
           </option>
           {internalNetwork.map((resource: any) => (

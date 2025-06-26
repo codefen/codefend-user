@@ -17,13 +17,13 @@ export const useProviderOrders = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher<any>('post', {
       body: {
-        model: 'providers/orders/index/unconfirmed',
         company_id: companyID,
       },
+      path: 'providers/orders/index/unconfirmed',
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         setOrders(data.orders ? data.orders : []);

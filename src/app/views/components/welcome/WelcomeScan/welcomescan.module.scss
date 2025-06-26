@@ -1,0 +1,30 @@
+.welcome-modal-container {
+  .scan-img {
+    width: 80%;
+    max-width: 200px;
+    margin-inline: auto;
+    margin-block-start: 2rem;
+    margin-block-end: 2rem;
+
+    margin-top: auto;
+    align-self: center;
+  }
+}
+
+.welcome-text {
+  line-height: 2rem;
+}
+
+.welcome-modal-container .btn-add {
+  padding-inline: 30px;
+}
+
+// :global(body[data-theme='dark'] .modal).welcome-modal-container {
+//   background-color: #000;
+// }
+
+.btn-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}

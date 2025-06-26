@@ -13,14 +13,14 @@ export const useProviderConfirm = () => {
     if (companyIdIsNull(companyID)) return;
     fetcher('post', {
       body: {
-        model: 'providers/orders/confirm',
         company_id: companyID,
         order_id: orderId,
       },
+      path: 'providers/orders/confirm',
       requestId: 'confirmOrder',
     })
       .then(({ data }: any) => {
-        if (data.isAnError || apiErrorValidation(data?.error, data?.response)) {
+        if (apiErrorValidation(data)) {
           throw new Error(PROVIDER_PANEL_TEXT.FAILURE_ACCEPT_ORDER);
         }
         toast.success(PROVIDER_PANEL_TEXT.ACCEPTED_ORDER);

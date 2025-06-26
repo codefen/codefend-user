@@ -1,26 +1,63 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { sourceCodeColumns } from '@mocks/defaultData';
 import useModal from '@hooks/common/useModal';
-import { useReportStore } from '@stores/report.store';
-import type { TableItem } from '@interfaces/table';
+import type { ColumnTableV3 } from '@interfaces/table';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { TrashIcon, BugIcon, SourceCodeIcon, CredentialIcon, DocumentIcon } from '@icons';
-import { TableV2 } from '@table/tablev2.tsx';
 import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper.tsx';
 import { AddRepositoryModal } from '@modals/adding-modals/AddRepositoryModal';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import useCredentialStore from '@stores/credential.store';
 import useModalStore from '@stores/modal.store';
-import Show from '@defaults/Show';
+import Show from '@/app/views/components/Show/Show';
 import { useDeleteSourceCode } from '@resourcesHooks/sourcecode/useDeleteSourceCode';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
+import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
+import Tablev3 from '@table/v3/Tablev3';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 interface SourceCodeProps {
   isLoading: boolean;
   sourceCode: any[];
   refetch: () => void;
 }
+
+const sourceCodeColumns: ColumnTableV3[] = [
+  {
+    header: 'ID',
+    key: 'id',
+    styles: 'item-cell-1',
+    weight: '6%',
+    render: (ID: any) => ID,
+  },
+  {
+    header: 'name',
+    key: 'name',
+    styles: 'item-cell-2',
+    weight: '20%',
+    render: (name: any) => name,
+  },
+  {
+    header: 'url',
+    key: 'access_link',
+    styles: 'item-cell-3',
+    weight: '36%',
+    render: (url: any) => url,
+  },
+  {
+    header: 'visibility',
+    key: 'is_public',
+    styles: 'item-cell-4',
+    weight: '9%',
+    render: (visibility: any) => visibility,
+  },
+  {
+    header: 'source code',
+    key: 'source_code',
+    styles: 'item-cell-5',
+    weight: '9%',
+    render: (sourceCode: any) => sourceCode,
+  },
+];
 
 export const SourceCodeResources: FC<SourceCodeProps> = props => {
   const navigate = useNavigate();
@@ -30,72 +67,71 @@ export const SourceCodeResources: FC<SourceCodeProps> = props => {
   const { isAdmin, isProvider, isNormalUser } = useUserRole();
   const { setCredentialType, setResourceId } = useCredentialStore();
   const { setIsOpen, setModalId } = useModalStore();
-  const { openModal, setResourceID, setResourceType } = useReportStore((state: any) => state);
-  const generateReport = (resourceID: string, count: any) => {
+  const { resourceType, openModal, resourceID } = useGlobalFastFields([
+    'resourceType',
+    'openModal',
+    'resourceID',
+  ]);
+  const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
-      openModal();
-      setResourceID(resourceID);
-      setResourceType(RESOURCE_CLASS.SOURCE);
+      openModal.set(true);
+      resourceID.set(resourceUpID);
+      resourceType.set(RESOURCE_CLASS.SOURCE);
     }
   };
+  const sourceCodeColumnsWithActions = [
+    ...sourceCodeColumns,
+    {
+      header: '',
+      key: TABLE_KEYS.ACTION,
+      type: TABLE_KEYS.FULL_ROW,
+      styles: 'item-cell-6 action',
+      weight: '20%',
+      render: (repository: any) => (
+        <div className="publish" key={`actr-${repository.id}`}>
+          <span
+            className={`issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
+            title={`${isNormalUser() ? '' : 'Add Issue'}`}
+            onClick={() =>
+              navigate(isProvider() || isAdmin() ? `/issues/create/source/${repository.id}` : '', {
+                state: { redirect: '/source' },
+              })
+            }>
+            <BugIcon isButton />
+            <span className="codefend-text-red-200 issue-count">{repository.final_issues}</span>
+          </span>
+          <span
+            title="View report"
+            className={`issue-printer ${Number(repository.final_issues) == 0 ? 'off' : ''}`}
+            onClick={() => generateReport(repository.id, repository.final_issues)}>
+            <DocumentIcon isButton width={1.27} height={1.27} />
+          </span>
+          <Show when={isNormalUser() || isAdmin()}>
+            <span
+              title="Delete"
+              onClick={() => {
+                setSelectedSourceCodeIdToDelete(repository.id);
+                setShowModal(!showModal);
+                setShowModalStr(MODAL_KEY_OPEN.DELETE_SOURCE);
+              }}>
+              <TrashIcon />
+            </span>
+          </Show>
 
-  const dataTable = props.sourceCode.map(
-    repository =>
-      ({
-        ID: { value: Number(repository.id), style: 'id' },
-        name: { value: repository.name, style: 'full-name' },
-        url: { value: repository.access_link, style: 'url' },
-        visibility: { value: repository.is_public, style: 'boolean' },
-        sourceCode: { value: repository.source_code, style: 'source-code' },
-        action: {
-          value: (
-            <>
-              <span
-                className={`issue-icon ${isProvider() || isAdmin() ? '' : 'disable'}`}
-                title={`${isNormalUser() ? '' : 'Add Issue'}`}
-                onClick={() =>
-                  navigate(
-                    isProvider() || isAdmin() ? `/issues/create/source/${repository.id}` : '',
-                    { state: { redirect: '/source' } }
-                  )
-                }>
-                <BugIcon isButton />
-                <span className="codefend-text-red-200 issue-count">{repository.final_issues}</span>
-              </span>
-              <span
-                title="View report"
-                className={`issue-printer ${Number(repository.final_issues) == 0 ? 'off' : ''}`}
-                onClick={() => generateReport(repository.id, repository.final_issues)}>
-                <DocumentIcon isButton width={1.27} height={1.27} />
-              </span>
-              <Show when={isNormalUser() || isAdmin()}>
-                <span
-                  title="Delete"
-                  onClick={() => {
-                    setSelectedSourceCodeIdToDelete(repository.id);
-                    setShowModal(!showModal);
-                    setShowModalStr(MODAL_KEY_OPEN.DELETE_SOURCE);
-                  }}>
-                  <TrashIcon />
-                </span>
-              </Show>
-
-              <span
-                title="Add credentials"
-                onClick={() => {
-                  setResourceId(repository.id);
-                  setCredentialType(RESOURCE_CLASS.SOURCE);
-                  setIsOpen(true);
-                  setModalId(RESOURCE_CLASS.SOURCE);
-                }}>
-                <CredentialIcon />
-              </span>
-            </>
-          ),
-          style: 'id action',
-        },
-      }) as Record<string, TableItem>
-  );
+          <span
+            title="Add credentials"
+            onClick={() => {
+              setResourceId(repository.id);
+              setCredentialType(RESOURCE_CLASS.SOURCE);
+              setIsOpen(true);
+              setModalId(RESOURCE_CLASS.SOURCE);
+            }}>
+            <CredentialIcon />
+          </span>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -141,11 +177,12 @@ export const SourceCodeResources: FC<SourceCodeProps> = props => {
             </div>
           </div>
         </div>
-        <TableV2
-          rowsData={dataTable || []}
-          columns={sourceCodeColumns}
+
+        <Tablev3
+          columns={sourceCodeColumnsWithActions}
+          rows={props.sourceCode}
           showRows={!props.isLoading}
-          showEmpty={!props.isLoading && dataTable.length === 0}
+          initialOrder="id"
         />
       </div>
     </>

@@ -1,16 +1,5 @@
 import { create } from 'zustand';
-
-export interface TableV3Store {
-  selectedItems: any[];
-  selectingActive: boolean;
-  lastSelecting: any;
-  setLastSelecting: (data: any) => void;
-  setSelectedItems: (data: any) => void;
-  removeItem: (id: string) => void;
-  cleanSelected: () => void;
-  setAll: (data: any[]) => void;
-  setActiveSelecting: (bool: boolean) => void;
-}
+import type { TableV3Store } from './types';
 
 export const useTableStoreV3 = create<TableV3Store>(set => ({
   selectedItems: [],

@@ -89,7 +89,7 @@ html {
 *, ::before, ::after {
     box-sizing: border-box;
     scrollbar-width: thin;
-    scrollbar-color: var(--secondary-color-50) var(--primary-color-500);
+    scrollbar-color: var(--secondary-color-50) var(--primary-color);
 }
 table,
 table td {
@@ -140,7 +140,8 @@ body {
 	margin: 0 20px 0 20px;
 	color: var(--text-color-alt3);
 	overflow-x: hidden;
-	font-size: 14px;
+    font-size: 16px;
+    letter-spacing: .7px;
 }
 h3 {
 	color: var(--text-color);
@@ -198,6 +199,7 @@ code {
 	color: #990808;
 	background-color: var(--code-bkg);
 	padding: 20px;
+	overflow-wrap: anywhere;
 }
 
 .tabla-header-issue {
@@ -231,3 +233,49 @@ code {
   margin-right: 1.5rem;
   padding-right: 1rem;
 } */
+  .leaks_grid {
+    width: 100%;
+    font-size: .9rem;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--primary-color-300);
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+	    border-spacing: 0px;
+		
+    thead {
+      background-color: var(--primary-color-400);
+      color: var(--secondary-color-200);
+    }
+    td:first-child {
+      width: 15%;
+      padding-left: 2%;
+    }
+    td:nth-child(2) {
+      max-width: 680px;
+      overflow-x: auto;
+      &::-webkit-scrollbar {
+        height: 2px !important;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #ff6c6c;
+        border-radius: 2px;
+      }
+      &::-webkit-scrollbar-track {
+        background: var(--primary-color-500);
+      }
+    }
+    tr {
+      height: 33px;
+    }
+    hr {
+      color: 1px solid var(--secondary-color-200);
+      background-color: var(--secondary-color-200);
+      height: 3px;
+      width: 80%;
+      margin: 0 auto;
+      opacity: 0.3;
+
+    }
+  }

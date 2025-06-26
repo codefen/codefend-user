@@ -8,9 +8,9 @@ export const useFindResellerArea = () => {
   const findResellers = (alpha2: string) => {
     fetcher('post', {
       body: {
-        model: 'resellers/index',
         area: alpha2,
       },
+      path: 'resellers/index',
     }).then(({ data }: any) => {
       setResellers(data.resellers ? data.resellers : []);
     });

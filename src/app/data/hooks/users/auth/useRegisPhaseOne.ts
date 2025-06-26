@@ -22,7 +22,6 @@ export const useRegisPhaseOne = () => {
     const requestParams: RegisterParams = {
       lead_fname: givenName.current?.value || '',
       lead_lname: familyName.current?.value || '',
-      lead_role: companyRole.current?.value || '',
       lead_email: email.current?.value || '',
       lead_phone: phone.current?.value || '',
       company_name: company.current?.value || '',
@@ -41,7 +40,7 @@ export const useRegisPhaseOne = () => {
       },
     })
       .then(({ data }: any) => {
-        if (data.email_error === '1' || apiErrorValidation(data?.error, data?.response)) {
+        if (data.email_error === '1' || apiErrorValidation(data)) {
           if (data.email_error === '1') {
             throw new Error(data.email_info);
           }

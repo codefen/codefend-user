@@ -1,21 +1,24 @@
-import { create } from 'zustand';
+import type { ResumeAllResources, ScopeOptions } from '@interfaces/order';
 import {
-  OrderOffensive,
-  type ResumeAllResources,
-  OrderFrequency,
   OrderPaymentMethod,
   OrderSection,
+  OrderOffensive,
   OrderTeamSize,
   ResourcesTypes,
+  OrderFrequency,
   ScopeOption,
-  type ScopeOptions,
-} from '..';
+  UserPlanSelected,
+  UserSmallPlanSelected,
+} from '@interfaces/order';
+import { create } from 'zustand';
+
+export enum UserTrails {}
 
 export interface OrderStore {
   open: boolean;
 
   orderStepActive: OrderSection;
-
+  paywallSelected: UserPlanSelected;
   resourceType: ResourcesTypes;
   resumeResources: ResumeAllResources;
 
@@ -27,6 +30,7 @@ export interface OrderStore {
   offensiveOrder: OrderOffensive;
   aditionalInfo: string;
   paymentMethod: OrderPaymentMethod;
+  userSmallPlanSelected: UserSmallPlanSelected;
 
   referenceNumber: string;
   orderId: string;
@@ -35,7 +39,7 @@ export interface OrderStore {
   setScopeAllTotalResources: (resources: number) => void;
   setScopeOption: (option: ScopeOption) => void;
 
-  updateState: (key: string, updated: any) => void;
+  updateState: <K extends keyof OrderStore>(key: K, updated: OrderStore[K]) => void;
   resetActiveOrder: () => void;
 }
 
@@ -47,7 +51,7 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
   scope: {
     totalAllResources: -1,
     totalResources: 0,
-    scopeOption: ScopeOption.UNKNOWN,
+    scopeOption: ScopeOption.TYPE,
   },
   resumeResources: {} as any,
   frequency: OrderFrequency.UNKNOWN,
@@ -58,6 +62,8 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
   paymentMethod: OrderPaymentMethod.UNKNOWN,
   referenceNumber: '',
   orderId: '',
+  paywallSelected: UserPlanSelected.NOTHING,
+  userSmallPlanSelected: UserSmallPlanSelected.NOTHING,
 
   setScopeTotalResources: (resources: number) =>
     set((current: OrderStore) => ({
@@ -75,10 +81,10 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
       scope: { ...current.scope, scopeOption: option },
     })),
 
-  updateState: (key: string, updated: any) =>
-    set((current: OrderStore) => ({
+  updateState: <K extends keyof OrderStore>(key: K, updated: OrderStore[K]) =>
+    set(current => ({
       ...current,
-      [key as keyof typeof current]: updated,
+      [key]: updated,
     })),
 
   resetActiveOrder: () =>
@@ -95,5 +101,6 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
       offensiveOrder: OrderOffensive.UNKNOWN,
       paymentMethod: OrderPaymentMethod.UNKNOWN,
       aditionalInfo: '',
+      userSmallPlanSelected: UserSmallPlanSelected.NOTHING,
     })),
 }));

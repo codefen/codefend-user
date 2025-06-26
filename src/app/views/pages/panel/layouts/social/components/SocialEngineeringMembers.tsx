@@ -1,51 +1,51 @@
-import { type FC } from 'react';
-import { SimpleSection } from '@defaults/SimpleSection.tsx';
+import { FilterIcon, GlobeWebIcon } from '@icons';
+import { PrimaryButton } from '@buttons/index';
 import { PeopleGroupIcon, ChartIcon } from '@icons';
 import { MetricsService } from '@utils/metric.service';
 import type { MemberV2 } from '@interfaces/panel';
 import { roleMap } from '@mocks/defaultData';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { useState } from 'react';
 
-interface SocialEngineeringMembersProps {
-  isLoading: boolean;
+interface Props {
   members: MemberV2[];
   handleDepartmentFilter: (role: string) => void;
+  isLoading: boolean;
 }
 
-const SocialEngineeringMembers: FC<SocialEngineeringMembersProps> = ({
-  members,
-  handleDepartmentFilter,
-}) => {
-  const computedRoles = MetricsService.computeMemberRolesCount(members!);
-
+const SocialEngineeringMembers = ({ members, handleDepartmentFilter, isLoading }: Props) => {
+  const computedRoles = MetricsService.computeMemberRolesCount(members);
+  console.log(computedRoles);
   return (
-    <>
-      <div className="card filtered">
-        <SimpleSection header="Members by departments" icon={<ChartIcon />}>
-          <div className="content filters">
-            {Object.keys(computedRoles).map(role => (
-              <div className="filter" key={role}>
+    <div className="card filtered">
+      <div className="header">
+        <FilterIcon />
+        <span>Members by departments</span>
+      </div>
+      <div className="content filters">
+        {Object.keys(computedRoles).map(role => (
+          <div className="filter-group" key={role}>
+            <div className="filter-group-content">
+              <label className="filter">
                 <div className="check">
-                  <label className="label">
+                  <div className="label">
                     <input
                       type="checkbox"
-                      onChange={e => handleDepartmentFilter(role)}
+                      onChange={() => handleDepartmentFilter(role)}
                       className="codefend-checkbox"
                     />
                     {roleMap[role as keyof typeof roleMap] ?? 'Unknown role'}
-                  </label>
+                  </div>
+                  <div className="value">
+                    <span>{0}</span>
+                  </div>
                 </div>
-                <div className="value">
-                  <span className="icon-color">
-                    <PeopleGroupIcon />
-                  </span>
-                  <span>{computedRoles[role as keyof typeof computedRoles]} members</span>
-                </div>
-              </div>
-            ))}
+              </label>
+            </div>
           </div>
-        </SimpleSection>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 

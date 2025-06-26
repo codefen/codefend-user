@@ -5,12 +5,12 @@ import { formatReverseDate, calculateDaysDifference } from '@utils/helper';
 import ConfirmModal from '@modals/ConfirmModal';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import Show from '@defaults/Show';
-import { IconTextPairs } from '@standalones/textpair/IconTextPairs';
+import Show from '@/app/views/components/Show/Show';
+import { IconTextPairs } from '@/app/views/components/utils/IconTextPairs';
 import { BugIcon } from '@icons';
 import '../ordercards.scss';
 import { useProviderOrderFinish } from '@userHooks/providers/useProviderOrderFinish';
-import { OrderCardTemplate } from '@standalones/order-card-template/OrderCardTemplate';
+import { OrderCardTemplate } from '@/app/views/components/order-card-template/OrderCardTemplate';
 import useOrderScopeStore from '@stores/orderScope.store';
 
 export interface ConfirmOrderCardProps {

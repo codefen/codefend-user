@@ -1,31 +1,22 @@
-import React from 'react';
-import { ChartIcon } from '@icons';
-import type { Webresource } from '@interfaces/panel.ts';
-import { MetricsService } from '@utils/metric.service.ts';
-import { StatAsset } from '@standalones/stat-asset/StatAsset.tsx';
+import { type FC } from 'react';
+import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 
 interface WebResourceStaticProps {
-  webResources: Webresource[];
+  domainCount: number;
+  subDomainCount: number;
+  uniqueIpCount: number;
 }
-export const WebApplicationStatics: React.FC<WebResourceStaticProps> = ({ webResources }) => {
-  const { getCompanyMetric } = MetricsService;
 
+export const WebApplicationStatics: FC<WebResourceStaticProps> = ({
+  domainCount,
+  subDomainCount,
+  uniqueIpCount,
+}) => {
   return (
-    <div className="card stats">
-      <div className="header">
-        <div className="title">
-          <div className="icon">
-            <ChartIcon />
-          </div>
-          <span>Domain & server statics</span>
-        </div>
-        <div className="actions"></div>
-      </div>
-      <div className="content">
-        <StatAsset value={getCompanyMetric(webResources, 'domain')} valueTitle="Domains" />
-        <StatAsset value={getCompanyMetric(webResources, 'subDomain')} valueTitle="Subdomains" />
-        <StatAsset value={getCompanyMetric(webResources, 'uniqueIp')} valueTitle="Unique IPS" />
-      </div>
+    <div className="flex-box">
+      <StatAsset value={domainCount} valueTitle="Domains" />
+      <StatAsset value={subDomainCount} valueTitle="Subdomains" />
+      <StatAsset value={uniqueIpCount} valueTitle="Unique IPS" />
     </div>
   );
 };
