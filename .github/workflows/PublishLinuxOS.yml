@@ -13,6 +13,9 @@ on:
       linux_x86_64_sig:
         description: "Signature for Linux x86_64 build"
         value: ${{ jobs.linuxBuilding.outputs.linux_x86_64_sig }}
+      linux_x86_64_name:
+        description: "Name for Linux x86_64 build"
+        value: ${{ jobs.linuxBuilding.outputs.linux_x86_64_name }}
   workflow_dispatch:
 
 
@@ -27,6 +30,7 @@ jobs:
       attestations: write
     outputs:
       linux_x86_64_sig: ${{ steps.extract-signatures.outputs.linux_x86_64_sig }}
+      linux_x86_64_name: ${{ steps.extract-signatures.outputs.linux_x86_64_name }}
     strategy:
       fail-fast: false
       matrix:
@@ -189,6 +193,12 @@ jobs:
           echo "Signatures extracted successfully."
           echo "linux_x86_64_sig=$linux_x86_64_sig" >> $GITHUB_OUTPUT
 
+          appimage_path="${sig_file%.sig}"
+          appimage_name=$(basename "$appimage_path")
+          echo "linux_x86_64_name=$appimage_name" >> $GITHUB_OUTPUT
+
+          echo "✅ Signatures and artifact name extracted successfully."
+
           # Debug info
           echo "=== Signature Info ==="
           echo "Signature path: $sig_file"
@@ -243,7 +253,7 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: 'src-tauri/target/release/bundle/appimage/codefend-panel_${{ inputs.package_version }}_amd64.AppImage'
+          subject-path: 'src-tauri/target/release/bundle/appimage/${{ steps.extract-signatures.outputs.linux_x86_64_name }}"
           sbom-path: "sbom.spdx.json"
 
       # NUEVO: Verificación final de seguridad

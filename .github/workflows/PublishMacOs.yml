@@ -19,6 +19,12 @@ on:
       macos_aarch64_sig:
         description: "Signature for Macos aarch64 build"
         value: ${{ jobs.macosBuilding.outputs.macos_aarch64_sig }}
+      macos_x86_64_name:
+        description: "Name for Macos x86_64 build"
+        value: ${{ jobs.macosBuilding.outputs.macos_x86_64_name }}
+      macos_aarch64_name:
+        description: "Name for Macos aarch64 build"
+        value: ${{ jobs.macosBuilding.outputs.macos_aarch64_name }}
   workflow_dispatch:
 
 
@@ -34,6 +40,8 @@ jobs:
     outputs:
       macos_x86_64_sig: ${{ steps.extract-signatures.outputs.macos_x86_64_sig }}
       macos_aarch64_sig: ${{ steps.extract-signatures.outputs.macos_aarch64_sig }}
+      macos_x86_64_name: ${{ steps.extract-signatures.outputs.macos_x86_64_name }}
+      macos_aarch64_name: ${{ steps.extract-signatures.outputs.macos_aarch64_name }}
     strategy:
       fail-fast: false
       matrix:
@@ -143,13 +151,17 @@ jobs:
           fi
 
           echo "✅ Found signature file: $sig_path"
+          artifact_path="${sig_path%.sig}"
+          artifact_name=$(basename "$artifact_path")
 
           if [[ "$target" == *"x86_64"* ]]; then
             macos_x86_64_sig=$(read_signature "$sig_path")
             echo "macos_x86_64_sig=$macos_x86_64_sig" >> $GITHUB_OUTPUT
+            echo "macos__x86_64_name=$artifact_name" >> $GITHUB_OUTPUT
           else
             macos_aarch64_sig=$(read_signature "$sig_path")
             echo "macos_aarch64_sig=$macos_aarch64_sig" >> $GITHUB_OUTPUT
+            echo "macos_aarch64_name=$artifact_name" >> $GITHUB_OUTPUT
           fi
 
           echo "✅ Signature extracted successfully."
@@ -173,23 +185,15 @@ jobs:
           format: "spdx-json"
           output-file: "sbom.spdx.json"
           artifact-name: "macos_${{ matrix.target }}.sbom.spdx.json"
-  
+
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
-        run: |
-          # Encontrar el subject path dinámicamente
-          app_path=$(find src-tauri/target/${{ matrix.target }}/release/bundle/macos -name "*.app.tar.gz" | head -1)
-          if [[ -n "$app_path" ]]; then
-            echo "SBOM_SUBJECT_PATH=$app_path" >> $GITHUB_ENV
-          else
-            echo "❌ Could not find app bundle for SBOM attestation"
-            exit 1
-          fi
-
-      - name: 🛡️ Attest SBOM (continued)
-        uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: ${{ env.SBOM_SUBJECT_PATH }}
+          subject-path: >-
+            ${{ 
+              (contains(matrix.target, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_x86_64_name }}' ||
+              (contains(matrix.target, 'aarch64')) && 'src-tauri/target/x86_64-apple-darwin/release/${{ steps.extract-signatures.outputs.macos_aarch64_name }}'
+            }}
           sbom-path: "sbom.spdx.json"
 
       - name: 🧹 Secure cleanup
