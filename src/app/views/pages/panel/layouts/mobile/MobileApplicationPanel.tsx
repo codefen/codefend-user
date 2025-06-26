@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 import { DeleteMobileCloudModal } from '@modals/DeleteMobileCloudModal.tsx';
 import Show from '@/app/views/components/Show/Show';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
@@ -15,7 +15,7 @@ import { MobileApplicationTitle } from './components/MobileApplicationTitle';
 import AddMobileModal from '@modals/adding-modals/AddMobileModal';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 
-const MobileApplicationPanel: React.FC = () => {
+const MobileApplicationPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
   const { showModal, setShowModal } = useModal();
   const { data, refetch, isLoading, updateData, orders } = useMobile();

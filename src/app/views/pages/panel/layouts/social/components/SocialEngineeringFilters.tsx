@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type FC } from 'react';
 import type { MemberV2 } from '@interfaces/panel';
 import type { SocialFilterState } from '@/app/data/hooks/resources/social/useSocialFilters';
 import { ChevronIcon, FilterIcon } from '@icons';
@@ -10,7 +10,7 @@ interface SocialEngineeringFiltersProps {
   currentFilters: SocialFilterState;
 }
 
-export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> = ({
+export const SocialEngineeringFilters: FC<SocialEngineeringFiltersProps> = ({
   members,
   domains,
   handleFilters,
@@ -25,8 +25,7 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
     }
     return members.filter(
       member =>
-        member.resource_domain &&
-        currentFilters.resource_domain.includes(member.resource_domain),
+        member.resource_domain && currentFilters.resource_domain.includes(member.resource_domain)
     );
   }, [members, currentFilters.resource_domain]);
 
@@ -39,7 +38,7 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
         if (property === 'has_name') return !!member.name;
         if (property === 'has_linkedin') return !!member.linkedin_url;
         return true;
-      }),
+      })
     );
   }, [members, currentFilters.properties]);
 
@@ -71,7 +70,9 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
       </div>
       <div className="content filters">
         <div className={`filter-group ${isDomainExpanded ? 'expanded' : ''}`}>
-          <button className="filter-group-btn" onClick={() => setIsDomainExpanded(!isDomainExpanded)}>
+          <button
+            className="filter-group-btn"
+            onClick={() => setIsDomainExpanded(!isDomainExpanded)}>
             <ChevronIcon />
             <h3>Domain</h3>
           </button>
@@ -80,10 +81,7 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
               <p className="no-results-found">no results found</p>
             ) : (
               resourceDomains.map(([domain, count]) => (
-                <label
-                  className="filter"
-                  key={domain}
-                  htmlFor={`domain-${domain}`}>
+                <label className="filter" key={domain} htmlFor={`domain-${domain}`}>
                   <div className="check">
                     <div className="label">
                       <input
@@ -113,9 +111,7 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
             <h3>Available data</h3>
           </button>
           <div className="filter-group-content">
-            <label
-              className="filter"
-              htmlFor="has_name">
+            <label className="filter" htmlFor="has_name">
               <div className="check">
                 <div className="label">
                   <input
@@ -134,9 +130,7 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
                 <span>{availableData.has_name}</span>
               </div>
             </label>
-            <label
-              className="filter"
-              htmlFor="has_linkedin">
+            <label className="filter" htmlFor="has_linkedin">
               <div className="check">
                 <div className="label">
                   <input
@@ -160,4 +154,4 @@ export const SocialEngineeringFilters: React.FC<SocialEngineeringFiltersProps> =
       </div>
     </div>
   );
-}; 
+};

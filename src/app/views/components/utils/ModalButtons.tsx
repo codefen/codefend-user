@@ -1,5 +1,5 @@
 import { PrimaryButton } from '@buttons/index';
-import React from 'react';
+import { type FC, type FormEvent } from 'react';
 
 interface Props {
   close: () => void;
@@ -9,7 +9,7 @@ interface Props {
   boxStyle?: string;
 }
 
-export const ModalButtons: React.FC<Props> = ({
+export const ModalButtons: FC<Props> = ({
   closeText = '',
   boxStyle = '',
   close,
@@ -18,9 +18,7 @@ export const ModalButtons: React.FC<Props> = ({
 }) => {
   const text = Boolean(closeText.trim()) ? closeText : 'Cancel';
   return (
-    <div
-      className={`form-buttons ${boxStyle}`}
-      onClick={(e: React.FormEvent) => e.stopPropagation()}>
+    <div className={`form-buttons ${boxStyle}`} onClick={(e: FormEvent) => e.stopPropagation()}>
       <PrimaryButton
         text={text}
         click={(e: any) => close?.()}

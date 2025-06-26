@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef, type FormEvent, type FC } from 'react';
 import { toast } from 'react-toastify';
 import { CHATBOX_TEXT } from '@/app/constants/app-toast-texts';
 import useChatbox from '@panelHooks/chats/useChatbox';
@@ -11,11 +11,11 @@ interface ChatBoxProps {
   selectedID: string;
 }
 
-export const ChatBox: React.FC<ChatBoxProps> = props => {
+export const ChatBox: FC<ChatBoxProps> = props => {
   const { message, setMessage, isAdding, handleIssueSubmit, handleSupportSubmit } = useChatbox();
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleSubmit = (e: React.FormEvent | KeyboardEvent) => {
+  const handleSubmit = (e: FormEvent | KeyboardEvent) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -30,7 +30,7 @@ export const ChatBox: React.FC<ChatBoxProps> = props => {
     }
   };
 
-  const requestInfo = (e: React.FormEvent | KeyboardEvent) => {
+  const requestInfo = (e: FormEvent | KeyboardEvent) => {
     e.stopPropagation();
     e.preventDefault();
     if (props.type === ChatBoxType.ISSUE && !isAdding) {

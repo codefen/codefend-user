@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type RefObject } from 'react';
 
 function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
   let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -13,7 +13,7 @@ function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
   return debounced;
 }
 
-export function useResize<T extends HTMLElement>(ref: React.RefObject<T>) {
+export function useResize<T extends HTMLElement>(ref: RefObject<T>) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -43,4 +43,4 @@ export function useResize<T extends HTMLElement>(ref: React.RefObject<T>) {
   }, [ref]);
 
   return dimensions;
-} 
+}

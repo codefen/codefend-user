@@ -1,11 +1,4 @@
-import {
-  type ChangeEvent,
-  type FC,
-  type ReactNode,
-  type MouseEvent,
-  useMemo,
-  useCallback,
-} from 'react';
+import { type ChangeEvent, type FC, type CSSProperties, useMemo, useCallback } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { type ColumnTableV3 } from '@interfaces/table.ts';
@@ -71,7 +64,7 @@ const TableRowsV3VirtualizedDynamic: FC<TableRowsVirtualizedDynamicProps> = ({
 
   // Función para renderizar una fila individual
   const renderRow = useCallback(
-    (index: number, style: React.CSSProperties) => {
+    (index: number, style: CSSProperties) => {
       const row = rows[index];
       if (!row) return null;
 

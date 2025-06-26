@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useMemo, type FC } from 'react';
 
 interface DownloadsCardProps {
   className?: string;
@@ -77,7 +77,7 @@ const getDownloadMessage = (downloads: any): string => {
   return `This application has more than ${formattedCount} download${pluralSuffix}`;
 };
 
-export const DownloadsCard: React.FC<DownloadsCardProps> = ({ className, appData }) => {
+export const DownloadsCard: FC<DownloadsCardProps> = ({ className, appData }) => {
   // Obtener las descargas, intentando primero con total_downloads, luego con Android y finalmente con iOS
   const downloadCount =
     appData?.total_downloads || appData?.app_android_downloads || appData?.app_ios_downloads;

@@ -1,8 +1,8 @@
-import React from 'react';
+import { type FC } from 'react';
 import { ChartIcon } from '@icons';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
 
-export const WebApplicationCredentials: React.FC = () => {
+export const WebApplicationCredentials: FC = () => {
   return (
     <div className="card stats">
       <div className="over">
