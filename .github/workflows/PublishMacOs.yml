@@ -113,56 +113,46 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          TAURI_BUNDLE_IDENTIFIER: "com.codefend.app"
+          TAURI_BUNDLE_VERSION: ${{ inputs.package_version }}
         with:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose --target ${{ matrix.target }}'
-
-      - name: 📤 Upload Release Assets
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-            const artifacts = [
-              'src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz'
-            ];
-            const target = '${{ matrix.target }}';
-            for (const artifact of artifacts) {
-              if (fs.existsSync(artifact) && fs.lstatSync(artifact).isFile()) {
-                await github.rest.repos.uploadReleaseAsset({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  release_id: ${{ inputs.release_id }},
-                  name: `mac_${target}-${path.basename(artifact)}`,
-                  data: fs.readFileSync(artifact)
-                });
-              }
-            }
 
       - name: 📝 Extract Signatures and Set Outputs
         id: extract-signatures
         run: |
           package_version="${{ inputs.package_version }}"
+          target="${{ matrix.target }}"
 
           read_signature() {
             local file="$1"
             if [[ ! -f "$file" ]]; then
-              echo "Error: File $file not found" >&2
+              echo "❌ Error: Signature file not found: $file" >&2
               exit 1
             fi
             tr -d '\n' < "$file" | xargs
           }
 
-          if [[ "${{ contains(matrix.target, 'x86_64') }}" == "true" ]]; then
-            macos_x86_64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz.sig")
+          # Buscar el archivo .app.tar.gz.sig dinámicamente
+          sig_path=$(find "src-tauri/target/${target}/release/bundle/macos" -type f -name "*.app.tar.gz.sig" | head -n 1)
+
+          if [[ -z "$sig_path" ]]; then
+            echo "❌ Could not find signature file for macOS .app.tar.gz" >&2
+            exit 1
+          fi
+
+          echo "✅ Found signature file: $sig_path"
+
+          if [[ "$target" == *"x86_64"* ]]; then
+            macos_x86_64_sig=$(read_signature "$sig_path")
             echo "macos_x86_64_sig=$macos_x86_64_sig" >> $GITHUB_OUTPUT
           else
-            macos_aarch64_sig=$(read_signature "src-tauri/target/${{ matrix.target }}/release/bundle/macos/codefend-panel.app.tar.gz.sig")
+            macos_aarch64_sig=$(read_signature "$sig_path")
             echo "macos_aarch64_sig=$macos_aarch64_sig" >> $GITHUB_OUTPUT
           fi
 
-          echo "Signatures extracted successfully."
+          echo "✅ Signature extracted successfully."
 
       - name: 🛡️ Attest build provenance (publish release only)
         uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
@@ -186,10 +176,30 @@ jobs:
   
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
+        run: |
+          # Encontrar el subject path dinámicamente
+          app_path=$(find src-tauri/target/${{ matrix.target }}/release/bundle/macos -name "*.app.tar.gz" | head -1)
+          if [[ -n "$app_path" ]]; then
+            echo "SBOM_SUBJECT_PATH=$app_path" >> $GITHUB_ENV
+          else
+            echo "❌ Could not find app bundle for SBOM attestation"
+            exit 1
+          fi
+
+      - name: 🛡️ Attest SBOM (continued)
+        uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: >-
-            ${{ 
-              (contains(matrix.target, 'x86_64')) && 'src-tauri/target/x86_64-apple-darwin/release/codefend-panel' ||
-              (contains(matrix.target, 'aarch64')) && 'src-tauri/target/aarch64-apple-darwin/release/codefend-panel'
-            }}
+          subject-path: ${{ env.SBOM_SUBJECT_PATH }}
           sbom-path: "sbom.spdx.json"
+
+      - name: 🧹 Secure cleanup
+        if: always()
+        run: |
+          # Limpiar keychain temporal si existe
+          if [[ -n "${KEYCHAIN_PATH:-}" ]]; then
+            security delete-keychain "$KEYCHAIN_PATH" || true
+            echo "Temporary keychain cleaned up"
+          fi
+          
+          # Limpiar provisioning profiles
+          rm -f ~/Library/MobileDevice/Provisioning\ Profiles/app.mobileprovision || true
