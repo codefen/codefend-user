@@ -20,6 +20,7 @@ import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx
 import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
 import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
+import { WorldMap } from '@/app/views/pages/panel/layouts/lan/components/WorldMap.tsx';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
@@ -80,6 +81,7 @@ const NetworkPage: FC = () => {
             isLoading={isLoading}
             scope={OrderSection.NETWORK_SCOPE}
           />
+          <WorldMap networkData={networks as any} />
         </section>
       </Show>
     </EmptyLayout>

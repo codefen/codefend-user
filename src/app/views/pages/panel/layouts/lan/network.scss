@@ -50,3 +50,6 @@ main.lan {
     filter: blur(150px) brightness(0.45) opacity(0.55);
   }
 }
+
+@import './components/network-cards.scss';
+@import './components/world-map.scss';
