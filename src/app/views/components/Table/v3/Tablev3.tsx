@@ -63,7 +63,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [hasScroll, setHasScroll] = useState(false);
   const [sort, setSort] = useState<Sort>(initialSort);
-  const [sortedColumn, setDataSort] = useState<string>(columns[0]?.key || '');
+  const [sortedColumn, setDataSort] = useState<string>(initialOrder || columns[0]?.key || '');
   const [term, setTerm] = useState<string>('');
   const [contextMenu, setContextMenu] = useState<ContextMenuState>({
     visible: false,

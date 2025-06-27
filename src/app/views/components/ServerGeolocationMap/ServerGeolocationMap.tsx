@@ -73,7 +73,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
   const [locationMetrics, setLocationMetrics] = useState<any[]>([]);
-  const [selectedProjection, setSelectedProjection] = useState('naturalEarth1');
+  const [selectedProjection, setSelectedProjection] = useState('orthographicInteractive');
   const [rotation, setRotation] = useState<[number, number]>([0, 0]);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<[number, number] | null>(null);
@@ -295,7 +295,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     }
     
     const metrics = MetricsService.getCountryMetrics(networkData, resourceType);
-    setLocationMetrics(metrics);
+    
+    // Transform data to match table structure - flatten the objects
+    const transformedMetrics = metrics.map((metric: any) => ({
+      location: metric, // This contains the full object for the LocationItem component
+      count: metric.count, // Direct access for sorting
+      percentage: metric.percentage, // Direct access for sorting
+      country: metric.country, // Keep for LocationItem
+      countryCode: metric.countryCode, // Keep for LocationItem
+    }));
+    
+    setLocationMetrics(transformedMetrics);
   }, [networkData, resourceType]);
 
   // Load world topology data
@@ -840,7 +850,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
             columns={locationColumns}
             rows={locationMetrics}
             showRows={!isLoading}
-            initialSort={Sort.asc}
+            initialSort={Sort.desc}
+            initialOrder="count"
           />
         </div>
       </div>
