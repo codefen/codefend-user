@@ -1,48 +1,60 @@
 .server-geolocation-map {
   .header {
-    display: flex;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 1rem;
     
-    h3 {
-      margin: 0;
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-    
-    .map-controls {
+    .title-section {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       
-      .projection-selector {
-        padding: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: white;
-        font-size: 0.9rem;
-        cursor: pointer;
+      .view-tabs {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
         
-        &:focus {
-          outline: none;
-          border-color: #007bff;
-          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        .divider {
+          color: #666;
+          font-weight: normal;
+          margin: 0 0.25rem;
+        }
+        
+        button {
+          background: none;
+          border: none;
+          color: #666;
+          font-size: 1rem;
+          font-family: satoshi;
+          font-weight: bold;
+          cursor: pointer;
+          padding: 0.25rem 0.5rem;
+          transition: color 0.2s ease;
+          text-transform: uppercase;
+          
+          &:hover {
+            color: var(--secondary-color-100);
+            text-decoration: underline;
+          }
+          
+          &.active {
+            color: var(--secondary-color-100);
+            text-decoration: underline;
+          }
         }
       }
-      
-      .server-count {
-        font-size: 0.9rem;
-        color: #666;
-        font-weight: 500;
-      }
+    }
+    
+    .server-count {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 500;
     }
   }
   
   .content {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0;
   }
   
   .map-container {
@@ -54,6 +66,8 @@
     &.interactive-globe {
       user-select: none; // Prevent text selection during drag
       position: relative;
+      height: 360px; // Fixed height for 3D globe
+      overflow: hidden; // Hide overflow so globe can be larger than container
       
       &::before {
         content: '';
@@ -88,6 +102,7 @@
         border-radius: 0;
         background: transparent;
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        // Removed CSS transition - now using JavaScript animation for smoother control
       }
       
       .country {
