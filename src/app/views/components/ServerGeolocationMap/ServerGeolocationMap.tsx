@@ -62,8 +62,11 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [worldData, setWorldData] = useState<any>(null);
   const [isWorldLoading, setIsWorldLoading] = useState(true);
-  const [dimensions, setDimensions] = useState({ width: 400, height: 280 });
+  const [dimensions, setDimensions] = useState({ width: 400, height: 400 });
   const [locationMetrics, setLocationMetrics] = useState<any[]>([]);
+  const [rotation, setRotation] = useState<[number, number]>([0, 0]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState<[number, number] | null>(null);
 
   // Process data to count servers by country
   const countryData = useMemo(() => {
@@ -174,12 +177,10 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         
-        // Calculate height based on aspect ratio for world map (roughly 2:1)
-        const aspectRatio = 0.6; // Height is 60% of width for better world map proportions
-        const width = Math.max(300, containerWidth);
-        const height = Math.max(180, width * aspectRatio);
+        // For globe, we want a square aspect ratio
+        const size = Math.min(Math.max(350, containerWidth), 500);
         
-        setDimensions({ width, height });
+        setDimensions({ width: size, height: size });
       }
     };
 
@@ -206,6 +207,51 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     };
   }, []);
 
+  // Mouse event handlers for rotation
+  const handleMouseDown = (event: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart([event.clientX, event.clientY]);
+    event.preventDefault();
+  };
+
+  const handleMouseMove = (event: React.MouseEvent) => {
+    if (!isDragging || !dragStart) return;
+
+    const sensitivity = 0.5;
+    const deltaX = (event.clientX - dragStart[0]) * sensitivity;
+    const deltaY = (event.clientY - dragStart[1]) * sensitivity;
+
+    setRotation(([lambda, phi]) => [
+      lambda + deltaX, // Drag left = rotate left, drag right = rotate right
+      phi - deltaY     // Drag up = rotate up, drag down = rotate down
+    ]);
+
+    setDragStart([event.clientX, event.clientY]);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setDragStart(null);
+  };
+
+  // Add global mouse up listener
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+      setDragStart(null);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+      document.addEventListener('mouseleave', handleGlobalMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('mouseleave', handleGlobalMouseUp);
+    };
+  }, [isDragging]);
+
   useEffect(() => {
     if (!svgRef.current || !worldData || isWorldLoading) return;
 
@@ -216,32 +262,76 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     
     svg.attr('width', width).attr('height', height);
 
-    // Custom color scale with specific red for maximum
-    const colorScale = d3.scaleSequential()
-      .domain([0, maxCount])
-      .interpolator((t) => {
-        if (t === 0) return '#d4d4d4'; // Darker gray for better contrast
-        // Interpolate from light red to #ff3939
-        const lightRed = d3.rgb(255, 200, 200);
-        const darkRed = d3.rgb(255, 57, 57); // #ff3939
-        return d3.interpolateRgb(lightRed, darkRed)(t);
-      });
-
-    // Create projection - scale based on container dimensions
-    const scale = Math.min(width / 5.5, height / 3.5); // Optimized scaling for better fit
-    const projection = d3.geoNaturalEarth1()
-      .scale(scale)
-      .translate([width / 2, height / 2]);
+    // Create 3D orthographic projection for globe effect
+    const radius = Math.min(width, height) / 2 - 20;
+    const projection = d3.geoOrthographic()
+      .scale(radius)
+      .translate([width / 2, height / 2])
+      .rotate(rotation)
+      .clipAngle(90);
 
     const path = d3.geoPath().projection(projection);
 
-    // Draw countries directly from GeoJSON
-    svg.selectAll('path')
+    // Add gradient definitions for 3D effect
+    const defs = svg.append('defs');
+    
+    // Sphere gradient for 3D effect - almost white water
+    const sphereGradient = defs.append('radialGradient')
+      .attr('id', 'sphere-gradient')
+      .attr('cx', '30%')
+      .attr('cy', '30%');
+    
+    sphereGradient.append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', '#ffffff')
+      .attr('stop-opacity', 1);
+    
+    sphereGradient.append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', '#f8f9fa')
+      .attr('stop-opacity', 1);
+
+    // Add sphere background first
+    svg.append('circle')
+      .attr('cx', width / 2)
+      .attr('cy', height / 2)
+      .attr('r', radius)
+      .attr('fill', 'url(#sphere-gradient)')
+      .attr('stroke', '#e5e7eb')
+      .attr('stroke-width', 1);
+
+    // Custom color scale with light greys and reds
+    const colorScale = d3.scaleSequential()
+      .domain([0, maxCount])
+      .interpolator((t) => {
+        if (t === 0) return '#eeeeee'; // Light grey (#eee) for countries with no data
+        // Interpolate from light grey through light red to #ff3939
+        if (t < 0.3) {
+          // Light grey to light red transition
+          const grey = d3.rgb(238, 238, 238); // #eeeeee
+          const lightRed = d3.rgb(255, 200, 200);
+          return d3.interpolateRgb(grey, lightRed)(t / 0.3);
+        } else {
+          // Light red to dark red transition
+          const lightRed = d3.rgb(255, 200, 200);
+          const darkRed = d3.rgb(255, 57, 57); // #ff3939
+          return d3.interpolateRgb(lightRed, darkRed)((t - 0.3) / 0.7);
+        }
+      });
+
+    // Draw countries
+    svg.selectAll('path.country')
       .data(worldData.features)
       .enter()
       .append('path')
+      .attr('class', 'country')
       .attr('d', path as any)
       .attr('fill', (d: any) => {
+        // Debug Netherlands specifically
+        if ((d.properties.NAME || d.properties.name || d.properties.NAME_EN || '').toLowerCase().includes('netherlands')) {
+          console.log('Netherlands found:', d.properties);
+        }
+        
         // Try multiple property names for country code
         let countryCode = (d.properties.ISO_A2 || d.properties.iso_a2)?.toLowerCase() || '';
         
@@ -276,20 +366,51 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
               'india': 'in',
               'japan': 'jp',
               'australia': 'au',
-              'south africa': 'za'
+              'south africa': 'za',
+              'netherlands': 'nl',
+              'belgium': 'be',
+              'switzerland': 'ch',
+              'austria': 'at',
+              'portugal': 'pt',
+              'poland': 'pl',
+              'czech republic': 'cz',
+              'hungary': 'hu',
+              'romania': 'ro',
+              'bulgaria': 'bg',
+              'croatia': 'hr',
+              'slovenia': 'si',
+              'slovakia': 'sk',
+              'estonia': 'ee',
+              'latvia': 'lv',
+              'lithuania': 'lt',
+              'finland': 'fi',
+              'denmark': 'dk',
+              'iceland': 'is',
+              'ireland': 'ie',
+              'greece': 'gr',
+              'turkey': 'tr',
+              'israel': 'il',
+              'singapore': 'sg',
+              'south korea': 'kr',
+              'thailand': 'th',
+              'malaysia': 'my',
+              'indonesia': 'id',
+              'philippines': 'ph',
+              'vietnam': 'vn',
+              'new zealand': 'nz'
             };
             countryCode = nameMapping[countryName] || '';
           }
         }
         
         const count = countryData[countryCode] || 0;
-        return count > 0 ? colorScale(count) : '#d4d4d4';
+        return colorScale(count);
       })
-      .attr('stroke', '#ffffff')
+      .attr('stroke', '#333333')
       .attr('stroke-width', 0.3)
-      .style('cursor', 'pointer')
+      .style('cursor', isDragging ? 'grabbing' : 'grab')
       .on('mouseover', function(event, d: any) {
-        d3.select(this).attr('stroke-width', 1);
+        d3.select(this).attr('stroke-width', 0.6);
       })
       .on('mouseout', function(event, d: any) {
         d3.select(this).attr('stroke-width', 0.3);
@@ -327,7 +448,38 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
               'india': 'in',
               'japan': 'jp',
               'australia': 'au',
-              'south africa': 'za'
+              'south africa': 'za',
+              'netherlands': 'nl',
+              'belgium': 'be',
+              'switzerland': 'ch',
+              'austria': 'at',
+              'portugal': 'pt',
+              'poland': 'pl',
+              'czech republic': 'cz',
+              'hungary': 'hu',
+              'romania': 'ro',
+              'bulgaria': 'bg',
+              'croatia': 'hr',
+              'slovenia': 'si',
+              'slovakia': 'sk',
+              'estonia': 'ee',
+              'latvia': 'lv',
+              'lithuania': 'lt',
+              'finland': 'fi',
+              'denmark': 'dk',
+              'iceland': 'is',
+              'ireland': 'ie',
+              'greece': 'gr',
+              'turkey': 'tr',
+              'israel': 'il',
+              'singapore': 'sg',
+              'south korea': 'kr',
+              'thailand': 'th',
+              'malaysia': 'my',
+              'indonesia': 'id',
+              'philippines': 'ph',
+              'vietnam': 'vn',
+              'new zealand': 'nz'
             };
             countryCode = nameMapping[countryName] || '';
           }
@@ -338,7 +490,20 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         return `${countryName}: ${count} server${count !== 1 ? 's' : ''}`;
       });
 
-  }, [worldData, countryData, maxCount, isWorldLoading, dimensions]);
+    // Add graticules (grid lines) for better 3D effect
+    const graticule = d3.geoGraticule()
+      .step([15, 15]);
+
+    svg.append('path')
+      .datum(graticule)
+      .attr('class', 'graticule')
+      .attr('d', path as any)
+      .attr('fill', 'none')
+      .attr('stroke', '#d1d5db')
+      .attr('stroke-width', 0.2)
+      .attr('opacity', 0.4);
+
+  }, [worldData, countryData, maxCount, isWorldLoading, dimensions, rotation, isDragging]);
 
   if (isWorldLoading) {
     return (
@@ -362,7 +527,15 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         <span className="server-count">{totalCount} servers</span>
       </div>
       <div className="content" ref={containerRef}>
-        <svg ref={svgRef} className="world-map-svg"></svg>
+        <div 
+          className="globe-container"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        >
+          <svg ref={svgRef} className="world-map-svg"></svg>
+        </div>
         <div className="location-table">
           <Tablev3
             columns={locationColumns}

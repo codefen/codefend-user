@@ -33,21 +33,57 @@
     justify-content: center;
     align-items: center;
     
+    .globe-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 0;
+      user-select: none; // Prevent text selection during drag
+      position: relative;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100% - 4rem);
+        height: calc(100% - 4rem);
+        border-radius: 50%;
+        box-shadow: 
+          0 0 20px rgba(74, 144, 226, 0.2),
+          inset 0 0 20px rgba(0, 0, 0, 0.1);
+        pointer-events: none;
+        z-index: -1;
+      }
+    }
+    
     .world-map-svg {
       width: 100%;
       height: auto;
       display: block;
       shape-rendering: geometricPrecision; // Better rendering quality
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
       
-      path {
-        transition: all 0.3s ease;
+      .country {
+        transition: all 0.2s ease;
         shape-rendering: geometricPrecision; // Crisp edges
         
         &:hover {
           stroke: #ff3939 !important;
-          stroke-width: 1.5 !important;
-          filter: brightness(1.1);
+          stroke-width: 1.2 !important;
+          filter: brightness(1.15);
         }
+      }
+
+      .graticule {
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      circle {
+        transition: all 0.3s ease;
       }
 
       text {
@@ -58,16 +94,16 @@
     }
 
     .world-map-loading {
-      height: 200px;
+      height: 400px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       .loading-spinner {
-        width: 24px;
-        height: 24px;
-        border: 2px solid var(--border-color);
-        border-top: 2px solid #e74c3c;
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--border-color);
+        border-top: 3px solid #4a90e2;
         border-radius: 50%;
         animation: spin 1s linear infinite;
       }
@@ -76,11 +112,43 @@
     .location-table {
       width: 100%;
       border-top: 1px solid var(--border-color);
+      margin-top: 1rem;
+      padding-top: 1rem;
     }
+  }
+}
+
+// Add subtle glow animation for active globe interaction
+.world-map-card .content .globe-container:active {
+  &::before {
+    box-shadow: 
+      0 0 30px rgba(74, 144, 226, 0.4),
+      inset 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
   }
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+// Add responsive behavior for smaller screens
+@media (max-width: 768px) {
+  .world-map-card {
+    padding: 15px 20px 20px;
+    
+    .content .globe-container {
+      padding: 0.5rem 0;
+      
+      &::before {
+        width: calc(100% - 2rem);
+        height: calc(100% - 2rem);
+      }
+    }
+    
+    .content .world-map-loading {
+      height: 300px;
+    }
+  }
 } 
