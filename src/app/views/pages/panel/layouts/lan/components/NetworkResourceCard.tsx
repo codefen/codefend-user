@@ -6,6 +6,7 @@ import './network-cards.scss';
 // Extended interface for network resources with server location data
 interface NetworkDevice extends Device {
   all_found_domains?: string;
+  all_found_domains_value?: string;
   server_pais?: string;
   server_pais_code?: string;
   server_pais_provincia?: string;
@@ -73,16 +74,9 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
   const domains = parseDomains(resource.all_found_domains || '');
   const hasSubNetwork = !!resource.resource_lan_dad;
 
-  // Get country flag emoji
-  const getCountryFlag = (countryCode: string): string => {
-    if (!countryCode || countryCode.length !== 2) return '🌍';
-    
-    const codePoints = countryCode
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt(0));
-    
-    return String.fromCodePoint(...codePoints);
+  // Check if country code is valid for flag display
+  const hasValidCountryCode = (countryCode: string | undefined): boolean => {
+    return Boolean(countryCode && countryCode.length === 2);
   };
 
   const formatLocation = () => {
@@ -110,10 +104,14 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
       <div className="card-header">
         <div className="server-info">
           <span className="server-ip">
-            Server IP: {resource.device_ex_address || resource.device_in_address || 'N/A'}
+            <strong>Server IP:</strong> {resource.device_ex_address || resource.device_in_address || 'N/A'}
           </span>
           <span className="country-flag">
-            {getCountryFlag(resource.server_pais_code || '')}
+            {hasValidCountryCode(resource.server_pais_code) ? (
+              <span className={`flag flag-${resource.server_pais_code?.toLowerCase?.()}`}></span>
+            ) : (
+              <span>🌍</span>
+            )}
           </span>
         </div>
         
@@ -130,7 +128,12 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
 
       {/* Found Web Apps */}
       <div className="found-apps">
-        <div className="apps-title">Found web apps:</div>
+        <div className="apps-title">
+          {resource.all_found_domains_value 
+            ? `${resource.all_found_domains_value} domains resolve here:` 
+            : 'Found web apps:'
+          }
+        </div>
         {domains.length > 0 ? (
           <ul className="apps-list">
             {domains.map((domain, index) => (
