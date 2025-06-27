@@ -69,7 +69,19 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const countryData = useMemo(() => {
     const counts: Record<string, number> = {};
     
-    data.forEach((resource) => {
+    // For web resources, we need to flatten the data to include both parents and children
+    let processedData = data;
+    if (resourceType === RESOURCE_CLASS.WEB) {
+      const resourceFlat = data
+        .reduce((acc: any, resource: any) => {
+          if (!resource.childs) return acc;
+          return acc.concat(resource.childs);
+        }, [])
+        .concat(data);
+      processedData = resourceFlat;
+    }
+    
+    processedData.forEach((resource) => {
       let countryCode = resource.server_pais_code?.toLowerCase();
       
       // Normalize common variations
@@ -105,12 +117,23 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     });
     
     return counts;
-  }, [data]);
+  }, [data, resourceType]);
 
   // Get max count for color scaling
   const maxCount = useMemo(() => {
     return Math.max(...Object.values(countryData), 1);
   }, [countryData]);
+
+  // Calculate total count including children for web resources
+  const totalCount = useMemo(() => {
+    if (resourceType === RESOURCE_CLASS.WEB) {
+      const childCount = data.reduce((acc: number, resource: any) => {
+        return acc + (resource.childs ? resource.childs.length : 0);
+      }, 0);
+      return data.length + childCount;
+    }
+    return data.length;
+  }, [data, resourceType]);
 
   // Calculate location metrics for the table
   useEffect(() => {
@@ -336,7 +359,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     <div className="card server-geolocation-map-card">
       <div className="header">
         <h3>{title}</h3>
-        <span className="server-count">{data.length} servers</span>
+        <span className="server-count">{totalCount} servers</span>
       </div>
       <div className="content" ref={containerRef}>
         <svg ref={svgRef} className="world-map-svg"></svg>
