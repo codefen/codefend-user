@@ -1,6 +1,7 @@
 import { type FC, useEffect } from 'react';
 import { useLan } from '@resourcesHooks/network/useLan.ts';
 import { LanNetworkData } from './components/NetworkData.tsx';
+import { CardsResourcesWan } from './components/CardsResourcesWan.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
@@ -49,10 +50,18 @@ const NetworkPage: FC = () => {
       {/* <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div> */}
       <section className="left">
-        <LanNetworkData
+        {/* Commented out old table view */}
+        {/* <LanNetworkData
           isLoading={isLoading}
           refetchInternalNetwork={refetch}
           internalNetwork={networks}
+        /> */}
+        
+        {/* New card-based view */}
+        <CardsResourcesWan
+          isLoading={isLoading}
+          refetchInternalNetwork={refetch}
+          internalNetwork={networks as any}
         />
       </section>
 
