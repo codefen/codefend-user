@@ -105,13 +105,12 @@ export const WorldMap: FC<WorldMapProps> = ({ networkData }) => {
   useEffect(() => {
     const updateDimensions = () => {
       if (containerRef.current) {
-        const containerRect = containerRef.current.getBoundingClientRect();
-        const containerWidth = containerRect.width;
-        const containerHeight = containerRect.height;
+        const containerWidth = containerRef.current.offsetWidth;
         
-        // Use actual container dimensions, with minimum values for safety
+        // Calculate height based on aspect ratio for world map (roughly 2:1)
+        const aspectRatio = 0.6; // Height is 60% of width for better world map proportions
         const width = Math.max(300, containerWidth);
-        const height = Math.max(200, containerHeight);
+        const height = Math.max(180, width * aspectRatio);
         
         setDimensions({ width, height });
       }
