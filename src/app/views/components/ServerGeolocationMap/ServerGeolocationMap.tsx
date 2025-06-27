@@ -214,21 +214,21 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     'New Zealand': [174.0, -41.0],
   };
 
-  // Function to lighten color by percentage
+  // ============================================
+  // 🎨 COLORES DEL MAPA 2D - EDITAR AQUÍ
+  // ============================================
+  // 🔹 COLOR: Países sin datos (gris muy claro)
+  // 🔹 COLOR: País #1 con más servidores (rojo base)
+  // 🔹 DISTANCIA: 0%, 20%, 40%, 60%, etc.
+  // ============================================
   const lightenColor = (color: string, percentage: number) => {
-    const rgb = d3.rgb(color);
-    const factor = 1 + percentage / 100;
-    return d3
-      .rgb(
-        Math.min(255, rgb.r * factor),
-        Math.min(255, rgb.g * factor),
-        Math.min(255, rgb.b * factor)
-      )
-      .toString();
+    const color_rgb = d3.rgb(color);
+    const white = d3.rgb(255, 255, 255);
+    return d3.interpolateRgb(color_rgb, white)(percentage / 100);
   };
 
   // ============================================
-  // 🎨 COLORES DEL MAPA 2D - EDITAR AQUÍ
+  // 🎨 FUNCIÓN DE COLORES POR RANKING - EDITAR AQUÍ
   // ============================================
   // Get color for a country based on its ranking
   const getCountryColor = (countryName: string) => {
@@ -241,16 +241,23 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     const rank = countryRanking[countryName];
     if (!rank) return '#eee';
 
-    const baseColor = '#ff3939'; // 🔹 COLOR: País #1 con más servidores (rojo base)
-    const lightenPercentage = (rank - 1) * 60; // 🔹 DISTANCIA: 0%, 20%, 40%, 60%, etc.
+    if (rank === 1) {
+      return '#ff3939'; // 🔹 COLOR: País #1 con más servidores (rojo base)
+    }
 
-    return lightenColor(baseColor, lightenPercentage);
+    // Calculate lightening percentage based on rank
+    // 🔹 DISTANCIA: 0%, 60%, 120%, 180%, etc. (incrementos de 60%)
+    const lightenPercentage = (rank - 1) * 60;
+    return lightenColor('#ff3939', lightenPercentage);
   };
   // ============================================
 
   // Function to smoothly interpolate between two rotation positions
   const smoothRotateTo = (targetCoords: [number, number], duration: number = 2000) => {
-    if (isTransitioning) return; // Prevent overlapping transitions
+    // CRITICAL: Do not start automatic transitions if user is in control
+    if (isTransitioning || isDragging || userHasInteracted) {
+      return; // User has control - do not interfere with automatic transitions
+    }
 
     setIsTransitioning(true);
     const startRotation = rotation;
@@ -266,6 +273,12 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     const startTime = Date.now();
 
     const animate = () => {
+      // CRITICAL: Stop animation immediately if user takes control
+      if (isDragging || userHasInteracted) {
+        setIsTransitioning(false);
+        return; // User has taken control - abort automatic animation
+      }
+
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
@@ -452,7 +465,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     } else if (selectedProjection === 'orthographicInteractive') {
       // Interactive 3D globe with rotation - larger scale to fill and overflow container
       const baseRadius = Math.min(width, height) / 2;
-      const radius = baseRadius * 1.8; // Make globe 80% larger so it overflows the container
+      const radius = baseRadius * 1.98; // Make globe 98% larger so it overflows the container (increased 10%)
       projection = projectionConfig
         .projection()
         .scale(radius)
@@ -473,6 +486,10 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
     // ============================================
     // 🌍 COLORES DEL GLOBO 3D - EDITAR AQUÍ
+    // ============================================
+    // 🔹 COLOR: Centro del océano (blanco)
+    // 🔹 COLOR: Bordes del océano (gris muy claro)
+    // 🔹 COLOR: Borde del globo (gris claro)
     // ============================================
     // Add special 3D effects for interactive globe
     if (selectedProjection === 'orthographicInteractive') {
@@ -500,7 +517,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
       // Add sphere background
       const baseRadius = Math.min(width, height) / 2;
-      const radius = baseRadius * 1.8; // Match the projection scale
+      const radius = baseRadius * 1.98; // Match the projection scale (increased 10%)
       svg
         .append('circle')
         .attr('cx', width / 2)
@@ -531,13 +548,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         return getCountryColor(normalizedName);
       })
       // ============================================
-      // 🎨 BORDES DE PAÍSES - EDITAR AQUÍ
+      // 🌎 BORDES DE PAÍSES - EDITAR AQUÍ
       // ============================================
-      .attr('stroke', '#ccc') // 🔹 COLOR: Bordes de países (blanco)
-      .attr('stroke-width', 0.2) // 🔹 GROSOR: Bordes de países (0.5px)
+      // 🔹 COLOR: Bordes de países (gris claro)
+      // 🔹 GROSOR: Bordes de países (0.2px)
+      // 🔹 GROSOR: Al hacer hover (0.5px)
+      // ============================================
+      .attr('stroke', '#ccc') // 🔹 COLOR: Bordes de países (gris claro)
+      .attr('stroke-width', 0.2) // 🔹 GROSOR: Bordes de países (0.2px)
       // ============================================
       .on('mouseover', function (event, d: any) {
-        d3.select(this).attr('stroke-width', 0.5); // 🔹 GROSOR al hacer hover (1px)
+        d3.select(this).attr('stroke-width', 0.5); // 🔹 GROSOR al hacer hover (0.5px)
       })
       .on('mouseout', function (event, d: any) {
         d3.select(this).attr('stroke-width', 0.5); // 🔹 GROSOR normal (0.5px)
@@ -558,6 +579,14 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         return `${countryFullName}: ${count} servidor${count !== 1 ? 'es' : ''} (Ranking #${rank})`;
       });
 
+    // ============================================
+    // 🗺️ LÍNEAS DE GRILLA (MERIDIANOS/PARALELOS) - EDITAR AQUÍ
+    // ============================================
+    // 🔹 COLOR 3D: Líneas blancas para globo 3D
+    // 🔹 COLOR 2D: Líneas grises para mapa 2D
+    // 🔹 GROSOR: 0.3px para 3D, 0.5px para 2D
+    // 🔹 OPACIDAD: 0.3 para ambos modos
+    // ============================================
     // Add graticules (grid lines) for better visual reference
     const graticule = d3
       .geoGraticule()
@@ -569,9 +598,10 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('class', 'graticule')
       .attr('d', path as any)
       .attr('fill', 'none')
-      .attr('stroke', selectedProjection === 'orthographicInteractive' ? '#ffffff' : '#e0e0e0')
-      .attr('stroke-width', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.5)
-      .attr('opacity', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.3);
+      .attr('stroke', selectedProjection === 'orthographicInteractive' ? '#ffffff' : '#e0e0e0') // 🔹 COLOR: Blanco para 3D, gris para 2D
+      .attr('stroke-width', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.5) // 🔹 GROSOR: 0.3px para 3D, 0.5px para 2D
+      .attr('opacity', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.3); // 🔹 OPACIDAD: 0.3 para ambos
+    // ============================================
   }, [
     worldData,
     countryData,
@@ -589,17 +619,23 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       return;
     }
 
-    // Initialize position to first country (highest servers)
-    if (!isAutoRotating && countriesWithServers.length > 0) {
+    // Initialize position to first country ONLY on first load (not after user interaction)
+    if (!isAutoRotating && !userHasInteracted && countriesWithServers.length > 0) {
       const firstCountry = countriesWithServers[0];
       const coords = countryCoordinates[firstCountry.name];
       if (coords) {
-        // Start with a smooth transition to the first country
+        // Start with a smooth transition to the first country (initial load only)
         setTimeout(() => {
           smoothRotateTo(coords, 1500); // Initial smooth transition
           setIsAutoRotating(true);
         }, 500); // Small delay to ensure everything is loaded
       }
+    }
+
+    // Resume auto-rotation after user interaction timeout - start from current position
+    if (!isAutoRotating && !userHasInteracted && countriesWithServers.length > 0) {
+      // User interaction timeout has expired, resume auto-rotation from current position
+      setIsAutoRotating(true);
     }
 
     // Set up auto-rotation timer - only if auto-rotation is active and user hasn't interacted
@@ -608,7 +644,10 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     }
 
     const interval = setInterval(() => {
-      if (isDragging || isTransitioning || userHasInteracted) return; // Don't auto-rotate while user is dragging, transitioning, or has interacted
+      // STRICT CHECK: If user is dragging or has interacted, DO NOT auto-rotate
+      if (isDragging || isTransitioning || userHasInteracted) {
+        return; // User has control - do not interfere
+      }
 
       setAutoRotateIndex(prevIndex => {
         const nextIndex = (prevIndex + 1) % countriesWithServers.length;
@@ -616,8 +655,10 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         const coords = countryCoordinates[nextCountry.name];
 
         if (coords) {
-          // Smooth transition to next country
-          smoothRotateTo(coords, 2000); // 2 second smooth transition
+          // Only proceed if user is still not interacting
+          if (!isDragging && !userHasInteracted) {
+            smoothRotateTo(coords, 2000); // 2 second smooth transition
+          }
         }
 
         return nextIndex;
@@ -641,7 +682,11 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     if (selectedProjection === 'orthographicInteractive') {
       setAutoRotateIndex(0);
       setIsAutoRotating(false);
-      setUserHasInteracted(false);
+      // Only reset userHasInteracted if this is a fresh switch to 3D
+      // (not if user is already in 3D and has been interacting)
+      if (!userHasInteracted) {
+        setUserHasInteracted(false);
+      }
 
       // Clear any existing resume timeout
       if (resumeTimeoutId) {
@@ -660,13 +705,15 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   // Mouse event handlers for rotation (only used with interactive 3D globe)
   const handleMouseDown = (event: React.MouseEvent) => {
     if (selectedProjection !== 'orthographicInteractive') return;
+
+    // IMMEDIATELY take full control - suspend ALL automatic behaviors
     setIsDragging(true);
     setDragStart([event.clientX, event.clientY]);
-    setIsAutoRotating(false); // Pause auto-rotation when user starts dragging
-    setIsTransitioning(false); // Stop any ongoing transition
-    setUserHasInteracted(true); // Mark that user has interacted
+    setIsAutoRotating(false); // Stop auto-rotation completely
+    setIsTransitioning(false); // Stop any ongoing smooth transitions
+    setUserHasInteracted(true); // Mark that user has taken control
 
-    // Clear any existing resume timeout
+    // Clear any existing resume timeout - user is now in control
     if (resumeTimeoutId) {
       clearTimeout(resumeTimeoutId);
       setResumeTimeoutId(null);
@@ -678,13 +725,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const handleMouseMove = (event: React.MouseEvent) => {
     if (!isDragging || !dragStart || selectedProjection !== 'orthographicInteractive') return;
 
+    // User has full control - ensure no automatic behaviors interfere
+    setIsAutoRotating(false);
+    setIsTransitioning(false);
+
     const sensitivity = 0.5;
     const deltaX = (event.clientX - dragStart[0]) * sensitivity;
     const deltaY = (event.clientY - dragStart[1]) * sensitivity;
 
     setRotation(([lambda, phi]) => [
-      lambda + deltaX, // Drag left = rotate left, drag right = rotate right
-      phi - deltaY, // Drag up = rotate up, drag down = rotate down
+      lambda - deltaX, // Drag right = rotate west (decrease lambda), drag left = rotate east (increase lambda)
+      phi + deltaY, // Drag down = rotate north (increase phi), drag up = rotate south (decrease phi)
     ]);
 
     setDragStart([event.clientX, event.clientY]);
@@ -699,14 +750,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       clearTimeout(resumeTimeoutId);
     }
 
-    // Resume auto-rotation after 5 seconds of no interaction
+    // IMPORTANT: Globe stays exactly where user left it for 15 seconds
+    // Only after 15 seconds of inactivity, resume auto-rotation
     const timeoutId = setTimeout(() => {
       if (selectedProjection === 'orthographicInteractive') {
+        // Reset user interaction flag - this allows auto-rotation to resume
         setUserHasInteracted(false);
-        setIsAutoRotating(true);
+        // Note: We don't immediately start auto-rotation here
+        // The auto-rotation effect will handle starting it naturally
         setResumeTimeoutId(null);
       }
-    }, 5000);
+    }, 15000); // 15 seconds - globe stays where user left it
 
     setResumeTimeoutId(timeoutId);
   };
