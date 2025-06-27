@@ -30,9 +30,7 @@ export const UserQr = () => {
     <div className="card">
       <div className="over">
         <div className="header">
-          <div className="table-title">
-            <h2>Two-factor authentication</h2>
-          </div>
+          <h2 className="table-title">Two-factor authentication</h2>
         </div>
         <UserMfaText isDisabledMFA={isDisabledMFA} />
         <div className="qr-contain">
@@ -45,6 +43,7 @@ export const UserQr = () => {
                   isDisabled={isLoading}
                   text="validate and confirm two-factor"
                   type="submit"
+                  buttonStyle="send"
                 />
               )}
             </UserMfaForm>
@@ -65,7 +64,7 @@ export const UserQr = () => {
               <PrimaryButton
                 text="Disable two-factor authentication"
                 buttonStyle="red"
-                className="full disabled-btn"
+                className="form-button disabled-btn"
               />
             </>
           )}

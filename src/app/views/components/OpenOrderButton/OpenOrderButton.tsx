@@ -21,7 +21,7 @@ interface OpenOrderButtonProps {
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.WEB]: ({ total, plan }: any) => (
     <>
-      Your web scope has a total of <strong>{total}</strong> resources, Codefend recommends a{' '}
+      Comencemos ahora un nuevo pentest! Nuestros sistemas han detectado un total de <b>{total} recursos web!</b> Si deseas realizar un pentest sobre todos estos recursos, desde Codefend recomendamos un{' '}
       <b>{plan} plan</b>.
     </>
   ),
@@ -70,7 +70,7 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
 // };
 
 export const titleMap = {
-  [ResourcesTypes.WEB]: 'Start a web application pentest',
+  [ResourcesTypes.WEB]: 'Comencemos ahora un nuevo pentest!',
   [ResourcesTypes.MOBILE]: 'Start dedicated testing',
   [ResourcesTypes.CLOUD]: 'Analyze your cloud software',
   [ResourcesTypes.CODE]: 'Analyze your code',

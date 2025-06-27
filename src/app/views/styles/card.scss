@@ -51,16 +51,10 @@
     height: 2.5rem;
     display: flex;
     align-items: center;
-    font-family: Questrial;
-    font-weight: normal;
-    font-size: 1.1rem;
-    // line-height: 13px;
-    // text-transform: uppercase;
-    // border-bottom: 1px solid var(--primary-color-300);
-    // background-position: var(--primary-color-200);
+    font-family: Satoshi;
+    font-weight: bold;
+    font-size: 16px;
     color: var(--tertiary-color-600);
-    // background-color: #f8f8f8;
-    // padding-inline: 1.25rem;
 
     svg,
     img {
@@ -174,6 +168,9 @@
 
     b {
       color: var(--secondary-color-100);
+      background: #fff0f0;
+      padding: 3px 3px;
+      font-weight: bold;
     }
   }
 

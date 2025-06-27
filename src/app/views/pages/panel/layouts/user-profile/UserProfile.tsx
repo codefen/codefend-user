@@ -1,5 +1,4 @@
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import { UserProfilePageHeader } from './component/UserProfilePageHeader';
 import { UserPassword } from './component/UserPassword';
 import { UserQr } from './component/UserQr';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
@@ -24,8 +23,17 @@ export const UserProfilePage = () => {
   return (
     <main className={`user-profile ${showScreen ? 'actived' : ''}`}>
       <section className="left">
-        <UserProfilePageHeader />
-        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
+        <div className="card rectangle">
+          <div className="over">
+            <div className="header-content">
+              <h2>User profile</h2>
+              <p>
+                Here you can update your password. We recommend storing it with KeePass. You can also
+                enable two-factor authentication to improve your account security.
+              </p>
+            </div>
+          </div>
+        </div>
         <div className="box-assets">
           <UserPassword />
           <UserQr />
