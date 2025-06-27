@@ -31,7 +31,6 @@ interface ServerGeolocationMapProps {
 // Available projections for comparison
 const PROJECTIONS = [
   { id: 'naturalEarth1', name: 'Natural Earth', projection: d3.geoNaturalEarth1 },
-  { id: 'mercator', name: 'Mercator', projection: d3.geoMercator },
   { id: 'orthographicInteractive', name: 'Interactive 3D Globe', projection: d3.geoOrthographic },
 ];
 
