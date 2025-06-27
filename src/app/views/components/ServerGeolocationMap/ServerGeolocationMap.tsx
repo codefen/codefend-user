@@ -62,10 +62,10 @@ const locationColumns: ColumnTableV3[] = [
   },
 ];
 
-export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({ 
-  networkData, 
-  resourceType = RESOURCE_CLASS.NETWORK, 
-  title = "Server Geolocation Distribution" 
+export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
+  networkData,
+  resourceType = RESOURCE_CLASS.NETWORK,
+  title = 'Server Geolocation Distribution',
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -86,51 +86,51 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   // Process data to count servers by country
   const countryData = useMemo(() => {
     const counts: Record<string, number> = {};
-    
-    console.log('=== DEBUG: Procesando datos de países ===');
-    
+
+    // console.log('=== DEBUG: Procesando datos de países ===');
+
     networkData.forEach((device, index) => {
       // Usar el nombre completo del país en lugar del código
       let countryName = device.server_pais?.trim();
-      
+
       // Log de los primeros 10 dispositivos para ver la estructura
-      if (index < 10) {
-        console.log(`Dispositivo ${index}:`, {
-          server_pais: device.server_pais,
-          server_pais_code: device.server_pais_code,
-          countryName_procesado: countryName
-        });
-      }
-      
+      // if (index < 10) {
+      //   console.log(`Dispositivo ${index}:`, {
+      //     server_pais: device.server_pais,
+      //     server_pais_code: device.server_pais_code,
+      //     countryName_procesado: countryName,
+      //   });
+      // }
+
       // Normalizar nombres de países para que coincidan con el GeoJSON
       const nameMapping: Record<string, string> = {
         'United States': 'USA',
-        'US': 'USA',
-        'Netherlands': 'Netherlands',
-        'Holland': 'Netherlands',
-        'Australia': 'Australia',
-        'Canada': 'Canada',
-        'Argentina': 'Argentina',
-        'Brazil': 'Brazil',
-        'Brasil': 'Brazil',
+        US: 'USA',
+        Netherlands: 'Netherlands',
+        Holland: 'Netherlands',
+        Australia: 'Australia',
+        Canada: 'Canada',
+        Argentina: 'Argentina',
+        Brazil: 'Brazil',
+        Brasil: 'Brazil',
         'United Kingdom': 'United Kingdom',
-        'UK': 'United Kingdom',
-        'Great Britain': 'United Kingdom'
+        UK: 'United Kingdom',
+        'Great Britain': 'United Kingdom',
       };
-      
+
       // Intentar mapear el nombre
       if (countryName && nameMapping[countryName]) {
         countryName = nameMapping[countryName];
       }
-      
+
       if (countryName && countryName !== 'unknown') {
         counts[countryName] = (counts[countryName] || 0) + 1;
       }
     });
-    
-    console.log('=== DEBUG: Conteos finales por país (usando nombres) ===');
-    console.log(counts);
-    
+
+    // console.log('=== DEBUG: Conteos finales por país (usando nombres) ===');
+    // console.log(counts);
+
     return counts;
   }, [networkData]);
 
@@ -145,13 +145,13 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     const sortedCountries = Object.entries(countryData)
       .filter(([_, count]) => count > 0)
       .sort(([, a], [, b]) => b - a);
-    
+
     // Create ranking map
     const ranking: Record<string, number> = {};
     sortedCountries.forEach(([countryName], index) => {
       ranking[countryName] = index + 1; // 1-based ranking
     });
-    
+
     return ranking;
   }, [countryData]);
 
@@ -165,64 +165,66 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
   // Coordenadas geográficas para países (longitud, latitud)
   const countryCoordinates: Record<string, [number, number]> = {
-    'Argentina': [-64.0, -34.0],
-    'USA': [-95.0, 39.0],
-    'Canada': [-106.0, 60.0],
-    'Netherlands': [5.75, 52.5],
-    'Australia': [133.0, -27.0],
-    'Brazil': [-55.0, -10.0],
+    Argentina: [-64.0, -34.0],
+    USA: [-95.0, 39.0],
+    Canada: [-106.0, 60.0],
+    Netherlands: [5.75, 52.5],
+    Australia: [133.0, -27.0],
+    Brazil: [-55.0, -10.0],
     'United Kingdom': [-2.0, 54.0],
-    'France': [2.0, 46.0],
-    'Germany': [9.0, 51.0],
-    'Spain': [-4.0, 40.0],
-    'Italy': [12.0, 42.0],
-    'Russia': [105.0, 61.0],
-    'China': [104.0, 35.0],
-    'India': [78.0, 20.0],
-    'Japan': [138.0, 36.0],
+    France: [2.0, 46.0],
+    Germany: [9.0, 51.0],
+    Spain: [-4.0, 40.0],
+    Italy: [12.0, 42.0],
+    Russia: [105.0, 61.0],
+    China: [104.0, 35.0],
+    India: [78.0, 20.0],
+    Japan: [138.0, 36.0],
     'South Africa': [22.0, -31.0],
-    'Mexico': [-102.0, 23.0],
-    'Belgium': [4.5, 50.8],
-    'Switzerland': [8.2, 46.8],
-    'Austria': [14.5, 47.5],
-    'Portugal': [-8.0, 39.5],
-    'Poland': [19.0, 52.0],
+    Mexico: [-102.0, 23.0],
+    Belgium: [4.5, 50.8],
+    Switzerland: [8.2, 46.8],
+    Austria: [14.5, 47.5],
+    Portugal: [-8.0, 39.5],
+    Poland: [19.0, 52.0],
     'Czech Republic': [15.5, 49.75],
-    'Hungary': [20.0, 47.0],
-    'Romania': [25.0, 46.0],
-    'Bulgaria': [25.0, 43.0],
-    'Croatia': [15.5, 45.0],
-    'Slovenia': [14.5, 46.0],
-    'Slovakia': [19.5, 48.7],
-    'Estonia': [26.0, 59.0],
-    'Latvia': [25.0, 57.0],
-    'Lithuania': [24.0, 56.0],
-    'Finland': [26.0, 64.0],
-    'Denmark': [10.0, 56.0],
-    'Iceland': [-18.0, 65.0],
-    'Ireland': [-8.0, 53.0],
-    'Greece': [22.0, 39.0],
-    'Turkey': [35.0, 39.0],
-    'Israel': [34.8, 31.0],
-    'Singapore': [103.8, 1.3],
+    Hungary: [20.0, 47.0],
+    Romania: [25.0, 46.0],
+    Bulgaria: [25.0, 43.0],
+    Croatia: [15.5, 45.0],
+    Slovenia: [14.5, 46.0],
+    Slovakia: [19.5, 48.7],
+    Estonia: [26.0, 59.0],
+    Latvia: [25.0, 57.0],
+    Lithuania: [24.0, 56.0],
+    Finland: [26.0, 64.0],
+    Denmark: [10.0, 56.0],
+    Iceland: [-18.0, 65.0],
+    Ireland: [-8.0, 53.0],
+    Greece: [22.0, 39.0],
+    Turkey: [35.0, 39.0],
+    Israel: [34.8, 31.0],
+    Singapore: [103.8, 1.3],
     'South Korea': [128.0, 36.0],
-    'Thailand': [100.0, 15.0],
-    'Malaysia': [112.0, 2.5],
-    'Indonesia': [113.0, -0.8],
-    'Philippines': [122.0, 13.0],
-    'Vietnam': [108.0, 14.0],
-    'New Zealand': [174.0, -41.0]
+    Thailand: [100.0, 15.0],
+    Malaysia: [112.0, 2.5],
+    Indonesia: [113.0, -0.8],
+    Philippines: [122.0, 13.0],
+    Vietnam: [108.0, 14.0],
+    'New Zealand': [174.0, -41.0],
   };
 
   // Function to lighten color by percentage
   const lightenColor = (color: string, percentage: number) => {
     const rgb = d3.rgb(color);
-    const factor = 1 + (percentage / 100);
-    return d3.rgb(
-      Math.min(255, rgb.r * factor),
-      Math.min(255, rgb.g * factor),
-      Math.min(255, rgb.b * factor)
-    ).toString();
+    const factor = 1 + percentage / 100;
+    return d3
+      .rgb(
+        Math.min(255, rgb.r * factor),
+        Math.min(255, rgb.g * factor),
+        Math.min(255, rgb.b * factor)
+      )
+      .toString();
   };
 
   // ============================================
@@ -231,17 +233,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   // Get color for a country based on its ranking
   const getCountryColor = (countryName: string) => {
     const count = countryData[countryName] || 0;
-    
+
     if (count === 0) {
       return '#eee'; // 🔹 COLOR: Países sin datos (gris muy claro)
     }
-    
+
     const rank = countryRanking[countryName];
     if (!rank) return '#eee';
-    
+
     const baseColor = '#ff3939'; // 🔹 COLOR: País #1 con más servidores (rojo base)
     const lightenPercentage = (rank - 1) * 60; // 🔹 DISTANCIA: 0%, 20%, 40%, 60%, etc.
-    
+
     return lightenColor(baseColor, lightenPercentage);
   };
   // ============================================
@@ -249,41 +251,42 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   // Function to smoothly interpolate between two rotation positions
   const smoothRotateTo = (targetCoords: [number, number], duration: number = 2000) => {
     if (isTransitioning) return; // Prevent overlapping transitions
-    
+
     setIsTransitioning(true);
     const startRotation = rotation;
     const targetRotation: [number, number] = [-targetCoords[0], -targetCoords[1]];
-    
+
     // Calculate the shortest path for longitude (handle wrapping around 180/-180)
     let deltaLon = targetRotation[0] - startRotation[0];
     if (deltaLon > 180) deltaLon -= 360;
     if (deltaLon < -180) deltaLon += 360;
-    
+
     const deltaLat = targetRotation[1] - startRotation[1];
-    
+
     const startTime = Date.now();
-    
+
     const animate = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
+
       // Use easeInOutCubic for smooth animation
-      const easeProgress = progress < 0.5 
-        ? 4 * progress * progress * progress 
-        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-      
+      const easeProgress =
+        progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
       const currentLon = startRotation[0] + deltaLon * easeProgress;
       const currentLat = startRotation[1] + deltaLat * easeProgress;
-      
+
       setRotation([currentLon, currentLat]);
-      
+
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
         setIsTransitioning(false);
       }
     };
-    
+
     requestAnimationFrame(animate);
   };
 
@@ -294,9 +297,9 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       setLocationMetrics([]);
       return;
     }
-    
+
     const metrics = MetricsService.getCountryMetrics(networkData, resourceType);
-    
+
     // Transform data to match table structure - flatten the objects
     const transformedMetrics = metrics.map((metric: any) => ({
       location: metric, // This contains the full object for the LocationItem component
@@ -305,7 +308,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       country: metric.country, // Keep for LocationItem
       countryCode: metric.countryCode, // Keep for LocationItem
     }));
-    
+
     setLocationMetrics(transformedMetrics);
   }, [networkData, resourceType]);
 
@@ -314,9 +317,11 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     const loadWorldData = async () => {
       try {
         // Use Natural Earth data for complete world coverage
-        const response = await fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
+        const response = await fetch(
+          'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson'
+        );
         const geoData = await response.json();
-        
+
         // DEBUG: Log algunos países del GeoJSON para ver la estructura
         console.log('=== DEBUG: Estructura del GeoJSON ===');
         console.log('Primeros 5 países en GeoJSON:');
@@ -326,41 +331,43 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
             ISO_A2: feature.properties.ISO_A2,
             ISO_A3: feature.properties.ISO_A3,
             name: feature.properties.name,
-            iso_a2: feature.properties.iso_a2
+            iso_a2: feature.properties.iso_a2,
           });
         });
-        
+
         // Buscar específicamente Estados Unidos y otros países importantes
-        const usFeature = geoData.features.find((f: any) => 
-          f.properties.name?.includes('United States') ||
-          f.properties.name?.includes('USA') ||
-          f.properties.name?.includes('America')
+        const usFeature = geoData.features.find(
+          (f: any) =>
+            f.properties.name?.includes('United States') ||
+            f.properties.name?.includes('USA') ||
+            f.properties.name?.includes('America')
         );
         console.log('=== DEBUG: Estados Unidos encontrado ===');
         console.log('Nombre exacto:', usFeature?.properties.name);
         console.log('Propiedades completas:', usFeature?.properties);
-        
-        const arFeature = geoData.features.find((f: any) => 
-          f.properties.NAME?.includes('Argentina') ||
-          f.properties.name?.includes('Argentina')
+
+        const arFeature = geoData.features.find(
+          (f: any) =>
+            f.properties.NAME?.includes('Argentina') || f.properties.name?.includes('Argentina')
         );
         console.log('=== DEBUG: Argentina encontrada ===');
         console.log(arFeature?.properties);
-        
-        const caFeature = geoData.features.find((f: any) => 
-          f.properties.NAME?.includes('Canada') ||
-          f.properties.name?.includes('Canada')
+
+        const caFeature = geoData.features.find(
+          (f: any) => f.properties.NAME?.includes('Canada') || f.properties.name?.includes('Canada')
         );
         console.log('=== DEBUG: Canadá encontrado ===');
         console.log(caFeature?.properties);
-        
+
         setWorldData(geoData);
         setIsLoading(false);
       } catch (error) {
         console.error('Error loading world data:', error);
         // Fallback to the previous source
         try {
-          const fallbackResponse = await fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json');
+          const fallbackResponse = await fetch(
+            'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
+          );
           const fallbackData = await fallbackResponse.json();
           setWorldData(fallbackData);
           setIsLoading(false);
@@ -379,7 +386,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     const updateDimensions = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        
+
         if (selectedProjection === 'orthographicInteractive') {
           // For 3D globe: fixed height of 360px, width matches container
           const width = Math.min(Math.max(400, containerWidth), 800);
@@ -400,7 +407,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
     // Add resize listener
     window.addEventListener('resize', updateDimensions);
-    
+
     // Also listen for container size changes (using ResizeObserver if available)
     let resizeObserver: ResizeObserver | null = null;
     if (containerRef.current && window.ResizeObserver) {
@@ -424,7 +431,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     svg.selectAll('*').remove(); // Clear previous render
 
     const { width, height } = dimensions;
-    
+
     svg.attr('width', width).attr('height', height);
 
     // Get the selected projection
@@ -433,11 +440,12 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
     // Create the projection with proper configuration
     let projection;
-    
+
     if (selectedProjection === 'orthographic') {
       // Static orthographic (globe view without rotation)
       const radius = Math.min(width, height) / 2 - 20;
-      projection = projectionConfig.projection()
+      projection = projectionConfig
+        .projection()
         .scale(radius)
         .translate([width / 2, height / 2])
         .clipAngle(90);
@@ -445,7 +453,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       // Interactive 3D globe with rotation - larger scale to fill and overflow container
       const baseRadius = Math.min(width, height) / 2;
       const radius = baseRadius * 1.8; // Make globe 80% larger so it overflows the container
-      projection = projectionConfig.projection()
+      projection = projectionConfig
+        .projection()
         .scale(radius)
         .translate([width / 2, height / 2])
         .rotate(rotation)
@@ -457,8 +466,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         .fitSize([width, height], worldData);
     } else {
       // Standard projections
-      projection = projectionConfig.projection()
-        .fitSize([width, height], worldData);
+      projection = projectionConfig.projection().fitSize([width, height], worldData);
     }
 
     const path = d3.geoPath().projection(projection);
@@ -470,19 +478,22 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     if (selectedProjection === 'orthographicInteractive') {
       // Add gradient definitions for 3D effect
       const defs = svg.append('defs');
-      
+
       // Sphere gradient for 3D effect
-      const sphereGradient = defs.append('radialGradient')
+      const sphereGradient = defs
+        .append('radialGradient')
         .attr('id', 'sphere-gradient')
         .attr('cx', '30%')
         .attr('cy', '30%');
-      
-      sphereGradient.append('stop')
+
+      sphereGradient
+        .append('stop')
         .attr('offset', '0%')
         .attr('stop-color', '#ffffff') // 🔹 COLOR: Centro del océano (blanco)
         .attr('stop-opacity', 1);
-      
-      sphereGradient.append('stop')
+
+      sphereGradient
+        .append('stop')
         .attr('offset', '100%')
         .attr('stop-color', '#f8f9fa') // 🔹 COLOR: Bordes del océano (gris muy claro)
         .attr('stop-opacity', 1);
@@ -490,7 +501,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       // Add sphere background
       const baseRadius = Math.min(width, height) / 2;
       const radius = baseRadius * 1.8; // Match the projection scale
-      svg.append('circle')
+      svg
+        .append('circle')
         .attr('cx', width / 2)
         .attr('cy', height / 2)
         .attr('r', radius)
@@ -501,7 +513,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     // ============================================
 
     // Draw countries
-    svg.selectAll('path.country')
+    svg
+      .selectAll('path.country')
       .data(worldData.features)
       .enter()
       .append('path')
@@ -509,11 +522,11 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('d', path as any)
       .attr('fill', (d: any) => {
         // Try multiple property names for country name
-        let countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '');
-        
+        let countryName = d.properties.NAME || d.properties.name || d.properties.NAME_EN || '';
+
         // Normalize country names - mantener el caso original para el mapeo
         const normalizedName = countryName.trim();
-        
+
         const count = countryData[normalizedName] || 0;
         return getCountryColor(normalizedName);
       })
@@ -523,32 +536,35 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('stroke', '#ccc') // 🔹 COLOR: Bordes de países (blanco)
       .attr('stroke-width', 0.2) // 🔹 GROSOR: Bordes de países (0.5px)
       // ============================================
-      .on('mouseover', function(event, d: any) {
+      .on('mouseover', function (event, d: any) {
         d3.select(this).attr('stroke-width', 0.5); // 🔹 GROSOR al hacer hover (1px)
       })
-      .on('mouseout', function(event, d: any) {
+      .on('mouseout', function (event, d: any) {
         d3.select(this).attr('stroke-width', 0.5); // 🔹 GROSOR normal (0.5px)
       })
       .append('title')
       .text((d: any) => {
-        let countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '');
-        
+        let countryName = d.properties.NAME || d.properties.name || d.properties.NAME_EN || '';
+
         const count = countryData[countryName] || 0;
-        const countryFullName = d.properties.NAME || d.properties.name || d.properties.NAME_EN || 'Unknown';
+        const countryFullName =
+          d.properties.NAME || d.properties.name || d.properties.NAME_EN || 'Unknown';
         const rank = countryRanking[countryName];
-        
+
         if (count === 0) {
           return `${countryFullName}: 0 servidores`;
         }
-        
+
         return `${countryFullName}: ${count} servidor${count !== 1 ? 'es' : ''} (Ranking #${rank})`;
       });
 
     // Add graticules (grid lines) for better visual reference
-    const graticule = d3.geoGraticule()
+    const graticule = d3
+      .geoGraticule()
       .step(selectedProjection === 'orthographicInteractive' ? [15, 15] : [30, 30]);
 
-    svg.append('path')
+    svg
+      .append('path')
       .datum(graticule)
       .attr('class', 'graticule')
       .attr('d', path as any)
@@ -556,8 +572,16 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('stroke', selectedProjection === 'orthographicInteractive' ? '#ffffff' : '#e0e0e0')
       .attr('stroke-width', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.5)
       .attr('opacity', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.3);
-
-  }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking]);
+  }, [
+    worldData,
+    countryData,
+    maxCount,
+    isLoading,
+    dimensions,
+    selectedProjection,
+    rotation,
+    countryRanking,
+  ]);
 
   // Auto-rotation effect for 3D globe
   useEffect(() => {
@@ -590,18 +614,27 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         const nextIndex = (prevIndex + 1) % countriesWithServers.length;
         const nextCountry = countriesWithServers[nextIndex];
         const coords = countryCoordinates[nextCountry.name];
-        
+
         if (coords) {
           // Smooth transition to next country
           smoothRotateTo(coords, 2000); // 2 second smooth transition
         }
-        
+
         return nextIndex;
       });
     }, 4000); // Change every 4 seconds (2s transition + 2s pause)
 
     return () => clearInterval(interval);
-  }, [selectedProjection, countriesWithServers, isDragging, isAutoRotating, isTransitioning, userHasInteracted, countryCoordinates, rotation]);
+  }, [
+    selectedProjection,
+    countriesWithServers,
+    isDragging,
+    isAutoRotating,
+    isTransitioning,
+    userHasInteracted,
+    countryCoordinates,
+    rotation,
+  ]);
 
   // Reset auto-rotation when switching to 3D globe
   useEffect(() => {
@@ -609,7 +642,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       setAutoRotateIndex(0);
       setIsAutoRotating(false);
       setUserHasInteracted(false);
-      
+
       // Clear any existing resume timeout
       if (resumeTimeoutId) {
         clearTimeout(resumeTimeoutId);
@@ -632,13 +665,13 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     setIsAutoRotating(false); // Pause auto-rotation when user starts dragging
     setIsTransitioning(false); // Stop any ongoing transition
     setUserHasInteracted(true); // Mark that user has interacted
-    
+
     // Clear any existing resume timeout
     if (resumeTimeoutId) {
       clearTimeout(resumeTimeoutId);
       setResumeTimeoutId(null);
     }
-    
+
     event.preventDefault();
   };
 
@@ -651,7 +684,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
     setRotation(([lambda, phi]) => [
       lambda + deltaX, // Drag left = rotate left, drag right = rotate right
-      phi - deltaY     // Drag up = rotate up, drag down = rotate down
+      phi - deltaY, // Drag up = rotate up, drag down = rotate down
     ]);
 
     setDragStart([event.clientX, event.clientY]);
@@ -660,12 +693,12 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const handleMouseUp = () => {
     setIsDragging(false);
     setDragStart(null);
-    
+
     // Clear any existing resume timeout
     if (resumeTimeoutId) {
       clearTimeout(resumeTimeoutId);
     }
-    
+
     // Resume auto-rotation after 5 seconds of no interaction
     const timeoutId = setTimeout(() => {
       if (selectedProjection === 'orthographicInteractive') {
@@ -674,7 +707,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         setResumeTimeoutId(null);
       }
     }, 5000);
-    
+
     setResumeTimeoutId(timeoutId);
   };
 
@@ -722,17 +755,15 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
           <span>Server Geolocation distribution</span>
           <div className="view-tabs">
             <span className="divider">|</span>
-            <button 
+            <button
               className={selectedProjection === 'orthographicInteractive' ? 'active' : ''}
-              onClick={() => setSelectedProjection('orthographicInteractive')}
-            >
+              onClick={() => setSelectedProjection('orthographicInteractive')}>
               3D
             </button>
             <span className="divider">|</span>
-            <button 
+            <button
               className={selectedProjection === 'naturalEarth1' ? 'active' : ''}
-              onClick={() => setSelectedProjection('naturalEarth1')}
-            >
+              onClick={() => setSelectedProjection('naturalEarth1')}>
               2D
             </button>
           </div>
@@ -740,17 +771,19 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         <span className="server-count">{networkData?.length || 0} servidores</span>
       </div>
       <div className="content" ref={containerRef}>
-        <div 
+        <div
           className={`map-container ${selectedProjection === 'orthographicInteractive' ? 'interactive-globe' : ''}`}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          style={{ 
-            cursor: selectedProjection === 'orthographicInteractive' 
-              ? (isDragging ? 'grabbing' : 'grab') 
-              : 'default' 
-          }}
-        >
+          style={{
+            cursor:
+              selectedProjection === 'orthographicInteractive'
+                ? isDragging
+                  ? 'grabbing'
+                  : 'grab'
+                : 'default',
+          }}>
           <svg ref={svgRef} className="world-map-svg"></svg>
         </div>
         <div className="location-table">
@@ -765,4 +798,4 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       </div>
     </div>
   );
-}; 
+};

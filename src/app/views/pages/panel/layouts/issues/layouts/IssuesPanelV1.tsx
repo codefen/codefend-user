@@ -143,12 +143,12 @@ const IssuesPanel: FC = () => {
         if (scanId) {
           const hasMatchingIssue = issues.some((issue: Issues) => issue.scanId === scanId);
           if (hasMatchingIssue) {
-            console.log(`Found matching issue with scan_id: ${scanId}`);
+            // console.log(`Found matching issue with scan_id: ${scanId}`);
             newFilters.scanId = [scanId];
             // Force only WEB resource type when scan_id is present
             newFilters.resourceClass = [ResourcesTypes.WEB];
           } else {
-            console.log(`No issues found with scan_id: ${scanId}`);
+            // console.log(`No issues found with scan_id: ${scanId}`);
           }
         }
 

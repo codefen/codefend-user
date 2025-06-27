@@ -147,18 +147,17 @@ export const useGetActiveScan = () => {
     // }
     const isActive = isScanActive(currentData);
 
-    console.log('useGetActiveScan - preview', {
-      isActive,
-      currentAutoScanState,
-      autoScanState: autoScanState.get,
-      scanRetries: scanRetries.get,
-      currentScanningValue,
-      currentData,
-      previousDataRef: previousDataRef.current,
-      currentStored: currentScan.get,
-    });
+    // console.log('useGetActiveScan - preview', {
+    //   isActive,
+    //   currentAutoScanState,
+    //   autoScanState: autoScanState.get,
+    //   scanRetries: scanRetries.get,
+    //   currentScanningValue,
+    //   currentData,
+    //   previousDataRef: previousDataRef.current,
+    //   currentStored: currentScan.get,
+    // });
     if (isActive) {
-      console.log('useGetActiveScan - isActive:true', isActive);
       // Actualizar estado de auto-scan si es necesario
       if (currentAutoScanState !== AUTO_SCAN_STATE.SCAN_LAUNCHED) {
         autoScanState.set(AUTO_SCAN_STATE.SCAN_LAUNCHED);
@@ -169,7 +168,6 @@ export const useGetActiveScan = () => {
         isScanning.set(true);
       }
     } else if (!isActive && currentAutoScanState !== AUTO_SCAN_STATE.SCAN_FINISHED) {
-      console.log('useGetActiveScan - isActive:false', isActive);
       isScanning.set(false);
       autoScanState.set(AUTO_SCAN_STATE.SCAN_FINISHED);
       scanRetries.set(2);
