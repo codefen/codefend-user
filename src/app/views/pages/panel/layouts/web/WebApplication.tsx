@@ -61,10 +61,9 @@ const WebApplicationView = () => {
           isLoading={isLoading}
         />
         <ServerGeolocationMap
-          data={webResources as any}
+          networkData={webResources as any}
           resourceType={RESOURCE_CLASS.WEB}
           title="Server Geolocation distribution"
-          isLoading={isLoading}
         />
       </section>
     </EmptyLayout>

@@ -83,10 +83,9 @@ const NetworkPage: FC = () => {
             scope={OrderSection.NETWORK_SCOPE}
           />
           <ServerGeolocationMap
-            data={networks as any}
+            networkData={networks as any}
             resourceType={RESOURCE_CLASS.NETWORK}
             title="Server Geolocation distribution"
-            isLoading={isLoading}
           />
         </section>
       </Show>

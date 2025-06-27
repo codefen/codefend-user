@@ -8,21 +8,32 @@ import { TABLE_KEYS, RESOURCE_CLASS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import './ServerGeolocationMap.scss';
 
-// Extended interface for resources with server location data
-interface ResourceWithLocation {
+// Extended interface for network resources with server location data
+interface NetworkDevice extends Device {
+  all_found_domains?: string;
+  all_found_domains_value?: string;
   server_pais?: string;
   server_pais_code?: string;
   server_pais_provincia?: string;
   server_pais_ciudad?: string;
-  [key: string]: any;
+  device_class?: string;
+  neuroscan_id?: string;
+  neuroscan_main_domain?: string;
+  source?: string;
 }
 
 interface ServerGeolocationMapProps {
-  data: ResourceWithLocation[];
+  networkData: NetworkDevice[];
   resourceType?: string;
   title?: string;
-  isLoading?: boolean;
 }
+
+// Available projections for comparison
+const PROJECTIONS = [
+  { id: 'naturalEarth1', name: 'Natural Earth', projection: d3.geoNaturalEarth1 },
+  { id: 'mercator', name: 'Mercator', projection: d3.geoMercator },
+  { id: 'orthographicInteractive', name: 'Interactive 3D Globe', projection: d3.geoOrthographic },
+];
 
 // Table columns for location data
 const locationColumns: ColumnTableV3[] = [
@@ -53,17 +64,17 @@ const locationColumns: ColumnTableV3[] = [
 ];
 
 export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({ 
-  data, 
+  networkData, 
   resourceType = RESOURCE_CLASS.NETWORK, 
-  title = "Server Geolocation distribution",
-  isLoading = false
+  title = "Server Geolocation Distribution" 
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [worldData, setWorldData] = useState<any>(null);
-  const [isWorldLoading, setIsWorldLoading] = useState(true);
-  const [dimensions, setDimensions] = useState({ width: 400, height: 400 });
+  const [isLoading, setIsLoading] = useState(true);
+  const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
   const [locationMetrics, setLocationMetrics] = useState<any[]>([]);
+  const [selectedProjection, setSelectedProjection] = useState('naturalEarth1');
   const [rotation, setRotation] = useState<[number, number]>([0, 0]);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<[number, number] | null>(null);
@@ -72,20 +83,13 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const countryData = useMemo(() => {
     const counts: Record<string, number> = {};
     
-    // For web resources, we need to flatten the data to include both parents and children
-    let processedData = data;
-    if (resourceType === RESOURCE_CLASS.WEB) {
-      const resourceFlat = data
-        .reduce((acc: any, resource: any) => {
-          if (!resource.childs) return acc;
-          return acc.concat(resource.childs);
-        }, [])
-        .concat(data);
-      processedData = resourceFlat;
+    // Safety check: ensure networkData exists and is an array
+    if (!networkData || !Array.isArray(networkData)) {
+      return counts;
     }
     
-    processedData.forEach((resource) => {
-      let countryCode = resource.server_pais_code?.toLowerCase();
+    networkData.forEach((device) => {
+      let countryCode = device.server_pais_code?.toLowerCase();
       
       // Normalize common variations
       const codeMapping: Record<string, string> = {
@@ -108,7 +112,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       
       // Also try to map from country name if code is missing
       if (!countryCode || countryCode === 'unknown') {
-        const countryName = resource.server_pais?.toLowerCase();
+        const countryName = device.server_pais?.toLowerCase();
         if (countryName && codeMapping[countryName]) {
           countryCode = codeMapping[countryName];
         }
@@ -120,29 +124,68 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     });
     
     return counts;
-  }, [data, resourceType]);
+  }, [networkData]);
 
   // Get max count for color scaling
   const maxCount = useMemo(() => {
     return Math.max(...Object.values(countryData), 1);
   }, [countryData]);
 
-  // Calculate total count including children for web resources
-  const totalCount = useMemo(() => {
-    if (resourceType === RESOURCE_CLASS.WEB) {
-      const childCount = data.reduce((acc: number, resource: any) => {
-        return acc + (resource.childs ? resource.childs.length : 0);
-      }, 0);
-      return data.length + childCount;
+  // Create ranking-based color mapping
+  const countryRanking = useMemo(() => {
+    // Get all countries with their counts, sorted by count (descending)
+    const sortedCountries = Object.entries(countryData)
+      .filter(([_, count]) => count > 0)
+      .sort(([, a], [, b]) => b - a);
+    
+    // Create ranking map
+    const ranking: Record<string, number> = {};
+    sortedCountries.forEach(([countryCode], index) => {
+      ranking[countryCode] = index + 1; // 1-based ranking
+    });
+    
+    return ranking;
+  }, [countryData]);
+
+  // Function to lighten color by percentage
+  const lightenColor = (color: string, percentage: number) => {
+    const rgb = d3.rgb(color);
+    const factor = 1 + (percentage / 100);
+    return d3.rgb(
+      Math.min(255, rgb.r * factor),
+      Math.min(255, rgb.g * factor),
+      Math.min(255, rgb.b * factor)
+    ).toString();
+  };
+
+  // Get color for a country based on its ranking
+  const getCountryColor = (countryCode: string) => {
+    const count = countryData[countryCode] || 0;
+    
+    if (count === 0) {
+      return '#f5f5f5'; // Very light grey for countries with no data
     }
-    return data.length;
-  }, [data, resourceType]);
+    
+    const rank = countryRanking[countryCode];
+    if (!rank) return '#f5f5f5';
+    
+    const baseColor = '#ff3939'; // Base red color for #1 country
+    const lightenPercentage = (rank - 1) * 20; // 0%, 20%, 40%, 60%, etc.
+    
+    return lightenColor(baseColor, lightenPercentage);
+  };
 
   // Calculate location metrics for the table
   useEffect(() => {
-    const metrics = MetricsService.getCountryMetrics(data, resourceType);
+    // Safety check: ensure networkData exists and is an array
+    if (!networkData || !Array.isArray(networkData)) {
+      setLocationMetrics([]);
+      return;
+    }
+    
+    const metrics = MetricsService.getCountryMetrics(networkData, resourceType);
     setLocationMetrics(metrics);
-  }, [data, resourceType]);
+  }, [networkData, resourceType]);
 
   // Load world topology data
   useEffect(() => {
@@ -152,7 +195,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         const response = await fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
         const geoData = await response.json();
         setWorldData(geoData);
-        setIsWorldLoading(false);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error loading world data:', error);
         // Fallback to the previous source
@@ -160,10 +203,10 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
           const fallbackResponse = await fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json');
           const fallbackData = await fallbackResponse.json();
           setWorldData(fallbackData);
-          setIsWorldLoading(false);
+          setIsLoading(false);
         } catch (fallbackError) {
           console.error('Fallback also failed:', fallbackError);
-          setIsWorldLoading(false);
+          setIsLoading(false);
         }
       }
     };
@@ -177,10 +220,11 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         
-        // For globe, we want a square aspect ratio
-        const size = Math.min(Math.max(350, containerWidth), 500);
+        // For flat projections, use a more traditional aspect ratio
+        const width = Math.min(Math.max(600, containerWidth), 900);
+        const height = Math.round(width * 0.6); // 5:3 aspect ratio
         
-        setDimensions({ width: size, height: size });
+        setDimensions({ width, height });
       }
     };
 
@@ -207,53 +251,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     };
   }, []);
 
-  // Mouse event handlers for rotation
-  const handleMouseDown = (event: React.MouseEvent) => {
-    setIsDragging(true);
-    setDragStart([event.clientX, event.clientY]);
-    event.preventDefault();
-  };
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    if (!isDragging || !dragStart) return;
-
-    const sensitivity = 0.5;
-    const deltaX = (event.clientX - dragStart[0]) * sensitivity;
-    const deltaY = (event.clientY - dragStart[1]) * sensitivity;
-
-    setRotation(([lambda, phi]) => [
-      lambda + deltaX, // Drag left = rotate left, drag right = rotate right
-      phi - deltaY     // Drag up = rotate up, drag down = rotate down
-    ]);
-
-    setDragStart([event.clientX, event.clientY]);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    setDragStart(null);
-  };
-
-  // Add global mouse up listener
   useEffect(() => {
-    const handleGlobalMouseUp = () => {
-      setIsDragging(false);
-      setDragStart(null);
-    };
-
-    if (isDragging) {
-      document.addEventListener('mouseup', handleGlobalMouseUp);
-      document.addEventListener('mouseleave', handleGlobalMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener('mouseup', handleGlobalMouseUp);
-      document.removeEventListener('mouseleave', handleGlobalMouseUp);
-    };
-  }, [isDragging]);
-
-  useEffect(() => {
-    if (!svgRef.current || !worldData || isWorldLoading) return;
+    if (!svgRef.current || !worldData || isLoading) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove(); // Clear previous render
@@ -262,62 +261,72 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     
     svg.attr('width', width).attr('height', height);
 
-    // Create 3D orthographic projection for globe effect
-    const radius = Math.min(width, height) / 2 - 20;
-    const projection = d3.geoOrthographic()
-      .scale(radius)
-      .translate([width / 2, height / 2])
-      .rotate(rotation)
-      .clipAngle(90);
+    // Get the selected projection
+    const projectionConfig = PROJECTIONS.find(p => p.id === selectedProjection);
+    if (!projectionConfig) return;
+
+    // Create the projection with proper configuration
+    let projection;
+    
+    if (selectedProjection === 'orthographic') {
+      // Static orthographic (globe view without rotation)
+      const radius = Math.min(width, height) / 2 - 20;
+      projection = projectionConfig.projection()
+        .scale(radius)
+        .translate([width / 2, height / 2])
+        .clipAngle(90);
+    } else if (selectedProjection === 'orthographicInteractive') {
+      // Interactive 3D globe with rotation
+      const radius = Math.min(width, height) / 2 - 20;
+      projection = projectionConfig.projection()
+        .scale(radius)
+        .translate([width / 2, height / 2])
+        .rotate(rotation)
+        .clipAngle(90);
+    } else if (selectedProjection === 'conicEqualArea') {
+      // Conic projections need standard parallels
+      projection = (projectionConfig.projection() as any)
+        .parallels([20, 50])
+        .fitSize([width, height], worldData);
+    } else {
+      // Standard projections
+      projection = projectionConfig.projection()
+        .fitSize([width, height], worldData);
+    }
 
     const path = d3.geoPath().projection(projection);
 
-    // Add gradient definitions for 3D effect
-    const defs = svg.append('defs');
-    
-    // Sphere gradient for 3D effect - almost white water
-    const sphereGradient = defs.append('radialGradient')
-      .attr('id', 'sphere-gradient')
-      .attr('cx', '30%')
-      .attr('cy', '30%');
-    
-    sphereGradient.append('stop')
-      .attr('offset', '0%')
-      .attr('stop-color', '#ffffff')
-      .attr('stop-opacity', 1);
-    
-    sphereGradient.append('stop')
-      .attr('offset', '100%')
-      .attr('stop-color', '#f8f9fa')
-      .attr('stop-opacity', 1);
+    // Add special 3D effects for interactive globe
+    if (selectedProjection === 'orthographicInteractive') {
+      // Add gradient definitions for 3D effect
+      const defs = svg.append('defs');
+      
+      // Sphere gradient for 3D effect
+      const sphereGradient = defs.append('radialGradient')
+        .attr('id', 'sphere-gradient')
+        .attr('cx', '30%')
+        .attr('cy', '30%');
+      
+      sphereGradient.append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', '#ffffff')
+        .attr('stop-opacity', 1);
+      
+      sphereGradient.append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', '#f8f9fa')
+        .attr('stop-opacity', 1);
 
-    // Add sphere background first
-    svg.append('circle')
-      .attr('cx', width / 2)
-      .attr('cy', height / 2)
-      .attr('r', radius)
-      .attr('fill', 'url(#sphere-gradient)')
-      .attr('stroke', '#e5e7eb')
-      .attr('stroke-width', 1);
-
-    // Custom color scale with light greys and reds
-    const colorScale = d3.scaleSequential()
-      .domain([0, maxCount])
-      .interpolator((t) => {
-        if (t === 0) return '#eeeeee'; // Light grey (#eee) for countries with no data
-        // Interpolate from light grey through light red to #ff3939
-        if (t < 0.3) {
-          // Light grey to light red transition
-          const grey = d3.rgb(238, 238, 238); // #eeeeee
-          const lightRed = d3.rgb(255, 200, 200);
-          return d3.interpolateRgb(grey, lightRed)(t / 0.3);
-        } else {
-          // Light red to dark red transition
-          const lightRed = d3.rgb(255, 200, 200);
-          const darkRed = d3.rgb(255, 57, 57); // #ff3939
-          return d3.interpolateRgb(lightRed, darkRed)((t - 0.3) / 0.7);
-        }
-      });
+      // Add sphere background
+      const radius = Math.min(width, height) / 2 - 20;
+      svg.append('circle')
+        .attr('cx', width / 2)
+        .attr('cy', height / 2)
+        .attr('r', radius)
+        .attr('fill', 'url(#sphere-gradient)')
+        .attr('stroke', '#e5e7eb')
+        .attr('stroke-width', 1);
+    }
 
     // Draw countries
     svg.selectAll('path.country')
@@ -327,11 +336,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('class', 'country')
       .attr('d', path as any)
       .attr('fill', (d: any) => {
-        // Debug Netherlands specifically
-        if ((d.properties.NAME || d.properties.name || d.properties.NAME_EN || '').toLowerCase().includes('netherlands')) {
-          console.log('Netherlands found:', d.properties);
-        }
-        
         // Try multiple property names for country code
         let countryCode = (d.properties.ISO_A2 || d.properties.iso_a2)?.toLowerCase() || '';
         
@@ -404,16 +408,15 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         }
         
         const count = countryData[countryCode] || 0;
-        return colorScale(count);
+        return getCountryColor(countryCode);
       })
-      .attr('stroke', '#333333')
-      .attr('stroke-width', 0.3)
-      .style('cursor', isDragging ? 'grabbing' : 'grab')
+      .attr('stroke', '#ffffff')
+      .attr('stroke-width', 0.5)
       .on('mouseover', function(event, d: any) {
-        d3.select(this).attr('stroke-width', 0.6);
+        d3.select(this).attr('stroke-width', 1);
       })
       .on('mouseout', function(event, d: any) {
-        d3.select(this).attr('stroke-width', 0.3);
+        d3.select(this).attr('stroke-width', 0.5);
       })
       .append('title')
       .text((d: any) => {
@@ -487,33 +490,86 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         
         const count = countryData[countryCode] || 0;
         const countryName = d.properties.NAME || d.properties.name || d.properties.NAME_EN || 'Unknown';
-        return `${countryName}: ${count} server${count !== 1 ? 's' : ''}`;
+        const rank = countryRanking[countryCode];
+        
+        if (count === 0) {
+          return `${countryName}: 0 servidores`;
+        }
+        
+        return `${countryName}: ${count} servidor${count !== 1 ? 'es' : ''} (Ranking #${rank})`;
       });
 
-    // Add graticules (grid lines) for better 3D effect
+    // Add graticules (grid lines) for better visual reference
     const graticule = d3.geoGraticule()
-      .step([15, 15]);
+      .step(selectedProjection === 'orthographicInteractive' ? [15, 15] : [30, 30]);
 
     svg.append('path')
       .datum(graticule)
       .attr('class', 'graticule')
       .attr('d', path as any)
       .attr('fill', 'none')
-      .attr('stroke', '#d1d5db')
-      .attr('stroke-width', 0.2)
-      .attr('opacity', 0.4);
+      .attr('stroke', selectedProjection === 'orthographicInteractive' ? '#ffffff' : '#e0e0e0')
+      .attr('stroke-width', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.5)
+      .attr('opacity', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.3);
 
-  }, [worldData, countryData, maxCount, isWorldLoading, dimensions, rotation, isDragging]);
+  }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking]);
 
-  if (isWorldLoading) {
+  // Mouse event handlers for rotation (only used with interactive 3D globe)
+  const handleMouseDown = (event: React.MouseEvent) => {
+    if (selectedProjection !== 'orthographicInteractive') return;
+    setIsDragging(true);
+    setDragStart([event.clientX, event.clientY]);
+    event.preventDefault();
+  };
+
+  const handleMouseMove = (event: React.MouseEvent) => {
+    if (!isDragging || !dragStart || selectedProjection !== 'orthographicInteractive') return;
+
+    const sensitivity = 0.5;
+    const deltaX = (event.clientX - dragStart[0]) * sensitivity;
+    const deltaY = (event.clientY - dragStart[1]) * sensitivity;
+
+    setRotation(([lambda, phi]) => [
+      lambda + deltaX, // Drag left = rotate left, drag right = rotate right
+      phi - deltaY     // Drag up = rotate up, drag down = rotate down
+    ]);
+
+    setDragStart([event.clientX, event.clientY]);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setDragStart(null);
+  };
+
+  // Add global mouse up listener for dragging
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+      setDragStart(null);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+      document.addEventListener('mouseleave', handleGlobalMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('mouseleave', handleGlobalMouseUp);
+    };
+  }, [isDragging]);
+
+  if (isLoading) {
     return (
-      <div className="card server-geolocation-map-card">
+      <div className="card server-geolocation-map">
         <div className="header">
           <h3>{title}</h3>
         </div>
         <div className="content" ref={containerRef}>
-          <div className="map-loading">
+          <div className="loading-container">
             <div className="loading-spinner"></div>
+            <p>Cargando mapa mundial...</p>
           </div>
         </div>
       </div>
@@ -521,18 +577,35 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   }
 
   return (
-    <div className="card server-geolocation-map-card">
+    <div className="card server-geolocation-map">
       <div className="header">
         <h3>{title}</h3>
-        <span className="server-count">{totalCount} servers</span>
+        <div className="map-controls">
+          <select 
+            value={selectedProjection} 
+            onChange={(e) => setSelectedProjection(e.target.value)}
+            className="projection-selector"
+          >
+            {PROJECTIONS.map(proj => (
+              <option key={proj.id} value={proj.id}>
+                {proj.name}
+              </option>
+            ))}
+          </select>
+          <span className="server-count">{networkData?.length || 0} servidores</span>
+        </div>
       </div>
       <div className="content" ref={containerRef}>
         <div 
-          className="globe-container"
+          className={`map-container ${selectedProjection === 'orthographicInteractive' ? 'interactive-globe' : ''}`}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+          style={{ 
+            cursor: selectedProjection === 'orthographicInteractive' 
+              ? (isDragging ? 'grabbing' : 'grab') 
+              : 'default' 
+          }}
         >
           <svg ref={svgRef} className="world-map-svg"></svg>
         </div>
