@@ -6,25 +6,22 @@ import { MetricsService } from '@utils/metric.service.ts';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import { TABLE_KEYS, RESOURCE_CLASS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
+import './ServerGeolocationMap.scss';
 
-// Extended interface for network resources with server location data
-interface NetworkDevice extends Device {
-  all_found_domains?: string;
-  all_found_domains_value?: string;
+// Extended interface for resources with server location data
+interface ResourceWithLocation {
   server_pais?: string;
   server_pais_code?: string;
   server_pais_provincia?: string;
   server_pais_ciudad?: string;
-  device_class?: string;
-  neuroscan_id?: string;
-  neuroscan_main_domain?: string;
-  source?: string;
+  [key: string]: any;
 }
 
-interface WorldMapProps {
-  networkData: NetworkDevice[];
+interface ServerGeolocationMapProps {
+  data: ResourceWithLocation[];
   resourceType?: string;
   title?: string;
+  isLoading?: boolean;
 }
 
 // Table columns for location data
@@ -55,15 +52,16 @@ const locationColumns: ColumnTableV3[] = [
   },
 ];
 
-export const WorldMap: FC<WorldMapProps> = ({ 
-  networkData, 
+export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({ 
+  data, 
   resourceType = RESOURCE_CLASS.NETWORK, 
-  title = "Server Geolocation distribution" 
+  title = "Server Geolocation distribution",
+  isLoading = false
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [worldData, setWorldData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isWorldLoading, setIsWorldLoading] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 400, height: 280 });
   const [locationMetrics, setLocationMetrics] = useState<any[]>([]);
 
@@ -71,8 +69,8 @@ export const WorldMap: FC<WorldMapProps> = ({
   const countryData = useMemo(() => {
     const counts: Record<string, number> = {};
     
-    networkData.forEach((device) => {
-      let countryCode = device.server_pais_code?.toLowerCase();
+    data.forEach((resource) => {
+      let countryCode = resource.server_pais_code?.toLowerCase();
       
       // Normalize common variations
       const codeMapping: Record<string, string> = {
@@ -95,7 +93,7 @@ export const WorldMap: FC<WorldMapProps> = ({
       
       // Also try to map from country name if code is missing
       if (!countryCode || countryCode === 'unknown') {
-        const countryName = device.server_pais?.toLowerCase();
+        const countryName = resource.server_pais?.toLowerCase();
         if (countryName && codeMapping[countryName]) {
           countryCode = codeMapping[countryName];
         }
@@ -107,7 +105,7 @@ export const WorldMap: FC<WorldMapProps> = ({
     });
     
     return counts;
-  }, [networkData]);
+  }, [data]);
 
   // Get max count for color scaling
   const maxCount = useMemo(() => {
@@ -116,9 +114,9 @@ export const WorldMap: FC<WorldMapProps> = ({
 
   // Calculate location metrics for the table
   useEffect(() => {
-    const metrics = MetricsService.getCountryMetrics(networkData, resourceType);
+    const metrics = MetricsService.getCountryMetrics(data, resourceType);
     setLocationMetrics(metrics);
-  }, [networkData, resourceType]);
+  }, [data, resourceType]);
 
   // Load world topology data
   useEffect(() => {
@@ -128,7 +126,7 @@ export const WorldMap: FC<WorldMapProps> = ({
         const response = await fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
         const geoData = await response.json();
         setWorldData(geoData);
-        setIsLoading(false);
+        setIsWorldLoading(false);
       } catch (error) {
         console.error('Error loading world data:', error);
         // Fallback to the previous source
@@ -136,10 +134,10 @@ export const WorldMap: FC<WorldMapProps> = ({
           const fallbackResponse = await fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json');
           const fallbackData = await fallbackResponse.json();
           setWorldData(fallbackData);
-          setIsLoading(false);
+          setIsWorldLoading(false);
         } catch (fallbackError) {
           console.error('Fallback also failed:', fallbackError);
-          setIsLoading(false);
+          setIsWorldLoading(false);
         }
       }
     };
@@ -186,7 +184,7 @@ export const WorldMap: FC<WorldMapProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!svgRef.current || !worldData || isLoading) return;
+    if (!svgRef.current || !worldData || isWorldLoading) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove(); // Clear previous render
@@ -317,18 +315,16 @@ export const WorldMap: FC<WorldMapProps> = ({
         return `${countryName}: ${count} server${count !== 1 ? 's' : ''}`;
       });
 
-    // No legend needed - just the map
+  }, [worldData, countryData, maxCount, isWorldLoading, dimensions]);
 
-  }, [worldData, countryData, maxCount, isLoading, dimensions]);
-
-  if (isLoading) {
+  if (isWorldLoading) {
     return (
-      <div className="card world-map-card">
+      <div className="card server-geolocation-map-card">
         <div className="header">
           <h3>{title}</h3>
         </div>
         <div className="content" ref={containerRef}>
-          <div className="world-map-loading">
+          <div className="map-loading">
             <div className="loading-spinner"></div>
           </div>
         </div>
@@ -337,10 +333,10 @@ export const WorldMap: FC<WorldMapProps> = ({
   }
 
   return (
-    <div className="card world-map-card">
+    <div className="card server-geolocation-map-card">
       <div className="header">
         <h3>{title}</h3>
-        <span className="server-count">{networkData.length} servers</span>
+        <span className="server-count">{data.length} servers</span>
       </div>
       <div className="content" ref={containerRef}>
         <svg ref={svgRef} className="world-map-svg"></svg>

@@ -20,7 +20,8 @@ import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx
 import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
 import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
-import { WorldMap } from '@/app/views/pages/panel/layouts/lan/components/WorldMap.tsx';
+import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
@@ -81,7 +82,12 @@ const NetworkPage: FC = () => {
             isLoading={isLoading}
             scope={OrderSection.NETWORK_SCOPE}
           />
-          <WorldMap networkData={networks as any} />
+          <ServerGeolocationMap
+            data={networks as any}
+            resourceType={RESOURCE_CLASS.NETWORK}
+            title="Server Geolocation distribution"
+            isLoading={isLoading}
+          />
         </section>
       </Show>
     </EmptyLayout>

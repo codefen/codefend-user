@@ -5,7 +5,7 @@ import { WebApplicationTitle } from './components/WebApplicationTitle.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation.tsx';
+import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
@@ -60,11 +60,11 @@ const WebApplicationView = () => {
           resourceCount={webResources.length}
           isLoading={isLoading}
         />
-        <ResourceByLocation
+        <ServerGeolocationMap
+          data={webResources as any}
+          resourceType={RESOURCE_CLASS.WEB}
+          title="Server Geolocation distribution"
           isLoading={isLoading}
-          resource={webResources}
-          title="Web servers by location"
-          type={RESOURCE_CLASS.WEB}
         />
       </section>
     </EmptyLayout>
