@@ -87,45 +87,49 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const countryData = useMemo(() => {
     const counts: Record<string, number> = {};
     
-    // Safety check: ensure networkData exists and is an array
-    if (!networkData || !Array.isArray(networkData)) {
-      return counts;
-    }
+    console.log('=== DEBUG: Procesando datos de países ===');
     
-    networkData.forEach((device) => {
-      let countryCode = device.server_pais_code?.toLowerCase();
+    networkData.forEach((device, index) => {
+      // Usar el nombre completo del país en lugar del código
+      let countryName = device.server_pais?.trim();
       
-      // Normalize common variations
-      const codeMapping: Record<string, string> = {
-        'argentina': 'ar',
-        'arg': 'ar',
-        'united states': 'us',
-        'usa': 'us',
-        'us': 'us',
-        'canada': 'ca',
-        'can': 'ca',
-        'brazil': 'br',
-        'bra': 'br',
-        'br': 'br'
+      // Log de los primeros 10 dispositivos para ver la estructura
+      if (index < 10) {
+        console.log(`Dispositivo ${index}:`, {
+          server_pais: device.server_pais,
+          server_pais_code: device.server_pais_code,
+          countryName_procesado: countryName
+        });
+      }
+      
+      // Normalizar nombres de países para que coincidan con el GeoJSON
+      const nameMapping: Record<string, string> = {
+        'United States': 'USA',
+        'US': 'USA',
+        'Netherlands': 'Netherlands',
+        'Holland': 'Netherlands',
+        'Australia': 'Australia',
+        'Canada': 'Canada',
+        'Argentina': 'Argentina',
+        'Brazil': 'Brazil',
+        'Brasil': 'Brazil',
+        'United Kingdom': 'United Kingdom',
+        'UK': 'United Kingdom',
+        'Great Britain': 'United Kingdom'
       };
       
-      // Try to normalize the code
-      if (countryCode && codeMapping[countryCode]) {
-        countryCode = codeMapping[countryCode];
+      // Intentar mapear el nombre
+      if (countryName && nameMapping[countryName]) {
+        countryName = nameMapping[countryName];
       }
       
-      // Also try to map from country name if code is missing
-      if (!countryCode || countryCode === 'unknown') {
-        const countryName = device.server_pais?.toLowerCase();
-        if (countryName && codeMapping[countryName]) {
-          countryCode = codeMapping[countryName];
-        }
-      }
-      
-      if (countryCode && countryCode !== 'unknown') {
-        counts[countryCode] = (counts[countryCode] || 0) + 1;
+      if (countryName && countryName !== 'unknown') {
+        counts[countryName] = (counts[countryName] || 0) + 1;
       }
     });
+    
+    console.log('=== DEBUG: Conteos finales por país (usando nombres) ===');
+    console.log(counts);
     
     return counts;
   }, [networkData]);
@@ -144,8 +148,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     
     // Create ranking map
     const ranking: Record<string, number> = {};
-    sortedCountries.forEach(([countryCode], index) => {
-      ranking[countryCode] = index + 1; // 1-based ranking
+    sortedCountries.forEach(([countryName], index) => {
+      ranking[countryName] = index + 1; // 1-based ranking
     });
     
     return ranking;
@@ -156,61 +160,58 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     return Object.entries(countryData)
       .filter(([_, count]) => count > 0)
       .sort(([_, a], [__, b]) => b - a)
-      .map(([countryCode, count]) => ({ code: countryCode, count }));
+      .map(([countryName, count]) => ({ name: countryName, count }));
   }, [countryData]);
 
-  // Country coordinates for auto-rotation (approximate center coordinates)
+  // Coordenadas geográficas para países (longitud, latitud)
   const countryCoordinates: Record<string, [number, number]> = {
-    'ar': [-64, -34],    // Argentina
-    'us': [-98, 39],     // United States
-    'ca': [-106, 56],    // Canada
-    'br': [-55, -10],    // Brazil
-    'gb': [-3, 54],      // United Kingdom
-    'fr': [2, 46],       // France
-    'de': [10, 51],      // Germany
-    'es': [-4, 40],      // Spain
-    'it': [12, 42],      // Italy
-    'ru': [105, 61],     // Russia
-    'cn': [104, 35],     // China
-    'in': [78, 20],      // India
-    'jp': [138, 36],     // Japan
-    'au': [133, -27],    // Australia
-    'za': [22, -31],     // South Africa
-    'mx': [-102, 23],    // Mexico
-    'nl': [5, 52],       // Netherlands
-    'se': [18, 60],      // Sweden
-    'no': [10, 62],      // Norway
-    'eg': [30, 26],      // Egypt
-    'be': [4, 50],       // Belgium
-    'ch': [8, 47],       // Switzerland
-    'at': [14, 47],      // Austria
-    'pt': [-8, 40],      // Portugal
-    'pl': [19, 52],      // Poland
-    'cz': [15, 50],      // Czech Republic
-    'hu': [20, 47],      // Hungary
-    'ro': [25, 46],      // Romania
-    'bg': [25, 43],      // Bulgaria
-    'hr': [15, 45],      // Croatia
-    'si': [15, 46],      // Slovenia
-    'sk': [19, 49],      // Slovakia
-    'ee': [26, 59],      // Estonia
-    'lv': [25, 57],      // Latvia
-    'lt': [24, 56],      // Lithuania
-    'fi': [26, 64],      // Finland
-    'dk': [10, 56],      // Denmark
-    'is': [-19, 65],     // Iceland
-    'ie': [-8, 53],      // Ireland
-    'gr': [22, 39],      // Greece
-    'tr': [35, 39],      // Turkey
-    'il': [35, 31],      // Israel
-    'sg': [104, 1],      // Singapore
-    'kr': [128, 36],     // South Korea
-    'th': [101, 15],     // Thailand
-    'my': [102, 3],      // Malaysia
-    'id': [113, -2],     // Indonesia
-    'ph': [122, 13],     // Philippines
-    'vn': [108, 16],     // Vietnam
-    'nz': [174, -41],    // New Zealand
+    'Argentina': [-64.0, -34.0],
+    'USA': [-95.0, 39.0],
+    'Canada': [-106.0, 60.0],
+    'Netherlands': [5.75, 52.5],
+    'Australia': [133.0, -27.0],
+    'Brazil': [-55.0, -10.0],
+    'United Kingdom': [-2.0, 54.0],
+    'France': [2.0, 46.0],
+    'Germany': [9.0, 51.0],
+    'Spain': [-4.0, 40.0],
+    'Italy': [12.0, 42.0],
+    'Russia': [105.0, 61.0],
+    'China': [104.0, 35.0],
+    'India': [78.0, 20.0],
+    'Japan': [138.0, 36.0],
+    'South Africa': [22.0, -31.0],
+    'Mexico': [-102.0, 23.0],
+    'Belgium': [4.5, 50.8],
+    'Switzerland': [8.2, 46.8],
+    'Austria': [14.5, 47.5],
+    'Portugal': [-8.0, 39.5],
+    'Poland': [19.0, 52.0],
+    'Czech Republic': [15.5, 49.75],
+    'Hungary': [20.0, 47.0],
+    'Romania': [25.0, 46.0],
+    'Bulgaria': [25.0, 43.0],
+    'Croatia': [15.5, 45.0],
+    'Slovenia': [14.5, 46.0],
+    'Slovakia': [19.5, 48.7],
+    'Estonia': [26.0, 59.0],
+    'Latvia': [25.0, 57.0],
+    'Lithuania': [24.0, 56.0],
+    'Finland': [26.0, 64.0],
+    'Denmark': [10.0, 56.0],
+    'Iceland': [-18.0, 65.0],
+    'Ireland': [-8.0, 53.0],
+    'Greece': [22.0, 39.0],
+    'Turkey': [35.0, 39.0],
+    'Israel': [34.8, 31.0],
+    'Singapore': [103.8, 1.3],
+    'South Korea': [128.0, 36.0],
+    'Thailand': [100.0, 15.0],
+    'Malaysia': [112.0, 2.5],
+    'Indonesia': [113.0, -0.8],
+    'Philippines': [122.0, 13.0],
+    'Vietnam': [108.0, 14.0],
+    'New Zealand': [174.0, -41.0]
   };
 
   // Function to lighten color by percentage
@@ -228,14 +229,14 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   // 🎨 COLORES DEL MAPA 2D - EDITAR AQUÍ
   // ============================================
   // Get color for a country based on its ranking
-  const getCountryColor = (countryCode: string) => {
-    const count = countryData[countryCode] || 0;
+  const getCountryColor = (countryName: string) => {
+    const count = countryData[countryName] || 0;
     
     if (count === 0) {
       return '#eee'; // 🔹 COLOR: Países sin datos (gris muy claro)
     }
     
-    const rank = countryRanking[countryCode];
+    const rank = countryRanking[countryName];
     if (!rank) return '#eee';
     
     const baseColor = '#ff3939'; // 🔹 COLOR: País #1 con más servidores (rojo base)
@@ -315,6 +316,44 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         // Use Natural Earth data for complete world coverage
         const response = await fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
         const geoData = await response.json();
+        
+        // DEBUG: Log algunos países del GeoJSON para ver la estructura
+        console.log('=== DEBUG: Estructura del GeoJSON ===');
+        console.log('Primeros 5 países en GeoJSON:');
+        geoData.features.slice(0, 5).forEach((feature: any, index: number) => {
+          console.log(`País ${index}:`, {
+            NAME: feature.properties.NAME,
+            ISO_A2: feature.properties.ISO_A2,
+            ISO_A3: feature.properties.ISO_A3,
+            name: feature.properties.name,
+            iso_a2: feature.properties.iso_a2
+          });
+        });
+        
+        // Buscar específicamente Estados Unidos y otros países importantes
+        const usFeature = geoData.features.find((f: any) => 
+          f.properties.name?.includes('United States') ||
+          f.properties.name?.includes('USA') ||
+          f.properties.name?.includes('America')
+        );
+        console.log('=== DEBUG: Estados Unidos encontrado ===');
+        console.log('Nombre exacto:', usFeature?.properties.name);
+        console.log('Propiedades completas:', usFeature?.properties);
+        
+        const arFeature = geoData.features.find((f: any) => 
+          f.properties.NAME?.includes('Argentina') ||
+          f.properties.name?.includes('Argentina')
+        );
+        console.log('=== DEBUG: Argentina encontrada ===');
+        console.log(arFeature?.properties);
+        
+        const caFeature = geoData.features.find((f: any) => 
+          f.properties.NAME?.includes('Canada') ||
+          f.properties.name?.includes('Canada')
+        );
+        console.log('=== DEBUG: Canadá encontrado ===');
+        console.log(caFeature?.properties);
+        
         setWorldData(geoData);
         setIsLoading(false);
       } catch (error) {
@@ -469,82 +508,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('class', 'country')
       .attr('d', path as any)
       .attr('fill', (d: any) => {
-        // Try multiple property names for country code
-        let countryCode = (d.properties.ISO_A2 || d.properties.iso_a2)?.toLowerCase() || '';
+        // Try multiple property names for country name
+        let countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '');
         
-        // If we don't have ISO_A2, try to map from ISO_A3 or name
-        if (!countryCode) {
-          if (d.properties.ISO_A3) {
-            const iso3to2: Record<string, string> = {
-              'ARG': 'ar', 'USA': 'us', 'CAN': 'ca', 'BRA': 'br', 'GBR': 'gb',
-              'FRA': 'fr', 'DEU': 'de', 'ESP': 'es', 'ITA': 'it', 'RUS': 'ru',
-              'CHN': 'cn', 'IND': 'in', 'JPN': 'jp', 'AUS': 'au', 'ZAF': 'za',
-              'EGY': 'eg', 'MEX': 'mx', 'NLD': 'nl', 'SWE': 'se', 'NOR': 'no'
-            };
-            countryCode = iso3to2[d.properties.ISO_A3] || '';
-          }
-          
-          // Also try to map from country name
-          if (!countryCode) {
-            const countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '').toLowerCase();
-            const nameMapping: Record<string, string> = {
-              'argentina': 'ar',
-              'united states': 'us',
-              'united states of america': 'us',
-              'canada': 'ca',
-              'brazil': 'br',
-              'united kingdom': 'gb',
-              'france': 'fr',
-              'germany': 'de',
-              'spain': 'es',
-              'italy': 'it',
-              'russia': 'ru',
-              'china': 'cn',
-              'india': 'in',
-              'japan': 'jp',
-              'australia': 'au',
-              'south africa': 'za',
-              'netherlands': 'nl',
-              'belgium': 'be',
-              'switzerland': 'ch',
-              'austria': 'at',
-              'portugal': 'pt',
-              'poland': 'pl',
-              'czech republic': 'cz',
-              'hungary': 'hu',
-              'romania': 'ro',
-              'bulgaria': 'bg',
-              'croatia': 'hr',
-              'slovenia': 'si',
-              'slovakia': 'sk',
-              'estonia': 'ee',
-              'latvia': 'lv',
-              'lithuania': 'lt',
-              'finland': 'fi',
-              'denmark': 'dk',
-              'iceland': 'is',
-              'ireland': 'ie',
-              'greece': 'gr',
-              'turkey': 'tr',
-              'israel': 'il',
-              'singapore': 'sg',
-              'south korea': 'kr',
-              'thailand': 'th',
-              'malaysia': 'my',
-              'indonesia': 'id',
-              'philippines': 'ph',
-              'vietnam': 'vn',
-              'new zealand': 'nz'
-            };
-            countryCode = nameMapping[countryName] || '';
-          }
-        }
+        // Normalize country names - mantener el caso original para el mapeo
+        const normalizedName = countryName.trim();
         
-        const count = countryData[countryCode] || 0;
-        return getCountryColor(countryCode);
+        const count = countryData[normalizedName] || 0;
+        return getCountryColor(normalizedName);
       })
       // ============================================
-      // 🌎 BORDES DE PAÍSES - EDITAR AQUÍ
+      // 🎨 BORDES DE PAÍSES - EDITAR AQUÍ
       // ============================================
       .attr('stroke', '#ccc') // 🔹 COLOR: Bordes de países (blanco)
       .attr('stroke-width', 0.2) // 🔹 GROSOR: Bordes de países (0.5px)
@@ -557,83 +531,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       })
       .append('title')
       .text((d: any) => {
-        let countryCode = (d.properties.ISO_A2 || d.properties.iso_a2)?.toLowerCase() || '';
+        let countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '');
         
-        if (!countryCode) {
-          if (d.properties.ISO_A3) {
-            const iso3to2: Record<string, string> = {
-              'ARG': 'ar', 'USA': 'us', 'CAN': 'ca', 'BRA': 'br', 'GBR': 'gb',
-              'FRA': 'fr', 'DEU': 'de', 'ESP': 'es', 'ITA': 'it', 'RUS': 'ru',
-              'CHN': 'cn', 'IND': 'in', 'JPN': 'jp', 'AUS': 'au', 'ZAF': 'za',
-              'EGY': 'eg', 'MEX': 'mx', 'NLD': 'nl', 'SWE': 'se', 'NOR': 'no'
-            };
-            countryCode = iso3to2[d.properties.ISO_A3] || '';
-          }
-          
-          if (!countryCode) {
-            const countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '').toLowerCase();
-            const nameMapping: Record<string, string> = {
-              'argentina': 'ar',
-              'united states': 'us',
-              'united states of america': 'us',
-              'canada': 'ca',
-              'brazil': 'br',
-              'united kingdom': 'gb',
-              'france': 'fr',
-              'germany': 'de',
-              'spain': 'es',
-              'italy': 'it',
-              'russia': 'ru',
-              'china': 'cn',
-              'india': 'in',
-              'japan': 'jp',
-              'australia': 'au',
-              'south africa': 'za',
-              'netherlands': 'nl',
-              'belgium': 'be',
-              'switzerland': 'ch',
-              'austria': 'at',
-              'portugal': 'pt',
-              'poland': 'pl',
-              'czech republic': 'cz',
-              'hungary': 'hu',
-              'romania': 'ro',
-              'bulgaria': 'bg',
-              'croatia': 'hr',
-              'slovenia': 'si',
-              'slovakia': 'sk',
-              'estonia': 'ee',
-              'latvia': 'lv',
-              'lithuania': 'lt',
-              'finland': 'fi',
-              'denmark': 'dk',
-              'iceland': 'is',
-              'ireland': 'ie',
-              'greece': 'gr',
-              'turkey': 'tr',
-              'israel': 'il',
-              'singapore': 'sg',
-              'south korea': 'kr',
-              'thailand': 'th',
-              'malaysia': 'my',
-              'indonesia': 'id',
-              'philippines': 'ph',
-              'vietnam': 'vn',
-              'new zealand': 'nz'
-            };
-            countryCode = nameMapping[countryName] || '';
-          }
-        }
-        
-        const count = countryData[countryCode] || 0;
-        const countryName = d.properties.NAME || d.properties.name || d.properties.NAME_EN || 'Unknown';
-        const rank = countryRanking[countryCode];
+        const count = countryData[countryName] || 0;
+        const countryFullName = d.properties.NAME || d.properties.name || d.properties.NAME_EN || 'Unknown';
+        const rank = countryRanking[countryName];
         
         if (count === 0) {
-          return `${countryName}: 0 servidores`;
+          return `${countryFullName}: 0 servidores`;
         }
         
-        return `${countryName}: ${count} servidor${count !== 1 ? 'es' : ''} (Ranking #${rank})`;
+        return `${countryFullName}: ${count} servidor${count !== 1 ? 'es' : ''} (Ranking #${rank})`;
       });
 
     // Add graticules (grid lines) for better visual reference
@@ -660,7 +568,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     // Initialize position to first country (highest servers)
     if (!isAutoRotating && countriesWithServers.length > 0) {
       const firstCountry = countriesWithServers[0];
-      const coords = countryCoordinates[firstCountry.code];
+      const coords = countryCoordinates[firstCountry.name];
       if (coords) {
         // Start with a smooth transition to the first country
         setTimeout(() => {
@@ -681,7 +589,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       setAutoRotateIndex(prevIndex => {
         const nextIndex = (prevIndex + 1) % countriesWithServers.length;
         const nextCountry = countriesWithServers[nextIndex];
-        const coords = countryCoordinates[nextCountry.code];
+        const coords = countryCoordinates[nextCountry.name];
         
         if (coords) {
           // Smooth transition to next country
