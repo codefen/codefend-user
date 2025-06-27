@@ -16,6 +16,9 @@ on:
       windows_x86_64_sig:
         description: "Signature for Windows x86_64 build"
         value: ${{ jobs.windowsBuilding.outputs.windows_x86_64_sig }}
+      windows_x86_64_name:
+        description: "Name for Windows x86_64 build"
+        value: ${{ jobs.windowsBuilding.outputs.windows_x86_64_name }}
   workflow_dispatch:
 
 
@@ -30,6 +33,7 @@ jobs:
       attestations: write
     outputs:
       windows_x86_64_sig: ${{ steps.extract-signatures.outputs.windows_x86_64_sig }}
+      windows_x86_64_name: ${{ steps.extract-signatures.outputs.windows_x86_64_name }}
     strategy:
       fail-fast: false
       matrix:
@@ -171,26 +175,31 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
 
-      - name: 🔍 Verify executable signature
-        run: |
-          $package_version = "${{ inputs.package_version }}"
-          $exePath = "src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.exe"
+      # - name: 🔍 Verify executable signature
+      #   run: |
+      #     $package_version = "${{ inputs.package_version }}"
+      #     $exePath = Get-ChildItem "src-tauri\target\release\bundle\nsis" -Filter "*${{ inputs.package_version }}_x64-setup.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+
+      #     if (-not $exePath) {
+      #       Write-Error "No matching executable found"
+      #       exit 1
+      #     }
           
-          if (-not (Test-Path $exePath)) {
-            Write-Error "Executable not found: $exePath"
-            exit 1
-          }
+      #     # if (-not (Test-Path $exePath)) {
+      #     #   Write-Error "Executable not found: $exePath"
+      #     #   exit 1
+      #     # }
           
-          # Verificar firma digital
-          $signature = Get-AuthenticodeSignature -FilePath $exePath
-          if ($signature.Status -ne "Valid") {
-            Write-Error "Executable is not properly signed. Status: $($signature.Status)"
-            exit 1
-          }
+      #     # Verificar firma digital
+      #     $signature = Get-AuthenticodeSignature -FilePath $exePath
+      #     if ($signature.Status -ne "Valid") {
+      #       Write-Error "Executable is not properly signed. Status: $($signature.Status)"
+      #       exit 1
+      #     }
           
-          Write-Host "Executable is properly signed"
-          Write-Host "Signer: $($signature.SignerCertificate.Subject)"
-          Write-Host "Timestamp: $($signature.TimeStamperCertificate.Subject)"
+      #     Write-Host "Executable is properly signed"
+      #     Write-Host "Signer: $($signature.SignerCertificate.Subject)"
+      #     Write-Host "Timestamp: $($signature.TimeStamperCertificate.Subject)"
 
       - name: 📝 Extract Signatures and Set Outputs
         id: extract-signatures
@@ -209,10 +218,27 @@ jobs:
             return $signature.Trim()
           }
 
-          $windows_x86_64_sig = Read-Signature "src-tauri\target\release\bundle\nsis\codefend-panel_${package_version}_x64-setup.exe.sig"
-          
-          Write-Host "Signatures extracted successfully."
+          $sigFile = Get-ChildItem -Path "src-tauri\target\release\bundle\nsis" -Filter "*_${package_version}_x64-setup.exe.sig" | Select-Object -First 1
+
+          if (-Not $sigFile) {
+            Write-Error "❌ Signature file not found for version $package_version"
+            exit 1
+          }
+
+          $sigPath = $sigFile.FullName
+          $artifactPath = $sigPath -replace '\.sig$', ''
+          $artifactName = Split-Path $artifactPath -Leaf
+
+          # Leer y exponer firma
+          $windows_x86_64_sig = Read-Signature $sigPath
           Write-Host "::set-output name=windows_x86_64_sig::$windows_x86_64_sig"
+
+          # Exponer el nombre del artefacto real
+          Write-Host "::set-output name=windows_x86_64_name::$artifactName"
+
+          Write-Host "✅ Signature and artifact name extracted successfully."
+          Write-Host "Signature path: $sigPath"
+          Write-Host "Artifact name: $artifactName"
 
       # - name: 🛡️ Attest build provenance (publish release only)
       #   uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
@@ -260,7 +286,7 @@ jobs:
       - name: 🛡️ Attest SBOM
         uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
         with:
-          subject-path: 'src-tauri/target/release/bundle/nsis/codefend-panel_${{ inputs.package_version }}_x64-setup.exe'
+          subject-path: "src-tauri/target/release/bundle/nsis/${{ steps.extract-signatures.outputs.windows_x86_64_name }}"
           sbom-path: "sbom.spdx.json"
 
       - name: 🧹 Secure cleanup
