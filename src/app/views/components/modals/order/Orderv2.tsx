@@ -70,7 +70,7 @@ export const orderSectionHeight: Record<OrderSection, number> = {
   [OrderSection.ENVIRONMENT]: 580,
   [OrderSection.ADDITIONAL_INFO]: 580,
   [OrderSection.PAYMENT]: 580,
-  [OrderSection.ANY_PAYMENT_METHOD]: 580,
+  [OrderSection.ANY_PAYMENT_METHOD]: 950,
   [OrderSection.PAYMENT_ERROR]: 580,
   [OrderSection.WELCOME]: 580,
   [OrderSection.WAIT_CHECK]: 580,

@@ -154,17 +154,7 @@ export const CardPaymentModal = ({
         />
       </EmbeddedCheckoutProvider>
 
-      <Show when={!hideBackButton}>
-        <div className="button-wrapper next-btns">
-          <PrimaryButton
-            text="back"
-            click={backStep}
-            className="stripe-back-btn"
-            buttonStyle="black"
-            disabledLoader
-          />
-        </div>
-      </Show>
+
     </div>
   );
 };
