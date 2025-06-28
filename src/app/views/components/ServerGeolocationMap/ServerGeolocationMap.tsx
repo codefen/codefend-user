@@ -82,6 +82,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [userHasInteracted, setUserHasInteracted] = useState(false);
   const [resumeTimeoutId, setResumeTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [currentCountry, setCurrentCountry] = useState<string | null>(null); // País actual mostrado
 
   // Process data to count servers by country
   const countryData = useMemo(() => {
@@ -252,8 +253,74 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   };
   // ============================================
 
+  // Function to get display text based on current country
+  const getDisplayText = () => {
+    if (!currentCountry) {
+      return `Found servers: ${networkData?.length || 0}`;
+    }
+    
+    const count = countryData[currentCountry] || 0;
+    const totalServers = networkData?.length || 0;
+    const percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
+    
+    // Get country code for display
+    const countryCodeMap: Record<string, string> = {
+      'Argentina': 'AR',
+      'USA': 'US', 
+      'Canada': 'CA',
+      'Netherlands': 'NL',
+      'Australia': 'AU',
+      'Brazil': 'BR',
+      'United Kingdom': 'GB',
+      'France': 'FR',
+      'Germany': 'DE',
+      'Spain': 'ES',
+      'Italy': 'IT',
+      'Russia': 'RU',
+      'China': 'CN',
+      'India': 'IN',
+      'Japan': 'JP',
+      'South Africa': 'ZA',
+      'Mexico': 'MX',
+      'Belgium': 'BE',
+      'Switzerland': 'CH',
+      'Austria': 'AT',
+      'Portugal': 'PT',
+      'Poland': 'PL',
+      'Czech Republic': 'CZ',
+      'Hungary': 'HU',
+      'Romania': 'RO',
+      'Bulgaria': 'BG',
+      'Croatia': 'HR',
+      'Slovenia': 'SI',
+      'Slovakia': 'SK',
+      'Estonia': 'EE',
+      'Latvia': 'LV',
+      'Lithuania': 'LT',
+      'Finland': 'FI',
+      'Denmark': 'DK',
+      'Iceland': 'IS',
+      'Ireland': 'IE',
+      'Greece': 'GR',
+      'Turkey': 'TR',
+      'Israel': 'IL',
+      'Singapore': 'SG',
+      'South Korea': 'KR',
+      'Thailand': 'TH',
+      'Malaysia': 'MY',
+      'Indonesia': 'ID',
+      'Philippines': 'PH',
+      'Vietnam': 'VN',
+      'New Zealand': 'NZ'
+    };
+    
+    const countryCode = countryCodeMap[currentCountry] || currentCountry.substring(0, 2).toUpperCase();
+    
+    return `${countryCode} | found servers: ${count} - ${percentage}%`;
+  };
+
   // Function to smoothly interpolate between two rotation positions
-  const smoothRotateTo = (targetCoords: [number, number], duration: number = 2000) => {
+  const smoothRotateTo = (targetCoords: [number, number], countryName: string, duration: number = 2000) => {
     // CRITICAL: Do not start automatic transitions if user is in control
     if (isTransitioning || isDragging || userHasInteracted) {
       return; // User has control - do not interfere with automatic transitions
@@ -296,6 +363,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         requestAnimationFrame(animate);
       } else {
         setIsTransitioning(false);
+        // *** CUANDO LLEGA A DESTINO: Actualizar el país actual ***
+        setCurrentCountry(countryName);
       }
     };
     
@@ -589,7 +658,122 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('opacity', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.3); // 🔹 OPACIDAD: 0.3 para ambos
     // ============================================
 
-  }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking]);
+    // ============================================
+    // 📊 CONTADOR DE SERVIDORES ENCONTRADOS - SVG TEXT CON BANDERA
+    // ============================================
+    // Crear un grupo para contener bandera y texto
+    const infoGroup = svg.append('g')
+      .attr('transform', `translate(${width / 2}, ${height - 30})`) // Centrado horizontalmente, 30px desde abajo
+      .style('pointer-events', 'none'); // No interfiere con interacciones del mouse
+
+    // Si hay un país actual, mostrar bandera + texto
+    if (currentCountry) {
+      const count = countryData[currentCountry] || 0;
+      const totalServers = networkData?.length || 0;
+      const percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
+      
+      // Get country code for flag
+      const countryCodeMap: Record<string, string> = {
+        'Argentina': 'ar',
+        'USA': 'us', 
+        'Canada': 'ca',
+        'Netherlands': 'nl',
+        'Australia': 'au',
+        'Brazil': 'br',
+        'United Kingdom': 'gb',
+        'France': 'fr',
+        'Germany': 'de',
+        'Spain': 'es',
+        'Italy': 'it',
+        'Russia': 'ru',
+        'China': 'cn',
+        'India': 'in',
+        'Japan': 'jp',
+        'South Africa': 'za',
+        'Mexico': 'mx',
+        'Belgium': 'be',
+        'Switzerland': 'ch',
+        'Austria': 'at',
+        'Portugal': 'pt',
+        'Poland': 'pl',
+        'Czech Republic': 'cz',
+        'Hungary': 'hu',
+        'Romania': 'ro',
+        'Bulgaria': 'bg',
+        'Croatia': 'hr',
+        'Slovenia': 'si',
+        'Slovakia': 'sk',
+        'Estonia': 'ee',
+        'Latvia': 'lv',
+        'Lithuania': 'lt',
+        'Finland': 'fi',
+        'Denmark': 'dk',
+        'Iceland': 'is',
+        'Ireland': 'ie',
+        'Greece': 'gr',
+        'Turkey': 'tr',
+        'Israel': 'il',
+        'Singapore': 'sg',
+        'South Korea': 'kr',
+        'Thailand': 'th',
+        'Malaysia': 'my',
+        'Indonesia': 'id',
+        'Philippines': 'ph',
+        'Vietnam': 'vn',
+        'New Zealand': 'nz'
+      };
+      
+      const countryCode = countryCodeMap[currentCountry];
+      
+      if (countryCode) {
+                 // Agregar bandera como imagen SVG
+         infoGroup.append('image')
+           .attr('href', `https://flagcdn.com/24x18/${countryCode}.png`) // 24x18px flag from flagcdn.com
+           .attr('x', -37) // Posición relativa al grupo (bandera a la izquierda)
+           .attr('y', -5.25) // Centrada verticalmente
+           .attr('width', 14) // Un cachito menos (16 -> 14)
+           .attr('height', 10.5); // Un cachito menos (12 -> 10.5)
+        
+                 // Agregar texto al lado de la bandera
+         infoGroup.append('text')
+           .attr('x', -18) // Posición relativa al grupo (texto después de la bandera más pequeña)
+           .attr('y', 0) // Centrado verticalmente
+           .attr('text-anchor', 'start') // Alineado a la izquierda
+           .attr('dominant-baseline', 'middle')
+           .attr('fill', '#333')
+           .attr('font-size', '14px')
+           .attr('font-weight', 'bold')
+           .attr('font-family', 'Arial, sans-serif')
+           .text(`Found servers: ${count} - ${percentage}%`);
+      } else {
+                 // Fallback si no hay código de país
+         infoGroup.append('text')
+           .attr('x', 0)
+           .attr('y', 0)
+           .attr('text-anchor', 'middle')
+           .attr('dominant-baseline', 'middle')
+           .attr('fill', '#333')
+           .attr('font-size', '14px')
+           .attr('font-weight', 'bold')
+           .attr('font-family', 'Arial, sans-serif')
+           .text(`${currentCountry} | Found servers: ${count} - ${percentage}%`);
+      }
+    } else {
+      // Mostrar texto general cuando no hay país específico
+      infoGroup.append('text')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .attr('fill', '#333')
+        .attr('font-size', '14px')
+        .attr('font-weight', 'bold')
+        .attr('font-family', 'Arial, sans-serif')
+        .text(`Found servers: ${networkData?.length || 0}`);
+    }
+    // ============================================
+
+  }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking, networkData, currentCountry]);
 
   // Auto-rotation effect for 3D globe
   useEffect(() => {
@@ -604,7 +788,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       if (coords) {
         // Start with a smooth transition to the first country (initial load only)
         setTimeout(() => {
-          smoothRotateTo(coords, 1500); // Initial smooth transition
+          smoothRotateTo(coords, firstCountry.name, 1500); // Initial smooth transition
           setIsAutoRotating(true);
         }, 500); // Small delay to ensure everything is loaded
       }
@@ -635,7 +819,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         if (coords) {
           // Only proceed if user is still not interacting
           if (!isDragging && !userHasInteracted) {
-            smoothRotateTo(coords, 2000); // 2 second smooth transition
+            smoothRotateTo(coords, nextCountry.name, 2000); // 2 second smooth transition
           }
         }
         
@@ -681,6 +865,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     setIsAutoRotating(false); // Stop auto-rotation completely
     setIsTransitioning(false); // Stop any ongoing smooth transitions
     setUserHasInteracted(true); // Mark that user has taken control
+    setCurrentCountry(null); // Clear current country when user takes control
     
     // Clear any existing resume timeout - user is now in control
     if (resumeTimeoutId) {
@@ -793,7 +978,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
             </button>
           </div>
         </div>
-        <span className="server-count">{networkData?.length || 0} servidores</span>
       </div>
       <div className="content" ref={containerRef}>
         <div 
