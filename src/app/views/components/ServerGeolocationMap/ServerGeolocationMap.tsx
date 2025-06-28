@@ -144,7 +144,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
   const [locationMetrics, setLocationMetrics] = useState<any[]>([]);
   const [selectedProjection, setSelectedProjection] = useState('orthographicInteractive');
-  const [rotation, setRotation] = useState<[number, number]>([0, 0]);
   const [autoRotateIndex, setAutoRotateIndex] = useState(0);
   const [currentCountry, setCurrentCountry] = useState<string | null>(null); // País actual mostrado
   const [isZoomed, setIsZoomed] = useState(false);
@@ -274,6 +273,36 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     console.log('[ServerGeolocationMap] countriesWithServers:', arr);
     return arr;
   }, [countryData, countryCoordinates]);
+
+  // Estado de rotación inicializado correctamente (lazy init)
+  const initialRotation = useMemo(() => {
+    if (selectedProjection === 'orthographicInteractive' && countriesWithServers.length > 0) {
+      const firstCountry = countriesWithServers[0];
+      const coords = countryCoordinates[firstCountry.name];
+      if (coords) {
+        return [-coords[0], -coords[1]] as [number, number];
+      }
+    }
+    return [0, 0] as [number, number];
+  }, [selectedProjection, countriesWithServers]);
+  const [rotation, setRotation] = useState<[number, number]>(() => initialRotation);
+
+  // Corrige la rotación si los datos llegan después del primer render
+  useEffect(() => {
+    if (
+      selectedProjection === 'orthographicInteractive' &&
+      countriesWithServers.length > 0 &&
+      rotation[0] === 0 && rotation[1] === 0
+    ) {
+      const firstCountry = countriesWithServers[0];
+      const coords = countryCoordinates[firstCountry.name];
+      if (coords) {
+        setRotation([-coords[0], -coords[1]]);
+        setCurrentCountry(firstCountry.name);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjection, countriesWithServers, rotation]);
 
   // ============================================
   // 🎨 COLORES DEL MAPA 2D - EDITAR AQUÍ
@@ -727,137 +756,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('opacity', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.3); // 🔹 OPACIDAD: 0.3 para ambos
     // ============================================
 
-    // ============================================
-    // 📊 CONTADOR DE SERVIDORES ENCONTRADOS - SVG TEXT CON BANDERA
-    // ============================================
-    // Crear un grupo para contener bandera y texto
-    const infoGroup = svg.append('g')
-      .attr('transform', `translate(${width / 2}, ${height - 30})`) // Centrado horizontalmente, 30px desde abajo
-      .style('pointer-events', 'none'); // No interfiere con interacciones del mouse
-
-    // Si hay un país actual, mostrar bandera + texto
-    if (currentCountry) {
-      let count = countryData[currentCountry] || 0;
-      let percentage = '0.0';
-      // Si mapResources tiene share, úsalo
-      if (mapResources && Array.isArray(mapResources)) {
-        const code = Object.keys(codeToName).find(key => codeToName[key] === currentCountry) || '';
-        const mr = mapResources.find((m: any) => (m.server_pais_code || '').toUpperCase() === code);
-        if (mr && mr.share !== undefined) {
-          percentage = String(mr.share);
-        } else {
-          // fallback tradicional
-          const totalServers = normalizedData?.length || 0;
-          percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
-        }
-      } else {
-        // fallback tradicional
-        const totalServers = normalizedData?.length || 0;
-        percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
-      }
-      
-      // Get country code for flag
-      const countryCodeMap: Record<string, string> = {
-        'Argentina': 'ar',
-        'USA': 'us', 
-        'Canada': 'ca',
-        'Netherlands': 'nl',
-        'Australia': 'au',
-        'Brazil': 'br',
-        'United Kingdom': 'gb',
-        'France': 'fr',
-        'Germany': 'de',
-        'Spain': 'es',
-        'Italy': 'it',
-        'Russia': 'ru',
-        'China': 'cn',
-        'India': 'in',
-        'Japan': 'jp',
-        'South Africa': 'za',
-        'Mexico': 'mx',
-        'Belgium': 'be',
-        'Switzerland': 'ch',
-        'Austria': 'at',
-        'Portugal': 'pt',
-        'Poland': 'pl',
-        'Czech Republic': 'cz',
-        'Hungary': 'hu',
-        'Romania': 'ro',
-        'Bulgaria': 'bg',
-        'Croatia': 'hr',
-        'Slovenia': 'si',
-        'Slovakia': 'sk',
-        'Estonia': 'ee',
-        'Latvia': 'lv',
-        'Lithuania': 'lt',
-        'Finland': 'fi',
-        'Denmark': 'dk',
-        'Iceland': 'is',
-        'Ireland': 'ie',
-        'Greece': 'gr',
-        'Turkey': 'tr',
-        'Israel': 'il',
-        'Singapore': 'sg',
-        'South Korea': 'kr',
-        'Thailand': 'th',
-        'Malaysia': 'my',
-        'Indonesia': 'id',
-        'Philippines': 'ph',
-        'Vietnam': 'vn',
-        'New Zealand': 'nz',
-        'Chile': 'cl',
-      };
-      
-      const countryCode = countryCodeMap[currentCountry];
-      
-      if (countryCode) {
-                 // Agregar bandera como imagen SVG
-         infoGroup.append('image')
-           .attr('href', `https://flagcdn.com/24x18/${countryCode}.png`) // 24x18px flag from flagcdn.com
-           .attr('x', -37) // Posición relativa al grupo (bandera a la izquierda)
-           .attr('y', -5.25) // Centrada verticalmente
-           .attr('width', 14) // Un cachito menos (16 -> 14)
-           .attr('height', 10.5); // Un cachito menos (12 -> 10.5)
-        
-                 // Agregar texto al lado de la bandera
-         infoGroup.append('text')
-           .attr('x', -18) // Posición relativa al grupo (texto después de la bandera más pequeña)
-           .attr('y', 0) // Centrado verticalmente
-           .attr('text-anchor', 'start') // Alineado a la izquierda
-           .attr('dominant-baseline', 'middle')
-           .attr('fill', '#333')
-           .attr('font-size', '14px')
-           .attr('font-weight', 'bold')
-           .attr('font-family', 'Arial, sans-serif')
-           .text(`Found servers: ${count} - ${percentage}%`);
-      } else {
-                 // Fallback si no hay código de país
-         infoGroup.append('text')
-           .attr('x', 0)
-           .attr('y', 0)
-           .attr('text-anchor', 'middle')
-           .attr('dominant-baseline', 'middle')
-           .attr('fill', '#333')
-           .attr('font-size', '14px')
-           .attr('font-weight', 'bold')
-           .attr('font-family', 'Arial, sans-serif')
-           .text(`${currentCountry} | Found servers: ${count} - ${percentage}%`);
-      }
-    } else {
-      // Mostrar texto general cuando no hay país específico
-      infoGroup.append('text')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr('fill', '#333')
-        .attr('font-size', '14px')
-        .attr('font-weight', 'bold')
-        .attr('font-family', 'Arial, sans-serif')
-        .text(`Found servers: ${normalizedData?.length || 0}`);
-    }
-    // ============================================
-
   }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking, normalizedData, currentCountry, projectionScale]);
 
   // Auto-rotation effect for 3D globe
@@ -893,6 +791,14 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     }, started ? 4000 : 2000);
     return () => clearInterval(interval);
   }, [selectedProjection, countriesWithServers, countryCoordinates, autoRotateIndex, currentCountry]);
+
+  // Sincronizar currentCountry también al montar
+  useEffect(() => {
+    if (selectedProjection === 'orthographicInteractive' && countriesWithServers.length > 0) {
+      setCurrentCountry(countriesWithServers[0].name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjection, countriesWithServers.length]);
 
   if (isLoading) {
     return (
@@ -938,11 +844,41 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       <div className="content" ref={containerRef}>
         <div 
           className={`map-container ${selectedProjection === 'orthographicInteractive' ? 'interactive-globe' : ''}`}
-          style={{ cursor: 'default' }}
+          style={{ cursor: 'default', position: 'relative' }}
         >
           <svg ref={svgRef} className="world-map-svg">
             <g ref={globeGroupRef}></g>
           </svg>
+          {/* Fondo blanco con opacidad para la info de bandera + texto, posicionado sobre el mapa */}
+          {currentCountry && (() => {
+            const countryCodeMap: Record<string, string> = {
+              'Argentina': 'ar', 'USA': 'us', 'Canada': 'ca', 'Netherlands': 'nl', 'Australia': 'au', 'Brazil': 'br', 'United Kingdom': 'gb', 'France': 'fr', 'Germany': 'de', 'Spain': 'es', 'Italy': 'it', 'Russia': 'ru', 'China': 'cn', 'India': 'in', 'Japan': 'jp', 'South Africa': 'za', 'Mexico': 'mx', 'Belgium': 'be', 'Switzerland': 'ch', 'Austria': 'at', 'Portugal': 'pt', 'Poland': 'pl', 'Czech Republic': 'cz', 'Hungary': 'hu', 'Romania': 'ro', 'Bulgaria': 'bg', 'Croatia': 'hr', 'Slovenia': 'si', 'Slovakia': 'sk', 'Estonia': 'ee', 'Latvia': 'lv', 'Lithuania': 'lt', 'Finland': 'fi', 'Denmark': 'dk', 'Iceland': 'is', 'Ireland': 'ie', 'Greece': 'gr', 'Turkey': 'tr', 'Israel': 'il', 'Singapore': 'sg', 'South Korea': 'kr', 'Thailand': 'th', 'Malaysia': 'my', 'Indonesia': 'id', 'Philippines': 'ph', 'Vietnam': 'vn', 'New Zealand': 'nz', 'Chile': 'cl',
+            };
+            const countryCode = countryCodeMap[currentCountry];
+            let count = countryData[currentCountry] || 0;
+            let percentage = '0.0';
+            if (mapResources && Array.isArray(mapResources)) {
+              const code = Object.keys(codeToName).find(key => codeToName[key] === currentCountry) || '';
+              const mr = mapResources.find((m: any) => (m.server_pais_code || '').toUpperCase() === code);
+              if (mr && mr.share !== undefined) {
+                percentage = String(mr.share);
+              } else {
+                const totalServers = normalizedData?.length || 0;
+                percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
+              }
+            } else {
+              const totalServers = normalizedData?.length || 0;
+              percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
+            }
+            return (
+              <div className="info-group" style={{ position: 'absolute', left: '50%', bottom: 30, transform: 'translateX(-50%)', zIndex: 2 }}>
+                {countryCode && (
+                  <img src={`https://flagcdn.com/24x18/${countryCode}.png`} alt={currentCountry} style={{ marginRight: 8, width: 18, height: 14, verticalAlign: 'middle' }} />
+                )}
+                <span>Found servers: {count} - {percentage}%</span>
+              </div>
+            );
+          })()}
         </div>
         <div className="location-table">
           <Tablev3

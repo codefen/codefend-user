@@ -190,4 +190,18 @@
       min-height: 300px;
     }
   }
+}
+
+.info-group {
+  background: rgba(255,255,255,0.85);
+  border-radius: 8px;
+  padding: 6px 18px 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-size: 15px;
+  font-weight: bold;
+  font-family: satoshi, Arial, sans-serif;
+  color: #222;
+  margin-top: 8px;
 } 
