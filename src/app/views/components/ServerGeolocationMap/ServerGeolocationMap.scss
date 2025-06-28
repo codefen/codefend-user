@@ -20,16 +20,16 @@
         }
         
         button {
-          background: none;
+          background: rgb(238 238 238 / 80%);
           border: none;
           color: #666;
-          font-size: 1rem;
           font-family: satoshi;
           font-weight: bold;
           cursor: pointer;
           padding: 0.25rem 0.5rem;
           transition: color 0.2s ease;
           text-transform: uppercase;
+          font-size: 0.8em;
           
           &:hover {
             color: var(--secondary-color-100);
@@ -39,6 +39,8 @@
           &.active {
             color: var(--secondary-color-100);
             text-decoration: underline;
+            font-family: satoshi;
+            background: rgb(255 57 57 / 10%);
           }
         }
       }
