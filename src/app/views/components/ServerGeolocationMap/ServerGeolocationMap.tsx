@@ -172,7 +172,7 @@ function normalizeCountryData(data: any[]): any[] {
 export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({ 
   networkData, 
   resourceType = RESOURCE_CLASS.NETWORK, 
-  title = "Server Geolocation Distribution",
+  title = "Global server distribution",
   mapResources
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -843,7 +843,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       <div className="card title server-geolocation-map">
         <div className="header">
           <div className="title-section">
-            <span>Server Geolocation distribution</span>
+            <span>Global server distribution</span>
           </div>
         </div>
         <div className="content" ref={containerRef}>
@@ -860,7 +860,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     <div className="card title server-geolocation-map">
       <div className="header">
         <div className="title-section">
-          <span>Server Geolocation distribution</span>
+          <span>Global server distribution</span>
           <div className="view-tabs">
             <span className="divider">|</span>
             <button 
