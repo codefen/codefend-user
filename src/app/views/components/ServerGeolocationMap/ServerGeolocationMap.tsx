@@ -75,7 +75,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const [locationMetrics, setLocationMetrics] = useState<any[]>([]);
   const [selectedProjection, setSelectedProjection] = useState('orthographicInteractive');
   const [rotation, setRotation] = useState<[number, number]>([0, 0]);
-  const [hasInitializedRotation, setHasInitializedRotation] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<[number, number] | null>(null);
   const [autoRotateIndex, setAutoRotateIndex] = useState(0);
@@ -83,7 +82,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [userHasInteracted, setUserHasInteracted] = useState(false);
   const [resumeTimeoutId, setResumeTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const [nextDestination, setNextDestination] = useState<[number, number] | null>(null);
 
   // Process data to count servers by country
   const countryData = useMemo(() => {
@@ -156,7 +154,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const isTransitioningRef = useRef(isTransitioning);
   const userHasInteractedRef = useRef(userHasInteracted);
   const countriesWithServersRef = useRef(countriesWithServers);
-  const rotationRef = useRef(rotation);
+  const rotationRef = useRef<[number, number]>([0, 0]);
   
   // Update refs when state changes
   useEffect(() => {
@@ -178,8 +176,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   useEffect(() => {
     rotationRef.current = rotation;
   }, [rotation]);
-
-
 
   // Coordenadas geográficas para países (longitud, latitud)
   const countryCoordinates: Record<string, [number, number]> = {
@@ -232,21 +228,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     'New Zealand': [174.0, -41.0]
   };
 
-  // Initialize rotation to first country when data is ready
-  useEffect(() => {
-    if (!hasInitializedRotation && countriesWithServers.length > 0 && selectedProjection === 'orthographicInteractive') {
-      const firstCountry = countriesWithServers[0];
-      const coords = countryCoordinates[firstCountry.name];
-      
-      if (coords) {
-        console.log('🎯 Initializing globe to first country:', firstCountry.name, 'at coords:', coords);
-        const initialRotation: [number, number] = [-coords[0], -coords[1]];
-        setRotation(initialRotation);
-        setHasInitializedRotation(true);
-      }
-    }
-  }, [countriesWithServers, hasInitializedRotation, selectedProjection, countryCoordinates]);
-
   // ============================================
   // 🎨 COLORES DEL MAPA 2D - EDITAR AQUÍ
   // ============================================
@@ -292,7 +273,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       return; // User has control - do not interfere with automatic transitions
     }
     
-    // console.log('🎯 Starting smooth rotation to:', targetCoords, 'from current rotation:', rotationRef.current);
+    console.log('🎯 Starting smooth rotation to:', targetCoords, 'from current rotation:', rotationRef.current);
     
     setIsTransitioning(true);
     const startRotation = rotationRef.current;
@@ -307,17 +288,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     
     const deltaLat = targetRotation[1] - startRotation[1];
     
-    // console.log('📐 Calculated deltas:', { deltaLon, deltaLat, startRotation, targetRotation });
+    console.log('📐 Calculated deltas:', { deltaLon, deltaLat, startRotation, targetRotation });
     
     const startTime = Date.now();
     
     const animate = () => {
-              // CRITICAL: Stop animation immediately if user takes control
-        if (isDragging || userHasInteracted) {
-          // console.log('⏹️ Animation stopped - user took control');
-          setIsTransitioning(false);
-          return; // User has taken control - abort automatic animation
-        }
+      // CRITICAL: Stop animation immediately if user takes control
+      if (isDragging || userHasInteracted) {
+        console.log('⏹️ Animation stopped - user took control');
+        setIsTransitioning(false);
+        return; // User has taken control - abort automatic animation
+      }
       
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
@@ -332,12 +313,12 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       
       setRotation([currentLon, currentLat]);
       
-              if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          // console.log('✅ Animation completed to rotation:', [currentLon, currentLat]);
-          setIsTransitioning(false);
-        }
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        console.log('✅ Animation completed to rotation:', [currentLon, currentLat]);
+        setIsTransitioning(false);
+      }
     };
     
     requestAnimationFrame(animate);
@@ -597,7 +578,15 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
   // Auto-rotation effect for 3D globe
   useEffect(() => {
+    console.log('🔍 AUTO-ROTATION useEffect triggered:', {
+      selectedProjection,
+      countriesCount: countriesWithServersRef.current.length,
+      userHasInteracted,
+      isAutoRotating
+    });
+
     if (selectedProjection !== 'orthographicInteractive' || countriesWithServersRef.current.length === 0) {
+      console.log('❌ Early return - wrong projection or no countries');
       return;
     }
 
@@ -610,55 +599,40 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
     // Set up auto-rotation timer - only if auto-rotation is active and user hasn't interacted
     if (!isAutoRotating || userHasInteracted) {
+      console.log('❌ Not setting up interval:', { isAutoRotating, userHasInteracted });
       return;
     }
 
     console.log('✅ Setting up auto-rotation interval');
-    
-    // Immediately set the next destination when auto-rotation starts
-    if (!nextDestination && countriesWithServersRef.current.length > 0) {
-      const nextIndex = (autoRotateIndex + 1) % countriesWithServersRef.current.length;
-      const nextCountry = countriesWithServersRef.current[nextIndex];
-      const coords = countryCoordinates[nextCountry.name];
-      if (coords) {
-        console.log('🎯 Setting initial next destination:', nextCountry.name, 'at coords:', coords);
-        setNextDestination(coords);
-      }
-    }
-    
     const interval = setInterval(() => {
       // STRICT CHECK: If user is dragging or has interacted, DO NOT auto-rotate
       if (isDraggingRef.current || isTransitioningRef.current || userHasInteractedRef.current) {
         return; // User has control - do not interfere
       }
 
-      // Use the pre-calculated next destination
-      if (nextDestination) {
-        console.log('🔄 Auto-rotation tick - moving to next destination:', nextDestination);
-        smoothRotateTo(nextDestination, 3000); // 3 second smooth transition
+      console.log('🔄 Auto-rotation tick - moving to next country');
+
+      setAutoRotateIndex(prevIndex => {
+        const countries = countriesWithServersRef.current;
+        if (countries.length === 0) return prevIndex;
         
-        // Calculate the destination AFTER this one
-        setAutoRotateIndex(prevIndex => {
-          const countries = countriesWithServersRef.current;
-          if (countries.length === 0) return prevIndex;
-          
-          const currentIndex = (prevIndex + 1) % countries.length;
-          const nextIndex = (currentIndex + 1) % countries.length;
-          const nextCountry = countries[nextIndex];
-          const coords = countryCoordinates[nextCountry.name];
-          
-          if (coords) {
-            console.log('🎯 Pre-calculating next destination:', nextCountry.name, 'at coords:', coords);
-            setNextDestination(coords);
+        const nextIndex = (prevIndex + 1) % countries.length;
+        const nextCountry = countries[nextIndex];
+        const coords = countryCoordinates[nextCountry.name];
+        
+        if (coords) {
+          // Only proceed if user is still not interacting
+          if (!isDraggingRef.current && !userHasInteractedRef.current) {
+            smoothRotateTo(coords, 3000); // 3 second smooth transition
           }
-          
-          return currentIndex;
-        });
-      }
+        }
+        
+        return nextIndex;
+      });
     }, 6000); // Change every 6 seconds (3s transition + 3s pause)
 
     return () => clearInterval(interval);
-  }, [selectedProjection, isAutoRotating, userHasInteracted, nextDestination]); // isAutoRotating MUST be in dependencies
+  }, [selectedProjection, isAutoRotating, userHasInteracted]); // isAutoRotating MUST be in dependencies
 
   // Reset auto-rotation when switching to 3D globe
   useEffect(() => {
@@ -670,29 +644,21 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         setUserHasInteracted(false);
       }
       
-      // ONLY reset initialization flag if user hasn't interacted yet
-      // This prevents the globe from jumping back to Argentina after user interaction
-      if (!userHasInteracted) {
-        setHasInitializedRotation(false);
-      }
-      
-      // Clear any existing resume timeout and reset destination
+      // Clear any existing resume timeout
       if (resumeTimeoutId) {
         clearTimeout(resumeTimeoutId);
         setResumeTimeoutId(null);
       }
-      setNextDestination(null); // Reset destination when switching to 3D
     } else {
       // When switching away from 3D, stop auto-rotation
       setIsAutoRotating(false);
-      setNextDestination(null); // Reset destination when switching away from 3D
       // Clear timeout when switching away from 3D
       if (resumeTimeoutId) {
         clearTimeout(resumeTimeoutId);
         setResumeTimeoutId(null);
       }
     }
-  }, [selectedProjection, resumeTimeoutId, userHasInteracted]);
+  }, [selectedProjection, resumeTimeoutId]);
 
   // Mouse event handlers for rotation (only used with interactive 3D globe)
   const handleMouseDown = (event: React.MouseEvent) => {
@@ -743,27 +709,18 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     if (resumeTimeoutId) {
       console.log('🗑️ Clearing existing timeout:', resumeTimeoutId);
       clearTimeout(resumeTimeoutId);
+      setResumeTimeoutId(null);
     }
     
     // IMPORTANT: Globe stays exactly where user left it for 5 seconds
-    // Only after 5 seconds of inactivity, resume auto-rotation to the pre-calculated destination
+    // Only after 5 seconds of inactivity, resume auto-rotation
     const timeoutId = setTimeout(() => {
-      console.log('⏰ TIMEOUT FIRED - 5 seconds expired, resuming auto-rotation');
+      console.log('⏰ TIMEOUT FIRED - 5 seconds expired, resetting userHasInteracted to false');
       console.log('📊 Estado antes del reset:', { userHasInteracted, isAutoRotating });
-      console.log('🎯 Next destination available:', nextDestination);
-      
-      // Resume auto-rotation and immediately go to the next destination
       setUserHasInteracted(false);
-      
-      // If we have a pre-calculated destination, go there immediately
-      if (nextDestination) {
-        console.log('🚀 Immediately moving to pre-calculated destination:', nextDestination);
-        smoothRotateTo(nextDestination, 3000);
-      }
-      
       setResumeTimeoutId(null);
-      console.log('✅ Auto-rotation resumed from user position');
-    }, 5000);
+      console.log('✅ userHasInteracted reset completed');
+    }, 2000); // Reducido a 2 segundos para testing
     
     console.log('⏱️ Timeout created with ID:', timeoutId);
     setResumeTimeoutId(timeoutId);

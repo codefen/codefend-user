@@ -600,6 +600,15 @@ export const getDomainCounts = (members: any) => {
   }));
 };
 
+export const getMappedDomainCount = (members: any[]) => {
+  return members.map((member: any) => {
+    return {
+      domain: member.resource_domain,
+      quantity: member.count,
+    };
+  });
+};
+
 export function addEventListener<K extends keyof WindowEventMap>(
   target: Window & typeof globalThis,
   type: K,

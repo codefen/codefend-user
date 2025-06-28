@@ -115,7 +115,7 @@ export const useOptimisticSorting = <T>(): OptimisticSortingResult<T> => {
       lastRequest.direction === currentRequest.direction &&
       lastRequest.data === currentRequest.data
     ) {
-      console.log('🔄 Skipping duplicate sort request');
+      // console.log('🔄 Skipping duplicate sort request');
       return;
     }
 
@@ -123,9 +123,9 @@ export const useOptimisticSorting = <T>(): OptimisticSortingResult<T> => {
     currentSortIdRef.current = sortId;
     lastSortRequestRef.current = currentRequest;
 
-    console.log(
-      `🔄 [${sortId}] Starting optimistic sort for ${data.length} rows by ${column} (${direction})`
-    );
+    // console.log(
+    //   `🔄 [${sortId}] Starting optimistic sort for ${data.length} rows by ${column} (${direction})`
+    // );
 
     // Inmediatamente mostrar estado de sorting (UI optimista)
     setSortingState(prev => ({
@@ -150,10 +150,10 @@ export const useOptimisticSorting = <T>(): OptimisticSortingResult<T> => {
             sortProgress: 100,
             optimisticData: sorted,
           }));
-          console.log(`✅ [${sortId}] Optimistic sort completed in main thread`);
+          // console.log(`✅ [${sortId}] Optimistic sort completed in main thread`);
         }
       } catch (error) {
-        console.error(`❌ [${sortId}] Error in optimistic sort:`, error);
+        // console.error(`❌ [${sortId}] Error in optimistic sort:`, error);
         if (currentSortIdRef.current === sortId) {
           setSortingState(prev => ({
             ...prev,
@@ -171,7 +171,7 @@ export const useOptimisticSorting = <T>(): OptimisticSortingResult<T> => {
       return; // No hay sorting activo, no hacer nada
     }
 
-    console.log('🛑 Cancelling optimistic sort');
+    // console.log('🛑 Cancelling optimistic sort');
     currentSortIdRef.current = '';
     lastSortRequestRef.current = null;
     setSortingState(prev => ({

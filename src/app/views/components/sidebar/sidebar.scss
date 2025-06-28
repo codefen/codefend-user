@@ -482,6 +482,17 @@
   }
 }
 
+@media only screen and (max-height: 790px) {
+  .sidebar.desktop-active {
+    padding-bottom: 10px;
+    max-height: calc(100dvh - calc(28px + var(--nav-height)));
+
+    .sidebar-group-title {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
 @media only screen and (min-width: 1230px) {
   .sidebar-open-button {
     display: none;

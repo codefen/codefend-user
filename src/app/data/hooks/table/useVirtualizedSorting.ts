@@ -196,9 +196,9 @@ export const useVirtualizedSorting = ({
   const activateSkeleton = useCallback(() => {
     // Solo activar skeleton si hay más de 500 filas (incluyendo childs)
     if (memoizedData.totalCount <= 500) {
-      console.log(
-        `⏭️ Skipping skeleton activation - only ${memoizedData.totalCount} total rows (need > 500)`
-      );
+      // console.log(
+      //   `⏭️ Skipping skeleton activation - only ${memoizedData.totalCount} total rows (need > 500)`
+      // );
       return;
     }
 
@@ -210,7 +210,7 @@ export const useVirtualizedSorting = ({
     setShowSkeleton(true);
     skeletonTimeoutRef.current = setTimeout(() => {
       setShowSkeleton(false);
-      console.log('✅ Skeleton deactivated after minimum time');
+      // console.log('✅ Skeleton deactivated after minimum time');
     }, 1000); // Mínimo 1 segundo
   }, [memoizedData.totalCount]);
 
@@ -254,7 +254,7 @@ export const useVirtualizedSorting = ({
       // Si el sorting terminó pero el skeleton sigue activo,
       // NO desactivarlo inmediatamente para respetar el tiempo mínimo de 2 segundos
       // El timeout se encargará de desactivarlo después de 2 segundos
-      console.log('🔄 Sorting completed, waiting for minimum skeleton time...');
+      // console.log('🔄 Sorting completed, waiting for minimum skeleton time...');
     }
   }, [optimisticSorting.sortingState.isSorting, showSkeleton]);
 
@@ -270,7 +270,7 @@ export const useVirtualizedSorting = ({
       // Si hay datos optimistas disponibles y coinciden con los parámetros actuales,
       // NO desactivar el skeleton inmediatamente para respetar el tiempo mínimo
       // El timeout se encargará de desactivarlo después de 2 segundos
-      console.log('✅ Optimistic data available, waiting for minimum skeleton time...');
+      // console.log('✅ Optimistic data available, waiting for minimum skeleton time...');
     }
   }, [
     showSkeleton,
@@ -315,15 +315,14 @@ export const useSortingPerformance = (result: VirtualizedSortingResult) => {
 
   const logPerformance = useCallback(() => {
     const current = result;
-    const previous = prevResultRef.current;
-
-    if (current.isSorting !== previous.isSorting) {
-      if (current.isSorting) {
-        console.log(`🔄 Sorting started - ${current.totalRowCount} rows`);
-      } else {
-        console.log(`✅ Sorting completed - Progress: ${current.sortProgress.toFixed(1)}%`);
-      }
-    }
+    // const previous = prevResultRef.current;
+    // if (current.isSorting !== previous.isSorting) {
+    //   if (current.isSorting) {
+    //     console.log(`🔄 Sorting started - ${current.totalRowCount} rows`);
+    //   } else {
+    //     console.log(`✅ Sorting completed - Progress: ${current.sortProgress.toFixed(1)}%`);
+    //   }
+    // }
 
     prevResultRef.current = current;
   }, [result]);
