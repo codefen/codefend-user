@@ -26,6 +26,7 @@ interface ServerGeolocationMapProps {
   networkData: NetworkDevice[];
   resourceType?: string;
   title?: string;
+  mapResources?: { server_pais_code: string; value: string | number; percentage?: number; share?: string | number }[];
 }
 
 // Available projections for comparison
@@ -62,10 +63,79 @@ const locationColumns: ColumnTableV3[] = [
   },
 ];
 
+// Función utilitaria para normalizar los datos de país
+function normalizeCountryData(data: any[]): any[] {
+  const nameMapping: Record<string, string> = {
+    'US': 'USA',
+    'United States': 'USA',
+    'United States of America': 'USA',
+    'Brasil': 'Brazil',
+    'UK': 'United Kingdom',
+    'Great Britain': 'United Kingdom',
+    'Holland': 'Netherlands',
+    'Deutschland': 'Germany',
+    'Alemania': 'Germany',
+    'España': 'Spain',
+    'España (Spain)': 'Spain',
+    'México': 'Mexico',
+    'Australie': 'Australia',
+    'Argentine': 'Argentina',
+    'Suisse': 'Switzerland',
+    'Suiza': 'Switzerland',
+    'Österreich': 'Austria',
+    'Italia': 'Italy',
+    'Francia': 'France',
+    'Canadá': 'Canada',
+    'Países Bajos': 'Netherlands',
+    'Países bajos': 'Netherlands',
+    'Países Bajos (Netherlands)': 'Netherlands',
+    'Reino Unido': 'United Kingdom',
+    'Reino Unido (UK)': 'United Kingdom',
+    'Rusia': 'Russia',
+    'Japón': 'Japan',
+    'China': 'China',
+    'India': 'India',
+    'Sudáfrica': 'South Africa',
+    'Bélgica': 'Belgium',
+    'Suède': 'Sweden',
+    'Suecia': 'Sweden',
+    'Noruega': 'Norway',
+    'Dinamarca': 'Denmark',
+    'Finlandia': 'Finland',
+    'Irlanda': 'Ireland',
+    'Grecia': 'Greece',
+    'Turquía': 'Turkey',
+    'Israel': 'Israel',
+    'Singapur': 'Singapore',
+    'Corea del Sur': 'South Korea',
+    'Tailandia': 'Thailand',
+    'Malasia': 'Malaysia',
+    'Indonesia': 'Indonesia',
+    'Filipinas': 'Philippines',
+    'Vietnam': 'Vietnam',
+    'Nueva Zelanda': 'New Zealand',
+    'Chile': 'Chile',
+  };
+  return data.map((item) => {
+    let country = (item.server_pais || '').trim();
+    if (nameMapping[country]) country = nameMapping[country];
+    // Si no hay country, intentar con el código
+    if (!country && item.server_pais_code) {
+      const codeMap: Record<string, string> = {
+        'us': 'USA', 'ar': 'Argentina', 'de': 'Germany', 'es': 'Spain', 'fr': 'France', 'it': 'Italy', 'br': 'Brazil', 'gb': 'United Kingdom', 'nl': 'Netherlands', 'au': 'Australia', 'ca': 'Canada', 'ru': 'Russia', 'cn': 'China', 'in': 'India', 'jp': 'Japan', 'za': 'South Africa', 'mx': 'Mexico', 'be': 'Belgium', 'ch': 'Switzerland', 'at': 'Austria', 'pt': 'Portugal', 'pl': 'Poland', 'cz': 'Czech Republic', 'hu': 'Hungary', 'ro': 'Romania', 'bg': 'Bulgaria', 'hr': 'Croatia', 'si': 'Slovenia', 'sk': 'Slovakia', 'ee': 'Estonia', 'lv': 'Latvia', 'lt': 'Lithuania', 'fi': 'Finland', 'dk': 'Denmark', 'is': 'Iceland', 'ie': 'Ireland', 'gr': 'Greece', 'tr': 'Turkey', 'il': 'Israel', 'sg': 'Singapore', 'kr': 'South Korea', 'th': 'Thailand', 'my': 'Malaysia', 'id': 'Indonesia', 'ph': 'Philippines', 'vn': 'Vietnam', 'nz': 'New Zealand', 'cl': 'Chile',
+      };
+      const code = (item.server_pais_code || '').toLowerCase();
+      if (codeMap[code]) country = codeMap[code];
+    }
+    return { ...item, server_pais: country };
+  });
+}
+
 export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({ 
   networkData, 
   resourceType = RESOURCE_CLASS.NETWORK, 
-  title = "Server Geolocation Distribution" 
+  title = "Server Geolocation Distribution",
+  mapResources
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -81,68 +151,58 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const globeGroupRef = useRef<SVGGElement | null>(null);
   const [projectionScale, setProjectionScale] = useState(1.0);
 
-  // Process data to count servers by country
+  // Normalizo los datos antes de procesar
+  const normalizedData = useMemo(() => normalizeCountryData(networkData), [networkData]);
+
+  // Utilidad para mapear código de país a nombre
+  const codeToName: Record<string, string> = {
+    'US': 'USA', 'AR': 'Argentina', 'NL': 'Netherlands', 'DE': 'Germany', 'CL': 'Chile', 'ES': 'Spain', 'CA': 'Canada', 'FR': 'France',
+    'BE': 'Belgium', 'CH': 'Switzerland', 'AT': 'Austria', 'PT': 'Portugal', 'PL': 'Poland', 'CZ': 'Czech Republic', 'HU': 'Hungary',
+    'RO': 'Romania', 'BG': 'Bulgaria', 'HR': 'Croatia', 'SI': 'Slovenia', 'SK': 'Slovakia', 'EE': 'Estonia', 'LV': 'Latvia', 'LT': 'Lithuania',
+    'FI': 'Finland', 'DK': 'Denmark', 'IS': 'Iceland', 'IE': 'Ireland', 'GR': 'Greece', 'TR': 'Turkey', 'IL': 'Israel', 'SG': 'Singapore',
+    'KR': 'South Korea', 'TH': 'Thailand', 'MY': 'Malaysia', 'ID': 'Indonesia', 'PH': 'Philippines', 'VN': 'Vietnam', 'NZ': 'New Zealand',
+    'RU': 'Russia', 'CN': 'China', 'IN': 'India', 'JP': 'Japan', 'ZA': 'South Africa', 'MX': 'Mexico', 'GB': 'United Kingdom',
+    'AU': 'Australia', '' : 'unknown'
+  };
+
+  // Log de entrada de datos
+  console.log('[ServerGeolocationMap] networkData:', networkData);
+  console.log('[ServerGeolocationMap] mapResources:', mapResources);
+
+  // Si hay mapResources, armo el conteo de países desde ahí
   const countryData = useMemo(() => {
-    const counts: Record<string, number> = {};
-    
-    console.log('=== DEBUG: Procesando datos de países ===');
-    
-    networkData.forEach((device, index) => {
-      // Usar el nombre completo del país en lugar del código
-      let countryName = device.server_pais?.trim();
-      
-      // Log de los primeros 10 dispositivos para ver la estructura
-      if (index < 10) {
-        console.log(`Dispositivo ${index}:`, {
-          server_pais: device.server_pais,
-          server_pais_code: device.server_pais_code,
-          countryName_procesado: countryName
-        });
+    if (mapResources && Array.isArray(mapResources)) {
+      const counts: Record<string, number> = {};
+      mapResources.forEach(({ server_pais_code, value }) => {
+        const code = (server_pais_code || '').toUpperCase();
+        const name = codeToName[code] || code || 'unknown';
+        const val = typeof value === 'string' ? parseInt(value, 10) : value;
+        if (name) counts[name] = val;
+      });
+      console.log('[ServerGeolocationMap] countryData generado desde mapResources:', counts);
+      return counts;
+    }
+    const reduced = normalizeCountryData(networkData).reduce((acc, item) => {
+      if (item.server_pais && item.server_pais !== 'unknown') {
+        acc[item.server_pais] = (acc[item.server_pais] || 0) + 1;
       }
-      
-      // Normalizar nombres de países para que coincidan con el GeoJSON
-      const nameMapping: Record<string, string> = {
-        'United States': 'USA',
-        'US': 'USA',
-        'Netherlands': 'Netherlands',
-        'Holland': 'Netherlands',
-        'Australia': 'Australia',
-        'Canada': 'Canada',
-        'Argentina': 'Argentina',
-        'Brazil': 'Brazil',
-        'Brasil': 'Brazil',
-        'United Kingdom': 'United Kingdom',
-        'UK': 'United Kingdom',
-        'Great Britain': 'United Kingdom'
-      };
-      
-      // Intentar mapear el nombre
-      if (countryName && nameMapping[countryName]) {
-        countryName = nameMapping[countryName];
-      }
-      
-      if (countryName && countryName !== 'unknown') {
-        counts[countryName] = (counts[countryName] || 0) + 1;
-      }
-    });
-    
-    console.log('=== DEBUG: Conteos finales por país (usando nombres) ===');
-    console.log(counts);
-    
-    return counts;
-  }, [networkData]);
+      return acc;
+    }, {} as Record<string, number>);
+    console.log('[ServerGeolocationMap] countryData generado desde networkData:', reduced);
+    return reduced;
+  }, [mapResources, networkData]);
 
   // Get max count for color scaling
   const maxCount = useMemo(() => {
-    return Math.max(...Object.values(countryData), 1);
+    return Math.max(...Object.values(countryData).map(v => Number(v)), 1);
   }, [countryData]);
 
   // Create ranking-based color mapping
   const countryRanking = useMemo(() => {
     // Get all countries with their counts, sorted by count (descending)
     const sortedCountries = Object.entries(countryData)
-      .filter(([_, count]) => count > 0)
-      .sort(([, a], [, b]) => b - a);
+      .filter(([_, count]) => Number(count) > 0)
+      .sort(([, a], [, b]) => Number(b) - Number(a));
     
     // Create ranking map
     const ranking: Record<string, number> = {};
@@ -151,14 +211,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     });
     
     return ranking;
-  }, [countryData]);
-
-  // Get sorted countries with servers for auto-rotation
-  const countriesWithServers = useMemo(() => {
-    return Object.entries(countryData)
-      .filter(([_, count]) => count > 0)
-      .sort(([_, a], [__, b]) => b - a)
-      .map(([countryName, count]) => ({ name: countryName, count }));
   }, [countryData]);
 
   // Coordenadas geográficas para países (longitud, latitud)
@@ -213,6 +265,16 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     'Chile': [-71.0, -30.0],
   };
 
+  // Get sorted countries with servers for auto-rotation (declarado antes de cualquier uso)
+  const countriesWithServers = useMemo(() => {
+    const arr = Object.entries(countryData)
+      .filter(([countryName, count]) => Number(count) > 0 && countryCoordinates[countryName])
+      .sort(([_, a], [__, b]) => Number(b) - Number(a))
+      .map(([countryName, count]) => ({ name: countryName, count: Number(count) }));
+    console.log('[ServerGeolocationMap] countriesWithServers:', arr);
+    return arr;
+  }, [countryData, countryCoordinates]);
+
   // ============================================
   // 🎨 COLORES DEL MAPA 2D - EDITAR AQUÍ
   // ============================================
@@ -254,11 +316,11 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   // Function to get display text based on current country
   const getDisplayText = () => {
     if (!currentCountry) {
-      return `Found servers: ${networkData?.length || 0}`;
+      return `Found servers: ${normalizedData?.length || 0}`;
     }
     
     const count = countryData[currentCountry] || 0;
-    const totalServers = networkData?.length || 0;
+    const totalServers = normalizedData?.length || 0;
     const percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
     
     // Get country code for display
@@ -367,25 +429,47 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
   // Calculate location metrics for the table
   useEffect(() => {
-    // Safety check: ensure networkData exists and is an array
-    if (!networkData || !Array.isArray(networkData)) {
+    // Safety check: ensure normalizedData exists and is an array
+    if (!normalizedData || !Array.isArray(normalizedData)) {
       setLocationMetrics([]);
       return;
     }
-    
-    const metrics = MetricsService.getCountryMetrics(networkData, resourceType);
-    
-    // Transform data to match table structure - flatten the objects
+    // Si mapResources viene del backend, usarlo para la tabla
+    if (mapResources && Array.isArray(mapResources) && mapResources.length > 0 && mapResources[0].share !== undefined) {
+      const codeToName: Record<string, string> = {
+        'US': 'USA', 'AR': 'Argentina', 'NL': 'Netherlands', 'DE': 'Germany', 'CL': 'Chile', 'ES': 'Spain', 'CA': 'Canada', 'FR': 'France',
+        'BE': 'Belgium', 'CH': 'Switzerland', 'AT': 'Austria', 'PT': 'Portugal', 'PL': 'Poland', 'CZ': 'Czech Republic', 'HU': 'Hungary',
+        'RO': 'Romania', 'BG': 'Bulgaria', 'HR': 'Croatia', 'SI': 'Slovenia', 'SK': 'Slovakia', 'EE': 'Estonia', 'LV': 'Latvia', 'LT': 'Lithuania',
+        'FI': 'Finland', 'DK': 'Denmark', 'IS': 'Iceland', 'IE': 'Ireland', 'GR': 'Greece', 'TR': 'Turkey', 'IL': 'Israel', 'SG': 'Singapore',
+        'KR': 'South Korea', 'TH': 'Thailand', 'MY': 'Malaysia', 'ID': 'Indonesia', 'PH': 'Philippines', 'VN': 'Vietnam', 'NZ': 'New Zealand',
+        'RU': 'Russia', 'CN': 'China', 'IN': 'India', 'JP': 'Japan', 'ZA': 'South Africa', 'MX': 'Mexico', 'GB': 'United Kingdom',
+        'AU': 'Australia', '' : 'unknown'
+      };
+      const metrics = mapResources.map((mr: any) => {
+        const code = (mr.server_pais_code || '').toUpperCase();
+        const country = codeToName[code] || code || 'unknown';
+        return {
+          location: { country, countryCode: code },
+          count: Number(mr.value),
+          percentage: String(mr.share),
+          country,
+          countryCode: code,
+        };
+      });
+      setLocationMetrics(metrics);
+      return;
+    }
+    // Si no, usar el método tradicional
+    const metrics = MetricsService.getCountryMetrics(normalizedData, resourceType);
     const transformedMetrics = metrics.map((metric: any) => ({
-      location: metric, // This contains the full object for the LocationItem component
-      count: metric.count, // Direct access for sorting
-      percentage: metric.percentage, // Direct access for sorting
-      country: metric.country, // Keep for LocationItem
-      countryCode: metric.countryCode, // Keep for LocationItem
+      location: metric,
+      count: metric.count,
+      percentage: metric.percentage,
+      country: metric.country,
+      countryCode: metric.countryCode,
     }));
-    
     setLocationMetrics(transformedMetrics);
-  }, [networkData, resourceType]);
+  }, [normalizedData, resourceType, mapResources]);
 
   // Load world topology data
   useEffect(() => {
@@ -653,9 +737,24 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
     // Si hay un país actual, mostrar bandera + texto
     if (currentCountry) {
-      const count = countryData[currentCountry] || 0;
-      const totalServers = networkData?.length || 0;
-      const percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
+      let count = countryData[currentCountry] || 0;
+      let percentage = '0.0';
+      // Si mapResources tiene share, úsalo
+      if (mapResources && Array.isArray(mapResources)) {
+        const code = Object.keys(codeToName).find(key => codeToName[key] === currentCountry) || '';
+        const mr = mapResources.find((m: any) => (m.server_pais_code || '').toUpperCase() === code);
+        if (mr && mr.share !== undefined) {
+          percentage = String(mr.share);
+        } else {
+          // fallback tradicional
+          const totalServers = normalizedData?.length || 0;
+          percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
+        }
+      } else {
+        // fallback tradicional
+        const totalServers = normalizedData?.length || 0;
+        percentage = totalServers > 0 ? ((count / totalServers) * 100).toFixed(1) : '0.0';
+      }
       
       // Get country code for flag
       const countryCodeMap: Record<string, string> = {
@@ -755,42 +854,43 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         .attr('font-size', '14px')
         .attr('font-weight', 'bold')
         .attr('font-family', 'Arial, sans-serif')
-        .text(`Found servers: ${networkData?.length || 0}`);
+        .text(`Found servers: ${normalizedData?.length || 0}`);
     }
     // ============================================
 
-  }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking, networkData, currentCountry, projectionScale]);
+  }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking, normalizedData, currentCountry, projectionScale]);
 
   // Auto-rotation effect for 3D globe
   useEffect(() => {
     if (selectedProjection !== 'orthographicInteractive' || countriesWithServers.length === 0) {
       return;
     }
-
-    // Lanzar la animación al primer país inmediatamente
     let started = false;
     if (countriesWithServers.length > 0 && autoRotateIndex === 0 && !currentCountry) {
       const firstCountry = countriesWithServers[0];
       const coords = countryCoordinates[firstCountry.name];
+      console.log('[ServerGeolocationMap] Primer país a rotar:', firstCountry.name, 'coords:', coords);
       if (coords) {
         smoothRotateTo(coords, firstCountry.name, 1500);
         started = true;
+      } else {
+        console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', firstCountry.name);
       }
     }
-
-    // Intervalo para rotar cíclicamente
     const interval = setInterval(() => {
       setAutoRotateIndex(prevIndex => {
         const nextIndex = (prevIndex + 1) % countriesWithServers.length;
         const nextCountry = countriesWithServers[nextIndex];
         const coords = countryCoordinates[nextCountry.name];
+        console.log('[ServerGeolocationMap] Siguiente país a rotar:', nextCountry.name, 'coords:', coords);
         if (coords) {
           smoothRotateTo(coords, nextCountry.name, 2000);
+        } else {
+          console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', nextCountry.name);
         }
         return nextIndex;
       });
-    }, started ? 4000 : 2000); // El primero dura más, luego ciclo normal
-
+    }, started ? 4000 : 2000);
     return () => clearInterval(interval);
   }, [selectedProjection, countriesWithServers, countryCoordinates, autoRotateIndex, currentCountry]);
 
