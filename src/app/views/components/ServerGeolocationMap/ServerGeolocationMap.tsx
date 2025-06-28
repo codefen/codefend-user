@@ -203,8 +203,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   };
 
   // Log de entrada de datos
-  console.log('[ServerGeolocationMap] networkData:', networkData);
-  console.log('[ServerGeolocationMap] mapResources:', mapResources);
+  // console.log('[ServerGeolocationMap] networkData:', networkData);
+  // console.log('[ServerGeolocationMap] mapResources:', mapResources);
 
   // Si hay mapResources, armo el conteo de países desde ahí
   const countryData = useMemo(() => {
@@ -216,7 +216,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         const val = typeof value === 'string' ? parseInt(value, 10) : value;
         if (name) counts[name] = val;
       });
-      console.log('[ServerGeolocationMap] countryData generado desde mapResources:', counts);
+      // console.log('[ServerGeolocationMap] countryData generado desde mapResources:', counts);
       return counts;
     }
     const reduced = normalizeCountryData(networkData).reduce((acc, item) => {
@@ -225,7 +225,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       }
       return acc;
     }, {} as Record<string, number>);
-    console.log('[ServerGeolocationMap] countryData generado desde networkData:', reduced);
+    // console.log('[ServerGeolocationMap] countryData generado desde networkData:', reduced);
     return reduced;
   }, [mapResources, networkData]);
 
@@ -308,7 +308,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .filter(([countryName, count]) => Number(count) > 0 && countryCoordinates[countryName])
       .sort(([_, a], [__, b]) => Number(b) - Number(a))
       .map(([countryName, count]) => ({ name: countryName, count: Number(count) }));
-    console.log('[ServerGeolocationMap] countriesWithServers:', arr);
+    // console.log('[ServerGeolocationMap] countriesWithServers:', arr);
     return arr;
   }, [countryData, countryCoordinates]);
 
@@ -547,17 +547,17 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         const geoData = await response.json();
         
         // DEBUG: Log algunos países del GeoJSON para ver la estructura
-        console.log('=== DEBUG: Estructura del GeoJSON ===');
-        console.log('Primeros 5 países en GeoJSON:');
-        geoData.features.slice(0, 5).forEach((feature: any, index: number) => {
-          console.log(`País ${index}:`, {
-            NAME: feature.properties.NAME,
-            ISO_A2: feature.properties.ISO_A2,
-            ISO_A3: feature.properties.ISO_A3,
-            name: feature.properties.name,
-            iso_a2: feature.properties.iso_a2
-          });
-        });
+        // console.log('=== DEBUG: Estructura del GeoJSON ===');
+        // console.log('Primeros 5 países en GeoJSON:');
+        // geoData.features.slice(0, 5).forEach((feature: any, index: number) => {
+        //   console.log(`País ${index}:`, {
+        //     NAME: feature.properties.NAME,
+        //     ISO_A2: feature.properties.ISO_A2,
+        //     ISO_A3: feature.properties.ISO_A3,
+        //     name: feature.properties.name,
+        //     iso_a2: feature.properties.iso_a2
+        //   });
+        // });
         
         // Buscar específicamente Estados Unidos y otros países importantes
         const usFeature = geoData.features.find((f: any) => 
@@ -565,28 +565,28 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
           f.properties.name?.includes('USA') ||
           f.properties.name?.includes('America')
         );
-        console.log('=== DEBUG: Estados Unidos encontrado ===');
-        console.log('Nombre exacto:', usFeature?.properties.name);
-        console.log('Propiedades completas:', usFeature?.properties);
+        // console.log('=== DEBUG: Estados Unidos encontrado ===');
+        // console.log('Nombre exacto:', usFeature?.properties.name);
+        // console.log('Propiedades completas:', usFeature?.properties);
         
         const arFeature = geoData.features.find((f: any) => 
           f.properties.NAME?.includes('Argentina') ||
           f.properties.name?.includes('Argentina')
         );
-        console.log('=== DEBUG: Argentina encontrada ===');
-        console.log(arFeature?.properties);
+        // console.log('=== DEBUG: Argentina encontrada ===');
+        // console.log(arFeature?.properties);
         
         const caFeature = geoData.features.find((f: any) => 
           f.properties.NAME?.includes('Canada') ||
           f.properties.name?.includes('Canada')
         );
-        console.log('=== DEBUG: Canadá encontrado ===');
-        console.log(caFeature?.properties);
+        // console.log('=== DEBUG: Canadá encontrado ===');
+        // console.log(caFeature?.properties);
         
         setWorldData(geoData);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error loading world data:', error);
+        // console.error('Error loading world data:', error);
         // Fallback to the previous source
         try {
           const fallbackResponse = await fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json');
@@ -594,7 +594,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
           setWorldData(fallbackData);
           setIsLoading(false);
         } catch (fallbackError) {
-          console.error('Fallback also failed:', fallbackError);
+          // console.error('Fallback also failed:', fallbackError);
           setIsLoading(false);
         }
       }
@@ -805,12 +805,12 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     if (countriesWithServers.length > 0 && autoRotateIndex === 0 && !currentCountry) {
       const firstCountry = countriesWithServers[0];
       const coords = countryCoordinates[firstCountry.name];
-      console.log('[ServerGeolocationMap] Primer país a rotar:', firstCountry.name, 'coords:', coords);
+      // console.log('[ServerGeolocationMap] Primer país a rotar:', firstCountry.name, 'coords:', coords);
       if (coords) {
         smoothRotateTo(coords, firstCountry.name, MAP_STYLE.rotateFirstDuration);
         started = true;
       } else {
-        console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', firstCountry.name);
+        // console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', firstCountry.name);
       }
     }
     const interval = setInterval(() => {
@@ -818,11 +818,11 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         const nextIndex = (prevIndex + 1) % countriesWithServers.length;
         const nextCountry = countriesWithServers[nextIndex];
         const coords = countryCoordinates[nextCountry.name];
-        console.log('[ServerGeolocationMap] Siguiente país a rotar:', nextCountry.name, 'coords:', coords);
+        // console.log('[ServerGeolocationMap] Siguiente país a rotar:', nextCountry.name, 'coords:', coords);
         if (coords) {
           smoothRotateTo(coords, nextCountry.name, MAP_STYLE.rotateDuration);
         } else {
-          console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', nextCountry.name);
+          // console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', nextCountry.name);
         }
         return nextIndex;
       });
