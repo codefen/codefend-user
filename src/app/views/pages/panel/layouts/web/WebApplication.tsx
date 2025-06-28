@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { WebApplicationResources } from './components/WebApplicationResources.tsx';
 import { WebApplicationStatics } from './components/WebApplicationStatics.tsx';
 import { WebApplicationTitle } from './components/WebApplicationTitle.tsx';
@@ -26,18 +26,6 @@ const WebApplicationView = () => {
   const [showScreen] = useShowScreen();
   const flashlight = useFlashlight();
 
-  // --- Lógica para expandir la sección derecha si hay scroll ---
-  const rightSectionRef = useRef<HTMLElement>(null);
-  const [expandOnScroll, setExpandOnScroll] = useState(false);
-
-  useEffect(() => {
-    const el = rightSectionRef.current;
-    if (el) {
-      setExpandOnScroll(el.scrollHeight > el.clientHeight + 2); // +2 por tolerancia de borde
-    }
-  }, [webResources, isLoading]);
-  // ------------------------------------------------------------
-
   return (
     <EmptyLayout
       className="webapp"
@@ -59,10 +47,7 @@ const WebApplicationView = () => {
       </section>
 
       {/* *****SECTION RIGHT WEB PAGE ***** */}
-      <section className={`right${expandOnScroll ? ' expand-on-scroll' : ''}`} ref={el => {
-        rightSectionRef.current = el;
-        flashlight.rightPaneRef.current = el;
-      }}>
+      <section className="right" ref={flashlight.rightPaneRef}>
         <WebApplicationTitle isLoading={isLoading} />
         <WebApplicationStatics
           domainCount={domainCount.get}
