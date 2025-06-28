@@ -63,6 +63,44 @@ const locationColumns: ColumnTableV3[] = [
   },
 ];
 
+// =============================
+// 🎨 VARIABLES DE ESTÉTICA Y ANIMACIÓN (EDITAR AQUÍ)
+// =============================
+const MAP_STYLE = {
+  // Colores de países
+  countryNoData: '#eee', // Países sin datos
+  countryTop: '#333',    // País #1 con más servidores
+  countryBase: '#333',   // Color base para el gradiente de países
+
+  // Bordes de países
+  countryBorder: '#ccc',
+  countryBorderWidth: 0.2,
+
+  // Fondo de agua (globo)
+  oceanCenter: '#fff',    // Centro del océano (blanco puro)
+  oceanEdge: '#fefefe',      // Bordes del océano (gris muy claro)
+  globeBorder: '#e5e7eb', // Borde del globo (gris claro)
+  globeBorderWidth: 1,
+
+  // Grilla (meridianos/paralelos)
+  graticule3D: '#333',
+  graticule2D: '#e0e0e0',
+  graticuleWidth3D: 0.3,
+  graticuleWidth2D: 0.5,
+  graticuleOpacity: 0.3,
+
+  // Zoom y animación
+  zoomInScale: 2.0,
+  zoomOutScale: 1.0,
+  zoomInDuration: 2000, // ms
+  zoomOutDuration: 1000, // ms
+  rotateDuration: 2000, // ms
+  rotateFirstDuration: 1500, // ms
+  autoRotateInterval: 4000, // ms
+  autoRotateIntervalShort: 2000, // ms
+};
+// =============================
+
 // Función utilitaria para normalizar los datos de país
 function normalizeCountryData(data: any[]): any[] {
   const nameMapping: Record<string, string> = {
@@ -325,20 +363,20 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
     const count = countryData[countryName] || 0;
     
     if (count === 0) {
-      return '#eee'; // 🔹 COLOR: Países sin datos (gris muy claro)
+      return MAP_STYLE.countryNoData;
     }
     
     const rank = countryRanking[countryName];
-    if (!rank) return '#eee';
+    if (!rank) return MAP_STYLE.countryNoData;
     
     if (rank === 1) {
-      return '#333'; // 🔹 COLOR: País #1 con más servidores (rojo base)
+      return MAP_STYLE.countryTop;
     }
     
     // Calculate lightening percentage based on rank
     // 🔹 DISTANCIA: 0%, 60%, 120%, 180%, etc. (incrementos de 60%)
     const lightenPercentage = (rank - 1) * 10;
-    return lightenColor('#333', lightenPercentage);
+    return lightenColor(MAP_STYLE.countryBase, lightenPercentage);
   };
   // ============================================
 
@@ -410,7 +448,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   };
 
   // Reemplazo el setTimeout de setProjectionScale(1.2) por una animación suave a 1.5
-  const animateProjectionScale = (from: number, to: number, duration: number = 300) => {
+  const animateProjectionScale = (from: number, to: number, duration: number = MAP_STYLE.zoomOutDuration) => {
     const start = Date.now();
     const step = () => {
       const elapsed = Date.now() - start;
@@ -427,8 +465,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   };
 
   // En smoothRotateTo, antes de rotar, animar suavemente de 2.0 a 1.0
-  const smoothRotateTo = (targetCoords: [number, number], countryName: string, duration: number = 600) => {
-    animateProjectionScale(2.0, 1.0, 1000); // Regreso suave en 1 segundo
+  const smoothRotateTo = (targetCoords: [number, number], countryName: string, duration: number = MAP_STYLE.rotateDuration) => {
+    animateProjectionScale(MAP_STYLE.zoomInScale, MAP_STYLE.zoomOutScale, MAP_STYLE.zoomOutDuration);
     const startRotation = rotation;
     const targetRotation: [number, number] = [-targetCoords[0], -targetCoords[1]];
     let deltaLon = targetRotation[0] - startRotation[0];
@@ -450,7 +488,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         requestAnimationFrame(animate);
       } else {
         setCurrentCountry(countryName);
-        animateProjectionScale(1.0, 2.0, 2000); // Zoom suave a 2.0 en 2 segundos
+        animateProjectionScale(MAP_STYLE.zoomOutScale, MAP_STYLE.zoomInScale, MAP_STYLE.zoomInDuration);
       }
     };
     requestAnimationFrame(animate);
@@ -674,12 +712,12 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       
       sphereGradient.append('stop')
         .attr('offset', '0%')
-        .attr('stop-color', '#ffffff') // 🔹 COLOR: Centro del océano (blanco)
+        .attr('stop-color', MAP_STYLE.oceanCenter) // 🔹 COLOR: Centro del océano (blanco)
         .attr('stop-opacity', 1);
       
       sphereGradient.append('stop')
         .attr('offset', '100%')
-        .attr('stop-color', '#f8f9fa') // 🔹 COLOR: Bordes del océano (gris muy claro)
+        .attr('stop-color', MAP_STYLE.oceanEdge) // 🔹 COLOR: Bordes del océano (gris muy claro)
         .attr('stop-opacity', 1);
 
       // Add sphere background
@@ -690,8 +728,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         .attr('cy', height / 2)
         .attr('r', radius)
         .attr('fill', 'url(#sphere-gradient)')
-        .attr('stroke', '#e5e7eb') // 🔹 COLOR: Borde del globo (gris claro)
-        .attr('stroke-width', 1);
+        .attr('stroke', MAP_STYLE.globeBorder) // 🔹 COLOR: Borde del globo (gris claro)
+        .attr('stroke-width', MAP_STYLE.globeBorderWidth);
     }
     // ============================================
 
@@ -718,8 +756,8 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       // 🔹 COLOR: Bordes de países (gris claro)
       // 🔹 GROSOR: Bordes de países (0.2px)
       // ============================================
-      .attr('stroke', '#ccc') // 🔹 COLOR: Bordes de países (gris claro)
-      .attr('stroke-width', 0.2) // 🔹 GROSOR: Bordes de países (0.2px)
+      .attr('stroke', MAP_STYLE.countryBorder) // 🔹 COLOR: Bordes de países (gris claro)
+      .attr('stroke-width', MAP_STYLE.countryBorderWidth) // 🔹 GROSOR: Bordes de países (0.2px)
       .append('title')
       .text((d: any) => {
         let countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '');
@@ -751,9 +789,9 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .attr('class', 'graticule')
       .attr('d', path as any)
       .attr('fill', 'none')
-      .attr('stroke', selectedProjection === 'orthographicInteractive' ? '#666' : '#e0e0e0') // 🔹 COLOR: Blanco para 3D, gris para 2D
-      .attr('stroke-width', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.5) // 🔹 GROSOR: 0.3px para 3D, 0.5px para 2D
-      .attr('opacity', selectedProjection === 'orthographicInteractive' ? 0.3 : 0.3); // 🔹 OPACIDAD: 0.3 para ambos
+      .attr('stroke', selectedProjection === 'orthographicInteractive' ? MAP_STYLE.graticule3D : MAP_STYLE.graticule2D) // 🔹 COLOR: Blanco para 3D, gris para 2D
+      .attr('stroke-width', selectedProjection === 'orthographicInteractive' ? MAP_STYLE.graticuleWidth3D : MAP_STYLE.graticuleWidth2D) // 🔹 GROSOR: 0.3px para 3D, 0.5px para 2D
+      .attr('opacity', selectedProjection === 'orthographicInteractive' ? MAP_STYLE.graticuleOpacity : MAP_STYLE.graticuleOpacity); // 🔹 OPACIDAD: 0.3 para ambos
     // ============================================
 
   }, [worldData, countryData, maxCount, isLoading, dimensions, selectedProjection, rotation, countryRanking, normalizedData, currentCountry, projectionScale]);
@@ -769,7 +807,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       const coords = countryCoordinates[firstCountry.name];
       console.log('[ServerGeolocationMap] Primer país a rotar:', firstCountry.name, 'coords:', coords);
       if (coords) {
-        smoothRotateTo(coords, firstCountry.name, 1500);
+        smoothRotateTo(coords, firstCountry.name, MAP_STYLE.rotateFirstDuration);
         started = true;
       } else {
         console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', firstCountry.name);
@@ -782,13 +820,13 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         const coords = countryCoordinates[nextCountry.name];
         console.log('[ServerGeolocationMap] Siguiente país a rotar:', nextCountry.name, 'coords:', coords);
         if (coords) {
-          smoothRotateTo(coords, nextCountry.name, 2000);
+          smoothRotateTo(coords, nextCountry.name, MAP_STYLE.rotateDuration);
         } else {
           console.warn('[ServerGeolocationMap] No se encontraron coordenadas para', nextCountry.name);
         }
         return nextIndex;
       });
-    }, started ? 4000 : 2000);
+    }, started ? MAP_STYLE.autoRotateInterval : MAP_STYLE.autoRotateIntervalShort);
     return () => clearInterval(interval);
   }, [selectedProjection, countriesWithServers, countryCoordinates, autoRotateIndex, currentCountry]);
 
