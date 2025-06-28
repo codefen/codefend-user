@@ -87,9 +87,20 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const countryData = useMemo(() => {
     const counts: Record<string, number> = {};
     
+    console.log('=== DEBUG: Procesando datos de países ===');
+    
     networkData.forEach((device, index) => {
       // Usar el nombre completo del país en lugar del código
       let countryName = device.server_pais?.trim();
+      
+      // Log de los primeros 10 dispositivos para ver la estructura
+      if (index < 10) {
+        console.log(`Dispositivo ${index}:`, {
+          server_pais: device.server_pais,
+          server_pais_code: device.server_pais_code,
+          countryName_procesado: countryName
+        });
+      }
       
       // Normalizar nombres de países para que coincidan con el GeoJSON
       const nameMapping: Record<string, string> = {
@@ -116,6 +127,9 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         counts[countryName] = (counts[countryName] || 0) + 1;
       }
     });
+    
+    console.log('=== DEBUG: Conteos finales por país (usando nombres) ===');
+    console.log(counts);
     
     return counts;
   }, [networkData]);
@@ -148,34 +162,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       .sort(([_, a], [__, b]) => b - a)
       .map(([countryName, count]) => ({ name: countryName, count }));
   }, [countryData]);
-
-  // useRef for values needed in setInterval to avoid stale closures
-  const isDraggingRef = useRef(isDragging);
-  const isTransitioningRef = useRef(isTransitioning);
-  const userHasInteractedRef = useRef(userHasInteracted);
-  const countriesWithServersRef = useRef(countriesWithServers);
-  const rotationRef = useRef<[number, number]>([0, 0]);
-  
-  // Update refs when state changes
-  useEffect(() => {
-    isDraggingRef.current = isDragging;
-  }, [isDragging]);
-  
-  useEffect(() => {
-    isTransitioningRef.current = isTransitioning;
-  }, [isTransitioning]);
-  
-  useEffect(() => {
-    userHasInteractedRef.current = userHasInteracted;
-  }, [userHasInteracted]);
-  
-  useEffect(() => {
-    countriesWithServersRef.current = countriesWithServers;
-  }, [countriesWithServers]);
-  
-  useEffect(() => {
-    rotationRef.current = rotation;
-  }, [rotation]);
 
   // Coordenadas geográficas para países (longitud, latitud)
   const countryCoordinates: Record<string, [number, number]> = {
@@ -266,36 +252,29 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   };
   // ============================================
 
-  // Function to smoothly interpolate between two rotation positions using spherical interpolation
+  // Function to smoothly interpolate between two rotation positions
   const smoothRotateTo = (targetCoords: [number, number], duration: number = 2000) => {
     // CRITICAL: Do not start automatic transitions if user is in control
     if (isTransitioning || isDragging || userHasInteracted) {
       return; // User has control - do not interfere with automatic transitions
     }
     
-    console.log('🎯 Starting smooth rotation to:', targetCoords, 'from current rotation:', rotationRef.current);
-    
     setIsTransitioning(true);
-    const startRotation = rotationRef.current;
+    const startRotation = rotation;
     const targetRotation: [number, number] = [-targetCoords[0], -targetCoords[1]];
     
     // Calculate the shortest path for longitude (handle wrapping around 180/-180)
     let deltaLon = targetRotation[0] - startRotation[0];
-    
-    // Normalize to shortest path around the sphere
-    while (deltaLon > 180) deltaLon -= 360;
-    while (deltaLon < -180) deltaLon += 360;
+    if (deltaLon > 180) deltaLon -= 360;
+    if (deltaLon < -180) deltaLon += 360;
     
     const deltaLat = targetRotation[1] - startRotation[1];
-    
-    console.log('📐 Calculated deltas:', { deltaLon, deltaLat, startRotation, targetRotation });
     
     const startTime = Date.now();
     
     const animate = () => {
       // CRITICAL: Stop animation immediately if user takes control
       if (isDragging || userHasInteracted) {
-        console.log('⏹️ Animation stopped - user took control');
         setIsTransitioning(false);
         return; // User has taken control - abort automatic animation
       }
@@ -303,10 +282,10 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // Use easeInOutQuad for smoother, less aggressive animation
+      // Use easeInOutCubic for smooth animation
       const easeProgress = progress < 0.5 
-        ? 2 * progress * progress 
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        ? 4 * progress * progress * progress 
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
       
       const currentLon = startRotation[0] + deltaLon * easeProgress;
       const currentLat = startRotation[1] + deltaLat * easeProgress;
@@ -316,7 +295,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        console.log('✅ Animation completed to rotation:', [currentLon, currentLat]);
         setIsTransitioning(false);
       }
     };
@@ -353,6 +331,43 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         // Use Natural Earth data for complete world coverage
         const response = await fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
         const geoData = await response.json();
+        
+        // DEBUG: Log algunos países del GeoJSON para ver la estructura
+        console.log('=== DEBUG: Estructura del GeoJSON ===');
+        console.log('Primeros 5 países en GeoJSON:');
+        geoData.features.slice(0, 5).forEach((feature: any, index: number) => {
+          console.log(`País ${index}:`, {
+            NAME: feature.properties.NAME,
+            ISO_A2: feature.properties.ISO_A2,
+            ISO_A3: feature.properties.ISO_A3,
+            name: feature.properties.name,
+            iso_a2: feature.properties.iso_a2
+          });
+        });
+        
+        // Buscar específicamente Estados Unidos y otros países importantes
+        const usFeature = geoData.features.find((f: any) => 
+          f.properties.name?.includes('United States') ||
+          f.properties.name?.includes('USA') ||
+          f.properties.name?.includes('America')
+        );
+        console.log('=== DEBUG: Estados Unidos encontrado ===');
+        console.log('Nombre exacto:', usFeature?.properties.name);
+        console.log('Propiedades completas:', usFeature?.properties);
+        
+        const arFeature = geoData.features.find((f: any) => 
+          f.properties.NAME?.includes('Argentina') ||
+          f.properties.name?.includes('Argentina')
+        );
+        console.log('=== DEBUG: Argentina encontrada ===');
+        console.log(arFeature?.properties);
+        
+        const caFeature = geoData.features.find((f: any) => 
+          f.properties.NAME?.includes('Canada') ||
+          f.properties.name?.includes('Canada')
+        );
+        console.log('=== DEBUG: Canadá encontrado ===');
+        console.log(caFeature?.properties);
         
         setWorldData(geoData);
         setIsLoading(false);
@@ -578,68 +593,66 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
 
   // Auto-rotation effect for 3D globe
   useEffect(() => {
-    console.log('🔍 AUTO-ROTATION useEffect triggered:', {
-      selectedProjection,
-      countriesCount: countriesWithServersRef.current.length,
-      userHasInteracted,
-      isAutoRotating
-    });
-
-    if (selectedProjection !== 'orthographicInteractive' || countriesWithServersRef.current.length === 0) {
-      console.log('❌ Early return - wrong projection or no countries');
+    if (selectedProjection !== 'orthographicInteractive' || countriesWithServers.length === 0) {
       return;
     }
 
-    // If user hasn't interacted and auto-rotation is not active, start it
-    if (!userHasInteracted && !isAutoRotating) {
-      console.log('🔄 REACTIVATING auto-rotation after timeout');
+    // Initialize position to first country ONLY on first load (not after user interaction)
+    if (!isAutoRotating && !userHasInteracted && countriesWithServers.length > 0) {
+      const firstCountry = countriesWithServers[0];
+      const coords = countryCoordinates[firstCountry.name];
+      if (coords) {
+        // Start with a smooth transition to the first country (initial load only)
+        setTimeout(() => {
+          smoothRotateTo(coords, 1500); // Initial smooth transition
+          setIsAutoRotating(true);
+        }, 500); // Small delay to ensure everything is loaded
+      }
+    }
+
+    // Resume auto-rotation after user interaction timeout - start from current position
+    if (!isAutoRotating && !userHasInteracted && countriesWithServers.length > 0) {
+      // User interaction timeout has expired, resume auto-rotation from current position
       setIsAutoRotating(true);
-      return;
     }
 
     // Set up auto-rotation timer - only if auto-rotation is active and user hasn't interacted
     if (!isAutoRotating || userHasInteracted) {
-      console.log('❌ Not setting up interval:', { isAutoRotating, userHasInteracted });
       return;
     }
 
-    console.log('✅ Setting up auto-rotation interval');
     const interval = setInterval(() => {
       // STRICT CHECK: If user is dragging or has interacted, DO NOT auto-rotate
-      if (isDraggingRef.current || isTransitioningRef.current || userHasInteractedRef.current) {
+      if (isDragging || isTransitioning || userHasInteracted) {
         return; // User has control - do not interfere
       }
 
-      console.log('🔄 Auto-rotation tick - moving to next country');
-
       setAutoRotateIndex(prevIndex => {
-        const countries = countriesWithServersRef.current;
-        if (countries.length === 0) return prevIndex;
-        
-        const nextIndex = (prevIndex + 1) % countries.length;
-        const nextCountry = countries[nextIndex];
+        const nextIndex = (prevIndex + 1) % countriesWithServers.length;
+        const nextCountry = countriesWithServers[nextIndex];
         const coords = countryCoordinates[nextCountry.name];
         
         if (coords) {
           // Only proceed if user is still not interacting
-          if (!isDraggingRef.current && !userHasInteractedRef.current) {
-            smoothRotateTo(coords, 3000); // 3 second smooth transition
+          if (!isDragging && !userHasInteracted) {
+            smoothRotateTo(coords, 2000); // 2 second smooth transition
           }
         }
         
         return nextIndex;
       });
-    }, 6000); // Change every 6 seconds (3s transition + 3s pause)
+    }, 4000); // Change every 4 seconds (2s transition + 2s pause)
 
     return () => clearInterval(interval);
-  }, [selectedProjection, isAutoRotating, userHasInteracted]); // isAutoRotating MUST be in dependencies
+  }, [selectedProjection, countriesWithServers, isDragging, isAutoRotating, isTransitioning, userHasInteracted, countryCoordinates, rotation]);
 
   // Reset auto-rotation when switching to 3D globe
   useEffect(() => {
     if (selectedProjection === 'orthographicInteractive') {
       setAutoRotateIndex(0);
-      // DON'T reset isAutoRotating here - let the auto-rotation useEffect handle it
+      setIsAutoRotating(false);
       // Only reset userHasInteracted if this is a fresh switch to 3D
+      // (not if user is already in 3D and has been interacting)
       if (!userHasInteracted) {
         setUserHasInteracted(false);
       }
@@ -650,8 +663,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
         setResumeTimeoutId(null);
       }
     } else {
-      // When switching away from 3D, stop auto-rotation
-      setIsAutoRotating(false);
       // Clear timeout when switching away from 3D
       if (resumeTimeoutId) {
         clearTimeout(resumeTimeoutId);
@@ -664,7 +675,6 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const handleMouseDown = (event: React.MouseEvent) => {
     if (selectedProjection !== 'orthographicInteractive') return;
     
-    console.log('🖱️ User grabbed the globe - taking control');
     // IMMEDIATELY take full control - suspend ALL automatic behaviors
     setIsDragging(true);
     setDragStart([event.clientX, event.clientY]);
@@ -701,28 +711,26 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   };
 
   const handleMouseUp = () => {
-    console.log('🖱️ User released the globe - starting 5 second timer');
     setIsDragging(false);
     setDragStart(null);
     
     // Clear any existing resume timeout
     if (resumeTimeoutId) {
-      console.log('🗑️ Clearing existing timeout:', resumeTimeoutId);
       clearTimeout(resumeTimeoutId);
-      setResumeTimeoutId(null);
     }
     
     // IMPORTANT: Globe stays exactly where user left it for 5 seconds
     // Only after 5 seconds of inactivity, resume auto-rotation
     const timeoutId = setTimeout(() => {
-      console.log('⏰ TIMEOUT FIRED - 5 seconds expired, resetting userHasInteracted to false');
-      console.log('📊 Estado antes del reset:', { userHasInteracted, isAutoRotating });
-      setUserHasInteracted(false);
-      setResumeTimeoutId(null);
-      console.log('✅ userHasInteracted reset completed');
-    }, 2000); // Reducido a 2 segundos para testing
+      if (selectedProjection === 'orthographicInteractive') {
+        // Reset user interaction flag - this allows auto-rotation to resume
+        setUserHasInteracted(false);
+        // Note: We don't immediately start auto-rotation here
+        // The auto-rotation effect will handle starting it naturally
+        setResumeTimeoutId(null);
+      }
+    }, 5000); // 5 seconds - globe stays where user left it
     
-    console.log('⏱️ Timeout created with ID:', timeoutId);
     setResumeTimeoutId(timeoutId);
   };
 
