@@ -141,7 +141,7 @@ const OpenOrderButton = ({
         <span>{!hasActiveOrder ? titleMap[type] : 'Pentest in progress'}</span>
       </div>
       <div className="content">
-        <p>{planText}</p>
+        <p className="order-text">{planText}</p>
         <div className="actions">
           <Show when={!hasActiveOrder}>
             <PrimaryButton

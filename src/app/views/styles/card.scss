@@ -172,6 +172,14 @@
       padding: 3px 3px;
       font-weight: bold;
     }
+
+    .content {
+      .order-text {
+        b {
+          border-radius: 3px;
+        }
+      }
+    }
   }
 
   &.only-info {
@@ -1286,7 +1294,8 @@
 
     &.title {
       b {
-        background: #fff0f0;
+        background: rgba(255, 57, 57, 0.1);
+        color: var(--secondary-color-200);
       }
     }
   }
