@@ -2,7 +2,7 @@ import { type FC, type FormEvent } from 'react';
 
 import { useAddLan } from '@resourcesHooks/network/useAddLan';
 import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
-import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { IPValidatedInput } from '@/app/views/components/utils/IPValidatedInput';
 import type { ComponentEventWithChildren } from '@interfaces/util';
 
 export const NetworkDadForm: FC<ComponentEventWithChildren> = ({ onDone, close, children }) => {
@@ -20,8 +20,8 @@ export const NetworkDadForm: FC<ComponentEventWithChildren> = ({ onDone, close, 
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <ModalInput ref={externalAddress} placeholder="External IP Address" required />
-      <ModalInput ref={internalAddress} placeholder="Internal IP Address" required />
+      <IPValidatedInput ref={externalAddress} placeholder="External IP Address" required />
+      <IPValidatedInput ref={internalAddress} placeholder="Internal IP Address" required />
 
       <ModalTextArea ref={desc} placeholder="short description" maxLength={512} required />
       {children(isLoading)}
