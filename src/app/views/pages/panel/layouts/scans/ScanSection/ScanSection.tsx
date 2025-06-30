@@ -71,7 +71,7 @@ const scansColumns: ColumnTableV3[] = [
       // Diagnóstico mejorado para debugging
       const found = row?.m_nllm_issues_found;
       const parsed = row?.m_nllm_issues_parsed;
-      
+
       // Logging para debugging (puedes remover esto después)
       if (found !== undefined || parsed !== undefined) {
         console.log('Scan Row Data:', {
@@ -80,16 +80,24 @@ const scansColumns: ColumnTableV3[] = [
           parsed: parsed,
           foundType: typeof found,
           parsedType: typeof parsed,
-          originalRow: row
+          originalRow: row,
         });
       }
-      
+
       // Mejor manejo de valores null/undefined/string
-      const foundValue = found !== null && found !== undefined ? 
-        (typeof found === 'string' ? parseInt(found) : found) : 0;
-      const parsedValue = parsed !== null && parsed !== undefined ? 
-        (typeof parsed === 'string' ? parseInt(parsed) : parsed) : 0;
-      
+      const foundValue =
+        found !== null && found !== undefined
+          ? typeof found === 'string'
+            ? parseInt(found)
+            : found
+          : 0;
+      const parsedValue =
+        parsed !== null && parsed !== undefined
+          ? typeof parsed === 'string'
+            ? parseInt(parsed)
+            : parsed
+          : 0;
+
       return `${foundValue} / ${parsedValue}`;
     },
   },
@@ -122,7 +130,13 @@ const surveillanceColumns = (handleDomainClick: (domain: string) => void): Colum
     key: 'lastScanDate',
     weight: '20%',
     styles: 'item-cell-2',
-    render: (val: string) => (val ? new Date(val).toLocaleString() : 'N/A'),
+    render: (val: string) => {
+      // Si es la fecha de fallback, mostrar N/A
+      if (!val || val === '1900-01-01T00:00:00.000Z') {
+        return 'N/A';
+      }
+      return naturalTime(val);
+    },
   },
   {
     header: 'Last issues found',
@@ -226,15 +240,15 @@ export const ScanSection = () => {
     return Object.entries(groups).map(([domain, domainScans]) => {
       const finishedScans = domainScans.filter(s => s.phase === 'finished');
       const latestFinishedScan = finishedScans.sort(
-        (a, b) => new Date(b.creacion).getTime() - new Date(a.creacion).getTime()
+        (a, b) => new Date(b?.creacion).getTime() - new Date(a?.creacion).getTime()
       )[0];
 
       return {
         domain,
-        lastScanDate: latestFinishedScan?.creacion,
+        lastScanDate: latestFinishedScan?.creacion || '1900-01-01T00:00:00.000Z',
         lastIssues: latestFinishedScan?.m_nllm_issues_parsed || 0,
         lastLeaks: latestFinishedScan?.m_leaks_found || 0,
-        totalScans: domainScans.length,
+        totalScans: domainScans?.length || 0,
       };
     });
   }, [scans, activeTab, isLegacyWebSurveillance]);
