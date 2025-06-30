@@ -67,7 +67,31 @@ const scansColumns: ColumnTableV3[] = [
     key: 'issues',
     weight: '18%',
     styles: 'item-cell-4',
-    render: (row: any) => `${row?.m_nllm_issues_found || 0} / ${row?.m_nllm_issues_parsed || 0}`,
+    render: (row: any) => {
+      // Diagnóstico mejorado para debugging
+      const found = row?.m_nllm_issues_found;
+      const parsed = row?.m_nllm_issues_parsed;
+      
+      // Logging para debugging (puedes remover esto después)
+      if (found !== undefined || parsed !== undefined) {
+        console.log('Scan Row Data:', {
+          id: row?.id,
+          found: found,
+          parsed: parsed,
+          foundType: typeof found,
+          parsedType: typeof parsed,
+          originalRow: row
+        });
+      }
+      
+      // Mejor manejo de valores null/undefined/string
+      const foundValue = found !== null && found !== undefined ? 
+        (typeof found === 'string' ? parseInt(found) : found) : 0;
+      const parsedValue = parsed !== null && parsed !== undefined ? 
+        (typeof parsed === 'string' ? parseInt(parsed) : parsed) : 0;
+      
+      return `${foundValue} / ${parsedValue}`;
+    },
   },
   {
     header: 'Leaks',
