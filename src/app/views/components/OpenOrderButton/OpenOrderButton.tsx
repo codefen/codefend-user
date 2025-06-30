@@ -21,8 +21,7 @@ interface OpenOrderButtonProps {
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.WEB]: ({ total, plan }: any) => (
     <>
-      Comencemos ahora un nuevo pentest! Nuestros sistemas han detectado un total de <b>{total} recursos web!</b> Si deseas realizar un pentest sobre todos estos recursos, desde Codefend recomendamos un{' '}
-      <b>{plan} plan</b>.
+      Let's start a new pentest now! Our systems have detected a total of <b>{total} web resources!</b> If you want to perform a pentest on all these resources, at Codefend we recommend an <b>{plan} plan</b>.
     </>
   ),
   [ResourcesTypes.MOBILE]: ({ plan, hasActiveOrder }: any) =>
@@ -33,8 +32,8 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
       </>
     ) : (
       <>
-        A dedicated penetration test is currently underway for this resource. You’ll be notified as
-        soon as the results are available. Sit back, we’ve got this covered.
+        A dedicated penetration test is currently underway for this resource. You'll be notified as
+        soon as the results are available. Sit back, we've got this covered.
       </>
     ),
 
