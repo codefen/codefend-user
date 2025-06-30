@@ -2035,6 +2035,52 @@ export const NetworkOutlineIcon: FC<IconProps> = ({
   </svg>
 );
 
+export const NetOutlineIcon: FC<IconProps> = ({ className, width = '1.2em', height = '1.2em' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275" />
+    <path d="M11.683 12.317l5.759 -5.759" />
+    <path d="M5.5 5.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M18.5 5.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M18.5 18.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M8.5 15.5m-4.5 0a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0 -9 0" />
+  </svg>
+);
+
+export const LayoutGridOutlineIcon: FC<IconProps> = ({
+  className,
+  width = '1.2em',
+  height = '1.2em',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    width={width}
+    height={height}
+    style={{ overflow: 'visible' } as any}>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M4 4m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v1a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+    <path d="M4 13m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+    <path d="M14 4m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+    <path d="M14 15m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v1a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+  </svg>
+);
+
 export const SparklesIcon: FC<IconProps> = ({ className, width = '1.5rem', height = '1.5rem' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

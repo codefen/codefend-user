@@ -242,16 +242,14 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 
         <Show when={showRows} fallback={<PageLoader />}>
           <div className="table-rows-container" style={{ position: 'relative' }}>
-            {virtualizedSortingResult.showSkeleton &&
-              rows.length > 0 &&
-              virtualizedSortingResult.totalRowCount > 500 && (
-                <TableSkeleton
-                  totalRowCount={virtualizedSortingResult.totalRowCount}
-                  rowsLength={rows.length}
-                  isNeedMultipleCheck={isNeedMultipleCheck}
-                  columns={columns}
-                />
-              )}
+            {virtualizedSortingResult.showSkeleton && rows.length > 0 && (
+              <TableSkeleton
+                totalRowCount={virtualizedSortingResult.totalRowCount}
+                rowsLength={rows.length}
+                isNeedMultipleCheck={isNeedMultipleCheck}
+                columns={columns}
+              />
+            )}
 
             {shouldUseVirtualization ? (
               <div className="rows-virtualized-dynamic">

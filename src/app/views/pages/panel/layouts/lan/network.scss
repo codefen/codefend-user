@@ -25,43 +25,143 @@ main.lan {
       overflow-y: hidden;
     }
 
-    // Estilos para pestañas del Network (igual que AI Surveillance)
-    .tabs-container {
-      margin-bottom: 1rem;
+    // Estilos para el header personalizado con dropdown
+    .custom-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 15px;
       border-bottom: 1px solid var(--borders-color);
+      margin-bottom: 1rem;
 
-      .tabs-header {
+      .header-title {
         display: flex;
-        gap: 0;
+        align-items: center;
+        font-family: Questrial;
+        font-weight: bold;
+        font-size: 1rem;
+        color: var(--tertiary-color-200);
 
-        .tab-button {
-          padding: 0.75rem 1.5rem;
-          border: none;
-          background: transparent;
-          color: var(--text-color-secondary);
+        svg {
+          color: var(--secondary-color-50);
+          margin-right: 10px;
+          font-size: 10px;
+        }
+
+        span {
+          color: var(--tertiary-color-300);
+        }
+      }
+
+      // Estilos para el dropdown selector de vistas
+      .view-selector-dropdown {
+        position: relative;
+
+        .view-selector-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: var(--primary-color);
+          border: 1px solid var(--borders-color);
+          border-radius: 0.5rem;
+          color: var(--text-color-primary);
           cursor: pointer;
-          border-bottom: 2px solid transparent;
-          transition: all 0.3s ease;
+          font-size: 0.875rem;
           font-weight: 500;
-          font-size: 0.9rem;
+          transition: all 0.2s ease;
+          min-width: 140px;
 
           &:hover {
-            color: var(--text-color-primary);
             background: var(--hover-color);
+            border-color: var(--primary-red-color);
           }
 
-          &.active {
-            color: var(--primary-red-color);
-            border-bottom-color: var(--primary-red-color);
-            background: var(--primary-color);
+          .view-selector-text {
+            flex: 1;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            svg {
+              width: 16px;
+              height: 16px;
+              color: var(--text-color-primary);
+            }
           }
 
-          &:first-child {
-            border-top-left-radius: 0.5rem;
-          }
+          .dropdown-arrow {
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
 
-          &:last-child {
-            border-top-right-radius: 0.5rem;
+            &.open {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        .view-selector-menu {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          z-index: 1000;
+          background: var(--primary-color);
+          border: 1px solid var(--borders-color);
+          border-radius: 0.5rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          margin-top: 0.25rem;
+          min-width: 200px;
+          overflow: hidden;
+
+          .view-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-color-primary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            text-align: left;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+              background: var(--hover-color);
+            }
+
+            &.active {
+              background: var(--primary-red-color-10);
+              color: var(--primary-red-color);
+
+              .option-content svg {
+                color: var(--primary-red-color);
+              }
+            }
+
+            .option-content {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+
+              svg {
+                width: 16px;
+                height: 16px;
+                color: var(--text-color-primary);
+                flex-shrink: 0;
+              }
+
+              .option-text {
+                font-weight: 500;
+              }
+            }
+
+            .check-mark {
+              color: var(--primary-red-color);
+              font-weight: bold;
+            }
           }
         }
       }
@@ -103,6 +203,46 @@ main.lan {
     bottom: 0;
     right: 4dvw;
     filter: blur(150px) brightness(0.45) opacity(0.55);
+  }
+
+  // Ajustes para tema oscuro
+  main.lan .left .custom-section-header {
+    border-bottom-color: var(--borders-color-dark);
+
+    .view-selector-dropdown {
+      .view-selector-button {
+        background: var(--primary-color-dark);
+        border-color: var(--borders-color-dark);
+
+        &:hover {
+          background: var(--hover-color-dark);
+        }
+
+        .view-selector-text svg {
+          color: var(--text-color-primary-dark);
+        }
+      }
+
+      .view-selector-menu {
+        background: var(--primary-color-dark);
+        border-color: var(--borders-color-dark);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+        .view-option {
+          &:hover {
+            background: var(--hover-color-dark);
+          }
+
+          .option-content svg {
+            color: var(--text-color-primary-dark);
+          }
+
+          &.active .option-content svg {
+            color: var(--primary-red-color);
+          }
+        }
+      }
+    }
   }
 }
 
