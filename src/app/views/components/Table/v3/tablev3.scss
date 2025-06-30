@@ -184,7 +184,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    height: 2rem;
+    height: 49px;
 
     padding-inline: 20px;
     border-bottom: 1px solid var(--primary-color-300);
@@ -698,12 +698,10 @@
     color: var(--column-header-color);
 
     &:hover {
-      background: var(--primary-color-100);
       --column-header-color: #ef4444;
     }
 
     &.sorted {
-      background: var(--primary-color-100);
     }
 
     &.checkbox-header {

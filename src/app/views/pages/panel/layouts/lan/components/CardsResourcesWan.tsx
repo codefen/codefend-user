@@ -19,9 +19,18 @@ interface NetworkDevice extends Device {
 }
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { MODAL_KEY_OPEN, RESOURCE_CLASS } from '@/app/constants/app-texts';
-import { BugIcon, CredentialIcon, DocumentIcon, TrashIcon, PlusIcon, SearchIcon } from '@icons';
+import {
+  BugIcon,
+  CredentialIcon,
+  DocumentIcon,
+  TrashIcon,
+  PlusIcon,
+  SearchIcon,
+  MagnifyingGlassIcon,
+} from '@icons';
 import { useLocation, useNavigate } from 'react-router';
 import { NetworkResourceCard } from './NetworkResourceCard.tsx';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
 
 interface CardsResourcesWanProps {
   isLoading: boolean;
@@ -29,11 +38,7 @@ interface CardsResourcesWanProps {
   refetchInternalNetwork: () => void;
 }
 
-export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ 
-  isLoading, 
-  internalNetwork,
-  refetchInternalNetwork 
-}) => {
+export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, internalNetwork }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setCredentialType, setResourceId } = useCredentialStore();
@@ -98,8 +103,8 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({
     }
 
     const searchLower = searchTerm.toLowerCase().trim();
-    
-    return internalNetwork.filter((resource) => {
+
+    return internalNetwork.filter(resource => {
       // Search by Server IP
       const serverIP = resource.device_ex_address || resource.device_in_address || '';
       if (serverIP.toLowerCase().includes(searchLower)) {
@@ -109,9 +114,7 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({
       // Search by domains in all_found_domains
       try {
         const domains = JSON.parse(resource.all_found_domains || '[]');
-        return domains.some((domain: string) => 
-          domain.toLowerCase().includes(searchLower)
-        );
+        return domains.some((domain: string) => domain.toLowerCase().includes(searchLower));
       } catch {
         return false;
       }
@@ -138,12 +141,12 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({
   // Organize cards into columns for masonry layout
   const organizedColumns = useMemo(() => {
     const columns: NetworkDevice[][] = Array.from({ length: columnCount }, () => []);
-    
+
     filteredResources.forEach((resource, index) => {
       const columnIndex = index % columnCount;
       columns[columnIndex].push(resource);
     });
-    
+
     return columns;
   }, [filteredResources, columnCount]);
 
@@ -158,16 +161,16 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({
   }
 
   return (
-    <div className="card network-layout">
+    <div className="network-layout">
       {/* Search Bar */}
-      <div className="network-search-bar">
+      {/* <div className="card network-search-bar">
         <div className="search-input-container">
           <SearchIcon className="search-icon" />
           <input
             type="text"
             placeholder="Search by server IP or domain..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="search-input"
           />
         </div>
@@ -178,15 +181,30 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({
             </span>
           )}
         </div>
+      </div> */}
+
+      <div>
+        <ModalInput
+          icon={<MagnifyingGlassIcon />}
+          setValue={(val: string) => setSearchTerm(val)}
+          placeholder="Search issue..."
+        />
+        <div className="search-results-info">
+          {searchTerm && (
+            <span>
+              {filteredResources.length} of {internalNetwork.length} resources
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Cards Container */}
-      <div className="network-cards-container" ref={containerRef}>
+      <div className="card network-cards-container" ref={containerRef}>
         {filteredResources.length > 0 ? (
           <div className="masonry-container">
             {organizedColumns.map((column, columnIndex) => (
               <div key={columnIndex} className="masonry-column">
-                {column.map((resource) => (
+                {column.map(resource => (
                   <NetworkResourceCard
                     key={resource.id}
                     resource={resource}
@@ -219,4 +237,4 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({
       </div>
     </div>
   );
-}; 
+};

@@ -21,7 +21,9 @@ interface OpenOrderButtonProps {
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.WEB]: ({ total, plan }: any) => (
     <>
-      Let's start a new pentest now! Our systems have detected a total of <b>{total} web resources!</b> If you want to perform a pentest on all these resources, at Codefend we recommend an <b>{plan} plan</b>.
+      Let's start a new pentest now! Our systems have detected a total of
+      <b>{total} web resources!</b> If you want to perform a pentest on all these resources, at
+      Codefend we recommend an <b>{plan} plan</b>.
     </>
   ),
   [ResourcesTypes.MOBILE]: ({ plan, hasActiveOrder }: any) =>
@@ -102,7 +104,7 @@ const OpenOrderButton = ({
     updateState('resourceType', type);
     updateState('orderStepActive', scope);
   };
-  
+
   const onOpenPricing = () => {
     updateState('open', true);
     updateState('resourceType', type);

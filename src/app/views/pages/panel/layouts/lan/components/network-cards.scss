@@ -1,9 +1,4 @@
 // Network Layout Container
-.network-layout {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 120px);
-}
 
 // Search Bar Styles
 .network-search-bar {
@@ -36,7 +31,9 @@
       font-size: 0.9rem;
       color: var(--tertiary-color-600);
       background: var(--card-background);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 
       &:focus {
         outline: none;
@@ -94,7 +91,7 @@
 
     p {
       margin: 0.5rem 0;
-      
+
       &:first-child {
         font-weight: 600;
         font-size: 1rem;
@@ -141,12 +138,12 @@
     align-items: flex-start;
     margin-bottom: 0.5rem;
 
-         .server-info {
-       display: flex;
-       align-items: center;
-       gap: 0.5rem;
-       flex: 1;
-       font-family: satoshi;
+    .server-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+      font-family: satoshi;
 
       .server-ip {
         font-weight: bold;
@@ -158,8 +155,6 @@
         font-size: 1.2rem;
       }
     }
-
-
   }
 
   .server-location {
@@ -212,19 +207,19 @@
     padding-top: 0.75rem;
     border-top: 1px solid #eef0f2;
 
-          .action-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 0.75rem;
-        background: transparent;
-        border: 1px solid #eef0f2;
-        border-radius: 6px;
-        color: var(--tertiary-color-600);
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-family: 'Questrial', sans-serif;
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: transparent;
+      border: 1px solid #eef0f2;
+      border-radius: 6px;
+      color: var(--tertiary-color-600);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Questrial', sans-serif;
 
       &:hover:not(:disabled) {
         background: var(--tertiary-color-50);
@@ -272,9 +267,9 @@
 }
 
 @media (max-width: 768px) {
-  .network-layout {
-    height: calc(100vh - 100px);
-  }
+  // .network-layout {
+  //   height: calc(100vh - 100px);
+  // }
 
   .network-search-bar {
     padding: 0.75rem;
@@ -327,4 +322,4 @@
       font-size: 0.8rem;
     }
   }
-} 
+}

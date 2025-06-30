@@ -2,6 +2,12 @@ main.lan {
   .left {
     flex: 1 1 68%;
     width: 68%;
+    overflow: hidden;
+
+    .form-input input {
+      border: none;
+      border-bottom: 1px solid var(--primary-color-300);
+    }
 
     .table.table-lan {
       background-color: var(--primary-color);
@@ -10,6 +16,13 @@ main.lan {
         overflow: auto;
         max-height: calc(100cqh - 115px);
       }
+    }
+
+    .network-layout {
+      display: flex;
+      flex-direction: column;
+      // height: calc(100vh - 120px);
+      overflow-y: hidden;
     }
   }
 
