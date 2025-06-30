@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import SocialEngineering from './components/SocialEngineering.tsx';
+import LinkedInProfilesView from './components/LinkedInProfilesView.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useSocial } from '@resourcesHooks/social/useSocial.ts';
@@ -17,15 +18,20 @@ import { useSocialFilters } from '@/app/data/hooks/resources/social/useSocialFil
 import { useFilteredSocialMembers } from '@/app/data/hooks/resources/social/useFilteredSocialMembers.ts';
 import { SocialEngineeringFilters } from './components/SocialEngineeringFilters.tsx';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
-import { MagnifyingGlassIcon } from '@icons';
+import { MagnifyingGlassIcon, PeopleGroupIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import { useIntersectionObserver } from 'usehooks-ts';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
+
+// Definir tipo para las pestañas
+type SocialViewType = 'all' | 'linkedin';
 
 const SocialEngineeringView = () => {
   const { setModalId, setIsOpen } = useModalStore();
   const [showScreen, control, refresh] = useShowScreen();
   const { filters, handleFilters } = useSocialFilters();
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState<SocialViewType>('all');
 
   const {
     members = [],
@@ -86,6 +92,59 @@ const SocialEngineeringView = () => {
 
   const displayMembers = filteredData;
 
+  const handleTabChange = (tab: SocialViewType) => {
+    setActiveTab(tab);
+  };
+
+  const renderTabContent = () => {
+    if (activeTab === 'linkedin') {
+      return displayMembers.length > 0 ? (
+        <LinkedInProfilesView sentryRef={ref} members={displayMembers} />
+      ) : isSearching ? (
+        <div className="no-results-found">
+          <p>No se encontraron perfiles de LinkedIn para tu búsqueda.</p>
+        </div>
+      ) : (
+        <div className="no-results-found">
+          <p>
+            No se encontraron perfiles de LinkedIn.{' '}
+            <button
+              className="link-button"
+              onClick={() => {
+                setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
+                setIsOpen(true);
+              }}>
+              Haz clic aquí para agregar
+            </button>
+          </p>
+        </div>
+      );
+    }
+
+    // Vista por defecto (all)
+    return displayMembers.length > 0 ? (
+      <SocialEngineering sentryRef={ref} paginatedMembers={displayMembers} />
+    ) : isSearching ? (
+      <div className="no-results-found">
+        <p>No members found for your search criteria.</p>
+      </div>
+    ) : (
+      <div className="no-results-found">
+        <p>
+          No members found.{' '}
+          <button
+            className="link-button"
+            onClick={() => {
+              setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
+              setIsOpen(true);
+            }}>
+            Click here to add
+          </button>
+        </p>
+      </div>
+    );
+  };
+
   if (isLoading && members.length === 0) {
     return <PageLoader />;
   }
@@ -103,28 +162,27 @@ const SocialEngineeringView = () => {
           />
           {/* {isSearchingBackend && <div className="search-indicator">Searching in database...</div>} */}
         </div>
-        <div className="members-list">
-          {displayMembers.length > 0 ? (
-            <SocialEngineering sentryRef={ref} paginatedMembers={displayMembers} />
-          ) : isSearching ? (
-            <div className="no-results-found">
-              <p>No members found for your search criteria.</p>
-            </div>
-          ) : (
-            <div className="no-results-found">
-              <p>
-                No members found.{' '}
+        <div className="card">
+          <SimpleSection header="Social Engineering" icon={<PeopleGroupIcon />}>
+            {/* Sistema de pestañas */}
+            <div className="tabs-container">
+              <div className="tabs-header">
                 <button
-                  className="link-button"
-                  onClick={() => {
-                    setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
-                    setIsOpen(true);
-                  }}>
-                  Click here to add
+                  className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('all')}>
+                  📋 Todos los miembros
                 </button>
-              </p>
+                <button
+                  className={`tab-button ${activeTab === 'linkedin' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('linkedin')}>
+                  💼 Perfiles LinkedIn
+                </button>
+              </div>
             </div>
-          )}
+            <div className="content">
+              {renderTabContent()}
+            </div>
+          </SimpleSection>
         </div>
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
