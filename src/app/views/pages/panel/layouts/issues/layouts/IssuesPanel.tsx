@@ -62,6 +62,7 @@ const IssuesPanel: FC = () => {
           issues={issues}
           currentFilters={filters}
         />
+        {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
         <div className="card only-button">
           <PrimaryButton
             text="GENERATE REPORT"
@@ -74,6 +75,7 @@ const IssuesPanel: FC = () => {
             disabledLoader
           />
         </div>
+        */}
         <VulnerabilitiesStatus
           vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
         />
