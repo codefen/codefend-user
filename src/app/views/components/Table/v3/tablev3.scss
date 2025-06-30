@@ -666,6 +666,15 @@
   .rows-virtualized-dynamic {
     position: relative;
     overflow: hidden;
+
+    > div > div > div > div > div {
+      & .item {
+        border-bottom: 1px solid var(--primary-color-300);
+      }
+      &:last-child .item {
+        border-bottom: none;
+      }
+    }
   }
 }
 
