@@ -36,6 +36,7 @@ import {
   useContextMenu,
   type ContextMenuAction,
 } from '@/app/views/components/ContextMenu';
+import { flattenRows } from '@utils/sort.service.ts';
 
 interface CardsResourcesWanProps {
   isLoading: boolean;
@@ -139,13 +140,14 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
 
   // Filter resources based on search term
   const filteredResources = useMemo(() => {
+    const flattend = flattenRows(internalNetwork, 0);
     if (!searchTerm.trim()) {
-      return internalNetwork;
+      return flattend;
     }
 
     const searchLower = searchTerm.toLowerCase().trim();
 
-    return internalNetwork.filter(resource => {
+    return flattend.filter(resource => {
       // Search by Server IP
       const serverIP = resource.device_ex_address || resource.device_in_address || '';
       if (serverIP.toLowerCase().includes(searchLower)) {

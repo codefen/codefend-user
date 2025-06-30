@@ -9,6 +9,7 @@ import {
   ChevronIcon,
   ThreeDotsVerticalIcon,
   LocationOutlineIcon,
+  OutlineLinkIcon,
 } from '@icons';
 import './network-cards.scss';
 
@@ -139,6 +140,11 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
       <div className="server-location">
         <LocationOutlineIcon /> {formatLocation()}
       </div>
+      {resource?.resource_lan_dad ? (
+        <div className="server-location codefend-text-red">
+          <OutlineLinkIcon /> child of {resource?.resource_lan_dad}
+        </div>
+      ) : null}
 
       {/* Found Web Apps */}
       <div className="found-apps">
@@ -147,6 +153,7 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
             ? `${resource.all_found_domains_value} domains resolve here:`
             : 'Found web apps:'}
         </div>
+        <div></div>
         {domains.length > 0 ? (
           <ul className="apps-list">
             {domains.map((domain, index) => (
