@@ -176,6 +176,7 @@ export const SidebarDesktop = ({
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
+        /* SECCIÓN MOBILE SOFTWARE TEMPORALMENTE OCULTA
         {
           title: 'Mobile software',
           id: 'sidebar_mobile',
@@ -184,6 +185,7 @@ export const SidebarDesktop = ({
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
+        */
       ],
     },
     {

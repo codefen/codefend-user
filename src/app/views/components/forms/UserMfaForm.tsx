@@ -75,7 +75,7 @@ export const UserMfaForm: FC<UserMfaFormProps> = ({ onDone, children, className 
           className={!qr ? 'blur-overlay' : ''}
         />
       </div>
-      <ModalInput icon={null} name="mfaCode" placeholder="Ingresa el código de tu app" required />
+      <ModalInput icon={null} name="mfaCode" placeholder="Authenticator code" required />
       {children(isLoading)}
     </form>
   );
