@@ -31,6 +31,11 @@ import {
 import { useLocation, useNavigate } from 'react-router';
 import { NetworkResourceCard } from './NetworkResourceCard.tsx';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
+import {
+  ContextMenu,
+  useContextMenu,
+  type ContextMenuAction,
+} from '@/app/views/components/ContextMenu';
 
 interface CardsResourcesWanProps {
   isLoading: boolean;
@@ -54,6 +59,42 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
     'resourceID',
     'networkResourceSelected',
   ]);
+
+  // Define context menu actions
+  const contextMenuActions: ContextMenuAction[] = [
+    {
+      label: 'View report',
+      icon: <DocumentIcon width={16} height={16} />,
+      onClick: (resource: NetworkDevice) => handleViewReport(resource),
+      disabled: (resource: NetworkDevice) => Number(resource?.final_issues) < 1,
+    },
+    {
+      label: 'View credentials',
+      icon: <CredentialIcon width={16} height={16} />,
+      onClick: (resource: NetworkDevice) => handleViewCredentials(resource),
+    },
+    {
+      label: 'Add issue',
+      icon: <BugIcon width={16} height={16} />,
+      onClick: (resource: NetworkDevice) => handleAddIssue(resource),
+      disabled: !(isProvider() || isAdmin()),
+    },
+    {
+      label: 'Add SubNetwork',
+      icon: <PlusIcon width={16} height={16} />,
+      onClick: (resource: NetworkDevice) => handleAddSubNetwork(resource),
+      disabled: (resource: any) => !!resource?.resource_lan_dad,
+    },
+    {
+      label: 'Delete',
+      icon: <TrashIcon width={16} height={16} />,
+      onClick: (resource: NetworkDevice) => handleDelete(resource),
+      disabled: isProvider(),
+    },
+  ];
+
+  const { contextMenu, closeContextMenu, handleThreeDotsClick } =
+    useContextMenu(contextMenuActions);
 
   const generateReport = (resourceUpID: string, count: any) => {
     if (Number(count) >= 1) {
@@ -161,60 +202,70 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
   }
 
   return (
-    <div className="network-layout">
-      {/* Search Bar */}
-      <div>
-        <ModalInput
-          icon={<MagnifyingGlassIcon />}
-          setValue={(val: string) => setSearchTerm(val)}
-          placeholder="Search issue..."
-        />
-        <div className="search-results-info">
-          {searchTerm && (
-            <span>
-              {filteredResources.length} of {internalNetwork.length} resources
-            </span>
+    <>
+      <div className="network-layout">
+        {/* Search Bar */}
+        <div>
+          <ModalInput
+            icon={<MagnifyingGlassIcon />}
+            setValue={(val: string) => setSearchTerm(val)}
+            placeholder="Search issue..."
+          />
+          <div className="search-results-info">
+            {searchTerm && (
+              <span>
+                {filteredResources.length} of {internalNetwork.length} resources
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Cards Container */}
+        <div className="card network-cards-container" ref={containerRef}>
+          {filteredResources.length > 0 ? (
+            <div className="masonry-container">
+              {organizedColumns.map((column, columnIndex) => (
+                <div key={columnIndex} className="masonry-column">
+                  {column.map(resource => (
+                    <NetworkResourceCard
+                      key={resource.id}
+                      resource={resource}
+                      onViewReport={handleViewReport}
+                      onViewCredentials={handleViewCredentials}
+                      onDelete={handleDelete}
+                      onAddIssue={handleAddIssue}
+                      onAddSubNetwork={handleAddSubNetwork}
+                      canDelete={!isProvider()}
+                      canAddIssue={isProvider() || isAdmin()}
+                      canAddSubNetwork={!resource.resource_lan_dad}
+                      hasIssues={Number(resource.final_issues) >= 1}
+                      onThreeDotsClick={handleThreeDotsClick}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="no-results">
+              {searchTerm ? (
+                <>
+                  <p>No resources found matching "{searchTerm}"</p>
+                  <p>Try searching by server IP or domain name</p>
+                </>
+              ) : (
+                <p>No network resources available</p>
+              )}
+            </div>
           )}
         </div>
       </div>
 
-      {/* Cards Container */}
-      <div className="card network-cards-container" ref={containerRef}>
-        {filteredResources.length > 0 ? (
-          <div className="masonry-container">
-            {organizedColumns.map((column, columnIndex) => (
-              <div key={columnIndex} className="masonry-column">
-                {column.map(resource => (
-                  <NetworkResourceCard
-                    key={resource.id}
-                    resource={resource}
-                    onViewReport={handleViewReport}
-                    onViewCredentials={handleViewCredentials}
-                    onDelete={handleDelete}
-                    onAddIssue={handleAddIssue}
-                    onAddSubNetwork={handleAddSubNetwork}
-                    canDelete={!isProvider()}
-                    canAddIssue={isProvider() || isAdmin()}
-                    canAddSubNetwork={!resource.resource_lan_dad}
-                    hasIssues={Number(resource.final_issues) >= 1}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="no-results">
-            {searchTerm ? (
-              <>
-                <p>No resources found matching "{searchTerm}"</p>
-                <p>Try searching by server IP or domain name</p>
-              </>
-            ) : (
-              <p>No network resources available</p>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
+      {/* Context Menu */}
+      <ContextMenu
+        contextMenu={contextMenu}
+        actions={contextMenuActions}
+        onClose={closeContextMenu}
+      />
+    </>
   );
 };

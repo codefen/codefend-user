@@ -37,6 +37,7 @@ interface NetworkResourceCardProps {
   canAddIssue: boolean;
   canAddSubNetwork: boolean;
   hasIssues: boolean;
+  onThreeDotsClick: (event: React.MouseEvent, resource: NetworkDevice) => void;
 }
 
 export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
@@ -50,6 +51,7 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
   canAddIssue,
   canAddSubNetwork,
   hasIssues,
+  onThreeDotsClick,
 }) => {
   const [showActions, setShowActions] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -103,13 +105,15 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
     setShowActions(!showActions);
   };
 
+  const handleThreeDotsButtonClick = (e: React.MouseEvent) => {
+    onThreeDotsClick(e, resource);
+  };
+
   return (
     <div
       ref={cardRef}
       className={`network-resource-card ${hasSubNetwork ? 'sub-network' : ''} ${showActions ? 'actions-visible' : ''}`}
       onContextMenu={handleContextMenu}>
-      {/* ACTION */}
-
       {/* Header */}
       <div className="card-header">
         <div className="server-info">
@@ -126,7 +130,7 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
           </span>
           <div className="resource-id">ID: {resource.id}</div>
         </div>
-        <button className="action-button">
+        <button className="action-button" onClick={handleThreeDotsButtonClick}>
           <ThreeDotsVerticalIcon />
         </button>
       </div>
@@ -138,11 +142,6 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
 
       {/* Found Web Apps */}
       <div className="found-apps">
-        {/* <div className="apps-title">
-          {resource.all_found_domains_value
-            ? `${resource.all_found_domains_value} domains resolve here:`
-            : 'Found web apps:'}
-        </div> */}
         <div className="apps-title">
           {resource.all_found_domains_value
             ? `${resource.all_found_domains_value} domains resolve here:`
@@ -152,7 +151,7 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
           <ul className="apps-list">
             {domains.map((domain, index) => (
               <li key={index} className="app-item">
-                |- {domain}
+                <span className="domain-resolve-icon"></span> {domain}
               </li>
             ))}
           </ul>
@@ -160,51 +159,6 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
           <div className="no-apps">No web applications found</div>
         )}
       </div>
-
-      {/* {showActions && (
-        <div className="actions-menu">
-          <button
-            className="action-btn"
-            onClick={() => onViewReport(resource)}
-            disabled={!hasIssues}
-            title="View report">
-            <DocumentIcon width={16} height={16} />
-            <span>View report</span>
-          </button>
-
-          <button
-            className="action-btn"
-            onClick={() => onViewCredentials(resource)}
-            title="View credentials">
-            <CredentialIcon width={16} height={16} />
-            <span>View credentials</span>
-          </button>
-
-          {canAddIssue && (
-            <button className="action-btn" onClick={() => onAddIssue(resource)} title="Add issue">
-              <BugIcon width={16} height={16} />
-              <span>Add issue</span>
-            </button>
-          )}
-
-          {canAddSubNetwork && (
-            <button
-              className="action-btn"
-              onClick={() => onAddSubNetwork(resource)}
-              title="Add SubNetwork">
-              <PlusIcon width={16} height={16} />
-              <span>Add SubNetwork</span>
-            </button>
-          )}
-
-          {canDelete && (
-            <button className="action-btn danger" onClick={() => onDelete(resource)} title="Delete">
-              <TrashIcon width={16} height={16} />
-              <span>Delete</span>
-            </button>
-          )}
-        </div>
-      )} */}
     </div>
   );
 };
