@@ -30,9 +30,9 @@ export const TeamMembersPage = () => {
         <TeamMembersTableCard isLoading={isLoading} members={data?.members || []} />
       </section>
       <section className="right">
+        <DashboardScanStart />
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
-        <DashboardScanStart />
       </section>
     </main>
   );

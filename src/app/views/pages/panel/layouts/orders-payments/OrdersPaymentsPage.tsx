@@ -36,12 +36,12 @@ export const OrdersPaymentsPage = () => {
         />
       </section>
       <section className="right">
+        <DashboardScanStart />
         <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
         <VulnerabilityRisk
           vulnerabilityByRisk={dashboardData?.issues_share || {}}
           isLoading={isLoadingDashboard}
         />
-        <DashboardScanStart />
       </section>
     </main>
   );

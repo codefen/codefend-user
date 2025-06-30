@@ -42,7 +42,7 @@ export const NewAuthPage = () => {
         </Suspense>
         <section className="left">
           {matches ? <VulnerabilitiesStatus vulnerabilityByShare={{} as any} /> : null}
-          <DashboardInvoke isScanning={false} />
+          <DashboardInvoke isScanning={false} openScan={() => {}} />
           <section className="box-assets">
             <DashboardAddResource data={{}} />
           </section>
@@ -52,9 +52,9 @@ export const NewAuthPage = () => {
         </section>
 
         <section className="right">
+          <DashboardScanStart />
           <VulnerabilitiesStatus vulnerabilityByShare={{} as any} />
           <VulnerabilityRisk vulnerabilityByRisk={{} as any} isLoading={false} />
-          <DashboardScanStart />
         </section>
       </main>
     </>
