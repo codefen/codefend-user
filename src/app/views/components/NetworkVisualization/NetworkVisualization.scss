@@ -20,6 +20,39 @@
       font-weight: 600;
     }
 
+    .view-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+
+      .view-toggle {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #e5e7eb;
+        color: var(--tertiary-color-600);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        font-family: 'Questrial', sans-serif;
+
+        &:hover {
+          background: #f9fafb;
+          border-color: #d1d5db;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        &.active {
+          background: var(--primary-color);
+          color: white;
+          border-color: var(--primary-color);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+
     .legend {
       display: flex;
       gap: 1rem;
@@ -115,6 +148,40 @@
           font-family: 'Questrial', sans-serif;
           text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         }
+
+        // Map styles
+        .country {
+          transition: all 0.2s ease;
+          
+          &:hover {
+            fill: #f3f4f6;
+            stroke: #9ca3af;
+            stroke-width: 1px;
+          }
+        }
+
+        .server-point {
+          transition: all 0.2s ease;
+          filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.3));
+          animation: pulse 3s infinite;
+          cursor: pointer;
+
+          &:hover {
+            filter: drop-shadow(0 4px 8px rgba(220, 38, 38, 0.5));
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.7;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
       }
     }
 
@@ -203,6 +270,15 @@
       align-items: flex-start;
       gap: 1rem;
 
+      .view-controls {
+        width: 100%;
+        
+        .view-toggle {
+          flex: 1;
+          text-align: center;
+        }
+      }
+
       .legend {
         flex-wrap: wrap;
         gap: 0.75rem;
@@ -230,6 +306,13 @@
 
       h3 {
         font-size: 1.125rem;
+      }
+
+      .view-controls {
+        .view-toggle {
+          padding: 0.75rem 1rem;
+          font-size: 0.8rem;
+        }
       }
 
       .legend {

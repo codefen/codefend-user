@@ -23,11 +23,12 @@ import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/componen
 import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
 import { NetworkVisualization } from '@/app/views/components/NetworkVisualization/NetworkVisualization.tsx';
+import { WorldMapView } from '@/app/views/components/NetworkVisualization/WorldMapView.tsx';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
 import { NetworkOutlineIcon } from '@icons';
 
-// Definir tipo para las pestañas
-type NetworkViewType = 'network' | 'cards';
+// Definir tipo para las pestañas - 3 vistas distintas
+type NetworkViewType = 'network' | 'cards' | 'locations';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
@@ -65,6 +66,17 @@ const NetworkPage: FC = () => {
       );
     }
 
+    if (activeTab === 'locations') {
+      return (
+        <WorldMapView
+          networkData={networks as any}
+          width={800}
+          height={600}
+          title="Global Server Locations"
+        />
+      );
+    }
+
     // Vista de cards por defecto
     return (
       <CardsResourcesWan
@@ -92,18 +104,23 @@ const NetworkPage: FC = () => {
       <section className="left">
         <div className="card">
           <SimpleSection header={headerContent} icon={<NetworkOutlineIcon />}>
-            {/* Pestañas */}
+            {/* Pestañas - 3 vistas distintas */}
             <div className="tabs-container">
               <div className="tabs-header">
                 <button
                   className={`tab-button ${activeTab === 'network' ? 'active' : ''}`}
                   onClick={() => handleTabChange('network')}>
-                  🌐 Network View
+                  🔗 Network Visualization
                 </button>
                 <button
                   className={`tab-button ${activeTab === 'cards' ? 'active' : ''}`}
                   onClick={() => handleTabChange('cards')}>
-                  📋 Cards View
+                  📋 Resource Cards
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'locations' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('locations')}>
+                  🌍 Server Locations
                 </button>
               </div>
             </div>

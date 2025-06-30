@@ -46,6 +46,59 @@ interface NetworkVisualizationProps {
   title?: string;
 }
 
+// Coordenadas geográficas para países (longitud, latitud)
+const countryCoordinates: Record<string, [number, number]> = {
+  'Argentina': [-64.0, -34.0],
+  'USA': [-95.0, 39.0],
+  'United States': [-95.0, 39.0],
+  'Canada': [-106.0, 60.0],
+  'Netherlands': [5.75, 52.5],
+  'Australia': [133.0, -27.0],
+  'Brazil': [-55.0, -10.0],
+  'United Kingdom': [-2.0, 54.0],
+  'France': [2.0, 46.0],
+  'Germany': [9.0, 51.0],
+  'Spain': [-4.0, 40.0],
+  'Italy': [12.0, 42.0],
+  'Russia': [105.0, 61.0],
+  'China': [104.0, 35.0],
+  'India': [78.0, 20.0],
+  'Japan': [138.0, 36.0],
+  'South Africa': [22.0, -31.0],
+  'Mexico': [-102.0, 23.0],
+  'Belgium': [4.5, 50.8],
+  'Switzerland': [8.2, 46.8],
+  'Austria': [14.5, 47.5],
+  'Portugal': [-8.0, 39.5],
+  'Poland': [19.0, 52.0],
+  'Czech Republic': [15.5, 49.75],
+  'Hungary': [20.0, 47.0],
+  'Romania': [25.0, 46.0],
+  'Bulgaria': [25.0, 43.0],
+  'Croatia': [15.5, 45.0],
+  'Slovenia': [14.5, 46.0],
+  'Slovakia': [19.5, 48.7],
+  'Estonia': [26.0, 59.0],
+  'Latvia': [25.0, 57.0],
+  'Lithuania': [24.0, 56.0],
+  'Finland': [26.0, 64.0],
+  'Denmark': [10.0, 56.0],
+  'Iceland': [-18.0, 65.0],
+  'Ireland': [-8.0, 53.0],
+  'Greece': [22.0, 39.0],
+  'Turkey': [35.0, 39.0],
+  'Israel': [34.8, 31.0],
+  'Singapore': [103.8, 1.3],
+  'South Korea': [128.0, 36.0],
+  'Thailand': [100.0, 15.0],
+  'Malaysia': [112.0, 2.5],
+  'Indonesia': [113.0, -0.8],
+  'Philippines': [122.0, 13.0],
+  'Vietnam': [108.0, 14.0],
+  'New Zealand': [174.0, -41.0],
+  'Chile': [-71.0, -30.0],
+};
+
 export const NetworkVisualization: FC<NetworkVisualizationProps> = ({
   networkData,
   width = 800,
@@ -55,6 +108,8 @@ export const NetworkVisualization: FC<NetworkVisualizationProps> = ({
   const svgRef = useRef<SVGSVGElement>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+
 
   // Process data to create nodes and links
   const { nodes, links } = useMemo(() => {
@@ -148,7 +203,8 @@ export const NetworkVisualization: FC<NetworkVisualizationProps> = ({
     };
   }, [networkData]);
 
-  useEffect(() => {
+  // Render network graph
+  const renderNetworkGraph = () => {
     if (!svgRef.current || nodes.length === 0) {
       setIsLoading(false);
       return;
@@ -310,6 +366,12 @@ export const NetworkVisualization: FC<NetworkVisualizationProps> = ({
     return () => {
       simulation.stop();
     };
+  };
+
+
+
+  useEffect(() => {
+    renderNetworkGraph();
   }, [nodes, links, width, height]);
 
   if (isLoading && nodes.length === 0) {
