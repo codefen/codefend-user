@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState, useMemo } from 'react';
 import { useLan } from '@resourcesHooks/network/useLan.ts';
 import { LanNetworkData } from './components/NetworkData.tsx';
 import { CardsResourcesWan } from './components/CardsResourcesWan.tsx';
@@ -23,10 +23,15 @@ import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/componen
 import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
 import { NetworkVisualization } from '@/app/views/components/NetworkVisualization/NetworkVisualization.tsx';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
+import { NetworkOutlineIcon } from '@icons';
+
+// Definir tipo para las pestañas
+type NetworkViewType = 'network' | 'cards';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
-  const [viewMode, setViewMode] = useState<'cards' | 'network'>('network'); // Default to network view
+  const [activeTab, setActiveTab] = useState<NetworkViewType>('network'); // Default to network view
   const {
     networks,
     isLoading,
@@ -38,6 +43,37 @@ const NetworkPage: FC = () => {
   } = useGetNetworkv2();
   const flashlight = useFlashlight();
   const { isAdmin, isNormalUser } = useUserRole();
+
+  // Manejar cambio de pestañas
+  const handleTabChange = (tab: NetworkViewType) => {
+    setActiveTab(tab);
+  };
+
+  const headerContent = useMemo(() => {
+    return 'Network Infrastructure';
+  }, []);
+
+  const renderTabContent = () => {
+    if (activeTab === 'network') {
+      return (
+        <NetworkVisualization
+          networkData={networks as any}
+          width={800}
+          height={600}
+          title="Network Groups by Neuroscan ID"
+        />
+      );
+    }
+
+    // Vista de cards por defecto
+    return (
+      <CardsResourcesWan
+        isLoading={isLoading}
+        refetchInternalNetwork={refetch}
+        internalNetwork={networks as any}
+      />
+    );
+  };
 
   return (
     <EmptyLayout
@@ -54,39 +90,26 @@ const NetworkPage: FC = () => {
       {/* <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div> */}
       <section className="left">
-        {/* View toggle buttons */}
-        <div className="view-toggle-container">
-          <div className="view-toggle">
-            <button 
-              className={`toggle-btn ${viewMode === 'network' ? 'active' : ''}`}
-              onClick={() => setViewMode('network')}
-            >
-              🌐 Network View
-            </button>
-            <button 
-              className={`toggle-btn ${viewMode === 'cards' ? 'active' : ''}`}
-              onClick={() => setViewMode('cards')}
-            >
-              📋 Cards View
-            </button>
-          </div>
+        <div className="card">
+          <SimpleSection header={headerContent} icon={<NetworkOutlineIcon />}>
+            {/* Pestañas */}
+            <div className="tabs-container">
+              <div className="tabs-header">
+                <button
+                  className={`tab-button ${activeTab === 'network' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('network')}>
+                  🌐 Network View
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'cards' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('cards')}>
+                  📋 Cards View
+                </button>
+              </div>
+            </div>
+            <div className="content">{renderTabContent()}</div>
+          </SimpleSection>
         </div>
-
-        {/* Conditional rendering based on view mode */}
-        {viewMode === 'network' ? (
-          <NetworkVisualization
-            networkData={networks as any}
-            width={800}
-            height={600}
-            title="Network Groups by Neuroscan ID"
-          />
-        ) : (
-          <CardsResourcesWan
-            isLoading={isLoading}
-            refetchInternalNetwork={refetch}
-            internalNetwork={networks as any}
-          />
-        )}
       </section>
 
       <Show when={isAdmin() || isNormalUser()}>
