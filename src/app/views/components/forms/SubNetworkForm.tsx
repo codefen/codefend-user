@@ -44,8 +44,8 @@ const SubNetworkForm: FC<SubNetworkFormProps> = ({ close, onDone, children, inte
           ))}
         </select>
       </div>
-      <IPValidatedInput ref={externalAddress} placeholder="external IP" />
-      <IPValidatedInput ref={internalAddress} placeholder="internal IP" required />
+      <IPValidatedInput ref={externalAddress} placeholder="external IP" isExternal={true} />
+      <IPValidatedInput ref={internalAddress} placeholder="internal IP" required isExternal={false} />
       <ModalTextArea ref={desc} placeholder="short description" maxLength={600} />
       {children(isLoading)}
     </form>

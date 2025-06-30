@@ -34,62 +34,56 @@ import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/componen
 import { APP_EVENT_TYPE } from '@interfaces/panel';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
-import { PrimaryButton } from '@/app/views/components/buttons/primary/PrimaryButton';
+import { PrimaryButton } from '@buttons/index';
 import { ScansTrendChart } from '@/app/views/components/charts/ScansTrendChart';
+
+// Definir tipo para las pestañas
+type TabType = 'scans' | 'surveillance';
 
 const scansColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
+    weight: '7%',
     styles: 'item-cell-1',
-    weight: '6%',
-    render: val => val,
+    render: (val: number) => val,
   },
   {
     header: 'Domain',
     key: 'resource_address',
+    weight: '25%',
     styles: 'item-cell-2',
-    weight: '28%',
-    render: val => val,
+    render: (val: string) => val,
   },
   {
     header: 'Phase',
     key: 'phase',
+    weight: '15%',
     styles: 'item-cell-3',
-    weight: '15.75%',
-    render: val => val,
+    render: (val: string) => val,
   },
   {
     header: 'Found / Parsed',
-    key: 'found_issues',
-    type: TABLE_KEYS.FULL_ROW,
+    key: 'issues',
+    weight: '18%',
     styles: 'item-cell-4',
-    weight: '15.75%',
-    render: val => `${val?.m_nllm_issues_found} / ${val?.m_nllm_issues_parsed}`,
+    render: (row: any) => `${row?.m_nllm_issues_found || 0} / ${row?.m_nllm_issues_parsed || 0}`,
   },
   {
     header: 'Leaks',
     key: 'm_leaks_found',
+    weight: '8%',
     styles: 'item-cell-5',
-    weight: '16.75%',
-    render: val => val,
+    render: (val: number) => val || 0,
   },
   {
-    header: 'Start',
+    header: 'Start ↓',
     key: 'creacion',
-    styles: 'item-cell-4',
-    weight: '16.75%',
-    render: val => (val ? naturalTime(val) : ''),
+    weight: '27%',
+    styles: 'item-cell-6',
+    render: (val: string) => naturalTime(val),
   },
 ];
-
-interface SurveillanceRow {
-  domain: string;
-  lastScanDate?: string;
-  lastIssues: number;
-  lastLeaks: number;
-  totalScans: number;
-}
 
 const surveillanceColumns = (handleDomainClick: (domain: string) => void): ColumnTableV3[] => [
   {
@@ -155,28 +149,44 @@ export const ScanSection = () => {
   const location = useLocation();
   const { domain: selectedDomain } = useParams<{ domain: string }>();
 
-  const isWebSurveillance = location.pathname.startsWith('/web-surveillance');
+  // Estado para pestañas - determinar pestaña activa basada en la ruta
+  const [activeTab, setActiveTab] = useState<TabType>(() => {
+    if (location.pathname.startsWith('/ai-surveillance')) {
+      const searchParams = new URLSearchParams(location.search);
+      return (searchParams.get('tab') as TabType) || 'scans';
+    }
+    // Backward compatibility
+    if (location.pathname.startsWith('/web-surveillance')) return 'surveillance';
+    return 'scans';
+  });
+
+  // Determinar si estamos en la nueva ruta unificada
+  const isUnifiedRoute = location.pathname.startsWith('/ai-surveillance');
+  const isLegacyWebSurveillance = location.pathname.startsWith('/web-surveillance');
 
   const headerContent = useMemo(() => {
-    if (!isWebSurveillance) {
-      return 'AI based web security';
+    if (isUnifiedRoute) {
+      return 'AI Surveillance';
     }
-    if (selectedDomain) {
-      return (
-        <div className="breadcrumb-container">
-          <span className="breadcrumb-link" onClick={() => navigate('/web-surveillance')}>
-            Surveillance index
-          </span>
-          <span className="breadcrumb-separator"> / </span>
-          <span className="breadcrumb-active">{selectedDomain} surveillance</span>
-        </div>
-      );
+    if (isLegacyWebSurveillance) {
+      if (selectedDomain) {
+        return (
+          <div className="breadcrumb-container">
+            <span className="breadcrumb-link" onClick={() => navigate('/ai-surveillance?tab=surveillance')}>
+              Surveillance index
+            </span>
+            <span className="breadcrumb-separator"> / </span>
+            <span className="breadcrumb-active">{selectedDomain} surveillance</span>
+          </div>
+        );
+      }
+      return 'Surveillance index';
     }
-    return 'Surveillance index';
-  }, [isWebSurveillance, selectedDomain]);
+    return 'AI based web security';
+  }, [isUnifiedRoute, isLegacyWebSurveillance, selectedDomain]);
 
   const groupedScans = useMemo(() => {
-    if (!isWebSurveillance) return [];
+    if (activeTab !== 'surveillance' && !isLegacyWebSurveillance) return [];
 
     const groups: { [key: string]: any[] } = {};
     scans.forEach((scan: any) => {
@@ -201,11 +211,19 @@ export const ScanSection = () => {
         totalScans: domainScans.length,
       };
     });
-  }, [scans, isWebSurveillance]);
+  }, [scans, activeTab, isLegacyWebSurveillance]);
 
   useEffect(() => {
     updateCompany();
   }, [scans]);
+
+  // Manejar cambio de pestañas
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    if (isUnifiedRoute) {
+      navigate(`/ai-surveillance?tab=${tab}`, { replace: true });
+    }
+  };
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;
@@ -291,11 +309,15 @@ export const ScanSection = () => {
   };
 
   const handleDomainClick = (domain: string) => {
-    navigate(`/web-surveillance/${domain}`);
+    if (isUnifiedRoute) {
+      navigate(`/ai-surveillance/${domain}?tab=surveillance`);
+    } else {
+      navigate(`/web-surveillance/${domain}`);
+    }
   };
 
-  const renderContent = () => {
-    if (isWebSurveillance) {
+  const renderTabContent = () => {
+    if (activeTab === 'surveillance' || isLegacyWebSurveillance) {
       if (selectedDomain) {
         const filteredScans = scans.filter((s: any) => s.resource_address === selectedDomain);
 
@@ -332,7 +354,7 @@ export const ScanSection = () => {
       }
     }
 
-    // Default view for /scans
+    // Vista de scans por defecto
     return (
       <Tablev3
         rows={scans}
@@ -372,38 +394,26 @@ export const ScanSection = () => {
       />
       <div className="card">
         <SimpleSection header={headerContent} icon={<StatIcon />}>
-          <div className="content">{renderContent()}</div>
+          {/* Pestañas solo para la ruta unificada */}
+          {isUnifiedRoute && (
+            <div className="tabs-container">
+              <div className="tabs-header">
+                <button
+                  className={`tab-button ${activeTab === 'scans' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('scans')}>
+                  AI Scans
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'surveillance' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('surveillance')}>
+                  Web Surveillance
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="content">{renderTabContent()}</div>
         </SimpleSection>
       </div>
-
-      {/* <div className="card scan-cards">
-        <div className="scan-header">
-          <h3>
-            <GlobeWebIcon />
-            Scan Result #{ultimo?.id}
-          </h3>
-          <span>Type: {ultimo?.resource_class} - Total scans: 1</span>
-        </div>
-
-        <div className="content">
-          <div className="scan-card-item">
-            <h4>Total issues</h4>
-            <span>10</span>
-          </div>
-          <div className="scan-card-item">
-            <h4>Scan status</h4>
-            <span>Completed</span>
-          </div>
-          <div className="scan-card-item">
-            <h4>Total time scanned</h4>
-            <span>50 min</span>
-          </div>
-          <div className="scan-card-item">
-            <h4>Scan periods</h4>
-            <span>10/2/1 - 10/2/1</span>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

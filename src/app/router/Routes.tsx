@@ -194,6 +194,11 @@ export const AppRouter = () => {
                 ],
               },
               {
+                path: 'ai-surveillance/:domain?',
+                element: <ScansPage />,
+              },
+              // Legacy routes for backward compatibility
+              {
                 path: 'scans',
                 element: <ScansPage />,
               },
