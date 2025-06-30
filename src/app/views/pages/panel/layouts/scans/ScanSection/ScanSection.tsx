@@ -16,7 +16,7 @@ import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { BugIcon, ScanIcon, StatIcon } from '@icons';
+import { BugIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
@@ -172,7 +172,9 @@ export const ScanSection = () => {
       if (selectedDomain) {
         return (
           <div className="breadcrumb-container">
-            <span className="breadcrumb-link" onClick={() => navigate('/ai-surveillance?tab=surveillance')}>
+            <span
+              className="breadcrumb-link"
+              onClick={() => navigate('/ai-surveillance?tab=surveillance')}>
               Surveillance index
             </span>
             <span className="breadcrumb-separator"> / </span>
@@ -274,6 +276,14 @@ export const ScanSection = () => {
         currentScan.set(row?.phase === ScanStepType.Finished ? row : null);
         setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
         setIsOpen(true);
+      },
+    },
+    {
+      label: 'Stop Scan',
+      icon: <XCircleIcon />,
+      disabled: (row: any) => row?.phase !== ScanStepType.LAUNCHED,
+      onClick: (row: any) => {
+        startKillScan(row);
       },
     },
   ];
