@@ -280,6 +280,12 @@
         --table-flex: 1 1 40%;
       }
     }
+
+    .table.table-riskscores {
+      .item {
+        cursor: pointer;
+      }
+    }
   }
 
   &.stat {
