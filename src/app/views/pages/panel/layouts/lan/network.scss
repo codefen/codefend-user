@@ -21,8 +21,8 @@ main.lan {
     .network-layout {
       display: flex;
       flex-direction: column;
-      // height: calc(100vh - 120px);
-      overflow-y: hidden;
+      height: calc(100vh - 150px);
+      max-height: calc(100vh - 150px);
     }
 
     // Estilos para el header personalizado con dropdown

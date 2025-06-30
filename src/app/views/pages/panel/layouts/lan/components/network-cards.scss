@@ -1,4 +1,12 @@
 // Network Layout Container
+.network-layout {
+  .search-section {
+    flex-shrink: 0;
+    padding: 1rem 1rem 0.5rem;
+    background: var(--card-background);
+    border-bottom: 1px solid #eef0f2;
+  }
+}
 
 // Search Bar Styles
 .network-search-bar {
@@ -292,9 +300,19 @@
 }
 
 @media (max-width: 768px) {
-  // .network-layout {
-  //   height: calc(100vh - 100px);
-  // }
+  .network-layout {
+    height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
+
+    .search-section {
+      padding: 0.75rem;
+
+      .search-results-info {
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+      }
+    }
+  }
 
   .network-search-bar {
     padding: 0.75rem;

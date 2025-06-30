@@ -95,7 +95,7 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
       resource.server_pais,
       resource.server_pais_provincia,
       resource.server_pais_ciudad,
-    ].filter(Boolean);
+    ].filter(part => part && part !== '-');
 
     return parts.join(', ') || 'Unknown location';
   };
