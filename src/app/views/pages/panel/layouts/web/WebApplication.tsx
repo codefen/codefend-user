@@ -21,7 +21,7 @@ import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
 import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
 
 const WebApplicationView = () => {
-  const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent } =
+  const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent, mapResources } =
     useGetWebResourcesv2();
   const [showScreen] = useShowScreen();
   const flashlight = useFlashlight();
@@ -61,9 +61,10 @@ const WebApplicationView = () => {
           isLoading={isLoading}
         />
         <ServerGeolocationMap
-          networkData={webResources as any}
+          networkData={webResources}
           resourceType={RESOURCE_CLASS.WEB}
-          title="Server Geolocation distribution"
+          title="Global server distribution"
+          mapResources={mapResources}
         />
       </section>
     </EmptyLayout>

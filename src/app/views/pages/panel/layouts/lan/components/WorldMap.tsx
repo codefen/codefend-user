@@ -58,7 +58,7 @@ const locationColumns: ColumnTableV3[] = [
 export const WorldMap: FC<WorldMapProps> = ({ 
   networkData, 
   resourceType = RESOURCE_CLASS.NETWORK, 
-  title = "Server Geolocation distribution" 
+  title = "Global server distribution" 
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);

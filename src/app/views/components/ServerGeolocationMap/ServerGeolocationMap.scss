@@ -1,7 +1,6 @@
 .server-geolocation-map {
   .header {
     justify-content: space-between;
-    margin-bottom: 1rem;
     
     .title-section {
       display: flex;
@@ -20,16 +19,16 @@
         }
         
         button {
-          background: none;
+          background: rgb(238 238 238 / 80%);
           border: none;
           color: #666;
-          font-size: 1rem;
           font-family: satoshi;
           font-weight: bold;
           cursor: pointer;
           padding: 0.25rem 0.5rem;
           transition: color 0.2s ease;
           text-transform: uppercase;
+          font-size: 0.8em;
           
           &:hover {
             color: var(--secondary-color-100);
@@ -39,6 +38,8 @@
           &.active {
             color: var(--secondary-color-100);
             text-decoration: underline;
+            font-family: satoshi;
+            background: rgb(255 57 57 / 10%);
           }
         }
       }
@@ -95,7 +96,12 @@
     
     .world-map-svg {
       max-width: 100%;
-      height: auto;
+      height: 360px;
+      transition: transform 0.5s cubic-bezier(0.4,0.0,0.2,1);
+      
+      &.zoomed {
+        transform: scale(1.2);
+      }
       
       .interactive-globe & {
         border: none;
@@ -184,4 +190,18 @@
       min-height: 300px;
     }
   }
+}
+
+.info-group {
+  background: rgba(255,255,255,0.85);
+  border-radius: 8px;
+  padding: 6px 18px 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-size: 15px;
+  font-weight: bold;
+  font-family: satoshi, Arial, sans-serif;
+  color: #222;
+  margin-top: 8px;
 } 

@@ -7,7 +7,7 @@ type MenuSection = 'Main' | 'Attack surface' | 'Risk control';
 
 const sidebarData = {
   Main: ['Dashboard', 'Team members', 'Orders and payments', 'User profile'],
-  'Attack surface': ['Web software', 'Mobile software', 'Network infrastructure', 'Social attacks'],
+  'Attack surface': ['Web software', 'Network devices', 'Social attacks', 'Mobile software'],
   'Risk control': ['Detected issues', 'AI scans', 'Dataleaks explorer', 'Ask a hacker'],
 };
 
@@ -17,9 +17,9 @@ const menuItemsPaths = {
   'Orders and payments': '/orders-payments',
   'User profile': '/user-profile',
   'Web software': '/web',
-  'Mobile software': '/mobile',
-  'Network infrastructure': '/network',
+  'Network devices': '/network',
   'Social attacks': '/social',
+  'Mobile software': '/mobile',
   'Detected issues': '/issues',
   'AI scans': '/scans',
   'Dataleaks explorer': '/sns',

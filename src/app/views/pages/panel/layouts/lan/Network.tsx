@@ -85,7 +85,7 @@ const NetworkPage: FC = () => {
           <ServerGeolocationMap
             networkData={networks as any}
             resourceType={RESOURCE_CLASS.NETWORK}
-            title="Server Geolocation distribution"
+            title="Global server distribution"
           />
         </section>
       </Show>

@@ -21,9 +21,9 @@ const fetcher = ([model, { company, logout }]: any) => {
     })
     .then(({ data }) => {
       if (verifySession(data, logout) || apiErrorValidation(data))
-        return { resources: [], company: null };
+        return { resources: [], company: null, map_resources: [] };
 
-      return { resources: data?.resources, company: data?.company };
+      return { resources: data?.resources, company: data?.company, map_resources: data?.map_resources };
     });
 };
 
@@ -46,7 +46,7 @@ export const useGetWebResourcesv2 = () => {
     revalidateOnReconnect: true,
     revalidateOnFocus: true,
     revalidateOnMount: true,
-    fallbackData: { resources: [], company: company.get },
+    fallbackData: { resources: [], company: company.get, map_resources: [] },
   });
 
   useEffect(() => {
@@ -92,6 +92,7 @@ export const useGetWebResourcesv2 = () => {
 
   return {
     webResources: data?.resources || [],
+    mapResources: data?.map_resources || [],
     isLoading,
     refetch,
     appEvent,

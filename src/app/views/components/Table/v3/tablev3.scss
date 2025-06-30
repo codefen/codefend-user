@@ -663,18 +663,10 @@
   .rows-virtualized-dynamic {
     position: relative;
     overflow: hidden;
-
-    .item:last-child {
-      border-bottom: 1px solid var(--primary-color-300);
-    }
-
-    // This works xd
-    & > div > div > div > div > div:last-child .item {
-      border-bottom: none;
-    }
   }
 }
 
+// Estilos para sorting optimista
 .table-rows-container {
   position: relative;
 
@@ -683,6 +675,7 @@
   }
 }
 
+// Estilos para el header de la tabla
 .table-header {
   --column-header-color: var(--tertiary-color-400);
   font-family: Questrial;
