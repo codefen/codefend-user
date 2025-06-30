@@ -20,8 +20,8 @@ export const NetworkDadForm: FC<ComponentEventWithChildren> = ({ onDone, close, 
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <IPValidatedInput ref={externalAddress} placeholder="External IP Address" required />
-      <IPValidatedInput ref={internalAddress} placeholder="Internal IP Address" required />
+      <IPValidatedInput ref={externalAddress} placeholder="External IP Address" required isExternal={true} />
+      <IPValidatedInput ref={internalAddress} placeholder="Internal IP Address" required isExternal={false} />
 
       <ModalTextArea ref={desc} placeholder="short description" maxLength={512} required />
       {children(isLoading)}

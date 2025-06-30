@@ -9,3 +9,4 @@ export * from './Table/tablev2';
 export const Navbar = lazy(() => import('./navbar/Navbar'));
 export const Sidebar = lazy(() => import('./sidebar/Sidebar'));
 export const ErrorConection = lazy(() => import('./modals/ErrorConnection'));
+export { NetworkVisualization } from './NetworkVisualization/NetworkVisualization';

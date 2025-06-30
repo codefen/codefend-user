@@ -202,19 +202,11 @@ export const SidebarDesktop = ({
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {
-          title: 'AI scans',
-          id: 'sidebar_scans',
-          to: '/scans',
+          title: 'AI Surveillance',
+          id: 'sidebar_ai_surveillance',
+          to: '/ai-surveillance',
           root: false,
           icon: <DeviceSearchIcon />,
-          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
-        },
-        {
-          title: 'Web surveillance',
-          id: 'sidebar_web_surveillance',
-          to: '/web-surveillance',
-          root: false,
-          icon: <SnbIcon />,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {

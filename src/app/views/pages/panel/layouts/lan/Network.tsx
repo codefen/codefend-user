@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { useLan } from '@resourcesHooks/network/useLan.ts';
 import { LanNetworkData } from './components/NetworkData.tsx';
 import { CardsResourcesWan } from './components/CardsResourcesWan.tsx';
@@ -22,9 +22,11 @@ import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
 import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
+import { NetworkVisualization } from '@/app/views/components/NetworkVisualization/NetworkVisualization.tsx';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
+  const [viewMode, setViewMode] = useState<'cards' | 'network'>('network'); // Default to network view
   const {
     networks,
     isLoading,
@@ -52,19 +54,39 @@ const NetworkPage: FC = () => {
       {/* <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div> */}
       <section className="left">
-        {/* Commented out old table view */}
-        {/* <LanNetworkData
-          isLoading={isLoading}
-          refetchInternalNetwork={refetch}
-          internalNetwork={networks}
-        /> */}
-        
-        {/* New card-based view */}
-        <CardsResourcesWan
-          isLoading={isLoading}
-          refetchInternalNetwork={refetch}
-          internalNetwork={networks as any}
-        />
+        {/* View toggle buttons */}
+        <div className="view-toggle-container">
+          <div className="view-toggle">
+            <button 
+              className={`toggle-btn ${viewMode === 'network' ? 'active' : ''}`}
+              onClick={() => setViewMode('network')}
+            >
+              🌐 Network View
+            </button>
+            <button 
+              className={`toggle-btn ${viewMode === 'cards' ? 'active' : ''}`}
+              onClick={() => setViewMode('cards')}
+            >
+              📋 Cards View
+            </button>
+          </div>
+        </div>
+
+        {/* Conditional rendering based on view mode */}
+        {viewMode === 'network' ? (
+          <NetworkVisualization
+            networkData={networks as any}
+            width={800}
+            height={600}
+            title="Network Groups by Neuroscan ID"
+          />
+        ) : (
+          <CardsResourcesWan
+            isLoading={isLoading}
+            refetchInternalNetwork={refetch}
+            internalNetwork={networks as any}
+          />
+        )}
       </section>
 
       <Show when={isAdmin() || isNormalUser()}>
