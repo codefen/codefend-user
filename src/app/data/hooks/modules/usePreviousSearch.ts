@@ -38,7 +38,7 @@ export const usePreviousSearch = (mod: string) => {
       body: {
         company_id: companyID,
       },
-      path: `modules/${mod}/view_previous`,
+      path: `${mod}/view_previous`,
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;

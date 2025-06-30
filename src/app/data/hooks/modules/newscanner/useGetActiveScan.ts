@@ -105,7 +105,7 @@ export const useGetActiveScan = () => {
   const swrKey = useMemo(() => {
     if (!companyId) return null;
 
-    return ['modules/neuroscan/view', { company: companyId, scanId: currentScanId }];
+    return ['neuroscans/view', { company: companyId, scanId: currentScanId }];
   }, [companyId, currentScanId]);
   const swrConfig = useMemo(() => {
     const shouldRefresh =

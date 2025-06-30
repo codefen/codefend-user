@@ -16,7 +16,7 @@ export const useScanDashboardView = () => {
       body: {
         company_id: getCompany(),
       },
-      path: 'modules/neuroscan/index',
+      path: 'neuroscans/index',
       requireSession: true,
     }).then(({ data }) => {
       const scans = data?.neuroscans;

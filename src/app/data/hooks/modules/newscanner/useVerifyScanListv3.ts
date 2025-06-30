@@ -71,7 +71,7 @@ export const useVerifyScanListv3 = () => {
   const swrKey = useMemo(() => {
     if (!companyId) return null;
 
-    return ['modules/neuroscan/index', { company: companyId }];
+    return ['neuroscans/index', { company: companyId }];
   }, [companyId]);
   const swrConfig = useMemo(() => {
     const shouldRefresh = scanningValue;

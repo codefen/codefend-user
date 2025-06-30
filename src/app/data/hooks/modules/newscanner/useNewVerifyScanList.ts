@@ -45,7 +45,7 @@ const fetcher = ([model, { company }]: any) => {
 
 export const useNewVerifyScanList = () => {
   const { company } = useGlobalFastFields(['company']);
-  const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
+  const baseKey = ['neuroscans/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
 
   const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {

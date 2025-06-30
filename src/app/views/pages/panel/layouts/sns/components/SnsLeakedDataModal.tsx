@@ -56,7 +56,7 @@ export const SnsLeakedDataModal = ({
           keyword: leaked[LEAKED_TYPES[type].value],
           company_id: companyID,
         },
-        path: `modules/sns/${LEAKED_TYPES[type].ac}`,
+        path: `sns/${LEAKED_TYPES[type].ac}`,
         requireSession: true,
       }).then(({ data }: any) => {
         if (apiErrorValidation(data)) {

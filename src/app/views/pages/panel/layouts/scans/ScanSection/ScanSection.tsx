@@ -219,7 +219,7 @@ export const ScanSection = () => {
         neuroscan_id,
         company_id: companyId,
       },
-      path: 'modules/neuroscan/kill',
+      path: 'neuroscans/kill',
       requireSession: true,
     }).then(({ neuroscan }: any) => {
       toast.success(SCAN_PAGE_TEXT.SCAN_KILLED_SUCCESS);

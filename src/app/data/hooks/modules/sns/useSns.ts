@@ -50,7 +50,7 @@ export const useSns = () => {
       newSearchParams.set('keyword', keyword.trim());
       newSearchParams.set('class', searchClass);
     }
-    
+
     const newUrl = `${location.pathname}${newSearchParams.toString() ? `?${newSearchParams.toString()}` : ''}`;
     navigate(newUrl, { replace: true });
   };
@@ -71,7 +71,7 @@ export const useSns = () => {
         keyword: searchDataParsed,
         class: searchClass,
       },
-      path: 'modules/sns/search',
+      path: 'sns/search',
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;
@@ -110,7 +110,7 @@ export const useSns = () => {
     updateState('resourceType', ResourcesTypes.WEB);
     appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_SNS);
   };
-  
+
   const updateCompany = (companyUpdated: any) => {
     if (companyUpdated) company.set(companyUpdated);
   };
