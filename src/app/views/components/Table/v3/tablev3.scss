@@ -652,6 +652,13 @@
         background: var(--primary-color-200);
       }
     }
+
+    &.table-virtualized {
+      .rows-virtualized,
+      .rows-virtualized-dynamic {
+        --table-line-color: var(--primary-color-100);
+      }
+    }
   }
 }
 
@@ -666,10 +673,11 @@
   .rows-virtualized-dynamic {
     position: relative;
     overflow: hidden;
+    --table-line-color: var(--primary-color-300);
 
     > div > div > div > div > div {
       & .item {
-        border-bottom: 1px solid var(--primary-color-300);
+        border-bottom: 1px solid var(--table-line-color);
       }
       &:last-child .item {
         border-bottom: none;

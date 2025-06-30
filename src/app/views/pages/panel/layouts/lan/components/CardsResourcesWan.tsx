@@ -163,26 +163,6 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
   return (
     <div className="network-layout">
       {/* Search Bar */}
-      {/* <div className="card network-search-bar">
-        <div className="search-input-container">
-          <SearchIcon className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search by server IP or domain..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
-        </div>
-        <div className="search-results-info">
-          {searchTerm && (
-            <span>
-              {filteredResources.length} of {internalNetwork.length} resources
-            </span>
-          )}
-        </div>
-      </div> */}
-
       <div>
         <ModalInput
           icon={<MagnifyingGlassIcon />}

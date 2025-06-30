@@ -1,6 +1,14 @@
 import { type FC, useState, useEffect, useRef } from 'react';
 import type { Device } from '@interfaces/panel.ts';
-import { BugIcon, CredentialIcon, DocumentIcon, TrashIcon, PlusIcon, ChevronIcon } from '@icons';
+import {
+  BugIcon,
+  CredentialIcon,
+  DocumentIcon,
+  TrashIcon,
+  PlusIcon,
+  ChevronIcon,
+  ThreeDotsVerticalIcon,
+} from '@icons';
 import './network-cards.scss';
 
 // Extended interface for network resources with server location data
@@ -83,9 +91,9 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
     const parts = [
       resource.server_pais,
       resource.server_pais_provincia,
-      resource.server_pais_ciudad
+      resource.server_pais_ciudad,
     ].filter(Boolean);
-    
+
     return parts.join(', ') || 'Unknown location';
   };
 
@@ -95,16 +103,18 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
   };
 
   return (
-    <div 
+    <div
       ref={cardRef}
       className={`network-resource-card ${hasSubNetwork ? 'sub-network' : ''} ${showActions ? 'actions-visible' : ''}`}
-      onContextMenu={handleContextMenu}
-    >
+      onContextMenu={handleContextMenu}>
+      {/* ACTION */}
+
       {/* Header */}
       <div className="card-header">
         <div className="server-info">
           <span className="server-ip">
-            <strong>Server IP:</strong> {resource.device_ex_address || resource.device_in_address || 'N/A'}
+            <strong>Server IP:</strong>{' '}
+            {resource.device_ex_address || resource.device_in_address || 'N/A'}
           </span>
           <span className="country-flag">
             {hasValidCountryCode(resource.server_pais_code) ? (
@@ -113,15 +123,15 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
               <span>🌍</span>
             )}
           </span>
+          <div className="resource-id">ID: {resource.id}</div>
         </div>
-        
-
+        <button className="actions-container">
+          <ThreeDotsVerticalIcon />
+        </button>
       </div>
 
       {/* Location */}
-      <div className="server-location">
-        Server location: {formatLocation()}
-      </div>
+      <div className="server-location">Server location: {formatLocation()}</div>
 
       {/* Separator */}
       <div className="separator"></div>
@@ -129,10 +139,9 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
       {/* Found Web Apps */}
       <div className="found-apps">
         <div className="apps-title">
-          {resource.all_found_domains_value 
-            ? `${resource.all_found_domains_value} domains resolve here:` 
-            : 'Found web apps:'
-          }
+          {resource.all_found_domains_value
+            ? `${resource.all_found_domains_value} domains resolve here:`
+            : 'Found web apps:'}
         </div>
         {domains.length > 0 ? (
           <ul className="apps-list">
@@ -150,15 +159,13 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
       {/* Bottom Separator */}
       <div className="separator"></div>
 
-      {/* Actions Menu */}
-      {showActions && (
+      {/* {showActions && (
         <div className="actions-menu">
           <button
             className="action-btn"
             onClick={() => onViewReport(resource)}
             disabled={!hasIssues}
-            title="View report"
-          >
+            title="View report">
             <DocumentIcon width={16} height={16} />
             <span>View report</span>
           </button>
@@ -166,18 +173,13 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
           <button
             className="action-btn"
             onClick={() => onViewCredentials(resource)}
-            title="View credentials"
-          >
+            title="View credentials">
             <CredentialIcon width={16} height={16} />
             <span>View credentials</span>
           </button>
 
           {canAddIssue && (
-            <button
-              className="action-btn"
-              onClick={() => onAddIssue(resource)}
-              title="Add issue"
-            >
+            <button className="action-btn" onClick={() => onAddIssue(resource)} title="Add issue">
               <BugIcon width={16} height={16} />
               <span>Add issue</span>
             </button>
@@ -187,28 +189,20 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
             <button
               className="action-btn"
               onClick={() => onAddSubNetwork(resource)}
-              title="Add SubNetwork"
-            >
+              title="Add SubNetwork">
               <PlusIcon width={16} height={16} />
               <span>Add SubNetwork</span>
             </button>
           )}
 
           {canDelete && (
-            <button
-              className="action-btn danger"
-              onClick={() => onDelete(resource)}
-              title="Delete"
-            >
+            <button className="action-btn danger" onClick={() => onDelete(resource)} title="Delete">
               <TrashIcon width={16} height={16} />
               <span>Delete</span>
             </button>
           )}
         </div>
-      )}
-
-      {/* Resource ID Badge */}
-      <div className="resource-id">ID: {resource.id}</div>
+      )} */}
     </div>
   );
-}; 
+};

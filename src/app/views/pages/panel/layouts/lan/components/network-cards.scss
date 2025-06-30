@@ -137,6 +137,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 0.5rem;
+    position: relative;
 
     .server-info {
       display: flex;
@@ -154,6 +155,14 @@
       .country-flag {
         font-size: 1.2rem;
       }
+    }
+
+    .actions-container {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: var(--tertiary-color-100);
+      border-radius: 0.25rem;
     }
   }
 
@@ -254,14 +263,11 @@
   }
 
   .resource-id {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: var(--tertiary-color-100);
+    background: #e6e6e6;
     color: var(--tertiary-color-600);
     font-size: 0.7rem;
     padding: 0.2rem 0.4rem;
-    border-radius: 0.25rem;
+    border-radius: var(--brd-radius);
     font-weight: 500;
   }
 }
