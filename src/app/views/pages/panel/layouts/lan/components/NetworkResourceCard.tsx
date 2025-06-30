@@ -8,6 +8,7 @@ import {
   PlusIcon,
   ChevronIcon,
   ThreeDotsVerticalIcon,
+  LocationOutlineIcon,
 } from '@icons';
 import './network-cards.scss';
 
@@ -125,19 +126,23 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
           </span>
           <div className="resource-id">ID: {resource.id}</div>
         </div>
-        <button className="actions-container">
+        <button className="action-button">
           <ThreeDotsVerticalIcon />
         </button>
       </div>
 
       {/* Location */}
-      <div className="server-location">Server location: {formatLocation()}</div>
-
-      {/* Separator */}
-      <div className="separator"></div>
+      <div className="server-location">
+        <LocationOutlineIcon /> {formatLocation()}
+      </div>
 
       {/* Found Web Apps */}
       <div className="found-apps">
+        {/* <div className="apps-title">
+          {resource.all_found_domains_value
+            ? `${resource.all_found_domains_value} domains resolve here:`
+            : 'Found web apps:'}
+        </div> */}
         <div className="apps-title">
           {resource.all_found_domains_value
             ? `${resource.all_found_domains_value} domains resolve here:`
@@ -155,9 +160,6 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
           <div className="no-apps">No web applications found</div>
         )}
       </div>
-
-      {/* Bottom Separator */}
-      <div className="separator"></div>
 
       {/* {showActions && (
         <div className="actions-menu">

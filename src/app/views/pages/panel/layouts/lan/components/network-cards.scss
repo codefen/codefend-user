@@ -157,12 +157,20 @@
       }
     }
 
-    .actions-container {
+    .action-button {
       position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      background: var(--tertiary-color-100);
       border-radius: 0.25rem;
+      background: transparent;
+      border-color: transparent;
+      top: 0;
+      right: 0;
+
+      &:hover {
+        background: rgba(175, 175, 175, 0.2);
+      }
+      &:active {
+        background: rgba(175, 175, 175, 0.45);
+      }
     }
   }
 
@@ -171,6 +179,8 @@
     font-size: 0.85rem;
     margin-bottom: 0.75rem;
     line-height: 1.4;
+    display: flex;
+    gap: 0.25rem;
   }
 
   .separator {
