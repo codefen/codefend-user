@@ -122,7 +122,7 @@ export const SmallPlanOrderModal = () => {
             title={plan.title}
             price={prices?.[plan.planType] || plan.price}
             features={plan.features}
-            imageSrc="codefend/IA ICON.png"
+            imageSrc="/codefend/IA ICON.png"
             selectedPlan={checkedOption}
             planType={plan.planType}
             onSelect={selectedPlan => setCheckedOption(selectedPlan)}

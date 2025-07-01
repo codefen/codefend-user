@@ -68,7 +68,7 @@ export const PaywallMaxScanModal = memo(({ close }: any) => {
             onChange={() => {}}
           />
           <img
-            src="public\codefend\estrellitas.png"
+            src="/codefend/estrellitas.png"
             alt="Normal Order Icon"
             style={{ width: '50px', height: '50px' }}
           />
