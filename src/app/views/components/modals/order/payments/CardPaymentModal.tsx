@@ -10,9 +10,10 @@ import {
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useTheme } from '@/app/views/context/ThemeContext';
-import { stripeKey } from '@utils/config';
+import { nodeEnv, stripeKey, stripeKeyTest } from '@utils/config';
 
-const STRIPE_PUBLISHABLE_KEY = stripeKey;
+const NODE_ENV = nodeEnv;
+const STRIPE_PUBLISHABLE_KEY = NODE_ENV == 'development' ? stripeKeyTest : stripeKey;
 
 export const CardPaymentModal = ({
   setCallback,
@@ -28,9 +29,15 @@ export const CardPaymentModal = ({
   const isInitialized = useRef(false);
   const [hideBackButton, setHideBackButton] = useState(false);
   const { theme } = useTheme();
-
+  console.log(
+    'STRIPE_PUBLISHABLE_KEY',
+    localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey
+  );
   // Memoize the Stripe promise
-  const stripePromise = useMemo(() => loadStripe(STRIPE_PUBLISHABLE_KEY), []);
+  const stripePromise = useMemo(
+    () => loadStripe(localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey),
+    []
+  );
 
   const fetchClientSecret = useCallback(async () => {
     if (isInitialized.current) return;
