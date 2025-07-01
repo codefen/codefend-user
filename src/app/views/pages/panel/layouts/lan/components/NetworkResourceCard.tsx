@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect, useRef } from 'react';
+import { type FC, useState, useEffect, useRef, type MouseEvent } from 'react';
 import type { Device } from '@interfaces/panel.ts';
 import {
   BugIcon,
@@ -38,7 +38,7 @@ interface NetworkResourceCardProps {
   canAddIssue: boolean;
   canAddSubNetwork: boolean;
   hasIssues: boolean;
-  onThreeDotsClick: (event: React.MouseEvent, resource: NetworkDevice) => void;
+  onThreeDotsClick: (event: MouseEvent, resource: NetworkDevice) => void;
 }
 
 export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
@@ -59,7 +59,7 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
 
   // Close actions menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: any) => {
       if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
         setShowActions(false);
       }
@@ -101,12 +101,12 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
     return parts.join(', ') || 'Unknown location';
   };
 
-  const handleContextMenu = (e: React.MouseEvent) => {
+  const handleContextMenu = (e: any) => {
     e.preventDefault();
     setShowActions(!showActions);
   };
 
-  const handleThreeDotsButtonClick = (e: React.MouseEvent) => {
+  const handleThreeDotsButtonClick = (e: any) => {
     onThreeDotsClick(e, resource);
   };
 
