@@ -35,6 +35,7 @@ import { APP_EVENT_TYPE } from '@interfaces/panel';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
 import { PrimaryButton } from '@buttons/index';
+import { useScanTelemetry } from '@hooks/common/useScanTelemetry';
 import { ScansTrendChart } from '@/app/views/components/charts/ScansTrendChart';
 
 // Definir tipo para las pestañas
@@ -176,6 +177,7 @@ export const ScanSection = () => {
   const { scans, updateCompany, companyId } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
+  const { trackScanStart, trackScanComplete, trackScanError, trackScanKill } = useScanTelemetry();
   const { appEvent, currentScan, lastScanId } = useGlobalFastFields([
     'appEvent',
     'currentScan',
@@ -272,6 +274,10 @@ export const ScanSection = () => {
       toast.error(SCAN_PAGE_TEXT.SCAN_KILL_NO_SELECTED);
       return;
     }
+    
+    // Track scan kill
+    trackScanKill(selectScan.resource_address || '', 'web');
+    
     fetcher('post', {
       body: {
         neuroscan_id,
@@ -331,12 +337,18 @@ export const ScanSection = () => {
     if (companyIdIsNull(companyId)) return;
 
     setLoading(true);
+    
+    // Track scan start
+    trackScanStart(domainScanned?.trim?.() || '', 'web');
+    
     autoScan(domainScanned?.trim?.() || '', false, '')
       .then(result => {
         if (apiErrorValidation(result)) {
           if (result?.error_info === 'neuroscan_unreachable_domain') {
+            trackScanError(domainScanned?.trim?.() || '', 'web', 'unreachable_domain');
             toast.error(result?.info);
           } else {
+            trackScanError(domainScanned?.trim?.() || '', 'web', 'limit_reached');
             updateState('open', true);
             updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
             updateState('resourceType', ResourcesTypes.WEB);

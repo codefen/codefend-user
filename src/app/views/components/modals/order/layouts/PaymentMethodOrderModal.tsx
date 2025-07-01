@@ -4,10 +4,12 @@ import { OrderPaymentMethod, OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { userOrderFinancialResource } from '@hooks/orders/useOrders';
 import { GlobeWebIcon } from '@icons';
+import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
 
 export const PaymentMethodOrderModal: FC = () => {
   const { paymentMethod, updateState, referenceNumber, orderId } = useOrderStore(state => state);
   const { sendOrderFinancial } = userOrderFinancialResource();
+  const { trackPaymentMethodSelection } = usePaymentTelemetry();
 
   const [paymentMethodW, setPaymentMethod] = useState<OrderPaymentMethod>(paymentMethod);
 
@@ -29,7 +31,10 @@ export const PaymentMethodOrderModal: FC = () => {
       <div className="methods">
         <div
           className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}
-          onClick={() => setPaymentMethod(OrderPaymentMethod.CARD)}>
+          onClick={() => {
+            setPaymentMethod(OrderPaymentMethod.CARD);
+            trackPaymentMethodSelection('stripe');
+          }}>
           <input
             id="card"
             type="radio"
@@ -55,7 +60,10 @@ export const PaymentMethodOrderModal: FC = () => {
 
         <div
           className={`option ${paymentMethodW === OrderPaymentMethod.CRYPTO ? 'select-option' : ''}`}
-          onClick={() => setPaymentMethod(OrderPaymentMethod.CRYPTO)}>
+          onClick={() => {
+            setPaymentMethod(OrderPaymentMethod.CRYPTO);
+            trackPaymentMethodSelection('crypto');
+          }}>
           <input
             id="crypto"
             type="radio"
@@ -81,7 +89,10 @@ export const PaymentMethodOrderModal: FC = () => {
 
         <div
           className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}
-          onClick={() => setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER)}>
+          onClick={() => {
+            setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER);
+            trackPaymentMethodSelection('bank');
+          }}>
           <input
             id="bank-transfer"
             type="radio"

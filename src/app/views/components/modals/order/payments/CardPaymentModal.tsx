@@ -11,6 +11,7 @@ import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useTheme } from '@/app/views/context/ThemeContext';
 import { nodeEnv, stripeKey, stripeKeyTest } from '@utils/config';
+import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
 
 const NODE_ENV = nodeEnv;
 const STRIPE_PUBLISHABLE_KEY = NODE_ENV == 'development' ? stripeKeyTest : stripeKey;
@@ -29,6 +30,7 @@ export const CardPaymentModal = ({
   const isInitialized = useRef(false);
   const [hideBackButton, setHideBackButton] = useState(false);
   const { theme } = useTheme();
+  const { trackPaymentStart, trackPaymentComplete, trackPaymentError } = usePaymentTelemetry();
   console.log(
     'STRIPE_PUBLISHABLE_KEY',
     localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey
@@ -41,6 +43,9 @@ export const CardPaymentModal = ({
 
   const fetchClientSecret = useCallback(async () => {
     if (isInitialized.current) return;
+
+    // Track payment start
+    trackPaymentStart('stripe', orderId);
 
     try {
       const { data } = await fetcher<any>('post', {
@@ -58,9 +63,10 @@ export const CardPaymentModal = ({
       isInitialized.current = true;
     } catch (error) {
       console.error('Error fetching client secret:', error);
+      trackPaymentError('stripe', 'client_secret_error', orderId);
       updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
     }
-  }, [companyId, referenceNumber, orderId, paywallSelected, fetcher, updateState]);
+  }, [companyId, referenceNumber, orderId, paywallSelected, fetcher, updateState, trackPaymentStart, trackPaymentError]);
 
   // Initialize Stripe when component mounts
   useEffect(() => {
@@ -85,11 +91,13 @@ export const CardPaymentModal = ({
         })
           .then(({ data }: any) => {
             if (data.status === 'complete') {
+              trackPaymentComplete('stripe', orderId);
               updateState('orderStepActive', OrderSection.WELCOME);
               setCallback(null);
             }
           })
           .catch(() => {
+            trackPaymentError('stripe', 'payment_finish_error', orderId);
             updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
           })
           .finally(() => {
