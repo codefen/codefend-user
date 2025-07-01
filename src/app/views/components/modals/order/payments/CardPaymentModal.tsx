@@ -9,8 +9,6 @@ import {
 } from '@stripe/react-stripe-js';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import Show from '@/app/views/components/Show/Show';
 import { useTheme } from '@/app/views/context/ThemeContext';
 import { stripeKey } from '@utils/config';
 
@@ -21,7 +19,6 @@ export const CardPaymentModal = ({
 }: {
   setCallback: (callback: (() => void) | null) => void;
 }) => {
-  console.log('STRIPE_PUBLISHABLE_KEY', STRIPE_PUBLISHABLE_KEY);
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
