@@ -122,13 +122,6 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
             <strong>Server IP:</strong>{' '}
             {resource.device_ex_address || resource.device_in_address || 'N/A'}
           </span>
-          <span className="country-flag">
-            {hasValidCountryCode(resource.server_pais_code) ? (
-              <span className={`flag flag-${resource.server_pais_code?.toLowerCase?.()}`}></span>
-            ) : (
-              <span>🌍</span>
-            )}
-          </span>
           <div className="resource-id">ID: {resource.id}</div>
         </div>
         <button className="action-button" onClick={handleThreeDotsButtonClick}>
@@ -136,9 +129,16 @@ export const NetworkResourceCard: FC<NetworkResourceCardProps> = ({
         </button>
       </div>
 
-      {/* Location */}
+      {/* Location with flag */}
       <div className="server-location">
-        <LocationOutlineIcon /> {formatLocation()}
+        <span className="country-flag">
+          {hasValidCountryCode(resource.server_pais_code) ? (
+            <span className={`flag flag-${resource.server_pais_code?.toLowerCase?.()}`}></span>
+          ) : (
+            <span>🌍</span>
+          )}
+        </span>
+        {formatLocation()}
       </div>
       {resource?.resource_lan_dad ? (
         <div className="server-location codefend-text-red">

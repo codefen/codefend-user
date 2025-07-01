@@ -70,7 +70,7 @@ const MAP_COLORS = {
   // Color de países con servidores (rojo principal)
   COUNTRIES_WITH_SERVERS: '#dc2626',
   // Color de países sin servidores (gris claro)
-  COUNTRIES_WITHOUT_SERVERS: '#f8f9fa',
+  COUNTRIES_WITHOUT_SERVERS: '#eee',
   // Opacidad de países con servidores (0.0 - 1.0)
   COUNTRIES_WITH_SERVERS_OPACITY: 0.8,
   // Opacidad de países sin servidores (0.0 - 1.0)
@@ -100,11 +100,11 @@ const BORDER_COLORS = {
 // ⚪ CONFIGURACIÓN DE CÍRCULOS DE CIUDADES
 const CITY_CIRCLES = {
   // Color de relleno de los círculos de ciudad
-  FILL_COLOR: '#ffffff',
+  FILL_COLOR: '#ff393933',
   // Color del borde de los círculos de ciudad
   STROKE_COLOR: '#dc2626',
   // Grosor del borde de los círculos
-  STROKE_WIDTH: 2,
+  STROKE_WIDTH: 0.2,
   // Radio mínimo de los círculos
   MIN_RADIUS: 6,
   // Radio máximo de los círculos
@@ -124,7 +124,7 @@ const CITY_CIRCLES = {
 // 🗺️ CONFIGURACIÓN DE LA PROYECCIÓN DEL MAPA
 const MAP_PROJECTION = {
   // Factor de escala del mapa (más alto = más zoom)
-  SCALE_FACTOR: 6.5,
+  SCALE_FACTOR: 1.8,
   // Tipo de proyección (puedes cambiar por geoMercator, geoOrthographic, etc.)
   PROJECTION_TYPE: 'geoNaturalEarth1', // Opciones: geoNaturalEarth1, geoMercator, geoOrthographic, geoEquirectangular
 };
@@ -132,7 +132,7 @@ const MAP_PROJECTION = {
 // 📱 CONFIGURACIÓN DE ZOOM
 const ZOOM_CONFIG = {
   // Zoom mínimo permitido
-  MIN_SCALE: 0.5,
+  MIN_SCALE: 0.3,
   // Zoom máximo permitido
   MAX_SCALE: 8,
 };
@@ -518,14 +518,26 @@ interface ServerLocation {
 
 export const WorldMapView: FC<WorldMapViewProps> = ({
   networkData,
-  width = 800,
-  height = 600,
+  width = 1000,
+  height = 700,
   title = "Global Server Locations"
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [selectedLocation, setSelectedLocation] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [worldData, setWorldData] = useState<any>(null);
+  const [expandedServers, setExpandedServers] = useState<Set<string>>(new Set());
+
+  // Function to toggle server expansion
+  const toggleServerExpansion = (serverKey: string) => {
+    const newExpanded = new Set(expandedServers);
+    if (newExpanded.has(serverKey)) {
+      newExpanded.delete(serverKey);
+    } else {
+      newExpanded.add(serverKey);
+    }
+    setExpandedServers(newExpanded);
+  };
 
   // 🎨 Función para aplicar variables CSS dinámicamente
   const applyDynamicStyles = () => {
@@ -639,6 +651,22 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
     return Array.from(groups.values());
   }, [serverLocations]);
 
+  // Find the city with the most servers for initial focus
+  const cityWithMostServers = useMemo(() => {
+    if (cityGroups.length === 0) return null;
+    
+    return cityGroups.reduce((max, current) => 
+      current.servers.length > max.servers.length ? current : max
+    );
+  }, [cityGroups]);
+
+  // Auto-open details panel for city with most servers
+  useEffect(() => {
+    if (cityWithMostServers && !selectedLocation) {
+      setSelectedLocation(cityWithMostServers);
+    }
+  }, [cityWithMostServers, selectedLocation]);
+
   // Render world map with server locations
   useEffect(() => {
     if (!svgRef.current || !worldData || serverLocations.length === 0) {
@@ -660,10 +688,21 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Set up projection
+    // Set up projection - centered on the city with most servers
     const projection = d3.geoNaturalEarth1()
-      .scale(innerWidth / MAP_PROJECTION.SCALE_FACTOR)
-      .translate([innerWidth / 2, innerHeight / 2]);
+      .scale(innerWidth / MAP_PROJECTION.SCALE_FACTOR);
+    
+    // Center on the city with most servers, or default center
+    if (cityWithMostServers) {
+      const [longitude, latitude] = cityWithMostServers.coordinates;
+      // Adjust translation to center on the target city
+      projection.translate([
+        innerWidth / 2 - longitude * (innerWidth / MAP_PROJECTION.SCALE_FACTOR) / 360,
+        innerHeight / 2 + latitude * (innerWidth / MAP_PROJECTION.SCALE_FACTOR) / 360
+      ]);
+    } else {
+      projection.translate([innerWidth / 2 - 50, innerHeight / 2 - 30]);
+    }
 
     const path = d3.geoPath().projection(projection);
 
@@ -817,39 +856,58 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
             <h4>Server location</h4>
             
             <div className="server-node-info">
-              <p className="location-info" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1rem', marginBottom: '1rem' }}>
+              <p className="location-info">
                 <img 
                   src={`https://flagcdn.com/24x18/${countryCodeMap[selectedLocation.country] || 'xx'}.png`} 
                   alt={selectedLocation.country}
-                  style={{ width: '24px', height: '18px' }}
+                  className="country-flag"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
+                    (e.target as HTMLImageElement).className = 'country-flag hidden';
                   }}
                 />
-                <strong className="location-text">{selectedLocation.location}</strong>
+                <span className="location-text">{selectedLocation.location}</span>
               </p>
               
               <div>
-                <strong className="servers-count-text">{selectedLocation.servers.length} Servidores en {selectedLocation.city}:</strong>
+                <span className="servers-count-text">{selectedLocation.servers.length} Servidores en {selectedLocation.city}:</span>
                 <ul className="domains-list">
-                  {selectedLocation.servers.map((server: any, index: number) => (
-                    <li key={index}>
-                      🖥️ {server.ip} 
-                      {server.neuroscan_id && <span> (NS-{server.neuroscan_id})</span>}
-                      {server.domains.length > 0 && (
-                        <div style={{ marginTop: '4px', fontSize: '0.75rem', color: 'var(--tertiary-color-400)' }}>
-                          📁 {server.domains.length} dominio{server.domains.length !== 1 ? 's' : ''}
-                          {server.domains.length <= 3 && (
-                            <div style={{ marginTop: '2px', paddingLeft: '1rem' }}>
-                              {server.domains.slice(0, 3).map((domain: string, idx: number) => (
-                                <div key={idx} style={{ fontSize: '0.7rem' }}>• {domain}</div>
-                              ))}
-                            </div>
+                  {selectedLocation.servers.map((server: any, index: number) => {
+                    const serverKey = `${server.ip}-${index}`;
+                    const isExpanded = expandedServers.has(serverKey);
+                    const hasClickableDomains = server.domains.length > 0;
+                    
+                    return (
+                      <li key={index}>
+                        <div 
+                          className={`server-row ${hasClickableDomains ? 'clickable' : ''}`}
+                          onClick={() => hasClickableDomains && toggleServerExpansion(serverKey)}
+                        >
+                          <span className="server-ip">🖥️ {server.ip}</span>
+                          {server.neuroscan_id && (
+                            <span className="neuroscan-id">(NS-{server.neuroscan_id})</span>
+                          )}
+                          {hasClickableDomains && (
+                            <span className="domains-count">
+                              📁 {server.domains.length} Domain{server.domains.length !== 1 ? 's' : ''}
+                            </span>
+                          )}
+                          {hasClickableDomains && (
+                            <span className={`expand-arrow ${isExpanded ? 'expanded' : ''}`}>
+                              ▶
+                            </span>
                           )}
                         </div>
-                      )}
-                    </li>
-                  ))}
+                        
+                        {isExpanded && hasClickableDomains && (
+                          <div className="expanded-domains">
+                            {server.domains.map((domain: string, idx: number) => (
+                              <div key={idx} className="domain-item">• {domain}</div>
+                            ))}
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>

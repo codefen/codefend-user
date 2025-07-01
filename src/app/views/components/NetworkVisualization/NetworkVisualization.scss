@@ -243,34 +243,113 @@
         }
 
         .domains-list {
-          margin: 0.5rem 0;
-          padding-left: 1rem;
-          max-height: 100%;
+          list-style: none;
+          padding: 0;
+          margin: 8px 0;
+          max-height: 300px;
           overflow-y: auto;
 
           li {
-            font-size: 0.8rem;
-            color: var(--tertiary-color-500);
-            margin: 0.6rem 0;
-            font-family: 'Questrial', sans-serif;
-            border-bottom: 1px solid #ccc;
-            list-style: none;
-            padding-bottom: 0.5rem;
+            margin: 0;
+            padding: 0;
+            
+            .server-row {
+              padding: 8px 0;
+              border-bottom: 1px solid var(--borders-color);
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              transition: all 0.2s ease;
+              
+              &.clickable {
+                cursor: pointer;
+              }
+              
+              &:hover {
+                background-color: var(--hover-color);
+                border-radius: 4px;
+              }
+              
+              .server-ip {
+                font-weight: 500;
+                color: var(--text-color-primary);
+              }
+              
+              .neuroscan-id {
+                color: var(--text-color-secondary);
+                font-size: 0.85rem;
+              }
+              
+              .domains-count {
+                color: var(--tertiary-color-400);
+                font-size: 0.85rem;
+              }
+              
+              .expand-arrow {
+                margin-left: auto;
+                font-size: 0.8rem;
+                color: var(--text-color-secondary);
+                transition: transform 0.2s ease;
+                
+                &.expanded {
+                  transform: rotate(90deg);
+                }
+              }
+            }
+            
+            .expanded-domains {
+              background-color: var(--primary-color-10);
+              border-left: 3px solid var(--primary-red-color);
+              border-radius: 0 4px 4px 0;
+              margin: 4px 0 8px 0;
+              padding: 8px 0;
+              padding-left: 2rem;
+              font-size: 0.75rem;
+              color: var(--tertiary-color-400);
+              
+              .domain-item {
+                padding: 2px 0;
+                transition: color 0.2s ease;
+                
+                &:hover {
+                  color: var(--text-color-primary);
+                }
+              }
+            }
           }
         }
       }
 
       // Clases específicas para elementos de ubicación
       .location-info {
-        font-family: 'Questrial', sans-serif;
-      }
-
-      .location-text {
-        font-family: 'Questrial', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        
+        .country-flag {
+          width: 24px;
+          height: 18px;
+          
+          &.hidden {
+            display: none;
+          }
+        }
+        
+        .location-text {
+          font-family: 'Questrial', sans-serif;
+          font-weight: bold;
+          color: var(--text-color-primary);
+        }
       }
 
       .servers-count-text {
         font-family: 'Questrial', sans-serif;
+        font-weight: bold;
+        color: var(--text-color-primary);
+        margin-bottom: 1rem;
+        display: block;
       }
     }
   }
