@@ -32,10 +32,13 @@ export const CardPaymentModal = ({
   const [hideBackButton, setHideBackButton] = useState(false);
   const { theme } = useTheme();
 
+  // Check if we're in test mode
+  const isTestMode = localStorage.getItem('stripeEnv') === 'true';
+
   // Memoize the Stripe promise
   const stripePromise = useMemo(
-    () => loadStripe(localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey),
-    []
+    () => loadStripe(isTestMode ? stripeKeyTest : stripeKey),
+    [isTestMode]
   );
 
   const fetchClientSecret = useCallback(async () => {
@@ -49,7 +52,7 @@ export const CardPaymentModal = ({
         order_id: orderId,
       };
       if (isAdmin()) {
-        bodyBuild.admin_active_test_mode = localStorage.getItem('stripeEnv') == 'true';
+        bodyBuild.admin_active_test_mode = isTestMode;
       }
       const { data } = await fetcher<any>('post', {
         body: bodyBuild,
@@ -63,7 +66,7 @@ export const CardPaymentModal = ({
       console.error('Error fetching client secret:', error);
       updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
     }
-  }, [companyId, referenceNumber, orderId, paywallSelected, fetcher, updateState]);
+  }, [companyId, referenceNumber, orderId, paywallSelected, fetcher, updateState, isTestMode]);
 
   // Initialize Stripe when component mounts
   useEffect(() => {
@@ -83,7 +86,7 @@ export const CardPaymentModal = ({
           merch_cid: merchId.current,
         };
         if (isAdmin()) {
-          bodyBuild.admin_active_test_mode = localStorage.getItem('stripeEnv') == 'true';
+          bodyBuild.admin_active_test_mode = isTestMode;
         }
         fetcher<any>('post', {
           body: bodyBuild,
@@ -113,6 +116,7 @@ export const CardPaymentModal = ({
       theme,
       fetcher,
       updateState,
+      isTestMode,
     ]
   );
 
