@@ -5,7 +5,7 @@ import { WelcomeDomain } from '@/app/views/components/welcome/WelcomeDomain/Welc
 import WelcomeScan from '@/app/views/components/welcome/WelcomeScan/WelcomeScan';
 import { WelcomeFinish } from '@/app/views/components/welcome/WelcomeFinish/WelcomeFinish';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
+import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { useInitialDomainStore } from '@stores/initialDomain.store';
 
 export const WelcomeGroupTour = () => {

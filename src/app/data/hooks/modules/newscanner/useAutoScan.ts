@@ -40,7 +40,7 @@ export const useAutoScan = () => {
     setDomainId(resourceAddress);
 
     const formData = new FormData();
-    formData.append('model', 'modules/neuroscan/mainwire');
+    formData.append('model', 'neuroscans/mainwire');
     formData.append('resource_domain', resourceAddress);
     // formData.append('developer', 'increible');
     // const userIdiom = idiom || globalStore.user.get?.idiom;

@@ -1,4 +1,4 @@
-import React, { Fragment, type ReactNode } from 'react';
+import { Fragment, type ReactNode, type FC } from 'react';
 import { formatDate } from '@utils/helper';
 import type { ColumnTable, TableItem } from '@interfaces/table';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
@@ -13,7 +13,7 @@ export interface TableWithoutActionsProps {
   type?: string;
 }
 
-export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
+export const TableWithoutActions: FC<TableWithoutActionsProps> = ({
   columns,
   resources,
   isLoading,
@@ -21,7 +21,7 @@ export const TableWithoutActions: React.FC<TableWithoutActionsProps> = ({
   needMarker,
   type = 'report',
 }) => {
-  const ColumnActive: React.FC<any> = props => {
+  const ColumnActive: FC<any> = props => {
     if (props.column.name != 'childs') {
       return (
         <div className={`item-cell item-cell-${props.type}-${props.num}`}>

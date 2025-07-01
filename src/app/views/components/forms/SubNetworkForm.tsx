@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { type ComponentEventWithChildren, type Device } from '../../../data';
 import { GlobeWebIcon } from '@icons';
 import { useAddLanV2 } from '@resourcesHooks/network/useAddLanV2';
-import { ModalInput } from '@/app/views/components/ModalInput/ModalInput';
+import { IPValidatedInput } from '@/app/views/components/utils/IPValidatedInput';
 import { ModalTextArea } from '@/app/views/components/ModalTextArea/ModalTextArea';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
@@ -44,8 +44,8 @@ const SubNetworkForm: FC<SubNetworkFormProps> = ({ close, onDone, children, inte
           ))}
         </select>
       </div>
-      <ModalInput ref={externalAddress} placeholder="external IP" />
-      <ModalInput ref={internalAddress} placeholder="internal IP" required />
+      <IPValidatedInput ref={externalAddress} placeholder="external IP" isExternal={true} />
+      <IPValidatedInput ref={internalAddress} placeholder="internal IP" required isExternal={false} />
       <ModalTextArea ref={desc} placeholder="short description" maxLength={600} />
       {children(isLoading)}
     </form>

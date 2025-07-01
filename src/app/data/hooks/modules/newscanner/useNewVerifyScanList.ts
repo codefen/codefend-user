@@ -10,13 +10,10 @@
  * - Actualización en tiempo real del estado de escaneos
  */
 
-import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
-import { ScanStepType } from '@/app/constants/welcome-steps';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { AUTO_SCAN_STATE } from '@interfaces/panel';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
-import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import useSWR from 'swr';
 
 interface ScanManager {
@@ -36,26 +33,39 @@ const fetcher = ([model, { company }]: any) => {
       path: model,
       requireSession: true,
     })
-    .then(({ data }) => ({
-      scans: data?.neuroscans || [],
-      companyUpdated: data?.company,
-    }))
+    .then(({ data }) => {
+      // Debug logging para ver los datos que llegan desde la API
+      console.log('API Response Data:', data);
+      console.log('Neuroscans:', data?.neuroscans);
+      
+      // Logging específico de m_nllm_issues_found y m_nllm_issues_parsed
+      if (data?.neuroscans && data.neuroscans.length > 0) {
+        data.neuroscans.forEach((scan: any, index: number) => {
+          console.log(`Scan ${index}:`, {
+            id: scan.id,
+            resource_address: scan.resource_address,
+            m_nllm_issues_found: scan.m_nllm_issues_found,
+            m_nllm_issues_parsed: scan.m_nllm_issues_parsed,
+            foundType: typeof scan.m_nllm_issues_found,
+            parsedType: typeof scan.m_nllm_issues_parsed
+          });
+        });
+      }
+      
+      return {
+        scans: data?.neuroscans || [],
+        companyUpdated: data?.company,
+      };
+    })
     .catch(err => ({
       scans: [],
       companyUpdated: null,
     }));
 };
 
-const getLatestScan = (scans: any[]) => {
-  if (scans.length === 0) return null;
-  return scans.reduce((a, b) =>
-    new Date(a.creacion).getTime() > new Date(b.creacion).getTime() ? a : b
-  );
-};
-
 export const useNewVerifyScanList = () => {
   const { company } = useGlobalFastFields(['company']);
-  const baseKey = ['modules/neuroscan/index', { company: company.get?.id }];
+  const baseKey = ['neuroscans/index', { company: company.get?.id }];
   const swrKey = company.get?.id ? baseKey : null;
 
   const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {

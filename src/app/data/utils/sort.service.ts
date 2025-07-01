@@ -41,15 +41,28 @@ export const compareValues = (firstVal: any, secondVal: any, sort: string): numb
 };
 
 export const quickSort = <T>(arr: T[] | any[], sortedData: keyof T, sort: Sort): any[] => {
-  if (arr.length <= 1) return arr;
+  if (!arr) return arr;
 
-  const stack: [number, number][] = [[0, arr.length - 1]];
+  // Si el array tiene 1 o 0 elementos, igual ordenar recursivamente los childs
+  if (arr.length <= 1) {
+    for (const item of arr) {
+      if (item?.childs && Array.isArray(item.childs) && item.childs.length > 0) {
+        item.childs = quickSort(item.childs, sortedData, sort);
+      }
+    }
+    return arr;
+  }
+
+  // Crear una copia profunda del array para no modificar el original
+  const arrCopy = JSON.parse(JSON.stringify(arr));
+
+  const stack: [number, number][] = [[0, arrCopy.length - 1]];
 
   while (stack.length) {
     const [left, right] = stack.pop()!;
     if (left >= right) continue;
 
-    const pivotIndex = partition2(arr, left, right, sortedData, sort);
+    const pivotIndex = partition2(arrCopy, left, right, sortedData, sort);
 
     const leftSize = pivotIndex - 1 - left;
     const rightSize = right - (pivotIndex + 1);
@@ -62,12 +75,15 @@ export const quickSort = <T>(arr: T[] | any[], sortedData: keyof T, sort: Sort):
       if (left < pivotIndex - 1) stack.push([left, pivotIndex - 1]);
     }
   }
-  for (const item of arr) {
-    if (item?.childs && item.childs.length > 1) {
+
+  // Ordenar recursivamente los childs si existen
+  for (const item of arrCopy) {
+    if (item?.childs && Array.isArray(item.childs) && item.childs.length > 0) {
       item.childs = quickSort(item.childs, sortedData, sort);
     }
   }
-  return arr;
+
+  return arrCopy;
 };
 
 const partition2 = <T>(

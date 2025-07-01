@@ -16,75 +16,163 @@ import { MODAL_KEY_OPEN, TABLE_KEYS } from '@/app/constants/app-texts';
 import { APP_MESSAGE_TOAST, SCAN_PAGE_TEXT, WEB_PANEL_TEXT } from '@/app/constants/app-toast-texts';
 import { apiErrorValidation, companyIdIsNull } from '@/app/constants/validations';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
-import { BugIcon, ScanIcon, StatIcon } from '@icons';
+import { BugIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
-import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { naturalTime } from '@utils/helper';
 import { useOrderStore } from '@stores/orders.store';
 import { OrderSection, ResourcesTypes } from '@interfaces/order';
 import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/components/SearchBarContainer';
 import { APP_EVENT_TYPE } from '@interfaces/panel';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
+import { PrimaryButton } from '@buttons/index';
+import { ScansTrendChart } from '@/app/views/components/charts/ScansTrendChart';
+
+// Definir tipo para las pestañas
+type TabType = 'scans' | 'surveillance';
 
 const scansColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
+    weight: '7%',
     styles: 'item-cell-1',
-    weight: '6%',
-    render: val => val,
+    render: (val: number) => val,
   },
   {
     header: 'Domain',
     key: 'resource_address',
+    weight: '25%',
     styles: 'item-cell-2',
-    weight: '28%',
-    render: val => val,
+    render: (val: string) => val,
   },
   {
     header: 'Phase',
     key: 'phase',
+    weight: '15%',
     styles: 'item-cell-3',
-    weight: '15.75%',
-    render: val => val,
+    render: (val: string) => val,
   },
   {
     header: 'Found / Parsed',
-    key: 'found_issues',
-    type: TABLE_KEYS.FULL_ROW,
+    key: 'issues',
+    weight: '18%',
     styles: 'item-cell-4',
-    weight: '15.75%',
-    render: val => `${val?.m_nllm_issues_found} / ${val?.m_nllm_issues_parsed}`,
+    render: (row: any) => {
+      // Diagnóstico mejorado para debugging
+      const found = row?.m_nllm_issues_found;
+      const parsed = row?.m_nllm_issues_parsed;
+
+      // Logging para debugging (puedes remover esto después)
+      if (found !== undefined || parsed !== undefined) {
+        console.log('Scan Row Data:', {
+          id: row?.id,
+          found: found,
+          parsed: parsed,
+          foundType: typeof found,
+          parsedType: typeof parsed,
+          originalRow: row,
+        });
+      }
+
+      // Mejor manejo de valores null/undefined/string
+      const foundValue =
+        found !== null && found !== undefined
+          ? typeof found === 'string'
+            ? parseInt(found)
+            : found
+          : 0;
+      const parsedValue =
+        parsed !== null && parsed !== undefined
+          ? typeof parsed === 'string'
+            ? parseInt(parsed)
+            : parsed
+          : 0;
+
+      return `${foundValue} / ${parsedValue}`;
+    },
   },
   {
     header: 'Leaks',
     key: 'm_leaks_found',
+    weight: '8%',
     styles: 'item-cell-5',
-    weight: '16.75%',
-    render: val => val,
+    render: (val: number) => val || 0,
   },
   {
-    header: 'Start',
+    header: 'Start ↓',
     key: 'creacion',
-    styles: 'item-cell-4',
-    weight: '16.75%',
-    render: val => (val ? naturalTime(val) : ''),
+    weight: '27%',
+    styles: 'item-cell-6',
+    render: (val: string) => naturalTime(val),
   },
 ];
+
+const surveillanceColumns = (handleDomainClick: (domain: string) => void): ColumnTableV3[] => [
+  {
+    header: 'Domain',
+    key: 'domain',
+    weight: '25%',
+    styles: 'item-cell-1',
+    render: (val: string) => val,
+  },
+  {
+    header: 'Last scan date',
+    key: 'lastScanDate',
+    weight: '20%',
+    styles: 'item-cell-2',
+    render: (val: string) => {
+      // Si es la fecha de fallback, mostrar N/A
+      if (!val || val === '1900-01-01T00:00:00.000Z') {
+        return 'N/A';
+      }
+      return naturalTime(val);
+    },
+  },
+  {
+    header: 'Last issues found',
+    key: 'lastIssues',
+    weight: '15%',
+    styles: 'item-cell-3',
+    render: (val: number) => val,
+  },
+  {
+    header: 'Last leaks found',
+    key: 'lastLeaks',
+    weight: '15%',
+    styles: 'item-cell-4',
+    render: (val: number) => val,
+  },
+  {
+    header: 'Total Scans',
+    key: 'totalScans',
+    weight: '15%',
+    styles: 'item-cell-5',
+    render: (val: number) => val,
+  },
+  {
+    header: 'Actions',
+    key: 'actions',
+    weight: '10%',
+    styles: 'item-cell-5',
+    type: TABLE_KEYS.FULL_ROW,
+    render: (row: any) => <PrimaryButton text="View" click={() => handleDomainClick(row.domain)} />,
+  },
+];
+
 export const ScanSection = () => {
   const [domainScanned, setDomainScanned] = useState<string>('');
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
-  // const { getCompany, company } = useUserData();
   const { scans, updateCompany, companyId } = useNewVerifyScanList();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
@@ -96,10 +184,86 @@ export const ScanSection = () => {
   const { updateState } = useOrderStore();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { domain: selectedDomain } = useParams<{ domain: string }>();
+
+  // Estado para pestañas - determinar pestaña activa basada en la ruta
+  const [activeTab, setActiveTab] = useState<TabType>(() => {
+    if (location.pathname.startsWith('/ai-surveillance')) {
+      const searchParams = new URLSearchParams(location.search);
+      return (searchParams.get('tab') as TabType) || 'scans';
+    }
+    // Backward compatibility
+    if (location.pathname.startsWith('/web-surveillance')) return 'surveillance';
+    return 'scans';
+  });
+
+  // Determinar si estamos en la nueva ruta unificada
+  const isUnifiedRoute = location.pathname.startsWith('/ai-surveillance');
+  const isLegacyWebSurveillance = location.pathname.startsWith('/web-surveillance');
+
+  const headerContent = useMemo(() => {
+    if (isUnifiedRoute) {
+      return 'AI Surveillance';
+    }
+    if (isLegacyWebSurveillance) {
+      if (selectedDomain) {
+        return (
+          <div className="breadcrumb-container">
+            <span
+              className="breadcrumb-link"
+              onClick={() => navigate('/ai-surveillance?tab=surveillance')}>
+              Surveillance index
+            </span>
+            <span className="breadcrumb-separator"> / </span>
+            <span className="breadcrumb-active">{selectedDomain} surveillance</span>
+          </div>
+        );
+      }
+      return 'Surveillance index';
+    }
+    return 'AI based web security';
+  }, [isUnifiedRoute, isLegacyWebSurveillance, selectedDomain]);
+
+  const groupedScans = useMemo(() => {
+    if (activeTab !== 'surveillance' && !isLegacyWebSurveillance) return [];
+
+    const groups: { [key: string]: any[] } = {};
+    scans.forEach((scan: any) => {
+      const domain = scan.resource_address;
+      if (!groups[domain]) {
+        groups[domain] = [];
+      }
+      groups[domain].push(scan);
+    });
+
+    return Object.entries(groups).map(([domain, domainScans]) => {
+      const finishedScans = domainScans.filter(s => s.phase === 'finished');
+      const latestFinishedScan = finishedScans.sort(
+        (a, b) => new Date(b?.creacion).getTime() - new Date(a?.creacion).getTime()
+      )[0];
+
+      return {
+        domain,
+        lastScanDate: latestFinishedScan?.creacion || '1900-01-01T00:00:00.000Z',
+        lastIssues: latestFinishedScan?.m_nllm_issues_parsed || 0,
+        lastLeaks: latestFinishedScan?.m_leaks_found || 0,
+        totalScans: domainScans?.length || 0,
+      };
+    });
+  }, [scans, activeTab, isLegacyWebSurveillance]);
 
   useEffect(() => {
     updateCompany();
   }, [scans]);
+
+  // Manejar cambio de pestañas
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    if (isUnifiedRoute) {
+      navigate(`/ai-surveillance?tab=${tab}`, { replace: true });
+    }
+  };
 
   const killScan = () => {
     const neuroscan_id = selectScan.id;
@@ -113,7 +277,7 @@ export const ScanSection = () => {
         neuroscan_id,
         company_id: companyId,
       },
-      path: 'modules/neuroscan/kill',
+      path: 'neuroscans/kill',
       requireSession: true,
     }).then(({ neuroscan }: any) => {
       toast.success(SCAN_PAGE_TEXT.SCAN_KILLED_SUCCESS);
@@ -142,18 +306,9 @@ export const ScanSection = () => {
         navigate(`/issues?scan_id=${row.id}`);
       },
     },
-    // {
-    //   label: 'Stop Scan',
-    //   icon: <XCircleIcon width="1.3rem" height="1.3rem" />,
-    //   disabled: (row: any) =>
-    //     row?.phase == ScanStepType.Killed || row?.phase == ScanStepType.Finished,
-    //   onClick: (row: any) => startKillScan(row),
-    // },
     {
       label: 'View scan details',
       icon: <ScanIcon />,
-      // disabled: (row: any) =>
-      //   row?.phase != ScanStepType.LAUNCHED && row?.phase != ScanStepType.Parser,
       onClick: (row: any) => {
         lastScanId.set(row.id);
         currentScan.set(row?.phase === ScanStepType.Finished ? row : null);
@@ -161,14 +316,20 @@ export const ScanSection = () => {
         setIsOpen(true);
       },
     },
+    {
+      label: 'Stop Scan',
+      icon: <XCircleIcon />,
+      disabled: (row: any) => row?.phase !== ScanStepType.LAUNCHED,
+      onClick: (row: any) => {
+        startKillScan(row);
+      },
+    },
   ];
 
   const startAndAddedDomain = () => {
     if (verifyDomainName(domainScanned || '')) return;
     if (companyIdIsNull(companyId)) return;
-    // const toastId = toast.loading(WEB_PANEL_TEXT.VERIFY_DOMAIN, {
-    //   closeOnClick: true,
-    // });
+
     setLoading(true);
     autoScan(domainScanned?.trim?.() || '', false, '')
       .then(result => {
@@ -195,6 +356,67 @@ export const ScanSection = () => {
       });
   };
 
+  const handleDomainClick = (domain: string) => {
+    if (isUnifiedRoute) {
+      navigate(`/ai-surveillance/${domain}?tab=surveillance`);
+    } else {
+      navigate(`/web-surveillance/${domain}`);
+    }
+  };
+
+  const renderTabContent = () => {
+    if (activeTab === 'surveillance' || isLegacyWebSurveillance) {
+      if (selectedDomain) {
+        const filteredScans = scans.filter((s: any) => s.resource_address === selectedDomain);
+
+        if (filteredScans.length === 0) {
+          return <p>There are no such records in our databases.</p>;
+        }
+
+        return (
+          <>
+            <ScansTrendChart data={filteredScans} />
+            <Tablev3
+              rows={filteredScans}
+              columns={scansColumns}
+              showRows={true}
+              initialSort={Sort.desc}
+              initialOrder="creacion"
+              isNeedSort
+              enableContextMenu
+              contextMenuActions={scanActions}
+            />
+          </>
+        );
+      } else {
+        return (
+          <Tablev3
+            rows={groupedScans}
+            columns={surveillanceColumns(handleDomainClick)}
+            showRows={true}
+            initialSort={Sort.desc}
+            initialOrder="lastScanDate"
+            isNeedSort
+          />
+        );
+      }
+    }
+
+    // Vista de scans por defecto
+    return (
+      <Tablev3
+        rows={scans}
+        columns={scansColumns}
+        showRows={true}
+        initialSort={Sort.desc}
+        initialOrder="creacion"
+        isNeedSort
+        enableContextMenu
+        contextMenuActions={scanActions}
+      />
+    );
+  };
+
   return (
     <div className="scan-section-container">
       <ModalTitleWrapper
@@ -219,50 +441,27 @@ export const ScanSection = () => {
         isDisabled={loading}
       />
       <div className="card">
-        <SimpleSection header="AI based web security" icon={<StatIcon />}>
-          <div className="content">
-            <Tablev3
-              rows={scans}
-              columns={scansColumns}
-              showRows={true}
-              initialSort={Sort.desc}
-              initialOrder="creacion"
-              isNeedSort
-              enableContextMenu
-              contextMenuActions={scanActions}
-            />
-          </div>
+        <SimpleSection header={headerContent} icon={<StatIcon />}>
+          {/* Pestañas solo para la ruta unificada */}
+          {isUnifiedRoute && (
+            <div className="tabs-container">
+              <div className="tabs-header">
+                <button
+                  className={`tab-button ${activeTab === 'scans' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('scans')}>
+                  AI Scans
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'surveillance' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('surveillance')}>
+                  Web Surveillance
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="content">{renderTabContent()}</div>
         </SimpleSection>
       </div>
-
-      {/* <div className="card scan-cards">
-        <div className="scan-header">
-          <h3>
-            <GlobeWebIcon />
-            Scan Result #{ultimo?.id}
-          </h3>
-          <span>Type: {ultimo?.resource_class} - Total scans: 1</span>
-        </div>
-
-        <div className="content">
-          <div className="scan-card-item">
-            <h4>Total issues</h4>
-            <span>10</span>
-          </div>
-          <div className="scan-card-item">
-            <h4>Scan status</h4>
-            <span>Completed</span>
-          </div>
-          <div className="scan-card-item">
-            <h4>Total time scanned</h4>
-            <span>50 min</span>
-          </div>
-          <div className="scan-card-item">
-            <h4>Scan periods</h4>
-            <span>10/2/1 - 10/2/1</span>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

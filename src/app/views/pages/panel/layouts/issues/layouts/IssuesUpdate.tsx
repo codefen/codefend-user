@@ -26,7 +26,7 @@ const IssueUpdate: FC = () => {
           <IssueUpdatePanel issueData={getIssue} isLoading={isLoading} />
         </section>
         <section className="right">
-          <IssueChatDisplay id={id || '0'} iaFirstMessage={getIssue?.ai_overview || ''} />
+          <IssueChatDisplay id={id || '0'} />
         </section>
       </Show>
     </main>

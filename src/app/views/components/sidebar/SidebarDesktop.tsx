@@ -24,6 +24,7 @@ import {
   DeviceSearchIcon,
   NetworkOutlineIcon,
 } from '@icons';
+import { LightningIcon } from '../icons/LightningIcon';
 import { SidebarItem } from '@/app/views/components/sidebar/SidebarItem';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
@@ -47,6 +48,14 @@ export const SidebarDesktop = ({
       title: 'Main',
       id: 'sidebar_mainitems',
       children: [
+        {
+          title: 'Administration',
+          id: 'sidebar_admin_section',
+          icon: <LightningIcon isVisible />,
+          to: '/admin/admin-section',
+          root: false,
+          haveAccess: isAdmin(),
+        },
         {
           title: 'My profile',
           id: 'sidebar_profile',
@@ -152,37 +161,13 @@ export const SidebarDesktop = ({
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {
-          title: 'Mobile software',
-          id: 'sidebar_mobile',
-          icon: <MobileIcon />,
-          to: '/mobile',
-          root: false,
-          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
-        },
-        {
-          title: 'Network infrastructure',
+          title: 'Network devices',
           id: 'sidebar_net',
           icon: <NetworkOutlineIcon />,
           to: '/network',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
-        /*{
-          title: 'Cloud',
-          id: 'sidebar_cloud',
-          icon: <CLoudIcon />,
-          to: '/cloud',
-          root: false,
-          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
-        },
-        {
-          title: 'Source Code',
-          id: 'sidebar_source',
-          icon: <SourceCodeIcon />,
-          to: '/source',
-          root: false,
-          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
-        }, */
         {
           title: 'Social attacks',
           id: 'sidebar_social',
@@ -191,6 +176,16 @@ export const SidebarDesktop = ({
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
+        /* SECCIÓN MOBILE SOFTWARE TEMPORALMENTE OCULTA
+        {
+          title: 'Mobile software',
+          id: 'sidebar_mobile',
+          icon: <MobileIcon />,
+          to: '/mobile',
+          root: false,
+          haveAccess: isNotProviderAndReseller || isProviderWithAccess,
+        },
+        */
       ],
     },
     {
@@ -207,9 +202,9 @@ export const SidebarDesktop = ({
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {
-          title: 'AI scans',
-          id: 'sidebar_scans',
-          to: '/scans',
+          title: 'AI Surveillance',
+          id: 'sidebar_ai_surveillance',
+          to: '/ai-surveillance',
           root: false,
           icon: <DeviceSearchIcon />,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,

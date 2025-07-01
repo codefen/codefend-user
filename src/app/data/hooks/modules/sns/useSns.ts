@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/constants/validations';
@@ -35,12 +35,25 @@ interface PersonInfo {
 export const useSns = () => {
   const { getCompany, getUserdata, logout, company } = useUserData();
   const [fetcher, _, isLoading] = useFetcher();
-  const query = new URLSearchParams(useLocation().search);
-  const [searchData, setSearchData] = useState(query.get('search') || '');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const query = new URLSearchParams(location.search);
+  const [searchData, setSearchData] = useState(query.get('keyword') || query.get('search') || '');
   const [searchClass, setSearchClass] = useState<string>(query.get('class') || 'email');
   const intelDataRef = useRef<any[]>([]);
   const appEvent = useGlobalFastField('appEvent');
   const { updateState } = useOrderStore();
+
+  const updateUrlParams = (keyword: string, searchClass: string) => {
+    const newSearchParams = new URLSearchParams();
+    if (keyword.trim()) {
+      newSearchParams.set('keyword', keyword.trim());
+      newSearchParams.set('class', searchClass);
+    }
+
+    const newUrl = `${location.pathname}${newSearchParams.toString() ? `?${newSearchParams.toString()}` : ''}`;
+    navigate(newUrl, { replace: true });
+  };
 
   const fetchSearch = (companyID: string) => {
     intelDataRef.current = [];
@@ -48,13 +61,17 @@ export const useSns = () => {
     if (searchClass === 'email') {
       searchDataParsed = searchDataParsed.trim();
     }
+
+    // Actualizar URL con los parámetros de búsqueda
+    updateUrlParams(searchDataParsed, searchClass);
+
     return fetcher('post', {
       body: {
         company_id: companyID,
         keyword: searchDataParsed,
         class: searchClass,
       },
-      path: 'modules/sns/search',
+      path: 'sns/search',
     })
       .then(({ data }: any) => {
         if (verifySession(data, logout)) return;
@@ -93,6 +110,7 @@ export const useSns = () => {
     updateState('resourceType', ResourcesTypes.WEB);
     appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_SNS);
   };
+
   const updateCompany = (companyUpdated: any) => {
     if (companyUpdated) company.set(companyUpdated);
   };

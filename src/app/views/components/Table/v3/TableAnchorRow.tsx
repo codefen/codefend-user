@@ -2,19 +2,9 @@ import { type FC, type MouseEvent } from 'react';
 import TableCellV3 from './TableCellV3';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import { ThreeDotsIcon } from '@icons';
+import type { TableAnchorRowProps } from './types';
 
-interface LabelRowProps {
-  itemDisable: string;
-  row: any;
-  nextRow?: any;
-  columns: any;
-  urlNav?: string;
-  onContextMenu?: (event: MouseEvent, row: any) => void;
-  enableContextMenu?: boolean;
-  onThreeDotsClick?: (event: MouseEvent, row: any) => void;
-}
-
-const TableAnchorRow: FC<LabelRowProps> = ({
+const TableAnchorRow: FC<TableAnchorRowProps> = ({
   itemDisable,
   row,
   nextRow,

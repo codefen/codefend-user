@@ -18,7 +18,7 @@ import Tablev3 from '@table/v3/Tablev3';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import TextChild from '@/app/views/components/utils/TextChild';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useAutoScan } from '@moduleHooks/neuroscan/useAutoScan';
+import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { useOrderStore } from '@stores/orders.store';
@@ -211,6 +211,10 @@ export const WebApplicationResources = ({ isLoading, webResources }: WebResource
         isNeedSort
         enableContextMenu
         contextMenuActions={contextMenuActions}
+        enableVirtualization={true}
+        rowHeight={49}
+        containerHeight={'calc(100cqh - 115px)'}
+        virtualizationThreshold={100}
       />
     </div>
   );

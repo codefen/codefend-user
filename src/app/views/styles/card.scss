@@ -51,16 +51,10 @@
     height: 2.5rem;
     display: flex;
     align-items: center;
-    font-family: Questrial;
-    font-weight: normal;
-    font-size: 1.1rem;
-    // line-height: 13px;
-    // text-transform: uppercase;
-    // border-bottom: 1px solid var(--primary-color-300);
-    // background-position: var(--primary-color-200);
+    font-family: satoshi;
+    font-weight: bold;
+    font-size: 1rem;
     color: var(--tertiary-color-600);
-    // background-color: #f8f8f8;
-    // padding-inline: 1.25rem;
 
     svg,
     img {
@@ -174,6 +168,17 @@
 
     b {
       color: var(--secondary-color-100);
+      background: #fff0f0;
+      padding: 3px 3px;
+      font-weight: bold;
+    }
+
+    .content {
+      .order-text {
+        b {
+          border-radius: 3px;
+        }
+      }
     }
   }
 
@@ -281,6 +286,12 @@
         --chart-max-width: 200px;
         --chart-flex: 1 1 60%;
         --table-flex: 1 1 40%;
+      }
+    }
+
+    .table.table-riskscores {
+      .item {
+        cursor: pointer;
       }
     }
   }
@@ -1075,6 +1086,20 @@
       text-wrap: pretty;
       overflow-wrap: break-word;
       max-height: none;
+      font-size: 14px;
+      padding: 5px 0px;
+      line-height: 22px;
+    }
+
+    b {
+      font-weight: bold;
+      font-family: satoshi;
+    }
+
+    code {
+      font-size: 1em;
+      background: #eee;
+      font-family: satoshi;
     }
   }
 
@@ -1266,5 +1291,22 @@
         }
       }
     }
+
+    &.title {
+      b {
+        background: rgba(255, 57, 57, 0.1);
+        color: var(--secondary-color-200);
+      }
+    }
   }
+}
+
+// Identificador: Estilos de los párrafos de los mensajes en el chat de soporte
+.message-card .message-card-container p {
+  max-width: 100%;
+  overflow: hidden;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+  max-height: none;
+  font-size: 14px;
 }

@@ -8,6 +8,8 @@ const filterRows = (
   initialOrder: string,
   columns: ColumnTableV3[]
 ): any[] => {
+  if (!term.trim()) return rows;
+
   term = term.toLowerCase();
   const visibleKeys = new Set(columns.map(col => col.key));
 
@@ -52,10 +54,35 @@ const usePreProcessedRows = (
   columns: ColumnTableV3[]
 ) => {
   return useMemo(() => {
-    const filteredRows = !term.trim() ? rows : filterRows(rows, term, initialOrder, columns);
-    const sorted = isNeedSort ? quickSort(filteredRows, sortedColumn, sort) : filteredRows;
-    return sorted;
-  }, [rows, sortedColumn, sort, term, initialOrder]);
+    // Validaciones tempranas para evitar procesamiento innecesario
+    if (!rows || rows.length === 0) {
+      return [];
+    }
+
+    if (!columns || columns.length === 0) {
+      return rows;
+    }
+
+    // Filtrar primero
+    const filteredRows = filterRows(rows, term, initialOrder, columns);
+
+    // Si no hay filas después del filtrado, retornar array vacío
+    if (filteredRows.length === 0) {
+      return [];
+    }
+
+    // Aplicar sorting solo si es necesario y hay una columna válida
+    if (isNeedSort && sortedColumn && sortedColumn.trim() !== '') {
+      try {
+        return quickSort(filteredRows, sortedColumn, sort);
+      } catch (error) {
+        console.error('Error during sorting:', error);
+        return filteredRows; // Retornar filas sin ordenar en caso de error
+      }
+    }
+
+    return filteredRows;
+  }, [rows, sortedColumn, sort, term, initialOrder, isNeedSort, columns]);
 };
 
 export default usePreProcessedRows;

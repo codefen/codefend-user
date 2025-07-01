@@ -1,6 +1,7 @@
-import { type FC, useEffect } from 'react';
+import { type FC, useEffect, useState, useMemo } from 'react';
 import { useLan } from '@resourcesHooks/network/useLan.ts';
 import { LanNetworkData } from './components/NetworkData.tsx';
+import { CardsResourcesWan } from './components/CardsResourcesWan.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { OrderV2 } from '@modals/order/Orderv2.tsx';
@@ -19,9 +20,19 @@ import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx
 import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
 import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
+import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
+import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
+import { NetworkVisualization } from '@/app/views/components/NetworkVisualization/NetworkVisualization.tsx';
+import { WorldMapView } from '@/app/views/components/NetworkVisualization/WorldMapView.tsx';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
+import { NetworkOutlineIcon } from '@icons';
+
+// Definir tipo para las pestañas - 3 vistas distintas
+type NetworkViewType = 'network' | 'cards' | 'locations';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
+  const [activeTab, setActiveTab] = useState<NetworkViewType>('cards'); // Default to cards view
   const {
     networks,
     isLoading,
@@ -33,6 +44,44 @@ const NetworkPage: FC = () => {
   } = useGetNetworkv2();
   const flashlight = useFlashlight();
   const { isAdmin, isNormalUser } = useUserRole();
+
+  // Manejar cambio de vista
+  const handleViewChange = (view: NetworkViewType) => {
+    setActiveTab(view);
+  };
+
+  const renderTabContent = () => {
+    if (activeTab === 'network') {
+      return (
+        <NetworkVisualization
+          networkData={networks as any}
+          width={800}
+          height={600}
+          title="Network Groups by Neuroscan ID"
+        />
+      );
+    }
+
+    if (activeTab === 'locations') {
+      return (
+        <WorldMapView
+          networkData={networks as any}
+          width={800}
+          height={600}
+          title="Global Server Locations"
+        />
+      );
+    }
+
+    // Vista de cards por defecto
+    return (
+      <CardsResourcesWan
+        isLoading={isLoading}
+        refetchInternalNetwork={refetch}
+        internalNetwork={networks as any}
+      />
+    );
+  };
 
   return (
     <EmptyLayout
@@ -46,14 +95,32 @@ const NetworkPage: FC = () => {
       <CredentialsModal />
       <AddAccessPointModal appEvent={appEvent} />
       <AddSubNetworkModal appEvent={appEvent} internalNetwork={networks ?? []} />
-      {/* <div className="brightness variant-1"></div>
-      <div className="brightness variant-2"></div> */}
       <section className="left">
-        <LanNetworkData
-          isLoading={isLoading}
-          refetchInternalNetwork={refetch}
-          internalNetwork={networks}
-        />
+        <div className="card">
+          <SimpleSection header="Network Infrastructure" icon={<NetworkOutlineIcon />}>
+            {/* Sistema de tabs debajo del título */}
+            <div className="tabs-container">
+              <div className="tabs-header">
+                <button
+                  className={`tab-button ${activeTab === 'cards' ? 'active' : ''}`}
+                  onClick={() => handleViewChange('cards')}>
+                  📋 Resource Cards
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'network' ? 'active' : ''}`}
+                  onClick={() => handleViewChange('network')}>
+                  🔗 Network Visualization
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'locations' ? 'active' : ''}`}
+                  onClick={() => handleViewChange('locations')}>
+                  🌍 Server Locations
+                </button>
+              </div>
+            </div>
+            <div className="content">{renderTabContent()}</div>
+          </SimpleSection>
+        </div>
       </section>
 
       <Show when={isAdmin() || isNormalUser()}>
@@ -70,6 +137,11 @@ const NetworkPage: FC = () => {
             resourceCount={networks?.length || 0}
             isLoading={isLoading}
             scope={OrderSection.NETWORK_SCOPE}
+          />
+          <ServerGeolocationMap
+            networkData={networks as any}
+            resourceType={RESOURCE_CLASS.NETWORK}
+            title="Global server distribution"
           />
         </section>
       </Show>

@@ -33,7 +33,7 @@ const networkColumns: ColumnTableV3[] = [
     key: 'device_ex_address',
     type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-2',
-    weight: '24%',
+    weight: '18%',
     render: (row: any, next?: any) =>
       !row?.resource_lan_dad ? (
         row.device_ex_address
@@ -48,7 +48,7 @@ const networkColumns: ColumnTableV3[] = [
     header: 'internal ip',
     key: 'device_in_address',
     styles: 'item-cell-3',
-    weight: '24%',
+    weight: '18%',
     render: (ip: any) => ip,
   },
   {
@@ -56,7 +56,7 @@ const networkColumns: ColumnTableV3[] = [
     key: 'server_pais',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-4',
-    weight: '14%',
+    weight: '19%',
     render: (row: any) => (
       <LocationItem
         country={row?.server_pais || 'unknown'}
@@ -68,7 +68,7 @@ const networkColumns: ColumnTableV3[] = [
     header: 'description',
     key: 'device_desc',
     styles: 'item-cell-5',
-    weight: '30%',
+    weight: '37%',
     render: (desc: any) => desc,
   },
 ];
@@ -147,28 +147,20 @@ export const LanNetworkData: FC<LanNetworkDataProps> = ({ isLoading, internalNet
   ];
 
   return (
-    <div className="card table">
-      <div className="over">
-        {/* <div className="header">
-          <div className="table-title">
-            <h2>
-              <div className="icon">
-                <LanIcon />
-              </div>
-              Network structure
-            </h2>
-          </div>
-        </div> */}
-
-        <Tablev3
-          columns={networkColumns}
-          rows={internalNetwork}
-          showRows={!isLoading}
-          initialOrder="id"
-          contextMenuActions={contextMenuActions}
-          enableContextMenu={true}
-        />
-      </div>
+    <div className="card">
+      <Tablev3
+        className="table-lan"
+        columns={networkColumns}
+        rows={internalNetwork}
+        showRows={!isLoading}
+        initialOrder="id"
+        contextMenuActions={contextMenuActions}
+        enableContextMenu={true}
+        enableVirtualization={true}
+        rowHeight={49}
+        containerHeight={'calc(100cqh - 115px)'}
+        virtualizationThreshold={100}
+      />
     </div>
   );
 };

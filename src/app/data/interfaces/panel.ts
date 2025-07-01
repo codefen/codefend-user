@@ -260,15 +260,13 @@ export interface Member {
 
 export interface MemberV2 {
   id: string;
-  company_id: string;
-  member_fname: string;
-  member_lname: string;
-  member_email: string;
-  member_phone: string;
+  name: string;
+  email: string;
+  phone: string;
   member_role: string;
+  linkedin_url: string;
   final_issues: string;
-  eliminado: string;
-  creacion: string;
+  resource_domain?: string;
 }
 
 export interface SuperMember extends Member, MemberV2 {}
@@ -486,4 +484,8 @@ export enum AUTO_SCAN_STATE {
   SCAN_LAUNCHED = 'SCAN_LAUNCHED',
   SCAN_FINISHED = 'SCAN_FINISHED',
   NON_SCANNING = 'NON_SCANNING',
+}
+
+export interface USER_PREFERENCE {
+  // ... existing code ...
 }

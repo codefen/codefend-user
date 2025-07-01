@@ -109,6 +109,7 @@ export const AllPlansOrderModal = () => {
             onSelect={selectedPlan => {
               changed(selectedPlan);
             }}
+            textWithPrice={'per pentest'}
           />
         ))}
       </div>

@@ -318,5 +318,53 @@ export class AppConstants {
           'Recommended for stablished businesses. XXXXXXX. Neuroscan: 60 scaneos automatizados. Dataleaks search: 60 búsquedas. 360 horas de pentest manual.',
       },
     },
+    [ResourcesTypes.LEAKS]: {
+      planTitle:
+        'Exclusive small plans for web applications offer a unique combination of <b>automatic scanners, specialized technical assistance</b> and <b>dataleaks search</b>. All provide limited access to the platform with report creation and issue visualization.',
+      small: {
+        type: 'small',
+        price: '1,500',
+        promise: 'basic one-time analysis',
+        list: [
+          'Recommended maximum of <b>20 ip addresses.</b>',
+          'Neuroscan: <b>5 automated scans.</b>',
+          'Dataleaks search: <b>10 searches.</b>',
+          '<b>40 hours</b> of manual pentest.',
+        ],
+        title: 'Basic pentest on demand',
+        description:
+          'Recommended for small sized businesses. XXXXXXX. Neuroscan: 5 scaneos automatizados. Dataleaks search: 10 búsquedas. 40 horas de pentest manual.',
+      },
+      medium: {
+        type: 'medium',
+        price: '4,500',
+        promise: 'intermediate one-time analysis',
+        list: [
+          'Recommended maximum of <b>XXXX.</b>',
+          'Application value: <b>normal.</b>',
+          'Neuroscan: <b>10 automated scans.</b>',
+          'Dataleaks search: <b>20 searches.</b>',
+          '<b>120 hours</b> of manual pentest.',
+        ],
+        title: 'Advanced pentest on demand',
+        description:
+          'Medium pentest on demand Recommended for mid sized businesses. XXXXXXX. Neuroscan: 15 scaneos automatizados. Dataleaks search: 30 búsquedas. 120 horas de pentest manual.',
+      },
+      advanced: {
+        type: 'advanced',
+        price: '13,500',
+        promise: 'advanced one-time analysis',
+        list: [
+          'Recommended maximum of <b>XXXX.</b>',
+          'Application value: <b>high.</b>',
+          'Neuroscan: <b>60 automated scans.</b>',
+          'Dataleaks search: <b>60 searches.</b>',
+          '<b>360 hours</b> of manual pentest.',
+        ],
+        title: 'Advanced pentest on demand',
+        description:
+          'Recommended for stablished businesses. XXXXXXX. Neuroscan: 60 scaneos automatizados. Dataleaks search: 60 búsquedas. 360 horas de pentest manual.',
+      },
+    },
   };
 }

@@ -5,7 +5,7 @@ import { WebApplicationTitle } from './components/WebApplicationTitle.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation.tsx';
+import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
@@ -21,7 +21,7 @@ import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
 import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
 
 const WebApplicationView = () => {
-  const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent } =
+  const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent, mapResources } =
     useGetWebResourcesv2();
   const [showScreen] = useShowScreen();
   const flashlight = useFlashlight();
@@ -60,11 +60,11 @@ const WebApplicationView = () => {
           resourceCount={webResources.length}
           isLoading={isLoading}
         />
-        <ResourceByLocation
-          isLoading={isLoading}
-          resource={webResources}
-          title="Web servers by location"
-          type={RESOURCE_CLASS.WEB}
+        <ServerGeolocationMap
+          networkData={webResources}
+          resourceType={RESOURCE_CLASS.WEB}
+          title="Global server distribution"
+          mapResources={mapResources}
         />
       </section>
     </EmptyLayout>

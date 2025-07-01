@@ -1,165 +1,68 @@
-import { type FC } from 'react';
+import { type FC, type MouseEvent } from 'react';
 import { useNavigate } from 'react-router';
-
-import ConfirmModal from '@modals/ConfirmModal';
-import { TrashIcon, BugIcon, DocumentIcon, PeopleGroupIcon } from '@icons';
-import ModalTitleWrapper from '@modals/modalwrapper/ModalTitleWrapper';
-
+import '../socialEngineering.scss';
+import { LinkedinV2Icon } from '@/app/views/components/icons/LinkedinV2Icon';
 import type { MemberV2 } from '@interfaces/panel';
-import type { ColumnTableV3, TableItem } from '@interfaces/table';
-import { roleMap } from '@mocks/defaultData';
-import useModal from '@hooks/common/useModal';
-import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal';
-import { useAddSocial } from '@resourcesHooks/social/useDeleteSocial';
-import { useUserRole } from '#commonUserHooks/useUserRole';
-import { MODAL_KEY_OPEN, RESOURCE_CLASS, TABLE_KEYS } from '@/app/constants/app-texts';
-import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import Tablev3 from '@table/v3/Tablev3';
 
-interface SocialProps {
-  refetch: () => void;
-  isLoading: boolean;
-  socials: MemberV2[];
+interface SocialEngineeringProps {
+  paginatedMembers: MemberV2[];
+  sentryRef: (node?: Element | null | undefined) => void;
 }
 
-export const socialColumns: ColumnTableV3[] = [
-  {
-    header: 'id',
-    key: 'id',
-    styles: 'item-cell-social-1',
-    weight: '9%',
-    render: (id: any) => id,
-  },
-  {
-    header: 'email',
-    key: 'email',
-    styles: 'item-cell-social-3',
-    weight: '27%',
-    render: (email: any) => email,
-  },
-  {
-    header: 'name',
-    key: 'name',
-    styles: 'item-cell-social-2 ',
-    weight: '20%',
-    render: (name: any) => name,
-  },
-  {
-    header: 'role',
-    key: 'member_role',
-    styles: 'item-cell-social-5',
-    weight: '18%',
-    render: (role: any) => roleMap[role as keyof typeof roleMap],
-  },
-  {
-    header: 'Linkedin',
-    key: 'linkedin_url',
-    styles: 'item-cell-social-4',
-    weight: '27%',
-    render: (phone: any) => phone,
-  },
-];
-
-const SocialEngineering: FC<SocialProps> = props => {
+const SocialEngineering: FC<SocialEngineeringProps> = ({ paginatedMembers, sentryRef }) => {
   const navigate = useNavigate();
-  const { showModal, setShowModal, setShowModalStr, showModalStr } = useModal();
-  const [handleDeleteResource, { setSelectedId, isLoading: __ }] = useAddSocial(() => {
-    setShowModal(false);
-    props.refetch();
-  });
-  const { isAdmin, isNormalUser, isProvider } = useUserRole();
-  const { resourceType, openModal, resourceID } = useGlobalFastFields([
-    'resourceType',
-    'openModal',
-    'resourceID',
-  ]);
+  const isLoading = !paginatedMembers || paginatedMembers.length === 0;
+  const hasMore = paginatedMembers.length > 0 && paginatedMembers.length % 10 === 0; // Suponiendo que se cargan 10 elementos por página
 
-  const generateReport = (resourceUpID: string, count: any) => {
-    if (Number(count) >= 1) {
-      openModal.set(true);
-      resourceID.set(resourceUpID);
-      resourceType.set(RESOURCE_CLASS.SOCIAL);
+  const handleMemberClick = (email: string, event: MouseEvent) => {
+    // Prevenir la navegación si se hace clic en el enlace de LinkedIn
+    if ((event.target as HTMLElement).closest('a')) {
+      return;
     }
-  };
 
-  const createIssue = (id: string) => {
-    navigate(isProvider() || isAdmin() ? `/issues/create/social/${id}` : '', {
-      state: { redirect: '/social' },
-    });
+    // Navegar a SNS con los parámetros de búsqueda
+    navigate(`/sns?keyword=${encodeURIComponent(email)}&class=email`);
   };
-
-  const deleteSocial = (id: string) => {
-    setShowModalStr(MODAL_KEY_OPEN.DELETE_MEMBER);
-    setShowModal(true);
-    setSelectedId(id);
-  };
-
-  const contextMenuActions = [
-    {
-      label: 'View report',
-      disabled: (row: any) => Number(row?.final_issues) < 1,
-      icon: <DocumentIcon isButton width={1.27} height={1.27} />,
-      onClick: (row: any) => {
-        generateReport(row.id, row.final_issues);
-      },
-    },
-    {
-      label: 'Delete',
-      disabled: isProvider(),
-      icon: <TrashIcon />,
-      onClick: (row: any) => {
-        deleteSocial(row?.id);
-      },
-    },
-    {
-      label: 'Add issue',
-      disabled: isNormalUser(),
-      icon: <BugIcon isButton />,
-      onClick: (row: any) => {
-        createIssue(row.id);
-      },
-    },
-  ];
 
   return (
-    <>
-      <ModalTitleWrapper
-        isActive={showModal && showModalStr === MODAL_KEY_OPEN.DELETE_MEMBER}
-        close={() => setShowModal(false)}
-        headerTitle="Delete social engineering">
-        <ConfirmModal
-          action={() => {
-            handleDeleteResource();
-          }}
-          header=""
-          cancelText="Cancel"
-          confirmText="Delete"
-          close={() => setShowModal(false)}
-        />
-      </ModalTitleWrapper>
-
-      <div className="card">
-        <div className="over">
-          {/* <div className="header">
-            <div className="table-title">
-              <h2>
-                <div className="icon">
-                  <PeopleGroupIcon />
-                </div>
-                Social Engineering
-              </h2>
+    <div className="card">
+      <div className="social-grid">
+        {!isLoading &&
+          paginatedMembers.map((member, index) => (
+            <div
+              key={member.id}
+              ref={paginatedMembers.length === index + 1 ? sentryRef : undefined}
+              className={`social-card ${member.linkedin_url ? 'has-linkedin' : ''}`}
+              onClick={e => handleMemberClick(member.email, e)}
+              style={{ cursor: 'pointer' }}>
+              <div className="social-card-info">
+                <span>{member.id}</span>
+                <span className="separator">|</span>
+                <span>{member.email}</span>
+                {member.name && (
+                  <>
+                    <span className="separator">|</span>
+                    <span>{member.name}</span>
+                  </>
+                )}
+                {member.linkedin_url && (
+                  <>
+                    <span className="separator">|</span>
+                    <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer">
+                      <LinkedinV2Icon />
+                    </a>
+                  </>
+                )}
+              </div>
             </div>
-          </div> */}
-          <Tablev3
-            columns={socialColumns}
-            rows={props.socials}
-            showRows={!props.isLoading}
-            contextMenuActions={contextMenuActions}
-            enableContextMenu={true}
-          />
-        </div>
+          ))}
+        {hasMore ? (
+          <div className="loading-message">More elements loading...</div>
+        ) : (
+          <div className="loading-message">All elements are listed.</div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

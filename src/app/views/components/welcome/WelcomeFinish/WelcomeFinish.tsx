@@ -2,7 +2,7 @@ import { ModalWrapper } from '@modals/index';
 import { ScanStepType } from '@/app/constants/welcome-steps';
 import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { GlobeWebIcon, LanIcon, SparklesIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
@@ -91,6 +91,12 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   const leaksFoundFlash = useValueFlash(currentScan?.m_leaks_found);
   const socialLeaksFlash = useValueFlash(currentScan?.m_leaks_social_found);
 
+  const navigateTo = (path: string, isDisabled: boolean) => {
+    if (isDisabled) return;
+    solved();
+    navigate(path);
+  };
+
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
       <div className="welcome-content welcome-content-finish">
@@ -107,7 +113,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <p>
                   AI based scan on <b>{currentScan?.resource_address}</b> started by{' '}
                   {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}. <br />
-                  <strong>Estimated time: 10 minutes.</strong>
+                  {/* <strong>Estimated time: 10 minutes.</strong> */}
                 </p>
               </div>
               <div className="progress-mini">
@@ -128,6 +134,22 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-header-title'}>
                   <SparklesIcon className="codefend-text-red" />
                   <h3>AI based web scan</h3>
+                  <span className="actions">
+                    <span>|</span>
+                    <div
+                      className="action"
+                      data-disabled={
+                        !globalStore.lastScanId.get || currentScan?.m_nllm_issues_parsed <= 0
+                      }
+                      onClick={() =>
+                        navigateTo(
+                          `/issues?resourceClass=web&scan_id=${globalStore.lastScanId.get}`,
+                          !globalStore.lastScanId.get || currentScan?.m_nllm_issues_parsed <= 0
+                        )
+                      }>
+                      View issues
+                    </div>
+                  </span>
                 </div>
                 <div className={'process-badge'}>
                   {getStatusBadge(
@@ -178,6 +200,37 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-header-title'}>
                   <LanIcon className="codefend-text-red" />
                   <h3>Attack surface discovery</h3>
+                  <span className="actions">
+                    <span>|</span>
+                    <div
+                      className="action"
+                      data-disabled={
+                        !globalStore.lastScanId.get || currentScan?.m_subdomains_found <= 0
+                      }
+                      onClick={() =>
+                        navigateTo(
+                          '/web',
+                          !globalStore.lastScanId.get || currentScan?.m_subdomains_found <= 0
+                        )
+                      }>
+                      View subdomains
+                    </div>
+                    <span>|</span>
+                    <div
+                      className="action"
+                      data-disabled={
+                        !globalStore.lastScanId.get || currentScan?.m_subdomains_found_servers <= 0
+                      }
+                      onClick={() =>
+                        navigateTo(
+                          '/network',
+                          !globalStore.lastScanId.get ||
+                            currentScan?.m_subdomains_found_servers <= 0
+                        )
+                      }>
+                      View servers
+                    </div>
+                  </span>
                 </div>
                 <div className={'process-badge'}>
                   {getStatusBadge(
@@ -236,6 +289,34 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     }}
                   />
                   <h3>Darkweb leaks research</h3>
+                  <span className="actions">
+                    <span>|</span>
+                    <div
+                      className="action"
+                      data-disabled={
+                        !globalStore.lastScanId.get || currentScan?.m_leaks_social_found <= 0
+                      }
+                      onClick={() =>
+                        navigateTo(
+                          `/social?resource_domain=${currentScan?.resource_address}`,
+                          !globalStore.lastScanId.get || currentScan?.m_leaks_social_found <= 0
+                        )
+                      }>
+                      View users
+                    </div>
+                    <span>|</span>
+                    <div
+                      className="action"
+                      data-disabled={!globalStore.lastScanId.get || currentScan?.m_leaks_found <= 0}
+                      onClick={() =>
+                        navigateTo(
+                          `/issues?resourceClass=leaks&scan_id=${globalStore.lastScanId.get}`,
+                          !globalStore.lastScanId.get || currentScan?.m_leaks_found <= 0
+                        )
+                      }>
+                      View leaks
+                    </div>
+                  </span>
                 </div>
                 <div className={'process-badge'}>
                   {getStatusBadge('', currentScan?.m_leaks_finished, currentScan?.m_leaks_launched)}

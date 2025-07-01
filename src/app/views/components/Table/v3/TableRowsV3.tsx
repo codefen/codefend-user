@@ -1,30 +1,15 @@
 import { type ChangeEvent, type FC, type ReactNode, type MouseEvent } from 'react';
 import { type ColumnTableV3 } from '@interfaces/table.ts';
-import { flattenRows } from '@utils/sort.service';
 import { useTableStoreV3 } from './tablev3.store';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import TableLabelRow from './TableLabelRow';
 import TableAnchorRow from './TableAnchorRow';
 import TableSimpleRow from './TableSimpleRow';
 import { generateID } from '@utils/helper';
-
-interface TableRowsProps {
-  rows: any[];
-  columns: ColumnTableV3[];
-  urlNav?: string;
-  isActiveDisable: boolean;
-  isNeedMultipleCheck: boolean;
-  limit: number;
-  action?: (val?: any) => void;
-  selected?: any;
-  selectedKey?: string;
-  onContextMenu?: (event: MouseEvent, row: any) => void;
-  enableContextMenu?: boolean;
-  onThreeDotsClick?: (event: MouseEvent, row: any) => void;
-}
+import type { TableRowsProps } from './types';
 
 const TableRowsV3: FC<TableRowsProps> = ({
-  rows,
+  rows, // Filas ya flattenadas
   columns,
   urlNav,
   isActiveDisable,
@@ -37,8 +22,6 @@ const TableRowsV3: FC<TableRowsProps> = ({
   enableContextMenu,
   onThreeDotsClick,
 }) => {
-  // Se aplica un flat al array para que todos los objetos esten en la misma jeraquita / Necesario por los childs
-  const flattenedRows = flattenRows(rows, limit);
   // Util para el multi select store
   const { selectedItems, setSelectedItems, removeItem, selectingActive, setActiveSelecting } =
     useTableStoreV3();
@@ -64,12 +47,16 @@ const TableRowsV3: FC<TableRowsProps> = ({
     for (let i = 0; i < rowCount; i++) {
       const row = r[i] as any;
       const itemDisable = ` ${isActiveDisable && row[TABLE_KEYS.COUNT_ISSUE] && row[TABLE_KEYS.COUNT_ISSUE] <= 0 ? 'item-disabled' : ''}`;
+
+      // Generar key única para cada fila
+      const rowId = row?.[TABLE_KEYS.ID];
+      const uniqueKey = rowId ? `${rowId}-${i}` : `row-${i}-${generateID()}`;
+
       // Cuando la ROW es una URL
       if (urlNav) {
-        const key = row?.[TABLE_KEYS.ID];
         rows[i] = (
           <TableAnchorRow
-            key={key ? key + i : generateID()}
+            key={uniqueKey}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -80,12 +67,12 @@ const TableRowsV3: FC<TableRowsProps> = ({
             onThreeDotsClick={onThreeDotsClick}
           />
         );
-        // Cuando la ROW tiene que tener el multiple select activo
-      } else if (isNeedMultipleCheck) {
-        const key = row?.[TABLE_KEYS.ID];
+      }
+      // Cuando la ROW tiene que tener el multiple select activo
+      else if (isNeedMultipleCheck) {
         rows[i] = (
           <TableLabelRow
-            key={key ? key + i : crypto.randomUUID()}
+            key={uniqueKey}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -97,12 +84,12 @@ const TableRowsV3: FC<TableRowsProps> = ({
             onThreeDotsClick={onThreeDotsClick}
           />
         );
-        // Cuando la ROW es una row normal cae aca
-      } else {
-        const key = row?.[TABLE_KEYS.ID];
+      }
+      // Cuando la ROW es una row normal cae aca
+      else {
         rows[i] = (
           <TableSimpleRow
-            key={key ? key + i : generateID()}
+            key={uniqueKey}
             columns={columns}
             itemDisable={itemDisable}
             row={row}
@@ -120,7 +107,7 @@ const TableRowsV3: FC<TableRowsProps> = ({
     return rows;
   };
 
-  return getRows(flattenedRows);
+  return getRows(rows);
 };
 
 export default TableRowsV3;

@@ -15,6 +15,7 @@ interface PricingCardProps {
   planType: any;
   onSelect: (planType: any) => void;
   icon?: ReactNode;
+  textWithPrice?: string;
 }
 
 export const PricingCard = ({
@@ -26,6 +27,7 @@ export const PricingCard = ({
   planType,
   onSelect,
   icon,
+  textWithPrice = 'per month',
 }: PricingCardProps) => {
   const isSelected = selectedPlan === planType;
 
@@ -52,7 +54,9 @@ export const PricingCard = ({
           ))}
           <li className="price">
             <span>
-              <strong>${price} per month</strong>
+              <strong>
+                ${price} {textWithPrice}
+              </strong>
             </span>
           </li>
         </ul>

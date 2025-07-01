@@ -10,8 +10,13 @@ import './sidebar.scss';
 
 export const verifyPath = (verifyPath: string, isRoot: boolean) => {
   const currentPath = window.location.pathname;
-  if (currentPath === '/' && isRoot) return true;
-  return currentPath.startsWith(verifyPath);
+
+  if (isRoot) {
+    return currentPath === verifyPath;
+  }
+
+  // Para rutas no raíz, comparamos la ruta completa para evitar coincidencias parciales
+  return currentPath === verifyPath || currentPath.startsWith(verifyPath + '/');
 };
 
 const Sidebar = () => {

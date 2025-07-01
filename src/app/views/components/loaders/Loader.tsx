@@ -1,7 +1,7 @@
-import React from 'react';
+import { type FC } from 'react';
 import './loaders.scss';
 
-const SpinnerV2: React.FC<{ icon: string }> = ({ icon }) => (
+const SpinnerV2: FC<{ icon: string }> = ({ icon }) => (
   <div className={`dotted-spinner ${icon}`}>
     <div className="dotted-spinner-dot"></div>
     <div className="dotted-spinner-dot"></div>
@@ -14,14 +14,14 @@ const SpinnerV2: React.FC<{ icon: string }> = ({ icon }) => (
   </div>
 );
 
-const OrbitSpinner: React.FC<{ icon: string }> = ({ icon }) => (
+const OrbitSpinner: FC<{ icon: string }> = ({ icon }) => (
   <aside className={`ball-spinner ${icon}`}>
     <div className="ball-spinner-dot"></div>
     <div className="ball-spinner-dot"></div>
   </aside>
 );
 
-export const ButtonLoader: React.FC<{ left?: any; right?: any }> = ({
+export const ButtonLoader: FC<{ left?: any; right?: any }> = ({
   left = '7%',
   right = 'inherit',
 }) => {

@@ -15,7 +15,7 @@ interface Props {
 
 const SocialEngineeringMembers = ({ members, handleDepartmentFilter, isLoading }: Props) => {
   const computedRoles = MetricsService.computeMemberRolesCount(members);
-  console.log(computedRoles);
+  // console.log(computedRoles);
   return (
     <div className="card filtered">
       <div className="header">

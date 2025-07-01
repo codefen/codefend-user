@@ -1,0 +1,454 @@
+.network-visualization-container {
+  background: var(--card-background);
+  border: 1px solid #eef0f2;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Questrial', sans-serif;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eef0f2;
+    background: var(--card-background);
+
+    h3 {
+      margin: 0;
+      color: var(--tertiary-color-600);
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .view-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+
+      .view-toggle {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #e5e7eb;
+        color: var(--tertiary-color-600);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        font-family: 'Questrial', sans-serif;
+
+        &:hover {
+          background: #f9fafb;
+          border-color: #d1d5db;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        &.active {
+          background: var(--primary-color);
+          color: white;
+          border-color: var(--primary-color);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+
+    .legend {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--tertiary-color-500);
+
+        .legend-color {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+  }
+
+  .loading-container,
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    min-height: 400px;
+    color: var(--tertiary-color-400);
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      text-align: center;
+    }
+  }
+
+  .visualization-content {
+    position: relative;
+    display: flex;
+    min-height: 600px;
+
+    .network-canvas {
+      flex: 1;
+      overflow: hidden;
+      background: var(--map-background, linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%));
+
+      svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        
+        .network-link {
+          transition: stroke-opacity 0.2s ease;
+          
+          &:hover {
+            stroke-opacity: 1;
+            stroke-width: 3;
+          }
+        }
+
+        .network-node {
+          cursor: pointer;
+
+          circle {
+            transition: all 0.2s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            
+            &:hover {
+              filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            }
+          }
+
+          text {
+            user-select: none;
+            pointer-events: none;
+          }
+        }
+
+        .labels text {
+          font-family: 'Questrial', sans-serif;
+          text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        // Map styles
+        .country {
+          transition: all 0.2s ease;
+          
+          &:hover {
+            fill: #f3f4f6;
+            stroke: #9ca3af;
+            stroke-width: 1px;
+          }
+        }
+
+        .server-point {
+          transition: all 0.2s ease;
+          filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.3));
+          animation: pulse 3s infinite;
+          cursor: pointer;
+
+          &:hover {
+            filter: drop-shadow(0 4px 8px rgba(220, 38, 38, 0.5));
+          }
+        }
+
+        .city-point {
+          cursor: pointer;
+        }
+
+        @keyframes pulse {
+          0% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.7;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .node-details {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 440px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      max-height: calc(100% - 2rem);
+      overflow-y: auto;
+      z-index: 10;
+
+      .close-details {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.75rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--tertiary-color-400);
+        cursor: pointer;
+        padding: 0.25rem;
+        line-height: 1;
+
+        &:hover {
+          color: var(--tertiary-color-600);
+        }
+      }
+
+      h4 {
+        margin: 0 0 1rem 0;
+        color: var(--tertiary-color-700);
+        font-size: 1.125rem;
+        font-weight: 600;
+        padding-right: 2rem;
+      }
+
+      .central-node-info,
+      .server-node-info {
+        p {
+          margin: 0.5rem 0;
+          font-size: 0.875rem;
+          color: var(--tertiary-color-600);
+          line-height: 1.5;
+
+          strong {
+            color: var(--tertiary-color-700);
+            font-weight: 600;
+          }
+        }
+
+        .domains-list {
+          list-style: none;
+          padding: 0;
+          margin: 8px 0;
+          max-height: 300px;
+          overflow-y: auto;
+
+          li {
+            margin: 0;
+            padding: 0;
+            
+            .server-row {
+              padding: 8px 0;
+              border-bottom: 1px solid var(--borders-color);
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              transition: all 0.2s ease;
+              
+              &.clickable {
+                cursor: pointer;
+              }
+              
+              &:hover {
+                background-color: var(--hover-color);
+                border-radius: 4px;
+              }
+              
+              .server-ip {
+                font-weight: 500;
+                color: var(--text-color-primary);
+              }
+              
+              .neuroscan-id {
+                color: var(--text-color-secondary);
+                font-size: 0.85rem;
+              }
+              
+              .domains-count {
+                color: var(--tertiary-color-400);
+                font-size: 0.85rem;
+              }
+              
+              .expand-arrow {
+                margin-left: auto;
+                font-size: 0.8rem;
+                color: var(--text-color-secondary);
+                transition: transform 0.2s ease;
+                
+                &.expanded {
+                  transform: rotate(90deg);
+                }
+              }
+            }
+            
+            .expanded-domains {
+              background-color: var(--primary-color-10);
+              border-left: 3px solid var(--primary-red-color);
+              border-radius: 0 4px 4px 0;
+              margin: 4px 0 8px 0;
+              padding: 8px 0;
+              padding-left: 2rem;
+              font-size: 0.75rem;
+              color: var(--tertiary-color-400);
+              
+              .domain-item {
+                padding: 2px 0;
+                transition: color 0.2s ease;
+                
+                &:hover {
+                  color: var(--text-color-primary);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Clases específicas para elementos de ubicación
+      .location-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        
+        .country-flag {
+          width: 24px;
+          height: 18px;
+          
+          &.hidden {
+            display: none;
+          }
+        }
+        
+        .location-text {
+          font-family: 'Questrial', sans-serif;
+          font-weight: bold;
+          color: var(--text-color-primary);
+        }
+      }
+
+      .servers-count-text {
+        font-family: 'Questrial', sans-serif;
+        font-weight: bold;
+        color: var(--text-color-primary);
+        margin-bottom: 1rem;
+        display: block;
+      }
+    }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .network-visualization-container {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .view-controls {
+        width: 100%;
+        
+        .view-toggle {
+          flex: 1;
+          text-align: center;
+        }
+      }
+
+      .legend {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+    }
+
+    .visualization-content {
+      .node-details {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-width: 400px;
+        max-height: 80vh;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .network-visualization-container {
+    .header {
+      padding: 1rem;
+
+      h3 {
+        font-size: 1.125rem;
+      }
+
+      .view-controls {
+        .view-toggle {
+          padding: 0.75rem 1rem;
+          font-size: 0.8rem;
+        }
+      }
+
+      .legend {
+        font-size: 0.8rem;
+        gap: 0.5rem;
+
+        .legend-item {
+          gap: 0.25rem;
+
+          .legend-color {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+    }
+
+    .visualization-content {
+      min-height: 400px;
+
+      .network-canvas svg {
+        .labels text {
+          font-size: 10px !important;
+        }
+
+        .network-node text {
+          font-size: 14px !important;
+        }
+      }
+
+      .node-details {
+        width: 95vw;
+        padding: 1rem;
+        
+        h4 {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+} 

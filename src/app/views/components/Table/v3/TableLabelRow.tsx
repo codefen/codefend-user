@@ -2,20 +2,9 @@ import { TABLE_KEYS } from '@/app/constants/app-texts';
 import { memo, type ChangeEvent, type FC, type MouseEvent } from 'react';
 import TableCellV3 from './TableCellV3';
 import { ThreeDotsIcon } from '@icons';
+import type { TableLabelRowProps } from './types';
 
-interface LabelRowProps {
-  itemDisable: string;
-  row: any;
-  nextRow?: any;
-  columns: any;
-  selectedItems: Readonly<string[]>;
-  handleChecked: (e: ChangeEvent<HTMLInputElement>) => void;
-  onContextMenu?: (event: MouseEvent, row: any) => void;
-  enableContextMenu?: boolean;
-  onThreeDotsClick?: (event: MouseEvent, row: any) => void;
-}
-
-const TableLabelRowComponent: FC<LabelRowProps> = ({
+const TableLabelRowComponent: FC<TableLabelRowProps> = ({
   itemDisable,
   row,
   nextRow,

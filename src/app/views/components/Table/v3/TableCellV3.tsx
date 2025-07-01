@@ -1,14 +1,9 @@
 import type { ColumnTableV3 } from '@interfaces/table';
 import { useMemo, type CSSProperties, type FC } from 'react';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
+import type { TableCellProps } from './types';
 
-interface RowProps {
-  row: any;
-  nextRow?: any;
-  columns: ColumnTableV3[];
-}
-
-const TableCellV3: FC<RowProps> = ({ row, columns, nextRow }) => {
+const TableCellV3: FC<TableCellProps> = ({ row, columns, nextRow }) => {
   const renderContent = useMemo(() => {
     return columns.map((column, i) => (
       <div

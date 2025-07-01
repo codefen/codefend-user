@@ -1,16 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import SocialEngineering from './components/SocialEngineering.tsx';
-import SocialEngineeringMembers from './components/SocialEngineeringMembers.tsx';
+import LinkedInProfilesView from './components/LinkedInProfilesView.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
-import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useSocial } from '@resourcesHooks/social/useSocial.ts';
 import './socialEngineering.scss';
-import Show from '@/app/views/components/Show/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ModalReport } from '@modals/reports/ModalReport.tsx';
-import EmptyLayout from '../EmptyLayout.tsx';
-import { MODAL_KEY_OPEN, socialEmptyScreen } from '@/app/constants/app-texts.ts';
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { OrderSection, ResourcesTypes } from '@interfaces/order.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import AddSocialBlock from '@/app/views/pages/panel/layouts/social/components/AddSocialBlock.tsx';
@@ -18,10 +14,42 @@ import useModalStore from '@stores/modal.store.ts';
 import AddSocialResourceModal from '@modals/adding-modals/AddSocialResourceModal.tsx';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
+import { useSocialFilters } from '@/app/data/hooks/resources/social/useSocialFilters.ts';
+import { useFilteredSocialMembers } from '@/app/data/hooks/resources/social/useFilteredSocialMembers.ts';
+import { SocialEngineeringFilters } from './components/SocialEngineeringFilters.tsx';
+import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
+import { MagnifyingGlassIcon, PeopleGroupIcon } from '@icons';
+import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
+import { useIntersectionObserver } from 'usehooks-ts';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
+
+// Definir tipo para las pestañas
+type SocialViewType = 'all' | 'linkedin';
 
 const SocialEngineeringView = () => {
+  const { setModalId, setIsOpen } = useModalStore();
   const [showScreen, control, refresh] = useShowScreen();
-  const { members, refetch, isLoading } = useSocial();
+  const { filters, handleFilters } = useSocialFilters();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState<SocialViewType>('all');
+
+  const {
+    members = [],
+    refetch,
+    isLoading,
+    loadMore,
+    isReachingEnd,
+    domains,
+    isSearchingBackend,
+  } = useSocial(filters, searchTerm);
+
+  const onFilterChange = (filterType: keyof typeof filters, value: string) => {
+    if (searchTerm) {
+      setSearchTerm('');
+    }
+    handleFilters(filterType, value);
+  };
+
   const flashlight = useFlashlight();
   const globalStore = useGlobalFastFields([
     'isDefaultPlan',
@@ -30,10 +58,15 @@ const SocialEngineeringView = () => {
     'userLoggingState',
   ]);
 
-  const [socialFilters, setSocialFilters] = useState({
-    department: new Set<string>(),
-    attackVectors: new Set<string>(),
-  });
+  const { ref, isIntersecting: inView } = useIntersectionObserver({ threshold: 0.5 });
+
+  useEffect(() => {
+    if (inView && !isReachingEnd) {
+      loadMore();
+    }
+  }, [inView, isReachingEnd, loadMore]);
+
+  const { filteredData, isFiltered } = useFilteredSocialMembers(members, filters);
 
   useEffect(() => {
     if (globalStore.userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -55,61 +88,120 @@ const SocialEngineeringView = () => {
     }
   }, [members, globalStore.planPreference, globalStore.isDefaultPlan]);
 
-  const handleDepartmentFIlter = (role: string) => {
-    setSocialFilters(prevState => {
-      const updatedDepartment = new Set(prevState.department);
+  const isSearching = searchTerm.length > 0;
 
-      if (updatedDepartment.has(role)) {
-        updatedDepartment.delete(role);
-      } else {
-        updatedDepartment.add(role);
-      }
+  const displayMembers = filteredData;
 
-      return { ...prevState, department: updatedDepartment };
-    });
+  const handleTabChange = (tab: SocialViewType) => {
+    setActiveTab(tab);
   };
 
-  const filteredData = useMemo(() => {
-    const isFiltered =
-      socialFilters.department.size !== 0 || socialFilters.attackVectors.size !== 0;
+  const renderTabContent = () => {
+    if (activeTab === 'linkedin') {
+      return displayMembers.length > 0 ? (
+        <LinkedInProfilesView sentryRef={ref} members={displayMembers} />
+      ) : isSearching ? (
+        <div className="no-results-found">
+          <p>No se encontraron perfiles de LinkedIn para tu búsqueda.</p>
+        </div>
+      ) : (
+        <div className="no-results-found">
+          <p>
+            No se encontraron perfiles de LinkedIn.{' '}
+            <button
+              className="link-button"
+              onClick={() => {
+                setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
+                setIsOpen(true);
+              }}>
+              Haz clic aquí para agregar
+            </button>
+          </p>
+        </div>
+      );
+    }
 
-    if (!isFiltered || !members) return members || [];
+    // Vista por defecto (all)
+    return displayMembers.length > 0 ? (
+      <SocialEngineering sentryRef={ref} paginatedMembers={displayMembers} />
+    ) : isSearching ? (
+      <div className="no-results-found">
+        <p>No members found for your search criteria.</p>
+      </div>
+    ) : (
+      <div className="no-results-found">
+        <p>
+          No members found.{' '}
+          <button
+            className="link-button"
+            onClick={() => {
+              setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
+              setIsOpen(true);
+            }}>
+            Click here to add
+          </button>
+        </p>
+      </div>
+    );
+  };
 
-    return members.filter((member: any) => socialFilters.department.has(member.member_role));
-  }, [members, socialFilters.department]);
+  if (isLoading && members.length === 0) {
+    return <PageLoader />;
+  }
 
   return (
-    <EmptyLayout
-      className="social"
-      fallback={socialEmptyScreen}
-      event={refresh}
-      showScreen={showScreen}
-      isLoading={isLoading}
-      dataAvailable={Boolean(members.length)}>
+    <main className={`social ${showScreen ? 'actived' : ''}`}>
       <CredentialsModal />
       <AddSocialResourceModal onDone={() => refresh()} />
       <section className="left">
-        <SocialEngineering refetch={refresh} isLoading={isLoading} socials={filteredData} />
+        <div>
+          <ModalInput
+            icon={<MagnifyingGlassIcon />}
+            setValue={(val: string) => setSearchTerm(val)}
+            placeholder="Search member by name or email..."
+          />
+          {/* {isSearchingBackend && <div className="search-indicator">Searching in database...</div>} */}
+        </div>
+        <div className="card">
+          <SimpleSection header="Social Engineering" icon={<PeopleGroupIcon />}>
+            {/* Sistema de pestañas */}
+            <div className="tabs-container">
+              <div className="tabs-header">
+                <button
+                  className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('all')}>
+                  📋 Todos los miembros
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'linkedin' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('linkedin')}>
+                  💼 Perfiles LinkedIn
+                </button>
+              </div>
+            </div>
+            <div className="content">
+              {renderTabContent()}
+            </div>
+          </SimpleSection>
+        </div>
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
         <AddSocialBlock isLoading={isLoading} />
-        {/* <Show when={members && Boolean(members.length)}>
-          <SocialEngineeringMembers
-            isLoading={isLoading}
-            members={members || []}
-            handleDepartmentFilter={handleDepartmentFIlter}
-          />
-        </Show> */}
+        <SocialEngineeringFilters
+          members={members}
+          domains={domains || []}
+          handleFilters={onFilterChange}
+          currentFilters={filters}
+        />
 
         <OpenOrderButton
           className="primary-full"
           type={ResourcesTypes.SOCIAL}
           resourceCount={members?.length || 0}
-          isLoading={isLoading}
           scope={OrderSection.SOCIAL_SCOPE}
         />
       </section>
-    </EmptyLayout>
+    </main>
   );
 };
 

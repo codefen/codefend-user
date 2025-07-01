@@ -111,7 +111,7 @@ const CompanyIndexView: FC = () => {
         rows={data}
         showRows={Boolean(data?.length)}
         isNeedSearchBar
-        initialOrder="name"
+        initialOrder="id"
         initialSort={Sort.desc}
         action={action}
         selected={company.get}

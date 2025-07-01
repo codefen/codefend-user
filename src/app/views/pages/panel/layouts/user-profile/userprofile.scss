@@ -26,10 +26,9 @@ main.user-profile {
 
     .box-assets {
       display: flex;
-      align-items: stretch;
+      align-items: flex-start;
       gap: 12px;
       width: 100%;
-      min-height: 340px;
       height: fit-content;
 
       .card {
@@ -37,7 +36,7 @@ main.user-profile {
         min-width: 200px;
         padding: 0.5rem;
         flex: 1 1 50%;
-        height: 100%;
+        height: fit-content;
       }
     }
 
@@ -59,36 +58,47 @@ main.user-profile {
 
       .mfa-active-icon {
         background-color: rgb(220, 252, 231);
-        padding: 0.5rem;
+        padding: 1rem;
         border-radius: 100%;
         height: fit-content;
         width: fit-content;
         color: rgb(22 101 52 / 1);
+        align-self: center;
+        margin-bottom: 1rem;
+
+        svg {
+          width: 2rem;
+          height: 2rem;
+        }
       }
 
       .mfa-active {
         display: flex;
-        background-color: rgb(240 253 244 / 1);
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: rgba(0, 255, 85, 0.05);
         padding: 1rem;
         border-radius: var(--brd-radius);
-        gap: var(--card-space);
-        border: 1px solid hsl(240 5.9% 90%);
+        border: 1px solid rgba(0, 255, 85, 0.1);
 
         h3 {
           color: rgb(22 101 52 / 1);
           font-size: 1.1rem;
+          width: 100%;
+          margin-bottom: 0.5rem;
         }
 
         p {
           padding: 0;
           color: rgb(21 128 61 / 1);
+          width: 100%;
         }
       }
     }
 
     .qr-contain input {
-      margin-bottom: 1rem;
-      margin-top: 1.5rem;
+      margin-bottom: 0rem;
     }
   }
 
@@ -207,4 +217,29 @@ main.user-profile {
       }
     }
   }
+}
+
+main.user-profile .box-assets .card .over {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding: 0.2rem;
+  gap: 0rem;
+
+  .form-button {
+    width: 100%;
+  }
+
+  .form-input {
+    width: 100%;
+  }
+}
+
+.card .over p {
+  padding-inline: var(--card-space);
+  margin-block-end: var(--card-space);
+  font-size: 16px;
+  font-family: Questrial;
+  margin-top: 10px;
+  line-height: 1.5em;
 }

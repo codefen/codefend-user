@@ -12,6 +12,7 @@ import {
   PreferencePanel,
   AdminPage,
   AdminCompany,
+  AdminSection,
   ResellerLeadsLayout,
   ResellerUsersLayout,
   LanPage,
@@ -90,6 +91,7 @@ export const AppRouter = () => {
           children: [
             { index: true, element: <Navigate to="company" replace /> },
             { path: 'company', element: <AdminCompany /> },
+            { path: 'admin-section', element: <AdminSection /> },
           ],
         },
         // Provider routes
@@ -192,7 +194,16 @@ export const AppRouter = () => {
                 ],
               },
               {
+                path: 'ai-surveillance/:domain?',
+                element: <ScansPage />,
+              },
+              // Legacy routes for backward compatibility
+              {
                 path: 'scans',
+                element: <ScansPage />,
+              },
+              {
+                path: 'web-surveillance/:domain?',
                 element: <ScansPage />,
               },
             ]
