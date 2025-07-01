@@ -12,17 +12,16 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import Show from '@/app/views/components/Show/Show';
 import { useTheme } from '@/app/views/context/ThemeContext';
+import { stripeKey } from '@utils/config';
 
-// Llave de prueba = pk_test_51OJhuSAYz1YvxmilHmPHF8hzpPAEICOaObvc6jogRaqY79MSgigrWUPPpXcnWOCMh4hs4ElO3niT7m1loeSgN0oa00vVlSF8Ad
-// Llave de producción = pk_live_51OJhuSAYz1YvxmilzJk2qtYgC6lrwwjziEOc69rTgUI0guBwWsAlnHOViPvLlf6myPtxFrsr0l1JfmdTjDjV9iRt00zJeEpd45
-const STRIPE_PUBLISHABLE_KEY =
-  'pk_test_51OJhuSAYz1YvxmilHmPHF8hzpPAEICOaObvc6jogRaqY79MSgigrWUPPpXcnWOCMh4hs4ElO3niT7m1loeSgN0oa00vVlSF8Ad';
+const STRIPE_PUBLISHABLE_KEY = stripeKey;
 
 export const CardPaymentModal = ({
   setCallback,
 }: {
   setCallback: (callback: (() => void) | null) => void;
 }) => {
+  console.log('STRIPE_PUBLISHABLE_KEY', STRIPE_PUBLISHABLE_KEY);
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
@@ -153,8 +152,6 @@ export const CardPaymentModal = ({
           data-theme={theme === 'dark' ? 'night' : 'stripe'}
         />
       </EmbeddedCheckoutProvider>
-
-
     </div>
   );
 };

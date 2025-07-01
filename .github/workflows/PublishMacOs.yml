@@ -84,6 +84,8 @@ jobs:
           echo "VITE_PORT=5173" >> .env
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
           echo "VITE_API_URI=https://api.codefend.com/index.php" >> .env
+          echo "NODE_ENV=production" >> .env
+          echo "STRIPE_KEY=${{ secrets.STRIPE_KEY }}" >> .env
 
       - name: 🔨 Run build client
         run: bun run build
