@@ -54,31 +54,37 @@ export const NewSigninForm = () => {
     const mfa = form.get('mfa') as unknown as string;
     signInUser(email || '', password || '', mfa || '').then((result: any) => {
       if (result?.mfaRequired) {
+        // Evento GTM: Usuario requiere autenticación MFA
+        // Traducido de: 'signin_mfa_required' → 'inicio_sesion_mfa_requerido'
         sendEventToGTM({
-          event: 'signin_mfa_required',
-          category: 'auth',
-          action: 'signin',
-          label: 'signin_mfa_required',
+          event: 'inicio_sesion_mfa_requerido',
+          category: 'autenticacion', // Traducido de: 'auth'
+          action: 'iniciar_sesion', // Traducido de: 'signin'
+          label: 'mfa_requerido', // Traducido de: 'signin_mfa_required'
         });
         setMfaStep(true);
         return;
       }
       if (result?.error === 'invalid_username_or_password') {
+        // Evento GTM: Error de credenciales inválidas
+        // Traducido de: 'signin_error' → 'inicio_sesion_error'
         sendEventToGTM({
-          event: 'signin_error',
-          category: 'auth',
-          action: 'signin',
-          label: 'invalid_username_or_password',
+          event: 'inicio_sesion_error',
+          category: 'autenticacion', // Traducido de: 'auth'
+          action: 'iniciar_sesion', // Traducido de: 'signin'
+          label: 'credenciales_invalidas', // Traducido de: 'invalid_username_or_password'
         });
         return;
       }
       const state = location.state;
       if (result && !result.error) {
+        // Evento GTM: Inicio de sesión exitoso
+        // Traducido de: 'signin_success' → 'inicio_sesion_exitoso'
         sendEventToGTM({
-          event: 'signin_success',
-          category: 'auth',
-          action: 'signin',
-          label: 'signin_success',
+          event: 'inicio_sesion_exitoso',
+          category: 'autenticacion', // Traducido de: 'auth'
+          action: 'iniciar_sesion', // Traducido de: 'signin'
+          label: 'inicio_exitoso', // Traducido de: 'signin_success'
         });
         if (state && state?.redirect) {
           // navigate(state.redirect);

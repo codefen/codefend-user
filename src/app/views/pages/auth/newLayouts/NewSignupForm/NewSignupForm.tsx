@@ -21,6 +21,7 @@ import { ProgressBar } from '@/app/views/components/ProgressBar/ProgressBar';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 import SelectField from '@/app/views/components/SelectField/SelectField';
 import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
+import { sendEventToGTM } from '@utils/gtm';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -71,6 +72,15 @@ export const NewSignupForm = () => {
   const { update } = useInitialDomainStore();
 
   useEffect(() => {
+    // Evento GTM: Inicio del proceso de creación de usuario
+    sessionStorage.setItem("nuevo_usuario", Date.now().toString());
+    sendEventToGTM({
+      event: "usuario_creacion_acceso",
+      category: "registro",
+      action: "inicio_proceso",
+      label: "carga_pagina",
+    });
+
     const code = searchParams.get('code') || ref;
     if (code) {
       setLoading(true);
@@ -102,6 +112,17 @@ export const NewSignupForm = () => {
     });
     // formObject['lead_phone'] = `${areaCode}${number}`;
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
+    
+    // Evento GTM: Completado datos personales
+    const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+    sendEventToGTM({
+      event: "usuario_creacion_informacion_personal",
+      category: "registro",
+      action: "completar_paso",
+      label: "datos_personales",
+      demora: Date.now() - tiempoInicio,
+    });
+    
     // Nuevo paso
     setActiveStep(SignUpSteps.STEP_TWO);
   };
@@ -139,6 +160,17 @@ export const NewSignupForm = () => {
         toast.error(data?.info || 'An unexpected error has occurred');
         throw new Error('');
       }
+      
+      // Evento GTM: Completado datos de empresa
+      const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+      sendEventToGTM({
+        event: "usuario_creacion_informacion_empresa",
+        category: "registro",
+        action: "completar_paso",
+        label: "datos_empresa",
+        demora: Date.now() - tiempoInicio,
+      });
+      
       setActiveStep(SignUpSteps.STEP_THREE);
       update('initialDomain', form?.get('company_web') as string);
     });
@@ -167,6 +199,16 @@ export const NewSignupForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const referenceNumber = form.get?.('lead_reference_number') as unknown as string;
     getRecommendedUsername(referenceNumber).then(() => {
+      // Evento GTM: Completado número de referencia
+      const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+      sendEventToGTM({
+        event: "usuario_creacion_informacion_reference_number",
+        category: "registro",
+        action: "completar_paso",
+        label: "numero_referencia",
+        demora: Date.now() - tiempoInicio,
+      });
+      
       setActiveStep(SignUpSteps.STEP_FOUR);
       lead.set({});
     });
@@ -189,6 +231,25 @@ export const NewSignupForm = () => {
     const formObject = Object.fromEntries(form.entries());
     signUpFinish(formObject).then((res: any) => {
       if (res.pass) {
+        // Evento GTM: Completado contraseña
+        const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+        sendEventToGTM({
+          event: "usuario_creacion_informacion_password",
+          category: "registro",
+          action: "completar_paso",
+          label: "contraseña",
+          demora: Date.now() - tiempoInicio,
+        });
+        
+        // Evento GTM: Finalización completa del proceso
+        sendEventToGTM({
+          event: "usuario_creacion_finalizacion",
+          category: "registro",
+          action: "finalizar_proceso",
+          label: "registro_completo",
+          demora_total: Date.now() - tiempoInicio,
+        });
+        
         //if (user?.accessRole == 'user') navigate('/');
         //if (user?.accessRole == 'admin') navigate('/admin');
         //if (user?.accessRole == 'provider') navigate('/provider/profile');
