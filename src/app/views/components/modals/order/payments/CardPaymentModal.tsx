@@ -9,19 +9,17 @@ import {
 } from '@stripe/react-stripe-js';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
-import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import Show from '@/app/views/components/Show/Show';
 import { useTheme } from '@/app/views/context/ThemeContext';
-import { stripeKey } from '@utils/config';
+import { nodeEnv, stripeKey, stripeKeyTest } from '@utils/config';
 
-const STRIPE_PUBLISHABLE_KEY = stripeKey;
+const NODE_ENV = nodeEnv;
+const STRIPE_PUBLISHABLE_KEY = NODE_ENV == 'development' ? stripeKeyTest : stripeKey;
 
 export const CardPaymentModal = ({
   setCallback,
 }: {
   setCallback: (callback: (() => void) | null) => void;
 }) => {
-  console.log('STRIPE_PUBLISHABLE_KEY', STRIPE_PUBLISHABLE_KEY);
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
@@ -31,9 +29,15 @@ export const CardPaymentModal = ({
   const isInitialized = useRef(false);
   const [hideBackButton, setHideBackButton] = useState(false);
   const { theme } = useTheme();
-
+  console.log(
+    'STRIPE_PUBLISHABLE_KEY',
+    localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey
+  );
   // Memoize the Stripe promise
-  const stripePromise = useMemo(() => loadStripe(STRIPE_PUBLISHABLE_KEY), []);
+  const stripePromise = useMemo(
+    () => loadStripe(localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey),
+    []
+  );
 
   const fetchClientSecret = useCallback(async () => {
     if (isInitialized.current) return;
