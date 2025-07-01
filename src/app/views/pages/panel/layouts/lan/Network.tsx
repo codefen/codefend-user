@@ -1,14 +1,10 @@
 import { type FC, useEffect, useState, useMemo } from 'react';
-import { useLan } from '@resourcesHooks/network/useLan.ts';
-import { LanNetworkData } from './components/NetworkData.tsx';
 import { CardsResourcesWan } from './components/CardsResourcesWan.tsx';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
-import { OrderV2 } from '@modals/order/Orderv2.tsx';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import Show from '@/app/views/components/Show/Show.tsx';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ModalReport } from '@modals/reports/ModalReport.tsx';
 import EmptyLayout from '../EmptyLayout.tsx';
 import './network.scss';
 import { networkEmptyScreen } from '@/app/constants/app-texts.ts';
