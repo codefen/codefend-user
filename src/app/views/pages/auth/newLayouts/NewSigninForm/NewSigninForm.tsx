@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { type ChangeEvent, type FormEvent, useState } from 'react';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
+import { sendEventToGTM } from '@utils/gtm';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -53,14 +54,32 @@ export const NewSigninForm = () => {
     const mfa = form.get('mfa') as unknown as string;
     signInUser(email || '', password || '', mfa || '').then((result: any) => {
       if (result?.mfaRequired) {
+        sendEventToGTM({
+          event: 'signin_mfa_required',
+          category: 'auth',
+          action: 'signin',
+          label: 'signin_mfa_required',
+        });
         setMfaStep(true);
         return;
       }
       if (result?.error === 'invalid_username_or_password') {
+        sendEventToGTM({
+          event: 'signin_error',
+          category: 'auth',
+          action: 'signin',
+          label: 'invalid_username_or_password',
+        });
         return;
       }
       const state = location.state;
       if (result && !result.error) {
+        sendEventToGTM({
+          event: 'signin_success',
+          category: 'auth',
+          action: 'signin',
+          label: 'signin_success',
+        });
         if (state && state?.redirect) {
           // navigate(state.redirect);
           window.location.href = state.redirect || '/';
