@@ -63,12 +63,12 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
 
   // Define context menu actions
   const contextMenuActions: ContextMenuAction[] = [
-    {
-      label: 'View report',
-      icon: <DocumentIcon width={16} height={16} />,
-      onClick: (resource: NetworkDevice) => handleViewReport(resource),
-      disabled: (resource: NetworkDevice) => Number(resource?.final_issues) < 1,
-    },
+    // {
+    //   label: 'View report',
+    //   icon: <DocumentIcon width={16} height={16} />,
+    //   onClick: (resource: NetworkDevice) => handleViewReport(resource),
+    //   disabled: (resource: NetworkDevice) => Number(resource?.final_issues) < 1,
+    // },
     {
       label: 'View credentials',
       icon: <CredentialIcon width={16} height={16} />,

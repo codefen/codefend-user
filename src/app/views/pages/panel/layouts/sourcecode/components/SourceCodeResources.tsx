@@ -100,12 +100,12 @@ export const SourceCodeResources: FC<SourceCodeProps> = props => {
             <BugIcon isButton />
             <span className="codefend-text-red-200 issue-count">{repository.final_issues}</span>
           </span>
-          <span
+          {/* <span
             title="View report"
             className={`issue-printer ${Number(repository.final_issues) == 0 ? 'off' : ''}`}
             onClick={() => generateReport(repository.id, repository.final_issues)}>
             <DocumentIcon isButton width={1.27} height={1.27} />
-          </span>
+          </span> */}
           <Show when={isNormalUser() || isAdmin()}>
             <span
               title="Delete"

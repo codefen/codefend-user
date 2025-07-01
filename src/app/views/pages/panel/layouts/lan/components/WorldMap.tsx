@@ -1,4 +1,4 @@
-import { type FC, useEffect, useRef, useMemo, useState } from 'react';
+import { type FC, useEffect, useRef, useMemo, useState, type MouseEvent } from 'react';
 import * as d3 from 'd3';
 import type { Device } from '@interfaces/panel.ts';
 import { Sort, type ColumnTableV3 } from '@interfaces/table.ts';
@@ -55,10 +55,10 @@ const locationColumns: ColumnTableV3[] = [
   },
 ];
 
-export const WorldMap: FC<WorldMapProps> = ({ 
-  networkData, 
-  resourceType = RESOURCE_CLASS.NETWORK, 
-  title = "Global server distribution" 
+export const WorldMap: FC<WorldMapProps> = ({
+  networkData,
+  resourceType = RESOURCE_CLASS.NETWORK,
+  title = 'Global server distribution',
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -73,29 +73,29 @@ export const WorldMap: FC<WorldMapProps> = ({
   // Process data to count servers by country
   const countryData = useMemo(() => {
     const counts: Record<string, number> = {};
-    
-    networkData.forEach((device) => {
+
+    networkData.forEach(device => {
       let countryCode = device.server_pais_code?.toLowerCase();
-      
+
       // Normalize common variations
       const codeMapping: Record<string, string> = {
-        'argentina': 'ar',
-        'arg': 'ar',
+        argentina: 'ar',
+        arg: 'ar',
         'united states': 'us',
-        'usa': 'us',
-        'us': 'us',
-        'canada': 'ca',
-        'can': 'ca',
-        'brazil': 'br',
-        'bra': 'br',
-        'br': 'br'
+        usa: 'us',
+        us: 'us',
+        canada: 'ca',
+        can: 'ca',
+        brazil: 'br',
+        bra: 'br',
+        br: 'br',
       };
-      
+
       // Try to normalize the code
       if (countryCode && codeMapping[countryCode]) {
         countryCode = codeMapping[countryCode];
       }
-      
+
       // Also try to map from country name if code is missing
       if (!countryCode || countryCode === 'unknown') {
         const countryName = device.server_pais?.toLowerCase();
@@ -103,12 +103,12 @@ export const WorldMap: FC<WorldMapProps> = ({
           countryCode = codeMapping[countryName];
         }
       }
-      
+
       if (countryCode && countryCode !== 'unknown') {
         counts[countryCode] = (counts[countryCode] || 0) + 1;
       }
     });
-    
+
     return counts;
   }, [networkData]);
 
@@ -128,7 +128,9 @@ export const WorldMap: FC<WorldMapProps> = ({
     const loadWorldData = async () => {
       try {
         // Use Natural Earth data for complete world coverage
-        const response = await fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
+        const response = await fetch(
+          'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson'
+        );
         const geoData = await response.json();
         setWorldData(geoData);
         setIsLoading(false);
@@ -136,7 +138,9 @@ export const WorldMap: FC<WorldMapProps> = ({
         console.error('Error loading world data:', error);
         // Fallback to the previous source
         try {
-          const fallbackResponse = await fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json');
+          const fallbackResponse = await fetch(
+            'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
+          );
           const fallbackData = await fallbackResponse.json();
           setWorldData(fallbackData);
           setIsLoading(false);
@@ -155,10 +159,10 @@ export const WorldMap: FC<WorldMapProps> = ({
     const updateDimensions = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        
+
         // For globe, we want a square aspect ratio
         const size = Math.min(Math.max(350, containerWidth), 500);
-        
+
         setDimensions({ width: size, height: size });
       }
     };
@@ -169,7 +173,7 @@ export const WorldMap: FC<WorldMapProps> = ({
 
     // Add resize listener
     window.addEventListener('resize', updateDimensions);
-    
+
     // Also listen for container size changes (using ResizeObserver if available)
     let resizeObserver: ResizeObserver | null = null;
     if (containerRef.current && window.ResizeObserver) {
@@ -187,13 +191,13 @@ export const WorldMap: FC<WorldMapProps> = ({
   }, []);
 
   // Mouse event handlers for rotation
-  const handleMouseDown = (event: React.MouseEvent) => {
+  const handleMouseDown = (event: MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setDragStart([event.clientX, event.clientY]);
     event.preventDefault();
   };
 
-  const handleMouseMove = (event: React.MouseEvent) => {
+  const handleMouseMove = (event: MouseEvent) => {
     if (!isDragging || !dragStart) return;
 
     const sensitivity = 0.5;
@@ -202,7 +206,7 @@ export const WorldMap: FC<WorldMapProps> = ({
 
     setRotation(([lambda, phi]) => [
       lambda + deltaX, // Drag left = rotate left, drag right = rotate right
-      phi - deltaY     // Drag up = rotate up, drag down = rotate down
+      phi - deltaY, // Drag up = rotate up, drag down = rotate down
     ]);
 
     setDragStart([event.clientX, event.clientY]);
@@ -238,12 +242,13 @@ export const WorldMap: FC<WorldMapProps> = ({
     svg.selectAll('*').remove(); // Clear previous render
 
     const { width, height } = dimensions;
-    
+
     svg.attr('width', width).attr('height', height);
 
     // Create 3D orthographic projection for globe effect
     const radius = Math.min(width, height) / 2 - 20;
-    const projection = d3.geoOrthographic()
+    const projection = d3
+      .geoOrthographic()
       .scale(radius)
       .translate([width / 2, height / 2])
       .rotate(rotation)
@@ -253,25 +258,29 @@ export const WorldMap: FC<WorldMapProps> = ({
 
     // Add gradient definitions for 3D effect
     const defs = svg.append('defs');
-    
+
     // Sphere gradient for 3D effect - almost white water
-    const sphereGradient = defs.append('radialGradient')
+    const sphereGradient = defs
+      .append('radialGradient')
       .attr('id', 'sphere-gradient')
       .attr('cx', '30%')
       .attr('cy', '30%');
-    
-    sphereGradient.append('stop')
+
+    sphereGradient
+      .append('stop')
       .attr('offset', '0%')
       .attr('stop-color', '#ffffff')
       .attr('stop-opacity', 1);
-    
-    sphereGradient.append('stop')
+
+    sphereGradient
+      .append('stop')
       .attr('offset', '100%')
       .attr('stop-color', '#f8f9fa')
       .attr('stop-opacity', 1);
 
     // Add sphere background first
-    svg.append('circle')
+    svg
+      .append('circle')
       .attr('cx', width / 2)
       .attr('cy', height / 2)
       .attr('r', radius)
@@ -280,9 +289,10 @@ export const WorldMap: FC<WorldMapProps> = ({
       .attr('stroke-width', 1);
 
     // Custom color scale with greys and reds
-    const colorScale = d3.scaleSequential()
+    const colorScale = d3
+      .scaleSequential()
       .domain([0, maxCount])
-      .interpolator((t) => {
+      .interpolator(t => {
         if (t === 0) return '#e8e8e8'; // Light grey for countries with no data
         // Interpolate from light grey through light red to #ff3939
         if (t < 0.3) {
@@ -299,7 +309,8 @@ export const WorldMap: FC<WorldMapProps> = ({
       });
 
     // Draw countries
-    svg.selectAll('path.country')
+    svg
+      .selectAll('path.country')
       .data(worldData.features)
       .enter()
       .append('path')
@@ -308,167 +319,210 @@ export const WorldMap: FC<WorldMapProps> = ({
       .attr('fill', (d: any) => {
         // Try multiple property names for country code
         let countryCode = (d.properties.ISO_A2 || d.properties.iso_a2)?.toLowerCase() || '';
-        
+
         // If we don't have ISO_A2, try to map from ISO_A3 or name
         if (!countryCode) {
           if (d.properties.ISO_A3) {
             const iso3to2: Record<string, string> = {
-              'ARG': 'ar', 'USA': 'us', 'CAN': 'ca', 'BRA': 'br', 'GBR': 'gb',
-              'FRA': 'fr', 'DEU': 'de', 'ESP': 'es', 'ITA': 'it', 'RUS': 'ru',
-              'CHN': 'cn', 'IND': 'in', 'JPN': 'jp', 'AUS': 'au', 'ZAF': 'za',
-              'EGY': 'eg', 'MEX': 'mx', 'NLD': 'nl', 'SWE': 'se', 'NOR': 'no'
+              ARG: 'ar',
+              USA: 'us',
+              CAN: 'ca',
+              BRA: 'br',
+              GBR: 'gb',
+              FRA: 'fr',
+              DEU: 'de',
+              ESP: 'es',
+              ITA: 'it',
+              RUS: 'ru',
+              CHN: 'cn',
+              IND: 'in',
+              JPN: 'jp',
+              AUS: 'au',
+              ZAF: 'za',
+              EGY: 'eg',
+              MEX: 'mx',
+              NLD: 'nl',
+              SWE: 'se',
+              NOR: 'no',
             };
             countryCode = iso3to2[d.properties.ISO_A3] || '';
           }
-          
+
           // Also try to map from country name
           if (!countryCode) {
-            const countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '').toLowerCase();
+            const countryName = (
+              d.properties.NAME ||
+              d.properties.name ||
+              d.properties.NAME_EN ||
+              ''
+            ).toLowerCase();
             const nameMapping: Record<string, string> = {
-              'argentina': 'ar',
+              argentina: 'ar',
               'united states': 'us',
               'united states of america': 'us',
-              'canada': 'ca',
-              'brazil': 'br',
+              canada: 'ca',
+              brazil: 'br',
               'united kingdom': 'gb',
-              'france': 'fr',
-              'germany': 'de',
-              'spain': 'es',
-              'italy': 'it',
-              'russia': 'ru',
-              'china': 'cn',
-              'india': 'in',
-              'japan': 'jp',
-              'australia': 'au',
+              france: 'fr',
+              germany: 'de',
+              spain: 'es',
+              italy: 'it',
+              russia: 'ru',
+              china: 'cn',
+              india: 'in',
+              japan: 'jp',
+              australia: 'au',
               'south africa': 'za',
-              'netherlands': 'nl',
-              'belgium': 'be',
-              'switzerland': 'ch',
-              'austria': 'at',
-              'portugal': 'pt',
-              'poland': 'pl',
+              netherlands: 'nl',
+              belgium: 'be',
+              switzerland: 'ch',
+              austria: 'at',
+              portugal: 'pt',
+              poland: 'pl',
               'czech republic': 'cz',
-              'hungary': 'hu',
-              'romania': 'ro',
-              'bulgaria': 'bg',
-              'croatia': 'hr',
-              'slovenia': 'si',
-              'slovakia': 'sk',
-              'estonia': 'ee',
-              'latvia': 'lv',
-              'lithuania': 'lt',
-              'finland': 'fi',
-              'denmark': 'dk',
-              'iceland': 'is',
-              'ireland': 'ie',
-              'greece': 'gr',
-              'turkey': 'tr',
-              'israel': 'il',
-              'singapore': 'sg',
+              hungary: 'hu',
+              romania: 'ro',
+              bulgaria: 'bg',
+              croatia: 'hr',
+              slovenia: 'si',
+              slovakia: 'sk',
+              estonia: 'ee',
+              latvia: 'lv',
+              lithuania: 'lt',
+              finland: 'fi',
+              denmark: 'dk',
+              iceland: 'is',
+              ireland: 'ie',
+              greece: 'gr',
+              turkey: 'tr',
+              israel: 'il',
+              singapore: 'sg',
               'south korea': 'kr',
-              'thailand': 'th',
-              'malaysia': 'my',
-              'indonesia': 'id',
-              'philippines': 'ph',
-              'vietnam': 'vn',
-              'new zealand': 'nz'
+              thailand: 'th',
+              malaysia: 'my',
+              indonesia: 'id',
+              philippines: 'ph',
+              vietnam: 'vn',
+              'new zealand': 'nz',
             };
             countryCode = nameMapping[countryName] || '';
           }
         }
-        
+
         const count = countryData[countryCode] || 0;
         return colorScale(count);
       })
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 0.5)
       .style('cursor', isDragging ? 'grabbing' : 'grab')
-      .on('mouseover', function(event, d: any) {
+      .on('mouseover', function (event, d: any) {
         d3.select(this).attr('stroke-width', 1);
       })
-      .on('mouseout', function(event, d: any) {
+      .on('mouseout', function (event, d: any) {
         d3.select(this).attr('stroke-width', 0.5);
       })
       .append('title')
       .text((d: any) => {
         let countryCode = (d.properties.ISO_A2 || d.properties.iso_a2)?.toLowerCase() || '';
-        
+
         if (!countryCode) {
           if (d.properties.ISO_A3) {
             const iso3to2: Record<string, string> = {
-              'ARG': 'ar', 'USA': 'us', 'CAN': 'ca', 'BRA': 'br', 'GBR': 'gb',
-              'FRA': 'fr', 'DEU': 'de', 'ESP': 'es', 'ITA': 'it', 'RUS': 'ru',
-              'CHN': 'cn', 'IND': 'in', 'JPN': 'jp', 'AUS': 'au', 'ZAF': 'za',
-              'EGY': 'eg', 'MEX': 'mx', 'NLD': 'nl', 'SWE': 'se', 'NOR': 'no'
+              ARG: 'ar',
+              USA: 'us',
+              CAN: 'ca',
+              BRA: 'br',
+              GBR: 'gb',
+              FRA: 'fr',
+              DEU: 'de',
+              ESP: 'es',
+              ITA: 'it',
+              RUS: 'ru',
+              CHN: 'cn',
+              IND: 'in',
+              JPN: 'jp',
+              AUS: 'au',
+              ZAF: 'za',
+              EGY: 'eg',
+              MEX: 'mx',
+              NLD: 'nl',
+              SWE: 'se',
+              NOR: 'no',
             };
             countryCode = iso3to2[d.properties.ISO_A3] || '';
           }
-          
+
           if (!countryCode) {
-            const countryName = (d.properties.NAME || d.properties.name || d.properties.NAME_EN || '').toLowerCase();
+            const countryName = (
+              d.properties.NAME ||
+              d.properties.name ||
+              d.properties.NAME_EN ||
+              ''
+            ).toLowerCase();
             const nameMapping: Record<string, string> = {
-              'argentina': 'ar',
+              argentina: 'ar',
               'united states': 'us',
               'united states of america': 'us',
-              'canada': 'ca',
-              'brazil': 'br',
+              canada: 'ca',
+              brazil: 'br',
               'united kingdom': 'gb',
-              'france': 'fr',
-              'germany': 'de',
-              'spain': 'es',
-              'italy': 'it',
-              'russia': 'ru',
-              'china': 'cn',
-              'india': 'in',
-              'japan': 'jp',
-              'australia': 'au',
+              france: 'fr',
+              germany: 'de',
+              spain: 'es',
+              italy: 'it',
+              russia: 'ru',
+              china: 'cn',
+              india: 'in',
+              japan: 'jp',
+              australia: 'au',
               'south africa': 'za',
-              'netherlands': 'nl',
-              'belgium': 'be',
-              'switzerland': 'ch',
-              'austria': 'at',
-              'portugal': 'pt',
-              'poland': 'pl',
+              netherlands: 'nl',
+              belgium: 'be',
+              switzerland: 'ch',
+              austria: 'at',
+              portugal: 'pt',
+              poland: 'pl',
               'czech republic': 'cz',
-              'hungary': 'hu',
-              'romania': 'ro',
-              'bulgaria': 'bg',
-              'croatia': 'hr',
-              'slovenia': 'si',
-              'slovakia': 'sk',
-              'estonia': 'ee',
-              'latvia': 'lv',
-              'lithuania': 'lt',
-              'finland': 'fi',
-              'denmark': 'dk',
-              'iceland': 'is',
-              'ireland': 'ie',
-              'greece': 'gr',
-              'turkey': 'tr',
-              'israel': 'il',
-              'singapore': 'sg',
+              hungary: 'hu',
+              romania: 'ro',
+              bulgaria: 'bg',
+              croatia: 'hr',
+              slovenia: 'si',
+              slovakia: 'sk',
+              estonia: 'ee',
+              latvia: 'lv',
+              lithuania: 'lt',
+              finland: 'fi',
+              denmark: 'dk',
+              iceland: 'is',
+              ireland: 'ie',
+              greece: 'gr',
+              turkey: 'tr',
+              israel: 'il',
+              singapore: 'sg',
               'south korea': 'kr',
-              'thailand': 'th',
-              'malaysia': 'my',
-              'indonesia': 'id',
-              'philippines': 'ph',
-              'vietnam': 'vn',
-              'new zealand': 'nz'
+              thailand: 'th',
+              malaysia: 'my',
+              indonesia: 'id',
+              philippines: 'ph',
+              vietnam: 'vn',
+              'new zealand': 'nz',
             };
             countryCode = nameMapping[countryName] || '';
           }
         }
-        
+
         const count = countryData[countryCode] || 0;
-        const countryName = d.properties.NAME || d.properties.name || d.properties.NAME_EN || 'Unknown';
+        const countryName =
+          d.properties.NAME || d.properties.name || d.properties.NAME_EN || 'Unknown';
         return `${countryName}: ${count} server${count !== 1 ? 's' : ''}`;
       });
 
     // Add graticules (grid lines) for better 3D effect
-    const graticule = d3.geoGraticule()
-      .step([15, 15]);
+    const graticule = d3.geoGraticule().step([15, 15]);
 
-    svg.append('path')
+    svg
+      .append('path')
       .datum(graticule)
       .attr('class', 'graticule')
       .attr('d', path as any)
@@ -476,7 +530,6 @@ export const WorldMap: FC<WorldMapProps> = ({
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 0.3)
       .attr('opacity', 0.3);
-
   }, [worldData, countryData, maxCount, isLoading, dimensions, rotation, isDragging]);
 
   if (isLoading) {
@@ -501,13 +554,12 @@ export const WorldMap: FC<WorldMapProps> = ({
         <span className="server-count">{networkData.length} servers</span>
       </div>
       <div className="content" ref={containerRef}>
-        <div 
+        <div
           className="globe-container"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-        >
+          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
           <svg ref={svgRef} className="world-map-svg"></svg>
         </div>
         <div className="location-table">
@@ -521,4 +573,4 @@ export const WorldMap: FC<WorldMapProps> = ({
       </div>
     </div>
   );
-}; 
+};
