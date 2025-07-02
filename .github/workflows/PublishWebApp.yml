@@ -76,31 +76,16 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           script: |
-            set -e
-            echo "📁 Creando backup_temp..."
-            mkdir -p backup_temp
-
-            echo "📦 Moviendo archivos (excepto staging y backup_temp)..."
-            for entry in * .[^.]*; do
-              if [[ "$entry" != "staging" && "$entry" != "backup_temp" && "$entry" != "." && "$entry" != ".." ]]; then
-                echo "➡️  Moviendo $entry a backup_temp/"
-                mv -f "$entry" backup_temp/ || true
-              fi
-            done
-
-            echo "📂 Moviendo contenido de staging al root..."
-            if [ -d "staging" ] && [ "$(ls -A staging)" ]; then
-              mv -f staging/* ./ || true
-              shopt -s dotglob
-              mv -f staging/.* ./ 2>/dev/null || true
-              shopt -u dotglob
-            fi
-
-            echo "🧹 Eliminando staging y backup_temp..."
-            rmdir staging 2>/dev/null || true
-            rm -rf backup_temp
-
-            echo "✅ Despliegue completado"
+            echo "🔍 Información del sistema:"
+            whoami
+            pwd
+            echo "📁 Contenido del directorio actual:"
+            ls -la
+            echo "📁 ¿Existe staging?"
+            ls -la staging/ || echo "staging no existe"
+            echo "🐚 Shell actual:"
+            echo $SHELL
+            echo "✅ Conexión SSH exitosa"
 
       - name: 📤 Notify deployment status
         uses: bobheadxi/deployments@v1
