@@ -34,24 +34,6 @@ const fetcher = ([model, { company }]: any) => {
       requireSession: true,
     })
     .then(({ data }) => {
-      // Debug logging para ver los datos que llegan desde la API
-      console.log('API Response Data:', data);
-      console.log('Neuroscans:', data?.neuroscans);
-      
-      // Logging específico de m_nllm_issues_found y m_nllm_issues_parsed
-      if (data?.neuroscans && data.neuroscans.length > 0) {
-        data.neuroscans.forEach((scan: any, index: number) => {
-          console.log(`Scan ${index}:`, {
-            id: scan.id,
-            resource_address: scan.resource_address,
-            m_nllm_issues_found: scan.m_nllm_issues_found,
-            m_nllm_issues_parsed: scan.m_nllm_issues_parsed,
-            foundType: typeof scan.m_nllm_issues_found,
-            parsedType: typeof scan.m_nllm_issues_parsed
-          });
-        });
-      }
-      
       return {
         scans: data?.neuroscans || [],
         companyUpdated: data?.company,
