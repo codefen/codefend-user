@@ -28,9 +28,18 @@ npm start
 ├── src/
 │   ├── app/
 │   │   ├── constants/        # App constants and global texts
-│   │   ├── data/             # Data layer folder (hooks, interfaces, services, mocks and utils)
-│   │   ├── router/           # React router
-│   │   ├── views/            # React components (Components, Pages, Layouts, Styles and Contexts)
+│   │   ├── data/             # Data Layer (business logic)
+│   │   │   ├── services/     # API/services communication
+│   │   │   ├── hooks/        # Reusable logic (custom hooks)
+│   │   │   ├── interfaces/   # TypeScript types/interfaces
+│   │   │   └── utils/        # Utility functions
+│   │   ├── router/           # App routing using React Router
+│   │   └── views/            # UI layer (React components)
+│   │       ├── components/   # Reusable UI components
+│   │       ├── pages/        # Page-level components (views)
+│   │       ├── layouts/      # Layouts (e.g., MainLayout, AuthLayout)
+│   │       ├── contexts/     # React Context providers
+│   │       └── styles/       # Global scoped styles (CSS modules or Tailwind configs)
 │   └── editor-lib/           # TinyMCE utils and types
 ├── src-tauri/                # Tauri folder with rust code for desktop version
 ├── codefend.bat              # .bat file with npm start script

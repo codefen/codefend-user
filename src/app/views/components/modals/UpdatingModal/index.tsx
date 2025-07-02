@@ -35,9 +35,7 @@ export const UpdatingModal = () => {
   useEffect(() => {
     if (RUNNING_DESKTOP() && updateState.accept && progress === 0) {
       startUpdate().then(() => {
-        relaunch().then(() => {
-          console.log('relaunch...');
-        });
+        relaunch().then(() => {});
       });
     }
   }, [updateState.update, updateState.accept]);

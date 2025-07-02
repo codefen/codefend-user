@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useTelemetry } from '@hooks/common/useTelemetry';
 
 interface SectionTrackerProps {
   sectionName: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const SectionTracker = ({ sectionName, children }: SectionTrackerProps) => {
@@ -11,11 +11,11 @@ export const SectionTracker = ({ sectionName, children }: SectionTrackerProps) =
 
   useEffect(() => {
     startSectionTimer();
-    
+
     return () => {
       trackSectionTime(sectionName);
     };
   }, [sectionName]);
 
   return <>{children}</>;
-}; 
+};

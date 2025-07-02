@@ -11,6 +11,7 @@ import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useTheme } from '@/app/views/context/ThemeContext';
 import { nodeEnv, stripeKey, stripeKeyTest } from '@utils/config';
+import { useUserRole } from '#commonUserHooks/useUserRole';
 import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
 
 const NODE_ENV = nodeEnv;
@@ -22,7 +23,8 @@ export const CardPaymentModal = ({
   setCallback: (callback: (() => void) | null) => void;
 }) => {
   const [fetcher] = useFetcher();
-  const { getCompany } = useUserData();
+  const { getCompany, getUserdata } = useUserData();
+  const { isAdmin } = useUserRole();
   const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
   const merchId = useRef('null');
   const companyId = useMemo(() => getCompany(), [getCompany()]);
@@ -31,14 +33,12 @@ export const CardPaymentModal = ({
   const [hideBackButton, setHideBackButton] = useState(false);
   const { theme } = useTheme();
   const { trackPaymentStart, trackPaymentComplete, trackPaymentError } = usePaymentTelemetry();
-  console.log(
-    'STRIPE_PUBLISHABLE_KEY',
-    localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey
-  );
+  const isTestMode = localStorage.getItem('stripeEnv') === 'true';
+
   // Memoize the Stripe promise
   const stripePromise = useMemo(
-    () => loadStripe(localStorage.getItem('stripeEnv') == 'true' ? stripeKeyTest : stripeKey),
-    []
+    () => loadStripe(isTestMode ? stripeKeyTest : stripeKey),
+    [isTestMode]
   );
 
   const fetchClientSecret = useCallback(async () => {
@@ -48,13 +48,17 @@ export const CardPaymentModal = ({
     trackPaymentStart('stripe', orderId);
 
     try {
+      const bodyBuild: any = {
+        phase: 'financial_card_launch',
+        company_id: companyId,
+        reference_number: referenceNumber,
+        order_id: orderId,
+      };
+      if (isAdmin()) {
+        bodyBuild.admin_active_test_mode = isTestMode;
+      }
       const { data } = await fetcher<any>('post', {
-        body: {
-          phase: 'financial_card_launch',
-          company_id: companyId,
-          reference_number: referenceNumber,
-          order_id: orderId,
-        },
+        body: bodyBuild,
         path: `orders/add${paywallSelected === UserPlanSelected.AUTOMATED_PLAN ? '/small' : ''}`,
       });
 
@@ -66,7 +70,16 @@ export const CardPaymentModal = ({
       trackPaymentError('stripe', 'client_secret_error', orderId);
       updateState('orderStepActive', OrderSection.PAYMENT_ERROR);
     }
-  }, [companyId, referenceNumber, orderId, paywallSelected, fetcher, updateState, trackPaymentStart, trackPaymentError]);
+  }, [
+    companyId,
+    referenceNumber,
+    orderId,
+    paywallSelected,
+    fetcher,
+    updateState,
+    trackPaymentStart,
+    trackPaymentError,
+  ]);
 
   // Initialize Stripe when component mounts
   useEffect(() => {
@@ -78,14 +91,18 @@ export const CardPaymentModal = ({
       clientSecret,
       onComplete: () => {
         setHideBackButton(true);
+        const bodyBuild: any = {
+          phase: 'financial_card_finish',
+          company_id: companyId,
+          reference_number: referenceNumber,
+          order_id: orderId,
+          merch_cid: merchId.current,
+        };
+        if (isAdmin()) {
+          bodyBuild.admin_active_test_mode = isTestMode;
+        }
         fetcher<any>('post', {
-          body: {
-            phase: 'financial_card_finish',
-            company_id: companyId,
-            reference_number: referenceNumber,
-            order_id: orderId,
-            merch_cid: merchId.current,
-          },
+          body: bodyBuild,
           path: `orders/add${paywallSelected === UserPlanSelected.AUTOMATED_PLAN ? '/small' : ''}`,
           timeout: 1000000,
         })
@@ -114,6 +131,7 @@ export const CardPaymentModal = ({
       theme,
       fetcher,
       updateState,
+      isTestMode,
     ]
   );
 

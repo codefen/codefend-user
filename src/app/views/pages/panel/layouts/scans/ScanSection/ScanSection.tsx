@@ -73,18 +73,6 @@ const scansColumns: ColumnTableV3[] = [
       const found = row?.m_nllm_issues_found;
       const parsed = row?.m_nllm_issues_parsed;
 
-      // Logging para debugging (puedes remover esto después)
-      if (found !== undefined || parsed !== undefined) {
-        console.log('Scan Row Data:', {
-          id: row?.id,
-          found: found,
-          parsed: parsed,
-          foundType: typeof found,
-          parsedType: typeof parsed,
-          originalRow: row,
-        });
-      }
-
       // Mejor manejo de valores null/undefined/string
       const foundValue =
         found !== null && found !== undefined
@@ -274,10 +262,10 @@ export const ScanSection = () => {
       toast.error(SCAN_PAGE_TEXT.SCAN_KILL_NO_SELECTED);
       return;
     }
-    
+
     // Track scan kill
     trackScanKill(selectScan.resource_address || '', 'web');
-    
+
     fetcher('post', {
       body: {
         neuroscan_id,
@@ -337,10 +325,10 @@ export const ScanSection = () => {
     if (companyIdIsNull(companyId)) return;
 
     setLoading(true);
-    
+
     // Track scan start
     trackScanStart(domainScanned?.trim?.() || '', 'web');
-    
+
     autoScan(domainScanned?.trim?.() || '', false, '')
       .then(result => {
         if (apiErrorValidation(result)) {

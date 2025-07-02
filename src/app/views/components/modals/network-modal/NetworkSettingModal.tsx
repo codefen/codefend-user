@@ -12,7 +12,7 @@ import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 
 const NODE_ENV = nodeEnv;
-console.log('NODE_ENV', NODE_ENV);
+
 interface NetworkSettingModalProps {
   isOpen: boolean;
   close: () => void;

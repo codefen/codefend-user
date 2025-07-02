@@ -1,0 +1,54 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are working in a strict React + TypeScript + Tauri project. The project follows a modular and layered folder structure under /src. You must always follow these rules when creating or modifying files:
+
+## Project Structure and Folder Responsibilities
+
+1. All source code lives inside /src.
+
+2. Inside /src, there is a folder called /app which contains the main application logic and structure.
+
+3. The /src/app/constants folder stores global constants and static texts used across the application.
+
+4. The /src/app/data folder contains the entire data layer and business logic. Inside this folder:
+   - /src/app/data/services must contain API calls and service logic.
+   - /src/app/data/hooks must contain reusable logic as custom React hooks.
+   - /src/app/data/interfaces must contain only TypeScript types and interfaces.
+   - /src/app/data/utils can contain helper and utility functions.
+   - /src/app/data/mocks can contain mocks data.
+
+5. The /src/app/router folder contains all the React Router configuration and route definitions.
+
+6. The /src/app/views folder contains all React components related to the UI. Inside this folder:
+   - /src/app/views/components is for reusable UI components.
+   - /src/app/views/pages is for full-page components (each route or screen).
+   - /src/app/views/contexts is for React context providers.
+   - /src/app/views/styles is for global styling only.
+
+7. The /src/editor-lib folder contains all logic related to the TinyMCE editor, including its types and utilities.
+
+8. The /src-tauri folder contains Rust code for the Tauri desktop application.
+
+## Coding Rules
+
+- Always use TypeScript for logic files (.ts).
+- Always use .tsx for React components.
+- Do not use .js or .jsx files. JavaScript is not allowed.
+- Do not add .md or markdown files inside any code folder.
+- Always follow the structure defined above when adding new code.
+- React components must always go inside /src/app/views.
+- Business logic and data fetching must always go inside /src/app/data.
+- Styles must be scoped inside /src/app/views/styles.
+- Avoid mixing responsibilities across folders.
+
+## General Principles
+
+- Keep UI, logic, and styling clearly separated as defined.
+- Follow a clean, scalable, and maintainable architecture.
+- Always organize your code according to the structure above.
+- Any new file must respect the folder responsibility and file type rules.
+
+

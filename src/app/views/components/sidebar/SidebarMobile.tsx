@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 type MenuSection = 'Main' | 'Attack surface' | 'Risk control';
 
 const sidebarData = {
-  Main: ['Dashboard', 'Team members', 'Orders and payments', 'User profile'],
+  Main: ['Dashboard', 'Team members', 'Purchases', 'User profile'],
   'Attack surface': ['Web software', 'Network devices', 'Social attacks' /* 'Mobile software' */],
   'Risk control': ['Detected issues', 'AI Surveillance', 'Dataleaks explorer', 'Ask a hacker'],
 };
@@ -14,7 +14,7 @@ const sidebarData = {
 const menuItemsPaths = {
   Dashboard: '/dashboard',
   'Team members': '/team-members',
-  'Orders and payments': '/orders-payments',
+  'Purchases': '/orders-payments',
   'User profile': '/user-profile',
   'Web software': '/web',
   'Network devices': '/network',

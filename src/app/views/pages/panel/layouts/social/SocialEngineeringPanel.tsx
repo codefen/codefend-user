@@ -170,12 +170,12 @@ const SocialEngineeringView = () => {
                 <button
                   className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
                   onClick={() => handleTabChange('all')}>
-                  📋 Todos los miembros
+                  📋 show all
                 </button>
                 <button
                   className={`tab-button ${activeTab === 'linkedin' ? 'active' : ''}`}
                   onClick={() => handleTabChange('linkedin')}>
-                  💼 Perfiles LinkedIn
+                  💼 linkedin profiles
                 </button>
               </div>
             </div>
