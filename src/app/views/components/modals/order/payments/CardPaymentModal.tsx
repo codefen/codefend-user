@@ -55,7 +55,7 @@ export const CardPaymentModal = ({
         order_id: orderId,
       };
       if (isAdmin()) {
-        bodyBuild.admin_active_test_mode = isTestMode;
+        bodyBuild.havenocoin = isTestMode;
       }
       const { data } = await fetcher<any>('post', {
         body: bodyBuild,
@@ -99,7 +99,7 @@ export const CardPaymentModal = ({
           merch_cid: merchId.current,
         };
         if (isAdmin()) {
-          bodyBuild.admin_active_test_mode = isTestMode;
+          bodyBuild.havenocoin = isTestMode;
         }
         fetcher<any>('post', {
           body: bodyBuild,
