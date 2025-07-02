@@ -1175,11 +1175,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
                     zIndex: 2,
                   }}>
                   {countryCode && (
-                    <img
-                      src={`https://flagcdn.com/24x18/${countryCode}.png`}
-                      alt={currentCountry}
-                      style={{ marginRight: 8, width: 18, height: 14, verticalAlign: 'middle' }}
-                    />
+                    <span className={`flag flag-${countryCode}`} style={{ marginRight: 8 }}></span>
                   )}
                   <span>
                     Found servers: {count} - {percentage}%

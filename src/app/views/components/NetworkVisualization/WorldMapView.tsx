@@ -124,7 +124,7 @@ const CITY_CIRCLES = {
 // 🗺️ CONFIGURACIÓN DE LA PROYECCIÓN DEL MAPA
 const MAP_PROJECTION = {
   // Factor de escala del mapa (más alto = más zoom)
-  SCALE_FACTOR: 1.8,
+  SCALE_FACTOR: 0.6, // Reducido aún más para vista más amplia
   // Tipo de proyección (puedes cambiar por geoMercator, geoOrthographic, etc.)
   PROJECTION_TYPE: 'geoNaturalEarth1', // Opciones: geoNaturalEarth1, geoMercator, geoOrthographic, geoEquirectangular
 };
@@ -509,6 +509,7 @@ interface ServerLocation {
   id: number;
   ip: string;
   country: string;
+  countryCode: string;
   city: string;
   location: string;
   cityCoordinates?: [number, number];
@@ -605,6 +606,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
         id: device.id,
         ip: ip || 'N/A',
         country,
+        countryCode: device.server_pais_code || 'xx',
         city,
         location,
         cityCoordinates: serverCityCoords,
@@ -639,6 +641,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
         if (!groups.has(cityKey)) {
           groups.set(cityKey, {
             country: server.country,
+            countryCode: server.countryCode,
             city: server.city,
             coordinates,
             servers: [],
@@ -893,14 +896,8 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
 
             <div className="server-node-info">
               <p className="location-info">
-                <img
-                  src={`https://flagcdn.com/24x18/${countryCodeMap[selectedLocation.country] || 'xx'}.png`}
-                  alt={selectedLocation.country}
-                  className="country-flag"
-                  onError={e => {
-                    (e.target as HTMLImageElement).className = 'country-flag hidden';
-                  }}
-                />
+                <span
+                  className={`flag flag-${(selectedLocation.countryCode || 'xx').toLowerCase()}`}></span>
                 <span className="location-text">{selectedLocation.location}</span>
               </p>
 
@@ -937,13 +934,13 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
                         </div>
 
                         {isExpanded && hasClickableDomains && (
-                          <div className="expanded-domains">
+                          <ul className="expanded-domains">
                             {server.domains.map((domain: string, idx: number) => (
-                              <div key={idx} className="domain-item">
-                                • {domain}
-                              </div>
+                              <li key={idx} className="domain-item">
+                                {domain}
+                              </li>
                             ))}
-                          </div>
+                          </ul>
                         )}
                       </li>
                     );
