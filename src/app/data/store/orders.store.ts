@@ -102,5 +102,6 @@ export const useOrderStore = create<OrderStore>((set, _get) => ({
       paymentMethod: OrderPaymentMethod.UNKNOWN,
       aditionalInfo: '',
       userSmallPlanSelected: UserSmallPlanSelected.NOTHING,
+      paywallSelected: UserPlanSelected.NOTHING,
     })),
 }));

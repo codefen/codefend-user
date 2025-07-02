@@ -7,6 +7,8 @@ import useOrderScopeStore from '@stores/orderScope.store';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { naturalTime } from '@utils/helper';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
+import { useSubscriptionActions } from '@hooks/orders/useSubscriptionActions';
 
 interface BillingDataProps {
   isLoading: boolean;
@@ -50,10 +52,16 @@ const rawOrderColumns: ColumnTableV3[] = [
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
 ];
+
 const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
   const { updateIsOpen, updateOrderId, updateReferenceNumber } = useQualitySurveyStore();
   const { updateOpen, updateScope, updateViewConfirm, updateViewTransfer } = useOrderScopeStore();
   const startPoll = useQualitySurveyStart();
+  const { cancelSubscription, upgradePlan } = useSubscriptionActions();
+
+  // Filter orders into two groups based on chosen_plan_price
+  const subscriptionOrders = orders.filter(order => Number(order.chosen_plan_price) < 1000);
+  const premiumOrders = orders.filter(order => Number(order.chosen_plan_price) >= 1000);
 
   const handleOpenPoll = (id: string, referenceNumber: string) => {
     updateIsOpen(true);
@@ -90,14 +98,30 @@ const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
       },
     },
   ];
+  const suscriptionActions = [
+    {
+      label: 'Cancel subscription',
+      icon: <DocumentTextIcon />,
+      onClick: (order: any) => {
+        cancelSubscription(order);
+      },
+    },
+    {
+      label: 'Upgrade plan',
+      icon: <ImportantIcon />,
+      onClick: (order: any) => {
+        upgradePlan(order);
+      },
+    },
+  ];
 
   return (
     <>
       <div className="card">
-        <div className="order-preference-content">
+        <SimpleSection header="Professional Hackers On Demand Orders">
           <Tablev3
             columns={rawOrderColumns}
-            rows={orders}
+            rows={premiumOrders}
             showRows={!isLoading}
             initialOrder="id"
             limit={0}
@@ -105,7 +129,22 @@ const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
             enableContextMenu
             contextMenuActions={orderMenuOptions}
           />
-        </div>
+        </SimpleSection>
+      </div>
+
+      <div className="card">
+        <SimpleSection header="AI Surveillance Orders">
+          <Tablev3
+            columns={rawOrderColumns}
+            rows={subscriptionOrders}
+            showRows={!isLoading}
+            initialOrder="id"
+            limit={0}
+            isNeedSort
+            enableContextMenu
+            contextMenuActions={suscriptionActions}
+          />
+        </SimpleSection>
       </div>
     </>
   );

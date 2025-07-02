@@ -95,7 +95,7 @@ export const useVerifyScanListv3 = () => {
           if (scan?.phase === 'launched') return true;
           // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
           const stillActiveInMap = mapScan?.phase === 'launched';
-          const nowFinishedInApi = scan?.phase === 'finished';
+          const nowFinishedInApi = scan?.phase === 'finished' || scan?.phase === 'killed';
           if (nowFinishedInApi && stillActiveInMap) return true;
           return false;
         });
@@ -243,7 +243,7 @@ export const useVerifyScanListv3 = () => {
         leaksScanProgress,
         subdomainScanProgress
       );
-      if (value?.phase !== 'finished') {
+      if (value?.phase !== 'finished' && value?.phase !== 'killed') {
         isAnyScanPending = true;
       }
       activeMap.set(key, {
@@ -256,7 +256,7 @@ export const useVerifyScanListv3 = () => {
           overallProgress === 100 ? AUTO_SCAN_STATE.SCAN_FINISHED : AUTO_SCAN_STATE.SCAN_LAUNCHED,
       });
 
-      if (!isOpen && value?.phase === 'finished') {
+      if (!isOpen && (value?.phase === 'finished' || value?.phase === 'killed')) {
         activeMap.delete(key);
       }
     }
