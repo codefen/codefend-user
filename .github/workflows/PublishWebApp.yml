@@ -70,16 +70,15 @@ jobs:
           dangerous-clean-slate: true
 
       - name: 🔄 Switch directories atomically
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
           script: |
-            echo "🔍 Información del sistema:"
-            echo "🐚 Shell actual:"
-            echo $SHELL
-            echo "✅ Conexión SSH exitosa"
+            whoami
+            ls -al
 
       - name: 📤 Notify deployment status
         uses: bobheadxi/deployments@v1
