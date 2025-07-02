@@ -76,17 +76,24 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           script: |
+            set -e  # Falla si hay errores
+            set -o pipefail
             mkdir -p backup_temp
-            
-            find . -maxdepth 1 -type f -exec mv {} backup_temp/ \;
-            find . -maxdepth 1 -type d ! -name '.' ! -name 'staging' ! -name 'backup_temp' -exec mv {} backup_temp/ \;
-            
-            # Mover contenido de staging al root
-            mv staging/* ./
-            mv staging/.* ./ 2>/dev/null || true
-            rmdir staging
-            
-            # Limpiar backup anterior
+
+            # Mover archivos y carpetas (excepto staging y backup_temp) al backup
+            find . -maxdepth 1 -type f -exec mv -f {} backup_temp/ \;
+            find . -maxdepth 1 -type d ! -name '.' ! -name 'staging' ! -name 'backup_temp' -exec mv -f {} backup_temp/ \;
+
+            # Si staging no está vacío, mover su contenido
+            if [ "$(ls -A staging)" ]; then
+              mv -f staging/* ./ || true
+              shopt -s dotglob
+              mv -f staging/.* ./ 2>/dev/null || true
+              shopt -u dotglob
+            fi
+
+            # Eliminar staging y backup
+            rmdir staging 2>/dev/null || true
             rm -rf backup_temp
 
       - name: 📤 Notify deployment status
