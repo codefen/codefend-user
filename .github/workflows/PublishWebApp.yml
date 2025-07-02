@@ -77,12 +77,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           script: |
             echo "🔍 Información del sistema:"
-            whoami
-            pwd
-            echo "📁 Contenido del directorio actual:"
-            ls -la
-            echo "📁 ¿Existe staging?"
-            ls -la staging/ || echo "staging no existe"
             echo "🐚 Shell actual:"
             echo $SHELL
             echo "✅ Conexión SSH exitosa"
