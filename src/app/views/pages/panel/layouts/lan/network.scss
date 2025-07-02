@@ -1,3 +1,7 @@
+// Modern Sass imports using @use instead of deprecated @import
+@use './components/network-cards.scss';
+@use './components/world-map.scss';
+
 main.lan {
   .left {
     flex: 1 1 68%;
@@ -288,5 +292,4 @@ main.lan {
   }
 }
 
-@import './components/network-cards.scss';
-@import './components/world-map.scss';
+// Imports moved to the top of the file
