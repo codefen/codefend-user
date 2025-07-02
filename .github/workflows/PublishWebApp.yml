@@ -47,16 +47,47 @@ jobs:
       - name: 🔨 Run build client
         run: bun run build
 
-      - name: 🚀 Publish to FTP
+      # - name: 🚀 Publish to FTP
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ${{ secrets.FTP_SERVER }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     local-dir: ./dist/
+      #     server-dir: ./
+      #     protocol: ftp
+      #     dangerous-clean-slate: true
+
+      - name: 🚀 Deploy to staging directory
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ./
+          server-dir: ./staging/
           protocol: ftp
           dangerous-clean-slate: true
+
+      - name: 🔄 Switch directories atomically
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            mkdir -p backup_temp
+            
+            find . -maxdepth 1 -type f -exec mv {} backup_temp/ \;
+            find . -maxdepth 1 -type d ! -name '.' ! -name 'staging' ! -name 'backup_temp' -exec mv {} backup_temp/ \;
+            
+            # Mover contenido de staging al root
+            mv staging/* ./
+            mv staging/.* ./ 2>/dev/null || true
+            rmdir staging
+            
+            # Limpiar backup anterior
+            rm -rf backup_temp
 
       - name: 📤 Notify deployment status
         uses: bobheadxi/deployments@v1

@@ -78,8 +78,7 @@ export const PaywallMaxScanModal = memo(({ close }: any) => {
               <p>View more affordable plans and monthly subscriptions</p>
             </div>
             <span className="one-pentest">
-              Codefend offers automatic service memberships starting at $29 monthly and hacker
-              contracts from $299 monthly.
+              Codefend offers automatic service memberships starting at $29 monthly.
             </span>
           </div>
         </label>

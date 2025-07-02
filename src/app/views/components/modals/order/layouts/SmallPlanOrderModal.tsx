@@ -47,7 +47,7 @@ const pricingPlans = [
 
 export const SmallPlanOrderModal = () => {
   const [checkedOption, setCheckedOption] = useState(UserSmallPlanSelected.NOTHING);
-  const { updateState } = useOrderStore(state => state);
+  const { updateState, resetActiveOrder } = useOrderStore(state => state);
   const [fetcher, _, isLoading] = useFetcher();
   const { getCompany } = useUserData();
   const [prices, setPrices] = useState<any>(null);
@@ -87,7 +87,7 @@ export const SmallPlanOrderModal = () => {
 
   const close = () => {
     updateState('orderStepActive', OrderSection.PAYWALL);
-    updateState('open', false);
+    resetActiveOrder();
   };
 
   return (
