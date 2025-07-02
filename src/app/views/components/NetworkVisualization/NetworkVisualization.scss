@@ -199,7 +199,7 @@
       border-radius: 8px;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       padding: 1.5rem;
-      max-height: calc(100% - 2rem);
+      height: 95%;
       overflow-y: auto;
       z-index: 10;
 
@@ -246,7 +246,7 @@
           list-style: none;
           padding: 0;
           margin: 8px 0;
-          max-height: 300px;
+          max-height: 100%;
           overflow-y: auto;
 
           li {
@@ -263,6 +263,9 @@
               
               &.clickable {
                 cursor: pointer;
+                font-family: questrial;
+                font-size: 14px;
+                border-bottom: 1px solid #ccc;
               }
               
               &:hover {
@@ -306,10 +309,13 @@
               padding-left: 2rem;
               font-size: 0.75rem;
               color: var(--tertiary-color-400);
+              list-style: none;
               
               .domain-item {
-                padding: 2px 0;
+                padding: 3px 0;
                 transition: color 0.2s ease;
+                font-size: 14px;
+                border-bottom: 1px solid #ddd;
                 
                 &:hover {
                   color: var(--text-color-primary);
@@ -338,18 +344,21 @@
         }
         
         .location-text {
-          font-family: 'Questrial', sans-serif;
-          font-weight: bold;
-          color: var(--text-color-primary);
+          font-family: satoshi;
+          font-weight: 500;
+          color: #333;
+          display: block;
+          font-size: 15px;
         }
       }
 
       .servers-count-text {
-        font-family: 'Questrial', sans-serif;
-        font-weight: bold;
+        font-family: questrial;
+        font-weight: 600;
         color: var(--text-color-primary);
         margin-bottom: 1rem;
         display: block;
+        font-size: 15px;
       }
     }
   }
@@ -386,12 +395,12 @@
     .visualization-content {
       .node-details {
         position: fixed;
-        top: 50%;
-        left: 50%;
+        top: 55%;
+        left: 36%;
         transform: translate(-50%, -50%);
         width: 90vw;
         max-width: 400px;
-        max-height: 80vh;
+        max-height: 100vh;
       }
     }
   }

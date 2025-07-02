@@ -138,7 +138,7 @@ export const SidebarDesktop = ({
           haveAccess: isNotProviderAndReseller,
         },
         {
-          title: 'Orders and Payments',
+          title: 'Purchases',
           id: 'sidebar_orders_payments',
           icon: <CreditCardIcon />,
           to: '/orders-payments',
