@@ -3,6 +3,7 @@ import { NewQuestHacker } from './components/newQuestHacker';
 import { TalkHackerScreen } from './components/TalkHackerScreen/talkHackerScreen';
 import { TaskHacker } from './components/taskHacker';
 import './talktohacker.scss';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 export const TalkToHackerPage = () => {
   const [showScreen, refresh] = useShowScreen();
@@ -12,6 +13,7 @@ export const TalkToHackerPage = () => {
         <TalkHackerScreen />
       </section>
       <section className="right">
+        <Navbar />
         <NewQuestHacker />
         <TaskHacker />
       </section>

@@ -30,6 +30,7 @@ interface SearchBarProps {
   isActiveSelect?: boolean;
   selectOptions?: SearchBarSelect;
   isDisabled?: boolean;
+  inputAnimationStep?: number;
 }
 
 export const SearchBar: FC<SearchBarProps> = props => {
@@ -50,6 +51,14 @@ export const SearchBar: FC<SearchBarProps> = props => {
   const optionUUID = optionsKeys.length !== 0 ? generateIDArray(optionsKeys.length) : [];
 
   const inputClass = !props.isActiveSelect ? 'only-btn' : 'with-select';
+  const animClass =
+    props.inputAnimationStep === 1
+      ? 'input-anim-protocol'
+      : props.inputAnimationStep === 2
+      ? 'input-anim-path'
+      : props.inputAnimationStep === 3
+      ? 'input-anim-flash'
+      : '';
 
   return (
     <div className="search-bar">
@@ -66,7 +75,7 @@ export const SearchBar: FC<SearchBarProps> = props => {
             onChange={props.handleChange}
             onKeyDown={handleKeyPress}
             placeholder={props.placeHolder}
-            className={`text search-input ${inputClass}`}
+            className={`text search-input ${inputClass} ${animClass}`}
             required
           />
           <Show when={props.isActiveSelect === true && props.selectOptions !== undefined}>

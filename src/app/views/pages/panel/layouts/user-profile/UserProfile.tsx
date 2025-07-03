@@ -8,6 +8,7 @@ import './userprofile.scss';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useEffect } from 'react';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 export const UserProfilePage = () => {
   const { isLoading, data } = useDashboard();
@@ -40,6 +41,7 @@ export const UserProfilePage = () => {
         </div>
       </section>
       <section className="right">
+        <Navbar />
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
       </section>

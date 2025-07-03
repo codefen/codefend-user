@@ -22,6 +22,7 @@ import { MagnifyingGlassIcon, PeopleGroupIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 // Definir tipo para las pestañas
 type SocialViewType = 'all' | 'linkedin';
@@ -186,6 +187,7 @@ const SocialEngineeringView = () => {
         </div>
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <Navbar />
         <AddSocialBlock isLoading={isLoading} />
         <SocialEngineeringFilters
           members={members}

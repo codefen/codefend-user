@@ -211,7 +211,7 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
           <ModalInput
             icon={<MagnifyingGlassIcon />}
             setValue={(val: string) => setSearchTerm(val)}
-            placeholder="Search issue..."
+            placeholder="search infrastructure..."
           />
           <div className="search-results-info">
             {searchTerm && (

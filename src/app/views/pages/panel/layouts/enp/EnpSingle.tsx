@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { EndpointsSidebar } from './components/EndpointsSidebar';
 import { EndpointInfo } from './components/EndpointInfo';
 import { EndpointAppProvider } from './EndpointContext';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 import { useEnp } from '../../../../../data';
 
@@ -36,6 +37,7 @@ export const EnpPanel: FC = () => {
         </section>
 
         <section className="right">
+          <Navbar />
           <EndpointInfo />
         </section>
       </main>

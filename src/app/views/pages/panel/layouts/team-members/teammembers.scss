@@ -53,13 +53,13 @@ main.team-members {
     .left {
       flex: 3.5;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
 
     .right {
       flex: 2.5;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
   }
 

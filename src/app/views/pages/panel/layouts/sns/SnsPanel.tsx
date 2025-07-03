@@ -10,6 +10,7 @@ import {
 } from '@/app/views/context/AppContextProvider.tsx';
 import './Sns.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -35,6 +36,7 @@ const SnsPanel: FC = () => {
         </section>
 
         <section className="right">
+          <Navbar />
           <SnsCardTitle
             arrow="none"
             title="Dataleaks search"

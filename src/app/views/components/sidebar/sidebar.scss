@@ -3,15 +3,10 @@
   flex-direction: column;
   justify-content: flex-start;
   left: var(--absolute-bars-left);
-  // top: calc(var(--nav-height) + 18px);
-  // left: 1vw;
-
+  top: 0;
   z-index: 4;
-  // border: 1px solid var(--primary-color-300);
-  // height: calc(90dvh - 12px);
   max-height: 100dvh;
-  // min-height: 100%;
-  height: fit-content;
+  height: 100dvh;
   overflow-y: auto;
   transition:
     width 130ms ease-out,
@@ -22,12 +17,12 @@
     backdrop-filter 130ms linear;
 
   &.desktop-active {
-    position: absolute;
+    position: fixed;
     padding-top: 10px;
     padding-bottom: 65px;
     border-radius: var(--brd-radius);
     width: var(--sidebar-width);
-    margin-block-start: calc(18px + var(--nav-height));
+    margin-block-start: 0;
     background-color: var(--primary-color);
     animation: sideLeft 0.5s ease-in-out;
   }
