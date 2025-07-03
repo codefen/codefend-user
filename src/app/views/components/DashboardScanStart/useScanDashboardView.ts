@@ -10,22 +10,29 @@ export const useScanDashboardView = () => {
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const [scanDashboardView, setScanDashboardView] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetcher<any>('post', {
       body: {
         company_id: getCompany(),
       },
       path: 'neuroscans/index',
       requireSession: true,
-    }).then(({ data }) => {
-      const scans = data?.neuroscans;
-      const latestScans = scans?.sort?.((a: any, b: any) => b?.id - a?.id)?.slice?.(0, 3);
-      setScanDashboardView(latestScans || []);
-    });
+    })
+      .then(({ data }) => {
+        const scans = data?.neuroscans;
+        const latestScans = scans?.sort?.((a: any, b: any) => b?.id - a?.id)?.slice?.(0, 3);
+        setScanDashboardView(latestScans || []);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return {
     scanDashboardView,
+    isLoading,
   };
 };

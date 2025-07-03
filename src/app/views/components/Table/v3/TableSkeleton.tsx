@@ -4,7 +4,7 @@ import { type ColumnTableV3 } from '@interfaces/table';
 const SKELETON_CONFIG = {
   screenHeightRatio: 0.85,
   rowHeight: 49,
-  minRows: 8,
+  minRows: 4,
   cellHeight: 12,
   cellBorderRadius: 6,
   checkboxWidth: 50,
@@ -26,15 +26,21 @@ const TableSkeleton: FC<TableSkeletonProps> = ({
   columns,
 }) => {
   const skeletonRowCount = useMemo(() => {
+    // console.log('🧙‍♂️ TableSkeleton - totalRowCount:', totalRowCount, 'rowsLength:', rowsLength);
     const screenHeight = window.innerHeight;
     const availableHeight = screenHeight * SKELETON_CONFIG.screenHeightRatio;
     const calculatedRows = Math.floor(availableHeight / SKELETON_CONFIG.rowHeight);
 
-    return Math.max(
+    const finalCount = Math.max(
       Math.min(calculatedRows, totalRowCount || rowsLength || 10),
       SKELETON_CONFIG.minRows
     );
-  }, [totalRowCount, rowsLength]);
+
+    // console.log('🧙‍♂️ TableSkeleton - finalCount:', finalCount, 'columns:', columns.length);
+    return finalCount;
+  }, [totalRowCount, rowsLength, columns.length]);
+
+  console.log('🧙‍♂️ TableSkeleton - Rendering skeleton with', skeletonRowCount, 'rows');
 
   return (
     <div className="sorting-skeleton">

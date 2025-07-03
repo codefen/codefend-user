@@ -309,6 +309,17 @@
     max-height: 9.5rem;
     row-gap: 0.55rem;
 
+    &.skeleton-stat {
+      background: linear-gradient(90deg, #f0f0f0db 25%, #e0e0e0bd 50%, #f0f0f0a1 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+
+      .value,
+      .value + p {
+        opacity: 0;
+      }
+    }
+
     &.default {
       cursor: default;
       border: none;

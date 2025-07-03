@@ -38,7 +38,9 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   rows = [],
   columns,
   urlNav,
-  showRows,
+  showRows = true,
+  showSkeleton = false,
+  totalRowCount = -1,
   isActiveDisable = false,
   isNeedMultipleCheck = false,
   isNeedSearchBar = false,
@@ -116,7 +118,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 
   const memoizedValues: MemoizedValues = useMemo(() => {
     const flattenedLength = flattenedRows.length;
-    const hasFlattenedRows = virtualizedSortingResult.showSkeleton || Boolean(flattenedLength);
+    const hasFlattenedRows =
+      showSkeleton || virtualizedSortingResult.showSkeleton || Boolean(flattenedLength);
     const columnsCount = columns.length;
 
     return {
@@ -125,7 +128,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
       columnsCount,
       cellCount: columnsCount - 1,
     };
-  }, [flattenedRows, columns, virtualizedSortingResult.showSkeleton]);
+  }, [flattenedRows, columns, showSkeleton, virtualizedSortingResult.showSkeleton]);
 
   const virtualizationConfig = useVirtualizationConfig({
     containerRef: tableContainerRef,
@@ -241,11 +244,24 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
 
         <Show when={showRows} fallback={<PageLoader />}>
-          <div className="table-rows-container" style={{ position: 'relative' }}>
+          <div
+            className="table-rows-container"
+            style={{
+              position: 'relative',
+              minHeight: showSkeleton || virtualizedSortingResult.showSkeleton ? '300px' : 'auto',
+            }}>
             {virtualizedSortingResult.showSkeleton && rows.length > 0 && (
               <TableSkeleton
                 totalRowCount={virtualizedSortingResult.totalRowCount}
                 rowsLength={rows.length}
+                isNeedMultipleCheck={isNeedMultipleCheck}
+                columns={columns}
+              />
+            )}
+            {showSkeleton && (
+              <TableSkeleton
+                totalRowCount={totalRowCount}
+                rowsLength={totalRowCount}
                 isNeedMultipleCheck={isNeedMultipleCheck}
                 columns={columns}
               />
@@ -292,7 +308,10 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
         <Show
           when={
-            showRows && !memoizedValues.hasFlattenedRows && !virtualizedSortingResult.showSkeleton
+            showRows &&
+            !showSkeleton &&
+            !memoizedValues.hasFlattenedRows &&
+            !virtualizedSortingResult.showSkeleton
           }>
           <EmptyCard info={emptyInfo} title={emptyTitle} icon={emptyIcon} />
         </Show>

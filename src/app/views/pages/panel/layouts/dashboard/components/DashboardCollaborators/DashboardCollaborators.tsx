@@ -38,10 +38,17 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLo
       }))
     );
   }, [members, company.get.owner_email]);
+  console.log('isLoading', isLoading);
 
   return (
     <div className="collaborators">
-      <Tablev3 rows={membersMapped} columns={membersColumns} showRows={!isLoading} />
+      <Tablev3
+        rows={membersMapped}
+        columns={membersColumns}
+        showRows={true}
+        showSkeleton={isLoading}
+        totalRowCount={5}
+      />
     </div>
   );
 };
