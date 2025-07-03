@@ -332,15 +332,14 @@
 main {
   width: 100%;
   height: 100dvh;
-  padding-top: var(--card-space);
   max-height: var(--max-height-layout);
   display: flex;
   justify-content: space-between;
   column-gap: var(--card-space);
   opacity: 0;
-  padding-inline-start: var(--card-space);
-  padding-right: 12px;
-
+  padding: var(--card-space);
+  padding-bottom: 0;
+  grid-area: 1 / 2 / 6 / 8;
   // padding-block-start: 3dvw;
 
   // margin-block-start: calc(18px + var(--nav-height));
@@ -350,7 +349,7 @@ main {
   // transition-duration: 400ms;
   // transition-timing-function: cubic-bezier(0.47, 1.64, 0.41, 0.8);
 
-  overflow-y: hidden;
+  // overflow-y: hidden;
   overflow-x: hidden;
 
   @media only screen and (min-width: 1880px) {
@@ -359,7 +358,7 @@ main {
 
   .left {
     flex: 1 1 70%;
-    overflow-y: auto;
+    // overflow-y: auto;
     gap: var(--card-space);
     container-type: size;
     container-name: left-main;
@@ -381,8 +380,8 @@ main {
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
+    // overflow-y: auto;
+    // overflow-x: hidden;
     margin-bottom: 12px;
     container-type: size;
     container-name: right-main;
