@@ -11,6 +11,7 @@ import './orderspayments.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
@@ -36,6 +37,7 @@ export const OrdersPaymentsPage = () => {
         />
       </section>
       <section className="right">
+        <Navbar />
         <DashboardScanStart />
         <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
         <VulnerabilityRisk

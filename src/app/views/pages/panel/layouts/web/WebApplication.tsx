@@ -19,6 +19,7 @@ import { getCompanyAllMetrics } from '@utils/metric.service.ts';
 import './webapplication.scss';
 import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
 import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const WebApplicationView = () => {
   const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent, mapResources } =
@@ -48,6 +49,7 @@ const WebApplicationView = () => {
 
       {/* *****SECTION RIGHT WEB PAGE ***** */}
       <section className="right" ref={flashlight.rightPaneRef}>
+        <Navbar />
         <WebApplicationTitle isLoading={isLoading} />
         <WebApplicationStatics
           domainCount={domainCount.get}

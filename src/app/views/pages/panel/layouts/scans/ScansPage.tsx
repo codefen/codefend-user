@@ -5,6 +5,7 @@ import { ScanTitle } from '@/app/views/pages/panel/layouts/scans/ScanTitle/ScanT
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useEffect } from 'react';
 import './scanpage.scss';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();
@@ -33,6 +34,7 @@ export const ScansPage = () => {
         <ScanSection />
       </section>
       <section className="right">
+        <Navbar />
         <ScanTitle />
         <div className="card remaining-searches black-box">
           Available: {globalStore.company.get.disponibles_neuroscan}

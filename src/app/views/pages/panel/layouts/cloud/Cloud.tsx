@@ -10,6 +10,7 @@ import { CloudSelectedDetails } from './components/CloudSelectedDetails';
 import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithSearch/ListResourceWithSearch';
 import EmptyLayout from '../EmptyLayout';
 import { cloudEmptyScreen } from '@/app/constants/app-texts';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 /**
  * TODO:
@@ -59,7 +60,7 @@ const CloudApplicationPanel: FC = () => {
           />
         </section>
         <section className="right">
-          {/* <Show when={Boolean(appSelected)}> */}
+          <Navbar />
           <Show when={true}>
             <CloudSelectedDetails listSize={data?.length || 0} />
           </Show>

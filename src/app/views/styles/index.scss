@@ -332,17 +332,13 @@
 main {
   width: 100%;
   height: 100dvh;
-
-  // max-height: calc(100dvh - var(--nav-height));
-  // max-height: calc(100dvh - 10px);
+  padding-top: var(--card-space);
   max-height: var(--max-height-layout);
-
   display: flex;
   justify-content: space-between;
   column-gap: var(--card-space);
-
   opacity: 0;
-  padding-inline-start: calc(var(--sidebar-width) + var(--card-space) * 2);
+  padding-inline-start: var(--card-space);
   padding-right: 12px;
 
   // padding-block-start: 3dvw;
@@ -390,6 +386,7 @@ main {
     margin-bottom: 12px;
     container-type: size;
     container-name: right-main;
+    padding-top: var(--nav-height);
 
     .card {
       margin-bottom: 12px;
@@ -417,17 +414,12 @@ main {
   &.actived {
     opacity: 1;
 
-    // padding-block-start: 0;
-
     .left {
-      // padding-block-start: 65px;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
-
     .right {
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
     }
   }
 
@@ -2187,6 +2179,39 @@ main .empty-screen {
       .form {
         padding-block: calc(var(--card-space) * 1.25);
       }
+    }
+  }
+}
+
+.navbar {
+  left: var(--sidebar-width);
+  width: calc(100vw - var(--sidebar-width) - 15px);
+}
+
+// Layout estándar para todas las secciones del panel
+.panel-main {
+  width: 100%;
+  height: 100dvh;
+  padding-top: var(--card-space);
+  max-height: var(--max-height-layout);
+  display: flex;
+  justify-content: space-between;
+  column-gap: var(--card-space);
+  opacity: 0;
+  padding-inline-start: var(--card-space);
+  padding-right: 12px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  &.actived {
+    opacity: 1;
+    .left {
+      padding-block-start: 0;
+      margin-block-start: 0;
+    }
+    .right {
+      padding-block-start: 0;
+      margin-block-start: 0;
     }
   }
 }

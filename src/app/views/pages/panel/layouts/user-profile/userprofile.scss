@@ -133,13 +133,12 @@ main.user-profile {
     .left {
       flex: 1 1 60%;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
-
     .right {
       flex: 1 1 40%;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
   }
 

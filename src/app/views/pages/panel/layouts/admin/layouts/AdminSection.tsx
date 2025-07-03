@@ -6,6 +6,7 @@ import { useDashboard } from '@panelHooks/index';
 import '../../user-profile/userprofile.scss';
 import { CreateCompany } from '../components/CreateCompany';
 import { DeleteNeuroscans } from '../components/DeleteNeuroscans';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const AdminSection: FC = () => {
   const { isLoading, data } = useDashboard();
@@ -28,6 +29,7 @@ const AdminSection: FC = () => {
         </div>
       </section>
       <section className="right">
+        <Navbar />
         <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
       </section>
