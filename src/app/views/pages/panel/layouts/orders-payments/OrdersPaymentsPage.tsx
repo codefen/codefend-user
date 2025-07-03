@@ -12,6 +12,7 @@ import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { CancelSuscriptionModal } from '@modals/cancel-susceiption/CancelSuscriptionModal';
 
 export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
@@ -28,6 +29,7 @@ export const OrdersPaymentsPage = () => {
   return (
     <main className={`orders-payments ${showScreen ? 'actived' : ''}`}>
       <ProviderScope />
+      <CancelSuscriptionModal />
       <section className="left">
         <OrdersAndPaymentHeaderPage />
         <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
