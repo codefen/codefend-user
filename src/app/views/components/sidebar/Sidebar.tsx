@@ -6,7 +6,7 @@ import { SidebarDesktop } from '@/app/views/components/sidebar/SidebarDesktop';
 import { useMediaQuery } from 'usehooks-ts';
 import { SidebarMobile } from '@/app/views/components/sidebar/SidebarMobile';
 import { SidebarOpenButton } from '@/app/views/components/sidebar/SidebarOpenButton';
-import './sidebar.scss';
+import './sidebar-consolidated.scss';
 
 export const verifyPath = (verifyPath: string, isRoot: boolean) => {
   const currentPath = window.location.pathname;
