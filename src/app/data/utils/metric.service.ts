@@ -256,6 +256,84 @@ export const getNetworkMetrics = (resources: any[]): NetworkMetrics => {
   };
 };
 
+/** Get company country locations and metric */
+export const getCompanyCountryMetrics = (companies: any[]) => {
+  if (!companies || !Array.isArray(companies)) return [];
+
+  const countries = companies.reduce((acc: any, company: any) => {
+    let countryCode, countryName;
+
+    // Obtener código y nombre del país
+    countryCode = company.pais_code || null;
+    countryName = company.pais || company.mercado || null;
+
+    // Mapeo de códigos comunes
+    const codeMapping: Record<string, string> = {
+      AR: 'Argentina',
+      US: 'United States',
+      CA: 'Canada',
+      NL: 'Netherlands',
+      AU: 'Australia',
+      BR: 'Brazil',
+      GB: 'United Kingdom',
+      FR: 'France',
+      DE: 'Germany',
+      ES: 'Spain',
+      IT: 'Italy',
+      RU: 'Russia',
+      CN: 'China',
+      IN: 'India',
+      JP: 'Japan',
+      ZA: 'South Africa',
+      MX: 'Mexico',
+    };
+
+    // Si tenemos código, usar el mapeo
+    if (countryCode && codeMapping[countryCode.toUpperCase()]) {
+      countryName = codeMapping[countryCode.toUpperCase()];
+      countryCode = countryCode.toUpperCase();
+    }
+
+    if (!countryName || countryName === 'unknown' || countryName === '-') {
+      if (!acc['unkw']) {
+        acc['unkw'] = {
+          count: 1,
+          country: 'Unknown',
+          countryCode: 'unkw',
+          percentage: 1,
+        };
+      } else {
+        acc['unkw'].count++;
+      }
+    } else {
+      const key = countryName;
+      if (acc[key]) {
+        acc[key].count++;
+      } else {
+        acc[key] = {
+          count: 1,
+          country: countryName,
+          countryCode: countryCode?.toLowerCase() || 'xx',
+          percentage: 1,
+        };
+      }
+    }
+
+    return acc;
+  }, {});
+
+  const total = Object.keys(countries).reduce((acc, value) => acc + countries[value].count, 0);
+
+  const data = Object.keys(countries).map((countryKey: any) => {
+    return {
+      ...countries[countryKey],
+      percentage: Math.round((countries[countryKey].count / total) * 100 * 10) / 10,
+    };
+  });
+
+  return data;
+};
+
 export const MetricsService = {
   isUserChat,
   computeMemberRolesCount,
@@ -264,6 +342,7 @@ export const MetricsService = {
   renderPercentage,
   getCompanyMetric,
   getCountryMetrics,
+  getCompanyCountryMetrics,
   getCompanyAllMetrics,
   getNetworkMetrics,
 };

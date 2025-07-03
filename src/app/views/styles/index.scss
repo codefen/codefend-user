@@ -339,7 +339,7 @@ main {
   opacity: 0;
   padding: var(--card-space);
   padding-bottom: 0;
-  grid-area: 1 / 2 / 6 / 8;
+  // grid-area: 1 / 2 / 6 / 8; // Movido a sidebar-consolidated.scss
   // padding-block-start: 3dvw;
 
   // margin-block-start: calc(18px + var(--nav-height));
@@ -812,27 +812,7 @@ main.scans {
 // NEW AUTH PAGE
 //////////////////////////////////
 
-.sidebar:has(+ main.auth-pages) {
-  margin-block-start: var(--card-space);
-}
-main.auth-pages {
-  section.left {
-    overflow: hidden;
-    margin-block-start: var(--card-space);
-  }
-  section.right {
-    margin-block-start: var(--card-space);
-  }
-}
-
-@media only screen and (max-width: 1140px) {
-  .sidebar:has(+ main.auth-pages) {
-    display: none;
-  }
-  main.auth-pages {
-    padding-inline-start: var(--card-space);
-  }
-}
+// Estilos de sidebar movidos a sidebar-consolidated.scss
 
 @media only screen and (max-width: 980px) {
   main.auth-pages {
@@ -1693,23 +1673,7 @@ main.auth-pages {
   }
 }
 
-@keyframes sidebar-slide-in {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes sidebar-slide-out {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
+// Animaciones de sidebar movidas a sidebar-consolidated.scss
 
 //////////////////////////////////////////////////////////////////
 // DARK MODE
@@ -2182,10 +2146,7 @@ main .empty-screen {
   }
 }
 
-.navbar {
-  left: var(--sidebar-width);
-  width: calc(100vw - var(--sidebar-width) - 15px);
-}
+// Reglas de navbar con sidebar movidas a sidebar-consolidated.scss
 
 // Layout estándar para todas las secciones del panel
 .panel-main {

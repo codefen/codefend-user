@@ -2,16 +2,13 @@
 
 ## 📋 RESUMEN EJECUTIVO
 
-La aplicación Codefend es una plataforma de ciberseguridad con una arquitectura de **4 componentes principales**:
+La aplicación Codefend es una plataforma de ciberseguridad con una arquitectura de **3 componentes principales**:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    HEADER SUPERIOR                         │
-│              (Navbar horizontal - Logo + Usuario)          │
-├─────────────┬───────────────────────────┬───────────────────┤
+┌─────────────┬───────────────────────────┬───────────────────┐
 │   SIDEBAR   │        MAIN CENTRAL       │   BARRA DERECHA   │
-│  (Navbar    │     (Contenido dinámico)  │   (Stats + Info)  │
-│  vertical)  │                           │                   │
+│  (Navbar    │     (Contenido dinámico)  │   (Navbar + Stats │
+│  vertical)  │                           │   + Info)         │
 └─────────────┴───────────────────────────┴───────────────────┘
 ```
 
@@ -23,8 +20,7 @@ La aplicación Codefend es una plataforma de ciberseguridad con una arquitectura
 **Archivo**: `src/app/views/pages/panel/PanelPage.tsx`
 - **Función**: Punto de entrada del panel, renderiza la estructura base
 - **Componentes que renderiza**:
-  - `<Navbar />` - Header superior
-  - `<Sidebar />` - Barra lateral izquierda
+  - `<Sidebar />` - Barra lateral izquierda (navegación principal)
   - `<Outlet />` - Contenido dinámico (páginas específicas)
 - **Responsabilidades**:
   - Autenticación y redirección
@@ -36,41 +32,7 @@ La aplicación Codefend es una plataforma de ciberseguridad con una arquitectura
 
 ## 📱 COMPONENTES PRINCIPALES
 
-### **1. HEADER SUPERIOR (Navbar Horizontal)**
-
-**Archivo principal**: `src/app/views/components/navbar/Navbar.tsx`
-**CSS**: `src/app/views/components/navbar/navbar.scss`
-
-**Estructura**:
-```tsx
-<nav className="navbar">
-  <div className="left">
-    <div className="navbar-logo">        // Logo de la empresa
-    <Breadcrumb />                       // "Codefend // dashboard"
-  </div>
-  <div className="right">
-    <div className="actions">            // Iconos de usuario, OnBoard, logout
-      {isAdmin() && (
-        <div onClick={openOnBoard}>OnBoard</div>
-        <NetworkIcon />                  // Settings de red
-      )}
-      <div className="user">             // Email del usuario
-      <ThemeChangerButton />             // Cambio de tema
-      <LogoutIcon />                     // Cerrar sesión
-    </div>
-  </div>
-</nav>
-```
-
-**Responsabilidades**:
-- Mostrar logo y breadcrumb de navegación
-- Acciones de usuario (OnBoard, logout, configuraciones)
-- Cambio de tema claro/oscuro
-- Solo visible en pantallas >= 1230px
-
----
-
-### **2. SIDEBAR IZQUIERDA (Navbar Vertical)**
+### **1. SIDEBAR IZQUIERDA (Navbar Vertical)**
 
 **Archivo principal**: `src/app/views/components/sidebar/Sidebar.tsx`
 **Componentes internos**:
@@ -107,10 +69,11 @@ Risk control
 - Gestión de permisos por rol de usuario
 - Indicación de página activa
 - Responsive (desktop/mobile)
+- **Posición**: Fija, altura completa (100dvh)
 
 ---
 
-### **3. MAIN CENTRAL (Contenido Dinámico)**
+### **2. MAIN CENTRAL (Contenido Dinámico)**
 
 **Patrón común**: Cada página tiene su propio layout con `<section className="left">`
 
@@ -157,11 +120,45 @@ Risk control
 
 ---
 
-### **4. BARRA DERECHA (Stats & Info)**
+### **3. BARRA DERECHA (Navbar + Stats & Info)**
 
 **Patrón común**: Cada página tiene su propio layout con `<section className="right">`
 
-**Componentes típicos**:
+**Componentes principales**:
+
+#### **Navbar (Header Superior)**
+**Archivo principal**: `src/app/views/components/navbar/Navbar.tsx`
+**CSS**: `src/app/views/components/navbar/navbar.scss`
+
+**Estructura**:
+```tsx
+<nav className="navbar">
+  <div className="left">
+    <div className="navbar-logo">        // Logo de la empresa
+    <Breadcrumb />                       // "Codefend // dashboard"
+  </div>
+  <div className="right">
+    <div className="actions">            // Iconos de usuario, OnBoard, logout
+      {isAdmin() && (
+        <div onClick={openOnBoard}>OnBoard</div>
+        <NetworkIcon />                  // Settings de red
+      )}
+      <div className="user">             // Email del usuario
+      <ThemeChangerButton />             // Cambio de tema
+      <LogoutIcon />                     // Cerrar sesión
+    </div>
+  </div>
+</nav>
+```
+
+**Responsabilidades**:
+- Mostrar logo y breadcrumb de navegación
+- Acciones de usuario (OnBoard, logout, configuraciones)
+- Cambio de tema claro/oscuro
+- **Nueva posición**: Integrado en la barra derecha como card
+- **Estilo**: Card con bordes redondeados y sombra
+
+#### **Componentes de Stats & Info**:
 - `VulnerabilitiesStatus` - Estado de vulnerabilidades
 - `VulnerabilityRisk` - Gráfico de riesgo
 - `DashboardScanStart` - Inicio rápido de escaneos
@@ -196,8 +193,30 @@ main {
   }
   
   .right {
-    flex: 1 1 45%;    // Barra derecha
+    flex: 1 1 45%;    // Barra derecha (navbar + stats)
   }
+}
+```
+
+### **Navbar como Card**
+```scss
+.navbar {
+  width: 100%;
+  background: var(--primary-color);
+  border-radius: var(--brd-radius);
+  border: 1px solid var(--primary-color-300);
+  box-shadow: 0 1px 4px 0 #00000010;
+  padding: var(--card-space) calc(var(--card-space) * 1.5);
+  margin-bottom: var(--card-space);
+  color: var(--tertiary-color-700);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  max-width: 100%;
+  box-sizing: border-box;
+  animation: fadeInFromTop 0.5s ease-in-out;
+  overflow: visible;
 }
 ```
 

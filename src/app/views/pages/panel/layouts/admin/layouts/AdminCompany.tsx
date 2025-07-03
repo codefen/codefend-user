@@ -8,11 +8,16 @@ import { Navbar } from '@/app/views/components';
 import CompanyIndexView from '@/app/views/pages/panel/layouts/admin/layouts/components/CompanyIndexView';
 import { DeleteNeuroscans } from '@/app/views/pages/panel/layouts/admin/components/DeleteNeuroscans';
 import { CreateCompany } from '@/app/views/pages/panel/layouts/admin/components/CreateCompany';
+import { CompanyWorldMap } from '@/app/views/components/CompanyWorldMap/CompanyWorldMap';
+import { useGetCompany } from '@userHooks/admins/useGetCompany';
+import { useMediaQuery } from 'usehooks-ts';
 
 const AdminCompany: FC = () => {
   const [showScreen] = useShowScreen();
   const { logout, getUserdata, isAuth } = useUserData();
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
+  const { data: companies, isLoading: companiesLoading } = useGetCompany();
 
   useEffect(() => {
     const isNotAuthenticated = !getUserdata() || !isAuth;
@@ -26,7 +31,7 @@ const AdminCompany: FC = () => {
 
   return (
     <>
-      <main className={`company ${showScreen ? 'actived' : ''}`}>
+      <main className={`company ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
           <CompanyIndexView />
         </section>
@@ -34,6 +39,11 @@ const AdminCompany: FC = () => {
           <Navbar />
           <DeleteNeuroscans />
           <CreateCompany />
+          <CompanyWorldMap 
+            companies={companies || []} 
+            title="Distribución global de compañías"
+            isLoading={companiesLoading}
+          />
         </section>
       </main>
     </>
