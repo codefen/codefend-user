@@ -16,6 +16,7 @@ interface SearchBarContainerProps {
     change: (e: ChangeEvent<HTMLSelectElement>) => void;
     defaultSelectOption: string;
   };
+  inputAnimationStep?: number;
 }
 
 export const SearchBarContainer: FC<SearchBarContainerProps> = ({
@@ -27,6 +28,7 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
   icon = null,
   searchText = 'Search leaks',
   isDisabled = false,
+  inputAnimationStep = 0,
 }) => {
   return (
     <div className="search-bar-container">
@@ -40,6 +42,7 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
         isActiveSelect={!!selectBarOptions}
         selectOptions={selectBarOptions}
         isDisabled={isDisabled}
+        inputAnimationStep={inputAnimationStep}
       />
     </div>
   );
