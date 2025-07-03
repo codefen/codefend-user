@@ -7,7 +7,9 @@
 
   .table-group {
     overflow: auto;
-    // margin-inline: 3rem;
+    .rows {
+      max-height: calc(100cqh - 115px);
+    }
   }
 
   .table.table-admin {

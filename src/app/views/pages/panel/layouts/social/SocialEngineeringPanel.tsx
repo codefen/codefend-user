@@ -180,9 +180,7 @@ const SocialEngineeringView = () => {
                 </button>
               </div>
             </div>
-            <div className="content">
-              {renderTabContent()}
-            </div>
+            <div className="content content-grid">{renderTabContent()}</div>
           </SimpleSection>
         </div>
       </section>

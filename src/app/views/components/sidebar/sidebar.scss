@@ -15,9 +15,10 @@
     filter 130ms linear,
     blur 130ms linear,
     backdrop-filter 130ms linear;
+  grid-area: 1 / 1 / 6 / 2;
 
   &.desktop-active {
-    position: fixed;
+    // position: fixed;
     padding-top: 10px;
     padding-bottom: 65px;
     border-radius: var(--brd-radius);

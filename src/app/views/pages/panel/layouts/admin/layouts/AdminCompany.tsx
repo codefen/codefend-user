@@ -1,11 +1,13 @@
 import { useEffect, type FC } from 'react';
-import { AdminCompanyPanel } from './components/AdminCompanyPanel';
-import AdminCompanyDetails from './components/AdminCompanyDetails';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import '../admin.scss';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
+import { Navbar } from '@/app/views/components';
+import CompanyIndexView from '@/app/views/pages/panel/layouts/admin/layouts/components/CompanyIndexView';
+import { DeleteNeuroscans } from '@/app/views/pages/panel/layouts/admin/components/DeleteNeuroscans';
+import { CreateCompany } from '@/app/views/pages/panel/layouts/admin/components/CreateCompany';
 
 const AdminCompany: FC = () => {
   const [showScreen] = useShowScreen();
@@ -26,11 +28,13 @@ const AdminCompany: FC = () => {
     <>
       <main className={`company ${showScreen ? 'actived' : ''}`}>
         <section className="left">
-          <AdminCompanyPanel />
+          <CompanyIndexView />
         </section>
-        {/*        <section className="right">
-          <AdminCompanyDetails />
-        </section> */}
+        <section className="right">
+          <Navbar />
+          <DeleteNeuroscans />
+          <CreateCompany />
+        </section>
       </main>
     </>
   );

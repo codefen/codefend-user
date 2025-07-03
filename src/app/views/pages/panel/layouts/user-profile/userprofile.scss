@@ -1,7 +1,7 @@
 main.user-profile {
   .left {
-    overflow-x: hidden;
-    overflow-y: auto;
+    // overflow-x: hidden;
+    // overflow-y: auto;
 
     .user-profile-top {
       display: flex;
@@ -27,7 +27,7 @@ main.user-profile {
     .box-assets {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: var(--card-space);
       width: 100%;
       height: fit-content;
 
@@ -105,9 +105,11 @@ main.user-profile {
   .right {
     height: 100%;
     margin-left: 0;
-    overflow-y: auto;
+    // overflow-y: auto;
+    margin-bottom: 0px;
+
     .card {
-      margin-bottom: 12px;
+      margin-bottom: var(--card-space);
 
       &.stats {
         .content {
@@ -123,7 +125,7 @@ main.user-profile {
           padding: 12px;
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: var(--card-space);
         }
       }
     }
@@ -213,6 +215,11 @@ main.user-profile {
       .box-assets {
         flex-direction: column;
         min-height: fit-content;
+
+        .card {
+          flex: 1 1 100%;
+          min-height: max-content;
+        }
       }
     }
   }

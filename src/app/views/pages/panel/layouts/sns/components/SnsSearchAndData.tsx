@@ -72,7 +72,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: '60vh',
+            height: 'calc(100cqh - calc(63px + 1.2rem))',
             flexDirection: 'column',
             gap: '1rem',
           }}>
@@ -89,7 +89,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '60vh',
+          height: 'calc(100cqh - calc(63px + 1.2rem))',
           flexDirection: 'column',
           gap: '1rem',
         }}>

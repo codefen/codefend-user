@@ -47,16 +47,16 @@ jobs:
       - name: 🔨 Run build client
         run: bun run build
 
-      - name: 🚀 Publish to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/maintenance/
-          server-dir: ./
-          protocol: ftp
-          dangerous-clean-slate: true
+      # - name: 🚀 Publish to FTP
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ${{ secrets.FTP_SERVER }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     local-dir: ./dist/maintenance/
+      #     server-dir: ./
+      #     protocol: ftp
+      #     dangerous-clean-slate: true
 
       - name: 🚀 Publish to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -67,6 +67,7 @@ jobs:
           local-dir: ./dist/
           server-dir: ./
           protocol: ftp
+          dangerous-clean-slate: true
 
       - name: 📤 Notify deployment status
         uses: bobheadxi/deployments@v1

@@ -84,6 +84,11 @@ main.social {
       }
     }
 
+    .card .content-grid {
+      max-height: calc(100cqh - 170px);
+      overflow-y: auto;
+    }
+
     .members-list {
       overflow: auto;
       max-height: calc(100cqh - 6rem);
@@ -173,16 +178,16 @@ main.social {
 
     .tabs-container {
       border-bottom: 1px solid var(--borders-color);
-      
+
       .tabs-header {
         .tab-button {
           color: var(--text-color-secondary);
-          
+
           &:hover {
             color: var(--text-color-primary);
             background: var(--hover-color);
           }
-          
+
           &.active {
             color: var(--primary-red-color);
             border-bottom-color: var(--primary-red-color);
@@ -396,12 +401,12 @@ main.social {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      
+
       svg {
         color: #666;
         flex-shrink: 0;
       }
-      
+
       span {
         font-size: 0.85rem;
         color: #666;
@@ -453,7 +458,7 @@ main.social {
         svg {
           color: #cccccc;
         }
-        
+
         span {
           color: #cccccc;
         }
