@@ -25,43 +25,41 @@ const SocialEngineering: FC<SocialEngineeringProps> = ({ paginatedMembers, sentr
   };
 
   return (
-    <div className="card">
-      <div className="social-grid">
-        {!isLoading &&
-          paginatedMembers.map((member, index) => (
-            <div
-              key={member.id}
-              ref={paginatedMembers.length === index + 1 ? sentryRef : undefined}
-              className={`social-card ${member.linkedin_url ? 'has-linkedin' : ''}`}
-              onClick={e => handleMemberClick(member.email, e)}
-              style={{ cursor: 'pointer' }}>
-              <div className="social-card-info">
-                <span>{member.id}</span>
-                <span className="separator">|</span>
-                <span>{member.email}</span>
-                {member.name && (
-                  <>
-                    <span className="separator">|</span>
-                    <span>{member.name}</span>
-                  </>
-                )}
-                {member.linkedin_url && (
-                  <>
-                    <span className="separator">|</span>
-                    <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer">
-                      <LinkedinV2Icon />
-                    </a>
-                  </>
-                )}
-              </div>
+    <div className="social-grid">
+      {!isLoading &&
+        paginatedMembers.map((member, index) => (
+          <div
+            key={member.id}
+            ref={paginatedMembers.length === index + 1 ? sentryRef : undefined}
+            className={`social-card ${member.linkedin_url ? 'has-linkedin' : ''}`}
+            onClick={e => handleMemberClick(member.email, e)}
+            style={{ cursor: 'pointer' }}>
+            <div className="social-card-info">
+              <span>{member.id}</span>
+              <span className="separator">|</span>
+              <span>{member.email}</span>
+              {member.name && (
+                <>
+                  <span className="separator">|</span>
+                  <span>{member.name}</span>
+                </>
+              )}
+              {member.linkedin_url && (
+                <>
+                  <span className="separator">|</span>
+                  <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer">
+                    <LinkedinV2Icon />
+                  </a>
+                </>
+              )}
             </div>
-          ))}
-        {hasMore ? (
-          <div className="loading-message">More elements loading...</div>
-        ) : (
-          <div className="loading-message">All elements are listed.</div>
-        )}
-      </div>
+          </div>
+        ))}
+      {hasMore ? (
+        <div className="loading-message">More elements loading...</div>
+      ) : (
+        <div className="loading-message">All elements are listed.</div>
+      )}
     </div>
   );
 };

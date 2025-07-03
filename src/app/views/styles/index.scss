@@ -450,7 +450,7 @@ main {
     &.actived {
       section.left,
       section.right {
-        margin-block-start: calc(5px + var(--nav-height));
+        // margin-block-start: calc(5px + var(--nav-height));
       }
     }
   }
@@ -769,9 +769,9 @@ main.cloud {
 
 main.sb,
 main.scans {
-  .left {
-    overflow-x: hidden;
-  }
+  // .left {
+  //   overflow-x: hidden;
+  // }
   .search-bar-container {
     margin-bottom: 0 !important;
 
