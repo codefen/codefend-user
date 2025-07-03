@@ -28,8 +28,13 @@
     }
   }
 
-  .left {
+  .left, .actions, .right {
     display: flex;
+    align-items: center;
+    margin-right: 0;
+  }
+
+  .left {
     column-gap: 0;
     height: 100%;
     margin-left: 1vw;
