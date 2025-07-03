@@ -784,7 +784,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
         setSelectedLocation(d);
       })
       .on('mouseover', function (event, d) {
-        console.log('Mouseover on city:', d.city, 'Current radius:', d3.select(this).attr('r'));
+        // console.log('Mouseover on city:', d.city, 'Current radius:', d3.select(this).attr('r'));
         const originalRadius = Math.min(
           Math.max(
             CITY_CIRCLES.MIN_RADIUS - 2 + d.servers.length * CITY_CIRCLES.RADIUS_MULTIPLIER,
@@ -793,7 +793,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
           CITY_CIRCLES.MAX_RADIUS
         );
         const newRadius = originalRadius * CITY_CIRCLES.HOVER_SCALE;
-        console.log('Changing radius from', originalRadius, 'to', newRadius);
+        // console.log('Changing radius from', originalRadius, 'to', newRadius);
 
         d3.select(this)
           .style('filter', CITY_CIRCLES.DROP_SHADOW_HOVER)
@@ -802,7 +802,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
           .attr('r', newRadius);
       })
       .on('mouseout', function (event, d) {
-        console.log('Mouseout from city:', d.city);
+        // console.log('Mouseout from city:', d.city);
         const originalRadius = Math.min(
           Math.max(
             CITY_CIRCLES.MIN_RADIUS - 2 + d.servers.length * CITY_CIRCLES.RADIUS_MULTIPLIER,
@@ -810,7 +810,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
           ),
           CITY_CIRCLES.MAX_RADIUS
         );
-        console.log('Restoring radius to:', originalRadius);
+        // console.log('Restoring radius to:', originalRadius);
 
         d3.select(this)
           .style('filter', CITY_CIRCLES.DROP_SHADOW)

@@ -38,7 +38,6 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLo
       }))
     );
   }, [members, company.get.owner_email]);
-  console.log('isLoading', isLoading);
 
   return (
     <div className="collaborators">

@@ -85,7 +85,7 @@ export const PanelPage = () => {
 
   // If not authenticated, redirect to login
   if (!isAuth) {
-    return <Navigate to="/auth/signin" state={{ redirect: location.pathname }} />;
+    return <Navigate to="/auth/signup" state={{ redirect: location.pathname }} />;
   }
 
   // If screen width is below 1175px, show mobile fallback
