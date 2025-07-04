@@ -20,16 +20,18 @@ import './webapplication.scss';
 import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
 import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const WebApplicationView = () => {
   const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent, mapResources } =
     useGetWebResourcesv2();
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const flashlight = useFlashlight();
 
   return (
     <EmptyLayout
-      className="webapp"
+      className={`webapp ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={webEmptyScreen}
       event={refetch}
       showScreen={showScreen}

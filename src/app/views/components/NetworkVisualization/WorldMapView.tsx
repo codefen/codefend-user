@@ -864,7 +864,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
         <div className="legend">
           <div className="legend-item">
             <div className="legend-color" style={{ backgroundColor: '#dc2626' }}></div>
-            <span>Países con Servidores</span>
+            <span>Countries with Servers</span>
           </div>
           <div className="legend-item">
             <div
@@ -874,10 +874,10 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
                 border: '2px solid #dc2626',
                 borderRadius: '50%',
               }}></div>
-            <span>Ciudades con Servidores</span>
+            <span>Cities with Servers</span>
           </div>
           <div className="legend-item">
-            <span>Tamaño del punto = cantidad de servidores</span>
+            <span>Dot size = number of servers</span>
           </div>
         </div>
       </div>

@@ -16,9 +16,11 @@ import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx'
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { CardSkeleton } from '@/app/views/components/CardSkeleton/CardSkeleton.tsx';
+import { useMediaQuery } from 'usehooks-ts';
 
 const Dashboard = () => {
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const { isLoading, data, isScanning, company } = useDashboard();
   const { appEvent, userLoggingState, scaningProgress, currentScan, lastScanId } =
     useGlobalFastFields([
@@ -44,7 +46,9 @@ const Dashboard = () => {
 
   return (
     <SectionTracker sectionName="dashboard">
-      <main className={`dashboard ${showScreen ? 'actived' : ''}`}>
+      <main
+        className={`dashboard ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
+      >
         {/* <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div> */}
 

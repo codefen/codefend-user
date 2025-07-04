@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
@@ -11,9 +12,10 @@ import Navbar from '@/app/views/components/navbar/Navbar';
 const AdminSection: FC = () => {
   const { isLoading, data } = useDashboard();
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   return (
-    <main className={`user-profile ${showScreen ? 'actived' : ''}`}>
+    <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left">
         <div className="card rectangle">
           <div className="over">
