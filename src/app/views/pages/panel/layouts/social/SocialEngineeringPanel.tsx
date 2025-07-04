@@ -24,6 +24,7 @@ import { useIntersectionObserver } from 'usehooks-ts';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 
 // Definir tipo para las pestañas
 type SocialViewType = 'all' | 'linkedin';
@@ -153,9 +154,10 @@ const SocialEngineeringView = () => {
   }
 
   return (
-    <main className={`social ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
-      <CredentialsModal />
-      <AddSocialResourceModal onDone={() => refresh()} />
+    <SectionTracker sectionName="social">
+      <main className={`social ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+        <CredentialsModal />
+        <AddSocialResourceModal onDone={() => refresh()} />
       <section className="left">
         <div>
           <ModalInput
@@ -203,7 +205,8 @@ const SocialEngineeringView = () => {
           scope={OrderSection.SOCIAL_SCOPE}
         />
       </section>
-    </main>
+      </main>
+    </SectionTracker>
   );
 };
 

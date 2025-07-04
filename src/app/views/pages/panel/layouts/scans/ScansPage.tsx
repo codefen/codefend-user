@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import './scanpage.scss';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();
@@ -31,17 +32,19 @@ export const ScansPage = () => {
   }, [globalStore.isScanning, globalStore.appEvent.get]);
 
   return (
-    <main className={`scans ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
-      <section className="left">
-        <ScanSection />
-      </section>
-      <section className="right">
-        <Navbar />
-        <ScanTitle />
-        <div className="card remaining-searches black-box">
-          Available: {globalStore.company.get.disponibles_neuroscan}
-        </div>
-      </section>
-    </main>
+    <SectionTracker sectionName="scans">
+      <main className={`scans ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+        <section className="left">
+          <ScanSection />
+        </section>
+        <section className="right">
+          <Navbar />
+          <ScanTitle />
+          <div className="card remaining-searches black-box">
+            Available: {globalStore.company.get.disponibles_neuroscan}
+          </div>
+        </section>
+      </main>
+    </SectionTracker>
   );
 };

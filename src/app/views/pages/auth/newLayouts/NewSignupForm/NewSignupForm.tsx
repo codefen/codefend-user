@@ -72,7 +72,7 @@ export const NewSignupForm = () => {
   const { update } = useInitialDomainStore();
 
   useEffect(() => {
-    // Evento GTM: Inicio del proceso de creación de usuario
+    // Evento de telemetría: inicio del proceso de registro de usuario
     sessionStorage.setItem("nuevo_usuario", Date.now().toString());
     sendEventToGTM({
       event: "usuario_creacion_acceso",
@@ -113,7 +113,7 @@ export const NewSignupForm = () => {
     // formObject['lead_phone'] = `${areaCode}${number}`;
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
     
-    // Evento GTM: Completado datos personales
+    // Evento de telemetría: completado datos personales en registro
     const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
     sendEventToGTM({
       event: "usuario_creacion_informacion_personal",
@@ -161,7 +161,7 @@ export const NewSignupForm = () => {
         throw new Error('');
       }
       
-      // Evento GTM: Completado datos de empresa
+      // Evento de telemetría: completado datos de empresa en registro
       const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
       sendEventToGTM({
         event: "usuario_creacion_informacion_empresa",
@@ -199,7 +199,7 @@ export const NewSignupForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const referenceNumber = form.get?.('lead_reference_number') as unknown as string;
     getRecommendedUsername(referenceNumber).then(() => {
-      // Evento GTM: Completado número de referencia
+      // Evento de telemetría: completado número de referencia en registro
       const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
       sendEventToGTM({
         event: "usuario_creacion_informacion_reference_number",
@@ -231,7 +231,7 @@ export const NewSignupForm = () => {
     const formObject = Object.fromEntries(form.entries());
     signUpFinish(formObject).then((res: any) => {
       if (res.pass) {
-        // Evento GTM: Completado contraseña
+        // Evento de telemetría: completado contraseña en registro
         const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
         sendEventToGTM({
           event: "usuario_creacion_informacion_password",
@@ -241,7 +241,7 @@ export const NewSignupForm = () => {
           demora: Date.now() - tiempoInicio,
         });
         
-        // Evento GTM: Finalización completa del proceso
+        // Evento de telemetría: finalización completa del proceso de registro
         sendEventToGTM({
           event: "usuario_creacion_finalizacion",
           category: "registro",

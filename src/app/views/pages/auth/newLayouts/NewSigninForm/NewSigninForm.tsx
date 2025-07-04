@@ -54,8 +54,7 @@ export const NewSigninForm = () => {
     const mfa = form.get('mfa') as unknown as string;
     signInUser(email || '', password || '', mfa || '').then((result: any) => {
       if (result?.mfaRequired) {
-        // Evento GTM: Usuario requiere autenticación MFA
-        // Traducido de: 'signin_mfa_required' → 'inicio_sesion_mfa_requerido'
+        // Evento de telemetría: el usuario requiere MFA para iniciar sesión
         sendEventToGTM({
           event: 'inicio_sesion_mfa_requerido',
           category: 'autenticacion', // Traducido de: 'auth'
@@ -66,8 +65,7 @@ export const NewSigninForm = () => {
         return;
       }
       if (result?.error === 'invalid_username_or_password') {
-        // Evento GTM: Error de credenciales inválidas
-        // Traducido de: 'signin_error' → 'inicio_sesion_error'
+        // Evento de telemetría: error de credenciales inválidas al iniciar sesión
         sendEventToGTM({
           event: 'inicio_sesion_error',
           category: 'autenticacion', // Traducido de: 'auth'
@@ -78,10 +76,9 @@ export const NewSigninForm = () => {
       }
       const state = location.state;
       if (result && !result.error) {
-        // Evento GTM: Inicio de sesión exitoso
-        // Traducido de: 'signin_success' → 'inicio_sesion_exitoso'
+        // Evento de telemetría: inicio de sesión exitoso/valido
         sendEventToGTM({
-          event: 'inicio_sesion_exitoso',
+          event: 'inicio_sesion_valido',
           category: 'autenticacion', // Traducido de: 'auth'
           action: 'iniciar_sesion', // Traducido de: 'signin'
           label: 'inicio_exitoso', // Traducido de: 'signin_success'
