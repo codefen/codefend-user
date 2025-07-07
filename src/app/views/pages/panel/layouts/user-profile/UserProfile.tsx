@@ -8,12 +8,14 @@ import './userprofile.scss';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useEffect } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
 import Navbar from '@/app/views/components/navbar/Navbar';
 
 export const UserProfilePage = () => {
   const { isLoading, data } = useDashboard();
   const [showScreen] = useShowScreen();
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   useEffect(() => {
     if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -22,7 +24,7 @@ export const UserProfilePage = () => {
   }, []);
 
   return (
-    <main className={`user-profile ${showScreen ? 'actived' : ''}`}>
+    <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left">
         <div className="card rectangle">
           <div className="over">

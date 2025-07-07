@@ -4,11 +4,14 @@ import { ScanSection } from '@/app/views/pages/panel/layouts/scans/ScanSection/S
 import { ScanTitle } from '@/app/views/pages/panel/layouts/scans/ScanTitle/ScanTitle';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useEffect } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
 import './scanpage.scss';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const globalStore = useGlobalFastFields([
     'isScanning',
     'company',
@@ -29,17 +32,19 @@ export const ScansPage = () => {
   }, [globalStore.isScanning, globalStore.appEvent.get]);
 
   return (
-    <main className={`scans ${showScreen ? 'actived' : ''}`}>
-      <section className="left">
-        <ScanSection />
-      </section>
-      <section className="right">
-        <Navbar />
-        <ScanTitle />
-        <div className="card remaining-searches black-box">
-          Available: {globalStore.company.get.disponibles_neuroscan}
-        </div>
-      </section>
-    </main>
+    <SectionTracker sectionName="scans">
+      <main className={`scans ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+        <section className="left">
+          <ScanSection />
+        </section>
+        <section className="right">
+          <Navbar />
+          <ScanTitle />
+          <div className="card remaining-searches black-box">
+            Available: {globalStore.company.get.disponibles_neuroscan}
+          </div>
+        </section>
+      </main>
+    </SectionTracker>
   );
 };

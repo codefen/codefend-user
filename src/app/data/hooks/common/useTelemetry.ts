@@ -28,10 +28,11 @@ export const useTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: tiempo que el usuario pasa en una sección/página
   const trackSectionTime = (sectionName: string) => {
     const tiempoEnSeccion = Date.now() - sectionStartTime.current;
     trackEvent({
-      event: "tiempo_seccion",
+      event: "seccion_clock",
       category: "navegacion",
       action: "salir_seccion",
       label: sectionName,

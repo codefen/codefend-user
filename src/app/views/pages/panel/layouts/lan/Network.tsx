@@ -23,12 +23,14 @@ import { WorldMapView } from '@/app/views/components/NetworkVisualization/WorldM
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
 import { NetworkOutlineIcon } from '@icons';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 // Definir tipo para las pestañas - 3 vistas distintas
 type NetworkViewType = 'network' | 'cards' | 'locations';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const [activeTab, setActiveTab] = useState<NetworkViewType>('cards'); // Default to cards view
   const {
     networks,
@@ -82,7 +84,7 @@ const NetworkPage: FC = () => {
 
   return (
     <EmptyLayout
-      className="lan"
+      className={`lan ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={networkEmptyScreen}
       event={refetch}
       showScreen={showScreen}

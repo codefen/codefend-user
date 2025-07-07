@@ -178,15 +178,18 @@ main.user-profile {
 
 @media only screen and (max-width: 600px) {
   main.user-profile {
+    display: block;
+    min-height: auto;
+    height: 81dvh;
+    padding: 0;
     .left {
-      .card.stat {
-        .value {
-          font-size: 1.35rem;
-        }
-        .value + p {
-          font-size: 13px;
-        }
-      }
+      width: 100%;
+      overflow-x: auto;
+      padding-block-start: 10px;
+    }
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
     }
   }
 }

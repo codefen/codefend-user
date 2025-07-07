@@ -1,3 +1,24 @@
+/**
+ * Formulario de Login/Inicio de Sesión
+ * 
+ * Este componente maneja el proceso de autenticación de usuarios:
+ * - Login básico: email + password
+ * - Soporte MFA: código de verificación adicional
+ * - Redirección automática según rol de usuario
+ * 
+ * Integración con backend:
+ * - POST /api?model=users/access (autenticación)
+ * - Soporte para Google OAuth (pendiente integración)
+ * 
+ * Estados de login:
+ * - Normal: email + password
+ * - MFA: requiere código adicional
+ * - Error: credenciales inválidas
+ * 
+ * @author Codefend Team
+ * @version 2.0 (Preparado para Google OAuth)
+ */
+
 import { ModalWrapper } from '@modals/index';
 import css from './signinform.module.scss';
 import { useLoginAction } from '@userHooks/auth/useLoginAction';
@@ -6,6 +27,8 @@ import { type ChangeEvent, type FormEvent, useState } from 'react';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 import { sendEventToGTM } from '@utils/gtm';
+import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
+import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -41,10 +64,61 @@ const EyeOffIcon = ({ className = '' }) => (
 
 export const NewSigninForm = () => {
   const { signInUser, isLoading } = useLoginAction();
+  const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [mfaStep, setMfaStep] = useState(false);
+
+  const handleGoogleSuccess = async (credential: string) => {
+    try {
+      // Evento de telemetría: inicio de autenticación con Google
+      sendEventToGTM({
+        event: 'inicio_sesion_google_iniciado',
+        category: 'autenticacion',
+        action: 'google_oauth',
+        label: 'inicio_proceso',
+      });
+
+      const result = await handleGoogleAuth(credential, 'signin');
+      
+      if (result.success) {
+        // Evento de telemetría: login exitoso con Google
+        sendEventToGTM({
+          event: 'inicio_sesion_google_exitoso',
+          category: 'autenticacion',
+          action: 'google_oauth',
+          label: 'login_exitoso',
+        });
+
+        const state = location.state;
+        if (state && state?.redirect) {
+          window.location.href = state.redirect || '/';
+        } else {
+          window.location.href = '/';
+        }
+      }
+    } catch (error) {
+      // Evento de telemetría: error en login con Google
+      sendEventToGTM({
+        event: 'inicio_sesion_google_error',
+        category: 'autenticacion',
+        action: 'google_oauth',
+        label: 'login_error',
+      });
+    }
+  };
+
+  const handleGoogleError = (error: string) => {
+    console.error('Google Auth Error:', error);
+    // Evento de telemetría: error en autenticación con Google
+    sendEventToGTM({
+      event: 'inicio_sesion_google_error',
+      category: 'autenticacion',
+      action: 'google_oauth',
+      label: 'auth_error',
+    });
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -54,8 +128,7 @@ export const NewSigninForm = () => {
     const mfa = form.get('mfa') as unknown as string;
     signInUser(email || '', password || '', mfa || '').then((result: any) => {
       if (result?.mfaRequired) {
-        // Evento GTM: Usuario requiere autenticación MFA
-        // Traducido de: 'signin_mfa_required' → 'inicio_sesion_mfa_requerido'
+        // Evento de telemetría: el usuario requiere MFA para iniciar sesión
         sendEventToGTM({
           event: 'inicio_sesion_mfa_requerido',
           category: 'autenticacion', // Traducido de: 'auth'
@@ -66,8 +139,7 @@ export const NewSigninForm = () => {
         return;
       }
       if (result?.error === 'invalid_username_or_password') {
-        // Evento GTM: Error de credenciales inválidas
-        // Traducido de: 'signin_error' → 'inicio_sesion_error'
+        // Evento de telemetría: error de credenciales inválidas al iniciar sesión
         sendEventToGTM({
           event: 'inicio_sesion_error',
           category: 'autenticacion', // Traducido de: 'auth'
@@ -78,10 +150,9 @@ export const NewSigninForm = () => {
       }
       const state = location.state;
       if (result && !result.error) {
-        // Evento GTM: Inicio de sesión exitoso
-        // Traducido de: 'signin_success' → 'inicio_sesion_exitoso'
+        // Evento de telemetría: inicio de sesión exitoso/valido
         sendEventToGTM({
-          event: 'inicio_sesion_exitoso',
+          event: 'inicio_sesion_valido',
           category: 'autenticacion', // Traducido de: 'auth'
           action: 'iniciar_sesion', // Traducido de: 'signin'
           label: 'inicio_exitoso', // Traducido de: 'signin_success'
@@ -107,6 +178,21 @@ export const NewSigninForm = () => {
             ? 'This account has two-factor authentication enabled, please complete the verification process.'
             : 'Welcome back'}
         </p>
+        
+        {/* Botón de Google OAuth - Solo mostrar si no está en paso MFA */}
+        {!mfaStep && (
+          <>
+            <GoogleAuthButton
+              text="Continuar con Google"
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              disabled={isLoading || isGoogleLoading}
+              mode="signin"
+            />
+            <div className="auth-separator">o</div>
+          </>
+        )}
+        
         <form onSubmit={handleSubmit}>
           <AuthInput
             className={mfaStep ? css['hide-for-mfa'] : ''}

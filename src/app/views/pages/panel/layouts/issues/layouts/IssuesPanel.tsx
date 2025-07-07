@@ -18,6 +18,7 @@ import { useFilteredIssues } from '@panelHooks/issues/useFilteredIssues.ts';
 import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -27,6 +28,7 @@ const IssuesPanel: FC = () => {
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
 
   const { filters, handleFilters } = useFiltersWithURL(issues);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const { filteredData, isFiltered } = useFilteredIssues(issues, filters);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const IssuesPanel: FC = () => {
 
   return (
     <SectionTracker sectionName="issues">
-    <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+    <main className={`issues-list ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <SelectAnyResourceModal issues={displayIssues} />
       {/* <div className="brightness variant-1"></div> */}
       <section className="left">

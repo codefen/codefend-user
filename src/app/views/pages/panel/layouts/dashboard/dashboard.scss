@@ -213,3 +213,23 @@ main.dashboard {
     }
   }
 }
+
+@media only screen and (max-width: 600px) {
+  main.dashboard {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    height: 81dvh;
+    padding: 0;
+
+    .left {
+      width: 100%;
+      padding-block-start: 10px;
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
+    }
+  }
+}

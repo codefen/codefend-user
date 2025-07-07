@@ -3,6 +3,7 @@ import { useTelemetry } from './useTelemetry';
 export const useScanTelemetry = () => {
   const { trackEvent } = useTelemetry();
 
+  // Evento de telemetría: inicio de un escaneo
   const trackScanStart = (domain: string, scanType: 'web' | 'mobile' | 'network' | 'social') => {
     trackEvent({
       event: "scan_inicio",
@@ -13,6 +14,7 @@ export const useScanTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: escaneo finalizado correctamente
   const trackScanComplete = (domain: string, scanType: string, issuesFound: number, leaksFound: number) => {
     trackEvent({
       event: "scan_completado",
@@ -25,6 +27,7 @@ export const useScanTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: error durante el escaneo
   const trackScanError = (domain: string, scanType: string, error: string) => {
     trackEvent({
       event: "scan_error",
@@ -36,6 +39,7 @@ export const useScanTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: escaneo cancelado por el usuario
   const trackScanKill = (domain: string, scanType: string) => {
     trackEvent({
       event: "scan_cancelado",
@@ -46,9 +50,10 @@ export const useScanTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: el usuario visualiza una vulnerabilidad
   const trackVulnerabilityView = (issueId: string, issueName: string, riskScore: string) => {
     trackEvent({
-      event: "vulnerabilidad_vista",
+      event: "vulnerabilidad_visualizada",
       category: "vulnerabilidades",
       action: "ver_vulnerabilidad",
       label: "detalle_issue",

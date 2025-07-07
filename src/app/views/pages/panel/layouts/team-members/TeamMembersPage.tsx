@@ -10,11 +10,13 @@ import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 export const TeamMembersPage = () => {
   const [showScreen] = useShowScreen();
   const { isLoading, data } = useDashboard();
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   useEffect(() => {
     if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -22,7 +24,7 @@ export const TeamMembersPage = () => {
     }
   }, []);
   return (
-    <main className={`team-members ${showScreen ? 'actived' : ''}`}>
+    <main className={`team-members ${showScreen ? 'actived' : ''}` + `${!isDesktop ? ' sidebar-mobile-active' : ''}`}>
       <section className="left">
         <div className="box-assets">
           <TeamMemberPageHeader />

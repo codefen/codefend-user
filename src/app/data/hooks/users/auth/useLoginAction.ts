@@ -1,3 +1,24 @@
+/**
+ * Hook de Acción de Login
+ * 
+ * Este hook maneja la autenticación de usuarios en el frontend.
+ * Se conecta con el backend para validar credenciales y manejar MFA.
+ * 
+ * Funcionalidades:
+ * - Login básico con email/password
+ * - Soporte para MFA (Multi-Factor Authentication)
+ * - Manejo de errores de autenticación
+ * - Gestión de sesiones exitosas
+ * 
+ * Backend integration:
+ * - POST /users/access (modelo: users/access)
+ * - Manejo de respuestas MFA
+ * - Gestión de tokens de sesión
+ * 
+ * @author Codefend Team
+ * @version 2.0 (Preparado para Google OAuth)
+ */
+
 import { toast } from 'react-toastify';
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { useFetcher } from '#commonHooks/useFetcher';

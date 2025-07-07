@@ -570,6 +570,7 @@ main {
   // Cuando sidebar está en mobile, main ocupa toda la pantalla
   &.sidebar-mobile-active {
     grid-column: 1 / -1 !important;
+    padding-inline-start: 0 !important;
   }
 }
 
@@ -604,6 +605,38 @@ main.company.sidebar-mobile-active {
     padding-block-start: 24px !important;
     margin-bottom: 24px !important;
   }
+  .right {
+    padding-block-start: 0 !important;
+  }
+}
+
+// Estilos comunes para páginas que necesitan full-width en modo mobile
+main.talk-to-hacker.sidebar-mobile-active,
+main.scans.sidebar-mobile-active,
+main.sb.sidebar-mobile-active {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: auto !important;
+  padding-inline-start: 0 !important;
+  overflow: auto !important;
+  grid-column: 1 / -1 !important;
+
+  .left,
+  .right {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding-inline-start: 0 !important;
+    padding-inline-end: 0 !important;
+    margin: 0 !important;
+  }
+
+  .left {
+    padding-block-start: 24px !important;
+    margin-bottom: 24px !important;
+  }
+
   .right {
     padding-block-start: 0 !important;
   }

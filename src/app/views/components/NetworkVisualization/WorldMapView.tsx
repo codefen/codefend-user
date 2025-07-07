@@ -124,7 +124,7 @@ const CITY_CIRCLES = {
 // 🗺️ CONFIGURACIÓN DE LA PROYECCIÓN DEL MAPA
 const MAP_PROJECTION = {
   // Factor de escala del mapa (más alto = más zoom)
-  SCALE_FACTOR: 0.6, // Reducido aún más para vista más amplia
+  SCALE_FACTOR: 1.2, // Aumentado para reducir el zoom inicial a la mitad
   // Tipo de proyección (puedes cambiar por geoMercator, geoOrthographic, etc.)
   PROJECTION_TYPE: 'geoNaturalEarth1', // Opciones: geoNaturalEarth1, geoMercator, geoOrthographic, geoEquirectangular
 };
@@ -824,7 +824,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
       .append('title')
       .text(
         d =>
-          `${d.city}, ${d.country}: ${d.servers.length} servidor${d.servers.length !== 1 ? 'es' : ''}`
+          `${d.city}, ${d.country}: ${d.servers.length} server${d.servers.length !== 1 ? 's' : ''}`
       );
 
     setIsLoading(false);
@@ -864,7 +864,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
         <div className="legend">
           <div className="legend-item">
             <div className="legend-color" style={{ backgroundColor: '#dc2626' }}></div>
-            <span>Países con Servidores</span>
+            <span>Countries with Servers</span>
           </div>
           <div className="legend-item">
             <div
@@ -874,10 +874,10 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
                 border: '2px solid #dc2626',
                 borderRadius: '50%',
               }}></div>
-            <span>Ciudades con Servidores</span>
+            <span>Cities with Servers</span>
           </div>
           <div className="legend-item">
-            <span>Tamaño del punto = cantidad de servidores</span>
+            <span>Dot size = number of servers</span>
           </div>
         </div>
       </div>
@@ -903,7 +903,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
 
               <div>
                 <span className="servers-count-text">
-                  {selectedLocation.servers.length} Servidores en {selectedLocation.city}:
+                  {selectedLocation.servers.length} server{selectedLocation.servers.length !== 1 ? 's' : ''} in {selectedLocation.city}:
                 </span>
                 <ul className="domains-list">
                   {selectedLocation.servers.map((server: any, index: number) => {

@@ -1,3 +1,21 @@
+/**
+ * Formulario de Registro Multi-Paso (4 Fases)
+ * 
+ * Este componente maneja el proceso completo de registro de usuario:
+ * - STEP_ONE: Información personal (nombre, apellido, email)
+ * - STEP_TWO: Información de empresa (website, nombre, tamaño)
+ * - STEP_THREE: Verificación de email (código de confirmación)
+ * - STEP_FOUR: Configuración de contraseña y username
+ * 
+ * Integración con backend:
+ * - Fase 1: POST /api?model=users/new&phase=1 (crear lead)
+ * - Fase 2: POST /api?model=users/new&phase=2 (obtener username recomendado)
+ * - Fase 3: signUpFinish() (crear usuario final)
+ * 
+ * @author Codefend Team
+ * @version 2.0 (Compatible con Google OAuth)
+ */
+
 import { ModalWrapper } from '@modals/index';
 import { useEffect, useState, type FormEvent } from 'react';
 import css from './signinform.module.scss';
@@ -22,6 +40,8 @@ import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInpu
 import SelectField from '@/app/views/components/SelectField/SelectField';
 import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 import { sendEventToGTM } from '@utils/gtm';
+import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
+import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -65,6 +85,7 @@ export const NewSignupForm = () => {
   const [username, setRecommendedUsername] = useState('');
   const [specialLoading, setLoading] = useState(false);
   const { signUpFinish, isLoading: loadingFinish, lead, country } = useRegisterPhaseTwo();
+  const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
   const [searchParams] = useSearchParams();
   const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
@@ -72,7 +93,7 @@ export const NewSignupForm = () => {
   const { update } = useInitialDomainStore();
 
   useEffect(() => {
-    // Evento GTM: Inicio del proceso de creación de usuario
+    // Evento de telemetría: inicio del proceso de registro de usuario
     sessionStorage.setItem("nuevo_usuario", Date.now().toString());
     sendEventToGTM({
       event: "usuario_creacion_acceso",
@@ -96,6 +117,52 @@ export const NewSignupForm = () => {
   const goBackValidateMe = (goTo: SignUpSteps) => {
     setActiveStep(goTo);
   };
+
+  const handleGoogleSuccess = async (credential: string) => {
+    try {
+      // Evento de telemetría: inicio de registro con Google
+      sendEventToGTM({
+        event: 'usuario_creacion_google_iniciado',
+        category: 'registro',
+        action: 'google_oauth',
+        label: 'inicio_proceso',
+      });
+
+      const result = await handleGoogleAuth(credential, 'signup');
+      
+      if (result.success) {
+        // Evento de telemetría: registro exitoso con Google
+        sendEventToGTM({
+          event: 'usuario_creacion_google_exitoso',
+          category: 'registro',
+          action: 'google_oauth',
+          label: 'registro_exitoso',
+        });
+
+        // Redirigir directamente al dashboard
+        window.location.href = '/';
+      }
+    } catch (error) {
+      // Evento de telemetría: error en registro con Google
+      sendEventToGTM({
+        event: 'usuario_creacion_google_error',
+        category: 'registro',
+        action: 'google_oauth',
+        label: 'registro_error',
+      });
+    }
+  };
+
+  const handleGoogleError = (error: string) => {
+    console.error('Google Auth Error:', error);
+    // Evento de telemetría: error en autenticación con Google
+    sendEventToGTM({
+      event: 'usuario_creacion_google_error',
+      category: 'registro',
+      action: 'google_oauth',
+      label: 'auth_error',
+    });
+  };
   const nextFirstStep = (e: FormEvent) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
@@ -113,7 +180,7 @@ export const NewSignupForm = () => {
     // formObject['lead_phone'] = `${areaCode}${number}`;
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
     
-    // Evento GTM: Completado datos personales
+    // Evento de telemetría: completado datos personales en registro
     const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
     sendEventToGTM({
       event: "usuario_creacion_informacion_personal",
@@ -161,7 +228,7 @@ export const NewSignupForm = () => {
         throw new Error('');
       }
       
-      // Evento GTM: Completado datos de empresa
+      // Evento de telemetría: completado datos de empresa en registro
       const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
       sendEventToGTM({
         event: "usuario_creacion_informacion_empresa",
@@ -199,7 +266,7 @@ export const NewSignupForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const referenceNumber = form.get?.('lead_reference_number') as unknown as string;
     getRecommendedUsername(referenceNumber).then(() => {
-      // Evento GTM: Completado número de referencia
+      // Evento de telemetría: completado número de referencia en registro
       const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
       sendEventToGTM({
         event: "usuario_creacion_informacion_reference_number",
@@ -231,7 +298,7 @@ export const NewSignupForm = () => {
     const formObject = Object.fromEntries(form.entries());
     signUpFinish(formObject).then((res: any) => {
       if (res.pass) {
-        // Evento GTM: Completado contraseña
+        // Evento de telemetría: completado contraseña en registro
         const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
         sendEventToGTM({
           event: "usuario_creacion_informacion_password",
@@ -241,7 +308,7 @@ export const NewSignupForm = () => {
           demora: Date.now() - tiempoInicio,
         });
         
-        // Evento GTM: Finalización completa del proceso
+        // Evento de telemetría: finalización completa del proceso de registro
         sendEventToGTM({
           event: "usuario_creacion_finalizacion",
           category: "registro",
@@ -269,6 +336,16 @@ export const NewSignupForm = () => {
 
         {/* Primer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
+          {/* Botón de Google OAuth - Solo en el primer paso */}
+          <GoogleAuthButton
+            text="Registrarse con Google"
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            disabled={isLoading || isGoogleLoading}
+            mode="signup"
+          />
+          <div className="auth-separator">o</div>
+          
           <form onSubmit={nextFirstStep}>
             {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
             <ProgressBar activeStep={activeStep} />
