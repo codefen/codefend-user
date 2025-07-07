@@ -46,6 +46,7 @@ import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/Te
 import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
 import { OrdersPaymentsPage } from '@/app/views/pages/panel/layouts/orders-payments/OrdersPaymentsPage';
+import { OnboardingPage } from '@/app/views/pages/onboarding/OnboardingPage';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const AppRouter = () => {
@@ -258,6 +259,11 @@ export const AppRouter = () => {
         { path: 'recovery', element: <PasswordRecovery /> },
         { path: 'recovery/:ref', element: <PasswordRecovery /> },
       ],
+    },
+    // Onboarding route (outside PanelPage to avoid sidebar)
+    {
+      path: '/onboarding',
+      element: <OnboardingPage />,
     },
   ]);
 

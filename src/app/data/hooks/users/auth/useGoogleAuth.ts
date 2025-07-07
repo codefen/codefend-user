@@ -38,27 +38,45 @@ export const useGoogleAuth = () => {
     
     try {
       const { data } = await fetcher('post', {
-        body: { id_token: idToken },
-        path: '/users/google/login',
+        body: { 
+          id_token: idToken,
+          model: 'users/google/login'
+        },
         requireSession: false,
       });
 
       if (apiErrorValidation(data)) {
         // Si el error es que el usuario no existe, devolver info para registro
-        if (data.error_info === 'user_not_found') {
+        if ((data as any).error_info === 'user_not_found') {
           return { 
             requiresRegistration: true, 
-            googleData: data.google_data,
+            googleData: (data as any).google_data,
             message: 'Usuario no encontrado. Se requiere registro.'
           };
         }
         
-        throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        throw new Error((data as any)?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
       }
 
-      // Login exitoso
-      const user = handleSuccessfulLogin(data);
-      return { success: true, user };
+      // Login exitoso - verificar si necesita onboarding
+      if ((data as any)?.needs_onboarding) {
+        // Guardar datos temporales para el onboarding
+        localStorage.setItem('onboarding_data', JSON.stringify(data));
+        localStorage.setItem('temp_session_data', JSON.stringify({ session: (data as any).session }));
+        
+        console.log('🚀 Google Login - Usuario existente necesita onboarding');
+        
+        return { 
+          success: true, 
+          user: (data as any).user,
+          needs_onboarding: true,
+          data: data,
+          message: 'Bienvenido de vuelta. Completa tu perfil de empresa.'
+        };
+      } else {
+        const user = handleSuccessfulLogin(data);
+        return { success: true, user };
+      }
 
     } catch (error: any) {
       toast.error(error.message || 'Error al iniciar sesión con Google');
@@ -77,6 +95,7 @@ export const useGoogleAuth = () => {
     try {
       // Primer paso: crear lead con datos de Google
       const signupData = {
+        model: 'users/new',
         phase: '1',
         auth_provider: 'google',
         id_token: idToken,
@@ -89,19 +108,46 @@ export const useGoogleAuth = () => {
 
       const { data: leadData } = await fetcher('post', {
         body: signupData,
-        path: '/users/new',
         requireSession: false,
       });
 
       if (apiErrorValidation(leadData)) {
-        throw new Error(leadData?.info || 'Error al crear cuenta con Google');
+        throw new Error((leadData as any)?.info || 'Error al crear cuenta con Google');
       }
 
       // El backend ya maneja automáticamente las fases 2 y 3 para Google OAuth
-      // Devolver datos del lead para posible fase 4 (actualización de empresa)
+      // Si hay sesión, significa que se creó el usuario automáticamente
+      if ((leadData as any)?.session) {
+        // Verificar si necesita onboarding ANTES de hacer login
+        if ((leadData as any)?.needs_onboarding) {
+          // Guardar datos temporales para el onboarding
+          localStorage.setItem('onboarding_data', JSON.stringify(leadData));
+          localStorage.setItem('temp_session_data', JSON.stringify({ session: (leadData as any).session }));
+          
+          console.log('🚀 Google OAuth - Datos temporales guardados para onboarding');
+          
+          return { 
+            success: true, 
+            user: (leadData as any).user,
+            needs_onboarding: true,
+            data: leadData,
+            message: 'Cuenta creada exitosamente con Google. Completa tu perfil.'
+          };
+        } else {
+          // Si no necesita onboarding, proceder con login normal
+          const user = handleSuccessfulLogin(leadData);
+          return { 
+            success: true, 
+            user,
+            message: 'Cuenta creada e iniciada sesión exitosamente con Google'
+          };
+        }
+      }
+
+      // Si no hay sesión, devolver datos del lead para posible fase 4
       return { 
         success: true, 
-        lead: leadData.leads,
+        lead: (leadData as any).leads,
         message: 'Cuenta creada exitosamente con Google'
       };
 
@@ -141,20 +187,20 @@ export const useGoogleAuth = () => {
     try {
       const { data } = await fetcher('post', {
         body: {
+          model: 'users/new',
           phase: '4',
           user_id: userId,
           session: session,
           ...companyData
         },
-        path: '/users/new',
         requireSession: false,
       });
 
       if (apiErrorValidation(data)) {
-        throw new Error(data?.info || 'Error al actualizar información de empresa');
+        throw new Error((data as any)?.info || 'Error al actualizar información de empresa');
       }
 
-      return { success: true, company: data.company };
+      return { success: true, company: (data as any).company };
 
     } catch (error: any) {
       toast.error(error.message || 'Error al actualizar empresa');
