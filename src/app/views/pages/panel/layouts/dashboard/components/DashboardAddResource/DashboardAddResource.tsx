@@ -1,10 +1,8 @@
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import DashboardAssets from '@/app/views/components/DashboardAssets/DashboardAssets';
-import { useDashboard } from '@panelHooks/index';
 
-export const DashboardAddResource = ({}: any | []) => {
-  const { data } = useDashboard();
+export const DashboardAddResource = ({ data }: any | []) => {
   const { setIsOpen, setModalId } = useModalStore();
   const addResource = () => {
     setIsOpen(true);

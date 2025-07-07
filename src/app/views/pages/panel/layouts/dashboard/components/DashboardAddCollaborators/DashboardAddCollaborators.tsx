@@ -10,8 +10,7 @@ interface DashboardAddCollaboratorsProps {
   };
 }
 
-export const DashboardAddCollaborators = ({}: DashboardAddCollaboratorsProps) => {
-  const { data, isLoading } = useDashboard();
+export const DashboardAddCollaborators = ({ isLoading, data }: DashboardAddCollaboratorsProps) => {
   const { setIsOpen, setModalId } = useModalStore();
   return (
     <div className="card">

@@ -61,7 +61,7 @@ const Dashboard = () => {
             <CardSkeleton />
           )}
           <div className="box-assets">
-            <DashboardAddResource data={data} />
+            <DashboardAddResource data={data} isLoading={isLoading} />
             <DashboardAddCollaborators isLoading={isLoading} data={data} />
           </div>
         </section>
