@@ -1,3 +1,24 @@
+/**
+ * Página Principal de Autenticación
+ * 
+ * Este componente actúa como wrapper principal para todas las páginas de autenticación.
+ * Maneja el routing y la navegación entre diferentes formularios de auth.
+ * 
+ * Funcionalidades:
+ * - Redirección automática si el usuario ya está autenticado
+ * - Navegación entre formularios de login/registro
+ * - Efectos visuales de fondo (partículas)
+ * - Lazy loading de componentes
+ * 
+ * Rutas manejadas:
+ * - /auth/signin (Login)
+ * - /auth/signup (Registro)
+ * - /auth/recovery (Recuperación de contraseña)
+ * 
+ * @author Codefend Team
+ * @version 2.0
+ */
+
 import { type FC, Suspense, lazy } from 'react';
 import { Outlet, useLocation, Navigate } from 'react-router';
 import AuthNavigation from '../../components/AuthNavigation/AuthNavigation.tsx';
