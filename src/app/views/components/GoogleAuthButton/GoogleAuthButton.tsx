@@ -16,7 +16,7 @@
 
 import React, { useEffect, useState } from 'react';
 import './GoogleAuthButton.scss';
-import { ENV } from '@/app/constants/env';
+import { googleClientId } from '@/app/data/utils/config';
 
 declare global {
   interface Window {
@@ -45,7 +45,7 @@ export const GoogleAuthButton = ({
   // 🔧 CONFIGURACIÓN: Cambiar entre One Tap y botón clásico
   // true = One Tap (requiere HTTPS, no funciona en localhost)
   // false = Botón clásico (funciona en localhost)
-  const USE_ONE_TAP = false;
+  const USE_ONE_TAP = true;
 
   useEffect(() => {
     // Cargar Google Identity Services si no está cargado
@@ -68,7 +68,7 @@ export const GoogleAuthButton = ({
 
   const initializeGoogle = () => {
     // Depuración: mostrar el client_id en consola para verificar que es el correcto
-    console.log('Google Client ID usado:', ENV.GOOGLE_CLIENT_ID);
+    console.log('Google Client ID usado:', googleClientId);
     // Depuración adicional: mostrar origen actual y URL completa
     console.log('Origen actual (window.location.origin):', window.location.origin);
     console.log('URL completa (window.location.href):', window.location.href);
@@ -92,7 +92,7 @@ export const GoogleAuthButton = ({
       console.log('🚀 Inicializando Google Identity Services...');
       try {
         window.google.accounts.id.initialize({
-          client_id: ENV.GOOGLE_CLIENT_ID,
+          client_id: googleClientId,
           callback: window.handleCredentialResponse,
           auto_select: false,
           cancel_on_tap_outside: true,
@@ -167,16 +167,44 @@ export const GoogleAuthButton = ({
   };
 
   const renderGoogleButton = () => {
-    window.google.accounts.id.renderButton(
-      document.getElementById('google-signin-button'),
-      {
+    console.log('🎨 renderGoogleButton ejecutándose...');
+    
+    try {
+      const buttonContainer = document.getElementById('google-signin-button');
+      console.log('📍 Contenedor del botón:', buttonContainer);
+      
+      if (!buttonContainer) {
+        console.error('❌ No se encontró el contenedor del botón Google');
+        return;
+      }
+      
+      console.log('🔧 Configurando botón Google con parámetros:', {
         theme: 'outline',
         size: 'large',
-        // Google solo acepta valores numéricos para width, no porcentajes. Cambiado de '100%' a 300 para evitar advertencias y errores.
         width: 300,
         text: mode === 'signup' ? 'signup_with' : 'signin_with',
-      }
-    );
+      });
+      
+      window.google.accounts.id.renderButton(
+        buttonContainer,
+        {
+          theme: 'outline',
+          size: 'large',
+          width: 300,
+          text: mode === 'signup' ? 'signup_with' : 'signin_with',
+        }
+      );
+      
+      console.log('✅ Botón Google renderizado correctamente');
+      
+      // Hacer visible el contenedor del botón
+      buttonContainer.style.display = 'block';
+      console.log('👁️ Contenedor del botón hecho visible');
+      
+    } catch (error) {
+      console.error('❌ Error en renderGoogleButton:', error);
+      console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
+    }
   };
 
   return (
