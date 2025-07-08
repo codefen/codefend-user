@@ -4,6 +4,8 @@
  * Este componente maneja el proceso de onboarding post-registro
  * donde se capturan los datos de empresa y se inicia el escaneo.
  * 
+ * Diseño actualizado para coincidir con WelcomeDomain modal.
+ * 
  * Flujo:
  * 1. Captura datos de empresa (nombre, website, tamaño)
  * 2. Valida el dominio empresarial
@@ -15,7 +17,7 @@
  * - POST /users/new?phase=4 (actualizar empresa)
  * 
  * @author Codefend Team
- * @version 1.0
+ * @version 2.0
  */
 
 import React, { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
@@ -28,6 +30,9 @@ import { companySizesList } from '@mocks/defaultData';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 import SelectField from '@/app/views/components/SelectField/SelectField';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
+import { PrimaryButton } from '@buttons/index';
+import { useInitialDomainStore } from '@/app/data/store/initialDomain.store';
+import ModalWrapper from '@/app/views/components/modals/modalwrapper/ModalWrapper';
 import './OnboardingPage.scss';
 
 export const OnboardingPage = () => {
@@ -44,6 +49,12 @@ export const OnboardingPage = () => {
   const { updateCompanyInfo } = useGoogleAuth();
   const { handleSuccessfulLogin } = useSessionManager();
   const { session, user } = useGlobalFastFields(['session', 'user']);
+  const { update: updateInitialDomain } = useInitialDomainStore();
+
+  const handleClose = () => {
+    // Opcional: agregar lógica de confirmación antes de cerrar
+    window.location.href = '/';
+  };
 
   useEffect(() => {
     // NUEVO: Verificar si hay datos temporales de registro
@@ -91,10 +102,13 @@ export const OnboardingPage = () => {
   }, []);
 
   const handlePersonalUserToggle = () => {
-    setIsPersonalUser(!isPersonalUser);
+    const newIsPersonal = !isPersonalUser;
+    setIsPersonalUser(newIsPersonal);
     setCompanyData(prev => ({
       ...prev,
-      personal_user: !isPersonalUser ? '1' : '0'
+      personal_user: newIsPersonal ? '1' : '0',
+      // Si es usuario personal, establecer automáticamente company_size como '1-10'
+      company_size: newIsPersonal ? '1-10' : prev.company_size
     }));
   };
 
@@ -178,6 +192,13 @@ export const OnboardingPage = () => {
 
       toast.success('¡Información de empresa actualizada exitosamente!');
       
+      // NUEVO: Guardar dominio de la empresa en el store para vincularlo con el scanner
+      if (companyData.company_web && companyData.company_web !== '-' && companyData.company_web !== 'pending-onboarding.temp') {
+        const cleanDomain = companyData.company_web.replace(/^(https?:\/\/)?(www\.)?/, '');
+        updateInitialDomain('initialDomain', cleanDomain);
+        console.log('🔗 Dominio guardado para el scanner:', cleanDomain);
+      }
+      
       // Limpiar datos temporales
       localStorage.removeItem('onboarding_data');
       localStorage.removeItem('temp_session_data');
@@ -193,9 +214,9 @@ export const OnboardingPage = () => {
         }
       }
       
-      // Redirigir al dashboard después de completar onboarding
+      // Redirigir al dashboard y abrir automáticamente el scanner
       setTimeout(() => {
-        window.location.href = '/';
+        window.location.href = '/?open_scanner=true';
       }, 1500);
 
     } catch (error: any) {
@@ -204,102 +225,99 @@ export const OnboardingPage = () => {
   };
 
   return (
-    <div className="onboarding-container">
-      <div className="onboarding-content">
+    <ModalWrapper showCloseBtn={false} type="onboarding-modal-container" action={handleClose}>
+      <div className="welcome-content">
+        <img className="logose" src="/codefend/logo-color.png" width={130} />
+        
         <div className="onboarding-header">
-          <img src="/codefend/logo-color.png" alt="Codefend" />
-          <h1>Great! Let's start by performing an automated analysis of your attack surface.</h1>
-          <p>We'll search for subdomains, analyze the main domain, look for data leaks and add resources.</p>
+          <b>Business information</b>
+          <p>If you have a company, tell us a bit about it — it helps us give you a better service.</p>
+          <p>No company? No problem! You can still use Codefend as a personal user.</p>
         </div>
+
+        {/* Línea separadora estilizada */}
+        <hr className="onboarding-separator" />
 
         {/* Paso 1: Datos de empresa */}
         {currentStep === 1 && (
           <form onSubmit={handleSubmit} className="onboarding-form">
             <div className="form-section">
-              <h2>Confirm your initial scope</h2>
-              
-              {/* Toggle para usuario personal */}
-              <div className="personal-user-toggle">
-                <label className="toggle-container">
-                  <input
-                    type="checkbox"
-                    checked={isPersonalUser}
-                    onChange={handlePersonalUserToggle}
+              <div className="input-container">
+                {/* Toggle para usuario personal */}
+                <div className="personal-user-toggle">
+                  <label className="toggle-container">
+                    <input
+                      type="checkbox"
+                      checked={isPersonalUser}
+                      onChange={handlePersonalUserToggle}
+                    />
+                    <span className="toggle-slider"></span>
+                    <span className="toggle-label">I'm a personal user</span>
+                  </label>
+                </div>
+
+                {!isPersonalUser && (
+                  <>
+                    <AuthInput
+                      placeholder="Enter your domain (e.g., yourcompany.com)"
+                      value={companyData.company_web}
+                      setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_web', e.target.value)}
+                      required
+                      autoComplete="url"
+                    />
+                    
+                    <AuthInput
+                      placeholder="Company name"
+                      value={companyData.company_name}
+                      setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_name', e.target.value)}
+                      required
+                      autoComplete="organization"
+                    />
+                    
+                    <SelectField
+                      name="company_size"
+                      options={[
+                        { value: '', label: 'Company size', hidden: true },
+                        ...companySizesList.map(company => ({
+                          value: company.value,
+                          label: company.label,
+                        })),
+                      ]}
+                      value={companyData.company_size}
+                      onChange={(e) => handleInputChange('company_size', e.target.value)}
+                      required
+                    />
+                  </>
+                )}
+
+                {/* Solo mostrar company name si es usuario personal */}
+                {isPersonalUser && (
+                  <AuthInput
+                    placeholder="Company name"
+                    value={companyData.company_name}
+                    setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_name', e.target.value)}
+                    required
+                    autoComplete="organization"
                   />
-                  <span className="toggle-slider"></span>
-                                     <span className="toggle-label">I'm a personal user (no company)</span>
-                </label>
+                )}
               </div>
 
-              {!isPersonalUser && (
-                <>
-                                     <AuthInput
-                     placeholder="Enter your domain (e.g., yourcompany.com)"
-                     value={companyData.company_web}
-                     setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_web', e.target.value)}
-                     required
-                     autoComplete="url"
-                   />
-                   
-                   <AuthInput
-                     placeholder="Company name"
-                     value={companyData.company_name}
-                     setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_name', e.target.value)}
-                     required
-                     autoComplete="organization"
-                   />
-                </>
-              )}
+              {/* Línea separadora antes del botón */}
+              <hr className="onboarding-separator" />
 
-              <SelectField
-                name="company_size"
-                options={[
-                  { value: '', label: 'Company size', hidden: true },
-                  ...companySizesList.map(company => ({
-                    value: company.value,
-                    label: company.label,
-                  })),
-                ]}
-                value={companyData.company_size}
-                onChange={(e) => handleInputChange('company_size', e.target.value)}
-                required
-              />
-
-              <div className="form-info">
-                <div className="info-item">
-                  <span className="icon">🔍</span>
-                  <div>
-                    <strong>Automated analysis</strong>
-                    <p>We'll automatically analyze your website for vulnerabilities</p>
-                  </div>
-                </div>
-                <div className="info-item">
-                  <span className="icon">🛡️</span>
-                  <div>
-                    <strong>Continuous protection</strong>
-                    <p>24/7 monitoring of your digital infrastructure</p>
-                  </div>
-                </div>
-                <div className="info-item">
-                  <span className="icon">👥</span>
-                  <div>
-                    <strong>Expert team</strong>
-                    <p>Access to our team of cybersecurity specialists</p>
-                  </div>
-                </div>
+              <div className="btn-container">
+                <button 
+                  type="submit" 
+                  className="btn btn-continue"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Processing...' : 'Continue'}
+                </button>
               </div>
-
-              <button 
-                type="submit" 
-                className="btn-primary onboarding-submit"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Processing...' : 'Continue'}
-              </button>
             </div>
           </form>
         )}
       </div>
-    </div>
+    </ModalWrapper>
   );
 }; 

@@ -1,68 +1,154 @@
 /**
  * Estilos para la página de Onboarding
- * Diseño consistente con el modal de análisis automático
+ * Diseño actualizado para coincidir con WelcomeDomain modal
+ * Usa ModalWrapper para overlay correcto que cubre la aplicación de fondo
  */
 
-.onboarding-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f8f9fa;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-.onboarding-content {
-  background: white;
-  border-radius: 0.5rem;
-  padding: 2.5rem;
+// Contenedor del modal de onboarding (usado por ModalWrapper)
+.onboarding-modal-container {
   width: 100%;
   max-width: 600px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  position: relative;
-  border: 1px solid #e9ecef;
+  margin-top: 20px;
 }
 
-.onboarding-header {
-  text-align: left;
-  margin-bottom: 2rem;
+// Contenido principal del modal
+.welcome-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  position: relative;
+  z-index: 50;
   
-  img {
-    margin-bottom: 1rem;
+  .logose {
+    margin-bottom: 1.5rem;
     height: 32px;
     width: auto;
   }
-  
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    color: #6c757d;
-    font-size: 1rem;
-    margin: 0;
-    line-height: 1.5;
-  }
 }
 
-.onboarding-form {
-  .form-section {
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 1.5rem;
-      text-align: center;
+// Header con información de empresa (reemplaza welcome-header)
+.onboarding-header {
+  width: 100%;
+  max-width: 520px; // Achicar un poco el párrafo
+  margin-bottom: 1.5rem;
+  text-align: left;
+
+  b {
+    font-weight: 500;
+    font-size: 1rem;
+    font-family: "Satoshi", sans-serif;
+    color: var(--tertiary-color-600);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    line-height: 1.5;
+    font-size: 0.95rem;
+    margin: 0 0 0.75rem 0;
+    color: var(--tertiary-color-600);
+    font-family: "Questrial", sans-serif;
+    
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }
 
+// Línea separadora estilizada
+.onboarding-separator {
+  width: 100%;
+  max-width: 520px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(108, 117, 125, 0.3), transparent);
+  border: none;
+  margin: 1.5rem 0;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #ff3939;
+    border-radius: 50%;
+  }
+}
+
+// Formulario de onboarding
+.onboarding-form {
+  width: 100%;
+  max-width: 560px; // Agrandar un poco los inputs
+  
+  .form-section {
+    width: 100%;
+  }
+}
+
+// Contenedor de inputs (actualizado sin label)
+.input-container {
+  margin-block: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+
+  // Estilos unificados para todos los inputs y selects
+  input,
+  select {
+    width: 100%;
+    height: 43px;
+    padding: 0 0.75rem;
+    background-color: var(--primary-color);
+    color: var(--tertiary-color-500);
+    border: 1px solid var(--primary-color-300);
+    border-radius: 4px;
+    font-size: 15px;
+    font-family: inherit;
+    line-height: 1.2;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    &:focus {
+      outline: none;
+      border-color: var(--secondary-color-50);
+      color: var(--tertiary-color-700);
+    }
+
+    &::placeholder {
+      color: #6c757d;
+      font-size: 15px;
+    }
+  }
+
+  // Estilos específicos para select
+  select {
+    padding-right: 2rem;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1em;
+    
+    // Ocultar opciones con atributo hidden
+    option[hidden] {
+      display: none;
+    }
+  }
+}
+
+// Toggle para usuario personal
 .personal-user-toggle {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   
   .toggle-container {
     display: flex;
@@ -98,7 +184,7 @@
     }
     
     input[type="checkbox"]:checked + .toggle-slider {
-      background: #007bff;
+      background: #ff3939;
       
       &::after {
         transform: translateX(22px);
@@ -113,115 +199,120 @@
   }
 }
 
-.form-info {
-  margin: 1.5rem 0;
-  padding: 1.25rem;
-  background: #f8f9fa;
-  border-radius: 0.375rem;
-  border: 1px solid #dee2e6;
-  
-  .info-item {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    
-    &:last-child {
-      margin-bottom: 0;
-    }
-    
-    .icon {
-      font-size: 1.25rem;
-      margin-right: 0.75rem;
-      margin-top: 0.125rem;
-    }
-    
-    div {
-      flex: 1;
-      
-      strong {
-        display: block;
-        font-weight: 500;
-        color: #343a40;
-        margin-bottom: 0.25rem;
-        font-size: 0.9rem;
-      }
-      
-      p {
-        color: #6c757d;
-        font-size: 0.85rem;
-        margin: 0;
-        line-height: 1.4;
-      }
-    }
-  }
-}
-
-.onboarding-submit {
-  width: 100%;
-  padding: 0.75rem 1.5rem;
-  background: #ff4757;
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+// Contenedor de botones (arreglado - alineado correctamente)
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 1.5rem;
+  width: 100%;
   
-  &:hover:not(:disabled) {
-    background: #ff3742;
-  }
-  
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  .btn {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &.btn-continue {
+      background: #ff4757;
+      color: white;
+      float: right;
+      margin: 20px 0 0 0;
+      
+      &:hover:not(:disabled) {
+        background: #ff3742;
+      }
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
   }
 }
 
-// Estilos para input groups (consistentes con el modal)
-.input-group {
-  margin-bottom: 1rem;
-  
-  input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 0.375rem;
-    font-size: 1rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    box-sizing: border-box;
-    
-    &:focus {
-      outline: none;
-      border-color: #80bdff;
-      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+// Tema oscuro - estilos específicos para el onboarding
+[data-theme='dark'] {
+  .modal.onboarding-modal-container {
+    input,
+    select,
+    textarea {
+      background-color: rgb(35 35 35 / 28%);
+      border-color: #ffffff10;
+      color: var(--tertiary-color-100);
+
+      &:focus {
+        border-color: var(--secondary-color-50);
+        color: var(--tertiary-color-200);
+      }
+      
+      &::placeholder {
+        color: #ffffff70;
+      }
     }
     
-    &::placeholder {
-      color: #6c757d;
+    // Flecha del select en tema oscuro
+    select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff70' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    }
+  }
+  
+  .welcome-content {
+    color: var(--tertiary-color-100);
+  }
+  
+  .onboarding-header {
+    b {
+      color: var(--tertiary-color-100);
+      font-family: "Satoshi", sans-serif;
+    }
+    
+    p {
+      color: var(--tertiary-color-100);
+      font-family: "Questrial", sans-serif;
+    }
+  }
+  
+  // Línea separadora en tema oscuro
+  .onboarding-separator {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    
+    &::before {
+      background: #ff3939;
+    }
+  }
+  
+  .personal-user-toggle {
+    .toggle-container {
+      .toggle-label {
+        color: var(--tertiary-color-100);
+      }
     }
   }
 }
 
 // Responsive design
 @media (max-width: 768px) {
-  .onboarding-container {
-    padding: 1rem;
+  .onboarding-modal-container {
+    max-width: 100%;
+    margin-top: 10px;
   }
   
-  .onboarding-content {
-    padding: 1.5rem;
-    max-width: 100%;
+  .welcome-content {
+    padding: 20px;
+  }
+  
+  .onboarding-header {
+    b {
+      font-size: 0.95rem;
+      font-family: "Satoshi", sans-serif;
+    }
     
-    .onboarding-header {
-      h1 {
-        font-size: 1.25rem;
-      }
-      
-      p {
-        font-size: 0.9rem;
-      }
+    p {
+      font-size: 0.9rem;
+      font-family: "Questrial", sans-serif;
     }
   }
   
@@ -233,48 +324,40 @@
     }
   }
   
-  .form-info {
-    padding: 1rem;
+  .input-container {
+    max-width: 100%;
+  }
+  
+  .onboarding-header {
+    max-width: 100%;
+  }
+  
+  .btn-container {
+    max-width: 100%;
+    justify-content: center;
     
-    .info-item {
-      margin-bottom: 0.75rem;
-      
-      .icon {
-        font-size: 1.1rem;
-      }
-      
-      div {
-        strong {
-          font-size: 0.85rem;
-        }
-        
-        p {
-          font-size: 0.8rem;
-        }
-      }
+    .btn {
+      width: 100%;
     }
   }
 }
 
 @media (max-width: 480px) {
-  .onboarding-content {
-    padding: 1.25rem;
-    margin: 0.5rem;
+  .welcome-content {
+    padding: 15px;
   }
   
   .onboarding-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     
-    img {
-      height: 28px;
-    }
-    
-    h1 {
-      font-size: 1.1rem;
+    b {
+      font-size: 0.9rem;
+      font-family: "Satoshi", sans-serif;
     }
     
     p {
       font-size: 0.85rem;
+      font-family: "Questrial", sans-serif;
     }
   }
   
@@ -283,6 +366,23 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 0.5rem;
+    }
+  }
+  
+  .input-container {
+    max-width: 100%;
+  }
+  
+  .onboarding-header {
+    max-width: 100%;
+  }
+  
+  .btn-container {
+    max-width: 100%;
+    
+    .btn {
+      padding: 0.65rem 1.5rem;
+      font-size: 0.9rem;
     }
   }
 } 

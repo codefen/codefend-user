@@ -5,7 +5,7 @@ import { apiErrorValidation, companyIdIsNull, verifySession } from '@/app/consta
 import { ModalWrapper } from '@modals/index';
 import Tablev3 from '@table/v3/Tablev3';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import css from './welcomedomain.module.scss';
+import './welcomedomain.scss';
 import { AimIcon } from '@icons';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import TextChild from '@/app/views/components/utils/TextChild';
@@ -135,17 +135,21 @@ export const WelcomeDomain = ({
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['welcome-modal-container']} action={close}>
+    <ModalWrapper showCloseBtn={false} type="welcome-modal-container" action={close}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={130}/>
-        <div className={css['welcome-header']}>
-          <img src="/codefend/IA ICON.png" alt="AI Scanner" className={css['scanner-eye']} />
-          <p className={css['welcome-text']}>
+        <div className="welcome-header">
+          <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
+          <p className="welcome-text">
             <b>Great! Let's start by performing an automated analysis of your attack surface.</b>{' '}
             We'll search for subdomains, analyze the main domain, look for data leaks and add resources.
           </p>
         </div>
-        <form className={css['input-container']} onSubmit={changeInitialDomain}>
+        
+        {/* Línea separadora antes de confirm scope */}
+        <hr className="onboarding-separator" />
+        
+        <form className="input-container" onSubmit={changeInitialDomain}>
           <label htmlFor="initialScope">
             <b>Confirm your initial scope</b>
           </label>
@@ -159,12 +163,16 @@ export const WelcomeDomain = ({
           />
           <button
             type="submit"
-            className={`btn ${css['btn-search']}`}
+            className="btn btn-search"
             disabled={isLoading || loading}>
             <AimIcon />
           </button>
         </form>
-        <div className={css['limit-container']}>
+        
+        {/* Línea separadora después del input y antes de la tabla */}
+        <hr className="onboarding-separator" />
+        
+        <div className="limit-container">
           <Tablev3
             columns={columns}
             rows={domains}
@@ -176,7 +184,7 @@ export const WelcomeDomain = ({
         <div className="btn-container">
           <PrimaryButton text="Close assistant" buttonStyle="black" click={close} />
           <button
-            className={`btn ${css['btn-add']}`}
+            className="btn btn-add"
             type="button"
             onClick={nextStep}
             disabled={!Boolean(domains.length) || isLoading || loading}>

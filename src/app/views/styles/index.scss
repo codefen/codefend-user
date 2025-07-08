@@ -164,6 +164,16 @@
     margin-top: auto;
     margin-bottom: 0;
   }
+
+  .welcome-content .btn-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    position: sticky;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: 0;
+  }
 }
 
 .flex {
