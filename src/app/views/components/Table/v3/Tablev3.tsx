@@ -268,7 +268,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
             )}
 
             {shouldUseVirtualization ? (
-              <div className="rows-virtualized-dynamic">
+              <div
+                className={`rows-virtualized-dynamic ${showSkeleton || virtualizedSortingResult.showSkeleton ? 'skeleton-active' : ''}`}>
                 <TableRowsV3VirtualizedDynamic
                   columns={columns}
                   rows={flattenedRows}
@@ -287,7 +288,9 @@ const Tablev3: FC<Tablev3Props<any>> = ({
                 />
               </div>
             ) : (
-              <div className={`rows ${hasScroll ? 'rows-with-scroll' : ''}`} ref={rowRef}>
+              <div
+                className={`rows ${showSkeleton || virtualizedSortingResult.showSkeleton ? 'skeleton-active' : ''} ${hasScroll ? 'rows-with-scroll' : ''}`}
+                ref={rowRef}>
                 <TableRowsV3
                   columns={columns}
                   rows={flattenedRows}

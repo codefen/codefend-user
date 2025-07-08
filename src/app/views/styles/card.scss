@@ -1236,6 +1236,16 @@
       color: var(--tertiary-color-100);
     }
 
+    &.skeleton-card {
+      background: linear-gradient(
+        90deg,
+        rgba(30, 30, 30, 0.6) 25%,
+        rgba(120, 120, 120, 0.9) 50%,
+        rgba(40, 40, 40, 0.5) 75%
+      );
+      background-size: 200% 100%;
+    }
+
     .content {
       p {
         color: var(--tertiary-color-400);
@@ -1244,6 +1254,16 @@
 
     &.stat {
       outline: none;
+
+      &.skeleton-stat {
+        background: linear-gradient(
+          90deg,
+          rgba(30, 30, 30, 0.6) 25%,
+          rgba(120, 120, 120, 0.9) 50%,
+          rgba(40, 40, 40, 0.5) 75%
+        );
+        background-size: 200% 100%;
+      }
 
       &.border-stat {
         border: 1px solid rgb(36 35 35 / 81%);

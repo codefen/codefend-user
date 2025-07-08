@@ -417,22 +417,23 @@
 // TEMA OSCURO
 // -----------------------------------------------------------------------------
 [data-theme='dark'] .sidebar {
-  background-color: var(--primary-color-dark);
+  background-color: var(--primary-color);
 
   .sidebar-group-title {
     color: var(--tertiary-color-100);
   }
 
   a {
-    color: var(--tertiary-color-100);
+    color: #e5e5e5e3;
 
     &:hover {
-      background-color: var(--primary-color-700);
+      background-color: var(--primary-color);
+      color: rgb(229 229 229 / 95%);
     }
 
     &.active {
-      background-color: var(--secondary-color-600);
-      color: var(--primary-color);
+      background-color: var(--primary-color-100);
+      color: #fff;
     }
   }
 
@@ -566,7 +567,7 @@ main.auth-pages {
 // Layout principal con sidebar
 main {
   grid-area: 1 / 2 / 6 / 8;
-  
+
   // Cuando sidebar está en mobile, main ocupa toda la pantalla
   &.sidebar-mobile-active {
     grid-column: 1 / -1 !important;
@@ -759,4 +760,4 @@ main.sb.sidebar-mobile-active {
 // -----------------------------------------------------------------------------
 .guide-container + .navbar + .sidebar {
   // Estilos específicos cuando hay guide-container
-} 
+}
