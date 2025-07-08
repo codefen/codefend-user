@@ -52,6 +52,11 @@
       }
     }
   }
+
+  .btn-container {
+    margin-inline: 0;
+    padding-inline-end: 0;
+  }
 }
 
 .btn-search {
@@ -76,7 +81,7 @@
     fill: var(--secondary-color-150);
     transition: all 0.2s ease-in-out;
   }
-  
+
   &:hover {
     background-color: var(--secondary-color-100);
     svg {
@@ -188,7 +193,7 @@
   border: none;
   margin: -1.25rem 0;
   position: relative;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -200,7 +205,7 @@
     background: #ff3939;
     border-radius: 50%;
   }
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -226,7 +231,7 @@
 
   .btn-add {
     background: #ff4757;
-    
+
     &:hover:not(:disabled) {
       background: #ff3742;
     }
@@ -235,9 +240,9 @@
   // Línea separadora en tema oscuro (específica para scanner)
   .welcome-modal-container .onboarding-separator {
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-    
+
     &::before {
       background: #ff3939;
     }
   }
-} 
+}

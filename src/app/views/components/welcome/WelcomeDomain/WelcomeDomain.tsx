@@ -135,20 +135,21 @@ export const WelcomeDomain = ({
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type="welcome-modal-container" action={close}>
+    <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={close}>
       <div className="welcome-content">
-        <img className="logose" src="/codefend/logo-color.png" width={130}/>
+        <img className="logose" src="/codefend/logo-color.png" width={130} />
         <div className="welcome-header">
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
           <p className="welcome-text">
             <b>Great! Let's start by performing an automated analysis of your attack surface.</b>{' '}
-            We'll search for subdomains, analyze the main domain, look for data leaks and add resources.
+            We'll search for subdomains, analyze the main domain, look for data leaks and add
+            resources.
           </p>
         </div>
-        
+
         {/* Línea separadora antes de confirm scope */}
         <hr className="onboarding-separator" />
-        
+
         <form className="input-container" onSubmit={changeInitialDomain}>
           <label htmlFor="initialScope">
             <b>Confirm your initial scope</b>
@@ -161,17 +162,14 @@ export const WelcomeDomain = ({
             placeholder="Wite domain..."
             defaultValue={initialDomain || initialDomainStored || ''}
           />
-          <button
-            type="submit"
-            className="btn btn-search"
-            disabled={isLoading || loading}>
+          <button type="submit" className="btn btn-search" disabled={isLoading || loading}>
             <AimIcon />
           </button>
         </form>
-        
+
         {/* Línea separadora después del input y antes de la tabla */}
         <hr className="onboarding-separator" />
-        
+
         <div className="limit-container">
           <Tablev3
             columns={columns}
@@ -182,7 +180,7 @@ export const WelcomeDomain = ({
           />
         </div>
         <div className="btn-container">
-          <PrimaryButton text="Close assistant" buttonStyle="black" click={close} />
+          {/* <PrimaryButton text="Close assistant" buttonStyle="black" click={close} /> */}
           <button
             className="btn btn-add"
             type="button"
