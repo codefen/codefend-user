@@ -24,18 +24,28 @@ export const TeamMembersPage = () => {
     }
   }, []);
   return (
-    <main className={`team-members ${showScreen ? 'actived' : ''}` + `${!isDesktop ? ' sidebar-mobile-active' : ''}`}>
+    <main
+      className={
+        `team-members ${showScreen ? 'actived' : ''}` +
+        `${!isDesktop ? ' sidebar-mobile-active' : ''}`
+      }>
       <section className="left">
         <div className="box-assets">
           <TeamMemberPageHeader />
         </div>
-        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
+        <VulnerabilitiesStatus
+          isLoading={isLoading}
+          vulnerabilityByShare={data?.issues_condicion || {}}
+        />
         <TeamMembersTableCard isLoading={isLoading} members={data?.members || []} />
       </section>
       <section className="right">
         <Navbar />
         <DashboardScanStart />
-        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
+        <VulnerabilitiesStatus
+          isLoading={isLoading}
+          vulnerabilityByShare={data?.issues_condicion || {}}
+        />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
       </section>
     </main>

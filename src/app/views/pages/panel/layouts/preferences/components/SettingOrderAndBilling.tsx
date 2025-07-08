@@ -132,7 +132,9 @@ const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
           <Tablev3
             columns={rawOrderColumns}
             rows={premiumOrders}
-            showRows={!isLoading}
+            showRows={true}
+            showSkeleton={isLoading}
+            totalRowCount={5}
             initialOrder="id"
             limit={0}
             isNeedSort
@@ -147,7 +149,9 @@ const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
           <Tablev3
             columns={rawOrderColumns}
             rows={subscriptionOrders}
-            showRows={!isLoading}
+            showRows={true}
+            showSkeleton={isLoading}
+            totalRowCount={5}
             initialOrder="id"
             limit={0}
             isNeedSort

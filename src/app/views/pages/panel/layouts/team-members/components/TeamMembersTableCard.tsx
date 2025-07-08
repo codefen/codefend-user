@@ -39,7 +39,13 @@ export const TeamMembersTableCard = ({ isLoading, members }: DashboardAddCollabo
   }, [members, company.get.owner_email]);
   return (
     <div className="card">
-      <Tablev3 showRows={!isLoading} rows={membersMapped} columns={membersColumns} />
+      <Tablev3
+        showRows={true}
+        showSkeleton={isLoading}
+        totalRowCount={5}
+        rows={membersMapped}
+        columns={membersColumns}
+      />
     </div>
   );
 };

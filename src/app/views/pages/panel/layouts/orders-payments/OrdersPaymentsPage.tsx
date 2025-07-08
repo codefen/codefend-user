@@ -29,7 +29,8 @@ export const OrdersPaymentsPage = () => {
   }, []);
 
   return (
-    <main className={`orders-payments ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+    <main
+      className={`orders-payments ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <ProviderScope />
       <CancelSuscriptionModal />
       <section className="left">
@@ -43,7 +44,10 @@ export const OrdersPaymentsPage = () => {
       <section className="right">
         <Navbar />
         <DashboardScanStart />
-        <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
+        <VulnerabilitiesStatus
+          isLoading={isLoadingDashboard}
+          vulnerabilityByShare={dashboardData?.issues_condicion || {}}
+        />
         <VulnerabilityRisk
           vulnerabilityByRisk={dashboardData?.issues_share || {}}
           isLoading={isLoadingDashboard}
