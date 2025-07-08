@@ -31,7 +31,7 @@ export const useRegisterPhaseTwo = () => {
   const { handleSuccessfulLogin } = useSessionManager();
   const { lead, country } = useGlobalFastFields(['lead', 'country']);
 
-  const signUpFinish = async (params: any): Promise<{ pass: boolean; user: any }> => {
+  const signUpFinish = async (params: any): Promise<{ pass: boolean; user: any; needs_onboarding?: boolean; data?: any }> => {
     return fetcher('post', {
       body: {
         phase: 2,
@@ -44,8 +44,28 @@ export const useRegisterPhaseTwo = () => {
         if (data.email_error === '1' || apiErrorValidation(data)) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
-        const user = handleSuccessfulLogin(data);
-        return { pass: true, user };
+        
+        // Verificar si necesita onboarding ANTES de hacer login
+        if (data.needs_onboarding) {
+          // NO llamar a handleSuccessfulLogin aún
+          // Guardar datos temporales para el onboarding
+          localStorage.setItem('onboarding_data', JSON.stringify(data));
+          localStorage.setItem('temp_session_data', JSON.stringify({ session: data.session }));
+          
+          console.log('🚀 Datos temporales guardados para onboarding');
+          
+          // Retornar datos para que el frontend maneje onboarding
+          return { 
+            pass: true, 
+            user: data.user, 
+            needs_onboarding: true,
+            data: data 
+          };
+        } else {
+          // Si no necesita onboarding, proceder con login normal
+          const user = handleSuccessfulLogin(data);
+          return { pass: true, user };
+        }
       })
       .catch((e: Error) => {
         toast.error(e.message);

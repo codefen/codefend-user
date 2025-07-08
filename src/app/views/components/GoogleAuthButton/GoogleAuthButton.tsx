@@ -45,7 +45,7 @@ export const GoogleAuthButton = ({
   // 🔧 CONFIGURACIÓN: Cambiar entre One Tap y botón clásico
   // true = One Tap (requiere HTTPS, no funciona en localhost)
   // false = Botón clásico (funciona en localhost)
-  const USE_ONE_TAP = true;
+  const USE_ONE_TAP = false;
 
   useEffect(() => {
     // Cargar Google Identity Services si no está cargado
@@ -67,14 +67,7 @@ export const GoogleAuthButton = ({
   }, []);
 
   const initializeGoogle = () => {
-    // Depuración: mostrar el client_id en consola para verificar que es el correcto
-    console.log('Google Client ID usado:', googleClientId);
-    // Depuración adicional: mostrar origen actual y URL completa
-    console.log('Origen actual (window.location.origin):', window.location.origin);
-    console.log('URL completa (window.location.href):', window.location.href);
-    console.log('Protocol:', window.location.protocol);
-    console.log('Hostname:', window.location.hostname);
-    console.log('Port:', window.location.port);
+    console.log('🚀 Inicializando Google Auth con Client ID:', googleClientId);
     
     if (window.google && window.google.accounts) {
       // Configurar el callback global
@@ -89,7 +82,6 @@ export const GoogleAuthButton = ({
       };
 
       // Inicializar Google Identity Services
-      console.log('🚀 Inicializando Google Identity Services...');
       try {
         window.google.accounts.id.initialize({
           client_id: googleClientId,
@@ -102,24 +94,17 @@ export const GoogleAuthButton = ({
         
         if (USE_ONE_TAP) {
           // MODO ONE TAP: Para producción con HTTPS
-          console.log('🚀 Modo One Tap: Mostrando prompt automático...');
           window.google.accounts.id.prompt((notification: any) => {
-            console.log('📋 Google prompt notification:', notification);
-            console.log('isNotDisplayed():', notification.isNotDisplayed?.());
-            console.log('isSkippedMoment():', notification.isSkippedMoment?.());
-            console.log('getDismissedReason():', notification.getDismissedReason?.());
-            console.log('getNotDisplayedReason():', notification.getNotDisplayedReason?.());
-            console.log('getSkippedReason():', notification.getSkippedReason?.());
-            
             if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-              console.log('🔄 Prompt no se mostró, fallback a botón clásico...');
+              console.log('🔄 One Tap falló, usando botón clásico');
               renderGoogleButton();
             }
           });
         } else {
           // MODO BOTÓN CLÁSICO: Para desarrollo local (localhost)
-          console.log('🔄 Modo botón clásico: desarrollo local...');
-          renderGoogleButton();
+          console.log('✅ Usando botón clásico de Google');
+          // Mostrar directamente el botón clásico sin necesidad de hacer clic
+          setTimeout(() => renderGoogleButton(), 100);
         }
       } catch (error) {
         console.error('❌ Error al inicializar Google Identity Services:', error);
@@ -131,33 +116,19 @@ export const GoogleAuthButton = ({
   };
 
   const handleGoogleSignIn = () => {
-    console.log('🔵 handleGoogleSignIn llamado');
-    console.log('isGoogleLoaded:', isGoogleLoaded);
-    console.log('disabled:', disabled);
-    
     if (!isGoogleLoaded || disabled) {
-      console.log('❌ Google no está cargado o botón deshabilitado');
       return;
     }
 
     try {
       if (USE_ONE_TAP) {
-        console.log('🚀 Mostrando prompt de Google...');
         window.google.accounts.id.prompt((notification: any) => {
-          console.log('📋 Google prompt notification:', notification);
-          console.log('isNotDisplayed():', notification.isNotDisplayed?.());
-          console.log('isSkippedMoment():', notification.isSkippedMoment?.());
-          console.log('getDismissedReason():', notification.getDismissedReason?.());
-          console.log('getNotDisplayedReason():', notification.getNotDisplayedReason?.());
-          console.log('getSkippedReason():', notification.getSkippedReason?.());
-          
           if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-            console.log('🔄 Prompt no se mostró, intentando con renderButton...');
+            console.log('🔄 One Tap falló, usando botón clásico');
             renderGoogleButton();
           }
         });
       } else {
-        console.log('🔄 Desarrollo local: usando botón clásico directamente...');
         renderGoogleButton();
       }
     } catch (error) {
@@ -167,23 +138,13 @@ export const GoogleAuthButton = ({
   };
 
   const renderGoogleButton = () => {
-    console.log('🎨 renderGoogleButton ejecutándose...');
-    
     try {
       const buttonContainer = document.getElementById('google-signin-button');
-      console.log('📍 Contenedor del botón:', buttonContainer);
       
       if (!buttonContainer) {
         console.error('❌ No se encontró el contenedor del botón Google');
         return;
       }
-      
-      console.log('🔧 Configurando botón Google con parámetros:', {
-        theme: 'outline',
-        size: 'large',
-        width: 300,
-        text: mode === 'signup' ? 'signup_with' : 'signin_with',
-      });
       
       window.google.accounts.id.renderButton(
         buttonContainer,
@@ -197,37 +158,53 @@ export const GoogleAuthButton = ({
       
       console.log('✅ Botón Google renderizado correctamente');
       
-      // Hacer visible el contenedor del botón
-      buttonContainer.style.display = 'block';
-      console.log('👁️ Contenedor del botón hecho visible');
+      // Hacer visible el contenedor del botón solo si está usando One Tap
+      if (USE_ONE_TAP) {
+        buttonContainer.style.display = 'block';
+      }
       
     } catch (error) {
       console.error('❌ Error en renderGoogleButton:', error);
-      console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
     }
   };
 
   return (
     <div className="google-auth-container">
-      <button
-        type="button"
-        className={`google-auth-button ${disabled ? 'disabled' : ''}`}
-        onClick={handleGoogleSignIn}
-        disabled={disabled || !isGoogleLoaded}
-      >
-        <div className="google-icon">
-          <svg width="18" height="18" viewBox="0 0 18 18">
-            <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
-            <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.04a4.8 4.8 0 0 1-7.18-2.53H1.83v2.07A8 8 0 0 0 8.98 17z"/>
-            <path fill="#FBBC05" d="M4.5 10.49a4.8 4.8 0 0 1 0-3.07V5.35H1.83a8 8 0 0 0 0 7.28l2.67-2.14z"/>
-            <path fill="#EA4335" d="M8.98 4.72c1.16 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.35L4.5 7.42a4.77 4.77 0 0 1 4.48-2.7z"/>
-          </svg>
-        </div>
-        <span>{isGoogleLoaded ? text : 'Cargando Google...'}</span>
-      </button>
+      {/* Mostrar botón personalizado solo si usamos One Tap */}
+      {USE_ONE_TAP && (
+        <button
+          type="button"
+          className={`google-auth-button ${disabled ? 'disabled' : ''}`}
+          onClick={handleGoogleSignIn}
+          disabled={disabled || !isGoogleLoaded}
+        >
+          <div className="google-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18">
+              <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
+              <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.04a4.8 4.8 0 0 1-7.18-2.53H1.83v2.07A8 8 0 0 0 8.98 17z"/>
+              <path fill="#FBBC05" d="M4.5 10.49a4.8 4.8 0 0 1 0-3.07V5.35H1.83a8 8 0 0 0 0 7.28l2.67-2.14z"/>
+              <path fill="#EA4335" d="M8.98 4.72c1.16 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.35L4.5 7.42a4.77 4.77 0 0 1 4.48-2.7z"/>
+            </svg>
+          </div>
+          <span>{isGoogleLoaded ? text : 'Cargando Google...'}</span>
+        </button>
+      )}
       
-      {/* Contenedor oculto para el botón renderizado por Google */}
-      <div id="google-signin-button" style={{ display: 'none' }}></div>
+      {/* Mostrar mensaje de carga solo cuando no usamos One Tap y aún no está cargado */}
+      {!USE_ONE_TAP && !isGoogleLoaded && (
+        <div className="google-loading">
+          <span>Cargando Google...</span>
+        </div>
+      )}
+      
+      {/* Contenedor para el botón renderizado por Google - visible para botón clásico */}
+      <div 
+        id="google-signin-button" 
+        style={{ 
+          display: USE_ONE_TAP ? 'none' : 'block',
+          minHeight: USE_ONE_TAP ? 'auto' : '40px'
+        }}
+      ></div>
     </div>
   );
 }; 

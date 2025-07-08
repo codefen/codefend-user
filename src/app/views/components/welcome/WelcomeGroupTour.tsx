@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import useModalStore from '@stores/modal.store.ts';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
@@ -13,6 +14,19 @@ export const WelcomeGroupTour = () => {
   const { solvedComunique } = useSolvedComunique();
   const { autoScan } = useAutoScan();
   const { initialDomain } = useInitialDomainStore();
+
+  // Auto-abrir scanner después del onboarding
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('open_scanner') === 'true') {
+      // Abrir automáticamente el scanner
+      setIsOpen(true);
+      setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
+      // Limpiar el parámetro URL
+      const newURL = window.location.pathname;
+      window.history.replaceState({}, document.title, newURL);
+    }
+  }, [setIsOpen, setModalId]);
 
   const startWaitStep = () => {
     return Promise.allSettled([solvedComunique(), autoScan(initialDomain, true, '')]).then(() => {
