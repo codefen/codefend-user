@@ -62,36 +62,38 @@ const IssuesPanel: FC = () => {
         <section className="right" ref={flashlight.rightPaneRef}>
           <Navbar />
           <IssuePanelHeader openAddIssue={handleAddFinding} />
-          <IssueReport
-            handleFilter={handleFilters}
-            isLoading={isLoading}
-            issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
-            issues={issues}
-            currentFilters={filters}
-          />
-          {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
-        <div className="card only-button">
-          <PrimaryButton
-            text="GENERATE REPORT"
-            click={e => {
-              setIsOpen(true);
-              setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
-            }}
-            className="full margin-block"
-            isDisabled={!Boolean(displayIssues.length)}
-            disabledLoader
-          />
-        </div>
-        */}
-          <VulnerabilitiesStatus
-            isLoading={isLoading}
-            vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
-          />
+          <div className="scrollable-content">
+            <IssueReport
+              handleFilter={handleFilters}
+              isLoading={isLoading}
+              issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+              issues={issues}
+              currentFilters={filters}
+            />
+            {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
+          <div className="card only-button">
+            <PrimaryButton
+              text="GENERATE REPORT"
+              click={e => {
+                setIsOpen(true);
+                setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
+              }}
+              className="full margin-block"
+              isDisabled={!Boolean(displayIssues.length)}
+              disabledLoader
+            />
+          </div>
+          */}
+            <VulnerabilitiesStatus
+              isLoading={isLoading}
+              vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+            />
 
-          <VulnerabilityRisk
-            isLoading={isLoading}
-            vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
-          />
+            <VulnerabilityRisk
+              isLoading={isLoading}
+              vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+            />
+          </div>
         </section>
       </main>
     </SectionTracker>

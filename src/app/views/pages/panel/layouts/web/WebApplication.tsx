@@ -52,24 +52,26 @@ const WebApplicationView = () => {
       {/* *****SECTION RIGHT WEB PAGE ***** */}
       <section className="right" ref={flashlight.rightPaneRef}>
         <Navbar />
-        <WebApplicationTitle isLoading={isLoading} />
-        <WebApplicationStatics
-          domainCount={domainCount.get}
-          subDomainCount={subDomainCount.get}
-          uniqueIpCount={uniqueIpCount.get}
-        />
-        <OpenOrderButton
-          className="pentest-btn"
-          type={ResourcesTypes.WEB}
-          resourceCount={webResources.length}
-          isLoading={isLoading}
-        />
-        <ServerGeolocationMap
-          networkData={webResources}
-          resourceType={RESOURCE_CLASS.WEB}
-          title="Global server distribution"
-          mapResources={mapResources}
-        />
+        <div className="scrollable-content">
+          <WebApplicationTitle isLoading={isLoading} />
+          <WebApplicationStatics
+            domainCount={domainCount.get}
+            subDomainCount={subDomainCount.get}
+            uniqueIpCount={uniqueIpCount.get}
+          />
+          <OpenOrderButton
+            className="pentest-btn"
+            type={ResourcesTypes.WEB}
+            resourceCount={webResources.length}
+            isLoading={isLoading}
+          />
+          <ServerGeolocationMap
+            networkData={webResources}
+            resourceType={RESOURCE_CLASS.WEB}
+            title="Global server distribution"
+            mapResources={mapResources}
+          />
+        </div>
       </section>
     </EmptyLayout>
   );

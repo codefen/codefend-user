@@ -18,7 +18,7 @@ import { useSocialFilters } from '@/app/data/hooks/resources/social/useSocialFil
 import { useFilteredSocialMembers } from '@/app/data/hooks/resources/social/useFilteredSocialMembers.ts';
 import { SocialEngineeringFilters } from './components/SocialEngineeringFilters.tsx';
 import { ModalInput } from '@/app/views/components/ModalInput/ModalInput.tsx';
-import { MagnifyingGlassIcon, PeopleGroupIcon } from '@icons';
+import { MagnifyingGlassIcon, PeopleGroupIcon, LinkedinV2Icon, EmailIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
@@ -40,6 +40,7 @@ const SocialEngineeringView = () => {
     members = [],
     refetch,
     isLoading,
+    isLoadingMore,
     loadMore,
     isReachingEnd,
     domains,
@@ -103,22 +104,28 @@ const SocialEngineeringView = () => {
   const renderTabContent = () => {
     if (activeTab === 'linkedin') {
       return displayMembers.length > 0 ? (
-        <LinkedInProfilesView sentryRef={ref} members={displayMembers} />
+        <LinkedInProfilesView 
+          sentryRef={ref} 
+          members={displayMembers}
+          isLoading={isLoading}
+          isLoadingMore={isLoadingMore}
+          hasMore={!isReachingEnd}
+        />
       ) : isSearching ? (
         <div className="no-results-found">
-          <p>No se encontraron perfiles de LinkedIn para tu búsqueda.</p>
+          <p>No LinkedIn profiles found for your search.</p>
         </div>
       ) : (
         <div className="no-results-found">
           <p>
-            No se encontraron perfiles de LinkedIn.{' '}
+            No LinkedIn profiles found.{' '}
             <button
               className="link-button"
               onClick={() => {
                 setModalId(MODAL_KEY_OPEN.ADD_MEMBER);
                 setIsOpen(true);
               }}>
-              Haz clic aquí para agregar
+              Click here to add
             </button>
           </p>
         </div>
@@ -127,7 +134,13 @@ const SocialEngineeringView = () => {
 
     // Vista por defecto (all)
     return displayMembers.length > 0 ? (
-      <SocialEngineering sentryRef={ref} paginatedMembers={displayMembers} />
+      <SocialEngineering 
+        sentryRef={ref} 
+        paginatedMembers={displayMembers}
+        isLoading={isLoading}
+        isLoadingMore={isLoadingMore}
+        hasMore={!isReachingEnd}
+      />
     ) : isSearching ? (
       <div className="no-results-found">
         <p>No members found for your search criteria.</p>
@@ -175,12 +188,14 @@ const SocialEngineeringView = () => {
                 <button
                   className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
                   onClick={() => handleTabChange('all')}>
-                  📋 show all
+                  <EmailIcon width="16" height="16" />
+                  <span>show all</span>
                 </button>
                 <button
                   className={`tab-button ${activeTab === 'linkedin' ? 'active' : ''}`}
                   onClick={() => handleTabChange('linkedin')}>
-                  💼 linkedin profiles
+                  <LinkedinV2Icon width="16" height="16" />
+                  <span>linkedin profiles</span>
                 </button>
               </div>
             </div>
