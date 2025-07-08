@@ -47,28 +47,29 @@ const IssuesPanel: FC = () => {
 
   return (
     <SectionTracker sectionName="issues">
-    <main className={`issues-list ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
-      <SelectAnyResourceModal issues={displayIssues} />
-      {/* <div className="brightness variant-1"></div> */}
-      <section className="left">
-        <IssueResources
-          isLoading={isLoading}
-          issues={displayIssues}
-          refresh={refresh}
-          addFinding={handleAddFinding}
-        />
-      </section>
-      <section className="right" ref={flashlight.rightPaneRef}>
+      <main
+        className={`issues-list ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+        <SelectAnyResourceModal issues={displayIssues} />
+        {/* <div className="brightness variant-1"></div> */}
+        <section className="left">
+          <IssueResources
+            isLoading={isLoading}
+            issues={displayIssues}
+            refresh={refresh}
+            addFinding={handleAddFinding}
+          />
+        </section>
+        <section className="right" ref={flashlight.rightPaneRef}>
           <Navbar />
-        <IssuePanelHeader openAddIssue={handleAddFinding} />
-        <IssueReport
-          handleFilter={handleFilters}
-          isLoading={isLoading}
-          issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
-          issues={issues}
-          currentFilters={filters}
-        />
-        {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
+          <IssuePanelHeader openAddIssue={handleAddFinding} />
+          <IssueReport
+            handleFilter={handleFilters}
+            isLoading={isLoading}
+            issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+            issues={issues}
+            currentFilters={filters}
+          />
+          {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
         <div className="card only-button">
           <PrimaryButton
             text="GENERATE REPORT"
@@ -82,16 +83,17 @@ const IssuesPanel: FC = () => {
           />
         </div>
         */}
-        <VulnerabilitiesStatus
-          vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
-        />
+          <VulnerabilitiesStatus
+            isLoading={isLoading}
+            vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+          />
 
-        <VulnerabilityRisk
-          isLoading={isLoading}
-          vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
-        />
-      </section>
-    </main>
+          <VulnerabilityRisk
+            isLoading={isLoading}
+            vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+          />
+        </section>
+      </main>
     </SectionTracker>
   );
 };
