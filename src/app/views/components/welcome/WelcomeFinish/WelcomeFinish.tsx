@@ -14,6 +14,8 @@ import { ScanProgressBar } from '@/app/views/components/ScanProgressBar/ScanProg
 import { ProgressCircle } from '@/app/views/components/ProgressCircle/ProgressCircle';
 import { useValueFlash } from '@/app/data/hooks/common/useValueFlash';
 import { mapScanObjToScanFinishedObj } from '@utils/mapper';
+import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
+import { useVerifyScanListv3 } from '@moduleHooks/newscanner/useVerifyScanListv3';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -25,7 +27,7 @@ function getStatusBadge(phase: string = '', finished: string | null, launched: s
   return <div data-status="running">Operational</div>;
 }
 
-export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
+export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved: () => void; comesFromOnboarding?: boolean }) => {
   const { isScanning, ...globalStore } = useGlobalFastFields([
     'isScanning',
     'currentScan',
@@ -35,28 +37,73 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   ]);
   const navigate = useNavigate();
   const [currentScan, setCurrentScan] = useState<any>({});
+  
+  // TEMPORAL: Obtener datos directamente desde useNewVerifyScanList como fallback
+  const { scans: directScans } = useNewVerifyScanList();
+  
+  // TEMPORAL: Forzar ejecución de useVerifyScanListv3 para asegurar que se ejecute
+  useVerifyScanListv3();
 
   // Usar useMemo para calcular el currentScan basado en los cambios del store
   const computedCurrentScan = useMemo(() => {
     const _scaningProgress: Map<string, any> = globalStore.scaningProgress.get;
     const _lastScanId = globalStore.lastScanId.get;
     const _currentScan = _scaningProgress?.get?.(_lastScanId) || null;
-    // console.log('currentScan', { _currentScan, _scaningProgress, _lastScanId });
+    
+    // DEBUGGING: Log detallado del estado
+    console.log('🎯 WelcomeFinish - computedCurrentScan debug:', {
+      lastScanId: _lastScanId,
+      scaningProgressSize: _scaningProgress?.size || 0,
+      scaningProgressKeys: _scaningProgress ? Array.from(_scaningProgress.keys()) : [],
+      currentScanFromProgress: _currentScan,
+      currentScanFromGlobal: globalStore.currentScan.get,
+      scanVersion: globalStore.scanVersion.get,
+      directScansLength: directScans?.length || 0,
+      directScansFirst: directScans && directScans.length > 0 ? {
+        id: directScans[0].id,
+        phase: directScans[0].phase,
+        m_nllm_issues_found: directScans[0].m_nllm_issues_found,
+        m_nllm_issues_parsed: directScans[0].m_nllm_issues_parsed,
+        m_leaks_found: directScans[0].m_leaks_found,
+        m_leaks_social_found: directScans[0].m_leaks_social_found
+      } : null
+    });
 
     if (_currentScan) {
+      console.log('🎯 WelcomeFinish - Usando scan del scaningProgress:', _currentScan);
       return _currentScan;
     } else if (
       globalStore.currentScan.get &&
       globalStore.currentScan.get?.phase === ScanStepType.Finished
     ) {
+      console.log('🎯 WelcomeFinish - Usando scan del currentScan global (finished)');
       return mapScanObjToScanFinishedObj(globalStore.currentScan.get);
     }
+    
+    // TEMPORAL: Fallback a datos directos de useNewVerifyScanList
+    if (directScans && directScans.length > 0 && _lastScanId) {
+      const directScan = directScans.find(s => s.id === _lastScanId);
+      if (directScan) {
+        console.log('🎯 WelcomeFinish - FALLBACK: Usando scan directo de useNewVerifyScanList:', directScan);
+        return {
+          ...directScan,
+          status: AUTO_SCAN_STATE.SCAN_LAUNCHED,
+          scanProgress: 50, // Valor temporal para que se muestre algo
+          webScanProgress: 50,
+          leaksScanProgress: directScan.m_leaks_finished ? 100 : 50,
+          subdomainScanProgress: directScan.m_subdomains_finished ? 100 : 50,
+        };
+      }
+    }
+    
+    console.log('🎯 WelcomeFinish - No se encontró scan válido, devolviendo null');
     return null;
   }, [
     globalStore.lastScanId.get,
     globalStore.scaningProgress.get,
     globalStore.currentScan.get,
     globalStore.scanVersion.get,
+    directScans, // TEMPORAL: Agregar directScans como dependencia
   ]);
 
   // useEffect para manejar la limpieza cuando el scan termina
@@ -72,15 +119,57 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
   // useEffect para actualizar el estado local
   useEffect(() => {
     if (computedCurrentScan) {
+      console.log('🎯 WelcomeFinish - Actualizando currentScan:', {
+        scanId: computedCurrentScan.id || globalStore.lastScanId.get,
+        progress: {
+          overall: computedCurrentScan.scanProgress,
+          web: computedCurrentScan.webScanProgress,
+          leaks: computedCurrentScan.leaksScanProgress,
+          subdomains: computedCurrentScan.subdomainScanProgress
+        },
+        issues: {
+          found: computedCurrentScan.m_nllm_issues_found,
+          parsed: computedCurrentScan.m_nllm_issues_parsed,
+          leaks: computedCurrentScan.m_leaks_found,
+          social: computedCurrentScan.m_leaks_social_found
+        },
+        phases: {
+          main: computedCurrentScan.phase,
+          nllm: computedCurrentScan.m_nllm_phase,
+          nllm_launched: computedCurrentScan.m_nllm_launched,
+          leaks_launched: computedCurrentScan.m_leaks_launched,
+          subdomains_launched: computedCurrentScan.m_subdomains_launched
+        },
+        status: computedCurrentScan.status,
+        timestamp: new Date().toISOString()
+      });
       setCurrentScan(computedCurrentScan);
     }
   }, [computedCurrentScan]);
 
   const closeModal = () => {
     solved();
-    if (!isScanning.get && !globalStore.currentScan.get) {
+    
+    // Si viene del onboarding, siempre ir a issues con el scan específico
+    if (comesFromOnboarding) {
+      const scanId = globalStore.lastScanId.get;
+      if (scanId) {
+        navigate(`/issues?scan_id=${scanId}`);
+      } else {
+        navigate('/issues');
+      }
+    } else if (!isScanning.get && !globalStore.currentScan.get) {
+      // Lógica original para otros casos
       navigate('/issues');
     }
+    // Si no se cumple ninguna condición, simplemente cierra el modal sin navegar
+  };
+
+  // Determinar si se puede cerrar el modal
+  const canCloseModal = () => {
+    const issuesParsed = currentScan?.m_nllm_issues_parsed || 0;
+    const leaksFound = currentScan?.m_leaks_found || 0;
+    return issuesParsed > 0 || leaksFound > 0;
   };
   // const scanStep = (currentScan?.phase as ScanStepType) || ScanStepType.NonScan;
 
@@ -93,12 +182,19 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
 
   const navigateTo = (path: string, isDisabled: boolean) => {
     if (isDisabled) return;
+    // Los botones de navegación específicos siempre pueden cerrar el modal
     solved();
     navigate(path);
   };
 
+  // Función para manejar el cierre del modal con validación
+  const handleCloseAttempt = () => {
+    console.log('✅ Cerrando modal del scanner');
+    closeModal();
+  };
+
   return (
-    <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
+    <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={handleCloseAttempt}>
       <div className="welcome-content welcome-content-finish">
         <img className="logose" src="/codefend/logo-color.png" width={120} />
         <Show
@@ -134,22 +230,6 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-header-title'}>
                   <SparklesIcon className="codefend-text-red" />
                   <h3>AI based web scan</h3>
-                  <span className="actions">
-                    <span>|</span>
-                    <div
-                      className="action"
-                      data-disabled={
-                        !globalStore.lastScanId.get || currentScan?.m_nllm_issues_parsed <= 0
-                      }
-                      onClick={() =>
-                        navigateTo(
-                          `/issues?resourceClass=web&scan_id=${globalStore.lastScanId.get}`,
-                          !globalStore.lastScanId.get || currentScan?.m_nllm_issues_parsed <= 0
-                        )
-                      }>
-                      View issues
-                    </div>
-                  </span>
                 </div>
                 <div className={'process-badge'}>
                   {getStatusBadge(
@@ -171,7 +251,31 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <span>Detected issues:</span>
                       <b className={issuesFoundFlash}>{currentScan?.m_nllm_issues_found}</b>
                     </div>
-                    <div className="info-item">
+                    <div 
+                      className={`info-item ${currentScan?.m_nllm_issues_parsed > 0 ? 'clickable' : 'disabled'}`}
+                      onClick={() => 
+                        currentScan?.m_nllm_issues_parsed > 0 && window.open(
+                          `/issues?resourceClass=web&scan_id=${globalStore.lastScanId.get}`,
+                          '_blank'
+                        )
+                      }
+                      style={{ 
+                        cursor: currentScan?.m_nllm_issues_parsed > 0 ? 'pointer' : 'default',
+                        opacity: currentScan?.m_nllm_issues_parsed > 0 ? 1 : 0.6,
+                        transition: 'all 0.2s ease',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        backgroundColor: 'transparent'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (currentScan?.m_nllm_issues_parsed > 0) {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
                       <span>Analyzed issues:</span>
                       <b className={issuesParsedFlash}>{currentScan?.m_nllm_issues_parsed}</b>
                     </div>
@@ -200,37 +304,6 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                 <div className={'card-process-header-title'}>
                   <LanIcon className="codefend-text-red" />
                   <h3>Attack surface discovery</h3>
-                  <span className="actions">
-                    <span>|</span>
-                    <div
-                      className="action"
-                      data-disabled={
-                        !globalStore.lastScanId.get || currentScan?.m_subdomains_found <= 0
-                      }
-                      onClick={() =>
-                        navigateTo(
-                          '/web',
-                          !globalStore.lastScanId.get || currentScan?.m_subdomains_found <= 0
-                        )
-                      }>
-                      View subdomains
-                    </div>
-                    <span>|</span>
-                    <div
-                      className="action"
-                      data-disabled={
-                        !globalStore.lastScanId.get || currentScan?.m_subdomains_found_servers <= 0
-                      }
-                      onClick={() =>
-                        navigateTo(
-                          '/network',
-                          !globalStore.lastScanId.get ||
-                            currentScan?.m_subdomains_found_servers <= 0
-                        )
-                      }>
-                      View servers
-                    </div>
-                  </span>
                 </div>
                 <div className={'process-badge'}>
                   {getStatusBadge(
@@ -248,11 +321,59 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <span>Started:</span>
                       <b>{formatTimeFormat(currentScan?.m_subdomains_launched)}</b>
                     </div>
-                    <div className="info-item">
+                    <div 
+                      className={`info-item ${currentScan?.m_subdomains_found > 0 ? 'clickable' : 'disabled'}`}
+                      onClick={() => 
+                        currentScan?.m_subdomains_found > 0 && window.open(
+                          '/web',
+                          '_blank'
+                        )
+                      }
+                      style={{ 
+                        cursor: currentScan?.m_subdomains_found > 0 ? 'pointer' : 'default',
+                        opacity: currentScan?.m_subdomains_found > 0 ? 1 : 0.6,
+                        transition: 'all 0.2s ease',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        backgroundColor: 'transparent'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (currentScan?.m_subdomains_found > 0) {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
                       <span>Subdomains found:</span>
                       <b className={subdomainsFoundFlash}>{currentScan?.m_subdomains_found}</b>
                     </div>
-                    <div className="info-item">
+                    <div 
+                      className={`info-item ${currentScan?.m_subdomains_found_servers > 0 ? 'clickable' : 'disabled'}`}
+                      onClick={() => 
+                        currentScan?.m_subdomains_found_servers > 0 && window.open(
+                          '/network',
+                          '_blank'
+                        )
+                      }
+                      style={{ 
+                        cursor: currentScan?.m_subdomains_found_servers > 0 ? 'pointer' : 'default',
+                        opacity: currentScan?.m_subdomains_found_servers > 0 ? 1 : 0.6,
+                        transition: 'all 0.2s ease',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        backgroundColor: 'transparent'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (currentScan?.m_subdomains_found_servers > 0) {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
                       <span>Detected servers:</span>
                       <b className={serversDetectedFlash}>
                         {currentScan?.m_subdomains_found_servers ?? 0}
@@ -289,34 +410,6 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                     }}
                   />
                   <h3>Darkweb leaks research</h3>
-                  <span className="actions">
-                    <span>|</span>
-                    <div
-                      className="action"
-                      data-disabled={
-                        !globalStore.lastScanId.get || currentScan?.m_leaks_social_found <= 0
-                      }
-                      onClick={() =>
-                        navigateTo(
-                          `/social?resource_domain=${currentScan?.resource_address}`,
-                          !globalStore.lastScanId.get || currentScan?.m_leaks_social_found <= 0
-                        )
-                      }>
-                      View users
-                    </div>
-                    <span>|</span>
-                    <div
-                      className="action"
-                      data-disabled={!globalStore.lastScanId.get || currentScan?.m_leaks_found <= 0}
-                      onClick={() =>
-                        navigateTo(
-                          `/issues?resourceClass=leaks&scan_id=${globalStore.lastScanId.get}`,
-                          !globalStore.lastScanId.get || currentScan?.m_leaks_found <= 0
-                        )
-                      }>
-                      View leaks
-                    </div>
-                  </span>
                 </div>
                 <div className={'process-badge'}>
                   {getStatusBadge('', currentScan?.m_leaks_finished, currentScan?.m_leaks_launched)}
@@ -330,11 +423,59 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
                       <span>Started:</span>
                       <b>{formatTimeFormat(currentScan?.m_leaks_launched)}</b>
                     </div>
-                    <div className="info-item">
+                    <div 
+                      className={`info-item ${currentScan?.m_leaks_found > 0 ? 'clickable' : 'disabled'}`}
+                      onClick={() => 
+                        currentScan?.m_leaks_found > 0 && window.open(
+                          `/issues?resourceClass=leaks&scan_id=${globalStore.lastScanId.get}`,
+                          '_blank'
+                        )
+                      }
+                      style={{ 
+                        cursor: currentScan?.m_leaks_found > 0 ? 'pointer' : 'default',
+                        opacity: currentScan?.m_leaks_found > 0 ? 1 : 0.6,
+                        transition: 'all 0.2s ease',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        backgroundColor: 'transparent'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (currentScan?.m_leaks_found > 0) {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
                       <span>Leaks found:</span>
                       <b className={leaksFoundFlash}>{currentScan?.m_leaks_found}</b>
                     </div>
-                    <div className="info-item">
+                    <div 
+                      className={`info-item ${currentScan?.m_leaks_social_found > 0 ? 'clickable' : 'disabled'}`}
+                      onClick={() => 
+                        currentScan?.m_leaks_social_found > 0 && window.open(
+                          `/social?resource_domain=${currentScan?.resource_address}`,
+                          '_blank'
+                        )
+                      }
+                      style={{ 
+                        cursor: currentScan?.m_leaks_social_found > 0 ? 'pointer' : 'default',
+                        opacity: currentScan?.m_leaks_social_found > 0 ? 1 : 0.6,
+                        transition: 'all 0.2s ease',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        backgroundColor: 'transparent'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (currentScan?.m_leaks_social_found > 0) {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
                       <span>Social leaks:</span>
                       <b className={socialLeaksFlash}>{currentScan?.m_leaks_social_found || 0}</b>
                     </div>
@@ -357,7 +498,7 @@ export const WelcomeFinish = ({ solved }: { solved: () => void }) => {
         <PrimaryButton
           text="Close scanner overview"
           buttonStyle="black"
-          click={closeModal}
+          click={handleCloseAttempt}
           className="btn"
         />
       </div>

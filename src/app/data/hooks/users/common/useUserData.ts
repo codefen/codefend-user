@@ -26,11 +26,8 @@ export const useUserData = () => {
     session.set('');
     user.set(null);
     company.set(EMPTY_COMPANY_CUSTOM);
-    setTimeout(() => {
-      localStorage.removeItem('globalStore');
-      localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
-      window.location.reload();
-    }, 350);
+    localStorage.removeItem('globalStore');
+    localStorage.setItem('globalStore', JSON.stringify(EMPTY_GLOBAL_STATE));
   };
 
   const isAuth = Boolean(session.get);

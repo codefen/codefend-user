@@ -11,7 +11,7 @@ export const useSessionManager = () => {
     ['session', 'user', 'company', 'appEvent', 'isDefaultPlan', 'userLoggingState']
   );
 
-  const handleSuccessfulLogin = (data: any) => {
+  const handleSuccessfulLogin = (data: any, showToast: boolean = true) => {
     session.set(data.session as string);
     user.set(data?.user);
     company.set({
@@ -19,7 +19,9 @@ export const useSessionManager = () => {
       id: data.user.company_id || '',
       name: data.user.company_name || '',
     });
-    toast.success(AUTH_TEXT.LOGIN_SUCCESS);
+    if (showToast) {
+      toast.success(AUTH_TEXT.LOGIN_SUCCESS);
+    }
     isDefaultPlan.set(true);
     appEvent.set(APP_EVENT_TYPE.USER_LOGGED_IN);
     userLoggingState.set(USER_LOGGING_STATE.LOGGED_IN);

@@ -2,9 +2,6 @@
   width: 100%;
   background: var(--primary-color);
   border-radius: var(--brd-radius);
-  border: 1px solid var(--primary-color-300);
-  box-shadow: 0 1px 4px 0 #00000010;
-  // padding: var(--card-space);
   margin-bottom: var(--card-space);
   color: var(--tertiary-color-700);
   display: flex;
@@ -276,7 +273,6 @@
   .navbar {
     color: var(--tertiary-color-300);
     background: var(--primary-color);
-    box-shadow: 1px 1px 11px 3px rgba(29, 29, 29, 0.2588235294);
 
     .breadcrumb {
       color: var(--tertiary-color-300);

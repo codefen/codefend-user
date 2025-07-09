@@ -2194,3 +2194,68 @@ main .empty-screen {
     background-position: 200% 0;
   }
 }
+
+// ===============================================
+// REMOVER OUTLINE/BORDE NEGRO DE BOTONES GLOBALMENTE
+// ===============================================
+
+// Remover outline de todos los botones
+button {
+  outline: none !important;
+  
+  &:focus {
+    outline: none !important;
+    box-shadow: none;
+  }
+  
+  &:active {
+    outline: none !important;
+  }
+  
+  &:focus-visible {
+    outline: none !important;
+  }
+}
+
+// Específico para botones de acción en tablas y SVGs
+.action button,
+.item-action button,
+.table button,
+svg[role="button"],
+[role="button"],
+.action span,
+.three-dots-button {
+  outline: none !important;
+  border: none;
+  
+  &:focus,
+  &:active,
+  &:focus-visible {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+// Para elementos clickeables que no sean botones
+*:focus {
+  outline: none;
+}
+
+// Específico para la tabla de administración de compañías
+main.company {
+  button,
+  svg[role="button"],
+  [role="button"] {
+    outline: none !important;
+    border: none !important;
+    
+    &:focus,
+    &:active,
+    &:focus-visible {
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+  }
+}

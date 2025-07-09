@@ -20,10 +20,11 @@
  * @version 2.0
  */
 
-import React, { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from 'react';
+import { toast } from '@/app/data/utils';
 import { useFetcher } from '#commonHooks/useFetcher';
-import { apiErrorValidation } from '@/app/constants/validations';
+import { apiErrorValidation, isValidDomain, isNotEmail } from '@/app/constants/validations';
+import { AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 import { useSessionManager } from '@/app/data/hooks/users/auth/useSessionManager';
 import { companySizesList } from '@mocks/defaultData';
@@ -45,6 +46,12 @@ export const OnboardingPage = () => {
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [isPersonalUser, setIsPersonalUser] = useState(false);
+  const [lastToastMessage, setLastToastMessage] = useState<string>(''); // Para evitar toasts duplicados
+  
+  // Referencias para hacer focus en los campos
+  const companyWebRef = useRef<HTMLInputElement>(null);
+  const companyNameRef = useRef<HTMLInputElement>(null);
+  const companySizeRef = useRef<HTMLSelectElement>(null);
   
   const { updateCompanyInfo } = useGoogleAuth();
   const { handleSuccessfulLogin } = useSessionManager();
@@ -54,6 +61,38 @@ export const OnboardingPage = () => {
   const handleClose = () => {
     // Opcional: agregar lógica de confirmación antes de cerrar
     window.location.href = '/';
+  };
+
+  // Función para mostrar toast único y hacer focus en el campo
+  const showUniqueToast = (message: string, type: 'error' | 'warn' = 'error', fieldRef?: React.RefObject<HTMLInputElement | HTMLSelectElement | null>) => {
+    // Evitar mostrar el mismo toast repetidamente
+    if (lastToastMessage === message) return;
+    
+    setLastToastMessage(message);
+    
+    // Mostrar toast
+    if (type === 'error') {
+      toast.error(message);
+    } else {
+      toast.warn(message);
+    }
+    
+    // Hacer focus y scroll al campo problemático
+    if (fieldRef?.current) {
+      fieldRef.current.focus();
+      
+      // Scroll suave al campo
+      fieldRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'nearest'
+      });
+    }
+    
+    // Limpiar el último mensaje después de un tiempo
+    setTimeout(() => {
+      setLastToastMessage('');
+    }, 3000);
   };
 
   useEffect(() => {
@@ -101,26 +140,71 @@ export const OnboardingPage = () => {
     }
   }, []);
 
+  // --- Funciones para normalizar URL (copiadas de ScanSection) ---
+  const limpiarDominio = (url: string): string => {
+    try {
+      if (!/^https?:\/\//i.test(url) && !/^ftp:\/\//i.test(url)) {
+        url = 'http://' + url;
+      }
+      const { hostname } = new URL(url);
+      return hostname.replace(/^www\./, '');
+    } catch {
+      return url;
+    }
+  };
+
+  const quitarProtocoloYWWW = (url: string): string => {
+    return url.replace(/^(https?:\/\/|ftp:\/\/)?(www\.)?/i, '');
+  };
+
+  const quitarRuta = (url: string): string => {
+    return url.split('/')[0].split('?')[0];
+  };
+
+  const normalizarURL = (url: string): string => {
+    if (!url || url.trim() === '') return url;
+    
+    // Aplicar normalización paso a paso
+    const sinProtocolo = quitarProtocoloYWWW(url);
+    const sinRuta = quitarRuta(sinProtocolo);
+    const limpio = limpiarDominio(sinRuta);
+    
+    return limpio;
+  };
+
   const handlePersonalUserToggle = () => {
     const newIsPersonal = !isPersonalUser;
     setIsPersonalUser(newIsPersonal);
     setCompanyData(prev => ({
       ...prev,
       personal_user: newIsPersonal ? '1' : '0',
-      // Si es usuario personal, establecer automáticamente company_size como '1-10'
-      company_size: newIsPersonal ? '1-10' : prev.company_size
+      // Si es usuario personal, establecer valores automáticos y limpiar campos no necesarios
+      company_size: newIsPersonal ? '1-10' : prev.company_size,
+      company_web: newIsPersonal ? '-' : prev.company_web,
+      company_name: newIsPersonal ? 'Personal Business' : prev.company_name
     }));
   };
 
   const handleInputChange = (field: string, value: string) => {
+    // Normalizar URL si es el campo company_web
+    let processedValue = value;
+    if (field === 'company_web' && value && value.trim() !== '') {
+      processedValue = normalizarURL(value);
+    }
+    
     setCompanyData(prev => ({
       ...prev,
-      [field]: value
+      [field]: processedValue
     }));
     
-    // Auto-generar nombre de empresa basado en dominio
-    if (field === 'company_web' && value && !isPersonalUser) {
-      const cleanDomain = value.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
+    // Limpiar el último mensaje de toast cuando el usuario empiece a escribir
+    if (lastToastMessage) {
+      setLastToastMessage('');
+    }
+    
+    // Auto-generar nombre de empresa basado en dominio si es válido (sin mostrar toasts)
+    if (field === 'company_web' && processedValue && !isPersonalUser && isValidDomain(processedValue)) {
+      const cleanDomain = processedValue.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
       const companyName = cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
       setCompanyData(prev => ({
         ...prev,
@@ -131,6 +215,40 @@ export const OnboardingPage = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    
+    // Validar campos requeridos para usuarios empresariales
+    if (!isPersonalUser) {
+      // Validar dominio empresarial
+      if (!companyData.company_web || companyData.company_web.trim() === '') {
+        showUniqueToast('Please enter your company domain', 'error', companyWebRef);
+        return;
+      }
+      
+      // Verificar que no sea un email
+      if (!isNotEmail(companyData.company_web)) {
+        showUniqueToast(AUTH_TEXT.DOMAIN_NOT_EMAIL, 'error', companyWebRef);
+        return;
+      }
+      
+      // Verificar que sea un dominio válido
+      if (!isValidDomain(companyData.company_web)) {
+        showUniqueToast(AUTH_TEXT.INVALID_DOMAIN, 'error', companyWebRef);
+        return;
+      }
+      
+      // Validar nombre de empresa
+      if (!companyData.company_name || companyData.company_name.trim() === '') {
+        showUniqueToast('Please enter your company name', 'error', companyNameRef);
+        return;
+      }
+      
+      // Validar tamaño de empresa
+      if (!companyData.company_size || companyData.company_size.trim() === '') {
+        showUniqueToast('Please select your company size', 'error', companySizeRef);
+        return;
+      }
+    }
+    // Para usuarios personales no hay validaciones adicionales ya que se generan automáticamente
     
     // NUEVO: Verificar si estamos usando datos temporales
     const tempOnboardingData = localStorage.getItem('onboarding_data');
@@ -171,13 +289,20 @@ export const OnboardingPage = () => {
     }
 
     try {
-      // Preparar datos para envío
+      // Preparar datos para envío (aplicar normalización final a la URL)
+      const normalizedCompanyData = {
+        ...companyData,
+        company_web: companyData.company_web && companyData.company_web !== '-' 
+          ? normalizarURL(companyData.company_web) 
+          : companyData.company_web
+      };
+      
       const submitData = {
         model: 'users/new',
         phase: '4',
         user_id: userToUse.id,
         session: sessionToUse,
-        ...companyData
+        ...normalizedCompanyData
       };
 
       // Enviar datos al backend
@@ -190,13 +315,12 @@ export const OnboardingPage = () => {
         throw new Error((data as any)?.info || 'Error al actualizar información de empresa');
       }
 
-      toast.success('¡Información de empresa actualizada exitosamente!');
+      toast.success('Business information updated!');
       
       // NUEVO: Guardar dominio de la empresa en el store para vincularlo con el scanner
-      if (companyData.company_web && companyData.company_web !== '-' && companyData.company_web !== 'pending-onboarding.temp') {
-        const cleanDomain = companyData.company_web.replace(/^(https?:\/\/)?(www\.)?/, '');
-        updateInitialDomain('initialDomain', cleanDomain);
-        console.log('🔗 Dominio guardado para el scanner:', cleanDomain);
+      if (normalizedCompanyData.company_web && normalizedCompanyData.company_web !== '-' && normalizedCompanyData.company_web !== 'pending-onboarding.temp') {
+        updateInitialDomain('initialDomain', normalizedCompanyData.company_web);
+        console.log('🔗 Dominio normalizado guardado para el scanner:', normalizedCompanyData.company_web);
       }
       
       // Limpiar datos temporales
@@ -207,7 +331,7 @@ export const OnboardingPage = () => {
       if (tempOnboardingData && tempSessionData) {
         try {
           const tempData = JSON.parse(tempOnboardingData);
-          handleSuccessfulLogin(tempData);
+          handleSuccessfulLogin(tempData, false); // false = no mostrar toast de login
           console.log('✅ Login completado después de onboarding');
         } catch (error) {
           console.error('Error al hacer login después de onboarding:', error);
@@ -254,6 +378,11 @@ export const OnboardingPage = () => {
                     <span className="toggle-slider"></span>
                     <span className="toggle-label">I'm a personal user</span>
                   </label>
+                  {isPersonalUser && (
+                    <p className="personal-user-note">
+                      Perfect! We'll set up a personal account for you automatically.
+                    </p>
+                  )}
                 </div>
 
                 {!isPersonalUser && (
@@ -264,6 +393,7 @@ export const OnboardingPage = () => {
                       setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_web', e.target.value)}
                       required
                       autoComplete="url"
+                      ref={companyWebRef}
                     />
                     
                     <AuthInput
@@ -272,6 +402,7 @@ export const OnboardingPage = () => {
                       setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_name', e.target.value)}
                       required
                       autoComplete="organization"
+                      ref={companyNameRef}
                     />
                     
                     <SelectField
@@ -286,19 +417,9 @@ export const OnboardingPage = () => {
                       value={companyData.company_size}
                       onChange={(e) => handleInputChange('company_size', e.target.value)}
                       required
+                      ref={companySizeRef}
                     />
                   </>
-                )}
-
-                {/* Solo mostrar company name si es usuario personal */}
-                {isPersonalUser && (
-                  <AuthInput
-                    placeholder="Company name"
-                    value={companyData.company_name}
-                    setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_name', e.target.value)}
-                    required
-                    autoComplete="organization"
-                  />
                 )}
               </div>
 

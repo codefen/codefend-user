@@ -29,6 +29,7 @@ import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPa
 import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
+import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -182,6 +183,9 @@ export const NewSigninForm = () => {
         {/* Botón de Google OAuth - Solo mostrar si no está en paso MFA */}
         {!mfaStep && (
           <>
+            {/* Línea separadora arriba del botón de Google */}
+            <div className="auth-separator-line"></div>
+            
             <GoogleAuthButton
               text="Continuar con Google"
               onSuccess={handleGoogleSuccess}
@@ -189,7 +193,9 @@ export const NewSigninForm = () => {
               disabled={isLoading || isGoogleLoading}
               mode="signin"
             />
-            <div className="auth-separator">o</div>
+            
+            {/* Línea separadora debajo del botón de Google */}
+            <div className="auth-separator-line"></div>
           </>
         )}
         

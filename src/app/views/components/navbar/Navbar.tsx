@@ -77,7 +77,6 @@ const Navbar: FC = () => {
             close={() => setShowModal(!showModal)}
             action={() => {
               logout();
-              navigate('/auth/signin');
             }}
           />
         </ModalWrapper>

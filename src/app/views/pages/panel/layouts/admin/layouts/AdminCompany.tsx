@@ -6,7 +6,7 @@ import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { Navbar } from '@/app/views/components';
 import CompanyIndexView from '@/app/views/pages/panel/layouts/admin/layouts/components/CompanyIndexView';
-import { DeleteNeuroscans } from '@/app/views/pages/panel/layouts/admin/components/DeleteNeuroscans';
+
 import { CreateCompany } from '@/app/views/pages/panel/layouts/admin/components/CreateCompany';
 import { CompanyWorldMap } from '@/app/views/components/CompanyWorldMap/CompanyWorldMap';
 import { useGetCompany } from '@userHooks/admins/useGetCompany';
@@ -37,7 +37,6 @@ const AdminCompany: FC = () => {
         </section>
         <section className="right">
           <Navbar />
-          <DeleteNeuroscans />
           <CreateCompany />
           <CompanyWorldMap 
             companies={companies || []} 

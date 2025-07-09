@@ -69,3 +69,71 @@ export const hasStrNumber = (str?: string) => !!str && numberRegexVAL.test(str);
 export const hasMinChars = (str: string, minLength: number) => !!str && str.length >= minLength;
 
 export const passwordValidation = (pass: string) => isNotEmpty(pass) && passwordRegexVal.test(pass);
+
+/**
+ * Valida que una cadena sea un dominio válido y no un email
+ * @param domain - String a validar
+ * @returns boolean - true si es un dominio válido, false si es email o inválido
+ */
+export const isValidDomain = (domain: string): boolean => {
+  if (!domain || domain.trim() === '') {
+    return false;
+  }
+  
+  // Limpiar la URL
+  const cleanDomain = domain
+    .replace(/^(https?:\/\/)?(www\.)?/, '')
+    .trim()
+    .toLowerCase();
+  
+  // Verificar que NO sea un email (contiene @)
+  if (cleanDomain.includes('@')) {
+    return false;
+  }
+  
+  // Regex para validar dominio básico
+  const domainRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  
+  // Verificar que tenga al menos un punto (dominio.com)
+  if (!cleanDomain.includes('.')) {
+    return false;
+  }
+  
+  // Verificar que no termine en punto
+  if (cleanDomain.endsWith('.')) {
+    return false;
+  }
+  
+  // Verificar que no empiece con punto
+  if (cleanDomain.startsWith('.')) {
+    return false;
+  }
+  
+  // Verificar que no tenga puntos consecutivos
+  if (cleanDomain.includes('..')) {
+    return false;
+  }
+  
+  // Verificar longitud máxima
+  if (cleanDomain.length > 253) {
+    return false;
+  }
+  
+  // Verificar formato con regex
+  return domainRegex.test(cleanDomain);
+};
+
+/**
+ * Valida que no sea un email
+ * @param value - String a validar
+ * @returns boolean - true si NO es un email, false si es un email
+ */
+export const isNotEmail = (value: string): boolean => {
+  if (!value || value.trim() === '') {
+    return true;
+  }
+  
+  // Regex básico para detectar emails
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return !emailRegex.test(value.trim());
+};

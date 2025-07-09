@@ -24,7 +24,7 @@ import css from './signinform.module.scss';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
-import { toast } from 'react-toastify';
+import { toast } from '@/app/data/utils';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
 import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
@@ -38,6 +38,7 @@ import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
+import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -164,6 +165,64 @@ export const NewSignupForm = () => {
       action: 'google_oauth',
       label: 'auth_error',
     });
+  };
+
+  // Función para generar password aleatorio siguiendo el patrón especificado
+  const generateRandomPassword = () => {
+    // Caracteres permitidos basados en los ejemplos
+    const allowedLetters = 'zbxcnmuioqerashkl';
+    const allowedLettersUppercase = allowedLetters.toUpperCase(); // ZBXCNMUIOQERASHKL
+    const allowedNumbers = '0123456789';
+    const allowedSymbols = '!,<';
+    
+    // Combinar todos los caracteres (sin mayúsculas para el resto)
+    const allCharsForMiddle = allowedLetters + allowedNumbers + allowedSymbols;
+    
+    // Generar longitud aleatoria entre 20 y 25 caracteres
+    const length = Math.floor(Math.random() * 6) + 20;
+    
+    let password = '';
+    
+    for (let i = 0; i < length; i++) {
+      if (i === 0) {
+        // Primera letra: siempre mayúscula
+        password += allowedLettersUppercase.charAt(Math.floor(Math.random() * allowedLettersUppercase.length));
+      } else {
+        // Resto del password: usar cualquier carácter permitido
+        password += allCharsForMiddle.charAt(Math.floor(Math.random() * allCharsForMiddle.length));
+      }
+    }
+    
+    return password;
+  };
+
+  // Función para generar password y copiar al clipboard
+  const handleGeneratePassword = async () => {
+    try {
+      const generatedPassword = generateRandomPassword();
+      
+      // Establecer el password en ambos inputs
+      setPassword(generatedPassword);
+      setConfirmPassword(generatedPassword);
+      
+      // Hacer visible los passwords
+      setShowPasswords(true);
+      
+      // Copiar al clipboard
+      await navigator.clipboard.writeText(generatedPassword);
+      
+      // Evento de telemetría
+      sendEventToGTM({
+        event: 'usuario_creacion_password_generado',
+        category: 'registro',
+        action: 'generar_password',
+        label: 'password_aleatorio',
+      });
+      
+    } catch (error) {
+      console.error('Error generating password:', error);
+      toast.error('Failed to generate password. Please try again.');
+    }
   };
   const nextFirstStep = (e: FormEvent) => {
     e.preventDefault();
@@ -312,6 +371,9 @@ export const NewSignupForm = () => {
 
         {/* Primer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
+          {/* Línea separadora arriba del botón de Google */}
+          <hr className="onboarding-separator" />
+          
           {/* Botón de Google OAuth - Solo en el primer paso */}
           <GoogleAuthButton
             text="Registrarse con Google"
@@ -320,7 +382,7 @@ export const NewSignupForm = () => {
             disabled={isLoading || isGoogleLoading}
             mode="signup"
           />
-          <div className="auth-separator">o</div>
+          <hr className="onboarding-separator" />
           
           <form onSubmit={nextFirstStep}>
             {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
@@ -393,6 +455,7 @@ export const NewSignupForm = () => {
                 type={showPasswords ? 'text' : 'password'}
                 placeholder="Password"
                 name="password"
+                value={password}
                 setVal={e => setPassword(e.target.value)}
                 autoComplete="off"
                 required
@@ -410,6 +473,7 @@ export const NewSignupForm = () => {
               <AuthInput
                 type={showPasswords ? 'text' : 'password'}
                 placeholder="Confirm Password"
+                value={confirmPassword}
                 setVal={e => setConfirmPassword(e.target.value)}
                 autoComplete="off"
                 required
@@ -424,13 +488,13 @@ export const NewSignupForm = () => {
               </button>
             </div>
             <PasswordRequirements password={password} />
-
+            
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"
-                className={`btn btn-gray`}
-                onClick={() => goBackValidateMe(SignUpSteps.STEP_TWO)}>
-                go back
+                className={`btn btn-black`}
+                onClick={handleGeneratePassword}>
+                Use a random pass
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
                 continue

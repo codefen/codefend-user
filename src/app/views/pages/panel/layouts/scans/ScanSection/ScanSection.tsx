@@ -21,7 +21,7 @@ import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
 import { useEffect, useMemo, useState, useRef } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from '@/app/data/utils';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
@@ -69,8 +69,8 @@ const scansColumns: ColumnTableV3[] = [
     key: 'issues',
     weight: '18%',
     styles: 'item-cell-4',
+    type: TABLE_KEYS.FULL_ROW,
     render: (row: any) => {
-      // Diagnóstico mejorado para debugging
       const found = row?.m_nllm_issues_found;
       const parsed = row?.m_nllm_issues_parsed;
 

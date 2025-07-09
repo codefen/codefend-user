@@ -2,6 +2,39 @@ main.company {
   overflow: hidden;
   padding-inline-end: 0;
   padding-block-end: 0;
+  
+  // Remover outline/borde negro de botones de acción en tablas
+  button {
+    outline: none !important;
+    border: none;
+    
+    &:focus {
+      outline: none !important;
+      border: none;
+      box-shadow: none;
+    }
+    
+    &:active {
+      outline: none !important;
+      border: none;
+    }
+  }
+  
+  // Específico para botones de eliminar/acción en tabla
+  .action button,
+  .item-action button,
+  .table button {
+    outline: none !important;
+    border: none !important;
+    background: transparent;
+    
+    &:focus,
+    &:active {
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+  }
 
   .left {
     flex: 1 1 68%;

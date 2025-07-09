@@ -258,6 +258,22 @@ button {
   border-style: outset;
   border-color: buttonborder;
   border-image: initial;
+  
+  // Remover outline/borde negro por defecto
+  &:focus {
+    outline: none;
+  }
+  
+  // Remover estilos de borde por defecto para botones en tablas
+  &[type="button"] {
+    border: none;
+    outline: none;
+    
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
 }
 
 button,

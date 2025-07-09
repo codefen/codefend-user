@@ -12,3 +12,4 @@ export const ErrorConection = lazy(() => import('./modals/ErrorConnection'));
 export { NetworkVisualization } from './NetworkVisualization/NetworkVisualization';
 export { WorldMapView } from './NetworkVisualization/WorldMapView';
 export { CompanyWorldMap } from './CompanyWorldMap/CompanyWorldMap';
+export { ToastDemo } from './ToastDemo/ToastDemo';

@@ -7,7 +7,6 @@
 
 .google-auth-container {
   width: 100%;
-  margin: 16px 0;
 
   .google-auth-button {
     display: flex;
@@ -104,6 +103,38 @@
   }
 }
 
+// Separador con línea horizontal simple (sin texto)
+.auth-separator-line {
+  width: 100%;
+  height: 1px;
+  background-color: #dadce0;
+  margin: 15px 0;
+  border: none;
+}
+
+// Separador estilizado igual al de onboarding
+.onboarding-separator {
+  width: 100%;
+  max-width: 520px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(108, 117, 125, 0.3), transparent);
+  border: none;
+  margin: 1.5rem 0;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #ff3939;
+    border-radius: 50%;
+  }
+}
+
 // Tema oscuro (opcional)
 @media (prefers-color-scheme: dark) {
   .google-auth-container {
@@ -135,6 +166,18 @@
     &::before,
     &::after {
       background-color: #5f6368;
+    }
+  }
+
+  .auth-separator-line {
+    background-color: #5f6368;
+  }
+
+  .onboarding-separator {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    
+    &::before {
+      background: #ff3939;
     }
   }
 } 

@@ -125,6 +125,37 @@ const SettingOrderAndBilling = ({ orders, isLoading }: BillingDataProps) => {
     },
   ];
 
+  // Check if both order types are empty (no orders at all)
+  const hasNoOrders = premiumOrders.length === 0 && subscriptionOrders.length === 0;
+
+  // If no orders exist, show a single card with a message
+  if (hasNoOrders && !isLoading) {
+    return (
+      <div className="card">
+        <SimpleSection header="Orders and Payments">
+          <div className="no-data-container">
+            <div className="no-data-content">
+              <div className="no-data-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                  <line x1="9" y1="9" x2="9.01" y2="9"/>
+                  <line x1="15" y1="9" x2="15.01" y2="9"/>
+                </svg>
+              </div>
+              <h3>You have no orders!</h3>
+              <p>
+                If you just placed an order please allow our team to work for a few 
+                hours before getting the first results.
+              </p>
+            </div>
+          </div>
+        </SimpleSection>
+      </div>
+    );
+  }
+
+  // If there are orders or still loading, show the normal two-card layout
   return (
     <>
       <div className="card">
