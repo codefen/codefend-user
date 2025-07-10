@@ -17,6 +17,7 @@ import { mapScanObjToScanFinishedObj } from '@utils/mapper';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
 import { useVerifyScanListv3 } from '@moduleHooks/newscanner/useVerifyScanListv3';
 import { useInitialDomainStore } from '@stores/initialDomain.store';
+import useModalStore from '@stores/modal.store';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -39,6 +40,7 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
   const navigate = useNavigate();
   const [currentScan, setCurrentScan] = useState<any>({});
   const { scopeType } = useInitialDomainStore();
+  const { setIsOpen, setModalId } = useModalStore();
   
   // TEMPORAL: Obtener datos directamente desde useNewVerifyScanList como fallback
   const { scans: directScans } = useNewVerifyScanList();
@@ -175,7 +177,17 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
       console.log('🔄 Cerrando modal sin marcar como resuelto - cierre automático/F5');
     }
     
-    // 🚨 BANDERA CRÍTICA: Verificar checkEmail antes de redirigir
+    // ✅ DETECTAR UBICACIÓN ACTUAL: Si está en /ai-surveillance, no navegar
+    const currentPath = window.location.pathname;
+    console.log('📍 Ubicación actual al cerrar modal:', currentPath);
+    
+    if (currentPath.includes('/ai-surveillance')) {
+      console.log('🎯 Cerrando modal en AI Surveillance - NO navegar, quedarse donde está');
+      // Solo cerrar el modal, no navegar a ningún lado
+      return;
+    }
+    
+    // 🚨 BANDERA CRÍTICA: Verificar checkEmail antes de redirigir (solo para otras páginas)
     const { checkEmail } = useInitialDomainStore.getState();
     
     // Si viene del onboarding, siempre ir a issues con el scan específico
@@ -198,11 +210,11 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
     // Si no se cumple ninguna condición, simplemente cierra el modal sin navegar
   };
 
-  // Determinar si se puede cerrar el modal
+  // ✅ ELIMINAR VALIDACIÓN DE CIERRE: El modal siempre debe poder cerrarse
   const canCloseModal = () => {
-    const issuesParsed = currentScan?.m_nllm_issues_parsed || 0;
-    const leaksFound = currentScan?.m_leaks_found || 0;
-    return issuesParsed > 0 || leaksFound > 0;
+    // ✅ SIEMPRE RETORNAR TRUE: El usuario debe poder cerrar el modal en cualquier momento
+    console.log('🔓 canCloseModal - SIEMPRE permitiendo cierre del modal');
+    return true;
   };
   // const scanStep = (currentScan?.phase as ScanStepType) || ScanStepType.NonScan;
 
@@ -224,8 +236,25 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
 
   // Función para manejar el cierre del modal con validación
   const handleCloseAttempt = () => {
-    console.log('✅ Usuario hizo click en "Close scanner overview" - marcando como resuelto');
-    closeModal(true); // Marcar como resuelto porque el usuario completó el flujo
+    console.log('✅ Usuario hizo click en cerrar modal - permitiendo cierre siempre');
+    // ✅ SIEMPRE PERMITIR CIERRE: El usuario debe poder cerrar el modal en cualquier momento
+    const currentPath = window.location.pathname;
+    const isFromAiSurveillance = currentPath.includes('/ai-surveillance');
+    
+    console.log('🎯 Cerrando modal desde:', {
+      currentPath,
+      isFromAiSurveillance,
+      scanStatus: currentScan?.status,
+      comesFromOnboarding
+    });
+    
+    // ✅ FORZAR CIERRE DEL MODAL usando el store
+    console.log('🔐 Forzando cierre del modal usando store...');
+    setModalId('');
+    setIsOpen(false);
+    
+    // Solo marcar como resuelto si NO viene de AI Surveillance (para no afectar onboarding)
+    closeModal(!isFromAiSurveillance);
   };
 
   return (
