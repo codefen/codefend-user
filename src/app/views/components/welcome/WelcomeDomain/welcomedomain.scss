@@ -431,13 +431,7 @@
     white-space: nowrap;
 
     &:hover:not(:disabled) {
-<<<<<<< Updated upstream
-      background: var(--primary-color-100);
-      border-color: var(--secondary-color-50);
-      color: black;
-=======
       border-bottom-color: #ff3939 !important;
->>>>>>> Stashed changes
     }
 
     &.active {
