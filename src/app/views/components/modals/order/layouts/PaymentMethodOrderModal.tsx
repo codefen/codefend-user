@@ -1,119 +1,109 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
 import { OrderPaymentMethod, OrderSection } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { userOrderFinancialResource } from '@hooks/orders/useOrders';
-import { GlobeWebIcon } from '@icons';
 import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
 
 export const PaymentMethodOrderModal: FC = () => {
-  const { paymentMethod, updateState, referenceNumber, orderId } = useOrderStore(state => state);
+  const { updateState, referenceNumber, orderId } = useOrderStore(state => state);
   const { sendOrderFinancial } = userOrderFinancialResource();
   const { trackPaymentMethodSelection } = usePaymentTelemetry();
 
-  const [paymentMethodW, setPaymentMethod] = useState<OrderPaymentMethod>(paymentMethod);
-
   const backStep = () => updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
 
-  const nextStep = () => {
-    if (paymentMethodW !== OrderPaymentMethod.UNKNOWN) {
-      updateState('paymentMethod', paymentMethodW);
-      sendOrderFinancial(referenceNumber, paymentMethodW, orderId);
-      updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
-    }
+  const handlePaymentMethodClick = (method: OrderPaymentMethod, telemetryLabel: string) => {
+    trackPaymentMethodSelection(telemetryLabel as 'stripe' | 'crypto' | 'bank');
+    updateState('paymentMethod', method);
+    sendOrderFinancial(referenceNumber, method, orderId);
+    updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
+  };
+
+  const closeModal = () => {
+    updateState('orderStepActive', OrderSection.PAYWALL);
+    updateState('open', false);
   };
 
   return (
     <div className="step-content payment">
+      <button
+        className="close-button"
+        onClick={closeModal}
+        style={{
+          position: 'absolute',
+          right: '15px',
+          top: '15px',
+          zIndex: 10,
+          background: 'transparent',
+          border: 'none',
+          fontSize: '24px',
+          cursor: 'pointer',
+          color: 'var(--tertiary-color-700)',
+          transition: 'color 0.3s ease',
+        }}>
+        ×
+      </button>
+      
       <div className="step-header">
         <h3>Great! Please select your payment method:</h3>
       </div>
-      <div className="methods">
+      
+      <div className="step-content">
         <div
-          className={`option ${paymentMethodW === OrderPaymentMethod.CARD ? 'select-option' : ''}`}
-          onClick={() => {
-            setPaymentMethod(OrderPaymentMethod.CARD);
-            trackPaymentMethodSelection('stripe');
-          }}>
-          <input
-            id="card"
-            type="radio"
-            name="payment-methods"
-            className="radio-option"
-            value={paymentMethodW}
-            checked={paymentMethodW === OrderPaymentMethod.CARD}
-            defaultChecked={paymentMethodW === OrderPaymentMethod.CARD}
-            onChange={() => {}}
-            required
+          className="option-card"
+          onClick={() => handlePaymentMethodClick(OrderPaymentMethod.CARD, 'stripe')}>
+          <img
+            src="/codefend/credit-card.svg"
+            alt="Credit Card Icon"
+            style={{ width: '80px', height: 'auto' }}
           />
-          <div className="codefend-radio"></div>
-          <label htmlFor="card" className="order-snapshot">
+          <div className="order-snapshot">
             <div className="top">
-              <p className="codefend-color">Credit and debit card payment:</p>
+              <p>Credit and debit card payment:</p>
             </div>
             <span className="one-pentest">
               Experience the swiftest payment method available. Initiate your penetration test
               promptly with our secure international card payments.
             </span>
-          </label>
+          </div>
         </div>
 
         <div
-          className={`option ${paymentMethodW === OrderPaymentMethod.CRYPTO ? 'select-option' : ''}`}
-          onClick={() => {
-            setPaymentMethod(OrderPaymentMethod.CRYPTO);
-            trackPaymentMethodSelection('crypto');
-          }}>
-          <input
-            id="crypto"
-            type="radio"
-            name="payment-methods"
-            className="radio-option"
-            checked={paymentMethodW === OrderPaymentMethod.CRYPTO}
-            defaultChecked={paymentMethodW === OrderPaymentMethod.CRYPTO}
-            value={paymentMethodW}
-            onChange={() => {}}
-            required
+          className="option-card"
+          onClick={() => handlePaymentMethodClick(OrderPaymentMethod.CRYPTO, 'crypto')}>
+          <img
+            src="/codefend/btc.svg"
+            alt="Cryptocurrency Icon"
+            style={{ width: '80px', height: '80px' }}
           />
-          <div className="codefend-radio"></div>
-          <label htmlFor="crypto" className="order-snapshot">
+          <div className="order-snapshot">
             <div className="top">
-              <p className="codefend-color">Cryptocurrency payment:</p>
+              <p>Cryptocurrency payment:</p>
             </div>
             <span className="one-pentest">
               Codefend gladly accepts direct cryptocurrency payments in Bitcoin, Ethereum, Litecoin,
               Solana, Monero, and stablecoins like USDC and USDT.
             </span>
-          </label>
+          </div>
         </div>
 
         <div
-          className={`option ${paymentMethodW === OrderPaymentMethod.BANK_TRANSFER ? 'select-option' : ''}`}
-          onClick={() => {
-            setPaymentMethod(OrderPaymentMethod.BANK_TRANSFER);
-            trackPaymentMethodSelection('bank');
-          }}>
-          <input
-            id="bank-transfer"
-            type="radio"
-            name="payment-methods"
-            className="radio-option"
-            value={paymentMethodW}
-            checked={paymentMethodW === OrderPaymentMethod.BANK_TRANSFER}
-            defaultChecked={paymentMethodW === OrderPaymentMethod.BANK_TRANSFER}
-            onChange={() => {}}
-            required
+          className="option-card"
+          onClick={() => handlePaymentMethodClick(OrderPaymentMethod.BANK_TRANSFER, 'bank')}>
+          <img
+            src="/codefend/logo-color.png"
+            alt="Bank Transfer Icon"
+            style={{ width: '80px', height: '80px' }}
           />
-          <div className="codefend-radio"></div>
-          <label htmlFor="bank-transfer" className="order-snapshot">
+          <div className="order-snapshot">
             <div className="top">
-              <p className="codefend-color">Bank transfer / bank wire:</p>
+              <p>Bank transfer / bank wire:</p>
             </div>
             <span className="one-pentest">
               Ideal for substantial orders! Verification is required, and confirmation may take up
               to 48 hours after payment receipt.
             </span>
-          </label>
+          </div>
         </div>
       </div>
 
@@ -124,16 +114,6 @@ export const PaymentMethodOrderModal: FC = () => {
             click={backStep}
             className="full"
             buttonStyle="black"
-            disabledLoader
-          />
-        </div>
-        <div className="primary-container">
-          <PrimaryButton
-            text="Send request"
-            click={nextStep}
-            className="full"
-            buttonStyle="red"
-            isDisabled={paymentMethodW === OrderPaymentMethod.UNKNOWN}
             disabledLoader
           />
         </div>

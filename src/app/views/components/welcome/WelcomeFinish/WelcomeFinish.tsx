@@ -16,6 +16,7 @@ import { useValueFlash } from '@/app/data/hooks/common/useValueFlash';
 import { mapScanObjToScanFinishedObj } from '@utils/mapper';
 import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanList';
 import { useVerifyScanListv3 } from '@moduleHooks/newscanner/useVerifyScanListv3';
+import { useInitialDomainStore } from '@stores/initialDomain.store';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -37,6 +38,7 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
   ]);
   const navigate = useNavigate();
   const [currentScan, setCurrentScan] = useState<any>({});
+  const { scopeType } = useInitialDomainStore();
   
   // TEMPORAL: Obtener datos directamente desde useNewVerifyScanList como fallback
   const { scans: directScans } = useNewVerifyScanList();
@@ -85,13 +87,30 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
       const directScan = directScans.find(s => s.id === _lastScanId);
       if (directScan) {
         console.log('🎯 WelcomeFinish - FALLBACK: Usando scan directo de useNewVerifyScanList:', directScan);
+        
+        // Calcular progreso correcto basado en el estado del scan
+        const isFinished = directScan.phase === 'finished';
+        const webScanProgress = isFinished || directScan.m_nllm_finished ? 100 : 50;
+        const leaksScanProgress = isFinished || directScan.m_leaks_finished ? 100 : 50;
+        const subdomainScanProgress = isFinished || directScan.m_subdomains_finished ? 100 : 50;
+        const overallProgress = isFinished ? 100 : (webScanProgress + leaksScanProgress + subdomainScanProgress) / 3;
+        
+        console.log('🎯 WelcomeFinish - FALLBACK progress calculation:', {
+          phase: directScan.phase,
+          isFinished,
+          webScanProgress,
+          leaksScanProgress,
+          subdomainScanProgress,
+          overallProgress
+        });
+        
         return {
           ...directScan,
-          status: AUTO_SCAN_STATE.SCAN_LAUNCHED,
-          scanProgress: 50, // Valor temporal para que se muestre algo
-          webScanProgress: 50,
-          leaksScanProgress: directScan.m_leaks_finished ? 100 : 50,
-          subdomainScanProgress: directScan.m_subdomains_finished ? 100 : 50,
+          status: isFinished ? AUTO_SCAN_STATE.SCAN_FINISHED : AUTO_SCAN_STATE.SCAN_LAUNCHED,
+          scanProgress: overallProgress,
+          webScanProgress,
+          leaksScanProgress,
+          subdomainScanProgress,
         };
       }
     }
@@ -151,7 +170,8 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
     solved();
     
     // Si viene del onboarding, siempre ir a issues con el scan específico
-    if (comesFromOnboarding) {
+    // EXCEPCIÓN: No redirigir automáticamente si el scopeType es 'email', porque ya se manejó en WelcomeDomain
+    if (comesFromOnboarding && scopeType !== 'email') {
       const scanId = globalStore.lastScanId.get;
       if (scanId) {
         navigate(`/issues?scan_id=${scanId}`);
@@ -162,6 +182,12 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
       // Lógica original para otros casos
       navigate('/issues');
     }
+    
+    // Si es email, no hacer nada - la redirección ya se manejó en WelcomeDomain
+    if (scopeType === 'email') {
+      console.log('📧 Scope es email - no redirigir automáticamente desde WelcomeFinish, ya se manejó en WelcomeDomain');
+    }
+    
     // Si no se cumple ninguna condición, simplemente cierra el modal sin navegar
   };
 
@@ -207,9 +233,8 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
             <div className="scan-header-row">
               <div className="scan-basic-info">
                 <p>
-                  AI based scan on <b>{currentScan?.resource_address}</b> started by{' '}
-                  {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}. <br />
-                  {/* <strong>Estimated time: 10 minutes.</strong> */}
+                  AI-based scan performed on <b>{currentScan?.resource_address}</b> initiated by{' '}
+                  {currentScan?.user_email} at {formatTimeFormat(currentScan?.launched)}.
                 </p>
               </div>
               <div className="progress-mini">

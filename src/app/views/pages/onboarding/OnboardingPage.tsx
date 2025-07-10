@@ -317,10 +317,16 @@ export const OnboardingPage = () => {
 
       toast.success('Business information updated!');
       
-      // NUEVO: Guardar dominio de la empresa en el store para vincularlo con el scanner
-      if (normalizedCompanyData.company_web && normalizedCompanyData.company_web !== '-' && normalizedCompanyData.company_web !== 'pending-onboarding.temp') {
+      // NUEVO: Guardar dominio de la empresa en el store SOLO para usuarios empresariales
+      if (!isPersonalUser && normalizedCompanyData.company_web && normalizedCompanyData.company_web !== '-' && normalizedCompanyData.company_web !== 'pending-onboarding.temp') {
         updateInitialDomain('initialDomain', normalizedCompanyData.company_web);
+        updateInitialDomain('scopeType', 'website');
         console.log('🔗 Dominio normalizado guardado para el scanner:', normalizedCompanyData.company_web);
+      } else if (isPersonalUser) {
+        // Para usuarios personales, limpiar el store y configurar para email
+        updateInitialDomain('initialDomain', '');
+        updateInitialDomain('scopeType', 'email');
+        console.log('🧹 Usuario personal - Store limpiado y configurado para email');
       }
       
       // Limpiar datos temporales

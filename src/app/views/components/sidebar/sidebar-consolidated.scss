@@ -22,7 +22,7 @@
   z-index: 4;
   max-height: 100dvh;
   height: 100dvh;
-  overflow-y: auto;
+  overflow: hidden;
   transition:
     width 130ms ease-out,
     background 130ms linear,
@@ -41,6 +41,7 @@
     margin-block-start: 0;
     background-color: var(--primary-color);
     animation: sideLeft 0.5s ease-in-out;
+    overflow-y: auto;
   }
 
   &.mobile-active {
@@ -425,15 +426,41 @@
 
   a {
     color: #e5e5e5e3;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       background-color: var(--primary-color);
       color: rgb(229 229 229 / 95%);
+      border-radius: 8px;
+      padding-inline: 12px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &.active {
-      background-color: var(--primary-color-100);
-      color: #fff;
+      background: linear-gradient(135deg, #ff393933 0%, #ff393922 50%, #ff393944 100%);
+      color: #ff6464;
+      border-radius: 8px;
+      padding-inline: 12px;
+      box-shadow: 0 2px 8px rgba(255, 57, 57, 0.15);
+      font-weight: 500;
+      position: relative;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 60%;
+        background: linear-gradient(180deg, #ff6464 0%, #ff3939 100%);
+        border-radius: 0 2px 2px 0;
+      }
+      
+      svg {
+        fill: #ff6464;
+        color: #ff6464;
+      }
     }
   }
 
@@ -579,6 +606,11 @@ main {
 @media only screen and (max-width: 1230px) {
   main {
     padding-inline-start: var(--card-space);
+    
+    // Cuando la sidebar está contraída (mobile-active), no debe tener padding
+    &.sidebar-mobile-active {
+      padding-inline-start: 0 !important;
+    }
   }
 }
 

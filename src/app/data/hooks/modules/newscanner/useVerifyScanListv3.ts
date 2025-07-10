@@ -134,9 +134,15 @@ export const useVerifyScanListv3 = () => {
           const stillActiveInMap = mapScan?.phase === 'launched';
           const nowFinishedInApi = scan?.phase === 'finished' || scan?.phase === 'killed';
           if (nowFinishedInApi && stillActiveInMap) return true;
+          // Caso 3: si el modal está abierto, incluir scans terminados para mostrar progreso correcto
+          const isModalOpen = isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH;
+          if (isModalOpen && nowFinishedInApi) return true;
           return false;
         });
-        console.log('📊 useVerifyScanListv3 - scans activos filtrados:', filtered.length);
+        console.log('📊 useVerifyScanListv3 - scans activos filtrados:', {
+          totalFiltered: filtered.length,
+          filteredScans: filtered.map((s: any) => ({ id: s.id, phase: s.phase }))
+        });
         setAllActiveScan(filtered);
       },
     };
@@ -181,11 +187,11 @@ export const useVerifyScanListv3 = () => {
     
     allActiveScan.forEach(scan => {
       const fixed = activeMap.get(scan.id) || {
-        scanProgress: 0,
-        webScanProgress: 0,
-        leaksScanProgress: 0,
-        subdomainScanProgress: 0,
-        status: AUTO_SCAN_STATE.SCAN_LAUNCHED,
+        scanProgress: scan.phase === 'finished' ? 100 : 0,
+        webScanProgress: scan.phase === 'finished' ? 100 : 0,
+        leaksScanProgress: scan.phase === 'finished' ? 100 : 0,
+        subdomainScanProgress: scan.phase === 'finished' ? 100 : 0,
+        status: scan.phase === 'finished' ? AUTO_SCAN_STATE.SCAN_FINISHED : AUTO_SCAN_STATE.SCAN_LAUNCHED,
       };
       
       const updatedScan = {
@@ -257,6 +263,7 @@ export const useVerifyScanListv3 = () => {
       let subdomainScanProgress = value?.subdomainScanProgress;
       
       console.log(`🔍 useVerifyScanListv3 - Calculando progreso para scan ${key}:`, {
+        phase: value?.phase,
         webScanPhase,
         m_nllm_launched,
         m_leaks_launched,
@@ -273,7 +280,11 @@ export const useVerifyScanListv3 = () => {
         }
       });
       
-      if (webScanPhase === 'scanner') {
+      // Verificar si el web scan está terminado (prioridad máxima)
+      if (value?.m_nllm_finished || webScanPhase === 'finished') {
+        webScanProgress = 100;
+        console.log(`📊 useVerifyScanListv3 - WebScan FINISHED: 100%`);
+      } else if (webScanPhase === 'scanner') {
         const now = Date.now(); //Hora actual podes sumar 1 cada 8seg que paso de la hora actual
         const launchedTime = new Date(m_nllm_launched).getTime();
         const elapsedSeconds = (now - launchedTime) / 1000;
@@ -288,9 +299,6 @@ export const useVerifyScanListv3 = () => {
         const m_nllm_issues_parsed = value?.m_nllm_issues_parsed;
         webScanProgress = getParserProgress(m_nllm_issues_found, m_nllm_issues_parsed);
         console.log(`📊 useVerifyScanListv3 - WebScan PARSER progress: ${webScanProgress}% (found: ${m_nllm_issues_found}, parsed: ${m_nllm_issues_parsed})`);
-      } else if (value?.m_nllm_finished) {
-        webScanProgress = 100;
-        console.log(`📊 useVerifyScanListv3 - WebScan FINISHED: 100%`);
       } else {
         console.log(`📊 useVerifyScanListv3 - WebScan WAITING: ${webScanProgress}% (phase: ${webScanPhase})`);
         
@@ -378,11 +386,22 @@ export const useVerifyScanListv3 = () => {
         subdomainScanProgress = 100;
       }
 
-      const overallProgress = computeOverallProgress(
-        webScanProgress,
-        leaksScanProgress,
-        subdomainScanProgress
-      );
+      // Si el scan principal está terminado, forzar 100% en todo
+      let overallProgress;
+      if (value?.phase === 'finished' || value?.phase === 'killed') {
+        webScanProgress = 100;
+        leaksScanProgress = 100;
+        subdomainScanProgress = 100;
+        overallProgress = 100;
+        console.log(`📊 useVerifyScanListv3 - SCAN PRINCIPAL TERMINADO: Forzando 100% en todo`);
+      } else {
+        overallProgress = computeOverallProgress(
+          webScanProgress,
+          leaksScanProgress,
+          subdomainScanProgress
+        );
+      }
+      
       if (value?.phase !== 'finished' && value?.phase !== 'killed') {
         isAnyScanPending = true;
       }

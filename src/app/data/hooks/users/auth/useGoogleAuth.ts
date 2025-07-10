@@ -18,17 +18,19 @@
  * @version 1.0
  */
 
-import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useFetcher } from '#commonHooks/useFetcher';
+import { useState } from 'react';
+import { toast } from '@/app/data/utils';
 import { apiErrorValidation } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { useSessionManager } from './useSessionManager';
+import { useInitialDomainStore } from '@/app/data/store/initialDomain.store';
 
 export const useGoogleAuth = () => {
   const [fetcher] = useFetcher();
   const [isLoading, setIsLoading] = useState(false);
   const { handleSuccessfulLogin } = useSessionManager();
+  const { update: updateInitialDomain } = useInitialDomainStore();
 
   /**
    * Intenta hacer login con Google para usuarios existentes
@@ -46,37 +48,22 @@ export const useGoogleAuth = () => {
       });
 
       if (apiErrorValidation(data)) {
-        // Si el error es que el usuario no existe, devolver info para registro
-        if ((data as any).error_info === 'user_not_found') {
-          return { 
-            requiresRegistration: true, 
-            googleData: (data as any).google_data,
-            message: 'Usuario no encontrado. Se requiere registro.'
-          };
-        }
-        
-        throw new Error((data as any)?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
+        // Si hay error de validación, podría ser usuario no registrado
+        throw new Error((data as any)?.info || 'Error al iniciar sesión con Google');
       }
 
-      // Login exitoso - verificar si necesita onboarding
-      if ((data as any)?.needs_onboarding) {
-        // Guardar datos temporales para el onboarding
-        localStorage.setItem('onboarding_data', JSON.stringify(data));
-        localStorage.setItem('temp_session_data', JSON.stringify({ session: (data as any).session }));
-        
-        console.log('🚀 Google Login - Usuario existente necesita onboarding');
-        
-        return { 
-          success: true, 
-          user: (data as any).user,
-          needs_onboarding: true,
-          data: data,
-          message: 'Bienvenido de vuelta. Completa tu perfil de empresa.'
-        };
-      } else {
-        const user = handleSuccessfulLogin(data);
-        return { success: true, user };
-      }
+      // Login exitoso
+      // Para usuarios de Google OAuth (que suelen ser personales), limpiar el store
+      updateInitialDomain('initialDomain', '');
+      updateInitialDomain('scopeType', 'email');
+      console.log('🧹 Google Login - Store limpiado y configurado para email');
+      
+      const user = handleSuccessfulLogin(data);
+      return { 
+        success: true, 
+        user,
+        message: 'Sesión iniciada exitosamente con Google'
+      };
 
     } catch (error: any) {
       toast.error(error.message || 'Error al iniciar sesión con Google');
@@ -135,6 +122,11 @@ export const useGoogleAuth = () => {
           };
         } else {
           // Si no necesita onboarding, proceder con login normal
+          // Para usuarios de Google OAuth (que son personales por defecto), limpiar el store
+          updateInitialDomain('initialDomain', '');
+          updateInitialDomain('scopeType', 'email');
+          console.log('🧹 Google OAuth - Usuario personal, store limpiado y configurado para email');
+          
           const user = handleSuccessfulLogin(leadData);
           return { 
             success: true, 

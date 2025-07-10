@@ -15,6 +15,7 @@ import { PrimaryButton } from '@buttons/index';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { useInitialDomainStore } from '@stores/initialDomain.store';
 import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
   {
@@ -72,6 +73,7 @@ export const WelcomeDomain = ({
   const [loading, setLoading] = useState(false);
   const [scopeType, setScopeType] = useState<'email' | 'website' | null>(null);
   const { autoScan } = useAutoScan();
+  const navigate = useNavigate();
 
   // Campo actual según el tipo de scope
   const currentValue = scopeType === 'email' ? emailValue : websiteValue;
@@ -224,13 +226,42 @@ export const WelcomeDomain = ({
     const currentUser = user.get;
     const currentCompany = company.get;
     
-    // Verificar si es usuario personal basado en los datos disponibles
-    if (currentCompany?.name === 'Personal Business' || 
-        currentCompany?.web === '-' ||
-        currentCompany?.size === '1-10' && currentCompany?.web === '-') {
+    console.log('🔍 Verificando tipo de usuario:', { 
+      user: currentUser, 
+      company: currentCompany,
+      personal_user: currentUser?.personal_user,
+      company_web: currentCompany?.web 
+    });
+    
+    // Método 1: Verificar si personal_user está marcado como '1'
+    if (currentUser?.personal_user === '1' || currentUser?.personal_user === 1) {
+      console.log('✅ Usuario personal detectado por personal_user flag');
       return true;
     }
     
+    // Método 2: Verificar datos de empresa que indican usuario personal
+    if (currentCompany?.name === 'Personal Business' || 
+        currentCompany?.web === '-' ||
+        (currentCompany?.size === '1-10' && currentCompany?.web === '-')) {
+      console.log('✅ Usuario personal detectado por datos de empresa');
+      return true;
+    }
+    
+    // Método 3: Verificar datos temporales del onboarding
+    try {
+      const tempOnboardingData = localStorage.getItem('onboarding_data');
+      if (tempOnboardingData) {
+        const tempData = JSON.parse(tempOnboardingData);
+        if (tempData.user?.personal_user === '1' || tempData.user?.personal_user === 1) {
+          console.log('✅ Usuario personal detectado por datos temporales');
+          return true;
+        }
+      }
+    } catch (error) {
+      console.warn('Error al verificar datos temporales:', error);
+    }
+    
+    console.log('❌ Usuario NO es personal');
     return false;
   };
 
@@ -249,40 +280,97 @@ export const WelcomeDomain = ({
     // Solo ejecutar la inicialización una vez
     if (hasInitialized) return;
     
-    // Inicializar valores desde el store si están disponibles
+    console.log('🔄 Inicializando WelcomeDomain...');
+    
+    // Obtener datos disponibles
+    const currentUser = user.get;
+    const currentCompany = company.get;
+    const userEmail = currentUser?.email;
+    const companyWebsite = hasCompanyWebsite() ? currentCompany?.web : null;
+    const isPersonal = isPersonalUser();
+    
+    console.log('📊 Datos disponibles:', { 
+      userEmail, 
+      companyWebsite, 
+      isPersonal,
+      company: currentCompany,
+      user: currentUser 
+    });
+    
+    // NUEVA LÓGICA: Determinar preselección basada en datos disponibles
+    // Regla 1: Si tiene solo email => preseleccionar "check my personal email"
+    // Regla 2: Si tiene dominio (con o sin email) => preseleccionar "check my business website"
+    
+    let shouldPreselect = 'email'; // Default fallback
+    let shouldPopulateEmail = false;
+    let shouldPopulateWebsite = false;
+    
     if (initialDomainStored) {
+      // Si hay valor en el store, usarlo para determinar el tipo
+      console.log('📥 Valor desde store:', initialDomainStored);
       if (isEmail(initialDomainStored)) {
+        shouldPreselect = 'email';
         setEmailValue(initialDomainStored);
       } else {
+        shouldPreselect = 'website';
         setWebsiteValue(initialDomainStored);
+      }
+    } else {
+      // Determinar basándose en los datos disponibles
+      if (companyWebsite) {
+        // TIENE DOMINIO: preseleccionar business website (independientemente de si tiene email)
+        console.log('🏢 Tiene dominio de empresa - preseleccionando business website');
+        shouldPreselect = 'website';
+        shouldPopulateWebsite = true;
+      } else if (userEmail) {
+        // SOLO TIENE EMAIL: preseleccionar personal email
+        console.log('📧 Solo tiene email - preseleccionando personal email');
+        shouldPreselect = 'email';
+        shouldPopulateEmail = true;
+      } else if (isPersonal) {
+        // USUARIO PERSONAL SIN DATOS: preseleccionar personal email
+        console.log('👤 Usuario personal sin datos - preseleccionando personal email');
+        shouldPreselect = 'email';
+        shouldPopulateEmail = true;
+      } else {
+        // USUARIO EMPRESARIAL SIN DATOS: preseleccionar business website
+        console.log('🏢 Usuario empresarial sin datos - preseleccionando business website');
+        shouldPreselect = 'website';
       }
     }
     
-    // Preseleccionar el tipo de scope según el tipo de usuario
-    if (scopeType === null) {
-      if (isPersonalUser()) {
-        setScopeType('email');
-        // Para usuarios personales, usar el email del usuario solo si no hay valor
-        const currentUser = user.get;
-        if (currentUser?.email && !emailValue && !initialDomainStored) {
-          setEmailValue(currentUser.email);
-        }
-      } else if (hasCompanyWebsite()) {
-        setScopeType('website');
-        // Para usuarios empresariales, usar el dominio solo si no hay valor inicial
-        const currentCompany = company.get;
-        if (currentCompany?.web && !websiteValue && !initialDomainStored) {
-          setWebsiteValue(currentCompany.web);
-        }
-      } else {
-        // Default para empresas sin website
-        setScopeType('website');
-      }
+    // Aplicar la preselección
+    console.log(`🎯 Preseleccionando: ${shouldPreselect}`);
+    
+    // Limpiar store para evitar conflictos
+    update('initialDomain', '');
+    update('scopeType', shouldPreselect);
+    
+    // Establecer el scope type
+    setScopeType(shouldPreselect);
+    
+    // Poblar campos según corresponda
+    if (shouldPopulateEmail && userEmail) {
+      setEmailValue(userEmail);
+      console.log('✅ Email del usuario cargado:', userEmail);
+    }
+    
+    if (shouldPopulateWebsite && companyWebsite) {
+      setWebsiteValue(companyWebsite);
+      console.log('✅ Website de empresa cargado:', companyWebsite);
+    }
+    
+    // Limpiar el campo no utilizado
+    if (shouldPreselect === 'email') {
+      setWebsiteValue('');
+    } else {
+      setEmailValue('');
     }
     
     // Marcar como inicializado
     setHasInitialized(true);
-  }, [hasInitialized, initialDomainStored, scopeType]);
+    console.log('✅ WelcomeDomain inicializado con scope:', shouldPreselect);
+  }, [hasInitialized, initialDomainStored]);
 
   // useEffect separado para el preview que solo se ejecuta con websiteValue válido
   useEffect(() => {
@@ -417,10 +505,20 @@ export const WelcomeDomain = ({
     update('scopeType', 'email');
     
     try {
-      await goToStartScanStep();
+      // Redireccionar directamente a SNS con el email como parámetro
+      const encodedEmail = encodeURIComponent(emailValue);
+      const snsUrl = `/sns?keyword=${encodedEmail}&class=email`;
+      
+      console.log('🚀 Redirigiendo a SNS con email:', emailValue);
+      console.log('🔗 URL de SNS:', snsUrl);
+      
+      // Cerrar el modal y navegar
+      close();
+      navigate(snsUrl);
+      
       setLoading(false);
     } catch (error) {
-      console.error('Error navigating to scan step:', error);
+      console.error('Error navigating to SNS:', error);
       toast.error('Failed to start email scan');
       setLoading(false);
     }
@@ -542,3 +640,5 @@ export const WelcomeDomain = ({
     </ModalWrapper>
   );
 };
+
+

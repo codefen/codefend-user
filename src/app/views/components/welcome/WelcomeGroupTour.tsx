@@ -35,14 +35,22 @@ export const WelcomeGroupTour = () => {
     if (urlParams.get('open_scanner') === 'true') {
       // Marcar que viene del onboarding
       setComesFromOnboarding(true);
-      // Abrir automáticamente el scanner
-      setIsOpen(true);
-      setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
+      
+      // EXCEPCIÓN: NO abrir automáticamente el modal si el scopeType es 'email'
+      // porque el usuario ya eligió ir directamente a SNS
+      if (scopeType !== 'email') {
+        // Abrir automáticamente el scanner solo para scans de website
+        setIsOpen(true);
+        setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
+      } else {
+        console.log('📧 Scope es email - no abrir modal automáticamente, usuario fue a SNS');
+      }
+      
       // Limpiar el parámetro URL
       const newURL = window.location.pathname;
       window.history.replaceState({}, document.title, newURL);
     }
-  }, [setIsOpen, setModalId]);
+  }, [setIsOpen, setModalId, scopeType]);
 
   const startWaitStep = (idiom: string = 'en') => {
     // CRÍTICO: Usar datos ya obtenidos del hook para evitar error de hooks
@@ -121,7 +129,8 @@ export const WelcomeGroupTour = () => {
     solvedComunique();
     
     // Si viene del onboarding, navegar directamente a issues con el scan específico
-    if (comesFromOnboarding) {
+    // EXCEPCIÓN: No redirigir automáticamente si el scopeType es 'email', porque ya se manejó en WelcomeDomain
+    if (comesFromOnboarding && scopeType !== 'email') {
       // Pequeño delay para asegurar que el modal se haya cerrado
       setTimeout(() => {
         const scanId = lastScanId.get;
@@ -131,6 +140,11 @@ export const WelcomeGroupTour = () => {
           window.location.href = '/issues';
         }
       }, 100);
+    }
+    
+    // Si es email, no hacer nada - la redirección ya se manejó en WelcomeDomain
+    if (scopeType === 'email') {
+      console.log('📧 Scope es email - no redirigir automáticamente, ya se manejó en WelcomeDomain');
     }
   };
 
