@@ -1,20 +1,20 @@
 /**
  * Formulario de Login/Inicio de Sesión
- * 
+ *
  * Este componente maneja el proceso de autenticación de usuarios:
  * - Login básico: email + password
  * - Soporte MFA: código de verificación adicional
  * - Redirección automática según rol de usuario
- * 
+ *
  * Integración con backend:
  * - POST /api?model=users/access (autenticación)
  * - Soporte para Google OAuth (pendiente integración)
- * 
+ *
  * Estados de login:
  * - Normal: email + password
  * - MFA: requiere código adicional
  * - Error: credenciales inválidas
- * 
+ *
  * @author Codefend Team
  * @version 2.0 (Preparado para Google OAuth)
  */
@@ -30,6 +30,7 @@ import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
+import { toast } from 'react-toastify';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -82,7 +83,7 @@ export const NewSigninForm = () => {
       });
 
       const result = await handleGoogleAuth(credential, 'signin');
-      
+
       if (result.success) {
         // Evento de telemetría: login exitoso con Google
         sendEventToGTM({
@@ -99,7 +100,7 @@ export const NewSigninForm = () => {
           window.location.href = '/';
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       // Evento de telemetría: error en login con Google
       sendEventToGTM({
         event: 'inicio_sesion_google_error',
@@ -179,13 +180,13 @@ export const NewSigninForm = () => {
             ? 'This account has two-factor authentication enabled, please complete the verification process.'
             : 'Welcome back'}
         </p>
-        
+
         {/* Botón de Google OAuth - Solo mostrar si no está en paso MFA */}
         {!mfaStep && (
           <>
             {/* Línea separadora arriba del botón de Google */}
             <div className="auth-separator-line"></div>
-            
+
             <GoogleAuthButton
               text="Continuar con Google"
               onSuccess={handleGoogleSuccess}
@@ -193,12 +194,12 @@ export const NewSigninForm = () => {
               disabled={isLoading || isGoogleLoading}
               mode="signin"
             />
-            
+
             {/* Línea separadora debajo del botón de Google */}
             <div className="auth-separator-line"></div>
           </>
         )}
-        
+
         <form onSubmit={handleSubmit}>
           <AuthInput
             className={mfaStep ? css['hide-for-mfa'] : ''}

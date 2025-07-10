@@ -1,19 +1,19 @@
 /**
  * Hook de Autenticación con Google OAuth
- * 
+ *
  * Este hook maneja toda la lógica de autenticación con Google,
  * incluyendo login y registro de usuarios.
- * 
+ *
  * Funcionalidades:
  * - Login con Google (usuarios existentes)
  * - Registro con Google (usuarios nuevos)
  * - Integración con backend de Codefend
  * - Manejo de errores y estados de carga
- * 
+ *
  * Backend integration:
  * - POST /users/google/login (login existente)
  * - POST /users/new (registro con Google)
- * 
+ *
  * @author Codefend Team
  * @version 1.0
  */
@@ -37,17 +37,18 @@ export const useGoogleAuth = () => {
    */
   const googleLogin = async (idToken: string): Promise<any> => {
     setIsLoading(true);
-    
+    // console.log('🚀 Google Login - Iniciando login con Google');
     try {
       const { data } = await fetcher('post', {
-        body: { 
+        body: {
           id_token: idToken,
-          model: 'users/google/login'
+          model: 'users/google/login',
         },
         requireSession: false,
       });
+      // console.log('TREASEDASDASD', { data });
 
-      if (apiErrorValidation(data)) {
+      if (apiErrorValidation(data) || (data as any)?.response === 'register_required') {
         // Si hay error de validación, podría ser usuario no registrado
         throw new Error((data as any)?.info || 'Error al iniciar sesión con Google');
       }
@@ -56,18 +57,17 @@ export const useGoogleAuth = () => {
       // Para usuarios de Google OAuth (que suelen ser personales), limpiar el store
       updateInitialDomain('initialDomain', '');
       updateInitialDomain('scopeType', 'email');
-      console.log('🧹 Google Login - Store limpiado y configurado para email');
-      
-      const user = handleSuccessfulLogin(data);
-        return { 
-          success: true, 
-        user,
-        message: 'Sesión iniciada exitosamente con Google'
-      };
+      // console.log('🧹 Google Login - Store limpiado y configurado para email');
 
+      const user = handleSuccessfulLogin(data);
+      return {
+        success: true,
+        user,
+        message: 'Sesión iniciada exitosamente con Google',
+      };
     } catch (error: any) {
       toast.error(error.message || 'Error al iniciar sesión con Google');
-      return { error: error.message };
+      return { error: error.message, success: false, user: null };
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +78,7 @@ export const useGoogleAuth = () => {
    */
   const googleSignup = async (idToken: string, additionalData?: any): Promise<any> => {
     setIsLoading(true);
-    
+
     try {
       // Primer paso: crear lead con datos de Google
       const signupData = {
@@ -90,7 +90,7 @@ export const useGoogleAuth = () => {
         reseller_id: '1',
         reseller_name: 'codefend',
         idiom: 'en',
-        ...additionalData
+        ...additionalData,
       };
 
       const { data: leadData } = await fetcher('post', {
@@ -109,40 +109,44 @@ export const useGoogleAuth = () => {
         if ((leadData as any)?.needs_onboarding) {
           // Guardar datos temporales para el onboarding
           localStorage.setItem('onboarding_data', JSON.stringify(leadData));
-          localStorage.setItem('temp_session_data', JSON.stringify({ session: (leadData as any).session }));
-          
-          console.log('🚀 Google OAuth - Datos temporales guardados para onboarding');
-          
-          return { 
-            success: true, 
+          localStorage.setItem(
+            'temp_session_data',
+            JSON.stringify({ session: (leadData as any).session })
+          );
+
+          // console.log('🚀 Google OAuth - Datos temporales guardados para onboarding');
+
+          return {
+            success: true,
             user: (leadData as any).user,
             needs_onboarding: true,
             data: leadData,
-            message: 'Cuenta creada exitosamente con Google. Completa tu perfil.'
+            message: 'Cuenta creada exitosamente con Google. Completa tu perfil.',
           };
         } else {
           // Si no necesita onboarding, proceder con login normal
           // Para usuarios de Google OAuth (que son personales por defecto), limpiar el store
           updateInitialDomain('initialDomain', '');
           updateInitialDomain('scopeType', 'email');
-          console.log('🧹 Google OAuth - Usuario personal, store limpiado y configurado para email');
-          
+          // console.log(
+          //   '🧹 Google OAuth - Usuario personal, store limpiado y configurado para email'
+          // );
+
           const user = handleSuccessfulLogin(leadData);
-          return { 
-            success: true, 
+          return {
+            success: true,
             user,
-            message: 'Cuenta creada e iniciada sesión exitosamente con Google'
+            message: 'Cuenta creada e iniciada sesión exitosamente con Google',
           };
         }
       }
 
       // Si no hay sesión, devolver datos del lead para posible fase 4
-      return { 
-        success: true, 
+      return {
+        success: true,
         lead: (leadData as any).leads,
-        message: 'Cuenta creada exitosamente con Google'
+        message: 'Cuenta creada exitosamente con Google',
       };
-
     } catch (error: any) {
       toast.error(error.message || 'Error al registrarse con Google');
       return { error: error.message };
@@ -154,16 +158,20 @@ export const useGoogleAuth = () => {
   /**
    * Maneja la respuesta de Google OAuth (login o registro)
    */
-  const handleGoogleAuth = async (idToken: string, mode: 'signin' | 'signup' = 'signin'): Promise<any> => {
+  const handleGoogleAuth = async (
+    idToken: string,
+    mode: 'signin' | 'signup' = 'signin'
+  ): Promise<any> => {
     if (mode === 'signin') {
+      // console.log('🚀 Google Auth - Iniciando login con Google');
       const loginResult = await googleLogin(idToken);
-      
+
       // Si el login falla porque el usuario no existe, intentar registro automático
       if (loginResult.requiresRegistration) {
         toast.info('Usuario no encontrado. Creando cuenta automáticamente...');
         return await googleSignup(idToken);
       }
-      
+
       return loginResult;
     } else {
       return await googleSignup(idToken);
@@ -173,9 +181,13 @@ export const useGoogleAuth = () => {
   /**
    * Actualiza información de empresa (Fase 4) para usuarios de Google
    */
-  const updateCompanyInfo = async (userId: string, session: string, companyData: any): Promise<any> => {
+  const updateCompanyInfo = async (
+    userId: string,
+    session: string,
+    companyData: any
+  ): Promise<any> => {
     setIsLoading(true);
-    
+
     try {
       const { data } = await fetcher('post', {
         body: {
@@ -183,7 +195,7 @@ export const useGoogleAuth = () => {
           phase: '4',
           user_id: userId,
           session: session,
-          ...companyData
+          ...companyData,
         },
         requireSession: false,
       });
@@ -193,7 +205,6 @@ export const useGoogleAuth = () => {
       }
 
       return { success: true, company: (data as any).company };
-
     } catch (error: any) {
       toast.error(error.message || 'Error al actualizar empresa');
       return { error: error.message };
@@ -207,6 +218,6 @@ export const useGoogleAuth = () => {
     googleSignup,
     handleGoogleAuth,
     updateCompanyInfo,
-    isLoading
+    isLoading,
   };
-}; 
+};

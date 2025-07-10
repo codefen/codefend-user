@@ -32,20 +32,20 @@ const showToastIfNotDuplicate = (
   options: CustomToastOptions = {}
 ): Id | null => {
   const { preventDuplicate = true, ...toastOptions } = options;
-  
+
   if (!preventDuplicate) {
     // Si no se quiere prevenir duplicados, mostrar directamente
     return reactToast[type](content, toastOptions);
   }
-  
+
   const key = createToastKey(content, type);
-  
+
   // Verificar si ya existe un toast idéntico
   if (activeToasts.has(key)) {
     console.log(`Toast duplicado evitado: ${key}`);
     return null;
   }
-  
+
   // Mostrar el toast y registrarlo
   const toastId = reactToast[type](content, {
     ...toastOptions,
@@ -56,10 +56,10 @@ const showToastIfNotDuplicate = (
       }
     },
   });
-  
+
   // Registrar el toast activo
   activeToasts.set(key, toastId);
-  
+
   return toastId;
 };
 
@@ -73,58 +73,55 @@ export const toast = {
   success: (content: ToastContent, options?: CustomToastOptions) => {
     return showToastIfNotDuplicate(content, 'success', options);
   },
-  
+
   /**
    * Muestra un toast de error
    */
   error: (content: ToastContent, options?: CustomToastOptions) => {
     return showToastIfNotDuplicate(content, 'error', options);
   },
-  
+
   /**
    * Muestra un toast de advertencia
    */
   warning: (content: ToastContent, options?: CustomToastOptions) => {
     return showToastIfNotDuplicate(content, 'warning', options);
   },
-  
+
   /**
    * Alias para warning (compatibilidad con react-toastify)
    */
   warn: (content: ToastContent, options?: CustomToastOptions) => {
     return showToastIfNotDuplicate(content, 'warning', options);
   },
-  
+
   /**
    * Muestra un toast informativo
    */
   info: (content: ToastContent, options?: CustomToastOptions) => {
     return showToastIfNotDuplicate(content, 'info', options);
   },
-  
+
   /**
    * Fuerza mostrar un toast sin verificar duplicados
    */
   force: {
-    success: (content: ToastContent, options?: ToastOptions) => 
+    success: (content: ToastContent, options?: ToastOptions) =>
       reactToast.success(content, options),
-    error: (content: ToastContent, options?: ToastOptions) => 
-      reactToast.error(content, options),
-    warning: (content: ToastContent, options?: ToastOptions) => 
+    error: (content: ToastContent, options?: ToastOptions) => reactToast.error(content, options),
+    warning: (content: ToastContent, options?: ToastOptions) =>
       reactToast.warning(content, options),
-    warn: (content: ToastContent, options?: ToastOptions) => 
-      reactToast.warning(content, options),
-    info: (content: ToastContent, options?: ToastOptions) => 
-      reactToast.info(content, options),
+    warn: (content: ToastContent, options?: ToastOptions) => reactToast.warning(content, options),
+    info: (content: ToastContent, options?: ToastOptions) => reactToast.info(content, options),
   },
-  
+
   /**
    * Cierra un toast específico
    */
   dismiss: (toastId?: Id) => {
     reactToast.dismiss(toastId);
   },
-  
+
   /**
    * Cierra todos los toasts
    */
@@ -132,7 +129,7 @@ export const toast = {
     activeToasts.clear();
     reactToast.dismiss();
   },
-  
+
   /**
    * Verifica si un toast está activo
    */
@@ -140,20 +137,20 @@ export const toast = {
     const key = createToastKey(content, type);
     return activeToasts.has(key);
   },
-  
+
   /**
    * Obtiene información sobre toasts activos (para debugging)
    */
   getActiveToasts: () => {
     return Array.from(activeToasts.keys());
   },
-  
+
   /**
    * Limpia el registro de toasts activos (útil para testing)
    */
   clearRegistry: () => {
     activeToasts.clear();
-  }
+  },
 };
 
-export default toast; 
+export default toast;

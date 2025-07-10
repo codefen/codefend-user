@@ -40,7 +40,7 @@ const TableSkeleton: FC<TableSkeletonProps> = ({
     return finalCount;
   }, [totalRowCount, rowsLength, columns.length]);
 
-  console.log('🧙‍♂️ TableSkeleton - Rendering skeleton with', skeletonRowCount, 'rows');
+  // console.log('🧙‍♂️ TableSkeleton - Rendering skeleton with', skeletonRowCount, 'rows');
 
   return (
     <div className="sorting-skeleton">

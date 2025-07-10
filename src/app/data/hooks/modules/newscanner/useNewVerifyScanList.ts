@@ -56,24 +56,24 @@ export const useNewVerifyScanList = () => {
   const { company, isScanning } = useGlobalFastFields(['company', 'isScanning']);
   const { isOpen, modalId } = useModalStore();
   const baseKey = ['neuroscans/index', { company: company.get?.id }];
-  
+
   // PROTECCIÓN SELECTIVA: Solo bloquear ANTES de que se active isScanning
   // Una vez que isScanning = true, significa que el scan fue creado exitosamente
   const isOnboardingModal = isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH;
   const scannerStillStarting = getScannerStarting();
   const shouldSkipCall = isOnboardingModal && scannerStillStarting && !isScanning.get;
-  
-  if (shouldSkipCall) {
-    console.log('🚫 BLOQUEANDO useNewVerifyScanList - Esperando creación del scanner');
-  } else {
-    console.log('✅ useNewVerifyScanList - Permitiendo llamada:', { 
-      isOnboardingModal,
-      scannerStillStarting,
-      isScanning: isScanning.get,
-      shouldSkipCall
-    });
-  }
-  
+
+  // if (shouldSkipCall) {
+  //   console.log('🚫 BLOQUEANDO useNewVerifyScanList - Esperando creación del scanner');
+  // } else {
+  //   console.log('✅ useNewVerifyScanList - Permitiendo llamada:', {
+  //     isOnboardingModal,
+  //     scannerStillStarting,
+  //     isScanning: isScanning.get,
+  //     shouldSkipCall
+  //   });
+  // }
+
   const swrKey = company.get?.id && !shouldSkipCall ? baseKey : null;
 
   // Configuración inicial del SWR
@@ -91,21 +91,21 @@ export const useNewVerifyScanList = () => {
         const isActive = !scan.finished && scan.phase !== 'finished' && scan.phase !== 'killed';
         return isActive;
       });
-      
-      console.log('📊 useNewVerifyScanList - datos actualizados:', {
-        totalScans: scans.length,
-        hasActiveScans,
-        activeScans: scans.filter((s: any) => !s.finished && s.phase !== 'finished').length,
-        scans: scans.map((s: any) => ({
-          id: s.id,
-          domain: s.resource_address,
-          phase: s.phase,
-          finished: s.finished,
-          found: s.m_nllm_issues_found,
-          parsed: s.m_nllm_issues_parsed
-        }))
-      });
-    }
+
+      // console.log('📊 useNewVerifyScanList - datos actualizados:', {
+      //   totalScans: scans.length,
+      //   hasActiveScans,
+      //   activeScans: scans.filter((s: any) => !s.finished && s.phase !== 'finished').length,
+      //   scans: scans.map((s: any) => ({
+      //     id: s.id,
+      //     domain: s.resource_address,
+      //     phase: s.phase,
+      //     finished: s.finished,
+      //     found: s.m_nllm_issues_found,
+      //     parsed: s.m_nllm_issues_parsed,
+      //   })),
+      // });
+    },
   });
 
   const updateCompany = useCallback(() => {
