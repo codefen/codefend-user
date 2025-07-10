@@ -322,19 +322,19 @@ export const useVerifyScanListv3 = () => {
         
         if (value?.m_leaks_launched) {
           elapsedSec = Math.floor((now - m_leaks_launched) / 1000);
-          const rawProgress = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
+        const rawProgress = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
 
-          // Ralentizar después del 85%
-          let easedProgress;
-          if (rawProgress < 0.85) {
-            easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
-          } else {
-            const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
-            const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
-            easedProgress = 83.3 + slowCurve * (98 - 83.3);
-          }
+        // Ralentizar después del 85%
+        let easedProgress;
+        if (rawProgress < 0.85) {
+          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
+        } else {
+          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
+          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
+          easedProgress = 83.3 + slowCurve * (98 - 83.3);
+        }
 
-          leaksScanProgress = Math.max(leaksScanProgress || 0, Math.min(easedProgress, 98));
+        leaksScanProgress = Math.max(leaksScanProgress || 0, Math.min(easedProgress, 98));
         } else {
           // Si no hay fecha de lanzamiento, calcular desde el launch principal
           elapsedSec = Math.floor((now - new Date(value?.launched).getTime()) / 1000);
@@ -356,21 +356,21 @@ export const useVerifyScanListv3 = () => {
         
         if (value?.m_subdomains_launched) {
           elapsedSec = Math.floor((now - m_subdomains_launched) / 1000);
-          const rawProgress = Math.min(elapsedSec / SUBDOMAINS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
+        const rawProgress = Math.min(elapsedSec / SUBDOMAINS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
 
-          // Ralentizar después del 85%
-          let easedProgress;
-          if (rawProgress < 0.85) {
-            easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
-          } else {
-            // Aplicamos una curva de easing más lenta a partir de 85%
-            // Se mueve desde 83.3% hasta 98% lentamente
-            const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
-            const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
-            easedProgress = 83.3 + slowCurve * (98 - 83.3);
-          }
+        // Ralentizar después del 85%
+        let easedProgress;
+        if (rawProgress < 0.85) {
+          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
+        } else {
+          // Aplicamos una curva de easing más lenta a partir de 85%
+          // Se mueve desde 83.3% hasta 98% lentamente
+          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
+          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
+          easedProgress = 83.3 + slowCurve * (98 - 83.3);
+        }
 
-          subdomainScanProgress = Math.max(subdomainScanProgress || 0, Math.min(easedProgress, 98));
+        subdomainScanProgress = Math.max(subdomainScanProgress || 0, Math.min(easedProgress, 98));
         } else {
           // Si no hay fecha de lanzamiento, calcular desde el launch principal
           elapsedSec = Math.floor((now - new Date(value?.launched).getTime()) / 1000);
@@ -396,10 +396,10 @@ export const useVerifyScanListv3 = () => {
         console.log(`📊 useVerifyScanListv3 - SCAN PRINCIPAL TERMINADO: Forzando 100% en todo`);
       } else {
         overallProgress = computeOverallProgress(
-          webScanProgress,
-          leaksScanProgress,
-          subdomainScanProgress
-        );
+        webScanProgress,
+        leaksScanProgress,
+        subdomainScanProgress
+      );
       }
       
       if (value?.phase !== 'finished' && value?.phase !== 'killed') {

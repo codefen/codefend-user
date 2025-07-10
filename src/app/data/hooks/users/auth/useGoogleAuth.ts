@@ -59,8 +59,8 @@ export const useGoogleAuth = () => {
       console.log('🧹 Google Login - Store limpiado y configurado para email');
       
       const user = handleSuccessfulLogin(data);
-      return { 
-        success: true, 
+        return { 
+          success: true, 
         user,
         message: 'Sesión iniciada exitosamente con Google'
       };

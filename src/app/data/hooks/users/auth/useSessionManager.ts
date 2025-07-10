@@ -20,7 +20,7 @@ export const useSessionManager = () => {
       name: data.user.company_name || '',
     });
     if (showToast) {
-      toast.success(AUTH_TEXT.LOGIN_SUCCESS);
+    toast.success(AUTH_TEXT.LOGIN_SUCCESS);
     }
     isDefaultPlan.set(true);
     appEvent.set(APP_EVENT_TYPE.USER_LOGGED_IN);

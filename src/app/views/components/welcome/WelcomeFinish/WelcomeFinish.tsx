@@ -169,23 +169,24 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
   const closeModal = () => {
     solved();
     
+    // 🚨 BANDERA CRÍTICA: Verificar checkEmail antes de redirigir
+    const { checkEmail } = useInitialDomainStore.getState();
+    
     // Si viene del onboarding, siempre ir a issues con el scan específico
-    // EXCEPCIÓN: No redirigir automáticamente si el scopeType es 'email', porque ya se manejó en WelcomeDomain
-    if (comesFromOnboarding && scopeType !== 'email') {
+    // EXCEPCIÓN: No redirigir automáticamente si checkEmail es true (usuario seleccionó "check my personal email")
+    if (comesFromOnboarding && !checkEmail) {
+      console.log('🚀 Redirigiendo a issues - checkEmail:', checkEmail);
       const scanId = globalStore.lastScanId.get;
       if (scanId) {
         navigate(`/issues?scan_id=${scanId}`);
       } else {
         navigate('/issues');
       }
+    } else if (checkEmail) {
+      console.log('🎯 NO redirigiendo a issues - checkEmail activo:', checkEmail);
     } else if (!isScanning.get && !globalStore.currentScan.get) {
       // Lógica original para otros casos
       navigate('/issues');
-    }
-    
-    // Si es email, no hacer nada - la redirección ya se manejó en WelcomeDomain
-    if (scopeType === 'email') {
-      console.log('📧 Scope es email - no redirigir automáticamente desde WelcomeFinish, ya se manejó en WelcomeDomain');
     }
     
     // Si no se cumple ninguna condición, simplemente cierra el modal sin navegar

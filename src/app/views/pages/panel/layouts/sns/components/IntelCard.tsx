@@ -47,18 +47,19 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal }) => {
                 </span>
               </div>
             ))}
-            {subIntel.hash && (
-              <div>
-                <button onClick={() => onOpenLeakedModal(subIntel, 'crack')} className="crack-btn">
-                  click to crack
-                </button>
-              </div>
-            )}
-            {subIntel.regip && (
-              <div>
-                <button onClick={() => onOpenLeakedModal(subIntel, 'geo')} className="crack-btn">
-                  click to geolocate
-                </button>
+            {/* Contenedor para botones en línea */}
+            {(subIntel.hash || subIntel.regip) && (
+              <div className="crack-buttons-container">
+                {subIntel.hash && (
+                  <button onClick={() => onOpenLeakedModal(subIntel, 'crack')} className="crack-btn">
+                    🌈 Crack password
+                  </button>
+                )}
+                {subIntel.regip && (
+                  <button onClick={() => onOpenLeakedModal(subIntel, 'geo')} className="crack-btn">
+                    📍 Geolocate IP
+                  </button>
+                )}
               </div>
             )}
           </div>

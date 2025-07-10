@@ -134,25 +134,25 @@
       align-items: justify-content;
       margin-bottom: -40px;
 
-              .scan-basic-info {
-          display: flex;
-          flex-direction: column;
-          gap: 0.2rem;
-          flex: 1 1 70%;
-          p {
-            width: 100%;
+      .scan-basic-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        flex: 1 1 70%;
+        p {
+          width: 100%;
             line-height: 1.4rem;
             font-size: 15px;
             font-family: questrial;
             color: #666;
-          }
-          b {
-            color: var(--codefend-color-red);
+        }
+        b {
+          color: var(--codefend-color-red);
             background: #ff393911;
             padding: 4px 10px;
             font-weight: 400;
             margin: 0 5px;
-          }
+        }
         .info-row {
           display: flex;
           gap: 2rem;

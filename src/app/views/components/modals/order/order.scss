@@ -10,25 +10,25 @@
 }
 
 .order-container {
-    --one-pentest-span: var(--tertiary-color-300);
-    --show-border-color: var(--tertiary-color-50);
-    --option-header-bg: #ffffff;
-    --option-header-title: var(--tertiary-color-600);
-    --option-header-span: var(--primary-color-200);
-    --order-container-border-color: #00000010;
-    --pricing-card-border-color: var(--primary-color-300);
-    --pricing-card-price-color: var(--tertiary-color-600);
-    --pricing-card-li-color: var(--tertiary-color-400);
-    --pricing-card-border-selected-color: #ff7878;
-    --pricing-card-background-selected-color: #fbe0e021;
+  --one-pentest-span: var(--tertiary-color-300);
+  --show-border-color: var(--tertiary-color-50);
+  --option-header-bg: #ffffff;
+  --option-header-title: var(--tertiary-color-600);
+  --option-header-span: var(--primary-color-200);
+  --order-container-border-color: #00000010;
+  --pricing-card-border-color: var(--primary-color-300);
+  --pricing-card-price-color: var(--tertiary-color-600);
+  --pricing-card-li-color: var(--tertiary-color-400);
+  --pricing-card-border-selected-color: #ff7878;
+  --pricing-card-background-selected-color: #fbe0e021;
     width: 100%;
-    height: var(--order-modal-height);
-    border-radius: 0.15rem;
-    z-index: 120;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: var(--order-modal-height);
+  border-radius: 0.15rem;
+  z-index: 120;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   button:disabled {
     opacity: 0.75;

@@ -17,6 +17,30 @@ import { useInitialDomainStore } from '@stores/initialDomain.store';
 import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { useNavigate } from 'react-router-dom';
 
+/*
+🚨 SISTEMA DE BANDERA checkEmail PARA PREVENIR REDIRECCIÓN AUTOMÁTICA:
+
+Este componente implementa un sistema de bandera global "checkEmail" que previene redirecciones automáticas
+indeseadas cuando el usuario selecciona "check my personal email".
+
+FLUJO DEL SISTEMA:
+1. Usuario selecciona "check my personal email" → checkEmail = true
+2. Sistema redirije a /sns?keyword=email&class=email
+3. checkEmail = true PREVIENE redirección automática a /issues desde:
+   - WelcomeGroupTour.tsx (function close)
+   - WelcomeFinish.tsx (function closeModal)
+   - Cualquier otro lugar que verifique esta bandera
+
+CUÁNDO SE ACTIVA/DESACTIVA:
+- checkEmail = true → Al seleccionar "check my personal email"
+- checkEmail = false → Al seleccionar "check my business website"
+
+BENEFICIOS:
+- Usuario permanece en SNS cuando selecciona personal email
+- Usuario tiene redirección normal a issues cuando selecciona business website
+- Sistema robusto que previene redirecciones desde múltiples lugares
+*/
+
 const columns = [
   {
     header: 'domain',
@@ -504,6 +528,10 @@ export const WelcomeDomain = ({
     update('initialDomain', emailValue);
     update('scopeType', 'email');
     
+    // 🚨 BANDERA CRÍTICA: Establecer checkEmail como true
+    // Esto previene redirección automática a issues desde cualquier lugar
+    update('checkEmail', true);
+    
     try {
       // Redireccionar directamente a SNS con el email como parámetro
       const encodedEmail = encodeURIComponent(emailValue);
@@ -511,6 +539,7 @@ export const WelcomeDomain = ({
       
       console.log('🚀 Redirigiendo a SNS con email:', emailValue);
       console.log('🔗 URL de SNS:', snsUrl);
+      console.log('🎯 checkEmail establecido como TRUE - NO redirigir a issues');
       
       // Cerrar el modal y navegar
       close();
@@ -530,7 +559,12 @@ export const WelcomeDomain = ({
     update('initialDomain', websiteValue);
     update('scopeType', 'website');
     
+    // 🚨 BANDERA CRÍTICA: Establecer checkEmail como false para website scan
+    // Esto permite redirección normal a issues para website scans
+    update('checkEmail', false);
+    
     try {
+      console.log('🏢 checkEmail establecido como FALSE - permitir redirección normal');
       await goToStartScanStep();
       setLoading(false);
     } catch (error) {

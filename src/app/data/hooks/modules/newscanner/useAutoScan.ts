@@ -57,7 +57,7 @@ export const useAutoScan = () => {
     }
     
     console.log('📡 Llamando streamFetch...');
-    
+
     const result = await streamFetch(formData);
     
     console.log('📡 streamFetch result:', result);

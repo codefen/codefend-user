@@ -167,18 +167,18 @@ export const OrderV2 = () => {
         orderStepActive !== OrderSection.ALL_PLANS &&
         orderStepActive !== OrderSection.PAYWALL_MAX_SCAN ? (
           <>
-            <header className="order-header">
-              <div className="order-header-title">
-                <img
-                  src="/codefend/pentest-header-vector.svg"
-                  alt="codefend-icon"
-                  aria-label="codefend-icon"
-                />
-                <h2>
-                  <span>Execute a </span>new pentest
-                </h2>
-              </div>
-            </header>
+          <header className="order-header">
+            <div className="order-header-title">
+              <img
+                src="/codefend/pentest-header-vector.svg"
+                alt="codefend-icon"
+                aria-label="codefend-icon"
+              />
+              <h2>
+                <span>Execute a </span>new pentest
+              </h2>
+            </div>
+          </header>
             <OrderProgressBar orderStepActive={orderStepActive} />
           </>
         ) : null}

@@ -16,7 +16,7 @@ export const PaymentMethodOrderModal: FC = () => {
     trackPaymentMethodSelection(telemetryLabel as 'stripe' | 'crypto' | 'bank');
     updateState('paymentMethod', method);
     sendOrderFinancial(referenceNumber, method, orderId);
-    updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
+      updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
   };
 
   const closeModal = () => {

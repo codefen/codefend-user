@@ -1,21 +1,28 @@
 main.sb {
   max-width: 1800px;
 
+  .crack-buttons-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
   .crack-btn {
-    background: #e53935;
-    color: #fff;
+    background: #ffffff;
+    color: #333;
     padding: 8px 18px;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 6px;
     font-weight: 600;
     font-family: Satoshi, sans-serif;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 16px;
+    transition: all 0.2s ease;
     box-shadow: none;
     outline: none;
+    
     &:hover {
-      background: #ab2321;
+      border-color: #ff3939;
+      color: #ff3939;
     }
   }
 

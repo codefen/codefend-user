@@ -7,6 +7,7 @@ export interface InitialDomainStore {
   initialDomain: string;
   resourceId: string;
   scopeType: 'email' | 'website' | null;
+  checkEmail: boolean;
   update: (key: string, value: any) => void;
 }
 
@@ -20,6 +21,7 @@ export const useInitialDomainStore = create<InitialDomainStore>()(
       isUniqueDomain: true,
       resourceId: '',
       scopeType: null,
+      checkEmail: false,
       update: (key: string, value: any) => set({ [key]: value }),
     }),
     {

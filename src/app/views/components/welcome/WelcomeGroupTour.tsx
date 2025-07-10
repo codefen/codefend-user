@@ -36,21 +36,24 @@ export const WelcomeGroupTour = () => {
       // Marcar que viene del onboarding
       setComesFromOnboarding(true);
       
-      // EXCEPCIÓN: NO abrir automáticamente el modal si el scopeType es 'email'
+      // 🚨 BANDERA CRÍTICA: Verificar checkEmail antes de abrir modal
+      const { checkEmail } = useInitialDomainStore.getState();
+      
+      // EXCEPCIÓN: NO abrir automáticamente el modal si checkEmail es true
       // porque el usuario ya eligió ir directamente a SNS
-      if (scopeType !== 'email') {
+      if (!checkEmail) {
         // Abrir automáticamente el scanner solo para scans de website
         setIsOpen(true);
         setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
       } else {
-        console.log('📧 Scope es email - no abrir modal automáticamente, usuario fue a SNS');
+        console.log('📧 checkEmail activo - no abrir modal automáticamente, usuario fue a SNS');
       }
       
       // Limpiar el parámetro URL
       const newURL = window.location.pathname;
       window.history.replaceState({}, document.title, newURL);
     }
-  }, [setIsOpen, setModalId, scopeType]);
+  }, [setIsOpen, setModalId]);
 
   const startWaitStep = (idiom: string = 'en') => {
     // CRÍTICO: Usar datos ya obtenidos del hook para evitar error de hooks
@@ -128,9 +131,13 @@ export const WelcomeGroupTour = () => {
     setModalId('');
     solvedComunique();
     
+    // 🚨 BANDERA CRÍTICA: Verificar checkEmail antes de redirigir
+    const { checkEmail } = useInitialDomainStore.getState();
+    
     // Si viene del onboarding, navegar directamente a issues con el scan específico
-    // EXCEPCIÓN: No redirigir automáticamente si el scopeType es 'email', porque ya se manejó en WelcomeDomain
-    if (comesFromOnboarding && scopeType !== 'email') {
+    // EXCEPCIÓN: No redirigir automáticamente si checkEmail es true (usuario seleccionó "check my personal email")
+    if (comesFromOnboarding && !checkEmail) {
+      console.log('🚀 Redirigiendo a issues - checkEmail:', checkEmail);
       // Pequeño delay para asegurar que el modal se haya cerrado
       setTimeout(() => {
         const scanId = lastScanId.get;
@@ -140,11 +147,8 @@ export const WelcomeGroupTour = () => {
           window.location.href = '/issues';
         }
       }, 100);
-    }
-    
-    // Si es email, no hacer nada - la redirección ya se manejó en WelcomeDomain
-    if (scopeType === 'email') {
-      console.log('📧 Scope es email - no redirigir automáticamente, ya se manejó en WelcomeDomain');
+    } else if (checkEmail) {
+      console.log('🎯 NO redirigiendo a issues - checkEmail activo:', checkEmail);
     }
   };
 

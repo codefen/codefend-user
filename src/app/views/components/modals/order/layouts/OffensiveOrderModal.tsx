@@ -35,13 +35,13 @@ export const OffensiveOrderModal: FC = () => {
           onClick={() => setOffensiveOrder(OrderOffensive.CAREFUL)}
           style={{ cursor: 'pointer' }}>
           <div className="flex-box-column">
-            <img
-              src="/codefend/pentest-careful.png"
-              alt="careful-pentest-icon"
+          <img
+            src="/codefend/pentest-careful.png"
+            alt="careful-pentest-icon"
               className="environment-icon"
-            />
+          />
             <span className="pentest-type-label">Careful pentest</span>
-          </div>
+            </div>
           <div className="plan-list">
             <p><b style={{fontWeight: 500, fontFamily: 'satoshi'}}>Recommended for production environments:</b></p>
             <p style={{fontSize: '15px', fontFamily: 'questrial'}}>Codefend's professionals will be extra careful and will avoid all possible risk</p>
@@ -55,13 +55,13 @@ export const OffensiveOrderModal: FC = () => {
           onClick={() => setOffensiveOrder(OrderOffensive.OFFENSIVE)}
           style={{ cursor: 'pointer' }}>
           <div className="flex-box-column">
-            <img
-              src="/codefend/pentest-offensive.png"
-              alt="offensive-pentest-icon"
+          <img
+            src="/codefend/pentest-offensive.png"
+            alt="offensive-pentest-icon"
               className="environment-icon"
-            />
+          />
             <span className="pentest-type-label">Offensive pentest</span>
-          </div>
+            </div>
           <div className="plan-list">
             <p><b style={{fontWeight: 500, fontFamily: 'satoshi'}}>Recommended for test environment:</b></p>
             <p style={{fontSize: '15px', fontFamily: 'questrial'}}>Codefend's professionals may use more disruptive or risky techniques</p>
@@ -75,13 +75,13 @@ export const OffensiveOrderModal: FC = () => {
           onClick={() => setOffensiveOrder(OrderOffensive.ADVERSARY)}
           style={{ cursor: 'pointer' }}>
           <div className="flex-box-column">
-            <img
-              src="/codefend/pentest-adversary.png"
-              alt="adversary-pentest-icon"
+          <img
+            src="/codefend/pentest-adversary.png"
+            alt="adversary-pentest-icon"
               className="environment-icon"
-            />
+          />
             <span className="pentest-type-label">Adversary simulation</span>
-          </div>
+            </div>
           <div className="plan-list">
             <p><b style={{fontWeight: 500, fontFamily: 'satoshi'}}>⚠️ Could cause stress!</b></p>
             <p style={{fontSize: '15px', fontFamily: 'questrial'}}>Codefend's professionals will use all possible techniques to simulate a real attack</p>
