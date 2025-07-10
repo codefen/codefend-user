@@ -301,7 +301,7 @@ export const WelcomeDomain = ({
     // Regla 1: Si tiene solo email => preseleccionar "check my personal email"
     // Regla 2: Si tiene dominio (con o sin email) => preseleccionar "check my business website"
     
-    let shouldPreselect = 'email'; // Default fallback
+    let shouldPreselect: 'email' | 'website' = 'email'; // Default fallback
     let shouldPopulateEmail = false;
     let shouldPopulateWebsite = false;
     
