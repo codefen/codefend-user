@@ -154,7 +154,7 @@
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
-    background-image: linear-gradient(to bottom, rgb(255 255 255), rgb(255 255 255 / 50%));
+    // background-image: linear-gradient(to bottom, rgb(255 255 255), rgb(255 255 255 / 50%));
     position: sticky;
     bottom: 0;
     margin-left: -2.5rem;
@@ -210,7 +210,7 @@
   .step-header {
     position: relative;
   }
-  
+
   .plans-vertical-container {
     display: flex;
     flex-direction: column;
@@ -219,7 +219,7 @@
     overflow-y: auto;
     padding: 1rem 0;
   }
-  
+
   .flex-box-row {
     border: 1px solid #999;
     border-radius: 5px;
@@ -228,43 +228,43 @@
     width: 90%;
     margin: 0px 30px;
     transition: all 0.3s ease;
-    
+
     &.clickable-plan:hover {
       border-color: #ff4444;
       box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
       transform: translateY(-2px);
     }
-    
+
     &.clickable-plan:active {
       transform: translateY(0);
     }
-    
+
     &.selected {
       border-color: #ff4444;
       background: #fff8f8;
       box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
     }
   }
-  
+
   // Estilos para iconos de environment (pentest types)
   .environment-icon {
     filter: grayscale(100%);
     transition: filter 0.3s ease;
   }
-  
+
   .flex-box-row.clickable-plan:hover .environment-icon {
     filter: grayscale(0%);
   }
-  
+
   .flex-box-row.clickable-plan.selected .environment-icon {
     filter: grayscale(0%);
   }
-  
+
   // Estilos para textos de tipos de pentest
   .pentest-type-label {
     font-size: 12px;
     font-weight: 600;
-    font-family: "Satoshi", sans-serif;
+    font-family: 'Satoshi', sans-serif;
     color: #999;
     text-align: center;
     transition: color 0.3s ease;
@@ -272,12 +272,12 @@
     text-transform: uppercase;
     min-width: 150px;
   }
-  
+
   .flex-box-row.clickable-plan:hover .pentest-type-label,
   .flex-box-row.clickable-plan.selected .pentest-type-label {
     color: var(--secondary-color-50);
   }
-  
+
   .close-button {
     &:hover {
       color: #ff4444 !important;
@@ -2058,7 +2058,7 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   padding-right: 2rem;
   gap: 5px;
   position: relative;
-  
+
   h3 {
     flex: 1;
     word-wrap: break-word;
@@ -2087,11 +2087,11 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   transition: all 0.13s ease-in;
   line-height: 1.6;
   min-height: 120px;
-  
+
   &:first-child {
     border-top: 1px solid #ccc;
   }
-  
+
   .one-pentest {
     font-size: 0.9rem;
     line-height: 1.4;
@@ -2103,18 +2103,18 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    
+
     .top {
       word-wrap: break-word;
       overflow-wrap: break-word;
-      
+
       p {
         margin: 0;
         font-weight: 600;
         line-height: 1.4;
       }
     }
-    
+
     span {
       word-wrap: break-word;
       overflow-wrap: break-word;
@@ -2141,12 +2141,12 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
   border-top: 1px solid #fe4e4e55;
   border-bottom: 1px solid #fe4e4e55;
   box-shadow: 0 0 8px #00000025;
-  
+
   .order-snapshot {
     .top p {
       color: #d63031;
     }
-    
+
     span {
       color: #636e72;
     }
@@ -2160,12 +2160,12 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
       text-align: left;
       font-size: 0.9rem;
       color: var(--tertiary-color-400);
-      
+
       &:hover {
         color: var(--secondary-color-200);
       }
     }
-    
+
     .option-card {
       border: 1px solid #999;
       border-radius: 5px;
@@ -2178,25 +2178,25 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
       background: white;
       width: 90%;
       margin: 10px 30px;
-      
+
       &:hover {
         border-color: #ff4444;
         box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
         transform: translateY(-2px);
       }
-      
+
       &:active {
         transform: translateY(0);
       }
-      
+
       .order-snapshot {
         flex: 1;
         min-width: 0;
-        
+
         .top {
           word-wrap: break-word;
           overflow-wrap: break-word;
-          
+
           p {
             margin: 0 0 8px 0;
             font-size: 16px;
@@ -2204,7 +2204,7 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
             color: #333;
           }
         }
-        
+
         .one-pentest {
           font-size: 16px;
           color: #666;
@@ -2214,7 +2214,7 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
       }
     }
   }
-  
+
   .close-button {
     &:hover {
       color: #ff4444 !important;
@@ -2237,32 +2237,32 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
     width: 95%;
     margin: 15px 25px;
     min-height: 130px;
-    
+
     &:hover {
       border-color: #ff4444;
       box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
       transform: translateY(-2px);
     }
-    
+
     &:active {
       transform: translateY(0);
     }
-    
+
     img {
       width: 80px;
       height: 80px;
       object-fit: contain;
       flex-shrink: 0;
     }
-    
+
     .order-snapshot {
       flex: 1;
       min-width: 0;
-      
+
       .top {
         word-wrap: break-word;
         overflow-wrap: break-word;
-        
+
         p {
           margin: 0 0 8px 0;
           font-size: 16px;
@@ -2270,16 +2270,16 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
           color: #333;
         }
       }
-      
-              .one-pentest {
-          font-size: 16px;
-          color: #666;
-          line-height: 1.4;
-          font-family: questrial;
-        }
+
+      .one-pentest {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.4;
+        font-family: questrial;
+      }
     }
   }
-  
+
   .close-button {
     &:hover {
       color: #ff4444 !important;
@@ -2484,16 +2484,16 @@ main .empty-screen {
 // Remover outline de todos los botones
 button {
   outline: none !important;
-  
+
   &:focus {
     outline: none !important;
     box-shadow: none;
   }
-  
+
   &:active {
     outline: none !important;
   }
-  
+
   &:focus-visible {
     outline: none !important;
   }
@@ -2503,13 +2503,13 @@ button {
 .action button,
 .item-action button,
 .table button,
-svg[role="button"],
-[role="button"],
+svg[role='button'],
+[role='button'],
 .action span,
 .three-dots-button {
   outline: none !important;
   border: none;
-  
+
   &:focus,
   &:active,
   &:focus-visible {
@@ -2527,11 +2527,11 @@ svg[role="button"],
 // Específico para la tabla de administración de compañías
 main.company {
   button,
-  svg[role="button"],
-  [role="button"] {
+  svg[role='button'],
+  [role='button'] {
     outline: none !important;
     border: none !important;
-    
+
     &:focus,
     &:active,
     &:focus-visible {
@@ -2549,17 +2549,17 @@ main.company {
       .option-card {
         background: var(--primary-color-50);
         border-color: var(--primary-color-400);
-        
+
         &:hover {
           border-color: #ff6666;
           box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
         }
-        
+
         .order-snapshot {
           .top p {
             color: var(--tertiary-color-100);
           }
-          
+
           .one-pentest {
             color: var(--tertiary-color-300);
           }
@@ -2567,86 +2567,86 @@ main.company {
       }
     }
   }
-  
+
   // Tema oscuro para modal de métodos de pago
   .step-content.payment {
     .option-card {
       background: var(--primary-color-50);
       border-color: var(--primary-color-400);
-      
+
       &:hover {
         border-color: #ff6666;
         box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
       }
-      
+
       .order-snapshot {
         .top p {
           color: var(--tertiary-color-100);
         }
-        
+
         .one-pentest {
           color: var(--tertiary-color-300);
         }
       }
     }
-    
+
     .close-button {
       color: var(--tertiary-color-300) !important;
-      
+
       &:hover {
         color: #ff6666 !important;
       }
     }
   }
-  
+
   // Tema oscuro para el plan recomendado
   .step-content.plan {
     .flex-box-row {
       background: var(--primary-color-50);
       border-color: var(--primary-color-400);
-      
+
       &.clickable-plan:hover {
         border-color: #ff6666;
         box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
       }
-      
+
       &.selected {
         border-color: #ff6666;
         background: rgba(255, 102, 102, 0.1);
         box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
       }
     }
-    
+
     .pentest-type-label {
       color: var(--tertiary-color-300);
       font-size: 12px;
       font-weight: 600;
-      font-family: "Satoshi", sans-serif;
+      font-family: 'Satoshi', sans-serif;
       text-align: center;
       transition: color 0.3s ease;
       margin-top: 8px;
       text-transform: uppercase;
       min-width: 150px;
     }
-    
+
     .flex-box-row.clickable-plan:hover .pentest-type-label,
     .flex-box-row.clickable-plan.selected .pentest-type-label {
       color: #ff6666;
     }
-    
+
     .close-button {
       color: var(--tertiary-color-300) !important;
-      
+
       &:hover {
         color: #ff6666 !important;
       }
     }
   }
-  
+
   .paywall-container {
     .close-button {
       color: var(--tertiary-color-300) !important;
-      
+
       &:hover {
         color: #ff6666 !important;
       }
@@ -2658,7 +2658,7 @@ main.company {
 .close-button {
   outline: none !important;
   transition: color 0.3s ease;
-  
+
   &:focus {
     outline: none !important;
   }

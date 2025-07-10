@@ -213,6 +213,31 @@
       fill: var(--secondary-color-50);
     }
   }
+
+  .scope-type-buttons-inline {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    .scope-btn-small {
+      &:hover:not(:disabled) {
+        background: #ff475782;
+        border-color: #fe4e4ea8;
+        color: #ffffff;
+      }
+
+      &.active {
+        background: #ff4757;
+        border-color: #ff4757;
+        color: white;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
 }
 
 // Línea separadora estilizada (ajustada para scanner)
@@ -251,12 +276,31 @@
 }
 
 [data-theme='dark'] {
+  .modal.welcome-modal-container {
+    .btn-search {
+      &:hover {
+        background-color: #212121;
+      }
+    }
+  }
   .btn-search {
     border-color: #ffffff10;
     background-color: var(--primary-color-100);
 
     svg {
       fill: var(--secondary-color-50);
+    }
+
+    &:hover {
+      background-color: #212121;
+    }
+  }
+
+  .modal.welcome-modal-container {
+    .btn-search {
+      &:hover {
+        background-color: #212121;
+      }
     }
   }
 
@@ -364,6 +408,7 @@
     &:hover:not(:disabled) {
       background: var(--primary-color-100);
       border-color: var(--secondary-color-50);
+      color: black;
     }
 
     &.active {

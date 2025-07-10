@@ -43,6 +43,7 @@ jobs:
           echo "VITE_NODE_ENV=production" >> .env
           echo "VITE_STRIPE_KEY_LIVE=${{ secrets.STRIPE_KEY }}" >> .env
           echo "VITE_STRIPE_KEY_TEST=${{ secrets.STRIPE_KEY_TEST }}" >> .env
+          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
           
       - name: 🔨 Run build client
         run: bun run build
