@@ -147,7 +147,12 @@ export const WelcomeGroupTour = () => {
   const close = () => {
     setIsOpen(false);
     setModalId('');
-    solvedComunique();
+    
+    // 🚨 CRÍTICO: NO marcar solvedComunique() automáticamente aquí
+    // Solo se debe marcar cuando el usuario complete exitosamente el flujo:
+    // - Para website scans: cuando se inicialice el neuroscan (línea 106)
+    // - Para email scans: cuando llegue exitosamente a SNS
+    console.log('🔄 Cerrando modal - NO marcando como resuelto automáticamente');
     
     // 🚨 BANDERA CRÍTICA: Verificar checkEmail antes de redirigir
     const { checkEmail } = useInitialDomainStore.getState();

@@ -166,8 +166,14 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
     }
   }, [computedCurrentScan]);
 
-  const closeModal = () => {
-    solved();
+  const closeModal = (markAsResolved: boolean = false) => {
+    // 🚨 CRÍTICO: Solo marcar como resuelto si se especifica explícitamente
+    if (markAsResolved) {
+      console.log('✅ Marcando onboarding como resuelto - usuario completó exitosamente');
+      solved();
+    } else {
+      console.log('🔄 Cerrando modal sin marcar como resuelto - cierre automático/F5');
+    }
     
     // 🚨 BANDERA CRÍTICA: Verificar checkEmail antes de redirigir
     const { checkEmail } = useInitialDomainStore.getState();
@@ -210,14 +216,16 @@ export const WelcomeFinish = ({ solved, comesFromOnboarding = false }: { solved:
   const navigateTo = (path: string, isDisabled: boolean) => {
     if (isDisabled) return;
     // Los botones de navegación específicos siempre pueden cerrar el modal
+    // y marcan el onboarding como resuelto porque el usuario completó exitosamente
+    console.log('✅ Usuario navegó a:', path, '- marcando onboarding como resuelto');
     solved();
     navigate(path);
   };
 
   // Función para manejar el cierre del modal con validación
   const handleCloseAttempt = () => {
-    console.log('✅ Cerrando modal del scanner');
-    closeModal();
+    console.log('✅ Usuario hizo click en "Close scanner overview" - marcando como resuelto');
+    closeModal(true); // Marcar como resuelto porque el usuario completó el flujo
   };
 
   return (

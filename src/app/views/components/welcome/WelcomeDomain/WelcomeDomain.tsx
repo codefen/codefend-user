@@ -16,6 +16,7 @@ import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { useInitialDomainStore } from '@stores/initialDomain.store';
 import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { useNavigate } from 'react-router-dom';
+import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
 
 /*
 🚨 SISTEMA DE BANDERA checkEmail PARA PREVENIR REDIRECCIÓN AUTOMÁTICA:
@@ -106,6 +107,7 @@ export const WelcomeDomain = ({
   const [scopeType, setScopeType] = useState<'email' | 'website' | null>(null);
   const { autoScan } = useAutoScan();
   const navigate = useNavigate();
+  const { solvedComunique } = useSolvedComunique();
 
   // Campo actual según el tipo de scope
   const currentValue = scopeType === 'email' ? emailValue : websiteValue;
@@ -423,6 +425,15 @@ export const WelcomeDomain = ({
     // Marcar como inicializado
     setHasInitialized(true);
     console.log('✅ WelcomeDomain inicializado con scope:', shouldPreselect);
+    
+    // 🚀 AUTO-PREVIEW: Si se preseleccionó website con dominio, hacer preview automático
+    if (shouldPreselect === 'website' && shouldPopulateWebsite && companyWebsite) {
+      console.log('🔄 Iniciando auto-preview para dominio de empresa:', companyWebsite);
+      // Usar setTimeout para asegurar que el estado se haya actualizado
+      setTimeout(() => {
+        autoPreviewWebsite(companyWebsite);
+      }, 100);
+    }
   }, [hasInitialized, initialDomainStored]);
 
   // useEffect para limpiar dominios cuando el campo esté completamente vacío
@@ -434,6 +445,59 @@ export const WelcomeDomain = ({
       setDomains([]);
     }
   }, [websiteValue, hasInitialized, scopeType]);
+
+  // 🚀 AUTO-PREVIEW: Función para hacer preview automático del dominio de empresa
+  const autoPreviewWebsite = (domain: string) => {
+    if (!domain || domain.trim() === '') {
+      console.log('⚠️ Auto-preview: dominio vacío');
+      return;
+    }
+
+    const normalizedDomain = normalizeDomain(domain);
+    console.log('🌐 Auto-preview iniciado para:', {
+      original: domain,
+      normalized: normalizedDomain
+    });
+
+    const companyID = getCompany();
+    if (!companyID) {
+      console.log('❌ Auto-preview: no company ID disponible');
+      return;
+    }
+
+    fetcher('post', {
+      requireSession: true,
+      body: {
+        company_id: companyID,
+        resource_address_domain: normalizedDomain,
+        subdomain_scan: 'yes',
+      },
+      path: 'resources/web/preview',
+      timeout: 230000,
+      requestId: 'welcome-domain-auto-preview',
+    }).then(({ data }: any) => {
+      if (verifySession(data, logout)) return;
+      if (!apiErrorValidation(data)) {
+        console.log('✅ Auto-preview exitoso - dominios encontrados:', data?.resource);
+        setDomains(data?.resource ? [data.resource] : []);
+        if (data?.resource) {
+          const subdomainCount = data.resource.childs ? data.resource.childs.length : 0;
+          console.log(`🎯 Auto-preview completado: ${subdomainCount + 1} dominios cargados`);
+        } else {
+          console.log('⚠️ Auto-preview: no se encontraron recursos accesibles');
+        }
+      } else if (data?.error_info === 'unrecheable_domain') {
+        console.log('❌ Auto-preview: dominio no alcanzable:', data?.info);
+        setDomains([]);
+      } else {
+        console.log('❌ Auto-preview: error de validación:', data);
+        setDomains([]);
+      }
+    }).catch(error => {
+      console.error('❌ Error en auto-preview:', error);
+      setDomains([]);
+    });
+  };
 
 
 
@@ -578,6 +642,10 @@ export const WelcomeDomain = ({
       console.log('🚀 Redirigiendo a SNS con email:', emailValue);
       console.log('🔗 URL de SNS:', snsUrl);
       console.log('🎯 checkEmail establecido como TRUE - NO redirigir a issues');
+      
+      // ✅ MARCAR ONBOARDING COMO RESUELTO: Usuario completó exitosamente el flujo de email
+      console.log('✅ Email scan exitoso - marcando onboarding como resuelto antes de ir a SNS');
+      solvedComunique();
       
       // Cerrar el modal y navegar
       close();
