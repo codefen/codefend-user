@@ -35,9 +35,17 @@ CUÁNDO SE ACTIVA/DESACTIVA:
 - checkEmail = true → Al seleccionar "check my personal email"
 - checkEmail = false → Al seleccionar "check my business website"
 
+🎯 VALIDACIÓN DE DOMINIOS CON IP:
+Para website scans, el botón "Continue" solo se habilita si el dominio:
+1. Aparece en la tabla de preview (domains.length > 0)
+2. Esto significa que pasó la validación de web/preview
+3. Que confirma que el dominio tiene IP y es accesible
+4. Solo entonces se permite enviar el scan al backend
+
 BENEFICIOS:
 - Usuario permanece en SNS cuando selecciona personal email
 - Usuario tiene redirección normal a issues cuando selecciona business website
+- Solo se escanean dominios verificados con IP accesible
 - Sistema robusto que previene redirecciones desde múltiples lugares
 */
 
@@ -85,7 +93,7 @@ export const WelcomeDomain = ({
   goToStartScanStep,
 }: {
   close: () => void;
-  goToStartScanStep: () => Promise<void>;
+  goToStartScanStep: (domain?: string) => Promise<void>;
 }) => {
   const [emailValue, setEmailValue] = useState('');
   const [websiteValue, setWebsiteValue] = useState('');
@@ -185,6 +193,27 @@ export const WelcomeDomain = ({
   // Función auxiliar para detectar si contiene @ (para otras validaciones)
   const containsAt = (input: string): boolean => {
     return input.includes('@');
+  };
+
+  // Función para normalizar y limpiar dominios
+  const normalizeDomain = (domain: string): string => {
+    if (!domain) return '';
+    
+    let cleanDomain = domain.trim().toLowerCase();
+    
+    // Remover protocolo
+    cleanDomain = cleanDomain.replace(/^https?:\/\//, '');
+    
+    // Remover www.
+    cleanDomain = cleanDomain.replace(/^www\./, '');
+    
+    // Remover rutas (todo después del primer /)
+    cleanDomain = cleanDomain.split('/')[0];
+    
+    // Remover puertos (todo después de :)
+    cleanDomain = cleanDomain.split(':')[0];
+    
+    return cleanDomain;
   };
 
   // Función auxiliar mejorada para detectar si parece un dominio (para preview)
@@ -396,23 +425,47 @@ export const WelcomeDomain = ({
     console.log('✅ WelcomeDomain inicializado con scope:', shouldPreselect);
   }, [hasInitialized, initialDomainStored]);
 
-  // useEffect separado para el preview que solo se ejecuta con websiteValue válido
+  // useEffect para limpiar dominios cuando el campo esté completamente vacío
   useEffect(() => {
     if (!hasInitialized) return;
     
-    // Solo hacer preview si hay un dominio válido y no es email
-    if (scopeType === 'website' && 
-        websiteValue && 
-        websiteValue.trim().length > 0 && 
-        !isEmail(websiteValue) &&
-        seemsLikeDomain(websiteValue)) {
+    // Solo limpiar dominios cuando el campo esté completamente vacío
+    if (scopeType === 'website' && (!websiteValue || websiteValue.trim() === '')) {
+      setDomains([]);
+    }
+  }, [websiteValue, hasInitialized, scopeType]);
+
+
+
+  const changeInitialDomain = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    console.log('🔍 Submit pressed - iniciando preview para:', {
+      scopeType,
+      websiteValue,
+      isEmail: isEmail(websiteValue)
+    });
+    
+    // Solo hacer preview para websites, no para emails personales
+    if (scopeType === 'website' && websiteValue && websiteValue.trim()) {
+      // Validar que no sea un email
+      if (isEmail(websiteValue)) {
+        toast.warning('Please enter a domain, not an email address');
+        return;
+      }
+      
+      const normalizedDomain = normalizeDomain(websiteValue);
+      console.log('🌐 Haciendo preview de dominio:', {
+        original: websiteValue,
+        normalized: normalizedDomain
+      });
       
       const companyID = getCompany();
       fetcher('post', {
         requireSession: true,
         body: {
           company_id: companyID,
-          resource_address_domain: websiteValue,
+          resource_address_domain: normalizedDomain,
           subdomain_scan: 'yes',
         },
         path: 'resources/web/preview',
@@ -421,41 +474,26 @@ export const WelcomeDomain = ({
       }).then(({ data }: any) => {
         if (verifySession(data, logout)) return;
         if (!apiErrorValidation(data)) {
+          console.log('✅ Preview exitoso - dominios encontrados:', data?.resource);
           setDomains(data?.resource ? [data.resource] : []);
+          if (!data?.resource) {
+            toast.warning('No accessible resources found for this domain');
+          }
         } else if (data?.error_info === 'unrecheable_domain') {
+          console.log('❌ Dominio no alcanzable:', data?.info);
           toast.error(data?.info);
+          setDomains([]);
         }
+      }).catch(error => {
+        console.error('❌ Error en preview:', error);
+        toast.error('Failed to validate domain - please try again');
+        setDomains([]);
       });
-    } else if (scopeType === 'website' && (!websiteValue || websiteValue.trim() === '')) {
-      // Limpiar dominios cuando el campo está vacío
-      setDomains([]);
-    }
-  }, [websiteValue, hasInitialized, scopeType]);
-
-  const changeInitialDomain = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-    // Solo hacer preview para websites, no para emails personales
-    if (scopeType !== 'email' && websiteValue) {
-      const companyID = getCompany();
-      fetcher('post', {
-        requireSession: true,
-        body: {
-          company_id: companyID,
-          resource_address_domain: websiteValue,
-          subdomain_scan: 'yes',
-        },
-        path: 'resources/web/preview',
-        timeout: 230000,
-        requestId: 'welcome-domain-preview',
-      }).then(({ data }: any) => {
-        if (verifySession(data, logout)) return;
-        if (!apiErrorValidation(data)) {
-          setDomains(data?.resource ? [data.resource] : []);
-        } else if (data?.error_info === 'unrecheable_domain') {
-          toast.error(data?.info);
-        }
-      });
+    } else if (scopeType === 'email') {
+      console.log('📧 Email scope - no hacer preview');
+    } else {
+      console.log('⚠️ No se puede hacer preview - dominio vacío o inválido');
+      toast.warning('Please enter a valid domain');
     }
   };
 
@@ -555,17 +593,57 @@ export const WelcomeDomain = ({
 
   const startWebsiteScan = async () => {
     setLoading(true);
+    
+    // 🔍 DEBUGGING: Verificar valores antes de guardar
+    console.log('🚀 startWebsiteScan - Iniciando con valores:', {
+      websiteValue,
+      currentValue,
+      scopeType,
+      domains: domains.length
+    });
+    
+    // ✅ VALIDACIÓN CORRECTA: El dominio debe estar en la tabla de preview (con IP accesible)
+    if (!domains || domains.length === 0) {
+      console.error('❌ ERROR: El dominio no aparece en preview - no tiene IP o no es accesible');
+      toast.error('Please enter a valid and accessible domain');
+      setLoading(false);
+      return;
+    }
+    
+    // 🔍 DEBUGGING: Confirmar dominio del preview
+    const domainFromPreview = domains[0]?.domain || websiteValue;
+    const domainToScan = normalizeDomain(domainFromPreview);
+    console.log('💾 Usando dominio del preview (con IP verificada):', {
+      preview: domainFromPreview,
+      normalized: domainToScan,
+      domainsCount: domains.length
+    });
+    
     update('resourceId', '');
-    update('initialDomain', websiteValue);
+    update('initialDomain', domainToScan);
     update('scopeType', 'website');
     
     // 🚨 BANDERA CRÍTICA: Establecer checkEmail como false para website scan
     // Esto permite redirección normal a issues para website scans
     update('checkEmail', false);
     
+    // 🔍 DEBUGGING: Verificar que se guardó correctamente
+    setTimeout(() => {
+      const storedValue = useInitialDomainStore.getState().initialDomain;
+      console.log('✅ Verificación store - valor guardado:', storedValue);
+      
+      if (storedValue !== domainToScan) {
+        console.error('❌ ERROR: El valor en el store no coincide!', {
+          expected: domainToScan,
+          stored: storedValue
+        });
+      }
+    }, 10);
+    
     try {
       console.log('🏢 checkEmail establecido como FALSE - permitir redirección normal');
-      await goToStartScanStep();
+      // 🔧 SOLUCIÓN: Pasar dominio directamente para evitar problemas de timing con el store
+      await goToStartScanStep(domainToScan);
       setLoading(false);
     } catch (error) {
       console.error('Error navigating to scan step:', error);
@@ -592,8 +670,8 @@ export const WelcomeDomain = ({
 
         <form className="input-container" onSubmit={changeInitialDomain}>
           <div className="scope-header">
-            <label htmlFor="initialScope">
-              <b>Confirm your initial scope</b>
+            <label htmlFor="initialScope" className="scope-title-small">
+              <b>Confirm the initial scope:</b>
             </label>
             
             {/* Botones de selección de tipo de scan - más pequeños y a la derecha */}
@@ -604,7 +682,7 @@ export const WelcomeDomain = ({
                 onClick={handlePersonalEmailScan}
                 disabled={isLoading || loading}
               >
-                Check my personal email
+                Scan personal email
               </button>
               <button
                 type="button"
@@ -612,7 +690,7 @@ export const WelcomeDomain = ({
                 onClick={handleBusinessWebsiteScan}
                 disabled={isLoading || loading}
               >
-                Check my business website
+                Scan web infrastructure
               </button>
             </div>
           </div>
@@ -665,6 +743,7 @@ export const WelcomeDomain = ({
               isLoading || 
               loading || 
               scopeType === null ||
+              // ✅ VALIDACIÓN CORRECTA: Solo habilitar si el dominio aparece en preview (con IP verificada)
               (scopeType === 'website' && !Boolean(domains.length))
             }>
             Continue

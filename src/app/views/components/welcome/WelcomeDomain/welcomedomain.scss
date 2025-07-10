@@ -333,20 +333,19 @@
 
   // Botones de tipo de scan inline en tema oscuro
   .scope-type-buttons-inline {
-    .scope-btn-small {
-      background: var(--primary-color-100);
-      color: var(--tertiary-color-100);
-      border: 1px solid var(--primary-color-300);
+    .scope-btn-small,
+    button.btn.scope-btn-small {
+      background: var(--primary-color-100) !important;
+      color: var(--tertiary-color-100) !important;
+      border-bottom: 3px solid #666 !important;
 
       &:hover:not(:disabled) {
-        background: var(--primary-color-200);
-        border-color: var(--secondary-color-50);
+        border-bottom-color: #ff3939 !important;
       }
 
       &.active {
-        background: #ff4757;
-        border-color: #ff4757;
-        color: white;
+        border-bottom: 3px solid #ff3939 !important;
+        color: var(--tertiary-color-100) !important;
       }
     }
   }
@@ -370,6 +369,23 @@
       }
     }
   }
+  
+  // Estilos para tema oscuro
+  .scope-type-buttons-inline .scope-btn-small, 
+  .scope-type-buttons-inline button.btn.scope-btn-small {
+    background: var(--primary-color-100) !important;
+    color: var(--tertiary-color-100) !important;
+    border-bottom: 3px solid #666 !important;
+
+    &:hover:not(:disabled) {
+      border-bottom-color: #ff3939 !important;
+    }
+
+    &.active {
+      border-bottom: 3px solid #ff3939 !important;
+      color: var(--tertiary-color-100) !important;
+    }
+  }
 }
 
 // Header del scope con label y botones en línea
@@ -384,6 +400,14 @@
   label {
     margin: 0;
     flex-shrink: 0;
+    
+    &.scope-title-small {
+      font-size: 0.85rem;
+      
+      b {
+        font-weight: 500;
+      }
+    }
   }
 }
 
@@ -393,34 +417,66 @@
   gap: 0.5rem;
   align-items: center;
 
-  .scope-btn-small {
+  .scope-btn-small,
+  button.btn.scope-btn-small {
     padding: 0.4rem 0.75rem;
-    background: var(--primary-color);
-    color: var(--tertiary-color-500);
-    border: 1px solid var(--primary-color-300);
+    background: var(--primary-color) !important;
+    color: var(--tertiary-color-500) !important;
+    border-bottom: 3px solid #ccc !important;
     border-radius: 3px;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     white-space: nowrap;
 
     &:hover:not(:disabled) {
+<<<<<<< Updated upstream
       background: var(--primary-color-100);
       border-color: var(--secondary-color-50);
       color: black;
+=======
+      border-bottom-color: #ff3939 !important;
+>>>>>>> Stashed changes
     }
 
     &.active {
-      background: #ff4757;
-      border-color: #ff4757;
-      color: white;
+      border-bottom: 3px solid #ff3939 !important;
+      color: var(--tertiary-color-500) !important;
     }
 
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
+  }
+}
+
+// Regla específica para botones activos con borde inferior
+.scope-type-buttons-inline .scope-btn-small.active, 
+.scope-type-buttons-inline button.btn.scope-btn-small.active {
+  border-bottom: 3px solid #ff3939 !important;
+  color: var(--tertiary-color-500) !important;
+}
+
+
+
+// Estilos base para todos los botones de scope (activos e inactivos)
+.scope-type-buttons-inline .scope-btn-small, 
+.scope-type-buttons-inline button.btn.scope-btn-small {
+  padding: 0.4rem 0.75rem;
+  background: var(--primary-color) !important;
+  color: var(--tertiary-color-500) !important;
+  border-bottom: 3px solid #ccc !important;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  
+  &:hover:not(:disabled) {
+    border-bottom-color: #ff3939 !important;
   }
 }
 
@@ -477,7 +533,7 @@
       justify-content: flex-start;
 
       .scope-btn-small {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         padding: 0.35rem 0.6rem;
       }
     }

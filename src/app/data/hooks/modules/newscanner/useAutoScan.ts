@@ -34,16 +34,27 @@ export const useAutoScan = () => {
   const autoScan = async (resourceAddress: string, openModel: boolean = true, idiom: string, scopeType: 'email' | 'website' = 'website') => {
     console.log('🚀 autoScan iniciado con:', { resourceAddress, openModel, idiom, scopeType });
     
+    // ✅ VALIDACIÓN: Si llegamos aquí, el dominio ya fue validado por web/preview (tiene IP)
+    if (!resourceAddress) {
+      console.error('❌ ERROR: resourceAddress no está presente', { resourceAddress });
+      toast.error('Domain validation failed - please try again');
+      throw new Error('Resource address is missing');
+    }
+    
+    // 🔍 DEBUGGING: Confirmar dominio válido antes de proceder
+    const cleanDomain = resourceAddress.trim();
+    console.log('✅ autoScan - Dominio validado:', cleanDomain);
+    
     setNeuroScanId('');
     saveInitialDomain('');
     setIssueFound(0);
     setIssuesParsed(0);
     setScanStep(ScanStepType.NonScan);
-    setDomainId(resourceAddress);
+    setDomainId(cleanDomain);
 
     const formData = new FormData();
     formData.append('model', 'neuroscans/mainwire');
-    formData.append('resource_domain', resourceAddress);
+    formData.append('resource_domain', cleanDomain);
     
     // Agregar el scope type
     if (scopeType === 'email') {

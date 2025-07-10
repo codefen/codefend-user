@@ -437,9 +437,9 @@
     }
 
     &.active {
-      background: linear-gradient(135deg, #ff393933 0%, #ff393922 50%, #ff393944 100%);
+      background: linear-gradient(135deg, rgba(255, 57, 57, 0.2) 0%, rgba(255, 57, 57, 0.1333333333) 50%, rgba(255, 57, 57, 0.2666666667) 100%);
       color: #ff6464;
-      border-radius: 8px;
+      border-radius: 3px;
       padding-inline: 12px;
       box-shadow: 0 2px 8px rgba(255, 57, 57, 0.15);
       font-weight: 500;

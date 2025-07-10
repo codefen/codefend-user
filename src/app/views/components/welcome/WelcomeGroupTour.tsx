@@ -55,16 +55,31 @@ export const WelcomeGroupTour = () => {
     }
   }, [setIsOpen, setModalId]);
 
-  const startWaitStep = (idiom: string = 'en') => {
-    // CRÍTICO: Usar datos ya obtenidos del hook para evitar error de hooks
-    const domainToScan = initialDomain;
+  const startWaitStep = (idiom: string = 'en', domainParam?: string) => {
+    // CRÍTICO: Usar dominio pasado como parámetro o fallback al store
+    const domainToScan = domainParam || initialDomain;
     const currentScopeType = scopeType || 'website';
     
-    console.log('🚀 Iniciando scanner con dominio:', domainToScan, 'scope:', currentScopeType);
+    // 🔍 DEBUGGING: Verificar valores recibidos
+    console.log('🚀 startWaitStep - Iniciando scanner con valores:', {
+      domainParam,
+      domainToScan,
+      currentScopeType,
+      usedFromParam: !!domainParam,
+      storeCompleto: useInitialDomainStore.getState()
+    });
     
-    // NO cambiar el modal aquí (ya se cambió en goToStartScanStep)
-    // Ejecutar inmediatamente
-    console.log('🔄 Ejecutando autoScan con:', domainToScan);
+    // ✅ VALIDACIÓN: Si llegamos aquí, el dominio ya fue validado por web/preview
+    // Solo verificamos que el valor esté presente
+    if (!domainToScan) {
+      console.error('❌ ERROR: No hay dominio disponible', {
+        domainParam,
+        storeState: useInitialDomainStore.getState()
+      });
+      throw new Error('No domain found - neither from parameter nor store');
+    }
+    
+    console.log('🔄 Ejecutando autoScan con dominio verificado:', domainToScan);
     
     // CRÍTICO: Primero ejecutar autoScan y SOLO si es exitoso marcar onboarding como resuelto
     return autoScan(domainToScan, false, idiom, currentScopeType)
@@ -111,19 +126,22 @@ export const WelcomeGroupTour = () => {
       });
   };
 
-  const goToStartScanStep = async () => {
+  const goToStartScanStep = async (domainParam?: string) => {
     // CRÍTICO: Activar flag global para bloquear llamadas incorrectas
     SCANNER_STARTING = true;
     (window as any).setScannerStarting(true);
     console.log('🚀 goToStartScanStep - SCANNER_STARTING = true');
+    
+    // 🔍 DEBUGGING: Verificar dominio recibido
+    console.log('🔍 goToStartScanStep - Dominio recibido:', domainParam);
     
     // Cambiar el estado del modal INMEDIATAMENTE para bloquear otros hooks
     console.log('🚀 goToStartScanStep - Cambiando modal a WELCOME_FINISH');
     setIsOpen(true);
     setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
     
-    // Ahora ejecutar el scanner
-    return startWaitStep('en');
+    // Ahora ejecutar el scanner con el dominio pasado como parámetro
+    return startWaitStep('en', domainParam);
   };
 
   const close = () => {
