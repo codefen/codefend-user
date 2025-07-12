@@ -188,7 +188,7 @@ export const NewSigninForm = () => {
             <div className="auth-separator-line"></div>
 
             <GoogleAuthButton
-              text="Continuar con Google"
+              text="Access with Google"
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}
               disabled={isLoading || isGoogleLoading}

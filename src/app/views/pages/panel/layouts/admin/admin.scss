@@ -298,3 +298,242 @@ main.company {
     }
   }
 }
+
+// Estilos para la nueva tarjeta de usuarios registrados por día
+.card.standard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--primary-color);
+  border-radius: 8px;
+  border: 1px solid var(--primary-color-300);
+
+  .header {
+    h3 {
+      margin: 0;
+      color: var(--tertiary-color-600);
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0.5rem 0 0;
+      color: var(--tertiary-color-400);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    input[type="date"] {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--primary-color);
+      border: 1px solid var(--primary-color-300);
+      border-radius: 4px;
+      color: var(--tertiary-color-500);
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+        border-color: var(--secondary-color-50);
+      }
+    }
+
+    .date-filters {
+      display: flex;
+      gap: 1rem;
+
+      .date-input-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--tertiary-color-500);
+        }
+
+        .date-input {
+          margin: 0;
+        }
+      }
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--tertiary-color-400);
+    }
+
+    .results {
+      margin-top: 1rem;
+      
+      .summary {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: var(--primary-color-50);
+        border-radius: 6px;
+        border: 1px solid var(--primary-color-200);
+
+        h4 {
+          margin: 0;
+          color: var(--tertiary-color-600);
+          font-size: 1.1rem;
+        }
+      }
+
+      .table-group {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+// Estilos para tema oscuro para la nueva tarjeta
+[data-theme='dark'] {
+  .card.standard {
+    background: var(--primary-color-400);
+    border-color: var(--primary-color-500);
+
+    .header {
+      h3 {
+        color: var(--tertiary-color-200);
+      }
+
+      p {
+        color: var(--tertiary-color-300);
+      }
+    }
+
+    .body {
+      .loading {
+        color: var(--tertiary-color-300);
+      }
+
+      .results {
+        .summary {
+          background: var(--primary-color-500);
+          border-color: var(--primary-color-600);
+
+          h4 {
+            color: var(--tertiary-color-200);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Estilos especiales para la tabla de actividad admin
+.admin-activity-table {
+  .table-rows .item {
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+  }
+  
+  .table-rows .item .item-cell {
+    height: 30px !important;
+    line-height: 30px !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
+  }
+  
+  .table-header .header-cell {
+    height: 35px !important;
+    line-height: 35px !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+  }
+}
+
+// Estilos para las estadísticas de actividad (formato tabla)
+.activity-stats-table {
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color-300);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  
+  .stats-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--primary-color-300);
+    
+    h4 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tertiary-color-600);
+      font-family: 'Satoshi', sans-serif;
+    }
+  }
+  
+  .stats-rows {
+    padding: 0.5rem 0;
+  }
+  
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--primary-color-200);
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &:hover {
+      background: var(--primary-color-50);
+    }
+    
+    .stat-name {
+      font-size: 0.85rem;
+      color: var(--tertiary-color-500);
+      font-family: 'Satoshi', sans-serif;
+      text-transform: capitalize;
+    }
+    
+    .stat-count {
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Satoshi', sans-serif;
+    }
+  }
+}
+
+// Estilos para tema oscuro
+[data-theme='dark'] {
+  .activity-stats-table {
+    background: var(--primary-color-400);
+    border-color: var(--primary-color-500);
+    
+    .stats-header {
+      border-bottom-color: var(--primary-color-500);
+      
+      h4 {
+        color: var(--tertiary-color-200);
+      }
+    }
+    
+    .stat-row {
+      border-bottom-color: var(--primary-color-500);
+      
+      &:hover {
+        background: var(--primary-color-500);
+      }
+      
+      .stat-name {
+        color: var(--tertiary-color-300);
+      }
+    }
+  }
+}

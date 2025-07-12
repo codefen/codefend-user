@@ -1,0 +1,311 @@
+.activity-chart-container {
+  width: 100%;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--primary-color);
+  border-radius: 8px;
+  border: 1px solid var(--primary-color-300);
+  resize: horizontal; /* Permite resize manual para testing */
+  overflow: hidden;
+  min-width: 300px;
+  
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    display: block;
+  }
+
+  .chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--tertiary-color-400);
+    font-style: italic;
+  }
+
+  // 🆕 Estilos para los controles de gráfico
+  .chart-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    .chart-toggle-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--primary-color-300);
+      background: var(--primary-color);
+      color: var(--tertiary-color-500);
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:hover {
+        background: var(--primary-color-50);
+        border-color: var(--primary-color-400);
+        color: var(--tertiary-color-600);
+        transform: translateY(-1px);
+      }
+
+      &.active {
+        background: var(--secondary-color-50);
+        border-color: var(--secondary-color-50);
+        color: var(--primary-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 87, 87, 0.1);
+      }
+    }
+  }
+}
+
+// Estilos globales para tooltips
+.chart-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: white !important;
+  padding: 10px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-family: 'Satoshi', sans-serif !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  pointer-events: none !important;
+  z-index: 9999 !important;
+  line-height: 1.4 !important;
+
+  strong {
+    color: #fff !important;
+    font-weight: 600 !important;
+    text-transform: capitalize !important;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .activity-chart-container {
+    padding: 0.75rem;
+    margin: 1rem 0;
+    min-width: 280px;
+    
+    svg {
+      overflow: visible;
+    }
+
+    .chart-controls {
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .chart-toggle-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-chart-container {
+    padding: 0.5rem;
+    margin: 0.75rem 0;
+    min-width: 260px;
+
+    .chart-controls {
+      .chart-toggle-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+// Estilos para grid lines del gráfico
+.grid line {
+  stroke: #e9ecef;
+  stroke-dasharray: 2,2;
+  shape-rendering: crispEdges;
+}
+
+// Estilos para ejes
+.axis {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+// Estilos para leyenda
+.legend text {
+  font-family: 'Satoshi', sans-serif !important;
+  font-size: 12px !important;
+  fill: #495057 !important;
+  text-transform: capitalize;
+}
+
+// 🆕 Estilos para leyenda clickeable con checkboxes
+.legend {
+  .legend-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+      
+      text {
+        fill: var(--tertiary-color-600) !important;
+      }
+      
+      rect[width="14"] { // Checkbox
+        stroke-width: 3;
+      }
+    }
+
+    // Checkbox estilos
+    rect[width="14"] {
+      transition: all 0.2s ease;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+      
+      &:hover {
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+      }
+    }
+
+    // Checkmark animación
+    path {
+      animation: checkmark-appear 0.3s ease;
+    }
+
+    // Indicadores de línea/cuadrado
+    line, rect[width="12"] {
+      transition: opacity 0.2s ease;
+    }
+
+    // Texto de leyenda
+    text {
+      transition: fill 0.2s ease;
+      font-weight: 500;
+      
+      &[fill="#999"] {
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+// Animación para el checkmark
+@keyframes checkmark-appear {
+  0% {
+    stroke-dasharray: 12;
+    stroke-dashoffset: 12;
+  }
+  100% {
+    stroke-dasharray: 12;
+    stroke-dashoffset: 0;
+  }
+}
+
+// Estilos específicos para el gráfico de barras
+.bar-group {
+  cursor: pointer;
+  
+  rect {
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+}
+
+// Estilos específicos para el gráfico de líneas
+.line-leads,
+.line-usuarios,
+.line-companias,
+.line-neuroscans,
+.line-seen_issues {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+// 🆕 Estilos para líneas discontinuas (métricas con pocos datos)
+.line-usuarios,
+.line-companias,
+.line-neuroscans,
+.line-seen_issues {
+  &[stroke-dasharray="5,5"] {
+    animation: dash-animation 10s linear infinite;
+  }
+}
+
+// Animación para líneas discontinuas
+@keyframes dash-animation {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 20;
+  }
+}
+
+// Tema oscuro
+[data-theme='dark'] {
+  .activity-chart-container {
+    background: var(--primary-color-dark);
+    border-color: var(--primary-color-300-dark);
+
+    .chart-controls {
+      .chart-toggle-btn {
+        background: var(--primary-color-dark);
+        border-color: var(--primary-color-300-dark);
+        color: var(--tertiary-color-100);
+
+        &:hover {
+          background: var(--primary-color-50-dark);
+          border-color: var(--primary-color-400-dark);
+          color: var(--tertiary-color-50);
+        }
+
+        &.active {
+          background: var(--secondary-color-50);
+          border-color: var(--secondary-color-50);
+          color: var(--primary-color-dark);
+        }
+      }
+    }
+
+    .chart-placeholder {
+      color: var(--tertiary-color-300);
+    }
+  }
+
+  .grid line {
+    stroke: #444;
+  }
+
+  .axis text {
+    fill: var(--tertiary-color-200) !important;
+  }
+
+  .legend {
+    text {
+      fill: var(--tertiary-color-200) !important;
+      
+      &[fill="#999"] {
+        fill: var(--tertiary-color-400) !important;
+      }
+    }
+
+    .legend-item:hover text {
+      fill: var(--tertiary-color-100) !important;
+    }
+  }
+} 

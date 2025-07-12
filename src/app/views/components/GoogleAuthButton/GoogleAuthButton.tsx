@@ -153,7 +153,7 @@ export const GoogleAuthButton = ({
         theme: 'outline',
         size: 'large',
         width: 300,
-        text: mode === 'signup' ? 'signup_with' : 'signin_with',
+        text: mode === 'signup' ? 'signup_with' : 'continue_with',
       });
 
       // console.log('✅ Botón Google renderizado correctamente');
