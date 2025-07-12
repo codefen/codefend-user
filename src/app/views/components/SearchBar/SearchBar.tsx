@@ -72,10 +72,21 @@ export const SearchBar: FC<SearchBarProps> = props => {
           <input
             type="text"
             value={props.inputValue}
-            onChange={props.handleChange}
+            onChange={(e) => {
+              console.log('📝 SearchBar input onChange:', { 
+                value: e.target.value, 
+                hasSpaces: e.target.value.includes(' '),
+                charCodes: e.target.value.split('').map(c => c.charCodeAt(0))
+              });
+              props.handleChange(e);
+            }}
             onKeyDown={handleKeyPress}
             placeholder={props.placeHolder}
             className={`text search-input ${inputClass} ${animClass}`}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
             required
           />
           <Show when={props.isActiveSelect === true && props.selectOptions !== undefined}>

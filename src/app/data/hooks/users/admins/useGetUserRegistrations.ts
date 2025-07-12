@@ -21,6 +21,7 @@ export const useGetUserRegistrations = () => {
     usuarios: 0,
     companias: 0,
     neuroscans: 0,
+    issues_vistos: 0,
   });
 
   // Combinar todos los datos por fecha
@@ -91,6 +92,7 @@ export const useGetUserRegistrations = () => {
           usuarios: filteredData.reduce((sum, reg) => sum + parseInt(reg.usuarios || '0'), 0),
           companias: filteredData.reduce((sum, reg) => sum + parseInt(reg.companias || '0'), 0),
           neuroscans: filteredData.reduce((sum, reg) => sum + parseInt(reg.neuroscans || '0'), 0),
+          issues_vistos: 0,
         };
         
         setData(filteredData);
@@ -99,14 +101,14 @@ export const useGetUserRegistrations = () => {
       } else {
         toast.error('Error al cargar los datos');
         setData([]);
-        setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0 });
+        setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0 });
       }
     } catch (error) {
       console.error('Error fetching registrations:', error);
       const errorMessage = apiErrorValidation(error);
       toast.error(errorMessage || 'Error al cargar los datos');
       setData([]);
-      setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0 });
+      setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0 });
     } finally {
       setIsLoading(false);
     }

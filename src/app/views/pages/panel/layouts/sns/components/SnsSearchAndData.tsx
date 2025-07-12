@@ -11,6 +11,7 @@ import { SearchBarContainer } from '@/app/views/pages/panel/layouts/sns/componen
 import { IntelCard } from '@/app/views/pages/panel/layouts/sns/components/IntelCard';
 import { useLeakedData } from '@moduleHooks/sns/useLeakedData';
 import type { SearchOptions } from '@interfaces/snsTypes';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const SEARCH_OPTIONS: SearchOptions = {
   _domain: 'domain',
@@ -20,6 +21,7 @@ const SEARCH_OPTIONS: SearchOptions = {
   name: 'full name',
   hash: 'hash',
   lastip: 'lastip',
+  unknown: 'unknown',
 };
 
 const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
@@ -107,7 +109,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
         setSearchData={setSearchData}
         handleSubmit={handleSubmit}
         selectBarOptions={selectBarOptions}
-        isDisabled={!searchData}
+        isDisabled={!searchData || searchClass === 'unknown'}
       />
 
       <Show when={!isLoading} fallback={<PageLoader />}>
@@ -115,14 +117,29 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
           {intelData.length === 0 ? (
             renderEmptyState()
           ) : (
-            <Masonry
-              breakpointCols={2}
-              className="my-masonry-grid"
-              columnClassName="my-masonry-grid_column">
-              {intelData.map((intel, index) => (
-                <IntelCard key={index} intel={intel} onOpenLeakedModal={handleOpenLeakedModal} />
-              ))}
-            </Masonry>
+            intelData.length === 1 ? (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={intelData[0]?.id || JSON.stringify(intelData[0])}
+                  initial={{ opacity: 0, scale: 1.12, zIndex: 2 }}
+                  animate={{ opacity: 1, scale: 1, zIndex: 2 }}
+                  exit={{ opacity: 0, scale: 1.18, zIndex: 2 }}
+                  transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                  style={{ position: 'relative', width: '100%' }}
+                >
+                  <IntelCard intel={intelData[0]} onOpenLeakedModal={handleOpenLeakedModal} refetch={refetch} />
+                </motion.div>
+              </AnimatePresence>
+            ) : (
+              <Masonry
+                breakpointCols={2}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column">
+                {intelData.map((intel, index) => (
+                  <IntelCard key={index} intel={intel} onOpenLeakedModal={handleOpenLeakedModal} refetch={refetch} />
+                ))}
+              </Masonry>
+            )
           )}
         </div>
       </Show>

@@ -35,7 +35,7 @@ const AdminSection: FC = () => {
         {/* Gráfico de actividad diaria - se muestra automáticamente */}
         <ActivityDashboard />
         
-        <NewUsersDaily />
+        {/* <NewUsersDaily /> */}
       </section>
       <section className="right">
         <Navbar />

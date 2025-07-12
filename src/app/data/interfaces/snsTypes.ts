@@ -6,6 +6,7 @@ export interface SearchOptions {
   name: string;
   hash: string;
   lastip: string;
+  unknown: string;
 }
 
 export interface IntelData {

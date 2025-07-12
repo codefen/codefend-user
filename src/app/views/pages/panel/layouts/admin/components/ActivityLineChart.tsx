@@ -332,17 +332,66 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
               mouseX: event.offsetX,
               mouseY: event.offsetY
             });
+            
             showTooltip(event, d, metric);
-            // Hacer más grande en hover independientemente del valor
-            d3.select(this).transition().duration(100).attr('r', 8).style('opacity', 1);
+            
+            // 🎯 HOVER CRUZADO: Agregar todos los puntos de la misma fecha
+            const fechaHover = d.fecha;
+            const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+            
+            // Seleccionar todos los puntos de todas las métricas en esa fecha
+            const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
+            allMetrics.forEach(currentMetric => {
+              const isMetricVisible = visibleMetrics[currentMetric as keyof typeof visibleMetrics];
+              if (isMetricVisible) {
+                // Seleccionar todos los puntos de esta métrica y filtrar por fecha
+                g.selectAll(`.dot-${currentMetric}`)
+                  .filter((dotData: any) => {
+                    const dotFechaStr = dotData.fecha.toISOString().split('T')[0];
+                    return dotFechaStr === fechaStr;
+                  })
+                  .transition()
+                  .duration(100)
+                  .attr('r', 8)
+                  .style('opacity', 1);
+              }
+            });
           })
           .on('mouseout', function(event, d: any) {
             hideTooltip();
-            // Restaurar tamaño original basado en el valor
-            const value = d[metric as keyof typeof d];
-            const originalR = (typeof value === 'number' && value > 0) ? 5 : 2;
-            const originalOpacity = (typeof value === 'number' && value > 0) ? 0.9 : 0.3;
-            d3.select(this).transition().duration(100).attr('r', originalR).style('opacity', originalOpacity);
+            
+            // 🎯 HOVER CRUZADO: Restaurar todos los puntos de la misma fecha
+            const fechaHover = d.fecha;
+            const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+            
+            // Restaurar todos los puntos de todas las métricas en esa fecha
+            const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
+            allMetrics.forEach(currentMetric => {
+              const isMetricVisible = visibleMetrics[currentMetric as keyof typeof visibleMetrics];
+              if (isMetricVisible) {
+                // Seleccionar todos los puntos de esta métrica y filtrar por fecha
+                g.selectAll(`.dot-${currentMetric}`)
+                  .filter((dotData: any) => {
+                    const dotFechaStr = dotData.fecha.toISOString().split('T')[0];
+                    return dotFechaStr === fechaStr;
+                  })
+                  .transition()
+                  .duration(100)
+                  .attr('r', (dotData: any) => {
+                    // Restaurar tamaño original basado en el valor
+                    const value = dotData[currentMetric as keyof typeof dotData];
+                    return (typeof value === 'number' && value > 0) ? 5 : 2;
+                  })
+                  .style('opacity', (dotData: any) => {
+                    // Restaurar opacidad original basada en el valor
+                    const value = dotData[currentMetric as keyof typeof dotData];
+                    if (typeof value === 'number') {
+                      return value > 0 ? 0.9 : 0.3;
+                    }
+                    return 0.1;
+                  });
+              }
+            });
           });
 
         console.log(`  - Círculos creados: ${circles.size()}`);
@@ -536,7 +585,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
           ? (domainValue: any) => d3.timeFormat('%d')(domainValue)
           : (domainValue: any) => domainValue
         )
-        .ticks(chartType === 'line' ? Math.min(processedData.length, 10) : undefined) // Limitar ticks para líneas
+        // Mostrar todos los ticks para ambos tipos de gráfico
+        .ticks(chartType === 'line' ? processedData.length : undefined)
       );
     
     xAxis.selectAll('text')
@@ -594,15 +644,15 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       
       const legendItem = legend.append('g')
         .attr('class', 'legend-item')
-        .attr('transform', `translate(${index * 120}, 0)`)
+        .attr('transform', `translate(${index * 120}, 0)`) // Más espacio para el texto
         .style('cursor', 'pointer')
         .on('click', () => toggleMetricVisibility(metric as keyof typeof visibleMetrics));
 
       // Checkbox visual
-      const checkboxSize = 14;
+      const checkboxSize = 16;
       const checkbox = legendItem.append('rect')
         .attr('x', 0)
-        .attr('y', -7)
+        .attr('y', -8)
         .attr('width', checkboxSize)
         .attr('height', checkboxSize)
         .attr('rx', 2)
@@ -610,42 +660,22 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
         .attr('stroke', colors[metric as keyof typeof colors])
         .attr('stroke-width', 2);
 
-      // Checkmark
+      // Checkmark - centrado horizontal y verticalmente
       if (isVisible) {
         legendItem.append('path')
-          .attr('d', 'M3,7 L6,10 L11,3')
+          .attr('d', 'M4,8 L7,11 L12,5') // Centrado perfectamente en el box de 16x16
           .attr('stroke', '#fff')
-          .attr('stroke-width', 2)
+          .attr('stroke-width', 2.5)
           .attr('fill', 'none')
           .attr('stroke-linecap', 'round')
           .attr('stroke-linejoin', 'round');
       }
 
-      // Indicador de color (línea o cuadrado)
-      if (chartType === 'line') {
-        legendItem.append('line')
-          .attr('x1', checkboxSize + 8)
-          .attr('y1', 0)
-          .attr('x2', checkboxSize + 26)
-          .attr('y2', 0)
-          .attr('stroke', colors[metric as keyof typeof colors])
-          .attr('stroke-width', 3)
-          .attr('opacity', isVisible ? 1 : 0.3);
-      } else {
-        legendItem.append('rect')
-          .attr('x', checkboxSize + 8)
-          .attr('y', -6)
-          .attr('width', 12)
-          .attr('height', 12)
-          .attr('fill', colors[metric as keyof typeof colors])
-          .attr('opacity', isVisible ? 1 : 0.3);
-      }
-
-      // Texto
+      // Texto descriptivo al lado del checkbox
       legendItem.append('text')
-        .attr('x', checkboxSize + 35)
+        .attr('x', checkboxSize + 8) // 8px de espacio después del checkbox
         .attr('y', 0)
-        .attr('dy', '0.35em')
+        .attr('dy', '0.35em') // Centrado verticalmente
         .style('font-size', '12px')
         .style('fill', isVisible ? '#495057' : '#999')
         .style('font-weight', '500')
