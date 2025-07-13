@@ -114,33 +114,42 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
 
       <Show when={!isLoading} fallback={<PageLoader />}>
         <div className="content" style={{ marginBottom: '1.2rem', height: '100%' }}>
-          {intelData.length === 0 ? (
-            renderEmptyState()
-          ) : (
-            intelData.length === 1 ? (
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={intelData[0]?.id || JSON.stringify(intelData[0])}
-                  initial={{ opacity: 0, scale: 1.12, zIndex: 2 }}
-                  animate={{ opacity: 1, scale: 1, zIndex: 2 }}
-                  exit={{ opacity: 0, scale: 1.18, zIndex: 2 }}
-                  transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                  style={{ position: 'relative', width: '100%' }}
-                >
-                  <IntelCard intel={intelData[0]} onOpenLeakedModal={handleOpenLeakedModal} refetch={refetch} />
-                </motion.div>
-              </AnimatePresence>
+          <AnimatePresence mode="wait">
+            {intelData.length === 0 ? (
+              <motion.div
+                key={"empty-" + searchClass + '-' + searchData}
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -300, opacity: 0 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                style={{ width: '100%' }}
+              >
+                {renderEmptyState()}
+              </motion.div>
             ) : (
-              <Masonry
-                breakpointCols={2}
-                className="my-masonry-grid"
-                columnClassName="my-masonry-grid_column">
-                {intelData.map((intel, index) => (
-                  <IntelCard key={index} intel={intel} onOpenLeakedModal={handleOpenLeakedModal} refetch={refetch} />
-                ))}
-              </Masonry>
-            )
-          )}
+              <motion.div
+                key={searchClass + '-' + searchData}
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -300, opacity: 0 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                style={{ width: '100%' }}
+              >
+                {intelData.length === 1 ? (
+                  <IntelCard intel={intelData[0]} onOpenLeakedModal={handleOpenLeakedModal} refetch={refetch} />
+                ) : (
+                  <Masonry
+                    breakpointCols={2}
+                    className="my-masonry-grid"
+                    columnClassName="my-masonry-grid_column">
+                    {intelData.map((intel, index) => (
+                      <IntelCard key={index} intel={intel} onOpenLeakedModal={handleOpenLeakedModal} refetch={refetch} />
+                    ))}
+                  </Masonry>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </Show>
 

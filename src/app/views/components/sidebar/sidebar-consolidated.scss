@@ -793,3 +793,98 @@ main.sb.sidebar-mobile-active {
 .guide-container + .navbar + .sidebar {
   // Estilos específicos cuando hay guide-container
 }
+
+.sidebar-logo-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 18px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  background: transparent;
+  z-index: 10;
+  .aim-logo {
+    margin-bottom: 6px;
+    img, svg {
+      height: 32px;
+      width: auto;
+    }
+  }
+  .breadcrumb {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary-color-200);
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+    margin-bottom: 0;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+    span.sep {
+      color: var(--tertiary-color-400);
+      margin: 0 3px;
+    }
+  }
+}
+
+.sidebar-group-actions {
+  margin-top: 1.5rem;
+  .sidebar-group-title {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--tertiary-color-700);
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    padding-left: 20px;
+  }
+  .sidebar-actions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 10px 10px 10px;
+  }
+  .sidebar-action-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--tertiary-color-800);
+    transition: background 0.15s, color 0.15s;
+    &:hover {
+      background: var(--secondary-color-100);
+      color: var(--primary-color);
+      .sidebar-action-icon {
+        filter: brightness(0.7) saturate(1.5);
+      }
+    }
+    .sidebar-action-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      min-height: 24px;
+    }
+    .sidebar-action-text {
+      flex: 1;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+  }
+}
+
+// Eliminar estilos de .sidebar-actions-bottom si existen
+.sidebar-actions-bottom {
+  display: none !important;
+}
+
+// Ajuste para que el menú no tape las acciones abajo
+.sidebar.desktop-active {
+  padding-bottom: 80px;
+}

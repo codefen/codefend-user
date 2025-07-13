@@ -88,58 +88,7 @@ const Navbar: FC = () => {
         />
       )}
 
-      <nav className="navbar">
-        <div className="navbar-left">
-          <div className="navbar-logo" onClick={openGuide}>
-            <span className="aim-logo">
-              <Logo theme="aimColor" />
-            </span>
-          </div>
-          <Breadcrumb root="Codefend" rootAction={rootAction} />
-        </div>
-
-        <div className="navbar-right">
-          <div className="actions">
-            {/*          <div className="navbar-logo" onClick={openGuide}>
-            <span className={`${open && 'rotate-360'}`}>
-              <Logo theme="aim" onClick={() => handleChange()} />
-            </span>
-          </div> */}
-            {isAdmin() && (
-              <>
-                <div className="action" onClick={openOnBoard}>
-                  <RobotFaceIcon width={'1em'} height={'1em'} />
-                </div>
-                <div
-                  className="action"
-                  title="Network settings"
-                  onClick={() => isOpenNetworkSetting.set(true)}>
-                  <NetworkIcon width={1.1} height={1.1} />
-                </div>
-              </>
-            )}
-            {/* <div className="user action" ref={userRef}>
-              <span className="email">{userData.email || 'not-found'}</span>
-              <NavbarSubMenu
-                isOpen={isMenuOpen}
-                subMenuRef={dropdownRef}
-                userFullname={userData.fname + ' ' + userData.lname}
-                closeMenu={() => setMenuOpen(false)}
-              />
-            </div> */}
-            <ThemeChangerButton />
-            <div
-              className="action logout"
-              title="Logout"
-              onClick={() => {
-                setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
-                setShowModal(true);
-              }}>
-              <LogoutIcon width={1.1} height={1.1} />
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Eliminado: logo, breadcrumb y acciones, ahora en sidebar */}
     </>
   );
 };
