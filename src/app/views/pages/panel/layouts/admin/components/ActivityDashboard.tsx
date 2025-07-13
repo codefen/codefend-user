@@ -14,11 +14,11 @@ export const ActivityDashboard: FC = () => {
     return (
       <div className="card standard">
         <div className="over">
-          <div className="header">
-            <h2 className="table-title">Actividad diaria</h2>
-          </div>
-          <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
           <div className="body">
+            <div className="chart-header">
+              <h2 className="table-title">Actividad diaria</h2>
+              <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
+            </div>
             <div className="loading">
               <p>Cargando datos...</p>
             </div>
@@ -32,11 +32,11 @@ export const ActivityDashboard: FC = () => {
     return (
       <div className="card standard">
         <div className="over">
-          <div className="header">
-            <h2 className="table-title">Actividad diaria</h2>
-          </div>
-          <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
           <div className="body">
+            <div className="chart-header">
+              <h2 className="table-title">Actividad diaria</h2>
+              <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
+            </div>
             <div className="chart-placeholder">
               <p>No hay datos para mostrar en el gráfico</p>
             </div>
@@ -49,11 +49,11 @@ export const ActivityDashboard: FC = () => {
   return (
     <div className="card standard">
       <div className="over">
-        <div className="header">
-          <h2 className="table-title">Actividad diaria</h2>
-        </div>
-        <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
         <div className="body">
+          <div className="chart-header">
+            <h2 className="table-title">Actividad diaria</h2>
+            <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
+          </div>
           {/* Gráfico de líneas */}
           <ActivityLineChart data={registrations} />
         </div>
