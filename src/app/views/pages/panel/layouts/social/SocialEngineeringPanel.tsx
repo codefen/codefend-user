@@ -104,8 +104,8 @@ const SocialEngineeringView = () => {
   const renderTabContent = () => {
     if (activeTab === 'linkedin') {
       return displayMembers.length > 0 ? (
-        <LinkedInProfilesView 
-          sentryRef={ref} 
+        <LinkedInProfilesView
+          sentryRef={ref}
           members={displayMembers}
           isLoading={isLoading}
           isLoadingMore={isLoadingMore}
@@ -134,8 +134,8 @@ const SocialEngineeringView = () => {
 
     // Vista por defecto (all)
     return displayMembers.length > 0 ? (
-      <SocialEngineering 
-        sentryRef={ref} 
+      <SocialEngineering
+        sentryRef={ref}
         paginatedMembers={displayMembers}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}
@@ -168,58 +168,59 @@ const SocialEngineeringView = () => {
 
   return (
     <SectionTracker sectionName="social">
-      <main className={`social ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+      <main
+        className={`social ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <CredentialsModal />
         <AddSocialResourceModal onDone={() => refresh()} />
-      <section className="left">
-        <div>
-          <ModalInput
-            icon={<MagnifyingGlassIcon />}
-            setValue={(val: string) => setSearchTerm(val)}
-            placeholder="Search member by name or email..."
-          />
-          {/* {isSearchingBackend && <div className="search-indicator">Searching in database...</div>} */}
-        </div>
-        <div className="card">
-          <SimpleSection header="Social Engineering" icon={<PeopleGroupIcon />}>
-            {/* Sistema de pestañas */}
-            <div className="tabs-container">
-              <div className="tabs-header">
-                <button
-                  className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('all')}>
-                  <EmailIcon width="16" height="16" />
-                  <span>show all</span>
-                </button>
-                <button
-                  className={`tab-button ${activeTab === 'linkedin' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('linkedin')}>
-                  <LinkedinV2Icon width="16" height="16" />
-                  <span>linkedin profiles</span>
-                </button>
+        <section className="left">
+          <div>
+            <ModalInput
+              icon={<MagnifyingGlassIcon />}
+              setValue={(val: string) => setSearchTerm(val)}
+              placeholder="Search member by name or email..."
+            />
+            {/* {isSearchingBackend && <div className="search-indicator">Searching in database...</div>} */}
+          </div>
+          <div className="card">
+            <SimpleSection header="Social Engineering" icon={<PeopleGroupIcon />}>
+              {/* Sistema de pestañas */}
+              <div className="tabs-container">
+                <div className="tabs-header">
+                  <button
+                    className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
+                    onClick={() => handleTabChange('all')}>
+                    <EmailIcon width="16" height="16" />
+                    <span>show all</span>
+                  </button>
+                  <button
+                    className={`tab-button ${activeTab === 'linkedin' ? 'active' : ''}`}
+                    onClick={() => handleTabChange('linkedin')}>
+                    <LinkedinV2Icon width="16" height="16" />
+                    <span>linkedin profiles</span>
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="content content-grid">{renderTabContent()}</div>
-          </SimpleSection>
-        </div>
-      </section>
-      <section className="right" ref={flashlight.rightPaneRef}>
-        <Navbar />
-        <AddSocialBlock isLoading={isLoading} />
-        <SocialEngineeringFilters
-          members={members}
-          domains={domains || []}
-          handleFilters={onFilterChange}
-          currentFilters={filters}
-        />
+              <div className="content content-grid">{renderTabContent()}</div>
+            </SimpleSection>
+          </div>
+        </section>
+        <section className="right" ref={flashlight.rightPaneRef}>
+          <Navbar />
+          <AddSocialBlock isLoading={isLoading} />
+          <SocialEngineeringFilters
+            members={members}
+            domains={domains || []}
+            handleFilters={onFilterChange}
+            currentFilters={filters}
+          />
 
-        <OpenOrderButton
-          className="primary-full"
-          type={ResourcesTypes.SOCIAL}
-          resourceCount={members?.length || 0}
-          scope={OrderSection.SOCIAL_SCOPE}
-        />
-      </section>
+          <OpenOrderButton
+            className="primary-full"
+            type={ResourcesTypes.SOCIAL}
+            resourceCount={members?.length || 0}
+            scope={OrderSection.SOCIAL_SCOPE}
+          />
+        </section>
       </main>
     </SectionTracker>
   );
