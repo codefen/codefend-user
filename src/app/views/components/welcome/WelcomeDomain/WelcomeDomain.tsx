@@ -440,6 +440,14 @@ export const WelcomeDomain = ({
     }
   }, [hasInitialized, initialDomainStored]);
 
+  // Auto-preview si hay dominio precargado al iniciar el onboarding
+  useEffect(() => {
+    if (scopeType === 'website' && currentValue) {
+      autoPreviewWebsite(currentValue);
+    }
+    // eslint-disable-next-line
+  }, []);
+
   // useEffect para limpiar dominios cuando el campo esté completamente vacío
   useEffect(() => {
     if (!hasInitialized) return;

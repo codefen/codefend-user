@@ -37,6 +37,10 @@ const Dashboard = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.title = 'Codefend: Dashboard';
+  }, []);
+
   const openScan = () => {
     if (isScanning.get) {
       currentScan.set(null);

@@ -33,6 +33,11 @@ export const WelcomeGroupTour = () => {
 
   // Auto-abrir scanner después del onboarding
   useEffect(() => {
+    // Al cargar el componente, forzar checkEmail a false si viene de registro
+    // Esto previene bloqueos residuales del flag
+    const { update } = useInitialDomainStore.getState();
+    update('checkEmail', false);
+
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('open_scanner') === 'true') {
       // Marcar que viene del onboarding

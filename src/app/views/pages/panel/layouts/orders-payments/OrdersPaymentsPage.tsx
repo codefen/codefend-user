@@ -28,6 +28,10 @@ export const OrdersPaymentsPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.title = 'Codefend: orders';
+  }, []);
+
   return (
     <main
       className={`orders-payments ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>

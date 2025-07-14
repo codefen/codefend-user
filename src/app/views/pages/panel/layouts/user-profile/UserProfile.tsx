@@ -23,6 +23,10 @@ export const UserProfilePage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.title = 'Codefend: user profile';
+  }, []);
+
   return (
     <main
       className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>

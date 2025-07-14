@@ -99,7 +99,7 @@
     gap: 4px;
 
     &:hover {
-      background-color: #e1e1e1eb;
+      background-color: #e1e1e1fa; // antes: #e1e1e1eb, ahora más claro
       // color: #f9f9f9e6;
       border-bottom-color: #f76767eb;
     }
@@ -238,7 +238,7 @@
     }
 
     &:hover {
-      background-color: var(--primary-color-200);
+      background-color: var(--primary-color-200); // antes: var(--primary-color-100), ahora más claro
     }
   }
 
@@ -350,7 +350,11 @@
     font-weight: 500;
 
     &:hover {
-      background-color: var(--secondary-color-100);
+      background: #f2f2f2; // antes: var(--secondary-color-100), ahora más claro y visible
+      color: var(--primary-color);
+      .sidebar-action-icon {
+        filter: brightness(0.7) saturate(1.5);
+      }
     }
   }
 }
@@ -431,8 +435,6 @@
     &:hover {
       background-color: var(--primary-color);
       color: rgb(229 229 229 / 95%);
-      border-radius: 8px;
-      padding-inline: 12px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -857,7 +859,7 @@ main.sb.sidebar-mobile-active {
     color: var(--tertiary-color-800);
     transition: background 0.15s, color 0.15s;
     &:hover {
-      background: var(--secondary-color-100);
+      background: #f2f2f2; // antes: var(--secondary-color-100), ahora más claro y visible
       color: var(--primary-color);
       .sidebar-action-icon {
         filter: brightness(0.7) saturate(1.5);

@@ -133,7 +133,7 @@ export const SidebarMobile = ({
 
             <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
               <LogoutIcon width={1.1} height={1.1} />
-              Logout
+              Close session
             </button>
           </div>
         </div>

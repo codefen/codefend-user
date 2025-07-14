@@ -43,6 +43,7 @@ import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
 import { ThemeChangerButton } from '@buttons/index.ts';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { useTheme } from '@/app/views/context/ThemeContext';
+import { SunIcon, MoonIcon } from '@icons';
 
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
@@ -68,7 +69,7 @@ export const SidebarDesktop = ({
   const { setIsOpen, setModalId } = useModalStore();
   const isProgressStarted = useGlobalFastField('isProgressStarted');
   const progress = useGlobalFastField('scanProgress');
-  const { theme } = useTheme();
+  const { theme, changeTheme } = useTheme();
   const isDark = theme === 'dark';
 
   const rootAction = () => {
@@ -351,41 +352,49 @@ export const SidebarDesktop = ({
       {getItems(newMenuItems)}
       {/* HR y acciones rápidas debajo de Risk control */}
       <hr style={{ margin: '18px 0 10px 0', border: 0, borderTop: '1px solid #e0e0e0' }} />
-      <SidebarItem
-        id="sidebar_action_onboarding"
-        title="Onboarding"
-        icon={<RobotFaceIcon width={'1.2em'} height={'1.2em'} />}
-        to="#"
-        isActive={false}
-        isAuth={isAuth}
-        onClick={openOnBoard}
-      />
-      <SidebarItem
-        id="sidebar_action_network_settings"
-        title="Network settings"
-        icon={<NetworkIcon width={1.2} height={1.2} />}
-        to="#"
-        isActive={false}
-        isAuth={isAuth}
-        onClick={() => isOpenNetworkSetting.set(true)}
-      />
-      <SidebarItem
-        id="sidebar_action_theme"
-        title={isDark ? 'Light mode' : 'Dark mode'}
-        icon={<ThemeChangerButton />}
-        to="#"
-        isActive={false}
-        isAuth={isAuth}
-      />
-      <SidebarItem
-        id="sidebar_action_logout"
-        title="Logout"
-        icon={<LogoutIcon width={1.2} height={1.2} />}
-        to="#"
-        isActive={false}
-        isAuth={isAuth}
-        onClick={() => { setShowModalStr(MODAL_KEY_OPEN.LOGOUT); setShowModal(true); }}
-      />
+      {isAdmin() && (
+        <SidebarItem
+          id="sidebar_action_onboarding"
+          title="Onboarding"
+          icon={<RobotFaceIcon width={'1.2em'} height={'1.2em'} />}
+          to="#"
+          isActive={false}
+          isAuth={isAuth}
+          onClick={openOnBoard}
+        />
+      )}
+      {isAdmin() && (
+        <SidebarItem
+          id="sidebar_action_network_settings"
+          title="Quick variables"
+          icon={<NetworkIcon width={1.2} height={1.2} />}
+          to="#"
+          isActive={false}
+          isAuth={isAuth}
+          onClick={() => isOpenNetworkSetting.set(true)}
+        />
+      )}
+      {/* Agrupo theme y logout en un sidebar-group sin título */}
+      <div className="sidebar-group">
+        <SidebarItem
+          id="sidebar_action_theme"
+          title={theme === 'light' ? 'Dark mode' : 'Light mode'}
+          icon={theme === 'light' ? <MoonIcon width={1} height={1} /> : <SunIcon width={1} height={1} />}
+          to="#"
+          isActive={false}
+          isAuth={isAuth}
+          onClick={changeTheme}
+        />
+        <SidebarItem
+          id="sidebar_action_logout"
+          title="Close session"
+          icon={<LogoutIcon width={1} height={1} />}
+          to="#"
+          isActive={false}
+          isAuth={isAuth}
+          onClick={() => { setShowModalStr(MODAL_KEY_OPEN.LOGOUT); setShowModal(true); }}
+        />
+      </div>
     </>
   );
 };

@@ -92,6 +92,21 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
       onClick: (resource: NetworkDevice) => handleDelete(resource),
       disabled: isProvider(),
     },
+    {
+      label: 'launch naabu',
+      icon: <span style={{fontWeight:600, fontSize:'1.1em'}}>🚀</span>,
+      onClick: () => {},
+    },
+    {
+      label: 'launch nmap',
+      icon: <span style={{fontWeight:600, fontSize:'1.1em'}}>🛰️</span>,
+      onClick: () => {},
+    },
+    {
+      label: 'unveil shadow domains',
+      icon: <span style={{fontWeight:600, fontSize:'1.1em'}}>🌑</span>,
+      onClick: () => {},
+    },
   ];
 
   const { contextMenu, closeContextMenu, handleThreeDotsClick } =
