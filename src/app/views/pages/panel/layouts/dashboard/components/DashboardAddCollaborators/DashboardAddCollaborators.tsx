@@ -1,6 +1,7 @@
 import DashboardCollaborators from '../DashboardCollaborators/DashboardCollaborators';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
+import { useDashboard } from '@panelHooks/index';
 
 interface DashboardAddCollaboratorsProps {
   isLoading: boolean;

@@ -16,6 +16,7 @@ interface SearchBarContainerProps {
     change: (e: ChangeEvent<HTMLSelectElement>) => void;
     defaultSelectOption: string;
   };
+  inputAnimationStep?: number;
 }
 
 export const SearchBarContainer: FC<SearchBarContainerProps> = ({
@@ -27,11 +28,24 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
   icon = null,
   searchText = 'Search leaks',
   isDisabled = false,
+  inputAnimationStep = 0,
 }) => {
+  
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    console.log('🎯 SearchBarContainer handleChange:', { 
+      originalValue: value, 
+      length: value.length,
+      hasSpaces: value.includes(' '),
+      charCodes: value.split('').map(c => c.charCodeAt(0))
+    });
+    setSearchData(value);
+  };
+  
   return (
     <div className="search-bar-container">
       <SearchBar
-        handleChange={(e: ChangeEvent<HTMLInputElement>) => setSearchData(e.target.value)}
+        handleChange={handleInputChange}
         placeHolder={placeholder}
         inputValue={searchData}
         handleSubmit={handleSubmit}
@@ -40,6 +54,7 @@ export const SearchBarContainer: FC<SearchBarContainerProps> = ({
         isActiveSelect={!!selectBarOptions}
         selectOptions={selectBarOptions}
         isDisabled={isDisabled}
+        inputAnimationStep={inputAnimationStep}
       />
     </div>
   );

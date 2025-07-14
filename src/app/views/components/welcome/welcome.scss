@@ -43,6 +43,10 @@
       width: 90px;
       display: flex;
       align-self: flex-start;
+
+      &.logose {
+        width: 150px;
+      }
     }
 
     #brand {
@@ -112,6 +116,7 @@
   gap: 8px;
   padding: 1.5rem;
   margin-top: 10px;
+  overflow-x: hidden;
 
   > img {
     width: 130px;
@@ -136,14 +141,17 @@
         flex: 1 1 70%;
         p {
           width: 100%;
-          line-height: 1.2rem;
-          strong {
-            font-size: 0.9rem;
-            color: #555555;
-          }
+          line-height: 1.4rem;
+          font-size: 15px;
+          font-family: questrial;
+          color: #666;
         }
         b {
           color: var(--codefend-color-red);
+          background: #ff393911;
+          padding: 4px 10px;
+          font-weight: 400;
+          margin: 0 5px;
         }
         .info-row {
           display: flex;
@@ -450,6 +458,35 @@
 [data-theme='dark'] {
   .welcome-modal-container {
     --header-title-color: var(--tertiary-color-100);
+
+    .welcome-content.welcome-content-finish {
+      .scan-header-info {
+        p {
+          color: rgb(255 255 255 / 57%);
+        }
+      }
+      .card.card-process {
+        background: transparent;
+        border-color: #ffffff8a;
+
+        .card-process-header-title {
+          h3 {
+            color: #ffffffd1;
+          }
+        }
+
+        .card-process-content-info .card-process-content-info-container {
+          .info-item {
+            span {
+              color: rgb(255 255 255 / 70%);
+            }
+            b {
+              color: #ffffffd1;
+            }
+          }
+        }
+      }
+    }
   }
   .modal.welcome-modal-container {
     p {

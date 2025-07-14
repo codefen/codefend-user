@@ -10,6 +10,8 @@ import {
 } from '@/app/views/context/AppContextProvider.tsx';
 import './Sns.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -19,6 +21,7 @@ const SnsPanel: FC = () => {
     'appEvent',
     'userLoggingState',
   ]);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   useEffect(() => {
     if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -29,12 +32,13 @@ const SnsPanel: FC = () => {
 
   return (
     <>
-      <main className={`sb ${showScreen ? 'actived' : ''}`}>
+      <main className={`sb ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
           <SnsSearchAndData refetch={refresh} />
         </section>
 
         <section className="right">
+          <Navbar />
           <SnsCardTitle
             arrow="none"
             title="Dataleaks search"

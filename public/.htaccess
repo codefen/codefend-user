@@ -1,4 +1,8 @@
 Options -MultiViews
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ index.html [QSA,L]
+
+RewriteCond %{DOCUMENT_ROOT}/index.html !-f
+RewriteRule ^ /maintenance/index.html [L]
+
+RewriteRule ^ /index.html [QSA,L]

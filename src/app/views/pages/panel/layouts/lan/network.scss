@@ -186,7 +186,7 @@ main.lan {
           background: transparent;
           color: var(--text-color-secondary);
           cursor: pointer;
-          border-bottom: 2px solid transparent;
+          border-bottom: 2px solid #999;
           transition: all 0.3s ease;
           font-weight: 500;
           font-size: 0.9rem;
@@ -197,9 +197,14 @@ main.lan {
           }
 
           &.active {
-            color: var(--primary-red-color);
-            border-bottom-color: var(--primary-red-color);
+            color: #ff3939;
+            border-bottom-color: #ff3939;
             background: var(--primary-color);
+          }
+
+          &:not(.active) {
+            color: #999;
+            border-bottom-color: #999;
           }
 
           &:first-child {

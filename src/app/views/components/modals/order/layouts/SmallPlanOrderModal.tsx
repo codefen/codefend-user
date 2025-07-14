@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { PricingCard } from '../components/PricingCard';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
+import { useRotatingText, ROTATING_SMALL_PLAN_TEXTS } from '@/app/data/hooks';
 
 const pricingPlans = [
   {
@@ -51,6 +52,7 @@ export const SmallPlanOrderModal = () => {
   const [fetcher, _, isLoading] = useFetcher();
   const { getCompany } = useUserData();
   const [prices, setPrices] = useState<any>(null);
+  const { currentText, transitionStyle } = useRotatingText(ROTATING_SMALL_PLAN_TEXTS);
 
   useEffect(() => {
     if (!!prices) return;
@@ -91,7 +93,7 @@ export const SmallPlanOrderModal = () => {
   };
 
   return (
-    <div className="step-content plan">
+    <div className="step-content plan" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="step-header">
         <div
           style={{
@@ -108,27 +110,38 @@ export const SmallPlanOrderModal = () => {
           />
           <h3 style={{ margin: 0 }}>Automated Plan for Small Businesses</h3>
         </div>
-        <p>
-          Exclusive small plans for web applications offer a unique combination of{' '}
-          <strong>automated scanners</strong>, specialized technical support, and{' '}
-          <strong>data leak detection</strong>. All provide unlimited access to the platform with
-          report creation and issue visualization.
-        </p>
+        <p 
+          style={transitionStyle}
+          dangerouslySetInnerHTML={{ __html: currentText }}
+        />
       </div>
-      <div className="step-content-gird">
+      
+      <div className="plans-vertical-container">
         {pricingPlans.map(plan => (
-          <PricingCard
+          <div 
             key={plan.planType}
-            title={plan.title}
-            price={prices?.[plan.planType] || plan.price}
-            features={plan.features}
-            imageSrc="/codefend/IA ICON.png"
-            selectedPlan={checkedOption}
-            planType={plan.planType}
-            onSelect={selectedPlan => setCheckedOption(selectedPlan)}
-          />
+            className={`flex-box-row clickable-plan ${checkedOption === plan.planType ? 'selected' : ''}`}
+            onClick={() => setCheckedOption(plan.planType)}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="flex-box-column">
+              <img src="/codefend/IA ICON.png" alt={plan.title} style={{ width: '80px', height: 'auto' }} />
+              <span className="codefend-text-red title-format price">${prices?.[plan.planType] || plan.price} per month</span>
+            </div>
+            <ul className="plan-list">
+              {plan.features.map((feature: string, index: number) => (
+                <li
+                  key={index}
+                  dangerouslySetInnerHTML={{
+                    __html: feature,
+                  }}
+                />
+              ))}
+            </ul>
+          </div>
         ))}
       </div>
+
       <div className="button-wrapper next-btns">
         <PrimaryButton
           text="Close Asistant"

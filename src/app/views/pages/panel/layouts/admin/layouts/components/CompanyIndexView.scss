@@ -2,13 +2,14 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: -1rem;
   width: 100%;
   overflow: hidden;
 
   .table-group {
     overflow: auto;
-    // margin-inline: 3rem;
+    .rows {
+      max-height: calc(100cqh - 115px);
+    }
   }
 
   .table.table-admin {

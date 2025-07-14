@@ -37,14 +37,13 @@ export class AppConstants {
         list: [
           'Recommended maximum of <b>2 domains.</b>',
           'Recommended maximum of <b>6 subdomains.</b>',
-          'Domain value: <b>normal.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
-          '<b>40 hours</b> of manual pentest.',
+          '<b>40 hours</b> of manual pentest, one time service.',
         ],
         title: 'Basic pentest on demand',
         description:
-          'Recommended for small sized businesses. Recommended maximum of 2 domains. Recommended maximum of 6 subdomains. Domain value: normal. Neuroscan: 5 automated scans. Dataleaks search: 10 searches. 40 hours of manual pentest.',
+          'Recommended for small sized businesses. Recommended maximum of 2 domains. Recommended maximum of 6 subdomains. Neuroscan: 5 automated scans. Dataleaks search: 10 searches. 40 hours of manual pentest, one time service.',
       },
       medium: {
         type: 'medium',
@@ -53,14 +52,13 @@ export class AppConstants {
         list: [
           'Recommended maximum of <b>5 domains.</b>',
           'Recommended maximum of <b>15 subdomains.</b>',
-          'Domain value: <b>normal.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
-          '<b>120 hours</b> of manual pentest.',
+          '<b>120 hours</b> of manual pentest, one time service.',
         ],
         title: 'Medium pentest on demand',
         description:
-          'Medium pentest on demand Recommended for mid sized businesses. Recommended maximum of 5 domains. Recommended maximum of 15 subdomains. Domain value: normal. Neuroscan: 15 automated scans. Dataleaks search: 30 searches. 120 hours of manual pentest.',
+          'Medium pentest on demand Recommended for mid sized businesses. Recommended maximum of 5 domains. Recommended maximum of 15 subdomains. Neuroscan: 15 automated scans. Dataleaks search: 30 searches. 120 hours of manual pentest, one time service.',
       },
       advanced: {
         type: 'advanced',
@@ -69,14 +67,13 @@ export class AppConstants {
         list: [
           'Recommended maximum of <b>10 to 15 domains.</b>',
           'Recommended maximum of <b>30 subdomains.</b>',
-          'Domain value: <b>high.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
-          '<b>360 hours</b> of manual pentest.',
+          '<b>360 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
-          'Recommended for established businesses. Recommended maximum of 10 to 15 domains. Recommended maximum of 30 subdomains. Domain value: high. Neuroscan: 60 automated scans. Dataleaks search: 60 searches. 360 hours of manual pentest.',
+          'Recommended for established businesses. Recommended maximum of 10 to 15 domains. Recommended maximum of 30 subdomains. Neuroscan: 60 automated scans. Dataleaks search: 60 searches. 360 hours of manual pentest, one time service.',
       },
     },
     [ResourcesTypes.MOBILE]: {
@@ -91,7 +88,7 @@ export class AppConstants {
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
-          '<b>40 hours</b> of manual pentest.',
+          '<b>40 hours</b> of manual pentest, one time service.',
         ],
         title: 'Basic pentest on demand',
         description:
@@ -106,7 +103,7 @@ export class AppConstants {
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
-          '<b>120 hours</b> of manual pentest.',
+          '<b>120 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -121,7 +118,7 @@ export class AppConstants {
           'Application value: <b>high.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
-          '<b>360 hours</b> of manual pentest.',
+          '<b>360 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -139,7 +136,7 @@ export class AppConstants {
           'Recommended maximum of <b>20 ip addresses.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
-          '<b>40 hours</b> of manual pentest.',
+          '<b>40 hours</b> of manual pentest, one time service.',
         ],
         title: 'Basic pentest on demand',
         description:
@@ -153,7 +150,7 @@ export class AppConstants {
           'Recommended maximum of <b>200 ip addresses.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
-          '<b>120 hours</b> of manual pentest.',
+          '<b>120 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -167,7 +164,7 @@ export class AppConstants {
           'Recommended maximum of <b>1000 ip addresses.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
-          '<b>360 hours</b> of manual pentest.',
+          '<b>360 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -185,7 +182,7 @@ export class AppConstants {
           'Recommended maximum of <b>20 employees.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
-          '<b>40 hours</b> of manual pentest.',
+          '<b>40 hours</b> of manual pentest, one time service.',
         ],
         title: 'Basic pentest on demand',
         description:
@@ -199,7 +196,7 @@ export class AppConstants {
           'Recommended maximum of <b>100 employees.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
-          '<b>120 hours</b> of manual pentest.',
+          '<b>120 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -213,7 +210,7 @@ export class AppConstants {
           'Recommended maximum of <b>1000 employees.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
-          '<b>360 hours</b> of manual pentest.',
+          '<b>360 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -232,7 +229,7 @@ export class AppConstants {
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
-          '<b>40 hours</b> of manual pentest.',
+          '<b>40 hours</b> of manual pentest, one time service.',
         ],
         title: 'Basic pentest on demand',
         description:
@@ -247,7 +244,7 @@ export class AppConstants {
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
-          '<b>120 hours</b> of manual pentest.',
+          '<b>120 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -262,7 +259,7 @@ export class AppConstants {
           'Application value: <b>high.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
-          '<b>360 hours</b> of manual pentest.',
+          '<b>360 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -281,7 +278,7 @@ export class AppConstants {
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
-          '<b>40 hours</b> of manual pentest.',
+          '<b>40 hours</b> of manual pentest, one time service.',
         ],
         title: 'Basic pentest on demand',
         description:
@@ -296,7 +293,7 @@ export class AppConstants {
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
-          '<b>120 hours</b> of manual pentest.',
+          '<b>120 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -311,7 +308,7 @@ export class AppConstants {
           'Application value: <b>high.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
-          '<b>360 hours</b> of manual pentest.',
+          '<b>360 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -329,7 +326,7 @@ export class AppConstants {
           'Recommended maximum of <b>20 ip addresses.</b>',
           'Neuroscan: <b>5 automated scans.</b>',
           'Dataleaks search: <b>10 searches.</b>',
-          '<b>40 hours</b> of manual pentest.',
+          '<b>40 hours</b> of manual pentest, one time service.',
         ],
         title: 'Basic pentest on demand',
         description:
@@ -344,7 +341,7 @@ export class AppConstants {
           'Application value: <b>normal.</b>',
           'Neuroscan: <b>10 automated scans.</b>',
           'Dataleaks search: <b>20 searches.</b>',
-          '<b>120 hours</b> of manual pentest.',
+          '<b>120 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:
@@ -359,7 +356,7 @@ export class AppConstants {
           'Application value: <b>high.</b>',
           'Neuroscan: <b>60 automated scans.</b>',
           'Dataleaks search: <b>60 searches.</b>',
-          '<b>360 hours</b> of manual pentest.',
+          '<b>360 hours</b> of manual pentest, one time service.',
         ],
         title: 'Advanced pentest on demand',
         description:

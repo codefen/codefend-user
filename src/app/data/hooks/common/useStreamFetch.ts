@@ -30,6 +30,10 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
       setIsLoading(true);
       setError(null);
 
+      // Log crítico para debug
+      // console.log('🌐 streamFetch enviando a URL:', customAPi);
+      // console.log('🌐 FormData para el scanner:', [...formData.entries()].reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}));
+
       // AbortController para cerrar la conexion
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -40,6 +44,7 @@ export const useStreamFetch = <T = any>(): StreamResponse<T> => {
           body: formData,
           signal: controller.signal, //Esta señal se usa para abortar la conexion
         });
+        // console.log('🌐 Response recibida:', response.status);
 
         // Termina la ejecucion si no hay body
         if (!response.body) {

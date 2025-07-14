@@ -84,6 +84,7 @@ export type GlobalStore = {
   scaningProgress: any;
   lastScanId: string;
   scanVersion: number;
+  subscriptionSelected: any;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -141,6 +142,8 @@ export const initialGlobalState: GlobalStore = {
   scaningProgress: persistedState?.scaningProgress ?? EMPTY_GLOBAL_STATE.scaningProgress,
   lastScanId: persistedState?.lastScanId ?? EMPTY_GLOBAL_STATE.lastScanId,
   scanVersion: persistedState?.scanVersion ?? EMPTY_GLOBAL_STATE.scanVersion,
+  subscriptionSelected:
+    persistedState?.subscriptionSelected ?? EMPTY_GLOBAL_STATE.subscriptionSelected,
 };
 
 const {

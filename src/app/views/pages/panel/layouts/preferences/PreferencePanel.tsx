@@ -6,6 +6,7 @@ import SettingCollaboratorAndTeam from './components/SettingCollaboratorAndTeam.
 import SettingCompanyInformation from './components/SettingCompanyInformation.tsx';
 import SettingOrderAndBilling from './components/SettingOrderAndBilling.tsx';
 import SettingPersonalDetails from './components/SettingPersonaDetails.tsx';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 import './preference.scss';
 import { useEffect } from 'react';
@@ -39,6 +40,7 @@ const PreferencePanel = () => {
             <SettingOrderAndBilling isLoading={isLoading} orders={orders || []} />
           </section>
           <section className="right">
+            <Navbar />
             <SettingCompanyInformation companyInfo={company} />
             <SettingPersonalDetails />
           </section>

@@ -76,7 +76,7 @@ const TableRowsV3VirtualizedDynamic: FC<TableRowsVirtualizedDynamicProps> = ({
 
       // Validar que las props necesarias estén presentes
       if (!columns || !Array.isArray(columns)) {
-        console.error('Invalid columns prop in virtualized table');
+        // console.error('Invalid columns prop in virtualized table');
         return null;
       }
 
@@ -160,7 +160,7 @@ const TableRowsV3VirtualizedDynamic: FC<TableRowsVirtualizedDynamicProps> = ({
 
   // Validar props críticas
   if (!rowHeight || rowHeight <= 0) {
-    console.error('Invalid rowHeight in virtualized table:', rowHeight);
+    // console.error('Invalid rowHeight in virtualized table:', rowHeight);
     return null;
   }
 

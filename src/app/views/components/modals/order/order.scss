@@ -3,6 +3,12 @@
   flex: 1 1;
 }
 
+.red-remarked-lorem {
+  color: #ff3939;
+  background: #ff393933;
+  padding: 5px 20px;
+}
+
 .order-container {
   --one-pentest-span: var(--tertiary-color-300);
   --show-border-color: var(--tertiary-color-50);
@@ -15,11 +21,9 @@
   --pricing-card-li-color: var(--tertiary-color-400);
   --pricing-card-border-selected-color: #ff7878;
   --pricing-card-background-selected-color: #fbe0e021;
-
-  width: var(--order-modal-width);
+    width: 100%;
   height: var(--order-modal-height);
   border-radius: 0.15rem;
-  // background-color: var(--primary-color-100);
   z-index: 120;
   overflow: hidden;
   display: flex;
@@ -275,7 +279,9 @@
           justify-self: center;
         }
         .price {
-          // font-size: 26px;
+          font-size: 14px;
+          text-align: center;
+          font-weight: 600;
         }
         .plan-list {
           list-style: none;
@@ -286,6 +292,7 @@
         .plan-list li {
           margin-block: 5px;
           color: var(--option-header-title);
+          font-family: satoshi;
 
           &::before {
             content: '- ';
@@ -298,6 +305,9 @@
           margin: 20px 0;
           text-align: center;
           a {
+            color: #ff6464;
+            background: #ff393922;
+            padding: 5px 10px;
             text-decoration: underline;
           }
         }
@@ -795,6 +805,23 @@
       }
     }
 
+    // Estilos específicos para disclaimers
+    .scope-confirm .disclaimers {
+      color: #333 !important;
+      text-decoration: none;
+      font-size: 16px;
+      background: #33333315;
+      padding: 10px 12px;
+      font-family: satoshi;
+
+      &.error {
+        color: #ff3939 !important;
+        background: rgba(255, 57, 57, 0.0823529412);
+        font-weight: 400;
+        border-bottom: 2px solid #ff3939;
+      }
+    }
+
     .button-wrapper {
       padding: 10px 25px 0;
 
@@ -974,20 +1001,33 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 
     .padding {
       padding-top: 1rem;
-      padding-left: 2.5rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
       line-height: 1.45rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+      min-height: 0;
+      padding: 0;
+      overflow: visible;
     }
 
     .primary-container.paywall {
       padding: 1rem;
-      margin-top: 1rem;
+      margin-top: auto;
       display: flex;
       flex-direction: row;
       gap: 1rem;
-      margin-top: auto;
+      flex-shrink: 0;
     }
 
     .basic-selected {
@@ -1270,6 +1310,279 @@
           }
         }
       }
+    }
+
+    // Estilos específicos para disclaimers en tema oscuro
+    .scope-confirm .disclaimers {
+      color: #333 !important;
+      text-decoration: none;
+      font-size: 16px;
+      background: #33333315;
+      padding: 10px 12px;
+      font-family: satoshi;
+
+      &.error {
+        color: #ff3939 !important;
+        background: #ff393915;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+// Estilos para la barra de progreso del modal de orden
+.order-progress-container {
+  width: 100%;
+  margin: 0;
+  padding: 15px 35px;
+  background: var(--primary-color-25);
+  border-bottom: 1px solid var(--order-container-border-color);
+}
+
+.order-progress-bar {
+  position: relative;
+  width: 100%;
+}
+
+.order-progress-track {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.order-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff3939 0%, #ff5555 50%, #ff3939 100%);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 30%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.4) 70%,
+      transparent 100%
+    );
+    animation: progressShine 2s ease-in-out infinite;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      rgba(255, 57, 57, 0.8) 0%,
+      rgba(255, 102, 102, 0.6) 25%,
+      rgba(255, 136, 136, 0.4) 50%,
+      rgba(255, 102, 102, 0.6) 75%,
+      rgba(255, 57, 57, 0.8) 100%
+    );
+    background-size: 200% 200%;
+    animation: progressGradient 3s ease-in-out infinite;
+    mix-blend-mode: overlay;
+  }
+}
+
+.order-progress-dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.order-progress-dot {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  border: 3px solid #fff;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+  z-index: 2;
+  
+  &.active {
+    background: #ff3939;
+    border-color: #fff;
+    box-shadow: 
+      0 0 0 2px rgba(255, 57, 57, 0.3),
+      0 0 8px rgba(255, 57, 57, 0.4);
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+}
+
+// Animaciones para los efectos de la barra de progreso
+@keyframes progressShine {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes progressGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes dotPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 
+      0 0 0 2px rgba(255, 57, 57, 0.3),
+      0 0 8px rgba(255, 57, 57, 0.4);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 
+      0 0 0 4px rgba(255, 57, 57, 0.2),
+      0 0 12px rgba(255, 57, 57, 0.6);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 
+      0 0 0 2px rgba(255, 57, 57, 0.3),
+      0 0 8px rgba(255, 57, 57, 0.4);
+  }
+}
+
+@keyframes completeGlow {
+  0% {
+    box-shadow: 
+      0 0 5px rgba(255, 57, 57, 0.5),
+      0 0 10px rgba(255, 57, 57, 0.3),
+      0 0 15px rgba(255, 57, 57, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 10px rgba(255, 57, 57, 0.8),
+      0 0 20px rgba(255, 57, 57, 0.5),
+      0 0 30px rgba(255, 57, 57, 0.3);
+  }
+  100% {
+    box-shadow: 
+      0 0 5px rgba(255, 57, 57, 0.5),
+      0 0 10px rgba(255, 57, 57, 0.3),
+      0 0 15px rgba(255, 57, 57, 0.2);
+  }
+}
+
+// Efectos especiales para la barra completa
+.order-progress-fill.complete {
+  animation: completeGlow 1.5s ease-in-out infinite;
+  
+  &::before {
+    animation: progressShine 1s ease-in-out infinite;
+  }
+  
+  &::after {
+    animation: progressGradient 2s ease-in-out infinite;
+    background: linear-gradient(
+      45deg,
+      rgba(255, 57, 57, 1) 0%,
+      rgba(255, 102, 102, 0.8) 25%,
+      rgba(255, 170, 170, 0.6) 50%,
+      rgba(255, 102, 102, 0.8) 75%,
+      rgba(255, 57, 57, 1) 100%
+    );
+  }
+}
+
+.order-progress-dot.complete {
+  animation: dotPulse 1s ease-in-out infinite, completeGlow 1.5s ease-in-out infinite;
+  transform: translate(-50%, -50%) scale(1.2) !important;
+}
+
+// Tema oscuro para la barra de progreso
+[data-theme='dark'] {
+  .order-progress-container {
+    background: var(--primary-color-50);
+    border-bottom-color: var(--primary-color-400);
+  }
+  
+  .order-progress-track {
+    background: #404040;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .order-progress-fill {
+    background: linear-gradient(90deg, #ff3939 0%, #ff6666 50%, #ff3939 100%);
+    
+    &::before {
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 30%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.2) 70%,
+        transparent 100%
+      );
+    }
+    
+    &.complete {
+      animation: completeGlow 1.5s ease-in-out infinite;
+      
+      &::after {
+        background: linear-gradient(
+          45deg,
+          rgba(255, 57, 57, 0.9) 0%,
+          rgba(255, 102, 102, 0.7) 25%,
+          rgba(255, 136, 136, 0.5) 50%,
+          rgba(255, 102, 102, 0.7) 75%,
+          rgba(255, 57, 57, 0.9) 100%
+        );
+      }
+    }
+  }
+  
+  .order-progress-dot {
+    background: #606060;
+    border-color: var(--primary-color-50);
+    
+    &.active {
+      background: #ff6666;
+      border-color: var(--primary-color-50);
+      box-shadow: 
+        0 0 0 2px rgba(255, 102, 102, 0.3),
+        0 0 8px rgba(255, 102, 102, 0.4);
+    }
+    
+    &.complete {
+      box-shadow: 
+        0 0 0 4px rgba(255, 102, 102, 0.2),
+        0 0 12px rgba(255, 102, 102, 0.6),
+        0 0 20px rgba(255, 102, 102, 0.3);
     }
   }
 }

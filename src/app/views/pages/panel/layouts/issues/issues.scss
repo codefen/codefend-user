@@ -293,10 +293,23 @@ main.issue-detail {
 }
 
 main.issues-list {
+  // Sobrescribir estilos globales de main para evitar conflictos
+  height: auto !important;
+  max-height: none !important;
+  min-height: calc(100vh - 120px); // Ajustar según la altura del header
+  display: flex;
+  overflow: visible; // Permitir scroll natural del documento
+  position: relative;
+  padding-bottom: var(--card-space); // Margen inferior igual al superior
+  
   .left {
-    overflow: hidden;
+    flex: 1;
+    overflow-y: visible; // Usar scroll natural del documento
+    height: auto; // Altura automática para flujo natural
     padding-inline-start: 0;
-
+    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
+    margin-bottom: var(--card-space); // Margen inferior igual al superior
+    
     .form-input {
       input {
         border: none;
@@ -417,7 +430,50 @@ main.issues-list {
   }
 
   .right {
-    flex: 1 1 35%;
+    flex: 0 0 35%;
+    height: calc(100vh - var(--card-space) * 2 - 60px); // Altura considerando márgenes superior e inferior
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: var(--card-space); // Mantener fijo con margen superior
+    
+    // Smooth scrolling para mejor UX
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color-300) transparent;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color-300);
+      border-radius: 3px;
+      
+      &:hover {
+        background-color: var(--primary-color-400);
+      }
+    }
+    
+    // Navbar y header sticky opcional
+    .navbar, .issue-panel-header {
+      flex: 0 0 auto;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--primary-color);
+    }
+    
+    // Contenido scrolleable
+    .scrollable-content {
+      flex: 1;
+      min-height: 0;
+    }
 
     .card.filtered {
       h3 {
@@ -440,11 +496,18 @@ main.issues-list {
   }
 
   @media only screen and (max-width: 600px) {
-    height: 81dvh;
+    height: auto !important;
     min-height: auto;
+    flex-direction: column;
+    padding-bottom: var(--card-space); // Mantener margen inferior en móvil
 
     .left {
       width: 100%;
+      flex: 1;
+      overflow-y: visible; // Usar scroll natural en móvil
+      height: auto;
+      min-height: 50vh;
+      margin-bottom: var(--card-space); // Margen entre paneles en móvil
 
       .card {
         overflow-x: auto;
@@ -453,6 +516,12 @@ main.issues-list {
 
     .right {
       width: 100%;
+      flex: 0 0 auto;
+      height: auto;
+      max-height: 50vh;
+      overflow-y: auto;
+      position: static; // Quitar sticky en móvil
+      margin-bottom: 0; // Sin margen extra al final en móvil
     }
   }
 }

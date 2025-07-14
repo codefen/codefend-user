@@ -159,7 +159,9 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
         <Tablev3
           rows={dataTable}
           columns={isAdmin() || isProvider() ? issuesColumnsWithActions : issueColumns}
-          showRows={!props.isLoading}
+          showRows={true}
+          showSkeleton={props.isLoading}
+          totalRowCount={5}
           initialSort={Sort.asc}
           urlNav={`${baseUrl}/issues/`}
           emptyInfo="The company has no associated vulnerabilities yet, wait for one of our hackers to report a vulnerability or perform an automated scan with AI to find vulnerabilities automatically!"

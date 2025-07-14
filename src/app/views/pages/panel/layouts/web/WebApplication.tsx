@@ -19,16 +19,19 @@ import { getCompanyAllMetrics } from '@utils/metric.service.ts';
 import './webapplication.scss';
 import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
 import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const WebApplicationView = () => {
   const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent, mapResources } =
     useGetWebResourcesv2();
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const flashlight = useFlashlight();
 
   return (
     <EmptyLayout
-      className="webapp"
+      className={`webapp ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={webEmptyScreen}
       event={refetch}
       showScreen={showScreen}
@@ -48,24 +51,27 @@ const WebApplicationView = () => {
 
       {/* *****SECTION RIGHT WEB PAGE ***** */}
       <section className="right" ref={flashlight.rightPaneRef}>
-        <WebApplicationTitle isLoading={isLoading} />
-        <WebApplicationStatics
-          domainCount={domainCount.get}
-          subDomainCount={subDomainCount.get}
-          uniqueIpCount={uniqueIpCount.get}
-        />
-        <OpenOrderButton
-          className="pentest-btn"
-          type={ResourcesTypes.WEB}
-          resourceCount={webResources.length}
-          isLoading={isLoading}
-        />
-        <ServerGeolocationMap
-          networkData={webResources}
-          resourceType={RESOURCE_CLASS.WEB}
-          title="Global server distribution"
-          mapResources={mapResources}
-        />
+        <Navbar />
+        <div className="scrollable-content">
+          <WebApplicationTitle isLoading={isLoading} />
+          <WebApplicationStatics
+            domainCount={domainCount.get}
+            subDomainCount={subDomainCount.get}
+            uniqueIpCount={uniqueIpCount.get}
+          />
+          <OpenOrderButton
+            className="pentest-btn"
+            type={ResourcesTypes.WEB}
+            resourceCount={webResources.length}
+            isLoading={isLoading}
+          />
+          <ServerGeolocationMap
+            networkData={webResources}
+            resourceType={RESOURCE_CLASS.WEB}
+            title="Global server distribution"
+            mapResources={mapResources}
+          />
+        </div>
       </section>
     </EmptyLayout>
   );

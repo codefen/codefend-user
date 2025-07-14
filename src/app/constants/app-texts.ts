@@ -67,6 +67,7 @@ export enum MODAL_KEY_OPEN {
   USER_SELECT_RESOURCE = 'open-lfr',
 
   PAYWALL = 'paywall-key',
+  CANCEL_SUBSCRIPTION = 'cancel-subscription',
 }
 
 export enum TABLE_KEYS {

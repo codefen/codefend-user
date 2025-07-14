@@ -1,7 +1,7 @@
 import { type FC, lazy, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import { LogoutIcon, NetworkIcon } from '@icons';
+import { LogoutIcon, NetworkIcon, RobotFaceIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show.tsx';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
@@ -77,7 +77,6 @@ const Navbar: FC = () => {
             close={() => setShowModal(!showModal)}
             action={() => {
               logout();
-              navigate('/auth/signin');
             }}
           />
         </ModalWrapper>
@@ -89,59 +88,7 @@ const Navbar: FC = () => {
         />
       )}
 
-      <nav className="navbar">
-        <div className="left">
-          <div className="navbar-logo" onClick={openGuide}>
-            <span className="aim-logo">
-              <Logo theme="aimColor" />
-            </span>
-          </div>
-          <Breadcrumb root="Codefend" rootAction={rootAction} />
-          <div className="actions"></div>
-        </div>
-
-        <div className="right">
-          <div className="actions">
-            {/*          <div className="navbar-logo" onClick={openGuide}>
-            <span className={`${open && 'rotate-360'}`}>
-              <Logo theme="aim" onClick={() => handleChange()} />
-            </span>
-          </div> */}
-            {isAdmin() && (
-              <>
-                <div className="action" onClick={openOnBoard}>
-                  OnBoard
-                </div>
-                <div
-                  className="action"
-                  title="Network settings"
-                  onClick={() => isOpenNetworkSetting.set(true)}>
-                  <NetworkIcon width={1.1} height={1.1} />
-                </div>
-              </>
-            )}
-            <div className="user action" ref={userRef}>
-              <span className="email">{userData.email || 'not-found'}</span>
-              <NavbarSubMenu
-                isOpen={isMenuOpen}
-                subMenuRef={dropdownRef}
-                userFullname={userData.fname + ' ' + userData.lname}
-                closeMenu={() => setMenuOpen(false)}
-              />
-            </div>
-            <ThemeChangerButton />
-            <div
-              className="action logout"
-              title="Logout"
-              onClick={() => {
-                setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
-                setShowModal(true);
-              }}>
-              <LogoutIcon width={1.1} height={1.1} />
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Eliminado: logo, breadcrumb y acciones, ahora en sidebar */}
     </>
   );
 };

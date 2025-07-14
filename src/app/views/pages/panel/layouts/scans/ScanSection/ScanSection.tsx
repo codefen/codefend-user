@@ -20,8 +20,8 @@ import { BugIcon, ScanIcon, StatIcon, XCircleIcon } from '@icons';
 import { Sort, type ColumnTableV3 } from '@interfaces/table';
 import { verifyDomainName } from '@resourcesHooks/web/useAddWebResources';
 import Tablev3 from '@table/v3/Tablev3';
-import { useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useEffect, useMemo, useState, useRef } from 'react';
+import { toast } from '@/app/data/utils';
 import { ConfirmModal, ModalTitleWrapper } from '@modals/index';
 import useModalStore from '@stores/modal.store';
 import { ScanStepType } from '@/app/constants/welcome-steps';
@@ -37,6 +37,7 @@ import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanLi
 import { PrimaryButton } from '@buttons/index';
 import { useScanTelemetry } from '@hooks/common/useScanTelemetry';
 import { ScansTrendChart } from '@/app/views/components/charts/ScansTrendChart';
+import './ScanSectionAnimation.css';
 
 // Definir tipo para las pestañas
 type TabType = 'scans' | 'surveillance';
@@ -68,8 +69,8 @@ const scansColumns: ColumnTableV3[] = [
     key: 'issues',
     weight: '18%',
     styles: 'item-cell-4',
+    type: TABLE_KEYS.FULL_ROW,
     render: (row: any) => {
-      // Diagnóstico mejorado para debugging
       const found = row?.m_nllm_issues_found;
       const parsed = row?.m_nllm_issues_parsed;
 
@@ -176,6 +177,10 @@ export const ScanSection = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { domain: selectedDomain } = useParams<{ domain: string }>();
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [inputAnimationStep, setInputAnimationStep] = useState<number>(0); // 0: normal, 1: quitando protocolo, 2: quitando ruta, 3: destello
+  const [inputAnimatedValue, setInputAnimatedValue] = useState<string>('');
+  const inputOriginalValue = useRef<string>('');
 
   // Estado para pestañas - determinar pestaña activa basada en la ruta
   const [activeTab, setActiveTab] = useState<TabType>(() => {
@@ -320,40 +325,83 @@ export const ScanSection = () => {
     },
   ];
 
+  // --- Función para limpiar la URL ---
+  function limpiarDominio(url: string): string {
+    try {
+      if (!/^https?:\/\//i.test(url) && !/^ftp:\/\//i.test(url)) {
+        url = 'http://' + url;
+      }
+      const { hostname } = new URL(url);
+      return hostname.replace(/^www\./, '');
+    } catch {
+      return url;
+    }
+  }
+
+  function quitarProtocoloYWWW(url: string): string {
+    return url.replace(/^(https?:\/\/|ftp:\/\/)?(www\.)?/i, '');
+  }
+
+  function quitarRuta(url: string): string {
+    return url.split('/')[0].split('?')[0];
+  }
+
   const startAndAddedDomain = () => {
     if (verifyDomainName(domainScanned || '')) return;
     if (companyIdIsNull(companyId)) return;
 
-    setLoading(true);
+    // Guardar valor original
+    inputOriginalValue.current = domainScanned;
+    setInputAnimatedValue(domainScanned);
+    setInputAnimationStep(1);
 
-    // Track scan start
-    trackScanStart(domainScanned?.trim?.() || '', 'web');
+    // Paso 1: quitar protocolo y www
+    setTimeout(() => {
+      const sinProtocolo = quitarProtocoloYWWW(domainScanned);
+      setInputAnimatedValue(sinProtocolo);
+      setInputAnimationStep(2);
 
-    autoScan(domainScanned?.trim?.() || '', false, '')
-      .then(result => {
-        if (apiErrorValidation(result)) {
-          if (result?.error_info === 'neuroscan_unreachable_domain') {
-            trackScanError(domainScanned?.trim?.() || '', 'web', 'unreachable_domain');
-            toast.error(result?.info);
-          } else {
-            trackScanError(domainScanned?.trim?.() || '', 'web', 'limit_reached');
-            updateState('open', true);
-            updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
-            updateState('resourceType', ResourcesTypes.WEB);
-            appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
-          }
-          return;
-        }
+      // Paso 2: quitar ruta y parámetros
+      setTimeout(() => {
+        const soloDominio = quitarRuta(sinProtocolo);
+        setInputAnimatedValue(soloDominio);
+        setInputAnimationStep(3);
 
-        if (result?.neuroscan?.id) {
-          toast.success(APP_MESSAGE_TOAST.START_SCAN);
-          setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
-          setIsOpen(true);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        // Paso 3: destello visual
+        setTimeout(() => {
+          setInputAnimationStep(0);
+          setDomainScanned(soloDominio); // Actualizar el input real
+          setLoading(true);
+
+          // Enviar al backend
+          trackScanStart(soloDominio, 'web');
+          autoScan(soloDominio, false, '')
+            .then(result => {
+              if (apiErrorValidation(result)) {
+                if (result?.error_info === 'neuroscan_unreachable_domain') {
+                  trackScanError(soloDominio, 'web', 'unreachable_domain');
+                  toast.error(result?.info);
+                } else {
+                  trackScanError(soloDominio, 'web', 'limit_reached');
+                  updateState('open', true);
+                  updateState('orderStepActive', OrderSection.PAYWALL_MAX_SCAN);
+                  updateState('resourceType', ResourcesTypes.WEB);
+                  appEvent.set(APP_EVENT_TYPE.LIMIT_REACHED_NEUROSCAN);
+                }
+                return;
+              }
+              if (result?.neuroscan?.id) {
+                toast.success(APP_MESSAGE_TOAST.START_SCAN);
+                setModalId(MODAL_KEY_OPEN.USER_WELCOME_FINISH);
+                setIsOpen(true);
+              }
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        }, 250); // destello
+      }, 350); // quitar ruta
+    }, 350); // quitar protocolo
   };
 
   const handleDomainClick = (domain: string) => {
@@ -419,6 +467,19 @@ export const ScanSection = () => {
 
   return (
     <div className="scan-section-container">
+      {/* Animación sofisticada overlay */}
+      {showAnimation && (
+        <div className="scan-animation-overlay">
+          <div className="scan-animation-spinner">
+            <div className="scan-animation-bar" />
+            <div className="scan-animation-bar" />
+            <div className="scan-animation-bar" />
+            <div className="scan-animation-bar" />
+            <div className="scan-animation-bar" />
+            <span className="scan-animation-text">Analizando dominio y preparando escaneo...</span>
+          </div>
+        </div>
+      )}
       <ModalTitleWrapper
         isActive={isOpen && modalId === MODAL_KEY_OPEN.START_KILL_SCAN}
         close={() => setIsOpen(false)}
@@ -436,9 +497,13 @@ export const ScanSection = () => {
         placeholder="Write a domain to scan"
         searchText="Start Scan"
         handleSubmit={startAndAddedDomain}
-        searchData={domainScanned}
-        setSearchData={setDomainScanned}
-        isDisabled={loading}
+        searchData={inputAnimationStep > 0 ? inputAnimatedValue : domainScanned}
+        setSearchData={val => {
+          setDomainScanned(val);
+          if (inputAnimationStep === 0) setInputAnimatedValue(val);
+        }}
+        isDisabled={loading || inputAnimationStep > 0}
+        inputAnimationStep={inputAnimationStep}
       />
       <div className="card">
         <SimpleSection header={headerContent} icon={<StatIcon />}>

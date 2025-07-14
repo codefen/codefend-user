@@ -15,7 +15,9 @@ import type { ContextMenuAction, ContextMenuState } from '@/app/views/components
 export interface Tablev3Props<T = any> {
   rows: T[];
   columns: ColumnTableV3[];
-  showRows: boolean;
+  showRows?: boolean;
+  showSkeleton?: boolean;
+  totalRowCount?: number;
   className?: string;
   initialSort?: Sort;
   initialOrder?: string;

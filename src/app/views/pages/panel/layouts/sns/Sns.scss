@@ -1,21 +1,139 @@
 main.sb {
   max-width: 1800px;
 
+  .crack-buttons-container {
+    display: flex;
+    gap: 12px;
+    margin: 20px 20px 20px;
+    flex-wrap: wrap;
+  }
+
   .crack-btn {
-    background: #e53935;
-    color: #fff;
+    background: #ffffff;
+    color: #333;
     padding: 8px 18px;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 6px;
-    font-weight: 600;
+    font-weight: 500;
     font-family: Satoshi, sans-serif;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 16px;
+    transition: all 0.2s ease;
     box-shadow: none;
     outline: none;
+    font-size: 14px;
+    white-space: nowrap;
+    
     &:hover {
-      background: #ab2321;
+      border-color: #ff3939;
+      color: #ff3939;
+    }
+  }
+
+  // Estilos unificados para todos los clickeables (deshabilitados cuando toda la fila es clickeable)
+  .intel-ip-clickable,
+  .intel-hash-clickable,
+  .intel-email-clickable,
+  .intel-username-clickable,
+  .intel-domain-clickable,
+  .intel-name-clickable,
+  .intel-url-clickable,
+  .intel-password-clickable {
+    // Solo aplicar hover cuando NO esté dentro de una fila clickeable
+    .intel-row:not(.clickable-row) & {
+      &:hover {
+        background-color: #ff393915;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+
+      &:active {
+        background-color: #ff393925;
+      }
+    }
+  }
+
+  // Estilos para estados de cracking
+  .intel-crack-loading {
+    background-color: rgba(0, 123, 255, 0.1);
+    padding: 0 0 0 8px;
+    border-radius: 0px;
+    border: none;
+  }
+
+  .intel-crack-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    padding: 0 0 0 8px;
+    border-radius: 0px;
+    border-left: 1.5px solid #5bcc5b;
+    box-shadow: 0 0 0 1px #5bcc5b15;
+  }
+
+  .intel-crack-failed {
+    background-color: rgba(255, 71, 87, 0.1);
+    padding: 0 0 0 8px;
+    border-radius: 0px;
+    border-left: 1.5px solid #ff3939;
+    box-shadow: 0 0 0 1px #ff393915;
+  }
+
+  .intel-geo-loading {
+    background-color: rgba(0, 123, 255, 0.1);
+    padding: 0 0 0 8px;
+    border-radius: 0px;
+    border: none;
+  }
+
+  .intel-geo-failed {
+    background-color: rgba(255, 71, 87, 0.1);
+    padding: 0 0 0 8px;
+    border-radius: 0px;
+    border: none;
+  }
+
+  // Estilos para labels de intel
+  .intel-label {
+    font-weight: 400;
+    padding: 0 3px 0 0;
+  }
+
+  // Flecha inline en cada fila de intel
+  .intel-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    border-radius: 0;
+    transition: background-color 0.2s ease;
+    min-height: 28px;
+    line-height: 1.6;
+    padding: 8px 20px;
+    
+    .intel-row-arrow {
+      color: #ff3939;
+      font-size: 1.1rem;
+      font-weight: bold;
+      font-family: 'Satoshi', sans-serif;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      margin-left: auto;
+      line-height: 1;
+    }
+    
+    // Solo mostrar flecha en hover para filas clickeables
+    &.clickable-row:hover .intel-row-arrow {
+      opacity: 1;
+    }
+    
+    // Efectos hover para filas clickeables
+    &.clickable-row {
+      &:hover {
+        background-color: #ff393915;
+        border-radius: 3px;
+      }
+      
+      &:active {
+        background-color: #ff393925;
+      }
     }
   }
 
@@ -39,7 +157,7 @@ main.sb {
       padding: 10px;
       overflow-y: auto;
       height: 100%;
-      max-height: 83dvh;
+      // max-height: 83dvh;
     }
 
     .search-result {
@@ -52,59 +170,52 @@ main.sb {
       flex: 1 1 230px;
 
       .header {
-        // border-bottom: 2px solid var(--primary-color-300);
-
-        padding: 10px 20px;
-        background-color: rgb(245 245 245 / 19.2%);
+        padding: 10px;
+        background-color: #b6dcff00;
         backdrop-filter: blur(8px);
+        border-bottom: 1px solid #00000022;
 
         .title {
           font-family: Satoshi, sans-serif;
-          font-size: 1rem;
-          font-weight: 500;
-          text-decoration: underline;
+          font-size: 0.8rem;
+          font-weight: 400;
           letter-spacing: 0.01em;
-
           text-underline-offset: 4px;
           text-transform: none;
-
-          color: var(--secondary-color-50);
+          color: black;
+          
+          .breach-title-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            
+            .breach-icon,
+            .breach-size,
+            .breach-date {
+              color: black;
+              font-weight: 400;
+            }
+            
+            .breach-icon::after,
+            .breach-size::after {
+              content: " |";
+              margin-left: 8px;
+            }
+          }
         }
       }
 
       .info {
-        .intel-row {
-          border-bottom: 1px solid #ececec;
-        }
         font-family: Satoshi, sans-serif;
         font-size: 0.8rem;
         text-align: left;
-
         color: var(--tertiary-color-400);
-        padding: 20px;
         overflow-wrap: anywhere;
+        // padding eliminado
 
-        .containersubintel {
-          div {
-            white-space: break-spaces;
-            text-wrap: auto;
-          }
-        }
-
-        .containersubintel:first-child {
-          /* padding-bottom: 1rem; */
-        }
-
-        .containersubintel + .containersubintel {
-          padding-block: 1rem;
-          border-top: 1px solid;
-        }
-
-        .text {
-          line-height: 2.5;
-
-          width: 100%;
-          height: 100%;
+        .intel-row {
+          border-bottom: 1px solid #ececec;
         }
       }
     }
@@ -236,4 +347,9 @@ main.sb {
       box-shadow: 0 15px 45px 0 rgb(36 36 36 / 29%);
     }
   }
+}
+
+.sensitive-data {
+  border-left: 1.5px solid #ff3939;
+  background: rgba(255,57,57,0.04);
 }

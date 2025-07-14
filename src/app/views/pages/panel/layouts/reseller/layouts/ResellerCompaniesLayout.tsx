@@ -8,6 +8,7 @@ import { SimpleSectionWithTable } from '@/app/views/components/SimpleSectionWith
 import type { Company } from '@interfaces/company';
 import { resellerCompanyColumns } from '@mocks/defaultData';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const ResellerCompaniesLayout = () => {
   const [showScreen] = useShowScreen();
@@ -53,6 +54,7 @@ const ResellerCompaniesLayout = () => {
         </div>
       </section>
       <section className="right">
+        <Navbar />
         <ResourceByLocation
           resource={companies.current}
           isLoading={isLoading}

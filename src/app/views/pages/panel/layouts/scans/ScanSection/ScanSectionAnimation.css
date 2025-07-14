@@ -1,0 +1,78 @@
+/* Overlay de animación para el escaneo */
+.scan-animation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s;
+}
+
+.scan-animation-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.scan-animation-bar {
+  width: 60px;
+  height: 8px;
+  margin: 4px 0;
+  background: linear-gradient(90deg, #ff3939 0%, #ffb347 100%);
+  border-radius: 8px;
+  opacity: 0.7;
+  animation: scanBarAnim 1.2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scan-animation-bar:nth-child(1) { animation-delay: 0s; }
+.scan-animation-bar:nth-child(2) { animation-delay: 0.2s; }
+.scan-animation-bar:nth-child(3) { animation-delay: 0.4s; }
+.scan-animation-bar:nth-child(4) { animation-delay: 0.6s; }
+.scan-animation-bar:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes scanBarAnim {
+  0%, 100% { transform: scaleX(1); opacity: 0.7; }
+  50% { transform: scaleX(1.7); opacity: 1; }
+}
+
+.scan-animation-text {
+  margin-top: 18px;
+  font-size: 1.2rem;
+  color: #ff3939;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.input-anim-protocol {
+  transition: color 0.2s, font-size 0.2s;
+  color: #b0b0b0 !important;
+  font-size: 1.05em;
+  background: linear-gradient(90deg, #ffe0e0 0%, #fff 100%);
+}
+.input-anim-path {
+  transition: color 0.2s, font-size 0.2s;
+  color: #b0b0b0 !important;
+  font-size: 1.08em;
+  background: linear-gradient(90deg, #fff6e0 0%, #fff 100%);
+}
+.input-anim-flash {
+  animation: inputFlash 0.25s linear 1;
+  background: #fffbe6 !important;
+  color: #ff3939 !important;
+  font-weight: bold;
+  font-size: 1.12em;
+  box-shadow: 0 0 8px 2px #ffe066;
+}
+@keyframes inputFlash {
+  0% { background: #fffbe6; }
+  50% { background: #ffe066; }
+  100% { background: #fffbe6; }
+} 

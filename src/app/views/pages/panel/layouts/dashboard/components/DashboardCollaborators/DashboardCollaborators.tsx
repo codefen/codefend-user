@@ -41,7 +41,13 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLo
 
   return (
     <div className="collaborators">
-      <Tablev3 rows={membersMapped} columns={membersColumns} showRows={!isLoading} />
+      <Tablev3
+        rows={membersMapped}
+        columns={membersColumns}
+        showRows={true}
+        showSkeleton={isLoading}
+        totalRowCount={5}
+      />
     </div>
   );
 };
