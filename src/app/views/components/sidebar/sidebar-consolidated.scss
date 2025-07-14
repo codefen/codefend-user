@@ -115,9 +115,9 @@
     }
 
     &.active {
-      background-color: #333;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, -1, 0.1333333333) 50%, rgba(0, 0, 0, 0.2666666667) 100%);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
       border-bottom-color: var(--secondary-color-50);
-      color: var(--primary-color);
     }
   }
 
@@ -441,7 +441,7 @@
     &.active {
       background: linear-gradient(135deg, rgba(255, 57, 57, 0.2) 0%, rgba(255, 57, 57, 0.1333333333) 50%, rgba(255, 57, 57, 0.2666666667) 100%);
       color: #ff6464;
-      border-radius: 3px;
+      border-radius: 0px;
       padding-inline: 12px;
       box-shadow: 0 2px 8px rgba(255, 57, 57, 0.15);
       font-weight: 500;
@@ -799,13 +799,11 @@ main.sb.sidebar-mobile-active {
 .sidebar-logo-block {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 18px;
-  padding-bottom: 10px;
   cursor: pointer;
-  background: transparent;
+  padding: 10px 10px 10px 20px;
+  background: #ff393911;
   z-index: 10;
   .aim-logo {
     margin-bottom: 6px;
@@ -830,6 +828,20 @@ main.sb.sidebar-mobile-active {
       margin: 0 3px;
     }
   }
+}
+
+.sidebar-logo-title {
+  font-family: Questrial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--secondary-color-200);
+  letter-spacing: 0.5px;
+  margin-left: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: left;
+  width: auto;
+  justify-content: flex-start;
 }
 
 .sidebar-group-actions {

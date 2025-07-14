@@ -342,11 +342,11 @@ export const SidebarDesktop = ({
         />
       )}
       {/* LOGO Y TEXTO ARRIBA DE TODO */}
-      <div className="sidebar-logo-block" onClick={openGuide} style={{ cursor: 'pointer', padding: '18px 0 10px 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="sidebar-logo-block" onClick={openGuide}>
         <span className="aim-logo">
           <Logo theme="aimColor" />
         </span>
-        <Breadcrumb root="codefend" rootAction={rootAction} />
+        <span className="sidebar-logo-title">codefend</span>
       </div>
       {/* MENÚS */}
       {getItems(newMenuItems)}

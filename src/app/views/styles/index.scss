@@ -2680,3 +2680,28 @@ main.company {
     }
   }
 }
+
+html, body {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color-300) transparent;
+}
+
+/* Scrollbars personalizados para todos los elementos con scrollbar-width: thin */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color-50) var(--primary-color);
+}
+
+/* Webkit (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--secondary-color-50);
+  border-radius: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--primary-color);
+}
