@@ -59,22 +59,22 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [progressWidth, setProgressWidth] = useState(100);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Función para iniciar la barra de progreso
   const startProgressBar = () => {
     setProgressWidth(100);
     const startTime = Date.now();
     const duration = 3000; // 3 segundos
-    
+
     progressIntervalRef.current = setInterval(() => {
       const elapsed = Date.now() - startTime;
       const remaining = Math.max(0, duration - elapsed);
       const widthPercentage = (remaining / duration) * 100;
-      
+
       setProgressWidth(widthPercentage);
-      
+
       if (remaining <= 0) {
         if (progressIntervalRef.current) {
           clearInterval(progressIntervalRef.current);
@@ -97,9 +97,9 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     startProgressBar();
-    
+
     timeoutRef.current = setTimeout(() => {
       console.log(`⏰ Auto-cerrando panel ${panelId}`);
       setIsClosing(true);
@@ -124,7 +124,7 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
   useEffect(() => {
     console.log(`🚀 Iniciando timer de auto-cierre para panel ${panelId}`);
     startAutoCloseTimer();
-    
+
     // Limpiar timeouts al desmontar
     return () => {
       if (timeoutRef.current) {
@@ -156,10 +156,10 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
   // Cada panel tiene aproximadamente 280px de altura + 10px de separación
   const PANEL_HEIGHT = 280;
   const PANEL_SPACING = 10;
-  const topPosition = 20 + (stackIndex * (PANEL_HEIGHT + PANEL_SPACING));
+  const topPosition = 20 + stackIndex * (PANEL_HEIGHT + PANEL_SPACING);
 
   return (
-    <div 
+    <div
       className={`company-deletion-panel ${isClosing ? 'closing' : ''}`}
       style={{
         top: `${topPosition}px`,
@@ -167,15 +167,11 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
         transition: 'top 0.3s ease, opacity 0.5s ease-out, transform 0.3s ease',
       }}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+      onMouseLeave={handleMouseLeave}>
       {/* Barra de progreso para auto-cierre */}
       {!isHovered && !isClosing && (
         <div className="auto-close-progress-bar">
-          <div 
-            className="progress-fill" 
-            style={{ width: `${progressWidth}%` }}
-          />
+          <div className="progress-fill" style={{ width: `${progressWidth}%` }} />
         </div>
       )}
 
@@ -183,14 +179,14 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
         <div className="success-icon">
           <CheckCircleIcon />
         </div>
-        
+
         {/* Indicador de posición en la pila */}
         {totalPanels > 1 && (
           <div className="panel-position-indicator">
             {stackIndex + 1}/{totalPanels}
           </div>
         )}
-        
+
         <button className="close-button" onClick={onClose}>
           <CloseIcon />
         </button>
@@ -198,7 +194,7 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
 
       <div className="company-deletion-panel-content">
         <h3 className="panel-title">Empresa eliminada</h3>
-        
+
         <div className="company-info">
           <p className="company-details">
             <strong>{companyName}</strong> (ID: {companyId})
@@ -212,13 +208,11 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
               {deletedItems.map(([tableName, count]) => (
                 <div key={tableName} className="deletion-item">
                   <span className="count">{count}</span>
-                  <span className="description">
-                    {TABLE_NAMES_MAP[tableName] || tableName}
-                  </span>
+                  <span className="description">{TABLE_NAMES_MAP[tableName] || tableName}</span>
                 </div>
               ))}
             </Show>
-            
+
             <Show when={deletedItems.length === 0}>
               <div className="deletion-item">
                 <span className="count">0</span>
@@ -248,4 +242,4 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
   );
 };
 
-export default CompanyDeletionResultPanel; 
+export default CompanyDeletionResultPanel;

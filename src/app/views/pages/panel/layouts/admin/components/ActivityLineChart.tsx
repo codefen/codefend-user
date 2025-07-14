@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
+import type { FC } from 'react';
 import * as d3 from 'd3';
 import './ActivityLineChart.scss';
 
@@ -16,12 +17,12 @@ interface ActivityLineChartProps {
 
 type ChartType = 'line' | 'bar';
 
-export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) => {
+export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 450 });
   const [chartType, setChartType] = useState<ChartType>('line');
-  
+
   // Estado para controlar qué líneas se muestran - Solo leads y usuarios por defecto
   const [visibleMetrics, setVisibleMetrics] = useState({
     leads: true,
@@ -57,43 +58,45 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
   };
 
   // Procesar los datos - FIX: crear fecha sin zona horaria para evitar desfase
-  const rawProcessedData = data.map(d => {
-    // Crear fecha directamente sin zona horaria
-    const fechaParts = d.fecha.split('-');
-    const year = parseInt(fechaParts[0]);
-    const month = parseInt(fechaParts[1]) - 1; // Los meses en JS van de 0-11
-    const day = parseInt(fechaParts[2]);
-    const fecha = new Date(year, month, day);
-    
-    return {
-      fecha,
-      leads: parseInt(d.leads) || 0,
-      usuarios: parseInt(d.usuarios) || 0,
-      companias: parseInt(d.companias) || 0,
-      neuroscans: parseInt(d.neuroscans) || 0,
-    };
-  }).sort((a, b) => a.fecha.getTime() - b.fecha.getTime());
+  const rawProcessedData = data
+    .map(d => {
+      // Crear fecha directamente sin zona horaria
+      const fechaParts = d.fecha.split('-');
+      const year = parseInt(fechaParts[0]);
+      const month = parseInt(fechaParts[1]) - 1; // Los meses en JS van de 0-11
+      const day = parseInt(fechaParts[2]);
+      const fecha = new Date(year, month, day);
+
+      return {
+        fecha,
+        leads: parseInt(d.leads) || 0,
+        usuarios: parseInt(d.usuarios) || 0,
+        companias: parseInt(d.companias) || 0,
+        neuroscans: parseInt(d.neuroscans) || 0,
+      };
+    })
+    .sort((a, b) => a.fecha.getTime() - b.fecha.getTime());
 
   // Función para rellenar fechas faltantes (para que ambos gráficos tengan las mismas fechas)
   const fillMissingDates = (data: any[]) => {
     if (data.length === 0) return [];
-    
+
     const minDate = new Date(data[0].fecha);
     const maxDate = new Date(data[data.length - 1].fecha);
     const filledData = [];
-    
+
     // Crear un mapa para acceso rápido a los datos existentes
     const dataMap = new Map();
     data.forEach(d => {
       const dateKey = d.fecha.toISOString().split('T')[0];
       dataMap.set(dateKey, d);
     });
-    
+
     // Rellenar todas las fechas en el rango
     for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
       const dateKey = d.toISOString().split('T')[0];
       const existingData = dataMap.get(dateKey);
-      
+
       if (existingData) {
         filledData.push(existingData);
       } else {
@@ -107,7 +110,7 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
         });
       }
     }
-    
+
     return filledData;
   };
 
@@ -116,7 +119,11 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
     const filled = fillMissingDates(rawProcessedData);
     console.log('🔄 Datos rellenados para AMBOS gráficos:', filled.length, 'puntos');
     console.log('🔄 Datos originales:', rawProcessedData.length, 'puntos');
-    console.log('🔄 Fechas agregadas:', filled.length - rawProcessedData.length, 'fechas faltantes');
+    console.log(
+      '🔄 Fechas agregadas:',
+      filled.length - rawProcessedData.length,
+      'fechas faltantes'
+    );
     return filled;
   }, [JSON.stringify(rawProcessedData)]);
 
@@ -128,18 +135,20 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
   console.log('📋 Total de puntos RAW:', rawProcessedData.length);
   console.log('📋 Total de puntos FINALES:', processedData.length);
   console.log('📋 Tipo de gráfico:', chartType);
-  
+
   // 🐛 DEBUG: Verificar fechas específicas para entender el problema
   console.log('🔍 FECHAS ESPECÍFICAS:');
   processedData.slice(0, 10).forEach((d: any, index: number) => {
-    console.log(`📅 Índice ${index}: ${d.fecha.toLocaleDateString()} → Día ${d3.timeFormat('%d')(d.fecha)}`);
+    console.log(
+      `📅 Índice ${index}: ${d.fecha.toLocaleDateString()} → Día ${d3.timeFormat('%d')(d.fecha)}`
+    );
   });
 
   // Función para toggle de visibilidad de métricas
   const toggleMetricVisibility = (metric: keyof typeof visibleMetrics) => {
     setVisibleMetrics(prev => ({
       ...prev,
-      [metric]: !prev[metric]
+      [metric]: !prev[metric],
     }));
   };
 
@@ -155,45 +164,52 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
     console.log('📋 Datos RAW recibidos del backend:', data);
     console.log('📋 Datos PROCESADOS:', processedData);
     console.log('📋 Métricas visibles:', visibleMetrics);
-    
+
     // 🐛 DEBUG: Verificar fechas del gráfico de líneas
-    console.log('📋 Fechas procesadas LÍNEAS:', processedData.map((d: any) => ({
-      original: d.fecha,
-      formatted: d3.timeFormat('%d')(d.fecha),
-      dateString: d.fecha.toLocaleDateString()
-    })));
-    
+    console.log(
+      '📋 Fechas procesadas LÍNEAS:',
+      processedData.map((d: any) => ({
+        original: d.fecha,
+        formatted: d3.timeFormat('%d')(d.fecha),
+        dateString: d.fecha.toLocaleDateString(),
+      }))
+    );
+
     // Logs detallados por cada punto de datos
     processedData.forEach((d: any, index: number) => {
       console.log(`📅 Día ${index + 1} (${d.fecha.toLocaleDateString()}):`, {
         leads: d.leads,
         usuarios: d.usuarios,
         companias: d.companias,
-        neuroscans: d.neuroscans
+        neuroscans: d.neuroscans,
       });
     });
 
     // Escalas
-    const xScale = d3.scaleTime()
+    const xScale = d3
+      .scaleTime()
       .domain(d3.extent(processedData, (d: any) => d.fecha) as [Date, Date])
       .range([0, width]);
 
-    const maxValue = d3.max(processedData, (d: any) => 
-      Math.max(d.leads, d.usuarios, d.companias, d.neuroscans)
-    ) || 0;
+    const maxValue =
+      d3.max(processedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans)) ||
+      0;
 
     console.log('📊 ESCALAS:');
     console.log('  - Valor máximo encontrado:', maxValue);
-    console.log('  - Dominio X (fechas):', d3.extent(processedData, d => d.fecha));
+    console.log(
+      '  - Dominio X (fechas):',
+      d3.extent(processedData, d => d.fecha)
+    );
     console.log('  - Rango X (pixels):', [0, width]);
-    
+
     const valuesPerMetric = {
       leads: processedData.map((d: any) => d.leads),
-      usuarios: processedData.map((d: any) => d.usuarios), 
+      usuarios: processedData.map((d: any) => d.usuarios),
       companias: processedData.map((d: any) => d.companias),
-      neuroscans: processedData.map((d: any) => d.neuroscans)
+      neuroscans: processedData.map((d: any) => d.neuroscans),
     };
-    
+
     Object.entries(valuesPerMetric).forEach(([metric, values]) => {
       const max = Math.max(...values);
       const min = Math.min(...values);
@@ -201,15 +217,20 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       const nonZero = values.filter(val => val > 0).length;
       const average = total / values.length;
       console.log(`  📈 ${metric}:`, {
-        max, min, total, nonZero, average: average.toFixed(2),
+        max,
+        min,
+        total,
+        nonZero,
+        average: average.toFixed(2),
         values: values.slice(0, 5), // Primeros 5 valores
-        isVisible: visibleMetrics[metric as keyof typeof visibleMetrics]
+        isVisible: visibleMetrics[metric as keyof typeof visibleMetrics],
       });
     });
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
-    
-    const yScale = d3.scaleLinear()
+
+    const yScale = d3
+      .scaleLinear()
       .domain([0, effectiveMaxValue * 1.1])
       .range([height, 0]);
 
@@ -222,7 +243,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
     console.log('    · maxValue → Y=', yScale(maxValue));
 
     // Definir generador de áreas
-    const area = d3.area<any>()
+    const area = d3
+      .area<any>()
       .x(d => xScale(d.fecha))
       .y0(height) // Línea base (parte inferior)
       .y1(d => yScale(d.value)) // Línea superior (valor)
@@ -230,7 +252,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       .defined(d => d.value !== null && d.value !== undefined);
 
     // Líneas con definido personalizado para manejar valores 0
-    const line = d3.line<any>()
+    const line = d3
+      .line<any>()
       .x(d => xScale(d.fecha))
       .y(d => yScale(d.value))
       .curve(d3.curveCardinal.tension(0.5))
@@ -238,10 +261,10 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
     // Crear las áreas y líneas para cada métrica
     const metrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
-    
+
     metrics.forEach(metric => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
-      
+
       if (!isVisible) {
         console.log(`🙈 Saltando ${metric} - no visible`);
         return;
@@ -249,12 +272,12 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
       const lineData = processedData.map((d: any) => ({
         fecha: d.fecha,
-        value: d[metric as keyof typeof d]
+        value: d[metric as keyof typeof d],
       }));
 
       const hasData = lineData.some((d: any) => typeof d.value === 'number' && d.value > 0);
       const hasAnyData = lineData.some((d: any) => typeof d.value === 'number' && d.value >= 0);
-      
+
       console.log(`🎨 RENDERIZANDO ${metric.toUpperCase()}:`);
       console.log('  - hasData (>0):', hasData);
       console.log('  - hasAnyData (>=0):', hasAnyData);
@@ -263,7 +286,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       // Solo renderizar si tiene algún dato (incluso 0s)
       if (hasAnyData) {
         // 🎨 ÁREA BAJO LA LÍNEA - Renderizar PRIMERO para que esté en el fondo
-        const areaElement = g.append('path')
+        const areaElement = g
+          .append('path')
           .datum(lineData)
           .attr('class', `area-${metric}`)
           .attr('fill', colors[metric as keyof typeof colors])
@@ -276,8 +300,9 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
         // Línea principal - hacer más gruesa si tiene pocos datos no-cero
         const strokeWidth = hasData ? 2.5 : 1.5;
         const opacity = hasData ? 0.9 : 0.4;
-        
-        const pathElement = g.append('path')
+
+        const pathElement = g
+          .append('path')
           .datum(lineData)
           .attr('class', `line-${metric}`)
           .attr('fill', 'none')
@@ -291,9 +316,11 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
         console.log(`  - Renderizado: ${metric} con ${strokeWidth}px, opacidad ${opacity}`);
 
         // Puntos más prominentes para valores > 0, puntos pequeños para valores = 0
-        const circles = g.selectAll(`.dot-${metric}`)
+        const circles = g
+          .selectAll(`.dot-${metric}`)
           .data(processedData)
-          .enter().append('circle')
+          .enter()
+          .append('circle')
           .attr('class', `dot-${metric}`)
           .attr('cx', (d: any) => xScale(d.fecha))
           .attr('cy', (d: any) => yScale(d[metric as keyof typeof d] as number))
@@ -309,7 +336,7 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
           .attr('stroke', '#fff')
           .attr('stroke-width', (d: any) => {
             const value = d[metric as keyof typeof d];
-            return (typeof value === 'number' && value > 0) ? 2 : 1;
+            return typeof value === 'number' && value > 0 ? 2 : 1;
           })
           .style('opacity', (d: any) => {
             const value = d[metric as keyof typeof d];
@@ -319,7 +346,7 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
             }
             return 0.1;
           })
-          .on('mouseover', function(event, d: any) {
+          .on('mouseover', function (event, d: any) {
             // 🐛 DEBUG: Verificar datos del hover en líneas
             console.log('🔍 HOVER LÍNEAS DETALLADO:', {
               metric,
@@ -330,15 +357,15 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
               fechaCompleta: d3.timeFormat('%d/%m/%Y')(d.fecha),
               value: d[metric as keyof typeof d],
               mouseX: event.offsetX,
-              mouseY: event.offsetY
+              mouseY: event.offsetY,
             });
-            
+
             showTooltip(event, d, metric);
-            
+
             // 🎯 HOVER CRUZADO: Agregar todos los puntos de la misma fecha
             const fechaHover = d.fecha;
             const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-            
+
             // Seleccionar todos los puntos de todas las métricas en esa fecha
             const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
             allMetrics.forEach(currentMetric => {
@@ -357,13 +384,13 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
               }
             });
           })
-          .on('mouseout', function(event, d: any) {
+          .on('mouseout', function (event, d: any) {
             hideTooltip();
-            
+
             // 🎯 HOVER CRUZADO: Restaurar todos los puntos de la misma fecha
             const fechaHover = d.fecha;
             const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-            
+
             // Restaurar todos los puntos de todas las métricas en esa fecha
             const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
             allMetrics.forEach(currentMetric => {
@@ -380,7 +407,7 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
                   .attr('r', (dotData: any) => {
                     // Restaurar tamaño original basado en el valor
                     const value = dotData[currentMetric as keyof typeof dotData];
-                    return (typeof value === 'number' && value > 0) ? 5 : 2;
+                    return typeof value === 'number' && value > 0 ? 5 : 2;
                   })
                   .style('opacity', (dotData: any) => {
                     // Restaurar opacidad original basada en el valor
@@ -424,44 +451,49 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       neuroscans: d.neuroscans,
     }));
 
-    console.log('📋 Fechas procesadas BARRAS:', formattedData.map((d: any) => ({
-      original: d.date,
-      formatted: d3.timeFormat('%d')(d.date),
-      dateString: d.date.toLocaleDateString()
-    })));
+    console.log(
+      '📋 Fechas procesadas BARRAS:',
+      formattedData.map((d: any) => ({
+        original: d.date,
+        formatted: d3.timeFormat('%d')(d.date),
+        dateString: d.date.toLocaleDateString(),
+      }))
+    );
 
     const metrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
-    const visibleMetricsArray = metrics.filter(metric => visibleMetrics[metric as keyof typeof visibleMetrics]);
-    
+    const visibleMetricsArray = metrics.filter(
+      metric => visibleMetrics[metric as keyof typeof visibleMetrics]
+    );
+
     // Preparar dominio de fechas formateadas - EXACTAMENTE IGUAL QUE LÍNEAS
     const dateLabels = formattedData.map((d: any) => d3.timeFormat('%d')(d.date));
     console.log('📋 Etiquetas de fechas para barras:', dateLabels);
     console.log('📋 Fechas únicas:', [...new Set(dateLabels)]);
-    
-    // Escalas
-    const xScale = d3.scaleBand()
-      .domain(dateLabels)
-      .range([0, width])
-      .padding(0.2);
 
-    const maxValue = d3.max(formattedData, (d: any) => 
-      Math.max(d.leads, d.usuarios, d.companias, d.neuroscans)
-    ) || 0;
+    // Escalas
+    const xScale = d3.scaleBand().domain(dateLabels).range([0, width]).padding(0.2);
+
+    const maxValue =
+      d3.max(formattedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans)) ||
+      0;
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
-    
-    const yScale = d3.scaleLinear()
+
+    const yScale = d3
+      .scaleLinear()
       .domain([0, effectiveMaxValue * 1.1])
       .range([height, 0]);
 
     // Escala para subgrupos (barras dentro de cada fecha)
-    const xSubgroup = d3.scaleBand()
+    const xSubgroup = d3
+      .scaleBand()
       .domain(visibleMetricsArray)
       .range([0, xScale.bandwidth()])
       .padding(0.05);
 
     // Crear grupos por fecha
-    const groups = g.selectAll('.bar-group')
+    const groups = g
+      .selectAll('.bar-group')
       .data(formattedData)
       .enter()
       .append('g')
@@ -470,7 +502,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
     // Crear barras solo para métricas visibles
     visibleMetricsArray.forEach(metric => {
-      groups.append('rect')
+      groups
+        .append('rect')
         .attr('class', `bar-${metric}`)
         .attr('x', xSubgroup(metric) || 0)
         .attr('y', (d: any) => yScale(d[metric as keyof typeof d] as number))
@@ -478,19 +511,19 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
         .attr('height', (d: any) => height - yScale(d[metric as keyof typeof d] as number))
         .attr('fill', colors[metric as keyof typeof colors])
         .attr('opacity', 0.8)
-        .on('mouseover', function(event, d: any) {
+        .on('mouseover', function (event, d: any) {
           // 🐛 DEBUG: Verificar datos del hover en barras
           console.log('🔍 HOVER BARRAS:', {
             metric,
             data: d,
             fecha: d.date,
             fechaFormatted: d3.timeFormat('%d')(d.date),
-            value: d[metric as keyof typeof d]
+            value: d[metric as keyof typeof d],
           });
           showTooltip(event, d, metric);
           d3.select(this).transition().duration(100).attr('opacity', 1);
         })
-        .on('mouseout', function() {
+        .on('mouseout', function () {
           hideTooltip();
           d3.select(this).transition().duration(100).attr('opacity', 0.8);
         });
@@ -502,7 +535,9 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
   // Función para mostrar tooltip
   const showTooltip = (event: any, d: any, metric: string) => {
-    const tooltip = d3.select('body').append('div')
+    const tooltip = d3
+      .select('body')
+      .append('div')
       .attr('class', 'chart-tooltip')
       .style('position', 'absolute')
       .style('background', 'rgba(0, 0, 0, 0.8)')
@@ -518,17 +553,18 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
     const displayName = metric;
     const value = d[metric as keyof typeof d];
-    
+
     // 🔧 FIX: Buscar fecha original del backend (formato YYYY-MM-DD)
     const fechaRaw = d.fecha || d.date;
-    
+
     // Buscar la fecha original en los datos RAW del backend que coincida con esta fecha procesada
-    const fechaOriginalBackend = data.find(originalData => {
-      const fechaComparacion = new Date(originalData.fecha);
-      const fechaActual = fechaRaw;
-      return fechaComparacion.getTime() === fechaActual.getTime();
-    })?.fecha || fechaRaw.toISOString().split('T')[0]; // Fallback si no encuentra
-    
+    const fechaOriginalBackend =
+      data.find(originalData => {
+        const fechaComparacion = new Date(originalData.fecha);
+        const fechaActual = fechaRaw;
+        return fechaComparacion.getTime() === fechaActual.getTime();
+      })?.fecha || fechaRaw.toISOString().split('T')[0]; // Fallback si no encuentra
+
     // 🐛 DEBUG: Verificar datos del tooltip
     console.log('🔍 TOOLTIP DEBUG DETALLADO:', {
       metric,
@@ -539,16 +575,19 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       chartType,
       allData: d,
       isBarChart: chartType === 'bar',
-      isLineChart: chartType === 'line'
+      isLineChart: chartType === 'line',
     });
 
-    tooltip.html(`
+    tooltip
+      .html(
+        `
       <strong>${displayName}</strong><br/>
       Fecha: ${fechaOriginalBackend}<br/>
       Valor: ${value}
-    `)
-      .style('left', (event.pageX + 10) + 'px')
-      .style('top', (event.pageY - 10) + 'px');
+    `
+      )
+      .style('left', event.pageX + 10 + 'px')
+      .style('top', event.pageY - 10 + 'px');
   };
 
   // Función para ocultar tooltip
@@ -563,33 +602,58 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
     g.selectAll('.grid').remove();
 
     // Grid lines
-    const xGrid = g.append('g')
+    const xGrid = g
+      .append('g')
       .attr('class', 'grid')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale).tickSize(-height).tickFormat(() => ''));
-    
-    xGrid.selectAll('line').style('stroke', '#e9ecef').style('stroke-width', 1).style('opacity', 0.7);
+      .call(
+        d3
+          .axisBottom(xScale)
+          .tickSize(-height)
+          .tickFormat(() => '')
+      );
 
-    const yGrid = g.append('g')
+    xGrid
+      .selectAll('line')
+      .style('stroke', '#e9ecef')
+      .style('stroke-width', 1)
+      .style('opacity', 0.7);
+
+    const yGrid = g
+      .append('g')
       .attr('class', 'grid')
-      .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(() => ''));
-    
-    yGrid.selectAll('line').style('stroke', '#e9ecef').style('stroke-width', 1).style('opacity', 0.7);
+      .call(
+        d3
+          .axisLeft(yScale)
+          .tickSize(-width)
+          .tickFormat(() => '')
+      );
+
+    yGrid
+      .selectAll('line')
+      .style('stroke', '#e9ecef')
+      .style('stroke-width', 1)
+      .style('opacity', 0.7);
 
     // Ejes
-    const xAxis = g.append('g')
+    const xAxis = g
+      .append('g')
       .attr('class', 'axis x-axis')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale)
-        .tickFormat(chartType === 'line' 
-          ? (domainValue: any) => d3.timeFormat('%d')(domainValue)
-          : (domainValue: any) => domainValue
-        )
-        // Mostrar todos los ticks para ambos tipos de gráfico
-        .ticks(chartType === 'line' ? processedData.length : undefined)
+      .call(
+        d3
+          .axisBottom(xScale)
+          .tickFormat(
+            chartType === 'line'
+              ? (domainValue: any) => d3.timeFormat('%d')(domainValue)
+              : (domainValue: any) => domainValue
+          )
+          // Mostrar todos los ticks para ambos tipos de gráfico
+          .ticks(chartType === 'line' ? processedData.length : undefined)
       );
-    
-    xAxis.selectAll('text')
+
+    xAxis
+      .selectAll('text')
       .style('font-size', '12px')
       .style('fill', '#6c757d')
       .style('text-anchor', 'middle') // Siempre centrado para ambos tipos
@@ -608,17 +672,19 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
     console.log('📊 ActivityLineChart - Datos procesados:', processedData);
     console.log('📊 ActivityLineChart - Tipo de gráfico:', chartType);
     console.log('📊 ActivityLineChart - Métricas visibles:', visibleMetrics);
-    
+
     if (!data.length || !svgRef.current || width <= 0 || height <= 0) return;
 
     // Limpiar el SVG anterior
     d3.select(svgRef.current).selectAll('*').remove();
 
-    const svg = d3.select(svgRef.current)
+    const svg = d3
+      .select(svgRef.current)
       .attr('width', dimensions.width)
       .attr('height', dimensions.height);
 
-    const g = svg.append('g')
+    const g = svg
+      .append('g')
       .attr('class', 'chart-container')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -633,16 +699,18 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
     }
 
     // Leyenda clickeable con checkboxes
-    const legend = g.append('g')
+    const legend = g
+      .append('g')
       .attr('class', 'legend')
       .attr('transform', `translate(0, ${height + 50})`);
 
     const metrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
-    
+
     metrics.forEach((metric, index) => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
-      
-      const legendItem = legend.append('g')
+
+      const legendItem = legend
+        .append('g')
         .attr('class', 'legend-item')
         .attr('transform', `translate(${index * 120}, 0)`) // Más espacio para el texto
         .style('cursor', 'pointer')
@@ -650,7 +718,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
       // Checkbox visual
       const checkboxSize = 16;
-      const checkbox = legendItem.append('rect')
+      const checkbox = legendItem
+        .append('rect')
         .attr('x', 0)
         .attr('y', -8)
         .attr('width', checkboxSize)
@@ -662,7 +731,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
       // Checkmark - centrado horizontal y verticalmente
       if (isVisible) {
-        legendItem.append('path')
+        legendItem
+          .append('path')
           .attr('d', 'M4,8 L7,11 L12,5') // Centrado perfectamente en el box de 16x16
           .attr('stroke', '#fff')
           .attr('stroke-width', 2.5)
@@ -672,7 +742,8 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       }
 
       // Texto descriptivo al lado del checkbox
-      legendItem.append('text')
+      legendItem
+        .append('text')
         .attr('x', checkboxSize + 8) // 8px de espacio después del checkbox
         .attr('y', 0)
         .attr('dy', '0.35em') // Centrado verticalmente
@@ -682,7 +753,6 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
         .style('user-select', 'none')
         .text(metric);
     });
-
   }, [data, dimensions, chartType, visibleMetrics]);
 
   // Asegurar re-renderizado cuando cambia el tipo de gráfico
@@ -695,14 +765,14 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
 
   // Sistema de resize automático robusto
   useEffect(() => {
-    let resizeTimeout: NodeJS.Timeout;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
 
     const updateDimensions = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
         const newWidth = Math.max(containerWidth - 40, 300);
         const newHeight = Math.max(Math.min(newWidth * 0.6, 500), 350);
-        
+
         setDimensions(prev => {
           if (Math.abs(prev.width - newWidth) > 10 || Math.abs(prev.height - newHeight) > 10) {
             console.log(`📊 Chart resize: ${newWidth}x${newHeight}`);
@@ -718,7 +788,7 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
       resizeTimeout = setTimeout(updateDimensions, 100);
     };
 
-    const resizeObserver = new ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         requestAnimationFrame(debouncedUpdate);
       }
@@ -754,20 +824,18 @@ export const ActivityLineChart: React.FC<ActivityLineChartProps> = ({ data }) =>
     <div className="activity-chart-container" ref={containerRef}>
       {/* Botón para cambiar tipo de gráfico */}
       <div className="chart-controls">
-        <button 
+        <button
           className={`chart-toggle-btn ${chartType === 'line' ? 'active' : ''}`}
-          onClick={() => setChartType('line')}
-        >
+          onClick={() => setChartType('line')}>
           📈 Líneas
         </button>
-        <button 
+        <button
           className={`chart-toggle-btn ${chartType === 'bar' ? 'active' : ''}`}
-          onClick={() => setChartType('bar')}
-        >
+          onClick={() => setChartType('bar')}>
           📊 Barras
         </button>
       </div>
       <svg ref={svgRef}></svg>
     </div>
   );
-}; 
+};
