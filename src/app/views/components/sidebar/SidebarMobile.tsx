@@ -1,4 +1,5 @@
 import { useUserData } from '#commonUserHooks/useUserData';
+import { ThemeChangerButton } from '@buttons/index';
 import { LogoutIcon } from '@icons';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -14,7 +15,7 @@ const sidebarData = {
 const menuItemsPaths = {
   Dashboard: '/dashboard',
   'Team members': '/team-members',
-  'Purchases': '/orders-payments',
+  Purchases: '/orders-payments',
   'User profile': '/user-profile',
   'Web software': '/web',
   'Network devices': '/network',
@@ -130,10 +131,10 @@ export const SidebarMobile = ({
               <span className="user-email">{email}</span>
               <span className="user-company">{companyName}</span>
             </div>
-
+            <ThemeChangerButton className="sidebar-footer-theme-changer" text="Theme" />
             <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
               <LogoutIcon width={1.1} height={1.1} />
-              Close session
+              Logout
             </button>
           </div>
         </div>
