@@ -13,6 +13,7 @@
 import { companyIdIsNull } from '@/app/constants/validations';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
+import { optimizedConfigs } from '@services/swr';
 import { useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 import useModalStore from '@stores/modal.store';
@@ -55,35 +56,22 @@ const fetcher = ([model, { company }]: any) => {
 export const useNewVerifyScanList = () => {
   const { company, isScanning } = useGlobalFastFields(['company', 'isScanning']);
   const { isOpen, modalId } = useModalStore();
-  const baseKey = ['neuroscans/index', { company: company.get?.id }];
+  // ✅ Memoizar la key para estabilidad
+  const swrKey = useMemo(() => {
+    if (!company.get?.id) return null;
 
-  // PROTECCIÓN SELECTIVA: Solo bloquear ANTES de que se active isScanning
-  // Una vez que isScanning = true, significa que el scan fue creado exitosamente
-  const isOnboardingModal = isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH;
-  const scannerStillStarting = getScannerStarting();
-  const shouldSkipCall = isOnboardingModal && scannerStillStarting && !isScanning.get;
+    // PROTECCIÓN SELECTIVA: Solo bloquear ANTES de que se active isScanning
+    const isOnboardingModal = isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH;
+    const scannerStillStarting = getScannerStarting();
+    const shouldSkipCall = isOnboardingModal && scannerStillStarting && !isScanning.get;
 
-  // if (shouldSkipCall) {
-  //   console.log('🚫 BLOQUEANDO useNewVerifyScanList - Esperando creación del scanner');
-  // } else {
-  //   console.log('✅ useNewVerifyScanList - Permitiendo llamada:', {
-  //     isOnboardingModal,
-  //     scannerStillStarting,
-  //     isScanning: isScanning.get,
-  //     shouldSkipCall
-  //   });
-  // }
+    return shouldSkipCall ? null : ['neuroscans/index', { company: company.get?.id }];
+  }, [company.get?.id, isOpen, modalId, isScanning.get]);
 
-  const swrKey = company.get?.id && !shouldSkipCall ? baseKey : null;
-
-  // Configuración inicial del SWR
+  // ✅ Configuración optimizada para datos en tiempo real
   const { data, mutate } = useSWR<ScanManager>(swrKey, fetcher, {
-    refreshInterval: 3000, // 3 segundos por defecto
-    revalidateOnFocus: true,
-    revalidateOnReconnect: true,
-    revalidateOnMount: true,
-    dedupingInterval: 1000,
-    keepPreviousData: true,
+    ...optimizedConfigs.realtime,
+    refreshInterval: 3000, // 3 segundos para scans activos
     fallbackData: { scans: [], companyUpdated: null },
     onSuccess: (responseData: any) => {
       const scans = responseData?.scans || [];

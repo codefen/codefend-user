@@ -9,10 +9,11 @@ import {
   SUBDOMAINS_ESTIMATED_DURATION,
 } from '@moduleHooks/newscanner/useNewManageScanProgress';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
+import { optimizedConfigs } from '@services/swr';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import { all } from 'axios';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import useSWR from 'swr';
 
 // Variable global para bloquear llamadas incorrectas
@@ -94,26 +95,15 @@ export const useVerifyScanListv3 = () => {
     //     shouldBlock
     //   });
     // }
-
     return ['neuroscans/index', { company: companyId }];
   }, [companyId, isOpen, modalId, scanningValue]);
+  // ✅ Configuración estable de SWR
   const swrConfig = useMemo(() => {
     const shouldRefresh = scanningValue;
-    // console.log('🔄 useVerifyScanListv3 - polling config:', {
-    //   shouldRefresh,
-    //   interval: shouldRefresh ? 2000 : 30000,
-    // });
     return {
-      refreshInterval: shouldRefresh ? 2000 : 30000,
-      revalidateOnFocus: true,
-      revalidateOnReconnect: true,
-      revalidateOnMount: true,
-      dedupingInterval: 1000,
-      keepPreviousData: true,
+      ...optimizedConfigs.realtime,
+      refreshInterval: shouldRefresh ? 2000 : 30000, // Ajustar polling basado en scanning state
       fallbackData: { scans: [], companyUpdated: null },
-      errorRetryCount: 3,
-      errorRetryInterval: 1000,
-      focusThrottleInterval: 5000,
       onSuccess: (data: any) => {
         const raw = data?.scans || [];
         // console.log('📊 useVerifyScanListv3 - datos recibidos:', {
@@ -151,7 +141,7 @@ export const useVerifyScanListv3 = () => {
         setAllActiveScan(filtered);
       },
     };
-  }, [scanningValue, scaningProgress.get]);
+  }, [scanningValue]);
   const { data } = useSWR<ScanManager>(swrKey, fetcher, swrConfig);
   // const allActiveScan = useMemo(() => {
   //   const raw = data?.scans || [];
@@ -459,8 +449,12 @@ export const useVerifyScanListv3 = () => {
     //   firstScanInMap: activeMap.size > 0 ? activeMap.values().next().value : null,
     // });
 
-    scaningProgress.set(activeMap);
-    isScanning.set(isAnyScanPending);
-    scanVersion.set(scanVersion.get + 1); // Forzar reactividad
-  }, [JSON.stringify(allActiveScan)]);
+    // ✅ Solo actualizar si hay cambios reales
+    const hasChanges = activeMap.size > 0 || isAnyScanPending !== isScanning.get;
+    if (hasChanges) {
+      scaningProgress.set(activeMap);
+      isScanning.set(isAnyScanPending);
+      scanVersion.set(scanVersion.get + 1); // Forzar reactividad
+    }
+  }, [allActiveScan.length, isScanning.get, scanVersion.get]);
 };
