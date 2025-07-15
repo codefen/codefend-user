@@ -101,10 +101,24 @@ export const PanelPage = () => {
   return (
     // <FlashLightProvider>
     <>
-      <NetworkSettingModal
-        isOpen={modals.isNetworkSettingModalOpen}
-        close={() => setShowModal(false)}
-      />
+      {/* ✅ Solo renderizar modales cuando sean necesarios */}
+      {modals.isNetworkSettingModalOpen && (
+        <NetworkSettingModal
+          isOpen={modals.isNetworkSettingModalOpen}
+          close={() => setShowModal(false)}
+        />
+      )}
+
+      {modals.isErrorConnectionModalOpen && (
+        <Suspense fallback={null}>
+          <ErrorConnection
+            closeModal={closeErrorConnectionModal}
+            open={modals.isErrorConnectionModalOpen}
+          />
+        </Suspense>
+      )}
+
+      {/* Modales que se renderizan condicionalmente según su lógica interna */}
       <WelcomeGroupTour />
       <QualityFeedbackManager />
       <WelcomeLoadResource />
@@ -112,10 +126,6 @@ export const PanelPage = () => {
       <AddCollaboratorModal />
       <OrderV2 />
       <ModalReport />
-      <ErrorConnection
-        closeModal={closeErrorConnectionModal}
-        open={modals.isErrorConnectionModalOpen}
-      />
 
       <Sidebar />
 

@@ -11,7 +11,7 @@
   max-width: 100%;
   box-sizing: border-box;
   animation: fadeInFromTop 0.5s ease-in-out;
-  overflow: visible;
+  overflow: hidden;
 
   @keyframes fadeInFromTop {
     from {
@@ -31,8 +31,10 @@
     column-gap: var(--card-space);
     height: 100%;
     flex-direction: row;
-    flex: auto;
+    flex: 1;
+    min-width: 0;
     padding: var(--card-space);
+    overflow: hidden;
 
     .navbar-logo {
       height: 100%;
@@ -66,8 +68,12 @@
       word-spacing: 3px;
       font-size: 14px;
       user-select: none;
-      min-width: 200px;
+      min-width: 0;
+      max-width: 250px;
       height: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       .sep {
         margin: 0 3px;
@@ -86,6 +92,8 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
 
     .action {
       display: flex;
@@ -137,6 +145,8 @@
     align-items: center;
     column-gap: 0.5rem;
     height: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
 
     .change-theme {
       height: 100%;

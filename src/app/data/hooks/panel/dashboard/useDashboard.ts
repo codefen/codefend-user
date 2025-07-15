@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { companyIdIsNull, verifySession } from '@/app/constants/validations';
 import { useUserData } from '#commonUserHooks/useUserData.ts';
 import { EMPTY_DASHBOARD_PROPS } from '@/app/constants/empty';
 import { apiErrorValidation } from '@/app/constants/validations';
 import { AxiosHttpService } from '@services/axiosHTTP.service';
 import useSWR from 'swr';
+import { optimizedConfigs } from '@services/swr';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
 const fetcher = ([model, { company, logout }]: any) => {
@@ -35,20 +36,26 @@ const fetcher = ([model, { company, logout }]: any) => {
 export const useDashboard = () => {
   const { logout, company } = useUserData();
   const { scanNumber, isScanning } = useGlobalFastFields(['scanNumber', 'isScanning']);
-  const swrKeYRef = useRef<any>(['companies/dashboard', { company: company.get?.id, logout }]);
-  const { data, isLoading } = useSWR(swrKeYRef.current, (key: any) => fetcher(key), {
-    keepPreviousData: true,
-    revalidateOnReconnect: true,
-    revalidateOnFocus: true,
-    revalidateOnMount: true,
-    fallbackData: EMPTY_DASHBOARD_PROPS,
-  });
+  // ✅ Usar useMemo para swrKey estable
+  const swrKey = useMemo(
+    () => (company.get?.id ? ['companies/dashboard', company.get.id] : null),
+    [company.get?.id]
+  );
+
+  const { data, isLoading } = useSWR(
+    swrKey,
+    () => fetcher(['companies/dashboard', { company: company.get?.id, logout }]),
+    {
+      ...optimizedConfigs.dashboard,
+      fallbackData: EMPTY_DASHBOARD_PROPS,
+    }
+  );
 
   useEffect(() => {
     if (data?.company) {
       company.set(data?.company);
     }
-  }, [data?.company]);
+  }, [data?.company, company]);
 
   return {
     isLoading,

@@ -127,11 +127,11 @@ const NetworkPage: FC = () => {
         <section className="right" ref={flashlight.rightPaneRef}>
           <Navbar />
           <AddNetworkBlock />
-          <NetworkStatics
+          {/* <NetworkStatics
             externalIpCount={externalIpCount.get}
             internalIpCount={internalIpCount.get}
             totalNotUniqueIpCount={totalNotUniqueIpCount.get}
-          />
+          /> */}
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}

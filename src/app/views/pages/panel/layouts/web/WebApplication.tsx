@@ -23,8 +23,16 @@ import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
 
 const WebApplicationView = () => {
-  const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent, mapResources } =
-    useGetWebResourcesv2();
+  const {
+    webResources,
+    isLoading,
+    refetch,
+    domainCount,
+    subDomainCount,
+    uniqueIpCount,
+    appEvent,
+    mapResources,
+  } = useGetWebResourcesv2();
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
   const flashlight = useFlashlight();

@@ -482,6 +482,27 @@ main {
     container-name: right-main;
     padding-top: var(--nav-height);
 
+    // Configurar scrollbar personalizada y discreta
+    // scrollbar-width: thin;
+    // scrollbar-color: var(--primary-color-300) transparent;
+
+    // &::-webkit-scrollbar {
+    //   width: 6px;
+    // }
+
+    // &::-webkit-scrollbar-track {
+    //   background: transparent;
+    // }
+
+    // &::-webkit-scrollbar-thumb {
+    //   background-color: var(--primary-color-300);
+    //   border-radius: 3px;
+
+    //   &:hover {
+    //     background-color: var(--primary-color-400);
+    //   }
+    // }
+
     .card {
       margin-bottom: 12px;
 
@@ -2681,7 +2702,8 @@ main.company {
   }
 }
 
-html, body {
+html,
+body {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-color-300) transparent;
