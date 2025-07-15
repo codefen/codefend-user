@@ -1,5 +1,9 @@
 main.dashboard {
   .left {
+    .card.scan-start {
+      display: none;
+    }
+
     .card.rectangle {
       .over {
         padding: 3rem;
@@ -199,8 +203,9 @@ main.dashboard {
   main.dashboard {
     .left {
       .box-assets {
-        flex-direction: column;
-        min-height: fit-content;
+        min-height: auto;
+        max-height: none;
+        display: block;
 
         > .card {
           &:nth-child(1),
@@ -209,7 +214,25 @@ main.dashboard {
             height: fit-content;
           }
         }
+
+        .card:not(.stat) + .card {
+          margin-top: var(--card-space);
+          margin-bottom: calc(var(--card-space) * 4);
+        }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  main.dashboard {
+    .left {
+      .card.scan-start {
+        display: block;
+      }
+    }
+    .right {
+      display: none;
     }
   }
 }

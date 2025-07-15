@@ -112,7 +112,7 @@
     p {
       padding-inline: var(--card-space);
       margin-block-end: var(--card-space);
-      font-size: 16px;
+      font-size: clamp(0.8rem, 3dvh, 16px);
       font-family: Questrial;
       margin-top: 0.5lh;
       line-height: 1.5em;

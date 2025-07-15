@@ -131,7 +131,7 @@ export const DashboardScanStart = () => {
   ];
 
   return (
-    <div className="card stats">
+    <div className="card stats scan-start">
       <ModalTitleWrapper
         isActive={isOpen && modalId === MODAL_KEY_OPEN.START_KILL_SCAN}
         close={() => setIsOpen(false)}

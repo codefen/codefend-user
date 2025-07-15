@@ -51,12 +51,12 @@ const Dashboard = () => {
   return (
     <SectionTracker sectionName="dashboard">
       <main
-        className={`dashboard ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
-      >
+        className={`dashboard ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         {/* <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div> */}
 
         <section className="left">
+          <DashboardScanStart />
           {!isScanning.get &&
           (Number(company.get?.disponibles_neuroscan) <= 0 || data?.issues?.length > 0) ? (
             <DashboardVulnerabilities
@@ -75,7 +75,7 @@ const Dashboard = () => {
         </section>
 
         <section className="right">
-          <Navbar />
+          {/* <Navbar /> */}
           <DashboardScanStart />
           <VulnerabilitiesStatus
             isLoading={isLoading}
