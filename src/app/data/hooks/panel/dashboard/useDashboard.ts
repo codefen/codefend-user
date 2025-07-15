@@ -38,19 +38,24 @@ export const useDashboard = () => {
   const { scanNumber, isScanning } = useGlobalFastFields(['scanNumber', 'isScanning']);
   // ✅ Usar useMemo para swrKey estable
   const swrKey = useMemo(
-    () => ['companies/dashboard', { company: company.get?.id, logout }],
-    [company.get?.id, logout]
+    () => (company.get?.id ? ['companies/dashboard', company.get.id] : null),
+    [company.get?.id]
   );
-  const { data, isLoading } = useSWR(swrKey, (key: any) => fetcher(key), {
-    ...optimizedConfigs.dashboard,
-    fallbackData: EMPTY_DASHBOARD_PROPS,
-  });
+
+  const { data, isLoading } = useSWR(
+    swrKey,
+    () => fetcher(['companies/dashboard', { company: company.get?.id, logout }]),
+    {
+      ...optimizedConfigs.dashboard,
+      fallbackData: EMPTY_DASHBOARD_PROPS,
+    }
+  );
 
   useEffect(() => {
     if (data?.company) {
       company.set(data?.company);
     }
-  }, [data?.company]);
+  }, [data?.company, company]);
 
   return {
     isLoading,

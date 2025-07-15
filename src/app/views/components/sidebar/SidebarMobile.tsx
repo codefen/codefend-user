@@ -2,7 +2,7 @@ import { useUserData } from '#commonUserHooks/useUserData';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { ThemeChangerButton } from '@buttons/index';
 import { LogoutIcon } from '@icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
 
@@ -122,30 +122,38 @@ export const SidebarMobile = ({
   companyName: string;
 }) => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
-  const sidebarData = createSidebarData(isAdmin(), isProvider(), isReseller(), isNormalUser());
 
-  const [activeSection, setActiveSection] = useState<MenuSection>(() =>
-    getActiveSection(sidebarData)
+  // Memoizar sidebarData para evitar recreación constante
+  const sidebarData = useMemo(
+    () => createSidebarData(isAdmin(), isProvider(), isReseller(), isNormalUser()),
+    [isAdmin, isProvider, isReseller, isNormalUser]
   );
-  const [activeItem, setActiveItem] = useState<string | null>(() =>
-    getActiveItem(sidebarData[activeSection]?.items || [])
-  );
+
+  const [activeSection, setActiveSection] = useState<MenuSection>('Main');
+  const [activeItem, setActiveItem] = useState<string | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [animationClass, setAnimationClass] = useState('');
   const [contentVisible, setContentVisible] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
   const navigate = useNavigate();
   const { logout } = useUserData();
 
-  // Actualizar sección y item activos cuando cambie la ruta o se abra el sidebar
+  // Solo inicializar la sección activa cuando se abre el sidebar por primera vez
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !hasInitialized) {
       const newActiveSection = getActiveSection(sidebarData);
       const newActiveItem = getActiveItem(sidebarData[newActiveSection]?.items || []);
 
       setActiveSection(newActiveSection);
       setActiveItem(newActiveItem);
+      setHasInitialized(true);
     }
-  }, [isOpen, sidebarData]);
+
+    // Reset cuando se cierra el sidebar
+    if (!isOpen) {
+      setHasInitialized(false);
+    }
+  }, [isOpen, sidebarData, hasInitialized]);
 
   useEffect(() => {
     if (isOpen) {
@@ -179,9 +187,10 @@ export const SidebarMobile = ({
   if (!isOpen && !isAnimating) return null;
 
   const handleSectionChange = (section: MenuSection) => {
+    setActiveSection(section);
+
     setContentVisible(false);
     setTimeout(() => {
-      setActiveSection(section);
       // Actualizar item activo para la nueva sección
       const newActiveItem = getActiveItem(sidebarData[section]?.items || []);
       setActiveItem(newActiveItem);

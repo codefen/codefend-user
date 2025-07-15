@@ -72,7 +72,7 @@ export const optimizedConfigs = {
     revalidateOnMount: true,
     revalidateIfStale: true,
     // dedupingInterval: 5000,
-    refreshInterval: 30000, // 30 segundos
+    // refreshInterval: 30000, // 30 segundos
   },
 };
 
