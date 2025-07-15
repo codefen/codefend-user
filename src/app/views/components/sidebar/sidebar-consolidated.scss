@@ -204,7 +204,7 @@
     flex-direction: column;
     width: 85vw;
     z-index: 3;
-    overflow-y: hidden;
+    overflow-y: auto;
 
     .sidebar-mobile-header {
       padding: 1rem;
@@ -396,6 +396,11 @@
               font-family: Satoshi;
               color: var(--secondary-color-150);
             }
+          }
+
+          .sidebar-footer-actions {
+            display: flex;
+            flex-direction: row;
           }
 
           .sidebar-footer-theme-changer {
@@ -980,4 +985,34 @@ main.sb.sidebar-mobile-active {
 // Ajuste para que el menú no tape las acciones abajo
 .sidebar.desktop-active {
   padding-bottom: 80px;
+}
+
+@media only screen and (max-width: 600px) {
+  .sidebar {
+    &.mobile-active {
+      .sidebar-mobile {
+        .sidebar-mobile-footer {
+          .sidebar-footer-content {
+            width: 100%;
+            .sidebar-footer-content-container {
+              width: 100%;
+              display: flex;
+              align-items: flex-start;
+              justify-content: center;
+              flex-direction: column;
+
+              .sidebar-footer-user {
+                padding-inline: 12px;
+              }
+
+              .sidebar-footer-actions {
+                display: flex;
+                flex-direction: row;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

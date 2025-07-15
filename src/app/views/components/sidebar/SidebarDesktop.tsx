@@ -60,17 +60,17 @@ export const SidebarDesktop = ({
   const { logout, getUserdata } = useUserData();
   const userData = getUserdata();
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const userRef = useRef<HTMLDivElement>(null);
+  // const [isMenuOpen, setMenuOpen] = useState(false);
+  // const dropdownRef = useRef<HTMLDivElement>(null);
+  // const userRef = useRef<HTMLDivElement>(null);
   const isOpenNetworkSetting = useGlobalFastField('isOpenNetworkSetting');
-  const [baseApiName, setBaseApiName] = useState('');
+  // const [baseApiName, setBaseApiName] = useState('');
   const { showModal, showModalStr, setShowModal, setShowModalStr } = useModal();
   const { setIsOpen, setModalId } = useModalStore();
   const isProgressStarted = useGlobalFastField('isProgressStarted');
   const progress = useGlobalFastField('scanProgress');
   const { theme, changeTheme } = useTheme();
-  const isDark = theme === 'dark';
+  // const isDark = theme === 'dark';
 
   const rootAction = () => {
     navigate('/');
@@ -379,7 +379,9 @@ export const SidebarDesktop = ({
         <SidebarItem
           id="sidebar_action_theme"
           title={theme === 'light' ? 'Dark mode' : 'Light mode'}
-          icon={theme === 'light' ? <MoonIcon width={1} height={1} /> : <SunIcon width={1} height={1} />}
+          icon={
+            theme === 'light' ? <MoonIcon width={1} height={1} /> : <SunIcon width={1} height={1} />
+          }
           to="#"
           isActive={false}
           isAuth={isAuth}
@@ -392,7 +394,10 @@ export const SidebarDesktop = ({
           to="#"
           isActive={false}
           isAuth={isAuth}
-          onClick={() => { setShowModalStr(MODAL_KEY_OPEN.LOGOUT); setShowModal(true); }}
+          onClick={() => {
+            setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
+            setShowModal(true);
+          }}
         />
       </div>
     </>
