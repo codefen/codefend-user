@@ -1,4 +1,4 @@
-import { useEffect, useState, type PropsWithChildren, useRef, useMemo } from 'react';
+import { useEffect, type PropsWithChildren, useRef, useMemo } from 'react';
 import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
@@ -156,7 +156,7 @@ const {
 const GlobalStorePersistor = () => {
   const keys = Object.keys(initialGlobalState) as (keyof GlobalStore)[];
   const store = useGlobalFastFields(keys);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSerializedRef = useRef<string>('');
 
   const currentValues = useMemo(
