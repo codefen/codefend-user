@@ -12,6 +12,12 @@ export const useSessionManager = () => {
   );
 
   const handleSuccessfulLogin = (data: any, showToast: boolean = true) => {
+    console.log('🔐 handleSuccessfulLogin: Starting login process', {
+      session: data.session?.slice(0, 10) + '...',
+      userId: data.user?.id,
+      showToast,
+    });
+
     session.set(data.session as string);
     user.set(data?.user);
     company.set({
@@ -20,12 +26,14 @@ export const useSessionManager = () => {
       name: data.user.company_name || '',
     });
     if (showToast) {
-    toast.success(AUTH_TEXT.LOGIN_SUCCESS);
+      toast.success(AUTH_TEXT.LOGIN_SUCCESS);
     }
     isDefaultPlan.set(true);
     appEvent.set(APP_EVENT_TYPE.USER_LOGGED_IN);
     userLoggingState.set(USER_LOGGING_STATE.LOGGED_IN);
     axiosHttp.updateUrlInstance();
+
+    console.log('✅ handleSuccessfulLogin: State updated, triggering persistence event');
     return data.user;
   };
 

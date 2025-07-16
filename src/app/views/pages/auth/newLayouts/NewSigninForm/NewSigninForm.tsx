@@ -94,11 +94,14 @@ export const NewSigninForm = () => {
         });
 
         const state = location.state;
-        if (state && state?.redirect) {
-          window.location.href = state.redirect || '/';
-        } else {
-          window.location.href = '/';
-        }
+        // Small delay to ensure state persistence before navigation
+        setTimeout(() => {
+          if (state && state?.redirect) {
+            navigate(state.redirect || '/');
+          } else {
+            navigate('/');
+          }
+        }, 150); // 150ms delay to ensure localStorage persistence
       }
     } catch (error: any) {
       // Evento de telemetría: error en login con Google
@@ -159,12 +162,15 @@ export const NewSigninForm = () => {
           action: 'iniciar_sesion', // Traducido de: 'signin'
           label: 'inicio_exitoso', // Traducido de: 'signin_success'
         });
-        if (state && state?.redirect) {
-          // navigate(state.redirect);
-          window.location.href = state.redirect || '/';
-        } else {
-          window.location.href = '/';
-        }
+
+        // Small delay to ensure state persistence before navigation
+        setTimeout(() => {
+          if (state && state?.redirect) {
+            navigate(state.redirect || '/');
+          } else {
+            navigate('/');
+          }
+        }, 150); // 150ms delay to ensure localStorage persistence
       }
     });
   };
