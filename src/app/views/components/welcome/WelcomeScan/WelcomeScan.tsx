@@ -2,7 +2,7 @@ import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { ModalWrapper } from '@modals/index';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
+import { useInitialDomainStore } from '@stores/initialDomain.store';
 import css from './welcomescan.module.scss';
 import { PrimaryButton } from '@buttons/index';
 import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
@@ -17,7 +17,7 @@ export const WelcomeScan = ({
   goToWaitStep: (idiom: string) => void;
 }) => {
   const { getCompany, user } = useUserData();
-  const { initialDomain } = useWelcomeStore();
+  const { initialDomain } = useInitialDomainStore();
   const [idiom, setIdiom] = useState(user.get?.idiom || 'en');
 
   const startScan = () => {

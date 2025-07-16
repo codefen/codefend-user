@@ -13,6 +13,7 @@ import './sourcecode.scss';
 import { sourceEmptyScreen } from '@/app/constants/app-texts.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import { ResourcesTypes } from '@interfaces/order.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const SourceCodePanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -36,6 +37,7 @@ const SourceCodePanel: FC = () => {
         <SourceCodeResources isLoading={isLoading} sourceCode={data} refetch={refresh} />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <Navbar />
         <SourceCodeChart isLoading={isLoading} sourceCode={data} />
 
         <OpenOrderButton

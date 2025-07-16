@@ -49,7 +49,7 @@ export const DashboardAssets: FC<{
           <StatAsset
             key={resourceKeys[i]}
             valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
-            value={resources[resource as keyof typeof resources]}
+            value={resources[resource as keyof typeof resources] || -1}
             isActive={isActivePath(resource as string)}
             borderStyle={borderStyle}
             onClick={() => navigateTo(resource)}

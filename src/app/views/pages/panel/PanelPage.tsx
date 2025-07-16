@@ -63,14 +63,19 @@ export const PanelPage = () => {
         if (e.ctrlKey && e.altKey && e.key === 'ñ') {
           setShowModal(true);
           setShowModalStr(MODAL_KEY_OPEN.NETWORK_SETTING);
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          return;
         }
         if (e.key === 'Escape') {
           keyPress.set('Escape');
           e.preventDefault();
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          return;
         }
 
-        e.stopImmediatePropagation();
-        e.stopPropagation();
+        // No detenemos la propagación para otras teclas para permitir que lleguen a los inputs
       })
     );
     if (getUserdata()?.access_role === 'provider') {
@@ -85,7 +90,8 @@ export const PanelPage = () => {
 
   // If not authenticated, redirect to login
   if (!isAuth) {
-    return <Navigate to="/auth/signin" state={{ redirect: location.pathname }} />;
+    // console.log('❌ PanelPage: User not authenticated, redirecting to signup', { isAuth, sessionExists: !!getUserdata(), currentPath: location.pathname });
+    return <Navigate to="/auth/signup" state={{ redirect: location.pathname }} />;
   }
 
   // If screen width is below 1175px, show mobile fallback
@@ -96,10 +102,24 @@ export const PanelPage = () => {
   return (
     // <FlashLightProvider>
     <>
-      <NetworkSettingModal
-        isOpen={modals.isNetworkSettingModalOpen}
-        close={() => setShowModal(false)}
-      />
+      {/* ✅ Solo renderizar modales cuando sean necesarios */}
+      {modals.isNetworkSettingModalOpen && (
+        <NetworkSettingModal
+          isOpen={modals.isNetworkSettingModalOpen}
+          close={() => setShowModal(false)}
+        />
+      )}
+
+      {modals.isErrorConnectionModalOpen && (
+        <Suspense fallback={null}>
+          <ErrorConnection
+            closeModal={closeErrorConnectionModal}
+            open={modals.isErrorConnectionModalOpen}
+          />
+        </Suspense>
+      )}
+
+      {/* Modales que se renderizan condicionalmente según su lógica interna */}
       <WelcomeGroupTour />
       <QualityFeedbackManager />
       <WelcomeLoadResource />
@@ -107,12 +127,7 @@ export const PanelPage = () => {
       <AddCollaboratorModal />
       <OrderV2 />
       <ModalReport />
-      <ErrorConnection
-        closeModal={closeErrorConnectionModal}
-        open={modals.isErrorConnectionModalOpen}
-      />
 
-      <Navbar />
       <Sidebar />
 
       <Suspense fallback={<Loader />}>

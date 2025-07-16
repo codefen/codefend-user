@@ -29,7 +29,10 @@ export const useSignupInvitation = () => {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
         handleSuccessfulLogin(data);
-        window.location.href = '/';
+        // 🚨 SOLUCIÓN: Dar tiempo para que el estado se persista antes de redirigir
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 200);
       })
       .catch((e: Error) => {
         toast.error(e.message);

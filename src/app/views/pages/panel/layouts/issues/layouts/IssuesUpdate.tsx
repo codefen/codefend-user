@@ -6,6 +6,7 @@ import IssueUpdatePanel from '../components/IssueUpdatePanel.tsx';
 import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import Show from '@/app/views/components/Show/Show.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const IssueUpdate: FC = () => {
   const { getIssue, isLoading, refetchOne } = useOneIssue();
@@ -26,6 +27,7 @@ const IssueUpdate: FC = () => {
           <IssueUpdatePanel issueData={getIssue} isLoading={isLoading} />
         </section>
         <section className="right">
+          <Navbar />
           <IssueChatDisplay id={id || '0'} />
         </section>
       </Show>

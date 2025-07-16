@@ -105,15 +105,18 @@ export enum WEB_PANEL_TEXT {
 }
 
 export enum AUTH_TEXT {
-  LOGIN_SUCCESS = 'Successfully logged in.',
-  REGISTER_PHASE_ONE = 'Registration successful. Please check your email to activate your account.',
-  FINISH_REGISTER = 'Registration complete. You can now sign in.',
-  INVALID_PASSWORD = 'Invalid password. Please provide a valid password.',
-  PASSWORD_NOT_MATCH = 'The passwords you sent do not match.',
+	LOGIN_SUCCESS = 'Successfully logged in.',
+	REGISTER_PHASE_ONE = 'Registration successful. Please check your email to activate your account.',
+	FINISH_REGISTER = 'Registration complete. You can now sign in.',
+	INVALID_PASSWORD = 'Invalid password. Please provide a valid password.',
+	PASSWORD_NOT_MATCH = 'The passwords you sent do not match.',
+	INVALID_DOMAIN = 'Please enter a valid domain (e.g., yourcompany.com). Emails are not allowed.',
+	DOMAIN_NOT_EMAIL = 'Business website must be a domain, not an email address.',
+	DOMAIN_INVALID_FORMAT = 'Invalid domain format. Please enter a valid domain like yourcompany.com',
 
-  SEND_RECOVERY_CODE = 'Please check your email inbox for the password recovery code.',
-  PASSWORD_UPDATED = 'Password successfully updated.',
-  FAILURE_PASSWORD_UPDATED = 'Unable to update the password. Please try generating a new recovery code.',
+	SEND_RECOVERY_CODE = 'Please check your email inbox for the password recovery code.',
+	PASSWORD_UPDATED = 'Password successfully updated.',
+	FAILURE_PASSWORD_UPDATED = 'Unable to update the password. Please try generating a new recovery code.',
 }
 
 export enum PROVIDER_PANEL_TEXT {

@@ -34,6 +34,9 @@ main.social {
         gap: 0;
 
         .tab-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
           padding: 0.75rem 1.5rem;
           border: none;
           background: transparent;
@@ -43,6 +46,10 @@ main.social {
           transition: all 0.3s ease;
           font-weight: 500;
           font-size: 0.9rem;
+
+          svg {
+            flex-shrink: 0;
+          }
 
           &:hover {
             color: var(--text-color-primary);
@@ -82,6 +89,11 @@ main.social {
       .item {
         height: 43px;
       }
+    }
+
+    .card .content-grid {
+      max-height: calc(100cqh - 170px);
+      overflow-y: auto;
     }
 
     .members-list {
@@ -173,16 +185,16 @@ main.social {
 
     .tabs-container {
       border-bottom: 1px solid var(--borders-color);
-      
+
       .tabs-header {
         .tab-button {
           color: var(--text-color-secondary);
-          
+
           &:hover {
             color: var(--text-color-primary);
             background: var(--hover-color);
           }
-          
+
           &.active {
             color: var(--primary-red-color);
             border-bottom-color: var(--primary-red-color);
@@ -263,6 +275,198 @@ main.social {
   }
   100% {
     opacity: 1;
+  }
+}
+
+// Estilos para skeleton de social cards
+.skeleton-social-card {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border: 1px solid #e8e8e8;
+  cursor: default;
+  
+  &.has-linkedin {
+    background: linear-gradient(90deg, #f8fbff 25%, #e8f4ff 50%, #f8fbff 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border: 1px solid #dce9ff;
+  }
+  
+  .social-card-info {
+    opacity: 0.7;
+    
+    .skeleton-text {
+      background: linear-gradient(90deg, #d0d0d0 25%, #c0c0c0 50%, #d0d0d0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 3px;
+      color: transparent;
+      
+      &.skeleton-id {
+        width: 50px;
+        height: 14px;
+        display: inline-block;
+        animation-delay: 0s;
+      }
+      
+      &.skeleton-email {
+        width: 180px;
+        height: 14px;
+        display: inline-block;
+        animation-delay: 0.1s;
+      }
+      
+      &.skeleton-name {
+        width: 120px;
+        height: 14px;
+        display: inline-block;
+        animation-delay: 0.2s;
+      }
+    }
+    
+    .skeleton-linkedin-icon {
+      opacity: 0.5;
+      animation: pulse 1.5s infinite;
+      animation-delay: 0.3s;
+    }
+    
+    .separator {
+      opacity: 0.3;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Dark theme support para skeleton
+[data-theme='dark'] {
+  .skeleton-social-card {
+    background: linear-gradient(90deg, #3a3a3a 25%, #2a2a2a 50%, #3a3a3a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border: 1px solid #4a4a4a;
+    
+    &.has-linkedin {
+      background: linear-gradient(90deg, #2a303a 25%, #1a252f 50%, #2a303a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border: 1px solid #3a4a6e;
+    }
+    
+    .social-card-info {
+      .skeleton-text {
+        background: linear-gradient(90deg, #5a5a5a 25%, #4a4a4a 50%, #5a5a5a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+    }
+  }
+}
+
+// Estilos para skeleton de LinkedIn
+.skeleton-linkedin-card {
+  background: linear-gradient(90deg, #f8fbff 25%, #e8f4ff 50%, #f8fbff 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border: 1px solid #dce9ff;
+  cursor: default;
+  
+  &:hover {
+    box-shadow: none;
+    border-color: #dce9ff;
+    transform: none;
+  }
+  
+  .linkedin-profile-image {
+    .skeleton-profile-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #d0d0d0 25%, #c0c0c0 50%, #d0d0d0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      animation-delay: 0.1s;
+    }
+  }
+  
+  .linkedin-profile-info {
+    .skeleton-text {
+      background: linear-gradient(90deg, #d0d0d0 25%, #c0c0c0 50%, #d0d0d0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+      color: transparent;
+      
+      &.skeleton-name-text {
+        width: 200px;
+        height: 20px;
+        display: block;
+        margin-bottom: 0.5rem;
+        animation-delay: 0.2s;
+      }
+      
+      &.skeleton-url-text {
+        width: 250px;
+        height: 16px;
+        display: block;
+        animation-delay: 0.3s;
+      }
+      
+      &.skeleton-email-text {
+        width: 180px;
+        height: 14px;
+        display: block;
+        animation-delay: 0.4s;
+      }
+    }
+    
+    .skeleton-linkedin-icon,
+    .skeleton-email-icon {
+      opacity: 0.3;
+      animation: pulse 1.5s infinite;
+    }
+    
+    .linkedin-profile-url,
+    .linkedin-profile-email {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.7;
+    }
+  }
+}
+
+// Dark theme support para skeleton de LinkedIn
+[data-theme='dark'] {
+  .skeleton-linkedin-card {
+    background: linear-gradient(90deg, #2a303a 25%, #1a252f 50%, #2a303a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border: 1px solid #3a4a6e;
+    
+    .linkedin-profile-image {
+      .skeleton-profile-image {
+        background: linear-gradient(90deg, #5a5a5a 25%, #4a4a4a 50%, #5a5a5a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+    }
+    
+    .linkedin-profile-info {
+      .skeleton-text {
+        background: linear-gradient(90deg, #5a5a5a 25%, #4a4a4a 50%, #5a5a5a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+    }
   }
 }
 
@@ -396,12 +600,12 @@ main.social {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      
+
       svg {
         color: #666;
         flex-shrink: 0;
       }
-      
+
       span {
         font-size: 0.85rem;
         color: #666;
@@ -453,7 +657,7 @@ main.social {
         svg {
           color: #cccccc;
         }
-        
+
         span {
           color: #cccccc;
         }

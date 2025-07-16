@@ -36,7 +36,7 @@ main.team-members {
   .right {
     height: 100%;
     margin-left: 0;
-    overflow-y: auto;
+    // overflow-y: auto;
     .card {
       margin-bottom: 12px;
     }
@@ -53,13 +53,13 @@ main.team-members {
     .left {
       flex: 3.5;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
 
     .right {
       flex: 2.5;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
   }
 
@@ -90,14 +90,214 @@ main.team-members {
   }
 }
 
+.company-info-card {
+  padding: 1.5rem 2rem 1.5rem 2rem;
+  background: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.company-info-card .header {
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.company-info-card .header h2 {
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin-bottom: 0.18rem;
+  line-height: 1.2;
+}
+
+.company-info-card .header p {
+  font-size: 0.98rem;
+  color: var(--tertiary-color-500);
+  margin-bottom: 0.7rem;
+  margin-top: 0;
+  line-height: 1.5;
+}
+
+.company-info-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.company-info-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 0.1rem;
+}
+
+.company-info-label {
+  min-width: 160px;
+  font-size: 0.98rem;
+  color: var(--tertiary-color-700);
+  font-weight: 500;
+}
+
+.company-info-input {
+  flex: 1;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--primary-color-300);
+  border-radius: 6px;
+  font-size: 0.98rem;
+  background: var(--primary-color-50);
+  color: var(--primary-color-900);
+}
+
+.company-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.company-info-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.98rem;
+  padding: 2px 0;
+}
+
+.company-info-list-label {
+  font-weight: 600;
+  color: var(--tertiary-color-700);
+  min-width: 120px;
+  font-family: satoshi, sans-serif;
+}
+
+.company-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.2rem;
+  background: transparent;
+  font-family: Questrial, sans-serif;
+}
+
+.company-info-table-row {
+  border-bottom: 1px solid var(--primary-color-300);
+}
+
+.company-info-table-label {
+  font-weight: 700;
+  color: var(--tertiary-color-400);
+  text-align: left;
+  padding: 8px 18px 8px 0;
+  width: 160px;
+  font-family: Questrial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  background: transparent;
+}
+
+.company-info-table-value {
+  color: var(--tertiary-color-300);
+  text-align: left;
+  padding: 8px 0 8px 0;
+  font-size: 14px;
+  font-family: Questrial, sans-serif;
+  background: transparent;
+}
+
+.company-info-table-row:last-child {
+  border-bottom: none;
+}
+
+// Nuevos estilos para la estructura mejorada
+.company-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.company-info-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--primary-color-200);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .single-line {
+    color: var(--tertiary-color-300);
+    font-size: 14px;
+    font-family: Questrial, sans-serif;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    // Hacer el label más oscuro para distinguirlo del valor
+    font-weight: 500;
+    
+    &.area-line {
+      .flag {
+        width: 20px;
+        height: 14px;
+        border-radius: 2px;
+        flex-shrink: 0;
+        vertical-align: middle;
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        
+        // Ajustar para que coincida con el tamaño del sprite sheet
+        background-size: 256px 176px;
+        
+        // Para tema oscuro
+        [data-theme='dark'] & {
+          border-color: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}
+
+// Responsive para dispositivos móviles
+@media only screen and (max-width: 768px) {
+  .company-info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    
+    .label {
+      min-width: unset;
+      font-size: 13px;
+    }
+    
+    .value {
+      font-size: 13px;
+    }
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  main.team-members {
+    .right {
+      display: none;
+    }
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   main.team-members {
     &.actived {
       // padding-inline-start: var(--card-space);
       gap: 0;
       outline: 0;
-      margin: 0;
       padding: 0;
+      margin-bottom: 0;
       margin-inline: auto;
 
       .left {

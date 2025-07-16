@@ -7,7 +7,7 @@ import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { OffensiveOrderModal } from './layouts/OffensiveOrderModal';
 import { AdditionalOrderModal } from './layouts/AdditionalOrderModal';
 import { PaymentMethodOrderModal } from './layouts/PaymentMethodOrderModal';
-import { ActiveProgressiveSteps } from '@/app/views/components/progressive-steps/ActiveProgressiveSteps';
+import { OrderProgressBar } from '@/app/views/components/progressive-steps/OrderProgressBar';
 import { WelcomeOrderModal } from './layouts/WelcomeOrderModal';
 import { OrderSection } from '@interfaces/order';
 import { useOrders, userOrderFinished } from '@hooks/orders/useOrders';
@@ -26,13 +26,12 @@ import { MobileScopeModal } from '@modals/order/layouts/scopes/MobileScopeModal'
 import { NetworkScopeModal } from '@modals/order/layouts/scopes/NetworkScopeModal';
 import { SocialScopeModal } from '@modals/order/layouts/scopes/SocialScopeModal';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import { PaywallMaxScanModal } from '@modals/order/layouts/PaywallMaxScanModal';
 
 // ESTE MAPA ES PARA CAMBIAR EL ANCHO DE LOS MODALES DE PRECIO
 // Por defecto antes todos tenias 700 fijos
 export const orderSectionMap: Record<OrderSection, number> = {
-  [OrderSection.PAYWALL]: 700,
-  [OrderSection.PAYWALL_MAX_SCAN]: 700,
+  [OrderSection.PAYWALL]: 800,
+  [OrderSection.PAYWALL_MAX_SCAN]: 800,
   [OrderSection.SCOPE]: 700,
   [OrderSection.WEB_SCOPE]: 700,
   [OrderSection.MOBILE_SCOPE]: 700,
@@ -54,8 +53,8 @@ export const orderSectionMap: Record<OrderSection, number> = {
 };
 
 export const orderSectionHeight: Record<OrderSection, number> = {
-  [OrderSection.PAYWALL]: 540,
-  [OrderSection.PAYWALL_MAX_SCAN]: 580,
+  [OrderSection.PAYWALL]: 700,
+  [OrderSection.PAYWALL_MAX_SCAN]: 700,
   [OrderSection.SCOPE]: 580,
   [OrderSection.WEB_SCOPE]: 580,
   [OrderSection.MOBILE_SCOPE]: 580,
@@ -116,7 +115,7 @@ export const OrderV2 = () => {
     if (isNextStep) return <PageLoader />;
     if (orderStepActive === OrderSection.PAYWALL) return <PaywallOrderModal close={close} />;
     if (orderStepActive === OrderSection.PAYWALL_MAX_SCAN)
-      return <PaywallMaxScanModal close={close} />;
+      return <PaywallOrderModal close={close} />;
     if (orderStepActive === OrderSection.SMALL_PLANS) return <SmallPlanOrderModal />;
     if (orderStepActive === OrderSection.ARABIC_PLAN) return <ArabicOrderModal />;
 
@@ -159,14 +158,15 @@ export const OrderV2 = () => {
         className="order-container"
         style={
           {
-            '--order-modal-width': `${orderSectionMap[orderStepActive]}px`,
-            '--order-modal-height': `${orderSectionHeight[orderStepActive]}px`,
+            '--order-modal-width': '1160px',
+            '--order-modal-height': '100%',
           } as any
         }>
         {orderStepActive !== OrderSection.PAYWALL &&
         orderStepActive !== OrderSection.SMALL_PLANS &&
         orderStepActive !== OrderSection.ALL_PLANS &&
         orderStepActive !== OrderSection.PAYWALL_MAX_SCAN ? (
+          <>
           <header className="order-header">
             <div className="order-header-title">
               <img
@@ -177,9 +177,10 @@ export const OrderV2 = () => {
               <h2>
                 <span>Execute a </span>new pentest
               </h2>
-              <ActiveProgressiveSteps orderStepActive={orderStepActive} />
             </div>
           </header>
+            <OrderProgressBar orderStepActive={orderStepActive} />
+          </>
         ) : null}
 
         <div className="orders-content">

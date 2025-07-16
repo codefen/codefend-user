@@ -3,9 +3,10 @@ import { useTelemetry } from './useTelemetry';
 export const usePaymentTelemetry = () => {
   const { trackEvent } = useTelemetry();
 
+  // Evento de telemetría: inicio de proceso de compra/pago
   const trackPaymentStart = (method: 'stripe' | 'crypto' | 'bank', orderId?: string, amount?: number) => {
     trackEvent({
-      event: "pago_inicio",
+      event: "compra_inicio",
       category: "pago",
       action: "iniciar_proceso",
       label: method,
@@ -14,9 +15,10 @@ export const usePaymentTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: compra/pago realizado correctamente
   const trackPaymentComplete = (method: 'stripe' | 'crypto' | 'bank', orderId?: string, amount?: number) => {
     trackEvent({
-      event: "pago_completado",
+      event: "compra_realizada",
       category: "pago",
       action: "finalizar_proceso",
       label: method,
@@ -25,9 +27,10 @@ export const usePaymentTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: error durante el proceso de compra/pago
   const trackPaymentError = (method: 'stripe' | 'crypto' | 'bank', error?: string, orderId?: string) => {
     trackEvent({
-      event: "pago_error",
+      event: "compra_error",
       category: "pago",
       action: "error_proceso",
       label: method,
@@ -36,9 +39,10 @@ export const usePaymentTelemetry = () => {
     });
   };
 
+  // Evento de telemetría: usuario selecciona método de pago
   const trackPaymentMethodSelection = (method: 'stripe' | 'crypto' | 'bank') => {
     trackEvent({
-      event: "pago_metodo_seleccionado",
+      event: "compra_medio",
       category: "pago",
       action: "seleccionar_metodo",
       label: method,

@@ -33,7 +33,6 @@ export const NavbarSubMenu: FC<NavbarSubMenuProps> = props => {
             close={() => setShowModal(!showModal)}
             action={() => {
               logout();
-              navigate('/auth/signin');
             }}
           />
         </ModalWrapper>

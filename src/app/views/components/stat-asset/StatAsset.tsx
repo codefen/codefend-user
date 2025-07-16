@@ -19,9 +19,9 @@ export const StatAsset: FC<StatAssetProps> = ({
 }) => {
   return (
     <div
-      className={`card stat ${isActive && 'stat-active'} ${!onClick && 'default'} ${borderStyle && 'border-stat'}`}
+      className={`card stat ${value == -1 ? 'skeleton-stat' : ''} ${isActive && 'stat-active'} ${!onClick && 'default'} ${borderStyle && 'border-stat'}`}
       onClick={onClick}>
-      <div className={'value'}>{value}</div>
+      <div className={`value`}>{value}</div>
       <p className={`${isRed && 'codefend-text-red-200'}`}>{valueTitle}</p>
     </div>
   );

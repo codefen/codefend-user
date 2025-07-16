@@ -132,6 +132,11 @@ body[data-theme='dark'] {
   max-width: var(--max-w-layout);
   margin: 0 auto;
   position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
 
 h2 {

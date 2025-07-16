@@ -1,18 +1,27 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
-import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
-import { useDashboard } from '@panelHooks/index';
+import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
 import '../../user-profile/userprofile.scss';
 import { CreateCompany } from '../components/CreateCompany';
 import { DeleteNeuroscans } from '../components/DeleteNeuroscans';
+import { NewUsersDaily } from '../components/NewUsersDaily';
+import { ActivityDashboard } from '../components/ActivityDashboard';
+import { ActivityStats } from '../components/ActivityStats';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const AdminSection: FC = () => {
-  const { isLoading, data } = useDashboard();
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
+  const { totals, fetchRegistrations } = useGetUserRegistrations();
+
+  // Cargar datos para las estadísticas
+  useEffect(() => {
+    fetchRegistrations();
+  }, [fetchRegistrations]);
 
   return (
-    <main className={`user-profile ${showScreen ? 'actived' : ''}`}>
+    <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left">
         <div className="card rectangle">
           <div className="over">
@@ -22,14 +31,19 @@ const AdminSection: FC = () => {
             </div>
           </div>
         </div>
+        
+        {/* Gráfico de actividad diaria - se muestra automáticamente */}
+        <ActivityDashboard />
+        
+        {/* <NewUsersDaily /> */}
+      </section>
+      <section className="right">
+        <Navbar />
+        <ActivityStats totals={totals} />
         <div className="box-assets">
           <DeleteNeuroscans />
           <CreateCompany />
         </div>
-      </section>
-      <section className="right">
-        <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
-        <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
       </section>
     </main>
   );

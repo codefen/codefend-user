@@ -20,6 +20,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useFiltersWithURL } from '@panelHooks/issues/useFiltersWithURL.ts';
 import { useFilteredIssues } from '@panelHooks/issues/useFilteredIssues.ts';
 import type { FilterState } from '@interfaces/issues.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const IssuesPanel: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -221,6 +222,7 @@ const IssuesPanel: FC = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <Navbar />
         <IssuePanelHeader openAddIssue={handleAddFinding} />
         <IssueReport
           handleFilter={handleFilters}

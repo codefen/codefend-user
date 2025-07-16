@@ -43,20 +43,21 @@ jobs:
           echo "VITE_NODE_ENV=production" >> .env
           echo "VITE_STRIPE_KEY_LIVE=${{ secrets.STRIPE_KEY }}" >> .env
           echo "VITE_STRIPE_KEY_TEST=${{ secrets.STRIPE_KEY_TEST }}" >> .env
+          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
           
       - name: 🔨 Run build client
         run: bun run build
 
-      - name: 🚀 Publish to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/maintenance/
-          server-dir: ./
-          protocol: ftp
-          dangerous-clean-slate: true
+      # - name: 🚀 Publish to FTP
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ${{ secrets.FTP_SERVER }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     local-dir: ./dist/maintenance/
+      #     server-dir: ./
+      #     protocol: ftp
+      #     dangerous-clean-slate: true
 
       - name: 🚀 Publish to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -67,6 +68,7 @@ jobs:
           local-dir: ./dist/
           server-dir: ./
           protocol: ftp
+          dangerous-clean-slate: true
 
       - name: 📤 Notify deployment status
         uses: bobheadxi/deployments@v1

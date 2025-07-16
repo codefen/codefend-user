@@ -17,6 +17,8 @@ import { useFiltersWithURL } from '@panelHooks/issues/useFiltersWithURL.ts';
 import { useFilteredIssues } from '@panelHooks/issues/useFilteredIssues.ts';
 import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -26,6 +28,7 @@ const IssuesPanel: FC = () => {
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
 
   const { filters, handleFilters } = useFiltersWithURL(issues);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const { filteredData, isFiltered } = useFilteredIssues(issues, filters);
 
   useEffect(() => {
@@ -44,7 +47,8 @@ const IssuesPanel: FC = () => {
 
   return (
     <SectionTracker sectionName="issues">
-      <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
+      <main
+        className={`issues-list ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <SelectAnyResourceModal issues={displayIssues} />
         {/* <div className="brightness variant-1"></div> */}
         <section className="left">
@@ -56,15 +60,17 @@ const IssuesPanel: FC = () => {
           />
         </section>
         <section className="right" ref={flashlight.rightPaneRef}>
+          <Navbar />
           <IssuePanelHeader openAddIssue={handleAddFinding} />
-          <IssueReport
-            handleFilter={handleFilters}
-            isLoading={isLoading}
-            issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
-            issues={issues}
-            currentFilters={filters}
-          />
-          {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
+          <div className="scrollable-content">
+            <IssueReport
+              handleFilter={handleFilters}
+              isLoading={isLoading}
+              issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+              issues={issues}
+              currentFilters={filters}
+            />
+            {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
           <div className="card only-button">
             <PrimaryButton
               text="GENERATE REPORT"
@@ -78,14 +84,16 @@ const IssuesPanel: FC = () => {
             />
           </div>
           */}
-          <VulnerabilitiesStatus
-            vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
-          />
+            <VulnerabilitiesStatus
+              isLoading={isLoading}
+              vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+            />
 
-          <VulnerabilityRisk
-            isLoading={isLoading}
-            vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
-          />
+            <VulnerabilityRisk
+              isLoading={isLoading}
+              vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+            />
+          </div>
         </section>
       </main>
     </SectionTracker>

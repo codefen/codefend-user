@@ -63,7 +63,7 @@ export const DashboardScanStart = () => {
   const [fetcher] = useFetcher();
   const { setIsOpen, setModalId, isOpen, modalId } = useModalStore();
   const [selectScan, setSelectScan] = useState<any>(null);
-  const { scanDashboardView } = useScanDashboardView();
+  const { scanDashboardView, isLoading } = useScanDashboardView();
   const navigate = useNavigate();
   const { currentScan, lastScanId } = useGlobalFastFields(['currentScan', 'lastScanId']);
   const { company } = useUserData();
@@ -131,7 +131,7 @@ export const DashboardScanStart = () => {
   ];
 
   return (
-    <div className="card stats">
+    <div className="card stats scan-start">
       <ModalTitleWrapper
         isActive={isOpen && modalId === MODAL_KEY_OPEN.START_KILL_SCAN}
         close={() => setIsOpen(false)}
@@ -146,32 +146,6 @@ export const DashboardScanStart = () => {
         />
       </ModalTitleWrapper>
       <div className="over">
-        {/* <Show when={isScanning.get}>
-            <>
-              <div className="header">
-                <div className="table-title">
-                  <h2>Scan in Progress</h2>
-                </div>
-              </div>
-              <p>
-                The automatic scanners are analyzing one of your web resources:{' '}
-                {currentScan.get?.resource_address}
-              </p>
-              <ScanProgressBar progress={scanProgress.get} />
-
-              <div className="content">
-                <StatAsset
-                  value={currentScan.get?.m_nllm_issues_found}
-                  valueTitle="Total Findings"
-                />
-                <StatAsset
-                  value={`${currentScan.get?.m_nllm_issues_parsed}/${currentScan.get?.m_nllm_issues_found}`}
-                  valueTitle="Analyzed findings"
-                />
-                <StatAsset value={`${Math.round(scanProgress.get)}%`} valueTitle="Progress" />
-              </div>
-            </>
-          </Show> */}
         <div className="header">
           <div className="table-title">
             <h2>Automatic scans</h2>
@@ -182,7 +156,9 @@ export const DashboardScanStart = () => {
         <Tablev3
           columns={scanColumns}
           rows={scanDashboardView}
-          showRows={scanDashboardView.length >= 0}
+          showSkeleton={isLoading}
+          totalRowCount={5}
+          showRows={true}
           contextMenuActions={scanActions}
           enableContextMenu={true}
         />

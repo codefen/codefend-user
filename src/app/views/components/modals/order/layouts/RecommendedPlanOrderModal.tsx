@@ -35,7 +35,8 @@ export const RecommendedPlanOrderModal = () => {
     sendPlanTeamSize(selectedPlan, plan.price, referenceNumber, orderId);
   };
 
-  const goBack = () => {
+  const handleClose = () => {
+    // Cerrar el modal o volver al paso anterior según sea necesario
     const resource = {
       [ResourcesTypes.WEB]: OrderSection.WEB_SCOPE,
       [ResourcesTypes.MOBILE]: OrderSection.MOBILE_SCOPE,
@@ -49,7 +50,25 @@ export const RecommendedPlanOrderModal = () => {
   };
 
   return (
-    <div className="step-content plan">
+    <div className="step-content plan" style={{ position: 'relative' }}>
+      <button 
+        className="close-button"
+        onClick={handleClose}
+        style={{
+          position: 'absolute',
+          right: '15px',
+          top: '15px',
+          background: 'none',
+          border: 'none',
+          fontSize: '24px',
+          cursor: 'pointer',
+          color: '#666',
+          zIndex: 10,
+        }}
+      >
+        ×
+      </button>
+      
       <div className="step-header">
         <h3>
           {/* <GlobeWebIcon /> */}
@@ -61,10 +80,14 @@ export const RecommendedPlanOrderModal = () => {
         </p>
       </div>
 
-      <div className="flex-box-row">
+      <div 
+        className="flex-box-row clickable-plan"
+        onClick={continueWithPlan}
+        style={{ cursor: 'pointer' }}
+      >
         <div className="flex-box-column">
           <ResourcePlanImage plan={plan.type} resourceType={resourceType} />
-          <span className="codefend-text-red title-format price">{plan.price}</span>
+          <span className="codefend-text-red title-format price">${plan.price}</span>
         </div>
         <ul className="plan-list">
           {plan.list.map((item: string, index: number) => (
@@ -83,16 +106,7 @@ export const RecommendedPlanOrderModal = () => {
       </p>
 
       <div className="button-wrapper next-btns">
-        <div className="secondary-container">
-          <PrimaryButton
-            text="Back"
-            click={goBack}
-            className="full"
-            buttonStyle="black"
-            disabledLoader
-          />
-        </div>
-        <div className="primary-container">
+        <div className="primary-container" style={{ margin: '0 auto' }}>
           <PrimaryButton
             text="Continue"
             click={continueWithPlan}

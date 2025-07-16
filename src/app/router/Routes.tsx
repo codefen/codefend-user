@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { useRoutes, Navigate, Outlet } from 'react-router-dom';
+import { useRoutes, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Loader } from '@/app/views/components/loaders/Loader';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import {
@@ -46,11 +46,32 @@ import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/Te
 import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
 import { OrdersPaymentsPage } from '@/app/views/pages/panel/layouts/orders-payments/OrdersPaymentsPage';
+import { OnboardingPage } from '@/app/views/pages/onboarding/OnboardingPage';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useEffect } from 'react';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
   const companies = useGlobalFastField('companies');
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+    let title = 'Codefend';
+    if (path === '/dashboard') title = 'Codefend: dashboard';
+    else if (path === '/team-members') title = 'Codefend: members';
+    else if (path === '/user-profile') title = 'Codefend: profile';
+    else if (path === '/orders-payments') title = 'Codefend: orders';
+    else if (path === '/web') title = 'Codefend: surface/web';
+    else if (path === '/network') title = 'Codefend: surface/wan';
+    else if (path === '/social') title = 'Codefend: surface/social';
+    else if (path === '/issues') title = 'Codefend: issues/index';
+    else if (/^\/issues\/[0-9]+$/.test(path)) title = 'Codefend: issues/view';
+    else if (path.startsWith('/ai-surveillance')) title = 'Codefend: ai surveillance';
+    else if (path === '/sns') title = 'Codefend: leaks explorer';
+    else if (path === '/ask-a-hacker') title = 'Codefend: ask a hacker';
+    document.title = title;
+  }, [location]);
 
   const isProviderWithAccess =
     isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null;
@@ -258,6 +279,11 @@ export const AppRouter = () => {
         { path: 'recovery', element: <PasswordRecovery /> },
         { path: 'recovery/:ref', element: <PasswordRecovery /> },
       ],
+    },
+    // Onboarding route (outside PanelPage to avoid sidebar)
+    {
+      path: '/onboarding',
+      element: <OnboardingPage />,
     },
   ]);
 

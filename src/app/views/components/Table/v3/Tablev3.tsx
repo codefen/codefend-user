@@ -38,7 +38,9 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   rows = [],
   columns,
   urlNav,
-  showRows,
+  showRows = true,
+  showSkeleton = false,
+  totalRowCount = -1,
   isActiveDisable = false,
   isNeedMultipleCheck = false,
   isNeedSearchBar = false,
@@ -116,7 +118,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 
   const memoizedValues: MemoizedValues = useMemo(() => {
     const flattenedLength = flattenedRows.length;
-    const hasFlattenedRows = virtualizedSortingResult.showSkeleton || Boolean(flattenedLength);
+    const hasFlattenedRows =
+      showSkeleton || virtualizedSortingResult.showSkeleton || Boolean(flattenedLength);
     const columnsCount = columns.length;
 
     return {
@@ -125,7 +128,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
       columnsCount,
       cellCount: columnsCount - 1,
     };
-  }, [flattenedRows, columns, virtualizedSortingResult.showSkeleton]);
+  }, [flattenedRows, columns, showSkeleton, virtualizedSortingResult.showSkeleton]);
 
   const virtualizationConfig = useVirtualizationConfig({
     containerRef: tableContainerRef,
@@ -241,7 +244,12 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
 
         <Show when={showRows} fallback={<PageLoader />}>
-          <div className="table-rows-container" style={{ position: 'relative' }}>
+          <div
+            className="table-rows-container"
+            style={{
+              position: 'relative',
+              minHeight: showSkeleton || virtualizedSortingResult.showSkeleton ? '300px' : 'auto',
+            }}>
             {virtualizedSortingResult.showSkeleton && rows.length > 0 && (
               <TableSkeleton
                 totalRowCount={virtualizedSortingResult.totalRowCount}
@@ -250,9 +258,18 @@ const Tablev3: FC<Tablev3Props<any>> = ({
                 columns={columns}
               />
             )}
+            {showSkeleton && (
+              <TableSkeleton
+                totalRowCount={totalRowCount}
+                rowsLength={totalRowCount}
+                isNeedMultipleCheck={isNeedMultipleCheck}
+                columns={columns}
+              />
+            )}
 
             {shouldUseVirtualization ? (
-              <div className="rows-virtualized-dynamic">
+              <div
+                className={`rows-virtualized-dynamic ${showSkeleton || virtualizedSortingResult.showSkeleton ? 'skeleton-active' : ''}`}>
                 <TableRowsV3VirtualizedDynamic
                   columns={columns}
                   rows={flattenedRows}
@@ -271,7 +288,9 @@ const Tablev3: FC<Tablev3Props<any>> = ({
                 />
               </div>
             ) : (
-              <div className={`rows ${hasScroll ? 'rows-with-scroll' : ''}`} ref={rowRef}>
+              <div
+                className={`rows ${showSkeleton || virtualizedSortingResult.showSkeleton ? 'skeleton-active' : ''} ${hasScroll ? 'rows-with-scroll' : ''}`}
+                ref={rowRef}>
                 <TableRowsV3
                   columns={columns}
                   rows={flattenedRows}
@@ -292,7 +311,10 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
         <Show
           when={
-            showRows && !memoizedValues.hasFlattenedRows && !virtualizedSortingResult.showSkeleton
+            showRows &&
+            !showSkeleton &&
+            !memoizedValues.hasFlattenedRows &&
+            !virtualizedSortingResult.showSkeleton
           }>
           <EmptyCard info={emptyInfo} title={emptyTitle} icon={emptyIcon} />
         </Show>

@@ -5,6 +5,7 @@ import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
 import './inx.scss';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const InxPanel = () => {
   const [showScreen, control, _refresh] = useShowScreen();
@@ -21,6 +22,7 @@ const InxPanel = () => {
         <InxSearchAndData refetch={refetch} />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <Navbar />
         <InxPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
       </section>
     </main>

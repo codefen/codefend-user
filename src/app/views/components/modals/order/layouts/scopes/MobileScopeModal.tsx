@@ -111,10 +111,12 @@ export const MobileScopeModal = () => {
           onChange={() => setAcceptCondition(!acceptConditions)}
         />
         <label htmlFor="confirmation" className="confirm-label">
-          <span className="codefend-text-red underline-high disclaimers" title="Open disclaimers">
-            I confirm I have authorization
+          <span 
+            className={`disclaimers ${tryClick && !acceptConditions ? 'error' : ''}`}
+            title="Open disclaimers"
+          >
+            I have authorization and I accept the terms and conditions{tryClick && !acceptConditions ? ' ⚠️' : ''}
           </span>
-          <span>and I've read and accept the disclaimer.</span>
         </label>
         <OrderErrorMessage tryClick={tryClick} acceptConditions={acceptConditions} />
       </div>

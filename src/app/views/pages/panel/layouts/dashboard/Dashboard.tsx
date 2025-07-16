@@ -14,9 +14,13 @@ import { useEffect } from 'react';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { CardSkeleton } from '@/app/views/components/CardSkeleton/CardSkeleton.tsx';
+import { useMediaQuery } from 'usehooks-ts';
 
 const Dashboard = () => {
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const { isLoading, data, isScanning, company } = useDashboard();
   const { appEvent, userLoggingState, scaningProgress, currentScan, lastScanId } =
     useGlobalFastFields([
@@ -33,6 +37,10 @@ const Dashboard = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.title = 'Codefend: Dashboard';
+  }, []);
+
   const openScan = () => {
     if (isScanning.get) {
       currentScan.set(null);
@@ -42,28 +50,37 @@ const Dashboard = () => {
 
   return (
     <SectionTracker sectionName="dashboard">
-      <main className={`dashboard ${showScreen ? 'actived' : ''}`}>
+      <main
+        className={`dashboard ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         {/* <div className="brightness variant-1"></div>
-        <div className="brightness variant-2"></div> */}
+      <div className="brightness variant-2"></div> */}
 
         <section className="left">
+          <DashboardScanStart />
           {!isScanning.get &&
           (Number(company.get?.disponibles_neuroscan) <= 0 || data?.issues?.length > 0) ? (
-            <DashboardVulnerabilities isLoading={isLoading} topVulnerabilities={data?.issues || []} />
+            <DashboardVulnerabilities
+              isLoading={isLoading}
+              topVulnerabilities={data?.issues || []}
+            />
           ) : !isLoading ? (
             <DashboardInvoke isScanning={isScanning.get} openScan={openScan} />
           ) : (
-            <PageLoader />
+            <CardSkeleton />
           )}
           <div className="box-assets">
-            <DashboardAddResource data={data} />
+            <DashboardAddResource data={data} isLoading={isLoading} />
             <DashboardAddCollaborators isLoading={isLoading} data={data} />
           </div>
         </section>
 
         <section className="right">
+          {/* <Navbar /> */}
           <DashboardScanStart />
-          <VulnerabilitiesStatus vulnerabilityByShare={data?.issues_condicion || {}} />
+          <VulnerabilitiesStatus
+            isLoading={isLoading}
+            vulnerabilityByShare={data?.issues_condicion || {}}
+          />
           <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
         </section>
       </main>

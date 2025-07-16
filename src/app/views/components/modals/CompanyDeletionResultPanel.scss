@@ -1,0 +1,378 @@
+.company-deletion-panel {
+  position: fixed;
+  width: 380px;
+  min-height: 280px; // Altura mínima consistente
+  max-height: 80vh;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e9ecef;
+  z-index: 1000;
+  overflow-y: auto;
+  animation: panelSlideIn 0.3s ease-out;
+  
+  // Transiciones suaves para reposicionamiento automático
+  transition: 
+    top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+    opacity 0.5s ease-out, 
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  @keyframes panelSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes panelFadeOut {
+    from {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(50%) scale(0.95);
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+    transform: translateY(-3px) translateX(-5px);
+    z-index: 1001; // Elevar el panel en hover
+  }
+
+  // Estado de cierre con fadeout
+  &.closing {
+    animation: panelFadeOut 0.5s ease-out forwards;
+    pointer-events: none; // Deshabilitar interacciones durante el cierre
+    z-index: 999; // Bajar z-index durante cierre
+  }
+
+  // Barra de progreso para auto-cierre
+  .auto-close-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: rgba(220, 53, 69, 0.2);
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+    z-index: 1;
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #dc3545 0%, #ff4757 100%);
+      transition: width 0.05s linear;
+      border-radius: 16px 16px 0 0;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 100%;
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
+        animation: progressShine 2s ease-in-out infinite;
+      }
+
+      @keyframes progressShine {
+        0%, 100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.company-deletion-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 12px 24px;
+  border-bottom: 1px solid #e9ecef;
+
+  .success-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .panel-position-indicator {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'satoshi', sans-serif;
+    box-shadow: 0 2px 6px rgba(108, 117, 125, 0.3);
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+      transform: scale(1.05);
+    }
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f8f9fa;
+      color: #dc3545;
+      transform: scale(1.1);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.company-deletion-panel-content {
+  padding: 0 24px 24px 24px;
+
+  .panel-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #212529;
+    margin: 0 0 16px 0;
+    text-align: center;
+  }
+
+  .company-info {
+    margin-bottom: 20px;
+
+    .company-details {
+      font-size: 14px;
+      color: #495057;
+      text-align: center;
+      margin: 0;
+      line-height: 1.5;
+      background-color: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 4px solid #28a745;
+
+      strong {
+        color: #212529;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
+  }
+
+  .deletion-summary {
+    margin-bottom: 20px;
+
+    .summary-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #212529;
+      margin: 0 0 12px 0;
+      border-bottom: 2px solid #dee2e6;
+      padding-bottom: 6px;
+    }
+
+    .deletion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .deletion-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      border-left: 3px solid #28a745;
+      font-size: 13px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #e9ecef;
+        transform: translateX(3px);
+      }
+
+      .count {
+        font-size: 16px;
+        font-weight: 700;
+        color: #28a745;
+        min-width: 32px;
+        text-align: center;
+        background-color: rgba(40, 167, 69, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .description {
+        font-weight: 500;
+        color: #495057;
+        flex: 1;
+        font-size: 12px;
+      }
+    }
+
+    .total-summary {
+      border-top: 1px solid #dee2e6;
+      padding-top: 12px;
+
+      .total-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+
+        .total-label {
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .total-count {
+          font-size: 18px;
+          font-weight: 700;
+          background-color: rgba(255, 255, 255, 0.2);
+          padding: 4px 8px;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+
+  .panel-actions {
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
+
+    .close-panel-button {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      border: none;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+
+      &:hover {
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .company-deletion-panel {
+    width: 320px;
+    right: 10px !important;
+    top: 10px !important;
+  }
+
+  .company-deletion-panel-header,
+  .company-deletion-panel-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .deletion-item {
+    .description {
+      font-size: 11px;
+    }
+  }
+}
+
+// Tema oscuro (si es necesario)
+.dark-theme {
+  .company-deletion-panel {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-color: #4a5568;
+    color: #e2e8f0;
+
+    .company-deletion-panel-header {
+      border-bottom-color: #4a5568;
+    }
+
+    .panel-title {
+      color: #e2e8f0;
+    }
+
+    .company-details {
+      background-color: #2d3748;
+      color: #cbd5e0;
+
+      strong {
+        color: #e2e8f0;
+      }
+    }
+
+    .summary-title {
+      color: #e2e8f0;
+      border-bottom-color: #4a5568;
+    }
+
+    .deletion-item {
+      background-color: #2d3748;
+      border-left-color: #48bb78;
+
+      &:hover {
+        background-color: #4a5568;
+      }
+
+      .description {
+        color: #cbd5e0;
+      }
+    }
+
+    .total-summary {
+      border-top-color: #4a5568;
+    }
+  }
+} 

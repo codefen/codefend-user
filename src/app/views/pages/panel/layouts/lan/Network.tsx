@@ -22,12 +22,15 @@ import { NetworkVisualization } from '@/app/views/components/NetworkVisualizatio
 import { WorldMapView } from '@/app/views/components/NetworkVisualization/WorldMapView.tsx';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
 import { NetworkOutlineIcon } from '@icons';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 // Definir tipo para las pestañas - 3 vistas distintas
 type NetworkViewType = 'network' | 'cards' | 'locations';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const [activeTab, setActiveTab] = useState<NetworkViewType>('cards'); // Default to cards view
   const {
     networks,
@@ -81,7 +84,7 @@ const NetworkPage: FC = () => {
 
   return (
     <EmptyLayout
-      className="lan"
+      className={`lan ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={networkEmptyScreen}
       event={refetch}
       showScreen={showScreen}
@@ -93,24 +96,25 @@ const NetworkPage: FC = () => {
       <AddSubNetworkModal appEvent={appEvent} internalNetwork={networks ?? []} />
       <section className="left">
         <div className="card">
-          <SimpleSection header="Network Infrastructure" icon={<NetworkOutlineIcon />}>
+          <SimpleSection icon={<NetworkOutlineIcon />}>
             {/* Sistema de tabs debajo del título */}
             <div className="tabs-container">
               <div className="tabs-header">
                 <button
                   className={`tab-button ${activeTab === 'cards' ? 'active' : ''}`}
                   onClick={() => handleViewChange('cards')}>
-                  📋 Resource Cards
-                </button>
-                <button
-                  className={`tab-button ${activeTab === 'network' ? 'active' : ''}`}
-                  onClick={() => handleViewChange('network')}>
-                  🔗 Network Visualization
+                  📋 cards
                 </button>
                 <button
                   className={`tab-button ${activeTab === 'locations' ? 'active' : ''}`}
                   onClick={() => handleViewChange('locations')}>
-                  🌍 Server Locations
+                  🌍 Infra Geolocation
+                </button>
+                {/* TODO: Este tab está pendiente de revisión de accesibilidad */}
+                <button
+                  className={`tab-button ${activeTab === 'network' ? 'active' : ''}`}
+                  onClick={() => handleViewChange('network')}>
+                  🔗 Network Visualization
                 </button>
               </div>
             </div>
@@ -121,12 +125,13 @@ const NetworkPage: FC = () => {
 
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
+          <Navbar />
           <AddNetworkBlock />
-          <NetworkStatics
+          {/* <NetworkStatics
             externalIpCount={externalIpCount.get}
             internalIpCount={internalIpCount.get}
             totalNotUniqueIpCount={totalNotUniqueIpCount.get}
-          />
+          /> */}
           <OpenOrderButton
             className="primary-full"
             type={ResourcesTypes.NETWORK}

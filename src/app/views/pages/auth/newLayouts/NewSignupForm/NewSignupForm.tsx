@@ -1,27 +1,45 @@
+/**
+ * Formulario de Registro Multi-Paso (3 Fases) - UNIFICADO
+ *
+ * Este componente maneja el proceso completo de registro de usuario:
+ * - STEP_ONE: Información personal (nombre, apellido, email)
+ * - STEP_TWO: Verificación de email (código de confirmación)
+ * - STEP_THREE: Configuración de contraseña y username
+ *
+ * NOTA: Los datos de empresa se capturan en el onboarding post-registro
+ *
+ * Integración con backend:
+ * - Fase 1: POST /api?model=users/new&phase=1 (crear lead sin datos empresa)
+ * - Fase 2: POST /api?model=users/new&phase=2 (obtener username recomendado)
+ * - Fase 3: signUpFinish() (crear usuario final)
+ * - Post-login: Redirección a onboarding para capturar datos de empresa
+ *
+ * @author Codefend Team
+ * @version 3.0 (Flujo Unificado + Google OAuth)
+ */
+
 import { ModalWrapper } from '@modals/index';
 import { useEffect, useState, type FormEvent } from 'react';
 import css from './signinform.module.scss';
-import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
-import { defaultCountries } from '@/app/constants/countries';
 import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
-import { toast } from 'react-toastify';
+import { toast } from '@/app/data/utils';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
 import { useLocation, useParams, useSearchParams } from 'react-router';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { idiomOptions, SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
+import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
-import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
-import { useInitialDomainStore } from '@stores/initialDomain.store';
 import { ProgressBar } from '@/app/views/components/ProgressBar/ProgressBar';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
-import SelectField from '@/app/views/components/SelectField/SelectField';
 import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 import { sendEventToGTM } from '@utils/gtm';
+import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
+import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
+import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
+import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -64,21 +82,26 @@ export const NewSignupForm = () => {
   const [lead_reference_number, setLeadReferenceNumber] = useState('');
   const [username, setRecommendedUsername] = useState('');
   const [specialLoading, setLoading] = useState(false);
-  const { signUpFinish, isLoading: loadingFinish, lead, country } = useRegisterPhaseTwo();
+  const { signUpFinish, isLoading: loadingFinish, lead } = useRegisterPhaseTwo();
+  const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
+  const { trackSignupVisit } = usePageTracking();
   const [searchParams] = useSearchParams();
-  const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
   const { ref } = useParams();
-  const { update } = useInitialDomainStore();
 
   useEffect(() => {
-    // Evento GTM: Inicio del proceso de creación de usuario
-    sessionStorage.setItem("nuevo_usuario", Date.now().toString());
+    // Evento de telemetría: inicio del proceso de registro de usuario
+    sessionStorage.setItem('nuevo_usuario', Date.now().toString());
     sendEventToGTM({
-      event: "usuario_creacion_acceso",
-      category: "registro",
-      action: "inicio_proceso",
-      label: "carga_pagina",
+      event: 'usuario_creacion_acceso',
+      category: 'registro',
+      action: 'inicio_proceso',
+      label: 'carga_pagina',
+    });
+
+    // Tracking de página visitada para el gráfico de administración (no-bloqueante)
+    trackSignupVisit().catch(error => {
+      console.warn('⚠️ Tracking signup falló (no crítico):', error);
     });
 
     const code = searchParams.get('code') || ref;
@@ -86,7 +109,7 @@ export const NewSignupForm = () => {
       setLoading(true);
       getRecommendedUsername(code)
         .then(() => {
-          setActiveStep(SignUpSteps.STEP_FOUR);
+          setActiveStep(SignUpSteps.STEP_THREE);
           lead.set({});
         })
         .finally(() => setLoading(false));
@@ -96,84 +119,164 @@ export const NewSignupForm = () => {
   const goBackValidateMe = (goTo: SignUpSteps) => {
     setActiveStep(goTo);
   };
+
+  const handleGoogleSuccess = async (credential: string) => {
+    try {
+      // Evento de telemetría: inicio de registro con Google
+      sendEventToGTM({
+        event: 'usuario_creacion_google_iniciado',
+        category: 'registro',
+        action: 'google_oauth',
+        label: 'inicio_proceso',
+      });
+
+      const result = await handleGoogleAuth(credential, 'signup');
+
+      if (result.success) {
+        // Evento de telemetría: registro exitoso con Google
+        sendEventToGTM({
+          event: 'usuario_creacion_google_exitoso',
+          category: 'registro',
+          action: 'google_oauth',
+          label: 'registro_exitoso',
+        });
+
+        // Verificar si necesita onboarding
+        if (result.needs_onboarding) {
+          // Redirigir al onboarding para capturar datos de empresa
+          // console.log('🚀 Google OAuth - Usuario necesita onboarding, redirigiendo...');
+          window.location.href = '/onboarding';
+        } else {
+          // Redirigir al dashboard si ya completó onboarding
+          // console.log('✅ Google OAuth - Usuario ya completó onboarding, ir al dashboard');
+          window.location.href = '/';
+        }
+      }
+    } catch (error) {
+      // Evento de telemetría: error en registro con Google
+      sendEventToGTM({
+        event: 'usuario_creacion_google_error',
+        category: 'registro',
+        action: 'google_oauth',
+        label: 'registro_error',
+      });
+    }
+  };
+
+  const handleGoogleError = (error: string) => {
+    console.error('Google Auth Error:', error);
+    // Evento de telemetría: error en autenticación con Google
+    sendEventToGTM({
+      event: 'usuario_creacion_google_error',
+      category: 'registro',
+      action: 'google_oauth',
+      label: 'auth_error',
+    });
+  };
+
+  // Función para generar password aleatorio siguiendo el patrón especificado
+  const generateRandomPassword = () => {
+    // Caracteres permitidos basados en los ejemplos
+    const allowedLetters = 'zbxcnmuioqerashkl';
+    const allowedLettersUppercase = allowedLetters.toUpperCase(); // ZBXCNMUIOQERASHKL
+    const allowedNumbers = '0123456789';
+    const allowedSymbols = '!,<';
+
+    // Combinar todos los caracteres (sin mayúsculas para el resto)
+    const allCharsForMiddle = allowedLetters + allowedNumbers + allowedSymbols;
+
+    // Generar longitud aleatoria entre 20 y 25 caracteres
+    const length = Math.floor(Math.random() * 6) + 20;
+
+    let password = '';
+
+    for (let i = 0; i < length; i++) {
+      if (i === 0) {
+        // Primera letra: siempre mayúscula
+        password += allowedLettersUppercase.charAt(Math.floor(Math.random() * allowedLettersUppercase.length));
+      } else {
+        // Resto del password: usar cualquier carácter permitido
+        password += allCharsForMiddle.charAt(Math.floor(Math.random() * allCharsForMiddle.length));
+      }
+    }
+
+    return password;
+  };
+
+  // Función para generar password y copiar al clipboard
+  const handleGeneratePassword = async () => {
+    try {
+      const generatedPassword = generateRandomPassword();
+
+      // Establecer el password en ambos inputs
+      setPassword(generatedPassword);
+      setConfirmPassword(generatedPassword);
+
+      // Hacer visible los passwords
+      setShowPasswords(true);
+
+      // Copiar al clipboard
+      await navigator.clipboard.writeText(generatedPassword);
+
+      // Evento de telemetría
+      sendEventToGTM({
+        event: 'usuario_creacion_password_generado',
+        category: 'registro',
+        action: 'generar_password',
+        label: 'password_aleatorio',
+      });
+    } catch (error) {
+      console.error('Error generating password:', error);
+      toast.error('Failed to generate password. Please try again.');
+    }
+  };
   const nextFirstStep = (e: FormEvent) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
-    const formObject = Object.fromEntries(form.entries()); // Se extraen los datos del formulario
-    // Se extrae el numero de telefono de forma correcta, debido a que el input esta en dos partes
-    // const fullNumberRaw = formObject?.['lead_phone'] as string;
-    // const [areaCode, number] = fullNumberRaw.split(/\*+/);
+    const formObject = Object.fromEntries(form.entries());
+
     lead.set({
       ...lead.get,
       lead_fname: formObject?.['lead_fname'] as string,
       lead_lname: formObject?.['lead_lname'] as string,
       lead_email: formObject?.['lead_email'] as string,
-      // lead_phone: number,
     });
-    // formObject['lead_phone'] = `${areaCode}${number}`;
+
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
-    
-    // Evento GTM: Completado datos personales
-    const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
-    sendEventToGTM({
-      event: "usuario_creacion_informacion_personal",
-      category: "registro",
-      action: "completar_paso",
-      label: "datos_personales",
-      demora: Date.now() - tiempoInicio,
-    });
-    
-    // Nuevo paso
-    setActiveStep(SignUpSteps.STEP_TWO);
-  };
 
-  const nextSecondStep = (e: FormEvent) => {
-    e.preventDefault();
-    const data = localStorage.getItem('signupFormData');
-    const form = new FormData(e.currentTarget as HTMLFormElement);
-    if (data) {
-      Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
-    }
-    saveInitialDomain((form.get('company_web') as string) || '');
+    // Agregar datos requeridos por el backend
     form.append('idiom', 'en');
-    lead.set({
-      ...lead.get,
-      company_name: form?.get('company_name') as string,
-      company_web: form?.get('company_web') as string,
-      company_size: form?.get('company_size') as string,
-      idiom: form?.get('idiom') as string,
-    });
-    form.append(
-      'company_area',
-      defaultCountries?.filter(i => i?.alpha2Code === country?.get)?.[0]?.name
-    );
-
     form.append('reseller_id', '1');
     form.append('reseller_name', 'codefend');
-
-    // Endpoint reference
     form.append('phase', '1');
     form.append('model', 'users/new');
-    const formObject = Object.fromEntries(form.entries());
-    fetcher('post', { body: formObject, requireSession: false }).then(({ data }: any) => {
-      if (apiErrorValidation(data)) {
-        toast.error(data?.info || 'An unexpected error has occurred');
-        throw new Error('');
-      }
-      
-      // Evento GTM: Completado datos de empresa
-      const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
-      sendEventToGTM({
-        event: "usuario_creacion_informacion_empresa",
-        category: "registro",
-        action: "completar_paso",
-        label: "datos_empresa",
-        demora: Date.now() - tiempoInicio,
+
+    const formRequestObject = Object.fromEntries(form.entries());
+
+    // Enviar datos al backend para crear lead
+    fetcher('post', { body: formRequestObject, requireSession: false })
+      .then(({ data }: any) => {
+        if (apiErrorValidation(data)) {
+          toast.error(data?.info || 'An unexpected error has occurred');
+          throw new Error('');
+        }
+
+        // Evento de telemetría: completado datos personales en registro
+        const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
+        sendEventToGTM({
+          event: 'usuario_creacion_informacion_personal',
+          category: 'registro',
+          action: 'completar_paso',
+          label: 'datos_personales',
+          demora: Date.now() - tiempoInicio,
+        });
+
+        // Ir directamente a verificación de email (saltamos el paso de empresa)
+        setActiveStep(SignUpSteps.STEP_TWO);
+      })
+      .catch(() => {
+        // Error ya manejado por toast
       });
-      
-      setActiveStep(SignUpSteps.STEP_THREE);
-      update('initialDomain', form?.get('company_web') as string);
-    });
   };
 
   const getRecommendedUsername = (code: string) => {
@@ -199,17 +302,17 @@ export const NewSignupForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const referenceNumber = form.get?.('lead_reference_number') as unknown as string;
     getRecommendedUsername(referenceNumber).then(() => {
-      // Evento GTM: Completado número de referencia
-      const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+      // Evento de telemetría: completado número de referencia en registro
+      const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
       sendEventToGTM({
-        event: "usuario_creacion_informacion_reference_number",
-        category: "registro",
-        action: "completar_paso",
-        label: "numero_referencia",
+        event: 'usuario_creacion_informacion_reference_number',
+        category: 'registro',
+        action: 'completar_paso',
+        label: 'numero_referencia',
         demora: Date.now() - tiempoInicio,
       });
-      
-      setActiveStep(SignUpSteps.STEP_FOUR);
+
+      setActiveStep(SignUpSteps.STEP_THREE);
       lead.set({});
     });
   };
@@ -231,30 +334,35 @@ export const NewSignupForm = () => {
     const formObject = Object.fromEntries(form.entries());
     signUpFinish(formObject).then((res: any) => {
       if (res.pass) {
-        // Evento GTM: Completado contraseña
-        const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+        // Evento de telemetría: completado contraseña en registro
+        const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
         sendEventToGTM({
-          event: "usuario_creacion_informacion_password",
-          category: "registro",
-          action: "completar_paso",
-          label: "contraseña",
+          event: 'usuario_creacion_informacion_password',
+          category: 'registro',
+          action: 'completar_paso',
+          label: 'contraseña',
           demora: Date.now() - tiempoInicio,
         });
-        
-        // Evento GTM: Finalización completa del proceso
+
+        // Evento de telemetría: finalización completa del proceso de registro
         sendEventToGTM({
-          event: "usuario_creacion_finalizacion",
-          category: "registro",
-          action: "finalizar_proceso",
-          label: "registro_completo",
+          event: 'usuario_creacion_finalizacion',
+          category: 'registro',
+          action: 'finalizar_proceso',
+          label: 'registro_completo',
           demora_total: Date.now() - tiempoInicio,
         });
-        
-        //if (user?.accessRole == 'user') navigate('/');
-        //if (user?.accessRole == 'admin') navigate('/admin');
-        //if (user?.accessRole == 'provider') navigate('/provider/profile');
-        //navigate('/');
-        window.location.href = '/';
+
+        // Verificar si necesita onboarding
+        if (res.needs_onboarding) {
+          // Redirigir al onboarding para capturar datos de empresa
+          // console.log('🚀 Usuario necesita onboarding, redirigiendo...');
+          window.location.href = '/onboarding';
+        } else {
+          // Redirigir al dashboard si ya completó onboarding
+          // console.log('✅ Usuario ya completó onboarding, ir al dashboard');
+          window.location.href = '/';
+        }
       }
     });
   };
@@ -269,6 +377,19 @@ export const NewSignupForm = () => {
 
         {/* Primer paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
+          {/* Línea separadora arriba del botón de Google */}
+          <hr className="onboarding-separator" />
+
+          {/* Botón de Google OAuth - Solo en el primer paso */}
+          <GoogleAuthButton
+            text="Registrarse con Google"
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            disabled={isLoading || isGoogleLoading}
+            mode="signup"
+          />
+          <hr className="onboarding-separator" />
+
           <form onSubmit={nextFirstStep}>
             {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
             <ProgressBar activeStep={activeStep} />
@@ -308,70 +429,8 @@ export const NewSignupForm = () => {
           </form>
         </Show>
 
-        {/* Segundo paso del formulario */}
+        {/* Segundo paso del formulario - VERIFICACIÓN DE EMAIL */}
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
-          <form onSubmit={nextSecondStep}>
-            <ProgressBar activeStep={activeStep} />
-            <AuthInput
-              placeholder="Business website"
-              name="company_web"
-              defaultValue={lead.get.company_web}
-              setVal={e => {
-                const domain = e.target.value.toLowerCase();
-                const companyNameInput = document.querySelector(
-                  'input[name="company_name"]'
-                ) as HTMLInputElement;
-                if (companyNameInput && domain) {
-                  // Extraer el nombre de la compañía del dominio
-                  const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
-                  const companyName = cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
-                  companyNameInput.value = companyName;
-                }
-              }}
-              required
-            />
-            <AuthInput
-              placeholder="Business name"
-              name="company_name"
-              defaultValue={lead.get.company_name}
-              required
-            />
-            <SelectField
-              name="company_size"
-              options={[
-                { value: '', label: 'Select Company Size', hidden: true },
-                ...companySizesList.map(company => ({
-                  value: company.value,
-                  label: company.label,
-                })),
-              ]}
-              defaultValue={lead.get.company_size}
-              required
-            />
-            {/* <div style={{ display: 'none' }}>
-              <SelectField
-                name="idiom"
-                options={idiomOptions}
-                defaultValue={lead.get.idiom || 'en'}
-                required
-              />
-            </div> */}
-            <div className={`form-buttons ${css['form-btns']}`}>
-              <button
-                type="button"
-                className={`btn btn-gray`}
-                onClick={() => goBackValidateMe(SignUpSteps.STEP_ONE)}>
-                back
-              </button>
-              <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
-                validate me!
-              </button>
-            </div>
-          </form>
-        </Show>
-
-        {/* Tercer paso del formulario */}
-        <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextThreeStep}>
             <ProgressBar activeStep={activeStep} />
             <CheckEmail
@@ -383,7 +442,7 @@ export const NewSignupForm = () => {
               <button
                 type="button"
                 className={`btn btn-gray`}
-                onClick={() => goBackValidateMe(SignUpSteps.STEP_TWO)}>
+                onClick={() => goBackValidateMe(SignUpSteps.STEP_ONE)}>
                 back
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
@@ -393,8 +452,8 @@ export const NewSignupForm = () => {
           </form>
         </Show>
 
-        {/* Cuarto paso del formulario */}
-        <Show when={activeStep === SignUpSteps.STEP_FOUR && !specialLoading}>
+        {/* Tercer paso del formulario - CONFIGURACIÓN DE CONTRASEÑA */}
+        <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextFourStep}>
             <ProgressBar activeStep={activeStep} />
             <div className={css['password-input-wrapper']}>
@@ -402,6 +461,7 @@ export const NewSignupForm = () => {
                 type={showPasswords ? 'text' : 'password'}
                 placeholder="Password"
                 name="password"
+                value={password}
                 setVal={e => setPassword(e.target.value)}
                 autoComplete="off"
                 required
@@ -419,6 +479,7 @@ export const NewSignupForm = () => {
               <AuthInput
                 type={showPasswords ? 'text' : 'password'}
                 placeholder="Confirm Password"
+                value={confirmPassword}
                 setVal={e => setConfirmPassword(e.target.value)}
                 autoComplete="off"
                 required
@@ -435,11 +496,8 @@ export const NewSignupForm = () => {
             <PasswordRequirements password={password} />
 
             <div className={`form-buttons ${css['form-btns']}`}>
-              <button
-                type="button"
-                className={`btn btn-gray`}
-                onClick={() => goBackValidateMe(SignUpSteps.STEP_THREE)}>
-                go back
+              <button type="button" className={`btn btn-black`} onClick={handleGeneratePassword}>
+                Use a random pass
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
                 continue

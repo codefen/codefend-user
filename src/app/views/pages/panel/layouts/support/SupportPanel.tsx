@@ -13,6 +13,7 @@ import {
 import { AddNewTicketBox } from '@/app/views/pages/panel/layouts/support/components/AddNewTicketBox';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { SupperEmptyDisplay } from '@/app/views/pages/panel/layouts/support/components/SupperEmptyDisplay';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -75,6 +76,7 @@ const SupportPanel: FC = () => {
           </Show>
         </section>
         <section className="right">
+          <Navbar />
           <AddNewTicketBox />
           <SupportTicketList isLoading={isLoading} tickets={getTikets()} refresh={refresh} />
         </section>
