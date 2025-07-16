@@ -1,21 +1,21 @@
 /**
  * Página de Onboarding - Captura de Datos de Empresa
- * 
+ *
  * Este componente maneja el proceso de onboarding post-registro
  * donde se capturan los datos de empresa y se inicia el escaneo.
- * 
+ *
  * Diseño actualizado para coincidir con WelcomeDomain modal.
- * 
+ *
  * Flujo:
  * 1. Captura datos de empresa (nombre, website, tamaño)
  * 2. Valida el dominio empresarial
  * 3. Actualiza los datos via Fase 4 del backend
  * 4. Inicia escaneo automático del dominio
  * 5. Redirige al dashboard
- * 
+ *
  * Backend integration:
  * - POST /users/new?phase=4 (actualizar empresa)
- * 
+ *
  * @author Codefend Team
  * @version 2.0
  */
@@ -42,17 +42,17 @@ export const OnboardingPage = () => {
     company_name: '',
     company_web: '',
     company_size: '',
-    personal_user: '0'
+    personal_user: '0',
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [isPersonalUser, setIsPersonalUser] = useState(false);
   const [lastToastMessage, setLastToastMessage] = useState<string>(''); // Para evitar toasts duplicados
-  
+
   // Referencias para hacer focus en los campos
   const companyWebRef = useRef<HTMLInputElement>(null);
   const companyNameRef = useRef<HTMLInputElement>(null);
   const companySizeRef = useRef<HTMLSelectElement>(null);
-  
+
   const { updateCompanyInfo } = useGoogleAuth();
   const { handleSuccessfulLogin } = useSessionManager();
   const { session, user } = useGlobalFastFields(['session', 'user']);
@@ -64,31 +64,35 @@ export const OnboardingPage = () => {
   };
 
   // Función para mostrar toast único y hacer focus en el campo
-  const showUniqueToast = (message: string, type: 'error' | 'warn' = 'error', fieldRef?: React.RefObject<HTMLInputElement | HTMLSelectElement | null>) => {
+  const showUniqueToast = (
+    message: string,
+    type: 'error' | 'warn' = 'error',
+    fieldRef?: React.RefObject<HTMLInputElement | HTMLSelectElement | null>
+  ) => {
     // Evitar mostrar el mismo toast repetidamente
     if (lastToastMessage === message) return;
-    
+
     setLastToastMessage(message);
-    
+
     // Mostrar toast
     if (type === 'error') {
       toast.error(message);
     } else {
       toast.warn(message);
     }
-    
+
     // Hacer focus y scroll al campo problemático
     if (fieldRef?.current) {
       fieldRef.current.focus();
-      
+
       // Scroll suave al campo
       fieldRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
-        inline: 'nearest'
+        inline: 'nearest',
       });
     }
-    
+
     // Limpiar el último mensaje después de un tiempo
     setTimeout(() => {
       setLastToastMessage('');
@@ -99,19 +103,23 @@ export const OnboardingPage = () => {
     // NUEVO: Verificar si hay datos temporales de registro
     const tempOnboardingData = localStorage.getItem('onboarding_data');
     const tempSessionData = localStorage.getItem('temp_session_data');
-    
+
     if (tempOnboardingData && tempSessionData) {
       // Caso 1: Usuario recién registrado con datos temporales
-      console.log('🚀 Onboarding con datos temporales de registro');
+      // console.log('🚀 Onboarding con datos temporales de registro');
       try {
         const tempData = JSON.parse(tempOnboardingData);
         const sessionData = JSON.parse(tempSessionData);
-        
+
         // Pre-llenar datos del usuario temporal
-        if (tempData.user && tempData.user.company_name && tempData.user.company_name !== 'pending') {
+        if (
+          tempData.user &&
+          tempData.user.company_name &&
+          tempData.user.company_name !== 'pending'
+        ) {
           setCompanyData(prev => ({
             ...prev,
-            company_name: tempData.user.company_name
+            company_name: tempData.user.company_name,
           }));
         }
       } catch (error) {
@@ -119,23 +127,23 @@ export const OnboardingPage = () => {
       }
       return;
     }
-    
+
     // Caso 2: Usuario con sesión activa
     const currentSession = session.get;
     const currentUser = user.get;
-    
+
     if (!currentSession || !currentUser) {
       // Si no hay sesión NI datos temporales, redirigir al login
       console.log('❌ No hay sesión ni datos temporales, redirigiendo al login');
       window.location.href = '/auth/signin';
       return;
     }
-    
+
     // Pre-llenar datos si están disponibles
     if (currentUser.company_name && currentUser.company_name !== 'pending') {
       setCompanyData(prev => ({
         ...prev,
-        company_name: currentUser.company_name
+        company_name: currentUser.company_name,
       }));
     }
   }, []);
@@ -163,12 +171,12 @@ export const OnboardingPage = () => {
 
   const normalizarURL = (url: string): string => {
     if (!url || url.trim() === '') return url;
-    
+
     // Aplicar normalización paso a paso
     const sinProtocolo = quitarProtocoloYWWW(url);
     const sinRuta = quitarRuta(sinProtocolo);
     const limpio = limpiarDominio(sinRuta);
-    
+
     return limpio;
   };
 
@@ -181,7 +189,7 @@ export const OnboardingPage = () => {
       // Si es usuario personal, establecer valores automáticos y limpiar campos no necesarios
       company_size: newIsPersonal ? '1-10' : prev.company_size,
       company_web: newIsPersonal ? '-' : prev.company_web,
-      company_name: newIsPersonal ? 'Personal Business' : prev.company_name
+      company_name: newIsPersonal ? 'Personal Business' : prev.company_name,
     }));
   };
 
@@ -191,31 +199,36 @@ export const OnboardingPage = () => {
     if (field === 'company_web' && value && value.trim() !== '') {
       processedValue = normalizarURL(value);
     }
-    
+
     setCompanyData(prev => ({
       ...prev,
-      [field]: processedValue
+      [field]: processedValue,
     }));
-    
+
     // Limpiar el último mensaje de toast cuando el usuario empiece a escribir
     if (lastToastMessage) {
       setLastToastMessage('');
     }
-    
+
     // Auto-generar nombre de empresa basado en dominio si es válido (sin mostrar toasts)
-    if (field === 'company_web' && processedValue && !isPersonalUser && isValidDomain(processedValue)) {
+    if (
+      field === 'company_web' &&
+      processedValue &&
+      !isPersonalUser &&
+      isValidDomain(processedValue)
+    ) {
       const cleanDomain = processedValue.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
       const companyName = cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
       setCompanyData(prev => ({
         ...prev,
-        company_name: companyName
+        company_name: companyName,
       }));
     }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     // Validar campos requeridos para usuarios empresariales
     if (!isPersonalUser) {
       // Validar dominio empresarial
@@ -223,25 +236,25 @@ export const OnboardingPage = () => {
         showUniqueToast('Please enter your company domain', 'error', companyWebRef);
         return;
       }
-      
+
       // Verificar que no sea un email
       if (!isNotEmail(companyData.company_web)) {
         showUniqueToast(AUTH_TEXT.DOMAIN_NOT_EMAIL, 'error', companyWebRef);
         return;
       }
-      
+
       // Verificar que sea un dominio válido
       if (!isValidDomain(companyData.company_web)) {
         showUniqueToast(AUTH_TEXT.INVALID_DOMAIN, 'error', companyWebRef);
         return;
       }
-      
+
       // Validar nombre de empresa
       if (!companyData.company_name || companyData.company_name.trim() === '') {
         showUniqueToast('Please enter your company name', 'error', companyNameRef);
         return;
       }
-      
+
       // Validar tamaño de empresa
       if (!companyData.company_size || companyData.company_size.trim() === '') {
         showUniqueToast('Please select your company size', 'error', companySizeRef);
@@ -249,24 +262,24 @@ export const OnboardingPage = () => {
       }
     }
     // Para usuarios personales no hay validaciones adicionales ya que se generan automáticamente
-    
+
     // NUEVO: Verificar si estamos usando datos temporales
     const tempOnboardingData = localStorage.getItem('onboarding_data');
     const tempSessionData = localStorage.getItem('temp_session_data');
-    
+
     let sessionToUse: string | null = null;
     let userToUse: any = null;
-    
+
     if (tempOnboardingData && tempSessionData) {
       // Caso 1: Usuario recién registrado con datos temporales
       try {
         const tempData = JSON.parse(tempOnboardingData);
         const sessionData = JSON.parse(tempSessionData);
-        
+
         sessionToUse = sessionData.session;
         userToUse = tempData.user;
-        
-        console.log('🚀 Usando datos temporales para onboarding');
+
+        // console.log('🚀 Usando datos temporales para onboarding');
       } catch (error) {
         console.error('Error al parsear datos temporales:', error);
         toast.error('Error al procesar datos temporales. Por favor, inicia sesión nuevamente.');
@@ -277,13 +290,13 @@ export const OnboardingPage = () => {
       // Caso 2: Usuario con sesión activa
       const currentSession = session.get;
       const currentUser = user.get;
-      
+
       if (!currentSession || !currentUser) {
         toast.error('Sesión no válida. Por favor, inicia sesión nuevamente.');
         window.location.href = '/auth/signin';
         return;
       }
-      
+
       sessionToUse = currentSession;
       userToUse = currentUser;
     }
@@ -292,17 +305,18 @@ export const OnboardingPage = () => {
       // Preparar datos para envío (aplicar normalización final a la URL)
       const normalizedCompanyData = {
         ...companyData,
-        company_web: companyData.company_web && companyData.company_web !== '-' 
-          ? normalizarURL(companyData.company_web) 
-          : companyData.company_web
+        company_web:
+          companyData.company_web && companyData.company_web !== '-'
+            ? normalizarURL(companyData.company_web)
+            : companyData.company_web,
       };
-      
+
       const submitData = {
         model: 'users/new',
         phase: '4',
         user_id: userToUse.id,
         session: sessionToUse,
-        ...normalizedCompanyData
+        ...normalizedCompanyData,
       };
 
       // Enviar datos al backend
@@ -316,23 +330,31 @@ export const OnboardingPage = () => {
       }
 
       toast.success('Business information updated!');
-      
+
       // NUEVO: Guardar dominio de la empresa en el store SOLO para usuarios empresariales
-      if (!isPersonalUser && normalizedCompanyData.company_web && normalizedCompanyData.company_web !== '-' && normalizedCompanyData.company_web !== 'pending-onboarding.temp') {
+      if (
+        !isPersonalUser &&
+        normalizedCompanyData.company_web &&
+        normalizedCompanyData.company_web !== '-' &&
+        normalizedCompanyData.company_web !== 'pending-onboarding.temp'
+      ) {
         updateInitialDomain('initialDomain', normalizedCompanyData.company_web);
         updateInitialDomain('scopeType', 'website');
-        console.log('🔗 Dominio normalizado guardado para el scanner:', normalizedCompanyData.company_web);
+        console.log(
+          '🔗 Dominio normalizado guardado para el scanner:',
+          normalizedCompanyData.company_web
+        );
       } else if (isPersonalUser) {
         // Para usuarios personales, limpiar el store y configurar para email
         updateInitialDomain('initialDomain', '');
         updateInitialDomain('scopeType', 'email');
-        console.log('🧹 Usuario personal - Store limpiado y configurado para email');
+        // console.log('🧹 Usuario personal - Store limpiado y configurado para email');
       }
-      
+
       // Limpiar datos temporales
       localStorage.removeItem('onboarding_data');
       localStorage.removeItem('temp_session_data');
-      
+
       // Si era usuario temporal, ahora hacer login real
       if (tempOnboardingData && tempSessionData) {
         try {
@@ -343,12 +365,11 @@ export const OnboardingPage = () => {
           console.error('Error al hacer login después de onboarding:', error);
         }
       }
-      
+
       // Redirigir al dashboard y abrir automáticamente el scanner
       setTimeout(() => {
         window.location.href = '/?open_scanner=true';
       }, 1500);
-
     } catch (error: any) {
       toast.error(error.message || 'Error al actualizar información de empresa');
     }
@@ -358,10 +379,12 @@ export const OnboardingPage = () => {
     <ModalWrapper showCloseBtn={false} type="onboarding-modal-container" action={handleClose}>
       <div className="welcome-content">
         <img className="logose" src="/codefend/logo-color.png" width={130} />
-        
+
         <div className="onboarding-header">
           <b>Business information</b>
-          <p>If you have a company, tell us a bit about it — it helps us give you a better service.</p>
+          <p>
+            If you have a company, tell us a bit about it — it helps us give you a better service.
+          </p>
           <p>No company? No problem! You can still use Codefend as a personal user.</p>
         </div>
 
@@ -396,21 +419,25 @@ export const OnboardingPage = () => {
                     <AuthInput
                       placeholder="Enter your domain (e.g., yourcompany.com)"
                       value={companyData.company_web}
-                      setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_web', e.target.value)}
+                      setVal={(e: ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange('company_web', e.target.value)
+                      }
                       required
                       autoComplete="url"
                       ref={companyWebRef}
                     />
-                    
+
                     <AuthInput
                       placeholder="Company name"
                       value={companyData.company_name}
-                      setVal={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('company_name', e.target.value)}
+                      setVal={(e: ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange('company_name', e.target.value)
+                      }
                       required
                       autoComplete="organization"
                       ref={companyNameRef}
                     />
-                    
+
                     <SelectField
                       name="company_size"
                       options={[
@@ -421,7 +448,7 @@ export const OnboardingPage = () => {
                         })),
                       ]}
                       value={companyData.company_size}
-                      onChange={(e) => handleInputChange('company_size', e.target.value)}
+                      onChange={e => handleInputChange('company_size', e.target.value)}
                       required
                       ref={companySizeRef}
                     />
@@ -433,11 +460,7 @@ export const OnboardingPage = () => {
               <hr className="onboarding-separator" />
 
               <div className="btn-container">
-                <button 
-                  type="submit" 
-                  className="btn btn-continue"
-                  disabled={isLoading}
-                >
+                <button type="submit" className="btn btn-continue" disabled={isLoading}>
                   {isLoading ? 'Processing...' : 'Continue'}
                 </button>
               </div>
@@ -447,4 +470,4 @@ export const OnboardingPage = () => {
       </div>
     </ModalWrapper>
   );
-}; 
+};

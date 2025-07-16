@@ -74,7 +74,7 @@ export const useMapAutoRotation = (
       const coords = COUNTRY_COORDINATES[firstCountry.name];
 
       if (coords) {
-        console.log('🌍 Initializing map rotation to:', firstCountry.name);
+        // console.log('🌍 Initializing map rotation to:', firstCountry.name);
 
         // Set initial country and mark as initialized immediately
         setCurrentCountry(firstCountry.name);
@@ -114,7 +114,7 @@ export const useMapAutoRotation = (
       return;
     }
 
-    console.log('🔄 Starting auto-rotation cycle with', countriesWithServers.length, 'countries');
+    // console.log('🔄 Starting auto-rotation cycle with', countriesWithServers.length, 'countries');
     isRunningRef.current = true;
 
     // Start auto-rotation after the first rotation completes
@@ -126,11 +126,11 @@ export const useMapAutoRotation = (
           const coords = COUNTRY_COORDINATES[nextCountry.name];
 
           if (coords) {
-            console.log(
-              '🔄 Auto-rotating to:',
-              nextCountry.name,
-              `(${nextIndex + 1}/${countriesWithServers.length})`
-            );
+            // console.log(
+            //   '🔄 Auto-rotating to:',
+            //   nextCountry.name,
+            //   `(${nextIndex + 1}/${countriesWithServers.length})`
+            // );
             setCurrentCountry(nextCountry.name);
             onRotateToCountry(coords, nextCountry.name, finalConfig.rotationDuration);
           }
@@ -159,7 +159,7 @@ export const useMapAutoRotation = (
     (countryName: string) => {
       const coords = COUNTRY_COORDINATES[countryName];
       if (coords) {
-        console.log('🎯 Manual rotation to:', countryName);
+        // console.log('🎯 Manual rotation to:', countryName);
         setCurrentCountry(countryName);
         onRotateToCountry(coords, countryName, finalConfig.rotationDuration);
 
@@ -175,14 +175,14 @@ export const useMapAutoRotation = (
 
   // Pause auto rotation
   const pauseAutoRotation = useCallback(() => {
-    console.log('⏸️ Pausing auto-rotation');
+    // console.log('⏸️ Pausing auto-rotation');
     cleanup();
   }, [cleanup]);
 
   // Resume auto rotation
   const resumeAutoRotation = useCallback(() => {
     if (selectedProjection === 'orthographicInteractive' && isInitialized && finalConfig.enabled) {
-      console.log('▶️ Resuming auto-rotation');
+      // console.log('▶️ Resuming auto-rotation');
       isRunningRef.current = false; // Reset the running flag to allow restart
 
       // Resume from current index after a short delay

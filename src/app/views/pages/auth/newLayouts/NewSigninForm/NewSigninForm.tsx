@@ -103,14 +103,14 @@ export const NewSigninForm = () => {
         });
 
         const state = location.state;
-        // 🚨 SOLUCIÓN: Dar tiempo para que el estado se persista antes de redirigir
+        // Small delay to ensure state persistence before navigation
         setTimeout(() => {
           if (state && state?.redirect) {
-            window.location.href = state.redirect || '/';
+            navigate(state.redirect || '/');
           } else {
-            window.location.href = '/';
+            navigate('/');
           }
-        }, 200);
+        }, 150); // 150ms delay to ensure localStorage persistence
       }
     } catch (error: any) {
       // Evento de telemetría: error en login con Google
@@ -171,15 +171,15 @@ export const NewSigninForm = () => {
           action: 'iniciar_sesion', // Traducido de: 'signin'
           label: 'inicio_exitoso', // Traducido de: 'signin_success'
         });
-        
-        // 🚨 SOLUCIÓN: Dar tiempo para que el estado se persista antes de redirigir
+
+        // Small delay to ensure state persistence before navigation
         setTimeout(() => {
           if (state && state?.redirect) {
-            window.location.href = state.redirect || '/';
+            navigate(state.redirect || '/');
           } else {
-            window.location.href = '/';
+            navigate('/');
           }
-        }, 200); // 200ms es suficiente para que el debounce del store complete
+        }, 150); // 150ms delay to ensure localStorage persistence
       }
     });
   };
