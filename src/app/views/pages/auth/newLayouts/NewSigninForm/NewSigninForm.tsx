@@ -23,12 +23,13 @@ import { ModalWrapper } from '@modals/index';
 import css from './signinform.module.scss';
 import { useLoginAction } from '@userHooks/auth/useLoginAction';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { type ChangeEvent, type FormEvent, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useState, useEffect } from 'react';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
+import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
 import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
 import { toast } from 'react-toastify';
 
@@ -67,10 +68,18 @@ const EyeOffIcon = ({ className = '' }) => (
 export const NewSigninForm = () => {
   const { signInUser, isLoading } = useLoginAction();
   const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
+  const { trackSigninVisit } = usePageTracking();
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [mfaStep, setMfaStep] = useState(false);
+
+  // Tracking de página visitada para el gráfico de administración (no-bloqueante)
+  useEffect(() => {
+    trackSigninVisit().catch(error => {
+      console.warn('⚠️ Tracking signin falló (no crítico):', error);
+    });
+  }, [trackSigninVisit]);
 
   const handleGoogleSuccess = async (credential: string) => {
     try {
@@ -94,11 +103,14 @@ export const NewSigninForm = () => {
         });
 
         const state = location.state;
-        if (state && state?.redirect) {
-          window.location.href = state.redirect || '/';
-        } else {
-          window.location.href = '/';
-        }
+        // Small delay to ensure state persistence before navigation
+        setTimeout(() => {
+          if (state && state?.redirect) {
+            navigate(state.redirect || '/');
+          } else {
+            navigate('/');
+          }
+        }, 150); // 150ms delay to ensure localStorage persistence
       }
     } catch (error: any) {
       // Evento de telemetría: error en login con Google
@@ -159,12 +171,15 @@ export const NewSigninForm = () => {
           action: 'iniciar_sesion', // Traducido de: 'signin'
           label: 'inicio_exitoso', // Traducido de: 'signin_success'
         });
-        if (state && state?.redirect) {
-          // navigate(state.redirect);
-          window.location.href = state.redirect || '/';
-        } else {
-          window.location.href = '/';
-        }
+
+        // Small delay to ensure state persistence before navigation
+        setTimeout(() => {
+          if (state && state?.redirect) {
+            navigate(state.redirect || '/');
+          } else {
+            navigate('/');
+          }
+        }, 150); // 150ms delay to ensure localStorage persistence
       }
     });
   };

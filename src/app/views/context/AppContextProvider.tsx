@@ -172,12 +172,7 @@ const GlobalStorePersistor = () => {
   );
 
   useEffect(() => {
-    // Debounce localStorage writes para reducir I/O
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    debounceTimerRef.current = setTimeout(() => {
+    const persistState = () => {
       try {
         const serialized = JSON.stringify(currentValues);
         // Solo escribir si el contenido cambió
@@ -188,7 +183,25 @@ const GlobalStorePersistor = () => {
       } catch (error) {
         console.warn('Error saving to localStorage:', error);
       }
-    }, 100); // Debounce de 100ms
+    };
+
+    // Persist immediately on login event
+    if (currentValues.appEvent === APP_EVENT_TYPE.USER_LOGGED_IN && currentValues.session) {
+      // console.log('💾 GlobalStorePersistor: Immediate persistence triggered by login event', {
+      //   sessionPresent: !!currentValues.session,
+      //   userId: currentValues.user?.id,
+      // });
+      persistState();
+      // console.log('✅ GlobalStorePersistor: Login state persisted to localStorage');
+      return;
+    }
+
+    // Debounce localStorage writes para reducir I/O en otros casos
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(persistState, 100); // Debounce de 100ms
 
     return () => {
       if (debounceTimerRef.current) {

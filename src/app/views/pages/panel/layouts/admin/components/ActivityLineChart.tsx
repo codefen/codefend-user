@@ -9,6 +9,7 @@ interface DailyData {
   usuarios: string;
   companias: string;
   neuroscans: string;
+  visitas_unicas: string;
 }
 
 interface ActivityLineChartProps {
@@ -29,6 +30,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     usuarios: true,
     companias: false,
     neuroscans: false,
+    visitas_unicas: true,
   });
 
   // Configuración del gráfico con márgenes adaptativos
@@ -55,6 +57,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     usuarios: '#ff6464', // Rojo claro
     companias: '#ff3939', // Rojo oscuro
     neuroscans: '#ffa502', // Naranja
+    visitas_unicas: '#20c997', // Verde azulado
   };
 
   // Procesar los datos - FIX: crear fecha sin zona horaria para evitar desfase
@@ -73,6 +76,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         usuarios: parseInt(d.usuarios) || 0,
         companias: parseInt(d.companias) || 0,
         neuroscans: parseInt(d.neuroscans) || 0,
+        visitas_unicas: parseInt(d.visitas_unicas) || 0,
       };
     })
     .sort((a, b) => a.fecha.getTime() - b.fecha.getTime());
@@ -107,6 +111,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           usuarios: 0,
           companias: 0,
           neuroscans: 0,
+          visitas_unicas: 0,
         });
       }
     }
@@ -117,27 +122,27 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
   // AMBOS gráficos usan fechas rellenadas para mostrar todos los días del rango
   const processedData = useMemo(() => {
     const filled = fillMissingDates(rawProcessedData);
-    console.log('🔄 Datos rellenados para AMBOS gráficos:', filled.length, 'puntos');
-    console.log('🔄 Datos originales:', rawProcessedData.length, 'puntos');
-    console.log(
-      '🔄 Fechas agregadas:',
-      filled.length - rawProcessedData.length,
-      'fechas faltantes'
-    );
+    // console.log('🔄 Datos rellenados para AMBOS gráficos:', filled.length, 'puntos');
+    // console.log('🔄 Datos originales:', rawProcessedData.length, 'puntos');
+    // console.log(
+    //   '🔄 Fechas agregadas:',
+    //   filled.length - rawProcessedData.length,
+    //   'fechas faltantes'
+    // );
     return filled;
   }, [JSON.stringify(rawProcessedData)]);
 
   // 🐛 DEBUG: Verificar el procesamiento inicial de datos
-  console.log('🔍 PROCESAMIENTO INICIAL DE DATOS:');
-  console.log('📋 Datos RAW del backend:', data.slice(0, 3));
-  console.log('📋 Datos RAW procesados:', rawProcessedData.slice(0, 3));
-  console.log('📋 Datos PROCESADOS finales:', processedData.slice(0, 3));
-  console.log('📋 Total de puntos RAW:', rawProcessedData.length);
-  console.log('📋 Total de puntos FINALES:', processedData.length);
-  console.log('📋 Tipo de gráfico:', chartType);
+  // console.log('🔍 PROCESAMIENTO INICIAL DE DATOS:');
+  // console.log('📋 Datos RAW del backend:', data.slice(0, 3));
+  // console.log('📋 Datos RAW procesados:', rawProcessedData.slice(0, 3));
+  // console.log('📋 Datos PROCESADOS finales:', processedData.slice(0, 3));
+  // console.log('📋 Total de puntos RAW:', rawProcessedData.length);
+  // console.log('📋 Total de puntos FINALES:', processedData.length);
+  // console.log('📋 Tipo de gráfico:', chartType);
 
   // 🐛 DEBUG: Verificar fechas específicas para entender el problema
-  console.log('🔍 FECHAS ESPECÍFICAS:');
+  // console.log('🔍 FECHAS ESPECÍFICAS:');
   processedData.slice(0, 10).forEach((d: any, index: number) => {
     console.log(
       `📅 Índice ${index}: ${d.fecha.toLocaleDateString()} → Día ${d3.timeFormat('%d')(d.fecha)}`
@@ -160,10 +165,10 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     const g = svg.select('g.chart-container');
 
     // 🐛 DEBUGGING EXTENSO - Datos completos
-    console.log('🔍 DEBUGGING EXTENSO - GRÁFICO DE LÍNEAS:');
-    console.log('📋 Datos RAW recibidos del backend:', data);
-    console.log('📋 Datos PROCESADOS:', processedData);
-    console.log('📋 Métricas visibles:', visibleMetrics);
+    // console.log('🔍 DEBUGGING EXTENSO - GRÁFICO DE LÍNEAS:');
+    // console.log('📋 Datos RAW recibidos del backend:', data);
+    // console.log('📋 Datos PROCESADOS:', processedData);
+    // console.log('📋 Métricas visibles:', visibleMetrics);
 
     // 🐛 DEBUG: Verificar fechas del gráfico de líneas
     console.log(
@@ -192,22 +197,20 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .range([0, width]);
 
     const maxValue =
-      d3.max(processedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans)) ||
+      d3.max(processedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans, d.visitas_unicas)) ||
       0;
 
-    console.log('📊 ESCALAS:');
-    console.log('  - Valor máximo encontrado:', maxValue);
-    console.log(
-      '  - Dominio X (fechas):',
-      d3.extent(processedData, d => d.fecha)
-    );
-    console.log('  - Rango X (pixels):', [0, width]);
+    // console.log('📊 ESCALAS:');
+    // console.log('  - Valor máximo encontrado:', maxValue);
+    // console.log('  - Dominio X (fechas):', d3.extent(processedData, d => d.fecha));
+    // console.log('  - Rango X (pixels):', [0, width]);
 
     const valuesPerMetric = {
       leads: processedData.map((d: any) => d.leads),
       usuarios: processedData.map((d: any) => d.usuarios),
       companias: processedData.map((d: any) => d.companias),
       neuroscans: processedData.map((d: any) => d.neuroscans),
+      visitas_unicas: processedData.map((d: any) => d.visitas_unicas),
     };
 
     Object.entries(valuesPerMetric).forEach(([metric, values]) => {
@@ -216,15 +219,15 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       const total = values.reduce((sum, val) => sum + val, 0);
       const nonZero = values.filter(val => val > 0).length;
       const average = total / values.length;
-      console.log(`  📈 ${metric}:`, {
-        max,
-        min,
-        total,
-        nonZero,
-        average: average.toFixed(2),
-        values: values.slice(0, 5), // Primeros 5 valores
-        isVisible: visibleMetrics[metric as keyof typeof visibleMetrics],
-      });
+      // console.log(`  📈 ${metric}:`, {
+      //   max,
+      //   min,
+      //   total,
+      //   nonZero,
+      //   average: average.toFixed(2),
+      //   values: values.slice(0, 5), // Primeros 5 valores
+      //   isVisible: visibleMetrics[metric as keyof typeof visibleMetrics],
+      // });
     });
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
@@ -234,13 +237,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .domain([0, effectiveMaxValue * 1.1])
       .range([height, 0]);
 
-    console.log('  - yScale domain:', yScale.domain());
-    console.log('  - yScale range:', yScale.range());
-    console.log('  - Ejemplos de conversión Y:');
-    console.log('    · 0 → Y=', yScale(0));
-    console.log('    · 5 → Y=', yScale(5));
-    console.log('    · 10 → Y=', yScale(10));
-    console.log('    · maxValue → Y=', yScale(maxValue));
+    // console.log('  - yScale domain:', yScale.domain());
+    // console.log('  - yScale range:', yScale.range());
+    // console.log('  - Ejemplos de conversión Y:');
+    // console.log('    · 0 → Y=', yScale(0));
+    // console.log('    · 5 → Y=', yScale(5));
+    // console.log('    · 10 → Y=', yScale(10));
+    // console.log('    · maxValue → Y=', yScale(maxValue));
 
     // Definir generador de áreas
     const area = d3
@@ -260,13 +263,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .defined(d => d.value !== null && d.value !== undefined); // Solo dibujar donde hay datos válidos
 
     // Crear las áreas y líneas para cada métrica
-    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
+    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
 
     metrics.forEach(metric => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
 
       if (!isVisible) {
-        console.log(`🙈 Saltando ${metric} - no visible`);
+        // console.log(`🙈 Saltando ${metric} - no visible`);
         return;
       }
 
@@ -278,10 +281,10 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       const hasData = lineData.some((d: any) => typeof d.value === 'number' && d.value > 0);
       const hasAnyData = lineData.some((d: any) => typeof d.value === 'number' && d.value >= 0);
 
-      console.log(`🎨 RENDERIZANDO ${metric.toUpperCase()}:`);
-      console.log('  - hasData (>0):', hasData);
-      console.log('  - hasAnyData (>=0):', hasAnyData);
-      console.log('  - isVisible:', isVisible);
+      // console.log(`🎨 RENDERIZANDO ${metric.toUpperCase()}:`);
+      // console.log('  - hasData (>0):', hasData);
+      // console.log('  - hasAnyData (>=0):', hasAnyData);
+      // console.log('  - isVisible:', isVisible);
 
       // Solo renderizar si tiene algún dato (incluso 0s)
       if (hasAnyData) {
@@ -295,7 +298,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           .attr('stroke', 'none')
           .attr('d', area);
 
-        console.log(`  - Área creada: ${metric} con opacidad ${hasData ? 0.3 : 0.1}`);
+        // console.log(`  - Área creada: ${metric} con opacidad ${hasData ? 0.3 : 0.1}`);
 
         // Línea principal - hacer más gruesa si tiene pocos datos no-cero
         const strokeWidth = hasData ? 2.5 : 1.5;
@@ -313,7 +316,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           .attr('d', line);
 
         // 🐛 DEBUG: Verificar renderizado básico
-        console.log(`  - Renderizado: ${metric} con ${strokeWidth}px, opacidad ${opacity}`);
+        // console.log(`  - Renderizado: ${metric} con ${strokeWidth}px, opacidad ${opacity}`);
 
         // Puntos más prominentes para valores > 0, puntos pequeños para valores = 0
         const circles = g
@@ -348,17 +351,17 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           })
           .on('mouseover', function (event, d: any) {
             // 🐛 DEBUG: Verificar datos del hover en líneas
-            console.log('🔍 HOVER LÍNEAS DETALLADO:', {
-              metric,
-              data: d,
-              fecha: d.fecha,
-              fechaRawString: d.fecha.toLocaleDateString(),
-              fechaFormatted: d3.timeFormat('%d')(d.fecha),
-              fechaCompleta: d3.timeFormat('%d/%m/%Y')(d.fecha),
-              value: d[metric as keyof typeof d],
-              mouseX: event.offsetX,
-              mouseY: event.offsetY,
-            });
+            // console.log('🔍 HOVER LÍNEAS DETALLADO:', {
+            //   metric,
+            //   data: d,
+            //   fecha: d.fecha,
+            //   fechaRawString: d.fecha.toLocaleDateString(),
+            //   fechaFormatted: d3.timeFormat('%d')(d.fecha),
+            //   fechaCompleta: d3.timeFormat('%d/%m/%Y')(d.fecha),
+            //   value: d[metric as keyof typeof d],
+            //   mouseX: event.offsetX,
+            //   mouseY: event.offsetY,
+            // });
 
             showTooltip(event, d, metric);
 
@@ -392,7 +395,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
             const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
             // Restaurar todos los puntos de todas las métricas en esa fecha
-            const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
+            const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
             allMetrics.forEach(currentMetric => {
               const isMetricVisible = visibleMetrics[currentMetric as keyof typeof visibleMetrics];
               if (isMetricVisible) {
@@ -421,7 +424,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
             });
           });
 
-        console.log(`  - Círculos creados: ${circles.size()}`);
+        // console.log(`  - Círculos creados: ${circles.size()}`);
       }
     });
 
@@ -437,10 +440,10 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     const g = svg.select('g.chart-container');
 
     // 🐛 DEBUG: Verificar fechas del gráfico de barras
-    console.log('🔍 DEBUGGING GRÁFICO DE BARRAS:');
-    console.log('📋 Datos RAW recibidos del backend:', data);
-    console.log('📋 Datos PROCESADOS:', processedData);
-    console.log('📋 Total de puntos de datos:', processedData.length);
+    // console.log('🔍 DEBUGGING GRÁFICO DE BARRAS:');
+    // console.log('📋 Datos RAW recibidos del backend:', data);
+    // console.log('📋 Datos PROCESADOS:', processedData);
+    // console.log('📋 Total de puntos de datos:', processedData.length);
 
     // Preparar datos para barras agrupadas - USAR MISMOS DATOS QUE LÍNEAS
     const formattedData = processedData.map((d: any) => ({
@@ -449,32 +452,33 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       usuarios: d.usuarios,
       companias: d.companias,
       neuroscans: d.neuroscans,
+      visitas_unicas: d.visitas_unicas,
     }));
 
-    console.log(
-      '📋 Fechas procesadas BARRAS:',
-      formattedData.map((d: any) => ({
-        original: d.date,
-        formatted: d3.timeFormat('%d')(d.date),
-        dateString: d.date.toLocaleDateString(),
-      }))
-    );
+    // console.log(
+    //   '📋 Fechas procesadas BARRAS:',
+    //   formattedData.map((d: any) => ({
+    //     original: d.date,
+    //     formatted: d3.timeFormat('%d')(d.date),
+    //     dateString: d.date.toLocaleDateString(),
+    //   }))
+    // );
 
-    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
+    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
     const visibleMetricsArray = metrics.filter(
       metric => visibleMetrics[metric as keyof typeof visibleMetrics]
     );
 
     // Preparar dominio de fechas formateadas - EXACTAMENTE IGUAL QUE LÍNEAS
     const dateLabels = formattedData.map((d: any) => d3.timeFormat('%d')(d.date));
-    console.log('📋 Etiquetas de fechas para barras:', dateLabels);
-    console.log('📋 Fechas únicas:', [...new Set(dateLabels)]);
+    // console.log('📋 Etiquetas de fechas para barras:', dateLabels);
+    // console.log('📋 Fechas únicas:', [...new Set(dateLabels)]);
 
     // Escalas
     const xScale = d3.scaleBand().domain(dateLabels).range([0, width]).padding(0.2);
 
     const maxValue =
-      d3.max(formattedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans)) ||
+      d3.max(formattedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans, d.visitas_unicas)) ||
       0;
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
@@ -513,13 +517,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         .attr('opacity', 0.8)
         .on('mouseover', function (event, d: any) {
           // 🐛 DEBUG: Verificar datos del hover en barras
-          console.log('🔍 HOVER BARRAS:', {
-            metric,
-            data: d,
-            fecha: d.date,
-            fechaFormatted: d3.timeFormat('%d')(d.date),
-            value: d[metric as keyof typeof d],
-          });
+          // console.log('🔍 HOVER BARRAS:', {
+          //   metric,
+          //   data: d,
+          //   fecha: d.date,
+          //   fechaFormatted: d3.timeFormat('%d')(d.date),
+          //   value: d[metric as keyof typeof d],
+          // });
           showTooltip(event, d, metric);
           d3.select(this).transition().duration(100).attr('opacity', 1);
         })
@@ -566,17 +570,17 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       })?.fecha || fechaRaw.toISOString().split('T')[0]; // Fallback si no encuentra
 
     // 🐛 DEBUG: Verificar datos del tooltip
-    console.log('🔍 TOOLTIP DEBUG DETALLADO:', {
-      metric,
-      value,
-      fechaOriginalBackend,
-      fechaRaw,
-      fechaRawString: fechaRaw.toLocaleDateString(),
-      chartType,
-      allData: d,
-      isBarChart: chartType === 'bar',
-      isLineChart: chartType === 'line',
-    });
+    // console.log('🔍 TOOLTIP DEBUG DETALLADO:', {
+    //   metric,
+    //   value,
+    //   fechaOriginalBackend,
+    //   fechaRaw,
+    //   fechaRawString: fechaRaw.toLocaleDateString(),
+    //   chartType,
+    //   allData: d,
+    //   isBarChart: chartType === 'bar',
+    //   isLineChart: chartType === 'line',
+    // });
 
     tooltip
       .html(
@@ -668,10 +672,10 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
   };
 
   useEffect(() => {
-    console.log('📊 ActivityLineChart - Datos recibidos:', data);
-    console.log('📊 ActivityLineChart - Datos procesados:', processedData);
-    console.log('📊 ActivityLineChart - Tipo de gráfico:', chartType);
-    console.log('📊 ActivityLineChart - Métricas visibles:', visibleMetrics);
+    // console.log('📊 ActivityLineChart - Datos recibidos:', data);
+    // console.log('📊 ActivityLineChart - Datos procesados:', processedData);
+    // console.log('📊 ActivityLineChart - Tipo de gráfico:', chartType);
+    // console.log('📊 ActivityLineChart - Métricas visibles:', visibleMetrics);
 
     if (!data.length || !svgRef.current || width <= 0 || height <= 0) return;
 
@@ -689,12 +693,12 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Renderizar según el tipo de gráfico
-    console.log('🎯 RENDERIZANDO GRÁFICO:', chartType);
+    // console.log('🎯 RENDERIZANDO GRÁFICO:', chartType);
     if (chartType === 'line') {
-      console.log('🔧 Ejecutando renderLineChart()');
+      // console.log('🔧 Ejecutando renderLineChart()');
       renderLineChart();
     } else {
-      console.log('🔧 Ejecutando renderBarChart()');
+      // console.log('🔧 Ejecutando renderBarChart()');
       renderBarChart();
     }
 
@@ -704,7 +708,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .attr('class', 'legend')
       .attr('transform', `translate(0, ${height + 50})`);
 
-    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
+    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
 
     metrics.forEach((metric, index) => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
@@ -775,7 +779,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
 
         setDimensions(prev => {
           if (Math.abs(prev.width - newWidth) > 10 || Math.abs(prev.height - newHeight) > 10) {
-            console.log(`📊 Chart resize: ${newWidth}x${newHeight}`);
+            // console.log(`📊 Chart resize: ${newWidth}x${newHeight}`);
             return { width: newWidth, height: newHeight };
           }
           return prev;

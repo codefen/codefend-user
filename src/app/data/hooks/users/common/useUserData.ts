@@ -1,7 +1,7 @@
 import { EMPTY_COMPANY, EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { USER_LOGGING_STATE } from '@interfaces/panel';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export const useUserData = () => {
   const { user, session, company, userLoggingState } = useGlobalFastFields([
@@ -31,6 +31,11 @@ export const useUserData = () => {
   };
 
   const isAuth = Boolean(session.get);
+
+  // Debug logging for authentication state
+  useEffect(() => {
+    console.log('Auth state check');
+  }, [isAuth, session.get, user.get]);
 
   return {
     getUserdata,

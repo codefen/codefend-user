@@ -90,6 +90,7 @@ export const PanelPage = () => {
 
   // If not authenticated, redirect to login
   if (!isAuth) {
+    // console.log('❌ PanelPage: User not authenticated, redirecting to signup', { isAuth, sessionExists: !!getUserdata(), currentPath: location.pathname });
     return <Navigate to="/auth/signup" state={{ redirect: location.pathname }} />;
   }
 

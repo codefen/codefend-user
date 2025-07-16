@@ -38,6 +38,10 @@ export abstract class HttpService implements HttpServiceInterface {
     this.baseUrl = customAPi ? customAPi : baseUrl;
   }
 
+  public updateSession(newSession: string): void {
+    this.session = newSession;
+  }
+
   public cancelRequest(requestId: RequestIdType): void {
     if (this.abortControllers.has(requestId)) {
       const abortController = this.abortControllers.get(requestId);

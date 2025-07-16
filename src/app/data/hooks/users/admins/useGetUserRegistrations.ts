@@ -10,6 +10,7 @@ interface DailyData {
   usuarios: string;
   companias: string;
   neuroscans: string;
+  visitas_unicas: string;
 }
 
 export const useGetUserRegistrations = () => {
@@ -22,6 +23,7 @@ export const useGetUserRegistrations = () => {
     companias: 0,
     neuroscans: 0,
     issues_vistos: 0,
+    visitas_unicas: 0,
   });
 
   // Combinar todos los datos por fecha
@@ -34,6 +36,7 @@ export const useGetUserRegistrations = () => {
       { key: 'usuarios_por_dia', field: 'usuarios' },
       { key: 'companias_por_dia', field: 'companias' },
       { key: 'neuroscans_por_dia', field: 'neuroscans' },
+      { key: 'visitas_unicas_por_dia', field: 'visitas_unicas' },
     ];
 
     dataTypes.forEach(({ key, field }) => {
@@ -46,6 +49,7 @@ export const useGetUserRegistrations = () => {
             usuarios: '0',
             companias: '0',
             neuroscans: '0',
+            visitas_unicas: '0',
           });
         }
         const existing = dateMap.get(record.fecha)!;
@@ -93,6 +97,7 @@ export const useGetUserRegistrations = () => {
           companias: filteredData.reduce((sum, reg) => sum + parseInt(reg.companias || '0'), 0),
           neuroscans: filteredData.reduce((sum, reg) => sum + parseInt(reg.neuroscans || '0'), 0),
           issues_vistos: 0,
+          visitas_unicas: filteredData.reduce((sum, reg) => sum + parseInt(reg.visitas_unicas || '0'), 0),
         };
         
         setData(filteredData);
@@ -101,14 +106,14 @@ export const useGetUserRegistrations = () => {
       } else {
         toast.error('Error al cargar los datos');
         setData([]);
-        setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0 });
+        setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0 });
       }
     } catch (error) {
       console.error('Error fetching registrations:', error);
       const errorMessage = apiErrorValidation(error);
       toast.error(errorMessage || 'Error al cargar los datos');
       setData([]);
-      setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0 });
+      setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0 });
     } finally {
       setIsLoading(false);
     }

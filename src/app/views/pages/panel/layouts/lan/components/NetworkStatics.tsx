@@ -214,11 +214,11 @@ export const NetworkStatics: FC<WebResourceStaticProps> = ({
       </div>
 
       {/* IP Statistics */}
-      <div className="flex-box">
-        <StatAsset value={externalIpCount} valueTitle="External IPs" />
-        <StatAsset value={internalIpCount} valueTitle="Internal IPs" />
-        <StatAsset value={totalNotUniqueIpCount} valueTitle="Total IPs" />
-      </div>
+    <div className="flex-box">
+      <StatAsset value={externalIpCount} valueTitle="External IPs" />
+      <StatAsset value={internalIpCount} valueTitle="Internal IPs" />
+      <StatAsset value={totalNotUniqueIpCount} valueTitle="Total IPs" />
+    </div>
     </>
   );
 };

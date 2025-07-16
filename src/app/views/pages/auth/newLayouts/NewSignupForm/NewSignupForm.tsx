@@ -1,19 +1,19 @@
 /**
  * Formulario de Registro Multi-Paso (3 Fases) - UNIFICADO
- * 
+ *
  * Este componente maneja el proceso completo de registro de usuario:
  * - STEP_ONE: Información personal (nombre, apellido, email)
  * - STEP_TWO: Verificación de email (código de confirmación)
  * - STEP_THREE: Configuración de contraseña y username
- * 
+ *
  * NOTA: Los datos de empresa se capturan en el onboarding post-registro
- * 
+ *
  * Integración con backend:
  * - Fase 1: POST /api?model=users/new&phase=1 (crear lead sin datos empresa)
  * - Fase 2: POST /api?model=users/new&phase=2 (obtener username recomendado)
  * - Fase 3: signUpFinish() (crear usuario final)
  * - Post-login: Redirección a onboarding para capturar datos de empresa
- * 
+ *
  * @author Codefend Team
  * @version 3.0 (Flujo Unificado + Google OAuth)
  */
@@ -38,6 +38,7 @@ import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
+import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
 import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
 
 const EyeIcon = ({ className = '' }) => (
@@ -83,18 +84,24 @@ export const NewSignupForm = () => {
   const [specialLoading, setLoading] = useState(false);
   const { signUpFinish, isLoading: loadingFinish, lead } = useRegisterPhaseTwo();
   const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
+  const { trackSignupVisit } = usePageTracking();
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const { ref } = useParams();
 
   useEffect(() => {
     // Evento de telemetría: inicio del proceso de registro de usuario
-    sessionStorage.setItem("nuevo_usuario", Date.now().toString());
+    sessionStorage.setItem('nuevo_usuario', Date.now().toString());
     sendEventToGTM({
-      event: "usuario_creacion_acceso",
-      category: "registro",
-      action: "inicio_proceso",
-      label: "carga_pagina",
+      event: 'usuario_creacion_acceso',
+      category: 'registro',
+      action: 'inicio_proceso',
+      label: 'carga_pagina',
+    });
+
+    // Tracking de página visitada para el gráfico de administración (no-bloqueante)
+    trackSignupVisit().catch(error => {
+      console.warn('⚠️ Tracking signup falló (no crítico):', error);
     });
 
     const code = searchParams.get('code') || ref;
@@ -124,7 +131,7 @@ export const NewSignupForm = () => {
       });
 
       const result = await handleGoogleAuth(credential, 'signup');
-      
+
       if (result.success) {
         // Evento de telemetría: registro exitoso con Google
         sendEventToGTM({
@@ -137,11 +144,11 @@ export const NewSignupForm = () => {
         // Verificar si necesita onboarding
         if (result.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
-          console.log('🚀 Google OAuth - Usuario necesita onboarding, redirigiendo...');
+          // console.log('🚀 Google OAuth - Usuario necesita onboarding, redirigiendo...');
           window.location.href = '/onboarding';
         } else {
           // Redirigir al dashboard si ya completó onboarding
-          console.log('✅ Google OAuth - Usuario ya completó onboarding, ir al dashboard');
+          // console.log('✅ Google OAuth - Usuario ya completó onboarding, ir al dashboard');
           window.location.href = '/';
         }
       }
@@ -174,15 +181,15 @@ export const NewSignupForm = () => {
     const allowedLettersUppercase = allowedLetters.toUpperCase(); // ZBXCNMUIOQERASHKL
     const allowedNumbers = '0123456789';
     const allowedSymbols = '!,<';
-    
+
     // Combinar todos los caracteres (sin mayúsculas para el resto)
     const allCharsForMiddle = allowedLetters + allowedNumbers + allowedSymbols;
-    
+
     // Generar longitud aleatoria entre 20 y 25 caracteres
     const length = Math.floor(Math.random() * 6) + 20;
-    
+
     let password = '';
-    
+
     for (let i = 0; i < length; i++) {
       if (i === 0) {
         // Primera letra: siempre mayúscula
@@ -192,7 +199,7 @@ export const NewSignupForm = () => {
         password += allCharsForMiddle.charAt(Math.floor(Math.random() * allCharsForMiddle.length));
       }
     }
-    
+
     return password;
   };
 
@@ -200,17 +207,17 @@ export const NewSignupForm = () => {
   const handleGeneratePassword = async () => {
     try {
       const generatedPassword = generateRandomPassword();
-      
+
       // Establecer el password en ambos inputs
       setPassword(generatedPassword);
       setConfirmPassword(generatedPassword);
-      
+
       // Hacer visible los passwords
       setShowPasswords(true);
-      
+
       // Copiar al clipboard
       await navigator.clipboard.writeText(generatedPassword);
-      
+
       // Evento de telemetría
       sendEventToGTM({
         event: 'usuario_creacion_password_generado',
@@ -218,7 +225,6 @@ export const NewSignupForm = () => {
         action: 'generar_password',
         label: 'password_aleatorio',
       });
-      
     } catch (error) {
       console.error('Error generating password:', error);
       toast.error('Failed to generate password. Please try again.');
@@ -228,50 +234,50 @@ export const NewSignupForm = () => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const formObject = Object.fromEntries(form.entries());
-    
+
     lead.set({
       ...lead.get,
       lead_fname: formObject?.['lead_fname'] as string,
       lead_lname: formObject?.['lead_lname'] as string,
       lead_email: formObject?.['lead_email'] as string,
     });
-    
+
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
-    
+
     // Agregar datos requeridos por el backend
     form.append('idiom', 'en');
     form.append('reseller_id', '1');
     form.append('reseller_name', 'codefend');
     form.append('phase', '1');
     form.append('model', 'users/new');
-    
+
     const formRequestObject = Object.fromEntries(form.entries());
-    
+
     // Enviar datos al backend para crear lead
-    fetcher('post', { body: formRequestObject, requireSession: false }).then(({ data }: any) => {
-      if (apiErrorValidation(data)) {
-        toast.error(data?.info || 'An unexpected error has occurred');
-        throw new Error('');
-      }
-      
-      // Evento de telemetría: completado datos personales en registro
-      const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
-      sendEventToGTM({
-        event: "usuario_creacion_informacion_personal",
-        category: "registro",
-        action: "completar_paso",
-        label: "datos_personales",
-        demora: Date.now() - tiempoInicio,
+    fetcher('post', { body: formRequestObject, requireSession: false })
+      .then(({ data }: any) => {
+        if (apiErrorValidation(data)) {
+          toast.error(data?.info || 'An unexpected error has occurred');
+          throw new Error('');
+        }
+
+        // Evento de telemetría: completado datos personales en registro
+        const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
+        sendEventToGTM({
+          event: 'usuario_creacion_informacion_personal',
+          category: 'registro',
+          action: 'completar_paso',
+          label: 'datos_personales',
+          demora: Date.now() - tiempoInicio,
+        });
+
+        // Ir directamente a verificación de email (saltamos el paso de empresa)
+        setActiveStep(SignUpSteps.STEP_TWO);
+      })
+      .catch(() => {
+        // Error ya manejado por toast
       });
-      
-      // Ir directamente a verificación de email (saltamos el paso de empresa)
-      setActiveStep(SignUpSteps.STEP_TWO);
-    }).catch(() => {
-      // Error ya manejado por toast
-    });
   };
-
-
 
   const getRecommendedUsername = (code: string) => {
     const body = {
@@ -297,15 +303,15 @@ export const NewSignupForm = () => {
     const referenceNumber = form.get?.('lead_reference_number') as unknown as string;
     getRecommendedUsername(referenceNumber).then(() => {
       // Evento de telemetría: completado número de referencia en registro
-      const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+      const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
       sendEventToGTM({
-        event: "usuario_creacion_informacion_reference_number",
-        category: "registro",
-        action: "completar_paso",
-        label: "numero_referencia",
+        event: 'usuario_creacion_informacion_reference_number',
+        category: 'registro',
+        action: 'completar_paso',
+        label: 'numero_referencia',
         demora: Date.now() - tiempoInicio,
       });
-      
+
       setActiveStep(SignUpSteps.STEP_THREE);
       lead.set({});
     });
@@ -329,32 +335,32 @@ export const NewSignupForm = () => {
     signUpFinish(formObject).then((res: any) => {
       if (res.pass) {
         // Evento de telemetría: completado contraseña en registro
-        const tiempoInicio = parseInt(sessionStorage.getItem("nuevo_usuario") || "0");
+        const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
         sendEventToGTM({
-          event: "usuario_creacion_informacion_password",
-          category: "registro",
-          action: "completar_paso",
-          label: "contraseña",
+          event: 'usuario_creacion_informacion_password',
+          category: 'registro',
+          action: 'completar_paso',
+          label: 'contraseña',
           demora: Date.now() - tiempoInicio,
         });
-        
+
         // Evento de telemetría: finalización completa del proceso de registro
         sendEventToGTM({
-          event: "usuario_creacion_finalizacion",
-          category: "registro",
-          action: "finalizar_proceso",
-          label: "registro_completo",
+          event: 'usuario_creacion_finalizacion',
+          category: 'registro',
+          action: 'finalizar_proceso',
+          label: 'registro_completo',
           demora_total: Date.now() - tiempoInicio,
         });
-        
+
         // Verificar si necesita onboarding
         if (res.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
-          console.log('🚀 Usuario necesita onboarding, redirigiendo...');
+          // console.log('🚀 Usuario necesita onboarding, redirigiendo...');
           window.location.href = '/onboarding';
         } else {
           // Redirigir al dashboard si ya completó onboarding
-          console.log('✅ Usuario ya completó onboarding, ir al dashboard');
+          // console.log('✅ Usuario ya completó onboarding, ir al dashboard');
           window.location.href = '/';
         }
       }
@@ -373,7 +379,7 @@ export const NewSignupForm = () => {
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
           {/* Línea separadora arriba del botón de Google */}
           <hr className="onboarding-separator" />
-          
+
           {/* Botón de Google OAuth - Solo en el primer paso */}
           <GoogleAuthButton
             text="Registrarse con Google"
@@ -383,7 +389,7 @@ export const NewSignupForm = () => {
             mode="signup"
           />
           <hr className="onboarding-separator" />
-          
+
           <form onSubmit={nextFirstStep}>
             {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
             <ProgressBar activeStep={activeStep} />
@@ -488,12 +494,9 @@ export const NewSignupForm = () => {
               </button>
             </div>
             <PasswordRequirements password={password} />
-            
+
             <div className={`form-buttons ${css['form-btns']}`}>
-              <button
-                type="button"
-                className={`btn btn-black`}
-                onClick={handleGeneratePassword}>
+              <button type="button" className={`btn btn-black`} onClick={handleGeneratePassword}>
                 Use a random pass
               </button>
               <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
