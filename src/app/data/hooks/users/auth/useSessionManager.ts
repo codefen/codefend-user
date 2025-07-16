@@ -25,7 +25,11 @@ export const useSessionManager = () => {
     isDefaultPlan.set(true);
     appEvent.set(APP_EVENT_TYPE.USER_LOGGED_IN);
     userLoggingState.set(USER_LOGGING_STATE.LOGGED_IN);
+    
+    // 🚨 SOLUCIÓN: Actualizar el token directamente en lugar de depender de localStorage
+    axiosHttp.updateSession(data.session as string);
     axiosHttp.updateUrlInstance();
+    
     return data.user;
   };
 

@@ -38,6 +38,7 @@ import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
 import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
+import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
 import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
 
 const EyeIcon = ({ className = '' }) => (
@@ -83,6 +84,7 @@ export const NewSignupForm = () => {
   const [specialLoading, setLoading] = useState(false);
   const { signUpFinish, isLoading: loadingFinish, lead } = useRegisterPhaseTwo();
   const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
+  const { trackSignupVisit } = usePageTracking();
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const { ref } = useParams();
@@ -95,6 +97,11 @@ export const NewSignupForm = () => {
       category: "registro",
       action: "inicio_proceso",
       label: "carga_pagina",
+    });
+
+    // Tracking de página visitada para el gráfico de administración (no-bloqueante)
+    trackSignupVisit().catch(error => {
+      console.warn('⚠️ Tracking signup falló (no crítico):', error);
     });
 
     const code = searchParams.get('code') || ref;
@@ -138,11 +145,15 @@ export const NewSignupForm = () => {
         if (result.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
           console.log('🚀 Google OAuth - Usuario necesita onboarding, redirigiendo...');
-          window.location.href = '/onboarding';
+          setTimeout(() => {
+            window.location.href = '/onboarding';
+          }, 200);
         } else {
           // Redirigir al dashboard si ya completó onboarding
           console.log('✅ Google OAuth - Usuario ya completó onboarding, ir al dashboard');
-          window.location.href = '/';
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 200);
         }
       }
     } catch (error) {
@@ -351,11 +362,15 @@ export const NewSignupForm = () => {
         if (res.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
           console.log('🚀 Usuario necesita onboarding, redirigiendo...');
-          window.location.href = '/onboarding';
+          setTimeout(() => {
+            window.location.href = '/onboarding';
+          }, 200);
         } else {
           // Redirigir al dashboard si ya completó onboarding
           console.log('✅ Usuario ya completó onboarding, ir al dashboard');
-          window.location.href = '/';
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 200);
         }
       }
     });
