@@ -24,7 +24,7 @@ export const useScanDashboardView = () => {
     // PROTECCIÓN SELECTIVA: Solo bloquear durante el onboarding del scanner
     // No bloquear usos legítimos de neuroscans/index
     if (isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH && getScannerStarting()) {
-      console.log('🚫 BLOQUEANDO useScanDashboardView - Onboarding scanner en proceso');
+      // console.log('🚫 BLOQUEANDO useScanDashboardView - Onboarding scanner en proceso');
       setIsLoading(false);
       return;
     }

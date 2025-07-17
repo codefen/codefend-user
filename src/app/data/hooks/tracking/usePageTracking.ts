@@ -25,9 +25,9 @@ export const usePageTracking = () => {
       });
 
       const data = response.data as TrackingResponse;
-      
+
       if (data?.error === '0') {
-        console.log(`✅ Página ${pageType} tracked successfully:`, data.data);
+        // console.log(`✅ Página ${pageType} tracked successfully:`, data.data);
         return true;
       } else {
         console.warn(`⚠️ Error tracking ${pageType}:`, data?.info);
@@ -47,4 +47,4 @@ export const usePageTracking = () => {
     trackSignupVisit,
     trackSigninVisit,
   };
-}; 
+};

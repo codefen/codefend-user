@@ -34,12 +34,12 @@ export const useSwipeToOpen = ({
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!touchStartRef.current) return;
-      
+
       const touch = e.touches[0];
       const start = touchStartRef.current;
       const currentX = touch.clientX;
       const distanceX = currentX - start.x;
-      
+
       // Solo prevenir scroll si es un swipe horizontal significativo
       if (Math.abs(distanceX) > 10) {
         e.preventDefault();
@@ -73,32 +73,46 @@ export const useSwipeToOpen = ({
       const isFromLeftEdge = start.x <= 30; // Para abrir desde el borde izquierdo
       const isFromRightSide = start.x >= window.innerWidth - 100; // Para cerrar desde el lado derecho del sidebar
 
-      console.log('Swipe detection:', {
-        distanceX,
-        distanceY,
-        time,
-        isHorizontalSwipe,
-        isRightSwipe,
-        isLeftSwipe,
-        isLongEnough,
-        isFastEnough,
-        isFromLeftEdge,
-        isFromRightSide,
-        isOpen,
-        startX: start.x,
-        endX: end.x,
-        windowWidth: window.innerWidth
-      });
+      // console.log('Swipe detection:', {
+      //   distanceX,
+      //   distanceY,
+      //   time,
+      //   isHorizontalSwipe,
+      //   isRightSwipe,
+      //   isLeftSwipe,
+      //   isLongEnough,
+      //   isFastEnough,
+      //   isFromLeftEdge,
+      //   isFromRightSide,
+      //   isOpen,
+      //   startX: start.x,
+      //   endX: end.x,
+      //   windowWidth: window.innerWidth
+      // });
 
       // Swipe para abrir (derecha desde borde izquierdo)
-      if (isHorizontalSwipe && isRightSwipe && isLongEnough && isFastEnough && isFromLeftEdge && !isOpen) {
-        console.log('Swipe detected! Opening sidebar...');
+      if (
+        isHorizontalSwipe &&
+        isRightSwipe &&
+        isLongEnough &&
+        isFastEnough &&
+        isFromLeftEdge &&
+        !isOpen
+      ) {
+        // console.log('Swipe detected! Opening sidebar...');
         onSwipeOpen();
       }
 
       // Swipe para cerrar (izquierda desde el sidebar abierto)
-      if (isHorizontalSwipe && isLeftSwipe && isLongEnough && isFastEnough && isFromRightSide && isOpen) {
-        console.log('Swipe detected! Closing sidebar...');
+      if (
+        isHorizontalSwipe &&
+        isLeftSwipe &&
+        isLongEnough &&
+        isFastEnough &&
+        isFromRightSide &&
+        isOpen
+      ) {
+        // console.log('Swipe detected! Closing sidebar...');
         onSwipeClose();
       }
 
@@ -118,4 +132,4 @@ export const useSwipeToOpen = ({
       document.body.removeEventListener('touchend', handleTouchEnd);
     };
   }, [minSwipeDistance, maxSwipeTime, onSwipeOpen, isMobile]);
-}; 
+};

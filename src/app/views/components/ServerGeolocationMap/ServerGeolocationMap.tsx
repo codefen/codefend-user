@@ -99,7 +99,7 @@ export const ServerGeolocationMap: FC<ServerGeolocationMapProps> = ({
   const onRotateToCountry = useCallback(
     (coords: [number, number], countryName: string, duration?: number) => {
       if (selectedProjection === 'orthographicInteractive') {
-        console.log('🎯 Rotating globe to:', countryName, 'at coords:', coords);
+        // console.log('🎯 Rotating globe to:', countryName, 'at coords:', coords);
         smoothRotateTo(coords, duration);
       }
     },
