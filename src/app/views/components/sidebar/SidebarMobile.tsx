@@ -131,8 +131,6 @@ export const SidebarMobile = ({
 
   const [activeSection, setActiveSection] = useState<MenuSection>('Main');
   const [activeItem, setActiveItem] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [animationClass, setAnimationClass] = useState('');
   const [contentVisible, setContentVisible] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
   const navigate = useNavigate();
@@ -155,54 +153,32 @@ export const SidebarMobile = ({
     }
   }, [isOpen, sidebarData, hasInitialized]);
 
+  // Mostrar contenido cuando el sidebar está abierto
   useEffect(() => {
     if (isOpen) {
-      setIsAnimating(true);
-      setAnimationClass('entering');
-
-      // Mostrar contenido después de que inicie la animación
-      const contentTimer = setTimeout(() => {
+      const timer = setTimeout(() => {
         setContentVisible(true);
-      }, 150);
-
-      return () => clearTimeout(contentTimer);
-    }
-
-    if (isAnimating && !isOpen) {
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
       setContentVisible(false);
-      setAnimationClass('exiting');
-
-      // Limpiar estado después de la animación de salida
-      const exitTimer = setTimeout(() => {
-        setIsAnimating(false);
-        setAnimationClass('');
-      }, 400);
-
-      return () => clearTimeout(exitTimer);
     }
+  }, [isOpen]);
 
-    return () => {};
-  }, [isOpen, isAnimating]);
-
-  if (!isOpen && !isAnimating) return null;
+  // Siempre renderizar el componente, pero controlar visibilidad con CSS
 
   const handleSectionChange = (section: MenuSection) => {
     setActiveSection(section);
-
-    setContentVisible(false);
-    setTimeout(() => {
-      // Actualizar item activo para la nueva sección
-      const newActiveItem = getActiveItem(sidebarData[section]?.items || []);
-      setActiveItem(newActiveItem);
-      setContentVisible(true);
-    }, 150);
+    // Actualizar item activo para la nueva sección
+    const newActiveItem = getActiveItem(sidebarData[section]?.items || []);
+    setActiveItem(newActiveItem);
   };
 
   const currentSectionItems = sidebarData[activeSection]?.items || [];
 
   return (
     <div
-      className={`sidebar-mobile ${animationClass === 'entering' ? 'animate-slide-in' : ''} ${animationClass === 'exiting' ? 'animate-slide-out' : ''}`}>
+      className={`sidebar-mobile ${isOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar-mobile-header">
         <div className="sidebar-header-title"></div>
         <div className={`sidebar-tabs ${contentVisible ? 'visible' : ''}`}>

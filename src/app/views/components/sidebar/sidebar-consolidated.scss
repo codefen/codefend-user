@@ -134,12 +134,14 @@
     overflow: hidden;
     width: 0%;
     height: 0%;
+    pointer-events: none; // Deshabilitar clicks en el overlay por defecto
 
     &.blur-enter {
       background-color: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(4px) saturate(0.5) contrast(1);
       width: 100%;
       height: 100%;
+      pointer-events: auto; // Habilitar clicks solo cuando está visible
     }
   }
 
@@ -196,15 +198,72 @@
     }
   }
 
+  .sidebar-open-button-mobile {
+    position: fixed;
+    top: 10px;
+    left: 15px;
+    z-index: 10;
+    background: none;
+    border: none;
+    color: var(--tertiary-color-600);
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: Satoshi, sans-serif;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--secondary-color-400);
+      background-color: rgba(239, 68, 68, 0.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
   .sidebar-mobile {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    height: 100vh;
     background-color: #fff;
     display: flex;
     flex-direction: column;
     width: 85vw;
-    z-index: 3;
+    z-index: 5; // Aumentar z-index para estar por encima del overlay (z-index: 2)
     overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    pointer-events: none; // Deshabilitar interacciones cuando está cerrado
+    user-select: none; // Prevenir selección de texto durante el swipe
+
+    &.sidebar-open {
+      transform: translateX(0);
+      pointer-events: auto; // Habilitar interacciones cuando está abierto
+    }
+
+    // Indicador visual para mostrar que se puede arrastrar
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    &.sidebar-open::after {
+      opacity: 1;
+    }
 
     .sidebar-mobile-header {
       padding: 1rem;
