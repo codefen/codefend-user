@@ -94,6 +94,7 @@ main.team-members {
   padding: 1.5rem 2rem 1.5rem 2rem;
   background: var(--primary-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  margin-bottom: calc(1rem + var(--card-space));
 }
 
 .company-info-card .header {
@@ -287,6 +288,10 @@ main.team-members {
     .right {
       display: none;
     }
+
+    .left {
+      padding-bottom: 2rem; // Agregar espacio al final para evitar que se corte la card
+    }
   }
 }
 
@@ -302,6 +307,7 @@ main.team-members {
 
       .left {
         flex: 1;
+        padding-bottom: 1.5rem; // Espacio adicional para evitar que se corte la card
 
         .status-card-container {
           display: flex;

@@ -192,6 +192,7 @@ main.user-profile {
       flex: 1;
       overflow-y: visible; // Usar scroll natural del documento
       height: auto; // Altura automática para flujo natural
+      padding-bottom: 2rem;
     }
 
     .right {
@@ -203,9 +204,17 @@ main.user-profile {
 }
 @media only screen and (max-width: 1000px) {
   main.user-profile {
+    width: 96%;
+    margin-inline: auto;
+
     .left {
       .status-card-container {
         display: flex;
+      }
+      .box-assets {
+        .card + .card {
+          margin-bottom: 4rem;
+        }
       }
     }
     .right {
