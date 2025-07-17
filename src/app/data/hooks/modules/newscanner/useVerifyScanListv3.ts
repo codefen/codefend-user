@@ -456,5 +456,5 @@ export const useVerifyScanListv3 = () => {
       isScanning.set(isAnyScanPending);
       scanVersion.set(scanVersion.get + 1); // Forzar reactividad
     }
-  }, [allActiveScan.length, isScanning.get, scanVersion.get]);
+  }, [allActiveScan.length, isScanning.get]);
 };
