@@ -12,7 +12,18 @@ export const TalkToHackerPage = () => {
   return (
     <main className={`talk-to-hacker ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left">
+        {/* Cards móviles - se muestran solo en móvil */}
+        <div className="mobile-cards">
+          {/* Card de "New question" */}
+          <NewQuestHacker />
+        </div>
+
         <TalkHackerScreen />
+
+        {/* Tickets - se muestran solo en móvil */}
+        <div className="mobile-bottom-card">
+          <TaskHacker />
+        </div>
       </section>
       <section className="right">
         <Navbar />
