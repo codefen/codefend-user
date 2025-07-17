@@ -222,11 +222,11 @@ main.team-members {
   align-items: center;
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--primary-color-200);
-  
+
   &:last-child {
     border-bottom: none;
   }
-  
+
   .single-line {
     color: var(--tertiary-color-300);
     font-size: 14px;
@@ -235,32 +235,32 @@ main.team-members {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    
+
     // Hacer el label más oscuro para distinguirlo del valor
     font-weight: 500;
-    
-    &.area-line {
-      .flag {
-        width: 20px;
-        height: 14px;
-        border-radius: 2px;
-        flex-shrink: 0;
-        vertical-align: middle;
-        margin-left: 0.25rem;
-        margin-right: 0.25rem;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        
-        // Ajustar para que coincida con el tamaño del sprite sheet
-        background-size: 256px 176px;
-        
-        // Para tema oscuro
-        [data-theme='dark'] & {
-          border-color: rgba(255, 255, 255, 0.2);
-          box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
-        }
-      }
-    }
+
+    // &.area-line {
+    //   .flag {
+    //     width: 20px;
+    //     height: 14px;
+    //     border-radius: 2px;
+    //     flex-shrink: 0;
+    //     vertical-align: middle;
+    //     margin-left: 0.25rem;
+    //     margin-right: 0.25rem;
+    //     border: 1px solid rgba(0, 0, 0, 0.1);
+    //     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+    //     // Ajustar para que coincida con el tamaño del sprite sheet
+    //     background-size: 256px 176px;
+
+    //     // Para tema oscuro
+    //     [data-theme='dark'] & {
+    //       border-color: rgba(255, 255, 255, 0.2);
+    //       box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+    //     }
+    //   }
+    // }
   }
 }
 
@@ -270,12 +270,12 @@ main.team-members {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
-    
+
     .label {
       min-width: unset;
       font-size: 13px;
     }
-    
+
     .value {
       font-size: 13px;
     }
