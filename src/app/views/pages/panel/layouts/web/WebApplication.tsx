@@ -35,6 +35,7 @@ const WebApplicationView = () => {
   } = useGetWebResourcesv2();
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
+  const isMobile = useMediaQuery('(max-width: 600px)');
   const flashlight = useFlashlight();
 
   return (
@@ -54,31 +55,64 @@ const WebApplicationView = () => {
 
       {/* *****SECTION LEFT WEB PAGE ***** */}
       <section className="left">
+        {/* En móvil, mostrar las cards de la derecha arriba de la tabla */}
+        {isMobile && (
+          <>
+            <WebApplicationTitle isLoading={isLoading} />
+            <WebApplicationStatics
+              domainCount={domainCount.get}
+              subDomainCount={subDomainCount.get}
+              uniqueIpCount={uniqueIpCount.get}
+            />
+            <OpenOrderButton
+              className="pentest-btn"
+              type={ResourcesTypes.WEB}
+              resourceCount={webResources.length}
+              isLoading={isLoading}
+            />
+          </>
+        )}
+        
         <WebApplicationResources isLoading={isLoading} webResources={webResources} />
-      </section>
-
-      {/* *****SECTION RIGHT WEB PAGE ***** */}
-      <section className="right" ref={flashlight.rightPaneRef}>
-        <Navbar />
-        <div className="scrollable-content">
-          <WebApplicationTitle isLoading={isLoading} />
-          <WebApplicationStatics
-            domainCount={domainCount.get}
-            subDomainCount={subDomainCount.get}
-            uniqueIpCount={uniqueIpCount.get}
-          />
-          <OpenOrderButton
-            className="pentest-btn"
-            type={ResourcesTypes.WEB}
-            resourceCount={webResources.length}
-            isLoading={isLoading}
-          />
+        
+        {/* En móvil, mostrar el mapa debajo de la tabla */}
+        {isMobile && (
           <ServerGeolocationMap
             networkData={webResources}
             resourceType={RESOURCE_CLASS.WEB}
             title="Global server distribution"
             mapResources={mapResources}
           />
+        )}
+      </section>
+
+      {/* *****SECTION RIGHT WEB PAGE ***** */}
+      <section className="right" ref={flashlight.rightPaneRef}>
+        <Navbar />
+        <div className="scrollable-content">
+          {/* En desktop, mostrar las cards en el orden original */}
+          {!isMobile && (
+            <>
+              <WebApplicationTitle isLoading={isLoading} />
+              <WebApplicationStatics
+                domainCount={domainCount.get}
+                subDomainCount={subDomainCount.get}
+                uniqueIpCount={uniqueIpCount.get}
+              />
+              <OpenOrderButton
+                className="pentest-btn"
+                type={ResourcesTypes.WEB}
+                resourceCount={webResources.length}
+                isLoading={isLoading}
+              />
+              <ServerGeolocationMap
+                networkData={webResources}
+                resourceType={RESOURCE_CLASS.WEB}
+                title="Global server distribution"
+                mapResources={mapResources}
+              />
+            </>
+          )}
         </div>
       </section>
     </EmptyLayout>

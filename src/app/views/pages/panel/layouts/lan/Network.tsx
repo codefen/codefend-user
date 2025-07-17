@@ -95,6 +95,18 @@ const NetworkPage: FC = () => {
       <AddAccessPointModal appEvent={appEvent} />
       <AddSubNetworkModal appEvent={appEvent} internalNetwork={networks ?? []} />
       <section className="left">
+        {/* Cards móviles - se muestran solo en móvil */}
+        <div className="mobile-cards">
+          <AddNetworkBlock />
+          <OpenOrderButton
+            className="primary-full"
+            type={ResourcesTypes.NETWORK}
+            resourceCount={networks?.length || 0}
+            isLoading={isLoading}
+            scope={OrderSection.NETWORK_SCOPE}
+          />
+        </div>
+
         <div className="card">
           <SimpleSection icon={<NetworkOutlineIcon />}>
             {/* Sistema de tabs debajo del título */}
@@ -120,6 +132,15 @@ const NetworkPage: FC = () => {
             </div>
             <div className="content">{renderTabContent()}</div>
           </SimpleSection>
+        </div>
+
+        {/* Global server distribution - se muestra solo en móvil */}
+        <div className="mobile-bottom-card">
+          <ServerGeolocationMap
+            networkData={networks as any}
+            resourceType={RESOURCE_CLASS.NETWORK}
+            title="Global server distribution"
+          />
         </div>
       </section>
 

@@ -1,4 +1,12 @@
 main.sb {
+  // Sobrescribir estilos globales de main para evitar conflictos
+  height: auto !important;
+  max-height: none !important;
+  min-height: calc(100vh - 120px); // Ajustar según la altura del header
+  display: flex;
+  overflow: visible; // Permitir scroll natural del documento
+  position: relative;
+  padding-bottom: var(--card-space); // Margen inferior igual al superior
   max-width: 1800px;
 
   .crack-buttons-container {
@@ -138,6 +146,29 @@ main.sb {
   }
 
   .left {
+    flex: 1;
+    overflow-y: visible; // Usar scroll natural del documento
+    height: auto; // Altura automática para flujo natural
+    padding-inline-start: 0;
+    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
+    margin-bottom: var(--card-space); // Margen inferior igual al superior
+
+    // Cards móviles - ocultas por defecto en desktop
+    .mobile-cards {
+      display: none;
+      margin-bottom: 1rem;
+      
+      .card {
+        margin-bottom: 1rem;
+      }
+    }
+
+    // Card inferior móvil - oculta por defecto en desktop
+    .mobile-bottom-card {
+      display: none;
+      margin-top: 1rem;
+    }
+
     flex: 1 1 65%;
     overflow-x: hidden;
 
@@ -222,7 +253,44 @@ main.sb {
   }
 
   .right {
-    flex: 1 1 35%;
+    flex: 0 0 35%;
+    height: calc(100vh - var(--card-space) * 2 - 60px); // Altura considerando márgenes superior e inferior
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: var(--card-space); // Mantener fijo con margen superior
+    
+    // Smooth scrolling para mejor UX
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color-300) transparent;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color-300);
+      border-radius: 3px;
+      
+      &:hover {
+        background-color: var(--primary-color-400);
+      }
+    }
+    
+    // Navbar y header sticky opcional
+    .navbar {
+      flex: 0 0 auto;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--primary-color);
+    }
 
     .card.title.previous-searches {
       padding-inline: 0;
@@ -236,26 +304,111 @@ main.sb {
       }
     }
   }
+
+  // Media queries para responsive - ocultar .right en móvil
+  @media (max-width: 1000px) {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
 }
 
-@media only screen and (max-width: 600px) {
+@media (max-width: 600px) {
   main.sb {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    padding-inline-start: 10px;
-    height: 81dvh;
+    height: auto !important;
     min-height: auto;
+    flex-direction: column;
+    padding-bottom: var(--card-space); // Mantener margen inferior en móvil
 
     .left {
+      width: 100%;
+      flex: 1;
+      overflow-y: visible; // Usar scroll natural en móvil
+      height: auto;
+      min-height: 50vh;
+      margin-bottom: var(--card-space); // Margen entre paneles en móvil
+
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+
       .card.title {
         box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%);
-
         /* Sombra grande, difuminada y suave solo para el card title de la izquierda */
       }
+      
       // Quitar gap solo en dataleaks/SNS
       gap: 0 !important;
       width: 100%;
+
+      .card {
+        overflow-x: auto;
+      }
+    }
+
+    .right {
+      width: 100%;
+      flex: 0 0 auto;
+      height: auto;
+      max-height: 50vh;
+      overflow-y: auto;
+      position: static; // Quitar sticky en móvil
+      margin-bottom: 0; // Sin margen extra al final en móvil
     }
   }
 }
@@ -269,6 +422,49 @@ main.sb {
 .my-masonry-grid_column {
   padding-left: 12px; /* gutter size */
   background-clip: padding-box;
+}
+
+// Media queries para masonry grid en móvil
+@media (max-width: 1000px) {
+  .my-masonry-grid {
+    flex-direction: column;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .my-masonry-grid_column {
+    padding-left: 0;
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .my-masonry-grid {
+    flex-direction: column;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .my-masonry-grid_column {
+    padding-left: 0;
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .my-masonry-grid {
+    flex-direction: column;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .my-masonry-grid_column {
+    padding-left: 0;
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
 }
 
 .modal.crack-modal {

@@ -2,6 +2,16 @@ main.social {
   .left {
     width: 70%;
 
+    // Cards móviles - ocultas por defecto en desktop
+    .mobile-cards {
+      display: none;
+      margin-bottom: 1rem;
+      
+      .card {
+        margin-bottom: 1rem;
+      }
+    }
+
     .search-container {
       position: relative;
       margin-bottom: 1rem;
@@ -118,14 +128,16 @@ main.social {
   }
 
   @media only screen and (max-width: 600px) {
-    display: block;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
     padding-inline-start: 10px;
-    height: 81dvh;
-    min-height: auto;
+    min-height: 100vh;
+    height: auto;
 
     .left {
       width: 100%;
+      flex: 1;
     }
 
     .right {
@@ -662,6 +674,85 @@ main.social {
           color: #cccccc;
         }
       }
+    }
+  }
+}
+
+// Media queries para responsive - ocultar .right en móvil
+@media (max-width: 1000px) {
+  main.social {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  main.social {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  main.social {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
     }
   }
 }

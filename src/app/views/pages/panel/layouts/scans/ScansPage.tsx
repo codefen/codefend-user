@@ -8,6 +8,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import './scanpage.scss';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
+import { StatIcon } from '@icons';
 
 export const ScansPage = () => {
   const [showScreen] = useShowScreen();
@@ -35,7 +36,28 @@ export const ScansPage = () => {
     <SectionTracker sectionName="scans">
       <main className={`scans ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
+          {/* Cards móviles - se muestran solo en móvil */}
+          <div className="mobile-cards">
+            {/* Card de bienvenida */}
+            <div className="card title">
+              <div className="scan-header">
+                <h3>
+                  <StatIcon />
+                  AI Surveillance
+                </h3>
+                <p>Comprehensive AI-powered security analysis combining automated scans and continuous surveillance of your web applications.</p>
+              </div>
+            </div>
+          </div>
+
           <ScanSection />
+
+          {/* Badge "Available" - se muestra solo en móvil */}
+          <div className="mobile-bottom-card">
+            <div className="card remaining-searches black-box">
+              Available: {globalStore.company.get.disponibles_neuroscan}
+            </div>
+          </div>
         </section>
         <section className="right">
           <Navbar />

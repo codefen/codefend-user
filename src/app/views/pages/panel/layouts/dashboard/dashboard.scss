@@ -241,18 +241,43 @@ main.dashboard {
   main.dashboard {
     display: flex;
     flex-direction: column;
-    min-height: auto;
-    height: 81dvh;
+    min-height: 100vh;
+    height: auto;
     padding: 0;
+    overflow-y: visible !important; // Permitir scroll natural en móvil
+    max-height: none !important; // Remover altura máxima en móvil
 
     .left {
       width: 100%;
       padding-block-start: 10px;
+      flex: 1;
+      overflow-y: visible; // Usar scroll natural del documento
+      height: auto; // Altura automática para flujo natural
+
+      // Ocultar columna "published" en móvil para dar más espacio a "issue title"
+      .table {
+        .item-cell-5 {
+          display: none !important;
+        }
+
+        // Redistribuir el espacio: issue title toma más espacio, score mantiene su tamaño
+        .item-cell-1 {
+          min-width: 65% !important;
+          max-width: 65% !important;
+          font-size: 0.9rem;
+        }
+
+        .item-cell-4 {
+          min-width: 30% !important;
+          max-width: 30% !important;
+        }
+      }
     }
 
     .right {
       width: 100%;
       padding-block-start: 20px;
+      flex: 0 0 auto;
     }
   }
 }
