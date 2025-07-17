@@ -52,12 +52,36 @@ const IssuesPanel: FC = () => {
         <SelectAnyResourceModal issues={displayIssues} />
         {/* <div className="brightness variant-1"></div> */}
         <section className="left">
+          {/* Cards móviles - se muestran solo en móvil */}
+          <div className="mobile-cards">
+            <IssuePanelHeader openAddIssue={handleAddFinding} />
+            <IssueReport
+              handleFilter={handleFilters}
+              isLoading={isLoading}
+              issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+              issues={issues}
+              currentFilters={filters}
+            />
+            <VulnerabilitiesStatus
+              isLoading={isLoading}
+              vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+            />
+          </div>
+
           <IssueResources
             isLoading={isLoading}
             issues={displayIssues}
             refresh={refresh}
             addFinding={handleAddFinding}
           />
+
+          {/* VulnerabilityRisk - se muestra solo en móvil */}
+          <div className="mobile-bottom-card">
+            <VulnerabilityRisk
+              isLoading={isLoading}
+              vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+            />
+          </div>
         </section>
         <section className="right" ref={flashlight.rightPaneRef}>
           <Navbar />

@@ -173,6 +173,23 @@ const SocialEngineeringView = () => {
         <CredentialsModal />
         <AddSocialResourceModal onDone={() => refresh()} />
         <section className="left">
+          {/* Cards móviles - se muestran solo en móvil */}
+          <div className="mobile-cards">
+            <AddSocialBlock isLoading={isLoading} />
+            <SocialEngineeringFilters
+              members={members}
+              domains={domains || []}
+              handleFilters={onFilterChange}
+              currentFilters={filters}
+            />
+            <OpenOrderButton
+              className="primary-full"
+              type={ResourcesTypes.SOCIAL}
+              resourceCount={members?.length || 0}
+              scope={OrderSection.SOCIAL_SCOPE}
+            />
+          </div>
+
           <div>
             <ModalInput
               icon={<MagnifyingGlassIcon />}

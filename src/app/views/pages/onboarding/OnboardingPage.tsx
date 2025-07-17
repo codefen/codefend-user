@@ -134,7 +134,7 @@ export const OnboardingPage = () => {
 
     if (!currentSession || !currentUser) {
       // Si no hay sesión NI datos temporales, redirigir al login
-      console.log('❌ No hay sesión ni datos temporales, redirigiendo al login');
+      // console.log('❌ No hay sesión ni datos temporales, redirigiendo al login');
       window.location.href = '/auth/signin';
       return;
     }
@@ -340,10 +340,10 @@ export const OnboardingPage = () => {
       ) {
         updateInitialDomain('initialDomain', normalizedCompanyData.company_web);
         updateInitialDomain('scopeType', 'website');
-        console.log(
-          '🔗 Dominio normalizado guardado para el scanner:',
-          normalizedCompanyData.company_web
-        );
+        // console.log(
+        //   '🔗 Dominio normalizado guardado para el scanner:',
+        //   normalizedCompanyData.company_web
+        // );
       } else if (isPersonalUser) {
         // Para usuarios personales, limpiar el store y configurar para email
         updateInitialDomain('initialDomain', '');
@@ -360,7 +360,7 @@ export const OnboardingPage = () => {
         try {
           const tempData = JSON.parse(tempOnboardingData);
           handleSuccessfulLogin(tempData, false); // false = no mostrar toast de login
-          console.log('✅ Login completado después de onboarding');
+          // console.log('✅ Login completado después de onboarding');
         } catch (error) {
           console.error('Error al hacer login después de onboarding:', error);
         }

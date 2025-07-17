@@ -30,7 +30,7 @@ export default defineConfig(() => ({
   clearScreen: false,
   server: {
     strictPort: true,
-    host: HOST || false,
+    host: HOST || '0.0.0.0', // Cambiado de false a '0.0.0.0' para permitir acceso desde LAN
     port: Number(PORT),
     watch: {
       ignored: ['**/src-tauri/**'],

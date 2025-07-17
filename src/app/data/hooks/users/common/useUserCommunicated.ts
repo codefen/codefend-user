@@ -23,7 +23,7 @@ interface NotificationHandler {
   handle: (notification: Notification | any, isAnyModalOpen: boolean) => Promise<boolean>;
 }
 
-// Fetcher function
+// Fetcher function with improved error handling and debugging
 const fetchCommuniques = async (
   path: string,
   company: string,
@@ -31,19 +31,81 @@ const fetchCommuniques = async (
   logout: () => void
 ): Promise<Notification[]> => {
   if (companyIdIsNull(company)) {
-    return Promise.reject([]);
-  }
-  const response = await AxiosHttpService.getInstance().post<any>({
-    path,
-    body: { company_id: company, user_id: user },
-  });
-
-  const data = response.data;
-  if (verifySession(data, logout) || apiErrorValidation(data)) {
+    console.warn('🚨 useUserCommunicated: Company ID is null, skipping communiques fetch');
     return Promise.reject([]);
   }
 
-  return Array.isArray(data.communiques) ? data.communiques : [];
+  // console.log('📡 useUserCommunicated: Fetching communiques', {
+  //   path,
+  //   company_id: company,
+  //   user_id: user,
+  //   timestamp: new Date().toISOString(),
+  // });
+
+  try {
+    const response = await AxiosHttpService.getInstance().post<any>({
+      path,
+      body: { company_id: company, user_id: user },
+    });
+
+    const data = response.data;
+
+    // console.log('📥 useUserCommunicated: API Response received', {
+    //   hasData: !!data,
+    //   hasError: !!data?.error,
+    //   errorValue: data?.error,
+    //   hasInfo: !!data?.info,
+    //   infoMessage: data?.info,
+    //   timestamp: new Date().toISOString(),
+    // });
+
+    // Improved session verification with more context
+    if (data?.error == 1 && String(data.info).startsWith('invalid or expired')) {
+      // console.error(
+      //   '🚨 useUserCommunicated: Session expired detected, but checking if login just happened'
+      // );
+
+      // Check if this could be a timing issue after recent login
+      const loginTimestamp = localStorage.getItem('last_login_timestamp');
+      const now = Date.now();
+      const timeSinceLogin = loginTimestamp ? now - parseInt(loginTimestamp) : Infinity;
+
+      if (timeSinceLogin < 5000) {
+        // Less than 5 seconds since login
+        console.warn(
+          '⚠️ useUserCommunicated: Session error within 5s of login - possible timing issue, retrying instead of logout'
+        );
+        return Promise.reject([]); // Reject but don't logout
+      } else {
+        // console.error('🚨 useUserCommunicated: Session truly expired, calling logout');
+        if (verifySession(data, logout)) {
+          return Promise.reject([]);
+        }
+      }
+    }
+
+    if (apiErrorValidation(data)) {
+      // console.warn('⚠️ useUserCommunicated: API error validation failed', {
+      //   error: data?.error,
+      //   response: data?.response,
+      //   isAnError: data?.isAnError,
+      //   isNetworkError: data?.isNetworkError,
+      //   error_info: data?.error_info,
+      // });
+      return Promise.reject([]);
+    }
+
+    const communiques = Array.isArray(data.communiques) ? data.communiques : [];
+    // console.log('✅ useUserCommunicated: Communiques fetched successfully', {
+    //   count: communiques.length,
+    //   communiques: communiques.map((c: any) => ({ id: c.id, model: c.model, solved: c.solved })),
+    // });
+
+    return communiques;
+  } catch (error) {
+    console.error('❌ useUserCommunicated: Network error fetching communiques', error);
+    return Promise.reject([]);
+  }
 };
 
 export const useUserCommunicated = () => {
@@ -57,6 +119,13 @@ export const useUserCommunicated = () => {
   const qualitySurveyIsOpenRef = useRef<boolean>(qualitySurveyStore.isOpen);
   const genericModalIsOpenRef = useRef<boolean>(modalStore.isOpen);
   const startPollRef = useRef<typeof startPoll>(startPoll);
+
+  // Add mounting timestamp for debugging
+  useEffect(() => {
+    console.log('🔄 useUserCommunicated: Hook mounted/updated', {
+      timestamp: new Date().toISOString(),
+    });
+  }, [companyId, userId]);
 
   useEffect(() => {
     qualitySurveyIsOpenRef.current = qualitySurveyStore.isOpen;
@@ -91,6 +160,12 @@ export const useUserCommunicated = () => {
   ]);
 
   const swrKey = companyId && userId ? ['users/communiques/index', companyId, userId] : null;
+
+  // console.log('🔑 useUserCommunicated: SWR Key', {
+  //   swrKey,
+  //   timestamp: new Date().toISOString(),
+  // });
+
   const {
     data = [],
     error,
@@ -105,11 +180,29 @@ export const useUserCommunicated = () => {
       revalidateOnReconnect: true,
       fallbackData: [],
       dedupingInterval: 5_000,
-      onError: (e, key) => console.error(`Error SWR ${key}:`, e),
+      // Increase retry attempts and delay for initial load
+      errorRetryCount: 3,
+      errorRetryInterval: 2000,
+      onError: (e, key) => {
+        console.error(`❌ useUserCommunicated: Error SWR ${key}:`, e);
+        // Don't log this as an error if it's within 10 seconds of login (timing issue)
+        const loginTimestamp = localStorage.getItem('last_login_timestamp');
+        const timeSinceLogin = loginTimestamp ? Date.now() - parseInt(loginTimestamp) : Infinity;
+        if (timeSinceLogin < 10000) {
+          console.warn(
+            '⚠️ useUserCommunicated: SWR error within 10s of login - likely timing issue'
+          );
+        }
+      },
+      onSuccess: data => {
+        console.log('✅ useUserCommunicated: SWR success', {
+          timestamp: new Date().toISOString(),
+        });
+      },
     }
   );
   // ─────────────────────────────────────────────────────────────────────────────
-  //  6) Lógica para procesar notificaciones UNA SOLA VEZ por cada nueva “firma” de data
+  //  6) Lógica para procesar notificaciones UNA SOLA VEZ por cada nueva "firma" de data
   // ─────────────────────────────────────────────────────────────────────────────
   const processingNotificationsRef = useRef<boolean>(false);
   const lastProcessedSignatureRef = useRef<string | null>(null);
@@ -120,7 +213,7 @@ export const useUserCommunicated = () => {
       return;
     }
 
-    // Firma “constante” de data: JSON.stringify(data)
+    // Firma "constante" de data: JSON.stringify(data)
     const signature = JSON.stringify(data);
     if (signature === lastProcessedSignatureRef.current) {
       // Ya procesamos exactamente la misma lista de notificaciones
@@ -128,6 +221,10 @@ export const useUserCommunicated = () => {
     }
 
     processingNotificationsRef.current = true;
+    // console.log('🔔 useUserCommunicated: Processing notifications', {
+    //   timestamp: new Date().toISOString(),
+    // });
+
     try {
       // Filtrar solo las sin resolver
       const unsolved = data.filter(n => n.solved === 'unsolved');
@@ -144,10 +241,18 @@ export const useUserCommunicated = () => {
       for (const notif of unsolved) {
         const handler = notificationHandlersRef.current.find(h => h.model === notif.model);
         if (handler) {
+          // console.log('🎯 useUserCommunicated: Processing notification', {
+          //   id: notif.id,
+          //   model: notif.model,
+          //   isAnyModalOpen,
+          // });
           const handled = await handler.handle(notif, isAnyModalOpen);
           if (handled) {
+            // console.log('✅ useUserCommunicated: Notification handled successfully');
             break;
           }
+        } else {
+          console.log('⚠️ useUserCommunicated: No handler found for notification model');
         }
       }
 

@@ -9,7 +9,7 @@ main.issue-detail {
     --tiny-border-color: var(--primary-color-300);
     --tiny-bg-color: var(--primary-color);
     --tiny-hover-bg-color: var(--primary-color-400);
-    overflow: hidden;
+    overflow: visible; // Cambiar de hidden a visible para permitir contenido natural
 
     > div {
       border-left: 1px solid var(--tiny-border-color);
@@ -278,7 +278,7 @@ main.issue-detail {
     flex-direction: column;
     padding-inline-start: 10px;
     min-height: auto;
-    height: 81dvh;
+    height: auto; // Cambiar de 81dvh a auto para permitir contenido natural
   }
 
   @media only screen and (min-width: 1690px) {
@@ -301,14 +301,32 @@ main.issues-list {
   overflow: visible; // Permitir scroll natural del documento
   position: relative;
   padding-bottom: var(--card-space); // Margen inferior igual al superior
+  overflow-y: auto; // Asegurar que el contenedor principal sea scrolleable
   
   .left {
     flex: 1;
-    overflow-y: visible; // Usar scroll natural del documento
+    overflow-y: auto; // Permitir scroll en el contenedor izquierdo
     height: auto; // Altura automática para flujo natural
     padding-inline-start: 0;
     min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
     margin-bottom: var(--card-space); // Margen inferior igual al superior
+    overflow: visible; // Asegurar que no haya restricciones de overflow
+
+    // Cards móviles - ocultas por defecto en desktop
+    .mobile-cards {
+      display: none;
+      margin-bottom: 1rem;
+      
+      .card {
+        margin-bottom: 1rem;
+      }
+    }
+
+    // Card inferior móvil - oculta por defecto en desktop
+    .mobile-bottom-card {
+      display: none;
+      margin-top: 1rem;
+    }
     
     .form-input {
       input {
@@ -317,7 +335,7 @@ main.issues-list {
     }
 
     .card {
-      overflow-y: hidden;
+      overflow-y: visible; // Permitir que el contenido se expanda
 
       .form-input {
         margin-bottom: 1rem;
@@ -355,7 +373,7 @@ main.issues-list {
       --item-cell-extra: calc(12% / var(--cell-count));
 
       .rows {
-        overflow: auto;
+        overflow-y: auto; // Asegurar que las filas sean scrolleables
         max-height: calc(100cqh - 6rem);
       }
 
@@ -473,6 +491,7 @@ main.issues-list {
     .scrollable-content {
       flex: 1;
       min-height: 0;
+      overflow-y: auto; // Asegurar que el contenido sea scrolleable
     }
 
     .card.filtered {
@@ -509,6 +528,15 @@ main.issues-list {
       min-height: 50vh;
       margin-bottom: var(--card-space); // Margen entre paneles en móvil
 
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+
       .card {
         overflow-x: auto;
       }
@@ -522,6 +550,273 @@ main.issues-list {
       overflow-y: auto;
       position: static; // Quitar sticky en móvil
       margin-bottom: 0; // Sin margen extra al final en móvil
+    }
+  }
+}
+
+// Media queries para issue-detail (vista de detalles de issues)
+@media (max-width: 1000px) {
+  main.issue-detail {
+    flex-direction: column !important;
+    
+    .left {
+      width: 100% !important;
+      flex: 1 1 auto !important;
+      order: 1; // Mostrar primero el contenido principal
+    }
+    
+    .right {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      order: 2; // Mostrar después el customer support
+      max-height: 40vh;
+      overflow-y: auto;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  main.issue-detail {
+    flex-direction: column !important;
+    
+    .left {
+      width: 100% !important;
+      flex: 1 1 auto !important;
+      order: 1;
+    }
+    
+    .right {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      order: 2;
+      max-height: 35vh;
+      overflow-y: auto;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  main.issue-detail {
+    flex-direction: column !important;
+    height: auto !important; // Sobrescribir altura fija de index.scss
+    min-height: auto !important; // Asegurar altura mínima automática
+    opacity: 1 !important; // Forzar visibilidad en móvil
+    padding: 0 !important; // Eliminar padding en móvil
+    width: 100% !important; // Forzar ancho completo
+    margin: 0 !important; // Eliminar márgenes
+    
+    // Debug: agregar borde rojo para ver si se aplica la regla
+    border: 3px solid red !important;
+    
+    .left {
+      width: 100% !important;
+      flex: 1 1 auto !important;
+      order: 1;
+      min-height: 300px !important; // Altura mínima para el contenido
+      height: auto !important; // Auto-calcular altura
+      padding: 0 !important; // Eliminar padding
+      margin: 0 !important; // Eliminar márgenes
+      // Debug: agregar borde azul para ver si se aplica la regla
+      border: 2px solid blue !important;
+    }
+    
+    .right {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      order: 2;
+      max-height: 30vh;
+      overflow-y: auto;
+      padding: 0 !important; // Eliminar padding
+      margin: 0 !important; // Eliminar márgenes
+      // Debug: agregar borde verde para ver si se aplica la regla
+      border: 2px solid green !important;
+    }
+  }
+  
+  // Reglas específicas para TinyMCE en móvil - auto-calcular altura
+  .tox-tinymce {
+    height: auto !important; // Auto-calcular altura
+    max-height: none !important; // Sin límite de altura
+    min-height: 200px !important; // Altura mínima para que funcione
+  }
+  
+  .tox-editor-container {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 200px !important;
+  }
+  
+  .tox-edit-area {
+    height: auto !important; // Auto-calcular altura
+    max-height: none !important; // Sin límite de altura
+    min-height: 150px !important; // Altura mínima para el área de edición
+  }
+  
+  .tox-edit-area iframe {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 150px !important;
+  }
+  
+  // Forzar que TinyMCE calcule su altura automáticamente
+  .tox-edit-area__iframe {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 150px !important;
+  }
+  
+  // Asegurar que el contenido del editor se expanda naturalmente
+  .tox-edit-focus {
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  // Contenedor del editor sin restricciones
+  .tox-sidebar-wrap {
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  // Asegurar que el contenedor del editor no interfiera
+  .issues-report {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important; // Permitir que el contenido se expanda
+  }
+  
+  // Forzar auto-resize en TinyMCE
+  .tox-tinymce--toolbar-sticky-off .tox-editor-header {
+    position: static !important; // Evitar sticky que puede interferir
+  }
+  
+  // Asegurar que el contenido del editor se expanda completamente
+  .tox-edit-area__iframe {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 150px !important;
+  }
+  
+  // Reglas para el contenido en modo view-only
+  .issue-main-content {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  
+  // Asegurar que el textarea base no interfiera
+  textarea#issue {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+  }
+  
+  // Reglas adicionales para eliminar scroll interno
+  .tox-sidebar-wrap {
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  .tox-edit-focus {
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  // Asegurar que el contenido del editor se expanda
+  .tox-edit-area__iframe {
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+
+// Media queries para responsive - ocultar .right en móvil
+@media (max-width: 1000px) {
+  main.issues-list {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  main.issues-list {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  main.issues-list {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
     }
   }
 }
@@ -584,4 +879,41 @@ main.issues-list {
   width: 100%;
   background-color: var(--primary-color);
   color: var(--primary-color);
+}
+
+// Reglas específicas para issue-detail cuando sidebar está en modo móvil
+main.issue-detail.sidebar-mobile-active {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: auto !important;
+  padding-inline-start: 0 !important;
+  overflow: auto !important;
+  grid-column: 1 / -1 !important; // Ocupar toda la pantalla en móvil
+
+  .left,
+  .right {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding-inline-start: 0 !important;
+    padding-inline-end: 0 !important;
+    margin: 0 !important;
+  }
+
+  .left {
+    padding-block-start: 24px !important;
+    margin-bottom: 24px !important;
+  }
+  
+  .right {
+    padding-block-start: 0 !important;
+  }
+}
+
+// Regla específica para issue-detail en móvil (sin sidebar-mobile-active)
+@media (max-width: 600px) {
+  main.issue-detail {
+    grid-column: 1 / -1 !important; // Ocupar toda la pantalla en móvil
+  }
 }

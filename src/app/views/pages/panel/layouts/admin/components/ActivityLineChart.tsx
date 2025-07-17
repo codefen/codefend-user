@@ -51,13 +51,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
   const width = dimensions.width - margin.left - margin.right;
   const height = dimensions.height - margin.top - margin.bottom;
 
-  // Colores para cada línea/barra (similares a la imagen)
+  // Colores para cada línea/barra (actualizados según especificación)
   const colors = {
-    leads: '#ccc', // Gris
+    leads: '#666666', // Gris oscuro
     usuarios: '#ff6464', // Rojo claro
-    companias: '#ff3939', // Rojo oscuro
+    companias: '#ff3939', // Rojo
     neuroscans: '#ffa502', // Naranja
-    visitas_unicas: '#20c997', // Verde azulado
+    visitas_unicas: '#999999', // Gris claro
   };
 
   // Procesar los datos - FIX: crear fecha sin zona horaria para evitar desfase
@@ -263,7 +263,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .defined(d => d.value !== null && d.value !== undefined); // Solo dibujar donde hay datos válidos
 
     // Crear las áreas y líneas para cada métrica
-    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
+    // Orden: visitas_unicas (atrás) -> leads -> companias -> usuarios -> neuroscans (adelante)
+    const metrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
 
     metrics.forEach(metric => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
@@ -370,7 +371,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
             const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
             // Seleccionar todos los puntos de todas las métricas en esa fecha
-            const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans'];
+            const allMetrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
             allMetrics.forEach(currentMetric => {
               const isMetricVisible = visibleMetrics[currentMetric as keyof typeof visibleMetrics];
               if (isMetricVisible) {
@@ -395,7 +396,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
             const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
             // Restaurar todos los puntos de todas las métricas en esa fecha
-            const allMetrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
+            const allMetrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
             allMetrics.forEach(currentMetric => {
               const isMetricVisible = visibleMetrics[currentMetric as keyof typeof visibleMetrics];
               if (isMetricVisible) {
@@ -464,7 +465,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     //   }))
     // );
 
-    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
+    // Orden de barras: visitas_unicas -> leads -> companias -> usuarios -> neuroscans
+    const metrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
     const visibleMetricsArray = metrics.filter(
       metric => visibleMetrics[metric as keyof typeof visibleMetrics]
     );
@@ -708,7 +710,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .attr('class', 'legend')
       .attr('transform', `translate(0, ${height + 50})`);
 
-    const metrics = ['leads', 'usuarios', 'companias', 'neuroscans', 'visitas_unicas'];
+    // Orden de la leyenda: visitas_unicas -> leads -> companias -> usuarios -> neuroscans
+    const metrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
 
     metrics.forEach((metric, index) => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];

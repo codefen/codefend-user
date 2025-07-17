@@ -101,7 +101,7 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
     startProgressBar();
 
     timeoutRef.current = setTimeout(() => {
-      console.log(`⏰ Auto-cerrando panel ${panelId}`);
+      // console.log(`⏰ Auto-cerrando panel ${panelId}`);
       setIsClosing(true);
       // Esperar a que termine la animación de fadeout antes de cerrar
       setTimeout(() => {
@@ -113,7 +113,7 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
   // Función para parar el timer
   const stopAutoCloseTimer = () => {
     if (timeoutRef.current) {
-      console.log(`⏸️ Pausando auto-cierre para panel ${panelId}`);
+      // console.log(`⏸️ Pausando auto-cierre para panel ${panelId}`);
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
@@ -122,7 +122,7 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
 
   // Efecto para iniciar el timer cuando se monta el componente
   useEffect(() => {
-    console.log(`🚀 Iniciando timer de auto-cierre para panel ${panelId}`);
+    // console.log(`🚀 Iniciando timer de auto-cierre para panel ${panelId}`);
     startAutoCloseTimer();
 
     // Limpiar timeouts al desmontar
@@ -138,13 +138,13 @@ const CompanyDeletionResultPanel: FC<CompanyDeletionResultPanelProps> = ({
 
   // Manejar hover
   const handleMouseEnter = () => {
-    console.log(`🖱️ Mouse encima del panel ${panelId} - pausando auto-cierre`);
+    // console.log(`🖱️ Mouse encima del panel ${panelId} - pausando auto-cierre`);
     setIsHovered(true);
     stopAutoCloseTimer();
   };
 
   const handleMouseLeave = () => {
-    console.log(`🖱️ Mouse fuera del panel ${panelId} - reanudando auto-cierre en 3s`);
+    // console.log(`🖱️ Mouse fuera del panel ${panelId} - reanudando auto-cierre en 3s`);
     setIsHovered(false);
     startAutoCloseTimer();
   };

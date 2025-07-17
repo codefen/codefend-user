@@ -3,10 +3,29 @@
 @use './components/world-map.scss';
 
 main.lan {
+  height: 100vh;
+  overflow: hidden;
+  
   .left {
     flex: 1 1 68%;
     width: 68%;
-    overflow: hidden;
+    overflow: auto;
+
+    // Cards móviles - ocultas por defecto en desktop
+    .mobile-cards {
+      display: none;
+      margin-bottom: 1rem;
+      
+      .card {
+        margin-bottom: 1rem;
+      }
+    }
+
+    // Card inferior móvil - oculta por defecto en desktop
+    .mobile-bottom-card {
+      display: none;
+      margin-top: 1rem;
+    }
 
     .form-input input {
       border: none;
@@ -27,6 +46,7 @@ main.lan {
       flex-direction: column;
       height: calc(100vh - 150px);
       max-height: calc(100vh - 150px);
+      overflow: auto;
     }
 
     // Estilos para el header personalizado con dropdown
@@ -298,3 +318,94 @@ main.lan {
 }
 
 // Imports moved to the top of the file
+
+// Media queries para responsive - ocultar .right en móvil
+@media (max-width: 1000px) {
+  main.lan {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  main.lan {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  main.lan {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .mobile-bottom-card {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}

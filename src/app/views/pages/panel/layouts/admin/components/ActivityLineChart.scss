@@ -15,7 +15,7 @@
     overflow: visible;
     display: block;
   }
-
+ 
   .chart-placeholder {
     display: flex;
     align-items: center;
@@ -25,46 +25,56 @@
     font-style: italic;
   }
 
-  // 🆕 Estilos para los controles de gráfico
+  // Estilos para los controles de gráfico (igual que network tabs)
   .chart-controls {
     display: flex;
-    gap: 0.5rem;
+    gap: 0;
     margin-bottom: 1rem;
+    border-bottom: 1px solid var(--borders-color);
     justify-content: center;
     align-items: center;
 
     .chart-toggle-btn {
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--primary-color-300);
-      background: var(--primary-color);
-      color: var(--tertiary-color-500);
-      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: transparent;
+      color: var(--text-color-secondary);
       cursor: pointer;
-      font-family: 'Satoshi', sans-serif;
-      font-size: 0.875rem;
+      border-bottom: 2px solid #999;
+      transition: all 0.3s ease;
       font-weight: 500;
-      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      font-family: 'Satoshi', sans-serif;
       display: flex;
       align-items: center;
       gap: 0.5rem;
 
       &:hover {
-        background: var(--primary-color-50);
-        border-color: var(--primary-color-400);
-        color: var(--tertiary-color-600);
-        transform: translateY(-1px);
+        color: var(--text-color-primary);
+        background: var(--hover-color);
       }
 
       &.active {
-        background: var(--secondary-color-50);
-        border-color: var(--secondary-color-50);
-        color: var(--primary-color);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        color: #ff3939;
+        border-bottom-color: #ff3939;
+        background: var(--primary-color);
+      }
+
+      &:not(.active) {
+        color: #999;
+        border-bottom-color: #999;
+      }
+
+      &:first-child {
+        border-top-left-radius: 0.5rem;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0.5rem;
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(255, 87, 87, 0.1);
       }
     }
   }

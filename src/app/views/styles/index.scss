@@ -561,6 +561,7 @@ main {
 
 @media only screen and (max-width: 1230px) {
   main {
+    margin-block-start: 1rem;
     padding-inline-start: var(--card-space);
 
     // Cuando la sidebar está contraída (mobile-active), no debe tener padding

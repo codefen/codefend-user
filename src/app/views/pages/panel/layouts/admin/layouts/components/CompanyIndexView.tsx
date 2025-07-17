@@ -17,15 +17,15 @@ import CompanyDeletionResultPanel from '@/app/views/components/modals/CompanyDel
 // Función para formatear fecha en formato europeo "05/07/2025"
 const formatDateEuropean = (dateString: string): string => {
   if (!dateString) return '--/--/--';
-  
+
   try {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return '--/--/--';
-    
+
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    
+
     return `${day}/${month}/${year}`;
   } catch (error) {
     console.error('Error formatting date:', error);
@@ -77,17 +77,24 @@ const CompanyIndexView: FC = () => {
       return;
     }
 
-    const confirmed = window.confirm(`¿Estás seguro de que quieres eliminar "${row.name}"? Esta acción no se puede deshacer.`);
+    const confirmed = window.confirm(
+      `¿Estás seguro de que quieres eliminar "${row.name}"? Esta acción no se puede deshacer.`
+    );
     if (confirmed) {
       // 🚀 PRIMERO: Quitar INMEDIATAMENTE el item de la tabla
-      console.log('🗑️ Eliminando empresa de la tabla inmediatamente:', row.name);
+      // console.log('🗑️ Eliminando empresa de la tabla inmediatamente:', row.name);
       const updatedCompanies = companies.get.filter((company: any) => company.id !== row.id);
       companies.set(updatedCompanies);
-      
+
       // 📡 SEGUNDO: Hacer la petición al servidor en background
       const result = await deleteCompany(row.id);
-      
-      if (result.success && result.companyName && result.deletionSummary && result.totalRecordsDeleted !== undefined) {
+
+      if (
+        result.success &&
+        result.companyName &&
+        result.deletionSummary &&
+        result.totalRecordsDeleted !== undefined
+      ) {
         // 📊 TERCERO: Mostrar el panel de confirmación
         const newPanel: PanelData = {
           id: `deletion-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -96,7 +103,7 @@ const CompanyIndexView: FC = () => {
           deletionSummary: result.deletionSummary,
           totalRecordsDeleted: result.totalRecordsDeleted,
         };
-        
+
         // Agregar el nuevo panel al array
         setDeletionPanels(prev => [...prev, newPanel]);
       } else {
@@ -156,15 +163,16 @@ const CompanyIndexView: FC = () => {
         const countryCode = row?.pais_code || '';
         const countryName = row?.pais || 'Unknown';
         const hasValidCode = countryCode && countryCode.length >= 2;
-        
+
         return hasValidCode ? (
-          <span 
+          <span
             className={`flag flag-${countryCode.toLowerCase()}`}
             title={countryName}
-            style={{ cursor: 'help' }}
-          ></span>
+            style={{ cursor: 'help' }}></span>
         ) : (
-          <span title={countryName} style={{ cursor: 'help' }}>🌍</span>
+          <span title={countryName} style={{ cursor: 'help' }}>
+            🌍
+          </span>
         );
       },
     },
@@ -197,14 +205,13 @@ const CompanyIndexView: FC = () => {
       type: TABLE_KEYS.FULL_ROW,
       render: (row: any) => (
         <div className="options-actions">
-          <button 
-            className="delete-btn codefend-text-red" 
+          <button
+            className="delete-btn codefend-text-red"
             title="Delete Company"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               handleDeleteCompany(row);
-            }}
-          >
+            }}>
             <TrashIcon />
           </button>
         </div>
@@ -222,8 +229,6 @@ const CompanyIndexView: FC = () => {
     totalNotUniqueIpCount.set(0);
   };
 
-
-
   return (
     <div className="CompanyIndexView">
       <Tablev3
@@ -238,7 +243,7 @@ const CompanyIndexView: FC = () => {
         selectedKey="id"
         className="table-admin"
       />
-      
+
       {/* Renderizar múltiples paneles */}
       {deletionPanels.map((panel, index) => (
         <CompanyDeletionResultPanel

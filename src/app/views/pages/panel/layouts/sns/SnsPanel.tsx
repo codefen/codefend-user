@@ -34,7 +34,24 @@ const SnsPanel: FC = () => {
     <>
       <main className={`sb ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
+          {/* Cards móviles - se muestran solo en móvil */}
+          <div className="mobile-cards">
+            {/* Card de bienvenida */}
+            <SnsCardTitle
+              arrow="none"
+              title="Dataleaks search"
+              description="Protect your brand.Check our data breach databases to find out if your users or business information has been exposed."
+            />
+          </div>
+
           <SnsSearchAndData refetch={refresh} />
+
+          {/* Badge "Remaining searches" - se muestra solo en móvil */}
+          <div className="mobile-bottom-card">
+            <div className="card remaining-searches">
+              Remaining searches: {company.get.disponibles_sns}
+            </div>
+          </div>
         </section>
 
         <section className="right">

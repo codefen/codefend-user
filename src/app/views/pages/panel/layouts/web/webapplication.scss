@@ -28,7 +28,7 @@ main.webapp {
     }
 
     .empty-card {
-      min-width: 725px;
+      min-width: auto; // Permitir que se ajuste en móvil
     }
 
     // .search-bar-container {
@@ -115,39 +115,109 @@ main.webapp {
 
   // Responsive styles
   @media only screen and (max-width: 600px) {
-    height: auto !important;
-    min-height: auto;
+    display: flex;
     flex-direction: column;
-    padding-bottom: var(--card-space); // Mantener margen inferior en móvil
+    min-height: 100vh;
+    height: auto;
+    padding: 0;
+    overflow-y: visible !important; // Permitir scroll natural en móvil
+    max-height: none !important; // Remover altura máxima en móvil
+    width: 100% !important; // Forzar ancho completo en móvil
+    min-width: auto !important; // Remover ancho mínimo en móvil
+    margin: 0 !important; // Remover márgenes en móvil
+    box-sizing: border-box !important; // Incluir padding en el ancho
 
-    .left {
-      width: 100%;
-      flex: 1;
-      overflow-y: visible; // Usar scroll natural en móvil
-      height: auto;
-      min-height: 50vh;
-      margin-bottom: var(--card-space); // Margen entre paneles en móvil
+          .left {
+        width: 100%;
+        padding-block-start: 10px;
+        flex: 1;
+        overflow-y: visible; // Usar scroll natural del documento
+        height: auto; // Altura automática para flujo natural
+        display: flex;
+        flex-direction: column;
+        gap: var(--card-space); // Espaciado entre cards en móvil
 
-      .table.table-web {
-        .rows {
-          max-height: 60vh; // Ajustar altura en móvil
+              // Estilos para las cards movidas a la izquierda en móvil
+        .card {
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          margin: 0 !important; // Remover márgenes en móvil
+          margin-bottom: var(--card-space) !important; // Margen inferior entre cards
+          box-sizing: border-box !important; // Incluir padding en el ancho
+          
+          &.title {
+            // Card de "Web software"
+            order: 1;
+          }
+          
+          &.flex-box {
+            // Card de estadísticas (3 números)
+            order: 2;
+            
+            .content {
+              width: 100% !important; // Forzar ancho completo en móvil
+              display: flex !important;
+              justify-content: space-around !important;
+              align-items: center !important;
+              
+              .stat {
+                width: 100% !important; // Forzar ancho completo en móvil
+                max-width: 100% !important; // Forzar ancho máximo completo en móvil
+                min-width: auto !important; // Remover ancho mínimo en móvil
+                flex: 1 1 auto !important; // Distribución equitativa
+              }
+            }
+          }
+          
+          &.pentest-btn {
+            // Card de "Professional hackers on demand"
+            order: 3;
+          }
         }
-      }
+
+              // Formulario de búsqueda
+        .search-bar-container,
+        .form-input,
+        input[type="text"],
+        input[type="search"] {
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          box-sizing: border-box !important; // Incluir padding en el ancho
+        }
+
+        .table.table-web {
+          order: 4; // Tabla después de las cards
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          box-sizing: border-box !important; // Incluir padding en el ancho
+          
+          .rows {
+            max-height: 60vh; // Ajustar altura en móvil
+          }
+        }
+
+              .server-geolocation-map {
+          order: 5; // Mapa al final
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          box-sizing: border-box !important; // Incluir padding en el ancho
+        }
 
       .empty-card {
         min-width: auto; // Permitir que se ajuste en móvil
+        width: 100% !important; // Forzar ancho completo en móvil
       }
     }
 
-    .right {
-      width: 100%;
-      flex: 0 0 auto;
-      height: auto;
-      max-height: 50vh;
-      overflow-y: auto;
-      position: static; // Quitar sticky en móvil
-      margin-bottom: 0; // Sin margen extra al final en móvil
-    }
+                    .right {
+        width: 100%;
+        padding-block-start: 20px;
+        flex: 0 0 auto;
+      }
   }
 }
 
@@ -208,5 +278,22 @@ main.webapp {
         backdrop-filter: blur(9px) saturate(0.8) contrast(1);
       }
     }
+  }
+}
+
+// Ocultar sección derecha en mobile/tablet como hacen las otras secciones
+@media only screen and (max-width: 1000px) {
+  main.webapp .right {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 680px) {
+  main.webapp .right {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  main.webapp .right {
+    display: none !important;
   }
 }

@@ -7,6 +7,7 @@ interface ActivityStatsProps {
     companias: number;
     neuroscans: number;
     issues_vistos: number;
+    orders: number;
   };
 }
 
@@ -23,14 +24,9 @@ export const ActivityStats: FC<ActivityStatsProps> = ({ totals }) => {
       color: '#3742fa' // Azul
     },
     {
-      value: totals.companias,
-      label: 'COMPAÑÍAS',
-      color: '#2ed573' // Verde
-    },
-    {
-      value: totals.neuroscans,
-      label: 'NEUROSCANS',
-      color: '#ffa502' // Naranja
+      value: totals.orders,
+      label: 'ÓRDENES',
+      color: '#007bff' // Azul
     },
     {
       value: totals.issues_vistos,

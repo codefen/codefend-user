@@ -141,10 +141,14 @@ export const WelcomeFinish = ({
   // useEffect para manejar la limpieza cuando el scan termina
   useEffect(() => {
     if (computedCurrentScan && computedCurrentScan.status === AUTO_SCAN_STATE.SCAN_FINISHED) {
-      const _scaningProgress: Map<string, any> = globalStore.scaningProgress.get;
+      const _scaningProgress = globalStore.scaningProgress.get;
       const _lastScanId = globalStore.lastScanId.get;
-      _scaningProgress.delete(_lastScanId);
-      globalStore.scaningProgress.set(_scaningProgress);
+      
+      // Verificar que _scaningProgress sea un Map válido antes de usar .delete()
+      if (_scaningProgress instanceof Map && _lastScanId) {
+        _scaningProgress.delete(_lastScanId);
+        globalStore.scaningProgress.set(_scaningProgress);
+      }
     }
   }, [computedCurrentScan?.status]);
 

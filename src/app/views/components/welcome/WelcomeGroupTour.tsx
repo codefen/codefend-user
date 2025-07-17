@@ -68,13 +68,13 @@ export const WelcomeGroupTour = () => {
     const currentScopeType = scopeType || 'website';
 
     // 🔍 DEBUGGING: Verificar valores recibidos
-    console.log('🚀 startWaitStep - Iniciando scanner con valores:', {
-      domainParam,
-      domainToScan,
-      currentScopeType,
-      usedFromParam: !!domainParam,
-      storeCompleto: useInitialDomainStore.getState(),
-    });
+    // console.log('🚀 startWaitStep - Iniciando scanner con valores:', {
+    //   domainParam,
+    //   domainToScan,
+    //   currentScopeType,
+    //   usedFromParam: !!domainParam,
+    //   storeCompleto: useInitialDomainStore.getState(),
+    // });
 
     // ✅ VALIDACIÓN: Si llegamos aquí, el dominio ya fue validado por web/preview
     // Solo verificamos que el valor esté presente

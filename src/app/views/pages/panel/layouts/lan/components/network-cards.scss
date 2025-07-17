@@ -70,6 +70,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  height: 100%;
 
   .masonry-container {
     display: flex;
@@ -303,6 +304,7 @@
   .network-layout {
     height: calc(100vh - 120px);
     max-height: calc(100vh - 120px);
+    overflow: auto;
 
     .search-section {
       padding: 0.75rem;
@@ -335,19 +337,30 @@
 
   .network-cards-container {
     padding: 0.5rem;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: auto !important;
 
     .masonry-container {
       flex-direction: column;
       gap: 0.75rem;
+      width: 100% !important;
+      max-width: 100% !important;
     }
 
     .masonry-column {
       gap: 0.75rem;
+      width: 100% !important;
+      max-width: 100% !important;
     }
   }
 
   .network-resource-card {
     padding: 0.75rem;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: auto !important;
+    margin: 0 !important;
 
     .card-header .server-info .server-ip {
       font-size: 0.8rem;

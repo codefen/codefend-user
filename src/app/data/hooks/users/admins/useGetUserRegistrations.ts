@@ -11,6 +11,7 @@ interface DailyData {
   companias: string;
   neuroscans: string;
   visitas_unicas: string;
+  orders: string;
 }
 
 export const useGetUserRegistrations = () => {
@@ -24,6 +25,7 @@ export const useGetUserRegistrations = () => {
     neuroscans: 0,
     issues_vistos: 0,
     visitas_unicas: 0,
+    orders: 0,
   });
 
   // Combinar todos los datos por fecha
@@ -34,9 +36,10 @@ export const useGetUserRegistrations = () => {
     const dataTypes = [
       { key: 'leads_por_dia', field: 'leads' },
       { key: 'usuarios_por_dia', field: 'usuarios' },
-      { key: 'companias_por_dia', field: 'companias' },
-      { key: 'neuroscans_por_dia', field: 'neuroscans' },
+      // { key: 'companias_por_dia', field: 'companias' }, // Comentado - no se muestra por defecto
+      // { key: 'neuroscans_por_dia', field: 'neuroscans' }, // Comentado - no se muestra por defecto
       { key: 'visitas_unicas_por_dia', field: 'visitas_unicas' },
+      { key: 'orders_por_dia', field: 'orders' },
     ];
 
     dataTypes.forEach(({ key, field }) => {
@@ -50,6 +53,7 @@ export const useGetUserRegistrations = () => {
             companias: '0',
             neuroscans: '0',
             visitas_unicas: '0',
+            orders: '0',
           });
         }
         const existing = dateMap.get(record.fecha)!;
@@ -98,6 +102,7 @@ export const useGetUserRegistrations = () => {
           neuroscans: filteredData.reduce((sum, reg) => sum + parseInt(reg.neuroscans || '0'), 0),
           issues_vistos: 0,
           visitas_unicas: filteredData.reduce((sum, reg) => sum + parseInt(reg.visitas_unicas || '0'), 0),
+          orders: filteredData.reduce((sum, reg) => sum + parseInt(reg.orders || '0'), 0),
         };
         
         setData(filteredData);
@@ -106,14 +111,14 @@ export const useGetUserRegistrations = () => {
       } else {
         toast.error('Error al cargar los datos');
         setData([]);
-        setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0 });
+        setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0, orders: 0 });
       }
     } catch (error) {
       console.error('Error fetching registrations:', error);
       const errorMessage = apiErrorValidation(error);
       toast.error(errorMessage || 'Error al cargar los datos');
       setData([]);
-      setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0 });
+      setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0, orders: 0 });
     } finally {
       setIsLoading(false);
     }
