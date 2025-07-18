@@ -24,6 +24,8 @@ export const usePaymentTelemetry = () => {
       label: method,
       order_id: orderId,
       monto: amount,
+      currency: 'USD',
+      value: amount || 0,
     });
   };
 
