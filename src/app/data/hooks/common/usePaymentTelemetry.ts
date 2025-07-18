@@ -12,6 +12,8 @@ export const usePaymentTelemetry = () => {
       label: method,
       order_id: orderId,
       monto: amount,
+      currency: "USD",
+      value: amount || 0,
     });
   };
 
@@ -24,7 +26,7 @@ export const usePaymentTelemetry = () => {
       label: method,
       order_id: orderId,
       monto: amount,
-      currency: 'USD',
+      currency: "USD",
       value: amount || 0,
     });
   };
@@ -48,7 +50,7 @@ export const usePaymentTelemetry = () => {
       category: "pago",
       action: "seleccionar_metodo",
       label: method,
-      currency: 'USD',
+      currency: "USD",
       value: value || 0,
     });
   };
