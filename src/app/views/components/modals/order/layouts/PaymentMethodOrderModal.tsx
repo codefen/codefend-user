@@ -1,22 +1,50 @@
 import { type FC } from 'react';
 import { PrimaryButton } from '@buttons/primary/PrimaryButton';
-import { OrderPaymentMethod, OrderSection } from '@interfaces/order';
+import { OrderPaymentMethod, OrderSection, UserSmallPlanSelected } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { userOrderFinancialResource } from '@hooks/orders/useOrders';
 import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 export const PaymentMethodOrderModal: FC = () => {
-  const { updateState, referenceNumber, orderId } = useOrderStore(state => state);
+  const { updateState, referenceNumber, orderId, userSmallPlanSelected } = useOrderStore(state => state);
+  const planPreference = useGlobalFastField('planPreference');
   const { sendOrderFinancial } = userOrderFinancialResource();
   const { trackPaymentMethodSelection } = usePaymentTelemetry();
 
   const backStep = () => updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
 
+  // Función para obtener el valor del plan seleccionado
+  const getPlanValue = (): number => {
+    // Para planes pequeños (automated web scan)
+    if (userSmallPlanSelected) {
+      const smallPlanPrices: Record<string, number> = {
+        [UserSmallPlanSelected.BASIC]: 29,
+        [UserSmallPlanSelected.MEDIUM]: 59,
+        [UserSmallPlanSelected.ADVANCED]: 89,
+      };
+      return smallPlanPrices[userSmallPlanSelected] || 0;
+    }
+    
+    // Para planes profesionales (pentest on demand)
+    if (planPreference.get) {
+      const professionalPlanPrices: Record<string, number> = {
+        'small': 1500,
+        'medium': 4500,
+        'advanced': 13500,
+      };
+      return professionalPlanPrices[planPreference.get] || 0;
+    }
+    
+    return 0;
+  };
+
   const handlePaymentMethodClick = (method: OrderPaymentMethod, telemetryLabel: string) => {
-    trackPaymentMethodSelection(telemetryLabel as 'stripe' | 'crypto' | 'bank');
+    const planValue = getPlanValue();
+    trackPaymentMethodSelection(telemetryLabel as 'stripe' | 'crypto' | 'bank', planValue);
     updateState('paymentMethod', method);
     sendOrderFinancial(referenceNumber, method, orderId);
-      updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
+    updateState('orderStepActive', OrderSection.ANY_PAYMENT_METHOD);
   };
 
   const closeModal = () => {

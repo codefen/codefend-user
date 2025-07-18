@@ -40,12 +40,14 @@ export const usePaymentTelemetry = () => {
   };
 
   // Evento de telemetría: usuario selecciona método de pago
-  const trackPaymentMethodSelection = (method: 'stripe' | 'crypto' | 'bank') => {
+  const trackPaymentMethodSelection = (method: 'stripe' | 'crypto' | 'bank', value?: number) => {
     trackEvent({
       event: "compra_medio",
       category: "pago",
       action: "seleccionar_metodo",
       label: method,
+      currency: 'USD',
+      value: value || 0,
     });
   };
 

@@ -9,20 +9,45 @@ interface DashboardCollaboratorsProps {
   isLoading: boolean;
 }
 
+// Icono de corona para el Founder
+const CrownIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ marginRight: '8px', verticalAlign: 'middle' }}>
+    <path
+      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+      fill="#FFD700"
+      stroke="#FFD700"
+      strokeWidth="1"
+    />
+  </svg>
+);
+
 export const membersColumns: ColumnTableV3[] = [
   {
     header: 'Email',
     key: 'email',
     styles: 'item-cell-3',
-    weight: '50%',
-    render: value => value,
-  },
-  {
-    header: 'Member role',
-    key: 'is_owner',
-    styles: 'item-cell-5 text-right',
-    weight: '50%',
-    render: value => (value ? 'Founder' : 'Collaborator'),
+    weight: '100%', // Ocupar todo el ancho disponible
+    render: (value, row) => {
+      const isFounder = row?.is_owner || false;
+      console.log('🔍 Debug Crown:', { 
+        email: value, 
+        is_owner: row?.is_owner, 
+        isFounder,
+        row: row 
+      });
+      return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {isFounder && <CrownIcon />}
+          <span>{value}</span>
+        </div>
+      );
+    },
   },
 ];
 
@@ -31,12 +56,16 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLo
   const company = useGlobalFastField('company');
 
   useEffect(() => {
-    setMembersMapped(
-      members.map(member => ({
-        ...member,
-        is_owner: company.get.owner_email === member.email,
-      }))
-    );
+    console.log('🏢 Company owner email:', company.get.owner_email);
+    console.log('👥 Members original:', members);
+    
+    const mapped = members.map(member => ({
+      ...member,
+      is_owner: company.get.owner_email === member.email,
+    }));
+    
+    console.log('👥 Members mapped:', mapped);
+    setMembersMapped(mapped);
   }, [members, company.get.owner_email]);
 
   return (
