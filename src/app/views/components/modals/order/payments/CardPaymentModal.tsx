@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { OrderSection, UserPlanSelected } from '@interfaces/order';
+import { OrderSection, UserPlanSelected, UserSmallPlanSelected } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -13,6 +13,7 @@ import { useTheme } from '@/app/views/context/ThemeContext';
 import { nodeEnv, stripeKey, stripeKeyTest } from '@utils/config';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
+import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
 const NODE_ENV = nodeEnv;
 const STRIPE_PUBLISHABLE_KEY = NODE_ENV == 'development' ? stripeKeyTest : stripeKey;
@@ -25,7 +26,8 @@ export const CardPaymentModal = ({
   const [fetcher] = useFetcher();
   const { getCompany, getUserdata } = useUserData();
   const { isAdmin } = useUserRole();
-  const { updateState, referenceNumber, orderId, paywallSelected } = useOrderStore(state => state);
+  const { updateState, referenceNumber, orderId, paywallSelected, userSmallPlanSelected } = useOrderStore(state => state);
+  const planPreference = useGlobalFastField('planPreference');
   const merchId = useRef('null');
   const companyId = useMemo(() => getCompany(), [getCompany()]);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -34,6 +36,31 @@ export const CardPaymentModal = ({
   const { theme } = useTheme();
   const { trackPaymentStart, trackPaymentComplete, trackPaymentError } = usePaymentTelemetry();
   const isTestMode = localStorage.getItem('stripeEnv') === 'true';
+
+  // Función para obtener el valor del plan seleccionado
+  const getPlanValue = (): number => {
+    // Para planes pequeños (automated web scan)
+    if (userSmallPlanSelected) {
+      const smallPlanPrices: Record<string, number> = {
+        [UserSmallPlanSelected.BASIC]: 29,
+        [UserSmallPlanSelected.MEDIUM]: 59,
+        [UserSmallPlanSelected.ADVANCED]: 89,
+      };
+      return smallPlanPrices[userSmallPlanSelected] || 0;
+    }
+    
+    // Para planes profesionales (pentest on demand)
+    if (planPreference.get) {
+      const professionalPlanPrices: Record<string, number> = {
+        'small': 1500,
+        'medium': 4500,
+        'advanced': 13500,
+      };
+      return professionalPlanPrices[planPreference.get] || 0;
+    }
+    
+    return 0;
+  };
 
   // Memoize the Stripe promise
   const stripePromise = useMemo(
@@ -45,7 +72,8 @@ export const CardPaymentModal = ({
     if (isInitialized.current) return;
 
     // Track payment start
-    trackPaymentStart('stripe', orderId);
+    const planValue = getPlanValue();
+    trackPaymentStart('stripe', orderId, planValue);
 
     try {
       const bodyBuild: any = {
@@ -106,13 +134,14 @@ export const CardPaymentModal = ({
           path: `orders/add${paywallSelected === UserPlanSelected.AUTOMATED_PLAN ? '/small' : ''}`,
           timeout: 1000000,
         })
-          .then(({ data }: any) => {
-            if (data.status === 'complete') {
-              trackPaymentComplete('stripe', orderId);
-              updateState('orderStepActive', OrderSection.WELCOME);
-              setCallback(null);
-            }
-          })
+                  .then(({ data }: any) => {
+          if (data.status === 'complete') {
+            const planValue = getPlanValue();
+            trackPaymentComplete('stripe', orderId, planValue);
+            updateState('orderStepActive', OrderSection.WELCOME);
+            setCallback(null);
+          }
+        })
           .catch(() => {
             trackPaymentError('stripe', 'payment_finish_error', orderId);
             updateState('orderStepActive', OrderSection.PAYMENT_ERROR);

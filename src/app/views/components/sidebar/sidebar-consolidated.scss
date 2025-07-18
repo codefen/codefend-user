@@ -213,6 +213,7 @@
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     transition: all 0.2s ease;
+    background: #e5e5e5;
 
     &:hover {
       color: var(--secondary-color-400);
@@ -558,6 +559,11 @@
 [data-theme='dark'] .sidebar {
   background-color: var(--primary-color);
 
+  .sidebar-open-button-mobile {
+    color: #f6f6f6;
+    background: rgb(35 35 35 / 45%);
+  }
+
   .sidebar-group-title {
     color: var(--tertiary-color-100);
   }
@@ -613,7 +619,7 @@
   }
 
   .sidebar-mobile {
-    background-color: var(--primary-color-dark);
+    background-color: rgb(19 19 19 / 95%);
   }
 
   .sidebar-mobile-header {
@@ -634,6 +640,15 @@
         &:hover {
           background-color: var(--primary-color-600);
         }
+
+        .tab-button {
+          --tab-color: #cacaca;
+          --tab-background: var(--primary-color-50);
+
+          &.active {
+            --tab-color: #dedede;
+          }
+        }
       }
     }
   }
@@ -641,7 +656,7 @@
   .sidebar-mobile-content {
     .sidebar-content-container {
       .sidebar-content-items {
-        a {
+        .menu-item {
           color: var(--tertiary-color-100);
 
           &:hover {
@@ -649,8 +664,7 @@
           }
 
           &.active {
-            background-color: var(--secondary-color-600);
-            color: var(--primary-color);
+            color: #dedede;
           }
         }
       }
@@ -668,6 +682,10 @@
 
         .user-email {
           color: var(--tertiary-color-300);
+        }
+
+        .user-company {
+          color: var(--secondary-color);
         }
       }
     }
