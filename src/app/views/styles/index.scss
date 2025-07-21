@@ -934,7 +934,170 @@ main.scans {
 // NEW AUTH PAGE
 //////////////////////////////////
 
-// Estilos de sidebar movidos a sidebar-consolidated.scss
+#root-modal .modal-wrapper:has(.new-signup-form) {
+  background-color: transparent;
+  backdrop-filter: none;
+
+  .modal {
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    gap: 12px;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    height: clamp(300px, 90dvh, 900px);
+    max-width: none;
+
+    .new-auth-content {
+      background: linear-gradient(126.81deg, #121314 16.66%, #010203 85.47%);
+      border: 1px solid #252525;
+    }
+
+    .readonly-content {
+      width: 680px;
+      padding-block: 1.75rem;
+      padding-inline: 1.5rem;
+
+      h1 {
+        font-size: clamp(1rem, 2dvw, 3rem);
+        line-height: 1;
+        font-weight: 700;
+        margin-bottom: 2rem;
+
+        span {
+          color: rgb(156 163 175 / 1);
+        }
+      }
+
+      p.header-text {
+        line-height: 1.625;
+        font-size: clamp(0.9rem, 0.75dvw, 1rem);
+        color: rgb(209 213 219 / 1);
+        border-block-start: 1px solid #434343;
+        padding-block: 1.25rem;
+        padding-inline: 2rem;
+      }
+
+      .features-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+
+        .feature-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          padding-top: 2rem;
+          padding-bottom: 2rem;
+          border-top: 1px solid #434343;
+
+          &:first-child {
+            padding-top: 1.5rem;
+          }
+
+          .feature-icon {
+            flex-shrink: 0;
+            width: 74px;
+            height: 74px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              width: 74px;
+              height: 74px;
+              object-fit: contain;
+            }
+          }
+
+          .feature-content {
+            flex: 1;
+
+            h3 {
+              font-size: 1.25rem;
+              font-weight: 600;
+              color: #ffffff;
+              margin-bottom: 0.5rem;
+              line-height: 1.3;
+            }
+
+            p {
+              font-size: 0.95rem;
+              color: rgb(156 163 175 / 1);
+              line-height: 1.6;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .form-content {
+      img {
+        margin-inline-start: -1rem;
+      }
+      h2 {
+        color: var(--tertiary-color-300);
+        margin-top: 1rem;
+      }
+      p.step-text-header {
+        margin-block-start: 1rem;
+        color: var(--tertiary-color-400);
+        b {
+          color: var(--secondary-color-200);
+        }
+      }
+
+      form {
+        h2 {
+          margin-top: 0;
+          margin-bottom: 1rem;
+        }
+        .form-buttons {
+          margin-top: 0px;
+          gap: 12px;
+        }
+      }
+      .auth-link {
+        width: 100%;
+        text-align: center;
+        margin-top: auto;
+      }
+    }
+  }
+}
+#root:has(main.auth-pages) {
+  max-width: none;
+}
+
+main.auth-pages {
+  background: linear-gradient(270.08deg, #000409 28.88%, #000409 55.76%, #000002 74.96%);
+  width: 100dvw;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  max-height: none;
+  max-width: none;
+  grid-area: 1 / 1 / 6 / 8;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 100%;
+    background-image: url('/codefend/broken-glass.png');
+    background-size: contain;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    scale: 1.2;
+  }
+}
 
 @media only screen and (max-width: 980px) {
   main.auth-pages {

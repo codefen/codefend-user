@@ -27,6 +27,7 @@
     outline: none;
     text-decoration: none;
     position: relative;
+    width: 100% !important;
 
     &:hover:not(.disabled) {
       background-color: #f8f9fa;
@@ -119,65 +120,79 @@
   height: 1px;
   background: linear-gradient(to right, transparent, rgba(108, 117, 125, 0.3), transparent);
   border: none;
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
   position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: #ff3939;
-    border-radius: 50%;
-  }
+
+  // &::before {
+  //   content: '';
+  //   position: absolute;
+  //   top: -2px;
+  //   left: 50%;
+  //   transform: translateX(-50%);
+  //   width: 4px;
+  //   height: 4px;
+  //   background: #ff3939;
+  //   border-radius: 50%;
+  // }
 }
 
 // Tema oscuro (opcional)
-@media (prefers-color-scheme: dark) {
-  .google-auth-container {
-    .google-auth-button {
-      background-color: #2d2d2d;
-      border-color: #5f6368;
-      color: #e8eaed;
+// @media (prefers-color-scheme: dark) {
+//   .google-auth-container {
+//     .google-auth-button {
+//       background-color: #2d2d2d;
+//       border-color: #5f6368;
+//       color: #e8eaed;
 
-      &:hover:not(.disabled) {
-        background-color: #3c4043;
-        border-color: #9aa0a6;
-      }
+//       &:hover:not(.disabled) {
+//         background-color: #3c4043;
+//         border-color: #9aa0a6;
+//       }
 
-      &:active:not(.disabled) {
-        background-color: #5f6368;
-      }
+//       &:active:not(.disabled) {
+//         background-color: #5f6368;
+//       }
 
-      &.disabled {
-        background-color: #202124;
-        color: #5f6368;
-        border-color: #3c4043;
-      }
-    }
-  }
+//       &.disabled {
+//         background-color: #202124;
+//         color: #5f6368;
+//         border-color: #3c4043;
+//       }
+//     }
+//   }
 
-  .auth-separator {
-    color: #9aa0a6;
+//   .auth-separator {
+//     color: #9aa0a6;
 
-    &::before,
-    &::after {
-      background-color: #5f6368;
-    }
-  }
+//     &::before,
+//     &::after {
+//       background-color: #5f6368;
+//     }
+//   }
 
-  .auth-separator-line {
-    background-color: #5f6368;
-  }
+//   .auth-separator-line {
+//     background-color: #5f6368;
+//   }
 
+//   .onboarding-separator {
+//     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+
+//     // &::before {
+//     //   background: #ff3939;
+//     // }
+//   }
+// }
+
+[data-theme='dark'] {
   .onboarding-separator {
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-    
-    &::before {
-      background: #ff3939;
+    background: #434343;
+  }
+  .google-auth-container {
+    .nsm7Bb-HzV7m-LgbsSe,
+    .google-auth-button {
+      background-color: #1b1b1b;
+      border-color: #252525;
+      color: #fff;
     }
   }
-} 
+}

@@ -32,31 +32,10 @@ export const NewAuthPage = () => {
     return <Navigate to={'/'} />;
   }
   return (
-    <>
-      <Sidebar />
-      <main className={`auth-pages ${showScreen ? 'actived' : ''}`}>
-        <div className="brightness variant-1"></div>
-        <div className="brightness variant-2"></div>
-        <Suspense>
-          <Outlet />
-        </Suspense>
-        <section className="left">
-          {matches ? <VulnerabilitiesStatus vulnerabilityByShare={{} as any} /> : null}
-          <DashboardInvoke isScanning={false} openScan={() => {}} />
-          <section className="box-assets">
-            <DashboardAddResource data={{}} />
-          </section>
-          <section className="box-assets">
-            <DashboardAddCollaborators isLoading={false} data={{} as any} />
-          </section>
-        </section>
-
-        <section className="right">
-          <DashboardScanStart />
-          <VulnerabilitiesStatus vulnerabilityByShare={{} as any} />
-          <VulnerabilityRisk vulnerabilityByRisk={{} as any} isLoading={false} />
-        </section>
-      </main>
-    </>
+    <main className={`auth-pages ${showScreen ? 'actived' : ''}`}>
+      <Suspense>
+        <Outlet />
+      </Suspense>
+    </main>
   );
 };

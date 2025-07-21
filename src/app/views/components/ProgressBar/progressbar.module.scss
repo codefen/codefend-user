@@ -3,8 +3,8 @@
   flex-direction: column;
   row-gap: 0.5rem;
   width: 100%;
-  margin-top: 0.1rem;
-  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .progressBar {
@@ -14,15 +14,19 @@
 }
 
 .progressBarItem {
-  height: 0.25rem;
+  height: 0.45rem;
   flex: 1 1 100%;
   transition: all ease 0.25s;
-  border-radius: 4px;
+  border-radius: 3px;
   background-color: var(--tertiary-color-50);
 }
 
 .progressBarItemActive {
-  background-color: var(--secondary-color-200);
+  background-color: #930f0f;
+}
+
+.progressBarItemNow {
+  background-color: #ff8484;
 }
 
 .headerText {

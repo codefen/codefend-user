@@ -152,7 +152,7 @@ export const GoogleAuthButton = ({
       window.google.accounts.id.renderButton(buttonContainer, {
         theme: 'outline',
         size: 'large',
-        width: 300,
+        width: '100%',
         text: mode === 'signup' ? 'signup_with' : 'continue_with',
       });
 
