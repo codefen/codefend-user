@@ -103,6 +103,22 @@ export const SidebarDesktop = ({
           haveAccess: isAdmin(),
         },
         {
+          title: 'Landers Monitor',
+          id: 'sidebar_landers',
+          icon: <LightningIcon isVisible />,
+          to: '/admin/landers',
+          root: false,
+          haveAccess: isAdmin(),
+        },
+        {
+          title: 'Admin Commander',
+          id: 'sidebar_commander',
+          icon: <LightningIcon isVisible />,
+          to: '/admin/commander',
+          root: false,
+          haveAccess: isAdmin(),
+        },
+        {
           title: 'My profile',
           id: 'sidebar_profile',
           icon: <ProfileIcon isVisible />,

@@ -23,6 +23,8 @@ import {
   ResellerOrdersLayout,
   SnsPanel,
 } from '../views/pages';
+import AdminLanders from '../views/pages/panel/layouts/admin/layouts/AdminLanders';
+import AdminCommander from '../views/pages/panel/layouts/admin/layouts/AdminCommander';
 import { PanelPage } from '../views/pages/panel/PanelPage';
 import {
   IssuePage,
@@ -47,6 +49,10 @@ import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/Us
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
 import { OrdersPaymentsPage } from '@/app/views/pages/panel/layouts/orders-payments/OrdersPaymentsPage';
 import { OnboardingPage } from '@/app/views/pages/onboarding/OnboardingPage';
+import TestGoogleContacts from '@/app/views/pages/TestGoogleContacts';
+import TestGoogleRegistration from '@/app/views/pages/TestGoogleRegistration';
+import TestGoogleDebug from '@/app/views/pages/TestGoogleDebug';
+import TestGoogleTokens from '@/app/views/pages/test-google-tokens';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
 
@@ -113,6 +119,8 @@ export const AppRouter = () => {
             { index: true, element: <Navigate to="company" replace /> },
             { path: 'company', element: <AdminCompany /> },
             { path: 'admin-section', element: <AdminSection /> },
+            { path: 'landers', element: <AdminLanders /> },
+            { path: 'commander', element: <AdminCommander /> },
           ],
         },
         // Provider routes
@@ -284,6 +292,26 @@ export const AppRouter = () => {
     {
       path: '/onboarding',
       element: <OnboardingPage />,
+    },
+    // Test route for Google Contacts
+    {
+      path: '/test-google-contacts',
+      element: <TestGoogleContacts />,
+    },
+    // Test route for Google Registration
+    {
+      path: '/test-google-registration',
+      element: <TestGoogleRegistration />,
+    },
+    // Test route for Google Debug
+    {
+      path: '/test-google-debug',
+      element: <TestGoogleDebug />,
+    },
+    // Test route for Google Tokens
+    {
+      path: '/test-google-tokens',
+      element: <TestGoogleTokens />,
     },
   ]);
 

@@ -31,6 +31,8 @@ interface GoogleAuthButtonProps {
   onError: (error: string) => void;
   disabled?: boolean;
   mode?: 'signin' | 'signup';
+  showContactsButton?: boolean; // Nueva prop
+  onContactsRequest?: (accessToken: string) => void; // Nueva prop
 }
 
 export const GoogleAuthButton = ({
@@ -39,13 +41,17 @@ export const GoogleAuthButton = ({
   onError,
   disabled = false,
   mode = 'signin',
+  showContactsButton = false, // Nueva prop
+  onContactsRequest, // Nueva prop
 }: GoogleAuthButtonProps) => {
   const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Nuevo estado
 
   // 🔧 CONFIGURACIÓN: Cambiar entre One Tap y botón clásico
   // true = One Tap (requiere HTTPS, no funciona en localhost)
   // false = Botón clásico (funciona en localhost)
-  const USE_ONE_TAP = false;
+  const USE_ONE_TAP = false; // Deshabilitado para desarrollo local
+  const USE_GSI = true; // Habilitar GSI con configuración correcta
 
   useEffect(() => {
     // Cargar Google Identity Services si no está cargado
@@ -67,16 +73,18 @@ export const GoogleAuthButton = ({
   }, []);
 
   const initializeGoogle = () => {
-    // console.log('🚀 Inicializando Google Auth con Client ID:', googleClientId);
+    console.log('🚀 Inicializando Google Auth con Client ID:', googleClientId);
+    console.log('🔍 DEBUG - Client ID length:', googleClientId.length);
 
     if (window.google && window.google.accounts) {
       // Configurar el callback global
       window.handleCredentialResponse = (response: any) => {
-        // console.log('✅ Google response recibido:', response);
+        console.log('✅ Google response recibido:', response);
         if (response.credential) {
           onSuccess(response.credential);
+          setIsLoggedIn(true); // Actualizar estado de inicio de sesión
         } else {
-          // console.error('❌ No se recibió credencial de Google:', response);
+          console.error('❌ No se recibió credencial de Google:', response);
           onError('No se recibió credencial de Google');
         }
       };
@@ -88,24 +96,19 @@ export const GoogleAuthButton = ({
           callback: window.handleCredentialResponse,
           auto_select: false,
           cancel_on_tap_outside: true,
+          // Configuración específica para localhost
+          context: mode === 'signup' ? 'signup' : 'signin',
+          ux_mode: 'popup',
+          // Scopes básicos para ID token
+          scope: 'openid email profile',
         });
-        // console.log('✅ Google Identity Services inicializado correctamente');
+        console.log('✅ Google Identity Services inicializado correctamente');
         setIsGoogleLoaded(true);
 
-        if (USE_ONE_TAP) {
-          // MODO ONE TAP: Para producción con HTTPS
-          window.google.accounts.id.prompt((notification: any) => {
-            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-              // console.log('🔄 One Tap falló, usando botón clásico');
-              renderGoogleButton();
-            }
-          });
-        } else {
-          // MODO BOTÓN CLÁSICO: Para desarrollo local (localhost)
-          // console.log('✅ Usando botón clásico de Google');
-          // Mostrar directamente el botón clásico sin necesidad de hacer clic
-          setTimeout(() => renderGoogleButton(), 100);
-        }
+        // Siempre usar botón clásico para desarrollo
+        console.log('✅ Usando botón clásico de Google');
+        setTimeout(() => renderGoogleButton(), 100);
+        
       } catch (error) {
         console.error('❌ Error al inicializar Google Identity Services:', error);
         onError('Error al inicializar Google Identity Services');
@@ -149,6 +152,7 @@ export const GoogleAuthButton = ({
         return;
       }
 
+      // Usar renderButton de Google Identity Services
       window.google.accounts.id.renderButton(buttonContainer, {
         theme: 'outline',
         size: 'large',
@@ -156,14 +160,51 @@ export const GoogleAuthButton = ({
         text: mode === 'signup' ? 'signup_with' : 'continue_with',
       });
 
-      // console.log('✅ Botón Google renderizado correctamente');
-
-      // Hacer visible el contenedor del botón solo si está usando One Tap
-      if (USE_ONE_TAP) {
-        buttonContainer.style.display = 'block';
-      }
+      console.log('✅ Botón Google GSI renderizado correctamente');
     } catch (error) {
       console.error('❌ Error en renderGoogleButton:', error);
+    }
+  };
+
+  const handleRequestContacts = async () => {
+    if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
+      onError('Google OAuth2 no está disponible');
+      return;
+    }
+
+    try {
+      console.log('🔄 Solicitando permisos de contactos...');
+      
+      const accessToken = await new Promise<string>((resolve, reject) => {
+        const tokenClient = window.google.accounts.oauth2.initTokenClient({
+          client_id: googleClientId,
+          scope: 'https://www.googleapis.com/auth/contacts.readonly',
+          callback: (response: any) => {
+            console.log('✅ Access token para contactos obtenido:', response);
+            if (response.access_token) {
+              resolve(response.access_token);
+            } else {
+              reject(new Error('No se recibió access token'));
+            }
+          },
+          error_callback: (error: any) => {
+            console.error('❌ Error al obtener access token:', error);
+            reject(new Error('Error al obtener access token: ' + error.message));
+          }
+        });
+        
+        tokenClient.requestAccessToken();
+      });
+
+      console.log('✅ Access token obtenido:', accessToken ? 'SÍ (' + accessToken.length + ' chars)' : 'NO');
+      
+      if (onContactsRequest) {
+        onContactsRequest(accessToken);
+      }
+      
+    } catch (error) {
+      console.error('❌ Error al solicitar contactos:', error);
+      onError('Error al solicitar permisos de contactos: ' + (error as Error).message);
     }
   };
 
@@ -214,6 +255,26 @@ export const GoogleAuthButton = ({
           display: USE_ONE_TAP ? 'none' : 'block',
           minHeight: USE_ONE_TAP ? 'auto' : '40px',
         }}></div>
+
+      {/* Botón para solicitar permisos de contactos */}
+      {showContactsButton && isLoggedIn && (
+        <button
+          type="button"
+          className="google-contacts-button"
+          onClick={handleRequestContacts}
+          style={{
+            marginTop: '10px',
+            padding: '8px 16px',
+            backgroundColor: '#34A853',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '14px'
+          }}>
+          📞 Solicitar permisos de contactos
+        </button>
+      )}
     </div>
   );
 };

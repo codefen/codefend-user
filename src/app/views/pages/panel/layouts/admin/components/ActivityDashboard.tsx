@@ -1,5 +1,12 @@
-import { type FC, useEffect, useRef, useState, useMemo } from 'react';
+import React, { type FC, useEffect, useRef, useState, useMemo } from 'react';
 import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
+import { useUserData } from '#commonUserHooks/useUserData';
+import { AxiosHttpService } from '@services/axiosHTTP.service';
+import { getDeviceInfo, getOSIcon, getDeviceIcon } from '@utils/deviceDetection';
+import { AppleIcon } from '@/app/views/components/icons/AppleIcon';
+import { WindowsIcon } from '@/app/views/components/icons/WindowsIcon';
+import { AndroidIcon } from '@/app/views/components/icons/AndroidIcon';
+import { LinuxIcon } from '@/app/views/components/icons/LinuxIcon';
 import * as d3 from 'd3';
 import './ActivityLineChart.scss';
 
@@ -13,14 +20,24 @@ interface DailyData {
   orders: string;
 }
 
-type ChartType = 'line' | 'bar';
+type ChartType = 'line' | 'bar' | 'raw-data';
 
 export const ActivityDashboard: FC = () => {
   const { data: registrations, isLoading, fetchRegistrations } = useGetUserRegistrations();
+  const { getCompany } = useUserData();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 450 });
-  const [chartType, setChartType] = useState<ChartType>('line');
+  const [chartType, setChartType] = useState<ChartType>('raw-data');
+  const [rawData, setRawData] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState<any>({
+    total_records: 0,
+    total_pages: 0,
+    has_next: false,
+    has_prev: false,
+    limit: 1000,
+  });
 
   // Estado para controlar qué líneas se muestran
   const [visibleMetrics, setVisibleMetrics] = useState({
@@ -487,14 +504,95 @@ export const ActivityDashboard: FC = () => {
       .style('fill', '#6c757d');
   };
 
+  // Función para obtener datos raw de landers
+  const fetchRawData = async (page: number = 1) => {
+    try {
+      console.log('🔍 Fetching raw landers data...', { page, company: getCompany() });
+      
+      const response = await AxiosHttpService.getInstance().post<any>({
+        path: 'admin/raw-landers',
+        body: { 
+          company_id: getCompany(),
+          page: page.toString(),
+          limit: '1000'
+        },
+        requireSession: true,
+      });
+      
+      const data = response.data;
+      console.log('📊 Raw Landers API Response:', data);
+      
+      if (data.error === '0') {
+        setRawData(data.landers || []);
+        setPagination(data.pagination || {});
+        setCurrentPage(page);
+        console.log('✅ Raw data loaded successfully:', data.landers?.length, 'records');
+      } else {
+        console.error('❌ API Error:', data.info);
+        setRawData([]);
+        alert(`Error loading data: ${data.info}`);
+      }
+    } catch (error) {
+      console.error('❌ Network Error fetching raw data:', error);
+      setRawData([]);
+      alert('Network error loading data. Please check your connection.');
+    }
+  };
+
   // Cargar datos automáticamente al montar el componente
   useEffect(() => {
     fetchRegistrations();
   }, [fetchRegistrations]);
 
+  // Cargar datos raw cuando se selecciona la pestaña
+  useEffect(() => {
+    if (chartType === 'raw-data') {
+      fetchRawData(1); // Empezar en la página 1
+    }
+  }, [chartType]);
+
+  // Funciones de navegación
+  const handlePageChange = (page: number) => {
+    fetchRawData(page);
+  };
+
+  const handleNextPage = () => {
+    if (pagination.has_next) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (pagination.has_prev) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+
+  const handleFirstPage = () => {
+    handlePageChange(1);
+  };
+
+  const handleLastPage = () => {
+    handlePageChange(pagination.total_pages);
+  };
+
+
+
+  const handlePageJump = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const target = e.target as HTMLInputElement;
+      const page = parseInt(target.value);
+      if (page >= 1 && page <= pagination.total_pages) {
+        handlePageChange(page);
+        target.value = ''; // Limpiar input
+      }
+    }
+  };
+
   // Renderizar gráfico
   useEffect(() => {
     if (!registrations.length || !svgRef.current || width <= 0 || height <= 0) return;
+    if (chartType !== 'line' && chartType !== 'bar' && chartType !== 'raw-data') return;
 
     d3.select(svgRef.current).selectAll('*').remove();
 
@@ -554,7 +652,7 @@ export const ActivityDashboard: FC = () => {
       .attr('class', 'chart-container')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    if (chartType === 'line') {
+    if (chartType === 'line' || chartType === 'raw-data') {
       renderLineChart();
     } else {
       renderBarChart();
@@ -720,12 +818,176 @@ export const ActivityDashboard: FC = () => {
               onClick={() => setChartType('bar')}>
               📊 Barras
             </button>
+            <button
+              className={`chart-toggle-btn ${chartType === 'raw-data' ? 'active' : ''}`}
+              onClick={() => setChartType('raw-data')}>
+              📈📋 Análisis completo
+            </button>
           </div>
           
-          {/* Contenedor del gráfico */}
+          {/* Contenedor del gráfico o tabla */}
+          {chartType === 'raw-data' ? (
+            <div className="raw-data-container">
+              {/* Gráfico de líneas integrado */}
+              <div className="activity-chart-container" ref={containerRef} style={{ marginBottom: '2rem' }}>
+                <svg ref={svgRef}></svg>
+              </div>
+              
+              <div className="raw-data-header">
+                <h3>Datos de visitas (tabla landers)</h3>
+                <p>Registros de visitas a páginas de signup/signin - {pagination.total_records} total</p>
+                <div className="pagination-info">
+                  <span>Página {currentPage} de {pagination.total_pages} ({pagination.limit} registros por página)</span>
+                </div>
+              </div>
+              <div className="raw-data-table-container">
+                                  <table className="raw-data-table">
+                    <thead>
+                      <tr>
+                        <th style={{width: '60px'}}>ID</th>
+                        <th style={{width: '130px'}}>IP Address</th>
+                        <th style={{width: '80px'}}>Type</th>
+                        <th style={{width: '80px'}}>Lead</th>
+                        <th style={{width: '200px'}}>Lead Email</th>
+                        <th style={{width: '180px'}}>Ubicación</th>
+                        <th style={{width: '400px'}}>Device & User Agent</th>
+                        <th style={{width: '140px'}}>Fecha</th>
+                      </tr>
+                    </thead>
+                                      <tbody>
+                      {rawData.length > 0 ? (
+                        rawData.map((item: any) => {
+                          // 🔥 PRIORIDAD: Usar datos del backend si existen, sino detectar en frontend
+                          let deviceInfo;
+                          if (item.device_class && item.device_os) {
+                            // Usar datos del backend
+                            deviceInfo = {
+                              deviceClass: item.device_class,
+                              deviceOs: item.device_os,
+                              deviceIcon: getDeviceIcon(item.device_class), // ✅ Función flexible
+                              osIcon: getOSIcon(item.device_os)            // ✅ Función flexible
+                            };
+                          } else {
+                            // Fallback: detectar en frontend
+                            deviceInfo = getDeviceInfo(item.ua || '');
+                          }
+                          
+                          return (
+                            <tr key={item.id}>
+                              <td>{item.id}</td>
+                              <td className="ip-address">{item.ip_address}</td>
+                              <td>
+                                <span className={`page-type ${item.page_type}`}>
+                                  {item.page_type}
+                                </span>
+                              </td>
+                              <td>
+                                <span className={`conversion-status ${item.became_lead == 1 ? 'converted' : 'not-converted'}`}>
+                                  {item.became_lead == 1 ? '✅' : '❌'}
+                                </span>
+                              </td>
+                              <td className="lead-email">
+                                {item.became_lead == 1 && item.lead_email ? (
+                                  <span title={`Convertido: ${new Date(item.lead_created_at).toLocaleString('es-ES')}`}>
+                                    {item.lead_email}
+                                  </span>
+                                ) : '-'}
+                              </td>
+                              <td className="location-cell">
+                                <div className="location-info">
+                                  <span 
+                                    className={`flag flag-${(item.pais_code || 'xx').toLowerCase()}`}
+                                    title={`${item.pais || 'Unknown country'} (${item.pais_code || 'XX'})`}>
+                                  </span>
+                                  <div className="location-text">
+                                    <div className="city">{item.ciudad || 'Unknown location'}</div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="user-agent-enhanced">
+                                <div className="device-info">
+                                  <div className="device-icons">
+                                    <span className="device-icon" title={`Dispositivo: ${deviceInfo.deviceClass}`}>
+                                      {deviceInfo.deviceIcon}
+                                    </span>
+                                    {deviceInfo.deviceOs === 'ios' && (
+                                      <AppleIcon size="14px" color="var(--text-color-secondary)" className="os-icon apple" title="iOS (Apple)" />
+                                    )}
+                                    {deviceInfo.deviceOs === 'android' && (
+                                      <AndroidIcon size="14px" color="var(--text-color-secondary)" className="os-icon android" title="Android" />
+                                    )}
+                                    {deviceInfo.deviceOs === 'windows' && (
+                                      <WindowsIcon size="14px" color="var(--text-color-secondary)" className="os-icon windows" title="Windows" />
+                                    )}
+                                    {deviceInfo.deviceOs === 'macos' && (
+                                      <AppleIcon size="14px" color="var(--text-color-secondary)" className="os-icon macos" title="macOS" />
+                                    )}
+                                    {deviceInfo.deviceOs === 'linux' && (
+                                      <LinuxIcon size="14px" color="var(--text-color-secondary)" className="os-icon linux" title="Linux" />
+                                    )}
+                                  </div>
+                                  <div className="ua-text" title={item.ua}>
+                                    {item.ua ? item.ua.substring(0, 80) + '...' : '-'}
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="created-date">
+                                {new Date(item.creacion).toLocaleString('es-ES', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={8} className="no-data">
+                            No hay datos para mostrar
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                </table>
+              </div>
+              <div className="raw-data-footer">
+                <div className="footer-left">
+                  <button 
+                    className="refresh-btn"
+                    onClick={() => fetchRawData(currentPage)}>
+                    🔄 Actualizar datos
+                  </button>
+                  <span className="total-records">
+                    Mostrando: {rawData.length} de {pagination.total_records} registros
+                  </span>
+                </div>
+                <div className="pagination-controls">
+                  <button className="pagination-btn" onClick={handleFirstPage} disabled={!pagination.has_prev}>⏮️ Primera</button>
+                  <button className="pagination-btn" onClick={handlePrevPage} disabled={!pagination.has_prev}>◀️ Anterior</button>
+                  <span className="page-indicator">
+                    {currentPage} / {pagination.total_pages}
+                  </span>
+                  <input
+                    type="number"
+                    className="page-jump-input"
+                    placeholder={`Ir a página (1-${pagination.total_pages})`}
+                    min="1"
+                    max={pagination.total_pages}
+                    onKeyDown={handlePageJump}
+                  />
+                  <button className="pagination-btn" onClick={handleNextPage} disabled={!pagination.has_next}>Siguiente ▶️</button>
+                  <button className="pagination-btn" onClick={handleLastPage} disabled={!pagination.has_next}>Última ⏭️</button>
+                </div>
+              </div>
+            </div>
+          ) : (
           <div className="activity-chart-container" ref={containerRef}>
             <svg ref={svgRef}></svg>
           </div>
+          )}
         </div>
       </div>
     </div>

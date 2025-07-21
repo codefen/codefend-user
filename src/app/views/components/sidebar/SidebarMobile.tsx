@@ -24,6 +24,8 @@ const createSidebarData = (
         ...(isAdmin
           ? [
               { title: 'Administration', path: '/admin/admin-section', root: false },
+      { title: 'Landers Monitor', path: '/admin/landers', root: false },
+      { title: 'Admin Commander', path: '/admin/commander', root: false },
               { title: 'Company Panel', path: '/admin/company', root: isAdmin },
             ]
           : []),

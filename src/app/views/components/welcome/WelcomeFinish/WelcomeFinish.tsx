@@ -79,8 +79,43 @@ export const WelcomeFinish = ({
     //   } : null
     // });
 
-    if (_currentScan) {
-      // console.log('🎯 WelcomeFinish - Usando scan del scaningProgress:', _currentScan);
+    // 🔥 MEJORA: Buscar datos frescos del backend primero
+    const directScan = directScans && directScans.length > 0 && _lastScanId 
+      ? directScans.find(s => s.id === _lastScanId) 
+      : null;
+
+    if (_currentScan && directScan) {
+      // ✅ PRIORIDAD: Combinar datos de scaningProgress con valores frescos del backend
+      // console.log('🎯 WelcomeFinish - COMBINANDO: scaningProgress + datos frescos:', {
+      //   scaningProgressData: _currentScan,
+      //   freshBackendData: directScan,
+      //   issuesCompare: {
+      //     fromProgress_found: _currentScan.m_nllm_issues_found,
+      //     fromProgress_parsed: _currentScan.m_nllm_issues_parsed,
+      //     fromBackend_found: directScan.m_nllm_issues_found,
+      //     fromBackend_parsed: directScan.m_nllm_issues_parsed
+      //   }
+      // });
+
+      // Combinar: usar progreso calculado de scaningProgress pero valores críticos del backend
+      return {
+        ..._currentScan,
+        // ⚡ CRÍTICO: Siempre usar valores más frescos del backend para issues
+        m_nllm_issues_found: directScan.m_nllm_issues_found,
+        m_nllm_issues_parsed: directScan.m_nllm_issues_parsed,
+        m_leaks_found: directScan.m_leaks_found,
+        m_leaks_social_found: directScan.m_leaks_social_found,
+        m_subdomains_found: directScan.m_subdomains_found,
+        m_subdomains_found_servers: directScan.m_subdomains_found_servers,
+        // También actualizar otros campos importantes
+        phase: directScan.phase,
+        m_nllm_phase: directScan.m_nllm_phase,
+        m_nllm_finished: directScan.m_nllm_finished,
+        m_leaks_finished: directScan.m_leaks_finished,
+        m_subdomains_finished: directScan.m_subdomains_finished,
+      };
+    } else if (_currentScan) {
+      // console.log('🎯 WelcomeFinish - Usando scan del scaningProgress (sin datos frescos):', _currentScan);
       return _currentScan;
     } else if (
       globalStore.currentScan.get &&
@@ -90,42 +125,39 @@ export const WelcomeFinish = ({
       return mapScanObjToScanFinishedObj(globalStore.currentScan.get);
     }
 
-    // TEMPORAL: Fallback a datos directos de useNewVerifyScanList
-    if (directScans && directScans.length > 0 && _lastScanId) {
-      const directScan = directScans.find(s => s.id === _lastScanId);
-      if (directScan) {
-        // console.log(
-        //   '🎯 WelcomeFinish - FALLBACK: Usando scan directo de useNewVerifyScanList:',
-        //   directScan
-        // );
+    // FALLBACK: Solo datos directos si no hay otros
+    if (directScan) {
+      // console.log(
+      //   '🎯 WelcomeFinish - FALLBACK: Usando scan directo de useNewVerifyScanList:',
+      //   directScan
+      // );
 
-        // Calcular progreso correcto basado en el estado del scan
-        const isFinished = directScan.phase === 'finished';
-        const webScanProgress = isFinished || directScan.m_nllm_finished ? 100 : 50;
-        const leaksScanProgress = isFinished || directScan.m_leaks_finished ? 100 : 50;
-        const subdomainScanProgress = isFinished || directScan.m_subdomains_finished ? 100 : 50;
-        const overallProgress = isFinished
-          ? 100
-          : (webScanProgress + leaksScanProgress + subdomainScanProgress) / 3;
+      // Calcular progreso correcto basado en el estado del scan
+      const isFinished = directScan.phase === 'finished';
+      const webScanProgress = isFinished || directScan.m_nllm_finished ? 100 : 50;
+      const leaksScanProgress = isFinished || directScan.m_leaks_finished ? 100 : 50;
+      const subdomainScanProgress = isFinished || directScan.m_subdomains_finished ? 100 : 50;
+      const overallProgress = isFinished
+        ? 100
+        : (webScanProgress + leaksScanProgress + subdomainScanProgress) / 3;
 
-        // console.log('🎯 WelcomeFinish - FALLBACK progress calculation:', {
-        //   phase: directScan.phase,
-        //   isFinished,
-        //   webScanProgress,
-        //   leaksScanProgress,
-        //   subdomainScanProgress,
-        //   overallProgress,
-        // });
+      // console.log('🎯 WelcomeFinish - FALLBACK progress calculation:', {
+      //   phase: directScan.phase,
+      //   isFinished,
+      //   webScanProgress,
+      //   leaksScanProgress,
+      //   subdomainScanProgress,
+      //   overallProgress,
+      // });
 
-        return {
-          ...directScan,
-          status: isFinished ? AUTO_SCAN_STATE.SCAN_FINISHED : AUTO_SCAN_STATE.SCAN_LAUNCHED,
-          scanProgress: overallProgress,
-          webScanProgress,
-          leaksScanProgress,
-          subdomainScanProgress,
-        };
-      }
+      return {
+        ...directScan,
+        status: isFinished ? AUTO_SCAN_STATE.SCAN_FINISHED : AUTO_SCAN_STATE.SCAN_LAUNCHED,
+        scanProgress: overallProgress,
+        webScanProgress,
+        leaksScanProgress,
+        subdomainScanProgress,
+      };
     }
 
     // console.log('🎯 WelcomeFinish - No se encontró scan válido, devolviendo null');

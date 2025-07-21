@@ -3,14 +3,10 @@ import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
 import '../../user-profile/userprofile.scss';
-import { CreateCompany } from '../components/CreateCompany';
-import { DeleteNeuroscans } from '../components/DeleteNeuroscans';
-import { NewUsersDaily } from '../components/NewUsersDaily';
 import { ActivityDashboard } from '../components/ActivityDashboard';
-import { ActivityStats } from '../components/ActivityStats';
 import Navbar from '@/app/views/components/navbar/Navbar';
 
-const AdminSection: FC = () => {
+const AdminLanders: FC = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
   const { totals, fetchRegistrations } = useGetUserRegistrations();
@@ -27,17 +23,17 @@ const AdminSection: FC = () => {
         <div className="card rectangle">
           <div className="over">
             <div className="header-content">
-              <h2>Administration</h2>
-              <p>This is a new section for admins.</p>
+              <h2>Landers Monitoring</h2>
+              <p>Monitoreo de visitas, conversiones y datos de dispositivos en la tabla landers.</p>
             </div>
           </div>
         </div>
         
-        {/* Gráfico de actividad diaria - ahora ocupa todo el ancho */}
+        {/* Gráfico de actividad diaria + tabla de raw data - ocupa todo el ancho */}
         <ActivityDashboard />
       </section>
     </main>
   );
 };
 
-export default AdminSection; 
+export default AdminLanders; 

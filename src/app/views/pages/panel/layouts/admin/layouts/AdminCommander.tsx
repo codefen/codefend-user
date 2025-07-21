@@ -5,12 +5,10 @@ import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistratio
 import '../../user-profile/userprofile.scss';
 import { CreateCompany } from '../components/CreateCompany';
 import { DeleteNeuroscans } from '../components/DeleteNeuroscans';
-import { NewUsersDaily } from '../components/NewUsersDaily';
-import { ActivityDashboard } from '../components/ActivityDashboard';
 import { ActivityStats } from '../components/ActivityStats';
 import Navbar from '@/app/views/components/navbar/Navbar';
 
-const AdminSection: FC = () => {
+const AdminCommander: FC = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
   const { totals, fetchRegistrations } = useGetUserRegistrations();
@@ -22,22 +20,36 @@ const AdminSection: FC = () => {
 
   return (
     <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
-      <section className="left full-width">
+      <section className="left">
         <Navbar />
         <div className="card rectangle">
           <div className="over">
             <div className="header-content">
-              <h2>Administration</h2>
-              <p>This is a new section for admins.</p>
+              <h2>Admin Commander</h2>
+              <p>Funciones administrativas para gestión de empresas y datos del sistema.</p>
             </div>
           </div>
         </div>
         
-        {/* Gráfico de actividad diaria - ahora ocupa todo el ancho */}
-        <ActivityDashboard />
+        {/* Estadísticas de actividad */}
+        <div className="card standard">
+          <div className="over">
+            <div className="body">
+              <ActivityStats totals={totals} />
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section className="right">
+        {/* Crear nueva compañía */}
+        <CreateCompany />
+        
+        {/* Eliminar neuroscans - DESACTIVADO */}
+        <DeleteNeuroscans />
       </section>
     </main>
   );
 };
 
-export default AdminSection; 
+export default AdminCommander; 
