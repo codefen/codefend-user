@@ -313,13 +313,13 @@
   }
 
   // Línea separadora en tema oscuro (específica para scanner)
-  .welcome-modal-container .onboarding-separator {
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  // .welcome-modal-container .onboarding-separator {
+  //   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
 
-    &::before {
-      background: #ff3939;
-    }
-  }
+  //   &::before {
+  //     background: #ff3939;
+  //   }
+  // }
 
   // Mensaje informativo de email scan en tema oscuro
   .email-scan-info {
@@ -369,9 +369,9 @@
       }
     }
   }
-  
+
   // Estilos para tema oscuro
-  .scope-type-buttons-inline .scope-btn-small, 
+  .scope-type-buttons-inline .scope-btn-small,
   .scope-type-buttons-inline button.btn.scope-btn-small {
     background: var(--primary-color-100) !important;
     color: var(--tertiary-color-100) !important;
@@ -400,10 +400,10 @@
   label {
     margin: 0;
     flex-shrink: 0;
-    
+
     &.scope-title-small {
       font-size: 0.85rem;
-      
+
       b {
         font-weight: 500;
       }
@@ -447,16 +447,14 @@
 }
 
 // Regla específica para botones activos con borde inferior
-.scope-type-buttons-inline .scope-btn-small.active, 
+.scope-type-buttons-inline .scope-btn-small.active,
 .scope-type-buttons-inline button.btn.scope-btn-small.active {
   border-bottom: 3px solid #ff3939 !important;
   color: var(--tertiary-color-500) !important;
 }
 
-
-
 // Estilos base para todos los botones de scope (activos e inactivos)
-.scope-type-buttons-inline .scope-btn-small, 
+.scope-type-buttons-inline .scope-btn-small,
 .scope-type-buttons-inline button.btn.scope-btn-small {
   padding: 0.4rem 0.75rem;
   background: var(--primary-color) !important;
@@ -468,7 +466,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
-  
+
   &:hover:not(:disabled) {
     border-bottom-color: #ff3939 !important;
   }

@@ -21,7 +21,7 @@
   padding: 25px;
   position: relative;
   z-index: 50;
-  
+
   .logose {
     margin-bottom: 1.5rem;
     height: 32px;
@@ -39,7 +39,7 @@
   b {
     font-weight: 500;
     font-size: 1rem;
-    font-family: "Satoshi", sans-serif;
+    font-family: 'Satoshi', sans-serif;
     color: var(--tertiary-color-600);
     display: block;
     margin-bottom: 0.5rem;
@@ -50,8 +50,8 @@
     font-size: 0.95rem;
     margin: 0 0 0.75rem 0;
     color: var(--tertiary-color-600);
-    font-family: "Questrial", sans-serif;
-    
+    font-family: 'Questrial', sans-serif;
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -59,33 +59,33 @@
 }
 
 // Línea separadora estilizada
-.onboarding-separator {
-  width: 100%;
-  max-width: 520px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(108, 117, 125, 0.3), transparent);
-  border: none;
-  margin: 1.5rem 0;
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: #ff3939;
-    border-radius: 50%;
-  }
-}
+// .onboarding-separator {
+//   width: 100%;
+//   max-width: 520px;
+//   height: 1px;
+//   background: linear-gradient(to right, transparent, rgba(108, 117, 125, 0.3), transparent);
+//   border: none;
+//   margin: 1.5rem 0;
+//   position: relative;
+
+//   &::before {
+//     content: '';
+//     position: absolute;
+//     top: -2px;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     width: 4px;
+//     height: 4px;
+//     background: #ff3939;
+//     border-radius: 50%;
+//   }
+// }
 
 // Formulario de onboarding
 .onboarding-form {
   width: 100%;
   max-width: 560px; // Agrandar un poco los inputs
-  
+
   .form-section {
     width: 100%;
   }
@@ -126,12 +126,12 @@
       transform: scale(1.02);
       transition: all 0.2s ease;
     }
-    
+
     // Estilo especial para campos con error
     &.field-error {
       border-color: #dc3545;
       animation: shake 0.5s ease-in-out;
-      
+
       &:focus {
         border-color: #dc3545;
         box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
@@ -152,7 +152,7 @@
     background-repeat: no-repeat;
     background-position: right 0.7rem center;
     background-size: 1em;
-    
+
     // Ocultar opciones con atributo hidden
     option[hidden] {
       display: none;
@@ -163,17 +163,17 @@
 // Toggle para usuario personal
 .personal-user-toggle {
   margin-bottom: 0.5rem;
-  
+
   .toggle-container {
     display: flex;
     align-items: center;
     cursor: pointer;
     user-select: none;
-    
-    input[type="checkbox"] {
+
+    input[type='checkbox'] {
       display: none;
     }
-    
+
     .toggle-slider {
       width: 44px;
       height: 22px;
@@ -182,7 +182,7 @@
       position: relative;
       transition: background 0.2s ease;
       margin-right: 0.75rem;
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -196,22 +196,22 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
     }
-    
-    input[type="checkbox"]:checked + .toggle-slider {
+
+    input[type='checkbox']:checked + .toggle-slider {
       background: #ff3939;
-      
+
       &::after {
         transform: translateX(22px);
       }
     }
-    
+
     .toggle-label {
       font-size: 0.9rem;
       color: #495057;
       font-weight: 400;
     }
   }
-  
+
   .personal-user-note {
     margin-top: 0.75rem;
     margin-left: 52px; // Alinear con el texto del toggle
@@ -230,7 +230,7 @@
   justify-content: flex-end;
   margin-top: 1.5rem;
   width: 100%;
-  
+
   .btn {
     padding: 0.75rem 2rem;
     border: none;
@@ -239,17 +239,17 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    
+
     &.btn-continue {
       background: #ff4757;
       color: white;
       float: right;
       margin: 20px 0 0 0;
-      
+
       &:hover:not(:disabled) {
         background: #ff3742;
       }
-      
+
       &:disabled {
         opacity: 0.6;
         cursor: not-allowed;
@@ -272,50 +272,50 @@
         border-color: var(--secondary-color-50);
         color: var(--tertiary-color-200);
       }
-      
+
       &::placeholder {
         color: #ffffff70;
       }
     }
-    
+
     // Flecha del select en tema oscuro
     select {
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff70' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
     }
   }
-  
+
   .welcome-content {
     color: var(--tertiary-color-100);
   }
-  
+
   .onboarding-header {
     b {
       color: var(--tertiary-color-100);
-      font-family: "Satoshi", sans-serif;
+      font-family: 'Satoshi', sans-serif;
     }
-    
+
     p {
       color: var(--tertiary-color-100);
-      font-family: "Questrial", sans-serif;
+      font-family: 'Questrial', sans-serif;
     }
   }
-  
+
   // Línea separadora en tema oscuro
   .onboarding-separator {
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-    
+
     &::before {
       background: #ff3939;
     }
   }
-  
+
   .personal-user-toggle {
     .toggle-container {
       .toggle-label {
         color: var(--tertiary-color-100);
       }
     }
-    
+
     .personal-user-note {
       color: #48c774; // Verde más claro para tema oscuro
     }
@@ -324,13 +324,21 @@
 
 // Animación para campos con error
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-2px);
   }
-  20%, 40%, 60%, 80% {
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(2px);
   }
 }
@@ -353,49 +361,49 @@
     max-width: 100%;
     margin-top: 10px;
   }
-  
+
   .welcome-content {
     padding: 20px;
   }
-  
+
   .onboarding-header {
     b {
       font-size: 0.95rem;
-      font-family: "Satoshi", sans-serif;
+      font-family: 'Satoshi', sans-serif;
     }
-    
+
     p {
       font-size: 0.9rem;
-      font-family: "Questrial", sans-serif;
+      font-family: 'Questrial', sans-serif;
     }
   }
-  
+
   .personal-user-toggle {
     .toggle-container {
       .toggle-label {
         font-size: 0.85rem;
       }
     }
-    
+
     .personal-user-note {
       margin-left: 0;
       margin-top: 0.5rem;
       font-size: 0.8rem;
     }
   }
-  
+
   .input-container {
     max-width: 100%;
   }
-  
+
   .onboarding-header {
     max-width: 100%;
   }
-  
+
   .btn-container {
     max-width: 100%;
     justify-content: center;
-    
+
     .btn {
       width: 100%;
     }
@@ -406,49 +414,49 @@
   .welcome-content {
     padding: 15px;
   }
-  
+
   .onboarding-header {
     margin-bottom: 1rem;
-    
+
     b {
       font-size: 0.9rem;
-      font-family: "Satoshi", sans-serif;
+      font-family: 'Satoshi', sans-serif;
     }
-    
+
     p {
       font-size: 0.85rem;
-      font-family: "Questrial", sans-serif;
+      font-family: 'Questrial', sans-serif;
     }
   }
-  
+
   .personal-user-toggle {
     .toggle-container {
       flex-direction: column;
       align-items: flex-start;
       gap: 0.5rem;
     }
-    
+
     .personal-user-note {
       margin-left: 0;
       margin-top: 0.5rem;
       font-size: 0.75rem;
     }
   }
-  
+
   .input-container {
     max-width: 100%;
   }
-  
+
   .onboarding-header {
     max-width: 100%;
   }
-  
+
   .btn-container {
     max-width: 100%;
-    
+
     .btn {
       padding: 0.65rem 1.5rem;
       font-size: 0.9rem;
     }
   }
-} 
+}

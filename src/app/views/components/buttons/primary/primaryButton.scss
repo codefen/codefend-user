@@ -1,30 +1,33 @@
 .btn {
+  --btn-bg-color: var(--secondary-color-50);
+  background: var(--btn-bg-color);
+
   &.btn-red {
-    background: var(--secondary-color-50);
+    --btn-bg-color: var(--secondary-color-50);
 
     &:hover {
-      background: var(--secondary-color-100) !important;
+      --btn-bg-color: var(--secondary-color-100);
     }
   }
 
   &.btn-dark-red {
-    background: var(--secondary-color-100);
+    --btn-bg-color: var(--secondary-color-100);
   }
 
   &.btn-black {
     color: var(--primary-color);
-    background-color: var(--tertiary-color-500);
+    --btn-bg-color: var(--tertiary-color-500);
   }
 
   &.btn-dark-black {
-    background-color: var(--tertiary-color-500);
+    --btn-bg-color: var(--tertiary-color-500);
     color: var(--primary-color-50);
     transition: scale 200ms ease;
     margin-left: 14px;
   }
 
   &.btn-gray {
-    background-color: var(--primary-color-300);
+    --btn-bg-color: var(--primary-color-300);
     color: var(--tertiary-color-500);
     transition: scale 200ms ease;
 
@@ -99,7 +102,32 @@
 [data-theme='dark'] {
   button.btn {
     &.btn-red {
-      background: #d73636;
+      background: linear-gradient(90deg, #320809 5.75%, #1d0a0c 73.08%);
+      border: 1px solid #b10101;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      color: #cf2e2f;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: linear-gradient(90deg, #320809 5.75%, #1d0a0c 73.08%);
+        background-size: 150% 200%;
+        color: #d95b5b;
+        border-color: #cf0000;
+      }
+    }
+    &.btn-gray {
+      background: linear-gradient(90deg, #434243 5.75%, #282324 76.44%, #1d191a 96.63%);
+      border: 1px solid #bababa;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      transition: all 0.2s ease;
+      color: #d9d9d9;
+
+      &:hover {
+        ackground: linear-gradient(90deg, #434243 5.75%, #282324 76.44%, #1d191a 96.63%);
+        background-size: 150% 200%;
+        color: #ededed;
+        border-color: #d6d6d6;
+      }
     }
   }
 }

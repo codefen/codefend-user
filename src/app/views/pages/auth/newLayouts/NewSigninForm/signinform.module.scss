@@ -23,8 +23,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 2.5rem;
-  padding-top: 30px;
+  padding-block: 1.75rem;
+  padding-inline: 2rem;
+  width: 420px;
+  justify-content: flex-start;
 
   p {
     color: var(--text-color);
