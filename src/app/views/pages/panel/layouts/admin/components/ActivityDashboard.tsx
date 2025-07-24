@@ -7,6 +7,8 @@ import { AppleIcon } from '@/app/views/components/icons/AppleIcon';
 import { WindowsIcon } from '@/app/views/components/icons/WindowsIcon';
 import { AndroidIcon } from '@/app/views/components/icons/AndroidIcon';
 import { LinuxIcon } from '@/app/views/components/icons/LinuxIcon';
+import { DesktopIcon } from '@/app/views/components/icons/DesktopIcon';
+import { MobileIcon } from '@/app/views/components/icons/MobileIcon';
 import * as d3 from 'd3';
 import './ActivityLineChart.scss';
 
@@ -20,7 +22,7 @@ interface DailyData {
   orders: string;
 }
 
-type ChartType = 'line' | 'bar' | 'raw-data';
+// Removido ChartType - solo vista de análisis completo
 
 export const ActivityDashboard: FC = () => {
   const { data: registrations, isLoading, fetchRegistrations } = useGetUserRegistrations();
@@ -28,7 +30,7 @@ export const ActivityDashboard: FC = () => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 450 });
-  const [chartType, setChartType] = useState<ChartType>('raw-data');
+  // Removido chartType - solo vista de análisis completo
   const [rawData, setRawData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pagination, setPagination] = useState<any>({
@@ -43,10 +45,10 @@ export const ActivityDashboard: FC = () => {
   const [visibleMetrics, setVisibleMetrics] = useState({
     leads: true,
     usuarios: true,
-    companias: false,
-    neuroscans: false,
+    // companias: false, // Comentado - invisible
+    // neuroscans: false, // Comentado - invisible
     visitas_unicas: true,
-    orders: true,
+    // orders: true, // Comentado - invisible
   });
 
   // Colores para cada línea/barra (actualizados según especificación)
@@ -157,8 +159,14 @@ export const ActivityDashboard: FC = () => {
   };
 
   // Función para renderizar gráfico de líneas
-  const renderLineChart = () => {
-    if (!registrations.length || !svgRef.current || width <= 0 || height <= 0) return;
+  const renderLineChart = (chartWidth?: number, chartHeight?: number) => {
+    if (!registrations.length || !svgRef.current) return;
+    
+    // Usar dimensiones pasadas como parámetros o las del estado
+    const currentWidth = chartWidth || width;
+    const currentHeight = chartHeight || height;
+    
+    if (currentWidth <= 0 || currentHeight <= 0) return;
 
     const svg = d3.select(svgRef.current);
     const g = svg.select('g.chart-container');
@@ -167,10 +175,10 @@ export const ActivityDashboard: FC = () => {
     const xScale = d3
       .scaleTime()
       .domain(d3.extent(processedData, (d: any) => d.fecha) as [Date, Date])
-      .range([0, width]);
+      .range([0, currentWidth]);
 
     const maxValue =
-      d3.max(processedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans, d.visitas_unicas, d.orders)) ||
+      d3.max(processedData, (d: any) => Math.max(d.leads, d.usuarios, /*d.companias, d.neuroscans,*/ d.visitas_unicas/*, d.orders*/)) ||
       0;
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
@@ -178,13 +186,13 @@ export const ActivityDashboard: FC = () => {
     const yScale = d3
       .scaleLinear()
       .domain([0, effectiveMaxValue * 1.1])
-      .range([height, 0]);
+      .range([currentHeight, 0]);
 
     // Definir generador de áreas
     const area = d3
       .area<any>()
       .x(d => xScale(d.fecha))
-      .y0(height)
+      .y0(currentHeight)
       .y1(d => yScale(Math.max(0, d.value))) // Asegurar que no vaya por debajo de 0
       .curve(d3.curveCardinal.tension(0.5))
       .defined(d => d.value !== null && d.value !== undefined);
@@ -198,9 +206,9 @@ export const ActivityDashboard: FC = () => {
       .defined(d => d.value !== null && d.value !== undefined);
 
     // Crear las áreas y líneas para cada métrica
-    // Orden: visitas_unicas (atrás) -> leads -> usuarios -> orders (adelante)
-    // Variables adicionales: companias, neuroscans (no visibles por defecto)
-    const metrics = ['visitas_unicas', 'leads', 'usuarios', 'orders', 'companias', 'neuroscans'];
+    // Orden: visitas_unicas (atrás) -> leads -> usuarios (adelante)
+    // Variables comentadas: orders, companias, neuroscans (invisibles)
+    const metrics = ['visitas_unicas', 'leads', 'usuarios'/*, 'orders', 'companias', 'neuroscans'*/];
 
     metrics.forEach(metric => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
@@ -309,8 +317,8 @@ export const ActivityDashboard: FC = () => {
       }
     });
 
-    // Actualizar ejes
-    updateAxes(xScale, yScale, g);
+    // Actualizar ejes con las nuevas dimensiones
+    updateAxes(xScale, yScale, g, currentWidth, currentHeight);
   };
 
   // Función para renderizar gráfico de barras
@@ -330,8 +338,9 @@ export const ActivityDashboard: FC = () => {
       orders: d.orders,
     }));
 
-    // Orden de barras: visitas_unicas -> leads -> usuarios -> orders -> companias -> neuroscans
-    const metrics = ['visitas_unicas', 'leads', 'usuarios', 'orders', 'companias', 'neuroscans'];
+    // Orden de barras: visitas_unicas -> leads -> usuarios
+    // Métricas comentadas: orders -> companias -> neuroscans
+    const metrics = ['visitas_unicas', 'leads', 'usuarios'/*, 'orders', 'companias', 'neuroscans'*/];
     const visibleMetricsArray = metrics.filter(
       metric => visibleMetrics[metric as keyof typeof visibleMetrics]
     );
@@ -341,7 +350,7 @@ export const ActivityDashboard: FC = () => {
     const xScale = d3.scaleBand().domain(dateLabels).range([0, width]).padding(0.2);
 
     const maxValue =
-      d3.max(formattedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans, d.visitas_unicas, d.orders)) ||
+      d3.max(formattedData, (d: any) => Math.max(d.leads, d.usuarios, /*d.companias, d.neuroscans,*/ d.visitas_unicas/*, d.orders*/)) ||
       0;
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
@@ -435,19 +444,23 @@ export const ActivityDashboard: FC = () => {
   };
 
   // Función para actualizar ejes
-  const updateAxes = (xScale: any, yScale: any, g: any) => {
+  const updateAxes = (xScale: any, yScale: any, g: any, chartWidth?: number, chartHeight?: number) => {
     g.selectAll('.axis').remove();
     g.selectAll('.grid').remove();
+
+    // Usar dimensiones pasadas como parámetros o las del estado
+    const currentWidth = chartWidth || width;
+    const currentHeight = chartHeight || height;
 
     // Grid lines
     const xGrid = g
       .append('g')
       .attr('class', 'grid')
-      .attr('transform', `translate(0,${height})`)
+      .attr('transform', `translate(0,${currentHeight})`)
       .call(
         d3
           .axisBottom(xScale)
-          .tickSize(-height)
+          .tickSize(-currentHeight)
           .tickFormat(() => '')
       );
 
@@ -463,7 +476,7 @@ export const ActivityDashboard: FC = () => {
       .call(
         d3
           .axisLeft(yScale)
-          .tickSize(-width)
+          .tickSize(-currentWidth)
           .tickFormat(() => '')
       );
 
@@ -477,16 +490,12 @@ export const ActivityDashboard: FC = () => {
     const xAxis = g
       .append('g')
       .attr('class', 'axis x-axis')
-      .attr('transform', `translate(0,${height})`)
+      .attr('transform', `translate(0,${currentHeight})`)
       .call(
         d3
           .axisBottom(xScale)
-          .tickFormat(
-            chartType === 'line'
-              ? (domainValue: any) => d3.timeFormat('%d')(domainValue)
-              : (domainValue: any) => domainValue
-          )
-          .ticks(chartType === 'line' ? processedData.length : undefined)
+          .tickFormat((domainValue: any) => d3.timeFormat('%d')(domainValue))
+          .ticks(processedData.length)
       );
 
     xAxis
@@ -544,12 +553,10 @@ export const ActivityDashboard: FC = () => {
     fetchRegistrations();
   }, [fetchRegistrations]);
 
-  // Cargar datos raw cuando se selecciona la pestaña
+  // Cargar datos raw automáticamente
   useEffect(() => {
-    if (chartType === 'raw-data') {
-      fetchRawData(1); // Empezar en la página 1
-    }
-  }, [chartType]);
+    fetchRawData(1); // Empezar en la página 1
+  }, []);
 
   // Funciones de navegación
   const handlePageChange = (page: number) => {
@@ -591,15 +598,24 @@ export const ActivityDashboard: FC = () => {
 
   // Renderizar gráfico
   useEffect(() => {
-    if (!registrations.length || !svgRef.current || width <= 0 || height <= 0) return;
-    if (chartType !== 'line' && chartType !== 'bar' && chartType !== 'raw-data') return;
+    if (!registrations.length || !svgRef.current || !containerRef.current) return;
+
+    // Obtener dimensiones reales del contenedor
+    const containerWidth = containerRef.current.clientWidth;
+    const containerHeight = containerRef.current.clientHeight;
+    
+    // Calcular dimensiones del gráfico (mismo cálculo que en updateDimensions)
+    const newWidth = Math.max(containerWidth - 40, 300);
+    const newHeight = Math.max(Math.min(newWidth * 0.6, 500), 350);
+
+    if (newWidth <= 0 || newHeight <= 0) return;
 
     d3.select(svgRef.current).selectAll('*').remove();
 
     const svg = d3
       .select(svgRef.current)
-      .attr('width', dimensions.width)
-      .attr('height', dimensions.height);
+      .attr('width', newWidth)
+      .attr('height', newHeight);
 
     // Crear definiciones de gradientes para cada métrica
     const defs = svg.append('defs');
@@ -647,25 +663,28 @@ export const ActivityDashboard: FC = () => {
         .attr('stop-opacity', 0.05);
     });
 
+    // Calcular márgenes con las nuevas dimensiones
+    const currentMargins = getMargins(newWidth);
+    const chartWidth = newWidth - currentMargins.left - currentMargins.right;
+    const chartHeight = newHeight - currentMargins.top - currentMargins.bottom;
+
     const g = svg
       .append('g')
       .attr('class', 'chart-container')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+      .attr('transform', `translate(${currentMargins.left},${currentMargins.top})`);
 
-    if (chartType === 'line' || chartType === 'raw-data') {
-      renderLineChart();
-    } else {
-      renderBarChart();
-    }
+    // Pasar las nuevas dimensiones a renderLineChart
+    renderLineChart(chartWidth, chartHeight);
 
     // Leyenda clickeable con checkboxes
     const legend = g
       .append('g')
       .attr('class', 'legend')
-      .attr('transform', `translate(0, ${height + 50})`);
+      .attr('transform', `translate(0, ${chartHeight + 50})`);
 
-    // Orden de la leyenda: visitas_unicas -> leads -> usuarios -> orders -> companias -> neuroscans
-    const metrics = ['visitas_unicas', 'leads', 'usuarios', 'orders', 'companias', 'neuroscans'];
+    // Orden de la leyenda: visitas_unicas -> leads -> usuarios
+    // Métricas comentadas: orders -> companias -> neuroscans
+    const metrics = ['visitas_unicas', 'leads', 'usuarios'/*, 'orders', 'companias', 'neuroscans'*/];
 
     metrics.forEach((metric, index) => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
@@ -677,32 +696,20 @@ export const ActivityDashboard: FC = () => {
         .style('cursor', 'pointer')
         .on('click', () => toggleMetricVisibility(metric as keyof typeof visibleMetrics));
 
-      const checkboxSize = 16;
-      const checkbox = legendItem
-        .append('rect')
-        .attr('x', 0)
-        .attr('y', -8)
-        .attr('width', checkboxSize)
-        .attr('height', checkboxSize)
-        .attr('rx', 2)
+      const radius = 6;
+      const swatch = legendItem
+        .append('circle')
+        .attr('cx', radius)
+        .attr('cy', 0)
+        .attr('r', radius)
         .attr('fill', isVisible ? colors[metric as keyof typeof colors] : 'transparent')
         .attr('stroke', colors[metric as keyof typeof colors])
         .attr('stroke-width', 2);
 
-      if (isVisible) {
-        legendItem
-          .append('path')
-          .attr('d', 'M3,8 L7,12 L13,4') // Ajustado para centrar mejor en el checkbox de 16x16
-          .attr('stroke', '#fff')
-          .attr('stroke-width', 2)
-          .attr('fill', 'none')
-          .attr('stroke-linecap', 'round')
-          .attr('stroke-linejoin', 'round');
-      }
-
+      // Ajustar posición del texto después del swatch redondo
       legendItem
         .append('text')
-        .attr('x', checkboxSize + 8)
+        .attr('x', radius * 2 + 4)
         .attr('y', 0)
         .attr('dy', '0.35em')
         .style('font-size', '12px')
@@ -711,7 +718,7 @@ export const ActivityDashboard: FC = () => {
         .style('user-select', 'none')
         .text(getMetricDisplayName(metric));
     });
-  }, [registrations, dimensions, chartType, visibleMetrics]);
+  }, [registrations, visibleMetrics]);
 
   // Sistema de resize automático
   useEffect(() => {
@@ -806,27 +813,7 @@ export const ActivityDashboard: FC = () => {
             <p>Actividad de unique views, leads, usuarios y orders (últimos 30 días)</p>
           </div>
           
-          {/* Controles del gráfico */}
-          <div className="chart-controls">
-            <button
-              className={`chart-toggle-btn ${chartType === 'line' ? 'active' : ''}`}
-              onClick={() => setChartType('line')}>
-              📈 Líneas
-            </button>
-            <button
-              className={`chart-toggle-btn ${chartType === 'bar' ? 'active' : ''}`}
-              onClick={() => setChartType('bar')}>
-              📊 Barras
-            </button>
-            <button
-              className={`chart-toggle-btn ${chartType === 'raw-data' ? 'active' : ''}`}
-              onClick={() => setChartType('raw-data')}>
-              📈📋 Análisis completo
-            </button>
-          </div>
-          
-          {/* Contenedor del gráfico o tabla */}
-          {chartType === 'raw-data' ? (
+          {/* Vista única: Análisis completo */}
             <div className="raw-data-container">
               {/* Gráfico de líneas integrado */}
               <div className="activity-chart-container" ref={containerRef} style={{ marginBottom: '2rem' }}>
@@ -908,19 +895,25 @@ export const ActivityDashboard: FC = () => {
                                 <div className="device-info">
                                   <div className="device-icons">
                                     <span className="device-icon" title={`Dispositivo: ${deviceInfo.deviceClass}`}>
-                                      {deviceInfo.deviceIcon}
+                                      {deviceInfo.deviceClass === 'desk' ? (
+                                        <DesktopIcon size="14px" color="#666666" title="Desktop" />
+                                      ) : deviceInfo.deviceClass === 'phone' ? (
+                                        <MobileIcon size="14px" color="#666666" title="Mobile" />
+                                      ) : (
+                                        deviceInfo.deviceIcon
+                                      )}
                                     </span>
                                     {deviceInfo.deviceOs === 'ios' && (
-                                      <AppleIcon size="14px" color="var(--text-color-secondary)" className="os-icon apple" title="iOS (Apple)" />
+                                      <AppleIcon size="17.5px" color="var(--text-color-secondary)" className="os-icon apple" title="iOS (Apple)" />
                                     )}
                                     {deviceInfo.deviceOs === 'android' && (
-                                      <AndroidIcon size="14px" color="var(--text-color-secondary)" className="os-icon android" title="Android" />
+                                      <AndroidIcon size="16.1px" color="var(--text-color-secondary)" className="os-icon android" title="Android" />
                                     )}
                                     {deviceInfo.deviceOs === 'windows' && (
-                                      <WindowsIcon size="14px" color="var(--text-color-secondary)" className="os-icon windows" title="Windows" />
+                                      <WindowsIcon size="12.6px" color="var(--text-color-secondary)" className="os-icon windows" title="Windows" />
                                     )}
                                     {deviceInfo.deviceOs === 'macos' && (
-                                      <AppleIcon size="14px" color="var(--text-color-secondary)" className="os-icon macos" title="macOS" />
+                                      <AppleIcon size="17.5px" color="var(--text-color-secondary)" className="os-icon macos" title="macOS" />
                                     )}
                                     {deviceInfo.deviceOs === 'linux' && (
                                       <LinuxIcon size="14px" color="var(--text-color-secondary)" className="os-icon linux" title="Linux" />
@@ -983,11 +976,6 @@ export const ActivityDashboard: FC = () => {
                 </div>
               </div>
             </div>
-          ) : (
-          <div className="activity-chart-container" ref={containerRef}>
-            <svg ref={svgRef}></svg>
-          </div>
-          )}
         </div>
       </div>
     </div>

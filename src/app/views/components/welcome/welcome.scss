@@ -466,22 +466,45 @@
         }
       }
       .card.card-process {
-        background: transparent;
-        border-color: #ffffff8a;
+        background: var(--primary-color-100);
+        border-color: var(--primary-color-300);
 
-        .card-process-header-title {
-          h3 {
-            color: #ffffffd1;
+        .card-process-header {
+          border-bottom: 1px solid var(--primary-color-300);
+
+          .card-process-header-title {
+            h3 {
+              color: var(--tertiary-color-300);
+            }
+          }
+
+          .process-badge > div {
+            &[data-status='running'] {
+              background-color: var(--primary-color-300);
+              color: var(--tertiary-color-300);
+            }
+            &[data-status='completed'] {
+              background-color: #1a4a2a;
+              color: #4ade80;
+            }
+            &[data-status='parser'] {
+              background-color: var(--secondary-color-400);
+              color: var(--tertiary-color-100);
+            }
           }
         }
 
         .card-process-content-info .card-process-content-info-container {
           .info-item {
+            &:not(:last-child)::after {
+              background-color: var(--primary-color-300);
+            }
+
             span {
-              color: rgb(255 255 255 / 70%);
+              color: var(--tertiary-color-500);
             }
             b {
-              color: #ffffffd1;
+              color: var(--tertiary-color-300);
             }
           }
         }

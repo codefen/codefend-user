@@ -18,3 +18,18 @@
     background: linear-gradient(90deg, #22c55e 33%, #16a34a 93%, #15803d 100%);
   }
 }
+
+// Estilos para tema oscuro
+:global([data-theme='dark']) {
+  .scan-start-progress {
+    background-color: #374151;
+  }
+
+  .scan-start-progress-bar {
+    background: linear-gradient(90deg, #16a34a 33%, #15803d 93%, #166534 100%);
+    
+    &.completed {
+      background: linear-gradient(90deg, #16a34a 33%, #15803d 93%, #166534 100%);
+    }
+  }
+}

@@ -214,15 +214,18 @@ main.team-members {
 .company-info-content {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.4rem;
   margin-top: 0.5rem;
+  border-top: 1px solid var(--primary-color-300);
+  border-bottom: 1px solid var(--primary-color-300);
+  padding: 0.28rem 0;
 }
 
 .company-info-item {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--primary-color-200);
+  padding: 0.28rem 0;
+  border-bottom: 1px solid var(--primary-color-300);
 
   &:last-child {
     border-bottom: none;
@@ -239,6 +242,12 @@ main.team-members {
 
     // Hacer el label más oscuro para distinguirlo del valor
     font-weight: 500;
+
+    strong {
+      font-family: satoshi, sans-serif;
+      font-weight: 500 !important;
+      color: var(--tertiary-color-400);
+    }
 
     // &.area-line {
     //   .flag {
@@ -317,6 +326,30 @@ main.team-members {
 
     .right {
       display: none;
+    }
+  }
+}
+
+// Estilos para tema oscuro
+[data-theme='dark'] {
+  .company-info-content {
+    border-top: 1px solid var(--primary-color-300);
+    border-bottom: 1px solid var(--primary-color-300);
+  }
+
+  .company-info-item {
+    border-bottom: 1px solid var(--primary-color-300);
+
+    .single-line {
+      color: var(--tertiary-color-300);
+
+      strong {
+        color: var(--tertiary-color-200);
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
     }
   }
 }

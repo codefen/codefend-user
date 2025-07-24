@@ -149,51 +149,50 @@ export const TeamMembersPage = () => {
         {data?.company && (
           <div className="card company-info-card">
             <div className="header">
-              <h2>Company information</h2>
-              <p>Review the main details of your company.</p>
+              <h2>Business details</h2>
             </div>
             <div className="company-info-content">
               <div className="company-info-item">
-                <span className="single-line">Business ID: {data.company.id}</span>
+                <span className="single-line"><strong>Business ID:</strong> {data.company.id}</span>
               </div>
               
               <div className="company-info-item">
-                <span className="single-line">Business name: {data.company.name}</span>
+                <span className="single-line"><strong>Business name:</strong> {data.company.name}</span>
               </div>
               
               <div className="company-info-item">
                 <span className="single-line area-line">
-                  Area: {data.company.pais_code && (
+                  <strong>Area:</strong> {data.company.pais_code && (
                     <span className={`flag flag-${normalizeCountryCode(data.company.pais_code)}`}></span>
                   )}
-                  {[data.company.pais, data.company.pais_provincia, data.company.pais_ciudad]
+                  {[data.company.pais_provincia, data.company.pais_ciudad]
                     .filter(Boolean)
                     .join(', ')}
                 </span>
               </div>
               
               <div className="company-info-item">
-                <span className="single-line">Web: {data.company.web || '-'}</span>
+                <span className="single-line"><strong>Web:</strong> {data.company.web || '-'}</span>
               </div>
               
               <div className="company-info-item">
-                <span className="single-line">Business size: {formatBusinessSize(data.company.size)}</span>
+                <span className="single-line"><strong>Business size:</strong> {formatBusinessSize(data.company.size)}</span>
               </div>
               
               <div className="company-info-item">
                 <span className="single-line">
-                  Owner: {[data.company.owner_fname, data.company.owner_lname]
+                  <strong>Owner:</strong> {[data.company.owner_fname, data.company.owner_lname]
                     .filter(Boolean)
                     .join(' ')}
                 </span>
               </div>
               
               <div className="company-info-item">
-                <span className="single-line">Owner email: {data.company.owner_email}</span>
+                <span className="single-line"><strong>Owner email:</strong> {data.company.owner_email}</span>
               </div>
               
               <div className="company-info-item">
-                <span className="single-line">Current plan: {data.company.plan}</span>
+                <span className="single-line"><strong>Current plan:</strong> {data.company.plan}</span>
               </div>
             </div>
           </div>
