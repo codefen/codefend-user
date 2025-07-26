@@ -22,10 +22,37 @@ interface DailyData {
   orders: string;
 }
 
+// Componente de resumen de métricas
+const ActivitySummary: FC<{ totals: any }> = ({ totals }) => {
+  return (
+    <div className="activity-summary">
+      <h3>Actividad (30 días)</h3>
+      <div className="metrics-grid">
+        <div className="metric-item">
+          <span className="metric-label">leads</span>
+          <span className="metric-value">{totals.leads}</span>
+        </div>
+        <div className="metric-item">
+          <span className="metric-label">usuarios</span>
+          <span className="metric-value">{totals.usuarios}</span>
+        </div>
+        <div className="metric-item">
+          <span className="metric-label">órdenes</span>
+          <span className="metric-value">{totals.orders}</span>
+        </div>
+        <div className="metric-item">
+          <span className="metric-label">issues vistos</span>
+          <span className="metric-value">{totals.issues_vistos}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Removido ChartType - solo vista de análisis completo
 
 export const ActivityDashboard: FC = () => {
-  const { data: registrations, isLoading, fetchRegistrations } = useGetUserRegistrations();
+  const { data: registrations, isLoading, fetchRegistrations, totals } = useGetUserRegistrations();
   const { getCompany } = useUserData();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -815,9 +842,15 @@ export const ActivityDashboard: FC = () => {
           
           {/* Vista única: Análisis completo */}
             <div className="raw-data-container">
-              {/* Gráfico de líneas integrado */}
-              <div className="activity-chart-container" ref={containerRef} style={{ marginBottom: '2rem' }}>
-                <svg ref={svgRef}></svg>
+              {/* Contenedor para gráfico y resumen */}
+              <div className="chart-and-summary-container">
+                {/* Gráfico de líneas integrado */}
+                <div className="activity-chart-container" ref={containerRef}>
+                  <svg ref={svgRef}></svg>
+                </div>
+                
+                {/* Resumen de métricas */}
+                <ActivitySummary totals={totals} />
               </div>
               
               <div className="raw-data-header">

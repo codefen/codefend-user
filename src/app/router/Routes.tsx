@@ -118,7 +118,7 @@ export const AppRouter = () => {
           children: [
             { index: true, element: <Navigate to="company" replace /> },
             { path: 'company', element: <AdminCompany /> },
-            { path: 'admin-section', element: <AdminSection /> },
+
             { path: 'landers', element: <AdminLanders /> },
             { path: 'commander', element: <AdminCommander /> },
           ],

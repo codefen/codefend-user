@@ -94,14 +94,7 @@ export const SidebarDesktop = ({
       title: 'Main',
       id: 'sidebar_mainitems',
       children: [
-        {
-          title: 'Administration',
-          id: 'sidebar_admin_section',
-          icon: <LightningIcon isVisible />,
-          to: '/admin/admin-section',
-          root: false,
-          haveAccess: isAdmin(),
-        },
+
         {
           title: 'Landers Monitor',
           id: 'sidebar_landers',

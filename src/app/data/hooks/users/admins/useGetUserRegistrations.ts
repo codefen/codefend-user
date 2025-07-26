@@ -12,6 +12,7 @@ interface DailyData {
   neuroscans: string;
   visitas_unicas: string;
   orders: string;
+  issues_vistos: string;
 }
 
 export const useGetUserRegistrations = () => {
@@ -40,6 +41,7 @@ export const useGetUserRegistrations = () => {
       // { key: 'neuroscans_por_dia', field: 'neuroscans' }, // Comentado - no se muestra por defecto
       { key: 'visitas_unicas_por_dia', field: 'visitas_unicas' },
       { key: 'orders_por_dia', field: 'orders' },
+      { key: 'issues_vistos_por_dia', field: 'issues_vistos' },
     ];
 
     dataTypes.forEach(({ key, field }) => {
@@ -54,6 +56,7 @@ export const useGetUserRegistrations = () => {
             neuroscans: '0',
             visitas_unicas: '0',
             orders: '0',
+            issues_vistos: '0',
           });
         }
         const existing = dateMap.get(record.fecha)!;
@@ -100,7 +103,7 @@ export const useGetUserRegistrations = () => {
           usuarios: filteredData.reduce((sum, reg) => sum + parseInt(reg.usuarios || '0'), 0),
           companias: filteredData.reduce((sum, reg) => sum + parseInt(reg.companias || '0'), 0),
           neuroscans: filteredData.reduce((sum, reg) => sum + parseInt(reg.neuroscans || '0'), 0),
-          issues_vistos: 0,
+          issues_vistos: filteredData.reduce((sum, reg) => sum + parseInt(reg.issues_vistos || '0'), 0),
           visitas_unicas: filteredData.reduce((sum, reg) => sum + parseInt(reg.visitas_unicas || '0'), 0),
           orders: filteredData.reduce((sum, reg) => sum + parseInt(reg.orders || '0'), 0),
         };
