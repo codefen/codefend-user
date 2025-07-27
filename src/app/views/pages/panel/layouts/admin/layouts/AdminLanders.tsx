@@ -3,19 +3,24 @@ import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
 import '../../user-profile/userprofile.scss';
-import { ActivityLineChart } from '../components/ActivityLineChart'; // Importar componente original
+import { ActivityLineChart } from '../components/ActivityLineChart';
 import { ActivityMetrics, DataTableSection } from '../components/ActivityDashboard';
 import Navbar from '@/app/views/components/navbar/Navbar';
 
 const AdminLanders: FC = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
-  const { data: registrations, totals, fetchRegistrations } = useGetUserRegistrations();
+  const { data: registrations, totals, fetchRegistrations, currentPeriod, isLoading } = useGetUserRegistrations();
 
-  // Cargar datos para las estadísticas
+  // Cargar datos para las estadísticas (por defecto hoy)
   useEffect(() => {
-    fetchRegistrations();
-  }, [fetchRegistrations]);
+    fetchRegistrations('today');
+  }, []);
+
+  // Manejar cambio de período sincronizado
+  const handlePeriodChange = (period: 'today' | 'week') => {
+    fetchRegistrations(period);
+  };
 
   return (
     <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
@@ -35,10 +40,41 @@ const AdminLanders: FC = () => {
         {/* Cards 2 y 3: Gráfico (70%) y Métricas (30%) lado a lado */}
         <div className="landers-layout-container">
           <div className="chart-section">
-            <ActivityLineChart data={registrations} />
+            <div className="card standard">
+              <div className="over">
+                <div className="body">
+                  <div className="chart-header">
+                    <div className="period-selector">
+                      <div className="period-buttons">
+                        <button
+                          className={`period-btn ${currentPeriod === 'today' ? 'active' : ''}`}
+                          onClick={() => handlePeriodChange('today')}
+                          disabled={isLoading}
+                        >
+                          📅 Hoy
+                        </button>
+                        <button
+                          className={`period-btn ${currentPeriod === 'week' ? 'active' : ''}`}
+                          onClick={() => handlePeriodChange('week')}
+                          disabled={isLoading}
+                        >
+                          📊 Últimos 7 días
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <ActivityLineChart data={registrations} />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="metrics-section">
-            <ActivityMetrics totals={totals} />
+            <ActivityMetrics 
+              totals={totals} 
+              currentPeriod={currentPeriod}
+              onPeriodChange={handlePeriodChange}
+              isLoading={isLoading}
+            />
           </div>
         </div>
         

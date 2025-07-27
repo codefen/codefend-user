@@ -15,10 +15,13 @@ interface DailyData {
   issues_vistos: string;
 }
 
+type TimePeriod = 'today' | 'week';
+
 export const useGetUserRegistrations = () => {
   const { getCompany } = useUserData();
   const [data, setData] = useState<DailyData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPeriod, setCurrentPeriod] = useState<TimePeriod>('today');
   const [totals, setTotals] = useState({
     leads: 0,
     usuarios: 0,
@@ -67,50 +70,44 @@ export const useGetUserRegistrations = () => {
     return Array.from(dateMap.values());
   };
 
-  // Filtrar los últimos 30 días
-  const filterLast30Days = (combinedData: DailyData[]) => {
-    const today = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(today.getDate() - 30);
-    
-    return combinedData
-      .filter(reg => {
-        const regDate = new Date(reg.fecha);
-        return regDate >= thirtyDaysAgo && regDate <= today;
-      })
-      .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
+  // Filtrar según el período seleccionado (ya no necesario, se hace en backend)
+  const processDataByPeriod = (combinedData: DailyData[]) => {
+    return combinedData.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
   };
 
-  const fetchRegistrations = useCallback(async () => {
+  const fetchRegistrations = useCallback(async (period: TimePeriod = currentPeriod) => {
     if (isLoading) return; // Evitar requests duplicados
     
     setIsLoading(true);
+    setCurrentPeriod(period);
     
     try {
       const response = await AxiosHttpService.getInstance().post<any>({
         path: 'admin/users/flow',
-        body: { company_id: getCompany() },
+        body: { 
+          company_id: getCompany(),
+          period: period 
+        },
         requireSession: true,
       });
 
       if (response.data?.error === '0') {
         const combinedData = combineDataByDate(response.data);
-        const filteredData = filterLast30Days(combinedData);
+        const processedData = processDataByPeriod(combinedData);
         
         // Calcular totales
         const newTotals = {
-          leads: filteredData.reduce((sum, reg) => sum + parseInt(reg.leads || '0'), 0),
-          usuarios: filteredData.reduce((sum, reg) => sum + parseInt(reg.usuarios || '0'), 0),
-          companias: filteredData.reduce((sum, reg) => sum + parseInt(reg.companias || '0'), 0),
-          neuroscans: filteredData.reduce((sum, reg) => sum + parseInt(reg.neuroscans || '0'), 0),
-          issues_vistos: filteredData.reduce((sum, reg) => sum + parseInt(reg.issues_vistos || '0'), 0),
-          visitas_unicas: filteredData.reduce((sum, reg) => sum + parseInt(reg.visitas_unicas || '0'), 0),
-          orders: filteredData.reduce((sum, reg) => sum + parseInt(reg.orders || '0'), 0),
+          leads: processedData.reduce((sum, reg) => sum + parseInt(reg.leads || '0'), 0),
+          usuarios: processedData.reduce((sum, reg) => sum + parseInt(reg.usuarios || '0'), 0),
+          companias: processedData.reduce((sum, reg) => sum + parseInt(reg.companias || '0'), 0),
+          neuroscans: processedData.reduce((sum, reg) => sum + parseInt(reg.neuroscans || '0'), 0),
+          issues_vistos: processedData.reduce((sum, reg) => sum + parseInt(reg.issues_vistos || '0'), 0),
+          visitas_unicas: processedData.reduce((sum, reg) => sum + parseInt(reg.visitas_unicas || '0'), 0),
+          orders: processedData.reduce((sum, reg) => sum + parseInt(reg.orders || '0'), 0),
         };
         
-        setData(filteredData);
+        setData(processedData);
         setTotals(newTotals);
-        // toast.success('Datos cargados correctamente'); // Removido para carga automática
       } else {
         toast.error('Error al cargar los datos');
         setData([]);
@@ -125,12 +122,13 @@ export const useGetUserRegistrations = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [getCompany]);
+  }, [getCompany, currentPeriod]);
 
   return {
     data,
     totals,
     isLoading,
+    currentPeriod,
     fetchRegistrations,
   };
 }; 

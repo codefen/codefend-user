@@ -23,14 +23,60 @@ interface DailyData {
   issues_vistos: string;
 }
 
+type TimePeriod = 'today' | 'week';
+
+// Componente de selector de período
+const PeriodSelector: FC<{
+  currentPeriod: TimePeriod;
+  onPeriodChange: (period: TimePeriod) => void;
+  isLoading: boolean;
+}> = ({ currentPeriod, onPeriodChange, isLoading }) => {
+  return (
+    <div className="period-selector">
+      <div className="period-buttons">
+        <button
+          className={`period-btn ${currentPeriod === 'today' ? 'active' : ''}`}
+          onClick={() => onPeriodChange('today')}
+          disabled={isLoading}
+        >
+          📅 Hoy
+        </button>
+        <button
+          className={`period-btn ${currentPeriod === 'week' ? 'active' : ''}`}
+          onClick={() => onPeriodChange('week')}
+          disabled={isLoading}
+        >
+          📊 Últimos 7 días
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // 1. COMPONENTE DE MÉTRICAS
-export const ActivityMetrics: FC<{ totals: any }> = ({ totals }) => {
+export const ActivityMetrics: FC<{ totals: any; currentPeriod: TimePeriod; onPeriodChange: (period: TimePeriod) => void; isLoading: boolean }> = ({ 
+  totals, 
+  currentPeriod, 
+  onPeriodChange, 
+  isLoading 
+}) => {
+  const getPeriodText = (period: TimePeriod) => {
+    return period === 'today' ? 'hoy' : 'últimos 7 días';
+  };
+
   return (
     <div className="card standard metrics-card">
       <div className="over">
         <div className="body">
           <div className="activity-summary">
-            <h3>Actividad (30 días)</h3>
+            <div className="metrics-header">
+              <h3>Actividad ({getPeriodText(currentPeriod)})</h3>
+              <PeriodSelector 
+                currentPeriod={currentPeriod}
+                onPeriodChange={onPeriodChange}
+                isLoading={isLoading}
+              />
+            </div>
             <div className="metrics-grid">
               <div className="metric-item">
                 <span className="metric-label">leads</span>
@@ -58,14 +104,19 @@ export const ActivityMetrics: FC<{ totals: any }> = ({ totals }) => {
 
 // 2. COMPONENTE DEL GRÁFICO
 export const ActivityChart: FC = () => {
-  const { data: registrations, isLoading, fetchRegistrations } = useGetUserRegistrations();
+  const { data: registrations, isLoading, fetchRegistrations, currentPeriod } = useGetUserRegistrations();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Cargar datos automáticamente al montar el componente
   useEffect(() => {
-    fetchRegistrations();
-  }, [fetchRegistrations]);
+    fetchRegistrations('today'); // Por defecto cargar solo el día de hoy
+  }, []);
+
+  // Manejar cambio de período
+  const handlePeriodChange = (period: TimePeriod) => {
+    fetchRegistrations(period);
+  };
 
   // Renderizar gráfico
   useEffect(() => {
@@ -92,8 +143,8 @@ export const ActivityChart: FC = () => {
     const width = newWidth - margin.left - margin.right;
     const height = newHeight - margin.top - margin.bottom;
 
-    // Procesar datos - últimos 30 días con fechas convertidas
-    const last30Days = registrations.slice(-30).map(d => ({
+    // Procesar datos con fechas convertidas
+    const processedData = registrations.map(d => ({
       ...d,
       fecha: new Date(d.fecha),
       leads: parseInt(d.leads) || 0,
@@ -105,10 +156,10 @@ export const ActivityChart: FC = () => {
     // Configurar escalas
     const xScale = d3
       .scaleTime()
-      .domain(d3.extent(last30Days, (d) => d.fecha) as [Date, Date])
+      .domain(d3.extent(processedData, (d) => d.fecha) as [Date, Date])
       .range([0, width]);
 
-    const maxValue = d3.max(last30Days, (d) => Math.max(d.leads, d.usuarios, d.visitas_unicas, d.orders)) || 10;
+    const maxValue = d3.max(processedData, (d) => Math.max(d.leads, d.usuarios, d.visitas_unicas, d.orders)) || 10;
     const yScale = d3
       .scaleLinear()
       .domain([0, maxValue * 1.1])
@@ -154,10 +205,11 @@ export const ActivityChart: FC = () => {
       .style('opacity', 0.7);
 
     // Ejes
+    const timeFormat = currentPeriod === 'today' ? d3.timeFormat('%H:%M') : d3.timeFormat('%m/%d');
     g.append('g')
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(xScale)
-        .tickFormat((domainValue) => d3.timeFormat('%m/%d')(domainValue as Date)))
+        .tickFormat((domainValue) => timeFormat(domainValue as Date)))
       .selectAll('text')
       .style('font-size', '11px')
       .style('fill', '#6c757d');
@@ -178,7 +230,7 @@ export const ActivityChart: FC = () => {
 
     // Dibujar líneas para cada métrica
     metrics.forEach(metric => {
-      const lineData = last30Days.map(d => ({
+      const lineData = processedData.map(d => ({
         fecha: d.fecha,
         value: d[metric.key as keyof typeof d] as number
       }));
@@ -229,7 +281,7 @@ export const ActivityChart: FC = () => {
         .text(metric.name);
     });
 
-  }, [registrations]);
+  }, [registrations, currentPeriod]);
 
   if (isLoading) {
     return (
@@ -237,11 +289,16 @@ export const ActivityChart: FC = () => {
         <div className="over">
           <div className="body">
             <div className="chart-header">
-              <h2 className="table-title">Actividad diaria</h2>
-              <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
+              <PeriodSelector 
+                currentPeriod={currentPeriod}
+                onPeriodChange={handlePeriodChange}
+                isLoading={isLoading}
+              />
             </div>
-            <div className="loading">
-              <p>Cargando datos...</p>
+            <div className="activity-chart-container" ref={containerRef}>
+              <div className="loading">
+                <p>Cargando datos...</p>
+              </div>
             </div>
           </div>
         </div>
@@ -255,11 +312,16 @@ export const ActivityChart: FC = () => {
         <div className="over">
           <div className="body">
             <div className="chart-header">
-              <h2 className="table-title">Actividad diaria</h2>
-              <p>Actividad de leads, usuarios, compañías y scans (últimos 30 días)</p>
+              <PeriodSelector 
+                currentPeriod={currentPeriod}
+                onPeriodChange={handlePeriodChange}
+                isLoading={isLoading}
+              />
             </div>
-            <div className="chart-placeholder">
-              <p>No hay datos para mostrar en el gráfico</p>
+            <div className="activity-chart-container" ref={containerRef}>
+              <div className="chart-placeholder">
+                <p>No hay datos para mostrar en el gráfico</p>
+              </div>
             </div>
           </div>
         </div>
@@ -272,8 +334,11 @@ export const ActivityChart: FC = () => {
       <div className="over">
         <div className="body">
           <div className="chart-header">
-            <h2 className="table-title">Actividad diaria</h2>
-            <p>Actividad de unique views, leads, usuarios y orders (últimos 30 días)</p>
+            <PeriodSelector 
+              currentPeriod={currentPeriod}
+              onPeriodChange={handlePeriodChange}
+              isLoading={isLoading}
+            />
           </div>
           
           <div className="activity-chart-container" ref={containerRef}>
@@ -291,16 +356,20 @@ export const DataTableSection: FC = () => {
   const [rawData, setRawData] = useState<any[]>([]);
   const [pagination, setPagination] = useState<any>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPeriod, setCurrentPeriod] = useState<TimePeriod>('today');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Función para obtener datos raw de landers
-  const fetchRawData = async (page: number = 1) => {
+  const fetchRawData = async (page: number = 1, period: TimePeriod = currentPeriod) => {
+    setIsLoading(true);
     try {
       const response = await AxiosHttpService.getInstance().post<any>({
         path: 'admin/raw-landers',
         body: { 
           company_id: getCompany(),
           page: page.toString(),
-          limit: '1000'
+          limit: '1000',
+          period: period
         },
         requireSession: true,
       });
@@ -311,6 +380,7 @@ export const DataTableSection: FC = () => {
         setRawData(data.landers || []);
         setPagination(data.pagination || {});
         setCurrentPage(page);
+        setCurrentPeriod(period);
       } else {
         setRawData([]);
         alert(`Error loading data: ${data.info}`);
@@ -318,16 +388,28 @@ export const DataTableSection: FC = () => {
     } catch (error) {
       setRawData([]);
       alert('Network error loading data. Please check your connection.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRawData(1);
+    fetchRawData(1, 'today'); // Por defecto cargar solo el día de hoy
   }, []);
+
+  // Manejar cambio de período
+  const handlePeriodChange = (period: TimePeriod) => {
+    fetchRawData(1, period);
+  };
+
+  const getPeriodText = (period: TimePeriod) => {
+    const today = new Date().toLocaleDateString('es-ES');
+    return period === 'today' ? `hoy (${today})` : 'últimos 7 días';
+  };
 
   // Funciones de navegación
   const handlePageChange = (page: number) => {
-    fetchRawData(page);
+    fetchRawData(page, currentPeriod);
   };
 
   const handleNextPage = () => {
@@ -387,10 +469,18 @@ export const DataTableSection: FC = () => {
         <div className="body">
           <div className="raw-data-container">
             <div className="raw-data-header">
-              <h3>Datos de visitas (tabla landers)</h3>
-              <p>Registros de visitas a páginas de signup/signin - {pagination.total_records} total</p>
-              <div className="pagination-info">
-                <span>Página {currentPage} de {pagination.total_pages} ({pagination.limit} registros por página)</span>
+              <div className="simple-header">
+                <div className="header-title">
+                  <h3>Datos de visitas / landers</h3>
+                  <p>
+                    {rawData.length} registros correspondientes a {getPeriodText(currentPeriod)} de un total de {pagination.total_records || 0} registros
+                  </p>
+                </div>
+                <PeriodSelector 
+                  currentPeriod={currentPeriod}
+                  onPeriodChange={handlePeriodChange}
+                  isLoading={isLoading}
+                />
               </div>
             </div>
             
@@ -513,16 +603,17 @@ export const DataTableSection: FC = () => {
               <div className="footer-left">
                 <button 
                   className="refresh-btn"
-                  onClick={() => fetchRawData(currentPage)}>
+                  onClick={() => fetchRawData(currentPage, currentPeriod)}
+                  disabled={isLoading}>
                   🔄 Actualizar datos
                 </button>
                 <span className="total-records">
-                  Mostrando: {rawData.length} de {pagination.total_records} registros
+                  Página {currentPage} de {pagination.total_pages}
                 </span>
               </div>
               <div className="pagination-controls">
-                <button className="pagination-btn" onClick={handleFirstPage} disabled={!pagination.has_prev}>⏮️ Primera</button>
-                <button className="pagination-btn" onClick={handlePrevPage} disabled={!pagination.has_prev}>◀️ Anterior</button>
+                <button className="pagination-btn" onClick={handleFirstPage} disabled={!pagination.has_prev || isLoading}>⏮️ Primera</button>
+                <button className="pagination-btn" onClick={handlePrevPage} disabled={!pagination.has_prev || isLoading}>◀️ Anterior</button>
                 <span className="page-indicator">
                   {currentPage} / {pagination.total_pages}
                 </span>
@@ -533,9 +624,10 @@ export const DataTableSection: FC = () => {
                   min="1"
                   max={pagination.total_pages}
                   onKeyDown={handlePageJump}
+                  disabled={isLoading}
                 />
-                <button className="pagination-btn" onClick={handleNextPage} disabled={!pagination.has_next}>Siguiente ▶️</button>
-                <button className="pagination-btn" onClick={handleLastPage} disabled={!pagination.has_next}>Última ⏭️</button>
+                <button className="pagination-btn" onClick={handleNextPage} disabled={!pagination.has_next || isLoading}>Siguiente ▶️</button>
+                <button className="pagination-btn" onClick={handleLastPage} disabled={!pagination.has_next || isLoading}>Última ⏭️</button>
               </div>
             </div>
           </div>
