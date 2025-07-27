@@ -28,7 +28,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
   const [visibleMetrics, setVisibleMetrics] = useState({
     leads: true,
     usuarios: true,
-    orders: true,
+    companias: false,
+    neuroscans: false,
     visitas_unicas: true,
   });
 
@@ -103,12 +104,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       if (existingData) {
         filledData.push(existingData);
       } else {
-        // Crear entrada con ceros para fechas faltantes - solo métricas activas
+        // Crear entrada con ceros para fechas faltantes
         filledData.push({
           fecha: new Date(d),
           leads: 0,
           usuarios: 0,
-          orders: 0,
+          companias: 0,
+          neuroscans: 0,
           visitas_unicas: 0,
         });
       }
@@ -194,12 +196,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .domain(d3.extent(processedData, (d: any) => d.fecha) as [Date, Date])
       .range([0, width]);
 
-    // Calcular maxValue solo considerando métricas visibles y trackeadas correctamente
+    // Calcular maxValue solo considerando métricas visibles
     const maxValue = d3.max(processedData, (d: any) => {
       const visibleValues = [];
       if (visibleMetrics.leads) visibleValues.push(d.leads);
       if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
-      if (visibleMetrics.orders) visibleValues.push(d.orders);
+      if (visibleMetrics.companias) visibleValues.push(d.companias);
+      if (visibleMetrics.neuroscans) visibleValues.push(d.neuroscans);
       if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
       
       return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
@@ -250,7 +253,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     // console.log('    · 10 → Y=', yScale(10));
     // console.log('    · maxValue → Y=', yScale(maxValue));
 
-    // Definir generador de áreas (versión estable)
+    // Definir generador de áreas
     const area = d3
       .area<any>()
       .x(d => xScale(d.fecha))
@@ -259,7 +262,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .curve(d3.curveCardinal.tension(0.5))
       .defined(d => d.value !== null && d.value !== undefined);
 
-    // Líneas con definido personalizado (versión estable)
+    // Líneas con definido personalizado para manejar valores 0
     const line = d3
       .line<any>()
       .x(d => xScale(d.fecha))
@@ -267,9 +270,9 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .curve(d3.curveCardinal.tension(0.5))
       .defined(d => d.value !== null && d.value !== undefined); // Solo dibujar donde hay datos válidos
 
-    // Crear las áreas y líneas para cada métrica - solo métricas trackeadas correctamente
-    // Orden: visitas_unicas (atrás) -> leads -> usuarios -> orders (adelante)
-    const metrics = ['visitas_unicas', 'leads', 'usuarios', 'orders'];
+    // Crear las áreas y líneas para cada métrica
+    // Orden: visitas_unicas (atrás) -> leads -> companias -> usuarios -> neuroscans (adelante)
+    const metrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
 
     metrics.forEach(metric => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
@@ -279,7 +282,6 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         return;
       }
 
-      // Procesar datos (versión estable)
       const lineData = processedData.map((d: any) => ({
         fecha: d.fecha,
         value: d[metric as keyof typeof d],
@@ -324,7 +326,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         // 🐛 DEBUG: Verificar renderizado básico
         // console.log(`  - Renderizado: ${metric} con ${strokeWidth}px, opacidad ${opacity}`);
 
-        // Puntos (versión estable)
+        // Puntos más prominentes para valores > 0, puntos pequeños para valores = 0
         const circles = g
           .selectAll(`.dot-${metric}`)
           .data(processedData)
@@ -336,6 +338,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           .attr('r', (d: any) => {
             const value = d[metric as keyof typeof d];
             if (typeof value === 'number') {
+              // Puntos más grandes para valores > 0, pequeños para valores = 0
               return value > 0 ? 5 : 2;
             }
             return 1;
@@ -349,6 +352,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           .style('opacity', (d: any) => {
             const value = d[metric as keyof typeof d];
             if (typeof value === 'number') {
+              // Más opacidad para valores > 0, menos para valores = 0
               return value > 0 ? 0.9 : 0.3;
             }
             return 0.1;
@@ -374,7 +378,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
             const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
             // Seleccionar todos los puntos de todas las métricas en esa fecha
-            const allMetrics = ['visitas_unicas', 'leads', 'usuarios', 'orders']; // Solo métricas activas
+            const allMetrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
             allMetrics.forEach(currentMetric => {
               const isMetricVisible = visibleMetrics[currentMetric as keyof typeof visibleMetrics];
               if (isMetricVisible) {
@@ -399,7 +403,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
             const fechaStr = fechaHover.toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
             // Restaurar todos los puntos de todas las métricas en esa fecha
-            const allMetrics = ['visitas_unicas', 'leads', 'usuarios', 'orders']; // Solo métricas activas
+            const allMetrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
             allMetrics.forEach(currentMetric => {
               const isMetricVisible = visibleMetrics[currentMetric as keyof typeof visibleMetrics];
               if (isMetricVisible) {
@@ -468,8 +472,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     //   }))
     // );
 
-    // Orden de barras: solo métricas trackeadas correctamente
-    const metrics = ['visitas_unicas', 'leads', 'usuarios', 'orders'];
+    // Orden de barras: visitas_unicas -> leads -> companias -> usuarios -> neuroscans
+    const metrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
     const visibleMetricsArray = metrics.filter(
       metric => visibleMetrics[metric as keyof typeof visibleMetrics]
     );
@@ -482,12 +486,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     // Escalas
     const xScale = d3.scaleBand().domain(dateLabels).range([0, width]).padding(0.2);
 
-    // Calcular maxValue solo considerando métricas visibles y trackeadas correctamente
+    // Calcular maxValue solo considerando métricas visibles
     const maxValue = d3.max(formattedData, (d: any) => {
       const visibleValues = [];
       if (visibleMetrics.leads) visibleValues.push(d.leads);
       if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
-      if (visibleMetrics.orders) visibleValues.push(d.orders);
+      if (visibleMetrics.companias) visibleValues.push(d.companias);
+      if (visibleMetrics.neuroscans) visibleValues.push(d.neuroscans);
       if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
       
       return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
@@ -760,8 +765,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .attr('class', 'legend floating-legend')
       .attr('transform', `translate(12, 12)`);
 
-    // Orden de la leyenda: solo métricas trackeadas correctamente
-    const metrics = ['visitas_unicas', 'leads', 'usuarios', 'orders'];
+    // Orden de la leyenda: visitas_unicas -> leads -> companias -> usuarios -> neuroscans
+    const metrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
     
     // Agregar fondo general mejorado para toda la leyenda
     legend
@@ -801,8 +806,9 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       const textMap: { [key: string]: string } = {
         'visitas_unicas': 'visitas',
         'leads': 'leads',
+        'companias': 'comp',
         'usuarios': 'users',
-        'orders': 'orders'
+        'neuroscans': 'neuro'
       };
       
       legendItem
@@ -836,11 +842,12 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         const containerHeight = containerRef.current.clientHeight;
         
         // Usar todo el espacio disponible en el contenedor
-        const newWidth = containerWidth; // 100% del contenedor
-        const newHeight = 320; // Altura fija conforme al diseño
-         
+        const newWidth = Math.max(containerWidth - 20, 300);
+        const newHeight = Math.max(containerHeight - 20, 280); // Sin espacio para leyenda
+
         setDimensions(prev => {
-          if (prev.width !== newWidth || prev.height !== newHeight) {
+          if (Math.abs(prev.width - newWidth) > 10 || Math.abs(prev.height - newHeight) > 10) {
+            // console.log(`📊 Chart resize: ${newWidth}x${newHeight}`);
             return { width: newWidth, height: newHeight };
           }
           return prev;

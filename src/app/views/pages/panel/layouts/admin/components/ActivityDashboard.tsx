@@ -44,6 +44,10 @@ export const ActivityMetrics: FC<{ totals: any }> = ({ totals }) => {
                 <span className="metric-label">órdenes</span>
                 <span className="metric-value">{totals.orders}</span>
               </div>
+              <div className="metric-item">
+                <span className="metric-label">issues vistos</span>
+                <span className="metric-value">{totals.issues_vistos}</span>
+              </div>
             </div>
           </div>
         </div>
