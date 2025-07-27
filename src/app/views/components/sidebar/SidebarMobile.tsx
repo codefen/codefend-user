@@ -6,7 +6,31 @@ import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
 
-type MenuSection = 'Main' | 'Attack surface' | 'Risk control';
+// Icono de flecha para colapsar (compartido con desktop)
+const CollapseArrow = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: () => void }) => (
+  <div 
+    className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`}
+    onClick={onClick}
+  >
+    <svg 
+      width="12" 
+      height="12" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path 
+        d="M6 9L12 15L18 9" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+);
+
+type MenuSection = 'Admin' | 'Main' | 'Attack surface' | 'Risk control';
 
 // Estructura de datos similar al desktop pero adaptada para mobile
 const createSidebarData = (
@@ -18,14 +42,21 @@ const createSidebarData = (
   const isNotProviderAndReseller = !isProvider && !isReseller;
 
   return {
+    Admin: {
+      items: [
+        ...(isAdmin
+          ? [
+              { title: 'Landers Monitor', path: '/admin/landers', root: false },
+              { title: 'Admin Commander', path: '/admin/commander', root: false },
+            ]
+          : []),
+      ],
+    },
     Main: {
       items: [
         // Admin items
         ...(isAdmin
           ? [
-
-      { title: 'Landers Monitor', path: '/admin/landers', root: false },
-      { title: 'Admin Commander', path: '/admin/commander', root: false },
               { title: 'Company Panel', path: '/admin/company', root: isAdmin },
             ]
           : []),
@@ -82,7 +113,7 @@ const createSidebarData = (
 };
 
 // Función para determinar qué sección debe estar activa
-const getActiveSection = (sidebarData: any): MenuSection => {
+const getActiveSection = (sidebarData: any, isAdmin: boolean): MenuSection => {
   const currentPath = window.location.pathname;
 
   // Buscar en cada sección si algún item está activo
@@ -96,8 +127,8 @@ const getActiveSection = (sidebarData: any): MenuSection => {
     }
   }
 
-  // Si no se encuentra nada activo, retornar 'Main' como default
-  return 'Main';
+  // Si no se encuentra nada activo, retornar default según el rol
+  return isAdmin ? 'Admin' : 'Main';
 };
 
 // Función para determinar qué item debe estar activo en una sección
@@ -135,13 +166,27 @@ export const SidebarMobile = ({
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [contentVisible, setContentVisible] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const { logout } = useUserData();
+
+  // Función para alternar el colapso de una sección
+  const toggleSectionCollapse = (sectionName: string) => {
+    setCollapsedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionName)) {
+        newSet.delete(sectionName);
+      } else {
+        newSet.add(sectionName);
+      }
+      return newSet;
+    });
+  };
 
   // Solo inicializar la sección activa cuando se abre el sidebar por primera vez
   useEffect(() => {
     if (isOpen && !hasInitialized) {
-      const newActiveSection = getActiveSection(sidebarData);
+      const newActiveSection = getActiveSection(sidebarData, isAdmin());
       const newActiveItem = getActiveItem(sidebarData[newActiveSection]?.items || []);
 
       setActiveSection(newActiveSection);
@@ -199,8 +244,14 @@ export const SidebarMobile = ({
 
       <div className="sidebar-mobile-content">
         <div className={`sidebar-content-container ${contentVisible ? 'visible' : ''}`}>
-          <h3>{activeSection}</h3>
-          <div className="sidebar-content-items">
+          <div className="sidebar-group-title-container">
+            <h3>{activeSection}</h3>
+            <CollapseArrow 
+              isCollapsed={collapsedSections.has(activeSection)}
+              onClick={() => toggleSectionCollapse(activeSection)}
+            />
+          </div>
+          <div className={`sidebar-content-items ${collapsedSections.has(activeSection) ? 'collapsed' : ''}`}>
             {currentSectionItems.map(item => (
               <button
                 key={`${activeSection}-${item.title}`}

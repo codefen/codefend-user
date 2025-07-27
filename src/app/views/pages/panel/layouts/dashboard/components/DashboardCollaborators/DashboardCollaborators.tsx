@@ -3,13 +3,14 @@ import { type ColumnTableV3 } from '@interfaces/table';
 import type { CompanyMember } from '@interfaces/dashboard';
 import Tablev3 from '@table/v3/Tablev3';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { TABLE_KEYS } from '@/app/constants/app-texts';
 
 interface DashboardCollaboratorsProps {
   members: CompanyMember[];
   isLoading: boolean;
 }
 
-// Icono de corona para el Founder
+// Icono de corona para el Owner
 const CrownIcon = () => (
   <svg
     width="16"
@@ -17,13 +18,17 @@ const CrownIcon = () => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    style={{ marginRight: '8px', verticalAlign: 'middle' }}>
+    style={{ marginLeft: '8px', verticalAlign: 'middle' }}
+  >
     <path
-      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-      fill="#FFD700"
-      stroke="#FFD700"
-      strokeWidth="1"
+      d="M3 17h18v2H3v-2zm0-3h18l-2-8h-2l-2 3-4-6-4 6-2-3H3l-2 8h18z"
+      fill="#ff3939"
+      stroke="#cc2929"
+      strokeWidth="0.5"
     />
+    <circle cx="7" cy="10" r="1" fill="#cc2929" />
+    <circle cx="12" cy="8" r="1" fill="#cc2929" />
+    <circle cx="17" cy="10" r="1" fill="#cc2929" />
   </svg>
 );
 
@@ -31,20 +36,28 @@ export const membersColumns: ColumnTableV3[] = [
   {
     header: 'Email',
     key: 'email',
+    type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-3',
     weight: '100%', // Ocupar todo el ancho disponible
     render: (value, row) => {
-      const isFounder = row?.is_owner || false;
-      console.log('🔍 Debug Crown:', { 
-        email: value, 
-        is_owner: row?.is_owner, 
+      // Con TABLE_KEYS.FULL_ROW, 'value' es el objeto completo y 'row' es null
+      const memberObj = value; // value es el objeto member completo
+      const isFounder = memberObj?.is_owner || false;
+      const emailText = memberObj?.email || '';
+      
+      console.log('🔍 Debug Crown FIXED:', { 
+        email: emailText, 
+        is_owner: memberObj?.is_owner, 
         isFounder,
-        row: row 
+        memberObj: memberObj,
+        'value (should be member)': value,
+        'row (should be null)': row
       });
+      
       return (
         <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span>{emailText}</span>
           {isFounder && <CrownIcon />}
-          <span>{value}</span>
         </div>
       );
     },
@@ -56,17 +69,27 @@ const DashboardCollaborators: FC<DashboardCollaboratorsProps> = ({ members, isLo
   const company = useGlobalFastField('company');
 
   useEffect(() => {
-    console.log('🏢 Company owner email:', company.get.owner_email);
+    console.log('🔍 DETAILED COMPANY DEBUG:', {
+      'company.get': company.get,
+      'company.get.owner_email': company.get.owner_email,
+      'company.get.admin_user_email': company.get.admin_user_email,
+      'allCompanyKeys': Object.keys(company.get || {}),
+      'companyStructure': JSON.stringify(company.get, null, 2)
+    });
     console.log('👥 Members original:', members);
+    
+    // Intentar múltiples formas de encontrar el owner
+    const ownerEmail = company.get.owner_email || company.get.admin_user_email || '';
+    console.log('🎯 Owner email determined:', ownerEmail);
     
     const mapped = members.map(member => ({
       ...member,
-      is_owner: company.get.owner_email === member.email,
+      is_owner: ownerEmail === member.email,
     }));
     
     console.log('👥 Members mapped:', mapped);
     setMembersMapped(mapped);
-  }, [members, company.get.owner_email]);
+  }, [members, company.get.owner_email, company.get.admin_user_email]);
 
   return (
     <div className="collaborators">

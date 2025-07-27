@@ -47,6 +47,30 @@ import { SunIcon, MoonIcon } from '@icons';
 
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
+// Icono de flecha para colapsar
+const CollapseArrow = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: () => void }) => (
+  <div 
+    className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`}
+    onClick={onClick}
+  >
+    <svg 
+      width="12" 
+      height="12" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path 
+        d="M6 9L12 15L18 9" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+);
+
 export const SidebarDesktop = ({
   companies,
   isProviderWithAccess,
@@ -72,6 +96,22 @@ export const SidebarDesktop = ({
   const { theme, changeTheme } = useTheme();
   // const isDark = theme === 'dark';
 
+  // Estado para manejar qué secciones están colapsadas
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
+
+  // Función para alternar el colapso de una sección
+  const toggleSection = (sectionId: string) => {
+    setCollapsedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
+    });
+  };
+
   const rootAction = () => {
     navigate('/');
   };
@@ -91,10 +131,9 @@ export const SidebarDesktop = ({
   const newMenuItems = [
     {
       type: 'group',
-      title: 'Main',
-      id: 'sidebar_mainitems',
+      title: 'Admin',
+      id: 'sidebar_admin',
       children: [
-
         {
           title: 'Landers Monitor',
           id: 'sidebar_landers',
@@ -111,6 +150,14 @@ export const SidebarDesktop = ({
           root: false,
           haveAccess: isAdmin(),
         },
+      ],
+      haveAccess: isAdmin(),
+    },
+    {
+      type: 'group',
+      title: 'Main',
+      id: 'sidebar_mainitems',
+      children: [
         {
           title: 'My profile',
           id: 'sidebar_profile',
@@ -291,20 +338,29 @@ export const SidebarDesktop = ({
       if (entry.type === 'group') {
         const groupChildren = entry.children.filter((child: any) => child.haveAccess);
         if (groupChildren.length > 0) {
+          const isCollapsed = collapsedSections.has(entry.id);
           items.push(
             <div key={`group-${entry.id}`} className="sidebar-group">
-              <div className="sidebar-group-title">{entry.title}</div>
-              {groupChildren.map(({ id, title, icon, to, root }: any) => (
-                <SidebarItem
-                  key={`sb-${id}`}
-                  id={id}
-                  title={title}
-                  icon={icon}
-                  to={to}
-                  isActive={verifyPath(to, root)}
-                  isAuth={isAuth}
+              <div className="sidebar-group-title-container">
+                <div className="sidebar-group-title">{entry.title}</div>
+                <CollapseArrow 
+                  isCollapsed={isCollapsed}
+                  onClick={() => toggleSection(entry.id)}
                 />
-              ))}
+              </div>
+              <div className={`sidebar-group-content ${isCollapsed ? 'collapsed' : ''}`}>
+                {groupChildren.map(({ id, title, icon, to, root }: any) => (
+                  <SidebarItem
+                    key={`sb-${id}`}
+                    id={id}
+                    title={title}
+                    icon={icon}
+                    to={to}
+                    isActive={verifyPath(to, root)}
+                    isAuth={isAuth}
+                  />
+                ))}
+              </div>
             </div>
           );
         }
@@ -327,7 +383,7 @@ export const SidebarDesktop = ({
     }
 
     return items;
-  }, []);
+  }, [collapsedSections, toggleSection]);
 
   return (
     <>

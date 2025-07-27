@@ -1,22 +1,33 @@
-import { type FC, useEffect } from 'react';
+import { type FC } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
-import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
 import '../../user-profile/userprofile.scss';
 import { CreateCompany } from '../components/CreateCompany';
 import { DeleteNeuroscans } from '../components/DeleteNeuroscans';
-import { ActivityStats } from '../components/ActivityStats';
 import Navbar from '@/app/views/components/navbar/Navbar';
+
+// Componente de Quicklinks
+const QuicklinksCard: FC = () => {
+  return (
+    <div className="card standard">
+      <div className="over">
+        <div className="body">
+          <h3>Quicklinks</h3>
+          <p>Accesos rápidos hacia las secciónes de mayor relevancia</p>
+          <ul className="quicklinks-list">
+            <li>
+              <a href="/admin/landers">Landers monitor</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AdminCommander: FC = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
-  const { totals, fetchRegistrations } = useGetUserRegistrations();
-
-  // Cargar datos para las estadísticas
-  useEffect(() => {
-    fetchRegistrations();
-  }, [fetchRegistrations]);
 
   return (
     <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
@@ -31,22 +42,19 @@ const AdminCommander: FC = () => {
           </div>
         </div>
         
-        {/* Estadísticas de actividad */}
-        <div className="card standard">
-          <div className="over">
-            <div className="body">
-              <ActivityStats totals={totals} />
-            </div>
-          </div>
+        {/* Contenedor para las dos tarjetas lado a lado */}
+        <div className="admin-cards-container">
+          {/* Crear nueva compañía */}
+          <CreateCompany />
+          
+          {/* Eliminar neuroscans - DESACTIVADO */}
+          <DeleteNeuroscans />
         </div>
       </section>
       
       <section className="right">
-        {/* Crear nueva compañía */}
-        <CreateCompany />
-        
-        {/* Eliminar neuroscans - DESACTIVADO */}
-        <DeleteNeuroscans />
+        {/* Quicklinks */}
+        <QuicklinksCard />
       </section>
     </main>
   );

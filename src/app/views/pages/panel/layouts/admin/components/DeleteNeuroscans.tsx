@@ -37,38 +37,25 @@ export function DeleteNeuroscans() {
   };
 
   return (
-    <div className="card disabled-card">
+    <div className="card standard">
       <div className="over">
         <div className="header">
-          <h2 className="table-title" style={{ color: '#999', opacity: 0.7 }}>
+          <h2 className="table-title">
             ⚠️ Eliminar todos los neuroscans
           </h2>
         </div>
-        <p style={{ color: '#666', opacity: 0.8 }}>
+        <p>
           Elimina (de verdad) todos los neuroscans, incluyendo, el neuroscan en
           sí, los recursos web, recursos sociales, recursos de red e issues
           relacionados, elimina los archivos del fs.
         </p>
-        <div style={{ opacity: 0.5 }}>
-          <PrimaryButton
-            click={handleDelete}
-            text="🚫 Desactivado"
-            buttonStyle="gray"
-            className="form-button disabled-button"
-            isDisabled={true}
-          />
-        </div>
-        <div style={{ 
-          marginTop: '10px', 
-          padding: '8px 12px', 
-          background: '#fff3cd', 
-          border: '1px solid #ffeaa7', 
-          borderRadius: '4px', 
-          color: '#856404',
-          fontSize: '0.85rem'
-        }}>
-          ⚠️ <strong>Funcionalidad desactivada:</strong> Esta acción está temporalmente deshabilitada por razones de seguridad.
-        </div>
+        <PrimaryButton
+          click={handleDelete}
+          text="Desactivado"
+          buttonStyle="gray"
+          className="form-button"
+          isDisabled={true}
+        />
       </div>
     </div>
   );

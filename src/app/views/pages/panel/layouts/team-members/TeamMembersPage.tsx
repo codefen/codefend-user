@@ -3,7 +3,7 @@ import { useDashboard } from '@panelHooks/index';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
 import { TeamMemberPageHeader } from './components/TeamMemberPageHeader';
-import { TeamMembersTableCard } from './components/TeamMembersTableCard';
+import { DashboardAddCollaborators } from '../dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart';
 import './teammembers.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
@@ -137,66 +137,81 @@ export const TeamMembersPage = () => {
         `${!isDesktop ? ' sidebar-mobile-active' : ''}`
       }>
       <section className="left">
+        {/* Header arriba ocupando todo el ancho */}
         <div className="box-assets">
           <TeamMemberPageHeader />
         </div>
-        <VulnerabilitiesStatus
-          isLoading={isLoading}
-          vulnerabilityByShare={data?.issues_condicion || {}}
-        />
-        <TeamMembersTableCard isLoading={isLoading} members={data?.members || []} />
-        {/* Card de información de la compañía */}
-        {data?.company && (
-          <div className="card company-info-card">
-            <div className="header">
-              <h2>Business details</h2>
-            </div>
-            <div className="company-info-content">
-              <div className="company-info-item">
-                <span className="single-line"><strong>Business ID:</strong> {data.company.id}</span>
+
+        {/* Layout de dos columnas debajo del header */}
+        <div className="team-members-two-columns">
+          {/* Columna izquierda: Business details */}
+          <div className="left-column">
+            {data?.company && (
+              <div className="card company-info-card">
+                <div className="header">
+                  <h2>Business details</h2>
+                </div>
+                <div className="company-info-content">
+                  <div className="company-info-item">
+                    <span className="single-line"><strong>Business ID:</strong> {data.company.id}</span>
+                  </div>
+                  
+                  <div className="company-info-item">
+                    <span className="single-line"><strong>Business name:</strong> {data.company.name}</span>
+                  </div>
+                  
+                  <div className="company-info-item">
+                    <span className="single-line area-line">
+                      <strong>Area:</strong> {data.company.pais_code && (
+                        <span className={`flag flag-${normalizeCountryCode(data.company.pais_code)}`}></span>
+                      )}
+                      {[data.company.pais_provincia, data.company.pais_ciudad]
+                        .filter(Boolean)
+                        .join(', ')}
+                    </span>
+                  </div>
+                  
+                  <div className="company-info-item">
+                    <span className="single-line"><strong>Web:</strong> {data.company.web || '-'}</span>
+                  </div>
+                  
+                  <div className="company-info-item">
+                    <span className="single-line"><strong>Business size:</strong> {formatBusinessSize(data.company.size)}</span>
+                  </div>
+                  
+                  <div className="company-info-item">
+                    <span className="single-line">
+                      <strong>Owner:</strong> {[data.company.owner_fname, data.company.owner_lname]
+                        .filter(Boolean)
+                        .join(' ')}
+                    </span>
+                  </div>
+                  
+                  <div className="company-info-item">
+                    <span className="single-line"><strong>Owner email:</strong> {data.company.owner_email}</span>
+                  </div>
+                  
+                  <div className="company-info-item">
+                    <span className="single-line"><strong>Current plan:</strong> {data.company.plan}</span>
+                  </div>
+                </div>
               </div>
-              
-              <div className="company-info-item">
-                <span className="single-line"><strong>Business name:</strong> {data.company.name}</span>
-              </div>
-              
-              <div className="company-info-item">
-                <span className="single-line area-line">
-                  <strong>Area:</strong> {data.company.pais_code && (
-                    <span className={`flag flag-${normalizeCountryCode(data.company.pais_code)}`}></span>
-                  )}
-                  {[data.company.pais_provincia, data.company.pais_ciudad]
-                    .filter(Boolean)
-                    .join(', ')}
-                </span>
-              </div>
-              
-              <div className="company-info-item">
-                <span className="single-line"><strong>Web:</strong> {data.company.web || '-'}</span>
-              </div>
-              
-              <div className="company-info-item">
-                <span className="single-line"><strong>Business size:</strong> {formatBusinessSize(data.company.size)}</span>
-              </div>
-              
-              <div className="company-info-item">
-                <span className="single-line">
-                  <strong>Owner:</strong> {[data.company.owner_fname, data.company.owner_lname]
-                    .filter(Boolean)
-                    .join(' ')}
-                </span>
-              </div>
-              
-              <div className="company-info-item">
-                <span className="single-line"><strong>Owner email:</strong> {data.company.owner_email}</span>
-              </div>
-              
-              <div className="company-info-item">
-                <span className="single-line"><strong>Current plan:</strong> {data.company.plan}</span>
-              </div>
-            </div>
+            )}
           </div>
-        )}
+
+          {/* Columna derecha: Solo la tabla de colaboradores */}
+          <div className="right-column">
+            <DashboardAddCollaborators isLoading={isLoading} data={data} />
+          </div>
+        </div>
+
+        {/* VulnerabilitiesStatus abajo del layout de dos columnas */}
+        <div className="vulnerabilities-status-section">
+          <VulnerabilitiesStatus
+            isLoading={isLoading}
+            vulnerabilityByShare={data?.issues_condicion || {}}
+          />
+        </div>
       </section>
       <section className="right">
         <Navbar />

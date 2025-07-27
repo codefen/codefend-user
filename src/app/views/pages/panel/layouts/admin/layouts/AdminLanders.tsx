@@ -3,13 +3,14 @@ import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
 import '../../user-profile/userprofile.scss';
-import { ActivityDashboard } from '../components/ActivityDashboard';
+import { ActivityLineChart } from '../components/ActivityLineChart'; // Importar componente original
+import { ActivityMetrics, DataTableSection } from '../components/ActivityDashboard';
 import Navbar from '@/app/views/components/navbar/Navbar';
 
 const AdminLanders: FC = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
-  const { totals, fetchRegistrations } = useGetUserRegistrations();
+  const { data: registrations, totals, fetchRegistrations } = useGetUserRegistrations();
 
   // Cargar datos para las estadísticas
   useEffect(() => {
@@ -20,6 +21,8 @@ const AdminLanders: FC = () => {
     <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left full-width">
         <Navbar />
+        
+        {/* Card 1: Header - Todo el ancho */}
         <div className="card rectangle">
           <div className="over">
             <div className="header-content">
@@ -29,8 +32,18 @@ const AdminLanders: FC = () => {
           </div>
         </div>
         
-        {/* Gráfico de actividad diaria + tabla de raw data - ocupa todo el ancho */}
-        <ActivityDashboard />
+        {/* Cards 2 y 3: Gráfico (70%) y Métricas (30%) lado a lado */}
+        <div className="landers-layout-container">
+          <div className="chart-section">
+            <ActivityLineChart data={registrations} />
+          </div>
+          <div className="metrics-section">
+            <ActivityMetrics totals={totals} />
+          </div>
+        </div>
+        
+        {/* Card 4: Tabla de datos - Todo el ancho */}
+        <DataTableSection />
       </section>
     </main>
   );

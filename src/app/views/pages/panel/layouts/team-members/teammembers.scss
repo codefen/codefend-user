@@ -1,4 +1,47 @@
 main.team-members {
+  // Estilos para el header que ocupa todo el ancho
+  .box-assets {
+    margin-bottom: 12px; // Normalizado con dashboard: espacio entre header y columnas
+  }
+
+  // Estilos para el layout de dos columnas (debajo del header)
+  .team-members-two-columns {
+    display: flex;
+    gap: 12px; // Normalizado con dashboard
+    margin-bottom: 12px; // Normalizado con dashboard
+    
+    .left-column {
+      flex: 1;
+      min-width: 0; // Permite que la columna se encoja
+      
+      .card.company-info-card {
+        height: fit-content; // Ajustar altura al contenido
+      }
+    }
+    
+    .right-column {
+      flex: 1;
+      min-width: 0; // Permite que la columna se encoja
+      // Sin gap interno porque solo contiene la tabla
+    }
+    
+    // Responsive: una columna en pantallas pequeñas
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      gap: 12px; // Mantener consistencia
+      
+      .left-column,
+      .right-column {
+        flex: none;
+      }
+    }
+  }
+
+  // Espaciado para VulnerabilitiesStatus que va después de las dos columnas
+  .vulnerabilities-status-section {
+    margin-top: 12px; // Normalizar espaciado con dashboard
+  }
+
   .left {
     gap: 12px;
 
