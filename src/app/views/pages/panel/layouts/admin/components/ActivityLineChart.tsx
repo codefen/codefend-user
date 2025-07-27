@@ -36,14 +36,14 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       // Configuración del gráfico con márgenes mínimos - elementos flotantes no ocupan espacio
   const getMargins = (width: number) => {
     if (width < 500) {
-      // Móvil: márgenes mínimos
-      return { top: 15, right: 15, bottom: 30, left: 35 };
+      // Móvil: márgenes ultra mínimos
+      return { top: 10, right: 10, bottom: 25, left: 30 };
     } else if (width < 800) {
       // Tablet: márgenes mínimos
-      return { top: 15, right: 20, bottom: 35, left: 40 };
+      return { top: 10, right: 15, bottom: 30, left: 35 };
     } else {
       // Desktop: márgenes mínimos - elementos completamente flotantes
-      return { top: 15, right: 25, bottom: 40, left: 50 };
+      return { top: 10, right: 20, bottom: 35, left: 45 };
     }
   };
 
@@ -841,13 +841,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         const containerWidth = containerRef.current.clientWidth;
         const containerHeight = containerRef.current.clientHeight;
         
-        // Usar todo el espacio disponible en el contenedor
-        const newWidth = Math.max(containerWidth - 20, 300);
-        const newHeight = Math.max(containerHeight - 20, 280); // Sin espacio para leyenda
+        // Usar todo el espacio disponible, restando solo el padding del contenedor (0.5rem = 8px cada lado)
+        const newWidth = Math.max(containerWidth - 16, 300); // 8px * 2 lados
+        const newHeight = Math.max(containerHeight - 16, 280); // 8px * 2 lados
 
         setDimensions(prev => {
           if (Math.abs(prev.width - newWidth) > 10 || Math.abs(prev.height - newHeight) > 10) {
-            // console.log(`📊 Chart resize: ${newWidth}x${newHeight}`);
+            console.log(`📊 Chart resize: ${newWidth}x${newHeight} (container: ${containerWidth}x${containerHeight})`);
             return { width: newWidth, height: newHeight };
           }
           return prev;
@@ -875,7 +875,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     }
 
     window.addEventListener('resize', handleWindowResize);
-    updateDimensions();
+    // Forzar actualización inicial
+    setTimeout(updateDimensions, 100);
 
     return () => {
       clearTimeout(resizeTimeout);
