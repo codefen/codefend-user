@@ -14,12 +14,18 @@ const AdminLanders: FC = () => {
 
   // Cargar datos para las estadísticas (por defecto hoy)
   useEffect(() => {
+    console.log('🚀 AdminLanders mounted, loading initial data for today');
     fetchRegistrations('today');
-  }, []);
+  }, [fetchRegistrations]);
 
   // Manejar cambio de período sincronizado
   const handlePeriodChange = (period: 'today' | 'week') => {
-    fetchRegistrations(period);
+    console.log(`🔄 Period change requested: ${currentPeriod} → ${period}`);
+    if (period !== currentPeriod) {
+      fetchRegistrations(period);
+    } else {
+      console.log(`⚠️ Same period selected (${period}), skipping fetch`);
+    }
   };
 
   return (
@@ -43,27 +49,12 @@ const AdminLanders: FC = () => {
             <div className="card standard">
               <div className="over">
                 <div className="body">
-                  <div className="chart-header">
-                    <div className="period-selector">
-                      <div className="period-buttons">
-                        <button
-                          className={`period-btn ${currentPeriod === 'today' ? 'active' : ''}`}
-                          onClick={() => handlePeriodChange('today')}
-                          disabled={isLoading}
-                        >
-                          📅 Hoy
-                        </button>
-                        <button
-                          className={`period-btn ${currentPeriod === 'week' ? 'active' : ''}`}
-                          onClick={() => handlePeriodChange('week')}
-                          disabled={isLoading}
-                        >
-                          📊 Últimos 7 días
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <ActivityLineChart data={registrations} />
+                  <ActivityLineChart 
+                    data={registrations} 
+                    currentPeriod={currentPeriod}
+                    onPeriodChange={handlePeriodChange}
+                    isLoading={isLoading}
+                  />
                 </div>
               </div>
             </div>

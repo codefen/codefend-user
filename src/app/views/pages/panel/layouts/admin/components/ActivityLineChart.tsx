@@ -14,11 +14,20 @@ interface DailyData {
 
 interface ActivityLineChartProps {
   data: DailyData[];
+  currentPeriod?: 'today' | 'week';
+  onPeriodChange?: (period: 'today' | 'week') => void;
+  isLoading?: boolean;
 }
 
 type ChartType = 'line' | 'bar';
+type TimePeriod = 'today' | 'week';
 
-export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
+export const ActivityLineChart: FC<ActivityLineChartProps> = ({ 
+  data, 
+  currentPeriod = 'today', 
+  onPeriodChange,
+  isLoading = false 
+}) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 280 });
@@ -33,17 +42,25 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     visitas_unicas: true,
   });
 
+  // Función para toggle de métricas
+  const toggleMetric = (metric: keyof typeof visibleMetrics) => {
+    setVisibleMetrics(prev => ({
+      ...prev,
+      [metric]: !prev[metric]
+    }));
+  };
+
       // Configuración del gráfico con márgenes mínimos - elementos flotantes no ocupan espacio
   const getMargins = (width: number) => {
     if (width < 500) {
       // Móvil: márgenes ultra mínimos
-      return { top: 10, right: 10, bottom: 25, left: 30 };
+      return { top: 5, right: 5, bottom: 25, left: 30 };
     } else if (width < 800) {
       // Tablet: márgenes mínimos
-      return { top: 10, right: 15, bottom: 30, left: 35 };
+      return { top: 5, right: 10, bottom: 30, left: 35 };
     } else {
       // Desktop: márgenes mínimos - elementos completamente flotantes
-      return { top: 10, right: 20, bottom: 35, left: 45 };
+      return { top: 5, right: 15, bottom: 35, left: 45 };
     }
   };
 
@@ -148,14 +165,6 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       `📅 Índice ${index}: ${d.fecha.toLocaleDateString()} → Día ${d3.timeFormat('%d')(d.fecha)}`
     );
   });
-
-  // Función para toggle de visibilidad de métricas
-  const toggleMetricVisibility = (metric: keyof typeof visibleMetrics) => {
-    setVisibleMetrics(prev => ({
-      ...prev,
-      [metric]: !prev[metric],
-    }));
-  };
 
   // Función para renderizar gráfico de líneas
   const renderLineChart = () => {
@@ -759,6 +768,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       renderBarChart();
     }
 
+    // LEYENDA COMENTADA - Ahora se maneja como componente React
+    /*
     // Leyenda clickeable con checkboxes - posición flotante arriba
     const legend = svg
       .append('g')
@@ -789,7 +800,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         .attr('class', 'legend-item')
         .attr('transform', `translate(${index * 80}, 0)`) // Espacio compacto para flotante
         .style('cursor', 'pointer')
-        .on('click', () => toggleMetricVisibility(metric as keyof typeof visibleMetrics));
+        .on('click', () => toggleMetric(metric as keyof typeof visibleMetrics));
 
       // Swatch circular (más pequeño para flotante)
       const radius = 4;
@@ -822,6 +833,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         .style('user-select', 'none')
         .text(textMap[metric] || metric.substring(0, 6));
     });
+    */
   }, [data, dimensions, chartType, visibleMetrics]);
 
   // Asegurar re-renderizado cuando cambia el tipo de gráfico
@@ -841,9 +853,9 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         const containerWidth = containerRef.current.clientWidth;
         const containerHeight = containerRef.current.clientHeight;
         
-        // Usar todo el espacio disponible, restando solo el padding del contenedor (0.5rem = 8px cada lado)
-        const newWidth = Math.max(containerWidth - 16, 300); // 8px * 2 lados
-        const newHeight = Math.max(containerHeight - 16, 280); // 8px * 2 lados
+        // Usar todo el espacio disponible del contenedor (sin padding)
+        const newWidth = Math.max(containerWidth, 300);
+        const newHeight = Math.max(containerHeight, 280);
 
         setDimensions(prev => {
           if (Math.abs(prev.width - newWidth) > 10 || Math.abs(prev.height - newHeight) > 10) {
@@ -893,21 +905,90 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     );
   }
 
+  // Definir colores para los checkboxes (mismo esquema que D3)
+  const metricColors = {
+    visitas_unicas: '#45b7d1',
+    leads: '#ff6b6b', 
+    companias: '#ffa726',
+    usuarios: '#4ecdc4',
+    neuroscans: '#ab47bc'
+  };
+
+  const metricLabels = {
+    visitas_unicas: 'visitas',
+    leads: 'leads', 
+    companias: 'comp',
+    usuarios: 'users',
+    neuroscans: 'neuro'
+  };
+
   return (
     <div className="activity-chart-container" ref={containerRef}>
-      {/* Botón para cambiar tipo de gráfico */}
-      <div className="chart-controls">
+      {/* Controles unificados flotantes */}
+      <div className="unified-chart-controls">
+        {/* Checkboxes de métricas */}
+        {Object.entries(visibleMetrics).map(([metric, isVisible]) => (
+          <button
+            key={metric}
+            className={`metric-toggle ${isVisible ? 'active' : 'inactive'}`}
+            onClick={() => toggleMetric(metric as keyof typeof visibleMetrics)}
+            disabled={isLoading}
+            style={{
+              '--metric-color': metricColors[metric as keyof typeof metricColors]
+            } as React.CSSProperties}
+          >
+            <span className="metric-checkbox">
+              {isVisible ? '✓' : '○'}
+            </span>
+            <span className="metric-label">
+              {metricLabels[metric as keyof typeof metricLabels]}
+            </span>
+          </button>
+        ))}
+        
+        {/* Separador */}
+        <div className="controls-separator"></div>
+        
+        {/* Botones de tipo de gráfico */}
         <button
-          className={`chart-toggle-btn ${chartType === 'line' ? 'active' : ''}`}
-          onClick={() => setChartType('line')}>
-          📈 Líneas
+          className={`chart-type-btn ${chartType === 'line' ? 'active' : ''}`}
+          onClick={() => setChartType('line')}
+          disabled={isLoading}
+        >
+          Líneas
         </button>
         <button
-          className={`chart-toggle-btn ${chartType === 'bar' ? 'active' : ''}`}
-          onClick={() => setChartType('bar')}>
-          📊 Barras
+          className={`chart-type-btn ${chartType === 'bar' ? 'active' : ''}`}
+          onClick={() => setChartType('bar')}
+          disabled={isLoading}
+        >
+          Barras
         </button>
+        
+        {/* Separador */}
+        <div className="controls-separator"></div>
+        
+        {/* Selector de período */}
+        {onPeriodChange && (
+          <>
+            <button
+              className={`period-btn ${currentPeriod === 'today' ? 'active' : ''}`}
+              onClick={() => onPeriodChange('today')}
+              disabled={isLoading}
+            >
+              HOY
+            </button>
+            <button
+              className={`period-btn ${currentPeriod === 'week' ? 'active' : ''}`}
+              onClick={() => onPeriodChange('week')}
+              disabled={isLoading}
+            >
+              7D
+            </button>
+          </>
+        )}
       </div>
+      
       <svg ref={svgRef}></svg>
     </div>
   );

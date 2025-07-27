@@ -3,7 +3,7 @@
   height: 100%;
   min-height: 320px; // Altura mínima para asegurar espacio suficiente
   margin: 0;
-  padding: 0.5rem;
+  padding: 0; // Removido padding para alinear con bordes del card
   background: var(--primary-color);
   border-radius: 8px;
   border: 1px solid var(--primary-color-300);
@@ -37,7 +37,8 @@
   }
 }
 
-// Controles del gráfico (líneas/barras) flotante en esquina superior izquierda
+// Controles del gráfico - OBSOLETO, ahora se usa unified-chart-controls
+/*
 .chart-controls {
   position: absolute;
   top: 1rem;
@@ -72,8 +73,10 @@
     }
   }
 }
+*/
 
-// Leyenda flotante interactiva (checkboxes)
+// Leyenda flotante interactiva - OBSOLETO, ahora se maneja en React
+/*
 .legend {
   pointer-events: all;
   
@@ -86,6 +89,7 @@
     }
   }
 }
+*/
 
 // Contenedor para gráfico y resumen
 .chart-and-summary-container {
@@ -476,15 +480,15 @@
       overflow: visible;
     }
 
-    .chart-controls {
-      flex-direction: column;
-      gap: 0.25rem;
+    // .chart-controls { // Eliminado
+    //   flex-direction: column;
+    //   gap: 0.25rem;
 
-      .chart-toggle-btn {
-        width: 100%;
-        justify-content: center;
-      }
-    }
+    //   .chart-toggle-btn {
+    //     width: 100%;
+    //     justify-content: center;
+    //   }
+    // }
   }
 }
 
@@ -494,12 +498,12 @@
     margin: 0.75rem 0;
     min-width: 260px;
 
-    .chart-controls {
-      .chart-toggle-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-      }
-    }
+    // .chart-controls { // Eliminado
+    //   .chart-toggle-btn {
+    //     padding: 0.4rem 0.8rem;
+    //     font-size: 0.8rem;
+    //   }
+    // }
   }
 }
 
@@ -636,25 +640,25 @@
     background: var(--primary-color-dark);
     border-color: var(--primary-color-300-dark);
 
-    .chart-controls {
-      .chart-toggle-btn {
-        background: var(--primary-color-dark);
-        border-color: var(--primary-color-300-dark);
-        color: var(--tertiary-color-100);
+    // .chart-controls { // Eliminado
+    //   .chart-toggle-btn {
+    //     background: var(--primary-color-dark);
+    //     border-color: var(--primary-color-300-dark);
+    //     color: var(--tertiary-color-100);
 
-        &:hover {
-          background: var(--primary-color-50-dark);
-          border-color: var(--primary-color-400-dark);
-          color: var(--tertiary-color-50);
-        }
+    //     &:hover {
+    //       background: var(--primary-color-50-dark);
+    //       border-color: var(--primary-color-400-dark);
+    //       color: var(--tertiary-color-50);
+    //     }
 
-        &.active {
-          background: var(--secondary-color-50);
-          border-color: var(--secondary-color-50);
-          color: var(--primary-color-dark);
-        }
-      }
-    }
+    //     &.active {
+    //       background: var(--secondary-color-50);
+    //       border-color: var(--secondary-color-50);
+    //       color: var(--primary-color-dark);
+    //     }
+    //   }
+    // }
 
     .chart-placeholder {
       color: var(--tertiary-color-300);
@@ -1113,13 +1117,13 @@
       }
     }
     
-    .chart-controls {
-      position: static;
-      top: auto;
-      left: auto;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
+    // .chart-controls { // Eliminado
+    //   position: static;
+    //   top: auto;
+    //   left: auto;
+    //   justify-content: center;
+    //   margin-bottom: 1rem;
+    // }
   }
   
   .chart-and-summary-container {
@@ -1129,6 +1133,191 @@
     .activity-summary {
       width: 100%;
       order: -1; // El resumen aparece primero en móviles
+    }
+  }
+} 
+
+// Controles unificados flotantes
+.unified-chart-controls {
+  position: absolute;
+  top: 0.75rem; // Reducido de 1rem a 0.75rem para compensar la falta de padding
+  left: 0.75rem; // Reducido de 1rem a 0.75rem para compensar la falta de padding
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 0.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+  
+  // Separadores entre secciones
+  .controls-separator {
+    width: 1px;
+    height: 20px;
+    background: var(--primary-color-200);
+    margin: 0 0.25rem;
+  }
+  
+  // Checkboxes de métricas
+  .metric-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    border: none;
+    background: transparent;
+    color: var(--text-color-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    
+    .metric-checkbox {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border: 2px solid var(--metric-color);
+      color: var(--metric-color);
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+    
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-color-secondary);
+      transition: all 0.2s ease;
+    }
+    
+    &.active {
+      .metric-checkbox {
+        background: var(--metric-color);
+        color: white;
+      }
+      
+      .metric-label {
+        color: var(--text-color-primary);
+        font-weight: 600;
+      }
+    }
+    
+    &.inactive {
+      opacity: 0.6;
+      
+      .metric-checkbox {
+        background: transparent;
+        color: var(--metric-color);
+      }
+    }
+    
+    &:hover:not(:disabled) {
+      background: var(--primary-color-100);
+      
+      .metric-label {
+        color: var(--text-color-primary);
+      }
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+  
+  // Botones de tipo de gráfico
+  .chart-type-btn {
+    padding: 0.3rem 0.7rem;
+    border: none;
+    background: transparent;
+    color: var(--text-color-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    border: 1px solid var(--primary-color-200);
+    
+    &:hover:not(.active):not(:disabled) {
+      background: var(--primary-color-100);
+      color: var(--text-color-primary);
+    }
+    
+    &.active {
+      background: var(--accent-color);
+      color: white;
+      font-weight: 600;
+      border-color: var(--accent-color);
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+  
+  // Botones de período
+  .period-btn {
+    padding: 0.3rem 0.7rem;
+    border: none;
+    background: transparent;
+    color: var(--text-color-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    border: 1px solid var(--primary-color-200);
+    
+    &:hover:not(.active):not(:disabled) {
+      background: var(--primary-color-100);
+      color: var(--text-color-primary);
+    }
+    
+    &.active {
+      background: var(--accent-color);
+      color: white;
+      font-weight: 600;
+      border-color: var(--accent-color);
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Responsive para móviles
+@media (max-width: 768px) {
+  .unified-chart-controls {
+    position: static;
+    top: auto;
+    left: auto;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    
+    .controls-separator {
+      display: none; // Ocultar separadores en móvil
+    }
+    
+    .metric-toggle,
+    .chart-type-btn,
+    .period-btn {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
     }
   }
 } 
