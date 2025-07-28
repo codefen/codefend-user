@@ -14,8 +14,8 @@ interface DailyData {
 
 interface ActivityLineChartProps {
   data: DailyData[];
-  currentPeriod?: 'today' | 'week';
-  onPeriodChange?: (period: 'today' | 'week') => void;
+  currentPeriod?: 'today' | 'week' | '14days' | '21days';
+  onPeriodChange?: (period: 'today' | 'week' | '14days' | '21days') => void;
   isLoading?: boolean;
   chartType?: ChartType;
   visibleMetrics?: {
@@ -26,7 +26,7 @@ interface ActivityLineChartProps {
 }
 
 type ChartType = 'line' | 'bar';
-type TimePeriod = 'today' | 'week';
+type TimePeriod = 'today' | 'week' | '14days' | '21days';
 
 export const ActivityLineChart: FC<ActivityLineChartProps> = ({ 
   data, 

@@ -15,7 +15,7 @@ interface DailyData {
   issues_vistos: string;
 }
 
-type TimePeriod = 'today' | 'week';
+type TimePeriod = 'today' | 'week' | '14days' | '21days';
 
 export const useGetUserRegistrations = () => {
   const { getCompany } = useUserData();

@@ -42,6 +42,8 @@
     background-color: var(--primary-color);
     animation: sideLeft 0.5s ease-in-out;
     overflow-y: auto;
+    // Nota: La sidebar usa el estilo unificado de scrollbar definido en settings.scss e index.scss
+    // Color: var(--primary-color-300) (gris) con track transparente
   }
 
   &.mobile-active {

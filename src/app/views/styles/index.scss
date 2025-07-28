@@ -2930,21 +2930,24 @@ body {
   scrollbar-color: var(--primary-color-300) transparent;
 }
 
-/* Scrollbars personalizados para todos los elementos con scrollbar-width: thin */
+/* Scrollbars personalizados unificados para toda la aplicación */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary-color-50) var(--primary-color);
+  scrollbar-color: var(--primary-color-300) transparent;
 }
 
-/* Webkit (Chrome, Edge, Safari) */
+/* Webkit (Chrome, Edge, Safari) - Estilo unificado gris */
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 *::-webkit-scrollbar-thumb {
-  background: var(--secondary-color-50);
-  border-radius: 6px;
+  background-color: var(--primary-color-300);
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color-400);
 }
 *::-webkit-scrollbar-track {
-  background: var(--primary-color);
+  background: transparent;
 }

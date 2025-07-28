@@ -37,7 +37,7 @@ const AdminLanders: FC = () => {
   }, [fetchRegistrations]);
 
   // Manejar cambio de período sincronizado
-  const handlePeriodChange = (period: 'today' | 'week') => {
+  const handlePeriodChange = (period: 'today' | 'week' | '14days' | '21days') => {
     console.log(`🔄 Period change requested: ${currentPeriod} → ${period}`);
     if (period !== currentPeriod) {
       fetchRegistrations(period);
@@ -139,6 +139,20 @@ const AdminLanders: FC = () => {
                     >
                       7D
                     </button>
+                    <button
+                      className={`period-btn ${currentPeriod === '14days' ? 'active' : ''}`}
+                      onClick={() => handlePeriodChange('14days')}
+                      disabled={isLoading}
+                    >
+                      14D
+                    </button>
+                    <button
+                      className={`period-btn ${currentPeriod === '21days' ? 'active' : ''}`}
+                      onClick={() => handlePeriodChange('21days')}
+                      disabled={isLoading}
+                    >
+                      21D
+                    </button>
 
                   </div>
                 </div>
@@ -172,7 +186,10 @@ const AdminLanders: FC = () => {
         </div>
         
         {/* Card 4: Tabla de datos - Todo el ancho */}
-        <DataTableSection />
+        <DataTableSection 
+          currentPeriod={currentPeriod}
+          isLoading={isLoading}
+        />
       </section>
     </main>
   );

@@ -1,4 +1,4 @@
-import { type FC, useRef, useEffect, useState } from 'react';
+import { type FC, useRef, useEffect, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -23,7 +23,7 @@ interface DailyData {
   issues_vistos: string;
 }
 
-type TimePeriod = 'today' | 'week';
+type TimePeriod = 'today' | 'week' | '14days' | '21days';
 
 // Componente de selector de período
 const PeriodSelector: FC<{
@@ -60,30 +60,71 @@ export const ActivityMetrics: FC<{ totals: any; currentPeriod: TimePeriod; onPer
   onPeriodChange, 
   isLoading 
 }) => {
-  const getPeriodText = (period: TimePeriod) => {
-    return period === 'today' ? 'hoy' : 'últimos 7 días';
+  // Función para calcular porcentajes
+  const calculatePercentage = (value: number, total: number) => {
+    if (total === 0) return 0;
+    return Math.round((value / total) * 100);
   };
+
+  // Función para calcular porcentaje de conversión entre leads y usuarios
+  const calculateConversionPercentage = (converted: number, total: number) => {
+    if (total === 0) return 0;
+    return Math.round((converted / total) * 100);
+  };
+
+  const uniqueViews = totals.visitas_unicas || 0;
+  const leads = totals.leads || 0;
+  const users = totals.usuarios || 0;
+
+  const leadsPercentage = calculatePercentage(leads, uniqueViews);
+  const usersPercentage = calculatePercentage(users, uniqueViews);
+  const usersFromLeadsPercentage = calculateConversionPercentage(users, leads);
+  const abandonedLeadsPercentage = 100 - usersFromLeadsPercentage;
+  const abandonedViewsPercentage = 100 - leadsPercentage;
 
   return (
     <div className="card standard metrics-card">
       <div className="over">
         <div className="body">
           <div className="activity-summary">
-            <div className="metrics-header">
-              <h3>Actividad ({getPeriodText(currentPeriod)})</h3>
-            </div>
-            <div className="metrics-grid">
-              <div className="metric-item">
-                <span className="metric-label">leads</span>
-                <span className="metric-value">{totals.leads}</span>
+            <div className="metrics-list">
+              {/* Landers / Unique Views */}
+              <div className="metric-row">
+                <div className="metric-header">
+                  <span className="metric-name">Landers o unique views</span>
+                  <span className="metric-value">{uniqueViews.toLocaleString()} (100%)</span>
+                </div>
+                <ul className="metric-details">
+                  <li>Personas que accedieron o vieron la app únicas por día</li>
+                </ul>
               </div>
-              <div className="metric-item">
-                <span className="metric-label">usuarios</span>
-                <span className="metric-value">{totals.usuarios}</span>
+
+              {/* Leads */}
+              <div className="metric-row">
+                <div className="metric-header">
+                  <span className="metric-name">Leads</span>
+                  <span className="metric-value">{leads.toLocaleString()} ({leadsPercentage}%)</span>
+                </div>
+                <ul className="metric-details">
+                  <li>{leadsPercentage}% de los que acceden comenzaron a crear un usuario</li>
+                  <li>{abandonedViewsPercentage}% se fueron al ver que debían crear un usuario</li>
+                </ul>
               </div>
-              <div className="metric-item">
-                <span className="metric-label">órdenes</span>
-                <span className="metric-value">{totals.orders}</span>
+
+              {/* Users */}
+              <div className="metric-row">
+                <div className="metric-header">
+                  <span className="metric-name">Users</span>
+                  <span className="metric-value">{users.toLocaleString()} ({usersPercentage}%)</span>
+                </div>
+                <div className="metric-bold-text">
+                  <strong>Personas que finalizaron la creación de usuario!</strong>
+                </div>
+                <ul className="metric-details">
+                  <li>{usersPercentage}% de los que accedieron finalizaron la creación usuario</li>
+                  <li>{usersFromLeadsPercentage}% de los que comenzaron a crear el usuario finalizaron</li>
+                  <li>{abandonedLeadsPercentage}% abandonó el proceso de creación de usuario</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -342,24 +383,28 @@ export const ActivityChart: FC = () => {
 };
 
 // 3. COMPONENTE DE LA TABLA DE DATOS
-export const DataTableSection: FC = () => {
+interface DataTableSectionProps {
+  currentPeriod: TimePeriod;
+  isLoading: boolean;
+}
+
+export const DataTableSection: FC<DataTableSectionProps> = ({ 
+  currentPeriod: externalPeriod, 
+  isLoading: externalLoading 
+}) => {
   const { getCompany } = useUserData();
   const [rawData, setRawData] = useState<any[]>([]);
-  const [pagination, setPagination] = useState<any>({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentPeriod, setCurrentPeriod] = useState<TimePeriod>('today');
-  const [isLoading, setIsLoading] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [internalLoading, setInternalLoading] = useState(false);
 
-  // Función para obtener datos raw de landers
-  const fetchRawData = async (page: number = 1, period: TimePeriod = currentPeriod) => {
-    setIsLoading(true);
+  // Función para obtener TODOS los datos raw de landers del período
+  const fetchRawData = useCallback(async (period: TimePeriod = externalPeriod) => {
+    setInternalLoading(true);
     try {
       const response = await AxiosHttpService.getInstance().post<any>({
         path: 'admin/raw-landers',
         body: { 
           company_id: getCompany(),
-          page: page.toString(),
-          limit: '1000',
           period: period
         },
         requireSession: true,
@@ -369,70 +414,38 @@ export const DataTableSection: FC = () => {
       
       if (data.error === '0') {
         setRawData(data.landers || []);
-        setPagination(data.pagination || {});
-        setCurrentPage(page);
-        setCurrentPeriod(period);
+        setTotalRecords(data.total_records || 0);
       } else {
         setRawData([]);
+        setTotalRecords(0);
         alert(`Error loading data: ${data.info}`);
       }
     } catch (error) {
       setRawData([]);
+      setTotalRecords(0);
       alert('Network error loading data. Please check your connection.');
     } finally {
-      setIsLoading(false);
+      setInternalLoading(false);
     }
-  };
+  }, [getCompany, externalPeriod]);
 
+  // Reaccionar a cambios en el período externo y cargar datos inicial
   useEffect(() => {
-    fetchRawData(1, 'today'); // Por defecto cargar solo el día de hoy
-  }, []);
-
-  // Manejar cambio de período
-  const handlePeriodChange = (period: TimePeriod) => {
-    fetchRawData(1, period);
-  };
+    fetchRawData(externalPeriod);
+  }, [fetchRawData, externalPeriod]);
 
   const getPeriodText = (period: TimePeriod) => {
     const today = new Date().toLocaleDateString('es-ES');
-    return period === 'today' ? `hoy (${today})` : 'últimos 7 días';
-  };
-
-  // Funciones de navegación
-  const handlePageChange = (page: number) => {
-    fetchRawData(page, currentPeriod);
-  };
-
-  const handleNextPage = () => {
-    if (pagination.has_next) {
-      handlePageChange(currentPage + 1);
+    switch (period) {
+      case 'today': return `hoy (${today})`;
+      case 'week': return 'últimos 7 días';
+      case '14days': return 'últimos 14 días';
+      case '21days': return 'últimos 21 días';
+      default: return `hoy (${today})`;
     }
   };
 
-  const handlePrevPage = () => {
-    if (pagination.has_prev) {
-      handlePageChange(currentPage - 1);
-    }
-  };
-
-  const handleFirstPage = () => {
-    handlePageChange(1);
-  };
-
-  const handleLastPage = () => {
-    handlePageChange(pagination.total_pages);
-  };
-
-  const handlePageJump = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const target = e.target as HTMLInputElement;
-      const page = parseInt(target.value);
-      if (page >= 1 && page <= pagination.total_pages) {
-        handlePageChange(page);
-        target.value = '';
-      }
-    }
-  };
+  // Sin paginación - mostrar todos los registros del período
 
   // Función auxiliar para obtener información del dispositivo
   const getDeviceInfo = (userAgent: string) => {
@@ -462,9 +475,9 @@ export const DataTableSection: FC = () => {
             <div className="raw-data-header">
               <div className="simple-header">
                 <div className="header-title">
-                  <h3>Datos de visitas / landers</h3>
+                  <h3>Datos de visitas únicas / landers</h3>
                   <p>
-                    {rawData.length} registros correspondientes a {getPeriodText(currentPeriod)} de un total de {pagination.total_records || 0} registros
+                    {rawData.length} visitas únicas correspondientes a {getPeriodText(externalPeriod)}
                   </p>
                 </div>
               </div>
@@ -589,31 +602,13 @@ export const DataTableSection: FC = () => {
               <div className="footer-left">
                 <button 
                   className="refresh-btn"
-                  onClick={() => fetchRawData(currentPage, currentPeriod)}
-                  disabled={isLoading}>
+                  onClick={() => fetchRawData(externalPeriod)}
+                  disabled={externalLoading || internalLoading}>
                   🔄 Actualizar datos
                 </button>
                 <span className="total-records">
-                  Página {currentPage} de {pagination.total_pages}
+                  Total: {rawData.length} visitas únicas
                 </span>
-              </div>
-              <div className="pagination-controls">
-                <button className="pagination-btn" onClick={handleFirstPage} disabled={!pagination.has_prev || isLoading}>⏮️ Primera</button>
-                <button className="pagination-btn" onClick={handlePrevPage} disabled={!pagination.has_prev || isLoading}>◀️ Anterior</button>
-                <span className="page-indicator">
-                  {currentPage} / {pagination.total_pages}
-                </span>
-                <input
-                  type="number"
-                  className="page-jump-input"
-                  placeholder={`Ir a página (1-${pagination.total_pages})`}
-                  min="1"
-                  max={pagination.total_pages}
-                  onKeyDown={handlePageJump}
-                  disabled={isLoading}
-                />
-                <button className="pagination-btn" onClick={handleNextPage} disabled={!pagination.has_next || isLoading}>Siguiente ▶️</button>
-                <button className="pagination-btn" onClick={handleLastPage} disabled={!pagination.has_next || isLoading}>Última ⏭️</button>
               </div>
             </div>
           </div>
