@@ -17,6 +17,12 @@ interface ActivityLineChartProps {
   currentPeriod?: 'today' | 'week';
   onPeriodChange?: (period: 'today' | 'week') => void;
   isLoading?: boolean;
+  chartType?: ChartType;
+  visibleMetrics?: {
+    visitas_unicas: boolean;
+    leads: boolean;
+    usuarios: boolean;
+  };
 }
 
 type ChartType = 'line' | 'bar';
@@ -26,29 +32,17 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
   data, 
   currentPeriod = 'today', 
   onPeriodChange,
-  isLoading = false 
+  isLoading = false,
+  chartType = 'line',
+  visibleMetrics = {
+    visitas_unicas: true,
+    leads: true,
+    usuarios: true,
+  }
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 280 });
-  const [chartType, setChartType] = useState<ChartType>('line');
-
-  // Estado para controlar qué líneas se muestran - Solo leads y usuarios por defecto
-  const [visibleMetrics, setVisibleMetrics] = useState({
-    leads: true,
-    usuarios: true,
-    companias: false,
-    neuroscans: false,
-    visitas_unicas: true,
-  });
-
-  // Función para toggle de métricas
-  const toggleMetric = (metric: keyof typeof visibleMetrics) => {
-    setVisibleMetrics(prev => ({
-      ...prev,
-      [metric]: !prev[metric]
-    }));
-  };
 
       // Configuración del gráfico con márgenes mínimos - elementos flotantes no ocupan espacio
   const getMargins = (width: number) => {
@@ -70,11 +64,9 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
 
   // Colores para cada línea/barra (actualizados según especificación)
   const colors = {
+    visitas_unicas: '#999999', // Gris claro
     leads: '#666666', // Gris oscuro
     usuarios: '#ff6464', // Rojo claro
-    companias: '#ff3939', // Rojo
-    neuroscans: '#ffa502', // Naranja
-    visitas_unicas: '#999999', // Gris claro
   };
 
   // Procesar los datos - FIX: crear fecha sin zona horaria para evitar desfase
@@ -208,11 +200,9 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
     // Calcular maxValue solo considerando métricas visibles
     const maxValue = d3.max(processedData, (d: any) => {
       const visibleValues = [];
+      if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
       if (visibleMetrics.leads) visibleValues.push(d.leads);
       if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
-      if (visibleMetrics.companias) visibleValues.push(d.companias);
-      if (visibleMetrics.neuroscans) visibleValues.push(d.neuroscans);
-      if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
       
       return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
     }) || 0;
@@ -498,11 +488,9 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
     // Calcular maxValue solo considerando métricas visibles
     const maxValue = d3.max(formattedData, (d: any) => {
       const visibleValues = [];
+      if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
       if (visibleMetrics.leads) visibleValues.push(d.leads);
       if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
-      if (visibleMetrics.companias) visibleValues.push(d.companias);
-      if (visibleMetrics.neuroscans) visibleValues.push(d.neuroscans);
-      if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
       
       return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
     }) || 0;
@@ -905,90 +893,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
     );
   }
 
-  // Definir colores para los checkboxes (mismo esquema que D3)
-  const metricColors = {
-    visitas_unicas: '#45b7d1',
-    leads: '#ff6b6b', 
-    companias: '#ffa726',
-    usuarios: '#4ecdc4',
-    neuroscans: '#ab47bc'
-  };
-
-  const metricLabels = {
-    visitas_unicas: 'visitas',
-    leads: 'leads', 
-    companias: 'comp',
-    usuarios: 'users',
-    neuroscans: 'neuro'
-  };
-
   return (
     <div className="activity-chart-container" ref={containerRef}>
-      {/* Controles unificados flotantes */}
-      <div className="unified-chart-controls">
-        {/* Checkboxes de métricas */}
-        {Object.entries(visibleMetrics).map(([metric, isVisible]) => (
-          <button
-            key={metric}
-            className={`metric-toggle ${isVisible ? 'active' : 'inactive'}`}
-            onClick={() => toggleMetric(metric as keyof typeof visibleMetrics)}
-            disabled={isLoading}
-            style={{
-              '--metric-color': metricColors[metric as keyof typeof metricColors]
-            } as React.CSSProperties}
-          >
-            <span className="metric-checkbox">
-              {isVisible ? '✓' : '○'}
-            </span>
-            <span className="metric-label">
-              {metricLabels[metric as keyof typeof metricLabels]}
-            </span>
-          </button>
-        ))}
-        
-        {/* Separador */}
-        <div className="controls-separator"></div>
-        
-        {/* Botones de tipo de gráfico */}
-        <button
-          className={`chart-type-btn ${chartType === 'line' ? 'active' : ''}`}
-          onClick={() => setChartType('line')}
-          disabled={isLoading}
-        >
-          Líneas
-        </button>
-        <button
-          className={`chart-type-btn ${chartType === 'bar' ? 'active' : ''}`}
-          onClick={() => setChartType('bar')}
-          disabled={isLoading}
-        >
-          Barras
-        </button>
-        
-        {/* Separador */}
-        <div className="controls-separator"></div>
-        
-        {/* Selector de período */}
-        {onPeriodChange && (
-          <>
-            <button
-              className={`period-btn ${currentPeriod === 'today' ? 'active' : ''}`}
-              onClick={() => onPeriodChange('today')}
-              disabled={isLoading}
-            >
-              HOY
-            </button>
-            <button
-              className={`period-btn ${currentPeriod === 'week' ? 'active' : ''}`}
-              onClick={() => onPeriodChange('week')}
-              disabled={isLoading}
-            >
-              7D
-            </button>
-          </>
-        )}
-      </div>
-      
       <svg ref={svgRef}></svg>
     </div>
   );

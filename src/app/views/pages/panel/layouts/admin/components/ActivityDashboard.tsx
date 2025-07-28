@@ -71,11 +71,6 @@ export const ActivityMetrics: FC<{ totals: any; currentPeriod: TimePeriod; onPer
           <div className="activity-summary">
             <div className="metrics-header">
               <h3>Actividad ({getPeriodText(currentPeriod)})</h3>
-              <PeriodSelector 
-                currentPeriod={currentPeriod}
-                onPeriodChange={onPeriodChange}
-                isLoading={isLoading}
-              />
             </div>
             <div className="metrics-grid">
               <div className="metric-item">
@@ -89,10 +84,6 @@ export const ActivityMetrics: FC<{ totals: any; currentPeriod: TimePeriod; onPer
               <div className="metric-item">
                 <span className="metric-label">órdenes</span>
                 <span className="metric-value">{totals.orders}</span>
-              </div>
-              <div className="metric-item">
-                <span className="metric-label">issues vistos</span>
-                <span className="metric-value">{totals.issues_vistos}</span>
               </div>
             </div>
           </div>
@@ -476,11 +467,6 @@ export const DataTableSection: FC = () => {
                     {rawData.length} registros correspondientes a {getPeriodText(currentPeriod)} de un total de {pagination.total_records || 0} registros
                   </p>
                 </div>
-                <PeriodSelector 
-                  currentPeriod={currentPeriod}
-                  onPeriodChange={handlePeriodChange}
-                  isLoading={isLoading}
-                />
               </div>
             </div>
             
