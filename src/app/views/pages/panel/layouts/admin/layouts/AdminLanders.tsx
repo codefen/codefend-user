@@ -12,7 +12,13 @@ type ChartType = 'line' | 'bar';
 const AdminLanders: FC = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
-  const { data: registrations, totals, fetchRegistrations, currentPeriod, isLoading } = useGetUserRegistrations();
+  const {
+    data: registrations,
+    totals,
+    fetchRegistrations,
+    currentPeriod,
+    isLoading,
+  } = useGetUserRegistrations();
 
   // Estados para los controles del gráfico
   const [chartType, setChartType] = useState<ChartType>('line');
@@ -26,19 +32,19 @@ const AdminLanders: FC = () => {
   const toggleMetric = (metric: keyof typeof visibleMetrics) => {
     setVisibleMetrics(prev => ({
       ...prev,
-      [metric]: !prev[metric]
+      [metric]: !prev[metric],
     }));
   };
 
   // Cargar datos para las estadísticas (por defecto hoy)
   useEffect(() => {
-    console.log('🚀 AdminLanders mounted, loading initial data for today');
+    // console.log('🚀 AdminLanders mounted, loading initial data for today');
     fetchRegistrations('today');
   }, [fetchRegistrations]);
 
   // Manejar cambio de período sincronizado
   const handlePeriodChange = (period: 'today' | 'week' | '14days' | '21days') => {
-    console.log(`🔄 Period change requested: ${currentPeriod} → ${period}`);
+    // console.log(`🔄 Period change requested: ${currentPeriod} → ${period}`);
     if (period !== currentPeriod) {
       fetchRegistrations(period);
     } else {
@@ -47,10 +53,11 @@ const AdminLanders: FC = () => {
   };
 
   return (
-    <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+    <main
+      className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left full-width">
         <Navbar />
-        
+
         {/* Card 1: Header - Todo el ancho */}
         <div className="card rectangle">
           <div className="over">
@@ -60,7 +67,7 @@ const AdminLanders: FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Cards 2 y 3: Gráfico (70%) y Métricas (30%) lado a lado */}
         <div className="landers-layout-container">
           <div className="chart-section">
@@ -78,93 +85,85 @@ const AdminLanders: FC = () => {
                       };
                       const metricLabels = {
                         visitas_unicas: 'visitas',
-                        leads: 'leads', 
-                        usuarios: 'users'
+                        leads: 'leads',
+                        usuarios: 'users',
                       };
-                      
+
                       return (
                         <button
                           key={metric}
                           className={`metric-toggle ${isVisible ? 'active' : 'inactive'}`}
                           onClick={() => toggleMetric(metric as keyof typeof visibleMetrics)}
                           disabled={isLoading}
-                          style={{
-                            '--metric-color': metricColors[metric as keyof typeof metricColors]
-                          } as React.CSSProperties}
-                        >
-                          <span className="metric-checkbox">
-                            {isVisible ? '✓' : '○'}
-                          </span>
+                          style={
+                            {
+                              '--metric-color': metricColors[metric as keyof typeof metricColors],
+                            } as React.CSSProperties
+                          }>
+                          <span className="metric-checkbox">{isVisible ? '✓' : '○'}</span>
                           <span className="metric-label">
                             {metricLabels[metric as keyof typeof metricLabels]}
                           </span>
                         </button>
                       );
                     })}
-                    
+
                     {/* Separador */}
                     <div className="controls-separator"></div>
-                    
+
                     {/* Botones de tipo de gráfico */}
                     <button
                       className={`chart-type-btn ${chartType === 'line' ? 'active' : ''}`}
                       onClick={() => setChartType('line')}
-                      disabled={isLoading}
-                    >
+                      disabled={isLoading}>
                       Líneas
                     </button>
                     <button
                       className={`chart-type-btn ${chartType === 'bar' ? 'active' : ''}`}
                       onClick={() => setChartType('bar')}
-                      disabled={isLoading}
-                    >
+                      disabled={isLoading}>
                       Barras
                     </button>
-                    
+
                     {/* Separador */}
                     <div className="controls-separator"></div>
-                    
+
                     {/* Selector de período */}
                     <button
                       className={`period-btn ${currentPeriod === 'today' ? 'active' : ''}`}
                       onClick={() => handlePeriodChange('today')}
-                      disabled={isLoading}
-                    >
+                      disabled={isLoading}>
                       HOY
                     </button>
                     <button
                       className={`period-btn ${currentPeriod === 'week' ? 'active' : ''}`}
                       onClick={() => handlePeriodChange('week')}
-                      disabled={isLoading}
-                    >
+                      disabled={isLoading}>
                       7D
                     </button>
                     <button
                       className={`period-btn ${currentPeriod === '14days' ? 'active' : ''}`}
                       onClick={() => handlePeriodChange('14days')}
-                      disabled={isLoading}
-                    >
+                      disabled={isLoading}>
                       14D
                     </button>
                     <button
                       className={`period-btn ${currentPeriod === '21days' ? 'active' : ''}`}
                       onClick={() => handlePeriodChange('21days')}
-                      disabled={isLoading}
-                    >
+                      disabled={isLoading}>
                       21D
                     </button>
-
                   </div>
                 </div>
               </div>
             </div>
-            
+
             {/* Tarjeta del gráfico */}
             <div className="card standard">
               <div className="over">
                 <div className="body">
-                  <ActivityLineChart 
-                    data={registrations} 
+                  <ActivityLineChart
+                    data={registrations}
                     currentPeriod={currentPeriod}
                     onPeriodChange={handlePeriodChange}
                     isLoading={isLoading}
@@ -176,23 +175,20 @@ const AdminLanders: FC = () => {
             </div>
           </div>
           <div className="metrics-section">
-            <ActivityMetrics 
-              totals={totals} 
+            <ActivityMetrics
+              totals={totals}
               currentPeriod={currentPeriod}
               onPeriodChange={handlePeriodChange}
               isLoading={isLoading}
             />
           </div>
         </div>
-        
+
         {/* Card 4: Tabla de datos - Todo el ancho */}
-        <DataTableSection 
-          currentPeriod={currentPeriod}
-          isLoading={isLoading}
-        />
+        <DataTableSection currentPeriod={currentPeriod} isLoading={isLoading} />
       </section>
     </main>
   );
 };
 
-export default AdminLanders; 
+export default AdminLanders;

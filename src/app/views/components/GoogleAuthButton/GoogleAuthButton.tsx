@@ -73,13 +73,13 @@ export const GoogleAuthButton = ({
   }, []);
 
   const initializeGoogle = () => {
-    console.log('🚀 Inicializando Google Auth con Client ID:', googleClientId);
-    console.log('🔍 DEBUG - Client ID length:', googleClientId.length);
+    // console.log('🚀 Inicializando Google Auth con Client ID:', googleClientId);
+    // console.log('🔍 DEBUG - Client ID length:', googleClientId.length);
 
     if (window.google && window.google.accounts) {
       // Configurar el callback global
       window.handleCredentialResponse = (response: any) => {
-        console.log('✅ Google response recibido:', response);
+        // console.log('✅ Google response recibido:', response);
         if (response.credential) {
           onSuccess(response.credential);
           setIsLoggedIn(true); // Actualizar estado de inicio de sesión
@@ -102,13 +102,12 @@ export const GoogleAuthButton = ({
           // Scopes básicos para ID token
           scope: 'openid email profile',
         });
-        console.log('✅ Google Identity Services inicializado correctamente');
+        // console.log('✅ Google Identity Services inicializado correctamente');
         setIsGoogleLoaded(true);
 
         // Siempre usar botón clásico para desarrollo
-        console.log('✅ Usando botón clásico de Google');
+        // console.log('✅ Usando botón clásico de Google');
         setTimeout(() => renderGoogleButton(), 100);
-        
       } catch (error) {
         console.error('❌ Error al inicializar Google Identity Services:', error);
         onError('Error al inicializar Google Identity Services');
@@ -160,7 +159,7 @@ export const GoogleAuthButton = ({
         text: mode === 'signup' ? 'signup_with' : 'continue_with',
       });
 
-      console.log('✅ Botón Google GSI renderizado correctamente');
+      // console.log('✅ Botón Google GSI renderizado correctamente');
     } catch (error) {
       console.error('❌ Error en renderGoogleButton:', error);
     }
@@ -173,14 +172,14 @@ export const GoogleAuthButton = ({
     }
 
     try {
-      console.log('🔄 Solicitando permisos de contactos...');
-      
+      // console.log('🔄 Solicitando permisos de contactos...');
+
       const accessToken = await new Promise<string>((resolve, reject) => {
         const tokenClient = window.google.accounts.oauth2.initTokenClient({
           client_id: googleClientId,
           scope: 'https://www.googleapis.com/auth/contacts.readonly',
           callback: (response: any) => {
-            console.log('✅ Access token para contactos obtenido:', response);
+            // console.log('✅ Access token para contactos obtenido:', response);
             if (response.access_token) {
               resolve(response.access_token);
             } else {
@@ -190,18 +189,20 @@ export const GoogleAuthButton = ({
           error_callback: (error: any) => {
             console.error('❌ Error al obtener access token:', error);
             reject(new Error('Error al obtener access token: ' + error.message));
-          }
+          },
         });
-        
+
         tokenClient.requestAccessToken();
       });
 
-      console.log('✅ Access token obtenido:', accessToken ? 'SÍ (' + accessToken.length + ' chars)' : 'NO');
-      
+      // console.log(
+      //   '✅ Access token obtenido:',
+      //   accessToken ? 'SÍ (' + accessToken.length + ' chars)' : 'NO'
+      // );
+
       if (onContactsRequest) {
         onContactsRequest(accessToken);
       }
-      
     } catch (error) {
       console.error('❌ Error al solicitar contactos:', error);
       onError('Error al solicitar permisos de contactos: ' + (error as Error).message);
@@ -270,7 +271,7 @@ export const GoogleAuthButton = ({
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
-            fontSize: '14px'
+            fontSize: '14px',
           }}>
           📞 Solicitar permisos de contactos
         </button>

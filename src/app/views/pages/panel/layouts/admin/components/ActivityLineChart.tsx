@@ -28,9 +28,9 @@ interface ActivityLineChartProps {
 type ChartType = 'line' | 'bar';
 type TimePeriod = 'today' | 'week' | '14days' | '21days';
 
-export const ActivityLineChart: FC<ActivityLineChartProps> = ({ 
-  data, 
-  currentPeriod = 'today', 
+export const ActivityLineChart: FC<ActivityLineChartProps> = ({
+  data,
+  currentPeriod = 'today',
   onPeriodChange,
   isLoading = false,
   chartType = 'line',
@@ -38,13 +38,13 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
     visitas_unicas: true,
     leads: true,
     usuarios: true,
-  }
+  },
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 280 });
 
-      // Configuración del gráfico con márgenes mínimos - elementos flotantes no ocupan espacio
+  // Configuración del gráfico con márgenes mínimos - elementos flotantes no ocupan espacio
   const getMargins = (width: number) => {
     if (width < 500) {
       // Móvil: márgenes ultra mínimos
@@ -198,14 +198,15 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
       .range([0, width]);
 
     // Calcular maxValue solo considerando métricas visibles
-    const maxValue = d3.max(processedData, (d: any) => {
-      const visibleValues = [];
-      if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
-      if (visibleMetrics.leads) visibleValues.push(d.leads);
-      if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
-      
-      return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
-    }) || 0;
+    const maxValue =
+      d3.max(processedData, (d: any) => {
+        const visibleValues = [];
+        if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
+        if (visibleMetrics.leads) visibleValues.push(d.leads);
+        if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
+
+        return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
+      }) || 0;
 
     // console.log('📊 ESCALAS:');
     // console.log('  - Valor máximo encontrado:', maxValue);
@@ -486,14 +487,15 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
     const xScale = d3.scaleBand().domain(dateLabels).range([0, width]).padding(0.2);
 
     // Calcular maxValue solo considerando métricas visibles
-    const maxValue = d3.max(formattedData, (d: any) => {
-      const visibleValues = [];
-      if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
-      if (visibleMetrics.leads) visibleValues.push(d.leads);
-      if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
-      
-      return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
-    }) || 0;
+    const maxValue =
+      d3.max(formattedData, (d: any) => {
+        const visibleValues = [];
+        if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
+        if (visibleMetrics.leads) visibleValues.push(d.leads);
+        if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
+
+        return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
+      }) || 0;
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
 
@@ -679,21 +681,22 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
 
     g.append('g')
       .attr('class', 'axis y-axis')
-      .call(d3.axisLeft(yScale)
-        .tickFormat((d) => {
+      .call(
+        d3.axisLeft(yScale).tickFormat(d => {
           const num = d as number;
           if (num === 0) return '0';
-          
+
           // Solo usar notación "k" cuando sea >= 1000
           if (num >= 1000) {
             return (num / 1000).toFixed(1) + 'k';
           }
-          
+
           // Para valores < 1000, mostrar número normal
           if (num >= 100) return Math.round(num).toString();
           if (num >= 10) return num.toFixed(1);
           return num.toFixed(2);
-        }))
+        })
+      )
       .selectAll('text')
       .style('font-size', '12px')
       .style('fill', '#6c757d');
@@ -717,7 +720,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
 
     // Crear definiciones para gradientes
     const defs = svg.append('defs');
-    
+
     // Crear gradientes lineales para cada métrica
     Object.entries(colors).forEach(([metric, color]) => {
       const gradient = defs
@@ -825,12 +828,12 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
   }, [data, dimensions, chartType, visibleMetrics]);
 
   // Asegurar re-renderizado cuando cambia el tipo de gráfico
-  useEffect(() => {
-    if (data.length > 0) {
-      // Forzar re-renderizado cuando cambia el tipo de gráfico
-      console.log('🔄 Cambio de tipo de gráfico detectado:', chartType);
-    }
-  }, [chartType, data.length]);
+  // useEffect(() => {
+  //   if (data.length > 0) {
+  //     // Forzar re-renderizado cuando cambia el tipo de gráfico
+  //     console.log('🔄 Cambio de tipo de gráfico detectado:', chartType);
+  //   }
+  // }, [chartType, data.length]);
 
   // Sistema de resize automático robusto
   useEffect(() => {
@@ -840,14 +843,14 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
         const containerHeight = containerRef.current.clientHeight;
-        
+
         // Usar todo el espacio disponible del contenedor (sin padding)
         const newWidth = Math.max(containerWidth, 300);
         const newHeight = Math.max(containerHeight, 280);
 
         setDimensions(prev => {
           if (Math.abs(prev.width - newWidth) > 10 || Math.abs(prev.height - newHeight) > 10) {
-            console.log(`📊 Chart resize: ${newWidth}x${newHeight} (container: ${containerWidth}x${containerHeight})`);
+            // console.log(`📊 Chart resize: ${newWidth}x${newHeight} (container: ${containerWidth}x${containerHeight})`);
             return { width: newWidth, height: newHeight };
           }
           return prev;

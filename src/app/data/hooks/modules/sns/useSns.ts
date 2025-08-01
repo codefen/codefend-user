@@ -274,13 +274,14 @@ export const useSns = () => {
       //   input: input,
       //   detected: detectedType,
       // });
-    } else {
-      console.log('⚠️ Not changing class because:', {
-        sameType: detectedType === searchClass,
-        allowedType: ['email', 'lastip', '_domain', 'name', 'unknown'].includes(detectedType),
-        currentType: detectedType,
-      });
     }
+    // else {
+    //   console.log('⚠️ Not changing class because:', {
+    //     sameType: detectedType === searchClass,
+    //     allowedType: ['email', 'lastip', '_domain', 'name', 'unknown'].includes(detectedType),
+    //     currentType: detectedType,
+    //   });
+    // }
   };
 
   const updateUrlParams = (keyword: string, searchClass: string) => {

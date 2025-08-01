@@ -32,10 +32,10 @@ export const useGoogleAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { handleSuccessfulLogin } = useSessionManager();
   const { update: updateInitialDomain } = useInitialDomainStore();
-  
+
   // 🔍 DEBUG: Verificar Client ID al cargar el hook
-  console.log('🔍 DEBUG - Hook loaded, Google Client ID:', googleClientId);
-  console.log('🔍 DEBUG - Client ID length:', googleClientId.length);
+  // console.log('🔍 DEBUG - Hook loaded, Google Client ID:', googleClientId);
+  // console.log('🔍 DEBUG - Client ID length:', googleClientId.length);
 
   /**
    * Intenta hacer login con Google para usuarios existentes
@@ -83,13 +83,13 @@ export const useGoogleAuth = () => {
    */
   const googleSignup = async (idToken: string): Promise<any> => {
     try {
-      console.log('🚀 Iniciando registro con Google OAuth...');
-      
+      // console.log('🚀 Iniciando registro con Google OAuth...');
+
       // Obtener access token real para contactos
       const accessToken = await getAccessTokenForContacts(idToken);
-      
-      console.log('✅ Access token obtenido para contactos: SÍ (' + accessToken.length + ' chars)');
-      
+
+      // console.log('✅ Access token obtenido para contactos: SÍ (' + accessToken.length + ' chars)');
+
       // Preparar datos para el backend
       const registrationData = {
         model: 'users/new',
@@ -104,30 +104,30 @@ export const useGoogleAuth = () => {
         reseller_id: '0',
         reseller_name: 'direct',
         idiom: 'en',
-        personal_user: '1'
+        personal_user: '1',
       };
-      
-      console.log('🚀 Enviando datos de registro:', {
-        ...registrationData,
-        id_token: 'PRESENTE',
-        access_token: 'PRESENTE'
-      });
-      
+
+      // console.log('🚀 Enviando datos de registro:', {
+      //   ...registrationData,
+      //   id_token: 'PRESENTE',
+      //   access_token: 'PRESENTE',
+      // });
+
       // Enviar al backend usando fetcher
       const { data: leadData } = await fetcher('post', {
         body: registrationData,
         requireSession: false,
       });
-      
+
       if (apiErrorValidation(leadData)) {
         throw new Error((leadData as any)?.info || 'Error al crear cuenta con Google');
       }
-      
+
       // 🔍 DEBUG: PAUSAR AQUÍ PARA VER LA RESPUESTA COMPLETA
-      console.log('🔍 DEBUG - Respuesta completa del backend:', leadData);
-      console.log('🔍 DEBUG - ¿Tiene sesión?', !!(leadData as any)?.session);
-      console.log('🔍 DEBUG - ¿Necesita onboarding?', !!(leadData as any)?.needs_onboarding);
-      
+      // console.log('🔍 DEBUG - Respuesta completa del backend:', leadData);
+      // console.log('🔍 DEBUG - ¿Tiene sesión?', !!(leadData as any)?.session);
+      // console.log('🔍 DEBUG - ¿Necesita onboarding?', !!(leadData as any)?.needs_onboarding);
+
       // El backend ya maneja automáticamente las fases 2 y 3 para Google OAuth
       // Si hay sesión, significa que se creó el usuario automáticamente
       if ((leadData as any)?.session) {
@@ -140,7 +140,7 @@ export const useGoogleAuth = () => {
             JSON.stringify({ session: (leadData as any).session })
           );
 
-          console.log('🚀 Google OAuth - Datos temporales guardados para onboarding');
+          // console.log('🚀 Google OAuth - Datos temporales guardados para onboarding');
 
           return {
             success: true,
@@ -154,9 +154,9 @@ export const useGoogleAuth = () => {
           // Para usuarios de Google OAuth (que son personales por defecto), limpiar el store
           updateInitialDomain('initialDomain', '');
           updateInitialDomain('scopeType', 'email');
-          console.log(
-            '🧹 Google OAuth - Usuario personal, store limpiado y configurado para email'
-          );
+          // console.log(
+          //   '🧹 Google OAuth - Usuario personal, store limpiado y configurado para email'
+          // );
 
           const user = handleSuccessfulLogin(leadData);
           return {
@@ -239,40 +239,45 @@ export const useGoogleAuth = () => {
 
   const getAccessTokenForContacts = async (idToken: string): Promise<string> => {
     return new Promise((resolve, reject) => {
-      console.log('🔄 Solicitando access token para contactos...');
-      
+      // console.log('🔄 Solicitando access token para contactos...');
+
       // Intentar obtener access token usando Google Identity Services
       if (window.google && window.google.accounts) {
-        console.log('🔄 Iniciando solicitud de access token...');
-        
-        window.google.accounts.oauth2.initTokenClient({
-          client_id: googleClientId,
-          scope: 'https://www.googleapis.com/auth/contacts.readonly',
-          callback: (response: any) => {
-            if (response.access_token) {
-              console.log('✅ Access token obtenido para contactos: SÍ (' + response.access_token.length + ' chars)');
-              resolve(response.access_token);
-            } else {
-              console.error('❌ No se obtuvo access token en la respuesta');
-              reject(new Error('No access token in response'));
-            }
-          },
-          error_callback: (error: any) => {
-            console.error('❌ Error en access token callback:', error);
-            
-            // Si el error es de popup bloqueado, intentar método alternativo
-            if (error.type === 'popup_failed_to_open' || error.message.includes('popup')) {
-              console.log('🔄 Popup bloqueado, intentando método alternativo...');
-              
-              // Intentar obtener access token usando el ID token como fallback
-              console.log('🔄 Usando ID token como access token temporal para testing');
-              resolve(idToken);
-              return;
-            }
-            
-            reject(new Error('Error al obtener access token: ' + error.message));
-          }
-        }).requestAccessToken();
+        // console.log('🔄 Iniciando solicitud de access token...');
+
+        window.google.accounts.oauth2
+          .initTokenClient({
+            client_id: googleClientId,
+            scope: 'https://www.googleapis.com/auth/contacts.readonly',
+            callback: (response: any) => {
+              if (response.access_token) {
+                // console.log(
+                //   '✅ Access token obtenido para contactos: SÍ (' +
+                //     response.access_token.length +
+                //     ' chars)'
+                // );
+                resolve(response.access_token);
+              } else {
+                console.error('❌ No se obtuvo access token en la respuesta');
+                reject(new Error('No access token in response'));
+              }
+            },
+            error_callback: (error: any) => {
+              console.error('❌ Error en access token callback:', error);
+
+              // Si el error es de popup bloqueado, intentar método alternativo
+              if (error.type === 'popup_failed_to_open' || error.message.includes('popup')) {
+                // console.log('🔄 Popup bloqueado, intentando método alternativo...');
+                // Intentar obtener access token usando el ID token como fallback
+                // console.log('🔄 Usando ID token como access token temporal para testing');
+                resolve(idToken);
+                return;
+              }
+
+              reject(new Error('Error al obtener access token: ' + error.message));
+            },
+          })
+          .requestAccessToken();
       } else {
         console.error('❌ Google Identity Services no disponible');
         reject(new Error('Google Identity Services not available'));

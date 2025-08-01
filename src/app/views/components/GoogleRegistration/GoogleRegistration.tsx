@@ -8,7 +8,7 @@ interface GoogleRegistrationProps {
 
 export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
   onRegistrationComplete,
-  onError
+  onError,
 }) => {
   const [idToken, setIdToken] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
@@ -16,15 +16,15 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
   const [step, setStep] = useState<'login' | 'contacts' | 'registering'>('login');
 
   const handleGoogleLogin = (token: string) => {
-    console.log('✅ Google login exitoso');
+    // console.log('✅ Google login exitoso');
     setIdToken(token);
     setStep('contacts');
   };
 
   const handleContactsRequest = async (token: string) => {
-    console.log('📞 Access token para contactos recibido:', token ? 'SÍ (' + token.length + ' chars)' : 'NO');
+    // console.log('📞 Access token para contactos recibido:', token ? 'SÍ (' + token.length + ' chars)' : 'NO');
     setAccessToken(token);
-    
+
     // Proceder con el registro
     await handleRegistration(token);
   };
@@ -34,8 +34,8 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
     setStep('registering');
 
     try {
-      console.log('🚀 Iniciando registro con Google...');
-      
+      // console.log('🚀 Iniciando registro con Google...');
+
       const response = await fetch('https://api.codefend.com/index.php', {
         method: 'POST',
         headers: {
@@ -49,18 +49,18 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
           access_token: contactsToken,
           reseller_id: '1', // Valor por defecto
           reseller_name: 'Direct', // Valor por defecto
-          idiom: 'en' // Valor por defecto
-        })
+          idiom: 'en', // Valor por defecto
+        }),
       });
 
       const result = await response.json();
-      console.log('📄 Respuesta del registro:', result);
+      // console.log('📄 Respuesta del registro:', result);
 
       if (result.error === '0') {
-        console.log('✅ Registro exitoso');
+        // console.log('✅ Registro exitoso');
         onRegistrationComplete(result);
       } else {
-        console.error('❌ Error en registro:', result.info);
+        // console.error('❌ Error en registro:', result.info);
         onError(result.info || 'Error en el registro');
       }
     } catch (error) {
@@ -72,18 +72,18 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
   };
 
   const handleSkipContacts = async () => {
-    console.log('⏭️ Saltando obtención de contactos');
+    // console.log('⏭️ Saltando obtención de contactos');
     await handleRegistration('');
   };
 
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
       <h2>Registro con Google</h2>
-      
+
       {step === 'login' && (
         <div>
           <p>Paso 1: Inicia sesión con Google</p>
-          <GoogleAuthButton 
+          <GoogleAuthButton
             text="Continuar con Google"
             onSuccess={handleGoogleLogin}
             onError={onError}
@@ -96,11 +96,11 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
         <div>
           <p>Paso 2: Obtener contactos (opcional)</p>
           <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
-            Podemos obtener tus contactos de Gmail para mejorar tu experiencia. 
-            Esto es completamente opcional.
+            Podemos obtener tus contactos de Gmail para mejorar tu experiencia. Esto es
+            completamente opcional.
           </p>
-          
-          <GoogleAuthButton 
+
+          <GoogleAuthButton
             text="Continuar con Google"
             onSuccess={handleGoogleLogin}
             onError={onError}
@@ -108,7 +108,7 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
             showContactsButton={true}
             onContactsRequest={handleContactsRequest}
           />
-          
+
           <button
             onClick={handleSkipContacts}
             style={{
@@ -120,9 +120,8 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
               borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '14px',
-              width: '100%'
-            }}
-          >
+              width: '100%',
+            }}>
             ⏭️ Continuar sin contactos
           </button>
         </div>
@@ -131,15 +130,16 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
       {step === 'registering' && (
         <div style={{ textAlign: 'center' }}>
           <div style={{ marginBottom: '20px' }}>
-            <div style={{ 
-              width: '40px', 
-              height: '40px', 
-              border: '4px solid #f3f3f3', 
-              borderTop: '4px solid #3498db', 
-              borderRadius: '50%', 
-              animation: 'spin 1s linear infinite',
-              margin: '0 auto'
-            }}></div>
+            <div
+              style={{
+                width: '40px',
+                height: '40px',
+                border: '4px solid #f3f3f3',
+                borderTop: '4px solid #3498db',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite',
+                margin: '0 auto',
+              }}></div>
           </div>
           <p>🔄 Registrando usuario...</p>
           <p style={{ fontSize: '14px', color: '#666' }}>
@@ -156,4 +156,4 @@ export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
       `}</style>
     </div>
   );
-}; 
+};
