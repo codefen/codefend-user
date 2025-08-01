@@ -3,6 +3,9 @@ import * as d3 from 'd3';
 import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { AxiosHttpService } from '@/app/data/services/axiosHTTP.service';
+import { Sort, type ColumnTableV3 } from '@interfaces/table';
+import { TABLE_KEYS } from '@/app/constants/app-texts';
+import Tablev3 from '@/app/views/components/Table/v3/Tablev3';
 import './ActivityLineChart.scss';
 import { DesktopIcon } from '@/app/views/components/icons/DesktopIcon';
 import { MobileIcon } from '@/app/views/components/icons/MobileIcon';
@@ -117,9 +120,7 @@ export const ActivityMetrics: FC<{ totals: any; currentPeriod: TimePeriod; onPer
                   <span className="metric-name">Users</span>
                   <span className="metric-value">{users.toLocaleString()} ({usersPercentage}%)</span>
                 </div>
-                <div className="metric-bold-text">
-                  <strong>Personas que finalizaron la creación de usuario!</strong>
-                </div>
+
                 <ul className="metric-details">
                   <li>{usersPercentage}% de los que accedieron finalizaron la creación usuario</li>
                   <li>{usersFromLeadsPercentage}% de los que comenzaron a crear el usuario finalizaron</li>
@@ -467,6 +468,154 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
     };
   };
 
+  // Configuración de columnas para Tablev3
+  const landersColumns: ColumnTableV3[] = [
+    {
+      header: 'ID',
+      key: 'id',
+      styles: 'item-cell-landers-id',
+      weight: '8%',
+      render: (value: string) => value,
+    },
+    {
+      header: 'IP Address',
+      key: 'ip_address',
+      styles: 'item-cell-landers-ip',
+      weight: '15%',
+      render: (value: string) => value,
+    },
+    {
+      header: 'Type',
+      key: 'page_type',
+      styles: 'item-cell-landers-type',
+      weight: '10%',
+      render: (value: string) => (
+        <span className={`page-type ${value}`}>
+          {value}
+        </span>
+      ),
+    },
+    {
+      header: 'Lead',
+      key: 'became_lead',
+      styles: 'item-cell-landers-lead',
+      weight: '8%',
+      render: (value: string | number) => (
+        <span className={`conversion-status ${value == 1 ? 'converted' : 'not-converted'}`}>
+          {value == 1 ? '✅' : '❌'}
+        </span>
+      ),
+    },
+    {
+      header: 'Lead Email',
+      key: 'lead_email',
+      styles: 'item-cell-landers-email',
+      weight: '20%',
+      render: (value: string) => value || '-',
+    },
+    {
+      header: 'Ubicación',
+      key: 'location_combined',
+      type: TABLE_KEYS.FULL_ROW,
+      styles: 'item-cell-landers-location',
+      weight: '15%',
+      render: (item: any) => {
+        // Mapeo de códigos de país a emojis (mismo que network section)
+        const countryCodeToFlag = (countryCode: string): string => {
+          const mapping: Record<string, string> = {
+            'ar': '🇦🇷', 'us': '🇺🇸', 'usa': '🇺🇸', 'ca': '🇨🇦', 'gb': '🇬🇧', 'uk': '🇬🇧',
+            'de': '🇩🇪', 'fr': '🇫🇷', 'es': '🇪🇸', 'it': '🇮🇹', 'br': '🇧🇷', 'au': '🇦🇺', 
+            'nl': '🇳🇱', 'jp': '🇯🇵', 'cn': '🇨🇳', 'in': '🇮🇳', 'ru': '🇷🇺', 'mx': '🇲🇽',
+            'za': '🇿🇦', 'kr': '🇰🇷', 'sg': '🇸🇬', 'il': '🇮🇱', 'ch': '🇨🇭', 'at': '🇦🇹',
+            'be': '🇧🇪', 'dk': '🇩🇰', 'fi': '🇫🇮', 'no': '🇳🇴', 'se': '🇸🇪', 'pl': '🇵🇱',
+            'pt': '🇵🇹', 'cz': '🇨🇿', 'gr': '🇬🇷', 'tr': '🇹🇷', 'th': '🇹🇭', 'my': '🇲🇾',
+            'id': '🇮🇩', 'ph': '🇵🇭', 'vn': '🇻🇳', 'nz': '🇳🇿', 'cl': '🇨🇱', 'pe': '🇵🇪',
+            'co': '🇨🇴', 'uy': '🇺🇾', 'ec': '🇪🇨', 'ro': '🇷🇴', 'bg': '🇧🇬', 'hr': '🇭🇷',
+            'si': '🇸🇮', 'sk': '🇸🇰', 'ee': '🇪🇪', 'lv': '🇱🇻', 'lt': '🇱🇹', 'is': '🇮🇸',
+            'ie': '🇮🇪', 'lu': '🇱🇺', 'mt': '🇲🇹', 'cy': '🇨🇾', 'ng': '🇳🇬'
+            };
+          const key = countryCode?.toLowerCase?.() || '';
+          return mapping[key] || '🌍';
+        };
+
+        const flag = countryCodeToFlag(item.pais_code);
+        const location = [];
+        if (item.ciudad && item.ciudad !== 'unknown') location.push(item.ciudad);
+        if (item.pais && item.pais !== 'unknown') location.push(item.pais);
+        const locationText = location.length > 0 ? location.join(', ') : 'unknown';
+        
+        return (
+          <div className="location-info">
+            <span className="country-flag" title={`${item.pais || 'Unknown'} (${item.pais_code || 'XX'})`}>
+              {flag}
+            </span>
+            <span className="location-text">
+              {locationText}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      header: 'Device & User Agent',
+      key: 'device_info',
+      type: TABLE_KEYS.FULL_ROW,
+      styles: 'item-cell-landers-device',
+      weight: '20%',
+      render: (item: any) => {
+        let deviceInfo;
+        if (item.device_class && item.device_os) {
+          deviceInfo = {
+            deviceClass: item.device_class,
+            deviceOs: item.device_os,
+          };
+        } else {
+          deviceInfo = getDeviceInfo(item.ua || '');
+        }
+
+        return (
+          <div className="device-info">
+            <div className="device-icons">
+              <span className="device-icon" title={`Dispositivo: ${deviceInfo.deviceClass}`}>
+                {deviceInfo.deviceClass === 'desk' ? (
+                  <DesktopIcon />
+                ) : deviceInfo.deviceClass === 'phone' ? (
+                  <MobileIcon />
+                ) : (
+                  deviceInfo.deviceIcon
+                )}
+              </span>
+              {deviceInfo.deviceOs === 'ios' && <AppleIcon />}
+              {deviceInfo.deviceOs === 'android' && <AndroidIcon />}
+              {deviceInfo.deviceOs === 'windows' && <WindowsIcon />}
+              {deviceInfo.deviceOs === 'macos' && <AppleIcon />}
+              {deviceInfo.deviceOs === 'linux' && <LinuxIcon />}
+            </div>
+            <div className="ua-text" title={item.ua}>
+              {item.ua ? item.ua : '-'}
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      header: 'Fecha',
+      key: 'creacion',
+      styles: 'item-cell-landers-date',
+      weight: '12%',
+      render: (value: string) => {
+        const date = new Date(value);
+        return date.toLocaleString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      },
+    },
+  ];
+
   return (
     <div className="card standard">
       <div className="over">
@@ -475,127 +624,24 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
             <div className="raw-data-header">
               <div className="simple-header">
                 <div className="header-title">
-                  <h3>Datos de visitas únicas / landers</h3>
-                  <p>
-                    {rawData.length} visitas únicas correspondientes a {getPeriodText(externalPeriod)}
-                  </p>
+                  <span className="metric-name">Datos {rawData.length} visitas únicas correspondientes a {getPeriodText(externalPeriod)}</span>
                 </div>
               </div>
             </div>
             
-            <div className="raw-data-table-container">
-              <table className="raw-data-table">
-                <thead>
-                  <tr>
-                    <th style={{width: '60px'}}>ID</th>
-                    <th style={{width: '130px'}}>IP Address</th>
-                    <th style={{width: '80px'}}>Type</th>
-                    <th style={{width: '80px'}}>Lead</th>
-                    <th style={{width: '200px'}}>Lead Email</th>
-                    <th style={{width: '180px'}}>Ubicación</th>
-                    <th style={{width: '400px'}}>Device & User Agent</th>
-                    <th style={{width: '140px'}}>Fecha</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rawData.length > 0 ? (
-                    rawData.map((item: any) => {
-                      let deviceInfo;
-                      if (item.device_class && item.device_os) {
-                        deviceInfo = {
-                          deviceClass: item.device_class,
-                          deviceOs: item.device_os,
-                        };
-                      } else {
-                        deviceInfo = getDeviceInfo(item.ua || '');
-                      }
-                      
-                      return (
-                        <tr key={item.id}>
-                          <td>{item.id}</td>
-                          <td className="ip-address">{item.ip_address}</td>
-                          <td>
-                            <span className={`page-type ${item.page_type}`}>
-                              {item.page_type}
-                            </span>
-                          </td>
-                          <td>
-                            <span className={`conversion-status ${item.became_lead == 1 ? 'converted' : 'not-converted'}`}>
-                              {item.became_lead == 1 ? '✅' : '❌'}
-                            </span>
-                          </td>
-                          <td className="lead-email">
-                            {item.became_lead == 1 && item.lead_email ? (
-                              <span title={`Convertido: ${new Date(item.lead_created_at).toLocaleString('es-ES')}`}>
-                                {item.lead_email}
-                              </span>
-                            ) : '-'}
-                          </td>
-                          <td className="location-cell">
-                            <div className="location-info">
-                              <span 
-                                className={`flag flag-${(item.pais_code || 'xx').toLowerCase()}`}
-                                title={`${item.pais || 'Unknown country'} (${item.pais_code || 'XX'})`}>
-                              </span>
-                              <div className="location-text">
-                                <div className="city">{item.ciudad || 'Unknown location'}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="user-agent-enhanced">
-                            <div className="device-info">
-                              <div className="device-icons">
-                                <span className="device-icon" title={`Dispositivo: ${deviceInfo.deviceClass}`}>
-                                  {deviceInfo.deviceClass === 'desk' ? (
-                                    <DesktopIcon />
-                                  ) : deviceInfo.deviceClass === 'phone' ? (
-                                    <MobileIcon />
-                                  ) : (
-                                    deviceInfo.deviceIcon
-                                  )}
-                                </span>
-                                {deviceInfo.deviceOs === 'ios' && (
-                                  <AppleIcon />
-                                )}
-                                {deviceInfo.deviceOs === 'android' && (
-                                  <AndroidIcon />
-                                )}
-                                {deviceInfo.deviceOs === 'windows' && (
-                                  <WindowsIcon />
-                                )}
-                                {deviceInfo.deviceOs === 'macos' && (
-                                  <AppleIcon />
-                                )}
-                                {deviceInfo.deviceOs === 'linux' && (
-                                  <LinuxIcon />
-                                )}
-                              </div>
-                              <div className="ua-text" title={item.ua}>
-                                {item.ua ? item.ua.substring(0, 80) + '...' : '-'}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="created-date">
-                            {new Date(item.creacion).toLocaleString('es-ES', {
-                              year: 'numeric',
-                              month: '2-digit',
-                              day: '2-digit',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan={8} className="no-data">
-                        No hay datos para mostrar
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+            <div className="landers-table-container">
+              <Tablev3
+                columns={landersColumns}
+                rows={rawData}
+                showRows={!externalLoading && !internalLoading}
+                showSkeleton={externalLoading || internalLoading}
+                isNeedSort={true}
+                initialSort={Sort.desc}
+                initialOrder="id"
+                emptyTitle="No hay datos para mostrar"
+                emptyInfo="No se encontraron registros de landers para el período seleccionado"
+                className="landers-table"
+              />
             </div>
             
             <div className="raw-data-footer">

@@ -95,7 +95,7 @@
 .chart-and-summary-container {
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0; // Removido: estilo obsoleto del layout anterior
   align-items: flex-start;
 
   .activity-chart-container {
@@ -167,7 +167,7 @@
 // Estilos para la tabla de raw data
 .raw-data-container {
   width: 100%;
-  margin: 1.5rem 0;
+  margin: 0; // Removido: el contenedor padre ya maneja el espaciado con gap
 
   .raw-data-header {
     margin-bottom: 1rem;
@@ -229,9 +229,13 @@
             color: var(--text-color-secondary);
 
             &.ip-address {
-              font-family: 'Courier New', monospace;
-              font-size: 0.8rem;
-              color: var(--text-color-primary);
+              font-family: inherit; // Usar la misma tipografía que el resto
+              font-size: 0.85rem; // Mismo tamaño que la tabla general
+              color: var(--text-color-secondary); // Mismo color que otras celdas
+              white-space: nowrap; // Evitar salto de línea
+              overflow: hidden; // Ocultar desbordamiento
+              text-overflow: ellipsis; // Mostrar "..." para texto largo
+              max-width: 130px; // Ancho máximo para la columna IP
             }
 
             &.user-agent {
@@ -804,20 +808,50 @@
   }
 } 
 
+// Layout principal para AdminLanders - solo gap, sin margin-bottom doble
+main.user-profile {
+  .left.full-width {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-space); // Solo gap, como dashboard usa solo margin-bottom
+    
+    // Remover margin-bottom individual de cards para evitar espaciado doble
+    .card.rectangle {
+      margin-bottom: 0;
+    }
+    
+    .raw-data-container {
+      margin-bottom: 0;
+    }
+  }
+}
+
 // Nuevo layout para AdminLanders
 .landers-layout-container {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  align-items: flex-start;
+  gap: var(--card-space);
+  margin-bottom: 0; // Removido: el contenedor padre ya maneja el gap
+  align-items: stretch; // Cambiado de flex-start a stretch para igual altura
 
   .chart-section {
-    flex: 0 0 70%;
+    flex: 1 1 70%;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-space); // Espaciado consistente entre cards del gráfico
     
-    // Card del gráfico con altura fija
+    // Cards con altura específica para consistencia - mismo padding que dashboard
     .card.standard {
-      height: 320px;
+      padding: 0.5rem; // Igual que dashboard .box-assets > .card
+      
+      &.chart-controls-card {
+        flex-shrink: 0; // No se encoge
+      }
+      
+      &:not(.chart-controls-card) {
+        flex: 1; // El gráfico toma el espacio restante
+        min-height: 280px;
+      }
       
       .over {
         height: 100%;
@@ -829,10 +863,10 @@
           
           .chart-header {
             flex-shrink: 0;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem; // Reducido para consistencia
           }
           
-                                .activity-chart-container {
+          .activity-chart-container {
             flex: 1;
             min-height: 0;
             overflow: hidden;
@@ -843,8 +877,17 @@
   }
 
   .metrics-section {
-    flex: 0 0 calc(30% - 1.5rem);
+    flex: 1 1 30%;
     min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    
+    // La card de métricas debe tomar toda la altura disponible - mismo padding que dashboard
+    .card.standard {
+      flex: 1;
+      height: 100%;
+      padding: 0.5rem; // Igual que dashboard .box-assets > .card
+    }
   }
 }
 
@@ -852,15 +895,21 @@
 @media (max-width: 1024px) {
   .landers-layout-container {
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--card-space); // Consistente con desktop
 
     .chart-section {
-      flex: 1;
+      flex: none; // Resetear flex
+      width: 100%;
     }
 
     .metrics-section {
-      flex: 1;
+      flex: none; // Resetear flex
+      width: 100%;
       min-width: auto;
+      
+      .card.standard {
+        height: auto; // Altura automática en móvil
+      }
     }
   }
 }
@@ -871,7 +920,7 @@
     .metrics-list {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.5rem; // Reducido de 2rem para ser más consistente
 
       .metric-row {
         display: flex;
@@ -918,10 +967,10 @@
           
           li {
             color: var(--text-color-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 0.4rem;
-            font-family: var(--font-family-primary);
+            font-size: 0.8rem;
+            line-height: 1.2;
+            margin-bottom: 0.8rem;
+            font-family: satoshi;
             
             &:last-child {
               margin-bottom: 0;
@@ -1391,26 +1440,186 @@
   }
 } 
 
-// Estilos específicos para la tarjeta de controles
-.landers-layout-container .chart-section .card.standard.chart-controls-card {
-  height: 40px;
-  margin-bottom: 1rem;
-  
-  .over {
-    padding: 0.5rem 1rem !important; // Padding ultra compacto
-  }
-  
-  .body {
-    padding: 0 !important; // Sin padding en el body
-    min-height: auto !important; // Sin altura mínima
-  }
-  
-  // En tema oscuro
-  &.dark-theme {
-    .unified-chart-controls {
-      .controls-separator {
-        background: var(--primary-color-300-dark);
+// Estilos específicos para la nueva tabla Tablev3 con ordenamiento y sticky header
+.landers-table-container {
+  .landers-table {
+    .table-header {
+      position: sticky;
+      top: 0;
+      background: var(--primary-color);
+      z-index: 10;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      
+      .column-header {
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: var(--primary-color-100);
+        }
+        
+        &.sorted {
+          background-color: var(--primary-color-150);
+          font-weight: 600;
+        }
+        
+        .column-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          
+          .sort-icon {
+            margin-left: 4px;
+            opacity: 0.7;
+            font-size: 0.8rem;
+          }
+        }
       }
     }
+  }
+  
+  // Estilos específicos para las columnas de landers
+  .item-cell-landers-id {
+    --cell-expand: 8%;
+    font-weight: 600;
+    color: var(--text-color-primary);
+  }
+  
+  .item-cell-landers-ip {
+    --cell-expand: 15%;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--text-color-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-cell-landers-type {
+    --cell-expand: 10%;
+  }
+  
+  .item-cell-landers-lead {
+    --cell-expand: 8%;
+    text-align: center;
+  }
+  
+  .item-cell-landers-email {
+    --cell-expand: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-cell-landers-location {
+    --cell-expand: 15%;
+  }
+  
+  .item-cell-landers-device {
+    --cell-expand: 20%;
+  }
+  
+  .item-cell-landers-date {
+    --cell-expand: 12%;
+    font-size: 0.8rem;
+  }
+}
+
+// Estilos para los elementos renderizados dentro de las celdas
+.page-type {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  
+  &.signup { 
+    background: #e3f2fd; 
+    color: #1976d2; 
+  }
+  
+  &.signin { 
+    background: #f3e5f5; 
+    color: #7b1fa2; 
+  }
+}
+
+.conversion-status {
+  font-size: 1.2rem;
+  
+  &.converted { 
+    color: #4caf50; 
+  }
+  
+  &.not-converted { 
+    color: #f44336; 
+  }
+}
+
+// Estilos para la información de ubicación con banderas emoji
+.location-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  .country-flag {
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  
+  .location-text {
+    font-size: 0.85rem;
+    color: var(--text-color-secondary);
+  }
+  
+  .location-text {
+    .city {
+      font-size: 0.85rem;
+      color: var(--text-color-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+// Estilos para device info
+.device-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  .device-icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+    
+    .device-icon {
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.8;
+    }
+  }
+  
+  .ua-text {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--text-color-secondary);
+    opacity: 0.8;
+    line-height: 1.2;
+    word-break: break-all;
+    max-height: 3.6rem; // Aproximadamente 3 líneas
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 }
