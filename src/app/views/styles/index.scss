@@ -934,7 +934,8 @@ main.scans {
 // NEW AUTH PAGE
 //////////////////////////////////
 body:has(.new-signup-form),
-body:has(.new-signin-form) {
+body:has(.new-signin-form),
+body:has(.onboarding-modal-container) {
   overflow-x: hidden;
   overflow-y: auto;
   height: 100vh;
@@ -1118,6 +1119,19 @@ body:has(.new-signin-form) {
       }
     }
 
+    .welcome-content {
+      .btn-container {
+        display: block;
+        margin-top: auto;
+        margin-bottom: 0;
+        padding: 0;
+        margin-left: 0;
+        margin-right: 0;
+        transform: none;
+        position: initial;
+      }
+    }
+
     .modal.new-signin-form {
       min-height: clamp(300px, 90dvh, 600px);
     }
@@ -1125,7 +1139,8 @@ body:has(.new-signin-form) {
 }
 
 body[data-theme='light']:has(.new-signup-form),
-body[data-theme='light']:has(.new-signin-form) {
+body[data-theme='light']:has(.new-signin-form),
+body[data-theme='light']:has(.onboarding-modal-container) {
   background: lch(97.23% 0.01 296.81);
 
   &::after {
@@ -1135,7 +1150,8 @@ body[data-theme='light']:has(.new-signin-form) {
 
   #root-modal .modal-wrapper {
     .modal.new-signup-form,
-    .modal.new-signin-form {
+    .modal.new-signin-form,
+    .modal.onboarding-modal-container {
       .readonly-content {
         --title-text-color-secondary: #343434;
         --header-text-color: var(--tertiary-color-300);
@@ -1160,6 +1176,10 @@ body[data-theme='light']:has(.new-signin-form) {
         background: #fafafa;
         border-color: #dbdbdb;
       }
+      .welcome-content {
+        background: #fafafa;
+        border: 1px solid #dbdbdb;
+      }
       .nsm7Bb-HzV7m-LgbsSe {
         background: linear-gradient(90deg, #fafafa 0%, #f2f2f2 57.69%);
         border: 1px solid #ececec;
@@ -1176,14 +1196,16 @@ body[data-theme='light']:has(.new-signin-form) {
 
 @media only screen and (min-width: 2000px) {
   body:has(.new-signup-form),
-  body:has(.new-signin-form) {
+  body:has(.new-signin-form),
+  body:has(.onboarding-modal-container) {
     &::after {
       transform: rotate(-90deg) translateY(20dvw) scale(1.5);
     }
   }
 
   body[data-theme='light']:has(.new-signup-form),
-  body[data-theme='light']:has(.new-signin-form) {
+  body[data-theme='light']:has(.new-signin-form),
+  body[data-theme='light']:has(.onboarding-modal-container) {
     &::after {
       transform: translateX(0dvw) translateY(1dvw) scale(1);
       background-size: 100% 105%;
@@ -1193,7 +1215,8 @@ body[data-theme='light']:has(.new-signin-form) {
 
 @media only screen and (max-width: 1200px) {
   body:has(.new-signup-form),
-  body:has(.new-signin-form) {
+  body:has(.new-signin-form),
+  body:has(.onboarding-modal-container) {
     &::after {
       width: max(40rem, 65dvw);
     }
@@ -1210,7 +1233,8 @@ body[data-theme='light']:has(.new-signin-form) {
 
 @media only screen and (min-height: 840px) {
   body:has(.new-signup-form),
-  body:has(.new-signin-form) {
+  body:has(.new-signin-form),
+  body:has(.onboarding-modal-container) {
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100vh;

@@ -3,29 +3,22 @@
  * Diseño actualizado para coincidir con WelcomeDomain modal
  * Usa ModalWrapper para overlay correcto que cubre la aplicación de fondo
  */
-
-// Contenedor del modal de onboarding (usado por ModalWrapper)
-.onboarding-modal-container {
-  width: 100%;
-  max-width: 600px;
-  margin-top: 20px;
-}
-
 // Contenido principal del modal
 .welcome-content {
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 25px;
   position: relative;
-  z-index: 50;
+  flex-shrink: 0;
+  height: -webkit-fill-available;
+  justify-content: flex-start;
 
   .logose {
     margin-bottom: 1.5rem;
-    height: 32px;
-    width: auto;
+    margin-inline-end: auto;
   }
 }
 

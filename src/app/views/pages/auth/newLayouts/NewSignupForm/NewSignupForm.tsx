@@ -26,7 +26,7 @@ import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constant
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from '@/app/data/utils';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { Link, useLocation, useParams, useSearchParams } from 'react-router';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
@@ -112,6 +112,7 @@ export const NewSignupForm = () => {
   const location = useLocation();
   const { ref } = useParams();
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Evento de telemetría: inicio del proceso de registro de usuario
@@ -169,11 +170,13 @@ export const NewSignupForm = () => {
         if (result.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
           // console.log('🚀 Google OAuth - Usuario necesita onboarding, redirigiendo...');
-          window.location.href = '/onboarding';
+          // window.location.href = '/auth/onboarding';
+          navigate('/auth/onboarding');
         } else {
           // Redirigir al dashboard si ya completó onboarding
           // console.log('✅ Google OAuth - Usuario ya completó onboarding, ir al dashboard');
-          window.location.href = '/';
+          // window.location.href = '/';
+          navigate('/');
         }
       }
     } catch (error) {
@@ -384,11 +387,13 @@ export const NewSignupForm = () => {
         if (res.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
           // console.log('🚀 Usuario necesita onboarding, redirigiendo...');
-          window.location.href = '/onboarding';
+          // window.location.href = '/auth/onboarding';
+          navigate('/auth/onboarding');
         } else {
           // Redirigir al dashboard si ya completó onboarding
           // console.log('✅ Usuario ya completó onboarding, ir al dashboard');
-          window.location.href = '/';
+          // window.location.href = '/';
+          navigate('/');
         }
       }
     });

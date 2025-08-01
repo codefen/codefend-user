@@ -12,7 +12,6 @@ import {
   PreferencePanel,
   AdminPage,
   AdminCompany,
-  AdminSection,
   ResellerLeadsLayout,
   ResellerUsersLayout,
   LanPage,
@@ -48,7 +47,7 @@ import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/Te
 import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
 import { OrdersPaymentsPage } from '@/app/views/pages/panel/layouts/orders-payments/OrdersPaymentsPage';
-import { OnboardingPage } from '@/app/views/pages/onboarding/OnboardingPage';
+import { OnboardingPage } from '@/app/views/pages/auth/onboarding/OnboardingPage';
 import TestGoogleContacts from '@/app/views/pages/TestGoogleContacts';
 import TestGoogleRegistration from '@/app/views/pages/TestGoogleRegistration';
 import TestGoogleDebug from '@/app/views/pages/TestGoogleDebug';
@@ -286,12 +285,8 @@ export const AppRouter = () => {
         { path: 'confirmation', element: <ConfirmationSignUp /> },
         { path: 'recovery', element: <PasswordRecovery /> },
         { path: 'recovery/:ref', element: <PasswordRecovery /> },
+        { path: 'onboarding', element: <OnboardingPage /> },
       ],
-    },
-    // Onboarding route (outside PanelPage to avoid sidebar)
-    {
-      path: '/onboarding',
-      element: <OnboardingPage />,
     },
     // Test route for Google Contacts
     {
