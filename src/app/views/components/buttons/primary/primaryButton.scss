@@ -1,4 +1,4 @@
-.btn {
+button.btn {
   --btn-bg-color: var(--secondary-color-50);
   background: var(--btn-bg-color);
 
@@ -28,7 +28,7 @@
 
   &.btn-gray {
     --btn-bg-color: var(--primary-color-300);
-    color: var(--tertiary-color-500);
+    color: var(--tertiary-color-450);
     transition: scale 200ms ease;
 
     &:hover {

@@ -18,6 +18,7 @@ import { useNewVerifyScanList } from '@moduleHooks/newscanner/useNewVerifyScanLi
 import { useVerifyScanListv3 } from '@moduleHooks/newscanner/useVerifyScanListv3';
 import { useInitialDomainStore } from '@stores/initialDomain.store';
 import useModalStore from '@stores/modal.store';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
   if (finished || phase === ScanStepType.Finished) {
@@ -50,6 +51,7 @@ export const WelcomeFinish = ({
 
   // TEMPORAL: Obtener datos directamente desde useNewVerifyScanList como fallback
   const { scans: directScans } = useNewVerifyScanList();
+  const { theme } = useTheme();
 
   // TEMPORAL: Forzar ejecución de useVerifyScanListv3 para asegurar que se ejecute
   useVerifyScanListv3();
@@ -80,9 +82,10 @@ export const WelcomeFinish = ({
     // });
 
     // 🔥 MEJORA: Buscar datos frescos del backend primero
-    const directScan = directScans && directScans.length > 0 && _lastScanId 
-      ? directScans.find(s => s.id === _lastScanId) 
-      : null;
+    const directScan =
+      directScans && directScans.length > 0 && _lastScanId
+        ? directScans.find(s => s.id === _lastScanId)
+        : null;
 
     if (_currentScan && directScan) {
       // ✅ PRIORIDAD: Combinar datos de scaningProgress con valores frescos del backend
@@ -175,7 +178,7 @@ export const WelcomeFinish = ({
     if (computedCurrentScan && computedCurrentScan.status === AUTO_SCAN_STATE.SCAN_FINISHED) {
       const _scaningProgress = globalStore.scaningProgress.get;
       const _lastScanId = globalStore.lastScanId.get;
-      
+
       // Verificar que _scaningProgress sea un Map válido antes de usar .delete()
       if (_scaningProgress instanceof Map && _lastScanId) {
         _scaningProgress.delete(_lastScanId);
@@ -307,7 +310,7 @@ export const WelcomeFinish = ({
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={handleCloseAttempt}>
       <div className="welcome-content welcome-content-finish">
-        <img className="logose" src="/codefend/logo-color.png" width={120} />
+        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={120} />
         <Show
           when={
             currentScan?.status === AUTO_SCAN_STATE.SCAN_LAUNCHED ||

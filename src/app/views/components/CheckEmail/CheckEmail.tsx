@@ -10,7 +10,7 @@ interface CheckEmailProps {
 const CheckEmail: FC<CheckEmailProps> = ({
   text,
   subText,
-  imgSrc = '/codefend/icon-email.png',
+  imgSrc = '/codefend/email-icon1.png',
 }) => {
   const hasImgAndText = !!text && !!subText;
   return (

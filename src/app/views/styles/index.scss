@@ -995,6 +995,11 @@ body:has(.new-signin-form) {
         padding-inline: 1.5rem;
         flex-shrink: 0;
         height: -webkit-fill-available;
+        --title-text-color-secondary: rgb(156 163 175 / 1);
+        --header-text-color: rgb(209 213 219 / 1);
+        --feature-item-border-color: #434343;
+        --feature-item-text-color: rgb(156 163 175 / 1);
+        --feature-item-title-color: rgb(255 255 255 / 1);
 
         h1 {
           font-size: clamp(1rem, 2dvw, 3rem);
@@ -1003,15 +1008,15 @@ body:has(.new-signin-form) {
           margin-bottom: 2rem;
 
           span {
-            color: rgb(156 163 175 / 1);
+            color: var(--title-text-color-secondary);
           }
         }
 
         p.header-text {
           line-height: 1.625;
           font-size: clamp(0.9rem, 0.75dvw, 1rem);
-          color: rgb(209 213 219 / 1);
-          border-block-start: 1px solid #434343;
+          color: var(--header-text-color);
+          border-block-start: 1px solid var(--feature-item-border-color);
           padding-block: 1.25rem;
           padding-inline: 2rem;
         }
@@ -1027,7 +1032,7 @@ body:has(.new-signin-form) {
             gap: 1rem;
             padding-top: 2rem;
             padding-bottom: 2rem;
-            border-top: 1px solid #434343;
+            border-top: 1px solid var(--feature-item-border-color);
 
             &:first-child {
               padding-top: 1.5rem;
@@ -1042,9 +1047,10 @@ body:has(.new-signin-form) {
               justify-content: center;
 
               img {
-                width: 74px;
-                height: 74px;
+                width: 60px;
+                height: 60px;
                 object-fit: contain;
+                scale: 2;
               }
             }
 
@@ -1054,14 +1060,14 @@ body:has(.new-signin-form) {
               h3 {
                 font-size: 1.25rem;
                 font-weight: 600;
-                color: #ffffff;
+                color: var(--feature-item-title-color);
                 margin-bottom: 0.5rem;
                 line-height: 1.3;
               }
 
               p {
                 font-size: 0.95rem;
-                color: rgb(156 163 175 / 1);
+                color: var(--feature-item-text-color);
                 line-height: 1.6;
                 margin: 0;
               }
@@ -1075,19 +1081,22 @@ body:has(.new-signin-form) {
         height: -webkit-fill-available;
         display: flex;
         flex-direction: column;
+        --form-title-color: var(--tertiary-color-300);
+        --form-step-text-color: var(--tertiary-color-400);
+        --form-step-text-color-secondary: var(--secondary-color-200);
 
         img {
           margin-inline-start: -1rem;
         }
         h2 {
-          color: var(--tertiary-color-300);
+          color: var(--form-title-color);
           margin-top: 1rem;
         }
         p.step-text-header {
           margin-block-start: 1rem;
-          color: var(--tertiary-color-400);
+          color: var(--form-step-text-color);
           b {
-            color: var(--secondary-color-200);
+            color: var(--form-step-text-color-secondary);
           }
         }
 
@@ -1111,6 +1120,73 @@ body:has(.new-signin-form) {
 
     .modal.new-signin-form {
       min-height: clamp(300px, 90dvh, 600px);
+    }
+  }
+}
+
+body[data-theme='light']:has(.new-signup-form),
+body[data-theme='light']:has(.new-signin-form) {
+  background: lch(97.23% 0.01 296.81);
+
+  &::after {
+    background-image: url('/codefend/clear-broken-glass.png');
+    transform: rotate(0deg);
+  }
+
+  #root-modal .modal-wrapper {
+    .modal.new-signup-form,
+    .modal.new-signin-form {
+      .readonly-content {
+        --title-text-color-secondary: #343434;
+        --header-text-color: var(--tertiary-color-300);
+        --feature-item-border-color: #cbcbcb;
+        --feature-item-text-color: var(--tertiary-color-400);
+        --feature-item-title-color: #1c1c1c;
+        background: #fefefe;
+        border-color: #b9b9b9;
+
+        h1 {
+          // background: linear-gradient(180deg, #949494 0%, #676767 100%); ORIGINAL
+          background: linear-gradient(177.78deg, #949494 1.49%, #515151 97.12%);
+
+          background-clip: text;
+          color: transparent;
+        }
+      }
+      .form-content {
+        --form-title-color: #1c1c1c;
+        --form-step-text-color: #797979;
+        --form-step-text-color-secondary: var(--secondary-color-200);
+        background: #fafafa;
+        border-color: #dbdbdb;
+      }
+      .nsm7Bb-HzV7m-LgbsSe {
+        background: linear-gradient(90deg, #fafafa 0%, #f2f2f2 57.69%);
+        border: 1px solid #ececec;
+      }
+      form {
+        input:not(:disabled) {
+          background: linear-gradient(90deg, #fafafa 0%, #f2f2f2 57.69%);
+          border: 1px solid #ececec;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 2000px) {
+  body:has(.new-signup-form),
+  body:has(.new-signin-form) {
+    &::after {
+      transform: rotate(-90deg) translateY(20dvw) scale(1.5);
+    }
+  }
+
+  body[data-theme='light']:has(.new-signup-form),
+  body[data-theme='light']:has(.new-signin-form) {
+    &::after {
+      transform: translateX(0dvw) translateY(1dvw) scale(1);
+      background-size: 100% 105%;
     }
   }
 }
@@ -1154,6 +1230,26 @@ main.auth-pages {
   max-height: none;
   max-width: none;
   grid-area: 1 / 1 / 6 / 8;
+
+  .theme-changer-button {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 999;
+    background: rgb(124 124 124 / 20%);
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 100%;
+  }
+}
+
+body[data-theme='light'] {
+  main.auth-pages {
+    .theme-changer-button {
+      background: #0000000a;
+    }
+  }
 }
 
 @media only screen and (max-width: 980px) {

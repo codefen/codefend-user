@@ -3,12 +3,14 @@ import { PrimaryButton } from '@buttons/index';
 import { ModalWrapper } from '@modals/index';
 import { Link } from 'react-router';
 import css from './newsignup.module.scss';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 export const NewSignupInvitation = () => {
+  const { theme } = useTheme();
   return (
     <ModalWrapper showCloseBtn={false} type={css['newsignup']}>
       <div className={css['newsignupContent']}>
-        <img src="/codefend/logo-color.png" width={220} />
+        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
         <p style={{ marginBottom: '25px' }}>
           Welcome to Codefend, you are being invited to join a company. Please provide your details
           to continue.

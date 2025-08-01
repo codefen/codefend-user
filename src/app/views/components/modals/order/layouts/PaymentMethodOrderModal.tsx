@@ -5,12 +5,16 @@ import { useOrderStore } from '@stores/orders.store';
 import { userOrderFinancialResource } from '@hooks/orders/useOrders';
 import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 export const PaymentMethodOrderModal: FC = () => {
-  const { updateState, referenceNumber, orderId, userSmallPlanSelected } = useOrderStore(state => state);
+  const { updateState, referenceNumber, orderId, userSmallPlanSelected } = useOrderStore(
+    state => state
+  );
   const planPreference = useGlobalFastField('planPreference');
   const { sendOrderFinancial } = userOrderFinancialResource();
   const { trackPaymentMethodSelection } = usePaymentTelemetry();
+  const { theme } = useTheme();
 
   const backStep = () => updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
 
@@ -25,17 +29,17 @@ export const PaymentMethodOrderModal: FC = () => {
       };
       return smallPlanPrices[userSmallPlanSelected] || 0;
     }
-    
+
     // Para planes profesionales (pentest on demand)
     if (planPreference.get) {
       const professionalPlanPrices: Record<string, number> = {
-        'small': 1500,
-        'medium': 4500,
-        'advanced': 13500,
+        small: 1500,
+        medium: 4500,
+        advanced: 13500,
       };
       return professionalPlanPrices[planPreference.get] || 0;
     }
-    
+
     return 0;
   };
 
@@ -71,11 +75,11 @@ export const PaymentMethodOrderModal: FC = () => {
         }}>
         ×
       </button>
-      
+
       <div className="step-header">
         <h3>Great! Please select your payment method:</h3>
       </div>
-      
+
       <div className="step-content">
         <div
           className="option-card"
@@ -119,7 +123,7 @@ export const PaymentMethodOrderModal: FC = () => {
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.BANK_TRANSFER, 'bank')}>
           <img
-            src="/codefend/logo-color.png"
+            src={`/codefend/brand-small-${theme}.png`}
             alt="Bank Transfer Icon"
             style={{ width: '80px', height: '80px' }}
           />

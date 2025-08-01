@@ -17,6 +17,7 @@ import { useInitialDomainStore } from '@stores/initialDomain.store';
 import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { useNavigate } from 'react-router-dom';
 import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 /*
 🚨 SISTEMA DE BANDERA checkEmail PARA PREVENIR REDIRECCIÓN AUTOMÁTICA:
@@ -108,6 +109,7 @@ export const WelcomeDomain = ({
   const { autoScan } = useAutoScan();
   const navigate = useNavigate();
   const { solvedComunique } = useSolvedComunique();
+  const { theme } = useTheme();
 
   // Campo actual según el tipo de scope
   const currentValue = scopeType === 'email' ? emailValue : websiteValue;
@@ -736,7 +738,7 @@ export const WelcomeDomain = ({
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={close}>
       <div className="welcome-content">
-        <img className="logose" src="/codefend/logo-color.png" width={130} />
+        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
         <div className="welcome-header">
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
           <p className="welcome-text">

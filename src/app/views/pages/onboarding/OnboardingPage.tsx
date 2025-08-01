@@ -35,6 +35,7 @@ import { PrimaryButton } from '@buttons/index';
 import { useInitialDomainStore } from '@/app/data/store/initialDomain.store';
 import ModalWrapper from '@/app/views/components/modals/modalwrapper/ModalWrapper';
 import './OnboardingPage.scss';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 export const OnboardingPage = () => {
   const [fetcher, _, isLoading] = useFetcher();
@@ -57,6 +58,7 @@ export const OnboardingPage = () => {
   const { handleSuccessfulLogin } = useSessionManager();
   const { session, user } = useGlobalFastFields(['session', 'user']);
   const { update: updateInitialDomain } = useInitialDomainStore();
+  const { theme } = useTheme();
 
   const handleClose = () => {
     // Opcional: agregar lógica de confirmación antes de cerrar
@@ -378,7 +380,7 @@ export const OnboardingPage = () => {
   return (
     <ModalWrapper showCloseBtn={false} type="onboarding-modal-container" action={handleClose}>
       <div className="welcome-content">
-        <img className="logose" src="/codefend/logo-color.png" width={130} />
+        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
 
         <div className="onboarding-header">
           <b>Business information</b>

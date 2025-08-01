@@ -8,6 +8,7 @@ import { PrimaryButton } from '@buttons/index';
 import { IDIOM_SEARCHBAR_OPTION } from '@/app/constants/newSignupText';
 import { Fragment } from 'react/jsx-runtime';
 import { useState } from 'react';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 export const WelcomeScan = ({
   close,
@@ -19,6 +20,7 @@ export const WelcomeScan = ({
   const { getCompany, user } = useUserData();
   const { initialDomain } = useInitialDomainStore();
   const [idiom, setIdiom] = useState(user.get?.idiom || 'en');
+  const { theme } = useTheme();
 
   const startScan = () => {
     const companyID = getCompany();
@@ -29,7 +31,7 @@ export const WelcomeScan = ({
   return (
     <ModalWrapper showCloseBtn={false} action={close} type={css['welcome-modal-container']}>
       <div className="welcome-content ojo">
-        <img className="logose" src="/codefend/logo-color.png" width={130} />
+        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
         <p className={css['welcome-text']}>
           We're going to run an automated analysis on the selected domain.
           <b>

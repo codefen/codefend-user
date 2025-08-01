@@ -38,6 +38,7 @@ import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/Google
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
 import { SignUpSteps } from '@/app/constants/newSignupText';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 export const STEPSDATA: Record<SignUpSteps, any> = {
   [SignUpSteps.STEP_ONE]: {
@@ -110,6 +111,7 @@ export const NewSignupForm = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const { ref } = useParams();
+  const { theme } = useTheme();
 
   useEffect(() => {
     // Evento de telemetría: inicio del proceso de registro de usuario
@@ -410,7 +412,7 @@ export const NewSignupForm = () => {
         <div className="features-list">
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/icon-hacker.png" alt="Professional hackers" />
+              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
             </div>
             <div className="feature-content">
               <h3>Professional hackers on demand</h3>
@@ -423,7 +425,7 @@ export const NewSignupForm = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/icon-leaks.png" alt="Database explorer" />
+              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
             </div>
             <div className="feature-content">
               <h3>Full dataleaks explorer</h3>
@@ -436,7 +438,7 @@ export const NewSignupForm = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/icon-bicho.png" alt="Attack surface map" />
+              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
             </div>
             <div className="feature-content">
               <h3>Automated attack surface map</h3>
@@ -449,7 +451,7 @@ export const NewSignupForm = () => {
         </div>
       </div>
       <div className={`${css['signupContent']} new-auth-content form-content`}>
-        <img src="/codefend/brand-small.png" width={220} />
+        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
         <ProgressBar activeStep={activeStep} />
         <h2>{STEPSDATA[activeStep]?.label}</h2>
         <p className="step-text-header">{STEPSDATA[activeStep].p}</p>
@@ -524,7 +526,7 @@ export const NewSignupForm = () => {
         {/* Tercer paso del formulario - CONFIGURACIÓN DE CONTRASEÑA */}
         <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextFourStep}>
-            <CheckEmail imgSrc="/codefend/icon-password.png" />
+            <CheckEmail imgSrc="/codefend/password1.png" />
             <div className={css['password-input-wrapper']}>
               <AuthInput
                 type={showPasswords ? 'text' : 'password'}
