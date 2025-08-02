@@ -5,7 +5,7 @@
 main.lan {
   height: 100vh;
   overflow: hidden;
-  
+
   .left {
     flex: 1 1 68%;
     width: 68%;
@@ -15,7 +15,7 @@ main.lan {
     .mobile-cards {
       display: none;
       margin-bottom: 1rem;
-      
+
       .card {
         margin-bottom: 1rem;
       }
@@ -44,8 +44,8 @@ main.lan {
     .network-layout {
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 150px);
-      max-height: calc(100vh - 150px);
+      height: calc(100cqh - 70px);
+      max-height: calc(100cqh - 70px);
       overflow: auto;
     }
 
@@ -326,16 +326,16 @@ main.lan {
       flex: 1 1 100% !important;
       width: 100% !important;
       max-width: 100% !important;
-      
+
       // Mostrar cards móviles
       .mobile-cards {
         display: block !important;
       }
-      
+
       .mobile-bottom-card {
         display: block !important;
       }
-      
+
       .card {
         width: 100% !important;
         max-width: 100% !important;
@@ -343,7 +343,7 @@ main.lan {
         margin: 0 !important;
       }
     }
-    
+
     .right {
       display: none !important;
     }
@@ -356,16 +356,16 @@ main.lan {
       flex: 1 1 100% !important;
       width: 100% !important;
       max-width: 100% !important;
-      
+
       // Mostrar cards móviles
       .mobile-cards {
         display: block !important;
       }
-      
+
       .mobile-bottom-card {
         display: block !important;
       }
-      
+
       .card {
         width: 100% !important;
         max-width: 100% !important;
@@ -373,7 +373,7 @@ main.lan {
         margin: 0 !important;
       }
     }
-    
+
     .right {
       display: none !important;
     }
@@ -386,16 +386,16 @@ main.lan {
       flex: 1 1 100% !important;
       width: 100% !important;
       max-width: 100% !important;
-      
+
       // Mostrar cards móviles
       .mobile-cards {
         display: block !important;
       }
-      
+
       .mobile-bottom-card {
         display: block !important;
       }
-      
+
       .card {
         width: 100% !important;
         max-width: 100% !important;
@@ -403,7 +403,7 @@ main.lan {
         margin: 0 !important;
       }
     }
-    
+
     .right {
       display: none !important;
     }

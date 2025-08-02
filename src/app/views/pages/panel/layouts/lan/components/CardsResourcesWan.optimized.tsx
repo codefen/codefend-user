@@ -112,7 +112,7 @@ const NetworkCardsContent: FC = () => {
           className="card network-cards-container"
           ref={infiniteScroll.containerRef}
           style={{
-            maxHeight: '70vh',
+            maxHeight: '84vh',
             overflowY: 'auto',
             position: 'relative',
           }}>
