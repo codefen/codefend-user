@@ -4,16 +4,10 @@ import {
   AdminCompanyIcon,
   ChartIcon,
   GlobeWebIcon,
-  MobileIcon,
-  PeopleGroupIcon,
-  SnbIcon,
   ProfileIcon,
-  LanIcon,
   WorksIcon,
   LeadIcon,
   UsersIcon,
-  ScanIcon,
-  PeopleIcon,
   PeopleIconOutline,
   UsersGroupOutline,
   CreditCardIcon,
@@ -28,7 +22,7 @@ import { LightningIcon } from '../icons/LightningIcon';
 import { SidebarItem } from '@/app/views/components/sidebar/SidebarItem';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
-import { lazy, useState, useRef } from 'react';
+import { lazy, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { LogoutIcon, NetworkIcon, RobotFaceIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show.tsx';
@@ -48,23 +42,14 @@ import { SunIcon, MoonIcon } from '@icons';
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
 // Icono de flecha para colapsar
-const CollapseArrow = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: () => void }) => (
-  <div 
-    className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`}
-    onClick={onClick}
-  >
-    <svg 
-      width="12" 
-      height="12" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path 
-        d="M6 9L12 15L18 9" 
-        stroke="currentColor" 
-        strokeWidth="2" 
-        strokeLinecap="round" 
+const CollapseArrow = ({ isCollapsed }: { isCollapsed: boolean }) => (
+  <div className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`}>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M6 9L12 15L18 9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
@@ -331,59 +316,61 @@ export const SidebarDesktop = ({
     },
   ];
 
-  const getItems = useCallback((menu: any[]) => {
-    const items: ReactNode[] = [];
+  const getItems = useCallback(
+    (menu: any[]) => {
+      const items: ReactNode[] = [];
 
-    for (const entry of menu) {
-      if (entry.type === 'group') {
-        const groupChildren = entry.children.filter((child: any) => child.haveAccess);
-        if (groupChildren.length > 0) {
-          const isCollapsed = collapsedSections.has(entry.id);
-          items.push(
-            <div key={`group-${entry.id}`} className="sidebar-group">
-              <div className="sidebar-group-title-container">
-                <div className="sidebar-group-title">{entry.title}</div>
-                <CollapseArrow 
-                  isCollapsed={isCollapsed}
-                  onClick={() => toggleSection(entry.id)}
-                />
+      for (const entry of menu) {
+        if (entry.type === 'group') {
+          const groupChildren = entry.children.filter((child: any) => child.haveAccess);
+          if (groupChildren.length > 0) {
+            const isCollapsed = collapsedSections.has(entry.id);
+            items.push(
+              <div key={`group-${entry.id}`} className="sidebar-group">
+                <div
+                  className="sidebar-group-title-container"
+                  onClick={() => toggleSection(entry.id)}>
+                  <div className="sidebar-group-title">{entry.title}</div>
+                  <CollapseArrow isCollapsed={isCollapsed} />
+                </div>
+                <div className={`sidebar-group-content ${isCollapsed ? 'collapsed' : ''}`}>
+                  {groupChildren.map(({ id, title, icon, to, root }: any) => (
+                    <SidebarItem
+                      key={`sb-${id}`}
+                      id={id}
+                      title={title}
+                      icon={icon}
+                      to={to}
+                      isActive={verifyPath(to, root)}
+                      isAuth={isAuth}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className={`sidebar-group-content ${isCollapsed ? 'collapsed' : ''}`}>
-                {groupChildren.map(({ id, title, icon, to, root }: any) => (
-                  <SidebarItem
-                    key={`sb-${id}`}
-                    id={id}
-                    title={title}
-                    icon={icon}
-                    to={to}
-                    isActive={verifyPath(to, root)}
-                    isAuth={isAuth}
-                  />
-                ))}
-              </div>
-            </div>
-          );
-        }
-      } else {
-        const { id, haveAccess, title, icon, to, root } = entry;
-        if (haveAccess) {
-          items.push(
-            <SidebarItem
-              key={`sb-${id}`}
-              id={id}
-              title={title}
-              icon={icon}
-              to={to}
-              isActive={verifyPath(to, root)}
-              isAuth={isAuth}
-            />
-          );
+            );
+          }
+        } else {
+          const { id, haveAccess, title, icon, to, root } = entry;
+          if (haveAccess) {
+            items.push(
+              <SidebarItem
+                key={`sb-${id}`}
+                id={id}
+                title={title}
+                icon={icon}
+                to={to}
+                isActive={verifyPath(to, root)}
+                isAuth={isAuth}
+              />
+            );
+          }
         }
       }
-    }
 
-    return items;
-  }, [collapsedSections, toggleSection]);
+      return items;
+    },
+    [collapsedSections, toggleSection]
+  );
 
   return (
     <>
