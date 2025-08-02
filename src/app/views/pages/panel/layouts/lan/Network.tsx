@@ -1,5 +1,4 @@
-import { type FC, useEffect, useState, useMemo } from 'react';
-import { CardsResourcesWan } from './components/CardsResourcesWan.tsx';
+import { type FC, useState } from 'react';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
@@ -13,7 +12,6 @@ import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderBut
 import AddNetworkBlock from '@/app/views/pages/panel/layouts/lan/components/AddNetworkBlock.tsx';
 import { AddAccessPointModal } from '@modals/index.ts';
 import { AddSubNetworkModal } from '@modals/adding-modals/AddSubNetworkModal.tsx';
-import { NetworkStatics } from '@/app/views/pages/panel/layouts/lan/components/NetworkStatics.tsx';
 import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
 import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
@@ -22,8 +20,8 @@ import { NetworkVisualization } from '@/app/views/components/NetworkVisualizatio
 import { WorldMapView } from '@/app/views/components/NetworkVisualization/WorldMapView.tsx';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
 import { NetworkOutlineIcon } from '@icons';
-import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { CardsResourcesWan } from '@/app/views/pages/panel/layouts/lan/components/CardsResourcesWan.optimized.tsx';
 
 // Definir tipo para las pestañas - 3 vistas distintas
 type NetworkViewType = 'network' | 'cards' | 'locations';
@@ -146,7 +144,7 @@ const NetworkPage: FC = () => {
 
       <Show when={isAdmin() || isNormalUser()}>
         <section className="right" ref={flashlight.rightPaneRef}>
-          <Navbar />
+          {/* <Navbar /> */}
           <AddNetworkBlock />
           {/* <NetworkStatics
             externalIpCount={externalIpCount.get}
