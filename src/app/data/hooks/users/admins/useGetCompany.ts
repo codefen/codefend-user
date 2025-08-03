@@ -31,6 +31,8 @@ export const useGetCompany = () => {
     if (data?.session) session.set(data?.session);
   }, [data]);
 
+
+
   return {
     data: data?.companies || [],
     isLoading: isLoading || isValidating,

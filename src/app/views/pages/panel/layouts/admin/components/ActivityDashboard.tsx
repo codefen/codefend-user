@@ -13,6 +13,7 @@ import { AppleIcon } from '@/app/views/components/icons/AppleIcon';
 import { AndroidIcon } from '@/app/views/components/icons/AndroidIcon';
 import { WindowsIcon } from '@/app/views/components/icons/WindowsIcon';
 import { LinuxIcon } from '@/app/views/components/icons/LinuxIcon';
+import { naturalTimeSpanish } from '@/app/data/utils/helper';
 
 // Interfaces
 interface DailyData {
@@ -450,15 +451,19 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
 
   // Función auxiliar para obtener información del dispositivo
   const getDeviceInfo = (userAgent: string) => {
-    const mobileKeywords = ['Mobile', 'Android', 'iPhone', 'iPad', 'BlackBerry', 'Windows Phone'];
-    const isMobile = mobileKeywords.some(keyword => userAgent.includes(keyword));
+    const ua = userAgent.toLowerCase();
     
+    // Detectar dispositivo móvil
+    const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'blackberry', 'windows phone', 'webos', 'phone'];
+    const isMobile = mobileKeywords.some(keyword => ua.includes(keyword));
+    
+    // Detectar sistema operativo con mayor precisión
     let deviceOs = 'unknown';
-    if (userAgent.includes('Windows')) deviceOs = 'windows';
-    else if (userAgent.includes('Mac')) deviceOs = 'macos';
-    else if (userAgent.includes('Linux')) deviceOs = 'linux';
-    else if (userAgent.includes('Android')) deviceOs = 'android';
-    else if (userAgent.includes('iPhone') || userAgent.includes('iPad')) deviceOs = 'ios';
+    if (ua.includes('android')) deviceOs = 'android';
+    else if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ios')) deviceOs = 'ios';
+    else if (ua.includes('windows')) deviceOs = 'windows';
+    else if (ua.includes('macintosh') || ua.includes('mac os')) deviceOs = 'macos';
+    else if (ua.includes('linux') && !ua.includes('android')) deviceOs = 'linux';
     
     return {
       deviceClass: isMobile ? 'phone' : 'desk',
@@ -474,21 +479,34 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
       header: 'ID',
       key: 'id',
       styles: 'item-cell-landers-id',
-      weight: '8%',
+      weight: '4%',
       render: (value: string) => value,
     },
     {
       header: 'IP Address',
       key: 'ip_address',
       styles: 'item-cell-landers-ip',
-      weight: '15%',
-      render: (value: string) => value,
+      weight: '8%',
+      render: (value: string) => (
+        <span 
+          title={value} 
+          style={{ 
+            display: 'block',
+            overflow: 'hidden', 
+            textOverflow: 'ellipsis', 
+            whiteSpace: 'nowrap',
+            maxWidth: '100%'
+          }}
+        >
+          {value}
+        </span>
+      ),
     },
     {
       header: 'Type',
       key: 'page_type',
       styles: 'item-cell-landers-type',
-      weight: '10%',
+      weight: '6%',
       render: (value: string) => (
         <span className={`page-type ${value}`}>
           {value}
@@ -498,57 +516,129 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
     {
       header: 'Lead',
       key: 'became_lead',
+      type: TABLE_KEYS.FULL_ROW,
       styles: 'item-cell-landers-lead',
-      weight: '8%',
-      render: (value: string | number) => (
-        <span className={`conversion-status ${value == 1 ? 'converted' : 'not-converted'}`}>
-          {value == 1 ? '✅' : '❌'}
-        </span>
-      ),
+      weight: '5%',
+      sortFunction: (a: any, b: any) => {
+        // Calcular prioridad de ordenamiento para cada item
+        const getPriority = (item: any) => {
+          const becameLead = item.became_lead == 1;
+          const becameUser = item.became_user == 1;
+          
+          if (becameLead && becameUser) return 3; // Lead + User (prioridad más alta)
+          if (becameLead) return 2;               // Solo Lead
+          if (becameUser) return 1;               // Solo User (sin lead)
+          return 0;                               // No convertido (prioridad más baja)
+        };
+        
+        const priorityA = getPriority(a);
+        const priorityB = getPriority(b);
+        
+        // Ordenar de mayor a menor prioridad (descendente)
+        return priorityB - priorityA;
+      },
+      render: (item: any) => {
+        const becameLead = item.became_lead == 1;
+        const becameUser = item.became_user == 1;
+        
+        // Construir tooltip dinámico
+        let tooltipText = '';
+        if (becameLead && becameUser) {
+          tooltipText = 'Convertido a lead y usuario';
+        } else if (becameLead) {
+          tooltipText = 'Convertido a lead';
+        } else if (becameUser) {
+          tooltipText = 'Convertido a usuario (sin lead)';
+        } else {
+          tooltipText = 'No convertido';
+        }
+
+        return (
+          <div 
+            style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center',
+              gap: '4px'
+            }}
+            title={tooltipText}
+          >
+            {/* Punto para Lead */}
+            <span 
+              style={{
+                display: 'inline-block',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: becameLead ? '#4caf50' : '#999',
+              }}
+            />
+            {/* Punto para User (solo si se convirtió en usuario) */}
+            {becameUser && (
+              <span 
+                style={{
+                  display: 'inline-block',
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: '#2196f3',
+                }}
+              />
+            )}
+          </div>
+        );
+      },
     },
     {
-      header: 'Lead Email',
+      header: 'Email',
       key: 'lead_email',
       styles: 'item-cell-landers-email',
-      weight: '20%',
-      render: (value: string) => value || '-',
+      weight: '10%',
+      render: (value: string) => (
+        <span 
+          title={value || '-'} 
+          style={{ 
+            display: 'block',
+            overflow: 'hidden', 
+            textOverflow: 'ellipsis', 
+            whiteSpace: 'nowrap',
+            maxWidth: '100%'
+          }}
+        >
+          {value || '-'}
+        </span>
+      ),
     },
     {
       header: 'Ubicación',
       key: 'location_combined',
       type: TABLE_KEYS.FULL_ROW,
       styles: 'item-cell-landers-location',
-      weight: '15%',
+      weight: '10%',
       render: (item: any) => {
-        // Mapeo de códigos de país a emojis (mismo que network section)
-        const countryCodeToFlag = (countryCode: string): string => {
-          const mapping: Record<string, string> = {
-            'ar': '🇦🇷', 'us': '🇺🇸', 'usa': '🇺🇸', 'ca': '🇨🇦', 'gb': '🇬🇧', 'uk': '🇬🇧',
-            'de': '🇩🇪', 'fr': '🇫🇷', 'es': '🇪🇸', 'it': '🇮🇹', 'br': '🇧🇷', 'au': '🇦🇺', 
-            'nl': '🇳🇱', 'jp': '🇯🇵', 'cn': '🇨🇳', 'in': '🇮🇳', 'ru': '🇷🇺', 'mx': '🇲🇽',
-            'za': '🇿🇦', 'kr': '🇰🇷', 'sg': '🇸🇬', 'il': '🇮🇱', 'ch': '🇨🇭', 'at': '🇦🇹',
-            'be': '🇧🇪', 'dk': '🇩🇰', 'fi': '🇫🇮', 'no': '🇳🇴', 'se': '🇸🇪', 'pl': '🇵🇱',
-            'pt': '🇵🇹', 'cz': '🇨🇿', 'gr': '🇬🇷', 'tr': '🇹🇷', 'th': '🇹🇭', 'my': '🇲🇾',
-            'id': '🇮🇩', 'ph': '🇵🇭', 'vn': '🇻🇳', 'nz': '🇳🇿', 'cl': '🇨🇱', 'pe': '🇵🇪',
-            'co': '🇨🇴', 'uy': '🇺🇾', 'ec': '🇪🇨', 'ro': '🇷🇴', 'bg': '🇧🇬', 'hr': '🇭🇷',
-            'si': '🇸🇮', 'sk': '🇸🇰', 'ee': '🇪🇪', 'lv': '🇱🇻', 'lt': '🇱🇹', 'is': '🇮🇸',
-            'ie': '🇮🇪', 'lu': '🇱🇺', 'mt': '🇲🇹', 'cy': '🇨🇾', 'ng': '🇳🇬'
-            };
-          const key = countryCode?.toLowerCase?.() || '';
-          return mapping[key] || '🌍';
-        };
-
-        const flag = countryCodeToFlag(item.pais_code);
-        const location = [];
-        if (item.ciudad && item.ciudad !== 'unknown') location.push(item.ciudad);
-        if (item.pais && item.pais !== 'unknown') location.push(item.pais);
-        const locationText = location.length > 0 ? location.join(', ') : 'unknown';
+        // Usar el mismo sistema de banderas CSS que Company Panel
+        const countryCode = item.pais_code || '';
+        const countryName = item.pais || 'Unknown';
+        const hasValidCode = countryCode && countryCode.length >= 2;
+        
+        // Solo mostrar la ciudad, sin el país
+        const locationText = item.ciudad && item.ciudad !== 'unknown' 
+          ? item.ciudad.charAt(0).toUpperCase() + item.ciudad.slice(1).toLowerCase()
+          : 'unknown';
         
         return (
           <div className="location-info">
-            <span className="country-flag" title={`${item.pais || 'Unknown'} (${item.pais_code || 'XX'})`}>
-              {flag}
-            </span>
+            {hasValidCode ? (
+              <span
+                className={`flag flag-${countryCode.toLowerCase()}`}
+                title={`${countryName} (${countryCode})`}
+                style={{ cursor: 'help' }}
+              />
+            ) : (
+              <span title={countryName} style={{ cursor: 'help' }}>
+                🌍
+              </span>
+            )}
             <span className="location-text">
               {locationText}
             </span>
@@ -561,7 +651,7 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
       key: 'device_info',
       type: TABLE_KEYS.FULL_ROW,
       styles: 'item-cell-landers-device',
-      weight: '20%',
+      weight: '38%',
       render: (item: any) => {
         let deviceInfo;
         if (item.device_class && item.device_os) {
@@ -574,26 +664,23 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
         }
 
         return (
-          <div className="device-info">
-            <div className="device-icons">
-              <span className="device-icon" title={`Dispositivo: ${deviceInfo.deviceClass}`}>
-                {deviceInfo.deviceClass === 'desk' ? (
-                  <DesktopIcon />
-                ) : deviceInfo.deviceClass === 'phone' ? (
-                  <MobileIcon />
-                ) : (
-                  deviceInfo.deviceIcon
-                )}
-              </span>
-              {deviceInfo.deviceOs === 'ios' && <AppleIcon />}
-              {deviceInfo.deviceOs === 'android' && <AndroidIcon />}
-              {deviceInfo.deviceOs === 'windows' && <WindowsIcon />}
-              {deviceInfo.deviceOs === 'macos' && <AppleIcon />}
-              {deviceInfo.deviceOs === 'linux' && <LinuxIcon />}
-            </div>
-            <div className="ua-text" title={item.ua}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', overflow: 'hidden', maxWidth: '100%' }}>
+            {/* Iconos dispositivo y sistema */}
+            <span title={`Dispositivo: ${deviceInfo.deviceClass}`} style={{ flex: '0 0 auto' }}>
+              {deviceInfo.deviceClass === 'desk' ? '🖥️' : deviceInfo.deviceClass === 'phone' ? '📱' : '🖥️'}
+            </span>
+            <span title={`Sistema: ${deviceInfo.deviceOs}`} style={{ flex: '0 0 auto' }}>
+              {deviceInfo.deviceOs === 'ios' && '🍎'}
+              {deviceInfo.deviceOs === 'android' && '🤖'}
+              {deviceInfo.deviceOs === 'windows' && '🪟'}
+              {deviceInfo.deviceOs === 'macos' && '🍎'}
+              {deviceInfo.deviceOs === 'linux' && '🐧'}
+              {deviceInfo.deviceOs === 'unknown' && '❓'}
+            </span>
+            {/* User-Agent */}
+            <span className="ua-text" title={item.ua} style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: '1 1 auto' }}>
               {item.ua ? item.ua : '-'}
-            </div>
+            </span>
           </div>
         );
       },
@@ -602,17 +689,12 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
       header: 'Fecha',
       key: 'creacion',
       styles: 'item-cell-landers-date',
-      weight: '12%',
-      render: (value: string) => {
-        const date = new Date(value);
-        return date.toLocaleString('es-ES', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-      },
+      weight: '8%',
+      render: (value: string) => (
+        <span style={{ float: 'right', display: 'block', width: '100%' }}>
+          {naturalTimeSpanish(value)}
+        </span>
+      ),
     },
   ];
 

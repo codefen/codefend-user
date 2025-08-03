@@ -16,7 +16,6 @@ import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
 import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
-import { NetworkVisualization } from '@/app/views/components/NetworkVisualization/NetworkVisualization.tsx';
 import { WorldMapView } from '@/app/views/components/NetworkVisualization/WorldMapView.tsx';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
 import { NetworkOutlineIcon } from '@icons';
@@ -24,7 +23,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { CardsResourcesWan } from '@/app/views/pages/panel/layouts/lan/components/CardsResourcesWan.optimized.tsx';
 
 // Definir tipo para las pestañas - 3 vistas distintas
-type NetworkViewType = 'network' | 'cards' | 'locations';
+type NetworkViewType = 'cards' | 'locations';
 
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
@@ -48,17 +47,6 @@ const NetworkPage: FC = () => {
   };
 
   const renderTabContent = () => {
-    if (activeTab === 'network') {
-      return (
-        <NetworkVisualization
-          networkData={networks as any}
-          width={800}
-          height={600}
-          title="Network Groups by Neuroscan ID"
-        />
-      );
-    }
-
     if (activeTab === 'locations') {
       return (
         <WorldMapView
@@ -120,12 +108,7 @@ const NetworkPage: FC = () => {
                   onClick={() => handleViewChange('locations')}>
                   🌍 Infra Geolocation
                 </button>
-                {/* TODO: Este tab está pendiente de revisión de accesibilidad */}
-                <button
-                  className={`tab-button ${activeTab === 'network' ? 'active' : ''}`}
-                  onClick={() => handleViewChange('network')}>
-                  🔗 Network Visualization
-                </button>
+
               </div>
             </div>
             <div className="content">{renderTabContent()}</div>

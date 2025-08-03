@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState, useMemo } from 'react';
 import CompanyCard from './CompanyCard.tsx';
 import './CompanyIndexView.scss';
 import { useGetCompany } from '@userHooks/admins/useGetCompany';
@@ -98,13 +98,24 @@ const CompanyIndexView: FC = () => {
     }
   };
 
+    const processedData = useMemo(() => data.map((c: any) => ({ ...c, id_num: parseInt(c.id) })), [data]);
+
   const companiesColumn: ColumnTableV3[] = [
     {
       header: 'ID',
-      key: 'id',
+      key: 'id_num',
       styles: 'item-cell-1',
-      weight: '3%',
-      render: (ID: any) => ID,
+      weight: '5%',
+      render: (val: any, row: any) => (row?.id ?? val),
+      sortFunction: (a: any, b: any) => {
+        // Ordenamiento numérico en lugar de alfabético
+        const numA = parseInt(a.id) || 0;
+        const numB = parseInt(b.id) || 0;
+        
+        // La tabla maneja la dirección automáticamente
+        // Solo necesitamos devolver la comparación numérica básica
+        return numA - numB;
+      },
     },
     {
       header: 'Name',
@@ -210,19 +221,25 @@ const CompanyIndexView: FC = () => {
     totalNotUniqueIpCount.set(0);
   };
 
+
+
   return (
     <div className="CompanyIndexView">
       <Tablev3
         columns={companiesColumn}
-        rows={data}
+        rows={processedData}
         showRows={Boolean(data?.length)}
         isNeedSearchBar
-        initialOrder="id"
+        initialOrder="id_num"
         initialSort={Sort.desc}
         action={action}
         selected={company.get}
         selectedKey="id"
         className="table-admin"
+        limit={0}
+        enableVirtualization={false}
+        virtualizationThreshold={9999}
+        isNeedSort={true}
       />
 
       {/* Renderizar múltiples paneles */}

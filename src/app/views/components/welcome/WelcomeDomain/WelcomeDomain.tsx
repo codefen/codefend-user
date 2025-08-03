@@ -771,43 +771,22 @@ export const WelcomeDomain = ({
         <hr className="onboarding-separator" />
 
         <form className="input-container" ref={formRef} onSubmit={changeInitialDomain}>
-          <div className="scope-header">
-            {/* Botones de selección de tipo de scan - formato card con iconos */}
-            <div className="scope-type-cards">
-              <button
-                type="button"
-                className={`scope-card ${scopeType === 'email' ? 'active' : ''}`}
-                onClick={handlePersonalEmailScan}
-                disabled={isLoading || loading}>
-                <div className="scope-card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
-                  </svg>
-                </div>
-                <div className="scope-card-content">
-                  <h3>Personal user</h3>
-                  <p>I wanna explore dataleaks</p>
-                </div>
-              </button>
-              
-              <div className="scope-divider"></div>
-              
-              <button
-                type="button"
-                className={`scope-card ${scopeType === 'website' ? 'active' : ''}`}
-                onClick={handleBusinessWebsiteScan}
-                disabled={isLoading || loading}>
-                <div className="scope-card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" fill="currentColor"/>
-                  </svg>
-                </div>
-                <div className="scope-card-content">
-                  <h3>Corporate user</h3>
-                  <p>I wanna scan business infrastructure + dataleaks</p>
-                </div>
-              </button>
-            </div>
+          {/* Botones de selección de tipo de scan - ocupando todo el ancho */}
+          <div className="scope-type-buttons-full">
+            <button
+              type="button"
+              className={`btn scope-btn-tab ${scopeType === 'email' ? 'active' : ''}`}
+              onClick={handlePersonalEmailScan}
+              disabled={isLoading || loading}>
+              Explore dataleaks
+            </button>
+            <button
+              type="button"
+              className={`btn scope-btn-tab ${scopeType === 'website' ? 'active' : ''}`}
+              onClick={handleBusinessWebsiteScan}
+              disabled={isLoading || loading}>
+              Scan corporate infrastructure
+            </button>
           </div>
 
           <input
