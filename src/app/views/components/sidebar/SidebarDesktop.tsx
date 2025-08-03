@@ -115,23 +115,6 @@ export const SidebarDesktop = ({
       id: 'sidebar_admin',
       children: [
         {
-          title: 'Company Panel',
-          id: 'sidebar_company',
-          icon: <AdminCompanyIcon />,
-          to: '/admin/company',
-          root: isAdmin(),
-          haveAccess:
-            isAdmin() || (isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null),
-        },
-        {
-          title: 'Landers Monitor',
-          id: 'sidebar_landers',
-          icon: <LightningIcon isVisible />,
-          to: '/admin/landers',
-          root: false,
-          haveAccess: isAdmin(),
-        },
-        {
           title: 'Admin Commander',
           id: 'sidebar_commander',
           icon: <LightningIcon isVisible />,

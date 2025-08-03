@@ -55,17 +55,11 @@ const OnboardingCard: FC = () => {
     <div className="card">
       <div className="over">
         <div className="header">
-          <h2 className="table-title">Onboarding</h2>
+          <h2 className="table-title">onboard</h2>
         </div>
         <p>
-          Inicia el proceso de bienvenida y configuración inicial del sistema.
+          Inicia el proceso de bienvenida y configuración inicial del sistema.{' '}<a href="#" onClick={handleOnboarding} style={{color:'#ff3939', fontWeight:700}}>abrir onboard</a>
         </p>
-        <PrimaryButton
-          click={handleOnboarding}
-          text="Abrir Onboarding"
-          buttonStyle="send"
-          className="form-button"
-        />
       </div>
     </div>
   );
@@ -83,6 +77,9 @@ const QuicklinksCard: FC = () => {
         <ul className="quicklinks-list">
           <li>
             <a href="/admin/landers">Landers monitor</a>
+          </li>
+          <li>
+            <a href="/admin/company">Company panel</a>
           </li>
         </ul>
       </div>

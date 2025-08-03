@@ -132,24 +132,10 @@ const CompanyIndexView: FC = () => {
       render: (val: any) => val,
     },
     {
-      header: 'Issues Left',
-      key: 'disponibles_issues_view',
-      styles: 'item-cell-4',
-      weight: '9%',
-      render: (val: any) => val,
-    },
-    {
-      header: 'Scans',
-      key: 'disponibles_neuroscan',
-      styles: 'item-cell-5',
-      weight: '5%',
-      render: (val: any) => val,
-    },
-    {
       header: 'area',
       key: 'pais',
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-6',
+      styles: 'item-cell-4',
       weight: '9%',
       render: (row: any) => {
         const countryCode = row?.pais_code || '';
@@ -171,43 +157,33 @@ const CompanyIndexView: FC = () => {
     {
       header: 'Website',
       key: 'web',
-      styles: 'item-cell-7',
-      weight: '14%',
+      styles: 'item-cell-5',
+      weight: '10%',
       render: (val: any) => val,
     },
     {
       header: 'Owner',
       key: 'owner_email',
-      styles: 'item-cell-8',
-      weight: '25%',
+      styles: 'item-cell-6',
+      weight: '30%',
       render: (val: any) => val,
     },
     {
       header: 'Published',
       key: 'creacion',
-      styles: 'item-cell-9',
-      weight: '11%',
+      styles: 'item-cell-7',
+      weight: '16%',
       render: (val: any) => (val ? naturalTimeSpanish(val) : '--'),
     },
+
+  ];
+
+  // Context menu actions
+  const contextMenuActions = [
     {
-      header: 'Options',
-      key: 'options',
-      styles: 'item-cell-10',
-      weight: '4%',
-      type: TABLE_KEYS.FULL_ROW,
-      render: (row: any) => (
-        <div className="options-actions">
-          <button
-            className="delete-btn codefend-text-red"
-            title="Delete Company"
-            onClick={e => {
-              e.stopPropagation();
-              handleDeleteCompany(row);
-            }}>
-            <TrashIcon />
-          </button>
-        </div>
-      ),
+      label: 'Delete Company',
+      icon: <TrashIcon />,
+      onClick: (row: any) => handleDeleteCompany(row),
     },
   ];
 
@@ -240,6 +216,8 @@ const CompanyIndexView: FC = () => {
         enableVirtualization={false}
         virtualizationThreshold={9999}
         isNeedSort={true}
+        enableContextMenu={true}
+        contextMenuActions={contextMenuActions}
       />
 
       {/* Renderizar múltiples paneles */}

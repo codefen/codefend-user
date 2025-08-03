@@ -75,7 +75,7 @@ export function CreateCompany() {
             type="text"
             value={domain}
             onChange={(e) => setDomain(e.target.value)}
-            placeholder="https://example.com"
+            placeholder="https://customer.com"
             disabled={isLoading}
           />
         </div>

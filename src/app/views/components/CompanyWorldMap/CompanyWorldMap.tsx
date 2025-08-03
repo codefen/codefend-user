@@ -296,7 +296,10 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
     // Dibujar países
     svg
       .selectAll('path.country')
-      .data(worldData.features)
+      .data(worldData.features.filter((d: any) => {
+        const name = d.properties.NAME || d.properties.name;
+        return name !== 'Antarctica';
+      }))
       .enter()
       .append('path')
       .attr('class', 'country')
@@ -366,7 +369,7 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
     return (
       <div className="card company-world-map">
         <div className="header">
-          <span>{title}</span>
+          <h2 className="table-title">{title}</h2>
         </div>
         <div className="content" ref={containerRef}>
           <div className="loading-container">
@@ -384,40 +387,22 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   return (
     <div className="card company-world-map">
       <div className="header">
-        <div className="title-section">
-          <span>{title}</span>
-          <div className="view-tabs">
-            <button
-              className={selectedView === '2D' ? 'active' : ''}
-              onClick={() => setSelectedView('2D')}>
-              2D
-            </button>
-            <button
-              className={selectedView === '3D' ? 'active' : ''}
-              onClick={() => setSelectedView('3D')}>
-              3D
-            </button>
-          </div>
-        </div>
+        <h2 className="table-title">{title}</h2>
       </div>
       <div className="content" ref={containerRef}>
         <div className="map-container">
-          <svg ref={svgRef} width={dimensions.width} height={dimensions.height} />
-          
-          {/* Información de resumen */}
-          <div className="map-summary">
-            <div className="summary-item">
-              <span className="summary-label">Total de empresas:</span>
-              <span className="summary-value">{totalCompanies}</span>
-            </div>
-            <div className="summary-item">
-              <span className="summary-label">Con ubicación:</span>
-              <span className="summary-value">{companiesWithLocation}</span>
-            </div>
-            <div className="summary-item">
-              <span className="summary-label">Países:</span>
-              <span className="summary-value">{Object.keys(countryData).length}</span>
-            </div>
+                    <svg ref={svgRef} width={dimensions.width} height={dimensions.height} />
+        </div>
+
+        {/* Resumen debajo del mapa */}
+        <div className="map-footer-summary">
+          <div className="footer-item">
+            <span className="footer-label">Empresas:</span>
+            <span className="footer-value">{totalCompanies}</span>
+          </div>
+          <div className="footer-item">
+            <span className="footer-label">Países:</span>
+            <span className="footer-value">{Object.keys(countryData).length}</span>
           </div>
         </div>
 

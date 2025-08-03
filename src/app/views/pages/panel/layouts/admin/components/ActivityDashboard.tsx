@@ -525,10 +525,10 @@ export const DataTableSection: FC<DataTableSectionProps> = ({
           const becameLead = item.became_lead == 1;
           const becameUser = item.became_user == 1;
           
-          if (becameLead && becameUser) return 3; // Lead + User (prioridad más alta)
-          if (becameLead) return 2;               // Solo Lead
-          if (becameUser) return 1;               // Solo User (sin lead)
-          return 0;                               // No convertido (prioridad más baja)
+          // Score: 2 → Lead + User, 1 → Solo Lead, 0 → Ninguno
+          if (becameLead && becameUser) return 2;
+          if (becameLead) return 1;
+          return 0;
         };
         
         const priorityA = getPriority(a);

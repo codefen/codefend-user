@@ -67,7 +67,7 @@
   .map-container {
     position: relative;
     width: 100%;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: var(--primary-color-50); // Gris claro uniforme
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid var(--primary-color-200);

@@ -371,7 +371,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
             //   mouseY: event.offsetY,
             // });
 
-            showTooltip(event, d, metric);
+            showTooltip(event, d);
 
             // 🎯 HOVER CRUZADO: Agregar todos los puntos de la misma fecha
             const fechaHover = d.fecha;
@@ -540,7 +540,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
           //   fechaFormatted: d3.timeFormat('%d')(d.date),
           //   value: d[metric as keyof typeof d],
           // });
-          showTooltip(event, d, metric);
+          showTooltip(event, d);
           d3.select(this).transition().duration(100).attr('opacity', 1);
         })
         .on('mouseout', function () {
@@ -553,8 +553,11 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
     updateAxes(xScale, yScale, g);
   };
 
-  // Función para mostrar tooltip
-  const showTooltip = (event: any, d: any, metric: string) => {
+  // Función para mostrar tooltip AGREGADO
+  const showTooltip = (event: any, d: any) => {
+    // Eliminar tooltips existentes para evitar duplicados
+    d3.selectAll('.chart-tooltip').remove();
+
     const tooltip = d3
       .select('body')
       .append('div')
@@ -571,39 +574,26 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
 
     tooltip.transition().duration(200).style('opacity', 1);
 
-    const displayName = metric;
-    const value = d[metric as keyof typeof d];
-
-    // 🔧 FIX: Buscar fecha original del backend (formato YYYY-MM-DD)
     const fechaRaw = d.fecha || d.date;
-
-    // Buscar la fecha original en los datos RAW del backend que coincida con esta fecha procesada
     const fechaOriginalBackend =
       data.find(originalData => {
         const fechaComparacion = new Date(originalData.fecha);
-        const fechaActual = fechaRaw;
-        return fechaComparacion.getTime() === fechaActual.getTime();
-      })?.fecha || fechaRaw.toISOString().split('T')[0]; // Fallback si no encuentra
+        return fechaComparacion.getTime() === fechaRaw.getTime();
+      })?.fecha || fechaRaw.toISOString().split('T')[0];
 
-    // 🐛 DEBUG: Verificar datos del tooltip
-    // console.log('🔍 TOOLTIP DEBUG DETALLADO:', {
-    //   metric,
-    //   value,
-    //   fechaOriginalBackend,
-    //   fechaRaw,
-    //   fechaRawString: fechaRaw.toLocaleDateString(),
-    //   chartType,
-    //   allData: d,
-    //   isBarChart: chartType === 'bar',
-    //   isLineChart: chartType === 'line',
-    // });
+    // Valores agregados
+    const visitas = d.visitas_unicas ?? 0;
+    const leadsVal = d.leads ?? 0;
+    const usersVal = d.usuarios ?? 0;
 
     tooltip
       .html(
         `
-      <strong>${displayName}</strong><br/>
+      <strong>Detalle del día</strong><br/>
       Fecha: ${fechaOriginalBackend}<br/>
-      Valor: ${value}
+      Visitas únicas: ${visitas}<br/>
+      Leads: ${leadsVal}<br/>
+      Usuarios: ${usersVal}
     `
       )
       .style('left', event.pageX + 10 + 'px')
