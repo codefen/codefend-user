@@ -575,3 +575,138 @@
   //   }
   // }
 }
+
+// ===== SKELETON STYLES FOR WELCOME FINISH =====
+.welcome-finish-skeleton {
+  overflow-y: auto;
+  max-height: 90dvh;
+  gap: 8px;
+  padding: 1.5rem;
+  margin-top: 10px;
+  overflow-x: hidden;
+
+  > img {
+    width: 130px;
+    margin-block-end: 0.5rem;
+    margin-top: -17px;
+  }
+
+  .scan-header-info {
+    margin-bottom: 1rem;
+    max-width: 550px;
+
+    .scan-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: justify-content;
+      margin-bottom: -40px;
+
+      .scan-basic-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        flex: 1 1 70%;
+      }
+
+      .progress-mini {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        margin-bottom: -20px;
+      }
+    }
+  }
+
+  .card.card-process {
+    margin-bottom: 8px;
+  }
+
+  // Skeleton text elements
+  .skeleton-text {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    color: transparent;
+    display: inline-block;
+
+    &.skeleton-scan-info {
+      width: 100%;
+      height: 20px;
+      margin-bottom: 4px;
+      animation-delay: 0s;
+    }
+
+    &.skeleton-time {
+      width: 120px;
+      height: 16px;
+      animation-delay: 0.1s;
+    }
+
+    &.skeleton-number {
+      width: 40px;
+      height: 16px;
+      animation-delay: 0.2s;
+    }
+
+    &.skeleton-percentage {
+      width: 35px;
+      height: 16px;
+      animation-delay: 0.3s;
+    }
+  }
+
+  // Skeleton badge
+  .skeleton-badge {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 12px;
+    width: 80px;
+    height: 24px;
+    animation-delay: 0.4s;
+  }
+
+  // Skeleton progress circle
+  .skeleton-progress-circle {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    animation-delay: 0.5s;
+  }
+
+  // Skeleton progress bar
+  .skeleton-progress-bar {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    width: 100%;
+    height: 8px;
+    animation-delay: 0.6s;
+  }
+
+  // Dark theme support
+  [data-theme='dark'] & {
+    .skeleton-text,
+    .skeleton-badge,
+    .skeleton-progress-circle,
+    .skeleton-progress-bar {
+      background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+      background-size: 200% 100%;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

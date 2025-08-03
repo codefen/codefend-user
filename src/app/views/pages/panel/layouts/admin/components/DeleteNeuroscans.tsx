@@ -37,7 +37,7 @@ export function DeleteNeuroscans() {
   };
 
   return (
-    <div className="card standard">
+    <div className="card">
       <div className="over">
         <div className="header">
           <h2 className="table-title">
@@ -55,6 +55,7 @@ export function DeleteNeuroscans() {
           buttonStyle="gray"
           className="form-button"
           isDisabled={true}
+          disabledLoader={true}
         />
       </div>
     </div>

@@ -5,6 +5,7 @@ import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { Link, useNavigate } from 'react-router';
 import { GlobeWebIcon, LanIcon, SparklesIcon } from '@icons';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
+import { WelcomeFinishSkeleton } from './WelcomeFinishSkeleton';
 import Show from '@/app/views/components/Show/Show';
 import { useWelcomeStore } from '@stores/useWelcomeStore';
 import { APP_EVENT_TYPE, AUTO_SCAN_STATE } from '@interfaces/panel';
@@ -118,7 +119,7 @@ export const WelcomeFinish = ({
             currentScan?.status === AUTO_SCAN_STATE.SCAN_LAUNCHED ||
             currentScan?.status === AUTO_SCAN_STATE.SCAN_FINISHED
           }
-          fallback={<PageLoader />}>
+          fallback={<WelcomeFinishSkeleton />}>
           <div className="scan-header-info">
             <div className="scan-header-row">
               <div className="scan-basic-info">

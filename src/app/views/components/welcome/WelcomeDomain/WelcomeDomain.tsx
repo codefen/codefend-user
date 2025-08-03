@@ -110,6 +110,7 @@ export const WelcomeDomain = ({
   const navigate = useNavigate();
   const { solvedComunique } = useSolvedComunique();
   const { theme } = useTheme();
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Campo actual según el tipo de scope
   const currentValue = scopeType === 'email' ? emailValue : websiteValue;
@@ -449,6 +450,26 @@ export const WelcomeDomain = ({
     }
   }, []);
 
+  // 🚀 AUTO-SUBMIT: Ejecutar submit automático cuando se precarga dominio de empresa
+  useEffect(() => {
+    // Solo ejecutar si:
+    // 1. El componente ya se inicializó
+    // 2. Está en modo website
+    // 3. Hay un valor en websiteValue
+    // 4. Los dominios están vacíos (no se ha hecho preview aún)
+    if (hasInitialized && scopeType === 'website' && websiteValue && domains.length === 0) {
+      // console.log('🚀 AUTO-SUBMIT: Ejecutando submit automático para:', websiteValue);
+      // Usar setTimeout para asegurar que el DOM esté listo
+      setTimeout(() => {
+        // Simular el submit del formulario usando la referencia
+        if (formRef.current) {
+          const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+          formRef.current.dispatchEvent(submitEvent);
+        }
+      }, 200);
+    }
+  }, [hasInitialized, scopeType, websiteValue, domains.length]);
+
   // useEffect para limpiar dominios cuando el campo esté completamente vacío
   useEffect(() => {
     if (!hasInitialized) return;
@@ -742,36 +763,49 @@ export const WelcomeDomain = ({
         <div className="welcome-header">
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
           <p className="welcome-text">
-            <b>Great! Let's start by performing an automated analysis of your attack surface.</b>{' '}
-            We'll search for subdomains, analyze the main domain, look for data leaks and add
-            resources.
+            <b>Welcome to Codefend!</b> Let's perform an automated AI based scan over your attack surface! <b>Provide any domain name</b> and we <b>will take it from there:</b>
           </p>
         </div>
 
         {/* Línea separadora antes de confirm scope */}
         <hr className="onboarding-separator" />
 
-        <form className="input-container" onSubmit={changeInitialDomain}>
+        <form className="input-container" ref={formRef} onSubmit={changeInitialDomain}>
           <div className="scope-header">
-            <label htmlFor="initialScope" className="scope-title-small">
-              <b>Confirm the initial scope:</b>
-            </label>
-
-            {/* Botones de selección de tipo de scan - más pequeños y a la derecha */}
-            <div className="scope-type-buttons-inline">
+            {/* Botones de selección de tipo de scan - formato card con iconos */}
+            <div className="scope-type-cards">
               <button
                 type="button"
-                className={`btn scope-btn-small ${scopeType === 'email' ? 'active' : ''}`}
+                className={`scope-card ${scopeType === 'email' ? 'active' : ''}`}
                 onClick={handlePersonalEmailScan}
                 disabled={isLoading || loading}>
-                Scan personal email
+                <div className="scope-card-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div className="scope-card-content">
+                  <h3>Personal user</h3>
+                  <p>I wanna explore dataleaks</p>
+                </div>
               </button>
+              
+              <div className="scope-divider"></div>
+              
               <button
                 type="button"
-                className={`btn scope-btn-small ${scopeType === 'website' ? 'active' : ''}`}
+                className={`scope-card ${scopeType === 'website' ? 'active' : ''}`}
                 onClick={handleBusinessWebsiteScan}
                 disabled={isLoading || loading}>
-                Scan web infrastructure
+                <div className="scope-card-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div className="scope-card-content">
+                  <h3>Corporate user</h3>
+                  <p>I wanna scan business infrastructure + dataleaks</p>
+                </div>
               </button>
             </div>
           </div>
@@ -781,7 +815,11 @@ export const WelcomeDomain = ({
             id="initialScope"
             name="initialScope"
             autoComplete="off"
-            placeholder="Enter email or domain..."
+            placeholder={
+              scopeType === 'email' 
+                ? 'Enter email to scan for leaks'
+                : 'Enter domain to attack'
+            }
             value={currentValue || ''}
             onChange={e => handleInputChange(e.target.value)}
           />

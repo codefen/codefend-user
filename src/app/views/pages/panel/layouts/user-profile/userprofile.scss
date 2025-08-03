@@ -202,6 +202,10 @@ main.user-profile {
       padding-block-start: 20px;
       flex: 0 0 auto;
     }
+
+    .admin-cards-fluid {
+      column-count: 1;
+    }
   }
 }
 @media only screen and (max-width: 1000px) {
@@ -274,15 +278,17 @@ main.user-profile .box-assets .card .over {
 
 // Estilos para el layout de Admin Commander
 main.user-profile {
-  // Contenedor para las tarjetas administrativas lado a lado
-  .admin-cards-container {
-    display: flex;
-    gap: var(--card-space);
+  // Contenedor fluido para las tarjetas administrativas (estilo SNS)
+  // Contenedor fluido estilo SNS (column masonry)
+  .admin-cards-fluid {
+    column-count: 2;
+    column-gap: var(--card-space);
     margin-top: var(--card-space);
-    
+
     .card {
-      flex: 1 1 50%;
-      margin-bottom: 0;
+      break-inside: avoid;
+      width: 100%;
+      margin-bottom: var(--card-space);
     }
   }
 
@@ -328,20 +334,4 @@ main.user-profile {
   }
 }
 
-// Responsive design para móviles
-@media only screen and (max-width: 600px) {
-  main.user-profile {
-    .admin-cards-container {
-      flex-direction: column;
-      
-      .card {
-        flex: 1 1 100%;
-      }
-    }
-    
-    .right {
-      width: 100%;
-      order: 2;
-    }
-  }
-}
+

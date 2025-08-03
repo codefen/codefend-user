@@ -5,7 +5,7 @@ import { useGetCompany } from '@userHooks/admins/useGetCompany';
 import { useDeleteCompany } from '@userHooks/admins/useDeleteCompany';
 import { Sort, type ColumnTableV3 } from '@interfaces/table.ts';
 import Tablev3 from '@table/v3/Tablev3.tsx';
-import { naturalTime } from '@utils/helper.ts';
+import { naturalTime, naturalTimeSpanish } from '@utils/helper.ts';
 import {
   useGlobalFastField,
   useGlobalFastFields,
@@ -13,25 +13,6 @@ import {
 import { TrashIcon } from '@/app/views/components/icons';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import CompanyDeletionResultPanel from '@/app/views/components/modals/CompanyDeletionResultPanel.tsx';
-
-// Función para formatear fecha en formato europeo "05/07/2025"
-const formatDateEuropean = (dateString: string): string => {
-  if (!dateString) return '--/--/--';
-
-  try {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return '--/--/--';
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  } catch (error) {
-    console.error('Error formatting date:', error);
-    return '--/--/--';
-  }
-};
 
 interface PanelData {
   id: string;
@@ -195,7 +176,7 @@ const CompanyIndexView: FC = () => {
       key: 'creacion',
       styles: 'item-cell-9',
       weight: '11%',
-      render: (val: any) => (val ? formatDateEuropean(val) : '--/--/--'),
+      render: (val: any) => (val ? naturalTimeSpanish(val) : '--'),
     },
     {
       header: 'Options',

@@ -239,7 +239,7 @@
 [data-theme='dark'] {
   .company-world-map {
     .map-container {
-      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      background: linear-gradient(135deg, var(--primary-color-800) 0%, var(--primary-color-700) 100%);
       border-color: var(--primary-color-600);
 
       .map-summary {

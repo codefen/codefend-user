@@ -104,12 +104,7 @@ export const SidebarDesktop = ({
     setModalId(MODAL_KEY_OPEN.USER_WELCOME);
     setIsOpen(true);
   };
-  const openOnBoard = () => {
-    setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
-    setIsOpen(true);
-    isProgressStarted.set(false);
-    progress.set(0);
-  };
+
 
   const isNotProviderAndReseller = !isProvider() && !isReseller();
 
@@ -119,6 +114,15 @@ export const SidebarDesktop = ({
       title: 'Admin',
       id: 'sidebar_admin',
       children: [
+        {
+          title: 'Company Panel',
+          id: 'sidebar_company',
+          icon: <AdminCompanyIcon />,
+          to: '/admin/company',
+          root: isAdmin(),
+          haveAccess:
+            isAdmin() || (isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null),
+        },
         {
           title: 'Landers Monitor',
           id: 'sidebar_landers',
@@ -158,15 +162,6 @@ export const SidebarDesktop = ({
           to: '/provider/orders',
           root: false,
           haveAccess: isProvider(),
-        },
-        {
-          title: 'Company Panel',
-          id: 'sidebar_company',
-          icon: <AdminCompanyIcon />,
-          to: '/admin/company',
-          root: isAdmin(),
-          haveAccess:
-            isAdmin() || (isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null),
         },
         {
           title: 'Leads',
@@ -334,7 +329,7 @@ export const SidebarDesktop = ({
                   <CollapseArrow isCollapsed={isCollapsed} />
                 </div>
                 <div className={`sidebar-group-content ${isCollapsed ? 'collapsed' : ''}`}>
-                  {groupChildren.map(({ id, title, icon, to, root }: any) => (
+                  {groupChildren.map(({ id, title, icon, to, root, onClick }: any) => (
                     <SidebarItem
                       key={`sb-${id}`}
                       id={id}
@@ -343,6 +338,7 @@ export const SidebarDesktop = ({
                       to={to}
                       isActive={verifyPath(to, root)}
                       isAuth={isAuth}
+                      onClick={onClick}
                     />
                   ))}
                 </div>
@@ -404,28 +400,6 @@ export const SidebarDesktop = ({
       {getItems(newMenuItems)}
       {/* HR y acciones rápidas debajo de Risk control */}
       <hr style={{ margin: '18px 0 10px 0', border: 0, borderTop: '1px solid #e0e0e0' }} />
-      {isAdmin() && (
-        <SidebarItem
-          id="sidebar_action_onboarding"
-          title="Onboarding"
-          icon={<RobotFaceIcon width={'1.2em'} height={'1.2em'} />}
-          to="#"
-          isActive={false}
-          isAuth={isAuth}
-          onClick={openOnBoard}
-        />
-      )}
-      {isAdmin() && (
-        <SidebarItem
-          id="sidebar_action_network_settings"
-          title="Quick variables"
-          icon={<NetworkIcon width={1.2} height={1.2} />}
-          to="#"
-          isActive={false}
-          isAuth={isAuth}
-          onClick={() => isOpenNetworkSetting.set(true)}
-        />
-      )}
       {/* Agrupo theme y logout en un sidebar-group sin título */}
       <div className="sidebar-group">
         <SidebarItem

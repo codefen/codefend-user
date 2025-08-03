@@ -4,6 +4,7 @@ import { Sort, type ColumnTableV3 } from '@interfaces/table.ts';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
+import { useTheme } from '@/app/views/context/ThemeContext';
 import './CompanyWorldMap.scss';
 
 // Interface para los datos de compañías
@@ -128,14 +129,7 @@ const countryCoordinates: Record<string, [number, number]> = {
   Chile: [-71.0, -30.0],
 };
 
-// Configuración visual del mapa
-const MAP_STYLE = {
-  countryNoData: '#f8f9fa',
-  countryWithData: '#dc2626',
-  countryBorder: '#dee2e6',
-  countryBorderWidth: 0.5,
-  oceanColor: '#f0f9ff',
-};
+// Configuración visual del mapa (se genera dinámicamente basado en el tema)
 
 // Columnas para la tabla de ubicaciones
 const locationColumns: ColumnTableV3[] = [
@@ -176,6 +170,17 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
   const [selectedView, setSelectedView] = useState<'2D' | '3D'>('2D');
+  const { theme } = useTheme();
+
+  // Configuración visual basada en el tema
+  const MAP_STYLE = useMemo(() => ({
+    countryNoData: theme === 'dark' ? '#374151' : '#f8f9fa',
+    countryWithData: '#dc2626',
+    countryBorder: theme === 'dark' ? '#4b5563' : '#dee2e6',
+    countryBorderWidth: 0.5,
+    graticuleLine: theme === 'dark' ? '#4b5563' : '#e0e0e0',
+    graticuleOpacity: theme === 'dark' ? 0.2 : 0.3,
+  }), [theme]);
 
   // Procesar datos de compañías por país
   const countryData = useMemo(() => {
@@ -223,18 +228,20 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   }, [countryData]);
 
   // Función para obtener color del país
-  const getCountryColor = (countryName: string) => {
+  const getCountryColor = useMemo(() => (countryName: string) => {
     const count = countryData[countryName] || 0;
     if (count === 0) return MAP_STYLE.countryNoData;
     
     // Escala de intensidad basada en el conteo
     const intensity = count / maxCount;
     const baseColor = d3.rgb(MAP_STYLE.countryWithData);
-    const lightColor = d3.rgb(255, 255, 255);
+    const lightColor = theme === 'dark' 
+      ? d3.rgb(55, 65, 81) // gray-700 para tema oscuro
+      : d3.rgb(255, 255, 255); // blanco para tema claro
     
-    // Interpolar entre color base y blanco según la intensidad
+    // Interpolar entre color base y color claro según la intensidad
     return d3.interpolateRgb(lightColor, baseColor)(0.3 + intensity * 0.7);
-  };
+  }, [countryData, maxCount, MAP_STYLE, theme]);
 
   // Cargar datos del mundo
   useEffect(() => {
@@ -349,11 +356,11 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
       .attr('class', 'graticule')
       .attr('d', path as any)
       .attr('fill', 'none')
-      .attr('stroke', '#e0e0e0')
+      .attr('stroke', MAP_STYLE.graticuleLine)
       .attr('stroke-width', 0.5)
-      .attr('opacity', 0.3);
+      .attr('opacity', MAP_STYLE.graticuleOpacity);
 
-  }, [worldData, countryData, maxCount, dimensions, isMapLoading]);
+  }, [worldData, countryData, maxCount, dimensions, isMapLoading, MAP_STYLE, getCountryColor]);
 
   if (isLoading || isMapLoading) {
     return (
