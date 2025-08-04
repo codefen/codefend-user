@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type FC } from 'react';
 import { GoogleAuthButton } from '../GoogleAuthButton/GoogleAuthButton';
 
 interface GoogleRegistrationProps {
@@ -6,7 +6,7 @@ interface GoogleRegistrationProps {
   onError: (error: string) => void;
 }
 
-export const GoogleRegistration: React.FC<GoogleRegistrationProps> = ({
+export const GoogleRegistration: FC<GoogleRegistrationProps> = ({
   onRegistrationComplete,
   onError,
 }) => {

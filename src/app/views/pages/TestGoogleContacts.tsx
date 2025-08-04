@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState, type FC } from 'react';
 import { GoogleAuthButton } from '../components/GoogleAuthButton/GoogleAuthButton';
 
-const TestGoogleContacts: React.FC = () => {
+const TestGoogleContacts: FC = () => {
   const [idToken, setIdToken] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
   const [contacts, setContacts] = useState<any[]>([]);

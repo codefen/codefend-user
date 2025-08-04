@@ -20,7 +20,14 @@
  * @version 2.0
  */
 
-import React, { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  type FormEvent,
+  type ChangeEvent,
+  type RefObject,
+} from 'react';
 import { toast } from '@/app/data/utils';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { apiErrorValidation, isValidDomain, isNotEmail } from '@/app/constants/validations';
@@ -69,7 +76,7 @@ export const OnboardingPage = () => {
   const showUniqueToast = (
     message: string,
     type: 'error' | 'warn' = 'error',
-    fieldRef?: React.RefObject<HTMLInputElement | HTMLSelectElement | null>
+    fieldRef?: RefObject<HTMLInputElement | HTMLSelectElement | null>
   ) => {
     // Evitar mostrar el mismo toast repetidamente
     if (lastToastMessage === message) return;

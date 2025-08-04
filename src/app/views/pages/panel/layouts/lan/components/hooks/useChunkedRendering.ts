@@ -28,7 +28,7 @@ export const useChunkedRendering = ({
   const [displayedCount, setDisplayedCount] = useState(initialChunkSize);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Calculate derived state
   const hasMore = displayedCount < totalItems;

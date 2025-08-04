@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 
 export interface UseInfiniteScrollOptions {
   threshold: number;
@@ -8,8 +8,8 @@ export interface UseInfiniteScrollOptions {
 }
 
 export interface UseInfiniteScrollReturn {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  sentinelRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: RefObject<HTMLDivElement | null>;
+  sentinelRef: RefObject<HTMLDivElement | null>;
   isNearBottom: boolean;
 }
 
@@ -81,7 +81,7 @@ export const useInfiniteScroll = ({
     const container = containerRef.current;
     if (!container) return;
 
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const throttledScrollHandler = () => {
       if (timeoutId) clearTimeout(timeoutId);
