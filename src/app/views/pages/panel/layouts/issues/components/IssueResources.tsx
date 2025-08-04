@@ -206,7 +206,8 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
           showRows={true}
           showSkeleton={props.isLoading}
           totalRowCount={5}
-          initialSort={Sort.asc}
+          initialOrder="riskScore"
+          initialSort={Sort.desc}
           urlNav={`${baseUrl}/issues/`}
           emptyInfo="The company has no associated vulnerabilities yet, wait for one of our hackers to report a vulnerability or perform an automated scan with AI to find vulnerabilities automatically!"
         />

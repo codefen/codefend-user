@@ -541,12 +541,22 @@ main.issues-list {
       }
     }
 
+    // Estilos generales para columna Issue Title - asegurar alineación izquierda
+    .item-cell-issue-2 {
+      text-align: left !important; // Forzar alineación izquierda en todas las resoluciones
+      padding-left: 12px !important; // Alinear con header
+      > div {
+        padding-left: 0; // No padding extra dentro del wrapper
+      }
+    }
+
     // Estilos para columnas mobile en tabla de issues
     @media (max-width: 768px) {
       .item-cell-issue-2 {
         // Estilos para la columna de título con ícono en mobile
         overflow: hidden;
         max-width: 100%;
+        text-align: left; // Forzar alineación a la izquierda
         
         > div {
           display: flex;
@@ -554,6 +564,7 @@ main.issues-list {
           gap: 8px;
           overflow: hidden;
           max-width: 100%;
+          text-align: left; // Asegurar alineación a la izquierda en el div
           
           svg, img {
             flex-shrink: 0;
@@ -567,6 +578,7 @@ main.issues-list {
             text-overflow: ellipsis;
             white-space: nowrap;
             min-width: 0; // Permite que el span se encoja más allá de su contenido
+            text-align: left; // Alineación explícita a la izquierda para el texto
           }
         }
       }
