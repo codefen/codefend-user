@@ -101,9 +101,9 @@ const mobileIssueColumns: ColumnTableV3[] = [
     styles: 'item-cell-issue-2',
     weight: '65%',
     render: issue => (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div>
         <ResourceClassIssueIcon resourceClass={issue.resourceClass} />
-        <span>{issue.name}</span>
+        <span className="issue-name">{issue.name}</span>
       </div>
     ),
   },
@@ -134,9 +134,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   const dataTable = props.issues
-    .filter(issue =>
-      issue.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    .filter(issue => issue.name.toLowerCase().includes(searchTerm.toLowerCase()))
     .sort((a, b) => {
       const scoreA = parseInt(a.riskScore) || 0;
       const scoreB = parseInt(b.riskScore) || 0;
@@ -148,30 +146,33 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
     return isMobile ? mobileIssueColumns : desktopIssueColumns;
   }, [isMobile]);
 
-  const issuesColumnsWithActions = useMemo(() => [
-    ...issueColumns,
-    {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-issue-7 item-action',
-      weight: '4.5%',
-      render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
-          <span
-            title="Remove issue"
-            className={`trash`}
-            onClick={e => {
-              e.preventDefault();
-              setSelectedId(row.id);
-              setShowModal(!showModal);
-            }}>
-            <TrashIcon isButton />
-          </span>
-        </div>
-      ),
-    },
-  ], [issueColumns, showModal]);
+  const issuesColumnsWithActions = useMemo(
+    () => [
+      ...issueColumns,
+      {
+        header: '',
+        key: TABLE_KEYS.ACTION,
+        type: TABLE_KEYS.FULL_ROW,
+        styles: 'item-cell-issue-7 item-action',
+        weight: '4.5%',
+        render: (row: any) => (
+          <div className="publish" key={`actr-${row.id}`}>
+            <span
+              title="Remove issue"
+              className={`trash`}
+              onClick={e => {
+                e.preventDefault();
+                setSelectedId(row.id);
+                setShowModal(!showModal);
+              }}>
+              <TrashIcon isButton />
+            </span>
+          </div>
+        ),
+      },
+    ],
+    [issueColumns, showModal]
+  );
   return (
     <>
       <ModalTitleWrapper

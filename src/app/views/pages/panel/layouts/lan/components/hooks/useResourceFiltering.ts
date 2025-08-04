@@ -40,7 +40,7 @@ export const useResourceFiltering = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const debounceTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Flatten and prepare resources with memoization
   const flattenedResources = useMemo(() => {

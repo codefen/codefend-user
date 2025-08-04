@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo, type MouseEvent } from 'react';
 import type { Device } from '@interfaces/panel.ts';
 import { NetworkResourceCard } from './NetworkResourceCard.tsx';
 
@@ -25,7 +25,7 @@ interface VirtualizedCardsContainerProps {
   handleAddSubNetwork: (row: NetworkDevice) => void;
   isProvider: () => boolean;
   isAdmin: () => boolean;
-  handleThreeDotsClick: (event: React.MouseEvent, data: any) => void;
+  handleThreeDotsClick: (event: MouseEvent, data: any) => void;
 }
 
 /**

@@ -715,8 +715,18 @@
   .modal-wrapper {
     .modal.welcome-modal-container {
       .welcome-content.welcome-content-finish {
+        padding-inline: 0.85rem;
+
         .card.card-process {
           width: 100%;
+
+          .card-process-content-info-container {
+            gap: 0.5rem;
+
+            .item-started {
+              min-width: 90px;
+            }
+          }
         }
       }
     }

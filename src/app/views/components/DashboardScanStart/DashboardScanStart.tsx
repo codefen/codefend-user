@@ -165,6 +165,7 @@ export const DashboardScanStart = () => {
         <PrimaryButton
           text="View all scans"
           buttonStyle="dark-black"
+          className="btn-mobile-small"
           click={() => navigate('/scans')}
         />
       </div>
