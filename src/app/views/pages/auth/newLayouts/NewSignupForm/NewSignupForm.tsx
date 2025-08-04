@@ -26,12 +26,10 @@ import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constant
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from '@/app/data/utils';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { useLocation, useParams, useSearchParams } from 'react-router';
-import { SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
-import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 import { ProgressBar } from '@/app/views/components/ProgressBar/ProgressBar';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
 import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
@@ -39,7 +37,32 @@ import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
-import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
+import { SignUpSteps } from '@/app/constants/newSignupText';
+import { useTheme } from '@/app/views/context/ThemeContext';
+
+export const STEPSDATA: Record<SignUpSteps, any> = {
+  [SignUpSteps.STEP_ONE]: {
+    p: (
+      <>
+        Create an account and <b>unvail leaks, live vulnerabilities, servers, domains</b> and hidden
+        assets and risks in your business.
+      </>
+    ),
+    label: 'Create an account and unvail threats',
+  },
+  [SignUpSteps.STEP_TWO]: {
+    p: 'We sent you an email with an activation code, please paste it below or click the link on the email.',
+    label: 'An activation code has been sent.',
+  },
+  [SignUpSteps.STEP_THREE]: {
+    p: 'Define your password in the form below. There’s an option to make and random password and save to clipboard.',
+    label: 'Almost done... we need to set a password',
+  },
+  [SignUpSteps.STEP_FOUR]: {
+    p: 'Done! We’ve reached the final step—now you just need to set your password to access the system and start your free trial. Your password must contain 1 number, 1 letter, 12 characters, and a symbol.',
+    label: 'Add your password',
+  },
+};
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -88,6 +111,8 @@ export const NewSignupForm = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const { ref } = useParams();
+  const { theme } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Evento de telemetría: inicio del proceso de registro de usuario
@@ -145,11 +170,13 @@ export const NewSignupForm = () => {
         if (result.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
           // console.log('🚀 Google OAuth - Usuario necesita onboarding, redirigiendo...');
-          window.location.href = '/onboarding';
+          // window.location.href = '/auth/onboarding';
+          navigate('/auth/onboarding');
         } else {
           // Redirigir al dashboard si ya completó onboarding
           // console.log('✅ Google OAuth - Usuario ya completó onboarding, ir al dashboard');
-          window.location.href = '/';
+          // window.location.href = '/';
+          navigate('/');
         }
       }
     } catch (error) {
@@ -193,7 +220,9 @@ export const NewSignupForm = () => {
     for (let i = 0; i < length; i++) {
       if (i === 0) {
         // Primera letra: siempre mayúscula
-        password += allowedLettersUppercase.charAt(Math.floor(Math.random() * allowedLettersUppercase.length));
+        password += allowedLettersUppercase.charAt(
+          Math.floor(Math.random() * allowedLettersUppercase.length)
+        );
       } else {
         // Resto del password: usar cualquier carácter permitido
         password += allCharsForMiddle.charAt(Math.floor(Math.random() * allCharsForMiddle.length));
@@ -230,6 +259,7 @@ export const NewSignupForm = () => {
       toast.error('Failed to generate password. Please try again.');
     }
   };
+
   const nextFirstStep = (e: FormEvent) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
@@ -357,30 +387,81 @@ export const NewSignupForm = () => {
         if (res.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
           // console.log('🚀 Usuario necesita onboarding, redirigiendo...');
-          window.location.href = '/onboarding';
+          // window.location.href = '/auth/onboarding';
+          navigate('/auth/onboarding');
         } else {
           // Redirigir al dashboard si ya completó onboarding
           // console.log('✅ Usuario ya completó onboarding, ir al dashboard');
-          window.location.href = '/';
+          // window.location.href = '/';
+          navigate('/');
         }
       }
     });
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['signinform']}>
-      <div className={css['signupContent']}>
-        <img src="/codefend/logo-color.png" width={220} />
-        <ChangeAuthPages pathname={location.pathname} />
+    <ModalWrapper showCloseBtn={false} type={`${css['signinform']} new-signup-form`}>
+      <div className="new-auth-content readonly-content">
+        <h1>
+          Unveil the full attack surface...
+          <br />
+          <span>discover real threats</span>
+        </h1>
 
-        <p style={{ marginBottom: '25px' }}>{STEPSDATA[activeStep].p}</p>
+        <p className="header-text">
+          Start with a one domain or email. Codefend uncovers what’s leaking, exposed or exploitable
+          — before attackers do. Browse and scan across thousands of systems and millions of
+          breached identities indexed. We are experts in blackbox operations.
+        </p>
 
-        {/* Primer paso del formulario */}
+        <div className="features-list">
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
+            </div>
+            <div className="feature-content">
+              <h3>Professional hackers on demand</h3>
+              <p>
+                Hire professional hackers on demand, when you need them! Our professionals follow
+                the same paths real attackers do.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
+            </div>
+            <div className="feature-content">
+              <h3>Full dataleaks explorer</h3>
+              <p>
+                See what parts of your tech stack have already been leaked. Correlate your users
+                with 190B+ breached records and discover hidden threats.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
+            </div>
+            <div className="feature-content">
+              <h3>Automated attack surface map</h3>
+              <p>
+                Visualize the online exposure like never before. From one domain to your full
+                infrastructure — unveil hosts, techs, live vulnerabilities and people and more.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={`${css['signupContent']} new-auth-content form-content`}>
+        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
+        <ProgressBar activeStep={activeStep} />
+        <h2>{STEPSDATA[activeStep]?.label}</h2>
+        <p className="step-text-header">{STEPSDATA[activeStep].p}</p>
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
-          {/* Línea separadora arriba del botón de Google */}
           <hr className="onboarding-separator" />
-
-          {/* Botón de Google OAuth - Solo en el primer paso */}
           <GoogleAuthButton
             text="Registrarse con Google"
             onSuccess={handleGoogleSuccess}
@@ -392,9 +473,10 @@ export const NewSignupForm = () => {
 
           <form onSubmit={nextFirstStep}>
             {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
-            <ProgressBar activeStep={activeStep} />
+            <h2>Private account creation</h2>
+            {/* <ProgressBar activeStep={activeStep} /> */}
             <AuthInput
-              placeholder="First name"
+              placeholder="Name"
               name="lead_fname"
               autoComplete="given-name"
               defaultValue={lead.get.lead_fname}
@@ -415,28 +497,19 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.lead_email}
               required
             />
-            {/* <div style={{ display: 'none' }}>
-              <PhoneInput
-                name="lead_phone"
-                defaultPhone={lead.get.lead_phone}
-                defaultCountry={country.get}
-                changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
-              />
-            </div> */}
-            <button type="submit" className={`btn ${css['sendButton']}`}>
-              continue
+
+            <button type="submit" className={`btn btn-red  ${css['sendButton']}`}>
+              Continue
             </button>
           </form>
+          <Link to="/auth/signin" className="auth-link">
+            Already have an account? Login
+          </Link>
         </Show>
 
-        {/* Segundo paso del formulario - VERIFICACIÓN DE EMAIL */}
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
           <form onSubmit={nextThreeStep}>
-            <ProgressBar activeStep={activeStep} />
-            <CheckEmail
-              text=""
-              subText={`Please check your inbox, we've sent a verification code to <b>${lead.get?.lead_email}</b>, copy the verification code and paste it into the field below to confirm your email.`}
-            />
+            <CheckEmail />
             <AuthInput placeholder="Insert Unique code" name="lead_reference_number" required />
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
@@ -445,8 +518,11 @@ export const NewSignupForm = () => {
                 onClick={() => goBackValidateMe(SignUpSteps.STEP_ONE)}>
                 back
               </button>
-              <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
-                send code
+              <button
+                type="submit"
+                className={`btn btn-red ${css['sendButton']}`}
+                disabled={isLoading}>
+                continue
               </button>
             </div>
           </form>
@@ -455,7 +531,7 @@ export const NewSignupForm = () => {
         {/* Tercer paso del formulario - CONFIGURACIÓN DE CONTRASEÑA */}
         <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextFourStep}>
-            <ProgressBar activeStep={activeStep} />
+            <CheckEmail imgSrc="/codefend/password1.png" />
             <div className={css['password-input-wrapper']}>
               <AuthInput
                 type={showPasswords ? 'text' : 'password'}
@@ -499,7 +575,10 @@ export const NewSignupForm = () => {
               <button type="button" className={`btn btn-black`} onClick={handleGeneratePassword}>
                 Use a random pass
               </button>
-              <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
+              <button
+                type="submit"
+                className={`btn btn-red ${css['sendButton']}`}
+                disabled={loadingFinish}>
                 continue
               </button>
             </div>

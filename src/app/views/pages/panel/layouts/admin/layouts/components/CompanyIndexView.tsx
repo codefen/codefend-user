@@ -1,11 +1,11 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState, useMemo } from 'react';
 import CompanyCard from './CompanyCard.tsx';
 import './CompanyIndexView.scss';
 import { useGetCompany } from '@userHooks/admins/useGetCompany';
 import { useDeleteCompany } from '@userHooks/admins/useDeleteCompany';
 import { Sort, type ColumnTableV3 } from '@interfaces/table.ts';
 import Tablev3 from '@table/v3/Tablev3.tsx';
-import { naturalTime } from '@utils/helper.ts';
+import { naturalTime, naturalTimeSpanish } from '@utils/helper.ts';
 import {
   useGlobalFastField,
   useGlobalFastFields,
@@ -13,25 +13,6 @@ import {
 import { TrashIcon } from '@/app/views/components/icons';
 import { TABLE_KEYS } from '@/app/constants/app-texts';
 import CompanyDeletionResultPanel from '@/app/views/components/modals/CompanyDeletionResultPanel.tsx';
-
-// Función para formatear fecha en formato europeo "05/07/2025"
-const formatDateEuropean = (dateString: string): string => {
-  if (!dateString) return '--/--/--';
-
-  try {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return '--/--/--';
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  } catch (error) {
-    console.error('Error formatting date:', error);
-    return '--/--/--';
-  }
-};
 
 interface PanelData {
   id: string;
@@ -117,13 +98,24 @@ const CompanyIndexView: FC = () => {
     }
   };
 
+    const processedData = useMemo(() => data.map((c: any) => ({ ...c, id_num: parseInt(c.id) })), [data]);
+
   const companiesColumn: ColumnTableV3[] = [
     {
       header: 'ID',
-      key: 'id',
+      key: 'id_num',
       styles: 'item-cell-1',
-      weight: '3%',
-      render: (ID: any) => ID,
+      weight: '5%',
+      render: (val: any, row: any) => (row?.id ?? val),
+      sortFunction: (a: any, b: any) => {
+        // Ordenamiento numérico en lugar de alfabético
+        const numA = parseInt(a.id) || 0;
+        const numB = parseInt(b.id) || 0;
+        
+        // La tabla maneja la dirección automáticamente
+        // Solo necesitamos devolver la comparación numérica básica
+        return numA - numB;
+      },
     },
     {
       header: 'Name',
@@ -140,24 +132,10 @@ const CompanyIndexView: FC = () => {
       render: (val: any) => val,
     },
     {
-      header: 'Issues Left',
-      key: 'disponibles_issues_view',
-      styles: 'item-cell-4',
-      weight: '9%',
-      render: (val: any) => val,
-    },
-    {
-      header: 'Scans',
-      key: 'disponibles_neuroscan',
-      styles: 'item-cell-5',
-      weight: '5%',
-      render: (val: any) => val,
-    },
-    {
       header: 'area',
       key: 'pais',
       type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-6',
+      styles: 'item-cell-4',
       weight: '9%',
       render: (row: any) => {
         const countryCode = row?.pais_code || '';
@@ -179,43 +157,33 @@ const CompanyIndexView: FC = () => {
     {
       header: 'Website',
       key: 'web',
-      styles: 'item-cell-7',
-      weight: '14%',
+      styles: 'item-cell-5',
+      weight: '10%',
       render: (val: any) => val,
     },
     {
       header: 'Owner',
       key: 'owner_email',
-      styles: 'item-cell-8',
-      weight: '25%',
+      styles: 'item-cell-6',
+      weight: '30%',
       render: (val: any) => val,
     },
     {
       header: 'Published',
       key: 'creacion',
-      styles: 'item-cell-9',
-      weight: '11%',
-      render: (val: any) => (val ? formatDateEuropean(val) : '--/--/--'),
+      styles: 'item-cell-7',
+      weight: '16%',
+      render: (val: any) => (val ? naturalTimeSpanish(val) : '--'),
     },
+
+  ];
+
+  // Context menu actions
+  const contextMenuActions = [
     {
-      header: 'Options',
-      key: 'options',
-      styles: 'item-cell-10',
-      weight: '4%',
-      type: TABLE_KEYS.FULL_ROW,
-      render: (row: any) => (
-        <div className="options-actions">
-          <button
-            className="delete-btn codefend-text-red"
-            title="Delete Company"
-            onClick={e => {
-              e.stopPropagation();
-              handleDeleteCompany(row);
-            }}>
-            <TrashIcon />
-          </button>
-        </div>
-      ),
+      label: 'Delete Company',
+      icon: <TrashIcon />,
+      onClick: (row: any) => handleDeleteCompany(row),
     },
   ];
 
@@ -229,19 +197,27 @@ const CompanyIndexView: FC = () => {
     totalNotUniqueIpCount.set(0);
   };
 
+
+
   return (
     <div className="CompanyIndexView">
       <Tablev3
         columns={companiesColumn}
-        rows={data}
+        rows={processedData}
         showRows={Boolean(data?.length)}
         isNeedSearchBar
-        initialOrder="id"
+        initialOrder="id_num"
         initialSort={Sort.desc}
         action={action}
         selected={company.get}
         selectedKey="id"
         className="table-admin"
+        limit={0}
+        enableVirtualization={false}
+        virtualizationThreshold={9999}
+        isNeedSort={true}
+        enableContextMenu={true}
+        contextMenuActions={contextMenuActions}
       />
 
       {/* Renderizar múltiples paneles */}

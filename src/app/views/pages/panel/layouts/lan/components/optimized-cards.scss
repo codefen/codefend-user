@@ -1,0 +1,191 @@
+/* Optimized Cards Styles */
+
+.lazy-cards-container {
+  position: relative;
+
+  .loading-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+
+    &::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border-color);
+      border-top: 2px solid var(--primary-color);
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+.virtualized-cards-container {
+  position: relative;
+
+  .virtualized-row {
+    display: flex;
+    gap: 16px;
+    padding: 0 16px;
+    align-items: flex-start;
+  }
+}
+
+/* Improved masonry layout */
+.masonry-container {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+
+  .masonry-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0; /* Prevent flex item overflow */
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .masonry-container {
+    padding: 8px;
+    gap: 8px;
+
+    .masonry-column {
+      gap: 8px;
+    }
+  }
+
+  .lazy-cards-container,
+  .virtualized-cards-container {
+    .masonry-container {
+      .masonry-column {
+        gap: 8px;
+      }
+    }
+  }
+}
+
+/* Loading states */
+.network-cards-container {
+  &.loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  /* Optimized scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+/* Search indicator */
+.searching-indicator {
+  color: var(--primary-color, #007bff);
+  font-style: italic;
+  margin-left: 8px;
+}
+
+/* Performance indicator (enabled in development) */
+.performance-debug {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  &.hidden {
+    display: none;
+  }
+}
+
+/* Optimizations for better performance */
+.network-layout {
+  /* Enable CSS containment for better performance */
+  contain: layout style;
+
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+.masonry-container {
+  /* Optimize for frequent updates */
+  contain: layout style;
+
+  /* Hardware acceleration */
+  transform: translateZ(0);
+}
+
+.masonry-column {
+  /* Prevent layout thrashing */
+  contain: layout style paint;
+  min-height: 0;
+
+  /* Hardware acceleration for smooth animations */
+  transform: translateZ(0);
+}
+
+/* Card optimizations */
+.network-resource-card {
+  /* Optimize individual card rendering */
+  contain: layout style paint;
+
+  /* Prevent unnecessary repaints */
+  backface-visibility: hidden;
+
+  /* Hardware acceleration */
+  transform: translateZ(0);
+}
+
+/* Animation for loading more items */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.network-resource-card {
+  animation: fadeIn 0.3s ease-out;
+}

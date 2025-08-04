@@ -1,3 +1,63 @@
+// Estilos específicos para la tabla del onboarding
+.welcome-modal-container {
+  // Quitar padding inline del header de la tabla
+  .columns-name {
+    padding-inline: 0;
+  }
+  
+  // Header específico para la columna "area" - alineado a la derecha
+  .columns-name .column:nth-child(3) {
+    text-align: right;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    padding-right: 6px; // Pequeño padding para que no toque el borde
+  }
+}
+
+// Estilos específicos para las celdas de la tabla del onboarding
+.item-cell-welcome-1 {
+  // Truncar dominios largos con ellipsis
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  // También aplicar ellipsis a subdominios y texto hijo
+  .sub-resource-domain,
+  .text-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}
+
+.item-cell-welcome-3 {
+  text-align: right;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  
+  // Alinear las banderas a la derecha
+  .flag {
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  // Cuando no hay texto, solo la bandera
+  &:has(.flag:only-child) {
+    justify-content: flex-end;
+  }
+  
+  // Para mobile, asegurar que esté bien alineado
+  @media (max-width: 768px) {
+    .flag {
+      margin-left: auto;
+      margin-right: 4px; // Pequeño margen desde el borde derecho
+    }
+  }
+}
+
 // Estilos específicos para el modal del scanner
 .modal-wrapper .modal {
   position: relative;
@@ -128,6 +188,12 @@
   line-height: 1.6rem;
   font-size: 0.95rem;
   flex: 1;
+  font-family: 'Satoshi', sans-serif;
+
+  b,
+  strong {
+    font-weight: 500;
+  }
 }
 
 .input-container {
@@ -313,13 +379,13 @@
   }
 
   // Línea separadora en tema oscuro (específica para scanner)
-  .welcome-modal-container .onboarding-separator {
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  // .welcome-modal-container .onboarding-separator {
+  //   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
 
-    &::before {
-      background: #ff3939;
-    }
-  }
+  //   &::before {
+  //     background: #ff3939;
+  //   }
+  // }
 
   // Mensaje informativo de email scan en tema oscuro
   .email-scan-info {
@@ -369,9 +435,9 @@
       }
     }
   }
-  
+
   // Estilos para tema oscuro
-  .scope-type-buttons-inline .scope-btn-small, 
+  .scope-type-buttons-inline .scope-btn-small,
   .scope-type-buttons-inline button.btn.scope-btn-small {
     background: var(--primary-color-100) !important;
     color: var(--tertiary-color-100) !important;
@@ -400,10 +466,10 @@
   label {
     margin: 0;
     flex-shrink: 0;
-    
+
     &.scope-title-small {
       font-size: 0.85rem;
-      
+
       b {
         font-weight: 500;
       }
@@ -447,16 +513,14 @@
 }
 
 // Regla específica para botones activos con borde inferior
-.scope-type-buttons-inline .scope-btn-small.active, 
+.scope-type-buttons-inline .scope-btn-small.active,
 .scope-type-buttons-inline button.btn.scope-btn-small.active {
   border-bottom: 3px solid #ff3939 !important;
   color: var(--tertiary-color-500) !important;
 }
 
-
-
 // Estilos base para todos los botones de scope (activos e inactivos)
-.scope-type-buttons-inline .scope-btn-small, 
+.scope-type-buttons-inline .scope-btn-small,
 .scope-type-buttons-inline button.btn.scope-btn-small {
   padding: 0.4rem 0.75rem;
   background: var(--primary-color) !important;
@@ -468,7 +532,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
-  
+
   &:hover:not(:disabled) {
     border-bottom-color: #ff3939 !important;
   }
@@ -540,6 +604,67 @@
     .scope-btn {
       font-size: 0.85rem;
       padding: 0.65rem 0.75rem;
+    }
+  }
+}
+// Botones de scope estilo tabs con línea inferior - ocupando todo el ancho
+.scope-type-buttons-full {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+
+  .scope-btn-tab {
+    flex: 1;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      color: #ff4757;
+      background: rgba(255, 71, 87, 0.05);
+    }
+
+    &.active {
+      color: #ff4757;
+      border-bottom-color: #ff4757;
+      background: transparent;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      color: #ccc;
+    }
+  }
+}
+
+// Soporte para tema oscuro para los botones de scope
+[data-theme='dark'] .welcome-content {
+  .scope-type-buttons-full {
+    border-bottom-color: #444;
+
+    .scope-btn-tab {
+      color: #ccc;
+
+      &:hover:not(:disabled) {
+        color: #ff4757;
+        background: rgba(255, 71, 87, 0.1);
+      }
+
+      &.active {
+        color: #ff4757;
+      }
+
+      &:disabled {
+        color: #666;
+      }
     }
   }
 }

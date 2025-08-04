@@ -32,6 +32,7 @@ import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
 import '@/app/views/components/GoogleAuthButton/GoogleAuthButton.scss';
 import { toast } from 'react-toastify';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -73,6 +74,7 @@ export const NewSigninForm = () => {
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [mfaStep, setMfaStep] = useState(false);
+  const { theme } = useTheme();
 
   // Tracking de página visitada para el gráfico de administración (no-bloqueante)
   useEffect(() => {
@@ -185,10 +187,10 @@ export const NewSigninForm = () => {
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['signinform']}>
-      <div className={css['signinContent']}>
-        <img src="/codefend/logo-color.png" width={220} />
-        <ChangeAuthPages pathname={location.pathname} />
+    <ModalWrapper showCloseBtn={false} type={`${css['signinform']} new-signin-form`}>
+      <div className={`${css['signinContent']} new-auth-content form-content`}>
+        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
+        {/* <ChangeAuthPages pathname={location.pathname} /> */}
 
         <p>
           {mfaStep
@@ -199,8 +201,7 @@ export const NewSigninForm = () => {
         {/* Botón de Google OAuth - Solo mostrar si no está en paso MFA */}
         {!mfaStep && (
           <>
-            {/* Línea separadora arriba del botón de Google */}
-            <div className="auth-separator-line"></div>
+            <hr className="onboarding-separator" />
 
             <GoogleAuthButton
               text="Access with Google"
@@ -210,8 +211,7 @@ export const NewSigninForm = () => {
               mode="signin"
             />
 
-            {/* Línea separadora debajo del botón de Google */}
-            <div className="auth-separator-line"></div>
+            <hr className="onboarding-separator" />
           </>
         )}
 
@@ -233,6 +233,19 @@ export const NewSigninForm = () => {
               autoComplete="off"
               required
             />
+            {!mfaStep && (
+              <Link
+                to="/auth/recovery"
+                className="password-recovery"
+                style={{
+                  color: '#00000080',
+                  fontSize: '0.9rem',
+                  margin: '25px auto 0px auto',
+                  textDecoration: 'underline',
+                }}>
+                I don't remember my password
+              </Link>
+            )}
             <button
               type="button"
               className={css['toggle-password']}
@@ -251,23 +264,13 @@ export const NewSigninForm = () => {
               required
             />
           )}
-          <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
+          <button type="submit" className={`btn btn-red ${css['sendButton']}`} disabled={isLoading}>
             continue
           </button>
         </form>
-        {!mfaStep && (
-          <Link
-            to="/auth/recovery"
-            className="password-recovery"
-            style={{
-              color: '#00000080',
-              fontSize: '0.9rem',
-              margin: '25px auto 0px auto',
-              textDecoration: 'underline',
-            }}>
-            I don't remember my password
-          </Link>
-        )}
+        <Link to="/auth/signup" className="auth-link">
+          Don't have an account? Sign up
+        </Link>
       </div>
     </ModalWrapper>
   );

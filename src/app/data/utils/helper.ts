@@ -827,3 +827,67 @@ export function naturalTime(dateStr: string, locale: string = 'en'): string {
     year: 'numeric',
   });
 }
+
+/**
+ * Returns a human-friendly relative time string in Spanish.
+ * @param dateStr "YYYY-MM-DD HH:mm:ss" or similar date string
+ */
+export function naturalTimeSpanish(dateStr: string): string {
+  if (!dateStr) return '';
+  
+  const date = new Date(dateStr.replace(' ', 'T')); // Asegura compatibilidad con el formato "YYYY-MM-DD HH:mm:ss"
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHours = Math.floor(diffMin / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  const diffWeeks = Math.floor(diffDays / 7);
+
+  if (diffMs < 0) {
+    return '';
+  }
+
+  if (diffSec < 59) {
+    return 'ahora';
+  }
+
+  if (diffMin < 60) {
+    return `${diffMin} minuto${diffMin === 1 ? '' : 's'} atrás`;
+  }
+
+  if (diffHours < 24) {
+    return `${diffHours} hora${diffHours === 1 ? '' : 's'} atrás`;
+  }
+
+  if (diffDays === 1) {
+    return '1 día atrás';
+  }
+
+  if (diffDays < 7) {
+    return `${diffDays} día${diffDays === 1 ? '' : 's'} atrás`;
+  }
+
+  if (diffWeeks === 1) {
+    return 'semana pasada';
+  }
+
+  if (diffWeeks === 2) {
+    return '2 semanas atrás';
+  }
+
+  if (diffWeeks === 3) {
+    return '3 semanas atrás';
+  }
+
+  if (diffWeeks < 8) {
+    return `${diffWeeks} semanas atrás`;
+  }
+
+  // Para fechas muy antiguas, usar formato de fecha
+  return date.toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}

@@ -271,6 +271,7 @@
 
       .table-group {
         flex: var(--table-flex);
+        width: 100%;
 
         &:has(.empty-card) {
           .columns-name {
@@ -287,6 +288,19 @@
             color: var(--secondary-color-200);
           }
         }
+
+        .table.table-riskscores {
+          .item,
+          .table-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .item {
+            cursor: pointer;
+          }
+        }
       }
 
       @container right-main (min-width: 502px) {
@@ -300,12 +314,6 @@
         --chart-max-width: 200px;
         --chart-flex: 1 1 60%;
         --table-flex: 1 1 40%;
-      }
-    }
-
-    .table.table-riskscores {
-      .item {
-        cursor: pointer;
       }
     }
   }

@@ -14,36 +14,47 @@ interface DailyData {
 
 interface ActivityLineChartProps {
   data: DailyData[];
+  currentPeriod?: 'today' | 'week' | '14days' | '21days';
+  onPeriodChange?: (period: 'today' | 'week' | '14days' | '21days') => void;
+  isLoading?: boolean;
+  chartType?: ChartType;
+  visibleMetrics?: {
+    visitas_unicas: boolean;
+    leads: boolean;
+    usuarios: boolean;
+  };
 }
 
 type ChartType = 'line' | 'bar';
+type TimePeriod = 'today' | 'week' | '14days' | '21days';
 
-export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 800, height: 450 });
-  const [chartType, setChartType] = useState<ChartType>('line');
-
-  // Estado para controlar qué líneas se muestran - Solo leads y usuarios por defecto
-  const [visibleMetrics, setVisibleMetrics] = useState({
+export const ActivityLineChart: FC<ActivityLineChartProps> = ({
+  data,
+  currentPeriod = 'today',
+  onPeriodChange,
+  isLoading = false,
+  chartType = 'line',
+  visibleMetrics = {
+    visitas_unicas: true,
     leads: true,
     usuarios: true,
-    companias: false,
-    neuroscans: false,
-    visitas_unicas: true,
-  });
+  },
+}) => {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 600, height: 280 });
 
-  // Configuración del gráfico con márgenes adaptativos
+  // Configuración del gráfico con márgenes mínimos - elementos flotantes no ocupan espacio
   const getMargins = (width: number) => {
     if (width < 500) {
-      // Móvil: márgenes más pequeños
-      return { top: 15, right: 20, bottom: 70, left: 40 };
+      // Móvil: márgenes ultra mínimos
+      return { top: 5, right: 5, bottom: 25, left: 30 };
     } else if (width < 800) {
-      // Tablet: márgenes medianos
-      return { top: 18, right: 30, bottom: 75, left: 50 };
+      // Tablet: márgenes mínimos
+      return { top: 5, right: 10, bottom: 30, left: 35 };
     } else {
-      // Desktop: márgenes completos
-      return { top: 20, right: 40, bottom: 80, left: 60 };
+      // Desktop: márgenes mínimos - elementos completamente flotantes
+      return { top: 5, right: 15, bottom: 35, left: 45 };
     }
   };
 
@@ -53,11 +64,9 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
 
   // Colores para cada línea/barra (actualizados según especificación)
   const colors = {
+    visitas_unicas: '#999999', // Gris claro
     leads: '#666666', // Gris oscuro
     usuarios: '#ff6464', // Rojo claro
-    companias: '#ff3939', // Rojo
-    neuroscans: '#ffa502', // Naranja
-    visitas_unicas: '#999999', // Gris claro
   };
 
   // Procesar los datos - FIX: crear fecha sin zona horaria para evitar desfase
@@ -149,14 +158,6 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     );
   });
 
-  // Función para toggle de visibilidad de métricas
-  const toggleMetricVisibility = (metric: keyof typeof visibleMetrics) => {
-    setVisibleMetrics(prev => ({
-      ...prev,
-      [metric]: !prev[metric],
-    }));
-  };
-
   // Función para renderizar gráfico de líneas
   const renderLineChart = () => {
     if (!data.length || !svgRef.current || width <= 0 || height <= 0) return;
@@ -196,9 +197,16 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .domain(d3.extent(processedData, (d: any) => d.fecha) as [Date, Date])
       .range([0, width]);
 
+    // Calcular maxValue solo considerando métricas visibles
     const maxValue =
-      d3.max(processedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans, d.visitas_unicas)) ||
-      0;
+      d3.max(processedData, (d: any) => {
+        const visibleValues = [];
+        if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
+        if (visibleMetrics.leads) visibleValues.push(d.leads);
+        if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
+
+        return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
+      }) || 0;
 
     // console.log('📊 ESCALAS:');
     // console.log('  - Valor máximo encontrado:', maxValue);
@@ -294,8 +302,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           .append('path')
           .datum(lineData)
           .attr('class', `area-${metric}`)
-          .attr('fill', colors[metric as keyof typeof colors])
-          .attr('fill-opacity', hasData ? 0.3 : 0.1) // Más opacidad si tiene datos reales
+          .attr('fill', `url(#gradient-${metric})`)
           .attr('stroke', 'none')
           .attr('d', area);
 
@@ -364,7 +371,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
             //   mouseY: event.offsetY,
             // });
 
-            showTooltip(event, d, metric);
+            showTooltip(event, d);
 
             // 🎯 HOVER CRUZADO: Agregar todos los puntos de la misma fecha
             const fechaHover = d.fecha;
@@ -433,6 +440,150 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     updateAxes(xScale, yScale, g);
   };
 
+  // Función para calcular deltas entre períodos consecutivos
+  const calculateDeltas = (data: any[], metric: string) => {
+    const deltas = [];
+    for (let i = 1; i < data.length; i++) {
+      const current = data[i][metric] || 0;
+      const previous = data[i - 1][metric] || 0;
+      const delta = current - previous;
+      
+      if (delta !== 0) { // Solo mostrar deltas no nulos
+        deltas.push({
+          currentIndex: i,
+          previousIndex: i - 1,
+          delta: delta,
+          metric: metric,
+          currentValue: current,
+          previousValue: previous,
+          currentDate: data[i].date || data[i].fecha,
+          previousDate: data[i - 1].date || data[i - 1].fecha
+        });
+      }
+    }
+    return deltas;
+  };
+
+  // Función para renderizar líneas de delta
+  const renderDeltaLines = (g: any, formattedData: any[], xScale: any, yScale: any, visibleMetricsArray: string[], xSubgroup: any) => {
+    // Limpiar deltas anteriores
+    g.selectAll('.delta-line').remove();
+    g.selectAll('.delta-label').remove();
+
+    const deltaGroup = g.append('g').attr('class', 'delta-container');
+
+    visibleMetricsArray.forEach(metric => {
+      const deltas = calculateDeltas(formattedData, metric);
+      
+      deltas.forEach((deltaInfo, index) => {
+        const { currentIndex, previousIndex, delta, currentValue, previousValue } = deltaInfo;
+        
+        // Posiciones de las barras
+        const currentBarX = (xScale(d3.timeFormat('%d')(formattedData[currentIndex].date)) || 0) + (xSubgroup(metric) || 0) + xSubgroup.bandwidth() / 2;
+        const previousBarX = (xScale(d3.timeFormat('%d')(formattedData[previousIndex].date)) || 0) + (xSubgroup(metric) || 0) + xSubgroup.bandwidth() / 2;
+        
+        const currentBarY = yScale(currentValue);
+        const previousBarY = yScale(previousValue);
+
+        // Solo dibujar delta si hay diferencia significativa
+        if (Math.abs(delta) > 0) {
+          // Línea de delta (roja)
+          const deltaLine = deltaGroup
+            .append('line')
+            .attr('class', 'delta-line')
+            .attr('x1', previousBarX)
+            .attr('y1', previousBarY)
+            .attr('x2', currentBarX)
+            .attr('y2', currentBarY)
+            .attr('stroke', '#ff3939')
+            .attr('stroke-width', 2)
+            .attr('stroke-dasharray', '5,5')
+            .attr('opacity', 0.8);
+
+          // Línea vertical indicadora en la barra actual
+          deltaGroup
+            .append('line')
+            .attr('class', 'delta-line delta-indicator')
+            .attr('x1', currentBarX)
+            .attr('y1', currentBarY)
+            .attr('x2', currentBarX + 30)
+            .attr('y2', currentBarY)
+            .attr('stroke', '#ff3939')
+            .attr('stroke-width', 2)
+            .attr('opacity', 0.8);
+
+          // Etiqueta del delta
+          const deltaLabel = deltaGroup
+            .append('text')
+            .attr('class', 'delta-label')
+            .attr('x', currentBarX + 35)
+            .attr('y', currentBarY + 5)
+            .text(`δ = ${delta > 0 ? '+' : ''}${delta}`)
+            .attr('fill', '#ff3939')
+            .attr('font-size', '11px')
+            .attr('font-weight', 'bold')
+            .attr('text-anchor', 'start');
+
+          // Agregar interactividad al delta
+          const deltaInteractiveGroup = deltaGroup.append('g').attr('class', 'delta-interactive');
+          
+          [deltaLine, deltaLabel].forEach(element => {
+            element
+              .style('cursor', 'pointer')
+              .on('mouseover', function(event) {
+                // Tooltip para el delta
+                showDeltaTooltip(event, deltaInfo);
+                d3.select(this).attr('opacity', 1);
+              })
+              .on('mouseout', function() {
+                hideDeltaTooltip();
+                d3.select(this).attr('opacity', 0.8);
+              });
+          });
+        }
+      });
+    });
+  };
+
+  // Función para mostrar tooltip de delta
+  const showDeltaTooltip = (event: any, deltaInfo: any) => {
+    d3.selectAll('.delta-tooltip').remove();
+
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'delta-tooltip')
+      .style('position', 'absolute')
+      .style('background', 'rgba(255, 57, 57, 0.9)')
+      .style('color', 'white')
+      .style('padding', '8px 12px')
+      .style('border-radius', '4px')
+      .style('font-size', '12px')
+      .style('pointer-events', 'none')
+      .style('z-index', '1001')
+      .style('opacity', 0);
+
+    const changeType = deltaInfo.delta > 0 ? 'Incremento' : 'Disminución';
+    const changeIcon = deltaInfo.delta > 0 ? '📈' : '📉';
+
+    tooltip
+      .html(`
+        <strong>${changeIcon} ${changeType} en ${deltaInfo.metric}</strong><br/>
+        Valor anterior: ${deltaInfo.previousValue}<br/>
+        Valor actual: ${deltaInfo.currentValue}<br/>
+        <strong>Delta: ${deltaInfo.delta > 0 ? '+' : ''}${deltaInfo.delta}</strong>
+      `)
+      .style('left', event.pageX + 10 + 'px')
+      .style('top', event.pageY - 10 + 'px');
+
+    tooltip.transition().duration(200).style('opacity', 1);
+  };
+
+  // Función para ocultar tooltip de delta
+  const hideDeltaTooltip = () => {
+    d3.selectAll('.delta-tooltip').remove();
+  };
+
   // Función para renderizar gráfico de barras agrupadas
   const renderBarChart = () => {
     if (!data.length || !svgRef.current || width <= 0 || height <= 0) return;
@@ -479,9 +630,16 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     // Escalas
     const xScale = d3.scaleBand().domain(dateLabels).range([0, width]).padding(0.2);
 
+    // Calcular maxValue solo considerando métricas visibles
     const maxValue =
-      d3.max(formattedData, (d: any) => Math.max(d.leads, d.usuarios, d.companias, d.neuroscans, d.visitas_unicas)) ||
-      0;
+      d3.max(formattedData, (d: any) => {
+        const visibleValues = [];
+        if (visibleMetrics.visitas_unicas) visibleValues.push(d.visitas_unicas);
+        if (visibleMetrics.leads) visibleValues.push(d.leads);
+        if (visibleMetrics.usuarios) visibleValues.push(d.usuarios);
+
+        return visibleValues.length > 0 ? Math.max(...visibleValues) : 0;
+      }) || 0;
 
     const effectiveMaxValue = maxValue === 0 ? 10 : maxValue;
 
@@ -526,7 +684,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
           //   fechaFormatted: d3.timeFormat('%d')(d.date),
           //   value: d[metric as keyof typeof d],
           // });
-          showTooltip(event, d, metric);
+          showTooltip(event, d);
           d3.select(this).transition().duration(100).attr('opacity', 1);
         })
         .on('mouseout', function () {
@@ -535,12 +693,18 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
         });
     });
 
+    // Renderizar líneas de delta después de las barras
+    renderDeltaLines(g, formattedData, xScale, yScale, visibleMetricsArray, xSubgroup);
+
     // Actualizar ejes
     updateAxes(xScale, yScale, g);
   };
 
-  // Función para mostrar tooltip
-  const showTooltip = (event: any, d: any, metric: string) => {
+  // Función para mostrar tooltip AGREGADO
+  const showTooltip = (event: any, d: any) => {
+    // Eliminar tooltips existentes para evitar duplicados
+    d3.selectAll('.chart-tooltip').remove();
+
     const tooltip = d3
       .select('body')
       .append('div')
@@ -557,39 +721,26 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
 
     tooltip.transition().duration(200).style('opacity', 1);
 
-    const displayName = metric;
-    const value = d[metric as keyof typeof d];
-
-    // 🔧 FIX: Buscar fecha original del backend (formato YYYY-MM-DD)
     const fechaRaw = d.fecha || d.date;
-
-    // Buscar la fecha original en los datos RAW del backend que coincida con esta fecha procesada
     const fechaOriginalBackend =
       data.find(originalData => {
         const fechaComparacion = new Date(originalData.fecha);
-        const fechaActual = fechaRaw;
-        return fechaComparacion.getTime() === fechaActual.getTime();
-      })?.fecha || fechaRaw.toISOString().split('T')[0]; // Fallback si no encuentra
+        return fechaComparacion.getTime() === fechaRaw.getTime();
+      })?.fecha || fechaRaw.toISOString().split('T')[0];
 
-    // 🐛 DEBUG: Verificar datos del tooltip
-    // console.log('🔍 TOOLTIP DEBUG DETALLADO:', {
-    //   metric,
-    //   value,
-    //   fechaOriginalBackend,
-    //   fechaRaw,
-    //   fechaRawString: fechaRaw.toLocaleDateString(),
-    //   chartType,
-    //   allData: d,
-    //   isBarChart: chartType === 'bar',
-    //   isLineChart: chartType === 'line',
-    // });
+    // Valores agregados
+    const visitas = d.visitas_unicas ?? 0;
+    const leadsVal = d.leads ?? 0;
+    const usersVal = d.usuarios ?? 0;
 
     tooltip
       .html(
         `
-      <strong>${displayName}</strong><br/>
+      <strong>Detalle del día</strong><br/>
       Fecha: ${fechaOriginalBackend}<br/>
-      Valor: ${value}
+      Visitas únicas: ${visitas}<br/>
+      Leads: ${leadsVal}<br/>
+      Usuarios: ${usersVal}
     `
       )
       .style('left', event.pageX + 10 + 'px')
@@ -667,7 +818,22 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
 
     g.append('g')
       .attr('class', 'axis y-axis')
-      .call(d3.axisLeft(yScale))
+      .call(
+        d3.axisLeft(yScale).tickFormat(d => {
+          const num = d as number;
+          if (num === 0) return '0';
+
+          // Solo usar notación "k" cuando sea >= 1000
+          if (num >= 1000) {
+            return (num / 1000).toFixed(1) + 'k';
+          }
+
+          // Para valores < 1000, mostrar número normal
+          if (num >= 100) return Math.round(num).toString();
+          if (num >= 10) return num.toFixed(1);
+          return num.toFixed(2);
+        })
+      )
       .selectAll('text')
       .style('font-size', '12px')
       .style('fill', '#6c757d');
@@ -689,6 +855,32 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       .attr('width', dimensions.width)
       .attr('height', dimensions.height);
 
+    // Crear definiciones para gradientes
+    const defs = svg.append('defs');
+
+    // Crear gradientes lineales para cada métrica
+    Object.entries(colors).forEach(([metric, color]) => {
+      const gradient = defs
+        .append('linearGradient')
+        .attr('id', `gradient-${metric}`)
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '0%')
+        .attr('y2', '100%');
+
+      gradient
+        .append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', color)
+        .attr('stop-opacity', 0.4);
+
+      gradient
+        .append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', color)
+        .attr('stop-opacity', 0.05);
+    });
+
     const g = svg
       .append('g')
       .attr('class', 'chart-container')
@@ -704,14 +896,29 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       renderBarChart();
     }
 
-    // Leyenda clickeable con checkboxes
-    const legend = g
+    // LEYENDA COMENTADA - Ahora se maneja como componente React
+    /*
+    // Leyenda clickeable con checkboxes - posición flotante arriba
+    const legend = svg
       .append('g')
-      .attr('class', 'legend')
-      .attr('transform', `translate(0, ${height + 50})`);
+      .attr('class', 'legend floating-legend')
+      .attr('transform', `translate(12, 12)`);
 
     // Orden de la leyenda: visitas_unicas -> leads -> companias -> usuarios -> neuroscans
     const metrics = ['visitas_unicas', 'leads', 'companias', 'usuarios', 'neuroscans'];
+    
+    // Agregar fondo general mejorado para toda la leyenda
+    legend
+      .append('rect')
+      .attr('x', -12)
+      .attr('y', -20)
+      .attr('width', metrics.length * 80 + 16)
+      .attr('height', 40)
+      .attr('rx', 20)
+      .attr('fill', 'rgba(255, 255, 255, 0.85)')
+      .attr('stroke', 'rgba(255, 255, 255, 0.3)')
+      .attr('stroke-width', 1)
+      .style('filter', 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))');
 
     metrics.forEach((metric, index) => {
       const isVisible = visibleMetrics[metric as keyof typeof visibleMetrics];
@@ -719,56 +926,51 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
       const legendItem = legend
         .append('g')
         .attr('class', 'legend-item')
-        .attr('transform', `translate(${index * 120}, 0)`) // Más espacio para el texto
+        .attr('transform', `translate(${index * 80}, 0)`) // Espacio compacto para flotante
         .style('cursor', 'pointer')
-        .on('click', () => toggleMetricVisibility(metric as keyof typeof visibleMetrics));
+        .on('click', () => toggleMetric(metric as keyof typeof visibleMetrics));
 
-      // Checkbox visual
-      const checkboxSize = 16;
-      const checkbox = legendItem
-        .append('rect')
-        .attr('x', 0)
-        .attr('y', -8)
-        .attr('width', checkboxSize)
-        .attr('height', checkboxSize)
-        .attr('rx', 2)
+      // Swatch circular (más pequeño para flotante)
+      const radius = 4;
+      const swatch = legendItem
+        .append('circle')
+        .attr('cx', radius + 3)
+        .attr('cy', 0)
+        .attr('r', radius)
         .attr('fill', isVisible ? colors[metric as keyof typeof colors] : 'transparent')
         .attr('stroke', colors[metric as keyof typeof colors])
-        .attr('stroke-width', 2);
+        .attr('stroke-width', 1.5);
 
-      // Checkmark - centrado horizontal y verticalmente
-      if (isVisible) {
-        legendItem
-          .append('path')
-          .attr('d', 'M4,8 L7,11 L12,5') // Centrado perfectamente en el box de 16x16
-          .attr('stroke', '#fff')
-          .attr('stroke-width', 2.5)
-          .attr('fill', 'none')
-          .attr('stroke-linecap', 'round')
-          .attr('stroke-linejoin', 'round');
-      }
-
-      // Texto descriptivo al lado del checkbox
+      // Texto descriptivo al lado del swatch circular (más compacto)
+      const textMap: { [key: string]: string } = {
+        'visitas_unicas': 'visitas',
+        'leads': 'leads',
+        'companias': 'comp',
+        'usuarios': 'users',
+        'neuroscans': 'neuro'
+      };
+      
       legendItem
         .append('text')
-        .attr('x', checkboxSize + 8) // 8px de espacio después del checkbox
+        .attr('x', radius * 2 + 8)
         .attr('y', 0)
-        .attr('dy', '0.35em') // Centrado verticalmente
-        .style('font-size', '12px')
+        .attr('dy', '0.35em')
+        .style('font-size', '10px')
         .style('fill', isVisible ? '#495057' : '#999')
         .style('font-weight', '500')
         .style('user-select', 'none')
-        .text(metric);
+        .text(textMap[metric] || metric.substring(0, 6));
     });
+    */
   }, [data, dimensions, chartType, visibleMetrics]);
 
   // Asegurar re-renderizado cuando cambia el tipo de gráfico
-  useEffect(() => {
-    if (data.length > 0) {
-      // Forzar re-renderizado cuando cambia el tipo de gráfico
-      console.log('🔄 Cambio de tipo de gráfico detectado:', chartType);
-    }
-  }, [chartType, data.length]);
+  // useEffect(() => {
+  //   if (data.length > 0) {
+  //     // Forzar re-renderizado cuando cambia el tipo de gráfico
+  //     console.log('🔄 Cambio de tipo de gráfico detectado:', chartType);
+  //   }
+  // }, [chartType, data.length]);
 
   // Sistema de resize automático robusto
   useEffect(() => {
@@ -777,12 +979,15 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     const updateDimensions = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
-        const newWidth = Math.max(containerWidth - 40, 300);
-        const newHeight = Math.max(Math.min(newWidth * 0.6, 500), 350);
+        const containerHeight = containerRef.current.clientHeight;
+
+        // Usar todo el espacio disponible del contenedor (sin padding)
+        const newWidth = Math.max(containerWidth, 300);
+        const newHeight = Math.max(containerHeight, 280);
 
         setDimensions(prev => {
           if (Math.abs(prev.width - newWidth) > 10 || Math.abs(prev.height - newHeight) > 10) {
-            // console.log(`📊 Chart resize: ${newWidth}x${newHeight}`);
+            // console.log(`📊 Chart resize: ${newWidth}x${newHeight} (container: ${containerWidth}x${containerHeight})`);
             return { width: newWidth, height: newHeight };
           }
           return prev;
@@ -810,7 +1015,8 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
     }
 
     window.addEventListener('resize', handleWindowResize);
-    updateDimensions();
+    // Forzar actualización inicial
+    setTimeout(updateDimensions, 100);
 
     return () => {
       clearTimeout(resizeTimeout);
@@ -829,19 +1035,6 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({ data }) => {
 
   return (
     <div className="activity-chart-container" ref={containerRef}>
-      {/* Botón para cambiar tipo de gráfico */}
-      <div className="chart-controls">
-        <button
-          className={`chart-toggle-btn ${chartType === 'line' ? 'active' : ''}`}
-          onClick={() => setChartType('line')}>
-          📈 Líneas
-        </button>
-        <button
-          className={`chart-toggle-btn ${chartType === 'bar' ? 'active' : ''}`}
-          onClick={() => setChartType('bar')}>
-          📊 Barras
-        </button>
-      </div>
       <svg ref={svgRef}></svg>
     </div>
   );

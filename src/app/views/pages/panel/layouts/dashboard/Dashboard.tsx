@@ -6,7 +6,6 @@ import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesSta
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk.tsx';
 import './dashboard.scss';
 import { DashboardInvoke } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardInvoke/DashboardInvoke.tsx';
-import { PageLoader } from '@/app/views/components/loaders/Loader.tsx';
 import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource.tsx';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart.tsx';
@@ -14,7 +13,6 @@ import { useEffect } from 'react';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
-import Navbar from '@/app/views/components/navbar/Navbar';
 import { CardSkeleton } from '@/app/views/components/CardSkeleton/CardSkeleton.tsx';
 import { useMediaQuery } from 'usehooks-ts';
 

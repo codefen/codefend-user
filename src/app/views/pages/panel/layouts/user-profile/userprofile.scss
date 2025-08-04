@@ -30,6 +30,7 @@ main.user-profile {
       gap: var(--card-space);
       width: 100%;
       height: fit-content;
+      margin-top: 12px; // Normalizar espaciado con dashboard
 
       .card {
         overflow: hidden;
@@ -110,6 +111,7 @@ main.user-profile {
 
     .card {
       margin-bottom: var(--card-space);
+      margin-top: 0; // Normalizar márgenes superiores para consistencia
 
       &.stats {
         .content {
@@ -200,6 +202,10 @@ main.user-profile {
       padding-block-start: 20px;
       flex: 0 0 auto;
     }
+
+    .admin-cards-fluid {
+      column-count: 1;
+    }
   }
 }
 @media only screen and (max-width: 1000px) {
@@ -269,3 +275,63 @@ main.user-profile .box-assets .card .over {
   margin-top: 10px;
   line-height: 1.5em;
 }
+
+// Estilos para el layout de Admin Commander
+main.user-profile {
+  // Contenedor fluido para las tarjetas administrativas (estilo SNS)
+  // Contenedor fluido estilo SNS (column masonry)
+  .admin-cards-fluid {
+    column-count: 2;
+    column-gap: var(--card-space);
+    margin-top: var(--card-space);
+
+    .card {
+      break-inside: avoid;
+      width: 100%;
+      margin-bottom: var(--card-space);
+    }
+  }
+
+  .right {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-space);
+    
+    .card {
+      margin-bottom: var(--card-space);
+    }
+  }
+
+  // Estilos para la lista de quicklinks
+  .quicklinks-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+
+    li {
+      margin-bottom: 0.75rem;
+      
+      a {
+        display: block;
+        padding: 0.75rem 1rem;
+        background: var(--primary-color-100);
+        border: 1px solid var(--primary-color-200);
+        border-radius: 6px;
+        color: var(--text-color-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: var(--primary-color-200);
+          border-color: var(--primary-color-300);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}
+
+

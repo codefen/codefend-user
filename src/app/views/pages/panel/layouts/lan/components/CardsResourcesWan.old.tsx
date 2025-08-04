@@ -94,17 +94,17 @@ export const CardsResourcesWan: FC<CardsResourcesWanProps> = ({ isLoading, inter
     },
     {
       label: 'launch naabu',
-      icon: <span style={{fontWeight:600, fontSize:'1.1em'}}>🚀</span>,
+      icon: <span style={{ fontWeight: 600, fontSize: '1.1em' }}>🚀</span>,
       onClick: () => {},
     },
     {
       label: 'launch nmap',
-      icon: <span style={{fontWeight:600, fontSize:'1.1em'}}>🛰️</span>,
+      icon: <span style={{ fontWeight: 600, fontSize: '1.1em' }}>🛰️</span>,
       onClick: () => {},
     },
     {
       label: 'unveil shadow domains',
-      icon: <span style={{fontWeight:600, fontSize:'1.1em'}}>🌑</span>,
+      icon: <span style={{ fontWeight: 600, fontSize: '1.1em' }}>🌑</span>,
       onClick: () => {},
     },
   ];

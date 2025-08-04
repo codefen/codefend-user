@@ -537,3 +537,29 @@ main.company {
     }
   }
 }
+
+// Estilos para layout full-width (sin sidebar derecha)
+.user-profile .left.full-width {
+  width: 100% !important;
+  padding-right: 0 !important;
+  
+  .card.standard {
+    max-width: none !important;
+    width: 100% !important;
+  }
+  
+  .raw-data-container {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .raw-data-table-container {
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  .raw-data-table {
+    width: 100%;
+    min-width: 1200px; // Asegurar que tenga espacio suficiente
+  }
+}

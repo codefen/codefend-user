@@ -12,12 +12,16 @@ interface DailyData {
   neuroscans: string;
   visitas_unicas: string;
   orders: string;
+  issues_vistos: string;
 }
+
+type TimePeriod = 'today' | 'week' | '14days' | '21days';
 
 export const useGetUserRegistrations = () => {
   const { getCompany } = useUserData();
   const [data, setData] = useState<DailyData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPeriod, setCurrentPeriod] = useState<TimePeriod>('today');
   const [totals, setTotals] = useState({
     leads: 0,
     usuarios: 0,
@@ -31,7 +35,7 @@ export const useGetUserRegistrations = () => {
   // Combinar todos los datos por fecha
   const combineDataByDate = (responseData: any) => {
     const dateMap = new Map<string, DailyData>();
-    
+
     // Procesar cada tipo de dato
     const dataTypes = [
       { key: 'leads_por_dia', field: 'leads' },
@@ -40,6 +44,7 @@ export const useGetUserRegistrations = () => {
       // { key: 'neuroscans_por_dia', field: 'neuroscans' }, // Comentado - no se muestra por defecto
       { key: 'visitas_unicas_por_dia', field: 'visitas_unicas' },
       { key: 'orders_por_dia', field: 'orders' },
+      { key: 'issues_vistos_por_dia', field: 'issues_vistos' },
     ];
 
     dataTypes.forEach(({ key, field }) => {
@@ -54,6 +59,7 @@ export const useGetUserRegistrations = () => {
             neuroscans: '0',
             visitas_unicas: '0',
             orders: '0',
+            issues_vistos: '0',
           });
         }
         const existing = dateMap.get(record.fecha)!;
@@ -64,70 +70,103 @@ export const useGetUserRegistrations = () => {
     return Array.from(dateMap.values());
   };
 
-  // Filtrar los últimos 30 días
-  const filterLast30Days = (combinedData: DailyData[]) => {
-    const today = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(today.getDate() - 30);
-    
-    return combinedData
-      .filter(reg => {
-        const regDate = new Date(reg.fecha);
-        return regDate >= thirtyDaysAgo && regDate <= today;
-      })
-      .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
+  // Filtrar según el período seleccionado (ya no necesario, se hace en backend)
+  const processDataByPeriod = (combinedData: DailyData[]) => {
+    return combinedData.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
   };
 
-  const fetchRegistrations = useCallback(async () => {
-    if (isLoading) return; // Evitar requests duplicados
-    
-    setIsLoading(true);
-    
-    try {
-      const response = await AxiosHttpService.getInstance().post<any>({
-        path: 'admin/users/flow',
-        body: { company_id: getCompany() },
-        requireSession: true,
-      });
+  const fetchRegistrations = useCallback(
+    async (period: TimePeriod) => {
+      if (isLoading) return; // Evitar requests duplicados
 
-      if (response.data?.error === '0') {
-        const combinedData = combineDataByDate(response.data);
-        const filteredData = filterLast30Days(combinedData);
-        
-        // Calcular totales
-        const newTotals = {
-          leads: filteredData.reduce((sum, reg) => sum + parseInt(reg.leads || '0'), 0),
-          usuarios: filteredData.reduce((sum, reg) => sum + parseInt(reg.usuarios || '0'), 0),
-          companias: filteredData.reduce((sum, reg) => sum + parseInt(reg.companias || '0'), 0),
-          neuroscans: filteredData.reduce((sum, reg) => sum + parseInt(reg.neuroscans || '0'), 0),
-          issues_vistos: 0,
-          visitas_unicas: filteredData.reduce((sum, reg) => sum + parseInt(reg.visitas_unicas || '0'), 0),
-          orders: filteredData.reduce((sum, reg) => sum + parseInt(reg.orders || '0'), 0),
-        };
-        
-        setData(filteredData);
-        setTotals(newTotals);
-        // toast.success('Datos cargados correctamente'); // Removido para carga automática
-      } else {
-        toast.error('Error al cargar los datos');
+      // console.log(`🔄 Fetching data for period: ${period}`);
+
+      setIsLoading(true);
+      setCurrentPeriod(period);
+
+      try {
+        const response = await AxiosHttpService.getInstance().post<any>({
+          path: 'admin/users/flow',
+          body: {
+            company_id: getCompany(),
+            period: period,
+          },
+          requireSession: true,
+        });
+
+        if (response.data?.error === '0') {
+          // console.log(`✅ Data received for period: ${period}`, response.data);
+
+          const combinedData = combineDataByDate(response.data);
+          const processedData = processDataByPeriod(combinedData);
+
+          // Calcular totales
+          const newTotals = {
+            leads: processedData.reduce((sum, reg) => sum + parseInt(reg.leads || '0'), 0),
+            usuarios: processedData.reduce((sum, reg) => sum + parseInt(reg.usuarios || '0'), 0),
+            companias: processedData.reduce((sum, reg) => sum + parseInt(reg.companias || '0'), 0),
+            neuroscans: processedData.reduce(
+              (sum, reg) => sum + parseInt(reg.neuroscans || '0'),
+              0
+            ),
+            issues_vistos: processedData.reduce(
+              (sum, reg) => sum + parseInt(reg.issues_vistos || '0'),
+              0
+            ),
+            visitas_unicas: processedData.reduce(
+              (sum, reg) => sum + parseInt(reg.visitas_unicas || '0'),
+              0
+            ),
+            orders: processedData.reduce((sum, reg) => sum + parseInt(reg.orders || '0'), 0),
+          };
+
+          // console.log(
+          //   `📊 Processed ${processedData.length} records for period: ${period}`,
+          //   newTotals
+          // );
+
+          setData(processedData);
+          setTotals(newTotals);
+        } else {
+          console.error(`❌ Error response for period: ${period}`, response.data);
+          toast.error('Error al cargar los datos');
+          setData([]);
+          setTotals({
+            leads: 0,
+            usuarios: 0,
+            companias: 0,
+            neuroscans: 0,
+            issues_vistos: 0,
+            visitas_unicas: 0,
+            orders: 0,
+          });
+        }
+      } catch (error) {
+        console.error(`❌ Network error for period: ${period}`, error);
+        const errorMessage = apiErrorValidation(error);
+        toast.error(errorMessage || 'Error al cargar los datos');
         setData([]);
-        setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0, orders: 0 });
+        setTotals({
+          leads: 0,
+          usuarios: 0,
+          companias: 0,
+          neuroscans: 0,
+          issues_vistos: 0,
+          visitas_unicas: 0,
+          orders: 0,
+        });
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error fetching registrations:', error);
-      const errorMessage = apiErrorValidation(error);
-      toast.error(errorMessage || 'Error al cargar los datos');
-      setData([]);
-      setTotals({ leads: 0, usuarios: 0, companias: 0, neuroscans: 0, issues_vistos: 0, visitas_unicas: 0, orders: 0 });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [getCompany]);
+    },
+    [getCompany]
+  ); // Removí currentPeriod de las dependencias para evitar la dependencia circular
 
   return {
     data,
     totals,
     isLoading,
+    currentPeriod,
     fetchRegistrations,
   };
-}; 
+};

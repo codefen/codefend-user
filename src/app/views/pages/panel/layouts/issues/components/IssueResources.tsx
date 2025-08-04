@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { type ColumnTableV3, type Issues, naturalTime, Sort } from '../../../../../../data';
 import { useDeleteIssue } from '@panelHooks/issues/useDeleteIssues.ts';
@@ -17,6 +17,7 @@ import { ResourceIconText } from '@/app/views/components/utils/ResourceIconText'
 import { RiskScore } from '@/app/views/components/utils/RiskScore';
 import { IssueAuthor } from '@/app/views/pages/panel/layouts/issues/components/IssueAuthor';
 import { ResourceClassIssueIcon } from '@/app/views/pages/panel/layouts/issues/components/ResourceClassIssueIcon';
+import { useMediaQuery } from 'usehooks-ts';
 
 interface IssueResourcesProps {
   isLoading: boolean;
@@ -27,7 +28,8 @@ interface IssueResourcesProps {
 
 export const AI_RESEARCHER_ID = 186;
 
-const issueColumns: ColumnTableV3[] = [
+// Columnas para desktop
+const desktopIssueColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
@@ -50,7 +52,6 @@ const issueColumns: ColumnTableV3[] = [
     weight: '34%',
     render: issue => issue.name,
   },
-
   {
     header: 'Domain',
     key: 'resourceDomain',
@@ -91,6 +92,37 @@ const issueColumns: ColumnTableV3[] = [
   },
 ];
 
+// Columnas para mobile (sin ID, Class, Author y Domain, con ícono en Title)
+const mobileIssueColumns: ColumnTableV3[] = [
+  {
+    header: 'Issue Title',
+    key: 'name',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issue-2',
+    weight: '65%',
+    render: issue => (
+      <div>
+        <ResourceClassIssueIcon resourceClass={issue.resourceClass} />
+        <span className="issue-name">{issue.name}</span>
+      </div>
+    ),
+  },
+  {
+    header: 'Published',
+    key: 'createdAt',
+    styles: 'item-cell-issue-4',
+    weight: '20%',
+    render: value => (value ? naturalTime(value) : '--/--/--'),
+  },
+  {
+    header: 'Score',
+    key: 'riskScore',
+    styles: 'item-cell-issue-6',
+    weight: '15%',
+    render: value => <RiskScore riskScore={value} />,
+  },
+];
+
 export const IssueResources: FC<IssueResourcesProps> = props => {
   const navigate = useNavigate();
   const [selected, setSelectedId] = useState('');
@@ -99,35 +131,48 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
   const { baseUrl } = useNewWindows();
   const { isProvider, isAdmin } = useUserRole();
   const [searchTerm, setTerm] = useState('');
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
-  const dataTable = props.issues.filter(issue =>
-    issue.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const dataTable = props.issues
+    .filter(issue => issue.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      const scoreA = parseInt(a.riskScore) || 0;
+      const scoreB = parseInt(b.riskScore) || 0;
+      return scoreB - scoreA; // Mantener orden por riskScore (5 a 1)
+    });
+
+  // Seleccionar columnas basadas en el viewport
+  const issueColumns = useMemo(() => {
+    return isMobile ? mobileIssueColumns : desktopIssueColumns;
+  }, [isMobile]);
+
+  const issuesColumnsWithActions = useMemo(
+    () => [
+      ...issueColumns,
+      {
+        header: '',
+        key: TABLE_KEYS.ACTION,
+        type: TABLE_KEYS.FULL_ROW,
+        styles: 'item-cell-issue-7 item-action',
+        weight: '4.5%',
+        render: (row: any) => (
+          <div className="publish" key={`actr-${row.id}`}>
+            <span
+              title="Remove issue"
+              className={`trash`}
+              onClick={e => {
+                e.preventDefault();
+                setSelectedId(row.id);
+                setShowModal(!showModal);
+              }}>
+              <TrashIcon isButton />
+            </span>
+          </div>
+        ),
+      },
+    ],
+    [issueColumns, showModal]
   );
-
-  const issuesColumnsWithActions = [
-    ...issueColumns,
-    {
-      header: '',
-      key: TABLE_KEYS.ACTION,
-      type: TABLE_KEYS.FULL_ROW,
-      styles: 'item-cell-issue-7 item-action',
-      weight: '4.5%',
-      render: (row: any) => (
-        <div className="publish" key={`actr-${row.id}`}>
-          <span
-            title="Remove issue"
-            className={`trash`}
-            onClick={e => {
-              e.preventDefault();
-              setSelectedId(row.id);
-              setShowModal(!showModal);
-            }}>
-            <TrashIcon isButton />
-          </span>
-        </div>
-      ),
-    },
-  ];
   return (
     <>
       <ModalTitleWrapper
@@ -162,7 +207,8 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
           showRows={true}
           showSkeleton={props.isLoading}
           totalRowCount={5}
-          initialSort={Sort.asc}
+          initialOrder="riskScore"
+          initialSort={Sort.desc}
           urlNav={`${baseUrl}/issues/`}
           emptyInfo="The company has no associated vulnerabilities yet, wait for one of our hackers to report a vulnerability or perform an automated scan with AI to find vulnerabilities automatically!"
         />

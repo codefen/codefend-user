@@ -42,6 +42,8 @@
     background-color: var(--primary-color);
     animation: sideLeft 0.5s ease-in-out;
     overflow-y: auto;
+    // Nota: La sidebar usa el estilo unificado de scrollbar definido en settings.scss e index.scss
+    // Color: var(--primary-color-300) (gris) con track transparente
   }
 
   &.mobile-active {
@@ -65,13 +67,67 @@
     margin-bottom: 0.7dvh;
   }
 
+  .sidebar-group-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 6px;
+    margin: 0 8px;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+
   .sidebar-group-title {
     font-size: 1.1rem;
     font-weight: 500;
     padding-inline: 20px;
     line-height: 1.5;
     margin-top: 1rem;
+    margin-bottom: 0.5rem;
     font-family: Satoshi;
+    flex: 1;
+  }
+
+  .sidebar-group-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: var(--tertiary-color-500);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 0.25rem;
+
+    &.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    &:hover {
+      color: var(--secondary-color-400);
+    }
+  }
+
+  .sidebar-group-content {
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 1000px;
+    opacity: 1;
+
+    &.collapsed {
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+    }
   }
 
   a {
@@ -375,10 +431,41 @@
           margin-bottom: var(--card-space);
         }
 
+        .sidebar-group-title-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+
+          h3 {
+            margin: 0;
+            flex: 1;
+          }
+
+          .sidebar-group-arrow {
+            margin-left: 0.5rem;
+            color: var(--tertiary-color-500);
+
+            &:hover {
+              color: var(--secondary-color-400);
+            }
+          }
+        }
+
         .sidebar-content-items {
           display: flex;
           flex-direction: column;
           gap: var(--card-space);
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          max-height: 1000px;
+          opacity: 1;
+
+          &.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+          }
 
           .menu-item {
             display: block;
@@ -564,8 +651,22 @@
     background: rgb(35 35 35 / 45%);
   }
 
+  .sidebar-group-title-container {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
   .sidebar-group-title {
     color: var(--tertiary-color-100);
+  }
+
+  .sidebar-group-arrow {
+    color: var(--tertiary-color-300);
+
+    &:hover {
+      color: var(--secondary-color-300);
+    }
   }
 
   a {
@@ -655,6 +756,16 @@
 
   .sidebar-mobile-content {
     .sidebar-content-container {
+      .sidebar-group-title-container {
+        .sidebar-group-arrow {
+          color: var(--tertiary-color-300);
+
+          &:hover {
+            color: var(--secondary-color-300);
+          }
+        }
+      }
+
       .sidebar-content-items {
         .menu-item {
           color: var(--tertiary-color-100);

@@ -4,16 +4,10 @@ import {
   AdminCompanyIcon,
   ChartIcon,
   GlobeWebIcon,
-  MobileIcon,
-  PeopleGroupIcon,
-  SnbIcon,
   ProfileIcon,
-  LanIcon,
   WorksIcon,
   LeadIcon,
   UsersIcon,
-  ScanIcon,
-  PeopleIcon,
   PeopleIconOutline,
   UsersGroupOutline,
   CreditCardIcon,
@@ -28,7 +22,7 @@ import { LightningIcon } from '../icons/LightningIcon';
 import { SidebarItem } from '@/app/views/components/sidebar/SidebarItem';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
-import { lazy, useState, useRef } from 'react';
+import { lazy, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { LogoutIcon, NetworkIcon, RobotFaceIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show.tsx';
@@ -46,6 +40,21 @@ import { useTheme } from '@/app/views/context/ThemeContext';
 import { SunIcon, MoonIcon } from '@icons';
 
 const Logo = lazy(() => import('../Logo/Logo.tsx'));
+
+// Icono de flecha para colapsar
+const CollapseArrow = ({ isCollapsed }: { isCollapsed: boolean }) => (
+  <div className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`}>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M6 9L12 15L18 9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+);
 
 export const SidebarDesktop = ({
   companies,
@@ -72,6 +81,22 @@ export const SidebarDesktop = ({
   const { theme, changeTheme } = useTheme();
   // const isDark = theme === 'dark';
 
+  // Estado para manejar qué secciones están colapsadas
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
+
+  // Función para alternar el colapso de una sección
+  const toggleSection = (sectionId: string) => {
+    setCollapsedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
+    });
+  };
+
   const rootAction = () => {
     navigate('/');
   };
@@ -79,29 +104,32 @@ export const SidebarDesktop = ({
     setModalId(MODAL_KEY_OPEN.USER_WELCOME);
     setIsOpen(true);
   };
-  const openOnBoard = () => {
-    setModalId(MODAL_KEY_OPEN.USER_WELCOME_DOMAIN);
-    setIsOpen(true);
-    isProgressStarted.set(false);
-    progress.set(0);
-  };
+
 
   const isNotProviderAndReseller = !isProvider() && !isReseller();
 
   const newMenuItems = [
     {
       type: 'group',
-      title: 'Main',
-      id: 'sidebar_mainitems',
+      title: 'Admin',
+      id: 'sidebar_admin',
       children: [
         {
-          title: 'Administration',
-          id: 'sidebar_admin_section',
+          title: 'Admin Commander',
+          id: 'sidebar_commander',
           icon: <LightningIcon isVisible />,
-          to: '/admin/admin-section',
+          to: '/admin/commander',
           root: false,
           haveAccess: isAdmin(),
         },
+      ],
+      haveAccess: isAdmin(),
+    },
+    {
+      type: 'group',
+      title: 'Main',
+      id: 'sidebar_mainitems',
+      children: [
         {
           title: 'My profile',
           id: 'sidebar_profile',
@@ -117,15 +145,6 @@ export const SidebarDesktop = ({
           to: '/provider/orders',
           root: false,
           haveAccess: isProvider(),
-        },
-        {
-          title: 'Company Panel',
-          id: 'sidebar_company',
-          icon: <AdminCompanyIcon />,
-          to: '/admin/company',
-          root: isAdmin(),
-          haveAccess:
-            isAdmin() || (isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null),
         },
         {
           title: 'Leads',
@@ -275,50 +294,62 @@ export const SidebarDesktop = ({
     },
   ];
 
-  const getItems = useCallback((menu: any[]) => {
-    const items: ReactNode[] = [];
+  const getItems = useCallback(
+    (menu: any[]) => {
+      const items: ReactNode[] = [];
 
-    for (const entry of menu) {
-      if (entry.type === 'group') {
-        const groupChildren = entry.children.filter((child: any) => child.haveAccess);
-        if (groupChildren.length > 0) {
-          items.push(
-            <div key={`group-${entry.id}`} className="sidebar-group">
-              <div className="sidebar-group-title">{entry.title}</div>
-              {groupChildren.map(({ id, title, icon, to, root }: any) => (
-                <SidebarItem
-                  key={`sb-${id}`}
-                  id={id}
-                  title={title}
-                  icon={icon}
-                  to={to}
-                  isActive={verifyPath(to, root)}
-                  isAuth={isAuth}
-                />
-              ))}
-            </div>
-          );
-        }
-      } else {
-        const { id, haveAccess, title, icon, to, root } = entry;
-        if (haveAccess) {
-          items.push(
-            <SidebarItem
-              key={`sb-${id}`}
-              id={id}
-              title={title}
-              icon={icon}
-              to={to}
-              isActive={verifyPath(to, root)}
-              isAuth={isAuth}
-            />
-          );
+      for (const entry of menu) {
+        if (entry.type === 'group') {
+          const groupChildren = entry.children.filter((child: any) => child.haveAccess);
+          if (groupChildren.length > 0) {
+            const isCollapsed = collapsedSections.has(entry.id);
+            items.push(
+              <div key={`group-${entry.id}`} className="sidebar-group">
+                <div
+                  className="sidebar-group-title-container"
+                  onClick={() => toggleSection(entry.id)}>
+                  <div className="sidebar-group-title">{entry.title}</div>
+                  <CollapseArrow isCollapsed={isCollapsed} />
+                </div>
+                <div className={`sidebar-group-content ${isCollapsed ? 'collapsed' : ''}`}>
+                  {groupChildren.map(({ id, title, icon, to, root, onClick }: any) => (
+                    <SidebarItem
+                      key={`sb-${id}`}
+                      id={id}
+                      title={title}
+                      icon={icon}
+                      to={to}
+                      isActive={verifyPath(to, root)}
+                      isAuth={isAuth}
+                      onClick={onClick}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          }
+        } else {
+          const { id, haveAccess, title, icon, to, root } = entry;
+          if (haveAccess) {
+            items.push(
+              <SidebarItem
+                key={`sb-${id}`}
+                id={id}
+                title={title}
+                icon={icon}
+                to={to}
+                isActive={verifyPath(to, root)}
+                isAuth={isAuth}
+              />
+            );
+          }
         }
       }
-    }
 
-    return items;
-  }, []);
+      return items;
+    },
+    [collapsedSections, toggleSection]
+  );
 
   return (
     <>
@@ -352,28 +383,6 @@ export const SidebarDesktop = ({
       {getItems(newMenuItems)}
       {/* HR y acciones rápidas debajo de Risk control */}
       <hr style={{ margin: '18px 0 10px 0', border: 0, borderTop: '1px solid #e0e0e0' }} />
-      {isAdmin() && (
-        <SidebarItem
-          id="sidebar_action_onboarding"
-          title="Onboarding"
-          icon={<RobotFaceIcon width={'1.2em'} height={'1.2em'} />}
-          to="#"
-          isActive={false}
-          isAuth={isAuth}
-          onClick={openOnBoard}
-        />
-      )}
-      {isAdmin() && (
-        <SidebarItem
-          id="sidebar_action_network_settings"
-          title="Quick variables"
-          icon={<NetworkIcon width={1.2} height={1.2} />}
-          to="#"
-          isActive={false}
-          isAuth={isAuth}
-          onClick={() => isOpenNetworkSetting.set(true)}
-        />
-      )}
       {/* Agrupo theme y logout en un sidebar-group sin título */}
       <div className="sidebar-group">
         <SidebarItem

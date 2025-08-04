@@ -17,6 +17,7 @@ import { useInitialDomainStore } from '@stores/initialDomain.store';
 import { useAutoScan } from '@moduleHooks/newscanner/useAutoScan';
 import { useNavigate } from 'react-router-dom';
 import { useSolvedComunique } from '@panelHooks/comunique/useSolvedComunique';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 /*
 🚨 SISTEMA DE BANDERA checkEmail PARA PREVENIR REDIRECCIÓN AUTOMÁTICA:
@@ -56,7 +57,7 @@ const columns = [
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-welcome-1',
-    weight: '42%',
+    weight: '50%',
     render: (row: any, next?: any) =>
       !row?.address_domain ? (
         row?.resource_domain
@@ -71,7 +72,7 @@ const columns = [
     header: 'server ip',
     key: 'main_server',
     styles: 'item-cell-welcome-2',
-    weight: '26%',
+    weight: '30%',
     render: (ip: any) => (ip === 'unreachable' ? 'non available' : ip),
   },
   {
@@ -79,11 +80,12 @@ const columns = [
     key: 'main_server_area_name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-welcome-3',
-    weight: '32%',
+    weight: '20%',
     render: (row: any) => (
       <LocationItem
         country={row?.main_server_area_name || 'non available'}
         countryCode={row?.main_server_area_code || ''}
+        showCountryName={false}
       />
     ),
   },
@@ -108,6 +110,8 @@ export const WelcomeDomain = ({
   const { autoScan } = useAutoScan();
   const navigate = useNavigate();
   const { solvedComunique } = useSolvedComunique();
+  const { theme } = useTheme();
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Campo actual según el tipo de scope
   const currentValue = scopeType === 'email' ? emailValue : websiteValue;
@@ -447,6 +451,26 @@ export const WelcomeDomain = ({
     }
   }, []);
 
+  // 🚀 AUTO-SUBMIT: Ejecutar submit automático cuando se precarga dominio de empresa
+  useEffect(() => {
+    // Solo ejecutar si:
+    // 1. El componente ya se inicializó
+    // 2. Está en modo website
+    // 3. Hay un valor en websiteValue
+    // 4. Los dominios están vacíos (no se ha hecho preview aún)
+    if (hasInitialized && scopeType === 'website' && websiteValue && domains.length === 0) {
+      // console.log('🚀 AUTO-SUBMIT: Ejecutando submit automático para:', websiteValue);
+      // Usar setTimeout para asegurar que el DOM esté listo
+      setTimeout(() => {
+        // Simular el submit del formulario usando la referencia
+        if (formRef.current) {
+          const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+          formRef.current.dispatchEvent(submitEvent);
+        }
+      }, 200);
+    }
+  }, [hasInitialized, scopeType, websiteValue, domains.length]);
+
   // useEffect para limpiar dominios cuando el campo esté completamente vacío
   useEffect(() => {
     if (!hasInitialized) return;
@@ -736,42 +760,34 @@ export const WelcomeDomain = ({
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={close}>
       <div className="welcome-content">
-        <img className="logose" src="/codefend/logo-color.png" width={130} />
+        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
         <div className="welcome-header">
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
           <p className="welcome-text">
-            <b>Great! Let's start by performing an automated analysis of your attack surface.</b>{' '}
-            We'll search for subdomains, analyze the main domain, look for data leaks and add
-            resources.
+            <b>Welcome to Codefend!</b> Let's perform an automated AI based scan over your attack surface! <b>Provide any domain name</b> and we <b>will take it from there:</b>
           </p>
         </div>
 
         {/* Línea separadora antes de confirm scope */}
         <hr className="onboarding-separator" />
 
-        <form className="input-container" onSubmit={changeInitialDomain}>
-          <div className="scope-header">
-            <label htmlFor="initialScope" className="scope-title-small">
-              <b>Confirm the initial scope:</b>
-            </label>
-
-            {/* Botones de selección de tipo de scan - más pequeños y a la derecha */}
-            <div className="scope-type-buttons-inline">
-              <button
-                type="button"
-                className={`btn scope-btn-small ${scopeType === 'email' ? 'active' : ''}`}
-                onClick={handlePersonalEmailScan}
-                disabled={isLoading || loading}>
-                Scan personal email
-              </button>
-              <button
-                type="button"
-                className={`btn scope-btn-small ${scopeType === 'website' ? 'active' : ''}`}
-                onClick={handleBusinessWebsiteScan}
-                disabled={isLoading || loading}>
-                Scan web infrastructure
-              </button>
-            </div>
+        <form className="input-container" ref={formRef} onSubmit={changeInitialDomain}>
+          {/* Botones de selección de tipo de scan - ocupando todo el ancho */}
+          <div className="scope-type-buttons-full">
+            <button
+              type="button"
+              className={`btn scope-btn-tab ${scopeType === 'email' ? 'active' : ''}`}
+              onClick={handlePersonalEmailScan}
+              disabled={isLoading || loading}>
+              Explore dataleaks
+            </button>
+            <button
+              type="button"
+              className={`btn scope-btn-tab ${scopeType === 'website' ? 'active' : ''}`}
+              onClick={handleBusinessWebsiteScan}
+              disabled={isLoading || loading}>
+              Scan corporate infrastructure
+            </button>
           </div>
 
           <input
@@ -779,7 +795,11 @@ export const WelcomeDomain = ({
             id="initialScope"
             name="initialScope"
             autoComplete="off"
-            placeholder="Enter email or domain..."
+            placeholder={
+              scopeType === 'email' 
+                ? 'Enter email to scan for leaks'
+                : 'Enter domain to attack'
+            }
             value={currentValue || ''}
             onChange={e => handleInputChange(e.target.value)}
           />

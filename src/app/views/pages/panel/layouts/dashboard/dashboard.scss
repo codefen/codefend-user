@@ -224,19 +224,6 @@ main.dashboard {
   }
 }
 
-@media only screen and (max-width: 680px) {
-  main.dashboard {
-    .left {
-      .card.scan-start {
-        display: block;
-      }
-    }
-    .right {
-      display: none;
-    }
-  }
-}
-
 @media only screen and (max-width: 600px) {
   main.dashboard {
     display: flex;
@@ -249,7 +236,7 @@ main.dashboard {
 
     .left {
       width: 100%;
-      padding-block-start: 10px;
+      padding-block-start: 50px;
       flex: 1;
       overflow-y: visible; // Usar scroll natural del documento
       height: auto; // Altura automática para flujo natural
@@ -278,6 +265,38 @@ main.dashboard {
       width: 100%;
       padding-block-start: 20px;
       flex: 0 0 auto;
+    }
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  main.dashboard {
+    .left {
+      .card.rectangle {
+        .over {
+          padding: calc(var(--card-space) * 2);
+
+          p {
+            max-width: min(660px, 100%);
+          }
+        }
+      }
+      .radar-scanner {
+        display: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 940px) {
+  main.dashboard {
+    .left {
+      .card.scan-start {
+        display: block;
+      }
+    }
+    .right {
+      display: none;
     }
   }
 }

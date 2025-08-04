@@ -35,6 +35,7 @@ import { PrimaryButton } from '@buttons/index';
 import { useInitialDomainStore } from '@/app/data/store/initialDomain.store';
 import ModalWrapper from '@/app/views/components/modals/modalwrapper/ModalWrapper';
 import './OnboardingPage.scss';
+import { useTheme } from '@/app/views/context/ThemeContext';
 
 export const OnboardingPage = () => {
   const [fetcher, _, isLoading] = useFetcher();
@@ -57,6 +58,7 @@ export const OnboardingPage = () => {
   const { handleSuccessfulLogin } = useSessionManager();
   const { session, user } = useGlobalFastFields(['session', 'user']);
   const { update: updateInitialDomain } = useInitialDomainStore();
+  const { theme } = useTheme();
 
   const handleClose = () => {
     // Opcional: agregar lógica de confirmación antes de cerrar
@@ -188,7 +190,7 @@ export const OnboardingPage = () => {
       personal_user: newIsPersonal ? '1' : '0',
       // Si es usuario personal, establecer valores automáticos y limpiar campos no necesarios
       company_size: newIsPersonal ? '1-10' : prev.company_size,
-      company_web: newIsPersonal ? '-' : prev.company_web,
+      company_web: newIsPersonal ? '' : prev.company_web,
       company_name: newIsPersonal ? 'Personal Business' : prev.company_name,
     }));
   };
@@ -377,8 +379,62 @@ export const OnboardingPage = () => {
 
   return (
     <ModalWrapper showCloseBtn={false} type="onboarding-modal-container" action={handleClose}>
-      <div className="welcome-content">
-        <img className="logose" src="/codefend/logo-color.png" width={130} />
+      <div className="new-auth-content readonly-content">
+        <h1>
+          Unveil the full attack surface...
+          <br />
+          <span>discover real threats</span>
+        </h1>
+
+        <p className="header-text">
+          Start with a one domain or email. Codefend uncovers what’s leaking, exposed or exploitable
+          — before attackers do. Browse and scan across thousands of systems and millions of
+          breached identities indexed. We are experts in blackbox operations.
+        </p>
+
+        <div className="features-list">
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
+            </div>
+            <div className="feature-content">
+              <h3>Professional hackers on demand</h3>
+              <p>
+                Hire professional hackers on demand, when you need them! Our professionals follow
+                the same paths real attackers do.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
+            </div>
+            <div className="feature-content">
+              <h3>Full dataleaks explorer</h3>
+              <p>
+                See what parts of your tech stack have already been leaked. Correlate your users
+                with 190B+ breached records and discover hidden threats.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
+            </div>
+            <div className="feature-content">
+              <h3>Automated attack surface map</h3>
+              <p>
+                Visualize the online exposure like never before. From one domain to your full
+                infrastructure — unveil hosts, techs, live vulnerabilities and people and more.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="new-auth-content welcome-content">
+        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={220} />
 
         <div className="onboarding-header">
           <b>Business information</b>
@@ -417,7 +473,7 @@ export const OnboardingPage = () => {
                 {!isPersonalUser && (
                   <>
                     <AuthInput
-                      placeholder="Enter your domain (e.g., yourcompany.com)"
+                      placeholder="Enter domain to attack"
                       value={companyData.company_web}
                       setVal={(e: ChangeEvent<HTMLInputElement>) =>
                         handleInputChange('company_web', e.target.value)
@@ -460,7 +516,7 @@ export const OnboardingPage = () => {
               <hr className="onboarding-separator" />
 
               <div className="btn-container">
-                <button type="submit" className="btn btn-continue" disabled={isLoading}>
+                <button type="submit" className="btn btn-red" disabled={isLoading}>
                   {isLoading ? 'Processing...' : 'Continue'}
                 </button>
               </div>

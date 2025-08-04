@@ -15,6 +15,7 @@ import Show from '@/app/views/components/Show/Show';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { ResourcesTypes } from '@interfaces/order';
 import type { FilterGroup, FilterState } from '@interfaces/issues';
+import { useMediaQuery } from 'usehooks-ts';
 
 interface Props {
   isLoading: boolean;
@@ -51,11 +52,20 @@ const RISK_SCORE_ELEMENTS = [
 ];
 
 export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter }) => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  
+  // Estado para controlar si todo el contenido de filtros está expandido
+  const [isFilterSectionExpanded, setIsFilterSectionExpanded] = useState(!isMobile);
+  
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
-    resourceClass: true,
+    resourceClass: !isMobile, // En mobile: colapsado, en desktop: expandido
     riskScore: false,
     scanId: false,
   });
+
+  const toggleFilterSection = useCallback(() => {
+    setIsFilterSectionExpanded(prev => !prev);
+  }, []);
 
   const toggleGroup = useCallback((groupType: string) => {
     setExpandedGroups(prev => ({
@@ -176,59 +186,69 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
 
   return (
     <div className="card filtered">
-      <div className="header">
+      <button 
+        className="header clickable-header" 
+        onClick={toggleFilterSection}
+        style={{ cursor: 'pointer', border: 'none', background: 'none', width: '100%', textAlign: 'left' }}>
         <FilterIcon />
         <span>Filter Issues</span>
-      </div>
-      <div className="content filters">
-        {filterGroups.map((group, groupIndex) => (
-          <div
-            key={groupIndex}
-            className={`filter-group ${expandedGroups[group.type] ? 'expanded' : ''}`}>
-            <button className="filter-group-btn" onClick={() => toggleGroup(group.type)}>
-              <ChevronIcon />
-              <h3>{group.title}</h3>
-            </button>
-            <div className="filter-group-content">
-              {group.elements.map((element, elementIndex) => (
-                <label
-                  className="filter"
-                  key={`${groupIndex}-${elementIndex}`}
-                  htmlFor={`${group.type}-${element.value}`}>
-                  <div className="check">
-                    <div className="label">
-                      <input
-                        type="checkbox"
-                        disabled={element.total === 0}
-                        checked={currentFilters[group.type].includes(element.value.toString())}
-                        onChange={() => handleFilter(group.type, element.value.toString())}
-                        className="codefend-checkbox"
-                        id={`${group.type}-${element.value}`}
-                      />
-                      {element.label.split('|')[0]}{' '}
-                      {element.label.split('|')[1] ? (
-                        <span>
-                          <span>|</span> <span>{element.label.split('|')[1]}</span>
-                        </span>
-                      ) : (
-                        ''
-                      )}
+        <ChevronIcon style={{ 
+          marginLeft: 'auto', 
+          transform: isFilterSectionExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+          transition: 'transform 0.2s ease'
+        }} />
+      </button>
+      <Show when={isFilterSectionExpanded}>
+        <div className="content filters">
+          {filterGroups.map((group, groupIndex) => (
+            <div
+              key={groupIndex}
+              className={`filter-group ${expandedGroups[group.type] ? 'expanded' : ''}`}>
+              <button className="filter-group-btn" onClick={() => toggleGroup(group.type)}>
+                <ChevronIcon />
+                <h3>{group.title}</h3>
+              </button>
+              <div className="filter-group-content">
+                {group.elements.map((element, elementIndex) => (
+                  <label
+                    className="filter"
+                    key={`${groupIndex}-${elementIndex}`}
+                    htmlFor={`${group.type}-${element.value}`}>
+                    <div className="check">
+                      <div className="label">
+                        <input
+                          type="checkbox"
+                          disabled={element.total === 0}
+                          checked={currentFilters[group.type].includes(element.value.toString())}
+                          onChange={() => handleFilter(group.type, element.value.toString())}
+                          className="codefend-checkbox"
+                          id={`${group.type}-${element.value}`}
+                        />
+                        {element.label.split('|')[0]}{' '}
+                        {element.label.split('|')[1] ? (
+                          <span>
+                            <span>|</span> <span>{element.label.split('|')[1]}</span>
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="value">
-                    <Show
-                      when={element.total === 0}
-                      fallback={<img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />}>
-                      <img src="/codefend/issues-bug-grey.svg" alt="bug-icon" />
-                    </Show>
-                    <span>{element.total}</span>
-                  </div>
-                </label>
-              ))}
+                    <div className="value">
+                      <Show
+                        when={element.total === 0}
+                        fallback={<img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />}>
+                        <img src="/codefend/issues-bug-grey.svg" alt="bug-icon" />
+                      </Show>
+                      <span>{element.total}</span>
+                    </div>
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Show>
     </div>
   );
 };

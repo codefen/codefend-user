@@ -1,4 +1,47 @@
 main.team-members {
+  // Estilos para el header que ocupa todo el ancho
+  .box-assets {
+    margin-bottom: 12px; // Normalizado con dashboard: espacio entre header y columnas
+  }
+
+  // Estilos para el layout de dos columnas (debajo del header)
+  .team-members-two-columns {
+    display: flex;
+    gap: 12px; // Normalizado con dashboard
+    margin-bottom: 12px; // Normalizado con dashboard
+    
+    .left-column {
+      flex: 1;
+      min-width: 0; // Permite que la columna se encoja
+      
+      .card.company-info-card {
+        height: fit-content; // Ajustar altura al contenido
+      }
+    }
+    
+    .right-column {
+      flex: 1;
+      min-width: 0; // Permite que la columna se encoja
+      // Sin gap interno porque solo contiene la tabla
+    }
+    
+    // Responsive: una columna en pantallas pequeñas
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      gap: 12px; // Mantener consistencia
+      
+      .left-column,
+      .right-column {
+        flex: none;
+      }
+    }
+  }
+
+  // Espaciado para VulnerabilitiesStatus que va después de las dos columnas
+  .vulnerabilities-status-section {
+    margin-top: 12px; // Normalizar espaciado con dashboard
+  }
+
   .left {
     gap: 12px;
 
@@ -214,15 +257,18 @@ main.team-members {
 .company-info-content {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.4rem;
   margin-top: 0.5rem;
+  border-top: 1px solid var(--primary-color-300);
+  border-bottom: 1px solid var(--primary-color-300);
+  padding: 0.28rem 0;
 }
 
 .company-info-item {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--primary-color-200);
+  padding: 0.28rem 0;
+  border-bottom: 1px solid var(--primary-color-300);
 
   &:last-child {
     border-bottom: none;
@@ -239,6 +285,12 @@ main.team-members {
 
     // Hacer el label más oscuro para distinguirlo del valor
     font-weight: 500;
+
+    strong {
+      font-family: satoshi, sans-serif;
+      font-weight: 500 !important;
+      color: var(--tertiary-color-400);
+    }
 
     // &.area-line {
     //   .flag {
@@ -317,6 +369,30 @@ main.team-members {
 
     .right {
       display: none;
+    }
+  }
+}
+
+// Estilos para tema oscuro
+[data-theme='dark'] {
+  .company-info-content {
+    border-top: 1px solid var(--primary-color-300);
+    border-bottom: 1px solid var(--primary-color-300);
+  }
+
+  .company-info-item {
+    border-bottom: 1px solid var(--primary-color-300);
+
+    .single-line {
+      color: var(--tertiary-color-300);
+
+      strong {
+        color: var(--tertiary-color-200);
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
     }
   }
 }
