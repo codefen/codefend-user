@@ -544,9 +544,9 @@ main.issues-list {
     // Estilos generales para columna Issue Title - asegurar alineación izquierda
     .item-cell-issue-2 {
       text-align: left !important; // Forzar alineación izquierda en todas las resoluciones
-      padding-left: 12px !important; // Alinear con header
+      padding-left: 0 !important; // quitar padding para alinear perfectamente
       > div {
-        padding-left: 0; // No padding extra dentro del wrapper
+        margin-left: 12px; // margen después del borde para alinear ícono y texto
       }
     }
 
