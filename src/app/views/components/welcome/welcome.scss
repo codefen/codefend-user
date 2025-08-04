@@ -710,3 +710,15 @@
     background-position: 200% 0;
   }
 }
+
+@media only screen and (max-width: 640px) {
+  .modal-wrapper {
+    .modal.welcome-modal-container {
+      .welcome-content.welcome-content-finish {
+        .card.card-process {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
