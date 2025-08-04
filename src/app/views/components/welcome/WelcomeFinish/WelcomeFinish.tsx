@@ -159,16 +159,17 @@ export const WelcomeFinish = ({
               <div className={'card-process-content'}>
                 <div className={'card-process-content-info'}>
                   <div className={'card-process-content-info-container'}>
-                    <div className="info-item">
+                    <div id="item-llm-started" className="info-item item-started">
                       <span>Started:</span>
                       <b>{formatTimeFormat(currentScan?.m_nllm_launched)}</b>
                     </div>
-                    <div className="info-item">
+                    <div id="item-llm-detected" className="info-item item-detected">
                       <span>Detected issues:</span>
                       <b className={issuesFoundFlash}>{currentScan?.m_nllm_issues_found}</b>
                     </div>
                     <div
-                      className={`info-item ${currentScan?.m_nllm_issues_parsed > 0 ? 'clickable' : 'disabled'}`}
+                      id="item-llm-analyzed"
+                      className={`info-item item-analyzed ${currentScan?.m_nllm_issues_parsed > 0 ? 'clickable' : 'disabled'}`}
                       onClick={() =>
                         currentScan?.m_nllm_issues_parsed > 0 &&
                         window.open(
@@ -233,12 +234,13 @@ export const WelcomeFinish = ({
               <div className={'card-process-content'}>
                 <div className={'card-process-content-info'}>
                   <div className={'card-process-content-info-container'}>
-                    <div className="info-item">
+                    <div id="item-subdomains-started" className="info-item item-started">
                       <span>Started:</span>
                       <b>{formatTimeFormat(currentScan?.m_subdomains_launched)}</b>
                     </div>
                     <div
-                      className={`info-item ${currentScan?.m_subdomains_found > 0 ? 'clickable' : 'disabled'}`}
+                      id="item-subdomains-detected"
+                      className={`info-item item-detected ${currentScan?.m_subdomains_found > 0 ? 'clickable' : 'disabled'}`}
                       onClick={() =>
                         currentScan?.m_subdomains_found > 0 && window.open('/web', '_blank')
                       }
@@ -262,7 +264,8 @@ export const WelcomeFinish = ({
                       <b className={subdomainsFoundFlash}>{currentScan?.m_subdomains_found}</b>
                     </div>
                     <div
-                      className={`info-item ${currentScan?.m_subdomains_found_servers > 0 ? 'clickable' : 'disabled'}`}
+                      id="item-subdomains-analyzed"
+                      className={`info-item item-analyzed ${currentScan?.m_subdomains_found_servers > 0 ? 'clickable' : 'disabled'}`}
                       onClick={() =>
                         currentScan?.m_subdomains_found_servers > 0 &&
                         window.open('/network', '_blank')
@@ -328,12 +331,13 @@ export const WelcomeFinish = ({
               <div className={'card-process-content'}>
                 <div className={'card-process-content-info'}>
                   <div className={'card-process-content-info-container'}>
-                    <div className="info-item">
+                    <div id="item-leaks-started" className="info-item item-started">
                       <span>Started:</span>
                       <b>{formatTimeFormat(currentScan?.m_leaks_launched)}</b>
                     </div>
                     <div
-                      className={`info-item ${currentScan?.m_leaks_found > 0 ? 'clickable' : 'disabled'}`}
+                      id="item-leaks-detected"
+                      className={`info-item item-detected ${currentScan?.m_leaks_found > 0 ? 'clickable' : 'disabled'}`}
                       onClick={() =>
                         currentScan?.m_leaks_found > 0 &&
                         window.open(
@@ -361,7 +365,8 @@ export const WelcomeFinish = ({
                       <b className={leaksFoundFlash}>{currentScan?.m_leaks_found}</b>
                     </div>
                     <div
-                      className={`info-item ${currentScan?.m_leaks_social_found > 0 ? 'clickable' : 'disabled'}`}
+                      id="item-leaks-social"
+                      className={`info-item item-analyzed ${currentScan?.m_leaks_social_found > 0 ? 'clickable' : 'disabled'}`}
                       onClick={() =>
                         currentScan?.m_leaks_social_found > 0 &&
                         window.open(

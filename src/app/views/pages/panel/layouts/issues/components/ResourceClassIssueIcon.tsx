@@ -27,8 +27,8 @@ export const ResourceClassIssueIcon = ({ resourceClass }: { resourceClass: strin
         color: '#e56060db',
         padding: '3px',
         borderRadius: '6px',
-        width: '20px',
-        height: '20px',
+        minWidth: '20px',
+        minHeight: '20px',
       }}>
       {getIcon()}
     </div>
