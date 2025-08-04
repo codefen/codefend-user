@@ -9,7 +9,7 @@ import { useCallback, memo, useMemo } from 'react';
 
 const firstOptionText = {
   unique: (initialDomain: string) =>
-    `Perform a manual pentest on <b class="codefend-text-red">${initialDomain}</b>`,
+    `Perform a manual pentest on<br/><b class="codefend-text-red">${initialDomain}</b>`,
   notUnique: () => 'Perform a manual pentest',
 };
 
