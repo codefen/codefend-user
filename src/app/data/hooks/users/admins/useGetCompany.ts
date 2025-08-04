@@ -18,8 +18,10 @@ export const useGetCompany = () => {
     {
       ...defaultConfig,
       fallbackData: { companies: [] },
-      revalidateOnFocus: true,
+      revalidateOnFocus: false,
       revalidateOnMount: true,
+      refreshInterval: 0,
+      dedupingInterval: 60000, // 1 minuto
     }
   );
 

@@ -171,6 +171,7 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
   const [selectedView, setSelectedView] = useState<'2D' | '3D'>('2D');
   const { theme } = useTheme();
+  const lastRenderDataRef = useRef<string>('');
 
   // Configuración visual basada en el tema
   const MAP_STYLE = useMemo(() => ({
@@ -228,20 +229,22 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   }, [countryData]);
 
   // Función para obtener color del país
-  const getCountryColor = useMemo(() => (countryName: string) => {
-    const count = countryData[countryName] || 0;
-    if (count === 0) return MAP_STYLE.countryNoData;
-    
-    // Escala de intensidad basada en el conteo
-    const intensity = count / maxCount;
-    const baseColor = d3.rgb(MAP_STYLE.countryWithData);
-    const lightColor = theme === 'dark' 
-      ? d3.rgb(55, 65, 81) // gray-700 para tema oscuro
-      : d3.rgb(255, 255, 255); // blanco para tema claro
-    
-    // Interpolar entre color base y color claro según la intensidad
-    return d3.interpolateRgb(lightColor, baseColor)(0.3 + intensity * 0.7);
-  }, [countryData, maxCount, MAP_STYLE, theme]);
+  const getCountryColor = useMemo(() => {
+    return (countryName: string) => {
+      const count = countryData[countryName] || 0;
+      if (count === 0) return MAP_STYLE.countryNoData;
+      
+      // Escala de intensidad basada en el conteo
+      const intensity = count / maxCount;
+      const baseColor = d3.rgb(MAP_STYLE.countryWithData);
+      const lightColor = theme === 'dark' 
+        ? d3.rgb(55, 65, 81) // gray-700 para tema oscuro
+        : d3.rgb(255, 255, 255); // blanco para tema claro
+      
+      // Interpolar entre color base y color claro según la intensidad
+      return d3.interpolateRgb(lightColor, baseColor)(0.3 + intensity * 0.7);
+    };
+  }, [countryData, maxCount, MAP_STYLE.countryNoData, MAP_STYLE.countryWithData, theme]);
 
   // Cargar datos del mundo
   useEffect(() => {
@@ -279,6 +282,18 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   // Renderizar el mapa
   useEffect(() => {
     if (!worldData || !svgRef.current || isMapLoading) return;
+
+    // Crear hash de los datos para evitar re-renders innecesarios
+    const dataHash = JSON.stringify({ 
+      countryData, 
+      maxCount, 
+      dimensions, 
+      theme,
+      companiesLength: companies.length 
+    });
+    
+    if (lastRenderDataRef.current === dataHash) return;
+    lastRenderDataRef.current = dataHash;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
@@ -363,7 +378,7 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
       .attr('stroke-width', 0.5)
       .attr('opacity', MAP_STYLE.graticuleOpacity);
 
-  }, [worldData, countryData, maxCount, dimensions, isMapLoading, MAP_STYLE, getCountryColor]);
+  }, [worldData, countryData, maxCount, dimensions, isMapLoading, MAP_STYLE.countryBorder, MAP_STYLE.countryBorderWidth, MAP_STYLE.graticuleLine, MAP_STYLE.graticuleOpacity, getCountryColor]);
 
   if (isLoading || isMapLoading) {
     return (
