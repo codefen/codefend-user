@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState, useRef, type RefObject } from 'react';
 
 export interface UseColumnLayoutOptions {
   cardWidth: number;
@@ -10,7 +10,7 @@ export interface UseColumnLayoutOptions {
 
 export interface UseColumnLayoutReturn {
   columnCount: number;
-  containerRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: RefObject<HTMLDivElement | null>;
   updateLayout: () => void;
 }
 

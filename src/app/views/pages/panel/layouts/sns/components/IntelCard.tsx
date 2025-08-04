@@ -1,5 +1,5 @@
 import type { IntelData } from '@interfaces/snsTypes';
-import React, { type FC, useState, useRef, useEffect } from 'react';
+import { type FC, useState, useRef, useEffect, type ReactNode, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -78,28 +78,43 @@ const SnsGeoMap = ({ lat, lon }: { lat: number; lon: number }) => {
     const [cx, cy] = [lon, lat];
     // Definir un bounding box pequeño alrededor del punto
     const minLon = cx - 20 * zoomFactor;
-    const maxLon = cx + 20 * zoomFactor; 
+    const maxLon = cx + 20 * zoomFactor;
     const minLat = cy - 10 * zoomFactor;
     const maxLat = cy + 10 * zoomFactor;
-    const bbox = [[minLon, minLat], [maxLon, maxLat]];
+    const bbox = [
+      [minLon, minLat],
+      [maxLon, maxLat],
+    ];
     const projection = d3.geoNaturalEarth1().fitExtent(
-      [[0, 0], [w, height]],
+      [
+        [0, 0],
+        [w, height],
+      ],
       {
         type: 'Feature',
         geometry: {
           type: 'Polygon',
-          coordinates: [[
-            [minLon, minLat], [maxLon, minLat], [maxLon, maxLat], [minLon, maxLat], [minLon, minLat]
-          ]]
+          coordinates: [
+            [
+              [minLon, minLat],
+              [maxLon, minLat],
+              [maxLon, maxLat],
+              [minLon, maxLat],
+              [minLon, minLat],
+            ],
+          ],
         },
-        properties: {}
+        properties: {},
       }
     );
     const path = d3.geoPath().projection(projection);
     // Mapa base (sin contorno exterior)
-    svg.append('g')
+    svg
+      .append('g')
       .selectAll('path')
-      .data(geoData.features.filter((f: any) => f.geometry.type !== 'Sphere') as GeoPermissibleObjects[])
+      .data(
+        geoData.features.filter((f: any) => f.geometry.type !== 'Sphere') as GeoPermissibleObjects[]
+      )
       .enter()
       .append('path')
       .attr('d', path as any)
@@ -111,20 +126,33 @@ const SnsGeoMap = ({ lat, lon }: { lat: number; lon: number }) => {
     if (projected) {
       const [x, y] = projected;
       // Líneas
-      svg.append('line')
-        .attr('x1', x).attr('x2', x)
-        .attr('y1', 0).attr('y2', height)
-        .attr('stroke', '#111').attr('stroke-width', 1.2).attr('stroke-dasharray', '4,2');
-      svg.append('line')
-        .attr('x1', 0).attr('x2', w)
-        .attr('y1', y).attr('y2', y)
-        .attr('stroke', '#111').attr('stroke-width', 1.2).attr('stroke-dasharray', '4,2');
+      svg
+        .append('line')
+        .attr('x1', x)
+        .attr('x2', x)
+        .attr('y1', 0)
+        .attr('y2', height)
+        .attr('stroke', '#111')
+        .attr('stroke-width', 1.2)
+        .attr('stroke-dasharray', '4,2');
+      svg
+        .append('line')
+        .attr('x1', 0)
+        .attr('x2', w)
+        .attr('y1', y)
+        .attr('y2', y)
+        .attr('stroke', '#111')
+        .attr('stroke-width', 1.2)
+        .attr('stroke-dasharray', '4,2');
       // Punto
-      svg.append('circle')
-        .attr('cx', x).attr('cy', y)
+      svg
+        .append('circle')
+        .attr('cx', x)
+        .attr('cy', y)
         .attr('r', 6)
         .attr('fill', '#ff3939')
-        .attr('stroke', '#111').attr('stroke-width', 2);
+        .attr('stroke', '#111')
+        .attr('stroke-width', 2);
     }
   }, [geoData, lat, lon]);
 
@@ -135,53 +163,53 @@ const SnsGeoMap = ({ lat, lon }: { lat: number; lon: number }) => {
 const countryNameToFlagEmoji = (country: string) => {
   if (!country) return '';
   const nameToCode: Record<string, string> = {
-    'Italy': 'IT',
-    'Argentina': 'AR',
-    'France': 'FR',
-    'Germany': 'DE',
-    'Spain': 'ES',
+    Italy: 'IT',
+    Argentina: 'AR',
+    France: 'FR',
+    Germany: 'DE',
+    Spain: 'ES',
     'United Kingdom': 'GB',
-    'USA': 'US',
+    USA: 'US',
     'United States': 'US',
-    'Canada': 'CA',
-    'Russia': 'RU',
-    'China': 'CN',
-    'India': 'IN',
-    'Japan': 'JP',
-    'Brazil': 'BR',
-    'Australia': 'AU',
-    'Mexico': 'MX',
-    'Belgium': 'BE',
-    'Switzerland': 'CH',
-    'Austria': 'AT',
-    'Portugal': 'PT',
-    'Poland': 'PL',
+    Canada: 'CA',
+    Russia: 'RU',
+    China: 'CN',
+    India: 'IN',
+    Japan: 'JP',
+    Brazil: 'BR',
+    Australia: 'AU',
+    Mexico: 'MX',
+    Belgium: 'BE',
+    Switzerland: 'CH',
+    Austria: 'AT',
+    Portugal: 'PT',
+    Poland: 'PL',
     'Czech Republic': 'CZ',
-    'Hungary': 'HU',
-    'Romania': 'RO',
-    'Bulgaria': 'BG',
-    'Croatia': 'HR',
-    'Slovenia': 'SI',
-    'Slovakia': 'SK',
-    'Estonia': 'EE',
-    'Latvia': 'LV',
-    'Lithuania': 'LT',
-    'Finland': 'FI',
-    'Denmark': 'DK',
-    'Iceland': 'IS',
-    'Ireland': 'IE',
-    'Greece': 'GR',
-    'Turkey': 'TR',
-    'Israel': 'IL',
-    'Singapore': 'SG',
+    Hungary: 'HU',
+    Romania: 'RO',
+    Bulgaria: 'BG',
+    Croatia: 'HR',
+    Slovenia: 'SI',
+    Slovakia: 'SK',
+    Estonia: 'EE',
+    Latvia: 'LV',
+    Lithuania: 'LT',
+    Finland: 'FI',
+    Denmark: 'DK',
+    Iceland: 'IS',
+    Ireland: 'IE',
+    Greece: 'GR',
+    Turkey: 'TR',
+    Israel: 'IL',
+    Singapore: 'SG',
     'South Korea': 'KR',
-    'Thailand': 'TH',
-    'Malaysia': 'MY',
-    'Indonesia': 'ID',
-    'Philippines': 'PH',
-    'Vietnam': 'VN',
+    Thailand: 'TH',
+    Malaysia: 'MY',
+    Indonesia: 'ID',
+    Philippines: 'PH',
+    Vietnam: 'VN',
     'New Zealand': 'NZ',
-    'Chile': 'CL',
+    Chile: 'CL',
     'South Africa': 'ZA',
   };
   const code = nameToCode[country.trim()] || '';
@@ -196,53 +224,53 @@ const countryNameToFlagEmoji = (country: string) => {
 const countryNameToCode = (country: string) => {
   if (!country) return '';
   const nameToCode: Record<string, string> = {
-    'Italy': 'it',
-    'Argentina': 'ar',
-    'France': 'fr',
-    'Germany': 'de',
-    'Spain': 'es',
+    Italy: 'it',
+    Argentina: 'ar',
+    France: 'fr',
+    Germany: 'de',
+    Spain: 'es',
     'United Kingdom': 'gb',
-    'USA': 'us',
+    USA: 'us',
     'United States': 'us',
-    'Canada': 'ca',
-    'Russia': 'ru',
-    'China': 'cn',
-    'India': 'in',
-    'Japan': 'jp',
-    'Brazil': 'br',
-    'Australia': 'au',
-    'Mexico': 'mx',
-    'Belgium': 'be',
-    'Switzerland': 'ch',
-    'Austria': 'at',
-    'Portugal': 'pt',
-    'Poland': 'pl',
+    Canada: 'ca',
+    Russia: 'ru',
+    China: 'cn',
+    India: 'in',
+    Japan: 'jp',
+    Brazil: 'br',
+    Australia: 'au',
+    Mexico: 'mx',
+    Belgium: 'be',
+    Switzerland: 'ch',
+    Austria: 'at',
+    Portugal: 'pt',
+    Poland: 'pl',
     'Czech Republic': 'cz',
-    'Hungary': 'hu',
-    'Romania': 'ro',
-    'Bulgaria': 'bg',
-    'Croatia': 'hr',
-    'Slovenia': 'si',
-    'Slovakia': 'sk',
-    'Estonia': 'ee',
-    'Latvia': 'lv',
-    'Lithuania': 'lt',
-    'Finland': 'fi',
-    'Denmark': 'dk',
-    'Iceland': 'is',
-    'Ireland': 'ie',
-    'Greece': 'gr',
-    'Turkey': 'tr',
-    'Israel': 'il',
-    'Singapore': 'sg',
+    Hungary: 'hu',
+    Romania: 'ro',
+    Bulgaria: 'bg',
+    Croatia: 'hr',
+    Slovenia: 'si',
+    Slovakia: 'sk',
+    Estonia: 'ee',
+    Latvia: 'lv',
+    Lithuania: 'lt',
+    Finland: 'fi',
+    Denmark: 'dk',
+    Iceland: 'is',
+    Ireland: 'ie',
+    Greece: 'gr',
+    Turkey: 'tr',
+    Israel: 'il',
+    Singapore: 'sg',
     'South Korea': 'kr',
-    'Thailand': 'th',
-    'Malaysia': 'my',
-    'Indonesia': 'id',
-    'Philippines': 'ph',
-    'Vietnam': 'vn',
+    Thailand: 'th',
+    Malaysia: 'my',
+    Indonesia: 'id',
+    Philippines: 'ph',
+    Vietnam: 'vn',
     'New Zealand': 'nz',
-    'Chile': 'cl',
+    Chile: 'cl',
     'South Africa': 'za',
   };
   return nameToCode[country.trim()] || '';
@@ -254,19 +282,25 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
   const [fetcher] = useFetcher();
   const { getCompany } = useUserData();
   const navigate = useNavigate();
-  const [externalModal, setExternalModal] = useState<{ open: boolean; url: string }>({ open: false, url: '' });
+  const [externalModal, setExternalModal] = useState<{ open: boolean; url: string }>({
+    open: false,
+    url: '',
+  });
 
   // 🚫 CONTROL DE TOASTS DUPLICADOS
   const activeToastsRef = useRef<Set<string>>(new Set());
 
   // Función para mostrar toast sin duplicados
-  const showToastOnce = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'error') => {
+  const showToastOnce = (
+    message: string,
+    type: 'success' | 'error' | 'warning' | 'info' = 'error'
+  ) => {
     if (activeToastsRef.current.has(message)) {
       return; // Ya hay un toast activo con este mensaje
     }
 
     activeToastsRef.current.add(message);
-    
+
     const toastId = toast[type](message, {
       onClose: () => {
         activeToastsRef.current.delete(message);
@@ -281,16 +315,16 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     // Detectar si es un string de breach (formato: NUMEROS_DOMINIO_SIZE_CATEGORY_FECHA)
     const breachPattern = /^\d+_(.+?)_(\d+[KMB])_([A-Z_]+)_(\d+)$/;
     const match = name.match(breachPattern);
-    
+
     if (match) {
       const [, domainPart, size, category, date] = match;
-      
+
       // Formatear el dominio (convertir DEEZER_COM a Deezer.com)
       const domain = domainPart
         .toLowerCase()
         .replace(/_/g, '.')
-        .replace(/^([a-z])/, (char) => char.toUpperCase());
-      
+        .replace(/^([a-z])/, char => char.toUpperCase());
+
       // Formatear la fecha
       let formattedDate = '';
       if (date.length === 6) {
@@ -304,7 +338,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
       } else {
         formattedDate = date;
       }
-      
+
       // Retornar JSX con 3 divisiones internas
       return (
         <div className="breach-title-container">
@@ -314,7 +348,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
         </div>
       );
     }
-    
+
     // Si no es un breach, usar el formato original
     return (
       name
@@ -330,7 +364,8 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
 
   // Función para detectar si un valor es una IP válida
   const isValidIP = (value: string): boolean => {
-    const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    const ipRegex =
+      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     return ipRegex.test(value.trim());
   };
 
@@ -360,7 +395,8 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
   const isValidDomain = (value: string): boolean => {
     const domain = value.trim();
     // Dominio: formato válido, debe contener al menos un punto
-    const domainRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const domainRegex =
+      /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return domainRegex.test(domain) && domain.includes('.') && domain.length >= 4;
   };
 
@@ -369,7 +405,12 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     const name = value.trim();
     // Nombre: letras, espacios, puntos, guiones, apostrofes, longitud razonable
     const nameRegex = /^[a-zA-ZÀ-ÿ\u00C0-\u017F\s\.\-\']+$/;
-    return nameRegex.test(name) && name.length >= 2 && name.length <= 100 && /[a-zA-ZÀ-ÿ\u00C0-\u017F]/.test(name);
+    return (
+      nameRegex.test(name) &&
+      name.length >= 2 &&
+      name.length <= 100 &&
+      /[a-zA-ZÀ-ÿ\u00C0-\u017F]/.test(name)
+    );
   };
 
   // Función para detectar si un valor es una URL válida
@@ -425,8 +466,10 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
   // Función para manejar clic en URL
   const handleURLClick = (url: string) => {
     const cleanURL = url.trim();
-    const confirmed = window.confirm(`You are about to leave to "${cleanURL}"\n\nClick OK to continue or Cancel to stay.`);
-    
+    const confirmed = window.confirm(
+      `You are about to leave to "${cleanURL}"\n\nClick OK to continue or Cancel to stay.`
+    );
+
     if (confirmed) {
       window.open(cleanURL, '_blank', 'noopener,noreferrer');
     }
@@ -446,9 +489,20 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
       (key.toLowerCase().includes('hash') && isValidHash(value)) ||
       (key.toLowerCase().includes('email') && isValidEmail(value)) ||
       (key.toLowerCase().includes('username') && isValidUsername(value)) ||
-      ((key.toLowerCase().includes('domain') || key.toLowerCase().includes('host') || key.toLowerCase().includes('website') || key.toLowerCase().includes('url')) && isValidDomain(value)) ||
-      ((key.toLowerCase().includes('name') || key.toLowerCase().includes('firstname') || key.toLowerCase().includes('lastname') || key.toLowerCase().includes('fullname')) && isValidName(value)) ||
-      ((key.toLowerCase().includes('url') || key.toLowerCase().includes('link') || key.toLowerCase().includes('website')) && isValidURL(value))
+      ((key.toLowerCase().includes('domain') ||
+        key.toLowerCase().includes('host') ||
+        key.toLowerCase().includes('website') ||
+        key.toLowerCase().includes('url')) &&
+        isValidDomain(value)) ||
+      ((key.toLowerCase().includes('name') ||
+        key.toLowerCase().includes('firstname') ||
+        key.toLowerCase().includes('lastname') ||
+        key.toLowerCase().includes('fullname')) &&
+        isValidName(value)) ||
+      ((key.toLowerCase().includes('url') ||
+        key.toLowerCase().includes('link') ||
+        key.toLowerCase().includes('website')) &&
+        isValidURL(value))
     );
   };
 
@@ -463,15 +517,35 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
       return { onClick: () => handleEmailClick(value), title: `Click to search email: ${value}` };
     }
     if (key.toLowerCase().includes('username') && isValidUsername(value)) {
-      return { onClick: () => handleUsernameClick(value), title: `Click to search username: ${value}` };
+      return {
+        onClick: () => handleUsernameClick(value),
+        title: `Click to search username: ${value}`,
+      };
     }
-    if ((key.toLowerCase().includes('domain') || key.toLowerCase().includes('host') || key.toLowerCase().includes('website') || key.toLowerCase().includes('url')) && isValidDomain(value)) {
+    if (
+      (key.toLowerCase().includes('domain') ||
+        key.toLowerCase().includes('host') ||
+        key.toLowerCase().includes('website') ||
+        key.toLowerCase().includes('url')) &&
+      isValidDomain(value)
+    ) {
       return { onClick: () => handleDomainClick(value), title: `Click to search domain: ${value}` };
     }
-    if ((key.toLowerCase().includes('name') || key.toLowerCase().includes('firstname') || key.toLowerCase().includes('lastname') || key.toLowerCase().includes('fullname')) && isValidName(value)) {
+    if (
+      (key.toLowerCase().includes('name') ||
+        key.toLowerCase().includes('firstname') ||
+        key.toLowerCase().includes('lastname') ||
+        key.toLowerCase().includes('fullname')) &&
+      isValidName(value)
+    ) {
       return { onClick: () => handleNameClick(value), title: `Click to search name: ${value}` };
     }
-    if ((key.toLowerCase().includes('url') || key.toLowerCase().includes('link') || key.toLowerCase().includes('website')) && isValidURL(value)) {
+    if (
+      (key.toLowerCase().includes('url') ||
+        key.toLowerCase().includes('link') ||
+        key.toLowerCase().includes('website')) &&
+      isValidURL(value)
+    ) {
       return { onClick: () => handleURLClick(value), title: `Click to open URL: ${value}` };
     }
     return null;
@@ -481,9 +555,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     // Si es un campo de IP (lastip, regip, etc.) y el valor es una IP válida
     if ((key.toLowerCase().includes('ip') || key.toLowerCase() === 'lastip') && isValidIP(value)) {
       return (
-        <span 
-          className="intel-value intel-ip-clickable" 
-          style={{ fontFamily: 'Satoshi' }}>
+        <span className="intel-value intel-ip-clickable" style={{ fontFamily: 'Satoshi' }}>
           {value}
         </span>
       );
@@ -492,8 +564,8 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     // Si es un campo de hash y el valor es un hash válido
     if (key.toLowerCase().includes('hash') && isValidHash(value)) {
       return (
-        <span 
-          className="intel-value intel-hash-clickable hash-value" 
+        <span
+          className="intel-value intel-hash-clickable hash-value"
           style={{ fontFamily: 'Satoshi' }}>
           {value}
         </span>
@@ -503,9 +575,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     // Si es un campo de email y el valor es un email válido
     if (key.toLowerCase().includes('email') && isValidEmail(value)) {
       return (
-        <span 
-          className="intel-value intel-email-clickable" 
-          style={{ fontFamily: 'Satoshi' }}>
+        <span className="intel-value intel-email-clickable" style={{ fontFamily: 'Satoshi' }}>
           {value}
         </span>
       );
@@ -514,42 +584,51 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     // Si es un campo de username y el valor es un username válido
     if (key.toLowerCase().includes('username') && isValidUsername(value)) {
       return (
-        <span 
-          className="intel-value intel-username-clickable" 
-          style={{ fontFamily: 'Satoshi' }}>
+        <span className="intel-value intel-username-clickable" style={{ fontFamily: 'Satoshi' }}>
           {value}
         </span>
       );
     }
 
     // Si es un campo de dominio y el valor es un dominio válido
-    if ((key.toLowerCase().includes('domain') || key.toLowerCase().includes('host') || key.toLowerCase().includes('website') || key.toLowerCase().includes('url')) && isValidDomain(value)) {
+    if (
+      (key.toLowerCase().includes('domain') ||
+        key.toLowerCase().includes('host') ||
+        key.toLowerCase().includes('website') ||
+        key.toLowerCase().includes('url')) &&
+      isValidDomain(value)
+    ) {
       return (
-        <span 
-          className="intel-value intel-domain-clickable" 
-          style={{ fontFamily: 'Satoshi' }}>
+        <span className="intel-value intel-domain-clickable" style={{ fontFamily: 'Satoshi' }}>
           {value}
         </span>
       );
     }
 
     // Si es un campo de nombre y el valor es un nombre válido
-    if ((key.toLowerCase().includes('name') || key.toLowerCase().includes('firstname') || key.toLowerCase().includes('lastname') || key.toLowerCase().includes('fullname')) && isValidName(value)) {
+    if (
+      (key.toLowerCase().includes('name') ||
+        key.toLowerCase().includes('firstname') ||
+        key.toLowerCase().includes('lastname') ||
+        key.toLowerCase().includes('fullname')) &&
+      isValidName(value)
+    ) {
       return (
-        <span 
-          className="intel-value intel-name-clickable" 
-          style={{ fontFamily: 'Satoshi' }}>
+        <span className="intel-value intel-name-clickable" style={{ fontFamily: 'Satoshi' }}>
           {value}
         </span>
       );
     }
 
     // Si es un campo de URL y el valor es una URL válida
-    if ((key.toLowerCase().includes('url') || key.toLowerCase().includes('link') || key.toLowerCase().includes('website')) && isValidURL(value)) {
+    if (
+      (key.toLowerCase().includes('url') ||
+        key.toLowerCase().includes('link') ||
+        key.toLowerCase().includes('website')) &&
+      isValidURL(value)
+    ) {
       return (
-        <span 
-          className="intel-value intel-url-clickable" 
-          style={{ fontFamily: 'Satoshi' }}>
+        <span className="intel-value intel-url-clickable" style={{ fontFamily: 'Satoshi' }}>
           {value}
         </span>
       );
@@ -574,9 +653,14 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
         <span>
           {value}
           {code ? (
-            <span className={`flag flag-${code}`} style={{ marginLeft: 6, verticalAlign: 'middle' }} title={value}></span>
+            <span
+              className={`flag flag-${code}`}
+              style={{ marginLeft: 6, verticalAlign: 'middle' }}
+              title={value}></span>
           ) : (
-            <span style={{ marginLeft: 6, verticalAlign: 'middle' }} title={value}>🌍</span>
+            <span style={{ marginLeft: 6, verticalAlign: 'middle' }} title={value}>
+              🌍
+            </span>
           )}
         </span>
       );
@@ -585,18 +669,19 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     // Valor normal
     const isLongValue = value.length > 50;
     const isHashLikeValue = /^[a-fA-F0-9]{32,}$/.test(value.trim());
-    
+
     return (
-      <span 
-        className={`intel-value ${isHashLikeValue ? 'hash-value' : ''}`} 
-        style={{ 
+      <span
+        className={`intel-value ${isHashLikeValue ? 'hash-value' : ''}`}
+        style={{
           fontFamily: 'Satoshi',
-          ...(isLongValue && !isHashLikeValue && {
-            wordBreak: 'break-all',
-            overflowWrap: 'anywhere',
-            maxWidth: '300px',
-            display: 'inline-block'
-          })
+          ...(isLongValue &&
+            !isHashLikeValue && {
+              wordBreak: 'break-all',
+              overflowWrap: 'anywhere',
+              maxWidth: '300px',
+              display: 'inline-block',
+            }),
         }}>
         {value}
       </span>
@@ -605,15 +690,15 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
 
   const handleCrackPassword = async (subIntel: any, subIndex: number) => {
     const stateKey = `${subIndex}-${subIntel.hash}`;
-    
+
     // Actualizar estado a loading
     setCrackStates(prev => ({
       ...prev,
       [stateKey]: {
         isLoading: true,
         results: null,
-        error: null
-      }
+        error: null,
+      },
     }));
 
     try {
@@ -648,7 +733,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
               processedResults.push({
                 hash: item.hash || '',
                 password: item.password || '',
-                salt: item.salt || ''
+                salt: item.salt || '',
               });
             });
           }
@@ -659,8 +744,8 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
           [stateKey]: {
             isLoading: false,
             results: processedResults,
-            error: null
-          }
+            error: null,
+          },
         }));
       } else {
         // No hay resultados
@@ -669,8 +754,8 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
           [stateKey]: {
             isLoading: false,
             results: null,
-            error: null
-          }
+            error: null,
+          },
         }));
       }
     } catch (error: any) {
@@ -680,25 +765,29 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
         [stateKey]: {
           isLoading: false,
           results: null,
-          error: error.message || 'Error desconocido'
-        }
+          error: error.message || 'Error desconocido',
+        },
       }));
       showToastOnce(error.message || 'Error al procesar la solicitud', 'error');
     }
   };
 
-  const handleGeolocateIP = async (subIntel: any, subIndex: number, ipType: 'regip' | 'lastip' = 'regip') => {
+  const handleGeolocateIP = async (
+    subIntel: any,
+    subIndex: number,
+    ipType: 'regip' | 'lastip' = 'regip'
+  ) => {
     const ipValue = ipType === 'regip' ? subIntel.regip : subIntel.lastip;
     const stateKey = `${subIndex}-${ipType}-${ipValue}`;
-    
+
     // Actualizar estado a loading
     setGeoStates(prev => ({
       ...prev,
       [stateKey]: {
         isLoading: true,
         results: null,
-        error: null
-      }
+        error: null,
+      },
     }));
 
     try {
@@ -738,7 +827,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
           lat: results[firstKey]?.lat || '',
           lon: results[firstKey]?.lon || '',
           mobile: results[firstKey]?.mobile || '',
-          proxy: results[firstKey]?.proxy || ''
+          proxy: results[firstKey]?.proxy || '',
         };
 
         setGeoStates(prev => ({
@@ -746,8 +835,8 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
           [stateKey]: {
             isLoading: false,
             results: processedResults,
-            error: null
-          }
+            error: null,
+          },
         }));
       } else {
         // No hay resultados
@@ -756,8 +845,8 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
           [stateKey]: {
             isLoading: false,
             results: null,
-            error: null
-          }
+            error: null,
+          },
         }));
       }
     } catch (error: any) {
@@ -767,14 +856,14 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
         [stateKey]: {
           isLoading: false,
           results: null,
-          error: error.message || 'Error desconocido'
-        }
+          error: error.message || 'Error desconocido',
+        },
       }));
       showToastOnce(error.message || 'Error al procesar la solicitud', 'error');
     }
   };
 
-  const renderCrackResults = (subIntel: any, subIndex: number): React.ReactNode => {
+  const renderCrackResults = (subIntel: any, subIndex: number): ReactNode => {
     const stateKey = `${subIndex}-${subIntel.hash}`;
     const state = crackStates[stateKey];
 
@@ -813,20 +902,22 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
       return (
         <>
           {passwords.map((password: string, idx: number) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className="intel-row intel-crack-success clickable-row"
               onClick={() => handlePasswordClick(password)}
               title={`Click to search password: ${password}`}
               style={{ cursor: 'pointer' }}>
-              <span className="intel-label" style={{ color: '#28a745', fontWeight: 600, marginRight: 6 }}>
+              <span
+                className="intel-label"
+                style={{ color: '#28a745', fontWeight: 600, marginRight: 6 }}>
                 ✅
               </span>{' '}
-              <span style={{ color: '#28a745', fontWeight: 600, marginRight: 6 }}>
-                🔓
-              </span>{' '}
+              <span style={{ color: '#28a745', fontWeight: 600, marginRight: 6 }}>🔓</span>{' '}
               <span style={{ fontWeight: 600 }}>Password has been cracked:</span>{' '}
-              <span className="intel-value intel-password-clickable" style={{ fontFamily: 'Satoshi' }}>
+              <span
+                className="intel-value intel-password-clickable"
+                style={{ fontFamily: 'Satoshi' }}>
                 {password}
               </span>
               <span className="intel-row-arrow">→</span>
@@ -856,8 +947,10 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
     // Renderizar resultados para regip
     const regipResults = subIntel.regip ? renderGeoResultsForIP(subIntel, subIndex, 'regip') : null;
     // Renderizar resultados para lastip
-    const lastipResults = subIntel.lastip ? renderGeoResultsForIP(subIntel, subIndex, 'lastip') : null;
-    
+    const lastipResults = subIntel.lastip
+      ? renderGeoResultsForIP(subIntel, subIndex, 'lastip')
+      : null;
+
     return (
       <>
         {regipResults}
@@ -883,35 +976,62 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
 
     return (
       <>
-        <div className="intel-row intel-geo-loading" style={{ background: 'rgba(0,123,255,0.07)', color: '#222', border: 'none' }}>
-          <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>{statusText}</span>
+        <div
+          className="intel-row intel-geo-loading"
+          style={{ background: 'rgba(0,123,255,0.07)', color: '#222', border: 'none' }}>
+          <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+            {statusText}
+          </span>
         </div>
         {/* Mostrar resultados debajo si existen */}
         {state.results && (
           <>
             {state.results.asname && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Company:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.asname}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Company:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.asname}
+                </span>
               </div>
             )}
             {state.results.org && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>ORG:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.org}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  ORG:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.org}
+                </span>
               </div>
             )}
             {state.results.country && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Country:{' '}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Country:{' '}
+                </span>
                 <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
                   {state.results.country}
                   {(() => {
                     const code = countryNameToCode(state.results.country);
                     return code ? (
-                      <span className={`flag flag-${code}`} style={{ marginLeft: 6, verticalAlign: 'middle' }} title={state.results.country}></span>
+                      <span
+                        className={`flag flag-${code}`}
+                        style={{ marginLeft: 6, verticalAlign: 'middle' }}
+                        title={state.results.country}></span>
                     ) : (
-                      <span style={{ marginLeft: 6, verticalAlign: 'middle' }} title={state.results.country}>🌍</span>
+                      <span
+                        style={{ marginLeft: 6, verticalAlign: 'middle' }}
+                        title={state.results.country}>
+                        🌍
+                      </span>
                     );
                   })()}
                 </span>
@@ -919,44 +1039,86 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
             )}
             {state.results.city && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>City:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.city}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  City:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.city}
+                </span>
               </div>
             )}
             {state.results.region && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Region:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.region}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Region:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.region}
+                </span>
               </div>
             )}
             {state.results.zip && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Zip:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.zip}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Zip:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.zip}
+                </span>
               </div>
             )}
             {state.results.lat && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Latitude:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.lat}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Latitude:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.lat}
+                </span>
               </div>
             )}
             {state.results.lon && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Longitude:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.lon}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Longitude:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.lon}
+                </span>
               </div>
             )}
             {state.results.mobile && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Mobile:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.mobile}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Mobile:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.mobile}
+                </span>
               </div>
             )}
             {state.results.proxy && (
               <div className="intel-row">
-                <span className="intel-label" style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>Proxy:{' '}</span>
-                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>{state.results.proxy}</span>
+                <span
+                  className="intel-label"
+                  style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
+                  Proxy:{' '}
+                </span>
+                <span className="intel-value" style={{ fontFamily: 'Satoshi' }}>
+                  {state.results.proxy}
+                </span>
               </div>
             )}
           </>
@@ -993,25 +1155,39 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
       <div className="info">
         {intel?.value.map((subIntel, subIndex) => {
           // Excluir el campo Db/db del renderizado de los campos
-          const entries = Object.entries(subIntel).filter(
-            ([key]) => key.toLowerCase() !== 'db'
-          );
+          const entries = Object.entries(subIntel).filter(([key]) => key.toLowerCase() !== 'db');
           return (
-            <div key={subIndex} className="text containersubintel" style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+            <div
+              key={subIndex}
+              className="text containersubintel"
+              style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
               {entries.map(([key, value], idx) => (
-                <React.Fragment key={idx}>
-                  <div 
-                    className={`intel-row ${isFieldClickable(key, value ?? '') ? 'clickable-row' : ''}${['hash','salt','password'].includes(key.toLowerCase()) ? ' sensitive-data' : ''}`}
-                    onClick={isFieldClickable(key, value ?? '') ? getFieldClickHandler(key, value ?? '')?.onClick : undefined}
-                    title={isFieldClickable(key, value ?? '') ? getFieldClickHandler(key, value ?? '')?.title : undefined}
+                <Fragment key={idx}>
+                  <div
+                    className={`intel-row ${isFieldClickable(key, value ?? '') ? 'clickable-row' : ''}${['hash', 'salt', 'password'].includes(key.toLowerCase()) ? ' sensitive-data' : ''}`}
+                    onClick={
+                      isFieldClickable(key, value ?? '')
+                        ? getFieldClickHandler(key, value ?? '')?.onClick
+                        : undefined
+                    }
+                    title={
+                      isFieldClickable(key, value ?? '')
+                        ? getFieldClickHandler(key, value ?? '')?.title
+                        : undefined
+                    }
                     style={{ cursor: isFieldClickable(key, value ?? '') ? 'pointer' : 'default' }}>
                     <span
                       className="intel-label"
                       style={{ fontStyle: 'italic', fontFamily: 'Satoshi' }}>
-                      {key === '_domain' ? 'Domain' : key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}:{' '}
+                      {key === '_domain'
+                        ? 'Domain'
+                        : key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
+                      :{' '}
                     </span>
                     {renderIntelValue(key, value ?? '')}
-                    {isFieldClickable(key, value ?? '') && <span className="intel-row-arrow">→</span>}
+                    {isFieldClickable(key, value ?? '') && (
+                      <span className="intel-row-arrow">→</span>
+                    )}
                   </div>
                   {/* Si la key es 'salt' y también hay un hash, renderizar crackeo después del salt */}
                   {key === 'salt' && subIntel.hash && renderCrackResults(subIntel, subIndex)}
@@ -1021,30 +1197,30 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
                   {key === 'regip' && renderGeoResultsForIP(subIntel, subIndex, 'regip')}
                   {/* Renderizar resultados de geolocalización inmediatamente después de lastip */}
                   {key === 'lastip' && renderGeoResultsForIP(subIntel, subIndex, 'lastip')}
-                </React.Fragment>
+                </Fragment>
               ))}
               {/* Contenedor para botones en línea */}
               {(subIntel.hash || subIntel.regip || subIntel.lastip) && (
                 <div className="crack-buttons-container">
                   {subIntel.hash && (
-                    <button 
-                      onClick={() => handleCrackPassword(subIntel, subIndex)} 
+                    <button
+                      onClick={() => handleCrackPassword(subIntel, subIndex)}
                       className="crack-btn"
                       disabled={crackStates[`${subIndex}-${subIntel.hash}`]?.isLoading}>
                       🌈 Crack password
                     </button>
                   )}
                   {subIntel.regip && (
-                    <button 
-                      onClick={() => handleGeolocateIP(subIntel, subIndex, 'regip')} 
+                    <button
+                      onClick={() => handleGeolocateIP(subIntel, subIndex, 'regip')}
                       className="crack-btn"
                       disabled={geoStates[`${subIndex}-regip-${subIntel.regip}`]?.isLoading}>
                       📍 Geolocate IP
                     </button>
                   )}
                   {subIntel.lastip && (
-                    <button 
-                      onClick={() => handleGeolocateIP(subIntel, subIndex, 'lastip')} 
+                    <button
+                      onClick={() => handleGeolocateIP(subIntel, subIndex, 'lastip')}
                       className="crack-btn"
                       disabled={geoStates[`${subIndex}-lastip-${subIntel.lastip}`]?.isLoading}>
                       📍 Geolocate Last IP
@@ -1062,25 +1238,40 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
           <div style={{ padding: 24, minWidth: 320, textAlign: 'center' }}>
             <h3 style={{ marginBottom: 16 }}>Vas a salir de Codefend</h3>
             <p style={{ marginBottom: 24 }}>
-              Estás a punto de abrir un enlace externo:<br />
+              Estás a punto de abrir un enlace externo:
+              <br />
               <span style={{ wordBreak: 'break-all', color: '#007bff' }}>{externalModal.url}</span>
             </p>
             <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
               <button
                 className="btn-cancel codefend_secondary_ac"
-                style={{ padding: '8px 20px', borderRadius: 6, border: 'none', background: '#eee', color: '#222', fontWeight: 500, cursor: 'pointer' }}
-                onClick={() => setExternalModal({ open: false, url: '' })}
-              >
+                style={{
+                  padding: '8px 20px',
+                  borderRadius: 6,
+                  border: 'none',
+                  background: '#eee',
+                  color: '#222',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
+                onClick={() => setExternalModal({ open: false, url: '' })}>
                 Cancelar
               </button>
               <button
                 className="btn-add codefend_main_ac limit-height"
-                style={{ padding: '8px 20px', borderRadius: 6, border: 'none', background: '#ff3939', color: '#fff', fontWeight: 500, cursor: 'pointer' }}
+                style={{
+                  padding: '8px 20px',
+                  borderRadius: 6,
+                  border: 'none',
+                  background: '#ff3939',
+                  color: '#fff',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
                 onClick={() => {
                   window.open(externalModal.url, '_blank', 'noopener,noreferrer');
                   setExternalModal({ open: false, url: '' });
-                }}
-              >
+                }}>
                 Continuar
               </button>
             </div>

@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type CSSProperties, type FC, useEffect, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useGetUserRegistrations } from '@userHooks/admins/useGetUserRegistrations';
@@ -98,7 +98,7 @@ const AdminLanders: FC = () => {
                           style={
                             {
                               '--metric-color': metricColors[metric as keyof typeof metricColors],
-                            } as React.CSSProperties
+                            } as CSSProperties
                           }>
                           <span className="metric-checkbox">{isVisible ? '✓' : '○'}</span>
                           <span className="metric-label">
