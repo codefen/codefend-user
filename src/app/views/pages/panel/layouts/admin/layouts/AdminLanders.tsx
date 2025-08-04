@@ -21,7 +21,7 @@ const AdminLanders: FC = () => {
   } = useGetUserRegistrations();
 
   // Estados para los controles del gráfico
-  const [chartType, setChartType] = useState<ChartType>('line');
+  const [chartType, setChartType] = useState<ChartType>('bar');
   const [visibleMetrics, setVisibleMetrics] = useState({
     visitas_unicas: true,
     leads: true,

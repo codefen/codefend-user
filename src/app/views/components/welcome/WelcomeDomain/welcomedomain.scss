@@ -1,3 +1,63 @@
+// Estilos específicos para la tabla del onboarding
+.welcome-modal-container {
+  // Quitar padding inline del header de la tabla
+  .columns-name {
+    padding-inline: 0;
+  }
+  
+  // Header específico para la columna "area" - alineado a la derecha
+  .columns-name .column:nth-child(3) {
+    text-align: right;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    padding-right: 6px; // Pequeño padding para que no toque el borde
+  }
+}
+
+// Estilos específicos para las celdas de la tabla del onboarding
+.item-cell-welcome-1 {
+  // Truncar dominios largos con ellipsis
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  // También aplicar ellipsis a subdominios y texto hijo
+  .sub-resource-domain,
+  .text-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}
+
+.item-cell-welcome-3 {
+  text-align: right;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  
+  // Alinear las banderas a la derecha
+  .flag {
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  // Cuando no hay texto, solo la bandera
+  &:has(.flag:only-child) {
+    justify-content: flex-end;
+  }
+  
+  // Para mobile, asegurar que esté bien alineado
+  @media (max-width: 768px) {
+    .flag {
+      margin-left: auto;
+      margin-right: 4px; // Pequeño margen desde el borde derecho
+    }
+  }
+}
+
 // Estilos específicos para el modal del scanner
 .modal-wrapper .modal {
   position: relative;

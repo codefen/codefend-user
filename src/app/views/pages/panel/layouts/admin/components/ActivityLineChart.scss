@@ -1623,3 +1623,59 @@ main.user-profile {
     -webkit-box-orient: vertical;
   }
 }
+
+// Estilos para las líneas de delta
+.delta-container {
+  .delta-line {
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    
+    &:hover {
+      opacity: 1 !important;
+      stroke-width: 3;
+    }
+    
+    &.delta-indicator {
+      stroke-dasharray: none;
+    }
+  }
+  
+  .delta-label {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+    
+    &:hover {
+      font-size: 12px;
+      fill: #ff1919;
+    }
+  }
+  
+  .delta-interactive {
+    cursor: pointer;
+    
+    &:hover .delta-line {
+      stroke-width: 3;
+      opacity: 1;
+    }
+    
+    &:hover .delta-label {
+      font-size: 12px;
+      fill: #ff1919;
+    }
+  }
+}
+
+// Tooltip específico para deltas
+.delta-tooltip {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ff3939;
+  
+  strong {
+    font-weight: 600;
+  }
+}

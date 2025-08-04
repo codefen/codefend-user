@@ -57,7 +57,7 @@ const columns = [
     key: 'resource_domain',
     type: TABLE_KEYS.FULL_WITH_NEXT,
     styles: 'item-cell-welcome-1',
-    weight: '42%',
+    weight: '50%',
     render: (row: any, next?: any) =>
       !row?.address_domain ? (
         row?.resource_domain
@@ -72,7 +72,7 @@ const columns = [
     header: 'server ip',
     key: 'main_server',
     styles: 'item-cell-welcome-2',
-    weight: '26%',
+    weight: '30%',
     render: (ip: any) => (ip === 'unreachable' ? 'non available' : ip),
   },
   {
@@ -80,11 +80,12 @@ const columns = [
     key: 'main_server_area_name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-welcome-3',
-    weight: '32%',
+    weight: '20%',
     render: (row: any) => (
       <LocationItem
         country={row?.main_server_area_name || 'non available'}
         countryCode={row?.main_server_area_code || ''}
+        showCountryName={false}
       />
     ),
   },
