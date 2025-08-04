@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { type ColumnTableV3, type Issues, naturalTime, Sort } from '../../../../../../data';
 import { useDeleteIssue } from '@panelHooks/issues/useDeleteIssues.ts';
@@ -17,6 +17,7 @@ import { ResourceIconText } from '@/app/views/components/utils/ResourceIconText'
 import { RiskScore } from '@/app/views/components/utils/RiskScore';
 import { IssueAuthor } from '@/app/views/pages/panel/layouts/issues/components/IssueAuthor';
 import { ResourceClassIssueIcon } from '@/app/views/pages/panel/layouts/issues/components/ResourceClassIssueIcon';
+import { useMediaQuery } from 'usehooks-ts';
 
 interface IssueResourcesProps {
   isLoading: boolean;
@@ -27,7 +28,8 @@ interface IssueResourcesProps {
 
 export const AI_RESEARCHER_ID = 186;
 
-const issueColumns: ColumnTableV3[] = [
+// Columnas para desktop
+const desktopIssueColumns: ColumnTableV3[] = [
   {
     header: 'ID',
     key: 'id',
@@ -50,7 +52,6 @@ const issueColumns: ColumnTableV3[] = [
     weight: '34%',
     render: issue => issue.name,
   },
-
   {
     header: 'Domain',
     key: 'resourceDomain',
@@ -91,6 +92,54 @@ const issueColumns: ColumnTableV3[] = [
   },
 ];
 
+// Columnas para mobile (sin ID y Class, con ícono en Title)
+const mobileIssueColumns: ColumnTableV3[] = [
+  {
+    header: 'Issue Title',
+    key: 'name',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issue-2',
+    weight: '40%',
+    render: issue => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <ResourceClassIssueIcon resourceClass={issue.resourceClass} />
+        <span>{issue.name}</span>
+      </div>
+    ),
+  },
+  {
+    header: 'Domain',
+    key: 'resourceDomain',
+    styles: 'item-cell-issue-address',
+    weight: '15%',
+    render: value => value,
+  },
+  {
+    header: 'Author',
+    key: 'researcherUsername',
+    type: TABLE_KEYS.FULL_ROW,
+    styles: 'item-cell-issue-3',
+    weight: '15%',
+    render: value => (
+      <IssueAuthor isAI={value?.source == 'neuroscan'} value={value?.researcherUsername || ''} />
+    ),
+  },
+  {
+    header: 'Published',
+    key: 'createdAt',
+    styles: 'item-cell-issue-4',
+    weight: '15%',
+    render: value => (value ? naturalTime(value) : '--/--/--'),
+  },
+  {
+    header: 'Score',
+    key: 'riskScore',
+    styles: 'item-cell-issue-6',
+    weight: '15%',
+    render: value => <RiskScore riskScore={value} />,
+  },
+];
+
 export const IssueResources: FC<IssueResourcesProps> = props => {
   const navigate = useNavigate();
   const [selected, setSelectedId] = useState('');
@@ -99,12 +148,18 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
   const { baseUrl } = useNewWindows();
   const { isProvider, isAdmin } = useUserRole();
   const [searchTerm, setTerm] = useState('');
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const dataTable = props.issues.filter(issue =>
     issue.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const issuesColumnsWithActions = [
+  // Seleccionar columnas basadas en el viewport
+  const issueColumns = useMemo(() => {
+    return isMobile ? mobileIssueColumns : desktopIssueColumns;
+  }, [isMobile]);
+
+  const issuesColumnsWithActions = useMemo(() => [
     ...issueColumns,
     {
       header: '',
@@ -127,7 +182,7 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
         </div>
       ),
     },
-  ];
+  ], [issueColumns, showModal]);
   return (
     <>
       <ModalTitleWrapper
