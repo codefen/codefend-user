@@ -9,8 +9,8 @@ import { useCallback, memo, useMemo } from 'react';
 
 const firstOptionText = {
   unique: (initialDomain: string) =>
-    `Perform a manual pentest on<br/><b class="codefend-text-red">${initialDomain}</b>`,
-  notUnique: () => 'Perform a manual pentest',
+    `<b style=\"font-weight:500\">Perform a manual pentest on</b><br/><b class=\"codefend-text-red\">${initialDomain}</b>`,
+  notUnique: () => ' <b style=\"font-weight:500\">Perform a manual pentest</b>',
 };
 
 export const PaywallOrderModal = memo(({ close }: any) => {
@@ -123,7 +123,7 @@ export const PaywallOrderModal = memo(({ close }: any) => {
             />
             <div className="order-snapshot">
               <div className="top">
-                <p>View more affordable plans and monthly subscriptions</p>
+                <p style={{fontWeight:500}}>View more affordable plans and<br/>monthly subscriptions</p>
               </div>
               <span className="one-pentest">
                 Codefend offers automatic service memberships starting at $29 monthly and hacker
