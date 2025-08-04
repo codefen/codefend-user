@@ -1226,6 +1226,11 @@ body[data-theme='light']:has(.onboarding-modal-container) {
         .readonly-content {
           display: none;
         }
+        .form-content {
+          .auth-link {
+            margin-block-start: 1.75rem;
+          }
+        }
       }
     }
   }
@@ -1238,6 +1243,25 @@ body[data-theme='light']:has(.onboarding-modal-container) {
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100vh;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  body:has(.new-signup-form),
+  body:has(.new-signin-form),
+  body:has(.onboarding-modal-container) {
+    #root-modal .modal-wrapper {
+      .modal.new-signup-form,
+      .modal.new-signin-form,
+      .modal.onboarding-modal-container {
+        max-width: 96dvw;
+
+        .form-content,
+        .welcome-content {
+          width: fit-content;
+        }
+      }
+    }
   }
 }
 
