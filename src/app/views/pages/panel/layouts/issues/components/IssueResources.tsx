@@ -92,14 +92,14 @@ const desktopIssueColumns: ColumnTableV3[] = [
   },
 ];
 
-// Columnas para mobile (sin ID y Class, con ícono en Title)
+// Columnas para mobile (sin ID, Class, Author y Domain, con ícono en Title)
 const mobileIssueColumns: ColumnTableV3[] = [
   {
     header: 'Issue Title',
     key: 'name',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-issue-2',
-    weight: '40%',
+    weight: '65%',
     render: issue => (
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <ResourceClassIssueIcon resourceClass={issue.resourceClass} />
@@ -108,27 +108,10 @@ const mobileIssueColumns: ColumnTableV3[] = [
     ),
   },
   {
-    header: 'Domain',
-    key: 'resourceDomain',
-    styles: 'item-cell-issue-address',
-    weight: '15%',
-    render: value => value,
-  },
-  {
-    header: 'Author',
-    key: 'researcherUsername',
-    type: TABLE_KEYS.FULL_ROW,
-    styles: 'item-cell-issue-3',
-    weight: '15%',
-    render: value => (
-      <IssueAuthor isAI={value?.source == 'neuroscan'} value={value?.researcherUsername || ''} />
-    ),
-  },
-  {
     header: 'Published',
     key: 'createdAt',
     styles: 'item-cell-issue-4',
-    weight: '15%',
+    weight: '20%',
     render: value => (value ? naturalTime(value) : '--/--/--'),
   },
   {
@@ -150,9 +133,15 @@ export const IssueResources: FC<IssueResourcesProps> = props => {
   const [searchTerm, setTerm] = useState('');
   const isMobile = useMediaQuery('(max-width: 768px)');
 
-  const dataTable = props.issues.filter(issue =>
-    issue.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const dataTable = props.issues
+    .filter(issue =>
+      issue.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      const scoreA = parseInt(a.riskScore) || 0;
+      const scoreB = parseInt(b.riskScore) || 0;
+      return scoreB - scoreA; // Mantener orden por riskScore (5 a 1)
+    });
 
   // Seleccionar columnas basadas en el viewport
   const issueColumns = useMemo(() => {

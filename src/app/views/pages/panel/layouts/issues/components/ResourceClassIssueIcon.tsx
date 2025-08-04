@@ -1,4 +1,4 @@
-import { CLoudIcon, GlobeWebIcon, MobileIcon, SourceCodeIcon, WebSolidIcon } from '@icons';
+import { CLoudIcon, MobileIcon, SourceCodeIcon, WebSolidIcon } from '@icons';
 
 export const ResourceClassIssueIcon = ({ resourceClass }: { resourceClass: string }) => {
   const getIcon = () => {
@@ -23,12 +23,14 @@ export const ResourceClassIssueIcon = ({ resourceClass }: { resourceClass: strin
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0.25rem',
+        justifyContent: 'center',
         color: '#e56060db',
         padding: '3px',
         borderRadius: '6px',
+        width: '20px',
+        height: '20px',
       }}>
-      {getIcon()} {resourceClass}
+      {getIcon()}
     </div>
   );
 };
