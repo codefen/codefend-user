@@ -1263,6 +1263,15 @@ body[data-theme='light']:has(.onboarding-modal-container) {
       }
     }
   }
+  body:has(.new-signin-form) {
+    #root-modal .modal-wrapper {
+      .modal.new-signin-form {
+        .form-content {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 770px) {
