@@ -233,6 +233,19 @@ export const NewSigninForm = () => {
               autoComplete="off"
               required
             />
+            {!mfaStep && (
+              <Link
+                to="/auth/recovery"
+                className="password-recovery"
+                style={{
+                  color: '#00000080',
+                  fontSize: '0.9rem',
+                  margin: '25px auto 0px auto',
+                  textDecoration: 'underline',
+                }}>
+                I don't remember my password
+              </Link>
+            )}
             <button
               type="button"
               className={css['toggle-password']}
@@ -255,19 +268,6 @@ export const NewSigninForm = () => {
             continue
           </button>
         </form>
-        {!mfaStep && (
-          <Link
-            to="/auth/recovery"
-            className="password-recovery"
-            style={{
-              color: '#00000080',
-              fontSize: '0.9rem',
-              margin: '25px auto 0px auto',
-              textDecoration: 'underline',
-            }}>
-            I don't remember my password
-          </Link>
-        )}
         <Link to="/auth/signup" className="auth-link">
           Don't have an account? Sign up
         </Link>
