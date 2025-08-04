@@ -1610,13 +1610,13 @@ main.user-profile {
   }
   
   .ua-text {
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
-    color: var(--text-color-secondary);
-    opacity: 0.8;
-    line-height: 1.2;
+    font-family: inherit; // Usar la fuente por defecto de la tabla
+    font-size: inherit;   // Usar el tamaño por defecto de la tabla
+    color: var(--text-color-primary); // Color principal en lugar de secundario
+    opacity: 1;           // Sin opacidad reducida
+    line-height: 1.4;     // Line-height estándar
     word-break: break-all;
-    max-height: 3.6rem; // Aproximadamente 3 líneas
+    max-height: 3.6rem;   // Mantener la altura máxima
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3;

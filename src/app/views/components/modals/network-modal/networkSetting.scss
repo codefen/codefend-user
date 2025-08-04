@@ -64,9 +64,44 @@
 
     &_extra {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 1.5rem;
       margin-block-start: 0.75rem;
+
+      .quick-var-block {
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+        
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .payment-mode-dropdown {
+          width: 100%;
+          padding: 0.75rem;
+          margin-top: 0.5rem;
+          border: 1px solid #ccc;
+          border-radius: 0.25rem;
+          background-color: white;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: border-color 0.2s ease;
+
+          &:focus {
+            outline: none;
+            border-color: #ff3939;
+          }
+
+          &:hover {
+            border-color: #ff3939;
+          }
+
+          option {
+            padding: 0.5rem;
+          }
+        }
+      }
 
       &_insecure {
         height: 33px !important;

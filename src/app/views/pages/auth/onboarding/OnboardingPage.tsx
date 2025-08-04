@@ -190,7 +190,7 @@ export const OnboardingPage = () => {
       personal_user: newIsPersonal ? '1' : '0',
       // Si es usuario personal, establecer valores automáticos y limpiar campos no necesarios
       company_size: newIsPersonal ? '1-10' : prev.company_size,
-      company_web: newIsPersonal ? '-' : prev.company_web,
+      company_web: newIsPersonal ? '' : prev.company_web,
       company_name: newIsPersonal ? 'Personal Business' : prev.company_name,
     }));
   };
@@ -473,7 +473,7 @@ export const OnboardingPage = () => {
                 {!isPersonalUser && (
                   <>
                     <AuthInput
-                      placeholder="Enter your domain (e.g., yourcompany.com)"
+                      placeholder="Enter domain to attack"
                       value={companyData.company_web}
                       setVal={(e: ChangeEvent<HTMLInputElement>) =>
                         handleInputChange('company_web', e.target.value)
