@@ -1265,6 +1265,12 @@ body[data-theme='light']:has(.onboarding-modal-container) {
   }
 }
 
+@media only screen and (max-width: 770px) {
+  .modal-wrapper .modal.welcome-modal-container .btn-search svg {
+    transform: scale(1);
+  }
+}
+
 #root:has(main.auth-pages) {
   max-width: none;
 }

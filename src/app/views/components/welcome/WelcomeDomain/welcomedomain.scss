@@ -130,7 +130,8 @@
   flex: 1;
   font-family: 'Satoshi', sans-serif;
 
-  b, strong {
+  b,
+  strong {
     font-weight: 500;
   }
 }
@@ -545,42 +546,41 @@
       padding: 0.65rem 0.75rem;
     }
   }
+}
+// Botones de scope estilo tabs con línea inferior - ocupando todo el ancho
+.scope-type-buttons-full {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
 
-  // Botones de scope estilo tabs con línea inferior - ocupando todo el ancho
-  .scope-type-buttons-full {
-    display: flex;
-    width: 100%;
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 1rem;
+  .scope-btn-tab {
+    flex: 1;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-    .scope-btn-tab {
-      flex: 1;
-      text-align: center;
+    &:hover:not(:disabled) {
+      color: #ff4757;
+      background: rgba(255, 71, 87, 0.05);
+    }
+
+    &.active {
+      color: #ff4757;
+      border-bottom-color: #ff4757;
       background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      padding: 0.75rem 1rem;
-      font-size: 0.9rem;
-      color: #666;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      
-      &:hover:not(:disabled) {
-        color: #ff4757;
-        background: rgba(255, 71, 87, 0.05);
-      }
+    }
 
-      &.active {
-        color: #ff4757;
-        border-bottom-color: #ff4757;
-        background: transparent;
-      }
-
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        color: #ccc;
-      }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      color: #ccc;
     }
   }
 }
