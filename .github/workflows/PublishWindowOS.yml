@@ -139,24 +139,55 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 📥 Download SSL.com CodeSignTool
-        if: env.USE_ESIGNER == 'true'
+      - name: 📥 Download and Setup CodeSignTool
         shell: pwsh
         run: |
+          # Descargar CodeSignTool para Windows
           Write-Host "📥 Descargando CodeSignTool..."
-          wget -O CodeSignTool.zip "https://www.ssl.com/download/codesigntool-for-windows/"
+          Invoke-WebRequest -Uri "https://www.ssl.com/download/codesigntool-for-windows/" -OutFile "CodeSignTool.zip"
           
+          # Extraer
           Write-Host "📦 Extrayendo CodeSignTool..."
-          Expand-Archive -Path "CodeSignTool.zip" -DestinationPath "codesigntool" -Force
+          Expand-Archive -Path "CodeSignTool.zip" -DestinationPath "$env:GITHUB_WORKSPACE\codesigntool" -Force
           
-          # Buscar el JAR en el directorio extraído
-          $jarFile = Get-ChildItem -Path "codesigntool" -Filter "CodeSignTool*.jar" -Recurse | Select-Object -First 1
+          # Verificar contenido
+          Write-Host "📂 Contenido de CodeSignTool:"
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE\codesigntool" -Recurse -Name
+          
+          # Buscar el JAR file - puede estar en diferentes ubicaciones
+          $possiblePaths = @(
+            "$env:GITHUB_WORKSPACE\codesigntool\CodeSignTool.jar",
+            "$env:GITHUB_WORKSPACE\codesigntool\CodeSignTool-v1.3.0\CodeSignTool.jar",
+            "$env:GITHUB_WORKSPACE\codesigntool\CodeSignTool-v1.2.7\CodeSignTool.jar"
+          )
+          
+          $jarFile = $null
+          foreach ($path in $possiblePaths) {
+            if (Test-Path $path) {
+              $jarFile = $path
+              break
+            }
+          }
+          
+          # Si no se encuentra en las rutas conocidas, buscar recursivamente
+          if (-not $jarFile) {
+            $foundJar = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\codesigntool" -Filter "CodeSignTool*.jar" -Recurse | Select-Object -First 1
+            if ($foundJar) {
+              $jarFile = $foundJar.FullName
+            }
+          }
           
           if ($jarFile) {
-            Write-Host "✅ CodeSignTool JAR encontrado: $($jarFile.FullName)"
-            echo "CODESIGNTOOL_JAR=$($jarFile.FullName)" >> $env:GITHUB_ENV
+            Write-Host "✅ CodeSignTool.jar encontrado en: $jarFile"
+            # Guardar en variable de entorno para los siguientes pasos
+            "CODESIGNTOOL_JAR=$jarFile" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+            
+            # También crear una copia en un lugar conocido
+            Copy-Item -Path $jarFile -Destination "$env:GITHUB_WORKSPACE\CodeSignTool.jar" -Force
+            Write-Host "📋 Copiado a: $env:GITHUB_WORKSPACE\CodeSignTool.jar"
           } else {
-            Write-Error "❌ No se encontró el archivo JAR de CodeSignTool"
+            Write-Error "❌ No se encontró CodeSignTool.jar"
+            Get-ChildItem -Path "$env:GITHUB_WORKSPACE\codesigntool" -Recurse
             exit 1
           }
 
