@@ -104,69 +104,17 @@ jobs:
           tool: tauri-cli@2.1.0
           locked: true
 
-      # - name: 🔑 Import windows signing certificate
-      #   env:
-      #     WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-      #     WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
-      #   run: |
-      #     New-Item -ItemType directory -Path certificate
-      #     Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
-      #     certutil -decode certificate/tempCert.txt certificate/certificate.pfx
-      #     Remove-Item -path certificate -include tempCert.txt
-      #     Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
-
-      #     # Importar al almacén de certificados
-      #     $pfxPassword = ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText
-      #     Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password $pfxPassword
-          
-      #     # Verificar la importación
-      #     $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -like "*Codefend*" }
-      #     if (-not $cert) {
-      #       Write-Error "Certificate not found after import"
-      #       exit 1
-      #     }
-
-      - name: 🔑 Import Windows signing certificate
-        env:
-          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+      - name: 🔐 Setup Windows SDK for SignTool
+        if: ${{ secrets.SSLCOM_USE_ESIGNER != 'true' }}
         run: |
-          $certDir = New-Item -ItemType directory -Path "certificate" -Force
-          
-          try {
-            # Decodificar certificado
-            Set-Content -Path certificate/tempCert.txt -Value $env:WINDOWS_CERTIFICATE
-            certutil -decode certificate/tempCert.txt certificate/certificate.pfx
-            
-            # Verificar que el archivo PFX se creó correctamente
-            if (-not (Test-Path certificate/certificate.pfx)) {
-              Write-Error "Failed to decode certificate"
-              exit 1
-            }
-            
-            # Importar certificado
-            $pfxPassword = ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText
-            $cert = Import-PfxCertificate -FilePath certificate/certificate.pfx -CertStoreLocation Cert:\CurrentUser\My -Password $pfxPassword
-            
-            # Verificar la importación
-            $importedCert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq $cert.Thumbprint }
-            if (-not $importedCert) {
-              Write-Error "Certificate not found after import"
-              exit 1
-            }
-            
-            Write-Host "Certificate imported successfully. Thumbprint: $($cert.Thumbprint)"
-            
-            # echo "CERT_THUMBPRINT=$($cert.Thumbprint)" >> $env:GITHUB_ENV
-            Write-Host "::set-output name=CERT_THUMBPRINT::$($cert.Thumbprint)"
-            
-          } finally {
-            if (Test-Path certificate/tempCert.txt) {
-              Remove-Item certificate/tempCert.txt -Force
-            }
-            if (Test-Path certificate/certificate.pfx) {
-              Remove-Item certificate/certificate.pfx -Force
-            }
+          # El SignTool ya viene con Windows SDK en GitHub Actions
+          # Solo necesitamos verificar que esté disponible
+          $signtoolPath = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+          if (Test-Path $signtoolPath) {
+            Write-Host "✅ SignTool encontrado en: $signtoolPath"
+          } else {
+            Write-Host "⚠️ Buscando SignTool..."
+            Get-ChildItem -Path "C:\Program Files (x86)\Windows Kits" -Filter "signtool.exe" -Recurse
           }
 
       - name: 🔨 Build using tauri action (publish artifacts on release)
@@ -182,133 +130,226 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
 
-      # - name: 🔍 Verify executable signature
-      #   run: |
-      #     $package_version = "${{ inputs.package_version }}"
-      #     $exePath = Get-ChildItem "src-tauri\target\release\bundle\nsis" -Filter "*${{ inputs.package_version }}_x64-setup.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-
-      #     if (-not $exePath) {
-      #       Write-Error "No matching executable found"
-      #       exit 1
-      #     }
-          
-      #     # if (-not (Test-Path $exePath)) {
-      #     #   Write-Error "Executable not found: $exePath"
-      #     #   exit 1
-      #     # }
-          
-      #     # Verificar firma digital
-      #     $signature = Get-AuthenticodeSignature -FilePath $exePath
-      #     if ($signature.Status -ne "Valid") {
-      #       Write-Error "Executable is not properly signed. Status: $($signature.Status)"
-      #       exit 1
-      #     }
-          
-      #     Write-Host "Executable is properly signed"
-      #     Write-Host "Signer: $($signature.SignerCertificate.Subject)"
-      #     Write-Host "Timestamp: $($signature.TimeStamperCertificate.Subject)"
-
-      - name: 📝 Extract Signatures and Set Outputs
-        id: extract-signatures
+      - name: 📦 Prepare files for signing
+        shell: pwsh
         run: |
-          $package_version = "${{ inputs.package_version }}"
+          # Crear directorio para archivos sin firmar
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\to-sign"
           
-          function Read-Signature {
-            param([string]$file)
+          # Buscar archivos generados por Tauri
+          $msiFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue
+          $nsisFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue
+          
+          # Copiar archivos a firmar
+          if ($msiFiles) {
+            foreach ($file in $msiFiles) {
+              Write-Host "📋 Preparando MSI: $($file.Name)"
+              Copy-Item -Path $file.FullName -Destination "$env:GITHUB_WORKSPACE\to-sign\"
+            }
+          }
+          
+          if ($nsisFiles) {
+            foreach ($file in $nsisFiles) {
+              Write-Host "📋 Preparando EXE: $($file.Name)"
+              Copy-Item -Path $file.FullName -Destination "$env:GITHUB_WORKSPACE\to-sign\"
+            }
+          }
+          
+          # Listar archivos a firmar
+          Write-Host "📝 Archivos listos para firmar:"
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE\to-sign" | ForEach-Object { Write-Host "  - $($_.Name)" }
+
+      - name: 🔐 Sign MSI files with SSL.com eSigner
+        uses: sslcom/actions-codesigner@develop
+        with:
+          # Comando para firmar
+          command: sign
+          # Credenciales de SSL.com
+          username: ${{ secrets.SSLCOM_USERNAME }}
+          password: ${{ secrets.SSLCOM_PASSWORD }}
+          credential_id: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
+          totp_secret: ${{ secrets.SSLCOM_TOTP_SECRET }}
+          # Ruta del archivo MSI a firmar
+          file_path: ${{ github.workspace }}/to-sign/*.msi
+          # Directorio de salida para archivos firmados
+          output_path: ${{ github.workspace }}/signed
+          # Opciones adicionales
+          override: true
+          malware_block: false
+
+      - name: 🔐 Sign EXE files with SSL.com eSigner
+        uses: sslcom/actions-codesigner@develop
+        with:
+          # Comando para firmar
+          command: sign
+          # Credenciales de SSL.com
+          username: ${{ secrets.SSLCOM_USERNAME }}
+          password: ${{ secrets.SSLCOM_PASSWORD }}
+          credential_id: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
+          totp_secret: ${{ secrets.SSLCOM_TOTP_SECRET }}
+          # Ruta del archivo EXE a firmar
+          file_path: ${{ github.workspace }}/to-sign/*.exe
+          # Directorio de salida para archivos firmados
+          output_path: ${{ github.workspace }}/signed
+          # Opciones adicionales
+          override: true
+          malware_block: false
+
+      - name: ✅ Verify signatures
+        shell: pwsh
+        run: |
+          $signedFiles = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\signed" -Include "*.exe", "*.msi" -Recurse
+          
+          Write-Host "🔍 Verificando firmas de archivos..."
+          foreach ($file in $signedFiles) {
+            Write-Host "`n📄 Verificando: $($file.Name)"
             
-            if (-Not (Test-Path $file)) {
-              Write-Error "Error: File $file not found"
+            # Obtener información del certificado
+            $cert = Get-AuthenticodeSignature -FilePath $file.FullName
+            
+            if ($cert.Status -eq "Valid") {
+              Write-Host "✅ Firma válida"
+              Write-Host "   Firmado por: $($cert.SignerCertificate.Subject)"
+              Write-Host "   Timestamp: $($cert.TimeStamperCertificate.Subject)"
+            } else {
+              Write-Host "❌ Error en la firma: $($cert.Status)"
               exit 1
             }
-            
-            $signature = Get-Content $file -Raw
-            return $signature.Trim()
           }
 
-          $sigFile = Get-ChildItem -Path "src-tauri\target\release\bundle\nsis" -Filter "*_${package_version}_x64-setup.exe.sig" | Select-Object -First 1
-
-          if (-Not $sigFile) {
-            Write-Error "❌ Signature file not found for version $package_version"
-            exit 1
-          }
-
-          $sigPath = $sigFile.FullName
-          $artifactPath = $sigPath -replace '\.sig$', ''
-          $artifactName = Split-Path $artifactPath -Leaf
-
-          # Leer y exponer firma
-          $windows_x86_64_sig = Read-Signature $sigPath
-          Write-Host "::set-output name=windows_x86_64_sig::$windows_x86_64_sig"
-
-          # Exponer el nombre del artefacto real
-          Write-Host "::set-output name=windows_x86_64_name::$artifactName"
-
-          Write-Host "✅ Signature and artifact name extracted successfully."
-          Write-Host "Signature path: $sigPath"
-          Write-Host "Artifact name: $artifactName"
-
-      # - name: 🛡️ Attest build provenance (publish release only)
-      #   uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2.1.0
-      #   env:
-      #     CARGO_HOME: /home/runner/.cargo
-      #     CARGO_INCREMENTAL: 0
-      #     CARGO_TERM_COLOR: always
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     subject-path: src-tauri/target/release/bundle/*
-      #     push-to-registry: false
-      #     show-summary: true
-      #     github-token: ${{ env.GITHUB_TOKEN }}
-  
-      # - name: 📜 Create SBOM
-      #   uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
-      #   with:
-      #     format: "spdx-json"
-      #     output-file: "sbom.spdx.json"
-      #     artifact-name: "windows_${{ matrix.target }}.sbom.spdx.json"
-  
-      # - name: 🛡️ Attest SBOM
-      #   uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
-      #   with:
-      #     subject-path: 'src-tauri/target/release/codefend-panel.exe'
-      #     sbom-path: "sbom.spdx.json"
-
-      - name: 🛡️ Attest build provenance
-        uses: actions/attest-build-provenance@v2.1.0
-        with:
-          subject-path: |
-            src-tauri/target/release/bundle/nsis/*.exe
-            src-tauri/target/release/bundle/msi/*.msi
-          push-to-registry: false
-          show-summary: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-  
-      - name: 📜 Create SBOM
-        uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # v0
-        with:
-          format: "spdx-json"
-          output-file: "sbom.spdx.json"
-          artifact-name: "windows_${{ matrix.target }}.sbom.spdx.json"
-  
-      - name: 🛡️ Attest SBOM
-        uses: actions/attest-sbom@cbfd0027ae731a5892db25ecd226930d7ffd19eb # v2
-        with:
-          subject-path: "src-tauri/target/release/bundle/nsis/${{ steps.extract-signatures.outputs.windows_x86_64_name }}"
-          sbom-path: "sbom.spdx.json"
-
-      - name: 🧹 Secure cleanup
-        if: always()
+      - name: 📂 Replace unsigned files with signed ones
+        shell: pwsh
         run: |
-          # Remover certificado del almacén temporal si existe
-          if ($env:CERT_THUMBPRINT) {
-            $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq $env:CERT_THUMBPRINT }
-            if ($cert) {
-              Remove-Item $cert.PSPath -Force
-              Write-Host "Certificate removed from store"
+          # Copiar archivos firmados de vuelta a las ubicaciones originales
+          $signedFiles = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\signed" -Include "*.exe", "*.msi" -Recurse
+          
+          foreach ($file in $signedFiles) {
+            if ($file.Extension -eq ".msi") {
+              $destination = ".\src-tauri\target\release\bundle\msi\"
+            } elseif ($file.Extension -eq ".exe") {
+              $destination = ".\src-tauri\target\release\bundle\nsis\"
+            }
+            
+            Write-Host "📥 Reemplazando: $($file.Name) en $destination"
+            Copy-Item -Path $file.FullName -Destination $destination -Force
+          }
+
+      - name: 📤 Upload signed artifacts to release
+        if: inputs.release_id != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          # Subir archivos firmados al release
+          $signedFiles = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\signed" -Include "*.exe", "*.msi" -Recurse
+          
+          foreach ($file in $signedFiles) {
+            Write-Host "📤 Subiendo a release: $($file.Name)"
+            gh release upload ${{ inputs.release_id }} $file.FullName --clobber
+          }
+
+      - name: 📤 Upload signed artifacts to workflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-windows-binaries
+          path: |
+            ${{ github.workspace }}/signed/*.exe
+            ${{ github.workspace }}/signed/*.msi
+          retention-days: 7
+
+      - name: 📝 Extract signatures for outputs
+        id: extract-signatures
+        shell: pwsh
+        run: |
+          # Generar hash SHA256 de los archivos firmados
+          $msiFile = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\signed" -Filter "*.msi" | Select-Object -First 1
+          
+          if ($msiFile) {
+            $hash = (Get-FileHash -Path $msiFile.FullName -Algorithm SHA256).Hash
+            echo "windows_x86_64_sig=$hash" >> $env:GITHUB_OUTPUT
+            echo "windows_x86_64_name=$($msiFile.Name)" >> $env:GITHUB_OUTPUT
+            
+            Write-Host "📊 Signature hash: $hash"
+            Write-Host "📦 Package name: $($msiFile.Name)"
+          }
+
+      - name: 🧹 Cleanup temporary files
+        if: always()
+        shell: pwsh
+        run: |
+          # Limpiar directorios temporales
+          @("to-sign", "signed") | ForEach-Object {
+            if (Test-Path "$env:GITHUB_WORKSPACE\$_") {
+              Remove-Item -Path "$env:GITHUB_WORKSPACE\$_" -Recurse -Force
+              Write-Host "🗑️ Limpiado: $_"
             }
           }
+      # - name: 🔐 Sign Windows Executables with SSL.com
+      #   run: |
+      #     # Encontrar los archivos generados por Tauri
+      #     $msiFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue
+      #     $nsiFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue
+      #     $exeFile = Get-Item ".\src-tauri\target\release\*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -like "*codefend*" }
           
-          # Limpiar directorio de certificados
-          if (Test-Path certificate) {
-            Remove-Item certificate -Recurse -Force
-          }
+      #     Write-Host "📦 Archivos encontrados para firmar:"
+      #     if ($msiFiles) { Write-Host "  MSI: $($msiFiles.FullName)" }
+      #     if ($nsiFiles) { Write-Host "  NSIS: $($nsiFiles.FullName)" }
+      #     if ($exeFile) { Write-Host "  EXE: $($exeFile.FullName)" }
+          
+      #     # Función para firmar con eSigner
+      #     function Sign-WithESigner {
+      #       param($FilePath)
+            
+      #       java -jar .\codesigntool\CodeSignTool.jar sign `
+      #         -credential_id="${{ secrets.SSLCOM_CREDENTIAL_ID }}" `
+      #         -username="${{ secrets.SSLCOM_USERNAME }}" `
+      #         -password="${{ secrets.SSLCOM_PASSWORD }}" `
+      #         -totp_secret="${{ secrets.SSLCOM_TOTP_SECRET }}" `
+      #         -input_file_path="$FilePath" `
+      #         -override=true
+      #     }
+          
+      #     # Función para firmar con SignTool
+      #     function Sign-WithSignTool {
+      #       param($FilePath)
+            
+      #       $signtool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+            
+      #       # Si tienes un PFX
+      #       if (Test-Path ".\certs\codefend.pfx") {
+      #         & $signtool sign /f ".\certs\codefend.pfx" `
+      #           /p "${{ secrets.SSLCOM_PASSWORD }}" `
+      #           /tr "http://ts.ssl.com" `
+      #           /td sha256 `
+      #           /fd sha256 `
+      #           /v "$FilePath"
+      #       }
+      #       # Si tienes certificado en el store de Windows
+      #       else {
+      #         & $signtool sign /n "Codefend, LLC" `
+      #           /tr "http://ts.ssl.com" `
+      #           /td sha256 `
+      #           /fd sha256 `
+      #           /v "$FilePath"
+      #       }
+      #     }
+          
+      #     # Decidir qué método usar
+      #     $useESigner = "${{ secrets.SSLCOM_USE_ESIGNER }}" -eq "true"
+          
+      #     # Firmar cada archivo
+      #     foreach ($file in @($msiFiles, $nsiFiles, $exeFile)) {
+      #       if ($file -and (Test-Path $file.FullName)) {
+      #         Write-Host "✍️ Firmando: $($file.Name)"
+              
+      #         if ($useESigner) {
+      #           Sign-WithESigner -FilePath $file.FullName
+      #         } else {
+      #           Sign-WithSignTool -FilePath $file.FullName
+      #         }
+              
+      #         # Verificar firma
+      #         $signtool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+      #         & $signtool verify /pa /v $file.FullName
+      #       }
+      #     }
