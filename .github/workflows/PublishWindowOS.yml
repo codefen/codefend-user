@@ -132,6 +132,34 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
 
+      - name: ☕ Setup Java for CodeSignTool
+        if: env.USE_ESIGNER == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 📥 Download SSL.com CodeSignTool
+        if: env.USE_ESIGNER == 'true'
+        shell: pwsh
+        run: |
+          Write-Host "📥 Descargando CodeSignTool..."
+          wget -O CodeSignTool.zip "https://www.ssl.com/download/codesigntool-for-windows/"
+          
+          Write-Host "📦 Extrayendo CodeSignTool..."
+          Expand-Archive -Path "CodeSignTool.zip" -DestinationPath "codesigntool" -Force
+          
+          # Buscar el JAR en el directorio extraído
+          $jarFile = Get-ChildItem -Path "codesigntool" -Filter "CodeSignTool*.jar" -Recurse | Select-Object -First 1
+          
+          if ($jarFile) {
+            Write-Host "✅ CodeSignTool JAR encontrado: $($jarFile.FullName)"
+            echo "CODESIGNTOOL_JAR=$($jarFile.FullName)" >> $env:GITHUB_ENV
+          } else {
+            Write-Error "❌ No se encontró el archivo JAR de CodeSignTool"
+            exit 1
+          }
+
       - name: 📦 Prepare files for signing
         shell: pwsh
         run: |
