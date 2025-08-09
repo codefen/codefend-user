@@ -31,6 +31,8 @@ jobs:
       id-token: write
       security-events: write
       attestations: write
+    env:
+      USE_ESIGNER: ${{ secrets.SSLCOM_USE_ESIGNER }}
     outputs:
       windows_x86_64_sig: ${{ steps.extract-signatures.outputs.windows_x86_64_sig }}
       windows_x86_64_name: ${{ steps.extract-signatures.outputs.windows_x86_64_name }}
@@ -105,7 +107,7 @@ jobs:
           locked: true
 
       - name: 🔐 Setup Windows SDK for SignTool
-        if: secrets.SSLCOM_USE_ESIGNER != 'true'
+        if: env.USE_ESIGNER != 'true'
         run: |
           # El SignTool ya viene con Windows SDK en GitHub Actions
           # Solo necesitamos verificar que esté disponible
@@ -165,7 +167,7 @@ jobs:
           command: sign
           username: ${{ secrets.SSLCOM_USERNAME }}
           password: ${{ secrets.SSLCOM_PASSWORD }}
-          credential_id: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
+          # credential_id: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
           totp_secret: ${{ secrets.SSLCOM_TOTP_SECRET }}
           file_path: ${{ github.workspace }}/to-sign/*.msi
           output_path: ${{ github.workspace }}/signed
@@ -178,7 +180,6 @@ jobs:
           command: sign
           username: ${{ secrets.SSLCOM_USERNAME }}
           password: ${{ secrets.SSLCOM_PASSWORD }}
-          credential_id: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
           totp_secret: ${{ secrets.SSLCOM_TOTP_SECRET }}
           file_path: ${{ github.workspace }}/to-sign/*.exe
           output_path: ${{ github.workspace }}/signed
