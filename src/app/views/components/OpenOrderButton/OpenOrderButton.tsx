@@ -21,20 +21,21 @@ interface OpenOrderButtonProps {
 const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.WEB]: ({ total, plan }: any) => (
     <>
-      Your web scope has a total of <strong>{total}</strong> resources, Codefend recommends a{' '}
-      <b>{plan} plan</b>.
+      Let's start a new pentest now! Our systems have detected a total of
+      <b>{total} web resources!</b> If you want to perform a pentest on all these resources, at
+      Codefend we recommend an <b>{plan} plan</b>.
     </>
   ),
   [ResourcesTypes.MOBILE]: ({ plan, hasActiveOrder }: any) =>
     !hasActiveOrder ? (
       <>
         No tests are being conducted yet. Based on the information gathered, we recommend the{' '}
-        <b>{plan} plan.</b>
+        <b>{plan} plan</b>.
       </>
     ) : (
       <>
-        A dedicated penetration test is currently underway for this resource. You’ll be notified as
-        soon as the results are available. Sit back, we’ve got this covered.
+        A dedicated penetration test is currently underway for this resource. You'll be notified as
+        soon as the results are available. Sit back, we've got this covered.
       </>
     ),
 
@@ -42,17 +43,17 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
   [ResourcesTypes.CODE]: () => <></>,
   [ResourcesTypes.NETWORK]: ({ plan }: any) => (
     <>
-      For your network resources, we recommend a <b>{plan} plan.</b>
+      For your network resources, we recommend a <b>{plan} plan</b>.
     </>
   ),
   [ResourcesTypes.SOCIAL]: ({ plan }: any) => (
     <>
-      For social resources, <b>{plan} plan.</b>
+      For social resources, <b>{plan} plan</b>.
     </>
   ),
   [ResourcesTypes.LEAKS]: ({ plan }: any) => (
     <>
-      For leaks resources, <b>{plan} plan.</b>
+      For leaks resources, <b>{plan} plan</b>.
     </>
   ),
 };
@@ -70,12 +71,12 @@ const orderText: Record<ResourcesTypes, (obj: any) => ReactNode> = {
 // };
 
 export const titleMap = {
-  [ResourcesTypes.WEB]: 'Start a web application pentest',
-  [ResourcesTypes.MOBILE]: 'Start dedicated testing',
+  [ResourcesTypes.WEB]: 'Professional hackers on demand',
+  [ResourcesTypes.MOBILE]: 'Professional hackers on demand',
   [ResourcesTypes.CLOUD]: 'Analyze your cloud software',
   [ResourcesTypes.CODE]: 'Analyze your code',
-  [ResourcesTypes.NETWORK]: 'Analyze your network',
-  [ResourcesTypes.SOCIAL]: 'For social resources',
+  [ResourcesTypes.NETWORK]: 'Professional hackers on demand',
+  [ResourcesTypes.SOCIAL]: 'Professional hackers on demand',
   [ResourcesTypes.LEAKS]: 'For leaks resources',
 };
 
@@ -102,6 +103,12 @@ const OpenOrderButton = ({
     updateState('open', true);
     updateState('resourceType', type);
     updateState('orderStepActive', scope);
+  };
+
+  const onOpenPricing = () => {
+    updateState('open', true);
+    updateState('resourceType', type);
+    updateState('orderStepActive', OrderSection.ALL_PLANS);
   };
   if (!isAdmin() && !isNormalUser()) return null;
   useEffect(() => {
@@ -134,7 +141,7 @@ const OpenOrderButton = ({
         <span>{!hasActiveOrder ? titleMap[type] : 'Pentest in progress'}</span>
       </div>
       <div className="content">
-        <p>{planText}</p>
+        <p className="order-text">{planText}</p>
         <div className="actions">
           <Show when={!hasActiveOrder}>
             <PrimaryButton
@@ -144,6 +151,13 @@ const OpenOrderButton = ({
               click={onOpen}
               className={className}
               isDisabled={resourceCount === 0 || isLoading}
+              disabledLoader
+            />
+            <PrimaryButton
+              text="See our prices"
+              click={onOpenPricing}
+              className={className}
+              buttonStyle="black"
               disabledLoader
             />
           </Show>

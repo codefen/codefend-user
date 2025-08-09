@@ -1,29 +1,146 @@
 import { useUserData } from '#commonUserHooks/useUserData';
+import { useUserRole } from '#commonUserHooks/useUserRole';
+import { ThemeChangerButton } from '@buttons/index';
 import { LogoutIcon } from '@icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
+import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
 
-type MenuSection = 'Main' | 'Attack surface' | 'Risk control';
+// Icono de flecha para colapsar (compartido con desktop)
+const CollapseArrow = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: () => void }) => (
+  <div 
+    className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`}
+    onClick={onClick}
+  >
+    <svg 
+      width="12" 
+      height="12" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path 
+        d="M6 9L12 15L18 9" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+);
 
-const sidebarData = {
-  Main: ['Dashboard', 'Team members', 'Orders and payments', 'User profile'],
-  'Attack surface': ['Web software', 'Mobile software', 'Network infrastructure', 'Social attacks'],
-  'Risk control': ['Detected issues', 'AI scans', 'Dataleaks explorer', 'Ask a hacker'],
+type MenuSection = 'Admin' | 'Main' | 'Attack surface' | 'Risk control';
+
+// Estructura de datos similar al desktop pero adaptada para mobile
+const createSidebarData = (
+  isAdmin: boolean,
+  isProvider: boolean,
+  isReseller: boolean,
+  isNormalUser: boolean
+) => {
+  const isNotProviderAndReseller = !isProvider && !isReseller;
+
+  return {
+    Admin: {
+      items: [
+        ...(isAdmin
+          ? [
+              { title: 'Landers Monitor', path: '/admin/landers', root: false },
+              { title: 'Admin Commander', path: '/admin/commander', root: false },
+            ]
+          : []),
+      ],
+    },
+    Main: {
+      items: [
+        // Admin items
+        ...(isAdmin
+          ? [
+              { title: 'Company Panel', path: '/admin/company', root: isAdmin },
+            ]
+          : []),
+
+        // Provider items
+        ...(isProvider
+          ? [
+              { title: 'My profile', path: '/provider/profile', root: isProvider },
+              { title: 'Orders', path: '/provider/orders', root: false },
+            ]
+          : []),
+
+        // Reseller items
+        ...(isReseller
+          ? [
+              { title: 'Leads', path: '/reseller/leads', root: isReseller },
+              { title: 'Users', path: '/reseller/users', root: false },
+              { title: 'Company', path: '/reseller/companies', root: false },
+              { title: 'Orders', path: '/reseller/orders', root: false },
+            ]
+          : []),
+
+        // Normal user items
+        ...(isNotProviderAndReseller
+          ? [
+              {
+                title: 'Dashboard',
+                path: '/dashboard',
+                root: !isProvider && !isReseller && !isAdmin && isNormalUser,
+              },
+              { title: 'Team members', path: '/team-members', root: false },
+              { title: 'Purchases', path: '/orders-payments', root: false },
+              { title: 'User profile', path: '/user-profile', root: false },
+            ]
+          : []),
+      ],
+    },
+    'Attack surface': {
+      items: [
+        { title: 'Web software', path: '/web', root: false },
+        { title: 'Network devices', path: '/network', root: false },
+        { title: 'Social attacks', path: '/social', root: false },
+      ],
+    },
+    'Risk control': {
+      items: [
+        { title: 'Detected issues', path: '/issues', root: false },
+        { title: 'AI Surveillance', path: '/ai-surveillance', root: false },
+        { title: 'Dataleaks explorer', path: '/sns', root: false },
+        { title: 'Ask a hacker', path: '/ask-a-hacker', root: false },
+      ],
+    },
+  };
 };
 
-const menuItemsPaths = {
-  Dashboard: '/dashboard',
-  'Team members': '/team-members',
-  'Orders and payments': '/orders-payments',
-  'User profile': '/user-profile',
-  'Web software': '/web',
-  'Mobile software': '/mobile',
-  'Network infrastructure': '/network',
-  'Social attacks': '/social',
-  'Detected issues': '/issues',
-  'AI scans': '/scans',
-  'Dataleaks explorer': '/sns',
-  'Ask a hacker': '/ask-a-hacker',
+// Función para determinar qué sección debe estar activa
+const getActiveSection = (sidebarData: any, isAdmin: boolean): MenuSection => {
+  const currentPath = window.location.pathname;
+
+  // Buscar en cada sección si algún item está activo
+  for (const [sectionName, sectionData] of Object.entries(sidebarData)) {
+    const section = sectionData as { items: Array<{ title: string; path: string; root: boolean }> };
+
+    for (const item of section.items) {
+      if (verifyPath(item.path, item.root)) {
+        return sectionName as MenuSection;
+      }
+    }
+  }
+
+  // Si no se encuentra nada activo, retornar default según el rol
+  return isAdmin ? 'Admin' : 'Main';
+};
+
+// Función para determinar qué item debe estar activo en una sección
+const getActiveItem = (
+  sectionItems: Array<{ title: string; path: string; root: boolean }>
+): string | null => {
+  for (const item of sectionItems) {
+    if (verifyPath(item.path, item.root)) {
+      return item.title;
+    }
+  }
+  return null;
 };
 
 export const SidebarMobile = ({
@@ -37,56 +154,78 @@ export const SidebarMobile = ({
   email: string;
   companyName: string;
 }) => {
+  const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
+
+  // Memoizar sidebarData para evitar recreación constante
+  const sidebarData = useMemo(
+    () => createSidebarData(isAdmin(), isProvider(), isReseller(), isNormalUser()),
+    [isAdmin, isProvider, isReseller, isNormalUser]
+  );
+
   const [activeSection, setActiveSection] = useState<MenuSection>('Main');
   const [activeItem, setActiveItem] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [animationClass, setAnimationClass] = useState('');
   const [contentVisible, setContentVisible] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const { logout } = useUserData();
 
+  // Función para alternar el colapso de una sección
+  const toggleSectionCollapse = (sectionName: string) => {
+    setCollapsedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionName)) {
+        newSet.delete(sectionName);
+      } else {
+        newSet.add(sectionName);
+      }
+      return newSet;
+    });
+  };
+
+  // Solo inicializar la sección activa cuando se abre el sidebar por primera vez
+  useEffect(() => {
+    if (isOpen && !hasInitialized) {
+      const newActiveSection = getActiveSection(sidebarData, isAdmin());
+      const newActiveItem = getActiveItem(sidebarData[newActiveSection]?.items || []);
+
+      setActiveSection(newActiveSection);
+      setActiveItem(newActiveItem);
+      setHasInitialized(true);
+    }
+
+    // Reset cuando se cierra el sidebar
+    if (!isOpen) {
+      setHasInitialized(false);
+    }
+  }, [isOpen, sidebarData, hasInitialized]);
+
+  // Mostrar contenido cuando el sidebar está abierto
   useEffect(() => {
     if (isOpen) {
-      setIsAnimating(true);
-      setAnimationClass('entering');
-
-      // Mostrar contenido después de que inicie la animación
-      const contentTimer = setTimeout(() => {
+      const timer = setTimeout(() => {
         setContentVisible(true);
-      }, 150);
-
-      return () => clearTimeout(contentTimer);
-    }
-
-    if (isAnimating && !isOpen) {
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
       setContentVisible(false);
-      setAnimationClass('exiting');
-
-      // Limpiar estado después de la animación de salida
-      const exitTimer = setTimeout(() => {
-        setIsAnimating(false);
-        setAnimationClass('');
-      }, 400);
-
-      return () => clearTimeout(exitTimer);
     }
+  }, [isOpen]);
 
-    return () => {};
-  }, [isOpen, isAnimating]);
-
-  if (!isOpen && !isAnimating) return null;
+  // Siempre renderizar el componente, pero controlar visibilidad con CSS
 
   const handleSectionChange = (section: MenuSection) => {
-    setContentVisible(false);
-    setTimeout(() => {
-      setActiveSection(section);
-      setContentVisible(true);
-    }, 150);
+    setActiveSection(section);
+    // Actualizar item activo para la nueva sección
+    const newActiveItem = getActiveItem(sidebarData[section]?.items || []);
+    setActiveItem(newActiveItem);
   };
+
+  const currentSectionItems = sidebarData[activeSection]?.items || [];
 
   return (
     <div
-      className={`sidebar-mobile ${animationClass === 'entering' ? 'animate-slide-in' : ''} ${animationClass === 'exiting' ? 'animate-slide-out' : ''}`}>
+      className={`sidebar-mobile ${isOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar-mobile-header">
         <div className="sidebar-header-title"></div>
         <div className={`sidebar-tabs ${contentVisible ? 'visible' : ''}`}>
@@ -105,18 +244,24 @@ export const SidebarMobile = ({
 
       <div className="sidebar-mobile-content">
         <div className={`sidebar-content-container ${contentVisible ? 'visible' : ''}`}>
-          <h3>{activeSection}</h3>
-          <div className="sidebar-content-items">
-            {sidebarData[activeSection].map(item => (
+          <div className="sidebar-group-title-container">
+            <h3>{activeSection}</h3>
+            <CollapseArrow 
+              isCollapsed={collapsedSections.has(activeSection)}
+              onClick={() => toggleSectionCollapse(activeSection)}
+            />
+          </div>
+          <div className={`sidebar-content-items ${collapsedSections.has(activeSection) ? 'collapsed' : ''}`}>
+            {currentSectionItems.map(item => (
               <button
-                key={`${activeSection}-${item}`}
-                className={`menu-item no-border ${activeItem === item ? 'active' : ''}`}
+                key={`${activeSection}-${item.title}`}
+                className={`menu-item no-border ${activeItem === item.title ? 'active' : ''}`}
                 onClick={() => {
                   closeSidebar();
-                  navigate(menuItemsPaths[item as keyof typeof menuItemsPaths]);
-                  setActiveItem(item);
+                  navigate(item.path);
+                  setActiveItem(item.title);
                 }}>
-                {item}
+                {item.title}
               </button>
             ))}
           </div>
@@ -130,11 +275,13 @@ export const SidebarMobile = ({
               <span className="user-email">{email}</span>
               <span className="user-company">{companyName}</span>
             </div>
-
-            <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
-              <LogoutIcon width={1.1} height={1.1} />
-              Logout
-            </button>
+            <div className="sidebar-footer-actions">
+              <ThemeChangerButton className="sidebar-footer-theme-changer" text="Theme" />
+              <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
+                <LogoutIcon width={1.1} height={1.1} />
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>

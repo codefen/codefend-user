@@ -1,13 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
 import tsconfig from './tsconfig.app.json';
 
-const raw: any = tsconfig.compilerOptions.paths;
-const alias: any = {};
+interface TsconfigPaths {
+  [key: string]: string[];
+}
+
+const raw: TsconfigPaths = tsconfig.compilerOptions.paths;
+const alias: Record<string, string> = {};
 const {
   VITE_PORT: PORT,
   TAURI_HOST: HOST,
@@ -16,7 +17,8 @@ const {
 } = process.env;
 
 for (const x in raw) {
-  alias[x.replace('/*', '')] = raw[x].map(p => path.resolve(__dirname, p.replace('/*', '')));
+  const resolvedPath = path.resolve(__dirname, raw[x][0].replace('/*', ''));
+  alias[x.replace('/*', '')] = resolvedPath;
 }
 
 // https://vitejs.dev/config/
@@ -28,7 +30,7 @@ export default defineConfig(() => ({
   clearScreen: false,
   server: {
     strictPort: true,
-    host: HOST || false,
+    host: HOST || '0.0.0.0', // Cambiado de false a '0.0.0.0' para permitir acceso desde LAN
     port: Number(PORT),
     watch: {
       ignored: ['**/src-tauri/**'],

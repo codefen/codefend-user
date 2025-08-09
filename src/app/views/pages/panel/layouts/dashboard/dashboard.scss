@@ -1,5 +1,9 @@
 main.dashboard {
   .left {
+    .card.scan-start {
+      display: none;
+    }
+
     .card.rectangle {
       .over {
         padding: 3rem;
@@ -26,6 +30,20 @@ main.dashboard {
       }
     }
 
+    .card.stat p {
+      font-size: 14px;
+      line-height: 15px;
+      font-family: Satoshi;
+      font-weight: bold;
+      color: var(--tertiary-color-450);
+      margin: 0;
+      text-wrap: wrap;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
+      padding-inline: 0.625rem;
+      text-align: center;
+    }
+
     .box-assets {
       display: flex;
       align-items: stretch;
@@ -39,7 +57,7 @@ main.dashboard {
         min-width: 200px;
         padding: 0.5rem;
 
-        height: 100%;
+        // height: 100%;
 
         &:nth-child(1) {
           flex: 1 1 45%;
@@ -185,8 +203,9 @@ main.dashboard {
   main.dashboard {
     .left {
       .box-assets {
-        flex-direction: column;
-        min-height: fit-content;
+        min-height: auto;
+        max-height: none;
+        display: block;
 
         > .card {
           &:nth-child(1),
@@ -195,7 +214,89 @@ main.dashboard {
             height: fit-content;
           }
         }
+
+        .card:not(.stat) + .card {
+          margin-top: var(--card-space);
+          margin-bottom: calc(var(--card-space) * 4);
+        }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  main.dashboard {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+    padding: 0;
+    overflow-y: visible !important; // Permitir scroll natural en móvil
+    max-height: none !important; // Remover altura máxima en móvil
+
+    .left {
+      width: 100%;
+      padding-block-start: 50px;
+      flex: 1;
+      overflow-y: visible; // Usar scroll natural del documento
+      height: auto; // Altura automática para flujo natural
+
+      // Ocultar columna "published" en móvil para dar más espacio a "issue title"
+      .table {
+        .item-cell-5 {
+          display: none !important;
+        }
+
+        // Redistribuir el espacio: issue title toma más espacio, score mantiene su tamaño
+        .item-cell-1 {
+          min-width: 65% !important;
+          max-width: 65% !important;
+          font-size: 0.9rem;
+        }
+
+        .item-cell-4 {
+          min-width: 30% !important;
+          max-width: 30% !important;
+        }
+      }
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
+      flex: 0 0 auto;
+    }
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  main.dashboard {
+    .left {
+      .card.rectangle {
+        .over {
+          padding: calc(var(--card-space) * 2);
+
+          p {
+            max-width: min(660px, 100%);
+          }
+        }
+      }
+      .radar-scanner {
+        display: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 940px) {
+  main.dashboard {
+    .left {
+      .card.scan-start {
+        display: block;
+      }
+    }
+    .right {
+      display: none;
     }
   }
 }

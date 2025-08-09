@@ -5,7 +5,7 @@ import { WebApplicationTitle } from './components/WebApplicationTitle.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useGetWebResources } from '@resourcesHooks/web/useGetWebResources.ts';
 import { CredentialsModal } from '@modals/credentials/CredentialsModal.tsx';
-import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation.tsx';
+import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS, webEmptyScreen } from '@/app/constants/app-texts.ts';
 import EmptyLayout from '../EmptyLayout.tsx';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
@@ -19,16 +19,28 @@ import { getCompanyAllMetrics } from '@utils/metric.service.ts';
 import './webapplication.scss';
 import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
 import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const WebApplicationView = () => {
-  const { webResources, isLoading, refetch, domainCount, subDomainCount, uniqueIpCount, appEvent } =
-    useGetWebResourcesv2();
+  const {
+    webResources,
+    isLoading,
+    refetch,
+    domainCount,
+    subDomainCount,
+    uniqueIpCount,
+    appEvent,
+    mapResources,
+  } = useGetWebResourcesv2();
   const [showScreen] = useShowScreen();
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
+  const isMobile = useMediaQuery('(max-width: 600px)');
   const flashlight = useFlashlight();
 
   return (
     <EmptyLayout
-      className="webapp"
+      className={`webapp ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={webEmptyScreen}
       event={refetch}
       showScreen={showScreen}
@@ -43,29 +55,65 @@ const WebApplicationView = () => {
 
       {/* *****SECTION LEFT WEB PAGE ***** */}
       <section className="left">
+        {/* En móvil, mostrar las cards de la derecha arriba de la tabla */}
+        {isMobile && (
+          <>
+            <WebApplicationTitle isLoading={isLoading} />
+            <WebApplicationStatics
+              domainCount={domainCount.get}
+              subDomainCount={subDomainCount.get}
+              uniqueIpCount={uniqueIpCount.get}
+            />
+            <OpenOrderButton
+              className="pentest-btn"
+              type={ResourcesTypes.WEB}
+              resourceCount={webResources.length}
+              isLoading={isLoading}
+            />
+          </>
+        )}
+        
         <WebApplicationResources isLoading={isLoading} webResources={webResources} />
+        
+        {/* En móvil, mostrar el mapa debajo de la tabla */}
+        {isMobile && (
+          <ServerGeolocationMap
+            networkData={webResources}
+            resourceType={RESOURCE_CLASS.WEB}
+            title="Global server distribution"
+            mapResources={mapResources}
+          />
+        )}
       </section>
 
       {/* *****SECTION RIGHT WEB PAGE ***** */}
       <section className="right" ref={flashlight.rightPaneRef}>
-        <WebApplicationTitle isLoading={isLoading} />
-        <WebApplicationStatics
-          domainCount={domainCount.get}
-          subDomainCount={subDomainCount.get}
-          uniqueIpCount={uniqueIpCount.get}
-        />
-        <OpenOrderButton
-          className="pentest-btn"
-          type={ResourcesTypes.WEB}
-          resourceCount={webResources.length}
-          isLoading={isLoading}
-        />
-        <ResourceByLocation
-          isLoading={isLoading}
-          resource={webResources}
-          title="Web servers by location"
-          type={RESOURCE_CLASS.WEB}
-        />
+        <Navbar />
+        <div className="scrollable-content">
+          {/* En desktop, mostrar las cards en el orden original */}
+          {!isMobile && (
+            <>
+              <WebApplicationTitle isLoading={isLoading} />
+              <WebApplicationStatics
+                domainCount={domainCount.get}
+                subDomainCount={subDomainCount.get}
+                uniqueIpCount={uniqueIpCount.get}
+              />
+              <OpenOrderButton
+                className="pentest-btn"
+                type={ResourcesTypes.WEB}
+                resourceCount={webResources.length}
+                isLoading={isLoading}
+              />
+              <ServerGeolocationMap
+                networkData={webResources}
+                resourceType={RESOURCE_CLASS.WEB}
+                title="Global server distribution"
+                mapResources={mapResources}
+              />
+            </>
+          )}
+        </div>
       </section>
     </EmptyLayout>
   );

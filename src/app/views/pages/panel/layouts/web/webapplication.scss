@@ -1,12 +1,23 @@
 main.webapp {
-  // padding-inline-end: 0;
+  // Sobrescribir estilos globales de main para evitar conflictos
+  height: auto !important;
+  max-height: none !important;
+  min-height: calc(100vh - 120px); // Ajustar según la altura del header
+  display: flex;
+  overflow: visible; // Permitir scroll natural del documento
+  position: relative;
+  padding-bottom: var(--card-space); // Margen inferior igual al superior
 
   .empty-card-wrapper form .checkbox-container {
     margin-bottom: 1rem;
   }
   .left {
-    overflow-y: hidden;
+    flex: 1;
+    overflow-y: visible; // Usar scroll natural del documento
+    height: auto; // Altura automática para flujo natural
     padding-inline-start: 0;
+    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
+    margin-bottom: var(--card-space); // Margen inferior igual al superior
 
     .table.table-web {
       background-color: var(--primary-color);
@@ -17,7 +28,7 @@ main.webapp {
     }
 
     .empty-card {
-      min-width: 725px;
+      min-width: auto; // Permitir que se ajuste en móvil
     }
 
     // .search-bar-container {
@@ -48,15 +59,167 @@ main.webapp {
   }
 
   .right {
+    flex: 0 0 35%;
+    height: calc(100vh - var(--card-space) * 2 - 60px); // Altura considerando márgenes superior e inferior
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: var(--card-space); // Mantener fijo con margen superior
+    
+    // Smooth scrolling para mejor UX
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color-300) transparent;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color-300);
+      border-radius: 3px;
+      
+      &:hover {
+        background-color: var(--primary-color-400);
+      }
+    }
+    
+    // Navbar y header sticky opcional
+    .navbar {
+      flex: 0 0 auto;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--primary-color);
+    }
+    
+    // Contenido scrolleable
+    .scrollable-content {
+      flex: 1;
+      min-height: 0;
+    }
+
     .table {
       .item {
         .location {
           .flag {
             margin-inline-end: 0.75rem;
+                }
+    }
+  }
+
+  // Responsive styles
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+    padding: 0;
+    overflow-y: visible !important; // Permitir scroll natural en móvil
+    max-height: none !important; // Remover altura máxima en móvil
+    width: 100% !important; // Forzar ancho completo en móvil
+    min-width: auto !important; // Remover ancho mínimo en móvil
+    margin: 0 !important; // Remover márgenes en móvil
+    box-sizing: border-box !important; // Incluir padding en el ancho
+
+          .left {
+        width: 100%;
+        padding-block-start: 10px;
+        flex: 1;
+        overflow-y: visible; // Usar scroll natural del documento
+        height: auto; // Altura automática para flujo natural
+        display: flex;
+        flex-direction: column;
+        gap: var(--card-space); // Espaciado entre cards en móvil
+
+              // Estilos para las cards movidas a la izquierda en móvil
+        .card {
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          margin: 0 !important; // Remover márgenes en móvil
+          margin-bottom: var(--card-space) !important; // Margen inferior entre cards
+          box-sizing: border-box !important; // Incluir padding en el ancho
+          
+          &.title {
+            // Card de "Web software"
+            order: 1;
+          }
+          
+          &.flex-box {
+            // Card de estadísticas (3 números)
+            order: 2;
+            
+            .content {
+              width: 100% !important; // Forzar ancho completo en móvil
+              display: flex !important;
+              justify-content: space-around !important;
+              align-items: center !important;
+              
+              .stat {
+                width: 100% !important; // Forzar ancho completo en móvil
+                max-width: 100% !important; // Forzar ancho máximo completo en móvil
+                min-width: auto !important; // Remover ancho mínimo en móvil
+                flex: 1 1 auto !important; // Distribución equitativa
+              }
+            }
+          }
+          
+          &.pentest-btn {
+            // Card de "Professional hackers on demand"
+            order: 3;
           }
         }
+
+              // Formulario de búsqueda
+        .search-bar-container,
+        .form-input,
+        input[type="text"],
+        input[type="search"] {
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          box-sizing: border-box !important; // Incluir padding en el ancho
+        }
+
+        .table.table-web {
+          order: 4; // Tabla después de las cards
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          box-sizing: border-box !important; // Incluir padding en el ancho
+          
+          .rows {
+            max-height: 60vh; // Ajustar altura en móvil
+          }
+        }
+
+              .server-geolocation-map {
+          order: 5; // Mapa al final
+          width: 100% !important; // Forzar ancho completo en móvil
+          max-width: 100% !important; // Forzar ancho máximo completo en móvil
+          min-width: auto !important; // Remover ancho mínimo en móvil
+          box-sizing: border-box !important; // Incluir padding en el ancho
+        }
+
+      .empty-card {
+        min-width: auto; // Permitir que se ajuste en móvil
+        width: 100% !important; // Forzar ancho completo en móvil
       }
     }
+
+                    .right {
+        width: 100%;
+        padding-block-start: 20px;
+        flex: 0 0 auto;
+      }
+  }
+}
 
     .card.launch-pentest-card {
       .pentest-info-container {
@@ -115,5 +278,22 @@ main.webapp {
         backdrop-filter: blur(9px) saturate(0.8) contrast(1);
       }
     }
+  }
+}
+
+// Ocultar sección derecha en mobile/tablet como hacen las otras secciones
+@media only screen and (max-width: 1000px) {
+  main.webapp .right {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 680px) {
+  main.webapp .right {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  main.webapp .right {
+    display: none !important;
   }
 }

@@ -43,6 +43,10 @@
       width: 90px;
       display: flex;
       align-self: flex-start;
+
+      &.logose {
+        width: 150px;
+      }
     }
 
     #brand {
@@ -112,6 +116,7 @@
   gap: 8px;
   padding: 1.5rem;
   margin-top: 10px;
+  overflow-x: hidden;
 
   > img {
     width: 130px;
@@ -136,14 +141,17 @@
         flex: 1 1 70%;
         p {
           width: 100%;
-          line-height: 1.2rem;
-          strong {
-            font-size: 0.9rem;
-            color: #555555;
-          }
+          line-height: 1.4rem;
+          font-size: 15px;
+          font-family: questrial;
+          color: #666;
         }
         b {
           color: var(--codefend-color-red);
+          background: #ff393911;
+          padding: 4px 10px;
+          font-weight: 400;
+          margin: 0 5px;
         }
         .info-row {
           display: flex;
@@ -450,6 +458,58 @@
 [data-theme='dark'] {
   .welcome-modal-container {
     --header-title-color: var(--tertiary-color-100);
+
+    .welcome-content.welcome-content-finish {
+      .scan-header-info {
+        p {
+          color: rgb(255 255 255 / 57%);
+        }
+      }
+      .card.card-process {
+        background: var(--primary-color-100);
+        border-color: var(--primary-color-300);
+
+        .card-process-header {
+          border-bottom: 1px solid var(--primary-color-300);
+
+          .card-process-header-title {
+            h3 {
+              color: var(--tertiary-color-300);
+            }
+          }
+
+          .process-badge > div {
+            &[data-status='running'] {
+              background-color: var(--primary-color-300);
+              color: var(--tertiary-color-300);
+            }
+            &[data-status='completed'] {
+              background-color: #1a4a2a;
+              color: #4ade80;
+            }
+            &[data-status='parser'] {
+              background-color: var(--secondary-color-400);
+              color: var(--tertiary-color-100);
+            }
+          }
+        }
+
+        .card-process-content-info .card-process-content-info-container {
+          .info-item {
+            &:not(:last-child)::after {
+              background-color: var(--primary-color-300);
+            }
+
+            span {
+              color: var(--tertiary-color-500);
+            }
+            b {
+              color: var(--tertiary-color-300);
+            }
+          }
+        }
+      }
+    }
   }
   .modal.welcome-modal-container {
     p {
@@ -514,4 +574,161 @@
   //     color: var(--codefend-color-gray-2);
   //   }
   // }
+}
+
+// ===== SKELETON STYLES FOR WELCOME FINISH =====
+.welcome-finish-skeleton {
+  overflow-y: auto;
+  max-height: 90dvh;
+  gap: 8px;
+  padding: 1.5rem;
+  margin-top: 10px;
+  overflow-x: hidden;
+
+  > img {
+    width: 130px;
+    margin-block-end: 0.5rem;
+    margin-top: -17px;
+  }
+
+  .scan-header-info {
+    margin-bottom: 1rem;
+    max-width: 550px;
+
+    .scan-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: justify-content;
+      margin-bottom: -40px;
+
+      .scan-basic-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        flex: 1 1 70%;
+      }
+
+      .progress-mini {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        margin-bottom: -20px;
+      }
+    }
+  }
+
+  .card.card-process {
+    margin-bottom: 8px;
+  }
+
+  // Skeleton text elements
+  .skeleton-text {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    color: transparent;
+    display: inline-block;
+
+    &.skeleton-scan-info {
+      width: 100%;
+      height: 20px;
+      margin-bottom: 4px;
+      animation-delay: 0s;
+    }
+
+    &.skeleton-time {
+      width: 120px;
+      height: 16px;
+      animation-delay: 0.1s;
+    }
+
+    &.skeleton-number {
+      width: 40px;
+      height: 16px;
+      animation-delay: 0.2s;
+    }
+
+    &.skeleton-percentage {
+      width: 35px;
+      height: 16px;
+      animation-delay: 0.3s;
+    }
+  }
+
+  // Skeleton badge
+  .skeleton-badge {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 12px;
+    width: 80px;
+    height: 24px;
+    animation-delay: 0.4s;
+  }
+
+  // Skeleton progress circle
+  .skeleton-progress-circle {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    animation-delay: 0.5s;
+  }
+
+  // Skeleton progress bar
+  .skeleton-progress-bar {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    width: 100%;
+    height: 8px;
+    animation-delay: 0.6s;
+  }
+
+  // Dark theme support
+  [data-theme='dark'] & {
+    .skeleton-text,
+    .skeleton-badge,
+    .skeleton-progress-circle,
+    .skeleton-progress-bar {
+      background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+      background-size: 200% 100%;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .modal-wrapper {
+    .modal.welcome-modal-container {
+      .welcome-content.welcome-content-finish {
+        padding-inline: 0.85rem;
+
+        .card.card-process {
+          width: 100%;
+
+          .card-process-content-info-container {
+            gap: 0.5rem;
+
+            .item-started {
+              min-width: 90px;
+            }
+          }
+        }
+      }
+    }
+  }
 }

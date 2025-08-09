@@ -1,3 +1,4 @@
+import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import { MAX_SCAN_RETRIES } from '@/app/constants/empty';
 import { companyIdIsNull } from '@/app/constants/validations';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
@@ -71,8 +72,13 @@ export const useVerifyScanListv3 = () => {
   const swrKey = useMemo(() => {
     if (!companyId) return null;
 
-    return ['modules/neuroscan/index', { company: companyId }];
-  }, [companyId]);
+    // PROTECCIÓN SELECTIVA: Solo bloquear ANTES de que se active isScanning
+    // const isOnboardingModal = isOpen && modalId === MODAL_KEY_OPEN.USER_WELCOME_FINISH;
+    // const shouldBlock = isOnboardingModal && !scanningValue;
+
+    return ['neuroscans/index', { company: companyId }];
+  }, [companyId, isOpen, scanningValue]);
+  // ✅ Configuración estable de SWR
   const swrConfig = useMemo(() => {
     const shouldRefresh = scanningValue;
     return {
@@ -104,20 +110,6 @@ export const useVerifyScanListv3 = () => {
     };
   }, [scanningValue, scaningProgress.get]);
   const { data } = useSWR<ScanManager>(swrKey, fetcher, swrConfig);
-  // const allActiveScan = useMemo(() => {
-  //   const raw = data?.scans || [];
-  //   const currentMap = scaningProgress.get instanceof Map ? scaningProgress.get : new Map();
-  //   return raw.filter(scan => {
-  //     const mapScan = currentMap.get(scan.id);
-  //     // Caso 1: el scan está lanzado (activo)
-  //     if (scan?.phase === 'launched') return true;
-  //     // Caso 2: en la API ya terminó, pero en el mapa todavía lo tengo como no terminado
-  //     const stillActiveInMap = mapScan?.phase === 'launched';
-  //     const nowFinishedInApi = scan?.phase === 'finished';
-  //     if (nowFinishedInApi && stillActiveInMap) return true;
-  //     return false;
-  //   });
-  // }, [JSON.stringify(data?.scans || []), lastScanId?.get, scanningValue]);
 
   useEffect(() => {
     const raw = data?.scans || [];

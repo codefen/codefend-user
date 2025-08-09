@@ -6,7 +6,8 @@ import { SidebarDesktop } from '@/app/views/components/sidebar/SidebarDesktop';
 import { useMediaQuery } from 'usehooks-ts';
 import { SidebarMobile } from '@/app/views/components/sidebar/SidebarMobile';
 import { SidebarOpenButton } from '@/app/views/components/sidebar/SidebarOpenButton';
-import './sidebar.scss';
+import { useSwipeToOpen } from '@/app/views/components/sidebar/useSwipeToOpen';
+import './sidebar-consolidated.scss';
 
 export const verifyPath = (verifyPath: string, isRoot: boolean) => {
   const currentPath = window.location.pathname;
@@ -39,6 +40,24 @@ const Sidebar = () => {
   const closeSidebar = () => {
     setIsOpen(false);
   };
+
+  // Hook para detectar swipe desde la izquierda y derecha
+  useSwipeToOpen({
+    minSwipeDistance: 50,
+    maxSwipeTime: 300,
+    onSwipeOpen: () => {
+      if (!isOpen) {
+        setIsOpen(true);
+      }
+    },
+    onSwipeClose: () => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+    },
+    isMobile: !matches, // Usar el mismo valor que determina si es móvil
+    isOpen: isOpen,
+  });
 
   return (
     <aside

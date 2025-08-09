@@ -66,11 +66,11 @@ export const roleMap = {
 };
 
 export const companySizesList = [
-  { label: '1-10', value: '1-10' },
-  { label: '11-50', value: '11-50' },
-  { label: '51-200', value: '51-200' },
-  { label: '201-500', value: '201-500' },
-  { label: '>500', value: '>500' },
+  { label: '1 to 10 people', value: '1-10' },
+  { label: '11 to 50 people', value: '11-50' },
+  { label: '51 to 500 people', value: '51-500' },
+  { label: 'More than 500 people', value: '>500' },
+  { label: 'More than 1,000 people', value: '>1000' },
 ];
 
 export const topVulnerabilitiesColumn: ColumnTable[] = [

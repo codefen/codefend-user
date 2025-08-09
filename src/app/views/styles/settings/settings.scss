@@ -64,45 +64,41 @@
     url('/fonts/Satoshi-Bold.otf') format('truetype');
 }
 
-/* scrollbar */
+/* scrollbar - Estilo unificado gris para toda la aplicación */
 ::-webkit-scrollbar {
-  width: 5px;
-  opacity: 0.2;
+  width: 6px;
+  height: 6px;
 }
 
 ::-moz-scrollbar {
-  width: 5px;
-  opacity: 0.2;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--primary-color);
-  opacity: 0.2;
+  background: transparent;
 }
 
 ::-moz-scrollbar-track {
-  background: var(--primary-color);
-  opacity: 0.2;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff6c6c;
-  opacity: 0.2;
+  background-color: var(--primary-color-300);
+  border-radius: 3px;
 }
 
 ::-moz-scrollbar-thumb {
-  background: #ff6c6c;
-  opacity: 0.2;
+  background-color: var(--primary-color-300);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #e75e5e;
-  opacity: 0.2;
+  background-color: var(--primary-color-400);
 }
 
 ::-moz-scrollbar-thumb:hover {
-  background: #e75e5e;
-  opacity: 0.2;
+  background-color: var(--primary-color-400);
 }
 
 body {
@@ -132,6 +128,11 @@ body[data-theme='dark'] {
   max-width: var(--max-w-layout);
   margin: 0 auto;
   position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
 
 h2 {

@@ -8,6 +8,7 @@ import type { ResellerUser } from '@interfaces/user';
 import { SimpleSectionWithTable } from '@/app/views/components/SimpleSectionWithTable/SimpleSectionWithTable';
 import { resellerUserActiveColumns } from '@mocks/defaultData';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const ResellerUsersLayout = () => {
   const [showScreen] = useShowScreen();
@@ -51,6 +52,7 @@ const ResellerUsersLayout = () => {
         </div>
       </section>
       <section className="right">
+        <Navbar />
         <ResourceByLocation
           resource={users.current}
           isLoading={isLoading}

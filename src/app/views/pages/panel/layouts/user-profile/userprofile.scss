@@ -1,7 +1,7 @@
 main.user-profile {
   .left {
-    overflow-x: hidden;
-    overflow-y: auto;
+    // overflow-x: hidden;
+    // overflow-y: auto;
 
     .user-profile-top {
       display: flex;
@@ -26,18 +26,18 @@ main.user-profile {
 
     .box-assets {
       display: flex;
-      align-items: stretch;
-      gap: 12px;
+      align-items: flex-start;
+      gap: var(--card-space);
       width: 100%;
-      min-height: 340px;
       height: fit-content;
+      margin-top: 12px; // Normalizar espaciado con dashboard
 
       .card {
         overflow: hidden;
         min-width: 200px;
         padding: 0.5rem;
         flex: 1 1 50%;
-        height: 100%;
+        height: fit-content;
       }
     }
 
@@ -59,45 +59,59 @@ main.user-profile {
 
       .mfa-active-icon {
         background-color: rgb(220, 252, 231);
-        padding: 0.5rem;
+        padding: 1rem;
         border-radius: 100%;
         height: fit-content;
         width: fit-content;
         color: rgb(22 101 52 / 1);
+        align-self: center;
+        margin-bottom: 1rem;
+
+        svg {
+          width: 2rem;
+          height: 2rem;
+        }
       }
 
       .mfa-active {
         display: flex;
-        background-color: rgb(240 253 244 / 1);
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: rgba(0, 255, 85, 0.05);
         padding: 1rem;
         border-radius: var(--brd-radius);
-        gap: var(--card-space);
-        border: 1px solid hsl(240 5.9% 90%);
+        border: 1px solid rgba(0, 255, 85, 0.1);
 
         h3 {
           color: rgb(22 101 52 / 1);
           font-size: 1.1rem;
+          width: 100%;
+          margin-bottom: 0.5rem;
         }
 
         p {
           padding: 0;
           color: rgb(21 128 61 / 1);
+          width: 100%;
         }
       }
     }
 
     .qr-contain input {
-      margin-bottom: 1rem;
-      margin-top: 1.5rem;
+      margin-bottom: 0rem;
     }
   }
 
   .right {
     height: 100%;
     margin-left: 0;
-    overflow-y: auto;
+    // overflow-y: auto;
+    margin-bottom: 0px;
+
     .card {
-      margin-bottom: 12px;
+      margin-bottom: var(--card-space);
+      margin-top: 0; // Normalizar márgenes superiores para consistencia
 
       &.stats {
         .content {
@@ -113,7 +127,7 @@ main.user-profile {
           padding: 12px;
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: var(--card-space);
         }
       }
     }
@@ -123,13 +137,12 @@ main.user-profile {
     .left {
       flex: 1 1 60%;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
-
     .right {
       flex: 1 1 40%;
       padding-block-start: 0;
-      margin-block-start: calc(18px + var(--nav-height));
+      margin-block-start: 0;
     }
   }
 
@@ -167,23 +180,47 @@ main.user-profile {
 
 @media only screen and (max-width: 600px) {
   main.user-profile {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+    padding: 0;
+    overflow-y: visible !important; // Permitir scroll natural en móvil
+    max-height: none !important; // Remover altura máxima en móvil
+
     .left {
-      .card.stat {
-        .value {
-          font-size: 1.35rem;
-        }
-        .value + p {
-          font-size: 13px;
-        }
-      }
+      width: 100%;
+      padding-block-start: 10px;
+      flex: 1;
+      overflow-y: visible; // Usar scroll natural del documento
+      height: auto; // Altura automática para flujo natural
+      padding-bottom: 2rem;
+    }
+
+    .right {
+      width: 100%;
+      padding-block-start: 20px;
+      flex: 0 0 auto;
+    }
+
+    .admin-cards-fluid {
+      column-count: 1;
     }
   }
 }
 @media only screen and (max-width: 1000px) {
   main.user-profile {
+    width: 96%;
+    margin-inline: auto;
+
     .left {
       .status-card-container {
         display: flex;
+      }
+      .box-assets {
+        .card + .card {
+          margin-bottom: 4rem;
+        }
       }
     }
     .right {
@@ -204,6 +241,11 @@ main.user-profile {
       .box-assets {
         flex-direction: column;
         min-height: fit-content;
+
+        .card {
+          flex: 1 1 100%;
+          min-height: max-content;
+        }
       }
     }
   }
@@ -212,20 +254,84 @@ main.user-profile {
 main.user-profile .box-assets .card .over {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 2rem;
-
-  p {
-    flex-grow: 1;
-  }
+  height: fit-content;
+  padding: 0.2rem;
+  gap: 0rem;
 
   .form-button {
     width: 100%;
-    margin-top: auto;
   }
 
   .form-input {
     width: 100%;
-    margin-bottom: 1rem;
   }
 }
+
+.card .over p {
+  padding-inline: var(--card-space);
+  margin-block-end: var(--card-space);
+  font-size: 16px;
+  font-family: Questrial;
+  margin-top: 10px;
+  line-height: 1.5em;
+}
+
+// Estilos para el layout de Admin Commander
+main.user-profile {
+  // Contenedor fluido para las tarjetas administrativas (estilo SNS)
+  // Contenedor fluido estilo SNS (column masonry)
+  .admin-cards-fluid {
+    column-count: 2;
+    column-gap: var(--card-space);
+    margin-top: var(--card-space);
+
+    .card {
+      break-inside: avoid;
+      width: 100%;
+      margin-bottom: var(--card-space);
+    }
+  }
+
+  .right {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-space);
+    
+    .card {
+      margin-bottom: var(--card-space);
+    }
+  }
+
+  // Estilos para la lista de quicklinks
+  .quicklinks-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+
+    li {
+      margin-bottom: 0.75rem;
+      
+      a {
+        display: block;
+        padding: 0.75rem 1rem;
+        background: var(--primary-color-100);
+        border: 1px solid var(--primary-color-200);
+        border-radius: 6px;
+        color: var(--text-color-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: var(--primary-color-200);
+          border-color: var(--primary-color-300);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}
+
+

@@ -14,6 +14,7 @@ import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/App
 import { MobileApplicationTitle } from './components/MobileApplicationTitle';
 import AddMobileModal from '@modals/adding-modals/AddMobileModal';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const MobileApplicationPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -62,6 +63,7 @@ const MobileApplicationPanel: FC = () => {
       <div className="brightness variant-3"></div> */}
 
       <section className="right">
+        <Navbar />
         <Show when={Boolean(selectedApp.get)}>
           <MobileSelectedDetails listSize={data?.length || 0} appEvent={appEvent} orders={orders} />
         </Show>

@@ -1,0 +1,198 @@
+/**
+ * Estilos para el Componente de Botón de Google OAuth
+ * 
+ * Estilos que siguen las directrices de diseño de Google
+ * para botones de autenticación OAuth.
+ */
+
+.google-auth-container {
+  width: 100%;
+
+  .google-auth-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    background-color: #ffffff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3c4043;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    text-decoration: none;
+    position: relative;
+    width: 100% !important;
+
+    &:hover:not(.disabled) {
+      background-color: #f8f9fa;
+      border-color: #c1c7cd;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active:not(.disabled) {
+      background-color: #f1f3f4;
+      border-color: #9aa0a6;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus:not(.disabled) {
+      border-color: #4285f4;
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+
+    &.disabled {
+      background-color: #f8f9fa;
+      color: #9aa0a6;
+      cursor: not-allowed;
+      border-color: #e8eaed;
+
+      .google-icon {
+        opacity: 0.5;
+      }
+    }
+
+    .google-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Separador visual para formularios
+.auth-separator {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  color: #5f6368;
+  font-size: 14px;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #dadce0;
+  }
+
+  &::before {
+    margin-right: 16px;
+  }
+
+  &::after {
+    margin-left: 16px;
+  }
+}
+
+// Separador con línea horizontal simple (sin texto)
+.auth-separator-line {
+  width: 100%;
+  height: 1px;
+  background-color: #dadce0;
+  margin: 15px 0;
+  border: none;
+}
+
+// Separador estilizado igual al de onboarding
+.onboarding-separator {
+  width: 100%;
+  max-width: 520px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(108, 117, 125, 0.3), transparent);
+  border: none;
+  margin: 1.25rem 0;
+  position: relative;
+
+  // &::before {
+  //   content: '';
+  //   position: absolute;
+  //   top: -2px;
+  //   left: 50%;
+  //   transform: translateX(-50%);
+  //   width: 4px;
+  //   height: 4px;
+  //   background: #ff3939;
+  //   border-radius: 50%;
+  // }
+}
+
+// Tema oscuro (opcional)
+// @media (prefers-color-scheme: dark) {
+//   .google-auth-container {
+//     .google-auth-button {
+//       background-color: #2d2d2d;
+//       border-color: #5f6368;
+//       color: #e8eaed;
+
+//       &:hover:not(.disabled) {
+//         background-color: #3c4043;
+//         border-color: #9aa0a6;
+//       }
+
+//       &:active:not(.disabled) {
+//         background-color: #5f6368;
+//       }
+
+//       &.disabled {
+//         background-color: #202124;
+//         color: #5f6368;
+//         border-color: #3c4043;
+//       }
+//     }
+//   }
+
+//   .auth-separator {
+//     color: #9aa0a6;
+
+//     &::before,
+//     &::after {
+//       background-color: #5f6368;
+//     }
+//   }
+
+//   .auth-separator-line {
+//     background-color: #5f6368;
+//   }
+
+//   .onboarding-separator {
+//     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+
+//     // &::before {
+//     //   background: #ff3939;
+//     // }
+//   }
+// }
+
+[data-theme='dark'] {
+  .onboarding-separator {
+    background: #434343;
+  }
+  .google-auth-container {
+    .nsm7Bb-HzV7m-LgbsSe,
+    .google-auth-button {
+      background-color: #1b1b1b;
+      border-color: #252525;
+      color: #fff;
+    }
+  }
+}

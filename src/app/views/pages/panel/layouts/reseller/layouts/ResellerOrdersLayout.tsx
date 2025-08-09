@@ -5,6 +5,7 @@ import '../reseller.scss';
 import { ResourceByLocation } from '@/app/views/components/ResourceByLocation/ResourceByLocation';
 import { useResellerOrders } from '@userHooks/resellers/useResellerOrders';
 import { ResellerAllOrders } from '../components/ResellerAllOrders';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const ResellerOrdersLayout = () => {
   const [showScreen] = useShowScreen();
@@ -24,6 +25,7 @@ const ResellerOrdersLayout = () => {
         </div>
       </section>
       <section className="right">
+        <Navbar />
         <ResourceByLocation
           resource={orders.current}
           isLoading={isLoading}

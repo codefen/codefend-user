@@ -1,0 +1,1626 @@
+.activity-chart-container {
+  width: 100%;
+  height: 100%;
+  min-height: 320px; // Altura mínima para asegurar espacio suficiente
+  margin: 0;
+  padding: 0; // Removido padding para alinear con bordes del card
+  background: var(--primary-color);
+  border-radius: 8px;
+  border: 1px solid var(--primary-color-300);
+  resize: horizontal;
+  max-height: 400px; // Aumentar max-height para más espacio
+  position: relative; // Importante para el position absolute del selector
+  
+  svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  
+  // Resetear position del period-selector cuando está dentro de ActivityLineChart
+  .chart-header .period-selector {
+    position: static;
+    top: auto;
+    right: auto;
+    z-index: auto;
+    margin-bottom: 0;
+  }
+  
+  // Placeholder para cuando no hay datos
+  .chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--tertiary-color-400);
+    font-style: italic;
+  }
+}
+
+// Controles del gráfico - OBSOLETO, ahora se usa unified-chart-controls
+/*
+.chart-controls {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+  
+  .chart-toggle-btn {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    background: var(--primary-color-100);
+    color: var(--text-color-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    border: 1px solid var(--primary-color-200);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    &:hover:not(.active) {
+      background: var(--primary-color-200);
+      color: var(--text-color-primary);
+    }
+    
+    &.active {
+      background: var(--accent-color);
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
+*/
+
+// Leyenda flotante interactiva - OBSOLETO, ahora se maneja en React
+/*
+.legend {
+  pointer-events: all;
+  
+  .legend-item {
+    cursor: pointer;
+    pointer-events: all;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+*/
+
+// Contenedor para gráfico y resumen
+.chart-and-summary-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0; // Removido: estilo obsoleto del layout anterior
+  align-items: flex-start;
+
+  .activity-chart-container {
+    flex: 1;
+    min-width: 0; // Permite que el gráfico se encoja
+  }
+
+  .activity-summary {
+    flex-shrink: 0;
+    width: 280px;
+    background: var(--primary-color);
+    border: 1px solid var(--primary-color-300);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      color: var(--text-color-primary);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .metrics-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .metric-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--primary-color-100);
+        border-radius: 6px;
+        border: 1px solid var(--primary-color-200);
+
+        .metric-label {
+          color: var(--text-color-secondary);
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        .metric-value {
+          color: var(--text-color-primary);
+          font-size: 1.1rem;
+          font-weight: 700;
+          font-family: 'Satoshi', sans-serif;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design para móviles
+@media (max-width: 768px) {
+  .chart-and-summary-container {
+    flex-direction: column;
+    gap: 1rem;
+
+    .activity-summary {
+      width: 100%;
+      order: -1; // El resumen aparece primero en móviles
+    }
+  }
+}
+
+// Estilos para la tabla de raw data
+.raw-data-container {
+  width: 100%;
+  margin: 0; // Removido: el contenedor padre ya maneja el espaciado con gap
+
+  .raw-data-header {
+    margin-bottom: 1rem;
+
+    h3 {
+      color: var(--text-color-primary);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+
+  .raw-data-table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color-300);
+    background: var(--primary-color);
+
+    .raw-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      table-layout: fixed; // Forzar anchos fijos para columnas optimizadas
+
+      thead {
+        background: var(--primary-color-200);
+        
+        th {
+          padding: 0.75rem 0.5rem;
+          text-align: left;
+          font-weight: 600;
+          color: var(--text-color-primary);
+          border-bottom: 1px solid var(--primary-color-300);
+          font-size: 0.8rem;
+        }
+      }
+
+      tbody {
+        tr {
+          transition: background-color 0.2s ease;
+          
+          &:nth-child(even) {
+            background: var(--primary-color-100);
+          }
+
+          &:hover {
+            background: var(--hover-color);
+          }
+
+          td {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--primary-color-300);
+            color: var(--text-color-secondary);
+
+            &.ip-address {
+              font-family: inherit; // Usar la misma tipografía que el resto
+              font-size: 0.85rem; // Mismo tamaño que la tabla general
+              color: var(--text-color-secondary); // Mismo color que otras celdas
+              white-space: nowrap; // Evitar salto de línea
+              overflow: hidden; // Ocultar desbordamiento
+              text-overflow: ellipsis; // Mostrar "..." para texto largo
+              max-width: 130px; // Ancho máximo para la columna IP
+            }
+
+            &.user-agent {
+              font-family: 'Courier New', monospace;
+              font-size: 0.75rem;
+              max-width: 200px;
+              word-break: break-all;
+            }
+
+            &.created-date {
+              font-size: 0.8rem;
+              color: var(--text-color-primary);
+            }
+
+            &.no-data {
+              text-align: center;
+              padding: 2rem;
+              color: var(--text-color-secondary);
+              font-style: italic;
+            }
+
+            .page-type {
+              padding: 0.2rem 0.5rem;
+              border-radius: 12px;
+              font-size: 0.7rem;
+              font-weight: 500;
+              
+              &.signup {
+                background: #e7f5e7;
+                color: #2d7d32;
+              }
+
+              &.signin {
+                background: #e3f2fd;
+                color: #1976d2;
+              }
+            }
+
+            .conversion-status {
+              font-weight: 600;
+              font-size: 1rem;
+
+              &.converted {
+                color: #4caf50;
+              }
+
+              &.not-converted {
+                color: #f44336;
+              }
+            }
+
+            // ========== NUEVA COLUMNA DE UBICACIÓN (solo bandera + ciudad) ==========
+            &.location-cell {
+              .location-info {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                
+                // ✅ BANDERAS CSS (flag flag-xx) - RESPETA DIMENSIONES ORIGINALES
+                .flag {
+                  flex-shrink: 0;
+                  // NO sobrescribir width, height, background-size ni background-position
+                  // Las dimensiones originales (16px x 11px) y sprites funcionan correctamente
+                  
+                  // Fallback para códigos no encontrados
+                  &.flag-xx {
+                    background: #ccc;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 8px;
+                    color: #666;
+                    
+                    &::after {
+                      content: '?';
+                    }
+                  }
+                }
+                
+                .location-text {
+                  overflow: hidden;
+                  flex: 1;
+                  
+                  .city {
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    color: var(--text-color-primary);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  }
+                }
+              }
+            }
+
+            // ========== NUEVA COLUMNA DE USER AGENT MEJORADA ==========
+            &.user-agent-enhanced {
+              max-width: 400px;
+              
+              .device-info {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                
+                            .device-icons {
+              display: flex;
+              align-items: center;
+              gap: 0.3rem;
+              flex-shrink: 0;
+              
+              .device-icon, .os-icon {
+                font-size: 0.9rem;
+                transition: transform 0.2s ease;
+                
+                &:hover {
+                  transform: scale(1.1);
+                }
+                
+                // ✅ ESTILOS FLEXIBLES - no usa clases específicas
+                // Los iconos ya vienen diferenciados por emoji desde las funciones
+              }
+              
+              // ⚡ DESTACAR BOTS con animación
+              &:has(.device-icon[title*="bots"]),
+              &:has(.device-icon[title*="Bot"]) {
+                .device-icon {
+                  animation: pulse-bot 2s infinite;
+                }
+              }
+            }
+            
+            // Animación para destacar bots
+            @keyframes pulse-bot {
+              0%, 100% { 
+                opacity: 1; 
+                filter: brightness(1);
+              }
+              50% { 
+                opacity: 0.7; 
+                filter: brightness(1.3);
+              }
+            }
+                
+                .ua-text {
+                  font-family: 'Questrial', sans-serif;
+                  font-size: 0.8rem;
+                  color: var(--text-color-secondary);
+                  line-height: 1.3;
+                  word-break: break-all;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  
+                  // En hover mostrar tooltip
+                  &:hover {
+                    position: relative;
+                    z-index: 10;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .raw-data-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+
+    .refresh-btn {
+      background: #ff3939;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #e63333;
+        transform: translateY(-1px);
+      }
+    }
+
+    .total-records {
+      color: var(--text-color-secondary);
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// Estilos responsivos para la tabla
+@media (max-width: 768px) {
+  .raw-data-container {
+    .raw-data-table {
+      font-size: 0.75rem;
+
+      th, td {
+        padding: 0.4rem 0.3rem;
+      }
+    }
+
+    .raw-data-footer {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+  }
+}
+
+// Estilos globales para tooltips
+.chart-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: white !important;
+  padding: 10px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-family: 'Satoshi', sans-serif !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  pointer-events: none !important;
+  z-index: 9999 !important;
+  line-height: 1.4 !important;
+
+  strong {
+    color: #fff !important;
+    font-weight: 600 !important;
+    text-transform: capitalize !important;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .activity-chart-container {
+    padding: 0.75rem;
+    margin: 1rem 0;
+    min-width: 280px;
+    
+    svg {
+      overflow: visible;
+    }
+
+    // .chart-controls { // Eliminado
+    //   flex-direction: column;
+    //   gap: 0.25rem;
+
+    //   .chart-toggle-btn {
+    //     width: 100%;
+    //     justify-content: center;
+    //   }
+    // }
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-chart-container {
+    padding: 0.5rem;
+    margin: 0.75rem 0;
+    min-width: 260px;
+
+    // .chart-controls { // Eliminado
+    //   .chart-toggle-btn {
+    //     padding: 0.4rem 0.8rem;
+    //     font-size: 0.8rem;
+    //   }
+    // }
+  }
+}
+
+// Estilos para grid lines del gráfico
+.grid line {
+  stroke: #e9ecef;
+  stroke-dasharray: 2,2;
+  shape-rendering: crispEdges;
+}
+
+// Estilos para ejes
+.axis {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+// Estilos para leyenda
+.legend text {
+  font-family: 'Satoshi', sans-serif !important;
+  font-size: 12px !important;
+  fill: #495057 !important;
+  text-transform: capitalize;
+}
+
+// 🆕 Estilos para leyenda clickeable con checkboxes
+.legend {
+  .legend-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+      
+      text {
+        fill: var(--tertiary-color-600) !important;
+      }
+      
+      rect[width="14"] { // Checkbox
+        stroke-width: 3;
+      }
+    }
+
+    // Checkbox estilos
+    rect[width="14"] {
+      transition: all 0.2s ease;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+      
+      &:hover {
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+      }
+    }
+
+    // Checkmark animación
+    path {
+      animation: checkmark-appear 0.3s ease;
+    }
+
+    // Indicadores de línea/cuadrado
+    line, rect[width="12"] {
+      transition: opacity 0.2s ease;
+    }
+
+    // Texto de leyenda
+    text {
+      transition: fill 0.2s ease;
+      font-weight: 500;
+      
+      &[fill="#999"] {
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+// Animación para el checkmark
+@keyframes checkmark-appear {
+  0% {
+    stroke-dasharray: 12;
+    stroke-dashoffset: 12;
+  }
+  100% {
+    stroke-dasharray: 12;
+    stroke-dashoffset: 0;
+  }
+}
+
+// Estilos específicos para el gráfico de barras
+.bar-group {
+  cursor: pointer;
+  
+  rect {
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+}
+
+// Estilos específicos para el gráfico de líneas
+.line-leads,
+.line-usuarios,
+.line-companias,
+.line-neuroscans,
+.line-seen_issues {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+// 🆕 Estilos para líneas discontinuas (métricas con pocos datos)
+.line-usuarios,
+.line-companias,
+.line-neuroscans,
+.line-seen_issues {
+  &[stroke-dasharray="5,5"] {
+    animation: dash-animation 10s linear infinite;
+  }
+}
+
+// Animación para líneas discontinuas
+@keyframes dash-animation {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 20;
+  }
+}
+
+// Tema oscuro
+[data-theme='dark'] {
+  .activity-chart-container {
+    background: var(--primary-color-dark);
+    border-color: var(--primary-color-300-dark);
+
+    // .chart-controls { // Eliminado
+    //   .chart-toggle-btn {
+    //     background: var(--primary-color-dark);
+    //     border-color: var(--primary-color-300-dark);
+    //     color: var(--tertiary-color-100);
+
+    //     &:hover {
+    //       background: var(--primary-color-50-dark);
+    //       border-color: var(--primary-color-400-dark);
+    //       color: var(--tertiary-color-50);
+    //     }
+
+    //     &.active {
+    //       background: var(--secondary-color-50);
+    //       border-color: var(--secondary-color-50);
+    //       color: var(--primary-color-dark);
+    //     }
+    //   }
+    // }
+
+    .chart-placeholder {
+      color: var(--tertiary-color-300);
+    }
+  }
+
+  .grid line {
+    stroke: #444;
+  }
+
+  .axis text {
+    fill: var(--tertiary-color-200) !important;
+  }
+
+  .legend {
+    text {
+      fill: var(--tertiary-color-200) !important;
+      
+      &[fill="#999"] {
+        fill: var(--tertiary-color-400) !important;
+      }
+    }
+
+    .legend-item:hover text {
+      fill: var(--tertiary-color-100) !important;
+    }
+  }
+}
+
+// Estilos para controles de paginación
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .pagination-btn {
+    background: #ff3939;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+
+    &:hover:not(:disabled) {
+      background: #e63333;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      background: #cccccc;
+      color: #666666;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  .page-indicator {
+    background: var(--bg-color-100);
+    color: var(--text-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+    border: 1px solid var(--primary-color-300);
+  }
+
+  .page-jump-input {
+    background: var(--bg-color-100);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color-300);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    width: 180px;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #ff3939;
+      box-shadow: 0 0 0 2px rgba(255, 57, 57, 0.2);
+    }
+
+    &::placeholder {
+      color: var(--text-color-secondary);
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Responsive para controles de paginación
+@media (max-width: 768px) {
+  .raw-data-container {
+    .raw-data-footer {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+
+      .footer-left {
+        order: 2;
+      }
+
+      .pagination-controls {
+        order: 1;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.3rem;
+
+        .pagination-btn {
+          padding: 0.3rem 0.6rem;
+          font-size: 0.8rem;
+        }
+
+        .page-jump-input {
+          width: 140px;
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-controls {
+    .pagination-btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .page-jump-input {
+      width: 120px;
+      font-size: 0.75rem;
+    }
+
+    .page-indicator {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      min-width: 50px;
+    }
+  }
+} 
+
+// Layout principal para AdminLanders - solo gap, sin margin-bottom doble
+main.user-profile {
+  .left.full-width {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-space); // Solo gap, como dashboard usa solo margin-bottom
+    
+    // Remover margin-bottom individual de cards para evitar espaciado doble
+    .card.rectangle {
+      margin-bottom: 0;
+    }
+    
+    .raw-data-container {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Nuevo layout para AdminLanders
+.landers-layout-container {
+  display: flex;
+  gap: var(--card-space);
+  margin-bottom: 0; // Removido: el contenedor padre ya maneja el gap
+  align-items: stretch; // Cambiado de flex-start a stretch para igual altura
+
+  .chart-section {
+    flex: 1 1 70%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-space); // Espaciado consistente entre cards del gráfico
+    
+    // Cards con altura específica para consistencia - mismo padding que dashboard
+    .card.standard {
+      padding: 0.5rem; // Igual que dashboard .box-assets > .card
+      
+      &.chart-controls-card {
+        flex-shrink: 0; // No se encoge
+      }
+      
+      &:not(.chart-controls-card) {
+        flex: 1; // El gráfico toma el espacio restante
+        min-height: 280px;
+      }
+      
+      .over {
+        height: 100%;
+        
+        .body {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          
+          .chart-header {
+            flex-shrink: 0;
+            margin-bottom: 0.5rem; // Reducido para consistencia
+          }
+          
+          .activity-chart-container {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+
+  .metrics-section {
+    flex: 1 1 30%;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    
+    // La card de métricas debe tomar toda la altura disponible - mismo padding que dashboard
+    .card.standard {
+      flex: 1;
+      height: 100%;
+      padding: 0.5rem; // Igual que dashboard .box-assets > .card
+    }
+  }
+}
+
+// Responsive design para móviles
+@media (max-width: 1024px) {
+  .landers-layout-container {
+    flex-direction: column;
+    gap: var(--card-space); // Consistente con desktop
+
+    .chart-section {
+      flex: none; // Resetear flex
+      width: 100%;
+    }
+
+    .metrics-section {
+      flex: none; // Resetear flex
+      width: 100%;
+      min-width: auto;
+      
+      .card.standard {
+        height: auto; // Altura automática en móvil
+      }
+    }
+  }
+}
+
+// Estilos específicos para la card de métricas
+.metrics-card {
+  .activity-summary {
+    .metrics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem; // Reducido de 2rem para ser más consistente
+
+      .metric-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .metric-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid var(--primary-color-200);
+
+          .metric-name {
+            color: var(--text-color-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: var(--font-family-primary);
+          }
+
+          .metric-value {
+            color: var(--text-color-primary);
+            font-weight: 700;
+            font-size: 1rem;
+            font-family: var(--font-family-primary);
+          }
+        }
+
+        .metric-bold-text {
+          margin: 0.5rem 0;
+          
+          strong {
+            color: var(--text-color-primary);
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: var(--font-family-primary);
+          }
+        }
+
+        .metric-details {
+          margin: 0;
+          padding-left: 1.5rem;
+          list-style-type: disc;
+          
+          li {
+            color: var(--text-color-secondary);
+            font-size: 0.8rem;
+            line-height: 1.2;
+            margin-bottom: 0.8rem;
+            font-family: satoshi;
+            
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+
+        // Colores específicos por métrica
+        &:nth-child(1) .metric-header .metric-value {
+          color: #999999; // Gris para unique views
+        }
+
+        &:nth-child(2) .metric-header .metric-value {
+          color: #666666; // Gris oscuro para leads
+        }
+
+        &:nth-child(3) .metric-header .metric-value {
+          color: #ff6464; // Rojo claro para users
+        }
+      }
+    }
+
+    // Mantener compatibilidad con el estilo anterior para otros usos
+    .metrics-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .metric-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--primary-color-100);
+        border-radius: 6px;
+        border: 1px solid var(--primary-color-200);
+
+        .metric-label {
+          color: var(--text-color-secondary);
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        .metric-value {
+          color: var(--text-color-primary);
+          font-size: 1.1rem;
+          font-weight: 700;
+          font-family: 'Satoshi', sans-serif;
+        }
+      }
+    }
+  }
+} 
+
+// Estilos para el selector de período
+.period-selector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  
+  .period-buttons {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--primary-color-100);
+    border-radius: 6px;
+    padding: 0.25rem;
+    border: 1px solid var(--primary-color-200);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    .period-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      color: var(--text-color-secondary);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      
+      &:hover:not(:disabled) {
+        background: var(--primary-color-200);
+        color: var(--text-color-primary);
+      }
+      
+      &.active {
+        background: var(--accent-color);
+        color: white;
+        font-weight: 600;
+      }
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Estilos para headers con selector
+.metrics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  position: relative;
+  
+  h3 {
+    margin: 0;
+    color: var(--text-color-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .period-selector {
+    position: static; // Reset position para métricas
+    top: auto;
+    right: auto;
+    z-index: auto;
+  }
+}
+
+.chart-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  position: relative;
+  
+  div:first-child {
+    flex: 1;
+  }
+  
+  .table-title {
+    margin: 0 0 0.25rem 0;
+  }
+  
+  p {
+    margin: 0;
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+  }
+  
+  .period-selector {
+    position: static; // Reset position para títulos
+    top: auto;
+    right: auto;
+    z-index: auto;
+  }
+}
+
+.data-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  
+  div:first-child {
+    flex: 1;
+  }
+  
+  h3 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text-color-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  p {
+    margin: 0;
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+  }
+}
+
+// Nuevo estilo simplificado para el header de la tabla
+.simple-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  position: relative;
+  
+  .header-title {
+    flex: 1;
+    
+    h3 {
+      margin: 0 0 0.5rem 0;
+      color: var(--text-color-primary);
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    p {
+      margin: 0;
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+  }
+  
+  .period-selector {
+    position: static; // Reset position para headers simples
+    top: auto;
+    right: auto;
+    z-index: auto;
+  }
+}
+
+// Chart header sin margin para chart puro
+.chart-header {
+  position: relative;
+  height: 0; // No ocupa espacio, solo sirve para posicionar el selector
+  
+  .period-selector {
+    // Mantiene el position absolute del selector general
+  }
+}
+
+// Responsive para móviles
+@media (max-width: 768px) {
+  .chart-title-row,
+  .data-title-row,
+  .simple-header,
+  .metrics-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+    
+    .period-selector {
+      position: static; // En móviles usar layout normal
+      top: auto;
+      right: auto;
+      z-index: auto;
+      width: 100%;
+      justify-content: center;
+      
+      .period-buttons {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+  
+  // Para gráficos, mantener los controles pero ajustados
+  .activity-chart-container {
+    .chart-header .period-selector {
+      position: static; // En móviles usar layout normal también para el gráfico
+      top: auto;
+      right: auto;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 1rem;
+      
+      .period-buttons {
+        width: auto;
+        justify-content: center;
+      }
+    }
+    
+    // .chart-controls { // Eliminado
+    //   position: static;
+    //   top: auto;
+    //   left: auto;
+    //   justify-content: center;
+    //   margin-bottom: 1rem;
+    // }
+  }
+  
+  .chart-and-summary-container {
+    flex-direction: column;
+    gap: 1rem;
+
+    .activity-summary {
+      width: 100%;
+      order: -1; // El resumen aparece primero en móviles
+    }
+  }
+} 
+
+// Controles unificados en tarjeta separada
+.unified-chart-controls {
+  position: static;
+  top: auto;
+  left: auto;
+  z-index: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+  backdrop-filter: none;
+  
+  // Separadores entre secciones
+  .controls-separator {
+    width: 1px;
+    height: 16px;
+    background: var(--primary-color-200);
+    margin: 0 0.25rem;
+  }
+  
+  // Checkboxes de métricas
+  .metric-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text-color-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    
+    .metric-checkbox {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border: 2px solid var(--metric-color);
+      color: var(--metric-color);
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+    
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-color-secondary);
+      transition: all 0.2s ease;
+    }
+    
+    &.active {
+      .metric-checkbox {
+        background: var(--metric-color);
+        color: white;
+      }
+      
+      .metric-label {
+        color: var(--text-color-primary);
+        font-weight: 600;
+      }
+    }
+    
+    &.inactive {
+      opacity: 0.6;
+      
+      .metric-checkbox {
+        background: transparent;
+        color: var(--metric-color);
+      }
+    }
+    
+    &:hover:not(:disabled) {
+      background: var(--primary-color-100);
+      
+      .metric-label {
+        color: var(--text-color-primary);
+      }
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+  
+  // Botones de tipo de gráfico
+  .chart-type-btn {
+    padding: 0.25rem 0.6rem;
+    border: none;
+    background: transparent;
+    color: var(--text-color-secondary);
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    
+    &:hover:not(.active):not(:disabled) {
+      background: var(--primary-color-100);
+      color: var(--text-color-primary);
+    }
+    
+    &.active {
+      background: transparent;
+      color: var(--text-color-primary);
+      font-weight: 600;
+      border-bottom: 1px solid #ff3939;
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+  
+  // Botones de período
+  .period-btn {
+    padding: 0.25rem 0.6rem;
+    border: none;
+    background: transparent;
+    color: var(--text-color-secondary);
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    
+    &:hover:not(.active):not(:disabled) {
+      background: var(--primary-color-100);
+      color: var(--text-color-primary);
+    }
+    
+    &.active {
+      background: transparent;
+      color: var(--text-color-primary);
+      font-weight: 600;
+      border-bottom: 1px solid #ff3939;
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Responsive para móviles
+@media (max-width: 768px) {
+  .unified-chart-controls {
+    position: static;
+    top: auto;
+    left: auto;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    
+    .controls-separator {
+      display: none; // Ocultar separadores en móvil
+    }
+    
+    .metric-toggle,
+    .chart-type-btn,
+    .period-btn {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+    }
+  }
+} 
+
+// Estilos específicos para la nueva tabla Tablev3 con ordenamiento y sticky header
+.landers-table-container {
+  .landers-table {
+    .table-header {
+      position: sticky;
+      top: 0;
+      background: var(--primary-color);
+      z-index: 10;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      
+      .column-header {
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: var(--primary-color-100);
+        }
+        
+        &.sorted {
+          background-color: var(--primary-color-150);
+          font-weight: 600;
+        }
+        
+        .column-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          
+          .sort-icon {
+            margin-left: 4px;
+            opacity: 0.7;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+  
+  // Estilos específicos para las columnas de landers
+  .item-cell-landers-id {
+    --cell-expand: 8%;
+    font-weight: 600;
+    color: var(--text-color-primary);
+  }
+  
+  .item-cell-landers-ip {
+    --cell-expand: 15%;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--text-color-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-cell-landers-type {
+    --cell-expand: 10%;
+  }
+  
+  .item-cell-landers-lead {
+    --cell-expand: 8%;
+    text-align: center;
+  }
+  
+  .item-cell-landers-email {
+    --cell-expand: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-cell-landers-location {
+    --cell-expand: 15%;
+  }
+  
+  .item-cell-landers-device {
+    --cell-expand: 20%;
+  }
+  
+  .item-cell-landers-date {
+    --cell-expand: 12%;
+    font-size: 0.8rem;
+  }
+}
+
+// Estilos para los elementos renderizados dentro de las celdas
+.page-type {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  
+  &.signup { 
+    background: #e3f2fd; 
+    color: #1976d2; 
+  }
+  
+  &.signin { 
+    background: #f3e5f5; 
+    color: #7b1fa2; 
+  }
+}
+
+.conversion-status {
+  font-size: 1.2rem;
+  
+  &.converted { 
+    color: #4caf50; 
+  }
+  
+  &.not-converted { 
+    color: #f44336; 
+  }
+}
+
+// Estilos para la información de ubicación con banderas emoji
+.location-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  .country-flag {
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  
+  .location-text {
+    font-size: 0.85rem;
+    color: var(--text-color-secondary);
+  }
+  
+  .location-text {
+    .city {
+      font-size: 0.85rem;
+      color: var(--text-color-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+// Estilos para device info
+.device-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  .device-icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+    
+    .device-icon {
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.8;
+    }
+  }
+  
+  .ua-text {
+    font-family: inherit; // Usar la fuente por defecto de la tabla
+    font-size: inherit;   // Usar el tamaño por defecto de la tabla
+    color: var(--text-color-primary); // Color principal en lugar de secundario
+    opacity: 1;           // Sin opacidad reducida
+    line-height: 1.4;     // Line-height estándar
+    word-break: break-all;
+    max-height: 3.6rem;   // Mantener la altura máxima
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+

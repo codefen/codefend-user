@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Under Maintenance - Codefend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(
+                85% 158.68% at 12.45% 77.25%,
+                #121212 41.43%,
+                #191919 100%
+            );
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
+        .maintenance-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            border: 1px solid rgba(254, 78, 78, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+            color: #fe4e4e;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #efefef;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            color: #cfcfcf;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(25, 25, 25, 0.6);
+            border-radius: 8px;
+            border-left: 4px solid #fe4e4e;
+            line-height: 1.7;
+            color: #e0e0e0;
+        }
+
+        .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+            margin-left: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #fe4e4e;
+            animation: loadingDots 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        .estimated-time {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(18, 26, 35, 0.6);
+            border-radius: 8px;
+            border: 1px solid rgba(254, 78, 78, 0.1);
+            color: #cfcfcf;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            color: #afafaf;
+        }
+
+        .contact-info a {
+            color: #fe4e4e;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #ff3939;
+            text-decoration: underline;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes loadingDots {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Partículas de fondo */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(254, 78, 78, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 0.5s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 1.5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 2.5s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #fe4e4e;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff3939;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .maintenance-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .message {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="maintenance-container">
+        <div class="icon">🔧</div>
+        
+        <h1>Server Under Maintenance</h1>
+        
+        <p class="subtitle">
+            We are updating our content to provide you with a better experience
+        </p>
+
+        <div class="message">
+            <strong>We're working for you!</strong><br>
+            We are currently updating the server content to improve our services. 
+            The website will be available again in a few minutes.
+            
+            <div class="loading-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="estimated-time">
+            <strong>⏱️ Estimated time:</strong> 5-10 minutes<br>
+            <small>Thank you for your patience</small>
+        </div>
+
+        <div class="contact-info">
+            If you need urgent assistance, you can contact us at:<br>
+            <a href="mailto:support@codefend.com">support@codefend.com</a>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh cada 2 minutos
+        setTimeout(function() {
+            location.reload();
+        }, 120000);
+
+        // Actualizar el tiempo transcurrido
+        let startTime = new Date().getTime();
+        
+        setInterval(function() {
+            let currentTime = new Date().getTime();
+            let elapsed = Math.floor((currentTime - startTime) / 1000 / 60);
+            
+            if (elapsed > 0) {
+                let timeElement = document.querySelector('.estimated-time small');
+                if (timeElement) {
+                    timeElement.textContent = `Elapsed time: ${elapsed} minute${elapsed > 1 ? 's' : ''}`;
+                }
+            }
+        }, 60000);
+    </script>
+</body>
+</html>

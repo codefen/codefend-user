@@ -1,0 +1,670 @@
+// Estilos específicos para la tabla del onboarding
+.welcome-modal-container {
+  // Quitar padding inline del header de la tabla
+  .columns-name {
+    padding-inline: 0;
+  }
+  
+  // Header específico para la columna "area" - alineado a la derecha
+  .columns-name .column:nth-child(3) {
+    text-align: right;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    padding-right: 6px; // Pequeño padding para que no toque el borde
+  }
+}
+
+// Estilos específicos para las celdas de la tabla del onboarding
+.item-cell-welcome-1 {
+  // Truncar dominios largos con ellipsis
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  // También aplicar ellipsis a subdominios y texto hijo
+  .sub-resource-domain,
+  .text-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}
+
+.item-cell-welcome-3 {
+  text-align: right;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  
+  // Alinear las banderas a la derecha
+  .flag {
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  // Cuando no hay texto, solo la bandera
+  &:has(.flag:only-child) {
+    justify-content: flex-end;
+  }
+  
+  // Para mobile, asegurar que esté bien alineado
+  @media (max-width: 768px) {
+    .flag {
+      margin-left: auto;
+      margin-right: 4px; // Pequeño margen desde el borde derecho
+    }
+  }
+}
+
+// Estilos específicos para el modal del scanner
+.modal-wrapper .modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-block: auto;
+  opacity: 0;
+  animation: modalAnimation 0.2s ease-in 0.05s forwards;
+  min-width: 330px;
+  background: #ffffff;
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.12);
+  border-image-slice: 1;
+  border-radius: var(--brd-radius);
+  overflow: hidden;
+  color: var(--tertiary-color-600);
+  z-index: 120;
+  width: 640px;
+}
+
+.welcome-modal-container {
+  .welcome-content img {
+    display: flex;
+    align-self: flex-start;
+  }
+
+  .btn-search {
+    background-color: inherit;
+    color: var(--tertiary-color-500);
+    border-left: 1px solid var(--primary-color-300);
+    border-radius: 0;
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    height: 41px;
+    width: 55px;
+    transform: scale(1) !important;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+    z-index: 2;
+
+    svg {
+      transform: scale(3.5);
+      fill: var(--secondary-color-150);
+      transition: all 0.2s ease-in-out;
+    }
+    &:hover {
+      background-color: var(--secondary-color-100);
+      svg {
+        fill: white;
+      }
+    }
+  }
+
+  .btn-container {
+    margin-inline: 0;
+    padding-inline-end: 0;
+  }
+}
+
+.btn-search {
+  background-color: inherit;
+  color: var(--tertiary-color-500);
+  border-left: 1px solid var(--primary-color-300);
+  border-radius: 0;
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  height: 41px;
+  width: 55px;
+  transform: scale(1) !important;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  z-index: 2;
+
+  svg {
+    transform: scale(3.5);
+    fill: var(--secondary-color-150);
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:hover {
+    background-color: var(--secondary-color-100);
+    svg {
+      fill: white;
+    }
+  }
+}
+
+.btn-add {
+  background: #ff4757;
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #ff3742;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.welcome-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+
+  .scanner-eye {
+    width: 65px;
+    height: auto;
+    margin-top: 0.5rem;
+  }
+}
+
+.welcome-text {
+  line-height: 1.6rem;
+  font-size: 0.95rem;
+  flex: 1;
+  font-family: 'Satoshi', sans-serif;
+
+  b,
+  strong {
+    font-weight: 500;
+  }
+}
+
+.input-container {
+  width: 100%;
+  margin-block: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+
+  .scope-header {
+    margin-bottom: 0;
+  }
+
+  input {
+    width: 100%;
+    height: 43px;
+    padding: 0.75rem;
+    background-color: var(--primary-color);
+    color: var(--tertiary-color-500);
+    border: 1px solid var(--primary-color-300);
+    border-radius: 4px;
+    font-size: 15px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--secondary-color-50);
+    }
+  }
+}
+
+.limit-container {
+  width: 100%;
+  height: auto;
+  max-height: 285px;
+  position: relative;
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));
+  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%));
+}
+
+// Mensaje informativo para scan de email personal
+.email-scan-info {
+  width: 100%;
+  padding: 1.5rem;
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color-300);
+  border-radius: 4px;
+  text-align: center;
+  margin: 1rem 0;
+
+  p {
+    margin: 0;
+    color: var(--tertiary-color-500);
+    line-height: 1.5;
+
+    &:first-child {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    &:last-child {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  }
+}
+
+[data-theme='dark'] .modal.welcome-modal-container {
+  input {
+    background-color: inherit;
+    color: var(--tertiary-color-100);
+
+    &:focus {
+      color: var(--tertiary-color-200);
+    }
+  }
+
+  .btn-search {
+    border-color: #ffffff10;
+    background-color: var(--primary-color-100);
+
+    svg {
+      fill: var(--secondary-color-50);
+    }
+  }
+
+  .scope-type-buttons-inline {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    .scope-btn-small {
+      &:hover:not(:disabled) {
+        background: #ff475782;
+        border-color: #fe4e4ea8;
+        color: #ffffff;
+      }
+
+      &.active {
+        background: #ff4757;
+        border-color: #ff4757;
+        color: white;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Línea separadora estilizada (ajustada para scanner)
+.welcome-modal-container .onboarding-separator {
+  width: 100%;
+  max-width: 520px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(108, 117, 125, 0.3), transparent);
+  border: none;
+  margin: -1.25rem 0;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #ff3939;
+    border-radius: 50%;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #ff3939;
+    border-radius: 50%;
+  }
+}
+
+[data-theme='dark'] {
+  .modal.welcome-modal-container {
+    .btn-search {
+      &:hover {
+        background-color: #212121;
+      }
+    }
+  }
+  .btn-search {
+    border-color: #ffffff10;
+    background-color: var(--primary-color-100);
+
+    svg {
+      fill: var(--secondary-color-50);
+    }
+
+    &:hover {
+      background-color: #212121;
+    }
+  }
+
+  .modal.welcome-modal-container {
+    .btn-search {
+      &:hover {
+        background-color: #212121;
+      }
+    }
+  }
+
+  .btn-add {
+    background: #ff4757;
+
+    &:hover:not(:disabled) {
+      background: #ff3742;
+    }
+  }
+
+  // Línea separadora en tema oscuro (específica para scanner)
+  // .welcome-modal-container .onboarding-separator {
+  //   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+
+  //   &::before {
+  //     background: #ff3939;
+  //   }
+  // }
+
+  // Mensaje informativo de email scan en tema oscuro
+  .email-scan-info {
+    background: var(--primary-color-100);
+    border-color: var(--primary-color-300);
+
+    p {
+      color: var(--tertiary-color-100);
+    }
+  }
+
+  // Botones de tipo de scan inline en tema oscuro
+  .scope-type-buttons-inline {
+    .scope-btn-small,
+    button.btn.scope-btn-small {
+      background: var(--primary-color-100) !important;
+      color: var(--tertiary-color-100) !important;
+      border-bottom: 3px solid #666 !important;
+
+      &:hover:not(:disabled) {
+        border-bottom-color: #ff3939 !important;
+      }
+
+      &.active {
+        border-bottom: 3px solid #ff3939 !important;
+        color: var(--tertiary-color-100) !important;
+      }
+    }
+  }
+
+  // Botones de tipo de scan en tema oscuro (legacy)
+  .scope-type-buttons {
+    .scope-btn {
+      background: var(--primary-color-100);
+      color: var(--tertiary-color-100);
+      border: 1px solid var(--primary-color-300);
+
+      &:hover:not(:disabled) {
+        background: var(--primary-color-200);
+        border-color: var(--secondary-color-50);
+      }
+
+      &.active {
+        background: #ff4757;
+        border-color: #ff4757;
+        color: white;
+      }
+    }
+  }
+
+  // Estilos para tema oscuro
+  .scope-type-buttons-inline .scope-btn-small,
+  .scope-type-buttons-inline button.btn.scope-btn-small {
+    background: var(--primary-color-100) !important;
+    color: var(--tertiary-color-100) !important;
+    border-bottom: 3px solid #666 !important;
+
+    &:hover:not(:disabled) {
+      border-bottom-color: #ff3939 !important;
+    }
+
+    &.active {
+      border-bottom: 3px solid #ff3939 !important;
+      color: var(--tertiary-color-100) !important;
+    }
+  }
+}
+
+// Header del scope con label y botones en línea
+.scope-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  label {
+    margin: 0;
+    flex-shrink: 0;
+
+    &.scope-title-small {
+      font-size: 0.85rem;
+
+      b {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Botones de tipo de scan inline (más pequeños)
+.scope-type-buttons-inline {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  .scope-btn-small,
+  button.btn.scope-btn-small {
+    padding: 0.4rem 0.75rem;
+    background: var(--primary-color) !important;
+    color: var(--tertiary-color-500) !important;
+    border-bottom: 3px solid #ccc !important;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+
+    &:hover:not(:disabled) {
+      border-bottom-color: #ff3939 !important;
+    }
+
+    &.active {
+      border-bottom: 3px solid #ff3939 !important;
+      color: var(--tertiary-color-500) !important;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Regla específica para botones activos con borde inferior
+.scope-type-buttons-inline .scope-btn-small.active,
+.scope-type-buttons-inline button.btn.scope-btn-small.active {
+  border-bottom: 3px solid #ff3939 !important;
+  color: var(--tertiary-color-500) !important;
+}
+
+// Estilos base para todos los botones de scope (activos e inactivos)
+.scope-type-buttons-inline .scope-btn-small,
+.scope-type-buttons-inline button.btn.scope-btn-small {
+  padding: 0.4rem 0.75rem;
+  background: var(--primary-color) !important;
+  color: var(--tertiary-color-500) !important;
+  border-bottom: 3px solid #ccc !important;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    border-bottom-color: #ff3939 !important;
+  }
+}
+
+// Estilos para los botones de selección de tipo de scan (legacy)
+.scope-type-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  justify-content: center;
+
+  .scope-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: var(--primary-color);
+    color: var(--tertiary-color-500);
+    border: 1px solid var(--primary-color-300);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--primary-color-100);
+      border-color: var(--secondary-color-50);
+    }
+
+    &.active {
+      background: #ff4757;
+      border-color: #ff4757;
+      color: white;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Responsive para botones de tipo de scan
+@media (max-width: 600px) {
+  .scope-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    label {
+      width: 100%;
+    }
+
+    .scope-type-buttons-inline {
+      width: 100%;
+      justify-content: flex-start;
+
+      .scope-btn-small {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.6rem;
+      }
+    }
+  }
+
+  .scope-type-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .scope-btn {
+      font-size: 0.85rem;
+      padding: 0.65rem 0.75rem;
+    }
+  }
+}
+// Botones de scope estilo tabs con línea inferior - ocupando todo el ancho
+.scope-type-buttons-full {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+
+  .scope-btn-tab {
+    flex: 1;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      color: #ff4757;
+      background: rgba(255, 71, 87, 0.05);
+    }
+
+    &.active {
+      color: #ff4757;
+      border-bottom-color: #ff4757;
+      background: transparent;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      color: #ccc;
+    }
+  }
+}
+
+// Soporte para tema oscuro para los botones de scope
+[data-theme='dark'] .welcome-content {
+  .scope-type-buttons-full {
+    border-bottom-color: #444;
+
+    .scope-btn-tab {
+      color: #ccc;
+
+      &:hover:not(:disabled) {
+        color: #ff4757;
+        background: rgba(255, 71, 87, 0.1);
+      }
+
+      &.active {
+        color: #ff4757;
+      }
+
+      &:disabled {
+        color: #666;
+      }
+    }
+  }
+}

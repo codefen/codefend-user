@@ -22,91 +22,82 @@ export const OffensiveOrderModal: FC = () => {
   };
 
   return (
-    <div className="step-content offensive">
+    <div className="step-content plan" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="step-header">
         <h3><GlobeWebIcon />Please tell us about the environment.</h3>
-        <p>
-          Are the systems in active use?
-        </p>
       </div>
-      <div className="">
+      
+      <div className="plans-vertical-container" style={{ flex: 1, overflowY: 'auto', paddingBottom: '80px' }}>
         <div
-          className={`option order-pointer ${
-            offensiveOrderW === OrderOffensive.CAREFUL ? `select-option` : ``
+          className={`flex-box-row clickable-plan ${
+            offensiveOrderW === OrderOffensive.CAREFUL ? `selected` : ``
           }`}
-          onClick={() => setOffensiveOrder(OrderOffensive.CAREFUL)}>
-          <img
-            src="/codefend/pentest-careful.png"
-            alt="careful-pentest-icon"
-            className="step-image environment"
-            decoding="async"
-            loading="lazy"
-          />
-
-          <div className="order-snapshot">
-            <div className="top">
-              <p className="pentest-option">
-                <span className="alt-color space">Careful pentest:</span>
-                recommended for production environments.
-              </p>
+          onClick={() => setOffensiveOrder(OrderOffensive.CAREFUL)}
+          style={{ cursor: 'pointer', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <h4 style={{ fontWeight: 500, fontFamily: 'satoshi', margin: '0 0 8px 0', textTransform: 'uppercase', fontSize: '14px' }}>Careful pentest</h4>
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <div style={{ marginRight: '16px', flexShrink: 0, maxWidth: '60px' }}>
+              <img
+                src="/codefend/pentest-careful.png"
+                alt="careful-pentest-icon"
+                className="environment-icon"
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
             </div>
-            <span className="one-pentest">
-              Codefend's professionals will be extra careful and will avoid all possible risk.
-            </span>
+            <div className="plan-list" style={{ flex: 1 }}>
+              <p><b style={{fontWeight: 500, fontFamily: 'satoshi'}}>Recommended for production environments:</b></p>
+              <p style={{fontSize: '15px', fontFamily: 'questrial'}}>Codefend's professionals will be extra careful and will avoid all possible risk</p>
+            </div>
           </div>
         </div>
+        
         <div
-          className={`option order-pointer ${
-            offensiveOrderW === OrderOffensive.OFFENSIVE ? `select-option` : ``
+          className={`flex-box-row clickable-plan ${
+            offensiveOrderW === OrderOffensive.OFFENSIVE ? `selected` : ``
           }`}
-          onClick={() => setOffensiveOrder(OrderOffensive.OFFENSIVE)}>
-          <img
-            src="/codefend/pentest-offensive.png"
-            alt="offensive-pentest-icon"
-            className="step-image environment"
-            decoding="async"
-            loading="lazy"
-          />
-
-          <div className="order-snapshot">
-            <div className="top">
-              <p className="pentest-option">
-                <span className="alt-color space">Offensive pentest:</span>
-                recommended for test environment
-              </p>
+          onClick={() => setOffensiveOrder(OrderOffensive.OFFENSIVE)}
+          style={{ cursor: 'pointer', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <h4 style={{ fontWeight: 500, fontFamily: 'satoshi', margin: '0 0 8px 0', textTransform: 'uppercase', fontSize: '14px' }}>Offensive pentest</h4>
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <div style={{ marginRight: '16px', flexShrink: 0, maxWidth: '60px' }}>
+              <img
+                src="/codefend/pentest-offensive.png"
+                alt="offensive-pentest-icon"
+                className="environment-icon"
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
             </div>
-            <span className="one-pentest">
-              Codefend's professionals may use more disruptive or risky techniques.
-            </span>
+            <div className="plan-list" style={{ flex: 1 }}>
+              <p><b style={{fontWeight: 500, fontFamily: 'satoshi'}}>Recommended for test environment:</b></p>
+              <p style={{fontSize: '15px', fontFamily: 'questrial'}}>Codefend's professionals may use more disruptive or risky techniques</p>
+            </div>
           </div>
         </div>
+        
         <div
-          className={`option order-pointer ${
-            offensiveOrderW === OrderOffensive.ADVERSARY && `select-option`
+          className={`flex-box-row clickable-plan ${
+            offensiveOrderW === OrderOffensive.ADVERSARY ? `selected` : ``
           }`}
-          onClick={() => setOffensiveOrder(OrderOffensive.ADVERSARY)}>
-          <img
-            src="/codefend/pentest-adversary.png"
-            alt="adversary-pentest-icon"
-            className="step-image environment"
-            decoding="async"
-            loading="lazy"
-          />
-
-          <div className="order-snapshot">
-            <div className="top">
-              <p className="pentest-option">
-                <span className="alt-color space">Adversary simulation:</span>
-                ⚠️ could cause stress!
-              </p>
+          onClick={() => setOffensiveOrder(OrderOffensive.ADVERSARY)}
+          style={{ cursor: 'pointer', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <h4 style={{ fontWeight: 500, fontFamily: 'satoshi', margin: '0 0 8px 0', textTransform: 'uppercase', fontSize: '14px' }}>Adversary simulation</h4>
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <div style={{ marginRight: '16px', flexShrink: 0, maxWidth: '60px' }}>
+              <img
+                src="/codefend/pentest-adversary.png"
+                alt="adversary-pentest-icon"
+                className="environment-icon"
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
             </div>
-            <span className="one-pentest">
-              Codefend's professionals will use all possible techniques to simulate a real attack.
-            </span>
+            <div className="plan-list" style={{ flex: 1 }}>
+              <p><b style={{fontWeight: 500, fontFamily: 'satoshi'}}>⚠️ Could cause stress!</b></p>
+              <p style={{fontSize: '15px', fontFamily: 'questrial'}}>Codefend's professionals will use all possible techniques to simulate a real attack</p>
+            </div>
           </div>
         </div>
       </div>
-      <div className="button-wrapper next-btns">
+      <div className="button-wrapper next-btns" style={{ position: 'sticky', bottom: 0, backgroundColor: 'var(--bg-color)', padding: '16px 0', borderTop: '1px solid var(--primary-color-300)', zIndex: 10 }}>
         <div className="secondary-container ">
           <PrimaryButton
             text="back"

@@ -13,6 +13,8 @@ import {
 import { AddNewTicketBox } from '@/app/views/pages/panel/layouts/support/components/AddNewTicketBox';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { SupperEmptyDisplay } from '@/app/views/pages/panel/layouts/support/components/SupperEmptyDisplay';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -23,6 +25,7 @@ const SupportPanel: FC = () => {
     'appEvent',
     'userLoggingState',
   ]);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   useEffect(() => {
     if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -68,13 +71,25 @@ const SupportPanel: FC = () => {
   }, [dad, getTikets()]);
   return (
     <>
-      <main className={`support ${showScreen ? 'actived' : ''}`}>
+      <main className={`support ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
+          {/* Cards móviles - se muestran solo en móvil */}
+          <div className="mobile-cards">
+            {/* Card "New question" */}
+            <AddNewTicketBox />
+          </div>
+
           <Show when={selectedTicket.get !== null} fallback={<SupperEmptyDisplay />}>
             <SupportChatDisplay selectedTicket={selectedTicket.get} />
           </Show>
+
+          {/* Tickets - se muestran solo en móvil */}
+          <div className="mobile-bottom-card">
+            <SupportTicketList isLoading={isLoading} tickets={getTikets()} refresh={refresh} />
+          </div>
         </section>
         <section className="right">
+          <Navbar />
           <AddNewTicketBox />
           <SupportTicketList isLoading={isLoading} tickets={getTikets()} refresh={refresh} />
         </section>

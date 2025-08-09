@@ -89,6 +89,13 @@ jobs:
           echo "VITE_PORT=5173" >> .env
           echo "TAURI_PLATFORM=${{ matrix.platform }}" >> .env
           echo "VITE_API_URI=https://api.codefend.com/index.php" >> .env
+          echo "VITE_NODE_ENV=production" >> .env
+          echo "VITE_STRIPE_KEY_LIVE=${{ secrets.STRIPE_KEY }}" >> .env
+          echo "VITE_STRIPE_KEY_TEST=${{ secrets.STRIPE_KEY_TEST }}" >> .env
+          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "VITE_ENABLE_GOOGLE_AUTH=true" >> .env
+          echo "VITE_DEBUG=false" >> .env
+          echo "VITE_APP_ENV=production" >> .env
           
       - name: 🔨 Run build client
         run: bun run build

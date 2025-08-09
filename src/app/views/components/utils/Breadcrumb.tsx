@@ -16,17 +16,24 @@ export const Breadcrumb: FC<Props> = props => {
   const defaultSegment = location.pathname.split('/').filter(segment => segment !== '');
 
   const segments = !props.customSegment ? defaultSegment : props.customSegment;
+  
+  // Verificación de seguridad para evitar errores cuando getUserdata() retorna null
+  const userData = getUserdata();
+  if (!userData) {
+    return null; // No mostrar breadcrumb si no hay datos de usuario
+  }
+
   return (
     <span className="breadcrumb">
       <Show
         when={
-          getUserdata().access_role !== 'provider' ||
-          (getUserdata().access_role === 'provider' && company.get?.id !== getUserdata().company_id)
+          userData.access_role !== 'provider' ||
+          (userData.access_role === 'provider' && company.get?.id !== userData.company_id)
         }>
         <span className="go-home" onClick={props.rootAction}>
           {company.get?.name && company.get?.name !== 'unknow'
             ? company.get.name
-            : getUserdata().company_name}
+            : userData.company_name}
         </span>
         <span className="sep">//</span>
       </Show>

@@ -1,26 +1,68 @@
+/**
+ * Formulario de Registro Multi-Paso (3 Fases) - UNIFICADO
+ *
+ * Este componente maneja el proceso completo de registro de usuario:
+ * - STEP_ONE: Información personal (nombre, apellido, email)
+ * - STEP_TWO: Verificación de email (código de confirmación)
+ * - STEP_THREE: Configuración de contraseña y username
+ *
+ * NOTA: Los datos de empresa se capturan en el onboarding post-registro
+ *
+ * Integración con backend:
+ * - Fase 1: POST /api?model=users/new&phase=1 (crear lead sin datos empresa)
+ * - Fase 2: POST /api?model=users/new&phase=2 (obtener username recomendado)
+ * - Fase 3: signUpFinish() (crear usuario final)
+ * - Post-login: Redirección a onboarding para capturar datos de empresa
+ *
+ * @author Codefend Team
+ * @version 3.0 (Flujo Unificado + Google OAuth)
+ */
+
 import { ModalWrapper } from '@modals/index';
 import { useEffect, useState, type FormEvent } from 'react';
 import css from './signinform.module.scss';
-import { companySizesList } from '@mocks/defaultData';
 import { useFetcher } from '#commonHooks/useFetcher';
-import { defaultCountries } from '@/app/constants/countries';
 import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constants/validations';
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
-import { toast } from 'react-toastify';
+import { toast } from '@/app/data/utils';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { useLocation, useParams, useSearchParams } from 'react-router';
-import { useWelcomeStore } from '@stores/useWelcomeStore';
-import { idiomOptions, SignUpSteps, STEPSDATA } from '@/app/constants/newSignupText';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
-import PhoneInput from '@/app/views/components/PhoneInput/PhoneInput';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
-import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
-import { useInitialDomainStore } from '@stores/initialDomain.store';
 import { ProgressBar } from '@/app/views/components/ProgressBar/ProgressBar';
 import { AuthInput } from '@/app/views/pages/auth/newRegister/AuthInput/AuthInput';
-import SelectField from '@/app/views/components/SelectField/SelectField';
 import CheckEmail from '@/app/views/components/CheckEmail/CheckEmail';
+import { sendEventToGTM } from '@utils/gtm';
+import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
+import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
+import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
+import { SignUpSteps } from '@/app/constants/newSignupText';
+import { useTheme } from '@/app/views/context/ThemeContext';
+
+export const STEPSDATA: Record<SignUpSteps, any> = {
+  [SignUpSteps.STEP_ONE]: {
+    p: (
+      <>
+        Create an account and <b>unvail leaks, live vulnerabilities, servers, domains</b> and hidden
+        assets and risks in your business.
+      </>
+    ),
+    label: 'Create an account and unvail threats',
+  },
+  [SignUpSteps.STEP_TWO]: {
+    p: 'We sent you an email with an activation code, please paste it below or click the link on the email.',
+    label: 'An activation code has been sent.',
+  },
+  [SignUpSteps.STEP_THREE]: {
+    p: 'Define your password in the form below. There’s an option to make and random password and save to clipboard.',
+    label: 'Almost done... we need to set a password',
+  },
+  [SignUpSteps.STEP_FOUR]: {
+    p: 'Done! We’ve reached the final step—now you just need to set your password to access the system and start your free trial. Your password must contain 1 number, 1 letter, 12 characters, and a symbol.',
+    label: 'Add your password',
+  },
+};
 
 const EyeIcon = ({ className = '' }) => (
   <svg
@@ -63,20 +105,36 @@ export const NewSignupForm = () => {
   const [lead_reference_number, setLeadReferenceNumber] = useState('');
   const [username, setRecommendedUsername] = useState('');
   const [specialLoading, setLoading] = useState(false);
-  const { signUpFinish, isLoading: loadingFinish, lead, country } = useRegisterPhaseTwo();
+  const { signUpFinish, isLoading: loadingFinish, lead } = useRegisterPhaseTwo();
+  const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
+  const { trackSignupVisit } = usePageTracking();
   const [searchParams] = useSearchParams();
-  const { saveInitialDomain } = useWelcomeStore();
   const location = useLocation();
   const { ref } = useParams();
-  const { update } = useInitialDomainStore();
+  const { theme } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Evento de telemetría: inicio del proceso de registro de usuario
+    sessionStorage.setItem('nuevo_usuario', Date.now().toString());
+    sendEventToGTM({
+      event: 'usuario_creacion_acceso',
+      category: 'registro',
+      action: 'inicio_proceso',
+      label: 'carga_pagina',
+    });
+
+    // Tracking de página visitada para el gráfico de administración (no-bloqueante)
+    trackSignupVisit().catch(error => {
+      console.warn('⚠️ Tracking signup falló (no crítico):', error);
+    });
+
     const code = searchParams.get('code') || ref;
     if (code) {
       setLoading(true);
       getRecommendedUsername(code)
         .then(() => {
-          setActiveStep(SignUpSteps.STEP_FOUR);
+          setActiveStep(SignUpSteps.STEP_THREE);
           lead.set({});
         })
         .finally(() => setLoading(false));
@@ -86,62 +144,169 @@ export const NewSignupForm = () => {
   const goBackValidateMe = (goTo: SignUpSteps) => {
     setActiveStep(goTo);
   };
+
+  const handleGoogleSuccess = async (credential: string) => {
+    try {
+      // Evento de telemetría: inicio de registro con Google
+      sendEventToGTM({
+        event: 'usuario_creacion_google_iniciado',
+        category: 'registro',
+        action: 'google_oauth',
+        label: 'inicio_proceso',
+      });
+
+      const result = await handleGoogleAuth(credential, 'signup');
+
+      if (result.success) {
+        // Evento de telemetría: registro exitoso con Google
+        sendEventToGTM({
+          event: 'usuario_creacion_google_exitoso',
+          category: 'registro',
+          action: 'google_oauth',
+          label: 'registro_exitoso',
+        });
+
+        // Verificar si necesita onboarding
+        if (result.needs_onboarding) {
+          // Redirigir al onboarding para capturar datos de empresa
+          // console.log('🚀 Google OAuth - Usuario necesita onboarding, redirigiendo...');
+          // window.location.href = '/auth/onboarding';
+          navigate('/auth/onboarding');
+        } else {
+          // Redirigir al dashboard si ya completó onboarding
+          // console.log('✅ Google OAuth - Usuario ya completó onboarding, ir al dashboard');
+          // window.location.href = '/';
+          navigate('/');
+        }
+      }
+    } catch (error) {
+      // Evento de telemetría: error en registro con Google
+      sendEventToGTM({
+        event: 'usuario_creacion_google_error',
+        category: 'registro',
+        action: 'google_oauth',
+        label: 'registro_error',
+      });
+    }
+  };
+
+  const handleGoogleError = (error: string) => {
+    console.error('Google Auth Error:', error);
+    // Evento de telemetría: error en autenticación con Google
+    sendEventToGTM({
+      event: 'usuario_creacion_google_error',
+      category: 'registro',
+      action: 'google_oauth',
+      label: 'auth_error',
+    });
+  };
+
+  // Función para generar password aleatorio siguiendo el patrón especificado
+  const generateRandomPassword = () => {
+    // Caracteres permitidos basados en los ejemplos
+    const allowedLetters = 'zbxcnmuioqerashkl';
+    const allowedLettersUppercase = allowedLetters.toUpperCase(); // ZBXCNMUIOQERASHKL
+    const allowedNumbers = '0123456789';
+    const allowedSymbols = '!,<';
+
+    // Combinar todos los caracteres (sin mayúsculas para el resto)
+    const allCharsForMiddle = allowedLetters + allowedNumbers + allowedSymbols;
+
+    // Generar longitud aleatoria entre 20 y 25 caracteres
+    const length = Math.floor(Math.random() * 6) + 20;
+
+    let password = '';
+
+    for (let i = 0; i < length; i++) {
+      if (i === 0) {
+        // Primera letra: siempre mayúscula
+        password += allowedLettersUppercase.charAt(
+          Math.floor(Math.random() * allowedLettersUppercase.length)
+        );
+      } else {
+        // Resto del password: usar cualquier carácter permitido
+        password += allCharsForMiddle.charAt(Math.floor(Math.random() * allCharsForMiddle.length));
+      }
+    }
+
+    return password;
+  };
+
+  // Función para generar password y copiar al clipboard
+  const handleGeneratePassword = async () => {
+    try {
+      const generatedPassword = generateRandomPassword();
+
+      // Establecer el password en ambos inputs
+      setPassword(generatedPassword);
+      setConfirmPassword(generatedPassword);
+
+      // Hacer visible los passwords
+      setShowPasswords(true);
+
+      // Copiar al clipboard
+      await navigator.clipboard.writeText(generatedPassword);
+
+      // Evento de telemetría
+      sendEventToGTM({
+        event: 'usuario_creacion_password_generado',
+        category: 'registro',
+        action: 'generar_password',
+        label: 'password_aleatorio',
+      });
+    } catch (error) {
+      console.error('Error generating password:', error);
+      toast.error('Failed to generate password. Please try again.');
+    }
+  };
+
   const nextFirstStep = (e: FormEvent) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
-    const formObject = Object.fromEntries(form.entries()); // Se extraen los datos del formulario
-    // Se extrae el numero de telefono de forma correcta, debido a que el input esta en dos partes
-    // const fullNumberRaw = formObject?.['lead_phone'] as string;
-    // const [areaCode, number] = fullNumberRaw.split(/\*+/);
+    const formObject = Object.fromEntries(form.entries());
+
     lead.set({
       ...lead.get,
       lead_fname: formObject?.['lead_fname'] as string,
       lead_lname: formObject?.['lead_lname'] as string,
       lead_email: formObject?.['lead_email'] as string,
-      // lead_phone: number,
     });
-    // formObject['lead_phone'] = `${areaCode}${number}`;
+
     localStorage.setItem('signupFormData', JSON.stringify(formObject));
-    // Nuevo paso
-    setActiveStep(SignUpSteps.STEP_TWO);
-  };
 
-  const nextSecondStep = (e: FormEvent) => {
-    e.preventDefault();
-    const data = localStorage.getItem('signupFormData');
-    const form = new FormData(e.currentTarget as HTMLFormElement);
-    if (data) {
-      Object.entries(JSON.parse(data)).map(([key, val]) => form.append(key, String(val)));
-    }
-    saveInitialDomain((form.get('company_web') as string) || '');
+    // Agregar datos requeridos por el backend
     form.append('idiom', 'en');
-    lead.set({
-      ...lead.get,
-      company_name: form?.get('company_name') as string,
-      company_web: form?.get('company_web') as string,
-      company_size: form?.get('company_size') as string,
-      idiom: form?.get('idiom') as string,
-    });
-    form.append(
-      'company_area',
-      defaultCountries?.filter(i => i?.alpha2Code === country?.get)?.[0]?.name
-    );
-
     form.append('reseller_id', '1');
     form.append('reseller_name', 'codefend');
-
-    // Endpoint reference
     form.append('phase', '1');
     form.append('model', 'users/new');
-    const formObject = Object.fromEntries(form.entries());
-    fetcher('post', { body: formObject, requireSession: false }).then(({ data }: any) => {
-      if (apiErrorValidation(data)) {
-        toast.error(data?.info || 'An unexpected error has occurred');
-        throw new Error('');
-      }
-      setActiveStep(SignUpSteps.STEP_THREE);
-      update('initialDomain', form?.get('company_web') as string);
-    });
+
+    const formRequestObject = Object.fromEntries(form.entries());
+
+    // Enviar datos al backend para crear lead
+    fetcher('post', { body: formRequestObject, requireSession: false })
+      .then(({ data }: any) => {
+        if (apiErrorValidation(data)) {
+          toast.error(data?.info || 'An unexpected error has occurred');
+          throw new Error('');
+        }
+
+        // Evento de telemetría: completado datos personales en registro
+        const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
+        sendEventToGTM({
+          event: 'usuario_creacion_informacion_personal',
+          category: 'registro',
+          action: 'completar_paso',
+          label: 'datos_personales',
+          demora: Date.now() - tiempoInicio,
+        });
+
+        // Ir directamente a verificación de email (saltamos el paso de empresa)
+        setActiveStep(SignUpSteps.STEP_TWO);
+      })
+      .catch(() => {
+        // Error ya manejado por toast
+      });
   };
 
   const getRecommendedUsername = (code: string) => {
@@ -167,7 +332,17 @@ export const NewSignupForm = () => {
     const form = new FormData(e.currentTarget as HTMLFormElement);
     const referenceNumber = form.get?.('lead_reference_number') as unknown as string;
     getRecommendedUsername(referenceNumber).then(() => {
-      setActiveStep(SignUpSteps.STEP_FOUR);
+      // Evento de telemetría: completado número de referencia en registro
+      const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
+      sendEventToGTM({
+        event: 'usuario_creacion_informacion_reference_number',
+        category: 'registro',
+        action: 'completar_paso',
+        label: 'numero_referencia',
+        demora: Date.now() - tiempoInicio,
+      });
+
+      setActiveStep(SignUpSteps.STEP_THREE);
       lead.set({});
     });
   };
@@ -189,30 +364,119 @@ export const NewSignupForm = () => {
     const formObject = Object.fromEntries(form.entries());
     signUpFinish(formObject).then((res: any) => {
       if (res.pass) {
-        //if (user?.accessRole == 'user') navigate('/');
-        //if (user?.accessRole == 'admin') navigate('/admin');
-        //if (user?.accessRole == 'provider') navigate('/provider/profile');
-        //navigate('/');
-        window.location.href = '/';
+        // Evento de telemetría: completado contraseña en registro
+        const tiempoInicio = parseInt(sessionStorage.getItem('nuevo_usuario') || '0');
+        sendEventToGTM({
+          event: 'usuario_creacion_informacion_password',
+          category: 'registro',
+          action: 'completar_paso',
+          label: 'contraseña',
+          demora: Date.now() - tiempoInicio,
+        });
+
+        // Evento de telemetría: finalización completa del proceso de registro
+        sendEventToGTM({
+          event: 'usuario_creacion_finalizacion',
+          category: 'registro',
+          action: 'finalizar_proceso',
+          label: 'registro_completo',
+          demora_total: Date.now() - tiempoInicio,
+        });
+
+        // Verificar si necesita onboarding
+        if (res.needs_onboarding) {
+          // Redirigir al onboarding para capturar datos de empresa
+          // console.log('🚀 Usuario necesita onboarding, redirigiendo...');
+          // window.location.href = '/auth/onboarding';
+          navigate('/auth/onboarding');
+        } else {
+          // Redirigir al dashboard si ya completó onboarding
+          // console.log('✅ Usuario ya completó onboarding, ir al dashboard');
+          // window.location.href = '/';
+          navigate('/');
+        }
       }
     });
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type={css['signinform']}>
-      <div className={css['signupContent']}>
-        <img src="/codefend/logo-color.png" width={220} />
-        <ChangeAuthPages pathname={location.pathname} />
+    <ModalWrapper showCloseBtn={false} type={`${css['signinform']} new-signup-form`}>
+      <div className="new-auth-content readonly-content">
+        <h1>
+          Unveil the full attack surface...
+          <br />
+          <span>discover real threats</span>
+        </h1>
 
-        <p style={{ marginBottom: '25px' }}>{STEPSDATA[activeStep].p}</p>
+        <p className="header-text">
+          Start with a one domain or email. Codefend uncovers what’s leaking, exposed or exploitable
+          — before attackers do. Browse and scan across thousands of systems and millions of
+          breached identities indexed. We are experts in blackbox operations.
+        </p>
 
-        {/* Primer paso del formulario */}
+        <div className="features-list">
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
+            </div>
+            <div className="feature-content">
+              <h3>Professional hackers on demand</h3>
+              <p>
+                Hire professional hackers on demand, when you need them! Our professionals follow
+                the same paths real attackers do.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
+            </div>
+            <div className="feature-content">
+              <h3>Full dataleaks explorer</h3>
+              <p>
+                See what parts of your tech stack have already been leaked. Correlate your users
+                with 190B+ breached records and discover hidden threats.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
+            </div>
+            <div className="feature-content">
+              <h3>Automated attack surface map</h3>
+              <p>
+                Visualize the online exposure like never before. From one domain to your full
+                infrastructure — unveil hosts, techs, live vulnerabilities and people and more.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={`${css['signupContent']} new-auth-content form-content`}>
+        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
+        <ProgressBar activeStep={activeStep} />
+        <h2>{STEPSDATA[activeStep]?.label}</h2>
+        <p className="step-text-header">{STEPSDATA[activeStep].p}</p>
         <Show when={activeStep === SignUpSteps.STEP_ONE && !specialLoading}>
+          <hr className="onboarding-separator" />
+          <GoogleAuthButton
+            text="Registrarse con Google"
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            disabled={isLoading || isGoogleLoading}
+            mode="signup"
+          />
+          <hr className="onboarding-separator" />
+
           <form onSubmit={nextFirstStep}>
             {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
-            <ProgressBar activeStep={activeStep} />
+            <h2>Private account creation</h2>
+            {/* <ProgressBar activeStep={activeStep} /> */}
             <AuthInput
-              placeholder="First name"
+              placeholder="Name"
               name="lead_fname"
               autoComplete="given-name"
               defaultValue={lead.get.lead_fname}
@@ -233,68 +497,20 @@ export const NewSignupForm = () => {
               defaultValue={lead.get.lead_email}
               required
             />
-            {/* <div style={{ display: 'none' }}>
-              <PhoneInput
-                name="lead_phone"
-                defaultPhone={lead.get.lead_phone}
-                defaultCountry={country.get}
-                changeCountryCode={countryFull => country.set(countryFull.alpha2Code)}
-              />
-            </div> */}
-            <button type="submit" className={`btn ${css['sendButton']}`}>
-              continue
+
+            <button type="submit" className={`btn btn-red  ${css['sendButton']}`}>
+              Continue
             </button>
           </form>
+          <Link to="/auth/signin" className="auth-link">
+            Already have an account? Login
+          </Link>
         </Show>
 
-        {/* Segundo paso del formulario */}
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
-          <form onSubmit={nextSecondStep}>
-            <ProgressBar activeStep={activeStep} />
-            <AuthInput
-              placeholder="Business website"
-              name="company_web"
-              defaultValue={lead.get.company_web}
-              setVal={e => {
-                const domain = e.target.value.toLowerCase();
-                const companyNameInput = document.querySelector(
-                  'input[name="company_name"]'
-                ) as HTMLInputElement;
-                if (companyNameInput && domain) {
-                  // Extraer el nombre de la compañía del dominio
-                  const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('.')[0];
-                  const companyName = cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
-                  companyNameInput.value = companyName;
-                }
-              }}
-              required
-            />
-            <AuthInput
-              placeholder="Business name"
-              name="company_name"
-              defaultValue={lead.get.company_name}
-              required
-            />
-            <SelectField
-              name="company_size"
-              options={[
-                { value: '', label: 'Select Company Size', hidden: true },
-                ...companySizesList.map(company => ({
-                  value: company.value,
-                  label: company.label,
-                })),
-              ]}
-              defaultValue={lead.get.company_size}
-              required
-            />
-            {/* <div style={{ display: 'none' }}>
-              <SelectField
-                name="idiom"
-                options={idiomOptions}
-                defaultValue={lead.get.idiom || 'en'}
-                required
-              />
-            </div> */}
+          <form onSubmit={nextThreeStep}>
+            <CheckEmail />
+            <AuthInput placeholder="Insert Unique code" name="lead_reference_number" required />
             <div className={`form-buttons ${css['form-btns']}`}>
               <button
                 type="button"
@@ -302,45 +518,26 @@ export const NewSignupForm = () => {
                 onClick={() => goBackValidateMe(SignUpSteps.STEP_ONE)}>
                 back
               </button>
-              <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
-                validate me!
-              </button>
-            </div>
-          </form>
-        </Show>
-
-        {/* Tercer paso del formulario */}
-        <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
-          <form onSubmit={nextThreeStep}>
-            <ProgressBar activeStep={activeStep} />
-            <CheckEmail
-              text=""
-              subText={`Please check your inbox, we've sent a verification code to <b>${lead.get?.lead_email}</b>, copy the verification code and paste it into the field below to confirm your email.`}
-            />
-            <AuthInput placeholder="Insert Unique code" name="lead_reference_number" required />
-            <div className={`form-buttons ${css['form-btns']}`}>
               <button
-                type="button"
-                className={`btn btn-gray`}
-                onClick={() => goBackValidateMe(SignUpSteps.STEP_TWO)}>
-                back
-              </button>
-              <button type="submit" className={`btn ${css['sendButton']}`} disabled={isLoading}>
-                send code
+                type="submit"
+                className={`btn btn-red ${css['sendButton']}`}
+                disabled={isLoading}>
+                continue
               </button>
             </div>
           </form>
         </Show>
 
-        {/* Cuarto paso del formulario */}
-        <Show when={activeStep === SignUpSteps.STEP_FOUR && !specialLoading}>
+        {/* Tercer paso del formulario - CONFIGURACIÓN DE CONTRASEÑA */}
+        <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextFourStep}>
-            <ProgressBar activeStep={activeStep} />
+            <CheckEmail imgSrc="/codefend/password1.png" />
             <div className={css['password-input-wrapper']}>
               <AuthInput
                 type={showPasswords ? 'text' : 'password'}
                 placeholder="Password"
                 name="password"
+                value={password}
                 setVal={e => setPassword(e.target.value)}
                 autoComplete="off"
                 required
@@ -358,6 +555,7 @@ export const NewSignupForm = () => {
               <AuthInput
                 type={showPasswords ? 'text' : 'password'}
                 placeholder="Confirm Password"
+                value={confirmPassword}
                 setVal={e => setConfirmPassword(e.target.value)}
                 autoComplete="off"
                 required
@@ -374,13 +572,13 @@ export const NewSignupForm = () => {
             <PasswordRequirements password={password} />
 
             <div className={`form-buttons ${css['form-btns']}`}>
-              <button
-                type="button"
-                className={`btn btn-gray`}
-                onClick={() => goBackValidateMe(SignUpSteps.STEP_THREE)}>
-                go back
+              <button type="button" className={`btn btn-black`} onClick={handleGeneratePassword}>
+                Use a random pass
               </button>
-              <button type="submit" className={`btn ${css['sendButton']}`} disabled={loadingFinish}>
+              <button
+                type="submit"
+                className={`btn btn-red ${css['sendButton']}`}
+                disabled={loadingFinish}>
                 continue
               </button>
             </div>

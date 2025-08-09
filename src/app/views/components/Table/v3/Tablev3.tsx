@@ -26,8 +26,8 @@ import { isShallowEqual } from '@utils/helper';
 import Show from '@/app/views/components/Show/Show';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import EmptyCard from '@/app/views/components/EmptyCard/EmptyCard';
-import { createPortal } from 'react-dom';
-import type { Tablev3Props, ContextMenuState, MemoizedValues } from './types';
+import { ContextMenu, useContextMenu } from '@/app/views/components/ContextMenu';
+import type { Tablev3Props, MemoizedValues } from './types';
 
 const root = document.getElementById('root-modal');
 
@@ -38,7 +38,9 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   rows = [],
   columns,
   urlNav,
-  showRows,
+  showRows = true,
+  showSkeleton = false,
+  totalRowCount = -1,
   isActiveDisable = false,
   isNeedMultipleCheck = false,
   isNeedSearchBar = false,
@@ -63,14 +65,11 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [hasScroll, setHasScroll] = useState(false);
   const [sort, setSort] = useState<Sort>(initialSort);
-  const [sortedColumn, setDataSort] = useState<string>(columns[0]?.key || '');
+  const [sortedColumn, setDataSort] = useState<string>(initialOrder || columns[0]?.key || '');
   const [term, setTerm] = useState<string>('');
-  const [contextMenu, setContextMenu] = useState<ContextMenuState>({
-    visible: false,
-    x: 0,
-    y: 0,
-    row: null,
-  });
+
+  const { contextMenu, openContextMenu, closeContextMenu, handleThreeDotsClick } =
+    useContextMenu(contextMenuActions);
 
   const {
     tableRef,
@@ -119,7 +118,8 @@ const Tablev3: FC<Tablev3Props<any>> = ({
 
   const memoizedValues: MemoizedValues = useMemo(() => {
     const flattenedLength = flattenedRows.length;
-    const hasFlattenedRows = virtualizedSortingResult.showSkeleton || Boolean(flattenedLength);
+    const hasFlattenedRows =
+      showSkeleton || virtualizedSortingResult.showSkeleton || Boolean(flattenedLength);
     const columnsCount = columns.length;
 
     return {
@@ -128,7 +128,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
       columnsCount,
       cellCount: columnsCount - 1,
     };
-  }, [flattenedRows, columns, virtualizedSortingResult.showSkeleton]);
+  }, [flattenedRows, columns, showSkeleton, virtualizedSortingResult.showSkeleton]);
 
   const virtualizationConfig = useVirtualizationConfig({
     containerRef: tableContainerRef,
@@ -183,46 +183,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
     [className, isSelecting, isMoving, enableContextMenu, shouldUseVirtualization]
   );
 
-  const handleContextMenu = useCallback(
-    (event: any, row: any) => {
-      if (!enableContextMenu) return;
-      event.preventDefault();
-      event.stopPropagation();
-      if (!contextMenuActions.length) return;
-
-      setContextMenu({
-        visible: true,
-        x: event.clientX,
-        y: event.clientY,
-        row,
-      });
-    },
-    [enableContextMenu, contextMenuActions]
-  );
-
-  const closeContextMenu = useCallback(() => {
-    setContextMenu(prev => ({ ...prev, visible: false }));
-  }, []);
-
-  const handleClickOutside = useCallback(
-    (event: any) => {
-      if (contextMenu.visible) {
-        closeContextMenu();
-      }
-    },
-    [contextMenu.visible, closeContextMenu]
-  );
-
-  const handleScroll = useCallback(() => {
-    if (contextMenu.visible) {
-      closeContextMenu();
-    }
-  }, [contextMenu.visible, closeContextMenu]);
-
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('scroll', handleScroll, true);
-
     if (!shouldUseVirtualization) {
       const el = rowRef.current as HTMLDivElement;
       let resizeObserver: ResizeObserver | null = null;
@@ -234,35 +195,12 @@ const Tablev3: FC<Tablev3Props<any>> = ({
       }
 
       return () => {
-        document.removeEventListener('click', handleClickOutside);
-        document.removeEventListener('scroll', handleScroll, true);
         if (resizeObserver) {
           resizeObserver.disconnect();
         }
       };
     }
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('scroll', handleScroll, true);
-    };
-  }, [handleClickOutside, handleScroll, shouldUseVirtualization]);
-
-  const handleThreeDotsClick = useCallback(
-    (event: MouseEvent, row: any) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (!contextMenuActions.length) return;
-
-      setContextMenu({
-        visible: true,
-        x: event.clientX,
-        y: event.clientY,
-        row,
-      });
-    },
-    [contextMenuActions]
-  );
+  }, [shouldUseVirtualization]);
 
   const getContainerHeight = useCallback(() => {
     if (typeof propContainerHeight === 'string') {
@@ -306,20 +244,32 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
 
         <Show when={showRows} fallback={<PageLoader />}>
-          <div className="table-rows-container" style={{ position: 'relative' }}>
-            {virtualizedSortingResult.showSkeleton &&
-              rows.length > 0 &&
-              virtualizedSortingResult.totalRowCount > 500 && (
-                <TableSkeleton
-                  totalRowCount={virtualizedSortingResult.totalRowCount}
-                  rowsLength={rows.length}
-                  isNeedMultipleCheck={isNeedMultipleCheck}
-                  columns={columns}
-                />
-              )}
+          <div
+            className="table-rows-container"
+            style={{
+              position: 'relative',
+              minHeight: showSkeleton || virtualizedSortingResult.showSkeleton ? '300px' : 'auto',
+            }}>
+            {virtualizedSortingResult.showSkeleton && rows.length > 0 && (
+              <TableSkeleton
+                totalRowCount={virtualizedSortingResult.totalRowCount}
+                rowsLength={rows.length}
+                isNeedMultipleCheck={isNeedMultipleCheck}
+                columns={columns}
+              />
+            )}
+            {showSkeleton && (
+              <TableSkeleton
+                totalRowCount={totalRowCount}
+                rowsLength={totalRowCount}
+                isNeedMultipleCheck={isNeedMultipleCheck}
+                columns={columns}
+              />
+            )}
 
             {shouldUseVirtualization ? (
-              <div className="rows-virtualized-dynamic">
+              <div
+                className={`rows-virtualized-dynamic ${showSkeleton || virtualizedSortingResult.showSkeleton ? 'skeleton-active' : ''}`}>
                 <TableRowsV3VirtualizedDynamic
                   columns={columns}
                   rows={flattenedRows}
@@ -330,7 +280,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
                   action={action}
                   selected={selected}
                   selectedKey={selectedKey}
-                  onContextMenu={handleContextMenu}
+                  onContextMenu={openContextMenu}
                   enableContextMenu={enableContextMenu}
                   onThreeDotsClick={handleThreeDotsClick}
                   rowHeight={rowHeight}
@@ -338,7 +288,9 @@ const Tablev3: FC<Tablev3Props<any>> = ({
                 />
               </div>
             ) : (
-              <div className={`rows ${hasScroll ? 'rows-with-scroll' : ''}`} ref={rowRef}>
+              <div
+                className={`rows ${showSkeleton || virtualizedSortingResult.showSkeleton ? 'skeleton-active' : ''} ${hasScroll ? 'rows-with-scroll' : ''}`}
+                ref={rowRef}>
                 <TableRowsV3
                   columns={columns}
                   rows={flattenedRows}
@@ -349,7 +301,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
                   action={action}
                   selected={selected}
                   selectedKey={selectedKey}
-                  onContextMenu={handleContextMenu}
+                  onContextMenu={openContextMenu}
                   enableContextMenu={enableContextMenu}
                   onThreeDotsClick={handleThreeDotsClick}
                 />
@@ -359,52 +311,20 @@ const Tablev3: FC<Tablev3Props<any>> = ({
         </Show>
         <Show
           when={
-            showRows && !memoizedValues.hasFlattenedRows && !virtualizedSortingResult.showSkeleton
+            showRows &&
+            !showSkeleton &&
+            !memoizedValues.hasFlattenedRows &&
+            !virtualizedSortingResult.showSkeleton
           }>
           <EmptyCard info={emptyInfo} title={emptyTitle} icon={emptyIcon} />
         </Show>
 
-        <Show when={contextMenu.visible}>
-          {createPortal(
-            <div
-              className="card table-context-menu"
-              style={{
-                top: contextMenu.y,
-                left: contextMenu.x,
-              }}>
-              {contextMenuActions.map((action, index) => (
-                <div key={index}>
-                  {action.divider && <div className="context-menu-divider" />}
-                  <button
-                    className={`context-menu-item ${typeof action.disabled === 'function' ? (action.disabled(contextMenu.row) ? 'disabled' : '') : action.disabled ? 'disabled' : ''}`}
-                    onClick={() => {
-                      if (
-                        typeof action.disabled === 'function'
-                          ? action.disabled(contextMenu.row)
-                            ? false
-                            : true
-                          : action.disabled
-                            ? false
-                            : true
-                      ) {
-                        action.onClick(contextMenu.row);
-                        closeContextMenu();
-                      }
-                    }}
-                    disabled={
-                      typeof action.disabled === 'function'
-                        ? action.disabled(contextMenu.row)
-                        : action.disabled
-                    }>
-                    {action.icon && <span className="context-menu-icon">{action.icon}</span>}
-                    <span className="context-menu-label">{action.label}</span>
-                  </button>
-                </div>
-              ))}
-            </div>,
-            root as HTMLElement
-          )}
-        </Show>
+        <ContextMenu
+          contextMenu={contextMenu}
+          actions={contextMenuActions}
+          onClose={closeContextMenu}
+          container={root || undefined}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { useRoutes, Navigate, Outlet } from 'react-router-dom';
+import { useRoutes, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Loader } from '@/app/views/components/loaders/Loader';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import {
@@ -12,7 +12,6 @@ import {
   PreferencePanel,
   AdminPage,
   AdminCompany,
-  AdminSection,
   ResellerLeadsLayout,
   ResellerUsersLayout,
   LanPage,
@@ -23,6 +22,8 @@ import {
   ResellerOrdersLayout,
   SnsPanel,
 } from '../views/pages';
+import AdminLanders from '../views/pages/panel/layouts/admin/layouts/AdminLanders';
+import AdminCommander from '../views/pages/panel/layouts/admin/layouts/AdminCommander';
 import { PanelPage } from '../views/pages/panel/PanelPage';
 import {
   IssuePage,
@@ -46,11 +47,36 @@ import { TeamMembersPage } from '@/app/views/pages/panel/layouts/team-members/Te
 import { UserProfilePage } from '@/app/views/pages/panel/layouts/user-profile/UserProfile';
 import { NewSignupInvitation } from '@/app/views/pages/auth/newLayouts/NewSignupInvitation/NewSignupInvitation';
 import { OrdersPaymentsPage } from '@/app/views/pages/panel/layouts/orders-payments/OrdersPaymentsPage';
+import { OnboardingPage } from '@/app/views/pages/auth/onboarding/OnboardingPage';
+import TestGoogleContacts from '@/app/views/pages/TestGoogleContacts';
+import TestGoogleRegistration from '@/app/views/pages/TestGoogleRegistration';
+import TestGoogleDebug from '@/app/views/pages/TestGoogleDebug';
+import TestGoogleTokens from '@/app/views/pages/test-google-tokens';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useEffect } from 'react';
 
 export const AppRouter = () => {
   const { isAdmin, isProvider, isReseller, isNormalUser } = useUserRole();
   const companies = useGlobalFastField('companies');
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+    let title = 'Codefend';
+    if (path === '/dashboard') title = 'Codefend: dashboard';
+    else if (path === '/team-members') title = 'Codefend: members';
+    else if (path === '/user-profile') title = 'Codefend: profile';
+    else if (path === '/orders-payments') title = 'Codefend: orders';
+    else if (path === '/web') title = 'Codefend: surface/web';
+    else if (path === '/network') title = 'Codefend: surface/wan';
+    else if (path === '/social') title = 'Codefend: surface/social';
+    else if (path === '/issues') title = 'Codefend: issues/index';
+    else if (/^\/issues\/[0-9]+$/.test(path)) title = 'Codefend: issues/view';
+    else if (path.startsWith('/ai-surveillance')) title = 'Codefend: ai surveillance';
+    else if (path === '/sns') title = 'Codefend: leaks explorer';
+    else if (path === '/ask-a-hacker') title = 'Codefend: ask a hacker';
+    document.title = title;
+  }, [location]);
 
   const isProviderWithAccess =
     isProvider() && companies.get?.length > 0 && companies.get?.[0] !== null;
@@ -91,7 +117,9 @@ export const AppRouter = () => {
           children: [
             { index: true, element: <Navigate to="company" replace /> },
             { path: 'company', element: <AdminCompany /> },
-            { path: 'admin-section', element: <AdminSection /> },
+
+            { path: 'landers', element: <AdminLanders /> },
+            { path: 'commander', element: <AdminCommander /> },
           ],
         },
         // Provider routes
@@ -194,6 +222,11 @@ export const AppRouter = () => {
                 ],
               },
               {
+                path: 'ai-surveillance/:domain?',
+                element: <ScansPage />,
+              },
+              // Legacy routes for backward compatibility
+              {
                 path: 'scans',
                 element: <ScansPage />,
               },
@@ -252,7 +285,28 @@ export const AppRouter = () => {
         { path: 'confirmation', element: <ConfirmationSignUp /> },
         { path: 'recovery', element: <PasswordRecovery /> },
         { path: 'recovery/:ref', element: <PasswordRecovery /> },
+        { path: 'onboarding', element: <OnboardingPage /> },
       ],
+    },
+    // Test route for Google Contacts
+    {
+      path: '/test-google-contacts',
+      element: <TestGoogleContacts />,
+    },
+    // Test route for Google Registration
+    {
+      path: '/test-google-registration',
+      element: <TestGoogleRegistration />,
+    },
+    // Test route for Google Debug
+    {
+      path: '/test-google-debug',
+      element: <TestGoogleDebug />,
+    },
+    // Test route for Google Tokens
+    {
+      path: '/test-google-tokens',
+      element: <TestGoogleTokens />,
     },
   ]);
 

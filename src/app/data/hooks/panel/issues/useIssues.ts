@@ -22,7 +22,13 @@ export const useIssues = () => {
       path: 'issues/index',
     }).then(({ data }: any) => {
       if (verifySession(data, logout)) return;
-      dataRef.current = data.issues ? data.issues.map((issue: any) => mapIssues(issue)) : [];
+      // Mapear y ordenar issues por riskScore (5 a 1, mayor a menor)
+      const mappedIssues = data.issues ? data.issues.map((issue: any) => mapIssues(issue)) : [];
+      dataRef.current = mappedIssues.sort((a, b) => {
+        const scoreA = parseInt(a.riskScore) || 0;
+        const scoreB = parseInt(b.riskScore) || 0;
+        return scoreB - scoreA; // Orden descendente: 5, 4, 3, 2, 1
+      });
       otherInfo.current = {
         issueClass: data.issues_class,
         issueShare: mapIssueShare(data),

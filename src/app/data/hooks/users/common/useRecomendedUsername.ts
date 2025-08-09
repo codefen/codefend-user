@@ -1,22 +1,22 @@
-import { useEffect, useRef } from 'react';
-import { genericFetcher } from '@services/swr';
+import { useEffect, useMemo } from 'react';
+import { genericFetcher, optimizedConfigs } from '@services/swr';
 import useSWR from 'swr';
 
 export const useRecomendedUsername = (ref?: string) => {
-  const swrKeYRef = useRef<any>([
-    'users/new',
-    {
-      phase: 2,
-      lead_reference_number: ref || localStorage.getItem('referenceNumber') || '',
-    },
-  ]);
+  // ✅ Usar useMemo para swrKey estable
+  const swrKey = useMemo(
+    () => [
+      'users/new',
+      {
+        phase: 2,
+        lead_reference_number: ref || localStorage.getItem('referenceNumber') || '',
+      },
+    ],
+    [ref]
+  );
 
-  const { data, mutate } = useSWR(swrKeYRef.current, (key: any) => genericFetcher(key), {
-    keepPreviousData: true,
-    revalidateOnReconnect: false,
-    revalidateOnFocus: false,
-    revalidateOnMount: false,
-    revalidateIfStale: true,
+  const { data, mutate } = useSWR(swrKey, (key: any) => genericFetcher(key), {
+    ...optimizedConfigs.static,
     fallbackData: {},
   });
   const updateReferenceNumber = (referenceNumber: string) => {

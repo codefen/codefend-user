@@ -7,6 +7,7 @@ declare global {
   interface Window {
     tinyMCE: any;
     __TAURI__: any;
+    dataLayer: any;
   }
 }
 

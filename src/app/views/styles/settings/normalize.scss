@@ -258,6 +258,22 @@ button {
   border-style: outset;
   border-color: buttonborder;
   border-image: initial;
+  
+  // Remover outline/borde negro por defecto
+  &:focus {
+    outline: none;
+  }
+  
+  // Remover estilos de borde por defecto para botones en tablas
+  &[type="button"] {
+    border: none;
+    outline: none;
+    
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
 }
 
 button,
@@ -420,7 +436,7 @@ input[type='number']::-webkit-outer-spin-button {
   border-width: 0;
   border-style: solid;
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary-color-50) var(--primary-color);
+  scrollbar-color: var(--primary-color-300) transparent;
 }
 
 :root {

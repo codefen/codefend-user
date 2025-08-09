@@ -16,6 +16,9 @@ import { IssuePanelHeader } from '@/app/views/pages/panel/layouts/issues/compone
 import { useFiltersWithURL } from '@panelHooks/issues/useFiltersWithURL.ts';
 import { useFilteredIssues } from '@panelHooks/issues/useFilteredIssues.ts';
 import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
+import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -25,6 +28,7 @@ const IssuesPanel: FC = () => {
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
 
   const { filters, handleFilters } = useFiltersWithURL(issues);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
   const { filteredData, isFiltered } = useFilteredIssues(issues, filters);
 
   useEffect(() => {
@@ -42,48 +46,81 @@ const IssuesPanel: FC = () => {
   const displayIssues = isFiltered ? filteredData : issues;
 
   return (
-    <main className={`issues-list ${showScreen ? 'actived' : ''}`}>
-      <SelectAnyResourceModal issues={displayIssues} />
-      {/* <div className="brightness variant-1"></div> */}
-      <section className="left">
-        <IssueResources
-          isLoading={isLoading}
-          issues={displayIssues}
-          refresh={refresh}
-          addFinding={handleAddFinding}
-        />
-      </section>
-      <section className="right" ref={flashlight.rightPaneRef}>
-        <IssuePanelHeader openAddIssue={handleAddFinding} />
-        <IssueReport
-          handleFilter={handleFilters}
-          isLoading={isLoading}
-          issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
-          issues={issues}
-          currentFilters={filters}
-        />
-        <div className="card only-button">
-          <PrimaryButton
-            text="GENERATE REPORT"
-            click={e => {
-              setIsOpen(true);
-              setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
-            }}
-            className="full margin-block"
-            isDisabled={!Boolean(displayIssues.length)}
-            disabledLoader
-          />
-        </div>
-        <VulnerabilitiesStatus
-          vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
-        />
+    <SectionTracker sectionName="issues">
+      <main
+        className={`issues-list ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+        <SelectAnyResourceModal issues={displayIssues} />
+        {/* <div className="brightness variant-1"></div> */}
+        <section className="left">
+          {/* Cards móviles - se muestran solo en móvil */}
+          <div className="mobile-cards">
+            <IssuePanelHeader openAddIssue={handleAddFinding} />
+            <IssueReport
+              handleFilter={handleFilters}
+              isLoading={isLoading}
+              issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+              issues={issues}
+              currentFilters={filters}
+            />
+            <VulnerabilitiesStatus
+              isLoading={isLoading}
+              vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+            />
+          </div>
 
-        <VulnerabilityRisk
-          isLoading={isLoading}
-          vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
-        />
-      </section>
-    </main>
+          <IssueResources
+            isLoading={isLoading}
+            issues={displayIssues}
+            refresh={refresh}
+            addFinding={handleAddFinding}
+          />
+
+          {/* VulnerabilityRisk - se muestra solo en móvil */}
+          <div className="mobile-bottom-card">
+            <VulnerabilityRisk
+              isLoading={isLoading}
+              vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+            />
+          </div>
+        </section>
+        <section className="right" ref={flashlight.rightPaneRef}>
+          <Navbar />
+          <IssuePanelHeader openAddIssue={handleAddFinding} />
+          <div className="scrollable-content">
+            <IssueReport
+              handleFilter={handleFilters}
+              isLoading={isLoading}
+              issuesClasses={others?.issueClass || EMPTY_ISSUECLASS}
+              issues={issues}
+              currentFilters={filters}
+            />
+            {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
+          <div className="card only-button">
+            <PrimaryButton
+              text="GENERATE REPORT"
+              click={e => {
+                setIsOpen(true);
+                setModalId(MODAL_KEY_OPEN.SELECT_REPORT);
+              }}
+              className="full margin-block"
+              isDisabled={!Boolean(displayIssues.length)}
+              disabledLoader
+            />
+          </div>
+          */}
+            <VulnerabilitiesStatus
+              isLoading={isLoading}
+              vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
+            />
+
+            <VulnerabilityRisk
+              isLoading={isLoading}
+              vulnerabilityByRisk={others?.issueShare || EMPTY_SHARE}
+            />
+          </div>
+        </section>
+      </main>
+    </SectionTracker>
   );
 };
 

@@ -4,12 +4,14 @@ import { EditIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import { deleteCustomBaseAPi, getCustomBaseAPi, setCustomBaseAPi } from '@utils/helper.ts';
-import { baseUrl } from '@utils/config.ts';
+import { baseUrl, nodeEnv } from '@utils/config.ts';
 import './networkSetting.scss';
 import { PrimaryButton } from '../..';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { APP_MESSAGE_TOAST } from '@/app/constants/app-toast-texts';
 import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
+
+const NODE_ENV = nodeEnv;
 
 interface NetworkSettingModalProps {
   isOpen: boolean;
@@ -19,6 +21,9 @@ interface NetworkSettingModalProps {
 export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpen }) => {
   const [insecure, setInsecure] = useState(
     localStorage.getItem('a20af8d9') == 'true' ? true : false
+  );
+  const [isStripeTestModeActive, setStripeEnv] = useState(
+    localStorage.getItem('stripeEnv') == 'true' || NODE_ENV == 'development' ? true : false
   );
   const customAPi = getCustomBaseAPi();
   const defaultApiUrl = customAPi ? customAPi : baseUrl;
@@ -47,6 +52,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
       return;
     }
     localStorage.setItem('a20af8d9', String(insecure));
+    localStorage.setItem('stripeEnv', String(isStripeTestModeActive));
     close();
     setLoading(false);
     if (apiUrl !== defaultApiUrl) {
@@ -60,9 +66,13 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
   const handleCancel = () => {
     close();
     setInsecure(localStorage.getItem('insecure') == 'true' ? true : false);
+    setStripeEnv(
+      localStorage.getItem('stripeEnv') == 'true' || NODE_ENV == 'development' ? true : false
+    );
   };
 
   const updateInsecure = () => setInsecure(prev => !prev);
+  const updateStripeEnv = () => setStripeEnv(prev => !prev);
 
   return (
     <Show when={isOpen}>
@@ -76,10 +86,14 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
           <div className="network-modal-container">
             <div className="network-modal-content disable-border">
               <header className="network-header">
-                <h4 className="network-header_title title-format">Network Setting</h4>
+                <h4 className="network-header_title title-format">Quick variables</h4>
               </header>
               <form onSubmit={handleSubmit} className="network-form">
                 <div className="network-form_inputs">
+                  <div className="network-form_inputs_description quick-var-block">
+                    <h2><b>Alter backend connection wire:</b></h2>
+                    <p>point the client into a different backend node, useful for research. it's recommended to use a secure protocol</p>
+                  </div>
                   <div className="network-form_inputs_edit">
                     <input
                       value={apiUrl}
@@ -105,14 +119,35 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
                   </div>
 
                   <div className="network-form_inputs_extra">
-                    <PrimaryButton
-                      text={!insecure ? <ShieldOnIcon /> : <ShieldOffIcon />}
-                      buttonStyle="gray"
-                      click={() => updateInsecure()}
-                      disabledLoader
-                      type="button"
-                      className="network-form_inputs_extra_insecure"
-                    />
+                    <div className="quick-var-block">
+                      <h2><b>Send all communication in GET:</b></h2>
+                      <p>this is an extreamly odd feature, useful for some automation and debugging. Warning! aside from being a bit insecure, it only affects your user.</p>
+                      <PrimaryButton
+                        text={!insecure ? 'OFF' : 'ON'}
+                        buttonStyle="gray"
+                        click={() => updateInsecure()}
+                        disabledLoader
+                        type="button"
+                        className="network-form_inputs_extra_insecure"
+                      />
+                    </div>
+                    <div className="quick-var-block">
+                      <h2><b>Bypass merchant - Endless money:</b></h2>
+                      <p>Use the software for free. Escencially it's a bypass in the payment system.</p>
+                      <select 
+                        value={isStripeTestModeActive ? 'endless' : 'real'}
+                        onChange={(e) => {
+                          const shouldBeTestMode = e.target.value === 'endless';
+                          if (shouldBeTestMode !== isStripeTestModeActive) {
+                            updateStripeEnv();
+                          }
+                        }}
+                        className="payment-mode-dropdown"
+                      >
+                        <option value="endless">💰 Endless money activated.</option>
+                        <option value="real">💳 Mmm, real payments are activated.</option>
+                      </select>
+                    </div>
 
                     <span
                       onClick={() => setDefaultUrl(baseUrl)}

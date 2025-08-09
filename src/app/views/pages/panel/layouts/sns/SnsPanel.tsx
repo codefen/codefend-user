@@ -10,6 +10,8 @@ import {
 } from '@/app/views/context/AppContextProvider.tsx';
 import './Sns.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { useMediaQuery } from 'usehooks-ts';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -19,6 +21,7 @@ const SnsPanel: FC = () => {
     'appEvent',
     'userLoggingState',
   ]);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   useEffect(() => {
     if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -29,12 +32,30 @@ const SnsPanel: FC = () => {
 
   return (
     <>
-      <main className={`sb ${showScreen ? 'actived' : ''}`}>
+      <main className={`sb ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
+          {/* Cards móviles - se muestran solo en móvil */}
+          <div className="mobile-cards">
+            {/* Card de bienvenida */}
+            <SnsCardTitle
+              arrow="none"
+              title="Dataleaks search"
+              description="Protect your brand.Check our data breach databases to find out if your users or business information has been exposed."
+            />
+          </div>
+
           <SnsSearchAndData refetch={refresh} />
+
+          {/* Badge "Remaining searches" - se muestra solo en móvil */}
+          <div className="mobile-bottom-card">
+            <div className="card remaining-searches">
+              Remaining searches: {company.get.disponibles_sns}
+            </div>
+          </div>
         </section>
 
         <section className="right">
+          <Navbar />
           <SnsCardTitle
             arrow="none"
             title="Dataleaks search"

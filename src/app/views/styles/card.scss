@@ -47,20 +47,28 @@
   //     }
   //   }
   // }
+
+  &.skeleton-card {
+    background: linear-gradient(
+      90deg,
+      rgba(240, 240, 240, 0.8588235294) 25%,
+      rgb(237 237 237 / 98%) 50%,
+      rgba(240, 240, 240, 0.631372549) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    width: 100%;
+    height: 400px;
+  }
+
   .header {
     height: 2.5rem;
     display: flex;
     align-items: center;
-    font-family: Questrial;
-    font-weight: normal;
-    font-size: 1.1rem;
-    // line-height: 13px;
-    // text-transform: uppercase;
-    // border-bottom: 1px solid var(--primary-color-300);
-    // background-position: var(--primary-color-200);
+    font-family: satoshi;
+    font-weight: bold;
+    font-size: 1rem;
     color: var(--tertiary-color-600);
-    // background-color: #f8f8f8;
-    // padding-inline: 1.25rem;
 
     svg,
     img {
@@ -104,7 +112,7 @@
     p {
       padding-inline: var(--card-space);
       margin-block-end: var(--card-space);
-      font-size: 16px;
+      font-size: clamp(0.8rem, 3dvh, 16px);
       font-family: Questrial;
       margin-top: 0.5lh;
       line-height: 1.5em;
@@ -174,6 +182,17 @@
 
     b {
       color: var(--secondary-color-100);
+      background: #fff0f0;
+      padding: 3px 3px;
+      font-weight: bold;
+    }
+
+    .content {
+      .order-text {
+        b {
+          border-radius: 3px;
+        }
+      }
     }
   }
 
@@ -252,6 +271,7 @@
 
       .table-group {
         flex: var(--table-flex);
+        width: 100%;
 
         &:has(.empty-card) {
           .columns-name {
@@ -266,6 +286,19 @@
         .rows .item {
           &:hover {
             color: var(--secondary-color-200);
+          }
+        }
+
+        .table.table-riskscores {
+          .item,
+          .table-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .item {
+            cursor: pointer;
           }
         }
       }
@@ -297,6 +330,17 @@
     aspect-ratio: 1 / 1;
     max-height: 9.5rem;
     row-gap: 0.55rem;
+
+    &.skeleton-stat {
+      background: linear-gradient(90deg, #f0f0f0db 25%, #e0e0e0bd 50%, #f0f0f0a1 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+
+      .value,
+      .value + p {
+        opacity: 0;
+      }
+    }
 
     &.default {
       cursor: default;
@@ -1200,6 +1244,16 @@
       color: var(--tertiary-color-100);
     }
 
+    &.skeleton-card {
+      background: linear-gradient(
+        90deg,
+        rgba(30, 30, 30, 0.6) 25%,
+        rgba(120, 120, 120, 0.9) 50%,
+        rgba(40, 40, 40, 0.5) 75%
+      );
+      background-size: 200% 100%;
+    }
+
     .content {
       p {
         color: var(--tertiary-color-400);
@@ -1208,6 +1262,16 @@
 
     &.stat {
       outline: none;
+
+      &.skeleton-stat {
+        background: linear-gradient(
+          90deg,
+          rgba(30, 30, 30, 0.6) 25%,
+          rgba(120, 120, 120, 0.9) 50%,
+          rgba(40, 40, 40, 0.5) 75%
+        );
+        background-size: 200% 100%;
+      }
 
       &.border-stat {
         border: 1px solid rgb(36 35 35 / 81%);
@@ -1278,6 +1342,13 @@
             background-color: rgba(59, 59, 59, 0.5);
           }
         }
+      }
+    }
+
+    &.title {
+      b {
+        background: rgba(255, 57, 57, 0.1);
+        color: var(--secondary-color-200);
       }
     }
   }

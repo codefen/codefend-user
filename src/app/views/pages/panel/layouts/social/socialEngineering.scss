@@ -2,6 +2,16 @@ main.social {
   .left {
     width: 70%;
 
+    // Cards móviles - ocultas por defecto en desktop
+    .mobile-cards {
+      display: none;
+      margin-bottom: 1rem;
+      
+      .card {
+        margin-bottom: 1rem;
+      }
+    }
+
     .search-container {
       position: relative;
       margin-bottom: 1rem;
@@ -24,6 +34,55 @@ main.social {
       }
     }
 
+    // Estilos para las pestañas (copiados exactamente de AI Surveillance)
+    .tabs-container {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--borders-color);
+
+      .tabs-header {
+        display: flex;
+        gap: 0;
+
+        .tab-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1.5rem;
+          border: none;
+          background: transparent;
+          color: var(--text-color-secondary);
+          cursor: pointer;
+          border-bottom: 2px solid transparent;
+          transition: all 0.3s ease;
+          font-weight: 500;
+          font-size: 0.9rem;
+
+          svg {
+            flex-shrink: 0;
+          }
+
+          &:hover {
+            color: var(--text-color-primary);
+            background: var(--hover-color);
+          }
+
+          &.active {
+            color: var(--primary-red-color);
+            border-bottom-color: var(--primary-red-color);
+            background: var(--primary-color);
+          }
+
+          &:first-child {
+            border-top-left-radius: 0.5rem;
+          }
+
+          &:last-child {
+            border-top-right-radius: 0.5rem;
+          }
+        }
+      }
+    }
+
     .form-input {
       input {
         border: none;
@@ -40,6 +99,11 @@ main.social {
       .item {
         height: 43px;
       }
+    }
+
+    .card .content-grid {
+      max-height: calc(100cqh - 170px);
+      overflow-y: auto;
     }
 
     .members-list {
@@ -64,14 +128,16 @@ main.social {
   }
 
   @media only screen and (max-width: 600px) {
-    display: block;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
     padding-inline-start: 10px;
-    height: 81dvh;
-    min-height: auto;
+    min-height: 100vh;
+    height: auto;
 
     .left {
       width: 100%;
+      flex: 1;
     }
 
     .right {
@@ -116,11 +182,38 @@ main.social {
     }
   }
 
+  // Fondos para tema oscuro
+  .social-grid,
+  .linkedin-profiles-grid {
+    background-color: var(--background-color-primary) !important;
+  }
+
   main.social .left {
     .search-container .search-indicator {
       background-color: #2a303a;
       border: 1px solid #3a4a6e;
       color: #a2c8f0;
+    }
+
+    .tabs-container {
+      border-bottom: 1px solid var(--borders-color);
+
+      .tabs-header {
+        .tab-button {
+          color: var(--text-color-secondary);
+
+          &:hover {
+            color: var(--text-color-primary);
+            background: var(--hover-color);
+          }
+
+          &.active {
+            color: var(--primary-red-color);
+            border-bottom-color: var(--primary-red-color);
+            background: var(--primary-color);
+          }
+        }
+      }
     }
   }
 }
@@ -129,7 +222,8 @@ main.social {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff; // Asegurar fondo blanco consistente
 }
 
 .social-card {
@@ -196,6 +290,202 @@ main.social {
   }
 }
 
+// Estilos para skeleton de social cards
+.skeleton-social-card {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border: 1px solid #e8e8e8;
+  cursor: default;
+  padding: 0.4rem 0.6rem; // Mismo padding que social-card real
+  
+  &.has-linkedin {
+    background: linear-gradient(90deg, #f8fbff 25%, #e8f4ff 50%, #f8fbff 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border: 1px solid #dce9ff;
+    padding: 0.4rem 0.6rem; // Mismo padding que social-card real
+  }
+  
+  .social-card-info {
+    opacity: 0.7;
+    
+    .skeleton-text {
+      background: linear-gradient(90deg, #d0d0d0 25%, #c0c0c0 50%, #d0d0d0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 3px;
+      color: transparent;
+      
+      &.skeleton-id {
+        width: 50px;
+        height: 14px;
+        display: inline-block;
+        animation-delay: 0s;
+      }
+      
+      &.skeleton-email {
+        width: 180px;
+        height: 14px;
+        display: inline-block;
+        animation-delay: 0.1s;
+      }
+      
+      &.skeleton-name {
+        width: 120px;
+        height: 14px;
+        display: inline-block;
+        animation-delay: 0.2s;
+      }
+    }
+    
+    .skeleton-linkedin-icon {
+      opacity: 0.5;
+      animation: pulse 1.5s infinite;
+      animation-delay: 0.3s;
+    }
+    
+    .separator {
+      opacity: 0.3;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Dark theme support para skeleton
+[data-theme='dark'] {
+  .skeleton-social-card {
+    background: linear-gradient(90deg, #3a3a3a 25%, #2a2a2a 50%, #3a3a3a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border: 1px solid #4a4a4a;
+    padding: 0.4rem 0.6rem; // Mismo padding que social-card real
+    
+    &.has-linkedin {
+      background: linear-gradient(90deg, #2a303a 25%, #1a252f 50%, #2a303a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border: 1px solid #3a4a6e;
+      padding: 0.4rem 0.6rem; // Mismo padding que social-card real
+    }
+    
+    .social-card-info {
+      .skeleton-text {
+        background: linear-gradient(90deg, #5a5a5a 25%, #4a4a4a 50%, #5a5a5a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+    }
+  }
+}
+
+// Estilos para skeleton de LinkedIn
+.skeleton-linkedin-card {
+  background: linear-gradient(90deg, #f8fbff 25%, #e8f4ff 50%, #f8fbff 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border: 1px solid #dce9ff;
+  cursor: default;
+  
+  &:hover {
+    box-shadow: none;
+    border-color: #dce9ff;
+    transform: none;
+  }
+  
+  .linkedin-profile-image {
+    .skeleton-profile-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #d0d0d0 25%, #c0c0c0 50%, #d0d0d0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      animation-delay: 0.1s;
+    }
+  }
+  
+  .linkedin-profile-info {
+    .skeleton-text {
+      background: linear-gradient(90deg, #d0d0d0 25%, #c0c0c0 50%, #d0d0d0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+      color: transparent;
+      
+      &.skeleton-name-text {
+        width: 200px;
+        height: 20px;
+        display: block;
+        margin-bottom: 0.5rem;
+        animation-delay: 0.2s;
+      }
+      
+      &.skeleton-url-text {
+        width: 250px;
+        height: 16px;
+        display: block;
+        animation-delay: 0.3s;
+      }
+      
+      &.skeleton-email-text {
+        width: 180px;
+        height: 14px;
+        display: block;
+        animation-delay: 0.4s;
+      }
+    }
+    
+    .skeleton-linkedin-icon,
+    .skeleton-email-icon {
+      opacity: 0.3;
+      animation: pulse 1.5s infinite;
+    }
+    
+    .linkedin-profile-url,
+    .linkedin-profile-email {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.7;
+    }
+  }
+}
+
+// Dark theme support para skeleton de LinkedIn
+[data-theme='dark'] {
+  .skeleton-linkedin-card {
+    background: linear-gradient(90deg, #2a303a 25%, #1a252f 50%, #2a303a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border: 1px solid #3a4a6e;
+    
+    .linkedin-profile-image {
+      .skeleton-profile-image {
+        background: linear-gradient(90deg, #5a5a5a 25%, #4a4a4a 50%, #5a5a5a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+    }
+    
+    .linkedin-profile-info {
+      .skeleton-text {
+        background: linear-gradient(90deg, #5a5a5a 25%, #4a4a4a 50%, #5a5a5a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+    }
+  }
+}
+
 .social-card-info {
   display: flex;
   align-items: center;
@@ -215,10 +505,11 @@ main.social {
   justify-content: center;
 }
 
-main.social .left > .card {
-  background-color: #f7f8fa;
-  border: none;
-}
+// Removido para mantener consistencia con otras páginas
+// main.social .left > .card {
+//   background-color: #f7f8fa;
+//   border: none;
+// }
 
 .no-results-found {
   padding: 0.5rem 1rem;
@@ -237,4 +528,235 @@ main.social .left > .card {
   text-decoration: underline;
   cursor: pointer;
   font-size: inherit;
+}
+
+// Estilos para las tarjetas de LinkedIn
+.linkedin-profiles-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #ffffff; // Asegurar fondo blanco consistente
+}
+
+.linkedin-profile-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #dce9ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 100px;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 119, 183, 0.15);
+    border-color: #0077b7;
+    transform: translateY(-2px);
+  }
+
+  .linkedin-profile-image {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    margin-right: 1.5rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0077b7;
+    }
+  }
+
+  .linkedin-profile-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .linkedin-profile-name {
+      h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        line-height: 1.3;
+      }
+    }
+
+    .linkedin-profile-url {
+      a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #0077b7;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #005885;
+          text-decoration: underline;
+        }
+
+        span {
+          word-break: break-all;
+          max-width: 300px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .linkedin-profile-email {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      svg {
+        color: #666;
+        flex-shrink: 0;
+      }
+
+      span {
+        font-size: 0.85rem;
+        color: #666;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+// Responsive design para las tarjetas de LinkedIn
+@media only screen and (max-width: 768px) {
+  .linkedin-profile-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1rem;
+
+    .linkedin-profile-image {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+
+    .linkedin-profile-info {
+      align-items: center;
+
+      .linkedin-profile-url a span {
+        max-width: 250px;
+      }
+    }
+  }
+}
+
+// Dark theme support para las tarjetas de LinkedIn
+[data-theme='dark'] {
+  .linkedin-profile-card {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 119, 183, 0.3);
+      border-color: #0077b7;
+    }
+
+    .linkedin-profile-info {
+      .linkedin-profile-name h4 {
+        color: #ffffff;
+      }
+
+      .linkedin-profile-email {
+        svg {
+          color: #cccccc;
+        }
+
+        span {
+          color: #cccccc;
+        }
+      }
+    }
+  }
+}
+
+// Media queries para responsive - ocultar .right en móvil
+@media (max-width: 1000px) {
+  main.social {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  main.social {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  main.social {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+      
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+    
+    .right {
+      display: none !important;
+    }
+  }
 }

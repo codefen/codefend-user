@@ -6,25 +6,7 @@ import {
   type RefObject,
 } from 'react';
 import { type ColumnTableV3, type Sort } from '@interfaces/table';
-
-// ============================================================================
-// CONTEXT MENU TYPES
-// ============================================================================
-
-export interface ContextMenuAction {
-  label: string;
-  icon?: ReactNode;
-  onClick: (row: any) => void;
-  disabled?: boolean | ((row: any) => boolean);
-  divider?: boolean;
-}
-
-export interface ContextMenuState {
-  visible: boolean;
-  x: number;
-  y: number;
-  row: any;
-}
+import type { ContextMenuAction, ContextMenuState } from '@/app/views/components/ContextMenu';
 
 // ============================================================================
 // MAIN TABLE COMPONENT TYPES
@@ -33,7 +15,9 @@ export interface ContextMenuState {
 export interface Tablev3Props<T = any> {
   rows: T[];
   columns: ColumnTableV3[];
-  showRows: boolean;
+  showRows?: boolean;
+  showSkeleton?: boolean;
+  totalRowCount?: number;
   className?: string;
   initialSort?: Sort;
   initialOrder?: string;
@@ -58,6 +42,9 @@ export interface Tablev3Props<T = any> {
   enableSortingPerformance?: boolean;
   enableOptimisticSorting?: boolean;
 }
+
+// Re-export types for backward compatibility
+export type { ContextMenuAction, ContextMenuState };
 
 // ============================================================================
 // COLUMNS COMPONENT TYPES

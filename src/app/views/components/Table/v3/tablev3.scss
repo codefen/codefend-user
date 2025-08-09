@@ -174,6 +174,10 @@
   .rows {
     overflow-y: auto;
 
+    &.skeleton-active {
+      opacity: 0;
+    }
+
     a,
     div {
       outline: none;
@@ -184,7 +188,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    height: 3rem;
+    height: 49px;
 
     padding-inline: 20px;
     border-bottom: 1px solid var(--primary-color-300);
@@ -616,6 +620,19 @@
     --table-border-color-4: #37373778;
     --table-border-color-5: #24242400;
 
+    .skeleton-row {
+    }
+
+    .skeleton-cell {
+      background: linear-gradient(
+        90deg,
+        rgba(30, 30, 30, 0.6) 25%,
+        rgba(120, 120, 120, 0.9) 50%,
+        rgba(40, 40, 40, 0.5) 75%
+      );
+      background-size: 200% 100%;
+    }
+
     .columns-name {
       transition-property: color, border-image, border;
       transition-duration: 325ms;
@@ -624,6 +641,9 @@
       border-image-slice: 1;
       border-bottom: 1px solid;
       border-radius: 20px;
+    }
+    .table-header {
+      background-color: rgb(24 24 24 / 25%);
     }
     .item {
       border-bottom-color: #24242440;
@@ -649,6 +669,13 @@
         background: var(--primary-color-200);
       }
     }
+
+    &.table-virtualized {
+      .rows-virtualized,
+      .rows-virtualized-dynamic {
+        --table-line-color: var(--primary-color-100);
+      }
+    }
   }
 }
 
@@ -663,6 +690,20 @@
   .rows-virtualized-dynamic {
     position: relative;
     overflow: hidden;
+    --table-line-color: var(--primary-color-300);
+
+    &.skeleton-active {
+      opacity: 0;
+    }
+
+    > div > div > div > div > div {
+      & .item {
+        border-bottom: 1px solid var(--table-line-color);
+      }
+      &:last-child .item {
+        border-bottom: none;
+      }
+    }
   }
 }
 
@@ -698,12 +739,10 @@
     color: var(--column-header-color);
 
     &:hover {
-      background: var(--primary-color-100);
       --column-header-color: #ef4444;
     }
 
     &.sorted {
-      background: var(--primary-color-100);
     }
 
     &.checkbox-header {
@@ -775,7 +814,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #ffffff;
+  // background: #ffffff;
   z-index: 10;
   animation: fadeIn 0.2s ease-out;
   border-radius: 8px;
@@ -796,7 +835,6 @@
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid var(--primary-color-300);
-  background: #ffffff;
   min-height: 49px;
   height: 49px;
   box-sizing: border-box;

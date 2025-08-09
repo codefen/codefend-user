@@ -1,16 +1,4 @@
 import { toast } from 'react-toastify';
-import {
-  type ResumeAllResources,
-  OrderFrequency,
-  type OrderStore,
-  OrderTeamSize,
-  ScopeOption,
-  useOrderStore,
-  CryptoPayment,
-  getDomainCounts,
-  ResourcesTypes,
-  UserPlanSelected,
-} from '../..';
 import { useRef, useState, useCallback } from 'react';
 import { useFetcher } from '#commonHooks/useFetcher.ts';
 import type { SocialResourceResume } from '@interfaces/resources-resumes';
@@ -19,77 +7,99 @@ import { companyIdIsNull } from '@/app/constants/validations';
 import { ORDER_PHASES_TEXT } from '@/app/constants/app-toast-texts';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
+import { useOrderStore, type OrderStore } from '@stores/orders.store';
+import {
+  CryptoPayment,
+  OrderFrequency,
+  OrderTeamSize,
+  ResourcesTypes,
+  ScopeOption,
+  UserPlanSelected,
+  type ResumeAllResources,
+} from '@interfaces/order';
+import { getMappedDomainCount } from '@utils/helper';
 
 export const useOrders = () => {
   const { getCompany } = useUserData();
   const [fetcher] = useFetcher();
   const { setScopeAllTotalResources, updateState, setScopeTotalResources, resourceType } =
     useOrderStore(state => state);
+  const path =
+    resourceType === ResourcesTypes.SOCIAL
+      ? 'se'
+      : resourceType === ResourcesTypes.NETWORK
+        ? 'lan'
+        : resourceType;
 
   const fetchGetTotal = (companyID: string) => {
     fetcher('post', {
       body: {
-        model: 'resources/index',
+        model: `resources/${path}/index`,
         size: 'full',
         childs: 'yes',
         company_id: companyID,
       },
     }).then(({ data }: any) => {
       const resumeResources: ResumeAllResources = {
-        web: data.resources_web
-          ? data.resources_web.map((resource: any) => ({
-              id: resource.id,
-              resource_domain: resource.resource_domain,
-              server: resource.main_server,
-              childs: resource.childs
-                ? resource.childs.map((childRes: any) => ({
-                    id: childRes.id,
-                    resource_domain: childRes.resource_domain,
-                    server: childRes.main_server,
-                  }))
-                : [],
-            }))
-          : [],
-        mobile: data.resources_mobile
-          ? data.resources_mobile.map((resource: any) => ({
-              id: resource.id,
-              app_name: resource.app_name,
-              app_link: resource.app_link,
-            }))
-          : [],
-        social: data.resources_social
-          ? ({
-              social_resources: getDomainCounts(data.resources_social),
-            } as SocialResourceResume)
-          : ({ social_resources: [] } as SocialResourceResume),
-        cloud: data.resources_cloud
-          ? data.resources_cloud.map((resource: any) => ({
+        web:
+          resourceType === ResourcesTypes.WEB
+            ? data?.resources?.map?.((resource: any) => ({
+                id: resource.id,
+                resource_domain: resource.resource_domain,
+                server: resource.main_server,
+                childs: resource.childs
+                  ? resource.childs.map((childRes: any) => ({
+                      id: childRes.id,
+                      resource_domain: childRes.resource_domain,
+                      server: childRes.main_server,
+                    }))
+                  : [],
+              }))
+            : [],
+        mobile:
+          resourceType === ResourcesTypes.MOBILE
+            ? data?.disponibles?.map?.((resource: any) => ({
+                id: resource.id,
+                app_name: resource.app_name,
+                app_link: resource.app_link,
+              }))
+            : [],
+        social:
+          resourceType === ResourcesTypes.SOCIAL
+            ? ({
+                social_resources: getMappedDomainCount(data?.emails_domains),
+              } as SocialResourceResume)
+            : ({ social_resources: [] } as SocialResourceResume),
+        cloud: data?.resources_cloud
+          ? data?.resources_cloud?.map?.((resource: any) => ({
               id: resource.id,
               cloud_name: resource.cloud_name,
               cloud_provider: resource.cloud_provider,
             }))
           : [],
-        source: data.resources_source
-          ? data.resources_source.map((resource: any) => ({
-              id: resource.id,
-              name: resource.name,
-              access_link: resource.access_link,
-            }))
-          : [],
-        network: data.resources_lan
-          ? data.resources_lan.map((resource: any) => ({
-              id: resource.id,
-              device_ex_address: resource.device_ex_address,
-              device_in_address: resource.device_in_address,
-              childs: resource.childs
-                ? resource.childs.map((childRes: any) => ({
-                    id: childRes.id,
-                    device_ex_address: childRes.device_ex_address,
-                    device_in_address: childRes.device_in_address,
-                  }))
-                : [],
-            }))
-          : [],
+        source:
+          resourceType === ResourcesTypes.CODE
+            ? data?.resources_source?.map?.((resource: any) => ({
+                id: resource.id,
+                name: resource.name,
+                access_link: resource.access_link,
+              }))
+            : [],
+        network:
+          resourceType === ResourcesTypes.NETWORK
+            ? data?.disponibles?.map?.((resource: any) => ({
+                id: resource.id,
+                device_ex_address: resource.device_ex_address,
+                device_in_address: resource.device_in_address,
+                childs: resource.childs
+                  ? resource.childs?.map?.((childRes: any) => ({
+                      id: childRes.id,
+                      device_ex_address: childRes.device_ex_address,
+                      device_in_address: childRes.device_in_address,
+                    }))
+                  : [],
+              }))
+            : [],
       };
       const resourcesLength = {
         [ResourcesTypes.WEB]: resumeResources.web.length,
@@ -98,6 +108,7 @@ export const useOrders = () => {
         [ResourcesTypes.CODE]: resumeResources.source.length,
         [ResourcesTypes.NETWORK]: resumeResources.network.length,
         [ResourcesTypes.SOCIAL]: resumeResources.social.social_resources.length,
+        [ResourcesTypes.LEAKS]: 0,
       };
       const countAllTotalResource = Object.values(resourcesLength).reduce(
         (acc, val) => acc + val,
@@ -126,7 +137,6 @@ export const useOrderScope = () => {
 
   const fetchScope = (companyID: string, resourceScope: string, appId?: string) => {
     let resource: any = {};
-
     if (resourceScope === 'full') {
       resource = resumeResources;
     } else if (resourceScope === RESOURCE_CLASS.WEB) {
@@ -525,14 +535,14 @@ export const useOrderCryptoFinancial = () => {
     walletID: '. . .',
     currencyActive: CryptoPayment.BITCOIN,
   });
-  const qrCode = useRef<string>();
+  const qrCode = useRef<string>('');
 
   const getCryptoFinancialInfo = (
     referenceNumber: string,
     crypto?: CryptoPayment,
     orderId?: string
   ) => {
-    qrCode.current = undefined;
+    qrCode.current = '';
     setWallet({
       walletID: '...',
       currencyActive: crypto || CryptoPayment.BITCOIN,

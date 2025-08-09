@@ -27,15 +27,7 @@ export const ScopeOrderModal: FC = () => {
   };
 
   const ErrorMessage = () => {
-    if (tryClick) {
-      return (
-        <span className={`block error-message ${!acceptConditions && 'vibrate'}`}>
-          {`⚠️`} You must accept the terms to continue
-        </span>
-      );
-    } else {
-      return <></>;
-    }
+    return null;
   };
 
   return (
@@ -113,10 +105,12 @@ export const ScopeOrderModal: FC = () => {
           onChange={() => setAcceptCondition(!acceptConditions)}
         />
         <label htmlFor="confirmation" className="confirm-label">
-          <span className="codefend-text-red underline-high disclaimers" title="Open disclaimers">
-            I confirm I have authorization
+          <span 
+            className={`disclaimers ${tryClick && !acceptConditions ? 'error' : ''}`}
+            title="Open disclaimers"
+          >
+            I have authorization and I accept the terms and conditions{tryClick && !acceptConditions ? ' ⚠️' : ''}
           </span>
-          <span>and I’ve read and accept the disclaimer.</span>
         </label>
         <ErrorMessage />
       </div>

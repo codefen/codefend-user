@@ -1,3 +1,5 @@
+import { useMediaQuery } from 'usehooks-ts';
+
 export const SidebarOpenButton = ({
   isOpen,
   toggleSidebar,
@@ -5,6 +7,19 @@ export const SidebarOpenButton = ({
   isOpen: boolean;
   toggleSidebar: () => void;
 }) => {
+  const isMobile = useMediaQuery('(max-width: 1229px)');
+
+  if (isMobile) {
+    return (
+      <button
+        className="sidebar-open-button-mobile no-border no-outline"
+        onClick={toggleSidebar}
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}>
+        menu
+      </button>
+    );
+  }
+
   return (
     <button
       className="sidebar-open-button no-border no-outline"

@@ -9,7 +9,7 @@ main.issue-detail {
     --tiny-border-color: var(--primary-color-300);
     --tiny-bg-color: var(--primary-color);
     --tiny-hover-bg-color: var(--primary-color-400);
-    overflow: hidden;
+    overflow: visible; // Cambiar de hidden a visible para permitir contenido natural
 
     > div {
       border-left: 1px solid var(--tiny-border-color);
@@ -278,7 +278,7 @@ main.issue-detail {
     flex-direction: column;
     padding-inline-start: 10px;
     min-height: auto;
-    height: 81dvh;
+    height: auto; // Cambiar de 81dvh a auto para permitir contenido natural
   }
 
   @media only screen and (min-width: 1690px) {
@@ -293,9 +293,40 @@ main.issue-detail {
 }
 
 main.issues-list {
+  // Sobrescribir estilos globales de main para evitar conflictos
+  height: auto !important;
+  max-height: none !important;
+  min-height: calc(100vh - 120px); // Ajustar según la altura del header
+  display: flex;
+  overflow: visible; // Permitir scroll natural del documento
+  position: relative;
+  padding-bottom: var(--card-space); // Margen inferior igual al superior
+  overflow-y: auto; // Asegurar que el contenedor principal sea scrolleable
+
   .left {
-    overflow: hidden;
+    flex: 1;
+    overflow-y: auto; // Permitir scroll en el contenedor izquierdo
+    height: auto; // Altura automática para flujo natural
     padding-inline-start: 0;
+    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
+    margin-bottom: var(--card-space); // Margen inferior igual al superior
+    overflow: visible; // Asegurar que no haya restricciones de overflow
+
+    // Cards móviles - ocultas por defecto en desktop
+    .mobile-cards {
+      display: none;
+      margin-bottom: 1rem;
+
+      .card {
+        margin-bottom: 1rem;
+      }
+    }
+
+    // Card inferior móvil - oculta por defecto en desktop
+    .mobile-bottom-card {
+      display: none;
+      margin-top: 1rem;
+    }
 
     .form-input {
       input {
@@ -304,7 +335,7 @@ main.issues-list {
     }
 
     .card {
-      overflow-y: hidden;
+      overflow-y: visible; // Permitir que el contenido se expanda
 
       .form-input {
         margin-bottom: 1rem;
@@ -313,6 +344,14 @@ main.issues-list {
       &.form-input input {
         border: none;
         border-bottom: 1px solid var(--primary-color-300);
+      }
+    }
+
+    .table {
+      .item-cell-issue-2 {
+        .issue-name {
+          flex: 1 1 100%;
+        }
       }
     }
 
@@ -334,6 +373,7 @@ main.issues-list {
 
       svg {
         color: var(--secondary-color-50);
+        zoom: 0.7;
       }
     }
 
@@ -341,7 +381,7 @@ main.issues-list {
       --item-cell-extra: calc(12% / var(--cell-count));
 
       .rows {
-        overflow: auto;
+        overflow-y: auto; // Asegurar que las filas sean scrolleables
         max-height: calc(100cqh - 6rem);
       }
 
@@ -416,7 +456,54 @@ main.issues-list {
   }
 
   .right {
-    flex: 1 1 35%;
+    flex: 0 0 35%;
+    height: calc(
+      100vh - var(--card-space) * 2 - 60px
+    ); // Altura considerando márgenes superior e inferior
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: var(--card-space); // Mantener fijo con margen superior
+
+    // Smooth scrolling para mejor UX
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color-300) transparent;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color-300);
+      border-radius: 3px;
+
+      &:hover {
+        background-color: var(--primary-color-400);
+      }
+    }
+
+    // Navbar y header sticky opcional
+    .navbar,
+    .issue-panel-header {
+      flex: 0 0 auto;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--primary-color);
+    }
+
+    // Contenido scrolleable
+    .scrollable-content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto; // Asegurar que el contenido sea scrolleable
+    }
 
     .card.filtered {
       h3 {
@@ -424,6 +511,85 @@ main.issues-list {
         font-weight: 500;
         font-family: 'Satoshi';
         color: var(--tertiary-color-450);
+      }
+
+      // Estilos para el header clickeable
+      .header.clickable-header {
+        display: flex;
+        align-items: center;
+        padding: 16px 20px;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        span {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--tertiary-color-450);
+          margin-left: 8px;
+        }
+
+        svg {
+          &:first-child {
+            width: 16px;
+            height: 16px;
+            fill: var(--tertiary-color-450);
+          }
+
+          &:last-child {
+            width: 12px;
+            height: 12px;
+            fill: var(--tertiary-color-400);
+          }
+        }
+      }
+    }
+
+    // Estilos generales para columna Issue Title - asegurar alineación izquierda
+    .item-cell-issue-2 {
+      text-align: left !important; // Forzar alineación izquierda en todas las resoluciones
+      padding-left: 0 !important; // quitar padding para alinear perfectamente
+      > div {
+        margin-left: 12px; // margen después del borde para alinear ícono y texto
+      }
+    }
+
+    // Estilos para columnas mobile en tabla de issues
+    @media (max-width: 768px) {
+      .item-cell-issue-2 {
+        // Estilos para la columna de título con ícono en mobile
+        overflow: hidden;
+        max-width: 100%;
+        > div {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          overflow: hidden;
+          max-width: 100%;
+
+          svg,
+          img {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+          }
+
+          span {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0; // Permite que el span se encoja más allá de su contenido
+            text-align: left; // Alineación explícita a la izquierda para el texto
+          }
+        }
       }
     }
 
@@ -439,11 +605,27 @@ main.issues-list {
   }
 
   @media only screen and (max-width: 600px) {
-    height: 81dvh;
+    height: auto !important;
     min-height: auto;
+    flex-direction: column;
+    padding-bottom: var(--card-space); // Mantener margen inferior en móvil
 
     .left {
       width: 100%;
+      flex: 1;
+      overflow-y: visible; // Usar scroll natural en móvil
+      height: auto;
+      min-height: 50vh;
+      margin-bottom: var(--card-space); // Margen entre paneles en móvil
+
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+
+      .mobile-bottom-card {
+        display: block !important;
+      }
 
       .card {
         overflow-x: auto;
@@ -452,6 +634,272 @@ main.issues-list {
 
     .right {
       width: 100%;
+      flex: 0 0 auto;
+      height: auto;
+      max-height: 50vh;
+      overflow-y: auto;
+      position: static; // Quitar sticky en móvil
+      margin-bottom: 0; // Sin margen extra al final en móvil
+    }
+  }
+}
+
+// Media queries para issue-detail (vista de detalles de issues)
+@media (max-width: 1000px) {
+  main.issue-detail {
+    flex-direction: column !important;
+
+    .left {
+      width: 100% !important;
+      flex: 1 1 auto !important;
+      order: 1; // Mostrar primero el contenido principal
+    }
+
+    .right {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      order: 2; // Mostrar después el customer support
+      max-height: 40vh;
+      overflow-y: auto;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  main.issue-detail {
+    flex-direction: column !important;
+
+    .left {
+      width: 100% !important;
+      flex: 1 1 auto !important;
+      order: 1;
+    }
+
+    .right {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      order: 2;
+      max-height: 35vh;
+      overflow-y: auto;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  main.issue-detail {
+    flex-direction: column !important;
+    height: auto !important; // Sobrescribir altura fija de index.scss
+    min-height: auto !important; // Asegurar altura mínima automática
+    opacity: 1 !important; // Forzar visibilidad en móvil
+    padding: 0 !important; // Eliminar padding en móvil
+    width: 100% !important; // Forzar ancho completo
+    margin: 0 !important; // Eliminar márgenes
+
+    .left {
+      width: 100% !important;
+      flex: 1 1 auto !important;
+      order: 1;
+      min-height: 300px !important; // Altura mínima para el contenido
+      height: auto !important; // Auto-calcular altura
+      padding: 0 !important; // Eliminar padding
+      margin: 0 !important; // Eliminar márgenes
+    }
+
+    .right {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      order: 2;
+      max-height: 30vh;
+      overflow-y: auto;
+      padding: 0 !important; // Eliminar padding
+      margin: 0 !important; // Eliminar márgenes
+    }
+  }
+
+  // Reglas específicas para TinyMCE en móvil - auto-calcular altura
+  .tox-tinymce {
+    height: auto !important; // Auto-calcular altura
+    max-height: none !important; // Sin límite de altura
+    min-height: 200px !important; // Altura mínima para que funcione
+  }
+
+  .tox-editor-container {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 200px !important;
+  }
+
+  .tox-edit-area {
+    height: auto !important; // Auto-calcular altura
+    max-height: none !important; // Sin límite de altura
+    min-height: 150px !important; // Altura mínima para el área de edición
+  }
+
+  .tox-edit-area iframe {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 150px !important;
+  }
+
+  // Forzar que TinyMCE calcule su altura automáticamente
+  .tox-edit-area__iframe {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 150px !important;
+  }
+
+  // Asegurar que el contenido del editor se expanda naturalmente
+  .tox-edit-focus {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  // Contenedor del editor sin restricciones
+  .tox-sidebar-wrap {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  // Asegurar que el contenedor del editor no interfiera
+  .issues-report {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important; // Permitir que el contenido se expanda
+  }
+
+  // Forzar auto-resize en TinyMCE
+  .tox-tinymce--toolbar-sticky-off .tox-editor-header {
+    position: static !important; // Evitar sticky que puede interferir
+  }
+
+  // Asegurar que el contenido del editor se expanda completamente
+  .tox-edit-area__iframe {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 150px !important;
+  }
+
+  // Reglas para el contenido en modo view-only
+  .issue-main-content {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  // Asegurar que el textarea base no interfiera
+  textarea#issue {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+  }
+
+  // Reglas adicionales para eliminar scroll interno
+  .tox-sidebar-wrap {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .tox-edit-focus {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  // Asegurar que el contenido del editor se expanda
+  .tox-edit-area__iframe {
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+
+// Media queries para responsive - ocultar .right en móvil
+@media (max-width: 1000px) {
+  main.issues-list {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+
+      .mobile-bottom-card {
+        display: block !important;
+      }
+
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  main.issues-list {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+
+      .mobile-bottom-card {
+        display: block !important;
+      }
+
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+
+    .right {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  main.issues-list {
+    .left {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+
+      // Mostrar cards móviles
+      .mobile-cards {
+        display: block !important;
+      }
+
+      .mobile-bottom-card {
+        display: block !important;
+      }
+
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+      }
+    }
+
+    .right {
+      display: none !important;
     }
   }
 }
@@ -514,4 +962,41 @@ main.issues-list {
   width: 100%;
   background-color: var(--primary-color);
   color: var(--primary-color);
+}
+
+// Reglas específicas para issue-detail cuando sidebar está en modo móvil
+main.issue-detail.sidebar-mobile-active {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: auto !important;
+  padding-inline-start: 0 !important;
+  overflow: auto !important;
+  grid-column: 1 / -1 !important; // Ocupar toda la pantalla en móvil
+
+  .left,
+  .right {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding-inline-start: 0 !important;
+    padding-inline-end: 0 !important;
+    margin: 0 !important;
+  }
+
+  .left {
+    padding-block-start: 24px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .right {
+    padding-block-start: 0 !important;
+  }
+}
+
+// Regla específica para issue-detail en móvil (sin sidebar-mobile-active)
+@media (max-width: 600px) {
+  main.issue-detail {
+    grid-column: 1 / -1 !important; // Ocupar toda la pantalla en móvil
+  }
 }

@@ -10,6 +10,7 @@ import { defaultListLeadsColumns } from '@mocks/defaultData';
 import { SimpleSectionWithTable } from '@/app/views/components/SimpleSectionWithTable/SimpleSectionWithTable';
 import { CheckCircleIcon, XCircleIcon } from '@icons';
 import { LocationItem } from '@/app/views/components/utils/LocationItem';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const ResellerLeadsLayout = () => {
   const [showScreen] = useShowScreen();
@@ -56,6 +57,7 @@ const ResellerLeadsLayout = () => {
         </div>
       </section>
       <section className="right">
+        <Navbar />
         <NewLeadsData leads={leads.current} />
         <ResourceByLocation
           resource={leads.current}

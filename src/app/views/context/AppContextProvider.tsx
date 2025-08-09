@@ -1,4 +1,4 @@
-import { useEffect, useState, type PropsWithChildren } from 'react';
+import { useEffect, type PropsWithChildren, useRef, useMemo } from 'react';
 import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
@@ -84,6 +84,7 @@ export type GlobalStore = {
   scaningProgress: any;
   lastScanId: string;
   scanVersion: number;
+  subscriptionSelected: any;
 };
 
 const persistedStateJSON = localStorage.getItem('globalStore');
@@ -141,6 +142,8 @@ export const initialGlobalState: GlobalStore = {
   scaningProgress: persistedState?.scaningProgress ?? EMPTY_GLOBAL_STATE.scaningProgress,
   lastScanId: persistedState?.lastScanId ?? EMPTY_GLOBAL_STATE.lastScanId,
   scanVersion: persistedState?.scanVersion ?? EMPTY_GLOBAL_STATE.scanVersion,
+  subscriptionSelected:
+    persistedState?.subscriptionSelected ?? EMPTY_GLOBAL_STATE.subscriptionSelected,
 };
 
 const {
@@ -153,18 +156,59 @@ const {
 const GlobalStorePersistor = () => {
   const keys = Object.keys(initialGlobalState) as (keyof GlobalStore)[];
   const store = useGlobalFastFields(keys);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastSerializedRef = useRef<string>('');
 
-  const currentValues = keys.reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]: store[key].get,
-    }),
-    {} as GlobalStore
+  const currentValues = useMemo(
+    () =>
+      keys.reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]: store[key].get,
+        }),
+        {} as GlobalStore
+      ),
+    [keys.map(key => store[key].get)]
   );
 
   useEffect(() => {
-    localStorage.setItem('globalStore', JSON.stringify(currentValues));
-  }, [JSON.stringify(currentValues)]);
+    const persistState = () => {
+      try {
+        const serialized = JSON.stringify(currentValues);
+        // Solo escribir si el contenido cambió
+        if (serialized !== lastSerializedRef.current) {
+          localStorage.setItem('globalStore', serialized);
+          lastSerializedRef.current = serialized;
+        }
+      } catch (error) {
+        console.warn('Error saving to localStorage:', error);
+      }
+    };
+
+    // Persist immediately on login event
+    if (currentValues.appEvent === APP_EVENT_TYPE.USER_LOGGED_IN && currentValues.session) {
+      // console.log('💾 GlobalStorePersistor: Immediate persistence triggered by login event', {
+      //   sessionPresent: !!currentValues.session,
+      //   userId: currentValues.user?.id,
+      // });
+      persistState();
+      // console.log('✅ GlobalStorePersistor: Login state persisted to localStorage');
+      return;
+    }
+
+    // Debounce localStorage writes para reducir I/O en otros casos
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(persistState, 100); // Debounce de 100ms
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [currentValues]);
 
   return null;
 };

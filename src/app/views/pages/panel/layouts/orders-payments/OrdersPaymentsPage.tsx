@@ -11,12 +11,16 @@ import './orderspayments.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
+import { CancelSuscriptionModal } from '@modals/cancel-susceiption/CancelSuscriptionModal';
 
 export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
   const { data: preference, isLoading: isLoadingPreference } = useNewPreference();
   const { data: dashboardData, isLoading: isLoadingDashboard } = useDashboard();
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
+  const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   useEffect(() => {
     if (userLoggingState.get !== USER_LOGGING_STATE.LOGGED_OUT) {
@@ -24,9 +28,15 @@ export const OrdersPaymentsPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.title = 'Codefend: orders';
+  }, []);
+
   return (
-    <main className={`orders-payments ${showScreen ? 'actived' : ''}`}>
+    <main
+      className={`orders-payments ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <ProviderScope />
+      <CancelSuscriptionModal />
       <section className="left">
         <OrdersAndPaymentHeaderPage />
         <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
@@ -36,12 +46,16 @@ export const OrdersPaymentsPage = () => {
         />
       </section>
       <section className="right">
-        <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
+        <Navbar />
+        <DashboardScanStart />
+        <VulnerabilitiesStatus
+          isLoading={isLoadingDashboard}
+          vulnerabilityByShare={dashboardData?.issues_condicion || {}}
+        />
         <VulnerabilityRisk
           vulnerabilityByRisk={dashboardData?.issues_share || {}}
           isLoading={isLoadingDashboard}
         />
-        <DashboardScanStart />
       </section>
     </main>
   );

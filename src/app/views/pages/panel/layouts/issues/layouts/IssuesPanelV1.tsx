@@ -20,6 +20,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useFiltersWithURL } from '@panelHooks/issues/useFiltersWithURL.ts';
 import { useFilteredIssues } from '@panelHooks/issues/useFilteredIssues.ts';
 import type { FilterState } from '@interfaces/issues.ts';
+import Navbar from '@/app/views/components/navbar/Navbar';
 
 const IssuesPanel: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -143,12 +144,12 @@ const IssuesPanel: FC = () => {
         if (scanId) {
           const hasMatchingIssue = issues.some((issue: Issues) => issue.scanId === scanId);
           if (hasMatchingIssue) {
-            console.log(`Found matching issue with scan_id: ${scanId}`);
+            // console.log(`Found matching issue with scan_id: ${scanId}`);
             newFilters.scanId = [scanId];
             // Force only WEB resource type when scan_id is present
             newFilters.resourceClass = [ResourcesTypes.WEB];
           } else {
-            console.log(`No issues found with scan_id: ${scanId}`);
+            // console.log(`No issues found with scan_id: ${scanId}`);
           }
         }
 
@@ -221,6 +222,7 @@ const IssuesPanel: FC = () => {
         />
       </section>
       <section className="right" ref={flashlight.rightPaneRef}>
+        <Navbar />
         <IssuePanelHeader openAddIssue={handleAddFinding} />
         <IssueReport
           handleFilter={handleFilters}
@@ -229,6 +231,7 @@ const IssuesPanel: FC = () => {
           issues={issues}
           currentFilters={filters}
         />
+        {/* BOTÓN GENERATE REPORT TEMPORALMENTE OCULTO
         <div className="card only-button">
           <PrimaryButton
             text="GENERATE REPORT"
@@ -241,6 +244,7 @@ const IssuesPanel: FC = () => {
             disabledLoader
           />
         </div>
+        */}
         <VulnerabilitiesStatus
           vulnerabilityByShare={others?.issueCondition || EMPTY_ISSUECONDITION}
         />

@@ -25,9 +25,32 @@ const makeCompareFn = (mult: number, data: any): CompareFn => {
   }
 };
 
-export const compareValues = (firstVal: any, secondVal: any, sort: string): number => {
+// Orden personalizado para niveles de riesgo (del más crítico al menos crítico)
+const RISK_LEVEL_ORDER: Record<string, number> = {
+  'critical': 0,
+  'elevated': 1,
+  'medium': 2,
+  'low': 3,
+  'intel': 4,
+};
+
+const isRiskLevel = (value: string): boolean => {
+  return typeof value === 'string' && value.toLowerCase() in RISK_LEVEL_ORDER;
+};
+
+const compareRiskLevels = (firstVal: string, secondVal: string): number => {
+  const firstOrder = RISK_LEVEL_ORDER[firstVal.toLowerCase()] ?? 999;
+  const secondOrder = RISK_LEVEL_ORDER[secondVal.toLowerCase()] ?? 999;
+  return firstOrder - secondOrder;
+};
+
+export const compareValues = (firstVal: any, secondVal: any, sort: string, sortKey?: string): number => {
   let result: number;
-  if (typeof firstVal === 'number' && typeof secondVal === 'number') {
+  
+  // Sorting personalizado para columna de riesgo
+  if (sortKey === 'risk' && isRiskLevel(firstVal) && isRiskLevel(secondVal)) {
+    result = compareRiskLevels(firstVal, secondVal);
+  } else if (typeof firstVal === 'number' && typeof secondVal === 'number') {
     result = firstVal - secondVal;
   } else if (typeof firstVal === 'boolean' && typeof secondVal === 'boolean') {
     result = (firstVal ? 1 : 0) - (secondVal ? 1 : 0);
@@ -96,26 +119,26 @@ const partition2 = <T>(
   // Configuramos un multiplicador: 1 para ascendente, -1 para descendente.
   const mult = sortDirection === Sort.asc ? 1 : -1;
 
-  // Seleccionamos el pivote usando median-of-three (micro optimizado inline)
+  // Seleccionamos el pivote usando median-of-three con compareValues personalizado
   const mid = Math.floor((left + right) / 2);
   // Cachea los tres valores a comparar:
   let a = arr[left][dataSort],
     b = arr[mid][dataSort],
     c = arr[right][dataSort];
 
-  // Realiza las comparaciones "in-place" (la idea es que la mediana termine en 'mid')
-  if ((a < b ? -1 : a > b ? 1 : 0) * mult > 0) {
+  // Realiza las comparaciones usando compareValues para mantener consistencia
+  if (compareValues(a, b, sortDirection, String(dataSort)) > 0) {
     // Si a > b según el orden deseado, intercambiar left y mid
     swapInPlace(arr, left, mid);
     a = arr[left][dataSort];
     b = arr[mid][dataSort];
   }
-  if ((a < c ? -1 : a > c ? 1 : 0) * mult > 0) {
+  if (compareValues(a, c, sortDirection, String(dataSort)) > 0) {
     swapInPlace(arr, left, right);
     a = arr[left][dataSort];
     c = arr[right][dataSort];
   }
-  if ((b < c ? -1 : b > c ? 1 : 0) * mult > 0) {
+  if (compareValues(b, c, sortDirection, String(dataSort)) > 0) {
     swapInPlace(arr, mid, right);
     b = arr[mid][dataSort];
     c = arr[right][dataSort];
@@ -128,11 +151,10 @@ const partition2 = <T>(
   swapInPlace(arr, pivotIndex, right);
 
   let storeIndex = left;
-  const compareFn = makeCompareFn(mult, arr[0][dataSort]);
   for (let i = left; i < right; i++) {
-    // Extrae el valor actual y aplica la comparación inline
+    // Extrae el valor actual y aplica la comparación usando compareValues personalizado
     const currentValue = arr[i][dataSort];
-    const cmp = compareFn(currentValue, pivotValue);
+    const cmp = compareValues(currentValue, pivotValue, sortDirection, String(dataSort));
     if (cmp < 0) {
       swapInPlace(arr, i, storeIndex);
       storeIndex++;
@@ -161,7 +183,7 @@ const _partition = <T>(
   swap(arr, pivotIndex, right);
   let storeIndex = left;
   for (let i = left; i < right; i++) {
-    if (compareValues(arr[i][dataSort], pivotValue, sortDirection) < 0) {
+    if (compareValues(arr[i][dataSort], pivotValue, sortDirection, String(dataSort)) < 0) {
       swap(arr, i, storeIndex);
       storeIndex++;
     }
@@ -183,13 +205,13 @@ const medianOfThree = <T>(
   sortDirection: Sort
 ): number => {
   const mid = Math.floor((left + right) / 2);
-  if (compareValues(arr[left][dataSort], arr[mid][dataSort], sortDirection) > 0) {
+  if (compareValues(arr[left][dataSort], arr[mid][dataSort], sortDirection, String(dataSort)) > 0) {
     swap(arr, left, mid);
   }
-  if (compareValues(arr[left][dataSort], arr[right][dataSort], sortDirection) > 0) {
+  if (compareValues(arr[left][dataSort], arr[right][dataSort], sortDirection, String(dataSort)) > 0) {
     swap(arr, left, right);
   }
-  if (compareValues(arr[mid][dataSort], arr[right][dataSort], sortDirection) > 0) {
+  if (compareValues(arr[mid][dataSort], arr[right][dataSort], sortDirection, String(dataSort)) > 0) {
     swap(arr, mid, right);
   }
   return mid;

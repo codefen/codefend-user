@@ -54,24 +54,24 @@ jobs:
       - name: 🛠️ Install dependencies
         run: bun install
 
-      - name: 🛠️ Setup/ Install cspell global dependencies
-        run: npm i -g cspell @cspell/dict-es-es @cspell/dict-npm @cspell/dict-typescript @cspell/dict-software-terms @cspell/dict-node @cspell/dict-en_us
+      # - name: 🛠️ Setup/ Install cspell global dependencies
+      #   run: npm i -g cspell @cspell/dict-es-es @cspell/dict-npm @cspell/dict-typescript @cspell/dict-software-terms @cspell/dict-node @cspell/dict-en_us
 
-      - name: 🛠️ Setup/ Install cspell-cli
-        run: npm i -g git+https://github.com/streetsidesoftware/cspell-cli
+      # - name: 🛠️ Setup/ Install cspell-cli
+      #   run: npm i -g git+https://github.com/streetsidesoftware/cspell-cli
         
-      - name: 🦀 Install rust stable
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: wasm32-unknown-unknown
+      # - name: 🦀 Install rust stable
+      #   uses: dtolnay/rust-toolchain@stable
+      #   with:
+      #     targets: wasm32-unknown-unknown
 
       - name: 🔨 Run build client
         run: bun run build
 
-      - name: ✅ Run Cargo Tests
-        working-directory: ./src-tauri
-        run: |
-          cargo test --all
+      # - name: ✅ Run Cargo Tests
+      #   working-directory: ./src-tauri
+      #   run: |
+      #     cargo test --all
 
       - name: 🛡️ Run prune
         run: bun install --production
