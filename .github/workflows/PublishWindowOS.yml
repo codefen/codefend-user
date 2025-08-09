@@ -24,7 +24,7 @@ on:
 
 jobs:
   windowsBuilding:
-    if: "github.event.repository.fork == false"
+    if: github.event.repository.fork == false
     name: BuildWindows
     permissions:
       contents: write
@@ -105,7 +105,7 @@ jobs:
           locked: true
 
       - name: 🔐 Setup Windows SDK for SignTool
-        if: ${{ secrets.SSLCOM_USE_ESIGNER != 'true' }}
+        if: secrets.SSLCOM_USE_ESIGNER != 'true'
         run: |
           # El SignTool ya viene con Windows SDK en GitHub Actions
           # Solo necesitamos verificar que esté disponible
@@ -162,36 +162,26 @@ jobs:
       - name: 🔐 Sign MSI files with SSL.com eSigner
         uses: sslcom/actions-codesigner@develop
         with:
-          # Comando para firmar
           command: sign
-          # Credenciales de SSL.com
           username: ${{ secrets.SSLCOM_USERNAME }}
           password: ${{ secrets.SSLCOM_PASSWORD }}
           credential_id: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
           totp_secret: ${{ secrets.SSLCOM_TOTP_SECRET }}
-          # Ruta del archivo MSI a firmar
           file_path: ${{ github.workspace }}/to-sign/*.msi
-          # Directorio de salida para archivos firmados
           output_path: ${{ github.workspace }}/signed
-          # Opciones adicionales
           override: true
           malware_block: false
 
       - name: 🔐 Sign EXE files with SSL.com eSigner
         uses: sslcom/actions-codesigner@develop
         with:
-          # Comando para firmar
           command: sign
-          # Credenciales de SSL.com
           username: ${{ secrets.SSLCOM_USERNAME }}
           password: ${{ secrets.SSLCOM_PASSWORD }}
           credential_id: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
           totp_secret: ${{ secrets.SSLCOM_TOTP_SECRET }}
-          # Ruta del archivo EXE a firmar
           file_path: ${{ github.workspace }}/to-sign/*.exe
-          # Directorio de salida para archivos firmados
           output_path: ${{ github.workspace }}/signed
-          # Opciones adicionales
           override: true
           malware_block: false
 
@@ -238,6 +228,7 @@ jobs:
         if: inputs.release_id != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: codefend-v${{ inputs.package_version }}
         shell: pwsh
         run: |
           # Subir archivos firmados al release
@@ -245,7 +236,7 @@ jobs:
           
           foreach ($file in $signedFiles) {
             Write-Host "📤 Subiendo a release: $($file.Name)"
-            gh release upload ${{ inputs.release_id }} $file.FullName --clobber
+            gh release upload $env:RELEASE_TAG $file.FullName --clobber
           }
 
       - name: 📤 Upload signed artifacts to workflow
