@@ -157,7 +157,7 @@ const OpenOrderButton = ({
               text="See our prices"
               click={onOpenPricing}
               className={className}
-              buttonStyle="black"
+              buttonStyle="gray"
               disabledLoader
             />
           </Show>

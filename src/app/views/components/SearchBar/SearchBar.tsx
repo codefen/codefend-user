@@ -55,10 +55,10 @@ export const SearchBar: FC<SearchBarProps> = props => {
     props.inputAnimationStep === 1
       ? 'input-anim-protocol'
       : props.inputAnimationStep === 2
-      ? 'input-anim-path'
-      : props.inputAnimationStep === 3
-      ? 'input-anim-flash'
-      : '';
+        ? 'input-anim-path'
+        : props.inputAnimationStep === 3
+          ? 'input-anim-flash'
+          : '';
 
   return (
     <div className="search-bar">
@@ -72,11 +72,11 @@ export const SearchBar: FC<SearchBarProps> = props => {
           <input
             type="text"
             value={props.inputValue}
-            onChange={(e) => {
-              console.log('📝 SearchBar input onChange:', { 
-                value: e.target.value, 
+            onChange={e => {
+              console.log('📝 SearchBar input onChange:', {
+                value: e.target.value,
                 hasSpaces: e.target.value.includes(' '),
-                charCodes: e.target.value.split('').map(c => c.charCodeAt(0))
+                charCodes: e.target.value.split('').map(c => c.charCodeAt(0)),
               });
               props.handleChange(e);
             }}
