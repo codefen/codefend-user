@@ -938,7 +938,7 @@ body:has(.new-signin-form),
 body:has(.onboarding-modal-container) {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 100vh;
+  min-height: 100svh; /* allow page to grow; avoid locking to 100vh on mobile */
   background: linear-gradient(270.08deg, #000409 28.88%, #000409 55.76%, #000002 74.96%);
   position: relative;
 
@@ -951,11 +951,11 @@ body:has(.onboarding-modal-container) {
     height: 100%;
     background-image: url('/codefend/broken-glass.png');
     background-size: contain;
-    transform: rotate(-90deg);
+    // transform: rotate(-90deg);
     transform-origin: center;
     pointer-events: none;
     background-repeat: no-repeat;
-    scale: 1.2;
+    // scale: 1.2;
   }
 
   #root-modal .modal-wrapper {
@@ -975,12 +975,46 @@ body:has(.onboarding-modal-container) {
       backdrop-filter: none;
       box-shadow: none;
       min-height: fit-content;
-      max-height: 100vh;
+      max-height: none; /* let content define height; body handles scroll */
       max-width: none;
       align-items: flex-start;
-      padding: 1rem 0;
+      padding: 4rem 0 1rem 0;
       container-type: inline-size;
       box-sizing: border-box;
+      position: relative;
+
+      /* Centered logo spanning both columns at the very top using pseudo-element */
+      &.dark::before {
+        content: '';
+        position: absolute;
+        top: -0.5rem;
+        left: 50cqw;
+        transform: translateX(-50%);
+        width: clamp(160px, 18vw, 240px);
+        height: 70px;
+        z-index: 5;
+        background-image: url('/codefend/brand-small-dark.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        pointer-events: none;
+      }
+
+      &.light::before {
+        content: '';
+        position: absolute;
+        top: -0.5rem;
+        left: 50cqw;
+        transform: translateX(-50%);
+        width: clamp(160px, 18vw, 240px);
+        height: 70px;
+        z-index: 5;
+        background-image: url('/codefend/brand-small-light.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        pointer-events: none;
+      }
 
       .new-auth-content {
         background: linear-gradient(126.81deg, #121314 16.66%, #010203 85.47%);
@@ -1002,8 +1036,13 @@ body:has(.onboarding-modal-container) {
         --feature-item-text-color: rgb(156 163 175 / 1);
         --feature-item-title-color: rgb(255 255 255 / 1);
 
+        /* Hidden by default; enabled only on mobile */
+        .mobile-continue-section {
+          display: none;
+        }
+
         h1 {
-          font-size: clamp(1rem, 2dvw, 3rem);
+          font-size: clamp(1.75rem, 2dvw, 3rem);
           line-height: 1;
           font-weight: 700;
           margin-bottom: 2rem;
@@ -1082,6 +1121,7 @@ body:has(.onboarding-modal-container) {
         height: -webkit-fill-available;
         display: flex;
         flex-direction: column;
+        padding-top: 4.5rem; /* room for centered logo */
         --form-title-color: var(--tertiary-color-300);
         --form-step-text-color: var(--tertiary-color-400);
         --form-step-text-color-secondary: var(--secondary-color-200);
@@ -1213,6 +1253,40 @@ body[data-theme='light']:has(.onboarding-modal-container) {
   }
 }
 
+/* Medium-small widths: 541px–720px */
+@media only screen and (min-width: 541px) and (max-width: 720px) {
+  body:has(.new-signup-form) {
+    #root-modal .modal-wrapper {
+      .modal.new-signup-form {
+        padding: 4rem 0 1rem 0;
+        /* Keep centered brand a bit larger for readability */
+        &.dark::before,
+        &.light::before {
+          top: 0;
+          width: clamp(180px, 36vw, 280px);
+          height: 76px;
+        }
+        .new-auth-content {
+          width: min(680px, 92dvw);
+          margin-inline: auto;
+        }
+        .readonly-content {
+          width: min(680px, 92dvw);
+          margin-inline: auto;
+          .mobile-continue-section {
+            display: none;
+          }
+        }
+        .form-content {
+          width: min(560px, 92dvw);
+          margin-inline: auto;
+          padding-top: 4.25rem;
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1200px) {
   body:has(.new-signup-form),
   body:has(.new-signin-form),
@@ -1236,13 +1310,69 @@ body[data-theme='light']:has(.onboarding-modal-container) {
   }
 }
 
+/* Override for the new signup form: show readonly first on mobile */
+@media only screen and (max-width: 1200px) {
+  body:has(.new-signup-form) {
+    #root-modal .modal-wrapper {
+      .modal.new-signup-form {
+        /* Show readonly by default */
+        .readonly-content {
+          display: block;
+          margin-inline: 0;
+        }
+        /* Hide form until user taps the mobile continue button */
+        .form-content {
+          display: none;
+        }
+        /* When toggled from the component state */
+        .form-content.mobile-show-form {
+          display: flex;
+        }
+        .readonly-content.mobile-hide-readonly {
+          display: none;
+        }
+
+        /* Show the mobile continue section only on mobile */
+        .readonly-content {
+          .mobile-continue-section {
+            display: block;
+            margin-top: 1.25rem;
+            text-align: center;
+          }
+          .mobile-continue-btn {
+            width: 100%;
+            max-width: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  body:has(.new-signup-form),
+  body:has(.new-signin-form),
+  body:has(.onboarding-modal-container) {
+    #root-modal .modal-wrapper {
+      .modal {
+        &.light::before,
+        &.dark::before {
+          top: -0.5rem;
+          width: clamp(160px, 18vw, 270px);
+          height: 90px;
+          scale: 1.25;
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (min-height: 840px) {
   body:has(.new-signup-form),
   body:has(.new-signin-form),
   body:has(.onboarding-modal-container) {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    height: 100vh;
+    #root-modal .modal-wrapper {
+    }
   }
 }
 
@@ -1251,14 +1381,125 @@ body[data-theme='light']:has(.onboarding-modal-container) {
   body:has(.new-signin-form),
   body:has(.onboarding-modal-container) {
     #root-modal .modal-wrapper {
+      align-items: stretch;
       .modal.new-signup-form,
       .modal.new-signin-form,
       .modal.onboarding-modal-container {
         max-width: 96dvw;
+        max-height: none; /* ensure scrolling available on small devices */
 
         .form-content,
         .welcome-content {
           width: fit-content;
+        }
+      }
+    }
+  }
+  /* Make the signup modal occupy nearly the whole screen and show the brand on top */
+  body:has(.new-signup-form) {
+    #root-modal .modal-wrapper {
+      .modal.new-signup-form {
+        width: 100dvw;
+        max-width: 100dvw;
+        min-height: 96svh;
+        padding: 3.5rem 0 0.75rem 0;
+
+        &.dark::before,
+        &.light::before {
+          top: -0.15rem;
+          left: 50cqw;
+          transform: translateX(-50%);
+          width: clamp(148px, 50vw, 220px);
+          height: 60px;
+          scale: 1;
+        }
+
+        .new-auth-content {
+          width: calc(100dvw - 1.75rem);
+          margin-inline: 0.75rem;
+        }
+      }
+    }
+  }
+  /* Mobile layout improvements for New Signup: readonly first, better spacing, sticky CTA */
+  body:has(.new-signup-form) {
+    #root-modal .modal-wrapper {
+      .modal.new-signup-form {
+        .readonly-content {
+          width: 100%;
+          padding-inline: 1rem;
+          padding-block: 1rem;
+          /* use page scroll instead of inner scroll to avoid traps */
+          max-height: none;
+          overflow: visible;
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
+          scroll-behavior: smooth;
+          overscroll-behavior: auto;
+
+          h1 {
+            font-size: clamp(1.25rem, 6vw, 1.75rem);
+            margin-bottom: 1rem;
+          }
+          p.header-text {
+            font-size: 0.95rem;
+            padding-inline: 0.5rem;
+          }
+          .features-list {
+            .feature-item {
+              gap: 0.75rem;
+              padding-top: 1rem;
+              padding-bottom: 1rem;
+              .feature-icon {
+                width: 48px;
+                height: 48px;
+                img {
+                  width: 40px;
+                  height: 40px;
+                  scale: 2;
+                }
+              }
+              .feature-content {
+                h3 {
+                  font-size: 1.05rem;
+                }
+                p {
+                  font-size: 0.9rem;
+                }
+              }
+            }
+          }
+          .mobile-continue-section {
+            position: sticky;
+            bottom: 0;
+            background: inherit;
+            padding-top: 0.75rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--feature-item-border-color);
+            padding-bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
+          }
+          .mobile-continue-btn {
+            height: 48px; /* slightly taller for easier tap */
+            border-radius: 10px;
+            max-width: 340px; /* keep centered button from shrinking oddly */
+            margin-inline: auto;
+          }
+        }
+      }
+    }
+  }
+
+  /* Ultra-compact phones: refine centered brand logo and spacing around 375–400px */
+  @media only screen and (max-width: 410px) {
+    body:has(.new-signup-form) {
+      #root-modal .modal-wrapper {
+        .modal.new-signup-form {
+          &.dark::before,
+          &.light::before {
+            width: clamp(160px, 54vw, 230px);
+            height: 62px;
+          }
         }
       }
     }

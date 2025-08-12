@@ -440,149 +440,11 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
     updateAxes(xScale, yScale, g);
   };
 
-  // Función para calcular deltas entre períodos consecutivos
-  const calculateDeltas = (data: any[], metric: string) => {
-    const deltas = [];
-    for (let i = 1; i < data.length; i++) {
-      const current = data[i][metric] || 0;
-      const previous = data[i - 1][metric] || 0;
-      const delta = current - previous;
-      
-      if (delta !== 0) { // Solo mostrar deltas no nulos
-        deltas.push({
-          currentIndex: i,
-          previousIndex: i - 1,
-          delta: delta,
-          metric: metric,
-          currentValue: current,
-          previousValue: previous,
-          currentDate: data[i].date || data[i].fecha,
-          previousDate: data[i - 1].date || data[i - 1].fecha
-        });
-      }
-    }
-    return deltas;
-  };
 
-  // Función para renderizar líneas de delta
-  const renderDeltaLines = (g: any, formattedData: any[], xScale: any, yScale: any, visibleMetricsArray: string[], xSubgroup: any) => {
-    // Limpiar deltas anteriores
-    g.selectAll('.delta-line').remove();
-    g.selectAll('.delta-label').remove();
 
-    const deltaGroup = g.append('g').attr('class', 'delta-container');
 
-    visibleMetricsArray.forEach(metric => {
-      const deltas = calculateDeltas(formattedData, metric);
-      
-      deltas.forEach((deltaInfo, index) => {
-        const { currentIndex, previousIndex, delta, currentValue, previousValue } = deltaInfo;
-        
-        // Posiciones de las barras
-        const currentBarX = (xScale(d3.timeFormat('%d')(formattedData[currentIndex].date)) || 0) + (xSubgroup(metric) || 0) + xSubgroup.bandwidth() / 2;
-        const previousBarX = (xScale(d3.timeFormat('%d')(formattedData[previousIndex].date)) || 0) + (xSubgroup(metric) || 0) + xSubgroup.bandwidth() / 2;
-        
-        const currentBarY = yScale(currentValue);
-        const previousBarY = yScale(previousValue);
 
-        // Solo dibujar delta si hay diferencia significativa
-        if (Math.abs(delta) > 0) {
-          // Línea de delta (roja)
-          const deltaLine = deltaGroup
-            .append('line')
-            .attr('class', 'delta-line')
-            .attr('x1', previousBarX)
-            .attr('y1', previousBarY)
-            .attr('x2', currentBarX)
-            .attr('y2', currentBarY)
-            .attr('stroke', '#ff3939')
-            .attr('stroke-width', 2)
-            .attr('stroke-dasharray', '5,5')
-            .attr('opacity', 0.8);
 
-          // Línea vertical indicadora en la barra actual
-          deltaGroup
-            .append('line')
-            .attr('class', 'delta-line delta-indicator')
-            .attr('x1', currentBarX)
-            .attr('y1', currentBarY)
-            .attr('x2', currentBarX + 30)
-            .attr('y2', currentBarY)
-            .attr('stroke', '#ff3939')
-            .attr('stroke-width', 2)
-            .attr('opacity', 0.8);
-
-          // Etiqueta del delta
-          const deltaLabel = deltaGroup
-            .append('text')
-            .attr('class', 'delta-label')
-            .attr('x', currentBarX + 35)
-            .attr('y', currentBarY + 5)
-            .text(`δ = ${delta > 0 ? '+' : ''}${delta}`)
-            .attr('fill', '#ff3939')
-            .attr('font-size', '11px')
-            .attr('font-weight', 'bold')
-            .attr('text-anchor', 'start');
-
-          // Agregar interactividad al delta
-          const deltaInteractiveGroup = deltaGroup.append('g').attr('class', 'delta-interactive');
-          
-          [deltaLine, deltaLabel].forEach(element => {
-            element
-              .style('cursor', 'pointer')
-              .on('mouseover', function(event) {
-                // Tooltip para el delta
-                showDeltaTooltip(event, deltaInfo);
-                d3.select(this).attr('opacity', 1);
-              })
-              .on('mouseout', function() {
-                hideDeltaTooltip();
-                d3.select(this).attr('opacity', 0.8);
-              });
-          });
-        }
-      });
-    });
-  };
-
-  // Función para mostrar tooltip de delta
-  const showDeltaTooltip = (event: any, deltaInfo: any) => {
-    d3.selectAll('.delta-tooltip').remove();
-
-    const tooltip = d3
-      .select('body')
-      .append('div')
-      .attr('class', 'delta-tooltip')
-      .style('position', 'absolute')
-      .style('background', 'rgba(255, 57, 57, 0.9)')
-      .style('color', 'white')
-      .style('padding', '8px 12px')
-      .style('border-radius', '4px')
-      .style('font-size', '12px')
-      .style('pointer-events', 'none')
-      .style('z-index', '1001')
-      .style('opacity', 0);
-
-    const changeType = deltaInfo.delta > 0 ? 'Incremento' : 'Disminución';
-    const changeIcon = deltaInfo.delta > 0 ? '📈' : '📉';
-
-    tooltip
-      .html(`
-        <strong>${changeIcon} ${changeType} en ${deltaInfo.metric}</strong><br/>
-        Valor anterior: ${deltaInfo.previousValue}<br/>
-        Valor actual: ${deltaInfo.currentValue}<br/>
-        <strong>Delta: ${deltaInfo.delta > 0 ? '+' : ''}${deltaInfo.delta}</strong>
-      `)
-      .style('left', event.pageX + 10 + 'px')
-      .style('top', event.pageY - 10 + 'px');
-
-    tooltip.transition().duration(200).style('opacity', 1);
-  };
-
-  // Función para ocultar tooltip de delta
-  const hideDeltaTooltip = () => {
-    d3.selectAll('.delta-tooltip').remove();
-  };
 
   // Función para renderizar gráfico de barras agrupadas
   const renderBarChart = () => {
@@ -693,8 +555,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
         });
     });
 
-    // Renderizar líneas de delta después de las barras
-    renderDeltaLines(g, formattedData, xScale, yScale, visibleMetricsArray, xSubgroup);
+
 
     // Actualizar ejes
     updateAxes(xScale, yScale, g);

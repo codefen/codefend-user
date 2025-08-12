@@ -761,6 +761,23 @@ export const WelcomeDomain = ({
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={close}>
       <div className="welcome-content">
         <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
+        {/* Tabs: Explore dataleaks | Scan corporate infrastructure */}
+        <div className="scope-type-buttons-full" style={{ marginTop: 10 }}>
+          <button
+            type="button"
+            className={`btn scope-btn-tab ${scopeType === 'email' ? 'active' : ''}`}
+            onClick={handlePersonalEmailScan}
+            disabled={isLoading || loading}>
+            Explore dataleaks
+          </button>
+          <button
+            type="button"
+            className={`btn scope-btn-tab ${scopeType === 'website' ? 'active' : ''}`}
+            onClick={handleBusinessWebsiteScan}
+            disabled={isLoading || loading}>
+            Scan corporate infrastructure
+          </button>
+        </div>
         <div className="welcome-header">
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
           <p className="welcome-text">
@@ -772,24 +789,6 @@ export const WelcomeDomain = ({
         <hr className="onboarding-separator" />
 
         <form className="input-container" ref={formRef} onSubmit={changeInitialDomain}>
-          {/* Botones de selección de tipo de scan - ocupando todo el ancho */}
-          <div className="scope-type-buttons-full">
-            <button
-              type="button"
-              className={`btn scope-btn-tab ${scopeType === 'email' ? 'active' : ''}`}
-              onClick={handlePersonalEmailScan}
-              disabled={isLoading || loading}>
-              Explore dataleaks
-            </button>
-            <button
-              type="button"
-              className={`btn scope-btn-tab ${scopeType === 'website' ? 'active' : ''}`}
-              onClick={handleBusinessWebsiteScan}
-              disabled={isLoading || loading}>
-              Scan corporate infrastructure
-            </button>
-          </div>
-
           <input
             type="text"
             id="initialScope"

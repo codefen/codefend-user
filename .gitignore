@@ -33,4 +33,7 @@ dist-ssr
 
 .husky
 
+
+tauri.ke
+tauri.ke.pub
 .env

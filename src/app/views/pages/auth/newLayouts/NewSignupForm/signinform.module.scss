@@ -30,6 +30,7 @@
   // padding-top: 30px;
   box-sizing: content-box;
   width: 420px;
+  max-width: 100%;
 
   p {
     color: var(--text-color);
@@ -95,5 +96,84 @@
       outline: none;
       color: var(--tertiary-color-500);
     }
+  }
+}
+
+// Mobile styles
+@media (max-width: 768px) {
+  :global(.new-signup-form) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh; /* allow page scroll on small devices */
+
+    :global(.form-content) {
+      display: none;
+      order: 2;
+
+      &:global(.mobile-show-form) {
+        display: flex;
+      }
+    }
+
+    :global(.readonly-content) {
+      display: flex;
+      order: 1;
+
+      &:global(.mobile-hide-readonly) {
+        display: none;
+      }
+    }
+
+    :global(.mobile-continue-section) {
+      display: block;
+      padding: 20px 0;
+      text-align: center;
+
+      :global(.mobile-continue-btn) {
+        width: 100%;
+        max-width: 320px; /* better fit on 390px */
+        padding: 12px 24px;
+        font-size: 16px;
+        display: block;
+        margin-inline: auto; /* ensure true centering regardless of parent */
+      }
+    }
+  }
+}
+
+/* Fine-tune ultra small devices (e.g., 360–400px) */
+@media (max-width: 400px) {
+  :global(.new-signup-form) {
+    :global(.mobile-continue-section) {
+      padding: 16px 8px;
+      :global(.mobile-continue-btn) {
+        max-width: none; /* let it span full width on tiny screens */
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* Tablet-small range: show both blocks stacked and hide the mobile CTA */
+@media (min-width: 541px) and (max-width: 720px) {
+  :global(.new-signup-form) {
+    :global(.form-content) {
+      display: flex; /* override mobile hidden state */
+      order: 2;
+    }
+    :global(.readonly-content) {
+      display: block;
+      order: 1;
+    }
+    :global(.mobile-continue-section) {
+      display: none;
+    }
+  }
+}
+
+// Desktop styles (hide mobile button)
+@media (min-width: 769px) {
+  :global(.mobile-continue-section) {
+    display: none;
   }
 }

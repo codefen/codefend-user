@@ -38,6 +38,8 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     updateCompany,
   } = useSns();
   const [hasSearched, setHasSearched] = useState(false);
+  // Versión de animación para controlar transiciones solo al enviar búsqueda
+  const [animVersion, setAnimVersion] = useState(0);
   const { leaked, leakedType, showModal, handleOpenLeakedModal, handleCloseLeakedModal } =
     useLeakedData();
 
@@ -46,6 +48,8 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
     if (searchData) {
       setSearchData(searchData);
       handleSearch();
+      setHasSearched(true);
+      setAnimVersion(v => v + 1);
     }
     if (searchClass && searchData) handleSearch();
   }, []);
@@ -53,6 +57,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
   const handleSubmit = (e?: FormEvent) => {
     if (e) e.preventDefault();
     setHasSearched(true);
+    setAnimVersion(v => v + 1);
     handleSearch()?.then(() => {
       refetch();
     });
@@ -117,7 +122,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
           <AnimatePresence mode="wait">
             {intelData.length === 0 ? (
               <motion.div
-                key={"empty-" + searchClass + '-' + searchData}
+                key={"empty-" + animVersion}
                 initial={{ x: 300, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -300, opacity: 0 }}
@@ -128,7 +133,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
               </motion.div>
             ) : (
               <motion.div
-                key={searchClass + '-' + searchData}
+                key={"results-" + animVersion}
                 initial={{ x: 300, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -300, opacity: 0 }}

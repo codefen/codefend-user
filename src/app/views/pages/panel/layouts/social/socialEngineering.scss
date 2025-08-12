@@ -222,7 +222,7 @@ main.social {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   background-color: #ffffff; // Asegurar fondo blanco consistente
 }
 
@@ -297,12 +297,14 @@ main.social {
   animation: shimmer 1.5s infinite;
   border: 1px solid #e8e8e8;
   cursor: default;
+  padding: 0.4rem 0.6rem; // Mismo padding que social-card real
   
   &.has-linkedin {
     background: linear-gradient(90deg, #f8fbff 25%, #e8f4ff 50%, #f8fbff 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
     border: 1px solid #dce9ff;
+    padding: 0.4rem 0.6rem; // Mismo padding que social-card real
   }
   
   .social-card-info {
@@ -365,12 +367,14 @@ main.social {
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
     border: 1px solid #4a4a4a;
+    padding: 0.4rem 0.6rem; // Mismo padding que social-card real
     
     &.has-linkedin {
       background: linear-gradient(90deg, #2a303a 25%, #1a252f 50%, #2a303a 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
       border: 1px solid #3a4a6e;
+      padding: 0.4rem 0.6rem; // Mismo padding que social-card real
     }
     
     .social-card-info {
