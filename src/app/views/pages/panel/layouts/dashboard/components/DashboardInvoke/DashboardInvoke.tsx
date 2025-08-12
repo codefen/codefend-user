@@ -69,7 +69,7 @@ export const DashboardInvoke = ({
           <p>{state.description}</p>
           <PrimaryButton
             text={state.button}
-            buttonStyle="black"
+            buttonStyle="red"
             className="btn-black btn-mobile-small"
             click={openOnBoard}
             disabledLoader
