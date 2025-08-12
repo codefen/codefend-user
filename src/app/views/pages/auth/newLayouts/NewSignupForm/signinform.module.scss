@@ -30,6 +30,7 @@
   // padding-top: 30px;
   box-sizing: content-box;
   width: 420px;
+  max-width: 100%;
 
   p {
     color: var(--text-color);
@@ -103,6 +104,7 @@
   :global(.new-signup-form) {
     display: flex;
     flex-direction: column;
+    min-height: 100svh; /* allow page scroll on small devices */
 
     :global(.form-content) {
       display: none;

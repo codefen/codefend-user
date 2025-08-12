@@ -938,7 +938,7 @@ body:has(.new-signin-form),
 body:has(.onboarding-modal-container) {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 100vh;
+  min-height: 100svh; /* allow page to grow; avoid locking to 100vh on mobile */
   background: linear-gradient(270.08deg, #000409 28.88%, #000409 55.76%, #000002 74.96%);
   position: relative;
 
@@ -975,7 +975,7 @@ body:has(.onboarding-modal-container) {
       backdrop-filter: none;
       box-shadow: none;
       min-height: fit-content;
-      max-height: 100vh;
+      max-height: none; /* let content define height; body handles scroll */
       max-width: none;
       align-items: flex-start;
       padding: 4rem 0 1rem 0;
@@ -1386,6 +1386,7 @@ body[data-theme='light']:has(.onboarding-modal-container) {
       .modal.new-signin-form,
       .modal.onboarding-modal-container {
         max-width: 96dvw;
+        max-height: none; /* ensure scrolling available on small devices */
 
         .form-content,
         .welcome-content {
@@ -1428,14 +1429,14 @@ body[data-theme='light']:has(.onboarding-modal-container) {
           width: 100%;
           padding-inline: 1rem;
           padding-block: 1rem;
-          max-height: 88svh;
-          overflow-y: auto;
-          overflow-x: hidden;
+          /* use page scroll instead of inner scroll to avoid traps */
+          max-height: none;
+          overflow: visible;
           display: flex;
           flex-direction: column;
           box-sizing: border-box;
           scroll-behavior: smooth;
-          overscroll-behavior: contain;
+          overscroll-behavior: auto;
 
           h1 {
             font-size: clamp(1.25rem, 6vw, 1.75rem);
