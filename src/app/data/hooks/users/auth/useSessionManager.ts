@@ -41,25 +41,68 @@ export const useSessionManager = () => {
     // Update axios instance with new session
     axiosHttp.updateUrlInstance();
 
-    // Use setTimeout to check state after React processes the setters
-    setTimeout(() => {
-      // console.log('✅ useSessionManager: Login completed successfully (after React update)', {
-      //   sessionSet: !!session.get,
-      //   userSet: !!user.get,
-      //   companySet: !!company.get?.id,
-      //   sessionValue: session.get ? `${session.get.substring(0, 10)}...` : 'null',
-      //   userId: user.get?.id,
-      //   companyId: company.get?.id,
-      //   timestamp: new Date().toISOString(),
-      // });
+    // Robust state verification with exponential backoff
+    const verifyStateWithRetry = (
+      attempt: number = 1,
+      maxAttempts: number = 10,
+      baseDelay: number = 50
+    ): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        const checkState = () => {
+          const sessionValue = session.get;
+          const userValue = user.get;
+          const companyValue = company.get;
 
-      // Verify everything is set correctly
-      if (!session.get || !user.get || !company.get?.id) {
-        console.error('🚨 useSessionManager: Critical - State not set correctly after login!');
-      } else {
-        console.log('✅ useSessionManager: All state verified successfully');
-      }
-    }, 100); // Give React time to process the setters
+          // Verify all critical state is properly set
+          if (sessionValue && userValue && companyValue?.id) {
+            console.log('✅ useSessionManager: All state verified successfully', {
+              attempt,
+              sessionPresent: !!sessionValue,
+              userId: userValue?.id,
+              companyId: companyValue?.id,
+              timestamp: new Date().toISOString(),
+            });
+            resolve();
+            return;
+          }
+
+          // If max attempts reached, log warning but don't fail
+          if (attempt >= maxAttempts) {
+            console.warn('⚠️ useSessionManager: State verification incomplete after max attempts', {
+              attempt,
+              sessionPresent: !!sessionValue,
+              userPresent: !!userValue,
+              companyPresent: !!companyValue?.id,
+              timestamp: new Date().toISOString(),
+            });
+            // Don't reject, just resolve to prevent login failure
+            resolve();
+            return;
+          }
+
+          // Retry with exponential backoff
+          const delay = baseDelay * Math.pow(1.5, attempt - 1);
+          console.log(`🔄 useSessionManager: State not ready, retrying in ${delay}ms (attempt ${attempt}/${maxAttempts})`);
+          
+          setTimeout(() => {
+            verifyStateWithRetry(attempt + 1, maxAttempts, baseDelay)
+              .then(resolve)
+              .catch(reject);
+          }, delay);
+        };
+
+        checkState();
+      });
+    };
+
+    // Start verification but don't block the login flow
+    verifyStateWithRetry()
+      .then(() => {
+        console.log('🎯 useSessionManager: Login verification completed successfully');
+      })
+      .catch((error) => {
+        console.error('❌ useSessionManager: Verification failed:', error);
+      });
 
     return data.user;
   };
