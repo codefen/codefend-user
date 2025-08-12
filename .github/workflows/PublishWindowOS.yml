@@ -100,11 +100,11 @@ jobs:
       - name: 🔨 Run build client
         run: bun run build
 
-      - name: 📥 Cached install tauri-cli
-        uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1
-        with:
-          tool: tauri-cli@2.1.0
-          locked: true
+      # - name: 📥 Cached install tauri-cli
+      #   uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c
+      #   with:
+      #     tool: tauri-cli@2.1.0
+      #     locked: true
 
       - name: 🔐 Setup Windows SDK for SignTool
         if: env.USE_ESIGNER != 'true'
@@ -131,13 +131,12 @@ jobs:
         with:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
-
-      - name: ☕ Setup Java for CodeSignTool
-        if: env.USE_ESIGNER == 'true'
-        uses: actions/setup-java@v4
+          
+      - name: ☕ Install Maven and Java
+        uses: s4u/setup-maven-action@v1.3.1
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          java-version: 17
+          maven-version: 3.8.5
 
       - name: 📥 Download and Setup CodeSignTool
         shell: pwsh

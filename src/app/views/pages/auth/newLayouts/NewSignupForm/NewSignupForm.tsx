@@ -105,6 +105,7 @@ export const NewSignupForm = () => {
   const [lead_reference_number, setLeadReferenceNumber] = useState('');
   const [username, setRecommendedUsername] = useState('');
   const [specialLoading, setLoading] = useState(false);
+  const [showMobileForm, setShowMobileForm] = useState(false);
   const { signUpFinish, isLoading: loadingFinish, lead } = useRegisterPhaseTwo();
   const { handleGoogleAuth, isLoading: isGoogleLoading } = useGoogleAuth();
   const { trackSignupVisit } = usePageTracking();
@@ -272,7 +273,7 @@ export const NewSignupForm = () => {
       lead_email: formObject?.['lead_email'] as string,
     });
 
-    localStorage.setItem('signupFormData', JSON.stringify(formObject));
+    sessionStorage.setItem('signupFormData', JSON.stringify(formObject));
 
     // Agregar datos requeridos por el backend
     form.append('idiom', 'en');
@@ -400,63 +401,9 @@ export const NewSignupForm = () => {
   };
 
   return (
-    <ModalWrapper showCloseBtn={false} type={`${css['signinform']} new-signup-form`}>
-      <div className="new-auth-content readonly-content">
-        <h1>
-          Unveil the full attack surface...
-          <br />
-          <span>discover real threats</span>
-        </h1>
-
-        <p className="header-text">
-          Start with a one domain or email. Codefend uncovers what’s leaking, exposed or exploitable
-          — before attackers do. Browse and scan across thousands of systems and millions of
-          breached identities indexed. We are experts in blackbox operations.
-        </p>
-
-        <div className="features-list">
-          <div className="feature-item">
-            <div className="feature-icon">
-              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
-            </div>
-            <div className="feature-content">
-              <h3>Professional hackers on demand</h3>
-              <p>
-                Hire professional hackers on demand, when you need them! Our professionals follow
-                the same paths real attackers do.
-              </p>
-            </div>
-          </div>
-
-          <div className="feature-item">
-            <div className="feature-icon">
-              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
-            </div>
-            <div className="feature-content">
-              <h3>Full dataleaks explorer</h3>
-              <p>
-                See what parts of your tech stack have already been leaked. Correlate your users
-                with 190B+ breached records and discover hidden threats.
-              </p>
-            </div>
-          </div>
-
-          <div className="feature-item">
-            <div className="feature-icon">
-              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
-            </div>
-            <div className="feature-content">
-              <h3>Automated attack surface map</h3>
-              <p>
-                Visualize the online exposure like never before. From one domain to your full
-                infrastructure — unveil hosts, techs, live vulnerabilities and people and more.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className={`${css['signupContent']} new-auth-content form-content`}>
-        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
+    <ModalWrapper showCloseBtn={false} type={`${css['signinform']} new-signup-form ${theme}`}>
+      <div
+        className={`${css['signupContent']} new-auth-content form-content ${showMobileForm ? 'mobile-show-form' : ''}`}>
         <ProgressBar activeStep={activeStep} />
         <h2>{STEPSDATA[activeStep]?.label}</h2>
         <p className="step-text-header">{STEPSDATA[activeStep].p}</p>
@@ -591,6 +538,71 @@ export const NewSignupForm = () => {
             <PageOrbitLoader />
           </div>
         </Show>
+      </div>
+      <div
+        id="readonly-onboarding"
+        className={`new-auth-content readonly-content ${showMobileForm ? 'mobile-hide-readonly' : ''}`}>
+        <h1>
+          Unveil the full attack surface...
+          <br />
+          <span>discover real threats</span>
+        </h1>
+
+        <p className="header-text">
+          Start with a one domain or email. Codefend uncovers what's leaking, exposed or exploitable
+          — before attackers do. Browse and scan across thousands of systems and millions of
+          breached identities indexed. We are experts in blackbox operations.
+        </p>
+
+        <div className="features-list">
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
+            </div>
+            <div className="feature-content">
+              <h3>Professional hackers on demand</h3>
+              <p>
+                Hire professional hackers on demand, when you need them! Our professionals follow
+                the same paths real attackers do.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
+            </div>
+            <div className="feature-content">
+              <h3>Full dataleaks explorer</h3>
+              <p>
+                See what parts of your tech stack have already been leaked. Correlate your users
+                with 190B+ breached records and discover hidden threats.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
+            </div>
+            <div className="feature-content">
+              <h3>Automated attack surface map</h3>
+              <p>
+                Visualize the online exposure like never before. From one domain to your full
+                infrastructure — unveil hosts, techs, live vulnerabilities and people and more.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mobile-continue-section">
+          <button
+            type="button"
+            className={`btn btn-red mobile-continue-btn`}
+            onClick={() => setShowMobileForm(true)}>
+            Get Started
+          </button>
+        </div>
       </div>
     </ModalWrapper>
   );
