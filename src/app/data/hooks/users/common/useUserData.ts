@@ -1,7 +1,7 @@
 import { EMPTY_COMPANY, EMPTY_COMPANY_CUSTOM, EMPTY_GLOBAL_STATE } from '@/app/constants/empty';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { USER_LOGGING_STATE } from '@interfaces/panel';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export const useUserData = () => {
   const { user, session, company, userLoggingState } = useGlobalFastFields([
@@ -32,10 +32,26 @@ export const useUserData = () => {
 
   const isAuth = Boolean(session.get);
 
-  // Debug logging for authentication state
+  // Debug logging for authentication state (optimized)
+  const prevAuthState = useRef({ isAuth: false, sessionId: null, userId: null });
+  
   useEffect(() => {
-    console.log('Auth state check');
-  }, [isAuth, session.get, user.get]);
+    const currentState = {
+      isAuth,
+      sessionId: session.get?.id || null,
+      userId: user.get?.id || null,
+    };
+    
+    // Solo logear si hay un cambio real en el estado
+    if (
+      currentState.isAuth !== prevAuthState.current.isAuth ||
+      currentState.sessionId !== prevAuthState.current.sessionId ||
+      currentState.userId !== prevAuthState.current.userId
+    ) {
+      console.log('Auth state changed:', currentState);
+      prevAuthState.current = currentState;
+    }
+  }, [isAuth, session.get?.id, user.get?.id]);
 
   return {
     getUserdata,
