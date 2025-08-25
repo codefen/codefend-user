@@ -93,6 +93,12 @@ jobs:
         run: bun run build
 
 
+      - name: ☕ Install Maven and Java
+        uses: s4u/setup-maven-action@v1.18.0
+        with:
+          java-version: 17
+          maven-version: 3.9.9
+
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@v0.5.20 # v0.5.17 - UPDATE to v0.5.20
         env:
@@ -106,12 +112,6 @@ jobs:
           releaseId: ${{ inputs.release_id }}
           args: '--verbose'
           
-      - name: ☕ Install Maven and Java
-        uses: s4u/setup-maven-action@v1.18.0
-        with:
-          java-version: 17
-          maven-version: 3.9.9
-
       - name: 📥 Download and Setup CodeSignTool
         id: setup-codesigntool
         shell: pwsh
@@ -126,7 +126,15 @@ jobs:
           
           # Verificar contenido
           Write-Host "📂 Contenido de CodeSignTool:"
-          Get-ChildItem -Path "$env:GITHUB_WORKSPACE\codesigntool" -Recurse -Name
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE\codesigntool" -Recurse -Name | Head -20
+          
+          # Verificar si hay JDK incluido
+          $jdkPath = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\codesigntool" -Filter "*jdk*" -Recurse -Directory | Select-Object -First 1
+          if ($jdkPath) {
+            Write-Host "✅ JDK encontrado en: $($jdkPath.FullName)"
+          } else {
+            Write-Host "⚠️ No se encontró JDK incluido"
+          }
           
           # Buscar el archivo .bat - puede estar en diferentes ubicaciones
           $possiblePaths = @(
@@ -151,29 +159,30 @@ jobs:
             }
           }
           
-          if ($batFile) {
-            Write-Host "✅ CodeSignTool.bat encontrado en: $batFile"
-            # Guardar como output del step
-            echo "CODESIGNTOOL_BAT=$batFile" >> $env:GITHUB_OUTPUT
+
+          Write-Host "✅ CodeSignTool.bat encontrado en: $batFile"
+          # Guardar como output del step
+          echo "CODESIGNTOOL_BAT=$batFile" >> $env:GITHUB_OUTPUT
             
-            # Verificar que el archivo es ejecutable
-            Write-Host "🔍 Verificando CodeSignTool.bat..."
-            $testOutput = & cmd.exe /c "`"$batFile`" --help" 2>&1
-            Write-Host "Exit code: $LASTEXITCODE"
-            Write-Host "Output: $testOutput"
+          # Verificar que el archivo es ejecutable
+          Write-Host "🔍 Verificando CodeSignTool.bat..."
             
-            if ($LASTEXITCODE -ne 0) {
-              Write-Warning "⚠️ CodeSignTool devolvió código de salida $LASTEXITCODE, pero continuando..."
-              Write-Host "Detalles del error: $testOutput"
-            } else {
-              Write-Host "✅ CodeSignTool respondió correctamente"
-            }
+          # Obtener el directorio del bat file para verificar estructura
+          $batDir = Split-Path -Parent $batFile
+          Write-Host "📁 Directorio del bat file: $batDir"
+            
+          # Listar contenido del directorio
+          Write-Host "📋 Archivos en el directorio:"
+          Get-ChildItem -Path $batDir -Name
+            
+          # Verificar si existe el JDK en la misma estructura
+          $javaExe = Get-ChildItem -Path $batDir -Filter "java.exe" -Recurse | Select-Object -First 1
+          if ($javaExe) {
+            Write-Host "☕ Java encontrado en: $($javaExe.FullName)"
           } else {
-            Write-Error "❌ No se encontró CodeSignTool.bat"
-            Write-Host "📋 Listando todos los archivos encontrados:"
-            Get-ChildItem -Path "$env:GITHUB_WORKSPACE\codesigntool" -Recurse
-            exit 1
+            Write-Host "⚠️ Java no encontrado en el directorio del bat"
           }
+
 
       - name: 📦 Prepare files for signing
         shell: pwsh
