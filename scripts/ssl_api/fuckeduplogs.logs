@@ -203,3 +203,60 @@ Payload (FULL DATA):
 2025-08-25 16:55:28,018 | https://secure.ssl.com:443 "POST /team/a98-1k6bprq/api_credentials HTTP/1.1" 422 None
 2025-08-25 16:59:30,019 | Starting new HTTPS connection (1): sws.sslpki.com:443
 2025-08-25 16:59:30,693 | https://sws.sslpki.com:443 "GET /api/v1/account?account_key=LlavePrimera999&secret_key=dFYZSGV8prDH4A%3D%3D HTTP/1.1" 500 None
+2025-08-25 17:06:24,492 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 17:06:25,152 | https://sws.sslpki.com:443 "GET /api/v1/account?account_key=LlavePrimera999&secret_key=dFYZSGV8prDH4A%3D%3D HTTP/1.1" 500 None
+2025-08-25 17:09:43,723 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 17:09:44,741 | https://sws.sslpki.com:443 "GET /api/v1/account?account_key=LlavePrimera999&secret_key=dFYZSGV8prDH4A%3D%3D HTTP/1.1" 500 None
+2025-08-25 17:09:44,925 | https://sws.sslpki.com:443 "GET /users?account_key=LlavePrimera999&secret_key=dFYZSGV8prDH4A%3D%3D HTTP/1.1" 302 None
+2025-08-25 17:09:45,079 | https://sws.sslpki.com:443 "GET /user_session/new HTTP/1.1" 302 None
+2025-08-25 17:09:45,081 | Starting new HTTPS connection (1): login.ssl.com:443
+2025-08-25 17:09:45,728 | https://login.ssl.com:443 "GET /user_session/new?return_to=https%3A%2F%2Fsws.sslpki.com%2Faccount HTTP/1.1" 406 None
+2025-08-25 17:10:24,874 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 17:10:25,532 | https://sws.sslpki.com:443 "GET /api/v1/account?account_key=LlavePrimera999&secret_key=dFYZSGV8prDH4A%3D%3D HTTP/1.1" 500 None
+2025-08-25 17:10:25,720 | https://sws.sslpki.com:443 "GET /users?account_key=LlavePrimera999&secret_key=dFYZSGV8prDH4A%3D%3D HTTP/1.1" 302 None
+2025-08-25 17:10:25,875 | https://sws.sslpki.com:443 "GET /user_session/new HTTP/1.1" 302 None
+2025-08-25 17:10:25,876 | Starting new HTTPS connection (1): login.ssl.com:443
+2025-08-25 17:10:26,479 | https://login.ssl.com:443 "GET /user_session/new?return_to=https%3A%2F%2Fsws.sslpki.com%2Faccount HTTP/1.1" 406 None
+2025-08-25 17:15:55,420 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 17:15:56,245 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 400 None
+2025-08-25 17:17:26,612 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 17:17:27,269 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 400 None
+2025-08-25 17:26:30,901 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 17:26:31,933 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 400 None
+2025-08-25 17:26:41,573 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 17:26:41,573 | 🔑 API Credentials:
+2025-08-25 17:26:41,573 | ✅ Credenciales de API cargadas
+2025-08-25 17:26:41,573 | 
+👤 Información del nuevo usuario:
+2025-08-25 17:26:49,145 | ✅ Usuario: Chris9999
+2025-08-25 17:26:58,713 | ✅ Email: chris9999@codefend.com
+2025-08-25 17:27:09,047 | ✅ Password válido y confirmado
+2025-08-25 17:27:09,047 | 
+🔄 Creando usuario...
+2025-08-25 17:27:09,047 | 
+📡 Request Details:
+2025-08-25 17:27:09,049 | URL: https://sws.sslpki.com/users
+2025-08-25 17:27:09,049 | Headers:
+2025-08-25 17:27:09,049 |   Accept: application/json
+2025-08-25 17:27:09,049 |   Content-Type: application/x-www-form-urlencoded
+2025-08-25 17:27:09,049 | 
+Payload (FULL DATA):
+2025-08-25 17:27:09,050 | {
+  "login": "Chris9999",
+  "email": "chris9999@codefend.com",
+  "password": "Simple123!",
+  "account_key": "LlavePrimera999",
+  "secret_key": "dFYZSGV8prDH4A=="
+}
+2025-08-25 17:27:09,051 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 17:27:12,362 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 200 None
+2025-08-25 17:27:12,364 | 
+📊 Results:
+2025-08-25 17:27:12,364 | Status Code: 200
+2025-08-25 17:27:12,364 | Response Time: 3.31s
+2025-08-25 17:27:12,364 | 
+📝 Response saved to: create_users.json
+2025-08-25 17:27:12,364 | 
+✅ Usuario creado exitosamente!

@@ -22,27 +22,36 @@ class SSLAuth:
                 "User-Agent": "CodefendSSLManager/1.0"
             }
 
-            # Endpoint oficial para comprobar credenciales de cuenta
-            url = f"{self.base_url}/api/v1/account"
+            # Validación al estilo BAT: POST /users con datos dummy + credenciales.
+            # Si autentica, el servidor responde 200/400 (errores de validación del usuario),
+            # y eso nos sirve para confirmar credenciales.
+            users_url = f"{self.base_url}/users"
+            post_headers = {
+                **headers,
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+            dummy_payload = {
+                "login": "auth_check_user",
+                "email": "not-an-email",  # fuerza 400 de validación sin crear usuario
+                "password": "Dummy123!xA",
+                "account_key": account_key,
+                "secret_key": secret_key,
+            }
 
-            # Log del request
-            from urllib.parse import urlencode
-            params = {"account_key": account_key, "secret_key": secret_key}
             print("\n📤 Request:")
-            print(f"URL: {url}?{urlencode(params)}")
-            print("Headers:", json.dumps(headers, indent=2))
+            print(f"URL: {users_url}")
+            print("Headers:", json.dumps(post_headers, indent=2))
+            print("Data:", json.dumps({**dummy_payload, "secret_key": secret_key}, indent=2))
 
-            # Llamada GET con credenciales como query params
-            response = session.get(
-                url,
-                headers=headers,
-                params=params,
+            response = session.post(
+                users_url,
+                headers=post_headers,
+                data=dummy_payload,
                 verify=self.cert_path if self.cert_path.exists() else True,
                 timeout=10,
-                allow_redirects=True
+                allow_redirects=True,
             )
 
-            # Log del response
             print("\n📥 Response:")
             print(f"Status: {response.status_code}")
             print("Headers:", json.dumps(dict(response.headers), indent=2))
@@ -51,10 +60,36 @@ class SSLAuth:
             except Exception:
                 print("Body:", response.text)
 
-            if response.status_code == 200:
+            if response.status_code in (200, 400):
                 return True, "✅ Credenciales válidas"
             if response.status_code in (401, 403):
                 return False, "❌ Credenciales inválidas"
+
+            # Reintento único contra /api/v1/account si el cluster devuelve 500 aquí
+            if response.status_code == 500:
+                from urllib.parse import urlencode
+                account_url = f"{self.base_url}/api/v1/account"
+                params = {"account_key": account_key, "secret_key": secret_key}
+                print("\n⚠️ /users devolvió 500. Probando /api/v1/account...")
+                print(f"URL: {account_url}?{urlencode(params)}")
+                acc_resp = session.get(
+                    account_url,
+                    headers=headers,
+                    params=params,
+                    verify=self.cert_path if self.cert_path.exists() else True,
+                    timeout=10,
+                    allow_redirects=True,
+                )
+                print("\n📥 /api/v1/account Response:")
+                print(f"Status: {acc_resp.status_code}")
+                try:
+                    print("Body:", json.dumps(acc_resp.json(), indent=2))
+                except Exception:
+                    print("Body:", acc_resp.text)
+                if acc_resp.status_code == 200:
+                    return True, "✅ Credenciales válidas"
+                if acc_resp.status_code in (401, 403):
+                    return False, "❌ Credenciales inválidas"
 
             error_msg = f"❌ Error {response.status_code}"
             if response.text:

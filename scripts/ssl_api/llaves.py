@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
 
 # SSL.com API Credentials
-SSL_ACCOUNT_KEY = "d47f660f18cd"
-SSL_SECRET_KEY = "AJbPUYI1fO5rRA=="
+SSL_ACCOUNT_KEY = "LlavePrimera999"
+SSL_SECRET_KEY = "dFYZSGV8prDH4A=="

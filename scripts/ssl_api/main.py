@@ -2,6 +2,7 @@
 import sys
 import os
 import time
+from datetime import datetime
 import msvcrt
 import winsound
 from pathlib import Path
@@ -21,9 +22,55 @@ def view_api_map():
 
 from retro_sounds import RetroSounds
 
+
+class _TeeStdout:
+    def __init__(self, original, logfile):
+        self._original = original
+        self._logfile = logfile
+
+    def write(self, data):
+        try:
+            self._original.write(data)
+        finally:
+            self._logfile.write(data)
+
+    def flush(self):
+        try:
+            self._original.flush()
+        finally:
+            self._logfile.flush()
+
+
+def _mask_value(value: str) -> str:
+    if not value:
+        return value
+    if len(value) <= 4:
+        return "*" * len(value)
+    # mantener últimas 4
+    return value[:2] + "*" * max(0, len(value) - 6) + value[-4:]
+
+
+def logged_input(prompt: str, redact: bool = False) -> str:
+    """input() que también registra la respuesta en sessions.txt (enmascarando si redact=True)."""
+    import builtins
+    value = builtins.input(prompt)
+    try:
+        # Detectar si stdout está teed y obtener file
+        stdout_obj = sys.stdout
+        if isinstance(stdout_obj, _TeeStdout):
+            shown = _mask_value(value) if redact else value
+            # Escribimos SOLO en el archivo para no ensuciar la UI
+            stdout_obj._logfile.write(f"\n>>> {shown}\n")
+            stdout_obj._logfile.flush()
+    except Exception:
+        pass
+    return value
+
 def show_intro():
     """Muestra una intro retro"""
-    os.system('cls')
+    # Evitar parpadeo excesivo: limpiar una sola vez
+    if os.name == 'nt':
+        os.system('cls')
     intro_text = """
     ╔══════════════════════════════════════════════════════════╗
     ║                                                          ║
@@ -75,8 +122,8 @@ def reload_menu():
         MenuItem("Salir", lambda: sys.exit(0))
     ]
     
-    # Limpiar pantalla y mostrar menú
-    os.system('cls')
+    # No limpiar pantalla en cada llamada para evitar flicker
+    # (el componente Menu se encarga de redibujar en su área)
     menu = Menu("SSL.com Web Services (SWS) API", main_menu_items)
     menu.display()
 
@@ -101,8 +148,8 @@ def request_credentials():
         while True:
             try:
                 print("\n🔐 Ingrese sus credenciales de SSL.com:")
-                account_key = input("Account Key: ").strip()
-                secret_key = input("Secret Key: ").strip()
+                account_key = logged_input("Account Key: ", redact=False).strip()
+                secret_key = logged_input("Secret Key: ", redact=True).strip()
                 
                 if not account_key or not secret_key:
                     print("❌ Ambos campos son requeridos")
@@ -118,7 +165,7 @@ def request_credentials():
                     return True
                 
                 while True:
-                    retry = input("\n¿Reintentar? (s/n): ").strip().lower()
+                    retry = logged_input("\n¿Reintentar? (s/n): ", redact=False).strip().lower()
                     if retry in ['s', 'n']:
                         if retry == 'n':
                             return False
@@ -147,6 +194,13 @@ def main():
     
     # Iniciar hot reload
     observer, reloader = start_hot_reload(modules, reload_menu)
+
+    # Iniciar captura de sesión a sessions.txt
+    sessions_path = Path(__file__).parent / "sessions.txt"
+    log_f = open(sessions_path, "a", encoding="utf-8")
+    orig_stdout = sys.stdout
+    sys.stdout = _TeeStdout(orig_stdout, log_f)
+    print(f"\n===== SESSION START {datetime.now().isoformat()} =====")
     
     try:
         # Mostrar intro
@@ -181,6 +235,19 @@ def main():
             observer.stop()
             observer.join(timeout=1)  # Esperar máximo 1 segundo
         print("\n👋 ¡Hasta luego!")
+        try:
+            print(f"===== SESSION END {datetime.now().isoformat()} =====\n")
+        finally:
+            # Restaurar stdout y cerrar archivo
+            try:
+                sys.stdout = orig_stdout
+            except Exception:
+                pass
+            try:
+                log_f.flush()
+                log_f.close()
+            except Exception:
+                pass
         sys.exit(0)
     
     # Menú principal
