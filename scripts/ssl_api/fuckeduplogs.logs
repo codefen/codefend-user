@@ -1,0 +1,37 @@
+2025-08-25 15:04:30,500 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 15:04:30,500 | 🔑 API Credentials:
+2025-08-25 15:04:30,500 | ✅ Credenciales de API cargadas
+2025-08-25 15:04:30,500 | 
+👤 Información del nuevo usuario:
+2025-08-25 15:05:43,378 | ✅ Usuario: chris99
+2025-08-25 15:05:47,835 | ✅ Email: chrisrusso99@gmail.com
+2025-08-25 15:05:56,185 | ✅ Password válido y confirmado
+2025-08-25 15:05:56,186 | 
+🔄 Creando usuario...
+2025-08-25 15:05:56,186 | 
+📡 Request Details:
+2025-08-25 15:05:56,186 | URL: https://sws.sslpki.com/users
+2025-08-25 15:05:56,186 | Headers:
+2025-08-25 15:05:56,186 |   Accept: application/json
+2025-08-25 15:05:56,186 |   Content-Type: application/x-www-form-urlencoded
+2025-08-25 15:05:56,188 | 
+Payload (FULL DATA):
+2025-08-25 15:05:56,188 | {
+  "login": "chris99",
+  "email": "chrisrusso99@gmail.com",
+  "password": "Password123!",
+  "account_key": "d47f660f18cd",
+  "secret_key": "AJbPUYI1fO5rRA=="
+}
+2025-08-25 15:05:56,191 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 15:05:59,817 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 200 None
+2025-08-25 15:05:59,818 | 
+📊 Results:
+2025-08-25 15:05:59,819 | Status Code: 200
+2025-08-25 15:05:59,819 | Response Time: 3.63s
+2025-08-25 15:05:59,819 | 
+📝 Response saved to: create_users.json
+2025-08-25 15:05:59,819 | 
+✅ Usuario creado exitosamente!
